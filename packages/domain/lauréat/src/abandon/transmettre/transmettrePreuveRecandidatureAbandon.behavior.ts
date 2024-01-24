@@ -8,6 +8,8 @@ export type PreuveRecandidatureTransmiseEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     preuveRecandidature: IdentifiantProjet.RawType;
+    identifiantUtilisateur: IdentifiantUtilisateur.RawType;
+    dateTransmissionPreuveRecandidature: DateTime.RawType;
   }
 >;
 
@@ -52,6 +54,7 @@ export type TransmettrePreuveRecandidatureOptions = {
   preuveRecandidature: IdentifiantProjet.ValueType;
   dateNotification: DateTime.ValueType;
   identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+  dateTransmissionPreuveRecandidature: DateTime.ValueType;
 };
 
 export async function transmettrePreuveRecandidature(
@@ -60,6 +63,8 @@ export async function transmettrePreuveRecandidature(
     identifiantProjet,
     preuveRecandidature,
     dateNotification,
+    identifiantUtilisateur,
+    dateTransmissionPreuveRecandidature,
   }: TransmettrePreuveRecandidatureOptions,
 ) {
   if (!this.demande.recandidature) {
@@ -87,6 +92,8 @@ export async function transmettrePreuveRecandidature(
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       preuveRecandidature: preuveRecandidature.formatter(),
+      identifiantUtilisateur: identifiantUtilisateur.formatter(),
+      dateTransmissionPreuveRecandidature: dateTransmissionPreuveRecandidature.formatter(),
     },
   };
 
@@ -95,7 +102,14 @@ export async function transmettrePreuveRecandidature(
 
 export function applyPreuveRecandidatureTransmise(
   this: AbandonAggregate,
-  { payload: { preuveRecandidature } }: PreuveRecandidatureTransmiseEvent,
+  {
+    payload: { preuveRecandidature, identifiantUtilisateur, dateTransmissionPreuveRecandidature },
+  }: PreuveRecandidatureTransmiseEvent,
 ) {
   this.demande.preuveRecandidature = IdentifiantProjet.convertirEnValueType(preuveRecandidature);
+  this.demande.preuveRecandidatureTransmiseLe = DateTime.convertirEnValueType(
+    dateTransmissionPreuveRecandidature,
+  );
+  this.demande.preuveRecandidatureTransmisePar =
+    IdentifiantUtilisateur.convertirEnValueType(identifiantUtilisateur);
 }

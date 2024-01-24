@@ -403,7 +403,7 @@ Quand(
           identifiantProjetValue: identifiantProjetAbandonné.formatter(),
           preuveRecandidatureValue: identifiantProjetPreuveRecandidature.formatter(),
           identifiantUtilisateurValue: email,
-          dateTransmissionPreuveRecandidature: dateTransmissionPreuveRecandidature.formatter(),
+          dateTransmissionPreuveRecandidatureValue: dateTransmissionPreuveRecandidature.formatter(),
         },
       });
     } catch (error) {
@@ -444,7 +444,7 @@ Quand(
           identifiantProjetValue: identifiantProjetAbandonné.formatter(),
           preuveRecandidatureValue: identifiantProjetPreuveRecandidature.formatter(),
           identifiantUtilisateurValue: email,
-          dateTransmissionPreuveRecandidature: dateTransmissionPreuveRecandidature.formatter(),
+          dateTransmissionPreuveRecandidatureValue: dateTransmissionPreuveRecandidature.formatter(),
         },
       });
     } catch (error) {

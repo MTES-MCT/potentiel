@@ -10,7 +10,7 @@ export type TransmettrePreuveRecandidatureAbandonUseCase = Message<
     preuveRecandidatureValue: string;
     dateNotificationValue: string;
     identifiantUtilisateurValue: string;
-    dateTransmissionPreuveRecandidature: string;
+    dateTransmissionPreuveRecandidatureValue: string;
   }
 >;
 
@@ -20,6 +20,7 @@ export const registerTransmettrePreuveRecandidatureAbandonUseCase = () => {
     preuveRecandidatureValue,
     identifiantUtilisateurValue,
     dateNotificationValue,
+    dateTransmissionPreuveRecandidatureValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const preuveRecandidature = IdentifiantProjet.convertirEnValueType(preuveRecandidatureValue);
@@ -28,6 +29,11 @@ export const registerTransmettrePreuveRecandidatureAbandonUseCase = () => {
     const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
       identifiantUtilisateurValue,
     );
+
+    const dateTransmissionPreuveRecandidature = DateTime.convertirEnValueType(
+      dateTransmissionPreuveRecandidatureValue,
+    );
+
     await mediator.send<TransmettrePreuveRecandidatureCommand>({
       type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_COMMAND',
       data: {
@@ -35,6 +41,7 @@ export const registerTransmettrePreuveRecandidatureAbandonUseCase = () => {
         preuveRecandidature,
         dateNotification,
         identifiantUtilisateur,
+        dateTransmissionPreuveRecandidature,
       },
     });
   };
