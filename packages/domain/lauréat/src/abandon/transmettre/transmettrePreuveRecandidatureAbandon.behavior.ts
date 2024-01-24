@@ -8,8 +8,8 @@ export type PreuveRecandidatureTransmiseEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     preuveRecandidature: IdentifiantProjet.RawType;
-    identifiantUtilisateur: IdentifiantUtilisateur.RawType;
-    dateTransmissionPreuveRecandidature: DateTime.RawType;
+    transmisePar: IdentifiantUtilisateur.RawType;
+    transmiseLe: DateTime.RawType;
   }
 >;
 
@@ -92,8 +92,8 @@ export async function transmettrePreuveRecandidature(
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       preuveRecandidature: preuveRecandidature.formatter(),
-      identifiantUtilisateur: identifiantUtilisateur.formatter(),
-      dateTransmissionPreuveRecandidature: dateTransmissionPreuveRecandidature.formatter(),
+      transmisePar: identifiantUtilisateur.formatter(),
+      transmiseLe: dateTransmissionPreuveRecandidature.formatter(),
     },
   };
 
@@ -103,13 +103,11 @@ export async function transmettrePreuveRecandidature(
 export function applyPreuveRecandidatureTransmise(
   this: AbandonAggregate,
   {
-    payload: { preuveRecandidature, identifiantUtilisateur, dateTransmissionPreuveRecandidature },
+    payload: { preuveRecandidature, transmisePar, transmiseLe },
   }: PreuveRecandidatureTransmiseEvent,
 ) {
   this.demande.preuveRecandidature = IdentifiantProjet.convertirEnValueType(preuveRecandidature);
-  this.demande.preuveRecandidatureTransmiseLe = DateTime.convertirEnValueType(
-    dateTransmissionPreuveRecandidature,
-  );
+  this.demande.preuveRecandidatureTransmiseLe = DateTime.convertirEnValueType(transmiseLe);
   this.demande.preuveRecandidatureTransmisePar =
-    IdentifiantUtilisateur.convertirEnValueType(identifiantUtilisateur);
+    IdentifiantUtilisateur.convertirEnValueType(transmisePar);
 }

@@ -120,8 +120,8 @@ export const register = () => {
             ...abandonToUpsert,
             preuveRecandidature: payload.preuveRecandidature,
             preuveRecandidatureStatut: 'transmise',
-            preuveRecandidatureTransmiseLe: payload.dateTransmissionPreuveRecandidature,
-            preuveRecandidatureTransmisePar: payload.identifiantUtilisateur,
+            preuveRecandidatureTransmiseLe: payload.transmiseLe,
+            preuveRecandidatureTransmisePar: payload.transmisePar,
           });
           await removeProjection<Abandon.AbandonAvecRecandidatureSansPreuveProjection>(
             `abandon-avec-recandidature-sans-preuve|${identifiantProjet}`,
