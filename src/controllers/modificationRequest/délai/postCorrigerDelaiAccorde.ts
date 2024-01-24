@@ -20,7 +20,7 @@ import { logger } from '../../../core/utils';
 import { DomainError } from '../../../core/domain';
 import { mediator } from 'mediateur';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { ConsulterCandidatureLegacyQuery } from '@potentiel/domain-views';
+import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { isNone, isSome } from '@potentiel/monads';
 import { getDelaiDeRealisation } from '../../../modules/projectAppelOffre';
 import { add, sub } from 'date-fns';
@@ -92,9 +92,9 @@ v1Router.post(
         return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
       }
 
-      const résuméProjet = await mediator.send<ConsulterCandidatureLegacyQuery>({
-        type: 'CONSULTER_CANDIDATURE_LEGACY_QUERY',
-        data: { identifiantProjet },
+      const résuméProjet = await mediator.send<ConsulterCandidatureQuery>({
+        type: 'CONSULTER_CANDIDATURE_QUERY',
+        data: { identifiantProjet: identifiantProjet.identifiantProjetValue },
       });
       if (isNone(résuméProjet)) {
         return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
