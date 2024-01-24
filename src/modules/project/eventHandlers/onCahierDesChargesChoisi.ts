@@ -1,3 +1,4 @@
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../core/domain';
 import { logger, okAsync, ResultAsync } from '../../../core/utils';
 import { GetProjectAppelOffre } from '../../projectAppelOffre';
@@ -32,6 +33,9 @@ export const makeOnCahierDesChargesChoisi =
         completionDueOn,
         data,
       }) => {
+        const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+          `${appelOffreId}#${periodeId}#${familleId}#${data?.numeroCRE}`,
+        );
         const délaiCDC2022Applicable = getProjectAppelOffre({
           appelOffreId,
           periodeId,
@@ -50,12 +54,7 @@ export const makeOnCahierDesChargesChoisi =
           }
           // le porteur choisit le CDC 2022, et le délai n'est pas déjà appliqué
           return ResultAsync.fromPromise(
-            récupérerDétailDossiersRaccordements({
-              appelOffre: appelOffreId,
-              période: periodeId,
-              famille: familleId || '',
-              numéroCRE: data!.numeroCRE,
-            }),
+            récupérerDétailDossiersRaccordements(identifiantProjet),
             () => {
               logger.error(
                 `project eventHandler onCahierDesChargesChoisi : erreur lors de la lecture des dossiers de raccordement. Projet ${projetId}`,
@@ -77,7 +76,7 @@ export const makeOnCahierDesChargesChoisi =
               (dossier) =>
                 !dossier.miseEnService ||
                 isDateHorsIntervalle({
-                  dateMiseEnService: dossier.miseEnService!.dateMiseEnService,
+                  dateMiseEnService: dossier.miseEnService?.dateMiseEnService?.formatter() || '',
                   min: délaiCDC2022Applicable.intervaleDateMiseEnService.min,
                   max: délaiCDC2022Applicable.intervaleDateMiseEnService.max,
                 }),

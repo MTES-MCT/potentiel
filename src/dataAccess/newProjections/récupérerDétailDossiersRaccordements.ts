@@ -1,40 +1,14 @@
-import {
-  ConsulterDossierRaccordementQuery,
-  DossierRaccordementReadModel,
-  ListerDossiersRaccordementQuery,
-} from '@potentiel/domain-views';
-import { isSome } from '@potentiel/monads';
-import {
-  IdentifiantProjet,
-  convertirEnRéférenceDossierRaccordement,
-} from '@potentiel/domain-usecases';
+import { Raccordement } from '@potentiel-domain/reseau';
 import { mediator } from 'mediateur';
 import { RécupérerDétailDossiersRaccordements } from '../../modules/project';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 export const récupérerDétailDossiersRaccordements: RécupérerDétailDossiersRaccordements = async (
-  identifiantProjet: IdentifiantProjet,
+  identifiantProjet: IdentifiantProjet.ValueType,
 ) => {
-  const { références } = await mediator.send<ListerDossiersRaccordementQuery>({
+  const { dossiers } = await mediator.send<Raccordement.ListerDossierRaccordementQuery>({
     type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
-    data: { identifiantProjet },
+    data: { identifiantProjetValue: identifiantProjet.formatter() },
   });
-
-  if (références.length > 0) {
-    const dossiers: Array<DossierRaccordementReadModel> = (
-      await Promise.all(
-        références.map(async (référence) => {
-          const dossier = await mediator.send<ConsulterDossierRaccordementQuery>({
-            type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
-            data: {
-              identifiantProjet,
-              référenceDossierRaccordement: convertirEnRéférenceDossierRaccordement(référence),
-            },
-          });
-
-          return dossier;
-        }),
-      )
-    ).filter(isSome);
-    return dossiers;
-  }
+  return dossiers;
 };

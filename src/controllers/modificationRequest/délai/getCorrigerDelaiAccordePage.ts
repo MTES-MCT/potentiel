@@ -14,7 +14,7 @@ import { v1Router } from '../../v1Router';
 import { validateUniqueId } from '../../../helpers/validateUniqueId';
 import { ModificationRequest, Project } from '../../../infra/sequelize/projectionsNext';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { ConsulterCandidatureLegacyQuery } from '@potentiel/domain-views';
+import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { mediator } from 'mediateur';
 import { isNone, isSome } from '@potentiel/monads';
 import { getDelaiDeRealisation } from '../../../modules/projectAppelOffre';
@@ -63,9 +63,9 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
-    const résuméProjet = await mediator.send<ConsulterCandidatureLegacyQuery>({
-      type: 'CONSULTER_CANDIDATURE_LEGACY_QUERY',
-      data: { identifiantProjet },
+    const résuméProjet = await mediator.send<ConsulterCandidatureQuery>({
+      type: 'CONSULTER_CANDIDATURE_QUERY',
+      data: { identifiantProjet: identifiantProjet.identifiantProjetValue },
     });
 
     if (isNone(résuméProjet)) {
