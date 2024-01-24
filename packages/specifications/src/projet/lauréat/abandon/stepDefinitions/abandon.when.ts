@@ -382,7 +382,9 @@ Quand(
     try {
       const exemple = table.rowsHash();
       const dateNotificationProjet = exemple['La date de notification du projet'] ?? '01/01/2024';
-      const dateTransmissionPreuveRecandidature = DateTime.convertirEnValueType('24/01/2024');
+      const dateTransmissionPreuveRecandidature = DateTime.convertirEnValueType(
+        new Date('2024-01-24').toISOString(),
+      );
 
       const { identitiantProjetValueType: identifiantProjetAbandonné } =
         this.lauréatWorld.rechercherLauréatFixture(projetAbandonné);
@@ -423,7 +425,9 @@ Quand(
     try {
       const exemple = table.rowsHash();
       const dateNotificationProjet = exemple['La date de notification du projet'] ?? '01/01/2024';
-      const dateTransmissionPreuveRecandidature = DateTime.convertirEnValueType('24/01/2024');
+      const dateTransmissionPreuveRecandidature = DateTime.convertirEnValueType(
+        new Date('2024-01-24').toISOString(),
+      );
 
       const { identitiantProjetValueType: identifiantProjetAbandonné } =
         this.lauréatWorld.rechercherLauréatFixture(projetAbandonné);

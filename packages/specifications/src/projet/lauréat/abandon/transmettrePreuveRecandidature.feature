@@ -2,14 +2,14 @@
 Fonctionnalité: Transmettre une preuve de recandidature
     Contexte:
       Etant donné le projet lauréat "Du boulodrome de Marseille"
-@select
+    
     Scénario: Le porteur du projet transmet comme preuve de recandidature un projet éliminé
       Etant donné le projet éliminé "MIOS"
       Et un abandon accordé avec recandidature pour le projet lauréat "Du boulodrome de Marseille"
       Quand le porteur transmet le projet éliminé "MIOS" comme preuve de recandidature suite à l'abandon du projet "Du boulodrome de Marseille" avec :
       | La date de notification du projet | 2024-01-01 |
       Alors le projet "MIOS" devrait être la preuve de recandidature suite à l'abandon du projet "Du boulodrome de Marseille"
-@select    
+    
     Scénario: Le porteur du projet transmet comme preuve de recandidature un projet lauréat
       Etant donné le projet lauréat "Boulodrome Sainte Livrade"
       Et un abandon accordé avec recandidature pour le projet lauréat "Du boulodrome de Marseille"
