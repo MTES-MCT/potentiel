@@ -301,8 +301,16 @@ Alors(
       });
 
       expect(abandon.demande.preuveRecandidature).to.be.not.undefined;
+      expect(abandon.demande.preuveRecandidatureTransmiseLe).to.be.not.undefined;
+      expect(abandon.demande.preuveRecandidatureTransmisePar).to.be.not.undefined;
 
       abandon.demande.preuveRecandidature!.estÉgaleÀ(preuveRecandidatureValueType).should.be.true;
+      abandon.demande.preuveRecandidatureTransmiseLe!.estÉgaleÀ(
+        this.lauréatWorld.abandonWorld.dateTransmissionPreuveRecandidature,
+      ).should.be.true;
+      abandon.demande.preuveRecandidatureTransmisePar!.estÉgaleÀ(
+        this.lauréatWorld.abandonWorld.utilisateur,
+      );
     });
   },
 );

@@ -21,6 +21,8 @@ export type ConsulterAbandonReadModel = {
     preuveRecandidature?: IdentifiantProjet.ValueType;
     preuveRecandidatureDemandéeLe?: DateTime.ValueType;
     preuveRecandidatureStatut: StatutPreuveRecandidature.ValueType;
+    preuveRecandidatureTransmiseLe?: DateTime.ValueType;
+    preuveRecandidatureTransmisePar?: IdentifiantUtilisateur.ValueType;
     piéceJustificative?: DocumentProjet.ValueType;
     demandéLe: DateTime.ValueType;
     demandéPar: IdentifiantUtilisateur.ValueType;

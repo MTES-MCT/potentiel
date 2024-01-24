@@ -382,6 +382,7 @@ Quand(
     try {
       const exemple = table.rowsHash();
       const dateNotificationProjet = exemple['La date de notification du projet'] ?? '01/01/2024';
+      const dateTransmissionPreuveRecandidature = DateTime.convertirEnValueType('24/01/2024');
 
       const { identitiantProjetValueType: identifiantProjetAbandonné } =
         this.lauréatWorld.rechercherLauréatFixture(projetAbandonné);
@@ -390,6 +391,10 @@ Quand(
       const email = 'validateur@test.test';
 
       this.lauréatWorld.abandonWorld.preuveRecandidature = identifiantProjetPreuveRecandidature;
+      this.lauréatWorld.abandonWorld.dateTransmissionPreuveRecandidature =
+        dateTransmissionPreuveRecandidature;
+      this.lauréatWorld.abandonWorld.utilisateur =
+        IdentifiantUtilisateur.convertirEnValueType(email);
 
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_USECASE',
@@ -398,6 +403,7 @@ Quand(
           identifiantProjetValue: identifiantProjetAbandonné.formatter(),
           preuveRecandidatureValue: identifiantProjetPreuveRecandidature.formatter(),
           identifiantUtilisateurValue: email,
+          dateTransmissionPreuveRecandidature: dateTransmissionPreuveRecandidature.formatter(),
         },
       });
     } catch (error) {
@@ -417,6 +423,7 @@ Quand(
     try {
       const exemple = table.rowsHash();
       const dateNotificationProjet = exemple['La date de notification du projet'] ?? '01/01/2024';
+      const dateTransmissionPreuveRecandidature = DateTime.convertirEnValueType('24/01/2024');
 
       const { identitiantProjetValueType: identifiantProjetAbandonné } =
         this.lauréatWorld.rechercherLauréatFixture(projetAbandonné);
@@ -425,6 +432,10 @@ Quand(
       const email = 'validateur@test.test';
 
       this.lauréatWorld.abandonWorld.preuveRecandidature = identifiantProjetPreuveRecandidature;
+      this.lauréatWorld.abandonWorld.dateTransmissionPreuveRecandidature =
+        dateTransmissionPreuveRecandidature;
+      this.lauréatWorld.abandonWorld.utilisateur =
+        IdentifiantUtilisateur.convertirEnValueType(email);
 
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_USECASE',
@@ -433,6 +444,7 @@ Quand(
           identifiantProjetValue: identifiantProjetAbandonné.formatter(),
           preuveRecandidatureValue: identifiantProjetPreuveRecandidature.formatter(),
           identifiantUtilisateurValue: email,
+          dateTransmissionPreuveRecandidature: dateTransmissionPreuveRecandidature.formatter(),
         },
       });
     } catch (error) {

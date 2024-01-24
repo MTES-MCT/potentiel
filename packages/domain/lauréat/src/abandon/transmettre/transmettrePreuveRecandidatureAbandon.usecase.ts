@@ -10,6 +10,7 @@ export type TransmettrePreuveRecandidatureAbandonUseCase = Message<
     preuveRecandidatureValue: string;
     dateNotificationValue: string;
     identifiantUtilisateurValue: string;
+    dateTransmissionPreuveRecandidature: string;
   }
 >;
 
