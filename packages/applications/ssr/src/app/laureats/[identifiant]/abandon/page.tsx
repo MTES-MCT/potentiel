@@ -62,6 +62,13 @@ export default async function Page({ params: { identifiant } }: PageProps) {
             }),
             ...(demande.preuveRecandidature && {
               preuveRecandidature: demande.preuveRecandidature.formatter(),
+              ...(demande.preuveRecandidatureTransmiseLe && {
+                preuveRecandidatureTransmiseLe: demande.preuveRecandidatureTransmiseLe.formatter(),
+              }),
+              ...(demande.preuveRecandidatureTransmisePar && {
+                preuveRecandidatureTransmisePar:
+                  demande.preuveRecandidatureTransmisePar.formatter(),
+              }),
             }),
             preuveRecandidatureStatut: demande.preuveRecandidatureStatut.statut,
           },
