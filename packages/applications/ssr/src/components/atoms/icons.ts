@@ -10,5 +10,6 @@ export {
   RiTimeLine as ClockIcon,
   RiArrowRightCircleLine as ArrowRightWithCircle,
   RiArrowDownCircleLine as ArrowDownWithCircle,
+  RiArrowLeftLine as ArrowLeftIcon,
 } from 'react-icons/ri';
 export { IoIosWarning as WarningIcon } from 'react-icons/io';
