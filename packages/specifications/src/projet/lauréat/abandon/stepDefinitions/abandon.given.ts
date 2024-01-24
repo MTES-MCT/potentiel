@@ -80,6 +80,7 @@ EtantDonné(
             'PPE2 - Bâtiment#1##test-51',
           ).formatter(),
           identifiantUtilisateurValue: 'porteur@test.test',
+          dateTransmissionPreuveRecandidatureValue: new Date().toISOString(),
         },
       });
     }

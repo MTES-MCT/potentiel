@@ -15,14 +15,16 @@ export type AbandonProjection = Projection<
     statut: string;
     misÀJourLe: string;
 
+    demandeDemandéPar: string;
+    demandeDemandéLe: string;
     demandeRaison: string;
     demandePièceJustificativeFormat?: string;
     demandeRecandidature: boolean;
     preuveRecandidatureStatut: string;
     preuveRecandidature?: string;
     preuveRecandidatureDemandéeLe?: string;
-    demandeDemandéPar: string;
-    demandeDemandéLe: string;
+    preuveRecandidatureTransmiseLe?: string;
+    preuveRecandidatureTransmisePar?: string;
 
     accordRéponseSignéeFormat?: string;
     accordAccordéPar?: string;
