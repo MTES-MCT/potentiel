@@ -57,6 +57,8 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
     recandidature: boolean;
     preuveRecandidature?: IdentifiantProjet.ValueType;
     preuveRecandidatureDemandéeLe?: DateTime.ValueType;
+    preuveRecandidatureTransmiseLe?: DateTime.ValueType;
+    preuveRecandidatureTransmisePar?: IdentifiantUtilisateur.ValueType;
     demandéLe: DateTime.ValueType;
     demandéPar: IdentifiantUtilisateur.ValueType;
     confirmation?: {

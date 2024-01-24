@@ -159,6 +159,20 @@ export class AbandonWord {
     this.#preuveRecandidature = value;
   }
 
+  #dateTransmissionPreuveRecandidature!: DateTime.ValueType;
+
+  get dateTransmissionPreuveRecandidature(): DateTime.ValueType {
+    if (!this.#dateTransmissionPreuveRecandidature) {
+      throw new Error('dateTransmissionPreuveRecandidature not initialized');
+    }
+
+    return this.#dateTransmissionPreuveRecandidature;
+  }
+
+  set dateTransmissionPreuveRecandidature(value: DateTime.ValueType) {
+    this.#dateTransmissionPreuveRecandidature = value;
+  }
+
   #utilisateur!: IdentifiantUtilisateur.ValueType;
 
   get utilisateur(): IdentifiantUtilisateur.ValueType {

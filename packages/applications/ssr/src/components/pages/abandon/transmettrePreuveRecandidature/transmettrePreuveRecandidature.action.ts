@@ -28,6 +28,7 @@ const action: FormAction<FormState, typeof schema> = async (
         preuveRecandidatureValue: preuveRecandidature,
         dateNotificationValue: dateDesignation,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+        dateTransmissionPreuveRecandidatureValue: new Date().toISOString(),
       },
     });
 

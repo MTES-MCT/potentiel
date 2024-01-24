@@ -2,7 +2,7 @@
 Fonctionnalité: Transmettre une preuve de recandidature
     Contexte:
       Etant donné le projet lauréat "Du boulodrome de Marseille"
-
+    
     Scénario: Le porteur du projet transmet comme preuve de recandidature un projet éliminé
       Etant donné le projet éliminé "MIOS"
       Et un abandon accordé avec recandidature pour le projet lauréat "Du boulodrome de Marseille"

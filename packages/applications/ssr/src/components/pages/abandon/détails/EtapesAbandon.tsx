@@ -26,6 +26,8 @@ export type EtapesAbandonProps = {
     recandidature: boolean;
     preuveRecandidatureStatut: StatutPreuveRecandidatureBadgeProps['statut'];
     preuveRecandidature?: string;
+    preuveRecandidatureTransmiseLe?: string;
+    preuveRecandidatureTransmisePar?: string;
     raison: string;
     pièceJustificative?: string;
   };
@@ -49,6 +51,8 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
     pièceJustificative: justificatifDemande,
     preuveRecandidatureStatut,
     preuveRecandidature,
+    preuveRecandidatureTransmiseLe,
+    preuveRecandidatureTransmisePar,
   },
   confirmation,
   accord,
@@ -91,25 +95,6 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
         />
       )}
 
-      {preuveRecandidatureStatut === 'transmise' && preuveRecandidature && (
-        <p className="font-bold mb-4">
-          Le porteur a bien transmis un{' '}
-          <a
-            href={Routes.Projet.details(preuveRecandidature)}
-            aria-label={`voir le projet faisant office de preuve de recandidature`}
-          >
-            projet comme preuve de recandidature
-          </a>
-          .
-        </p>
-      )}
-
-      {preuveRecandidatureStatut === 'en-attente' && (
-        <p className="font-bold mb-4">
-          Le porteur n'a pas encore transmis de projet comme preuve de recandidature.
-        </p>
-      )}
-
       <Timeline
         sx={{
           [`& .${timelineOppositeContentClasses.root}`]: {
@@ -119,6 +104,52 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
           paddingLeft: 0,
         }}
       >
+        {preuveRecandidatureStatut === 'en-attente' && (
+          <TimelineItem>
+            <TimelineOppositeContent>
+              <span className="italic">En attente</span>
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+              <TimelineDot color="warning" />
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>
+              <p className="font-bold">
+                Le porteur n'a pas encore transmis de projet comme preuve de recandidature.
+              </p>
+            </TimelineContent>
+          </TimelineItem>
+        )}
+
+        {preuveRecandidature &&
+          preuveRecandidatureTransmiseLe &&
+          preuveRecandidatureTransmisePar && (
+            <TimelineItem>
+              <TimelineOppositeContent>
+                {displayDate(new Date(preuveRecandidatureTransmiseLe))}
+              </TimelineOppositeContent>
+              <TimelineSeparator>
+                <TimelineDot color="success" />
+                <TimelineConnector />
+              </TimelineSeparator>
+              <TimelineContent>
+                <div>
+                  <div>
+                    Le{' '}
+                    <a
+                      href={Routes.Projet.details(preuveRecandidature)}
+                      aria-label={`voir le projet faisant office de preuve de recandidature`}
+                    >
+                      projet faisant preuve de recandidature
+                    </a>{' '}
+                    a été transmis par{' '}
+                    {<span className="font-bold">{preuveRecandidatureTransmisePar}</span>}
+                  </div>
+                </div>
+              </TimelineContent>
+            </TimelineItem>
+          )}
+
         {accord && (
           <TimelineItem>
             <TimelineOppositeContent>
