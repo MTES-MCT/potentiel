@@ -24,7 +24,6 @@ import {
   ResultatsAppelOffreInnovation,
 } from './sections';
 import { ProjectHeader } from './components';
-import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
 import { Routes } from '@potentiel-libraries/routes';
 
 export type AlerteRaccordement =
@@ -51,9 +50,9 @@ export const ProjectDetails = ({
   const { user } = request;
   const { error, success } = (request.query as any) || {};
 
-  const identifiantProjet = convertirEnIdentifiantProjet(
-    `${project.appelOffreId}#${project.periodeId}#${project.familleId || ''}#${project.numeroCRE}`,
-  ).formatter();
+  const identifiantProjet = `${project.appelOffreId}#${project.periodeId}#${
+    project.familleId || ''
+  }#${project.numeroCRE}`;
 
   const abandonEnCours = !!abandon && abandon.statut !== 'rejeté';
   const modificationsNonPermisesParLeCDCActuel =
@@ -94,12 +93,7 @@ export const ProjectDetails = ({
             <AlerteBoxRaccordement
               dcrDueOn={project.dcrDueOn}
               alertes={alertesRaccordement}
-              identifiantProjet={convertirEnIdentifiantProjet({
-                appelOffre: project.appelOffreId,
-                période: project.periodeId,
-                famille: project.familleId,
-                numéroCRE: project.numeroCRE,
-              }).formatter()}
+              identifiantProjet={identifiantProjet}
             />
           )}
           <Callout>
@@ -166,7 +160,7 @@ const CDCInfo = ({ project: { id: projectId, cahierDesChargesActuel }, user }: C
 const AlerteBoxRaccordement: FC<{
   dcrDueOn: ProjectDataForProjectPage['dcrDueOn'];
   alertes: AlerteRaccordement[];
-  identifiantProjet: `${string}#${string}#${string}#${string}`;
+  identifiantProjet: string;
 }> = ({ dcrDueOn, alertes, identifiantProjet }) => (
   <AlertBox title="Données de raccordement à compléter">
     {alertes.includes('référenceDossierManquantePourDélaiCDC2022') && (

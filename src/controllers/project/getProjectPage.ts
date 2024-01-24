@@ -14,21 +14,11 @@ import routes from '../../routes';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { PermissionConsulterProjet } from '../../modules/project';
 import { mediator } from 'mediateur';
-import {
-  ConsulterDossierRaccordementQuery,
-  ListerDossiersRaccordementQuery,
-} from '@potentiel/domain-views';
-import {
-  IdentifiantProjet,
-  RawIdentifiantProjet,
-  convertirEnIdentifiantProjet,
-  estUnRawIdentifiantProjet,
-} from '@potentiel/domain-usecases';
-import { Project } from '../../infra/sequelize';
-import { isNone, isSome } from '@potentiel/monads';
 import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Abandon } from '@potentiel-domain/laureat';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Raccordement } from '@potentiel-domain/reseau';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -45,11 +35,6 @@ v1Router.get(
     },
     async (request, response) => {
       const { user } = request;
-
-      if (estUnRawIdentifiantProjet(request.params.projectId)) {
-        const projectId = await getIdentifiantLegacyProjet(request.params.projectId);
-        return response.redirect(routes.PROJECT_DETAILS(projectId));
-      }
 
       const projectId = request.params.projectId;
 
@@ -85,13 +70,16 @@ v1Router.get(
         numéroCRE: projet.numeroCRE,
       };
 
-      const abandon = await getAbandon(identifiantProjet);
+      const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(
+        `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
+      );
+      const abandon = await getAbandon(identifiantProjetValueType);
 
       const alertesRaccordement =
         !abandon || abandon.statut === 'rejeté'
           ? await getAlertesRaccordement({
               userRole: user.role,
-              identifiantProjet,
+              identifiantProjet: identifiantProjetValueType,
               CDC2022Choisi:
                 projet.cahierDesChargesActuel.type === 'modifié' &&
                 projet.cahierDesChargesActuel.paruLe === '30/08/2022',
@@ -136,13 +124,12 @@ v1Router.get(
 
 type AbandonEnInstructionProps = { statut: string } | undefined;
 const getAbandon = async (
-  identifiantProjet: IdentifiantProjet,
+  identifiantProjet: IdentifiantProjet.ValueType,
 ): Promise<AbandonEnInstructionProps> => {
   try {
-    const identifiantProjetValue = convertirEnIdentifiantProjet(identifiantProjet).formatter();
     const abandonDétecté = await mediator.send<Abandon.DétecterAbandonQuery>({
       type: 'DÉTECTER_ABANDON_QUERY',
-      data: { identifiantProjetValue },
+      data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
 
     if (!abandonDétecté) {
@@ -151,7 +138,7 @@ const getAbandon = async (
 
     const { statut } = await mediator.send<Abandon.ConsulterAbandonQuery>({
       type: 'CONSULTER_ABANDON_QUERY',
-      data: { identifiantProjetValue },
+      data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
 
     switch (statut.statut) {
@@ -170,23 +157,6 @@ const getAbandon = async (
   }
 };
 
-const getIdentifiantLegacyProjet = async (identifiantProjet: RawIdentifiantProjet) => {
-  const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
-  const projetLegacy = await Project.findOne({
-    where: {
-      appelOffreId: identifiantProjetValueType.appelOffre,
-      periodeId: identifiantProjetValueType.période,
-      familleId: isSome(identifiantProjetValueType.famille)
-        ? identifiantProjetValueType.famille
-        : '',
-      numeroCRE: identifiantProjetValueType.numéroCRE,
-    },
-    attributes: ['id'],
-  });
-
-  return projetLegacy?.id;
-};
-
 const getAlertesRaccordement = async ({
   userRole,
   identifiantProjet,
@@ -194,7 +164,7 @@ const getAlertesRaccordement = async ({
   projet,
 }: {
   userRole: UtilisateurReadModel['role'];
-  identifiantProjet: IdentifiantProjet;
+  identifiantProjet: IdentifiantProjet.ValueType;
   CDC2022Choisi: boolean;
   projet: {
     isClasse: boolean;
@@ -207,27 +177,23 @@ const getAlertesRaccordement = async ({
 
   let alertes: Array<AlerteRaccordement> = [];
 
-  const { références } = await mediator.send<ListerDossiersRaccordementQuery>({
+  const { dossiers } = await mediator.send<Raccordement.ListerDossierRaccordementQuery>({
     type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
-    data: { identifiantProjet },
+    data: { identifiantProjetValue: identifiantProjet.formatter() },
   });
 
-  if (CDC2022Choisi && (références.length === 0 || références[0] === 'Référence non transmise')) {
+  if (
+    CDC2022Choisi &&
+    (dossiers.length === 0 ||
+      (dossiers.length !== 0 && dossiers[0].référence.formatter() === 'Référence non transmise'))
+  ) {
     alertes.push('référenceDossierManquantePourDélaiCDC2022');
   }
 
-  if (références.length === 0) {
+  if (dossiers.length === 0) {
     alertes.push('demandeComplèteRaccordementManquante');
   } else {
-    const dossier = await mediator.send<ConsulterDossierRaccordementQuery>({
-      type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
-      data: { identifiantProjet, référenceDossierRaccordement: références[0] },
-    });
-
-    if (
-      isNone(dossier) ||
-      (isSome(dossier) && !dossier.demandeComplèteRaccordement.accuséRéception)
-    ) {
+    if (!dossiers[0].demandeComplèteRaccordement.accuséRéception) {
       alertes.push('demandeComplèteRaccordementManquante');
     }
   }
