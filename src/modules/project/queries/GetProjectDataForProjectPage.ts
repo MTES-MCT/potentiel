@@ -2,6 +2,7 @@ import { ResultAsync } from '../../../core/utils';
 import { ProjectAppelOffre, User } from '../../../entities';
 import { Permission } from '../../authN';
 import { InfraNotAvailableError, EntityNotFoundError } from '../../shared';
+import { Actionnariat } from '../types';
 
 export const PermissionConsulterProjet: Permission = {
   nom: 'consulter-projet',
@@ -45,6 +46,7 @@ export type ProjectDataForProjectPage = {
   engagementFournitureDePuissanceAlaPointe: boolean;
   isFinancementParticipatif: boolean;
   isInvestissementParticipatif: boolean;
+  actionnariat?: Actionnariat;
 
   adresseProjet: string;
   codePostalProjet: string;

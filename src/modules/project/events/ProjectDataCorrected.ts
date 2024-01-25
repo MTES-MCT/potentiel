@@ -1,4 +1,5 @@
 import { DomainEvent, BaseDomainEvent } from '../../../core/domain';
+import { Actionnariat } from '../types';
 
 export interface ProjectDataCorrectedPayload {
   projectId: string;
@@ -20,6 +21,7 @@ export interface ProjectDataCorrectedPayload {
     isFinancementParticipatif: boolean;
     isInvestissementParticipatif: boolean;
     motifsElimination: string;
+    actionnariat?: Actionnariat;
   }>;
 }
 export class ProjectDataCorrected

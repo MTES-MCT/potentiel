@@ -242,7 +242,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           </Checkbox>
         </div>
         <div>
-          <Label htmlFor="participatif">Financement/Investissement participatif</Label>
+          <Label htmlFor="participatif">Financement ou Investissement participatif</Label>
           <Select
             id="participatif"
             name="participatif"
@@ -258,6 +258,18 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             <option value={''}>Non</option>
             <option value={'financement'}>Financement participatif</option>
             <option value={'investissement'}>Investissement participatif</option>
+          </Select>
+        </div>
+        <div>
+          <Label htmlFor="actionnariat">Financement collectif ou Gouvernance partagée</Label>
+          <Select
+            id="actionnariat"
+            name="actionnariat"
+            defaultValue={query.actionnariat || project.actionnariat}
+          >
+            <option value={''}>Non</option>
+            <option value={'financement-collectif'}>Financement collectif</option>
+            <option value={'gouvernance-partagee'}>Gouvernance partagée</option>
           </Select>
         </div>
         {!project.isClasse ? (
