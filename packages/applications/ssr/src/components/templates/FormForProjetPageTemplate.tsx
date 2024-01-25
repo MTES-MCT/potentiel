@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import { ProjetPageTemplate, ProjetPageTemplateProps } from './ProjetPageTemplate';
 
-type FormForProjetPageTemplateProps = {
+export type FormForProjetPageTemplateProps = {
   projet: ProjetPageTemplateProps['projet'];
   heading: React.ReactNode;
   form: React.ReactNode;
