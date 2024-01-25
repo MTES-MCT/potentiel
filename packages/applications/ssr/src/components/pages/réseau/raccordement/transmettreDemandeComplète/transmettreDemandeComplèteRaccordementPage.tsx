@@ -14,6 +14,7 @@ import { transmettreDemandeComplèteRaccordementAction } from './transmettreDema
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
+import Link from 'next/link';
 
 type TransmettreDemandeComplèteRaccordementProps = {
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
@@ -56,14 +57,15 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
       projet={projet}
       form={
         <Form
-          heading="Transmettre une demande complète de raccordement"
           method="POST"
-          onSuccess={() => router.push(Routes.Raccordement.détail(projet.identifiantProjet))}
-          onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           encType="multipart/form-data"
           action={transmettreDemandeComplèteRaccordementAction}
-          className="flex flex-col gap-5"
+          heading="Transmettre une demande complète de raccordement"
+          onSuccess={() => router.push(Routes.Raccordement.détail(projet.identifiantProjet))}
+          onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
         >
+          <input type="hidden" value={identifiantProjet} />
+
           <GestionnaireRéseauSelect
             id="identifiantGestionnaireReseau"
             name="identifiantGestionnaireReseau"
@@ -89,8 +91,9 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
                 {format && <div className="italic">Exemple : {format}</div>}
               </div>
             }
+            state={validationErrors.includes('referenceDossier') ? 'error' : 'default'}
             nativeInputProps={{
-              name: 'referenceDossierRaccordement',
+              name: 'referenceDossier',
               required: true,
               'aria-required': true,
               placeholder: format ? `Exemple: ${format}` : `Renseigner l'identifiant`,
@@ -101,9 +104,9 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
 
           <Input
             label="Date de l'accusé de réception"
+            state={validationErrors.includes('dateQualification') ? 'error' : 'default'}
             nativeInputProps={{
               type: 'date',
-              id: 'dateQualification',
               name: 'dateQualification',
               max: new Date().toISOString().split('T').shift(),
               required: true,
@@ -114,17 +117,16 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
           <Upload
             label="Accusé de réception de la demande complète de raccordement **"
             hint="Vous pouvez transmettre un fichier compressé si il y a plusieurs documents"
-            id="file"
-            nativeInputProps={{ name: 'file', required: true, 'aria-required': true }}
-            state={validationErrors.includes('file') ? 'error' : 'default'}
+            nativeInputProps={{ name: 'accuseReception', required: true, 'aria-required': true }}
+            state={validationErrors.includes('accuseReception') ? 'error' : 'default'}
             stateRelatedMessage="Erreur sur le fichier transmis"
           />
 
           <div className="flex flex-col md:flex-row gap-4 mt-5">
             <SubmitButton>Transmettre</SubmitButton>
-            <a href={Routes.Raccordement.détail(identifiantProjet)} className="m-auto">
+            <Link href={Routes.Raccordement.détail(identifiantProjet)} className="m-auto">
               Retour au dossier de raccordement
-            </a>
+            </Link>
           </div>
         </Form>
       }
