@@ -1,13 +1,12 @@
-import Input from '@codegouvfr/react-dsfr/Input';
-import Select, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
 import React from 'react';
+import Select, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
 
 export type GestionnaireRéseauSelectProps = {
   id: string;
   name: string;
   label?: string;
   disabled?: true;
-  state: SelectProps.State | 'default';
+  state?: SelectProps.State | 'default';
   stateRelatedMessage?: string;
   gestionnairesRéseau: ReadonlyArray<{
     identifiantGestionnaireRéseau: string;
@@ -64,7 +63,6 @@ export const GestionnaireRéseauSelect = ({
         label={label}
         nativeSelectProps={{
           name,
-          disabled,
           defaultValue: identifiantGestionnaireRéseauActuel,
           onChange: (e) => handleGestionnaireSéléctionné(e.currentTarget.value),
         }}
@@ -78,19 +76,10 @@ export const GestionnaireRéseauSelect = ({
         )}
         state={state}
         stateRelatedMessage={stateRelatedMessage}
+        disabled={disabled}
       />
 
-      {disabled && (
-        <Input
-          hideLabel={true}
-          label="Gestionnaire réseau"
-          nativeInputProps={{
-            type: 'hidden',
-            name,
-            value: identifiantGestionnaireRéseauActuel,
-          }}
-        />
-      )}
+      {disabled && <input type="hidden" name={name} value={identifiantGestionnaireRéseauActuel} />}
     </div>
   );
 };
