@@ -23,6 +23,7 @@ import {
   TagIcon,
   WarningIcon,
 } from '@/components/atoms/icons';
+import { TitrePageRaccordement } from './TitreRaccordement';
 
 export type DossiersRaccordementListPageProps = {
   projet: ProjetPageTemplateProps['projet'];
@@ -47,7 +48,7 @@ export const DossiersRaccordementListPage: FC<DossiersRaccordementListPageProps>
   const { identifiantProjet } = projet;
 
   return (
-    <ProjetPageTemplate heading="Raccordement" projet={projet}>
+    <ProjetPageTemplate heading={<TitrePageRaccordement />} projet={projet}>
       <div className="my-2 md:my-4">
         <p className="mt-2 mb-4 p-0">
           Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}
