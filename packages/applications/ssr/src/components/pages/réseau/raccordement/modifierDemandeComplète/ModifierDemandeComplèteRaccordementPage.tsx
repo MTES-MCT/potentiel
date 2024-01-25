@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Routes } from '@potentiel-libraries/routes';
@@ -14,8 +14,7 @@ import { formatDateForInput } from '@/utils/formatDateForInput';
 import { TitrePageRaccordement } from '../TitreRaccordement';
 import { GestionnaireRéseauSelect } from '../modifierGestionnaireRéseau/GestionnaireRéseauSelect';
 import { modifierDemandeComplèteRaccordementAction } from './modifierDemandeComplèteRaccordement.action';
-import { Upload } from '@codegouvfr/react-dsfr/Upload';
-import Download from '@codegouvfr/react-dsfr/Download';
+import { AddIcon, EditIcon } from '@/components/atoms/icons';
 
 export type ModifierDemandeComplèteRaccordementPageProps = {
   projet: FormForProjetPageTemplateProps['projet'];
@@ -79,7 +78,7 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
 
           <Input
             id="referenceDossierRaccordement"
-            label="Référence du dossier de raccordement du projet"
+            label="Référence du dossier de raccordement du projet *"
             hintText={
               <>
                 {légende && <div className="m-0">Format attendu : {légende}</div>}
@@ -97,24 +96,12 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
             }}
           />
 
-          <div>
-            {accuséRéception ? (
-              <Download
-                details={null}
-                label="Fichier déjà transmis"
-                linkProps={{ href: Routes.Document.télécharger(accuséRéception) }}
-              />
-            ) : (
-              <Upload
-                id="file"
-                label="Accusé de réception de la demande complète de raccordement"
-                hint="Au format pdf"
-                nativeInputProps={{
-                  name: 'file',
-                }}
-              />
-            )}
-          </div>
+          <InputFile
+            id="accuséRéception"
+            name="accuséRéception"
+            label="Accusé de réception de la demande complète de raccordement **"
+            fileUrl={accuséRéception ? Routes.Document.télécharger(accuséRéception) : undefined}
+          />
 
           <Input
             id="dateQualification"
@@ -154,7 +141,7 @@ export type InfoBoxFormulaireDCRProps = {
 export const InfoBoxFormulaireDCR: FC<InfoBoxFormulaireDCRProps> = ({
   delaiDemandeDeRaccordementEnMois,
 }) => (
-  <>
+  <div className="flex flex-col px-3 gap-6">
     <p>
       <span className="font-bold">* Où trouver la référence de mon dossier ?</span>
       <br />
@@ -181,5 +168,79 @@ export const InfoBoxFormulaireDCR: FC<InfoBoxFormulaireDCRProps> = ({
       nécessaire dans le cadre de l’instruction selon les cahiers des charges modificatifs et publié
       le 30/08/2022.
     </p>
-  </>
+  </div>
 );
+
+type InputFileProps = {
+  name: string;
+  id: string;
+  label: string;
+  required?: boolean;
+  disabled?: boolean;
+  fileUrl?: string;
+  onFileChange?: (fileName: string) => void;
+};
+
+export const InputFile = ({ id, label, fileUrl, onFileChange, ...props }: InputFileProps) => {
+  const hiddenFileInput = React.useRef<HTMLInputElement>(null);
+  const browseForFile = () => hiddenFileInput?.current?.click();
+  const [uploadedFileName, setUploadFileName] = useState('');
+
+  return (
+    <div>
+      <label htmlFor={id}>Accusé de réception de la demande complète de raccordement **</label>
+      <div
+        className={`flex items-center mt-2 p-3 bg-gray-100 border-0 border-b-2 border-solid border-gray-600 relative ${
+          props.disabled && 'cursor-not-allowed border-b-grey-925-base bg-grey-950-base'
+        }`}
+      >
+        <input
+          {...props}
+          id={id}
+          ref={hiddenFileInput}
+          type="file"
+          className="-z-50 opacity-0 w-full h-full absolute top-0 left-0"
+          onChange={(e) => {
+            const fileName = e.currentTarget.value.replace(/^.*[\\\/]/, '');
+            setUploadFileName(fileName);
+            onFileChange && onFileChange(fileName);
+          }}
+        />
+
+        <div className="truncate mr-5">
+          {uploadedFileName ? (
+            uploadedFileName
+          ) : fileUrl ? (
+            <>
+              Fichier déjà transmis (<a href={fileUrl}>Télécharger</a>)
+            </>
+          ) : (
+            'Aucun fichier sélectionné'
+          )}
+        </div>
+
+        {!props.disabled && (
+          <div className="flex ml-auto gap-3">
+            <button
+              type="button"
+              className="flex items-center text-base border-none bg-transparent hover:bg-transparent m-0 p-0"
+              onClick={browseForFile}
+            >
+              {fileUrl || uploadedFileName ? (
+                <>
+                  <EditIcon className="md:mr-1" />
+                  <span className="hidden md:inline-block text-sm">Modifier</span>
+                </>
+              ) : (
+                <>
+                  <AddIcon className="md:mr-1" />
+                  <span className="hidden md:inline-block text-sm">Ajouter</span>
+                </>
+              )}
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

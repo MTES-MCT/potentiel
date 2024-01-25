@@ -45,7 +45,7 @@ export const Default: Story = {
       référence: 'référence#1',
       canEditRéférence: true,
       demandeComplèteRaccordement: {
-        // accuséRéception: 'référence#1/accuséRéception',
+        accuséRéception: 'référence#1/accuséRéception',
         dateQualification: '2024-01-18',
       },
     },
