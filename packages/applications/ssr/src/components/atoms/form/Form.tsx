@@ -21,6 +21,7 @@ export const Form: FC<FormProps> = ({
   onValidationError,
   children,
   heading,
+  className,
   ...props
 }) => {
   const [state, formAction] = useFormState(action, {
@@ -47,7 +48,7 @@ export const Form: FC<FormProps> = ({
         </div>
       )}
 
-      {children}
+      <div className={`flex flex-col gap-5 ${className || ''}`}>{children}</div>
     </form>
   );
 };
