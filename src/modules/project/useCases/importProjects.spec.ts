@@ -8,6 +8,7 @@ import { LegacyModificationRawDataImported } from '../../modificationRequest';
 import { InfraNotAvailableError } from '../../shared';
 import { ImportExecuted, ProjectRawDataImported } from '../events';
 import { makeImportProjects } from './importProjects';
+import { Periode } from 'packages/domain/appel-offre/dist';
 
 const validLine = {
   "Appel d'offres": 'appelOffreId',
@@ -552,7 +553,7 @@ describe('importProjects', () => {
   });
 
   describe(`garanties financières`, () => {
-    it(`Etant donné un projet lauréat 
+    it(`Etant donné un projet lauréat
         Et dont l'appel d'offre est soumis à garanties financières à la candidature
         Lorsqu'un projet est importé sans type de garanties financières
         Alors une erreur devrait être retournée`, async () => {
@@ -591,6 +592,171 @@ describe('importProjects', () => {
         );
         expect(eventBus.publish).not.toHaveBeenCalled();
       }
+    });
+  });
+
+  describe(`Période avec volume réservé`, () => {
+    const appelOffreRepo = {
+      findAll: async () => [
+        {
+          id: 'appelOffreId',
+          periodes: [
+            {
+              id: 'periodeId',
+              type: 'notified',
+              noteThresholdBy: 'category',
+              noteThreshold: {
+                volumeReserve: { noteThreshold: 10, puissanceMax: 5 },
+                autres: { noteThreshold: 20 },
+              },
+            } as Periode,
+          ],
+          familles: [{ id: 'familleId' }],
+        },
+      ],
+    } as unknown as AppelOffreRepo;
+    it(`Etant donné un projet ayant une puissance inférieure ou égale à celle du volumé réservé
+        Et une note supérieure ou égale à celle du dernier retenu du volume réservé
+        Alors le projet devrait être importé avec la catégorie de désignation "volume-réservé"`, async () => {
+      const lines = [
+        {
+          ...validLine,
+          'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)': '3',
+          'Note totale': '11',
+        },
+      ] as Record<string, string>[];
+      const importId = new UniqueEntityID().toString();
+
+      const eventBus = {
+        publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
+        subscribe: jest.fn(),
+      };
+
+      const importProjects = makeImportProjects({
+        eventBus,
+        appelOffreRepo,
+      });
+
+      try {
+        await importProjects({ lines, importId, importedBy: user });
+      } catch (error) {
+        console.log(error);
+      }
+
+      expect(eventBus.publish).toHaveBeenCalled();
+
+      const targetEvent = eventBus.publish.mock.calls
+        .map((call) => call[0])
+        .find((event) => event.type === ProjectRawDataImported.type) as ProjectRawDataImported;
+
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
+      expect(targetEvent.payload.importId).toEqual(importId);
+
+      expect(targetEvent.payload.data).toMatchObject({
+        appelOffreId: 'appelOffreId',
+        periodeId: 'periodeId',
+        puissance: 3,
+        prixReference: 3.456,
+        note: 11,
+        désignationCatégorie: 'volume-réservé',
+      });
+    });
+
+    it(`Etant donné un projet ayant une puissance inférieure ou égale à celle du volumé réservé
+        Et une note inférieure ou égale à celle du dernier retenu du volume réservé
+        Alors le projet devrait être importé avec la catégorie de désignation "hors-volume-réservé"`, async () => {
+      const lines = [
+        {
+          ...validLine,
+          'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)': '3',
+          'Note totale': '5',
+        },
+      ] as Record<string, string>[];
+      const importId = new UniqueEntityID().toString();
+
+      const eventBus = {
+        publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
+        subscribe: jest.fn(),
+      };
+
+      const importProjects = makeImportProjects({
+        eventBus,
+        appelOffreRepo,
+      });
+
+      try {
+        await importProjects({ lines, importId, importedBy: user });
+      } catch (error) {
+        console.log(error);
+      }
+
+      expect(eventBus.publish).toHaveBeenCalled();
+
+      const targetEvent = eventBus.publish.mock.calls
+        .map((call) => call[0])
+        .find((event) => event.type === ProjectRawDataImported.type) as ProjectRawDataImported;
+
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
+      expect(targetEvent.payload.importId).toEqual(importId);
+
+      expect(targetEvent.payload.data).toMatchObject({
+        appelOffreId: 'appelOffreId',
+        periodeId: 'periodeId',
+        puissance: 3,
+        prixReference: 3.456,
+        note: 5,
+        désignationCatégorie: 'hors-volume-réservé',
+      });
+    });
+
+    it(`Etant donné un projet ayant une puissance supérieure ou égale à celle du volumé réservé
+        Et une note supérieure ou égale à celle du dernier retenu du volume réservé
+        Alors le projet devrait être importé avec la catégorie de désignation "hors-volume-réservé"`, async () => {
+      const lines = [
+        {
+          ...validLine,
+          'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)': '10',
+          'Note totale': '11',
+        },
+      ] as Record<string, string>[];
+      const importId = new UniqueEntityID().toString();
+
+      const eventBus = {
+        publish: jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null)),
+        subscribe: jest.fn(),
+      };
+
+      const importProjects = makeImportProjects({
+        eventBus,
+        appelOffreRepo,
+      });
+
+      try {
+        await importProjects({ lines, importId, importedBy: user });
+      } catch (error) {
+        console.log(error);
+      }
+
+      expect(eventBus.publish).toHaveBeenCalled();
+
+      const targetEvent = eventBus.publish.mock.calls
+        .map((call) => call[0])
+        .find((event) => event.type === ProjectRawDataImported.type) as ProjectRawDataImported;
+
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
+      expect(targetEvent.payload.importId).toEqual(importId);
+
+      expect(targetEvent.payload.data).toMatchObject({
+        appelOffreId: 'appelOffreId',
+        periodeId: 'periodeId',
+        puissance: 10,
+        prixReference: 3.456,
+        note: 11,
+        désignationCatégorie: 'hors-volume-réservé',
+      });
     });
   });
 });

@@ -1,5 +1,6 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
 import { Technologie } from '@potentiel-domain/appel-offre';
+import { DésignationCatégorie } from '../types';
 
 export interface ProjectRawDataImportedPayload {
   importId: string;
@@ -34,6 +35,7 @@ export interface ProjectRawDataImportedPayload {
     actionnariat?: string;
     garantiesFinancièresType?: string;
     garantiesFinancièresDateEchéance?: string;
+    désignationCatégorie?: DésignationCatégorie;
   };
 }
 export class ProjectRawDataImported
