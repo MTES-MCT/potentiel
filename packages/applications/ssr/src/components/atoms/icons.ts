@@ -3,6 +3,7 @@ export {
   RiArrowRightSLine as NextPageIcon,
   RiSkipLeftLine as FirstPageIcon,
   RiSkipRightLine as LastPageIcon,
+  RiAddFill as AddIcon,
   RiPencilFill as EditIcon,
   RiPriceTag3Line as TagIcon,
   RiCalendarLine as CalendarIcon,

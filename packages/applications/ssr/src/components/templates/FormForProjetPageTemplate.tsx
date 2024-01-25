@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { ProjetPageTemplate, ProjetPageTemplateProps } from './ProjetPageTemplate';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
-type FormForProjetPageTemplateProps = {
+export type FormForProjetPageTemplateProps = {
   projet: ProjetPageTemplateProps['projet'];
   heading: React.ReactNode;
   form: React.ReactNode;
