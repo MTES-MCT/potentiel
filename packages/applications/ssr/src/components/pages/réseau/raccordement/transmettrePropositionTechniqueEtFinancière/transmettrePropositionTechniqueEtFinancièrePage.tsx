@@ -1,6 +1,8 @@
 import { Form } from '@/components/atoms/form/Form';
-import { FormForProjetPageTemplate } from '@/components/templates/FormForProjetPageTemplate';
-import { ProjetPageTemplateProps } from '@/components/templates/ProjetPageTemplate';
+import {
+  FormForProjetPageTemplate,
+  FormForProjetPageTemplateProps,
+} from '@/components/templates/FormForProjetPageTemplate';
 import React, { FC, useState } from 'react';
 
 import { Routes } from '@potentiel-libraries/routes';
@@ -13,7 +15,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 type TransmettrePropositionTechniqueEtFinancièreProps = {
-  projet: ProjetPageTemplateProps['projet'];
+  projet: FormForProjetPageTemplateProps['projet'];
   référenceDossierRaccordement: string;
 };
 

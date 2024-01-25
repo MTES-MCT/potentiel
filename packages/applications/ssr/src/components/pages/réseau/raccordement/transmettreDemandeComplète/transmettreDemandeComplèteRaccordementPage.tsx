@@ -3,10 +3,12 @@ import {
   GestionnaireRéseauSelect,
   GestionnaireRéseauSelectProps,
 } from '../modifierGestionnaireRéseau/GestionnaireRéseauSelect';
-import { FormForProjetPageTemplate } from '@/components/templates/FormForProjetPageTemplate';
+import {
+  FormForProjetPageTemplate,
+  FormForProjetPageTemplateProps,
+} from '@/components/templates/FormForProjetPageTemplate';
 import { TitrePageRaccordement } from '../TitreRaccordement';
 import { Form } from '@/components/atoms/form/Form';
-import { ProjetPageTemplateProps } from '@/components/templates/ProjetPageTemplate';
 
 import { Routes } from '@potentiel-libraries/routes';
 import { useRouter } from 'next/navigation';
@@ -19,7 +21,7 @@ import Link from 'next/link';
 type TransmettreDemandeComplèteRaccordementProps = {
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
   identifiantGestionnaireRéseauActuel: string;
-  projet: ProjetPageTemplateProps['projet'];
+  projet: FormForProjetPageTemplateProps['projet'];
   delaiDemandeDeRaccordementEnMois: { texte: string; valeur: number };
 };
 
