@@ -170,6 +170,10 @@ export const initializeProjectModel = (sequelize: Sequelize) => {
         allowNull: false,
         defaultValue: false,
       },
+      désignationCatégorie: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
     },
