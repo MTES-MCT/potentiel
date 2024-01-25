@@ -58,7 +58,7 @@ export const GestionnaireRéseauSelect = ({
   };
 
   return (
-    <>
+    <div>
       <Select
         id={id}
         label={label}
@@ -82,14 +82,15 @@ export const GestionnaireRéseauSelect = ({
 
       {disabled && (
         <Input
+          hideLabel={true}
           label="Gestionnaire réseau"
           nativeInputProps={{
+            type: 'hidden',
             name,
-            hidden: true,
             value: identifiantGestionnaireRéseauActuel,
           }}
         />
       )}
-    </>
+    </div>
   );
 };
