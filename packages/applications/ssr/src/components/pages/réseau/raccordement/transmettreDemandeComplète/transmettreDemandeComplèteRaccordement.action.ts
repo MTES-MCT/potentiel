@@ -12,9 +12,9 @@ export type TransmettreDemandeComplèteRaccordementState = FormState;
 const schema = zod.object({
   identifiantProjet: zod.string(),
   dateQualification: zod.string(),
-  identifiantGestionnaireRéseau: zod.string(),
-  référenceDossier: zod.string(),
-  accuséRéception: zod.instanceof(Blob),
+  identifiantGestionnaireReseau: zod.string(),
+  referenceDossier: zod.string(),
+  accuseReception: zod.instanceof(Blob),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
@@ -22,9 +22,9 @@ const action: FormAction<FormState, typeof schema> = async (
   {
     identifiantProjet,
     dateQualification,
-    identifiantGestionnaireRéseau,
-    référenceDossier,
-    accuséRéception,
+    identifiantGestionnaireReseau,
+    referenceDossier,
+    accuseReception,
   },
 ) => {
   await mediator.send<Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
@@ -32,11 +32,11 @@ const action: FormAction<FormState, typeof schema> = async (
     data: {
       identifiantProjetValue: identifiantProjet,
       dateQualificationValue: dateQualification,
-      identifiantGestionnaireRéseauValue: identifiantGestionnaireRéseau,
-      référenceDossierValue: référenceDossier,
+      identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
+      référenceDossierValue: referenceDossier,
       accuséRéceptionValue: {
-        content: accuséRéception.stream(),
-        format: accuséRéception.type,
+        content: accuseReception.stream(),
+        format: accuseReception.type,
       },
     },
   });
