@@ -6,7 +6,10 @@ type FormForProjetPageTemplateProps = {
   projet: ProjetPageTemplateProps['projet'];
   heading: React.ReactNode;
   form: React.ReactNode;
-  information?: React.ReactNode;
+  information?: {
+    description: React.ReactNode;
+    title?: string;
+  };
 };
 
 export const FormForProjetPageTemplate: FC<FormForProjetPageTemplateProps> = ({
@@ -16,11 +19,16 @@ export const FormForProjetPageTemplate: FC<FormForProjetPageTemplateProps> = ({
   information,
 }) => (
   <ProjetPageTemplate projet={projet} heading={heading}>
-    <div className="flex flex-col md:flex-row gap-7">
+    <div className="flex flex-col md:flex-row gap-8">
       <div className="flex-1 mt-6">{form}</div>
       {information && (
-        <div className="md:w-1/3 md:mx-auto">
-          <Alert severity="info" small description={<div className="py-4">{information}</div>} />
+        <div className="flex md:max-w-lg items-stretch">
+          <Alert
+            severity="info"
+            small
+            title={information.title}
+            description={<div className="py-4">{information.description}</div>}
+          />
         </div>
       )}
     </div>

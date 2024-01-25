@@ -1,9 +1,9 @@
 'use client';
 
 import { FC } from 'react';
-import CallOut from '@codegouvfr/react-dsfr/CallOut';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Download from '@codegouvfr/react-dsfr/Download';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-libraries/routes';
 
@@ -23,6 +23,7 @@ import {
   TagIcon,
   WarningIcon,
 } from '@/components/atoms/icons';
+
 import { TitrePageRaccordement } from './TitreRaccordement';
 
 export type DossiersRaccordementListPageProps = {
@@ -74,18 +75,26 @@ export const DossiersRaccordementListPage: FC<DossiersRaccordementListPageProps>
         )}
       </div>
 
-      <CallOut iconId="ri-information-line">
-        Si le raccordement comporte plusieurs points d'injection, vous pouvez{' '}
-        <a href={Routes.Raccordement.transmettreDemandeComplèteDeRaccordement(identifiantProjet)}>
-          transmettre une autre demande complète de raccordement
-        </a>
-        .
-      </CallOut>
+      <Alert
+        severity="info"
+        small
+        description={
+          <div className="p-3">
+            Si le raccordement comporte plusieurs points d'injection, vous pouvez{' '}
+            <a
+              href={Routes.Raccordement.transmettreDemandeComplèteDeRaccordement(identifiantProjet)}
+            >
+              transmettre une autre demande complète de raccordement
+            </a>
+            .
+          </div>
+        }
+      />
 
       <Button
         priority="secondary"
         linkProps={{ href: Routes.Projet.details(projet.identifiantProjet) }}
-        className="mt-3"
+        className="mt-4"
       >
         <ArrowLeftIcon aria-hidden className="inline w-5 h-5 mr-2" />
         Retour vers le projet
