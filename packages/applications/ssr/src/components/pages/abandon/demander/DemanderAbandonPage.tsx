@@ -127,15 +127,17 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
           </Form>
         </>
       }
-      information={
-        <div>
-          Une fois votre demande d'abandon envoyée, la DGEC pourra vous demander une confirmation
-          avant de vous apporter une réponse définitive.
-          <br />
-          Toute réponse vous sera mise à disposition dans Potentiel et donnera lieu à une
-          notification par courriel.
-        </div>
-      }
+      information={{
+        description: (
+          <div>
+            Une fois votre demande d'abandon envoyée, la DGEC pourra vous demander une confirmation
+            avant de vous apporter une réponse définitive.
+            <br />
+            Toute réponse vous sera mise à disposition dans Potentiel et donnera lieu à une
+            notification par courriel.
+          </div>
+        ),
+      }}
     />
   );
 };
