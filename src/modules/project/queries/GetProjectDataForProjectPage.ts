@@ -2,7 +2,7 @@ import { ResultAsync } from '../../../core/utils';
 import { ProjectAppelOffre, User } from '../../../entities';
 import { Permission } from '../../authN';
 import { InfraNotAvailableError, EntityNotFoundError } from '../../shared';
-import { Actionnariat } from '../types';
+import { Actionnariat, DésignationCatégorie } from '../types';
 
 export const PermissionConsulterProjet: Permission = {
   nom: 'consulter-projet',
@@ -64,6 +64,8 @@ export type ProjectDataForProjectPage = {
   note: number;
   notesInnovation?: NotesInnovation;
   notePrix?: string;
+
+  désignationCatégorie?: DésignationCatégorie;
 
   details: Record<string, any>;
 
