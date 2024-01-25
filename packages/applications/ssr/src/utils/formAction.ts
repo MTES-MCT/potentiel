@@ -1,5 +1,4 @@
 import { DomainError } from '@potentiel-domain/core';
-import { getLogger } from '@potentiel/monitoring';
 import * as zod from 'zod';
 
 export type FormState = {
@@ -46,7 +45,7 @@ export const formAction =
         };
       }
 
-      getLogger().error(e as Error);
+      // getLogger().error(e as Error);
       return {
         error: 'Une erreur est survenue',
         validationErrors: [],

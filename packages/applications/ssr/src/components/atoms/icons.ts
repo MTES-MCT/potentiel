@@ -11,5 +11,6 @@ export {
   RiArrowRightCircleLine as ArrowRightWithCircle,
   RiArrowDownCircleLine as ArrowDownWithCircle,
   RiArrowLeftLine as ArrowLeftIcon,
+  RiPlugLine as PlugIcon,
 } from 'react-icons/ri';
 export { IoIosWarning as WarningIcon } from 'react-icons/io';

@@ -1,9 +1,7 @@
 import { encodeParameter } from '../encodeParameter';
 
-export const détail = (identifiantProjet: string, référenceDossierRaccordement: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
-    référenceDossierRaccordement,
-  )}`;
+export const détail = (identifiantProjet: string) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/raccordements`;
 
 export const modifierGestionnaireDeRéseau = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements/modifier-gestionnaire-de-reseau`;
