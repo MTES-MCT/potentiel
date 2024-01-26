@@ -27,7 +27,7 @@ const action: FormAction<FormState, typeof schema> = async (
     référenceDossierRaccordement,
   },
 ) => {
-  await mediator.send<Raccordement.ModifierDemandeComplèteRaccordementUseCase>({
+  await mediator.send<Raccordement.RaccordementUseCase>({
     type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
     data: {
       identifiantProjetValue: identifiantProjet,
