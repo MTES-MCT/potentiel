@@ -13,9 +13,9 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
 import {
-  DossiersRaccordementListPage,
-  DossiersRaccordementListPageProps,
-} from '@/components/pages/réseau/raccordement/DossiersRaccordementListPage';
+  DétailsRaccordementPage,
+  DétailsRaccordementPageProps,
+} from '@/components/pages/réseau/raccordement/détails/DétailsRaccordementPage';
 import { ListerDossierRaccordementReadModel } from '@potentiel-domain/reseau/src/raccordement';
 import { ConsulterGestionnaireRéseauReadModel } from '@potentiel-domain/reseau/src/gestionnaire/consulter/consulterGestionnaireRéseau.query';
 
@@ -62,7 +62,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         listeDossiersRaccordement,
       );
 
-      return <DossiersRaccordementListPage {...props} />;
+      return <DétailsRaccordementPage {...props} />;
     }),
   );
 }
@@ -72,7 +72,7 @@ type MapToProps = (
   candidature: ConsulterCandidatureReadModel,
   gestionnaireRéseau: ConsulterGestionnaireRéseauReadModel,
   listeDossiersRaccordement: ListerDossierRaccordementReadModel,
-) => DossiersRaccordementListPageProps;
+) => DétailsRaccordementPageProps;
 
 const mapToProps: MapToProps = (
   rôleUtilisateur,

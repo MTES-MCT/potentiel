@@ -10,7 +10,7 @@ import { transmettrePropositionTechniqueEtFinancièreAction } from './transmettr
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { TitrePageRaccordement } from '../TitreRaccordement';
+import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
