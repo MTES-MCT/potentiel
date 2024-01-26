@@ -28,7 +28,7 @@ export const FormForProjetPageTemplate: FC<FormForProjetPageTemplateProps> = ({
             severity="info"
             small
             title={information.title}
-            description={<div className="py-4">{information.description}</div>}
+            description={<div className="py-4 text-justify">{information.description}</div>}
           />
         </div>
       )}

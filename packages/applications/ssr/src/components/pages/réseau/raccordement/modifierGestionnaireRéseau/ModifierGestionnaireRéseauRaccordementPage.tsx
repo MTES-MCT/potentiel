@@ -3,9 +3,7 @@ import { useRouter } from 'next/navigation';
 
 import { Routes } from '@potentiel-libraries/routes';
 
-import {
-  ProjetPageTemplateProps,
-} from '@/components/templates/ProjetPageTemplate';
+import { ProjetPageTemplateProps } from '@/components/templates/ProjetPageTemplate';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
@@ -75,6 +73,7 @@ export const ModifierGestionnaireRéseauRaccordementPage: FC<
       information={{
         description:
           'La modification de cette information sera appliquée sur tous les dossiers de raccordements du projet.',
+        title: 'Concernant la modification',
       }}
     />
   );

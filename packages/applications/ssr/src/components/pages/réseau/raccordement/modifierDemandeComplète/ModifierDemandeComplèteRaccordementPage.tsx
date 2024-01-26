@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Routes } from '@potentiel-libraries/routes';
@@ -8,13 +8,14 @@ import {
   FormForProjetPageTemplate,
   FormForProjetPageTemplateProps,
 } from '@/components/templates/FormForProjetPageTemplate';
+import { InputFile } from '@/components/atoms/form/InputFile';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { formatDateForInput } from '@/utils/formatDateForInput';
 
 import { TitrePageRaccordement } from '../TitreRaccordement';
 import { GestionnaireRéseauSelect } from '../modifierGestionnaireRéseau/GestionnaireRéseauSelect';
 import { modifierDemandeComplèteRaccordementAction } from './modifierDemandeComplèteRaccordement.action';
-import { AddIcon, EditIcon } from '@/components/atoms/icons';
+import Link from 'next/link';
 
 export type ModifierDemandeComplèteRaccordementPageProps = {
   projet: FormForProjetPageTemplateProps['projet'];
@@ -118,9 +119,9 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
 
           <div className="flex flex-col md:flex-row gap-4 m-auto">
             <SubmitButton>Modifier</SubmitButton>
-            <a href={Routes.Raccordement.détail(identifiantProjet)} className="m-auto">
+            <Link href={Routes.Raccordement.détail(identifiantProjet)} className="m-auto">
               Retour vers le dossier de raccordement
-            </a>
+            </Link>
           </div>
         </Form>
       }
@@ -142,7 +143,7 @@ export type InfoBoxFormulaireDCRProps = {
 export const InfoBoxFormulaireDCR: FC<InfoBoxFormulaireDCRProps> = ({
   delaiDemandeDeRaccordementEnMois,
 }) => (
-  <div className="flex flex-col px-3 gap-6">
+  <div className="flex flex-col gap-6">
     <p>
       <span className="font-bold">* Où trouver la référence de mon dossier ?</span>
       <br />
@@ -171,77 +172,3 @@ export const InfoBoxFormulaireDCR: FC<InfoBoxFormulaireDCRProps> = ({
     </p>
   </div>
 );
-
-type InputFileProps = {
-  name: string;
-  id: string;
-  label: string;
-  required?: boolean;
-  disabled?: boolean;
-  fileUrl?: string;
-  onFileChange?: (fileName: string) => void;
-};
-
-export const InputFile = ({ id, label, fileUrl, onFileChange, ...props }: InputFileProps) => {
-  const hiddenFileInput = React.useRef<HTMLInputElement>(null);
-  const browseForFile = () => hiddenFileInput?.current?.click();
-  const [uploadedFileName, setUploadFileName] = useState('');
-
-  return (
-    <div>
-      <label htmlFor={id}>{label}</label>
-      <div
-        className={`flex items-center mt-2 p-3 bg-gray-100 border-0 border-b-2 border-solid border-gray-600 relative ${
-          props.disabled && 'cursor-not-allowed border-b-grey-925-base bg-grey-950-base'
-        }`}
-      >
-        <input
-          {...props}
-          id={id}
-          ref={hiddenFileInput}
-          type="file"
-          className="-z-50 opacity-0 w-full h-full absolute top-0 left-0"
-          onChange={(e) => {
-            const fileName = e.currentTarget.value.replace(/^.*[\\\/]/, '');
-            setUploadFileName(fileName);
-            onFileChange && onFileChange(fileName);
-          }}
-        />
-
-        <div className="truncate mr-5">
-          {uploadedFileName ? (
-            uploadedFileName
-          ) : fileUrl ? (
-            <>
-              Fichier déjà transmis (<a href={fileUrl}>Télécharger</a>)
-            </>
-          ) : (
-            'Aucun fichier sélectionné'
-          )}
-        </div>
-
-        {!props.disabled && (
-          <div className="flex ml-auto gap-3">
-            <button
-              type="button"
-              className="flex items-center text-base border-none bg-transparent hover:bg-transparent m-0 p-0"
-              onClick={browseForFile}
-            >
-              {fileUrl || uploadedFileName ? (
-                <>
-                  <EditIcon className="md:mr-1" />
-                  <span className="hidden md:inline-block text-sm">Modifier</span>
-                </>
-              ) : (
-                <>
-                  <AddIcon className="md:mr-1" />
-                  <span className="hidden md:inline-block text-sm">Ajouter</span>
-                </>
-              )}
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
