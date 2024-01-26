@@ -188,7 +188,7 @@ export const InputFile = ({ id, label, fileUrl, onFileChange, ...props }: InputF
 
   return (
     <div>
-      <label htmlFor={id}>Accusé de réception de la demande complète de raccordement **</label>
+      <label htmlFor={id}>{label}</label>
       <div
         className={`flex items-center mt-2 p-3 bg-gray-100 border-0 border-b-2 border-solid border-gray-600 relative ${
           props.disabled && 'cursor-not-allowed border-b-grey-925-base bg-grey-950-base'
