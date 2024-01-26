@@ -65,6 +65,7 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
           method="POST"
           encType="multipart/form-data"
           action={modifierDemandeComplèteRaccordementAction}
+          heading="Modifier une demande complète de raccordement"
         >
           <GestionnaireRéseauSelect
             id="identifiantGestionnaireRéseau"
