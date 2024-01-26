@@ -16,8 +16,6 @@ import {
   DétailsRaccordementPage,
   DétailsRaccordementPageProps,
 } from '@/components/pages/réseau/raccordement/détails/DétailsRaccordementPage';
-import { ListerDossierRaccordementReadModel } from '@potentiel-domain/reseau/src/raccordement';
-import { ConsulterGestionnaireRéseauReadModel } from '@potentiel-domain/reseau/src/gestionnaire/consulter/consulterGestionnaireRéseau.query';
 
 type PageProps = IdentifiantParameter;
 
@@ -70,8 +68,8 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 type MapToProps = (
   rôleUtilisateur: Role.ValueType,
   candidature: ConsulterCandidatureReadModel,
-  gestionnaireRéseau: ConsulterGestionnaireRéseauReadModel,
-  listeDossiersRaccordement: ListerDossierRaccordementReadModel,
+  gestionnaireRéseau: GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel,
+  listeDossiersRaccordement: Raccordement.ListerDossierRaccordementReadModel,
 ) => DétailsRaccordementPageProps;
 
 const mapToProps: MapToProps = (

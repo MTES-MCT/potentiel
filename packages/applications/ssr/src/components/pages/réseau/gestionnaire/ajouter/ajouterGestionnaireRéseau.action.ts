@@ -19,7 +19,7 @@ const action: FormAction<FormState, typeof schema> = async (
   previousState,
   { identifiantGestionnaireReseau, raisonSociale, expressionReguliere, format, legende },
 ) => {
-  await mediator.send<GestionnaireRéseau.AjouterGestionnaireRéseauUseCase>({
+  await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
     type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
     data: {
       aideSaisieRéférenceDossierRaccordementValue: {

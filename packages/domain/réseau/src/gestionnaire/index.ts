@@ -17,10 +17,7 @@ export type GestionnaireRéseauQuery =
 export { ListerGestionnaireRéseauQuery, ConsulterGestionnaireRéseauQuery };
 
 // ReadModel
-export {
-  ListerGestionnaireRéseauReadModel,
-  ConsulterGestionnaireRéseauReadModel as ConsulterGetionnaireRéseauReadModel,
-};
+export { ListerGestionnaireRéseauReadModel, ConsulterGestionnaireRéseauReadModel };
 
 // UseCases
 export type GestionnaireRéseauUseCase =
