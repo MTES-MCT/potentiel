@@ -3,7 +3,7 @@ import {
   FormForProjetPageTemplateProps,
 } from '@/components/templates/FormForProjetPageTemplate';
 import React from 'react';
-import { TitrePageRaccordement } from '../TitreRaccordement';
+import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import { Form } from '@/components/atoms/form/Form';
 import { displayDate } from '@/utils/displayDate';
 

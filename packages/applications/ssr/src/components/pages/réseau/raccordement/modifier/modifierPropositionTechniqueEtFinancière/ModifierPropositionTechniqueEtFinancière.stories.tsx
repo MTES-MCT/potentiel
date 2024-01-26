@@ -1,28 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { TransmettreDateMiseEnServicePage } from './TransmettreDateMiseEnServicePage';
+import { ModifierPropositionTechniqueEtFinancièrePage } from './ModifierPropositionTechniqueEtFinancière';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Pages/Raccordement/Transmettre/TransmettreDateMiseEnServicePage',
-  component: TransmettreDateMiseEnServicePage,
+  title: 'Pages/Réseau/Raccordement/Modifier/ModifierPropositionTechniqueEtFinancièrePage',
+  component: ModifierPropositionTechniqueEtFinancièrePage,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<typeof TransmettreDateMiseEnServicePage>;
+} satisfies Meta<typeof ModifierPropositionTechniqueEtFinancièrePage>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    dossierRaccordement: {
-      référence: 'Référence',
-    },
-    intervalleDatesMeSDélaiCDC2022: {
-      min: new Date('2022-09-01'),
-      max: new Date('2024-12-31'),
-    },
     projet: {
       identifiantProjet: 'identifiantProjet#1',
       appelOffre: 'Appel offre',
@@ -37,6 +30,14 @@ export const Default: Story = {
         région: 'Région',
       },
       statut: 'classé',
+    },
+    raccordement: {
+      référence: 'référence#1',
+      propositionTechniqueEtFinancière: {
+        propositionTechniqueEtFinancièreSignée:
+          'référence#1/propositionTechniqueEtFinancièreSignée',
+        dateSignature: '2024-01-18',
+      },
     },
   },
 };

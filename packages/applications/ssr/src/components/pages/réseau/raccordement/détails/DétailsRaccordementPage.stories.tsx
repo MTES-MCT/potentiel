@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { DossiersRaccordementListPage } from './DossiersRaccordementListPage';
+import { DétailsRaccordementPage } from './DétailsRaccordementPage';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Pages/DossiersRaccordementListPage',
-  component: DossiersRaccordementListPage,
+  title: 'Pages/Réseau/Raccordement/Détail/DétailsRaccordementPage',
+  component: DétailsRaccordementPage,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<typeof DossiersRaccordementListPage>;
+} satisfies Meta<typeof DétailsRaccordementPage>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

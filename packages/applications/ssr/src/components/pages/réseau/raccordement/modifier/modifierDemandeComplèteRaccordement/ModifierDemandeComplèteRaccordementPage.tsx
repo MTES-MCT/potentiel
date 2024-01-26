@@ -12,8 +12,8 @@ import { InputFile } from '@/components/atoms/form/InputFile';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { formatDateForInput } from '@/utils/formatDateForInput';
 
-import { TitrePageRaccordement } from '../TitreRaccordement';
-import { GestionnaireRéseauSelect } from '../modifierGestionnaireRéseau/GestionnaireRéseauSelect';
+import { TitrePageRaccordement } from '../../TitrePageRaccordement';
+import { GestionnaireRéseauSelect } from '../modifierGestionnaireRéseauRaccordement/GestionnaireRéseauSelect';
 import { modifierDemandeComplèteRaccordementAction } from './modifierDemandeComplèteRaccordement.action';
 import Link from 'next/link';
 

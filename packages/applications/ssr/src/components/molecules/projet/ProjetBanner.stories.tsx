@@ -4,7 +4,7 @@ import { ProjetBanner } from './ProjetBanner';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Molecules/ProjetBanner',
+  title: 'Molecules/Projet/ProjetBanner',
   component: ProjetBanner,
   parameters: {},
   tags: ['autodocs'],

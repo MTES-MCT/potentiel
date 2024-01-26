@@ -4,7 +4,7 @@ import { AbandonListPage } from './AbandonListPage';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Pages/AbandonListPage',
+  title: 'Pages/Abandon/Lister/AbandonListPage',
   component: AbandonListPage,
   parameters: {},
   tags: ['autodocs'],
@@ -16,7 +16,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Page: Story = {
+export const Default: Story = {
   args: {
     filters: [
       {
