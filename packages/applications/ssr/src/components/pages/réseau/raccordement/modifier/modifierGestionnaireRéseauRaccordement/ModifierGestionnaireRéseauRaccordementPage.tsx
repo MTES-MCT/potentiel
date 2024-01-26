@@ -7,7 +7,7 @@ import { ProjetPageTemplateProps } from '@/components/templates/ProjetPageTempla
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
-import { TitrePageRaccordement } from '../TitreRaccordement';
+import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import {
   GestionnaireRéseauSelect,
   GestionnaireRéseauSelectProps,

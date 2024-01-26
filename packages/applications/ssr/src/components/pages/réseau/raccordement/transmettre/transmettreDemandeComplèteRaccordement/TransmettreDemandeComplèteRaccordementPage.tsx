@@ -2,12 +2,12 @@ import React, { FC, useState } from 'react';
 import {
   GestionnaireRéseauSelect,
   GestionnaireRéseauSelectProps,
-} from '../modifierGestionnaireRéseau/GestionnaireRéseauSelect';
+} from '../../modifier/modifierGestionnaireRéseauRaccordement/GestionnaireRéseauSelect';
 import {
   FormForProjetPageTemplate,
   FormForProjetPageTemplateProps,
 } from '@/components/templates/FormForProjetPageTemplate';
-import { TitrePageRaccordement } from '../TitreRaccordement';
+import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import { Form } from '@/components/atoms/form/Form';
 
 import { Routes } from '@potentiel-libraries/routes';
