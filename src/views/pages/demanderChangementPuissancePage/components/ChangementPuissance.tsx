@@ -20,16 +20,16 @@ import { ProjectAppelOffre, parseCahierDesChargesRéférence } from '../../../..
 import { Technologie } from '@potentiel-domain/appel-offre';
 import { AlertePuissanceFourchetteRatioInitialEtCDC2022 } from './AlertePuissanceFourchetteRatioInitialEtCDC2022';
 
-type ChangementPuissanceProps = {
+export type ChangementPuissanceProps = {
   unitePuissance: string;
   puissance: number;
   puissanceInitiale: number;
-  noteProjet: number;
   justification: string;
   cahierDesChargesActuel: string;
   appelOffre: ProjectAppelOffre;
   technologie: Technologie;
   puissanceSaisie?: number;
+  désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
   onUpdateEtatFormulaire: (bloquerEnvoi: boolean) => void;
 };
 
@@ -41,7 +41,7 @@ export const ChangementPuissance = ({
   appelOffre,
   technologie,
   puissanceSaisie,
-  noteProjet,
+  désignationCatégorie,
   onUpdateEtatFormulaire,
 }: ChangementPuissanceProps) => {
   const [displayAlertOnPuissanceType, setDisplayAlertOnPuissanceType] = useState(false);
@@ -75,7 +75,7 @@ export const ChangementPuissance = ({
       nouvellePuissance,
     });
     const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
-      project: { puissanceInitiale, appelOffre, note: noteProjet },
+      project: { appelOffre, désignationCatégorie },
       nouvellePuissance,
     });
 

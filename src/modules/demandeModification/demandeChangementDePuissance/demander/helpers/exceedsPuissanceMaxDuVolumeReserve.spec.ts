@@ -20,7 +20,7 @@ describe('exceedsPuissanceMaxDuVolumeReserve', () => {
           Lorsque la nouvelle puissance demandée dépasse 10 (puissance max du volume)
           Alors la demande doit être considérée comme dépassant la puissance max du volume réservé`, () => {
         const actual = exceedsPuissanceMaxDuVolumeReserve({
-          project: { puissanceInitiale: 9, note: 16, appelOffre },
+          project: { appelOffre, désignationCatégorie: 'volume-réservé' },
           nouvellePuissance: 10.1,
         });
         expect(actual).toBe(true);
@@ -30,7 +30,7 @@ describe('exceedsPuissanceMaxDuVolumeReserve', () => {
           Lorsque la nouvelle puissance demandée ne dépasse pas 10 (puissance max du volume)
           Alors la demande ne doit pas être considérée comme dépassant la puissance max du volume réservé`, () => {
         const actual = exceedsPuissanceMaxDuVolumeReserve({
-          project: { puissanceInitiale: 9, note: 16, appelOffre },
+          project: { appelOffre, désignationCatégorie: 'volume-réservé' },
           nouvellePuissance: 9.1,
         });
         expect(actual).toBe(false);
@@ -42,7 +42,7 @@ describe('exceedsPuissanceMaxDuVolumeReserve', () => {
           Lorsque la nouvelle puissance demandée dépasse 10 (puissance max du volume)
           Alors la demande ne doit pas être considérée comme dépassant la puissance max du volume réservé`, () => {
         const actual = exceedsPuissanceMaxDuVolumeReserve({
-          project: { puissanceInitiale: 12, note: 16, appelOffre },
+          project: { appelOffre, désignationCatégorie: 'hors-volume-réservé' },
           nouvellePuissance: 10.1,
         });
         expect(actual).toBe(false);
@@ -52,7 +52,7 @@ describe('exceedsPuissanceMaxDuVolumeReserve', () => {
           Lorsque la nouvelle puissance demandée dépasse 10 (puissance max du volume)
           Alors la demande ne doit pas être considérée comme dépassant la puissance max du volume réservé`, () => {
         const actual = exceedsPuissanceMaxDuVolumeReserve({
-          project: { puissanceInitiale: 9, note: 10, appelOffre },
+          project: { appelOffre, désignationCatégorie: 'hors-volume-réservé' },
           nouvellePuissance: 10.1,
         });
         expect(actual).toBe(false);
@@ -68,7 +68,7 @@ describe('exceedsPuissanceMaxDuVolumeReserve', () => {
         Lorsque qu'il y a une demande de changement de puissance
         Alors la demande ne devrait pas être considérée comme dépassant un volume réservé`, () => {
       const actual = exceedsPuissanceMaxDuVolumeReserve({
-        project: { puissanceInitiale: 9, note: 16, appelOffre },
+        project: { appelOffre },
         nouvellePuissance: 10.1,
       });
       expect(actual).toBe(false);

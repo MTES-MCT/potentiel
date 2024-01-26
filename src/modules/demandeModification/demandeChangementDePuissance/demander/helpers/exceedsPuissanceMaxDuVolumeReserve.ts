@@ -1,26 +1,26 @@
+import { DésignationCatégorie } from 'src/modules/project';
 import { ProjectAppelOffre } from '../../../../../entities';
 import { getVolumeReserve } from './getVolumeReserve';
 
 export type ExceedsPuissanceMaxDuVolumeReserve = (arg: {
   project: {
-    puissanceInitiale: number;
-    note: number;
     appelOffre?: ProjectAppelOffre;
+    désignationCatégorie?: DésignationCatégorie;
   };
   nouvellePuissance: number;
 }) => boolean;
 
 export const exceedsPuissanceMaxDuVolumeReserve: ExceedsPuissanceMaxDuVolumeReserve = ({
-  project,
+  project: { désignationCatégorie, appelOffre },
   nouvellePuissance,
 }) => {
-  const { appelOffre, puissanceInitiale, note } = project;
+  if (!désignationCatégorie) {
+    return false;
+  }
   const volumeReserve = appelOffre && getVolumeReserve(appelOffre);
-
   if (volumeReserve) {
-    const { puissanceMax, noteThreshold } = volumeReserve;
-    const wasNotifiedOnVolumeReserve = puissanceInitiale <= puissanceMax && note >= noteThreshold;
-    if (wasNotifiedOnVolumeReserve && nouvellePuissance > puissanceMax) {
+    const { puissanceMax } = volumeReserve;
+    if (désignationCatégorie == 'volume-réservé' && nouvellePuissance > puissanceMax) {
       return true;
     }
   }
