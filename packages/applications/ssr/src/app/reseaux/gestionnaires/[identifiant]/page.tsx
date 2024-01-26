@@ -25,7 +25,7 @@ const mapToProps = ({
   aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
   identifiantGestionnaireRéseau,
   raisonSociale,
-}: GestionnaireRéseau.ConsulterGetionnaireRéseauReadModel) => {
+}: GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel) => {
   return {
     identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
     raisonSociale,

@@ -21,7 +21,7 @@ const action: FormAction<ModifierGestionnaireRéseauState, typeof schema> = asyn
   previousState,
   { identifiantGestionnaireReseau, raisonSociale, expressionReguliere, format, legende },
 ) => {
-  await mediator.send<GestionnaireRéseau.ModifierGestionnaireRéseauUseCase>({
+  await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
     type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_USECASE',
     data: {
       aideSaisieRéférenceDossierRaccordementValue: {
