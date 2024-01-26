@@ -24,9 +24,9 @@ import {
   WarningIcon,
 } from '@/components/atoms/icons';
 
-import { TitrePageRaccordement } from './TitreRaccordement';
+import { TitrePageRaccordement } from '../TitrePageRaccordement';
 
-export type DossiersRaccordementListPageProps = {
+export type DétailsRaccordementPageProps = {
   projet: ProjetPageTemplateProps['projet'];
   gestionnaireRéseau: {
     identifiantGestionnaireRéseau: string;
@@ -41,7 +41,7 @@ export type DossiersRaccordementListPageProps = {
   dossiers: ReadonlyArray<DossierRaccordementProps>;
 };
 
-export const DossiersRaccordementListPage: FC<DossiersRaccordementListPageProps> = ({
+export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
   projet,
   gestionnaireRéseau,
   dossiers,
