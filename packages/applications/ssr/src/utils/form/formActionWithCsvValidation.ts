@@ -1,13 +1,6 @@
-import * as zod from 'zod';
-
-// import { getLogger } from '@potentiel/monitoring';
 import { DomainError } from '@potentiel-domain/core';
-
-export type FormState = {
-  success?: true;
-  error?: string;
-  validationErrors: string[];
-};
+import * as zod from 'zod';
+import { FormState } from './FormState';
 
 export type FormAction<TState, TSchema extends zod.AnyZodObject = zod.AnyZodObject> = (
   previousState: TState,
