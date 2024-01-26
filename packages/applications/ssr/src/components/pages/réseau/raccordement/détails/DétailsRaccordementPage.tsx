@@ -7,10 +7,6 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-libraries/routes';
 
-import {
-  ProjetPageTemplate,
-  ProjetPageTemplateProps,
-} from '@/components/templates/ProjetPageTemplate';
 import { Tile } from '@/components/organisms/Tile';
 import {
   ArrowDownWithCircle,
@@ -25,9 +21,11 @@ import {
 } from '@/components/atoms/icons';
 
 import { TitrePageRaccordement } from '../TitrePageRaccordement';
+import { PageTemplate } from '@/components/templates/PageTemplate';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 export type DétailsRaccordementPageProps = {
-  projet: ProjetPageTemplateProps['projet'];
+  projet: ProjetBannerProps;
   gestionnaireRéseau: {
     identifiantGestionnaireRéseau: string;
     raisonSociale: string;
@@ -49,57 +47,61 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
   const { identifiantProjet } = projet;
 
   return (
-    <ProjetPageTemplate heading={<TitrePageRaccordement />} projet={projet}>
-      <div className="my-2 md:my-4">
-        <p className="mt-2 mb-4 p-0">
-          Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}
-          {gestionnaireRéseau.canEdit && (
-            <a
-              className="ml-1"
-              href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
-              aria-label={`Modifier le gestionnaire (actuel : ${gestionnaireRéseau.raisonSociale})`}
-            >
-              (<EditIcon className="inline mr-1" />
-              Modifier)
-            </a>
+    <>
+      <PageTemplate type="projet" projet={projet} heading={<TitrePageRaccordement />}>
+        <div className="my-2 md:my-4">
+          <p className="mt-2 mb-4 p-0">
+            Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}
+            {gestionnaireRéseau.canEdit && (
+              <a
+                className="ml-1"
+                href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
+                aria-label={`Modifier le gestionnaire (actuel : ${gestionnaireRéseau.raisonSociale})`}
+              >
+                (<EditIcon className="inline mr-1" />
+                Modifier)
+              </a>
+            )}
+          </p>
+          {dossiers.length === 1 ? (
+            <Dossier {...dossiers[0]} />
+          ) : (
+            dossiers.map((dossier) => (
+              <Tile key={dossier.référence} className="mb-3">
+                <Dossier {...dossier} />
+              </Tile>
+            ))
           )}
-        </p>
-        {dossiers.length === 1 ? (
-          <Dossier {...dossiers[0]} />
-        ) : (
-          dossiers.map((dossier) => (
-            <Tile key={dossier.référence} className="mb-3">
-              <Dossier {...dossier} />
-            </Tile>
-          ))
-        )}
-      </div>
+        </div>
 
-      <Alert
-        severity="info"
-        small
-        description={
-          <div className="p-3">
-            Si le raccordement comporte plusieurs points d'injection, vous pouvez{' '}
-            <a
-              href={Routes.Raccordement.transmettreDemandeComplèteDeRaccordement(identifiantProjet)}
-            >
-              transmettre une autre demande complète de raccordement
-            </a>
-            .
-          </div>
-        }
-      />
+        <Alert
+          severity="info"
+          small
+          description={
+            <div className="p-3">
+              Si le raccordement comporte plusieurs points d'injection, vous pouvez{' '}
+              <a
+                href={Routes.Raccordement.transmettreDemandeComplèteDeRaccordement(
+                  identifiantProjet,
+                )}
+              >
+                transmettre une autre demande complète de raccordement
+              </a>
+              .
+            </div>
+          }
+        />
 
-      <Button
-        priority="secondary"
-        linkProps={{ href: Routes.Projet.details(projet.identifiantProjet) }}
-        className="mt-4"
-      >
-        <ArrowLeftIcon aria-hidden className="inline w-5 h-5 mr-2" />
-        Retour vers le projet
-      </Button>
-    </ProjetPageTemplate>
+        <Button
+          priority="secondary"
+          linkProps={{ href: Routes.Projet.details(projet.identifiantProjet) }}
+          className="mt-4"
+        >
+          <ArrowLeftIcon aria-hidden className="inline w-5 h-5 mr-2" />
+          Retour vers le projet
+        </Button>
+      </PageTemplate>
+    </>
   );
 };
 

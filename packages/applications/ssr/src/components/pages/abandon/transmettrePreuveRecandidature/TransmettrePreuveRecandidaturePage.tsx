@@ -1,17 +1,15 @@
 'use client';
 
+import { PageTemplate } from '@/components/templates/PageTemplate';
 import {
   TransmettrePreuveRecandidatureForm,
   TransmettrePreuveRecandidatureFormProps,
 } from './TransmettrePreuveRecandidatureForm';
-import {
-  ProjetPageTemplate,
-  ProjetPageTemplateProps,
-} from '@/components/templates/ProjetPageTemplate';
 import { FC } from 'react';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 export type TransmettrePreuveRecandidaturePageProps = {
-  projet: ProjetPageTemplateProps['projet'];
+  projet: ProjetBannerProps;
   projetsÀSélectionner: TransmettrePreuveRecandidatureFormProps['projetsÀSélectionner'];
 };
 
@@ -20,7 +18,8 @@ export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidatu
   projetsÀSélectionner,
 }) => {
   return (
-    <ProjetPageTemplate
+    <PageTemplate
+      type="projet"
       projet={projet}
       heading={
         <div className="flex flex-row gap-3 items-center">
@@ -36,6 +35,6 @@ export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidatu
       ) : (
         <p>Vous ne disposez d'aucun projet éligible avec une preuve de recandidature</p>
       )}
-    </ProjetPageTemplate>
+    </PageTemplate>
   );
 };
