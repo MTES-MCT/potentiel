@@ -5,7 +5,7 @@ import { FC } from 'react';
 
 import { StatutBadge, StatutBadgeProps } from '@/components/molecules/StatutBadge';
 import { DetailsAboutProjetPageTemplate } from '@/components/templates/DetailsAboutProjetPageTemplate';
-import { ProjetPageTemplateProps } from '@/components/templates/ProjetPageTemplate';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 import { AccorderAbandonAvecRecandidature } from './accorder/AccorderAbandonAvecRecandidature';
 import { AccorderAbandonSansRecandidature } from './accorder/AccorderAbandonSansRecandidature';
@@ -26,7 +26,7 @@ type AvailableActions = Array<
 >;
 
 export type DetailAbandonPageProps = {
-  projet: ProjetPageTemplateProps['projet'];
+  projet: ProjetBannerProps;
   abandon: EtapesAbandonProps;
   statut: StatutBadgeProps['statut'];
   actions: AvailableActions;

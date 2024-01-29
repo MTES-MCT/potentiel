@@ -3,20 +3,21 @@ import { useRouter } from 'next/navigation';
 
 import { Routes } from '@potentiel-libraries/routes';
 
-import { ProjetPageTemplateProps } from '@/components/templates/ProjetPageTemplate';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { FormForProjetPageTemplate } from '@/components/templates/FormForProjetPageTemplate';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
+
 import {
   GestionnaireRéseauSelect,
   GestionnaireRéseauSelectProps,
 } from './GestionnaireRéseauSelect';
 import { modifierGestionnaireRéseauRaccordementAction } from './modifierGestionnaireRéseauRaccordement.action';
-import { FormForProjetPageTemplate } from '@/components/templates/FormForProjetPageTemplate';
 
 type ModifierGestionnaireRéseauRaccordementPageProps = {
-  projet: ProjetPageTemplateProps['projet'];
+  projet: ProjetBannerProps;
   identifiantGestionnaireRéseauActuel: string;
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
 };
