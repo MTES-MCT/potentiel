@@ -12,12 +12,12 @@ import { Routes } from '@potentiel-libraries/routes';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { FormForProjetPageTemplate } from '@/components/templates/FormForProjetPageTemplate';
-import { ProjetPageTemplateProps } from '@/components/templates/ProjetPageTemplate';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 import { demanderAbandonAction } from './demanderAbandon.action';
 
 export type DemanderAbandonPageProps = {
-  projet: ProjetPageTemplateProps['projet'];
+  projet: ProjetBannerProps;
   showRecandidatureCheckBox: boolean;
 };
 

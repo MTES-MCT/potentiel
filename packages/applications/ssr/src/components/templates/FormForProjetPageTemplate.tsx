@@ -1,10 +1,13 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { FC } from 'react';
 
-import { ProjetPageTemplate, ProjetPageTemplateProps } from './ProjetPageTemplate';
+import { ProjetBanner, ProjetBannerProps } from '../molecules/projet/ProjetBanner';
+import { Heading1 } from '../atoms/headings';
+
+import { PageTemplate } from './PageTemplate';
 
 export type FormForProjetPageTemplateProps = {
-  projet: ProjetPageTemplateProps['projet'];
+  projet: ProjetBannerProps;
   heading: React.ReactNode;
   form: React.ReactNode;
   information?: {
@@ -19,7 +22,8 @@ export const FormForProjetPageTemplate: FC<FormForProjetPageTemplateProps> = ({
   form,
   information,
 }) => (
-  <ProjetPageTemplate projet={projet} heading={heading}>
+  <PageTemplate banner={<ProjetBanner {...projet} />}>
+    <Heading1>{heading}</Heading1>
     <div className="flex flex-col md:flex-row gap-8">
       <div className="flex-1 mt-6">{form}</div>
       {information && (
@@ -33,5 +37,5 @@ export const FormForProjetPageTemplate: FC<FormForProjetPageTemplateProps> = ({
         </div>
       )}
     </div>
-  </ProjetPageTemplate>
+  </PageTemplate>
 );
