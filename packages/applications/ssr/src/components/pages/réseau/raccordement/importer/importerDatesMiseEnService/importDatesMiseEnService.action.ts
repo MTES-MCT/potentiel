@@ -1,12 +1,13 @@
 'use server';
 
 import * as zod from 'zod';
-
-import { FormAction, FormState, formAction } from '@/utils/formAction';
-import { parseCsv } from '@/utils/parseCsv';
 import { mediator } from 'mediateur';
+
 import { Raccordement } from '@potentiel-domain/reseau';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+
+import { parseCsv } from '@/utils/parseCsv';
+import { FormAction, FormState, formAction } from '@/utils/formAction';
 
 export type ImporterDatesMiseEnServiceState = FormState;
 
@@ -32,6 +33,12 @@ const action: FormAction<FormState, typeof schema> = async (
 
   data.map(async ({ referenceDossier, dateMiseEnService }) => {
     try {
+      // Problème : certaines références n'ont pas été entrées correctement par les porteurs.
+      // Il faut donc :
+      //   - soit rechercher avec un like ici
+      //   - soit donner accès à une liste aux admins
+      //     pour qu'ils puissent y faire une recherche par référence et corriger celle-ci pour
+      //     refaire l'import
       const result = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
         type: 'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
         data: {
