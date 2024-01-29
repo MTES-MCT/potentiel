@@ -1,16 +1,20 @@
+import React, { FC } from 'react';
+import Link from 'next/link';
+import Input from '@codegouvfr/react-dsfr/Input';
+
+import { Routes } from '@potentiel-libraries/routes';
+
+import { Form } from '@/components/atoms/form/Form';
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { InputFile } from '@/components/atoms/form/InputFile';
+import { formatDateForInput } from '@/utils/formatDateForInput';
 import {
   FormForProjetPageTemplate,
   FormForProjetPageTemplateProps,
 } from '@/components/templates/FormForProjetPageTemplate';
-import React, { FC } from 'react';
+
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
-import { Form } from '@/components/atoms/form/Form';
-import Link from 'next/link';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { InputFile } from '@/components/atoms/form/InputFile';
-import { formatDateForInput } from '@/utils/formatDateForInput';
-import Input from '@codegouvfr/react-dsfr/Input';
-import { Routes } from '@potentiel-libraries/routes';
+
 import { modifierPropositionTechniqueEtFinancièreAction } from './modifierPropositionTechniqueEtFinancière.action';
 
 type ModifierPropositionTechniqueEtFinancièrePageProps = {
