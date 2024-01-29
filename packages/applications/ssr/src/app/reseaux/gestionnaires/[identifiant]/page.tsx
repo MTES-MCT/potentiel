@@ -1,5 +1,5 @@
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { ModifierGestionnaireRéseauPage } from '@/components/pages/réseau/gestionnaire/ModifierGestionnaireRéseauPage';
+import { ModifierGestionnaireRéseauPage } from '@/components/pages/réseau/gestionnaire/modifier/ModifierGestionnaireRéseauPage';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { mediator } from 'mediateur';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';

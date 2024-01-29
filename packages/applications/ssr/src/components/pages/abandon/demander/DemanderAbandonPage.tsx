@@ -1,6 +1,5 @@
 'use client';
 
-import { ProjetPageTemplateProps } from '@/components/templates/ProjetPageTemplate';
 import { FC, useState } from 'react';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -12,9 +11,10 @@ import { demanderAbandonAction } from './demanderAbandon.action';
 import { useRouter } from 'next/navigation';
 import { FormForProjetPageTemplate } from '@/components/templates/FormForProjetPageTemplate';
 import { Routes } from '@potentiel-libraries/routes';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 export type DemanderAbandonPageProps = {
-  projet: ProjetPageTemplateProps['projet'];
+  projet: ProjetBannerProps;
   showRecandidatureCheckBox: boolean;
 };
 

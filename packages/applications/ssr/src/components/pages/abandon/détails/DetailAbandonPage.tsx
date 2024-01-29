@@ -2,7 +2,6 @@
 
 import { FC } from 'react';
 import { StatutBadge, StatutBadgeProps } from '@/components/molecules/StatutBadge';
-import { ProjetPageTemplateProps } from '@/components/templates/ProjetPageTemplate';
 import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
 import { RejeterAbandon } from './rejeter/RejeterAbandon';
 import { AccorderAbandonAvecRecandidature } from './accorder/AccorderAbandonAvecRecandidature';
@@ -13,6 +12,7 @@ import { DetailsAboutProjetPageTemplate } from '@/components/templates/DetailsAb
 import { EtapesAbandonProps, EtapesAbandon } from './EtapesAbandon';
 import { StatutPreuveRecandidatureBadge } from './PreuveRecandidatureStatutBadge';
 import Badge from '@codegouvfr/react-dsfr/Badge';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 type AvailableActions = Array<
   | 'demander-confirmation'
@@ -24,7 +24,7 @@ type AvailableActions = Array<
 >;
 
 export type DetailAbandonPageProps = {
-  projet: ProjetPageTemplateProps['projet'];
+  projet: ProjetBannerProps;
   abandon: EtapesAbandonProps;
   statut: StatutBadgeProps['statut'];
   actions: AvailableActions;
