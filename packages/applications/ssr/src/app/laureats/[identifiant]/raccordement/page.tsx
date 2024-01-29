@@ -6,12 +6,12 @@ import {
   ConsulterCandidatureReadModel,
 } from '@potentiel-domain/candidature';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
 import {
   DétailsRaccordementPage,
   DétailsRaccordementPageProps,

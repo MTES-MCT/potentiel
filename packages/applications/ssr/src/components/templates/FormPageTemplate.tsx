@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+
 import { PageTemplate } from './PageTemplate';
 
 type FormPageTemplateProps = {
