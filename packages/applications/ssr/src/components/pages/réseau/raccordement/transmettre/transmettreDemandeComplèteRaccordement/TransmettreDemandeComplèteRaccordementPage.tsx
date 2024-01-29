@@ -3,10 +3,6 @@ import {
   GestionnaireRéseauSelect,
   GestionnaireRéseauSelectProps,
 } from '../../modifier/modifierGestionnaireRéseauRaccordement/GestionnaireRéseauSelect';
-import {
-  FormForProjetPageTemplate,
-  FormForProjetPageTemplateProps,
-} from '@/components/templates/FormForProjetPageTemplate';
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import { Form } from '@/components/atoms/form/Form';
 
@@ -21,11 +17,12 @@ import {
   InformationDemandeComplèteRaccordement,
   InformationDemandeComplèteRaccordementProps,
 } from '../../InformationDemandeComplèteRaccordement';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 type TransmettreDemandeComplèteRaccordementProps = {
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
   identifiantGestionnaireRéseauActuel: string;
-  projet: FormForProjetPageTemplateProps['projet'];
+  projet: ProjetBannerProps;
   delaiDemandeDeRaccordementEnMois: InformationDemandeComplèteRaccordementProps['delaiDemandeDeRaccordementEnMois'];
 };
 
@@ -58,9 +55,10 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
   );
 
   return (
-    <FormForProjetPageTemplate
-      heading={<TitrePageRaccordement />}
+    <PageTemplate
+      type="projet"
       projet={projet}
+      heading={<TitrePageRaccordement />}
       form={
         <Form
           method="POST"

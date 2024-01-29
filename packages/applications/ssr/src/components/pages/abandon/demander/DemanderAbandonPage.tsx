@@ -9,9 +9,9 @@ import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { demanderAbandonAction } from './demanderAbandon.action';
 import { useRouter } from 'next/navigation';
-import { FormForProjetPageTemplate } from '@/components/templates/FormForProjetPageTemplate';
 import { Routes } from '@potentiel-libraries/routes';
 import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { PageTemplate } from '@/components/templates/PageTemplate';
 
 export type DemanderAbandonPageProps = {
   projet: ProjetBannerProps;
@@ -27,7 +27,8 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
   const [recandidature, setRecandidature] = useState(false);
 
   return (
-    <FormForProjetPageTemplate
+    <PageTemplate
+      type="projet"
       projet={projet}
       heading={<span>Demander l'abandon du projet</span>}
       form={

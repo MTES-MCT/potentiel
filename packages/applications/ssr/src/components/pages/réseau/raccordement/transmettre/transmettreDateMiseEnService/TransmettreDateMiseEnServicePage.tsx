@@ -1,7 +1,3 @@
-import {
-  FormForProjetPageTemplate,
-  FormForProjetPageTemplateProps,
-} from '@/components/templates/FormForProjetPageTemplate';
 import React from 'react';
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import { Form } from '@/components/atoms/form/Form';
@@ -14,9 +10,11 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import { transmettreDateMiseEnServiceAction } from './transmettreDateMiseEnService.action';
 import { useRouter } from 'next/navigation';
 import { formatDateForInput } from '@/utils/formatDateForInput';
+import { PageTemplate } from '@/components/templates/PageTemplate';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 type TransmettreDateMiseEnServiceProps = {
-  projet: FormForProjetPageTemplateProps['projet'];
+  projet: ProjetBannerProps;
   dossierRaccordement: {
     référence: string;
     miseEnService?: string;
@@ -33,9 +31,10 @@ export const TransmettreDateMiseEnServicePage = ({
   const { identifiantProjet, dateDésignation } = projet;
 
   return (
-    <FormForProjetPageTemplate
-      heading={<TitrePageRaccordement />}
+    <PageTemplate
+      type="projet"
       projet={projet}
+      heading={<TitrePageRaccordement />}
       form={
         <Form
           method="POST"

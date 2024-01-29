@@ -1,7 +1,3 @@
-import {
-  FormForProjetPageTemplate,
-  FormForProjetPageTemplateProps,
-} from '@/components/templates/FormForProjetPageTemplate';
 import React, { FC } from 'react';
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import { Form } from '@/components/atoms/form/Form';
@@ -12,9 +8,11 @@ import { formatDateForInput } from '@/utils/formatDateForInput';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { Routes } from '@potentiel-libraries/routes';
 import { modifierPropositionTechniqueEtFinancièreAction } from './modifierPropositionTechniqueEtFinancière.action';
+import { PageTemplate } from '@/components/templates/PageTemplate';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 type ModifierPropositionTechniqueEtFinancièrePageProps = {
-  projet: FormForProjetPageTemplateProps['projet'];
+  projet: ProjetBannerProps;
   raccordement: {
     référence: string;
     propositionTechniqueEtFinancière: {
@@ -36,9 +34,10 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
   const { identifiantProjet } = projet;
 
   return (
-    <FormForProjetPageTemplate
-      heading={<TitrePageRaccordement />}
+    <PageTemplate
+      type="projet"
       projet={projet}
+      heading={<TitrePageRaccordement />}
       form={
         <Form
           method="POST"

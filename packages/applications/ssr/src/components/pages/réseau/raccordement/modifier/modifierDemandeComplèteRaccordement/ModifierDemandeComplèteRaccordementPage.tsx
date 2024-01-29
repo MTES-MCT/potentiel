@@ -4,10 +4,6 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import { Routes } from '@potentiel-libraries/routes';
 
 import { Form } from '@/components/atoms/form/Form';
-import {
-  FormForProjetPageTemplate,
-  FormForProjetPageTemplateProps,
-} from '@/components/templates/FormForProjetPageTemplate';
 import { InputFile } from '@/components/atoms/form/InputFile';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { formatDateForInput } from '@/utils/formatDateForInput';
@@ -20,9 +16,10 @@ import {
   InformationDemandeComplèteRaccordement,
   InformationDemandeComplèteRaccordementProps,
 } from '../../InformationDemandeComplèteRaccordement';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 export type ModifierDemandeComplèteRaccordementPageProps = {
-  projet: FormForProjetPageTemplateProps['projet'];
+  projet: ProjetBannerProps;
   raccordement: {
     référence: string;
     demandeComplèteRaccordement: {
@@ -62,7 +59,8 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
   } = gestionnaireRéseauActuel;
 
   return (
-    <FormForProjetPageTemplate
+    <PageTemplate
+      type="projet"
       heading={<TitrePageRaccordement />}
       projet={projet}
       form={

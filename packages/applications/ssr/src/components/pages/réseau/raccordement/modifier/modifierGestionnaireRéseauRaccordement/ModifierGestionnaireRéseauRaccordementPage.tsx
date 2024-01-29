@@ -12,8 +12,8 @@ import {
   GestionnaireRéseauSelectProps,
 } from './GestionnaireRéseauSelect';
 import { modifierGestionnaireRéseauRaccordementAction } from './modifierGestionnaireRéseauRaccordement.action';
-import { FormForProjetPageTemplate } from '@/components/templates/FormForProjetPageTemplate';
 import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { PageTemplate } from '@/components/templates/PageTemplate';
 
 type ModifierGestionnaireRéseauRaccordementPageProps = {
   projet: ProjetBannerProps;
@@ -34,7 +34,8 @@ export const ModifierGestionnaireRéseauRaccordementPage: FC<
   );
 
   return (
-    <FormForProjetPageTemplate
+    <PageTemplate
+      type="projet"
       heading={<TitrePageRaccordement />}
       projet={projet}
       form={

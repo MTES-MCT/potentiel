@@ -1,8 +1,4 @@
 import { Form } from '@/components/atoms/form/Form';
-import {
-  FormForProjetPageTemplate,
-  FormForProjetPageTemplateProps,
-} from '@/components/templates/FormForProjetPageTemplate';
 import React, { FC, useState } from 'react';
 
 import { Routes } from '@potentiel-libraries/routes';
@@ -13,9 +9,11 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { PageTemplate } from '@/components/templates/PageTemplate';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 type TransmettrePropositionTechniqueEtFinancièreProps = {
-  projet: FormForProjetPageTemplateProps['projet'];
+  projet: ProjetBannerProps;
   référenceDossierRaccordement: string;
 };
 
@@ -29,9 +27,10 @@ export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
   const { identifiantProjet } = projet;
 
   return (
-    <FormForProjetPageTemplate
-      heading={<TitrePageRaccordement />}
+    <PageTemplate
+      type="projet"
       projet={projet}
+      heading={<TitrePageRaccordement />}
       form={
         <>
           <Form
@@ -94,6 +93,6 @@ export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
           </>
         ),
       }}
-    ></FormForProjetPageTemplate>
+    />
   );
 };
