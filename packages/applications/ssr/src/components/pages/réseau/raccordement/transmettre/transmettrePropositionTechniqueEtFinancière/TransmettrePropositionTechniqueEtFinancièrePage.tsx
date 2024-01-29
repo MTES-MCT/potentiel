@@ -1,18 +1,21 @@
-import { Form } from '@/components/atoms/form/Form';
+import React, { FC, useState } from 'react';
+import { Upload } from '@codegouvfr/react-dsfr/Upload';
+import Input from '@codegouvfr/react-dsfr/Input';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
+import { Routes } from '@potentiel-libraries/routes';
+
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import {
   FormForProjetPageTemplate,
   FormForProjetPageTemplateProps,
 } from '@/components/templates/FormForProjetPageTemplate';
-import React, { FC, useState } from 'react';
+import { Form } from '@/components/atoms/form/Form';
 
-import { Routes } from '@potentiel-libraries/routes';
-import { transmettrePropositionTechniqueEtFinancièreAction } from './transmettrePropositionTechniqueEtFinancière.action';
-import { Upload } from '@codegouvfr/react-dsfr/Upload';
-import Input from '@codegouvfr/react-dsfr/Input';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+
+import { transmettrePropositionTechniqueEtFinancièreAction } from './transmettrePropositionTechniqueEtFinancière.action';
 
 type TransmettrePropositionTechniqueEtFinancièreProps = {
   projet: FormForProjetPageTemplateProps['projet'];

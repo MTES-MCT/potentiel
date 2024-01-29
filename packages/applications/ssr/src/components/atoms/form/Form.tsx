@@ -3,6 +3,7 @@ import { FC, FormHTMLAttributes } from 'react';
 import { useFormState } from 'react-dom';
 
 import { formAction } from '@/utils/formAction';
+
 import { Heading2 } from '../headings';
 
 export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action'> & {
