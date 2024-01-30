@@ -4,8 +4,9 @@ import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
 import { StatutBadge, StatutBadgeProps } from '@/components/molecules/StatutBadge';
-import { DetailsAboutProjetPageTemplate } from '@/components/templates/DetailsAboutProjetPageTemplate';
-import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPageTemplate';
+import { Heading1 } from '@/components/atoms/headings';
 
 import { AccorderAbandonAvecRecandidature } from './accorder/AccorderAbandonAvecRecandidature';
 import { AccorderAbandonSansRecandidature } from './accorder/AccorderAbandonSansRecandidature';
@@ -39,27 +40,37 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
   actions,
 }) => {
   return (
-    <DetailsAboutProjetPageTemplate
-      projet={projet}
+    <ColumnPageTemplate
+      banner={<ProjetBanner {...projet} />}
       heading={
-        <div className="flex flex-col md:flex-row gap-3 items-center">
-          <span>Abandon</span>
-          <StatutBadge statut={statut} />
-          {abandon.demande.recandidature && (
-            <>
-              <Badge noIcon severity="info">
-                avec recandidature
-              </Badge>
-              <StatutPreuveRecandidatureBadge statut={abandon.demande.preuveRecandidatureStatut} />
-            </>
-          )}
-        </div>
+        <>
+          <Heading1>Détail de l'abandon</Heading1>
+          <div className="flex flex-col md:flex-row gap-3 items-center">
+            <StatutBadge statut={statut} />
+            {abandon.demande.recandidature && (
+              <>
+                <Badge noIcon severity="info">
+                  avec recandidature
+                </Badge>
+                <StatutPreuveRecandidatureBadge
+                  statut={abandon.demande.preuveRecandidatureStatut}
+                />
+              </>
+            )}
+          </div>
+        </>
       }
-      details={<EtapesAbandon {...abandon} />}
-      actions={mapToActionComponents({
-        actions,
-        identifiantProjet: projet.identifiantProjet,
-      })}
+      leftColumn={{
+        className: 'flex-col gap-6',
+        children: <EtapesAbandon {...abandon} />,
+      }}
+      rightColumn={{
+        className: 'flex flex-col w-full md:w-1/4 gap-4',
+        children: mapToActionComponents({
+          actions,
+          identifiantProjet: projet.identifiantProjet,
+        }),
+      }}
     />
   );
 };

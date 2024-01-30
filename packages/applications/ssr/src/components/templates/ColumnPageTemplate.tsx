@@ -25,8 +25,8 @@ export const ColumnPageTemplate: FC<ColumnPageTemplateProps> = ({
 }) => (
   <PageTemplate banner={banner}>
     {heading ?? null}
-    <div className="flex flex-col md:flex-row gap-8">
-      <div className={`flex-1 mt-6 ${leftColumn.className ?? ''}`}>{leftColumn.children}</div>
+    <div className="flex flex-col md:flex-row gap-8 mt-6">
+      <div className={`flex-1 ${leftColumn.className ?? ''}`}>{leftColumn.children}</div>
       <div className={`flex md:max-w-lg items-stretch ${rightColumn.className ?? ''}`}>
         {rightColumn.children}
       </div>
