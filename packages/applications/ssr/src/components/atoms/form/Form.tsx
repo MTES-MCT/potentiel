@@ -1,3 +1,5 @@
+'use client';
+
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { FC, FormHTMLAttributes } from 'react';
 import { useFormState } from 'react-dom';

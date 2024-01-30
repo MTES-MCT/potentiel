@@ -10,7 +10,7 @@ type FormPageTemplateProps = {
     description: React.ReactNode;
     title?: string;
   };
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export const FormPageTemplate: FC<FormPageTemplateProps> = ({
