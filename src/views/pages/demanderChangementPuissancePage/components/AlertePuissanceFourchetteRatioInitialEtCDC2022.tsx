@@ -25,7 +25,7 @@ export const AlertePuissanceFourchetteRatioInitialEtCDC2022 = ({
         attestation de conformité.
       </span>
       <br />
-      {alerteMessage ? alerteMessage : ''}
+      {alerteMessage ? <span className="whitespace-pre-line">{alerteMessage}</span> : ''}
     </AlertBox>
   );
 };
