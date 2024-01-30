@@ -6,9 +6,9 @@ import { executeSelect } from '@potentiel/pg-helpers';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { CopyObjectCommand, DeleteObjectCommand, HeadObjectCommand, S3 } from '@aws-sdk/client-s3';
 
-const bucketName = '';
+const bucketName = process.env.BUCKET_NAME;
 const client = new S3({
-  endpoint: '',
+  endpoint: process.env.S3_ENDPOINT,
   credentials: {
     accessKeyId: process.env.ACCESS_KEY_ID || '',
     secretAccessKey: process.env.SECRET_ACCESS_KEY || '',
