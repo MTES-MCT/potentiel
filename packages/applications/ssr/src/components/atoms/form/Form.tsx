@@ -15,6 +15,9 @@ export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action'> & {
   omitMandatoryFieldsLegend?: true;
   onSuccess?: () => void;
   onValidationError?: (validationErrors: Array<string>) => void;
+  onCsvValidationError?: (
+    validationErrors: Array<{ ligne: string; champ: string; message: string }>,
+  ) => void;
 };
 
 export const Form: FC<FormProps> = ({
@@ -22,6 +25,7 @@ export const Form: FC<FormProps> = ({
   omitMandatoryFieldsLegend,
   onSuccess,
   onValidationError,
+  onCsvValidationError,
   children,
   heading,
   className,
@@ -30,6 +34,7 @@ export const Form: FC<FormProps> = ({
   const [state, formAction] = useFormState(action, {
     error: undefined,
     validationErrors: [],
+    csvValidationErrors: [],
   });
 
   if (state.success && onSuccess) {
@@ -37,6 +42,10 @@ export const Form: FC<FormProps> = ({
   }
   if (state.validationErrors && onValidationError) {
     onValidationError(state.validationErrors);
+  }
+
+  if (state.csvValidationErrors.length > 0 && onCsvValidationError) {
+    onCsvValidationError(state.csvValidationErrors);
   }
 
   return (

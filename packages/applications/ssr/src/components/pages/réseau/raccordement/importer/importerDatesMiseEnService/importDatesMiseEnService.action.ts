@@ -7,7 +7,7 @@ import { Raccordement } from '@potentiel-domain/reseau';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 
 import { parseCsv } from '@/utils/parseCsv';
-import { FormAction, FormState, formAction } from '@/utils/formAction';
+import { CsvValidationError, FormAction, FormState, formAction } from '@/utils/formAction';
 
 export type ImporterDatesMiseEnServiceState = FormState;
 
@@ -18,8 +18,12 @@ const schema = zod.object({
 const csvSchema = zod
   .array(
     zod.object({
-      referenceDossier: zod.string(),
-      dateMiseEnService: zod.string().regex(/^\d{2}\/\d{2}\/\d{4}$/),
+      referenceDossier: zod.string().min(1, {
+        message: 'La référence du dossier ne peut pas être vide',
+      }),
+      dateMiseEnService: zod.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, {
+        message: "Le format de la date n'est pas respecté (format attendu : JJ/MM/AAAA)",
+      }),
     }),
   )
   .nonempty();
@@ -28,12 +32,12 @@ const action: FormAction<FormState, typeof schema> = async (
   previousState,
   { fichierDatesMiseEnService },
 ) => {
-  const parsed = parseCsv(fichierDatesMiseEnService.stream());
-  const data = csvSchema.parse(parsed);
+  try {
+    const parsed = await parseCsv(fichierDatesMiseEnService.stream());
+    const data = csvSchema.parse(parsed);
 
-  await Promise.all(
-    data.map(async ({ referenceDossier, dateMiseEnService }) => {
-      try {
+    await Promise.all(
+      data.map(async ({ referenceDossier, dateMiseEnService }) => {
         // Problème : certaines références n'ont pas été entrées correctement par les porteurs.
         // Il faut donc :
         //   - soit rechercher avec un like ici
@@ -62,11 +66,24 @@ const action: FormAction<FormState, typeof schema> = async (
             dateMiseEnServiceValue: dateMiseEnService,
           },
         });
-      } catch (error) {}
-    }),
-  );
+      }),
+    );
+    return previousState;
+  } catch (error) {
+    if (error instanceof zod.ZodError) {
+      const csvValidationErrors = error.errors.map(({ path: [ligne, key], message }) => {
+        return {
+          ligne: (Number(ligne) + 1).toString(),
+          champ: key.toString(),
+          message,
+        };
+      });
 
-  return previousState;
+      throw new CsvValidationError(csvValidationErrors);
+    }
+
+    throw error;
+  }
 };
 
 export const importerDatesMiseEnServiceAction = formAction(action, schema);

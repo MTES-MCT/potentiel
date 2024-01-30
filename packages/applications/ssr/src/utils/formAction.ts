@@ -3,10 +3,23 @@ import * as zod from 'zod';
 // import { getLogger } from '@potentiel/monitoring';
 import { DomainError } from '@potentiel-domain/core';
 
+export class CsvValidationError extends Error {
+  constructor(
+    public errors: Array<{
+      ligne: string;
+      champ: string;
+      message: string;
+    }>,
+  ) {
+    super('Erreur lors de la validation du fichier CSV');
+  }
+}
+
 export type FormState = {
   success?: true;
   error?: string;
   validationErrors: string[];
+  csvValidationErrors: Array<{ ligne: string; champ: string; message: string }>;
 };
 
 export type FormAction<TState, TSchema extends zod.AnyZodObject = zod.AnyZodObject> = (
@@ -29,6 +42,7 @@ export const formAction =
       return {
         success: true as const,
         validationErrors: [],
+        csvValidationErrors: [],
       };
     } catch (e) {
       if (e instanceof zod.ZodError) {
@@ -36,6 +50,7 @@ export const formAction =
           ...previousState,
           error: `Erreur lors de la validation des données du formulaire`,
           validationErrors: e.issues.map((issue) => (issue.path.pop() || '').toString()),
+          csvValidationErrors: [],
         };
       }
 
@@ -44,12 +59,22 @@ export const formAction =
           ...previousState,
           error: e.message,
           validationErrors: [],
+          csvValidationErrors: [],
+        };
+      }
+
+      if (e instanceof CsvValidationError) {
+        return {
+          ...previousState,
+          validationErrors: [],
+          csvValidationErrors: e.errors,
         };
       }
 
       return {
         error: 'Une erreur est survenue',
         validationErrors: [],
+        csvValidationErrors: [],
       };
     }
   };
