@@ -16,7 +16,7 @@ import {
   Form,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
-import { ChangementPuissance } from './components/ChangementPuissance';
+import { ChangementPuissance, ChangementPuissanceProps } from './components/ChangementPuissance';
 import routes from '../../../routes';
 
 type DemanderChangementPuissanceProps = {
@@ -27,7 +27,7 @@ type DemanderChangementPuissanceProps = {
     puissanceInitiale: number;
     puissance: number;
     unitePuissance: string;
-    note: number;
+    désignationCatégorie?: ChangementPuissanceProps['désignationCatégorie'];
   };
   appelOffre: ProjectAppelOffre;
 };
@@ -87,7 +87,6 @@ export const DemanderChangementPuissance = ({
               justification,
               appelOffre,
               puissanceSaisie,
-              noteProjet: project.note,
               onUpdateEtatFormulaire: (bloquerEnvoi) => setDisableSubmit(bloquerEnvoi),
             }}
           />

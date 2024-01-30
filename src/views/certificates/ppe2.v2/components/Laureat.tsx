@@ -30,6 +30,17 @@ export const makeLaureat: MakeLaureat = (project) => {
         {periode.title} tranche de l’appel d’offres visé en objet.
       </Text>
 
+      {project.désignationCatégorie && project.désignationCatégorie === 'volume-réservé' && (
+        <Text
+          style={{
+            marginTop: 10,
+          }}
+        >
+          Le projet fait partie du volume réservé tel que défini au chapitre 1. du cahier des
+          charges de la période d'appel d'offres cité en objet.
+        </Text>
+      )}
+
       <Text style={{ marginTop: 10 }}>
         Conformément à l’engagement contenu dans votre offre, je vous informe que{' '}
         {appelOffre.tarifOuPrimeRetenue} en application des dispositions du point{' '}

@@ -15,7 +15,7 @@ import { CertificateTemplate, Technologie } from '@potentiel-domain/appel-offre'
 import { add, isSameDay, sub } from 'date-fns';
 import remove from 'lodash/remove';
 import sanitize from 'sanitize-filename';
-import { BuildProjectIdentifier, Fournisseur } from '.';
+import { BuildProjectIdentifier, DésignationCatégorie, Fournisseur } from '.';
 import { shallowDelta } from '../../helpers/shallowDelta';
 import {
   EntityNotFoundError,
@@ -246,6 +246,7 @@ export interface ProjectDataProps {
   technologie: Technologie;
   actionnariat?: 'financement-collectif' | 'gouvernance-partagee';
   classe: 'Classé' | 'Eliminé';
+  désignationCatégorie?: DésignationCatégorie;
 }
 
 export interface ProjectProps {

@@ -1,5 +1,6 @@
 import { DomainEvent, BaseDomainEvent } from '../../../core/domain';
 import { Technologie } from '@potentiel-domain/appel-offre';
+import { DésignationCatégorie } from '../types';
 
 export interface ProjectImportedPayload {
   projectId: string;
@@ -39,6 +40,7 @@ export interface ProjectImportedPayload {
     technologie: Technologie;
     actionnariat?: string;
     soumisAuxGF?: true;
+    désignationCatégorie?: DésignationCatégorie;
   };
 }
 export class ProjectImported

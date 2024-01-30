@@ -52,6 +52,7 @@ export const toProjectDataForCertificate = (
     territoireProjet,
     technologie,
     actionnariat,
+    désignationCatégorie,
   } = data;
 
   return ok({
@@ -78,5 +79,6 @@ export const toProjectDataForCertificate = (
     territoireProjet,
     technologie,
     actionnariat,
+    désignationCatégorie,
   });
 };

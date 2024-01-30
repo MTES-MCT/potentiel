@@ -100,7 +100,10 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
 
           const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
             nouvellePuissance: newPuissance,
-            project: { ...project, note: project.data!!.note },
+            project: {
+              appelOffre: appelOffreProjet,
+              désignationCatégorie: project.data?.désignationCatégorie,
+            },
           });
 
           if (exceedsPuissanceMax) {

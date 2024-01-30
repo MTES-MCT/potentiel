@@ -146,6 +146,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           updatedAt,
           potentielIdentifier,
           dcrDueOn,
+          désignationCatégorie,
         },
       }): ResultAsync<ProjectDataForProjectPage, never> =>
         okAsync({
@@ -180,6 +181,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           isLegacy: appelOffre.periode.type === 'legacy',
           motifsElimination,
           dcrDueOn,
+          désignationCatégorie,
           users: users
             ?.map(({ user }) => user.get())
             .map(({ id, email, fullName }) => ({
