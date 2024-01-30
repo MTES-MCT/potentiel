@@ -2,24 +2,23 @@ import React from 'react';
 import Link from 'next/link';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { useRouter } from 'next/navigation';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-libraries/routes';
 
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { displayDate } from '@/utils/displayDate';
 import { Form } from '@/components/atoms/form/Form';
-import {
-  FormForProjetPageTemplate,
-  FormForProjetPageTemplateProps,
-} from '@/components/templates/FormForProjetPageTemplate';
 import { formatDateForInput } from '@/utils/formatDateForInput';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPageTemplate';
+import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
 import { transmettreDateMiseEnServiceAction } from './transmettreDateMiseEnService.action';
 
 type TransmettreDateMiseEnServiceProps = {
-  projet: FormForProjetPageTemplateProps['projet'];
+  projet: ProjetBannerProps;
   dossierRaccordement: {
     référence: string;
     miseEnService?: string;
@@ -36,74 +35,85 @@ export const TransmettreDateMiseEnServicePage = ({
   const { identifiantProjet, dateDésignation } = projet;
 
   return (
-    <FormForProjetPageTemplate
+    <ColumnPageTemplate
+      banner={<ProjetBanner {...projet} />}
       heading={<TitrePageRaccordement />}
-      projet={projet}
-      form={
-        <Form
-          method="POST"
-          heading="Transmettre la date de mise en service"
-          action={transmettreDateMiseEnServiceAction}
-          onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
-        >
-          <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
-          <input type="hidden" name="referenceDossier" value={référence} />
-          <input type="hidden" name="dateDesignation" value={dateDésignation} />
+      leftColumn={{
+        children: (
+          <Form
+            method="POST"
+            heading="Transmettre la date de mise en service"
+            action={transmettreDateMiseEnServiceAction}
+            onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
+          >
+            <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
+            <input type="hidden" name="referenceDossier" value={référence} />
+            <input type="hidden" name="dateDesignation" value={dateDésignation} />
 
-          <Input
-            label="Date de mise en service"
-            nativeInputProps={{
-              type: 'date',
-              name: 'dateMiseEnService',
-              defaultValue: miseEnService && formatDateForInput(miseEnService),
-              min: formatDateForInput(projet.dateDésignation),
-              max: new Date().toISOString().split('T').shift(),
-              required: true,
-              'aria-required': true,
-            }}
+            <Input
+              label="Date de mise en service"
+              nativeInputProps={{
+                type: 'date',
+                name: 'dateMiseEnService',
+                defaultValue: miseEnService && formatDateForInput(miseEnService),
+                min: formatDateForInput(projet.dateDésignation),
+                max: new Date().toISOString().split('T').shift(),
+                required: true,
+                'aria-required': true,
+              }}
+            />
+
+            <div className="flex flex-col md:flex-row gap-4 md:mt-4">
+              <SubmitButton>Transmettre</SubmitButton>
+              <Link href={Routes.Raccordement.détail(identifiantProjet)} className="m-auto">
+                Retour vers le dossier de raccordement
+              </Link>
+            </div>
+          </Form>
+        ),
+      }}
+      rightColumn={{
+        children: (
+          <Alert
+            severity="info"
+            small
+            description={
+              <div className="py-4 text-justify">
+                <ul className="flex flex-col gap-3">
+                  <li>
+                    Si le projet{' '}
+                    <span className="font-bold">
+                      a bénéficié du délai supplémentaire relatif du cahier des charges du
+                      30/08/2022
+                    </span>
+                    , la saisie d'une date de mise en service non comprise entre le{' '}
+                    <span className="font-bold">
+                      {displayDate(new Date(intervalleDatesMeSDélaiCDC2022.min))}
+                    </span>{' '}
+                    et le{' '}
+                    <span className="font-bold">
+                      {displayDate(new Date(intervalleDatesMeSDélaiCDC2022.max))}
+                    </span>{' '}
+                    peut remettre en cause l'application de ce délai et entraîner une modification
+                    de la date d'achèvement du projet.
+                  </li>
+                  <li>
+                    Si le projet{' '}
+                    <span className="font-bold">
+                      n'a pas bénéficié du délai supplémentaire relatif du cahier des charges du
+                      30/08/2022
+                    </span>
+                    , la saisie d'une date de mise en service doit être comprise entre la date de
+                    désignation du projet (
+                    <span className="font-bold">
+                      {displayDate(new Date(projet.dateDésignation))}
+                    </span>
+                    ) et <span className="font-bold">ce jour</span>.
+                  </li>
+                </ul>
+              </div>
+            }
           />
-
-          <div className="flex flex-col md:flex-row gap-4 md:mt-4">
-            <SubmitButton>Transmettre</SubmitButton>
-            <Link href={Routes.Raccordement.détail(identifiantProjet)} className="m-auto">
-              Retour vers le dossier de raccordement
-            </Link>
-          </div>
-        </Form>
-      }
-      information={{
-        description: (
-          <>
-            <ul className="flex flex-col gap-3">
-              <li>
-                Si le projet{' '}
-                <span className="font-bold">
-                  a bénéficié du délai supplémentaire relatif du cahier des charges du 30/08/2022
-                </span>
-                , la saisie d'une date de mise en service non comprise entre le{' '}
-                <span className="font-bold">
-                  {displayDate(new Date(intervalleDatesMeSDélaiCDC2022.min))}
-                </span>{' '}
-                et le{' '}
-                <span className="font-bold">
-                  {displayDate(new Date(intervalleDatesMeSDélaiCDC2022.max))}
-                </span>{' '}
-                peut remettre en cause l'application de ce délai et entraîner une modification de la
-                date d'achèvement du projet.
-              </li>
-              <li>
-                Si le projet{' '}
-                <span className="font-bold">
-                  n'a pas bénéficié du délai supplémentaire relatif du cahier des charges du
-                  30/08/2022
-                </span>
-                , la saisie d'une date de mise en service doit être comprise entre la date de
-                désignation du projet (
-                <span className="font-bold">{displayDate(new Date(projet.dateDésignation))}</span>)
-                et <span className="font-bold">ce jour</span>.
-              </li>
-            </ul>
-          </>
         ),
       }}
     />
