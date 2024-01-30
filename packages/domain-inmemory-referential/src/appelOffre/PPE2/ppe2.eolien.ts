@@ -218,6 +218,17 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       cahiersDesChargesModifiésDisponibles: [],
     },
+    {
+      id: '6',
+      title: 'sixième',
+      certificateTemplate: 'ppe2.v2',
+      noteThreshold: 16.85,
+      cahierDesCharges: {
+        référence: '2023/S 215-677967',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      cahiersDesChargesModifiésDisponibles: [],
+    },
   ],
   familles: [],
 };
