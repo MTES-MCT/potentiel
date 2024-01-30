@@ -3,22 +3,21 @@ import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-libraries/routes';
 
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import {
-  FormForProjetPageTemplate,
-  FormForProjetPageTemplateProps,
-} from '@/components/templates/FormForProjetPageTemplate';
 import { Form } from '@/components/atoms/form/Form';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPageTemplate';
+import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
 import { transmettrePropositionTechniqueEtFinancièreAction } from './transmettrePropositionTechniqueEtFinancière.action';
 
 type TransmettrePropositionTechniqueEtFinancièreProps = {
-  projet: FormForProjetPageTemplateProps['projet'];
+  projet: ProjetBannerProps;
   référenceDossierRaccordement: string;
 };
 
@@ -32,11 +31,11 @@ export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
   const { identifiantProjet } = projet;
 
   return (
-    <FormForProjetPageTemplate
+    <ColumnPageTemplate
+      banner={<ProjetBanner {...projet} />}
       heading={<TitrePageRaccordement />}
-      projet={projet}
-      form={
-        <>
+      leftColumn={{
+        children: (
           <Form
             method="POST"
             encType="multipart/form-data"
@@ -83,20 +82,25 @@ export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
               </Link>
             </div>
           </Form>
-        </>
-      }
-      information={{
-        title: 'Concernant le dépôt',
-        description: (
-          <>
-            La proposition technique et financière transmise sur Potentiel facilitera vos démarches
-            administratives avec le cocontractant connecté à Potentiel, notamment pour des retards
-            de délai de raccordement.
-            <br /> Le dépôt dans Potentiel est informatif, il ne remplace pas la transmission à
-            votre gestionnaire de réseau.
-          </>
         ),
       }}
-    ></FormForProjetPageTemplate>
+      rightColumn={{
+        children: (
+          <Alert
+            severity="info"
+            small
+            description={
+              <div className="py-4 text-justify">
+                La proposition technique et financière transmise sur Potentiel facilitera vos
+                démarches administratives avec le cocontractant connecté à Potentiel, notamment pour
+                des retards de délai de raccordement.
+                <br /> Le dépôt dans Potentiel est informatif, il ne remplace pas la transmission à
+                votre gestionnaire de réseau.
+              </div>
+            }
+          />
+        ),
+      }}
+    />
   );
 };

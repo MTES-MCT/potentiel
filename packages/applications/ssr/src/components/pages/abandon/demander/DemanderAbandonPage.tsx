@@ -11,8 +11,9 @@ import { Routes } from '@potentiel-libraries/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { FormForProjetPageTemplate } from '@/components/templates/FormForProjetPageTemplate';
-import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPageTemplate';
+import { Heading1 } from '@/components/atoms/headings';
 
 import { demanderAbandonAction } from './demanderAbandon.action';
 
@@ -30,11 +31,11 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
   const [recandidature, setRecandidature] = useState(false);
 
   return (
-    <FormForProjetPageTemplate
-      projet={projet}
-      heading={<span>Demander l'abandon du projet</span>}
-      form={
-        <>
+    <ColumnPageTemplate
+      banner={<ProjetBanner {...projet} />}
+      heading={<Heading1>Demander l'abandon du projet</Heading1>}
+      leftColumn={{
+        children: (
           <Form
             action={demanderAbandonAction}
             method="post"
@@ -125,17 +126,23 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
 
             <SubmitButton>Envoyer</SubmitButton>
           </Form>
-        </>
-      }
-      information={{
-        description: (
-          <div>
-            Une fois votre demande d'abandon envoyée, la DGEC pourra vous demander une confirmation
-            avant de vous apporter une réponse définitive.
-            <br />
-            Toute réponse vous sera mise à disposition dans Potentiel et donnera lieu à une
-            notification par courriel.
-          </div>
+        ),
+      }}
+      rightColumn={{
+        children: (
+          <Alert
+            severity="info"
+            small
+            description={
+              <div className="py-4 text-justify">
+                Une fois votre demande d'abandon envoyée, la DGEC pourra vous demander une
+                confirmation avant de vous apporter une réponse définitive.
+                <br />
+                Toute réponse vous sera mise à disposition dans Potentiel et donnera lieu à une
+                notification par courriel.
+              </div>
+            }
+          />
         ),
       }}
     />
