@@ -1,6 +1,7 @@
 import type { StorybookConfig } from '@storybook/nextjs';
 
 import path, { join, dirname } from 'path';
+import webpack from 'webpack';
 
 /**
  * This function is used to resolve the absolute path of a package.
@@ -39,6 +40,14 @@ const config: StorybookConfig = {
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
       });
+    }
+
+    if (config.plugins) {
+      config.plugins.push(
+        new webpack.NormalModuleReplacementPlugin(/^node:/, (resource) => {
+          resource.request = resource.request.replace(/^node:/, '');
+        }),
+      );
     }
 
     return config;
