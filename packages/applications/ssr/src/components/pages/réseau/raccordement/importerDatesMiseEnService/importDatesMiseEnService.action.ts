@@ -50,25 +50,33 @@ const action: FormAction<FormState, typeof schema> = async (
           },
         });
 
-        const candidature = await mediator.send<ConsulterCandidatureQuery>({
-          type: 'CONSULTER_CANDIDATURE_QUERY',
-          data: {
-            identifiantProjet: result.identifiantProjet.formatter(),
-          },
-        });
+        return Promise.all(
+          result.map(async ({ identifiantProjet, référenceDossierRaccordement }) => {
+            const candidature = await mediator.send<ConsulterCandidatureQuery>({
+              type: 'CONSULTER_CANDIDATURE_QUERY',
+              data: {
+                identifiantProjet: identifiantProjet.formatter(),
+              },
+            });
 
-        return mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
-          type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
-          data: {
-            identifiantProjetValue: result.identifiantProjet.formatter(),
-            dateDésignationValue: candidature.dateDésignation,
-            référenceDossierValue: referenceDossier,
-            dateMiseEnServiceValue: dateMiseEnService,
-          },
-        });
+            return mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
+              type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
+              data: {
+                identifiantProjetValue: identifiantProjet.formatter(),
+                dateDésignationValue: candidature.dateDésignation,
+                référenceDossierValue: référenceDossierRaccordement.formatter(),
+                dateMiseEnServiceValue: dateMiseEnService,
+              },
+            });
+          }),
+        );
       }),
     );
-    return previousState;
+    return {
+      success: true,
+      validationErrors: [],
+      csvValidationErrors: [],
+    };
   } catch (error) {
     if (error instanceof zod.ZodError) {
       const csvValidationErrors = error.errors.map(({ path: [ligne, key], message }) => {
