@@ -31,39 +31,41 @@ const action: FormAction<FormState, typeof schema> = async (
   const parsed = parseCsv(fichierDatesMiseEnService.stream());
   const data = csvSchema.parse(parsed);
 
-  data.map(async ({ referenceDossier, dateMiseEnService }) => {
-    try {
-      // Problème : certaines références n'ont pas été entrées correctement par les porteurs.
-      // Il faut donc :
-      //   - soit rechercher avec un like ici
-      //   - soit donner accès à une liste aux admins
-      //     pour qu'ils puissent y faire une recherche par référence et corriger celle-ci pour
-      //     refaire l'import
-      const result = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
-        type: 'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
-        data: {
-          référenceDossierRaccordement: referenceDossier,
-        },
-      });
+  await Promise.all(
+    data.map(async ({ referenceDossier, dateMiseEnService }) => {
+      try {
+        // Problème : certaines références n'ont pas été entrées correctement par les porteurs.
+        // Il faut donc :
+        //   - soit rechercher avec un like ici
+        //   - soit donner accès à une liste aux admins
+        //     pour qu'ils puissent y faire une recherche par référence et corriger celle-ci pour
+        //     refaire l'import
+        const result = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
+          type: 'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
+          data: {
+            référenceDossierRaccordement: referenceDossier,
+          },
+        });
 
-      const candidature = await mediator.send<ConsulterCandidatureQuery>({
-        type: 'CONSULTER_CANDIDATURE_QUERY',
-        data: {
-          identifiantProjet: result.identifiantProjet.formatter(),
-        },
-      });
+        const candidature = await mediator.send<ConsulterCandidatureQuery>({
+          type: 'CONSULTER_CANDIDATURE_QUERY',
+          data: {
+            identifiantProjet: result.identifiantProjet.formatter(),
+          },
+        });
 
-      return mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
-        type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
-        data: {
-          identifiantProjetValue: result.identifiantProjet.formatter(),
-          dateDésignationValue: candidature.dateDésignation,
-          référenceDossierValue: referenceDossier,
-          dateMiseEnServiceValue: dateMiseEnService,
-        },
-      });
-    } catch (error) {}
-  });
+        return mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
+          type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
+          data: {
+            identifiantProjetValue: result.identifiantProjet.formatter(),
+            dateDésignationValue: candidature.dateDésignation,
+            référenceDossierValue: referenceDossier,
+            dateMiseEnServiceValue: dateMiseEnService,
+          },
+        });
+      } catch (error) {}
+    }),
+  );
 
   return previousState;
 };

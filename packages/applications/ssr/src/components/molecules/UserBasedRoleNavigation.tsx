@@ -65,7 +65,7 @@ const getNavigationItemsBasedOnRole = (
             {
               text: 'Dates de mise en service',
               linkProps: {
-                href: '/admin/importer-dates-mise-en-service.html',
+                href: Routes.Raccordement.importer(),
               },
             },
           ],
