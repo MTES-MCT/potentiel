@@ -3,24 +3,27 @@ import * as zod from 'zod';
 // import { getLogger } from '@potentiel/monitoring';
 import { DomainError } from '@potentiel-domain/core';
 
-export class CsvValidationError extends Error {
-  constructor(
-    public errors: Array<{
-      ligne: string;
-      champ: string;
-      message: string;
-    }>,
-  ) {
-    super('Erreur lors de la validation du fichier CSV');
-  }
-}
+import { CsvError, CsvValidationError } from './parseCsv';
 
-export type FormState = {
-  success?: true;
-  error?: string;
-  validationErrors: string[];
-  csvValidationErrors: Array<{ ligne: string; champ: string; message: string }>;
-};
+export type FormState =
+  | {
+      status: 'success' | undefined;
+    }
+  | {
+      status: 'form-error';
+      errors: string[];
+    }
+  | {
+      status: 'domain-error';
+      message: string;
+    }
+  | {
+      status: 'csv-error';
+      errors: Array<CsvError>;
+    }
+  | {
+      status: 'unknown-error';
+    };
 
 export type FormAction<TState, TSchema extends zod.AnyZodObject = zod.AnyZodObject> = (
   previousState: TState,
@@ -40,41 +43,32 @@ export const formAction =
 
       await action(previousState, data);
       return {
-        success: true as const,
-        validationErrors: [],
-        csvValidationErrors: [],
+        status: 'success' as const,
       };
     } catch (e) {
       if (e instanceof zod.ZodError) {
         return {
-          ...previousState,
-          error: `Erreur lors de la validation des données du formulaire`,
-          validationErrors: e.issues.map((issue) => (issue.path.pop() || '').toString()),
-          csvValidationErrors: [],
+          status: 'form-error' as const,
+          errors: e.issues.map((issue) => (issue.path.pop() || '').toString()),
         };
       }
 
       if (e instanceof DomainError) {
         return {
-          ...previousState,
-          error: e.message,
-          validationErrors: [],
-          csvValidationErrors: [],
+          status: 'domain-error' as const,
+          message: e.message,
         };
       }
 
       if (e instanceof CsvValidationError) {
         return {
-          ...previousState,
-          validationErrors: [],
-          csvValidationErrors: e.errors,
+          status: 'csv-error' as const,
+          errors: e.errors,
         };
       }
 
       return {
-        error: 'Une erreur est survenue',
-        validationErrors: [],
-        csvValidationErrors: [],
+        status: 'unknown-error' as const,
       };
     }
   };
