@@ -97,6 +97,6 @@ const mapToReadModel = ({
     puissance,
     période,
     statut,
-    technologie: Technologie.convertirEnValueType(technologie).formatter(),
+    technologie: Technologie.convertirEnValueType(technologie ?? 'N/A').formatter(),
   };
 };

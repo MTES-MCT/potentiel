@@ -22,5 +22,5 @@ export type CandidatureProjection = {
   puissance: number;
   cahierDesCharges: string;
   adressePostaleCandidat: string;
-  technologie: string;
+  technologie?: string;
 };
