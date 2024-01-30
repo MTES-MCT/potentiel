@@ -9,16 +9,15 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { InputFile } from '@/components/atoms/form/InputFile';
 import { formatDateForInput } from '@/utils/formatDateForInput';
-import { FormForProjetPageTemplateProps } from '@/components/templates/FormForProjetPageTemplate';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPageTemplate';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
 import { modifierPropositionTechniqueEtFinancièreAction } from './modifierPropositionTechniqueEtFinancière.action';
 
 type ModifierPropositionTechniqueEtFinancièrePageProps = {
-  projet: FormForProjetPageTemplateProps['projet'];
+  projet: ProjetBannerProps;
   raccordement: {
     référence: string;
     propositionTechniqueEtFinancière: {
