@@ -37,9 +37,8 @@ const action: FormAction<FormState, typeof schema> = async (
         // Problème : certaines références n'ont pas été entrées correctement par les porteurs.
         // Il faut donc :
         //   - soit rechercher avec un like ici
-        //   - soit donner accès à une liste aux admins
-        //     pour qu'ils puissent y faire une recherche par référence et corriger celle-ci pour
-        //     refaire l'import
+        //   - soit donner accès à une liste aux admins pour qu'ils puissent y faire une recherche
+        //     par référence et corriger celle-ci pour refaire l'import
         const result = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
           type: 'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
           data: {
