@@ -2,7 +2,6 @@
 
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { useState } from 'react';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -12,13 +11,6 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPageTemplate';
 import { importerDatesMiseEnServiceAction } from './importDatesMiseEnService.action';
 
 export const ImporterDatesMiseEnServicePage = () => {
-  const [csvValidationErrors, setCsvValidationErrors] = useState<
-    Array<{
-      ligne: string;
-      champ: string;
-      message: string;
-    }>
-  >([]);
   return (
     <ColumnPageTemplate
       banner={<Heading1 className="text-white">Importer des dates de mise en service</Heading1>}
@@ -28,7 +20,6 @@ export const ImporterDatesMiseEnServicePage = () => {
             method="post"
             encType="multipart/form-data"
             action={importerDatesMiseEnServiceAction}
-            onCsvValidationError={(validationErrors) => setCsvValidationErrors(validationErrors)}
           >
             <Upload
               label="Fichier des dates de mise en service"
@@ -86,23 +77,6 @@ export const ImporterDatesMiseEnServicePage = () => {
           />
         ),
       }}
-    >
-      {csvValidationErrors.length > 0 && (
-        <Alert
-          severity="error"
-          title={`Le fichier présente plusieurs erreurs de validation`}
-          className="my-6"
-          description={
-            <ul className="list-disc pl-3 mt-2">
-              {csvValidationErrors.map((error) => (
-                <li key={`${error.ligne}-${error.champ}`}>
-                  Ligne {error.ligne} (champ {error.champ}) : {error.message}
-                </li>
-              ))}
-            </ul>
-          }
-        />
-      )}
-    </ColumnPageTemplate>
+    />
   );
 };
