@@ -1,8 +1,5 @@
-import { ImporterDatesMiseEnServicePage } from '@/components/pages/réseau/raccordement/importer/importerDatesMiseEnService/ImporterDatesMiseEnServicePage';
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { ImporterDatesMiseEnServicePage } from '@/components/pages/réseau/raccordement/importerDatesMiseEnService/ImporterDatesMiseEnServicePage';
 
 export default async function Page() {
-  return PageWithErrorHandling(async () => {
-    return <ImporterDatesMiseEnServicePage />;
-  });
+  return <ImporterDatesMiseEnServicePage />;
 }

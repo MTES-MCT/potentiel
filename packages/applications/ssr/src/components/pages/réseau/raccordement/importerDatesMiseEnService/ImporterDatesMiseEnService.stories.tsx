@@ -4,7 +4,7 @@ import { ImporterDatesMiseEnServicePage } from './ImporterDatesMiseEnServicePage
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Pages/Réseau/Raccordement/Importer/ImporterDatesMiseEnServicePage',
+  title: 'Pages/Réseau/Raccordement/ImporterDatesMiseEnServicePage',
   component: ImporterDatesMiseEnServicePage,
   parameters: {},
   tags: ['autodocs'],
