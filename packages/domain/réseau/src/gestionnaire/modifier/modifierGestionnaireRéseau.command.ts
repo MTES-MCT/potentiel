@@ -34,5 +34,5 @@ export const registerModifierGestionnaireRéseauCommand = (loadAggregate: LoadAg
     });
   };
 
-  mediator.register('MODIFIER_GESTIONNAIRE_RÉSEAU', handler);
+  mediator.register('MODIFIER_GESTIONNAIRE_RÉSEAU_COMMAND', handler);
 };
