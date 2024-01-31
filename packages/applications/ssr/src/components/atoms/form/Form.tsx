@@ -1,6 +1,6 @@
 'use client';
 
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Alert, { AlertProps } from '@codegouvfr/react-dsfr/Alert';
 import { FC, FormHTMLAttributes } from 'react';
 import { useFormState } from 'react-dom';
 
@@ -55,27 +55,22 @@ export const Form: FC<FormProps> = ({
   );
 };
 
-const FormError: FC<{ formState: FormState }> = ({ formState }) => {
+type FormErrorProps = {
+  formState: FormState;
+};
+
+const FormError: FC<FormErrorProps> = ({ formState }) => {
   switch (formState.status) {
     case 'domain-error':
-      return <Alert small severity="error" description={formState.message} className="mb-4" />;
+      return <AlertError description={formState.message} />;
 
     case 'form-error':
-      return (
-        <Alert
-          small
-          severity="error"
-          description="Erreur lors de la validation des données du formulaire"
-          className="mb-4"
-        />
-      );
+      return <AlertError description="Erreur lors de la validation des données du formulaire" />;
 
     case 'csv-error':
       return (
-        <Alert
-          severity="error"
-          title={`Le fichier présente plusieurs erreurs de validation`}
-          className="my-6"
+        <AlertError
+          title={`Le fichier contient les erreurs suivantes :`}
           description={
             <ul className="list-disc pl-3 mt-2">
               {formState.errors.map((error) => (
@@ -89,11 +84,15 @@ const FormError: FC<{ formState: FormState }> = ({ formState }) => {
       );
 
     case 'unknown-error':
-      return (
-        <Alert small severity="error" description="Une erreur est survenue" className="mb-4" />
-      );
+      return <AlertError description="Une erreur est survenue" />;
 
     default:
       return null;
   }
 };
+
+type AlertErrorProps = Omit<AlertProps.Small, 'small'>;
+
+const AlertError: FC<AlertErrorProps> = ({ title, description }) => (
+  <Alert small severity="error" title={title} description={description} className="mb-4" />
+);
