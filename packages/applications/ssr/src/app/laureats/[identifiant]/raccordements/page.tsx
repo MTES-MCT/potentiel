@@ -44,60 +44,71 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           },
         });
 
-      const gestionnaireRéseau =
-        await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
-          type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
-          data: {
-            identifiantGestionnaireRéseau:
-              listeDossiersRaccordement.identifiantGestionnaireRéseau.formatter(),
-          },
-        });
+      let gestionnaireRéseau = undefined;
 
-      const props = mapToProps(
-        utilisateur.role,
+      if (
+        !listeDossiersRaccordement.identifiantGestionnaireRéseau.estÉgaleÀ(
+          GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
+        )
+      ) {
+        gestionnaireRéseau =
+          await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
+            type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
+            data: {
+              identifiantGestionnaireRéseau:
+                listeDossiersRaccordement.identifiantGestionnaireRéseau.formatter(),
+            },
+          });
+      }
+
+      const props = mapToProps({
+        rôleUtilisateur: utilisateur.role,
         candidature,
         gestionnaireRéseau,
         listeDossiersRaccordement,
-      );
+      });
 
       return <DétailsRaccordementPage {...props} />;
     }),
   );
 }
 
-type MapToProps = (
-  rôleUtilisateur: Role.ValueType,
-  candidature: ConsulterCandidatureReadModel,
-  gestionnaireRéseau: GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel,
-  listeDossiersRaccordement: Raccordement.ConsulterRaccordementReadModel,
-) => DétailsRaccordementPageProps;
+type MapToProps = (args: {
+  rôleUtilisateur: Role.ValueType;
+  candidature: ConsulterCandidatureReadModel;
+  gestionnaireRéseau?: GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel;
+  listeDossiersRaccordement: Raccordement.ConsulterRaccordementReadModel;
+}) => DétailsRaccordementPageProps;
 
-const mapToProps: MapToProps = (
+const mapToProps: MapToProps = ({
   rôleUtilisateur,
   candidature,
   gestionnaireRéseau,
   listeDossiersRaccordement,
-) => {
+}) => {
   const identifiantProjet = listeDossiersRaccordement.identifiantProjet.formatter();
-  const { aideSaisieRéférenceDossierRaccordement } = gestionnaireRéseau;
 
   return {
     projet: {
       ...candidature,
       identifiantProjet,
     },
-    gestionnaireRéseau: {
-      ...gestionnaireRéseau,
-      identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
-      aideSaisieRéférenceDossierRaccordement: {
-        ...aideSaisieRéférenceDossierRaccordement,
-        expressionReguliere: aideSaisieRéférenceDossierRaccordement.expressionReguliere.expression,
+    ...(gestionnaireRéseau && {
+      gestionnaireRéseau: {
+        ...gestionnaireRéseau,
+        identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
+        aideSaisieRéférenceDossierRaccordement: {
+          ...gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement,
+          expressionReguliere:
+            gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere
+              .expression,
+        },
+        canEdit:
+          rôleUtilisateur.estÉgaleÀ(Role.admin) ||
+          rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
+          rôleUtilisateur.estÉgaleÀ(Role.porteur),
       },
-      canEdit:
-        rôleUtilisateur.estÉgaleÀ(Role.admin) ||
-        rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
-        rôleUtilisateur.estÉgaleÀ(Role.porteur),
-    },
+    }),
     dossiers: listeDossiersRaccordement.dossiers.map((dossier) => {
       return {
         identifiantProjet,
