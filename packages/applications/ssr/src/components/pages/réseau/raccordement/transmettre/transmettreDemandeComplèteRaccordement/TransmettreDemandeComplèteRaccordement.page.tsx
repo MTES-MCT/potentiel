@@ -77,7 +77,7 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
             onSuccess={() => router.push(Routes.Raccordement.détail(projet.identifiantProjet))}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
-            <input type="hidden" value={identifiantProjet} />
+            <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
             <GestionnaireRéseauSelect
               id="identifiantGestionnaireReseau"

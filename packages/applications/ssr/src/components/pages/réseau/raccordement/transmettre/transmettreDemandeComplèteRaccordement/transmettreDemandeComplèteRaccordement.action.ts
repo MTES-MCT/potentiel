@@ -31,7 +31,7 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
     data: {
       identifiantProjetValue: identifiantProjet,
-      dateQualificationValue: dateQualification,
+      dateQualificationValue: new Date(dateQualification).toISOString(),
       identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
       référenceDossierValue: referenceDossier,
       accuséRéceptionValue: {
