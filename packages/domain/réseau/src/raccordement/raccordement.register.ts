@@ -27,8 +27,13 @@ import {
   RechercherDossierRaccordementDependencies,
   registerRechercherDossierRaccordementQuery,
 } from './rechercher/rechercherDossierRaccordement.query';
+import {
+  ConsulterGestionnaireRéseauRaccordementDependencies,
+  registerConsulterGestionnaireRéseauRaccordementQuery,
+} from './consulter/consulterGestionnaireRéseauRaccordement.query';
 
 export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
+  ConsulterGestionnaireRéseauRaccordementDependencies &
   ListerDossierRaccordementDependencies &
   RechercherDossierRaccordementDependencies;
 
@@ -38,6 +43,7 @@ export type RaccordementCommandDependencies = {
 
 export const registerRaccordementQueries = (dependencies: RaccordementQueryDependencies) => {
   registerConsulterDossierRaccordementQuery(dependencies);
+  registerConsulterGestionnaireRéseauRaccordementQuery(dependencies);
   registerListerDossierRaccordementQuery(dependencies);
   registerRechercherDossierRaccordementQuery(dependencies);
 };
