@@ -4,6 +4,7 @@ import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Download from '@codegouvfr/react-dsfr/Download';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-libraries/routes';
 
@@ -26,7 +27,7 @@ import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/P
 import { TitrePageRaccordement } from '../TitrePageRaccordement';
 export type DétailsRaccordementPageProps = {
   projet: ProjetBannerProps;
-  gestionnaireRéseau: {
+  gestionnaireRéseau?: {
     identifiantGestionnaireRéseau: string;
     raisonSociale: string;
     aideSaisieRéférenceDossierRaccordement: {
@@ -46,25 +47,57 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
 }) => {
   const { identifiantProjet } = projet;
 
+  if (dossiers.length === 0) {
+    return (
+      <PageTemplate banner={<ProjetBanner {...projet} />}>
+        <Heading1>
+          <TitrePageRaccordement />
+        </Heading1>
+
+        <div className="flex flex-col gap-8">
+          <p>
+            Aucun dossier de raccordement trouvé pour ce projet, vous pouvez transmettre une{' '}
+            <Link
+              href={Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet)}
+              className="font-semibold"
+            >
+              nouvelle demande complète de raccordement
+            </Link>
+          </p>
+          <Button
+            priority="secondary"
+            linkProps={{ href: Routes.Projet.details(projet.identifiantProjet) }}
+            className="mt-4"
+          >
+            <ArrowLeftIcon aria-hidden className="inline w-5 h-5 mr-2" />
+            Retour vers le projet
+          </Button>
+        </div>
+      </PageTemplate>
+    );
+  }
+
   return (
     <PageTemplate banner={<ProjetBanner {...projet} />}>
       <Heading1>
         <TitrePageRaccordement />
       </Heading1>
       <div className="my-2 md:my-4">
-        <p className="mt-2 mb-4 p-0">
-          Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}
-          {gestionnaireRéseau.canEdit && (
-            <a
-              className="ml-1"
-              href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
-              aria-label={`Modifier le gestionnaire (actuel : ${gestionnaireRéseau.raisonSociale})`}
-            >
-              (<EditIcon className="inline mr-1" />
-              Modifier)
-            </a>
-          )}
-        </p>
+        {gestionnaireRéseau && (
+          <p className="mt-2 mb-4 p-0">
+            Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}
+            {gestionnaireRéseau.canEdit && (
+              <a
+                className="ml-1"
+                href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
+                aria-label={`Modifier le gestionnaire (actuel : ${gestionnaireRéseau.raisonSociale})`}
+              >
+                (<EditIcon className="inline mr-1" />
+                Modifier)
+              </a>
+            )}
+          </p>
+        )}
         {dossiers.length === 1 ? (
           <Dossier {...dossiers[0]} />
         ) : (
@@ -82,11 +115,12 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
         description={
           <div className="p-3">
             Si le raccordement comporte plusieurs points d'injection, vous pouvez{' '}
-            <a
-              href={Routes.Raccordement.transmettreDemandeComplèteDeRaccordement(identifiantProjet)}
+            <Link
+              href={Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet)}
+              className="font-semibold"
             >
               transmettre une autre demande complète de raccordement
-            </a>
+            </Link>
             .
           </div>
         }
@@ -193,14 +227,14 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
         {dateQualification ? (
           dateQualification
         ) : canEdit ? (
-          <a
-            href={Routes.Raccordement.modifierDemandeComplèteDeRaccordement(
+          <Link
+            href={Routes.Raccordement.modifierDemandeComplèteRaccordement(
               identifiantProjet,
               référence,
             )}
           >
             Date de l'accusé de réception à renseigner
-          </a>
+          </Link>
         ) : (
           <p className="font-bold">Date de l'accusé de réception manquante</p>
         )}
@@ -219,8 +253,8 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
       )}
 
       {canEdit && (
-        <a
-          href={Routes.Raccordement.modifierDemandeComplèteDeRaccordement(
+        <Link
+          href={Routes.Raccordement.modifierDemandeComplèteRaccordement(
             identifiantProjet,
             référence,
           )}
@@ -229,7 +263,7 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
         >
           <EditIcon aria-hidden className="inline mr-1" />
           Modifier
-        </a>
+        </Link>
       )}
     </div>
   </Etape>
@@ -298,8 +332,8 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
         )}
       </div>
     ) : (
-      <a
-        className="mt-4 text-center"
+      <Link
+        className="mt-4 w-fit mx-auto"
         href={Routes.Raccordement.transmettrePropositionTechniqueEtFinancière(
           identifiantProjet,
           référence,
@@ -307,7 +341,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
         aria-label={`Transmettre la proposition technique et financière pour le dossier ${référence}`}
       >
         Transmettre
-      </a>
+      </Link>
     )}
   </Etape>
 );
@@ -349,13 +383,13 @@ export const ÉtapeMiseEnService: FC<ÉtapeMiseEnServiceProps> = ({
         )}
       </div>
     ) : canEdit ? (
-      <a
-        className="mt-4 text-center"
+      <Link
+        className="mt-4 w-fit mx-auto"
         href={Routes.Raccordement.transmettreDateMiseEnService(identifiantProjet, référence)}
         aria-label={`Transmettre la date de mise en service pour le dossier ${référence}`}
       >
         Transmettre
-      </a>
+      </Link>
     ) : (
       <p>La date de mise en service sera renseignée par la DGEC.</p>
     )}
