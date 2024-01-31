@@ -158,6 +158,7 @@ const référencielPermissions = {
     raccordement: {
       query: {
         consulter: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+        consulterGestionnaireRéseau: 'CONSULTER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_QUERY',
         lister: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
         rechercher: 'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
       },
@@ -230,6 +231,7 @@ const permissionAdmin = [
   référencielPermissions.réseau.gestionnaire.command.modifier,
 
   référencielPermissions.réseau.raccordement.query.consulter,
+  référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
   référencielPermissions.réseau.raccordement.query.lister,
   référencielPermissions.réseau.raccordement.query.rechercher,
   référencielPermissions.réseau.raccordement.usecase.modifierDemandeComplète,
