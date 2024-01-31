@@ -3,6 +3,10 @@ import {
   ConsulterDossierRaccordementReadModel,
 } from './consulter/consulterDossierRaccordement.query';
 import {
+  ConsulterGestionnaireRéseauRaccordementQuery,
+  ConsulterGestionnaireRéseauRaccordementReadModel,
+} from './consulter/consulterGestionnaireRéseauRaccordement.query';
+import {
   ListerDossierRaccordementQuery,
   ListerDossierRaccordementReadModel,
 } from './lister/listerDossierRaccordement.query';
@@ -22,10 +26,12 @@ import { TransmettrePropositionTechniqueEtFinancièreUseCase } from './transmett
 export type RaccordementQuery =
   | ListerDossierRaccordementQuery
   | ConsulterDossierRaccordementQuery
+  | ConsulterGestionnaireRéseauRaccordementQuery
   | RechercherDossierRaccordementQuery;
 
 export {
   ConsulterDossierRaccordementQuery,
+  ConsulterGestionnaireRéseauRaccordementQuery,
   RechercherDossierRaccordementQuery,
   ListerDossierRaccordementQuery,
 };
@@ -33,6 +39,7 @@ export {
 // ReadModel
 export {
   ConsulterDossierRaccordementReadModel,
+  ConsulterGestionnaireRéseauRaccordementReadModel,
   RechercherDossierRaccordementReadModel,
   ListerDossierRaccordementReadModel,
 };
