@@ -1,3 +1,5 @@
+'use client';
+
 import React, { FC, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Input from '@codegouvfr/react-dsfr/Input';
@@ -24,9 +26,9 @@ import {
 
 import { transmettreDemandeComplèteRaccordementAction } from './transmettreDemandeComplèteRaccordement.action';
 
-type TransmettreDemandeComplèteRaccordementProps = {
+export type TransmettreDemandeComplèteRaccordementProps = {
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
-  identifiantGestionnaireRéseauActuel: string;
+  identifiantGestionnaireRéseauActuel?: string;
   projet: ProjetBannerProps;
   delaiDemandeDeRaccordementEnMois: InformationDemandeComplèteRaccordementProps['delaiDemandeDeRaccordementEnMois'];
 };
@@ -44,10 +46,12 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   const { identifiantProjet } = projet;
-  const gestionnaireActuel = listeGestionnairesRéseau.find(
-    (gestionnaire) =>
-      gestionnaire.identifiantGestionnaireRéseau === identifiantGestionnaireRéseauActuel,
-  );
+  const gestionnaireActuel = identifiantGestionnaireRéseauActuel
+    ? listeGestionnairesRéseau.find(
+        (gestionnaire) =>
+          gestionnaire.identifiantGestionnaireRéseau === identifiantGestionnaireRéseauActuel,
+      )
+    : undefined;
 
   const [format, setFormat] = useState(
     gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement.format ?? '',

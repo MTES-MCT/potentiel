@@ -1,14 +1,18 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-libraries/projection';
 import { RaccordementEntity } from '../raccordement.entity';
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseauProjection, IdentifiantGestionnaireRéseau } from '../../gestionnaire';
-import { RaccordementInconnuError } from '../raccordementInconnu.error';
 
 export type ConsulterGestionnaireRéseauRaccordementReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   raisonSociale: string;
+  aideSaisieRéférenceDossierRaccordement?: {
+    format: string;
+    légende: string;
+    expressionReguliere: ExpressionRegulière.ValueType;
+  };
 };
 
 export type ConsulterGestionnaireRéseauRaccordementQuery = Message<
@@ -36,7 +40,10 @@ export const registerConsulterGestionnaireRéseauRaccordementQuery = ({
     );
 
     if (isNone(raccordementResult)) {
-      throw new RaccordementInconnuError(identifiantProjet);
+      return {
+        identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
+        raisonSociale: IdentifiantGestionnaireRéseau.inconnu.formatter(),
+      };
     }
 
     const gestionnaireRéseauResult = await find<GestionnaireRéseauProjection>(
@@ -59,9 +66,15 @@ export const registerConsulterGestionnaireRéseauRaccordementQuery = ({
 const mapToResult = ({
   raisonSociale,
   codeEIC,
+  aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
 }: GestionnaireRéseauProjection): ConsulterGestionnaireRéseauRaccordementReadModel => {
   return {
     raisonSociale,
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
+    aideSaisieRéférenceDossierRaccordement: {
+      format,
+      légende,
+      expressionReguliere: ExpressionRegulière.convertirEnValueType(expressionReguliere || ''),
+    },
   };
 };

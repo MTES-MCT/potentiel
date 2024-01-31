@@ -335,6 +335,17 @@ const permissionPorteurProjet = [
 
   référencielPermissions.utilisateur.query.consulter,
   référencielPermissions.document.command.enregister,
+
+  référencielPermissions.réseau.gestionnaire.query.consulter,
+  référencielPermissions.réseau.gestionnaire.query.lister,
+
+  référencielPermissions.réseau.raccordement.query.consulter,
+  référencielPermissions.réseau.raccordement.query.consulterDossier,
+  référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
+  référencielPermissions.réseau.raccordement.query.rechercher,
+
+  référencielPermissions.réseau.raccordement.usecase.transmettreDemandeComplète,
+  référencielPermissions.réseau.raccordement.command.transmettreDemandeComplète,
 ];
 
 const permissions: Record<RawType, string[]> = {
