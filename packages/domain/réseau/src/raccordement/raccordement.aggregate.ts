@@ -13,7 +13,7 @@ import { IdentifiantGestionnaireRéseau } from '../gestionnaire';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';
-import { AucunRaccordementError } from './raccordementInconnu.error';
+import { RaccordementInconnuError } from './raccordementInconnu.error';
 import {
   DateMiseEnServiceTransmiseEvent,
   transmettreDateMiseEnService,
@@ -189,7 +189,7 @@ export const loadRaccordementAggregateFactory =
       getDefaultAggregate: getDefaultRaccordementAggregate,
       onNone: throwOnNone
         ? () => {
-            throw new AucunRaccordementError(identifiantProjet);
+            throw new RaccordementInconnuError(identifiantProjet);
           }
         : undefined,
     });

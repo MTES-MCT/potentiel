@@ -4,8 +4,7 @@ import { Find } from '@potentiel-libraries/projection';
 import { RaccordementEntity } from '../raccordement.entity';
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseauProjection, IdentifiantGestionnaireRéseau } from '../../gestionnaire';
-import { AucunRaccordementError } from '../raccordementInconnu.error';
-import { GestionnaireRéseauInconnuError } from '../../gestionnaire/gestionnaireRéseauInconnu.error';
+import { RaccordementInconnuError } from '../raccordementInconnu.error';
 
 export type ConsulterGestionnaireRéseauRaccordementReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -37,7 +36,7 @@ export const registerConsulterGestionnaireRéseauRaccordementQuery = ({
     );
 
     if (isNone(raccordementResult)) {
-      throw new AucunRaccordementError(identifiantProjet);
+      throw new RaccordementInconnuError(identifiantProjet);
     }
 
     const gestionnaireRéseauResult = await find<GestionnaireRéseauProjection>(
@@ -45,7 +44,10 @@ export const registerConsulterGestionnaireRéseauRaccordementQuery = ({
     );
 
     if (isNone(gestionnaireRéseauResult)) {
-      throw new GestionnaireRéseauInconnuError();
+      return {
+        identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
+        raisonSociale: IdentifiantGestionnaireRéseau.inconnu.formatter(),
+      };
     }
 
     return mapToResult(gestionnaireRéseauResult);
