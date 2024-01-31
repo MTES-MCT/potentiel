@@ -21,6 +21,11 @@ export const ImporterDatesMiseEnServicePage = () => {
             encType="multipart/form-data"
             action={importerDatesMiseEnServiceAction}
             heading="Importer des dates de mise en service"
+            pendingModal={{
+              id: 'form-import-date-mise-en-service',
+              title: 'Import en cours',
+              children: 'Import des dates de mise en service en cours ...',
+            }}
           >
             <Upload
               label="Fichier des dates de mise en service"

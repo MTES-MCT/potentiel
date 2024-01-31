@@ -8,12 +8,14 @@ import { formAction } from '@/utils/formAction';
 import { Heading2 } from '../headings';
 
 import { FormError } from './FormError';
+import { FormPendingModal, FormPendingModalProps } from './FormPendingModal';
 
 export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action'> & {
   action: ReturnType<typeof formAction>;
   children: React.ReactNode;
   heading?: React.ReactNode;
   omitMandatoryFieldsLegend?: true;
+  pendingModal?: FormPendingModalProps;
   onSuccess?: () => void;
   onValidationError?: (validationErrors: Array<string>) => void;
 };
@@ -25,6 +27,7 @@ export const Form: FC<FormProps> = ({
   onValidationError,
   children,
   heading,
+  pendingModal,
   className,
   ...props
 }) => {
@@ -41,9 +44,10 @@ export const Form: FC<FormProps> = ({
 
   return (
     <form action={formAction} {...props}>
-      {heading && <Heading2>{heading}</Heading2>}
+      {heading && <Heading2 className="mb-4">{heading}</Heading2>}
 
       <FormError formState={state} />
+      {pendingModal && <FormPendingModal {...pendingModal} />}
 
       {!omitMandatoryFieldsLegend && (
         <div className="text-sm italic my-4">
