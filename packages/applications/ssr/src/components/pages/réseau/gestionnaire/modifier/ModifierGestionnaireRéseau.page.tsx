@@ -7,7 +7,7 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import { Routes } from '@potentiel-libraries/routes';
 
 import { Heading1 } from '@/components/atoms/headings';
-import { PageTemplate } from '@/components/templates/PageTemplate';
+import { PageTemplate } from '@/components/templates/Page.template';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 

@@ -9,7 +9,7 @@ import { List } from '../organisms/List';
 import { ListFilters, ListFiltersProps } from '../organisms/ListFilters';
 import { ListHeader, ListHeaderProps } from '../organisms/ListHeader';
 
-import { PageTemplate } from './PageTemplate';
+import { PageTemplate } from './Page.template';
 
 export type ListPageTemplateProps<TItem> = {
   heading: string;

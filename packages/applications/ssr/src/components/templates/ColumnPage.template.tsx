@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { PageTemplate } from './PageTemplate';
+import { PageTemplate } from './Page.template';
 
 type ColumnPageTemplateProps = {
   banner: React.ReactNode;

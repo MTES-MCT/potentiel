@@ -12,7 +12,7 @@ import { Routes } from '@potentiel-libraries/routes';
 import {
   TransmettrePreuveRecandidaturePage,
   TransmettrePreuveRecandidaturePageProps,
-} from '@/components/pages/abandon/transmettrePreuveRecandidature/TransmettrePreuveRecandidaturePage';
+} from '@/components/pages/abandon/transmettrePreuveRecandidature/TransmettrePreuveRecandidature.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';

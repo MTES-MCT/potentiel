@@ -8,7 +8,7 @@ import { Utilisateur } from '@potentiel-domain/utilisateur';
 import {
   DetailAbandonPage,
   DetailAbandonPageProps,
-} from '@/components/pages/abandon/détails/DetailAbandonPage';
+} from '@/components/pages/abandon/détails/DetailAbandon.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';

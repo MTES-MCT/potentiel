@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { TâcheListItem, TâcheListItemProps } from '@/components/molecules/tâche/TâcheListItem';
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPageTemplate';
+import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 
 export type TâcheListPageProps = {
   list: {

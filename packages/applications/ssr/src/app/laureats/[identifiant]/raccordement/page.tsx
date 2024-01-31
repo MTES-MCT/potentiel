@@ -15,7 +15,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
   DétailsRaccordementPage,
   DétailsRaccordementPageProps,
-} from '@/components/pages/réseau/raccordement/détails/DétailsRaccordementPage';
+} from '@/components/pages/réseau/raccordement/détails/DétailsRaccordement.page';
 
 type PageProps = IdentifiantParameter;
 
