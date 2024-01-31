@@ -83,107 +83,218 @@ class AccèsFonctionnalitéRefuséError extends OperationRejectedError {
 }
 
 // MATRICE en mémoire en attendant de pouvoir gérer les permissions depuis une interface d'administration
+const référencielPermissions = {
+  lauréat: {
+    abandon: {
+      query: {
+        consulter: 'CONSULTER_ABANDON_QUERY',
+        lister: 'LISTER_ABANDONS_QUERY',
+        détecter: 'DÉTECTER_ABANDON_QUERY',
+      },
+      usecase: {
+        annuler: 'ANNULER_ABANDON_USECASE',
+        confirmer: 'CONFIRMER_ABANDON_USECASE',
+        demander: 'DEMANDER_ABANDON_USECASE',
+        transmettrePreuveRecandidature: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_USECASE',
+        accorder: 'ACCORDER_ABANDON_USECASE',
+        annulerRejet: 'ANNULER_REJET_ABANDON_USECASE',
+        demanderConfirmation: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
+        rejeter: 'REJETER_ABANDON_USECASE',
+      },
+      command: {
+        annuler: 'ANNULER_ABANDON_COMMAND',
+        confirmer: 'CONFIRMER_ABANDON_COMMAND',
+        demander: 'DEMANDER_ABANDON_COMMAND',
+        transmettrePreuveRecandidature: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_COMMAND',
+        accorder: 'ACCORDER_ABANDON_COMMAND',
+        annulerRejet: 'ANNULER_REJET_ABANDON_COMMAND',
+        demanderConfirmation: 'DEMANDER_CONFIRMATION_ABANDON_COMMAND',
+        rejeter: 'REJETER_ABANDON_COMMAND',
+      },
+    },
+  },
+  appelOffre: {
+    cahierDesCharges: {
+      query: {
+        consulter: 'CONSULTER_CAHIER_DES_CHARGES_QUERY',
+      },
+    },
+    query: {
+      consulter: 'CONSULTER_APPEL_OFFRE_QUERY',
+      lister: 'LISTER_APPEL_OFFRE_QUERY',
+    },
+  },
+  candidature: {
+    query: {
+      consulter: 'CONSULTER_CANDIDATURE_QUERY',
+      listerCandidaturesPreuveRecandidature:
+        'LISTER_CANDIDATURES_ELIGIBLES_PREUVE_RECANDIDATURE_QUERY',
+    },
+  },
+  document: {
+    query: {
+      consulter: 'CONSULTER_DOCUMENT_PROJET',
+      générerModèleRéponse: 'GENERER_MODELE_REPONSE_ABANDON_QUERY',
+    },
+    command: {
+      enregister: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
+    },
+  },
+  réseau: {
+    gestionnaire: {
+      query: {
+        consulter: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
+        lister: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
+      },
+      usecase: {
+        ajouter: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
+        modifier: 'MODIFIER_GESTIONNAIRE_RÉSEAU_USECASE',
+      },
+      command: {
+        ajouter: 'AJOUTER_GESTIONNAIRE_RÉSEAU_COMMAND',
+        modifier: 'MODIFIER_GESTIONNAIRE_RÉSEAU_COMMAND',
+      },
+    },
+  },
+  utilisateur: {
+    query: {
+      consulter: 'CONSULTER_UTILISATEUR_QUERY',
+    },
+  },
+  tâche: {
+    query: {
+      consulterNombre: 'CONSULTER_NOMBRE_TÂCHES_QUERY',
+      lister: 'LISTER_TÂCHES_QUERY',
+    },
+  },
+} as const;
+
+const permissionAdmin = [
+  référencielPermissions.lauréat.abandon.query.consulter,
+  référencielPermissions.lauréat.abandon.query.lister,
+  référencielPermissions.lauréat.abandon.query.détecter,
+  référencielPermissions.lauréat.abandon.usecase.accorder,
+  référencielPermissions.lauréat.abandon.command.accorder,
+  référencielPermissions.lauréat.abandon.usecase.annulerRejet,
+  référencielPermissions.lauréat.abandon.command.annulerRejet,
+  référencielPermissions.lauréat.abandon.usecase.demanderConfirmation,
+  référencielPermissions.lauréat.abandon.command.demanderConfirmation,
+  référencielPermissions.lauréat.abandon.usecase.rejeter,
+  référencielPermissions.lauréat.abandon.command.rejeter,
+
+  référencielPermissions.appelOffre.query.consulter,
+  référencielPermissions.appelOffre.query.lister,
+
+  référencielPermissions.candidature.query.consulter,
+
+  référencielPermissions.document.query.consulter,
+  référencielPermissions.document.query.générerModèleRéponse,
+  référencielPermissions.document.command.enregister,
+
+  référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+
+  référencielPermissions.réseau.gestionnaire.query.consulter,
+  référencielPermissions.réseau.gestionnaire.query.lister,
+  référencielPermissions.réseau.gestionnaire.usecase.ajouter,
+  référencielPermissions.réseau.gestionnaire.command.ajouter,
+  référencielPermissions.réseau.gestionnaire.usecase.modifier,
+  référencielPermissions.réseau.gestionnaire.command.modifier,
+
+  référencielPermissions.utilisateur.query.consulter,
+];
+
+const permissionCRE = [
+  référencielPermissions.lauréat.abandon.query.consulter,
+  référencielPermissions.lauréat.abandon.query.lister,
+  référencielPermissions.lauréat.abandon.query.détecter,
+
+  référencielPermissions.appelOffre.query.lister,
+
+  référencielPermissions.candidature.query.consulter,
+
+  référencielPermissions.document.query.consulter,
+];
+
+const permissionDreal = [
+  référencielPermissions.lauréat.abandon.query.consulter,
+  référencielPermissions.lauréat.abandon.query.lister,
+  référencielPermissions.lauréat.abandon.query.détecter,
+
+  référencielPermissions.appelOffre.query.lister,
+  référencielPermissions.appelOffre.query.consulter,
+  référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+
+  référencielPermissions.candidature.query.consulter,
+
+  référencielPermissions.document.query.consulter,
+  référencielPermissions.document.query.générerModèleRéponse,
+
+  référencielPermissions.utilisateur.query.consulter,
+];
+
+const permissionDgecValidateur = [
+  référencielPermissions.lauréat.abandon.query.consulter,
+  référencielPermissions.lauréat.abandon.query.lister,
+  référencielPermissions.lauréat.abandon.query.détecter,
+  référencielPermissions.lauréat.abandon.usecase.accorder,
+  référencielPermissions.lauréat.abandon.command.accorder,
+  référencielPermissions.lauréat.abandon.usecase.annulerRejet,
+  référencielPermissions.lauréat.abandon.command.annulerRejet,
+  référencielPermissions.lauréat.abandon.usecase.demanderConfirmation,
+  référencielPermissions.lauréat.abandon.command.demanderConfirmation,
+  référencielPermissions.lauréat.abandon.usecase.rejeter,
+  référencielPermissions.lauréat.abandon.command.rejeter,
+
+  référencielPermissions.appelOffre.query.lister,
+  référencielPermissions.appelOffre.query.consulter,
+  référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+
+  référencielPermissions.candidature.query.consulter,
+
+  référencielPermissions.document.query.consulter,
+  référencielPermissions.document.query.générerModèleRéponse,
+  référencielPermissions.document.command.enregister,
+
+  référencielPermissions.utilisateur.query.consulter,
+];
+
+const permissionPorteurProjet = [
+  référencielPermissions.lauréat.abandon.query.consulter,
+  référencielPermissions.lauréat.abandon.query.lister,
+  référencielPermissions.lauréat.abandon.query.détecter,
+
+  référencielPermissions.lauréat.abandon.usecase.annuler,
+  référencielPermissions.lauréat.abandon.command.annuler,
+  référencielPermissions.lauréat.abandon.usecase.confirmer,
+  référencielPermissions.lauréat.abandon.command.confirmer,
+  référencielPermissions.lauréat.abandon.usecase.demander,
+  référencielPermissions.lauréat.abandon.command.demander,
+  référencielPermissions.lauréat.abandon.usecase.transmettrePreuveRecandidature,
+  référencielPermissions.lauréat.abandon.command.transmettrePreuveRecandidature,
+
+  référencielPermissions.appelOffre.query.lister,
+  référencielPermissions.appelOffre.query.consulter,
+  référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+
+  référencielPermissions.candidature.query.consulter,
+  référencielPermissions.candidature.query.listerCandidaturesPreuveRecandidature,
+
+  référencielPermissions.document.query.consulter,
+
+  référencielPermissions.tâche.query.consulterNombre,
+  référencielPermissions.tâche.query.lister,
+
+  référencielPermissions.utilisateur.query.consulter,
+  référencielPermissions.document.command.enregister,
+];
+
 const permissions: Record<RawType, string[]> = {
-  admin: [
-    //QUERY
-    'CONSULTER_ABANDON_QUERY',
-    'LISTER_ABANDONS_QUERY',
-    'CONSULTER_APPEL_OFFRE_QUERY',
-    'LISTER_APPEL_OFFRE_QUERY',
-    'CONSULTER_CANDIDATURE_QUERY',
-    'CONSULTER_DOCUMENT_PROJET',
-    'GENERER_MODELE_REPONSE_ABANDON_QUERY',
-    'CONSULTER_CAHIER_DES_CHARGES_QUERY',
-    'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
-    'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
-    'CONSULTER_UTILISATEUR_QUERY',
-    'DÉTECTER_ABANDON_QUERY',
-    //USECASE
-    'ACCORDER_ABANDON_USECASE',
-    'ACCORDER_ABANDON_COMMAND',
-    'ANNULER_REJET_ABANDON_USECASE',
-    'ANNULER_REJET_ABANDON_COMMAND',
-    'DEMANDER_CONFIRMATION_ABANDON_USECASE',
-    'DEMANDER_CONFIRMATION_ABANDON_COMMAND',
-    'REJETER_ABANDON_USECASE',
-    'REJETER_ABANDON_COMMAND',
-    'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
-    'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
-    'AJOUTER_GESTIONNAIRE_RÉSEAU_COMMAND',
-    'MODIFIER_GESTIONNAIRE_RÉSEAU_USECASE',
-    'MODIFIER_GESTIONNAIRE_RÉSEAU_COMMAND',
-  ],
+  admin: permissionAdmin,
   'acheteur-obligé': [],
   ademe: [],
   'caisse-des-dépôts': [],
-  cre: [
-    //QUERY
-    'CONSULTER_ABANDON_QUERY',
-    'LISTER_ABANDONS_QUERY',
-    'LISTER_APPEL_OFFRE_QUERY',
-    'CONSULTER_CANDIDATURE_QUERY',
-    'CONSULTER_DOCUMENT_PROJET',
-    'DÉTECTER_ABANDON_QUERY',
-  ],
-  dreal: [
-    //QUERY
-    'CONSULTER_ABANDON_QUERY',
-    'LISTER_ABANDONS_QUERY',
-    'CONSULTER_APPEL_OFFRE_QUERY',
-    'LISTER_APPEL_OFFRE_QUERY',
-    'CONSULTER_CANDIDATURE_QUERY',
-    'CONSULTER_DOCUMENT_PROJET',
-    'GENERER_MODELE_REPONSE_ABANDON_QUERY',
-    'CONSULTER_CAHIER_DES_CHARGES_QUERY',
-    'CONSULTER_UTILISATEUR_QUERY',
-    'DÉTECTER_ABANDON_QUERY',
-  ],
-  'dgec-validateur': [
-    //QUERY
-    'CONSULTER_ABANDON_QUERY',
-    'LISTER_ABANDONS_QUERY',
-    'CONSULTER_APPEL_OFFRE_QUERY',
-    'LISTER_APPEL_OFFRE_QUERY',
-    'CONSULTER_CANDIDATURE_QUERY',
-    'CONSULTER_DOCUMENT_PROJET',
-    'GENERER_MODELE_REPONSE_ABANDON_QUERY',
-    'CONSULTER_CAHIER_DES_CHARGES_QUERY',
-    'CONSULTER_UTILISATEUR_QUERY',
-    'DÉTECTER_ABANDON_QUERY',
-    //USECASE
-    'ACCORDER_ABANDON_USECASE',
-    'ACCORDER_ABANDON_COMMAND',
-    'ANNULER_REJET_ABANDON_USECASE',
-    'ANNULER_REJET_ABANDON_COMMAND',
-    'DEMANDER_CONFIRMATION_ABANDON_USECASE',
-    'DEMANDER_CONFIRMATION_ABANDON_COMMAND',
-    'REJETER_ABANDON_USECASE',
-    'REJETER_ABANDON_COMMAND',
-    'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
-  ],
-  'porteur-projet': [
-    //QUERY
-    'CONSULTER_ABANDON_QUERY',
-    'LISTER_ABANDONS_QUERY',
-    'CONSULTER_APPEL_OFFRE_QUERY',
-    'LISTER_APPEL_OFFRE_QUERY',
-    'CONSULTER_CANDIDATURE_QUERY',
-    'CONSULTER_DOCUMENT_PROJET',
-    'CONSULTER_CAHIER_DES_CHARGES_QUERY',
-    'CONSULTER_NOMBRE_TÂCHES_QUERY',
-    'LISTER_TÂCHES_QUERY',
-    'CONSULTER_UTILISATEUR_QUERY',
-    'LISTER_CANDIDATURES_ELIGIBLES_PREUVE_RECANDIDATURE_QUERY',
-    'DÉTECTER_ABANDON_QUERY',
-    //USECASE
-    'ANNULER_ABANDON_USECASE',
-    'ANNULER_ABANDON_COMMAND',
-    'CONFIRMER_ABANDON_USECASE',
-    'CONFIRMER_ABANDON_COMMAND',
-    'DEMANDER_ABANDON_USECASE',
-    'DEMANDER_ABANDON_COMMAND',
-    'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
-    'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_USECASE',
-    'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_COMMAND',
-  ],
+  cre: permissionCRE,
+  dreal: permissionDreal,
+  'dgec-validateur': permissionDgecValidateur,
+  'porteur-projet': permissionPorteurProjet,
 };
