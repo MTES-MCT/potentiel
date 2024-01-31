@@ -34,7 +34,7 @@ export const eolienPPE2: AppelOffre = {
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
   shortTitle: 'PPE2 - Eolien',
-  dossierSuiviPar: 'tiphany.genin@developpement-durable.gouv.fr',
+  dossierSuiviPar: 'aoeolien@developpement-durable.gouv.fr',
   launchDate: 'Août 2021',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-mecanique-du-vent-imp',

@@ -24,7 +24,7 @@ export const eolien: AppelOffre = {
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
   shortTitle: 'Eolien',
-  dossierSuiviPar: 'Sandra Stojkovic (sandra.stojkovic@developpement-durable.gouv.fr)',
+  dossierSuiviPar: 'aoeolien@developpement-durable.gouv.fr',
   launchDate: 'mai 2017',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-mecanique-du-vent-im',
