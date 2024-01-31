@@ -9,7 +9,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { InputFile } from '@/components/atoms/form/InputFile';
 import { formatDateForInput } from '@/utils/formatDateForInput';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPageTemplate';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';

@@ -3,7 +3,7 @@
 import { signOut } from 'next-auth/react';
 import { useEffect } from 'react';
 
-import { PageTemplate } from '@/components/templates/PageTemplate';
+import { PageTemplate } from '@/components/templates/Page.template';
 
 export default function SignIn() {
   useEffect(() => {

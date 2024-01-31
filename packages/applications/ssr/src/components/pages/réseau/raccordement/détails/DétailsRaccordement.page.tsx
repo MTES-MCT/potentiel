@@ -19,7 +19,7 @@ import {
   TagIcon,
   WarningIcon,
 } from '@/components/atoms/icons';
-import { PageTemplate } from '@/components/templates/PageTemplate';
+import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 

@@ -7,7 +7,7 @@ import {
   OperationRejectedError,
 } from '@potentiel-domain/core';
 
-import { CustomErrorPage } from '@/components/pages/custom-error/CustomErrorPage';
+import { CustomErrorPage } from '@/components/pages/custom-error/CustomError.page';
 
 import { withErrorHandling } from './withErrorHandling';
 

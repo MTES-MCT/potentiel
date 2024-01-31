@@ -2,7 +2,7 @@
 
 import { FC } from 'react';
 
-import { PageTemplate } from '@/components/templates/PageTemplate';
+import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';
 

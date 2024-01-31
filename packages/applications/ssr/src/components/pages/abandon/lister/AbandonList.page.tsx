@@ -7,7 +7,7 @@ import {
   AbandonListItem,
   AbandonListItemProps,
 } from '@/components/pages/abandon/lister/AbandonListItem';
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPageTemplate';
+import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 
 export type AbandonListPageProps = {
   list: {

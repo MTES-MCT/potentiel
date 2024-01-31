@@ -11,7 +11,7 @@ import { Routes } from '@potentiel-libraries/routes';
 import {
   DemanderAbandonPage,
   DemanderAbandonPageProps,
-} from '@/components/pages/abandon/demander/DemanderAbandonPage';
+} from '@/components/pages/abandon/demander/DemanderAbandon.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';

@@ -9,7 +9,7 @@ import { Routes } from '@potentiel-libraries/routes';
 
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { Form } from '@/components/atoms/form/Form';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPageTemplate';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
