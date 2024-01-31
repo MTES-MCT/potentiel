@@ -21,7 +21,7 @@ Fonctionnalité: Transmettre une proposition technique et financière
             | La date de signature                                | 2023-01-10                                                                                                        |
             | Le format de la proposition technique et financière | application/pdf                                                                                                   |
             | Le contenu de proposition technique et financière   | Proposition technique et financière pour la référence OUE-RP-2022-000033 avec une date de signature au 2023-01-10 |
-        Alors le porteur devrait être informé que "Aucun raccordement pour le projet lauréat"
+        Alors le porteur devrait être informé que "Raccordement inconnu"
 
     Scénario: Impossible de transmettre une proposition technique et financière pour un dossier de raccordement non référencé
         Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
