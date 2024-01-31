@@ -21,7 +21,7 @@ export const registerModifierGestionnaireRéseauRaccordementUseCase = () => {
       identifiantGestionnaireRéseauValue,
     );
     await mediator.send<ModifierGestionnaireRéseauRaccordementCommand>({
-      type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT',
+      type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_COMMAND',
       data: {
         identifiantProjet,
         identifiantGestionnaireRéseau,
