@@ -6,12 +6,12 @@ export const détail = (identifiantProjet: string) =>
 export const importer = () => `/reseaux/raccordements/importer`;
 
 export const modifierGestionnaireDeRéseau = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/raccordements/modifier-gestionnaire-de-reseau`;
+  `/laureats/${encodeParameter(identifiantProjet)}/raccordements/gestionnaire:modifier`;
 
 export const transmettreDemandeComplèteDeRaccordement = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(
     identifiantProjet,
-  )}/raccordements/transmettre-demande-complete-de-raccordement`;
+  )}/raccordements/demande-complete-de-raccordement:transmettre`;
 
 export const modifierDemandeComplèteDeRaccordement = (
   identifiantProjet: string,
@@ -19,7 +19,7 @@ export const modifierDemandeComplèteDeRaccordement = (
 ) =>
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
     référenceDossierRaccordement,
-  )}/modifier-demande-complete-de-raccordement`;
+  )}/demande-complete-de-raccordement:modifier`;
 
 export const transmettrePropositionTechniqueEtFinancière = (
   identifiantProjet: string,
@@ -27,7 +27,7 @@ export const transmettrePropositionTechniqueEtFinancière = (
 ) =>
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
     référenceDossierRaccordement,
-  )}/transmettre-technique-et-financiere`;
+  )}/proposition-technique-et-financiere:transmettre`;
 
 export const modifierPropositionTechniqueEtFinancière = (
   identifiantProjet: string,
@@ -35,7 +35,7 @@ export const modifierPropositionTechniqueEtFinancière = (
 ) =>
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
     référenceDossierRaccordement,
-  )}/modifier-technique-et-financiere`;
+  )}/proposition-technique-et-financiere:modifier`;
 
 export const transmettreDateMiseEnService = (
   identifiantProjet: string,
@@ -43,4 +43,12 @@ export const transmettreDateMiseEnService = (
 ) =>
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
     référenceDossierRaccordement,
-  )}/transmettre-date-mise-en-service`;
+  )}/date-mise-en-service:transmettre`;
+
+export const modifierDateMiseEnService = (
+  identifiantProjet: string,
+  référenceDossierRaccordement: string,
+) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
+    référenceDossierRaccordement,
+  )}/date-mise-en-service:modifier`;
