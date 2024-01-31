@@ -37,8 +37,8 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       });
 
       const listeDossiersRaccordement =
-        await mediator.send<Raccordement.ListerDossierRaccordementQuery>({
-          type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
+        await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+          type: 'CONSULTER_RACCORDEMENT_QUERY',
           data: {
             identifiantProjetValue: identifiantProjet,
           },
@@ -69,7 +69,7 @@ type MapToProps = (
   rôleUtilisateur: Role.ValueType,
   candidature: ConsulterCandidatureReadModel,
   gestionnaireRéseau: GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel,
-  listeDossiersRaccordement: Raccordement.ListerDossierRaccordementReadModel,
+  listeDossiersRaccordement: Raccordement.ConsulterRaccordementReadModel,
 ) => DétailsRaccordementPageProps;
 
 const mapToProps: MapToProps = (

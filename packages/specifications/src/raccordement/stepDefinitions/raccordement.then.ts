@@ -1,7 +1,7 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../potentiel.world';
 import { mediator } from 'mediateur';
-import { Raccordement , GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
 import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
@@ -14,8 +14,8 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     await waitForExpect(async () => {
-      const actual = await mediator.send<Raccordement.ListerDossierRaccordementQuery>({
-        type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
+      const actual = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+        type: 'CONSULTER_RACCORDEMENT_QUERY',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -80,8 +80,8 @@ Alors(
       this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale);
 
     // Assert on read model
-    const résultat = await mediator.send<Raccordement.ListerDossierRaccordementQuery>({
-      type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
+    const résultat = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+      type: 'CONSULTER_RACCORDEMENT_QUERY',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
       },
@@ -106,8 +106,8 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const actual = await mediator.send<Raccordement.ListerDossierRaccordementQuery>({
-        type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
+      const actual = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+        type: 'CONSULTER_RACCORDEMENT_QUERY',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },

@@ -1,9 +1,9 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { NotFoundError } from '@potentiel-domain/core';
 
-export class AucunRaccordementError extends NotFoundError {
+export class RaccordementInconnuError extends NotFoundError {
   constructor(identifiantProjet: IdentifiantProjet.ValueType) {
-    super(`Aucun raccordement pour le projet lauréat`, {
+    super(`Raccordement inconnu`, {
       identifiantProjet: identifiantProjet.formatter(),
     });
   }

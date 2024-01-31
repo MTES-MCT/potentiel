@@ -5,11 +5,11 @@ import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType
 import { Find } from '@potentiel-libraries/projection';
 import { RaccordementEntity } from '../raccordement.entity';
 import { isNone } from '@potentiel/monads';
-import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
+import { GestionnaireRéseau } from '../..';
 
-export type ListerDossierRaccordementReadModel = {
+export type ConsulterRaccordementReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   dossiers: Array<{
@@ -29,22 +29,20 @@ export type ListerDossierRaccordementReadModel = {
   }>;
 };
 
-export type ListerDossierRaccordementQuery = Message<
-  'LISTER_DOSSIER_RACCORDEMENT_QUERY',
+export type ConsulterRaccordementQuery = Message<
+  'CONSULTER_RACCORDEMENT_QUERY',
   {
     identifiantProjetValue: string;
   },
-  ListerDossierRaccordementReadModel
+  ConsulterRaccordementReadModel
 >;
 
-export type ListerDossierRaccordementDependencies = {
+export type ConsulterRaccordementDependencies = {
   find: Find;
 };
 
-export const registerListerDossierRaccordementQuery = ({
-  find,
-}: ListerDossierRaccordementDependencies) => {
-  const handler: MessageHandler<ListerDossierRaccordementQuery> = async ({
+export const registerConsulterRaccordementQuery = ({ find }: ConsulterRaccordementDependencies) => {
+  const handler: MessageHandler<ConsulterRaccordementQuery> = async ({
     identifiantProjetValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
@@ -52,16 +50,20 @@ export const registerListerDossierRaccordementQuery = ({
     const result = await find<RaccordementEntity>(`raccordement|${identifiantProjet.formatter()}`);
 
     if (isNone(result)) {
-      throw new DossierRaccordementNonRéférencéError();
+      return {
+        identifiantProjet,
+        identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
+        dossiers: [],
+      };
     }
 
     return mapToReadModel(result);
   };
 
-  mediator.register('LISTER_DOSSIER_RACCORDEMENT_QUERY', handler);
+  mediator.register('CONSULTER_RACCORDEMENT_QUERY', handler);
 };
 
-const mapToReadModel = (entity: RaccordementEntity): ListerDossierRaccordementReadModel => {
+const mapToReadModel = (entity: RaccordementEntity): ConsulterRaccordementReadModel => {
   return {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
       entity.identifiantGestionnaireRéseau,
