@@ -181,7 +181,9 @@ const AlerteBoxRaccordement: FC<{
         Cocontractant, etc.).
       </p>
     )}
-    <Link href="">Mettre à jour les données de raccordement de mon projet</Link>
+    <Link href={Routes.Raccordement.détail(identifiantProjet)}>
+      Mettre à jour les données de raccordement de mon projet
+    </Link>
   </AlertBox>
 );
 
