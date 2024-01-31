@@ -155,6 +155,35 @@ const référencielPermissions = {
         modifier: 'MODIFIER_GESTIONNAIRE_RÉSEAU_COMMAND',
       },
     },
+    raccordement: {
+      query: {
+        consulter: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+        lister: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
+        rechercher: 'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
+      },
+      usecase: {
+        modifierDemandeComplète: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+        modifierGestionnaireRéseau: 'MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_USE_CASE',
+        modifierPropostionTechniqueEtFinancière:
+          'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+        modifierRéférenceDossier: 'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_USE_CASE',
+        transmettreDateMiseEnService: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
+        transmettreDemandeComplète: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+        transmettrePropositionTechniqueEtFinancière:
+          'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+      },
+      command: {
+        modifierDemandeComplète: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
+        modifierGestionnaireRéseau: 'MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_COMMAND',
+        modifierPropostionTechniqueEtFinancière:
+          'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
+        modifierRéférenceDossier: 'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_COMMAND',
+        transmettreDateMiseEnService: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND',
+        transmettreDemandeComplète: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
+        transmettrePropositionTechniqueEtFinancière:
+          'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
+      },
+    },
   },
   utilisateur: {
     query: {
@@ -199,6 +228,24 @@ const permissionAdmin = [
   référencielPermissions.réseau.gestionnaire.command.ajouter,
   référencielPermissions.réseau.gestionnaire.usecase.modifier,
   référencielPermissions.réseau.gestionnaire.command.modifier,
+
+  référencielPermissions.réseau.raccordement.query.consulter,
+  référencielPermissions.réseau.raccordement.query.lister,
+  référencielPermissions.réseau.raccordement.query.rechercher,
+  référencielPermissions.réseau.raccordement.usecase.modifierDemandeComplète,
+  référencielPermissions.réseau.raccordement.command.modifierDemandeComplète,
+  référencielPermissions.réseau.raccordement.usecase.modifierGestionnaireRéseau,
+  référencielPermissions.réseau.raccordement.command.modifierGestionnaireRéseau,
+  référencielPermissions.réseau.raccordement.usecase.modifierPropostionTechniqueEtFinancière,
+  référencielPermissions.réseau.raccordement.command.modifierPropostionTechniqueEtFinancière,
+  référencielPermissions.réseau.raccordement.usecase.modifierRéférenceDossier,
+  référencielPermissions.réseau.raccordement.command.modifierRéférenceDossier,
+  référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
+  référencielPermissions.réseau.raccordement.command.transmettreDateMiseEnService,
+  référencielPermissions.réseau.raccordement.usecase.transmettreDemandeComplète,
+  référencielPermissions.réseau.raccordement.command.transmettreDemandeComplète,
+  référencielPermissions.réseau.raccordement.usecase.transmettrePropositionTechniqueEtFinancière,
+  référencielPermissions.réseau.raccordement.command.transmettrePropositionTechniqueEtFinancière,
 
   référencielPermissions.utilisateur.query.consulter,
 ];

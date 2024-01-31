@@ -6,7 +6,7 @@ import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 import { loadGestionnaireRéseauFactory } from '../../gestionnaire/gestionnaireRéseau.aggregate';
 
 export type ModifierGestionnaireRéseauRaccordementCommand = Message<
-  'MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT',
+  'MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_COMMAND',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
@@ -29,5 +29,5 @@ export const registerModifierGestionnaireRéseauProjetCommand = (loadAggregate: 
     });
   };
 
-  mediator.register('MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT', handler);
+  mediator.register('MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_COMMAND', handler);
 };
