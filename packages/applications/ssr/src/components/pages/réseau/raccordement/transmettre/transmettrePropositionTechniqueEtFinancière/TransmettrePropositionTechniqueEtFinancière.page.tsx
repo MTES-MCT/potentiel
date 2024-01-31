@@ -1,3 +1,5 @@
+'use client';
+
 import React, { FC, useState } from 'react';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Input from '@codegouvfr/react-dsfr/Input';
@@ -16,14 +18,14 @@ import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
 import { transmettrePropositionTechniqueEtFinancièreAction } from './transmettrePropositionTechniqueEtFinancière.action';
 
-type TransmettrePropositionTechniqueEtFinancièreProps = {
+export type TransmettrePropositionTechniqueEtFinancièreProps = {
   projet: ProjetBannerProps;
-  référenceDossierRaccordement: string;
+  referenceDossierRaccordement: string;
 };
 
 export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
   TransmettrePropositionTechniqueEtFinancièreProps
-> = ({ projet, référenceDossierRaccordement }) => {
+> = ({ projet, referenceDossierRaccordement }) => {
   const router = useRouter();
 
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
@@ -45,7 +47,7 @@ export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
             <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
-            <input type="hidden" name="referenceDossier" value={référenceDossierRaccordement} />
+            <input type="hidden" name="referenceDossier" value={referenceDossierRaccordement} />
 
             <Input
               label="Date de signature"
