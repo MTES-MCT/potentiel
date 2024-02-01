@@ -23,6 +23,7 @@ import {
 import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { displayDate } from '@/utils/displayDate';
 
 import { TitrePageRaccordement } from '../TitrePageRaccordement';
 export type DétailsRaccordementPageProps = {
@@ -225,7 +226,7 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
       <div className="flex items-center">
         <CalendarIcon className="inline mr-1" title="date de l'accusé de réception" />
         {dateQualification ? (
-          dateQualification
+          displayDate(new Date(dateQualification))
         ) : canEdit ? (
           <Link
             href={Routes.Raccordement.modifierDemandeComplèteRaccordement(
@@ -300,7 +301,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
             className="mr-1"
             title="date de signature de la proposition technique et financière"
           />
-          {dateSignature}
+          {displayDate(new Date(dateSignature))}
         </div>
 
         {propositionTechniqueEtFinancièreSignée && (
@@ -368,7 +369,7 @@ export const ÉtapeMiseEnService: FC<ÉtapeMiseEnServiceProps> = ({
       <div className="flex items-center text-sm">
         <div>
           <CalendarIcon className="inline mr-1" title="date de mise en service" />
-          {dateMiseEnService}
+          {displayDate(new Date(dateMiseEnService))}
         </div>
 
         {canEdit && (
