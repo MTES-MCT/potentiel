@@ -346,6 +346,9 @@ const permissionPorteurProjet = [
 
   référencielPermissions.réseau.raccordement.usecase.transmettreDemandeComplète,
   référencielPermissions.réseau.raccordement.command.transmettreDemandeComplète,
+
+  référencielPermissions.réseau.raccordement.usecase.transmettrePropositionTechniqueEtFinancière,
+  référencielPermissions.réseau.raccordement.command.transmettrePropositionTechniqueEtFinancière,
 ];
 
 const permissions: Record<RawType, string[]> = {

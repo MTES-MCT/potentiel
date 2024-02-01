@@ -7,7 +7,6 @@ import { Raccordement } from '@potentiel-domain/reseau';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
   TransmettrePropositionTechniqueEtFinancièrePage,
   TransmettrePropositionTechniqueEtFinancièreProps,
@@ -26,35 +25,33 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
-  return PageWithErrorHandling(async () =>
-    withUtilisateur(async () => {
-      const identifiantProjet = decodeParameter(identifiant);
-      const referenceDossierRaccordement = decodeParameter(reference);
+  return PageWithErrorHandling(async () => {
+    const identifiantProjet = decodeParameter(identifiant);
+    const referenceDossierRaccordement = decodeParameter(reference);
 
-      const candidature = await mediator.send<ConsulterCandidatureQuery>({
-        type: 'CONSULTER_CANDIDATURE_QUERY',
-        data: {
-          identifiantProjet,
-        },
-      });
+    const candidature = await mediator.send<ConsulterCandidatureQuery>({
+      type: 'CONSULTER_CANDIDATURE_QUERY',
+      data: {
+        identifiantProjet,
+      },
+    });
 
-      await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-        type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          référenceDossierRaccordementValue: referenceDossierRaccordement,
-        },
-      });
+    await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+      type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        référenceDossierRaccordementValue: referenceDossierRaccordement,
+      },
+    });
 
-      const props: TransmettrePropositionTechniqueEtFinancièreProps = {
-        projet: {
-          ...candidature,
-          identifiantProjet,
-        },
-        referenceDossierRaccordement,
-      };
+    const props: TransmettrePropositionTechniqueEtFinancièreProps = {
+      projet: {
+        ...candidature,
+        identifiantProjet,
+      },
+      referenceDossierRaccordement,
+    };
 
-      return <TransmettrePropositionTechniqueEtFinancièrePage {...props} />;
-    }),
-  );
+    return <TransmettrePropositionTechniqueEtFinancièrePage {...props} />;
+  });
 }
