@@ -1,3 +1,5 @@
+'use client';
+
 import React, { FC, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Alert from '@codegouvfr/react-dsfr/Alert';
@@ -17,7 +19,7 @@ import {
 } from './GestionnaireRéseauSelect';
 import { modifierGestionnaireRéseauRaccordementAction } from './modifierGestionnaireRéseauRaccordement.action';
 
-type ModifierGestionnaireRéseauRaccordementPageProps = {
+export type ModifierGestionnaireRéseauRaccordementPageProps = {
   projet: ProjetBannerProps;
   identifiantGestionnaireRéseauActuel: string;
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
@@ -48,13 +50,15 @@ export const ModifierGestionnaireRéseauRaccordementPage: FC<
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
             heading="Modifier le gestionnaire de réseau du projet"
           >
+            <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
+
             <div className="flex flex-col gap-5">
               <div>
                 <GestionnaireRéseauSelect
-                  id="identifiantGestionnaireRéseau"
-                  name="identifiantGestionnaireRéseau"
+                  id="identifiantGestionnaireReseau"
+                  name="identifiantGestionnaireReseau"
                   state={
-                    validationErrors.includes('identifiantGestionnaireRéseau') ? 'error' : 'default'
+                    validationErrors.includes('identifiantGestionnaireReseau') ? 'error' : 'default'
                   }
                   stateRelatedMessage="Gestionnaire réseau à préciser"
                   gestionnairesRéseau={listeGestionnairesRéseau}

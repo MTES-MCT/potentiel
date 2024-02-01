@@ -11,18 +11,18 @@ export type ModifierGestionnaireRéseauRaccordementState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string(),
-  identifiantGestionnaireRéseau: zod.string(),
+  identifiantGestionnaireReseau: zod.string(),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
-  { identifiantProjet, identifiantGestionnaireRéseau },
+  { identifiantProjet, identifiantGestionnaireReseau },
 ) => {
   await mediator.send<Raccordement.RaccordementUseCase>({
     type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_USE_CASE',
     data: {
       identifiantProjetValue: identifiantProjet,
-      identifiantGestionnaireRéseauValue: identifiantGestionnaireRéseau,
+      identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
     },
   });
 
