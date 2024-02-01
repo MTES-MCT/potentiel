@@ -1,7 +1,10 @@
+'use client';
+
 import React, { FC } from 'react';
-import Link from 'next/link';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { Alert } from '@codegouvfr/react-dsfr/Alert';
+import Button from '@codegouvfr/react-dsfr/Button';
+import { useRouter } from 'next/navigation';
 
 import { Routes } from '@potentiel-libraries/routes';
 
@@ -16,10 +19,10 @@ import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
 import { modifierPropositionTechniqueEtFinancièreAction } from './modifierPropositionTechniqueEtFinancière.action';
 
-type ModifierPropositionTechniqueEtFinancièrePageProps = {
+export type ModifierPropositionTechniqueEtFinancièrePageProps = {
   projet: ProjetBannerProps;
   raccordement: {
-    référence: string;
+    reference: string;
     propositionTechniqueEtFinancière: {
       dateSignature: string;
       propositionTechniqueEtFinancièreSignée: string;
@@ -32,11 +35,12 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
 > = ({
   projet,
   raccordement: {
-    référence,
+    reference,
     propositionTechniqueEtFinancière: { dateSignature, propositionTechniqueEtFinancièreSignée },
   },
 }: ModifierPropositionTechniqueEtFinancièrePageProps) => {
   const { identifiantProjet } = projet;
+  const router = useRouter();
 
   return (
     <ColumnPageTemplate
@@ -48,16 +52,13 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
             method="POST"
             encType="multipart/form-data"
             action={modifierPropositionTechniqueEtFinancièreAction}
+            onSuccess={() => router.push(Routes.Raccordement.détail(projet.identifiantProjet))}
             heading="Modifier la proposition technique et financière"
           >
-            <p className="my-2 p-0">Référence du dossier de raccordement : {référence}</p>
+            <p className="my-2 p-0">Référence du dossier de raccordement : {reference}</p>
 
-            <InputFile
-              id="file"
-              label="Proposition technique et financière signée"
-              name="file"
-              fileUrl={Routes.Document.télécharger(propositionTechniqueEtFinancièreSignée)}
-            />
+            <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
+            <input type="hidden" name="referenceDossierRaccordement" value={reference} />
 
             <Input
               id="dateSignature"
@@ -71,11 +72,21 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
               }}
             />
 
+            <InputFile
+              id="file"
+              label="Proposition technique et financière signée"
+              name="propositionTechniqueEtFinanciereSignee"
+              fileUrl={Routes.Document.télécharger(propositionTechniqueEtFinancièreSignée)}
+            />
+
             <div className="flex flex-col md:flex-row gap-4 m-auto">
+              <Button
+                priority="secondary"
+                linkProps={{ href: Routes.Raccordement.détail(identifiantProjet) }}
+              >
+                Retour aux dossiers de raccordement
+              </Button>
               <SubmitButton>Modifier</SubmitButton>
-              <Link href={Routes.Raccordement.détail(identifiantProjet)} className="m-auto">
-                Retour vers le dossier de raccordement
-              </Link>
             </div>
           </Form>
         ),

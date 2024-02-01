@@ -11,17 +11,17 @@ export type ModifierPropositionTechniqueEtFinancièreState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string(),
-  référenceDossierRaccordement: zod.string(),
+  referenceDossierRaccordement: zod.string(),
   dateSignature: zod.string(),
-  propositionTechniqueEtFinancièreSignée: zod.instanceof(Blob),
+  propositionTechniqueEtFinanciereSignee: zod.instanceof(Blob),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
   {
     identifiantProjet,
-    référenceDossierRaccordement,
-    propositionTechniqueEtFinancièreSignée,
+    referenceDossierRaccordement,
+    propositionTechniqueEtFinanciereSignee,
     dateSignature,
   },
 ) => {
@@ -29,11 +29,11 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
     data: {
       identifiantProjetValue: identifiantProjet,
-      référenceDossierRaccordementValue: référenceDossierRaccordement,
-      dateSignatureValue: dateSignature,
+      référenceDossierRaccordementValue: referenceDossierRaccordement,
+      dateSignatureValue: new Date(dateSignature).toISOString(),
       propositionTechniqueEtFinancièreSignéeValue: {
-        content: propositionTechniqueEtFinancièreSignée.stream(),
-        format: propositionTechniqueEtFinancièreSignée.type,
+        content: propositionTechniqueEtFinanciereSignee.stream(),
+        format: propositionTechniqueEtFinanciereSignee.type,
       },
     },
   });

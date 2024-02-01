@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ModifierPropositionTechniqueEtFinancièrePage } from './ModifierPropositionTechniqueEtFinancière.page';
+import {
+  ModifierPropositionTechniqueEtFinancièrePage,
+  ModifierPropositionTechniqueEtFinancièrePageProps,
+} from './ModifierPropositionTechniqueEtFinancière.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -9,7 +12,7 @@ const meta = {
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<typeof ModifierPropositionTechniqueEtFinancièrePage>;
+} satisfies Meta<ModifierPropositionTechniqueEtFinancièrePageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -32,7 +35,7 @@ export const Default: Story = {
       statut: 'classé',
     },
     raccordement: {
-      référence: 'référence#1',
+      reference: 'référence#1',
       propositionTechniqueEtFinancière: {
         propositionTechniqueEtFinancièreSignée:
           'référence#1/propositionTechniqueEtFinancièreSignée',
