@@ -1,8 +1,8 @@
 import React from 'react';
-import Link from 'next/link';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { useRouter } from 'next/navigation';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-libraries/routes';
 
@@ -64,10 +64,15 @@ export const TransmettreDateMiseEnServicePage = ({
             />
 
             <div className="flex flex-col md:flex-row gap-4 md:mt-4">
+              <Button
+                priority="secondary"
+                linkProps={{
+                  href: Routes.Raccordement.détail(identifiantProjet),
+                }}
+              >
+                Retour aux dossiers de raccordement
+              </Button>
               <SubmitButton>Transmettre</SubmitButton>
-              <Link href={Routes.Raccordement.détail(identifiantProjet)} className="m-auto">
-                Retour vers le dossier de raccordement
-              </Link>
             </div>
           </Form>
         ),
