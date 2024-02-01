@@ -44,7 +44,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
         data: { identifiantProjet },
       });
 
-      const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
+      const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
         type: 'CONSULTER_APPEL_OFFRE_QUERY',
         data: { identifiantAppelOffre: candidature.appelOffre },
       });
@@ -66,7 +66,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 
       const props = mapToProps({
         candidature,
-        appelOffres,
+        appelOffre,
         gestionnaireRéseau,
         identifiantProjet,
         dossierRaccordement,
@@ -80,7 +80,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 
 type MapToProps = (args: {
   candidature: ConsulterCandidatureReadModel;
-  appelOffres: ConsulterAppelOffreReadModel;
+  appelOffre: ConsulterAppelOffreReadModel;
   gestionnaireRéseau: Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel;
   dossierRaccordement: Raccordement.ConsulterDossierRaccordementReadModel;
   identifiantProjet: string;
@@ -89,7 +89,7 @@ type MapToProps = (args: {
 
 const mapToProps: MapToProps = ({
   candidature,
-  appelOffres,
+  appelOffre,
   gestionnaireRéseau,
   dossierRaccordement,
   identifiantProjet,
@@ -112,7 +112,7 @@ const mapToProps: MapToProps = ({
         utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
         (utilisateur.role.estÉgaleÀ(Role.porteur) && !dossierRaccordement.miseEnService),
     },
-    delaiDemandeDeRaccordementEnMois: appelOffres.periodes.find(
+    delaiDemandeDeRaccordementEnMois: appelOffre.periodes.find(
       (periode) => (periode.id = candidature.période),
     )!.delaiDcrEnMois,
     gestionnaireRéseauActuel: {
