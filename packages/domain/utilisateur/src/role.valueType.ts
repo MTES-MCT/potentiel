@@ -138,6 +138,7 @@ const référencielPermissions = {
     },
     command: {
       enregister: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
+      déplacer: 'DÉPLACER_DOCUMENT_PROJET_COMMAND',
     },
   },
   réseau: {
@@ -220,6 +221,7 @@ const permissionAdmin = [
   référencielPermissions.document.query.consulter,
   référencielPermissions.document.query.générerModèleRéponse,
   référencielPermissions.document.command.enregister,
+  référencielPermissions.document.command.déplacer,
 
   référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
 
@@ -302,6 +304,7 @@ const permissionDgecValidateur = [
   référencielPermissions.document.query.consulter,
   référencielPermissions.document.query.générerModèleRéponse,
   référencielPermissions.document.command.enregister,
+  référencielPermissions.document.command.déplacer,
 
   référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
 
@@ -362,6 +365,7 @@ const permissionPorteurProjet = [
 
   référencielPermissions.utilisateur.query.consulter,
   référencielPermissions.document.command.enregister,
+  référencielPermissions.document.command.déplacer,
 
   référencielPermissions.réseau.gestionnaire.query.consulter,
   référencielPermissions.réseau.gestionnaire.query.lister,

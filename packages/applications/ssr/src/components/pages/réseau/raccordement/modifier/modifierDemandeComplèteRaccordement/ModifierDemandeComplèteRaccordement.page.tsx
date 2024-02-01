@@ -80,6 +80,7 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
             <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
+            <input name="referenceDossierRaccordementActuelle" type="hidden" value={référence} />
 
             <GestionnaireRéseauSelect
               id="identifiantGestionnaireReseau"
@@ -117,7 +118,7 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
                   ? `Exemple: ${aideSaisieRéférenceDossierRaccordement?.format}`
                   : `Renseigner l'identifiant`,
                 required: true,
-                readOnly: canEditRéférence,
+                readOnly: !canEditRéférence,
                 defaultValue: référence ?? '',
                 pattern: aideSaisieRéférenceDossierRaccordement?.expressionReguliere || undefined,
               }}
