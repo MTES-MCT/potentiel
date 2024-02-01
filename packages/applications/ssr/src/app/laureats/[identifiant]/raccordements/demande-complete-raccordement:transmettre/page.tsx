@@ -87,11 +87,11 @@ const mapToProps: MapToProps = ({
       (periode) => (periode.id = candidature.période),
     )!.delaiDcrEnMois,
     ...(gestionnaireRéseau && {
-      identifiantGestionnaireRéseauActuel: gestionnaireRéseau.identifiantGestionnaireRéseau.codeEIC,
+      identifiantGestionnaireRéseauActuel:
+        gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
     }),
     listeGestionnairesRéseau: gestionnairesRéseau.items.map((gestionnaire) => ({
-      identifiantGestionnaireRéseau: gestionnaire.identifiantGestionnaireRéseau.codeEIC,
-      codeEIC: gestionnaire.identifiantGestionnaireRéseau.codeEIC,
+      identifiantGestionnaireRéseau: gestionnaire.identifiantGestionnaireRéseau.formatter(),
       raisonSociale: gestionnaire.raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
         format: gestionnaire.aideSaisieRéférenceDossierRaccordement.format,
