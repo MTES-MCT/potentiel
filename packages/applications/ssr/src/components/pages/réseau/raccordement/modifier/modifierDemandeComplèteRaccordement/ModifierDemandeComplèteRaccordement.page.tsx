@@ -2,9 +2,9 @@
 
 import React, { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
-import Link from 'next/link';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { useRouter } from 'next/navigation';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-libraries/routes';
 
@@ -145,10 +145,16 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
             />
 
             <div className="flex flex-col md:flex-row gap-4 m-auto">
+              <Button
+                priority="secondary"
+                linkProps={{
+                  href: Routes.Raccordement.détail(identifiantProjet),
+                }}
+                iconId="fr-icon-arrow-left-line"
+              >
+                Retour aux dossiers de raccordement
+              </Button>
               <SubmitButton>Modifier</SubmitButton>
-              <Link href={Routes.Raccordement.détail(identifiantProjet)} className="m-auto">
-                Retour vers le dossier de raccordement
-              </Link>
             </div>
           </Form>
         ),

@@ -143,6 +143,7 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
                 linkProps={{
                   href: Routes.Raccordement.détail(identifiantProjet),
                 }}
+                iconId="fr-icon-arrow-left-line"
               >
                 Retour aux dossiers de raccordement
               </Button>

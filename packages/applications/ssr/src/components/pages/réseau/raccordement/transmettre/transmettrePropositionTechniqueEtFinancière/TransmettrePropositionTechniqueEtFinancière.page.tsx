@@ -80,7 +80,9 @@ export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
             <div className="flex flex-col md:flex-row gap-4 mt-5">
               <Button
                 priority="secondary"
-                linkProps={{ href: Routes.Raccordement.détail(identifiantProjet) }}
+                linkProps={{
+                  href: Routes.Raccordement.détail(identifiantProjet),
+                }}
                 iconId="fr-icon-arrow-left-line"
               >
                 Retour aux dossiers de raccordement

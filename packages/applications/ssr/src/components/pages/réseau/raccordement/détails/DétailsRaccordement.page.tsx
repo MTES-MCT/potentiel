@@ -69,8 +69,8 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
             priority="secondary"
             linkProps={{ href: Routes.Projet.details(projet.identifiantProjet) }}
             className="mt-4"
+            iconId="fr-icon-arrow-left-line"
           >
-            <ArrowLeftIcon aria-hidden className="inline w-5 h-5 mr-2" />
             Retour vers le projet
           </Button>
         </div>
