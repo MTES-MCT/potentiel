@@ -1,3 +1,4 @@
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 import {
   EventStore,
   Repository,
@@ -102,9 +103,12 @@ export const makeCorrigerDélaiAccordé =
                       payload: {
                         corrigéPar: user.id,
                         projectLegacyId,
-                        identifiantProjet: `${appelOffreId}#${periodeId}#${familleId || ''}#${
-                          data!.numeroCRE
-                        }`,
+                        identifiantProjet: formatProjectDataToIdentifiantProjetValueType({
+                          appelOffreId,
+                          periodeId,
+                          familleId,
+                          numeroCRE: data!.numeroCRE,
+                        }).formatter(),
                         dateAchèvementAccordée: dateAchèvementAccordée.toISOString(),
                         demandeDélaiId,
                         fichierRéponseId,

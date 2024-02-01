@@ -1,6 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-export const formatProjectAODataToIdentifiantProjetValueType = ({
+export const formatProjectDataToIdentifiantProjetValueType = ({
   appelOffreId,
   periodeId,
   familleId,
@@ -11,4 +11,6 @@ export const formatProjectAODataToIdentifiantProjetValueType = ({
   familleId?: string;
   numeroCRE: string;
 }) =>
-  IdentifiantProjet.convertirEnValueType(`${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`);
+  IdentifiantProjet.convertirEnValueType(
+    `${appelOffreId}#${periodeId}#${familleId ?? ''}#${numeroCRE}`,
+  );

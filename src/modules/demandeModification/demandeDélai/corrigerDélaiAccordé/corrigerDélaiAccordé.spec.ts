@@ -17,6 +17,7 @@ import { CorrectionDélaiNonAccordéImpossibleError } from './CorrectionDélaiNo
 import { CorrectionDélaiImpossibleCarProjetNonClasséError } from './CorrectionDélaiImpossibleCarProjetNonClasséError';
 import { DateAntérieureDateAchèvementInitialeError } from './DateAntérieureDateAchèvementInitialeError';
 import { NouvelleCorrectionDélaiAccordéImpossible } from './NouvelleCorrectionDélaiAccordéImpossibleError';
+import { formatProjectDataToIdentifiantProjetValueType } from 'src/helpers/dataToValueTypes';
 
 describe(`Use-case corriger un délai accordé`, () => {
   const dateAchèvementActuelle = new Date('2026-01-01');
@@ -25,7 +26,12 @@ describe(`Use-case corriger un délai accordé`, () => {
   const periodeId = '1';
   const familleId = '1';
   const numeroCRE = '12';
-  const identifiantProjet = `${appelOffreId}#${periodeId}#${familleId || ''}#${numeroCRE}`;
+  const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
+    appelOffreId,
+    periodeId,
+    familleId,
+    numeroCRE,
+  }).formatter();
 
   // arguments valides à passer à au use-case
   const demandeDélaiId = new UniqueEntityID('id').toString();

@@ -14,6 +14,7 @@ import { jest, describe, it, beforeEach, expect } from '@jest/globals';
 import { RécupérerDétailDossiersRaccordements } from '../queries';
 import { DateTime } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 
 describe(`Handler onDateMiseEnServiceTransmise`, () => {
   const projetId = new UniqueEntityID();
@@ -23,6 +24,13 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
   const familleId = '';
 
   const findProjectByIdentifiers = jest.fn(() => okAsync(projetId.toString()));
+
+  const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
+    appelOffreId,
+    periodeId,
+    familleId,
+    numeroCRE,
+  }).formatter();
 
   const publishToEventStore = jest.fn((event: DomainEvent) =>
     okAsync<null, InfraNotAvailableError>(null),
@@ -106,7 +114,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
 
@@ -206,7 +214,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
 
@@ -260,7 +268,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: dateHorsIntervalle.toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
 
@@ -301,7 +309,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
 
@@ -357,7 +365,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
 
@@ -428,7 +436,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
 
@@ -494,7 +502,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
 
@@ -585,7 +593,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
 
@@ -651,7 +659,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: dateHorsIntervalle.toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
         await onDateMiseEnServiceTransmise(événementDateMiseEnServiceTransmise);

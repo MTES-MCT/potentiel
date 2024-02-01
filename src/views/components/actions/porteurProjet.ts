@@ -1,6 +1,7 @@
 import { Routes } from '@potentiel-libraries/routes';
 import { ProjectAppelOffre } from '../../../entities/appelOffre';
 import ROUTES from '../../../routes';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 
 const porteurProjetActions = (project: {
   id: string;
@@ -95,7 +96,12 @@ const porteurProjetActions = (project: {
       {
         title: 'Demander un abandon',
         link: Routes.Abandon.demander(
-          `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
+          formatProjectDataToIdentifiantProjetValueType({
+            appelOffreId: project.appelOffreId,
+            periodeId: project.periodeId,
+            familleId: project.familleId,
+            numeroCRE: project.numeroCRE,
+          }).formatter(),
         ),
       },
     ],

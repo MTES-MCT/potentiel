@@ -25,6 +25,7 @@ import {
 } from './sections';
 import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-libraries/routes';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
@@ -50,9 +51,12 @@ export const ProjectDetails = ({
   const { user } = request;
   const { error, success } = (request.query as any) || {};
 
-  const identifiantProjet = `${project.appelOffreId}#${project.periodeId}#${
-    project.familleId || ''
-  }#${project.numeroCRE}`;
+  const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
+    appelOffreId: project.appelOffreId,
+    periodeId: project.periodeId,
+    familleId: project.familleId,
+    numeroCRE: project.numeroCRE,
+  }).formatter();
 
   const abandonEnCours = !!abandon && abandon.statut !== 'rejeté';
   const modificationsNonPermisesParLeCDCActuel =

@@ -11,6 +11,7 @@ import { userIs } from '../../../../modules/users';
 import routes from '../../../../routes';
 import React from 'react';
 import { Routes } from '@potentiel-libraries/routes';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 
 type ProjectActionsProps = {
   project: ProjectDataForProjectPage;
@@ -99,7 +100,12 @@ const PorteurProjetActions = ({
           {!abandonEnCours && (
             <DropdownMenuSecondaryButton.DropdownItem
               href={Routes.Abandon.demander(
-                `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
+                formatProjectDataToIdentifiantProjetValueType({
+                  appelOffreId: project.appelOffreId,
+                  periodeId: project.periodeId,
+                  familleId: project.familleId,
+                  numeroCRE: project.numeroCRE,
+                }).formatter(),
               )}
               {...(modificationsNonPermisesParLeCDCActuel && { disabled: true })}
             >
