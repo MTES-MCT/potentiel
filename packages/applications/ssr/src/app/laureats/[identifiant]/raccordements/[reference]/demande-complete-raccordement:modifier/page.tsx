@@ -110,7 +110,7 @@ const mapToProps: MapToProps = ({
       canEditRéférence:
         utilisateur.role.estÉgaleÀ(Role.admin) ||
         utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
-        (utilisateur.role.estÉgaleÀ(Role.dgecValidateur) && !dossierRaccordement.miseEnService),
+        (utilisateur.role.estÉgaleÀ(Role.porteur) && !dossierRaccordement.miseEnService),
     },
     delaiDemandeDeRaccordementEnMois: appelOffres.periodes.find(
       (periode) => (periode.id = candidature.période),
