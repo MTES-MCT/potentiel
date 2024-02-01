@@ -373,14 +373,14 @@ export const ÉtapeMiseEnService: FC<ÉtapeMiseEnServiceProps> = ({
         </div>
 
         {canEdit && (
-          <a
+          <Link
             href={Routes.Raccordement.transmettreDateMiseEnService(identifiantProjet, référence)}
             className="absolute top-2 right-2"
             aria-label={`Modifier la date de mise en service pour le dossier ${référence}`}
           >
             <EditIcon aria-hidden className="inline mr-1" />
             Modifier
-          </a>
+          </Link>
         )}
       </div>
     ) : canEdit ? (

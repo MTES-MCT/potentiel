@@ -37,8 +37,8 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
   délaiApplicable: {
     délaiEnMois: 18,
     intervaleDateMiseEnService: {
-      min: new Date('2022-09-01'),
-      max: new Date('2024-12-31'),
+      min: new Date('2022-09-01').toISOString(),
+      max: new Date('2024-12-31').toISOString(),
     },
   },
   seuilSupplémentaireChangementPuissance: {
