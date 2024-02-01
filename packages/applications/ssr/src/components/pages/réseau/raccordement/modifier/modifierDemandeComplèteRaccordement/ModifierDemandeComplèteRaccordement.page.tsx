@@ -1,3 +1,5 @@
+'use client';
+
 import React, { FC } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Link from 'next/link';
@@ -33,9 +35,8 @@ export type ModifierDemandeComplèteRaccordementPageProps = {
   };
   gestionnaireRéseauActuel: {
     identifiantGestionnaireRéseau: string;
-    codeEIC: string;
     raisonSociale: string;
-    aideSaisieRéférenceDossierRaccordement: {
+    aideSaisieRéférenceDossierRaccordement?: {
       format: string;
       légende: string;
       expressionReguliere: string;
@@ -57,10 +58,8 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
   delaiDemandeDeRaccordementEnMois,
 }) => {
   const { identifiantProjet } = projet;
-  const {
-    aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
-  } = gestionnaireRéseauActuel;
-
+  const { aideSaisieRéférenceDossierRaccordement, identifiantGestionnaireRéseau } =
+    gestionnaireRéseauActuel;
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner {...projet} />}
@@ -73,13 +72,13 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
             action={modifierDemandeComplèteRaccordementAction}
             heading="Modifier une demande complète de raccordement"
           >
+            <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
+
             <GestionnaireRéseauSelect
               id="identifiantGestionnaireRéseau"
               name="identifiantGestionnaireRéseau"
               disabled
-              identifiantGestionnaireRéseauActuel={
-                gestionnaireRéseauActuel.identifiantGestionnaireRéseau
-              }
+              identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseau}
               gestionnairesRéseau={[gestionnaireRéseauActuel]}
             />
 
@@ -87,19 +86,27 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
               id="referenceDossierRaccordement"
               label="Référence du dossier de raccordement du projet *"
               hintText={
-                <>
-                  {légende && <div className="m-0">Format attendu : {légende}</div>}
-                  {format && <div className="m-0 italic">Exemple : {format}</div>}
-                </>
+                aideSaisieRéférenceDossierRaccordement && (
+                  <>
+                    <div className="m-0">
+                      Format attendu : {aideSaisieRéférenceDossierRaccordement.légende}
+                    </div>
+                    <div className="m-0 italic">
+                      Exemple : {aideSaisieRéférenceDossierRaccordement.format}
+                    </div>
+                  </>
+                )
               }
               nativeInputProps={{
                 type: 'text',
                 name: 'referenceDossierRaccordement',
-                placeholder: format ? `Exemple: ${format}` : `Renseigner l'identifiant`,
+                placeholder: aideSaisieRéférenceDossierRaccordement?.format
+                  ? `Exemple: ${aideSaisieRéférenceDossierRaccordement?.format}`
+                  : `Renseigner l'identifiant`,
                 required: true,
                 readOnly: canEditRéférence,
                 defaultValue: référence ?? '',
-                pattern: expressionReguliere || undefined,
+                pattern: aideSaisieRéférenceDossierRaccordement?.expressionReguliere || undefined,
               }}
             />
 

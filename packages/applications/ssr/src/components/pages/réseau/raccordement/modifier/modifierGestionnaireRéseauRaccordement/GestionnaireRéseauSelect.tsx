@@ -10,9 +10,8 @@ export type GestionnaireRéseauSelectProps = {
   stateRelatedMessage?: string;
   gestionnairesRéseau: ReadonlyArray<{
     identifiantGestionnaireRéseau: string;
-    codeEIC: string;
     raisonSociale: string;
-    aideSaisieRéférenceDossierRaccordement: {
+    aideSaisieRéférenceDossierRaccordement?: {
       format: string;
       légende: string;
       expressionReguliere: string;
@@ -21,9 +20,8 @@ export type GestionnaireRéseauSelectProps = {
   identifiantGestionnaireRéseauActuel?: string;
   onGestionnaireRéseauSelected?: (gestionnaireRéseau: {
     identifiantGestionnaireRéseau: string;
-    codeEIC: string;
     raisonSociale: string;
-    aideSaisieRéférenceDossierRaccordement: {
+    aideSaisieRéférenceDossierRaccordement?: {
       format: string;
       légende: string;
       expressionReguliere: string;
@@ -67,13 +65,11 @@ export const GestionnaireRéseauSelect = ({
           onChange: (e) => handleGestionnaireSéléctionné(e.currentTarget.value),
         }}
         placeholder="Sélectionnez votre gestionnaire de réseau"
-        options={gestionnairesRéseau.map(
-          ({ identifiantGestionnaireRéseau, codeEIC, raisonSociale }) => ({
-            label: `${raisonSociale} (code EIC ou gestionnaire : ${codeEIC})`,
-            value: identifiantGestionnaireRéseau,
-            key: identifiantGestionnaireRéseau,
-          }),
-        )}
+        options={gestionnairesRéseau.map(({ identifiantGestionnaireRéseau, raisonSociale }) => ({
+          label: `${raisonSociale} (code EIC ou gestionnaire : ${identifiantGestionnaireRéseau})`,
+          value: identifiantGestionnaireRéseau,
+          key: identifiantGestionnaireRéseau,
+        }))}
         state={state}
         stateRelatedMessage={stateRelatedMessage}
         disabled={disabled}

@@ -54,13 +54,13 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
     : undefined;
 
   const [format, setFormat] = useState(
-    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement.format ?? '',
+    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement?.format ?? '',
   );
   const [légende, setLégende] = useState(
-    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement.légende ?? '',
+    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement?.légende ?? '',
   );
   const [expressionReguliere, setExpressionReguliere] = useState(
-    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement.expressionReguliere,
+    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement?.expressionReguliere,
   );
 
   return (
@@ -89,12 +89,12 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
               state={
                 validationErrors.includes('identifiantGestionnaireRéseau') ? 'error' : 'default'
               }
-              onGestionnaireRéseauSelected={({
-                aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
-              }) => {
-                setFormat(format);
-                setLégende(légende);
-                setExpressionReguliere(expressionReguliere);
+              onGestionnaireRéseauSelected={({ aideSaisieRéférenceDossierRaccordement }) => {
+                setFormat(aideSaisieRéférenceDossierRaccordement?.format || '');
+                setLégende(aideSaisieRéférenceDossierRaccordement?.légende || '');
+                setExpressionReguliere(
+                  aideSaisieRéférenceDossierRaccordement?.expressionReguliere || '',
+                );
               }}
             />
 

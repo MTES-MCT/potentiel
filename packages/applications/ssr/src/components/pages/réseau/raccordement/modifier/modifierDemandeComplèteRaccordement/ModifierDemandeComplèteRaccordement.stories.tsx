@@ -33,7 +33,6 @@ export const Default: Story = {
     },
     gestionnaireRéseauActuel: {
       identifiantGestionnaireRéseau: 'identifiantGestionnaireRéseau#1',
-      codeEIC: 'Code EIC-1',
       aideSaisieRéférenceDossierRaccordement: {
         expressionReguliere: 'expresion-régulière',
         format: 'Format',

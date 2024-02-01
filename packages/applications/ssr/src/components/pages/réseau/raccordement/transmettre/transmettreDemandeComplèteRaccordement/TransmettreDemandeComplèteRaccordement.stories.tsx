@@ -22,7 +22,6 @@ export const Default: Story = {
     listeGestionnairesRéseau: [
       {
         identifiantGestionnaireRéseau: 'identifiantGestionnaireRéseau#1',
-        codeEIC: 'Code EIC-1',
         aideSaisieRéférenceDossierRaccordement: {
           expressionReguliere: 'expresion-régulière',
           format: 'Format',
@@ -32,7 +31,6 @@ export const Default: Story = {
       },
       {
         identifiantGestionnaireRéseau: 'identifiantGestionnaireRéseau#2',
-        codeEIC: 'Code EIC-2',
         aideSaisieRéférenceDossierRaccordement: {
           expressionReguliere: 'expresion-régulière',
           format: 'Format',
@@ -42,7 +40,6 @@ export const Default: Story = {
       },
       {
         identifiantGestionnaireRéseau: 'identifiantGestionnaireRéseau#3',
-        codeEIC: 'Code EIC-3',
         aideSaisieRéférenceDossierRaccordement: {
           expressionReguliere: 'expresion-régulière',
           format: 'Format',
