@@ -20,8 +20,8 @@ export const Default: Story = {
       référence: 'Référence',
     },
     intervalleDatesMeSDélaiCDC2022: {
-      min: new Date('2022-09-01'),
-      max: new Date('2024-12-31'),
+      min: new Date('2022-09-01').toISOString(),
+      max: new Date('2024-12-31').toISOString(),
     },
     projet: {
       identifiantProjet: 'identifiantProjet#1',

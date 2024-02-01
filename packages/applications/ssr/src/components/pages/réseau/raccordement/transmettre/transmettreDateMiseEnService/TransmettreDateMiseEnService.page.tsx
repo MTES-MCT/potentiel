@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { useRouter } from 'next/navigation';
@@ -9,21 +11,21 @@ import { Routes } from '@potentiel-libraries/routes';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { displayDate } from '@/utils/displayDate';
 import { Form } from '@/components/atoms/form/Form';
-import { formatDateForInput } from '@/utils/formatDateForInput';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { formatDateForInput } from '@/utils/formatDateForInput';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
 import { transmettreDateMiseEnServiceAction } from './transmettreDateMiseEnService.action';
 
-type TransmettreDateMiseEnServiceProps = {
+export type TransmettreDateMiseEnServiceProps = {
   projet: ProjetBannerProps;
   dossierRaccordement: {
     référence: string;
     miseEnService?: string;
   };
-  intervalleDatesMeSDélaiCDC2022: { min: Date; max: Date };
+  intervalleDatesMeSDélaiCDC2022?: { min: string; max: string };
 };
 
 export const TransmettreDateMiseEnServicePage = ({
@@ -57,7 +59,7 @@ export const TransmettreDateMiseEnServicePage = ({
                 name: 'dateMiseEnService',
                 defaultValue: miseEnService && formatDateForInput(miseEnService),
                 min: formatDateForInput(projet.dateDésignation),
-                max: new Date().toISOString().split('T').shift(),
+                max: formatDateForInput(new Date().toISOString()),
                 required: true,
                 'aria-required': true,
               }}
@@ -85,23 +87,25 @@ export const TransmettreDateMiseEnServicePage = ({
             description={
               <div className="py-4 text-justify">
                 <ul className="flex flex-col gap-3">
-                  <li>
-                    Si le projet{' '}
-                    <span className="font-bold">
-                      a bénéficié du délai supplémentaire relatif du cahier des charges du
-                      30/08/2022
-                    </span>
-                    , la saisie d'une date de mise en service non comprise entre le{' '}
-                    <span className="font-bold">
-                      {displayDate(new Date(intervalleDatesMeSDélaiCDC2022.min))}
-                    </span>{' '}
-                    et le{' '}
-                    <span className="font-bold">
-                      {displayDate(new Date(intervalleDatesMeSDélaiCDC2022.max))}
-                    </span>{' '}
-                    peut remettre en cause l'application de ce délai et entraîner une modification
-                    de la date d'achèvement du projet.
-                  </li>
+                  {intervalleDatesMeSDélaiCDC2022 && (
+                    <li>
+                      Si le projet{' '}
+                      <span className="font-bold">
+                        a bénéficié du délai supplémentaire relatif du cahier des charges du
+                        30/08/2022
+                      </span>
+                      , la saisie d'une date de mise en service non comprise entre le{' '}
+                      <span className="font-bold">
+                        {displayDate(new Date(intervalleDatesMeSDélaiCDC2022.min))}
+                      </span>{' '}
+                      et le{' '}
+                      <span className="font-bold">
+                        {displayDate(new Date(intervalleDatesMeSDélaiCDC2022.max))}
+                      </span>{' '}
+                      peut remettre en cause l'application de ce délai et entraîner une modification
+                      de la date d'achèvement du projet.
+                    </li>
+                  )}
                   <li>
                     Si le projet{' '}
                     <span className="font-bold">

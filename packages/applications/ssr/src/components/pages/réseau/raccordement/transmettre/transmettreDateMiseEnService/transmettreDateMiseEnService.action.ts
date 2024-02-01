@@ -25,7 +25,7 @@ const action: FormAction<FormState, typeof schema> = async (
     data: {
       identifiantProjetValue: identifiantProjet,
       référenceDossierValue: referenceDossier,
-      dateMiseEnServiceValue: dateMiseEnService,
+      dateMiseEnServiceValue: new Date(dateMiseEnService).toISOString(),
       dateDésignationValue: dateDesignation,
     },
   });

@@ -132,9 +132,7 @@ const mapToProps: MapToProps = ({
         },
         miseEnService: {
           canEdit:
-            rôleUtilisateur.estÉgaleÀ(Role.admin) ||
-            rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
-            rôleUtilisateur.estÉgaleÀ(Role.porteur),
+            rôleUtilisateur.estÉgaleÀ(Role.admin) || rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur),
           dateMiseEnService: dossier.miseEnService?.dateMiseEnService?.formatter(),
         },
       };
