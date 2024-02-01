@@ -2,6 +2,8 @@ import React from 'react';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { BuildingIcon, Heading3, Link, Section } from '../../../components';
 import { UserRole } from '../../../../modules/users';
+import { Routes } from '@potentiel-libraries/routes';
+import { formatProjectAODataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 
 type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
@@ -48,7 +50,18 @@ export const InfoGenerales = ({ project, role }: InfoGeneralesProps) => {
         ) && (
           <div className="print:hidden mb-3">
             <Heading3 className="mb-0">Raccordement au réseau</Heading3>
-            <Link href="">Mettre à jour ou consulter les données de raccordement</Link>
+            <Link
+              href={Routes.Raccordement.détail(
+                formatProjectAODataToIdentifiantProjetValueType({
+                  appelOffreId: project.appelOffreId,
+                  periodeId: project.periodeId,
+                  familleId: project.familleId,
+                  numeroCRE: project.numeroCRE,
+                }).formatter(),
+              )}
+            >
+              Mettre à jour ou consulter les données de raccordement
+            </Link>
           </div>
         )}
     </Section>

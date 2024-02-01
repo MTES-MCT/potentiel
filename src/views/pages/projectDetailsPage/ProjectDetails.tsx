@@ -168,7 +168,8 @@ const AlerteBoxRaccordement: FC<{
         Afin de nous permettre de vérifier si le délai relatif au cahier des charges du 30/08/2022
         concerne le projet pour l'appliquer le cas échéant, nous vous invitons à renseigner une
         référence de dossier de raccordement et à vous assurer que le gestionnaire de réseau indiqué{' '}
-        <Link href="">sur cette page</Link> est correct.
+        <Link href={Routes.Raccordement.détail(identifiantProjet)}>sur cette page</Link> est
+        correct.
       </p>
     )}
     {alertes.includes('demandeComplèteRaccordementManquante') && (
