@@ -4,6 +4,7 @@ import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupére
 import { Badge, BadgeType, Heading1, KeyIcon, Link, MapPinIcon, PageTemplate } from '../..';
 import routes from '../../../../routes';
 import { ConsulterCandidatureReadModel } from '@potentiel-domain/candidature';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 
 export const PageProjetTemplate: FC<{
   user: UtilisateurReadModel;
@@ -30,7 +31,14 @@ const EntêteProjet: FC<ConsulterCandidatureReadModel> = ({
     <div className="mb-3">
       <div className="flex justify-start items-center">
         <Link
-          href={routes.PROJECT_DETAILS(`${appelOffre}#${période}#${famille}#${numéroCRE}`)}
+          href={routes.PROJECT_DETAILS(
+            formatProjectDataToIdentifiantProjetValueType({
+              appelOffreId: appelOffre,
+              periodeId: période,
+              familleId: famille,
+              numeroCRE: numéroCRE,
+            }).formatter(),
+          )}
           className="no-underline text-3xl font-bold text-white"
           style={{ color: 'white', textDecoration: 'none' }}
         >

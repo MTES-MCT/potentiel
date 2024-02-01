@@ -3,7 +3,7 @@ import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { BuildingIcon, Heading3, Link, Section } from '../../../components';
 import { UserRole } from '../../../../modules/users';
 import { Routes } from '@potentiel-libraries/routes';
-import { formatProjectAODataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 
 type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
@@ -52,7 +52,7 @@ export const InfoGenerales = ({ project, role }: InfoGeneralesProps) => {
             <Heading3 className="mb-0">Raccordement au réseau</Heading3>
             <Link
               href={Routes.Raccordement.détail(
-                formatProjectAODataToIdentifiantProjetValueType({
+                formatProjectDataToIdentifiantProjetValueType({
                   appelOffreId: project.appelOffreId,
                   periodeId: project.periodeId,
                   familleId: project.familleId,

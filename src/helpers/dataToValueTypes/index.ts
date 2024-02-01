@@ -1,1 +1,1 @@
-export * from './formatProjectAODataToIdentifiantProjetValueType';
+export * from './formatProjectDataToIdentifiantProjetValueType';

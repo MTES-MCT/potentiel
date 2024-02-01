@@ -3,7 +3,7 @@ import { Request } from 'express';
 import { Timeline, CalendarIcon, Section, Link, InfoBox } from '../../../components';
 import { userIs } from '../../../../modules/users';
 import { ProjectEventListDTO } from '../../../../modules/frise';
-import { formatProjectAODataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 
 import { Routes } from '@potentiel-libraries/routes';
 
@@ -41,7 +41,7 @@ export const EtapesProjet = ({ user, projectEventList, project }: EtapesProjetPr
           Les données de raccordement du projet sont dorénavant consultables et modifiables sur{' '}
           <Link
             href={Routes.Raccordement.détail(
-              formatProjectAODataToIdentifiantProjetValueType({
+              formatProjectDataToIdentifiantProjetValueType({
                 appelOffreId: project.appelOffreId,
                 periodeId: project.periodeId,
                 familleId: project.familleId,

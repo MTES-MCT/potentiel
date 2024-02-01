@@ -1,10 +1,10 @@
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../core/domain';
 import { logger, okAsync, ResultAsync } from '../../../core/utils';
 import { GetProjectAppelOffre } from '../../projectAppelOffre';
 import { CahierDesChargesChoisi, ProjectCompletionDueDateSet } from '../events';
 import { Project } from '../Project';
 import { RécupérerDétailDossiersRaccordements } from '../queries';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 
 type Dépendances = {
   projectRepo: TransactionalRepository<Project>;
@@ -33,9 +33,13 @@ export const makeOnCahierDesChargesChoisi =
         completionDueOn,
         data,
       }) => {
-        const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-          `${appelOffreId}#${periodeId}#${familleId}#${data?.numeroCRE}`,
-        );
+        const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
+          appelOffreId,
+          periodeId,
+          familleId,
+          numeroCRE: data!.numeroCRE,
+        }).formatter();
+
         const délaiCDC2022Applicable = getProjectAppelOffre({
           appelOffreId,
           periodeId,
