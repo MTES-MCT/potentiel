@@ -11,33 +11,33 @@ export type ModifierDemandeComplèteRaccordementState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string(),
-  identifiantGestionnaireRéseau: zod.string(),
+  identifiantGestionnaireReseau: zod.string(),
   dateQualification: zod.string(),
-  référenceDossierRaccordement: zod.string(),
-  accuséRéception: zod.instanceof(Blob),
+  referenceDossierRaccordement: zod.string(),
+  accuseReception: zod.instanceof(Blob),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
   {
     identifiantProjet,
-    identifiantGestionnaireRéseau,
-    accuséRéception,
+    identifiantGestionnaireReseau,
+    accuseReception: accuséRéception,
     dateQualification,
-    référenceDossierRaccordement,
+    referenceDossierRaccordement,
   },
 ) => {
   await mediator.send<Raccordement.RaccordementUseCase>({
     type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
     data: {
       identifiantProjetValue: identifiantProjet,
-      identifiantGestionnaireRéseauValue: identifiantGestionnaireRéseau,
+      identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
       accuséRéceptionValue: {
         content: accuséRéception.stream(),
         format: accuséRéception.type,
       },
-      dateQualificationValue: dateQualification,
-      référenceDossierRaccordementValue: référenceDossierRaccordement,
+      dateQualificationValue: new Date(dateQualification).toISOString(),
+      référenceDossierRaccordementValue: referenceDossierRaccordement,
     },
   });
 

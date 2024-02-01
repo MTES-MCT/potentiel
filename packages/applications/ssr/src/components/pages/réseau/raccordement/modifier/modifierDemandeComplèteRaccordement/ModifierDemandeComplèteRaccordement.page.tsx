@@ -1,9 +1,10 @@
 'use client';
 
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Link from 'next/link';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import { useRouter } from 'next/navigation';
 
 import { Routes } from '@potentiel-libraries/routes';
 
@@ -57,6 +58,10 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
   gestionnaireRéseauActuel,
   delaiDemandeDeRaccordementEnMois,
 }) => {
+  const router = useRouter();
+
+  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+
   const { identifiantProjet } = projet;
   const { aideSaisieRéférenceDossierRaccordement, identifiantGestionnaireRéseau } =
     gestionnaireRéseauActuel;
@@ -71,15 +76,20 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
             encType="multipart/form-data"
             action={modifierDemandeComplèteRaccordementAction}
             heading="Modifier une demande complète de raccordement"
+            onSuccess={() => router.push(Routes.Raccordement.détail(projet.identifiantProjet))}
+            onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
             <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
             <GestionnaireRéseauSelect
-              id="identifiantGestionnaireRéseau"
-              name="identifiantGestionnaireRéseau"
+              id="identifiantGestionnaireReseau"
+              name="identifiantGestionnaireReseau"
               disabled
               identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseau}
               gestionnairesRéseau={[gestionnaireRéseauActuel]}
+              state={
+                validationErrors.includes('identifiantGestionnaireReseau') ? 'error' : 'default'
+              }
             />
 
             <Input
@@ -97,6 +107,9 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
                   </>
                 )
               }
+              state={
+                validationErrors.includes('referenceDossierRaccordement') ? 'error' : 'default'
+              }
               nativeInputProps={{
                 type: 'text',
                 name: 'referenceDossierRaccordement',
@@ -111,14 +124,15 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
             />
 
             <InputFile
-              id="accuséRéception"
-              name="accuséRéception"
+              id="accuseReception"
+              name="accuseReception"
               label="Accusé de réception de la demande complète de raccordement **"
               fileUrl={accuséRéception ? Routes.Document.télécharger(accuséRéception) : undefined}
             />
 
             <Input
               id="dateQualification"
+              state={validationErrors.includes('dateQualification') ? 'error' : 'default'}
               label="Date de l'accusé de réception"
               nativeInputProps={{
                 type: 'date',
