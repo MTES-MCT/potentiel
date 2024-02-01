@@ -82,7 +82,10 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
             <div className="flex flex-col md:flex-row gap-4 m-auto">
               <Button
                 priority="secondary"
-                linkProps={{ href: Routes.Raccordement.détail(identifiantProjet) }}
+                linkProps={{
+                  href: Routes.Raccordement.détail(identifiantProjet),
+                }}
+                iconId="fr-icon-arrow-left-line"
               >
                 Retour aux dossiers de raccordement
               </Button>
