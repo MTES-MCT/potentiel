@@ -22,8 +22,8 @@ import {
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export const metadata: Metadata = {
-  title: 'Ajouter un dossier de raccordement - Potentiel',
-  description: 'Formulaire de transmission de dossier de raccordement',
+  title: 'Modifier un dossier de raccordement - Potentiel',
+  description: `Formulaire de modification d'un dossier de raccordement`,
 };
 
 type PageProps = {
