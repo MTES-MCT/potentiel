@@ -294,15 +294,42 @@ const permissionDgecValidateur = [
   référencielPermissions.lauréat.abandon.usecase.rejeter,
   référencielPermissions.lauréat.abandon.command.rejeter,
 
-  référencielPermissions.appelOffre.query.lister,
   référencielPermissions.appelOffre.query.consulter,
-  référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+  référencielPermissions.appelOffre.query.lister,
 
   référencielPermissions.candidature.query.consulter,
 
   référencielPermissions.document.query.consulter,
   référencielPermissions.document.query.générerModèleRéponse,
   référencielPermissions.document.command.enregister,
+
+  référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+
+  référencielPermissions.réseau.gestionnaire.query.consulter,
+  référencielPermissions.réseau.gestionnaire.query.lister,
+  référencielPermissions.réseau.gestionnaire.usecase.ajouter,
+  référencielPermissions.réseau.gestionnaire.command.ajouter,
+  référencielPermissions.réseau.gestionnaire.usecase.modifier,
+  référencielPermissions.réseau.gestionnaire.command.modifier,
+
+  référencielPermissions.réseau.raccordement.query.consulter,
+  référencielPermissions.réseau.raccordement.query.consulterDossier,
+  référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
+  référencielPermissions.réseau.raccordement.query.rechercher,
+  référencielPermissions.réseau.raccordement.usecase.modifierDemandeComplète,
+  référencielPermissions.réseau.raccordement.command.modifierDemandeComplète,
+  référencielPermissions.réseau.raccordement.usecase.modifierGestionnaireRéseau,
+  référencielPermissions.réseau.raccordement.command.modifierGestionnaireRéseau,
+  référencielPermissions.réseau.raccordement.usecase.modifierPropostionTechniqueEtFinancière,
+  référencielPermissions.réseau.raccordement.command.modifierPropostionTechniqueEtFinancière,
+  référencielPermissions.réseau.raccordement.usecase.modifierRéférenceDossier,
+  référencielPermissions.réseau.raccordement.command.modifierRéférenceDossier,
+  référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
+  référencielPermissions.réseau.raccordement.command.transmettreDateMiseEnService,
+  référencielPermissions.réseau.raccordement.usecase.transmettreDemandeComplète,
+  référencielPermissions.réseau.raccordement.command.transmettreDemandeComplète,
+  référencielPermissions.réseau.raccordement.usecase.transmettrePropositionTechniqueEtFinancière,
+  référencielPermissions.réseau.raccordement.command.transmettrePropositionTechniqueEtFinancière,
 
   référencielPermissions.utilisateur.query.consulter,
 ];
@@ -346,6 +373,10 @@ const permissionPorteurProjet = [
 
   référencielPermissions.réseau.raccordement.usecase.transmettreDemandeComplète,
   référencielPermissions.réseau.raccordement.command.transmettreDemandeComplète,
+  référencielPermissions.réseau.raccordement.usecase.modifierDemandeComplète,
+  référencielPermissions.réseau.raccordement.command.modifierDemandeComplète,
+  référencielPermissions.réseau.raccordement.usecase.modifierRéférenceDossier,
+  référencielPermissions.réseau.raccordement.command.modifierRéférenceDossier,
 
   référencielPermissions.réseau.raccordement.usecase.transmettrePropositionTechniqueEtFinancière,
   référencielPermissions.réseau.raccordement.command.transmettrePropositionTechniqueEtFinancière,
