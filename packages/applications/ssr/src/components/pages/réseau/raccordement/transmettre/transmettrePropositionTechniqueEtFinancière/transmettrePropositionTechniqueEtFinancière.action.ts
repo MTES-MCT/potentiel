@@ -25,7 +25,7 @@ const action: FormAction<FormState, typeof schema> = async (
     data: {
       identifiantProjetValue: identifiantProjet,
       référenceDossierRaccordementValue: referenceDossier,
-      dateSignatureValue: dateSignature,
+      dateSignatureValue: new Date(dateSignature).toISOString(),
       propositionTechniqueEtFinancièreSignéeValue: {
         content: propositionTechniqueEtFinanciereSignee.stream(),
         format: propositionTechniqueEtFinanciereSignee.type,
