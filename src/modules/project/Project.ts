@@ -147,7 +147,6 @@ export interface Project extends EventStoreAggregate {
     gfDate: Date,
     fileId: string,
     submittedBy: User,
-    expirationDate: Date,
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>;
   removeGarantiesFinancieres: (
     removedBy: User,
@@ -845,7 +844,7 @@ export const makeProject = (args: {
       );
       return ok(null);
     },
-    uploadGarantiesFinancieres: function (gfDate, fileId, submittedBy, expirationDate) {
+    uploadGarantiesFinancieres: function (gfDate, fileId, submittedBy) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
@@ -859,7 +858,6 @@ export const makeProject = (args: {
             fileId: fileId,
             gfDate: gfDate,
             submittedBy: submittedBy.id,
-            expirationDate,
           },
         }),
       );
@@ -1375,6 +1373,8 @@ export const makeProject = (args: {
   }
 
   function _allEventsHaveSameAggregateId() {
+    const probleme = history?.find((event) => !event.aggregateId?.includes(projectId.toString()));
+    console.log('******EVENT problématique : ', probleme);
     return history
       ? history.every((event) => event.aggregateId?.includes(projectId.toString()))
       : true;

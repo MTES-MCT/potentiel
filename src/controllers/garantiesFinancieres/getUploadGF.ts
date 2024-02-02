@@ -30,12 +30,6 @@ const schema = yup.object({
       )
       .required('Vous devez renseigner la date de constitution.')
       .typeError(`La date de constitution n'est pas valide.`),
-    expirationDate: yup
-      .date()
-      .transform(iso8601DateToDateYupTransformation)
-      .required("Vous devez renseigner la date d'échéance.")
-      .typeError(`La date d'échéance saisie n'est pas valide.`),
-    type: yup.mixed().oneOf(['garanties-financieres']).required('Ce champ est obligatoire.'),
   }),
 });
 
@@ -64,14 +58,14 @@ v1Router.post(
           }),
         );
       }
-      const { stepDate, projectId, expirationDate } = request.body;
+      const { stepDate, projectId } = request.body;
       const { user: submittedBy } = request;
       const file = {
         contents: fs.createReadStream(request.file!.path),
         filename: `${Date.now()}-${request.file!.originalname}`,
       };
 
-      return uploadGF({ projectId, stepDate, expirationDate, file, submittedBy })
+      return uploadGF({ projectId, stepDate, file, submittedBy })
         .map(() => ({
           projectId,
         }))
@@ -79,7 +73,7 @@ v1Router.post(
           ({ projectId }) => {
             return response.redirect(
               routes.SUCCESS_OR_ERROR_PAGE({
-                success: 'Votre attestation de garanties financières a bien été enregistrée.',
+                success: `L'attestation de garanties financières a bien été enregistrée.`,
                 redirectUrl: routes.PROJECT_DETAILS(projectId),
                 redirectTitle: 'Retourner à la page projet',
               }),
@@ -90,7 +84,7 @@ v1Router.post(
               return response.redirect(
                 addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
                   error:
-                    "Il semblerait qu'il y ait déjà une garantie financière en cours de validité sur ce projet.",
+                    "Il semblerait qu'il y ait déjà des garanties financières en cours de validité sur ce projet.",
                 }),
               );
             }

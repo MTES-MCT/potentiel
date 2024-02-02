@@ -106,13 +106,7 @@ const EnAttente = ({
             </p>
           </div>
           {actionPossible && (
-            <Formulaire
-              projetId={projectId}
-              garantieFinanciereEnMois={garantieFinanciereEnMois}
-              action={actionPossible}
-              role={variant}
-              dateEchéance={dateEchéance}
-            />
+            <Formulaire projetId={projectId} action={actionPossible} role={variant} />
           )}
           {utilisateurEstAdmin && statut === 'en retard' && (
             <p className="m-0">
@@ -134,18 +128,10 @@ const EnAttente = ({
 
 type FormulaireProps = {
   projetId: string;
-  garantieFinanciereEnMois?: number;
   action: 'soumettre' | 'enregistrer';
   role: (typeof rolesAutorisés)[number];
-  dateEchéance: number | undefined;
 };
-const Formulaire = ({
-  projetId,
-  garantieFinanciereEnMois,
-  action,
-  role,
-  dateEchéance,
-}: FormulaireProps) => {
+const Formulaire = ({ projetId, action, role }: FormulaireProps) => {
   const [displayForm, showForm] = useState(false);
 
   return (
@@ -156,7 +142,7 @@ const Formulaire = ({
       text={
         action === 'soumettre'
           ? 'Soumettre une attestation de garanties financières'
-          : `Enregistrer une attestation de garanties financières`
+          : `Enregistrer l'attestation de garanties financières`
       }
     >
       <Form
@@ -171,11 +157,18 @@ const Formulaire = ({
       >
         <ChampsObligatoiresLégende />
         {action === 'enregistrer' && (
-          <p className="m-0 italic">
-            L'attestation que vous enregistrez ne sera pas soumise à validation par la DREAL
-            concernée. Les garanties financières doivent déjà avoir été validée (soit à la
-            candidature, soit par la DREAL).
-          </p>
+          <>
+            <p className="m-0 italic">
+              L'attestation que vous enregistrez ne sera pas soumise à validation par la DREAL
+              concernée. Les garanties financières doivent déjà avoir été validée (soit à la
+              candidature, soit par la DREAL).
+            </p>
+            {role === 'porteur-projet' && (
+              <p className="m-0 italic font-semibold">
+                Une fois le document enregistré, vous ne pourrez plus le modifier.
+              </p>
+            )}
+          </>
         )}
         {action === 'soumettre' && (
           <p className="m-0 italic">
@@ -196,26 +189,9 @@ const Formulaire = ({
           />
         </div>
         <div>
-          <Label htmlFor="expirationDate">
-            Date d'échéance des garanties<span>*</span>
-          </Label>
-          <Input
-            type="date"
-            name="expirationDate"
-            id="expirationDate"
-            defaultValue={dateEchéance && format(new Date(dateEchéance), 'yyyy-MM-dd')}
-            required
-            aria-required="true"
-          />
-        </div>
-        <div>
           <Label htmlFor="file">Attestation</Label>
           <Input type="file" name="file" id="file" required aria-required="true" />
         </div>
-        <p className="m-0 mt-3 italic">
-          <span>*</span>
-          {getInfoDuréeGF(garantieFinanciereEnMois)}
-        </p>
         <div className="flex gap-4 flex-col md:flex-row mx-auto">
           <PrimaryButton type="submit">Envoyer</PrimaryButton>
           <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>

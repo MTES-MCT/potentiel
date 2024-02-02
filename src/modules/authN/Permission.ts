@@ -61,6 +61,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterDossierRaccordement,
         PermissionTransmettrePropositionTechniqueEtFinancière,
         PermissionModifierGestionnaireRéseauProjet,
+        PermissionUploaderGF,
       ];
     case 'caisse-des-dépôts':
       return [
