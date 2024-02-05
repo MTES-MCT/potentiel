@@ -75,9 +75,9 @@ module.exports = {
             );
 
             // Mise à jour events ProjectImported
-            const actualPayload = await queryInterface.sequelize.query(
+            const event = await queryInterface.sequelize.query(
               `
-              SELECT payload
+              SELECT *
               FROM "eventStores" 
               WHERE type = 'ProjectImported' 
               AND payload ->> 'projectId' = ?
@@ -88,20 +88,19 @@ module.exports = {
                 transaction,
               },
             );
+            const { payload, id } = event[0][0];
+
+            payload.data.désignationCatégorie = désignationCatégorie;
 
             await queryInterface.sequelize.query(
               `
               UPDATE "eventStores" 
               SET payload = ?
-              WHERE type = 'ProjectImported' 
-              AND payload ->> 'projectId' = ?
+              WHERE id = ?
               `,
               {
                 type: queryInterface.sequelize.UPDATE,
-                replacements: [
-                  JSON.stringify({ ...actualPayload, désignationCatégorie }),
-                  projet.id,
-                ],
+                replacements: [JSON.stringify(payload), id],
                 transaction,
               },
             );
