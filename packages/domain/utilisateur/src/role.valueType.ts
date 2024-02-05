@@ -200,6 +200,17 @@ const référencielPermissions = {
   },
 } as const;
 
+const policies = {
+  raccordement: {
+    consulter: [
+      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.réseau.raccordement.query.consulter,
+      référencielPermissions.réseau.raccordement.query.consulterDossier,
+      référencielPermissions.réseau.gestionnaire.query.consulter,
+    ],
+  },
+};
+
 const permissionAdmin = [
   référencielPermissions.lauréat.abandon.query.consulter,
   référencielPermissions.lauréat.abandon.query.lister,
@@ -232,8 +243,8 @@ const permissionAdmin = [
   référencielPermissions.réseau.gestionnaire.usecase.modifier,
   référencielPermissions.réseau.gestionnaire.command.modifier,
 
-  référencielPermissions.réseau.raccordement.query.consulter,
-  référencielPermissions.réseau.raccordement.query.consulterDossier,
+  ...policies.raccordement.consulter,
+
   référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
   référencielPermissions.réseau.raccordement.query.rechercher,
   référencielPermissions.réseau.raccordement.usecase.modifierDemandeComplète,
@@ -264,6 +275,8 @@ const permissionCRE = [
   référencielPermissions.candidature.query.consulter,
 
   référencielPermissions.document.query.consulter,
+
+  ...policies.raccordement.consulter,
 ];
 
 const permissionDreal = [
@@ -281,6 +294,8 @@ const permissionDreal = [
   référencielPermissions.document.query.générerModèleRéponse,
 
   référencielPermissions.utilisateur.query.consulter,
+
+  ...policies.raccordement.consulter,
 ];
 
 const permissionDgecValidateur = [
@@ -315,8 +330,8 @@ const permissionDgecValidateur = [
   référencielPermissions.réseau.gestionnaire.usecase.modifier,
   référencielPermissions.réseau.gestionnaire.command.modifier,
 
-  référencielPermissions.réseau.raccordement.query.consulter,
-  référencielPermissions.réseau.raccordement.query.consulterDossier,
+  ...policies.raccordement.consulter,
+
   référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
   référencielPermissions.réseau.raccordement.query.rechercher,
   référencielPermissions.réseau.raccordement.usecase.modifierDemandeComplète,
@@ -370,9 +385,10 @@ const permissionPorteurProjet = [
   référencielPermissions.réseau.gestionnaire.query.consulter,
   référencielPermissions.réseau.gestionnaire.query.lister,
 
-  référencielPermissions.réseau.raccordement.query.consulter,
-  référencielPermissions.réseau.raccordement.query.consulterDossier,
+  ...policies.raccordement.consulter,
+
   référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
+
   référencielPermissions.réseau.raccordement.query.rechercher,
 
   référencielPermissions.réseau.raccordement.usecase.transmettreDemandeComplète,
@@ -388,13 +404,15 @@ const permissionPorteurProjet = [
   référencielPermissions.réseau.raccordement.command.modifierPropostionTechniqueEtFinancière,
 ];
 
+const permissionAcheteurObligé = [...policies.raccordement.consulter];
+
 const permissions: Record<RawType, string[]> = {
-  admin: permissionAdmin,
-  'acheteur-obligé': [],
+  admin: [...new Set(permissionAdmin)],
+  'acheteur-obligé': [...new Set(permissionAcheteurObligé)],
   ademe: [],
   'caisse-des-dépôts': [],
-  cre: permissionCRE,
-  dreal: permissionDreal,
-  'dgec-validateur': permissionDgecValidateur,
-  'porteur-projet': permissionPorteurProjet,
+  cre: [...new Set(permissionCRE)],
+  dreal: [...new Set(permissionDreal)],
+  'dgec-validateur': [...new Set(permissionDgecValidateur)],
+  'porteur-projet': [...new Set(permissionPorteurProjet)],
 };
