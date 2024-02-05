@@ -17,7 +17,6 @@ import {
   PermissionAjouterGestionnaireRéseau,
   PermissionModifierGestionnaireRéseau,
   PermissionTransmettreDateMiseEnService,
-  PermissionTransmettrePropositionTechniqueEtFinancière,
   PermissionModifierGestionnaireRéseauProjet,
   PermissionListerGestionnairesRéseau,
   PermissionConsulterGestionnaireRéseau,
@@ -54,7 +53,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionRetirerGF,
         PermissionExporterProjets,
         PermissionConsulterDossierRaccordement,
-        PermissionTransmettrePropositionTechniqueEtFinancière,
         PermissionModifierGestionnaireRéseauProjet,
         PermissionUploaderGF,
       ];
@@ -86,7 +84,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionModifierGestionnaireRéseau,
         PermissionConsulterDossierRaccordement,
         PermissionTransmettreDateMiseEnService,
-        PermissionTransmettrePropositionTechniqueEtFinancière,
         PermissionModifierGestionnaireRéseauProjet,
         PermissionListerAbandons,
       ];
@@ -107,7 +104,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionModifierGestionnaireRéseau,
         PermissionConsulterDossierRaccordement,
         PermissionTransmettreDateMiseEnService,
-        PermissionTransmettrePropositionTechniqueEtFinancière,
         PermissionModifierGestionnaireRéseauProjet,
         PermissionListerAbandons,
       ];

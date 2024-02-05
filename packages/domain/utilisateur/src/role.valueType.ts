@@ -235,6 +235,12 @@ const policies = {
         référencielPermissions.réseau.raccordement.command
           .transmettrePropositionTechniqueEtFinancière,
       ],
+      modifier: [
+        référencielPermissions.candidature.query.consulter,
+        référencielPermissions.réseau.raccordement.query.consulterDossier,
+        référencielPermissions.réseau.raccordement.usecase.modifierPropostionTechniqueEtFinancière,
+        référencielPermissions.réseau.raccordement.command.modifierPropostionTechniqueEtFinancière,
+      ],
     },
   },
 };
@@ -275,6 +281,7 @@ const permissionAdmin = [
   ...policies.raccordement['demande-complete-raccordement'].transmettre,
   ...policies.raccordement['demande-complete-raccordement'].modifier,
   ...policies.raccordement['proposition-technique-et-financiere'].transmettre,
+  ...policies.raccordement['proposition-technique-et-financiere'].modifier,
 
   référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
   référencielPermissions.réseau.raccordement.query.rechercher,
@@ -359,6 +366,7 @@ const permissionDgecValidateur = [
   ...policies.raccordement['demande-complete-raccordement'].transmettre,
   ...policies.raccordement['demande-complete-raccordement'].modifier,
   ...policies.raccordement['proposition-technique-et-financiere'].transmettre,
+  ...policies.raccordement['proposition-technique-et-financiere'].modifier,
 
   référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
   référencielPermissions.réseau.raccordement.query.rechercher,
@@ -411,6 +419,7 @@ const permissionPorteurProjet = [
   ...policies.raccordement['demande-complete-raccordement'].transmettre,
   ...policies.raccordement['demande-complete-raccordement'].modifier,
   ...policies.raccordement['proposition-technique-et-financiere'].transmettre,
+  ...policies.raccordement['proposition-technique-et-financiere'].modifier,
 
   référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
 
