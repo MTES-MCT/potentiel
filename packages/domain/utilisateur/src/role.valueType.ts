@@ -201,79 +201,101 @@ const référencielPermissions = {
 } as const;
 
 const policies = {
-  raccordement: {
-    consulter: [
-      référencielPermissions.candidature.query.consulter,
-      référencielPermissions.réseau.raccordement.query.consulter,
-      référencielPermissions.document.query.consulter,
-      référencielPermissions.réseau.raccordement.query.consulterDossier,
-      référencielPermissions.réseau.gestionnaire.query.consulter,
-    ],
-    'demande-complète-raccordement': {
-      transmettre: [
+  réseau: {
+    raccordement: {
+      consulter: [
         référencielPermissions.candidature.query.consulter,
-        référencielPermissions.appelOffre.query.consulter,
-        référencielPermissions.document.command.enregister,
-        référencielPermissions.réseau.gestionnaire.query.lister,
-        référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
-        référencielPermissions.réseau.raccordement.usecase.transmettreDemandeComplète,
-        référencielPermissions.réseau.raccordement.command.transmettreDemandeComplète,
-      ],
-      modifier: [
-        référencielPermissions.candidature.query.consulter,
-        référencielPermissions.appelOffre.query.consulter,
-        référencielPermissions.document.command.enregister,
-        référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
+        référencielPermissions.réseau.raccordement.query.consulter,
+        référencielPermissions.document.query.consulter,
         référencielPermissions.réseau.raccordement.query.consulterDossier,
-        référencielPermissions.réseau.raccordement.usecase.modifierDemandeComplète,
-        référencielPermissions.réseau.raccordement.command.modifierDemandeComplète,
+        référencielPermissions.réseau.gestionnaire.query.consulter,
       ],
-    },
-    'proposition-technique-et-financière': {
-      transmettre: [
-        référencielPermissions.candidature.query.consulter,
-        référencielPermissions.document.command.enregister,
-        référencielPermissions.réseau.raccordement.query.consulterDossier,
-        référencielPermissions.réseau.raccordement.usecase
-          .transmettrePropositionTechniqueEtFinancière,
-        référencielPermissions.réseau.raccordement.command
-          .transmettrePropositionTechniqueEtFinancière,
-      ],
-      modifier: [
-        référencielPermissions.candidature.query.consulter,
-        référencielPermissions.document.command.enregister,
-        référencielPermissions.réseau.raccordement.query.consulterDossier,
-        référencielPermissions.réseau.raccordement.usecase.modifierPropostionTechniqueEtFinancière,
-        référencielPermissions.réseau.raccordement.command.modifierPropostionTechniqueEtFinancière,
-      ],
-    },
-    'date-mise-en-service': {
-      transmettre: [
-        référencielPermissions.candidature.query.consulter,
-        référencielPermissions.appelOffre.query.consulter,
-        référencielPermissions.réseau.raccordement.query.consulterDossier,
-        référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
-        référencielPermissions.réseau.raccordement.command.transmettreDateMiseEnService,
-      ],
-    },
-    'référence-dossier': {
-      modifier: [
-        référencielPermissions.candidature.query.consulter,
-        référencielPermissions.appelOffre.query.consulter,
-        référencielPermissions.document.command.déplacer,
-        référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
-        référencielPermissions.réseau.raccordement.query.consulterDossier,
-        référencielPermissions.réseau.raccordement.usecase.modifierRéférenceDossier,
-        référencielPermissions.réseau.raccordement.command.modifierRéférenceDossier,
-      ],
+      'demande-complète-raccordement': {
+        transmettre: [
+          référencielPermissions.candidature.query.consulter,
+          référencielPermissions.appelOffre.query.consulter,
+          référencielPermissions.document.command.enregister,
+          référencielPermissions.réseau.gestionnaire.query.lister,
+          référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
+          référencielPermissions.réseau.raccordement.usecase.transmettreDemandeComplète,
+          référencielPermissions.réseau.raccordement.command.transmettreDemandeComplète,
+        ],
+        modifier: [
+          référencielPermissions.candidature.query.consulter,
+          référencielPermissions.appelOffre.query.consulter,
+          référencielPermissions.document.command.enregister,
+          référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
+          référencielPermissions.réseau.raccordement.query.consulterDossier,
+          référencielPermissions.réseau.raccordement.usecase.modifierDemandeComplète,
+          référencielPermissions.réseau.raccordement.command.modifierDemandeComplète,
+        ],
+      },
+      'proposition-technique-et-financière': {
+        transmettre: [
+          référencielPermissions.candidature.query.consulter,
+          référencielPermissions.document.command.enregister,
+          référencielPermissions.réseau.raccordement.query.consulterDossier,
+          référencielPermissions.réseau.raccordement.usecase
+            .transmettrePropositionTechniqueEtFinancière,
+          référencielPermissions.réseau.raccordement.command
+            .transmettrePropositionTechniqueEtFinancière,
+        ],
+        modifier: [
+          référencielPermissions.candidature.query.consulter,
+          référencielPermissions.document.command.enregister,
+          référencielPermissions.réseau.raccordement.query.consulterDossier,
+          référencielPermissions.réseau.raccordement.usecase
+            .modifierPropostionTechniqueEtFinancière,
+          référencielPermissions.réseau.raccordement.command
+            .modifierPropostionTechniqueEtFinancière,
+        ],
+      },
+      'date-mise-en-service': {
+        transmettre: [
+          référencielPermissions.candidature.query.consulter,
+          référencielPermissions.appelOffre.query.consulter,
+          référencielPermissions.réseau.raccordement.query.consulterDossier,
+          référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
+          référencielPermissions.réseau.raccordement.command.transmettreDateMiseEnService,
+        ],
+        importer: [
+          référencielPermissions.réseau.raccordement.query.rechercher,
+          référencielPermissions.candidature.query.consulter,
+          référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
+          référencielPermissions.réseau.raccordement.command.transmettreDateMiseEnService,
+        ],
+      },
+      'référence-dossier': {
+        modifier: [
+          référencielPermissions.candidature.query.consulter,
+          référencielPermissions.appelOffre.query.consulter,
+          référencielPermissions.document.command.déplacer,
+          référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
+          référencielPermissions.réseau.raccordement.query.consulterDossier,
+          référencielPermissions.réseau.raccordement.usecase.modifierRéférenceDossier,
+          référencielPermissions.réseau.raccordement.command.modifierRéférenceDossier,
+        ],
+      },
+      gestionnaire: {
+        modifier: [
+          référencielPermissions.candidature.query.consulter,
+          référencielPermissions.réseau.gestionnaire.query.lister,
+          référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
+          référencielPermissions.réseau.raccordement.usecase.modifierGestionnaireRéseau,
+          référencielPermissions.réseau.raccordement.command.modifierGestionnaireRéseau,
+        ],
+      },
     },
     gestionnaire: {
+      lister: [référencielPermissions.réseau.gestionnaire.query.lister],
+      ajouter: [
+        référencielPermissions.réseau.gestionnaire.usecase.ajouter,
+        référencielPermissions.réseau.gestionnaire.command.ajouter,
+      ],
       modifier: [
-        référencielPermissions.candidature.query.consulter,
-        référencielPermissions.réseau.gestionnaire.query.lister,
-        référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
-        référencielPermissions.réseau.raccordement.usecase.modifierGestionnaireRéseau,
-        référencielPermissions.réseau.raccordement.command.modifierGestionnaireRéseau,
+        référencielPermissions.réseau.gestionnaire.query.consulter,
+        référencielPermissions.réseau.gestionnaire.usecase.modifier,
+        référencielPermissions.réseau.gestionnaire.command.modifier,
       ],
     },
   },
@@ -311,12 +333,54 @@ const policies = {
       référencielPermissions.lauréat.abandon.usecase.confirmer,
       référencielPermissions.lauréat.abandon.command.confirmer,
     ],
-    ['transmettre-preuve-recandidature']: [
-      référencielPermissions.lauréat.abandon.query.consulter,
+    accorder: [
       référencielPermissions.candidature.query.consulter,
-      référencielPermissions.candidature.query.listerCandidaturesPreuveRecandidature,
-      référencielPermissions.lauréat.abandon.usecase.transmettrePreuveRecandidature,
-      référencielPermissions.lauréat.abandon.command.transmettrePreuveRecandidature,
+      référencielPermissions.document.query.générerModèleRéponse,
+      référencielPermissions.document.command.enregister,
+      référencielPermissions.lauréat.abandon.query.consulter,
+      référencielPermissions.lauréat.abandon.usecase.accorder,
+      référencielPermissions.lauréat.abandon.command.accorder,
+    ],
+    rejeter: [
+      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.lauréat.abandon.query.consulter,
+      référencielPermissions.document.query.générerModèleRéponse,
+      référencielPermissions.document.command.enregister,
+      référencielPermissions.lauréat.abandon.usecase.rejeter,
+      référencielPermissions.lauréat.abandon.command.rejeter,
+    ],
+    'demander-confirmation': [
+      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.lauréat.abandon.query.consulter,
+      référencielPermissions.document.query.générerModèleRéponse,
+      référencielPermissions.document.command.enregister,
+      référencielPermissions.lauréat.abandon.usecase.demanderConfirmation,
+      référencielPermissions.lauréat.abandon.command.demanderConfirmation,
+    ],
+    'preuve-recandidature': {
+      transmettre: [
+        référencielPermissions.lauréat.abandon.query.consulter,
+        référencielPermissions.candidature.query.consulter,
+        référencielPermissions.candidature.query.listerCandidaturesPreuveRecandidature,
+        référencielPermissions.lauréat.abandon.usecase.transmettrePreuveRecandidature,
+        référencielPermissions.lauréat.abandon.command.transmettrePreuveRecandidature,
+      ],
+      accorder: [
+        référencielPermissions.candidature.query.consulter,
+        référencielPermissions.utilisateur.query.consulter,
+        référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+        référencielPermissions.document.query.générerModèleRéponse,
+        référencielPermissions.document.command.enregister,
+        référencielPermissions.lauréat.abandon.query.consulter,
+        référencielPermissions.lauréat.abandon.usecase.accorder,
+        référencielPermissions.lauréat.abandon.command.accorder,
+      ],
+    },
+    'annuler-rejet': [
+      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.lauréat.abandon.query.consulter,
+      référencielPermissions.lauréat.abandon.usecase.annulerRejet,
+      référencielPermissions.lauréat.abandon.command.annulerRejet,
     ],
   },
   tâche: {
@@ -328,137 +392,74 @@ const policies = {
 };
 
 const permissionAdmin = [
-  référencielPermissions.lauréat.abandon.query.détecter,
-  référencielPermissions.lauréat.abandon.usecase.accorder,
-  référencielPermissions.lauréat.abandon.command.accorder,
-  référencielPermissions.lauréat.abandon.usecase.annulerRejet,
-  référencielPermissions.lauréat.abandon.command.annulerRejet,
-  référencielPermissions.lauréat.abandon.usecase.demanderConfirmation,
-  référencielPermissions.lauréat.abandon.command.demanderConfirmation,
-  référencielPermissions.lauréat.abandon.usecase.rejeter,
-  référencielPermissions.lauréat.abandon.command.rejeter,
-
-  référencielPermissions.appelOffre.query.consulter,
-  référencielPermissions.appelOffre.query.lister,
-
-  référencielPermissions.candidature.query.consulter,
-
-  référencielPermissions.document.query.générerModèleRéponse,
-  référencielPermissions.document.command.enregister,
-  référencielPermissions.document.command.déplacer,
-
-  référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
-
-  référencielPermissions.réseau.gestionnaire.query.consulter,
-  référencielPermissions.réseau.gestionnaire.query.lister,
-  référencielPermissions.réseau.gestionnaire.usecase.ajouter,
-  référencielPermissions.réseau.gestionnaire.command.ajouter,
-  référencielPermissions.réseau.gestionnaire.usecase.modifier,
-  référencielPermissions.réseau.gestionnaire.command.modifier,
-
-  référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
-  référencielPermissions.réseau.raccordement.query.rechercher,
-
-  référencielPermissions.utilisateur.query.consulter,
-
   // Abandon
   ...policies.abandon.consulter.liste,
   ...policies.abandon.consulter.détail,
+  ...policies.abandon.accorder,
+  ...policies.abandon.rejeter,
+  ...policies.abandon['demander-confirmation'],
+  ...policies.abandon['annuler-rejet'],
+
+  // Gestionnaire réseau
+  ...policies.réseau.gestionnaire.lister,
+  ...policies.réseau.gestionnaire.ajouter,
+  ...policies.réseau.gestionnaire.modifier,
 
   // Raccordement
-  ...policies.raccordement.consulter,
-  ...policies.raccordement.gestionnaire.modifier,
-  ...policies.raccordement['demande-complète-raccordement'].transmettre,
-  ...policies.raccordement['demande-complète-raccordement'].modifier,
-  ...policies.raccordement['proposition-technique-et-financière'].transmettre,
-  ...policies.raccordement['proposition-technique-et-financière'].modifier,
-  ...policies.raccordement['date-mise-en-service'].transmettre,
-  ...policies.raccordement['référence-dossier'].modifier,
+  ...policies.réseau.raccordement.consulter,
+  ...policies.réseau.raccordement.gestionnaire.modifier,
+  ...policies.réseau.raccordement['demande-complète-raccordement'].transmettre,
+  ...policies.réseau.raccordement['demande-complète-raccordement'].modifier,
+  ...policies.réseau.raccordement['proposition-technique-et-financière'].transmettre,
+  ...policies.réseau.raccordement['proposition-technique-et-financière'].modifier,
+  ...policies.réseau.raccordement['date-mise-en-service'].transmettre,
+  ...policies.réseau.raccordement['date-mise-en-service'].importer,
+  ...policies.réseau.raccordement['référence-dossier'].modifier,
 ];
 
 const permissionCRE = [
-  référencielPermissions.lauréat.abandon.query.détecter,
-
-  référencielPermissions.appelOffre.query.lister,
-
-  référencielPermissions.candidature.query.consulter,
-
   // Abandon
   ...policies.abandon.consulter.liste,
   ...policies.abandon.consulter.détail,
 
   // Raccordement
-  ...policies.raccordement.consulter,
+  ...policies.réseau.raccordement.consulter,
 ];
 
 const permissionDreal = [
-  référencielPermissions.lauréat.abandon.query.détecter,
-
-  référencielPermissions.appelOffre.query.lister,
-  référencielPermissions.appelOffre.query.consulter,
-  référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
-
-  référencielPermissions.candidature.query.consulter,
-
-  référencielPermissions.document.query.générerModèleRéponse,
-
-  référencielPermissions.utilisateur.query.consulter,
-
   // Abandon
   ...policies.abandon.consulter.liste,
   ...policies.abandon.consulter.détail,
 
   // Raccordement
-  ...policies.raccordement.consulter,
+  ...policies.réseau.raccordement.consulter,
 ];
 
 const permissionDgecValidateur = [
-  référencielPermissions.lauréat.abandon.query.détecter,
-  référencielPermissions.lauréat.abandon.usecase.accorder,
-  référencielPermissions.lauréat.abandon.command.accorder,
-  référencielPermissions.lauréat.abandon.usecase.annulerRejet,
-  référencielPermissions.lauréat.abandon.command.annulerRejet,
-  référencielPermissions.lauréat.abandon.usecase.demanderConfirmation,
-  référencielPermissions.lauréat.abandon.command.demanderConfirmation,
-  référencielPermissions.lauréat.abandon.usecase.rejeter,
-  référencielPermissions.lauréat.abandon.command.rejeter,
-
-  référencielPermissions.appelOffre.query.consulter,
-  référencielPermissions.appelOffre.query.lister,
-
-  référencielPermissions.candidature.query.consulter,
-
-  référencielPermissions.document.query.générerModèleRéponse,
-  référencielPermissions.document.command.enregister,
-  référencielPermissions.document.command.déplacer,
-
-  référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
-
-  référencielPermissions.réseau.gestionnaire.query.consulter,
-  référencielPermissions.réseau.gestionnaire.query.lister,
-  référencielPermissions.réseau.gestionnaire.usecase.ajouter,
-  référencielPermissions.réseau.gestionnaire.command.ajouter,
-  référencielPermissions.réseau.gestionnaire.usecase.modifier,
-  référencielPermissions.réseau.gestionnaire.command.modifier,
-
-  référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
-  référencielPermissions.réseau.raccordement.query.rechercher,
-
-  référencielPermissions.utilisateur.query.consulter,
-
   // Abandon
   ...policies.abandon.consulter.liste,
   ...policies.abandon.consulter.détail,
+  ...policies.abandon.accorder,
+  ...policies.abandon.rejeter,
+  ...policies.abandon['preuve-recandidature'].accorder,
+  ...policies.abandon['demander-confirmation'],
+  ...policies.abandon['annuler-rejet'],
+
+  // Gestionnaire réseau
+  ...policies.réseau.gestionnaire.lister,
+  ...policies.réseau.gestionnaire.ajouter,
+  ...policies.réseau.gestionnaire.modifier,
 
   // Raccordement
-  ...policies.raccordement.consulter,
-  ...policies.raccordement.gestionnaire.modifier,
-  ...policies.raccordement['demande-complète-raccordement'].transmettre,
-  ...policies.raccordement['demande-complète-raccordement'].modifier,
-  ...policies.raccordement['proposition-technique-et-financière'].transmettre,
-  ...policies.raccordement['proposition-technique-et-financière'].modifier,
-  ...policies.raccordement['date-mise-en-service'].transmettre,
-  ...policies.raccordement['référence-dossier'].modifier,
+  ...policies.réseau.raccordement.consulter,
+  ...policies.réseau.raccordement.gestionnaire.modifier,
+  ...policies.réseau.raccordement['demande-complète-raccordement'].transmettre,
+  ...policies.réseau.raccordement['demande-complète-raccordement'].modifier,
+  ...policies.réseau.raccordement['proposition-technique-et-financière'].transmettre,
+  ...policies.réseau.raccordement['proposition-technique-et-financière'].modifier,
+  ...policies.réseau.raccordement['date-mise-en-service'].transmettre,
+  ...policies.réseau.raccordement['date-mise-en-service'].importer,
+  ...policies.réseau.raccordement['référence-dossier'].modifier,
 ];
 
 const permissionPorteurProjet = [
@@ -468,22 +469,22 @@ const permissionPorteurProjet = [
   ...policies.abandon.demander,
   ...policies.abandon.annuler,
   ...policies.abandon.confirmer,
-  ...policies.abandon['transmettre-preuve-recandidature'],
+  ...policies.abandon['preuve-recandidature'].transmettre,
 
   // Raccordement
-  ...policies.raccordement.consulter,
-  ...policies.raccordement.gestionnaire.modifier,
-  ...policies.raccordement['demande-complète-raccordement'].transmettre,
-  ...policies.raccordement['demande-complète-raccordement'].modifier,
-  ...policies.raccordement['proposition-technique-et-financière'].transmettre,
-  ...policies.raccordement['proposition-technique-et-financière'].modifier,
-  ...policies.raccordement['référence-dossier'].modifier,
+  ...policies.réseau.raccordement.consulter,
+  ...policies.réseau.raccordement.gestionnaire.modifier,
+  ...policies.réseau.raccordement['demande-complète-raccordement'].transmettre,
+  ...policies.réseau.raccordement['demande-complète-raccordement'].modifier,
+  ...policies.réseau.raccordement['proposition-technique-et-financière'].transmettre,
+  ...policies.réseau.raccordement['proposition-technique-et-financière'].modifier,
+  ...policies.réseau.raccordement['référence-dossier'].modifier,
 
   // Tâche
   ...policies.tâche.consulter,
 ];
 
-const permissionAcheteurObligé = [...policies.raccordement.consulter];
+const permissionAcheteurObligé = [...policies.réseau.raccordement.consulter];
 
 const permissions: Record<RawType, string[]> = {
   admin: [...new Set(permissionAdmin)],
