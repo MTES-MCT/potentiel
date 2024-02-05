@@ -208,6 +208,16 @@ const policies = {
       référencielPermissions.réseau.raccordement.query.consulterDossier,
       référencielPermissions.réseau.gestionnaire.query.consulter,
     ],
+    'demande-complete-raccordement': {
+      transmettre: [
+        référencielPermissions.candidature.query.consulter,
+        référencielPermissions.appelOffre.query.consulter,
+        référencielPermissions.réseau.gestionnaire.query.lister,
+        référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
+        référencielPermissions.réseau.raccordement.usecase.transmettreDemandeComplète,
+        référencielPermissions.réseau.raccordement.command.transmettreDemandeComplète,
+      ],
+    },
   },
 };
 
@@ -244,6 +254,7 @@ const permissionAdmin = [
   référencielPermissions.réseau.gestionnaire.command.modifier,
 
   ...policies.raccordement.consulter,
+  ...policies.raccordement['demande-complete-raccordement'].transmettre,
 
   référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
   référencielPermissions.réseau.raccordement.query.rechercher,
@@ -257,8 +268,6 @@ const permissionAdmin = [
   référencielPermissions.réseau.raccordement.command.modifierRéférenceDossier,
   référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
   référencielPermissions.réseau.raccordement.command.transmettreDateMiseEnService,
-  référencielPermissions.réseau.raccordement.usecase.transmettreDemandeComplète,
-  référencielPermissions.réseau.raccordement.command.transmettreDemandeComplète,
   référencielPermissions.réseau.raccordement.usecase.transmettrePropositionTechniqueEtFinancière,
   référencielPermissions.réseau.raccordement.command.transmettrePropositionTechniqueEtFinancière,
 
@@ -331,6 +340,7 @@ const permissionDgecValidateur = [
   référencielPermissions.réseau.gestionnaire.command.modifier,
 
   ...policies.raccordement.consulter,
+  ...policies.raccordement['demande-complete-raccordement'].transmettre,
 
   référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
   référencielPermissions.réseau.raccordement.query.rechercher,
@@ -344,8 +354,6 @@ const permissionDgecValidateur = [
   référencielPermissions.réseau.raccordement.command.modifierRéférenceDossier,
   référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
   référencielPermissions.réseau.raccordement.command.transmettreDateMiseEnService,
-  référencielPermissions.réseau.raccordement.usecase.transmettreDemandeComplète,
-  référencielPermissions.réseau.raccordement.command.transmettreDemandeComplète,
   référencielPermissions.réseau.raccordement.usecase.transmettrePropositionTechniqueEtFinancière,
   référencielPermissions.réseau.raccordement.command.transmettrePropositionTechniqueEtFinancière,
 
@@ -386,13 +394,11 @@ const permissionPorteurProjet = [
   référencielPermissions.réseau.gestionnaire.query.lister,
 
   ...policies.raccordement.consulter,
+  ...policies.raccordement['demande-complete-raccordement'].transmettre,
 
   référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
 
   référencielPermissions.réseau.raccordement.query.rechercher,
-
-  référencielPermissions.réseau.raccordement.usecase.transmettreDemandeComplète,
-  référencielPermissions.réseau.raccordement.command.transmettreDemandeComplète,
   référencielPermissions.réseau.raccordement.usecase.modifierDemandeComplète,
   référencielPermissions.réseau.raccordement.command.modifierDemandeComplète,
   référencielPermissions.réseau.raccordement.usecase.modifierRéférenceDossier,
