@@ -16,6 +16,8 @@ import { PermissionConsulterProjet } from '../../modules/project';
 import { mediator } from 'mediateur';
 import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { Project } from '../../infra/sequelize';
+
 import { Abandon } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
@@ -23,6 +25,32 @@ import { Raccordement } from '@potentiel-domain/reseau';
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
 });
+
+export const estUnLegacyIdentifiantProjet = (value: string): value is IdentifiantProjet.RawType => {
+  const [appelOffre, période, famille, numéroCRE] = value.split('#');
+
+  return (
+    typeof appelOffre === 'string' &&
+    typeof numéroCRE === 'string' &&
+    typeof période === 'string' &&
+    typeof famille === 'string'
+  );
+};
+
+const getLegacyIdentifiantProjet = async (identifiantProjet: IdentifiantProjet.RawType) => {
+  const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+  const projetLegacy = await Project.findOne({
+    where: {
+      appelOffreId: identifiantProjetValueType.appelOffre,
+      periodeId: identifiantProjetValueType.période,
+      familleId: identifiantProjetValueType.famille ?? '',
+      numeroCRE: identifiantProjetValueType.numéroCRE,
+    },
+    attributes: ['id'],
+  });
+
+  return projetLegacy?.id;
+};
 
 v1Router.get(
   routes.PROJECT_DETAILS(),
@@ -40,6 +68,16 @@ v1Router.get(
 
       if (!projectId) {
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
+
+      if (estUnLegacyIdentifiantProjet(projectId)) {
+        const legacyId = await getLegacyIdentifiantProjet(projectId);
+
+        if (!legacyId) {
+          return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+        }
+
+        return response.redirect(routes.PROJECT_DETAILS(legacyId));
       }
 
       const userHasRightsToProject = await shouldUserAccessProject.check({
