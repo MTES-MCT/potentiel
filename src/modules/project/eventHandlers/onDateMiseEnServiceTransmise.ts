@@ -91,8 +91,8 @@ export const makeOnDateMiseEnServiceTransmise =
               }
               return isDateHorsIntervalle({
                 dateMiseEnService,
-                min: délaiCDCApplicable.intervaleDateMiseEnService.min,
-                max: délaiCDCApplicable.intervaleDateMiseEnService.max,
+                min: new Date(délaiCDCApplicable.intervaleDateMiseEnService.min),
+                max: new Date(délaiCDCApplicable.intervaleDateMiseEnService.max),
               })
                 ? publishToEventStore(
                     new ProjectCompletionDueDateSet({
@@ -121,8 +121,8 @@ export const makeOnDateMiseEnServiceTransmise =
                       isDateHorsIntervalle({
                         dateMiseEnService:
                           dossier.miseEnService.dateMiseEnService?.formatter() || '',
-                        min: délaiCDCApplicable.intervaleDateMiseEnService.min,
-                        max: délaiCDCApplicable.intervaleDateMiseEnService.max,
+                        min: new Date(délaiCDCApplicable.intervaleDateMiseEnService.min),
+                        max: new Date(délaiCDCApplicable.intervaleDateMiseEnService.max),
                       })),
                 )
               ) {
@@ -131,8 +131,8 @@ export const makeOnDateMiseEnServiceTransmise =
 
               return !isDateHorsIntervalle({
                 dateMiseEnService,
-                min: délaiCDCApplicable.intervaleDateMiseEnService.min,
-                max: délaiCDCApplicable.intervaleDateMiseEnService.max,
+                min: new Date(délaiCDCApplicable.intervaleDateMiseEnService.min),
+                max: new Date(délaiCDCApplicable.intervaleDateMiseEnService.max),
               }) &&
                 cahierDesCharges.type === 'modifié' &&
                 cahierDesCharges.paruLe === '30/08/2022'

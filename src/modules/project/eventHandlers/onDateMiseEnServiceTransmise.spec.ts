@@ -60,8 +60,8 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
               délaiApplicable: {
                 délaiEnMois: 18,
                 intervaleDateMiseEnService: {
-                  min: new Date('2022-06-01'),
-                  max: new Date('2024-09-30'),
+                  min: new Date('2022-06-01').toISOString(),
+                  max: new Date('2024-09-30').toISOString(),
                 },
               },
             } as CahierDesChargesModifié,

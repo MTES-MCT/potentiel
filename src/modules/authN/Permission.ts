@@ -16,7 +16,6 @@ import { PermissionListerProjetsÀNotifier } from '../notificationCandidats';
 import {
   PermissionAjouterGestionnaireRéseau,
   PermissionModifierGestionnaireRéseau,
-  PermissionTransmettreDateMiseEnService,
   PermissionModifierGestionnaireRéseauProjet,
   PermissionListerGestionnairesRéseau,
   PermissionConsulterGestionnaireRéseau,
@@ -83,7 +82,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionAjouterGestionnaireRéseau,
         PermissionModifierGestionnaireRéseau,
         PermissionConsulterDossierRaccordement,
-        PermissionTransmettreDateMiseEnService,
         PermissionModifierGestionnaireRéseauProjet,
         PermissionListerAbandons,
       ];
@@ -103,7 +101,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionAjouterGestionnaireRéseau,
         PermissionModifierGestionnaireRéseau,
         PermissionConsulterDossierRaccordement,
-        PermissionTransmettreDateMiseEnService,
         PermissionModifierGestionnaireRéseauProjet,
         PermissionListerAbandons,
       ];
