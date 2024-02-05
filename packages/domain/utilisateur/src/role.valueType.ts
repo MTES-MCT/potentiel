@@ -271,11 +271,29 @@ const policies = {
       ],
     },
   },
+  abandon: {
+    consulter: {
+      liste: [
+        référencielPermissions.lauréat.abandon.query.lister,
+        référencielPermissions.appelOffre.query.lister,
+      ],
+      détail: [
+        référencielPermissions.candidature.query.consulter,
+        référencielPermissions.lauréat.abandon.query.consulter,
+      ],
+    },
+    demander: [
+      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.appelOffre.query.consulter,
+      référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+      référencielPermissions.document.command.enregister,
+      référencielPermissions.lauréat.abandon.usecase.demander,
+      référencielPermissions.lauréat.abandon.command.demander,
+    ],
+  },
 };
 
 const permissionAdmin = [
-  référencielPermissions.lauréat.abandon.query.consulter,
-  référencielPermissions.lauréat.abandon.query.lister,
   référencielPermissions.lauréat.abandon.query.détecter,
   référencielPermissions.lauréat.abandon.usecase.accorder,
   référencielPermissions.lauréat.abandon.command.accorder,
@@ -305,6 +323,16 @@ const permissionAdmin = [
   référencielPermissions.réseau.gestionnaire.usecase.modifier,
   référencielPermissions.réseau.gestionnaire.command.modifier,
 
+  référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
+  référencielPermissions.réseau.raccordement.query.rechercher,
+
+  référencielPermissions.utilisateur.query.consulter,
+
+  // Abandon
+  ...policies.abandon.consulter.liste,
+  ...policies.abandon.consulter.détail,
+
+  // Raccordement
   ...policies.raccordement.consulter,
   ...policies.raccordement.gestionnaire.modifier,
   ...policies.raccordement['demande-complète-raccordement'].transmettre,
@@ -313,16 +341,9 @@ const permissionAdmin = [
   ...policies.raccordement['proposition-technique-et-financière'].modifier,
   ...policies.raccordement['date-mise-en-service'].transmettre,
   ...policies.raccordement['référence-dossier'].modifier,
-
-  référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
-  référencielPermissions.réseau.raccordement.query.rechercher,
-
-  référencielPermissions.utilisateur.query.consulter,
 ];
 
 const permissionCRE = [
-  référencielPermissions.lauréat.abandon.query.consulter,
-  référencielPermissions.lauréat.abandon.query.lister,
   référencielPermissions.lauréat.abandon.query.détecter,
 
   référencielPermissions.appelOffre.query.lister,
@@ -331,12 +352,15 @@ const permissionCRE = [
 
   référencielPermissions.document.query.consulter,
 
+  // Abandon
+  ...policies.abandon.consulter.liste,
+  ...policies.abandon.consulter.détail,
+
+  // Raccordement
   ...policies.raccordement.consulter,
 ];
 
 const permissionDreal = [
-  référencielPermissions.lauréat.abandon.query.consulter,
-  référencielPermissions.lauréat.abandon.query.lister,
   référencielPermissions.lauréat.abandon.query.détecter,
 
   référencielPermissions.appelOffre.query.lister,
@@ -350,12 +374,15 @@ const permissionDreal = [
 
   référencielPermissions.utilisateur.query.consulter,
 
+  // Abandon
+  ...policies.abandon.consulter.liste,
+  ...policies.abandon.consulter.détail,
+
+  // Raccordement
   ...policies.raccordement.consulter,
 ];
 
 const permissionDgecValidateur = [
-  référencielPermissions.lauréat.abandon.query.consulter,
-  référencielPermissions.lauréat.abandon.query.lister,
   référencielPermissions.lauréat.abandon.query.détecter,
   référencielPermissions.lauréat.abandon.usecase.accorder,
   référencielPermissions.lauréat.abandon.command.accorder,
@@ -385,6 +412,16 @@ const permissionDgecValidateur = [
   référencielPermissions.réseau.gestionnaire.usecase.modifier,
   référencielPermissions.réseau.gestionnaire.command.modifier,
 
+  référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
+  référencielPermissions.réseau.raccordement.query.rechercher,
+
+  référencielPermissions.utilisateur.query.consulter,
+
+  // Abandon
+  ...policies.abandon.consulter.liste,
+  ...policies.abandon.consulter.détail,
+
+  // Raccordement
   ...policies.raccordement.consulter,
   ...policies.raccordement.gestionnaire.modifier,
   ...policies.raccordement['demande-complète-raccordement'].transmettre,
@@ -393,24 +430,15 @@ const permissionDgecValidateur = [
   ...policies.raccordement['proposition-technique-et-financière'].modifier,
   ...policies.raccordement['date-mise-en-service'].transmettre,
   ...policies.raccordement['référence-dossier'].modifier,
-
-  référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
-  référencielPermissions.réseau.raccordement.query.rechercher,
-
-  référencielPermissions.utilisateur.query.consulter,
 ];
 
 const permissionPorteurProjet = [
-  référencielPermissions.lauréat.abandon.query.consulter,
-  référencielPermissions.lauréat.abandon.query.lister,
   référencielPermissions.lauréat.abandon.query.détecter,
 
   référencielPermissions.lauréat.abandon.usecase.annuler,
   référencielPermissions.lauréat.abandon.command.annuler,
   référencielPermissions.lauréat.abandon.usecase.confirmer,
   référencielPermissions.lauréat.abandon.command.confirmer,
-  référencielPermissions.lauréat.abandon.usecase.demander,
-  référencielPermissions.lauréat.abandon.command.demander,
   référencielPermissions.lauréat.abandon.usecase.transmettrePreuveRecandidature,
   référencielPermissions.lauréat.abandon.command.transmettrePreuveRecandidature,
 
@@ -433,6 +461,16 @@ const permissionPorteurProjet = [
   référencielPermissions.réseau.gestionnaire.query.consulter,
   référencielPermissions.réseau.gestionnaire.query.lister,
 
+  référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
+
+  référencielPermissions.réseau.raccordement.query.rechercher,
+
+  // Abandon
+  ...policies.abandon.consulter.liste,
+  ...policies.abandon.consulter.détail,
+  ...policies.abandon.demander,
+
+  // Raccordement
   ...policies.raccordement.consulter,
   ...policies.raccordement.gestionnaire.modifier,
   ...policies.raccordement['demande-complète-raccordement'].transmettre,
@@ -440,10 +478,6 @@ const permissionPorteurProjet = [
   ...policies.raccordement['proposition-technique-et-financière'].transmettre,
   ...policies.raccordement['proposition-technique-et-financière'].modifier,
   ...policies.raccordement['référence-dossier'].modifier,
-
-  référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
-
-  référencielPermissions.réseau.raccordement.query.rechercher,
 ];
 
 const permissionAcheteurObligé = [...policies.raccordement.consulter];
