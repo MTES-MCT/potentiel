@@ -16,7 +16,6 @@ import { PermissionListerProjetsÀNotifier } from '../notificationCandidats';
 import {
   PermissionAjouterGestionnaireRéseau,
   PermissionModifierGestionnaireRéseau,
-  PermissionModifierGestionnaireRéseauProjet,
   PermissionListerGestionnairesRéseau,
   PermissionConsulterGestionnaireRéseau,
   PermissionConsulterDossierRaccordement,
@@ -52,7 +51,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionRetirerGF,
         PermissionExporterProjets,
         PermissionConsulterDossierRaccordement,
-        PermissionModifierGestionnaireRéseauProjet,
         PermissionUploaderGF,
       ];
     case 'caisse-des-dépôts':
@@ -82,7 +80,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionAjouterGestionnaireRéseau,
         PermissionModifierGestionnaireRéseau,
         PermissionConsulterDossierRaccordement,
-        PermissionModifierGestionnaireRéseauProjet,
         PermissionListerAbandons,
       ];
     case 'dgec-validateur':
@@ -101,7 +98,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionAjouterGestionnaireRéseau,
         PermissionModifierGestionnaireRéseau,
         PermissionConsulterDossierRaccordement,
-        PermissionModifierGestionnaireRéseauProjet,
         PermissionListerAbandons,
       ];
     case 'acheteur-obligé':
