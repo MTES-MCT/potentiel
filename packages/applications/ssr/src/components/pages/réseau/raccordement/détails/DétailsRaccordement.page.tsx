@@ -250,7 +250,7 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
             'aria-label': `Télécharger l'accusé de réception pour le dossier ${référence}`,
             title: `Télécharger l'accusé de réception pour le dossier ${référence}`,
           }}
-          label="Télécharger"
+          label="Télécharger la pièce justificative"
           details=""
         />
       )}
@@ -315,7 +315,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
                 'aria-label': `Télécharger la proposition technique et financière pour le dossier ${référence}`,
                 title: `Télécharger la proposition technique et financière pour le dossier ${référence}`,
               }}
-              label="Télécharger"
+              label="Télécharger la pièce justificative"
               details=""
             />
           </div>
