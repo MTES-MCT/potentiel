@@ -24,6 +24,11 @@ const csvSchema = zod.object({
   }),
 });
 
+const convertDateToCommonFormat = (date: string) => {
+  const [day, month, year] = date.split('/');
+  return `${year}-${month}-${day}`;
+};
+
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
   { fichierDatesMiseEnService },
@@ -54,7 +59,9 @@ const action: FormAction<FormState, typeof schema> = async (
               identifiantProjetValue: identifiantProjet.formatter(),
               dateDésignationValue: candidature.dateDésignation,
               référenceDossierValue: référenceDossierRaccordement.formatter(),
-              dateMiseEnServiceValue: dateMiseEnService,
+              dateMiseEnServiceValue: new Date(
+                convertDateToCommonFormat(dateMiseEnService),
+              ).toISOString(),
             },
           });
         }),
