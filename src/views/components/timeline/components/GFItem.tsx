@@ -6,7 +6,6 @@ import { WarningItem } from './WarningItem';
 import { WarningIcon } from './WarningIcon';
 import { GarantiesFinancièresDTO, ProjectStatus } from '../../../../modules/frise';
 import { format } from 'date-fns';
-import { UserRole } from '../../../../modules/users';
 
 import {
   PrimaryButton,
@@ -20,6 +19,7 @@ import {
   ChampsObligatoiresLégende,
 } from '../..';
 import { afficherDate } from '../../../helpers';
+import { UserRole } from '../../../../modules/users';
 
 type ComponentProps = GarantiesFinancièresDTO & {
   project: {
@@ -44,7 +44,7 @@ export const GFItem = (props: ComponentProps) => {
   }
 };
 
-const rolesAutorisés = [
+const rolesAutorisésPourModificationTypeEtDateEchéance = [
   'porteur-projet',
   'dreal',
   'admin',
@@ -52,8 +52,11 @@ const rolesAutorisés = [
   'cre',
   'dgec-validateur',
 ] as const;
-const utilisateurPeutModifierLesGF = (role: UserRole): role is (typeof rolesAutorisés)[number] => {
-  return (rolesAutorisés as readonly string[]).includes(role);
+
+const getPeutModifierTypeEtDateEchéance = (
+  role: UserRole,
+): role is (typeof rolesAutorisésPourModificationTypeEtDateEchéance)[number] => {
+  return (rolesAutorisésPourModificationTypeEtDateEchéance as readonly string[]).includes(role);
 };
 
 const getInfoDuréeGF = (garantieFinanciereEnMois?: number) => {
@@ -72,7 +75,7 @@ const EnAttente = ({
   typeGarantiesFinancières,
   dateEchéance,
   actionPossible,
-  project: { nomProjet, id: projectId, garantieFinanciereEnMois },
+  project: { nomProjet, id: projectId },
 }: GFEnAttenteProps) => {
   const afficherAlerteRetard = statut === 'en retard' && variant === 'porteur-projet';
   const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin';
@@ -129,7 +132,7 @@ const EnAttente = ({
 type FormulaireProps = {
   projetId: string;
   action: 'soumettre' | 'enregistrer';
-  role: (typeof rolesAutorisés)[number];
+  role: (typeof rolesAutorisésPourModificationTypeEtDateEchéance)[number];
 };
 const Formulaire = ({ projetId, action, role }: FormulaireProps) => {
   const [displayForm, showForm] = useState(false);
@@ -212,7 +215,7 @@ const ATraiter = ({
   retraitDépôtPossible,
 }: ATraiterProps) => {
   const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin';
-  const modificationAutorisée = utilisateurPeutModifierLesGF(variant);
+  const peutModifierTypeEtDateEchéance = getPeutModifierTypeEtDateEchéance(variant);
 
   return (
     <>
@@ -236,8 +239,9 @@ const ATraiter = ({
           <DateEchéance
             dateEchéance={dateEchéance}
             projetId={project.id}
-            modificationAutorisée={modificationAutorisée}
+            peutModifierTypeEtDateEchéance={peutModifierTypeEtDateEchéance}
             garantieFinanciereEnMois={project.garantieFinanciereEnMois}
+            typeGarantiesFinancières={typeGarantiesFinancières}
           />
           <div className="flex">
             {url ? (
@@ -257,27 +261,31 @@ const ATraiter = ({
 
 type DateEchéanceProps = {
   projetId: string;
-  modificationAutorisée: boolean;
+  peutModifierTypeEtDateEchéance: boolean;
   dateEchéance: number | undefined;
   garantieFinanciereEnMois?: number;
+  typeGarantiesFinancières: ComponentProps['typeGarantiesFinancières'];
 };
 const DateEchéance = ({
   projetId,
-  modificationAutorisée,
+  peutModifierTypeEtDateEchéance,
   dateEchéance,
   garantieFinanciereEnMois,
+  typeGarantiesFinancières,
 }: DateEchéanceProps) => {
   return (
     <>
       <div>
         {dateEchéance && <p className="m-0">Date d'échéance : {afficherDate(dateEchéance)}</p>}
-        {modificationAutorisée && (
-          <DateEchéanceFormulaire
-            projetId={projetId}
-            garantieFinanciereEnMois={garantieFinanciereEnMois}
-            action={dateEchéance ? 'Éditer' : 'Ajouter'}
-          />
-        )}
+        {peutModifierTypeEtDateEchéance &&
+          typeGarantiesFinancières ===
+            `Garantie financière avec date d'échéance et à renouveler` && (
+            <DateEchéanceFormulaire
+              projetId={projetId}
+              garantieFinanciereEnMois={garantieFinanciereEnMois}
+              action={dateEchéance ? 'Éditer' : 'Ajouter'}
+            />
+          )}
       </div>
     </>
   );
@@ -358,7 +366,7 @@ const Validé = ({
   typeGarantiesFinancières,
   project,
 }: ValidéProps) => {
-  const modificationAutorisée = utilisateurPeutModifierLesGF(variant);
+  const peutModifierTypeEtDateEchéance = getPeutModifierTypeEtDateEchéance(variant);
 
   return (
     <>
@@ -377,8 +385,9 @@ const Validé = ({
           <DateEchéance
             dateEchéance={dateEchéance}
             projetId={project.id}
-            modificationAutorisée={modificationAutorisée}
+            peutModifierTypeEtDateEchéance={peutModifierTypeEtDateEchéance}
             garantieFinanciereEnMois={project.garantieFinanciereEnMois}
+            typeGarantiesFinancières={typeGarantiesFinancières}
           />
           <div>
             {url ? (

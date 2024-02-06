@@ -18,7 +18,7 @@ type addGFExpidationDateArgs = {
 
 export const PermissionAjouterDateExpirationGF = {
   nom: 'ajouter-date-expiration-gf',
-  description: `Ajouter une date d'expiration à une garantie financière`,
+  description: `Ajouter une date d'échéance à des garanties financières`,
 };
 export const makeAddGFExpirationDate =
   (deps: addGFExpidationDateDeps) =>

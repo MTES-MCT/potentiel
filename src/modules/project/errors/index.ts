@@ -26,3 +26,4 @@ export * from './ProjectNotEligibileForCertificateError';
 export * from './SuppressionGFValidéeImpossibleError';
 export * from './GFImpossibleASoumettreError';
 export * from './SuppressionGFATraiterImpossibleError';
+export * from './DateEchéanceIncompatibleAvecLeTypeDeGFError';

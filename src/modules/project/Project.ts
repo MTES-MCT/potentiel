@@ -38,6 +38,7 @@ import {
   SuppressionGFValidéeImpossibleError,
   GFImpossibleASoumettreError,
   SuppressionGFATraiterImpossibleError,
+  DateEchéanceIncompatibleAvecLeTypeDeGFError,
 } from './errors';
 import {
   AppelOffreProjetModifié,
@@ -266,6 +267,7 @@ export interface ProjectProps {
   potentielIdentifier?: string;
   hasCurrentGf: boolean;
   GFExpirationDate: Date | undefined;
+  typeGarantiesFinancières?: string;
   appelOffreId: string;
   periodeId: string;
   familleId: string;
@@ -311,6 +313,7 @@ export const makeProject = (args: {
     fieldsUpdatedAfterImport: new Set<string>(),
     hasCurrentGf: false,
     GFExpirationDate: undefined,
+    typeGarantiesFinancières: undefined,
     potentielIdentifier: '',
     appelOffreId: '',
     periodeId: '',
@@ -988,6 +991,12 @@ export const makeProject = (args: {
       if (!props.hasCurrentGf) {
         return err(new NoGFCertificateToUpdateError());
       }
+      if (
+        props.typeGarantiesFinancières !==
+        `Garantie financière avec date d'échéance et à renouveler`
+      ) {
+        return err(new DateEchéanceIncompatibleAvecLeTypeDeGFError());
+      }
       _publishEvent(
         new DateEchéanceGFAjoutée({
           payload: {
@@ -1308,6 +1317,7 @@ export const makeProject = (args: {
         props.GFExpirationDate = event.payload.expirationDate;
         break;
       case TypeGarantiesFinancièresEtDateEchéanceTransmis.type:
+        props.typeGarantiesFinancières = event.payload.type;
         if (event.payload.dateEchéance) {
           props.GFExpirationDate = event.payload.dateEchéance;
         }
@@ -1373,8 +1383,6 @@ export const makeProject = (args: {
   }
 
   function _allEventsHaveSameAggregateId() {
-    const probleme = history?.find((event) => !event.aggregateId?.includes(projectId.toString()));
-    console.log('******EVENT problématique : ', probleme);
     return history
       ? history.every((event) => event.aggregateId?.includes(projectId.toString()))
       : true;

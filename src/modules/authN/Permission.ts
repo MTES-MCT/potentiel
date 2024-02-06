@@ -54,7 +54,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionListerProjets,
         PermissionConsulterProjet,
         PermissionAnnulerGF,
-        PermissionAjouterDateExpirationGF,
         PermissionRetirerGF,
         PermissionExporterProjets,
         PermissionTransmettreDemandeComplèteRaccordement,
