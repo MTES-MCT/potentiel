@@ -170,6 +170,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
                     label="Télécharger la pièce justificative"
                     linkProps={{
                       href: Routes.Document.télécharger(accord.réponseSignée),
+                      target: '_blank',
                     }}
                     className="mb-0 pb-0"
                   />
@@ -197,6 +198,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
                     label="Télécharger la pièce justificative"
                     linkProps={{
                       href: Routes.Document.télécharger(rejet.réponseSignée),
+                      target: '_blank',
                     }}
                     className="mb-0 pb-0"
                   />
@@ -245,6 +247,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
                     label="Télécharger la pièce justificative"
                     linkProps={{
                       href: Routes.Document.télécharger(confirmation.réponseSignée),
+                      target: '_blank',
                     }}
                     className="mb-0 pb-0"
                   />
@@ -280,6 +283,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
                   label="Télécharger la pièce justificative"
                   linkProps={{
                     href: Routes.Document.télécharger(justificatifDemande),
+                    target: '_blank',
                   }}
                   className="mb-0 pb-0"
                 />
