@@ -30,7 +30,7 @@ export const DemanderConfirmationAbandon = ({
         action: demanderConfirmationAbandonAction,
         method: 'post',
         encType: 'multipart/form-data',
-        onSuccess: () => router.push(Routes.Abandon.détail(identifiantProjet)),
+        onSuccess: () => router.refresh(),
         onValidationError: (validationErrors) => setValidationErrors(validationErrors),
         children: (
           <>
