@@ -53,7 +53,6 @@ describe('Uploader une garantie financière', () => {
         stepDate: new Date(123),
         projectId,
         submittedBy: user,
-        expirationDate: new Date(456),
       });
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError);
@@ -73,7 +72,6 @@ describe('Uploader une garantie financière', () => {
         load: jest.fn(),
       };
       const gfDate = new Date(123);
-      const expirationDate = new Date(456);
 
       it(`Alors l'utilisateur devrait être autorisé à uploader`, async () => {
         const uploadGF = makeUploadGF({
@@ -87,7 +85,6 @@ describe('Uploader une garantie financière', () => {
           stepDate: gfDate,
           projectId,
           submittedBy: user,
-          expirationDate,
         });
 
         expect(res.isOk()).toBe(true);
@@ -109,7 +106,6 @@ describe('Uploader une garantie financière', () => {
           gfDate,
           fakeFile.id.toString(),
           user,
-          expirationDate,
         );
       });
     });
