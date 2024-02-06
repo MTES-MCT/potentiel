@@ -1,18 +1,22 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { FormError } from './FormError';
+import { FormFeedback } from './FormFeedback';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Atoms/Form/FormError',
-  component: FormError,
+  title: 'Atoms/Form/FormFeedback',
+  component: FormFeedback,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<typeof FormError>;
+} satisfies Meta<typeof FormFeedback>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+export const WithSuccess: Story = {
+  args: { formState: { status: 'success' } },
+};
 
 export const WithUnknownError: Story = {
   args: { formState: { status: 'unknown-error' } },

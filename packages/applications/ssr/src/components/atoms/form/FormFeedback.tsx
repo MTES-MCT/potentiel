@@ -5,12 +5,15 @@ import Alert, { AlertProps } from '@codegouvfr/react-dsfr/Alert';
 
 import { FormState } from '@/utils/formAction';
 
-type FormErrorProps = {
+type FormFeedbackProps = {
   formState: FormState;
 };
 
-export const FormError: FC<FormErrorProps> = ({ formState }) => {
+export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
   switch (formState.status) {
+    case 'success':
+      return <Alert small severity="success" description="L'opération est un succès" />;
+
     case 'domain-error':
       return <AlertError description={formState.message} />;
 

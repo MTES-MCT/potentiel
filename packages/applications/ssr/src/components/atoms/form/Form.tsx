@@ -7,7 +7,7 @@ import { formAction } from '@/utils/formAction';
 
 import { Heading2 } from '../headings';
 
-import { FormError } from './FormError';
+import { FormFeedback } from './FormFeedback';
 import { FormPendingModal, FormPendingModalProps } from './FormPendingModal';
 
 export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action'> & {
@@ -46,7 +46,7 @@ export const Form: FC<FormProps> = ({
     <form action={formAction} {...props}>
       {heading && <Heading2 className="mb-4">{heading}</Heading2>}
 
-      <FormError formState={state} />
+      <FormFeedback formState={state} />
       {pendingModal && <FormPendingModal {...pendingModal} />}
 
       {!omitMandatoryFieldsLegend && (
