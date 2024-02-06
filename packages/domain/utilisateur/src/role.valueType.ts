@@ -64,6 +64,7 @@ export const admin = convertirEnValueType('admin');
 export const dgecValidateur = convertirEnValueType('dgec-validateur');
 export const dreal = convertirEnValueType('dreal');
 export const cre = convertirEnValueType('cre');
+export const acheteurObligé = convertirEnValueType('acheteur-obligé');
 
 class RoleRefuséError extends OperationRejectedError {
   constructor(value: string) {
