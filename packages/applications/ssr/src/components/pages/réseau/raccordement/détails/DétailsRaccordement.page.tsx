@@ -246,10 +246,12 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
           className="flex items-center"
           linkProps={{
             href: Routes.Document.télécharger(accuséRéception),
+            target: '_blank',
+            'aria-label': `Télécharger l'accusé de réception pour le dossier ${référence}`,
+            title: `Télécharger l'accusé de réception pour le dossier ${référence}`,
           }}
-          label="Télécharger l'accusé de réception"
+          label="Télécharger"
           details=""
-          aria-label={`Télécharger l'accusé de réception pour le dossier ${référence}`}
         />
       )}
 
@@ -289,7 +291,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
 }) => (
   <Etape
     className="relative"
-    titre="Proposition technique et financière"
+    titre="Proposition   et financière"
     statut={
       dateSignature && propositionTechniqueEtFinancièreSignée ? 'étape validée' : 'étape à venir'
     }
@@ -310,16 +312,17 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
               className="flex items-center"
               linkProps={{
                 href: Routes.Document.télécharger(propositionTechniqueEtFinancièreSignée),
+                'aria-label': `Télécharger la proposition technique et financière pour le dossier ${référence}`,
+                title: `Télécharger la proposition technique et financière pour le dossier ${référence}`,
               }}
               label="Télécharger"
               details=""
-              aria-label={`Télécharger la proposition technique et financière pour le dossier ${référence}`}
-            ></Download>
+            />
           </div>
         )}
 
         {canEdit && (
-          <a
+          <Link
             href={Routes.Raccordement.modifierPropositionTechniqueEtFinancière(
               identifiantProjet,
               référence,
@@ -329,7 +332,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
           >
             <EditIcon aria-hidden className="inline mr-1" />
             Modifier
-          </a>
+          </Link>
         )}
       </div>
     ) : (
