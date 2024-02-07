@@ -174,6 +174,10 @@ export const initializeProjectModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      historiqueAbandon: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
     },
