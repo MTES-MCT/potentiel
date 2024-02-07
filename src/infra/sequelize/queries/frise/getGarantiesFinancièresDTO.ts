@@ -73,7 +73,7 @@ export const getGarantiesFinancièresDTO = async ({
         date: dateLimiteEnvoi?.getTime() || 0,
         statut: dateLimiteDépassée ? 'en retard' : 'en attente',
         variant: user.role,
-        ...(!soumisesALaCandidature && { actionPossible: 'soumettre' }),
+        actionPossible: soumisesALaCandidature ? 'enregistrer' : 'soumettre',
       };
     }
 

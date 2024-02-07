@@ -122,7 +122,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           Si l'utilisateur a le rôle 'porteur-projet'
           Alors un GarantiesFinancièresDTO devrait être retourné : 
           - avec un statut 'en attente'
-          - sans action possible`, async () => {
+          - avec l'action possible 'enregistrer'`, async () => {
         const user = { role: 'porteur-projet' } as User;
         const garantiesFinancières = {
           statut: 'en attente',
@@ -146,6 +146,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           date: dateLimiteEnvoi.getTime(),
           variant: user.role,
           typeGarantiesFinancières: 'Consignation',
+          actionPossible: 'enregistrer',
         });
       });
 
@@ -187,7 +188,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
         });
 
         it(`Etant donné un projet soumis à garanties financières
-          Et dont les GF non soumises à la candidature sont en attente
+          Et dont les GF soumises à la candidature sont en attente
           Si l'utilisateur a le rôle ${role}
           Alors un GarantiesFinancièresDTO devrait être retourné avec :
           - un statut 'en attente'

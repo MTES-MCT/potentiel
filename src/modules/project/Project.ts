@@ -38,6 +38,7 @@ import {
   SuppressionGFValidéeImpossibleError,
   GFImpossibleASoumettreError,
   SuppressionGFATraiterImpossibleError,
+  DateEchéanceIncompatibleAvecLeTypeDeGFError,
 } from './errors';
 import {
   AppelOffreProjetModifié,
@@ -147,7 +148,6 @@ export interface Project extends EventStoreAggregate {
     gfDate: Date,
     fileId: string,
     submittedBy: User,
-    expirationDate: Date,
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>;
   removeGarantiesFinancieres: (
     removedBy: User,
@@ -267,6 +267,7 @@ export interface ProjectProps {
   potentielIdentifier?: string;
   hasCurrentGf: boolean;
   GFExpirationDate: Date | undefined;
+  typeGarantiesFinancières?: string;
   appelOffreId: string;
   periodeId: string;
   familleId: string;
@@ -312,6 +313,7 @@ export const makeProject = (args: {
     fieldsUpdatedAfterImport: new Set<string>(),
     hasCurrentGf: false,
     GFExpirationDate: undefined,
+    typeGarantiesFinancières: undefined,
     potentielIdentifier: '',
     appelOffreId: '',
     periodeId: '',
@@ -845,7 +847,7 @@ export const makeProject = (args: {
       );
       return ok(null);
     },
-    uploadGarantiesFinancieres: function (gfDate, fileId, submittedBy, expirationDate) {
+    uploadGarantiesFinancieres: function (gfDate, fileId, submittedBy) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
@@ -859,7 +861,6 @@ export const makeProject = (args: {
             fileId: fileId,
             gfDate: gfDate,
             submittedBy: submittedBy.id,
-            expirationDate,
           },
         }),
       );
@@ -989,6 +990,12 @@ export const makeProject = (args: {
       }
       if (!props.hasCurrentGf) {
         return err(new NoGFCertificateToUpdateError());
+      }
+      if (
+        props.typeGarantiesFinancières !==
+        `Garantie financière avec date d'échéance et à renouveler`
+      ) {
+        return err(new DateEchéanceIncompatibleAvecLeTypeDeGFError());
       }
       _publishEvent(
         new DateEchéanceGFAjoutée({
@@ -1310,6 +1317,7 @@ export const makeProject = (args: {
         props.GFExpirationDate = event.payload.expirationDate;
         break;
       case TypeGarantiesFinancièresEtDateEchéanceTransmis.type:
+        props.typeGarantiesFinancières = event.payload.type;
         if (event.payload.dateEchéance) {
           props.GFExpirationDate = event.payload.dateEchéance;
         }

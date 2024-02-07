@@ -6,7 +6,6 @@ import { WarningItem } from './WarningItem';
 import { WarningIcon } from './WarningIcon';
 import { GarantiesFinancièresDTO, ProjectStatus } from '../../../../modules/frise';
 import { format } from 'date-fns';
-import { UserRole } from '../../../../modules/users';
 
 import {
   PrimaryButton,
@@ -20,6 +19,7 @@ import {
   ChampsObligatoiresLégende,
 } from '../..';
 import { afficherDate } from '../../../helpers';
+import { UserRole } from '../../../../modules/users';
 
 type ComponentProps = GarantiesFinancièresDTO & {
   project: {
@@ -44,7 +44,7 @@ export const GFItem = (props: ComponentProps) => {
   }
 };
 
-const rolesAutorisés = [
+const rolesAutorisésPourModificationTypeEtDateEchéance = [
   'porteur-projet',
   'dreal',
   'admin',
@@ -52,8 +52,11 @@ const rolesAutorisés = [
   'cre',
   'dgec-validateur',
 ] as const;
-const utilisateurPeutModifierLesGF = (role: UserRole): role is (typeof rolesAutorisés)[number] => {
-  return (rolesAutorisés as readonly string[]).includes(role);
+
+const getPeutModifierTypeEtDateEchéance = (
+  role: UserRole,
+): role is (typeof rolesAutorisésPourModificationTypeEtDateEchéance)[number] => {
+  return (rolesAutorisésPourModificationTypeEtDateEchéance as readonly string[]).includes(role);
 };
 
 const getInfoDuréeGF = (garantieFinanciereEnMois?: number) => {
@@ -72,7 +75,7 @@ const EnAttente = ({
   typeGarantiesFinancières,
   dateEchéance,
   actionPossible,
-  project: { nomProjet, id: projectId, garantieFinanciereEnMois },
+  project: { nomProjet, id: projectId },
 }: GFEnAttenteProps) => {
   const afficherAlerteRetard = statut === 'en retard' && variant === 'porteur-projet';
   const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin';
@@ -106,13 +109,7 @@ const EnAttente = ({
             </p>
           </div>
           {actionPossible && (
-            <Formulaire
-              projetId={projectId}
-              garantieFinanciereEnMois={garantieFinanciereEnMois}
-              action={actionPossible}
-              role={variant}
-              dateEchéance={dateEchéance}
-            />
+            <Formulaire projetId={projectId} action={actionPossible} role={variant} />
           )}
           {utilisateurEstAdmin && statut === 'en retard' && (
             <p className="m-0">
@@ -134,18 +131,10 @@ const EnAttente = ({
 
 type FormulaireProps = {
   projetId: string;
-  garantieFinanciereEnMois?: number;
   action: 'soumettre' | 'enregistrer';
-  role: (typeof rolesAutorisés)[number];
-  dateEchéance: number | undefined;
+  role: (typeof rolesAutorisésPourModificationTypeEtDateEchéance)[number];
 };
-const Formulaire = ({
-  projetId,
-  garantieFinanciereEnMois,
-  action,
-  role,
-  dateEchéance,
-}: FormulaireProps) => {
+const Formulaire = ({ projetId, action, role }: FormulaireProps) => {
   const [displayForm, showForm] = useState(false);
 
   return (
@@ -156,7 +145,7 @@ const Formulaire = ({
       text={
         action === 'soumettre'
           ? 'Soumettre une attestation de garanties financières'
-          : `Enregistrer une attestation de garanties financières`
+          : `Enregistrer l'attestation de garanties financières`
       }
     >
       <Form
@@ -171,11 +160,18 @@ const Formulaire = ({
       >
         <ChampsObligatoiresLégende />
         {action === 'enregistrer' && (
-          <p className="m-0 italic">
-            L'attestation que vous enregistrez ne sera pas soumise à validation par la DREAL
-            concernée. Les garanties financières doivent déjà avoir été validée (soit à la
-            candidature, soit par la DREAL).
-          </p>
+          <>
+            <p className="m-0 italic">
+              L'attestation que vous enregistrez ne sera pas soumise à validation par la DREAL
+              concernée. Les garanties financières doivent déjà avoir été validée (soit à la
+              candidature, soit par la DREAL).
+            </p>
+            {role === 'porteur-projet' && (
+              <p className="m-0 italic font-semibold">
+                Une fois le document enregistré, vous ne pourrez plus le modifier.
+              </p>
+            )}
+          </>
         )}
         {action === 'soumettre' && (
           <p className="m-0 italic">
@@ -196,26 +192,9 @@ const Formulaire = ({
           />
         </div>
         <div>
-          <Label htmlFor="expirationDate">
-            Date d'échéance des garanties<span>*</span>
-          </Label>
-          <Input
-            type="date"
-            name="expirationDate"
-            id="expirationDate"
-            defaultValue={dateEchéance && format(new Date(dateEchéance), 'yyyy-MM-dd')}
-            required
-            aria-required="true"
-          />
-        </div>
-        <div>
           <Label htmlFor="file">Attestation</Label>
           <Input type="file" name="file" id="file" required aria-required="true" />
         </div>
-        <p className="m-0 mt-3 italic">
-          <span>*</span>
-          {getInfoDuréeGF(garantieFinanciereEnMois)}
-        </p>
         <div className="flex gap-4 flex-col md:flex-row mx-auto">
           <PrimaryButton type="submit">Envoyer</PrimaryButton>
           <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
@@ -236,7 +215,7 @@ const ATraiter = ({
   retraitDépôtPossible,
 }: ATraiterProps) => {
   const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin';
-  const modificationAutorisée = utilisateurPeutModifierLesGF(variant);
+  const peutModifierTypeEtDateEchéance = getPeutModifierTypeEtDateEchéance(variant);
 
   return (
     <>
@@ -260,8 +239,9 @@ const ATraiter = ({
           <DateEchéance
             dateEchéance={dateEchéance}
             projetId={project.id}
-            modificationAutorisée={modificationAutorisée}
+            peutModifierTypeEtDateEchéance={peutModifierTypeEtDateEchéance}
             garantieFinanciereEnMois={project.garantieFinanciereEnMois}
+            typeGarantiesFinancières={typeGarantiesFinancières}
           />
           <div className="flex">
             {url ? (
@@ -281,27 +261,31 @@ const ATraiter = ({
 
 type DateEchéanceProps = {
   projetId: string;
-  modificationAutorisée: boolean;
+  peutModifierTypeEtDateEchéance: boolean;
   dateEchéance: number | undefined;
   garantieFinanciereEnMois?: number;
+  typeGarantiesFinancières: ComponentProps['typeGarantiesFinancières'];
 };
 const DateEchéance = ({
   projetId,
-  modificationAutorisée,
+  peutModifierTypeEtDateEchéance,
   dateEchéance,
   garantieFinanciereEnMois,
+  typeGarantiesFinancières,
 }: DateEchéanceProps) => {
   return (
     <>
       <div>
         {dateEchéance && <p className="m-0">Date d'échéance : {afficherDate(dateEchéance)}</p>}
-        {modificationAutorisée && (
-          <DateEchéanceFormulaire
-            projetId={projetId}
-            garantieFinanciereEnMois={garantieFinanciereEnMois}
-            action={dateEchéance ? 'Éditer' : 'Ajouter'}
-          />
-        )}
+        {peutModifierTypeEtDateEchéance &&
+          typeGarantiesFinancières ===
+            `Garantie financière avec date d'échéance et à renouveler` && (
+            <DateEchéanceFormulaire
+              projetId={projetId}
+              garantieFinanciereEnMois={garantieFinanciereEnMois}
+              action={dateEchéance ? 'Éditer' : 'Ajouter'}
+            />
+          )}
       </div>
     </>
   );
@@ -382,7 +366,7 @@ const Validé = ({
   typeGarantiesFinancières,
   project,
 }: ValidéProps) => {
-  const modificationAutorisée = utilisateurPeutModifierLesGF(variant);
+  const peutModifierTypeEtDateEchéance = getPeutModifierTypeEtDateEchéance(variant);
 
   return (
     <>
@@ -401,8 +385,9 @@ const Validé = ({
           <DateEchéance
             dateEchéance={dateEchéance}
             projetId={project.id}
-            modificationAutorisée={modificationAutorisée}
+            peutModifierTypeEtDateEchéance={peutModifierTypeEtDateEchéance}
             garantieFinanciereEnMois={project.garantieFinanciereEnMois}
+            typeGarantiesFinancières={typeGarantiesFinancières}
           />
           <div>
             {url ? (

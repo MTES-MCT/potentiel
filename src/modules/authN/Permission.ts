@@ -54,13 +54,13 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionListerProjets,
         PermissionConsulterProjet,
         PermissionAnnulerGF,
-        PermissionAjouterDateExpirationGF,
         PermissionRetirerGF,
         PermissionExporterProjets,
         PermissionTransmettreDemandeComplèteRaccordement,
         PermissionConsulterDossierRaccordement,
         PermissionTransmettrePropositionTechniqueEtFinancière,
         PermissionModifierGestionnaireRéseauProjet,
+        PermissionUploaderGF,
       ];
     case 'caisse-des-dépôts':
       return [
