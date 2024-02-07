@@ -58,11 +58,15 @@ const csvResult: CsvResult = {
   },
 };
 
-const action: FormAction<FormState, typeof schema> = async (
-  previousState,
-  { fichierDatesMiseEnService },
-) => {
+const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMiseEnService }) => {
   const lines = await parseCsv(fichierDatesMiseEnService.stream(), csvSchema);
+
+  if (lines.length === 0) {
+    return {
+      status: 'form-error',
+      errors: ['fichierDatesMiseEnService'],
+    };
+  }
 
   for (const { referenceDossier, dateMiseEnService } of lines) {
     const dossiers = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
@@ -123,7 +127,9 @@ const action: FormAction<FormState, typeof schema> = async (
     }
   }
 
-  return previousState;
+  return {
+    status: 'success',
+  };
 };
 
-export const importerDatesMiseEnServiceAction = formAction(action, schema, csvResult);
+export const importerDatesMiseEnServiceAction = formAction(action, schema);

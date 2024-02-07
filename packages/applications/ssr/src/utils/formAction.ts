@@ -40,7 +40,6 @@ export const formAction =
   <TSchema extends zod.AnyZodObject, TState extends FormState>(
     action: FormAction<TState, TSchema>,
     schema?: TSchema,
-    csvResult?: CsvResult,
   ) =>
   async (previousState: TState, formData: FormData) => {
     try {
@@ -48,18 +47,7 @@ export const formAction =
         ? schema.parse(Object.fromEntries(formData))
         : Object.fromEntries(formData);
 
-      await action(previousState, data);
-
-      if (csvResult) {
-        return {
-          status: 'csv-success' as const,
-          result: csvResult,
-        };
-      }
-
-      return {
-        status: 'success' as const,
-      };
+      return await action(previousState, data);
     } catch (e) {
       if (e instanceof CsvValidationError) {
         return {
