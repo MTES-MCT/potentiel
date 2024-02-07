@@ -5,7 +5,7 @@ import { DomainError } from '@potentiel-domain/core';
 
 import { CsvResult } from '@/components/pages/réseau/raccordement/importerDatesMiseEnService/importDatesMiseEnService.action';
 
-import { CsvEmptyError, CsvError, CsvValidationError } from './parseCsv';
+import { CsvError, CsvValidationError } from './parseCsv';
 
 export type FormState =
   | {
@@ -21,10 +21,6 @@ export type FormState =
     }
   | {
       status: 'domain-error';
-      message: string;
-    }
-  | {
-      status: 'csv-error-empty';
       message: string;
     }
   | {
@@ -65,13 +61,6 @@ export const formAction =
         status: 'success' as const,
       };
     } catch (e) {
-      if (e instanceof CsvEmptyError) {
-        return {
-          status: 'csv-error-empty' as const,
-          message: e.message,
-        };
-      }
-
       if (e instanceof CsvValidationError) {
         return {
           status: 'csv-error' as const,
