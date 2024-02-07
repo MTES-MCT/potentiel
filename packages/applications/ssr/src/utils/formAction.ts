@@ -3,11 +3,17 @@ import * as zod from 'zod';
 // import { getLogger } from '@potentiel/monitoring';
 import { DomainError } from '@potentiel-domain/core';
 
+import { CsvResult } from '@/components/pages/réseau/raccordement/importerDatesMiseEnService/importDatesMiseEnService.action';
+
 import { CsvEmptyError, CsvError, CsvValidationError } from './parseCsv';
 
 export type FormState =
   | {
       status: 'success' | undefined;
+    }
+  | {
+      status: 'csv-success';
+      result: CsvResult;
     }
   | {
       status: 'form-error';
@@ -38,6 +44,7 @@ export const formAction =
   <TSchema extends zod.AnyZodObject, TState extends FormState>(
     action: FormAction<TState, TSchema>,
     schema?: TSchema,
+    csvResult?: CsvResult,
   ) =>
   async (previousState: TState, formData: FormData) => {
     try {
@@ -46,6 +53,14 @@ export const formAction =
         : Object.fromEntries(formData);
 
       await action(previousState, data);
+
+      if (csvResult) {
+        return {
+          status: 'csv-success' as const,
+          result: csvResult,
+        };
+      }
+
       return {
         status: 'success' as const,
       };
