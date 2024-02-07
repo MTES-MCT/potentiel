@@ -30,6 +30,7 @@ const fakeLine = {
   Autre: 'valeur',
   'Gouvernance partagée (Oui/Non)': 'Non',
   'Financement collectif (Oui/Non)': 'Non',
+  '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature': '1',
 };
 
 const expected = {
@@ -61,6 +62,7 @@ const expected = {
   details: {
     Autre: 'valeur',
   },
+  historiqueAbandon: 'première-candidature',
 };
 
 describe('parseProjectLine', () => {
@@ -956,6 +958,78 @@ describe('parseProjectLine', () => {
           }),
         ).toThrowError(`Ce type de garanties financières n'accepte pas de date d'échéance`);
       });
+    });
+  });
+  describe(`Historique abandon (colonne "1. 1ère candidature/n2. Abandon classique/n3. Abandon avec recandidature")`, () => {
+    it(`Lorsque la valeur 1, 2, ou 3 est saisie
+        Alors la valeur correspondante devrait être enregistrée`, () => {
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature': '1',
+        }),
+      ).toMatchObject({
+        historiqueAbandon: `première-candidature`,
+      });
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature': '2',
+        }),
+      ).toMatchObject({
+        historiqueAbandon: `abandon-classique`,
+      });
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature': '3',
+        }),
+      ).toMatchObject({
+        historiqueAbandon: `abandon-avec-recandidature`,
+      });
+    });
+
+    it(`Si la colonne est manquante
+        Alors une erreur devrait être retournée`, () => {
+      const fakeLineWithoutHistoriqueAbandon = Object.fromEntries(
+        Object.entries(fakeLine).filter(
+          ([cle]) =>
+            cle !== '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature',
+        ),
+      );
+      expect(() =>
+        parseProjectLine({
+          ...fakeLineWithoutHistoriqueAbandon,
+        }),
+      ).toThrowError(
+        `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature" est obligatoire et doit être complétée par 1, 2, ou 3.`,
+      );
+    });
+
+    it(`Si la colonne n'est pas complétée
+        Alors une erreur devrait être retournée`, () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature': '',
+        }),
+      ).toThrowError(
+        `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature" est obligatoire et doit être complétée par 1, 2, ou 3.`,
+      );
+    });
+
+    it(`Si la colonne estcomplétée avec une valeur autre que 1, 2, ou 3
+        Alors une erreur devrait être retournée`, () => {
+      expect(() =>
+        parseProjectLine({
+          ...fakeLine,
+          '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature': 'bad value',
+        }),
+      ).toThrowError(
+        `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature" est obligatoire et doit être complétée par 1, 2, ou 3.`,
+      );
     });
   });
 });

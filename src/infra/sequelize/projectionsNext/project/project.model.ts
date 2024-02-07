@@ -53,6 +53,7 @@ export class Project extends Model<InferAttributes<Project>, InferCreationAttrib
   dateFileAttente?: Date;
   soumisAuxGF: boolean;
   désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
+  historiqueAbandon?: 'première-candidature' | 'abandon-classique' | 'abandon-avec-recandidature';
   garantiesFinancières?: NonAttribute<GarantiesFinancières>;
   users?: NonAttribute<User[]>;
   certificateFile?: NonAttribute<File>;
