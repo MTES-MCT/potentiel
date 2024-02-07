@@ -1004,7 +1004,7 @@ describe('parseProjectLine', () => {
           ...fakeLineWithoutHistoriqueAbandon,
         }),
       ).toThrowError(
-        `La colonne "1. 1ère candidature/n2. Abandon classique/n3. Abandon avec recandidature" est obligatoire et doit être complétée par 1, 2, ou 3.`,
+        `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature" est obligatoire et doit être complétée par 1, 2, ou 3.`,
       );
     });
 
@@ -1016,7 +1016,7 @@ describe('parseProjectLine', () => {
           '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature': '',
         }),
       ).toThrowError(
-        `La colonne "1. 1ère candidature/n2. Abandon classique/n3. Abandon avec recandidature" est obligatoire et doit être complétée par 1, 2, ou 3.`,
+        `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature" est obligatoire et doit être complétée par 1, 2, ou 3.`,
       );
     });
 
@@ -1028,7 +1028,7 @@ describe('parseProjectLine', () => {
           '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature': 'bad value',
         }),
       ).toThrowError(
-        `La colonne "1. 1ère candidature/n2. Abandon classique/n3. Abandon avec recandidature" est obligatoire et doit être complétée par 1, 2, ou 3.`,
+        `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature" est obligatoire et doit être complétée par 1, 2, ou 3.`,
       );
     });
   });

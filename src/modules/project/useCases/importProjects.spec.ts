@@ -8,7 +8,7 @@ import { LegacyModificationRawDataImported } from '../../modificationRequest';
 import { InfraNotAvailableError } from '../../shared';
 import { ImportExecuted, ProjectRawDataImported } from '../events';
 import { makeImportProjects } from './importProjects';
-import { Periode } from 'packages/domain/appel-offre/dist';
+import { Periode } from '@potentiel-domain/appel-offre';
 
 const validLine = {
   "Appel d'offres": 'appelOffreId',
@@ -39,6 +39,7 @@ const validLine = {
   'Gouvernance partagée (Oui/Non)': 'Non',
   'Financement collectif (Oui/Non)': 'Non',
   Autre: 'valeur',
+  '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature': '1',
 } as Record<string, string>;
 
 const appelOffreRepo = {
