@@ -3,7 +3,7 @@ import * as zod from 'zod';
 // import { getLogger } from '@potentiel/monitoring';
 import { DomainError } from '@potentiel-domain/core';
 
-import { CsvError, CsvValidationError } from './parseCsv';
+import { CsvEmptyError, CsvError, CsvValidationError } from './parseCsv';
 
 export type FormState =
   | {
@@ -15,6 +15,10 @@ export type FormState =
     }
   | {
       status: 'domain-error';
+      message: string;
+    }
+  | {
+      status: 'csv-error-empty';
       message: string;
     }
   | {
@@ -46,6 +50,20 @@ export const formAction =
         status: 'success' as const,
       };
     } catch (e) {
+      if (e instanceof CsvEmptyError) {
+        return {
+          status: 'csv-error-empty' as const,
+          message: e.message,
+        };
+      }
+
+      if (e instanceof CsvValidationError) {
+        return {
+          status: 'csv-error' as const,
+          errors: e.errors,
+        };
+      }
+
       if (e instanceof zod.ZodError) {
         return {
           status: 'form-error' as const,
@@ -57,13 +75,6 @@ export const formAction =
         return {
           status: 'domain-error' as const,
           message: e.message,
-        };
-      }
-
-      if (e instanceof CsvValidationError) {
-        return {
-          status: 'csv-error' as const,
-          errors: e.errors,
         };
       }
 
