@@ -10,12 +10,6 @@ export type CsvError = {
   message: string;
 };
 
-export class CsvEmptyError extends Error {
-  constructor(message?: string) {
-    super(message ?? 'Le fichier CSV ne peut pas être vide');
-  }
-}
-
 export class CsvValidationError extends Error {
   constructor(public errors: Array<CsvError>) {
     super('Erreur lors de la validation du fichier CSV');
@@ -31,13 +25,9 @@ export const parseCsv: ParseCsv = async (fileStream, lineSchema) => {
   const data = await loadCsv(fileStream);
 
   try {
-    return zod.array(lineSchema).nonempty().parse(data);
+    return zod.array(lineSchema).parse(data);
   } catch (error) {
     if (error instanceof zod.ZodError) {
-      if (error.issues[0].code === 'too_small') {
-        throw new CsvEmptyError();
-      }
-
       const csvErrors = error.errors.map(({ path: [ligne, key], message }) => {
         return {
           line: (Number(ligne) + 1).toString(),

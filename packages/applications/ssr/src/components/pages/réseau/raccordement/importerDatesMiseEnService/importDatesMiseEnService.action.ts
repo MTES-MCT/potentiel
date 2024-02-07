@@ -13,7 +13,9 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 export type ImporterDatesMiseEnServiceState = FormState;
 
 const schema = zod.object({
-  fichierDatesMiseEnService: zod.instanceof(Blob),
+  fichierDatesMiseEnService: zod
+    .instanceof(Blob)
+    .refine((data) => data.size > 0, { message: 'Vous devez joindre un fichier non vide.' }),
 });
 
 const csvSchema = zod.object({

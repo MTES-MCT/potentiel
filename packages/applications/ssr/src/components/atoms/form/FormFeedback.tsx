@@ -51,7 +51,6 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
       );
 
     case 'domain-error':
-    case 'csv-error-empty':
       return <AlertError description={formState.message} />;
 
     case 'form-error':
