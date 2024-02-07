@@ -35,7 +35,7 @@ export async function transmettreDateMiseEnService(
   }
 
   if (dateMiseEnService.estAntérieurÀ(dateDésignation)) {
-    throw new DateAntérieureDateDésignationProjetError();
+    throw new DateMiseEnServiceAntérieureDateDésignationProjetError();
   }
 
   if (!this.contientLeDossier(référenceDossier)) {
@@ -62,8 +62,10 @@ export function applyDateMiseEnServiceTransmiseEventV1(
   dossier.miseEnService.dateMiseEnService = DateTime.convertirEnValueType(dateMiseEnService);
 }
 
-export class DateAntérieureDateDésignationProjetError extends InvalidOperationError {
+export class DateMiseEnServiceAntérieureDateDésignationProjetError extends InvalidOperationError {
   constructor() {
-    super(`La date ne peut pas être antérieure à la date de désignation du projet`);
+    super(
+      `La date de mise en service ne peut pas être antérieure à la date de désignation du projet`,
+    );
   }
 }
