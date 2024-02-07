@@ -1,7 +1,6 @@
 'use client';
 
 import { FC } from 'react';
-import { fr } from '@codegouvfr/react-dsfr';
 import Alert, { AlertProps } from '@codegouvfr/react-dsfr/Alert';
 
 import { FormState } from '@/utils/formAction';
@@ -26,12 +25,7 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
                 severity="success"
                 description={
                   <p>
-                    <i
-                      className={`${fr.cx('fr-icon-success-fill')} ${
-                        fr.colors.decisions.background.actionHigh.success.default
-                      } mr-1`}
-                    />
-                    {successCount} date de mise en service transmise
+                    {successCount} date{successCount > 1 ? 's' : ''} de mise en service transmise
                   </p>
                 }
               />
@@ -41,13 +35,19 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
                 small
                 severity="warning"
                 description={
-                  <ul>
-                    {errors.map(({ reason, referenceDossier }, index) => (
-                      <li key={index}>
-                        <span className="font-bold">{referenceDossier}</span> : {reason}
-                      </li>
-                    ))}
-                  </ul>
+                  <>
+                    <p>
+                      Certaines dates n'ont pas pu être transmise, les erreurs rencontrées sont les
+                      suivantes :
+                    </p>
+                    <ul className="list-disc pl-3">
+                      {errors.map(({ reason, referenceDossier }, index) => (
+                        <li key={index}>
+                          <span className="font-bold">{referenceDossier}</span> : {reason}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
                 }
               />
             )}
