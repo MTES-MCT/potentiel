@@ -15,6 +15,7 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
       return <Alert small severity="success" description="L'opération est un succès" />;
 
     case 'domain-error':
+    case 'csv-error-empty':
       return <AlertError description={formState.message} />;
 
     case 'form-error':
