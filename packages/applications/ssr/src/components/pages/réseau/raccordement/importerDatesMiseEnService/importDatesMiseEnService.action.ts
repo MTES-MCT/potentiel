@@ -8,7 +8,7 @@ import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { DomainError } from '@potentiel-domain/core';
 
 import { parseCsv } from '@/utils/parseCsv';
-import { FormAction, FormState, formAction } from '@/utils/formAction';
+import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 
 export type ImporterDatesMiseEnServiceState = FormState;
 
@@ -32,32 +32,6 @@ const convertDateToCommonFormat = (date: string) => {
   return `${year}-${month}-${day}`;
 };
 
-export type CsvResult = {
-  success: {
-    length: number;
-    référenceDossier: Array<string>;
-  };
-  error: {
-    length: number;
-    details: Array<
-      Record<string, string> & {
-        reason: string;
-      }
-    >;
-  };
-};
-
-const csvResult: CsvResult = {
-  success: {
-    length: 0,
-    référenceDossier: [],
-  },
-  error: {
-    length: 0,
-    details: [],
-  },
-};
-
 const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMiseEnService }) => {
   const lines = await parseCsv(fichierDatesMiseEnService.stream(), csvSchema);
 
@@ -68,6 +42,9 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
     };
   }
 
+  let success: number = 0;
+  const errors: ActionResult['errors'] = [];
+
   for (const { referenceDossier, dateMiseEnService } of lines) {
     const dossiers = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
       type: 'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
@@ -77,9 +54,8 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
     });
 
     if (dossiers.length === 0) {
-      csvResult.error.length++;
-      csvResult.error.details.push({
-        référenceDossier: referenceDossier,
+      errors.push({
+        referenceDossier,
         reason: 'Aucun dossier correspondant',
       });
 
@@ -107,20 +83,17 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
           },
         });
 
-        csvResult.success.length++;
-        csvResult.success.référenceDossier.push(référenceDossierRaccordement.formatter());
+        success++;
       } catch (error) {
-        csvResult.error.length++;
-
         if (error instanceof DomainError) {
-          csvResult.error.details.push({
-            référenceDossier: référenceDossierRaccordement.formatter(),
+          errors.push({
+            referenceDossier: référenceDossierRaccordement.formatter(),
             reason: error.message,
           });
           continue;
         }
-        csvResult.error.details.push({
-          référenceDossier: référenceDossierRaccordement.formatter(),
+        errors.push({
+          referenceDossier: référenceDossierRaccordement.formatter(),
           reason: 'Une erreur inconnue empêche la transmission de la date de mise en service',
         });
       }
@@ -129,6 +102,10 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
 
   return {
     status: 'success',
+    result: {
+      successCount: success,
+      errors,
+    },
   };
 };
 

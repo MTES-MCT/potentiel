@@ -3,17 +3,20 @@ import * as zod from 'zod';
 // import { getLogger } from '@potentiel/monitoring';
 import { DomainError } from '@potentiel-domain/core';
 
-import { CsvResult } from '@/components/pages/réseau/raccordement/importerDatesMiseEnService/importDatesMiseEnService.action';
-
 import { CsvError, CsvValidationError } from './parseCsv';
+
+export type ActionResult = {
+  successCount: number;
+  errors: Array<{
+    referenceDossier: string;
+    reason: string;
+  }>;
+};
 
 export type FormState =
   | {
       status: 'success' | undefined;
-    }
-  | {
-      status: 'csv-success';
-      result: CsvResult;
+      result?: ActionResult;
     }
   | {
       status: 'form-error';
