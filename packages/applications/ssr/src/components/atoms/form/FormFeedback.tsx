@@ -1,6 +1,7 @@
 'use client';
 
 import { FC } from 'react';
+import { fr } from '@codegouvfr/react-dsfr';
 import Alert, { AlertProps } from '@codegouvfr/react-dsfr/Alert';
 
 import { FormState } from '@/utils/formAction';
@@ -13,6 +14,41 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
   switch (formState.status) {
     case 'success':
       return <Alert small severity="success" description="L'opération est un succès" />;
+
+    case 'csv-success':
+      return (
+        <Alert
+          small
+          severity={formState.result.error.length === 0 ? 'success' : 'info'}
+          description={
+            <>
+              {formState.result.success.length > 0 && (
+                <p>
+                  <i
+                    className={`${fr.cx('fr-icon-success-fill')} ${
+                      fr.colors.decisions.background.actionHigh.success.default
+                    } mr-1`}
+                  />
+                  {formState.result.success.length} date de mise en service transmise
+                </p>
+              )}
+              {formState.result.error.length > 0 && (
+                <>
+                  <p>
+                    {formState.result.error.length} ligne
+                    {formState.result.error.length > 1 ? 's' : ''} en erreur
+                  </p>
+                  <ul>
+                    {formState.result.error.details.map((error, index) => (
+                      <li key={index}>{error.reason}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </>
+          }
+        />
+      );
 
     case 'domain-error':
     case 'csv-error-empty':

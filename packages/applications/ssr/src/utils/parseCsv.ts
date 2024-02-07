@@ -34,8 +34,6 @@ export const parseCsv: ParseCsv = async (fileStream, lineSchema) => {
     return zod.array(lineSchema).nonempty().parse(data);
   } catch (error) {
     if (error instanceof zod.ZodError) {
-      console.log('YOOOO', error);
-
       if (error.issues[0].code === 'too_small') {
         throw new CsvEmptyError();
       }

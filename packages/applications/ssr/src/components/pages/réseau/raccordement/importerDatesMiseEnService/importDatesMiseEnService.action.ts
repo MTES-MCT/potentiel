@@ -5,6 +5,7 @@ import { mediator } from 'mediateur';
 
 import { Raccordement } from '@potentiel-domain/reseau';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import { DomainError } from '@potentiel-domain/core';
 
 import { parseCsv } from '@/utils/parseCsv';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
@@ -29,46 +30,98 @@ const convertDateToCommonFormat = (date: string) => {
   return `${year}-${month}-${day}`;
 };
 
+export type CsvResult = {
+  success: {
+    length: number;
+    référenceDossier: Array<string>;
+  };
+  error: {
+    length: number;
+    details: Array<
+      Record<string, string> & {
+        reason: string;
+      }
+    >;
+  };
+};
+
+const csvResult: CsvResult = {
+  success: {
+    length: 0,
+    référenceDossier: [],
+  },
+  error: {
+    length: 0,
+    details: [],
+  },
+};
+
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
   { fichierDatesMiseEnService },
 ) => {
   const lines = await parseCsv(fichierDatesMiseEnService.stream(), csvSchema);
 
-  await Promise.all(
-    lines.map(async ({ referenceDossier, dateMiseEnService }) => {
-      const result = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
-        type: 'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
-        data: {
-          référenceDossierRaccordement: referenceDossier,
-        },
+  for (const { referenceDossier, dateMiseEnService } of lines) {
+    const dossiers = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
+      type: 'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
+      data: {
+        référenceDossierRaccordement: referenceDossier,
+      },
+    });
+
+    if (dossiers.length === 0) {
+      csvResult.error.length++;
+      csvResult.error.details.push({
+        référenceDossier: referenceDossier,
+        reason: 'Aucun dossier correspondant',
       });
 
-      return Promise.all(
-        result.map(async ({ identifiantProjet, référenceDossierRaccordement }) => {
-          const candidature = await mediator.send<ConsulterCandidatureQuery>({
-            type: 'CONSULTER_CANDIDATURE_QUERY',
-            data: {
-              identifiantProjet: identifiantProjet.formatter(),
-            },
-          });
+      continue;
+    }
 
-          return mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
-            type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
-            data: {
-              identifiantProjetValue: identifiantProjet.formatter(),
-              dateDésignationValue: candidature.dateDésignation,
-              référenceDossierValue: référenceDossierRaccordement.formatter(),
-              dateMiseEnServiceValue: new Date(
-                convertDateToCommonFormat(dateMiseEnService),
-              ).toISOString(),
-            },
+    for (const { identifiantProjet, référenceDossierRaccordement } of dossiers) {
+      try {
+        const candidature = await mediator.send<ConsulterCandidatureQuery>({
+          type: 'CONSULTER_CANDIDATURE_QUERY',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
+
+        await mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
+          type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+            dateDésignationValue: candidature.dateDésignation,
+            référenceDossierValue: référenceDossierRaccordement.formatter(),
+            dateMiseEnServiceValue: new Date(
+              convertDateToCommonFormat(dateMiseEnService),
+            ).toISOString(),
+          },
+        });
+
+        csvResult.success.length++;
+        csvResult.success.référenceDossier.push(référenceDossierRaccordement.formatter());
+      } catch (error) {
+        csvResult.error.length++;
+
+        if (error instanceof DomainError) {
+          csvResult.error.details.push({
+            référenceDossier: référenceDossierRaccordement.formatter(),
+            reason: error.message,
           });
-        }),
-      );
-    }),
-  );
+          continue;
+        }
+        csvResult.error.details.push({
+          référenceDossier: référenceDossierRaccordement.formatter(),
+          reason: 'Une erreur inconnue empêche la transmission de la date de mise en service',
+        });
+      }
+    }
+  }
+
   return previousState;
 };
 
-export const importerDatesMiseEnServiceAction = formAction(action, schema);
+export const importerDatesMiseEnServiceAction = formAction(action, schema, csvResult);
