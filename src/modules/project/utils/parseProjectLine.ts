@@ -39,6 +39,7 @@ const mappedColumns = [
   'Gouvernance partagée (Oui/Non)',
   "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation",
   "Date d'échéance au format JJ/MM/AAAA",
+  '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature',
 ];
 
 const prepareNumber = (str) => str && str.replace(/,/g, '.');
@@ -192,6 +193,25 @@ const columnMapper = {
     }
 
     return;
+  },
+  historiqueAbandon: (line: any) => {
+    if (
+      !line.hasOwnProperty(
+        '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature',
+      )
+    ) {
+      return 'erreur';
+    }
+
+    const value = line['1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature'];
+
+    return value === '1'
+      ? 'première-candidature'
+      : value === '2'
+      ? 'abandon-classique'
+      : value === '3'
+      ? 'abandon-avec-recandidature'
+      : 'erreur';
   },
 } as const;
 
@@ -368,6 +388,12 @@ const projectSchema = yup.object().shape({
       `Le champ "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" doit contenir l'une des valeurs suivantes : 1, 2, ou 3. La valeur N/A est acceptée pour les projets éliminés.`,
     ),
   garantiesFinancièresDateEchéance: yup.string().optional(),
+  historiqueAbandon: yup
+    .mixed()
+    .oneOf(
+      ['première-candidature', 'abandon-classique', 'abandon-avec-recandidature'],
+      `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature" est obligatoire et doit être complétée par 1, 2, ou 3.`,
+    ),
 });
 
 const appendInfo = (obj, key, value) => {
