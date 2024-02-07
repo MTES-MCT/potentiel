@@ -13,42 +13,49 @@ type FormFeedbackProps = {
 export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
   switch (formState.status) {
     case 'success':
-      return <Alert small severity="success" description="L'opération est un succès" />;
+      if (formState.result) {
+        const {
+          result: { successCount, errors },
+        } = formState;
 
-    case 'csv-success':
-      return (
-        <Alert
-          small
-          severity={formState.result.error.length === 0 ? 'success' : 'info'}
-          description={
-            <>
-              {formState.result.success.length > 0 && (
-                <p>
-                  <i
-                    className={`${fr.cx('fr-icon-success-fill')} ${
-                      fr.colors.decisions.background.actionHigh.success.default
-                    } mr-1`}
-                  />
-                  {formState.result.success.length} date de mise en service transmise
-                </p>
-              )}
-              {formState.result.error.length > 0 && (
-                <>
+        return (
+          <>
+            {successCount > 0 && (
+              <Alert
+                small
+                severity="success"
+                description={
                   <p>
-                    {formState.result.error.length} ligne
-                    {formState.result.error.length > 1 ? 's' : ''} en erreur
+                    <i
+                      className={`${fr.cx('fr-icon-success-fill')} ${
+                        fr.colors.decisions.background.actionHigh.success.default
+                      } mr-1`}
+                    />
+                    {successCount} date de mise en service transmise
                   </p>
+                }
+              />
+            )}
+            {errors.length > 0 && (
+              <Alert
+                small
+                severity="warning"
+                description={
                   <ul>
-                    {formState.result.error.details.map((error, index) => (
-                      <li key={index}>{error.reason}</li>
+                    {errors.map(({ reason, referenceDossier }, index) => (
+                      <li key={index}>
+                        <span className="font-bold">{referenceDossier}</span> : {reason}
+                      </li>
                     ))}
                   </ul>
-                </>
-              )}
-            </>
-          }
-        />
-      );
+                }
+              />
+            )}
+          </>
+        );
+      }
+
+      return <Alert small severity="success" description="L'opération est un succès" />;
 
     case 'domain-error':
       return <AlertError description={formState.message} />;
