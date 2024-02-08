@@ -38,7 +38,7 @@ export const makeOnCahierDesChargesChoisi =
           periodeId,
           familleId,
           numeroCRE: data!.numeroCRE,
-        }).formatter();
+        });
 
         const délaiCDC2022Applicable = getProjectAppelOffre({
           appelOffreId,
@@ -66,23 +66,24 @@ export const makeOnCahierDesChargesChoisi =
               return okAsync(null);
             },
           ).andThen((raccordements) => {
-            if (!raccordements) {
+            if (raccordements.length === 0) {
               logger.error(
                 `project eventHandler onCahierDesChargesChoisi : raccordements non trouvés. Projet ${projetId}`,
               );
               return okAsync(null);
             }
+
             if (!délaiCDC2022Applicable) {
               return okAsync(null);
             }
 
-            return raccordements!.find(
+            return raccordements.find(
               (dossier) =>
                 !dossier.miseEnService ||
                 isDateHorsIntervalle({
                   dateMiseEnService: dossier.miseEnService?.dateMiseEnService?.formatter() || '',
-                  min: délaiCDC2022Applicable.intervaleDateMiseEnService.min,
-                  max: délaiCDC2022Applicable.intervaleDateMiseEnService.max,
+                  min: new Date(délaiCDC2022Applicable.intervaleDateMiseEnService.min),
+                  max: new Date(délaiCDC2022Applicable.intervaleDateMiseEnService.max),
                 }),
             )
               ? okAsync(null)
