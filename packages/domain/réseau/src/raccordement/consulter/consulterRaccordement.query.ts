@@ -86,7 +86,16 @@ const mapToReadModel = (entity: RaccordementEntity): ConsulterRaccordementReadMo
             ? DocumentProjet.convertirEnValueType(
                 entity.identifiantProjet,
                 TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(référence).formatter(),
-                demandeComplèteRaccordement.dateQualification || '',
+                // Initialement dans le legacy certaines DCR n'avait pas de date de qualitification.
+                // Lorsque le domain raccordement a été migré, l'optionalité de la date a été conservé.
+                // Par la suite, le domain Document a été introduit pour harmoniser la gestion des documents
+                // Ce module s'appuie sur des dates pour les noms de fichier
+                // Dans le cas de la DCR étant donnée que les date ne sont pas toujours présentes, une date par défaut au 1er commit du projet
+                // A été mise en place. Les fichiers correspondant dans le bucket ont la même date aussi.
+                // Au moment de l'introduction de ce changement (2024-02-08), il y avait 946 DCR ayant le soucis.
+                // Pour corriger le probléme définitivement il faudrait mettre la date de qualitification contenu dans le fichier,
+                // Mais étant donnée que le legacy n'avait pas de retriction au niveau du format de fichier, il est compliqué d'extraire automatiquement cette information
+                demandeComplèteRaccordement.dateQualification || '2020-02-17T00:00:00.000Z',
                 demandeComplèteRaccordement.accuséRéception.format,
               )
             : undefined,
