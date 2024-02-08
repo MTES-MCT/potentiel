@@ -3,4 +3,4 @@ import { Raccordement } from '@potentiel-domain/reseau';
 
 export type RécupérerDétailDossiersRaccordements = (
   identifiantProjet: IdentifiantProjet.ValueType,
-) => Promise<Raccordement.ListerDossierRaccordementReadModel['dossiers']>;
+) => Promise<Raccordement.ConsulterRaccordementReadModel['dossiers']>;
