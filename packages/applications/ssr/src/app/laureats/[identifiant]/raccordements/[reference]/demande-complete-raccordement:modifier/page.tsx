@@ -105,7 +105,8 @@ const mapToProps: MapToProps = ({
       demandeComplèteRaccordement: {
         dateQualification:
           dossierRaccordement.demandeComplèteRaccordement.dateQualification?.formatter(),
-        accuséRéception: dossierRaccordement.demandeComplèteRaccordement.accuséRéception?.format,
+        accuséRéception:
+          dossierRaccordement.demandeComplèteRaccordement.accuséRéception?.formatter(),
       },
       canEditRéférence:
         utilisateur.role.estÉgaleÀ(Role.admin) ||
