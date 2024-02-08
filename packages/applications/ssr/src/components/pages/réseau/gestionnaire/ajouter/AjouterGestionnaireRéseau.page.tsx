@@ -72,7 +72,7 @@ export const AjouterGestionnaireRéseauPage: FC = () => {
           id="expressionReguliere"
           nativeTextAreaProps={{ name: 'expressionReguliere' }}
           state={validationErrors.includes('expressionReguliere') ? 'error' : 'default'}
-          stateRelatedMessage="Raison sociale à préciser"
+          stateRelatedMessage="expression régulière à préciser"
           hintText="Exemple : [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}"
         />
 
