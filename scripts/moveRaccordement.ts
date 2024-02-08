@@ -4,20 +4,29 @@ import { extension } from 'mime-types';
 
 import { executeSelect } from '@potentiel/pg-helpers';
 import { Raccordement } from '@potentiel-domain/reseau';
-import { CopyObjectCommand, DeleteObjectCommand, HeadObjectCommand, S3 } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, GetObjectCommand, S3 } from '@aws-sdk/client-s3';
+import { Upload } from '@aws-sdk/lib-storage';
 
 const bucketName = process.env.BUCKET_NAME;
 const client = new S3({
   endpoint: process.env.S3_ENDPOINT,
+  region: process.env.AWS_REGION || '',
   credentials: {
-    accessKeyId: process.env.ACCESS_KEY_ID || '',
-    secretAccessKey: process.env.SECRET_ACCESS_KEY || '',
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
   },
   forcePathStyle: true,
 });
 
+const sleep = async (ms: number) => {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 const log = async (message: string) => {
   console.log(message);
+  await appendFile('log.txt', '\n', {
+    encoding: 'utf-8',
+  });
   return appendFile('log.txt', message, {
     encoding: 'utf-8',
   });
@@ -39,77 +48,99 @@ const log = async (message: string) => {
     nouveauPath: string;
   }> = [];
 
-  let hasError = false;
-
   // Référenciel fichier à déplacer
   await log('');
   await log(`Consitution du référenciel de fichier à déplacer`);
   await log('');
 
   for (const { key, value } of dossiers) {
-    await log(`------------------------------------------------`);
+    let arPath = {
+      ancienPath: '',
+      nouveauPath: '',
+    };
+
+    let ptfPath = {
+      ancienPath: '',
+      nouveauPath: '',
+    };
+
     try {
       const [, identifiant] = key.split('|');
       const [appelOffre, période, famille, numéroCRE] = identifiant.split('#');
       const identifiantProjet = `${appelOffre}#${période}#${famille}#${numéroCRE}`;
 
-      await log(`ℹ Dossier [Id=${identifiantProjet}] - [Réf=${value.référence}]`);
-
-      if (
-        value.demandeComplèteRaccordement.accuséRéception &&
-        value.demandeComplèteRaccordement.dateQualification
-      ) {
-        await log(`ℹ accusé de réception disponible`);
-        //ancien path  : {identifiantProjet}/{référence}/accusé-réception.{extension}
+      if (value.demandeComplèteRaccordement.accuséRéception) {
+        //ancien path  : {identifiantProjet}/{référence}/demande-complete-raccordement.{extension}
         //nouveau path : {identifiantProjet}/raccordement/{référence}/accusé-réception/{date}.{extension}
         const format = extension(value.demandeComplèteRaccordement.accuséRéception.format);
+        const date =
+          value.demandeComplèteRaccordement.dateQualification || '2020-02-17T00:00:00.000Z';
 
-        const ancienPath = join(identifiantProjet, value.référence, `accusé-réception.${format}`);
+        const ancienPath = join(
+          identifiantProjet,
+          value.référence,
+          `demande-complete-raccordement.${format}`,
+        );
         const nouveauPath = join(
           identifiantProjet,
           'raccordement',
           value.référence,
           'accusé-réception',
-          `${value.demandeComplèteRaccordement.dateQualification}.${format}`,
+          `${date}.${format}`,
         );
+
+        arPath = {
+          ancienPath,
+          nouveauPath,
+        };
 
         paths.push({
           ancienPath,
           nouveauPath,
         });
-
-        console.log(`ℹ Ancien path ${ancienPath}`);
-        console.log(`ℹ Ancien path ${nouveauPath}`);
       }
 
       if (
         value.propositionTechniqueEtFinancière &&
         value.propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée
       ) {
-        //ancien path  : {identifiantProjet}/{référence}/accusé-réception.{extension}
-        //nouveau path : {identifiantProjet}/raccordement/{référence}/accusé-réception/{date}.{extension}
+        //ancien path  : {identifiantProjet}/{référence}/proposition-technique-et-financière.{extension}
+        //nouveau path : {identifiantProjet}/raccordement/{référence}/proposition-technique-et-financière/{date}.{extension}
         const format = extension(
           value.propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.format,
         );
 
+        const ancienPath = join(
+          identifiantProjet,
+          value.référence,
+          `proposition-technique-et-financiere.${format}`,
+        );
+
+        const nouveauPath = join(
+          identifiantProjet,
+          'raccordement',
+          value.référence,
+          'proposition-technique-et-financière',
+          `${value.propositionTechniqueEtFinancière.dateSignature}.${format}`,
+        );
+
+        ptfPath = {
+          ancienPath,
+          nouveauPath,
+        };
+
         paths.push({
-          ancienPath: join(
-            identifiantProjet,
-            value.référence,
-            `proposition-technique-et-financière.${format}`,
-          ),
-          nouveauPath: join(
-            identifiantProjet,
-            'raccordement',
-            value.référence,
-            'proposition-technique-et-financière',
-            `${value.propositionTechniqueEtFinancière.dateSignature}.${format}`,
-          ),
+          ancienPath,
+          nouveauPath,
         });
       }
     } catch (e) {
-      hasError = true;
+      await log(`----------------------------`);
+      await log(`Erreur Constitution`);
       await log(`❌ ${e.message}`);
+      await log(`AR: ${JSON.stringify(arPath)}`);
+      await log(`PTF: ${JSON.stringify(ptfPath)}`);
+      await log(`----------------------------`);
     }
   }
 
@@ -117,19 +148,26 @@ const log = async (message: string) => {
   await log('Déplacement fichier');
   await log('');
 
+  let erreurDéplacement = 0;
+
   // Déplacement fichier
   for (const { ancienPath, nouveauPath } of paths) {
-    await log(`------------------------------------------------`);
     try {
-      await client.send(
-        new CopyObjectCommand({
+      const content = await client.send(
+        new GetObjectCommand({
           Bucket: bucketName,
-          CopySource: ancienPath,
-          Key: nouveauPath,
+          Key: ancienPath,
         }),
       );
 
-      await log(`ℹ Ancien path ${ancienPath} copié vers ${nouveauPath}`);
+      await new Upload({
+        client,
+        params: {
+          Bucket: bucketName,
+          Key: nouveauPath,
+          Body: content.Body,
+        },
+      }).done();
 
       await client.send(
         new DeleteObjectCommand({
@@ -137,57 +175,93 @@ const log = async (message: string) => {
           Key: ancienPath,
         }),
       );
-
-      await log(`ℹ Ancien path ${ancienPath} supprimé`);
     } catch (e) {
-      hasError = true;
+      erreurDéplacement++;
+      await log(`----------------------------`);
+      await log(`Erreur déplacement`);
       await log(`❌ ${e.message}`);
+      await log(`Ancien path: ${ancienPath}`);
+      await log(`Nouveau path: ${nouveauPath}`);
+      await log(`----------------------------`);
     }
   }
 
+  await log(`Erreur déplacement: ${erreurDéplacement}`);
+
   //recheck fichier
+  let erreurRecheck = 0;
+  let recheck = 0;
   await log('');
   await log('Recheck fichiers du dossier');
   await log('');
 
   for (const { key, value } of dossiers) {
+    await sleep(50);
+    console.log(`Dossier ${key}`);
     const [, identifiant] = key.split('|');
     const [appelOffre, période, famille, numéroCRE] = identifiant.split('#');
     const identifiantProjet = `${appelOffre}#${période}#${famille}#${numéroCRE}`;
 
+    let arPath = '';
+    let ptfPath = '';
     try {
-      await log(`ℹ Dossier [Key=${key}]`);
-      if (
-        value.demandeComplèteRaccordement.dateQualification &&
-        value.demandeComplèteRaccordement.accuséRéception?.format
-      ) {
-        await log(`ℹ Check accusé réception`);
+      if (value.demandeComplèteRaccordement.accuséRéception?.format) {
+        const date =
+          value.demandeComplèteRaccordement.dateQualification || '2020-02-17T00:00:00.000Z';
         const nouveauPath = join(
           identifiantProjet,
           'raccordement',
           value.référence,
           'accusé-réception',
-          `${value.demandeComplèteRaccordement.dateQualification}.${value.demandeComplèteRaccordement.accuséRéception?.format}`,
+          `${date}.${extension(value.demandeComplèteRaccordement.accuséRéception?.format)}`,
         );
-        await client.send(new HeadObjectCommand({ Bucket: bucketName, Key: nouveauPath }));
-        await log(`✅ Checked`);
+        arPath = nouveauPath;
+        console.log(arPath);
+        await client.send(
+          new GetObjectCommand({
+            Bucket: bucketName,
+            Key: nouveauPath,
+          }),
+        );
       }
 
-      if (value.propositionTechniqueEtFinancière) {
-        await log(`ℹ Check PTF`);
+      if (
+        value.propositionTechniqueEtFinancière &&
+        value.propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée
+      ) {
         const nouveauPath = join(
           identifiantProjet,
           'raccordement',
           value.référence,
           'proposition-technique-et-financière',
-          `${value.propositionTechniqueEtFinancière.dateSignature}.${value.propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée?.format}`,
+          `${value.propositionTechniqueEtFinancière.dateSignature}.${extension(
+            value.propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée?.format,
+          )}`,
         );
-        await client.send(new HeadObjectCommand({ Bucket: bucketName, Key: nouveauPath }));
-        await log(`✅ Checked`);
+        ptfPath = nouveauPath;
+        console.log(ptfPath);
+        await client.send(
+          new GetObjectCommand({
+            Bucket: bucketName,
+            Key: nouveauPath,
+          }),
+        );
       }
+      recheck++;
+      console.log(`✅ ${recheck}/${dossiers.length}`);
+
+      console.log(arPath);
     } catch (e) {
-      hasError = true;
+      erreurRecheck++;
+      await log(`----------------------------`);
+      await log(`Erreur recheck`);
       await log(`❌ ${e.message}`);
+      await log(`AR path ${arPath}`);
+      await log(`PTF path: ${ptfPath}`);
+      await log(`----------------------------`);
     }
   }
+
+  await log(`Recheck: ${recheck}`);
+  await log(`Erreur recheck: ${erreurRecheck}`);
 })();
