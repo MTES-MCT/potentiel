@@ -38,7 +38,9 @@ const action: FormAction<FormState, typeof schema> = async (
     },
   });
 
-  return previousState;
+  return {
+    status: 'success',
+  };
 };
 
 export const modifierPropositionTechniqueEtFinancièreAction = formAction(action, schema);
