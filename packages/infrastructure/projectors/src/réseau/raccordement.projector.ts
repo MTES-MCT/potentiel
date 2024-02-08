@@ -7,6 +7,7 @@ import { isNone, isSome } from '@potentiel/monads';
 import { upsertProjection } from '../utils/upsertProjection';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel/monitoring';
+import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 export type SubscriptionEvent = (Raccordement.RaccordementEvent & Event) | RebuildTriggered;
 
@@ -281,13 +282,19 @@ const getRaccordementToUpsert = async (
     `raccordement|${identifiantProjet}`,
   );
 
+  const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
+
+  if (isNone(projet)) {
+    getLogger().error(new Error(`Projet inconnu !`), { identifiantProjet, message: event });
+  }
+
   const raccordementDefaultValue: Omit<Raccordement.RaccordementEntity, 'type'> = {
     identifiantProjet,
-    nomProjet: '',
-    appelOffre: '',
-    période: '',
-    famille: undefined,
-    numéroCRE: '',
+    nomProjet: isSome(projet) ? projet.nom : 'Projet inconnu',
+    appelOffre: isSome(projet) ? projet.appelOffre : `N/A`,
+    période: isSome(projet) ? projet.période : `N/A`,
+    famille: isSome(projet) ? projet.famille : undefined,
+    numéroCRE: isSome(projet) ? projet.numéroCRE : 'N/A',
     dossiers: [],
     identifiantGestionnaireRéseau:
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter(),
