@@ -12,7 +12,7 @@ const schema = zod.object({
   // identifiantProjet: zod.string(),
 });
 
-const action: FormAction<FormState, typeof schema> = async (previousState, _) => {
+const action: FormAction<FormState, typeof schema> = async () => {
   await sleep(2000);
   throw new NotFoundError('Pas trouvé !');
 };
