@@ -34,7 +34,9 @@ const action: FormAction<ModifierGestionnaireRéseauState, typeof schema> = asyn
     },
   });
 
-  return previousState;
+  return {
+    status: 'success',
+  };
 };
 
 export const modifierGestionnaireRéseauAction = formAction(action, schema);

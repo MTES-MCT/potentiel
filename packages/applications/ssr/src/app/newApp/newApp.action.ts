@@ -15,7 +15,6 @@ const schema = zod.object({
 const action: FormAction<FormState, typeof schema> = async (previousState, _) => {
   await sleep(2000);
   throw new NotFoundError('Pas trouvé !');
-  return previousState;
 };
 
 export const newAppAction = formAction(action, schema);

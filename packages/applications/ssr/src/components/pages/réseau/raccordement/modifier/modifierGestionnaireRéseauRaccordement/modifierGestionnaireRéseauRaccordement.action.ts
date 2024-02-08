@@ -26,7 +26,9 @@ const action: FormAction<FormState, typeof schema> = async (
     },
   });
 
-  return previousState;
+  return {
+    status: 'success',
+  };
 };
 
 export const modifierGestionnaireRéseauRaccordementAction = formAction(action, schema);
