@@ -102,7 +102,7 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
             value: expressionReguliere,
           }}
           state={validationErrors.includes('expressionReguliere') ? 'error' : 'default'}
-          stateRelatedMessage="Raison sociale à préciser"
+          stateRelatedMessage="Expression régulière à préciser"
           hintText="Exemple : [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}"
         />
 
