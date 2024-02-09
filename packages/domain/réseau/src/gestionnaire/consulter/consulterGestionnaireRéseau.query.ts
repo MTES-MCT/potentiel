@@ -5,16 +5,9 @@ import { Find } from '@potentiel-libraries/projection';
 import { GestionnaireRéseauProjection } from '../gestionnaireRéseau.projection';
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseauInconnuError } from '../gestionnaireRéseauInconnu.error';
+import { GestionnaireRéseauReadModel } from '../../gestionnaire.readmodel';
 
-export type ConsulterGestionnaireRéseauReadModel = {
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
-  raisonSociale: string;
-  aideSaisieRéférenceDossierRaccordement: {
-    format: string;
-    légende: string;
-    expressionReguliere: ExpressionRegulière.ValueType;
-  };
-};
+export type ConsulterGestionnaireRéseauReadModel = GestionnaireRéseauReadModel;
 
 export type ConsulterGestionnaireRéseauQuery = Message<
   'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',

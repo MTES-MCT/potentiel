@@ -4,16 +4,9 @@ import { Find } from '@potentiel-libraries/projection';
 import { RaccordementEntity } from '../raccordement.entity';
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseauProjection, IdentifiantGestionnaireRéseau } from '../../gestionnaire';
+import { GestionnaireRéseauReadModel } from '../../gestionnaire.readmodel';
 
-export type ConsulterGestionnaireRéseauRaccordementReadModel = {
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
-  raisonSociale: string;
-  aideSaisieRéférenceDossierRaccordement?: {
-    format: string;
-    légende: string;
-    expressionReguliere: ExpressionRegulière.ValueType;
-  };
-};
+export type ConsulterGestionnaireRéseauRaccordementReadModel = GestionnaireRéseauReadModel;
 
 export type ConsulterGestionnaireRéseauRaccordementQuery = Message<
   'CONSULTER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_QUERY',
@@ -43,6 +36,11 @@ export const registerConsulterGestionnaireRéseauRaccordementQuery = ({
       return {
         identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
         raisonSociale: IdentifiantGestionnaireRéseau.inconnu.formatter(),
+        aideSaisieRéférenceDossierRaccordement: {
+          format: '',
+          légende: '',
+          expressionReguliere: ExpressionRegulière.convertirEnValueType(''),
+        },
       };
     }
 
@@ -54,6 +52,11 @@ export const registerConsulterGestionnaireRéseauRaccordementQuery = ({
       return {
         identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
         raisonSociale: IdentifiantGestionnaireRéseau.inconnu.formatter(),
+        aideSaisieRéférenceDossierRaccordement: {
+          format: '',
+          légende: '',
+          expressionReguliere: ExpressionRegulière.convertirEnValueType(''),
+        },
       };
     }
 

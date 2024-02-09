@@ -3,16 +3,9 @@ import { ExpressionRegulière } from '@potentiel-domain/common';
 import { GestionnaireRéseauProjection } from '../gestionnaireRéseau.projection';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { List } from '@potentiel-libraries/projection';
+import { GestionnaireRéseauReadModel } from '../../gestionnaire.readmodel';
 
-type GetionnaireRéseauListItemReadModel = {
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
-  raisonSociale: string;
-  aideSaisieRéférenceDossierRaccordement: {
-    format: string;
-    légende: string;
-    expressionReguliere: ExpressionRegulière.ValueType;
-  };
-};
+type GetionnaireRéseauListItemReadModel = GestionnaireRéseauReadModel;
 
 export type ListerGestionnaireRéseauReadModel = {
   items: ReadonlyArray<GetionnaireRéseauListItemReadModel>;
