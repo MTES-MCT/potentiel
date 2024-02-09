@@ -8,7 +8,9 @@ export type EnregistrerDocumentProjetCommand = Message<
     content: ReadableStream;
   }
 >;
-
+/**
+ * @todo Ici la key ne devrait pas être un string mais un IdentifiantDocumentProjet avec la propriété identifiantProjet, typeDocument et dateCréation
+ */
 export type EnregistrerDocumentProjetPort = (key: string, content: ReadableStream) => Promise<void>;
 
 export type EnregistrerDocumentProjetDependencies = {
