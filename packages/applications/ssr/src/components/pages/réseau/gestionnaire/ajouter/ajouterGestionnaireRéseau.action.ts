@@ -25,9 +25,9 @@ const action: FormAction<FormState, typeof schema> = async (
     type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
     data: {
       aideSaisieRéférenceDossierRaccordementValue: {
-        expressionReguliereValue: expressionReguliere || '',
+        expressionReguliereValue: expressionReguliere || '[^/:*?"<>|]*',
         formatValue: format || '',
-        légendeValue: legende || '',
+        légendeValue: legende || 'Les caractères suivant sont interdit : / : * ? " < > | ',
       },
       identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
       raisonSocialeValue: raisonSociale,
