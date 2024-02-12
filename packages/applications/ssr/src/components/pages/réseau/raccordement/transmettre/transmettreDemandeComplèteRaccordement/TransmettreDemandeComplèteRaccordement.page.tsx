@@ -131,10 +131,15 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
 
             <Upload
               label="Accusé de réception de la demande complète de raccordement **"
-              hint="Vous pouvez transmettre un fichier compressé si il y a plusieurs documents"
-              nativeInputProps={{ name: 'accuseReception', required: true, 'aria-required': true }}
+              hint="Format accepté : pdf"
+              nativeInputProps={{
+                name: 'accuseReception',
+                required: true,
+                'aria-required': true,
+                accept: '.pdf',
+              }}
               state={validationErrors.includes('accuseReception') ? 'error' : 'default'}
-              stateRelatedMessage="Erreur sur le fichier transmis"
+              stateRelatedMessage="Accusé de réception de la demande complète de raccordement obligatoire"
             />
 
             <div className="flex flex-col md:flex-row gap-4 mt-5">
