@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { FC } from 'react';
 
 export type InformationDemandeComplèteRaccordementProps = {
@@ -13,9 +14,12 @@ export const InformationDemandeComplèteRaccordement: FC<
       <br />
       Vous pouvez retrouver cette donnée sur le courriel d'accusé de réception de votre demande
       complète de raccordement (
-      <a href="https://docs.potentiel.beta.gouv.fr/faq/ou-trouver-la-reference-du-dossier-de-raccordement-de-mon-projet">
+      <Link
+        href="https://docs.potentiel.beta.gouv.fr/faq/ou-trouver-la-reference-du-dossier-de-raccordement-de-mon-projet"
+        target="_blank"
+      >
         voir un exemple d'accusé de réception
-      </a>
+      </Link>
       )
     </p>
     <p>
