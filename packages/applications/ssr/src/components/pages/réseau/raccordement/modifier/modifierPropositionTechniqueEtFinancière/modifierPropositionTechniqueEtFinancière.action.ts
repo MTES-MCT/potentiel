@@ -13,11 +13,11 @@ const schema = zod.object({
   identifiantProjet: zod.string(),
   referenceDossierRaccordement: zod.string(),
   dateSignature: zod.string(),
-  propositionTechniqueEtFinanciereSignee: zod.instanceof(Blob),
+  propositionTechniqueEtFinanciereSignee: zod.instanceof(Blob).refine((data) => data.size > 0),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
-  previousState,
+  _,
   {
     identifiantProjet,
     referenceDossierRaccordement,

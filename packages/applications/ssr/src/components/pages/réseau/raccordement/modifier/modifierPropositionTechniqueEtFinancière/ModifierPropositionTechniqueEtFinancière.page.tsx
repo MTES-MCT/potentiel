@@ -1,16 +1,17 @@
 'use client';
 
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { Alert } from '@codegouvfr/react-dsfr/Alert';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useRouter } from 'next/navigation';
+import { Upload } from '@codegouvfr/react-dsfr/Upload';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-libraries/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { InputFile } from '@/components/atoms/form/InputFile';
 import { formatDateForInput } from '@/utils/formatDateForInput';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
@@ -42,6 +43,8 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
   const { identifiantProjet } = projet;
   const router = useRouter();
 
+  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner {...projet} />}
@@ -54,6 +57,7 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
             action={modifierPropositionTechniqueEtFinancièreAction}
             onSuccess={() => router.push(Routes.Raccordement.détail(projet.identifiantProjet))}
             heading="Modifier la proposition technique et financière"
+            onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
             <p className="my-2 p-0">Référence du dossier de raccordement : {reference}</p>
 
@@ -72,11 +76,40 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
               }}
             />
 
-            <InputFile
-              id="file"
-              label="Proposition technique et financière signée"
-              name="propositionTechniqueEtFinanciereSignee"
-              fileUrl={Routes.Document.télécharger(propositionTechniqueEtFinancièreSignée)}
+            <Upload
+              label={
+                <>
+                  Proposition technique et finançière signée{' '}
+                  {propositionTechniqueEtFinancièreSignée && (
+                    <>
+                      <br />
+                      <small>
+                        Pour que la modification puisse fonctionner, merci de joindre un nouveau
+                        fichier ou{' '}
+                        <Link
+                          href={Routes.Document.télécharger(propositionTechniqueEtFinancièreSignée)}
+                          target="_blank"
+                        >
+                          celui préalablement transmis
+                        </Link>
+                      </small>
+                    </>
+                  )}
+                </>
+              }
+              hint="Format accepté : pdf"
+              nativeInputProps={{
+                name: 'propositionTechniqueEtFinanciereSignee',
+                required: true,
+                accept: '.pdf',
+                'aria-required': true,
+              }}
+              state={
+                validationErrors.includes('propositionTechniqueEtFinanciereSignee')
+                  ? 'error'
+                  : 'default'
+              }
+              stateRelatedMessage="Accusé de réception de la proposition technique et finançière obligatoire"
             />
 
             <div className="flex flex-col md:flex-row gap-4 m-auto">
