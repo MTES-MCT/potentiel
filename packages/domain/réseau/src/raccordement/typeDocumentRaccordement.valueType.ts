@@ -17,6 +17,8 @@ export type ValueType = Readonly<{
   formatter(): RawType;
 }>;
 
+export const getFormattedRéférence = (référence: string) => référence.replace(/[/:*?"<>|]/g, '_');
+
 export const convertirEnValueType =
   (typeValue: string) =>
   (référenceValue: string): ValueType => {
@@ -25,7 +27,7 @@ export const convertirEnValueType =
       type: typeValue,
       référence: référenceValue,
       formatter() {
-        return `raccordement/${référenceValue}/${this.type}`;
+        return `raccordement/${getFormattedRéférence(référenceValue)}/${this.type}`;
       },
     };
   };
