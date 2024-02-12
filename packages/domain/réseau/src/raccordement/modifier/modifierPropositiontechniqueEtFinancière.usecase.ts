@@ -27,7 +27,7 @@ export const registerModifierPropositiontechniqueEtFinancièreUseCase = () => {
   }) => {
     const propositionTechniqueEtFinancièreSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
-      TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
+      TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
         référenceDossierRaccordementValue,
       ).formatter(),
       dateSignatureValue,
