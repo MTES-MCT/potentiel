@@ -95,8 +95,8 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
     }) => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null),
   ),
   modifierAppelOffre: jest.fn((appelOffre: { id: string }) => ok<null, null>(null)),
-  addGFExpirationDate: jest.fn(
-    (args: { expirationDate: Date; submittedBy: User; projectId: string }) =>
+  addGFTypeAndExpirationDate: jest.fn(
+    (args: { dateEchéance?: Date; submittedBy: User; projectId: string; type: string }) =>
       ok<null | ProjectCannotBeUpdatedIfUnnotifiedError>(null),
   ),
   certificateData: ok({

@@ -38,7 +38,6 @@ import {
   SuppressionGFValidéeImpossibleError,
   GFImpossibleASoumettreError,
   SuppressionGFATraiterImpossibleError,
-  DateEchéanceIncompatibleAvecLeTypeDeGFError,
 } from './errors';
 import {
   AppelOffreProjetModifié,
@@ -190,10 +189,11 @@ export interface Project extends EventStoreAggregate {
     status: 'acceptée' | 'rejetée';
     attachment?: { id: string; name: string };
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
-  addGFExpirationDate: (args: {
+  addGFTypeAndExpirationDate: (args: {
     projectId: string;
-    expirationDate: Date;
+    dateEchéance?: Date;
     submittedBy: User;
+    type: string;
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToUpdateError>;
   readonly shouldCertificateBeGenerated: boolean;
   readonly isClasse?: boolean;
@@ -1016,8 +1016,8 @@ export const makeProject = (args: {
 
       return ok(null);
     },
-    addGFExpirationDate: function (args) {
-      const { expirationDate, submittedBy, projectId } = args;
+    addGFTypeAndExpirationDate: function (args) {
+      const { dateEchéance, type } = args;
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
@@ -1025,17 +1025,25 @@ export const makeProject = (args: {
         return err(new NoGFCertificateToUpdateError());
       }
       if (
-        props.typeGarantiesFinancières !==
-        `Garantie financière avec date d'échéance et à renouveler`
+        props.GFExpirationDate &&
+        type !== "Garantie financière avec date d'échéance et à renouveler"
       ) {
-        return err(new DateEchéanceIncompatibleAvecLeTypeDeGFError());
+        _publishEvent(
+          new DateEchéanceGarantiesFinancièresSupprimée({
+            payload: {
+              projectId: props.projectId.toString(),
+            },
+          }),
+        );
       }
+
       _publishEvent(
-        new DateEchéanceGFAjoutée({
+        new TypeGarantiesFinancièresEtDateEchéanceTransmis({
           payload: {
-            expirationDate,
-            submittedBy: submittedBy.id,
-            projectId,
+            projectId: props.projectId.toString(),
+            type,
+            ...(type === "Garantie financière avec date d'échéance et à renouveler" &&
+              dateEchéance && { dateEchéance: dateEchéance.toISOString() }),
           },
         }),
       );

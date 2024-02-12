@@ -5,3 +5,4 @@ export * from './postSubmitGF';
 export * from './postUploadGF';
 export * from './getValiderGF';
 export * from './getInvaliderGF';
+export * from './postAddGFTypeAndExpirationDate';

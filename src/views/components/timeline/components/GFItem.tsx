@@ -421,7 +421,7 @@ const TypeEtDateÉchéance = ({
         {peutModifierTypeEtDateEchéance && (
           <Dropdown
             design="link"
-            text="Éditer le type et la date d'échéance"
+            text={`Éditer le type ${dateEchéance ? "et la date d'échéance" : ''}`}
             isOpen={displayForm}
             changeOpenState={(isOpen) => showForm(isOpen)}
           >
@@ -430,6 +430,7 @@ const TypeEtDateÉchéance = ({
               method="POST"
               className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
             >
+              <input type="hidden" name="projectId" value={projetId} />
               <TypeEtDateEchéanceInputs
                 garantieFinanciereEnMois={garantieFinanciereEnMois}
                 typeGarantiesFinancières={typeGarantiesFinancières}

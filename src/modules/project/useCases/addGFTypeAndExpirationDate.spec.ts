@@ -5,7 +5,7 @@ import { makeUser } from '../../../entities';
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { UnwrapForTest } from '../../../types';
 import makeFakeUser from '../../../__tests__/fixtures/user';
-import { makeAddGFExpirationDate } from './addGFExpirationDate';
+import { makeAddGFTypeAndExpirationDate } from './addGFTypeAndExpirationDate';
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates';
 import { Project } from '../Project';
 
@@ -17,17 +17,17 @@ const fakeProject = makeFakeProject();
 
 const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
-describe(`Ajouter une date d'expiration à une garantie financière`, () => {
+describe(`Ajouter une date d'échéance à une garantie financière`, () => {
   beforeEach(() => {
     fakePublish.mockClear();
   });
   describe("Ajout impossible si l'utilisateur n'a pas les droits sur le projet", () => {
     it(`Étant donné un utilisateur n'ayant pas accès au projet
-          Lorsqu'il ajoute une date d'expiration à une garantie financière
-          Alors une erreur UnauthorizedError devrait être retournée`, async () => {
+        Lorsqu'il ajoute une date d'échéance à une garantie financière
+        Alors une erreur UnauthorizedError devrait être retournée`, async () => {
       const user = UnwrapForTest(makeUser(makeFakeUser()));
       const shouldUserAccessProject = jest.fn(async () => false);
-      const addGFExpirationDate = makeAddGFExpirationDate({
+      const addGFExpirationDate = makeAddGFTypeAndExpirationDate({
         shouldUserAccessProject,
         projectRepo,
       });
@@ -35,7 +35,8 @@ describe(`Ajouter une date d'expiration à une garantie financière`, () => {
       const res = await addGFExpirationDate({
         projectId,
         submittedBy: user,
-        expirationDate: new Date('2022-05-16'),
+        dateEchéance: new Date('2022-05-16'),
+        type: "Garantie financière avec date d'échéance et à renouveler",
       });
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError);
@@ -46,28 +47,30 @@ describe(`Ajouter une date d'expiration à une garantie financière`, () => {
 
   describe("Suppression possible si l'utilisateur a les droits sur le projet", () => {
     it(`Étant donné un utilisateur ayant accès au projet
-          Lorsqu'il ajoute une date d'expiration à une garantie financière
-          Alors la date d'expiration devrait être ajouté à garantie financière`, async () => {
+        Lorsqu'il ajoute un type et une date d'échéance à une garantie financière
+        Alors le type et la date d'échéance devraient être ajoutés à garantie financière`, async () => {
       const user = UnwrapForTest(makeUser(makeFakeUser()));
       const shouldUserAccessProject = jest.fn(async () => true);
 
-      const addGFExpirationDate = makeAddGFExpirationDate({
+      const addGFTypeAndExpirationDate = makeAddGFTypeAndExpirationDate({
         shouldUserAccessProject,
         projectRepo,
       });
 
-      const res = await addGFExpirationDate({
+      const res = await addGFTypeAndExpirationDate({
         projectId,
         submittedBy: user,
-        expirationDate: new Date('2022-05-16'),
+        dateEchéance: new Date('2022-05-16'),
+        type: "Garantie financière avec date d'échéance et à renouveler",
       });
 
       expect(res.isOk()).toBe(true);
-      expect(fakeProject.addGFExpirationDate).toHaveBeenCalled();
-      expect(fakeProject.addGFExpirationDate).toHaveBeenCalledWith({
+      expect(fakeProject.addGFTypeAndExpirationDate).toHaveBeenCalled();
+      expect(fakeProject.addGFTypeAndExpirationDate).toHaveBeenCalledWith({
         projectId,
         submittedBy: user,
-        expirationDate: new Date('2022-05-16'),
+        dateEchéance: new Date('2022-05-16'),
+        type: "Garantie financière avec date d'échéance et à renouveler",
       });
     });
   });
