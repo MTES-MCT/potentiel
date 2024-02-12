@@ -144,11 +144,16 @@ export interface Project extends EventStoreAggregate {
     submittedBy: User,
     expirationDate: Date,
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>;
-  uploadGarantiesFinancieres: (
-    gfDate: Date,
-    fileId: string,
-    submittedBy: User,
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>;
+  uploadGarantiesFinancieres: (args: {
+    gfDate: Date;
+    fileId: string;
+    submittedBy: User;
+    type: string;
+    dateEchéance?: Date;
+  }) => Result<
+    null,
+    ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError
+  >;
   removeGarantiesFinancieres: (
     removedBy: User,
   ) => Result<
@@ -847,7 +852,7 @@ export const makeProject = (args: {
       );
       return ok(null);
     },
-    uploadGarantiesFinancieres: function (gfDate, fileId, submittedBy) {
+    uploadGarantiesFinancieres: function ({ gfDate, fileId, submittedBy, type, dateEchéance }) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
@@ -864,6 +869,20 @@ export const makeProject = (args: {
           },
         }),
       );
+
+      if (submittedBy.role !== 'porteur-projet') {
+        _publishEvent(
+          new TypeGarantiesFinancièresEtDateEchéanceTransmis({
+            payload: {
+              projectId: props.projectId.toString(),
+              type,
+              ...(type === "Garantie financière avec date d'échéance et à renouveler" &&
+                dateEchéance && { dateEchéance: dateEchéance.toISOString() }),
+            },
+          }),
+        );
+      }
+
       return ok(null);
     },
     removeGarantiesFinancieres: function (removedBy) {

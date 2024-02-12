@@ -17,6 +17,7 @@ import {
   Link,
   Form,
   ChampsObligatoiresLégende,
+  Select,
 } from '../..';
 import { afficherDate } from '../../../helpers';
 import { UserRole } from '../../../../modules/users';
@@ -45,7 +46,6 @@ export const GFItem = (props: ComponentProps) => {
 };
 
 const rolesAutorisésPourModificationTypeEtDateEchéance = [
-  'porteur-projet',
   'dreal',
   'admin',
   'caisse-des-dépôts',
@@ -67,7 +67,8 @@ const getInfoDuréeGF = (garantieFinanciereEnMois?: number) => {
             régulièrement afin d’assurer une telle couverture temporelle.`;
 };
 
-type GFEnAttenteProps = ComponentProps & { statut: 'en attente' | 'en retard' };
+// Timeline item par statut de garanties financières
+type enAttenteProps = ComponentProps & { statut: 'en attente' | 'en retard' };
 const EnAttente = ({
   date: dateLimiteEnvoi,
   statut,
@@ -75,8 +76,8 @@ const EnAttente = ({
   typeGarantiesFinancières,
   dateEchéance,
   actionPossible,
-  project: { nomProjet, id: projectId },
-}: GFEnAttenteProps) => {
+  project: { nomProjet, id: projectId, garantieFinanciereEnMois },
+}: enAttenteProps) => {
   const afficherAlerteRetard = statut === 'en retard' && variant === 'porteur-projet';
   const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin';
   return (
@@ -108,9 +109,16 @@ const EnAttente = ({
               Attestation de constitution de garanties financières en attente
             </p>
           </div>
-          {actionPossible && (
-            <Formulaire projetId={projectId} action={actionPossible} role={variant} />
+          {actionPossible === 'enregistrer' && (
+            <Enregistrer
+              projetId={projectId}
+              role={variant}
+              dateEchéance={dateEchéance}
+              typeGarantiesFinancières={typeGarantiesFinancières}
+              garantieFinanciereEnMois={garantieFinanciereEnMois}
+            />
           )}
+          {actionPossible === 'soumettre' && <SoumettreDépôt projetId={projectId} />}
           {utilisateurEstAdmin && statut === 'en retard' && (
             <p className="m-0">
               <DownloadLink
@@ -126,81 +134,6 @@ const EnAttente = ({
         </div>
       </ContentArea>
     </>
-  );
-};
-
-type FormulaireProps = {
-  projetId: string;
-  action: 'soumettre' | 'enregistrer';
-  role: (typeof rolesAutorisésPourModificationTypeEtDateEchéance)[number];
-};
-const Formulaire = ({ projetId, action, role }: FormulaireProps) => {
-  const [displayForm, showForm] = useState(false);
-
-  return (
-    <Dropdown
-      design="link"
-      isOpen={displayForm}
-      changeOpenState={(isOpen) => showForm(isOpen)}
-      text={
-        action === 'soumettre'
-          ? 'Soumettre une attestation de garanties financières'
-          : `Enregistrer l'attestation de garanties financières`
-      }
-    >
-      <Form
-        action={
-          action === 'soumettre'
-            ? ROUTES.SUBMIT_GARANTIES_FINANCIERES({ projectId: projetId })
-            : ROUTES.UPLOAD_GARANTIES_FINANCIERES({ projectId: projetId })
-        }
-        method="post"
-        encType="multipart/form-data"
-        className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
-      >
-        <ChampsObligatoiresLégende />
-        {action === 'enregistrer' && (
-          <>
-            <p className="m-0 italic">
-              L'attestation que vous enregistrez ne sera pas soumise à validation par la DREAL
-              concernée. Les garanties financières doivent déjà avoir été validée (soit à la
-              candidature, soit par la DREAL).
-            </p>
-            {role === 'porteur-projet' && (
-              <p className="m-0 italic font-semibold">
-                Une fois le document enregistré, vous ne pourrez plus le modifier.
-              </p>
-            )}
-          </>
-        )}
-        {action === 'soumettre' && (
-          <p className="m-0 italic">
-            L'attestation que vous enregistrez sera soumise à validation par la DREAL concernée.
-          </p>
-        )}
-        <input type="hidden" name="type" id="type" value="garanties-financieres" />
-        <input type="hidden" name="projectId" value={projetId} />
-        <div>
-          <Label htmlFor="stepDate">Date de constitution des garanties financières</Label>
-          <Input
-            type="date"
-            name="stepDate"
-            id="stepDate"
-            max={format(new Date(), 'yyyy-MM-dd')}
-            required
-            aria-required="true"
-          />
-        </div>
-        <div>
-          <Label htmlFor="file">Attestation</Label>
-          <Input type="file" name="file" id="file" required aria-required="true" />
-        </div>
-        <div className="flex gap-4 flex-col md:flex-row mx-auto">
-          <PrimaryButton type="submit">Envoyer</PrimaryButton>
-          <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
-        </div>
-      </Form>
-    </Dropdown>
   );
 };
 
@@ -232,17 +165,14 @@ const ATraiter = ({
           </div>
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
-        {typeGarantiesFinancières && (
-          <p className="mt-0 mb-0">type : "{typeGarantiesFinancières}"</p>
-        )}
+        <TypeEtDateÉchéance
+          garantieFinanciereEnMois={project.garantieFinanciereEnMois}
+          peutModifierTypeEtDateEchéance={peutModifierTypeEtDateEchéance}
+          projetId={project.id}
+          dateEchéance={dateEchéance}
+          typeGarantiesFinancières={typeGarantiesFinancières}
+        />
         <div className="print:hidden">
-          <DateEchéance
-            dateEchéance={dateEchéance}
-            projetId={project.id}
-            peutModifierTypeEtDateEchéance={peutModifierTypeEtDateEchéance}
-            garantieFinanciereEnMois={project.garantieFinanciereEnMois}
-            typeGarantiesFinancières={typeGarantiesFinancières}
-          />
           <div className="flex">
             {url ? (
               <DownloadLink fileUrl={url}>
@@ -258,102 +188,6 @@ const ATraiter = ({
     </>
   );
 };
-
-type DateEchéanceProps = {
-  projetId: string;
-  peutModifierTypeEtDateEchéance: boolean;
-  dateEchéance: number | undefined;
-  garantieFinanciereEnMois?: number;
-  typeGarantiesFinancières: ComponentProps['typeGarantiesFinancières'];
-};
-const DateEchéance = ({
-  projetId,
-  peutModifierTypeEtDateEchéance,
-  dateEchéance,
-  garantieFinanciereEnMois,
-  typeGarantiesFinancières,
-}: DateEchéanceProps) => {
-  return (
-    <>
-      <div>
-        {dateEchéance && <p className="m-0">Date d'échéance : {afficherDate(dateEchéance)}</p>}
-        {peutModifierTypeEtDateEchéance &&
-          typeGarantiesFinancières ===
-            `Garantie financière avec date d'échéance et à renouveler` && (
-            <DateEchéanceFormulaire
-              projetId={projetId}
-              garantieFinanciereEnMois={garantieFinanciereEnMois}
-              action={dateEchéance ? 'Éditer' : 'Ajouter'}
-            />
-          )}
-      </div>
-    </>
-  );
-};
-
-type DateEchéanceFormulaireProps = {
-  projetId: string;
-  garantieFinanciereEnMois?: number;
-  action: 'Éditer' | 'Ajouter';
-};
-const DateEchéanceFormulaire = ({
-  projetId,
-  garantieFinanciereEnMois,
-  action,
-}: DateEchéanceFormulaireProps) => {
-  const [displayForm, showForm] = useState(false);
-  return (
-    <Dropdown
-      design="link"
-      text={`${action} la date d'échéance`}
-      isOpen={displayForm}
-      changeOpenState={(isOpen) => showForm(isOpen)}
-    >
-      <Form
-        action={ROUTES.ADD_GF_EXPIRATION_DATE({ projectId: projetId })}
-        method="POST"
-        className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
-      >
-        <ChampsObligatoiresLégende />
-        <input name="projectId" value={projetId} readOnly hidden />
-        <div>
-          <Label htmlFor="expirationDate">
-            Date d'échéance des garanties financières
-            <span>*</span>
-          </Label>
-          <Input
-            type="date"
-            name="expirationDate"
-            id="expirationDate"
-            required
-            aria-required="true"
-          />
-        </div>
-        <p className="italic m-0">
-          <span>*</span> À noter : {getInfoDuréeGF(garantieFinanciereEnMois)}
-        </p>
-        <div className="mx-auto flex gap-4 flex-col md:flex-row">
-          <PrimaryButton type="submit">Enregistrer</PrimaryButton>
-          <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
-        </div>
-      </Form>
-    </Dropdown>
-  );
-};
-
-type AnnulerDépôtProps = {
-  projetId: string;
-};
-const AnnulerDépôt = ({ projetId }: AnnulerDépôtProps) => (
-  <Link
-    href={ROUTES.REMOVE_GARANTIES_FINANCIERES({
-      projectId: projetId,
-    })}
-    confirmation="Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?"
-  >
-    Annuler le dépôt
-  </Link>
-);
 
 type ValidéProps = ComponentProps & { statut: 'validé' };
 const Validé = ({
@@ -378,17 +212,14 @@ const Validé = ({
           </div>
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
-        {typeGarantiesFinancières && (
-          <p className="mt-0 mb-0">type : "{typeGarantiesFinancières}"</p>
-        )}
+        <TypeEtDateÉchéance
+          garantieFinanciereEnMois={project.garantieFinanciereEnMois}
+          peutModifierTypeEtDateEchéance={peutModifierTypeEtDateEchéance}
+          projetId={project.id}
+          dateEchéance={dateEchéance}
+          typeGarantiesFinancières={typeGarantiesFinancières}
+        />
         <div className="print:hidden">
-          <DateEchéance
-            dateEchéance={dateEchéance}
-            projetId={project.id}
-            peutModifierTypeEtDateEchéance={peutModifierTypeEtDateEchéance}
-            garantieFinanciereEnMois={project.garantieFinanciereEnMois}
-            typeGarantiesFinancières={typeGarantiesFinancières}
-          />
           <div>
             {url ? (
               <>
@@ -414,6 +245,142 @@ const Validé = ({
   );
 };
 
+// Composants internes
+type EnregistrerProps = {
+  projetId: string;
+  role: string;
+  typeGarantiesFinancières: ComponentProps['typeGarantiesFinancières'];
+  dateEchéance: ComponentProps['dateEchéance'];
+  garantieFinanciereEnMois: ComponentProps['project']['garantieFinanciereEnMois'];
+};
+const Enregistrer = ({
+  projetId,
+  role,
+  typeGarantiesFinancières,
+  dateEchéance,
+  garantieFinanciereEnMois,
+}: EnregistrerProps) => {
+  const [displayForm, showForm] = useState(false);
+
+  return (
+    <Dropdown
+      design="link"
+      isOpen={displayForm}
+      changeOpenState={(isOpen) => showForm(isOpen)}
+      text="Enregistrer/mettre à jour les garanties financières du projet"
+    >
+      <Form
+        action={ROUTES.UPLOAD_GARANTIES_FINANCIERES({ projectId: projetId })}
+        method="post"
+        encType="multipart/form-data"
+        className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
+      >
+        <ChampsObligatoiresLégende />
+        <p className="m-0 italic">
+          L'attestation que vous enregistrez ne sera pas soumise à validation par la DREAL
+          concernée. Les garanties financières doivent déjà avoir été validée (soit à la
+          candidature, soit par la DREAL).
+        </p>
+        {role === 'porteur-projet' && (
+          <p className="m-0 italic font-semibold">
+            Une fois le document enregistré, vous ne pourrez plus le modifier.
+          </p>
+        )}
+        <input type="hidden" name="projectId" value={projetId} />
+        <div>
+          <Label htmlFor="stepDate">Date de constitution des garanties financières</Label>
+          <Input
+            type="date"
+            name="stepDate"
+            id="stepDate"
+            max={format(new Date(), 'yyyy-MM-dd')}
+            required
+            aria-required="true"
+          />
+        </div>
+        <div>
+          <Label htmlFor="file">Attestation</Label>
+          <Input type="file" name="file" id="file" required aria-required="true" />
+        </div>
+        {role !== 'porteur-projet' && (
+          <TypeEtDateEchéanceInputs
+            garantieFinanciereEnMois={garantieFinanciereEnMois}
+            typeGarantiesFinancières={typeGarantiesFinancières}
+            dateEchéance={dateEchéance}
+          />
+        )}
+        <div className="flex gap-4 flex-col md:flex-row mx-auto">
+          <PrimaryButton type="submit">Envoyer</PrimaryButton>
+          <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
+        </div>
+      </Form>
+    </Dropdown>
+  );
+};
+
+type SoumettreDépôtProps = {
+  projetId: string;
+};
+const SoumettreDépôt = ({ projetId }: SoumettreDépôtProps) => {
+  const [displayForm, showForm] = useState(false);
+
+  return (
+    <Dropdown
+      design="link"
+      isOpen={displayForm}
+      changeOpenState={(isOpen) => showForm(isOpen)}
+      text="Soumettre de nouvelles garanties financières"
+    >
+      <Form
+        action={ROUTES.SUBMIT_GARANTIES_FINANCIERES({ projectId: projetId })}
+        method="post"
+        encType="multipart/form-data"
+        className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
+      >
+        <ChampsObligatoiresLégende />
+        <p className="m-0 italic">
+          L'attestation que vous enregistrez sera soumise à validation par la DREAL concernée.
+        </p>
+        <input type="hidden" name="type" id="type" value="garanties-financieres" />
+        <input type="hidden" name="projectId" value={projetId} />
+        <div>
+          <Label htmlFor="stepDate">Date de constitution des garanties financières</Label>
+          <Input
+            type="date"
+            name="stepDate"
+            id="stepDate"
+            max={format(new Date(), 'yyyy-MM-dd')}
+            required
+            aria-required="true"
+          />
+        </div>
+        <div>
+          <Label htmlFor="file">Attestation</Label>
+          <Input type="file" name="file" id="file" required aria-required="true" />
+        </div>
+        <div className="flex gap-4 flex-col md:flex-row mx-auto">
+          <PrimaryButton type="submit">Envoyer</PrimaryButton>
+          <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
+        </div>
+      </Form>
+    </Dropdown>
+  );
+};
+
+type AnnulerDépôtProps = {
+  projetId: string;
+};
+const AnnulerDépôt = ({ projetId }: AnnulerDépôtProps) => (
+  <Link
+    href={ROUTES.REMOVE_GARANTIES_FINANCIERES({
+      projectId: projetId,
+    })}
+    confirmation="Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?"
+  >
+    Annuler le dépôt
+  </Link>
+);
+
 type RetirerDocumentProps = {
   projetId: string;
 };
@@ -429,3 +396,115 @@ const RetirerDocument = ({ projetId }: RetirerDocumentProps) => (
     </Link>
   </p>
 );
+
+type TypeEtDateÉchéanceProps = {
+  typeGarantiesFinancières?: ComponentProps['typeGarantiesFinancières'];
+  dateEchéance?: ComponentProps['dateEchéance'];
+  projetId: ComponentProps['project']['id'];
+  peutModifierTypeEtDateEchéance: boolean;
+  garantieFinanciereEnMois: ComponentProps['project']['garantieFinanciereEnMois'];
+};
+const TypeEtDateÉchéance = ({
+  typeGarantiesFinancières,
+  dateEchéance,
+  projetId,
+  peutModifierTypeEtDateEchéance,
+  garantieFinanciereEnMois,
+}: TypeEtDateÉchéanceProps) => {
+  const [displayForm, showForm] = useState(false);
+
+  return (
+    <div>
+      {typeGarantiesFinancières && <p className="mt-0 mb-0">type : "{typeGarantiesFinancières}"</p>}
+      <div className="print:hidden">
+        {dateEchéance && <p className="m-0">Date d'échéance : {afficherDate(dateEchéance)}</p>}
+        {peutModifierTypeEtDateEchéance && (
+          <Dropdown
+            design="link"
+            text="Éditer le type et la date d'échéance"
+            isOpen={displayForm}
+            changeOpenState={(isOpen) => showForm(isOpen)}
+          >
+            <Form
+              action={ROUTES.ADD_GF_TYPE_AND_EXPIRATION_DATE({ projectId: projetId })}
+              method="POST"
+              className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
+            >
+              <TypeEtDateEchéanceInputs
+                garantieFinanciereEnMois={garantieFinanciereEnMois}
+                typeGarantiesFinancières={typeGarantiesFinancières}
+                dateEchéance={dateEchéance}
+              />
+              <div className="mx-auto flex gap-4 flex-col md:flex-row">
+                <PrimaryButton type="submit">Enregistrer</PrimaryButton>
+                <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
+              </div>
+            </Form>
+          </Dropdown>
+        )}
+      </div>
+    </div>
+  );
+};
+
+type TypeEtDateEchéanceInputsProps = {
+  garantieFinanciereEnMois?: number;
+  typeGarantiesFinancières?: ComponentProps['typeGarantiesFinancières'];
+  dateEchéance?: ComponentProps['dateEchéance'];
+};
+const TypeEtDateEchéanceInputs = ({
+  garantieFinanciereEnMois,
+  typeGarantiesFinancières,
+  dateEchéance,
+}: TypeEtDateEchéanceInputsProps) => {
+  const [dateEchéanceRequise, setDateEchéanceRequise] = useState(
+    typeGarantiesFinancières === "Garantie financière avec date d'échéance et à renouveler",
+  );
+
+  return (
+    <>
+      <div>
+        <Label htmlFor="type">Type de garanties financières</Label>
+        <Select
+          name="type"
+          id="type"
+          defaultValue={typeGarantiesFinancières || 'default'}
+          required
+          aria-required="true"
+          onChange={(e) => {
+            setDateEchéanceRequise(
+              e.target.value === "Garantie financière avec date d'échéance et à renouveler",
+            );
+          }}
+        >
+          <option value="default" disabled hidden>
+            Choisir une type
+          </option>
+          <option value="Garantie financière avec date d'échéance et à renouveler">
+            Garantie financière avec date d'échéance et à renouveler
+          </option>
+          <option value="Garantie financière jusqu'à 6 mois après la date d'achèvement">
+            Garantie financière jusqu'à 6 mois après la date d'achèvement
+          </option>
+          <option value="Consignation">Consignation</option>
+        </Select>
+      </div>
+      {dateEchéanceRequise && (
+        <div>
+          <Label htmlFor="dateEcheance">Date d'échéance</Label>
+          <Input
+            type="date"
+            name="dateEcheance"
+            id="dateEcheance"
+            required
+            aria-required="true"
+            defaultValue={dateEchéance && format(new Date(dateEchéance), 'yyyy-MM-dd')}
+          />
+        </div>
+      )}
+      <p className="italic m-0">
+        <span>*</span> À noter : {getInfoDuréeGF(garantieFinanciereEnMois)}
+      </p>
+    </>
+  );
+};

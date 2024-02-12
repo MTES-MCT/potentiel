@@ -30,6 +30,22 @@ const schema = yup.object({
       )
       .required('Vous devez renseigner la date de constitution.')
       .typeError(`La date de constitution n'est pas valide.`),
+    type: yup
+      .mixed()
+      .oneOf([
+        "Garantie financière avec date d'échéance et à renouveler",
+        "Garantie financière jusqu'à 6 mois après la date d'achèvement",
+        'Consignation',
+      ])
+      .required('Vous devez préciser le type de garanties financières.'),
+    dateEcheance: yup.date().when('type', {
+      is: "Garantie financière avec date d'échéance et à renouveler",
+      then: yup
+        .date()
+        .transform(iso8601DateToDateYupTransformation)
+        .required("Vous devez renseigner la date d'échéance.")
+        .typeError(`La date d'échéance n'est pas valide.`),
+    }),
   }),
 });
 
@@ -58,14 +74,14 @@ v1Router.post(
           }),
         );
       }
-      const { stepDate, projectId } = request.body;
+      const { stepDate, projectId, type, dateEcheance: dateEchéance } = request.body;
       const { user: submittedBy } = request;
       const file = {
         contents: fs.createReadStream(request.file!.path),
         filename: `${Date.now()}-${request.file!.originalname}`,
       };
 
-      return uploadGF({ projectId, stepDate, file, submittedBy })
+      return uploadGF({ projectId, stepDate, file, submittedBy, type, dateEchéance })
         .map(() => ({
           projectId,
         }))
@@ -73,7 +89,7 @@ v1Router.post(
           ({ projectId }) => {
             return response.redirect(
               routes.SUCCESS_OR_ERROR_PAGE({
-                success: `L'attestation de garanties financières a bien été enregistrée.`,
+                success: `Les garanties financières ont bien été ajoutées au projet.`,
                 redirectUrl: routes.PROJECT_DETAILS(projectId),
                 redirectTitle: 'Retourner à la page projet',
               }),
