@@ -98,7 +98,9 @@ const mapToReadModel = (entity: RaccordementEntity): ConsulterRaccordementReadMo
               ),
               propositionTechniqueEtFinancièreSignée: DocumentProjet.convertirEnValueType(
                 entity.identifiantProjet,
-                TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(référence).formatter(),
+                TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
+                  référence,
+                ).formatter(),
                 propositionTechniqueEtFinancière.dateSignature,
                 propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée?.format ||
                   '',
