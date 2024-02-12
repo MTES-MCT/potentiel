@@ -7,7 +7,7 @@ import { Routes } from '@potentiel-libraries/routes';
 import { GestionnaireRéseauListItem } from '@/components/molecules/réseau/gestionnaireRéseau/GestionnaireRéseauListItem';
 import { ListPageTemplate } from '@/components/templates/ListPage.template';
 
-type GestionnaireRéseauListPageProps = {
+export type GestionnaireRéseauListPageProps = {
   list: {
     items: Array<Parameters<typeof GestionnaireRéseauListItem>[0]>;
     currentPage: number;

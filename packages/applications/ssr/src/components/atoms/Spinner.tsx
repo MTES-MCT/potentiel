@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-type SpinnerProps = {
+export type SpinnerProps = {
   className?: string;
   size: 'small' | 'medium' | 'large';
 };

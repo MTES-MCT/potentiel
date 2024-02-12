@@ -13,7 +13,7 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
 import { modifierGestionnaireRéseauAction } from './modifierGestionnaireRéseau.action';
 
-type ModifierGestionnaireRéseauProps = {
+export type ModifierGestionnaireRéseauProps = {
   identifiantGestionnaireRéseau: string;
   raisonSociale: string;
   expressionReguliere: string;
