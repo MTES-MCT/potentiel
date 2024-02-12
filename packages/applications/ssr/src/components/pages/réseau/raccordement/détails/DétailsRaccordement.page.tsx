@@ -246,7 +246,6 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
           className="flex items-center"
           linkProps={{
             href: Routes.Document.télécharger(accuséRéception),
-            target: '_blank',
             'aria-label': `Télécharger l'accusé de réception pour le dossier ${référence}`,
             title: `Télécharger l'accusé de réception pour le dossier ${référence}`,
           }}
