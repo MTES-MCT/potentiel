@@ -5,11 +5,12 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { Upload } from '@codegouvfr/react-dsfr/Upload';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-libraries/routes';
 
 import { Form } from '@/components/atoms/form/Form';
-import { InputFile } from '@/components/atoms/form/InputFile';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { formatDateForInput } from '@/utils/formatDateForInput';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
@@ -99,12 +100,16 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
               hintText={
                 aideSaisieRéférenceDossierRaccordement && (
                   <>
-                    <div className="m-0">
-                      Format attendu : {aideSaisieRéférenceDossierRaccordement.légende}
-                    </div>
-                    <div className="m-0 italic">
-                      Exemple : {aideSaisieRéférenceDossierRaccordement.format}
-                    </div>
+                    {aideSaisieRéférenceDossierRaccordement.format !== '' && (
+                      <div className="m-0">
+                        Format attendu : {aideSaisieRéférenceDossierRaccordement.légende}
+                      </div>
+                    )}
+                    {aideSaisieRéférenceDossierRaccordement.légende !== '' && (
+                      <div className="m-0 italic">
+                        Exemple : {aideSaisieRéférenceDossierRaccordement.format}
+                      </div>
+                    )}
                   </>
                 )
               }
@@ -124,11 +129,33 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
               }}
             />
 
-            <InputFile
-              id="accuseReception"
-              name="accuseReception"
-              label="Accusé de réception de la demande complète de raccordement **"
-              fileUrl={accuséRéception ? Routes.Document.télécharger(accuséRéception) : undefined}
+            <Upload
+              label={
+                <>
+                  Accusé de réception de la demande complète de raccordement **{' '}
+                  {accuséRéception && (
+                    <>
+                      <br />
+                      <small>
+                        Pour que la modification puisse fonctionner, merci de joindre un nouveau
+                        fichier ou{' '}
+                        <Link href={Routes.Document.télécharger(accuséRéception)} target="_blank">
+                          celui préalablement transmis
+                        </Link>
+                      </small>
+                    </>
+                  )}
+                </>
+              }
+              hint="Format accepté : pdf"
+              nativeInputProps={{
+                name: 'accuseReception',
+                accept: '.pdf',
+                required: true,
+                'aria-required': true,
+              }}
+              state={validationErrors.includes('accuseReception') ? 'error' : 'default'}
+              stateRelatedMessage="Accusé de réception de la demande complète de raccordement obligatoire"
             />
 
             <Input
