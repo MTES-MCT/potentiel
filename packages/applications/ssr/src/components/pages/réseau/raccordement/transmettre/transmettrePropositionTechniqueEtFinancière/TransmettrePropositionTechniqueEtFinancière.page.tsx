@@ -63,10 +63,11 @@ export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
 
             <Upload
               label="Proposition technique et financière signée"
-              hint="Vous pouvez transmettre un fichier compressé si il y a plusieurs documents"
+              hint="Format accepté : pdf"
               nativeInputProps={{
                 name: 'propositionTechniqueEtFinanciereSignee',
                 required: true,
+                accept: '.pdf',
                 'aria-required': true,
               }}
               state={
@@ -74,7 +75,7 @@ export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
                   ? 'error'
                   : 'default'
               }
-              stateRelatedMessage="Erreur sur le fichier transmis"
+              stateRelatedMessage="Accusé de réception de la proposition technique et finançière obligatoire"
             />
 
             <div className="flex flex-col md:flex-row gap-4 mt-5">
