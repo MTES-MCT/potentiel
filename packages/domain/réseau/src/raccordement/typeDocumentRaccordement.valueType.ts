@@ -17,7 +17,8 @@ export type ValueType = Readonly<{
   formatter(): RawType;
 }>;
 
-export const getFormattedRéférence = (référence: string) => référence.replace(/[/:*?"<>|]/g, '_');
+export const getFormattedRéférence = (référence: string) =>
+  référence.replace(/[/:*?"<>|]/g, '_').replace(/\s/g, '');
 
 export const convertirEnValueType =
   (typeValue: string) =>
