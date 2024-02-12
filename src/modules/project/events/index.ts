@@ -47,3 +47,4 @@ export * from './ProjectReimported';
 export * from './TypeGarantiesFinancièresEtDateEchéanceTransmis';
 export * from './DateMiseEnServiceTransmise';
 export * from './DemandeComplèteRaccordementTransmise';
+export * from './DateEchéanceGarantiesFinancièresSupprimée';

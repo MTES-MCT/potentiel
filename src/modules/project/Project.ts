@@ -81,6 +81,7 @@ import {
   AbandonProjetAnnulé,
   TypeGarantiesFinancièresEtDateEchéanceTransmis,
   ProjectRawDataImportedPayload,
+  DateEchéanceGarantiesFinancièresSupprimée,
 } from './events';
 import { toProjectDataForCertificate } from './mappers';
 
@@ -870,6 +871,19 @@ export const makeProject = (args: {
         }),
       );
 
+      if (
+        props.GFExpirationDate &&
+        type !== "Garantie financière avec date d'échéance et à renouveler"
+      ) {
+        _publishEvent(
+          new DateEchéanceGarantiesFinancièresSupprimée({
+            payload: {
+              projectId: props.projectId.toString(),
+            },
+          }),
+        );
+      }
+
       if (submittedBy.role !== 'porteur-projet') {
         _publishEvent(
           new TypeGarantiesFinancièresEtDateEchéanceTransmis({
@@ -1334,6 +1348,9 @@ export const makeProject = (args: {
         break;
       case DateEchéanceGFAjoutée.type:
         props.GFExpirationDate = event.payload.expirationDate;
+        break;
+      case DateEchéanceGarantiesFinancièresSupprimée.type:
+        props.GFExpirationDate = undefined;
         break;
       case TypeGarantiesFinancièresEtDateEchéanceTransmis.type:
         props.typeGarantiesFinancières = event.payload.type;
