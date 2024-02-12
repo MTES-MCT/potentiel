@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ModifierDemandeComplèteRaccordementPage } from './ModifierDemandeComplèteRaccordement.page';
+import {
+  ModifierDemandeComplèteRaccordementPage,
+  ModifierDemandeComplèteRaccordementPageProps,
+} from './ModifierDemandeComplèteRaccordement.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -9,7 +12,7 @@ const meta = {
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<typeof ModifierDemandeComplèteRaccordementPage>;
+} satisfies Meta<ModifierDemandeComplèteRaccordementPageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

@@ -5,7 +5,7 @@ import Alert, { AlertProps } from '@codegouvfr/react-dsfr/Alert';
 
 import { FormState } from '@/utils/formAction';
 
-type FormFeedbackProps = {
+export type FormFeedbackProps = {
   formState: FormState;
 };
 

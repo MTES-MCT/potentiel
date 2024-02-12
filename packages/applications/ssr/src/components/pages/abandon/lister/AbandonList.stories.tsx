@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { AbandonListPage } from './AbandonList.page';
+import { AbandonListPage, AbandonListPageProps } from './AbandonList.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -11,7 +11,7 @@ const meta = {
   argTypes: {
     list: {},
   },
-} satisfies Meta<typeof AbandonListPage>;
+} satisfies Meta<AbandonListPageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

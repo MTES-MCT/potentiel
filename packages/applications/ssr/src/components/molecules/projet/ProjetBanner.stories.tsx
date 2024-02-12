@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ProjetBanner } from './ProjetBanner';
+import { ProjetBanner, ProjetBannerProps } from './ProjetBanner';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -9,7 +9,7 @@ const meta = {
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<typeof ProjetBanner>;
+} satisfies Meta<ProjetBannerProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

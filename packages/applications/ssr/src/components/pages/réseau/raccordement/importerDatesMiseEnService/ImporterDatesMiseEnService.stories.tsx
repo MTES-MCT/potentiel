@@ -9,7 +9,7 @@ const meta = {
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<typeof ImporterDatesMiseEnServicePage>;
+} satisfies Meta<{}>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
