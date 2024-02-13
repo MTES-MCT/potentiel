@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { uploadGF } from '../../config/useCases.config';
-import { logger } from '../../core/utils';
+import { err, logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { UnauthorizedError } from '../../modules/shared';
 import routes from '../../routes';
@@ -12,7 +12,11 @@ import {
 } from '../helpers';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
-import { GFCertificateHasAlreadyBeenSentError, PermissionUploaderGF } from '../../modules/project';
+import {
+  DateEchéanceIncompatibleAvecLeTypeDeGFError,
+  GFCertificateHasAlreadyBeenSentError,
+  PermissionUploaderGF,
+} from '../../modules/project';
 import { format } from 'date-fns';
 import * as yup from 'yup';
 import { pathExists } from '../../helpers/pathExists';
@@ -76,6 +80,9 @@ v1Router.post(
       }
       const { stepDate, projectId, type, dateEcheance: dateEchéance } = request.body;
       const { user: submittedBy } = request;
+      if (dateEchéance && type !== "Garantie financière avec date d'échéance et à renouveler") {
+        throw err(new DateEchéanceIncompatibleAvecLeTypeDeGFError());
+      }
       const file = {
         contents: fs.createReadStream(request.file!.path),
         filename: `${Date.now()}-${request.file!.originalname}`,
@@ -101,6 +108,14 @@ v1Router.post(
                 addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
                   error:
                     "Il semblerait qu'il y ait déjà des garanties financières en cours de validité sur ce projet.",
+                }),
+              );
+            }
+
+            if (error instanceof DateEchéanceIncompatibleAvecLeTypeDeGFError) {
+              return response.redirect(
+                addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
+                  error: error.message,
                 }),
               );
             }

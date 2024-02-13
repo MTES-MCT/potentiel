@@ -1,4 +1,4 @@
-import { logger } from '../../core/utils';
+import { err, logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { UnauthorizedError } from '../../modules/shared';
 import routes from '../../routes';
@@ -13,6 +13,7 @@ import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { PermissionAjouterTypeEtDateEcheanceGF } from '../../modules/project/useCases';
 import { addGFTypeAndExpirationDate } from '../../config/useCases.config';
+import { DateEchéanceIncompatibleAvecLeTypeDeGFError } from '../../modules/project';
 
 const schema = yup.object({
   body: yup.object({
@@ -53,6 +54,10 @@ v1Router.post(
     async (request, response) => {
       const { projectId, dateEcheance: dateEchéance, type } = request.body;
       const { user: submittedBy } = request;
+      if (dateEchéance && type !== "Garantie financière avec date d'échéance et à renouveler") {
+        throw err(new DateEchéanceIncompatibleAvecLeTypeDeGFError());
+      }
+
       return addGFTypeAndExpirationDate({ projectId, dateEchéance, type, submittedBy }).match(
         () =>
           response.redirect(
@@ -67,8 +72,15 @@ v1Router.post(
             return unauthorizedResponse({ request, response });
           }
 
+          if (error instanceof DateEchéanceIncompatibleAvecLeTypeDeGFError) {
+            return response.redirect(
+              addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
+                error: error.message,
+              }),
+            );
+          }
+
           logger.error(error);
-          console.log('TEST ERRUR', error);
           return errorResponse({
             request,
             response,
