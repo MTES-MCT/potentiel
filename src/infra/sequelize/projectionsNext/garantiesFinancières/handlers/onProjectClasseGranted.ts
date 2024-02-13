@@ -57,7 +57,9 @@ export const onProjectClasseGranted: EventHandler<ProjectClasseGranted> = async 
         id: entréeExistante ? entréeExistante.id : new UniqueEntityID().toString(),
         projetId,
         statut: 'en attente',
-        soumisesALaCandidature,
+        soumisesALaCandidature: false,
+        type: null,
+        dateEchéance: null,
       },
       { transaction },
     );
