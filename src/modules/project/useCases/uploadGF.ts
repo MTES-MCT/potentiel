@@ -16,7 +16,7 @@ type UploadGFDeps = {
 type UploadGFArgs = {
   projectId: string;
   stepDate: Date;
-  type: string;
+  type?: string;
   dateEchéance?: Date;
   file: {
     contents: FileContents;

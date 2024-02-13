@@ -38,6 +38,7 @@ import {
   SuppressionGFValidéeImpossibleError,
   GFImpossibleASoumettreError,
   SuppressionGFATraiterImpossibleError,
+  PasDePermissionPourChangerTypeGFError,
 } from './errors';
 import {
   AppelOffreProjetModifié,
@@ -152,7 +153,7 @@ export interface Project extends EventStoreAggregate {
     gfDate: Date;
     fileId: string;
     submittedBy: User;
-    type: string;
+    type?: string;
     dateEchéance?: Date;
   }) => Result<
     null,
@@ -885,20 +886,23 @@ export const makeProject = (args: {
         }),
       );
 
-      if (
-        props.GFExpirationDate &&
-        type !== "Garantie financière avec date d'échéance et à renouveler"
-      ) {
-        _publishEvent(
-          new DateEchéanceGarantiesFinancièresSupprimée({
-            payload: {
-              projectId: props.projectId.toString(),
-            },
-          }),
-        );
-      }
+      if (type) {
+        if (submittedBy.role === 'porteur-projet') {
+          return err(new PasDePermissionPourChangerTypeGFError());
+        }
+        if (
+          props.GFExpirationDate &&
+          type !== "Garantie financière avec date d'échéance et à renouveler"
+        ) {
+          _publishEvent(
+            new DateEchéanceGarantiesFinancièresSupprimée({
+              payload: {
+                projectId: props.projectId.toString(),
+              },
+            }),
+          );
+        }
 
-      if (submittedBy.role !== 'porteur-projet') {
         _publishEvent(
           new TypeGarantiesFinancièresEtDateEchéanceTransmis({
             payload: {

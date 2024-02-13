@@ -40,8 +40,7 @@ const schema = yup.object({
         "Garantie financière avec date d'échéance et à renouveler",
         "Garantie financière jusqu'à 6 mois après la date d'achèvement",
         'Consignation',
-      ])
-      .required('Vous devez préciser le type de garanties financières.'),
+      ]),
     dateEcheance: yup.date().when('type', {
       is: "Garantie financière avec date d'échéance et à renouveler",
       then: yup
