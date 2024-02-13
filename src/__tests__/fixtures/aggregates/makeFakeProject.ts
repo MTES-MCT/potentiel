@@ -53,14 +53,32 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
     (args: { projectVersionDate: Date; certificateFileId: string }) => ok<null, never>(null),
   ),
 
-  submitGarantiesFinancieres: jest.fn((gfDate: Date, fileId: string, submittedBy: User) =>
-    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>(null),
+  submitGarantiesFinancieres: jest.fn(
+    (args: {
+      gfDate: Date;
+      fileId: string;
+      submittedBy: User;
+      type: string;
+      dateEchéance?: Date;
+    }) =>
+      ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>(
+        null,
+      ),
   ),
   removeGarantiesFinancieres: jest.fn((removedBy: User) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>(null),
   ),
-  uploadGarantiesFinancieres: jest.fn((gfDate: Date, fileId: string, submittedBy: User) =>
-    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>(null),
+  uploadGarantiesFinancieres: jest.fn(
+    (args: {
+      gfDate: Date;
+      fileId: string;
+      submittedBy: User;
+      type?: string;
+      dateEchéance?: Date;
+    }) =>
+      ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>(
+        null,
+      ),
   ),
   withdrawGarantiesFinancieres: jest.fn((removedBy: User) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>(null),
