@@ -138,12 +138,16 @@ export interface Project extends EventStoreAggregate {
     certificateFileId: string;
     reason?: string;
   }) => Result<null, IllegalInitialStateForAggregateError>;
-  submitGarantiesFinancieres: (
-    gfDate: Date,
-    fileId: string,
-    submittedBy: User,
-    expirationDate: Date,
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>;
+  submitGarantiesFinancieres: (args: {
+    gfDate: Date;
+    fileId: string;
+    submittedBy: User;
+    dateEchéance?: Date;
+    type: string;
+  }) => Result<
+    null,
+    ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError
+  >;
   uploadGarantiesFinancieres: (args: {
     gfDate: Date;
     fileId: string;
@@ -830,7 +834,7 @@ export const makeProject = (args: {
 
       return ok(null);
     },
-    submitGarantiesFinancieres: function (gfDate, fileId, submittedBy, expirationDate) {
+    submitGarantiesFinancieres: function ({ gfDate, fileId, submittedBy, dateEchéance, type }) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
@@ -847,7 +851,17 @@ export const makeProject = (args: {
             fileId,
             gfDate,
             submittedBy: submittedBy.id,
-            expirationDate,
+          },
+        }),
+      );
+
+      _publishEvent(
+        new TypeGarantiesFinancièresEtDateEchéanceTransmis({
+          payload: {
+            projectId: props.projectId.toString(),
+            type,
+            ...(type === "Garantie financière avec date d'échéance et à renouveler" &&
+              dateEchéance && { dateEchéance: dateEchéance.toISOString() }),
           },
         }),
       );

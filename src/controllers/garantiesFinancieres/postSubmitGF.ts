@@ -17,6 +17,7 @@ import { upload } from '../upload';
 import { v1Router } from '../v1Router';
 import {
   CertificateFileIsMissingError,
+  DateEchéanceIncompatibleAvecLeTypeDeGFError,
   GFCertificateHasAlreadyBeenSentError,
   GFImpossibleASoumettreError,
 } from '../../modules/project';
@@ -35,12 +36,22 @@ const requestBodySchema = yup.object({
     )
     .required('Vous devez renseigner la date de constitution.')
     .typeError(`La date de constitution n'est pas valide.`),
-  expirationDate: yup
-    .date()
-    .transform(iso8601DateToDateYupTransformation)
-    .required("Vous devez renseigner la date d'échéance.")
-    .typeError(`La date d'échéance saisie n'est pas valide.`),
-  type: yup.mixed().oneOf(['garanties-financieres']).required('Ce champ est obligatoire.'),
+  type: yup
+    .mixed()
+    .oneOf([
+      "Garantie financière avec date d'échéance et à renouveler",
+      "Garantie financière jusqu'à 6 mois après la date d'achèvement",
+      'Consignation',
+    ])
+    .required('Vous devez préciser le type de garanties financières.'),
+  dateEcheance: yup.date().when('type', {
+    is: "Garantie financière avec date d'échéance et à renouveler",
+    then: yup
+      .date()
+      .transform(iso8601DateToDateYupTransformation)
+      .required("Vous devez renseigner la date d'échéance.")
+      .typeError(`La date d'échéance n'est pas valide.`),
+  }),
 });
 
 v1Router.post(
@@ -56,14 +67,17 @@ v1Router.post(
         return ok(body);
       })
       .asyncAndThen((body) => {
-        const { stepDate, projectId, expirationDate } = body;
+        const { stepDate, projectId, dateEcheance: dateEchéance, type } = body;
         const { user: submittedBy } = request;
+        if (dateEchéance && type !== "Garantie financière avec date d'échéance et à renouveler") {
+          throw err(new DateEchéanceIncompatibleAvecLeTypeDeGFError());
+        }
         const file = {
           contents: fs.createReadStream(request.file!.path),
           filename: `${Date.now()}-${request.file!.originalname}`,
         };
 
-        return submitGF({ projectId, stepDate, expirationDate, file, submittedBy }).map(() => ({
+        return submitGF({ projectId, stepDate, dateEchéance, type, file, submittedBy }).map(() => ({
           projectId,
         }));
       })
@@ -71,7 +85,7 @@ v1Router.post(
         ({ projectId }) => {
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
-              success: 'Votre attestation de garanties financières a bien été enregistrée.',
+              success: 'Votre attestation de garanties financières a bien été soumise.',
               redirectUrl: routes.PROJECT_DETAILS(projectId),
               redirectTitle: 'Retourner à la page projet',
             }),
@@ -90,7 +104,8 @@ v1Router.post(
           if (
             error instanceof CertificateFileIsMissingError ||
             error instanceof GFCertificateHasAlreadyBeenSentError ||
-            error instanceof GFImpossibleASoumettreError
+            error instanceof GFImpossibleASoumettreError ||
+            error instanceof DateEchéanceIncompatibleAvecLeTypeDeGFError
           ) {
             return response.redirect(
               addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {

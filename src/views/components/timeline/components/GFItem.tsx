@@ -118,7 +118,14 @@ const EnAttente = ({
               garantieFinanciereEnMois={garantieFinanciereEnMois}
             />
           )}
-          {actionPossible === 'soumettre' && <SoumettreDépôt projetId={projectId} />}
+          {actionPossible === 'soumettre' && (
+            <SoumettreDépôt
+              projetId={projectId}
+              dateEchéance={dateEchéance}
+              garantieFinanciereEnMois={garantieFinanciereEnMois}
+              typeGarantiesFinancières={typeGarantiesFinancières}
+            />
+          )}
           {utilisateurEstAdmin && statut === 'en retard' && (
             <p className="m-0">
               <DownloadLink
@@ -320,8 +327,16 @@ const Enregistrer = ({
 
 type SoumettreDépôtProps = {
   projetId: string;
+  typeGarantiesFinancières: ComponentProps['typeGarantiesFinancières'];
+  dateEchéance: ComponentProps['dateEchéance'];
+  garantieFinanciereEnMois: ComponentProps['project']['garantieFinanciereEnMois'];
 };
-const SoumettreDépôt = ({ projetId }: SoumettreDépôtProps) => {
+const SoumettreDépôt = ({
+  projetId,
+  dateEchéance,
+  garantieFinanciereEnMois,
+  typeGarantiesFinancières,
+}: SoumettreDépôtProps) => {
   const [displayForm, showForm] = useState(false);
 
   return (
@@ -341,7 +356,6 @@ const SoumettreDépôt = ({ projetId }: SoumettreDépôtProps) => {
         <p className="m-0 italic">
           L'attestation que vous enregistrez sera soumise à validation par la DREAL concernée.
         </p>
-        <input type="hidden" name="type" id="type" value="garanties-financieres" />
         <input type="hidden" name="projectId" value={projetId} />
         <div>
           <Label htmlFor="stepDate">Date de constitution des garanties financières</Label>
@@ -358,6 +372,11 @@ const SoumettreDépôt = ({ projetId }: SoumettreDépôtProps) => {
           <Label htmlFor="file">Attestation</Label>
           <Input type="file" name="file" id="file" required aria-required="true" />
         </div>
+        <TypeEtDateEchéanceInputs
+          garantieFinanciereEnMois={garantieFinanciereEnMois}
+          dateEchéance={dateEchéance}
+          typeGarantiesFinancières={typeGarantiesFinancières}
+        />
         <div className="flex gap-4 flex-col md:flex-row mx-auto">
           <PrimaryButton type="submit">Envoyer</PrimaryButton>
           <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
@@ -449,9 +468,9 @@ const TypeEtDateÉchéance = ({
 };
 
 type TypeEtDateEchéanceInputsProps = {
-  garantieFinanciereEnMois?: number;
-  typeGarantiesFinancières?: ComponentProps['typeGarantiesFinancières'];
-  dateEchéance?: ComponentProps['dateEchéance'];
+  garantieFinanciereEnMois: ComponentProps['project']['garantieFinanciereEnMois'];
+  typeGarantiesFinancières: ComponentProps['typeGarantiesFinancières'];
+  dateEchéance: ComponentProps['dateEchéance'];
 };
 const TypeEtDateEchéanceInputs = ({
   garantieFinanciereEnMois,
