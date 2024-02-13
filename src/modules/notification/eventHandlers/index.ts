@@ -10,3 +10,4 @@ export * from './handleUserInvitedToProject';
 export * from './onCahierDesChargesChoisi';
 export * from './onProjectCompletionDueDateSet';
 export * from './onPeriodeNotified';
+export * from './handleProjectGFUploaded';

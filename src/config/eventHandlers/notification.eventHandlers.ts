@@ -21,6 +21,7 @@ import {
   handleUserInvitedToProject,
   makeOnProjectCompletionDueDateSet,
   makeOnPeriodeNotified,
+  handleProjectGFUploaded,
 } from '../../modules/notification';
 import {
   ProjectCertificateRegenerated,
@@ -29,6 +30,7 @@ import {
   CahierDesChargesChoisi,
   ProjectCompletionDueDateSet,
   PeriodeNotified,
+  ProjectGFUploaded,
 } from '../../modules/project';
 import { sendNotification } from '../emails.config';
 import { eventStore } from '../eventStore.config';
@@ -82,6 +84,16 @@ eventStore.subscribe(
 eventStore.subscribe(
   ProjectGFSubmitted.type,
   handleProjectGFSubmitted({
+    sendNotification,
+    findUsersForDreal: oldUserRepo.findUsersForDreal,
+    findUserById: oldUserRepo.findById,
+    findProjectById: oldProjectRepo.findById,
+  }),
+);
+
+eventStore.subscribe(
+  ProjectGFUploaded.type,
+  handleProjectGFUploaded({
     sendNotification,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
     findUserById: oldUserRepo.findById,

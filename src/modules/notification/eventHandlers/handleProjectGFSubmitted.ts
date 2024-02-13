@@ -55,7 +55,7 @@ export const handleProjectGFSubmitted =
         await Promise.all(
           drealUsers.map((drealUser) =>
             deps.sendNotification({
-              type: 'dreal-gf-notification',
+              type: 'dreal-gf-déposée-notification',
               message: {
                 email: drealUser.email,
                 name: drealUser.fullName,
