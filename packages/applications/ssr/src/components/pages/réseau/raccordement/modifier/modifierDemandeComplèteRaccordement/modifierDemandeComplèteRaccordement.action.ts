@@ -31,20 +31,6 @@ const action: FormAction<FormState, typeof schema> = async (
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Raccordement.RaccordementUseCase>({
-      type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-        identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
-        accuséRéceptionValue: {
-          content: accuseReception.stream(),
-          format: accuseReception.type,
-        },
-        dateQualificationValue: new Date(dateQualification).toISOString(),
-        référenceDossierRaccordementValue: referenceDossierRaccordementActuelle,
-      },
-    });
-
     if (referenceDossierRaccordement !== referenceDossierRaccordementActuelle) {
       await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
         type: 'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_USE_CASE',
@@ -57,6 +43,20 @@ const action: FormAction<FormState, typeof schema> = async (
         },
       });
     }
+
+    await mediator.send<Raccordement.RaccordementUseCase>({
+      type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
+        accuséRéceptionValue: {
+          content: accuseReception.stream(),
+          format: accuseReception.type,
+        },
+        dateQualificationValue: new Date(dateQualification).toISOString(),
+        référenceDossierRaccordementValue: referenceDossierRaccordement,
+      },
+    });
 
     return {
       status: 'success',
