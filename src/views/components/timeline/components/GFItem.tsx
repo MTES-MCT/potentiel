@@ -105,8 +105,8 @@ const EnAttente = ({
                 Date d'échéance des garanties financières : {afficherDate(dateEchéance)}
               </p>
             )}
-            <p className="mt-0 mb-0">
-              Attestation de constitution de garanties financières en attente
+            <p className="mt-0 mb-0 font-semibold italic">
+              Attestation de constitution de garanties financières à enregistrer
             </p>
           </div>
           {actionPossible === 'enregistrer' && (
@@ -438,29 +438,36 @@ const TypeEtDateÉchéance = ({
       <div className="print:hidden">
         {dateEchéance && <p className="m-0">Date d'échéance : {afficherDate(dateEchéance)}</p>}
         {peutModifierTypeEtDateEchéance && (
-          <Dropdown
-            design="link"
-            text={`Éditer le type ${dateEchéance ? "et la date d'échéance" : ''}`}
-            isOpen={displayForm}
-            changeOpenState={(isOpen) => showForm(isOpen)}
-          >
-            <Form
-              action={ROUTES.ADD_GF_TYPE_AND_EXPIRATION_DATE({ projectId: projetId })}
-              method="POST"
-              className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
+          <>
+            {dateEchéance && !typeGarantiesFinancières && (
+              <p className="m-0 font-semibold italic">
+                Le type de garanties financières est à renseigner
+              </p>
+            )}
+            <Dropdown
+              design="link"
+              text={`Éditer le type ${dateEchéance ? "et la date d'échéance" : ''}`}
+              isOpen={displayForm}
+              changeOpenState={(isOpen) => showForm(isOpen)}
             >
-              <input type="hidden" name="projectId" value={projetId} />
-              <TypeEtDateEchéanceInputs
-                garantieFinanciereEnMois={garantieFinanciereEnMois}
-                typeGarantiesFinancières={typeGarantiesFinancières}
-                dateEchéance={dateEchéance}
-              />
-              <div className="mx-auto flex gap-4 flex-col md:flex-row">
-                <PrimaryButton type="submit">Enregistrer</PrimaryButton>
-                <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
-              </div>
-            </Form>
-          </Dropdown>
+              <Form
+                action={ROUTES.ADD_GF_TYPE_AND_EXPIRATION_DATE({ projectId: projetId })}
+                method="POST"
+                className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
+              >
+                <input type="hidden" name="projectId" value={projetId} />
+                <TypeEtDateEchéanceInputs
+                  garantieFinanciereEnMois={garantieFinanciereEnMois}
+                  typeGarantiesFinancières={typeGarantiesFinancières}
+                  dateEchéance={dateEchéance}
+                />
+                <div className="mx-auto flex gap-4 flex-col md:flex-row">
+                  <PrimaryButton type="submit">Enregistrer</PrimaryButton>
+                  <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
+                </div>
+              </Form>
+            </Dropdown>
+          </>
         )}
       </div>
     </div>
