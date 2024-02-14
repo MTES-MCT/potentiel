@@ -230,6 +230,7 @@ export const AdminNotificationCandidats = ({
                       appelOffreId: données.AOSélectionné,
                       periodeId: données.périodeSélectionnée,
                       beforeNotification: true,
+                      pageSize: 10000,
                     })}`,
                   }
                 : undefined
