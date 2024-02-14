@@ -17,7 +17,7 @@ import { CorrectionDélaiNonAccordéImpossibleError } from './CorrectionDélaiNo
 import { CorrectionDélaiImpossibleCarProjetNonClasséError } from './CorrectionDélaiImpossibleCarProjetNonClasséError';
 import { DateAntérieureDateAchèvementInitialeError } from './DateAntérieureDateAchèvementInitialeError';
 import { NouvelleCorrectionDélaiAccordéImpossible } from './NouvelleCorrectionDélaiAccordéImpossibleError';
-import { formatProjectDataToIdentifiantProjetValueType } from 'src/helpers/dataToValueTypes';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 
 describe(`Use-case corriger un délai accordé`, () => {
   const dateAchèvementActuelle = new Date('2026-01-01');
