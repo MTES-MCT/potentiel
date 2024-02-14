@@ -84,7 +84,7 @@ const log = async (message: string) => {
         const nouveauPath = join(
           identifiantProjet,
           'raccordement',
-          value.référence,
+          value.référence.replace(/[/:*?"<>|]/g, '_'),
           'accusé-réception',
           `${date}.${format}`,
         );
@@ -119,7 +119,7 @@ const log = async (message: string) => {
         const nouveauPath = join(
           identifiantProjet,
           'raccordement',
-          value.référence,
+          value.référence.replace(/[/:*?"<>|]/g, '_'),
           'proposition-technique-et-financière',
           `${value.propositionTechniqueEtFinancière.dateSignature}.${format}`,
         );
@@ -211,7 +211,7 @@ const log = async (message: string) => {
         const nouveauPath = join(
           identifiantProjet,
           'raccordement',
-          value.référence,
+          value.référence.replace(/[/:*?"<>|]/g, '_'),
           'accusé-réception',
           `${date}.${extension(value.demandeComplèteRaccordement.accuséRéception?.format)}`,
         );
@@ -232,7 +232,7 @@ const log = async (message: string) => {
         const nouveauPath = join(
           identifiantProjet,
           'raccordement',
-          value.référence,
+          value.référence.replace(/[/:*?"<>|]/g, '_'),
           'proposition-technique-et-financière',
           `${value.propositionTechniqueEtFinancière.dateSignature}.${extension(
             value.propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée?.format,
