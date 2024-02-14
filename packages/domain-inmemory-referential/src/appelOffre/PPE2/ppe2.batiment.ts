@@ -269,7 +269,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       noteThreshold: {
         volumeReserve: {
           noteThreshold: 23.45,
-          puissanceMax: 0.99992,
+          puissanceMax: 1,
         },
         autres: {
           noteThreshold: 23.45,
