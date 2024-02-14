@@ -84,8 +84,22 @@ type PP_CertificateUpdated = {
   };
 };
 
-type DREAL_GF_Notification = {
-  type: 'dreal-gf-notification';
+type DREAL_GF_déposée_Notification = {
+  type: 'dreal-gf-déposée-notification';
+  context: {
+    projectId: string;
+    userId?: string;
+    dreal: string;
+  };
+  variables: {
+    nomProjet: string;
+    departementProjet: string;
+    invitation_link: string;
+  };
+};
+
+type DREAL_GF_enregistrée_Notification = {
+  type: 'dreal-gf-enregistrée-notification';
   context: {
     projectId: string;
     userId?: string;
@@ -316,7 +330,8 @@ type NotificationVariants =
   | DrealInvitation
   | UserInvitation
   | PP_GF_Notification
-  | DREAL_GF_Notification
+  | DREAL_GF_déposée_Notification
+  | DREAL_GF_enregistrée_Notification
   | PP_CertificateUpdated
   | ModificationRequestStatusUpdate
   | ModificationRequestConfirmedByPP

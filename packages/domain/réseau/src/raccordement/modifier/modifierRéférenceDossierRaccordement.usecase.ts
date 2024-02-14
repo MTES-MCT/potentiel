@@ -54,7 +54,7 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
 
     const dossierPropositionTechniqueEtFinancièreSignéeSource = DossierProjet.convertirEnValueType(
       identifiantProjetValue,
-      TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
+      TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
         référenceDossierRaccordementActuelleValue,
       ).formatter(),
     );
@@ -62,7 +62,7 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
     const dossierPropositionTechniqueEtFinancièreSignéeDestination =
       DossierProjet.convertirEnValueType(
         identifiantProjetValue,
-        TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
+        TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
           nouvelleRéférenceDossierRaccordementValue,
         ).formatter(),
       );
