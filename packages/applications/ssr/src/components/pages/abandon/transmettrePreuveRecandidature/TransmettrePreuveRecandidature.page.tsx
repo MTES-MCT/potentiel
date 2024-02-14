@@ -16,6 +16,10 @@ import { transmettrePreuveRecandidatureAction } from './transmettrePreuveRecandi
 
 type ProjetÀSélectionner = {
   identifiantProjet: string;
+  appelOffre: string;
+  période: string;
+  famille: string;
+  numéroCRE: string;
   dateDésignation: string;
   nom: string;
 };
@@ -34,6 +38,11 @@ export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidatu
     identifiantProjet: ProjetÀSélectionner['identifiantProjet'];
     dateDésignation: ProjetÀSélectionner['dateDésignation'];
   }>();
+
+  const getProjectLabel = (projet: ProjetÀSélectionner) =>
+    `${projet.nom} | ${projet.appelOffre}-P${projet.période}${
+      projet.famille ? `-${projet.famille}` : ''
+    }-${projet.numéroCRE}`;
 
   return (
     <PageTemplate banner={<ProjetBanner {...projet} />}>
@@ -64,7 +73,7 @@ export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidatu
               },
             }}
             options={projetsÀSélectionner.map((projet) => ({
-              label: projet.nom,
+              label: getProjectLabel(projet),
               value: projet.identifiantProjet,
             }))}
           />

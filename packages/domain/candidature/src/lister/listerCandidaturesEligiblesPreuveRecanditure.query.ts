@@ -5,6 +5,10 @@ import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/com
 
 export type ListerCandidaturesEligiblesPreuveRecanditureReadModel = Array<{
   identifiantProjet: IdentifiantProjet.ValueType;
+  appelOffre: string;
+  période: string;
+  famille: string;
+  numéroCRE: string;
   statut: StatutProjet.ValueType;
   nom: string;
   dateDésignation: DateTime.RawType;
@@ -48,13 +52,15 @@ const mapToReadModel = ({
   période,
   statut,
   dateDésignation,
-}: CandidatureProjection): ListerCandidaturesEligiblesPreuveRecanditureReadModel[number] => {
-  return {
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(
-      `${appelOffre}#${période}#${famille}#${numéroCRE}`,
-    ),
-    nom,
-    statut: StatutProjet.convertirEnValueType(statut),
-    dateDésignation,
-  };
-};
+}: CandidatureProjection): ListerCandidaturesEligiblesPreuveRecanditureReadModel[number] => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(
+    `${appelOffre}#${période}#${famille}#${numéroCRE}`,
+  ),
+  appelOffre,
+  période,
+  famille,
+  numéroCRE,
+  nom,
+  statut: StatutProjet.convertirEnValueType(statut),
+  dateDésignation,
+});
