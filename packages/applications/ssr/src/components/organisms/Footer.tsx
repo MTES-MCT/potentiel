@@ -7,9 +7,13 @@ export const Footer = () => (
       <>
         Ministère
         <br />
-        de la transition
+        de l'économie
         <br />
-        énergétique
+        des finances
+        <br />
+        de la souveraineté
+        <br />
+        industrielle et numérique
       </>
     }
     accessibility="partially compliant"
