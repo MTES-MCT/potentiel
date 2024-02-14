@@ -11,5 +11,6 @@ export const setupDocumentProjet = () => {
 
   registerDocumentProjetCommand({
     enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
+    déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
   });
 };

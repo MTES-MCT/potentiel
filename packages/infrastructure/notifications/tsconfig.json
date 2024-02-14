@@ -9,10 +9,16 @@
       "path": "../../domain/lauréat"
     },
     {
+      "path": "../../infrastructure/domain-adapters"
+    },
+    {
       "path": "../../infrastructure/pg-event-sourcing"
     },
     {
       "path": "../../libraries/email-sender"
+    },
+    {
+      "path": "../../libraries/routes"
     }
   ]
 }

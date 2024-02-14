@@ -64,7 +64,7 @@ export type CahierDesCharges = {
 
 export type DélaiApplicable = {
   délaiEnMois: number;
-  intervaleDateMiseEnService: { min: Date; max: Date };
+  intervaleDateMiseEnService: { min: string; max: string };
 };
 
 export const cahiersDesChargesRéférences = [

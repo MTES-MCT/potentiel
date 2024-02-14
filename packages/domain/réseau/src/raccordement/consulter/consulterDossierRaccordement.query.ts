@@ -1,0 +1,121 @@
+import { Message, MessageHandler, mediator } from 'mediateur';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
+import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
+import { Find } from '@potentiel-libraries/projection';
+import { DossierRaccordementEntity } from '../raccordement.entity';
+import { isNone } from '@potentiel/monads';
+import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
+import { DocumentProjet } from '@potentiel-domain/document';
+
+export type ConsulterDossierRaccordementReadModel = {
+  référence: RéférenceDossierRaccordement.ValueType;
+  demandeComplèteRaccordement: {
+    dateQualification?: DateTime.ValueType;
+    accuséRéception?: DocumentProjet.ValueType;
+  };
+  propositionTechniqueEtFinancière?: {
+    dateSignature: DateTime.ValueType;
+    propositionTechniqueEtFinancièreSignée: DocumentProjet.ValueType;
+  };
+  miseEnService?: {
+    dateMiseEnService?: DateTime.ValueType;
+  };
+};
+
+export type ConsulterDossierRaccordementQuery = Message<
+  'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+  {
+    identifiantProjetValue: string;
+    référenceDossierRaccordementValue: string;
+  },
+  ConsulterDossierRaccordementReadModel
+>;
+
+export type ConsulterDossierRaccordementDependencies = {
+  find: Find;
+};
+
+export const registerConsulterDossierRaccordementQuery = ({
+  find,
+}: ConsulterDossierRaccordementDependencies) => {
+  const handler: MessageHandler<ConsulterDossierRaccordementQuery> = async ({
+    identifiantProjetValue,
+    référenceDossierRaccordementValue: référenceDossierRaccordement,
+  }) => {
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+    const référence = RéférenceDossierRaccordement.convertirEnValueType(
+      référenceDossierRaccordement,
+    );
+
+    const result = await find<DossierRaccordementEntity>(
+      `dossier-raccordement|${identifiantProjet.formatter()}#${référenceDossierRaccordement}`,
+    );
+
+    if (isNone(result)) {
+      throw new DossierRaccordementNonRéférencéError();
+    }
+
+    return mapToResult(identifiantProjet, référence, result);
+  };
+
+  mediator.register('CONSULTER_DOSSIER_RACCORDEMENT_QUERY', handler);
+};
+
+const mapToResult = (
+  identifiantProjet: IdentifiantProjet.ValueType,
+  référence: RéférenceDossierRaccordement.ValueType,
+  {
+    demandeComplèteRaccordement,
+    propositionTechniqueEtFinancière,
+    miseEnService,
+  }: DossierRaccordementEntity,
+): ConsulterDossierRaccordementReadModel => {
+  return {
+    référence,
+    demandeComplèteRaccordement: {
+      dateQualification: demandeComplèteRaccordement.dateQualification
+        ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
+        : undefined,
+      accuséRéception: demandeComplèteRaccordement.accuséRéception
+        ? DocumentProjet.convertirEnValueType(
+            identifiantProjet.formatter(),
+            TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
+              référence.formatter(),
+            ).formatter(),
+            // Initialement dans le legacy certaines DCR n'avait pas de date de qualitification.
+            // Lorsque le domain raccordement a été migré, l'optionalité de la date a été conservé.
+            // Par la suite, le domain Document a été introduit pour harmoniser la gestion des documents
+            // Ce module s'appuie sur des dates pour les noms de fichier
+            // Dans le cas de la DCR étant donnée que les date ne sont pas toujours présentes, une date par défaut au 1er commit du projet
+            // A été mise en place. Les fichiers correspondant dans le bucket ont la même date aussi.
+            // Au moment de l'introduction de ce changement (2024-02-08), il y avait 946 DCR ayant le soucis.
+            // Pour corriger le probléme définitivement il faudrait mettre la date de qualitification contenu dans le fichier,
+            // Mais étant donnée que le legacy n'avait pas de retriction au niveau du format de fichier, il est compliqué d'extraire automatiquement cette information
+            demandeComplèteRaccordement.dateQualification || '2020-02-17T00:00:00.000Z',
+            demandeComplèteRaccordement.accuséRéception.format,
+          )
+        : undefined,
+    },
+    propositionTechniqueEtFinancière: propositionTechniqueEtFinancière
+      ? {
+          dateSignature: DateTime.convertirEnValueType(
+            propositionTechniqueEtFinancière.dateSignature,
+          ),
+          propositionTechniqueEtFinancièreSignée: DocumentProjet.convertirEnValueType(
+            identifiantProjet.formatter(),
+            TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
+              référence.formatter(),
+            ).formatter(),
+            propositionTechniqueEtFinancière.dateSignature,
+            propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée?.format || '',
+          ),
+        }
+      : undefined,
+    miseEnService: miseEnService
+      ? {
+          dateMiseEnService: DateTime.convertirEnValueType(miseEnService.dateMiseEnService),
+        }
+      : undefined,
+  };
+};

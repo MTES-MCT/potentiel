@@ -18,12 +18,6 @@
       "path": "../../libraries/pg-helpers"
     },
     {
-      "path": "../../domain-usecases"
-    },
-    {
-      "path": "../../domain-views"
-    },
-    {
       "path": "../../domain/document"
     },
     {

@@ -11,6 +11,10 @@ import { CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
 import { Project } from '../Project';
 import { DateMiseEnServiceTransmise } from '../events';
 import { jest, describe, it, beforeEach, expect } from '@jest/globals';
+import { RécupérerDétailDossiersRaccordements } from '../queries';
+import { DateTime } from '@potentiel-domain/common';
+import { Raccordement } from '@potentiel-domain/reseau';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 
 describe(`Handler onDateMiseEnServiceTransmise`, () => {
   const projetId = new UniqueEntityID();
@@ -21,18 +25,28 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
 
   const findProjectByIdentifiers = jest.fn(() => okAsync(projetId.toString()));
 
+  const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
+    appelOffreId,
+    periodeId,
+    familleId,
+    numeroCRE,
+  }).formatter();
+
   const publishToEventStore = jest.fn((event: DomainEvent) =>
     okAsync<null, InfraNotAvailableError>(null),
   );
 
-  const récupérerDétailDossiersRaccordements = jest.fn(async () => [
-    {
-      référence: 'ref-du-dossier',
-      demandeComplèteRaccordement: {
-        dateQualification: new Date('2022-01-01').toISOString(),
+  const récupérerDétailDossiersRaccordements = jest.fn<RécupérerDétailDossiersRaccordements>(
+    async () => [
+      {
+        référence: Raccordement.RéférenceDossierRaccordement.convertirEnValueType('ref-du-dossier'),
+        demandeComplèteRaccordement: {
+          dateQualification: DateTime.convertirEnValueType(new Date('2022-01-01').toISOString()),
+        },
+        misÀJourLe: DateTime.now(),
       },
-    },
-  ]);
+    ],
+  );
 
   const getProjectAppelOffre = jest.fn(
     () =>
@@ -46,8 +60,8 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
               délaiApplicable: {
                 délaiEnMois: 18,
                 intervaleDateMiseEnService: {
-                  min: new Date('2022-06-01'),
-                  max: new Date('2024-09-30'),
+                  min: new Date('2022-06-01').toISOString(),
+                  max: new Date('2024-09-30').toISOString(),
                 },
               },
             } as CahierDesChargesModifié,
@@ -100,7 +114,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
 
@@ -141,28 +155,52 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
         };
         const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
-        const récupérerDétailDossiersRaccordements = jest.fn(async () => [
-          {
-            référence: 'ref-du-dossier',
-            demandeComplèteRaccordement: {
-              dateQualification: new Date('2022-01-01').toISOString(),
+        const récupérerDétailDossiersRaccordements = jest.fn<RécupérerDétailDossiersRaccordements>(
+          async () => [
+            {
+              référence:
+                Raccordement.RéférenceDossierRaccordement.convertirEnValueType('ref-du-dossier'),
+              demandeComplèteRaccordement: {
+                dateQualification: DateTime.convertirEnValueType(
+                  new Date('2022-01-01').toISOString(),
+                ),
+              },
+              misÀJourLe: DateTime.now(),
             },
-          },
-          {
-            référence: 'ref-autre-dossier-en-service-1',
-            miseEnService: { dateMiseEnService: new Date('2023-01-01').toISOString() },
-            demandeComplèteRaccordement: {
-              dateQualification: new Date('2022-01-01').toISOString(),
+            {
+              référence: Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+                'ref-autre-dossier-en-service-1',
+              ),
+              miseEnService: {
+                dateMiseEnService: DateTime.convertirEnValueType(
+                  new Date('2023-01-01').toISOString(),
+                ),
+              },
+              demandeComplèteRaccordement: {
+                dateQualification: DateTime.convertirEnValueType(
+                  new Date('2022-01-01').toISOString(),
+                ),
+              },
+              misÀJourLe: DateTime.now(),
             },
-          },
-          {
-            référence: 'ref-autre-dossier-en-service-2',
-            miseEnService: { dateMiseEnService: new Date('2023-01-01').toISOString() },
-            demandeComplèteRaccordement: {
-              dateQualification: new Date('2022-01-01').toISOString(),
+            {
+              référence: Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+                'ref-autre-dossier-en-service-2',
+              ),
+              miseEnService: {
+                dateMiseEnService: DateTime.convertirEnValueType(
+                  new Date('2023-01-01').toISOString(),
+                ),
+              },
+              demandeComplèteRaccordement: {
+                dateQualification: DateTime.convertirEnValueType(
+                  new Date('2022-01-01').toISOString(),
+                ),
+              },
+              misÀJourLe: DateTime.now(),
             },
-          },
-        ]);
+          ],
+        );
 
         const onDateMiseEnServiceTransmise = makeOnDateMiseEnServiceTransmise({
           projectRepo,
@@ -176,7 +214,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
 
@@ -230,7 +268,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: dateHorsIntervalle.toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
 
@@ -271,7 +309,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
 
@@ -327,7 +365,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
 
@@ -356,21 +394,35 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
         };
         const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
-        const récupérerDétailDossiersRaccordements = jest.fn(async () => [
-          {
-            référence: 'ref-du-dossier',
-            demandeComplèteRaccordement: {
-              dateQualification: new Date('2022-01-01').toISOString(),
+        const récupérerDétailDossiersRaccordements = jest.fn<RécupérerDétailDossiersRaccordements>(
+          async () => [
+            {
+              référence:
+                Raccordement.RéférenceDossierRaccordement.convertirEnValueType('ref-du-dossier'),
+              demandeComplèteRaccordement: {
+                dateQualification: DateTime.convertirEnValueType(
+                  new Date('2022-01-01').toISOString(),
+                ),
+              },
+              misÀJourLe: DateTime.now(),
             },
-          },
-          {
-            référence: 'ref-autre-dossier',
-            miseEnService: { dateMiseEnService: new Date('2023-01-01').toISOString() },
-            demandeComplèteRaccordement: {
-              dateQualification: new Date('2022-01-01').toISOString(),
+            {
+              référence:
+                Raccordement.RéférenceDossierRaccordement.convertirEnValueType('ref-autre-dossier'),
+              miseEnService: {
+                dateMiseEnService: DateTime.convertirEnValueType(
+                  new Date('2023-01-01').toISOString(),
+                ),
+              },
+              demandeComplèteRaccordement: {
+                dateQualification: DateTime.convertirEnValueType(
+                  new Date('2022-01-01').toISOString(),
+                ),
+              },
+              misÀJourLe: DateTime.now(),
             },
-          },
-        ]);
+          ],
+        );
 
         const onDateMiseEnServiceTransmise = makeOnDateMiseEnServiceTransmise({
           projectRepo,
@@ -384,7 +436,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
 
@@ -416,16 +468,27 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
         };
         const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
-        const récupérerDétailDossiersRaccordements = jest.fn(async () => [
-          {
-            référence: 'ref-du-dossier',
-            demandeComplèteRaccordement: { dateQualification: new Date().toISOString() },
-          },
-          {
-            référence: 'réf-autre-dossier-non-mis-en-service',
-            demandeComplèteRaccordement: { dateQualification: new Date().toISOString() },
-          },
-        ]);
+        const récupérerDétailDossiersRaccordements = jest.fn<RécupérerDétailDossiersRaccordements>(
+          async () => [
+            {
+              référence:
+                Raccordement.RéférenceDossierRaccordement.convertirEnValueType('ref-du-dossier'),
+              demandeComplèteRaccordement: {
+                dateQualification: DateTime.convertirEnValueType(new Date().toISOString()),
+              },
+              misÀJourLe: DateTime.now(),
+            },
+            {
+              référence: Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+                'réf-autre-dossier-non-mis-en-service',
+              ),
+              demandeComplèteRaccordement: {
+                dateQualification: DateTime.convertirEnValueType(new Date().toISOString()),
+              },
+              misÀJourLe: DateTime.now(),
+            },
+          ],
+        );
 
         const onDateMiseEnServiceTransmise = makeOnDateMiseEnServiceTransmise({
           projectRepo,
@@ -439,7 +502,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
 
@@ -472,23 +535,51 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
         };
         const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
-        const récupérerDétailDossiersRaccordements = jest.fn(async () => [
-          {
-            référence: 'ref-du-dossier',
-            miseEnService: { dateMiseEnService: new Date('2023-01-02').toISOString() },
-            demandeComplèteRaccordement: { dateQualification: new Date().toISOString() },
-          },
-          {
-            référence: 'réf-autre-dossier-avec-MeS-hors-intervalle-1',
-            miseEnService: { dateMiseEnService: new Date('2019-01-01').toISOString() },
-            demandeComplèteRaccordement: { dateQualification: new Date().toISOString() },
-          },
-          {
-            référence: 'réf-autre-dossier-avec-MeS-hors-intervalle-2',
-            miseEnService: { dateMiseEnService: new Date('2019-01-01').toISOString() },
-            demandeComplèteRaccordement: { dateQualification: new Date().toISOString() },
-          },
-        ]);
+        const récupérerDétailDossiersRaccordements = jest.fn<RécupérerDétailDossiersRaccordements>(
+          async () => [
+            {
+              référence:
+                Raccordement.RéférenceDossierRaccordement.convertirEnValueType('ref-du-dossier'),
+              miseEnService: {
+                dateMiseEnService: DateTime.convertirEnValueType(
+                  new Date('2023-01-02').toISOString(),
+                ),
+              },
+              demandeComplèteRaccordement: {
+                dateQualification: DateTime.convertirEnValueType(new Date().toISOString()),
+              },
+              misÀJourLe: DateTime.now(),
+            },
+            {
+              référence: Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+                'réf-autre-dossier-avec-MeS-hors-intervalle-1',
+              ),
+              miseEnService: {
+                dateMiseEnService: DateTime.convertirEnValueType(
+                  new Date('2019-01-01').toISOString(),
+                ),
+              },
+              demandeComplèteRaccordement: {
+                dateQualification: DateTime.convertirEnValueType(new Date().toISOString()),
+              },
+              misÀJourLe: DateTime.now(),
+            },
+            {
+              référence: Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+                'réf-autre-dossier-avec-MeS-hors-intervalle-2',
+              ),
+              miseEnService: {
+                dateMiseEnService: DateTime.convertirEnValueType(
+                  new Date('2019-01-01').toISOString(),
+                ),
+              },
+              demandeComplèteRaccordement: {
+                dateQualification: DateTime.convertirEnValueType(new Date().toISOString()),
+              },
+              misÀJourLe: DateTime.now(),
+            },
+          ],
+        );
 
         const onDateMiseEnServiceTransmise = makeOnDateMiseEnServiceTransmise({
           projectRepo,
@@ -502,7 +593,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: new Date('2023-01-01').toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
 
@@ -539,13 +630,23 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
         };
         const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
-        const récupérerDétailDossiersRaccordements = jest.fn(async () => [
-          {
-            référence: 'ref-du-dossier',
-            miseEnService: { dateMiseEnService: new Date('2023-01-02').toISOString() },
-            demandeComplèteRaccordement: { dateQualification: new Date().toISOString() },
-          },
-        ]);
+        const récupérerDétailDossiersRaccordements = jest.fn<RécupérerDétailDossiersRaccordements>(
+          async () => [
+            {
+              référence:
+                Raccordement.RéférenceDossierRaccordement.convertirEnValueType('ref-du-dossier'),
+              miseEnService: {
+                dateMiseEnService: DateTime.convertirEnValueType(
+                  new Date('2023-01-02').toISOString(),
+                ),
+              },
+              demandeComplèteRaccordement: {
+                dateQualification: DateTime.convertirEnValueType(new Date().toISOString()),
+              },
+              misÀJourLe: DateTime.now(),
+            },
+          ],
+        );
 
         const onDateMiseEnServiceTransmise = makeOnDateMiseEnServiceTransmise({
           projectRepo,
@@ -558,7 +659,7 @@ describe(`Handler onDateMiseEnServiceTransmise`, () => {
           payload: {
             dateMiseEnService: dateHorsIntervalle.toISOString(),
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet,
           },
         });
         await onDateMiseEnServiceTransmise(événementDateMiseEnServiceTransmise);

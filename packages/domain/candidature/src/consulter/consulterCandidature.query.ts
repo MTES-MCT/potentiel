@@ -7,6 +7,8 @@ import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { CandidatureInconnueErreur } from '../candidatureInconnue.error';
 
+import * as Technologie from '../technologie.valueType';
+
 export type ConsulterCandidatureReadModel = {
   appelOffre: string;
   période: string;
@@ -28,6 +30,7 @@ export type ConsulterCandidatureReadModel = {
   };
   dateDésignation: DateTime.RawType;
   puissance: number;
+  technologie: Technologie.TypeTechnologie;
 };
 
 export type ConsulterCandidatureQuery = Message<
@@ -76,6 +79,7 @@ const mapToReadModel = ({
   période,
   statut,
   adressePostaleCandidat,
+  technologie,
 }: CandidatureProjection): ConsulterCandidatureReadModel => {
   return {
     appelOffre,
@@ -93,5 +97,6 @@ const mapToReadModel = ({
     puissance,
     période,
     statut,
+    technologie: Technologie.convertirEnValueType(technologie ?? 'N/A').formatter(),
   };
 };

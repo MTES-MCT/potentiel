@@ -13,7 +13,7 @@ import { expect } from 'chai';
 Alors(
   `l'abandon du projet lauréat {string} devrait être consultable dans la liste des projets lauréat abandonnés`,
   async function (this: PotentielWorld, nomProjet: string) {
-    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
       const {
@@ -29,7 +29,7 @@ Alors(
       } = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'CONSULTER_ABANDON_QUERY',
         data: {
-          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
@@ -42,7 +42,7 @@ Alors(
       } = this.lauréatWorld.abandonWorld;
 
       actualStatut.estÉgaleÀ(Abandon.StatutAbandon.demandé).should.be.true;
-      actualIdentifiantProjet.estÉgaleÀ(identitiantProjetValueType).should.be.true;
+      actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
       actualDateDemande.estÉgaleÀ(dateDemande).should.be.true;
       actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
       actualRaison.should.be.equal(raison);
@@ -66,14 +66,14 @@ Alors(
 Alors(
   `l'abandon du projet lauréat {string} ne devrait plus exister`,
   async function (this: PotentielWorld, nomProjet: string) {
-    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
       try {
         const result = await mediator.send<Abandon.ConsulterAbandonQuery>({
           type: 'CONSULTER_ABANDON_QUERY',
           data: {
-            identifiantProjetValue: identitiantProjetValueType.formatter(),
+            identifiantProjetValue: identifiantProjet.formatter(),
           },
         });
         result.should.be.undefined;
@@ -87,7 +87,7 @@ Alors(
 Alors(
   `l'abandon du projet lauréat {string} devrait être rejeté`,
   async function (this: PotentielWorld, nomProjet: string) {
-    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
       const {
@@ -97,7 +97,7 @@ Alors(
       } = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'CONSULTER_ABANDON_QUERY',
         data: {
-          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
@@ -108,7 +108,7 @@ Alors(
       } = this.lauréatWorld.abandonWorld;
 
       actualStatut.estÉgaleÀ(Abandon.StatutAbandon.rejeté).should.be.true;
-      actualIdentifiantProjet.estÉgaleÀ(identitiantProjetValueType).should.be.true;
+      actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
       expect(rejet).to.be.not.undefined;
 
       const actualDateRejet = rejet!.rejetéLe;
@@ -134,7 +134,7 @@ Alors(
 Alors(
   `l'abandon du projet lauréat {string} devrait être accordé`,
   async function (this: PotentielWorld, nomProjet: string) {
-    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
       const {
@@ -144,7 +144,7 @@ Alors(
       } = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'CONSULTER_ABANDON_QUERY',
         data: {
-          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
@@ -155,7 +155,7 @@ Alors(
       } = this.lauréatWorld.abandonWorld;
 
       actualStatut.estÉgaleÀ(Abandon.StatutAbandon.accordé).should.be.true;
-      actualIdentifiantProjet.estÉgaleÀ(identitiantProjetValueType).should.be.true;
+      actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
       expect(accord).to.be.not.undefined;
 
       const actualDateRejet = accord!.accordéLe;
@@ -181,7 +181,7 @@ Alors(
 Alors(
   `l'abandon du projet lauréat {string} devrait être de nouveau demandé`,
   async function (this: PotentielWorld, nomProjet: string) {
-    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
       const {
@@ -191,12 +191,12 @@ Alors(
       } = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'CONSULTER_ABANDON_QUERY',
         data: {
-          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
       actualStatut.estÉgaleÀ(Abandon.StatutAbandon.demandé).should.be.true;
-      actualIdentifiantProjet.estÉgaleÀ(identitiantProjetValueType).should.be.true;
+      actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
       expect(rejet).to.be.undefined;
     });
   },
@@ -205,7 +205,7 @@ Alors(
 Alors(
   `la confirmation d'abandon du projet lauréat {string} devrait être demandée`,
   async function (this: PotentielWorld, nomProjet: string) {
-    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
       const {
@@ -215,7 +215,7 @@ Alors(
       } = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'CONSULTER_ABANDON_QUERY',
         data: {
-          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
@@ -226,7 +226,7 @@ Alors(
       } = this.lauréatWorld.abandonWorld;
 
       actualStatut.estÉgaleÀ(Abandon.StatutAbandon.confirmationDemandée).should.be.true;
-      actualIdentifiantProjet.estÉgaleÀ(identitiantProjetValueType).should.be.true;
+      actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
 
       expect(demande.confirmation).to.be.not.undefined;
 
@@ -251,7 +251,7 @@ Alors(
 Alors(
   `l'abandon du projet lauréat {string} devrait être confirmé`,
   async function (this: PotentielWorld, nomProjet: string) {
-    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
       const {
@@ -261,14 +261,14 @@ Alors(
       } = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'CONSULTER_ABANDON_QUERY',
         data: {
-          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
       const { dateConfirmation, utilisateur } = this.lauréatWorld.abandonWorld;
 
       actualStatut.estÉgaleÀ(Abandon.StatutAbandon.confirmé).should.be.true;
-      actualIdentifiantProjet.estÉgaleÀ(identitiantProjetValueType).should.be.true;
+      actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
 
       expect(demande.confirmation?.confirméLe).to.be.not.undefined;
       demande.confirmation!.confirméLe!.estÉgaleÀ(dateConfirmation).should.be.true;
@@ -286,10 +286,10 @@ Alors(
     nomProjetPreuveRecandidature: string,
     nomProjetAbandonné: string,
   ) {
-    const { identitiantProjetValueType: identifiantProjetAbandonnéValueType } =
+    const { identifiantProjet: identifiantProjetAbandonnéValueType } =
       this.lauréatWorld.rechercherLauréatFixture(nomProjetAbandonné);
 
-    const { identitiantProjetValueType: preuveRecandidatureValueType } =
+    const { identifiantProjet: preuveRecandidatureValueType } =
       this.lauréatWorld.rechercherLauréatFixture(nomProjetPreuveRecandidature);
 
     await waitForExpect(async () => {
@@ -318,13 +318,13 @@ Alors(
 Alors(
   `la preuve de recandidature a été demandée au porteur du projet {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
-    const { identitiantProjetValueType } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
       const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'CONSULTER_ABANDON_QUERY',
         data: {
-          identifiantProjetValue: identitiantProjetValueType.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 

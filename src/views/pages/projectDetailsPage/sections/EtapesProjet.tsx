@@ -3,8 +3,9 @@ import { Request } from 'express';
 import { Timeline, CalendarIcon, Section, Link, InfoBox } from '../../../components';
 import { userIs } from '../../../../modules/users';
 import { ProjectEventListDTO } from '../../../../modules/frise';
-import routes from '../../../../routes';
-import { convertirEnIdentifiantProjet } from '@potentiel/domain-usecases';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
+
+import { Routes } from '@potentiel-libraries/routes';
 
 type EtapesProjetProps = {
   project: {
@@ -39,12 +40,12 @@ export const EtapesProjet = ({ user, projectEventList, project }: EtapesProjetPr
         <InfoBox className="print:hidden">
           Les données de raccordement du projet sont dorénavant consultables et modifiables sur{' '}
           <Link
-            href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(
-              convertirEnIdentifiantProjet({
-                appelOffre: project.appelOffreId,
-                période: project.periodeId,
-                famille: project.familleId,
-                numéroCRE: project.numeroCRE,
+            href={Routes.Raccordement.détail(
+              formatProjectDataToIdentifiantProjetValueType({
+                appelOffreId: project.appelOffreId,
+                periodeId: project.periodeId,
+                familleId: project.familleId,
+                numeroCRE: project.numeroCRE,
               }).formatter(),
             )}
             aria-label="Accéder aux données de raccordement"

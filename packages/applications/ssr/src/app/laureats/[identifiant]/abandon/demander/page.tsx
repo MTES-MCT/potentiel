@@ -11,7 +11,7 @@ import { Routes } from '@potentiel-libraries/routes';
 import {
   DemanderAbandonPage,
   DemanderAbandonPageProps,
-} from '@/components/pages/abandon/demander/DemanderAbandonPage';
+} from '@/components/pages/abandon/demander/DemanderAbandon.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -32,7 +32,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       },
     });
 
-    const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
+    const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
       type: 'CONSULTER_APPEL_OFFRE_QUERY',
       data: { identifiantAppelOffre: candidature.appelOffre },
     });
@@ -46,14 +46,14 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       });
 
     if (
-      appelOffres.periodes.find(({ id }) => id === candidature.période)
+      appelOffre.periodes.find(({ id }) => id === candidature.période)
         ?.choisirNouveauCahierDesCharges &&
       cahierDesChargesChoisi === 'initial'
     ) {
       redirect(Routes.Projet.details(identifiantProjet));
     }
 
-    const période = appelOffres.periodes.find((p) => p.id === candidature.période);
+    const période = appelOffre.periodes.find((p) => p.id === candidature.période);
     if (!période) {
       throw new NotFoundError('Période de notification introuvable');
     }

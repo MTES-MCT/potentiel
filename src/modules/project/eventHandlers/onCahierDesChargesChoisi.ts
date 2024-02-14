@@ -4,6 +4,7 @@ import { GetProjectAppelOffre } from '../../projectAppelOffre';
 import { CahierDesChargesChoisi, ProjectCompletionDueDateSet } from '../events';
 import { Project } from '../Project';
 import { RécupérerDétailDossiersRaccordements } from '../queries';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 
 type Dépendances = {
   projectRepo: TransactionalRepository<Project>;
@@ -32,6 +33,13 @@ export const makeOnCahierDesChargesChoisi =
         completionDueOn,
         data,
       }) => {
+        const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
+          appelOffreId,
+          periodeId,
+          familleId,
+          numeroCRE: data!.numeroCRE,
+        });
+
         const délaiCDC2022Applicable = getProjectAppelOffre({
           appelOffreId,
           periodeId,
@@ -50,12 +58,7 @@ export const makeOnCahierDesChargesChoisi =
           }
           // le porteur choisit le CDC 2022, et le délai n'est pas déjà appliqué
           return ResultAsync.fromPromise(
-            récupérerDétailDossiersRaccordements({
-              appelOffre: appelOffreId,
-              période: periodeId,
-              famille: familleId || '',
-              numéroCRE: data!.numeroCRE,
-            }),
+            récupérerDétailDossiersRaccordements(identifiantProjet),
             () => {
               logger.error(
                 `project eventHandler onCahierDesChargesChoisi : erreur lors de la lecture des dossiers de raccordement. Projet ${projetId}`,
@@ -63,23 +66,24 @@ export const makeOnCahierDesChargesChoisi =
               return okAsync(null);
             },
           ).andThen((raccordements) => {
-            if (!raccordements) {
+            if (raccordements.length === 0) {
               logger.error(
                 `project eventHandler onCahierDesChargesChoisi : raccordements non trouvés. Projet ${projetId}`,
               );
               return okAsync(null);
             }
+
             if (!délaiCDC2022Applicable) {
               return okAsync(null);
             }
 
-            return raccordements!.find(
+            return raccordements.find(
               (dossier) =>
                 !dossier.miseEnService ||
                 isDateHorsIntervalle({
-                  dateMiseEnService: dossier.miseEnService!.dateMiseEnService,
-                  min: délaiCDC2022Applicable.intervaleDateMiseEnService.min,
-                  max: délaiCDC2022Applicable.intervaleDateMiseEnService.max,
+                  dateMiseEnService: dossier.miseEnService?.dateMiseEnService?.formatter() || '',
+                  min: new Date(délaiCDC2022Applicable.intervaleDateMiseEnService.min),
+                  max: new Date(délaiCDC2022Applicable.intervaleDateMiseEnService.max),
                 }),
             )
               ? okAsync(null)

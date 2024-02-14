@@ -27,6 +27,10 @@ export const convertirEnValueType = (
   return {
     format: formatValue,
     formatter() {
+      /**
+       * @todo Ici le valueType ne devrait pas savoir que l'enregistrement du document doit se faire dans un file system qui demande de créer un chemin de fichier (à l'aide du join)
+       * cf upload.ts
+       */
       return join(
         identifiantProjet.formatter(),
         typeDocumentValue,

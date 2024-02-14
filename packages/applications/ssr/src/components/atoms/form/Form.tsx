@@ -1,13 +1,21 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
+'use client';
+
 import { FC, FormHTMLAttributes } from 'react';
 import { useFormState } from 'react-dom';
 
 import { formAction } from '@/utils/formAction';
 
+import { Heading2 } from '../headings';
+
+import { FormFeedback } from './FormFeedback';
+import { FormPendingModal, FormPendingModalProps } from './FormPendingModal';
+
 export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action'> & {
   action: ReturnType<typeof formAction>;
   children: React.ReactNode;
+  heading?: React.ReactNode;
   omitMandatoryFieldsLegend?: true;
+  pendingModal?: FormPendingModalProps;
   onSuccess?: () => void;
   onValidationError?: (validationErrors: Array<string>) => void;
 };
@@ -18,31 +26,36 @@ export const Form: FC<FormProps> = ({
   onSuccess,
   onValidationError,
   children,
+  heading,
+  pendingModal,
+  className,
   ...props
 }) => {
   const [state, formAction] = useFormState(action, {
-    error: undefined,
-    validationErrors: [],
+    status: undefined,
   });
 
-  if (state.success && onSuccess) {
+  if (state.status === 'success' && onSuccess) {
     onSuccess();
   }
-  if (state.validationErrors && onValidationError) {
-    onValidationError(state.validationErrors);
+  if (state.status === 'form-error' && onValidationError) {
+    onValidationError(state.errors);
   }
 
   return (
     <form action={formAction} {...props}>
-      {state.error && <Alert small severity="error" description={state.error} className="mb-4" />}
+      {heading && <Heading2 className="mb-4">{heading}</Heading2>}
+
+      <FormFeedback formState={state} />
+      {pendingModal && <FormPendingModal {...pendingModal} />}
 
       {!omitMandatoryFieldsLegend && (
-        <div className="text-sm italic mb-4">
+        <div className="text-sm italic my-4">
           Sauf mention contraire "(optionnel)" dans le label, tous les champs sont obligatoires
         </div>
       )}
 
-      {children}
+      <div className={`flex flex-col gap-5 ${className || ''}`}>{children}</div>
     </form>
   );
 };

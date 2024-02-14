@@ -11,21 +11,29 @@ import {
 } from '../../../__tests__/fixtures/aggregates';
 import { makeOnCahierDesChargesChoisi } from './onCahierDesChargesChoisi';
 import { Project } from '../Project';
+import { RécupérerDétailDossiersRaccordements } from '../queries';
+import { DateTime } from '@potentiel-domain/common';
+import { Raccordement } from '@potentiel-domain/reseau';
 
 describe(`onCahierDesChargesChoisi event handler`, () => {
   const publishToEventStore = jest.fn((event: DomainEvent) =>
     okAsync<null, InfraNotAvailableError>(null),
   );
 
-  const récupérerDétailDossiersRaccordements = jest.fn(async () => [
-    {
-      référence: 'ref-du-dossier',
-      demandeComplèteRaccordement: {
-        dateQualification: new Date('2022-01-01').toISOString(),
+  const récupérerDétailDossiersRaccordements = jest.fn<RécupérerDétailDossiersRaccordements>(
+    async () => [
+      {
+        référence: Raccordement.RéférenceDossierRaccordement.convertirEnValueType('ref-du-dossier'),
+        demandeComplèteRaccordement: {
+          dateQualification: DateTime.convertirEnValueType(new Date('2022-01-01').toISOString()),
+        },
+        miseEnService: {
+          dateMiseEnService: DateTime.convertirEnValueType(new Date('2023-01-01').toISOString()),
+        },
+        misÀJourLe: DateTime.now(),
       },
-      miseEnService: { dateMiseEnService: new Date('2023-01-01').toISOString() },
-    },
-  ]);
+    ],
+  );
 
   beforeEach(async () => {
     publishToEventStore.mockClear();
@@ -77,8 +85,8 @@ describe(`onCahierDesChargesChoisi event handler`, () => {
                   délaiApplicable: {
                     délaiEnMois: CDCDélaiApplicable,
                     intervaleDateMiseEnService: {
-                      min: new Date('2022-06-01'),
-                      max: new Date('2024-09-30'),
+                      min: new Date('2022-06-01').toISOString(),
+                      max: new Date('2024-09-30').toISOString(),
                     },
                   },
                 } as CahierDesChargesModifié,
@@ -161,8 +169,8 @@ describe(`onCahierDesChargesChoisi event handler`, () => {
                   délaiApplicable: {
                     délaiEnMois: CDCDélaiApplicable,
                     intervaleDateMiseEnService: {
-                      min: new Date('2022-06-01'),
-                      max: new Date('2024-09-30'),
+                      min: new Date('2022-06-01').toISOString(),
+                      max: new Date('2024-09-30').toISOString(),
                     },
                   },
                 } as CahierDesChargesModifié,
@@ -243,8 +251,8 @@ describe(`onCahierDesChargesChoisi event handler`, () => {
                   délaiApplicable: {
                     délaiEnMois: CDCDélaiApplicable,
                     intervaleDateMiseEnService: {
-                      min: new Date('2022-06-01'),
-                      max: new Date('2024-09-30'),
+                      min: new Date('2022-06-01').toISOString(),
+                      max: new Date('2024-09-30').toISOString(),
                     },
                   },
                 } as CahierDesChargesModifié,
@@ -378,8 +386,8 @@ describe(`onCahierDesChargesChoisi event handler`, () => {
                   délaiApplicable: {
                     délaiEnMois: CDCDélaiApplicable,
                     intervaleDateMiseEnService: {
-                      min: new Date('2022-06-01'),
-                      max: new Date('2024-09-30'),
+                      min: new Date('2022-06-01').toISOString(),
+                      max: new Date('2024-09-30').toISOString(),
                     },
                   },
                 } as CahierDesChargesModifié,
@@ -452,8 +460,8 @@ describe(`onCahierDesChargesChoisi event handler`, () => {
                   délaiApplicable: {
                     délaiEnMois: CDCDélaiApplicable,
                     intervaleDateMiseEnService: {
-                      min: new Date('2022-06-01'),
-                      max: new Date('2024-09-30'),
+                      min: new Date('2022-06-01').toISOString(),
+                      max: new Date('2024-09-30').toISOString(),
                     },
                   },
                 } as CahierDesChargesModifié,
@@ -462,21 +470,35 @@ describe(`onCahierDesChargesChoisi event handler`, () => {
           } as ProjectAppelOffre),
       );
 
-      const récupérerDétailDossiersRaccordements = jest.fn(async () => [
-        {
-          référence: 'ref-du-dossier',
-          demandeComplèteRaccordement: {
-            dateQualification: new Date('2022-01-01').toISOString(),
-            miseEnService: { dateMiseEnService: new Date('2023-01-01').toISOString() },
+      const récupérerDétailDossiersRaccordements = jest.fn<RécupérerDétailDossiersRaccordements>(
+        async () => [
+          {
+            référence:
+              Raccordement.RéférenceDossierRaccordement.convertirEnValueType('ref-du-dossier'),
+            demandeComplèteRaccordement: {
+              dateQualification: DateTime.convertirEnValueType(
+                new Date('2022-01-01').toISOString(),
+              ),
+              miseEnService: {
+                dateMiseEnService: DateTime.convertirEnValueType(
+                  new Date('2023-01-01').toISOString(),
+                ),
+              },
+            },
+            misÀJourLe: DateTime.now(),
           },
-        },
-        {
-          référence: 'ref-autre-dossier',
-          demandeComplèteRaccordement: {
-            dateQualification: new Date('2022-01-01').toISOString(),
+          {
+            référence:
+              Raccordement.RéférenceDossierRaccordement.convertirEnValueType('ref-autre-dossier'),
+            demandeComplèteRaccordement: {
+              dateQualification: DateTime.convertirEnValueType(
+                new Date('2022-01-01').toISOString(),
+              ),
+            },
+            misÀJourLe: DateTime.now(),
           },
-        },
-      ]);
+        ],
+      );
 
       const onCahierDesChargesChoisi = makeOnCahierDesChargesChoisi({
         publishToEventStore,
@@ -542,8 +564,8 @@ describe(`onCahierDesChargesChoisi event handler`, () => {
                   délaiApplicable: {
                     délaiEnMois: CDCDélaiApplicable,
                     intervaleDateMiseEnService: {
-                      min: new Date('2022-06-01'),
-                      max: new Date('2024-09-30'),
+                      min: new Date('2022-06-01').toISOString(),
+                      max: new Date('2024-09-30').toISOString(),
                     },
                   },
                 } as CahierDesChargesModifié,
@@ -554,22 +576,40 @@ describe(`onCahierDesChargesChoisi event handler`, () => {
 
       const dateMiseEnServiceHorsIntervalle = new Date('2022-01-01');
 
-      const récupérerDétailDossiersRaccordements = jest.fn(async () => [
-        {
-          référence: 'ref-du-dossier',
-          demandeComplèteRaccordement: {
-            dateQualification: new Date('2022-01-01').toISOString(),
-            miseEnService: { dateMiseEnService: dateMiseEnServiceHorsIntervalle.toISOString() },
+      const récupérerDétailDossiersRaccordements = jest.fn<RécupérerDétailDossiersRaccordements>(
+        async () => [
+          {
+            référence:
+              Raccordement.RéférenceDossierRaccordement.convertirEnValueType('ref-du-dossier'),
+            demandeComplèteRaccordement: {
+              dateQualification: DateTime.convertirEnValueType(
+                new Date('2022-01-01').toISOString(),
+              ),
+              miseEnService: {
+                dateMiseEnService: DateTime.convertirEnValueType(
+                  dateMiseEnServiceHorsIntervalle.toISOString(),
+                ),
+              },
+            },
+            misÀJourLe: DateTime.now(),
           },
-        },
-        {
-          référence: 'ref-autre-dossier',
-          demandeComplèteRaccordement: {
-            dateQualification: new Date('2022-01-01').toISOString(),
-            miseEnService: { dateMiseEnService: dateMiseEnServiceHorsIntervalle.toISOString() },
+          {
+            référence:
+              Raccordement.RéférenceDossierRaccordement.convertirEnValueType('ref-autre-dossier'),
+            demandeComplèteRaccordement: {
+              dateQualification: DateTime.convertirEnValueType(
+                new Date('2022-01-01').toISOString(),
+              ),
+              miseEnService: {
+                dateMiseEnService: DateTime.convertirEnValueType(
+                  dateMiseEnServiceHorsIntervalle.toISOString(),
+                ),
+              },
+            },
+            misÀJourLe: DateTime.now(),
           },
-        },
-      ]);
+        ],
+      );
 
       const onCahierDesChargesChoisi = makeOnCahierDesChargesChoisi({
         publishToEventStore,
@@ -635,8 +675,8 @@ describe(`onCahierDesChargesChoisi event handler`, () => {
                   délaiApplicable: {
                     délaiEnMois: CDCDélaiApplicable,
                     intervaleDateMiseEnService: {
-                      min: new Date('2022-06-01'),
-                      max: new Date('2024-09-30'),
+                      min: new Date('2022-06-01').toISOString(),
+                      max: new Date('2024-09-30').toISOString(),
                     },
                   },
                 } as CahierDesChargesModifié,

@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ListerTâcheQuery, ListerTâcheReadModel } from '@potentiel-domain/tache';
 
-import { TâcheListPage, TâcheListPageProps } from '@/components/pages/tâche/TâcheListPage';
+import { TâcheListPage, TâcheListPageProps } from '@/components/pages/tâche/TâcheList.page';
 import { displayDate } from '@/utils/displayDate';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';

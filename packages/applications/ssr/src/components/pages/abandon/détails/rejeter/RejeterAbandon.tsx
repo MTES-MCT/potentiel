@@ -28,7 +28,7 @@ export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) =
         method: 'post',
         encType: 'multipart/form-data',
         id: 'rejeter-abandon-form',
-        onSuccess: () => router.push(Routes.Abandon.détail(identifiantProjet)),
+        onSuccess: () => router.refresh(),
         onValidationError: (validationErrors) => setValidationErrors(validationErrors),
         children: (
           <>

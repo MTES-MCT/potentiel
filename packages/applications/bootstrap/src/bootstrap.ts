@@ -6,13 +6,16 @@ import { setupDocumentProjet } from './setupDocumentProjet';
 import { setupAppelOffre } from './setupAppelOffre';
 import { setupTâche } from './setupTâche';
 import { setupUtilisateur } from './setupUtilisateur';
-import { setupGestionnaireRéseau } from './setupGestionnaireRéseau';
+import { setupRéseau } from './setupRéseau';
+import { seed } from './seed';
 
 export const bootstrap = async ({
   middlewares,
 }: {
   middlewares: Array<Middleware>;
 }): Promise<() => Promise<void>> => {
+  await seed();
+
   mediator.use({
     middlewares,
   });
@@ -24,7 +27,7 @@ export const bootstrap = async ({
   setupUtilisateur();
 
   const unsetupLauréat = await setupLauréat();
-  const unsetupGestionnaireRéseau = await setupGestionnaireRéseau();
+  const unsetupGestionnaireRéseau = await setupRéseau();
 
   getLogger().info('Application bootstrapped');
 

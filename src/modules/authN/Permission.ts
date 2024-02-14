@@ -16,17 +16,11 @@ import { PermissionListerProjetsÀNotifier } from '../notificationCandidats';
 import {
   PermissionAjouterGestionnaireRéseau,
   PermissionModifierGestionnaireRéseau,
-  PermissionTransmettreDemandeComplèteRaccordement,
-  PermissionTransmettreDateMiseEnService,
-  PermissionTransmettrePropositionTechniqueEtFinancière,
-  PermissionModifierGestionnaireRéseauProjet,
-} from '@potentiel/legacy-permissions';
-import {
   PermissionListerGestionnairesRéseau,
   PermissionConsulterGestionnaireRéseau,
   PermissionConsulterDossierRaccordement,
   PermissionListerAbandons,
-} from '@potentiel/domain-views';
+} from '@potentiel/legacy-permissions';
 
 export type Permission = {
   nom: string;
@@ -56,10 +50,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionAnnulerGF,
         PermissionRetirerGF,
         PermissionExporterProjets,
-        PermissionTransmettreDemandeComplèteRaccordement,
         PermissionConsulterDossierRaccordement,
-        PermissionTransmettrePropositionTechniqueEtFinancière,
-        PermissionModifierGestionnaireRéseauProjet,
         PermissionUploaderGF,
       ];
     case 'caisse-des-dépôts':
@@ -88,11 +79,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterGestionnaireRéseau,
         PermissionAjouterGestionnaireRéseau,
         PermissionModifierGestionnaireRéseau,
-        PermissionTransmettreDemandeComplèteRaccordement,
         PermissionConsulterDossierRaccordement,
-        PermissionTransmettreDateMiseEnService,
-        PermissionTransmettrePropositionTechniqueEtFinancière,
-        PermissionModifierGestionnaireRéseauProjet,
         PermissionListerAbandons,
       ];
     case 'dgec-validateur':
@@ -110,11 +97,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterGestionnaireRéseau,
         PermissionAjouterGestionnaireRéseau,
         PermissionModifierGestionnaireRéseau,
-        PermissionTransmettreDemandeComplèteRaccordement,
         PermissionConsulterDossierRaccordement,
-        PermissionTransmettreDateMiseEnService,
-        PermissionTransmettrePropositionTechniqueEtFinancière,
-        PermissionModifierGestionnaireRéseauProjet,
         PermissionListerAbandons,
       ];
     case 'acheteur-obligé':

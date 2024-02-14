@@ -14,25 +14,43 @@ import routes from '../../routes';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { PermissionConsulterProjet } from '../../modules/project';
 import { mediator } from 'mediateur';
-import {
-  ConsulterDossierRaccordementQuery,
-  ListerDossiersRaccordementQuery,
-} from '@potentiel/domain-views';
-import {
-  IdentifiantProjet,
-  RawIdentifiantProjet,
-  convertirEnIdentifiantProjet,
-  estUnRawIdentifiantProjet,
-} from '@potentiel/domain-usecases';
-import { Project } from '../../infra/sequelize';
-import { isNone, isSome } from '@potentiel/monads';
 import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { Project } from '../../infra/sequelize';
+
 import { Abandon } from '@potentiel-domain/laureat';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Raccordement } from '@potentiel-domain/reseau';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
 });
+
+export const estUnLegacyIdentifiantProjet = (value: string): value is IdentifiantProjet.RawType => {
+  const [appelOffre, période, famille, numéroCRE] = value.split('#');
+
+  return (
+    typeof appelOffre === 'string' &&
+    typeof numéroCRE === 'string' &&
+    typeof période === 'string' &&
+    typeof famille === 'string'
+  );
+};
+
+const getLegacyIdentifiantProjet = async (identifiantProjet: IdentifiantProjet.RawType) => {
+  const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+  const projetLegacy = await Project.findOne({
+    where: {
+      appelOffreId: identifiantProjetValueType.appelOffre,
+      periodeId: identifiantProjetValueType.période,
+      familleId: identifiantProjetValueType.famille ?? '',
+      numeroCRE: identifiantProjetValueType.numéroCRE,
+    },
+    attributes: ['id'],
+  });
+
+  return projetLegacy?.id;
+};
 
 v1Router.get(
   routes.PROJECT_DETAILS(),
@@ -46,15 +64,20 @@ v1Router.get(
     async (request, response) => {
       const { user } = request;
 
-      if (estUnRawIdentifiantProjet(request.params.projectId)) {
-        const projectId = await getIdentifiantLegacyProjet(request.params.projectId);
-        return response.redirect(routes.PROJECT_DETAILS(projectId));
-      }
-
       const projectId = request.params.projectId;
 
       if (!projectId) {
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
+
+      if (estUnLegacyIdentifiantProjet(projectId)) {
+        const legacyId = await getLegacyIdentifiantProjet(projectId);
+
+        if (!legacyId) {
+          return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+        }
+
+        return response.redirect(routes.PROJECT_DETAILS(legacyId));
       }
 
       const userHasRightsToProject = await shouldUserAccessProject.check({
@@ -78,20 +101,16 @@ v1Router.get(
 
       const projet = rawProjet.value;
 
-      const identifiantProjet = {
-        appelOffre: projet.appelOffreId,
-        période: projet.periodeId,
-        famille: projet.familleId,
-        numéroCRE: projet.numeroCRE,
-      };
-
-      const abandon = await getAbandon(identifiantProjet);
+      const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(
+        `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
+      );
+      const abandon = await getAbandon(identifiantProjetValueType);
 
       const alertesRaccordement =
         !abandon || abandon.statut === 'rejeté'
           ? await getAlertesRaccordement({
               userRole: user.role,
-              identifiantProjet,
+              identifiantProjet: identifiantProjetValueType,
               CDC2022Choisi:
                 projet.cahierDesChargesActuel.type === 'modifié' &&
                 projet.cahierDesChargesActuel.paruLe === '30/08/2022',
@@ -136,13 +155,12 @@ v1Router.get(
 
 type AbandonEnInstructionProps = { statut: string } | undefined;
 const getAbandon = async (
-  identifiantProjet: IdentifiantProjet,
+  identifiantProjet: IdentifiantProjet.ValueType,
 ): Promise<AbandonEnInstructionProps> => {
   try {
-    const identifiantProjetValue = convertirEnIdentifiantProjet(identifiantProjet).formatter();
     const abandonDétecté = await mediator.send<Abandon.DétecterAbandonQuery>({
       type: 'DÉTECTER_ABANDON_QUERY',
-      data: { identifiantProjetValue },
+      data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
 
     if (!abandonDétecté) {
@@ -151,7 +169,7 @@ const getAbandon = async (
 
     const { statut } = await mediator.send<Abandon.ConsulterAbandonQuery>({
       type: 'CONSULTER_ABANDON_QUERY',
-      data: { identifiantProjetValue },
+      data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
 
     switch (statut.statut) {
@@ -170,23 +188,6 @@ const getAbandon = async (
   }
 };
 
-const getIdentifiantLegacyProjet = async (identifiantProjet: RawIdentifiantProjet) => {
-  const identifiantProjetValueType = convertirEnIdentifiantProjet(identifiantProjet);
-  const projetLegacy = await Project.findOne({
-    where: {
-      appelOffreId: identifiantProjetValueType.appelOffre,
-      periodeId: identifiantProjetValueType.période,
-      familleId: isSome(identifiantProjetValueType.famille)
-        ? identifiantProjetValueType.famille
-        : '',
-      numeroCRE: identifiantProjetValueType.numéroCRE,
-    },
-    attributes: ['id'],
-  });
-
-  return projetLegacy?.id;
-};
-
 const getAlertesRaccordement = async ({
   userRole,
   identifiantProjet,
@@ -194,7 +195,7 @@ const getAlertesRaccordement = async ({
   projet,
 }: {
   userRole: UtilisateurReadModel['role'];
-  identifiantProjet: IdentifiantProjet;
+  identifiantProjet: IdentifiantProjet.ValueType;
   CDC2022Choisi: boolean;
   projet: {
     isClasse: boolean;
@@ -206,29 +207,31 @@ const getAlertesRaccordement = async ({
   }
 
   let alertes: Array<AlerteRaccordement> = [];
+  let dossiersRaccordement: Raccordement.ConsulterRaccordementReadModel;
 
-  const { références } = await mediator.send<ListerDossiersRaccordementQuery>({
-    type: 'LISTER_DOSSIER_RACCORDEMENT_QUERY',
-    data: { identifiantProjet },
-  });
-
-  if (CDC2022Choisi && (références.length === 0 || références[0] === 'Référence non transmise')) {
-    alertes.push('référenceDossierManquantePourDélaiCDC2022');
-  }
-
-  if (références.length === 0) {
-    alertes.push('demandeComplèteRaccordementManquante');
-  } else {
-    const dossier = await mediator.send<ConsulterDossierRaccordementQuery>({
-      type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
-      data: { identifiantProjet, référenceDossierRaccordement: références[0] },
+  try {
+    // @TODO : utilisation d'un try/catch temporaire
+    // mais il faudrait revoir le système de gestion des alertes sur le projet
+    // et à discuter avec le métier : qu'est-ce qui est une "alerte" ou une "tâche" en ce qui concerne les raccordements
+    dossiersRaccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+      type: 'CONSULTER_RACCORDEMENT_QUERY',
+      data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
 
     if (
-      isNone(dossier) ||
-      (isSome(dossier) && !dossier.demandeComplèteRaccordement.accuséRéception)
+      CDC2022Choisi &&
+      dossiersRaccordement.dossiers[0].référence.formatter() === 'Référence non transmise'
     ) {
+      alertes.push('référenceDossierManquantePourDélaiCDC2022');
+    }
+
+    if (!dossiersRaccordement.dossiers[0].demandeComplèteRaccordement.accuséRéception) {
       alertes.push('demandeComplèteRaccordementManquante');
+    }
+  } catch (error) {
+    alertes.push('demandeComplèteRaccordementManquante');
+    if (CDC2022Choisi) {
+      alertes.push('référenceDossierManquantePourDélaiCDC2022');
     }
   }
 

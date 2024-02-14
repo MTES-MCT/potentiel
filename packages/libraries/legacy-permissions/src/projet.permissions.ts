@@ -1,7 +1,15 @@
 /**
- * @deprecated un nouveau systéme de permission va être implémenter dans la nouvelle stack technique
+ * @deprecated
  */
-export const PermissionModifierGestionnaireRéseauProjet = {
-  nom: 'modifier-gestionnaire-réseau-projet',
-  description: 'Modifier le gestionnaire de réseau du projet',
+export const PermissionConsulterProjet = {
+  nom: 'consulter-projet',
+  description: 'Consulter le projet',
+};
+
+/**
+ * @deprecated
+ */
+export const PermissionListerAbandons = {
+  nom: 'lister-abandons',
+  description: 'Lister les abandons',
 };

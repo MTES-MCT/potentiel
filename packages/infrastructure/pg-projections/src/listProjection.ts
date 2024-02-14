@@ -18,7 +18,7 @@ export const listProjection = async <TProjection extends Projection>({
   const whereClause = where
     ? format(
         Object.keys(where)
-          .map((_, index) => `and value ->> %L = $${index + 2}`)
+          .map((_, index) => `and value ->> %L like $${index + 2}`)
           .join(' '),
         ...Object.keys(where),
       )

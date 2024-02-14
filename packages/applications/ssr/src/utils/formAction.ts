@@ -1,13 +1,38 @@
 import * as zod from 'zod';
 
-import { getLogger } from '@potentiel/monitoring';
+// import { getLogger } from '@potentiel/monitoring';
 import { DomainError } from '@potentiel-domain/core';
 
-export type FormState = {
-  success?: true;
-  error?: string;
-  validationErrors: string[];
+import { CsvError, CsvValidationError } from './parseCsv';
+
+export type ActionResult = {
+  successCount: number;
+  errors: Array<{
+    referenceDossier: string;
+    reason: string;
+  }>;
 };
+
+export type FormState =
+  | {
+      status: 'success' | undefined;
+      result?: ActionResult;
+    }
+  | {
+      status: 'form-error';
+      errors: string[];
+    }
+  | {
+      status: 'domain-error';
+      message: string;
+    }
+  | {
+      status: 'csv-error';
+      errors: Array<CsvError>;
+    }
+  | {
+      status: 'unknown-error';
+    };
 
 export type FormAction<TState, TSchema extends zod.AnyZodObject = zod.AnyZodObject> = (
   previousState: TState,
@@ -25,32 +50,31 @@ export const formAction =
         ? schema.parse(Object.fromEntries(formData))
         : Object.fromEntries(formData);
 
-      await action(previousState, data);
-      return {
-        success: true as const,
-        validationErrors: [],
-      };
+      return await action(previousState, data);
     } catch (e) {
+      if (e instanceof CsvValidationError) {
+        return {
+          status: 'csv-error' as const,
+          errors: e.errors,
+        };
+      }
+
       if (e instanceof zod.ZodError) {
         return {
-          ...previousState,
-          error: `Erreur lors de la validation des données du formulaire`,
-          validationErrors: e.issues.map((issue) => (issue.path.pop() || '').toString()),
+          status: 'form-error' as const,
+          errors: e.issues.map((issue) => (issue.path.pop() || '').toString()),
         };
       }
 
       if (e instanceof DomainError) {
         return {
-          ...previousState,
-          error: e.message,
-          validationErrors: [],
+          status: 'domain-error' as const,
+          message: e.message,
         };
       }
 
-      getLogger().error(e as Error);
       return {
-        error: 'Une erreur est survenue',
-        validationErrors: [],
+        status: 'unknown-error' as const,
       };
     }
   };

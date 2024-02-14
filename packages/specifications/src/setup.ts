@@ -12,7 +12,6 @@ import { should } from 'chai';
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
 import { getClient } from '@potentiel/file-storage';
-import { bootstrap as bootstrapWeb, UnsetupApp } from '@potentiel/web';
 import { bootstrap } from '@potentiel-application/bootstrap';
 import { clear } from 'mediateur';
 import {
@@ -30,7 +29,6 @@ setDefaultTimeout(5000);
 
 const bucketName = 'potentiel';
 
-let unsetupApp: UnsetupApp | undefined;
 let unsetup: (() => Promise<void>) | undefined;
 
 BeforeStep(async () => {
@@ -56,7 +54,6 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 
   clear();
 
-  unsetupApp = await bootstrapWeb();
   unsetup = await bootstrap({ middlewares: [] });
 });
 
@@ -82,11 +79,6 @@ After(async () => {
       Bucket: bucketName,
     }),
   );
-
-  if (unsetupApp) {
-    await unsetupApp();
-  }
-  unsetupApp = undefined;
 
   if (unsetup) {
     await unsetup();

@@ -1,6 +1,6 @@
-import { IdentifiantProjet } from '@potentiel/domain-usecases';
-import { DossierRaccordementReadModel } from '@potentiel/domain-views';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Raccordement } from '@potentiel-domain/reseau';
 
 export type RécupérerDétailDossiersRaccordements = (
-  identifiantProjet: IdentifiantProjet,
-) => Promise<Readonly<Omit<DossierRaccordementReadModel, 'type'>[]> | undefined>;
+  identifiantProjet: IdentifiantProjet.ValueType,
+) => Promise<Raccordement.ConsulterRaccordementReadModel['dossiers']>;

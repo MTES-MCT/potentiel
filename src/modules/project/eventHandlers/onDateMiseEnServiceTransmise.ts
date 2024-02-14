@@ -1,3 +1,4 @@
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../core/domain';
 import { logger, okAsync, ResultAsync } from '../../../core/utils';
 import { GetProjectAppelOffre } from '../../projectAppelOffre';
@@ -23,15 +24,10 @@ export const makeOnDateMiseEnServiceTransmise =
   }: Dépendances) =>
   ({ payload }: DateMiseEnServiceTransmise) => {
     const { identifiantProjet, dateMiseEnService, référenceDossierRaccordement } = payload;
-    const [appelOffre, période, famille, numéroCRE] = identifiantProjet.split('#');
+    const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
     return ResultAsync.fromPromise(
-      récupérerDétailDossiersRaccordements({
-        appelOffre,
-        période,
-        famille,
-        numéroCRE,
-      }),
+      récupérerDétailDossiersRaccordements(identifiantProjetValueType),
       () => {
         logger.error(
           `project eventHandler onDateMiseEnServiceTransmise : erreur lors de la lecture des dossiers de raccordement. Projet ${identifiantProjet}`,
@@ -50,10 +46,10 @@ export const makeOnDateMiseEnServiceTransmise =
       })
       .andThen((raccordements) =>
         findProjectByIdentifiers({
-          appelOffreId: appelOffre,
-          periodeId: période,
-          familleId: famille,
-          numeroCRE: numéroCRE,
+          appelOffreId: identifiantProjetValueType.appelOffre,
+          periodeId: identifiantProjetValueType.période,
+          familleId: identifiantProjetValueType.famille,
+          numeroCRE: identifiantProjetValueType.numéroCRE,
         }).map((projetId) => ({ projetId, raccordements })),
       )
       .andThen(({ projetId, raccordements }) => {
@@ -95,8 +91,8 @@ export const makeOnDateMiseEnServiceTransmise =
               }
               return isDateHorsIntervalle({
                 dateMiseEnService,
-                min: délaiCDCApplicable.intervaleDateMiseEnService.min,
-                max: délaiCDCApplicable.intervaleDateMiseEnService.max,
+                min: new Date(délaiCDCApplicable.intervaleDateMiseEnService.min),
+                max: new Date(délaiCDCApplicable.intervaleDateMiseEnService.max),
               })
                 ? publishToEventStore(
                     new ProjectCompletionDueDateSet({
@@ -120,12 +116,13 @@ export const makeOnDateMiseEnServiceTransmise =
                 raccordements!.find(
                   (dossier) =>
                     (!dossier.miseEnService &&
-                      dossier.référence !== référenceDossierRaccordement) ||
+                      dossier.référence.formatter() !== référenceDossierRaccordement) ||
                     (dossier.miseEnService &&
                       isDateHorsIntervalle({
-                        dateMiseEnService: dossier.miseEnService.dateMiseEnService,
-                        min: délaiCDCApplicable.intervaleDateMiseEnService.min,
-                        max: délaiCDCApplicable.intervaleDateMiseEnService.max,
+                        dateMiseEnService:
+                          dossier.miseEnService.dateMiseEnService?.formatter() || '',
+                        min: new Date(délaiCDCApplicable.intervaleDateMiseEnService.min),
+                        max: new Date(délaiCDCApplicable.intervaleDateMiseEnService.max),
                       })),
                 )
               ) {
@@ -134,8 +131,8 @@ export const makeOnDateMiseEnServiceTransmise =
 
               return !isDateHorsIntervalle({
                 dateMiseEnService,
-                min: délaiCDCApplicable.intervaleDateMiseEnService.min,
-                max: délaiCDCApplicable.intervaleDateMiseEnService.max,
+                min: new Date(délaiCDCApplicable.intervaleDateMiseEnService.min),
+                max: new Date(délaiCDCApplicable.intervaleDateMiseEnService.max),
               }) &&
                 cahierDesCharges.type === 'modifié' &&
                 cahierDesCharges.paruLe === '30/08/2022'

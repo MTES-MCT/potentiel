@@ -1,5 +1,4 @@
-import { CandidatureLegacyReadModel } from '@potentiel/domain-views';
-import { isSome, none } from '@potentiel/monads';
+import { none } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 import { CahierDesCharges } from '@potentiel-domain/laureat';
 
@@ -14,8 +13,10 @@ const selectProjectQuery = `
 export const consulterCahierDesChargesChoisiAdapter: CahierDesCharges.ConsulterCahierDesChargesChoisiPort =
   async ({ appelOffre, période, famille, numéroCRE }) => {
     const projets = await executeSelect<{
-      value: Omit<CandidatureLegacyReadModel, 'type' | 'identifiantProjet'>;
-    }>(selectProjectQuery, appelOffre, période, numéroCRE, isSome(famille) ? famille : '');
+      value: {
+        cahierDesCharges: string;
+      };
+    }>(selectProjectQuery, appelOffre, période, numéroCRE, famille);
 
     if (!projets.length) {
       return none;

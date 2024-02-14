@@ -2,52 +2,38 @@
 Fonctionnalité: Transmettre une demande complète de raccordement
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
+        Et le projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Un porteur de projet transmet une demande complète de raccordement pour son projet
-        Quand le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau "Enedis" avec :
+        Quand le porteur transmet une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
-        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet
-        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement
-
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat "Du boulodrome de Marseille"
+        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat "Du boulodrome de Marseille"
+        Et le projet "Du boulodrome de Marseille" devrait avoir comme gestionnaire de réseau "Enedis"
+    
     Scénario: Un porteur de projet transmet plusieurs demandes complètes de raccordement pour son projet
-        Quand le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau "Enedis" avec :
+        Quand le porteur transmet une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000034                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000034 et la date de qualification au 2022-10-28 |
-        Et le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau "Enedis" avec :
+        Et le porteur transmet une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000035                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000034 et la date de qualification au 2022-10-28 |
-        Alors le projet devrait avoir 2 dossiers de raccordement pour ce gestionnaire de réseau
-
-    Scénario: Un porteur de projet peut transmettre une demande compléte de raccordemnent pour son nouveau gestionnaire de projet
-        Etant donné le gestionnaire de réseau "Arc Energies Maurienne"
-        Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
-            | La date de qualification                | 2022-10-28                                                                                            |
-            | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
-            | Le format de l'accusé de réception      | application/pdf                                                                                       |
-            | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
-        Quand le porteur modifie le gestionnaire de réseau de son projet avec le gestionnaire "Arc Energies Maurienne"
-        Et le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau "Arc Energies Maurienne" avec :
-            | La date de qualification                | 2022-10-28                                                                                            |
-            | La référence du dossier de raccordement | OUE-RP-2022-000034                                                                                    |
-            | Le format de l'accusé de réception      | application/pdf                                                                                       |
-            | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000034 et la date de qualification au 2022-10-28 |
-        Alors le projet devrait avoir 2 dossiers de raccordement pour ce gestionnaire de réseau
-        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement
+        Alors le projet lauréat "Du boulodrome de Marseille" devrait avoir 2 dossiers de raccordement pour le gestionnaire de réseau "Enedis"
 
     Scénario: Un porteur de projet transmet plusieurs demandes complètes de raccordement ayant la même référence
-        Etant donné un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Enedis" avec :
+        Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
-        Quand le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau "Enedis" avec :
+        Quand le porteur transmet une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
@@ -58,12 +44,12 @@ Fonctionnalité: Transmettre une demande complète de raccordement
         Etant donné un gestionnaire de réseau
             | Code EIC       | 17X0000009352859       |
             | Raison sociale | Arc Energies Maurienne |
-        Et un projet avec une demande complète de raccordement transmise auprès du gestionnaire de réseau "Arc Energies Maurienne" avec :
+        Et une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Arc Energies Maurienne" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
-        Quand le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau "Enedis" avec :
+        Quand le porteur transmet une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000034                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
@@ -71,7 +57,7 @@ Fonctionnalité: Transmettre une demande complète de raccordement
         Alors le porteur devrait être informé que "Il est impossible de transmettre une demande complète de raccordement auprès de plusieurs gestionnaires de réseau"
 
     Scénario: Impossible de transmettre une demande complète de raccordement auprès d'un gestionnaire de réseau non référencé
-        Quand le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau "Inconnu" avec :
+        Quand le porteur transmet une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" auprès du gestionnaire de réseau "Inconnu" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000034                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
@@ -83,7 +69,7 @@ Fonctionnalité: Transmettre une demande complète de raccordement
             | Code EIC             | 17X0000009352859 |
             | Raison sociale       | RTE              |
             | Expression régulière | ^[a-zA-Z]{3}$    |
-        Quand le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau "RTE" avec :
+        Quand le porteur transmet une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" auprès du gestionnaire de réseau "RTE" avec :
             | La date de qualification                | 2022-10-28                                                                                                          |
             | La référence du dossier de raccordement | UneRéférenceAvecUnFormatInvalide                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                                     |
@@ -91,7 +77,7 @@ Fonctionnalité: Transmettre une demande complète de raccordement
         Alors le porteur devrait être informé que "Le format de la référence du dossier de raccordement est invalide"
 
     Scénario: Impossible de transmettre une demande complète de raccordement avec une date de qualification dans le futur
-        Quand le porteur d'un projet transmet une demande complète de raccordement auprès du gestionnaire de réseau "Enedis" avec :
+        Quand le porteur transmet une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2999-12-31                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |

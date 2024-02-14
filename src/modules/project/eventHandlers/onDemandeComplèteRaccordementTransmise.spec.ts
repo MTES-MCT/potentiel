@@ -11,6 +11,7 @@ import { Project } from '../Project';
 import { DemandeComplèteRaccordementTransmise } from '../events';
 import { jest, describe, it, beforeEach, expect } from '@jest/globals';
 import { makeOnDemandeComplèteRaccordementTransmise } from './onDemandeComplèteRaccordementTransmise';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 
 describe(`Handler onDemandeComplèteRaccordementTransmise`, () => {
   const projetId = new UniqueEntityID();
@@ -38,8 +39,8 @@ describe(`Handler onDemandeComplèteRaccordementTransmise`, () => {
               délaiApplicable: {
                 délaiEnMois: 18,
                 intervaleDateMiseEnService: {
-                  min: new Date('2022-06-01'),
-                  max: new Date('2024-09-30'),
+                  min: new Date('2022-06-01').toISOString(),
+                  max: new Date('2024-09-30').toISOString(),
                 },
               },
             } as CahierDesChargesModifié,
@@ -81,7 +82,12 @@ describe(`Handler onDemandeComplèteRaccordementTransmise`, () => {
         new DemandeComplèteRaccordementTransmise({
           payload: {
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet: formatProjectDataToIdentifiantProjetValueType({
+              appelOffreId,
+              periodeId: periodeId,
+              familleId,
+              numeroCRE,
+            }).formatter(),
             identifiantGestionnaireRéseau: 'codeEIC',
           },
         });
@@ -134,7 +140,13 @@ describe(`Handler onDemandeComplèteRaccordementTransmise`, () => {
         new DemandeComplèteRaccordementTransmise({
           payload: {
             référenceDossierRaccordement: 'ref-du-dossier',
-            identifiantProjet: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+            identifiantProjet: formatProjectDataToIdentifiantProjetValueType({
+              appelOffreId,
+              periodeId,
+              familleId,
+              numeroCRE,
+            }).formatter(),
+
             identifiantGestionnaireRéseau: 'codeEIC',
           },
         });

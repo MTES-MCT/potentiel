@@ -1,5 +1,4 @@
 export * from './projet';
-export * from './raccordement';
 export * from './utilisateur';
 export * from './abandon';
 export * as DocumentAdapter from './document/document.adapter';

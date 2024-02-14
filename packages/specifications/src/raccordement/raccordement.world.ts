@@ -1,42 +1,43 @@
-import { DateTimeValueType } from '@potentiel/domain-usecases';
+import { DateTime } from '@potentiel-domain/common';
+import { RéférenceDossierRaccordement } from '@potentiel-domain/reseau/src/raccordement';
 
 export class RaccordementWorld {
-  #dateQualification!: DateTimeValueType;
+  #dateQualification!: DateTime.ValueType;
 
-  get dateQualification(): DateTimeValueType {
+  get dateQualification(): DateTime.ValueType {
     if (!this.#dateQualification) {
       throw new Error('dateQualification not initialized');
     }
     return this.#dateQualification;
   }
 
-  set dateQualification(value: DateTimeValueType) {
+  set dateQualification(value: DateTime.ValueType) {
     this.#dateQualification = value;
   }
 
-  #dateSignature!: DateTimeValueType;
+  #dateSignature!: DateTime.ValueType;
 
-  get dateSignature(): DateTimeValueType {
+  get dateSignature(): DateTime.ValueType {
     if (!this.#dateSignature) {
       throw new Error('dateSignature not initialized');
     }
     return this.#dateSignature;
   }
 
-  set dateSignature(value: DateTimeValueType) {
+  set dateSignature(value: DateTime.ValueType) {
     this.#dateSignature = value;
   }
 
-  #dateMiseEnService!: DateTimeValueType;
+  #dateMiseEnService!: DateTime.ValueType;
 
-  get dateMiseEnService(): DateTimeValueType {
+  get dateMiseEnService(): DateTime.ValueType {
     if (!this.#dateMiseEnService) {
       throw new Error('dateMiseEnService not initialized');
     }
     return this.#dateMiseEnService;
   }
 
-  set dateMiseEnService(value: DateTimeValueType) {
+  set dateMiseEnService(value: DateTime.ValueType) {
     this.#dateMiseEnService = value;
   }
 
@@ -66,16 +67,16 @@ export class RaccordementWorld {
     this.#propositionTechniqueEtFinancièreSignée = value;
   }
 
-  #référenceDossierRaccordement!: string;
+  #référenceDossierRaccordement!: RéférenceDossierRaccordement.ValueType;
 
-  get référenceDossierRaccordement(): string {
+  get référenceDossierRaccordement(): RéférenceDossierRaccordement.ValueType {
     if (!this.#référenceDossierRaccordement) {
       throw new Error('référenceDossierRaccordement not initialized');
     }
     return this.#référenceDossierRaccordement;
   }
 
-  set référenceDossierRaccordement(value: string) {
+  set référenceDossierRaccordement(value: RéférenceDossierRaccordement.ValueType) {
     this.#référenceDossierRaccordement = value;
   }
 }

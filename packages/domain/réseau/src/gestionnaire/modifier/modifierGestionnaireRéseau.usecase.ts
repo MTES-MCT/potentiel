@@ -29,7 +29,7 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
       identifiantGestionnaireRéseauValue,
     );
     return mediator.send<ModifierGestionnaireRéseauCommand>({
-      type: 'MODIFIER_GESTIONNAIRE_RÉSEAU',
+      type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_COMMAND',
       data: {
         identifiantGestionnaireRéseau,
         raisonSociale: raisonSocialeValue,

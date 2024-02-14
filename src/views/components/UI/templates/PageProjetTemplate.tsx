@@ -3,11 +3,12 @@ import React, { FC, ReactNode } from 'react';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Badge, BadgeType, Heading1, KeyIcon, Link, MapPinIcon, PageTemplate } from '../..';
 import routes from '../../../../routes';
-import { CandidatureLegacyReadModel } from '@potentiel/domain-views';
+import { ConsulterCandidatureReadModel } from '@potentiel-domain/candidature';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 
 export const PageProjetTemplate: FC<{
   user: UtilisateurReadModel;
-  résuméProjet: CandidatureLegacyReadModel;
+  résuméProjet: ConsulterCandidatureReadModel;
   titre: ReactNode;
   children: ReactNode;
 }> = ({ user, résuméProjet, titre, children }) => (
@@ -17,7 +18,7 @@ export const PageProjetTemplate: FC<{
   </PageTemplate>
 );
 
-const EntêteProjet: FC<CandidatureLegacyReadModel> = ({
+const EntêteProjet: FC<ConsulterCandidatureReadModel> = ({
   appelOffre,
   période,
   famille,
@@ -25,13 +26,19 @@ const EntêteProjet: FC<CandidatureLegacyReadModel> = ({
   statut,
   nom,
   localité,
-  identifiantProjet,
 }) => (
   <div className="w-full py-3 lg:flex justify-between gap-2">
     <div className="mb-3">
       <div className="flex justify-start items-center">
         <Link
-          href={routes.PROJECT_DETAILS(identifiantProjet)}
+          href={routes.PROJECT_DETAILS(
+            formatProjectDataToIdentifiantProjetValueType({
+              appelOffreId: appelOffre,
+              periodeId: période,
+              familleId: famille,
+              numeroCRE: numéroCRE,
+            }).formatter(),
+          )}
           className="no-underline text-3xl font-bold text-white"
           style={{ color: 'white', textDecoration: 'none' }}
         >
@@ -52,7 +59,7 @@ const EntêteProjet: FC<CandidatureLegacyReadModel> = ({
   </div>
 );
 
-const getBadgeType = (statut: CandidatureLegacyReadModel['statut']): BadgeType => {
+const getBadgeType = (statut: ConsulterCandidatureReadModel['statut']): BadgeType => {
   switch (statut) {
     case 'abandonné':
       return 'warning';
@@ -66,7 +73,7 @@ const getBadgeType = (statut: CandidatureLegacyReadModel['statut']): BadgeType =
 };
 
 const StatutProjet: FC<{
-  statut: CandidatureLegacyReadModel['statut'];
+  statut: ConsulterCandidatureReadModel['statut'];
 }> = ({ statut }) => (
   <Badge type={getBadgeType(statut)} className="ml-2 self-center">
     {statut}

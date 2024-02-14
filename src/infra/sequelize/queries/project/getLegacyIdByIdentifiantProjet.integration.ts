@@ -3,15 +3,18 @@ import { UniqueEntityID } from '../../../../core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
 import { Project } from '../../projectionsNext';
-import { IdentifiantProjet } from '@potentiel/domain-usecases';
 import { getLegacyIdByIdentifiantProjet } from './getLegacyIdByIdentifiantProjet';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 describe('Query getLegacyIdByIdentifiantProjet', () => {
   beforeEach(async () => {
     await resetDatabase();
   });
 
-  const identifiantNaturel: IdentifiantProjet = {
+  const identifiantNaturel: Pick<
+    IdentifiantProjet.ValueType,
+    'appelOffre' | 'famille' | 'numéroCRE' | 'période'
+  > = {
     appelOffre: 'CRE4 - Bâtiment',
     période: '1',
     famille: '1',

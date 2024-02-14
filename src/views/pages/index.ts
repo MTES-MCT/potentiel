@@ -35,4 +35,3 @@ export * from './Signup';
 export * from './StatistiquesPage';
 export * from './SuccèsOuErreurPage';
 export * from './UploadLegacyModificationFilesPage';
-export * from './raccordement';
