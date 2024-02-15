@@ -136,7 +136,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
             <>
               {user.role === 'porteur-projet' && <CentreDesTâches />}
               <span
-                className="hidden lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+                className="cursor-not-allowed lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
                 style={{ color: 'var(--text-default-grey)' }}
               >
                 <UserIcon aria-hidden />
@@ -294,12 +294,27 @@ const CentreDesTâches = () => {
 
     récupérerLeNombreDeTâches();
   }, []);
+
+  if (nombreTâches === 0) {
+    return (
+      <span
+        className="cursor-not-allowed lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+        style={{ color: 'var(--text-default-grey)' }}
+      >
+        <TasksDone aria-hidden />
+        <span className="max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1">
+          Tâches
+        </span>
+      </span>
+    );
+  }
+
   return (
     <Link
       href={Routes.Tache.lister}
       className={`no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base`}
     >
-      {nombreTâches > 0 ? <TasksToDo aria-hidden /> : <TasksDone aria-hidden />}
+      <TasksToDo aria-hidden />
       <span className="hidden lg:block mx-1 text-blue-france-sun-base">
         Tâches ({!showNombreDeTâches ? 'chargement en cours...' : nombreTâches})
       </span>
