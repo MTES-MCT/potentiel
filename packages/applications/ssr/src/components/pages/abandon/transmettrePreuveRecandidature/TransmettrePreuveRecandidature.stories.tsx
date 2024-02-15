@@ -36,6 +36,10 @@ export const Default: Story = {
     },
     projetsÀSélectionner: Array.from({ length: 10 }, (_, i) => ({
       identifiantProjet: `identifiantProjet#${i}`,
+      appelOffre: `Appel offre ${i}`,
+      période: `Période ${i}`,
+      famille: `${i % 2 === 0 ? `Famille ${i}` : ''}`,
+      numéroCRE: `Numéro CRE ${i}`,
       nom: `Nom du projet ${i}`,
       dateDésignation: '2021-10-23',
     })),
