@@ -322,7 +322,7 @@ class routes {
     } else return route;
   };
 
-  static ADD_GF_EXPIRATION_DATE = (args?: { projectId: string }) => {
+  static ADD_GF_TYPE_AND_EXPIRATION_DATE = (args?: { projectId: string }) => {
     const route = '/projet/:projectId/actualiser/garanties-financieres';
     if (args) {
       const { projectId } = args;

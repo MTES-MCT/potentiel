@@ -28,7 +28,7 @@ import {
   makeChangerProducteur,
 } from '../modules/modificationRequest';
 import {
-  makeAddGFExpirationDate,
+  makeAddGFTypeAndExpirationDate,
   makeCorrectProjectData,
   makeGenerateCertificate,
   makeImportProjects,
@@ -144,7 +144,7 @@ export const uploadGF = makeUploadGF({
   projectRepo,
 });
 
-export const addGFExpirationDate = makeAddGFExpirationDate({
+export const addGFTypeAndExpirationDate = makeAddGFTypeAndExpirationDate({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
 });

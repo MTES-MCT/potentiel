@@ -1,4 +1,4 @@
-export * from './addGFExpirationDate';
+export * from './addGFTypeAndExpirationDate';
 export * from './choisirCahierDesCharges';
 export * from './correctProjectData';
 export * from './generateCertificate';

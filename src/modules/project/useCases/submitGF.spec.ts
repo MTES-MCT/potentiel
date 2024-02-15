@@ -34,7 +34,7 @@ describe('submitGF use-case', () => {
     };
 
     const gfDate = new Date(123);
-    const expirationDate = new Date(456);
+    const dateEchéance = new Date(456);
 
     beforeAll(async () => {
       const shouldUserAccessProject = jest.fn(async () => true);
@@ -52,7 +52,8 @@ describe('submitGF use-case', () => {
         stepDate: gfDate,
         projectId,
         submittedBy: user,
-        expirationDate,
+        dateEchéance,
+        type: "Garantie financière avec date d'échéance et à renouveler",
       });
 
       expect(res.isOk()).toBe(true);
@@ -70,12 +71,13 @@ describe('submitGF use-case', () => {
 
     it('should add the GF', () => {
       const fakeFile = fileRepo.save.mock.calls[0][0];
-      expect(fakeProject.submitGarantiesFinancieres).toHaveBeenCalledWith(
+      expect(fakeProject.submitGarantiesFinancieres).toHaveBeenCalledWith({
         gfDate,
-        fakeFile.id.toString(),
-        user,
-        expirationDate,
-      );
+        fileId: fakeFile.id.toString(),
+        submittedBy: user,
+        dateEchéance,
+        type: "Garantie financière avec date d'échéance et à renouveler",
+      });
     });
   });
 
@@ -103,7 +105,7 @@ describe('submitGF use-case', () => {
         stepDate: new Date(123),
         projectId,
         submittedBy: user,
-        expirationDate: new Date(456),
+        type: 'Consignation',
       });
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError);

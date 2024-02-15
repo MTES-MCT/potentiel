@@ -1,13 +1,22 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '../../../../../core/domain';
 import { resetDatabase } from '../../../helpers';
-import { GarantiesFinancières } from '../..';
+import { GarantiesFinancières, Project } from '../..';
 import { TypeGarantiesFinancièresEtDateEchéanceTransmis } from '../../../../../modules/project';
 import { onTypeGarantiesFinancièresEtDateEchéanceTransmis } from './onTypeGarantiesFinancièresEtDateEchéanceTransmis';
+import makeFakeProject from '../../../../../__tests__/fixtures/project';
 
 describe(`handler onTypeGarantiesFinancièresEtDateEchéanceTransmis pour la projection garantiesFinancières`, () => {
   beforeEach(async () => {
     await resetDatabase();
+
+    const projet = makeFakeProject({
+      id: projetId,
+      classe: 'Classé',
+      appelOffreId: 'PPE2 - Eolien',
+      periodeId: '3',
+    });
+    await Project.create(projet);
   });
   const projetId = new UniqueEntityID().toString();
   const occurredAt = new Date('2022-01-04');

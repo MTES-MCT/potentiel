@@ -11,22 +11,23 @@ type addGFExpidationDateDeps = {
 };
 
 type addGFExpidationDateArgs = {
-  expirationDate: Date;
+  dateEchéance?: Date;
+  type: string;
   submittedBy: User;
   projectId: string;
 };
 
-export const PermissionAjouterDateExpirationGF = {
+export const PermissionAjouterTypeEtDateEcheanceGF = {
   nom: 'ajouter-date-expiration-gf',
-  description: `Ajouter une date d'échéance à des garanties financières`,
+  description: `Ajouter le type et la date d'échéance de garanties financières`,
 };
-export const makeAddGFExpirationDate =
+export const makeAddGFTypeAndExpirationDate =
   (deps: addGFExpidationDateDeps) =>
   (
     args: addGFExpidationDateArgs,
   ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
     const { shouldUserAccessProject, projectRepo } = deps;
-    const { expirationDate, submittedBy, projectId } = args;
+    const { dateEchéance: expirationDate, submittedBy, projectId, type } = args;
 
     return wrapInfra(shouldUserAccessProject({ projectId, user: submittedBy })).andThen(
       (userHasRights): ResultAsync<null, UnauthorizedError> => {
@@ -40,7 +41,12 @@ export const makeAddGFExpirationDate =
             ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToUpdateError
           > => {
             return project
-              .addGFExpirationDate({ expirationDate, submittedBy, projectId })
+              .addGFTypeAndExpirationDate({
+                dateEchéance: expirationDate,
+                submittedBy,
+                projectId,
+                type,
+              })
               .asyncMap(async () => null);
           },
         );

@@ -46,10 +46,9 @@ describe(`handler onProjectClasseGranted pour la projection garantiesFinancière
 
   describe(`Enregistrer une nouvelle ligne si le projet est soumis à GF`, () => {
     it(`
-    Etant donné un projet passant du statut éliminé à classé
-    Et ayant un appel d'offre soumis à garanties financières
+    Etant donné un projet éliminé soumis à garanties financières
     Et n'ayant pas de données relatives aux garanties financières transmises dans Potentiel
-    Lorsqu'un événement ProjectClasseGranted est émis,
+    Lorsqu'un événement lorsque le projet passe au statut "Classé"
     Alors une nouvelle entrée est ajoutée dans la projection GarantiesFinancières`, async () => {
       const projet = makeFakeProject({
         id: projetId,
@@ -74,17 +73,16 @@ describe(`handler onProjectClasseGranted pour la projection garantiesFinancière
 
       const GF = await GarantiesFinancières.findOne({ where: { projetId } });
 
-      expect(GF).toMatchObject({ statut: 'en attente', soumisesALaCandidature: true });
+      expect(GF).toMatchObject({ statut: 'en attente', soumisesALaCandidature: false });
     });
   });
 
   describe(`Mise à jour de données existantes`, () => {
-    it(`
-    Etant donné un projet passant du statut éliminé à classé
-    Et ayant un appel d'offre soumis à garanties financières
-    Et ayant déjà de données relatives aux garanties financières transmises dans Potentiel : type et date échéance
-    Lorsqu'un événement ProjectClasseGranted est émis,
-    Alors alors les données initiales sont conservées`, async () => {
+    it(`Etant donné un projet "éliminé" soumis à garanties financières
+        Et pour lequel le type et la date échéance des GF sont importés dans Potentiel
+        Lorsque le projet passe du statut "éliminé" au statut "classé"
+        Alors alors les données initiales des garanties financières sont supprimées
+        Et de nouvelles GF sont à déposer`, async () => {
       const GFId = new UniqueEntityID().toString();
       const dateEchéance = new Date();
 
@@ -125,9 +123,9 @@ describe(`handler onProjectClasseGranted pour la projection garantiesFinancière
         id: GFId,
         statut: 'en attente',
         projetId,
-        soumisesALaCandidature: true,
-        type: "Garantie financière avec date d'échéance et à renouveler",
-        dateEchéance,
+        soumisesALaCandidature: false,
+        type: null,
+        dateEchéance: null,
       });
     });
   });

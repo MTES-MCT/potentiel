@@ -12,6 +12,7 @@ import {
   ProjectGFUploaded,
   ProjectGFWithdrawn,
   ProjectNotified,
+  DateEchéanceGarantiesFinancièresSupprimée,
 } from '../../../../modules/project/events';
 import { Projector, ProjectorFactory } from '../projector';
 import { GarantiesFinancières } from './garantiesFinancières.model';
@@ -28,6 +29,7 @@ import { onProjectGFUploaded } from './handlers/onProjectGFUploaded';
 import { onProjectGFWithdrawn } from './handlers/onProjectGFWithdrawn';
 import { onProjectNotified } from './handlers/onProjectNotified';
 import { onTypeGarantiesFinancièresEtDateEchéanceTransmis } from './handlers/onTypeGarantiesFinancièresEtDateEchéanceTransmis';
+import { onDateEchéanceGarantiesFinancièresSupprimée } from './handlers/onDateEchéanceGarantiesFinancièresSupprimée';
 
 let garantiesFinancièresProjector: Projector | null;
 
@@ -56,5 +58,9 @@ const initializeEventHandlers = (projector: Projector) => {
   projector.on(
     TypeGarantiesFinancièresEtDateEchéanceTransmis,
     onTypeGarantiesFinancièresEtDateEchéanceTransmis,
+  );
+  projector.on(
+    DateEchéanceGarantiesFinancièresSupprimée,
+    onDateEchéanceGarantiesFinancièresSupprimée,
   );
 };

@@ -3,7 +3,13 @@ import { DomainEvent, UniqueEntityID } from '../../core/domain';
 import { UnwrapForTest } from '../../core/utils';
 import { appelsOffreStatic } from '../../dataAccess/inMemory';
 import makeFakeProject from '../../__tests__/fixtures/project';
-import { ProjectAbandoned, ProjectGFSubmitted, ProjectImported, ProjectNotified } from './events';
+import {
+  ProjectAbandoned,
+  ProjectGFSubmitted,
+  ProjectImported,
+  ProjectNotified,
+  TypeGarantiesFinancièresEtDateEchéanceTransmis,
+} from './events';
 import { makeProject } from './Project';
 import { makeGetProjectAppelOffre } from '../projectAppelOffre';
 import {
@@ -43,12 +49,13 @@ describe('Project.submitGarantiesFinancieres()', () => {
           buildProjectIdentifier: () => '',
         }),
       );
-      const res = project.submitGarantiesFinancieres(
-        new Date('2022-01-01'),
-        'fileId',
-        fakeUser,
-        new Date('2025-01-01'),
-      );
+      const res = project.submitGarantiesFinancieres({
+        gfDate: new Date('2022-01-01'),
+        fileId: 'fileId',
+        submittedBy: fakeUser,
+        dateEchéance: new Date('2025-01-01'),
+        type: "Garantie financière avec date d'échéance et à renouveler",
+      });
 
       expect(res.isErr()).toEqual(true);
       if (res.isOk()) return;
@@ -108,9 +115,15 @@ describe('Project.submitGarantiesFinancieres()', () => {
 
         const gfDate = new Date('2022-02-21');
         const fileId = 'file-id';
-        const expirationDate = new Date('2025-01-01');
+        const dateEchéance = new Date('2025-01-01');
 
-        const res = project.submitGarantiesFinancieres(gfDate, fileId, fakeUser, expirationDate);
+        const res = project.submitGarantiesFinancieres({
+          gfDate,
+          fileId,
+          submittedBy: fakeUser,
+          dateEchéance,
+          type: "Garantie financière avec date d'échéance et à renouveler",
+        });
 
         expect(res.isErr()).toEqual(true);
         if (res.isOk()) return;
@@ -180,12 +193,12 @@ describe('Project.submitGarantiesFinancieres()', () => {
               buildProjectIdentifier: () => '',
             }),
           );
-          const res = project.submitGarantiesFinancieres(
-            new Date('2022-02-21'),
-            'file-id2',
-            fakeUser,
-            new Date('2025-01-01'),
-          );
+          const res = project.submitGarantiesFinancieres({
+            gfDate: new Date('2022-02-21'),
+            fileId: 'file-id2',
+            submittedBy: fakeUser,
+            type: 'Consignation',
+          });
           expect(res.isErr()).toEqual(true);
           if (res.isOk()) return;
           expect(res.error).toBeInstanceOf(GFCertificateHasAlreadyBeenSentError);
@@ -216,9 +229,13 @@ describe('Project.submitGarantiesFinancieres()', () => {
 
           const gfDate = new Date('2022-02-21');
           const fileId = 'file-id';
-          const expirationDate = new Date('2025-01-01');
 
-          const res = project.submitGarantiesFinancieres(gfDate, fileId, fakeUser, expirationDate);
+          const res = project.submitGarantiesFinancieres({
+            gfDate,
+            fileId,
+            submittedBy: fakeUser,
+            type: 'Consignation',
+          });
 
           expect(res.isErr()).toEqual(true);
           if (res.isOk()) return;
@@ -226,7 +243,8 @@ describe('Project.submitGarantiesFinancieres()', () => {
         });
       });
       describe('when GF has not been submitted on Potentiel yet', () => {
-        it('should emit a ProjectGFSubmitted event', () => {
+        it(`Lorsque des garanties financières sont soumises avec une date d'échéance
+            Alors le fichier, le type et la date d'échéance devraient être enregistrés`, () => {
           const project = UnwrapForTest(
             makeProject({
               projectId,
@@ -238,20 +256,86 @@ describe('Project.submitGarantiesFinancieres()', () => {
 
           const gfDate = new Date('2022-02-21');
           const fileId = 'file-id';
-          const expirationDate = new Date('2025-01-01');
+          const dateEchéance = new Date('2025-01-01');
 
-          project.submitGarantiesFinancieres(gfDate, fileId, fakeUser, expirationDate);
+          project.submitGarantiesFinancieres({
+            gfDate,
+            fileId,
+            submittedBy: fakeUser,
+            dateEchéance,
+            type: "Garantie financière avec date d'échéance et à renouveler",
+          });
 
-          expect(project.pendingEvents).toHaveLength(1);
+          expect(project.pendingEvents).toHaveLength(2);
 
-          const targetEvent = project.pendingEvents[0];
-          if (!targetEvent) return;
+          const submitEvent = project.pendingEvents[0];
+          if (!submitEvent) return;
 
-          expect(targetEvent.type).toEqual(ProjectGFSubmitted.type);
-          expect(targetEvent.payload.projectId).toEqual(projectId.toString());
-          expect(targetEvent.payload.fileId).toEqual(fileId);
-          expect(targetEvent.payload.submittedBy).toEqual(fakeUser.id);
-          expect(targetEvent.payload.expirationDate).toEqual(expirationDate);
+          expect(submitEvent.type).toEqual(ProjectGFSubmitted.type);
+          expect(submitEvent.payload).toEqual({
+            projectId: projectId.toString(),
+            fileId,
+            submittedBy: fakeUser.id,
+            gfDate,
+          });
+
+          const typeEtDateEchéanceEvent = project.pendingEvents[1];
+          if (!typeEtDateEchéanceEvent) return;
+
+          expect(typeEtDateEchéanceEvent.type).toEqual(
+            TypeGarantiesFinancièresEtDateEchéanceTransmis.type,
+          );
+          expect(typeEtDateEchéanceEvent.payload).toEqual({
+            projectId: projectId.toString(),
+            dateEchéance: dateEchéance.toISOString(),
+            type: "Garantie financière avec date d'échéance et à renouveler",
+          });
+        });
+
+        it(`Lorsque des garanties financières sont soumises
+            Alors le fichier et le type devraient être enregistrés`, () => {
+          const project = UnwrapForTest(
+            makeProject({
+              projectId,
+              history: fakeHistory,
+              getProjectAppelOffre,
+              buildProjectIdentifier: () => '',
+            }),
+          );
+
+          const gfDate = new Date('2022-02-21');
+          const fileId = 'file-id';
+
+          project.submitGarantiesFinancieres({
+            gfDate,
+            fileId,
+            submittedBy: fakeUser,
+            type: 'Consignation',
+          });
+
+          expect(project.pendingEvents).toHaveLength(2);
+
+          const submitEvent = project.pendingEvents[0];
+          if (!submitEvent) return;
+
+          expect(submitEvent.type).toEqual(ProjectGFSubmitted.type);
+          expect(submitEvent.payload).toEqual({
+            projectId: projectId.toString(),
+            fileId,
+            submittedBy: fakeUser.id,
+            gfDate,
+          });
+
+          const typeEtDateEchéanceEvent = project.pendingEvents[1];
+          if (!typeEtDateEchéanceEvent) return;
+
+          expect(typeEtDateEchéanceEvent.type).toEqual(
+            TypeGarantiesFinancièresEtDateEchéanceTransmis.type,
+          );
+          expect(typeEtDateEchéanceEvent.payload).toEqual({
+            projectId: projectId.toString(),
+            type: 'Consignation',
+          });
         });
       });
     });
