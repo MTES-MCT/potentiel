@@ -45,10 +45,6 @@ export const onProjectClasseGranted: EventHandler<ProjectClasseGranted> = async 
     return;
   }
 
-  const soumisesALaCandidature =
-    appelOffre.famille?.soumisAuxGarantiesFinancieres === 'à la candidature' ||
-    appelOffre.soumisAuxGarantiesFinancieres === 'à la candidature';
-
   const entréeExistante = await GarantiesFinancières.findOne({ where: { projetId }, transaction });
 
   try {
