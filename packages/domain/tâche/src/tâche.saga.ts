@@ -1,11 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Abandon } from '@potentiel-domain/laureat';
+import { Raccordement } from '@potentiel-domain/reseau';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { AjouterTâcheCommand } from './ajouter/ajouterTâche.command';
 import { AcheverTâcheCommand } from './achever/acheverTâche.command';
 import * as Tâche from './typeTâche.valueType';
 
-type AbandonSubscriptionEvent =
+export type AbandonSubscriptionEvent =
   | Abandon.AbandonAnnuléEvent
   | Abandon.AbandonConfirméEvent
   | Abandon.AbandonRejetéEvent
@@ -13,7 +14,9 @@ type AbandonSubscriptionEvent =
   | Abandon.PreuveRecandidatureDemandéeEvent
   | Abandon.PreuveRecandidatureTransmiseEvent;
 
-export type SubscriptionEvent = AbandonSubscriptionEvent;
+export type RaccordementSubscriptionEvent = Raccordement.RéférenceDossierRacordementModifiéeEvent;
+
+type SubscriptionEvent = AbandonSubscriptionEvent | RaccordementSubscriptionEvent;
 
 export type Execute = Message<'EXECUTE_TÂCHE_SAGA', SubscriptionEvent>;
 
@@ -61,6 +64,14 @@ export const register = () => {
           },
         });
         break;
+      case 'RéférenceDossierRacordementModifiée-V1':
+        await mediator.send<AcheverTâcheCommand>({
+          type: 'ACHEVER_TÂCHE_COMMAND',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            typeTâche: Tâche.raccordementRéférenceNonTransmise,
+          },
+        });
     }
   };
 
