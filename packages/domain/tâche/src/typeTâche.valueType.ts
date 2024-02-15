@@ -1,6 +1,11 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const types = ['inconnue', 'abandon.confirmer', 'abandon.transmettre-preuve-recandidature'];
+export const types = [
+  'inconnue',
+  'abandon.confirmer',
+  'abandon.transmettre-preuve-recandidature',
+  'raccordement.référence-non-transmise',
+];
 
 export type RawType = (typeof types)[number];
 
@@ -30,6 +35,9 @@ export const inconnue = convertirEnValueType('inconnue');
 export const abandonConfirmer = convertirEnValueType('abandon.confirmer');
 export const abandonTransmettrePreuveRecandidature = convertirEnValueType(
   'abandon.transmettre-preuve-recandidature',
+);
+export const raccordementRéférenceNonTransmise = convertirEnValueType(
+  'raccordement.référence-non-transmise',
 );
 
 class TypeTâcheInvalideError extends InvalidOperationError {

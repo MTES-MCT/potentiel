@@ -19,6 +19,9 @@
     },
     {
       "path": "../../domain/lauréat"
+    },
+    {
+      "path": "../../domain/réseau"
     }
   ]
 }
