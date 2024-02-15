@@ -81,6 +81,14 @@ const getDescriptionTâche = (typeTâche: string, identifiantProjet: string, nom
         action: 'Transmettre',
         ariaLabel: `Transmettre votre preuve de recandidature pour le projet ${nomProjet}`,
       };
+    case 'raccordement.référence-non-transmise':
+      return {
+        titre: 'Référence non transmise',
+        description: `La référence de votre dossier de raccordement n'a pas été transmise pour le projet ${nomProjet}`,
+        lien: Routes.Raccordement.détail(identifiantProjet),
+        action: 'Voir le raccordement',
+        ariaLabel: `Voir le raccordement du projet ${nomProjet}`,
+      };
   }
 
   return {
