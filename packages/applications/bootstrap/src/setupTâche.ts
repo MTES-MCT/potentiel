@@ -17,7 +17,7 @@ export const setupTâche = async () => {
   TâcheSaga.register();
   TâcheProjector.register();
 
-  const unsubscribeTâcheAbandonSaga = await subscribe<TâcheSaga.SubscriptionEvent & Event>({
+  const unsubscribeTâcheAbandonSaga = await subscribe<TâcheSaga.AbandonSubscriptionEvent & Event>({
     name: 'tache-saga',
     streamCategory: 'abandon',
     eventType: [
@@ -36,7 +36,21 @@ export const setupTâche = async () => {
     },
   });
 
-  const unsubscribeAbandonProjector = await subscribe<TâcheProjector.SubscriptionEvent>({
+  const unsubscribeTâcheRaccordementSaga = await subscribe<
+    TâcheSaga.RaccordementSubscriptionEvent & Event
+  >({
+    name: 'tache-saga',
+    streamCategory: 'raccordement',
+    eventType: ['RéférenceDossierRacordementModifiée-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<TâcheSaga.Execute>({
+        type: 'EXECUTE_TÂCHE_SAGA',
+        data: event,
+      });
+    },
+  });
+
+  const unsubscribeTâcheProjector = await subscribe<TâcheProjector.SubscriptionEvent>({
     name: 'projector',
     eventType: [
       'RebuildTriggered',
@@ -56,6 +70,7 @@ export const setupTâche = async () => {
 
   return async () => {
     await unsubscribeTâcheAbandonSaga();
-    await unsubscribeAbandonProjector();
+    await unsubscribeTâcheRaccordementSaga();
+    await unsubscribeTâcheProjector();
   };
 };
