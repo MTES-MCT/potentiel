@@ -1,7 +1,7 @@
 # Potentiel
 
-Potentiel est le service du Ministère de la Transition Énergétique qui connecte
-les acteurs du parcours administratif des projets d'EnR électriques soumis à appel d'offres en France.
+Potentiel est le service du Ministère chargé de l'énergie qui connecte
+les acteurs du parcours administratif des projets d'énergies renouvelables électriques soumis à appel d'offres en France.
 
 Le site est accessible sur [potentiel.beta.gouv.fr](https://potentiel.beta.gouv.fr).
 

@@ -22,8 +22,8 @@ export const DéclarationAccessibilité = ({ request }: DéclarationAccessibilit
         <Heading1>Déclaration d’accessibilité</Heading1>
         <p>Établie le 15 décembre 2022.</p>
         <p>
-          Le ministère de la Transition Énergétique s’engage à rendre son service accessible,
-          conformément à l’article 47 de la loi n° 2005-102 du 11 février 2005.
+          Le Ministère chargé de l'énergie s’engage à rendre son service accessible, conformément à
+          l’article 47 de la loi n° 2005-102 du 11 février 2005.
         </p>
         <p>
           Cette déclaration d’accessibilité s’applique à{' '}
