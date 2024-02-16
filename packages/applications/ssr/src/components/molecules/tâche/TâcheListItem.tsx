@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-libraries/routes';
 
@@ -24,7 +25,7 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
   const descriptionTâche = getDescriptionTâche(typeTâche, identifiantProjet, nomProjet);
 
   return (
-    <>
+    <div className="flex flex-col gap-3">
       <div>
         <div className="flex flex-col gap-1">
           <h2 className="leading-4">
@@ -45,21 +46,21 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
           </div>
         </div>
         <div className="flex flex-col gap-1 mt-3">
-          <h3>{descriptionTâche.titre}</h3>
-          <p className="m-0">{descriptionTâche.description}</p>
+          <h3 className="font-bold">{descriptionTâche.titre}</h3>
+          <p className="m-0 text-sm">{descriptionTâche.description}</p>
         </div>
       </div>
       <div className="flex flex-col justify-between mt-4 md:mt-2">
         <p className="italic text-sm">dernière mise à jour le {misÀJourLe}</p>
-        <a
+        <Link
           href={descriptionTâche.lien}
           className="self-end mt-2"
           aria-label={descriptionTâche.ariaLabel}
         >
           {descriptionTâche.action}
-        </a>
+        </Link>
       </div>
-    </>
+    </div>
   );
 };
 
