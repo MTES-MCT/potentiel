@@ -9,7 +9,6 @@ const commonDataFields = [
     field: 'nomCandidat',
     type: toTypeLiteral('orStringInColumn'),
     column: 'Nom (personne physique) ou raison sociale (personne morale) :',
-    value: 'Candidat',
   },
   { field: 'nomProjet', type: toTypeLiteral('string'), column: 'Nom projet' },
   {
