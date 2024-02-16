@@ -88,6 +88,21 @@ async function getTâcheHeaderQuickAccessItem(utilisateur: Utilisateur.ValueType
       },
     });
 
+    if (nombreTâches === 0) {
+      return (
+        <HeaderQuickAccessItem
+          quickAccessItem={{
+            iconId: 'ri-mail-check-line',
+            buttonProps: {
+              disabled: true,
+              'aria-disabled': true,
+            },
+            text: 'Tâches',
+          }}
+        />
+      );
+    }
+
     return (
       <HeaderQuickAccessItem
         quickAccessItem={{
