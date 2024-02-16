@@ -30,7 +30,8 @@ const fakeLine = {
   Autre: 'valeur',
   'Gouvernance partagée (Oui/Non)': 'Non',
   'Financement collectif (Oui/Non)': 'Non',
-  '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature': '1',
+  "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période":
+    '1',
 };
 
 const expected = {
@@ -961,12 +962,13 @@ describe('parseProjectLine', () => {
     });
   });
   describe(`Historique abandon (colonne "1. 1ère candidature/n2. Abandon classique/n3. Abandon avec recandidature")`, () => {
-    it(`Lorsque la valeur 1, 2, ou 3 est saisie
+    it(`Lorsque la valeur 1, 2, 3, ou 4 est saisie
         Alors la valeur correspondante devrait être enregistrée`, () => {
       expect(
         parseProjectLine({
           ...fakeLine,
-          '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature': '1',
+          "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période":
+            '1',
         }),
       ).toMatchObject({
         historiqueAbandon: `première-candidature`,
@@ -975,7 +977,8 @@ describe('parseProjectLine', () => {
       expect(
         parseProjectLine({
           ...fakeLine,
-          '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature': '2',
+          "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période":
+            '2',
         }),
       ).toMatchObject({
         historiqueAbandon: `abandon-classique`,
@@ -984,10 +987,21 @@ describe('parseProjectLine', () => {
       expect(
         parseProjectLine({
           ...fakeLine,
-          '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature': '3',
+          "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période":
+            '3',
         }),
       ).toMatchObject({
         historiqueAbandon: `abandon-avec-recandidature`,
+      });
+
+      expect(
+        parseProjectLine({
+          ...fakeLine,
+          "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période":
+            '4',
+        }),
+      ).toMatchObject({
+        historiqueAbandon: 'lauréat-autre-période',
       });
     });
 
@@ -996,7 +1010,8 @@ describe('parseProjectLine', () => {
       const fakeLineWithoutHistoriqueAbandon = Object.fromEntries(
         Object.entries(fakeLine).filter(
           ([cle]) =>
-            cle !== '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature',
+            cle !==
+            "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période",
         ),
       );
       expect(() =>
@@ -1004,7 +1019,7 @@ describe('parseProjectLine', () => {
           ...fakeLineWithoutHistoriqueAbandon,
         }),
       ).toThrowError(
-        `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature" est obligatoire et doit être complétée par 1, 2, ou 3.`,
+        `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature 4. Lauréat d'une autre période" est obligatoire et doit être complétée par 1, 2, 3 ou 4.`,
       );
     });
 
@@ -1013,22 +1028,24 @@ describe('parseProjectLine', () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
-          '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature': '',
+          "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période":
+            '',
         }),
       ).toThrowError(
-        `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature" est obligatoire et doit être complétée par 1, 2, ou 3.`,
+        `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature 4. Lauréat d'une autre période" est obligatoire et doit être complétée par 1, 2, 3 ou 4.`,
       );
     });
 
-    it(`Si la colonne estcomplétée avec une valeur autre que 1, 2, ou 3
+    it(`Si la colonne estcomplétée avec une valeur autre que 1, 2, 3 ou 4
         Alors une erreur devrait être retournée`, () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
-          '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature': 'bad value',
+          "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période":
+            'bad value',
         }),
       ).toThrowError(
-        `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature" est obligatoire et doit être complétée par 1, 2, ou 3.`,
+        `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature 4. Lauréat d'une autre période" est obligatoire et doit être complétée par 1, 2, 3 ou 4.`,
       );
     });
   });
