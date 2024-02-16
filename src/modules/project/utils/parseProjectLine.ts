@@ -39,7 +39,7 @@ const mappedColumns = [
   'Gouvernance partagée (Oui/Non)',
   "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation",
   "Date d'échéance au format JJ/MM/AAAA",
-  '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature',
+  "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période",
 ];
 
 const prepareNumber = (str) => str && str.replace(/,/g, '.');
@@ -197,13 +197,16 @@ const columnMapper = {
   historiqueAbandon: (line: any) => {
     if (
       !line.hasOwnProperty(
-        '1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature',
+        "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période",
       )
     ) {
       return 'erreur';
     }
 
-    const value = line['1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature'];
+    const value =
+      line[
+        "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période"
+      ];
 
     return value === '1'
       ? 'première-candidature'
@@ -211,6 +214,8 @@ const columnMapper = {
       ? 'abandon-classique'
       : value === '3'
       ? 'abandon-avec-recandidature'
+      : value === '4'
+      ? 'lauréat-autre-période'
       : 'erreur';
   },
 } as const;
@@ -265,7 +270,7 @@ const projectSchema = yup.object().shape({
       .required('Code Postal manquant')
       .matches(/^(([0-8][0-9])|(9[0-7]))[0-9]{3}$/, 'Code Postal mal formé'),
   ),
-  communeProjet: yup.string().required(),
+  communeProjet: yup.string().required('La colonne "Commune" est requise.'),
   classe: yup
     .mixed()
     .required()
@@ -391,8 +396,13 @@ const projectSchema = yup.object().shape({
   historiqueAbandon: yup
     .mixed()
     .oneOf(
-      ['première-candidature', 'abandon-classique', 'abandon-avec-recandidature'],
-      `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature" est obligatoire et doit être complétée par 1, 2, ou 3.`,
+      [
+        'première-candidature',
+        'abandon-classique',
+        'abandon-avec-recandidature',
+        'lauréat-autre-période',
+      ],
+      `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature 4. Lauréat d'une autre période" est obligatoire et doit être complétée par 1, 2, 3 ou 4.`,
     ),
 });
 
