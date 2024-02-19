@@ -14,13 +14,8 @@ const schema = zod
     dateConstitution: zod.string(),
   })
   .refine(
-    (data) => {
-      if (data.typeGarantiesFinancieres === "avec date d'échéance" && !data.dateEcheance) {
-        return false;
-      }
-
-      return true;
-    },
+    (data) =>
+      data.typeGarantiesFinancieres === "avec date d'échéance" && !data.dateEcheance ? false : true,
     {
       path: ['dateEcheance'],
     },
