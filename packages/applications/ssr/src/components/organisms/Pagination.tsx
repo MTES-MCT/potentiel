@@ -85,7 +85,7 @@ const CurrentPageLink: FC<ComponentProps<'a'> & { pageNumber: number }> = ({ pag
     role="link"
     aria-current="page"
     aria-disabled
-    className="bg-blue-france-sun-base !text-white px-2 py-1"
+    className="bg-decisions-background-active-blueFrance-default !text-white px-2 py-1"
   >
     {pageNumber}
   </a>

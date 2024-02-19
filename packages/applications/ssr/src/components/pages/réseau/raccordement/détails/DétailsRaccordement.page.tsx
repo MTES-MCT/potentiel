@@ -412,15 +412,18 @@ export const Etape: FC<{
   switch (statut) {
     case 'étape validée':
       icon = (
-        <SuccessIcon className="w-8 h-8 md:mx-auto text-success-425-base" title="étape validée" />
+        <SuccessIcon
+          className="w-8 h-8 md:mx-auto text-decisions-text-default-success-default"
+          title="étape validée"
+        />
       );
-      borderColor = 'border-success-425-base';
+      borderColor = 'border-decisions-border-plain-success-default';
       backgroundColor = 'bg-green-50';
       break;
     case 'étape incomplète':
       icon = (
         <WarningIcon
-          className="w-8 h-8 md:mx-auto text-warning-425-base"
+          className="w-8 h-8 md:mx-auto text-decisions-background-flat-warning-default"
           title="étape incomplète"
         />
       );
@@ -456,11 +459,11 @@ export const Etape: FC<{
 export const Separateur: FC = () => (
   <div className="flex flex-col my-3 mx-auto md:mx-3">
     <ArrowRightWithCircle
-      className="w-12 h-12 my-auto text-blue-france-sun-base hidden md:block"
+      className="w-12 h-12 my-auto text-text-decisions-background-active-blueFrance-defaulthidden md:block"
       aria-hidden
     />
     <ArrowDownWithCircle
-      className="w-12 h-12 my-auto text-blue-france-sun-base block md:hidden"
+      className="w-12 h-12 my-auto text-text-decisions-background-active-blueFrance-defaultblock md:hidden"
       aria-hidden
     />
   </div>

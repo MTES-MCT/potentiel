@@ -19,7 +19,7 @@ export const Spinner: FC<SpinnerProps> = ({ className, size }) => {
 
   return (
     <div
-      className={`inline-block animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite text-blue-france-sun-base ${sizeClass(
+      className={`inline-block animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite text-text-decisions-background-active-blueFrance-default${sizeClass(
         size,
       )} ${className || ''}`}
       role="status"
