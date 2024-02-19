@@ -34,13 +34,13 @@ export type FormState =
       status: 'unknown-error';
     };
 
-export type FormAction<TState, TSchema extends zod.AnyZodObject = zod.AnyZodObject> = (
-  previousState: TState,
-  data: zod.infer<TSchema>,
-) => Promise<TState>;
+export type FormAction<
+  TState,
+  TSchema extends zod.AnyZodObject | zod.ZodEffects<zod.AnyZodObject> = zod.AnyZodObject,
+> = (previousState: TState, data: zod.infer<TSchema>) => Promise<TState>;
 
 export const formAction =
-  <TSchema extends zod.AnyZodObject, TState extends FormState>(
+  <TSchema extends zod.AnyZodObject | zod.ZodEffects<zod.AnyZodObject>, TState extends FormState>(
     action: FormAction<TState, TSchema>,
     schema?: TSchema,
   ) =>
