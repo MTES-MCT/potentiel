@@ -11,7 +11,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 export type DemanderAbandonState = FormState;
 
 const schema = zod.object({
-  identifiantProjet: zod.string(),
+  identifiantProjet: zod.string().min(1),
   recandidature: zod.string().optional(),
   raison: zod.string().min(1),
   pieceJustificative: zod.instanceof(Blob),

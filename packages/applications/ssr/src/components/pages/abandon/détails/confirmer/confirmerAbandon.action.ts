@@ -9,7 +9,7 @@ import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
-  identifiantProjet: zod.string(),
+  identifiantProjet: zod.string().min(1),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
