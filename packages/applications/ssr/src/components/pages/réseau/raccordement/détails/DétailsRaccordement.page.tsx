@@ -21,7 +21,6 @@ import {
   WarningIcon,
 } from '@/components/atoms/icons';
 import { PageTemplate } from '@/components/templates/Page.template';
-import { Heading1 } from '@/components/atoms/headings';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { displayDate } from '@/utils/displayDate';
 
@@ -51,9 +50,7 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
   if (dossiers.length === 0) {
     return (
       <PageTemplate banner={<ProjetBanner {...projet} />}>
-        <Heading1>
-          <TitrePageRaccordement />
-        </Heading1>
+        <TitrePageRaccordement />
 
         <div className="flex flex-col gap-8">
           <p>
@@ -80,9 +77,7 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
 
   return (
     <PageTemplate banner={<ProjetBanner {...projet} />}>
-      <Heading1>
-        <TitrePageRaccordement />
-      </Heading1>
+      <TitrePageRaccordement />
       <div className="my-2 md:my-4">
         {gestionnaireRéseau && (
           <p className="mt-2 mb-4 p-0">
