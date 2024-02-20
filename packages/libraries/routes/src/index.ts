@@ -3,6 +3,7 @@ import { Document } from './document';
 import { Gestionnaire } from './réseau';
 import { Projet } from './projet';
 import { Tache } from './tâche';
+import { GarantiesFinancières } from './garanties-financières';
 
 export const Routes = {
   Abandon,
@@ -11,4 +12,5 @@ export const Routes = {
   Projet,
   Raccordement,
   Tache,
+  GarantiesFinancières,
 };

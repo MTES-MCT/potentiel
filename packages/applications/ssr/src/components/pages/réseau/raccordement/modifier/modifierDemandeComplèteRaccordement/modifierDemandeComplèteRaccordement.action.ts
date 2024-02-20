@@ -11,11 +11,11 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 export type ModifierDemandeComplèteRaccordementState = FormState;
 
 const schema = zod.object({
-  identifiantProjet: zod.string(),
-  identifiantGestionnaireReseau: zod.string(),
-  dateQualification: zod.string(),
-  referenceDossierRaccordement: zod.string(),
-  referenceDossierRaccordementActuelle: zod.string(),
+  identifiantProjet: zod.string().min(1),
+  identifiantGestionnaireReseau: zod.string().min(1),
+  dateQualification: zod.string().min(1),
+  referenceDossierRaccordement: zod.string().min(1),
+  referenceDossierRaccordementActuelle: zod.string().min(1),
   accuseReception: zod.instanceof(Blob).refine((data) => data.size > 0),
 });
 
