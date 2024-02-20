@@ -242,16 +242,24 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
       </div>
 
       {accuséRéception && (
-        <Download
-          className="flex items-center"
-          linkProps={{
-            href: Routes.Document.télécharger(accuséRéception),
-            'aria-label': `Télécharger l'accusé de réception pour le dossier ${référence}`,
-            title: `Télécharger l'accusé de réception pour le dossier ${référence}`,
-          }}
-          label="Télécharger la pièce justificative"
-          details=""
-        />
+        <div>
+          {accuséRéception.endsWith('.bin') && (
+            <WarningIcon
+              className="w-8 h-8 md:mx-auto text-warning-425-base"
+              title="format du fichier invalide"
+            />
+          )}
+          <Download
+            className="flex items-center"
+            linkProps={{
+              href: Routes.Document.télécharger(accuséRéception),
+              'aria-label': `Télécharger l'accusé de réception pour le dossier ${référence}`,
+              title: `Télécharger l'accusé de réception pour le dossier ${référence}`,
+            }}
+            label="Télécharger la pièce justificative"
+            details=""
+          />
+        </div>
       )}
 
       {canEdit && (
@@ -307,6 +315,12 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
 
         {propositionTechniqueEtFinancièreSignée && (
           <div>
+            {propositionTechniqueEtFinancièreSignée.endsWith('.bin') && (
+              <WarningIcon
+                className="w-8 h-8 md:mx-auto text-warning-425-base"
+                title="format du fichier invalide"
+              />
+            )}
             <Download
               className="flex items-center"
               linkProps={{
