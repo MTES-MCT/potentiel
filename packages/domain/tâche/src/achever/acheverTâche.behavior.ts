@@ -6,7 +6,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 // Package
 import { TâcheAggregate } from '../tâche.aggregate';
-import { TypeTâche } from '..';
+import * as TypeTâche from '../typeTâche.valueType';
 
 export type TâcheAchevéeEvent = DomainEvent<
   'TâcheAchevée-V1',
@@ -22,7 +22,7 @@ export type AcheverOptions = {
 };
 
 export async function achever(this: TâcheAggregate, { identifiantProjet }: AcheverOptions) {
-  if (!this.achevée) {
+  if (!this.typeTâche.estÉgaleÀ(TypeTâche.inconnue) && !this.achevée) {
     const event: TâcheAchevéeEvent = {
       type: 'TâcheAchevée-V1',
       payload: {

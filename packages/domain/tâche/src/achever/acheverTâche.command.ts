@@ -15,7 +15,7 @@ export type AcheverTâcheCommand = Message<
 export const registerAcheverTâcheCommand = (loadAggregate: LoadAggregate) => {
   const loadTâche = loadTâcheAggregateFactory(loadAggregate);
   const handler: MessageHandler<AcheverTâcheCommand> = async ({ identifiantProjet, typeTâche }) => {
-    const tâche = await loadTâche(typeTâche, identifiantProjet);
+    const tâche = await loadTâche(typeTâche, identifiantProjet, false);
     await tâche.achever({
       identifiantProjet,
     });
