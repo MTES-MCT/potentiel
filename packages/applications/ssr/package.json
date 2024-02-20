@@ -16,7 +16,7 @@
     "prebuild-storybook": "npm run prestorybook"
   },
   "dependencies": {
-    "@codegouvfr/react-dsfr": "^1.2.1",
+    "@codegouvfr/react-dsfr": "^1.7.2",
     "@emotion/react": "*",
     "@emotion/server": "*",
     "@emotion/styled": "*",
