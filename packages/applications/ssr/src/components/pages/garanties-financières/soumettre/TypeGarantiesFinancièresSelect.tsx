@@ -32,6 +32,8 @@ export const TypeGarantiesFinancièresSelect = ({
           name,
           defaultValue: typeGarantiesFinancièresActuel,
           onChange: (e) => setTypeSélectionné(e.target.value as TypeGarantiesFinancières),
+          'aria-required': true,
+          required: true,
         }}
         placeholder="Sélectionnez le type de garanties financières"
         options={[
