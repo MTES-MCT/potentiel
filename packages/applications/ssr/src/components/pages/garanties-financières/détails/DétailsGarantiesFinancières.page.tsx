@@ -37,12 +37,7 @@ export type DétailsGarantiesFinancièresProps = {
   projet: ProjetBannerProps;
   garantiesFinancieres: {
     actuelles?: GarantiesFinancières;
-    dépôt?: {
-      type: string;
-      dateÉchéance?: string;
-      dateConsitution: string;
-      attestationConstitution: string;
-    };
+    dépôt?: GarantiesFinancières;
   };
 };
 
