@@ -78,30 +78,33 @@ const ConsulterGarantiesFinancières: FC<ConsulterGarantiesFinancièresProps> = 
     <div className="flex flex-col gap-4">
       <Input
         label="Type de garanties financières"
-        disabled
         nativeInputProps={{
           type: 'text',
           value: garantiesFinancieres.type,
+          readOnly: true,
+          'aria-readonly': true,
         }}
       />
 
       {garantiesFinancieres.dateÉchéance && (
         <Input
           label="Date d'échéance"
-          disabled
           nativeInputProps={{
             type: 'date',
-            value: garantiesFinancieres.dateÉchéance,
+            value: formatDateForInput(garantiesFinancieres.dateÉchéance),
+            readOnly: true,
+            'aria-readonly': true,
           }}
         />
       )}
 
       <Input
         label="Date de constitution"
-        disabled
         nativeInputProps={{
           type: 'date',
-          defaultValue: formatDateForInput(garantiesFinancieres.dateConsitution),
+          value: formatDateForInput(garantiesFinancieres.dateConsitution),
+          readOnly: true,
+          'aria-readonly': true,
         }}
       />
 
