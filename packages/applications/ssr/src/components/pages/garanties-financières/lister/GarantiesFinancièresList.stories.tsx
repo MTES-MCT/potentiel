@@ -4,6 +4,7 @@ import {
   GarantiesFinancièresListPage,
   GarantiesFinancieresListPageProps,
 } from './GarantiesFinancièresList.page';
+import { GarantiesFinancièresListItemProps } from './GarantiesFinancièresListItem';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -19,7 +20,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const getFilters = (defaultValue: 'en attente' | 'validé') => [
+const getFilters = (defaultValue: GarantiesFinancièresListItemProps['statut']) => [
   {
     label: `Appel d'offres`,
     searchParamKey: 'appelOffre',
@@ -41,6 +42,7 @@ const getFilters = (defaultValue: 'en attente' | 'validé') => [
     defaultValue,
     options: [
       { label: 'En attente', value: 'en attente' },
+      { label: 'À traiter', value: 'à traiter' },
       { label: 'Validé', value: 'validé' },
     ],
   },
@@ -74,6 +76,35 @@ export const SoumissionEnAttente: Story = {
           famille: 'Famille',
           nomProjet: 'Le projet',
           statut: 'en attente',
+          misÀJourLe: '2023-02-12',
+        },
+      ],
+    },
+  },
+};
+
+export const SoumissionATraiter: Story = {
+  args: {
+    filters: getFilters('à traiter'),
+    list: {
+      ...list,
+      items: [
+        {
+          identifiantProjet: '#identifiantProjet-1',
+          appelOffre: 'Appel offre',
+          période: 'Période',
+          famille: 'Famille',
+          nomProjet: 'Le projet',
+          statut: 'à traiter',
+          misÀJourLe: '2023-02-12',
+        },
+        {
+          identifiantProjet: '#identifiantProjet-3',
+          appelOffre: 'Appel offre',
+          période: 'Période',
+          famille: 'Famille',
+          nomProjet: 'Le projet',
+          statut: 'à traiter',
           misÀJourLe: '2023-02-12',
         },
       ],
