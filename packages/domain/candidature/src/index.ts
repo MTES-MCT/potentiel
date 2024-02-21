@@ -28,5 +28,5 @@ export * from './register';
 // Port
 export { RécupérerCandidaturePort, RécupérerCandidaturesEligiblesPreuveRecanditurePort };
 
-// Projection
+// Entity
 export * from './candidature.entity';

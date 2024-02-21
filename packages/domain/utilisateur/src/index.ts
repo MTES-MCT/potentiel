@@ -22,5 +22,7 @@ export * from './register';
 // Port
 export { RécupérerUtilisateurPort, VérifierAccèsProjetPort };
 
-// Projection
+// Entity
 export * from './utilisateur.entity';
+
+export * from './permission.middleware';

@@ -7,6 +7,7 @@ import { setupAppelOffre } from './setupAppelOffre';
 import { setupTâche } from './setupTâche';
 import { setupUtilisateur } from './setupUtilisateur';
 import { setupRéseau } from './setupRéseau';
+import { logMiddleware } from './middlewares/log.middleware';
 import { seed } from './seed';
 
 export const bootstrap = async ({
@@ -17,7 +18,7 @@ export const bootstrap = async ({
   await seed();
 
   mediator.use({
-    middlewares,
+    middlewares: [logMiddleware, ...middlewares],
   });
 
   setupAppelOffre();

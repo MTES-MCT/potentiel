@@ -14,5 +14,5 @@ export { ListerAppelOffreReadModel, ConsulterAppelOffreReadModel };
 // Register
 export * from './register';
 
-// Projection
+// Entity
 export * from './appelOffre.entity';

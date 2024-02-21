@@ -1,11 +1,12 @@
 import { Message, Middleware, mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Utilisateur, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
+import * as Utilisateur from './utilisateur.valueType';
 import { getLogger } from '@potentiel/monitoring';
+import { VérifierAccèsProjetQuery } from './vérifierAccèsProjet/vérifierAccèsProjet.query';
 
 type GetAuthenticatedUserMessage = Message<'GET_AUTHENTICATED_USER', {}, Utilisateur.ValueType>;
 
-export const middleware: Middleware = async (message, next) => {
+export const permissionMiddleware: Middleware = async (message, next) => {
   if (isSystemProcess(message)) {
     return await next();
   }

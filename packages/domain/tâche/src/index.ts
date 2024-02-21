@@ -28,7 +28,7 @@ export * from './register';
 // ValueTypes
 export * as TypeTâche from './typeTâche.valueType';
 
-// Projections
+// Entitys
 export * from './tâche.entity';
 
 // Port
