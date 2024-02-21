@@ -16,9 +16,9 @@ import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/P
 import { formatDateForInput } from '@/utils/formatDateForInput';
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancieres';
+import { TypeGarantiesFinancièresSelect } from '../TypeGarantiesFinancièresSelect';
 
-import { soumettreDépôtGarantiesFinancièresAction } from './SoumettreGarantiesFinancières.action';
-import { TypeGarantiesFinancièresSelect } from './TypeGarantiesFinancièresSelect';
+import { soumettreGarantiesFinancièresAction } from './soumettreGarantiesFinancières.action';
 
 export type SoumettreGarantiesFinancièresProps = {
   projet: ProjetBannerProps;
@@ -42,7 +42,7 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
           <Form
             method="POST"
             encType="multipart/form-data"
-            action={soumettreDépôtGarantiesFinancièresAction}
+            action={soumettreGarantiesFinancièresAction}
             heading="Soumettre des garanties financières"
             onSuccess={() => router.push(Routes.Projet.details(projet.identifiantProjet))}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
