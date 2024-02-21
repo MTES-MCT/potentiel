@@ -91,6 +91,7 @@ EtantDonné(
     const dateDésignation = new Date(
       examples['La date de désignation'] ?? '2022-10-27',
     ).toISOString();
+    const région = examples['région'] ?? 'regionProjet';
     await executeQuery(
       `
       insert into "projects" (
@@ -156,7 +157,7 @@ EtantDonné(
       'codePostalProjet',
       'communeProjet',
       'departementProjet',
-      'regionProjet',
+      région,
       'Classé',
       false,
       false,
@@ -167,6 +168,7 @@ EtantDonné(
       nom: nomProjet,
       identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
       dateDésignation,
+      région,
     });
   },
 );

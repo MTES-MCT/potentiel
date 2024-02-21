@@ -5,6 +5,7 @@ type LauréatFixture = {
   nom: string;
   identifiantProjet: IdentifiantProjet.ValueType;
   dateDésignation: string;
+  région?: string;
 };
 
 export class LauréatWorld {
