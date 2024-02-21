@@ -15,14 +15,14 @@ export const register = () => {
     const { type, payload } = event;
 
     if (type === 'RebuildTriggered') {
-      await removeProjection<GestionnaireRéseau.GestionnaireRéseauProjection>(
+      await removeProjection<GestionnaireRéseau.GestionnaireRéseauEntity>(
         `gestionnaire-réseau|${payload.id}`,
       );
     } else {
       switch (type) {
         case 'GestionnaireRéseauAjouté-V1':
         case 'GestionnaireRéseauModifié-V1':
-          await upsertProjection<GestionnaireRéseau.GestionnaireRéseauProjection>(
+          await upsertProjection<GestionnaireRéseau.GestionnaireRéseauEntity>(
             `gestionnaire-réseau|${payload.codeEIC}`,
             {
               ...payload,

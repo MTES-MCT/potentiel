@@ -29,4 +29,4 @@ export * from './register';
 export { RécupérerCandidaturePort, RécupérerCandidaturesEligiblesPreuveRecanditurePort };
 
 // Projection
-export * from './candidature.projection';
+export * from './candidature.entity';

@@ -1,6 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { OperationRejectedError } from '@potentiel-domain/core';
-import { Role, Utilisateur } from '..';
+import * as Role from '../role.valueType';
+import * as Utilisateur from '../utilisateur.valueType';
 
 export type VérifierAccèsProjetQuery = Message<
   'VERIFIER_ACCES_PROJET_QUERY',

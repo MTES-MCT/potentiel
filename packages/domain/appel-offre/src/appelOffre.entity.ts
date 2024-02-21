@@ -228,4 +228,4 @@ export type AppelOffre = {
 } & DelaiRealisation &
   GarantiesFinancièresAppelOffre;
 
-export type AppelOffreProjection = Projection<'appel-offre', AppelOffre>;
+export type AppelOffreEntity = Projection<'appel-offre', AppelOffre>;

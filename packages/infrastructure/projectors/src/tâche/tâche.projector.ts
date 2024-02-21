@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { TâcheEvent, TâcheProjection } from '@potentiel-domain/tache';
+import { TâcheEvent, TâcheEntity } from '@potentiel-domain/tache';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { removeProjection } from '../utils/removeProjection';
@@ -20,11 +20,11 @@ export const register = () => {
     const { type, payload } = event;
 
     if (type === 'RebuildTriggered') {
-      await removeProjection<TâcheProjection>(`tâche|${payload.id}`);
+      await removeProjection<TâcheEntity>(`tâche|${payload.id}`);
     } else {
       const { identifiantProjet, typeTâche } = payload;
 
-      const tâche = await findProjection<TâcheProjection>(
+      const tâche = await findProjection<TâcheEntity>(
         `tâche|${payload.typeTâche}#${identifiantProjet}`,
       );
 
@@ -39,9 +39,7 @@ export const register = () => {
         misÀJourLe: DateTime.now().formatter(),
       };
 
-      const tâcheToUpsert: Omit<TâcheProjection, 'type'> = isSome(tâche)
-        ? tâche
-        : tâcheDefaultValue;
+      const tâcheToUpsert: Omit<TâcheEntity, 'type'> = isSome(tâche) ? tâche : tâcheDefaultValue;
 
       const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
 
@@ -51,35 +49,27 @@ export const register = () => {
 
       switch (type) {
         case 'TâcheAchevée-V1':
-          await removeProjection<TâcheProjection>(
-            `tâche|${payload.typeTâche}#${identifiantProjet}`,
-          );
+          await removeProjection<TâcheEntity>(`tâche|${payload.typeTâche}#${identifiantProjet}`);
           break;
         case 'TâcheAjoutée-V1':
         case 'TâcheRenouvellée-V1':
-          await upsertProjection<TâcheProjection>(
-            `tâche|${payload.typeTâche}#${identifiantProjet}`,
-            {
-              ...tâcheToUpsert,
-              nomProjet: isSome(projet) ? projet.nom : 'Projet inconnu',
-              appelOffre: isSome(projet) ? projet.appelOffre : `N/A`,
-              période: isSome(projet) ? projet.période : `N/A`,
-              famille: isSome(projet) ? projet.famille : undefined,
-              numéroCRE: isSome(projet) ? projet.numéroCRE : `N/A`,
-              typeTâche: payload.typeTâche,
-              misÀJourLe: payload.ajoutéeLe,
-            },
-          );
+          await upsertProjection<TâcheEntity>(`tâche|${payload.typeTâche}#${identifiantProjet}`, {
+            ...tâcheToUpsert,
+            nomProjet: isSome(projet) ? projet.nom : 'Projet inconnu',
+            appelOffre: isSome(projet) ? projet.appelOffre : `N/A`,
+            période: isSome(projet) ? projet.période : `N/A`,
+            famille: isSome(projet) ? projet.famille : undefined,
+            numéroCRE: isSome(projet) ? projet.numéroCRE : `N/A`,
+            typeTâche: payload.typeTâche,
+            misÀJourLe: payload.ajoutéeLe,
+          });
           break;
         case 'TâcheRelancée-V1':
-          await upsertProjection<TâcheProjection>(
-            `tâche|${payload.typeTâche}#${identifiantProjet}`,
-            {
-              ...tâcheToUpsert,
-              typeTâche: payload.typeTâche,
-              misÀJourLe: event.payload.relancéeLe,
-            },
-          );
+          await upsertProjection<TâcheEntity>(`tâche|${payload.typeTâche}#${identifiantProjet}`, {
+            ...tâcheToUpsert,
+            typeTâche: payload.typeTâche,
+            misÀJourLe: event.payload.relancéeLe,
+          });
       }
     }
   };

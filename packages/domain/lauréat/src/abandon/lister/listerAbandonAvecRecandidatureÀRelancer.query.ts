@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { AbandonAvecRecandidatureSansPreuveProjection } from '../abandon.projection';
+import { AbandonAvecRecandidatureSansPreuveProjection } from '../abandon.entity';
 import { List } from '@potentiel-libraries/projection';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 

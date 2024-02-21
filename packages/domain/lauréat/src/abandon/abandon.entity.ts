@@ -1,7 +1,6 @@
 import { Projection } from '@potentiel-libraries/projection';
 
-// TODO: Doit on doit vraiment nommé les entités avec Projection, sachant que cela indique qu'on fait de l'ES dans l'infrastructure ???
-export type AbandonProjection = Projection<
+export type AbandonEntity = Projection<
   'abandon',
   {
     identifiantProjet: string;

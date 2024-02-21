@@ -86,7 +86,7 @@ export * as Abandon from './abandon.valueType';
 export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
 
 // Projections
-export * from './abandon.projection';
+export * from './abandon.entity';
 
 // Ports
 export {

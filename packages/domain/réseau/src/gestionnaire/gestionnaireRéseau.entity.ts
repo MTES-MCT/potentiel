@@ -1,7 +1,6 @@
 import { Projection } from '@potentiel-libraries/projection';
 
-// TODO: Doit on doit vraiment nommé les entités avec Projection, sachant que cela indique qu'on fait de l'ES dans l'infrastructure ???
-export type GestionnaireRéseauProjection = Projection<
+export type GestionnaireRéseauEntity = Projection<
   'gestionnaire-réseau',
   {
     codeEIC: string;

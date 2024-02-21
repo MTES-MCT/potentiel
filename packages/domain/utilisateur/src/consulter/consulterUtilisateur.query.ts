@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { UtilisateurProjection } from '../utilisateur.projection';
+import { UtilisateurEntity } from '../utilisateur.entity';
 import { isNone, Option } from '@potentiel/monads';
 import { UtilisateurInconnuErreur } from '../utilisateurInconnu.error';
-import { IdentifiantUtilisateur } from '..';
+import * as IdentifiantUtilisateur from '../identifiantUtilisateur.valueType';
 
 export type ConsulterUtilisateurReadModel = {
   identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
@@ -21,7 +21,7 @@ export type ConsulterUtilisateurQuery = Message<
 
 export type RécupérerUtilisateurPort = (
   identifiantUtilisateur: string,
-) => Promise<Option<UtilisateurProjection>>;
+) => Promise<Option<UtilisateurEntity>>;
 
 export type ConsulterUtilisateurDependencies = {
   récupérerUtilisateur: RécupérerUtilisateurPort;
@@ -48,7 +48,7 @@ const mapToReadModel = ({
   email,
   nomComplet,
   fonction,
-}: UtilisateurProjection): ConsulterUtilisateurReadModel => ({
+}: UtilisateurEntity): ConsulterUtilisateurReadModel => ({
   identifiantUtilisateur: IdentifiantUtilisateur.convertirEnValueType(identifiantUtilisateur),
   email,
   nomComplet,

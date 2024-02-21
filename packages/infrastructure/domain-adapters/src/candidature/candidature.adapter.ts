@@ -1,5 +1,5 @@
 import {
-  CandidatureProjection,
+  CandidatureEntity,
   RécupérerCandidaturePort,
   RécupérerCandidaturesEligiblesPreuveRecanditurePort,
 } from '@potentiel-domain/candidature';
@@ -42,7 +42,7 @@ const selectCandidatureQuery = `
 export const récupérerCandidatureAdapter: RécupérerCandidaturePort = async (identifiant) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiant);
-  const result = await executeSelect<{ value: CandidatureProjection }>(
+  const result = await executeSelect<{ value: CandidatureEntity }>(
     selectCandidatureQuery,
     appelOffre,
     période,
@@ -97,7 +97,7 @@ const selectPreuveRecandidature = `
 
 export const récupérerCandidaturesEligiblesPreuveRecanditureAdapter: RécupérerCandidaturesEligiblesPreuveRecanditurePort =
   async (identifiantUtilisateur) => {
-    const results = await executeSelect<{ value: CandidatureProjection }>(
+    const results = await executeSelect<{ value: CandidatureEntity }>(
       selectCandidaturesEligiblesPreuveRecanditureQuery,
       identifiantUtilisateur,
     );

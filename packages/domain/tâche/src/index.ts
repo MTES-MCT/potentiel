@@ -29,7 +29,7 @@ export * from './register';
 export * as TypeTâche from './typeTâche.valueType';
 
 // Projections
-export * from './tâche.projection';
+export * from './tâche.entity';
 
 // Port
 export { RécupérerNombreTâchePort };

@@ -35,4 +35,4 @@ export { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnair
 export * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType';
 
 // Projections
-export * from './gestionnaireRéseau.projection';
+export * from './gestionnaireRéseau.entity';

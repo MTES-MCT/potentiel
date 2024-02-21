@@ -1,6 +1,6 @@
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 import { ExpressionRegulière } from '@potentiel-domain/common';
-import { GestionnaireRéseauProjection } from '../gestionnaireRéseau.projection';
+import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { List } from '@potentiel-libraries/projection';
 
@@ -42,7 +42,7 @@ export const registerListerGestionnaireRéseauQuery = ({
   const handler: MessageHandler<ListerGestionnaireRéseauQuery> = async ({
     pagination: { itemsPerPage, page },
   }) => {
-    const { currentPage, items, totalItems } = await list<GestionnaireRéseauProjection>({
+    const { currentPage, items, totalItems } = await list<GestionnaireRéseauEntity>({
       type: 'gestionnaire-réseau',
       orderBy: { property: 'raisonSociale', ascending: true },
       pagination: {
@@ -65,7 +65,7 @@ const mapToReadModel = ({
   codeEIC,
   raisonSociale,
   aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
-}: GestionnaireRéseauProjection): GetionnaireRéseauListItemReadModel => {
+}: GestionnaireRéseauEntity): GetionnaireRéseauListItemReadModel => {
   return {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
     raisonSociale,

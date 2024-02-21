@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { ExpressionRegulière } from '@potentiel-domain/common';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 import { Find } from '@potentiel-libraries/projection';
-import { GestionnaireRéseauProjection } from '../gestionnaireRéseau.projection';
+import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseauInconnuError } from '../gestionnaireRéseauInconnu.error';
 
@@ -34,7 +34,7 @@ export const registerConsulterGestionnaireRéseauQuery = ({
   const handler: MessageHandler<ConsulterGestionnaireRéseauQuery> = async ({
     identifiantGestionnaireRéseau,
   }) => {
-    const result = await find<GestionnaireRéseauProjection>(
+    const result = await find<GestionnaireRéseauEntity>(
       `gestionnaire-réseau|${identifiantGestionnaireRéseau}`,
     );
 
@@ -52,7 +52,7 @@ const mapToReadModel = ({
   codeEIC,
   raisonSociale,
   aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
-}: GestionnaireRéseauProjection): ConsulterGestionnaireRéseauReadModel => {
+}: GestionnaireRéseauEntity): ConsulterGestionnaireRéseauReadModel => {
   return {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
     raisonSociale,

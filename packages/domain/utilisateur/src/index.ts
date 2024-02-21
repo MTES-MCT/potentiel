@@ -23,4 +23,4 @@ export * from './register';
 export { RécupérerUtilisateurPort, VérifierAccèsProjetPort };
 
 // Projection
-export * from './utilisateur.projection';
+export * from './utilisateur.entity';
