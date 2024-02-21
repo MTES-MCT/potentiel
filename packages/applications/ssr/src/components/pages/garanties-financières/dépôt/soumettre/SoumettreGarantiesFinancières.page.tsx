@@ -43,7 +43,7 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
             method="POST"
             encType="multipart/form-data"
             action={soumettreGarantiesFinancièresAction}
-            heading="Soumettre des garanties financières"
+            heading="Soumettre un dépôt de garanties financières"
             onSuccess={() => router.push(Routes.Projet.details(projet.identifiantProjet))}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >

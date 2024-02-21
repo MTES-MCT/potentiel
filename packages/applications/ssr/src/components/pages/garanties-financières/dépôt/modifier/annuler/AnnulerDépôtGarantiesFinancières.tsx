@@ -21,7 +21,7 @@ export const AnnulerDépôtGarantiesFinancières = ({
     <ButtonWithFormInModal
       name="Annuler"
       yesNo
-      description="Annuler la soumission de garanties financières"
+      description="Annuler le dépôt"
       form={{
         id: 'annuler-dépôt-garanties-financieres-form',
         action: annulerDépôtGarantiesFinancièresAction,
@@ -31,9 +31,7 @@ export const AnnulerDépôtGarantiesFinancières = ({
         onSuccess: () => router.push(Routes.GarantiesFinancières.soumettre(identifiantProjet)),
         children: (
           <>
-            <p className="mt-3">
-              Êtes-vous sûr de vouloir annuler cette soumission de garanties financières ?
-            </p>
+            <p className="mt-3">Êtes-vous sûr de vouloir annuler ce dépôt ?</p>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
           </>
         ),

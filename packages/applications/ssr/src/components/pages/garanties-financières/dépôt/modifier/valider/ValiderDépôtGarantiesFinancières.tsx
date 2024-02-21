@@ -21,7 +21,7 @@ export const ValiderDépôtGarantiesFinancières = ({
     <ButtonWithFormInModal
       name="Valider"
       yesNo
-      description="Valider la soumission de garanties financières"
+      description="Valider le dépôt"
       form={{
         id: 'valider-dépôt-garanties-financieres-form',
         action: validerDépôtGarantiesFinancièresAction,
@@ -31,9 +31,7 @@ export const ValiderDépôtGarantiesFinancières = ({
         onSuccess: () => router.push(Routes.GarantiesFinancières.détail(identifiantProjet)),
         children: (
           <>
-            <p className="mt-3">
-              Êtes-vous sûr de vouloir valider cette soumission de garanties financières ?
-            </p>
+            <p className="mt-3">Êtes-vous sûr de vouloir valider ce dépôt ?</p>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
           </>
         ),
