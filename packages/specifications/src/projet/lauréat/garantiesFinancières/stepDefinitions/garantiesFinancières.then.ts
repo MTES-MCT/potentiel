@@ -8,6 +8,8 @@ import { PotentielWorld } from '../../../../potentiel.world';
 //import { NotFoundError } from '@potentiel-domain/core';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { expect } from 'chai';
+import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
 
 Alors(
   'les garanties financières devraient être consultables pour le projet {string} avec :',
@@ -55,21 +57,17 @@ Alors(
 
     // ASSERT ON FILE
 
-    // const actualFile =
-    //   await mediator.send<ConsulterFichierDépôtAttestationGarantiesFinancièreQuery>({
-    //     type: 'CONSULTER_DÉPÔT_ATTESTATION_GARANTIES_FINANCIÈRES',
-    //     data: {
-    //       identifiantProjet,
-    //     },
-    //   });
+    if (actualReadModel.àTraiter?.attestation) {
+      const file = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'CONSULTER_DOCUMENT_PROJET',
+        data: {
+          documentKey: actualReadModel.àTraiter?.attestation.formatter(),
+        },
+      });
 
-    // if (isNone(actualFile)) {
-    //   throw new Error('fichier dépôt attestation garanties financières non trouvé');
-    // }
-
-    // expect(actualFile.type).to.deep.equal('depot-attestation-constitution-garanties-financieres');
-    // expect(actualFile.format).to.deep.equal(format);
-    // expect(await convertReadableStreamToString(actualFile.content)).to.deep.equal(contenu);
+      const actualContent = await convertReadableStreamToString(file.content);
+      actualContent.should.be.equal(contenu);
+    }
 
     // ASSERT ON LIST
 

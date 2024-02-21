@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { DocumentProjet } from '@potentiel-domain/document';
+import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '..';
@@ -47,13 +47,13 @@ export const registerSoumettreGarantiesFinancièresUseCase = () => {
       attestationValue.format,
     );
 
-    // await mediator.send<EnregistrerDocumentProjetCommand>({
-    //   type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
-    //   data: {
-    //     content: attestationValue!.content,
-    //     documentProjet: attestation,
-    //   },
-    // });
+    await mediator.send<EnregistrerDocumentProjetCommand>({
+      type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
+      data: {
+        content: attestationValue!.content,
+        documentProjet: attestation,
+      },
+    });
 
     await mediator.send<SoumettreGarantiesFinancièresCommand>({
       type: 'SOUMETTRE_GARANTIES_FINANCIÈRES_COMMAND',

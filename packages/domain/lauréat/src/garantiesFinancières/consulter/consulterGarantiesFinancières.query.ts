@@ -4,9 +4,10 @@ import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 
 import { Find } from '@potentiel-libraries/projection';
-import { TypeGarantiesFinancières } from '..';
+import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '..';
 import { AucunesGarantiesFinancières } from '../aucunesGarantiesFinancières.error';
 import { GarantiesFinancièresEntity } from '../garantiesFinancières.projection';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 export type ConsulterGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -19,12 +20,14 @@ export type ConsulterGarantiesFinancièresReadModel = {
     dateÉchéance?: DateTime.ValueType;
     dateConstitution: DateTime.ValueType;
     validéLe: DateTime.ValueType;
+    //attestation: DocumentProjet.ValueType;
   };
   àTraiter?: {
     type: TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
     dateConstitution: DateTime.ValueType;
     soumisLe: DateTime.ValueType;
+    attestation: DocumentProjet.ValueType;
   };
   enAttente?: { dateLimiteSoumission: DateTime.ValueType; notifiéLe: DateTime.ValueType };
 };
@@ -74,6 +77,12 @@ export const registerConsulterGarantiesFinancièresQuery = ({
             : undefined,
           dateConstitution: DateTime.convertirEnValueType(result.àTraiter.dateConstitution),
           soumisLe: DateTime.convertirEnValueType(result.àTraiter.soumisLe),
+          attestation: DocumentProjet.convertirEnValueType(
+            identifiantProjet.formatter(),
+            TypeDocumentGarantiesFinancières.garantiesFinancièresÀTraiter.formatter(),
+            DateTime.convertirEnValueType(result.àTraiter.soumisLe).formatter(),
+            result.àTraiter.attestation.format,
+          ),
         }
       : undefined;
     const enAttente: ConsulterGarantiesFinancièresReadModel['enAttente'] = result.enAttente
