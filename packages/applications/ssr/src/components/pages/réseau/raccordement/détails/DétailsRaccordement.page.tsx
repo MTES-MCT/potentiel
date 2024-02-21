@@ -293,7 +293,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
 }) => (
   <Etape
     className="relative"
-    titre="Proposition et financière"
+    titre="Proposition technique et financière"
     statut={
       dateSignature && propositionTechniqueEtFinancièreSignée ? 'étape validée' : 'étape à venir'
     }
