@@ -1,7 +1,7 @@
 import { executeSelect } from '@potentiel/pg-helpers';
 import { KeyValuePair } from './keyValuePair';
 import format from 'pg-format';
-import { Projection, ListOptions, ListResult } from '@potentiel-libraries/projection';
+import { Projection, ListOptions, ListResult } from '@potentiel-domain/entity';
 
 export const listProjection = async <TProjection extends Projection>({
   type,

@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { ExpressionRegulière } from '@potentiel-domain/common';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
-import { Find } from '@potentiel-libraries/projection';
+import { Find } from '@potentiel-domain/entity';
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseauInconnuError } from '../gestionnaireRéseauInconnu.error';

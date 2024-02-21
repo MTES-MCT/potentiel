@@ -2,7 +2,7 @@ import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRése
 import { ExpressionRegulière } from '@potentiel-domain/common';
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { List } from '@potentiel-libraries/projection';
+import { List } from '@potentiel-domain/entity';
 
 type GetionnaireRéseauListItemReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;

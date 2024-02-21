@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
 import { executeQuery, killPool } from '@potentiel/pg-helpers';
-import { Projection } from '@potentiel-libraries/projection';
+import { Projection } from '@potentiel-domain/entity';
 import { listProjection } from './listProjection';
 
 describe(`listProjection`, () => {

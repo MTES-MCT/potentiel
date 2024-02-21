@@ -1,4 +1,4 @@
-import { Projection } from '@potentiel-libraries/projection';
+import { Projection } from '@potentiel-domain/entity';
 
 export type AbandonEntity = Projection<
   'abandon',

@@ -4,7 +4,7 @@ import { isSome } from '@potentiel/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { AbandonEntity } from '../abandon.entity';
-import { Find } from '@potentiel-libraries/projection';
+import { Find } from '@potentiel-domain/entity';
 
 export type DétecterAbandonQuery = Message<
   'DÉTECTER_ABANDON_QUERY',

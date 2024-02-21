@@ -9,7 +9,7 @@
       "path": "../../libraries/monads"
     },
     {
-      "path": "../../domain/core"
+      "path": "../core"
     }
   ]
 }

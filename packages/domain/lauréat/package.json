@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@potentiel/monads": "*",
-    "@potentiel-libraries/projection": "*",
+    "@potentiel-domain/entity": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/document": "*",

@@ -1,6 +1,6 @@
 import { executeSelect } from '@potentiel/pg-helpers';
 import { none, Option } from '@potentiel/monads';
-import { Projection } from '@potentiel-libraries/projection';
+import { Projection } from '@potentiel-domain/entity';
 
 import { KeyValuePair } from './keyValuePair';
 

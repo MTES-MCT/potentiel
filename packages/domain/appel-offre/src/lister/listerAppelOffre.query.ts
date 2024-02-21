@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { List } from '@potentiel-libraries/projection';
+import { List } from '@potentiel-domain/entity';
 import { AppelOffreEntity } from '../appelOffre.entity';
 
 type AppelOffreListItemReadModel = {

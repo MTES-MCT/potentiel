@@ -9,13 +9,13 @@
       "path": "../../libraries/monads"
     },
     {
-      "path": "../../libraries/projection"
+      "path": "../core"
     },
     {
-      "path": "../../domain/common"
+      "path": "../entity"
     },
     {
-      "path": "../../domain/core"
+      "path": "../common"
     }
   ]
 }

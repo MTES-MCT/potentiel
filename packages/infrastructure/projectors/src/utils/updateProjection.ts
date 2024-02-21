@@ -1,4 +1,4 @@
-import { Projection } from '@potentiel-libraries/projection';
+import { Projection } from '@potentiel-domain/entity';
 import { executeQuery } from '@potentiel/pg-helpers';
 
 export const updateProjection = async <TProjection extends Projection>(

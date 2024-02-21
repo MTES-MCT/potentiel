@@ -1,7 +1,7 @@
 {
-  "name": "@potentiel-libraries/projection",
+  "name": "@potentiel-domain/entity",
   "version": "0.0.0",
-  "description": "Projection types",
+  "description": "Entity types",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,

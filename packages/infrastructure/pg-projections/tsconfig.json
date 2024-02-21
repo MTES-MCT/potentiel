@@ -12,7 +12,7 @@
       "path": "../../libraries/pg-helpers"
     },
     {
-      "path": "../../libraries/projection"
+      "path": "../../domain/entity"
     }
   ]
 }

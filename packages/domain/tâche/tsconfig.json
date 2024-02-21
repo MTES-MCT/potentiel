@@ -9,19 +9,22 @@
       "path": "../../libraries/monads"
     },
     {
-      "path": "../../libraries/projection"
+      "path": "../common"
     },
     {
-      "path": "../../domain/common"
+      "path": "../core"
     },
     {
-      "path": "../../domain/core"
+      "path": "../entity"
     },
     {
-      "path": "../../domain/lauréat"
+      "path": "../document"
     },
     {
-      "path": "../../domain/réseau"
+      "path": "../lauréat"
+    },
+    {
+      "path": "../réseau"
     }
   ]
 }

@@ -9,25 +9,25 @@
       "path": "../../libraries/monads"
     },
     {
-      "path": "../../libraries/projection"
+      "path": "../common"
     },
     {
-      "path": "../../domain/common"
+      "path": "../core"
     },
     {
-      "path": "../../domain/core"
+      "path": "../entity"
     },
     {
-      "path": "../../domain/document"
+      "path": "../document"
     },
     {
-      "path": "../../domain/candidature"
+      "path": "../candidature"
     },
     {
-      "path": "../../domain/appel-offre"
+      "path": "../appel-offre"
     },
     {
-      "path": "../../domain/utilisateur"
+      "path": "../utilisateur"
     }
   ]
 }
