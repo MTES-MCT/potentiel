@@ -14,8 +14,8 @@ import {
   GarantiesFinancières,
 } from '../DétailsGarantiesFinancières.page';
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancieres';
-import { AccorderGarantiesFinancières } from '../accorder/AccorderGarantiesFinancières';
 import { RejeterGarantiesFinancières } from '../rejeter/RejeterGarantiesFinancières';
+import { ValiderGarantiesFinancières } from '../valider/ValiderGarantiesFinancières';
 
 type AvailableActions = Array<'accorder' | 'rejeter'>;
 
@@ -109,7 +109,7 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
   return actions.length ? (
     <>
       {actions.includes('accorder') && (
-        <AccorderGarantiesFinancières identifiantProjet={identifiantProjet} />
+        <ValiderGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}
       {actions.includes('rejeter') && (
         <RejeterGarantiesFinancières identifiantProjet={identifiantProjet} />
