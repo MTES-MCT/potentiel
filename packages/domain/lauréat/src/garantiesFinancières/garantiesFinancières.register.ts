@@ -7,8 +7,13 @@ import { registerSoumettreGarantiesFinancièresCommand } from './soumettre/soume
 import { registerNotifierGarantiesFinancièresEnAttenteCommand } from './notifierGarantiesFinancièresEnAttente/notifierGarantiesFinancièresEnAttente.command';
 import { registerSoumettreGarantiesFinancièresUseCase } from './soumettre/soumettreGarantiesFinancières.usecase';
 import { registerNotifierGarantiesFinancièresEnAttenteUseCase } from './notifierGarantiesFinancièresEnAttente/notifierGarantiesFinancièresEnAttente.usecase';
+import {
+  ListerGarantiesFinancièresÀTraiterDependencies,
+  registerListerGarantiesFinancièresÀTraiterQuery,
+} from './lister/listerGarantiesFinancièresÀTraiter.query';
 
-export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies;
+export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
+  ListerGarantiesFinancièresÀTraiterDependencies;
 
 export type GarantiesFinancièresCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -28,4 +33,5 @@ export const registerGarantiesFinancièresQueries = (
   dependencies: GarantiesFinancièresQueryDependencies,
 ) => {
   registerConsulterGarantiesFinancièresQuery(dependencies);
+  registerListerGarantiesFinancièresÀTraiterQuery(dependencies);
 };

@@ -4,14 +4,21 @@ import {
 } from './consulter/consulterGarantiesFinancières.query';
 import { SoumettreGarantiesFinancièresUseCase } from './soumettre/soumettreGarantiesFinancières.usecase';
 import { NotifierGarantiesFinancièresEnAttenteUseCase } from './notifierGarantiesFinancièresEnAttente/notifierGarantiesFinancièresEnAttente.usecase';
+import {
+  ListerGarantiesFinancièresÀTraiterPort,
+  ListerGarantiesFinancièresÀTraiterQuery,
+  ListerGarantiesFinancièresÀTraiterReadModel,
+} from './lister/listerGarantiesFinancièresÀTraiter.query';
 
 // Query
-export type GarantiesFinancièresQuery = ConsulterGarantiesFinancièresQuery;
+export type GarantiesFinancièresQuery =
+  | ConsulterGarantiesFinancièresQuery
+  | ListerGarantiesFinancièresÀTraiterQuery;
 
-export { ConsulterGarantiesFinancièresQuery };
+export { ConsulterGarantiesFinancièresQuery, ListerGarantiesFinancièresÀTraiterQuery };
 
 // ReadModel
-export { ConsulterGarantiesFinancièresReadModel };
+export { ConsulterGarantiesFinancièresReadModel, ListerGarantiesFinancièresÀTraiterReadModel };
 
 // UseCases
 export type GarantiesFinancièresUseCase =
@@ -40,3 +47,4 @@ export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinan
 export * from './garantiesFinancières.projection';
 
 // Ports
+export { ListerGarantiesFinancièresÀTraiterPort };
