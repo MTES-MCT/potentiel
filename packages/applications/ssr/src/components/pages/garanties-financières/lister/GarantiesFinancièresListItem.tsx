@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Badge from '@codegouvfr/react-dsfr/Badge';
+import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
 
 import { Routes } from '@potentiel-libraries/routes';
 
@@ -12,19 +12,34 @@ export type GarantiesFinancièresListItemProps = {
   /**
    * @todo utiliser un valuetype ici
    */
-  statut: 'en attente' | 'validé';
+  statut: 'en attente' | 'à traiter' | 'validé';
   misÀJourLe: string;
 };
 
-const GarantiesFinancièresStatusBadge = ({ statut }: { statut: string }) => (
-  <Badge
-    noIcon
-    severity={statut === 'en attente' ? 'new' : statut === 'validé' ? 'success' : 'info'}
-    small={true}
-  >
-    {statut}
-  </Badge>
-);
+const GarantiesFinancièresStatusBadge = ({
+  statut,
+}: {
+  statut: GarantiesFinancièresListItemProps['statut'];
+}) => {
+  const getSeverity = (
+    statut: GarantiesFinancièresListItemProps['statut'],
+  ): BadgeProps['severity'] => {
+    switch (statut) {
+      case 'en attente':
+        return 'new';
+      case 'à traiter':
+        return 'warning';
+      case 'validé':
+        return 'success';
+    }
+  };
+
+  return (
+    <Badge noIcon severity={getSeverity(statut)} small={true}>
+      {statut}
+    </Badge>
+  );
+};
 
 export const GarantiesFinancièresListItem: FC<GarantiesFinancièresListItemProps> = ({
   identifiantProjet,
