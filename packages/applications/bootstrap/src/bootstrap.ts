@@ -8,15 +8,12 @@ import { setupTâche } from './setupTâche';
 import { setupUtilisateur } from './setupUtilisateur';
 import { setupRéseau } from './setupRéseau';
 import { logMiddleware } from './middlewares/log.middleware';
-import { seed } from './seed';
 
 export const bootstrap = async ({
   middlewares,
 }: {
   middlewares: Array<Middleware>;
 }): Promise<() => Promise<void>> => {
-  await seed();
-
   mediator.use({
     middlewares: [logMiddleware, ...middlewares],
   });
