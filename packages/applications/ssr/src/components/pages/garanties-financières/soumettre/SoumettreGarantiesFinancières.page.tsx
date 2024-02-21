@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-libraries/routes';
 
@@ -15,9 +16,9 @@ import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/P
 import { formatDateForInput } from '@/utils/formatDateForInput';
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancieres';
+import { TypeGarantiesFinancièresSelect } from '../TypeGarantiesFinancièresSelect';
 
-import { soumettreDépôtGarantiesFinancièresAction } from './SoumettreGarantiesFinancières.action';
-import { TypeGarantiesFinancièresSelect } from './TypeGarantiesFinancièresSelect';
+import { soumettreGarantiesFinancièresAction } from './soumettreGarantiesFinancières.action';
 
 export type SoumettreGarantiesFinancièresProps = {
   projet: ProjetBannerProps;
@@ -41,7 +42,7 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
           <Form
             method="POST"
             encType="multipart/form-data"
-            action={soumettreDépôtGarantiesFinancièresAction}
+            action={soumettreGarantiesFinancièresAction}
             heading="Soumettre des garanties financières"
             onSuccess={() => router.push(Routes.Projet.details(projet.identifiantProjet))}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
@@ -96,7 +97,19 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
         ),
       }}
       rightColumn={{
-        children: <></>,
+        children: (
+          <Alert
+            severity="info"
+            small
+            description={
+              <p className="py-4">
+                Une fois les garanties financières déposées dans Potentiel, la DREAL concernée
+                recevra une notification par mail l'invitant à vérifier leur conformité. Vous serez
+                à votre tour notifié par mail à la validation des garanties financières.
+              </p>
+            }
+          />
+        ),
       }}
     />
   );

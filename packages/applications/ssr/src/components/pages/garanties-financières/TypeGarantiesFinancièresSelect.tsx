@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import Input from '@codegouvfr/react-dsfr/Input';
 
+import { formatDateForInput } from '@/utils/formatDateForInput';
+
 type TypeGarantiesFinancières = '6 mois après achèvement' | 'consignation' | 'avec date d’échéance';
 
 export type TypeGarantiesFinancièresSelectProps = {
@@ -11,6 +13,7 @@ export type TypeGarantiesFinancièresSelectProps = {
   disabled?: true;
   validationErrors: Array<string>;
   typeGarantiesFinancièresActuel?: TypeGarantiesFinancières;
+  dateÉchéanceActuelle?: string;
 };
 
 export const TypeGarantiesFinancièresSelect = ({
@@ -20,6 +23,7 @@ export const TypeGarantiesFinancièresSelect = ({
   disabled,
   validationErrors,
   typeGarantiesFinancièresActuel,
+  dateÉchéanceActuelle,
 }: TypeGarantiesFinancièresSelectProps) => {
   const [typeSélectionné, setTypeSélectionné] = useState(typeGarantiesFinancièresActuel);
 
@@ -57,7 +61,7 @@ export const TypeGarantiesFinancièresSelect = ({
 
       {disabled && <input type="hidden" name={name} value={typeGarantiesFinancièresActuel} />}
 
-      {typeSélectionné && typeSélectionné === 'avec date d’échéance' && (
+      {typeSélectionné === 'avec date d’échéance' && (
         <Input
           label="Date d'échéance"
           nativeInputProps={{
@@ -65,9 +69,13 @@ export const TypeGarantiesFinancièresSelect = ({
             name: 'dateEcheance',
             required: true,
             'aria-required': true,
+            defaultValue: dateÉchéanceActuelle
+              ? formatDateForInput(dateÉchéanceActuelle)
+              : undefined,
           }}
           state={validationErrors.includes('dateEcheance') ? 'error' : 'default'}
           stateRelatedMessage="Date d'échéance obligatoire"
+          disabled={disabled}
         />
       )}
     </>

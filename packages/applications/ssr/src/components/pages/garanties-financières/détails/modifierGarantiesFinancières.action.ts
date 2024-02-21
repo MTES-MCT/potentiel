@@ -4,7 +4,7 @@ import * as zod from 'zod';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 
-export type SoumettreDépôtGarantiesFinancièresState = FormState;
+export type ModifierGarantiesFinancièresState = FormState;
 
 const schema = zod.discriminatedUnion('typeGarantiesFinancieres', [
   zod.object({
@@ -29,4 +29,4 @@ const action: FormAction<FormState, typeof schema> = async (_, props) => {
   };
 };
 
-export const soumettreDépôtGarantiesFinancièresAction = formAction(action, schema);
+export const modifierGarantiesFinancièresAction = formAction(action, schema);
