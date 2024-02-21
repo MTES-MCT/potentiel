@@ -58,7 +58,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
 
     const validées: ConsulterGarantiesFinancièresReadModel['validées'] = result.validées
       ? {
-          type: TypeGarantiesFinancières.convertirEnValueType(result.type),
+          type: TypeGarantiesFinancières.convertirEnValueType(result.validées.type),
           dateÉchéance: result.validées.dateÉchéance
             ? DateTime.convertirEnValueType(result.validées.dateÉchéance)
             : undefined,
@@ -68,7 +68,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
       : undefined;
     const àTraiter: ConsulterGarantiesFinancièresReadModel['àTraiter'] = result.àTraiter
       ? {
-          type: TypeGarantiesFinancières.convertirEnValueType(result.type),
+          type: TypeGarantiesFinancières.convertirEnValueType(result.àTraiter.type),
           dateÉchéance: result.àTraiter.dateÉchéance
             ? DateTime.convertirEnValueType(result.àTraiter.dateÉchéance)
             : undefined,

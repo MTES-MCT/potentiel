@@ -16,7 +16,7 @@ Quand(
       const format = exemple['format'];
       const dateConstitution = exemple[`date de constitution`];
       const contenuFichier = exemple['contenu fichier'];
-      const dateSoumission = exemple['date de dépôt'];
+      const dateSoumission = exemple['date de soumission'];
       const soumisPar = exemple['soumis par'];
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
@@ -27,14 +27,15 @@ Quand(
           identifiantProjetValue: identifiantProjet.formatter(),
           typeValue: typeGarantiesFinancières,
           dateConstitutionValue: new Date(dateConstitution).toISOString(),
-          dateÉchéanceValue: dateÉchéance ? new Date(dateÉchéance).toISOString() : undefined,
           soumisLeValue: new Date(dateSoumission).toISOString(),
           soumisParValue: soumisPar,
           attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
+          ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
         },
       });
       await sleep(500);
     } catch (error) {
+      console.log('ERREUR when', error);
       this.error = error as Error;
     }
   },

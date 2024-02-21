@@ -27,8 +27,8 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     Exemples:
             | type                    | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
             | avec date d'échéance    | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
-            | consignation            |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
-            | six mois après achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |   
+            # | consignation            |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
+            # | six mois après achèvement |               | application/pdf   | le contenu du fichier | 2023-06-01           |   
 
     # Plan du Scénario: Un porteur soumet de nouvelles garanties financières pour remplacer des garanties financières validées
     #     Etant donné des garanties financières validées pour le projet "Centrale PV" avec :

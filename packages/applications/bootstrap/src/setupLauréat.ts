@@ -32,6 +32,7 @@ export const setupLauréat = async () => {
 
   AbandonProjector.register();
   AbandonNotification.register();
+  GarantiesFinancièreProjector.register();
 
   const unsubscribeAbandonNotification = await subscribe<AbandonNotification.SubscriptionEvent>({
     name: 'notifications',

@@ -6,11 +6,11 @@ import { mediator } from 'mediateur';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 //import { NotFoundError } from '@potentiel-domain/core';
-import { expect } from 'chai';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { expect } from 'chai';
 
 Alors(
-  'les garanties financières devraient être consultables pour le projet "Centrale PV" avec :',
+  'les garanties financières devraient être consultables pour le projet {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
@@ -19,7 +19,7 @@ Alors(
     const format = exemple['format'];
     const dateConstitution = exemple[`date de constitution`];
     const contenu = exemple['contenu fichier'];
-    const dateSoumission = exemple['date de dépôt'];
+    const dateSoumission = exemple['date de soumission'];
     const région = exemple['région'];
 
     const {
@@ -44,12 +44,14 @@ Alors(
         },
       });
 
-    console.log('READMODEL', actualReadModel.àTraiter);
-
-    expect(actualReadModel.àTraiter).to.deep.equal({
-      type: typeGarantiesFinancières,
-      dateÉchéance,
-    });
+    expect(actualReadModel.àTraiter?.type.type).to.deep.equal(typeGarantiesFinancières);
+    if (dateÉchéance) {
+      expect(actualReadModel.àTraiter?.dateÉchéance?.date).to.deep.equal(new Date(dateÉchéance));
+    }
+    expect(actualReadModel.àTraiter?.dateConstitution?.date).to.deep.equal(
+      new Date(dateConstitution),
+    );
+    expect(actualReadModel.àTraiter?.soumisLe?.date).to.deep.equal(new Date(dateSoumission));
 
     // ASSERT ON FILE
 
