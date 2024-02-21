@@ -6,25 +6,25 @@ import { Routes } from '@potentiel-libraries/routes';
 
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
 
-import { rejeterGarantiesFinancièresAction } from './rejeterGarantiesFinancières.action';
+import { rejeterDépôtGarantiesFinancièresAction } from './rejeterDépôtGarantiesFinancières.action';
 
-type RejeterGarantiesFinancièresFormProps = {
+type RejeterDépôtGarantiesFinancièresFormProps = {
   identifiantProjet: string;
 };
 
-export const RejeterGarantiesFinancières = ({
+export const RejeterDépôtGarantiesFinancières = ({
   identifiantProjet,
-}: RejeterGarantiesFinancièresFormProps) => {
+}: RejeterDépôtGarantiesFinancièresFormProps) => {
   const router = useRouter();
 
   return (
     <ButtonWithFormInModal
       name="Rejeter"
       yesNo
-      description="Rejeter les garanties financières"
+      description="Rejeter la soumission de garanties financières"
       form={{
-        id: 'rejeter-garanties-financieres-form',
-        action: rejeterGarantiesFinancièresAction,
+        id: 'rejeter-dépôt-garanties-financieres-form',
+        action: rejeterDépôtGarantiesFinancièresAction,
         method: 'post',
         encType: 'multipart/form-data',
         omitMandatoryFieldsLegend: true,

@@ -1,50 +1,93 @@
 'use client';
 
 import React, { FC } from 'react';
-import { notFound } from 'next/navigation';
+import Input from '@codegouvfr/react-dsfr/Input';
+import Download from '@codegouvfr/react-dsfr/Download';
+import Button from '@codegouvfr/react-dsfr/Button';
 
-import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { Routes } from '@potentiel-libraries/routes';
 
-import { ModifierGarantiesFinancières } from './modifier/ModifierGarantiesFinancières';
-import { ConsulterGarantiesFinancières } from './consulter/ConsulterGarantiesFinancières';
+import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { formatDateForInput } from '@/utils/formatDateForInput';
 
-export type GarantiesFinancières = {
-  type: string;
-  dateÉchéance?: string;
-  dateConsitution: string;
-  attestationConstitution: string;
-};
+import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancieres';
+import { GarantiesFinancières } from '../TypeGarantiesFinancièresSelect';
 
 export type DétailsGarantiesFinancièresProps = {
   projet: ProjetBannerProps;
-  garantiesFinancieres: {
-    actuelles?: GarantiesFinancières;
-    dépôt?: GarantiesFinancières;
-  };
+  garantiesFinancieres: GarantiesFinancières;
 };
 
 export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancièresProps> = ({
   projet,
-  garantiesFinancieres: { actuelles, dépôt },
-}) => {
-  if (!actuelles && !dépôt) {
-    return notFound();
-  }
+  garantiesFinancieres,
+}) => (
+  <ColumnPageTemplate
+    banner={<ProjetBanner {...projet} />}
+    heading={<TitrePageGarantiesFinancières />}
+    leftColumn={{
+      className: 'flex-col gap-4',
+      children: (
+        <>
+          <Input
+            label="Type de garanties financières"
+            nativeInputProps={{
+              type: 'text',
+              value: garantiesFinancieres.type,
+              readOnly: true,
+              'aria-readonly': true,
+            }}
+          />
 
-  if (actuelles) {
-    return (
-      <ConsulterGarantiesFinancières
-        projet={projet}
-        garantiesFinancieres={actuelles}
-        // to do : ajouter les actions possible depuis la page.tsx
-        actions={['accorder', 'rejeter']}
-      />
-    );
-  }
+          {garantiesFinancieres.type === 'avec date d’échéance' &&
+            garantiesFinancieres.dateÉchéance && (
+              <Input
+                label="Date d'échéance"
+                nativeInputProps={{
+                  type: 'date',
+                  value: formatDateForInput(garantiesFinancieres.dateÉchéance),
+                  readOnly: true,
+                  'aria-readonly': true,
+                }}
+              />
+            )}
 
-  if (dépôt) {
-    return <ModifierGarantiesFinancières projet={projet} garantiesFinancieres={dépôt} />;
-  }
+          <Input
+            label="Date de constitution"
+            nativeInputProps={{
+              type: 'date',
+              value: formatDateForInput(garantiesFinancieres.dateConsitution),
+              readOnly: true,
+              'aria-readonly': true,
+            }}
+          />
 
-  return null;
-};
+          <Download
+            label="Attestation de constitution"
+            details="Consulter l'attestation de constitution transmise"
+            linkProps={{
+              href: Routes.Document.télécharger(garantiesFinancieres.attestationConstitution),
+              target: '_blank',
+            }}
+          />
+
+          <div className="flex flex-col md:flex-row gap-4 mt-5">
+            <Button
+              priority="secondary"
+              linkProps={{
+                href: Routes.Projet.details(projet.identifiantProjet),
+              }}
+              iconId="fr-icon-arrow-left-line"
+            >
+              Retour au détail du projet
+            </Button>
+          </div>
+        </>
+      ),
+    }}
+    rightColumn={{
+      children: <></>,
+    }}
+  />
+);

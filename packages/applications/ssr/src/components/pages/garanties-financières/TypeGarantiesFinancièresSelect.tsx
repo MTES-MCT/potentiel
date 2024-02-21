@@ -4,7 +4,23 @@ import Input from '@codegouvfr/react-dsfr/Input';
 
 import { formatDateForInput } from '@/utils/formatDateForInput';
 
-type TypeGarantiesFinancières = '6 mois après achèvement' | 'consignation' | 'avec date d’échéance';
+export type TypeGarantiesFinancières =
+  | '6 mois après achèvement'
+  | 'consignation'
+  | 'avec date d’échéance';
+
+export type GarantiesFinancières = {
+  dateConsitution: string;
+  attestationConstitution: string;
+} & (
+  | {
+      type: Exclude<TypeGarantiesFinancières, 'avec date d’échéance'>;
+    }
+  | {
+      type: Extract<TypeGarantiesFinancières, 'avec date d’échéance'>;
+      dateÉchéance: string;
+    }
+);
 
 export type TypeGarantiesFinancièresSelectProps = {
   id: string;
