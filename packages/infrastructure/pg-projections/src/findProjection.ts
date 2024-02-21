@@ -1,10 +1,10 @@
 import { executeSelect } from '@potentiel/pg-helpers';
 import { none, Option } from '@potentiel/monads';
-import { Projection } from '@potentiel-libraries/projection';
+import { Entity } from '@potentiel-domain/core';
 
 import { KeyValuePair } from './keyValuePair';
 
-export const findProjection = async <TProjection extends Projection>(
+export const findProjection = async <TProjection extends Entity>(
   id: `${TProjection['type']}|${string}`,
 ): Promise<Option<TProjection>> => {
   const result = await executeSelect<KeyValuePair<TProjection['type'], TProjection>>(

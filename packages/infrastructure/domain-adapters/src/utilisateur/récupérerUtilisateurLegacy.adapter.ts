@@ -1,4 +1,4 @@
-import { RécupérerUtilisateurPort, UtilisateurProjection } from '@potentiel-domain/utilisateur';
+import { RécupérerUtilisateurPort, UtilisateurEntity } from '@potentiel-domain/utilisateur';
 import { none } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 
@@ -17,7 +17,7 @@ export const récupérerUtilisateurAdapter: RécupérerUtilisateurPort = async (
   identifiantUtilisateur,
 ) => {
   const utilisateurs = await executeSelect<{
-    value: UtilisateurProjection;
+    value: UtilisateurEntity;
   }>(selectUtilisateurQuery, identifiantUtilisateur);
 
   if (!utilisateurs.length) {

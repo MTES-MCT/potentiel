@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { CandidatureProjection } from '../candidature.projection';
+import { CandidatureEntity } from '../candidature.entity';
 import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 
 export type ListerCandidaturesEligiblesPreuveRecanditureReadModel = Array<{
@@ -16,7 +16,7 @@ export type ListerCandidaturesEligiblesPreuveRecanditureReadModel = Array<{
 
 export type RécupérerCandidaturesEligiblesPreuveRecanditurePort = (
   identifiantUtilisateur: string,
-) => Promise<ReadonlyArray<CandidatureProjection>>;
+) => Promise<ReadonlyArray<CandidatureEntity>>;
 
 export type ListerCandidaturesEligiblesPreuveRecanditureDependencies = {
   récupérerCandidaturesEligiblesPreuveRecanditure: RécupérerCandidaturesEligiblesPreuveRecanditurePort;
@@ -52,7 +52,7 @@ const mapToReadModel = ({
   période,
   statut,
   dateDésignation,
-}: CandidatureProjection): ListerCandidaturesEligiblesPreuveRecanditureReadModel[number] => ({
+}: CandidatureEntity): ListerCandidaturesEligiblesPreuveRecanditureReadModel[number] => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(
     `${appelOffre}#${période}#${famille}#${numéroCRE}`,
   ),

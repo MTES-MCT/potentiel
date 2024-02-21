@@ -1,4 +1,4 @@
-import { Projection } from '@potentiel-libraries/projection';
+import { Entity } from '@potentiel-domain/core';
 
 type AppelOffreTypes =
   | 'autoconso'
@@ -228,4 +228,4 @@ export type AppelOffre = {
 } & DelaiRealisation &
   GarantiesFinancièresAppelOffre;
 
-export type AppelOffreProjection = Projection<'appel-offre', AppelOffre>;
+export type AppelOffreEntity = Entity<'appel-offre', AppelOffre>;

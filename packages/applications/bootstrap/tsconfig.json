@@ -43,9 +43,6 @@
     },
     {
       "path": "../../libraries/pg-helpers"
-    },
-    {
-      "path": "../../libraries/mediateur-middlewares"
     }
   ]
 }

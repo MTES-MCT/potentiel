@@ -7,17 +7,15 @@ import { setupAppelOffre } from './setupAppelOffre';
 import { setupTâche } from './setupTâche';
 import { setupUtilisateur } from './setupUtilisateur';
 import { setupRéseau } from './setupRéseau';
-import { seed } from './seed';
+import { logMiddleware } from './middlewares/log.middleware';
 
 export const bootstrap = async ({
   middlewares,
 }: {
   middlewares: Array<Middleware>;
 }): Promise<() => Promise<void>> => {
-  await seed();
-
   mediator.use({
-    middlewares,
+    middlewares: [logMiddleware, ...middlewares],
   });
 
   setupAppelOffre();

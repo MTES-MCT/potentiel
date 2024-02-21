@@ -9,16 +9,13 @@
       "path": "../../libraries/monads"
     },
     {
-      "path": "../../domain/common"
+      "path": "../core"
     },
     {
-      "path": "../../domain/document"
+      "path": "../common"
     },
     {
-      "path": "../../domain/document"
-    },
-    {
-      "path": "../../domain/core"
+      "path": "../document"
     }
   ]
 }

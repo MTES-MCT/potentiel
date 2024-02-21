@@ -4,7 +4,6 @@ import { isNone, isSome } from '@potentiel/monads';
 import { Abandon } from '@potentiel-domain/laureat';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
-import { AbandonProjection } from '@potentiel-domain/laureat/src/abandon/abandon.projection';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { removeProjection } from '../utils/removeProjection';
@@ -21,16 +20,16 @@ export const register = () => {
     const { type, payload } = event;
 
     if (type === 'RebuildTriggered') {
-      await removeProjection<AbandonProjection>(`abandon|${payload.id}`);
+      await removeProjection<Abandon.AbandonEntity>(`abandon|${payload.id}`);
       await removeProjection<Abandon.AbandonAvecRecandidatureSansPreuveProjection>(
         `abandon-avec-recandidature-sans-preuve|${payload.id}`,
       );
     } else {
       const { identifiantProjet } = payload;
 
-      const abandon = await findProjection<AbandonProjection>(`abandon|${identifiantProjet}`);
+      const abandon = await findProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`);
 
-      const abandonDefaultValue: Omit<AbandonProjection, 'type'> = {
+      const abandonDefaultValue: Omit<Abandon.AbandonEntity, 'type'> = {
         identifiantProjet,
         nomProjet: '',
         appelOffre: '',
@@ -47,7 +46,7 @@ export const register = () => {
         régionProjet: [],
       };
 
-      const abandonToUpsert: Omit<AbandonProjection, 'type'> = isSome(abandon)
+      const abandonToUpsert: Omit<Abandon.AbandonEntity, 'type'> = isSome(abandon)
         ? abandon
         : abandonDefaultValue;
 
@@ -59,7 +58,7 @@ export const register = () => {
             getLogger().error(new Error(`Projet inconnu !`), { identifiantProjet, message: event });
           }
 
-          await upsertProjection<AbandonProjection>(`abandon|${identifiantProjet}`, {
+          await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
             ...abandonDefaultValue,
             nomProjet: isSome(projet) ? projet.nom : 'Projet inconnu',
             appelOffre: isSome(projet) ? projet.appelOffre : `N/A`,
@@ -77,7 +76,7 @@ export const register = () => {
           });
           break;
         case 'AbandonAccordé-V1':
-          await upsertProjection<AbandonProjection>(`abandon|${identifiantProjet}`, {
+          await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
             ...abandonToUpsert,
             accordAccordéLe: payload.accordéLe,
             accordAccordéPar: payload.accordéPar,
@@ -87,7 +86,7 @@ export const register = () => {
           });
           break;
         case 'AbandonRejeté-V1':
-          await upsertProjection<AbandonProjection>(`abandon|${identifiantProjet}`, {
+          await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
             ...abandonToUpsert,
             rejetRejetéLe: payload.rejetéLe,
             rejetRejetéPar: payload.rejetéPar,
@@ -97,7 +96,7 @@ export const register = () => {
           });
           break;
         case 'ConfirmationAbandonDemandée-V1':
-          await upsertProjection<AbandonProjection>(`abandon|${identifiantProjet}`, {
+          await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
             ...abandonToUpsert,
             confirmationDemandéeLe: payload.confirmationDemandéeLe,
             confirmationDemandéePar: payload.confirmationDemandéePar,
@@ -107,7 +106,7 @@ export const register = () => {
           });
           break;
         case 'AbandonConfirmé-V1':
-          await upsertProjection<AbandonProjection>(`abandon|${identifiantProjet}`, {
+          await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
             ...abandonToUpsert,
             confirmationConfirméLe: payload.confirméLe,
             confirmationConfirméPar: payload.confirméPar,
@@ -116,7 +115,7 @@ export const register = () => {
           });
           break;
         case 'PreuveRecandidatureTransmise-V1':
-          await upsertProjection<AbandonProjection>(`abandon|${payload.identifiantProjet}`, {
+          await upsertProjection<Abandon.AbandonEntity>(`abandon|${payload.identifiantProjet}`, {
             ...abandonToUpsert,
             preuveRecandidature: payload.preuveRecandidature,
             preuveRecandidatureStatut: 'transmise',
@@ -128,7 +127,7 @@ export const register = () => {
           );
           break;
         case 'PreuveRecandidatureDemandée-V1':
-          await upsertProjection<AbandonProjection>(`abandon|${payload.identifiantProjet}`, {
+          await upsertProjection<Abandon.AbandonEntity>(`abandon|${payload.identifiantProjet}`, {
             ...abandonToUpsert,
             preuveRecandidatureDemandéeLe: payload.demandéeLe,
             preuveRecandidatureStatut: 'en-attente',

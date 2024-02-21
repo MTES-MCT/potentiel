@@ -4,3 +4,4 @@ export * from './loadAggregate';
 export * from './domainError';
 export * from './domainEvent';
 export * from './valueType';
+export * from './entity';

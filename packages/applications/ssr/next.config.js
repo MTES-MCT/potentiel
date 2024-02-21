@@ -9,7 +9,6 @@ const nextConfig = {
 
     if (isServer) {
       config.externals.push(/^@potentiel-/, 'mediateur');
-      config.externals.push('@potentiel-libraries/mediateur-middlewares');
     }
 
     return config;

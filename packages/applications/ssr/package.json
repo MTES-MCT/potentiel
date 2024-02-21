@@ -30,7 +30,6 @@
     "@potentiel-domain/tache": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-infrastructure/document-builder": "*",
-    "@potentiel-libraries/mediateur-middlewares": "*",
     "@potentiel-libraries/routes": "*",
     "@potentiel/monitoring": "*",
     "mediateur": "^0.1.0",

@@ -85,8 +85,8 @@ export * as StatutPreuveRecandidature from './statutPreuveRecandidature.valueTyp
 export * as Abandon from './abandon.valueType';
 export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
 
-// Projections
-export * from './abandon.projection';
+// Entities
+export * from './abandon.entity';
 
 // Ports
 export {

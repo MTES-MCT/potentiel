@@ -1,11 +1,9 @@
 import { appelsOffreData } from '@potentiel/domain-inmemory-referential';
 import { getLogger } from '@potentiel/monitoring';
-import {
-  createProjection,
-  removeProjectionByCategory,
-} from '@potentiel-infrastructure/pg-projections';
+import { removeProjectionByCategory } from '../utils/removeProjectionByCategory';
+import { createProjection } from '../utils/createProjection';
 
-export const seed = async () => {
+export const seedAppelOffre = async () => {
   getLogger().info('Starting to seed referential data...');
 
   // Delete all appel offre projections

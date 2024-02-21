@@ -1,6 +1,6 @@
-import { IdentifiantUtilisateur } from '.';
+import * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
 
-export type UtilisateurProjection = {
+export type UtilisateurEntity = {
   identifiantUtilisateur: IdentifiantUtilisateur.RawType;
   email: string;
   nomComplet: string;

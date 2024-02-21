@@ -9,10 +9,10 @@
       "path": "../../libraries/monads"
     },
     {
-      "path": "../../domain/common"
+      "path": "../common"
     },
     {
-      "path": "../../domain/core"
+      "path": "../core"
     }
   ]
 }

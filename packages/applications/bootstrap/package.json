@@ -21,7 +21,6 @@
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projections": "*",
     "@potentiel-infrastructure/notifications": "*",
-    "@potentiel-libraries/mediateur-middlewares": "*",
     "@potentiel/pg-helpers": "*",
     "mediateur": "^0.1.0"
   },

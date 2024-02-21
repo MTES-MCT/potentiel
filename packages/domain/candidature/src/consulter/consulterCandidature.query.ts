@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option, isNone } from '@potentiel/monads';
 
-import { CandidatureProjection } from '../candidature.projection';
+import { CandidatureEntity } from '../candidature.entity';
 import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { CandidatureInconnueErreur } from '../candidatureInconnue.error';
@@ -43,7 +43,7 @@ export type ConsulterCandidatureQuery = Message<
 
 export type RécupérerCandidaturePort = (
   identifiantProjet: string,
-) => Promise<Option<CandidatureProjection>>;
+) => Promise<Option<CandidatureEntity>>;
 
 export type ConsulterCandidatureDependencies = {
   récupérerCandidature: RécupérerCandidaturePort;
@@ -80,7 +80,7 @@ const mapToReadModel = ({
   statut,
   adressePostaleCandidat,
   technologie,
-}: CandidatureProjection): ConsulterCandidatureReadModel => {
+}: CandidatureEntity): ConsulterCandidatureReadModel => {
   return {
     appelOffre,
     candidat: {

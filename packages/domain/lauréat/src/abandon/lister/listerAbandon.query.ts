@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { AbandonProjection } from '../abandon.projection';
+import { AbandonEntity } from '../abandon.entity';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { StatutAbandon, StatutPreuveRecandidature } from '..';
 import { Option, isNone } from '@potentiel/monads';
@@ -37,7 +37,7 @@ export type ListerAbandonsPort = (args: {
   };
   région?: string;
 }) => Promise<{
-  items: ReadonlyArray<AbandonProjection>;
+  items: ReadonlyArray<AbandonEntity>;
   currentPage: number;
   itemsPerPage: number;
   totalItems: number;
@@ -56,7 +56,7 @@ export type ListerAbandonsPourPorteurPort = (args: {
     itemsPerPage: number;
   };
 }) => Promise<{
-  items: ReadonlyArray<AbandonProjection>;
+  items: ReadonlyArray<AbandonEntity>;
   currentPage: number;
   itemsPerPage: number;
   totalItems: number;
@@ -158,7 +158,7 @@ export const registerListerAbandonQuery = ({
   mediator.register('LISTER_ABANDONS_QUERY', handler);
 };
 
-const mapToReadModel = (projection: AbandonProjection): AbandonListItemReadModel => {
+const mapToReadModel = (projection: AbandonEntity): AbandonListItemReadModel => {
   return {
     ...projection,
     statut: StatutAbandon.convertirEnValueType(projection.statut),
