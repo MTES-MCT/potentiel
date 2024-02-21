@@ -8,7 +8,7 @@ import { AucunAbandonEnCours } from '../aucunAbandonEnCours.error';
 import * as StatutAbandon from '../statutAbandon.valueType';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { AbandonEntity } from '../abandon.entity';
-import { Find } from '@potentiel-domain/entity';
+import { Find } from '@potentiel-domain/core';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 import { StatutPreuveRecandidature } from '..';
 

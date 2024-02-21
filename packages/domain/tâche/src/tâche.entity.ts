@@ -1,6 +1,6 @@
-import { Projection } from '@potentiel-domain/entity';
+import { Entity } from '@potentiel-domain/core';
 
-export type TâcheEntity = Projection<
+export type TâcheEntity = Entity<
   'tâche',
   {
     identifiantProjet: string;

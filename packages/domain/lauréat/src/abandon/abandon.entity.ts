@@ -1,6 +1,6 @@
-import { Projection } from '@potentiel-domain/entity';
+import { Entity } from '@potentiel-domain/core';
 
-export type AbandonEntity = Projection<
+export type AbandonEntity = Entity<
   'abandon',
   {
     identifiantProjet: string;
@@ -41,7 +41,7 @@ export type AbandonEntity = Projection<
   }
 >;
 
-export type AbandonAvecRecandidatureSansPreuveProjection = Projection<
+export type AbandonAvecRecandidatureSansPreuveProjection = Entity<
   'abandon-avec-recandidature-sans-preuve',
   {
     identifiantProjet: string;

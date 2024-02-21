@@ -9,7 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-domain/entity": "*",
+    "@potentiel-domain/core": "*",
     "@potentiel/pg-helpers": "*",
     "pg-format": "^1.0.4"
   },

@@ -1,6 +1,6 @@
-import { Projection } from '@potentiel-domain/entity';
+import { Entity } from '@potentiel-domain/core';
 
-export type GestionnaireRéseauEntity = Projection<
+export type GestionnaireRéseauEntity = Entity<
   'gestionnaire-réseau',
   {
     codeEIC: string;

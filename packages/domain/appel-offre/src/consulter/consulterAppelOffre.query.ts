@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { Find } from '@potentiel-domain/entity';
+import { Find } from '@potentiel-domain/core';
 import { AppelOffre, AppelOffreEntity } from '../appelOffre.entity';
 import { isNone } from '@potentiel/monads';
 import { AppelOffreInconnuErreur } from '../appelOffreInconnu.error';

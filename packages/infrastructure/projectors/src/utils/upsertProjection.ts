@@ -1,7 +1,7 @@
-import { Projection } from '@potentiel-domain/entity';
+import { Entity } from '@potentiel-domain/core';
 import { executeQuery } from '@potentiel/pg-helpers';
 
-export const upsertProjection = async <TProjection extends Projection>(
+export const upsertProjection = async <TProjection extends Entity>(
   id: `${TProjection['type']}|${string}`,
   readModel: Omit<TProjection, 'type'>,
 ): Promise<void> => {

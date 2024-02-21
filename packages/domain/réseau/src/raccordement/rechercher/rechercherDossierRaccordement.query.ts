@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { List } from '@potentiel-domain/entity';
+import { List } from '@potentiel-domain/core';
 import { RéférenceRaccordementIdentifiantProjetEntity } from '../raccordement.entity';
 
 export type RechercherDossierRaccordementReadModel = ReadonlyArray<{

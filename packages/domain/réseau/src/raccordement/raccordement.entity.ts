@@ -1,4 +1,4 @@
-import { Projection } from '@potentiel-domain/entity';
+import { Entity } from '@potentiel-domain/core';
 
 type DossierRaccordement = {
   référence: string;
@@ -18,7 +18,7 @@ type DossierRaccordement = {
   misÀJourLe: string;
 };
 
-export type RaccordementEntity = Projection<
+export type RaccordementEntity = Entity<
   'raccordement',
   {
     identifiantProjet: string;
@@ -34,9 +34,9 @@ export type RaccordementEntity = Projection<
   }
 >;
 
-export type DossierRaccordementEntity = Projection<'dossier-raccordement', DossierRaccordement>;
+export type DossierRaccordementEntity = Entity<'dossier-raccordement', DossierRaccordement>;
 
-export type RéférenceRaccordementIdentifiantProjetEntity = Projection<
+export type RéférenceRaccordementIdentifiantProjetEntity = Entity<
   'référence-raccordement-projet',
   {
     identifiantProjet: string;

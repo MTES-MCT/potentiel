@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
-import { Find } from '@potentiel-domain/entity';
+import { Find } from '@potentiel-domain/core';
 import { DossierRaccordementEntity } from '../raccordement.entity';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';

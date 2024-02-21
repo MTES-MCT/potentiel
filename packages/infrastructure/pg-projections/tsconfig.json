@@ -10,9 +10,6 @@
     },
     {
       "path": "../../libraries/pg-helpers"
-    },
-    {
-      "path": "../../domain/entity"
     }
   ]
 }
