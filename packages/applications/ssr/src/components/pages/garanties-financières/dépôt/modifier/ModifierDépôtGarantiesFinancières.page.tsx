@@ -9,13 +9,12 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Routes } from '@potentiel-libraries/routes';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { Form } from '@/components/atoms/form/Form';
 import { formatDateForInput } from '@/utils/formatDateForInput';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancieres';
-import { DétailsGarantiesFinancièresProps } from '../../détails/DétailsGarantiesFinancières.page';
 import {
   GarantiesFinancières,
   TypeGarantiesFinancièresSelect,
@@ -30,7 +29,7 @@ import { AnnulerDépôtGarantiesFinancières } from './annuler/AnnulerDépôtGar
 type AvailableActions = Array<'valider' | 'rejeter' | 'annuler'>;
 
 export type ModifierDépôtGarantiesFinancièresProps = {
-  projet: DétailsGarantiesFinancièresProps['projet'];
+  projet: ProjetBannerProps;
   garantiesFinancieres: GarantiesFinancières;
   showWarning?: true;
   actions: AvailableActions;
