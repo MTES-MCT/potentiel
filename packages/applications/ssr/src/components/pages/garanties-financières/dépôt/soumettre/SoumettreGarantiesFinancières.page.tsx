@@ -15,8 +15,8 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { formatDateForInput } from '@/utils/formatDateForInput';
 
-import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancieres';
-import { TypeGarantiesFinancièresSelect } from '../TypeGarantiesFinancièresSelect';
+import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancieres';
+import { TypeGarantiesFinancièresSelect } from '../../TypeGarantiesFinancièresSelect';
 
 import { soumettreGarantiesFinancièresAction } from './soumettreGarantiesFinancières.action';
 
@@ -43,7 +43,7 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
             method="POST"
             encType="multipart/form-data"
             action={soumettreGarantiesFinancièresAction}
-            heading="Soumettre des garanties financières"
+            heading="Soumettre un dépôt de garanties financières"
             onSuccess={() => router.push(Routes.Projet.details(projet.identifiantProjet))}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >

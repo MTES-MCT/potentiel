@@ -6,7 +6,7 @@ import {
 } from './SoumettreGarantiesFinancières.page';
 
 const meta = {
-  title: 'Pages/Garanties-financières/Soumettre/SoumettreGarantiesFinancières',
+  title: 'Pages/Garanties-financières/Dépôt/Soumettre',
   component: SoumettreGarantiesFinancièresPage,
   parameters: {},
   tags: ['autodocs'],
