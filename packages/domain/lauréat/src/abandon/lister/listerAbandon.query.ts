@@ -1,9 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonEntity } from '../abandon.entity';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import {
+  DateTime,
+  IdentifiantProjet,
+  RécupérerRégionDrealPort,
+  RégionNonTrouvéeError,
+} from '@potentiel-domain/common';
 import { StatutAbandon, StatutPreuveRecandidature } from '..';
-import { Option, isNone } from '@potentiel/monads';
-import { RégionNonTrouvéeError } from '../régionNonTrouvée.error';
+import { isNone } from '@potentiel/monads';
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -62,10 +66,6 @@ export type ListerAbandonsPourPorteurPort = (args: {
   totalItems: number;
 }>;
 
-export type RécupérerRégionDrealPort = (
-  identifiantUtilisateur: string,
-) => Promise<Option<{ région: string }>>;
-
 export type ListerAbandonsQuery = Message<
   'LISTER_ABANDONS_QUERY',
   {
@@ -85,13 +85,13 @@ export type ListerAbandonsQuery = Message<
 export type ListerAbandonDependencies = {
   listerAbandonsPourPorteur: ListerAbandonsPourPorteurPort;
   listerAbandons: ListerAbandonsPort;
-  récupérerRégionDrealAdapter: RécupérerRégionDrealPort;
+  récupérerRégionDreal: RécupérerRégionDrealPort;
 };
 
 export const registerListerAbandonQuery = ({
   listerAbandonsPourPorteur,
   listerAbandons,
-  récupérerRégionDrealAdapter,
+  récupérerRégionDreal,
 }: ListerAbandonDependencies) => {
   const handler: MessageHandler<ListerAbandonsQuery> = async ({
     recandidature,
@@ -125,7 +125,7 @@ export const registerListerAbandonQuery = ({
     }
 
     if (rôle === 'dreal') {
-      const région = await récupérerRégionDrealAdapter(email);
+      const région = await récupérerRégionDreal(email);
       if (isNone(région)) {
         throw new RégionNonTrouvéeError();
       }
