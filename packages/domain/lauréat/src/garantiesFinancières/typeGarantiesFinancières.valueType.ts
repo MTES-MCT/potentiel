@@ -6,6 +6,9 @@ export type RawType = (typeof types)[number];
 
 export type ValueType = ReadonlyValueType<{
   type: RawType;
+  estConsignation: () => boolean;
+  estAvecDateÉchéance: () => boolean;
+  estSixMoisAprèsAchèvement: () => boolean;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -16,6 +19,15 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
     estÉgaleÀ(valueType) {
       return this.type === valueType.type;
+    },
+    estConsignation() {
+      return this.type === 'consignation';
+    },
+    estAvecDateÉchéance() {
+      return this.type === "avec date d'échéance";
+    },
+    estSixMoisAprèsAchèvement() {
+      return this.type === 'six mois après achèvement';
     },
   };
 };

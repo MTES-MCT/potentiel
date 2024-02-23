@@ -48,10 +48,10 @@ export async function soumettre(
   if (dateConstitution.estDansLeFutur()) {
     throw new DateConstitutionDansLeFutur();
   }
-  if (type.estÉgaleÀ(TypeGarantiesFinancières.avecDateÉchéance) && !dateÉchéance) {
+  if (type.estAvecDateÉchéance() && !dateÉchéance) {
     throw new DateÉchéanceManquante();
   }
-  if (!type.estÉgaleÀ(TypeGarantiesFinancières.avecDateÉchéance) && dateÉchéance) {
+  if (!type.estAvecDateÉchéance() && dateÉchéance) {
     throw new DateÉchéanceNonAttendue();
   }
   const event: GarantiesFinancièresSoumisesEvent = {
