@@ -372,9 +372,10 @@ Quand(
 );
 
 Quand(
-  `le porteur transmet le projet éliminé {string} comme preuve de recandidature suite à l'abandon du projet {string} avec :`,
+  `le porteur transmet le projet {lauréat-éliminé} {string} comme preuve de recandidature suite à l'abandon du projet {string} avec :`,
   async function (
     this: PotentielWorld,
+    statutProjet: 'lauréat' | 'éliminé',
     preuveRecandidature: string,
     projetAbandonné: string,
     table: DataTable,
@@ -389,50 +390,10 @@ Quand(
       const { identifiantProjet: identifiantProjetAbandonné } =
         this.lauréatWorld.rechercherLauréatFixture(projetAbandonné);
       const { identifiantProjet: identifiantProjetPreuveRecandidature } =
-        this.lauréatWorld.rechercherLauréatFixture(preuveRecandidature);
-      const email = 'validateur@test.test';
+        statutProjet === 'lauréat'
+          ? this.lauréatWorld.rechercherLauréatFixture(preuveRecandidature)
+          : this.eliminéWorld.rechercherEliminéFixture(preuveRecandidature);
 
-      this.lauréatWorld.abandonWorld.preuveRecandidature = identifiantProjetPreuveRecandidature;
-      this.lauréatWorld.abandonWorld.dateTransmissionPreuveRecandidature =
-        dateTransmissionPreuveRecandidature;
-      this.lauréatWorld.abandonWorld.utilisateur =
-        IdentifiantUtilisateur.convertirEnValueType(email);
-
-      await mediator.send<Abandon.AbandonUseCase>({
-        type: 'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
-        data: {
-          dateNotificationValue: new Date(dateNotificationProjet).toISOString(),
-          identifiantProjetValue: identifiantProjetAbandonné.formatter(),
-          preuveRecandidatureValue: identifiantProjetPreuveRecandidature.formatter(),
-          identifiantUtilisateurValue: email,
-          dateTransmissionPreuveRecandidatureValue: dateTransmissionPreuveRecandidature.formatter(),
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  `le porteur transmet le projet lauréat {string} comme preuve de recandidature suite à l'abandon du projet {string} avec :`,
-  async function (
-    this: PotentielWorld,
-    preuveRecandidature: string,
-    projetAbandonné: string,
-    table: DataTable,
-  ) {
-    try {
-      const exemple = table.rowsHash();
-      const dateNotificationProjet = exemple['La date de notification du projet'] ?? '01/01/2024';
-      const dateTransmissionPreuveRecandidature = DateTime.convertirEnValueType(
-        new Date('2024-01-24').toISOString(),
-      );
-
-      const { identifiantProjet: identifiantProjetAbandonné } =
-        this.lauréatWorld.rechercherLauréatFixture(projetAbandonné);
-      const { identifiantProjet: identifiantProjetPreuveRecandidature } =
-        this.lauréatWorld.rechercherLauréatFixture(preuveRecandidature);
       const email = 'validateur@test.test';
 
       this.lauréatWorld.abandonWorld.preuveRecandidature = identifiantProjetPreuveRecandidature;
