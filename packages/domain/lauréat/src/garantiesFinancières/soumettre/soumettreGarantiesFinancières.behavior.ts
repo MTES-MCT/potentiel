@@ -7,6 +7,7 @@ import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggrega
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DateConstitutionDansLeFutur } from '../dateConstitutionDansLeFutur.error';
 import { DateÉchéanceManquante } from '../dateÉchéanceManquante.error';
+import { DateÉchéanceNonAttendue } from '../dateÉchéanceNonAttendue.error';
 
 export type GarantiesFinancièresSoumisesEvent = DomainEvent<
   'GarantiesFinancièresSoumises-V1',
@@ -49,6 +50,9 @@ export async function soumettre(
   }
   if (type.estÉgaleÀ(TypeGarantiesFinancières.avecDateÉchéance) && !dateÉchéance) {
     throw new DateÉchéanceManquante();
+  }
+  if (!type.estÉgaleÀ(TypeGarantiesFinancières.avecDateÉchéance) && dateÉchéance) {
+    throw new DateÉchéanceNonAttendue();
   }
   const event: GarantiesFinancièresSoumisesEvent = {
     type: 'GarantiesFinancièresSoumises-V1',

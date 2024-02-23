@@ -67,15 +67,16 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | type          | avec date d'échéance |     
             | dateÉchéance  |                      |     
         Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières" 
- 
-    # Plan du Scénario: Erreur si date de d'échéance non compatible avec le type
-    #     Quand le porteur soumet des garanties financières pour le projet "Centrale éolienne 20" avec un type non compatible avec une date d'échéance, avec : 
-    #     | type | <type> |   
-    #     Alors l'utilisateur devrait être informé que "Vous ne pouvez pas ajouter une date d'échéance pour le type de garanties financières renseigné"
-    # Exemples:
-    #         | type                    |
-    #         | consignation            |
-    #         | six mois après achèvement |
+    @Select
+    Plan du Scénario: Erreur si date de d'échéance non compatible avec le type
+        Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+            | type | <type>                |   
+            | date d'échéance | 2028-01-01 |   
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas renseigner de date d'échéance pour ce type de garanties financières"
+    Exemples:
+            | type                      |
+            | consignation              |
+            | six mois après achèvement |
     @select
     Scénario: Erreur si un dépôt a déjà été soumis
         Etant donné des garanties financières à traiter pour le projet "Centrale PV" avec :
