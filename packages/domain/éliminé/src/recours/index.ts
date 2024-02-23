@@ -1,97 +1,57 @@
-import { AccorderAbandonUseCase } from './accorder/accorderRecours.usecase';
-import { AnnulerAbandonUseCase } from './annuler/annulerRecours.usecase';
-import { AnnulerRejetAbandonUseCase } from './annulerRejet/annulerRejetAbandon.usecase';
-import { ConfirmerAbandonUseCase } from './confirmer/confirmerAbandon.usecase';
+import { AccorderRecoursUseCase } from './accorder/accorderRecours.usecase';
+import { AnnulerRecoursUseCase } from './annuler/annulerRecours.usecase';
 import {
-  ConsulterAbandonQuery,
-  ConsulterAbandonReadModel,
-} from './consulter/consulterAbandon.query';
-import { DemanderAbandonUseCase } from './demander/demanderRecours.usecase';
-import { DemanderConfirmationAbandonUseCase } from './demanderConfirmation/demanderConfirmationAbandon.usecase';
+  ConsulterRecoursQuery,
+  ConsulterRecoursReadModel,
+} from './consulter/consulterRecours.query';
+import { DemanderRecoursUseCase } from './demander/demanderRecours.usecase';
 import {
-  ListerAbandonsQuery,
-  ListerAbandonReadModel,
-  ListerAbandonsPourPorteurPort,
-  ListerAbandonsPort,
+  ListerRecoursQuery,
+  ListerRecoursReadModel,
+  ListerRecoursPourPorteurPort,
+  ListerRecoursPort,
   RécupérerRégionDrealPort,
-} from './lister/listerAbandon.query';
-import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
-import { DemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.usecase';
-import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
-import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonAvecRecandidatureÀRelancer.query';
-import { DétecterAbandonQuery } from './détecter/détecterAbandon.query';
-import {
-  BuildModèleRéponseAbandonPort,
-  GénérerModèleRéponseAbandonQuery,
-  GénérerModèleRéponseAbandonReadModel,
-} from './générerModèleRéponse/générerModèleRéponseAbandon.query';
+} from './lister/listerRecours.query';
+import { RejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase';
+import { DétecterRecoursQuery } from './détecter/détecterRecours.query';
 
 // Query
-export type AbandonQuery =
-  | DétecterAbandonQuery
-  | ConsulterAbandonQuery
-  | ListerAbandonsQuery
-  | ListerAbandonsAvecRecandidatureÀRelancerQuery
-  | GénérerModèleRéponseAbandonQuery;
+export type RecoursQuery = DétecterRecoursQuery | ConsulterRecoursQuery | ListerRecoursQuery;
 
-export {
-  DétecterAbandonQuery,
-  ConsulterAbandonQuery,
-  ListerAbandonsQuery,
-  ListerAbandonsAvecRecandidatureÀRelancerQuery,
-  GénérerModèleRéponseAbandonQuery,
-};
+export { DétecterRecoursQuery, ConsulterRecoursQuery, ListerRecoursQuery };
 
 // ReadModel
-export { ConsulterAbandonReadModel, ListerAbandonReadModel, GénérerModèleRéponseAbandonReadModel };
+export { ConsulterRecoursReadModel, ListerRecoursReadModel };
 
 // UseCases
-export type AbandonUseCase =
-  | AccorderAbandonUseCase
-  | AnnulerAbandonUseCase
-  | AnnulerRejetAbandonUseCase
-  | ConfirmerAbandonUseCase
-  | DemanderAbandonUseCase
-  | DemanderConfirmationAbandonUseCase
-  | RejeterAbandonUseCase
-  | TransmettrePreuveRecandidatureAbandonUseCase
-  | DemanderPreuveRecandidatureAbandonUseCase;
+export type RecoursUseCase =
+  | AccorderRecoursUseCase
+  | AnnulerRecoursUseCase
+  | DemanderRecoursUseCase
+  | RejeterRecoursUseCase;
 
 export {
-  AccorderAbandonUseCase,
-  AnnulerAbandonUseCase,
-  AnnulerRejetAbandonUseCase,
-  ConfirmerAbandonUseCase,
-  DemanderAbandonUseCase,
-  DemanderConfirmationAbandonUseCase,
-  RejeterAbandonUseCase,
+  AccorderRecoursUseCase,
+  AnnulerRecoursUseCase,
+  DemanderRecoursUseCase,
+  RejeterRecoursUseCase,
 };
 
 // Event
-export { AbandonEvent } from './recours.aggregate';
-export { AbandonAnnuléEvent } from './annuler/annulerRecours.behavior';
-export { ConfirmationAbandonDemandéeEvent } from './demanderConfirmation/demanderConfirmationAbandon.behavior';
-export { AbandonConfirméEvent } from './confirmer/confirmerAbandon.behavior';
-export { AbandonRejetéEvent } from './rejeter/rejeterAbandon.behavior';
-export { PreuveRecandidatureDemandéeEvent } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.behavior';
-export { PreuveRecandidatureTransmiseEvent } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
+export { RecoursEvent } from './recours.aggregate';
+export { RecoursAnnuléEvent } from './annuler/annulerRecours.behavior';
+export { RecoursRejetéEvent } from './rejeter/rejeterRecours.behavior';
 
 // Register
-export { registerAbandonQueries, registerAbandonUseCases } from './abandon.register';
+export { registerRecoursQueries, registerRecoursUseCases } from './recours.register';
 
 // ValueTypes
-export * as StatutAbandon from './statutRecours.valueType';
-export * as StatutPreuveRecandidature from './statutPreuveRecandidature.valueType';
-export * as Abandon from './abandon.valueType';
+export * as StatutRecours from './statutRecours.valueType';
+export * as Recours from './recours.valueType';
 export * as TypeDocumentRecours from './typeDocumentRecours.valueType';
 
 // Entities
-export * from './abandon.entity';
+export * from './recours.entity';
 
 // Ports
-export {
-  ListerAbandonsPourPorteurPort,
-  BuildModèleRéponseAbandonPort,
-  ListerAbandonsPort,
-  RécupérerRégionDrealPort,
-};
+export { ListerRecoursPourPorteurPort, ListerRecoursPort, RécupérerRégionDrealPort };
