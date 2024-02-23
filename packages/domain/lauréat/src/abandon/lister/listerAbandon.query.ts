@@ -1,11 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonEntity } from '../abandon.entity';
-import {
-  DateTime,
-  IdentifiantProjet,
-  RécupérerRégionDrealPort,
-  RégionNonTrouvéeError,
-} from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet, CommonPort, CommonError } from '@potentiel-domain/common';
 import { StatutAbandon, StatutPreuveRecandidature } from '..';
 import { isNone } from '@potentiel/monads';
 
@@ -85,7 +80,7 @@ export type ListerAbandonsQuery = Message<
 export type ListerAbandonDependencies = {
   listerAbandonsPourPorteur: ListerAbandonsPourPorteurPort;
   listerAbandons: ListerAbandonsPort;
-  récupérerRégionDreal: RécupérerRégionDrealPort;
+  récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerAbandonQuery = ({
@@ -127,7 +122,7 @@ export const registerListerAbandonQuery = ({
     if (rôle === 'dreal') {
       const région = await récupérerRégionDreal(email);
       if (isNone(région)) {
-        throw new RégionNonTrouvéeError();
+        throw new CommonError.RégionNonTrouvéeError();
       }
 
       const abandons = await listerAbandons({

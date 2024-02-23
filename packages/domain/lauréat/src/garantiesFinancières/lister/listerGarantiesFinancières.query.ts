@@ -1,12 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { isNone } from '@potentiel/monads';
-import {
-  IdentifiantProjet,
-  DateTime,
-  RécupérerRégionDrealPort,
-  RégionNonTrouvéeError,
-} from '@potentiel-domain/common';
+import { IdentifiantProjet, DateTime, CommonPort, CommonError } from '@potentiel-domain/common';
 
 import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '..';
 import { AucunesGarantiesFinancières } from '../aucunesGarantiesFinancières.error';
@@ -79,7 +74,7 @@ export type ListerGarantiesFinancièresPort = (args: {
 
 export type ListerGarantiesFinancièresDependencies = {
   listerGarantiesFinancières: ListerGarantiesFinancièresPort;
-  récupérerRégionDreal: RécupérerRégionDrealPort;
+  récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerGarantiesFinancièresQuery = ({
@@ -95,7 +90,7 @@ export const registerListerGarantiesFinancièresQuery = ({
     if (utilisateur.rôle === 'dreal') {
       const région = await récupérerRégionDreal(utilisateur.email);
       if (isNone(région)) {
-        throw new RégionNonTrouvéeError();
+        throw new CommonError.RégionNonTrouvéeError();
       }
 
       const result = await listerGarantiesFinancières({
