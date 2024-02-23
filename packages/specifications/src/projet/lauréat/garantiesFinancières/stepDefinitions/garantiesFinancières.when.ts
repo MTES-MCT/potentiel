@@ -11,13 +11,13 @@ Quand(
     const exemple = dataTable.rowsHash();
 
     try {
-      const typeGarantiesFinancières = exemple['type'];
-      const dateÉchéance = exemple[`date d'échéance`];
-      const format = exemple['format'];
-      const dateConstitution = exemple[`date de constitution`];
-      const contenuFichier = exemple['contenu fichier'];
-      const dateSoumission = exemple['date de soumission'];
-      const soumisPar = exemple['soumis par'];
+      const typeGarantiesFinancières = exemple['type'] || 'Consignation';
+      const dateÉchéance = exemple[`date d'échéance`] || undefined;
+      const format = exemple['format'] || 'application/pdf';
+      const dateConstitution = exemple[`date de constitution`] || '2024-01-01';
+      const contenuFichier = exemple['contenu fichier'] || 'contenu fichier';
+      const dateSoumission = exemple['date de soumission'] || '2024-01-02';
+      const soumisPar = exemple['soumis par'] || 'user@test.test';
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -35,7 +35,6 @@ Quand(
       });
       await sleep(500);
     } catch (error) {
-      console.log('ERREUR when', error);
       this.error = error as Error;
     }
   },

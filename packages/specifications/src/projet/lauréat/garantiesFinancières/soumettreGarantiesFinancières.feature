@@ -73,19 +73,11 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     #         | type                    |
     #         | consignation            |
     #         | six mois après achèvement |
-
-    # Scénario: Erreur si un dépôt a déjà été soumis
-    #     Etant donné des garanties financières à traiter pour le projet "Centrale éolienne 20" avec :
-    #         | type                 | avec date d'échéance          |
-    #         | date d'échéance      | 2027-12-01                    |
-    #         | format               | application/pdf               |
-    #         | contenu fichier      | le contenu du fichier         |
-    #         | date de constitution | 2021-12-01                    |
-    #         | date de soumission   | 2023-08-11                    | 
-    #     Quand le porteur dépose des garanties financières pour le projet "Centrale éolienne 20" avec :
-    #         | type                 | consignation                  |
-    #         | format               | application/pdf               |
-    #         | contenu fichier      | le contenu du fichier         |
-    #         | date de constitution | 2021-12-02                    |
-    #         | date de dépôt        | 2023-08-12                    |             
-    #     Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières en attente de validation pour ce projet"              
+    @select
+    Scénario: Erreur si un dépôt a déjà été soumis
+        Etant donné des garanties financières à traiter pour le projet "Centrale PV" avec :
+            | type                 | avec date d'échéance          |
+            | date d'échéance      | 2027-12-01                    |
+         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+            | type                 | consignation                  |          
+        Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières en attente de validation pour ce projet"              

@@ -6,7 +6,7 @@ import {
   applyGarantiesFinancièresSoumises,
   soumettre,
 } from './soumettre/soumettreGarantiesFinancières.behavior';
-import { TypeGarantiesFinancières } from '.';
+import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '.';
 import { AucunesGarantiesFinancières } from './aucunesGarantiesFinancières.error';
 import {
   GarantiesFinancièresEnAttenteNotifiéEvent,
@@ -19,6 +19,7 @@ export type GarantiesFinancièresEvent =
   | GarantiesFinancièresEnAttenteNotifiéEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
+  statut?: StatutGarantiesFinancières.ValueType;
   validées?: {
     type: TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;

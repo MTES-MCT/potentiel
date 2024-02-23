@@ -2,7 +2,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { DocumentProjet } from '@potentiel-domain/document';
-import { TypeGarantiesFinancières } from '..';
+import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '..';
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
@@ -41,6 +41,7 @@ export async function soumettre(
     soumisPar,
   }: Options,
 ) {
+  this.statut?.vérifierQueLeChangementDeStatutEstPossibleEn(StatutGarantiesFinancières.àTraiter);
   const event: GarantiesFinancièresSoumisesEvent = {
     type: 'GarantiesFinancièresSoumises-V1',
     payload: {
@@ -63,6 +64,7 @@ export function applyGarantiesFinancièresSoumises(
     payload: { type, dateÉchéance, dateConstitution, soumisLe },
   }: GarantiesFinancièresSoumisesEvent,
 ) {
+  this.statut = StatutGarantiesFinancières.àTraiter;
   this.àTraiter = {
     type: TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),

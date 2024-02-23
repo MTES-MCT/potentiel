@@ -45,7 +45,7 @@ export {
 export * as GarantiesFinancières from './garantiesFinancières.valueType';
 export * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
-
+export * as StatutGarantiesFinancières from './statutGarantiesFinancières.valueType';
 // Projections
 export * from './garantiesFinancières.projection';
 

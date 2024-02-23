@@ -2,6 +2,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
+import { StatutGarantiesFinancières } from '..';
 
 export type GarantiesFinancièresEnAttenteNotifiéEvent = DomainEvent<
   'GarantiesFinancièresEnAttenteNotifié-V1',
@@ -38,6 +39,7 @@ export function applyNotifierGarantiesFinancièresEnAttente(
   this: GarantiesFinancièresAggregate,
   { payload: { dateLimiteSoumission } }: GarantiesFinancièresEnAttenteNotifiéEvent,
 ) {
+  this.statut = StatutGarantiesFinancières.enAttente;
   this.enAttente = {
     dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
   };

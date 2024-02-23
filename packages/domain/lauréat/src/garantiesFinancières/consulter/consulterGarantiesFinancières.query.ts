@@ -4,15 +4,18 @@ import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 
 import { Find } from '@potentiel-libraries/projection';
-import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '..';
+import {
+  StatutGarantiesFinancières,
+  TypeDocumentGarantiesFinancières,
+  TypeGarantiesFinancières,
+} from '..';
 import { AucunesGarantiesFinancières } from '../aucunesGarantiesFinancières.error';
 import { GarantiesFinancièresEntity } from '../garantiesFinancières.projection';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 export type ConsulterGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  //TODO : valueType pour le statut de GF
-  statut: string;
+  statut: StatutGarantiesFinancières.ValueType;
   dernièreMiseÀJour: DateTime.ValueType;
 
   validées?: {
@@ -96,7 +99,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
 
     return {
       identifiantProjet,
-      statut: result.statut,
+      statut: StatutGarantiesFinancières.convertirEnValueType(result.statut),
       dernièreMiseÀJour: DateTime.convertirEnValueType(result.misÀJourLe),
       validées,
       àTraiter,
