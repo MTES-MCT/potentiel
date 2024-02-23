@@ -5,20 +5,23 @@ import {
 import { SoumettreGarantiesFinancièresUseCase } from './soumettre/soumettreGarantiesFinancières.usecase';
 import { NotifierGarantiesFinancièresEnAttenteUseCase } from './notifierGarantiesFinancièresEnAttente/notifierGarantiesFinancièresEnAttente.usecase';
 import {
-  ListerGarantiesFinancièresÀTraiterPort,
-  ListerGarantiesFinancièresÀTraiterQuery,
-  ListerGarantiesFinancièresÀTraiterReadModel,
-} from './lister/listerGarantiesFinancièresÀTraiter.query';
+  ListerGarantiesFinancièresPort,
+  ListerGarantiesFinancièresQuery,
+  ListerGarantiesFinancièresReadModel,
+} from './lister/listerGarantiesFinancières.query';
 
 // Query
 export type GarantiesFinancièresQuery =
   | ConsulterGarantiesFinancièresQuery
-  | ListerGarantiesFinancièresÀTraiterQuery;
+  | ListerGarantiesFinancièresQuery;
 
-export { ConsulterGarantiesFinancièresQuery, ListerGarantiesFinancièresÀTraiterQuery };
+export { ConsulterGarantiesFinancièresQuery, ListerGarantiesFinancièresQuery };
 
 // ReadModel
-export { ConsulterGarantiesFinancièresReadModel, ListerGarantiesFinancièresÀTraiterReadModel };
+export {
+  ConsulterGarantiesFinancièresReadModel,
+  ListerGarantiesFinancièresReadModel as ListerGarantiesFinancièresÀTraiterReadModel,
+};
 
 // UseCases
 export type GarantiesFinancièresUseCase =
@@ -47,4 +50,4 @@ export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinan
 export * from './garantiesFinancières.projection';
 
 // Ports
-export { ListerGarantiesFinancièresÀTraiterPort };
+export { ListerGarantiesFinancièresPort };

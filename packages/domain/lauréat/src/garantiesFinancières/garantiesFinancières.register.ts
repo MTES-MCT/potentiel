@@ -8,12 +8,12 @@ import { registerNotifierGarantiesFinancièresEnAttenteCommand } from './notifie
 import { registerSoumettreGarantiesFinancièresUseCase } from './soumettre/soumettreGarantiesFinancières.usecase';
 import { registerNotifierGarantiesFinancièresEnAttenteUseCase } from './notifierGarantiesFinancièresEnAttente/notifierGarantiesFinancièresEnAttente.usecase';
 import {
-  ListerGarantiesFinancièresÀTraiterDependencies,
-  registerListerGarantiesFinancièresÀTraiterQuery,
-} from './lister/listerGarantiesFinancièresÀTraiter.query';
+  ListerGarantiesFinancièresDependencies,
+  registerListerGarantiesFinancièresQuery,
+} from './lister/listerGarantiesFinancières.query';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
-  ListerGarantiesFinancièresÀTraiterDependencies;
+  ListerGarantiesFinancièresDependencies;
 
 export type GarantiesFinancièresCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -33,5 +33,5 @@ export const registerGarantiesFinancièresQueries = (
   dependencies: GarantiesFinancièresQueryDependencies,
 ) => {
   registerConsulterGarantiesFinancièresQuery(dependencies);
-  registerListerGarantiesFinancièresÀTraiterQuery(dependencies);
+  registerListerGarantiesFinancièresQuery(dependencies);
 };

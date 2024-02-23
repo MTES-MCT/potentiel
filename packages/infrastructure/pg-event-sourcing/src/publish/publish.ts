@@ -10,7 +10,6 @@ export const publish = async (
 ) => {
   const createdAt = new Date().toISOString();
   for (const { type, payload } of events) {
-    console.log('PUBLISH', type, payload);
     await executeQuery(insertEvent, streamId, createdAt, type, payload, streamId);
   }
 };

@@ -1,18 +1,17 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { isNone } from '@potentiel/monads';
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet, DateTime, RécupérerRégionDrealPort } from '@potentiel-domain/common';
 
 import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '..';
 import { AucunesGarantiesFinancières } from '../aucunesGarantiesFinancières.error';
 import { GarantiesFinancièresEntity } from '../garantiesFinancières.projection';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { RécupérerRégionDrealPort } from '../../abandon';
-import { RégionNonTrouvéeError } from '../../abandon/régionNonTrouvée.error';
 
-export type ListerGarantiesFinancièresÀTraiterQuery = Message<
-  'LISTER_GARANTIES_FINANCIÈRES_À_TRAITER_QUERY',
+export type ListerGarantiesFinancièresQuery = Message<
+  'LISTER_GARANTIES_FINANCIÈRES_QUERY',
   {
+    statut: string;
     utilisateur: {
       rôle: string;
       email: string;
@@ -20,18 +19,17 @@ export type ListerGarantiesFinancièresÀTraiterQuery = Message<
     pagination: { page: number; itemsPerPage: number };
     appelOffre?: string;
   },
-  ListerGarantiesFinancièresÀTraiterReadModel
+  ListerGarantiesFinancièresReadModel
 >;
 
-export type GarantiesFinancièresÀTraiterListItemReadModel = {
+export type GarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   appelOffre: string;
   période: string;
   famille?: string;
   nomProjet: string;
 
-  statut: string;
-  dernièreMiseÀJour: DateTime.ValueType;
+  dateDernièreMiseÀJour: DateTime.ValueType;
 
   validées?: {
     type: TypeGarantiesFinancières.ValueType;
@@ -50,16 +48,16 @@ export type GarantiesFinancièresÀTraiterListItemReadModel = {
   enAttente?: { dateLimiteSoumission: DateTime.ValueType; notifiéLe: DateTime.ValueType };
 };
 
-export type ListerGarantiesFinancièresÀTraiterReadModel = {
-  items: ReadonlyArray<GarantiesFinancièresÀTraiterListItemReadModel>;
+export type ListerGarantiesFinancièresReadModel = {
+  items: ReadonlyArray<GarantiesFinancièresListItemReadModel>;
   currentPage: number;
   itemsPerPage: number;
   totalItems: number;
 };
 
-export type ListerGarantiesFinancièresÀTraiterPort = (args: {
+export type ListerGarantiesFinancièresPort = (args: {
   where: {
-    statut: 'à-traiter';
+    statut: string;
     appelOffre?: string;
   };
   région?: string;
@@ -74,42 +72,43 @@ export type ListerGarantiesFinancièresÀTraiterPort = (args: {
   totalItems: number;
 }>;
 
-export type ListerGarantiesFinancièresÀTraiterDependencies = {
-  listerGarantiesFinancièresÀTraiter: ListerGarantiesFinancièresÀTraiterPort;
+export type ListerGarantiesFinancièresDependencies = {
+  listerGarantiesFinancières: ListerGarantiesFinancièresPort;
   récupérerRégionDreal: RécupérerRégionDrealPort;
 };
 
-export const registerListerGarantiesFinancièresÀTraiterQuery = ({
-  listerGarantiesFinancièresÀTraiter,
+export const registerListerGarantiesFinancièresQuery = ({
+  listerGarantiesFinancières: listerGarantiesFinancières,
   récupérerRégionDreal,
-}: ListerGarantiesFinancièresÀTraiterDependencies) => {
-  const handler: MessageHandler<ListerGarantiesFinancièresÀTraiterQuery> = async ({
+}: ListerGarantiesFinancièresDependencies) => {
+  const handler: MessageHandler<ListerGarantiesFinancièresQuery> = async ({
     appelOffre,
     utilisateur,
+    statut,
     pagination: { page, itemsPerPage },
   }) => {
-    if (utilisateur.rôle === 'dreal') {
-      const région = await récupérerRégionDreal(utilisateur.email);
-      if (isNone(région)) {
-        throw new RégionNonTrouvéeError();
-      }
+    // if (utilisateur.rôle === 'dreal') {
+    //   const région = await récupérerRégionDreal(utilisateur.email);
+    //   if (isNone(région)) {
+    //     throw new RégionNonTrouvéeError();
+    //   }
 
-      const result = await listerGarantiesFinancièresÀTraiter({
-        where: { statut: 'à-traiter', appelOffre },
-        région: région.région,
-        pagination: { itemsPerPage, page },
-      });
-      if (isNone(result)) {
-        throw new AucunesGarantiesFinancières();
-      }
-      return {
-        ...result,
-        items: result.items.map((item) => mapToListItemReadModel(item)),
-      };
-    }
+    //   const result = await listerGarantiesFinancièresÀTraiter({
+    //     where: { statut: 'à-traiter', appelOffre },
+    //     région: région.région,
+    //     pagination: { itemsPerPage, page },
+    //   });
+    //   if (isNone(result)) {
+    //     throw new AucunesGarantiesFinancières();
+    //   }
+    //   return {
+    //     ...result,
+    //     items: result.items.map((item) => mapToListItemReadModel(item)),
+    //   };
+    // }
 
-    const result = await listerGarantiesFinancièresÀTraiter({
-      where: { statut: 'à-traiter', appelOffre },
+    const result = await listerGarantiesFinancières({
+      where: { statut, ...(appelOffre && { appelOffre }) },
       pagination: { itemsPerPage, page },
     });
     if (isNone(result)) {
@@ -120,13 +119,13 @@ export const registerListerGarantiesFinancièresÀTraiterQuery = ({
       items: result.items.map((item) => mapToListItemReadModel(item)),
     };
   };
-  mediator.register('LISTER_GARANTIES_FINANCIÈRES_À_TRAITER_QUERY', handler);
+  mediator.register('LISTER_GARANTIES_FINANCIÈRES_QUERY', handler);
 };
 
 const mapToListItemReadModel = (
   entity: GarantiesFinancièresEntity,
-): GarantiesFinancièresÀTraiterListItemReadModel => {
-  const validées: GarantiesFinancièresÀTraiterListItemReadModel['validées'] = entity.validées
+): GarantiesFinancièresListItemReadModel => {
+  const validées: GarantiesFinancièresListItemReadModel['validées'] = entity.validées
     ? {
         type: TypeGarantiesFinancières.convertirEnValueType(entity.validées.type),
         dateÉchéance: entity.validées.dateÉchéance
@@ -136,7 +135,7 @@ const mapToListItemReadModel = (
         validéLe: DateTime.convertirEnValueType(entity.validées.validéLe),
       }
     : undefined;
-  const àTraiter: GarantiesFinancièresÀTraiterListItemReadModel['àTraiter'] = entity.àTraiter
+  const àTraiter: GarantiesFinancièresListItemReadModel['àTraiter'] = entity.àTraiter
     ? {
         type: TypeGarantiesFinancières.convertirEnValueType(entity.àTraiter.type),
         dateÉchéance: entity.àTraiter.dateÉchéance
@@ -152,7 +151,7 @@ const mapToListItemReadModel = (
         ),
       }
     : undefined;
-  const enAttente: GarantiesFinancièresÀTraiterListItemReadModel['enAttente'] = entity.enAttente
+  const enAttente: GarantiesFinancièresListItemReadModel['enAttente'] = entity.enAttente
     ? {
         dateLimiteSoumission: DateTime.convertirEnValueType(entity.enAttente.dateLimiteSoumission),
         notifiéLe: DateTime.convertirEnValueType(entity.enAttente.notifiéLe),
@@ -164,8 +163,7 @@ const mapToListItemReadModel = (
     appelOffre: entity.appelOffre,
     période: entity.période,
     nomProjet: entity.nomProjet,
-    statut: entity.statut,
-    dernièreMiseÀJour: DateTime.convertirEnValueType(entity.misÀJourLe),
+    dateDernièreMiseÀJour: DateTime.convertirEnValueType(entity.misÀJourLe),
     validées,
     àTraiter,
     enAttente,
