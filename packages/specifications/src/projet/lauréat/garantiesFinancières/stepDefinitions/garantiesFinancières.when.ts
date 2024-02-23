@@ -11,7 +11,7 @@ Quand(
     const exemple = dataTable.rowsHash();
 
     try {
-      const typeGarantiesFinancières = exemple['type'] || 'Consignation';
+      const typeGarantiesFinancières = exemple['type'] || 'consignation';
       const dateÉchéance = exemple[`date d'échéance`] || undefined;
       const format = exemple['format'] || 'application/pdf';
       const dateConstitution = exemple[`date de constitution`] || '2024-01-01';

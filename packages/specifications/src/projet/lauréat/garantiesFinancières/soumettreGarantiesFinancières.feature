@@ -56,14 +56,11 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     #         | avec date d'échéance    | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
     #         | consignation            |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
     #         | six mois après achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |  
-
-    # Scénario: Erreur si date de constitution dans le futur
-    #     Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec une date de constitution dans le futur      
-    #     Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future" 
-  
-    # Scénario: Erreur si date de d'échéance manquante
-    #     Quand le porteur soumet des garanties financières de type avec date d'échéance pour le projet "Centrale PV" sans préciser cette date       
-    #     Alors l'utilisateur devrait être informé que "La date d'échéance est requise pour ce type de garanties financières" 
+    @select
+    Scénario: Erreur si date de constitution dans le futur
+        Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+            | date de constitution | 2055-01-01 |
+        Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future" 
  
     # Plan du Scénario: Erreur si date de d'échéance non compatible avec le type
     #     Quand le porteur soumet des garanties financières pour le projet "Centrale éolienne 20" avec un type non compatible avec une date d'échéance, avec : 

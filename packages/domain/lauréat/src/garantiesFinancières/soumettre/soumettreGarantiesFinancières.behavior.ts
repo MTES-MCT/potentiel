@@ -5,6 +5,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '..';
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateConstitutionDansLeFutur } from '../dateConstitutionDansLeFutur.error';
 
 export type GarantiesFinancièresSoumisesEvent = DomainEvent<
   'GarantiesFinancièresSoumises-V1',
@@ -42,6 +43,9 @@ export async function soumettre(
   }: Options,
 ) {
   this.statut?.vérifierQueLeChangementDeStatutEstPossibleEn(StatutGarantiesFinancières.àTraiter);
+  if (dateConstitution.estDansLeFutur()) {
+    throw new DateConstitutionDansLeFutur();
+  }
   const event: GarantiesFinancièresSoumisesEvent = {
     type: 'GarantiesFinancièresSoumises-V1',
     payload: {
