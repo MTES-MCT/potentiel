@@ -3,15 +3,15 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 
-import { Find } from '@potentiel-libraries/projection';
 import {
   StatutGarantiesFinancières,
   TypeDocumentGarantiesFinancières,
   TypeGarantiesFinancières,
 } from '..';
 import { AucunesGarantiesFinancières } from '../aucunesGarantiesFinancières.error';
-import { GarantiesFinancièresEntity } from '../garantiesFinancières.projection';
+import { GarantiesFinancièresEntity } from '../garantiesFinancières.entity';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Find } from '@potentiel-domain/core';
 
 export type ConsulterGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

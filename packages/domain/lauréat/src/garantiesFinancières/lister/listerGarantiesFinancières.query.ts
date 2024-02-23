@@ -5,7 +5,7 @@ import { IdentifiantProjet, DateTime, CommonPort, CommonError } from '@potentiel
 
 import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '..';
 import { AucunesGarantiesFinancières } from '../aucunesGarantiesFinancières.error';
-import { GarantiesFinancièresEntity } from '../garantiesFinancières.projection';
+import { GarantiesFinancièresEntity } from '../garantiesFinancières.entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 export type ListerGarantiesFinancièresQuery = Message<

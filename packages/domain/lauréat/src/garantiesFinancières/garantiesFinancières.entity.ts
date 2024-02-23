@@ -1,6 +1,6 @@
-import { Projection } from '@potentiel-libraries/projection';
+import { Entity } from '@potentiel-domain/core';
 
-export type GarantiesFinancièresEntity = Projection<
+export type GarantiesFinancièresEntity = Entity<
   'garanties-financieres',
   {
     identifiantProjet: string;

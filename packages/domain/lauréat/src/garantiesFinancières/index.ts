@@ -47,7 +47,7 @@ export * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueTyp
 export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
 export * as StatutGarantiesFinancières from './statutGarantiesFinancières.valueType';
 // Projections
-export * from './garantiesFinancières.projection';
+export * from './garantiesFinancières.entity';
 
 // Ports
 export { ListerGarantiesFinancièresPort };
