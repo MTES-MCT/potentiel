@@ -7,7 +7,7 @@ import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
 
 Alors(
-  'les garanties financières devraient être consultables pour le projet {string} avec :',
+  'les garanties financières à traiter devraient être consultables pour le projet {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 

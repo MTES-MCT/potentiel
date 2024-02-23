@@ -15,7 +15,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | date de constitution | <date de constitution> |
             | date de soumission   | 2023-10-01             |
             | soumis par           | porteur@test.test      |
-        Alors les garanties financières devraient être consultables pour le projet "Centrale PV" avec :
+        Alors les garanties financières à traiter devraient être consultables pour le projet "Centrale PV" avec :
             | type                 | <type>                 |
             | date d'échéance      | <date d'échéance>      |
             | format               | <format du fichier>    |
