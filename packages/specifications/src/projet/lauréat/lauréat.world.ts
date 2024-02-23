@@ -6,6 +6,13 @@ type LauréatFixture = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dateDésignation: string;
   région?: string;
+  appelOffre?: string;
+  période?: string;
+  famille?: string;
+  numéroCRE?: string;
+  commune?: string;
+  département?: string;
+  statut?: string;
 };
 
 export class LauréatWorld {

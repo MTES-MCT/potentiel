@@ -1,7 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { isNone } from '@potentiel/monads';
-import { IdentifiantProjet, DateTime, RécupérerRégionDrealPort } from '@potentiel-domain/common';
+import {
+  IdentifiantProjet,
+  DateTime,
+  RécupérerRégionDrealPort,
+  RégionNonTrouvéeError,
+} from '@potentiel-domain/common';
 
 import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '..';
 import { AucunesGarantiesFinancières } from '../aucunesGarantiesFinancières.error';
@@ -87,25 +92,24 @@ export const registerListerGarantiesFinancièresQuery = ({
     statut,
     pagination: { page, itemsPerPage },
   }) => {
-    // if (utilisateur.rôle === 'dreal') {
-    //   const région = await récupérerRégionDreal(utilisateur.email);
-    //   if (isNone(région)) {
-    //     throw new RégionNonTrouvéeError();
-    //   }
+    if (utilisateur.rôle === 'dreal') {
+      const région = await récupérerRégionDreal(utilisateur.email);
+      if (isNone(région)) {
+        throw new RégionNonTrouvéeError();
+      }
 
-    //   const result = await listerGarantiesFinancièresÀTraiter({
-    //     where: { statut: 'à-traiter', appelOffre },
-    //     région: région.région,
-    //     pagination: { itemsPerPage, page },
-    //   });
-    //   if (isNone(result)) {
-    //     throw new AucunesGarantiesFinancières();
-    //   }
-    //   return {
-    //     ...result,
-    //     items: result.items.map((item) => mapToListItemReadModel(item)),
-    //   };
-    // }
+      const result = await listerGarantiesFinancières({
+        where: { statut, ...(appelOffre && { appelOffre }) },
+        pagination: { itemsPerPage, page },
+      });
+      if (isNone(result)) {
+        throw new AucunesGarantiesFinancières();
+      }
+      return {
+        ...result,
+        items: result.items.map((item) => mapToListItemReadModel(item)),
+      };
+    }
 
     const result = await listerGarantiesFinancières({
       where: { statut, ...(appelOffre && { appelOffre }) },

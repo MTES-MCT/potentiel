@@ -1,11 +1,6 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-//import waitForExpect from 'wait-for-expect';
-
-//import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-
 import { PotentielWorld } from '../../../../potentiel.world';
-//import { NotFoundError } from '@potentiel-domain/core';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { expect } from 'chai';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
@@ -22,19 +17,9 @@ Alors(
     const dateConstitution = exemple[`date de constitution`];
     const contenu = exemple['contenu fichier'];
     const dateSoumission = exemple['date de soumission'];
-    const région = exemple['région'];
 
-    const {
-      identifiantProjet,
-      // legacyId,
-      // appelOffre,
-      // période,
-      // famille,
-      // numéroCRE,
-      // commune,
-      // département,
-      // statut,
-    } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet, appelOffre, période } =
+      this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     // ASSERT ON READ MODEL
 
@@ -71,37 +56,40 @@ Alors(
 
     // ASSERT ON LIST
 
-    // const expectedListeDépôtsReadModel = {
-    //   type: 'liste-dépôts-garanties-financières',
-    //   région,
-    //   liste: [
-    //     {
-    //       dépôt: expectedReadModel,
-    //       projet: {
-    //         legacyId,
-    //         nom: nomProjet,
-    //         appelOffre,
-    //         période,
-    //         famille,
-    //         numéroCRE,
-    //         localité: {
-    //           commune,
-    //           région,
-    //           département,
-    //         },
-    //         statut,
-    //         identifiantProjet: convertirEnIdentifiantProjet(identifiantProjet).formatter(),
-    //       },
-    //     },
-    //   ],
-    //   pagination: { currentPage: 1, pageCount: 1, totalCount: 1 },
-    // };
+    const actualListeDépôtsReadModel =
+      await mediator.send<GarantiesFinancières.ListerGarantiesFinancièresQuery>({
+        type: 'LISTER_GARANTIES_FINANCIÈRES_QUERY',
+        data: {
+          pagination: { page: 1, itemsPerPage: 10 },
+          utilisateur: { email: 'utilisateur@test.test', rôle: 'admin' },
+          statut: 'à-traiter',
+        },
+      });
 
-    // const actualListeDépôtsReadModel = await mediator.send<ListerDépôtsGarantiesFinancièresQuery>({
-    //   type: 'LISTER_DÉPÔTS_GARANTIES_FINANCIÈRES',
-    //   data: { région, pagination: { page: 1, itemsPerPage: 10 } },
-    // });
+    expect(actualListeDépôtsReadModel.totalItems).to.deep.equal(1);
+    expect(actualListeDépôtsReadModel.items[0]).to.deep.include({
+      appelOffre,
+      période,
+      nomProjet,
+    });
+    expect(actualListeDépôtsReadModel.items[0].dateDernièreMiseÀJour.formatter()).to.deep.equal(
+      new Date(dateSoumission).toISOString(),
+    );
+    expect(actualListeDépôtsReadModel.items[0].identifiantProjet.formatter()).to.deep.equal(
+      identifiantProjet.formatter(),
+    );
 
-    // expect(actualListeDépôtsReadModel).to.deep.equal(expectedListeDépôtsReadModel);
+    expect(actualListeDépôtsReadModel.items[0].àTraiter?.type.type).to.deep.equal(
+      typeGarantiesFinancières,
+    );
+    if (dateÉchéance) {
+      expect(actualListeDépôtsReadModel.items[0].àTraiter?.dateÉchéance?.formatter()).to.deep.equal(
+        new Date(dateÉchéance).toISOString(),
+      );
+    }
+    expect(
+      actualListeDépôtsReadModel.items[0].àTraiter?.dateConstitution.formatter(),
+    ).to.deep.equal(new Date(dateConstitution).toISOString());
+    expect(actualListeDépôtsReadModel.items[0].àTraiter?.attestation.format).to.deep.equal(format);
   },
 );

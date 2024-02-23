@@ -81,6 +81,13 @@ EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld,
     nom: nomProjet,
     identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
     dateDésignation: new Date('2022-10-27').toISOString(),
+    appelOffre: 'PPE2 - Eolien',
+    période: '1',
+    famille: '',
+    numéroCRE: '23',
+    commune: 'communeProjet',
+    département: 'departementProjet',
+    statut: 'Classé',
   });
 });
 
@@ -169,6 +176,13 @@ EtantDonné(
       identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
       dateDésignation,
       région,
+      appelOffre: 'PPE2 - Eolien',
+      période: '1',
+      famille: '',
+      numéroCRE: '23',
+      commune: 'communeProjet',
+      département: 'departementProjet',
+      statut: 'Classé',
     });
   },
 );

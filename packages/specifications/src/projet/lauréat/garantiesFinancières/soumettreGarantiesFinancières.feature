@@ -1,8 +1,7 @@
 #Language: fr-FR
 Fonctionnalité: Soumettre de nouvelles garanties financières
     Contexte: 
-        Etant donné le projet lauréat "Centrale PV" avec :
-            | région | Corse |
+        Etant donné le projet lauréat "Centrale PV"
     @select
     Plan du Scénario: Un porteur soumet des garanties financières initiales
         Etant donné des garanties financières en attente pour le projet "Centrale PV" avec :
@@ -23,12 +22,11 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | contenu fichier      | <contenu du fichier>   |
             | date de constitution | <date de constitution> |
             | date de soumission   | 2023-10-01             |
-            | région               | Corse                  |
     Exemples:
-            | type                    | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
-            | avec date d'échéance    | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
-            # | consignation            |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
-            # | six mois après achèvement |               | application/pdf   | le contenu du fichier | 2023-06-01           |   
+            | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
+            | avec date d'échéance      | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
+            | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
+            | six mois après achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |   
 
     # Plan du Scénario: Un porteur soumet de nouvelles garanties financières pour remplacer des garanties financières validées
     #     Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
