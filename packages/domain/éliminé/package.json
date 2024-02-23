@@ -9,7 +9,6 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/monads": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/document": "*",
@@ -18,6 +17,6 @@
     "@potentiel-domain/utilisateur": "*"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*"
   }
 }
