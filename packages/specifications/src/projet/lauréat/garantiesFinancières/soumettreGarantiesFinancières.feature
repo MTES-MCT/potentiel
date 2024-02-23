@@ -2,7 +2,7 @@
 Fonctionnalité: Soumettre de nouvelles garanties financières
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
-    @select
+    
     Plan du Scénario: Un porteur soumet des garanties financières initiales
         Etant donné des garanties financières en attente pour le projet "Centrale PV" avec :
             | date limite de soumission | 2023-11-01 |
@@ -61,13 +61,13 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | date de constitution | 2055-01-01 |
         Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future" 
-    @select
+    
     Scénario: Erreur si date de d'échéance manquante
         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type          | avec-date-échéance   |     
             | dateÉchéance  |                      |     
         Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières" 
-    @Select
+    
     Plan du Scénario: Erreur si date de d'échéance non compatible avec le type
         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type | <type>                |   

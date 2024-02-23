@@ -9,6 +9,7 @@ import {
   ListerGarantiesFinancièresQuery,
   ListerGarantiesFinancièresReadModel,
 } from './lister/listerGarantiesFinancières.query';
+import { SupprimerGarantiesFinancièresÀTraiterUseCase } from './supprimerGarantiesFinancièresÀTraiter/supprimerGarantiesFinancièresÀTraiter.usecase';
 
 // Query
 export type GarantiesFinancièresQuery =
@@ -23,14 +24,20 @@ export { ConsulterGarantiesFinancièresReadModel, ListerGarantiesFinancièresRea
 // UseCases
 export type GarantiesFinancièresUseCase =
   | SoumettreGarantiesFinancièresUseCase
-  | DemanderGarantiesFinancièresUseCase;
+  | DemanderGarantiesFinancièresUseCase
+  | SupprimerGarantiesFinancièresÀTraiterUseCase;
 
-export { SoumettreGarantiesFinancièresUseCase, DemanderGarantiesFinancièresUseCase };
+export {
+  SoumettreGarantiesFinancièresUseCase,
+  DemanderGarantiesFinancièresUseCase,
+  SupprimerGarantiesFinancièresÀTraiterUseCase,
+};
 
 // Event
 export { GarantiesFinancièresEvent } from './garantiesFinancières.aggregate';
 export { GarantiesFinancièresSoumisesEvent } from './soumettre/soumettreGarantiesFinancières.behavior';
 export { GarantiesFinancièresDemandéesEvent } from './demander/demanderGarantiesFinancières.behavior';
+export { GarantiesFinancièresÀTraiterSuppriméesEvent } from './supprimerGarantiesFinancièresÀTraiter/supprimerGarantiesFinancièresÀTraiter.behavior';
 
 // Register
 export {
@@ -43,6 +50,7 @@ export * as GarantiesFinancières from './garantiesFinancières.valueType';
 export * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
 export * as StatutGarantiesFinancières from './statutGarantiesFinancières.valueType';
+
 // Projections
 export * from './garantiesFinancières.entity';
 

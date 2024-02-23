@@ -11,6 +11,8 @@ import {
   ListerGarantiesFinancièresDependencies,
   registerListerGarantiesFinancièresQuery,
 } from './lister/listerGarantiesFinancières.query';
+import { registerSupprimerGarantiesFinancièresÀTraiterCommand } from './supprimerGarantiesFinancièresÀTraiter/supprimerGarantiesFinancièresÀTraiter.command';
+import { registerSupprimerGarantiesFinancièresÀTraiterUseCase } from './supprimerGarantiesFinancièresÀTraiter/supprimerGarantiesFinancièresÀTraiter.usecase';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerGarantiesFinancièresDependencies;
@@ -27,6 +29,10 @@ export const registerGarantiesFinancièresUseCases = ({
 
   registerSoumettreGarantiesFinancièresUseCase();
   registerDemanderGarantiesFinancièresUseCase();
+  registerSupprimerGarantiesFinancièresÀTraiterCommand(loadAggregate);
+
+  registerSoumettreGarantiesFinancièresUseCase();
+  registerSupprimerGarantiesFinancièresÀTraiterUseCase();
 };
 
 export const registerGarantiesFinancièresQueries = (
