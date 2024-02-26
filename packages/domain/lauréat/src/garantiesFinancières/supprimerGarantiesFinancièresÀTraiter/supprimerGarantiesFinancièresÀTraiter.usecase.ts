@@ -2,6 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { SupprimerGarantiesFinancièresÀTraiterCommand } from './supprimerGarantiesFinancièresÀTraiter.command';
+import { SupprimerDocumentProjetCommand } from '@potentiel-domain/document';
+import { ConsulterGarantiesFinancièresQuery } from '..';
+import { AucunesGarantiesFinancièresÀTraiter } from './aucunesGarantiesFinancièresÀTraiter.error';
+import { AucunesGarantiesFinancières } from '../aucunesGarantiesFinancières.error';
 
 export type SupprimerGarantiesFinancièresÀTraiterUseCase = Message<
   'SUPPRIMER_GARANTIES_FINANCIÈRES_À_TRAITER_USECASE',
@@ -22,14 +26,25 @@ export const registerSupprimerGarantiesFinancièresÀTraiterUseCase = () => {
     const suppriméLe = DateTime.convertirEnValueType(suppriméLeValue);
     const suppriméPar = IdentifiantUtilisateur.convertirEnValueType(suppriméParValue);
 
-    // TO DO : supprimer document
-    // await mediator.send<EnregistrerDocumentProjetCommand>({
-    //   type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
-    //   data: {
-    //     content: attestationValue!.content,
-    //     documentProjet: attestation,
-    //   },
-    // });
+    const garantiesFinancièreActuelles = await mediator.send<ConsulterGarantiesFinancièresQuery>({
+      type: 'CONSULTER_GARANTIES_FINANCIÈRES_QUERY',
+      data: { identifiantProjetValue },
+    });
+
+    if (!garantiesFinancièreActuelles) {
+      throw new AucunesGarantiesFinancières();
+    }
+
+    if (!garantiesFinancièreActuelles.àTraiter) {
+      throw new AucunesGarantiesFinancièresÀTraiter();
+    }
+
+    await mediator.send<SupprimerDocumentProjetCommand>({
+      type: 'SUPPRIMER_DOCUMENT_PROJET_COMMAND',
+      data: {
+        documentKey: garantiesFinancièreActuelles.àTraiter?.attestation.formatter(),
+      },
+    });
 
     await mediator.send<SupprimerGarantiesFinancièresÀTraiterCommand>({
       type: 'SUPPRIMER_GARANTIES_FINANCIÈRES_À_TRAITER_COMMAND',

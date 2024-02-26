@@ -29,6 +29,9 @@ Fonctionnalité: Supprimer des garanties financières en attente de validation
             | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 
 
     Scénario: Erreur s'il n'y a pas de garanties financières à traiter
+        Etant donné des garanties financières en attente pour le projet "Centrale PV" avec :
+            | date limite de soumission | 2023-11-01 |
+            | date de notification      | 2023-09-01 |
         Quand le porteur supprime les garanties financières à traiter pour le projet "Centrale PV"    
         Alors l'utilisateur devrait être informé que "Il n'y a aucunes garanties financières à traiter pour ce projet"         
 
