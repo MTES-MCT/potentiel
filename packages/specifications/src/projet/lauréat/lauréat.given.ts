@@ -5,6 +5,14 @@ import { PotentielWorld } from '../../potentiel.world';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
+  const dateDésignation = new Date('2022-10-27').toISOString();
+  const appelOffre = 'PPE2 - Eolien';
+  const période = '1';
+  const numéroCRE = '23';
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+    `${appelOffre}#${période}##${numéroCRE}`,
+  );
+
   await executeQuery(
     `
       insert into "projects" (
@@ -13,6 +21,7 @@ EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld,
         "periodeId",
         "numeroCRE",
         "familleId",
+        "notifiedOn",
         "nomCandidat",
         "nomProjet",
         "puissance",
@@ -51,14 +60,16 @@ EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld,
         $18,
         $19,
         $20,
-        $21
+        $21,
+        $22
       )
     `,
     randomUUID(),
-    'PPE2 - Eolien',
-    '1',
-    '23',
+    appelOffre,
+    période,
+    numéroCRE,
     '',
+    new Date(dateDésignation).getTime(),
     'nomCandidat',
     nomProjet,
     0,
@@ -79,15 +90,10 @@ EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld,
 
   this.lauréatWorld.lauréatFixtures.set(nomProjet, {
     nom: nomProjet,
-    identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
-    dateDésignation: new Date('2022-10-27').toISOString(),
-    appelOffre: 'PPE2 - Eolien',
-    période: '1',
-    famille: '',
-    numéroCRE: '23',
-    commune: 'communeProjet',
-    département: 'departementProjet',
-    statut: 'Classé',
+    identifiantProjet,
+    dateDésignation,
+    appelOffre,
+    période,
   });
 });
 
@@ -95,10 +101,14 @@ EtantDonné(
   'le projet lauréat {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const examples = dataTable.rowsHash();
-    const dateDésignation = new Date(
-      examples['La date de désignation'] ?? '2022-10-27',
-    ).toISOString();
-    const région = examples['région'] ?? 'regionProjet';
+    const dateDésignation =
+      examples['La date de désignation'] ?? new Date('2022-10-27').toISOString();
+    const appelOffre = 'PPE2 - Eolien';
+    const période = '1';
+    const numéroCRE = '23';
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+      `${appelOffre}#${période}##${numéroCRE}`,
+    );
     await executeQuery(
       `
       insert into "projects" (
@@ -107,6 +117,7 @@ EtantDonné(
         "periodeId",
         "numeroCRE",
         "familleId",
+        "notifiedOn",
         "nomCandidat",
         "nomProjet",
         "puissance",
@@ -145,14 +156,16 @@ EtantDonné(
         $18,
         $19,
         $20,
-        $21
+        $21,
+        $22
       )
     `,
       randomUUID(),
-      'PPE2 - Eolien',
-      '1',
-      '23',
+      appelOffre,
+      période,
+      numéroCRE,
       '',
+      new Date(dateDésignation).getTime(),
       'nomCandidat',
       nomProjet,
       0,
@@ -164,7 +177,7 @@ EtantDonné(
       'codePostalProjet',
       'communeProjet',
       'departementProjet',
-      région,
+      'régionProjet',
       'Classé',
       false,
       false,
@@ -173,21 +186,22 @@ EtantDonné(
 
     this.lauréatWorld.lauréatFixtures.set(nomProjet, {
       nom: nomProjet,
-      identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
+      identifiantProjet,
       dateDésignation,
-      région,
-      appelOffre: 'PPE2 - Eolien',
-      période: '1',
-      famille: '',
-      numéroCRE: '23',
-      commune: 'communeProjet',
-      département: 'departementProjet',
-      statut: 'Classé',
+      appelOffre,
+      période,
     });
   },
 );
 
 EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld, nomProjet: string) {
+  const dateNotificationRejet = new Date('2022-10-27').toISOString();
+  const appelOffre = 'PPE2 - Eolien';
+  const période = '1';
+  const numéroCRE = '23';
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+    `${appelOffre}#${période}##${numéroCRE}`,
+  );
   await executeQuery(
     `
       insert into "projects" (
@@ -196,6 +210,7 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
         "periodeId",
         "numeroCRE",
         "familleId",
+        "notifiedOn",
         "nomCandidat",
         "nomProjet",
         "puissance",
@@ -234,14 +249,16 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
         $18,
         $19,
         $20,
-        $21
+        $21,
+        $22
       )
     `,
     randomUUID(),
-    'PPE2 - Eolien',
-    '1',
-    '23',
+    appelOffre,
+    période,
+    numéroCRE,
     '',
+    new Date(dateNotificationRejet).getTime(),
     'nomCandidat',
     nomProjet,
     0,
@@ -262,7 +279,9 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
 
   this.lauréatWorld.lauréatFixtures.set(nomProjet, {
     nom: nomProjet,
-    identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
-    dateDésignation: new Date('2022-10-27').toISOString(),
+    identifiantProjet,
+    dateDésignation: dateNotificationRejet,
+    appelOffre,
+    période,
   });
 });

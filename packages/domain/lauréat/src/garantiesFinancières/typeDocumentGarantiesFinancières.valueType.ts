@@ -1,14 +1,14 @@
 import { InvalidOperationError } from '@potentiel-domain/core';
 
 export type TypeDocument =
-  | 'attestation-garanties-financieres-a-traiter'
-  | 'attestation-garanties-financieres-validee';
+  | 'attestation-garanties-financieres-soumises'
+  | 'attestation-garanties-financieres';
 
 export type RawType = `garanties-financieres/${TypeDocument}`;
 
 const typeDocument: Array<TypeDocument> = [
-  'attestation-garanties-financieres-a-traiter',
-  'attestation-garanties-financieres-validee',
+  'attestation-garanties-financieres-soumises',
+  'attestation-garanties-financieres',
 ];
 
 export type ValueType = Readonly<{
@@ -35,7 +35,7 @@ function estValide(value: string): asserts value is TypeDocument {
 }
 
 export const garantiesFinancièresÀTraiter = convertirEnValueType(
-  'attestation-garanties-financieres-a-traiter',
+  'attestation-garanties-financieres-soumises',
 );
 
 class TypeDocumentGarantiesFinancièresInvalideError extends InvalidOperationError {

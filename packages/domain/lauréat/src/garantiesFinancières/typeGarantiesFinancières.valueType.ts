@@ -1,6 +1,6 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const types = ['consignation', "avec date d'échéance", 'six mois après achèvement'] as const;
+export const types = ['consignation', 'avec-date-échéance', 'six-mois-après-achèvement'] as const;
 
 export type RawType = (typeof types)[number];
 
@@ -24,10 +24,10 @@ export const convertirEnValueType = (value: string): ValueType => {
       return this.type === 'consignation';
     },
     estAvecDateÉchéance() {
-      return this.type === "avec date d'échéance";
+      return this.type === 'avec-date-échéance';
     },
     estSixMoisAprèsAchèvement() {
-      return this.type === 'six mois après achèvement';
+      return this.type === 'six-mois-après-achèvement';
     },
   };
 };
@@ -41,8 +41,8 @@ function estValide(value: string): asserts value is RawType {
 }
 
 export const consignation = convertirEnValueType('consignation');
-export const avecDateÉchéance = convertirEnValueType("avec date d'échéance");
-export const sixMoisAprèsAchèvement = convertirEnValueType('six mois après achèvement');
+export const avecDateÉchéance = convertirEnValueType('avec-date-échéance');
+export const sixMoisAprèsAchèvement = convertirEnValueType('six-mois-après-achèvement');
 
 class TypeGarantiesFinancièresInvalideError extends InvalidOperationError {
   constructor(value: string) {

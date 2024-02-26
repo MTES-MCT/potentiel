@@ -22,9 +22,9 @@ Fonctionnalité: Supprimer des garanties financières en attente de validation
             | date de notification      | 2023-09-01 |
     Exemples:
             | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
-            | avec date d'échéance      | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
+            | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
             | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
-            | six mois après achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 
+            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 
 
     Scénario: Erreur si le porteur supprime des garanties financières validées
         Quand le porteur supprime les garanties financières à traiter pour le projet "Centrale PV"    

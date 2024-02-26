@@ -24,9 +24,9 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | date de soumission   | 2023-10-01             |
     Exemples:
             | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
-            | avec date d'échéance      | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
+            | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
             | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
-            | six mois après achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |   
+            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |   
 
     # Plan du Scénario: Un porteur soumet de nouvelles garanties financières pour remplacer des garanties financières validées
     #     Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
@@ -53,9 +53,9 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     #         | région               | Corse                  |
     # Exemples:
     #         | type                    | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
-    #         | avec date d'échéance    | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
+    #         | avec-date-échéance    | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
     #         | consignation            |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
-    #         | six mois après achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |  
+    #         | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |  
     @select
     Scénario: Erreur si date de constitution dans le futur
         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
@@ -64,7 +64,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     @select
     Scénario: Erreur si date de d'échéance manquante
         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
-            | type          | avec date d'échéance |     
+            | type          | avec-date-échéance   |     
             | dateÉchéance  |                      |     
         Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières" 
     @Select
@@ -76,11 +76,11 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     Exemples:
             | type                      |
             | consignation              |
-            | six mois après achèvement |
+            | six-mois-après-achèvement |
     @select
     Scénario: Erreur si un dépôt a déjà été soumis
         Etant donné des garanties financières à traiter pour le projet "Centrale PV" avec :
-            | type                 | avec date d'échéance          |
+            | type                 | avec-date-échéance             |
             | date d'échéance      | 2027-12-01                    |
          Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type                 | consignation                  |          

@@ -50,7 +50,7 @@ export const registerSoumettreGarantiesFinancièresUseCase = () => {
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
       data: {
-        content: attestationValue!.content,
+        content: attestationValue.content,
         documentProjet: attestation,
       },
     });
