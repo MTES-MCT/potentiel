@@ -18,4 +18,10 @@ export const templateId = {
     GFActuellesModifiéesPourPorteur: 5765519,
     GFActuellesModifiéesPourDreal: 5765536,
   },
+  recours: {
+    accorder: 1,
+    annuler: 1,
+    demander: 1,
+    rejeter: 1,
+  },
 };
