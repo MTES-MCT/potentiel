@@ -84,6 +84,7 @@ export const setupLauréat = async () => {
       eventType: [
         'GarantiesFinancièresDemandées-V1',
         'GarantiesFinancièresSoumises-V1',
+        'GarantiesFinancièresÀTraiterSupprimées-V1',
         'RebuildTriggered',
       ],
       eventHandler: async (event) => {
