@@ -9,6 +9,7 @@ import { setupUtilisateur } from './setupUtilisateur';
 import { setupRéseau } from './setupRéseau';
 import { logMiddleware } from './middlewares/log.middleware';
 import { delayMiddleware } from './middlewares/delay.middleware';
+import { setupEliminé } from './setupEliminé';
 
 export const bootstrap = async ({
   middlewares,
@@ -25,12 +26,14 @@ export const bootstrap = async ({
   const unsetupTâche = await setupTâche();
   setupUtilisateur();
 
+  const unsetupEliminé = await setupEliminé();
   const unsetupLauréat = await setupLauréat();
   const unsetupGestionnaireRéseau = await setupRéseau();
 
   getLogger().info('Application bootstrapped');
 
   return async () => {
+    await unsetupEliminé();
     await unsetupLauréat();
     await unsetupGestionnaireRéseau();
     await unsetupTâche();

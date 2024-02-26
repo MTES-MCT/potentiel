@@ -5,13 +5,13 @@ import {
   registerRecoursUseCases,
 } from './recours/recours.register';
 
-export type LauréatQueryDependencies = RecoursQueryDependencies;
-export type LauréatCommandDependencies = RecoursCommandDependencies;
+export type EliminéQueryDependencies = RecoursQueryDependencies;
+export type EliminéCommandDependencies = RecoursCommandDependencies;
 
-export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
+export const registerEliminéUseCases = (dependencies: EliminéCommandDependencies) => {
   registerRecoursUseCases(dependencies);
 };
 
-export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
+export const registerEliminéQueries = (dependencies: EliminéQueryDependencies) => {
   registerRecoursQueries(dependencies);
 };
