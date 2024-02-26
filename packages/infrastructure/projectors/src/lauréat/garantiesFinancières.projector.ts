@@ -20,9 +20,6 @@ export type Execute = Message<'EXECUTE_GARANTIES_FINANCIÈRES_PROJECTOR', Subscr
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     const { type, payload } = event;
-    console.log('HANDLER', type, payload);
-    // l'event GarantiesFinancièresÀTraiterSupprimées-V1 ne passe pas ici
-
     if (type === 'RebuildTriggered') {
       await removeProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
         `garanties-financieres|${payload.id}`,

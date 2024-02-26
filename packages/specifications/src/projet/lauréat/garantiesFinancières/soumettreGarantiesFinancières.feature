@@ -56,7 +56,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     #         | avec-date-échéance    | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
     #         | consignation            |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
     #         | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |  
-    @select
+    
     Scénario: Erreur si date de constitution dans le futur
         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | date de constitution | 2055-01-01 |
@@ -77,7 +77,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | type                      |
             | consignation              |
             | six-mois-après-achèvement |
-    @select
+    
     Scénario: Erreur si un dépôt a déjà été soumis
         Etant donné des garanties financières à traiter pour le projet "Centrale PV" avec :
             | type                 | avec-date-échéance             |

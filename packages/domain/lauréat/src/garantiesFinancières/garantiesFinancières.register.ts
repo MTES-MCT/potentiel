@@ -26,12 +26,10 @@ export const registerGarantiesFinancièresUseCases = ({
 }: GarantiesFinancièresCommandDependencies) => {
   registerSoumettreGarantiesFinancièresCommand(loadAggregate);
   registerDemanderGarantiesFinancièresCommand(loadAggregate);
-
-  registerSoumettreGarantiesFinancièresUseCase();
-  registerDemanderGarantiesFinancièresUseCase();
   registerSupprimerGarantiesFinancièresÀTraiterCommand(loadAggregate);
 
   registerSoumettreGarantiesFinancièresUseCase();
+  registerDemanderGarantiesFinancièresUseCase();
   registerSupprimerGarantiesFinancièresÀTraiterUseCase();
 };
 
