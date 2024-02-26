@@ -1,4 +1,4 @@
-import { Abandon } from '@potentiel-domain/laureat';
+import { CommonPort } from '@potentiel-domain/common';
 import { none } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 
@@ -16,7 +16,7 @@ const query = `
   ;                 
 `;
 
-export const récupérerRégionDrealAdapter: Abandon.RécupérerRégionDrealPort = async (
+export const récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort = async (
   identifiantUtilisateur,
 ) => {
   const résultat = await executeSelect<{

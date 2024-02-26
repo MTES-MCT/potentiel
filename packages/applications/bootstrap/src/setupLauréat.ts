@@ -2,13 +2,17 @@ import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-do
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { AbandonNotification } from '@potentiel-infrastructure/notifications';
-import { AbandonProjector } from '@potentiel-infrastructure/projectors';
+import {
+  AbandonProjector,
+  GarantiesFinancièreProjector,
+} from '@potentiel-infrastructure/projectors';
 import { mediator } from 'mediateur';
 import {
   consulterCahierDesChargesChoisiAdapter,
   listerAbandonsAdapter,
   listerAbandonsPourPorteurAdapter,
-  récupérerRégionDrealAdapter,
+  listerGarantiesFinancièresAdapter,
+  récupérerRégionDreal,
 } from '@potentiel-infrastructure/domain-adapters';
 import { getModèleRéponseAbandon } from '@potentiel-infrastructure/document-builder';
 
@@ -24,11 +28,13 @@ export const setupLauréat = async () => {
     listerAbandonsPourPorteur: listerAbandonsPourPorteurAdapter,
     buildModèleRéponseAbandon: getModèleRéponseAbandon,
     listerAbandons: listerAbandonsAdapter,
-    récupérerRégionDrealAdapter: récupérerRégionDrealAdapter,
+    listerGarantiesFinancières: listerGarantiesFinancièresAdapter,
+    récupérerRégionDreal: récupérerRégionDreal,
   });
 
   AbandonProjector.register();
   AbandonNotification.register();
+  GarantiesFinancièreProjector.register();
 
   const unsubscribeAbandonNotification = await subscribe<AbandonNotification.SubscriptionEvent>({
     name: 'notifications',
@@ -72,8 +78,26 @@ export const setupLauréat = async () => {
     streamCategory: 'abandon',
   });
 
+  const unsubscribeGarantiesFinancièresProjector =
+    await subscribe<GarantiesFinancièreProjector.SubscriptionEvent>({
+      name: 'projector',
+      eventType: [
+        'GarantiesFinancièresDemandées-V1',
+        'GarantiesFinancièresSoumises-V1',
+        'RebuildTriggered',
+      ],
+      eventHandler: async (event) => {
+        await mediator.send<GarantiesFinancièreProjector.Execute>({
+          type: 'EXECUTE_GARANTIES_FINANCIÈRES_PROJECTOR',
+          data: event,
+        });
+      },
+      streamCategory: 'garanties-financieres',
+    });
+
   return async () => {
     await unsubscribeAbandonNotification();
     await unsubscribeAbandonProjector();
+    await unsubscribeGarantiesFinancièresProjector();
   };
 };
