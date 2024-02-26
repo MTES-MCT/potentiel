@@ -67,18 +67,18 @@ export const register = () => {
       };
 
       switch (type) {
-        case 'GarantiesFinancièresEnAttenteNotifié-V1':
+        case 'GarantiesFinancièresDemandées-V1':
           const projet = await getProjectData(identifiantProjet);
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
               ...projet,
-              misÀJourLe: payload.notifiéLe,
+              misÀJourLe: payload.demandéLe,
               statut: 'en-attente',
               enAttente: {
                 dateLimiteSoumission: payload.dateLimiteSoumission,
-                notifiéLe: payload.notifiéLe,
+                demandéLe: payload.demandéLe,
               },
             },
           );

@@ -15,11 +15,11 @@ EtantDonné(
     const dateLimiteSoumission = exemple['date limite de soumission'];
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    await mediator.send<GarantiesFinancières.NotifierGarantiesFinancièresEnAttenteUseCase>({
-      type: 'NOTIFIER_GARANTIES_FINANCIÈRES_EN_ATTENTE_USECASE',
+    await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
+      type: 'DEMANDER_GARANTIES_FINANCIÈRES_USECASE',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-        notifiéLeValue: new Date(notifiéLe).toISOString(),
+        demandéLeValue: new Date(notifiéLe).toISOString(),
         dateLimiteSoumissionValue: new Date(dateLimiteSoumission).toISOString(),
       },
     });

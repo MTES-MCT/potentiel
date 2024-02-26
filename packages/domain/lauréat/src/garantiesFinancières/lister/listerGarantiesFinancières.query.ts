@@ -45,7 +45,7 @@ export type GarantiesFinancièresListItemReadModel = {
     soumisLe: DateTime.ValueType;
     attestation: DocumentProjet.ValueType;
   };
-  enAttente?: { dateLimiteSoumission: DateTime.ValueType; notifiéLe: DateTime.ValueType };
+  enAttente?: { dateLimiteSoumission: DateTime.ValueType; demandéLe: DateTime.ValueType };
 };
 
 export type ListerGarantiesFinancièresReadModel = {
@@ -153,7 +153,7 @@ const mapToListItemReadModel = (
   const enAttente: GarantiesFinancièresListItemReadModel['enAttente'] = entity.enAttente
     ? {
         dateLimiteSoumission: DateTime.convertirEnValueType(entity.enAttente.dateLimiteSoumission),
-        notifiéLe: DateTime.convertirEnValueType(entity.enAttente.notifiéLe),
+        demandéLe: DateTime.convertirEnValueType(entity.enAttente.demandéLe),
       }
     : undefined;
 

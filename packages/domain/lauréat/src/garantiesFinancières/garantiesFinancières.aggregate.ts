@@ -9,14 +9,14 @@ import {
 import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '.';
 import { AucunesGarantiesFinancières } from './aucunesGarantiesFinancières.error';
 import {
-  GarantiesFinancièresEnAttenteNotifiéEvent,
-  applyNotifierGarantiesFinancièresEnAttente,
-  notifierGarantiesFinancièresEnAttente,
-} from './notifierGarantiesFinancièresEnAttente/notifierGarantiesFinancièresEnAttente.behavior';
+  GarantiesFinancièresDemandéesEvent,
+  applyDemanderGarantiesFinancières,
+  demanderGarantiesFinancières,
+} from './demander/demanderGarantiesFinancières.behavior';
 
 export type GarantiesFinancièresEvent =
   | GarantiesFinancièresSoumisesEvent
-  | GarantiesFinancièresEnAttenteNotifiéEvent;
+  | GarantiesFinancièresDemandéesEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   statut?: StatutGarantiesFinancières.ValueType;
@@ -34,7 +34,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   };
   enAttente?: { dateLimiteSoumission: DateTime.ValueType };
   readonly soumettre: typeof soumettre;
-  readonly notifierGarantiesFinancièresEnAttente: typeof notifierGarantiesFinancièresEnAttente;
+  readonly demanderGarantiesFinancières: typeof demanderGarantiesFinancières;
 };
 
 export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
@@ -43,7 +43,7 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
 > = () => ({
   apply,
   soumettre,
-  notifierGarantiesFinancièresEnAttente,
+  demanderGarantiesFinancières,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
@@ -51,8 +51,8 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
     case 'GarantiesFinancièresSoumises-V1':
       applyGarantiesFinancièresSoumises.bind(this)(event);
       break;
-    case 'GarantiesFinancièresEnAttenteNotifié-V1':
-      applyNotifierGarantiesFinancièresEnAttente.bind(this)(event);
+    case 'GarantiesFinancièresDemandées-V1':
+      applyDemanderGarantiesFinancières.bind(this)(event);
       break;
   }
 }

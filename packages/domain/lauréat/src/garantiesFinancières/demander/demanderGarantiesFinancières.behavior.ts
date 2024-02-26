@@ -4,40 +4,40 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
 import { StatutGarantiesFinancières } from '..';
 
-export type GarantiesFinancièresEnAttenteNotifiéEvent = DomainEvent<
-  'GarantiesFinancièresEnAttenteNotifié-V1',
+export type GarantiesFinancièresDemandéesEvent = DomainEvent<
+  'GarantiesFinancièresDemandées-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     dateLimiteSoumission: DateTime.RawType;
-    notifiéLe: DateTime.RawType;
+    demandéLe: DateTime.RawType;
   }
 >;
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dateLimiteSoumission: DateTime.ValueType;
-  notifiéLe: DateTime.ValueType;
+  demandéLe: DateTime.ValueType;
 };
 
-export async function notifierGarantiesFinancièresEnAttente(
+export async function demanderGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
-  { dateLimiteSoumission, identifiantProjet, notifiéLe }: Options,
+  { dateLimiteSoumission, identifiantProjet, demandéLe }: Options,
 ) {
-  const event: GarantiesFinancièresEnAttenteNotifiéEvent = {
-    type: 'GarantiesFinancièresEnAttenteNotifié-V1',
+  const event: GarantiesFinancièresDemandéesEvent = {
+    type: 'GarantiesFinancièresDemandées-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       dateLimiteSoumission: dateLimiteSoumission.formatter(),
-      notifiéLe: notifiéLe.formatter(),
+      demandéLe: demandéLe.formatter(),
     },
   };
 
   await this.publish(event);
 }
 
-export function applyNotifierGarantiesFinancièresEnAttente(
+export function applyDemanderGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
-  { payload: { dateLimiteSoumission } }: GarantiesFinancièresEnAttenteNotifiéEvent,
+  { payload: { dateLimiteSoumission } }: GarantiesFinancièresDemandéesEvent,
 ) {
   this.statut = StatutGarantiesFinancières.enAttente;
   this.enAttente = {

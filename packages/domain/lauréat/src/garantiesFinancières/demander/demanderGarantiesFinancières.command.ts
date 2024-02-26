@@ -5,31 +5,29 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { loadGarantiesFinancièresFactory } from '../garantiesFinancières.aggregate';
 
-export type NotifierGarantiesFinancièresEnAttenteCommand = Message<
-  'NOTIFIER_GARANTIES_FINANCIÈRES_EN_ATTENTE_COMMAND',
+export type DemanderGarantiesFinancièresCommand = Message<
+  'DEMANDER_GARANTIES_FINANCIÈRES_COMMAND',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     dateLimiteSoumission: DateTime.ValueType;
-    notifiéLe: DateTime.ValueType;
+    demandéLe: DateTime.ValueType;
   }
 >;
 
-export const registerNotifierGarantiesFinancièresEnAttenteCommand = (
-  loadAggregate: LoadAggregate,
-) => {
+export const registerDemanderGarantiesFinancièresCommand = (loadAggregate: LoadAggregate) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
-  const handler: MessageHandler<NotifierGarantiesFinancièresEnAttenteCommand> = async ({
+  const handler: MessageHandler<DemanderGarantiesFinancièresCommand> = async ({
     identifiantProjet,
     dateLimiteSoumission,
-    notifiéLe,
+    demandéLe,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
 
-    await garantiesFinancières.notifierGarantiesFinancièresEnAttente({
+    await garantiesFinancières.demanderGarantiesFinancières({
       identifiantProjet,
       dateLimiteSoumission,
-      notifiéLe,
+      demandéLe,
     });
   };
-  mediator.register('NOTIFIER_GARANTIES_FINANCIÈRES_EN_ATTENTE_COMMAND', handler);
+  mediator.register('DEMANDER_GARANTIES_FINANCIÈRES_COMMAND', handler);
 };

@@ -82,7 +82,7 @@ export const setupLauréat = async () => {
     await subscribe<GarantiesFinancièreProjector.SubscriptionEvent>({
       name: 'projector',
       eventType: [
-        'GarantiesFinancièresEnAttenteNotifié-V1',
+        'GarantiesFinancièresDemandées-V1',
         'GarantiesFinancièresSoumises-V1',
         'RebuildTriggered',
       ],

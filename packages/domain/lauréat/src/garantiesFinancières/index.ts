@@ -3,7 +3,7 @@ import {
   ConsulterGarantiesFinancièresReadModel,
 } from './consulter/consulterGarantiesFinancières.query';
 import { SoumettreGarantiesFinancièresUseCase } from './soumettre/soumettreGarantiesFinancières.usecase';
-import { NotifierGarantiesFinancièresEnAttenteUseCase } from './notifierGarantiesFinancièresEnAttente/notifierGarantiesFinancièresEnAttente.usecase';
+import { DemanderGarantiesFinancièresUseCase } from './demander/demanderGarantiesFinancières.usecase';
 import {
   ListerGarantiesFinancièresPort,
   ListerGarantiesFinancièresQuery,
@@ -18,22 +18,19 @@ export type GarantiesFinancièresQuery =
 export { ConsulterGarantiesFinancièresQuery, ListerGarantiesFinancièresQuery };
 
 // ReadModel
-export {
-  ConsulterGarantiesFinancièresReadModel,
-  ListerGarantiesFinancièresReadModel as ListerGarantiesFinancièresÀTraiterReadModel,
-};
+export { ConsulterGarantiesFinancièresReadModel, ListerGarantiesFinancièresReadModel };
 
 // UseCases
 export type GarantiesFinancièresUseCase =
   | SoumettreGarantiesFinancièresUseCase
-  | NotifierGarantiesFinancièresEnAttenteUseCase;
+  | DemanderGarantiesFinancièresUseCase;
 
-export { SoumettreGarantiesFinancièresUseCase, NotifierGarantiesFinancièresEnAttenteUseCase };
+export { SoumettreGarantiesFinancièresUseCase, DemanderGarantiesFinancièresUseCase };
 
 // Event
 export { GarantiesFinancièresEvent } from './garantiesFinancières.aggregate';
 export { GarantiesFinancièresSoumisesEvent } from './soumettre/soumettreGarantiesFinancières.behavior';
-export { GarantiesFinancièresEnAttenteNotifiéEvent } from './notifierGarantiesFinancièresEnAttente/notifierGarantiesFinancièresEnAttente.behavior';
+export { GarantiesFinancièresDemandéesEvent } from './demander/demanderGarantiesFinancières.behavior';
 
 // Register
 export {

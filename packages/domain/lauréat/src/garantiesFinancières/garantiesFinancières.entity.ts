@@ -27,6 +27,6 @@ export type GarantiesFinancièresEntity = Entity<
       dateConstitution: string;
       soumisLe: string;
     };
-    enAttente?: { dateLimiteSoumission: string; notifiéLe: string };
+    enAttente?: { dateLimiteSoumission: string; demandéLe: string };
   }
 >;

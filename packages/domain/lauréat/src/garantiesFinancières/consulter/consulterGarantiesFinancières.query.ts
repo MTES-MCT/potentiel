@@ -32,7 +32,7 @@ export type ConsulterGarantiesFinancièresReadModel = {
     soumisLe: DateTime.ValueType;
     attestation: DocumentProjet.ValueType;
   };
-  enAttente?: { dateLimiteSoumission: DateTime.ValueType; notifiéLe: DateTime.ValueType };
+  enAttente?: { dateLimiteSoumission: DateTime.ValueType; demandéLe: DateTime.ValueType };
 };
 
 export type ConsulterGarantiesFinancièresQuery = Message<
@@ -93,7 +93,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
           dateLimiteSoumission: DateTime.convertirEnValueType(
             result.enAttente.dateLimiteSoumission,
           ),
-          notifiéLe: DateTime.convertirEnValueType(result.enAttente.notifiéLe),
+          demandéLe: DateTime.convertirEnValueType(result.enAttente.demandéLe),
         }
       : undefined;
 
