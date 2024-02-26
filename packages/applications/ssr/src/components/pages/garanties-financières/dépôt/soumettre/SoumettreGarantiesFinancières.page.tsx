@@ -15,7 +15,7 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { formatDateForInput } from '@/utils/formatDateForInput';
 
-import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancieres';
+import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 import { TypeGarantiesFinancièresSelect } from '../../TypeGarantiesFinancièresSelect';
 
 import { soumettreGarantiesFinancièresAction } from './soumettreGarantiesFinancières.action';

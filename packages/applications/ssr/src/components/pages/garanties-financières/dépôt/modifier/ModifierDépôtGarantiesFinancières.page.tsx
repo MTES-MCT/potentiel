@@ -14,7 +14,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { formatDateForInput } from '@/utils/formatDateForInput';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
-import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancieres';
+import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 import {
   GarantiesFinancières,
   TypeGarantiesFinancièresSelect,
