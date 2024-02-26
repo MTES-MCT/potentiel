@@ -15,12 +15,12 @@ export type SupprimerGarantiesFinancièresÀTraiterUseCase = Message<
 export const registerSupprimerGarantiesFinancièresÀTraiterUseCase = () => {
   const runner: MessageHandler<SupprimerGarantiesFinancièresÀTraiterUseCase> = async ({
     identifiantProjetValue,
-    suppriméLeValue: soumisLeValue,
-    suppriméParValue: soumisParValue,
+    suppriméLeValue,
+    suppriméParValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const suppriméLe = DateTime.convertirEnValueType(soumisLeValue);
-    const suppriméPar = IdentifiantUtilisateur.convertirEnValueType(soumisParValue);
+    const suppriméLe = DateTime.convertirEnValueType(suppriméLeValue);
+    const suppriméPar = IdentifiantUtilisateur.convertirEnValueType(suppriméParValue);
 
     // TO DO : supprimer document
     // await mediator.send<EnregistrerDocumentProjetCommand>({

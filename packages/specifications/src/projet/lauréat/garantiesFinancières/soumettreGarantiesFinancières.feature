@@ -28,34 +28,35 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
             | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |   
 
-    # Plan du Scénario: Un porteur soumet de nouvelles garanties financières pour remplacer des garanties financières validées
-    #     Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
-    #         | type                 | consignation          |
-    #         | format               | application/pdf       |
-    #         | contenu fichier      | contenu               |
-    #         | date de constitution | 2023-01-01            |
-    #         | date de validation   | 2023-01-01            |  
-    #     Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
-    #         | type                 | <type>                 |
-    #         | date d'échéance      | <date d'échéance>      |
-    #         | format               | <format du fichier>    |
-    #         | contenu fichier      | <contenu du fichier>   |
-    #         | date de constitution | <date de constitution> |
-    #         | date de soumission   | 2023-10-01             |
-    #         | soumis par           | porteur@test.test      |
-    #     Alors les garanties financières devraient être consultables pour le projet "Centrale PV" avec :
-    #         | type                 | <type>                 |
-    #         | date d'échéance      | <date d'échéance>      |
-    #         | format               | <format du fichier>    |
-    #         | contenu fichier      | <contenu du fichier>   |
-    #         | date de constitution | <date de constitution> |
-    #         | date de soumission   | 2023-10-01             |
-    #         | région               | Corse                  |
-    # Exemples:
-    #         | type                    | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
-    #         | avec-date-échéance    | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
-    #         | consignation            |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
-    #         | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |  
+    @NotImplemented
+    Plan du Scénario: Un porteur soumet de nouvelles garanties financières pour remplacer des garanties financières validées
+        Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
+            | type                 | consignation          |
+            | format               | application/pdf       |
+            | contenu fichier      | contenu               |
+            | date de constitution | 2023-01-01            |
+            | date de validation   | 2023-01-01            |  
+        Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+            | type                 | <type>                 |
+            | date d'échéance      | <date d'échéance>      |
+            | format               | <format du fichier>    |
+            | contenu fichier      | <contenu du fichier>   |
+            | date de constitution | <date de constitution> |
+            | date de soumission   | 2023-10-01             |
+            | soumis par           | porteur@test.test      |
+        Alors les garanties financières devraient être consultables pour le projet "Centrale PV" avec :
+            | type                 | <type>                 |
+            | date d'échéance      | <date d'échéance>      |
+            | format               | <format du fichier>    |
+            | contenu fichier      | <contenu du fichier>   |
+            | date de constitution | <date de constitution> |
+            | date de soumission   | 2023-10-01             |
+            | région               | Corse                  |
+    Exemples:
+            | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
+            | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
+            | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
+            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |  
     
     Scénario: Erreur si date de constitution dans le futur
         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
@@ -80,8 +81,8 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     
     Scénario: Erreur si un dépôt a déjà été soumis
         Etant donné des garanties financières à traiter pour le projet "Centrale PV" avec :
-            | type                 | avec-date-échéance             |
-            | date d'échéance      | 2027-12-01                    |
+            | type                 | avec-date-échéance  |
+            | date d'échéance      | 2027-12-01          |
          Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
-            | type                 | consignation                  |          
+            | type                 | consignation        |          
         Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières en attente de validation pour ce projet"              

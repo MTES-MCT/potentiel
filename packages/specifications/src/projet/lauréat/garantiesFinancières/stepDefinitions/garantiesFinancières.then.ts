@@ -31,6 +31,10 @@ Alors(
         },
       });
 
+    expect(
+      actualReadModel.statut.estÉgaleÀ(GarantiesFinancières.StatutGarantiesFinancières.àTraiter),
+    ).to.be.true;
+
     expect(actualReadModel.àTraiter?.type.type).to.deep.equal(typeGarantiesFinancières);
     if (dateÉchéance) {
       expect(actualReadModel.àTraiter?.dateÉchéance?.date).to.deep.equal(new Date(dateÉchéance));
@@ -133,6 +137,10 @@ Alors(
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
+
+    expect(
+      actualReadModel.statut.estÉgaleÀ(GarantiesFinancières.StatutGarantiesFinancières.àTraiter),
+    ).to.be.false;
 
     expect(actualReadModel.àTraiter).to.be.undefined;
   },
