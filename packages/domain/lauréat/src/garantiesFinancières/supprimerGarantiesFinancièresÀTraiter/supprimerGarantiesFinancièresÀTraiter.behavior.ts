@@ -4,6 +4,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { StatutGarantiesFinancières } from '..';
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { AucunesGarantiesFinancièresÀTraiter } from './aucunesGarantiesFinancièresÀTraiter.error';
 
 export type GarantiesFinancièresÀTraiterSuppriméesEvent = DomainEvent<
   'GarantiesFinancièresÀTraiterSupprimées-V1',
@@ -24,6 +25,9 @@ export async function supprimerGarantiesFinancièresÀTraiter(
   this: GarantiesFinancièresAggregate,
   { suppriméLe, identifiantProjet, suppriméPar }: Options,
 ) {
+  if (!this.àTraiter) {
+    throw new AucunesGarantiesFinancièresÀTraiter();
+  }
   const event: GarantiesFinancièresÀTraiterSuppriméesEvent = {
     type: 'GarantiesFinancièresÀTraiterSupprimées-V1',
     payload: {
