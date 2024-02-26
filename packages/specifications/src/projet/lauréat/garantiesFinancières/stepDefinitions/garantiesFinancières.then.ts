@@ -111,14 +111,12 @@ Alors(
         },
       });
 
-    console.log('test readmodel', actualReadModel.statut.statut);
-
     expect(
       actualReadModel.statut.estÉgaleÀ(GarantiesFinancières.StatutGarantiesFinancières.enAttente),
     ).to.be.true;
 
     expect(actualReadModel.enAttente?.dateLimiteSoumission.date).to.deep.equal(
-      new Date(dateLimiteSoumission).toISOString(),
+      new Date(dateLimiteSoumission),
     );
   },
 );
