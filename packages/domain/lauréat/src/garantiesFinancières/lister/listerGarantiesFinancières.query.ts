@@ -124,39 +124,32 @@ export const registerListerGarantiesFinancièresQuery = ({
 const mapToListItemReadModel = (
   entity: GarantiesFinancièresEntity,
 ): GarantiesFinancièresListItemReadModel => {
-  const validées: GarantiesFinancièresListItemReadModel['validées'] = entity.validées
-    ? {
-        type: TypeGarantiesFinancières.convertirEnValueType(entity.validées.type),
-        dateÉchéance: entity.validées.dateÉchéance
-          ? DateTime.convertirEnValueType(entity.validées.dateÉchéance)
-          : undefined,
-        dateConstitution: DateTime.convertirEnValueType(entity.validées.dateConstitution),
-        validéLe: DateTime.convertirEnValueType(entity.validées.validéLe),
-      }
-    : undefined;
-  const àTraiter: GarantiesFinancièresListItemReadModel['àTraiter'] = entity.àTraiter
-    ? {
-        type: TypeGarantiesFinancières.convertirEnValueType(entity.àTraiter.type),
-        dateÉchéance: entity.àTraiter.dateÉchéance
-          ? DateTime.convertirEnValueType(entity.àTraiter.dateÉchéance)
-          : undefined,
-        dateConstitution: DateTime.convertirEnValueType(entity.àTraiter.dateConstitution),
-        soumisLe: DateTime.convertirEnValueType(entity.àTraiter.soumisLe),
-        attestation: DocumentProjet.convertirEnValueType(
-          IdentifiantProjet.convertirEnValueType(entity.identifiantProjet).formatter(),
-          TypeDocumentGarantiesFinancières.garantiesFinancièresÀTraiter.formatter(),
-          DateTime.convertirEnValueType(entity.àTraiter.soumisLe).formatter(),
-          entity.àTraiter.attestation.format,
-        ),
-      }
-    : undefined;
-  const enAttente: GarantiesFinancièresListItemReadModel['enAttente'] = entity.enAttente
-    ? {
-        dateLimiteSoumission: DateTime.convertirEnValueType(entity.enAttente.dateLimiteSoumission),
-        demandéLe: DateTime.convertirEnValueType(entity.enAttente.demandéLe),
-      }
-    : undefined;
-
+  const validées: GarantiesFinancièresListItemReadModel['validées'] = entity.validées && {
+    type: TypeGarantiesFinancières.convertirEnValueType(entity.validées.type),
+    ...(entity.validées.dateÉchéance && {
+      dateÉchéance: DateTime.convertirEnValueType(entity.validées.dateÉchéance),
+    }),
+    dateConstitution: DateTime.convertirEnValueType(entity.validées.dateConstitution),
+    validéLe: DateTime.convertirEnValueType(entity.validées.validéLe),
+  };
+  const àTraiter: GarantiesFinancièresListItemReadModel['àTraiter'] = entity.àTraiter && {
+    type: TypeGarantiesFinancières.convertirEnValueType(entity.àTraiter.type),
+    ...(entity.àTraiter.dateÉchéance && {
+      dateÉchéance: DateTime.convertirEnValueType(entity.àTraiter.dateÉchéance),
+    }),
+    dateConstitution: DateTime.convertirEnValueType(entity.àTraiter.dateConstitution),
+    soumisLe: DateTime.convertirEnValueType(entity.àTraiter.soumisLe),
+    attestation: DocumentProjet.convertirEnValueType(
+      IdentifiantProjet.convertirEnValueType(entity.identifiantProjet).formatter(),
+      TypeDocumentGarantiesFinancières.garantiesFinancièresÀTraiter.formatter(),
+      DateTime.convertirEnValueType(entity.àTraiter.soumisLe).formatter(),
+      entity.àTraiter.attestation.format,
+    ),
+  };
+  const enAttente: GarantiesFinancièresListItemReadModel['enAttente'] = entity.enAttente && {
+    dateLimiteSoumission: DateTime.convertirEnValueType(entity.enAttente.dateLimiteSoumission),
+    demandéLe: DateTime.convertirEnValueType(entity.enAttente.demandéLe),
+  };
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
     appelOffre: entity.appelOffre,
