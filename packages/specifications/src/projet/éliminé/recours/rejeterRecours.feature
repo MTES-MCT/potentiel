@@ -1,5 +1,4 @@
 #Language: fr-FR
-@NotImplemented
 Fonctionnalité: Rejeter le recours d'un projet éliminé
   Contexte:
     Etant donné le projet éliminé "Du boulodrome de Marseille"
