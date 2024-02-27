@@ -3,9 +3,15 @@ import { fr } from '@codegouvfr/react-dsfr';
 
 import { Heading1 } from '@/components/atoms/headings';
 
-export const TitrePageGarantiesFinancières: FC = () => (
+type TitrePageGarantiesFinancièresProps = {
+  title: string;
+};
+
+export const TitrePageGarantiesFinancières: FC<TitrePageGarantiesFinancièresProps> = ({
+  title,
+}) => (
   <Heading1>
     <i className={`${fr.cx('ri-bank-line', 'fr-icon--lg')} mr-1`} aria-hidden />
-    Garanties Financières
+    {title}
   </Heading1>
 );

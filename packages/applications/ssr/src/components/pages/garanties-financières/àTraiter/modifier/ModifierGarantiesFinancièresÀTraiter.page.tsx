@@ -21,45 +21,41 @@ import {
   TypeGarantiesFinancièresSelectProps,
 } from '../../TypeGarantiesFinancièresSelect';
 
-import { ValiderDépôtGarantiesFinancières } from './valider/ValiderDépôtGarantiesFinancières';
-import { RejeterDépôtGarantiesFinancières } from './rejeter/RejeterDépôtGarantiesFinancières';
-import { modifierGarantiesFinancièresAction } from './modifierDépôtGarantiesFinancières.action';
-import { AnnulerDépôtGarantiesFinancières } from './annuler/AnnulerDépôtGarantiesFinancières';
+import { ValiderGarantiesFinancièresÀTraiter } from './valider/ValiderGarantiesFinancièresÀTraiter';
+import { RejeterGarantiesFinancièresÀTraiter } from './rejeter/RejeterGarantiesFinancièresÀTraiter';
+import { modifierGarantiesFinancièresÀTraiterAction } from './modifierGarantiesFinancièresÀTraiter.action';
+import { SupprimerGarantiesFinancièresÀTraiter } from './supprimer/SupprimerGarantiesFinancièresÀTraiter';
 
-type AvailableActions = Array<'valider' | 'rejeter' | 'annuler'>;
+type AvailableActions = Array<'valider' | 'rejeter' | 'supprimer'>;
 
-export type ModifierDépôtGarantiesFinancièresProps = {
+export type ModifierGarantiesFinancièresÀTraiterProps = {
   projet: ProjetBannerProps;
   garantiesFinancieres: GarantiesFinancières;
   showWarning?: true;
   actions: AvailableActions;
 };
 
-export const ModifierDépôtGarantiesFinancières: FC<ModifierDépôtGarantiesFinancièresProps> = ({
-  projet,
-  garantiesFinancieres,
-  showWarning,
-  actions,
-}) => {
+export const ModifierGarantiesFinancièresÀTraiter: FC<
+  ModifierGarantiesFinancièresÀTraiterProps
+> = ({ projet, garantiesFinancieres, showWarning, actions }) => {
   const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner {...projet} />}
-      heading={<TitrePageGarantiesFinancières />}
+      heading={<TitrePageGarantiesFinancières title="Garanties financières à traiter" />}
       leftColumn={{
         children: (
           <>
             <Form
               method="POST"
               encType="multipart/form-data"
-              action={modifierGarantiesFinancièresAction}
+              action={modifierGarantiesFinancièresÀTraiterAction}
               onSuccess={() =>
                 router.push(Routes.GarantiesFinancières.détail(projet.identifiantProjet))
               }
               onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-              heading="Modifier des garanties financières"
             >
               {showWarning && (
                 <Alert
@@ -68,8 +64,8 @@ export const ModifierDépôtGarantiesFinancières: FC<ModifierDépôtGarantiesFi
                   title=""
                   description={
                     <>
-                      Vous pouvez modifier cette soumission de garanties financières jusqu'à sa
-                      validation par la DREAL concernée.
+                      Vous pouvez modifier ou supprimer cette soumission de garanties financières
+                      jusqu'à la validation par la DREAL concernée.
                     </>
                   }
                 />
@@ -174,13 +170,13 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
   return actions.length ? (
     <>
       {actions.includes('valider') && (
-        <ValiderDépôtGarantiesFinancières identifiantProjet={identifiantProjet} />
+        <ValiderGarantiesFinancièresÀTraiter identifiantProjet={identifiantProjet} />
       )}
       {actions.includes('rejeter') && (
-        <RejeterDépôtGarantiesFinancières identifiantProjet={identifiantProjet} />
+        <RejeterGarantiesFinancièresÀTraiter identifiantProjet={identifiantProjet} />
       )}
-      {actions.includes('annuler') && (
-        <AnnulerDépôtGarantiesFinancières identifiantProjet={identifiantProjet} />
+      {actions.includes('supprimer') && (
+        <SupprimerGarantiesFinancièresÀTraiter identifiantProjet={identifiantProjet} />
       )}
     </>
   ) : null;

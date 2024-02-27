@@ -29,4 +29,4 @@ const action: FormAction<FormState, typeof schema> = async (_, props) => {
   };
 };
 
-export const modifierGarantiesFinancièresAction = formAction(action, schema);
+export const modifierGarantiesFinancièresÀTraiterAction = formAction(action, schema);
