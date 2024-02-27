@@ -36,14 +36,13 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner {...projet} />}
-      heading={<TitrePageGarantiesFinancières />}
+      heading={<TitrePageGarantiesFinancières title="Soumettre des garanties financières" />}
       leftColumn={{
         children: (
           <Form
             method="POST"
             encType="multipart/form-data"
             action={soumettreGarantiesFinancièresAction}
-            heading="Soumettre un dépôt de garanties financières"
             onSuccess={() => router.push(Routes.Projet.details(projet.identifiantProjet))}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >

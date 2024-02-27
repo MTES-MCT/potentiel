@@ -44,7 +44,7 @@ export const ModifierGarantiesFinancièresÀTraiter: FC<
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner {...projet} />}
-      heading={<TitrePageGarantiesFinancières />}
+      heading={<TitrePageGarantiesFinancières title="Garanties financières à traiter" />}
       leftColumn={{
         children: (
           <>
@@ -56,7 +56,6 @@ export const ModifierGarantiesFinancièresÀTraiter: FC<
                 router.push(Routes.GarantiesFinancières.détail(projet.identifiantProjet))
               }
               onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-              heading="Modifier des garanties financières"
             >
               {showWarning && (
                 <Alert
