@@ -14,6 +14,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { formatDateForInput } from '@/utils/formatDateForInput';
+import { PageTemplate } from '@/components/templates/Page.template';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 import { TypeGarantiesFinancièresSelect } from '../../TypeGarantiesFinancièresSelect';
@@ -22,16 +23,33 @@ import { soumettreGarantiesFinancièresAction } from './soumettreGarantiesFinanc
 
 export type SoumettreGarantiesFinancièresProps = {
   projet: ProjetBannerProps;
+  garantiesFinancièresÀTraiterExistante?: true;
 };
 
 export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièresProps> = ({
   projet,
+  garantiesFinancièresÀTraiterExistante,
 }) => {
   const router = useRouter();
 
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   const { identifiantProjet } = projet;
+
+  /**
+   * @todo Expliquer ici qu'il faut d'abord supprimer la soumission en cours + lien vers le
+   * formulaire pour annuler les GFs
+   */
+  if (garantiesFinancièresÀTraiterExistante) {
+    return (
+      <PageTemplate banner={<ProjetBanner {...projet} />}>
+        <pre>
+          Expliquer ici qu'il faut d'abord supprimer la soumission en cours + lien vers le
+          formulaire pour annuler les GFs
+        </pre>
+      </PageTemplate>
+    );
+  }
 
   return (
     <ColumnPageTemplate
