@@ -19,7 +19,7 @@ export const setupEliminé = async () => {
     find: findProjection,
     listerRecoursPourPorteur: listerRecoursPourPorteurAdapter,
     listerRecours: listerRecoursAdapter,
-    récupérerRégionDrealAdapter: récupérerRégionDrealAdapter,
+    récupérerRégionDreal: récupérerRégionDrealAdapter,
   });
 
   RecoursProjector.register();
