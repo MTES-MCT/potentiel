@@ -1,7 +1,6 @@
 import { Message, Middleware, mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import * as Utilisateur from './utilisateur.valueType';
-import { getLogger } from '@potentiel/monitoring';
 import { VérifierAccèsProjetQuery } from './vérifierAccèsProjet/vérifierAccèsProjet.query';
 
 type GetAuthenticatedUserMessage = Message<'GET_AUTHENTICATED_USER', {}, Utilisateur.ValueType>;
@@ -19,10 +18,13 @@ export const permissionMiddleware: Middleware = async (message, next) => {
     });
   } catch (error) {
     if (mustSkipMessage(message)) {
-      getLogger().warn(
-        `[permission.middleware] Fail to get access token probably because a system process trigger the message`,
-        { type: message.type, data: message.data },
-      );
+      /**
+       * @todo Trouver un moyen de ne pas avoir une dépendance direct au logger (et donc sentry) car ça fait crasher le storybook
+       */
+      // getLogger().warn(
+      //   `[permission.middleware] Fail to get access token probably because a system process trigger the message`,
+      //   { type: message.type, data: message.data },
+      // );
       return await next();
     }
 
