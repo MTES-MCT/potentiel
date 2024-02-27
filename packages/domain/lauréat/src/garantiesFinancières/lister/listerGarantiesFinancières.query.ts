@@ -35,6 +35,7 @@ export type GarantiesFinancièresListItemReadModel = {
     type: TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
     dateConstitution: DateTime.ValueType;
+    soumisLe: DateTime.ValueType;
     validéLe: DateTime.ValueType;
     attestation: DocumentProjet.ValueType;
   };
@@ -130,11 +131,12 @@ const mapToListItemReadModel = (
       dateÉchéance: DateTime.convertirEnValueType(entity.validées.dateÉchéance),
     }),
     dateConstitution: DateTime.convertirEnValueType(entity.validées.dateConstitution),
+    soumisLe: DateTime.convertirEnValueType(entity.validées.soumisLe),
     validéLe: DateTime.convertirEnValueType(entity.validées.validéLe),
     attestation: DocumentProjet.convertirEnValueType(
       IdentifiantProjet.convertirEnValueType(entity.identifiantProjet).formatter(),
-      TypeDocumentGarantiesFinancières.convertirEnGarantiesFinancièresSoumisesValueType.formatter(),
-      DateTime.convertirEnValueType(entity.validées.validéLe).formatter(),
+      TypeDocumentGarantiesFinancières.convertirEnGarantiesFinancièresValidéesValueType.formatter(),
+      DateTime.convertirEnValueType(entity.validées.soumisLe).formatter(),
       entity.validées.attestation.format,
     ),
   };

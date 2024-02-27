@@ -139,6 +139,7 @@ export const register = () => {
                 attestation: garantiesFinancièresToUpsert.àTraiter!.attestation,
                 dateConstitution: garantiesFinancièresToUpsert.àTraiter!.dateConstitution,
                 validéLe: payload.validéLe,
+                soumisLe: garantiesFinancièresToUpsert.àTraiter!.soumisLe,
               },
               àTraiter: undefined,
               enAttente: undefined,

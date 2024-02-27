@@ -18,6 +18,7 @@ export type GarantiesFinancièresEntity = Entity<
       dateÉchéance?: string;
       attestation: { format: string };
       dateConstitution: string;
+      soumisLe: string;
       validéLe: string;
     };
     àTraiter?: {
