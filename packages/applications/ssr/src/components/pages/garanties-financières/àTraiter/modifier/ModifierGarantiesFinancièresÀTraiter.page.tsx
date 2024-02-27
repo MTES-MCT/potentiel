@@ -64,8 +64,8 @@ export const ModifierGarantiesFinancièresÀTraiter: FC<
                   title=""
                   description={
                     <>
-                      Vous pouvez modifier cette soumission de garanties financières jusqu'à sa
-                      validation par la DREAL concernée.
+                      Vous pouvez modifier ou supprimer cette soumission de garanties financières
+                      jusqu'à la validation par la DREAL concernée.
                     </>
                   }
                 />
