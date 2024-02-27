@@ -15,7 +15,7 @@ import {
   consulterCahierDesChargesChoisiAdapter,
   listerAbandonsAdapter,
   listerAbandonsPourPorteurAdapter,
-  récupérerRégionDreal,
+  récupérerRégionDrealAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import {
   getModèleMiseEnDemeureGarantiesFinancières,
@@ -35,7 +35,7 @@ export const setupLauréat = async () => {
     listerAbandonsPourPorteur: listerAbandonsPourPorteurAdapter,
     buildModèleRéponseAbandon: getModèleRéponseAbandon,
     listerAbandons: listerAbandonsAdapter,
-    récupérerRégionDreal: récupérerRégionDreal,
+    récupérerRégionDreal: récupérerRégionDrealAdapter,
     buildModèleMiseEnDemeureGarantiesFinancières: getModèleMiseEnDemeureGarantiesFinancières,
   });
 

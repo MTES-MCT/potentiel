@@ -77,13 +77,13 @@ export type ListerRecoursQuery = Message<
 export type ListerRecoursDependencies = {
   listerRecoursPourPorteur: ListerRecoursPourPorteurPort;
   listerRecours: ListerRecoursPort;
-  récupérerRégionDrealAdapter: RécupérerRégionDrealPort;
+  récupérerRégionDreal: RécupérerRégionDrealPort;
 };
 
 export const registerListerRecoursQuery = ({
   listerRecoursPourPorteur,
   listerRecours,
-  récupérerRégionDrealAdapter,
+  récupérerRégionDreal,
 }: ListerRecoursDependencies) => {
   const handler: MessageHandler<ListerRecoursQuery> = async ({
     statut,
@@ -111,7 +111,7 @@ export const registerListerRecoursQuery = ({
     }
 
     if (rôle === 'dreal') {
-      const région = await récupérerRégionDrealAdapter(email);
+      const région = await récupérerRégionDreal(email);
       if (isNone(région)) {
         throw new RégionNonTrouvéeError();
       }
