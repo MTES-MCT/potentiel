@@ -64,7 +64,7 @@ v1Router.get(
     }
 
     const résuméProjet = await mediator.send<ConsulterCandidatureQuery>({
-      type: 'CONSULTER_CANDIDATURE_QUERY',
+      type: 'Candidature.Query.ConsulterCandidature',
       data: { identifiantProjet: identifiantProjet.identifiantProjetValue },
     });
 
@@ -82,7 +82,7 @@ v1Router.get(
     }
 
     const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
-      type: 'CONSULTER_APPEL_OFFRE_QUERY',
+      type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: { identifiantAppelOffre: résuméProjet.appelOffre },
     });
 

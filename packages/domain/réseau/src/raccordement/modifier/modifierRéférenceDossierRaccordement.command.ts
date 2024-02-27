@@ -8,7 +8,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 
 export type ModifierRéférenceDossierRaccordementCommand = Message<
-  'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_COMMAND',
+  'Réseau.Raccordement.Command.ModifierRéférenceDossierRaccordement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -45,5 +45,5 @@ export const registerModifierRéférenceDossierRaccordementCommand = (
     });
   };
 
-  mediator.register('MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_COMMAND', handler);
+  mediator.register('Réseau.Raccordement.Command.ModifierRéférenceDossierRaccordement', handler);
 };

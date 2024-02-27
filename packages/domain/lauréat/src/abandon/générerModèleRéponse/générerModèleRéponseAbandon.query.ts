@@ -11,7 +11,7 @@ export type GénérerModèleRéponseAbandonReadModel = {
 };
 
 export type GénérerModèleRéponseAbandonQuery = Message<
-  'GENERER_MODELE_REPONSE_ABANDON_QUERY',
+  'Document.Query.GénérerModèleRéponseAbandon',
   {
     identifiantProjet: string;
     identifiantUtilisateur: string;
@@ -74,14 +74,14 @@ export const registerGénérerModèleRéponseAbandonQuery = ({
     identifiantUtilisateur,
   }) => {
     const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
-      type: 'CONSULTER_UTILISATEUR_QUERY',
+      type: 'Utilisateur.Query.ConsulterUtilisateur',
       data: {
         identifiantUtilisateur,
       },
     });
 
     const candidature = await mediator.send<ConsulterCandidatureQuery>({
-      type: 'CONSULTER_CANDIDATURE_QUERY',
+      type: 'Candidature.Query.ConsulterCandidature',
       data: {
         identifiantProjet,
       },
@@ -95,12 +95,12 @@ export const registerGénérerModèleRéponseAbandonQuery = ({
     });
 
     const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
-      type: 'CONSULTER_APPEL_OFFRE_QUERY',
+      type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: { identifiantAppelOffre: candidature.appelOffre },
     });
 
     const { cahierDesChargesChoisi } = await mediator.send<ConsulterCahierDesChargesChoisiQuery>({
-      type: 'CONSULTER_CAHIER_DES_CHARGES_QUERY',
+      type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
       data: { identifiantProjet },
     });
 
@@ -150,7 +150,7 @@ export const registerGénérerModèleRéponseAbandonQuery = ({
       content,
     };
   };
-  mediator.register('GENERER_MODELE_REPONSE_ABANDON_QUERY', handler);
+  mediator.register('Document.Query.GénérerModèleRéponseAbandon', handler);
 };
 
 function getEdfType(region: string) {

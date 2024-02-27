@@ -6,7 +6,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { ModifierPropositionTechniqueEtFinancièreCommand } from './modifierPropositiontechniqueEtFinancière.command';
 
 export type ModifierPropositiontechniqueEtFinancièreUseCase = Message<
-  'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+  'Réseau.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
   {
     dateSignatureValue: string;
     référenceDossierRaccordementValue: string;
@@ -41,7 +41,7 @@ export const registerModifierPropositiontechniqueEtFinancièreUseCase = () => {
     );
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
+      type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
         content,
         documentProjet: propositionTechniqueEtFinancièreSignée,
@@ -49,7 +49,7 @@ export const registerModifierPropositiontechniqueEtFinancièreUseCase = () => {
     });
 
     await mediator.send<ModifierPropositionTechniqueEtFinancièreCommand>({
-      type: 'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
+      type: 'Réseau.Raccordement.Command.ModifierPropositionTechniqueEtFinancière',
       data: {
         dateSignature,
         identifiantProjet,
@@ -59,5 +59,5 @@ export const registerModifierPropositiontechniqueEtFinancièreUseCase = () => {
     });
   };
 
-  mediator.register('MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE', runner);
+  mediator.register('Réseau.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière', runner);
 };

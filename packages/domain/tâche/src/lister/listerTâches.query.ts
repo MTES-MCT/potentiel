@@ -24,7 +24,7 @@ export type ListerTâchesReadModel = {
 };
 
 export type ListerTâchesQuery = Message<
-  'LISTER_TÂCHES_QUERY',
+  'Tâche.Query.ListerTâches',
   {
     email: string;
     appelOffre?: string;
@@ -69,7 +69,7 @@ export const registerListerTâchesQuery = ({ récupérerTâches }: ListerTâches
       totalItems,
     };
   };
-  mediator.register('LISTER_TÂCHES_QUERY', handler);
+  mediator.register('Tâche.Query.ListerTâches', handler);
 };
 
 const mapToReadModel = ({

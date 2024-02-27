@@ -27,12 +27,12 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
       const appelOffre = searchParams?.appelOffre;
 
       const appelOffres = await mediator.send<ListerAppelOffreQuery>({
-        type: 'LISTER_APPEL_OFFRE_QUERY',
+        type: 'AppelOffre.Query.ListerAppelOffre',
         data: {},
       });
 
       const tâches = await mediator.send<ListerTâcheQuery>({
-        type: 'LISTER_TÂCHES_QUERY',
+        type: 'Tâche.Query.ListerTâches',
         data: {
           pagination: { page, itemsPerPage: 10 },
           email: utilisateur.identifiantUtilisateur.email,

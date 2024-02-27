@@ -214,7 +214,7 @@ const getAlertesRaccordement = async ({
     // mais il faudrait revoir le système de gestion des alertes sur le projet
     // et à discuter avec le métier : qu'est-ce qui est une "alerte" ou une "tâche" en ce qui concerne les raccordements
     dossiersRaccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-      type: 'CONSULTER_RACCORDEMENT_QUERY',
+      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
       data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
 

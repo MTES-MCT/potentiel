@@ -7,7 +7,7 @@ export const récupérerDétailDossiersRaccordements: RécupérerDétailDossiers
   identifiantProjet: IdentifiantProjet.ValueType,
 ) => {
   const { dossiers } = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-    type: 'CONSULTER_RACCORDEMENT_QUERY',
+    type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
     data: { identifiantProjetValue: identifiantProjet.formatter() },
   });
   return dossiers;

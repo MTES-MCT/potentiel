@@ -7,7 +7,7 @@ import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { TransmettreDemandeComplèteRaccordementCommand } from './transmettreDemandeComplèteRaccordement.command';
 
 export type TransmettreDemandeComplèteRaccordementUseCase = Message<
-  'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+  'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
   {
     identifiantProjetValue: string;
     dateQualificationValue: string;
@@ -44,7 +44,7 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
     );
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
+      type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
         content,
         documentProjet: accuséRéception,
@@ -52,7 +52,7 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
     });
 
     await mediator.send<TransmettreDemandeComplèteRaccordementCommand>({
-      type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
+      type: 'Réseau.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
       data: {
         identifiantProjet,
         identifiantGestionnaireRéseau,
@@ -63,5 +63,5 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
     });
   };
 
-  mediator.register('TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE', runner);
+  mediator.register('Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement', runner);
 };

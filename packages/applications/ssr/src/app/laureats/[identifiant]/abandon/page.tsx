@@ -31,7 +31,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       const identifiantProjet = decodeParameter(identifiant);
 
       const candidature = await mediator.send<ConsulterCandidatureQuery>({
-        type: 'CONSULTER_CANDIDATURE_QUERY',
+        type: 'Candidature.Query.ConsulterCandidature',
         data: {
           identifiantProjet,
         },

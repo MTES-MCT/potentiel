@@ -48,7 +48,7 @@ Alors(
 
     if (actualReadModel.àTraiter?.attestation) {
       const file = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'CONSULTER_DOCUMENT_PROJET',
+        type: 'Document.Query.ConsulterDocumentProjet',
         data: {
           documentKey: actualReadModel.àTraiter?.attestation.formatter(),
         },

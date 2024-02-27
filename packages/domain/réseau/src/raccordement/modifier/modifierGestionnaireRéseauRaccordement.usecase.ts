@@ -4,7 +4,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 export type ModifierGestionnaireRéseauRaccordementUseCase = Message<
-  'MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_USE_CASE',
+  'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
   {
     identifiantGestionnaireRéseauValue: string;
     identifiantProjetValue: string;
@@ -21,12 +21,12 @@ export const registerModifierGestionnaireRéseauRaccordementUseCase = () => {
       identifiantGestionnaireRéseauValue,
     );
     await mediator.send<ModifierGestionnaireRéseauRaccordementCommand>({
-      type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_COMMAND',
+      type: 'Réseau.Raccordement.Command.ModifierGestionnaireRéseauRaccordement',
       data: {
         identifiantProjet,
         identifiantGestionnaireRéseau,
       },
     });
   };
-  mediator.register('MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_USE_CASE', runner);
+  mediator.register('Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement', runner);
 };

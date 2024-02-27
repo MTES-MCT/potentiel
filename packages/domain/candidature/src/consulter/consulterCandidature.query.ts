@@ -34,7 +34,7 @@ export type ConsulterCandidatureReadModel = {
 };
 
 export type ConsulterCandidatureQuery = Message<
-  'CONSULTER_CANDIDATURE_QUERY',
+  'Candidature.Query.ConsulterCandidature',
   {
     identifiantProjet: string;
   },
@@ -62,7 +62,7 @@ export const registerConsulterCandidatureQuery = ({
     return mapToReadModel(result);
   };
 
-  mediator.register('CONSULTER_CANDIDATURE_QUERY', handler);
+  mediator.register('Candidature.Query.ConsulterCandidature', handler);
 };
 
 const mapToReadModel = ({

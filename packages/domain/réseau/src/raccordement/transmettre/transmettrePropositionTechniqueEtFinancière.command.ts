@@ -5,7 +5,7 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 
 export type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
-  'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
+  'Réseau.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière',
   {
     dateSignature: DateTime.ValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
@@ -33,5 +33,8 @@ export const registerTransmettrePropositionTechniqueEtFinancièreCommand = (
     });
   };
 
-  mediator.register('TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND', handler);
+  mediator.register(
+    'Réseau.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière',
+    handler,
+  );
 };

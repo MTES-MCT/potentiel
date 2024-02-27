@@ -30,18 +30,18 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const identifiantProjet = decodeParameter(identifiant);
 
     const candidature = await mediator.send<ConsulterCandidatureQuery>({
-      type: 'CONSULTER_CANDIDATURE_QUERY',
+      type: 'Candidature.Query.ConsulterCandidature',
       data: { identifiantProjet },
     });
 
     const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
-      type: 'CONSULTER_APPEL_OFFRE_QUERY',
+      type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: { identifiantAppelOffre: candidature.appelOffre },
     });
 
     const gestionnairesRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
-        type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
+        type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
         data: { pagination: { itemsPerPage: 1000, page: 1 } },
       });
 
@@ -51,7 +51,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const gestionnaire =
       await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
-        type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_QUERY',
+        type: 'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
         data: { identifiantProjetValue: identifiantProjet },
       });
 

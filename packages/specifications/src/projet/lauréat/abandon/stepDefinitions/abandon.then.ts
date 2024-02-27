@@ -50,7 +50,7 @@ Alors(
 
       if (actualPiéceJustificative) {
         const result = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'CONSULTER_DOCUMENT_PROJET',
+          type: 'Document.Query.ConsulterDocumentProjet',
           data: {
             documentKey: actualPiéceJustificative.formatter(),
           },
@@ -119,7 +119,7 @@ Alors(
       actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
 
       const result = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'CONSULTER_DOCUMENT_PROJET',
+        type: 'Document.Query.ConsulterDocumentProjet',
         data: {
           documentKey: actualRéponseSignée.formatter(),
         },
@@ -166,7 +166,7 @@ Alors(
       actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
 
       const result = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'CONSULTER_DOCUMENT_PROJET',
+        type: 'Document.Query.ConsulterDocumentProjet',
         data: {
           documentKey: actualRéponseSignée.formatter(),
         },
@@ -236,7 +236,7 @@ Alors(
       demande.confirmation!.demandéPar.estÉgaleÀ(utilisateur).should.be.true;
 
       const result = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'CONSULTER_DOCUMENT_PROJET',
+        type: 'Document.Query.ConsulterDocumentProjet',
         data: {
           documentKey: actualRéponseSignée.formatter(),
         },

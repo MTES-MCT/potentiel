@@ -11,7 +11,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const gestionnaireRéseau =
       await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
-        type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
+        type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
         data: {
           identifiantGestionnaireRéseau: decodeParameter(identifiant),
         },

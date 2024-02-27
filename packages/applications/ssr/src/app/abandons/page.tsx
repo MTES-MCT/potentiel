@@ -59,7 +59,7 @@ export default async function Page({ searchParams }: PageProps) {
       });
 
       const appelOffres = await mediator.send<ListerAppelOffreQuery>({
-        type: 'LISTER_APPEL_OFFRE_QUERY',
+        type: 'AppelOffre.Query.ListerAppelOffre',
         data: {},
       });
 

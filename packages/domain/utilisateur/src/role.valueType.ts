@@ -119,86 +119,93 @@ const référencielPermissions = {
   appelOffre: {
     cahierDesCharges: {
       query: {
-        consulter: 'CONSULTER_CAHIER_DES_CHARGES_QUERY',
+        consulter: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
       },
     },
     query: {
-      consulter: 'CONSULTER_APPEL_OFFRE_QUERY',
-      lister: 'LISTER_APPEL_OFFRE_QUERY',
+      consulter: 'AppelOffre.Query.ConsulterAppelOffre',
+      lister: 'AppelOffre.Query.ListerAppelOffre',
     },
   },
   candidature: {
     query: {
-      consulter: 'CONSULTER_CANDIDATURE_QUERY',
+      consulter: 'Candidature.Query.ConsulterCandidature',
       listerCandidaturesPreuveRecandidature:
-        'LISTER_CANDIDATURES_ELIGIBLES_PREUVE_RECANDIDATURE_QUERY',
+        'Candidature.Query.ListerCandidaturesEligiblesPreuveRecandidature',
     },
   },
   document: {
     query: {
-      consulter: 'CONSULTER_DOCUMENT_PROJET',
-      générerModèleRéponse: 'GENERER_MODELE_REPONSE_ABANDON_QUERY',
+      consulter: 'Document.Query.ConsulterDocumentProjet',
+      générerModèleRéponse: 'Document.Query.GénérerModèleRéponseAbandon',
     },
     command: {
-      enregister: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
-      déplacer: 'DÉPLACER_DOCUMENT_PROJET_COMMAND',
+      enregister: 'Document.Command.EnregistrerDocumentProjet',
+      déplacer: 'Document.Command.DéplacerDocumentProjet',
     },
   },
   réseau: {
     gestionnaire: {
       query: {
-        consulter: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
-        lister: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
+        consulter: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
+        lister: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
       },
       usecase: {
-        ajouter: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
-        modifier: 'MODIFIER_GESTIONNAIRE_RÉSEAU_USECASE',
+        ajouter: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
+        modifier: 'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',
       },
       command: {
-        ajouter: 'AJOUTER_GESTIONNAIRE_RÉSEAU_COMMAND',
-        modifier: 'MODIFIER_GESTIONNAIRE_RÉSEAU_COMMAND',
+        ajouter: 'Réseau.Gestionnaire.Command.AjouterGestionnaireRéseau',
+        modifier: 'Réseau.Gestionnaire.Command.ModifierGestionnaireRéseau',
       },
     },
     raccordement: {
       query: {
-        consulter: 'CONSULTER_RACCORDEMENT_QUERY',
-        consulterDossier: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
-        consulterGestionnaireRéseau: 'CONSULTER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_QUERY',
-        rechercher: 'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
+        consulter: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+        consulterDossier: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+        consulterGestionnaireRéseau:
+          'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
+        rechercher: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
       },
       usecase: {
-        modifierDemandeComplète: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
-        modifierGestionnaireRéseau: 'MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_USE_CASE',
+        modifierDemandeComplète: 'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
+        modifierGestionnaireRéseau:
+          'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
         modifierPropostionTechniqueEtFinancière:
-          'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
-        modifierRéférenceDossier: 'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_USE_CASE',
-        transmettreDateMiseEnService: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
-        transmettreDemandeComplète: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+          'Réseau.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
+        modifierRéférenceDossier:
+          'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+        transmettreDateMiseEnService: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
+        transmettreDemandeComplète:
+          'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
         transmettrePropositionTechniqueEtFinancière:
-          'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+          'Réseau.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
       },
       command: {
-        modifierDemandeComplète: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
-        modifierGestionnaireRéseau: 'MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_COMMAND',
+        modifierDemandeComplète: 'Réseau.Raccordement.Command.ModifierDemandeComplèteRaccordement',
+        modifierGestionnaireRéseau:
+          'Réseau.Raccordement.Command.ModifierGestionnaireRéseauRaccordement',
         modifierPropostionTechniqueEtFinancière:
-          'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
-        modifierRéférenceDossier: 'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_COMMAND',
-        transmettreDateMiseEnService: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND',
-        transmettreDemandeComplète: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
+          'Réseau.Raccordement.Command.ModifierPropositionTechniqueEtFinancière',
+        modifierRéférenceDossier:
+          'Réseau.Raccordement.Command.ModifierRéférenceDossierRaccordement',
+        transmettreDateMiseEnService: 'Réseau.Raccordement.Command.TransmettreDateMiseEnService',
+        transmettreDemandeComplète:
+          'Réseau.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
         transmettrePropositionTechniqueEtFinancière:
-          'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
+          'Réseau.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière',
       },
     },
   },
   utilisateur: {
     query: {
-      consulter: 'CONSULTER_UTILISATEUR_QUERY',
+      consulter: 'Utilisateur.Query.ConsulterUtilisateur',
     },
   },
   tâche: {
     query: {
-      consulterNombre: 'CONSULTER_NOMBRE_TÂCHES_QUERY',
-      lister: 'LISTER_TÂCHES_QUERY',
+      consulterNombre: 'Tâche.Query.ConsulterNombreTâches',
+      lister: 'Tâche.Query.ListerTâches',
     },
   },
 } as const;

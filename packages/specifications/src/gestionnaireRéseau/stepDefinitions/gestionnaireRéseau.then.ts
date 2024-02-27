@@ -13,7 +13,7 @@ Alors(
 
     // Assert read model
     const actualReadModel = await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
-      type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
+      type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
       data: {
         pagination: {
           itemsPerPage: 1000,
@@ -119,7 +119,7 @@ Alors(
 
 const getConsulterReadModel = async (codeEIC: string) => {
   const actualReadModel = await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
-    type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
+    type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
     data: {
       identifiantGestionnaireRéseau: codeEIC,
     },

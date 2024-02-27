@@ -57,18 +57,18 @@ const buildReponseSignee = async (
 ): Promise<Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue']> => {
   const projet = await mediator.send<ConsulterCandidatureQuery>({
     data: { identifiantProjet: abandon.identifiantProjet.formatter() },
-    type: 'CONSULTER_CANDIDATURE_QUERY',
+    type: 'Candidature.Query.ConsulterCandidature',
   });
 
   const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
-    type: 'CONSULTER_APPEL_OFFRE_QUERY',
+    type: 'AppelOffre.Query.ConsulterAppelOffre',
     data: {
       identifiantAppelOffre: projet.appelOffre,
     },
   });
 
   const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
-    type: 'CONSULTER_UTILISATEUR_QUERY',
+    type: 'Utilisateur.Query.ConsulterUtilisateur',
     data: {
       identifiantUtilisateur,
     },

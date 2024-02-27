@@ -26,20 +26,20 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const identifiantProjet = decodeParameter(identifiant);
 
     const candidature = await mediator.send<ConsulterCandidatureQuery>({
-      type: 'CONSULTER_CANDIDATURE_QUERY',
+      type: 'Candidature.Query.ConsulterCandidature',
       data: {
         identifiantProjet,
       },
     });
 
     const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
-      type: 'CONSULTER_APPEL_OFFRE_QUERY',
+      type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: { identifiantAppelOffre: candidature.appelOffre },
     });
 
     const { cahierDesChargesChoisi } =
       await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
-        type: 'CONSULTER_CAHIER_DES_CHARGES_QUERY',
+        type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
         data: {
           identifiantProjet,
         },

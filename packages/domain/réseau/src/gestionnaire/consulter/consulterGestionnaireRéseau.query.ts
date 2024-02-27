@@ -17,7 +17,7 @@ export type ConsulterGestionnaireRéseauReadModel = {
 };
 
 export type ConsulterGestionnaireRéseauQuery = Message<
-  'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
+  'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
   {
     identifiantGestionnaireRéseau: string;
   },
@@ -45,7 +45,7 @@ export const registerConsulterGestionnaireRéseauQuery = ({
     return mapToReadModel(result);
   };
 
-  mediator.register('CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY', handler);
+  mediator.register('Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau', handler);
 };
 
 const mapToReadModel = ({

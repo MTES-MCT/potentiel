@@ -5,7 +5,7 @@ import { loadGestionnaireRéseauFactory } from '../gestionnaireRéseau.aggregate
 import { LoadAggregate } from '@potentiel-domain/core';
 
 export type ModifierGestionnaireRéseauCommand = Message<
-  'MODIFIER_GESTIONNAIRE_RÉSEAU_COMMAND',
+  'Réseau.Gestionnaire.Command.ModifierGestionnaireRéseau',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
     raisonSociale: string;
@@ -34,5 +34,5 @@ export const registerModifierGestionnaireRéseauCommand = (loadAggregate: LoadAg
     });
   };
 
-  mediator.register('MODIFIER_GESTIONNAIRE_RÉSEAU_COMMAND', handler);
+  mediator.register('Réseau.Gestionnaire.Command.ModifierGestionnaireRéseau', handler);
 };

@@ -42,7 +42,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       }
 
       const candidature = await mediator.send<ConsulterCandidatureQuery>({
-        type: 'CONSULTER_CANDIDATURE_QUERY',
+        type: 'Candidature.Query.ConsulterCandidature',
         data: {
           identifiantProjet,
         },
@@ -50,7 +50,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       const projetsÀSélectionner =
         await mediator.send<ListerCandidaturesEligiblesPreuveRecanditureQuery>({
-          type: 'LISTER_CANDIDATURES_ELIGIBLES_PREUVE_RECANDIDATURE_QUERY',
+          type: 'Candidature.Query.ListerCandidaturesEligiblesPreuveRecandidature',
           data: {
             identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
           },

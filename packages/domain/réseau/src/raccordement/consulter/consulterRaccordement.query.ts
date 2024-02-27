@@ -30,7 +30,7 @@ export type ConsulterRaccordementReadModel = {
 };
 
 export type ConsulterRaccordementQuery = Message<
-  'CONSULTER_RACCORDEMENT_QUERY',
+  'Réseau.Raccordement.Query.ConsulterRaccordement',
   {
     identifiantProjetValue: string;
   },
@@ -60,7 +60,7 @@ export const registerConsulterRaccordementQuery = ({ find }: ConsulterRaccordeme
     return mapToReadModel(result);
   };
 
-  mediator.register('CONSULTER_RACCORDEMENT_QUERY', handler);
+  mediator.register('Réseau.Raccordement.Query.ConsulterRaccordement', handler);
 };
 
 const mapToReadModel = (entity: RaccordementEntity): ConsulterRaccordementReadModel => {

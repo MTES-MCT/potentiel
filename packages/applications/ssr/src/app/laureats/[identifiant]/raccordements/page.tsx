@@ -30,7 +30,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       const identifiantProjet = decodeParameter(identifiant);
 
       const candidature = await mediator.send<ConsulterCandidatureQuery>({
-        type: 'CONSULTER_CANDIDATURE_QUERY',
+        type: 'Candidature.Query.ConsulterCandidature',
         data: {
           identifiantProjet,
         },
@@ -38,7 +38,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       const listeDossiersRaccordement =
         await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-          type: 'CONSULTER_RACCORDEMENT_QUERY',
+          type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
           data: {
             identifiantProjetValue: identifiantProjet,
           },
@@ -53,7 +53,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       ) {
         gestionnaireRéseau =
           await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
-            type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
+            type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
             data: {
               identifiantGestionnaireRéseau:
                 listeDossiersRaccordement.identifiantGestionnaireRéseau.formatter(),

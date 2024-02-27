@@ -6,7 +6,7 @@ import { AucunCahierDesChargesChoisiTrouvéError } from '../aucunCahierDesCharge
 export type ConsulterCahierDesChargesChoisiReadmodel = { cahierDesChargesChoisi: string };
 
 export type ConsulterCahierDesChargesChoisiQuery = Message<
-  'CONSULTER_CAHIER_DES_CHARGES_QUERY',
+  'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
   {
     identifiantProjet: string;
   },
@@ -38,5 +38,5 @@ export const registerConsulterCahierDesChargesChoisiQuery = ({
 
     return { cahierDesChargesChoisi };
   };
-  mediator.register('CONSULTER_CAHIER_DES_CHARGES_QUERY', handler);
+  mediator.register('Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi', handler);
 };

@@ -93,7 +93,7 @@ v1Router.post(
       }
 
       const résuméProjet = await mediator.send<ConsulterCandidatureQuery>({
-        type: 'CONSULTER_CANDIDATURE_QUERY',
+        type: 'Candidature.Query.ConsulterCandidature',
         data: { identifiantProjet: identifiantProjet.identifiantProjetValue },
       });
       if (isNone(résuméProjet)) {
@@ -101,7 +101,7 @@ v1Router.post(
       }
 
       const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
-        type: 'CONSULTER_APPEL_OFFRE_QUERY',
+        type: 'AppelOffre.Query.ConsulterAppelOffre',
         data: { identifiantAppelOffre: résuméProjet.appelOffre },
       });
       if (isNone(appelOffre)) {
