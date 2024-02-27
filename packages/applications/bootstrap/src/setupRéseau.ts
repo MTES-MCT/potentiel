@@ -30,7 +30,7 @@ export const setupRéseau = async () => {
       ],
       eventHandler: async (event) => {
         await mediator.send<GestionnaireRéseauProjector.Execute>({
-          type: 'EXECUTE_GESTIONNAIRE_RÉSEAU_PROJECTOR',
+          type: 'System.Projector.Réseau.Gestionnaire',
           data: event,
         });
       },
@@ -59,7 +59,7 @@ export const setupRéseau = async () => {
       ],
       eventHandler: async (event) => {
         await mediator.send<RaccordementProjector.Execute>({
-          type: 'EXECUTE_RACCORDEMENT_PROJECTOR',
+          type: 'System.Projector.Réseau.Raccordement',
           data: event,
         });
       },

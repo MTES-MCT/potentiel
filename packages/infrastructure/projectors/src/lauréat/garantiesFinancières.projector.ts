@@ -15,7 +15,7 @@ export type SubscriptionEvent =
   | (GarantiesFinancières.GarantiesFinancièresEvent & Event)
   | RebuildTriggered;
 
-export type Execute = Message<'EXECUTE_GARANTIES_FINANCIÈRES_PROJECTOR', SubscriptionEvent>;
+export type Execute = Message<'System.Projector.Lauréat.GarantiesFinancières', SubscriptionEvent>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
@@ -118,5 +118,5 @@ export const register = () => {
     }
   };
 
-  mediator.register('EXECUTE_GARANTIES_FINANCIÈRES_PROJECTOR', handler);
+  mediator.register('System.Projector.Lauréat.GarantiesFinancières', handler);
 };

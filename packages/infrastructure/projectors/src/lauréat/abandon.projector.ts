@@ -13,7 +13,7 @@ import { DateTime } from '@potentiel-domain/common';
 
 export type SubscriptionEvent = (Abandon.AbandonEvent & Event) | RebuildTriggered;
 
-export type Execute = Message<'EXECUTE_ABANDON_PROJECTOR', SubscriptionEvent>;
+export type Execute = Message<'System.Projector.Lauréat.Abandon', SubscriptionEvent>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
@@ -144,5 +144,5 @@ export const register = () => {
     }
   };
 
-  mediator.register('EXECUTE_ABANDON_PROJECTOR', handler);
+  mediator.register('System.Projector.Lauréat.Abandon', handler);
 };

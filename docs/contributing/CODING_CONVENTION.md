@@ -526,7 +526,7 @@ Cette partie de l'infrastructure permet l'alimentation de la partie `Query` et d
 
 export type SubscriptionEvent = (ExempleEvent & Event) | RebuildTriggered;
 
-export type Execute = Message<'EXECUTE_EXEMPLE_PROJECTOR', SubscriptionEvent>;
+export type Execute = Message<'System.Projector.Exemple', SubscriptionEvent>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
@@ -564,6 +564,6 @@ export const register = () => {
     }
   };
 
-  mediator.register('EXECUTE_EXEMPLE_PROJECTOR', handler);
+  mediator.register('System.Projector.Exemple', handler);
 };
 ```

@@ -13,7 +13,7 @@ import { getLogger } from '@potentiel/monitoring';
 
 export type SubscriptionEvent = (TâcheEvent & Event) | RebuildTriggered;
 
-export type Execute = Message<'EXECUTE_TÂCHE_PROJECTOR', SubscriptionEvent>;
+export type Execute = Message<'System.Projector.Tâche', SubscriptionEvent>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
@@ -74,5 +74,5 @@ export const register = () => {
     }
   };
 
-  mediator.register('EXECUTE_TÂCHE_PROJECTOR', handler);
+  mediator.register('System.Projector.Tâche', handler);
 };

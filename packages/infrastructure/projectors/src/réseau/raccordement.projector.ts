@@ -11,7 +11,7 @@ import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 export type SubscriptionEvent = (Raccordement.RaccordementEvent & Event) | RebuildTriggered;
 
-export type Execute = Message<'EXECUTE_RACCORDEMENT_PROJECTOR', SubscriptionEvent>;
+export type Execute = Message<'System.Projector.Réseau.Raccordement', SubscriptionEvent>;
 
 export type DossierRaccordement = Omit<Raccordement.DossierRaccordementEntity, 'type'>;
 
@@ -253,7 +253,7 @@ export const register = () => {
     }
   };
 
-  mediator.register('EXECUTE_RACCORDEMENT_PROJECTOR', handler);
+  mediator.register('System.Projector.Réseau.Raccordement', handler);
 };
 
 const removeRaccordementProjections = async (identifiantProjet: string) => {

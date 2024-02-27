@@ -61,7 +61,7 @@ export const setupTâche = async () => {
     ],
     eventHandler: async (event) => {
       await mediator.send<TâcheProjector.Execute>({
-        type: 'EXECUTE_TÂCHE_PROJECTOR',
+        type: 'System.Projector.Tâche',
         data: event,
       });
     },

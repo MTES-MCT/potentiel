@@ -71,7 +71,7 @@ export const setupLauréat = async () => {
     ],
     eventHandler: async (event) => {
       await mediator.send<AbandonProjector.Execute>({
-        type: 'EXECUTE_ABANDON_PROJECTOR',
+        type: 'System.Projector.Lauréat.Abandon',
         data: event,
       });
     },
@@ -89,7 +89,7 @@ export const setupLauréat = async () => {
       ],
       eventHandler: async (event) => {
         await mediator.send<GarantiesFinancièreProjector.Execute>({
-          type: 'EXECUTE_GARANTIES_FINANCIÈRES_PROJECTOR',
+          type: 'System.Projector.Lauréat.GarantiesFinancières',
           data: event,
         });
       },

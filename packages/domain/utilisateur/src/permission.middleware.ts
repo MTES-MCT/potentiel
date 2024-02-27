@@ -59,7 +59,6 @@ const isSystemProcess = (message: Message<string, Record<string, unknown>, void>
     message.type === 'GET_AUTHENTICATED_USER' ||
     message.type === 'VERIFIER_ACCES_PROJET_QUERY' ||
     message.type.endsWith('_NOTIFICATION') ||
-    message.type.endsWith('_PROJECTOR') ||
     message.type.endsWith('_SAGA')
   );
 };
