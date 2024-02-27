@@ -6,32 +6,32 @@ import { Routes } from '@potentiel-libraries/routes';
 
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
 
-import { annulerDépôtGarantiesFinancièresAction } from './annulerDépôtGarantiesFinancières.action';
+import { annulerGarantiesFinancièresÀTraiter } from './annulerGarantiesFinancièresÀTraiter.action';
 
-type AnnulerDépôtGarantiesFinancièresFormProps = {
+type AnnulerGarantiesFinancièresÀTraiterProps = {
   identifiantProjet: string;
 };
 
-export const AnnulerDépôtGarantiesFinancières = ({
+export const AnnulerGarantiesFinancièresÀTraiter = ({
   identifiantProjet,
-}: AnnulerDépôtGarantiesFinancièresFormProps) => {
+}: AnnulerGarantiesFinancièresÀTraiterProps) => {
   const router = useRouter();
 
   return (
     <ButtonWithFormInModal
       name="Annuler"
       yesNo
-      description="Annuler le dépôt"
+      description="Annuler les garanties financières"
       form={{
-        id: 'annuler-dépôt-garanties-financieres-form',
-        action: annulerDépôtGarantiesFinancièresAction,
+        id: 'annuler-garanties-financieres-a-traiter-form',
+        action: annulerGarantiesFinancièresÀTraiter,
         method: 'post',
         encType: 'multipart/form-data',
         omitMandatoryFieldsLegend: true,
         onSuccess: () => router.push(Routes.GarantiesFinancières.soumettre(identifiantProjet)),
         children: (
           <>
-            <p className="mt-3">Êtes-vous sûr de vouloir annuler ce dépôt ?</p>
+            <p className="mt-3">Êtes-vous sûr de vouloir annuler ces garanties financières ?</p>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
           </>
         ),

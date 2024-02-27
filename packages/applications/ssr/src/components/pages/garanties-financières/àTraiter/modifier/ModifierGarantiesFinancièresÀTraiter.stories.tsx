@@ -1,24 +1,22 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
-
 import {
-  ModifierDépôtGarantiesFinancières,
-  ModifierDépôtGarantiesFinancièresProps,
-} from './ModifierDépôtGarantiesFinancières.page';
+  ModifierGarantiesFinancièresÀTraiter,
+  ModifierGarantiesFinancièresÀTraiterProps,
+} from './ModifierGarantiesFinancièresÀTraiter.page';
 
 const meta = {
-  title: 'Pages/Garanties-financières/Dépôt/Modifier',
-  component: ModifierDépôtGarantiesFinancières,
+  title: 'Pages/Garanties-financières/À traiter/Modifier',
+  component: ModifierGarantiesFinancièresÀTraiter,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<ModifierDépôtGarantiesFinancièresProps>;
+} satisfies Meta<ModifierGarantiesFinancièresÀTraiterProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const projet: ProjetBannerProps = {
+const projet: ModifierGarantiesFinancièresÀTraiterProps['projet'] = {
   identifiantProjet: 'identifiantProjet#1',
   appelOffre: 'Appel offre',
   période: 'Période',
