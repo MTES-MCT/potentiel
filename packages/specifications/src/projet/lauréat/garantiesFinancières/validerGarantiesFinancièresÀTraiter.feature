@@ -1,5 +1,5 @@
 #Language: fr-FR
-@NotImplemented
+@select 
 Fonctionnalité: Valider des garanties financières en attente de validation
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
@@ -16,21 +16,21 @@ Fonctionnalité: Valider des garanties financières en attente de validation
             | date de constitution | <date de constitution> |
             | date de soumission   | 2023-10-01             |
             | soumis par           | porteur@test.test      |
-        Quand l'utilisateur dreal valide les garanties financières à traiter pour le projet "Centrale PV"    
+        Quand l'utilisateur dreal valide les garanties financières à traiter pour le projet "Centrale PV" avec :
+            | date de validation   | <date de validation>   |  
         Alors des garanties financières devraient être validées pour le projet "Centrale PV" avec :
             | type                 | <type>                 |
             | date d'échéance      | <date d'échéance>      |
             | format               | <format du fichier>    |
             | contenu fichier      | <contenu du fichier>   |
             | date de constitution | <date de constitution> |
-            | date de soumission   | 2023-10-01             |
-            | validé le            | porteur@test.test      |
+            | date de validation   | <date de validation>   |
         Et il ne devrait pas y avoir de garanties financières à traiter pour le projet "Centrale PV"
         Et il ne devrait pas y avoir de garanties financières en attente pour le projet "Centrale PV"  
     Exemples:
-            | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
-            | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
-            | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
-            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |       
+            | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution | date de validation |
+            | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
+            | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
+            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |     
 
          

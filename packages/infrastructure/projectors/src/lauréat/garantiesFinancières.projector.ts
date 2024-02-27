@@ -65,6 +65,13 @@ export const register = () => {
         };
       };
 
+      const statutGarantiesFinancièresEnAttente: GarantiesFinancières.StatutGarantiesFinancières.RawType =
+        'en-attente';
+      const statutGarantiesFinancièresÀTraiter: GarantiesFinancières.StatutGarantiesFinancières.RawType =
+        'à-traiter';
+      const statutGarantiesFinancièresValidées: GarantiesFinancières.StatutGarantiesFinancières.RawType =
+        'validé';
+
       switch (type) {
         case 'GarantiesFinancièresDemandées-V1':
           const projet = await getProjectData(identifiantProjet);
@@ -74,7 +81,7 @@ export const register = () => {
               ...garantiesFinancièresToUpsert,
               ...projet,
               misÀJourLe: payload.demandéLe,
-              statut: 'en-attente',
+              statut: statutGarantiesFinancièresEnAttente,
               enAttente: {
                 dateLimiteSoumission: payload.dateLimiteSoumission,
                 demandéLe: payload.demandéLe,
@@ -91,7 +98,7 @@ export const register = () => {
               ...garantiesFinancièresToUpsert,
               ...projetPourGarantiesFinancièresSoumises,
               misÀJourLe: payload.soumisLe,
-              statut: 'à-traiter',
+              statut: statutGarantiesFinancièresÀTraiter,
               àTraiter: {
                 type: payload.type,
                 dateÉchéance: payload.dateÉchéance,
@@ -109,8 +116,32 @@ export const register = () => {
             {
               ...garantiesFinancièresToUpsert,
               misÀJourLe: payload.suppriméLe,
-              statut: garantiesFinancièresToUpsert.enAttente ? 'en-attente' : 'validé',
+              statut: garantiesFinancièresToUpsert.enAttente
+                ? statutGarantiesFinancièresEnAttente
+                : statutGarantiesFinancièresValidées,
               àTraiter: undefined,
+            },
+          );
+          break;
+
+        case 'GarantiesFinancièresValidées-V1':
+          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+            {
+              ...garantiesFinancièresToUpsert,
+              misÀJourLe: payload.validéLe,
+              statut: statutGarantiesFinancièresValidées,
+              validées: {
+                type: garantiesFinancièresToUpsert.àTraiter!.type,
+                ...(garantiesFinancièresToUpsert.àTraiter!.dateÉchéance && {
+                  dateÉchéance: garantiesFinancièresToUpsert.àTraiter!.dateÉchéance,
+                }),
+                attestation: garantiesFinancièresToUpsert.àTraiter!.attestation,
+                dateConstitution: garantiesFinancièresToUpsert.àTraiter!.dateConstitution,
+                validéLe: payload.validéLe,
+              },
+              àTraiter: undefined,
+              enAttente: undefined,
             },
           );
           break;

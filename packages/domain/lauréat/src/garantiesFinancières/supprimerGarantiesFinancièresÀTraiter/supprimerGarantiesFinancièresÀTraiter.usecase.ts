@@ -3,7 +3,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { SupprimerGarantiesFinancièresÀTraiterCommand } from './supprimerGarantiesFinancièresÀTraiter.command';
 import { ConsulterGarantiesFinancièresQuery } from '..';
-import { AucunesGarantiesFinancièresÀTraiter } from './aucunesGarantiesFinancièresÀTraiter.error';
+import { AucunesGarantiesFinancièresÀTraiter } from '../aucunesGarantiesFinancièresÀTraiter.error';
 import { AucunesGarantiesFinancières } from '../aucunesGarantiesFinancières.error';
 
 export type SupprimerGarantiesFinancièresÀTraiterUseCase = Message<

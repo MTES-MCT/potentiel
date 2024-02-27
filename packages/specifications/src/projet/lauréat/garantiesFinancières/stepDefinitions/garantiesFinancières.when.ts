@@ -60,3 +60,26 @@ Quand(
     }
   },
 );
+
+Quand(
+  `l'utilisateur dreal valide les garanties financières à traiter pour le projet {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+    const dateValidation = exemple['date de validation'];
+    try {
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await mediator.send<GarantiesFinancières.ValiderGarantiesFinancièresUseCase>({
+        type: 'VALIDER_GARANTIES_FINANCIÈRES_USECASE',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          validéLeValue: new Date(dateValidation).toISOString(),
+          validéParValue: 'dreal@test.test',
+        },
+      });
+      await sleep(500);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);

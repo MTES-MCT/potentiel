@@ -36,7 +36,7 @@ export type GarantiesFinancièresListItemReadModel = {
     dateÉchéance?: DateTime.ValueType;
     dateConstitution: DateTime.ValueType;
     validéLe: DateTime.ValueType;
-    //attestation: DocumentProjet.ValueType;
+    attestation: DocumentProjet.ValueType;
   };
   àTraiter?: {
     type: TypeGarantiesFinancières.ValueType;
@@ -131,6 +131,12 @@ const mapToListItemReadModel = (
     }),
     dateConstitution: DateTime.convertirEnValueType(entity.validées.dateConstitution),
     validéLe: DateTime.convertirEnValueType(entity.validées.validéLe),
+    attestation: DocumentProjet.convertirEnValueType(
+      IdentifiantProjet.convertirEnValueType(entity.identifiantProjet).formatter(),
+      TypeDocumentGarantiesFinancières.convertirEnGarantiesFinancièresSoumisesValueType.formatter(),
+      DateTime.convertirEnValueType(entity.validées.validéLe).formatter(),
+      entity.validées.attestation.format,
+    ),
   };
   const àTraiter: GarantiesFinancièresListItemReadModel['àTraiter'] = entity.àTraiter && {
     type: TypeGarantiesFinancières.convertirEnValueType(entity.àTraiter.type),
@@ -141,7 +147,7 @@ const mapToListItemReadModel = (
     soumisLe: DateTime.convertirEnValueType(entity.àTraiter.soumisLe),
     attestation: DocumentProjet.convertirEnValueType(
       IdentifiantProjet.convertirEnValueType(entity.identifiantProjet).formatter(),
-      TypeDocumentGarantiesFinancières.garantiesFinancièresÀTraiter.formatter(),
+      TypeDocumentGarantiesFinancières.convertirEnGarantiesFinancièresSoumisesValueType.formatter(),
       DateTime.convertirEnValueType(entity.àTraiter.soumisLe).formatter(),
       entity.àTraiter.attestation.format,
     ),

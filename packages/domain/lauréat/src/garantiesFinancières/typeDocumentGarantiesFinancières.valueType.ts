@@ -26,6 +26,14 @@ export const convertirEnValueType = (value: string): ValueType => {
   };
 };
 
+export const convertirEnGarantiesFinancièresSoumisesValueType = convertirEnValueType(
+  'attestation-garanties-financieres-soumises',
+);
+
+export const convertirEnGarantiesFinancièresValidéesValueType = convertirEnValueType(
+  'attestation-garanties-financieres',
+);
+
 function estValide(value: string): asserts value is TypeDocument {
   const isValid = (typeDocument as Array<string>).includes(value);
 
@@ -33,10 +41,6 @@ function estValide(value: string): asserts value is TypeDocument {
     throw new TypeDocumentGarantiesFinancièresInvalideError(value);
   }
 }
-
-export const garantiesFinancièresÀTraiter = convertirEnValueType(
-  'attestation-garanties-financieres-soumises',
-);
 
 class TypeDocumentGarantiesFinancièresInvalideError extends InvalidOperationError {
   constructor(value: string) {
