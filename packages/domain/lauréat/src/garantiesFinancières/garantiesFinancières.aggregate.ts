@@ -64,6 +64,7 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       break;
     case 'GarantiesFinancièresÀTraiterSupprimées-V1':
       applyGarantiesFinancièresÀTraiterSupprimées.bind(this)();
+      break;
   }
 }
 
