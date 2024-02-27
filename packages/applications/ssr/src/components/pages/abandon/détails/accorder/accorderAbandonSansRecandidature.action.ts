@@ -24,7 +24,7 @@ const action: FormAction<FormState, typeof schema> = async (
     };
 
     await mediator.send<Abandon.AbandonUseCase>({
-      type: 'ACCORDER_ABANDON_USECASE',
+      type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),

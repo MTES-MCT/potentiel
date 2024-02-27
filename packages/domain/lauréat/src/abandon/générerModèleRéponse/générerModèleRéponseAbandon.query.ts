@@ -88,7 +88,7 @@ export const registerGénérerModèleRéponseAbandonQuery = ({
     });
 
     const abandon = await mediator.send<ConsulterAbandonQuery>({
-      type: 'CONSULTER_ABANDON_QUERY',
+      type: 'Lauréat.Abandon.Query.ConsulterAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
       },

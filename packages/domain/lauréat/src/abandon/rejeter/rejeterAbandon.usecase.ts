@@ -7,7 +7,7 @@ import { RejeterAbandonCommand } from './rejeterAbandon.command';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 
 export type RejeterAbandonUseCase = Message<
-  'REJETER_ABANDON_USECASE',
+  'Lauréat.Abandon.UseCase.RejeterAbandon',
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
@@ -48,7 +48,7 @@ export const registerRejeterAbandonUseCase = () => {
     });
 
     await mediator.send<RejeterAbandonCommand>({
-      type: 'REJETER_ABANDON_COMMAND',
+      type: 'Lauréat.Abandon.Command.RejeterAbandon',
       data: {
         dateRejet,
         identifiantProjet,
@@ -57,5 +57,5 @@ export const registerRejeterAbandonUseCase = () => {
       },
     });
   };
-  mediator.register('REJETER_ABANDON_USECASE', runner);
+  mediator.register('Lauréat.Abandon.UseCase.RejeterAbandon', runner);
 };

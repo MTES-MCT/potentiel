@@ -29,7 +29,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const identifiantProjet = decodeParameter(identifiant);
 
       const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
-        type: 'CONSULTER_ABANDON_QUERY',
+        type: 'Lauréat.Abandon.Query.ConsulterAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,
         },

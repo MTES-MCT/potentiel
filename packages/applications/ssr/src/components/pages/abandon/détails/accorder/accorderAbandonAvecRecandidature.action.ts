@@ -22,7 +22,7 @@ const action: FormAction<FormState, typeof schema> = async (
 ) => {
   return withUtilisateur(async (utilisateur) => {
     const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
-      type: 'CONSULTER_ABANDON_QUERY',
+      type: 'Lauréat.Abandon.Query.ConsulterAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
       },
@@ -34,7 +34,7 @@ const action: FormAction<FormState, typeof schema> = async (
     );
 
     await mediator.send<Abandon.AbandonUseCase>({
-      type: 'ACCORDER_ABANDON_USECASE',
+      type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),

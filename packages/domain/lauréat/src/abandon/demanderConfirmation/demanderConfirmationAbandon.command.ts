@@ -8,7 +8,7 @@ import { loadAbandonFactory } from '../abandon.aggregate';
 import { LoadAggregate } from '@potentiel-domain/core';
 
 export type DemanderConfirmationAbandonCommand = Message<
-  'DEMANDER_CONFIRMATION_ABANDON_COMMAND',
+  'Lauréat.Abandon.Command.DemanderConfirmationAbandon',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     réponseSignée: DocumentProjet.ValueType;
@@ -34,5 +34,5 @@ export const registerDemanderConfirmationAbandonCommand = (loadAggregate: LoadAg
       identifiantUtilisateur,
     });
   };
-  mediator.register('DEMANDER_CONFIRMATION_ABANDON_COMMAND', handler);
+  mediator.register('Lauréat.Abandon.Command.DemanderConfirmationAbandon', handler);
 };

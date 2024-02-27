@@ -5,7 +5,7 @@ import { loadAbandonFactory } from '../abandon.aggregate';
 import { LoadAggregate } from '@potentiel-domain/core';
 
 export type ConfirmerAbandonCommand = Message<
-  'CONFIRMER_ABANDON_COMMAND',
+  'Lauréat.Abandon.Command.ConfirmerAbandon',
   {
     dateConfirmation: DateTime.ValueType;
     identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
@@ -28,5 +28,5 @@ export const registerConfirmerAbandonCommand = (loadAggregate: LoadAggregate) =>
       identifiantProjet,
     });
   };
-  mediator.register('CONFIRMER_ABANDON_COMMAND', handler);
+  mediator.register('Lauréat.Abandon.Command.ConfirmerAbandon', handler);
 };

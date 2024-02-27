@@ -39,7 +39,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       const { statut, demande, accord, rejet } = await mediator.send<Abandon.ConsulterAbandonQuery>(
         {
-          type: 'CONSULTER_ABANDON_QUERY',
+          type: 'Lauréat.Abandon.Query.ConsulterAbandon',
           data: {
             identifiantProjetValue: identifiantProjet,
           },

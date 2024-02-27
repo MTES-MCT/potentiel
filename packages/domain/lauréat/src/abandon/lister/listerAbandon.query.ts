@@ -62,7 +62,7 @@ export type ListerAbandonsPourPorteurPort = (args: {
 }>;
 
 export type ListerAbandonsQuery = Message<
-  'LISTER_ABANDONS_QUERY',
+  'Lauréat.Abandon.Query.ListerAbandons',
   {
     utilisateur: {
       rôle: string;
@@ -150,7 +150,7 @@ export const registerListerAbandonQuery = ({
     };
   };
 
-  mediator.register('LISTER_ABANDONS_QUERY', handler);
+  mediator.register('Lauréat.Abandon.Query.ListerAbandons', handler);
 };
 
 const mapToReadModel = (projection: AbandonEntity): AbandonListItemReadModel => {

@@ -4,7 +4,7 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { TransmettrePreuveRecandidatureCommand } from './transmettrePreuveRecandidatureAbandon.command';
 
 export type TransmettrePreuveRecandidatureAbandonUseCase = Message<
-  'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_USECASE',
+  'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
   {
     identifiantProjetValue: string;
     preuveRecandidatureValue: string;
@@ -35,7 +35,7 @@ export const registerTransmettrePreuveRecandidatureAbandonUseCase = () => {
     );
 
     await mediator.send<TransmettrePreuveRecandidatureCommand>({
-      type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_COMMAND',
+      type: 'Lauréat.Abandon.Command.TransmettrePreuveRecandidatureAbandon',
       data: {
         identifiantProjet,
         preuveRecandidature,
@@ -45,5 +45,5 @@ export const registerTransmettrePreuveRecandidatureAbandonUseCase = () => {
       },
     });
   };
-  mediator.register('TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_USECASE', runner);
+  mediator.register('Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon', runner);
 };
