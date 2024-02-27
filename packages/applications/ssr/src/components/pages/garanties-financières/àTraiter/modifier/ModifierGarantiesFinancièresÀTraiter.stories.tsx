@@ -53,7 +53,7 @@ export const EnTantQuePorteur: Story = {
       dateConsitution: '2021-10-23',
       attestationConstitution: 'path/to/attestationConstitution',
     },
-    actions: ['annuler'],
+    actions: ['supprimer'],
     showWarning: true,
   },
 };

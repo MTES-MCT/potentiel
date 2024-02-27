@@ -20,4 +20,4 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
   });
 };
 
-export const annulerGarantiesFinancièresÀTraiter = formAction(action, schema);
+export const supprimerGarantiesFinancièresÀTraiterAction = formAction(action, schema);

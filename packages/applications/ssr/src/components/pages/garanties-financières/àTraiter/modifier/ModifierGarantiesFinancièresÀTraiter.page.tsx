@@ -24,9 +24,9 @@ import {
 import { ValiderGarantiesFinancièresÀTraiter } from './valider/ValiderGarantiesFinancièresÀTraiter';
 import { RejeterGarantiesFinancièresÀTraiter } from './rejeter/RejeterGarantiesFinancièresÀTraiter';
 import { modifierGarantiesFinancièresÀTraiterAction } from './modifierGarantiesFinancièresÀTraiter.action';
-import { AnnulerGarantiesFinancièresÀTraiter } from './annuler/AnnulerGarantiesFinancièresÀTraiter';
+import { SupprimerGarantiesFinancièresÀTraiter } from './supprimer/SupprimerGarantiesFinancièresÀTraiter';
 
-type AvailableActions = Array<'valider' | 'rejeter' | 'annuler'>;
+type AvailableActions = Array<'valider' | 'rejeter' | 'supprimer'>;
 
 export type ModifierGarantiesFinancièresÀTraiterProps = {
   projet: ProjetBannerProps;
@@ -175,8 +175,8 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
       {actions.includes('rejeter') && (
         <RejeterGarantiesFinancièresÀTraiter identifiantProjet={identifiantProjet} />
       )}
-      {actions.includes('annuler') && (
-        <AnnulerGarantiesFinancièresÀTraiter identifiantProjet={identifiantProjet} />
+      {actions.includes('supprimer') && (
+        <SupprimerGarantiesFinancièresÀTraiter identifiantProjet={identifiantProjet} />
       )}
     </>
   ) : null;
