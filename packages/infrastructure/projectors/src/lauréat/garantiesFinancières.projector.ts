@@ -20,7 +20,6 @@ export type Execute = Message<'EXECUTE_GARANTIES_FINANCIÈRES_PROJECTOR', Subscr
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     const { type, payload } = event;
-
     if (type === 'RebuildTriggered') {
       await removeProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
         `garanties-financieres|${payload.id}`,
@@ -100,6 +99,18 @@ export const register = () => {
                 attestation: payload.attestation,
                 soumisLe: payload.soumisLe,
               },
+            },
+          );
+          break;
+
+        case 'GarantiesFinancièresÀTraiterSupprimées-V1':
+          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+            {
+              ...garantiesFinancièresToUpsert,
+              misÀJourLe: payload.suppriméLe,
+              statut: garantiesFinancièresToUpsert.enAttente ? 'en-attente' : 'validé',
+              àTraiter: undefined,
             },
           );
           break;

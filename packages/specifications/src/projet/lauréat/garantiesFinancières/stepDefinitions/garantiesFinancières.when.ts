@@ -39,3 +39,24 @@ Quand(
     }
   },
 );
+
+Quand(
+  'le porteur supprime les garanties financières à traiter pour le projet {string}',
+  async function (this: PotentielWorld, nomProjet: string) {
+    try {
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await mediator.send<GarantiesFinancières.SupprimerGarantiesFinancièresÀTraiterUseCase>({
+        type: 'SUPPRIMER_GARANTIES_FINANCIÈRES_À_TRAITER_USECASE',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          suppriméLeValue: new Date().toISOString(),
+          suppriméParValue: 'porteur@test.test',
+        },
+      });
+      await sleep(500);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
