@@ -13,14 +13,6 @@ import {
 import { PermissionInviterDgecValidateur, PermissionInviterAdministrateur } from '../utilisateur';
 import { PermissionListerDemandesAdmin } from '../modificationRequest';
 import { PermissionListerProjetsÀNotifier } from '../notificationCandidats';
-import {
-  PermissionAjouterGestionnaireRéseau,
-  PermissionModifierGestionnaireRéseau,
-  PermissionListerGestionnairesRéseau,
-  PermissionConsulterGestionnaireRéseau,
-  PermissionConsulterDossierRaccordement,
-  PermissionListerAbandons,
-} from '@potentiel/legacy-permissions';
 
 export type Permission = {
   nom: string;
@@ -40,8 +32,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionRetirerGF,
         PermissionListerDemandesAdmin,
         PermissionExporterProjets,
-        PermissionConsulterDossierRaccordement,
-        PermissionListerAbandons,
       ];
     case 'porteur-projet':
       return [
@@ -50,7 +40,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionAnnulerGF,
         PermissionRetirerGF,
         PermissionExporterProjets,
-        PermissionConsulterDossierRaccordement,
         PermissionUploaderGF,
       ];
     case 'caisse-des-dépôts':
@@ -75,12 +64,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionInviterAdministrateur,
         PermissionExporterProjets,
         PermissionListerProjetsÀNotifier,
-        PermissionListerGestionnairesRéseau,
-        PermissionConsulterGestionnaireRéseau,
-        PermissionAjouterGestionnaireRéseau,
-        PermissionModifierGestionnaireRéseau,
-        PermissionConsulterDossierRaccordement,
-        PermissionListerAbandons,
       ];
     case 'dgec-validateur':
       return [
@@ -93,26 +76,14 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionExporterProjets,
         PermissionListerProjetsÀNotifier,
         PermissionInviterAdministrateur,
-        PermissionListerGestionnairesRéseau,
-        PermissionConsulterGestionnaireRéseau,
-        PermissionAjouterGestionnaireRéseau,
-        PermissionModifierGestionnaireRéseau,
-        PermissionConsulterDossierRaccordement,
-        PermissionListerAbandons,
       ];
     case 'acheteur-obligé':
-      return [
-        PermissionListerProjets,
-        PermissionConsulterProjet,
-        PermissionExporterProjets,
-        PermissionConsulterDossierRaccordement,
-      ];
+      return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets];
     case 'cre':
       return [
         PermissionListerProjets,
         PermissionConsulterProjet,
         PermissionExporterProjets,
-        PermissionConsulterDossierRaccordement,
         PermissionUploaderGF,
       ];
     case 'ademe':
