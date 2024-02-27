@@ -25,7 +25,7 @@ Alors(
 
     const actualReadModel =
       await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'CONSULTER_GARANTIES_FINANCIÈRES_QUERY',
+        type: 'Lauréat.GarantiesFinancière.Query.ConsulterGarantiesFinancières',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -62,7 +62,7 @@ Alors(
 
     const actualListeDépôtsReadModel =
       await mediator.send<GarantiesFinancières.ListerGarantiesFinancièresQuery>({
-        type: 'LISTER_GARANTIES_FINANCIÈRES_QUERY',
+        type: 'Lauréat.GarantiesFinancière.Query.ListerAbandonsAvecRecandidatureÀRelancer',
         data: {
           pagination: { page: 1, itemsPerPage: 10 },
           utilisateur: { email: 'utilisateur@test.test', rôle: 'admin' },

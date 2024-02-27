@@ -15,7 +15,7 @@ export const registerSagas = async () => {
     eventType: ['DateMiseEnServiceTransmise-V1', 'DemandeComplèteDeRaccordementTransmise-V2'],
     eventHandler: async (event) => {
       await mediator.send<RaccordementSaga.Execute>({
-        type: 'EXECUTE_RACCORDEMENT_SAGA',
+        type: 'System.Saga.Raccordement',
         data: event,
       });
     },
@@ -27,7 +27,7 @@ export const registerSagas = async () => {
     eventType: ['AbandonAccordé-V1'],
     eventHandler: async (event) => {
       await mediator.send<AbandonSaga.Execute>({
-        type: 'EXECUTE_ABANDON_SAGA',
+        type: 'System.Saga.Abandon',
         data: event,
       });
     },

@@ -21,14 +21,14 @@ registerLauréatUseCases({
 (async () => {
   const abandonsÀRelancer =
     await mediator.send<Abandon.ListerAbandonsAvecRecandidatureÀRelancerQuery>({
-      type: 'LISTER_ABANDONS_AVEC_RECANDIDATURE_À_RELANCER_QUERY',
+      type: 'Lauréat.Abandon.Query.ListerAbandonsAvecRecandidatureÀRelancer',
       data: {},
     });
 
   for (const { identifiantProjet } of abandonsÀRelancer.résultats) {
     try {
       await mediator.send<Abandon.AbandonUseCase>({
-        type: 'DEMANDER_PREUVE_RECANDIDATURE_USECASE',
+        type: 'Lauréat.Abandon.UseCase.DemanderPreuveRecandidatureAbandon',
         data: {
           dateDemandeValue: DateTime.now().formatter(),
           identifiantProjetValue: identifiantProjet.formatter(),

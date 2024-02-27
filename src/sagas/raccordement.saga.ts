@@ -20,7 +20,7 @@ export type SubscriptionEvent = (
 /**
  * @deprecated à bouger dans la nouvelle app
  */
-export type Execute = Message<'EXECUTE_RACCORDEMENT_SAGA', SubscriptionEvent>;
+export type Execute = Message<'System.Saga.Raccordement', SubscriptionEvent>;
 
 /**
  * @deprecated à bouger dans la nouvelle app
@@ -58,5 +58,5 @@ export const register = () => {
     return Promise.reject();
   };
 
-  mediator.register('EXECUTE_RACCORDEMENT_SAGA', handler);
+  mediator.register('System.Saga.Raccordement', handler);
 };

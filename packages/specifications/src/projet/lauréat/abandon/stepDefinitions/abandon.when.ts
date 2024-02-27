@@ -464,7 +464,7 @@ Quand(
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<Abandon.AbandonUseCase>({
-        type: 'DEMANDER_PREUVE_RECANDIDATURE_USECASE',
+        type: 'Lauréat.Abandon.UseCase.DemanderPreuveRecandidatureAbandon',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           dateDemandeValue: new Date(dateDeRelance).toISOString(),
@@ -487,7 +487,7 @@ Quand(
       this.lauréatWorld.abandonWorld.dateDemandePreuveRecandidature = dateDemande;
 
       await mediator.send<Abandon.AbandonUseCase>({
-        type: 'DEMANDER_PREUVE_RECANDIDATURE_USECASE',
+        type: 'Lauréat.Abandon.UseCase.DemanderPreuveRecandidatureAbandon',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           dateDemandeValue: dateDemande.formatter(),

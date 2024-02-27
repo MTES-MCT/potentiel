@@ -18,7 +18,7 @@ export type RaccordementSubscriptionEvent = Raccordement.RéférenceDossierRacor
 
 type SubscriptionEvent = AbandonSubscriptionEvent | RaccordementSubscriptionEvent;
 
-export type Execute = Message<'EXECUTE_TÂCHE_SAGA', SubscriptionEvent>;
+export type Execute = Message<'System.Saga.Tâche', SubscriptionEvent>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
@@ -28,7 +28,7 @@ export const register = () => {
     switch (event.type) {
       case 'ConfirmationAbandonDemandée-V1':
         await mediator.send<AjouterTâcheCommand>({
-          type: 'AJOUTER_TÂCHE_COMMAND',
+          type: 'Tâche.Command.AjouterTâche',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
             typeTâche: Tâche.abandonConfirmer,
@@ -39,7 +39,7 @@ export const register = () => {
       case 'AbandonConfirmé-V1':
       case 'AbandonRejeté-V1':
         await mediator.send<AcheverTâcheCommand>({
-          type: 'ACHEVER_TÂCHE_COMMAND',
+          type: 'Tâche.Command.AcheverTâche',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
             typeTâche: Tâche.abandonConfirmer,
@@ -48,7 +48,7 @@ export const register = () => {
         break;
       case 'PreuveRecandidatureDemandée-V1':
         await mediator.send<AjouterTâcheCommand>({
-          type: 'AJOUTER_TÂCHE_COMMAND',
+          type: 'Tâche.Command.AjouterTâche',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
             typeTâche: Tâche.abandonTransmettrePreuveRecandidature,
@@ -57,7 +57,7 @@ export const register = () => {
         break;
       case 'PreuveRecandidatureTransmise-V1':
         await mediator.send<AcheverTâcheCommand>({
-          type: 'ACHEVER_TÂCHE_COMMAND',
+          type: 'Tâche.Command.AcheverTâche',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
             typeTâche: Tâche.abandonTransmettrePreuveRecandidature,
@@ -66,7 +66,7 @@ export const register = () => {
         break;
       case 'RéférenceDossierRacordementModifiée-V1':
         await mediator.send<AcheverTâcheCommand>({
-          type: 'ACHEVER_TÂCHE_COMMAND',
+          type: 'Tâche.Command.AcheverTâche',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
             typeTâche: Tâche.raccordementRéférenceNonTransmise,
@@ -75,5 +75,5 @@ export const register = () => {
     }
   };
 
-  mediator.register('EXECUTE_TÂCHE_SAGA', handler);
+  mediator.register('System.Saga.Tâche', handler);
 };

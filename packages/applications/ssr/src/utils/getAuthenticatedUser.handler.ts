@@ -5,7 +5,7 @@ import { decode } from 'next-auth/jwt';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 export type GetAuthenticatedUserMessage = Message<
-  'GET_AUTHENTICATED_USER',
+  'System.Authorization.RécupérerUtilisateur',
   {},
   Utilisateur.ValueType
 >;

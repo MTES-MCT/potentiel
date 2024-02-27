@@ -5,7 +5,7 @@ import { loadTâcheAggregateFactory } from '../tâche.aggregate';
 import * as Tâche from '../typeTâche.valueType';
 
 export type AcheverTâcheCommand = Message<
-  'ACHEVER_TÂCHE_COMMAND',
+  'Tâche.Command.AcheverTâche',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     typeTâche: Tâche.ValueType;
@@ -20,5 +20,5 @@ export const registerAcheverTâcheCommand = (loadAggregate: LoadAggregate) => {
       identifiantProjet,
     });
   };
-  mediator.register('ACHEVER_TÂCHE_COMMAND', handler);
+  mediator.register('Tâche.Command.AcheverTâche', handler);
 };

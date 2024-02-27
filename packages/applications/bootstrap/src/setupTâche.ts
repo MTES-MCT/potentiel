@@ -30,7 +30,7 @@ export const setupTâche = async () => {
     ],
     eventHandler: async (event) => {
       await mediator.publish<TâcheSaga.Execute>({
-        type: 'EXECUTE_TÂCHE_SAGA',
+        type: 'System.Saga.Tâche',
         data: event,
       });
     },
@@ -44,7 +44,7 @@ export const setupTâche = async () => {
     eventType: ['RéférenceDossierRacordementModifiée-V1'],
     eventHandler: async (event) => {
       await mediator.publish<TâcheSaga.Execute>({
-        type: 'EXECUTE_TÂCHE_SAGA',
+        type: 'System.Saga.Tâche',
         data: event,
       });
     },

@@ -15,7 +15,7 @@ export type SubscriptionEvent = Abandon.AbandonEvent & Event;
 /**
  * @deprecated à bouger dans la nouvelle app
  */
-export type Execute = Message<'EXECUTE_ABANDON_SAGA', SubscriptionEvent>;
+export type Execute = Message<'System.Saga.Abandon', SubscriptionEvent>;
 
 /**
  * @deprecated à bouger dans la nouvelle app
@@ -47,7 +47,7 @@ export const register = () => {
           });
         } else {
           logger.warning('Identifiant projet inconnu', {
-            saga: 'EXECUTE_ABANDON_SAGA',
+            saga: 'System.Saga.Abandon',
             event,
           });
         }
@@ -55,5 +55,5 @@ export const register = () => {
     return Promise.reject();
   };
 
-  mediator.register('EXECUTE_ABANDON_SAGA', handler);
+  mediator.register('System.Saga.Abandon', handler);
 };

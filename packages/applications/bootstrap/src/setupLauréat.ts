@@ -50,7 +50,7 @@ export const setupLauréat = async () => {
     ],
     eventHandler: async (event) => {
       await mediator.publish<AbandonNotification.Execute>({
-        type: 'EXECUTE_LAUREAT_ABANDON_NOTIFICATION',
+        type: 'System.Notification.Lauréat.Abandon',
         data: event,
       });
     },

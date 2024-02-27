@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DemanderPreuveRecandidatureAbandonCommand } from './demanderPreuveRecandidatureAbandon.command';
 
 export type DemanderPreuveRecandidatureAbandonUseCase = Message<
-  'DEMANDER_PREUVE_RECANDIDATURE_USECASE',
+  'Lauréat.Abandon.UseCase.DemanderPreuveRecandidatureAbandon',
   {
     identifiantProjetValue: string;
     dateDemandeValue: string;
@@ -19,12 +19,12 @@ export const registerDemanderPreuveRecandidatureAbandonUseCase = () => {
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
 
     await mediator.send<DemanderPreuveRecandidatureAbandonCommand>({
-      type: 'DEMANDER_PREUVE_RECANDIDATURE_ABANDON_COMMAND',
+      type: 'Lauréat.Abandon.Command.DemanderPreuveRecandidatureAbandon',
       data: {
         identifiantProjet,
         dateDemande,
       },
     });
   };
-  mediator.register('DEMANDER_PREUVE_RECANDIDATURE_USECASE', runner);
+  mediator.register('Lauréat.Abandon.UseCase.DemanderPreuveRecandidatureAbandon', runner);
 };
