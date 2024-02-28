@@ -12,7 +12,7 @@ export type ConsulterUtilisateurReadModel = {
 };
 
 export type ConsulterUtilisateurQuery = Message<
-  'CONSULTER_UTILISATEUR_QUERY',
+  'Utilisateur.Query.ConsulterUtilisateur',
   {
     identifiantUtilisateur: string;
   },
@@ -40,7 +40,7 @@ export const registerConsulterUtilisateurQuery = ({
     return mapToReadModel(result);
   };
 
-  mediator.register('CONSULTER_UTILISATEUR_QUERY', handler);
+  mediator.register('Utilisateur.Query.ConsulterUtilisateur', handler);
 };
 
 const mapToReadModel = ({

@@ -6,7 +6,7 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 
 export type DemanderConfirmationAbandonUseCase = Message<
-  'DEMANDER_CONFIRMATION_ABANDON_USECASE',
+  'Lauréat.Abandon.UseCase.DemanderConfirmationAbandon',
   {
     dateDemandeValue: string;
     identifiantUtilisateurValue: string;
@@ -38,7 +38,7 @@ export const registerDemanderConfirmationAbandonUseCase = () => {
     );
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
+      type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
         content,
         documentProjet: réponseSignée,
@@ -46,7 +46,7 @@ export const registerDemanderConfirmationAbandonUseCase = () => {
     });
 
     await mediator.send<DemanderConfirmationAbandonCommand>({
-      type: 'DEMANDER_CONFIRMATION_ABANDON_COMMAND',
+      type: 'Lauréat.Abandon.Command.DemanderConfirmationAbandon',
       data: {
         dateDemande,
         identifiantProjet,
@@ -56,5 +56,5 @@ export const registerDemanderConfirmationAbandonUseCase = () => {
     });
   };
 
-  mediator.register('DEMANDER_CONFIRMATION_ABANDON_USECASE', runner);
+  mediator.register('Lauréat.Abandon.UseCase.DemanderConfirmationAbandon', runner);
 };

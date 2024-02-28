@@ -82,7 +82,7 @@ export async function UserHeaderQuickAccessItem() {
 async function getTâcheHeaderQuickAccessItem(utilisateur: Utilisateur.ValueType) {
   if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
     const { nombreTâches } = await mediator.send<ConsulterNombreTâchesQuery>({
-      type: 'CONSULTER_NOMBRE_TÂCHES_QUERY',
+      type: 'Tâche.Query.ConsulterNombreTâches',
       data: {
         email: utilisateur.identifiantUtilisateur.email,
       },

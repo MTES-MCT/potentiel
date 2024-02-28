@@ -11,7 +11,7 @@ type AbandonsAvecRecandidatureÀRelancerReadModel = {
 };
 
 export type ListerAbandonsAvecRecandidatureÀRelancerQuery = Message<
-  'LISTER_ABANDONS_AVEC_RECANDIDATURE_À_RELANCER_QUERY',
+  'System.Lauréat.Abandon.Query.ListerAbandonsAvecRecandidatureÀRelancer',
   {},
   AbandonsAvecRecandidatureÀRelancerReadModel
 >;
@@ -38,5 +38,8 @@ export const registerListerAbandonsAvecRecandidatureÀRelancerQuery = ({
     };
   };
 
-  mediator.register('LISTER_ABANDONS_AVEC_RECANDIDATURE_À_RELANCER_QUERY', handler);
+  mediator.register(
+    'System.Lauréat.Abandon.Query.ListerAbandonsAvecRecandidatureÀRelancer',
+    handler,
+  );
 };

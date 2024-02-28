@@ -4,7 +4,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 
 export type TransmettreDateMiseEnServiceUseCase = Message<
-  'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
+  'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
   {
     dateMiseEnServiceValue: string;
     référenceDossierValue: string;
@@ -27,7 +27,7 @@ export const registerTransmettreDateMiseEnServiceUseCase = () => {
       RéférenceDossierRaccordement.convertirEnValueType(référenceDossierValue);
 
     await mediator.send<TransmettreDateMiseEnServiceCommand>({
-      type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND',
+      type: 'Réseau.Raccordement.Command.TransmettreDateMiseEnService',
       data: {
         dateMiseEnService,
         identifiantProjet,
@@ -37,5 +37,5 @@ export const registerTransmettreDateMiseEnServiceUseCase = () => {
     });
   };
 
-  mediator.register('TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE', runner);
+  mediator.register('Réseau.Raccordement.UseCase.TransmettreDateMiseEnService', runner);
 };

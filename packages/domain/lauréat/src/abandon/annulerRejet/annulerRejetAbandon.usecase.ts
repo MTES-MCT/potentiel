@@ -4,7 +4,7 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { AnnulerRejetAbandonCommand } from './annulerRejetAbandon.command';
 
 export type AnnulerRejetAbandonUseCase = Message<
-  'ANNULER_REJET_ABANDON_USECASE',
+  'Lauréat.Abandon.UseCase.AnnulerRejetAbandon',
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
@@ -25,7 +25,7 @@ export const registerAnnulerRejetAbandonUseCase = () => {
     );
 
     await mediator.send<AnnulerRejetAbandonCommand>({
-      type: 'ANNULER_REJET_ABANDON_COMMAND',
+      type: 'Lauréat.Abandon.Command.AnnulerRejetAbandon',
       data: {
         dateAnnulation,
         identifiantUtilisateur,
@@ -34,5 +34,5 @@ export const registerAnnulerRejetAbandonUseCase = () => {
     });
   };
 
-  mediator.register('ANNULER_REJET_ABANDON_USECASE', runner);
+  mediator.register('Lauréat.Abandon.UseCase.AnnulerRejetAbandon', runner);
 };

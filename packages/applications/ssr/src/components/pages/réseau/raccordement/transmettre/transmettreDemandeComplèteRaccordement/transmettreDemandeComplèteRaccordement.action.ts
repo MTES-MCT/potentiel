@@ -28,7 +28,7 @@ const action: FormAction<FormState, typeof schema> = async (
   },
 ) => {
   await mediator.send<Raccordement.RaccordementUseCase>({
-    type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+    type: 'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
     data: {
       identifiantProjetValue: identifiantProjet,
       dateQualificationValue: new Date(dateQualification).toISOString(),

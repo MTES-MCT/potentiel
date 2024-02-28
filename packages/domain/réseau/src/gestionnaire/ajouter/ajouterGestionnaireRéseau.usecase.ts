@@ -3,7 +3,7 @@ import { AjouterGestionnaireRéseauCommand } from './ajouterGestionnaireRéseau.
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 
 export type AjouterGestionnaireRéseauUseCase = Message<
-  'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
+  'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
   {
     identifiantGestionnaireRéseauValue: string;
     raisonSocialeValue: string;
@@ -30,7 +30,7 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
     );
 
     await mediator.send<AjouterGestionnaireRéseauCommand>({
-      type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_COMMAND',
+      type: 'Réseau.Gestionnaire.Command.AjouterGestionnaireRéseau',
       data: {
         identifiantGestionnaireRéseau,
         raisonSociale: raisonSocialeValue,
@@ -43,5 +43,5 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
     });
   };
 
-  mediator.register('AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE', handler);
+  mediator.register('Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau', handler);
 };

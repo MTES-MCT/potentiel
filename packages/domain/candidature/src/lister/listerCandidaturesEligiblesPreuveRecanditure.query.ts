@@ -23,7 +23,7 @@ export type ListerCandidaturesEligiblesPreuveRecanditureDependencies = {
 };
 
 export type ListerCandidaturesEligiblesPreuveRecanditureQuery = Message<
-  'LISTER_CANDIDATURES_ELIGIBLES_PREUVE_RECANDIDATURE_QUERY',
+  'Candidature.Query.ListerCandidaturesEligiblesPreuveRecandidature',
   {
     identifiantUtilisateur: string;
   },
@@ -41,7 +41,7 @@ export const registerCandidaturesEligiblesPreuveRecanditureQuery = ({
     return result.map(mapToReadModel);
   };
 
-  mediator.register('LISTER_CANDIDATURES_ELIGIBLES_PREUVE_RECANDIDATURE_QUERY', handler);
+  mediator.register('Candidature.Query.ListerCandidaturesEligiblesPreuveRecandidature', handler);
 };
 
 const mapToReadModel = ({

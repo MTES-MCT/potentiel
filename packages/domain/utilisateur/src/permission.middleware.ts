@@ -3,7 +3,11 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import * as Utilisateur from './utilisateur.valueType';
 import { VérifierAccèsProjetQuery } from './vérifierAccèsProjet/vérifierAccèsProjet.query';
 
-type GetAuthenticatedUserMessage = Message<'GET_AUTHENTICATED_USER', {}, Utilisateur.ValueType>;
+type GetAuthenticatedUserMessage = Message<
+  'System.Authorization.RécupérerUtilisateur',
+  {},
+  Utilisateur.ValueType
+>;
 
 export const permissionMiddleware: Middleware = async (message, next) => {
   if (isSystemProcess(message)) {
@@ -13,7 +17,7 @@ export const permissionMiddleware: Middleware = async (message, next) => {
   let utilisateur: Utilisateur.ValueType | undefined;
   try {
     utilisateur = await mediator.send<GetAuthenticatedUserMessage>({
-      type: 'GET_AUTHENTICATED_USER',
+      type: 'System.Authorization.RécupérerUtilisateur',
       data: {},
     });
   } catch (error) {
@@ -37,7 +41,7 @@ export const permissionMiddleware: Middleware = async (message, next) => {
     const identifiantProjetValue = getIdentifiantProjetValue(message);
 
     await mediator.send<VérifierAccèsProjetQuery>({
-      type: 'VERIFIER_ACCES_PROJET_QUERY',
+      type: 'System.Authorization.VérifierAccésProjet',
       data: {
         identifiantProjetValue,
         utilisateur,
@@ -54,22 +58,15 @@ class AuthenticationError extends Error {
   }
 }
 
-const isSystemProcess = (message: Message<string, Record<string, unknown>, void>) => {
-  return (
-    message.type === 'GET_AUTHENTICATED_USER' ||
-    message.type === 'VERIFIER_ACCES_PROJET_QUERY' ||
-    message.type.endsWith('_NOTIFICATION') ||
-    message.type.endsWith('_PROJECTOR') ||
-    message.type.endsWith('_SAGA')
-  );
-};
+const isSystemProcess = (message: Message<string, Record<string, unknown>, void>) =>
+  message.type.startsWith('System.');
 
 const mustSkipMessage = (message: Message<string, Record<string, unknown>, void>) => {
   return (
-    message.type.endsWith('GET_AUTHENTICATED_USER') ||
-    message.type.endsWith('_COMMAND') || // Message to skip because executed by a saga or legacy app
-    message.type.endsWith('_USECASE') || // Message executed by the legacy app
-    message.type.endsWith('_QUERY') // Message executed by the legacy app
+    message.type.endsWith('System.Authorization.RécupérerUtilisateur') ||
+    message.type.endsWith('.Command.') || // Message to skip because executed by a saga or legacy app
+    message.type.endsWith('.UseCase.') || // Message executed by the legacy app
+    message.type.endsWith('.Query.') // Message executed by the legacy app
   );
 };
 

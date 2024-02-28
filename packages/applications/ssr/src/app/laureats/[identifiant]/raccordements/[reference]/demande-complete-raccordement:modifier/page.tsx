@@ -40,24 +40,24 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       const referenceDossierRaccordement = decodeParameter(reference);
 
       const candidature = await mediator.send<ConsulterCandidatureQuery>({
-        type: 'CONSULTER_CANDIDATURE_QUERY',
+        type: 'Candidature.Query.ConsulterCandidature',
         data: { identifiantProjet },
       });
 
       const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
-        type: 'CONSULTER_APPEL_OFFRE_QUERY',
+        type: 'AppelOffre.Query.ConsulterAppelOffre',
         data: { identifiantAppelOffre: candidature.appelOffre },
       });
 
       const gestionnaireRéseau =
         await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
-          type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_QUERY',
+          type: 'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
           data: { identifiantProjetValue: identifiantProjet },
         });
 
       const dossierRaccordement =
         await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-          type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+          type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             référenceDossierRaccordementValue: referenceDossierRaccordement,
             identifiantProjetValue: identifiantProjet,

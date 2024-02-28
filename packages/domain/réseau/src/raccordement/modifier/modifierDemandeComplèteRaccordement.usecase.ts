@@ -7,7 +7,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 export type ModifierDemandeComplèteRaccordementUseCase = Message<
-  'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+  'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
   {
     identifiantProjetValue: string;
     dateQualificationValue: string;
@@ -47,7 +47,7 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     );
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
+      type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
         content,
         documentProjet: accuséRéception,
@@ -55,7 +55,7 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     });
 
     await mediator.send<ModifierDemandeComplèteRaccordementCommand>({
-      type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
+      type: 'Réseau.Raccordement.Command.ModifierDemandeComplèteRaccordement',
       data: {
         dateQualification,
         formatAccuséRéception: format,
@@ -66,5 +66,5 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     });
   };
 
-  mediator.register('MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE', runner);
+  mediator.register('Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement', runner);
 };

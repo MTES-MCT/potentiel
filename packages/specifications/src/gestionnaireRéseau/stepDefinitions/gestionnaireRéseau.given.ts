@@ -16,7 +16,7 @@ EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, 
   };
 
   await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
-    type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
+    type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
     data: {
       identifiantGestionnaireRéseauValue: codeEIC,
       raisonSocialeValue: raisonSociale,
@@ -47,7 +47,7 @@ EtantDonné(
     };
 
     await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
-      type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
+      type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
       data: {
         identifiantGestionnaireRéseauValue: codeEIC,
         raisonSocialeValue: raisonSociale,

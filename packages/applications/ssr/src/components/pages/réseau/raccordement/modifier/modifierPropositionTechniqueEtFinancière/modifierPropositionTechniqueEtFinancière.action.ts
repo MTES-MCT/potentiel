@@ -26,7 +26,7 @@ const action: FormAction<FormState, typeof schema> = async (
   },
 ) => {
   await mediator.send<Raccordement.RaccordementUseCase>({
-    type: 'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+    type: 'Réseau.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
     data: {
       identifiantProjetValue: identifiantProjet,
       référenceDossierRaccordementValue: referenceDossierRaccordement,

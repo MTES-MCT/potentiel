@@ -10,7 +10,7 @@ type DocumentKeyParameter = {
 
 export const GET = async (request: Request, { params: { documentKey } }: DocumentKeyParameter) => {
   const result = await mediator.send<ConsulterDocumentProjetQuery>({
-    type: 'CONSULTER_DOCUMENT_PROJET',
+    type: 'Document.Query.ConsulterDocumentProjet',
     data: {
       documentKey,
     },

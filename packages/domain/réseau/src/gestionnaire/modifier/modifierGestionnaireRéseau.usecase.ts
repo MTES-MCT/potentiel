@@ -3,7 +3,7 @@ import { ModifierGestionnaireRéseauCommand } from './modifierGestionnaireRésea
 import { IdentifiantGestionnaireRéseau } from '..';
 
 export type ModifierGestionnaireRéseauUseCase = Message<
-  'MODIFIER_GESTIONNAIRE_RÉSEAU_USECASE',
+  'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',
   {
     identifiantGestionnaireRéseauValue: string;
     raisonSocialeValue: string;
@@ -29,7 +29,7 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
       identifiantGestionnaireRéseauValue,
     );
     return mediator.send<ModifierGestionnaireRéseauCommand>({
-      type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_COMMAND',
+      type: 'Réseau.Gestionnaire.Command.ModifierGestionnaireRéseau',
       data: {
         identifiantGestionnaireRéseau,
         raisonSociale: raisonSocialeValue,
@@ -42,5 +42,5 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
     });
   };
 
-  mediator.register('MODIFIER_GESTIONNAIRE_RÉSEAU_USECASE', handler);
+  mediator.register('Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau', handler);
 };

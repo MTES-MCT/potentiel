@@ -11,7 +11,7 @@ export type ListerAppelOffreReadModel = {
 };
 
 export type ListerAppelOffreQuery = Message<
-  'LISTER_APPEL_OFFRE_QUERY',
+  'AppelOffre.Query.ListerAppelOffre',
   {},
   ListerAppelOffreReadModel
 >;
@@ -36,5 +36,5 @@ export const registerListerAppelOffreQuery = ({ list }: ListerAppelOffreDependen
     };
   };
 
-  mediator.register('LISTER_APPEL_OFFRE_QUERY', handler);
+  mediator.register('AppelOffre.Query.ListerAppelOffre', handler);
 };

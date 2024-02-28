@@ -27,7 +27,7 @@ export const registerSupprimerGarantiesFinancièresÀTraiterUseCase = () => {
     const suppriméPar = IdentifiantUtilisateur.convertirEnValueType(suppriméParValue);
 
     const garantiesFinancièreActuelles = await mediator.send<ConsulterGarantiesFinancièresQuery>({
-      type: 'CONSULTER_GARANTIES_FINANCIÈRES_QUERY',
+      type: 'Lauréat.GarantiesFinancière.Query.ConsulterGarantiesFinancières',
       data: { identifiantProjetValue },
     });
 

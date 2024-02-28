@@ -11,7 +11,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     const identifiantProjet = decodeParameter(identifiant);
 
     const modèleRéponse = await mediator.send<Abandon.GénérerModèleRéponseAbandonQuery>({
-      type: 'GENERER_MODELE_REPONSE_ABANDON_QUERY',
+      type: 'Document.Query.GénérerModèleRéponseAbandon',
       data: {
         identifiantProjet,
         identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,

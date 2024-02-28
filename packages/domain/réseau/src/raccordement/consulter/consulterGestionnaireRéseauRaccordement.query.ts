@@ -16,7 +16,7 @@ export type ConsulterGestionnaireRéseauRaccordementReadModel = {
 };
 
 export type ConsulterGestionnaireRéseauRaccordementQuery = Message<
-  'CONSULTER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_QUERY',
+  'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
   {
     identifiantProjetValue: string;
   },
@@ -60,7 +60,7 @@ export const registerConsulterGestionnaireRéseauRaccordementQuery = ({
     return mapToResult(gestionnaireRéseauResult);
   };
 
-  mediator.register('CONSULTER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_QUERY', handler);
+  mediator.register('Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement', handler);
 };
 
 const mapToResult = ({

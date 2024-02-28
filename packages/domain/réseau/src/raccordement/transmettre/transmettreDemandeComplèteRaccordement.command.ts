@@ -7,7 +7,7 @@ import { loadGestionnaireRéseauFactory } from '../../gestionnaire/gestionnaireR
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 
 export type TransmettreDemandeComplèteRaccordementCommand = Message<
-  'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
+  'Réseau.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
@@ -44,5 +44,5 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
     });
   };
 
-  mediator.register('TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND', handler);
+  mediator.register('Réseau.Raccordement.Command.TransmettreDemandeComplèteRaccordement', handler);
 };

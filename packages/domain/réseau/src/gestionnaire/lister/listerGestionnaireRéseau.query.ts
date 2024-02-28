@@ -22,7 +22,7 @@ export type ListerGestionnaireRéseauReadModel = {
 };
 
 export type ListerGestionnaireRéseauQuery = Message<
-  'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
+  'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
   {
     pagination: {
       page: number;
@@ -58,7 +58,7 @@ export const registerListerGestionnaireRéseauQuery = ({
       items: items.map((item) => mapToReadModel(item)),
     };
   };
-  mediator.register('LISTER_GESTIONNAIRE_RÉSEAU_QUERY', handler);
+  mediator.register('Réseau.Gestionnaire.Query.ListerGestionnaireRéseau', handler);
 };
 
 const mapToReadModel = ({

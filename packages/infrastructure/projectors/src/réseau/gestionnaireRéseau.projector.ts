@@ -8,7 +8,7 @@ export type SubscriptionEvent =
   | (GestionnaireRéseau.GestionnaireRéseauEvent & Event)
   | RebuildTriggered;
 
-export type Execute = Message<'EXECUTE_GESTIONNAIRE_RÉSEAU_PROJECTOR', SubscriptionEvent>;
+export type Execute = Message<'System.Projector.Réseau.Gestionnaire', SubscriptionEvent>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
@@ -33,5 +33,5 @@ export const register = () => {
     }
   };
 
-  mediator.register('EXECUTE_GESTIONNAIRE_RÉSEAU_PROJECTOR', handler);
+  mediator.register('System.Projector.Réseau.Gestionnaire', handler);
 };

@@ -47,7 +47,7 @@ export type ConsulterAbandonReadModel = {
 };
 
 export type ConsulterAbandonQuery = Message<
-  'CONSULTER_ABANDON_QUERY',
+  'Lauréat.Abandon.Query.ConsulterAbandon',
   {
     identifiantProjetValue: string;
   },
@@ -151,5 +151,5 @@ export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependen
       rejet,
     };
   };
-  mediator.register('CONSULTER_ABANDON_QUERY', handler);
+  mediator.register('Lauréat.Abandon.Query.ConsulterAbandon', handler);
 };

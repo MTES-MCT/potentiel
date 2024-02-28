@@ -11,7 +11,7 @@ import { AccorderAbandonCommand } from './accorderAbandon.command';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 
 export type AccorderAbandonUseCase = Message<
-  'ACCORDER_ABANDON_USECASE',
+  'Lauréat.Abandon.UseCase.AccorderAbandon',
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
@@ -44,7 +44,7 @@ export const registerAccorderAbandonUseCase = () => {
     );
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
+      type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
         content,
         documentProjet: réponseSignée,
@@ -52,7 +52,7 @@ export const registerAccorderAbandonUseCase = () => {
     });
 
     await mediator.send<AccorderAbandonCommand>({
-      type: 'ACCORDER_ABANDON_COMMAND',
+      type: 'Lauréat.Abandon.Command.AccorderAbandon',
       data: {
         dateAccord,
         identifiantUtilisateur,
@@ -61,5 +61,5 @@ export const registerAccorderAbandonUseCase = () => {
       },
     });
   };
-  mediator.register('ACCORDER_ABANDON_USECASE', runner);
+  mediator.register('Lauréat.Abandon.UseCase.AccorderAbandon', runner);
 };

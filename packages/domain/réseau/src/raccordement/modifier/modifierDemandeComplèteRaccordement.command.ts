@@ -7,7 +7,7 @@ import { loadGestionnaireRéseauFactory } from '../../gestionnaire/gestionnaireR
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 export type ModifierDemandeComplèteRaccordementCommand = Message<
-  'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND',
+  'Réseau.Raccordement.Command.ModifierDemandeComplèteRaccordement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -43,5 +43,5 @@ export const registerModifierDemandeComplèteRaccordementCommand = (
     });
   };
 
-  mediator.register('MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_COMMAND', handler);
+  mediator.register('Réseau.Raccordement.Command.ModifierDemandeComplèteRaccordement', handler);
 };

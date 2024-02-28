@@ -7,7 +7,7 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { loadAbandonFactory } from '../abandon.aggregate';
 
 export type RejeterAbandonCommand = Message<
-  'REJETER_ABANDON_COMMAND',
+  'Lauréat.Abandon.Command.RejeterAbandon',
   {
     dateRejet: DateTime.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
@@ -33,5 +33,5 @@ export const registerRejeterAbandonCommand = (loadAggregate: LoadAggregate) => {
       réponseSignée,
     });
   };
-  mediator.register('REJETER_ABANDON_COMMAND', handler);
+  mediator.register('Lauréat.Abandon.Command.RejeterAbandon', handler);
 };

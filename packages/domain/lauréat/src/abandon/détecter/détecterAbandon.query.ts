@@ -7,7 +7,7 @@ import { AbandonEntity } from '../abandon.entity';
 import { Find } from '@potentiel-domain/core';
 
 export type DétecterAbandonQuery = Message<
-  'DÉTECTER_ABANDON_QUERY',
+  'Lauréat.Abandon.Query.DétecterAbandon',
   {
     identifiantProjetValue: string;
   },
@@ -25,5 +25,5 @@ export const registerDétecterAbandonQuery = ({ find }: DétecterAbandonDependen
 
     return isSome(result);
   };
-  mediator.register('DÉTECTER_ABANDON_QUERY', handler);
+  mediator.register('Lauréat.Abandon.Query.DétecterAbandon', handler);
 };

@@ -13,7 +13,7 @@ import { templateId } from '../templateId';
 
 export type SubscriptionEvent = Abandon.AbandonEvent & Event;
 
-export type Execute = Message<'EXECUTE_LAUREAT_ABANDON_NOTIFICATION', SubscriptionEvent>;
+export type Execute = Message<'System.Notification.Lauréat.Abandon', SubscriptionEvent>;
 
 const sendEmailAbandonChangementDeStatut = async ({
   identifiantProjet,
@@ -177,5 +177,5 @@ export const register = () => {
     }
   };
 
-  mediator.register('EXECUTE_LAUREAT_ABANDON_NOTIFICATION', handler);
+  mediator.register('System.Notification.Lauréat.Abandon', handler);
 };

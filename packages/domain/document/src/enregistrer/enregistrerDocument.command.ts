@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DocumentProjet } from '..';
 
 export type EnregistrerDocumentProjetCommand = Message<
-  'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
+  'Document.Command.EnregistrerDocumentProjet',
   {
     documentProjet: DocumentProjet.ValueType;
     content: ReadableStream;
@@ -22,5 +22,5 @@ export const registerEnregistrerDocumentCommand = ({
 }: EnregistrerDocumentProjetDependencies) => {
   const handler: MessageHandler<EnregistrerDocumentProjetCommand> = ({ documentProjet, content }) =>
     enregistrerDocumentProjet(documentProjet.formatter(), content);
-  mediator.register('ENREGISTRER_DOCUMENT_PROJET_COMMAND', handler);
+  mediator.register('Document.Command.EnregistrerDocumentProjet', handler);
 };

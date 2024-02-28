@@ -7,7 +7,7 @@ import { AppelOffreInconnuErreur } from '../appelOffreInconnu.error';
 export type ConsulterAppelOffreReadModel = AppelOffre;
 
 export type ConsulterAppelOffreQuery = Message<
-  'CONSULTER_APPEL_OFFRE_QUERY',
+  'AppelOffre.Query.ConsulterAppelOffre',
   {
     identifiantAppelOffre: string;
   },
@@ -29,5 +29,5 @@ export const registerConsulterAppelOffreQuery = ({ find }: ConsulterAppelOffreDe
     return result;
   };
 
-  mediator.register('CONSULTER_APPEL_OFFRE_QUERY', handler);
+  mediator.register('AppelOffre.Query.ConsulterAppelOffre', handler);
 };

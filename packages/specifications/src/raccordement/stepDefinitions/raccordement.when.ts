@@ -45,7 +45,7 @@ Quand(
 
     try {
       await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+        type: 'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
         data: {
           accuséRéceptionValue: accuséRéception,
           dateQualificationValue: dateQualification,
@@ -79,7 +79,7 @@ Quand(
 
     try {
       await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
+        type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierValue: référenceDossierRaccordement,
@@ -125,7 +125,7 @@ Quand(
 
     try {
       await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+        type: 'Réseau.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
         data: {
           dateSignatureValue: new Date(dateSignature).toISOString(),
           référenceDossierRaccordementValue: référenceDossierRaccordement,
@@ -172,7 +172,7 @@ Quand(
 
     try {
       await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+        type: 'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           identifiantGestionnaireRéseauValue: codeEIC,
@@ -217,7 +217,7 @@ Quand(
 
     try {
       await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+        type: 'Réseau.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
         data: {
           dateSignatureValue: dateSignature,
           référenceDossierRaccordementValue: référenceDossierRaccordement,
@@ -238,7 +238,7 @@ Quand(
 
     try {
       await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
-        type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_USE_CASE',
+        type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           identifiantGestionnaireRéseauValue: 'GESTIONNAIRE NON RÉFÉRENCÉ',
@@ -260,7 +260,7 @@ Quand(
 
     try {
       await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
-        type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_USE_CASE',
+        type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           identifiantGestionnaireRéseauValue: codeEIC,
@@ -292,7 +292,7 @@ Quand(
 
     try {
       await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_USE_CASE',
+        type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
         data: {
           identifiantGestionnaireRéseauValue: codeEIC,
           identifiantProjetValue: identifiantProjet.formatter(),

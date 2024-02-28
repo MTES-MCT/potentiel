@@ -6,7 +6,7 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { loadAbandonFactory } from '../abandon.aggregate';
 
 export type AnnulerAbandonCommand = Message<
-  'ANNULER_ABANDON_COMMAND',
+  'Lauréat.Abandon.Command.AnnulerAbandon',
   {
     dateAnnulation: DateTime.ValueType;
     identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
@@ -29,5 +29,5 @@ export const registerAnnulerAbandonCommand = (loadAggregate: LoadAggregate) => {
       identifiantUtilisateur,
     });
   };
-  mediator.register('ANNULER_ABANDON_COMMAND', handler);
+  mediator.register('Lauréat.Abandon.Command.AnnulerAbandon', handler);
 };

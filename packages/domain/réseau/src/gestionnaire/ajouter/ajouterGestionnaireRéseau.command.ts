@@ -4,7 +4,7 @@ import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRése
 import { loadGestionnaireRéseauFactory } from '../gestionnaireRéseau.aggregate';
 
 export type AjouterGestionnaireRéseauCommand = Message<
-  'AJOUTER_GESTIONNAIRE_RÉSEAU_COMMAND',
+  'Réseau.Gestionnaire.Command.AjouterGestionnaireRéseau',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
     raisonSociale: string;
@@ -33,5 +33,5 @@ export const registerAjouterGestionnaireRéseauCommand = (loadAggregate: LoadAgg
     });
   };
 
-  mediator.register('AJOUTER_GESTIONNAIRE_RÉSEAU_COMMAND', handler);
+  mediator.register('Réseau.Gestionnaire.Command.AjouterGestionnaireRéseau', handler);
 };
