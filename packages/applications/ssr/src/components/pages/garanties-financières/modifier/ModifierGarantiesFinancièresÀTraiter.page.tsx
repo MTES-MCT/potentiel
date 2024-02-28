@@ -162,7 +162,7 @@ export const ModifierGarantiesFinancièresÀTraiter: FC<
                 >
                   Retour au détail du projet
                 </Button>
-                <SubmitButton>Soumettre</SubmitButton>
+                <SubmitButton>Modifier</SubmitButton>
               </div>
             </Form>
           </>
