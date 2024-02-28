@@ -29,7 +29,6 @@ const getLabelByType = (type: GarantiesFinancières.TypeGarantiesFinancières.Ra
       return 'Six mois après achèvement';
   }
 };
-
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   if (!process.env.FEATURE_FLAG_GARANTIES_FINANCIERES) {
     return notFound();
