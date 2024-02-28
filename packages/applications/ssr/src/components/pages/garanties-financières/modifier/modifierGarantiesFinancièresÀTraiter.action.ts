@@ -6,24 +6,28 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 
 export type ModifierGarantiesFinancièresState = FormState;
 
-const schema = zod.discriminatedUnion('typeGarantiesFinancieres', [
+const commonSchema = {
+  identifiantProjet: zod.string().min(1),
+  dateConstitution: zod.string().min(1),
+  attestation: zod.instanceof(Blob),
+};
+
+const schema = zod.discriminatedUnion('type', [
   zod.object({
-    typeGarantiesFinancieres: zod.literal('avec date d’échéance'),
-    identifiantProjet: zod.string().min(1),
+    ...commonSchema,
+    type: zod.literal('avec date d’échéance'),
     dateEcheance: zod.string().min(1),
-    dateConstitution: zod.string().min(1),
   }),
   zod.object({
-    typeGarantiesFinancieres: zod.enum(['6 mois après achèvement', 'consignation']),
-    identifiantProjet: zod.string().min(1),
-    dateConstitution: zod.string().min(1),
+    ...commonSchema,
+    type: zod.enum(['6 mois après achèvement', 'consignation']),
   }),
 ]);
 
+/**
+ * @todo add usecase
+ */
 const action: FormAction<FormState, typeof schema> = async (_, props) => {
-  /**
-   * @todo Appel au usecase à ajouter quand il sera prêt
-   */
   return {
     status: 'success',
   };

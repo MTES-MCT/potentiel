@@ -23,16 +23,6 @@ export const metadata: Metadata = {
   description: 'Formulaire de modification des garanties financières',
 };
 
-const getLabelByType = (type: GarantiesFinancières.TypeGarantiesFinancières.RawType) => {
-  switch (type) {
-    case 'consignation':
-      return 'Consignation';
-    case 'avec-date-échéance':
-      return "Avec date d'échéance";
-    case 'six-mois-après-achèvement':
-      return 'Six mois après achèvement';
-  }
-};
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   if (!process.env.FEATURE_FLAG_GARANTIES_FINANCIERES) {
     return notFound();
@@ -85,6 +75,17 @@ const mapToProps: MapToProps = ({
   garantiesFinancières,
   utilisateur,
 }) => {
+  const getLabelByType = (type: GarantiesFinancières.TypeGarantiesFinancières.RawType) => {
+    switch (type) {
+      case 'consignation':
+        return 'Consignation';
+      case 'avec-date-échéance':
+        return "Avec date d'échéance";
+      case 'six-mois-après-achèvement':
+        return 'Six mois après achèvement';
+    }
+  };
+
   const getActions = (
     utilisateur: Utilisateur.ValueType['role'],
   ): ModifierGarantiesFinancièresÀTraiterProps['actions'] => {
