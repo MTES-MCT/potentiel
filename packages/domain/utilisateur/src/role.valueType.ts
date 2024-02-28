@@ -436,6 +436,15 @@ const policies = {
       référencielPermissions.lauréat.garantiesFinancières.command.soumettre,
     ],
   },
+  garantiesFinancières: {
+    consulter: [référencielPermissions.lauréat.garantiesFinancières.query.consulter],
+    soumettre: [
+      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.lauréat.garantiesFinancières.usecase.soumettre,
+      référencielPermissions.document.command.enregister,
+      référencielPermissions.lauréat.garantiesFinancières.command.soumettre,
+    ],
+  },
 };
 
 const permissionAdmin = [
