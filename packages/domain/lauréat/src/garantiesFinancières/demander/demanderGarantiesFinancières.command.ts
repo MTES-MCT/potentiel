@@ -6,7 +6,7 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { loadGarantiesFinancièresFactory } from '../garantiesFinancières.aggregate';
 
 export type DemanderGarantiesFinancièresCommand = Message<
-  'Lauréat.GanratiesFinancières.Command.DemanderPreuveRecandidatureAbandon',
+  'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     dateLimiteSoumission: DateTime.ValueType;
@@ -29,8 +29,5 @@ export const registerDemanderGarantiesFinancièresCommand = (loadAggregate: Load
       demandéLe,
     });
   };
-  mediator.register(
-    'Lauréat.GanratiesFinancières.Command.DemanderPreuveRecandidatureAbandon',
-    handler,
-  );
+  mediator.register('Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières', handler);
 };

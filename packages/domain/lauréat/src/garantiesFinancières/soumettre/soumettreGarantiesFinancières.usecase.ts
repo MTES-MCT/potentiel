@@ -6,7 +6,7 @@ import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '..
 import { SoumettreGarantiesFinancièresCommand } from './soumettreGarantiesFinancières.command';
 
 export type SoumettreGarantiesFinancièresUseCase = Message<
-  'Lauréat.GarantiesFinancière.UseCase.SoumettreGarantiesFinancières',
+  'Lauréat.GarantiesFinancières.UseCase.SoumettreGarantiesFinancières',
   {
     identifiantProjetValue: string;
     typeValue: string;
@@ -56,7 +56,7 @@ export const registerSoumettreGarantiesFinancièresUseCase = () => {
     });
 
     await mediator.send<SoumettreGarantiesFinancièresCommand>({
-      type: 'Lauréat.GanratiesFinancières.Command.SoumettreGarantiesFinancières',
+      type: 'Lauréat.GarantiesFinancières.Command.SoumettreGarantiesFinancières',
       data: {
         attestation,
         dateConstitution,
@@ -68,5 +68,5 @@ export const registerSoumettreGarantiesFinancièresUseCase = () => {
       },
     });
   };
-  mediator.register('Lauréat.GarantiesFinancière.UseCase.SoumettreGarantiesFinancières', runner);
+  mediator.register('Lauréat.GarantiesFinancières.UseCase.SoumettreGarantiesFinancières', runner);
 };

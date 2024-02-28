@@ -8,7 +8,7 @@ import { AucunesGarantiesFinancièresÀTraiter } from './aucunesGarantiesFinanci
 import { AucunesGarantiesFinancières } from '../aucunesGarantiesFinancières.error';
 
 export type SupprimerGarantiesFinancièresÀTraiterUseCase = Message<
-  'SUPPRIMER_GARANTIES_FINANCIÈRES_À_TRAITER_USECASE',
+  'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancières',
   {
     identifiantProjetValue: string;
     suppriméLeValue: string;
@@ -27,7 +27,7 @@ export const registerSupprimerGarantiesFinancièresÀTraiterUseCase = () => {
     const suppriméPar = IdentifiantUtilisateur.convertirEnValueType(suppriméParValue);
 
     const garantiesFinancièreActuelles = await mediator.send<ConsulterGarantiesFinancièresQuery>({
-      type: 'Lauréat.GarantiesFinancière.Query.ConsulterGarantiesFinancières',
+      type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
       data: { identifiantProjetValue },
     });
 
@@ -40,14 +40,14 @@ export const registerSupprimerGarantiesFinancièresÀTraiterUseCase = () => {
     }
 
     await mediator.send<SupprimerDocumentProjetCommand>({
-      type: 'SUPPRIMER_DOCUMENT_PROJET_COMMAND',
+      type: 'Document.Query.SupprimerDocumentProjet',
       data: {
         documentKey: garantiesFinancièreActuelles.àTraiter?.attestation.formatter(),
       },
     });
 
     await mediator.send<SupprimerGarantiesFinancièresÀTraiterCommand>({
-      type: 'SUPPRIMER_GARANTIES_FINANCIÈRES_À_TRAITER_COMMAND',
+      type: 'Lauréat.GarantiesFinancières.Command.SupprimerGarantiesFinancières',
       data: {
         identifiantProjet,
         suppriméLe,
@@ -55,5 +55,5 @@ export const registerSupprimerGarantiesFinancièresÀTraiterUseCase = () => {
       },
     });
   };
-  mediator.register('SUPPRIMER_GARANTIES_FINANCIÈRES_À_TRAITER_USECASE', runner);
+  mediator.register('Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancières', runner);
 };

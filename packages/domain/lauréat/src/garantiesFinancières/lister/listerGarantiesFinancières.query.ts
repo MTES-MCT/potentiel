@@ -9,7 +9,7 @@ import { GarantiesFinancièresEntity } from '../garantiesFinancières.entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 export type ListerGarantiesFinancièresQuery = Message<
-  'Lauréat.GarantiesFinancière.Query.ListerAbandonsAvecRecandidatureÀRelancer',
+  'Lauréat.GarantiesFinancières.Query.ListerGarantiesFinancières',
   {
     statut: string;
     utilisateur: {
@@ -118,10 +118,7 @@ export const registerListerGarantiesFinancièresQuery = ({
       items: result.items.map((item) => mapToListItemReadModel(item)),
     };
   };
-  mediator.register(
-    'Lauréat.GarantiesFinancière.Query.ListerAbandonsAvecRecandidatureÀRelancer',
-    handler,
-  );
+  mediator.register('Lauréat.GarantiesFinancières.Query.ListerGarantiesFinancières', handler);
 };
 
 const mapToListItemReadModel = (
