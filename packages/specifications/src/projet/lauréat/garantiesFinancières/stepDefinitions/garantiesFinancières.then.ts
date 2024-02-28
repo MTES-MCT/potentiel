@@ -109,7 +109,7 @@ Alors(
 
     const actualReadModel =
       await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'CONSULTER_GARANTIES_FINANCIÈRES_QUERY',
+        type: 'Lauréat.GarantiesFinancière.Query.ConsulterGarantiesFinancières',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -132,7 +132,7 @@ Alors(
 
     const actualReadModel =
       await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'CONSULTER_GARANTIES_FINANCIÈRES_QUERY',
+        type: 'Lauréat.GarantiesFinancière.Query.ConsulterGarantiesFinancières',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
