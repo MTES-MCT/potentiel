@@ -63,13 +63,13 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | date de constitution | 2055-01-01 |
         Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future" 
     
-    Scénario: Erreur si date de d'échéance manquante
+    Scénario: Erreur si date d'échéance manquante
         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type          | avec-date-échéance   |     
             | dateÉchéance  |                      |     
         Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières" 
     
-    Plan du Scénario: Erreur si date de d'échéance non compatible avec le type
+    Plan du Scénario: Erreur si date d'échéance non compatible avec le type
         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type | <type>                |   
             | date d'échéance | 2028-01-01 |   
