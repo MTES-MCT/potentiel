@@ -9,7 +9,7 @@ import { loadGarantiesFinancièresFactory } from '../garantiesFinancières.aggre
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 export type ModifierGarantiesFinancièresÀTraiterCommand = Message<
-  'MODIFIER_GARANTIES_FINANCIÈRES_À_TRAITER_COMMAND',
+  'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     type: TypeGarantiesFinancières.ValueType;
@@ -46,5 +46,5 @@ export const registerModifierGarantiesFinancièresÀTraiterCommand = (
       soumisPar,
     });
   };
-  mediator.register('MODIFIER_GARANTIES_FINANCIÈRES_À_TRAITER_COMMAND', handler);
+  mediator.register('Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières', handler);
 };

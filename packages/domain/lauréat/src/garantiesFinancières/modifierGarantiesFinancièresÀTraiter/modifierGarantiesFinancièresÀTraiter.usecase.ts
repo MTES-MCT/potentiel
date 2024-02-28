@@ -6,7 +6,7 @@ import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '..
 import { ModifierGarantiesFinancièresÀTraiterCommand } from './modifierGarantiesFinancièresÀTraiter.command';
 
 export type ModifierGarantiesFinancièresÀTraiterUseCase = Message<
-  'MODIFIER_GARANTIES_FINANCIÈRES_À_TRAITER_USECASE',
+  'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
   {
     identifiantProjetValue: string;
     typeValue: string;
@@ -48,7 +48,7 @@ export const registerModifierGarantiesFinancièresÀTraiterUseCase = () => {
     );
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
+      type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
         content: attestationValue.content,
         documentProjet: attestation,
@@ -56,7 +56,7 @@ export const registerModifierGarantiesFinancièresÀTraiterUseCase = () => {
     });
 
     await mediator.send<ModifierGarantiesFinancièresÀTraiterCommand>({
-      type: 'MODIFIER_GARANTIES_FINANCIÈRES_À_TRAITER_COMMAND',
+      type: 'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières',
       data: {
         attestation,
         dateConstitution,
@@ -68,5 +68,5 @@ export const registerModifierGarantiesFinancièresÀTraiterUseCase = () => {
       },
     });
   };
-  mediator.register('MODIFIER_GARANTIES_FINANCIÈRES_À_TRAITER_USECASE', runner);
+  mediator.register('Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières', runner);
 };
