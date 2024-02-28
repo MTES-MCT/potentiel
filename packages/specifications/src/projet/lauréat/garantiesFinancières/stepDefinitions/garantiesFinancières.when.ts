@@ -70,7 +70,7 @@ Quand(
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<GarantiesFinancières.ValiderGarantiesFinancièresUseCase>({
-        type: 'VALIDER_GARANTIES_FINANCIÈRES_USECASE',
+        type: 'Lauréat.GarantiesFinancières.UseCase.ValiderGarantiesFinancières',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           validéLeValue: new Date(dateValidation).toISOString(),

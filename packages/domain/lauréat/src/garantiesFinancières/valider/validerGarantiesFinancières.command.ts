@@ -7,7 +7,7 @@ import { loadGarantiesFinancièresFactory } from '../garantiesFinancières.aggre
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 export type ValiderGarantiesFinancièresCommand = Message<
-  'VALIDER_GARANTIES_FINANCIÈRES_COMMAND',
+  'Lauréat.GarantiesFinancières.Command.ValiderGarantiesFinancières',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     validéLe: DateTime.ValueType;
@@ -30,5 +30,5 @@ export const registerValiderGarantiesFinancièresCommand = (loadAggregate: LoadA
       validéPar,
     });
   };
-  mediator.register('VALIDER_GARANTIES_FINANCIÈRES_COMMAND', handler);
+  mediator.register('Lauréat.GarantiesFinancières.Command.ValiderGarantiesFinancières', handler);
 };

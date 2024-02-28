@@ -6,7 +6,7 @@ import { ValiderGarantiesFinancièresCommand } from './validerGarantiesFinanciè
 import { DocumentProjetCommand, DossierProjet } from '@potentiel-domain/document';
 
 export type ValiderGarantiesFinancièresUseCase = Message<
-  'VALIDER_GARANTIES_FINANCIÈRES_USECASE',
+  'Lauréat.GarantiesFinancières.UseCase.ValiderGarantiesFinancières',
   {
     identifiantProjetValue: string;
     validéLeValue: string;
@@ -25,7 +25,7 @@ export const registerValiderGarantiesFinancièresUseCase = () => {
     const validéPar = IdentifiantUtilisateur.convertirEnValueType(validéParValue);
 
     await mediator.send<DocumentProjetCommand>({
-      type: 'DÉPLACER_DOCUMENT_PROJET_COMMAND',
+      type: 'Document.Command.DéplacerDocumentProjet',
       data: {
         dossierProjetSource: DossierProjet.convertirEnValueType(
           identifiantProjetValue,
@@ -39,7 +39,7 @@ export const registerValiderGarantiesFinancièresUseCase = () => {
     });
 
     await mediator.send<ValiderGarantiesFinancièresCommand>({
-      type: 'VALIDER_GARANTIES_FINANCIÈRES_COMMAND',
+      type: 'Lauréat.GarantiesFinancières.Command.ValiderGarantiesFinancières',
       data: {
         identifiantProjet,
         validéLe,
@@ -48,5 +48,5 @@ export const registerValiderGarantiesFinancièresUseCase = () => {
     });
   };
 
-  mediator.register('VALIDER_GARANTIES_FINANCIÈRES_USECASE', runner);
+  mediator.register('Lauréat.GarantiesFinancières.UseCase.ValiderGarantiesFinancières', runner);
 };

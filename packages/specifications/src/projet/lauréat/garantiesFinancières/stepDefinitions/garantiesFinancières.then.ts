@@ -155,7 +155,7 @@ Alors(
 
     const actualReadModel =
       await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'CONSULTER_GARANTIES_FINANCIÈRES_QUERY',
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -188,7 +188,7 @@ Alors(
 
     const actualReadModel =
       await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'CONSULTER_GARANTIES_FINANCIÈRES_QUERY',
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -212,7 +212,7 @@ Alors(
 
     if (actualReadModel.validées?.attestation) {
       const file = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'CONSULTER_DOCUMENT_PROJET',
+        type: 'Document.Query.ConsulterDocumentProjet',
         data: {
           documentKey: actualReadModel.validées?.attestation.formatter(),
         },
@@ -226,7 +226,7 @@ Alors(
 
     const actualListeDépôtsReadModel =
       await mediator.send<GarantiesFinancières.ListerGarantiesFinancièresQuery>({
-        type: 'LISTER_GARANTIES_FINANCIÈRES_QUERY',
+        type: 'Lauréat.GarantiesFinancières.Query.ListerGarantiesFinancières',
         data: {
           pagination: { page: 1, itemsPerPage: 10 },
           utilisateur: { email: 'utilisateur@test.test', rôle: 'admin' },
