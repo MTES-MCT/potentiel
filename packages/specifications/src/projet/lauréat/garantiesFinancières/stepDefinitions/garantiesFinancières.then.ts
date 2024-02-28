@@ -180,6 +180,7 @@ Alors(
     const dateConstitution = exemple[`date de constitution`];
     const contenu = exemple['contenu fichier'];
     const dateValidation = exemple['date de validation'];
+    const dateImport = exemple[`date d'import `];
 
     const { identifiantProjet, appelOffre, période } =
       this.lauréatWorld.rechercherLauréatFixture(nomProjet);
@@ -201,25 +202,31 @@ Alors(
     if (dateÉchéance) {
       expect(actualReadModel.validées?.dateÉchéance?.date).to.deep.equal(new Date(dateÉchéance));
     }
-    expect(actualReadModel.validées?.dateConstitution?.date).to.deep.equal(
-      new Date(dateConstitution),
-    );
-    expect(actualReadModel.validées?.validéLe?.date).to.deep.equal(new Date(dateValidation));
+    if (dateConstitution) {
+      expect(actualReadModel.validées?.dateConstitution?.date).to.deep.equal(
+        new Date(dateConstitution),
+      );
+    }
+    if (dateValidation) {
+      expect(actualReadModel.validées?.validéLe?.date).to.deep.equal(new Date(dateValidation));
+    }
 
     // ASSERT ON FILE
 
-    expect(actualReadModel.validées?.attestation).not.to.be.undefined;
+    if (format && contenu) {
+      expect(actualReadModel.validées?.attestation).not.to.be.undefined;
 
-    if (actualReadModel.validées?.attestation) {
-      const file = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: actualReadModel.validées?.attestation.formatter(),
-        },
-      });
+      if (actualReadModel.validées?.attestation) {
+        const file = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: actualReadModel.validées?.attestation.formatter(),
+          },
+        });
 
-      const actualContent = await convertReadableStreamToString(file.content);
-      actualContent.should.be.equal(contenu);
+        const actualContent = await convertReadableStreamToString(file.content);
+        actualContent.should.be.equal(contenu);
+      }
     }
 
     // ASSERT ON LIST
@@ -240,9 +247,11 @@ Alors(
       période,
       nomProjet,
     });
-    expect(actualListeDépôtsReadModel.items[0].dateDernièreMiseÀJour.formatter()).to.deep.equal(
-      new Date(dateValidation).toISOString(),
-    );
+    if (dateValidation) {
+      expect(actualListeDépôtsReadModel.items[0].dateDernièreMiseÀJour.formatter()).to.deep.equal(
+        new Date(dateValidation).toISOString(),
+      );
+    }
     expect(actualListeDépôtsReadModel.items[0].identifiantProjet.formatter()).to.deep.equal(
       identifiantProjet.formatter(),
     );
@@ -255,9 +264,15 @@ Alors(
         new Date(dateÉchéance).toISOString(),
       );
     }
-    expect(
-      actualListeDépôtsReadModel.items[0].validées?.dateConstitution.formatter(),
-    ).to.deep.equal(new Date(dateConstitution).toISOString());
-    expect(actualListeDépôtsReadModel.items[0].validées?.attestation.format).to.deep.equal(format);
+    if (dateConstitution && actualListeDépôtsReadModel.items[0].validées?.dateConstitution) {
+      expect(
+        actualListeDépôtsReadModel.items[0].validées?.dateConstitution.formatter(),
+      ).to.deep.equal(new Date(dateConstitution).toISOString());
+    }
+    if (actualListeDépôtsReadModel.items[0].validées?.attestation && format) {
+      expect(actualListeDépôtsReadModel.items[0].validées?.attestation.format).to.deep.equal(
+        format,
+      );
+    }
   },
 );

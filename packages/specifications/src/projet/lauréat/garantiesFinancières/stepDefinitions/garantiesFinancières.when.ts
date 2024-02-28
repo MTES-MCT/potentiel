@@ -118,3 +118,32 @@ Quand(
     }
   },
 );
+
+Quand(
+  `l'admin importe le type des garanties financières pour le projet {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
+    try {
+      const typeGarantiesFinancières = exemple['type'] || 'consignation';
+      const dateÉchéance = exemple[`date d'échéance`] || undefined;
+      const importéLe = exemple[`date d'import `] || '2024-01-01';
+
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await mediator.send<GarantiesFinancières.ImporterTypeGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          typeValue: typeGarantiesFinancières,
+          importéLeValue: new Date(importéLe).toISOString(),
+          importéParValue: 'admin@test.test',
+          ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
+        },
+      });
+      await sleep(500);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
