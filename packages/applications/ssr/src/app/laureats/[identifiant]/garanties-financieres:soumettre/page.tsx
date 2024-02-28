@@ -19,16 +19,6 @@ export const metadata: Metadata = {
   description: 'Formulaire de transmission des garanties financières',
 };
 
-const getLabelByType = (type: GarantiesFinancières.TypeGarantiesFinancières.RawType) => {
-  switch (type) {
-    case 'consignation':
-      return 'Consignation';
-    case 'avec-date-échéance':
-      return "Avec date d'échéance";
-    case 'six-mois-après-achèvement':
-      return 'Six mois après achèvement';
-  }
-};
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   if (!process.env.FEATURE_FLAG_GARANTIES_FINANCIERES) {
     return notFound();
