@@ -4,7 +4,7 @@ import { loadAbandonFactory } from '../abandon.aggregate';
 import { LoadAggregate } from '@potentiel-domain/core';
 
 export type DemanderPreuveRecandidatureAbandonCommand = Message<
-  'Lauréat.Abandon.Command.DemanderPreuveRecandidatureAbandon',
+  'System.Lauréat.Abandon.Command.DemanderPreuveRecandidatureAbandon',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     dateDemande: DateTime.ValueType;
@@ -23,5 +23,5 @@ export const registerDemanderPreuveRecandidatureAbandonCommand = (loadAggregate:
       dateDemande,
     });
   };
-  mediator.register('Lauréat.Abandon.Command.DemanderPreuveRecandidatureAbandon', handler);
+  mediator.register('System.Lauréat.Abandon.Command.DemanderPreuveRecandidatureAbandon', handler);
 };

@@ -28,7 +28,7 @@ export const register = () => {
     switch (event.type) {
       case 'ConfirmationAbandonDemandée-V1':
         await mediator.send<AjouterTâcheCommand>({
-          type: 'Tâche.Command.AjouterTâche',
+          type: 'System.Tâche.Command.AjouterTâche',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
             typeTâche: Tâche.abandonConfirmer,
@@ -39,7 +39,7 @@ export const register = () => {
       case 'AbandonConfirmé-V1':
       case 'AbandonRejeté-V1':
         await mediator.send<AcheverTâcheCommand>({
-          type: 'Tâche.Command.AcheverTâche',
+          type: 'System.Tâche.Command.AcheverTâche',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
             typeTâche: Tâche.abandonConfirmer,
@@ -48,7 +48,7 @@ export const register = () => {
         break;
       case 'PreuveRecandidatureDemandée-V1':
         await mediator.send<AjouterTâcheCommand>({
-          type: 'Tâche.Command.AjouterTâche',
+          type: 'System.Tâche.Command.AjouterTâche',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
             typeTâche: Tâche.abandonTransmettrePreuveRecandidature,
@@ -57,7 +57,7 @@ export const register = () => {
         break;
       case 'PreuveRecandidatureTransmise-V1':
         await mediator.send<AcheverTâcheCommand>({
-          type: 'Tâche.Command.AcheverTâche',
+          type: 'System.Tâche.Command.AcheverTâche',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
             typeTâche: Tâche.abandonTransmettrePreuveRecandidature,
@@ -66,7 +66,7 @@ export const register = () => {
         break;
       case 'RéférenceDossierRacordementModifiée-V1':
         await mediator.send<AcheverTâcheCommand>({
-          type: 'Tâche.Command.AcheverTâche',
+          type: 'System.Tâche.Command.AcheverTâche',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
             typeTâche: Tâche.raccordementRéférenceNonTransmise,

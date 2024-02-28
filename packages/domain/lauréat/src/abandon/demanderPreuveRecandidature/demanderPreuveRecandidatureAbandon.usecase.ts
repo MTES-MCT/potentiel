@@ -19,7 +19,7 @@ export const registerDemanderPreuveRecandidatureAbandonUseCase = () => {
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
 
     await mediator.send<DemanderPreuveRecandidatureAbandonCommand>({
-      type: 'Lauréat.Abandon.Command.DemanderPreuveRecandidatureAbandon',
+      type: 'System.Lauréat.Abandon.Command.DemanderPreuveRecandidatureAbandon',
       data: {
         identifiantProjet,
         dateDemande,

@@ -5,7 +5,7 @@ import { loadTâcheAggregateFactory } from '../tâche.aggregate';
 import * as Tâche from '../typeTâche.valueType';
 
 export type AjouterTâcheCommand = Message<
-  'Tâche.Command.AjouterTâche',
+  'System.Tâche.Command.AjouterTâche',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     typeTâche: Tâche.ValueType;
@@ -21,5 +21,5 @@ export const registerAjouterTâcheCommand = (loadAggregate: LoadAggregate) => {
       identifiantProjet,
     });
   };
-  mediator.register('Tâche.Command.AjouterTâche', handler);
+  mediator.register('System.Tâche.Command.AjouterTâche', handler);
 };
