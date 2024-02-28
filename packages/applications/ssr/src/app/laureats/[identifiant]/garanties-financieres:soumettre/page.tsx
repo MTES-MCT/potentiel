@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
@@ -27,8 +28,11 @@ const getLabelByType = (type: GarantiesFinancières.TypeGarantiesFinancières.Ra
       return 'Six mois après achèvement';
   }
 };
-
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+  if (!process.env.FEATURE_FLAG_GARANTIES_FINANCIERES) {
+    return notFound();
+  }
+
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
