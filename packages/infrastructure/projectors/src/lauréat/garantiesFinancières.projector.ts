@@ -151,6 +151,24 @@ export const register = () => {
             },
           );
           break;
+
+        case 'GarantiesFinancièresÀTraiterModifiées-V1':
+          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+            {
+              ...garantiesFinancièresToUpsert,
+              misÀJourLe: payload.soumisLe,
+              statut: statutGarantiesFinancièresÀTraiter,
+              àTraiter: {
+                type: payload.type,
+                dateÉchéance: payload.dateÉchéance,
+                dateConstitution: payload.dateConstitution,
+                attestation: payload.attestation,
+                soumisLe: payload.soumisLe,
+              },
+            },
+          );
+          break;
       }
     }
   };

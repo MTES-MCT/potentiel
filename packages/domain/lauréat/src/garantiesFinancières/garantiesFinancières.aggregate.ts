@@ -23,12 +23,18 @@ import {
   applyGarantiesFinancièresValidées,
   valider,
 } from './valider/validerGarantiesFinancières.behavior';
+import {
+  GarantiesFinancièresÀTraiterModifiéesEvent,
+  applyModifierGarantiesFinancièresÀTraiter,
+  modifierGarantiesFinancièresÀTraiter,
+} from './modifierGarantiesFinancièresÀTraiter/modifierGarantiesFinancièresÀTraiter.behavior';
 
 export type GarantiesFinancièresEvent =
   | GarantiesFinancièresSoumisesEvent
   | GarantiesFinancièresDemandéesEvent
   | GarantiesFinancièresÀTraiterSuppriméesEvent
-  | GarantiesFinancièresValidéesEvent;
+  | GarantiesFinancièresValidéesEvent
+  | GarantiesFinancièresÀTraiterModifiéesEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   statut?: StatutGarantiesFinancières.ValueType;
@@ -49,6 +55,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly demanderGarantiesFinancières: typeof demanderGarantiesFinancières;
   readonly supprimerGarantiesFinancièresÀTraiter: typeof supprimerGarantiesFinancièresÀTraiter;
   readonly valider: typeof valider;
+  readonly modifierGarantiesFinancièresÀTraiter: typeof modifierGarantiesFinancièresÀTraiter;
 };
 
 export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
@@ -60,6 +67,7 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   demanderGarantiesFinancières,
   supprimerGarantiesFinancièresÀTraiter,
   valider,
+  modifierGarantiesFinancièresÀTraiter,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
@@ -75,6 +83,9 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       break;
     case 'GarantiesFinancièresValidées-V1':
       applyGarantiesFinancièresValidées.bind(this)(event);
+      break;
+    case 'GarantiesFinancièresÀTraiterModifiées-V1':
+      applyModifierGarantiesFinancièresÀTraiter.bind(this)(event);
       break;
   }
 }

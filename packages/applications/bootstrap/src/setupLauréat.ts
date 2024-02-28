@@ -85,6 +85,7 @@ export const setupLauréat = async () => {
         'GarantiesFinancièresDemandées-V1',
         'GarantiesFinancièresSoumises-V1',
         'GarantiesFinancièresÀTraiterSupprimées-V1',
+        'GarantiesFinancièresÀTraiterModifiées-V1',
         'GarantiesFinancièresValidées-V1',
         'RebuildTriggered',
       ],
