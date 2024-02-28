@@ -13,7 +13,7 @@ import {
 import {
   SupprimerDocumentProjetDependencies,
   registerSupprimerDocumentCommand,
-} from './supprimer/supprimerDocumentProjet.query';
+} from './supprimer/supprimerDocumentProjet.command';
 
 type DocumentProjetQueryDependencies = ConsulterDocumentProjetDependencies;
 type DocumentProjetCommandDependencies = EnregistrerDocumentProjetDependencies &

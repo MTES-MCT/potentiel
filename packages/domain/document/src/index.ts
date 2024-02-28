@@ -13,7 +13,7 @@ import {
 import {
   SupprimerDocumentProjetCommand,
   SupprimerDocumentProjetPort,
-} from './supprimer/supprimerDocumentProjet.query';
+} from './supprimer/supprimerDocumentProjet.command';
 
 // Query
 export type DocumentProjetQuery = ConsulterDocumentProjetQuery;

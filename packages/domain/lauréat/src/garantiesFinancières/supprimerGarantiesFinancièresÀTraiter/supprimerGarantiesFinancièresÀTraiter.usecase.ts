@@ -40,7 +40,7 @@ export const registerSupprimerGarantiesFinancièresÀTraiterUseCase = () => {
     }
 
     await mediator.send<SupprimerDocumentProjetCommand>({
-      type: 'Document.Query.SupprimerDocumentProjet',
+      type: 'Document.Command.SupprimerDocumentProjet',
       data: {
         documentKey: garantiesFinancièreActuelles.àTraiter?.attestation.formatter(),
       },

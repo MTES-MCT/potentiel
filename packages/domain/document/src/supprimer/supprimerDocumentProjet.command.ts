@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 export type SupprimerDocumentProjetCommand = Message<
-  'Document.Query.SupprimerDocumentProjet',
+  'Document.Command.SupprimerDocumentProjet',
   {
     documentKey: string;
   }
@@ -18,5 +18,5 @@ export const registerSupprimerDocumentCommand = ({
 }: SupprimerDocumentProjetDependencies) => {
   const handler: MessageHandler<SupprimerDocumentProjetCommand> = ({ documentKey }) =>
     supprimerDocumentProjet(documentKey);
-  mediator.register('Document.Query.SupprimerDocumentProjet', handler);
+  mediator.register('Document.Command.SupprimerDocumentProjet', handler);
 };
