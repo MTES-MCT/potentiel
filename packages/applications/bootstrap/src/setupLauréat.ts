@@ -1,7 +1,10 @@
 import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
-import { AbandonNotification } from '@potentiel-infrastructure/notifications';
+import {
+  AbandonNotification,
+  GarantiesFinancièresNotification,
+} from '@potentiel-infrastructure/notifications';
 import {
   AbandonProjector,
   GarantiesFinancièreProjector,
@@ -35,6 +38,7 @@ export const setupLauréat = async () => {
   AbandonProjector.register();
   AbandonNotification.register();
   GarantiesFinancièreProjector.register();
+  GarantiesFinancièresNotification.register();
 
   const unsubscribeAbandonNotification = await subscribe<AbandonNotification.SubscriptionEvent>({
     name: 'notifications',
@@ -97,9 +101,23 @@ export const setupLauréat = async () => {
       streamCategory: 'garanties-financieres',
     });
 
+  const unsubscribeGarantiesFinancièresNotification =
+    await subscribe<GarantiesFinancièresNotification.SubscriptionEvent>({
+      name: 'notifications',
+      streamCategory: 'garanties-financieres',
+      eventType: ['GarantiesFinancièresSoumises-V1'],
+      eventHandler: async (event) => {
+        await mediator.publish<GarantiesFinancièresNotification.Execute>({
+          type: 'EXECUTE_LAUREAT_GARANTIES_FINANCIERES_NOTIFICATION',
+          data: event,
+        });
+      },
+    });
+
   return async () => {
     await unsubscribeAbandonNotification();
     await unsubscribeAbandonProjector();
     await unsubscribeGarantiesFinancièresProjector();
+    await unsubscribeGarantiesFinancièresNotification();
   };
 };
