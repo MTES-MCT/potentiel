@@ -20,8 +20,7 @@ Fonctionnalité: Supprimer des garanties financières en attente de validation
         Alors des garanties financières devraient être en attente pour le projet "Centrale PV" avec :
             | date limite de soumission | 2023-11-01 |
             | date de notification      | 2023-09-01 |
-        Et il ne devrait pas y avoir de garanties financières à traiter pour le projet "Centrale PV"
-    
+        Et il ne devrait pas y avoir de garanties financières à traiter pour le projet "Centrale PV"   
     Exemples:
             | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
             | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
