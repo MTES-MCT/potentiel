@@ -15,7 +15,6 @@
     "./packages/libraries/pg-event-sourcing/",
     "./packages/libraries/file-storage/",
     "./packages/libraries/email-sender/",
-    "./packages/libraries/legacy-permissions",
     "./packages/libraries/routes",
     "./packages/domain/common",
     "./packages/domain/utilisateur",

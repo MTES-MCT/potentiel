@@ -63,9 +63,6 @@
       "path": "packages/infrastructure/domain-adapters"
     },
     {
-      "path": "packages/libraries/legacy-permissions"
-    },
-    {
       "path": "packages/libraries/routes"
     }
   ],
