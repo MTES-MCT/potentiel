@@ -11,7 +11,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import {
   SoumettreGarantiesFinancièresPage,
   SoumettreGarantiesFinancièresProps,
-} from '@/components/pages/garanties-financières/àTraiter/soumettre/SoumettreGarantiesFinancières.page';
+} from '@/components/pages/garanties-financières/soumettre/SoumettreGarantiesFinancières.page';
 
 export const metadata: Metadata = {
   title: 'Transmettre des garanties financières - Potentiel',
