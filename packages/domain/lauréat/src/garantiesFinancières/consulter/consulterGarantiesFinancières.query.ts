@@ -36,7 +36,7 @@ export type ConsulterGarantiesFinancièresReadModel = {
 };
 
 export type ConsulterGarantiesFinancièresQuery = Message<
-  'Lauréat.GarantiesFinancière.Query.ConsulterGarantiesFinancières',
+  'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
   {
     identifiantProjetValue: string;
   },
@@ -97,5 +97,5 @@ export const registerConsulterGarantiesFinancièresQuery = ({
       enAttente,
     };
   };
-  mediator.register('Lauréat.GarantiesFinancière.Query.ConsulterGarantiesFinancières', handler);
+  mediator.register('Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières', handler);
 };

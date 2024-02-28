@@ -16,7 +16,7 @@ EtantDonné(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancière.UseCase.DemanderGarantiesFinancières',
+      type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         demandéLeValue: new Date(notifiéLe).toISOString(),
@@ -44,7 +44,7 @@ EtantDonné(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<GarantiesFinancières.SoumettreGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancière.UseCase.SoumettreGarantiesFinancières',
+      type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreGarantiesFinancières',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         typeValue: typeGarantiesFinancières,

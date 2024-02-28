@@ -9,7 +9,7 @@ import { loadGarantiesFinancièresFactory } from '../garantiesFinancières.aggre
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 export type SoumettreGarantiesFinancièresCommand = Message<
-  'Lauréat.GanratiesFinancières.Command.SoumettreGarantiesFinancières',
+  'Lauréat.GarantiesFinancières.Command.SoumettreGarantiesFinancières',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     type: TypeGarantiesFinancières.ValueType;
@@ -44,5 +44,5 @@ export const registerSoumettreGarantiesFinancièresCommand = (loadAggregate: Loa
       soumisPar,
     });
   };
-  mediator.register('Lauréat.GanratiesFinancières.Command.SoumettreGarantiesFinancières', handler);
+  mediator.register('Lauréat.GarantiesFinancières.Command.SoumettreGarantiesFinancières', handler);
 };
