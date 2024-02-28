@@ -16,6 +16,21 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const typesGarantiesFinancières: SoumettreGarantiesFinancièresProps['typesGarantiesFinancières'] = [
+  {
+    label: 'Consignation',
+    value: 'consignation',
+  },
+  {
+    label: "Avec date d'échéance",
+    value: 'avec-date-échéance',
+  },
+  {
+    label: 'Six mois après achèvement',
+    value: 'six-mois-après-achèvement',
+  },
+];
+
 export const Default: Story = {
   args: {
     projet: {
@@ -33,5 +48,6 @@ export const Default: Story = {
       },
       statut: 'classé',
     },
+    typesGarantiesFinancières,
   },
 };

@@ -17,18 +17,23 @@ import { formatDateForInput } from '@/utils/formatDateForInput';
 import { PageTemplate } from '@/components/templates/Page.template';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
-import { TypeGarantiesFinancièresSelect } from '../../TypeGarantiesFinancièresSelect';
+import {
+  TypeGarantiesFinancièresSelect,
+  TypeGarantiesFinancièresSelectProps,
+} from '../../TypeGarantiesFinancièresSelect';
 
 import { soumettreGarantiesFinancièresAction } from './soumettreGarantiesFinancières.action';
 
 export type SoumettreGarantiesFinancièresProps = {
   projet: ProjetBannerProps;
   garantiesFinancièresÀTraiterExistante?: true;
+  typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
 };
 
 export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièresProps> = ({
   projet,
   garantiesFinancièresÀTraiterExistante,
+  typesGarantiesFinancières,
 }) => {
   const router = useRouter();
 
@@ -67,8 +72,9 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
             <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
             <TypeGarantiesFinancièresSelect
-              id="typeGarantiesFinancieres"
-              name="typeGarantiesFinancieres"
+              id="type"
+              name="type"
+              typesGarantiesFinancières={typesGarantiesFinancières}
               validationErrors={validationErrors}
             />
 
@@ -89,12 +95,12 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
               label="Attestation de constitution"
               hint="Format accepté : pdf"
               nativeInputProps={{
-                name: 'attestationConstitution',
+                name: 'attestation',
                 required: true,
                 'aria-required': true,
                 accept: '.pdf',
               }}
-              state={validationErrors.includes('attestationConstitution') ? 'error' : 'default'}
+              state={validationErrors.includes('attestation') ? 'error' : 'default'}
               stateRelatedMessage="Attestation de consitution des garantières financières obligatoire"
             />
 
