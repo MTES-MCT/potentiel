@@ -108,7 +108,7 @@ export const setupLauréat = async () => {
       eventType: ['GarantiesFinancièresSoumises-V1'],
       eventHandler: async (event) => {
         await mediator.publish<GarantiesFinancièresNotification.Execute>({
-          type: 'EXECUTE_LAUREAT_GARANTIES_FINANCIERES_NOTIFICATION',
+          type: 'System.Notification.Lauréat.GarantiesFinancières',
           data: event,
         });
       },

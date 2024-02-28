@@ -15,7 +15,7 @@ import { templateId } from '../templateId';
 export type SubscriptionEvent = GarantiesFinancières.GarantiesFinancièresEvent & Event;
 
 export type Execute = Message<
-  'EXECUTE_LAUREAT_GARANTIES_FINANCIERES_NOTIFICATION',
+  'System.Notification.Lauréat.GarantiesFinancières',
   SubscriptionEvent
 >;
 
@@ -106,5 +106,5 @@ export const register = () => {
     }
   };
 
-  mediator.register('EXECUTE_LAUREAT_GARANTIES_FINANCIERES_NOTIFICATION', handler);
+  mediator.register('System.Notification.Lauréat.GarantiesFinancières', handler);
 };
