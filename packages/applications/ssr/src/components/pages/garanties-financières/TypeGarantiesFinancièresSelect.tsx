@@ -1,26 +1,10 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import Input from '@codegouvfr/react-dsfr/Input';
 
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+
 import { formatDateForInput } from '@/utils/formatDateForInput';
-
-export type TypeGarantiesFinancières =
-  | '6 mois après achèvement'
-  | 'consignation'
-  | 'avec date d’échéance';
-
-export type GarantiesFinancières = {
-  dateConsitution: string;
-  attestationConstitution: string;
-} & (
-  | {
-      type: Exclude<TypeGarantiesFinancières, 'avec date d’échéance'>;
-    }
-  | {
-      type: Extract<TypeGarantiesFinancières, 'avec date d’échéance'>;
-      dateÉchéance: string;
-    }
-);
 
 export type TypeGarantiesFinancièresSelectProps = {
   id: string;
@@ -28,19 +12,24 @@ export type TypeGarantiesFinancièresSelectProps = {
   label?: string;
   disabled?: true;
   validationErrors: Array<string>;
-  typeGarantiesFinancièresActuel?: TypeGarantiesFinancières;
+  typeGarantiesFinancièresActuel?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
   dateÉchéanceActuelle?: string;
+  typesGarantiesFinancières: Array<{
+    label: string;
+    value: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+  }>;
 };
 
-export const TypeGarantiesFinancièresSelect = ({
+export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelectProps> = ({
   id,
   name,
   label = 'Type des garanties financières',
   disabled,
   validationErrors,
   typeGarantiesFinancièresActuel,
+  typesGarantiesFinancières,
   dateÉchéanceActuelle,
-}: TypeGarantiesFinancièresSelectProps) => {
+}) => {
   const [typeSélectionné, setTypeSélectionné] = useState(typeGarantiesFinancièresActuel);
 
   return (
@@ -51,25 +40,12 @@ export const TypeGarantiesFinancièresSelect = ({
         nativeSelectProps={{
           name,
           defaultValue: typeGarantiesFinancièresActuel,
-          onChange: (e) => setTypeSélectionné(e.target.value as TypeGarantiesFinancières),
+          onChange: (e) => setTypeSélectionné(e.target.value),
           'aria-required': true,
           required: true,
         }}
         placeholder="Sélectionnez le type de garanties financières"
-        options={[
-          {
-            label: '6 mois après achèvement',
-            value: '6 mois après achèvement',
-          },
-          {
-            label: 'Consignation',
-            value: 'consignation',
-          },
-          {
-            label: "Avec date d'échéance",
-            value: 'avec date d’échéance',
-          },
-        ]}
+        options={typesGarantiesFinancières}
         state={validationErrors.includes('typeGarantiesFinancieres') ? 'error' : 'default'}
         stateRelatedMessage="Type de garanties financières obligatoire"
         disabled={disabled}
@@ -77,7 +53,7 @@ export const TypeGarantiesFinancièresSelect = ({
 
       {disabled && <input type="hidden" name={name} value={typeGarantiesFinancièresActuel} />}
 
-      {typeSélectionné === 'avec date d’échéance' && (
+      {typeSélectionné === 'avec-date-échéance' && (
         <Input
           label="Date d'échéance"
           nativeInputProps={{

@@ -115,6 +115,17 @@ const référencielPermissions = {
         rejeter: 'Lauréat.Abandon.Command.RejeterAbandon',
       },
     },
+    garantiesFinancières: {
+      query: {
+        consulter: 'CONSULTER_GARANTIES_FINANCIÈRES_QUERY',
+      },
+      usecase: {
+        soumettre: 'SOUMETTRE_GARANTIES_FINANCIÈRES_USECASE',
+      },
+      command: {
+        soumettre: 'SOUMETTRE_GARANTIES_FINANCIÈRES_COMMAND',
+      },
+    },
   },
   appelOffre: {
     cahierDesCharges: {
@@ -410,6 +421,15 @@ const policies = {
       référencielPermissions.tâche.query.lister,
     ],
   },
+  garantiesFinancières: {
+    consulter: [référencielPermissions.lauréat.garantiesFinancières.query.consulter],
+    soumettre: [
+      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.lauréat.garantiesFinancières.usecase.soumettre,
+      référencielPermissions.document.command.enregister,
+      référencielPermissions.lauréat.garantiesFinancières.command.soumettre,
+    ],
+  },
 };
 
 const permissionAdmin = [
@@ -436,6 +456,9 @@ const permissionAdmin = [
   ...policies.réseau.raccordement['date-mise-en-service'].transmettre,
   ...policies.réseau.raccordement['date-mise-en-service'].importer,
   ...policies.réseau.raccordement['référence-dossier'].modifier,
+
+  // Garanties financières
+  ...policies.garantiesFinancières.consulter,
 ];
 
 const permissionCRE = [
@@ -445,6 +468,9 @@ const permissionCRE = [
 
   // Raccordement
   ...policies.réseau.raccordement.consulter,
+
+  // Garanties financières
+  ...policies.garantiesFinancières.consulter,
 ];
 
 const permissionDreal = [
@@ -454,6 +480,9 @@ const permissionDreal = [
 
   // Raccordement
   ...policies.réseau.raccordement.consulter,
+
+  // Garanties financières
+  ...policies.garantiesFinancières.consulter,
 ];
 
 const permissionDgecValidateur = [
@@ -481,6 +510,9 @@ const permissionDgecValidateur = [
   ...policies.réseau.raccordement['date-mise-en-service'].transmettre,
   ...policies.réseau.raccordement['date-mise-en-service'].importer,
   ...policies.réseau.raccordement['référence-dossier'].modifier,
+
+  // Garanties financières
+  ...policies.garantiesFinancières.consulter,
 ];
 
 const permissionPorteurProjet = [
@@ -503,15 +535,24 @@ const permissionPorteurProjet = [
 
   // Tâche
   ...policies.tâche.consulter,
+
+  // Garanties financières
+  ...policies.garantiesFinancières.consulter,
+  ...policies.garantiesFinancières.soumettre,
 ];
 
 const permissionAcheteurObligé = [...policies.réseau.raccordement.consulter];
+
+const permissionCaisseDesDépôts = [
+  // Garanties financières
+  ...policies.garantiesFinancières.consulter,
+];
 
 const permissions: Record<RawType, string[]> = {
   admin: [...new Set(permissionAdmin)],
   'acheteur-obligé': [...new Set(permissionAcheteurObligé)],
   ademe: [],
-  'caisse-des-dépôts': [],
+  'caisse-des-dépôts': [...new Set(permissionCaisseDesDépôts)],
   cre: [...new Set(permissionCRE)],
   dreal: [...new Set(permissionDreal)],
   'dgec-validateur': [...new Set(permissionDgecValidateur)],
