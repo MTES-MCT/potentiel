@@ -13,7 +13,8 @@
     "@potentiel-domain/document": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-domain/common": "*",
-    "@potentiel-domain/core": "*"
+    "@potentiel-domain/core": "*",
+    "@potentiel-domain/tache": "*"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

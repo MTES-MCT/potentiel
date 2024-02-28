@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { AnnulerAbandonCommand } from './annulerAbandon.command';
+import { AcheverTâcheCommand, TypeTâche } from '@potentiel-domain/tache';
 
 export type AnnulerAbandonUseCase = Message<
   'Lauréat.Abandon.UseCase.AnnulerAbandon',
@@ -30,6 +31,14 @@ export const registerAnnulerAbandonUseCase = () => {
         dateAnnulation,
         identifiantUtilisateur,
         identifiantProjet,
+      },
+    });
+
+    await mediator.send<AcheverTâcheCommand>({
+      type: 'Tâche.Command.AcheverTâche',
+      data: {
+        identifiantProjet,
+        typeTâche: TypeTâche.abandonConfirmer,
       },
     });
   };

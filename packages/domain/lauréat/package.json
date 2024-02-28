@@ -15,7 +15,8 @@
     "@potentiel-domain/document": "*",
     "@potentiel-domain/candidature": "*",
     "@potentiel-domain/appel-offre": "*",
-    "@potentiel-domain/utilisateur": "*"
+    "@potentiel-domain/utilisateur": "*",
+    "@potentiel-domain/tache": "*"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

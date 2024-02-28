@@ -16,6 +16,9 @@
     },
     {
       "path": "../document"
+    },
+    {
+      "path": "../tâche"
     }
   ]
 }
