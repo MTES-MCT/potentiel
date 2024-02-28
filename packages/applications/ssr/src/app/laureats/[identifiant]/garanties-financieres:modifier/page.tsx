@@ -33,13 +33,13 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const identifiantProjet = decodeParameter(identifiant);
 
       const candidature = await mediator.send<ConsulterCandidatureQuery>({
-        type: 'CONSULTER_CANDIDATURE_QUERY',
+        type: 'Candidature.Query.ConsulterCandidature',
         data: { identifiantProjet },
       });
 
       const garantiesFinancières =
         await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'CONSULTER_GARANTIES_FINANCIÈRES_QUERY',
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
           data: { identifiantProjetValue: identifiantProjet },
         });
 

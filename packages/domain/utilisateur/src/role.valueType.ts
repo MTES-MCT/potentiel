@@ -117,13 +117,13 @@ const référencielPermissions = {
     },
     garantiesFinancières: {
       query: {
-        consulter: 'CONSULTER_GARANTIES_FINANCIÈRES_QUERY',
+        consulter: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
       },
       usecase: {
-        soumettre: 'SOUMETTRE_GARANTIES_FINANCIÈRES_USECASE',
+        soumettre: 'Lauréat.GarantiesFinancières.UseCase.SoumettreGarantiesFinancières',
       },
       command: {
-        soumettre: 'SOUMETTRE_GARANTIES_FINANCIÈRES_COMMAND',
+        soumettre: 'Lauréat.GarantiesFinancières.Command.SoumettreGarantiesFinancières',
       },
     },
   },
