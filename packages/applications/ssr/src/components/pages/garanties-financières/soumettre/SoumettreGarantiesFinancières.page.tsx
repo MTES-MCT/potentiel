@@ -6,6 +6,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import { CallOut } from '@codegouvfr/react-dsfr/CallOut';
 
 import { Routes } from '@potentiel-libraries/routes';
 
@@ -16,11 +17,11 @@ import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/P
 import { formatDateForInput } from '@/utils/formatDateForInput';
 import { PageTemplate } from '@/components/templates/Page.template';
 
-import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
+import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
 import {
   TypeGarantiesFinancièresSelect,
   TypeGarantiesFinancièresSelectProps,
-} from '../../TypeGarantiesFinancièresSelect';
+} from '../TypeGarantiesFinancièresSelect';
 
 import { soumettreGarantiesFinancièresAction } from './soumettreGarantiesFinancières.action';
 
@@ -41,17 +42,23 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
 
   const { identifiantProjet } = projet;
 
-  /**
-   * @todo Expliquer ici qu'il faut d'abord supprimer la soumission en cours + lien vers le
-   * formulaire pour annuler les GFs
-   */
   if (garantiesFinancièresÀTraiterExistante) {
     return (
       <PageTemplate banner={<ProjetBanner {...projet} />}>
-        <pre>
-          Expliquer ici qu'il faut d'abord supprimer la soumission en cours + lien vers le
-          formulaire pour annuler les GFs
-        </pre>
+        <CallOut
+          buttonProps={{
+            children: 'Voir',
+            linkProps: {
+              href: Routes.GarantiesFinancières.modifier(identifiantProjet),
+            },
+          }}
+          iconId="ri-information-line"
+          title="Garanties financières en attente"
+        >
+          Vous avez déjà soumis des garanties financières en attente de validation pour ce projet.
+          Si vous souhaitez soumettre de nouvelles garanties financières, vous devez d'abord
+          supprimer celles en attente.
+        </CallOut>
       </PageTemplate>
     );
   }
