@@ -2,7 +2,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { SupprimerGarantiesFinancièresÀTraiterCommand } from './supprimerGarantiesFinancièresÀTraiter.command';
-import { SupprimerDocumentProjetCommand } from '@potentiel-domain/document';
 import { ConsulterGarantiesFinancièresQuery } from '..';
 import { AucunesGarantiesFinancièresÀTraiter } from './aucunesGarantiesFinancièresÀTraiter.error';
 import { AucunesGarantiesFinancières } from '../aucunesGarantiesFinancières.error';
@@ -38,13 +37,6 @@ export const registerSupprimerGarantiesFinancièresÀTraiterUseCase = () => {
     if (!garantiesFinancièreActuelles.àTraiter) {
       throw new AucunesGarantiesFinancièresÀTraiter();
     }
-
-    await mediator.send<SupprimerDocumentProjetCommand>({
-      type: 'Document.Command.SupprimerDocumentProjet',
-      data: {
-        documentKey: garantiesFinancièreActuelles.àTraiter?.attestation.formatter(),
-      },
-    });
 
     await mediator.send<SupprimerGarantiesFinancièresÀTraiterCommand>({
       type: 'Lauréat.GarantiesFinancières.Command.SupprimerGarantiesFinancières',
