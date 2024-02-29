@@ -22,8 +22,9 @@ export type ConsulterGarantiesFinancièresReadModel = {
     type: TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
     dateConstitution: DateTime.ValueType;
+    soumisLe: DateTime.ValueType;
     validéLe: DateTime.ValueType;
-    //attestation: DocumentProjet.ValueType;
+    attestation: DocumentProjet.ValueType;
   };
   àTraiter?: {
     type: TypeGarantiesFinancières.ValueType;
@@ -68,7 +69,14 @@ export const registerConsulterGarantiesFinancièresQuery = ({
         dateÉchéance: DateTime.convertirEnValueType(result.validées.dateÉchéance),
       }),
       dateConstitution: DateTime.convertirEnValueType(result.validées.dateConstitution),
+      soumisLe: DateTime.convertirEnValueType(result.validées.soumisLe),
       validéLe: DateTime.convertirEnValueType(result.validées.validéLe),
+      attestation: DocumentProjet.convertirEnValueType(
+        identifiantProjet.formatter(),
+        TypeDocumentGarantiesFinancières.garantiesFinancièresValidéesValueType.formatter(),
+        DateTime.convertirEnValueType(result.validées.soumisLe).formatter(),
+        result.validées.attestation.format,
+      ),
     };
     const àTraiter: ConsulterGarantiesFinancièresReadModel['àTraiter'] = result.àTraiter && {
       type: TypeGarantiesFinancières.convertirEnValueType(result.àTraiter.type),
@@ -79,7 +87,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
       soumisLe: DateTime.convertirEnValueType(result.àTraiter.soumisLe),
       attestation: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
-        TypeDocumentGarantiesFinancières.garantiesFinancièresÀTraiter.formatter(),
+        TypeDocumentGarantiesFinancières.garantiesFinancièresSoumisesValueType.formatter(),
         DateTime.convertirEnValueType(result.àTraiter.soumisLe).formatter(),
         result.àTraiter.attestation.format,
       ),

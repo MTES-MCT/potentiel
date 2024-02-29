@@ -47,11 +47,34 @@ Quand(
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<GarantiesFinancières.SupprimerGarantiesFinancièresÀTraiterUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancières',
+        type: 'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           suppriméLeValue: new Date().toISOString(),
           suppriméParValue: 'porteur@test.test',
+        },
+      });
+      await sleep(500);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `l'utilisateur dreal valide les garanties financières à traiter pour le projet {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+    const dateValidation = exemple['date de validation'];
+    try {
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await mediator.send<GarantiesFinancières.ValiderGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.UseCase.ValiderGarantiesFinancières',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          validéLeValue: new Date(dateValidation).toISOString(),
+          validéParValue: 'dreal@test.test',
         },
       });
       await sleep(500);

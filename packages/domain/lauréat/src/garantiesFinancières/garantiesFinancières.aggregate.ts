@@ -18,22 +18,28 @@ import {
   applyGarantiesFinancièresÀTraiterSupprimées,
   supprimerGarantiesFinancièresÀTraiter,
 } from './supprimerGarantiesFinancièresÀTraiter/supprimerGarantiesFinancièresÀTraiter.behavior';
+import {
+  GarantiesFinancièresValidéesEvent,
+  applyGarantiesFinancièresValidées,
+  valider,
+} from './valider/validerGarantiesFinancières.behavior';
 
 export type GarantiesFinancièresEvent =
   | GarantiesFinancièresSoumisesEvent
   | GarantiesFinancièresDemandéesEvent
-  | GarantiesFinancièresÀTraiterSuppriméesEvent;
+  | GarantiesFinancièresÀTraiterSuppriméesEvent
+  | GarantiesFinancièresValidéesEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   statut?: StatutGarantiesFinancières.ValueType;
   validées?: {
-    type: TypeGarantiesFinancières.ValueType;
+    type: TypeGarantiesFinancières.ValueType | 'type-inconnu';
     dateÉchéance?: DateTime.ValueType;
     dateConstitution: DateTime.ValueType;
     validéLe: DateTime.ValueType;
   };
   àTraiter?: {
-    type: TypeGarantiesFinancières.ValueType;
+    type: TypeGarantiesFinancières.ValueType | 'type-inconnu';
     dateÉchéance?: DateTime.ValueType;
     dateConstitution: DateTime.ValueType;
     soumisLe: DateTime.ValueType;
@@ -42,6 +48,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly soumettre: typeof soumettre;
   readonly demanderGarantiesFinancières: typeof demanderGarantiesFinancières;
   readonly supprimerGarantiesFinancièresÀTraiter: typeof supprimerGarantiesFinancièresÀTraiter;
+  readonly valider: typeof valider;
 };
 
 export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
@@ -52,6 +59,7 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   soumettre,
   demanderGarantiesFinancières,
   supprimerGarantiesFinancièresÀTraiter,
+  valider,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
@@ -64,6 +72,9 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       break;
     case 'GarantiesFinancièresÀTraiterSupprimées-V1':
       applyGarantiesFinancièresÀTraiterSupprimées.bind(this)();
+      break;
+    case 'GarantiesFinancièresValidées-V1':
+      applyGarantiesFinancièresValidées.bind(this)(event);
       break;
   }
 }
