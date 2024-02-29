@@ -118,6 +118,18 @@ export const register = () => {
           break;
 
         case 'GarantiesFinancièresValidées-V1':
+          if (!garantiesFinancièresToUpsert.àTraiter) {
+            getLogger().error(
+              new Error(
+                `garanties financières à traiter absentes, impossible d'enregistrer les données des garanties financières validées`,
+              ),
+              {
+                identifiantProjet,
+                message: event,
+              },
+            );
+            return;
+          }
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
@@ -125,14 +137,14 @@ export const register = () => {
               misÀJourLe: payload.validéLe,
               statut: GarantiesFinancières.StatutGarantiesFinancières.validé.statut,
               validées: {
-                type: garantiesFinancièresToUpsert.àTraiter!.type,
-                ...(garantiesFinancièresToUpsert.àTraiter!.dateÉchéance && {
-                  dateÉchéance: garantiesFinancièresToUpsert.àTraiter!.dateÉchéance,
+                type: garantiesFinancièresToUpsert.àTraiter.type,
+                ...(garantiesFinancièresToUpsert.àTraiter.dateÉchéance && {
+                  dateÉchéance: garantiesFinancièresToUpsert.àTraiter.dateÉchéance,
                 }),
-                attestation: garantiesFinancièresToUpsert.àTraiter!.attestation,
-                dateConstitution: garantiesFinancièresToUpsert.àTraiter!.dateConstitution,
+                attestation: garantiesFinancièresToUpsert.àTraiter.attestation,
+                dateConstitution: garantiesFinancièresToUpsert.àTraiter.dateConstitution,
                 validéLe: payload.validéLe,
-                soumisLe: garantiesFinancièresToUpsert.àTraiter!.soumisLe,
+                soumisLe: garantiesFinancièresToUpsert.àTraiter.soumisLe,
               },
               àTraiter: undefined,
               enAttente: undefined,
