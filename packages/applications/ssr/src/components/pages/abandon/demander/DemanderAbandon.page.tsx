@@ -62,7 +62,7 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
               id="pieceJustificative"
               nativeInputProps={{ name: 'pieceJustificative', accept: '.pdf' }}
               state={validationErrors.includes('pieceJustificative') ? 'error' : 'default'}
-              stateRelatedMessage="Pièce justificative demande d'abandon au mauvais format"
+              stateRelatedMessage="Vous devez joindre un fichier au format PDF obligatoirement"
             />
 
             {showRecandidatureCheckBox && (
