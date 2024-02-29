@@ -158,7 +158,7 @@ export const register = () => {
             {
               ...garantiesFinancièresToUpsert,
               misÀJourLe: payload.soumisLe,
-              statut: statutGarantiesFinancièresÀTraiter,
+              statut: GarantiesFinancières.StatutGarantiesFinancières.àTraiter.statut,
               àTraiter: {
                 type: payload.type,
                 dateÉchéance: payload.dateÉchéance,
