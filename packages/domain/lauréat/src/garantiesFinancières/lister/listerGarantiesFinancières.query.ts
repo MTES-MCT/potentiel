@@ -135,7 +135,7 @@ const mapToListItemReadModel = (
     validéLe: DateTime.convertirEnValueType(entity.validées.validéLe),
     attestation: DocumentProjet.convertirEnValueType(
       IdentifiantProjet.convertirEnValueType(entity.identifiantProjet).formatter(),
-      TypeDocumentGarantiesFinancières.convertirEnGarantiesFinancièresValidéesValueType.formatter(),
+      TypeDocumentGarantiesFinancières.garantiesFinancièresValidéesValueType.formatter(),
       DateTime.convertirEnValueType(entity.validées.soumisLe).formatter(),
       entity.validées.attestation.format,
     ),
@@ -149,7 +149,7 @@ const mapToListItemReadModel = (
     soumisLe: DateTime.convertirEnValueType(entity.àTraiter.soumisLe),
     attestation: DocumentProjet.convertirEnValueType(
       IdentifiantProjet.convertirEnValueType(entity.identifiantProjet).formatter(),
-      TypeDocumentGarantiesFinancières.convertirEnGarantiesFinancièresSoumisesValueType.formatter(),
+      TypeDocumentGarantiesFinancières.garantiesFinancièresSoumisesValueType.formatter(),
       DateTime.convertirEnValueType(entity.àTraiter.soumisLe).formatter(),
       entity.àTraiter.attestation.format,
     ),

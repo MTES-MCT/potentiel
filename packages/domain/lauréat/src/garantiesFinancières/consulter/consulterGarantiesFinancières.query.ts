@@ -73,7 +73,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
       validéLe: DateTime.convertirEnValueType(result.validées.validéLe),
       attestation: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
-        TypeDocumentGarantiesFinancières.convertirEnGarantiesFinancièresValidéesValueType.formatter(),
+        TypeDocumentGarantiesFinancières.garantiesFinancièresValidéesValueType.formatter(),
         DateTime.convertirEnValueType(result.validées.soumisLe).formatter(),
         result.validées.attestation.format,
       ),
@@ -87,7 +87,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
       soumisLe: DateTime.convertirEnValueType(result.àTraiter.soumisLe),
       attestation: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
-        TypeDocumentGarantiesFinancières.convertirEnGarantiesFinancièresSoumisesValueType.formatter(),
+        TypeDocumentGarantiesFinancières.garantiesFinancièresSoumisesValueType.formatter(),
         DateTime.convertirEnValueType(result.àTraiter.soumisLe).formatter(),
         result.àTraiter.attestation.format,
       ),
