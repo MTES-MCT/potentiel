@@ -47,7 +47,7 @@ Quand(
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<GarantiesFinancières.SupprimerGarantiesFinancièresÀTraiterUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancières',
+        type: 'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           suppriméLeValue: new Date().toISOString(),

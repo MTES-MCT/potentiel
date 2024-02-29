@@ -7,7 +7,7 @@ import { AucunesGarantiesFinancièresÀTraiter } from '../aucunesGarantiesFinanc
 import { AucunesGarantiesFinancières } from '../aucunesGarantiesFinancières.error';
 
 export type SupprimerGarantiesFinancièresÀTraiterUseCase = Message<
-  'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancières',
+  'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
   {
     identifiantProjetValue: string;
     suppriméLeValue: string;
@@ -39,7 +39,7 @@ export const registerSupprimerGarantiesFinancièresÀTraiterUseCase = () => {
     }
 
     await mediator.send<SupprimerGarantiesFinancièresÀTraiterCommand>({
-      type: 'Lauréat.GarantiesFinancières.Command.SupprimerGarantiesFinancières',
+      type: 'Lauréat.GarantiesFinancières.Command.SupprimerGarantiesFinancièresÀTraiter',
       data: {
         identifiantProjet,
         suppriméLe,
@@ -47,5 +47,8 @@ export const registerSupprimerGarantiesFinancièresÀTraiterUseCase = () => {
       },
     });
   };
-  mediator.register('Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancières', runner);
+  mediator.register(
+    'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
+    runner,
+  );
 };

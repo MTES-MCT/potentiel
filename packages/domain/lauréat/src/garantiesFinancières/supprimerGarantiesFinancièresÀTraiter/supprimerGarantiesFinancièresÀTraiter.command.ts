@@ -7,7 +7,7 @@ import { loadGarantiesFinancièresFactory } from '../garantiesFinancières.aggre
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 export type SupprimerGarantiesFinancièresÀTraiterCommand = Message<
-  'Lauréat.GarantiesFinancières.Command.SupprimerGarantiesFinancières',
+  'Lauréat.GarantiesFinancières.Command.SupprimerGarantiesFinancièresÀTraiter',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     suppriméLe: DateTime.ValueType;
@@ -32,5 +32,8 @@ export const registerSupprimerGarantiesFinancièresÀTraiterCommand = (
       suppriméPar,
     });
   };
-  mediator.register('Lauréat.GarantiesFinancières.Command.SupprimerGarantiesFinancières', handler);
+  mediator.register(
+    'Lauréat.GarantiesFinancières.Command.SupprimerGarantiesFinancièresÀTraiter',
+    handler,
+  );
 };
