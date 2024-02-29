@@ -81,11 +81,19 @@ const mapToProps: MapToProps = ({
           dateÉchéance: garantiesFinancières.validées.dateÉchéance?.formatter(),
           validéLe: garantiesFinancières.validées.validéLe.formatter(),
           // attestation: garantiesFinancières.validées.attestation,
+          actions:
+            utilisateur.role.estÉgaleÀ(Role.porteur) && !garantiesFinancières.àTraiter
+              ? ['ajouter']
+              : [],
+          /**
+           * @todo activer la page de modification des garanties financières quand le domain sera prêt
+           
           actions: utilisateur.role.estÉgaleÀ(Role.dreal)
             ? ['modifier']
             : utilisateur.role.estÉgaleÀ(Role.porteur) && !garantiesFinancières.àTraiter
             ? ['ajouter']
             : [],
+           */
         }
       : undefined,
     àTraiter: garantiesFinancières.àTraiter
@@ -95,18 +103,26 @@ const mapToProps: MapToProps = ({
           dateÉchéance: garantiesFinancières.àTraiter.dateÉchéance?.formatter(),
           soumisLe: garantiesFinancières.àTraiter.soumisLe.formatter(),
           attestation: garantiesFinancières.àTraiter.attestation.formatter(),
-          actions:
-            utilisateur.role.estÉgaleÀ(Role.dreal) || utilisateur.role.estÉgaleÀ(Role.porteur)
+          actions: [],
+          /**
+           * @todo activer la page de modification des garanties financières quand le domain sera prêt
+           
+          actions: utilisateur.role.estÉgaleÀ(Role.dreal) || utilisateur.role.estÉgaleÀ(Role.porteur)
               ? ['modifier']
               : [],
-          // attestation: garantiesFinancières.àTraiter.attestation,
+           */
         }
       : undefined,
     enAttente: garantiesFinancières.enAttente
       ? {
           dateLimiteSoumission: garantiesFinancières.enAttente.dateLimiteSoumission.formatter(),
           demandéLe: garantiesFinancières.enAttente.demandéLe.formatter(),
-          actions: utilisateur.role.estÉgaleÀ(Role.porteur) ? ['enregistrer'] : [],
+          actions: [],
+          /**
+         * @todo activer la page d'enregistrement des garanties financières quand le domain sera prêt
+         * 
+        actions: utilisateur.role.estÉgaleÀ(Role.porteur) ? ['enregistrer'] : [],
+         */
         }
       : undefined,
   },

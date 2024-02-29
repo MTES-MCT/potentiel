@@ -53,7 +53,7 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
             },
           }}
           iconId="ri-information-line"
-          title="Garanties financières en attente"
+          title="Garanties financières en attente de validation"
         >
           Vous avez déjà soumis des garanties financières en attente de validation pour ce projet.
           Si vous souhaitez soumettre de nouvelles garanties financières, vous devez d'abord
