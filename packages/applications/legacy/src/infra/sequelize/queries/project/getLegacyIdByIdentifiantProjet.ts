@@ -1,6 +1,5 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Project } from '../../projectionsNext';
-import { isSome } from '@potentiel/monads';
 
 export const getLegacyIdByIdentifiantProjet = async ({
   appelOffre,
@@ -13,7 +12,7 @@ export const getLegacyIdByIdentifiantProjet = async ({
       where: {
         appelOffreId: appelOffre,
         periodeId: période,
-        familleId: isSome(famille) ? famille : '',
+        familleId: famille ? famille : '',
         numeroCRE: numéroCRE,
       },
       attributes: ['id'],

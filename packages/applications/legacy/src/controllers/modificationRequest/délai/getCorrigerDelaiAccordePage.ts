@@ -13,10 +13,9 @@ import asyncHandler from '../../helpers/asyncHandler';
 import { v1Router } from '../../v1Router';
 import { validateUniqueId } from '../../../helpers/validateUniqueId';
 import { ModificationRequest, Project } from '../../../infra/sequelize/projectionsNext';
-import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import { ConsulterAppelOffreQuery, ConsulterAppelOffreReadModel } from '@potentiel-domain/appel-offre';
+import { ConsulterCandidatureQuery, ConsulterCandidatureReadModel } from '@potentiel-domain/candidature';
 import { mediator } from 'mediateur';
-import { isNone, isSome } from '@potentiel/monads';
 import { getDelaiDeRealisation } from '../../../modules/projectAppelOffre';
 import { add, sub } from 'date-fns';
 import { addQueryParams } from '../../../helpers/addQueryParams';
@@ -63,12 +62,13 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
-    const résuméProjet = await mediator.send<ConsulterCandidatureQuery>({
-      type: 'Candidature.Query.ConsulterCandidature',
-      data: { identifiantProjet: identifiantProjet.identifiantProjetValue },
-    });
-
-    if (isNone(résuméProjet)) {
+    let résuméProjet: ConsulterCandidatureReadModel;
+    try {
+      résuméProjet = await mediator.send<ConsulterCandidatureQuery>({
+        type: 'Candidature.Query.ConsulterCandidature',
+        data: { identifiantProjet: identifiantProjet.identifiantProjetValue },
+      });
+    } catch {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
@@ -81,17 +81,17 @@ v1Router.get(
       );
     }
 
-    const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
-      type: 'AppelOffre.Query.ConsulterAppelOffre',
-      data: { identifiantAppelOffre: résuméProjet.appelOffre },
-    });
-
-    if (isNone(appelOffre)) {
+    let appelOffre: ConsulterAppelOffreReadModel;
+    try {
+      appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
+        type: 'AppelOffre.Query.ConsulterAppelOffre',
+        data: { identifiantAppelOffre: résuméProjet.appelOffre },
+      });
+    } catch {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
-    const delaiRealisationEnMois =
-      isSome(appelOffre) && getDelaiDeRealisation(appelOffre, résuméProjet.technologie);
+    const delaiRealisationEnMois = getDelaiDeRealisation(appelOffre, résuméProjet.technologie);
 
     if (!delaiRealisationEnMois) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });

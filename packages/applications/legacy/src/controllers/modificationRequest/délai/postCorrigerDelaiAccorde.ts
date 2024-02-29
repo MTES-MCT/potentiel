@@ -19,9 +19,8 @@ import { UnauthorizedError } from '../../../modules/shared';
 import { logger } from '../../../core/utils';
 import { DomainError } from '../../../core/domain';
 import { mediator } from 'mediateur';
-import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
-import { isNone, isSome } from '@potentiel/monads';
+import { ConsulterAppelOffreQuery, ConsulterAppelOffreReadModel } from '@potentiel-domain/appel-offre';
+import { ConsulterCandidatureQuery, ConsulterCandidatureReadModel } from '@potentiel-domain/candidature';
 import { getDelaiDeRealisation } from '../../../modules/projectAppelOffre';
 import { add, sub } from 'date-fns';
 import { ModificationRequest } from '../../../infra/sequelize/projectionsNext';
@@ -92,24 +91,27 @@ v1Router.post(
         return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
       }
 
-      const résuméProjet = await mediator.send<ConsulterCandidatureQuery>({
-        type: 'Candidature.Query.ConsulterCandidature',
-        data: { identifiantProjet: identifiantProjet.identifiantProjetValue },
-      });
-      if (isNone(résuméProjet)) {
+      let résuméProjet: ConsulterCandidatureReadModel;
+      try {
+        résuméProjet = await mediator.send<ConsulterCandidatureQuery>({
+          type: 'Candidature.Query.ConsulterCandidature',
+          data: { identifiantProjet: identifiantProjet.identifiantProjetValue },
+        });
+      } catch {
         return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
       }
 
-      const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
-        type: 'AppelOffre.Query.ConsulterAppelOffre',
-        data: { identifiantAppelOffre: résuméProjet.appelOffre },
-      });
-      if (isNone(appelOffre)) {
+      let appelOffre: ConsulterAppelOffreReadModel;
+      try {
+        appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
+          type: 'AppelOffre.Query.ConsulterAppelOffre',
+          data: { identifiantAppelOffre: résuméProjet.appelOffre },
+        });
+      } catch {
         return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
       }
 
-      const delaiRealisationEnMois =
-        isSome(appelOffre) && getDelaiDeRealisation(appelOffre, résuméProjet.technologie);
+      const delaiRealisationEnMois = getDelaiDeRealisation(appelOffre, résuméProjet.technologie);
       if (!delaiRealisationEnMois) {
         return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
       }
