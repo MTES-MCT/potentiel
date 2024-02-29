@@ -33,13 +33,13 @@ export type GarantiesFinancièresEvent =
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   statut?: StatutGarantiesFinancières.ValueType;
   validées?: {
-    type: TypeGarantiesFinancières.ValueType;
+    type: TypeGarantiesFinancières.ValueType | 'type-inconnu';
     dateÉchéance?: DateTime.ValueType;
     dateConstitution: DateTime.ValueType;
     validéLe: DateTime.ValueType;
   };
   àTraiter?: {
-    type: TypeGarantiesFinancières.ValueType;
+    type: TypeGarantiesFinancières.ValueType | 'type-inconnu';
     dateÉchéance?: DateTime.ValueType;
     dateConstitution: DateTime.ValueType;
     soumisLe: DateTime.ValueType;

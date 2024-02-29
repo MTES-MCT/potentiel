@@ -46,8 +46,9 @@ export function applyGarantiesFinancièresValidées(
 ) {
   this.statut = StatutGarantiesFinancières.validé;
   this.validées = {
-    type: this.àTraiter!.type,
-    ...(this.àTraiter!.dateÉchéance && { dateÉchéance: this.àTraiter!.dateÉchéance }),
+    type: this.àTraiter ? this.àTraiter.type : 'type-inconnu',
+    ...(this.àTraiter &&
+      this.àTraiter.dateÉchéance && { dateÉchéance: this.àTraiter!.dateÉchéance }),
     dateConstitution: this.àTraiter!.dateConstitution,
     validéLe: DateTime.convertirEnValueType(validéLe),
   };
