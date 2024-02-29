@@ -177,11 +177,7 @@ export const AdminNotificationCandidats = ({
                   />
                 </div>
                 <PrimaryButton type="submit" name="submit" id="submit" className="mt-2">
-                  Notifier{' '}
-                  {données.projetsPériodeSélectionnée.itemCount === 1
-                    ? 'le candidat '
-                    : `les ${données.projetsPériodeSélectionnée.itemCount} candidats `}
-                  de cette période
+                  Notifier tous les candidats de la période
                 </PrimaryButton>
               </>
             )}
