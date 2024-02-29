@@ -58,11 +58,11 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
 
             <Upload
               label="Pièce justificative (optionnel)"
-              hint="Vous pouvez transmettre un fichier compressé si il y a plusieurs documents"
+              hint="Format accepté : pdf"
               id="pieceJustificative"
-              nativeInputProps={{ name: 'pieceJustificative' }}
+              nativeInputProps={{ name: 'pieceJustificative', accept: '.pdf' }}
               state={validationErrors.includes('pieceJustificative') ? 'error' : 'default'}
-              stateRelatedMessage="Erreur sur le fichier transmis"
+              stateRelatedMessage="Vous devez joindre un fichier au format PDF obligatoirement"
             />
 
             {showRecandidatureCheckBox && (
