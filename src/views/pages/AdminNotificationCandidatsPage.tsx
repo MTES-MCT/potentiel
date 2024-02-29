@@ -177,11 +177,7 @@ export const AdminNotificationCandidats = ({
                   />
                 </div>
                 <PrimaryButton type="submit" name="submit" id="submit" className="mt-2">
-                  Notifier{' '}
-                  {données.projetsPériodeSélectionnée.itemCount === 1
-                    ? 'le candidat '
-                    : `les ${données.projetsPériodeSélectionnée.itemCount} candidats `}
-                  de cette période
+                  Notifier tous les candidats de la période
                 </PrimaryButton>
               </>
             )}
@@ -212,30 +208,39 @@ export const AdminNotificationCandidats = ({
       </PageListeTemplate.SideBar>
       <PageListeTemplate.List sideBarOpen={formOpen}>
         {données && données.projetsPériodeSélectionnée.items.length > 0 ? (
-          <ProjectList
-            projects={données.projetsPériodeSélectionnée}
-            role={utilisateur?.role}
-            currentUrl={currentUrl}
-            exportListe={
-              données.AOSélectionné &&
-              données.périodeSélectionnée &&
-              données.projetsPériodeSélectionnée.items.filter(
-                (projet) => projet.classe === 'Classé',
-              ).length > 0
-                ? {
-                    title: ' Télécharger la liste des lauréats (document csv)',
-                    url: `
-                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
-                      ...request.query,
-                      appelOffreId: données.AOSélectionné,
-                      periodeId: données.périodeSélectionnée,
-                      beforeNotification: true,
-                      pageSize: 10000,
-                    })}`,
-                  }
-                : undefined
+          <>
+            {
+              <div className="mb-7 font-bold">
+                {classement !== 'default' && `${classement}  : `}
+                {données.projetsPériodeSélectionnée.itemCount}
+                {données.projetsPériodeSélectionnée.itemCount > 1 ? ' projets' : ' projet'}
+              </div>
             }
-          />
+            <ProjectList
+              projects={données.projetsPériodeSélectionnée}
+              role={utilisateur?.role}
+              currentUrl={currentUrl}
+              exportListe={
+                données.AOSélectionné &&
+                données.périodeSélectionnée &&
+                données.projetsPériodeSélectionnée.items.filter(
+                  (projet) => projet.classe === 'Classé',
+                ).length > 0
+                  ? {
+                      title: ' Télécharger la liste des lauréats (document csv)',
+                      url: `
+                ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
+                        ...request.query,
+                        appelOffreId: données.AOSélectionné,
+                        periodeId: données.périodeSélectionnée,
+                        beforeNotification: true,
+                        pageSize: 10000,
+                      })}`,
+                    }
+                  : undefined
+              }
+            />
+          </>
         ) : (
           <ListeVide titre="Aucun candidat à notifier" />
         )}
