@@ -62,6 +62,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
         <>
           <Heading2>Garanties financières validées</Heading2>
           <GarantiesFinancièresInfos
+            modificationRoute={Routes.GarantiesFinancières.modifierValidé(projet.identifiantProjet)}
             identifiantProjet={projet.identifiantProjet}
             garantiesFinancières={garantiesFinancières.validées}
           />
@@ -73,6 +74,9 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
         <>
           <Heading2>Garanties financières à traiter</Heading2>
           <GarantiesFinancièresInfos
+            modificationRoute={Routes.GarantiesFinancières.modifierÀTraiter(
+              projet.identifiantProjet,
+            )}
             identifiantProjet={projet.identifiantProjet}
             garantiesFinancières={garantiesFinancières.àTraiter}
           />
@@ -136,11 +140,13 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
 
 type GarantiesFinancièresInfosProps = {
   identifiantProjet: string;
+  modificationRoute: string;
   garantiesFinancières: GarantiesFinancières;
 };
 
 const GarantiesFinancièresInfos: FC<GarantiesFinancièresInfosProps> = ({
   identifiantProjet,
+  modificationRoute,
   garantiesFinancières,
 }) => (
   <div className="flex flex-col md:flex-row mt-4">
@@ -199,7 +205,7 @@ const GarantiesFinancièresInfos: FC<GarantiesFinancièresInfosProps> = ({
           iconId="fr-icon-pencil-line"
           priority="tertiary no outline"
           linkProps={{
-            href: Routes.GarantiesFinancières.modifier(identifiantProjet),
+            href: modificationRoute,
           }}
         >
           Modifier les garanties financières

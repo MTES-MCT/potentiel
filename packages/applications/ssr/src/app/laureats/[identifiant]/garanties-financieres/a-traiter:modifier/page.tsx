@@ -17,6 +17,7 @@ import {
   ModifierGarantiesFinancièresÀTraiterProps,
 } from '@/components/pages/garanties-financières/modifier/ModifierGarantiesFinancièresÀTraiter.page';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
 
 export const metadata: Metadata = {
   title: 'Modifier des garanties financières en attente de validation - Potentiel',
@@ -74,49 +75,29 @@ const mapToProps: MapToProps = ({
   statut,
   garantiesFinancières,
   utilisateur,
-}) => {
-  const getLabelByType = (type: GarantiesFinancières.TypeGarantiesFinancières.RawType) => {
-    switch (type) {
-      case 'consignation':
-        return 'Consignation';
-      case 'avec-date-échéance':
-        return "Avec date d'échéance";
-      case 'six-mois-après-achèvement':
-        return 'Six mois après achèvement';
-    }
-  };
-
-  const getActions = (
-    utilisateur: Utilisateur.ValueType['role'],
-  ): ModifierGarantiesFinancièresÀTraiterProps['actions'] => {
-    if (utilisateur.estÉgaleÀ(Role.porteur)) {
-      return ['supprimer'];
-    }
-
-    if (utilisateur.estÉgaleÀ(Role.dreal)) {
-      return ['valider'];
-    }
-
-    return [];
-  };
-
-  return {
-    projet: {
-      ...candidature,
-      identifiantProjet,
-    },
-    typesGarantiesFinancières: GarantiesFinancières.TypeGarantiesFinancières.types.map((type) => ({
-      label: getLabelByType(type),
-      value: type,
-    })),
-    statut,
-    garantiesFinancières: {
-      type: garantiesFinancières!.type.type,
-      attestation: garantiesFinancières!.attestation.formatter(),
-      dateConsitution: garantiesFinancières!.dateConstitution.formatter(),
-      dateÉchéance: garantiesFinancières!.dateÉchéance?.formatter(),
-    },
-    actions: getActions(utilisateur.role),
-    showWarning: utilisateur.role.estÉgaleÀ(Role.porteur) ? true : undefined,
-  };
-};
+}) => ({
+  projet: {
+    ...candidature,
+    identifiantProjet,
+  },
+  typesGarantiesFinancières: GarantiesFinancières.TypeGarantiesFinancières.types.map((type) => ({
+    label: getGarantiesFinancièresTypeLabel(type),
+    value: type,
+  })),
+  statut,
+  garantiesFinancières: {
+    type: garantiesFinancières!.type.type,
+    attestation: garantiesFinancières!.attestation.formatter(),
+    dateConsitution: garantiesFinancières!.dateConstitution.formatter(),
+    dateÉchéance: garantiesFinancières!.dateÉchéance?.formatter(),
+  },
+  actions: utilisateur.role.estÉgaleÀ(Role.porteur)
+    ? ['supprimer']
+    : utilisateur.role.estÉgaleÀ(Role.dreal)
+    ? /**
+       * @todo Ajouter la possibilité de valider / modifier des Gfs quand le domaine sera prêt
+       */
+      []
+    : [],
+  showWarning: utilisateur.role.estÉgaleÀ(Role.porteur) ? true : undefined,
+});

@@ -54,7 +54,7 @@ const list = {
   totalItems: 10,
 };
 
-export const SoumissionEnAttente: Story = {
+export const EnAttente: Story = {
   args: {
     filters: getFilters('en attente'),
     list: {
@@ -83,7 +83,7 @@ export const SoumissionEnAttente: Story = {
   },
 };
 
-export const SoumissionATraiter: Story = {
+export const ATraiter: Story = {
   args: {
     filters: getFilters('à traiter'),
     list: {
@@ -112,7 +112,7 @@ export const SoumissionATraiter: Story = {
   },
 };
 
-export const SoumissionValidée: Story = {
+export const Validée: Story = {
   args: {
     filters: getFilters('validé'),
     list: {

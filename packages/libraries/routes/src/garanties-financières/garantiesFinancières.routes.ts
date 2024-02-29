@@ -6,5 +6,8 @@ export const soumettre = (identifiantProjet: string) =>
 export const détail = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres`;
 
-export const modifier = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres:modifier`;
+export const modifierÀTraiter = (identifiantProjet: string) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/a-traiter:modifier`;
+
+export const modifierValidé = (identifiantProjet: string) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/valide:modifier`;

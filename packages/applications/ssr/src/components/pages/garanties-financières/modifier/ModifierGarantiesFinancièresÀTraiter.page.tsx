@@ -15,7 +15,6 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { Form } from '@/components/atoms/form/Form';
 import { formatDateForInput } from '@/utils/formatDateForInput';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
 import {
@@ -24,8 +23,6 @@ import {
 } from '../TypeGarantiesFinancièresSelect';
 import { StatutGarantiesFinancièresBadge } from '../StatutGarantiesFinancièresBadge';
 
-import { ValiderGarantiesFinancièresÀTraiter } from './valider/ValiderGarantiesFinancièresÀTraiter';
-import { RejeterGarantiesFinancièresÀTraiter } from './rejeter/RejeterGarantiesFinancièresÀTraiter';
 import { modifierGarantiesFinancièresÀTraiterAction } from './modifierGarantiesFinancièresÀTraiter.action';
 import { SupprimerGarantiesFinancièresÀTraiter } from './supprimer/SupprimerGarantiesFinancièresÀTraiter';
 
@@ -162,7 +159,11 @@ export const ModifierGarantiesFinancièresÀTraiter: FC<
                 >
                   Retour au détail du projet
                 </Button>
-                <SubmitButton>Modifier</SubmitButton>
+                {/**
+                   * @todo activer le bouton quand la modification sera possible côté domain
+                   
+                  <SubmitButton>Modifier</SubmitButton>
+                  */}
               </div>
             </Form>
           </>
@@ -186,12 +187,24 @@ type MapToActionsComponentsProps = {
 const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) => {
   return actions.length ? (
     <>
-      {actions.includes('valider') && (
-        <ValiderGarantiesFinancièresÀTraiter identifiantProjet={identifiantProjet} />
-      )}
-      {actions.includes('rejeter') && (
-        <RejeterGarantiesFinancièresÀTraiter identifiantProjet={identifiantProjet} />
-      )}
+      {/**
+       * @todo Ajouter la possibilité de valider des Gfs quand le domain sera prêt : 
+       
+        actions.includes('valider') && (
+          <ValiderGarantiesFinancièresÀTraiter identifiantProjet={identifiantProjet} />
+        )
+       
+       */}
+
+      {/**
+       * @todo Ajouter la possibilité de rejet des Gfs quand le domain sera prêt : 
+       
+       actions.includes('rejeter') && (
+          <RejeterGarantiesFinancièresÀTraiter identifiantProjet={identifiantProjet} />
+          )
+       
+       */}
+
       {actions.includes('supprimer') && (
         <SupprimerGarantiesFinancièresÀTraiter identifiantProjet={identifiantProjet} />
       )}
