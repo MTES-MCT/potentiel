@@ -126,6 +126,8 @@ const référencielPermissions = {
         supprimerGarantiesFinancièresÀTraiter:
           'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
         valider: 'Lauréat.GarantiesFinancières.UseCase.ValiderGarantiesFinancières',
+        modifierGarantiesFinancièresÀTraiter:
+          'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancièresÀTraiter',
       },
       command: {
         demander: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
@@ -133,6 +135,8 @@ const référencielPermissions = {
         supprimerGarantiesFinancièresÀTraiter:
           'Lauréat.GarantiesFinancières.Command.SupprimerGarantiesFinancièresÀTraiter',
         valider: 'Lauréat.GarantiesFinancières.Command.ValiderGarantiesFinancières',
+        modifierGarantiesFinancièresÀTraiter:
+          'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancièresÀTraiter',
       },
     },
   },
@@ -461,6 +465,13 @@ const policies = {
         .supprimerGarantiesFinancièresÀTraiter,
       référencielPermissions.lauréat.garantiesFinancières.query.consulter,
     ],
+    'modifier-garanties-financières-à-traiter': [
+      référencielPermissions.lauréat.garantiesFinancières.usecase
+        .modifierGarantiesFinancièresÀTraiter,
+      référencielPermissions.lauréat.garantiesFinancières.command
+        .modifierGarantiesFinancièresÀTraiter,
+      référencielPermissions.document.command.enregister,
+    ],
   },
 };
 
@@ -498,6 +509,7 @@ const permissionAdmin = [
   ...policies.garantiesFinancières.lister,
   ...policies.garantiesFinancières.demander,
   ...policies.garantiesFinancières.valider,
+  ...policies.garantiesFinancières['modifier-garanties-financières-à-traiter'],
 ];
 
 const permissionCRE = [
@@ -526,6 +538,7 @@ const permissionDreal = [
   ...policies.garantiesFinancières.lister,
   ...policies.garantiesFinancières.demander,
   ...policies.garantiesFinancières.valider,
+  ...policies.garantiesFinancières['modifier-garanties-financières-à-traiter'],
 ];
 
 const permissionDgecValidateur = [
@@ -591,6 +604,7 @@ const permissionPorteurProjet = [
   ...policies.garantiesFinancières.valider,
   ...policies.garantiesFinancières.soumettre,
   ...policies.garantiesFinancières['supprimer-garanties-financières-à-traiter'],
+  ...policies.garantiesFinancières['modifier-garanties-financières-à-traiter'],
 ];
 
 const permissionAcheteurObligé = [

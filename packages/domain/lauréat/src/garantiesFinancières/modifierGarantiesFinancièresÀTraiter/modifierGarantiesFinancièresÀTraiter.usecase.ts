@@ -6,7 +6,7 @@ import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '..
 import { ModifierGarantiesFinancièresÀTraiterCommand } from './modifierGarantiesFinancièresÀTraiter.command';
 
 export type ModifierGarantiesFinancièresÀTraiterUseCase = Message<
-  'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
+  'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancièresÀTraiter',
   {
     identifiantProjetValue: string;
     typeValue: string;
@@ -42,7 +42,7 @@ export const registerModifierGarantiesFinancièresÀTraiterUseCase = () => {
 
     const attestation = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
-      TypeDocumentGarantiesFinancières.convertirEnGarantiesFinancièresSoumisesValueType.formatter(),
+      TypeDocumentGarantiesFinancières.garantiesFinancièresSoumisesValueType.formatter(),
       soumisLeValue,
       attestationValue.format,
     );
@@ -56,7 +56,7 @@ export const registerModifierGarantiesFinancièresÀTraiterUseCase = () => {
     });
 
     await mediator.send<ModifierGarantiesFinancièresÀTraiterCommand>({
-      type: 'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières',
+      type: 'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancièresÀTraiter',
       data: {
         attestation,
         dateConstitution,
@@ -68,5 +68,8 @@ export const registerModifierGarantiesFinancièresÀTraiterUseCase = () => {
       },
     });
   };
-  mediator.register('Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières', runner);
+  mediator.register(
+    'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancièresÀTraiter',
+    runner,
+  );
 };
