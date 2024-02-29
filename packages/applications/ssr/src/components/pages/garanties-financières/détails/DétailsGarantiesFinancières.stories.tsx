@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import {
-  DétailsGarantiesFinancières,
+  DétailsGarantiesFinancièresPage,
   DétailsGarantiesFinancièresProps,
 } from './DétailsGarantiesFinancières.page';
 
 const meta = {
   title: 'Pages/Garanties-financières/Détail',
-  component: DétailsGarantiesFinancières,
+  component: DétailsGarantiesFinancièresPage,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
@@ -54,10 +54,12 @@ export const ATraiter: Story = {
     statut: 'à-traiter',
     garantiesFinancières: {
       àTraiter: {
-        type: 'consignation',
-        dateConstitution: '2021-10-23',
-        validéLe: '2021-10-23',
+        type: 'avec-date-échéance',
+        dateÉchéance: '2025-01-01',
+        dateConstitution: '2023-11-01',
+        validéLe: '2024-01-01',
         attestation: 'path/to/attestationConstitution',
+        soumisLe: '2023-12-14',
         actions: ['modifier'],
       },
     },
@@ -70,8 +72,8 @@ export const EnAttente: Story = {
     statut: 'en-attente',
     garantiesFinancières: {
       enAttente: {
-        dateLimiteSoumission: '2021-10-23',
-        demandéLe: '2021-10-23',
+        dateLimiteSoumission: '2024-03-31',
+        demandéLe: '2022-12-23',
         actions: ['enregistrer'],
       },
     },
@@ -81,7 +83,7 @@ export const EnAttente: Story = {
 export const ValidéesAvecATraiter: Story = {
   args: {
     projet,
-    statut: 'validé',
+    statut: 'à-traiter',
     garantiesFinancières: {
       validées: {
         type: 'consignation',
@@ -91,7 +93,7 @@ export const ValidéesAvecATraiter: Story = {
         actions: ['modifier'],
       },
       àTraiter: {
-        type: 'consignation',
+        type: 'six-mois-après-achèvement',
         dateConstitution: '2021-10-23',
         validéLe: '2021-10-23',
         attestation: 'path/to/attestationConstitution',

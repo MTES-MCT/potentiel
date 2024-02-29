@@ -9,21 +9,23 @@ import { Routes } from '@potentiel-libraries/routes';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
-import { formatDateForInput } from '@/utils/formatDateForInput';
+import { formatDateForText } from '@/utils/formatDateForText';
 import { Heading2 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
 import { StatutGarantiesFinancièresBadge } from '../StatutGarantiesFinancièresBadge';
+import { getGarantiesFinancièresTypeLabel } from '../getGarantiesFinancièresTypeLabel';
 
 type AvailableActions = Array<'ajouter' | 'modifier' | 'enregistrer'>;
 
 type GarantiesFinancières = {
-  type: string;
+  type: GarantiesFinancières.TypeGarantiesFinancières.RawType;
   dateÉchéance?: string;
   dateConstitution: string;
-  validéLe: string;
-  attestation: string;
+  validéLe?: string;
+  soumisLe?: string;
+  attestation?: string;
   actions: AvailableActions;
 };
 
@@ -41,7 +43,7 @@ export type DétailsGarantiesFinancièresProps = {
   };
 };
 
-export const DétailsGarantiesFinancières: FC<DétailsGarantiesFinancièresProps> = ({
+export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancièresProps> = ({
   projet,
   statut,
   garantiesFinancières,
@@ -147,15 +149,17 @@ const GarantiesFinancièresInfos: FC<GarantiesFinancièresInfosProps> = ({
         <li>
           <p>
             Type de garanties financières :{' '}
-            <span className="font-bold">{garantiesFinancières.type}</span>
+            <span className="font-bold">
+              {getGarantiesFinancièresTypeLabel(garantiesFinancières.type)}
+            </span>
           </p>
         </li>
         {garantiesFinancières.dateÉchéance && (
           <li>
             <p>
-              Date d'échénace :{' '}
+              Date d'échéance :{' '}
               <span className="font-bold">
-                {formatDateForInput(garantiesFinancières.dateÉchéance)}
+                {formatDateForText(garantiesFinancières.dateÉchéance)}
               </span>
             </p>
           </li>
@@ -164,19 +168,29 @@ const GarantiesFinancièresInfos: FC<GarantiesFinancièresInfosProps> = ({
           <p>
             Date de consitution :{' '}
             <span className="font-bold">
-              {formatDateForInput(garantiesFinancières.dateConstitution)}
+              {formatDateForText(garantiesFinancières.dateConstitution)}
             </span>
           </p>
         </li>
-        <li>
-          <Download
-            label="Attestation de constitution"
-            details=""
-            linkProps={{
-              href: Routes.Document.télécharger(garantiesFinancières.attestation),
-            }}
-          />
-        </li>
+        {garantiesFinancières.soumisLe && (
+          <li>
+            <p>
+              Soumis le :{' '}
+              <span className="font-bold">{formatDateForText(garantiesFinancières.soumisLe)}</span>
+            </p>
+          </li>
+        )}
+        {garantiesFinancières.attestation && (
+          <li>
+            <Download
+              label="Attestation de constitution"
+              details=""
+              linkProps={{
+                href: Routes.Document.télécharger(garantiesFinancières.attestation),
+              }}
+            />
+          </li>
+        )}
       </ul>
     </div>
     <div className={`flex flex-col md:max-w-lg`}>

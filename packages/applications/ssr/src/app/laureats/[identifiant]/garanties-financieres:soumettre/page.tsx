@@ -12,22 +12,13 @@ import {
   SoumettreGarantiesFinancièresPage,
   SoumettreGarantiesFinancièresProps,
 } from '@/components/pages/garanties-financières/soumettre/SoumettreGarantiesFinancières.page';
+import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
 
 export const metadata: Metadata = {
   title: 'Transmettre des garanties financières - Potentiel',
   description: 'Formulaire de transmission des garanties financières',
 };
 
-const getLabelByType = (type: GarantiesFinancières.TypeGarantiesFinancières.RawType) => {
-  switch (type) {
-    case 'consignation':
-      return 'Consignation';
-    case 'avec-date-échéance':
-      return "Avec date d'échéance";
-    case 'six-mois-après-achèvement':
-      return 'Six mois après achèvement';
-  }
-};
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   if (!process.env.FEATURE_FLAG_GARANTIES_FINANCIERES) {
     return notFound();
@@ -57,7 +48,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         garantiesFinancièresÀTraiterExistante,
         typesGarantiesFinancières: GarantiesFinancières.TypeGarantiesFinancières.types.map(
           (type) => ({
-            label: getLabelByType(type),
+            label: getGarantiesFinancièresTypeLabel(type),
             value: type,
           }),
         ),
