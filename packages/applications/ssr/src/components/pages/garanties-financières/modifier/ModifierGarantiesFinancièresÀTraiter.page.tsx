@@ -153,11 +153,11 @@ export const ModifierGarantiesFinancièresÀTraiter: FC<
                 <Button
                   priority="secondary"
                   linkProps={{
-                    href: Routes.Projet.details(projet.identifiantProjet),
+                    href: Routes.GarantiesFinancières.détail(projet.identifiantProjet),
                   }}
                   iconId="fr-icon-arrow-left-line"
                 >
-                  Retour au détail du projet
+                  Retour au détail des garanties financières
                 </Button>
                 {/**
                    * @todo activer le bouton quand la modification sera possible côté domain

@@ -4,6 +4,7 @@ import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Download from '@codegouvfr/react-dsfr/Download';
 import Divider from '@mui/material/Divider';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-libraries/routes';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
@@ -47,96 +48,133 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   projet,
   statut,
   garantiesFinancières,
-}) => (
-  <PageTemplate banner={<ProjetBanner {...projet} />}>
-    <TitrePageGarantiesFinancières
-      title={
-        <>
-          Garanties financières <StatutGarantiesFinancièresBadge statut={statut} />
-        </>
-      }
-    />
+}) => {
+  if (
+    !garantiesFinancières.validées &&
+    !garantiesFinancières.àTraiter &&
+    !garantiesFinancières.enAttente
+  ) {
+    return (
+      <PageTemplate banner={<ProjetBanner {...projet} />}>
+        <TitrePageGarantiesFinancières title={<>Garanties financières</>} />
+        <div className="flex flex-col gap-8">
+          <p>
+            Aucune garanties financières trouvées pour ce projet, vous pouvez en soumettre une{' '}
+            <Link
+              href={Routes.GarantiesFinancières.soumettre(projet.identifiantProjet)}
+              className="font-semibold"
+            >
+              nouvelle ici
+            </Link>
+          </p>
+          <Button
+            className="mt-5"
+            priority="secondary"
+            linkProps={{
+              href: Routes.Projet.details(projet.identifiantProjet),
+            }}
+            iconId="fr-icon-arrow-left-line"
+          >
+            Retour au détail du projet
+          </Button>
+        </div>
+      </PageTemplate>
+    );
+  }
 
-    <div className="flex flex-col mt-10">
-      {garantiesFinancières.validées && (
-        <>
-          <Heading2>Garanties financières validées</Heading2>
-          <GarantiesFinancièresInfos
-            modificationRoute={Routes.GarantiesFinancières.modifierValidé(projet.identifiantProjet)}
-            identifiantProjet={projet.identifiantProjet}
-            garantiesFinancières={garantiesFinancières.validées}
-          />
-          {garantiesFinancières.àTraiter && <Divider component="span" className="!mb-8" />}
-        </>
-      )}
+  return (
+    <PageTemplate banner={<ProjetBanner {...projet} />}>
+      <TitrePageGarantiesFinancières
+        title={
+          <>
+            Garanties financières <StatutGarantiesFinancièresBadge statut={statut} />
+          </>
+        }
+      />
 
-      {garantiesFinancières.àTraiter && (
-        <>
-          <Heading2>Garanties financières à traiter</Heading2>
-          <GarantiesFinancièresInfos
-            modificationRoute={Routes.GarantiesFinancières.modifierÀTraiter(
-              projet.identifiantProjet,
-            )}
-            identifiantProjet={projet.identifiantProjet}
-            garantiesFinancières={garantiesFinancières.àTraiter}
-          />
-          {garantiesFinancières.enAttente && <Divider component="span" className="!mb-8" />}
-        </>
-      )}
+      <div className="flex flex-col mt-10">
+        {garantiesFinancières.validées && (
+          <>
+            <Heading2>Garanties financières validées</Heading2>
+            <GarantiesFinancièresInfos
+              modificationRoute={Routes.GarantiesFinancières.modifierValidé(
+                projet.identifiantProjet,
+              )}
+              identifiantProjet={projet.identifiantProjet}
+              garantiesFinancières={garantiesFinancières.validées}
+            />
+            {garantiesFinancières.àTraiter && <Divider component="span" className="!mb-8" />}
+          </>
+        )}
 
-      {garantiesFinancières.enAttente && (
-        <>
-          <Heading2>Garanties financières en attente</Heading2>
-          <div className="flex flex-col md:flex-row mt-4">
-            <div className={`flex-1`}>
-              <ul className="flex flex-col gap-2">
-                <li>
-                  <p>
-                    Date de la demande :{' '}
-                    <span className="font-bold">{garantiesFinancières.enAttente.demandéLe}</span>
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    Date limite de soumission :{' '}
-                    <span className="font-bold">
-                      {garantiesFinancières.enAttente.dateLimiteSoumission}
-                    </span>
-                  </p>
-                </li>
-              </ul>
+        {garantiesFinancières.àTraiter && (
+          <>
+            <Heading2>Garanties financières à traiter</Heading2>
+            <GarantiesFinancièresInfos
+              modificationRoute={Routes.GarantiesFinancières.modifierÀTraiter(
+                projet.identifiantProjet,
+              )}
+              identifiantProjet={projet.identifiantProjet}
+              garantiesFinancières={garantiesFinancières.àTraiter}
+            />
+            {garantiesFinancières.enAttente && <Divider component="span" className="!mb-8" />}
+          </>
+        )}
+
+        {garantiesFinancières.enAttente && (
+          <>
+            <Heading2>Garanties financières en attente</Heading2>
+            <div className="flex flex-col md:flex-row mt-4">
+              <div className={`flex-1`}>
+                <ul className="flex flex-col gap-2">
+                  <li>
+                    <p>
+                      Date de la demande :{' '}
+                      <span className="font-bold">{garantiesFinancières.enAttente.demandéLe}</span>
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      Date limite de soumission :{' '}
+                      <span className="font-bold">
+                        {garantiesFinancières.enAttente.dateLimiteSoumission}
+                      </span>
+                    </p>
+                  </li>
+                </ul>
+              </div>
+              <div className={`flex md:max-w-lg`}>
+                <Button
+                  iconId="fr-icon-add-circle-line"
+                  priority="tertiary no outline"
+                  linkProps={{
+                    /**
+                     * @todo : add route to register garanties financières
+                     */
+                    href: '#',
+                  }}
+                >
+                  Enregistrer les garanties financières
+                </Button>
+              </div>
             </div>
-            <div className={`flex md:max-w-lg`}>
-              <Button
-                iconId="fr-icon-add-circle-line"
-                priority="tertiary no outline"
-                linkProps={{
-                  /**
-                   * @todo : add route to register garanties financières
-                   */
-                  href: '#',
-                }}
-              >
-                Enregistrer les garanties financières
-              </Button>
-            </div>
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
 
-    <Button
-      className="mt-5"
-      priority="secondary"
-      linkProps={{
-        href: Routes.Projet.details(projet.identifiantProjet),
-      }}
-      iconId="fr-icon-arrow-left-line"
-    >
-      Retour au détail du projet
-    </Button>
-  </PageTemplate>
-);
+      <Button
+        className="mt-5"
+        priority="secondary"
+        linkProps={{
+          href: Routes.Projet.details(projet.identifiantProjet),
+        }}
+        iconId="fr-icon-arrow-left-line"
+      >
+        Retour au détail du projet
+      </Button>
+    </PageTemplate>
+  );
+};
 
 type GarantiesFinancièresInfosProps = {
   identifiantProjet: string;

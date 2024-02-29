@@ -121,9 +121,11 @@ const référencielPermissions = {
       },
       usecase: {
         soumettre: 'Lauréat.GarantiesFinancières.UseCase.SoumettreGarantiesFinancières',
+        supprimer: 'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancières',
       },
       command: {
         soumettre: 'Lauréat.GarantiesFinancières.Command.SoumettreGarantiesFinancières',
+        supprimer: 'Lauréat.GarantiesFinancières.Command.SupprimerGarantiesFinancières',
       },
     },
   },
@@ -435,14 +437,10 @@ const policies = {
       référencielPermissions.document.command.enregister,
       référencielPermissions.lauréat.garantiesFinancières.command.soumettre,
     ],
-  },
-  garantiesFinancières: {
-    consulter: [référencielPermissions.lauréat.garantiesFinancières.query.consulter],
-    soumettre: [
+    supprimer: [
       référencielPermissions.candidature.query.consulter,
-      référencielPermissions.lauréat.garantiesFinancières.usecase.soumettre,
-      référencielPermissions.document.command.enregister,
-      référencielPermissions.lauréat.garantiesFinancières.command.soumettre,
+      référencielPermissions.lauréat.garantiesFinancières.usecase.supprimer,
+      référencielPermissions.lauréat.garantiesFinancières.command.supprimer,
     ],
   },
 };
@@ -560,6 +558,7 @@ const permissionPorteurProjet = [
   // Garanties financières
   ...policies.garantiesFinancières.consulter,
   ...policies.garantiesFinancières.soumettre,
+  ...policies.garantiesFinancières.supprimer,
 ];
 
 const permissionAcheteurObligé = [...policies.réseau.raccordement.consulter];

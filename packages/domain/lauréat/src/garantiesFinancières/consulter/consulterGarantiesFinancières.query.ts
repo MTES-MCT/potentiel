@@ -57,7 +57,6 @@ export const registerConsulterGarantiesFinancièresQuery = ({
     const result = await find<GarantiesFinancièresEntity>(
       `garanties-financieres|${identifiantProjet.formatter()}`,
     );
-
     if (isNone(result)) {
       throw new AucunesGarantiesFinancières();
     }

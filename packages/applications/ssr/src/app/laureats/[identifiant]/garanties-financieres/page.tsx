@@ -84,16 +84,9 @@ const mapToProps: MapToProps = ({
           actions:
             utilisateur.role.estÉgaleÀ(Role.porteur) && !garantiesFinancières.àTraiter
               ? ['ajouter']
+              : utilisateur.role.estÉgaleÀ(Role.dreal)
+              ? ['modifier']
               : [],
-          /**
-           * @todo activer la page de modification des garanties financières quand le domain sera prêt
-           
-          actions: utilisateur.role.estÉgaleÀ(Role.dreal)
-            ? ['modifier']
-            : utilisateur.role.estÉgaleÀ(Role.porteur) && !garantiesFinancières.àTraiter
-            ? ['ajouter']
-            : [],
-           */
         }
       : undefined,
     àTraiter: garantiesFinancières.àTraiter
@@ -103,14 +96,10 @@ const mapToProps: MapToProps = ({
           dateÉchéance: garantiesFinancières.àTraiter.dateÉchéance?.formatter(),
           soumisLe: garantiesFinancières.àTraiter.soumisLe.formatter(),
           attestation: garantiesFinancières.àTraiter.attestation.formatter(),
-          actions: [],
-          /**
-           * @todo activer la page de modification des garanties financières quand le domain sera prêt
-           
-          actions: utilisateur.role.estÉgaleÀ(Role.dreal) || utilisateur.role.estÉgaleÀ(Role.porteur)
+          actions:
+            utilisateur.role.estÉgaleÀ(Role.dreal) || utilisateur.role.estÉgaleÀ(Role.porteur)
               ? ['modifier']
               : [],
-           */
         }
       : undefined,
     enAttente: garantiesFinancières.enAttente
