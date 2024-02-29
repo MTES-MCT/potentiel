@@ -1,6 +1,7 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { DemanderPreuveRecandidatureAbandonCommand } from './demanderPreuveRecandidatureAbandon.command';
+import { AjouterTâcheCommand, TypeTâche } from '@potentiel-domain/tache';
 
 export type DemanderPreuveRecandidatureAbandonUseCase = Message<
   'Lauréat.Abandon.UseCase.DemanderPreuveRecandidatureAbandon',
@@ -23,6 +24,14 @@ export const registerDemanderPreuveRecandidatureAbandonUseCase = () => {
       data: {
         identifiantProjet,
         dateDemande,
+      },
+    });
+
+    await mediator.send<AjouterTâcheCommand>({
+      type: 'Tâche.Command.AjouterTâche',
+      data: {
+        identifiantProjet,
+        typeTâche: TypeTâche.abandonTransmettrePreuveRecandidature,
       },
     });
   };

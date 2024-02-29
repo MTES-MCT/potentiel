@@ -5,6 +5,7 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { RejeterAbandonCommand } from './rejeterAbandon.command';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
+import { AcheverTâcheCommand, TypeTâche } from '@potentiel-domain/tache';
 
 export type RejeterAbandonUseCase = Message<
   'Lauréat.Abandon.UseCase.RejeterAbandon',
@@ -54,6 +55,14 @@ export const registerRejeterAbandonUseCase = () => {
         identifiantProjet,
         réponseSignée,
         identifiantUtilisateur,
+      },
+    });
+
+    await mediator.send<AcheverTâcheCommand>({
+      type: 'Tâche.Command.AcheverTâche',
+      data: {
+        identifiantProjet,
+        typeTâche: TypeTâche.abandonConfirmer,
       },
     });
   };

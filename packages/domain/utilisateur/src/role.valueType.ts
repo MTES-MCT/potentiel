@@ -207,6 +207,10 @@ const référencielPermissions = {
       consulterNombre: 'Tâche.Query.ConsulterNombreTâches',
       lister: 'Tâche.Query.ListerTâches',
     },
+    command: {
+      ajouter: 'Tâche.Command.AjouterTâche',
+      achever: 'Tâche.Command.AcheverTâche',
+    },
   },
 } as const;
 
@@ -409,6 +413,8 @@ const policies = {
       référencielPermissions.tâche.query.consulterNombre,
       référencielPermissions.tâche.query.lister,
     ],
+    ajouter: [référencielPermissions.tâche.command.ajouter],
+    achever: [référencielPermissions.tâche.command.achever],
   },
 };
 
@@ -436,6 +442,10 @@ const permissionAdmin = [
   ...policies.réseau.raccordement['date-mise-en-service'].transmettre,
   ...policies.réseau.raccordement['date-mise-en-service'].importer,
   ...policies.réseau.raccordement['référence-dossier'].modifier,
+
+  // Tâche
+  ...policies.tâche.ajouter,
+  ...policies.tâche.achever,
 ];
 
 const permissionCRE = [
@@ -503,6 +513,8 @@ const permissionPorteurProjet = [
 
   // Tâche
   ...policies.tâche.consulter,
+  ...policies.tâche.ajouter,
+  ...policies.tâche.achever,
 ];
 
 const permissionAcheteurObligé = [...policies.réseau.raccordement.consulter];
