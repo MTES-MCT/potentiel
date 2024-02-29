@@ -4,7 +4,8 @@
   "description": "Suivi des Projets d'Energies Renouvelables",
   "main": "index.js",
   "scripts": {
-    "type:check": "tsc --noEmit"
+    "type:check": "tsc --noEmit",
+    "build:css": "tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css"
   },
   "dependencies": {
     "@hqoss/monads": "^0.5.0",
@@ -43,6 +44,7 @@
     "@types/morgan": "^1.9.5",
     "@types/multer": "^1.4.7",
     "jest": "^29.6.4",
+    "tailwindcss": "^3.3.3",
     "wait-for-expect": "^3.0.2"
   }
 }
