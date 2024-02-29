@@ -6,6 +6,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import { CallOut } from '@codegouvfr/react-dsfr/CallOut';
 
 import { Routes } from '@potentiel-libraries/routes';
 
@@ -14,24 +15,53 @@ import { Form } from '@/components/atoms/form/Form';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { formatDateForInput } from '@/utils/formatDateForInput';
+import { PageTemplate } from '@/components/templates/Page.template';
 
-import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
-import { TypeGarantiesFinancièresSelect } from '../../TypeGarantiesFinancièresSelect';
+import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
+import {
+  TypeGarantiesFinancièresSelect,
+  TypeGarantiesFinancièresSelectProps,
+} from '../TypeGarantiesFinancièresSelect';
 
 import { soumettreGarantiesFinancièresAction } from './soumettreGarantiesFinancières.action';
 
 export type SoumettreGarantiesFinancièresProps = {
   projet: ProjetBannerProps;
+  garantiesFinancièresÀTraiterExistante?: true;
+  typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
 };
 
 export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièresProps> = ({
   projet,
+  garantiesFinancièresÀTraiterExistante,
+  typesGarantiesFinancières,
 }) => {
   const router = useRouter();
 
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   const { identifiantProjet } = projet;
+
+  if (garantiesFinancièresÀTraiterExistante) {
+    return (
+      <PageTemplate banner={<ProjetBanner {...projet} />}>
+        <CallOut
+          buttonProps={{
+            children: 'Voir',
+            linkProps: {
+              href: Routes.GarantiesFinancières.détail(identifiantProjet),
+            },
+          }}
+          iconId="ri-information-line"
+          title="Garanties financières en attente de validation"
+        >
+          Vous avez déjà soumis des garanties financières en attente de validation pour ce projet.
+          Si vous souhaitez soumettre de nouvelles garanties financières, vous devez d'abord
+          supprimer celles en attente.
+        </CallOut>
+      </PageTemplate>
+    );
+  }
 
   return (
     <ColumnPageTemplate
@@ -43,14 +73,17 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
             method="POST"
             encType="multipart/form-data"
             action={soumettreGarantiesFinancièresAction}
-            onSuccess={() => router.push(Routes.Projet.details(projet.identifiantProjet))}
+            onSuccess={() =>
+              router.push(Routes.GarantiesFinancières.détail(projet.identifiantProjet))
+            }
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
             <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
             <TypeGarantiesFinancièresSelect
-              id="typeGarantiesFinancieres"
-              name="typeGarantiesFinancieres"
+              id="type"
+              name="type"
+              typesGarantiesFinancières={typesGarantiesFinancières}
               validationErrors={validationErrors}
             />
 
@@ -71,12 +104,12 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
               label="Attestation de constitution"
               hint="Format accepté : pdf"
               nativeInputProps={{
-                name: 'attestationConstitution',
+                name: 'attestation',
                 required: true,
                 'aria-required': true,
                 accept: '.pdf',
               }}
-              state={validationErrors.includes('attestationConstitution') ? 'error' : 'default'}
+              state={validationErrors.includes('attestation') ? 'error' : 'default'}
               stateRelatedMessage="Attestation de consitution des garantières financières obligatoire"
             />
 

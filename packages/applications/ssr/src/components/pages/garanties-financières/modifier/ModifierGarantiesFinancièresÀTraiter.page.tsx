@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Input from '@codegouvfr/react-dsfr/Input';
@@ -7,6 +9,7 @@ import Link from 'next/link';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-libraries/routes';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
@@ -14,12 +17,12 @@ import { Form } from '@/components/atoms/form/Form';
 import { formatDateForInput } from '@/utils/formatDateForInput';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
-import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
+import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
 import {
-  GarantiesFinancières,
   TypeGarantiesFinancièresSelect,
   TypeGarantiesFinancièresSelectProps,
-} from '../../TypeGarantiesFinancièresSelect';
+} from '../TypeGarantiesFinancièresSelect';
+import { StatutGarantiesFinancièresBadge } from '../StatutGarantiesFinancièresBadge';
 
 import { ValiderGarantiesFinancièresÀTraiter } from './valider/ValiderGarantiesFinancièresÀTraiter';
 import { RejeterGarantiesFinancièresÀTraiter } from './rejeter/RejeterGarantiesFinancièresÀTraiter';
@@ -30,21 +33,36 @@ type AvailableActions = Array<'valider' | 'rejeter' | 'supprimer'>;
 
 export type ModifierGarantiesFinancièresÀTraiterProps = {
   projet: ProjetBannerProps;
-  garantiesFinancieres: GarantiesFinancières;
+  typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
+  statut: GarantiesFinancières.StatutGarantiesFinancières.RawType;
+  garantiesFinancières: {
+    type: TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel'];
+    dateÉchéance?: string;
+    dateConsitution: string;
+    attestation: string;
+  };
   showWarning?: true;
   actions: AvailableActions;
 };
 
 export const ModifierGarantiesFinancièresÀTraiter: FC<
   ModifierGarantiesFinancièresÀTraiterProps
-> = ({ projet, garantiesFinancieres, showWarning, actions }) => {
+> = ({ projet, typesGarantiesFinancières, statut, garantiesFinancières, showWarning, actions }) => {
   const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner {...projet} />}
-      heading={<TitrePageGarantiesFinancières title="Garanties financières à traiter" />}
+      heading={
+        <TitrePageGarantiesFinancières
+          title={
+            <>
+              Garanties financières <StatutGarantiesFinancièresBadge statut={statut} />
+            </>
+          }
+        />
+      }
       leftColumn={{
         children: (
           <>
@@ -75,12 +93,13 @@ export const ModifierGarantiesFinancièresÀTraiter: FC<
                 id="typeGarantiesFinancieres"
                 name="typeGarantiesFinancieres"
                 validationErrors={validationErrors}
+                typesGarantiesFinancières={typesGarantiesFinancières}
                 typeGarantiesFinancièresActuel={
-                  garantiesFinancieres.type as TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel']
+                  garantiesFinancières.type as TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel']
                 }
                 dateÉchéanceActuelle={
-                  garantiesFinancieres.type === 'avec date d’échéance'
-                    ? garantiesFinancieres.dateÉchéance
+                  garantiesFinancières.type === 'avec-date-échéance'
+                    ? garantiesFinancières.dateÉchéance
                     : undefined
                 }
               />
@@ -91,8 +110,8 @@ export const ModifierGarantiesFinancièresÀTraiter: FC<
                   type: 'date',
                   name: 'dateConstitution',
                   max: formatDateForInput(new Date().toISOString()),
-                  defaultValue: garantiesFinancieres.dateConsitution
-                    ? formatDateForInput(garantiesFinancieres.dateConsitution)
+                  defaultValue: garantiesFinancières.dateConsitution
+                    ? formatDateForInput(garantiesFinancières.dateConsitution)
                     : undefined,
                   required: true,
                   'aria-required': true,
@@ -105,16 +124,14 @@ export const ModifierGarantiesFinancièresÀTraiter: FC<
                 label={
                   <>
                     Attestation de constitution{' '}
-                    {garantiesFinancieres.attestationConstitution && (
+                    {garantiesFinancières.attestation && (
                       <>
                         <br />
                         <small>
                           Pour que la modification puisse fonctionner, merci de joindre un nouveau
                           fichier ou{' '}
                           <Link
-                            href={Routes.Document.télécharger(
-                              garantiesFinancieres.attestationConstitution,
-                            )}
+                            href={Routes.Document.télécharger(garantiesFinancières.attestation)}
                             target="_blank"
                           >
                             celui préalablement transmis
@@ -145,7 +162,7 @@ export const ModifierGarantiesFinancièresÀTraiter: FC<
                 >
                   Retour au détail du projet
                 </Button>
-                <SubmitButton>Soumettre</SubmitButton>
+                <SubmitButton>Modifier</SubmitButton>
               </div>
             </Form>
           </>

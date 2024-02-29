@@ -32,28 +32,48 @@ const projet: ModifierGarantiesFinancièresÀTraiterProps['projet'] = {
   statut: 'classé',
 };
 
+const typesGarantiesFinancières: ModifierGarantiesFinancièresÀTraiterProps['typesGarantiesFinancières'] =
+  [
+    {
+      label: 'Consignation',
+      value: 'consignation',
+    },
+    {
+      label: "Avec date d'échéance",
+      value: 'avec-date-échéance',
+    },
+    {
+      label: 'Six mois après achèvement',
+      value: 'six-mois-après-achèvement',
+    },
+  ];
+
 export const EnTantQueDreal: Story = {
   args: {
     projet,
-    garantiesFinancieres: {
+    statut: 'en-attente',
+    garantiesFinancières: {
       type: 'consignation',
       dateConsitution: '2021-10-23',
-      attestationConstitution: 'path/to/attestationConstitution',
+      attestation: 'path/to/attestationConstitution',
     },
     actions: ['valider', 'rejeter'],
+    typesGarantiesFinancières,
   },
 };
 
 export const EnTantQuePorteur: Story = {
   args: {
     projet,
-    garantiesFinancieres: {
-      type: 'avec date d’échéance',
+    statut: 'à-traiter',
+    garantiesFinancières: {
+      type: 'avec-date-échéance',
       dateÉchéance: '2021-10-23',
       dateConsitution: '2021-10-23',
-      attestationConstitution: 'path/to/attestationConstitution',
+      attestation: 'path/to/attestationConstitution',
     },
     actions: ['supprimer'],
     showWarning: true,
+    typesGarantiesFinancières,
   },
 };
