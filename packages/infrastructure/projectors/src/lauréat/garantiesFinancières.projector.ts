@@ -65,13 +65,6 @@ export const register = () => {
         };
       };
 
-      const statutGarantiesFinancièresEnAttente: GarantiesFinancières.StatutGarantiesFinancières.RawType =
-        'en-attente';
-      const statutGarantiesFinancièresÀTraiter: GarantiesFinancières.StatutGarantiesFinancières.RawType =
-        'à-traiter';
-      const statutGarantiesFinancièresValidées: GarantiesFinancières.StatutGarantiesFinancières.RawType =
-        'validé';
-
       switch (type) {
         case 'GarantiesFinancièresDemandées-V1':
           const projet = await getProjectData(identifiantProjet);
@@ -81,7 +74,7 @@ export const register = () => {
               ...garantiesFinancièresToUpsert,
               ...projet,
               misÀJourLe: payload.demandéLe,
-              statut: statutGarantiesFinancièresEnAttente,
+              statut: GarantiesFinancières.StatutGarantiesFinancières.enAttente.statut,
               enAttente: {
                 dateLimiteSoumission: payload.dateLimiteSoumission,
                 demandéLe: payload.demandéLe,
@@ -98,7 +91,7 @@ export const register = () => {
               ...garantiesFinancièresToUpsert,
               ...projetPourGarantiesFinancièresSoumises,
               misÀJourLe: payload.soumisLe,
-              statut: statutGarantiesFinancièresÀTraiter,
+              statut: GarantiesFinancières.StatutGarantiesFinancières.àTraiter.statut,
               àTraiter: {
                 type: payload.type,
                 dateÉchéance: payload.dateÉchéance,
@@ -117,8 +110,8 @@ export const register = () => {
               ...garantiesFinancièresToUpsert,
               misÀJourLe: payload.suppriméLe,
               statut: garantiesFinancièresToUpsert.enAttente
-                ? statutGarantiesFinancièresEnAttente
-                : statutGarantiesFinancièresValidées,
+                ? GarantiesFinancières.StatutGarantiesFinancières.enAttente.statut
+                : GarantiesFinancières.StatutGarantiesFinancières.validé.statut,
               àTraiter: undefined,
             },
           );
@@ -130,7 +123,7 @@ export const register = () => {
             {
               ...garantiesFinancièresToUpsert,
               misÀJourLe: payload.validéLe,
-              statut: statutGarantiesFinancièresValidées,
+              statut: GarantiesFinancières.StatutGarantiesFinancières.validé.statut,
               validées: {
                 type: garantiesFinancièresToUpsert.àTraiter!.type,
                 ...(garantiesFinancièresToUpsert.àTraiter!.dateÉchéance && {
