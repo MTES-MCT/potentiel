@@ -3,13 +3,15 @@
 import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Download from '@codegouvfr/react-dsfr/Download';
+import Divider from '@mui/material/Divider';
 
 import { Routes } from '@potentiel-libraries/routes';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { formatDateForInput } from '@/utils/formatDateForInput';
+import { Heading2 } from '@/components/atoms/headings';
+import { PageTemplate } from '@/components/templates/Page.template';
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
 import { StatutGarantiesFinancièresBadge } from '../StatutGarantiesFinancièresBadge';
@@ -22,6 +24,7 @@ type GarantiesFinancières = {
   dateConstitution: string;
   validéLe: string;
   attestation: string;
+  actions: AvailableActions;
 };
 
 export type DétailsGarantiesFinancièresProps = {
@@ -30,130 +33,154 @@ export type DétailsGarantiesFinancièresProps = {
   garantiesFinancières: {
     validées?: GarantiesFinancières;
     àTraiter?: GarantiesFinancières;
-    enAttente?: { dateLimiteSoumission: string; demandéLe: string };
+    enAttente?: {
+      dateLimiteSoumission: string;
+      demandéLe: string;
+      actions: AvailableActions;
+    };
   };
-  actions: AvailableActions;
 };
 
 export const DétailsGarantiesFinancières: FC<DétailsGarantiesFinancièresProps> = ({
   projet,
   statut,
   garantiesFinancières,
-  actions,
 }) => (
-  <ColumnPageTemplate
-    banner={<ProjetBanner {...projet} />}
-    heading={
-      <TitrePageGarantiesFinancières
-        title={
-          <>
-            Garanties financières <StatutGarantiesFinancièresBadge statut={statut} />
-          </>
-        }
-      />
-    }
-    leftColumn={{
-      children: (
+  <PageTemplate banner={<ProjetBanner {...projet} />}>
+    <TitrePageGarantiesFinancières
+      title={
         <>
-          {garantiesFinancières.validées && (
-            <GarantiesFinancièresInfos garantiesFinancières={garantiesFinancières.validées} />
-          )}
-          {garantiesFinancières.àTraiter && (
-            <GarantiesFinancièresInfos garantiesFinancières={garantiesFinancières.àTraiter} />
-          )}
-          {garantiesFinancières.enAttente && (
-            <ul className="flex flex-col gap-2">
-              <li>
-                <p>
-                  Date limite de soumission :{' '}
-                  <span className="font-bold">
-                    {formatDateForInput(garantiesFinancières.enAttente.dateLimiteSoumission)}
-                  </span>
-                </p>
-              </li>
-              <li>
-                <p>
-                  Demandé le :{' '}
-                  <span className="font-bold">
-                    {formatDateForInput(garantiesFinancières.enAttente.demandéLe)}
-                  </span>
-                </p>
-              </li>
-            </ul>
-          )}
+          Garanties financières <StatutGarantiesFinancièresBadge statut={statut} />
         </>
-      ),
-    }}
-    rightColumn={{
-      className: 'flex flex-col w-full md:w-1/3 gap-4',
-      children: mapToActionComponents({
-        actions,
-        identifiantProjet: projet.identifiantProjet,
-      }),
-    }}
-  />
+      }
+    />
+
+    <div className="flex flex-col mt-10">
+      {garantiesFinancières.validées && (
+        <>
+          <Heading2>Garanties financières validées</Heading2>
+          <GarantiesFinancièresInfos
+            identifiantProjet={projet.identifiantProjet}
+            garantiesFinancières={garantiesFinancières.validées}
+          />
+          {garantiesFinancières.àTraiter && <Divider component="span" className="!mb-8" />}
+        </>
+      )}
+
+      {garantiesFinancières.àTraiter && (
+        <>
+          <Heading2>Garanties financières à traiter</Heading2>
+          <GarantiesFinancièresInfos
+            identifiantProjet={projet.identifiantProjet}
+            garantiesFinancières={garantiesFinancières.àTraiter}
+          />
+          {garantiesFinancières.enAttente && <Divider component="span" className="!mb-8" />}
+        </>
+      )}
+
+      {garantiesFinancières.enAttente && (
+        <>
+          <Heading2>Garanties financières en attente</Heading2>
+          <div className="flex flex-col md:flex-row mt-4">
+            <div className={`flex-1`}>
+              <ul className="flex flex-col gap-2">
+                <li>
+                  <p>
+                    Date de la demande :{' '}
+                    <span className="font-bold">{garantiesFinancières.enAttente.demandéLe}</span>
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    Date limite de soumission :{' '}
+                    <span className="font-bold">
+                      {garantiesFinancières.enAttente.dateLimiteSoumission}
+                    </span>
+                  </p>
+                </li>
+              </ul>
+            </div>
+            <div className={`flex md:max-w-lg`}>
+              <Button
+                iconId="fr-icon-add-circle-line"
+                priority="tertiary no outline"
+                linkProps={{
+                  /**
+                   * @todo : add route to register garanties financières
+                   */
+                  href: '#',
+                }}
+              >
+                Enregistrer les garanties financières
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+
+    <Button
+      className="mt-5"
+      priority="secondary"
+      linkProps={{
+        href: Routes.Projet.details(projet.identifiantProjet),
+      }}
+      iconId="fr-icon-arrow-left-line"
+    >
+      Retour au détail du projet
+    </Button>
+  </PageTemplate>
 );
 
 type GarantiesFinancièresInfosProps = {
+  identifiantProjet: string;
   garantiesFinancières: GarantiesFinancières;
 };
+
 const GarantiesFinancièresInfos: FC<GarantiesFinancièresInfosProps> = ({
+  identifiantProjet,
   garantiesFinancières,
 }) => (
-  <ul className="flex flex-col gap-2">
-    <li>
-      <p>
-        Type de garanties financières :{' '}
-        <span className="font-bold">{garantiesFinancières.type}</span>
-      </p>
-    </li>
-    {garantiesFinancières.dateÉchéance && (
-      <li>
-        <p>
-          Date d'échénace :{' '}
-          <span className="font-bold">{formatDateForInput(garantiesFinancières.dateÉchéance)}</span>
-        </p>
-      </li>
-    )}
-    <li>
-      <p>
-        Date de consitution :{' '}
-        <span className="font-bold">
-          {formatDateForInput(garantiesFinancières.dateConstitution)}
-        </span>
-      </p>
-    </li>
-    <li>
-      <Download
-        label="Attestation de constitution"
-        details=""
-        linkProps={{
-          href: Routes.Document.télécharger(garantiesFinancières.attestation),
-        }}
-      />
-    </li>
-  </ul>
-);
-
-type MapToActionsComponentsProps = {
-  actions: AvailableActions;
-  identifiantProjet: string;
-};
-const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) => {
-  return actions.length ? (
-    <>
-      {actions.includes('ajouter') && (
-        <Button
-          iconId="fr-icon-add-circle-line"
-          priority="tertiary no outline"
-          linkProps={{
-            href: Routes.GarantiesFinancières.soumettre(identifiantProjet),
-          }}
-        >
-          Ajouter des garanties financières
-        </Button>
-      )}
-      {actions.includes('modifier') && (
+  <div className="flex flex-col md:flex-row mt-4">
+    <div className={`flex-1`}>
+      <ul className="flex flex-col gap-2">
+        <li>
+          <p>
+            Type de garanties financières :{' '}
+            <span className="font-bold">{garantiesFinancières.type}</span>
+          </p>
+        </li>
+        {garantiesFinancières.dateÉchéance && (
+          <li>
+            <p>
+              Date d'échénace :{' '}
+              <span className="font-bold">
+                {formatDateForInput(garantiesFinancières.dateÉchéance)}
+              </span>
+            </p>
+          </li>
+        )}
+        <li>
+          <p>
+            Date de consitution :{' '}
+            <span className="font-bold">
+              {formatDateForInput(garantiesFinancières.dateConstitution)}
+            </span>
+          </p>
+        </li>
+        <li>
+          <Download
+            label="Attestation de constitution"
+            details=""
+            linkProps={{
+              href: Routes.Document.télécharger(garantiesFinancières.attestation),
+            }}
+          />
+        </li>
+      </ul>
+    </div>
+    <div className={`flex flex-col md:max-w-lg`}>
+      {garantiesFinancières.actions.includes('modifier') && (
         <Button
           iconId="fr-icon-pencil-line"
           priority="tertiary no outline"
@@ -164,7 +191,19 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
           Modifier les garanties financières
         </Button>
       )}
-      {actions.includes('enregistrer') && (
+      {garantiesFinancières.actions.includes('ajouter') && (
+        <Button
+          iconId="fr-icon-add-circle-line"
+          priority="tertiary no outline"
+          linkProps={{
+            href: Routes.GarantiesFinancières.soumettre(identifiantProjet),
+          }}
+        >
+          Ajouter des garanties financières
+        </Button>
+      )}
+
+      {garantiesFinancières.actions.includes('enregistrer') && (
         <Button
           iconId="fr-icon-add-circle-line"
           priority="tertiary no outline"
@@ -178,6 +217,6 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
           Enregistrer les garanties financières
         </Button>
       )}
-    </>
-  ) : null;
-};
+    </div>
+  </div>
+);

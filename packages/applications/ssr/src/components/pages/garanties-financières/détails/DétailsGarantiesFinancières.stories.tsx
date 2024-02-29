@@ -42,9 +42,9 @@ export const Validées: Story = {
         dateConstitution: '2021-10-23',
         validéLe: '2021-10-23',
         attestation: 'path/to/attestationConstitution',
+        actions: ['modifier', 'ajouter'],
       },
     },
-    actions: ['ajouter'],
   },
 };
 
@@ -58,9 +58,9 @@ export const ATraiter: Story = {
         dateConstitution: '2021-10-23',
         validéLe: '2021-10-23',
         attestation: 'path/to/attestationConstitution',
+        actions: ['modifier'],
       },
     },
-    actions: ['modifier'],
   },
 };
 
@@ -72,8 +72,31 @@ export const EnAttente: Story = {
       enAttente: {
         dateLimiteSoumission: '2021-10-23',
         demandéLe: '2021-10-23',
+        actions: ['enregistrer'],
       },
     },
-    actions: ['enregistrer'],
+  },
+};
+
+export const ValidéesAvecATraiter: Story = {
+  args: {
+    projet,
+    statut: 'validé',
+    garantiesFinancières: {
+      validées: {
+        type: 'consignation',
+        dateConstitution: '2021-10-23',
+        validéLe: '2021-10-23',
+        attestation: 'path/to/attestationConstitution',
+        actions: ['modifier'],
+      },
+      àTraiter: {
+        type: 'consignation',
+        dateConstitution: '2021-10-23',
+        validéLe: '2021-10-23',
+        attestation: 'path/to/attestationConstitution',
+        actions: ['modifier'],
+      },
+    },
   },
 };
