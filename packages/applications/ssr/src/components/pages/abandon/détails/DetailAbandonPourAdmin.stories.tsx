@@ -4,7 +4,7 @@ import { DetailAbandonPage, DetailAbandonPageProps } from './DetailAbandon.page'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Pages/Abandon/Détail',
+  title: "Pages/Abandon/Détail/En tant qu'administrateur",
   component: DetailAbandonPage,
   parameters: {},
   tags: ['autodocs'],
@@ -30,7 +30,7 @@ const projet: DetailAbandonPageProps['projet'] = {
   statut: 'classé',
 };
 
-export const Demandé: Story = {
+export const DemanderConfirmation: Story = {
   args: {
     projet,
     statut: 'demandé',
@@ -42,39 +42,19 @@ export const Demandé: Story = {
         preuveRecandidatureStatut: 'non-applicable',
         raison: "Justification de l'abandon",
       },
-    },
-    actions: [],
-  },
-};
-
-export const Confirmé: Story = {
-  args: {
-    projet,
-    statut: 'confirmé',
-    abandon: {
-      demande: {
-        demandéPar: 'Porteur#1',
-        demandéLe: '2022-01-01',
-        recandidature: false,
-        preuveRecandidatureStatut: 'non-applicable',
-        raison: "Justification de l'abandon",
-      },
       confirmation: {
         demandéPar: 'Admin#1',
         demandéLe: '2022-02-01',
-        confirméLe: '2022-03-01',
-        confirméPar: 'Porteur#1',
         réponseSignée: 'Réponse signée',
       },
     },
-    actions: [],
+    actions: ['demander-confirmation'],
   },
 };
 
-export const Rejeté: Story = {
+export const InstruireDemande: Story = {
   args: {
     projet,
-    statut: 'rejeté',
     abandon: {
       demande: {
         demandéPar: 'Porteur#1',
@@ -83,56 +63,25 @@ export const Rejeté: Story = {
         preuveRecandidatureStatut: 'non-applicable',
         raison: "Justification de l'abandon",
       },
-      rejet: {
-        rejetéPar: 'Gestionnaire#1',
-        rejetéLe: '2022-04-01',
-        réponseSignée: 'Réponse signée',
-      },
     },
-    actions: [],
+    actions: ['accorder-sans-recandidature', 'rejeter'],
+    statut: 'demandé',
   },
 };
 
-export const Accordé: Story = {
+export const InstruireDemandeAvecRecandidature: Story = {
   args: {
     projet,
-    statut: 'accordé',
     abandon: {
       demande: {
         demandéPar: 'Porteur#1',
         demandéLe: '2022-01-01',
-        recandidature: false,
+        recandidature: true,
         preuveRecandidatureStatut: 'non-applicable',
         raison: "Justification de l'abandon",
       },
-      accord: {
-        accordéPar: 'Gestionnaire#1',
-        accordéLe: '2022-04-01',
-        réponseSignée: 'Réponse signée',
-      },
     },
-    actions: [],
-  },
-};
-
-export const AccordéAvecRecandidature: Story = {
-  args: {
-    projet,
-    statut: 'accordé',
-    abandon: {
-      demande: {
-        demandéPar: 'Porteur#1',
-        demandéLe: '2022-01-01',
-        recandidature: false,
-        preuveRecandidatureStatut: 'en-attente',
-        raison: "Justification de l'abandon",
-      },
-      accord: {
-        accordéPar: 'Gestionnaire#1',
-        accordéLe: '2022-04-01',
-        réponseSignée: 'Réponse signée',
-      },
-    },
-    actions: [],
+    actions: ['accorder-avec-recandidature', 'rejeter'],
+    statut: 'demandé',
   },
 };
