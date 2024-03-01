@@ -3,17 +3,17 @@ import { FC } from 'react';
 
 import { Abandon } from '@potentiel-domain/laureat';
 
-export type StatutBadgeProps = {
+export type StatutAbandonBadgeProps = {
   statut: Abandon.StatutAbandon.RawType;
   small?: true;
 };
-export const StatutBadge: FC<StatutBadgeProps> = ({ statut, small }) => (
+export const StatutAbandonBadge: FC<StatutAbandonBadgeProps> = ({ statut, small }) => (
   <Badge noIcon severity={getSeverity(statut)} small={small}>
     {statut}
   </Badge>
 );
 
-const getSeverity = (statut: StatutBadgeProps['statut']) => {
+const getSeverity = (statut: StatutAbandonBadgeProps['statut']) => {
   switch (statut) {
     case 'demandé':
     case 'confirmé':

@@ -4,7 +4,7 @@ import { FC } from 'react';
 import { Abandon } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-libraries/routes';
 
-import { StatutBadge } from '../../../molecules/StatutBadge';
+import { StatutAbandonBadge } from '../StatutAbandonBadge';
 import { StatutPreuveRecandidatureBadge } from '../détails/PreuveRecandidatureStatutBadge';
 
 export type AbandonListItemProps = {
@@ -50,7 +50,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
           )}
         </div>
         <div className="flex flex-col md:flex-row gap-2 mt-3">
-          <StatutBadge statut={statut} small />
+          <StatutAbandonBadge statut={statut} small />
           {recandidature && (
             <>
               <Badge noIcon small severity="info">
