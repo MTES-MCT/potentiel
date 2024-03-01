@@ -126,6 +126,7 @@ const référencielPermissions = {
         supprimerGarantiesFinancièresÀTraiter:
           'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
         valider: 'Lauréat.GarantiesFinancières.UseCase.ValiderGarantiesFinancières',
+        importerType: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
       },
       command: {
         demander: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
@@ -133,6 +134,7 @@ const référencielPermissions = {
         supprimerGarantiesFinancièresÀTraiter:
           'Lauréat.GarantiesFinancières.Command.SupprimerGarantiesFinancièresÀTraiter',
         valider: 'Lauréat.GarantiesFinancières.Command.ValiderGarantiesFinancières',
+        importerType: 'Lauréat.GarantiesFinancières.Command.ImporterTypeGarantiesFinancières',
       },
     },
   },
@@ -461,6 +463,10 @@ const policies = {
         .supprimerGarantiesFinancièresÀTraiter,
       référencielPermissions.lauréat.garantiesFinancières.query.consulter,
     ],
+    importer: [
+      référencielPermissions.lauréat.garantiesFinancières.usecase.importerType,
+      référencielPermissions.lauréat.garantiesFinancières.command.importerType,
+    ],
   },
 };
 
@@ -498,6 +504,7 @@ const permissionAdmin = [
   ...policies.garantiesFinancières.lister,
   ...policies.garantiesFinancières.demander,
   ...policies.garantiesFinancières.valider,
+  ...policies.garantiesFinancières.importer,
 ];
 
 const permissionCRE = [
@@ -559,6 +566,7 @@ const permissionDgecValidateur = [
   ...policies.garantiesFinancières.lister,
   ...policies.garantiesFinancières.demander,
   ...policies.garantiesFinancières.valider,
+  ...policies.garantiesFinancières.importer,
 ];
 
 const permissionPorteurProjet = [
