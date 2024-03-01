@@ -28,13 +28,14 @@ export const Timeline: FC<TimelineProps> = ({ items }) => (
   </MuiTimeline>
 );
 
-type TimelineItemProps = {
+export type TimelineItemProps = {
   status?: 'error' | 'success' | 'warning' | 'info';
-  content: ReactNode;
+  title: ReactNode;
+  content?: ReactNode;
   date: string;
 };
 
-const TimelineItem: FC<TimelineItemProps> = ({ status, date, content }) => (
+const TimelineItem: FC<TimelineItemProps> = ({ status, date, title, content }) => (
   <MuiTimelineItem>
     <TimelineOppositeContent>{date}</TimelineOppositeContent>
     <TimelineSeparator>
@@ -53,6 +54,11 @@ const TimelineItem: FC<TimelineItemProps> = ({ status, date, content }) => (
       />
       <TimelineConnector />
     </TimelineSeparator>
-    <TimelineContent>{content}</TimelineContent>
+    <TimelineContent>
+      <>
+        {title}
+        {content ?? null}
+      </>
+    </TimelineContent>
   </MuiTimelineItem>
 );

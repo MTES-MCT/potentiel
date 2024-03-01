@@ -57,7 +57,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
     items.push({
       status: 'warning',
       date: 'En attente',
-      content: "Le porteur n'a pas encore transmis de projet comme preuve de recandidature.",
+      title: "Le porteur n'a pas encore transmis de projet comme preuve de recandidature.",
     });
   }
 
@@ -65,7 +65,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
     items.push({
       status: 'success',
       date: displayDate(new Date(preuveRecandidatureTransmiseLe)),
-      content: (
+      title: (
         <div>
           Le{' '}
           <Link
@@ -84,7 +84,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
     items.push({
       status: 'success',
       date: displayDate(new Date(accord.accordéLe)),
-      content: (
+      title: (
         <>
           <div>Abandon accordé par {<span className="font-bold">{accord.accordéPar}</span>}</div>
           {accord.réponseSignée && (
@@ -107,7 +107,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
     items.push({
       status: 'error',
       date: displayDate(new Date(rejet.rejetéLe)),
-      content: (
+      title: (
         <>
           <div>Abandon rejeté par {<span className="font-bold">{rejet.rejetéPar}</span>}</div>
           {rejet.réponseSignée && (
@@ -129,7 +129,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
   if (confirmation?.confirméLe) {
     items.push({
       date: displayDate(new Date(confirmation.confirméLe)),
-      content: (
+      title: (
         <div>
           Demande confirmée par {<span className="font-bold">{confirmation.confirméPar}</span>}
         </div>
@@ -140,7 +140,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
   if (confirmation) {
     items.push({
       date: displayDate(new Date(confirmation.demandéLe)),
-      content: (
+      title: (
         <>
           <div>
             Confirmation demandée par {<span className="font-bold">{confirmation.demandéPar}</span>}
@@ -163,7 +163,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
 
   items.push({
     date: displayDate(new Date(demandéLe)),
-    content: (
+    title: (
       <>
         <div>Demande déposée par {<span className="font-bold">{demandéPar}</span>}</div>
         {recandidature && (
