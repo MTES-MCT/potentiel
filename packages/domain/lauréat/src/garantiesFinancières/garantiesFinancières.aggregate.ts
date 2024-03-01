@@ -10,7 +10,7 @@ import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '.';
 import { AucunesGarantiesFinancières } from './aucunesGarantiesFinancières.error';
 import {
   GarantiesFinancièresDemandéesEvent,
-  applyDemanderGarantiesFinancières,
+  applyGarantiesFinancièresDemandées,
   demanderGarantiesFinancières,
 } from './demander/demanderGarantiesFinancières.behavior';
 import {
@@ -28,21 +28,28 @@ import {
   applyModifierGarantiesFinancièresÀTraiter,
   modifierGarantiesFinancièresÀTraiter,
 } from './modifierGarantiesFinancièresÀTraiter/modifierGarantiesFinancièresÀTraiter.behavior';
+import {
+  TypeGarantiesFinancièresImportéEvent,
+  applyTypeGarantiesFinancièresImporté,
+  importerType,
+} from './importer/importerTypeGarantiesFinancières.behavior';
 
 export type GarantiesFinancièresEvent =
   | GarantiesFinancièresSoumisesEvent
   | GarantiesFinancièresDemandéesEvent
   | GarantiesFinancièresÀTraiterSuppriméesEvent
   | GarantiesFinancièresValidéesEvent
-  | GarantiesFinancièresÀTraiterModifiéesEvent;
+  | GarantiesFinancièresÀTraiterModifiéesEvent
+  | TypeGarantiesFinancièresImportéEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   statut?: StatutGarantiesFinancières.ValueType;
   validées?: {
     type: TypeGarantiesFinancières.ValueType | 'type-inconnu';
     dateÉchéance?: DateTime.ValueType;
-    dateConstitution: DateTime.ValueType;
-    validéLe: DateTime.ValueType;
+    dateConstitution?: DateTime.ValueType;
+    validéLe?: DateTime.ValueType;
+    importéLe?: DateTime.ValueType;
   };
   àTraiter?: {
     type: TypeGarantiesFinancières.ValueType | 'type-inconnu';
@@ -56,6 +63,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly supprimerGarantiesFinancièresÀTraiter: typeof supprimerGarantiesFinancièresÀTraiter;
   readonly valider: typeof valider;
   readonly modifierGarantiesFinancièresÀTraiter: typeof modifierGarantiesFinancièresÀTraiter;
+  readonly importerType: typeof importerType;
 };
 
 export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
@@ -68,6 +76,7 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   supprimerGarantiesFinancièresÀTraiter,
   valider,
   modifierGarantiesFinancièresÀTraiter,
+  importerType,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
@@ -76,7 +85,7 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       applyGarantiesFinancièresSoumises.bind(this)(event);
       break;
     case 'GarantiesFinancièresDemandées-V1':
-      applyDemanderGarantiesFinancières.bind(this)(event);
+      applyGarantiesFinancièresDemandées.bind(this)(event);
       break;
     case 'GarantiesFinancièresÀTraiterSupprimées-V1':
       applyGarantiesFinancièresÀTraiterSupprimées.bind(this)();
@@ -86,6 +95,9 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       break;
     case 'GarantiesFinancièresÀTraiterModifiées-V1':
       applyModifierGarantiesFinancièresÀTraiter.bind(this)(event);
+      break;
+    case 'TypeGarantiesFinancièresImporté-V1':
+      applyTypeGarantiesFinancièresImporté.bind(this)(event);
       break;
   }
 }
