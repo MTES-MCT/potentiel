@@ -74,7 +74,8 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
           >
             projet faisant preuve de recandidature
           </Link>{' '}
-          a été transmis par {<span className="font-bold">{preuveRecandidatureTransmisePar}</span>}
+          a été transmis par{' '}
+          {<span className="font-semibold">{preuveRecandidatureTransmisePar}</span>}
         </div>
       ),
     });
@@ -85,8 +86,10 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
       status: 'success',
       date: displayDate(new Date(accord.accordéLe)),
       title: (
+        <div>Abandon accordé par {<span className="font-semibold">{accord.accordéPar}</span>}</div>
+      ),
+      content: (
         <>
-          <div>Abandon accordé par {<span className="font-bold">{accord.accordéPar}</span>}</div>
           {accord.réponseSignée && (
             <Download
               details=""
@@ -108,8 +111,10 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
       status: 'error',
       date: displayDate(new Date(rejet.rejetéLe)),
       title: (
+        <div>Abandon rejeté par {<span className="font-semibold">{rejet.rejetéPar}</span>}</div>
+      ),
+      content: (
         <>
-          <div>Abandon rejeté par {<span className="font-bold">{rejet.rejetéPar}</span>}</div>
           {rejet.réponseSignée && (
             <Download
               details=""
@@ -131,7 +136,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
       date: displayDate(new Date(confirmation.confirméLe)),
       title: (
         <div>
-          Demande confirmée par {<span className="font-bold">{confirmation.confirméPar}</span>}
+          Demande confirmée par {<span className="font-semibold">{confirmation.confirméPar}</span>}
         </div>
       ),
     });
@@ -141,10 +146,13 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
     items.push({
       date: displayDate(new Date(confirmation.demandéLe)),
       title: (
+        <div>
+          Confirmation demandée par{' '}
+          {<span className="font-semibold">{confirmation.demandéPar}</span>}
+        </div>
+      ),
+      content: (
         <>
-          <div>
-            Confirmation demandée par {<span className="font-bold">{confirmation.demandéPar}</span>}
-          </div>
           {confirmation.réponseSignée && (
             <Download
               details=""
@@ -163,12 +171,13 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
 
   items.push({
     date: displayDate(new Date(demandéLe)),
-    title: (
+    title: <div>Demande déposée par {<span className="font-semibold">{demandéPar}</span>}</div>,
+    content: (
       <>
-        <div>Demande déposée par {<span className="font-bold">{demandéPar}</span>}</div>
         {recandidature && (
           <div>
-            Le projet s'inscrit dans un <span className="font-bold">contexte de recandidature</span>
+            Le projet s'inscrit dans un{' '}
+            <span className="font-semibold">contexte de recandidature</span>
           </div>
         )}
         <div>
@@ -201,7 +210,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
           small
           description={
             <div>
-              <div className="font-bold mb-2">Demande d'abandon pour recandidature</div>
+              <div className="font-semibold mb-2">Demande d'abandon pour recandidature</div>
               Le porteur s'engage sur l'honneur à ne pas avoir débuté ses travaux au sens du cahier
               des charges de l'AO associé et a abandonné son statut de lauréat au profit d'une
               recandidature réalisée au plus tard le 31/12/2024. <br />

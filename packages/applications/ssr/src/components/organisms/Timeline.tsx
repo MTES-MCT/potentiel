@@ -37,7 +37,9 @@ export type TimelineItemProps = {
 
 const TimelineItem: FC<TimelineItemProps> = ({ status, date, title, content }) => (
   <MuiTimelineItem>
-    <TimelineOppositeContent>{date}</TimelineOppositeContent>
+    <TimelineOppositeContent>
+      <span className="font-bold">{date}</span>
+    </TimelineOppositeContent>
     <TimelineSeparator>
       <TimelineDot
         color={
@@ -57,7 +59,7 @@ const TimelineItem: FC<TimelineItemProps> = ({ status, date, title, content }) =
     <TimelineContent>
       <>
         {title}
-        {content ?? null}
+        {content ? <div className="mt-2">{content}</div> : null}
       </>
     </TimelineContent>
   </MuiTimelineItem>
