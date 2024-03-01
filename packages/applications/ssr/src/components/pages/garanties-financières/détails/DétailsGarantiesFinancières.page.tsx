@@ -22,7 +22,7 @@ type AvailableActions = Array<'ajouter' | 'modifier' | 'enregistrer'>;
 type GarantiesFinancières = {
   type: GarantiesFinancières.TypeGarantiesFinancières.RawType;
   dateÉchéance?: string;
-  dateConstitution: string;
+  dateConstitution?: string;
   validéLe?: string;
   soumisLe?: string;
   attestation?: string;
@@ -165,12 +165,14 @@ const GarantiesFinancièresInfos: FC<GarantiesFinancièresInfosProps> = ({
           </li>
         )}
         <li>
-          <p>
-            Date de consitution :{' '}
-            <span className="font-bold">
-              {formatDateForText(garantiesFinancières.dateConstitution)}
-            </span>
-          </p>
+          {garantiesFinancières.dateConstitution && (
+            <p>
+              Date de consitution :{' '}
+              <span className="font-bold">
+                {formatDateForText(garantiesFinancières.dateConstitution)}
+              </span>
+            </p>
+          )}
         </li>
         {garantiesFinancières.soumisLe && (
           <li>
