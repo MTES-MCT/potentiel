@@ -16,10 +16,11 @@ export type GarantiesFinancièresEntity = Entity<
     validées?: {
       type: string;
       dateÉchéance?: string;
-      attestation: { format: string };
-      dateConstitution: string;
-      soumisLe: string;
-      validéLe: string;
+      attestation?: { format: string };
+      dateConstitution?: string;
+      soumisLe?: string;
+      validéLe?: string;
+      importéLe?: string;
     };
     àTraiter?: {
       type: string;

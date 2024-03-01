@@ -11,6 +11,7 @@ import {
 } from './lister/listerGarantiesFinancières.query';
 import { SupprimerGarantiesFinancièresÀTraiterUseCase } from './supprimerGarantiesFinancièresÀTraiter/supprimerGarantiesFinancièresÀTraiter.usecase';
 import { ValiderGarantiesFinancièresUseCase } from './valider/validerGarantiesFinancières.usecase';
+import { ImporterTypeGarantiesFinancièresUseCase } from './importer/importerTypeGarantiesFinancières.usecase';
 
 // Query
 export type GarantiesFinancièresQuery =
@@ -27,13 +28,15 @@ export type GarantiesFinancièresUseCase =
   | SoumettreGarantiesFinancièresUseCase
   | DemanderGarantiesFinancièresUseCase
   | SupprimerGarantiesFinancièresÀTraiterUseCase
-  | ValiderGarantiesFinancièresUseCase;
+  | ValiderGarantiesFinancièresUseCase
+  | ImporterTypeGarantiesFinancièresUseCase;
 
 export {
   SoumettreGarantiesFinancièresUseCase,
   DemanderGarantiesFinancièresUseCase,
   SupprimerGarantiesFinancièresÀTraiterUseCase,
   ValiderGarantiesFinancièresUseCase,
+  ImporterTypeGarantiesFinancièresUseCase,
 };
 
 // Event
@@ -42,6 +45,7 @@ export { GarantiesFinancièresSoumisesEvent } from './soumettre/soumettreGaranti
 export { GarantiesFinancièresDemandéesEvent } from './demander/demanderGarantiesFinancières.behavior';
 export { GarantiesFinancièresÀTraiterSuppriméesEvent } from './supprimerGarantiesFinancièresÀTraiter/supprimerGarantiesFinancièresÀTraiter.behavior';
 export { GarantiesFinancièresValidéesEvent } from './valider/validerGarantiesFinancières.behavior';
+export { TypeGarantiesFinancièresImportéEvent } from './importer/importerTypeGarantiesFinancières.behavior';
 
 // Register
 export {
