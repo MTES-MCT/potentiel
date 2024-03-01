@@ -10,4 +10,8 @@ export const templateId = {
     rejeter: abandonChangementStatutTemplateId,
     demanderPreuveRecandidature: 5308275,
   },
+  garantiesFinancières: {
+    àTraiterPourDreal: 5740312,
+    àTraiterPourPorteur: 5740394,
+  },
 };
