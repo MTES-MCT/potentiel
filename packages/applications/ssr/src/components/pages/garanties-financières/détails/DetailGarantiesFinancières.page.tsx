@@ -1,25 +1,26 @@
 'use client';
 
 import { FC } from 'react';
-import { Accordion } from '@codegouvfr/react-dsfr/Accordion';
 import { CallOut } from '@codegouvfr/react-dsfr/CallOut';
 import Link from 'next/link';
 import { fr } from '@codegouvfr/react-dsfr';
 import Download from '@codegouvfr/react-dsfr/Download';
-import Timeline from '@mui/lab/Timeline';
-import TimelineConnector from '@mui/lab/TimelineConnector';
-import TimelineContent from '@mui/lab/TimelineContent';
-import TimelineDot from '@mui/lab/TimelineDot';
-import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
-import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import Button from '@codegouvfr/react-dsfr/Button';
 
-import { List } from '@/components/organisms/List';
-import { StatutBadge } from '@/components/molecules/StatutBadge';
+import { Routes } from '@potentiel-libraries/routes';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+
 import { Heading2 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { formatDateForText } from '@/utils/formatDateForText';
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
+import { StatutGarantiesFinancièresBadge } from '../StatutGarantiesFinancièresBadge';
+import { StatutDépôtGarantiesFinancièresBadge } from '../StatutDépôtGarantiesFinancièresBadge';
+
+export type DépôtStatut = 'en-cours' | 'validé' | 'rejeté';
 
 /*
 identifiantProjet: string;
@@ -59,173 +60,120 @@ identifiantProjet: string;
 
 export type DetailGarantiesFinancièresPageProps = {
   projet: ProjetBannerProps;
+  statut: GarantiesFinancières.StatutGarantiesFinancières.RawType;
+  actuelles?: {
+    type: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+    typeLabel: string;
+    dateÉchéance?: string;
+    dateConstitution: string;
+    attestation: string;
+  };
+  dateLimiteSoummission?: string;
+  dépôts: Array<{
+    type: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+    typeLabel: string;
+    dateÉchéance?: string;
+    statut: DépôtStatut;
+    dateConstitution: string;
+    déposéLe: string;
+    attestation: string;
+    validation?: { validéLe: string; validéPar: string };
+    rejet?: { rejetéLe: string; rejetéPar: string };
+  }>;
+  misÀJourLe: string;
+};
+
+const getTimelineItemStatus = (statut: DépôtStatut): TimelineItemProps['status'] => {
+  switch (statut) {
+    case 'en-cours':
+      return 'info';
+    case 'validé':
+      return 'success';
+    case 'rejeté':
+      return 'error';
+  }
 };
 
 export const DetailGarantiesFinancièresPage: FC<DetailGarantiesFinancièresPageProps> = ({
   projet,
-}) => {
-  return (
-    <PageTemplate banner={<ProjetBanner {...projet} />}>
-      <TitrePageGarantiesFinancières title="Garanties financières" />
+  statut,
+  actuelles,
+  dateLimiteSoummission,
+  dépôts,
+  misÀJourLe,
+}) => (
+  <PageTemplate banner={<ProjetBanner {...projet} />}>
+    <TitrePageGarantiesFinancières
+      title={
+        <>
+          Garanties financières <StatutGarantiesFinancièresBadge statut={statut} />
+        </>
+      }
+    />
 
+    {actuelles && (
       <CallOut title="Garanties financières actuelles">
         <ul className="my-5 gap-2">
-          <li>Type : Consignation</li>
-          <li>Date d'échéance : 31/01/2025</li>
-          <li>Date de constitution : 14/13/2023</li>
           <li>
-            Attestation :
-            <Download details="pdf" label="Télécharger l'attestation" linkProps={{ href: '#' }} />
+            Type : <span className="font-bold">{actuelles.typeLabel}</span>
+          </li>
+          {actuelles.dateÉchéance && (
+            <li>Date d'échéance : {formatDateForText(actuelles.dateÉchéance)}</li>
+          )}
+          <li>Date de constitution : {formatDateForText(actuelles.dateConstitution)}</li>
+          <li>
+            <Download
+              details="fichier au format pdf"
+              label="Télécharger l'attestation"
+              linkProps={{ href: '#' }}
+            />
           </li>
         </ul>
-        <Link href="#">
+        <Link href={Routes.GarantiesFinancières.modifierValidé(projet.identifiantProjet)}>
           <i className={`${fr.cx('ri-pencil-line', 'fr-icon--lg')} mr-1`} aria-hidden />
           Modifier
         </Link>
       </CallOut>
+    )}
 
-      <div>
+    {dépôts.length > 0 && (
+      <>
         <Heading2>Soumissions</Heading2>
-
         <Timeline
-          sx={{
-            [`& .${timelineItemClasses.root}:before`]: {
-              flex: 0,
-              padding: 0,
-            },
-          }}
-        >
-          <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>
-              <ListItem />
-            </TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent>
-              <ListItem />
-            </TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineSeparator>
-              <TimelineDot />
-            </TimelineSeparator>
-            <TimelineContent>
-              <ListItem />
-            </TimelineContent>
-          </TimelineItem>
-        </Timeline>
-
-        <List
-          ItemComponent={ListItem}
-          currentPage={0}
-          totalItems={3}
-          itemsPerPage={10}
-          items={[{ key: '1' }, { key: '2' }, { key: '3' }]}
-        ></List>
-
-        <ul className={`my-5 ${fr.cx('fr-accordions-group')}`}>
-          <li>
-            <Accordion defaultExpanded label="Garanties financières soumis le 24/02/2023">
-              <StatutBadge statut="à traiter" />
-              <ul className="my-5 gap-2">
-                <li>Type : Consignation</li>
-                <li>Date d'échéance : 31/01/2025</li>
-                <li>Date de constitution : 14/13/2023</li>
-                <li>
-                  Attestation :
-                  <Download
-                    details="pdf"
-                    label="Télécharger l'attestation"
-                    linkProps={{ href: '#' }}
-                  />
-                </li>
-              </ul>
-              <div className="flex flex-row gap-4">
-                <Link href="#">
-                  <i className={`${fr.cx('ri-pencil-line', 'fr-icon--lg')} mr-1`} aria-hidden />
-                  Modifier
-                </Link>
-                <Link href="#">Voir</Link>
+          items={dépôts.map((dépôt) => ({
+            date: formatDateForText(dépôt.déposéLe),
+            status: getTimelineItemStatus(dépôt.statut),
+            title: (
+              <p>
+                Soumission de type <span className="font-bold">{dépôt.typeLabel}</span>{' '}
+                <StatutDépôtGarantiesFinancièresBadge statut={dépôt.statut} />
+              </p>
+            ),
+            content: (
+              <div className="flex flex-col md:flex-row gap-8 mt-4">
+                <ul className="flex-1">
+                  {dépôt.dateÉchéance && (
+                    <li>Date d'échéance : {formatDateForText(dépôt.dateÉchéance)}</li>
+                  )}
+                  <li>Date de constitution : {formatDateForText(dépôt.dateConstitution)}</li>
+                </ul>
+                {dépôt.statut === 'en-cours' && (
+                  <Button
+                    className="flex md:max-w-lg"
+                    iconId="fr-icon-pencil-line"
+                    priority="tertiary no outline"
+                    linkProps={{
+                      href: Routes.GarantiesFinancières.modifierÀTraiter(projet.identifiantProjet),
+                    }}
+                  >
+                    Modifier les garanties financières
+                  </Button>
+                )}
               </div>
-            </Accordion>
-          </li>
-          <li>
-            <Accordion label="Garanties financières soumis le 24/01/2023">
-              <StatutBadge statut="rejeté" />
-              <ul className="my-5 gap-2">
-                <li>Type : Consignation</li>
-                <li>Date d'échéance : 31/01/2025</li>
-                <li>Date de constitution : 14/13/2023</li>
-                <li>
-                  Attestation :
-                  <Download
-                    details="pdf"
-                    label="Télécharger l'attestation"
-                    linkProps={{ href: '#' }}
-                  />
-                </li>
-              </ul>
-            </Accordion>
-          </li>
-          <li>
-            <Accordion label="Garanties financières soumis le 12/12/2022">
-              <StatutBadge statut="validé" />
-              <ul className="my-5 gap-2">
-                <li>Type : Consignation</li>
-                <li>Date d'échéance : 31/01/2025</li>
-                <li>Date de constitution : 14/13/2023</li>
-                <li>
-                  Attestation :
-                  <Download
-                    details="pdf"
-                    label="Télécharger l'attestation"
-                    linkProps={{ href: '#' }}
-                  />
-                </li>
-              </ul>
-            </Accordion>
-          </li>
-        </ul>
-      </div>
-    </PageTemplate>
-  );
-};
-
-const ListItem = () => (
-  <>
-    <div className="flex flex-col gap-1">
-      <h2 className="leading-4">
-        Garanties financières soumis le <span className="font-bold">24/01/2023</span>
-      </h2>
-
-      <div className="flex flex-col md:flex-row gap-2 mt-3">
-        <StatutBadge statut="à-traiter" small />
-      </div>
-
-      <ul className=" mt-4 gap-2">
-        <li>Type : Consignation</li>
-        <li>Date d'échéance : 31/01/2025</li>
-        <li>Date de constitution : 14/13/2023</li>
-        <li>
-          Attestation :
-          <Download details="pdf" label="Télécharger l'attestation" linkProps={{ href: '#' }} />
-        </li>
-      </ul>
-    </div>
-
-    <div className="flex flex-col justify-between mt-4 md:mt-2">
-      <p className="italic text-sm">dernière mise à jour le 24/01/2023</p>
-      <a href="#" className="self-end" aria-label={`voir le détail`}>
-        voir le détail
-      </a>
-    </div>
-  </>
+            ),
+          }))}
+        />
+      </>
+    )}
+  </PageTemplate>
 );
