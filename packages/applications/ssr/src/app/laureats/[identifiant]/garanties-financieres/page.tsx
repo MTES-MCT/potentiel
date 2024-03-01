@@ -77,9 +77,13 @@ const mapToProps: MapToProps = ({
     validées: garantiesFinancières.validées
       ? {
           type: garantiesFinancières.validées.type.type,
-          dateConstitution: garantiesFinancières.validées.dateConstitution.formatter(),
+          dateConstitution: garantiesFinancières.validées.dateConstitution
+            ? garantiesFinancières.validées.dateConstitution.formatter()
+            : undefined,
           dateÉchéance: garantiesFinancières.validées.dateÉchéance?.formatter(),
-          validéLe: garantiesFinancières.validées.validéLe.formatter(),
+          validéLe: garantiesFinancières.validées.validéLe
+            ? garantiesFinancières.validées.validéLe.formatter()
+            : undefined,
           // attestation: garantiesFinancières.validées.attestation,
           actions:
             utilisateur.role.estÉgaleÀ(Role.porteur) && !garantiesFinancières.àTraiter
