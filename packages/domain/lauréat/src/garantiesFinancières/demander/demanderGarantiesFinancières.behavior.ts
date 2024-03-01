@@ -35,7 +35,7 @@ export async function demanderGarantiesFinancières(
   await this.publish(event);
 }
 
-export function applyDemanderGarantiesFinancières(
+export function applyGarantiesFinancièresDemandées(
   this: GarantiesFinancièresAggregate,
   { payload: { dateLimiteSoumission } }: GarantiesFinancièresDemandéesEvent,
 ) {

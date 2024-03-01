@@ -169,6 +169,24 @@ export const register = () => {
             },
           );
           break;
+
+        case 'TypeGarantiesFinancièresImporté-V1':
+          const projetPourTypeGarantiesFinancièresImporté = await getProjectData(identifiantProjet);
+          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+            {
+              ...garantiesFinancièresToUpsert,
+              ...projetPourTypeGarantiesFinancièresImporté,
+              misÀJourLe: payload.importéLe,
+              statut: GarantiesFinancières.StatutGarantiesFinancières.validé.statut,
+              validées: {
+                type: payload.type,
+                dateÉchéance: payload.dateÉchéance,
+                importéLe: payload.importéLe,
+              },
+            },
+          );
+          break;
       }
     }
   };

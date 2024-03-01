@@ -21,10 +21,10 @@ export type ConsulterGarantiesFinancièresReadModel = {
   validées?: {
     type: TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
-    dateConstitution: DateTime.ValueType;
-    soumisLe: DateTime.ValueType;
-    validéLe: DateTime.ValueType;
-    attestation: DocumentProjet.ValueType;
+    dateConstitution?: DateTime.ValueType;
+    soumisLe?: DateTime.ValueType;
+    validéLe?: DateTime.ValueType;
+    attestation?: DocumentProjet.ValueType;
   };
   àTraiter?: {
     type: TypeGarantiesFinancières.ValueType;
@@ -68,15 +68,24 @@ export const registerConsulterGarantiesFinancièresQuery = ({
       ...(result.validées.dateÉchéance && {
         dateÉchéance: DateTime.convertirEnValueType(result.validées.dateÉchéance),
       }),
-      dateConstitution: DateTime.convertirEnValueType(result.validées.dateConstitution),
-      soumisLe: DateTime.convertirEnValueType(result.validées.soumisLe),
-      validéLe: DateTime.convertirEnValueType(result.validées.validéLe),
-      attestation: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        TypeDocumentGarantiesFinancières.garantiesFinancièresValidéesValueType.formatter(),
-        DateTime.convertirEnValueType(result.validées.soumisLe).formatter(),
-        result.validées.attestation.format,
-      ),
+      dateConstitution: result.validées.dateConstitution
+        ? DateTime.convertirEnValueType(result.validées.dateConstitution)
+        : undefined,
+      soumisLe: result.validées.soumisLe
+        ? DateTime.convertirEnValueType(result.validées.soumisLe)
+        : undefined,
+      validéLe: result.validées.validéLe
+        ? DateTime.convertirEnValueType(result.validées.validéLe)
+        : undefined,
+      attestation:
+        result.validées.soumisLe && result.validées.attestation
+          ? DocumentProjet.convertirEnValueType(
+              identifiantProjet.formatter(),
+              TypeDocumentGarantiesFinancières.garantiesFinancièresValidéesValueType.formatter(),
+              DateTime.convertirEnValueType(result.validées.soumisLe).formatter(),
+              result.validées.attestation.format,
+            )
+          : undefined,
     };
     const àTraiter: ConsulterGarantiesFinancièresReadModel['àTraiter'] = result.àTraiter && {
       type: TypeGarantiesFinancières.convertirEnValueType(result.àTraiter.type),
