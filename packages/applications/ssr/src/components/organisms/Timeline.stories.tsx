@@ -18,6 +18,16 @@ export const Default: Story = {
   args: {
     items: [
       {
+        date: 'En attente',
+        title: 'Ceci est un exemple de titre',
+        content: 'Ceci est un exemple de contenu',
+      },
+      {
+        date: 'En attente En attente En attente En attenteEn attente En attente ',
+        title: 'Ceci est un exemple de titre',
+        content: 'Ceci est un exemple de contenu',
+      },
+      {
         date: '01/01/2024',
         title: 'Ceci est un exemple de titre',
         content: 'Ceci est un exemple de contenu',

@@ -14,7 +14,6 @@ import { Heading2 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
-import { StatutGarantiesFinancièresBadge } from '../StatutGarantiesFinancièresBadge';
 import { getGarantiesFinancièresTypeLabel } from '../getGarantiesFinancièresTypeLabel';
 
 type AvailableActions = Array<'ajouter' | 'modifier' | 'enregistrer'>;
@@ -45,17 +44,10 @@ export type DétailsGarantiesFinancièresProps = {
 
 export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancièresProps> = ({
   projet,
-  statut,
   garantiesFinancières,
 }) => (
   <PageTemplate banner={<ProjetBanner {...projet} />}>
-    <TitrePageGarantiesFinancières
-      title={
-        <>
-          Garanties financières <StatutGarantiesFinancièresBadge statut={statut} />
-        </>
-      }
-    />
+    <TitrePageGarantiesFinancières />
 
     <div className="flex flex-col mt-10">
       {garantiesFinancières.validées && (
@@ -201,7 +193,7 @@ const GarantiesFinancièresInfos: FC<GarantiesFinancièresInfosProps> = ({
           iconId="fr-icon-pencil-line"
           priority="tertiary no outline"
           linkProps={{
-            href: Routes.GarantiesFinancières.modifier(identifiantProjet),
+            href: '#',
           }}
         >
           Modifier les garanties financières

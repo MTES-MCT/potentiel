@@ -22,7 +22,6 @@ import {
   TypeGarantiesFinancièresSelect,
   TypeGarantiesFinancièresSelectProps,
 } from '../TypeGarantiesFinancièresSelect';
-import { StatutGarantiesFinancièresBadge } from '../StatutGarantiesFinancièresBadge';
 
 import { ValiderGarantiesFinancièresÀTraiter } from './valider/ValiderGarantiesFinancièresÀTraiter';
 import { RejeterGarantiesFinancièresÀTraiter } from './rejeter/RejeterGarantiesFinancièresÀTraiter';
@@ -47,22 +46,14 @@ export type ModifierGarantiesFinancièresÀTraiterProps = {
 
 export const ModifierGarantiesFinancièresÀTraiter: FC<
   ModifierGarantiesFinancièresÀTraiterProps
-> = ({ projet, typesGarantiesFinancières, statut, garantiesFinancières, showWarning, actions }) => {
+> = ({ projet, typesGarantiesFinancières, garantiesFinancières, showWarning, actions }) => {
   const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner {...projet} />}
-      heading={
-        <TitrePageGarantiesFinancières
-          title={
-            <>
-              Garanties financières <StatutGarantiesFinancièresBadge statut={statut} />
-            </>
-          }
-        />
-      }
+      heading={<TitrePageGarantiesFinancières />}
       leftColumn={{
         children: (
           <>

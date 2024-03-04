@@ -66,7 +66,7 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner {...projet} />}
-      heading={<TitrePageGarantiesFinancières title="Soumettre des garanties financières" />}
+      heading={<TitrePageGarantiesFinancières />}
       leftColumn={{
         children: (
           <Form

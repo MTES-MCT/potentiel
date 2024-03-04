@@ -11,8 +11,9 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 
 export type TimelineProps = {
   items: Array<TimelineItemProps>;
+  className?: string;
 };
-export const Timeline: FC<TimelineProps> = ({ items }) => (
+export const Timeline: FC<TimelineProps> = ({ items, className }) => (
   <MuiTimeline
     sx={{
       [`& .${timelineOppositeContentClasses.root}`]: {
@@ -21,6 +22,7 @@ export const Timeline: FC<TimelineProps> = ({ items }) => (
       },
       paddingLeft: 0,
     }}
+    className={className ?? ''}
   >
     {items.map((item, index) => (
       <TimelineItem key={index} {...item} />
@@ -37,7 +39,7 @@ export type TimelineItemProps = {
 
 const TimelineItem: FC<TimelineItemProps> = ({ status, date, title, content }) => (
   <MuiTimelineItem>
-    <TimelineOppositeContent>
+    <TimelineOppositeContent className="w-">
       <span className="font-bold">{date}</span>
     </TimelineOppositeContent>
     <TimelineSeparator>

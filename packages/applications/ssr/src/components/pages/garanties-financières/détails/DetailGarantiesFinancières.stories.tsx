@@ -35,21 +35,19 @@ const projet: DetailGarantiesFinancièresPageProps['projet'] = {
   statut: 'classé',
 };
 
-export const GarantiesFinancieresValidées: Story = {
+export const GarantiesFinancieresActuellesComplètes: Story = {
   args: {
     projet,
-    misÀJourLe: '2021-10-23',
-    statut: 'validé',
     actuelles: {
-      type: 'avec-date-échéance',
-      typeLabel: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
+      type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
       dateConstitution: '2021-09-23',
       attestation: 'path/to/attestation.pdf',
+      identifiantProjet: projet.identifiantProjet,
+      action: 'modifier',
     },
     dépôts: [
       {
-        type: 'avec-date-échéance',
-        typeLabel: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
+        type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
         dateÉchéance: '2023-10-23',
         dateConstitution: '2021-09-23',
         attestation: 'path/to/attestation.pdf',
@@ -61,54 +59,39 @@ export const GarantiesFinancieresValidées: Story = {
         déposéLe: '2021-09-23',
       },
       {
-        type: 'consignation',
-        typeLabel: getGarantiesFinancièresTypeLabel('consignation'),
-        dateConstitution: '2021-07-23',
+        type: getGarantiesFinancièresTypeLabel('consignation'),
+        dateConstitution: '2021-07-22',
         attestation: 'path/to/attestation.pdf',
         statut: 'rejeté',
         validation: {
           validéLe: '2021-08-23',
           validéPar: 'admin#1',
         },
-        déposéLe: '2021-07-23',
-      },
-      {
-        type: 'six-mois-après-achèvement',
-        typeLabel: getGarantiesFinancièresTypeLabel('six-mois-après-achèvement'),
-        dateConstitution: '2021-07-23',
-        attestation: 'path/to/attestation.pdf',
-        statut: 'rejeté',
-        validation: {
-          validéLe: '2021-08-23',
-          validéPar: 'admin#1',
-        },
-        déposéLe: '2021-07-23',
-      },
-      {
-        type: 'consignation',
-        typeLabel: getGarantiesFinancièresTypeLabel('consignation'),
-        dateConstitution: '2021-07-23',
-        attestation: 'path/to/attestation.pdf',
-        statut: 'rejeté',
-        validation: {
-          validéLe: '2021-08-23',
-          validéPar: 'admin#1',
-        },
-        déposéLe: '2021-07-23',
+        déposéLe: '2021-07-22',
       },
     ],
   },
 };
 
-export const GarantiesFinancieresAvecUnDépôtEnCours: Story = {
+export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
   args: {
     projet,
-    misÀJourLe: '2021-10-23',
-    statut: 'à-traiter',
+    action: 'soumettre',
+    actuelles: {
+      type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
+      identifiantProjet: projet.identifiantProjet,
+      action: 'modifier',
+    },
+    dépôts: [],
+  },
+};
+
+export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
+  args: {
+    projet,
     dépôts: [
       {
-        type: 'avec-date-échéance',
-        typeLabel: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
+        type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
         dateÉchéance: '2023-10-23',
         dateConstitution: '2021-09-23',
         attestation: 'path/to/attestation.pdf',
@@ -120,5 +103,21 @@ export const GarantiesFinancieresAvecUnDépôtEnCours: Story = {
         déposéLe: '2021-09-23',
       },
     ],
+  },
+};
+
+export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
+  args: {
+    projet,
+    dépôts: [],
+    action: 'soumettre',
+  },
+};
+
+export const GarantiesFinancieresVideAvecActionEnregistrer: Story = {
+  args: {
+    projet,
+    dépôts: [],
+    action: 'enregistrer',
   },
 };
