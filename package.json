@@ -37,24 +37,8 @@
     "./packages/specifications"
   ],
   "scripts": {
-    "build": "npm run build:packages && npm run build:front && npm run build:css && npm run build:back && npm run build:migrations",
-    "build:packages": "npm run build --workspaces --if-present",
-    "build-storybook": "npm run storybook build --workspaces --if-present",
-    "prepare": "husky install",
-    "lint": "eslint ./src --ext .ts,.tsx",
-    "lint:fix": "npm run lint --fix --workspaces --if-present",
-    "format": "prettier '**/*.{ts,tsx,css}' --write",
-    "dev": "npm run dev --workspaces --if-present",
-    "start:dev": "docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U potadmindb -d potentiel; do sleep 1; done && npm run migrate && npm run seed && npm run build:packages && concurrently \"ts-node-dev --transpile-only src/index.ts\" \"webpack --config=webpack.config.js --watch\" \"npm run build:css -- --watch\"",
-    "stop:dev": "docker compose  --profile app down --remove-orphans",
-    "start": "npm run migrate && node ./dist/src/index.js",
-    "specs": "export APPLICATION_STAGE=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose --profile test down --remove-orphans && docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && npm run build:packages && npm run build:migrations && npm run migrate && npm run specs --workspaces --if-present -- --tags \"not @NotImplemented\"",
-    "specs:select": "npm run specs -- --tags @select",
-    "version": "ts-node-dev .github/getPatchVersion.ts",
-    "test:legacy": "export APPLICATION_STAGE=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose --profile test down --remove-orphans && docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && npm run build:packages && npm run build:migrations && npm run migrate && jest --config=jest.config.js --detectOpenHandles",
-    "test:packages": "export APPLICATION_STAGE=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose --profile test down --remove-orphans && docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && npm run build:packages && npm run build:migrations && npm run migrate && npm run test --workspaces --if-present",
-    "test:dev:legacy": "export APPLICATION_STAGE=test && jest --config=jest.config.js --detectOpenHandles",
-    "storybook": "npm run storybook --workspaces --if-present"
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "npm run format --workspaces --if-present"
   },
   "repository": {
     "type": "git",
@@ -67,7 +51,17 @@
   },
   "homepage": "https://github.com/MTES-MCT/potentiel#readme",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^8.10.0",
+    "eslint-import-resolver-typescript": "^3.6.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-storybook": "^0.6.14",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "husky": "^8.0.3",
+    "prettier": "^2.8.8",
+    "pretty-format": "^29.6.3",
     "rimraf": "^5.0.5",
     "typescript": "^5.2.2"
   },

@@ -14,7 +14,9 @@
     "premigrate:undo": "npm run build:migrate",
     "migrate:undo": "sequelize-cli db:migrate:undo",
     "preseed": "npm run build:migrate",
-    "seed": "sequelize-cli db:seed:all"
+    "seed": "sequelize-cli db:seed:all",
+    "lint": "eslint ./src --ext .ts,.tsx",
+    "format": "prettier './src/**/*.{ts,tsx,css}' --write"
   },
   "dependencies": {
     "@hqoss/monads": "^0.5.0",
