@@ -36,11 +36,6 @@
     "./packages/specifications"
   ],
   "scripts": {
-    "build": "npm run build:packages && npm run build:front && npm run build:css && npm run build:back && npm run build:migrations",
-    "build:back": "tsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
-    
-    "build:packages": "npm run build --workspaces --if-present",
-    "build-storybook": "npm run storybook build --workspaces --if-present",
     "dev": "npm run dev --workspaces --if-present",
     "start:dev": "docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U potadmindb -d potentiel; do sleep 1; done && npm run migrate && npm run seed && npm run build:packages && concurrently \"ts-node-dev --transpile-only src/index.ts\" \"webpack --config=webpack.config.js --watch\" \"npm run build:css -- --watch\"",
     "stop:dev": "docker compose  --profile app down --remove-orphans",
@@ -49,7 +44,6 @@
     "specs:select": "npm run specs -- --tags @select",
     "version": "ts-node-dev .github/getPatchVersion.ts",
     "test:packages": "export APPLICATION_STAGE=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose --profile test down --remove-orphans && docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && npm run build:packages && npm run build:migrations && npm run migrate && npm run test --workspaces --if-present",
-    "test:dev:legacy": "export APPLICATION_STAGE=test && jest --config=jest.config.js --detectOpenHandles",
     "storybook": "npm run storybook --workspaces --if-present"
   },
   "repository": {
@@ -127,7 +121,6 @@
     "prompts": "^2.4.2",
     "ts-loader": "^9.4.4",
     "ts-node-dev": "^2.0.0",
-    
   },
   "engines": {
     "node": "^20.0.0"

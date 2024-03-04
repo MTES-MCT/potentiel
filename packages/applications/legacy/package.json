@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "type:check": "tsc --noEmit",
+    "build": "npm run build:front && npm run build:css && npm run build:back && npm run build:migrations",
     "build:back": "tsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
     "build:css": "tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
     "build:front": "webpack --config=webpack.config.js",
