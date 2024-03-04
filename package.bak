@@ -38,16 +38,12 @@
   "scripts": {
     "build": "npm run build:packages && npm run build:front && npm run build:css && npm run build:back && npm run build:migrations",
     "build:back": "tsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
-    "build:migrations": "tsc --build tsconfig.migrations.json",
+    
     "build:packages": "npm run build --workspaces --if-present",
     "build-storybook": "npm run storybook build --workspaces --if-present",
-    "prepare": "husky install",
     "lint": "eslint ./src --ext .ts,.tsx",
     "lint:fix": "npm run lint --fix --workspaces --if-present",
     "format": "prettier '**/*.{ts,tsx,css}' --write",
-    "migrate": "sequelize-cli db:migrate",
-    "migrate:undo": "sequelize-cli db:migrate:undo",
-    "seed": "sequelize-cli db:seed:all",
     "dev": "npm run dev --workspaces --if-present",
     "start:dev": "docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U potadmindb -d potentiel; do sleep 1; done && npm run migrate && npm run seed && npm run build:packages && concurrently \"ts-node-dev --transpile-only src/index.ts\" \"webpack --config=webpack.config.js --watch\" \"npm run build:css -- --watch\"",
     "stop:dev": "docker compose  --profile app down --remove-orphans",
@@ -108,7 +104,6 @@
     "querystring": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sequelize-cli": "^6.6.1",
     "tailwindcss": "^3.3.3",
     "util": "^0.12.5",
     

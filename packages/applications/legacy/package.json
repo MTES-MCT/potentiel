@@ -5,8 +5,16 @@
   "main": "index.js",
   "scripts": {
     "type:check": "tsc --noEmit",
+    "build:back": "tsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
     "build:css": "tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
-    "build:front": "webpack --config=webpack.config.js"
+    "build:front": "webpack --config=webpack.config.js",
+    "build:migrate": "rimraf dist/migration && tsc --build tsconfig.migrations.json",
+    "premigrate": "npm run build:migrate",
+    "migrate": "sequelize-cli db:migrate",
+    "premigrate:undo": "npm run build:migrate",
+    "migrate:undo": "sequelize-cli db:migrate:undo",
+    "preseed": "npm run build:migrate",
+    "seed": "sequelize-cli db:seed:all"
   },
   "dependencies": {
     "@hqoss/monads": "^0.5.0",
@@ -34,6 +42,7 @@
     "runtypes": "^6.7.0",
     "sanitize-filename": "^1.6.3",
     "sequelize": "^6.32.1",
+    "sequelize-cli": "^6.6.1",
     "utility-types": "^3.10.0",
     "yup": "^0.32.11"
   },
