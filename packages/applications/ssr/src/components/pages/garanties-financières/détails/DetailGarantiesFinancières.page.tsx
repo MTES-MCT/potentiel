@@ -14,6 +14,7 @@ import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { formatDateForText } from '@/utils/formatDateForText';
+import { CallOut } from '@/components/atoms/CallOut';
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
 import { StatutDépôtGarantiesFinancièresBadge } from '../StatutDépôtGarantiesFinancièresBadge';
@@ -225,11 +226,10 @@ const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesProps> = 
   identifiantProjet,
   action,
 }) => (
-  <Alert
-    severity="info"
-    className="my-4"
+  <CallOut
     title="Garanties financières actuelles"
-    description={
+    iconId="ri-information-line"
+    content={
       <>
         <div className="mt-5 gap-2">
           <div>
