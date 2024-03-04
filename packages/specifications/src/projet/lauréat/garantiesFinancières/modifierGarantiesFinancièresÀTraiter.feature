@@ -1,5 +1,5 @@
 #Language: fr-FR
-@select
+
 Fonctionnalité: Modifier des garanties financières en attente de validation
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"

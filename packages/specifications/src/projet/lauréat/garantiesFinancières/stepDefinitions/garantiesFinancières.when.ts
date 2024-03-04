@@ -147,3 +147,44 @@ Quand(
     }
   },
 );
+
+Quand(
+  `l'admin {string} complète les garanties financières validées pour le projet {string} avec :`,
+  async function (
+    this: PotentielWorld,
+    identifiantUtilisateur: string,
+    nomProjet: string,
+    dataTable: DataTable,
+  ) {
+    const exemple = dataTable.rowsHash();
+
+    try {
+      const typeGarantiesFinancières = exemple['type'] || 'consignation';
+      const dateÉchéance = exemple[`date d'échéance`] || undefined;
+      const format = exemple['format'] || 'application/pdf';
+      const dateConstitution = exemple[`date de constitution`] || '2024-01-01';
+      const contenuFichier = exemple['contenu fichier'] || 'contenu fichier';
+      const complétéLe = exemple['date mise à jour'] || '2024-01-01';
+
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await mediator.send<GarantiesFinancières.CompléterGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.UseCase.CompléterGarantiesFinancières',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          typeValue: typeGarantiesFinancières,
+          ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
+          attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
+          dateConstitutionValue: new Date(dateConstitution).toISOString(),
+          complétéLeValue: new Date(complétéLe).toISOString(),
+          identifiantUtilisateurValue: identifiantUtilisateur,
+          rôleUtilisateurValue: 'admin',
+        },
+      });
+      await sleep(300);
+    } catch (error) {
+      this.error = error as Error;
+      console.log('ERREUR : ', error);
+    }
+  },
+);

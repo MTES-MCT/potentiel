@@ -18,7 +18,7 @@ Fonctionnalité: Valider des garanties financières en attente de validation
             | soumis par           | porteur@test.test      |
         Quand l'utilisateur dreal valide les garanties financières à traiter pour le projet "Centrale PV" avec :
             | date de validation   | <date de validation>   |  
-        Alors des garanties financières devraient être validées pour le projet "Centrale PV" avec :
+        Alors les garanties financières validées devraient consultables pour le projet "Centrale PV" avec :
             | type                 | <type>                 |
             | date d'échéance      | <date d'échéance>      |
             | format               | <format du fichier>    |

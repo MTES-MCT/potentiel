@@ -59,3 +59,47 @@ EtantDonné(
     await sleep(500);
   },
 );
+
+EtantDonné(
+  'des garanties financières validées pour le projet {string} avec :',
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
+    const typeGarantiesFinancières = exemple['type'] || 'Consignation';
+    const dateÉchéance = exemple[`date d'échéance`] || undefined;
+    const format = exemple['format'] || 'application/pdf';
+    const dateConstitution = exemple[`date de constitution`] || '2024-01-01';
+    const contenuFichier = exemple['contenu fichier'] || 'contenu fichier';
+    const dateSoumission = exemple['date de soumission'] || '2024-01-02';
+    const soumisPar = exemple['soumis par'] || 'user@test.test';
+    const validéLe = exemple['date validation'] || '2024-01-03';
+
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await mediator.send<GarantiesFinancières.SoumettreGarantiesFinancièresUseCase>({
+      type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreGarantiesFinancières',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        typeValue: typeGarantiesFinancières,
+        dateConstitutionValue: new Date(dateConstitution).toISOString(),
+        soumisLeValue: new Date(dateSoumission).toISOString(),
+        soumisParValue: soumisPar,
+        attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
+        ...(dateÉchéance && { dteÉchéanceValue: new Date(dateÉchéance).toISOString() }),
+      },
+    });
+
+    await sleep(100);
+
+    await mediator.send<GarantiesFinancières.ValiderGarantiesFinancièresUseCase>({
+      type: 'Lauréat.GarantiesFinancières.UseCase.ValiderGarantiesFinancières',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        validéLeValue: new Date(validéLe).toISOString(),
+        validéParValue: 'dreal@test.test',
+      },
+    });
+
+    await sleep(100);
+  },
+);

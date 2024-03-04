@@ -170,7 +170,7 @@ Alors(
 );
 
 Alors(
-  `des garanties financières devraient être validées pour le projet {string} avec :`,
+  `les garanties financières validées devraient consultables pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
@@ -180,7 +180,6 @@ Alors(
     const dateConstitution = exemple[`date de constitution`];
     const contenu = exemple['contenu fichier'];
     const dateValidation = exemple['date de validation'];
-    const dateImport = exemple[`date d'import `];
 
     const { identifiantProjet, appelOffre, période } =
       this.lauréatWorld.rechercherLauréatFixture(nomProjet);
