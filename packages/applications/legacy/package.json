@@ -8,7 +8,7 @@
     "build:back": "tsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
     "build:css": "tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
     "build:front": "webpack --config=webpack.config.js",
-    "build:migrate": "rimraf dist/migration && tsc --build tsconfig.migrations.json",
+    "build:migrate": "rimraf dist/migrations && tsc --build tsconfig.migrations.json",
     "premigrate": "npm run build:migrate",
     "migrate": "sequelize-cli db:migrate",
     "premigrate:undo": "npm run build:migrate",
@@ -16,7 +16,8 @@
     "preseed": "npm run build:migrate",
     "seed": "sequelize-cli db:seed:all",
     "lint": "eslint ./src --ext .ts,.tsx",
-    "format": "prettier './src/**/*.{ts,tsx,css}' --write"
+    "format": "prettier './src/**/*.{ts,tsx,css}' --write",
+    "test": "export APPLICATION_STAGE=test && npm run migrate && jest --config=jest.config.js --detectOpenHandles"
   },
   "dependencies": {
     "@hqoss/monads": "^0.5.0",
@@ -58,6 +59,7 @@
     "esbuild-loader": "^2.21.0",
     "jest": "^29.6.4",
     "tailwindcss": "^3.3.3",
+    "ts-jest": "^29.1.1",
     "wait-for-expect": "^3.0.2",
     "webpack": "^5.88.2",
     "webpack-cli": "^4.10.0"
