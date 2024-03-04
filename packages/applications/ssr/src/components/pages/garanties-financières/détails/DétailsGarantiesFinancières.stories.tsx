@@ -6,7 +6,7 @@ import {
 } from './DétailsGarantiesFinancières.page';
 
 const meta = {
-  title: 'Pages/Garanties-financières/Détail',
+  title: 'Pages/Garanties-financières/Détail/V1',
   component: DétailsGarantiesFinancièresPage,
   parameters: {},
   tags: ['autodocs'],
