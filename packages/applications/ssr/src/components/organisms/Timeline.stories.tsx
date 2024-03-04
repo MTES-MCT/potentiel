@@ -19,27 +19,32 @@ export const Default: Story = {
     items: [
       {
         date: '01/01/2024',
-        content: 'Ceci est un exemple de contenu sans statut particulier',
+        title: 'Ceci est un exemple de titre',
+        content: 'Ceci est un exemple de contenu',
       },
       {
         status: 'info',
         date: '02/01/2024',
-        content: "Ceci est un exemple de contenu avec un statut 'info'",
+        title: "Ceci est un exemple de titre avec un statut 'info'",
+        content: 'Ceci est un exemple de contenu',
       },
       {
         status: 'warning',
         date: '03/01/2024',
-        content: "Ceci est un exemple de contenu avec un statut 'warning'",
+        title: "Ceci est un exemple de titre avec un statut 'warning'",
+        content: 'Ceci est un exemple de contenu',
       },
       {
         status: 'success',
         date: '04/01/2024',
-        content: "Ceci est un exemple de contenu avec un statut 'success'",
+        title: "Ceci est un exemple de titre avec un statut 'success'",
+        content: 'Ceci est un exemple de contenu',
       },
       {
         status: 'error',
         date: '05/01/2024',
-        content: "Ceci est un exemple de contenu avec un statut 'error'",
+        title: "Ceci est un exemple de titre avec un statut 'error'",
+        content: 'Ceci est un exemple de contenu',
       },
     ],
   },
