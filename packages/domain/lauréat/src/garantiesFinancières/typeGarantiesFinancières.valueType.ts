@@ -33,7 +33,7 @@ export const convertirEnValueType = (value: string): ValueType => {
 };
 
 function estValide(value: string): asserts value is RawType {
-  const isValid = types.includes(value as RawType);
+  const isValid = [...types, 'type-inconnu'].includes(value as RawType);
 
   if (!isValid) {
     throw new TypeGarantiesFinancièresInvalideError(value);

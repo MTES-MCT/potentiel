@@ -33,6 +33,11 @@ import {
   applyTypeGarantiesFinancièresImporté,
   importerType,
 } from './importer/importerTypeGarantiesFinancières.behavior';
+import {
+  GarantiesFinancièresComplétéesEvent,
+  applyCompléterGarantiesFinancières,
+  compléter,
+} from './compléter/compléterGarantiesFinancières.behavior';
 
 export type GarantiesFinancièresEvent =
   | GarantiesFinancièresSoumisesEvent
@@ -40,7 +45,8 @@ export type GarantiesFinancièresEvent =
   | GarantiesFinancièresÀTraiterSuppriméesEvent
   | GarantiesFinancièresValidéesEvent
   | GarantiesFinancièresÀTraiterModifiéesEvent
-  | TypeGarantiesFinancièresImportéEvent;
+  | TypeGarantiesFinancièresImportéEvent
+  | GarantiesFinancièresComplétéesEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   statut?: StatutGarantiesFinancières.ValueType;
@@ -64,6 +70,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly valider: typeof valider;
   readonly modifierGarantiesFinancièresÀTraiter: typeof modifierGarantiesFinancièresÀTraiter;
   readonly importerType: typeof importerType;
+  readonly compléter: typeof compléter;
 };
 
 export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
@@ -77,6 +84,7 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   valider,
   modifierGarantiesFinancièresÀTraiter,
   importerType,
+  compléter,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
@@ -98,6 +106,9 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       break;
     case 'TypeGarantiesFinancièresImporté-V1':
       applyTypeGarantiesFinancièresImporté.bind(this)(event);
+      break;
+    case 'GarantiesFinancièresComplétées-V1':
+      applyCompléterGarantiesFinancières.bind(this)(event);
       break;
   }
 }
