@@ -118,7 +118,7 @@ export async function makeServer(port: number, sessionSecret: string) {
     /////// Custom server next
     const nextApp = next({
       dev: false,
-      dir: join(__dirname, isLocalEnv ? '../' : '../..', 'packages', 'applications', 'ssr'),
+      dir: join(__dirname, join('..', '..'), 'ssr'),
     });
 
     const nextHandler = nextApp.getRequestHandler();
