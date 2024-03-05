@@ -3,6 +3,8 @@ import Link from 'next/link';
 
 import { Routes } from '@potentiel-libraries/routes';
 
+import { formatDateForText } from '@/utils/formatDateForText';
+
 export type TâcheListItemProps = {
   identifiantProjet: string;
   nomProjet: string;
@@ -10,7 +12,10 @@ export type TâcheListItemProps = {
   période: string;
   famille?: string;
   misÀJourLe: string;
-  typeTâche: string;
+  typeTâche:
+    | 'abandon.confirmer'
+    | 'abandon.transmettre-preuve-recandidature'
+    | 'raccordement.référence-non-transmise';
 };
 
 export const TâcheListItem: FC<TâcheListItemProps> = ({
@@ -25,46 +30,46 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
   const descriptionTâche = getDescriptionTâche(typeTâche, identifiantProjet, nomProjet);
 
   return (
-    <div className="flex flex-col gap-3">
-      <div>
-        <div className="flex flex-col gap-1">
-          <h2 className="leading-4">
-            À faire pour le projet : <span className="font-bold">{nomProjet}</span>
-          </h2>
-          <div className="flex flex-col md:flex-row gap-2 md:gap-0 italic text-xs">
-            <div>
-              Appel d'offres : {appelOffre}
-              <span className="hidden md:inline-block mr-2">,</span>
-            </div>
-            <div>Période : {période}</div>
-            {famille && (
-              <div>
-                <span className="hidden md:inline-block mr-2">,</span>
-                Famille : {famille}
-              </div>
-            )}
+    <div className="flex flex-col gap-3 w-full">
+      <p className="italic text-sm mb-4">dernière mise à jour le {formatDateForText(misÀJourLe)}</p>
+      <div className="flex flex-col gap-1">
+        <h2 className="leading-4">
+          À faire pour le projet : <span className="font-bold">{nomProjet}</span>
+        </h2>
+        <div className="flex flex-col md:flex-row gap-2 md:gap-0 italic text-xs">
+          <div>
+            Appel d'offres : {appelOffre}
+            <span className="hidden md:inline-block mr-2">,</span>
           </div>
-        </div>
-        <div className="flex flex-col gap-1 mt-3">
-          <h3 className="font-bold">{descriptionTâche.titre}</h3>
-          <p className="m-0 text-sm">{descriptionTâche.description}</p>
+          <div>Période : {période}</div>
+          {famille && (
+            <div>
+              <span className="hidden md:inline-block mr-2">,</span>
+              Famille : {famille}
+            </div>
+          )}
         </div>
       </div>
-      <div className="flex flex-col justify-between mt-4 md:mt-2">
-        <p className="italic text-sm">dernière mise à jour le {misÀJourLe}</p>
-        <Link
-          href={descriptionTâche.lien}
-          className="self-end mt-2"
-          aria-label={descriptionTâche.ariaLabel}
-        >
-          {descriptionTâche.action}
-        </Link>
+      <div className="flex flex-col gap-1 mt-3">
+        <h3 className="font-bold">{descriptionTâche.titre}</h3>
+        <p className="m-0 text-sm">{descriptionTâche.description}</p>
       </div>
+      <Link
+        href={descriptionTâche.lien}
+        className="self-center mt-4 md:self-end md:mt-2"
+        aria-label={descriptionTâche.ariaLabel}
+      >
+        {descriptionTâche.action}
+      </Link>
     </div>
   );
 };
 
-const getDescriptionTâche = (typeTâche: string, identifiantProjet: string, nomProjet: string) => {
+const getDescriptionTâche = (
+  typeTâche: TâcheListItemProps['typeTâche'],
+  identifiantProjet: string,
+  nomProjet: string,
+) => {
   switch (typeTâche) {
     case 'abandon.confirmer':
       return {
@@ -91,12 +96,4 @@ const getDescriptionTâche = (typeTâche: string, identifiantProjet: string, nom
         ariaLabel: `Voir le raccordement du projet ${nomProjet}`,
       };
   }
-
-  return {
-    titre: '',
-    description: '',
-    lien: '',
-    action: '',
-    ariaLabel: '',
-  };
 };
