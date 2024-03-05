@@ -14,6 +14,7 @@ import { ValiderGarantiesFinancièresUseCase } from './valider/validerGarantiesF
 import { ModifierGarantiesFinancièresÀTraiterUseCase } from './modifierGarantiesFinancièresÀTraiter/modifierGarantiesFinancièresÀTraiter.usecase';
 import { ImporterTypeGarantiesFinancièresUseCase } from './importer/importerTypeGarantiesFinancières.usecase';
 import { ModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase';
+import { EnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
 
 // Query
 export type GarantiesFinancièresQuery =
@@ -33,7 +34,8 @@ export type GarantiesFinancièresUseCase =
   | ValiderGarantiesFinancièresUseCase
   | ModifierGarantiesFinancièresÀTraiterUseCase
   | ImporterTypeGarantiesFinancièresUseCase
-  | ModifierGarantiesFinancièresUseCase;
+  | ModifierGarantiesFinancièresUseCase
+  | EnregistrerAttestationGarantiesFinancièresUseCase;
 
 export {
   SoumettreGarantiesFinancièresUseCase,
@@ -43,6 +45,7 @@ export {
   ModifierGarantiesFinancièresÀTraiterUseCase,
   ImporterTypeGarantiesFinancièresUseCase,
   ModifierGarantiesFinancièresUseCase,
+  EnregistrerAttestationGarantiesFinancièresUseCase,
 };
 
 // Event
@@ -54,6 +57,7 @@ export { GarantiesFinancièresValidéesEvent } from './valider/validerGarantiesF
 export { GarantiesFinancièresÀTraiterModifiéesEvent } from './modifierGarantiesFinancièresÀTraiter/modifierGarantiesFinancièresÀTraiter.behavior';
 export { TypeGarantiesFinancièresImportéEvent } from './importer/importerTypeGarantiesFinancières.behavior';
 export { GarantiesFinancièresModifiéesEvent } from './modifier/modifierGarantiesFinancières.behavior';
+export { AttestationGarantiesFinancièresEnregistréeEvent } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
 
 // Register
 export {
