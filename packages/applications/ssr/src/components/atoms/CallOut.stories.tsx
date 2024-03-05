@@ -5,7 +5,6 @@ import { CallOut, CallOutProps } from './CallOut';
 const meta = {
   title: 'Atoms/Callout',
   component: CallOut,
-
   parameters: {
     docs: {
       description: {
@@ -19,12 +18,10 @@ const meta = {
     title: {
       description: 'Le titre du callout (<b>ReactNode</b>)',
       control: { type: 'text' },
-      defaultValue: false,
     },
     content: {
       description: 'Le contenu du callout  (<b>ReactNode</b>)',
       control: { type: 'text' },
-      defaultValue: false,
     },
     iconId: {
       description:
@@ -32,8 +29,18 @@ const meta = {
       control: {
         type: 'text',
       },
-      defaultValue: false,
     },
+    colorVariant: {
+      description: 'La variante de couleur du callout',
+      control: {
+        type: 'select',
+      },
+      options: ['info', 'sucess', 'error', 'warning'],
+    },
+  },
+  args: {
+    colorVariant: 'info',
+    iconId: 'ri-information-line',
   },
 } satisfies Meta<CallOutProps>;
 
@@ -44,6 +51,5 @@ export const Default: Story = {
   args: {
     title: 'Le titre du callout',
     content: 'Le contenu du callout',
-    iconId: 'ri-information-line',
   },
 };
