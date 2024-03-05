@@ -1,5 +1,3 @@
-import { AcheverTâcheCommand } from './achever/acheverTâche.command';
-import { AjouterTâcheCommand } from './ajouter/ajouterTâche.command';
 import {
   ConsulterNombreTâchesQuery,
   ConsulterNombreTâchesReadModel,
@@ -15,15 +13,14 @@ import {
 export type TâcheQuery = ConsulterNombreTâchesQuery | ListerTâchesQuery;
 export { ConsulterNombreTâchesQuery, ListerTâchesQuery };
 
-// Command
-export type TâcheCommand = AjouterTâcheCommand | AcheverTâcheCommand;
-export { AjouterTâcheCommand, AcheverTâcheCommand };
-
 // ReadModel
-export { ConsulterNombreTâchesReadModel, ListerTâchesReadModel as ListerTâcheReadModel };
+export { ConsulterNombreTâchesReadModel, ListerTâchesReadModel };
 
 // Event
 export { TâcheEvent } from './tâche.aggregate';
+
+// Saga
+export * as TâcheSaga from './tâche.saga';
 
 // Register
 export * from './register';

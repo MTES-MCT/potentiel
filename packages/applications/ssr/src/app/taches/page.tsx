@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { ListerTâchesQuery, ListerTâcheReadModel } from '@potentiel-domain/tache';
+import { ListerTâchesQuery, ListerTâchesReadModel } from '@potentiel-domain/tache';
 
 import { TâcheListPage, TâcheListPageProps } from '@/components/pages/tâche/TâcheList.page';
 import { displayDate } from '@/utils/displayDate';
@@ -57,7 +57,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
   );
 }
 
-const mapToListProps = (readModel: ListerTâcheReadModel): TâcheListPageProps['list'] => {
+const mapToListProps = (readModel: ListerTâchesReadModel): TâcheListPageProps['list'] => {
   const items = readModel.items.map(
     ({
       identifiantProjet,

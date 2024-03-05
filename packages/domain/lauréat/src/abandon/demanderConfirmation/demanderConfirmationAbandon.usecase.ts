@@ -3,7 +3,6 @@ import { DemanderConfirmationAbandonCommand } from './demanderConfirmationAbando
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { AjouterTâcheCommand, TypeTâche } from '@potentiel-domain/tache';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 
 export type DemanderConfirmationAbandonUseCase = Message<
@@ -53,14 +52,6 @@ export const registerDemanderConfirmationAbandonUseCase = () => {
         identifiantProjet,
         réponseSignée,
         identifiantUtilisateur,
-      },
-    });
-
-    await mediator.send<AjouterTâcheCommand>({
-      type: 'Tâche.Command.AjouterTâche',
-      data: {
-        identifiantProjet,
-        typeTâche: TypeTâche.abandonConfirmer,
       },
     });
   };

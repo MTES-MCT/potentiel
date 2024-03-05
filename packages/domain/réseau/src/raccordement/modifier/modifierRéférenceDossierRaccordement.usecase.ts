@@ -6,7 +6,6 @@ import { Role } from '@potentiel-domain/utilisateur';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { DossierProjet, DéplacerDocumentProjetCommand } from '@potentiel-domain/document';
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
-import { AcheverTâcheCommand, TypeTâche } from '@potentiel-domain/tache';
 
 export type ModifierRéférenceDossierRaccordementUseCase = Message<
   'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
@@ -92,14 +91,6 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
         nouvelleRéférenceDossierRaccordement,
         référenceDossierRaccordementActuelle,
         rôle,
-      },
-    });
-
-    await mediator.send<AcheverTâcheCommand>({
-      type: 'Tâche.Command.AcheverTâche',
-      data: {
-        identifiantProjet,
-        typeTâche: TypeTâche.raccordementRéférenceNonTransmise,
       },
     });
   };
