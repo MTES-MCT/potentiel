@@ -3,23 +3,23 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { getGarantiesFinancièresTypeLabel } from '../getGarantiesFinancièresTypeLabel';
 
 import {
-  DetailGarantiesFinancièresPage,
-  DetailGarantiesFinancièresPageProps,
-} from './DetailGarantiesFinancières.page';
+  DétailsGarantiesFinancièresPage,
+  DétailsGarantiesFinancièresPageProps,
+} from './DétailsGarantiesFinancières.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Pages/Garanties-financières/Détail/V2',
-  component: DetailGarantiesFinancièresPage,
+  title: 'Pages/Garanties-financières/Détails',
+  component: DétailsGarantiesFinancièresPage,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<DetailGarantiesFinancièresPageProps>;
+} satisfies Meta<DétailsGarantiesFinancièresPageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const projet: DetailGarantiesFinancièresPageProps['projet'] = {
+const projet: DétailsGarantiesFinancièresPageProps['projet'] = {
   identifiantProjet: 'identifiantProjet#1',
   appelOffre: 'Appel offre',
   période: 'Période',

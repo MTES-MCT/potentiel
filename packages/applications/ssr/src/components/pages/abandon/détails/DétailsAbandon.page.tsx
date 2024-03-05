@@ -29,14 +29,14 @@ type AvailableActions = Array<
   | 'rejeter'
 >;
 
-export type DetailAbandonPageProps = {
+export type DétailsAbandonPageProps = {
   projet: ProjetBannerProps;
   abandon: EtapesAbandonProps;
   statut: StatutAbandonBadgeProps['statut'];
   actions: AvailableActions;
 };
 
-export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
+export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   projet,
   abandon,
   statut,

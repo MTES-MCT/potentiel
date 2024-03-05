@@ -1,20 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { DetailAbandonPage, DetailAbandonPageProps } from './DetailAbandon.page';
+import { DétailsAbandonPage, DétailsAbandonPageProps } from './DétailsAbandon.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Pages/Abandon/Détail',
-  component: DetailAbandonPage,
+  title: 'Pages/Abandon/Détails',
+  component: DétailsAbandonPage,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<DetailAbandonPageProps>;
+} satisfies Meta<DétailsAbandonPageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const projet: DetailAbandonPageProps['projet'] = {
+const projet: DétailsAbandonPageProps['projet'] = {
   identifiantProjet: 'identifiantProjet#1',
   appelOffre: 'Appel offre',
   période: 'Période',

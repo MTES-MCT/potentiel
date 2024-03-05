@@ -21,7 +21,7 @@ import {
   HistoriqueDesGarantiesFinancièresDéposéesProps,
 } from './components/HistoriqueDesGarantiesFinancièresDéposées';
 
-export type DetailGarantiesFinancièresPageProps = {
+export type DétailsGarantiesFinancièresPageProps = {
   projet: ProjetBannerProps;
   actuelles?: GarantiesFinancièresActuellesProps['actuelles'];
   dateLimiteSoummission?: string;
@@ -29,7 +29,7 @@ export type DetailGarantiesFinancièresPageProps = {
   action?: 'soumettre' | 'enregistrer';
 };
 
-export const DetailGarantiesFinancièresPage: FC<DetailGarantiesFinancièresPageProps> = ({
+export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancièresPageProps> = ({
   projet,
   actuelles,
   dépôts,
