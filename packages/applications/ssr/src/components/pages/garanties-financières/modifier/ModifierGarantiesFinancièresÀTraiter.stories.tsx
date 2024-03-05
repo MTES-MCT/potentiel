@@ -6,7 +6,7 @@ import {
 } from './ModifierGarantiesFinancièresÀTraiter.page';
 
 const meta = {
-  title: 'Pages/Garanties-financières/À traiter/Modifier',
+  title: 'Pages/Garanties-financières/Dépôt/Modifier',
   component: ModifierGarantiesFinancièresÀTraiter,
   parameters: {},
   tags: ['autodocs'],

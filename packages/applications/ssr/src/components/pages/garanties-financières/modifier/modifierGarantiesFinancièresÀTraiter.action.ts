@@ -9,7 +9,7 @@ export type ModifierGarantiesFinancièresState = FormState;
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
   dateConstitution: zod.string().min(1),
-  attestation: zod.instanceof(Blob),
+  attestation: zod.instanceof(Blob).refine((data) => data.size > 0),
 };
 
 const schema = zod.discriminatedUnion('type', [
