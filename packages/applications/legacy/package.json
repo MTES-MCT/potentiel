@@ -2,6 +2,7 @@
   "name": "@potentiel-application/legacy",
   "version": "0.0.0",
   "description": "Suivi des Projets d'Energies Renouvelables",
+  "sideEffects": false,
   "main": "index.js",
   "scripts": {
     "type:check": "tsc --noEmit",

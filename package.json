@@ -1,7 +1,6 @@
 {
   "name": "potentiel-monorepo",
   "version": "0.0.0",
-  "sideEffects": false,
   "description": "Monorepo du projet potentiel",
   "workspaces": [
     "./packages/libraries/tsconfig/",
