@@ -149,13 +149,8 @@ Quand(
 );
 
 Quand(
-  `l'admin {string} complète les garanties financières validées pour le projet {string} avec :`,
-  async function (
-    this: PotentielWorld,
-    identifiantUtilisateur: string,
-    nomProjet: string,
-    dataTable: DataTable,
-  ) {
+  `un admin modifie les garanties financières validées pour le projet {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     try {
@@ -164,27 +159,25 @@ Quand(
       const format = exemple['format'] || 'application/pdf';
       const dateConstitution = exemple[`date de constitution`] || '2024-01-01';
       const contenuFichier = exemple['contenu fichier'] || 'contenu fichier';
-      const complétéLe = exemple['date mise à jour'] || '2024-01-01';
+      const modifiéLe = exemple['date mise à jour'] || '2024-01-01';
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.CompléterGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.CompléterGarantiesFinancières',
+      await mediator.send<GarantiesFinancières.ModifierGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           typeValue: typeGarantiesFinancières,
           ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
           attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
           dateConstitutionValue: new Date(dateConstitution).toISOString(),
-          complétéLeValue: new Date(complétéLe).toISOString(),
-          identifiantUtilisateurValue: identifiantUtilisateur,
-          rôleUtilisateurValue: 'admin',
+          modifiéLeValue: new Date(modifiéLe).toISOString(),
+          modifiéParValue: 'admin@test.test',
         },
       });
       await sleep(300);
     } catch (error) {
       this.error = error as Error;
-      console.log('ERREUR : ', error);
     }
   },
 );

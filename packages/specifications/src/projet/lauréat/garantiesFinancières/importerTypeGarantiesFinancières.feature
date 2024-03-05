@@ -8,7 +8,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | type                 | <type>                 |
             | date d'échéance      | <date d'échéance>      |
             | date d'import        | <date import>          |
-        Alors des garanties financières validées devraient consultables pour le projet "Centrale PV" avec :
+        Alors les garanties financières validées devraient consultables pour le projet "Centrale PV" avec :
             | type                 | <type>                 |
             | date d'échéance      | <date d'échéance>      |
             | date d'import        | <date import>          |

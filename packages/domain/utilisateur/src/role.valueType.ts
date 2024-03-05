@@ -129,7 +129,7 @@ const référencielPermissions = {
         modifierGarantiesFinancièresÀTraiter:
           'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancièresÀTraiter',
         importerType: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
-        compléter: 'Lauréat.GarantiesFinancières.UseCase.CompléterGarantiesFinancières',
+        modifier: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
       },
       command: {
         demander: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
@@ -140,7 +140,7 @@ const référencielPermissions = {
         modifierGarantiesFinancièresÀTraiter:
           'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancièresÀTraiter',
         importerType: 'Lauréat.GarantiesFinancières.Command.ImporterTypeGarantiesFinancières',
-        compléter: 'Lauréat.GarantiesFinancières.Command.CompléterGarantiesFinancières',
+        modifier: 'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières',
       },
     },
   },
@@ -480,9 +480,9 @@ const policies = {
       référencielPermissions.lauréat.garantiesFinancières.usecase.importerType,
       référencielPermissions.lauréat.garantiesFinancières.command.importerType,
     ],
-    compléter: [
-      référencielPermissions.lauréat.garantiesFinancières.usecase.compléter,
-      référencielPermissions.lauréat.garantiesFinancières.command.compléter,
+    modifier: [
+      référencielPermissions.lauréat.garantiesFinancières.usecase.modifier,
+      référencielPermissions.lauréat.garantiesFinancières.command.modifier,
     ],
   },
 };
@@ -523,7 +523,7 @@ const permissionAdmin = [
   ...policies.garantiesFinancières.valider,
   ...policies.garantiesFinancières['modifier-garanties-financières-à-traiter'],
   ...policies.garantiesFinancières.importer,
-  ...policies.garantiesFinancières.compléter,
+  ...policies.garantiesFinancières.modifier,
 ];
 
 const permissionCRE = [
@@ -537,7 +537,7 @@ const permissionCRE = [
   // Garanties financières
   ...policies.garantiesFinancières.consulter,
   ...policies.garantiesFinancières.lister,
-  ...policies.garantiesFinancières.compléter,
+  ...policies.garantiesFinancières.modifier,
 ];
 
 const permissionDreal = [
@@ -554,7 +554,7 @@ const permissionDreal = [
   ...policies.garantiesFinancières.demander,
   ...policies.garantiesFinancières.valider,
   ...policies.garantiesFinancières['modifier-garanties-financières-à-traiter'],
-  ...policies.garantiesFinancières.compléter,
+  ...policies.garantiesFinancières.modifier,
 ];
 
 const permissionDgecValidateur = [
@@ -589,7 +589,7 @@ const permissionDgecValidateur = [
   ...policies.garantiesFinancières.demander,
   ...policies.garantiesFinancières.valider,
   ...policies.garantiesFinancières.importer,
-  ...policies.garantiesFinancières.compléter,
+  ...policies.garantiesFinancières.modifier,
 ];
 
 const permissionPorteurProjet = [
@@ -623,7 +623,6 @@ const permissionPorteurProjet = [
   ...policies.garantiesFinancières.soumettre,
   ...policies.garantiesFinancières['supprimer-garanties-financières-à-traiter'],
   ...policies.garantiesFinancières['modifier-garanties-financières-à-traiter'],
-  ...policies.garantiesFinancières.compléter,
 ];
 
 const permissionAcheteurObligé = [
@@ -638,7 +637,7 @@ const permissionCaisseDesDépôts = [
   // Garanties financières
   ...policies.garantiesFinancières.consulter,
   ...policies.garantiesFinancières.lister,
-  ...policies.garantiesFinancières.compléter,
+  ...policies.garantiesFinancières.modifier,
 ];
 
 const permissions: Record<RawType, string[]> = {

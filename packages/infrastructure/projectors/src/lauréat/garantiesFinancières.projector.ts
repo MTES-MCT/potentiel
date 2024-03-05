@@ -188,18 +188,20 @@ export const register = () => {
           );
           break;
 
-        case 'GarantiesFinancièresComplétées-V1':
+        case 'GarantiesFinancièresModifiées-V1':
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
-              misÀJourLe: payload.complétéLe,
+              misÀJourLe: payload.modifiéLe,
               validées: {
                 ...garantiesFinancièresToUpsert.validées,
                 type: payload.type,
                 dateÉchéance: payload.dateÉchéance,
                 dateConstitution: payload.dateConstitution,
                 attestation: payload.attestation,
+                //TODO : à discuter si on met à jour la date de soumission ou si on intriduit une valeur "miseÀJourLe"
+                soumisLe: payload.modifiéLe,
               },
             },
           );

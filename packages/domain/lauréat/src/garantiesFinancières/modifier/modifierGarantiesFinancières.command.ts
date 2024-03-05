@@ -6,45 +6,42 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { TypeGarantiesFinancières } from '..';
 import { loadGarantiesFinancièresFactory } from '../garantiesFinancières.aggregate';
-import { IdentifiantUtilisateur, Role } from '@potentiel-domain/utilisateur';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-export type CompléterGarantiesFinancièresCommand = Message<
-  'Lauréat.GarantiesFinancières.Command.CompléterGarantiesFinancières',
+export type ModifierGarantiesFinancièresCommand = Message<
+  'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     type: TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
     attestation: DocumentProjet.ValueType;
     dateConstitution: DateTime.ValueType;
-    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
-    rôleUtilisateur: Role.ValueType;
-    complétéLe: DateTime.ValueType;
+    modifiéPar: IdentifiantUtilisateur.ValueType;
+    modifiéLe: DateTime.ValueType;
   }
 >;
 
-export const registerCompléterGarantiesFinancièresCommand = (loadAggregate: LoadAggregate) => {
+export const registerModifierGarantiesFinancièresCommand = (loadAggregate: LoadAggregate) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
-  const handler: MessageHandler<CompléterGarantiesFinancièresCommand> = async ({
+  const handler: MessageHandler<ModifierGarantiesFinancièresCommand> = async ({
     identifiantProjet,
     attestation,
     dateConstitution,
     type,
     dateÉchéance,
-    complétéLe,
-    identifiantUtilisateur,
-    rôleUtilisateur,
+    modifiéLe,
+    modifiéPar,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
-    await garantiesFinancières.compléter({
+    await garantiesFinancières.modifier({
       identifiantProjet,
       attestation,
       dateConstitution,
       type,
       dateÉchéance,
-      complétéLe,
-      identifiantUtilisateur,
-      rôleUtilisateur,
+      modifiéLe,
+      modifiéPar,
     });
   };
-  mediator.register('Lauréat.GarantiesFinancières.Command.CompléterGarantiesFinancières', handler);
+  mediator.register('Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières', handler);
 };
