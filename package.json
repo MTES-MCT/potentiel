@@ -37,6 +37,7 @@
     "./packages/specifications"
   ],
   "scripts": {
+    "start": "npm run start --workspaces --if-present ",
     "start:dev": "docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U potadmindb -d potentiel; do sleep 1; done && npm run start:dev --workspaces --if-present ",
     "stop:dev": "docker compose  --profile app down --remove-orphans",
     "build": "npm run build --workspaces --if-present",
