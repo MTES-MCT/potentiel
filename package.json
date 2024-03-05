@@ -42,7 +42,8 @@
     "lint": "npm run lint --workspaces --if-present",
     "format": "npm run format --workspaces --if-present",
     "storybook": "npm run storybook build --workspaces --if-present",
-    "test": "export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose --profile test down --remove-orphans && docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && npm run test --workspaces --if-present"
+    "test": "export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose --profile test down --remove-orphans && docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done && npm run test --workspaces --if-present",
+    "version": "ts-node .github/getPatchVersion.ts"
   },
   "repository": {
     "type": "git",
@@ -67,6 +68,7 @@
     "prettier": "^2.8.8",
     "pretty-format": "^29.6.3",
     "rimraf": "^5.0.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5.2.2"
   },
   "engines": {
