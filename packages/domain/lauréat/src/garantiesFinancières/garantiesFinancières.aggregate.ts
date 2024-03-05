@@ -60,6 +60,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     type: TypeGarantiesFinancières.ValueType | 'type-inconnu';
     dateÉchéance?: DateTime.ValueType;
     dateConstitution?: DateTime.ValueType;
+    attestation?: { format: string };
     validéLe?: DateTime.ValueType;
     importéLe?: DateTime.ValueType;
   };
@@ -68,6 +69,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     dateÉchéance?: DateTime.ValueType;
     dateConstitution: DateTime.ValueType;
     soumisLe: DateTime.ValueType;
+    attestation?: { format: string };
   };
   enAttente?: { dateLimiteSoumission: DateTime.ValueType };
   readonly soumettre: typeof soumettre;

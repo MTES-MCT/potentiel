@@ -181,3 +181,33 @@ Quand(
     }
   },
 );
+
+Quand(
+  `un porteur enregistre l'attestation des garanties financières validées pour le projet {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
+    try {
+      const format = exemple['format'] || 'application/pdf';
+      const dateConstitution = exemple[`date de constitution`] || '2024-01-01';
+      const contenuFichier = exemple['contenu fichier'] || 'contenu fichier';
+      const enregistréLe = exemple['date mise à jour'] || '2024-01-01';
+
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await mediator.send<GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
+          dateConstitutionValue: new Date(dateConstitution).toISOString(),
+          enregistréLeValue: new Date(enregistréLe).toISOString(),
+          enregistréParValue: 'porteur@test.test',
+        },
+      });
+      await sleep(300);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);

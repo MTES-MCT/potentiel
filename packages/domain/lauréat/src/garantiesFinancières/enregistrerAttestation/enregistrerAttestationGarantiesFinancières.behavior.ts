@@ -32,6 +32,9 @@ export async function enregistrerAttestation(
   if (!this.validées) {
     throw new AucunesGarantiesFinancièresValidées();
   }
+  if (this.validées.dateConstitution && this.validées.attestation) {
+    throw new AttestationGarantiesFinancièresDéjàExistante();
+  }
   if (dateConstitution.estDansLeFutur()) {
     throw new DateConstitutionDansLeFutur();
   }
@@ -52,15 +55,22 @@ export async function enregistrerAttestation(
 
 export function applyEnregistrerAttestationGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
-  { payload: { dateConstitution } }: AttestationGarantiesFinancièresEnregistréeEvent,
+  { payload: { dateConstitution, attestation } }: AttestationGarantiesFinancièresEnregistréeEvent,
 ) {
   if (this.validées) {
     this.validées.dateConstitution = DateTime.convertirEnValueType(dateConstitution);
+    this.validées.attestation = attestation;
   }
 }
 
 class AucunesGarantiesFinancièresValidées extends NotFoundError {
   constructor() {
     super(`Il n'y a aucunes garanties financières validées pour ce projet`);
+  }
+}
+
+class AttestationGarantiesFinancièresDéjàExistante extends NotFoundError {
+  constructor() {
+    super(`Il y a déjà une attestation pour ces garanties financières`);
   }
 }

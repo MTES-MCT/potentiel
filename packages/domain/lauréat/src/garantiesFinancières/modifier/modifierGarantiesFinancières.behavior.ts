@@ -74,13 +74,16 @@ export async function modifier(
 
 export function applyModifierGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
-  { payload: { type, dateÉchéance, dateConstitution } }: GarantiesFinancièresModifiéesEvent,
+  {
+    payload: { type, dateÉchéance, dateConstitution, attestation },
+  }: GarantiesFinancièresModifiéesEvent,
 ) {
   this.validées = {
     ...this.validées,
     type: TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),
+    attestation,
   };
 }
 

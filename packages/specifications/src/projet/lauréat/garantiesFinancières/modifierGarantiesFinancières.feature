@@ -3,7 +3,7 @@
 Fonctionnalité: Modifier des garanties financières validées
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
-   @select
+    
     Plan du Scénario: Un admin modifie des garanties financières validées
         Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
             | type                 | type-inconnu           |
@@ -32,8 +32,8 @@ Fonctionnalité: Modifier des garanties financières validées
     Exemples:
             | type                      | date d'échéance   |
             | avec-date-échéance        | 2027-12-01        |
-            # | consignation              |                   |
-            # | six-mois-après-achèvement |                   |  
+            | consignation              |                   |
+            | six-mois-après-achèvement |                   |  
 
     Plan du Scénario: Erreur si le type renseigné n'est pas compatible avec une date d'échéance
         Etant donné des garanties financières validées pour le projet "Centrale PV" avec :

@@ -76,7 +76,7 @@ export async function modifierGarantiesFinancièresÀTraiter(
 export function applyModifierGarantiesFinancièresÀTraiter(
   this: GarantiesFinancièresAggregate,
   {
-    payload: { type, dateÉchéance, dateConstitution, soumisLe },
+    payload: { type, dateÉchéance, dateConstitution, soumisLe, attestation },
   }: GarantiesFinancièresÀTraiterModifiéesEvent,
 ) {
   this.statut = StatutGarantiesFinancières.àTraiter;
@@ -85,5 +85,6 @@ export function applyModifierGarantiesFinancièresÀTraiter(
     dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),
     soumisLe: DateTime.convertirEnValueType(soumisLe),
+    attestation,
   };
 }
