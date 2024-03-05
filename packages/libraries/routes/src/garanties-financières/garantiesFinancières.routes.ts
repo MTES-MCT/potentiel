@@ -12,8 +12,5 @@ export const modifierDépôtEnCours = (identifiantProjet: string) =>
 export const modifier = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres:modifier`;
 
-export const compléter = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres:completer`;
-
-export const enregistrer = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres:enregistrer`;
+export const enregistrerAttestation = (identifiantProjet: string) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres:enregistrer-attestation`;

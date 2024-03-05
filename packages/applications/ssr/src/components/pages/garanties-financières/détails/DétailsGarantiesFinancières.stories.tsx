@@ -84,7 +84,7 @@ export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
       dateEnvoi: '2024-01-01',
       dateValidation: '2024-01-15',
       attestation: 'path/to/attestation.pdf',
-      action: 'modifier',
+      action: 'enregister-attestation',
     },
     dépôts: [],
   },
@@ -115,13 +115,5 @@ export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
     projet,
     dépôts: [],
     action: 'soumettre',
-  },
-};
-
-export const GarantiesFinancieresVideAvecActionEnregistrer: Story = {
-  args: {
-    projet,
-    dépôts: [],
-    action: 'enregistrer',
   },
 };

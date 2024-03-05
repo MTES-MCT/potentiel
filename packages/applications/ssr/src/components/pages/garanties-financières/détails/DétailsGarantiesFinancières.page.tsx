@@ -26,7 +26,7 @@ export type DétailsGarantiesFinancièresPageProps = {
   actuelles?: GarantiesFinancièresActuellesProps['actuelles'];
   dateLimiteSoummission?: string;
   dépôts: HistoriqueDesGarantiesFinancièresDéposéesProps['dépôts'];
-  action?: 'soumettre' | 'enregistrer';
+  action?: 'soumettre';
 };
 
 export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancièresPageProps> = ({

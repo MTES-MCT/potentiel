@@ -49,7 +49,7 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
           buttonProps={{
             children: 'Voir',
             linkProps: {
-              href: Routes.GarantiesFinancières.détail(identifiantProjet),
+              href: Routes.GarantiesFinancières.modifierDépôtEnCours(identifiantProjet),
             },
           }}
           iconId="ri-information-line"
