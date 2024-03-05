@@ -5,7 +5,13 @@ import { TâcheListPage, TâcheListPageProps } from './TâcheList.page';
 const meta = {
   title: 'Pages/Tâches',
   component: TâcheListPage,
-  parameters: {},
+  parameters: {
+    docs: {
+      description: {
+        component: 'Cette page liste les tâches disponible dans le centre des tâches de Potentiel',
+      },
+    },
+  },
   tags: ['autodocs'],
   argTypes: {},
 } satisfies Meta<TâcheListPageProps>;
