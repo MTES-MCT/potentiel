@@ -200,8 +200,6 @@ export const register = () => {
                 dateÉchéance: payload.dateÉchéance,
                 dateConstitution: payload.dateConstitution,
                 attestation: payload.attestation,
-                //TODO : à discuter si on met à jour la date de soumission ou si on intriduit une valeur "miseÀJourLe"
-                soumisLe: payload.modifiéLe,
               },
             },
           );

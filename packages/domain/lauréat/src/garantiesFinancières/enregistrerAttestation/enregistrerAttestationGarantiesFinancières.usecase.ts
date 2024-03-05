@@ -33,7 +33,7 @@ export const registerEnregistrerAttestationGarantiesFinancièresUseCase = () => 
     const attestation = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
       TypeDocumentGarantiesFinancières.garantiesFinancièresValidéesValueType.formatter(),
-      enregistréLeValue,
+      dateConstitutionValue,
       attestationValue.format,
     );
     const enregistréPar = IdentifiantUtilisateur.convertirEnValueType(enregistréParValue);
