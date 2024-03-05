@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "pretest": "tsc",
-    "test": "cucumber-js"
+    "test": "cucumber-js --tags \"not @NotImplemented\""
   },
   "dependencies": {
     "@potentiel-application/bootstrap": "*",
