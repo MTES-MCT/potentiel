@@ -97,20 +97,27 @@ export const register = () => {
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
-              misÀJourLe: payload.suppriméLe,
-              statut: garantiesFinancièresToUpsert.enAttente
-                ? GarantiesFinancières.StatutGarantiesFinancières.enAttente.statut
-                : GarantiesFinancières.StatutGarantiesFinancières.validé.statut,
-              àTraiter: undefined,
+              dépôts: garantiesFinancièresToUpsert.dépôts.filter(
+                (dépôt) =>
+                  !GarantiesFinancières.StatutDépôtGarantiesFinancières.convertirEnValueType(
+                    dépôt.statut,
+                  ).estÉgaleÀ(GarantiesFinancières.StatutDépôtGarantiesFinancières.enCours),
+              ),
             },
           );
           break;
 
         case 'DépôtGarantiesFinancièresEnCoursValidé-V1':
-          if (!garantiesFinancièresToUpsert.àTraiter) {
+          const dépôtValidé = garantiesFinancièresToUpsert.dépôts.find((dépôt) =>
+            GarantiesFinancières.StatutDépôtGarantiesFinancières.convertirEnValueType(
+              dépôt.statut,
+            ).estÉgaleÀ(GarantiesFinancières.StatutDépôtGarantiesFinancières.enCours),
+          );
+
+          if (!dépôtValidé) {
             getLogger().error(
               new Error(
-                `garanties financières à traiter absentes, impossible d'enregistrer les données des garanties financières validées`,
+                `dépôt garanties financières en cours absent, impossible d'enregistrer les données des garanties financières validées`,
               ),
               {
                 identifiantProjet,
@@ -119,24 +126,28 @@ export const register = () => {
             );
             return;
           }
+
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
-              misÀJourLe: payload.validéLe,
-              statut: GarantiesFinancières.StatutGarantiesFinancières.validé.statut,
-              validées: {
-                type: garantiesFinancièresToUpsert.àTraiter.type,
-                ...(garantiesFinancièresToUpsert.àTraiter.dateÉchéance && {
-                  dateÉchéance: garantiesFinancièresToUpsert.àTraiter.dateÉchéance,
+              actuelles: {
+                type: dépôtValidé.type,
+                ...(dépôtValidé.dateÉchéance && {
+                  dateÉchéance: dépôtValidé.dateÉchéance,
                 }),
-                attestation: garantiesFinancièresToUpsert.àTraiter.attestation,
-                dateConstitution: garantiesFinancièresToUpsert.àTraiter.dateConstitution,
+                attestation: dépôtValidé.attestation,
+                dateConstitution: dépôtValidé.dateConstitution,
                 validéLe: payload.validéLe,
-                soumisLe: garantiesFinancièresToUpsert.àTraiter.soumisLe,
+                soumisLe: dépôtValidé.soumisLe,
+                dernièreMiseÀJour: { date: payload.validéLe, par: payload.validéPar },
               },
-              àTraiter: undefined,
-              enAttente: undefined,
+              dépôts: garantiesFinancièresToUpsert.dépôts.filter(
+                (dépôt) =>
+                  !GarantiesFinancières.StatutDépôtGarantiesFinancières.convertirEnValueType(
+                    dépôt.statut,
+                  ).estÉgaleÀ(GarantiesFinancières.StatutDépôtGarantiesFinancières.enCours),
+              ),
             },
           );
           break;
@@ -146,15 +157,23 @@ export const register = () => {
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
-              misÀJourLe: payload.modifiéLe,
-              statut: GarantiesFinancières.StatutGarantiesFinancières.àTraiter.statut,
-              àTraiter: {
-                type: payload.type,
-                dateÉchéance: payload.dateÉchéance,
-                dateConstitution: payload.dateConstitution,
-                attestation: payload.attestation,
-                soumisLe: payload.modifiéLe,
-              },
+              dépôts: [
+                ...garantiesFinancièresToUpsert.dépôts.filter(
+                  (dépôt) =>
+                    !GarantiesFinancières.StatutDépôtGarantiesFinancières.convertirEnValueType(
+                      dépôt.statut,
+                    ).estÉgaleÀ(GarantiesFinancières.StatutDépôtGarantiesFinancières.enCours),
+                ),
+                {
+                  type: payload.type,
+                  dateÉchéance: payload.dateÉchéance,
+                  attestation: payload.attestation,
+                  dateConstitution: payload.dateConstitution,
+                  soumisLe: payload.modifiéLe,
+                  statut: GarantiesFinancières.StatutDépôtGarantiesFinancières.enCours.statut,
+                  dernièreMiseÀJour: { date: payload.modifiéLe, par: payload.modifiéPar },
+                },
+              ],
             },
           );
           break;
@@ -166,9 +185,7 @@ export const register = () => {
             {
               ...garantiesFinancièresToUpsert,
               ...projetPourTypeGarantiesFinancièresImporté,
-              misÀJourLe: payload.importéLe,
-              statut: GarantiesFinancières.StatutGarantiesFinancières.validé.statut,
-              validées: {
+              actuelles: {
                 type: payload.type,
                 dateÉchéance: payload.dateÉchéance,
                 importéLe: payload.importéLe,
@@ -182,13 +199,13 @@ export const register = () => {
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
-              misÀJourLe: payload.modifiéLe,
-              validées: {
-                ...garantiesFinancièresToUpsert.validées,
+              actuelles: {
+                ...garantiesFinancièresToUpsert.actuelles,
                 type: payload.type,
                 dateÉchéance: payload.dateÉchéance,
                 dateConstitution: payload.dateConstitution,
                 attestation: payload.attestation,
+                dernièreMiseÀJour: { date: payload.modifiéLe, par: payload.modifiéPar },
               },
             },
           );
@@ -199,12 +216,12 @@ export const register = () => {
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
-              misÀJourLe: payload.enregistréLe,
-              validées: {
-                ...garantiesFinancièresToUpsert.validées,
-                type: garantiesFinancièresToUpsert.validées?.type || 'type-inconnu',
+              actuelles: {
+                ...garantiesFinancièresToUpsert.actuelles,
+                type: garantiesFinancièresToUpsert.actuelles?.type || 'type-inconnu',
                 dateConstitution: payload.dateConstitution,
                 attestation: payload.attestation,
+                dernièreMiseÀJour: { par: payload.enregistréPar, date: payload.enregistréLe },
               },
             },
           );
