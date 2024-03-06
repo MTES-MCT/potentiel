@@ -32,6 +32,7 @@
     "@potentiel-infrastructure/document-builder": "*",
     "@potentiel-libraries/routes": "*",
     "@potentiel/monitoring": "*",
+    "iconv-lite": "^0.6.3",
     "mediateur": "^0.1.0",
     "next": "^14.0.1",
     "next-auth": "^4.24.5",
