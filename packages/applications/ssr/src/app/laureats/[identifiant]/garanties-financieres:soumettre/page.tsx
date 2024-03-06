@@ -33,12 +33,15 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     });
     let garantiesFinancièresÀTraiterExistante: true | undefined = undefined;
 
+    /**
+     * @todo : à voir si on peut faire une query pour savoir si on a des dépôts de garanties financières sont en cours de traitement
+     */
     try {
       const gf = await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
         type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
         data: { identifiantProjetValue: identifiantProjet },
       });
-      if (gf.àTraiter) {
+      if (gf.dépôts.find((dépôt) => dépôt.statut.estEnCours())) {
         garantiesFinancièresÀTraiterExistante = true;
       }
     } catch (e) {

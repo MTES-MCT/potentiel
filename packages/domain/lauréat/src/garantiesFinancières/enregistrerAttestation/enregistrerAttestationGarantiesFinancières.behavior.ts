@@ -29,10 +29,10 @@ export async function enregistrerAttestation(
   this: GarantiesFinancièresAggregate,
   { attestation, dateConstitution, identifiantProjet, enregistréLe, enregistréPar }: Options,
 ) {
-  if (!this.validées) {
+  if (!this.actuelles) {
     throw new AucunesGarantiesFinancièresValidées();
   }
-  if (this.validées.dateConstitution && this.validées.attestation) {
+  if (this.actuelles.dateConstitution && this.actuelles.attestation) {
     throw new AttestationGarantiesFinancièresDéjàExistante();
   }
   if (dateConstitution.estDansLeFutur()) {
@@ -57,9 +57,9 @@ export function applyEnregistrerAttestationGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
   { payload: { dateConstitution, attestation } }: AttestationGarantiesFinancièresEnregistréeEvent,
 ) {
-  if (this.validées) {
-    this.validées.dateConstitution = DateTime.convertirEnValueType(dateConstitution);
-    this.validées.attestation = attestation;
+  if (this.actuelles) {
+    this.actuelles.dateConstitution = DateTime.convertirEnValueType(dateConstitution);
+    this.actuelles.attestation = attestation;
   }
 }
 

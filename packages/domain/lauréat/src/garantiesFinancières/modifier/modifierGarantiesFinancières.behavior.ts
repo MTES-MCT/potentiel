@@ -43,7 +43,7 @@ export async function modifier(
     modifiéPar,
   }: Options,
 ) {
-  if (!this.validées) {
+  if (!this.actuelles) {
     throw new AucunesGarantiesFinancièresValidées();
   }
   if (type.estAvecDateÉchéance() && !dateÉchéance) {
@@ -78,8 +78,8 @@ export function applyModifierGarantiesFinancières(
     payload: { type, dateÉchéance, dateConstitution, attestation },
   }: GarantiesFinancièresModifiéesEvent,
 ) {
-  this.validées = {
-    ...this.validées,
+  this.actuelles = {
+    ...this.actuelles,
     type: TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),

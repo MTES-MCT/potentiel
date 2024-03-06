@@ -2,7 +2,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { DocumentProjet } from '@potentiel-domain/document';
-import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '../..';
+import { ÉtatGarantiesFinancières, TypeGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DateConstitutionDansLeFutur } from '../../dateConstitutionDansLeFutur.error';
@@ -44,7 +44,7 @@ export async function soumettreDépôt(
     soumisPar,
   }: Options,
 ) {
-  this.statut?.vérifierQueLeChangementDeStatutEstPossibleEn(StatutGarantiesFinancières.àTraiter);
+  this.état?.vérifierQueLeChangementDÉtatEstPossibleEn(ÉtatGarantiesFinancières.dépôtEnCours);
   if (dateConstitution.estDansLeFutur()) {
     throw new DateConstitutionDansLeFutur();
   }
@@ -76,12 +76,12 @@ export function applyDépôtGarantiesFinancièresSoumis(
     payload: { type, dateÉchéance, dateConstitution, soumisLe, attestation },
   }: DépôtGarantiesFinancièresSoumisEvent,
 ) {
-  this.statut = StatutGarantiesFinancières.àTraiter;
-  this.àTraiter = {
-    type: TypeGarantiesFinancières.convertirEnValueType(type),
-    dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
-    dateConstitution: DateTime.convertirEnValueType(dateConstitution),
-    soumisLe: DateTime.convertirEnValueType(soumisLe),
-    attestation,
-  };
+  (this.état = ÉtatGarantiesFinancières.dépôtEnCours),
+    (this.dépôtEnCours = {
+      type: TypeGarantiesFinancières.convertirEnValueType(type),
+      dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
+      dateConstitution: DateTime.convertirEnValueType(dateConstitution),
+      soumisLe: DateTime.convertirEnValueType(soumisLe),
+      attestation,
+    });
 }

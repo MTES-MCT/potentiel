@@ -2,7 +2,6 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
-import { StatutGarantiesFinancières } from '..';
 
 export type GarantiesFinancièresDemandéesEvent = DomainEvent<
   'GarantiesFinancièresDemandées-V1',
@@ -33,14 +32,4 @@ export async function demanderGarantiesFinancières(
   };
 
   await this.publish(event);
-}
-
-export function applyGarantiesFinancièresDemandées(
-  this: GarantiesFinancièresAggregate,
-  { payload: { dateLimiteSoumission } }: GarantiesFinancièresDemandéesEvent,
-) {
-  this.statut = StatutGarantiesFinancières.enAttente;
-  this.enAttente = {
-    dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
-  };
 }

@@ -4,11 +4,6 @@ import {
 } from './consulter/consulterGarantiesFinancières.query';
 import { SoumettreDépôtGarantiesFinancièresUseCase } from './dépôt/soumettreDépôt/soumettreDépôtGarantiesFinancières.usecase';
 import { DemanderGarantiesFinancièresUseCase } from './demander/demanderGarantiesFinancières.usecase';
-import {
-  ListerGarantiesFinancièresPort,
-  ListerGarantiesFinancièresQuery,
-  ListerGarantiesFinancièresReadModel,
-} from './lister/listerGarantiesFinancières.query';
 import { SupprimerGarantiesFinancièresÀTraiterUseCase } from './dépôt/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.usecase';
 import { ValiderDépôtGarantiesFinancièresEnCoursUseCase } from './dépôt/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.usecase';
 import { ModifierDépôtGarantiesFinancièresEnCoursUseCase } from './dépôt/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.usecase';
@@ -17,14 +12,12 @@ import { ModifierGarantiesFinancièresUseCase } from './modifier/modifierGaranti
 import { EnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
 
 // Query
-export type GarantiesFinancièresQuery =
-  | ConsulterGarantiesFinancièresQuery
-  | ListerGarantiesFinancièresQuery;
+export type GarantiesFinancièresQuery = ConsulterGarantiesFinancièresQuery;
 
-export { ConsulterGarantiesFinancièresQuery, ListerGarantiesFinancièresQuery };
+export { ConsulterGarantiesFinancièresQuery };
 
 // ReadModel
-export { ConsulterGarantiesFinancièresReadModel, ListerGarantiesFinancièresReadModel };
+export { ConsulterGarantiesFinancièresReadModel };
 
 // UseCases
 export type GarantiesFinancièresUseCase =
@@ -68,6 +61,7 @@ export {
 // ValueTypes
 export * as GarantiesFinancières from './garantiesFinancières.valueType';
 export * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
+export * as ÉtatGarantiesFinancières from './étatGarantiesFinancières.valueType';
 export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
 export * as StatutDépôtGarantiesFinancières from './statutDépôtGarantiesFinancières.valueType';
 
@@ -75,4 +69,3 @@ export * as StatutDépôtGarantiesFinancières from './statutDépôtGarantiesFin
 export * from './garantiesFinancières.entity';
 
 // Ports
-export { ListerGarantiesFinancièresPort };

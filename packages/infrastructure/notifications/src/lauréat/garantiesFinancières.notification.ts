@@ -21,7 +21,7 @@ export type Execute = Message<
 
 const sendEmailGarantiesFinancièresChangementDeStatut = async ({
   identifiantProjet,
-  statut,
+  état,
   templateId,
   recipients,
   nomProjet,
@@ -29,7 +29,7 @@ const sendEmailGarantiesFinancièresChangementDeStatut = async ({
   régionProjet,
 }: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  statut: GarantiesFinancières.StatutGarantiesFinancières.ValueType;
+  état: GarantiesFinancières.ÉtatGarantiesFinancières.ValueType;
   templateId: number;
   recipients: Array<{ email: string; fullName: string }>;
   nomProjet: string;
@@ -38,11 +38,7 @@ const sendEmailGarantiesFinancièresChangementDeStatut = async ({
 }) => {
   const { BASE_URL } = process.env;
 
-  const nouveauStatut = statut.estEnAttente()
-    ? 'en attente'
-    : statut.estÀTraiter()
-    ? 'en attente de validation'
-    : 'validées';
+  const nouveauStatut = état.estDépôtEnCours() ? 'en attente de validation' : 'validées';
 
   await sendEmail({
     templateId,
@@ -84,7 +80,7 @@ export const register = () => {
     switch (event.type) {
       case 'DépôtGarantiesFinancièresSoumis-V1':
         await sendEmailGarantiesFinancièresChangementDeStatut({
-          statut: GarantiesFinancières.StatutGarantiesFinancières.àTraiter,
+          état: GarantiesFinancières.ÉtatGarantiesFinancières.dépôtEnCours,
           templateId: templateId.garantiesFinancières.àTraiterPourDreal,
           recipients: dreals,
           identifiantProjet,
@@ -94,7 +90,7 @@ export const register = () => {
         });
 
         await sendEmailGarantiesFinancièresChangementDeStatut({
-          statut: GarantiesFinancières.StatutGarantiesFinancières.àTraiter,
+          état: GarantiesFinancières.ÉtatGarantiesFinancières.dépôtEnCours,
           templateId: templateId.garantiesFinancières.àTraiterPourPorteur,
           recipients: porteurs,
           identifiantProjet,

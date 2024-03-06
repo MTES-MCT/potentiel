@@ -1,11 +1,6 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const types = [
-  'consignation',
-  'avec-date-échéance',
-  'six-mois-après-achèvement',
-  'type-inconnu',
-] as const;
+export const types = ['consignation', 'avec-date-échéance', 'six-mois-après-achèvement'] as const;
 
 export type RawType = (typeof types)[number];
 

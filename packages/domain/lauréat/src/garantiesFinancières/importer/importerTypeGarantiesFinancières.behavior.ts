@@ -1,7 +1,7 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '..';
+import { ÉtatGarantiesFinancières, TypeGarantiesFinancières } from '..';
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DateÉchéanceManquante } from '../dateÉchéanceManquante.error';
@@ -54,8 +54,8 @@ export function applyTypeGarantiesFinancièresImporté(
   this: GarantiesFinancièresAggregate,
   { payload: { type, dateÉchéance, importéLe } }: TypeGarantiesFinancièresImportéEvent,
 ) {
-  this.statut = StatutGarantiesFinancières.àTraiter;
-  this.validées = {
+  this.état = ÉtatGarantiesFinancières.validé;
+  this.actuelles = {
     type: TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
     importéLe: DateTime.convertirEnValueType(importéLe),

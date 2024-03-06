@@ -6,11 +6,10 @@ import {
   applyDépôtGarantiesFinancièresSoumis,
   soumettreDépôt,
 } from './dépôt/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
-import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '.';
+import { TypeGarantiesFinancières, ÉtatGarantiesFinancières } from '.';
 import { AucunesGarantiesFinancières } from './aucunesGarantiesFinancières.error';
 import {
   GarantiesFinancièresDemandéesEvent,
-  applyGarantiesFinancièresDemandées,
   demanderGarantiesFinancières,
 } from './demander/demanderGarantiesFinancières.behavior';
 import {
@@ -55,8 +54,8 @@ export type GarantiesFinancièresEvent =
   | AttestationGarantiesFinancièresEnregistréeEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
-  statut?: StatutGarantiesFinancières.ValueType;
-  validées?: {
+  état?: ÉtatGarantiesFinancières.ValueType;
+  actuelles?: {
     type: TypeGarantiesFinancières.ValueType | 'type-inconnu';
     dateÉchéance?: DateTime.ValueType;
     dateConstitution?: DateTime.ValueType;
@@ -64,14 +63,13 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     validéLe?: DateTime.ValueType;
     importéLe?: DateTime.ValueType;
   };
-  àTraiter?: {
+  dépôtEnCours?: {
     type: TypeGarantiesFinancières.ValueType | 'type-inconnu';
     dateÉchéance?: DateTime.ValueType;
     dateConstitution: DateTime.ValueType;
     soumisLe: DateTime.ValueType;
     attestation?: { format: string };
   };
-  enAttente?: { dateLimiteSoumission: DateTime.ValueType };
   readonly soumettreDépôt: typeof soumettreDépôt;
   readonly demanderGarantiesFinancières: typeof demanderGarantiesFinancières;
   readonly supprimerDépôtGarantiesFinancièresEnCours: typeof supprimerDépôtGarantiesFinancièresEnCours;
@@ -101,9 +99,6 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
   switch (event.type) {
     case 'DépôtGarantiesFinancièresSoumis-V1':
       applyDépôtGarantiesFinancièresSoumis.bind(this)(event);
-      break;
-    case 'GarantiesFinancièresDemandées-V1':
-      applyGarantiesFinancièresDemandées.bind(this)(event);
       break;
     case 'DépôtGarantiesFinancièresEnCoursSupprimé-V1':
       applyDépôtGarantiesFinancièresEnCoursSupprimé.bind(this)();

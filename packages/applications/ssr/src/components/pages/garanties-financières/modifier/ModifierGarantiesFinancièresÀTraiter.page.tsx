@@ -33,7 +33,7 @@ type AvailableActions = Array<'valider' | 'rejeter' | 'supprimer'>;
 export type ModifierGarantiesFinancièresÀTraiterProps = {
   projet: ProjetBannerProps;
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
-  statut: GarantiesFinancières.StatutGarantiesFinancières.RawType;
+  statut: GarantiesFinancières.StatutDépôtGarantiesFinancières.RawType;
   garantiesFinancières: {
     type: TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel'];
     dateÉchéance?: string;
