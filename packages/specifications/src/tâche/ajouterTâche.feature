@@ -1,5 +1,5 @@
 #Language: fr-FR
-Fonctionnalité: AJouter une tâche
+Fonctionnalité: Ajouter une tâche
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur pour le projet lauréat "Du boulodrome de Marseille"
