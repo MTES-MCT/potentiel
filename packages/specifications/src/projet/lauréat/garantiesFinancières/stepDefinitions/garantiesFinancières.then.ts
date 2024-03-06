@@ -93,7 +93,7 @@ Alors(
     const dateConstitution = exemple[`date de constitution`];
     const contenu = exemple['contenu fichier'];
     const dateValidation = exemple['date de validation'];
-    const dateImport = exemple["date d'import"];
+    const dateMiseÀJour = exemple['date dernière mise à jour'];
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -117,9 +117,9 @@ Alors(
           new Date(dateConstitution),
         );
       }
-      if (dateImport) {
-        expect(actualReadModel.actuelles?.dernièreMiseÀJour.date).to.deep.equal(
-          new Date(dateImport),
+      if (dateMiseÀJour) {
+        expect(actualReadModel.actuelles?.dernièreMiseÀJour.date.date).to.deep.equal(
+          new Date(dateMiseÀJour),
         );
       }
       if (dateValidation) {
