@@ -188,13 +188,27 @@ export const register = () => {
               actuelles: {
                 type: payload.type,
                 dateÉchéance: payload.dateÉchéance,
-                importéLe: payload.importéLe,
+                typeImportéLe: payload.importéLe,
+                dernièreMiseÀJour: { date: payload.importéLe, par: payload.importéPar },
               },
             },
           );
           break;
 
         case 'GarantiesFinancièresModifiées-V1':
+          if (!garantiesFinancièresToUpsert.actuelles) {
+            getLogger().error(
+              new Error(
+                `garanties financières actuelles absentes, impossible d'enregistrer les données de l'attestation`,
+              ),
+              {
+                identifiantProjet: garantiesFinancièresToUpsert.identifiantProjet,
+                message: event,
+              },
+            );
+            return;
+          }
+
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
@@ -212,13 +226,24 @@ export const register = () => {
           break;
 
         case 'AttestationGarantiesFinancièresEnregistrée-V1':
+          if (!garantiesFinancièresToUpsert.actuelles) {
+            getLogger().error(
+              new Error(
+                `garanties financières actuelles absentes, impossible d'enregistrer les données de l'attestation`,
+              ),
+              {
+                identifiantProjet: garantiesFinancièresToUpsert.identifiantProjet,
+                message: event,
+              },
+            );
+            return;
+          }
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
               actuelles: {
                 ...garantiesFinancièresToUpsert.actuelles,
-                type: garantiesFinancièresToUpsert.actuelles?.type || 'type-inconnu',
                 dateConstitution: payload.dateConstitution,
                 attestation: payload.attestation,
                 dernièreMiseÀJour: { par: payload.enregistréPar, date: payload.enregistréLe },
