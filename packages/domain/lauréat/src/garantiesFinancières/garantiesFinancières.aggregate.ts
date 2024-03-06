@@ -5,7 +5,7 @@ import {
   DépôtGarantiesFinancièresSoumisEvent,
   applyDépôtGarantiesFinancièresSoumis,
   soumettreDépôt,
-} from './soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
+} from './dépôt/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
 import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '.';
 import { AucunesGarantiesFinancières } from './aucunesGarantiesFinancières.error';
 import {
@@ -17,17 +17,17 @@ import {
   DépôtGarantiesFinancièresEnCoursSuppriméEvent,
   applyDépôtGarantiesFinancièresEnCoursSupprimé,
   supprimerDépôtGarantiesFinancièresEnCours,
-} from './supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
+} from './dépôt/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
 import {
   DépôtGarantiesFinancièresEnCoursValidéEvent,
   applyDépôtGarantiesFinancièresEnCoursValidé,
   validerDépôtEnCours,
-} from './validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.behavior';
+} from './dépôt/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.behavior';
 import {
   DépôtGarantiesFinancièresEnCoursModifiéEvent,
   applyDépôtGarantiesFinancièresEnCoursModifié,
   modifierDépôtGarantiesFinancièresEnCours,
-} from './modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
+} from './dépôt/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
 import {
   TypeGarantiesFinancièresImportéEvent,
   applyTypeGarantiesFinancièresImporté,

@@ -2,16 +2,16 @@ import {
   ConsulterGarantiesFinancièresQuery,
   ConsulterGarantiesFinancièresReadModel,
 } from './consulter/consulterGarantiesFinancières.query';
-import { SoumettreDépôtGarantiesFinancièresUseCase } from './soumettreDépôt/soumettreDépôtGarantiesFinancières.usecase';
+import { SoumettreDépôtGarantiesFinancièresUseCase } from './dépôt/soumettreDépôt/soumettreDépôtGarantiesFinancières.usecase';
 import { DemanderGarantiesFinancièresUseCase } from './demander/demanderGarantiesFinancières.usecase';
 import {
   ListerGarantiesFinancièresPort,
   ListerGarantiesFinancièresQuery,
   ListerGarantiesFinancièresReadModel,
 } from './lister/listerGarantiesFinancières.query';
-import { SupprimerGarantiesFinancièresÀTraiterUseCase } from './supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.usecase';
-import { ValiderDépôtGarantiesFinancièresEnCoursUseCase } from './validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.usecase';
-import { ModifierDépôtGarantiesFinancièresEnCoursUseCase } from './modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.usecase';
+import { SupprimerGarantiesFinancièresÀTraiterUseCase } from './dépôt/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.usecase';
+import { ValiderDépôtGarantiesFinancièresEnCoursUseCase } from './dépôt/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.usecase';
+import { ModifierDépôtGarantiesFinancièresEnCoursUseCase } from './dépôt/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.usecase';
 import { ImporterTypeGarantiesFinancièresUseCase } from './importer/importerTypeGarantiesFinancières.usecase';
 import { ModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase';
 import { EnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
@@ -50,11 +50,11 @@ export {
 
 // Event
 export { GarantiesFinancièresEvent } from './garantiesFinancières.aggregate';
-export { DépôtGarantiesFinancièresSoumisEvent as GarantiesFinancièresSoumisesEvent } from './soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
+export { DépôtGarantiesFinancièresSoumisEvent as GarantiesFinancièresSoumisesEvent } from './dépôt/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
 export { GarantiesFinancièresDemandéesEvent } from './demander/demanderGarantiesFinancières.behavior';
-export { DépôtGarantiesFinancièresEnCoursSuppriméEvent as GarantiesFinancièresÀTraiterSuppriméesEvent } from './supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
-export { DépôtGarantiesFinancièresEnCoursValidéEvent as GarantiesFinancièresValidéesEvent } from './validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.behavior';
-export { DépôtGarantiesFinancièresEnCoursModifiéEvent as GarantiesFinancièresÀTraiterModifiéesEvent } from './modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
+export { DépôtGarantiesFinancièresEnCoursSuppriméEvent as GarantiesFinancièresÀTraiterSuppriméesEvent } from './dépôt/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
+export { DépôtGarantiesFinancièresEnCoursValidéEvent as GarantiesFinancièresValidéesEvent } from './dépôt/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.behavior';
+export { DépôtGarantiesFinancièresEnCoursModifiéEvent as GarantiesFinancièresÀTraiterModifiéesEvent } from './dépôt/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
 export { TypeGarantiesFinancièresImportéEvent } from './importer/importerTypeGarantiesFinancières.behavior';
 export { GarantiesFinancièresModifiéesEvent } from './modifier/modifierGarantiesFinancières.behavior';
 export { AttestationGarantiesFinancièresEnregistréeEvent } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';

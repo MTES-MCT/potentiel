@@ -4,48 +4,50 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LoadAggregate } from '@potentiel-domain/core';
-import { TypeGarantiesFinancières } from '..';
-import { loadGarantiesFinancièresFactory } from '../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { TypeGarantiesFinancières } from '../..';
+import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 
-export type SoumettreDépôtGarantiesFinancièresCommand = Message<
-  'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',
+export type ModifierDépôtGarantiesFinancièresEnCoursCommand = Message<
+  'Lauréat.GarantiesFinancières.Command.ModifierDépôtGarantiesFinancièresEnCours',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     type: TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
     attestation: DocumentProjet.ValueType;
     dateConstitution: DateTime.ValueType;
-    soumisLe: DateTime.ValueType;
-    soumisPar: IdentifiantUtilisateur.ValueType;
+    modifiéLe: DateTime.ValueType;
+    modifiéPar: IdentifiantUtilisateur.ValueType;
   }
 >;
 
-export const registerDépôtSoumettreGarantiesFinancièresCommand = (loadAggregate: LoadAggregate) => {
+export const registerModifierDépôtGarantiesFinancièresEnCoursCommand = (
+  loadAggregate: LoadAggregate,
+) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
-  const handler: MessageHandler<SoumettreDépôtGarantiesFinancièresCommand> = async ({
+  const handler: MessageHandler<ModifierDépôtGarantiesFinancièresEnCoursCommand> = async ({
     identifiantProjet,
     attestation,
     dateConstitution,
-    soumisLe,
     type,
     dateÉchéance,
-    soumisPar,
+    modifiéLe,
+    modifiéPar,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
 
-    await garantiesFinancières.soumettreDépôt({
+    await garantiesFinancières.modifierDépôtGarantiesFinancièresEnCours({
       identifiantProjet,
       attestation,
       dateConstitution,
-      soumisLe,
       type,
       dateÉchéance,
-      soumisPar,
+      modifiéLe,
+      modifiéPar,
     });
   };
   mediator.register(
-    'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',
+    'Lauréat.GarantiesFinancières.Command.ModifierDépôtGarantiesFinancièresEnCours',
     handler,
   );
 };

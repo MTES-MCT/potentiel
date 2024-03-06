@@ -1,10 +1,10 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { StatutGarantiesFinancières } from '..';
-import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
+import { StatutGarantiesFinancières } from '../..';
+import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { AucunDépôtDeGarantiesFinancièresEnCours } from '../aucunDépôtDeGarantiesFinancièresEnCours.error';
+import { AucunDépôtDeGarantiesFinancièresEnCours } from '../../aucunDépôtDeGarantiesFinancièresEnCours.error';
 
 export type DépôtGarantiesFinancièresEnCoursValidéEvent = DomainEvent<
   'DépôtGarantiesFinancièresEnCoursValidé-V1',
