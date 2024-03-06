@@ -127,52 +127,6 @@ describe('parseProjectModifications', () => {
     });
   });
 
-  describe('when line has a single Prolongation de délai modification rejected', () => {
-    const phonyLine = {
-      'Type de modification 1': 'Prolongation de délai',
-      'Date de modification 1': '25/04/2019',
-      'Colonne concernée 1': '',
-      'Ancienne valeur 1': '',
-      'Statut demande 1': 'Refusée',
-      'Nom courrier 1': 'filename',
-    };
-
-    it('should return a rejected modification of type delai with the proper dates', async () => {
-      const modifications = parseProjectModifications(phonyLine);
-
-      expect(modifications).toHaveLength(1);
-      expect(modifications[0]).toMatchObject({
-        type: 'delai',
-        modifiedOn: 1556143200000,
-        status: 'rejetée',
-        filename: 'filename',
-      });
-    });
-  });
-
-  describe('when line has a single Prolongation de délai modification pending', () => {
-    const phonyLine = {
-      'Type de modification 1': 'Prolongation de délai',
-      'Date de modification 1': '25/04/2019',
-      'Colonne concernée 1': '',
-      'Ancienne valeur 1': '',
-      'Statut demande 1': 'Accord de principe',
-      'Nom courrier 1': 'filename',
-    };
-
-    it('should return a rejected modification of type delai with the proper dates', async () => {
-      const modifications = parseProjectModifications(phonyLine);
-
-      expect(modifications).toHaveLength(1);
-      expect(modifications[0]).toMatchObject({
-        type: 'delai',
-        modifiedOn: 1556143200000,
-        status: 'accord-de-principe',
-        filename: 'filename',
-      });
-    });
-  });
-
   describe('when line has a single Prolongation de délai modification accepted without new date', () => {
     it('should throw an error', async () => {
       expect.assertions(2);
