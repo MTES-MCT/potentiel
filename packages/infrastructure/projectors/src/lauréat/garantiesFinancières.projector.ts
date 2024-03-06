@@ -9,7 +9,7 @@ import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { removeProjection } from '../utils/removeProjection';
 import { upsertProjection } from '../utils/upsertProjection';
 import { getLogger } from '@potentiel/monitoring';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 export type SubscriptionEvent =
   | (GarantiesFinancières.GarantiesFinancièresEvent & Event)
@@ -42,8 +42,8 @@ export const register = () => {
         période: '',
         famille: undefined,
         régionProjet: [],
-        misÀJourLe: DateTime.now().formatter(),
-        statut: '',
+        actuelles: undefined,
+        dépôts: [],
       };
 
       const garantiesFinancièresToUpsert: Omit<
@@ -66,23 +66,6 @@ export const register = () => {
       };
 
       switch (type) {
-        case 'GarantiesFinancièresDemandées-V1':
-          const projet = await getProjectData(identifiantProjet);
-          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
-            `garanties-financieres|${identifiantProjet}`,
-            {
-              ...garantiesFinancièresToUpsert,
-              ...projet,
-              misÀJourLe: payload.demandéLe,
-              statut: GarantiesFinancières.StatutGarantiesFinancières.enAttente.statut,
-              enAttente: {
-                dateLimiteSoumission: payload.dateLimiteSoumission,
-                demandéLe: payload.demandéLe,
-              },
-            },
-          );
-          break;
-
         case 'DépôtGarantiesFinancièresSoumis-V1':
           const projetPourGarantiesFinancièresSoumises = await getProjectData(identifiantProjet);
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
@@ -90,15 +73,21 @@ export const register = () => {
             {
               ...garantiesFinancièresToUpsert,
               ...projetPourGarantiesFinancièresSoumises,
-              misÀJourLe: payload.soumisLe,
-              statut: GarantiesFinancières.StatutGarantiesFinancières.àTraiter.statut,
-              àTraiter: {
-                type: payload.type,
-                dateÉchéance: payload.dateÉchéance,
-                dateConstitution: payload.dateConstitution,
-                attestation: payload.attestation,
-                soumisLe: payload.soumisLe,
-              },
+              dépôts: [
+                ...garantiesFinancièresToUpsert.dépôts,
+                {
+                  type: payload.type,
+                  dateÉchéance: payload.dateÉchéance,
+                  statut: GarantiesFinancières.StatutDépôtGarantiesFinancières.enCours.statut,
+                  dateConstitution: payload.dateConstitution,
+                  attestation: payload.attestation,
+                  soumisLe: payload.soumisLe,
+                  dernièreMiseÀJour: {
+                    date: payload.soumisLe,
+                    par: payload.soumisPar,
+                  },
+                },
+              ],
             },
           );
           break;
