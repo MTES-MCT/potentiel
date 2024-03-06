@@ -12,10 +12,7 @@ export type TâcheListItemProps = {
   période: string;
   famille?: string;
   misÀJourLe: string;
-  typeTâche:
-    | 'abandon.confirmer'
-    | 'abandon.transmettre-preuve-recandidature'
-    | 'raccordement.référence-non-transmise';
+  typeTâche: string;
 };
 
 export const TâcheListItem: FC<TâcheListItemProps> = ({
@@ -95,5 +92,14 @@ const getDescriptionTâche = (
         action: 'Voir le raccordement',
         ariaLabel: `Voir le raccordement du projet ${nomProjet}`,
       };
+    default: {
+      return {
+        titre: '',
+        description: '',
+        lien: '',
+        action: '',
+        aria: '',
+      };
+    }
   }
 };
