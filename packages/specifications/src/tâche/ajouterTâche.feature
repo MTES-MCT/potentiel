@@ -1,5 +1,5 @@
 #Language: fr-FR
-Fonctionnalité: Accorder l'abandon d'un projet lauréat
+Fonctionnalité: AJouter une tâche
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur pour le projet lauréat "Du boulodrome de Marseille"
