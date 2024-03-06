@@ -4,7 +4,7 @@ import { isNone } from '@potentiel/monads';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 
 import {
-  StatutGarantiesFinancières,
+  StatutDépôtGarantiesFinancières,
   TypeDocumentGarantiesFinancières,
   TypeGarantiesFinancières,
 } from '..';
@@ -12,28 +12,34 @@ import { AucunesGarantiesFinancières } from '../aucunesGarantiesFinancières.er
 import { GarantiesFinancièresEntity } from '../garantiesFinancières.entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/core';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 export type ConsulterGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  statut: StatutGarantiesFinancières.ValueType;
-  dernièreMiseÀJour: DateTime.ValueType;
-
-  validées?: {
+  actuelles?: {
     type: TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
+    attestation?: DocumentProjet.ValueType;
     dateConstitution?: DateTime.ValueType;
     soumisLe?: DateTime.ValueType;
     validéLe?: DateTime.ValueType;
-    attestation?: DocumentProjet.ValueType;
+    dernièreMiseÀJour: {
+      date: DateTime.ValueType;
+      par: IdentifiantUtilisateur.ValueType;
+    };
   };
-  àTraiter?: {
+  dépôts: Array<{
     type: TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
+    statut: StatutDépôtGarantiesFinancières.ValueType;
     dateConstitution: DateTime.ValueType;
-    soumisLe: DateTime.ValueType;
     attestation: DocumentProjet.ValueType;
-  };
-  enAttente?: { dateLimiteSoumission: DateTime.ValueType; demandéLe: DateTime.ValueType };
+    soumisLe: DateTime.ValueType;
+    dernièreMiseÀJour: {
+      date: DateTime.ValueType;
+      par: IdentifiantUtilisateur.ValueType;
+    };
+  }>;
 };
 
 export type ConsulterGarantiesFinancièresQuery = Message<
@@ -63,55 +69,66 @@ export const registerConsulterGarantiesFinancièresQuery = ({
       throw new AucunesGarantiesFinancières();
     }
 
-    const validées: ConsulterGarantiesFinancièresReadModel['validées'] = result.validées && {
-      type: TypeGarantiesFinancières.convertirEnValueType(result.validées.type),
-      ...(result.validées.dateÉchéance && {
-        dateÉchéance: DateTime.convertirEnValueType(result.validées.dateÉchéance),
+    const actuelles: ConsulterGarantiesFinancièresReadModel['actuelles'] = result.actuelles && {
+      type: TypeGarantiesFinancières.convertirEnValueType(result.actuelles.type),
+      ...(result.actuelles.dateÉchéance && {
+        dateÉchéance: DateTime.convertirEnValueType(result.actuelles.dateÉchéance),
       }),
-      dateConstitution: result.validées.dateConstitution
-        ? DateTime.convertirEnValueType(result.validées.dateConstitution)
+      dateConstitution: result.actuelles.dateConstitution
+        ? DateTime.convertirEnValueType(result.actuelles.dateConstitution)
         : undefined,
-      soumisLe: result.validées.soumisLe
-        ? DateTime.convertirEnValueType(result.validées.soumisLe)
+      soumisLe: result.actuelles.soumisLe
+        ? DateTime.convertirEnValueType(result.actuelles.soumisLe)
         : undefined,
-      validéLe: result.validées.validéLe
-        ? DateTime.convertirEnValueType(result.validées.validéLe)
+      validéLe: result.actuelles.validéLe
+        ? DateTime.convertirEnValueType(result.actuelles.validéLe)
         : undefined,
       attestation:
-        result.validées.dateConstitution && result.validées.attestation
+        result.actuelles.dateConstitution && result.actuelles.attestation
           ? DocumentProjet.convertirEnValueType(
               identifiantProjet.formatter(),
-              TypeDocumentGarantiesFinancières.garantiesFinancièresValidéesValueType.formatter(),
-              DateTime.convertirEnValueType(result.validées.dateConstitution).formatter(),
-              result.validées.attestation.format,
+              TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
+              DateTime.convertirEnValueType(result.actuelles.dateConstitution).formatter(),
+              result.actuelles.attestation.format,
             )
           : undefined,
+      dernièreMiseÀJour: {
+        date: DateTime.convertirEnValueType(result.actuelles.dernièreMiseÀJour.date),
+        par: IdentifiantUtilisateur.convertirEnValueType(result.actuelles.dernièreMiseÀJour.par),
+      },
     };
-    const àTraiter: ConsulterGarantiesFinancièresReadModel['àTraiter'] = result.àTraiter && {
-      type: TypeGarantiesFinancières.convertirEnValueType(result.àTraiter.type),
-      ...(result.àTraiter.dateÉchéance && {
-        dateÉchéance: DateTime.convertirEnValueType(result.àTraiter.dateÉchéance),
+
+    const dépôts: ConsulterGarantiesFinancièresReadModel['dépôts'] = result.dépôts.map(
+      ({
+        type,
+        dateÉchéance,
+        dateConstitution,
+        attestation,
+        dernièreMiseÀJour: { par, date },
+        soumisLe,
+        statut,
+      }) => ({
+        type: TypeGarantiesFinancières.convertirEnValueType(type),
+        dateÉchéance: dateÉchéance ? DateTime.convertirEnValueType(dateÉchéance) : undefined,
+        dateConstitution: DateTime.convertirEnValueType(dateConstitution),
+        attestation: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
+          DateTime.convertirEnValueType(dateConstitution).formatter(),
+          attestation.format,
+        ),
+        dernièreMiseÀJour: {
+          date: DateTime.convertirEnValueType(date),
+          par: IdentifiantUtilisateur.convertirEnValueType(par),
+        },
+        soumisLe: DateTime.convertirEnValueType(soumisLe),
+        statut: StatutDépôtGarantiesFinancières.convertirEnValueType(statut),
       }),
-      dateConstitution: DateTime.convertirEnValueType(result.àTraiter.dateConstitution),
-      soumisLe: DateTime.convertirEnValueType(result.àTraiter.soumisLe),
-      attestation: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        TypeDocumentGarantiesFinancières.garantiesFinancièresSoumisesValueType.formatter(),
-        DateTime.convertirEnValueType(result.àTraiter.dateConstitution).formatter(),
-        result.àTraiter.attestation.format,
-      ),
-    };
-    const enAttente: ConsulterGarantiesFinancièresReadModel['enAttente'] = result.enAttente && {
-      dateLimiteSoumission: DateTime.convertirEnValueType(result.enAttente.dateLimiteSoumission),
-      demandéLe: DateTime.convertirEnValueType(result.enAttente.demandéLe),
-    };
+    );
     return {
       identifiantProjet,
-      statut: StatutGarantiesFinancières.convertirEnValueType(result.statut),
-      dernièreMiseÀJour: DateTime.convertirEnValueType(result.misÀJourLe),
-      validées,
-      àTraiter,
-      enAttente,
+      actuelles,
+      dépôts,
     };
   };
   mediator.register('Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières', handler);

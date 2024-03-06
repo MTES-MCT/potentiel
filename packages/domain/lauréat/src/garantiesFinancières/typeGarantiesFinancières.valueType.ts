@@ -1,6 +1,11 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const types = ['consignation', 'avec-date-échéance', 'six-mois-après-achèvement'] as const;
+export const types = [
+  'consignation',
+  'avec-date-échéance',
+  'six-mois-après-achèvement',
+  'type-inconnu',
+] as const;
 
 export type RawType = (typeof types)[number];
 
@@ -43,6 +48,7 @@ function estValide(value: string): asserts value is RawType {
 export const consignation = convertirEnValueType('consignation');
 export const avecDateÉchéance = convertirEnValueType('avec-date-échéance');
 export const sixMoisAprèsAchèvement = convertirEnValueType('six-mois-après-achèvement');
+export const inconnu = convertirEnValueType('type-inconnu');
 
 class TypeGarantiesFinancièresInvalideError extends InvalidOperationError {
   constructor(value: string) {

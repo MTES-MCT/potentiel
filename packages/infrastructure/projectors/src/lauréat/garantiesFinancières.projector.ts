@@ -196,19 +196,6 @@ export const register = () => {
           break;
 
         case 'GarantiesFinancièresModifiées-V1':
-          if (!garantiesFinancièresToUpsert.actuelles) {
-            getLogger().error(
-              new Error(
-                `garanties financières actuelles absentes, impossible d'enregistrer les données de l'attestation`,
-              ),
-              {
-                identifiantProjet: garantiesFinancièresToUpsert.identifiantProjet,
-                message: event,
-              },
-            );
-            return;
-          }
-
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
@@ -226,23 +213,14 @@ export const register = () => {
           break;
 
         case 'AttestationGarantiesFinancièresEnregistrée-V1':
-          if (!garantiesFinancièresToUpsert.actuelles) {
-            getLogger().error(
-              new Error(
-                `garanties financières actuelles absentes, impossible d'enregistrer les données de l'attestation`,
-              ),
-              {
-                identifiantProjet: garantiesFinancièresToUpsert.identifiantProjet,
-                message: event,
-              },
-            );
-            return;
-          }
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
               actuelles: {
+                type:
+                  garantiesFinancièresToUpsert.actuelles?.type ??
+                  GarantiesFinancières.TypeGarantiesFinancières.inconnu.type,
                 ...garantiesFinancièresToUpsert.actuelles,
                 dateConstitution: payload.dateConstitution,
                 attestation: payload.attestation,
