@@ -12,6 +12,9 @@
       "path": "../domain/lauréat"
     },
     {
+      "path": "../domain/tâche"
+    },
+    {
       "path": "../domain/utilisateur"
     },
     {

@@ -1,5 +1,8 @@
 #Language: fr-FR
+<<<<<<< HEAD
 
+=======
+>>>>>>> a14fa4fc2 (✅ Ajout test sur l'ajout de tâche)
 Fonctionnalité: Modifier des garanties financières en attente de validation
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
