@@ -73,7 +73,7 @@ export async function soumettre(
 export function applyGarantiesFinancièresSoumises(
   this: GarantiesFinancièresAggregate,
   {
-    payload: { type, dateÉchéance, dateConstitution, soumisLe },
+    payload: { type, dateÉchéance, dateConstitution, soumisLe, attestation },
   }: GarantiesFinancièresSoumisesEvent,
 ) {
   this.statut = StatutGarantiesFinancières.àTraiter;
@@ -82,5 +82,6 @@ export function applyGarantiesFinancièresSoumises(
     dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),
     soumisLe: DateTime.convertirEnValueType(soumisLe),
+    attestation,
   };
 }

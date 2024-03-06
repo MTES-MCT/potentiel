@@ -78,11 +78,11 @@ export const registerConsulterGarantiesFinancièresQuery = ({
         ? DateTime.convertirEnValueType(result.validées.validéLe)
         : undefined,
       attestation:
-        result.validées.soumisLe && result.validées.attestation
+        result.validées.dateConstitution && result.validées.attestation
           ? DocumentProjet.convertirEnValueType(
               identifiantProjet.formatter(),
               TypeDocumentGarantiesFinancières.garantiesFinancièresValidéesValueType.formatter(),
-              DateTime.convertirEnValueType(result.validées.soumisLe).formatter(),
+              DateTime.convertirEnValueType(result.validées.dateConstitution).formatter(),
               result.validées.attestation.format,
             )
           : undefined,
@@ -97,7 +97,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
       attestation: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
         TypeDocumentGarantiesFinancières.garantiesFinancièresSoumisesValueType.formatter(),
-        DateTime.convertirEnValueType(result.àTraiter.soumisLe).formatter(),
+        DateTime.convertirEnValueType(result.àTraiter.dateConstitution).formatter(),
         result.àTraiter.attestation.format,
       ),
     };

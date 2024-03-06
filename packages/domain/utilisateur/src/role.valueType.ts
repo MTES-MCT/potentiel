@@ -129,6 +129,8 @@ const référencielPermissions = {
         modifierGarantiesFinancièresÀTraiter:
           'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancièresÀTraiter',
         importerType: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
+        modifier: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
+        enregistrerAttestation: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
       },
       command: {
         demander: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
@@ -139,6 +141,8 @@ const référencielPermissions = {
         modifierGarantiesFinancièresÀTraiter:
           'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancièresÀTraiter',
         importerType: 'Lauréat.GarantiesFinancières.Command.ImporterTypeGarantiesFinancières',
+        modifier: 'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières',
+        enregistrerAttestation: 'Lauréat.GarantiesFinancières.Command.EnregistrerAttestation',
       },
     },
   },
@@ -478,6 +482,16 @@ const policies = {
       référencielPermissions.lauréat.garantiesFinancières.usecase.importerType,
       référencielPermissions.lauréat.garantiesFinancières.command.importerType,
     ],
+    modifier: [
+      référencielPermissions.document.command.enregister,
+      référencielPermissions.lauréat.garantiesFinancières.usecase.modifier,
+      référencielPermissions.lauréat.garantiesFinancières.command.modifier,
+    ],
+    enregistrerAttestation: [
+      référencielPermissions.document.command.enregister,
+      référencielPermissions.lauréat.garantiesFinancières.usecase.enregistrerAttestation,
+      référencielPermissions.lauréat.garantiesFinancières.command.enregistrerAttestation,
+    ],
   },
 };
 
@@ -517,6 +531,8 @@ const permissionAdmin = [
   ...policies.garantiesFinancières.valider,
   ...policies.garantiesFinancières['modifier-garanties-financières-à-traiter'],
   ...policies.garantiesFinancières.importer,
+  ...policies.garantiesFinancières.modifier,
+  ...policies.garantiesFinancières.enregistrerAttestation,
 ];
 
 const permissionCRE = [
@@ -530,6 +546,8 @@ const permissionCRE = [
   // Garanties financières
   ...policies.garantiesFinancières.consulter,
   ...policies.garantiesFinancières.lister,
+  ...policies.garantiesFinancières.modifier,
+  ...policies.garantiesFinancières.enregistrerAttestation,
 ];
 
 const permissionDreal = [
@@ -546,6 +564,8 @@ const permissionDreal = [
   ...policies.garantiesFinancières.demander,
   ...policies.garantiesFinancières.valider,
   ...policies.garantiesFinancières['modifier-garanties-financières-à-traiter'],
+  ...policies.garantiesFinancières.modifier,
+  ...policies.garantiesFinancières.enregistrerAttestation,
 ];
 
 const permissionDgecValidateur = [
@@ -580,6 +600,8 @@ const permissionDgecValidateur = [
   ...policies.garantiesFinancières.demander,
   ...policies.garantiesFinancières.valider,
   ...policies.garantiesFinancières.importer,
+  ...policies.garantiesFinancières.modifier,
+  ...policies.garantiesFinancières.enregistrerAttestation,
 ];
 
 const permissionPorteurProjet = [
@@ -613,6 +635,7 @@ const permissionPorteurProjet = [
   ...policies.garantiesFinancières.soumettre,
   ...policies.garantiesFinancières['supprimer-garanties-financières-à-traiter'],
   ...policies.garantiesFinancières['modifier-garanties-financières-à-traiter'],
+  ...policies.garantiesFinancières.enregistrerAttestation,
 ];
 
 const permissionAcheteurObligé = [
@@ -627,6 +650,8 @@ const permissionCaisseDesDépôts = [
   // Garanties financières
   ...policies.garantiesFinancières.consulter,
   ...policies.garantiesFinancières.lister,
+  ...policies.garantiesFinancières.modifier,
+  ...policies.garantiesFinancières.enregistrerAttestation,
 ];
 
 const permissions: Record<RawType, string[]> = {

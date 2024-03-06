@@ -51,6 +51,7 @@ export function applyGarantiesFinancièresValidées(
       this.àTraiter.dateÉchéance && { dateÉchéance: this.àTraiter!.dateÉchéance }),
     dateConstitution: this.àTraiter!.dateConstitution,
     validéLe: DateTime.convertirEnValueType(validéLe),
+    attestation: this.àTraiter?.attestation,
   };
   this.àTraiter = undefined;
 }

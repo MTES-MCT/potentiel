@@ -43,7 +43,7 @@ export const registerModifierGarantiesFinancièresÀTraiterUseCase = () => {
     const attestation = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
       TypeDocumentGarantiesFinancières.garantiesFinancièresSoumisesValueType.formatter(),
-      soumisLeValue,
+      dateConstitutionValue,
       attestationValue.format,
     );
 

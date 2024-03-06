@@ -13,6 +13,8 @@ import { SupprimerGarantiesFinancièresÀTraiterUseCase } from './supprimerGaran
 import { ValiderGarantiesFinancièresUseCase } from './valider/validerGarantiesFinancières.usecase';
 import { ModifierGarantiesFinancièresÀTraiterUseCase } from './modifierGarantiesFinancièresÀTraiter/modifierGarantiesFinancièresÀTraiter.usecase';
 import { ImporterTypeGarantiesFinancièresUseCase } from './importer/importerTypeGarantiesFinancières.usecase';
+import { ModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase';
+import { EnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
 
 // Query
 export type GarantiesFinancièresQuery =
@@ -31,7 +33,9 @@ export type GarantiesFinancièresUseCase =
   | SupprimerGarantiesFinancièresÀTraiterUseCase
   | ValiderGarantiesFinancièresUseCase
   | ModifierGarantiesFinancièresÀTraiterUseCase
-  | ImporterTypeGarantiesFinancièresUseCase;
+  | ImporterTypeGarantiesFinancièresUseCase
+  | ModifierGarantiesFinancièresUseCase
+  | EnregistrerAttestationGarantiesFinancièresUseCase;
 
 export {
   SoumettreGarantiesFinancièresUseCase,
@@ -40,6 +44,8 @@ export {
   ValiderGarantiesFinancièresUseCase,
   ModifierGarantiesFinancièresÀTraiterUseCase,
   ImporterTypeGarantiesFinancièresUseCase,
+  ModifierGarantiesFinancièresUseCase,
+  EnregistrerAttestationGarantiesFinancièresUseCase,
 };
 
 // Event
@@ -50,6 +56,8 @@ export { GarantiesFinancièresÀTraiterSuppriméesEvent } from './supprimerGaran
 export { GarantiesFinancièresValidéesEvent } from './valider/validerGarantiesFinancières.behavior';
 export { GarantiesFinancièresÀTraiterModifiéesEvent } from './modifierGarantiesFinancièresÀTraiter/modifierGarantiesFinancièresÀTraiter.behavior';
 export { TypeGarantiesFinancièresImportéEvent } from './importer/importerTypeGarantiesFinancières.behavior';
+export { GarantiesFinancièresModifiéesEvent } from './modifier/modifierGarantiesFinancières.behavior';
+export { AttestationGarantiesFinancièresEnregistréeEvent } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
 
 // Register
 export {

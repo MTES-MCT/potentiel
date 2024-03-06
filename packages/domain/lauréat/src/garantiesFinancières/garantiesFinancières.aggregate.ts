@@ -33,6 +33,16 @@ import {
   applyTypeGarantiesFinancièresImporté,
   importerType,
 } from './importer/importerTypeGarantiesFinancières.behavior';
+import {
+  GarantiesFinancièresModifiéesEvent,
+  applyModifierGarantiesFinancières,
+  modifier,
+} from './modifier/modifierGarantiesFinancières.behavior';
+import {
+  AttestationGarantiesFinancièresEnregistréeEvent,
+  applyEnregistrerAttestationGarantiesFinancières,
+  enregistrerAttestation,
+} from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
 
 export type GarantiesFinancièresEvent =
   | GarantiesFinancièresSoumisesEvent
@@ -40,7 +50,9 @@ export type GarantiesFinancièresEvent =
   | GarantiesFinancièresÀTraiterSuppriméesEvent
   | GarantiesFinancièresValidéesEvent
   | GarantiesFinancièresÀTraiterModifiéesEvent
-  | TypeGarantiesFinancièresImportéEvent;
+  | TypeGarantiesFinancièresImportéEvent
+  | GarantiesFinancièresModifiéesEvent
+  | AttestationGarantiesFinancièresEnregistréeEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   statut?: StatutGarantiesFinancières.ValueType;
@@ -48,6 +60,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     type: TypeGarantiesFinancières.ValueType | 'type-inconnu';
     dateÉchéance?: DateTime.ValueType;
     dateConstitution?: DateTime.ValueType;
+    attestation?: { format: string };
     validéLe?: DateTime.ValueType;
     importéLe?: DateTime.ValueType;
   };
@@ -56,6 +69,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     dateÉchéance?: DateTime.ValueType;
     dateConstitution: DateTime.ValueType;
     soumisLe: DateTime.ValueType;
+    attestation?: { format: string };
   };
   enAttente?: { dateLimiteSoumission: DateTime.ValueType };
   readonly soumettre: typeof soumettre;
@@ -64,6 +78,8 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly valider: typeof valider;
   readonly modifierGarantiesFinancièresÀTraiter: typeof modifierGarantiesFinancièresÀTraiter;
   readonly importerType: typeof importerType;
+  readonly modifier: typeof modifier;
+  readonly enregistrerAttestation: typeof enregistrerAttestation;
 };
 
 export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
@@ -77,6 +93,8 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   valider,
   modifierGarantiesFinancièresÀTraiter,
   importerType,
+  modifier,
+  enregistrerAttestation,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
@@ -98,6 +116,12 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       break;
     case 'TypeGarantiesFinancièresImporté-V1':
       applyTypeGarantiesFinancièresImporté.bind(this)(event);
+      break;
+    case 'GarantiesFinancièresModifiées-V1':
+      applyModifierGarantiesFinancières.bind(this)(event);
+      break;
+    case 'AttestationGarantiesFinancièresEnregistrée-V1':
+      applyEnregistrerAttestationGarantiesFinancières.bind(this)(event);
       break;
   }
 }

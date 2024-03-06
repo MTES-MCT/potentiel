@@ -23,7 +23,6 @@ export const registerValiderGarantiesFinancièresCommand = (loadAggregate: LoadA
     validéPar,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
-
     await garantiesFinancières.valider({
       identifiantProjet,
       validéLe,

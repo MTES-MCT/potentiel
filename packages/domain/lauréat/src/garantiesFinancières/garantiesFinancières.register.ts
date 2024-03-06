@@ -19,6 +19,10 @@ import { registerModifierGarantiesFinancièresÀTraiterUseCase } from './modifie
 import { registerModifierGarantiesFinancièresÀTraiterCommand } from './modifierGarantiesFinancièresÀTraiter/modifierGarantiesFinancièresÀTraiter.command';
 import { registerImporterTypeGarantiesFinancièresCommand } from './importer/importerTypeGarantiesFinancières.command';
 import { registerImporterTypeGarantiesFinancièresUseCase } from './importer/importerTypeGarantiesFinancières.usecase';
+import { registerModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase';
+import { registerModifierGarantiesFinancièresCommand } from './modifier/modifierGarantiesFinancières.command';
+import { registerEnregistrerAttestationGarantiesFinancièresCommand } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.command';
+import { registerEnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerGarantiesFinancièresDependencies;
@@ -36,6 +40,8 @@ export const registerGarantiesFinancièresUseCases = ({
   registerValiderGarantiesFinancièresCommand(loadAggregate);
   registerModifierGarantiesFinancièresÀTraiterCommand(loadAggregate);
   registerImporterTypeGarantiesFinancièresCommand(loadAggregate);
+  registerModifierGarantiesFinancièresCommand(loadAggregate);
+  registerEnregistrerAttestationGarantiesFinancièresCommand(loadAggregate);
 
   registerSoumettreGarantiesFinancièresUseCase();
   registerDemanderGarantiesFinancièresUseCase();
@@ -43,6 +49,8 @@ export const registerGarantiesFinancièresUseCases = ({
   registerValiderGarantiesFinancièresUseCase();
   registerModifierGarantiesFinancièresÀTraiterUseCase();
   registerImporterTypeGarantiesFinancièresUseCase();
+  registerModifierGarantiesFinancièresUseCase();
+  registerEnregistrerAttestationGarantiesFinancièresUseCase();
 };
 
 export const registerGarantiesFinancièresQueries = (
