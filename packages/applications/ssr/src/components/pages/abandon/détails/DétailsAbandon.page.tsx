@@ -3,7 +3,10 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
-import { StatutBadge, StatutBadgeProps } from '@/components/molecules/StatutBadge';
+import {
+  StatutAbandonBadge,
+  StatutAbandonBadgeProps,
+} from '@/components/pages/abandon/StatutAbandonBadge';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1 } from '@/components/atoms/headings';
@@ -26,14 +29,14 @@ type AvailableActions = Array<
   | 'rejeter'
 >;
 
-export type DetailAbandonPageProps = {
+export type DétailsAbandonPageProps = {
   projet: ProjetBannerProps;
   abandon: EtapesAbandonProps;
-  statut: StatutBadgeProps['statut'];
+  statut: StatutAbandonBadgeProps['statut'];
   actions: AvailableActions;
 };
 
-export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
+export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   projet,
   abandon,
   statut,
@@ -46,7 +49,7 @@ export const DetailAbandonPage: FC<DetailAbandonPageProps> = ({
         <>
           <Heading1>Détail de l'abandon</Heading1>
           <div className="flex flex-col md:flex-row gap-3 items-center">
-            <StatutBadge statut={statut} />
+            <StatutAbandonBadge statut={statut} />
             {abandon.demande.recandidature && (
               <>
                 <Badge noIcon severity="info">

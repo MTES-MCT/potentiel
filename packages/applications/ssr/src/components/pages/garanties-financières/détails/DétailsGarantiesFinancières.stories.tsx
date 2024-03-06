@@ -1,22 +1,25 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { getGarantiesFinancièresTypeLabel } from '../getGarantiesFinancièresTypeLabel';
+
 import {
   DétailsGarantiesFinancièresPage,
-  DétailsGarantiesFinancièresProps,
+  DétailsGarantiesFinancièresPageProps,
 } from './DétailsGarantiesFinancières.page';
 
+// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Pages/Garanties-financières/Détail',
+  title: 'Pages/Garanties-financières/Détails',
   component: DétailsGarantiesFinancièresPage,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<DétailsGarantiesFinancièresProps>;
+} satisfies Meta<DétailsGarantiesFinancièresPageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const projet: DétailsGarantiesFinancièresProps['projet'] = {
+const projet: DétailsGarantiesFinancièresPageProps['projet'] = {
   identifiantProjet: 'identifiantProjet#1',
   appelOffre: 'Appel offre',
   période: 'Période',
@@ -32,73 +35,85 @@ const projet: DétailsGarantiesFinancièresProps['projet'] = {
   statut: 'classé',
 };
 
-export const Validées: Story = {
+export const GarantiesFinancieresActuellesComplètes: Story = {
   args: {
     projet,
-    statut: 'validé',
-    garantiesFinancières: {
-      validées: {
-        type: 'consignation',
-        dateConstitution: '2021-10-23',
-        validéLe: '2021-10-23',
-        attestation: 'path/to/attestationConstitution',
-        actions: ['modifier', 'ajouter'],
-      },
+    actuelles: {
+      type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
+      dateÉchéance: '2023-07-01',
+      dateConstitution: '2022-10-01',
+      dateEnvoi: '2021-09-23',
+      dateValidation: '2021-10-23',
+      attestation: 'path/to/attestation.pdf',
+      action: 'modifier',
     },
+    dépôts: [
+      {
+        type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
+        attestation: 'path/to/attestation.pdf',
+        statut: 'validé',
+        dateÉchéance: '2023-07-01',
+        dateConstitution: '2022-10-01',
+        déposéLe: '2022-10-01',
+        dernièreMiseÀJour: {
+          date: '2022-11-01',
+          par: 'DREAL#1',
+        },
+      },
+      {
+        type: getGarantiesFinancièresTypeLabel('consignation'),
+        dateConstitution: '2021-01-01',
+        attestation: 'path/to/attestation.pdf',
+        statut: 'rejeté',
+        déposéLe: '2021-02-01',
+        dernièreMiseÀJour: {
+          date: '2021-02-15',
+          par: 'DREAL#1',
+        },
+      },
+    ],
   },
 };
 
-export const ATraiter: Story = {
+export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
   args: {
     projet,
-    statut: 'à-traiter',
-    garantiesFinancières: {
-      àTraiter: {
-        type: 'avec-date-échéance',
-        dateÉchéance: '2025-01-01',
-        dateConstitution: '2023-11-01',
-        validéLe: '2024-01-01',
-        attestation: 'path/to/attestationConstitution',
-        soumisLe: '2023-12-14',
-        actions: ['modifier'],
-      },
+    action: 'soumettre',
+    actuelles: {
+      type: getGarantiesFinancièresTypeLabel('six-mois-après-achèvement'),
+      dateEnvoi: '2024-01-01',
+      dateValidation: '2024-01-15',
+      attestation: 'path/to/attestation.pdf',
+      action: 'enregister-attestation',
     },
+    dépôts: [],
   },
 };
 
-export const EnAttente: Story = {
+export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
   args: {
     projet,
-    statut: 'en-attente',
-    garantiesFinancières: {
-      enAttente: {
-        dateLimiteSoumission: '2024-03-31',
-        demandéLe: '2022-12-23',
-        actions: ['enregistrer'],
+    dépôts: [
+      {
+        type: getGarantiesFinancièresTypeLabel('consignation'),
+        dateConstitution: '2024-01-01',
+        attestation: 'path/to/attestation.pdf',
+        statut: 'en-cours',
+        déposéLe: '2021-09-23',
+        dernièreMiseÀJour: {
+          date: '2024-01-01',
+          par: 'PORTEUR#1',
+        },
+        action: 'modifier',
       },
-    },
+    ],
   },
 };
 
-export const ValidéesAvecATraiter: Story = {
+export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
   args: {
     projet,
-    statut: 'à-traiter',
-    garantiesFinancières: {
-      validées: {
-        type: 'consignation',
-        dateConstitution: '2021-10-23',
-        validéLe: '2021-10-23',
-        attestation: 'path/to/attestationConstitution',
-        actions: ['modifier'],
-      },
-      àTraiter: {
-        type: 'six-mois-après-achèvement',
-        dateConstitution: '2021-10-23',
-        validéLe: '2021-10-23',
-        attestation: 'path/to/attestationConstitution',
-        actions: ['modifier'],
-      },
-    },
+    dépôts: [],
+    action: 'soumettre',
   },
 };

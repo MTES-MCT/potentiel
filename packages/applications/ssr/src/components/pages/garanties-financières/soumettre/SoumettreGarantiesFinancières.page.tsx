@@ -49,7 +49,7 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
           buttonProps={{
             children: 'Voir',
             linkProps: {
-              href: Routes.GarantiesFinancières.détail(identifiantProjet),
+              href: Routes.GarantiesFinancières.modifierDépôtEnCours(identifiantProjet),
             },
           }}
           iconId="ri-information-line"
@@ -66,7 +66,7 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner {...projet} />}
-      heading={<TitrePageGarantiesFinancières title="Soumettre des garanties financières" />}
+      heading={<TitrePageGarantiesFinancières />}
       leftColumn={{
         children: (
           <Form

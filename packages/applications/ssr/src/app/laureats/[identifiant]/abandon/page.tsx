@@ -6,9 +6,9 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import {
-  DetailAbandonPage,
-  DetailAbandonPageProps,
-} from '@/components/pages/abandon/détails/DetailAbandon.page';
+  DétailsAbandonPage,
+  DétailsAbandonPageProps,
+} from '@/components/pages/abandon/détails/DétailsAbandon.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -48,7 +48,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       // TODO: extract the logic in a dedicated function mapToProps
       // identifiantProjet must come from the readmodel as a value type
-      const detailAbandonPageProps: DetailAbandonPageProps = {
+      const detailAbandonPageProps: DétailsAbandonPageProps = {
         projet: { ...candidature, identifiantProjet },
         statut: statut.statut,
         abandon: {
@@ -100,13 +100,13 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         actions: mapToActions({ utilisateur, recandidature: demande.recandidature, statut }),
       };
 
-      return <DetailAbandonPage {...{ ...detailAbandonPageProps }} />;
+      return <DétailsAbandonPage {...{ ...detailAbandonPageProps }} />;
     }),
   );
 }
 
 // TODO: this should be a query with the identifiantUtilisateur and identifiantProjet
-type AvailableActions = DetailAbandonPageProps['actions'];
+type AvailableActions = DétailsAbandonPageProps['actions'];
 
 type MapToActionsProps = {
   utilisateur: Utilisateur.ValueType;

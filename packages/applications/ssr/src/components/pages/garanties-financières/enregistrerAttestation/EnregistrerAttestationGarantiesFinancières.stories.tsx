@@ -1,15 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { DetailAbandonPage, DetailAbandonPageProps } from './DetailAbandon.page';
+import {
+  EnregistrerAttestationGarantiesFinancièresPage,
+  EnregistrerAttestationGarantiesFinancièresProps,
+} from './EnregistrerAttestationGarantiesFinancières.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Pages/Abandon/Détail/DetailAbandonPage',
-  component: DetailAbandonPage,
+  title: "Pages/Garanties-financières/Enregistrer l'attestation",
+  component: EnregistrerAttestationGarantiesFinancièresPage,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<DetailAbandonPageProps>;
+} satisfies Meta<EnregistrerAttestationGarantiesFinancièresProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -31,16 +34,5 @@ export const Default: Story = {
       },
       statut: 'classé',
     },
-    abandon: {
-      demande: {
-        demandéPar: 'Porteur#1',
-        demandéLe: '2022-01-01',
-        recandidature: false,
-        preuveRecandidatureStatut: 'en-attente',
-        raison: "Justification de l'abandon",
-      },
-    },
-    actions: ['annuler'],
-    statut: 'demandé',
   },
 };

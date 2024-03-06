@@ -4,7 +4,7 @@ import { DétailsRaccordementPage, DétailsRaccordementPageProps } from './Déta
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Pages/Réseau/Raccordement/Détail/DétailsRaccordementPage',
+  title: 'Pages/Réseau/Raccordement/Détails',
   component: DétailsRaccordementPage,
   parameters: {},
   tags: ['autodocs'],
