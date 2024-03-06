@@ -8,46 +8,46 @@ import { TypeGarantiesFinancières } from '..';
 import { loadGarantiesFinancièresFactory } from '../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-export type ModifierGarantiesFinancièresÀTraiterCommand = Message<
-  'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancièresÀTraiter',
+export type ModifierDépôtGarantiesFinancièresEnCoursCommand = Message<
+  'Lauréat.GarantiesFinancières.Command.ModifierDépôtGarantiesFinancièresEnCours',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     type: TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
     attestation: DocumentProjet.ValueType;
     dateConstitution: DateTime.ValueType;
-    soumisLe: DateTime.ValueType;
-    soumisPar: IdentifiantUtilisateur.ValueType;
+    modifiéLe: DateTime.ValueType;
+    modifiéPar: IdentifiantUtilisateur.ValueType;
   }
 >;
 
-export const registerModifierGarantiesFinancièresÀTraiterCommand = (
+export const registerModifierDépôtGarantiesFinancièresEnCoursCommand = (
   loadAggregate: LoadAggregate,
 ) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
-  const handler: MessageHandler<ModifierGarantiesFinancièresÀTraiterCommand> = async ({
+  const handler: MessageHandler<ModifierDépôtGarantiesFinancièresEnCoursCommand> = async ({
     identifiantProjet,
     attestation,
     dateConstitution,
-    soumisLe,
     type,
     dateÉchéance,
-    soumisPar,
+    modifiéLe,
+    modifiéPar,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
 
-    await garantiesFinancières.modifierGarantiesFinancièresÀTraiter({
+    await garantiesFinancières.modifierDépôtGarantiesFinancièresEnCours({
       identifiantProjet,
       attestation,
       dateConstitution,
-      soumisLe,
       type,
       dateÉchéance,
-      soumisPar,
+      modifiéLe,
+      modifiéPar,
     });
   };
   mediator.register(
-    'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancièresÀTraiter',
+    'Lauréat.GarantiesFinancières.Command.ModifierDépôtGarantiesFinancièresEnCours',
     handler,
   );
 };

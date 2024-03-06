@@ -4,10 +4,10 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { StatutGarantiesFinancières } from '..';
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { AucunesGarantiesFinancièresÀTraiter } from '../aucunesGarantiesFinancièresÀTraiter.error';
+import { AucunDépôtDeGarantiesFinancièresEnCours } from '../aucunDépôtDeGarantiesFinancièresEnCours.error';
 
-export type GarantiesFinancièresÀTraiterSuppriméesEvent = DomainEvent<
-  'GarantiesFinancièresÀTraiterSupprimées-V1',
+export type DépôtGarantiesFinancièresEnCoursSuppriméEvent = DomainEvent<
+  'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     suppriméLe: DateTime.RawType;
@@ -21,15 +21,15 @@ export type Options = {
   suppriméPar: IdentifiantUtilisateur.ValueType;
 };
 
-export async function supprimerGarantiesFinancièresÀTraiter(
+export async function supprimerDépôtGarantiesFinancièresEnCours(
   this: GarantiesFinancièresAggregate,
   { suppriméLe, identifiantProjet, suppriméPar }: Options,
 ) {
   if (!this.àTraiter) {
-    throw new AucunesGarantiesFinancièresÀTraiter();
+    throw new AucunDépôtDeGarantiesFinancièresEnCours();
   }
-  const event: GarantiesFinancièresÀTraiterSuppriméesEvent = {
-    type: 'GarantiesFinancièresÀTraiterSupprimées-V1',
+  const event: DépôtGarantiesFinancièresEnCoursSuppriméEvent = {
+    type: 'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       suppriméLe: suppriméLe.formatter(),
@@ -40,7 +40,7 @@ export async function supprimerGarantiesFinancièresÀTraiter(
   await this.publish(event);
 }
 
-export function applyGarantiesFinancièresÀTraiterSupprimées(this: GarantiesFinancièresAggregate) {
+export function applyDépôtGarantiesFinancièresEnCoursSupprimé(this: GarantiesFinancièresAggregate) {
   this.statut = this.enAttente
     ? StatutGarantiesFinancières.enAttente
     : this.validées

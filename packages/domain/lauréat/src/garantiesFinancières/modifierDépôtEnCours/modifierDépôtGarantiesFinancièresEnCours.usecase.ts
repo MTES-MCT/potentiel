@@ -3,10 +3,10 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '..';
-import { SoumettreGarantiesFinancièresCommand } from './soumettreGarantiesFinancières.command';
+import { ModifierDépôtGarantiesFinancièresEnCoursCommand } from './modifierDépôtGarantiesFinancièresEnCours.command';
 
-export type SoumettreGarantiesFinancièresUseCase = Message<
-  'Lauréat.GarantiesFinancières.UseCase.SoumettreGarantiesFinancières',
+export type ModifierDépôtGarantiesFinancièresEnCoursUseCase = Message<
+  'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
   {
     identifiantProjetValue: string;
     typeValue: string;
@@ -16,29 +16,29 @@ export type SoumettreGarantiesFinancièresUseCase = Message<
       format: string;
     };
     dateConstitutionValue: string;
-    soumisLeValue: string;
-    soumisParValue: string;
+    modifiéLeValue: string;
+    modifiéParValue: string;
   }
 >;
 
-export const registerSoumettreGarantiesFinancièresUseCase = () => {
-  const runner: MessageHandler<SoumettreGarantiesFinancièresUseCase> = async ({
+export const registerModifierDépôtGarantiesFinancièresEnCoursUseCase = () => {
+  const runner: MessageHandler<ModifierDépôtGarantiesFinancièresEnCoursUseCase> = async ({
     attestationValue,
     dateConstitutionValue,
     identifiantProjetValue,
-    soumisLeValue,
     typeValue,
     dateÉchéanceValue,
-    soumisParValue,
+    modifiéParValue,
+    modifiéLeValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const type = TypeGarantiesFinancières.convertirEnValueType(typeValue);
     const dateÉchéance = dateÉchéanceValue
       ? DateTime.convertirEnValueType(dateÉchéanceValue)
       : undefined;
-    const soumisLe = DateTime.convertirEnValueType(soumisLeValue);
+    const modifiéLe = DateTime.convertirEnValueType(modifiéLeValue);
     const dateConstitution = DateTime.convertirEnValueType(dateConstitutionValue);
-    const soumisPar = IdentifiantUtilisateur.convertirEnValueType(soumisParValue);
+    const modifiéPar = IdentifiantUtilisateur.convertirEnValueType(modifiéParValue);
 
     const attestation = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
@@ -55,18 +55,21 @@ export const registerSoumettreGarantiesFinancièresUseCase = () => {
       },
     });
 
-    await mediator.send<SoumettreGarantiesFinancièresCommand>({
-      type: 'Lauréat.GarantiesFinancières.Command.SoumettreGarantiesFinancières',
+    await mediator.send<ModifierDépôtGarantiesFinancièresEnCoursCommand>({
+      type: 'Lauréat.GarantiesFinancières.Command.ModifierDépôtGarantiesFinancièresEnCours',
       data: {
         attestation,
         dateConstitution,
         identifiantProjet,
-        soumisLe,
-        soumisPar,
+        modifiéLe,
+        modifiéPar,
         type,
         dateÉchéance,
       },
     });
   };
-  mediator.register('Lauréat.GarantiesFinancières.UseCase.SoumettreGarantiesFinancières', runner);
+  mediator.register(
+    'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
+    runner,
+  );
 };

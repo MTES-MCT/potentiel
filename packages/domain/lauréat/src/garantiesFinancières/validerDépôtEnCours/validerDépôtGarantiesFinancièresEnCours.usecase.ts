@@ -2,11 +2,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { TypeDocumentGarantiesFinancières } from '..';
-import { ValiderGarantiesFinancièresCommand } from './validerGarantiesFinancières.command';
+import { ValiderDépôtGarantiesFinancièresEnCoursCommand } from './validerDépôtGarantiesFinancièresEnCours.command';
 import { DocumentProjetCommand, DossierProjet } from '@potentiel-domain/document';
 
-export type ValiderGarantiesFinancièresUseCase = Message<
-  'Lauréat.GarantiesFinancières.UseCase.ValiderGarantiesFinancières',
+export type ValiderDépôtGarantiesFinancièresEnCoursUseCase = Message<
+  'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
   {
     identifiantProjetValue: string;
     validéLeValue: string;
@@ -14,8 +14,8 @@ export type ValiderGarantiesFinancièresUseCase = Message<
   }
 >;
 
-export const registerValiderGarantiesFinancièresUseCase = () => {
-  const runner: MessageHandler<ValiderGarantiesFinancièresUseCase> = async ({
+export const registerValiderDépôtGarantiesFinancièresEnCoursUseCase = () => {
+  const runner: MessageHandler<ValiderDépôtGarantiesFinancièresEnCoursUseCase> = async ({
     identifiantProjetValue,
     validéLeValue,
     validéParValue,
@@ -38,8 +38,8 @@ export const registerValiderGarantiesFinancièresUseCase = () => {
       },
     });
 
-    await mediator.send<ValiderGarantiesFinancièresCommand>({
-      type: 'Lauréat.GarantiesFinancières.Command.ValiderGarantiesFinancières',
+    await mediator.send<ValiderDépôtGarantiesFinancièresEnCoursCommand>({
+      type: 'Lauréat.GarantiesFinancières.Command.ValiderDépôtGarantiesFinancièresEnCours',
       data: {
         identifiantProjet,
         validéLe,
@@ -48,5 +48,8 @@ export const registerValiderGarantiesFinancièresUseCase = () => {
     });
   };
 
-  mediator.register('Lauréat.GarantiesFinancières.UseCase.ValiderGarantiesFinancières', runner);
+  mediator.register(
+    'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
+    runner,
+  );
 };

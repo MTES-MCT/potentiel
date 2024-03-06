@@ -30,7 +30,7 @@ const schema = zod.discriminatedUnion('type', [
 const action: FormAction<FormState, typeof schema> = async (_, props) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<GarantiesFinancières.GarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreGarantiesFinancières',
+      type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
       data: {
         identifiantProjetValue: props.identifiantProjet,
         typeValue: props.type,

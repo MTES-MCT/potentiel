@@ -8,8 +8,8 @@ import { TypeGarantiesFinancières } from '..';
 import { loadGarantiesFinancièresFactory } from '../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-export type SoumettreGarantiesFinancièresCommand = Message<
-  'Lauréat.GarantiesFinancières.Command.SoumettreGarantiesFinancières',
+export type SoumettreDépôtGarantiesFinancièresCommand = Message<
+  'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     type: TypeGarantiesFinancières.ValueType;
@@ -21,9 +21,9 @@ export type SoumettreGarantiesFinancièresCommand = Message<
   }
 >;
 
-export const registerSoumettreGarantiesFinancièresCommand = (loadAggregate: LoadAggregate) => {
+export const registerDépôtSoumettreGarantiesFinancièresCommand = (loadAggregate: LoadAggregate) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
-  const handler: MessageHandler<SoumettreGarantiesFinancièresCommand> = async ({
+  const handler: MessageHandler<SoumettreDépôtGarantiesFinancièresCommand> = async ({
     identifiantProjet,
     attestation,
     dateConstitution,
@@ -34,7 +34,7 @@ export const registerSoumettreGarantiesFinancièresCommand = (loadAggregate: Loa
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
 
-    await garantiesFinancières.soumettre({
+    await garantiesFinancières.soumettreDépôt({
       identifiantProjet,
       attestation,
       dateConstitution,
@@ -44,5 +44,8 @@ export const registerSoumettreGarantiesFinancièresCommand = (loadAggregate: Loa
       soumisPar,
     });
   };
-  mediator.register('Lauréat.GarantiesFinancières.Command.SoumettreGarantiesFinancières', handler);
+  mediator.register(
+    'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',
+    handler,
+  );
 };

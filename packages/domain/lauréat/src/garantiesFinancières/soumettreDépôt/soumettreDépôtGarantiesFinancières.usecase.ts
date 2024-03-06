@@ -3,10 +3,10 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '..';
-import { ModifierGarantiesFinancièresÀTraiterCommand } from './modifierGarantiesFinancièresÀTraiter.command';
+import { SoumettreDépôtGarantiesFinancièresCommand } from './soumettreDépôtGarantiesFinancières.command';
 
-export type ModifierGarantiesFinancièresÀTraiterUseCase = Message<
-  'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancièresÀTraiter',
+export type SoumettreDépôtGarantiesFinancièresUseCase = Message<
+  'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
   {
     identifiantProjetValue: string;
     typeValue: string;
@@ -21,8 +21,8 @@ export type ModifierGarantiesFinancièresÀTraiterUseCase = Message<
   }
 >;
 
-export const registerModifierGarantiesFinancièresÀTraiterUseCase = () => {
-  const runner: MessageHandler<ModifierGarantiesFinancièresÀTraiterUseCase> = async ({
+export const registerSoumettreDépôtGarantiesFinancièresUseCase = () => {
+  const runner: MessageHandler<SoumettreDépôtGarantiesFinancièresUseCase> = async ({
     attestationValue,
     dateConstitutionValue,
     identifiantProjetValue,
@@ -55,8 +55,8 @@ export const registerModifierGarantiesFinancièresÀTraiterUseCase = () => {
       },
     });
 
-    await mediator.send<ModifierGarantiesFinancièresÀTraiterCommand>({
-      type: 'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancièresÀTraiter',
+    await mediator.send<SoumettreDépôtGarantiesFinancièresCommand>({
+      type: 'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',
       data: {
         attestation,
         dateConstitution,
@@ -69,7 +69,7 @@ export const registerModifierGarantiesFinancièresÀTraiterUseCase = () => {
     });
   };
   mediator.register(
-    'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancièresÀTraiter',
+    'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
     runner,
   );
 };

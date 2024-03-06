@@ -6,8 +6,8 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { loadGarantiesFinancièresFactory } from '../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-export type SupprimerGarantiesFinancièresÀTraiterCommand = Message<
-  'Lauréat.GarantiesFinancières.Command.SupprimerGarantiesFinancièresÀTraiter',
+export type SupprimerDépôtGarantiesFinancièresEnCoursCommand = Message<
+  'Lauréat.GarantiesFinancières.Command.SupprimerDépôtGarantiesFinancièresEnCours',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     suppriméLe: DateTime.ValueType;
@@ -15,25 +15,25 @@ export type SupprimerGarantiesFinancièresÀTraiterCommand = Message<
   }
 >;
 
-export const registerSupprimerGarantiesFinancièresÀTraiterCommand = (
+export const registerSupprimerDépôtGarantiesFinancièresEnCoursCommand = (
   loadAggregate: LoadAggregate,
 ) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
-  const handler: MessageHandler<SupprimerGarantiesFinancièresÀTraiterCommand> = async ({
+  const handler: MessageHandler<SupprimerDépôtGarantiesFinancièresEnCoursCommand> = async ({
     identifiantProjet,
     suppriméLe,
     suppriméPar,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
 
-    await garantiesFinancières.supprimerGarantiesFinancièresÀTraiter({
+    await garantiesFinancières.supprimerDépôtGarantiesFinancièresEnCours({
       identifiantProjet,
       suppriméLe,
       suppriméPar,
     });
   };
   mediator.register(
-    'Lauréat.GarantiesFinancières.Command.SupprimerGarantiesFinancièresÀTraiter',
+    'Lauréat.GarantiesFinancières.Command.SupprimerDépôtGarantiesFinancièresEnCours',
     handler,
   );
 };

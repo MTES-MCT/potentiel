@@ -6,8 +6,8 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { loadGarantiesFinancièresFactory } from '../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-export type ValiderGarantiesFinancièresCommand = Message<
-  'Lauréat.GarantiesFinancières.Command.ValiderGarantiesFinancières',
+export type ValiderDépôtGarantiesFinancièresEnCoursCommand = Message<
+  'Lauréat.GarantiesFinancières.Command.ValiderDépôtGarantiesFinancièresEnCours',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     validéLe: DateTime.ValueType;
@@ -15,19 +15,24 @@ export type ValiderGarantiesFinancièresCommand = Message<
   }
 >;
 
-export const registerValiderGarantiesFinancièresCommand = (loadAggregate: LoadAggregate) => {
+export const registerValiderDépôtGarantiesFinancièresEnCoursCommand = (
+  loadAggregate: LoadAggregate,
+) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
-  const handler: MessageHandler<ValiderGarantiesFinancièresCommand> = async ({
+  const handler: MessageHandler<ValiderDépôtGarantiesFinancièresEnCoursCommand> = async ({
     identifiantProjet,
     validéLe,
     validéPar,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
-    await garantiesFinancières.valider({
+    await garantiesFinancières.validerDépôtEnCours({
       identifiantProjet,
       validéLe,
       validéPar,
     });
   };
-  mediator.register('Lauréat.GarantiesFinancières.Command.ValiderGarantiesFinancières', handler);
+  mediator.register(
+    'Lauréat.GarantiesFinancières.Command.ValiderDépôtGarantiesFinancièresEnCours',
+    handler,
+  );
 };

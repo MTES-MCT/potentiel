@@ -65,4 +65,4 @@ Fonctionnalité: Modifier des garanties financières en attente de validation
     Scénario: Erreur si aucunes garanties financières à traiter ne sont trouvées
         Quand le porteur modifie les garanties financières à traiter pour le projet "Centrale PV" avec : 
             | type                      | consignation      |        
-        Alors l'utilisateur devrait être informé que "Il n'y a aucunes garanties financières à traiter pour ce projet"          
+        Alors l'utilisateur devrait être informé que "Il n'y a aucun dépôt de garanties financières en cours pour ce projet"          

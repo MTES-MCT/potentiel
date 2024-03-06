@@ -122,24 +122,24 @@ const référencielPermissions = {
       },
       usecase: {
         demander: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
-        soumettre: 'Lauréat.GarantiesFinancières.UseCase.SoumettreGarantiesFinancières',
+        soumettre: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
         supprimerGarantiesFinancièresÀTraiter:
           'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
-        valider: 'Lauréat.GarantiesFinancières.UseCase.ValiderGarantiesFinancières',
+        valider: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
         modifierGarantiesFinancièresÀTraiter:
-          'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancièresÀTraiter',
+          'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
         importerType: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
         modifier: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
         enregistrerAttestation: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
       },
       command: {
         demander: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
-        soumettre: 'Lauréat.GarantiesFinancières.Command.SoumettreGarantiesFinancières',
+        soumettre: 'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',
         supprimerGarantiesFinancièresÀTraiter:
-          'Lauréat.GarantiesFinancières.Command.SupprimerGarantiesFinancièresÀTraiter',
-        valider: 'Lauréat.GarantiesFinancières.Command.ValiderGarantiesFinancières',
+          'Lauréat.GarantiesFinancières.Command.SupprimerDépôtGarantiesFinancièresEnCours',
+        valider: 'Lauréat.GarantiesFinancières.Command.ValiderDépôtGarantiesFinancièresEnCours',
         modifierGarantiesFinancièresÀTraiter:
-          'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancièresÀTraiter',
+          'Lauréat.GarantiesFinancières.Command.ModifierDépôtGarantiesFinancièresEnCours',
         importerType: 'Lauréat.GarantiesFinancières.Command.ImporterTypeGarantiesFinancières',
         modifier: 'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières',
         enregistrerAttestation: 'Lauréat.GarantiesFinancières.Command.EnregistrerAttestation',

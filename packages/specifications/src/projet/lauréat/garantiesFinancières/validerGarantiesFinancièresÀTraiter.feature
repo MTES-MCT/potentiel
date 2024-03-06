@@ -39,7 +39,7 @@ Fonctionnalité: Valider des garanties financières en attente de validation
             | date de notification      | 2023-09-01 |
         Quand l'utilisateur dreal valide les garanties financières à traiter pour le projet "Centrale PV" avec :
             | date de validation        | 2023-09-02 |  s
-        Alors l'utilisateur devrait être informé que "Il n'y a aucunes garanties financières à traiter pour ce projet"  
+        Alors l'utilisateur devrait être informé que "Il n'y a aucun dépôt de garanties financières en cours pour ce projet"  
         
 
          

@@ -3,20 +3,20 @@ import {
   ConsulterGarantiesFinancièresDependencies,
   registerConsulterGarantiesFinancièresQuery,
 } from './consulter/consulterGarantiesFinancières.query';
-import { registerSoumettreGarantiesFinancièresCommand } from './soumettre/soumettreGarantiesFinancières.command';
+import { registerDépôtSoumettreGarantiesFinancièresCommand } from './soumettreDépôt/soumettreDépôtGarantiesFinancières.command';
 import { registerDemanderGarantiesFinancièresCommand } from './demander/demanderGarantiesFinancières.command';
-import { registerSoumettreGarantiesFinancièresUseCase } from './soumettre/soumettreGarantiesFinancières.usecase';
+import { registerSoumettreDépôtGarantiesFinancièresUseCase } from './soumettreDépôt/soumettreDépôtGarantiesFinancières.usecase';
 import { registerDemanderGarantiesFinancièresUseCase } from './demander/demanderGarantiesFinancières.usecase';
 import {
   ListerGarantiesFinancièresDependencies,
   registerListerGarantiesFinancièresQuery,
 } from './lister/listerGarantiesFinancières.query';
-import { registerSupprimerGarantiesFinancièresÀTraiterCommand } from './supprimerGarantiesFinancièresÀTraiter/supprimerGarantiesFinancièresÀTraiter.command';
-import { registerSupprimerGarantiesFinancièresÀTraiterUseCase } from './supprimerGarantiesFinancièresÀTraiter/supprimerGarantiesFinancièresÀTraiter.usecase';
-import { registerValiderGarantiesFinancièresCommand } from './valider/validerGarantiesFinancières.command';
-import { registerValiderGarantiesFinancièresUseCase } from './valider/validerGarantiesFinancières.usecase';
-import { registerModifierGarantiesFinancièresÀTraiterUseCase } from './modifierGarantiesFinancièresÀTraiter/modifierGarantiesFinancièresÀTraiter.usecase';
-import { registerModifierGarantiesFinancièresÀTraiterCommand } from './modifierGarantiesFinancièresÀTraiter/modifierGarantiesFinancièresÀTraiter.command';
+import { registerSupprimerDépôtGarantiesFinancièresEnCoursCommand } from './supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.command';
+import { registerSupprimerGarantiesFinancièresÀTraiterUseCase } from './supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.usecase';
+import { registerValiderDépôtGarantiesFinancièresEnCoursCommand } from './validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.command';
+import { registerValiderDépôtGarantiesFinancièresEnCoursUseCase } from './validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.usecase';
+import { registerModifierDépôtGarantiesFinancièresEnCoursUseCase } from './modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.usecase';
+import { registerModifierDépôtGarantiesFinancièresEnCoursCommand } from './modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.command';
 import { registerImporterTypeGarantiesFinancièresCommand } from './importer/importerTypeGarantiesFinancières.command';
 import { registerImporterTypeGarantiesFinancièresUseCase } from './importer/importerTypeGarantiesFinancières.usecase';
 import { registerModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase';
@@ -34,20 +34,20 @@ export type GarantiesFinancièresCommandDependencies = {
 export const registerGarantiesFinancièresUseCases = ({
   loadAggregate,
 }: GarantiesFinancièresCommandDependencies) => {
-  registerSoumettreGarantiesFinancièresCommand(loadAggregate);
+  registerDépôtSoumettreGarantiesFinancièresCommand(loadAggregate);
   registerDemanderGarantiesFinancièresCommand(loadAggregate);
-  registerSupprimerGarantiesFinancièresÀTraiterCommand(loadAggregate);
-  registerValiderGarantiesFinancièresCommand(loadAggregate);
-  registerModifierGarantiesFinancièresÀTraiterCommand(loadAggregate);
+  registerSupprimerDépôtGarantiesFinancièresEnCoursCommand(loadAggregate);
+  registerValiderDépôtGarantiesFinancièresEnCoursCommand(loadAggregate);
+  registerModifierDépôtGarantiesFinancièresEnCoursCommand(loadAggregate);
   registerImporterTypeGarantiesFinancièresCommand(loadAggregate);
   registerModifierGarantiesFinancièresCommand(loadAggregate);
   registerEnregistrerAttestationGarantiesFinancièresCommand(loadAggregate);
 
-  registerSoumettreGarantiesFinancièresUseCase();
+  registerSoumettreDépôtGarantiesFinancièresUseCase();
   registerDemanderGarantiesFinancièresUseCase();
   registerSupprimerGarantiesFinancièresÀTraiterUseCase();
-  registerValiderGarantiesFinancièresUseCase();
-  registerModifierGarantiesFinancièresÀTraiterUseCase();
+  registerValiderDépôtGarantiesFinancièresEnCoursUseCase();
+  registerModifierDépôtGarantiesFinancièresEnCoursUseCase();
   registerImporterTypeGarantiesFinancièresUseCase();
   registerModifierGarantiesFinancièresUseCase();
   registerEnregistrerAttestationGarantiesFinancièresUseCase();
