@@ -11,7 +11,7 @@ import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinanci�
 
 type AucuneGarantiesFinancièresProps = {
   projet: ProjetBannerProps;
-  action: 'soumettre' | 'enregistrer';
+  action?: 'soumettre';
 };
 
 export const AucuneGarantiesFinancières: FC<AucuneGarantiesFinancièresProps> = ({
@@ -22,23 +22,13 @@ export const AucuneGarantiesFinancières: FC<AucuneGarantiesFinancièresProps> =
     <TitrePageGarantiesFinancières />
 
     <div className="flex flex-col gap-8">
+      <p>Aucune garanties financières pour ce projet.</p>
+
       {action === 'soumettre' && (
         <p>
-          Aucune garanties financières pour ce projet, vous pouvez en soumettre en{' '}
+          Vous pouvez en soumettre en{' '}
           <Link
             href={Routes.GarantiesFinancières.soumettre(projet.identifiantProjet)}
-            className="font-semibold"
-          >
-            suivant ce lien
-          </Link>
-        </p>
-      )}
-
-      {action === 'enregistrer' && (
-        <p>
-          Aucune garanties financières pour ce projet, vous pouvez les enregistrer en{' '}
-          <Link
-            href={Routes.GarantiesFinancières.enregistrer(projet.identifiantProjet)}
             className="font-semibold"
           >
             suivant ce lien
