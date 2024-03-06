@@ -22,7 +22,7 @@ Quand(
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<GarantiesFinancières.SoumettreGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreGarantiesFinancières',
+        type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           typeValue: typeGarantiesFinancières,
@@ -70,7 +70,7 @@ Quand(
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<GarantiesFinancières.ValiderGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.ValiderGarantiesFinancières',
+        type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           validéLeValue: new Date(dateValidation).toISOString(),
@@ -100,14 +100,14 @@ Quand(
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.ModifierGarantiesFinancièresÀTraiterUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancièresÀTraiter',
+      await mediator.send<GarantiesFinancières.ModifierDépôtGarantiesFinancièresEnCoursUseCase>({
+        type: 'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           typeValue: typeGarantiesFinancières,
           dateConstitutionValue: new Date(dateConstitution).toISOString(),
-          soumisLeValue: new Date(dateSoumission).toISOString(),
-          soumisParValue: soumisPar,
+          modifiéLeValue: new Date(dateSoumission).toISOString(),
+          modifiéParValue: soumisPar,
           attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
           ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
         },

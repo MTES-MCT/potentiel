@@ -2,16 +2,15 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { DocumentProjet } from '@potentiel-domain/document';
-import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '..';
-import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
+import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '../..';
+import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { DateConstitutionDansLeFutur } from '../dateConstitutionDansLeFutur.error';
-import { DateÉchéanceManquante } from '../dateÉchéanceManquante.error';
-import { DateÉchéanceNonAttendue } from '../dateÉchéanceNonAttendue.error';
-import { AucunesGarantiesFinancièresÀTraiter } from '../aucunesGarantiesFinancièresÀTraiter.error';
+import { DateConstitutionDansLeFutur } from '../../dateConstitutionDansLeFutur.error';
+import { DateÉchéanceManquante } from '../../dateÉchéanceManquante.error';
+import { DateÉchéanceNonAttendue } from '../../dateÉchéanceNonAttendue.error';
 
-export type GarantiesFinancièresÀTraiterModifiéesEvent = DomainEvent<
-  'GarantiesFinancièresÀTraiterModifiées-V1',
+export type DépôtGarantiesFinancièresSoumisEvent = DomainEvent<
+  'DépôtGarantiesFinancièresSoumis-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     type: TypeGarantiesFinancières.RawType;
@@ -33,7 +32,7 @@ export type Options = {
   soumisPar: IdentifiantUtilisateur.ValueType;
 };
 
-export async function modifierGarantiesFinancièresÀTraiter(
+export async function soumettreDépôt(
   this: GarantiesFinancièresAggregate,
   {
     attestation,
@@ -45,9 +44,7 @@ export async function modifierGarantiesFinancièresÀTraiter(
     soumisPar,
   }: Options,
 ) {
-  if (!this.àTraiter) {
-    throw new AucunesGarantiesFinancièresÀTraiter();
-  }
+  this.statut?.vérifierQueLeChangementDeStatutEstPossibleEn(StatutGarantiesFinancières.àTraiter);
   if (dateConstitution.estDansLeFutur()) {
     throw new DateConstitutionDansLeFutur();
   }
@@ -57,8 +54,8 @@ export async function modifierGarantiesFinancièresÀTraiter(
   if (!type.estAvecDateÉchéance() && dateÉchéance) {
     throw new DateÉchéanceNonAttendue();
   }
-  const event: GarantiesFinancièresÀTraiterModifiéesEvent = {
-    type: 'GarantiesFinancièresÀTraiterModifiées-V1',
+  const event: DépôtGarantiesFinancièresSoumisEvent = {
+    type: 'DépôtGarantiesFinancièresSoumis-V1',
     payload: {
       attestation: { format: attestation.format },
       dateConstitution: dateConstitution.formatter(),
@@ -73,11 +70,11 @@ export async function modifierGarantiesFinancièresÀTraiter(
   await this.publish(event);
 }
 
-export function applyModifierGarantiesFinancièresÀTraiter(
+export function applyDépôtGarantiesFinancièresSoumis(
   this: GarantiesFinancièresAggregate,
   {
     payload: { type, dateÉchéance, dateConstitution, soumisLe, attestation },
-  }: GarantiesFinancièresÀTraiterModifiéesEvent,
+  }: DépôtGarantiesFinancièresSoumisEvent,
 ) {
   this.statut = StatutGarantiesFinancières.àTraiter;
   this.àTraiter = {

@@ -4,12 +4,12 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LoadAggregate } from '@potentiel-domain/core';
-import { TypeGarantiesFinancières } from '..';
-import { loadGarantiesFinancièresFactory } from '../garantiesFinancières.aggregate';
+import { TypeGarantiesFinancières } from '../..';
+import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-export type ModifierGarantiesFinancièresÀTraiterCommand = Message<
-  'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancièresÀTraiter',
+export type SoumettreDépôtGarantiesFinancièresCommand = Message<
+  'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     type: TypeGarantiesFinancières.ValueType;
@@ -21,11 +21,9 @@ export type ModifierGarantiesFinancièresÀTraiterCommand = Message<
   }
 >;
 
-export const registerModifierGarantiesFinancièresÀTraiterCommand = (
-  loadAggregate: LoadAggregate,
-) => {
+export const registerDépôtSoumettreGarantiesFinancièresCommand = (loadAggregate: LoadAggregate) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
-  const handler: MessageHandler<ModifierGarantiesFinancièresÀTraiterCommand> = async ({
+  const handler: MessageHandler<SoumettreDépôtGarantiesFinancièresCommand> = async ({
     identifiantProjet,
     attestation,
     dateConstitution,
@@ -36,7 +34,7 @@ export const registerModifierGarantiesFinancièresÀTraiterCommand = (
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
 
-    await garantiesFinancières.modifierGarantiesFinancièresÀTraiter({
+    await garantiesFinancières.soumettreDépôt({
       identifiantProjet,
       attestation,
       dateConstitution,
@@ -47,7 +45,7 @@ export const registerModifierGarantiesFinancièresÀTraiterCommand = (
     });
   };
   mediator.register(
-    'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancièresÀTraiter',
+    'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',
     handler,
   );
 };

@@ -83,7 +83,7 @@ export const register = () => {
           );
           break;
 
-        case 'GarantiesFinancièresSoumises-V1':
+        case 'DépôtGarantiesFinancièresSoumis-V1':
           const projetPourGarantiesFinancièresSoumises = await getProjectData(identifiantProjet);
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
@@ -103,7 +103,7 @@ export const register = () => {
           );
           break;
 
-        case 'GarantiesFinancièresÀTraiterSupprimées-V1':
+        case 'DépôtGarantiesFinancièresEnCoursSupprimé-V1':
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
@@ -117,7 +117,7 @@ export const register = () => {
           );
           break;
 
-        case 'GarantiesFinancièresValidées-V1':
+        case 'DépôtGarantiesFinancièresEnCoursValidé-V1':
           if (!garantiesFinancièresToUpsert.àTraiter) {
             getLogger().error(
               new Error(
@@ -152,19 +152,19 @@ export const register = () => {
           );
           break;
 
-        case 'GarantiesFinancièresÀTraiterModifiées-V1':
+        case 'DépôtGarantiesFinancièresEnCoursModifié-V1':
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
-              misÀJourLe: payload.soumisLe,
+              misÀJourLe: payload.modifiéLe,
               statut: GarantiesFinancières.StatutGarantiesFinancières.àTraiter.statut,
               àTraiter: {
                 type: payload.type,
                 dateÉchéance: payload.dateÉchéance,
                 dateConstitution: payload.dateConstitution,
                 attestation: payload.attestation,
-                soumisLe: payload.soumisLe,
+                soumisLe: payload.modifiéLe,
               },
             },
           );

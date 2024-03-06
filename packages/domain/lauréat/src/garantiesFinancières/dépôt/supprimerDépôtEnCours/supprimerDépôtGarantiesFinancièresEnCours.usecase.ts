@@ -1,10 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { SupprimerGarantiesFinancièresÀTraiterCommand } from './supprimerGarantiesFinancièresÀTraiter.command';
-import { ConsulterGarantiesFinancièresQuery } from '..';
-import { AucunesGarantiesFinancièresÀTraiter } from '../aucunesGarantiesFinancièresÀTraiter.error';
-import { AucunesGarantiesFinancières } from '../aucunesGarantiesFinancières.error';
+import { SupprimerDépôtGarantiesFinancièresEnCoursCommand } from './supprimerDépôtGarantiesFinancièresEnCours.command';
+import { ConsulterGarantiesFinancièresQuery } from '../..';
+import { AucunDépôtDeGarantiesFinancièresEnCours } from '../../aucunDépôtDeGarantiesFinancièresEnCours.error';
+import { AucunesGarantiesFinancières } from '../../aucunesGarantiesFinancières.error';
 
 export type SupprimerGarantiesFinancièresÀTraiterUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
@@ -35,11 +35,11 @@ export const registerSupprimerGarantiesFinancièresÀTraiterUseCase = () => {
     }
 
     if (!garantiesFinancièreActuelles.àTraiter) {
-      throw new AucunesGarantiesFinancièresÀTraiter();
+      throw new AucunDépôtDeGarantiesFinancièresEnCours();
     }
 
-    await mediator.send<SupprimerGarantiesFinancièresÀTraiterCommand>({
-      type: 'Lauréat.GarantiesFinancières.Command.SupprimerGarantiesFinancièresÀTraiter',
+    await mediator.send<SupprimerDépôtGarantiesFinancièresEnCoursCommand>({
+      type: 'Lauréat.GarantiesFinancières.Command.SupprimerDépôtGarantiesFinancièresEnCours',
       data: {
         identifiantProjet,
         suppriméLe,

@@ -1,13 +1,13 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { StatutGarantiesFinancières } from '..';
-import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
+import { StatutGarantiesFinancières } from '../..';
+import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { AucunesGarantiesFinancièresÀTraiter } from '../aucunesGarantiesFinancièresÀTraiter.error';
+import { AucunDépôtDeGarantiesFinancièresEnCours } from '../../aucunDépôtDeGarantiesFinancièresEnCours.error';
 
-export type GarantiesFinancièresValidéesEvent = DomainEvent<
-  'GarantiesFinancièresValidées-V1',
+export type DépôtGarantiesFinancièresEnCoursValidéEvent = DomainEvent<
+  'DépôtGarantiesFinancièresEnCoursValidé-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     validéLe: DateTime.RawType;
@@ -21,15 +21,15 @@ export type Options = {
   validéPar: IdentifiantUtilisateur.ValueType;
 };
 
-export async function valider(
+export async function validerDépôtEnCours(
   this: GarantiesFinancièresAggregate,
   { validéLe, identifiantProjet, validéPar }: Options,
 ) {
   if (!this.àTraiter) {
-    throw new AucunesGarantiesFinancièresÀTraiter();
+    throw new AucunDépôtDeGarantiesFinancièresEnCours();
   }
-  const event: GarantiesFinancièresValidéesEvent = {
-    type: 'GarantiesFinancièresValidées-V1',
+  const event: DépôtGarantiesFinancièresEnCoursValidéEvent = {
+    type: 'DépôtGarantiesFinancièresEnCoursValidé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       validéLe: validéLe.formatter(),
@@ -40,9 +40,9 @@ export async function valider(
   await this.publish(event);
 }
 
-export function applyGarantiesFinancièresValidées(
+export function applyDépôtGarantiesFinancièresEnCoursValidé(
   this: GarantiesFinancièresAggregate,
-  { payload: { validéLe } }: GarantiesFinancièresValidéesEvent,
+  { payload: { validéLe } }: DépôtGarantiesFinancièresEnCoursValidéEvent,
 ) {
   this.statut = StatutGarantiesFinancières.validé;
   this.validées = {

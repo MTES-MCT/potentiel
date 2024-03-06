@@ -2,11 +2,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '..';
-import { SoumettreGarantiesFinancièresCommand } from './soumettreGarantiesFinancières.command';
+import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '../..';
+import { SoumettreDépôtGarantiesFinancièresCommand } from './soumettreDépôtGarantiesFinancières.command';
 
-export type SoumettreGarantiesFinancièresUseCase = Message<
-  'Lauréat.GarantiesFinancières.UseCase.SoumettreGarantiesFinancières',
+export type SoumettreDépôtGarantiesFinancièresUseCase = Message<
+  'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
   {
     identifiantProjetValue: string;
     typeValue: string;
@@ -21,8 +21,8 @@ export type SoumettreGarantiesFinancièresUseCase = Message<
   }
 >;
 
-export const registerSoumettreGarantiesFinancièresUseCase = () => {
-  const runner: MessageHandler<SoumettreGarantiesFinancièresUseCase> = async ({
+export const registerSoumettreDépôtGarantiesFinancièresUseCase = () => {
+  const runner: MessageHandler<SoumettreDépôtGarantiesFinancièresUseCase> = async ({
     attestationValue,
     dateConstitutionValue,
     identifiantProjetValue,
@@ -55,8 +55,8 @@ export const registerSoumettreGarantiesFinancièresUseCase = () => {
       },
     });
 
-    await mediator.send<SoumettreGarantiesFinancièresCommand>({
-      type: 'Lauréat.GarantiesFinancières.Command.SoumettreGarantiesFinancières',
+    await mediator.send<SoumettreDépôtGarantiesFinancièresCommand>({
+      type: 'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',
       data: {
         attestation,
         dateConstitution,
@@ -68,5 +68,8 @@ export const registerSoumettreGarantiesFinancièresUseCase = () => {
       },
     });
   };
-  mediator.register('Lauréat.GarantiesFinancières.UseCase.SoumettreGarantiesFinancières', runner);
+  mediator.register(
+    'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
+    runner,
+  );
 };

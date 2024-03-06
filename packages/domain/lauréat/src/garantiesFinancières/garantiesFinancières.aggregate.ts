@@ -2,10 +2,10 @@ import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-d
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import {
-  GarantiesFinancièresSoumisesEvent,
-  applyGarantiesFinancièresSoumises,
-  soumettre,
-} from './soumettre/soumettreGarantiesFinancières.behavior';
+  DépôtGarantiesFinancièresSoumisEvent,
+  applyDépôtGarantiesFinancièresSoumis,
+  soumettreDépôt,
+} from './dépôt/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
 import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '.';
 import { AucunesGarantiesFinancières } from './aucunesGarantiesFinancières.error';
 import {
@@ -14,20 +14,20 @@ import {
   demanderGarantiesFinancières,
 } from './demander/demanderGarantiesFinancières.behavior';
 import {
-  GarantiesFinancièresÀTraiterSuppriméesEvent,
-  applyGarantiesFinancièresÀTraiterSupprimées,
-  supprimerGarantiesFinancièresÀTraiter,
-} from './supprimerGarantiesFinancièresÀTraiter/supprimerGarantiesFinancièresÀTraiter.behavior';
+  DépôtGarantiesFinancièresEnCoursSuppriméEvent,
+  applyDépôtGarantiesFinancièresEnCoursSupprimé,
+  supprimerDépôtGarantiesFinancièresEnCours,
+} from './dépôt/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
 import {
-  GarantiesFinancièresValidéesEvent,
-  applyGarantiesFinancièresValidées,
-  valider,
-} from './valider/validerGarantiesFinancières.behavior';
+  DépôtGarantiesFinancièresEnCoursValidéEvent,
+  applyDépôtGarantiesFinancièresEnCoursValidé,
+  validerDépôtEnCours,
+} from './dépôt/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.behavior';
 import {
-  GarantiesFinancièresÀTraiterModifiéesEvent,
-  applyModifierGarantiesFinancièresÀTraiter,
-  modifierGarantiesFinancièresÀTraiter,
-} from './modifierGarantiesFinancièresÀTraiter/modifierGarantiesFinancièresÀTraiter.behavior';
+  DépôtGarantiesFinancièresEnCoursModifiéEvent,
+  applyDépôtGarantiesFinancièresEnCoursModifié,
+  modifierDépôtGarantiesFinancièresEnCours,
+} from './dépôt/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
 import {
   TypeGarantiesFinancièresImportéEvent,
   applyTypeGarantiesFinancièresImporté,
@@ -45,11 +45,11 @@ import {
 } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
 
 export type GarantiesFinancièresEvent =
-  | GarantiesFinancièresSoumisesEvent
+  | DépôtGarantiesFinancièresSoumisEvent
   | GarantiesFinancièresDemandéesEvent
-  | GarantiesFinancièresÀTraiterSuppriméesEvent
-  | GarantiesFinancièresValidéesEvent
-  | GarantiesFinancièresÀTraiterModifiéesEvent
+  | DépôtGarantiesFinancièresEnCoursSuppriméEvent
+  | DépôtGarantiesFinancièresEnCoursValidéEvent
+  | DépôtGarantiesFinancièresEnCoursModifiéEvent
   | TypeGarantiesFinancièresImportéEvent
   | GarantiesFinancièresModifiéesEvent
   | AttestationGarantiesFinancièresEnregistréeEvent;
@@ -72,11 +72,11 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     attestation?: { format: string };
   };
   enAttente?: { dateLimiteSoumission: DateTime.ValueType };
-  readonly soumettre: typeof soumettre;
+  readonly soumettreDépôt: typeof soumettreDépôt;
   readonly demanderGarantiesFinancières: typeof demanderGarantiesFinancières;
-  readonly supprimerGarantiesFinancièresÀTraiter: typeof supprimerGarantiesFinancièresÀTraiter;
-  readonly valider: typeof valider;
-  readonly modifierGarantiesFinancièresÀTraiter: typeof modifierGarantiesFinancièresÀTraiter;
+  readonly supprimerDépôtGarantiesFinancièresEnCours: typeof supprimerDépôtGarantiesFinancièresEnCours;
+  readonly validerDépôtEnCours: typeof validerDépôtEnCours;
+  readonly modifierDépôtGarantiesFinancièresEnCours: typeof modifierDépôtGarantiesFinancièresEnCours;
   readonly importerType: typeof importerType;
   readonly modifier: typeof modifier;
   readonly enregistrerAttestation: typeof enregistrerAttestation;
@@ -87,11 +87,11 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   GarantiesFinancièresEvent
 > = () => ({
   apply,
-  soumettre,
+  soumettreDépôt,
   demanderGarantiesFinancières,
-  supprimerGarantiesFinancièresÀTraiter,
-  valider,
-  modifierGarantiesFinancièresÀTraiter,
+  supprimerDépôtGarantiesFinancièresEnCours,
+  validerDépôtEnCours: validerDépôtEnCours,
+  modifierDépôtGarantiesFinancièresEnCours,
   importerType,
   modifier,
   enregistrerAttestation,
@@ -99,20 +99,20 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
   switch (event.type) {
-    case 'GarantiesFinancièresSoumises-V1':
-      applyGarantiesFinancièresSoumises.bind(this)(event);
+    case 'DépôtGarantiesFinancièresSoumis-V1':
+      applyDépôtGarantiesFinancièresSoumis.bind(this)(event);
       break;
     case 'GarantiesFinancièresDemandées-V1':
       applyGarantiesFinancièresDemandées.bind(this)(event);
       break;
-    case 'GarantiesFinancièresÀTraiterSupprimées-V1':
-      applyGarantiesFinancièresÀTraiterSupprimées.bind(this)();
+    case 'DépôtGarantiesFinancièresEnCoursSupprimé-V1':
+      applyDépôtGarantiesFinancièresEnCoursSupprimé.bind(this)();
       break;
-    case 'GarantiesFinancièresValidées-V1':
-      applyGarantiesFinancièresValidées.bind(this)(event);
+    case 'DépôtGarantiesFinancièresEnCoursValidé-V1':
+      applyDépôtGarantiesFinancièresEnCoursValidé.bind(this)(event);
       break;
-    case 'GarantiesFinancièresÀTraiterModifiées-V1':
-      applyModifierGarantiesFinancièresÀTraiter.bind(this)(event);
+    case 'DépôtGarantiesFinancièresEnCoursModifié-V1':
+      applyDépôtGarantiesFinancièresEnCoursModifié.bind(this)(event);
       break;
     case 'TypeGarantiesFinancièresImporté-V1':
       applyTypeGarantiesFinancièresImporté.bind(this)(event);

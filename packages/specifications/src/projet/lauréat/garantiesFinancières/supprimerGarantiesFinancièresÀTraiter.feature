@@ -32,6 +32,6 @@ Fonctionnalité: Supprimer des garanties financières en attente de validation
             | date limite de soumission | 2023-11-01 |
             | date de notification      | 2023-09-01 |
         Quand le porteur supprime les garanties financières à traiter pour le projet "Centrale PV"    
-        Alors l'utilisateur devrait être informé que "Il n'y a aucunes garanties financières à traiter pour ce projet"         
+        Alors l'utilisateur devrait être informé que "Il n'y a aucun dépôt de garanties financières en cours pour ce projet"         
 
          

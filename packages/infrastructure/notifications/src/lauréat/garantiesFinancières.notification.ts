@@ -82,7 +82,7 @@ export const register = () => {
     const régionProjet = projet.localité.région;
 
     switch (event.type) {
-      case 'GarantiesFinancièresSoumises-V1':
+      case 'DépôtGarantiesFinancièresSoumis-V1':
         await sendEmailGarantiesFinancièresChangementDeStatut({
           statut: GarantiesFinancières.StatutGarantiesFinancières.àTraiter,
           templateId: templateId.garantiesFinancières.àTraiterPourDreal,

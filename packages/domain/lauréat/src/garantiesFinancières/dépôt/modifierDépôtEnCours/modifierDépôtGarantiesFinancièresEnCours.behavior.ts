@@ -2,23 +2,24 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { DocumentProjet } from '@potentiel-domain/document';
-import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '..';
-import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
+import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '../..';
+import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { DateConstitutionDansLeFutur } from '../dateConstitutionDansLeFutur.error';
-import { DateÉchéanceManquante } from '../dateÉchéanceManquante.error';
-import { DateÉchéanceNonAttendue } from '../dateÉchéanceNonAttendue.error';
+import { DateConstitutionDansLeFutur } from '../../dateConstitutionDansLeFutur.error';
+import { DateÉchéanceManquante } from '../../dateÉchéanceManquante.error';
+import { DateÉchéanceNonAttendue } from '../../dateÉchéanceNonAttendue.error';
+import { AucunDépôtDeGarantiesFinancièresEnCours } from '../../aucunDépôtDeGarantiesFinancièresEnCours.error';
 
-export type GarantiesFinancièresSoumisesEvent = DomainEvent<
-  'GarantiesFinancièresSoumises-V1',
+export type DépôtGarantiesFinancièresEnCoursModifiéEvent = DomainEvent<
+  'DépôtGarantiesFinancièresEnCoursModifié-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     type: TypeGarantiesFinancières.RawType;
     dateÉchéance?: DateTime.RawType;
     attestation: { format: string };
     dateConstitution: DateTime.RawType;
-    soumisLe: DateTime.RawType;
-    soumisPar: IdentifiantUtilisateur.RawType;
+    modifiéLe: DateTime.RawType;
+    modifiéPar: IdentifiantUtilisateur.RawType;
   }
 >;
 
@@ -28,23 +29,25 @@ export type Options = {
   dateÉchéance?: DateTime.ValueType;
   attestation: DocumentProjet.ValueType;
   dateConstitution: DateTime.ValueType;
-  soumisLe: DateTime.ValueType;
-  soumisPar: IdentifiantUtilisateur.ValueType;
+  modifiéLe: DateTime.ValueType;
+  modifiéPar: IdentifiantUtilisateur.ValueType;
 };
 
-export async function soumettre(
+export async function modifierDépôtGarantiesFinancièresEnCours(
   this: GarantiesFinancièresAggregate,
   {
     attestation,
     dateConstitution,
     identifiantProjet,
-    soumisLe,
+    modifiéLe,
     type,
     dateÉchéance,
-    soumisPar,
+    modifiéPar,
   }: Options,
 ) {
-  this.statut?.vérifierQueLeChangementDeStatutEstPossibleEn(StatutGarantiesFinancières.àTraiter);
+  if (!this.àTraiter) {
+    throw new AucunDépôtDeGarantiesFinancièresEnCours();
+  }
   if (dateConstitution.estDansLeFutur()) {
     throw new DateConstitutionDansLeFutur();
   }
@@ -54,34 +57,34 @@ export async function soumettre(
   if (!type.estAvecDateÉchéance() && dateÉchéance) {
     throw new DateÉchéanceNonAttendue();
   }
-  const event: GarantiesFinancièresSoumisesEvent = {
-    type: 'GarantiesFinancièresSoumises-V1',
+  const event: DépôtGarantiesFinancièresEnCoursModifiéEvent = {
+    type: 'DépôtGarantiesFinancièresEnCoursModifié-V1',
     payload: {
       attestation: { format: attestation.format },
       dateConstitution: dateConstitution.formatter(),
       identifiantProjet: identifiantProjet.formatter(),
-      soumisLe: soumisLe.formatter(),
+      modifiéLe: modifiéLe.formatter(),
       type: type.type,
       dateÉchéance: dateÉchéance?.formatter(),
-      soumisPar: soumisPar.formatter(),
+      modifiéPar: modifiéPar.formatter(),
     },
   };
 
   await this.publish(event);
 }
 
-export function applyGarantiesFinancièresSoumises(
+export function applyDépôtGarantiesFinancièresEnCoursModifié(
   this: GarantiesFinancièresAggregate,
   {
-    payload: { type, dateÉchéance, dateConstitution, soumisLe, attestation },
-  }: GarantiesFinancièresSoumisesEvent,
+    payload: { type, dateÉchéance, dateConstitution, modifiéLe, attestation },
+  }: DépôtGarantiesFinancièresEnCoursModifiéEvent,
 ) {
   this.statut = StatutGarantiesFinancières.àTraiter;
   this.àTraiter = {
     type: TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),
-    soumisLe: DateTime.convertirEnValueType(soumisLe),
+    soumisLe: DateTime.convertirEnValueType(modifiéLe),
     attestation,
   };
 }
