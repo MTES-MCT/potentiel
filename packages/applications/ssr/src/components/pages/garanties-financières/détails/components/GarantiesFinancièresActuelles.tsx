@@ -6,6 +6,7 @@ import { Routes } from '@potentiel-libraries/routes';
 
 import { CallOut } from '@/components/atoms/CallOut';
 import { formatDateForText } from '@/utils/formatDateForText';
+import { Heading2 } from '@/components/atoms/headings';
 
 export type GarantiesFinancièresActuellesProps = {
   identifiantProjet: string;
@@ -14,52 +15,84 @@ export type GarantiesFinancièresActuellesProps = {
     dateÉchéance?: string;
     dateConstitution?: string;
     attestation?: string;
-    dateValidation: string;
-    dateEnvoi: string;
+    validéLe?: string;
+    soumisLe?: string;
+    dernièreMiseÀJour: {
+      date: string;
+      par: string;
+    };
     action?: 'modifier' | 'enregister-attestation';
   };
 };
 
 export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesProps> = ({
   identifiantProjet,
-  actuelles: { type, dateÉchéance, dateConstitution, attestation, action },
+  actuelles: {
+    type,
+    dateÉchéance,
+    dateConstitution,
+    attestation,
+    action,
+    validéLe,
+    soumisLe,
+    dernièreMiseÀJour,
+  },
 }) => (
-  <CallOut
-    title="Garanties financières actuelles"
-    className="w-1/2"
-    colorVariant={action === 'enregister-attestation' ? 'warning' : 'info'}
-    content={
-      <>
-        <div className="mt-5 gap-2">
-          <div>
-            Type : <span className="font-semibold">{type}</span>
-          </div>
-          {dateÉchéance && (
+  <>
+    <Heading2 className="mb-4">Garanties financières actuelles</Heading2>
+    <CallOut
+      className="w-1/2"
+      colorVariant={action === 'enregister-attestation' ? 'warning' : 'sucess'}
+      content={
+        <>
+          <div className="mt-5 gap-2">
             <div>
-              Date d'échéance :{' '}
-              <span className="font-semibold">{formatDateForText(dateÉchéance)}</span>
+              <div>
+                Dernière mise à jour le{' '}
+                <span className="font-semibold">{formatDateForText(dernièreMiseÀJour.date)}</span>{' '}
+                par {dernièreMiseÀJour.par}
+              </div>
             </div>
-          )}
-          {dateConstitution && (
             <div>
-              Date de constitution :{' '}
-              <span className="font-semibold">{formatDateForText(dateConstitution)}</span>
+              Type : <span className="font-semibold">{type}</span>
             </div>
-          )}
-          <div>
-            {attestation && (
-              <Download
-                details="fichier au format pdf"
-                label="Télécharger l'attestation"
-                linkProps={{ href: Routes.Document.télécharger(attestation) }}
-              />
+            {dateÉchéance && (
+              <div>
+                Date d'échéance :{' '}
+                <span className="font-semibold">{formatDateForText(dateÉchéance)}</span>
+              </div>
             )}
+            {dateConstitution && (
+              <div>
+                Date de constitution :{' '}
+                <span className="font-semibold">{formatDateForText(dateConstitution)}</span>
+              </div>
+            )}
+            {validéLe && (
+              <div>
+                Validé le : <span className="font-semibold">{formatDateForText(validéLe)}</span>
+              </div>
+            )}
+            {soumisLe && (
+              <div>
+                Soumis le : <span className="font-semibold">{formatDateForText(soumisLe)}</span>
+              </div>
+            )}
+            <div>
+              {attestation && (
+                <Download
+                  details="fichier au format pdf"
+                  label="Télécharger l'attestation"
+                  linkProps={{ href: Routes.Document.télécharger(attestation) }}
+                />
+              )}
+            </div>
           </div>
-        </div>
-        <ButtonAction identifiantProjet={identifiantProjet} action={action} />
-      </>
-    }
-  />
+          <ButtonAction identifiantProjet={identifiantProjet} action={action} />
+        </>
+      }
+    />
+  </>
 );
 
 type ButtonActionProps = {

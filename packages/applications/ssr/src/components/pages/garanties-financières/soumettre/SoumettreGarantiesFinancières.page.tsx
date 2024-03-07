@@ -73,7 +73,9 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
             method="POST"
             encType="multipart/form-data"
             action={soumettreGarantiesFinancièresAction}
-            onSuccess={() => router.push(Routes.Projet.details(projet.identifiantProjet))}
+            onSuccess={() =>
+              router.push(Routes.GarantiesFinancières.détail(projet.identifiantProjet))
+            }
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
             <input name="identifiantProjet" type="hidden" value={identifiantProjet} />

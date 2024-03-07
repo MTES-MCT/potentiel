@@ -1,8 +1,4 @@
 import { FC } from 'react';
-import Link from 'next/link';
-import { fr } from '@codegouvfr/react-dsfr';
-
-import { Routes } from '@potentiel-libraries/routes';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
@@ -12,26 +8,27 @@ import { StatutDépôtGarantiesFinancièresBadge } from '../../StatutDépôtGara
 
 export type DépôtStatut = 'en-cours' | 'validé' | 'rejeté';
 
-export type HistoriqueDesGarantiesFinancièresDéposéesProps = {
-  identifiantProjet: string;
-  dépôts: Array<{
-    type: string;
-    dateÉchéance?: string;
-    statut: DépôtStatut;
-    dateConstitution: string;
-    déposéLe: string;
-    attestation: string;
-    action?: 'modifier';
-    dernièreMiseÀJour: {
-      date: string;
-      par: string;
-    };
-  }>;
+export type DépôtGarantiesFinancières = {
+  type: string;
+  dateÉchéance?: string;
+  statut: DépôtStatut;
+  dateConstitution: string;
+  soumisLe: string;
+  attestation: string;
+  dernièreMiseÀJour: {
+    date: string;
+    par: string;
+  };
 };
 
-export const HistoriqueDesGarantiesFinancièresDéposées: FC<
-  HistoriqueDesGarantiesFinancièresDéposéesProps
-> = ({ identifiantProjet, dépôts }) => (
+export type GarantiesFinancièresHistoriqueDépôtsProps = {
+  identifiantProjet: string;
+  dépôts: Array<DépôtGarantiesFinancières>;
+};
+
+export const GarantiesFinancièresHistoriqueDépôts: FC<
+  GarantiesFinancièresHistoriqueDépôtsProps
+> = ({ dépôts }) => (
   <>
     <Heading2>Historique</Heading2>
     <Timeline
@@ -53,7 +50,7 @@ export const HistoriqueDesGarantiesFinancièresDéposées: FC<
                 </li>
                 <li>
                   Date de dépôt :{' '}
-                  <span className="font-semibold">{formatDateForText(dépôt.déposéLe)}</span>
+                  <span className="font-semibold">{formatDateForText(dépôt.soumisLe)}</span>
                 </li>
                 <li>
                   Date de constitution :{' '}
@@ -66,15 +63,6 @@ export const HistoriqueDesGarantiesFinancièresDéposées: FC<
                   </li>
                 )}
               </ul>
-              {dépôt.statut === 'en-cours' && (
-                <Link
-                  className="flex md:max-w-lg w-fit"
-                  href={Routes.GarantiesFinancières.modifierDépôtEnCours(identifiantProjet)}
-                >
-                  <i className={`${fr.cx('ri-pencil-line')} mr-1`} aria-hidden />
-                  Voir
-                </Link>
-              )}
             </div>
           </>
         ),
