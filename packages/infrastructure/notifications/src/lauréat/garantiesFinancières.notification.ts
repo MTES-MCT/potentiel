@@ -21,34 +21,34 @@ export type Execute = Message<
 
 const sendEmailGarantiesFinancièresChangementDeStatut = async ({
   identifiantProjet,
-  statut,
   templateId,
   recipients,
   nomProjet,
   départementProjet,
   régionProjet,
+  subject,
+  statut,
 }: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  statut: 'en attente de validation' | 'validées';
+  subject: string;
   templateId: number;
   recipients: Array<{ email: string; fullName: string }>;
   nomProjet: string;
   départementProjet: string;
   régionProjet: string;
+  statut?: 'validées' | 'en attente de validation';
 }) => {
   const { BASE_URL } = process.env;
 
   await sendEmail({
     templateId,
-    messageSubject: `Potentiel - Des garanties financières sont ${statut} pour le projet ${nomProjet} dans le département ${départementProjet}`,
+    messageSubject: subject,
     recipients,
     variables: {
       nom_projet: nomProjet,
       departement_projet: départementProjet,
       region_projet: régionProjet,
-      nouveau_statut: statut,
-      // TODO : lorsque les différentes pages seront en place, à voir si on redirige directement vers les GF à traiter
-      // Il faudra penser à mettre le template à jour en cas de modification
+      nouveau_statut: statut ?? '',
       url: `${BASE_URL}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
     },
   });
@@ -79,7 +79,8 @@ export const register = () => {
       case 'DépôtGarantiesFinancièresSoumis-V1':
         await sendEmailGarantiesFinancièresChangementDeStatut({
           statut: 'en attente de validation',
-          templateId: templateId.garantiesFinancières.àTraiterPourDreal,
+          subject: `Potentiel - Des garanties financières sont en attente de validation pour le projet ${nomProjet} dans le département ${départementProjet}`,
+          templateId: templateId.garantiesFinancières.dépôtSoumisPourDreal,
           recipients: dreals,
           identifiantProjet,
           nomProjet,
@@ -89,7 +90,8 @@ export const register = () => {
 
         await sendEmailGarantiesFinancièresChangementDeStatut({
           statut: 'en attente de validation',
-          templateId: templateId.garantiesFinancières.àTraiterPourPorteur,
+          subject: `Potentiel - Des garanties financières sont en attente de validation pour le projet ${nomProjet} dans le département ${départementProjet}`,
+          templateId: templateId.garantiesFinancières.dépôtSoumisPourPorteur,
           recipients: porteurs,
           identifiantProjet,
           nomProjet,
@@ -97,6 +99,51 @@ export const register = () => {
           régionProjet,
         });
         break;
+
+      case 'DépôtGarantiesFinancièresEnCoursValidé-V1':
+        await sendEmailGarantiesFinancièresChangementDeStatut({
+          statut: 'validées',
+          subject: `Potentiel - Des garanties financières sont validées pour le projet ${nomProjet} dans le département ${départementProjet}`,
+          templateId: templateId.garantiesFinancières.dépôtValidéPourPorteur,
+          recipients: porteurs,
+          identifiantProjet,
+          nomProjet,
+          départementProjet,
+          régionProjet,
+        });
+
+      case 'AttestationGarantiesFinancièresEnregistrée-V1':
+        await sendEmailGarantiesFinancièresChangementDeStatut({
+          subject: `Potentiel - Attestation de constitution des garanties financières enregistrée pour le projet ${nomProjet} dans le département ${départementProjet}`,
+          templateId: templateId.garantiesFinancières.attestationGFActuellesEnregistréePourDreal,
+          recipients: dreals,
+          identifiantProjet,
+          nomProjet,
+          départementProjet,
+          régionProjet,
+        });
+
+      case 'GarantiesFinancièresModifiées-V1':
+        await sendEmailGarantiesFinancièresChangementDeStatut({
+          subject: `Potentiel - Garanties financières mises à jour pour le projet ${nomProjet} dans le département ${départementProjet}`,
+          templateId: templateId.garantiesFinancières.GFActuellesModifiéesPourDreal,
+          recipients: dreals,
+          identifiantProjet,
+          nomProjet,
+          départementProjet,
+          régionProjet,
+        });
+
+      case 'GarantiesFinancièresModifiées-V1':
+        await sendEmailGarantiesFinancièresChangementDeStatut({
+          subject: `Potentiel - Garanties financières mises à jour pour le projet ${nomProjet} dans le département ${départementProjet}`,
+          templateId: templateId.garantiesFinancières.GFActuellesModifiéesPourPorteur,
+          recipients: porteurs,
+          identifiantProjet,
+          nomProjet,
+          départementProjet,
+          régionProjet,
+        });
     }
   };
 
