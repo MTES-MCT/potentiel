@@ -11,7 +11,7 @@ import {
   autoconsommationZNI2017,
   eolien,
   pvEolien,
-} from './CRE4';
+} from "./CRE4";
 import {
   solPPE2,
   eolienPPE2,
@@ -19,7 +19,8 @@ import {
   neutrePPE2,
   innovationPPE2,
   autoconsommationMetropolePPE2,
-} from './PPE2';
+  biogazPPE2,
+} from "./PPE2";
 
 export const appelsOffreData = [
   batiment,
@@ -40,4 +41,5 @@ export const appelsOffreData = [
   neutrePPE2,
   innovationPPE2,
   autoconsommationMetropolePPE2,
+  biogazPPE2,
 ];
