@@ -42,19 +42,23 @@ export const GarantiesFinancieresActuellesComplètes: Story = {
       type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
       dateÉchéance: '2023-07-01',
       dateConstitution: '2022-10-01',
-      dateEnvoi: '2021-09-23',
-      dateValidation: '2021-10-23',
+      soumisLe: '2021-09-23',
+      validéLe: '2021-10-23',
       attestation: 'path/to/attestation.pdf',
       action: 'modifier',
+      dernièreMiseÀJour: {
+        date: '2021-10-23',
+        par: 'DREAL#1',
+      },
     },
-    dépôts: [
+    historiqueDépôts: [
       {
         type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
         attestation: 'path/to/attestation.pdf',
         statut: 'validé',
         dateÉchéance: '2023-07-01',
         dateConstitution: '2022-10-01',
-        déposéLe: '2022-10-01',
+        soumisLe: '2022-10-01',
         dernièreMiseÀJour: {
           date: '2022-11-01',
           par: 'DREAL#1',
@@ -65,7 +69,62 @@ export const GarantiesFinancieresActuellesComplètes: Story = {
         dateConstitution: '2021-01-01',
         attestation: 'path/to/attestation.pdf',
         statut: 'rejeté',
-        déposéLe: '2021-02-01',
+        soumisLe: '2021-02-01',
+        dernièreMiseÀJour: {
+          date: '2021-02-15',
+          par: 'DREAL#1',
+        },
+      },
+    ],
+  },
+};
+
+export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = {
+  args: {
+    projet,
+    actuelles: {
+      type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
+      dateÉchéance: '2023-07-01',
+      dateConstitution: '2022-10-01',
+      soumisLe: '2021-09-23',
+      validéLe: '2021-10-23',
+      attestation: 'path/to/attestation.pdf',
+      action: 'modifier',
+      dernièreMiseÀJour: {
+        date: '2021-10-23',
+        par: 'DREAL#1',
+      },
+    },
+    dépôtEnCours: {
+      type: getGarantiesFinancièresTypeLabel('consignation'),
+      dateConstitution: '2024-01-01',
+      attestation: 'path/to/attestation.pdf',
+      statut: 'en-cours',
+      soumisLe: '2021-09-23',
+      dernièreMiseÀJour: {
+        date: '2024-01-01',
+        par: 'PORTEUR#1',
+      },
+    },
+    historiqueDépôts: [
+      {
+        type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
+        attestation: 'path/to/attestation.pdf',
+        statut: 'validé',
+        dateÉchéance: '2023-07-01',
+        dateConstitution: '2022-10-01',
+        soumisLe: '2022-10-01',
+        dernièreMiseÀJour: {
+          date: '2022-11-01',
+          par: 'DREAL#1',
+        },
+      },
+      {
+        type: getGarantiesFinancièresTypeLabel('consignation'),
+        dateConstitution: '2021-01-01',
+        attestation: 'path/to/attestation.pdf',
+        statut: 'rejeté',
+        soumisLe: '2021-02-01',
         dernièreMiseÀJour: {
           date: '2021-02-15',
           par: 'DREAL#1',
@@ -81,39 +140,42 @@ export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
     action: 'soumettre',
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('six-mois-après-achèvement'),
-      dateEnvoi: '2024-01-01',
-      dateValidation: '2024-01-15',
+      soumisLe: '2024-01-01',
+      validéLe: '2024-01-15',
       attestation: 'path/to/attestation.pdf',
       action: 'enregister-attestation',
+      dernièreMiseÀJour: {
+        date: '2024-01-15',
+        par: 'PORTEUR#1',
+      },
     },
-    dépôts: [],
+    historiqueDépôts: [],
   },
 };
 
 export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
   args: {
     projet,
-    dépôts: [
-      {
-        type: getGarantiesFinancièresTypeLabel('consignation'),
-        dateConstitution: '2024-01-01',
-        attestation: 'path/to/attestation.pdf',
-        statut: 'en-cours',
-        déposéLe: '2021-09-23',
-        dernièreMiseÀJour: {
-          date: '2024-01-01',
-          par: 'PORTEUR#1',
-        },
-        action: 'modifier',
+    dépôtEnCours: {
+      type: getGarantiesFinancièresTypeLabel('consignation'),
+      dateConstitution: '2024-01-01',
+      attestation: 'path/to/attestation.pdf',
+      statut: 'en-cours',
+      soumisLe: '2021-09-23',
+      dernièreMiseÀJour: {
+        date: '2024-01-01',
+        par: 'PORTEUR#1',
       },
-    ],
+      action: 'modifier',
+    },
+    historiqueDépôts: [],
   },
 };
 
 export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
   args: {
     projet,
-    dépôts: [],
+    historiqueDépôts: [],
     action: 'soumettre',
   },
 };

@@ -9,40 +9,42 @@ import { Routes } from '@potentiel-libraries/routes';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
-import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
-
 import { AucuneGarantiesFinancières } from './components/AucuneGarantiesFinancières';
 import {
   GarantiesFinancièresActuelles,
   GarantiesFinancièresActuellesProps,
 } from './components/GarantiesFinancièresActuelles';
 import {
-  HistoriqueDesGarantiesFinancièresDéposées,
-  HistoriqueDesGarantiesFinancièresDéposéesProps,
-} from './components/HistoriqueDesGarantiesFinancièresDéposées';
+  DépôtGarantiesFinancières,
+  GarantiesFinancièresHistoriqueDépôts,
+  GarantiesFinancièresHistoriqueDépôtsProps,
+} from './components/GarantiesFinancièresHistoriqueDépôts';
+import { GarantiesFinancièresDépôtEnCours } from './components/GarantiesFinancièresDépôtEnCours';
 
 export type DétailsGarantiesFinancièresPageProps = {
   projet: ProjetBannerProps;
   actuelles?: GarantiesFinancièresActuellesProps['actuelles'];
+  dépôtEnCours?: DépôtGarantiesFinancières & {
+    action?: 'modifier';
+  };
   dateLimiteSoummission?: string;
-  dépôts: HistoriqueDesGarantiesFinancièresDéposéesProps['dépôts'];
+  historiqueDépôts: GarantiesFinancièresHistoriqueDépôtsProps['dépôts'];
   action?: 'soumettre';
 };
 
 export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancièresPageProps> = ({
   projet,
   actuelles,
-  dépôts,
+  dépôtEnCours,
+  historiqueDépôts,
   action,
 }) => {
-  if (!actuelles && !dépôts.length && action) {
+  if (!actuelles && !dépôtEnCours && !historiqueDépôts.length && action) {
     return <AucuneGarantiesFinancières projet={projet} action={action} />;
   }
 
   return (
     <PageTemplate banner={<ProjetBanner {...projet} />}>
-      <TitrePageGarantiesFinancières />
-
       {actuelles && (
         <GarantiesFinancièresActuelles
           actuelles={actuelles}
@@ -50,7 +52,14 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
         />
       )}
 
-      {dépôts.length === 0 && action === 'soumettre' && (
+      {dépôtEnCours && (
+        <GarantiesFinancièresDépôtEnCours
+          dépôt={dépôtEnCours}
+          identifiantProjet={projet.identifiantProjet}
+        />
+      )}
+
+      {historiqueDépôts.length === 0 && action === 'soumettre' && (
         <Alert
           severity="info"
           small
@@ -69,10 +78,10 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
         />
       )}
 
-      {dépôts.length > 0 && (
-        <HistoriqueDesGarantiesFinancièresDéposées
+      {historiqueDépôts.length > 0 && (
+        <GarantiesFinancièresHistoriqueDépôts
           identifiantProjet={projet.identifiantProjet}
-          dépôts={dépôts}
+          dépôts={historiqueDépôts}
         />
       )}
     </PageTemplate>
