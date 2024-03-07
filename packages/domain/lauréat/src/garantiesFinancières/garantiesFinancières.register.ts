@@ -19,6 +19,8 @@ import { registerModifierGarantiesFinancièresUseCase } from './modifier/modifie
 import { registerModifierGarantiesFinancièresCommand } from './modifier/modifierGarantiesFinancières.command';
 import { registerEnregistrerAttestationGarantiesFinancièresCommand } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.command';
 import { registerEnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
+import { registerEnregistrerGarantiesFinancièresUseCase } from './enregistrer/enregistrerGarantiesFinancières.usecase';
+import { registerEnregistrerGarantiesFinancièresCommand } from './enregistrer/enregistrerGarantiesFinancières.command';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies;
 
@@ -37,6 +39,7 @@ export const registerGarantiesFinancièresUseCases = ({
   registerImporterTypeGarantiesFinancièresCommand(loadAggregate);
   registerModifierGarantiesFinancièresCommand(loadAggregate);
   registerEnregistrerAttestationGarantiesFinancièresCommand(loadAggregate);
+  registerEnregistrerGarantiesFinancièresCommand(loadAggregate);
 
   registerSoumettreDépôtGarantiesFinancièresUseCase();
   registerDemanderGarantiesFinancièresUseCase();
@@ -46,6 +49,7 @@ export const registerGarantiesFinancièresUseCases = ({
   registerImporterTypeGarantiesFinancièresUseCase();
   registerModifierGarantiesFinancièresUseCase();
   registerEnregistrerAttestationGarantiesFinancièresUseCase();
+  registerEnregistrerGarantiesFinancièresUseCase();
 };
 
 export const registerGarantiesFinancièresQueries = (

@@ -229,6 +229,22 @@ export const register = () => {
             },
           );
           break;
+
+        case 'GarantiesFinancièresEnregistrées-V1':
+          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+            {
+              ...garantiesFinancièresToUpsert,
+              actuelles: {
+                type: payload.type,
+                dateÉchéance: payload.dateÉchéance,
+                dateConstitution: payload.dateConstitution,
+                attestation: payload.attestation,
+                dernièreMiseÀJour: { date: payload.enregistréLe, par: payload.enregistréPar },
+              },
+            },
+          );
+          break;
       }
     }
   };
