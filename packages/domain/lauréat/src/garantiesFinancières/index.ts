@@ -61,7 +61,6 @@ export {
 // ValueTypes
 export * as GarantiesFinancières from './garantiesFinancières.valueType';
 export * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
-export * as ÉtatGarantiesFinancières from './étatGarantiesFinancières.valueType';
 export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
 export * as StatutDépôtGarantiesFinancières from './statutDépôtGarantiesFinancières.valueType';
 
