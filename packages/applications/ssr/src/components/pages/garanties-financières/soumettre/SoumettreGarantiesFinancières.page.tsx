@@ -27,13 +27,13 @@ import { soumettreGarantiesFinancièresAction } from './soumettreGarantiesFinanc
 
 export type SoumettreGarantiesFinancièresProps = {
   projet: ProjetBannerProps;
-  garantiesFinancièresÀTraiterExistante?: true;
+  dépôtEnCours?: true;
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
 };
 
 export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièresProps> = ({
   projet,
-  garantiesFinancièresÀTraiterExistante,
+  dépôtEnCours,
   typesGarantiesFinancières,
 }) => {
   const router = useRouter();
@@ -42,7 +42,7 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
 
   const { identifiantProjet } = projet;
 
-  if (garantiesFinancièresÀTraiterExistante) {
+  if (dépôtEnCours) {
     return (
       <PageTemplate banner={<ProjetBanner {...projet} />}>
         <CallOut
@@ -73,9 +73,7 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
             method="POST"
             encType="multipart/form-data"
             action={soumettreGarantiesFinancièresAction}
-            onSuccess={() =>
-              router.push(Routes.GarantiesFinancières.détail(projet.identifiantProjet))
-            }
+            onSuccess={() => router.push(Routes.Projet.details(projet.identifiantProjet))}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
             <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
