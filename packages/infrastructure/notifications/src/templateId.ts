@@ -14,5 +14,8 @@ export const templateId = {
     dépôtSoumisPourDreal: 5740312,
     dépôtSoumisPourPorteur: 5740394,
     dépôtValidéPourPorteur: 5765321,
+    attestationGFActuellesEnregistréePourDreal: 5765406,
+    GFActuellesModifiéesPourPorteur: 5765519,
+    GFActuellesModifiéesPourDreal: 5765536,
   },
 };
