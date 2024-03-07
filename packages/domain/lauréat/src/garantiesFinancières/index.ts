@@ -33,10 +33,10 @@ export type GarantiesFinancièresUseCase =
   | EnregistrerGarantiesFinancièresUseCase;
 
 export {
-  SoumettreDépôtGarantiesFinancièresUseCase as SoumettreGarantiesFinancièresUseCase,
+  SoumettreDépôtGarantiesFinancièresUseCase,
   DemanderGarantiesFinancièresUseCase,
   SupprimerGarantiesFinancièresÀTraiterUseCase,
-  ValiderDépôtGarantiesFinancièresEnCoursUseCase as ValiderGarantiesFinancièresUseCase,
+  ValiderDépôtGarantiesFinancièresEnCoursUseCase,
   ModifierDépôtGarantiesFinancièresEnCoursUseCase,
   ImporterTypeGarantiesFinancièresUseCase,
   ModifierGarantiesFinancièresUseCase,
@@ -46,11 +46,11 @@ export {
 
 // Event
 export { GarantiesFinancièresEvent } from './garantiesFinancières.aggregate';
-export { DépôtGarantiesFinancièresSoumisEvent as GarantiesFinancièresSoumisesEvent } from './dépôt/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
+export { DépôtGarantiesFinancièresSoumisEvent } from './dépôt/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
 export { GarantiesFinancièresDemandéesEvent } from './demander/demanderGarantiesFinancières.behavior';
-export { DépôtGarantiesFinancièresEnCoursSuppriméEvent as GarantiesFinancièresÀTraiterSuppriméesEvent } from './dépôt/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
-export { DépôtGarantiesFinancièresEnCoursValidéEvent as GarantiesFinancièresValidéesEvent } from './dépôt/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.behavior';
-export { DépôtGarantiesFinancièresEnCoursModifiéEvent as GarantiesFinancièresÀTraiterModifiéesEvent } from './dépôt/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
+export { DépôtGarantiesFinancièresEnCoursSuppriméEvent } from './dépôt/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
+export { DépôtGarantiesFinancièresEnCoursValidéEvent } from './dépôt/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.behavior';
+export { DépôtGarantiesFinancièresEnCoursModifiéEvent } from './dépôt/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
 export { TypeGarantiesFinancièresImportéEvent } from './importer/importerTypeGarantiesFinancières.behavior';
 export { GarantiesFinancièresModifiéesEvent } from './modifier/modifierGarantiesFinancières.behavior';
 export { AttestationGarantiesFinancièresEnregistréeEvent } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
