@@ -1,8 +1,8 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 
 import { DocumentProjet } from '@potentiel-domain/document';
-import { ÉtatGarantiesFinancières, TypeGarantiesFinancières } from '../..';
+import { TypeGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DateConstitutionDansLeFutur } from '../../dateConstitutionDansLeFutur.error';
@@ -44,7 +44,9 @@ export async function soumettreDépôt(
     soumisPar,
   }: Options,
 ) {
-  this.état?.vérifierQueLeChangementDÉtatEstPossibleEn(ÉtatGarantiesFinancières.dépôtEnCours);
+  if (this.dépôtEnCours) {
+    throw new DépôtGarantiesFinancièresDéjàSoumisError();
+  }
   if (dateConstitution.estDansLeFutur()) {
     throw new DateConstitutionDansLeFutur();
   }
@@ -76,12 +78,17 @@ export function applyDépôtGarantiesFinancièresSoumis(
     payload: { type, dateÉchéance, dateConstitution, soumisLe, attestation },
   }: DépôtGarantiesFinancièresSoumisEvent,
 ) {
-  (this.état = ÉtatGarantiesFinancières.dépôtEnCours),
-    (this.dépôtEnCours = {
-      type: TypeGarantiesFinancières.convertirEnValueType(type),
-      dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
-      dateConstitution: DateTime.convertirEnValueType(dateConstitution),
-      soumisLe: DateTime.convertirEnValueType(soumisLe),
-      attestation,
-    });
+  this.dépôtEnCours = {
+    type: TypeGarantiesFinancières.convertirEnValueType(type),
+    dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
+    dateConstitution: DateTime.convertirEnValueType(dateConstitution),
+    soumisLe: DateTime.convertirEnValueType(soumisLe),
+    attestation,
+  };
+}
+
+class DépôtGarantiesFinancièresDéjàSoumisError extends InvalidOperationError {
+  constructor() {
+    super(`Il y a déjà des garanties financières en attente de validation pour ce projet`);
+  }
 }

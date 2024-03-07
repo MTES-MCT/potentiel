@@ -1,7 +1,6 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { ÉtatGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { AucunDépôtDeGarantiesFinancièresEnCours } from '../../aucunDépôtDeGarantiesFinancièresEnCours.error';
@@ -44,7 +43,6 @@ export function applyDépôtGarantiesFinancièresEnCoursValidé(
   this: GarantiesFinancièresAggregate,
   { payload: { validéLe } }: DépôtGarantiesFinancièresEnCoursValidéEvent,
 ) {
-  this.état = ÉtatGarantiesFinancières.validé;
   this.actuelles = {
     type: this.dépôtEnCours ? this.dépôtEnCours.type : 'type-inconnu',
     ...(this.dépôtEnCours &&

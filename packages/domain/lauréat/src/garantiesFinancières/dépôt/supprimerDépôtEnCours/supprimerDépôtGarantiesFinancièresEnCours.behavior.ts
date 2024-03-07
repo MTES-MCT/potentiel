@@ -1,7 +1,6 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { ÉtatGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { AucunDépôtDeGarantiesFinancièresEnCours } from '../../aucunDépôtDeGarantiesFinancièresEnCours.error';
@@ -41,7 +40,5 @@ export async function supprimerDépôtGarantiesFinancièresEnCours(
 }
 
 export function applyDépôtGarantiesFinancièresEnCoursSupprimé(this: GarantiesFinancièresAggregate) {
-  this.état = this.actuelles ? ÉtatGarantiesFinancières.validé : undefined;
-
   this.dépôtEnCours = undefined;
 }

@@ -6,7 +6,7 @@ import {
   applyDépôtGarantiesFinancièresSoumis,
   soumettreDépôt,
 } from './dépôt/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
-import { TypeGarantiesFinancières, ÉtatGarantiesFinancières } from '.';
+import { TypeGarantiesFinancières } from '.';
 import { AucunesGarantiesFinancières } from './aucunesGarantiesFinancières.error';
 import {
   GarantiesFinancièresDemandéesEvent,
@@ -54,7 +54,6 @@ export type GarantiesFinancièresEvent =
   | AttestationGarantiesFinancièresEnregistréeEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
-  état?: ÉtatGarantiesFinancières.ValueType;
   actuelles?: {
     type: TypeGarantiesFinancières.ValueType | 'type-inconnu';
     dateÉchéance?: DateTime.ValueType;
