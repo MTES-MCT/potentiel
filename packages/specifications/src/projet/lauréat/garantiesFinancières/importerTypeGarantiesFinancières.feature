@@ -2,7 +2,7 @@
 Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des garanties financières d'un projet
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
-    @select
+
     Plan du Scénario: Un admin importe le type des garanties financières d'un projet
         Quand l'admin importe le type des garanties financières pour le projet "Centrale PV" avec :
             | type                      | <type>                 |
@@ -15,8 +15,8 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
     Exemples:
             | type                      | date d'échéance   | date import |
             | avec-date-échéance        | 2027-12-01        | 2024-01-01  |
-            # | consignation              |                   | 2024-01-01  |
-            # | six-mois-après-achèvement |                   | 2024-01-01  |
+            | consignation              |                   | 2024-01-01  |
+            | six-mois-après-achèvement |                   | 2024-01-01  |
     
     Scénario: Erreur si date d'échéance manquante
         Quand l'admin importe le type des garanties financières pour le projet "Centrale PV" avec :
