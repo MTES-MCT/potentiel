@@ -16,7 +16,7 @@ import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-
 import { tryToGetResource } from '@/utils/tryToGetRessource';
 
 export const metadata: Metadata = {
-  title: 'Transmettre des garanties financières - Potentiel',
+  title: 'Soumettre des garanties financières - Potentiel',
   description: 'Formulaire de transmission des garanties financières',
 };
 
