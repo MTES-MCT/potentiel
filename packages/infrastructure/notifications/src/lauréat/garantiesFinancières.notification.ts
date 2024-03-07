@@ -47,8 +47,6 @@ const sendEmailGarantiesFinancièresChangementDeStatut = async ({
       departement_projet: départementProjet,
       region_projet: régionProjet,
       nouveau_statut: statut,
-      // TODO : lorsque les différentes pages seront en place, à voir si on redirige directement vers les GF à traiter
-      // Il faudra penser à mettre le template à jour en cas de modification
       url: `${BASE_URL}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
     },
   });
@@ -79,7 +77,7 @@ export const register = () => {
       case 'DépôtGarantiesFinancièresSoumis-V1':
         await sendEmailGarantiesFinancièresChangementDeStatut({
           statut: 'en attente de validation',
-          templateId: templateId.garantiesFinancières.àTraiterPourDreal,
+          templateId: templateId.garantiesFinancières.dépôtSoumisPourDreal,
           recipients: dreals,
           identifiantProjet,
           nomProjet,
@@ -89,7 +87,7 @@ export const register = () => {
 
         await sendEmailGarantiesFinancièresChangementDeStatut({
           statut: 'en attente de validation',
-          templateId: templateId.garantiesFinancières.àTraiterPourPorteur,
+          templateId: templateId.garantiesFinancières.dépôtSoumisPourPorteur,
           recipients: porteurs,
           identifiantProjet,
           nomProjet,
@@ -97,6 +95,17 @@ export const register = () => {
           régionProjet,
         });
         break;
+
+      case 'DépôtGarantiesFinancièresEnCoursValidé-V1':
+        await sendEmailGarantiesFinancièresChangementDeStatut({
+          statut: 'validées',
+          templateId: templateId.garantiesFinancières.dépôtValidéPourPorteur,
+          recipients: porteurs,
+          identifiantProjet,
+          nomProjet,
+          départementProjet,
+          régionProjet,
+        });
     }
   };
 

@@ -107,7 +107,10 @@ export const setupLauréat = async () => {
     await subscribe<GarantiesFinancièresNotification.SubscriptionEvent>({
       name: 'notifications',
       streamCategory: 'garanties-financieres',
-      eventType: ['DépôtGarantiesFinancièresSoumis-V1'],
+      eventType: [
+        'DépôtGarantiesFinancièresSoumis-V1',
+        'DépôtGarantiesFinancièresEnCoursValidé-V1',
+      ],
       eventHandler: async (event) => {
         await mediator.publish<GarantiesFinancièresNotification.Execute>({
           type: 'System.Notification.Lauréat.GarantiesFinancières',

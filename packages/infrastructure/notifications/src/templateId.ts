@@ -11,7 +11,8 @@ export const templateId = {
     demanderPreuveRecandidature: 5308275,
   },
   garantiesFinancières: {
-    àTraiterPourDreal: 5740312,
-    àTraiterPourPorteur: 5740394,
+    dépôtSoumisPourDreal: 5740312,
+    dépôtSoumisPourPorteur: 5740394,
+    dépôtValidéPourPorteur: 5765321,
   },
 };
