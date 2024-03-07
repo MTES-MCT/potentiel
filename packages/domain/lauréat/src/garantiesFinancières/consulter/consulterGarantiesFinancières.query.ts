@@ -113,7 +113,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
         dateConstitution: DateTime.convertirEnValueType(dateConstitution),
         attestation: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
-          TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
+          TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
           DateTime.convertirEnValueType(dateConstitution).formatter(),
           attestation.format,
         ),
