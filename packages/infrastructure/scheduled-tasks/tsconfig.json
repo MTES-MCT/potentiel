@@ -1,0 +1,30 @@
+{
+  "extends": "@potentiel/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "references": [
+    {
+      "path": "../../libraries/monitoring"
+    },
+    {
+      "path": "../../domain/common"
+    },
+    {
+      "path": "../../domain/lauréat"
+    },
+    {
+      "path": "../pg-event-sourcing"
+    },
+    {
+      "path": "../pg-event-sourcing"
+    },
+    {
+      "path": "../domain-adapters"
+    },
+    {
+      "path": "../document-builder"
+    }
+  ]
+}

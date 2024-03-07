@@ -1,11 +1,11 @@
 {
   "jobs": [
     {
-      "command": "0 0 * * * ./scripts/s3-backup.sh",
+      "command": "0 0 * * * ./packages/infrastructure/scheduled-tasks/s3-backup.sh",
       "size": "M"
     },
     {
-      "command": "0 1 * * * ./scripts/cron/relancer-abandon-sans-preuve.sh",
+      "command": "0 1 * * * ./packages/infrastructure/scheduled-tasks/relancer-abandon-sans-preuve.sh",
       "size": "M"
     }
   ]
