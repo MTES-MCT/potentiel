@@ -51,7 +51,7 @@ const typesGarantiesFinancières: ModifierGarantiesFinancièresÀTraiterProps['t
 export const EnTantQueDreal: Story = {
   args: {
     projet,
-    statut: 'en-attente',
+    statut: 'en-cours',
     garantiesFinancières: {
       type: 'consignation',
       dateConsitution: '2021-10-23',
@@ -65,7 +65,7 @@ export const EnTantQueDreal: Story = {
 export const EnTantQuePorteur: Story = {
   args: {
     projet,
-    statut: 'à-traiter',
+    statut: 'en-cours',
     garantiesFinancières: {
       type: 'avec-date-échéance',
       dateÉchéance: '2021-10-23',

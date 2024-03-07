@@ -2,16 +2,16 @@
 Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des garanties financières d'un projet
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
-    
+
     Plan du Scénario: Un admin importe le type des garanties financières d'un projet
         Quand l'admin importe le type des garanties financières pour le projet "Centrale PV" avec :
-            | type                 | <type>                 |
-            | date d'échéance      | <date d'échéance>      |
-            | date d'import        | <date import>          |
+            | type                      | <type>                 |
+            | date d'échéance           | <date d'échéance>      |
+            | date d'import             | <date import>          |
         Alors les garanties financières validées devraient consultables pour le projet "Centrale PV" avec :
-            | type                 | <type>                 |
-            | date d'échéance      | <date d'échéance>      |
-            | date d'import        | <date import>          |
+            | type                      | <type>                 |
+            | date d'échéance           | <date d'échéance>      |
+            | date dernière mise à jour | <date import>          |
     Exemples:
             | type                      | date d'échéance   | date import |
             | avec-date-échéance        | 2027-12-01        | 2024-01-01  |

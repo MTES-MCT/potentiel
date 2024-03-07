@@ -1,14 +1,14 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const statuts = ['validé', 'en-attente', 'à-traiter'] as const;
+export const statuts = ['validé', 'rejeté', 'en-cours'] as const;
 
 export type RawType = (typeof statuts)[number];
 
 export type ValueType = ReadonlyValueType<{
   statut: RawType;
   estValidé: () => boolean;
-  estEnAttente: () => boolean;
-  estÀTraiter: () => boolean;
+  estRejeté: () => boolean;
+  estEnCours: () => boolean;
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
 }>;
 
@@ -21,19 +21,19 @@ export const convertirEnValueType = (value: string): ValueType => {
     estValidé() {
       return this.statut === 'validé';
     },
-    estEnAttente() {
-      return this.statut === 'en-attente';
+    estRejeté() {
+      return this.statut === 'rejeté';
     },
-    estÀTraiter() {
-      return this.statut === 'à-traiter';
+    estEnCours() {
+      return this.statut === 'en-cours';
     },
     estÉgaleÀ(valueType) {
       return this.statut === valueType.statut;
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
-      if (nouveauStatut.estÀTraiter()) {
-        if (this.estÀTraiter()) {
-          throw new GarantiesFinancièresÀTraitéDéjàEnvoyéesError();
+      if (nouveauStatut.estEnCours()) {
+        if (this.estEnCours()) {
+          throw new DépôtGarantiesFinancièresDéjàSoumisError();
         }
       }
     },
@@ -44,15 +44,15 @@ function estValide(value: string): asserts value is RawType {
   const isValid = statuts.includes(value as RawType);
 
   if (!isValid) {
-    throw new StatutGarantiesFinancièreInvalideError(value);
+    throw new StatutDépôtGarantiesFinancièreInvalideError(value);
   }
 }
 
 export const validé = convertirEnValueType('validé');
-export const àTraiter = convertirEnValueType('à-traiter');
-export const enAttente = convertirEnValueType('en-attente');
+export const rejeté = convertirEnValueType('rejeté');
+export const enCours = convertirEnValueType('en-cours');
 
-class StatutGarantiesFinancièreInvalideError extends InvalidOperationError {
+class StatutDépôtGarantiesFinancièreInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(`Le statut ne correspond à aucune valeur connue`, {
       value,
@@ -60,7 +60,7 @@ class StatutGarantiesFinancièreInvalideError extends InvalidOperationError {
   }
 }
 
-class GarantiesFinancièresÀTraitéDéjàEnvoyéesError extends InvalidOperationError {
+class DépôtGarantiesFinancièresDéjàSoumisError extends InvalidOperationError {
   constructor() {
     super(`Il y a déjà des garanties financières en attente de validation pour ce projet`);
   }

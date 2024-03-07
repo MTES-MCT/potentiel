@@ -26,11 +26,11 @@ export const convertirEnValueType = (value: string): ValueType => {
   };
 };
 
-export const garantiesFinancièresSoumisesValueType = convertirEnValueType(
+export const attestationGarantiesFinancièresSoumisesValueType = convertirEnValueType(
   'attestation-garanties-financieres-soumises',
 );
 
-export const garantiesFinancièresValidéesValueType = convertirEnValueType(
+export const attestationGarantiesFinancièresActuellesValueType = convertirEnValueType(
   'attestation-garanties-financieres',
 );
 

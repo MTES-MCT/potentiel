@@ -43,6 +43,7 @@ function estValide(value: string): asserts value is RawType {
 export const consignation = convertirEnValueType('consignation');
 export const avecDateÉchéance = convertirEnValueType('avec-date-échéance');
 export const sixMoisAprèsAchèvement = convertirEnValueType('six-mois-après-achèvement');
+export const inconnu = convertirEnValueType('type-inconnu');
 
 class TypeGarantiesFinancièresInvalideError extends InvalidOperationError {
   constructor(value: string) {

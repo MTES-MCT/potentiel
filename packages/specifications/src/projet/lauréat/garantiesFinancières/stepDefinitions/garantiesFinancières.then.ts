@@ -5,6 +5,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { expect } from 'chai';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
+import waitForExpect from 'wait-for-expect';
 
 Alors(
   'les garanties financières à traiter devraient être consultables pour le projet {string} avec :',
@@ -18,112 +19,46 @@ Alors(
     const contenu = exemple['contenu fichier'];
     const dateSoumission = exemple['date de soumission'];
 
-    const { identifiantProjet, appelOffre, période } =
-      this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-    // ASSERT ON READ MODEL
-
-    const actualReadModel =
-      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
-
-    expect(
-      actualReadModel.statut.estÉgaleÀ(GarantiesFinancières.StatutGarantiesFinancières.àTraiter),
-    ).to.be.true;
-
-    expect(actualReadModel.àTraiter?.type.type).to.deep.equal(typeGarantiesFinancières);
-    if (dateÉchéance) {
-      expect(actualReadModel.àTraiter?.dateÉchéance?.date).to.deep.equal(new Date(dateÉchéance));
-    }
-    expect(actualReadModel.àTraiter?.dateConstitution?.date).to.deep.equal(
-      new Date(dateConstitution),
-    );
-    expect(actualReadModel.àTraiter?.soumisLe?.date).to.deep.equal(new Date(dateSoumission));
-
-    // ASSERT ON FILE
-
-    expect(actualReadModel.àTraiter?.attestation).not.to.be.undefined;
-
-    if (actualReadModel.àTraiter?.attestation) {
-      const file = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: actualReadModel.àTraiter?.attestation.formatter(),
-        },
-      });
-
-      const actualContent = await convertReadableStreamToString(file.content);
-      actualContent.should.be.equal(contenu);
-    }
-
-    // ASSERT ON LIST
-
-    const actualListeDépôtsReadModel =
-      await mediator.send<GarantiesFinancières.ListerGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ListerGarantiesFinancières',
-        data: {
-          pagination: { page: 1, itemsPerPage: 10 },
-          utilisateur: { email: 'utilisateur@test.test', rôle: 'admin' },
-          statut: 'à-traiter',
-        },
-      });
-
-    expect(actualListeDépôtsReadModel.totalItems).to.deep.equal(1);
-    expect(actualListeDépôtsReadModel.items[0]).to.deep.include({
-      appelOffre,
-      période,
-      nomProjet,
-    });
-    expect(actualListeDépôtsReadModel.items[0].dateDernièreMiseÀJour.formatter()).to.deep.equal(
-      new Date(dateSoumission).toISOString(),
-    );
-    expect(actualListeDépôtsReadModel.items[0].identifiantProjet.formatter()).to.deep.equal(
-      identifiantProjet.formatter(),
-    );
-
-    expect(actualListeDépôtsReadModel.items[0].àTraiter?.type.type).to.deep.equal(
-      typeGarantiesFinancières,
-    );
-    if (dateÉchéance) {
-      expect(actualListeDépôtsReadModel.items[0].àTraiter?.dateÉchéance?.formatter()).to.deep.equal(
-        new Date(dateÉchéance).toISOString(),
-      );
-    }
-    expect(
-      actualListeDépôtsReadModel.items[0].àTraiter?.dateConstitution.formatter(),
-    ).to.deep.equal(new Date(dateConstitution).toISOString());
-    expect(actualListeDépôtsReadModel.items[0].àTraiter?.attestation.format).to.deep.equal(format);
-  },
-);
-
-Alors(
-  'des garanties financières devraient être en attente pour le projet {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
-
-    const dateLimiteSoumission = exemple['date limite de soumission'];
-
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    const actualReadModel =
-      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
+    await waitForExpect(async () => {
+      // ASSERT ON READ MODEL
+      const actualReadModel =
+        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
 
-    expect(
-      actualReadModel.statut.estÉgaleÀ(GarantiesFinancières.StatutGarantiesFinancières.enAttente),
-    ).to.be.true;
+      const dépôtEnCours = actualReadModel.dépôts.find((dépôt) => dépôt.statut.estEnCours());
 
-    expect(actualReadModel.enAttente?.dateLimiteSoumission.date).to.deep.equal(
-      new Date(dateLimiteSoumission),
-    );
+      expect(dépôtEnCours).not.to.be.undefined;
+
+      expect(dépôtEnCours?.type.type).to.deep.equal(typeGarantiesFinancières);
+      expect(dépôtEnCours?.dateConstitution.date).to.deep.equal(new Date(dateConstitution));
+      expect(dépôtEnCours?.soumisLe.date).to.deep.equal(new Date(dateSoumission));
+
+      if (dépôtEnCours?.dateÉchéance) {
+        expect(dépôtEnCours.dateÉchéance.date).to.deep.equal(new Date(dateÉchéance));
+      }
+
+      // ASSERT ON FILE
+      expect(dépôtEnCours?.attestation).not.to.be.undefined;
+      expect(dépôtEnCours?.attestation.format).to.deep.equal(format);
+
+      if (dépôtEnCours?.attestation) {
+        const file = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: dépôtEnCours.attestation.formatter(),
+          },
+        });
+
+        const actualContent = await convertReadableStreamToString(file.content);
+        actualContent.should.be.equal(contenu);
+      }
+    });
   },
 );
 
@@ -132,40 +67,18 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    const actualReadModel =
-      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
+    await waitForExpect(async () => {
+      const actualReadModel =
+        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
 
-    expect(
-      actualReadModel.statut.estÉgaleÀ(GarantiesFinancières.StatutGarantiesFinancières.àTraiter),
-    ).to.be.false;
-
-    expect(actualReadModel.àTraiter).to.be.undefined;
-  },
-);
-
-Alors(
-  'il ne devrait pas y avoir de garanties financières en attente pour le projet {string}',
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-    const actualReadModel =
-      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
-
-    expect(
-      actualReadModel.statut.estÉgaleÀ(GarantiesFinancières.StatutGarantiesFinancières.enAttente),
-    ).to.be.false;
-
-    expect(actualReadModel.enAttente).to.be.undefined;
+      const dépôtEnCours = actualReadModel.dépôts.find((dépôt) => dépôt.statut.estEnCours());
+      expect(dépôtEnCours).to.be.undefined;
+    });
   },
 );
 
@@ -180,98 +93,55 @@ Alors(
     const dateConstitution = exemple[`date de constitution`];
     const contenu = exemple['contenu fichier'];
     const dateValidation = exemple['date de validation'];
+    const dateMiseÀJour = exemple['date dernière mise à jour'];
 
-    const { identifiantProjet, appelOffre, période } =
-      this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    // ASSERT ON READ MODEL
-
-    const actualReadModel =
-      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
-
-    expect(actualReadModel.statut.estÉgaleÀ(GarantiesFinancières.StatutGarantiesFinancières.validé))
-      .to.be.true;
-
-    expect(actualReadModel.validées?.type.type).to.deep.equal(typeGarantiesFinancières);
-    if (dateÉchéance) {
-      expect(actualReadModel.validées?.dateÉchéance?.date).to.deep.equal(new Date(dateÉchéance));
-    }
-    if (dateConstitution) {
-      expect(actualReadModel.validées?.dateConstitution?.date).to.deep.equal(
-        new Date(dateConstitution),
-      );
-    }
-    if (dateValidation) {
-      expect(actualReadModel.validées?.validéLe?.date).to.deep.equal(new Date(dateValidation));
-    }
-
-    // ASSERT ON FILE
-
-    if (format && contenu) {
-      expect(actualReadModel.validées?.attestation).not.to.be.undefined;
-
-      if (actualReadModel.validées?.attestation) {
-        const file = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
+    await waitForExpect(async () => {
+      // ASSERT ON READ MODEL
+      const actualReadModel =
+        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
           data: {
-            documentKey: actualReadModel.validées?.attestation.formatter(),
+            identifiantProjetValue: identifiantProjet.formatter(),
           },
         });
 
-        const actualContent = await convertReadableStreamToString(file.content);
-        actualContent.should.be.equal(contenu);
+      expect(actualReadModel.actuelles).not.to.be.undefined;
+      expect(actualReadModel.actuelles?.type.type).to.deep.equal(typeGarantiesFinancières);
+      if (dateÉchéance) {
+        expect(actualReadModel.actuelles?.dateÉchéance?.date).to.deep.equal(new Date(dateÉchéance));
       }
-    }
+      if (dateConstitution) {
+        expect(actualReadModel.actuelles?.dateConstitution?.date).to.deep.equal(
+          new Date(dateConstitution),
+        );
+      }
+      if (dateMiseÀJour) {
+        expect(actualReadModel.actuelles?.dernièreMiseÀJour.date.date).to.deep.equal(
+          new Date(dateMiseÀJour),
+        );
+      }
+      if (dateValidation) {
+        expect(actualReadModel.actuelles?.validéLe?.date).to.deep.equal(new Date(dateValidation));
+      }
 
-    // ASSERT ON LIST
+      // ASSERT ON FILE
+      if (format && contenu) {
+        expect(actualReadModel.actuelles?.attestation).not.to.be.undefined;
 
-    const actualListeDépôtsReadModel =
-      await mediator.send<GarantiesFinancières.ListerGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ListerGarantiesFinancières',
-        data: {
-          pagination: { page: 1, itemsPerPage: 10 },
-          utilisateur: { email: 'utilisateur@test.test', rôle: 'admin' },
-          statut: 'validé',
-        },
-      });
+        if (actualReadModel.actuelles?.attestation) {
+          const file = await mediator.send<ConsulterDocumentProjetQuery>({
+            type: 'Document.Query.ConsulterDocumentProjet',
+            data: {
+              documentKey: actualReadModel.actuelles?.attestation.formatter(),
+            },
+          });
 
-    expect(actualListeDépôtsReadModel.totalItems).to.deep.equal(1);
-    expect(actualListeDépôtsReadModel.items[0]).to.deep.include({
-      appelOffre,
-      période,
-      nomProjet,
+          const actualContent = await convertReadableStreamToString(file.content);
+          actualContent.should.be.equal(contenu);
+        }
+      }
     });
-    if (dateValidation) {
-      expect(actualListeDépôtsReadModel.items[0].dateDernièreMiseÀJour.formatter()).to.deep.equal(
-        new Date(dateValidation).toISOString(),
-      );
-    }
-    expect(actualListeDépôtsReadModel.items[0].identifiantProjet.formatter()).to.deep.equal(
-      identifiantProjet.formatter(),
-    );
-
-    expect(actualListeDépôtsReadModel.items[0].validées?.type.type).to.deep.equal(
-      typeGarantiesFinancières,
-    );
-    if (dateÉchéance) {
-      expect(actualListeDépôtsReadModel.items[0].validées?.dateÉchéance?.formatter()).to.deep.equal(
-        new Date(dateÉchéance).toISOString(),
-      );
-    }
-    if (dateConstitution && actualListeDépôtsReadModel.items[0].validées?.dateConstitution) {
-      expect(
-        actualListeDépôtsReadModel.items[0].validées?.dateConstitution.formatter(),
-      ).to.deep.equal(new Date(dateConstitution).toISOString());
-    }
-    if (actualListeDépôtsReadModel.items[0].validées?.attestation && format) {
-      expect(actualListeDépôtsReadModel.items[0].validées?.attestation.format).to.deep.equal(
-        format,
-      );
-    }
   },
 );

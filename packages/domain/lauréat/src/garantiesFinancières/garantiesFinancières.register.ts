@@ -7,10 +7,6 @@ import { registerDépôtSoumettreGarantiesFinancièresCommand } from './dépôt/
 import { registerDemanderGarantiesFinancièresCommand } from './demander/demanderGarantiesFinancières.command';
 import { registerSoumettreDépôtGarantiesFinancièresUseCase } from './dépôt/soumettreDépôt/soumettreDépôtGarantiesFinancières.usecase';
 import { registerDemanderGarantiesFinancièresUseCase } from './demander/demanderGarantiesFinancières.usecase';
-import {
-  ListerGarantiesFinancièresDependencies,
-  registerListerGarantiesFinancièresQuery,
-} from './lister/listerGarantiesFinancières.query';
 import { registerSupprimerDépôtGarantiesFinancièresEnCoursCommand } from './dépôt/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.command';
 import { registerSupprimerGarantiesFinancièresÀTraiterUseCase } from './dépôt/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.usecase';
 import { registerValiderDépôtGarantiesFinancièresEnCoursCommand } from './dépôt/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.command';
@@ -24,8 +20,7 @@ import { registerModifierGarantiesFinancièresCommand } from './modifier/modifie
 import { registerEnregistrerAttestationGarantiesFinancièresCommand } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.command';
 import { registerEnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
 
-export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
-  ListerGarantiesFinancièresDependencies;
+export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies;
 
 export type GarantiesFinancièresCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -57,5 +52,4 @@ export const registerGarantiesFinancièresQueries = (
   dependencies: GarantiesFinancièresQueryDependencies,
 ) => {
   registerConsulterGarantiesFinancièresQuery(dependencies);
-  registerListerGarantiesFinancièresQuery(dependencies);
 };

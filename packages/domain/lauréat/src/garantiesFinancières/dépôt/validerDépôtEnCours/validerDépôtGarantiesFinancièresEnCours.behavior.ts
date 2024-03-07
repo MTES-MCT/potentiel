@@ -1,7 +1,6 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { StatutGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { AucunDépôtDeGarantiesFinancièresEnCours } from '../../aucunDépôtDeGarantiesFinancièresEnCours.error';
@@ -25,7 +24,7 @@ export async function validerDépôtEnCours(
   this: GarantiesFinancièresAggregate,
   { validéLe, identifiantProjet, validéPar }: Options,
 ) {
-  if (!this.àTraiter) {
+  if (!this.dépôtEnCours) {
     throw new AucunDépôtDeGarantiesFinancièresEnCours();
   }
   const event: DépôtGarantiesFinancièresEnCoursValidéEvent = {
@@ -44,14 +43,13 @@ export function applyDépôtGarantiesFinancièresEnCoursValidé(
   this: GarantiesFinancièresAggregate,
   { payload: { validéLe } }: DépôtGarantiesFinancièresEnCoursValidéEvent,
 ) {
-  this.statut = StatutGarantiesFinancières.validé;
-  this.validées = {
-    type: this.àTraiter ? this.àTraiter.type : 'type-inconnu',
-    ...(this.àTraiter &&
-      this.àTraiter.dateÉchéance && { dateÉchéance: this.àTraiter!.dateÉchéance }),
-    dateConstitution: this.àTraiter!.dateConstitution,
+  this.actuelles = {
+    type: this.dépôtEnCours ? this.dépôtEnCours.type : 'type-inconnu',
+    ...(this.dépôtEnCours &&
+      this.dépôtEnCours.dateÉchéance && { dateÉchéance: this.dépôtEnCours!.dateÉchéance }),
+    dateConstitution: this.dépôtEnCours!.dateConstitution,
     validéLe: DateTime.convertirEnValueType(validéLe),
-    attestation: this.àTraiter?.attestation,
+    attestation: this.dépôtEnCours?.attestation,
   };
-  this.àTraiter = undefined;
+  this.dépôtEnCours = undefined;
 }

@@ -29,11 +29,11 @@ export const registerValiderDépôtGarantiesFinancièresEnCoursUseCase = () => {
       data: {
         dossierProjetSource: DossierProjet.convertirEnValueType(
           identifiantProjetValue,
-          TypeDocumentGarantiesFinancières.garantiesFinancièresSoumisesValueType.formatter(),
+          TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
         ),
         dossierProjetTarget: DossierProjet.convertirEnValueType(
           identifiantProjetValue,
-          TypeDocumentGarantiesFinancières.garantiesFinancièresValidéesValueType.formatter(),
+          TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
         ),
       },
     });

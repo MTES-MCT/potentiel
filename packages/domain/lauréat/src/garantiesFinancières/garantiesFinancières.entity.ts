@@ -9,26 +9,30 @@ export type GarantiesFinancièresEntity = Entity<
     appelOffre: string;
     période: string;
     famille?: string;
-
-    statut: string;
-    misÀJourLe: string;
-
-    validées?: {
+    actuelles?: {
       type: string;
       dateÉchéance?: string;
       attestation?: { format: string };
       dateConstitution?: string;
       soumisLe?: string;
       validéLe?: string;
-      importéLe?: string;
+      typeImportéLe?: string;
+      dernièreMiseÀJour: {
+        date: string;
+        par: string;
+      };
     };
-    àTraiter?: {
+    dépôts: Array<{
       type: string;
       dateÉchéance?: string;
-      attestation: { format: string };
+      statut: string;
       dateConstitution: string;
+      attestation: { format: string };
       soumisLe: string;
-    };
-    enAttente?: { dateLimiteSoumission: string; demandéLe: string };
+      dernièreMiseÀJour: {
+        date: string;
+        par: string;
+      };
+    }>;
   }
 >;
