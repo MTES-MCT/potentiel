@@ -46,7 +46,7 @@ export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelect
         }}
         placeholder="Sélectionnez le type de garanties financières"
         options={typesGarantiesFinancières}
-        state={validationErrors.includes('typeGarantiesFinancieres') ? 'error' : 'default'}
+        state={validationErrors.includes('type') ? 'error' : 'default'}
         stateRelatedMessage="Type de garanties financières obligatoire"
         disabled={disabled}
       />
