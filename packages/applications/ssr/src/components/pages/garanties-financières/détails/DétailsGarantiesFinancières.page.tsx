@@ -9,6 +9,8 @@ import { Routes } from '@potentiel-libraries/routes';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
+import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
+
 import { AucuneGarantiesFinancières } from './components/AucuneGarantiesFinancières';
 import {
   GarantiesFinancièresActuelles,
@@ -45,6 +47,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
 
   return (
     <PageTemplate banner={<ProjetBanner {...projet} />}>
+      <TitrePageGarantiesFinancières title="Détail des garanties financières" />
       {actuelles && (
         <GarantiesFinancièresActuelles
           actuelles={actuelles}
@@ -67,7 +70,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
             <div className="p-3">
               Vous pouvez{' '}
               <Link
-                href={Routes.GarantiesFinancières.soumettre(projet.identifiantProjet)}
+                href={Routes.GarantiesFinancières.dépôt.soumettre(projet.identifiantProjet)}
                 className="font-semibold"
               >
                 soumettre de nouvelles garanties financières

@@ -20,8 +20,8 @@ import {
 } from '@/components/pages/garanties-financières/détails/DétailsGarantiesFinancières.page';
 
 export const metadata: Metadata = {
-  title: 'Soumettre des garanties financières - Potentiel',
-  description: 'Formulaire de transmission des garanties financières',
+  title: 'Détail des garanties financières - Potentiel',
+  description: 'Page de détails des garanties financières',
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
@@ -88,11 +88,14 @@ const mapToProps: MapToProps = ({
             date: garantiesFinancières.actuelles.dernièreMiseÀJour.date.formatter(),
             par: garantiesFinancières.actuelles.dernièreMiseÀJour.par.formatter(),
           },
-          action: utilisateur.role.estÉgaleÀ(Role.porteur)
-            ? 'enregister-attestation'
-            : utilisateur.role.estÉgaleÀ(Role.dreal)
-            ? 'modifier'
-            : undefined,
+          action:
+            utilisateur.role.estÉgaleÀ(Role.porteur) &&
+            (!garantiesFinancières.actuelles.attestation ||
+              !garantiesFinancières.actuelles.dateConstitution)
+              ? 'enregister-attestation'
+              : utilisateur.role.estÉgaleÀ(Role.dreal)
+              ? 'modifier'
+              : undefined,
         }
       : undefined,
     dépôtEnCours: dépôtEnCours

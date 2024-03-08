@@ -28,7 +28,7 @@ export const AucuneGarantiesFinancières: FC<AucuneGarantiesFinancièresProps> =
         <p>
           Vous pouvez en soumettre en{' '}
           <Link
-            href={Routes.GarantiesFinancières.soumettre(projet.identifiantProjet)}
+            href={Routes.GarantiesFinancières.dépôt.soumettre(projet.identifiantProjet)}
             className="font-semibold"
           >
             suivant ce lien

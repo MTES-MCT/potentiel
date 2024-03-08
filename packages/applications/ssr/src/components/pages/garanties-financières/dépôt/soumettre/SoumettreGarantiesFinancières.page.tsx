@@ -17,23 +17,23 @@ import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/P
 import { formatDateForInput } from '@/utils/formatDateForInput';
 import { PageTemplate } from '@/components/templates/Page.template';
 
-import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
+import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 import {
   TypeGarantiesFinancièresSelect,
   TypeGarantiesFinancièresSelectProps,
-} from '../TypeGarantiesFinancièresSelect';
+} from '../../TypeGarantiesFinancièresSelect';
 
 import { soumettreGarantiesFinancièresAction } from './soumettreGarantiesFinancières.action';
 
 export type SoumettreGarantiesFinancièresProps = {
   projet: ProjetBannerProps;
-  dépôtEnCours?: true;
+  dépôtEnCoursExistant?: true;
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
 };
 
 export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièresProps> = ({
   projet,
-  dépôtEnCours,
+  dépôtEnCoursExistant,
   typesGarantiesFinancières,
 }) => {
   const router = useRouter();
@@ -42,14 +42,14 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
 
   const { identifiantProjet } = projet;
 
-  if (dépôtEnCours) {
+  if (dépôtEnCoursExistant) {
     return (
       <PageTemplate banner={<ProjetBanner {...projet} />}>
         <CallOut
           buttonProps={{
             children: 'Voir',
             linkProps: {
-              href: Routes.GarantiesFinancières.modifierDépôtEnCours(identifiantProjet),
+              href: Routes.GarantiesFinancières.dépôt.modifier(identifiantProjet),
             },
           }}
           iconId="ri-information-line"
@@ -66,7 +66,7 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner {...projet} />}
-      heading={<TitrePageGarantiesFinancières />}
+      heading={<TitrePageGarantiesFinancières title="Soumettre des garanties financières" />}
       leftColumn={{
         children: (
           <Form

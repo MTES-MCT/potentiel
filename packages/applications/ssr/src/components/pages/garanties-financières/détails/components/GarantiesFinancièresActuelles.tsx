@@ -8,19 +8,22 @@ import { CallOut } from '@/components/atoms/CallOut';
 import { formatDateForText } from '@/utils/formatDateForText';
 import { Heading2 } from '@/components/atoms/headings';
 
+export type GarantiesFinancièresActuelles = {
+  type: string;
+  dateÉchéance?: string;
+  dateConstitution?: string;
+  attestation?: string;
+  validéLe?: string;
+  soumisLe?: string;
+  dernièreMiseÀJour: {
+    date: string;
+    par: string;
+  };
+};
+
 export type GarantiesFinancièresActuellesProps = {
   identifiantProjet: string;
-  actuelles: {
-    type: string;
-    dateÉchéance?: string;
-    dateConstitution?: string;
-    attestation?: string;
-    validéLe?: string;
-    soumisLe?: string;
-    dernièreMiseÀJour: {
-      date: string;
-      par: string;
-    };
+  actuelles: GarantiesFinancièresActuelles & {
     action?: 'modifier' | 'enregister-attestation';
   };
 };
@@ -45,14 +48,12 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
       colorVariant={action === 'enregister-attestation' ? 'warning' : 'sucess'}
       content={
         <>
+          <div className="text-sm italic mb-4">
+            Dernière mise à jour le{' '}
+            <span className="font-semibold">{formatDateForText(dernièreMiseÀJour.date)}</span> par{' '}
+            <span className="font-semibold">{dernièreMiseÀJour.par}</span>
+          </div>
           <div className="mt-5 gap-2">
-            <div>
-              <div>
-                Dernière mise à jour le{' '}
-                <span className="font-semibold">{formatDateForText(dernièreMiseÀJour.date)}</span>{' '}
-                par {dernièreMiseÀJour.par}
-              </div>
-            </div>
             <div>
               Type : <span className="font-semibold">{type}</span>
             </div>
@@ -83,7 +84,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
                 <Download
                   details="fichier au format pdf"
                   label="Télécharger l'attestation"
-                  linkProps={{ href: Routes.Document.télécharger(attestation) }}
+                  linkProps={{ href: Routes.Document.télécharger(attestation), target: '_blank' }}
                 />
               )}
             </div>
@@ -105,7 +106,7 @@ const ButtonAction: FC<ButtonActionProps> = ({ identifiantProjet, action }) => {
       return (
         <Button
           linkProps={{
-            href: Routes.GarantiesFinancières.modifier(identifiantProjet),
+            href: Routes.GarantiesFinancières.actuelles.modifier(identifiantProjet),
           }}
         >
           Modifier
@@ -121,7 +122,7 @@ const ButtonAction: FC<ButtonActionProps> = ({ identifiantProjet, action }) => {
 
           <Button
             linkProps={{
-              href: Routes.GarantiesFinancières.enregistrerAttestation(identifiantProjet),
+              href: Routes.GarantiesFinancières.actuelles.enregistrerAttestation(identifiantProjet),
             }}
           >
             Enregistrer l'attestation de constitution
