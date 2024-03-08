@@ -24,7 +24,7 @@ import {
 
 import { ValiderDépôtEnCoursGarantiesFinancières } from './valider/validerDépôtEnCoursGarantiesFinancières';
 import { RejeterDépôtEnCoursGarantiesFinancières } from './rejeter/RejeterDépôtEnCoursGarantiesFinancières';
-import { modifierGarantiesFinancièresÀTraiterAction } from './modifierDépôtEnCoursGarantiesFinancières.action';
+import { modifierDépôtEnCoursGarantiesFinancièresAction } from './modifierDépôtEnCoursGarantiesFinancières.action';
 import { SupprimerDépôtEnCoursGarantiesFinancières } from './supprimer/SupprimerDépôtEnCoursGarantiesFinancières';
 
 type AvailableActions = Array<'valider' | 'rejeter' | 'supprimer'>;
@@ -63,12 +63,14 @@ export const ModifierDépôtEnCoursGarantiesFinancièresPage: FC<
             <Form
               method="POST"
               encType="multipart/form-data"
-              action={modifierGarantiesFinancièresÀTraiterAction}
+              action={modifierDépôtEnCoursGarantiesFinancièresAction}
               onSuccess={() =>
                 router.push(Routes.GarantiesFinancières.détail(projet.identifiantProjet))
               }
               onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
             >
+              <input type="hidden" name="identifiantProjet" value={projet.identifiantProjet} />
+
               {showWarning && (
                 <Alert
                   severity="warning"
@@ -84,8 +86,8 @@ export const ModifierDépôtEnCoursGarantiesFinancièresPage: FC<
               )}
 
               <TypeGarantiesFinancièresSelect
-                id="typeGarantiesFinancieres"
-                name="typeGarantiesFinancieres"
+                id="type"
+                name="type"
                 validationErrors={validationErrors}
                 typesGarantiesFinancières={typesGarantiesFinancières}
                 typeGarantiesFinancièresActuel={
@@ -133,12 +135,12 @@ export const ModifierDépôtEnCoursGarantiesFinancièresPage: FC<
                 }
                 hint="Format accepté : pdf"
                 nativeInputProps={{
-                  name: 'attestationConstitution',
+                  name: 'attestation',
                   required: true,
                   'aria-required': true,
                   accept: '.pdf',
                 }}
-                state={validationErrors.includes('attestationConstitution') ? 'error' : 'default'}
+                state={validationErrors.includes('attestation') ? 'error' : 'default'}
                 stateRelatedMessage="Attestation de consitution des garantières financières obligatoire"
               />
 
