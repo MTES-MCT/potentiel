@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Input from '@codegouvfr/react-dsfr/Input';
@@ -55,24 +57,24 @@ export const EnregistrerAttestationGarantiesFinancièresPage: FC<
           label="Attestation de constitution"
           hint="Format accepté : pdf"
           nativeInputProps={{
-            name: 'attestationConstitution',
+            name: 'attestation',
             required: true,
             'aria-required': true,
             accept: '.pdf',
           }}
-          state={validationErrors.includes('attestationConstitution') ? 'error' : 'default'}
-          stateRelatedMessage="Attestation de consitution des garantières financières obligatoire"
+          state={validationErrors.includes('attestation') ? 'error' : 'default'}
+          stateRelatedMessage="Attestation de constitution des garantières financières obligatoire"
         />
 
         <div className="flex flex-col md:flex-row gap-4 mt-5">
           <Button
             priority="secondary"
             linkProps={{
-              href: Routes.Projet.details(projet.identifiantProjet),
+              href: Routes.GarantiesFinancières.détail(projet.identifiantProjet),
             }}
             iconId="fr-icon-arrow-left-line"
           >
-            Retour au détail du projet
+            Retour au détail des garanties financières
           </Button>
           <SubmitButton>Enregistrer</SubmitButton>
         </div>
