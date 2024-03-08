@@ -28,7 +28,7 @@ export const SupprimerDépôtEnCoursGarantiesFinancières = ({
         method: 'post',
         encType: 'multipart/form-data',
         omitMandatoryFieldsLegend: true,
-        onSuccess: () => router.push(Routes.GarantiesFinancières.soumettre(identifiantProjet)),
+        onSuccess: () => router.push(Routes.Projet.details(identifiantProjet)),
         children: (
           <>
             <p className="mt-3">Êtes-vous sûr de vouloir supprimer ces garanties financières ?</p>
