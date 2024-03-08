@@ -7,7 +7,7 @@ export const détail = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres`;
 
 export const modifierDépôtEnCours = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres:modifier-depot-en-cours`;
+  `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/depot-en-cours:modifier`;
 
 export const modifier = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres:modifier`;
