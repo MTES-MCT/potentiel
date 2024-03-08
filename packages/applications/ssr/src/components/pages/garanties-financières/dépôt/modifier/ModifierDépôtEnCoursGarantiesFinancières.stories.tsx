@@ -53,7 +53,8 @@ export const EnTantQueDreal: Story = {
     projet,
     dépôtEnCours: {
       type: 'consignation',
-      dateConsitution: '2021-10-23',
+      dateConstitution: '2021-10-23',
+      statut: 'en-cours',
       soumisLe: '2022-01-01',
       attestation: 'path/to/attestationConstitution',
       dernièreMiseÀJour: {
@@ -71,8 +72,9 @@ export const EnTantQuePorteur: Story = {
     projet,
     dépôtEnCours: {
       type: 'avec-date-échéance',
+      statut: 'en-cours',
       dateÉchéance: '2023-10-23',
-      dateConsitution: '2021-10-23',
+      dateConstitution: '2021-10-23',
       soumisLe: '2022-01-01',
       attestation: 'path/to/attestationConstitution',
       dernièreMiseÀJour: {

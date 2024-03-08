@@ -11,7 +11,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import {
   SoumettreGarantiesFinancièresPage,
   SoumettreGarantiesFinancièresProps,
-} from '@/components/pages/garanties-financières/soumettre/SoumettreGarantiesFinancières.page';
+} from '@/components/pages/garanties-financières/dépôt/soumettre/SoumettreGarantiesFinancières.page';
 import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
 import { tryToGetResource } from '@/utils/tryToGetRessource';
 
@@ -43,7 +43,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const props: SoumettreGarantiesFinancièresProps = {
       projet: { ...candidature, identifiantProjet },
-      dépôtEnCours: gf?.dépôts.find((dépôt) => dépôt.statut.estEnCours()) ? true : undefined,
+      dépôtEnCoursExistant: gf?.dépôts.find((dépôt) => dépôt.statut.estEnCours())
+        ? true
+        : undefined,
       typesGarantiesFinancières: GarantiesFinancières.TypeGarantiesFinancières.types.map(
         (type) => ({
           label: getGarantiesFinancièresTypeLabel(type),

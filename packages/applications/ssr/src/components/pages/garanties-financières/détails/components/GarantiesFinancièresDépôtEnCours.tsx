@@ -18,7 +18,7 @@ type GarantiesFinancièresDépôtEnCoursProps = {
 
 export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépôtEnCoursProps> = ({
   identifiantProjet,
-  dépôt: { type, dateÉchéance, dateConstitution, attestation, action },
+  dépôt: { type, dateÉchéance, dateConstitution, attestation, action, dernièreMiseÀJour },
 }) => (
   <>
     <Heading2 className="mb-4">Garanties financières en cours</Heading2>
@@ -27,6 +27,11 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
       colorVariant={'info'}
       content={
         <>
+          <div className="text-sm italic mb-4">
+            Dernière mise à jour le{' '}
+            <span className="font-semibold">{formatDateForText(dernièreMiseÀJour.date)}</span> par{' '}
+            <span className="font-semibold">{dernièreMiseÀJour.par}</span>
+          </div>
           <div className="mt-5 gap-2">
             <div>
               Type : <span className="font-semibold">{type}</span>
@@ -48,7 +53,7 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
                 <Download
                   details="fichier au format pdf"
                   label="Télécharger l'attestation"
-                  linkProps={{ href: Routes.Document.télécharger(attestation) }}
+                  linkProps={{ href: Routes.Document.télécharger(attestation), target: '_blank' }}
                 />
               )}
             </div>
@@ -56,7 +61,7 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
           {action && (
             <Link
               className="flex md:max-w-lg w-fit"
-              href={Routes.GarantiesFinancières.modifierDépôtEnCours(identifiantProjet)}
+              href={Routes.GarantiesFinancières.dépôt.modifier(identifiantProjet)}
             >
               <i className={`${fr.cx('ri-pencil-line')} mr-1`} aria-hidden />
               Modifier

@@ -14,7 +14,7 @@ import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-
 import {
   ModifierDépôtEnCoursGarantiesFinancièresPage,
   ModifierDépôtEnCoursGarantiesFinancièresProps,
-} from '@/components/pages/garanties-financières/modifier/ModifierDépôtEnCoursGarantiesFinancières.page';
+} from '@/components/pages/garanties-financières/dépôt/modifier/ModifierDépôtEnCoursGarantiesFinancières.page';
 
 export const metadata: Metadata = {
   title: 'Modifier dépôt des garanties financières en cours - Potentiel',
@@ -60,8 +60,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         ),
         dépôtEnCours: {
           type: dépôtEnCours.type.type,
+          statut: dépôtEnCours.statut.statut,
           dateÉchéance: dépôtEnCours.dateÉchéance?.formatter(),
-          dateConsitution: dépôtEnCours.dateConstitution.formatter(),
+          dateConstitution: dépôtEnCours.dateConstitution.formatter(),
           soumisLe: dépôtEnCours.soumisLe.formatter(),
           attestation: dépôtEnCours.attestation.formatter(),
           dernièreMiseÀJour: {

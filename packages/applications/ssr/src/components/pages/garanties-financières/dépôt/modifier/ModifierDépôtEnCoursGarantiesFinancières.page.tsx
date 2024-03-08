@@ -16,11 +16,12 @@ import { Form } from '@/components/atoms/form/Form';
 import { formatDateForInput } from '@/utils/formatDateForInput';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
-import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
+import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 import {
   TypeGarantiesFinancièresSelect,
   TypeGarantiesFinancièresSelectProps,
-} from '../TypeGarantiesFinancièresSelect';
+} from '../../TypeGarantiesFinancièresSelect';
+import { DépôtGarantiesFinancières } from '../../détails/components/GarantiesFinancièresHistoriqueDépôts';
 
 import { ValiderDépôtEnCoursGarantiesFinancières } from './valider/validerDépôtEnCoursGarantiesFinancières';
 import { RejeterDépôtEnCoursGarantiesFinancières } from './rejeter/RejeterDépôtEnCoursGarantiesFinancières';
@@ -32,17 +33,7 @@ type AvailableActions = Array<'valider' | 'rejeter' | 'supprimer'>;
 export type ModifierDépôtEnCoursGarantiesFinancièresProps = {
   projet: ProjetBannerProps;
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
-  dépôtEnCours: {
-    type: TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel'];
-    dateÉchéance?: string;
-    dateConsitution: string;
-    soumisLe: string;
-    attestation: string;
-    dernièreMiseÀJour: {
-      date: string;
-      par: string;
-    };
-  };
+  dépôtEnCours: DépôtGarantiesFinancières;
   showWarning?: true;
   actions: AvailableActions;
 };
@@ -56,7 +47,9 @@ export const ModifierDépôtEnCoursGarantiesFinancièresPage: FC<
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner {...projet} />}
-      heading={<TitrePageGarantiesFinancières />}
+      heading={
+        <TitrePageGarantiesFinancières title="Modifier des garanties financières en attente de validation" />
+      }
       leftColumn={{
         children: (
           <>
@@ -104,7 +97,7 @@ export const ModifierDépôtEnCoursGarantiesFinancièresPage: FC<
                   type: 'date',
                   name: 'dateConstitution',
                   max: formatDateForInput(new Date().toISOString()),
-                  defaultValue: formatDateForInput(dépôtEnCours.dateConsitution),
+                  defaultValue: formatDateForInput(dépôtEnCours.dateConstitution),
                   required: true,
                   'aria-required': true,
                 }}
