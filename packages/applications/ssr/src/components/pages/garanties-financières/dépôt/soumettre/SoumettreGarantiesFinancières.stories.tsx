@@ -53,11 +53,3 @@ export const Default: Story = {
     typesGarantiesFinancières,
   },
 };
-
-export const DépôtEnCoursExistant: Story = {
-  args: {
-    projet,
-    typesGarantiesFinancières,
-    dépôtEnCoursExistant: true,
-  },
-};

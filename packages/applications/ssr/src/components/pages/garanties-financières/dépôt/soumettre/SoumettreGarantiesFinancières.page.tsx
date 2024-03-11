@@ -6,7 +6,6 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { CallOut } from '@codegouvfr/react-dsfr/CallOut';
 
 import { Routes } from '@potentiel-libraries/routes';
 
@@ -15,7 +14,6 @@ import { Form } from '@/components/atoms/form/Form';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { formatDateForInput } from '@/utils/formatDateForInput';
-import { PageTemplate } from '@/components/templates/Page.template';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 import {
@@ -27,13 +25,11 @@ import { soumettreGarantiesFinancièresAction } from './soumettreGarantiesFinanc
 
 export type SoumettreGarantiesFinancièresProps = {
   projet: ProjetBannerProps;
-  dépôtEnCoursExistant?: true;
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
 };
 
 export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièresProps> = ({
   projet,
-  dépôtEnCoursExistant,
   typesGarantiesFinancières,
 }) => {
   const router = useRouter();
@@ -41,27 +37,6 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   const { identifiantProjet } = projet;
-
-  if (dépôtEnCoursExistant) {
-    return (
-      <PageTemplate banner={<ProjetBanner {...projet} />}>
-        <CallOut
-          buttonProps={{
-            children: 'Voir',
-            linkProps: {
-              href: Routes.GarantiesFinancières.dépôt.modifier(identifiantProjet),
-            },
-          }}
-          iconId="ri-information-line"
-          title="Garanties financières en attente de validation"
-        >
-          Vous avez déjà soumis des garanties financières en attente de validation pour ce projet.
-          Si vous souhaitez soumettre de nouvelles garanties financières, vous devez d'abord
-          supprimer celles en attente.
-        </CallOut>
-      </PageTemplate>
-    );
-  }
 
   return (
     <ColumnPageTemplate

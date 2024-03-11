@@ -16,6 +16,7 @@ import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-
 import { tryToGetResource } from '@/utils/tryToGetRessource';
 import { vérifierAppelOffreSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
+import { ProjetADéjàUnDépôtEnCoursPage } from '@/components/pages/garanties-financières/dépôt/soumettre/ProjetADéjàUnDépôtEnCours.page';
 
 export const metadata: Metadata = {
   title: 'Soumettre des garanties financières - Potentiel',
@@ -49,11 +50,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         }),
     );
 
+    if (gf?.dépôts.find((dépôt) => dépôt.statut.estEnCours())) {
+      return <ProjetADéjàUnDépôtEnCoursPage projet={projet} />;
+    }
+
     const props: SoumettreGarantiesFinancièresProps = {
       projet,
-      dépôtEnCoursExistant: gf?.dépôts.find((dépôt) => dépôt.statut.estEnCours())
-        ? true
-        : undefined,
       typesGarantiesFinancières: GarantiesFinancières.TypeGarantiesFinancières.types.map(
         (type) => ({
           label: getGarantiesFinancièresTypeLabel(type),
