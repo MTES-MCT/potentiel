@@ -440,13 +440,17 @@ const policies = {
     ],
   },
   garantiesFinancières: {
-    consulter: [référencielPermissions.lauréat.garantiesFinancières.query.consulter],
+    consulter: [
+      référencielPermissions.appelOffre.query.consulter,
+      référencielPermissions.lauréat.garantiesFinancières.query.consulter,
+    ],
     demander: [
       référencielPermissions.lauréat.garantiesFinancières.usecase.demander,
       référencielPermissions.lauréat.garantiesFinancières.command.demander,
     ],
     soumettre: [
       référencielPermissions.candidature.query.consulter,
+      référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.lauréat.garantiesFinancières.usecase.soumettre,
       référencielPermissions.lauréat.garantiesFinancières.command.soumettre,
       référencielPermissions.document.command.enregister,
@@ -463,6 +467,7 @@ const policies = {
         .supprimerGarantiesFinancièresÀTraiter,
     ],
     'modifier-dépôt-garanties-financières-en-cours': [
+      référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.lauréat.garantiesFinancières.usecase
         .modifierGarantiesFinancièresÀTraiter,
       référencielPermissions.lauréat.garantiesFinancières.command
@@ -474,11 +479,13 @@ const policies = {
       référencielPermissions.lauréat.garantiesFinancières.command.importerType,
     ],
     modifier: [
+      référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.document.command.enregister,
       référencielPermissions.lauréat.garantiesFinancières.usecase.modifier,
       référencielPermissions.lauréat.garantiesFinancières.command.modifier,
     ],
     enregistrerAttestation: [
+      référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.document.command.enregister,
       référencielPermissions.lauréat.garantiesFinancières.usecase.enregistrerAttestation,
       référencielPermissions.lauréat.garantiesFinancières.command.enregistrerAttestation,
