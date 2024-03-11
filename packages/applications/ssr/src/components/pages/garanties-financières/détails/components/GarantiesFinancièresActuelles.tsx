@@ -42,18 +42,18 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
   },
 }) => (
   <>
-    <Heading2 className="mb-4">Garanties financières actuelles</Heading2>
     <CallOut
-      className="w-1/2"
+      className="flex-1"
       colorVariant={action === 'enregister-attestation' ? 'warning' : 'sucess'}
       content={
         <>
-          <div className="text-sm italic mb-4">
+          <Heading2>Garanties financières actuelles</Heading2>
+          <div className="text-xs italic">
             Dernière mise à jour le{' '}
             <span className="font-semibold">{formatDateForText(dernièreMiseÀJour.date)}</span> par{' '}
             <span className="font-semibold">{dernièreMiseÀJour.par}</span>
           </div>
-          <div className="mt-5 gap-2">
+          <div className="mt-5 gap-2 text-base">
             <div>
               Type : <span className="font-semibold">{type}</span>
             </div>

@@ -48,18 +48,23 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   return (
     <PageTemplate banner={<ProjetBanner {...projet} />}>
       <TitrePageGarantiesFinancières title="Détail des garanties financières" />
-      {actuelles && (
-        <GarantiesFinancièresActuelles
-          actuelles={actuelles}
-          identifiantProjet={projet.identifiantProjet}
-        />
-      )}
 
-      {dépôtEnCours && (
-        <GarantiesFinancièresDépôtEnCours
-          dépôt={dépôtEnCours}
-          identifiantProjet={projet.identifiantProjet}
-        />
+      {(actuelles || dépôtEnCours) && (
+        <div className="flex flex-col lg:flex-row gap-4">
+          {actuelles && (
+            <GarantiesFinancièresActuelles
+              actuelles={actuelles}
+              identifiantProjet={projet.identifiantProjet}
+            />
+          )}
+
+          {dépôtEnCours && (
+            <GarantiesFinancièresDépôtEnCours
+              dépôt={dépôtEnCours}
+              identifiantProjet={projet.identifiantProjet}
+            />
+          )}
+        </div>
       )}
 
       {historiqueDépôts.length === 0 && action === 'soumettre' && (

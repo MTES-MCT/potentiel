@@ -22,19 +22,21 @@ export const AucuneGarantiesFinancières: FC<AucuneGarantiesFinancièresProps> =
     <TitrePageGarantiesFinancières />
 
     <div className="flex flex-col gap-8">
-      <p>Aucune garanties financières pour ce projet.</p>
-
-      {action === 'soumettre' && (
-        <p>
-          Vous pouvez en soumettre en{' '}
-          <Link
-            href={Routes.GarantiesFinancières.dépôt.soumettre(projet.identifiantProjet)}
-            className="font-semibold"
-          >
-            suivant ce lien
-          </Link>
-        </p>
-      )}
+      <p>
+        Aucune garanties financières pour ce projet.
+        {action === 'soumettre' && (
+          <>
+            {' '}
+            Vous pouvez en soumettre en{' '}
+            <Link
+              href={Routes.GarantiesFinancières.dépôt.soumettre(projet.identifiantProjet)}
+              className="font-semibold"
+            >
+              suivant ce lien
+            </Link>
+          </>
+        )}
+      </p>
 
       <Button
         priority="secondary"
