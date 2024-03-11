@@ -28,7 +28,6 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
 
   return (
     <div className="flex flex-col gap-3 w-full">
-      <p className="italic text-sm mb-4">dernière mise à jour le {formatDateForText(misÀJourLe)}</p>
       <div className="flex flex-col gap-1">
         <h2 className="leading-4">
           À faire pour le projet : <span className="font-bold">{nomProjet}</span>
@@ -47,13 +46,14 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
           )}
         </div>
       </div>
-      <div className="flex flex-col gap-1 mt-3">
+      <div className="flex flex-col gap-1">
         <h3 className="font-bold">{descriptionTâche.titre}</h3>
         <p className="m-0 text-sm">{descriptionTâche.description}</p>
       </div>
+      <p className="italic text-xs">dernière mise à jour le {formatDateForText(misÀJourLe)}</p>
       <Link
         href={descriptionTâche.lien}
-        className="self-center mt-4 md:self-end md:mt-2"
+        className="self-center mt-4 md:self-end md:mt-0"
         aria-label={descriptionTâche.ariaLabel}
       >
         {descriptionTâche.action}

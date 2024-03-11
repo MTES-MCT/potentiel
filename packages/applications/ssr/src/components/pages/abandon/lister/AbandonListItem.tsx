@@ -63,8 +63,8 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
       </div>
     </div>
 
-    <div className="flex flex-col justify-between mt-4 md:mt-2">
-      <p className="italic text-sm">dernière mise à jour le {misÀJourLe}</p>
+    <div className="flex flex-col justify-between mt-4 md:mt-0">
+      <p className="italic text-xs">Dernière mise à jour le {misÀJourLe}</p>
       <a
         href={Routes.Abandon.détail(identifiantProjet)}
         className="self-end mt-2"
