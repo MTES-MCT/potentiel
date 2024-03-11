@@ -14,6 +14,7 @@ import {
 } from '@/components/pages/garanties-financières/dépôt/soumettre/SoumettreGarantiesFinancières.page';
 import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
 import { tryToGetResource } from '@/utils/tryToGetRessource';
+import { vérifierProjetSoumisAuxGarantiesFinancières } from '@/utils/pages/vérifierProjetSoumisAuxGarantiesFinancières';
 
 export const metadata: Metadata = {
   title: 'Soumettre des garanties financières - Potentiel',
@@ -33,27 +34,34 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       data: { identifiantProjet },
     });
 
-    const gf = await tryToGetResource(
-      async () =>
-        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: { identifiantProjetValue: identifiantProjet },
-        }),
-    );
+    const projet = { ...candidature, identifiantProjet };
 
-    const props: SoumettreGarantiesFinancièresProps = {
-      projet: { ...candidature, identifiantProjet },
-      dépôtEnCoursExistant: gf?.dépôts.find((dépôt) => dépôt.statut.estEnCours())
-        ? true
-        : undefined,
-      typesGarantiesFinancières: GarantiesFinancières.TypeGarantiesFinancières.types.map(
-        (type) => ({
-          label: getGarantiesFinancièresTypeLabel(type),
-          value: type,
-        }),
-      ),
-    };
+    return vérifierProjetSoumisAuxGarantiesFinancières({
+      projet,
+      callback: async () => {
+        const gf = await tryToGetResource(
+          async () =>
+            await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+              type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+              data: { identifiantProjetValue: identifiantProjet },
+            }),
+        );
 
-    return <SoumettreGarantiesFinancièresPage {...props} />;
+        const props: SoumettreGarantiesFinancièresProps = {
+          projet,
+          dépôtEnCoursExistant: gf?.dépôts.find((dépôt) => dépôt.statut.estEnCours())
+            ? true
+            : undefined,
+          typesGarantiesFinancières: GarantiesFinancières.TypeGarantiesFinancières.types.map(
+            (type) => ({
+              label: getGarantiesFinancièresTypeLabel(type),
+              value: type,
+            }),
+          ),
+        };
+
+        return <SoumettreGarantiesFinancièresPage {...props} />;
+      },
+    });
   });
 }

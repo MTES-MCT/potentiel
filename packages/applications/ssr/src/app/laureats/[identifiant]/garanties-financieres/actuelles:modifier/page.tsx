@@ -13,6 +13,7 @@ import {
   ModifierGarantiesFinancièresActuellesPage,
   ModifierGarantiesFinancièresActuellesProps,
 } from '@/components/pages/garanties-financières/actuelles/modifier/ModifierGarantiesFinancièresActuelles.page';
+import { vérifierProjetSoumisAuxGarantiesFinancières } from '@/utils/pages/vérifierProjetSoumisAuxGarantiesFinancières';
 
 export const metadata: Metadata = {
   title: 'Modifier les garanties financières actuelles - Potentiel',
@@ -32,40 +33,44 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       data: { identifiantProjet },
     });
 
-    const garantiesFinancières =
-      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        data: { identifiantProjetValue: identifiantProjet },
-      });
+    const projet = { ...candidature, identifiantProjet };
 
-    if (!garantiesFinancières.actuelles) {
-      return notFound();
-    }
+    return vérifierProjetSoumisAuxGarantiesFinancières({
+      projet,
+      callback: async () => {
+        const garantiesFinancières =
+          await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+            data: { identifiantProjetValue: identifiantProjet },
+          });
 
-    const props: ModifierGarantiesFinancièresActuellesProps = {
-      projet: {
-        ...candidature,
-        identifiantProjet,
+        if (!garantiesFinancières.actuelles) {
+          return notFound();
+        }
+
+        const props: ModifierGarantiesFinancièresActuellesProps = {
+          projet,
+          typesGarantiesFinancières: GarantiesFinancières.TypeGarantiesFinancières.types.map(
+            (type) => ({
+              label: getGarantiesFinancièresTypeLabel(type),
+              value: type,
+            }),
+          ),
+          actuelles: {
+            type: garantiesFinancières.actuelles.type.type,
+            dateÉchéance: garantiesFinancières.actuelles.dateÉchéance?.formatter(),
+            dateConstitution: garantiesFinancières.actuelles.dateConstitution?.formatter(),
+            validéLe: garantiesFinancières.actuelles.validéLe?.formatter(),
+            attestation: garantiesFinancières.actuelles.attestation?.formatter(),
+            dernièreMiseÀJour: {
+              date: garantiesFinancières.actuelles.dernièreMiseÀJour.date.formatter(),
+              par: garantiesFinancières.actuelles.dernièreMiseÀJour.par.formatter(),
+            },
+          },
+        };
+
+        return <ModifierGarantiesFinancièresActuellesPage {...props} />;
       },
-      typesGarantiesFinancières: GarantiesFinancières.TypeGarantiesFinancières.types.map(
-        (type) => ({
-          label: getGarantiesFinancièresTypeLabel(type),
-          value: type,
-        }),
-      ),
-      actuelles: {
-        type: garantiesFinancières.actuelles.type.type,
-        dateÉchéance: garantiesFinancières.actuelles.dateÉchéance?.formatter(),
-        dateConstitution: garantiesFinancières.actuelles.dateConstitution?.formatter(),
-        validéLe: garantiesFinancières.actuelles.validéLe?.formatter(),
-        attestation: garantiesFinancières.actuelles.attestation?.formatter(),
-        dernièreMiseÀJour: {
-          date: garantiesFinancières.actuelles.dernièreMiseÀJour.date.formatter(),
-          par: garantiesFinancières.actuelles.dernièreMiseÀJour.par.formatter(),
-        },
-      },
-    };
-
-    return <ModifierGarantiesFinancièresActuellesPage {...props} />;
+    });
   });
 }
