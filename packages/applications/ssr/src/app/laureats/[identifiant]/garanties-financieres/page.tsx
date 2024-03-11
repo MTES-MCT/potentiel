@@ -18,6 +18,7 @@ import {
   DétailsGarantiesFinancièresPage,
   DétailsGarantiesFinancièresPageProps,
 } from '@/components/pages/garanties-financières/détails/DétailsGarantiesFinancières.page';
+import { vérifierProjetSoumisAuxGarantiesFinancières } from '@/utils/pages/vérifierProjetSoumisAuxGarantiesFinancières';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
@@ -38,20 +39,27 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjet },
       });
 
-      const garantiesFinancières =
-        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: { identifiantProjetValue: identifiantProjet },
-        });
+      const projet = { ...candidature, identifiantProjet };
 
-      const props = mapToProps({
-        identifiantProjet,
-        candidature,
-        utilisateur,
-        garantiesFinancières,
+      return vérifierProjetSoumisAuxGarantiesFinancières({
+        projet,
+        callback: async () => {
+          const garantiesFinancières =
+            await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+              type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+              data: { identifiantProjetValue: identifiantProjet },
+            });
+
+          const props = mapToProps({
+            identifiantProjet,
+            candidature,
+            utilisateur,
+            garantiesFinancières,
+          });
+
+          return <DétailsGarantiesFinancièresPage {...props} />;
+        },
       });
-
-      return <DétailsGarantiesFinancièresPage {...props} />;
     }),
   );
 }

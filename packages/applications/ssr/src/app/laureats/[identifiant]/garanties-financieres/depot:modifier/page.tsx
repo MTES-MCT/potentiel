@@ -15,6 +15,7 @@ import {
   ModifierDépôtEnCoursGarantiesFinancièresPage,
   ModifierDépôtEnCoursGarantiesFinancièresProps,
 } from '@/components/pages/garanties-financières/dépôt/modifier/ModifierDépôtEnCoursGarantiesFinancières.page';
+import { vérifierProjetSoumisAuxGarantiesFinancières } from '@/utils/pages/vérifierProjetSoumisAuxGarantiesFinancières';
 
 export const metadata: Metadata = {
   title: 'Modifier dépôt des garanties financières en cours - Potentiel',
@@ -35,50 +36,56 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjet },
       });
 
-      const garantiesFinancières =
-        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: { identifiantProjetValue: identifiantProjet },
-        });
+      const projet = { ...candidature, identifiantProjet };
 
-      const dépôtEnCours = garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours());
+      return vérifierProjetSoumisAuxGarantiesFinancières({
+        projet,
+        callback: async () => {
+          const garantiesFinancières =
+            await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+              type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+              data: { identifiantProjetValue: identifiantProjet },
+            });
 
-      if (!dépôtEnCours) {
-        return notFound();
-      }
+          const dépôtEnCours = garantiesFinancières.dépôts.find((dépôt) =>
+            dépôt.statut.estEnCours(),
+          );
 
-      const props: ModifierDépôtEnCoursGarantiesFinancièresProps = {
-        projet: {
-          ...candidature,
-          identifiantProjet,
+          if (!dépôtEnCours) {
+            return notFound();
+          }
+
+          const props: ModifierDépôtEnCoursGarantiesFinancièresProps = {
+            projet,
+            typesGarantiesFinancières: GarantiesFinancières.TypeGarantiesFinancières.types.map(
+              (type) => ({
+                label: getGarantiesFinancièresTypeLabel(type),
+                value: type,
+              }),
+            ),
+            dépôtEnCours: {
+              type: dépôtEnCours.type.type,
+              statut: dépôtEnCours.statut.statut,
+              dateÉchéance: dépôtEnCours.dateÉchéance?.formatter(),
+              dateConstitution: dépôtEnCours.dateConstitution.formatter(),
+              soumisLe: dépôtEnCours.soumisLe.formatter(),
+              attestation: dépôtEnCours.attestation.formatter(),
+              dernièreMiseÀJour: {
+                date: dépôtEnCours.dernièreMiseÀJour.date.formatter(),
+                par: dépôtEnCours.dernièreMiseÀJour.par.formatter(),
+              },
+            },
+            showWarning: utilisateur.role.estÉgaleÀ(Role.porteur) ? true : undefined,
+            actions: utilisateur.role.estÉgaleÀ(Role.porteur)
+              ? ['supprimer']
+              : utilisateur.role.estÉgaleÀ(Role.dreal)
+              ? ['valider']
+              : [],
+          };
+
+          return <ModifierDépôtEnCoursGarantiesFinancièresPage {...props} />;
         },
-        typesGarantiesFinancières: GarantiesFinancières.TypeGarantiesFinancières.types.map(
-          (type) => ({
-            label: getGarantiesFinancièresTypeLabel(type),
-            value: type,
-          }),
-        ),
-        dépôtEnCours: {
-          type: dépôtEnCours.type.type,
-          statut: dépôtEnCours.statut.statut,
-          dateÉchéance: dépôtEnCours.dateÉchéance?.formatter(),
-          dateConstitution: dépôtEnCours.dateConstitution.formatter(),
-          soumisLe: dépôtEnCours.soumisLe.formatter(),
-          attestation: dépôtEnCours.attestation.formatter(),
-          dernièreMiseÀJour: {
-            date: dépôtEnCours.dernièreMiseÀJour.date.formatter(),
-            par: dépôtEnCours.dernièreMiseÀJour.par.formatter(),
-          },
-        },
-        showWarning: utilisateur.role.estÉgaleÀ(Role.porteur) ? true : undefined,
-        actions: utilisateur.role.estÉgaleÀ(Role.porteur)
-          ? ['supprimer']
-          : utilisateur.role.estÉgaleÀ(Role.dreal)
-          ? ['valider']
-          : [],
-      };
-
-      return <ModifierDépôtEnCoursGarantiesFinancièresPage {...props} />;
+      });
     }),
   );
 }
