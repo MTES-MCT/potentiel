@@ -111,6 +111,7 @@ export const register = () => {
           départementProjet,
           régionProjet,
         });
+        break;
 
       case 'AttestationGarantiesFinancièresEnregistrée-V1':
         await sendEmailGarantiesFinancièresChangementDeStatut({
@@ -122,8 +123,10 @@ export const register = () => {
           départementProjet,
           régionProjet,
         });
+        break;
 
       case 'GarantiesFinancièresModifiées-V1':
+      case 'GarantiesFinancièresEnregistrées-V1':
         await sendEmailGarantiesFinancièresChangementDeStatut({
           subject: `Potentiel - Garanties financières mises à jour pour le projet ${nomProjet} dans le département ${départementProjet}`,
           templateId: templateId.garantiesFinancières.GFActuellesModifiéesPourDreal,
@@ -134,7 +137,6 @@ export const register = () => {
           régionProjet,
         });
 
-      case 'GarantiesFinancièresModifiées-V1':
         await sendEmailGarantiesFinancièresChangementDeStatut({
           subject: `Potentiel - Garanties financières mises à jour pour le projet ${nomProjet} dans le département ${départementProjet}`,
           templateId: templateId.garantiesFinancières.GFActuellesModifiéesPourPorteur,
@@ -144,6 +146,7 @@ export const register = () => {
           départementProjet,
           régionProjet,
         });
+        break;
     }
   };
 

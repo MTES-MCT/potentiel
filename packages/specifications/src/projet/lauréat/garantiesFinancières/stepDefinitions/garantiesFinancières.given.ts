@@ -43,7 +43,7 @@ EtantDonné(
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    await mediator.send<GarantiesFinancières.SoumettreGarantiesFinancièresUseCase>({
+    await mediator.send<GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
@@ -76,7 +76,7 @@ EtantDonné(
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    await mediator.send<GarantiesFinancières.SoumettreGarantiesFinancièresUseCase>({
+    await mediator.send<GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
@@ -91,7 +91,7 @@ EtantDonné(
 
     await sleep(100);
 
-    await mediator.send<GarantiesFinancières.ValiderGarantiesFinancièresUseCase>({
+    await mediator.send<GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
