@@ -11,7 +11,8 @@ import {
   EnregistrerAttestationGarantiesFinancièresPage,
   EnregistrerAttestationGarantiesFinancièresProps,
 } from '@/components/pages/garanties-financières/actuelles/enregistrerAttestation/EnregistrerAttestationGarantiesFinancières.page';
-import { vérifierProjetSoumisAuxGarantiesFinancières } from '@/utils/pages/vérifierProjetSoumisAuxGarantiesFinancières';
+import { vérifierAppelOffreSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
+import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 
 export const metadata: Metadata = {
   title: `Enregistrer l'attestation de constitution des garanties financières actuelles - Potentiel`,
@@ -33,15 +34,14 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const projet = { ...candidature, identifiantProjet };
 
-    return vérifierProjetSoumisAuxGarantiesFinancières({
-      projet,
-      callback: async () => {
-        const props: EnregistrerAttestationGarantiesFinancièresProps = {
-          projet,
-        };
+    if (!vérifierAppelOffreSoumisAuxGarantiesFinancières(candidature.appelOffre)) {
+      return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
+    }
 
-        return <EnregistrerAttestationGarantiesFinancièresPage {...props} />;
-      },
-    });
+    const props: EnregistrerAttestationGarantiesFinancièresProps = {
+      projet,
+    };
+
+    return <EnregistrerAttestationGarantiesFinancièresPage {...props} />;
   });
 }

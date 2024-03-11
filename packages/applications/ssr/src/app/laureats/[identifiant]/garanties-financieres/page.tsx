@@ -18,7 +18,8 @@ import {
   DétailsGarantiesFinancièresPage,
   DétailsGarantiesFinancièresPageProps,
 } from '@/components/pages/garanties-financières/détails/DétailsGarantiesFinancières.page';
-import { vérifierProjetSoumisAuxGarantiesFinancières } from '@/utils/pages/vérifierProjetSoumisAuxGarantiesFinancières';
+import { vérifierAppelOffreSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
+import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
@@ -41,49 +42,38 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       const projet = { ...candidature, identifiantProjet };
 
-      return vérifierProjetSoumisAuxGarantiesFinancières({
+      if (!vérifierAppelOffreSoumisAuxGarantiesFinancières(candidature.appelOffre)) {
+        return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
+      }
+
+      const garantiesFinancières =
+        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: { identifiantProjetValue: identifiantProjet },
+        });
+
+      const props = mapToProps({
         projet,
-        callback: async () => {
-          const garantiesFinancières =
-            await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-              type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-              data: { identifiantProjetValue: identifiantProjet },
-            });
-
-          const props = mapToProps({
-            identifiantProjet,
-            candidature,
-            utilisateur,
-            garantiesFinancières,
-          });
-
-          return <DétailsGarantiesFinancièresPage {...props} />;
-        },
+        utilisateur,
+        garantiesFinancières,
       });
+
+      return <DétailsGarantiesFinancièresPage {...props} />;
     }),
   );
 }
 
 type MapToProps = (args: {
-  identifiantProjet: string;
-  candidature: ConsulterCandidatureReadModel;
+  projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
   utilisateur: Utilisateur.ValueType;
   garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel;
 }) => DétailsGarantiesFinancièresPageProps;
 
-const mapToProps: MapToProps = ({
-  identifiantProjet,
-  candidature,
-  utilisateur,
-  garantiesFinancières,
-}) => {
+const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) => {
   const dépôtEnCours = garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours());
 
   return {
-    projet: {
-      ...candidature,
-      identifiantProjet,
-    },
+    projet,
     actuelles: garantiesFinancières.actuelles
       ? {
           type: getGarantiesFinancièresTypeLabel(garantiesFinancières.actuelles.type.type),
