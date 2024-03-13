@@ -6,38 +6,35 @@ import { FC } from 'react';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 
 import {
-  GarantiesFinancièresListItem,
-  GarantiesFinancièresListItemProps,
+  GarantiesFinancièresDépôtsEnCoursListItem,
+  GarantiesFinancièresDépôtsEnCoursListItemProps,
 } from './GarantiesFinancièresListItem';
 
-export type GarantiesFinancieresListPageProps = {
+export type GarantiesFinancièresDépôtsEnCoursListProps = {
   list: {
-    items: Array<GarantiesFinancièresListItemProps>;
+    items: Array<GarantiesFinancièresDépôtsEnCoursListItemProps>;
     currentPage: number;
     totalItems: number;
     itemsPerPage: number;
   };
-  filters: ListPageTemplateProps<GarantiesFinancièresListItemProps>['filters'];
+  filters: ListPageTemplateProps<GarantiesFinancièresDépôtsEnCoursListItemProps>['filters'];
 };
 
-export const GarantiesFinancièresListPage: FC<GarantiesFinancieresListPageProps> = ({
-  list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage },
-  filters,
-}) => {
+export const GarantiesFinancièresDépôtsEnCoursListPage: FC<
+  GarantiesFinancièresDépôtsEnCoursListProps
+> = ({ list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage }, filters }) => {
   const searchParams = useSearchParams();
   const appelOffre = searchParams.get('appelOffre') ?? undefined;
-  const statut = searchParams.get('statut') ?? undefined;
 
   const tagFilters = [
     ...(appelOffre
       ? [{ label: `appel d'offres : ${appelOffre}`, searchParamKey: 'appelOffre' }]
       : []),
-    ...(statut ? [{ label: `statut : ${statut}`, searchParamKey: 'statut' }] : []),
   ];
 
   return (
     <ListPageTemplate
-      heading="Garanties financières"
+      heading="Garanties financières en cours de traitement"
       actions={[]}
       items={garantiesFinancières.map((gf) => ({
         ...gf,
@@ -46,7 +43,7 @@ export const GarantiesFinancièresListPage: FC<GarantiesFinancieresListPageProps
       currentPage={currentPage}
       totalItems={totalItems}
       itemsPerPage={itemsPerPage}
-      ItemComponent={GarantiesFinancièresListItem}
+      ItemComponent={GarantiesFinancièresDépôtsEnCoursListItem}
       tagFilters={tagFilters}
       filters={filters}
     />

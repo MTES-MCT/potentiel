@@ -3,7 +3,7 @@ import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
 
 import { Routes } from '@potentiel-libraries/routes';
 
-export type GarantiesFinancièresListItemProps = {
+export type GarantiesFinancièresDépôtsEnCoursListItemProps = {
   identifiantProjet: string;
   nomProjet: string;
   appelOffre: string;
@@ -19,10 +19,10 @@ export type GarantiesFinancièresListItemProps = {
 const GarantiesFinancièresStatusBadge = ({
   statut,
 }: {
-  statut: GarantiesFinancièresListItemProps['statut'];
+  statut: GarantiesFinancièresDépôtsEnCoursListItemProps['statut'];
 }) => {
   const getSeverity = (
-    statut: GarantiesFinancièresListItemProps['statut'],
+    statut: GarantiesFinancièresDépôtsEnCoursListItemProps['statut'],
   ): BadgeProps['severity'] => {
     switch (statut) {
       case 'en attente':
@@ -41,15 +41,9 @@ const GarantiesFinancièresStatusBadge = ({
   );
 };
 
-export const GarantiesFinancièresListItem: FC<GarantiesFinancièresListItemProps> = ({
-  identifiantProjet,
-  nomProjet,
-  appelOffre,
-  période,
-  famille,
-  statut,
-  misÀJourLe,
-}) => (
+export const GarantiesFinancièresDépôtsEnCoursListItem: FC<
+  GarantiesFinancièresDépôtsEnCoursListItemProps
+> = ({ identifiantProjet, nomProjet, appelOffre, période, famille, statut, misÀJourLe }) => (
   <>
     <div>
       <div className="flex flex-col gap-1">
@@ -70,7 +64,9 @@ export const GarantiesFinancièresListItem: FC<GarantiesFinancièresListItemProp
           )}
         </div>
         <div className="flex flex-col md:flex-row gap-2 mt-3">
-          <GarantiesFinancièresStatusBadge statut={statut} />
+          <Badge noIcon severity={'info'} small={true}>
+            En cours
+          </Badge>
         </div>
       </div>
     </div>
