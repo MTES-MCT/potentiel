@@ -8,7 +8,7 @@ import {
   TypeDocumentGarantiesFinancières,
   TypeGarantiesFinancières,
 } from '..';
-import { AucunesGarantiesFinancières } from '../aucunesGarantiesFinancières.error';
+import { AucunesGarantiesFinancièresPourLeProjetError } from '../aucunesGarantiesFinancièresPourLeProjet.error';
 import { GarantiesFinancièresEntity } from '../garantiesFinancières.entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/core';
@@ -66,7 +66,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
     );
 
     if (isNone(result)) {
-      throw new AucunesGarantiesFinancières();
+      throw new AucunesGarantiesFinancièresPourLeProjetError();
     }
 
     const actuelles: ConsulterGarantiesFinancièresReadModel['actuelles'] = result.actuelles && {
