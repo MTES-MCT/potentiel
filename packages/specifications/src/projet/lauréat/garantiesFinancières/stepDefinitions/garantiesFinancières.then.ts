@@ -18,6 +18,7 @@ Alors(
     const dateConstitution = exemple[`date de constitution`];
     const contenu = exemple['contenu fichier'];
     const dateSoumission = exemple['date de soumission'];
+    const soumisPar = exemple['soumis par'];
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -35,28 +36,32 @@ Alors(
 
       expect(dépôtEnCours).not.to.be.undefined;
 
-      expect(dépôtEnCours?.type.type).to.deep.equal(typeGarantiesFinancières);
-      expect(dépôtEnCours?.dateConstitution.date).to.deep.equal(new Date(dateConstitution));
-      expect(dépôtEnCours?.soumisLe.date).to.deep.equal(new Date(dateSoumission));
+      if (dépôtEnCours) {
+        expect(dépôtEnCours.type.type).to.deep.equal(typeGarantiesFinancières);
+        expect(dépôtEnCours.dateConstitution.date).to.deep.equal(new Date(dateConstitution));
+        expect(dépôtEnCours.soumisLe.date).to.deep.equal(new Date(dateSoumission));
+        expect(dépôtEnCours.dernièreMiseÀJour.date.date).to.deep.equal(new Date(dateSoumission));
+        expect(dépôtEnCours.dernièreMiseÀJour.par.formatter()).to.deep.equal(soumisPar);
 
-      if (dépôtEnCours?.dateÉchéance) {
-        expect(dépôtEnCours.dateÉchéance.date).to.deep.equal(new Date(dateÉchéance));
-      }
+        if (dépôtEnCours.dateÉchéance) {
+          expect(dépôtEnCours.dateÉchéance.date).to.deep.equal(new Date(dateÉchéance));
+        }
 
-      // ASSERT ON FILE
-      expect(dépôtEnCours?.attestation).not.to.be.undefined;
-      expect(dépôtEnCours?.attestation.format).to.deep.equal(format);
+        // ASSERT ON FILE
+        expect(dépôtEnCours.attestation).not.to.be.undefined;
+        expect(dépôtEnCours.attestation.format).to.deep.equal(format);
 
-      if (dépôtEnCours?.attestation) {
-        const file = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: dépôtEnCours.attestation.formatter(),
-          },
-        });
+        if (dépôtEnCours?.attestation) {
+          const file = await mediator.send<ConsulterDocumentProjetQuery>({
+            type: 'Document.Query.ConsulterDocumentProjet',
+            data: {
+              documentKey: dépôtEnCours.attestation.formatter(),
+            },
+          });
 
-        const actualContent = await convertReadableStreamToString(file.content);
-        actualContent.should.be.equal(contenu);
+          const actualContent = await convertReadableStreamToString(file.content);
+          actualContent.should.be.equal(contenu);
+        }
       }
     });
   },
@@ -94,6 +99,7 @@ Alors(
     const contenu = exemple['contenu fichier'];
     const dateValidation = exemple['date de validation'];
     const dateMiseÀJour = exemple['date dernière mise à jour'];
+    const soumisPar = exemple['soumis par'];
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -141,6 +147,64 @@ Alors(
           const actualContent = await convertReadableStreamToString(file.content);
           actualContent.should.be.equal(contenu);
         }
+      }
+    });
+  },
+);
+
+Alors(
+  'les garanties financières devraient être consultable dans la liste des dépôts en cours pour le projet {string} avec :',
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
+    const typeGarantiesFinancières = exemple['type'];
+    const dateÉchéance = exemple[`date d'échéance`];
+    const dateConstitution = exemple[`date de constitution`];
+    const dateSoumission = exemple['date de soumission'];
+    const format = exemple['format du fichier'];
+    const contenu = exemple['contenu du fichier'];
+    const soumisPar = exemple['soumis par'];
+
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      // ASSERT ON READ MODEL
+      const actualReadModel =
+        await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
+          data: {},
+        });
+
+      const dépôtCible = actualReadModel.items.find((item) =>
+        item.identifiantProjet.estÉgaleÀ(identifiantProjet),
+      );
+
+      expect(dépôtCible).not.to.be.undefined;
+
+      if (dépôtCible) {
+        expect(dépôtCible.dépôt.type.type).to.deep.equal(typeGarantiesFinancières);
+        expect(dépôtCible.dépôt.statut.estEnCours()).to.be.true;
+        expect(dépôtCible.dépôt.dateConstitution.date).to.deep.equal(new Date(dateConstitution));
+        expect(dépôtCible.dépôt.soumisLe.date).to.deep.equal(new Date(dateSoumission));
+        expect(dépôtCible.dépôt.attestation).not.to.be.undefined;
+        expect(dépôtCible.dépôt.attestation.format).to.deep.equal(format);
+        expect(dépôtCible.dépôt.dernièreMiseÀJour.date.date).to.deep.equal(
+          new Date(dateSoumission),
+        );
+        expect(dépôtCible.dépôt.dernièreMiseÀJour.par.formatter()).to.deep.equal(soumisPar);
+        if (dépôtCible.dépôt.dateÉchéance) {
+          expect(dépôtCible.dépôt.dateÉchéance.date).to.deep.equal(new Date(dateÉchéance));
+        }
+
+        const file = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: dépôtCible.dépôt.attestation.formatter(),
+          },
+        });
+
+        const actualContent = await convertReadableStreamToString(file.content);
+        actualContent.should.be.equal(contenu);
       }
     });
   },

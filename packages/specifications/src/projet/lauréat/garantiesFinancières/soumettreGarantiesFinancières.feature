@@ -3,6 +3,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
     
+    @select
     Plan du Scénario: Un porteur soumet des garanties financières initiales
         Etant donné des garanties financières en attente pour le projet "Centrale PV" avec :
             | date limite de soumission | 2023-11-01 |
@@ -22,6 +23,15 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | contenu fichier      | <contenu du fichier>   |
             | date de constitution | <date de constitution> |
             | date de soumission   | 2023-10-01             |
+            | soumis par           | porteur@test.test      |
+        Et les garanties financières devraient être consultable dans la liste des dépôts en cours pour le projet "Centrale PV" avec :
+            | type                 | <type>                 |
+            | date d'échéance      | <date d'échéance>      |
+            | format               | <format du fichier>    |
+            | contenu fichier      | <contenu du fichier>   |
+            | date de constitution | <date de constitution> |
+            | date de soumission   | 2023-10-01             |
+            | soumis par           | porteur@test.test      |
     Exemples:
             | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
             | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
@@ -51,6 +61,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | contenu fichier      | <contenu du fichier>   |
             | date de constitution | <date de constitution> |
             | date de soumission   | 2023-10-01             |
+            | soumis par           | porteur@test.test      |
             | région               | Corse                  |
     Exemples:
             | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution |

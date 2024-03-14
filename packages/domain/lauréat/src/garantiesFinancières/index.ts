@@ -7,15 +7,18 @@ import { DemanderGarantiesFinancièresUseCase } from './demander/demanderGaranti
 import { SupprimerGarantiesFinancièresÀTraiterUseCase } from './dépôt/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.usecase';
 import { ValiderDépôtGarantiesFinancièresEnCoursUseCase } from './dépôt/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.usecase';
 import { ModifierDépôtGarantiesFinancièresEnCoursUseCase } from './dépôt/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.usecase';
+import { ListerDépôtsEnCoursGarantiesFinancièresQuery } from './dépôt/lister/listerDépôtsEnCoursGarantiesFinancières.query';
 import { ImporterTypeGarantiesFinancièresUseCase } from './importer/importerTypeGarantiesFinancières.usecase';
 import { ModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase';
 import { EnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
 import { EnregistrerGarantiesFinancièresUseCase } from './enregistrer/enregistrerGarantiesFinancières.usecase';
 
 // Query
-export type GarantiesFinancièresQuery = ConsulterGarantiesFinancièresQuery;
+export type GarantiesFinancièresQuery =
+  | ConsulterGarantiesFinancièresQuery
+  | ListerDépôtsEnCoursGarantiesFinancièresQuery;
 
-export { ConsulterGarantiesFinancièresQuery };
+export { ConsulterGarantiesFinancièresQuery, ListerDépôtsEnCoursGarantiesFinancièresQuery };
 
 // ReadModel
 export { ConsulterGarantiesFinancièresReadModel };
@@ -69,5 +72,6 @@ export * as StatutDépôtGarantiesFinancières from './statutDépôtGarantiesFin
 
 // Projections
 export * from './garantiesFinancières.entity';
+export * from './dépôtEnCoursGarantiesFinancières.entity';
 
 // Ports
