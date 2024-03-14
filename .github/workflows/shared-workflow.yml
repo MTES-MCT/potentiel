@@ -31,7 +31,7 @@ jobs:
       - run: npm ci --include=dev
       - run: npm run build
 
-  specifications:
+  test:
     runs-on: ubuntu-latest
     env:
       APPLICATION_STAGE: test
@@ -43,20 +43,4 @@ jobs:
           node-version: 18.x
           cache: 'npm'
       - run: npm ci
-      - run: npm run specs
-
-  test-legacy:
-    runs-on: ubuntu-latest
-    env:
-      APPLICATION_STAGE: test
-      POTENTIEL_IDENTIFIER_SECRET: potentiel
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run test:legacy
-      - run: npm run type:check
+      - run: npm run test

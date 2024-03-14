@@ -6,8 +6,8 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "prespecs": "tsc",
-    "specs": "cucumber-js"
+    "pretest": "tsc",
+    "test": "cucumber-js --tags \"not @NotImplemented\""
   },
   "dependencies": {
     "@potentiel-application/bootstrap": "*",

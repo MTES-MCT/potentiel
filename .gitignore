@@ -114,7 +114,7 @@ dist
 uploads/
 
 # Generated frontend scripts
-src/public/js
+packages/applications/legacy/src/public/js
 
 # temp files
 temp/
@@ -126,12 +126,9 @@ cypress/videos
 .clever.json
 
 # Generated css file
-src/public/css/index.css
-src/public/css/dsfr.css
-src/public/css/fonts.css
-
-# Generated js files
-src/public/js
+packages/applications/legacy/src/public/css/index.css
+packages/legacy/src/public/css/dsfr.css
+packages/legacy/src/public/css/fonts.css
 
 # Storybook
 storybook-static/
