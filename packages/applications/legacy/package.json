@@ -77,7 +77,8 @@
     "util": "^0.12.5",
     "uuid": "^9.0.0",
     "utility-types": "^3.10.0",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "esbuild": "^0.20.1"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",
