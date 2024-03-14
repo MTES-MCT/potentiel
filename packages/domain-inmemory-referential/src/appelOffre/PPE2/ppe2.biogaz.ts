@@ -26,7 +26,7 @@ export const biogazPPE2: AppelOffre = {
   soumisAuxGarantiesFinancieres: "à la candidature",
   renvoiEngagementIPFPGPFC: "3.2.7",
   paragrapheClauseCompetitivite: "2.9",
-  tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
+  tarifOuPrimeRetenue: "le tarif",
   tarifOuPrimeRetenueAlt: "ce prix de référence",
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
