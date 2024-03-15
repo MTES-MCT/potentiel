@@ -6,7 +6,6 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { CallOut } from '@codegouvfr/react-dsfr/CallOut';
 
 import { Routes } from '@potentiel-libraries/routes';
 
@@ -15,25 +14,22 @@ import { Form } from '@/components/atoms/form/Form';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { formatDateForInput } from '@/utils/formatDateForInput';
-import { PageTemplate } from '@/components/templates/Page.template';
 
-import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
+import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 import {
   TypeGarantiesFinancièresSelect,
   TypeGarantiesFinancièresSelectProps,
-} from '../TypeGarantiesFinancièresSelect';
+} from '../../TypeGarantiesFinancièresSelect';
 
 import { soumettreGarantiesFinancièresAction } from './soumettreGarantiesFinancières.action';
 
 export type SoumettreGarantiesFinancièresProps = {
   projet: ProjetBannerProps;
-  dépôtEnCours?: true;
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
 };
 
 export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièresProps> = ({
   projet,
-  dépôtEnCours,
   typesGarantiesFinancières,
 }) => {
   const router = useRouter();
@@ -42,38 +38,19 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
 
   const { identifiantProjet } = projet;
 
-  if (dépôtEnCours) {
-    return (
-      <PageTemplate banner={<ProjetBanner {...projet} />}>
-        <CallOut
-          buttonProps={{
-            children: 'Voir',
-            linkProps: {
-              href: Routes.GarantiesFinancières.modifierDépôtEnCours(identifiantProjet),
-            },
-          }}
-          iconId="ri-information-line"
-          title="Garanties financières en attente de validation"
-        >
-          Vous avez déjà soumis des garanties financières en attente de validation pour ce projet.
-          Si vous souhaitez soumettre de nouvelles garanties financières, vous devez d'abord
-          supprimer celles en attente.
-        </CallOut>
-      </PageTemplate>
-    );
-  }
-
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner {...projet} />}
-      heading={<TitrePageGarantiesFinancières />}
+      heading={<TitrePageGarantiesFinancières title="Soumettre des garanties financières" />}
       leftColumn={{
         children: (
           <Form
             method="POST"
             encType="multipart/form-data"
             action={soumettreGarantiesFinancièresAction}
-            onSuccess={() => router.push(Routes.Projet.details(projet.identifiantProjet))}
+            onSuccess={() =>
+              router.push(Routes.GarantiesFinancières.détail(projet.identifiantProjet))
+            }
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
             <input name="identifiantProjet" type="hidden" value={identifiantProjet} />

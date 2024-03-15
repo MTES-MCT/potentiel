@@ -1,7 +1,7 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
-import { DépôtStatut } from './détails/components/HistoriqueDesGarantiesFinancièresDéposées';
+import { DépôtStatut } from './détails/components/GarantiesFinancièresHistoriqueDépôts';
 
 export type StatutDépôtGarantiesFinancièresBadgProps = {
   statut: DépôtStatut;

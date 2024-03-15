@@ -9,7 +9,6 @@ import Link from 'next/link';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-libraries/routes';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
@@ -17,55 +16,54 @@ import { Form } from '@/components/atoms/form/Form';
 import { formatDateForInput } from '@/utils/formatDateForInput';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
-import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
+import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 import {
   TypeGarantiesFinancièresSelect,
   TypeGarantiesFinancièresSelectProps,
-} from '../TypeGarantiesFinancièresSelect';
+} from '../../TypeGarantiesFinancièresSelect';
+import { DépôtGarantiesFinancières } from '../../détails/components/GarantiesFinancièresHistoriqueDépôts';
 
-import { ValiderGarantiesFinancièresÀTraiter } from './valider/ValiderGarantiesFinancièresÀTraiter';
-import { RejeterGarantiesFinancièresÀTraiter } from './rejeter/RejeterGarantiesFinancièresÀTraiter';
-import { modifierGarantiesFinancièresÀTraiterAction } from './modifierGarantiesFinancièresÀTraiter.action';
-import { SupprimerGarantiesFinancièresÀTraiter } from './supprimer/SupprimerGarantiesFinancièresÀTraiter';
+import { ValiderDépôtEnCoursGarantiesFinancières } from './valider/validerDépôtEnCoursGarantiesFinancières';
+import { RejeterDépôtEnCoursGarantiesFinancières } from './rejeter/RejeterDépôtEnCoursGarantiesFinancières';
+import { modifierDépôtEnCoursGarantiesFinancièresAction } from './modifierDépôtEnCoursGarantiesFinancières.action';
+import { SupprimerDépôtEnCoursGarantiesFinancières } from './supprimer/SupprimerDépôtEnCoursGarantiesFinancières';
 
 type AvailableActions = Array<'valider' | 'rejeter' | 'supprimer'>;
 
-export type ModifierGarantiesFinancièresÀTraiterProps = {
+export type ModifierDépôtEnCoursGarantiesFinancièresProps = {
   projet: ProjetBannerProps;
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
-  statut: GarantiesFinancières.StatutDépôtGarantiesFinancières.RawType;
-  garantiesFinancières: {
-    type: TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel'];
-    dateÉchéance?: string;
-    dateConsitution: string;
-    attestation: string;
-  };
+  dépôtEnCours: DépôtGarantiesFinancières;
   showWarning?: true;
   actions: AvailableActions;
 };
 
-export const ModifierGarantiesFinancièresÀTraiter: FC<
-  ModifierGarantiesFinancièresÀTraiterProps
-> = ({ projet, typesGarantiesFinancières, garantiesFinancières, showWarning, actions }) => {
+export const ModifierDépôtEnCoursGarantiesFinancièresPage: FC<
+  ModifierDépôtEnCoursGarantiesFinancièresProps
+> = ({ projet, typesGarantiesFinancières, dépôtEnCours, showWarning, actions }) => {
   const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner {...projet} />}
-      heading={<TitrePageGarantiesFinancières />}
+      heading={
+        <TitrePageGarantiesFinancières title="Modifier des garanties financières en attente de validation" />
+      }
       leftColumn={{
         children: (
           <>
             <Form
               method="POST"
               encType="multipart/form-data"
-              action={modifierGarantiesFinancièresÀTraiterAction}
+              action={modifierDépôtEnCoursGarantiesFinancièresAction}
               onSuccess={() =>
                 router.push(Routes.GarantiesFinancières.détail(projet.identifiantProjet))
               }
               onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
             >
+              <input type="hidden" name="identifiantProjet" value={projet.identifiantProjet} />
+
               {showWarning && (
                 <Alert
                   severity="warning"
@@ -81,17 +79,15 @@ export const ModifierGarantiesFinancièresÀTraiter: FC<
               )}
 
               <TypeGarantiesFinancièresSelect
-                id="typeGarantiesFinancieres"
-                name="typeGarantiesFinancieres"
+                id="type"
+                name="type"
                 validationErrors={validationErrors}
                 typesGarantiesFinancières={typesGarantiesFinancières}
                 typeGarantiesFinancièresActuel={
-                  garantiesFinancières.type as TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel']
+                  dépôtEnCours.type as TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel']
                 }
                 dateÉchéanceActuelle={
-                  garantiesFinancières.type === 'avec-date-échéance'
-                    ? garantiesFinancières.dateÉchéance
-                    : undefined
+                  dépôtEnCours.type === 'avec-date-échéance' ? dépôtEnCours.dateÉchéance : undefined
                 }
               />
 
@@ -101,9 +97,7 @@ export const ModifierGarantiesFinancièresÀTraiter: FC<
                   type: 'date',
                   name: 'dateConstitution',
                   max: formatDateForInput(new Date().toISOString()),
-                  defaultValue: garantiesFinancières.dateConsitution
-                    ? formatDateForInput(garantiesFinancières.dateConsitution)
-                    : undefined,
+                  defaultValue: formatDateForInput(dépôtEnCours.dateConstitution),
                   required: true,
                   'aria-required': true,
                 }}
@@ -115,14 +109,14 @@ export const ModifierGarantiesFinancièresÀTraiter: FC<
                 label={
                   <>
                     Attestation de constitution{' '}
-                    {garantiesFinancières.attestation && (
+                    {dépôtEnCours.attestation && (
                       <>
                         <br />
                         <small>
                           Pour que la modification puisse fonctionner, merci de joindre un nouveau
                           fichier ou{' '}
                           <Link
-                            href={Routes.Document.télécharger(garantiesFinancières.attestation)}
+                            href={Routes.Document.télécharger(dépôtEnCours.attestation)}
                             target="_blank"
                           >
                             celui préalablement transmis
@@ -134,12 +128,12 @@ export const ModifierGarantiesFinancièresÀTraiter: FC<
                 }
                 hint="Format accepté : pdf"
                 nativeInputProps={{
-                  name: 'attestationConstitution',
+                  name: 'attestation',
                   required: true,
                   'aria-required': true,
                   accept: '.pdf',
                 }}
-                state={validationErrors.includes('attestationConstitution') ? 'error' : 'default'}
+                state={validationErrors.includes('attestation') ? 'error' : 'default'}
                 stateRelatedMessage="Attestation de consitution des garantières financières obligatoire"
               />
 
@@ -178,13 +172,13 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
   return actions.length ? (
     <>
       {actions.includes('valider') && (
-        <ValiderGarantiesFinancièresÀTraiter identifiantProjet={identifiantProjet} />
+        <ValiderDépôtEnCoursGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}
       {actions.includes('rejeter') && (
-        <RejeterGarantiesFinancièresÀTraiter identifiantProjet={identifiantProjet} />
+        <RejeterDépôtEnCoursGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}
       {actions.includes('supprimer') && (
-        <SupprimerGarantiesFinancièresÀTraiter identifiantProjet={identifiantProjet} />
+        <SupprimerDépôtEnCoursGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}
     </>
   ) : null;

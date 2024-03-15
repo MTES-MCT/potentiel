@@ -75,7 +75,7 @@ export const GarantiesFinancièresListItem: FC<GarantiesFinancièresListItemProp
       </div>
     </div>
 
-    <div className="flex flex-col justify-between mt-4 md:mt-2">
+    <div className="flex flex-col justify-between mt-4 md:mt-0">
       <p className="italic text-sm">dernière mise à jour le {misÀJourLe}</p>
       <a
         href={Routes.GarantiesFinancières.détail(identifiantProjet)}

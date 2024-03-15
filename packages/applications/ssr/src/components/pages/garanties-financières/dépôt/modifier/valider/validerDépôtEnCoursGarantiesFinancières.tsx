@@ -6,32 +6,32 @@ import { Routes } from '@potentiel-libraries/routes';
 
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
 
-import { rejeterGarantiesFinancièresÀTraiterAction } from './rejeterGarantiesFinancièresÀTraiter.action';
+import { validerDépôtEnCoursGarantiesFinancièresAction } from './validerDépôtEnCoursGarantiesFinancières.action';
 
-type RejeterGarantiesFinancièresÀTraiterProps = {
+type ValiderDépôtEnCoursGarantiesFinancièresProps = {
   identifiantProjet: string;
 };
 
-export const RejeterGarantiesFinancièresÀTraiter = ({
+export const ValiderDépôtEnCoursGarantiesFinancières = ({
   identifiantProjet,
-}: RejeterGarantiesFinancièresÀTraiterProps) => {
+}: ValiderDépôtEnCoursGarantiesFinancièresProps) => {
   const router = useRouter();
 
   return (
     <ButtonWithFormInModal
-      name="Rejeter"
+      name="Valider"
       yesNo
-      description="Rejeter les garanties financières"
+      description="Valider les garanties financières"
       form={{
-        id: 'rejeter-garanties-financieres-a-traiter-form',
-        action: rejeterGarantiesFinancièresÀTraiterAction,
+        id: 'valider-garanties-financieres-a-traiter-form',
+        action: validerDépôtEnCoursGarantiesFinancièresAction,
         method: 'post',
         encType: 'multipart/form-data',
         omitMandatoryFieldsLegend: true,
         onSuccess: () => router.push(Routes.GarantiesFinancières.détail(identifiantProjet)),
         children: (
           <>
-            <p className="mt-3">Êtes-vous sûr de vouloir rejeter ces garanties financières ?</p>
+            <p className="mt-3">Êtes-vous sûr de vouloir valider ces garanties financières ?</p>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
           </>
         ),

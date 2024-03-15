@@ -1,78 +1,96 @@
-'use client';
+"use client";
 
-import { FC } from 'react';
-import Link from 'next/link';
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import { FC } from "react";
+import Link from "next/link";
+import Alert from "@codegouvfr/react-dsfr/Alert";
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from "@potentiel-libraries/routes";
 
-import { PageTemplate } from '@/components/templates/Page.template';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { PageTemplate } from "@/components/templates/Page.template";
+import {
+  ProjetBanner,
+  ProjetBannerProps,
+} from "@/components/molecules/projet/ProjetBanner";
 
-import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
+import { TitrePageGarantiesFinancières } from "../TitrePageGarantiesFinancières";
 
-import { AucuneGarantiesFinancières } from './components/AucuneGarantiesFinancières';
+import { AucuneGarantiesFinancières } from "./components/AucuneGarantiesFinancières";
 import {
   GarantiesFinancièresActuelles,
   GarantiesFinancièresActuellesProps,
-} from './components/GarantiesFinancièresActuelles';
+} from "./components/GarantiesFinancièresActuelles";
 import {
-  HistoriqueDesGarantiesFinancièresDéposées,
-  HistoriqueDesGarantiesFinancièresDéposéesProps,
-} from './components/HistoriqueDesGarantiesFinancièresDéposées';
+  DépôtGarantiesFinancières,
+  GarantiesFinancièresHistoriqueDépôts,
+  GarantiesFinancièresHistoriqueDépôtsProps,
+} from "./components/GarantiesFinancièresHistoriqueDépôts";
+import { GarantiesFinancièresDépôtEnCours } from "./components/GarantiesFinancièresDépôtEnCours";
 
 export type DétailsGarantiesFinancièresPageProps = {
   projet: ProjetBannerProps;
-  actuelles?: GarantiesFinancièresActuellesProps['actuelles'];
+  actuelles?: GarantiesFinancièresActuellesProps["actuelles"];
+  dépôtEnCours?: DépôtGarantiesFinancières & {
+    action?: "modifier" | "instruire";
+  };
   dateLimiteSoummission?: string;
-  dépôts: HistoriqueDesGarantiesFinancièresDéposéesProps['dépôts'];
-  action?: 'soumettre';
+  historiqueDépôts: GarantiesFinancièresHistoriqueDépôtsProps["dépôts"];
+  action?: "soumettre";
 };
 
-export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancièresPageProps> = ({
-  projet,
-  actuelles,
-  dépôts,
-  action,
-}) => {
-  if (!actuelles && !dépôts.length && action) {
+export const DétailsGarantiesFinancièresPage: FC<
+  DétailsGarantiesFinancièresPageProps
+> = ({ projet, actuelles, dépôtEnCours, historiqueDépôts, action }) => {
+  if (!actuelles && !dépôtEnCours && !historiqueDépôts.length && action) {
     return <AucuneGarantiesFinancières projet={projet} action={action} />;
   }
 
   return (
     <PageTemplate banner={<ProjetBanner {...projet} />}>
-      <TitrePageGarantiesFinancières />
+      <TitrePageGarantiesFinancières title="Détail des garanties financières" />
 
-      {actuelles && (
-        <GarantiesFinancièresActuelles
-          actuelles={actuelles}
-          identifiantProjet={projet.identifiantProjet}
-        />
+      {(actuelles || dépôtEnCours) && (
+        <div className="flex flex-col lg:flex-row gap-4">
+          {actuelles && (
+            <GarantiesFinancièresActuelles
+              actuelles={actuelles}
+              identifiantProjet={projet.identifiantProjet}
+            />
+          )}
+
+          {dépôtEnCours && (
+            <GarantiesFinancièresDépôtEnCours
+              dépôt={dépôtEnCours}
+              identifiantProjet={projet.identifiantProjet}
+            />
+          )}
+        </div>
       )}
 
-      {dépôts.length === 0 && action === 'soumettre' && (
+      {historiqueDépôts.length === 0 && action === "soumettre" && (
         <Alert
           severity="info"
           small
           description={
             <div className="p-3">
-              Vous pouvez{' '}
+              Vous pouvez{" "}
               <Link
-                href={Routes.GarantiesFinancières.soumettre(projet.identifiantProjet)}
+                href={Routes.GarantiesFinancières.dépôt.soumettre(
+                  projet.identifiantProjet
+                )}
                 className="font-semibold"
               >
                 soumettre de nouvelles garanties financières
-              </Link>{' '}
+              </Link>{" "}
               qui seront validées par l'autorité compétente
             </div>
           }
         />
       )}
 
-      {dépôts.length > 0 && (
-        <HistoriqueDesGarantiesFinancièresDéposées
+      {historiqueDépôts.length > 0 && (
+        <GarantiesFinancièresHistoriqueDépôts
           identifiantProjet={projet.identifiantProjet}
-          dépôts={dépôts}
+          dépôts={historiqueDépôts}
         />
       )}
     </PageTemplate>

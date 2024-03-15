@@ -31,23 +31,25 @@ const typesGarantiesFinancières: SoumettreGarantiesFinancièresProps['typesGara
   },
 ];
 
+const projet: SoumettreGarantiesFinancièresProps['projet'] = {
+  identifiantProjet: 'identifiantProjet#1',
+  appelOffre: 'Appel offre',
+  période: 'Période',
+  famille: 'Famille',
+  nom: 'Nom du projet',
+  dateDésignation: '2021-10-23',
+  localité: {
+    codePostal: 'XXXXX',
+    commune: 'Commune',
+    département: 'Département',
+    région: 'Région',
+  },
+  statut: 'classé',
+};
+
 export const Default: Story = {
   args: {
-    projet: {
-      identifiantProjet: 'identifiantProjet#1',
-      appelOffre: 'Appel offre',
-      période: 'Période',
-      famille: 'Famille',
-      nom: 'Nom du projet',
-      dateDésignation: '2021-10-23',
-      localité: {
-        codePostal: 'XXXXX',
-        commune: 'Commune',
-        département: 'Département',
-        région: 'Région',
-      },
-      statut: 'classé',
-    },
+    projet,
     typesGarantiesFinancières,
   },
 };
