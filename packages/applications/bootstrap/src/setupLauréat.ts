@@ -105,6 +105,7 @@ export const setupLauréat = async () => {
         "AttestationGarantiesFinancièresEnregistrée-V1",
         "GarantiesFinancièresEnregistrées-V1",
         "DateLimiteEnvoiGarantiesFinancièresSupprimée-V1",
+        "GarantiesFinancièresSupprimées-V1",
         "RebuildTriggered",
       ],
       eventHandler: async (event) => {

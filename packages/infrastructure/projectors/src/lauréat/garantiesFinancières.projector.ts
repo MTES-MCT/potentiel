@@ -297,6 +297,16 @@ export const register = () => {
             }
           );
           break;
+
+        case "GarantiesFinancièresSupprimées-V1":
+          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+            {
+              ...garantiesFinancièresToUpsert,
+              actuelles: undefined,
+            }
+          );
+          break;
       }
     }
   };

@@ -52,6 +52,10 @@ import {
   enregistrer,
 } from "./enregistrer/enregistrerGarantiesFinancières.behavior";
 import { DateLimiteEnvoiGarantiesFinancièresSuppriméeEvent } from "./corrigerErreursLegacy/supprimerDateLimiteEnvoiGarantiesFinancières.behavior";
+import {
+  GarantiesFinancièresSuppriméesEvent,
+  supprimer,
+} from "./supprimer/supprimerGarantiesFinancières.behavior";
 
 export type GarantiesFinancièresEvent =
   | DépôtGarantiesFinancièresSoumisEvent
@@ -63,7 +67,8 @@ export type GarantiesFinancièresEvent =
   | GarantiesFinancièresModifiéesEvent
   | AttestationGarantiesFinancièresEnregistréeEvent
   | GarantiesFinancièresEnregistréesEvent
-  | DateLimiteEnvoiGarantiesFinancièresSuppriméeEvent;
+  | DateLimiteEnvoiGarantiesFinancièresSuppriméeEvent
+  | GarantiesFinancièresSuppriméesEvent;
 
 export type GarantiesFinancièresAggregate =
   Aggregate<GarantiesFinancièresEvent> & {
@@ -91,6 +96,7 @@ export type GarantiesFinancièresAggregate =
     readonly modifier: typeof modifier;
     readonly enregistrerAttestation: typeof enregistrerAttestation;
     readonly enregistrer: typeof enregistrer;
+    readonly supprimer: typeof supprimer;
   };
 
 export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
@@ -107,6 +113,7 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   modifier,
   enregistrerAttestation,
   enregistrer,
+  supprimer,
 });
 
 function apply(
