@@ -1,7 +1,7 @@
-import { Entity } from '@potentiel-domain/core';
+import { Entity } from "@potentiel-domain/core";
 
 export type GarantiesFinancièresEntity = Entity<
-  'garanties-financieres',
+  "garanties-financieres",
   {
     identifiantProjet: string;
     nomProjet: string;
@@ -19,7 +19,7 @@ export type GarantiesFinancièresEntity = Entity<
       typeImportéLe?: string;
       dernièreMiseÀJour: {
         date: string;
-        par: string;
+        par?: string;
       };
     };
     dépôts: Array<{
