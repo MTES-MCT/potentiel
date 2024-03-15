@@ -214,7 +214,6 @@ Alors(
       const contenu = exemple["contenu du fichier"];
       const soumisPar = exemple["soumis par"];
 
-      console.log("HELLLLO");
       // ASSERT ON READ MODEL
       const actualReadModel =
         await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>(
