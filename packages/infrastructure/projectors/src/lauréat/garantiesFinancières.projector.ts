@@ -307,6 +307,31 @@ export const register = () => {
             }
           );
           break;
+
+        case "DateÉchéanceGarantiesFinancièresSupprimée-V1":
+          if (!garantiesFinancièresToUpsert.actuelles) {
+            getLogger().error(
+              new Error(
+                `garanties financières non trouvées, impossible d'effectuer une modification`
+              ),
+              {
+                identifiantProjet,
+                message: event,
+              }
+            );
+            return;
+          }
+          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+            {
+              ...garantiesFinancièresToUpsert,
+              actuelles: {
+                ...garantiesFinancièresToUpsert.actuelles,
+                dateÉchéance: undefined,
+              },
+            }
+          );
+          break;
       }
     }
   };

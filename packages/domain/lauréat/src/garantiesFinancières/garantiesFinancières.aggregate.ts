@@ -56,6 +56,7 @@ import {
   GarantiesFinancièresSuppriméesEvent,
   supprimer,
 } from "./supprimer/supprimerGarantiesFinancières.behavior";
+import { DateÉchéanceGarantiesFinancièresSuppriméeEvent } from "./corrigerErreursLegacy/supprimerDateÉchéanceGarantiesFinancières.behavior";
 
 export type GarantiesFinancièresEvent =
   | DépôtGarantiesFinancièresSoumisEvent
@@ -68,7 +69,8 @@ export type GarantiesFinancièresEvent =
   | AttestationGarantiesFinancièresEnregistréeEvent
   | GarantiesFinancièresEnregistréesEvent
   | DateLimiteEnvoiGarantiesFinancièresSuppriméeEvent
-  | GarantiesFinancièresSuppriméesEvent;
+  | GarantiesFinancièresSuppriméesEvent
+  | DateÉchéanceGarantiesFinancièresSuppriméeEvent;
 
 export type GarantiesFinancièresAggregate =
   Aggregate<GarantiesFinancièresEvent> & {
