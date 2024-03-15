@@ -34,8 +34,8 @@ begin
                     WHEN es.type = 'GarantiesFinancièresValidées' THEN 'DépôtGarantiesFinancièresEnCoursValidé-V1'
                     -- WHEN es.type = 'GarantiesFinancièresInvalidées' THEN ''
                     -- event manquant pour GarantiesFinancièresInvalidées : sur 10 occurrence, 9 GF ont été revalidées ensuite, on peut ignorer cet event et faire une correction manuelle post migration pour le seul cas réel
-                    WHEN es.type = 'ProjectGFUploaded' THEN 'GarantiesFinancièresEnregistrées-V1',
-                    WHEN es.type = 'ProjectGFWithdrawn' THEN ''-- event manquant : à ajouter
+                    WHEN es.type = 'ProjectGFUploaded' THEN 'GarantiesFinancièresEnregistrées-V1'
+                    WHEN es.type = 'ProjectGFWithdrawn' THEN 'GarantiesFinancièresSupprimées-V1'
                     WHEN es.type = 'TypeGarantiesFinancièresEtDateEchéanceTransmis' THEN 'TypeGarantiesFinancièresImporté-V1'
                     WHEN es.type = 'DateEchéanceGFAjoutée' THEN 'TypeGarantiesFinancièresImporté-V1'
                     WHEN es.type = 'DateEchéanceGarantiesFinancièresSupprimée' THEN '' -- event manquant : à ajouter
@@ -71,14 +71,14 @@ begin
                     WHEN es.type = 'ProjectGFRemoved' THEN json_build_object(
                         'identifiantProjet', identifiantProjet,
                         'suppriméLe', es."occurredAt",
-                        'suppriméPar', es.payload->>'removedBy'
+                        'suppriméPar', users.email
                         )
                     WHEN es.type = 'GarantiesFinancièresValidées' THEN json_build_object(
                         'identifiantProjet', identifiantProjet,
                         'validéLe': es."occurredAt",
                         'validéPar': users.email
                     )
-                    WHEN es.type = 'GarantiesFinancièresInvalidées' THEN json_build_object() -- event manquant
+                    --WHEN es.type = 'GarantiesFinancièresInvalidées' THEN json_build_object() -- event manquant
                     WHEN es.type = 'ProjectGFUploaded' THEN json_build_object(
                         'attestation', json_build_object('format', 
                             case
@@ -87,27 +87,31 @@ begin
                                 when substring("storedAt" from '\.([^.]*)$') = 'pdf' then 'application/pdf'
                                 when substring("storedAt" from '\.([^.]*)$') = 'PDF' then 'application/pdf'
                             end
-                            ),                         'dateConstitution', es.payload->>'gfDate',
+                            ),                         
+                        'dateConstitution', es.payload->>'gfDate',
                         'identifiantProjet', identifiantProjet,
                         'type', 'type-inconnu',
                         'dateÉchéance', es.payload->>'expirationDate',
                         'enregistréLe', es."occurredAt",
                         'enregistréPar', users.email
                     )
-                    WHEN es.type = 'ProjectGFWithdrawn' THEN json_build_object() -- event manquant
+                    WHEN es.type = 'ProjectGFWithdrawn' THEN json_build_object(
+                        'identifiantProjet', identifiantProjet,
+                        'suppriméLe', es."occurredAt"
+                        'suppriméPar', users.email
+                    )
                     WHEN es.type = 'TypeGarantiesFinancièresEtDateEchéanceTransmis' THEN json_build_object(
                         'identifiantProjet', identifiantProjet,
                         'type', es.payload->>'type',
                         'dateÉchéance', s.payload->>'dateEchéance',
                         'importéLe', es."occurredAt",
-                        -- importéPar doit être optionnel dans l'event
                     ) 
                     WHEN es.type = 'DateEchéanceGFAjoutée' THEN json_build_object(
                         'identifiantProjet', identifiantProjet,
                         'type', 'type-inconnu',
                         'dateÉchéance', s.payload->>'expirationDate',
                         'importéLe', es."occurredAt",
-                        'importéPar', es.payload->>'submittedBy'
+                        'importéPar', users.email
                     ) 
                     WHEN es.type = 'DateEchéanceGarantiesFinancièresSupprimée' THEN json_build_object() -- à revérifier mais pour le moment cet event n'a pas encore été émis
                     WHEN es.type = 'EtapeGFSupprimée' THEN json_build_object() -- event manquant
@@ -115,7 +119,12 @@ begin
             FROM 
                 eventStores es
             JOIN files ON es.payload->>'fileId' = files.id::text
-            JOIN users ON (es.payload->>'submittedBy' = users.id::text OR es.payload->>'validéesPar' = users.id::text)   
+            JOIN users ON 
+                        (
+                            es.payload->>'submittedBy' = users.id::text 
+                            OR es.payload->>'validéesPar' = users.id::text
+                            OR es.payload->>'removedBy' = users.id::text
+                        )   
             WHERE 
                 (es.payload->>'projetId' = projet.id OR es.payload->>'projectId' = projet.id) 
                 AND es.type IN (

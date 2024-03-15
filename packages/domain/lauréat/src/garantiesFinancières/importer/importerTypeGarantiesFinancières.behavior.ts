@@ -1,20 +1,20 @@
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import { DateTime, IdentifiantProjet } from "@potentiel-domain/common";
+import { DomainEvent } from "@potentiel-domain/core";
 
-import { TypeGarantiesFinancières } from '..';
-import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { DateÉchéanceManquante } from '../dateÉchéanceManquante.error';
-import { DateÉchéanceNonAttendue } from '../dateÉchéanceNonAttendue.error';
+import { TypeGarantiesFinancières } from "..";
+import { GarantiesFinancièresAggregate } from "../garantiesFinancières.aggregate";
+import { IdentifiantUtilisateur } from "@potentiel-domain/utilisateur";
+import { DateÉchéanceManquante } from "../dateÉchéanceManquante.error";
+import { DateÉchéanceNonAttendue } from "../dateÉchéanceNonAttendue.error";
 
 export type TypeGarantiesFinancièresImportéEvent = DomainEvent<
-  'TypeGarantiesFinancièresImporté-V1',
+  "TypeGarantiesFinancièresImporté-V1",
   {
     identifiantProjet: IdentifiantProjet.RawType;
     type: TypeGarantiesFinancières.RawType;
     dateÉchéance?: DateTime.RawType;
     importéLe: DateTime.RawType;
-    importéPar: IdentifiantUtilisateur.RawType;
+    importéPar?: IdentifiantUtilisateur.RawType;
   }
 >;
 
@@ -28,7 +28,7 @@ export type Options = {
 
 export async function importerType(
   this: GarantiesFinancièresAggregate,
-  { identifiantProjet, type, dateÉchéance, importéLe, importéPar }: Options,
+  { identifiantProjet, type, dateÉchéance, importéLe, importéPar }: Options
 ) {
   if (type.estAvecDateÉchéance() && !dateÉchéance) {
     throw new DateÉchéanceManquante();
@@ -37,7 +37,7 @@ export async function importerType(
     throw new DateÉchéanceNonAttendue();
   }
   const event: TypeGarantiesFinancièresImportéEvent = {
-    type: 'TypeGarantiesFinancièresImporté-V1',
+    type: "TypeGarantiesFinancièresImporté-V1",
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       type: type.type,
@@ -52,7 +52,9 @@ export async function importerType(
 
 export function applyTypeGarantiesFinancièresImporté(
   this: GarantiesFinancièresAggregate,
-  { payload: { type, dateÉchéance, importéLe } }: TypeGarantiesFinancièresImportéEvent,
+  {
+    payload: { type, dateÉchéance, importéLe },
+  }: TypeGarantiesFinancièresImportéEvent
 ) {
   this.actuelles = {
     type: TypeGarantiesFinancières.convertirEnValueType(type),
