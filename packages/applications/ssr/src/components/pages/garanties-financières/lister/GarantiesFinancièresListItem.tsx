@@ -1,7 +1,11 @@
-import { FC } from 'react';
-import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
+import { FC } from "react";
+import Badge, { BadgeProps } from "@codegouvfr/react-dsfr/Badge";
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from "@potentiel-libraries/routes";
+
+import { formatDateForText } from "@/utils/formatDateForText";
+
+import { DépôtStatut } from "../détails/components/GarantiesFinancièresHistoriqueDépôts";
 
 export type GarantiesFinancièresDépôtsEnCoursListItemProps = {
   identifiantProjet: string;
@@ -9,28 +13,27 @@ export type GarantiesFinancièresDépôtsEnCoursListItemProps = {
   appelOffre: string;
   période: string;
   famille?: string;
-  /**
-   * @todo utiliser un valuetype ici
-   */
-  statut: 'en attente' | 'à traiter' | 'validé';
+  statut: DépôtStatut;
+  type: string;
+  dateÉchéance?: string;
   misÀJourLe: string;
 };
 
 const GarantiesFinancièresStatusBadge = ({
   statut,
 }: {
-  statut: GarantiesFinancièresDépôtsEnCoursListItemProps['statut'];
+  statut: GarantiesFinancièresDépôtsEnCoursListItemProps["statut"];
 }) => {
   const getSeverity = (
-    statut: GarantiesFinancièresDépôtsEnCoursListItemProps['statut'],
-  ): BadgeProps['severity'] => {
+    statut: GarantiesFinancièresDépôtsEnCoursListItemProps["statut"]
+  ): BadgeProps["severity"] => {
     switch (statut) {
-      case 'en attente':
-        return 'new';
-      case 'à traiter':
-        return 'warning';
-      case 'validé':
-        return 'success';
+      case "en-cours":
+        return "new";
+      case "rejeté":
+        return "error";
+      case "validé":
+        return "success";
     }
   };
 
@@ -43,12 +46,24 @@ const GarantiesFinancièresStatusBadge = ({
 
 export const GarantiesFinancièresDépôtsEnCoursListItem: FC<
   GarantiesFinancièresDépôtsEnCoursListItemProps
-> = ({ identifiantProjet, nomProjet, appelOffre, période, famille, statut, misÀJourLe }) => (
+> = ({
+  identifiantProjet,
+  nomProjet,
+  appelOffre,
+  période,
+  famille,
+  statut,
+  misÀJourLe,
+  type,
+  dateÉchéance,
+}) => (
   <>
     <div>
       <div className="flex flex-col gap-1">
         <h2 className="leading-4">
-          Garanties financières du projet <span className="font-bold">{nomProjet}</span>
+          Garanties financières du projet{" "}
+          <span className="font-bold mr-3">{nomProjet}</span>{" "}
+          <GarantiesFinancièresStatusBadge statut={statut} />
         </h2>
         <div className="flex flex-col md:flex-row gap-2 md:gap-0 italic text-xs">
           <div>
@@ -63,16 +78,26 @@ export const GarantiesFinancièresDépôtsEnCoursListItem: FC<
             </div>
           )}
         </div>
-        <div className="flex flex-col md:flex-row gap-2 mt-3">
-          <Badge noIcon severity={'info'} small={true}>
-            En cours
-          </Badge>
-        </div>
+        <ul className="mt-3 text-sm">
+          <li>
+            Type : <span className="font-semibold">{type}</span>
+          </li>
+          {dateÉchéance && (
+            <li>
+              Date d'échéance :{" "}
+              <span className="font-semibold">
+                {formatDateForText(dateÉchéance)}
+              </span>
+            </li>
+          )}
+        </ul>
       </div>
     </div>
 
     <div className="flex flex-col justify-between mt-4 md:mt-0">
-      <p className="italic text-sm">dernière mise à jour le {misÀJourLe}</p>
+      <p className="italic text-xs">
+        dernière mise à jour le {formatDateForText(misÀJourLe)}
+      </p>
       <a
         href={Routes.GarantiesFinancières.détail(identifiantProjet)}
         className="self-end mt-2"

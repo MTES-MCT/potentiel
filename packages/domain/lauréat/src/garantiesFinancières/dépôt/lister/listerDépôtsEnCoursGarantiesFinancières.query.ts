@@ -42,6 +42,7 @@ export type ListerDépôtsEnCoursGarantiesFinancièresQuery = Message<
   "Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières",
   {
     appelOffre?: string;
+    pagination: { page: number; itemsPerPage: number };
   },
   ListerDépôtsEnCoursGarantiesFinancièresReadModel
 >;
@@ -55,12 +56,13 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
 }: ListerDépôtsEnCoursGarantiesFinancièresDependencies) => {
   const handler: MessageHandler<
     ListerDépôtsEnCoursGarantiesFinancièresQuery
-  > = async ({ appelOffre }) => {
+  > = async ({ appelOffre, pagination }) => {
     const result = await list<DépôtEnCoursGarantiesFinancièresEntity>({
       type: "depot-en-cours-garanties-financieres",
       where: {
         ...(appelOffre && { appelOffre }),
       },
+      pagination,
     });
 
     return {

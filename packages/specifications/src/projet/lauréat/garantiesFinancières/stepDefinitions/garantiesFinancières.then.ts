@@ -216,7 +216,9 @@ Alors(
         await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>(
           {
             type: "Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières",
-            data: {},
+            data: {
+              pagination: { page: 1, itemsPerPage: 10 },
+            },
           }
         );
 
