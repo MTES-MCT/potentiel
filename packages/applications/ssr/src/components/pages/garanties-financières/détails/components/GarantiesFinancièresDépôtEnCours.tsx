@@ -1,36 +1,46 @@
-import { FC } from 'react';
-import Link from 'next/link';
-import { fr } from '@codegouvfr/react-dsfr';
-import Download from '@codegouvfr/react-dsfr/Download';
+import { FC } from "react";
+import Download from "@codegouvfr/react-dsfr/Download";
+import Button from "@codegouvfr/react-dsfr/Button";
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from "@potentiel-libraries/routes";
 
-import { Heading2 } from '@/components/atoms/headings';
-import { CallOut } from '@/components/atoms/CallOut';
-import { formatDateForText } from '@/utils/formatDateForText';
+import { Heading2 } from "@/components/atoms/headings";
+import { CallOut } from "@/components/atoms/CallOut";
+import { formatDateForText } from "@/utils/formatDateForText";
 
-import { DépôtGarantiesFinancières } from './GarantiesFinancièresHistoriqueDépôts';
+import { DépôtGarantiesFinancières } from "./GarantiesFinancièresHistoriqueDépôts";
 
 type GarantiesFinancièresDépôtEnCoursProps = {
-  dépôt: DépôtGarantiesFinancières & { action?: 'modifier' };
+  dépôt: DépôtGarantiesFinancières & { action?: "modifier" | "instruire" };
   identifiantProjet: string;
 };
 
-export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépôtEnCoursProps> = ({
+export const GarantiesFinancièresDépôtEnCours: FC<
+  GarantiesFinancièresDépôtEnCoursProps
+> = ({
   identifiantProjet,
-  dépôt: { type, dateÉchéance, dateConstitution, attestation, action, dernièreMiseÀJour },
+  dépôt: {
+    type,
+    dateÉchéance,
+    dateConstitution,
+    attestation,
+    action,
+    dernièreMiseÀJour,
+  },
 }) => (
   <>
     <CallOut
       className="flex-1"
-      colorVariant={'info'}
+      colorVariant={"info"}
       content={
-        <>
+        <div className="flex flex-col h-full">
           <Heading2>Garanties financières en cours</Heading2>
           <div className="text-xs italic">
-            Dernière mise à jour le{' '}
-            <span className="font-semibold">{formatDateForText(dernièreMiseÀJour.date)}</span> par{' '}
-            <span className="font-semibold">{dernièreMiseÀJour.par}</span>
+            Dernière mise à jour le{" "}
+            <span className="font-semibold">
+              {formatDateForText(dernièreMiseÀJour.date)}
+            </span>{" "}
+            par <span className="font-semibold">{dernièreMiseÀJour.par}</span>
           </div>
           <div className="mt-5 gap-2 text-base">
             <div>
@@ -38,14 +48,18 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
             </div>
             {dateÉchéance && (
               <div>
-                Date d'échéance :{' '}
-                <span className="font-semibold">{formatDateForText(dateÉchéance)}</span>
+                Date d'échéance :{" "}
+                <span className="font-semibold">
+                  {formatDateForText(dateÉchéance)}
+                </span>
               </div>
             )}
             {dateConstitution && (
               <div>
-                Date de constitution :{' '}
-                <span className="font-semibold">{formatDateForText(dateConstitution)}</span>
+                Date de constitution :{" "}
+                <span className="font-semibold">
+                  {formatDateForText(dateConstitution)}
+                </span>
               </div>
             )}
             <div>
@@ -53,21 +67,27 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
                 <Download
                   details="fichier au format pdf"
                   label="Télécharger l'attestation"
-                  linkProps={{ href: Routes.Document.télécharger(attestation), target: '_blank' }}
+                  linkProps={{
+                    href: Routes.Document.télécharger(attestation),
+                    target: "_blank",
+                  }}
                 />
               )}
             </div>
           </div>
           {action && (
-            <Link
-              className="flex md:max-w-lg w-fit"
-              href={Routes.GarantiesFinancières.dépôt.modifier(identifiantProjet)}
+            <Button
+              className="mt-auto w-fit"
+              linkProps={{
+                href: Routes.GarantiesFinancières.dépôt.modifier(
+                  identifiantProjet
+                ),
+              }}
             >
-              <i className={`${fr.cx('ri-pencil-line')} mr-1`} aria-hidden />
-              Modifier
-            </Link>
+              {action.charAt(0).toUpperCase() + action.slice(1)}
+            </Button>
           )}
-        </>
+        </div>
       }
     />
   </>
