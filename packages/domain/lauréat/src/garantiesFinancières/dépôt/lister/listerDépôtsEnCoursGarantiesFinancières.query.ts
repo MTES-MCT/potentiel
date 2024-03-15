@@ -1,14 +1,14 @@
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { List } from '@potentiel-domain/core';
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { DateTime, IdentifiantProjet } from "@potentiel-domain/common";
+import { List } from "@potentiel-domain/core";
+import { Message, MessageHandler, mediator } from "mediateur";
 import {
   TypeGarantiesFinancières,
   StatutDépôtGarantiesFinancières,
   DépôtEnCoursGarantiesFinancièresEntity,
   TypeDocumentGarantiesFinancières,
-} from '../..';
-import { DocumentProjet } from '@potentiel-domain/document';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+} from "../..";
+import { DocumentProjet } from "@potentiel-domain/document";
+import { IdentifiantUtilisateur } from "@potentiel-domain/utilisateur";
 
 type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -39,7 +39,7 @@ export type ListerDépôtsEnCoursGarantiesFinancièresReadModel = {
 };
 
 export type ListerDépôtsEnCoursGarantiesFinancièresQuery = Message<
-  'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
+  "Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières",
   {
     appelOffre?: string;
   },
@@ -53,11 +53,11 @@ export type ListerDépôtsEnCoursGarantiesFinancièresDependencies = {
 export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
   list,
 }: ListerDépôtsEnCoursGarantiesFinancièresDependencies) => {
-  const handler: MessageHandler<ListerDépôtsEnCoursGarantiesFinancièresQuery> = async ({
-    appelOffre,
-  }) => {
+  const handler: MessageHandler<
+    ListerDépôtsEnCoursGarantiesFinancièresQuery
+  > = async ({ appelOffre }) => {
     const result = await list<DépôtEnCoursGarantiesFinancièresEntity>({
-      type: 'depot-en-cours-garanties-financieres',
+      type: "depot-en-cours-garanties-financieres",
       where: {
         ...(appelOffre && { appelOffre }),
       },
@@ -69,8 +69,8 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
     };
   };
   mediator.register(
-    'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
-    handler,
+    "Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières",
+    handler
   );
 };
 
@@ -83,7 +83,7 @@ const mapToReadModel = ({
   famille,
   dépôt,
 }: DépôtEnCoursGarantiesFinancièresEntity): DépôtEnCoursGarantiesFinancièresListItemReadModel => ({
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(nomProjet),
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
   appelOffre,
   période,
@@ -100,12 +100,14 @@ const mapToReadModel = ({
       identifiantProjet,
       TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
       dépôt.dateConstitution,
-      dépôt.attestation.format,
+      dépôt.attestation.format
     ),
     soumisLe: DateTime.convertirEnValueType(dépôt.soumisLe),
     dernièreMiseÀJour: {
       date: DateTime.convertirEnValueType(dépôt.dernièreMiseÀJour.date),
-      par: IdentifiantUtilisateur.convertirEnValueType(dépôt.dernièreMiseÀJour.par),
+      par: IdentifiantUtilisateur.convertirEnValueType(
+        dépôt.dernièreMiseÀJour.par
+      ),
     },
   },
 });

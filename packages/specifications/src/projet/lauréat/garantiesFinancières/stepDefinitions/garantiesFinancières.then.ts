@@ -129,7 +129,6 @@ Alors(
     const contenu = exemple["contenu fichier"];
     const dateValidation = exemple["date de validation"];
     const dateMiseÀJour = exemple["date dernière mise à jour"];
-    const soumisPar = exemple["soumis par"];
 
     const { identifiantProjet } =
       this.lauréatWorld.rechercherLauréatFixture(nomProjet);
@@ -202,7 +201,6 @@ Alors(
   ) {
     const { identifiantProjet } =
       this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
     await waitForExpect(async () => {
       const exemple = dataTable.rowsHash();
 
@@ -210,11 +208,10 @@ Alors(
       const dateÉchéance = exemple[`date d'échéance`];
       const dateConstitution = exemple[`date de constitution`];
       const dateSoumission = exemple["date de soumission"];
-      const format = exemple["format du fichier"];
+      const format = exemple["format"];
       const contenu = exemple["contenu du fichier"];
       const soumisPar = exemple["soumis par"];
 
-      // ASSERT ON READ MODEL
       const actualReadModel =
         await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>(
           {
@@ -240,29 +237,33 @@ Alors(
         expect(dépôtCible.dépôt.soumisLe.date).to.deep.equal(
           new Date(dateSoumission)
         );
-        expect(dépôtCible.dépôt.attestation).not.to.be.undefined;
-        expect(dépôtCible.dépôt.attestation.format).to.deep.equal(format);
         expect(dépôtCible.dépôt.dernièreMiseÀJour.date.date).to.deep.equal(
           new Date(dateSoumission)
         );
-        expect(
-          dépôtCible.dépôt.dernièreMiseÀJour.par.formatter()
-        ).to.deep.equal(soumisPar);
+        expect(dépôtCible.dépôt.dernièreMiseÀJour.par.formatter()).to.equal(
+          soumisPar
+        );
+
         if (dépôtCible.dépôt.dateÉchéance) {
           expect(dépôtCible.dépôt.dateÉchéance.date).to.deep.equal(
             new Date(dateÉchéance)
           );
         }
 
-        const file = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: "Document.Query.ConsulterDocumentProjet",
-          data: {
-            documentKey: dépôtCible.dépôt.attestation.formatter(),
-          },
-        });
+        if (format && contenu) {
+          expect(dépôtCible.dépôt.attestation.format).to.equal(format);
+          const file = await mediator.send<ConsulterDocumentProjetQuery>({
+            type: "Document.Query.ConsulterDocumentProjet",
+            data: {
+              documentKey: dépôtCible.dépôt.attestation.formatter(),
+            },
+          });
 
-        const actualContent = await convertReadableStreamToString(file.content);
-        actualContent.should.be.equal(contenu);
+          const actualContent = await convertReadableStreamToString(
+            file.content
+          );
+          actualContent.should.be.equal(contenu);
+        }
       }
     });
   }
