@@ -38,8 +38,9 @@ begin
                     WHEN es.type = 'ProjectGFWithdrawn' THEN 'GarantiesFinancièresSupprimées-V1'
                     WHEN es.type = 'TypeGarantiesFinancièresEtDateEchéanceTransmis' THEN 'TypeGarantiesFinancièresImporté-V1'
                     WHEN es.type = 'DateEchéanceGFAjoutée' THEN 'TypeGarantiesFinancièresImporté-V1'
-                    WHEN es.type = 'DateEchéanceGarantiesFinancièresSupprimée' THEN '' -- event manquant : à ajouter
-                    WHEN es.type = 'EtapeGFSupprimée' THEN ''-- event manquant : 15 occurrences, on peut archiver les events correspondants après première migration
+                    WHEN es.type = 'DateEchéanceGarantiesFinancièresSupprimée' THEN 'TypeGarantiesFinancièresImporté-V1'
+                    -- WHEN es.type = 'EtapeGFSupprimée' THEN ''
+                    -- event manquant : 15 occurrences, on peut archiver les events correspondants après première migration
                 END,    
                 1 -- vérifier si on met bien 1 partout
                 CASE    
@@ -78,7 +79,7 @@ begin
                         'validéLe': es."occurredAt",
                         'validéPar': users.email
                     )
-                    --WHEN es.type = 'GarantiesFinancièresInvalidées' THEN json_build_object() -- event manquant
+                    --WHEN es.type = 'GarantiesFinancièresInvalidées' THEN json_build_object()
                     WHEN es.type = 'ProjectGFUploaded' THEN json_build_object(
                         'attestation', json_build_object('format', 
                             case
@@ -113,8 +114,11 @@ begin
                         'importéLe', es."occurredAt",
                         'importéPar', users.email
                     ) 
-                    WHEN es.type = 'DateEchéanceGarantiesFinancièresSupprimée' THEN json_build_object() -- à revérifier mais pour le moment cet event n'a pas encore été émis
-                    WHEN es.type = 'EtapeGFSupprimée' THEN json_build_object() -- event manquant
+                    WHEN es.type = 'DateEchéanceGarantiesFinancièresSupprimée' THEN json_build_object(
+                        'identifiantProjet', identifiantProjet,
+                        'suppriméLe', es."occurredAt"
+                    ) 
+                    -- WHEN es.type = 'EtapeGFSupprimée' THEN json_build_object()
                 END,    
             FROM 
                 eventStores es
@@ -133,13 +137,13 @@ begin
                                 'ProjectGFSubmitted', 
                                 'ProjectGFRemoved', 
                                 'GarantiesFinancièresValidées', 
-                                'GarantiesFinancièresInvalidées', 
+                                --'GarantiesFinancièresInvalidées', 
                                 'ProjectGFUploaded',
                                 'ProjectGFWithdrawn', 
                                 'TypeGarantiesFinancièresEtDateEchéanceTransmis', 
                                 'DateEchéanceGFAjoutée', 
                                 'DateEchéanceGarantiesFinancièresSupprimée', 
-                                'EtapeGFSupprimée'
+                                --'EtapeGFSupprimée'
                                 ); 
     end loop;
 end;
