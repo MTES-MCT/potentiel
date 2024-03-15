@@ -1,13 +1,14 @@
-import { Middleware, mediator } from 'mediateur';
-import { setupLauréat } from './setupLauréat';
-import { getLogger } from '@potentiel/monitoring';
-import { setupCandidature } from './setupCandidature';
-import { setupDocumentProjet } from './setupDocumentProjet';
-import { setupAppelOffre } from './setupAppelOffre';
-import { setupTâche } from './setupTâche';
-import { setupUtilisateur } from './setupUtilisateur';
-import { setupRéseau } from './setupRéseau';
-import { logMiddleware } from './middlewares/log.middleware';
+import { Middleware, mediator } from "mediateur";
+import { setupLauréat } from "./setupLauréat";
+import { getLogger } from "@potentiel/monitoring";
+import { setupCandidature } from "./setupCandidature";
+import { setupDocumentProjet } from "./setupDocumentProjet";
+import { setupAppelOffre } from "./setupAppelOffre";
+import { setupTâche } from "./setupTâche";
+import { setupUtilisateur } from "./setupUtilisateur";
+import { setupRéseau } from "./setupRéseau";
+import { logMiddleware } from "./middlewares/log.middleware";
+import { delayMiddleware } from "./middlewares/delay.middleware";
 
 export const bootstrap = async ({
   middlewares,
@@ -15,7 +16,7 @@ export const bootstrap = async ({
   middlewares: Array<Middleware>;
 }): Promise<() => Promise<void>> => {
   mediator.use({
-    middlewares: [logMiddleware, ...middlewares],
+    middlewares: [logMiddleware, delayMiddleware, ...middlewares],
   });
 
   setupAppelOffre();
@@ -27,7 +28,7 @@ export const bootstrap = async ({
   const unsetupLauréat = await setupLauréat();
   const unsetupGestionnaireRéseau = await setupRéseau();
 
-  getLogger().info('Application bootstrapped');
+  getLogger().info("Application bootstrapped");
 
   return async () => {
     await unsetupLauréat();
