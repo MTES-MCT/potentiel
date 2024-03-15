@@ -28,11 +28,12 @@ begin
                 es.occurredAt, 
                 CASE 
                     WHEN es.type = 'ProjectGFDueDateSet' THEN 'GarantiesFinancièresDemandées-V1'
-                    WHEN es.type = 'ProjectGFDueDateCancelled' THEN ''-- event manquant : à ajouter (189 occurrences)
+                    WHEN es.type = 'ProjectGFDueDateCancelled' THEN 'DateLimiteEnvoiGarantiesFinancièresSupprimée-V1'
                     WHEN es.type = 'ProjectGFSubmitted' THEN 'DépôtGarantiesFinancièresSoumis-V1'
                     WHEN es.type = 'ProjectGFRemoved' THEN 'DépôtGarantiesFinancièresEnCoursSupprimé-V1'
                     WHEN es.type = 'GarantiesFinancièresValidées' THEN 'DépôtGarantiesFinancièresEnCoursValidé-V1'
-                    WHEN es.type = 'GarantiesFinancièresInvalidées' THEN ''-- event manquant : sur 10 occurrence, 9 GF ont été revalidées ensuite, on peut ignorer cet event et faire une correction manuelle pour le seul cas réel
+                    -- WHEN es.type = 'GarantiesFinancièresInvalidées' THEN ''
+                    -- event manquant pour GarantiesFinancièresInvalidées : sur 10 occurrence, 9 GF ont été revalidées ensuite, on peut ignorer cet event et faire une correction manuelle post migration pour le seul cas réel
                     WHEN es.type = 'ProjectGFUploaded' THEN 'GarantiesFinancièresEnregistrées-V1',
                     WHEN es.type = 'ProjectGFWithdrawn' THEN ''-- event manquant : à ajouter
                     WHEN es.type = 'TypeGarantiesFinancièresEtDateEchéanceTransmis' THEN 'TypeGarantiesFinancièresImporté-V1'
@@ -47,7 +48,10 @@ begin
                         'dateLimiteSoumission', es.payload->>'garantiesFinancieresDueOn', 
                         'demandéLe', es."occurredAt"
                         )
-                    WHEN es.type = 'ProjectGFDueDateCancelled' THEN json_build_object() -- event manquant
+                    WHEN es.type = 'ProjectGFDueDateCancelled' THEN json_build_object(
+                        'identifiantProjet', identifiantProjet,
+                        'suppriméLe', es."occurredAt"
+                    ) 
                     WHEN es.type = 'ProjectGFSubmitted' THEN json_build_object(
                         'identifiantProjet', identifiantProjet,
                         'type', 'type-inconnu',
