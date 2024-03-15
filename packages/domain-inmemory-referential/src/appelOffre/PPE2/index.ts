@@ -4,4 +4,4 @@ export * from "./ppe2.eolien";
 export * from "./ppe2.innovation";
 export * from "./ppe2.neutre";
 export * from "./ppe2.sol";
-export * from "./ppe2.biogaz";
+export * from "./ppe2.biométhane";

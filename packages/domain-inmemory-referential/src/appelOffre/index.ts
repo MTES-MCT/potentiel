@@ -19,7 +19,7 @@ import {
   neutrePPE2,
   innovationPPE2,
   autoconsommationMetropolePPE2,
-  biogazPPE2,
+  biométhanePPE2,
 } from "./PPE2";
 
 export const appelsOffreData = [
@@ -41,5 +41,5 @@ export const appelsOffreData = [
   neutrePPE2,
   innovationPPE2,
   autoconsommationMetropolePPE2,
-  biogazPPE2,
+  biométhanePPE2,
 ];
