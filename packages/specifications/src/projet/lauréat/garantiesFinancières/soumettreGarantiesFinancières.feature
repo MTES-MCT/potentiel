@@ -24,6 +24,13 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | date de constitution | <date de constitution> |
             | date de soumission   | 2023-10-01             |
             | soumis par           | porteur@test.test      |
+        Et test "projet" avec :
+            | type                 | consignation          |
+            | date d'échéance      | 2027-12-01            |
+            | format               | application/pdf       |
+            | contenu fichier      | contenu               |
+            | date de constitution | 2023-01-01            |
+            | date de soumission   | 2023-10-01            |
         Et les garanties financières devraient être consultable dans la liste des dépôts en cours pour le projet "Centrale PV" avec :
             | type                 | <type>                 |
             | date d'échéance      | <date d'échéance>      |

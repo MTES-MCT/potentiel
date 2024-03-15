@@ -1,15 +1,15 @@
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, NotFoundError } from '@potentiel-domain/core';
+import { DateTime, IdentifiantProjet } from "@potentiel-domain/common";
+import { DomainEvent, NotFoundError } from "@potentiel-domain/core";
 
-import { TypeGarantiesFinancières } from '..';
-import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
-import { DateÉchéanceManquante } from '../dateÉchéanceManquante.error';
-import { DateÉchéanceNonAttendue } from '../dateÉchéanceNonAttendue.error';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { DateConstitutionDansLeFutur } from '../dateConstitutionDansLeFutur.error';
+import { TypeGarantiesFinancières } from "..";
+import { GarantiesFinancièresAggregate } from "../garantiesFinancières.aggregate";
+import { DateÉchéanceManquanteError } from "../dateÉchéanceManquante.error";
+import { DateÉchéanceNonAttendueError } from "../dateÉchéanceNonAttendue.error";
+import { IdentifiantUtilisateur } from "@potentiel-domain/utilisateur";
+import { DateConstitutionDansLeFuturError } from "../dateConstitutionDansLeFutur.error";
 
 export type GarantiesFinancièresEnregistréesEvent = DomainEvent<
-  'GarantiesFinancièresEnregistrées-V1',
+  "GarantiesFinancièresEnregistrées-V1",
   {
     identifiantProjet: IdentifiantProjet.RawType;
     type: TypeGarantiesFinancières.RawType;
@@ -41,23 +41,23 @@ export async function enregistrer(
     dateÉchéance,
     enregistréLe,
     enregistréPar,
-  }: Options,
+  }: Options
 ) {
   if (this.actuelles) {
     throw new GarantiesFinancièresDéjàEnregistréesError();
   }
   if (type.estAvecDateÉchéance() && !dateÉchéance) {
-    throw new DateÉchéanceManquante();
+    throw new DateÉchéanceManquanteError();
   }
   if (!type.estAvecDateÉchéance() && dateÉchéance) {
-    throw new DateÉchéanceNonAttendue();
+    throw new DateÉchéanceNonAttendueError();
   }
   if (dateConstitution.estDansLeFutur()) {
-    throw new DateConstitutionDansLeFutur();
+    throw new DateConstitutionDansLeFuturError();
   }
 
   const event: GarantiesFinancièresEnregistréesEvent = {
-    type: 'GarantiesFinancièresEnregistrées-V1',
+    type: "GarantiesFinancièresEnregistrées-V1",
     payload: {
       attestation: { format: attestation.format },
       dateConstitution: dateConstitution.formatter(),
@@ -76,7 +76,7 @@ export function applyEnregistrerGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
   {
     payload: { type, dateÉchéance, dateConstitution, attestation },
-  }: GarantiesFinancièresEnregistréesEvent,
+  }: GarantiesFinancièresEnregistréesEvent
 ) {
   this.actuelles = {
     type: TypeGarantiesFinancières.convertirEnValueType(type),
