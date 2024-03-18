@@ -14,6 +14,7 @@ import { bootstrap } from '@potentiel-application/bootstrap';
 import next from 'next';
 import { registerSagas } from './sagas/registerSagas';
 import { permissionMiddleware } from '@potentiel-domain/utilisateur';
+import { readFile } from 'node:fs/promises';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -135,12 +136,32 @@ export async function makeServer(port: number, sessionSecret: string) {
     await nextApp.prepare();
 
     await bootstrap({ middlewares: [permissionMiddleware] });
-    app.listen(port, () => {
-      process.env.start_datetime = new Date().getTime().toString();
-      logger.info(`Server listening on port ${port}!`);
-      logger.info(`APPLICATION_STAGE is ${process.env.APPLICATION_STAGE}`);
-      logger.info(`Version ${process.env.npm_package_version}`);
-    });
+
+    if (!process.env.MAINTENANCE_MODE) {
+      app.listen(port, () => {
+        process.env.start_datetime = new Date().getTime().toString();
+        logger.info(`Server listening on port ${port}!`);
+        logger.info(`APPLICATION_STAGE is ${process.env.APPLICATION_STAGE}`);
+        logger.info(`Version ${process.env.npm_package_version}`);
+      });
+    } else {
+      const maintenanceHTML = await readFile(join(__dirname, 'views', 'maintenance.html'), {
+        encoding: 'utf-8',
+      });
+      const maintenanceApp = express();
+      maintenanceApp.use(express.static(path.join(__dirname, 'public')));
+      maintenanceApp.get('*', (req, res) => {
+        res.send(maintenanceHTML);
+      });
+
+      maintenanceApp.listen(port, () => {
+        process.env.start_datetime = new Date().getTime().toString();
+        logger.info(`Server listening on port ${port}!`);
+        logger.info(`APPLICATION_STAGE is ${process.env.APPLICATION_STAGE}`);
+        logger.info(`Version ${process.env.npm_package_version}`);
+        logger.info(`Maintenance mode enabled`);
+      });
+    }
     ///////
   } catch (error) {
     logger.error(error);
