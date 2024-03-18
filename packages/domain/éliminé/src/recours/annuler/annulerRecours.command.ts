@@ -1,12 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { Message, MessageHandler, mediator } from "mediateur";
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { LoadAggregate } from '@potentiel-domain/core';
-import { loadRecoursFactory } from '../recours.aggregate';
+import { DateTime, IdentifiantProjet } from "@potentiel-domain/common";
+import { IdentifiantUtilisateur } from "@potentiel-domain/utilisateur";
+import { LoadAggregate } from "@potentiel-domain/core";
+import { loadRecoursFactory } from "../recours.aggregate";
 
 export type AnnulerRecoursCommand = Message<
-  'ANNULER_RECOURS_COMMAND',
+  "Eliminé.Recours.Command.Annuler",
   {
     dateAnnulation: DateTime.ValueType;
     identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
@@ -29,5 +29,5 @@ export const registerAnnulerRecoursCommand = (loadAggregate: LoadAggregate) => {
       identifiantUtilisateur,
     });
   };
-  mediator.register('ANNULER_RECOURS_COMMAND', handler);
+  mediator.register("Eliminé.Recours.Command.Annuler", handler);
 };

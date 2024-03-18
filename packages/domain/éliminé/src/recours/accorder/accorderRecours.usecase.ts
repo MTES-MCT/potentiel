@@ -1,17 +1,20 @@
 // Third party
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { Message, MessageHandler, mediator } from "mediateur";
 
 // Workspaces
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+import { DateTime, IdentifiantProjet } from "@potentiel-domain/common";
+import { IdentifiantUtilisateur } from "@potentiel-domain/utilisateur";
+import {
+  DocumentProjet,
+  EnregistrerDocumentProjetCommand,
+} from "@potentiel-domain/document";
 
 // Package
-import { AccorderRecoursCommand } from './accorderRecours.command';
-import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
+import { AccorderRecoursCommand } from "./accorderRecours.command";
+import * as TypeDocumentRecours from "../typeDocumentRecours.valueType";
 
 export type AccorderRecoursUseCase = Message<
-  'ACCORDER_RECOURS_USECASE',
+  "Eliminé.Recours.UseCase.Accorder",
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
@@ -34,17 +37,19 @@ export const registerAccorderRecoursUseCase = () => {
       identifiantProjetValue,
       TypeDocumentRecours.recoursAccordé.formatter(),
       dateAccordValue,
-      format,
+      format
     );
 
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+      identifiantProjetValue
+    );
     const dateAccord = DateTime.convertirEnValueType(dateAccordValue);
     const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
-      identifiantUtilisateurValue,
+      identifiantUtilisateurValue
     );
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
+      type: "Document.Command.EnregistrerDocumentProjet",
       data: {
         content,
         documentProjet: réponseSignée,
@@ -52,7 +57,7 @@ export const registerAccorderRecoursUseCase = () => {
     });
 
     await mediator.send<AccorderRecoursCommand>({
-      type: 'ACCORDER_RECOURS_COMMAND',
+      type: "Eliminé.Recours.Command.Accorder",
       data: {
         dateAccord,
         identifiantUtilisateur,
@@ -61,5 +66,5 @@ export const registerAccorderRecoursUseCase = () => {
       },
     });
   };
-  mediator.register('ACCORDER_RECOURS_USECASE', runner);
+  mediator.register("Eliminé.Recours.UseCase.Accorder", runner);
 };
