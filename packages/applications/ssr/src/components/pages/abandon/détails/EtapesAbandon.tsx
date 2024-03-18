@@ -1,23 +1,24 @@
-'use client';
+"use client";
 
-import Alert from '@codegouvfr/react-dsfr/Alert';
-import Download from '@codegouvfr/react-dsfr/Download';
-import { FC } from 'react';
-import Link from 'next/link';
+import Alert from "@codegouvfr/react-dsfr/Alert";
+import Download from "@codegouvfr/react-dsfr/Download";
+import { FC } from "react";
+import Link from "next/link";
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from "@potentiel-libraries/routes";
 
-import { displayDate } from '@/utils/displayDate';
-import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
+import { displayDate } from "@/utils/displayDate";
+import { Timeline, TimelineProps } from "@/components/organisms/Timeline";
 
-import { StatutPreuveRecandidatureBadgeProps } from './PreuveRecandidatureStatutBadge';
+import { StatutPreuveRecandidatureBadgeProps } from "./PreuveRecandidatureStatutBadge";
 
 export type EtapesAbandonProps = {
   demande: {
     demandéPar: string;
     demandéLe: string;
+    lienRecandidature?: string;
     recandidature: boolean;
-    preuveRecandidatureStatut: StatutPreuveRecandidatureBadgeProps['statut'];
+    preuveRecandidatureStatut: StatutPreuveRecandidatureBadgeProps["statut"];
     preuveRecandidature?: string;
     preuveRecandidatureTransmiseLe?: string;
     preuveRecandidatureTransmisePar?: string;
@@ -39,6 +40,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
   demande: {
     demandéLe,
     demandéPar,
+    lienRecandidature,
     recandidature,
     raison,
     pièceJustificative: justificatifDemande,
@@ -51,31 +53,45 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
   accord,
   rejet,
 }) => {
-  const items: TimelineProps['items'] = [];
+  const items: TimelineProps["items"] = [];
 
-  if (preuveRecandidatureStatut === 'en-attente') {
+  if (preuveRecandidatureStatut === "en-attente") {
     items.push({
-      status: 'warning',
-      date: 'En attente',
-      title: "Le porteur n'a pas encore transmis de projet comme preuve de recandidature.",
+      status: "warning",
+      date: "En attente",
+      title: lienRecandidature ? (
+        <Link href={lienRecandidature}>
+          Transmettre un projet comme preuve de recandidature
+        </Link>
+      ) : (
+        "Le porteur n'a pas encore transmis de projet comme preuve de recandidature."
+      ),
     });
   }
 
-  if (preuveRecandidature && preuveRecandidatureTransmiseLe && preuveRecandidatureTransmisePar) {
+  if (
+    preuveRecandidature &&
+    preuveRecandidatureTransmiseLe &&
+    preuveRecandidatureTransmisePar
+  ) {
     items.push({
-      status: 'success',
+      status: "success",
       date: displayDate(new Date(preuveRecandidatureTransmiseLe)),
       title: (
         <div>
-          Le{' '}
+          Le{" "}
           <Link
             href={Routes.Projet.details(preuveRecandidature)}
             aria-label={`voir le projet faisant office de preuve de recandidature`}
           >
             projet faisant preuve de recandidature
-          </Link>{' '}
-          a été transmis par{' '}
-          {<span className="font-semibold">{preuveRecandidatureTransmisePar}</span>}
+          </Link>{" "}
+          a été transmis par{" "}
+          {
+            <span className="font-semibold">
+              {preuveRecandidatureTransmisePar}
+            </span>
+          }
         </div>
       ),
     });
@@ -83,10 +99,13 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
 
   if (accord) {
     items.push({
-      status: 'success',
+      status: "success",
       date: displayDate(new Date(accord.accordéLe)),
       title: (
-        <div>Abandon accordé par {<span className="font-semibold">{accord.accordéPar}</span>}</div>
+        <div>
+          Abandon accordé par{" "}
+          {<span className="font-semibold">{accord.accordéPar}</span>}
+        </div>
       ),
       content: (
         <>
@@ -96,7 +115,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
               label="Télécharger la pièce justificative"
               linkProps={{
                 href: Routes.Document.télécharger(accord.réponseSignée),
-                target: '_blank',
+                target: "_blank",
               }}
               className="mb-0 pb-0"
             />
@@ -108,10 +127,13 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
 
   if (rejet) {
     items.push({
-      status: 'error',
+      status: "error",
       date: displayDate(new Date(rejet.rejetéLe)),
       title: (
-        <div>Abandon rejeté par {<span className="font-semibold">{rejet.rejetéPar}</span>}</div>
+        <div>
+          Abandon rejeté par{" "}
+          {<span className="font-semibold">{rejet.rejetéPar}</span>}
+        </div>
       ),
       content: (
         <>
@@ -121,7 +143,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
               label="Télécharger la pièce justificative"
               linkProps={{
                 href: Routes.Document.télécharger(rejet.réponseSignée),
-                target: '_blank',
+                target: "_blank",
               }}
               className="mb-0 pb-0"
             />
@@ -136,7 +158,8 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
       date: displayDate(new Date(confirmation.confirméLe)),
       title: (
         <div>
-          Demande confirmée par {<span className="font-semibold">{confirmation.confirméPar}</span>}
+          Demande confirmée par{" "}
+          {<span className="font-semibold">{confirmation.confirméPar}</span>}
         </div>
       ),
     });
@@ -147,7 +170,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
       date: displayDate(new Date(confirmation.demandéLe)),
       title: (
         <div>
-          Confirmation demandée par{' '}
+          Confirmation demandée par{" "}
           {<span className="font-semibold">{confirmation.demandéPar}</span>}
         </div>
       ),
@@ -159,7 +182,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
               label="Télécharger la pièce justificative"
               linkProps={{
                 href: Routes.Document.télécharger(confirmation.réponseSignée),
-                target: '_blank',
+                target: "_blank",
               }}
               className="mb-0 pb-0"
             />
@@ -171,12 +194,17 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
 
   items.push({
     date: displayDate(new Date(demandéLe)),
-    title: <div>Demande déposée par {<span className="font-semibold">{demandéPar}</span>}</div>,
+    title: (
+      <div>
+        Demande déposée par{" "}
+        {<span className="font-semibold">{demandéPar}</span>}
+      </div>
+    ),
     content: (
       <>
         {recandidature && (
           <div>
-            Le projet s'inscrit dans un{' '}
+            Le projet s'inscrit dans un{" "}
             <span className="font-semibold">contexte de recandidature</span>
           </div>
         )}
@@ -192,7 +220,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
             label="Télécharger la pièce justificative"
             linkProps={{
               href: Routes.Document.télécharger(justificatifDemande),
-              target: '_blank',
+              target: "_blank",
             }}
             className="mb-0 pb-0"
           />
@@ -210,26 +238,31 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
           small
           description={
             <div>
-              <div className="font-semibold mb-2">Demande d'abandon pour recandidature</div>
-              Le porteur s'engage sur l'honneur à ne pas avoir débuté ses travaux au sens du cahier
-              des charges de l'AO associé et a abandonné son statut de lauréat au profit d'une
-              recandidature réalisée au plus tard le 31/12/2024. <br />
-              Il s'engage sur l'honneur à ce que cette recandidature respecte les conditions
-              suivantes :
+              <div className="font-semibold mb-2">
+                Demande d'abandon pour recandidature
+              </div>
+              Le porteur s'engage sur l'honneur à ne pas avoir débuté ses
+              travaux au sens du cahier des charges de l'AO associé et a
+              abandonné son statut de lauréat au profit d'une recandidature
+              réalisée au plus tard le 31/12/2024. <br />
+              Il s'engage sur l'honneur à ce que cette recandidature respecte
+              les conditions suivantes :
               <ul className="mb-0 list-disc indent-8 list-inside">
                 <li>
-                  Que le dossier soit complet et respecte les conditions d'éligibilité du cahier des
-                  charges concerné
+                  Que le dossier soit complet et respecte les conditions
+                  d'éligibilité du cahier des charges concerné
                 </li>
                 <li>Le même lieu d'implantation que le projet abandonné</li>
                 <li>
-                  La même autorisation préfectorale (numéro ICPE identifique) que le projet
-                  abandonné, nonobstant des porter à connaissance ultérieurs
+                  La même autorisation préfectorale (numéro ICPE identifique)
+                  que le projet abandonné, nonobstant des porter à connaissance
+                  ultérieurs
                 </li>
                 <li>
-                  Le tarif proposé ne doit pas être supérieur au prix plafond de la période dont le
-                  projet était initialement lauréat, indexé jusqu’à septembre 2023 selon la formule
-                  d’indexation du prix de référence indiquée dans le cahier des charges concerné par
+                  Le tarif proposé ne doit pas être supérieur au prix plafond de
+                  la période dont le projet était initialement lauréat, indexé
+                  jusqu’à septembre 2023 selon la formule d’indexation du prix
+                  de référence indiquée dans le cahier des charges concerné par
                   la recandidature.
                 </li>
               </ul>
