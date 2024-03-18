@@ -1,9 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
-import { RecoursEntity } from '../recours.entity';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { StatutRecours } from '..';
-import { Option, isNone } from '@potentiel/monads';
-import { RégionNonTrouvéeError } from '../régionNonTrouvée.error';
+import { Message, MessageHandler, mediator } from "mediateur";
+import { RecoursEntity } from "../recours.entity";
+import { DateTime, IdentifiantProjet } from "@potentiel-domain/common";
+import { StatutRecours } from "..";
+import { Option, isNone } from "@potentiel/monads";
+import { RégionNonTrouvéeError } from "../régionNonTrouvée.error";
 
 type RecoursListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -57,11 +57,11 @@ export type ListerRecoursPourPorteurPort = (args: {
 }>;
 
 export type RécupérerRégionDrealPort = (
-  identifiantUtilisateur: string,
+  identifiantUtilisateur: string
 ) => Promise<Option<{ région: string }>>;
 
 export type ListerRecoursQuery = Message<
-  'LISTER_RECOURS_QUERY',
+  "Eliminé.Recours.Query.Lister",
   {
     utilisateur: {
       rôle: string;
@@ -96,7 +96,7 @@ export const registerListerRecoursQuery = ({
       ...(appelOffre && { appelOffre }),
     };
 
-    if (['admin', 'dgec-validateur', 'cre'].includes(rôle)) {
+    if (["admin", "dgec-validateur", "cre"].includes(rôle)) {
       const recours = await listerRecours({
         where,
         pagination: {
@@ -110,7 +110,7 @@ export const registerListerRecoursQuery = ({
       };
     }
 
-    if (rôle === 'dreal') {
+    if (rôle === "dreal") {
       const région = await récupérerRégionDreal(email);
       if (isNone(région)) {
         throw new RégionNonTrouvéeError();
@@ -141,14 +141,18 @@ export const registerListerRecoursQuery = ({
     };
   };
 
-  mediator.register('LISTER_RECOURS_QUERY', handler);
+  mediator.register("Eliminé.Recours.Query.Lister", handler);
 };
 
-const mapToReadModel = (projection: RecoursEntity): RecoursListItemReadModel => {
+const mapToReadModel = (
+  projection: RecoursEntity
+): RecoursListItemReadModel => {
   return {
     ...projection,
     statut: StatutRecours.convertirEnValueType(projection.statut),
     misÀJourLe: DateTime.convertirEnValueType(projection.misÀJourLe),
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(projection.identifiantProjet),
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(
+      projection.identifiantProjet
+    ),
   };
 };

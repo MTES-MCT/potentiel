@@ -1,10 +1,10 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
-import { Recours } from '@potentiel-domain/elimine';
-import { PotentielWorld } from '../../../../potentiel.world';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
-import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DataTable, When as Quand } from "@cucumber/cucumber";
+import { mediator } from "mediateur";
+import { Recours } from "@potentiel-domain/elimine";
+import { PotentielWorld } from "../../../../potentiel.world";
+import { convertStringToReadableStream } from "../../../../helpers/convertStringToReadable";
+import { DateTime } from "@potentiel-domain/common";
+import { IdentifiantUtilisateur } from "@potentiel-domain/utilisateur";
 
 Quand(
   `le porteur demande le recours pour le projet éliminé {string} avec :`,
@@ -12,13 +12,16 @@ Quand(
     try {
       const exemple = table.rowsHash();
       const raison = exemple[`La raison du recours`] ?? `La raison du recours`;
-      const format = exemple[`Le format de la pièce justificative`] ?? undefined;
-      const content = exemple[`Le contenu de la pièce justificative`] ?? undefined;
+      const format =
+        exemple[`Le format de la pièce justificative`] ?? undefined;
+      const content =
+        exemple[`Le contenu de la pièce justificative`] ?? undefined;
       const dateDemande = new Date();
-      const email = 'porteur@test.test';
+      const email = "porteur@test.test";
 
       this.eliminéWorld.recoursWorld.raison = raison;
-      this.eliminéWorld.recoursWorld.dateDemande = DateTime.convertirEnValueType(dateDemande);
+      this.eliminéWorld.recoursWorld.dateDemande =
+        DateTime.convertirEnValueType(dateDemande);
       this.eliminéWorld.recoursWorld.pièceJustificative = {
         format,
         content,
@@ -26,10 +29,11 @@ Quand(
       this.eliminéWorld.recoursWorld.utilisateur =
         IdentifiantUtilisateur.convertirEnValueType(email);
 
-      const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+      const { identifiantProjet } =
+        this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
       await mediator.send<Recours.RecoursUseCase>({
-        type: 'DEMANDER_RECOURS_USECASE',
+        type: "Eliminé.Recours.UseCase.Demander",
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           raisonValue: raison,
@@ -46,28 +50,29 @@ Quand(
     } catch (error) {
       this.error = error as Error;
     }
-  },
+  }
 );
 
 Quand(
   `le porteur demande le recours pour le projet éliminé {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
     try {
-      const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+      const { identifiantProjet } =
+        this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
       await mediator.send<Recours.RecoursUseCase>({
-        type: 'DEMANDER_RECOURS_USECASE',
+        type: "Eliminé.Recours.UseCase.Demander",
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           raisonValue: `La raison du recours`,
           dateDemandeValue: new Date().toISOString(),
-          identifiantUtilisateurValue: 'porteur@test.test',
+          identifiantUtilisateurValue: "porteur@test.test",
         },
       });
     } catch (error) {
       this.error = error as Error;
     }
-  },
+  }
 );
 
 Quand(
@@ -75,16 +80,18 @@ Quand(
   async function (this: PotentielWorld, nomProjet: string) {
     try {
       const dateAnnulation = new Date();
-      const email = 'porteur@test.test';
+      const email = "porteur@test.test";
 
-      this.eliminéWorld.recoursWorld.dateAnnulation = DateTime.convertirEnValueType(dateAnnulation);
+      this.eliminéWorld.recoursWorld.dateAnnulation =
+        DateTime.convertirEnValueType(dateAnnulation);
       this.eliminéWorld.recoursWorld.utilisateur =
         IdentifiantUtilisateur.convertirEnValueType(email);
 
-      const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+      const { identifiantProjet } =
+        this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
       await mediator.send<Recours.RecoursUseCase>({
-        type: 'ANNULER_RECOURS_USECASE',
+        type: "Eliminé.Recours.UseCase.Annuler",
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           dateAnnulationValue: dateAnnulation.toISOString(),
@@ -94,7 +101,7 @@ Quand(
     } catch (error) {
       this.error = error as Error;
     }
-  },
+  }
 );
 
 Quand(
@@ -102,25 +109,29 @@ Quand(
   async function (this: PotentielWorld, nomProjet: string) {
     try {
       const dateRejet = new Date();
-      const email = 'validateur@test.test';
+      const email = "validateur@test.test";
 
-      this.eliminéWorld.recoursWorld.dateRejet = DateTime.convertirEnValueType(dateRejet);
+      this.eliminéWorld.recoursWorld.dateRejet =
+        DateTime.convertirEnValueType(dateRejet);
       this.eliminéWorld.recoursWorld.réponseSignée = {
-        format: 'text/plain',
+        format: "text/plain",
         content: `Le contenu de la réponse signée`,
       };
       this.eliminéWorld.recoursWorld.utilisateur =
         IdentifiantUtilisateur.convertirEnValueType(email);
 
-      const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+      const { identifiantProjet } =
+        this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
       await mediator.send<Recours.RecoursUseCase>({
-        type: 'REJETER_RECOURS_USECASE',
+        type: "Eliminé.Recours.UseCase.Rejeter",
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           dateRejetValue: dateRejet.toISOString(),
           réponseSignéeValue: {
-            content: convertStringToReadableStream(`Le contenu de la réponse signée`),
+            content: convertStringToReadableStream(
+              `Le contenu de la réponse signée`
+            ),
             format: `text/plain`,
           },
           identifiantUtilisateurValue: email,
@@ -129,7 +140,7 @@ Quand(
     } catch (error) {
       this.error = error as Error;
     }
-  },
+  }
 );
 
 Quand(
@@ -137,13 +148,17 @@ Quand(
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     try {
       const exemple = table.rowsHash();
-      const format = exemple[`Le format de la réponse signée`] ?? `Le format de la réponse signée`;
+      const format =
+        exemple[`Le format de la réponse signée`] ??
+        `Le format de la réponse signée`;
       const content =
-        exemple[`Le contenu de la réponse signée`] ?? `Le contenu de la réponse signée`;
+        exemple[`Le contenu de la réponse signée`] ??
+        `Le contenu de la réponse signée`;
       const dateRejet = new Date();
-      const email = 'validateur@test.test';
+      const email = "validateur@test.test";
 
-      this.eliminéWorld.recoursWorld.dateRejet = DateTime.convertirEnValueType(dateRejet);
+      this.eliminéWorld.recoursWorld.dateRejet =
+        DateTime.convertirEnValueType(dateRejet);
       this.eliminéWorld.recoursWorld.réponseSignée = {
         format,
         content,
@@ -151,10 +166,11 @@ Quand(
       this.eliminéWorld.recoursWorld.utilisateur =
         IdentifiantUtilisateur.convertirEnValueType(email);
 
-      const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+      const { identifiantProjet } =
+        this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
       await mediator.send<Recours.RecoursUseCase>({
-        type: 'REJETER_RECOURS_USECASE',
+        type: "Eliminé.Recours.UseCase.Rejeter",
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           dateRejetValue: dateRejet.toISOString(),
@@ -168,7 +184,7 @@ Quand(
     } catch (error) {
       this.error = error as Error;
     }
-  },
+  }
 );
 
 Quand(
@@ -176,11 +192,14 @@ Quand(
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     try {
       const exemple = table.rowsHash();
-      const format = exemple[`Le format de la réponse signée`] ?? `Le format de la réponse signée`;
+      const format =
+        exemple[`Le format de la réponse signée`] ??
+        `Le format de la réponse signée`;
       const content =
-        exemple[`Le contenu de la réponse signée`] ?? `Le contenu de la réponse signée`;
+        exemple[`Le contenu de la réponse signée`] ??
+        `Le contenu de la réponse signée`;
       const dateAccord = DateTime.now();
-      const email = 'validateur@test.test';
+      const email = "validateur@test.test";
 
       this.eliminéWorld.recoursWorld.dateAccord = dateAccord;
       this.eliminéWorld.recoursWorld.réponseSignée = {
@@ -190,10 +209,11 @@ Quand(
       this.eliminéWorld.recoursWorld.utilisateur =
         IdentifiantUtilisateur.convertirEnValueType(email);
 
-      const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+      const { identifiantProjet } =
+        this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
       await mediator.send<Recours.RecoursUseCase>({
-        type: 'ACCORDER_RECOURS_USECASE',
+        type: "Eliminé.Recours.UseCase.Accorder",
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           dateAccordValue: dateAccord.formatter(),
@@ -207,7 +227,7 @@ Quand(
     } catch (error) {
       this.error = error as Error;
     }
-  },
+  }
 );
 
 Quand(
@@ -215,18 +235,21 @@ Quand(
   async function (this: PotentielWorld, nomProjet: string) {
     try {
       const dateAccord = new Date();
-      const email = 'validateur@test.test';
+      const email = "validateur@test.test";
 
-      const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+      const { identifiantProjet } =
+        this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
       await mediator.send<Recours.RecoursUseCase>({
-        type: 'ACCORDER_RECOURS_USECASE',
+        type: "Eliminé.Recours.UseCase.Accorder",
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           dateAccordValue: dateAccord.toISOString(),
           réponseSignéeValue: {
-            content: convertStringToReadableStream(`Le contenu de la réponse signée`),
-            format: 'text/plain',
+            content: convertStringToReadableStream(
+              `Le contenu de la réponse signée`
+            ),
+            format: "text/plain",
           },
           identifiantUtilisateurValue: email,
         },
@@ -234,5 +257,5 @@ Quand(
     } catch (error) {
       this.error = error as Error;
     }
-  },
+  }
 );

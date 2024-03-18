@@ -1,13 +1,13 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { Message, MessageHandler, mediator } from "mediateur";
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
-import { LoadAggregate } from '@potentiel-domain/core';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { loadRecoursFactory } from '../recours.aggregate';
+import { DateTime, IdentifiantProjet } from "@potentiel-domain/common";
+import { DocumentProjet } from "@potentiel-domain/document";
+import { LoadAggregate } from "@potentiel-domain/core";
+import { IdentifiantUtilisateur } from "@potentiel-domain/utilisateur";
+import { loadRecoursFactory } from "../recours.aggregate";
 
 export type RejeterRecoursCommand = Message<
-  'REJETER_RECOURS_COMMAND',
+  "Eliminé.Recours.Command.Rejeter",
   {
     dateRejet: DateTime.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
@@ -33,5 +33,5 @@ export const registerRejeterRecoursCommand = (loadAggregate: LoadAggregate) => {
       réponseSignée,
     });
   };
-  mediator.register('REJETER_RECOURS_COMMAND', handler);
+  mediator.register("Eliminé.Recours.Command.Rejeter", handler);
 };

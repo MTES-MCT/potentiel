@@ -1,10 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { AnnulerRecoursCommand } from './annulerRecours.command';
+import { Message, MessageHandler, mediator } from "mediateur";
+import { DateTime, IdentifiantProjet } from "@potentiel-domain/common";
+import { IdentifiantUtilisateur } from "@potentiel-domain/utilisateur";
+import { AnnulerRecoursCommand } from "./annulerRecours.command";
 
 export type AnnulerRecoursUseCase = Message<
-  'ANNULER_RECOURS_USECASE',
+  "Eliminé.Recours.UseCase.Annuler",
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
@@ -18,14 +18,16 @@ export const registerAnnulerRecoursUseCase = () => {
     dateAnnulationValue,
     identifiantProjetValue,
   }) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+      identifiantProjetValue
+    );
     const dateAnnulation = DateTime.convertirEnValueType(dateAnnulationValue);
     const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
-      identifiantUtilisateurValue,
+      identifiantUtilisateurValue
     );
 
     await mediator.send<AnnulerRecoursCommand>({
-      type: 'ANNULER_RECOURS_COMMAND',
+      type: "Eliminé.Recours.Command.Annuler",
       data: {
         dateAnnulation,
         identifiantUtilisateur,
@@ -34,5 +36,5 @@ export const registerAnnulerRecoursUseCase = () => {
     });
   };
 
-  mediator.register('ANNULER_RECOURS_USECASE', runner);
+  mediator.register("Eliminé.Recours.UseCase.Annuler", runner);
 };

@@ -1,19 +1,20 @@
-import { Then as Alors } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
-import waitForExpect from 'wait-for-expect';
+import { Then as Alors } from "@cucumber/cucumber";
+import { mediator } from "mediateur";
+import waitForExpect from "wait-for-expect";
 
-import { Recours } from '@potentiel-domain/elimine';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Recours } from "@potentiel-domain/elimine";
+import { ConsulterDocumentProjetQuery } from "@potentiel-domain/document";
 
-import { PotentielWorld } from '../../../../potentiel.world';
-import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
-import { NotFoundError } from '@potentiel-domain/core';
-import { expect } from 'chai';
+import { PotentielWorld } from "../../../../potentiel.world";
+import { convertReadableStreamToString } from "../../../../helpers/convertReadableToString";
+import { NotFoundError } from "@potentiel-domain/core";
+import { expect } from "chai";
 
 Alors(
   `le recours du projet éliminé {string} devrait être consultable dans la liste des recours`,
   async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+    const { identifiantProjet } =
+      this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
     await waitForExpect(async () => {
       const {
@@ -26,7 +27,7 @@ Alors(
           piéceJustificative: actualPiéceJustificative,
         },
       } = await mediator.send<Recours.ConsulterRecoursQuery>({
-        type: 'CONSULTER_RECOURS_QUERY',
+        type: "Eliminé.Recours.Query.Consulter",
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -47,28 +48,31 @@ Alors(
 
       if (actualPiéceJustificative) {
         const result = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'CONSULTER_DOCUMENT_PROJET',
+          type: "CONSULTER_DOCUMENT_PROJET",
           data: {
             documentKey: actualPiéceJustificative.formatter(),
           },
         });
 
-        const actualContent = await convertReadableStreamToString(result.content);
+        const actualContent = await convertReadableStreamToString(
+          result.content
+        );
         actualContent.should.be.equal(content);
       }
     });
-  },
+  }
 );
 
 Alors(
   `le recours du projet éliminé {string} ne devrait plus exister`,
   async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+    const { identifiantProjet } =
+      this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
     await waitForExpect(async () => {
       try {
         const result = await mediator.send<Recours.ConsulterRecoursQuery>({
-          type: 'CONSULTER_RECOURS_QUERY',
+          type: "Eliminé.Recours.Query.Consulter",
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
           },
@@ -78,13 +82,14 @@ Alors(
         (e as Error).should.be.instanceOf(NotFoundError);
       }
     });
-  },
+  }
 );
 
 Alors(
   `le recours du projet éliminé {string} devrait être rejeté`,
   async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+    const { identifiantProjet } =
+      this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
     await waitForExpect(async () => {
       const {
@@ -92,7 +97,7 @@ Alors(
         identifiantProjet: actualIdentifiantProjet,
         rejet,
       } = await mediator.send<Recours.ConsulterRecoursQuery>({
-        type: 'CONSULTER_RECOURS_QUERY',
+        type: "Eliminé.Recours.Query.Consulter",
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -116,7 +121,7 @@ Alors(
       actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
 
       const result = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'CONSULTER_DOCUMENT_PROJET',
+        type: "CONSULTER_DOCUMENT_PROJET",
         data: {
           documentKey: actualRéponseSignée.formatter(),
         },
@@ -125,13 +130,14 @@ Alors(
       const actualContent = await convertReadableStreamToString(result.content);
       actualContent.should.be.equal(content);
     });
-  },
+  }
 );
 
 Alors(
   `le recours du projet éliminé {string} devrait être accordé`,
   async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+    const { identifiantProjet } =
+      this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
     await waitForExpect(async () => {
       const {
@@ -139,7 +145,7 @@ Alors(
         identifiantProjet: actualIdentifiantProjet,
         accord,
       } = await mediator.send<Recours.ConsulterRecoursQuery>({
-        type: 'CONSULTER_RECOURS_QUERY',
+        type: "Eliminé.Recours.Query.Consulter",
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -163,7 +169,7 @@ Alors(
       actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
 
       const result = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'CONSULTER_DOCUMENT_PROJET',
+        type: "CONSULTER_DOCUMENT_PROJET",
         data: {
           documentKey: actualRéponseSignée.formatter(),
         },
@@ -172,13 +178,14 @@ Alors(
       const actualContent = await convertReadableStreamToString(result.content);
       actualContent.should.be.equal(content);
     });
-  },
+  }
 );
 
 Alors(
   `le recours du projet éliminé {string} devrait être de nouveau demandé`,
   async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+    const { identifiantProjet } =
+      this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
     await waitForExpect(async () => {
       const {
@@ -186,7 +193,7 @@ Alors(
         identifiantProjet: actualIdentifiantProjet,
         rejet,
       } = await mediator.send<Recours.ConsulterRecoursQuery>({
-        type: 'CONSULTER_RECOURS_QUERY',
+        type: "Eliminé.Recours.Query.Consulter",
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -196,5 +203,5 @@ Alors(
       actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
       expect(rejet).to.be.undefined;
     });
-  },
+  }
 );

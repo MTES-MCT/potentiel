@@ -1,17 +1,17 @@
 // Third party
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { Message, MessageHandler, mediator } from "mediateur";
 
 // Workspaces
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { LoadAggregate } from '@potentiel-domain/core';
-import { DocumentProjet } from '@potentiel-domain/document';
+import { IdentifiantProjet, DateTime } from "@potentiel-domain/common";
+import { IdentifiantUtilisateur } from "@potentiel-domain/utilisateur";
+import { LoadAggregate } from "@potentiel-domain/core";
+import { DocumentProjet } from "@potentiel-domain/document";
 
 // Package
-import { loadRecoursFactory } from '../recours.aggregate';
+import { loadRecoursFactory } from "../recours.aggregate";
 
 export type AccorderRecoursCommand = Message<
-  'ACCORDER_RECOURS_COMMAND',
+  "Eliminé.Recours.Command.Accorder",
   {
     dateAccord: DateTime.ValueType;
     identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
@@ -20,7 +20,9 @@ export type AccorderRecoursCommand = Message<
   }
 >;
 
-export const registerAccorderRecoursCommand = (loadAggregate: LoadAggregate) => {
+export const registerAccorderRecoursCommand = (
+  loadAggregate: LoadAggregate
+) => {
   const load = loadRecoursFactory(loadAggregate);
   const handler: MessageHandler<AccorderRecoursCommand> = async ({
     dateAccord,
@@ -37,5 +39,5 @@ export const registerAccorderRecoursCommand = (loadAggregate: LoadAggregate) => 
       réponseSignée,
     });
   };
-  mediator.register('ACCORDER_RECOURS_COMMAND', handler);
+  mediator.register("Eliminé.Recours.Command.Accorder", handler);
 };

@@ -1,13 +1,16 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Message, MessageHandler, mediator } from "mediateur";
+import {
+  DocumentProjet,
+  EnregistrerDocumentProjetCommand,
+} from "@potentiel-domain/document";
+import { DateTime, IdentifiantProjet } from "@potentiel-domain/common";
+import { IdentifiantUtilisateur } from "@potentiel-domain/utilisateur";
 
-import { RejeterRecoursCommand } from './rejeterRecours.command';
-import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
+import { RejeterRecoursCommand } from "./rejeterRecours.command";
+import * as TypeDocumentRecours from "../typeDocumentRecours.valueType";
 
 export type RejeterRecoursUseCase = Message<
-  'REJETER_RECOURS_USECASE',
+  "Eliminé.Recours.UseCase.Rejeter",
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
@@ -30,17 +33,19 @@ export const registerRejeterRecoursUseCase = () => {
       identifiantProjetValue,
       TypeDocumentRecours.recoursRejeté.formatter(),
       dateRejetValue,
-      format,
+      format
     );
 
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+      identifiantProjetValue
+    );
     const dateRejet = DateTime.convertirEnValueType(dateRejetValue);
     const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
-      identifiantUtilisateurValue,
+      identifiantUtilisateurValue
     );
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
+      type: "Document.Command.EnregistrerDocumentProjet",
       data: {
         content,
         documentProjet: réponseSignée,
@@ -48,7 +53,7 @@ export const registerRejeterRecoursUseCase = () => {
     });
 
     await mediator.send<RejeterRecoursCommand>({
-      type: 'REJETER_RECOURS_COMMAND',
+      type: "Eliminé.Recours.Command.Rejeter",
       data: {
         dateRejet,
         identifiantProjet,
@@ -57,5 +62,5 @@ export const registerRejeterRecoursUseCase = () => {
       },
     });
   };
-  mediator.register('REJETER_RECOURS_USECASE', runner);
+  mediator.register("Eliminé.Recours.UseCase.Rejeter", runner);
 };
