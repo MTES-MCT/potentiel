@@ -34,7 +34,7 @@ export const GarantiesFinancièresDépôtEnCours: FC<
       colorVariant={"info"}
       content={
         <div className="flex flex-col h-full">
-          <Heading2>Garanties financières en cours</Heading2>
+          <Heading2>Garanties financières à traiter</Heading2>
           <div className="text-xs italic">
             Dernière mise à jour le{" "}
             <span className="font-semibold">
