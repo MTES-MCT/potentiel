@@ -14,12 +14,12 @@ const commonDataFields = [
   {
     field: 'puissance',
     type: toTypeLiteral('number'),
-    column: 'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)',
+    column: 'puissance',
   },
   {
     field: 'prixReference',
     type: toTypeLiteral('number'),
-    column: 'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)',
+    column: 'prixReference',
   },
   { field: 'note', type: toTypeLiteral('number'), column: 'Note totale' },
   {

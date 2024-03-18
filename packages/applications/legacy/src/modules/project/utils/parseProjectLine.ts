@@ -16,8 +16,8 @@ const mappedColumns = [
   'Nom projet',
   'Société mère',
   'Candidat',
-  'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)',
-  'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)',
+  'puissance',
+  'prixReference',
   'Note totale',
   'Nom et prénom du représentant légal',
   'Adresse électronique du contact',
@@ -61,14 +61,9 @@ const columnMapper = {
   actionnaire: (line: any) => line['Société mère'],
   nomCandidat: (line: any) =>
     line['Nom (personne physique) ou raison sociale (personne morale) :'] || line['Candidat'],
-  puissance: (line: any) =>
-    prepareNumber(
-      line['Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)'],
-    ),
+  puissance: (line: any) => prepareNumber(line['puissance']),
   prixReference: (line: any) => {
-    const prix = prepareNumber(
-      line['Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)'],
-    );
+    const prix = prepareNumber(line['prixReference']);
 
     if (prix === '') return null;
 
