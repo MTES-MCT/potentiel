@@ -1,24 +1,24 @@
-import { mediator } from "mediateur";
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { mediator } from 'mediateur';
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
-import { ListerAppelOffreQuery } from "@potentiel-domain/appel-offre";
-import { GarantiesFinancières } from "@potentiel-domain/laureat";
+import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { PageWithErrorHandling } from "@/utils/PageWithErrorHandling";
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import {
   GarantiesFinancièresDépôtsEnCoursListPage,
   GarantiesFinancièresDépôtsEnCoursListProps,
-} from "@/components/pages/garanties-financières/lister/GarantiesFinancièresDépôtsEnCoursList.page";
-import { getGarantiesFinancièresTypeLabel } from "@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel";
+} from '@/components/pages/garanties-financières/dépôt/lister/GarantiesFinancièresDépôtsEnCoursList.page';
+import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
 
 type PageProps = {
   searchParams?: Record<string, string>;
 };
 
 export const metadata: Metadata = {
-  title: "Abandons - Potentiel",
-  description: "Liste des abandons de projet",
+  title: 'Abandons - Potentiel',
+  description: 'Liste des abandons de projet',
 };
 
 export default async function Page({ searchParams }: PageProps) {
@@ -31,25 +31,23 @@ export default async function Page({ searchParams }: PageProps) {
     const appelOffre = searchParams?.appelOffre;
 
     const dépôtsEnCoursGarantiesFinancières =
-      await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>(
-        {
-          type: "Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières",
-          data: {
-            ...(appelOffre && { appelOffre }),
-            pagination: { page, itemsPerPage: 10 },
-          },
-        }
-      );
+      await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
+        type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
+        data: {
+          ...(appelOffre && { appelOffre }),
+          pagination: { page, itemsPerPage: 10 },
+        },
+      });
 
     const appelOffres = await mediator.send<ListerAppelOffreQuery>({
-      type: "AppelOffre.Query.ListerAppelOffre",
+      type: 'AppelOffre.Query.ListerAppelOffre',
       data: {},
     });
 
     const filters = [
       {
         label: `Appel d'offres`,
-        searchParamKey: "appelOffre",
+        searchParamKey: 'appelOffre',
         defaultValue: appelOffre,
         options: appelOffres.items.map((appelOffre) => ({
           label: appelOffre.id,
@@ -68,8 +66,8 @@ export default async function Page({ searchParams }: PageProps) {
 }
 
 const mapToListProps = (
-  readModel: GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresReadModel
-): GarantiesFinancièresDépôtsEnCoursListProps["list"] => {
+  readModel: GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresReadModel,
+): GarantiesFinancièresDépôtsEnCoursListProps['list'] => {
   const items = readModel.items.map(
     ({
       identifiantProjet,
@@ -88,7 +86,7 @@ const mapToListProps = (
       misÀJourLe: dernièreMiseÀJour.date.formatter(),
       type: getGarantiesFinancièresTypeLabel(type.type),
       dateÉchéance: dateÉchéance?.formatter(),
-    })
+    }),
   );
 
   return {

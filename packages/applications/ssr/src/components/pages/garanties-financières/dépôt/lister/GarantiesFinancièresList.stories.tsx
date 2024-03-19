@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { getGarantiesFinancièresTypeLabel } from '../getGarantiesFinancièresTypeLabel';
+import { getGarantiesFinancièresTypeLabel } from '../../getGarantiesFinancièresTypeLabel';
 
 import {
   GarantiesFinancièresDépôtsEnCoursListPage,

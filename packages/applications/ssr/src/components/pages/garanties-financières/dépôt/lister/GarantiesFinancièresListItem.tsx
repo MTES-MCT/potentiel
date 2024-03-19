@@ -5,7 +5,7 @@ import { Routes } from '@potentiel-libraries/routes';
 
 import { formatDateForText } from '@/utils/formatDateForText';
 
-import { DépôtStatut } from '../détails/components/GarantiesFinancièresHistoriqueDépôts';
+import { DépôtStatut } from '../../détails/components/GarantiesFinancièresHistoriqueDépôts';
 
 export type GarantiesFinancièresDépôtsEnCoursListItemProps = {
   identifiantProjet: string;
