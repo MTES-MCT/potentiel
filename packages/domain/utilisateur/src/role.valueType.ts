@@ -124,7 +124,7 @@ const référencielPermissions = {
       query: {
         consulter:
           "Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières",
-        lister:
+        listerDépôtsEnCours:
           "Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières",
       },
       usecase: {
