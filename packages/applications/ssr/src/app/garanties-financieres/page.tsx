@@ -82,6 +82,7 @@ const mapToListProps = (
       période,
       famille,
       nomProjet,
+      régionProjet,
       dépôt: { type, dateÉchéance, dernièreMiseÀJour, statut },
     }) => ({
       identifiantProjet: identifiantProjet.formatter(),
@@ -93,6 +94,7 @@ const mapToListProps = (
       misÀJourLe: dernièreMiseÀJour.date.formatter(),
       type: getGarantiesFinancièresTypeLabel(type.type),
       dateÉchéance: dateÉchéance?.formatter(),
+      régionProjet: régionProjet.join(' / '),
     }),
   );
 

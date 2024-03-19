@@ -60,6 +60,7 @@ export const Liste: Story = {
           statut: 'en-cours',
           misÀJourLe: '2023-02-12',
           type: getGarantiesFinancièresTypeLabel('consignation'),
+          régionProjet: 'Région A / Région B',
         },
         {
           identifiantProjet: '#identifiantProjet-3',
@@ -71,6 +72,7 @@ export const Liste: Story = {
           misÀJourLe: '2023-02-12',
           type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
           dateÉchéance: '2023-02-12',
+          régionProjet: 'Région A / Région B',
         },
       ],
     },

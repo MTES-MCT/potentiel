@@ -17,6 +17,7 @@ export type GarantiesFinancièresDépôtsEnCoursListItemProps = {
   type: string;
   dateÉchéance?: string;
   misÀJourLe: string;
+  régionProjet: string;
 };
 
 const GarantiesFinancièresStatusBadge = ({
@@ -56,6 +57,7 @@ export const GarantiesFinancièresDépôtsEnCoursListItem: FC<
   misÀJourLe,
   type,
   dateÉchéance,
+  régionProjet,
 }) => (
   <>
     <div>
@@ -74,6 +76,12 @@ export const GarantiesFinancièresDépôtsEnCoursListItem: FC<
             <div>
               <span className="hidden md:inline-block mr-2">,</span>
               Famille : {famille}
+            </div>
+          )}
+          {régionProjet && (
+            <div>
+              <span className="hidden md:inline-block mr-2">,</span>
+              Région : {régionProjet}
             </div>
           )}
         </div>

@@ -171,6 +171,10 @@ Alors(
           type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
           data: {
             pagination: { page: 1, itemsPerPage: 10 },
+            utilisateur: {
+              email: 'dreal@test.test',
+              rôle: 'dreal',
+            },
           },
         });
 

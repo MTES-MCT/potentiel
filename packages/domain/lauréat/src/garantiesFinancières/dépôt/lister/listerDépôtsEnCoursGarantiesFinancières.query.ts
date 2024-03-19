@@ -29,7 +29,7 @@ export type ListerDépôtsEnCoursGarantiesFinancièresPort = (args: {
 type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
-  régionProjet: Array<string>;
+  régionProjet: ReadonlyArray<string>;
   appelOffre: string;
   période: string;
   famille?: string;
