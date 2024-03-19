@@ -10,22 +10,20 @@ AS $$
                 p."appelOffreId",
                 p."periodeId",
                 p."familleId",
-                p."numeroCRE",
+                p."numeroCRE"
             from projects p;
 
 begin
     open projets;
-
     loop
         fetch projets into projet;
         exit when not found;
         identifiantProjet := projet."appelOffreId" || '#' || projet."periodeId" || '#' || projet."familleId" || '#' || projet."numeroCRE";
-
         INSERT 
-            INTO "EVENT_STREAM" ("streamId", "createdAt", "type", "version", "payload")
+            INTO event_store.event_stream ("stream_id", "created_at", "type", "version", "payload")
             SELECT 
                 'garanties-financieres|' || identifiantProjet,
-                es.occurredAt, 
+                es."occurredAt", 
                 CASE 
                     WHEN es.type = 'ProjectGFDueDateSet' THEN 'GarantiesFinancièresDemandées-V1'
                     WHEN es.type = 'ProjectGFDueDateCancelled' THEN 'DateLimiteEnvoiGarantiesFinancièresSupprimée-V1'
@@ -42,7 +40,7 @@ begin
                     -- WHEN es.type = 'EtapeGFSupprimée' THEN ''
                     -- event manquant : 15 occurrences, on peut archiver les events correspondants après première migration
                 END,    
-                1 -- vérifier si on met bien 1 partout
+                1, -- vérifier si on met bien 1 partout
                 CASE    
                     WHEN es.type = 'ProjectGFDueDateSet' THEN json_build_object(
                         'identifiantProjet', identifiantProjet,
@@ -76,8 +74,8 @@ begin
                         )
                     WHEN es.type = 'GarantiesFinancièresValidées' THEN json_build_object(
                         'identifiantProjet', identifiantProjet,
-                        'validéLe': es."occurredAt",
-                        'validéPar': users.email
+                        'validéLe', es."occurredAt",
+                        'validéPar', users.email
                     )
                     --WHEN es.type = 'GarantiesFinancièresInvalidées' THEN json_build_object()
                     WHEN es.type = 'ProjectGFUploaded' THEN json_build_object(
@@ -98,19 +96,19 @@ begin
                     )
                     WHEN es.type = 'ProjectGFWithdrawn' THEN json_build_object(
                         'identifiantProjet', identifiantProjet,
-                        'suppriméLe', es."occurredAt"
+                        'suppriméLe', es."occurredAt",
                         'suppriméPar', users.email
                     )
                     WHEN es.type = 'TypeGarantiesFinancièresEtDateEchéanceTransmis' THEN json_build_object(
                         'identifiantProjet', identifiantProjet,
                         'type', es.payload->>'type',
-                        'dateÉchéance', s.payload->>'dateEchéance',
-                        'importéLe', es."occurredAt",
+                        'dateÉchéance', es.payload->>'dateEchéance',
+                        'importéLe', es."occurredAt"
                     ) 
                     WHEN es.type = 'DateEchéanceGFAjoutée' THEN json_build_object(
                         'identifiantProjet', identifiantProjet,
                         'type', 'type-inconnu',
-                        'dateÉchéance', s.payload->>'expirationDate',
+                        'dateÉchéance', es.payload->>'expirationDate',
                         'importéLe', es."occurredAt",
                         'importéPar', users.email
                     ) 
@@ -119,18 +117,18 @@ begin
                         'suppriméLe', es."occurredAt"
                     ) 
                     -- WHEN es.type = 'EtapeGFSupprimée' THEN json_build_object()
-                END,    
+                END   
             FROM 
-                eventStores es
+            "eventStores" es
             JOIN files ON es.payload->>'fileId' = files.id::text
             JOIN users ON 
                         (
-                            es.payload->>'submittedBy' = users.id::text 
-                            OR es.payload->>'validéesPar' = users.id::text
-                            OR es.payload->>'removedBy' = users.id::text
+                            es.payload->>'submittedBy' = CAST(users.id as TEXT)
+                            OR es.payload->>'validéesPar' = CAST(users.id as TEXT)
+                            OR es.payload->>'removedBy' = CAST(users.id as TEXT)
                         )   
             WHERE 
-                (es.payload->>'projetId' = projet.id OR es.payload->>'projectId' = projet.id) 
+                (es.payload->>'projetId' = CAST(projet.id as TEXT) OR es.payload->>'projectId' = CAST(projet.id as TEXT)) 
                 AND es.type IN (
                                 'ProjectGFDueDateSet', 
                                 'ProjectGFDueDateCancelled', 
@@ -142,9 +140,10 @@ begin
                                 'ProjectGFWithdrawn', 
                                 'TypeGarantiesFinancièresEtDateEchéanceTransmis', 
                                 'DateEchéanceGFAjoutée', 
-                                'DateEchéanceGarantiesFinancièresSupprimée', 
+                                'DateEchéanceGarantiesFinancièresSupprimée'
                                 --'EtapeGFSupprimée'
-                                ); 
+                                );
     end loop;
+    close projets;
 end;
 $$
