@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "start:relancer-abandon-sans-preuve": "node ./dist/relancer-abandon-sans-preuve"
+    "start:relancer-abandon-sans-preuve": "node ./dist/relancer-abandon-sans-preuve",
+    "start:deplacer-fichier-gf": "node ./dist/déplacer-fichier-gf"
   },
   "dependencies": {
     "@potentiel-libraries/monitoring": "*",
