@@ -1,5 +1,4 @@
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { List } from '@potentiel-domain/core';
+import { CommonError, CommonPort, DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import {
   TypeGarantiesFinancières,
@@ -8,7 +7,24 @@ import {
   TypeDocumentGarantiesFinancières,
 } from '../..';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { IdentifiantUtilisateur, Role } from '@potentiel-domain/utilisateur';
+import { isNone } from '@potentiel/monads';
+
+export type ListerDépôtsEnCoursGarantiesFinancièresPort = (args: {
+  where: {
+    appelOffre?: string;
+  };
+  pagination: {
+    page: number;
+    itemsPerPage: number;
+  };
+  région?: string;
+}) => Promise<{
+  items: ReadonlyArray<DépôtEnCoursGarantiesFinancièresEntity>;
+  currentPage: number;
+  itemsPerPage: number;
+  totalItems: number;
+}>;
 
 type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -42,28 +58,48 @@ export type ListerDépôtsEnCoursGarantiesFinancièresQuery = Message<
   'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
   {
     appelOffre?: string;
+    utilisateur: {
+      rôle: string;
+      email: string;
+    };
     pagination: { page: number; itemsPerPage: number };
   },
   ListerDépôtsEnCoursGarantiesFinancièresReadModel
 >;
 
 export type ListerDépôtsEnCoursGarantiesFinancièresDependencies = {
-  list: List;
+  listerDépôtsEnCoursGarantiesFinancières: ListerDépôtsEnCoursGarantiesFinancièresPort;
+  récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
-  list,
+  listerDépôtsEnCoursGarantiesFinancières,
+  récupérerRégionDreal,
 }: ListerDépôtsEnCoursGarantiesFinancièresDependencies) => {
   const handler: MessageHandler<ListerDépôtsEnCoursGarantiesFinancièresQuery> = async ({
     appelOffre,
+    utilisateur: { email, rôle },
     pagination,
   }) => {
-    const result = await list<DépôtEnCoursGarantiesFinancièresEntity>({
-      type: 'depot-en-cours-garanties-financieres',
-      where: {
-        ...(appelOffre && { appelOffre }),
-      },
+    let région: string | undefined = undefined;
+
+    if (rôle === Role.dreal.nom) {
+      const régionDreal = await récupérerRégionDreal(email);
+      if (isNone(régionDreal)) {
+        throw new CommonError.RégionNonTrouvéeError();
+      }
+
+      région = régionDreal.région;
+    }
+
+    const where = {
+      ...(appelOffre && { appelOffre }),
+    };
+
+    const result = await listerDépôtsEnCoursGarantiesFinancières({
+      where,
       pagination,
+      région,
     });
 
     return {
@@ -71,6 +107,7 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
       items: result.items.map((item) => mapToReadModel(item)),
     };
   };
+
   mediator.register(
     'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
     handler,

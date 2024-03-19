@@ -10,7 +10,9 @@ import { ModifierDépôtGarantiesFinancièresEnCoursUseCase } from './dépôt/mo
 import {
   ListerDépôtsEnCoursGarantiesFinancièresQuery,
   ListerDépôtsEnCoursGarantiesFinancièresReadModel,
+  ListerDépôtsEnCoursGarantiesFinancièresPort,
 } from './dépôt/lister/listerDépôtsEnCoursGarantiesFinancières.query';
+
 import { ImporterTypeGarantiesFinancièresUseCase } from './importer/importerTypeGarantiesFinancières.usecase';
 import { ModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase';
 import { EnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
@@ -78,3 +80,4 @@ export * from './garantiesFinancières.entity';
 export * from './dépôtEnCoursGarantiesFinancières.entity';
 
 // Ports
+export { ListerDépôtsEnCoursGarantiesFinancièresPort };

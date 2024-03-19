@@ -11,14 +11,15 @@ import {
   GarantiesFinancièresDépôtsEnCoursListProps,
 } from '@/components/pages/garanties-financières/dépôt/lister/GarantiesFinancièresDépôtsEnCoursList.page';
 import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type PageProps = {
   searchParams?: Record<string, string>;
 };
 
 export const metadata: Metadata = {
-  title: 'Abandons - Potentiel',
-  description: 'Liste des abandons de projet',
+  title: 'Garanties financières à traiter - Potentiel',
+  description: 'Liste des garanties financières à traiter',
 };
 
 export default async function Page({ searchParams }: PageProps) {
@@ -26,43 +27,49 @@ export default async function Page({ searchParams }: PageProps) {
     return notFound();
   }
 
-  return PageWithErrorHandling(async () => {
-    const page = searchParams?.page ? parseInt(searchParams.page) : 1;
-    const appelOffre = searchParams?.appelOffre;
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+      const appelOffre = searchParams?.appelOffre;
 
-    const dépôtsEnCoursGarantiesFinancières =
-      await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
-        data: {
-          ...(appelOffre && { appelOffre }),
-          pagination: { page, itemsPerPage: 10 },
-        },
+      const dépôtsEnCoursGarantiesFinancières =
+        await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
+          data: {
+            utilisateur: {
+              email: utilisateur.identifiantUtilisateur.email,
+              rôle: utilisateur.role.nom,
+            },
+            ...(appelOffre && { appelOffre }),
+            pagination: { page, itemsPerPage: 10 },
+          },
+        });
+
+      const appelOffres = await mediator.send<ListerAppelOffreQuery>({
+        type: 'AppelOffre.Query.ListerAppelOffre',
+        data: {},
       });
 
-    const appelOffres = await mediator.send<ListerAppelOffreQuery>({
-      type: 'AppelOffre.Query.ListerAppelOffre',
-      data: {},
-    });
+      const filters = [
+        {
+          label: `Appel d'offres`,
+          searchParamKey: 'appelOffre',
+          defaultValue: appelOffre,
+          options: appelOffres.items.map((appelOffre) => ({
+            label: appelOffre.id,
+            value: appelOffre.id,
+          })),
+        },
+      ];
 
-    const filters = [
-      {
-        label: `Appel d'offres`,
-        searchParamKey: 'appelOffre',
-        defaultValue: appelOffre,
-        options: appelOffres.items.map((appelOffre) => ({
-          label: appelOffre.id,
-          value: appelOffre.id,
-        })),
-      },
-    ];
-
-    return (
-      <GarantiesFinancièresDépôtsEnCoursListPage
-        list={mapToListProps(dépôtsEnCoursGarantiesFinancières)}
-        filters={filters}
-      />
-    );
-  });
+      return (
+        <GarantiesFinancièresDépôtsEnCoursListPage
+          list={mapToListProps(dépôtsEnCoursGarantiesFinancières)}
+          filters={filters}
+        />
+      );
+    }),
+  );
 }
 
 const mapToListProps = (
