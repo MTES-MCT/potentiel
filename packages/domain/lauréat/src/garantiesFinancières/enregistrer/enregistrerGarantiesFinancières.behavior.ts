@@ -1,15 +1,15 @@
-import { DateTime, IdentifiantProjet } from "@potentiel-domain/common";
-import { DomainEvent, NotFoundError } from "@potentiel-domain/core";
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DomainEvent, NotFoundError } from '@potentiel-domain/core';
 
-import { TypeGarantiesFinancières } from "..";
-import { GarantiesFinancièresAggregate } from "../garantiesFinancières.aggregate";
-import { DateÉchéanceManquanteError } from "../dateÉchéanceManquante.error";
-import { DateÉchéanceNonAttendueError } from "../dateÉchéanceNonAttendue.error";
-import { IdentifiantUtilisateur } from "@potentiel-domain/utilisateur";
-import { DateConstitutionDansLeFuturError } from "../dateConstitutionDansLeFutur.error";
+import { TypeGarantiesFinancières } from '..';
+import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
+import { DateÉchéanceManquanteError } from '../dateÉchéanceManquante.error';
+import { DateÉchéanceNonAttendueError } from '../dateÉchéanceNonAttendue.error';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateConstitutionDansLeFuturError } from '../dateConstitutionDansLeFutur.error';
 
 export type GarantiesFinancièresEnregistréesEvent = DomainEvent<
-  "GarantiesFinancièresEnregistrées-V1",
+  'GarantiesFinancièresEnregistrées-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     type: TypeGarantiesFinancières.RawType;
@@ -41,7 +41,7 @@ export async function enregistrer(
     dateÉchéance,
     enregistréLe,
     enregistréPar,
-  }: Options
+  }: Options,
 ) {
   if (this.actuelles) {
     throw new GarantiesFinancièresDéjàEnregistréesError();
@@ -57,7 +57,7 @@ export async function enregistrer(
   }
 
   const event: GarantiesFinancièresEnregistréesEvent = {
-    type: "GarantiesFinancièresEnregistrées-V1",
+    type: 'GarantiesFinancièresEnregistrées-V1',
     payload: {
       attestation: { format: attestation.format },
       dateConstitution: dateConstitution.formatter(),
@@ -76,7 +76,7 @@ export function applyEnregistrerGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
   {
     payload: { type, dateÉchéance, dateConstitution, attestation },
-  }: GarantiesFinancièresEnregistréesEvent
+  }: GarantiesFinancièresEnregistréesEvent,
 ) {
   this.actuelles = {
     type: TypeGarantiesFinancières.convertirEnValueType(type),

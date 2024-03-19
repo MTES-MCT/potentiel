@@ -1,17 +1,14 @@
-"use client";
+'use client';
 
-import { useSearchParams } from "next/navigation";
-import { FC } from "react";
+import { useSearchParams } from 'next/navigation';
+import { FC } from 'react';
 
-import {
-  ListPageTemplate,
-  ListPageTemplateProps,
-} from "@/components/templates/ListPage.template";
+import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 
 import {
   GarantiesFinancièresDépôtsEnCoursListItem,
   GarantiesFinancièresDépôtsEnCoursListItemProps,
-} from "./GarantiesFinancièresListItem";
+} from './GarantiesFinancièresListItem';
 
 export type GarantiesFinancièresDépôtsEnCoursListProps = {
   list: {
@@ -20,24 +17,21 @@ export type GarantiesFinancièresDépôtsEnCoursListProps = {
     totalItems: number;
     itemsPerPage: number;
   };
-  filters: ListPageTemplateProps<GarantiesFinancièresDépôtsEnCoursListItemProps>["filters"];
+  filters: ListPageTemplateProps<GarantiesFinancièresDépôtsEnCoursListItemProps>['filters'];
 };
 
 export const GarantiesFinancièresDépôtsEnCoursListPage: FC<
   GarantiesFinancièresDépôtsEnCoursListProps
-> = ({
-  list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage },
-  filters,
-}) => {
+> = ({ list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage }, filters }) => {
   const searchParams = useSearchParams();
-  const appelOffre = searchParams.get("appelOffre") ?? undefined;
+  const appelOffre = searchParams.get('appelOffre') ?? undefined;
 
   const tagFilters = [
     ...(appelOffre
       ? [
           {
             label: `appel d'offres : ${appelOffre}`,
-            searchParamKey: "appelOffre",
+            searchParamKey: 'appelOffre',
           },
         ]
       : []),
