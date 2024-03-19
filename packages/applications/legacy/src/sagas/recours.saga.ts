@@ -2,7 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Recours } from '@potentiel-domain/elimine';
 import { publishToEventBus } from '../config/eventBus.config';
-import { ProjectCertificateUpdated, ProjectClasseGranted } from '../modules/project';
+import {
+  ProjectCertificateGenerated,
+  ProjectClasseGranted,
+} from '../modules/project';
 import { getLegacyIdByIdentifiantProjet } from '../infra/sequelize/queries/project/getLegacyIdByIdentifiantProjet';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { logger } from '../core/utils';
@@ -43,11 +46,11 @@ export const register = () => {
               }),
             ).map(() => {
               publishToEventBus(
-                new ProjectCertificateUpdated({
+                new ProjectCertificateGenerated({
                   payload: {
                     projectId,
-                    certificateFileId,
-                    uploadedBy: accordéPar,
+                    certificateFileId, // Problème ici car on ne stocke pas le fichier de réponse dans la table `File`. Il faudrait générer l'attestation de désignation après un recours
+                    // uploadedBy: accordéPar,
                   },
                 }),
               ).map(() => {
