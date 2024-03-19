@@ -15,7 +15,7 @@ export type SubscriptionEvent = Recours.RecoursEvent & Event;
 /**
  * @deprecated à bouger dans la nouvelle app
  */
-export type Execute = Message<'EXECUTE_RECOURS_SAGA', SubscriptionEvent>;
+export type Execute = Message<'System.Saga.Recours', SubscriptionEvent>;
 
 /**
  * @deprecated à bouger dans la nouvelle app
@@ -57,7 +57,7 @@ export const register = () => {
           });
         } else {
           logger.warning('Identifiant projet inconnu', {
-            saga: 'EXECUTE_RECOURS_SAGA',
+            saga: 'System.Saga.Recours',
             event,
           });
         }
@@ -65,5 +65,5 @@ export const register = () => {
     return Promise.reject();
   };
 
-  mediator.register('EXECUTE_RECOURS_SAGA', handler);
+  mediator.register('System.Saga.Recours', handler);
 };
