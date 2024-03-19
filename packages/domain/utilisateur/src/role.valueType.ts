@@ -1,27 +1,24 @@
-import {
-  OperationRejectedError,
-  ReadonlyValueType,
-} from "@potentiel-domain/core";
+import { OperationRejectedError, ReadonlyValueType } from '@potentiel-domain/core';
 
 export type RawType =
-  | "admin"
-  | "porteur-projet"
-  | "dreal"
-  | "acheteur-obligé"
-  | "ademe"
-  | "dgec-validateur"
-  | "caisse-des-dépôts"
-  | "cre";
+  | 'admin'
+  | 'porteur-projet'
+  | 'dreal'
+  | 'acheteur-obligé'
+  | 'ademe'
+  | 'dgec-validateur'
+  | 'caisse-des-dépôts'
+  | 'cre';
 
 const roles: Array<RawType> = [
-  "admin",
-  "porteur-projet",
-  "dreal",
-  "acheteur-obligé",
-  "ademe",
-  "dgec-validateur",
-  "caisse-des-dépôts",
-  "cre",
+  'admin',
+  'porteur-projet',
+  'dreal',
+  'acheteur-obligé',
+  'ademe',
+  'dgec-validateur',
+  'caisse-des-dépôts',
+  'cre',
 ];
 
 export type ValueType = ReadonlyValueType<{
@@ -38,7 +35,7 @@ export const convertirEnValueType = (value: string): ValueType => {
       return valueType.nom === this.nom;
     },
     libellé() {
-      return this.nom.replace("-", " ").toLocaleUpperCase();
+      return this.nom.replace('-', ' ').toLocaleUpperCase();
     },
     vérifierLaPermission(permission) {
       const aLaPermission = permissions[this.nom].includes(permission);
@@ -62,12 +59,12 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const porteur = convertirEnValueType("porteur-projet");
-export const admin = convertirEnValueType("admin");
-export const dgecValidateur = convertirEnValueType("dgec-validateur");
-export const dreal = convertirEnValueType("dreal");
-export const cre = convertirEnValueType("cre");
-export const acheteurObligé = convertirEnValueType("acheteur-obligé");
+export const porteur = convertirEnValueType('porteur-projet');
+export const admin = convertirEnValueType('admin');
+export const dgecValidateur = convertirEnValueType('dgec-validateur');
+export const dreal = convertirEnValueType('dreal');
+export const cre = convertirEnValueType('cre');
+export const acheteurObligé = convertirEnValueType('acheteur-obligé');
 
 class RoleRefuséError extends OperationRejectedError {
   constructor(value: string) {
@@ -91,180 +88,157 @@ const référencielPermissions = {
   lauréat: {
     abandon: {
       query: {
-        consulter: "Lauréat.Abandon.Query.ConsulterAbandon",
-        lister: "Lauréat.Abandon.Query.ListerAbandons",
-        détecter: "Lauréat.Abandon.Query.DétecterAbandon",
+        consulter: 'Lauréat.Abandon.Query.ConsulterAbandon',
+        lister: 'Lauréat.Abandon.Query.ListerAbandons',
+        détecter: 'Lauréat.Abandon.Query.DétecterAbandon',
       },
       usecase: {
-        annuler: "Lauréat.Abandon.UseCase.AnnulerAbandon",
-        confirmer: "Lauréat.Abandon.UseCase.ConfirmerAbandon",
-        demander: "Lauréat.Abandon.UseCase.DemanderAbandon",
+        annuler: 'Lauréat.Abandon.UseCase.AnnulerAbandon',
+        confirmer: 'Lauréat.Abandon.UseCase.ConfirmerAbandon',
+        demander: 'Lauréat.Abandon.UseCase.DemanderAbandon',
         transmettrePreuveRecandidature:
-          "Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon",
-        accorder: "Lauréat.Abandon.UseCase.AccorderAbandon",
-        annulerRejet: "Lauréat.Abandon.UseCase.AnnulerRejetAbandon",
-        demanderConfirmation:
-          "Lauréat.Abandon.UseCase.DemanderConfirmationAbandon",
-        rejeter: "Lauréat.Abandon.UseCase.RejeterAbandon",
+          'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
+        accorder: 'Lauréat.Abandon.UseCase.AccorderAbandon',
+        annulerRejet: 'Lauréat.Abandon.UseCase.AnnulerRejetAbandon',
+        demanderConfirmation: 'Lauréat.Abandon.UseCase.DemanderConfirmationAbandon',
+        rejeter: 'Lauréat.Abandon.UseCase.RejeterAbandon',
       },
       command: {
-        annuler: "Lauréat.Abandon.Command.AnnulerAbandon",
-        confirmer: "Lauréat.Abandon.Command.ConfirmerAbandon",
-        demander: "Lauréat.Abandon.Command.DemanderAbandon",
+        annuler: 'Lauréat.Abandon.Command.AnnulerAbandon',
+        confirmer: 'Lauréat.Abandon.Command.ConfirmerAbandon',
+        demander: 'Lauréat.Abandon.Command.DemanderAbandon',
         transmettrePreuveRecandidature:
-          "Lauréat.Abandon.Command.TransmettrePreuveRecandidatureAbandon",
-        accorder: "Lauréat.Abandon.Command.AccorderAbandon",
-        annulerRejet: "Lauréat.Abandon.Command.AnnulerRejetAbandon",
-        demanderConfirmation:
-          "Lauréat.Abandon.Command.DemanderConfirmationAbandon",
-        rejeter: "Lauréat.Abandon.Command.RejeterAbandon",
+          'Lauréat.Abandon.Command.TransmettrePreuveRecandidatureAbandon',
+        accorder: 'Lauréat.Abandon.Command.AccorderAbandon',
+        annulerRejet: 'Lauréat.Abandon.Command.AnnulerRejetAbandon',
+        demanderConfirmation: 'Lauréat.Abandon.Command.DemanderConfirmationAbandon',
+        rejeter: 'Lauréat.Abandon.Command.RejeterAbandon',
       },
     },
     garantiesFinancières: {
       query: {
-        consulter:
-          "Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières",
+        consulter: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
         listerDépôtsEnCours:
-          "Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières",
+          'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
       },
       usecase: {
-        demander:
-          "Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières",
-        soumettre:
-          "Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières",
+        demander: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
+        soumettre: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
         supprimerGarantiesFinancièresÀTraiter:
-          "Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter",
-        valider:
-          "Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours",
+          'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
+        valider: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
         modifierGarantiesFinancièresÀTraiter:
-          "Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours",
-        importerType:
-          "Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières",
-        modifier:
-          "Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières",
-        enregistrerAttestation:
-          "Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation",
-        enregistrer:
-          "Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières",
+          'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
+        importerType: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
+        modifier: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
+        enregistrerAttestation: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
+        enregistrer: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
       },
       command: {
-        demander:
-          "Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières",
-        soumettre:
-          "Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières",
+        demander: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
+        soumettre: 'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',
         supprimerGarantiesFinancièresÀTraiter:
-          "Lauréat.GarantiesFinancières.Command.SupprimerDépôtGarantiesFinancièresEnCours",
-        valider:
-          "Lauréat.GarantiesFinancières.Command.ValiderDépôtGarantiesFinancièresEnCours",
+          'Lauréat.GarantiesFinancières.Command.SupprimerDépôtGarantiesFinancièresEnCours',
+        valider: 'Lauréat.GarantiesFinancières.Command.ValiderDépôtGarantiesFinancièresEnCours',
         modifierGarantiesFinancièresÀTraiter:
-          "Lauréat.GarantiesFinancières.Command.ModifierDépôtGarantiesFinancièresEnCours",
-        importerType:
-          "Lauréat.GarantiesFinancières.Command.ImporterTypeGarantiesFinancières",
-        modifier:
-          "Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières",
-        enregistrerAttestation:
-          "Lauréat.GarantiesFinancières.Command.EnregistrerAttestation",
-        enregistrer:
-          "Lauréat.GarantiesFinancières.Command.EnregistrerGarantiesFinancières",
+          'Lauréat.GarantiesFinancières.Command.ModifierDépôtGarantiesFinancièresEnCours',
+        importerType: 'Lauréat.GarantiesFinancières.Command.ImporterTypeGarantiesFinancières',
+        modifier: 'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières',
+        enregistrerAttestation: 'Lauréat.GarantiesFinancières.Command.EnregistrerAttestation',
+        enregistrer: 'Lauréat.GarantiesFinancières.Command.EnregistrerGarantiesFinancières',
       },
     },
   },
   appelOffre: {
     cahierDesCharges: {
       query: {
-        consulter:
-          "Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi",
+        consulter: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
       },
     },
     query: {
-      consulter: "AppelOffre.Query.ConsulterAppelOffre",
-      lister: "AppelOffre.Query.ListerAppelOffre",
+      consulter: 'AppelOffre.Query.ConsulterAppelOffre',
+      lister: 'AppelOffre.Query.ListerAppelOffre',
     },
   },
   candidature: {
     query: {
-      consulter: "Candidature.Query.ConsulterCandidature",
+      consulter: 'Candidature.Query.ConsulterCandidature',
       listerCandidaturesPreuveRecandidature:
-        "Candidature.Query.ListerCandidaturesEligiblesPreuveRecandidature",
+        'Candidature.Query.ListerCandidaturesEligiblesPreuveRecandidature',
     },
   },
   document: {
     query: {
-      consulter: "Document.Query.ConsulterDocumentProjet",
-      générerModèleRéponse: "Document.Query.GénérerModèleRéponseAbandon",
+      consulter: 'Document.Query.ConsulterDocumentProjet',
+      générerModèleRéponse: 'Document.Query.GénérerModèleRéponseAbandon',
     },
     command: {
-      enregister: "Document.Command.EnregistrerDocumentProjet",
-      déplacer: "Document.Command.DéplacerDocumentProjet",
+      enregister: 'Document.Command.EnregistrerDocumentProjet',
+      déplacer: 'Document.Command.DéplacerDocumentProjet',
     },
   },
   réseau: {
     gestionnaire: {
       query: {
-        consulter: "Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau",
-        lister: "Réseau.Gestionnaire.Query.ListerGestionnaireRéseau",
+        consulter: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
+        lister: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
       },
       usecase: {
-        ajouter: "Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau",
-        modifier: "Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau",
+        ajouter: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
+        modifier: 'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',
       },
       command: {
-        ajouter: "Réseau.Gestionnaire.Command.AjouterGestionnaireRéseau",
-        modifier: "Réseau.Gestionnaire.Command.ModifierGestionnaireRéseau",
+        ajouter: 'Réseau.Gestionnaire.Command.AjouterGestionnaireRéseau',
+        modifier: 'Réseau.Gestionnaire.Command.ModifierGestionnaireRéseau',
       },
     },
     raccordement: {
       query: {
-        consulter: "Réseau.Raccordement.Query.ConsulterRaccordement",
-        consulterDossier:
-          "Réseau.Raccordement.Query.ConsulterDossierRaccordement",
+        consulter: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+        consulterDossier: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
         consulterGestionnaireRéseau:
-          "Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement",
-        rechercher: "Réseau.Raccordement.Query.RechercherDossierRaccordement",
+          'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
+        rechercher: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
       },
       usecase: {
-        modifierDemandeComplète:
-          "Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement",
+        modifierDemandeComplète: 'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
         modifierGestionnaireRéseau:
-          "Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement",
+          'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
         modifierPropostionTechniqueEtFinancière:
-          "Réseau.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière",
+          'Réseau.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
         modifierRéférenceDossier:
-          "Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement",
-        transmettreDateMiseEnService:
-          "Réseau.Raccordement.UseCase.TransmettreDateMiseEnService",
+          'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+        transmettreDateMiseEnService: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
         transmettreDemandeComplète:
-          "Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement",
+          'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
         transmettrePropositionTechniqueEtFinancière:
-          "Réseau.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière",
+          'Réseau.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
       },
       command: {
-        modifierDemandeComplète:
-          "Réseau.Raccordement.Command.ModifierDemandeComplèteRaccordement",
+        modifierDemandeComplète: 'Réseau.Raccordement.Command.ModifierDemandeComplèteRaccordement',
         modifierGestionnaireRéseau:
-          "Réseau.Raccordement.Command.ModifierGestionnaireRéseauRaccordement",
+          'Réseau.Raccordement.Command.ModifierGestionnaireRéseauRaccordement',
         modifierPropostionTechniqueEtFinancière:
-          "Réseau.Raccordement.Command.ModifierPropositionTechniqueEtFinancière",
+          'Réseau.Raccordement.Command.ModifierPropositionTechniqueEtFinancière',
         modifierRéférenceDossier:
-          "Réseau.Raccordement.Command.ModifierRéférenceDossierRaccordement",
-        transmettreDateMiseEnService:
-          "Réseau.Raccordement.Command.TransmettreDateMiseEnService",
+          'Réseau.Raccordement.Command.ModifierRéférenceDossierRaccordement',
+        transmettreDateMiseEnService: 'Réseau.Raccordement.Command.TransmettreDateMiseEnService',
         transmettreDemandeComplète:
-          "Réseau.Raccordement.Command.TransmettreDemandeComplèteRaccordement",
+          'Réseau.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
         transmettrePropositionTechniqueEtFinancière:
-          "Réseau.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière",
+          'Réseau.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière',
       },
     },
   },
   utilisateur: {
     query: {
-      consulter: "Utilisateur.Query.ConsulterUtilisateur",
+      consulter: 'Utilisateur.Query.ConsulterUtilisateur',
     },
   },
   tâche: {
     query: {
-      consulterNombre: "Tâche.Query.ConsulterNombreTâches",
-      lister: "Tâche.Query.ListerTâches",
+      consulterNombre: 'Tâche.Query.ConsulterNombreTâches',
+      lister: 'Tâche.Query.ListerTâches',
     },
   },
 } as const;
@@ -279,33 +253,27 @@ const policies = {
         référencielPermissions.réseau.raccordement.query.consulterDossier,
         référencielPermissions.réseau.gestionnaire.query.consulter,
       ],
-      "demande-complète-raccordement": {
+      'demande-complète-raccordement': {
         transmettre: [
           référencielPermissions.candidature.query.consulter,
           référencielPermissions.appelOffre.query.consulter,
           référencielPermissions.document.command.enregister,
           référencielPermissions.réseau.gestionnaire.query.lister,
-          référencielPermissions.réseau.raccordement.query
-            .consulterGestionnaireRéseau,
-          référencielPermissions.réseau.raccordement.usecase
-            .transmettreDemandeComplète,
-          référencielPermissions.réseau.raccordement.command
-            .transmettreDemandeComplète,
+          référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
+          référencielPermissions.réseau.raccordement.usecase.transmettreDemandeComplète,
+          référencielPermissions.réseau.raccordement.command.transmettreDemandeComplète,
         ],
         modifier: [
           référencielPermissions.candidature.query.consulter,
           référencielPermissions.appelOffre.query.consulter,
           référencielPermissions.document.command.enregister,
-          référencielPermissions.réseau.raccordement.query
-            .consulterGestionnaireRéseau,
+          référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
           référencielPermissions.réseau.raccordement.query.consulterDossier,
-          référencielPermissions.réseau.raccordement.usecase
-            .modifierDemandeComplète,
-          référencielPermissions.réseau.raccordement.command
-            .modifierDemandeComplète,
+          référencielPermissions.réseau.raccordement.usecase.modifierDemandeComplète,
+          référencielPermissions.réseau.raccordement.command.modifierDemandeComplète,
         ],
       },
-      "proposition-technique-et-financière": {
+      'proposition-technique-et-financière': {
         transmettre: [
           référencielPermissions.candidature.query.consulter,
           référencielPermissions.document.command.enregister,
@@ -325,49 +293,39 @@ const policies = {
             .modifierPropostionTechniqueEtFinancière,
         ],
       },
-      "date-mise-en-service": {
+      'date-mise-en-service': {
         transmettre: [
           référencielPermissions.candidature.query.consulter,
           référencielPermissions.appelOffre.query.consulter,
           référencielPermissions.réseau.raccordement.query.consulterDossier,
-          référencielPermissions.réseau.raccordement.usecase
-            .transmettreDateMiseEnService,
-          référencielPermissions.réseau.raccordement.command
-            .transmettreDateMiseEnService,
+          référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
+          référencielPermissions.réseau.raccordement.command.transmettreDateMiseEnService,
         ],
         importer: [
           référencielPermissions.réseau.raccordement.query.rechercher,
           référencielPermissions.candidature.query.consulter,
-          référencielPermissions.réseau.raccordement.usecase
-            .transmettreDateMiseEnService,
-          référencielPermissions.réseau.raccordement.command
-            .transmettreDateMiseEnService,
+          référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
+          référencielPermissions.réseau.raccordement.command.transmettreDateMiseEnService,
         ],
       },
-      "référence-dossier": {
+      'référence-dossier': {
         modifier: [
           référencielPermissions.candidature.query.consulter,
           référencielPermissions.appelOffre.query.consulter,
           référencielPermissions.document.command.déplacer,
-          référencielPermissions.réseau.raccordement.query
-            .consulterGestionnaireRéseau,
+          référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
           référencielPermissions.réseau.raccordement.query.consulterDossier,
-          référencielPermissions.réseau.raccordement.usecase
-            .modifierRéférenceDossier,
-          référencielPermissions.réseau.raccordement.command
-            .modifierRéférenceDossier,
+          référencielPermissions.réseau.raccordement.usecase.modifierRéférenceDossier,
+          référencielPermissions.réseau.raccordement.command.modifierRéférenceDossier,
         ],
       },
       gestionnaire: {
         modifier: [
           référencielPermissions.candidature.query.consulter,
           référencielPermissions.réseau.gestionnaire.query.lister,
-          référencielPermissions.réseau.raccordement.query
-            .consulterGestionnaireRéseau,
-          référencielPermissions.réseau.raccordement.usecase
-            .modifierGestionnaireRéseau,
-          référencielPermissions.réseau.raccordement.command
-            .modifierGestionnaireRéseau,
+          référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
+          référencielPermissions.réseau.raccordement.usecase.modifierGestionnaireRéseau,
+          référencielPermissions.réseau.raccordement.command.modifierGestionnaireRéseau,
         ],
       },
     },
@@ -440,7 +398,7 @@ const policies = {
       référencielPermissions.lauréat.abandon.usecase.rejeter,
       référencielPermissions.lauréat.abandon.command.rejeter,
     ],
-    "demander-confirmation": [
+    'demander-confirmation': [
       référencielPermissions.candidature.query.consulter,
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.utilisateur.query.consulter,
@@ -451,16 +409,13 @@ const policies = {
       référencielPermissions.lauréat.abandon.usecase.demanderConfirmation,
       référencielPermissions.lauréat.abandon.command.demanderConfirmation,
     ],
-    "preuve-recandidature": {
+    'preuve-recandidature': {
       transmettre: [
         référencielPermissions.lauréat.abandon.query.consulter,
         référencielPermissions.candidature.query.consulter,
-        référencielPermissions.candidature.query
-          .listerCandidaturesPreuveRecandidature,
-        référencielPermissions.lauréat.abandon.usecase
-          .transmettrePreuveRecandidature,
-        référencielPermissions.lauréat.abandon.command
-          .transmettrePreuveRecandidature,
+        référencielPermissions.candidature.query.listerCandidaturesPreuveRecandidature,
+        référencielPermissions.lauréat.abandon.usecase.transmettrePreuveRecandidature,
+        référencielPermissions.lauréat.abandon.command.transmettrePreuveRecandidature,
       ],
       accorder: [
         référencielPermissions.candidature.query.consulter,
@@ -475,7 +430,7 @@ const policies = {
         référencielPermissions.lauréat.abandon.command.accorder,
       ],
     },
-    "annuler-rejet": [
+    'annuler-rejet': [
       référencielPermissions.candidature.query.consulter,
       référencielPermissions.lauréat.abandon.query.consulter,
       référencielPermissions.lauréat.abandon.usecase.annulerRejet,
@@ -495,7 +450,7 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.query.consulter,
       ],
       liste: [
-        référencielPermissions.lauréat.garantiesFinancières.query.lister,
+        référencielPermissions.lauréat.garantiesFinancières.query.listerDépôtsEnCours,
         référencielPermissions.appelOffre.query.lister,
       ],
     },
@@ -515,13 +470,13 @@ const policies = {
       référencielPermissions.lauréat.garantiesFinancières.command.valider,
       référencielPermissions.document.command.déplacer,
     ],
-    "supprimer-dépôt-garanties-financières-en-cours": [
+    'supprimer-dépôt-garanties-financières-en-cours': [
       référencielPermissions.lauréat.garantiesFinancières.usecase
         .supprimerGarantiesFinancièresÀTraiter,
       référencielPermissions.lauréat.garantiesFinancières.command
         .supprimerGarantiesFinancièresÀTraiter,
     ],
-    "modifier-dépôt-garanties-financières-en-cours": [
+    'modifier-dépôt-garanties-financières-en-cours': [
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.lauréat.garantiesFinancières.usecase
         .modifierGarantiesFinancièresÀTraiter,
@@ -542,10 +497,8 @@ const policies = {
     enregistrerAttestation: [
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.document.command.enregister,
-      référencielPermissions.lauréat.garantiesFinancières.usecase
-        .enregistrerAttestation,
-      référencielPermissions.lauréat.garantiesFinancières.command
-        .enregistrerAttestation,
+      référencielPermissions.lauréat.garantiesFinancières.usecase.enregistrerAttestation,
+      référencielPermissions.lauréat.garantiesFinancières.command.enregistrerAttestation,
     ],
     enregistrer: [
       référencielPermissions.document.command.enregister,
@@ -561,8 +514,8 @@ const permissionAdmin = [
   ...policies.abandon.consulter.détail,
   ...policies.abandon.accorder,
   ...policies.abandon.rejeter,
-  ...policies.abandon["demander-confirmation"],
-  ...policies.abandon["annuler-rejet"],
+  ...policies.abandon['demander-confirmation'],
+  ...policies.abandon['annuler-rejet'],
 
   // Gestionnaire réseau
   ...policies.réseau.gestionnaire.lister,
@@ -572,24 +525,20 @@ const permissionAdmin = [
   // Raccordement
   ...policies.réseau.raccordement.consulter,
   ...policies.réseau.raccordement.gestionnaire.modifier,
-  ...policies.réseau.raccordement["demande-complète-raccordement"].transmettre,
-  ...policies.réseau.raccordement["demande-complète-raccordement"].modifier,
-  ...policies.réseau.raccordement["proposition-technique-et-financière"]
-    .transmettre,
-  ...policies.réseau.raccordement["proposition-technique-et-financière"]
-    .modifier,
-  ...policies.réseau.raccordement["date-mise-en-service"].transmettre,
-  ...policies.réseau.raccordement["date-mise-en-service"].importer,
-  ...policies.réseau.raccordement["référence-dossier"].modifier,
+  ...policies.réseau.raccordement['demande-complète-raccordement'].transmettre,
+  ...policies.réseau.raccordement['demande-complète-raccordement'].modifier,
+  ...policies.réseau.raccordement['proposition-technique-et-financière'].transmettre,
+  ...policies.réseau.raccordement['proposition-technique-et-financière'].modifier,
+  ...policies.réseau.raccordement['date-mise-en-service'].transmettre,
+  ...policies.réseau.raccordement['date-mise-en-service'].importer,
+  ...policies.réseau.raccordement['référence-dossier'].modifier,
 
   // Garanties financières
   ...policies.garantiesFinancières.consulter.détail,
   ...policies.garantiesFinancières.consulter.liste,
   ...policies.garantiesFinancières.demander,
   ...policies.garantiesFinancières.valider,
-  ...policies.garantiesFinancières[
-    "modifier-dépôt-garanties-financières-en-cours"
-  ],
+  ...policies.garantiesFinancières['modifier-dépôt-garanties-financières-en-cours'],
   ...policies.garantiesFinancières.importer,
   ...policies.garantiesFinancières.modifier,
   ...policies.garantiesFinancières.enregistrerAttestation,
@@ -624,9 +573,7 @@ const permissionDreal = [
   ...policies.garantiesFinancières.consulter.liste,
   ...policies.garantiesFinancières.demander,
   ...policies.garantiesFinancières.valider,
-  ...policies.garantiesFinancières[
-    "modifier-dépôt-garanties-financières-en-cours"
-  ],
+  ...policies.garantiesFinancières['modifier-dépôt-garanties-financières-en-cours'],
   ...policies.garantiesFinancières.modifier,
   ...policies.garantiesFinancières.enregistrerAttestation,
   ...policies.garantiesFinancières.enregistrer,
@@ -638,9 +585,9 @@ const permissionDgecValidateur = [
   ...policies.abandon.consulter.détail,
   ...policies.abandon.accorder,
   ...policies.abandon.rejeter,
-  ...policies.abandon["preuve-recandidature"].accorder,
-  ...policies.abandon["demander-confirmation"],
-  ...policies.abandon["annuler-rejet"],
+  ...policies.abandon['preuve-recandidature'].accorder,
+  ...policies.abandon['demander-confirmation'],
+  ...policies.abandon['annuler-rejet'],
 
   // Gestionnaire réseau
   ...policies.réseau.gestionnaire.lister,
@@ -650,15 +597,13 @@ const permissionDgecValidateur = [
   // Raccordement
   ...policies.réseau.raccordement.consulter,
   ...policies.réseau.raccordement.gestionnaire.modifier,
-  ...policies.réseau.raccordement["demande-complète-raccordement"].transmettre,
-  ...policies.réseau.raccordement["demande-complète-raccordement"].modifier,
-  ...policies.réseau.raccordement["proposition-technique-et-financière"]
-    .transmettre,
-  ...policies.réseau.raccordement["proposition-technique-et-financière"]
-    .modifier,
-  ...policies.réseau.raccordement["date-mise-en-service"].transmettre,
-  ...policies.réseau.raccordement["date-mise-en-service"].importer,
-  ...policies.réseau.raccordement["référence-dossier"].modifier,
+  ...policies.réseau.raccordement['demande-complète-raccordement'].transmettre,
+  ...policies.réseau.raccordement['demande-complète-raccordement'].modifier,
+  ...policies.réseau.raccordement['proposition-technique-et-financière'].transmettre,
+  ...policies.réseau.raccordement['proposition-technique-et-financière'].modifier,
+  ...policies.réseau.raccordement['date-mise-en-service'].transmettre,
+  ...policies.réseau.raccordement['date-mise-en-service'].importer,
+  ...policies.réseau.raccordement['référence-dossier'].modifier,
 
   // Garanties financières
   ...policies.garantiesFinancières.consulter.détail,
@@ -678,18 +623,16 @@ const permissionPorteurProjet = [
   ...policies.abandon.demander,
   ...policies.abandon.annuler,
   ...policies.abandon.confirmer,
-  ...policies.abandon["preuve-recandidature"].transmettre,
+  ...policies.abandon['preuve-recandidature'].transmettre,
 
   // Raccordement
   ...policies.réseau.raccordement.consulter,
   ...policies.réseau.raccordement.gestionnaire.modifier,
-  ...policies.réseau.raccordement["demande-complète-raccordement"].transmettre,
-  ...policies.réseau.raccordement["demande-complète-raccordement"].modifier,
-  ...policies.réseau.raccordement["proposition-technique-et-financière"]
-    .transmettre,
-  ...policies.réseau.raccordement["proposition-technique-et-financière"]
-    .modifier,
-  ...policies.réseau.raccordement["référence-dossier"].modifier,
+  ...policies.réseau.raccordement['demande-complète-raccordement'].transmettre,
+  ...policies.réseau.raccordement['demande-complète-raccordement'].modifier,
+  ...policies.réseau.raccordement['proposition-technique-et-financière'].transmettre,
+  ...policies.réseau.raccordement['proposition-technique-et-financière'].modifier,
+  ...policies.réseau.raccordement['référence-dossier'].modifier,
 
   // Tâche
   ...policies.tâche.consulter,
@@ -699,12 +642,8 @@ const permissionPorteurProjet = [
   ...policies.garantiesFinancières.demander,
   ...policies.garantiesFinancières.valider,
   ...policies.garantiesFinancières.soumettre,
-  ...policies.garantiesFinancières[
-    "supprimer-dépôt-garanties-financières-en-cours"
-  ],
-  ...policies.garantiesFinancières[
-    "modifier-dépôt-garanties-financières-en-cours"
-  ],
+  ...policies.garantiesFinancières['supprimer-dépôt-garanties-financières-en-cours'],
+  ...policies.garantiesFinancières['modifier-dépôt-garanties-financières-en-cours'],
   ...policies.garantiesFinancières.enregistrerAttestation,
 ];
 
@@ -725,11 +664,11 @@ const permissionCaisseDesDépôts = [
 
 const permissions: Record<RawType, string[]> = {
   admin: [...new Set(permissionAdmin)],
-  "acheteur-obligé": [...new Set(permissionAcheteurObligé)],
+  'acheteur-obligé': [...new Set(permissionAcheteurObligé)],
   ademe: [],
-  "caisse-des-dépôts": [...new Set(permissionCaisseDesDépôts)],
+  'caisse-des-dépôts': [...new Set(permissionCaisseDesDépôts)],
   cre: [...new Set(permissionCRE)],
   dreal: [...new Set(permissionDreal)],
-  "dgec-validateur": [...new Set(permissionDgecValidateur)],
-  "porteur-projet": [...new Set(permissionPorteurProjet)],
+  'dgec-validateur': [...new Set(permissionDgecValidateur)],
+  'porteur-projet': [...new Set(permissionPorteurProjet)],
 };
