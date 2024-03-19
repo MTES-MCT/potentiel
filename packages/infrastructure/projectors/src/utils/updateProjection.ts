@@ -1,9 +1,13 @@
-import { Entity } from '@potentiel-domain/core';
-import { executeQuery } from '@potentiel/pg-helpers';
+import { Entity } from "@potentiel-domain/core";
+import { executeQuery } from "@potentiel/pg-helpers";
+import { flatten } from "flat";
+
+const updateQuery =
+  "update domain_views.projection set value=$2 where key = $1";
 
 export const updateProjection = async <TProjection extends Entity>(
-  id: `${TProjection['type']}|${string}`,
-  readModel: Omit<TProjection, 'type'>,
+  id: `${TProjection["type"]}|${string}`,
+  readModel: Omit<TProjection, "type">
 ): Promise<void> => {
-  await executeQuery(`update domain_views.projection set value=$2 where key = $1`, id, readModel);
+  await executeQuery(updateQuery, id, flatten(readModel));
 };
