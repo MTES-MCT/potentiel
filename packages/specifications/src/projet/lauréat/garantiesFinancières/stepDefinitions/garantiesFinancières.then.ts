@@ -151,6 +151,9 @@ Alors(
   },
 );
 
+/**
+ * @todo Pas implémenté pour l'instant, il faut voir comment gérer les steps qui utilisent des queries avec un utilisateur
+ */
 Alors(
   `les garanties financières devraient être consultable dans la liste des dépôts en cours pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
@@ -171,9 +174,12 @@ Alors(
           type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
           data: {
             pagination: { page: 1, itemsPerPage: 10 },
+            /**
+             * @todo voir comment gérer un test qui utilise un utilisateur
+             */
             utilisateur: {
-              email: 'dreal@test.test',
-              rôle: 'dreal',
+              email: '',
+              rôle: '',
             },
           },
         });
