@@ -3,7 +3,6 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
     
-    @select
     Plan du Scénario: Un porteur soumet des garanties financières initiales
         Etant donné des garanties financières en attente pour le projet "Centrale PV" avec :
             | date limite de soumission | 2023-11-01 |
