@@ -19,8 +19,14 @@ import { UnauthorizedError } from '../../../modules/shared';
 import { logger } from '../../../core/utils';
 import { DomainError } from '../../../core/domain';
 import { mediator } from 'mediateur';
-import { ConsulterAppelOffreQuery, ConsulterAppelOffreReadModel } from '@potentiel-domain/appel-offre';
-import { ConsulterCandidatureQuery, ConsulterCandidatureReadModel } from '@potentiel-domain/candidature';
+import {
+  ConsulterAppelOffreQuery,
+  ConsulterAppelOffreReadModel,
+} from '@potentiel-domain/appel-offre';
+import {
+  ConsulterCandidatureQuery,
+  ConsulterCandidatureReadModel,
+} from '@potentiel-domain/candidature';
 import { getDelaiDeRealisation } from '../../../modules/projectAppelOffre';
 import { add, sub } from 'date-fns';
 import { ModificationRequest } from '../../../infra/sequelize/projectionsNext';
