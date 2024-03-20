@@ -13,8 +13,14 @@ import asyncHandler from '../../helpers/asyncHandler';
 import { v1Router } from '../../v1Router';
 import { validateUniqueId } from '../../../helpers/validateUniqueId';
 import { ModificationRequest, Project } from '../../../infra/sequelize/projectionsNext';
-import { ConsulterAppelOffreQuery, ConsulterAppelOffreReadModel } from '@potentiel-domain/appel-offre';
-import { ConsulterCandidatureQuery, ConsulterCandidatureReadModel } from '@potentiel-domain/candidature';
+import {
+  ConsulterAppelOffreQuery,
+  ConsulterAppelOffreReadModel,
+} from '@potentiel-domain/appel-offre';
+import {
+  ConsulterCandidatureQuery,
+  ConsulterCandidatureReadModel,
+} from '@potentiel-domain/candidature';
 import { mediator } from 'mediateur';
 import { getDelaiDeRealisation } from '../../../modules/projectAppelOffre';
 import { add, sub } from 'date-fns';
