@@ -8,6 +8,7 @@
     "./packages/domain/core",
     "./packages/domain/entity",
     "./packages/libraries/keycloak-cjs/",
+    "./packages/libraries/flat-cjs/",
     "./packages/libraries/monitoring/",
     "./packages/libraries/pg-helpers/",
     "./packages/libraries/pg-event-sourcing/",

@@ -1,8 +1,8 @@
-import { Option } from "@potentiel/monads";
+import { Option } from '@potentiel/monads';
 
 export type Entity<
   TType extends string = string,
-  TData extends Record<string, unknown> = {}
+  TData extends Record<string, unknown> = {},
 > = Readonly<
   TData & {
     type: TType;
@@ -10,11 +10,11 @@ export type Entity<
 >;
 
 export type Find = <TEntity extends Entity>(
-  id: `${TEntity["type"]}|${string}`
+  id: `${TEntity['type']}|${string}`,
 ) => Promise<Option<TEntity>>;
 
 export type ListOptions<TEntity extends Entity> = {
-  type: TEntity["type"];
+  type: TEntity['type'];
   orderBy?: {
     property: keyof TEntity;
     ascending: boolean;
@@ -34,5 +34,5 @@ export type ListResult<TEntity extends Entity> = {
 };
 
 export type List = <TEntity extends Entity>(
-  options: ListOptions<TEntity>
+  options: ListOptions<TEntity>,
 ) => Promise<ListResult<TEntity>>;
