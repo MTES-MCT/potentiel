@@ -1,20 +1,14 @@
 /*
 Requête pour récupérer les fichiers  :
 -------------------------------------------------------------------------------------------------------------------------------------------------
-SELECT
-    p."appelOffreId" as appel_offre,
-    p."periodeId" as periode,
-    p."familleId" as famille,
-    p."numeroCRE" as numero_cre,
-    CASE
-        WHEN gf.statut = 'validé' THEN 'actuelle' -- date -> validé le
-        ELSE 'depot' -- date -> soumis le
-    END as type,
-    REPLACE(f."storedAt", 'S3:potentiel-production:', '') as file_path
-FROM "garantiesFinancières" as gf
-INNER JOIN "files" as f on gf."fichierId" = f.id
-INNER JOIN "projects" as p on gf."projetId" = p.id
-WHERE "statut" <> 'en attente';
+SELECT p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" as identifiant_projet,
+        REPLACE(f."storedAt", 'S3:potentiel-production:', '') as file_path,
+        gf."validéesLe" as date_validation,
+        gf."dateEnvoi" as date_envoi
+    FROM "garantiesFinancières" as gf
+    INNER JOIN "files" as f on gf."fichierId" = f.id
+    INNER JOIN "projects" as p on gf."projetId" = p.id
+    WHERE "statut" <> 'en attente';
 -------------------------------------------------------------------------------------------------------------------------------------------------
 */
 
@@ -30,8 +24,11 @@ import {
   DocumentProjet,
   EnregistrerDocumentProjetCommand,
   ConsulterDocumentProjetQuery,
+  registerDocumentProjetQueries,
+  registerDocumentProjetCommand,
 } from "@potentiel-domain/document";
 import { executeSelect } from "@potentiel/pg-helpers";
+import { DocumentAdapter } from "@potentiel-infrastructure/domain-adapters";
 
 const printProgress = (progress: string) => {
   readline.cursorTo(process.stdout, 0);
@@ -46,6 +43,7 @@ const legacyBucketName = process.env.LEGACY_S3_BUCKET || "";
 
 const legacyBucket = new S3({
   endpoint: legacyBucketEndPoint,
+  region: process.env.AWS_REGION,
   credentials: {
     accessKeyId: legacyBucketAccessKeyId,
     secretAccessKey: legacyBucketSecretAccessKey,
@@ -54,6 +52,14 @@ const legacyBucket = new S3({
 });
 
 async function moveFiles() {
+  registerDocumentProjetQueries({
+    récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
+  });
+  registerDocumentProjetCommand({
+    déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
+    enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
+  });
+
   const startTime = new Date();
 
   const files = await executeSelect<{
@@ -101,21 +107,22 @@ async function moveFiles() {
 
             if (!gfSoumisesExists) {
               try {
-                const content = await legacyBucket.send(
+                const legacyAttestationSoumiseContent = await legacyBucket.send(
                   new GetObjectCommand({
                     Bucket: legacyBucketName,
                     Key: file_path,
                   })
                 );
 
-                if (!content.Body) {
-                  throw new Error("Empty document");
+                if (!legacyAttestationSoumiseContent.Body) {
+                  throw new Error("Empty document soumise");
                 }
 
                 await mediator.send<EnregistrerDocumentProjetCommand>({
                   type: "Document.Command.EnregistrerDocumentProjet",
                   data: {
-                    content: content.Body.transformToWebStream(),
+                    content:
+                      legacyAttestationSoumiseContent.Body.transformToWebStream(),
                     documentProjet: gfSoumisesDocument,
                   },
                 });
@@ -127,6 +134,18 @@ async function moveFiles() {
                 );
 
                 if (date_validation) {
+                  const legacyAttestationActuelleContent =
+                    await legacyBucket.send(
+                      new GetObjectCommand({
+                        Bucket: legacyBucketName,
+                        Key: file_path,
+                      })
+                    );
+
+                  if (!legacyAttestationActuelleContent.Body) {
+                    throw new Error("Empty document actuelle");
+                  }
+
                   const gfActuelleDocument =
                     DocumentProjet.convertirEnValueType(
                       identifiant_projet,
@@ -138,7 +157,8 @@ async function moveFiles() {
                   await mediator.send<EnregistrerDocumentProjetCommand>({
                     type: "Document.Command.EnregistrerDocumentProjet",
                     data: {
-                      content: content.Body.transformToWebStream(),
+                      content:
+                        legacyAttestationActuelleContent.Body.transformToWebStream(),
                       documentProjet: gfActuelleDocument,
                     },
                   });
