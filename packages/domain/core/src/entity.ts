@@ -9,29 +9,30 @@ export type Entity<
   }
 >;
 
-export type Find = <TProjection extends Entity>(
-  id: `${TProjection['type']}|${string}`,
-) => Promise<Option<TProjection>>;
+export type Find = <TEntity extends Entity>(
+  id: `${TEntity['type']}|${string}`,
+) => Promise<Option<TEntity>>;
 
-export type ListOptions<TProjection extends Entity> = {
-  type: TProjection['type'];
+export type ListOptions<TEntity extends Entity> = {
+  type: TEntity['type'];
   orderBy?: {
-    property: keyof TProjection;
+    property: keyof TEntity;
     ascending: boolean;
   };
-  where?: Partial<TProjection>;
+  where?: Partial<TEntity>;
   pagination?: {
     page: number;
     itemsPerPage: number;
   };
 };
-export type ListResult<TProjection extends Entity> = {
-  items: ReadonlyArray<TProjection>;
+
+export type ListResult<TEntity extends Entity> = {
+  items: ReadonlyArray<TEntity>;
   currentPage: number;
   itemsPerPage: number;
   totalItems: number;
 };
 
-export type List = <TProjection extends Entity>(
-  options: ListOptions<TProjection>,
-) => Promise<ListResult<TProjection>>;
+export type List = <TEntity extends Entity>(
+  options: ListOptions<TEntity>,
+) => Promise<ListResult<TEntity>>;

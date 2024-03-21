@@ -3,6 +3,7 @@ import { none, Option } from '@potentiel/monads';
 import { Entity } from '@potentiel-domain/core';
 
 import { KeyValuePair } from './keyValuePair';
+import { unflatten } from '@potentiel-librairies/flat-cjs';
 
 export const findProjection = async <TProjection extends Entity>(
   id: `${TProjection['type']}|${string}`,
@@ -17,8 +18,9 @@ export const findProjection = async <TProjection extends Entity>(
   }
 
   const [{ key, value }] = result;
+
   return {
     type: key.split('|')[0] as TProjection['type'],
-    ...value,
+    ...unflatten<unknown, Omit<TProjection, 'type'>>(value),
   } as TProjection;
 };
