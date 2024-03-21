@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { isSome } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { AbandonEntity } from '../abandon.entity';
@@ -23,7 +23,7 @@ export const registerDétecterAbandonQuery = ({ find }: DétecterAbandonDependen
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const result = await find<AbandonEntity>(`abandon|${identifiantProjet.formatter()}`);
 
-    return isSome(result);
+    return Option.isSome(result);
   };
   mediator.register('Lauréat.Abandon.Query.DétecterAbandon', handler);
 };

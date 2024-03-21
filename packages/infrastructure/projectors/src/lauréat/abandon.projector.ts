@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { isNone, isSome } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { Abandon } from '@potentiel-domain/laureat';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
@@ -46,7 +46,7 @@ export const register = () => {
         régionProjet: [],
       };
 
-      const abandonToUpsert: Omit<Abandon.AbandonEntity, 'type'> = isSome(abandon)
+      const abandonToUpsert: Omit<Abandon.AbandonEntity, 'type'> = Option.isSome(abandon)
         ? abandon
         : abandonDefaultValue;
 
@@ -54,16 +54,16 @@ export const register = () => {
         case 'AbandonDemandé-V1':
           const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
 
-          if (isNone(projet)) {
+          if (Option.isNone(projet)) {
             getLogger().error(new Error(`Projet inconnu !`), { identifiantProjet, message: event });
           }
 
           await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
             ...abandonDefaultValue,
-            nomProjet: isSome(projet) ? projet.nom : 'Projet inconnu',
-            appelOffre: isSome(projet) ? projet.appelOffre : `N/A`,
-            période: isSome(projet) ? projet.période : `N/A`,
-            famille: isSome(projet) ? projet.famille : undefined,
+            nomProjet: Option.isSome(projet) ? projet.nom : 'Projet inconnu',
+            appelOffre: Option.isSome(projet) ? projet.appelOffre : `N/A`,
+            période: Option.isSome(projet) ? projet.période : `N/A`,
+            famille: Option.isSome(projet) ? projet.famille : undefined,
             demandePièceJustificativeFormat:
               payload.pièceJustificative && payload.pièceJustificative.format,
             demandeDemandéLe: payload.demandéLe,
@@ -72,7 +72,7 @@ export const register = () => {
             demandeRecandidature: payload.recandidature,
             statut: 'demandé',
             misÀJourLe: payload.demandéLe,
-            régionProjet: isSome(projet) ? [...projet.localité.région.split(' / ')] : [],
+            régionProjet: Option.isSome(projet) ? [...projet.localité.région.split(' / ')] : [],
           });
           break;
         case 'AbandonAccordé-V1':

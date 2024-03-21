@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { sendEmail } from '@potentiel/email-sender';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   récupérerPorteursParIdentifiantProjetAdapter,
@@ -69,7 +69,7 @@ export const register = () => {
     );
     const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
 
-    if (isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {
+    if (Option.isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {
       // Que faire ?
       return;
     }

@@ -3,7 +3,7 @@ import { DomainEvent, InvalidOperationError, OperationRejectedError } from '@pot
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
-import { none } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
 
 /**
@@ -137,15 +137,15 @@ export function applyDemandeComplèteDeRaccordementTransmiseEventV1(
     demandeComplèteRaccordement: {
       dateQualification: dateQualification
         ? DateTime.convertirEnValueType(dateQualification)
-        : none,
-      format: none,
+        : Option.none,
+      format: Option.none,
     },
     miseEnService: {
-      dateMiseEnService: none,
+      dateMiseEnService: Option.none,
     },
     propositionTechniqueEtFinancière: {
-      dateSignature: none,
-      format: none,
+      dateSignature: Option.none,
+      format: Option.none,
     },
     référence: RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement),
   });

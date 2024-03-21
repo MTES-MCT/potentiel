@@ -3,7 +3,7 @@ import { ExpressionRegulière } from '@potentiel-domain/common';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 import { Find } from '@potentiel-domain/core';
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { GestionnaireRéseauInconnuError } from '../gestionnaireRéseauInconnu.error';
 
 export type ConsulterGestionnaireRéseauReadModel = {
@@ -38,7 +38,7 @@ export const registerConsulterGestionnaireRéseauQuery = ({
       `gestionnaire-réseau|${identifiantGestionnaireRéseau}`,
     );
 
-    if (isNone(result)) {
+    if (Option.isNone(result)) {
       throw new GestionnaireRéseauInconnuError();
     }
 

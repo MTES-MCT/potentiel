@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { isNone, isSome } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
@@ -83,29 +83,31 @@ export const register = () => {
       const dépôtEnCoursGarantiesFinancièresToUpsert: Omit<
         GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity,
         'type'
-      > = isSome(dépôtEnCoursGarantiesFinancières)
+      > = Option.isSome(dépôtEnCoursGarantiesFinancières)
         ? dépôtEnCoursGarantiesFinancières
         : dépôtEnCoursGarantiesFinancièresDefaultValue;
 
       const garantiesFinancièresToUpsert: Omit<
         GarantiesFinancières.GarantiesFinancièresEntity,
         'type'
-      > = isSome(garantiesFinancières) ? garantiesFinancières : garantiesFinancièresDefaultValue;
+      > = Option.isSome(garantiesFinancières)
+        ? garantiesFinancières
+        : garantiesFinancièresDefaultValue;
 
       const getProjectData = async (identifiantProjet: IdentifiantProjet.RawType) => {
         const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
-        if (isNone(projet)) {
+        if (Option.isNone(projet)) {
           getLogger().error(new Error(`Projet inconnu !`), {
             identifiantProjet,
             message: event,
           });
         }
         return {
-          nomProjet: isSome(projet) ? projet.nom : 'Projet inconnu',
-          appelOffre: isSome(projet) ? projet.appelOffre : `N/A`,
-          période: isSome(projet) ? projet.période : `N/A`,
-          famille: isSome(projet) ? projet.famille : undefined,
-          régionProjet: isSome(projet) ? [...projet.localité.région.split(' / ')] : [],
+          nomProjet: Option.isSome(projet) ? projet.nom : 'Projet inconnu',
+          appelOffre: Option.isSome(projet) ? projet.appelOffre : `N/A`,
+          période: Option.isSome(projet) ? projet.période : `N/A`,
+          famille: Option.isSome(projet) ? projet.famille : undefined,
+          régionProjet: Option.isSome(projet) ? [...projet.localité.région.split(' / ')] : [],
         };
       };
 

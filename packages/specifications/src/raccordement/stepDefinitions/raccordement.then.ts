@@ -6,7 +6,7 @@ import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { DateTime } from '@potentiel-domain/common';
 
 Alors(
@@ -136,11 +136,11 @@ Alors(
         },
       });
 
-      if (isNone(actual)) {
+      if (Option.isNone(actual)) {
         throw new Error('Dossier de raccordement non trouvé');
       }
 
-      if (isNone(actual.miseEnService)) {
+      if (Option.isNone(actual.miseEnService)) {
         throw new Error('Date mise en service non trouvé');
       }
 

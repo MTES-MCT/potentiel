@@ -4,7 +4,7 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 import { Find } from '@potentiel-domain/core';
 import { DossierRaccordementEntity } from '../raccordement.entity';
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -52,7 +52,7 @@ export const registerConsulterDossierRaccordementQuery = ({
       `dossier-raccordement|${identifiantProjet.formatter()}#${référenceDossierRaccordement}`,
     );
 
-    if (isNone(result)) {
+    if (Option.isNone(result)) {
       throw new DossierRaccordementNonRéférencéError();
     }
 

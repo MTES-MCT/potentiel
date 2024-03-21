@@ -3,7 +3,7 @@ import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sour
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { removeProjection } from '../utils/removeProjection';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
-import { isNone, isSome } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { upsertProjection } from '../utils/upsertProjection';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel/monitoring';
@@ -261,7 +261,7 @@ const removeRaccordementProjections = async (identifiantProjet: string) => {
     `raccordement|${identifiantProjet}`,
   );
 
-  if (!isNone(raccordement)) {
+  if (!Option.isNone(raccordement)) {
     for (const référence of raccordement.dossiers.map((d) => d.référence)) {
       await removeProjection<Raccordement.DossierRaccordementEntity>(
         `dossier-raccordement|${identifiantProjet}#${référence}`,
@@ -284,23 +284,23 @@ const getRaccordementToUpsert = async (
 
   const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
 
-  if (isNone(projet)) {
+  if (Option.isNone(projet)) {
     getLogger().error(new Error(`Projet inconnu !`), { identifiantProjet, message: event });
   }
 
   const raccordementDefaultValue: Omit<Raccordement.RaccordementEntity, 'type'> = {
     identifiantProjet,
-    nomProjet: isSome(projet) ? projet.nom : 'Projet inconnu',
-    appelOffre: isSome(projet) ? projet.appelOffre : `N/A`,
-    période: isSome(projet) ? projet.période : `N/A`,
-    famille: isSome(projet) ? projet.famille : undefined,
-    numéroCRE: isSome(projet) ? projet.numéroCRE : 'N/A',
+    nomProjet: Option.isSome(projet) ? projet.nom : 'Projet inconnu',
+    appelOffre: Option.isSome(projet) ? projet.appelOffre : `N/A`,
+    période: Option.isSome(projet) ? projet.période : `N/A`,
+    famille: Option.isSome(projet) ? projet.famille : undefined,
+    numéroCRE: Option.isSome(projet) ? projet.numéroCRE : 'N/A',
     dossiers: [],
     identifiantGestionnaireRéseau:
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter(),
   };
 
-  return isSome(raccordement) ? raccordement : raccordementDefaultValue;
+  return Option.isSome(raccordement) ? raccordement : raccordementDefaultValue;
 };
 
 function récupérerRéférence(

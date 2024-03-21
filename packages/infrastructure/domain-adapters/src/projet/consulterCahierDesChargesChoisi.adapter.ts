@@ -1,4 +1,4 @@
-import { none } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 import { CahierDesCharges } from '@potentiel-domain/laureat';
 
@@ -19,7 +19,7 @@ export const consulterCahierDesChargesChoisiAdapter: CahierDesCharges.ConsulterC
     }>(selectProjectQuery, appelOffre, période, numéroCRE, famille);
 
     if (!projets.length) {
-      return none;
+      return Option.none;
     }
 
     const projet = projets[0].value;

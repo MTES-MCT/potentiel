@@ -1,5 +1,5 @@
 import { executeSelect } from '@potentiel/pg-helpers';
-import { none, Option } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { Entity } from '@potentiel-domain/core';
 
 import { KeyValuePair } from './keyValuePair';
@@ -7,14 +7,14 @@ import { unflatten } from '@potentiel-librairies/flat-cjs';
 
 export const findProjection = async <TProjection extends Entity>(
   id: `${TProjection['type']}|${string}`,
-): Promise<Option<TProjection>> => {
+): Promise<Option.Type<TProjection>> => {
   const result = await executeSelect<KeyValuePair<TProjection['type'], TProjection>>(
     `select key, value from domain_views.projection where key = $1`,
     id,
   );
 
   if (result.length !== 1) {
-    return none;
+    return Option.none;
   }
 
   const [{ key, value }] = result;

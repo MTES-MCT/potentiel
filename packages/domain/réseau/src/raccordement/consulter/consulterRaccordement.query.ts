@@ -4,7 +4,7 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 import { Find } from '@potentiel-domain/core';
 import { RaccordementEntity } from '../raccordement.entity';
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { GestionnaireRéseau } from '../..';
@@ -49,7 +49,7 @@ export const registerConsulterRaccordementQuery = ({ find }: ConsulterRaccordeme
 
     const result = await find<RaccordementEntity>(`raccordement|${identifiantProjet.formatter()}`);
 
-    if (isNone(result)) {
+    if (Option.isNone(result)) {
       return {
         identifiantProjet,
         identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,

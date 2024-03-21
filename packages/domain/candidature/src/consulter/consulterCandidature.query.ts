@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Option, isNone } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 
 import { CandidatureEntity } from '../candidature.entity';
 import { DateTime, StatutProjet } from '@potentiel-domain/common';
@@ -43,7 +43,7 @@ export type ConsulterCandidatureQuery = Message<
 
 export type RécupérerCandidaturePort = (
   identifiantProjet: string,
-) => Promise<Option<CandidatureEntity>>;
+) => Promise<Option.Type<CandidatureEntity>>;
 
 export type ConsulterCandidatureDependencies = {
   récupérerCandidature: RécupérerCandidaturePort;
@@ -55,7 +55,7 @@ export const registerConsulterCandidatureQuery = ({
   const handler: MessageHandler<ConsulterCandidatureQuery> = async ({ identifiantProjet }) => {
     const result = await récupérerCandidature(identifiantProjet);
 
-    if (isNone(result)) {
+    if (Option.isNone(result)) {
       throw new CandidatureInconnueErreur();
     }
 

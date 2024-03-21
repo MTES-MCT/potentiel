@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Find } from '@potentiel-domain/core';
 import { AppelOffre, AppelOffreEntity } from '../appelOffre.entity';
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { AppelOffreInconnuErreur } from '../appelOffreInconnu.error';
 
 export type ConsulterAppelOffreReadModel = AppelOffre;
@@ -22,7 +22,7 @@ export const registerConsulterAppelOffreQuery = ({ find }: ConsulterAppelOffreDe
   const handler: MessageHandler<ConsulterAppelOffreQuery> = async ({ identifiantAppelOffre }) => {
     const result = await find<AppelOffreEntity>(`appel-offre|${identifiantAppelOffre}`);
 
-    if (isNone(result)) {
+    if (Option.isNone(result)) {
       throw new AppelOffreInconnuErreur();
     }
 

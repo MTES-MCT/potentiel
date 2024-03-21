@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { UtilisateurEntity } from '../utilisateur.entity';
-import { isNone, Option } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { UtilisateurInconnuErreur } from '../utilisateurInconnu.error';
 import * as IdentifiantUtilisateur from '../identifiantUtilisateur.valueType';
 
@@ -21,7 +21,7 @@ export type ConsulterUtilisateurQuery = Message<
 
 export type RécupérerUtilisateurPort = (
   identifiantUtilisateur: string,
-) => Promise<Option<UtilisateurEntity>>;
+) => Promise<Option.Type<UtilisateurEntity>>;
 
 export type ConsulterUtilisateurDependencies = {
   récupérerUtilisateur: RécupérerUtilisateurPort;
@@ -33,7 +33,7 @@ export const registerConsulterUtilisateurQuery = ({
   const handler: MessageHandler<ConsulterUtilisateurQuery> = async ({ identifiantUtilisateur }) => {
     const result = await récupérerUtilisateur(identifiantUtilisateur);
 
-    if (isNone(result)) {
+    if (Option.isNone(result)) {
       throw new UtilisateurInconnuErreur();
     }
 

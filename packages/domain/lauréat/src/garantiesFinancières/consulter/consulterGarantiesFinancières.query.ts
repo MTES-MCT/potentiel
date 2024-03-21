@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 
 import {
@@ -65,7 +65,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
       `garanties-financieres|${identifiantProjet.formatter()}`,
     );
 
-    if (isNone(result)) {
+    if (Option.isNone(result)) {
       throw new AucunesGarantiesFinancièresPourLeProjetError();
     }
 

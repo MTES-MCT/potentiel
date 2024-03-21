@@ -5,7 +5,7 @@ import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sour
 
 import { removeProjection } from '../utils/removeProjection';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
-import { isNone, isSome } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { upsertProjection } from '../utils/upsertProjection';
 import { DateTime } from '@potentiel-domain/common';
@@ -39,11 +39,13 @@ export const register = () => {
         misÀJourLe: DateTime.now().formatter(),
       };
 
-      const tâcheToUpsert: Omit<TâcheEntity, 'type'> = isSome(tâche) ? tâche : tâcheDefaultValue;
+      const tâcheToUpsert: Omit<TâcheEntity, 'type'> = Option.isSome(tâche)
+        ? tâche
+        : tâcheDefaultValue;
 
       const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
 
-      if (isNone(projet)) {
+      if (Option.isNone(projet)) {
         getLogger().error(new Error(`Projet inconnu !`), { identifiantProjet, message: event });
       }
 
@@ -55,11 +57,11 @@ export const register = () => {
         case 'TâcheRenouvellée-V1':
           await upsertProjection<TâcheEntity>(`tâche|${payload.typeTâche}#${identifiantProjet}`, {
             ...tâcheToUpsert,
-            nomProjet: isSome(projet) ? projet.nom : 'Projet inconnu',
-            appelOffre: isSome(projet) ? projet.appelOffre : `N/A`,
-            période: isSome(projet) ? projet.période : `N/A`,
-            famille: isSome(projet) ? projet.famille : undefined,
-            numéroCRE: isSome(projet) ? projet.numéroCRE : `N/A`,
+            nomProjet: Option.isSome(projet) ? projet.nom : 'Projet inconnu',
+            appelOffre: Option.isSome(projet) ? projet.appelOffre : `N/A`,
+            période: Option.isSome(projet) ? projet.période : `N/A`,
+            famille: Option.isSome(projet) ? projet.famille : undefined,
+            numéroCRE: Option.isSome(projet) ? projet.numéroCRE : `N/A`,
             typeTâche: payload.typeTâche,
             misÀJourLe: payload.ajoutéeLe,
           });
