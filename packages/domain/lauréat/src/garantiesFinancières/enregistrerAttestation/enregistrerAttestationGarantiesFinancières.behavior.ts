@@ -3,7 +3,7 @@ import { DomainEvent, NotFoundError } from '@potentiel-domain/core';
 
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { DateConstitutionDansLeFutur } from '../dateConstitutionDansLeFutur.error';
+import { DateConstitutionDansLeFuturError } from '../dateConstitutionDansLeFutur.error';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 export type AttestationGarantiesFinancièresEnregistréeEvent = DomainEvent<
@@ -36,7 +36,7 @@ export async function enregistrerAttestation(
     throw new AttestationGarantiesFinancièresDéjàExistante();
   }
   if (dateConstitution.estDansLeFutur()) {
-    throw new DateConstitutionDansLeFutur();
+    throw new DateConstitutionDansLeFuturError();
   }
 
   const event: AttestationGarantiesFinancièresEnregistréeEvent = {

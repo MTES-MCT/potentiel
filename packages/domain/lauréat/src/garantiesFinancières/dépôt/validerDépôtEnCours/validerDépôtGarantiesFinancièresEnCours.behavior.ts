@@ -3,7 +3,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { AucunDépôtDeGarantiesFinancièresEnCours } from '../../aucunDépôtDeGarantiesFinancièresEnCours.error';
+import { AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError } from '../../aucunDépôtEnCoursGarantiesFinancièresPourLeProjet.error';
 
 export type DépôtGarantiesFinancièresEnCoursValidéEvent = DomainEvent<
   'DépôtGarantiesFinancièresEnCoursValidé-V1',
@@ -25,7 +25,7 @@ export async function validerDépôtEnCours(
   { validéLe, identifiantProjet, validéPar }: Options,
 ) {
   if (!this.dépôtEnCours) {
-    throw new AucunDépôtDeGarantiesFinancièresEnCours();
+    throw new AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError();
   }
   const event: DépôtGarantiesFinancièresEnCoursValidéEvent = {
     type: 'DépôtGarantiesFinancièresEnCoursValidé-V1',

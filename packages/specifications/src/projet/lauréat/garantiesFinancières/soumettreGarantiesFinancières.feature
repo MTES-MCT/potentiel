@@ -22,6 +22,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | contenu fichier      | <contenu du fichier>   |
             | date de constitution | <date de constitution> |
             | date de soumission   | 2023-10-01             |
+            | soumis par           | porteur@test.test      |
     Exemples:
             | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
             | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
@@ -51,6 +52,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | contenu fichier      | <contenu du fichier>   |
             | date de constitution | <date de constitution> |
             | date de soumission   | 2023-10-01             |
+            | soumis par           | porteur@test.test      |
             | région               | Corse                  |
     Exemples:
             | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution |

@@ -24,12 +24,20 @@ export const register = () => {
       await removeProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
         `garanties-financieres|${payload.id}`,
       );
+      await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+        `depot-en-cours-garanties-financieres|${payload.id}`,
+      );
     } else {
       const { identifiantProjet } = payload;
 
       const garantiesFinancières =
         await findProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
           `garanties-financieres|${identifiantProjet}`,
+        );
+
+      const dépôtEnCoursGarantiesFinancières =
+        await findProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+          `depot-en-cours-garanties-financieres|${identifiantProjet}`,
         );
 
       const garantiesFinancièresDefaultValue: Omit<
@@ -46,6 +54,39 @@ export const register = () => {
         dépôts: [],
       };
 
+      const dépôtEnCoursGarantiesFinancièresDefaultValue: Omit<
+        GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity,
+        'type'
+      > = {
+        identifiantProjet,
+        nomProjet: '',
+        appelOffre: '',
+        période: '',
+        famille: undefined,
+        régionProjet: [],
+        dépôt: {
+          type: '',
+          dateÉchéance: '',
+          statut: '',
+          dateConstitution: '',
+          attestation: {
+            format: '',
+          },
+          soumisLe: '',
+          dernièreMiseÀJour: {
+            date: '',
+            par: '',
+          },
+        },
+      };
+
+      const dépôtEnCoursGarantiesFinancièresToUpsert: Omit<
+        GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity,
+        'type'
+      > = isSome(dépôtEnCoursGarantiesFinancières)
+        ? dépôtEnCoursGarantiesFinancières
+        : dépôtEnCoursGarantiesFinancièresDefaultValue;
+
       const garantiesFinancièresToUpsert: Omit<
         GarantiesFinancières.GarantiesFinancièresEntity,
         'type'
@@ -54,7 +95,10 @@ export const register = () => {
       const getProjectData = async (identifiantProjet: IdentifiantProjet.RawType) => {
         const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
         if (isNone(projet)) {
-          getLogger().error(new Error(`Projet inconnu !`), { identifiantProjet, message: event });
+          getLogger().error(new Error(`Projet inconnu !`), {
+            identifiantProjet,
+            message: event,
+          });
         }
         return {
           nomProjet: isSome(projet) ? projet.nom : 'Projet inconnu',
@@ -65,9 +109,10 @@ export const register = () => {
         };
       };
 
+      const projetPourGarantiesFinancièresSoumises = await getProjectData(identifiantProjet);
+
       switch (type) {
         case 'DépôtGarantiesFinancièresSoumis-V1':
-          const projetPourGarantiesFinancièresSoumises = await getProjectData(identifiantProjet);
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
@@ -90,6 +135,26 @@ export const register = () => {
               ],
             },
           );
+
+          await upsertProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+            `depot-en-cours-garanties-financieres|${identifiantProjet}`,
+            {
+              ...projetPourGarantiesFinancièresSoumises,
+              identifiantProjet,
+              dépôt: {
+                type: payload.type,
+                dateÉchéance: payload.dateÉchéance,
+                statut: GarantiesFinancières.StatutDépôtGarantiesFinancières.enCours.statut,
+                dateConstitution: payload.dateConstitution,
+                attestation: payload.attestation,
+                soumisLe: payload.soumisLe,
+                dernièreMiseÀJour: {
+                  date: payload.soumisLe,
+                  par: payload.soumisPar,
+                },
+              },
+            },
+          );
           break;
 
         case 'DépôtGarantiesFinancièresEnCoursSupprimé-V1':
@@ -104,6 +169,10 @@ export const register = () => {
                   ).estÉgaleÀ(GarantiesFinancières.StatutDépôtGarantiesFinancières.enCours),
               ),
             },
+          );
+
+          await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+            `depot-en-cours-garanties-financieres|${identifiantProjet}`,
           );
           break;
 
@@ -140,7 +209,10 @@ export const register = () => {
                 dateConstitution: dépôtValidé.dateConstitution,
                 validéLe: payload.validéLe,
                 soumisLe: dépôtValidé.soumisLe,
-                dernièreMiseÀJour: { date: payload.validéLe, par: payload.validéPar },
+                dernièreMiseÀJour: {
+                  date: payload.validéLe,
+                  par: payload.validéPar,
+                },
               },
               dépôts: garantiesFinancièresToUpsert.dépôts.filter(
                 (dépôt) =>
@@ -149,6 +221,10 @@ export const register = () => {
                   ).estÉgaleÀ(GarantiesFinancières.StatutDépôtGarantiesFinancières.enCours),
               ),
             },
+          );
+
+          await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+            `depot-en-cours-garanties-financieres|${identifiantProjet}`,
           );
           break;
 
@@ -171,9 +247,30 @@ export const register = () => {
                   dateConstitution: payload.dateConstitution,
                   soumisLe: payload.modifiéLe,
                   statut: GarantiesFinancières.StatutDépôtGarantiesFinancières.enCours.statut,
-                  dernièreMiseÀJour: { date: payload.modifiéLe, par: payload.modifiéPar },
+                  dernièreMiseÀJour: {
+                    date: payload.modifiéLe,
+                    par: payload.modifiéPar,
+                  },
                 },
               ],
+            },
+          );
+          await upsertProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+            `depot-en-cours-garanties-financieres|${identifiantProjet}`,
+            {
+              ...projetPourGarantiesFinancièresSoumises,
+              identifiantProjet,
+              dépôt: {
+                ...dépôtEnCoursGarantiesFinancièresToUpsert.dépôt,
+                type: payload.type,
+                dateConstitution: payload.dateConstitution,
+                attestation: payload.attestation,
+                dateÉchéance: payload.dateÉchéance,
+                dernièreMiseÀJour: {
+                  date: payload.modifiéLe,
+                  par: payload.modifiéPar,
+                },
+              },
             },
           );
           break;
@@ -189,7 +286,10 @@ export const register = () => {
                 type: payload.type,
                 dateÉchéance: payload.dateÉchéance,
                 typeImportéLe: payload.importéLe,
-                dernièreMiseÀJour: { date: payload.importéLe, par: payload.importéPar },
+                dernièreMiseÀJour: {
+                  date: payload.importéLe,
+                  par: payload.importéPar,
+                },
               },
             },
           );
@@ -206,7 +306,10 @@ export const register = () => {
                 dateÉchéance: payload.dateÉchéance,
                 dateConstitution: payload.dateConstitution,
                 attestation: payload.attestation,
-                dernièreMiseÀJour: { date: payload.modifiéLe, par: payload.modifiéPar },
+                dernièreMiseÀJour: {
+                  date: payload.modifiéLe,
+                  par: payload.modifiéPar,
+                },
               },
             },
           );
@@ -224,7 +327,10 @@ export const register = () => {
                 ...garantiesFinancièresToUpsert.actuelles,
                 dateConstitution: payload.dateConstitution,
                 attestation: payload.attestation,
-                dernièreMiseÀJour: { par: payload.enregistréPar, date: payload.enregistréLe },
+                dernièreMiseÀJour: {
+                  par: payload.enregistréPar,
+                  date: payload.enregistréLe,
+                },
               },
             },
           );
@@ -240,7 +346,10 @@ export const register = () => {
                 dateÉchéance: payload.dateÉchéance,
                 dateConstitution: payload.dateConstitution,
                 attestation: payload.attestation,
-                dernièreMiseÀJour: { date: payload.enregistréLe, par: payload.enregistréPar },
+                dernièreMiseÀJour: {
+                  date: payload.enregistréLe,
+                  par: payload.enregistréPar,
+                },
               },
             },
           );

@@ -3,7 +3,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { AucunDépôtDeGarantiesFinancièresEnCours } from '../../aucunDépôtDeGarantiesFinancièresEnCours.error';
+import { AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError } from '../../aucunDépôtEnCoursGarantiesFinancièresPourLeProjet.error';
 
 export type DépôtGarantiesFinancièresEnCoursSuppriméEvent = DomainEvent<
   'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
@@ -25,7 +25,7 @@ export async function supprimerDépôtGarantiesFinancièresEnCours(
   { suppriméLe, identifiantProjet, suppriméPar }: Options,
 ) {
   if (!this.dépôtEnCours) {
-    throw new AucunDépôtDeGarantiesFinancièresEnCours();
+    throw new AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError();
   }
   const event: DépôtGarantiesFinancièresEnCoursSuppriméEvent = {
     type: 'DépôtGarantiesFinancièresEnCoursSupprimé-V1',

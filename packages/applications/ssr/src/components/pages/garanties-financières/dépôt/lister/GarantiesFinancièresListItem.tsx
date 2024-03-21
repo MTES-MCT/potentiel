@@ -3,32 +3,36 @@ import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
 
 import { Routes } from '@potentiel-libraries/routes';
 
-export type GarantiesFinancièresListItemProps = {
+import { formatDateForText } from '@/utils/formatDateForText';
+
+import { DépôtStatut } from '../../détails/components/GarantiesFinancièresHistoriqueDépôts';
+
+export type GarantiesFinancièresDépôtsEnCoursListItemProps = {
   identifiantProjet: string;
   nomProjet: string;
   appelOffre: string;
   période: string;
   famille?: string;
-  /**
-   * @todo utiliser un valuetype ici
-   */
-  statut: 'en attente' | 'à traiter' | 'validé';
+  statut: DépôtStatut;
+  type: string;
+  dateÉchéance?: string;
   misÀJourLe: string;
+  régionProjet: string;
 };
 
 const GarantiesFinancièresStatusBadge = ({
   statut,
 }: {
-  statut: GarantiesFinancièresListItemProps['statut'];
+  statut: GarantiesFinancièresDépôtsEnCoursListItemProps['statut'];
 }) => {
   const getSeverity = (
-    statut: GarantiesFinancièresListItemProps['statut'],
+    statut: GarantiesFinancièresDépôtsEnCoursListItemProps['statut'],
   ): BadgeProps['severity'] => {
     switch (statut) {
-      case 'en attente':
+      case 'en-cours':
         return 'new';
-      case 'à traiter':
-        return 'warning';
+      case 'rejeté':
+        return 'error';
       case 'validé':
         return 'success';
     }
@@ -41,7 +45,9 @@ const GarantiesFinancièresStatusBadge = ({
   );
 };
 
-export const GarantiesFinancièresListItem: FC<GarantiesFinancièresListItemProps> = ({
+export const GarantiesFinancièresDépôtsEnCoursListItem: FC<
+  GarantiesFinancièresDépôtsEnCoursListItemProps
+> = ({
   identifiantProjet,
   nomProjet,
   appelOffre,
@@ -49,12 +55,16 @@ export const GarantiesFinancièresListItem: FC<GarantiesFinancièresListItemProp
   famille,
   statut,
   misÀJourLe,
+  type,
+  dateÉchéance,
+  régionProjet,
 }) => (
   <>
     <div>
       <div className="flex flex-col gap-1">
         <h2 className="leading-4">
-          Garanties financières du projet <span className="font-bold">{nomProjet}</span>
+          Garanties financières du projet <span className="font-bold mr-3">{nomProjet}</span>{' '}
+          <GarantiesFinancièresStatusBadge statut={statut} />
         </h2>
         <div className="flex flex-col md:flex-row gap-2 md:gap-0 italic text-xs">
           <div>
@@ -68,15 +78,29 @@ export const GarantiesFinancièresListItem: FC<GarantiesFinancièresListItemProp
               Famille : {famille}
             </div>
           )}
+          {régionProjet && (
+            <div>
+              <span className="hidden md:inline-block mr-2">,</span>
+              Région : {régionProjet}
+            </div>
+          )}
         </div>
-        <div className="flex flex-col md:flex-row gap-2 mt-3">
-          <GarantiesFinancièresStatusBadge statut={statut} />
-        </div>
+        <ul className="mt-3 text-sm">
+          <li>
+            Type : <span className="font-semibold">{type}</span>
+          </li>
+          {dateÉchéance && (
+            <li>
+              Date d'échéance :{' '}
+              <span className="font-semibold">{formatDateForText(dateÉchéance)}</span>
+            </li>
+          )}
+        </ul>
       </div>
     </div>
 
     <div className="flex flex-col justify-between mt-4 md:mt-0">
-      <p className="italic text-sm">dernière mise à jour le {misÀJourLe}</p>
+      <p className="italic text-xs">dernière mise à jour le {formatDateForText(misÀJourLe)}</p>
       <a
         href={Routes.GarantiesFinancières.détail(identifiantProjet)}
         className="self-end mt-2"

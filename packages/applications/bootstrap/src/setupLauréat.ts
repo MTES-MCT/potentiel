@@ -14,6 +14,7 @@ import {
   consulterCahierDesChargesChoisiAdapter,
   listerAbandonsAdapter,
   listerAbandonsPourPorteurAdapter,
+  listerDépôtsEnCoursGarantiesFinancièresAdapter,
   récupérerRégionDreal,
 } from '@potentiel-infrastructure/domain-adapters';
 import { getModèleRéponseAbandon } from '@potentiel-infrastructure/document-builder';
@@ -31,6 +32,7 @@ export const setupLauréat = async () => {
     buildModèleRéponseAbandon: getModèleRéponseAbandon,
     listerAbandons: listerAbandonsAdapter,
     récupérerRégionDreal: récupérerRégionDreal,
+    listerDépôtsEnCoursGarantiesFinancières: listerDépôtsEnCoursGarantiesFinancièresAdapter,
   });
 
   AbandonProjector.register();

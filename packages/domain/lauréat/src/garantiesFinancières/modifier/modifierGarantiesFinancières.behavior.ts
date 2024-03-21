@@ -3,10 +3,10 @@ import { DomainEvent, NotFoundError } from '@potentiel-domain/core';
 
 import { TypeGarantiesFinancières } from '..';
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
-import { DateÉchéanceManquante } from '../dateÉchéanceManquante.error';
-import { DateÉchéanceNonAttendue } from '../dateÉchéanceNonAttendue.error';
+import { DateÉchéanceManquanteError } from '../dateÉchéanceManquante.error';
+import { DateÉchéanceNonAttendueError } from '../dateÉchéanceNonAttendue.error';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { DateConstitutionDansLeFutur } from '../dateConstitutionDansLeFutur.error';
+import { DateConstitutionDansLeFuturError } from '../dateConstitutionDansLeFutur.error';
 
 export type GarantiesFinancièresModifiéesEvent = DomainEvent<
   'GarantiesFinancièresModifiées-V1',
@@ -47,13 +47,13 @@ export async function modifier(
     throw new AucunesGarantiesFinancièresValidées();
   }
   if (type.estAvecDateÉchéance() && !dateÉchéance) {
-    throw new DateÉchéanceManquante();
+    throw new DateÉchéanceManquanteError();
   }
   if (!type.estAvecDateÉchéance() && dateÉchéance) {
-    throw new DateÉchéanceNonAttendue();
+    throw new DateÉchéanceNonAttendueError();
   }
   if (dateConstitution.estDansLeFutur()) {
-    throw new DateConstitutionDansLeFutur();
+    throw new DateConstitutionDansLeFuturError();
   }
 
   const event: GarantiesFinancièresModifiéesEvent = {

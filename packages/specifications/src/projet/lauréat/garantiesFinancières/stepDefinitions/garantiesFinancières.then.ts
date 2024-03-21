@@ -18,6 +18,7 @@ Alors(
     const dateConstitution = exemple[`date de constitution`];
     const contenu = exemple['contenu fichier'];
     const dateSoumission = exemple['date de soumission'];
+    const soumisPar = exemple['soumis par'];
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -35,28 +36,32 @@ Alors(
 
       expect(dépôtEnCours).not.to.be.undefined;
 
-      expect(dépôtEnCours?.type.type).to.deep.equal(typeGarantiesFinancières);
-      expect(dépôtEnCours?.dateConstitution.date).to.deep.equal(new Date(dateConstitution));
-      expect(dépôtEnCours?.soumisLe.date).to.deep.equal(new Date(dateSoumission));
+      if (dépôtEnCours) {
+        expect(dépôtEnCours.type.type).to.deep.equal(typeGarantiesFinancières);
+        expect(dépôtEnCours.dateConstitution.date).to.deep.equal(new Date(dateConstitution));
+        expect(dépôtEnCours.soumisLe.date).to.deep.equal(new Date(dateSoumission));
+        expect(dépôtEnCours.dernièreMiseÀJour.date.date).to.deep.equal(new Date(dateSoumission));
+        expect(dépôtEnCours.dernièreMiseÀJour.par.formatter()).to.deep.equal(soumisPar);
 
-      if (dépôtEnCours?.dateÉchéance) {
-        expect(dépôtEnCours.dateÉchéance.date).to.deep.equal(new Date(dateÉchéance));
-      }
+        if (dépôtEnCours.dateÉchéance) {
+          expect(dépôtEnCours.dateÉchéance.date).to.deep.equal(new Date(dateÉchéance));
+        }
 
-      // ASSERT ON FILE
-      expect(dépôtEnCours?.attestation).not.to.be.undefined;
-      expect(dépôtEnCours?.attestation.format).to.deep.equal(format);
+        // ASSERT ON FILE
+        expect(dépôtEnCours.attestation).not.to.be.undefined;
+        expect(dépôtEnCours.attestation.format).to.deep.equal(format);
 
-      if (dépôtEnCours?.attestation) {
-        const file = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: dépôtEnCours.attestation.formatter(),
-          },
-        });
+        if (dépôtEnCours?.attestation) {
+          const file = await mediator.send<ConsulterDocumentProjetQuery>({
+            type: 'Document.Query.ConsulterDocumentProjet',
+            data: {
+              documentKey: dépôtEnCours.attestation.formatter(),
+            },
+          });
 
-        const actualContent = await convertReadableStreamToString(file.content);
-        actualContent.should.be.equal(contenu);
+          const actualContent = await convertReadableStreamToString(file.content);
+          actualContent.should.be.equal(contenu);
+        }
       }
     });
   },

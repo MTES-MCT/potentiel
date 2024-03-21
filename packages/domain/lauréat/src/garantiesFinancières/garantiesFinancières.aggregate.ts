@@ -7,7 +7,7 @@ import {
   soumettreDépôt,
 } from './dépôt/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
 import { TypeGarantiesFinancières } from '.';
-import { AucunesGarantiesFinancières } from './aucunesGarantiesFinancières.error';
+import { AucunesGarantiesFinancièresPourLeProjetError } from './aucunesGarantiesFinancièresPourLeProjet.error';
 import {
   GarantiesFinancièresDemandéesEvent,
   demanderGarantiesFinancières,
@@ -139,7 +139,7 @@ export const loadGarantiesFinancièresFactory =
       getDefaultAggregate: getDefaultGarantiesFinancièresAggregate,
       onNone: throwOnNone
         ? () => {
-            throw new AucunesGarantiesFinancières();
+            throw new AucunesGarantiesFinancièresPourLeProjetError();
           }
         : undefined,
     });

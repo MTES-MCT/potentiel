@@ -21,8 +21,13 @@ import { registerEnregistrerAttestationGarantiesFinancièresCommand } from './en
 import { registerEnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
 import { registerEnregistrerGarantiesFinancièresUseCase } from './enregistrer/enregistrerGarantiesFinancières.usecase';
 import { registerEnregistrerGarantiesFinancièresCommand } from './enregistrer/enregistrerGarantiesFinancières.command';
+import {
+  ListerDépôtsEnCoursGarantiesFinancièresDependencies,
+  registerListerDépôtsEnCoursGarantiesFinancièresQuery,
+} from './dépôt/lister/listerDépôtsEnCoursGarantiesFinancières.query';
 
-export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies;
+export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
+  ListerDépôtsEnCoursGarantiesFinancièresDependencies;
 
 export type GarantiesFinancièresCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -56,4 +61,5 @@ export const registerGarantiesFinancièresQueries = (
   dependencies: GarantiesFinancièresQueryDependencies,
 ) => {
   registerConsulterGarantiesFinancièresQuery(dependencies);
+  registerListerDépôtsEnCoursGarantiesFinancièresQuery(dependencies);
 };

@@ -5,9 +5,9 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { TypeGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { DateConstitutionDansLeFutur } from '../../dateConstitutionDansLeFutur.error';
-import { DateÉchéanceManquante } from '../../dateÉchéanceManquante.error';
-import { DateÉchéanceNonAttendue } from '../../dateÉchéanceNonAttendue.error';
+import { DateConstitutionDansLeFuturError } from '../../dateConstitutionDansLeFutur.error';
+import { DateÉchéanceManquanteError } from '../../dateÉchéanceManquante.error';
+import { DateÉchéanceNonAttendueError } from '../../dateÉchéanceNonAttendue.error';
 
 export type DépôtGarantiesFinancièresSoumisEvent = DomainEvent<
   'DépôtGarantiesFinancièresSoumis-V1',
@@ -48,13 +48,13 @@ export async function soumettreDépôt(
     throw new DépôtGarantiesFinancièresDéjàSoumisError();
   }
   if (dateConstitution.estDansLeFutur()) {
-    throw new DateConstitutionDansLeFutur();
+    throw new DateConstitutionDansLeFuturError();
   }
   if (type.estAvecDateÉchéance() && !dateÉchéance) {
-    throw new DateÉchéanceManquante();
+    throw new DateÉchéanceManquanteError();
   }
   if (!type.estAvecDateÉchéance() && dateÉchéance) {
-    throw new DateÉchéanceNonAttendue();
+    throw new DateÉchéanceNonAttendueError();
   }
   const event: DépôtGarantiesFinancièresSoumisEvent = {
     type: 'DépôtGarantiesFinancièresSoumis-V1',
