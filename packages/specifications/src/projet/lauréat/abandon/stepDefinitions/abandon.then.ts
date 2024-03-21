@@ -280,9 +280,10 @@ Alors(
 );
 
 Alors(
-  `le projet {string} devrait être la preuve de recandidature suite à l'abandon du projet {string}`,
+  `le projet {lauréat-éliminé} {string} devrait être la preuve de recandidature suite à l'abandon du projet {string}`,
   async function (
     this: PotentielWorld,
+    statutProjet: 'lauréat' | 'éliminé',
     nomProjetPreuveRecandidature: string,
     nomProjetAbandonné: string,
   ) {
@@ -290,7 +291,9 @@ Alors(
       this.lauréatWorld.rechercherLauréatFixture(nomProjetAbandonné);
 
     const { identifiantProjet: preuveRecandidatureValueType } =
-      this.lauréatWorld.rechercherLauréatFixture(nomProjetPreuveRecandidature);
+      statutProjet === 'lauréat'
+        ? this.lauréatWorld.rechercherLauréatFixture(nomProjetPreuveRecandidature)
+        : this.eliminéWorld.rechercherEliminéFixture(nomProjetPreuveRecandidature);
 
     await waitForExpect(async () => {
       const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
@@ -316,9 +319,12 @@ Alors(
 );
 
 Alors(
-  `la preuve de recandidature a été demandée au porteur du projet {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `la preuve de recandidature a été demandée au porteur du projet {lauréat-éliminé} {string}`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', nomProjet: string) {
+    const { identifiantProjet } =
+      statutProjet === 'lauréat'
+        ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
+        : this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
     await waitForExpect(async () => {
       const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({

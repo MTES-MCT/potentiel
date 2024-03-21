@@ -20,6 +20,7 @@
     "./packages/domain/document",
     "./packages/domain/candidature",
     "./packages/domain/appel-offre",
+    "./packages/domain/éliminé",
     "./packages/domain/lauréat",
     "./packages/domain/réseau",
     "./packages/domain/tâche",

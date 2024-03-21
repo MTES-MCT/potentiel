@@ -1,4 +1,4 @@
-import { Then as Alors, defineParameterType } from '@cucumber/cucumber';
+import { Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../potentiel.world';
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
@@ -91,12 +91,6 @@ Alors(
     }).should.be.deep.equal(expected);
   },
 );
-
-defineParameterType({
-  name: 'valide-invalide',
-  regexp: /valide|invalide/,
-  transformer: (s) => s as 'valide' | 'invalide',
-});
 
 Alors(
   `la référence de dossier {string} devrait être {valide-invalide}`,

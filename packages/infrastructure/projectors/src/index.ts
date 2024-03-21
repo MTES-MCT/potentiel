@@ -4,3 +4,4 @@ export * as GestionnaireRéseauProjector from './réseau/gestionnaireRéseau.pro
 export * as RaccordementProjector from './réseau/raccordement.projector';
 export * as TâcheProjector from './tâche/tâche.projector';
 export * as GarantiesFinancièreProjector from './lauréat/garantiesFinancières.projector';
+export * as RecoursProjector from './éliminé/recours.projector';
