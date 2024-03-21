@@ -1,45 +1,49 @@
-"use client";
+'use client';
 
-import { FC } from "react";
-import Link from "next/link";
-import Alert from "@codegouvfr/react-dsfr/Alert";
+import { FC } from 'react';
+import Link from 'next/link';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
-import { Routes } from "@potentiel-libraries/routes";
+import { Routes } from '@potentiel-libraries/routes';
 
-import { PageTemplate } from "@/components/templates/Page.template";
+import { PageTemplate } from '@/components/templates/Page.template';
+import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+
+import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
+
 import {
-  ProjetBanner,
-  ProjetBannerProps,
-} from "@/components/molecules/projet/ProjetBanner";
-
-import { TitrePageGarantiesFinancières } from "../TitrePageGarantiesFinancières";
-
-import { AucuneGarantiesFinancières } from "./components/AucuneGarantiesFinancières";
+  AucuneGarantiesFinancières,
+  AucuneGarantiesFinancièresProps,
+} from './components/AucuneGarantiesFinancières';
 import {
   GarantiesFinancièresActuelles,
   GarantiesFinancièresActuellesProps,
-} from "./components/GarantiesFinancièresActuelles";
+} from './components/GarantiesFinancièresActuelles';
 import {
   DépôtGarantiesFinancières,
   GarantiesFinancièresHistoriqueDépôts,
   GarantiesFinancièresHistoriqueDépôtsProps,
-} from "./components/GarantiesFinancièresHistoriqueDépôts";
-import { GarantiesFinancièresDépôtEnCours } from "./components/GarantiesFinancièresDépôtEnCours";
+} from './components/GarantiesFinancièresHistoriqueDépôts';
+import { GarantiesFinancièresDépôtEnCours } from './components/GarantiesFinancièresDépôtEnCours';
 
 export type DétailsGarantiesFinancièresPageProps = {
   projet: ProjetBannerProps;
-  actuelles?: GarantiesFinancièresActuellesProps["actuelles"];
+  actuelles?: GarantiesFinancièresActuellesProps['actuelles'];
   dépôtEnCours?: DépôtGarantiesFinancières & {
-    action?: "modifier" | "instruire";
+    action?: 'modifier' | 'instruire';
   };
   dateLimiteSoummission?: string;
-  historiqueDépôts: GarantiesFinancièresHistoriqueDépôtsProps["dépôts"];
-  action?: "soumettre";
+  historiqueDépôts: GarantiesFinancièresHistoriqueDépôtsProps['dépôts'];
+  action?: AucuneGarantiesFinancièresProps['action'];
 };
 
-export const DétailsGarantiesFinancièresPage: FC<
-  DétailsGarantiesFinancièresPageProps
-> = ({ projet, actuelles, dépôtEnCours, historiqueDépôts, action }) => {
+export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancièresPageProps> = ({
+  projet,
+  actuelles,
+  dépôtEnCours,
+  historiqueDépôts,
+  action,
+}) => {
   if (!actuelles && !dépôtEnCours && !historiqueDépôts.length && action) {
     return <AucuneGarantiesFinancières projet={projet} action={action} />;
   }
@@ -66,21 +70,19 @@ export const DétailsGarantiesFinancièresPage: FC<
         </div>
       )}
 
-      {historiqueDépôts.length === 0 && action === "soumettre" && (
+      {historiqueDépôts.length === 0 && action === 'soumettre' && (
         <Alert
           severity="info"
           small
           description={
             <div className="p-3">
-              Vous pouvez{" "}
+              Vous pouvez{' '}
               <Link
-                href={Routes.GarantiesFinancières.dépôt.soumettre(
-                  projet.identifiantProjet
-                )}
+                href={Routes.GarantiesFinancières.dépôt.soumettre(projet.identifiantProjet)}
                 className="font-semibold"
               >
                 soumettre de nouvelles garanties financières
-              </Link>{" "}
+              </Link>{' '}
               qui seront validées par l'autorité compétente
             </div>
           }

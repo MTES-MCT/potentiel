@@ -9,9 +9,9 @@ import { PageTemplate } from '@/components/templates/Page.template';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 
-type AucuneGarantiesFinancièresProps = {
+export type AucuneGarantiesFinancièresProps = {
   projet: ProjetBannerProps;
-  action?: 'soumettre';
+  action?: 'soumettre' | 'enregistrer';
 };
 
 export const AucuneGarantiesFinancières: FC<AucuneGarantiesFinancièresProps> = ({
@@ -30,6 +30,18 @@ export const AucuneGarantiesFinancières: FC<AucuneGarantiesFinancièresProps> =
             Vous pouvez en soumettre en{' '}
             <Link
               href={Routes.GarantiesFinancières.dépôt.soumettre(projet.identifiantProjet)}
+              className="font-semibold"
+            >
+              suivant ce lien
+            </Link>
+          </>
+        )}
+        {action === 'enregistrer' && (
+          <>
+            {' '}
+            Vous pouvez enregistrer des garanties financières en{' '}
+            <Link
+              href={Routes.GarantiesFinancières.actuelles.enregistrer(projet.identifiantProjet)}
               className="font-semibold"
             >
               suivant ce lien

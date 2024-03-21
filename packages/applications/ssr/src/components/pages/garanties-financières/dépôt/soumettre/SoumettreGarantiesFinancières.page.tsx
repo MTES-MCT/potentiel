@@ -36,8 +36,6 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
 
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
-  const { identifiantProjet } = projet;
-
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner {...projet} />}
@@ -53,7 +51,7 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
             }
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
-            <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
+            <input name="identifiantProjet" type="hidden" value={projet.identifiantProjet} />
 
             <TypeGarantiesFinancièresSelect
               id="type"
@@ -92,7 +90,7 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
               <Button
                 priority="secondary"
                 linkProps={{
-                  href: Routes.Projet.details(identifiantProjet),
+                  href: Routes.Projet.details(projet.identifiantProjet),
                 }}
                 iconId="fr-icon-arrow-left-line"
               >
