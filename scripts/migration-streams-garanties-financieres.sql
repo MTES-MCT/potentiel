@@ -44,9 +44,8 @@ SELECT
 				WHEN REVERSE(SPLIT_PART(REVERSE(f.filename), '.', 1)) = 'msg' THEN 'application/vnd.ms-outlook'
 	            WHEN REVERSE(SPLIT_PART(REVERSE(f.filename), '.', 1)) IN ('pdf', 'PDF') THEN 'application/pdf'
                 WHEN REVERSE(SPLIT_PART(REVERSE(f.filename), '.', 1)) = 'tif' THEN 'image/tiff'
-                WHEN REVERSE(SPLIT_PART(REVERSE(f.filename), '.', 1)) = 'png' THEN 'image/png'
+                WHEN REVERSE(SPLIT_PART(REVERSE(f.filename), '.', 1)) IN ('png', 'PNG') THEN 'image/png'
                 WHEN REVERSE(SPLIT_PART(REVERSE(f.filename), '.', 1)) IN ('jpg', 'jpeg') THEN 'image/jpeg'
-	            ELSE 'Format inconnu'
 	       	END
             ), 
         'dateConstitution', TO_CHAR(gf."dateConstitution", 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
@@ -96,7 +95,6 @@ SELECT
                 WHEN REVERSE(SPLIT_PART(REVERSE(f.filename), '.', 1)) = 'tif' THEN 'image/tiff'
                 WHEN REVERSE(SPLIT_PART(REVERSE(f.filename), '.', 1)) = 'png' THEN 'image/png'
                 WHEN REVERSE(SPLIT_PART(REVERSE(f.filename), '.', 1)) IN ('jpg', 'jpeg') THEN 'image/jpeg'
-            ELSE 'Type inconnu'
             END
             ),                         
         'dateConstitution', TO_CHAR(gf."dateConstitution", 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
@@ -137,7 +135,7 @@ SELECT
         	END,
         'dateÉchéance', CASE WHEN gf."dateEchéance" IS NOT NULL THEN TO_CHAR(gf."dateEchéance", 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') ELSE NULL END,
         'importéLe', TO_CHAR(gf."updatedAt", 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')
-        -- importéPar doit être optionnel  
+        'importéPar', ''  
     )
 FROM "garantiesFinancières" gf
 	JOIN "projects" p ON gf."projetId" = p.id
