@@ -19,7 +19,7 @@ export type GarantiesFinancièresEntity = Entity<
       typeImportéLe?: string;
       dernièreMiseÀJour: {
         date: string;
-        par: string;
+        par?: string;
       };
     };
     dépôts: Array<{
