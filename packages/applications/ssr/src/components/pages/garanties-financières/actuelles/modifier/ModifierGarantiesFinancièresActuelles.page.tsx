@@ -56,9 +56,7 @@ export const ModifierGarantiesFinancièresActuellesPage: FC<
           typeGarantiesFinancièresActuel={
             actuelles.type as TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel']
           }
-          dateÉchéanceActuelle={
-            actuelles.type === 'avec-date-échéance' ? actuelles.dateÉchéance : undefined
-          }
+          dateÉchéanceActuelle={actuelles.dateÉchéance}
         />
 
         <Input

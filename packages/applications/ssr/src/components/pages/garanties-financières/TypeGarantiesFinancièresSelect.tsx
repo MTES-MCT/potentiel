@@ -12,7 +12,9 @@ export type TypeGarantiesFinancièresSelectProps = {
   label?: string;
   disabled?: true;
   validationErrors: Array<string>;
-  typeGarantiesFinancièresActuel?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+  typeGarantiesFinancièresActuel?:
+    | GarantiesFinancières.TypeGarantiesFinancières.RawType
+    | 'type-inconnu';
   dateÉchéanceActuelle?: string;
   typesGarantiesFinancières: Array<{
     label: string;
@@ -30,7 +32,7 @@ export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelect
   typesGarantiesFinancières,
   dateÉchéanceActuelle,
 }) => {
-  const [typeSélectionné, setTypeSélectionné] = useState(typeGarantiesFinancièresActuel);
+  const [typeSélectionné, setTypeSélectionné] = useState(typeGarantiesFinancièresActuel || '');
 
   return (
     <>
@@ -39,13 +41,19 @@ export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelect
         label={label}
         nativeSelectProps={{
           name,
-          defaultValue: typeGarantiesFinancièresActuel,
+          defaultValue:
+            typeGarantiesFinancièresActuel &&
+            ['consignation', 'avec-date-échéance', 'six-mois-après-achèvement'].includes(
+              typeGarantiesFinancièresActuel,
+            )
+              ? typeGarantiesFinancièresActuel
+              : '',
           onChange: (e) => setTypeSélectionné(e.target.value),
           'aria-required': true,
           required: true,
         }}
         placeholder="Sélectionnez le type de garanties financières"
-        options={typesGarantiesFinancières}
+        options={[...typesGarantiesFinancières, { value: '', label: '', disabled }]}
         state={validationErrors.includes('type') ? 'error' : 'default'}
         stateRelatedMessage="Type de garanties financières obligatoire"
         disabled={disabled}
