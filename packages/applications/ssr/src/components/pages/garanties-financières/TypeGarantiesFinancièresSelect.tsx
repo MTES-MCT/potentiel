@@ -2,6 +2,8 @@ import React, { FC, useState } from 'react';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import Input from '@codegouvfr/react-dsfr/Input';
 
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+
 import { formatDateForInput } from '@/utils/formatDateForInput';
 
 export type TypeGarantiesFinancièresSelectProps = {
@@ -11,14 +13,12 @@ export type TypeGarantiesFinancièresSelectProps = {
   disabled?: true;
   validationErrors: Array<string>;
   typeGarantiesFinancièresActuel?:
-    | 'consignation'
-    | 'avec-date-échéance'
-    | 'six-mois-après-achèvement'
+    | GarantiesFinancières.TypeGarantiesFinancières.RawType
     | 'type-inconnu';
   dateÉchéanceActuelle?: string;
   typesGarantiesFinancières: Array<{
     label: string;
-    value: 'consignation' | 'avec-date-échéance' | 'six-mois-après-achèvement';
+    value: GarantiesFinancières.TypeGarantiesFinancières.RawType;
   }>;
 };
 
