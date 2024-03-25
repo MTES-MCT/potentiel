@@ -110,11 +110,12 @@ const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) 
             par: dépôtEnCours.dernièreMiseÀJour.par.formatter(),
           },
           attestation: dépôtEnCours.attestation.formatter(),
-          action: utilisateur.role.estÉgaleÀ(Role.porteur)
-            ? 'modifier'
-            : utilisateur.role.estÉgaleÀ(Role.dreal)
-            ? 'instruire'
-            : undefined,
+          action:
+            utilisateur.role.estÉgaleÀ(Role.porteur) || utilisateur.role.estÉgaleÀ(Role.admin)
+              ? 'modifier'
+              : utilisateur.role.estÉgaleÀ(Role.dreal)
+              ? 'instruire'
+              : undefined,
         }
       : undefined,
     historiqueDépôts: garantiesFinancières.dépôts
