@@ -14,6 +14,19 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
+export type DépôtGarantiesFinancières = {
+  type: TypeGarantiesFinancières.ValueType;
+  dateÉchéance?: DateTime.ValueType;
+  statut: StatutDépôtGarantiesFinancières.ValueType;
+  dateConstitution: DateTime.ValueType;
+  attestation: DocumentProjet.ValueType;
+  soumisLe: DateTime.ValueType;
+  dernièreMiseÀJour: {
+    date: DateTime.ValueType;
+    par: IdentifiantUtilisateur.ValueType;
+  };
+};
+
 export type ConsulterGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   actuelles?: {
@@ -28,18 +41,7 @@ export type ConsulterGarantiesFinancièresReadModel = {
       par: IdentifiantUtilisateur.ValueType;
     };
   };
-  dépôts: Array<{
-    type: TypeGarantiesFinancières.ValueType;
-    dateÉchéance?: DateTime.ValueType;
-    statut: StatutDépôtGarantiesFinancières.ValueType;
-    dateConstitution: DateTime.ValueType;
-    attestation: DocumentProjet.ValueType;
-    soumisLe: DateTime.ValueType;
-    dernièreMiseÀJour: {
-      date: DateTime.ValueType;
-      par: IdentifiantUtilisateur.ValueType;
-    };
-  }>;
+  dépôts: Array<DépôtGarantiesFinancières>;
 };
 
 export type ConsulterGarantiesFinancièresQuery = Message<

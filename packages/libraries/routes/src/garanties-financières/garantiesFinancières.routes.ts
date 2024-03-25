@@ -10,6 +10,8 @@ export const dépôt = {
 export const actuelles = {
   modifier: (identifiantProjet: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/actuelles:modifier`,
+  enregistrer: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/actuelles:enregistrer`,
   enregistrerAttestation: (identifiantProjet: string) =>
     `/laureats/${encodeParameter(
       identifiantProjet,

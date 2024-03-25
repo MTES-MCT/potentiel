@@ -20,6 +20,7 @@ import {
 } from '@/components/pages/garanties-financières/détails/DétailsGarantiesFinancières.page';
 import { vérifierAppelOffreSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
+import { tryToGetResource } from '@/utils/tryToGetRessource';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
@@ -46,11 +47,17 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
       }
 
-      const garantiesFinancières =
-        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: { identifiantProjetValue: identifiantProjet },
-        });
+      /**
+       * @todo à refacto suite à l'introduction d'une réponse de la query en utilisant @potentiel/monads
+       */
+
+      const garantiesFinancières = await tryToGetResource(
+        async () =>
+          await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+            data: { identifiantProjetValue: identifiantProjet },
+          }),
+      );
 
       const props = mapToProps({
         projet,
@@ -66,10 +73,42 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 type MapToProps = (args: {
   projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
   utilisateur: Utilisateur.ValueType;
-  garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel;
+  garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel | null;
 }) => DétailsGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) => {
+  if (
+    !garantiesFinancières ||
+    (!garantiesFinancières.actuelles &&
+      !garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours()))
+  ) {
+    return {
+      projet,
+      action: utilisateur.role.estÉgaleÀ(Role.porteur)
+        ? 'soumettre'
+        : utilisateur.role.estÉgaleÀ(Role.admin) ||
+          utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
+          utilisateur.role.estÉgaleÀ(Role.dreal) ||
+          utilisateur.role.estÉgaleÀ(Role.cre) ||
+          utilisateur.role.estÉgaleÀ(Role.acheteurObligé)
+        ? 'enregistrer'
+        : undefined,
+      historiqueDépôts:
+        garantiesFinancières?.dépôts.map((dépôt) => ({
+          type: getGarantiesFinancièresTypeLabel(dépôt.type.type),
+          dateÉchéance: dépôt.dateÉchéance?.formatter(),
+          dateConstitution: dépôt.dateConstitution.formatter(),
+          soumisLe: dépôt.soumisLe.formatter(),
+          statut: dépôt.statut.statut,
+          dernièreMiseÀJour: {
+            date: dépôt.dernièreMiseÀJour.date.formatter(),
+            par: dépôt.dernièreMiseÀJour.par.formatter(),
+          },
+          attestation: dépôt.attestation.formatter(),
+        })) ?? [],
+    };
+  }
+
   const dépôtEnCours = garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours());
 
   return {
