@@ -1,12 +1,12 @@
-import { FC } from "react";
-import Download from "@codegouvfr/react-dsfr/Download";
-import Button from "@codegouvfr/react-dsfr/Button";
+import { FC } from 'react';
+import Download from '@codegouvfr/react-dsfr/Download';
+import Button from '@codegouvfr/react-dsfr/Button';
 
-import { Routes } from "@potentiel-libraries/routes";
+import { Routes } from '@potentiel-libraries/routes';
 
-import { CallOut } from "@/components/atoms/CallOut";
-import { formatDateForText } from "@/utils/formatDateForText";
-import { Heading2 } from "@/components/atoms/headings";
+import { CallOut } from '@/components/atoms/CallOut';
+import { formatDateForText } from '@/utils/formatDateForText';
+import { Heading2 } from '@/components/atoms/headings';
 
 export type GarantiesFinancièresActuelles = {
   type: string;
@@ -24,13 +24,11 @@ export type GarantiesFinancièresActuelles = {
 export type GarantiesFinancièresActuellesProps = {
   identifiantProjet: string;
   actuelles: GarantiesFinancièresActuelles & {
-    action?: "modifier" | "enregister-attestation";
+    action?: 'modifier' | 'enregister-attestation';
   };
 };
 
-export const GarantiesFinancièresActuelles: FC<
-  GarantiesFinancièresActuellesProps
-> = ({
+export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesProps> = ({
   identifiantProjet,
   actuelles: {
     type,
@@ -46,51 +44,55 @@ export const GarantiesFinancièresActuelles: FC<
   <>
     <CallOut
       className="flex-1"
-      colorVariant={action === "enregister-attestation" ? "warning" : "sucess"}
+      colorVariant={action === 'enregister-attestation' ? 'warning' : 'sucess'}
       content={
         <>
           <Heading2>Garanties financières actuelles</Heading2>
           <div className="text-xs italic">
-            Dernière mise à jour le{" "}
-            <span className="font-semibold">
-              {formatDateForText(dernièreMiseÀJour.date)}
-            </span>{" "}
-            par <span className="font-semibold">{dernièreMiseÀJour.par}</span>
+            Dernière mise à jour le{' '}
+            <span className="font-semibold">{formatDateForText(dernièreMiseÀJour.date)}</span> par{' '}
+            <span className="font-semibold">{dernièreMiseÀJour.par}</span>
           </div>
           <div className="mt-5 gap-2 text-base">
             <div>
-              Type : <span className="font-semibold">{type}</span>
+              {type ? (
+                <>
+                  Type : <span className="font-semibold">{type}</span>
+                </>
+              ) : action === 'modifier' ? (
+                <>
+                  Type de garanties financières manquant (
+                  <a href={Routes.GarantiesFinancières.actuelles.modifier(identifiantProjet)}>
+                    compléter
+                  </a>
+                  )
+                </>
+              ) : (
+                <span className="font-semibold italic">
+                  Type à compléter par l'autorité instructrice compétente
+                </span>
+              )}
             </div>
             {dateÉchéance && (
               <div>
-                Date d'échéance :{" "}
-                <span className="font-semibold">
-                  {formatDateForText(dateÉchéance)}
-                </span>
+                Date d'échéance :{' '}
+                <span className="font-semibold">{formatDateForText(dateÉchéance)}</span>
               </div>
             )}
             {dateConstitution && (
               <div>
-                Date de constitution :{" "}
-                <span className="font-semibold">
-                  {formatDateForText(dateConstitution)}
-                </span>
+                Date de constitution :{' '}
+                <span className="font-semibold">{formatDateForText(dateConstitution)}</span>
               </div>
             )}
             {validéLe && (
               <div>
-                Validé le :{" "}
-                <span className="font-semibold">
-                  {formatDateForText(validéLe)}
-                </span>
+                Validé le : <span className="font-semibold">{formatDateForText(validéLe)}</span>
               </div>
             )}
             {soumisLe && (
               <div>
-                Soumis le :{" "}
-                <span className="font-semibold">
-                  {formatDateForText(soumisLe)}
-                </span>
+                Soumis le : <span className="font-semibold">{formatDateForText(soumisLe)}</span>
               </div>
             )}
             <div>
@@ -100,7 +102,7 @@ export const GarantiesFinancièresActuelles: FC<
                   label="Télécharger l'attestation"
                   linkProps={{
                     href: Routes.Document.télécharger(attestation),
-                    target: "_blank",
+                    target: '_blank',
                   }}
                 />
               )}
@@ -114,37 +116,33 @@ export const GarantiesFinancièresActuelles: FC<
 );
 
 type ButtonActionProps = {
-  identifiantProjet: GarantiesFinancièresActuellesProps["identifiantProjet"];
-  action: GarantiesFinancièresActuellesProps["actuelles"]["action"];
+  identifiantProjet: GarantiesFinancièresActuellesProps['identifiantProjet'];
+  action: GarantiesFinancièresActuellesProps['actuelles']['action'];
 };
 const ButtonAction: FC<ButtonActionProps> = ({ identifiantProjet, action }) => {
   switch (action) {
-    case "modifier":
+    case 'modifier':
       return (
         <Button
           priority="secondary"
           linkProps={{
-            href: Routes.GarantiesFinancières.actuelles.modifier(
-              identifiantProjet
-            ),
+            href: Routes.GarantiesFinancières.actuelles.modifier(identifiantProjet),
           }}
         >
           Modifier
         </Button>
       );
-    case "enregister-attestation":
+    case 'enregister-attestation':
       return (
         <>
           <p className="italic">
-            Les garanties financières sont incomplètes, merci de les compléter
-            en enregistrant l'attestation de constitution
+            Les garanties financières sont incomplètes, merci de les compléter en enregistrant
+            l'attestation de constitution
           </p>
 
           <Button
             linkProps={{
-              href: Routes.GarantiesFinancières.actuelles.enregistrerAttestation(
-                identifiantProjet
-              ),
+              href: Routes.GarantiesFinancières.actuelles.enregistrerAttestation(identifiantProjet),
             }}
           >
             Enregistrer l'attestation de constitution
