@@ -11,7 +11,6 @@ import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/P
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
 
-import { AucuneGarantiesFinancièresProps } from './components/AucuneGarantiesFinancières';
 import {
   GarantiesFinancièresActuelles,
   GarantiesFinancièresActuellesProps,
@@ -31,7 +30,7 @@ export type DétailsGarantiesFinancièresPageProps = {
   };
   dateLimiteSoummission?: string;
   historiqueDépôts: GarantiesFinancièresHistoriqueDépôtsProps['dépôts'];
-  action?: AucuneGarantiesFinancièresProps['action'];
+  action?: 'soumettre' | 'enregistrer';
 };
 
 export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancièresPageProps> = ({
