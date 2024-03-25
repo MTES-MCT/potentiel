@@ -4,7 +4,7 @@ import {
   RécupérerCandidaturesEligiblesPreuveRecanditurePort,
 } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { none } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 
 // MERCI DE NE PAS TOUCHER CETTE QUERY
@@ -51,7 +51,7 @@ export const récupérerCandidatureAdapter: RécupérerCandidaturePort = async (
   );
 
   if (!result.length) {
-    return none;
+    return Option.none;
   }
 
   return result[0].value;

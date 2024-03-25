@@ -1,6 +1,6 @@
 import { Then as Alors, defineParameterType } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../potentiel.world';
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mediator } from 'mediateur';
 
@@ -125,7 +125,7 @@ const getConsulterReadModel = async (codeEIC: string) => {
     },
   });
 
-  if (isNone(actualReadModel)) {
+  if (Option.isNone(actualReadModel)) {
     throw new Error(`Le read model gestionnaire de réseau n'existe pas !`);
   }
 

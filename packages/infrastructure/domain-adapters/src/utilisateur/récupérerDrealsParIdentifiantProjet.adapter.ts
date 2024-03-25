@@ -1,5 +1,5 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { isSome } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 
 const selectDrealsProjectQuery = `
@@ -28,7 +28,13 @@ export const récupérerDrealsParIdentifiantProjetAdapter = async ({
 }: IdentifiantProjet.ValueType) => {
   const dreals = await executeSelect<{
     value: { email: string; fullName: string };
-  }>(selectDrealsProjectQuery, appelOffre, période, numéroCRE, isSome(famille) ? famille : '');
+  }>(
+    selectDrealsProjectQuery,
+    appelOffre,
+    période,
+    numéroCRE,
+    Option.isSome(famille) ? famille : '',
+  );
 
   return dreals.map((d) => ({ ...d.value }));
 };

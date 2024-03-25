@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
@@ -63,7 +63,7 @@ export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependen
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const result = await find<AbandonEntity>(`abandon|${identifiantProjet.formatter()}`);
 
-    if (isNone(result)) {
+    if (Option.isNone(result)) {
       throw new AucunAbandonEnCours();
     }
 

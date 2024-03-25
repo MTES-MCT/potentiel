@@ -8,7 +8,7 @@ import {
 } from '../..';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantUtilisateur, Role } from '@potentiel-domain/utilisateur';
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 
 export type ListerDépôtsEnCoursGarantiesFinancièresPort = (args: {
   where: {
@@ -85,7 +85,7 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
 
     if (rôle === Role.dreal.nom) {
       const régionDreal = await récupérerRégionDreal(email);
-      if (isNone(régionDreal)) {
+      if (Option.isNone(régionDreal)) {
         throw new CommonError.RégionNonTrouvéeError();
       }
 

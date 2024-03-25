@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonEntity } from '../abandon.entity';
 import { DateTime, IdentifiantProjet, CommonPort, CommonError } from '@potentiel-domain/common';
 import { StatutAbandon, StatutPreuveRecandidature } from '..';
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -121,7 +121,7 @@ export const registerListerAbandonQuery = ({
 
     if (rôle === 'dreal') {
       const région = await récupérerRégionDreal(email);
-      if (isNone(région)) {
+      if (Option.isNone(région)) {
         throw new CommonError.RégionNonTrouvéeError();
       }
 

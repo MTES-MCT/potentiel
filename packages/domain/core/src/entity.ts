@@ -11,7 +11,7 @@ export type Entity<
 
 export type Find = <TEntity extends Entity>(
   id: `${TEntity['type']}|${string}`,
-) => Promise<Option<TEntity>>;
+) => Promise<Option.Type<TEntity>>;
 
 export type ListOptions<TEntity extends Entity> = {
   type: TEntity['type'];

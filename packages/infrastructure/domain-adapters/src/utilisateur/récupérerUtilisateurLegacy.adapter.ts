@@ -1,5 +1,5 @@
 import { RécupérerUtilisateurPort, UtilisateurEntity } from '@potentiel-domain/utilisateur';
-import { none } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 
 const selectUtilisateurQuery = `
@@ -21,7 +21,7 @@ export const récupérerUtilisateurAdapter: RécupérerUtilisateurPort = async (
   }>(selectUtilisateurQuery, identifiantUtilisateur);
 
   if (!utilisateurs.length) {
-    return none;
+    return Option.none;
   }
 
   return utilisateurs[0].value;

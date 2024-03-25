@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/core';
 import { RaccordementEntity } from '../raccordement.entity';
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { GestionnaireRéseauEntity, IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 export type ConsulterGestionnaireRéseauRaccordementReadModel = {
@@ -39,7 +39,7 @@ export const registerConsulterGestionnaireRéseauRaccordementQuery = ({
       `raccordement|${identifiantProjet.formatter()}`,
     );
 
-    if (isNone(raccordementResult)) {
+    if (Option.isNone(raccordementResult)) {
       return {
         identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
         raisonSociale: IdentifiantGestionnaireRéseau.inconnu.formatter(),
@@ -50,7 +50,7 @@ export const registerConsulterGestionnaireRéseauRaccordementQuery = ({
       `gestionnaire-réseau|${raccordementResult.identifiantGestionnaireRéseau}`,
     );
 
-    if (isNone(gestionnaireRéseauResult)) {
+    if (Option.isNone(gestionnaireRéseauResult)) {
       return {
         identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
         raisonSociale: IdentifiantGestionnaireRéseau.inconnu.formatter(),

@@ -5,7 +5,7 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
 import { FormatRéférenceDossierRaccordementInvalideError } from '../transmettre/transmettreDemandeComplèteRaccordement.behavior';
-import { isSome } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 
 export type RéférenceDossierRacordementModifiéeEvent = DomainEvent<
   'RéférenceDossierRacordementModifiée-V1',
@@ -50,7 +50,7 @@ export async function modifierRéférenceDossierRacordement(
 
   if (rôle.estÉgaleÀ(Role.porteur)) {
     const dossier = this.dossiers.get(référenceDossierRaccordementActuelle.formatter());
-    if (isSome(dossier?.miseEnService.dateMiseEnService)) {
+    if (Option.isSome(dossier?.miseEnService.dateMiseEnService)) {
       throw new RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError();
     }
   }

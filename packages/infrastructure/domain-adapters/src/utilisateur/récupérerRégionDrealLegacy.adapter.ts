@@ -1,5 +1,5 @@
 import { CommonPort } from '@potentiel-domain/common';
-import { none } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { executeSelect } from '@potentiel/pg-helpers';
 
 const query = `
@@ -24,7 +24,7 @@ export const récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort = a
   }>(query, identifiantUtilisateur);
 
   if (!résultat.length) {
-    return none;
+    return Option.none;
   }
 
   return résultat[0].value;

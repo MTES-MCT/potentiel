@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { isNone, Option } from '@potentiel/monads';
+import { Option } from '@potentiel/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { AucunCahierDesChargesChoisiTrouvéError } from '../aucunCahierDesChargesChoisiTrouvéError';
 
@@ -15,7 +15,7 @@ export type ConsulterCahierDesChargesChoisiQuery = Message<
 
 export type ConsulterCahierDesChargesChoisiPort = (
   identifiantProjet: IdentifiantProjet.ValueType,
-) => Promise<Option<string>>;
+) => Promise<Option.Type<string>>;
 
 export type ConsulterCahierDesChargesChoisiDependencies = {
   consulterCahierDesChargesAdapter: ConsulterCahierDesChargesChoisiPort;
@@ -32,7 +32,7 @@ export const registerConsulterCahierDesChargesChoisiQuery = ({
       identifiantProjetValueType,
     );
 
-    if (isNone(cahierDesChargesChoisi)) {
+    if (Option.isNone(cahierDesChargesChoisi)) {
       throw new AucunCahierDesChargesChoisiTrouvéError();
     }
 
