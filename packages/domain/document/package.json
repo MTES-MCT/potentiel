@@ -11,7 +11,7 @@
   "dependencies": {
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*",
-    "@potentiel/monads": "*"
+    "@potentiel-librairies/monads": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

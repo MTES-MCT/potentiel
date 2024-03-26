@@ -9,9 +9,9 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/monads": "*",
     "@potentiel-librairies/monitoring": "*",
     "@potentiel-librairies/pg-helpers": "*",
+    "@potentiel-librairies/monads": "*",
     "pg": "^8.11.3"
   },
   "devDependencies": {

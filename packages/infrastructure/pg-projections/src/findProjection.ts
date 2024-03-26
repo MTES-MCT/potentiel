@@ -1,5 +1,5 @@
 import { executeSelect } from '@potentiel-librairies/pg-helpers';
-import { Option } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 import { Entity } from '@potentiel-domain/core';
 
 import { KeyValuePair } from './keyValuePair';

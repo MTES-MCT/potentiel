@@ -1,4 +1,4 @@
-import { Option } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 
 export type RécupérerRégionDrealPort = (
   identifiantUtilisateur: string,

@@ -1,5 +1,5 @@
-import { Option } from '@potentiel/monads';
 import { executeSelect } from '@potentiel-librairies/pg-helpers';
+import { Option } from '@potentiel-librairies/monads';
 import { CahierDesCharges } from '@potentiel-domain/laureat';
 
 const selectProjectQuery = `

@@ -8,7 +8,7 @@ export type GestionnaireRéseauEntity = Entity<
     aideSaisieRéférenceDossierRaccordement: {
       format: string;
       légende: string;
-      expressionReguliere?: string;
+      expressionReguliere: string;
     };
   }
 >;

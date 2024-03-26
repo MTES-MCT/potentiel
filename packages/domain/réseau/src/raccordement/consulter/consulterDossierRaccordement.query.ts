@@ -4,7 +4,7 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 import { Find } from '@potentiel-domain/core';
 import { DossierRaccordementEntity } from '../raccordement.entity';
-import { Option } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
 import { DocumentProjet } from '@potentiel-domain/document';
 

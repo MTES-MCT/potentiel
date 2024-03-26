@@ -3,7 +3,7 @@ import { DomainEvent, InvalidOperationError, OperationRejectedError } from '@pot
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
-import { Option } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
 
 /**

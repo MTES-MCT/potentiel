@@ -22,14 +22,14 @@ export type ModifierOptions = {
   aideSaisieRéférenceDossierRaccordement: {
     format: string;
     légende: string;
-    expressionReguliere: string;
+    expressionReguliere: ExpressionRegulière.ValueType;
   };
 };
 
 export async function modifier(
   this: GestionnaireRéseauAggregate,
   {
-    aideSaisieRéférenceDossierRaccordement,
+    aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
     identifiantGestionnaireRéseau,
     raisonSociale,
   }: ModifierOptions,
@@ -39,7 +39,11 @@ export async function modifier(
     payload: {
       codeEIC: identifiantGestionnaireRéseau.formatter(),
       raisonSociale,
-      aideSaisieRéférenceDossierRaccordement,
+      aideSaisieRéférenceDossierRaccordement: {
+        format,
+        légende,
+        expressionReguliere: expressionReguliere.formatter(),
+      },
     },
   };
 
@@ -56,6 +60,7 @@ export function applyGestionnaireRéseauModifié(
   }: GestionnaireRéseauModifiéEvent,
 ) {
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
-  this.référenceDossierRaccordementExpressionRegulière =
-    ExpressionRegulière.convertirEnValueType(expressionReguliere);
+  this.référenceDossierRaccordementExpressionRegulière = !expressionReguliere
+    ? ExpressionRegulière.accepteTout
+    : ExpressionRegulière.convertirEnValueType(expressionReguliere);
 }

@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { Option } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { AucunCahierDesChargesChoisiTrouvéError } from '../aucunCahierDesChargesChoisiTrouvéError';
 

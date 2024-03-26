@@ -15,9 +15,9 @@
     "@potentiel-domain/utilisateur": "^0.0.0",
     "@potentiel-domain/laureat": "^0.0.0",
     "@potentiel-librairies/file-storage": "^0.0.0",
-    "@potentiel/monads": "^0.0.0",
     "@potentiel-librairies/monitoring": "^0.0.0",
-    "@potentiel-librairies/pg-helpers": "^0.0.0"
+    "@potentiel-librairies/pg-helpers": "^0.0.0",
+    "@potentiel-librairies/monads": "^0.0.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

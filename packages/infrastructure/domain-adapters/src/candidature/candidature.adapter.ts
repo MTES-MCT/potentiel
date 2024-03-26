@@ -4,8 +4,8 @@ import {
   RécupérerCandidaturesEligiblesPreuveRecanditurePort,
 } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Option } from '@potentiel/monads';
 import { executeSelect } from '@potentiel-librairies/pg-helpers';
+import { Option } from '@potentiel-librairies/monads';
 
 // MERCI DE NE PAS TOUCHER CETTE QUERY
 const selectCandidatureQuery = `
