@@ -9,20 +9,11 @@ import Link from 'next/link';
 import { Routes } from '@potentiel-libraries/routes';
 
 import { Tile } from '@/components/organisms/Tile';
-import {
-  ArrowDownWithCircle,
-  ArrowLeftIcon,
-  ArrowRightWithCircle,
-  CalendarIcon,
-  ClockIcon,
-  EditIcon,
-  SuccessIcon,
-  TagIcon,
-  WarningIcon,
-} from '@/components/atoms/icons';
+import { ClockIcon, WarningIcon } from '@/components/atoms/icons';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { displayDate } from '@/utils/displayDate';
+import { Icon } from '@/components/atoms/Icon';
 
 import { TitrePageRaccordement } from '../TitrePageRaccordement';
 export type DétailsRaccordementPageProps = {
@@ -88,7 +79,7 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
                 href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
                 aria-label={`Modifier le gestionnaire (actuel : ${gestionnaireRéseau.raisonSociale})`}
               >
-                (<EditIcon className="inline mr-1" />
+                (<Icon id="fr-icon-pencil-fill" size="xs" className="mr-1" />
                 Modifier)
               </a>
             )}
@@ -126,8 +117,8 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
         priority="secondary"
         linkProps={{ href: Routes.Projet.details(projet.identifiantProjet) }}
         className="mt-4"
+        iconId="fr-icon-arrow-left-line"
       >
-        <ArrowLeftIcon aria-hidden className="inline w-5 h-5 mr-2" />
         Retour vers le projet
       </Button>
     </PageTemplate>
@@ -214,12 +205,17 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
   >
     <div className="flex flex-col text-sm gap-2">
       <div className="flex items-center">
-        <TagIcon className="inline mr-1" title="référence du dossier de raccordement" />
+        <Icon id="fr-icon-information-line" size="sm" className="mr-1" />
         <span className="font-bold">{référence}</span>
       </div>
 
       <div className="flex items-center">
-        <CalendarIcon className="inline mr-1" title="date de l'accusé de réception" />
+        <Icon
+          id="fr-icon-calendar-line"
+          size="xs"
+          className="mr-1"
+          title="date de l'accusé de réception"
+        />
         {dateQualification ? (
           displayDate(new Date(dateQualification))
         ) : canEdit ? (
@@ -266,7 +262,7 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
           className="absolute top-2 right-2"
           aria-label={`Modifier la demande de raccordement ${référence}`}
         >
-          <EditIcon aria-hidden className="inline mr-1" />
+          <Icon id="fr-icon-pencil-fill" size="xs" className="mr-1" />
           Modifier
         </Link>
       )}
@@ -301,7 +297,9 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
     {dateSignature && propositionTechniqueEtFinancièreSignée ? (
       <div className="flex flex-col text-sm gap-2">
         <div className="flex items-center">
-          <CalendarIcon
+          <Icon
+            id="fr-icon-calendar-line"
+            size="xs"
             className="mr-1"
             title="date de signature de la proposition technique et financière"
           />
@@ -338,7 +336,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
             className="absolute top-2 right-2"
             aria-label={`Modifier la proposition technique et financière pour le dossier ${référence}`}
           >
-            <EditIcon aria-hidden className="inline mr-1" />
+            <Icon id="fr-icon-pencil-fill" size="xs" className="mr-1" />
             Modifier
           </Link>
         )}
@@ -379,7 +377,12 @@ export const ÉtapeMiseEnService: FC<ÉtapeMiseEnServiceProps> = ({
     {dateMiseEnService ? (
       <div className="flex items-center text-sm">
         <div>
-          <CalendarIcon className="inline mr-1" title="date de mise en service" />
+          <Icon
+            id="fr-icon-calendar-line"
+            size="xs"
+            className="mr-1"
+            title="date de mise en service"
+          />
           {displayDate(new Date(dateMiseEnService))}
         </div>
 
@@ -389,7 +392,7 @@ export const ÉtapeMiseEnService: FC<ÉtapeMiseEnServiceProps> = ({
             className="absolute top-2 right-2"
             aria-label={`Modifier la date de mise en service pour le dossier ${référence}`}
           >
-            <EditIcon aria-hidden className="inline mr-1" />
+            <Icon id="fr-icon-pencil-fill" size="xs" className="mr-1" />
             Modifier
           </Link>
         )}
@@ -421,7 +424,12 @@ export const Etape: FC<{
   switch (statut) {
     case 'étape validée':
       icon = (
-        <SuccessIcon className="w-8 h-8 md:mx-auto text-success-425-base" title="étape validée" />
+        <Icon
+          id="fr-icon-success-fill"
+          size="lg"
+          className="md:mx-auto text-success-425-base"
+          title="étape validée"
+        />
       );
       borderColor = 'border-success-425-base';
       backgroundColor = 'bg-green-50';
@@ -464,13 +472,15 @@ export const Etape: FC<{
 
 export const Separateur: FC = () => (
   <div className="flex flex-col my-3 mx-auto md:mx-3">
-    <ArrowRightWithCircle
-      className="w-12 h-12 my-auto text-blue-france-sun-base hidden md:block"
-      aria-hidden
+    <Icon
+      id="fr-icon-arrow-right-fill"
+      size="lg"
+      className="my-auto text-blue-france-sun-base hidden md:block"
     />
-    <ArrowDownWithCircle
-      className="w-12 h-12 my-auto text-blue-france-sun-base block md:hidden"
-      aria-hidden
+    <Icon
+      id="fr-icon-arrow-down-fill"
+      size="lg"
+      className="my-auto text-blue-france-sun-base block md:hidden"
     />
   </div>
 );

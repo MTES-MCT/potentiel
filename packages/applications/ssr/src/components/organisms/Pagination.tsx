@@ -1,6 +1,6 @@
 import React, { ComponentProps, FC } from 'react';
 
-import { FirstPageIcon, LastPageIcon, NextPageIcon, PreviousPageIcon } from '../atoms/icons';
+import { Icon } from '../atoms/Icon';
 
 type PaginationProps = {
   pageCount: number;
@@ -18,7 +18,7 @@ export const Pagination: FC<PaginationProps> = ({ pageCount, currentPage, getPag
       <ul className="flex list-none gap-3 m-0 my-0 mt-6 p-0">
         <li>
           <PageLink href={getPageUrl(1)} title="Première page" disabled={currentPage === 1}>
-            <FirstPageIcon className="w-6 h-6" />
+            <Icon id="fr-icon-arrow-left-s-first-line" />
           </PageLink>
         </li>
         <li className="mr-auto">
@@ -27,7 +27,7 @@ export const Pagination: FC<PaginationProps> = ({ pageCount, currentPage, getPag
             title="Page précédente"
             disabled={currentPage - 1 <= 0}
           >
-            <PreviousPageIcon className="w-6 h-6 mr-2" />
+            <Icon id="fr-icon-arrow-left-s-line" />
             <span className="hidden md:block">Précédent</span>
           </PageLink>
         </li>
@@ -43,7 +43,7 @@ export const Pagination: FC<PaginationProps> = ({ pageCount, currentPage, getPag
             disabled={currentPage + 1 > pageCount}
           >
             <span className="hidden md:block">Suivant</span>
-            <NextPageIcon className="w-6 h-6 ml-2" />
+            <Icon id="fr-icon-arrow-right-s-line" />
           </PageLink>
         </li>
         <li>
@@ -52,7 +52,7 @@ export const Pagination: FC<PaginationProps> = ({ pageCount, currentPage, getPag
             title="Dernière page"
             disabled={currentPage === pageCount}
           >
-            <LastPageIcon className="w-6 h-6" />
+            <Icon id="fr-icon-arrow-right-s-last-line" />
           </PageLink>
         </li>
       </ul>
