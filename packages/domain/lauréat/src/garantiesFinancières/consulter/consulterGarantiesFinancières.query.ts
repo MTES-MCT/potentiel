@@ -71,6 +71,8 @@ export const registerConsulterGarantiesFinancièresQuery = ({
       throw new AucunesGarantiesFinancièresPourLeProjetError();
     }
 
+    console.log('TEST QUERY result', result);
+
     const actuelles: ConsulterGarantiesFinancièresReadModel['actuelles'] = result.actuelles && {
       type: TypeGarantiesFinancières.convertirEnValueType(result.actuelles.type),
       ...(result.actuelles.dateÉchéance && {
