@@ -66,6 +66,6 @@ export function applyGestionnaireRéseauAjouté(
 ) {
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
   this.référenceDossierRaccordementExpressionRegulière = !expressionReguliere
-    ? ExpressionRegulière.défaut
+    ? ExpressionRegulière.accepteTout
     : ExpressionRegulière.convertirEnValueType(expressionReguliere);
 }

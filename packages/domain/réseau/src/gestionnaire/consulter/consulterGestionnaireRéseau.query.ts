@@ -55,7 +55,7 @@ const mapToReadModel = ({
       format,
       légende,
       expressionReguliere: !expressionReguliere
-        ? ExpressionRegulière.défaut
+        ? ExpressionRegulière.accepteTout
         : ExpressionRegulière.convertirEnValueType(expressionReguliere),
     },
   };

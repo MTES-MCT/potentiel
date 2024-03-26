@@ -31,7 +31,7 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
     );
 
     const expressionReguliere = !expressionReguliereValue
-      ? ExpressionRegulière.défaut
+      ? ExpressionRegulière.accepteTout
       : ExpressionRegulière.convertirEnValueType(expressionReguliereValue);
 
     return mediator.send<ModifierGestionnaireRéseauCommand>({

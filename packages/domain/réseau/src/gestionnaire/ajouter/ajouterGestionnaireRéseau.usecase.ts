@@ -31,7 +31,7 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
     );
 
     const expressionReguliere = !expressionReguliereValue
-      ? ExpressionRegulière.défaut
+      ? ExpressionRegulière.accepteTout
       : ExpressionRegulière.convertirEnValueType(expressionReguliereValue);
 
     await mediator.send<AjouterGestionnaireRéseauCommand>({

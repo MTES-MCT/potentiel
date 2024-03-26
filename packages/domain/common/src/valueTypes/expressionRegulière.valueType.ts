@@ -33,7 +33,7 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const défaut = convertirEnValueType('(.*)');
+export const accepteTout = convertirEnValueType('(.*)');
 
 class ExpressionRegulièreVideError extends InvalidOperationError {
   constructor() {
