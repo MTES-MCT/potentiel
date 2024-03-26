@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel/email-sender",
+  "name": "@potentiel-librairies/email-sender",
   "version": "0.0.0",
   "description": "Email sender package to send emails",
   "main": "dist/index.js",
@@ -9,11 +9,11 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*",
+    "@potentiel-config/tsconfig": "*",
     "@types/node-mailjet": "^3.3.9"
   },
   "dependencies": {
-    "@potentiel/monitoring": "*",
+    "@potentiel-librairies/monitoring": "*",
     "node-mailjet": "^6.0.4"
   }
 }

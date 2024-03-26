@@ -12,11 +12,11 @@
     "@potentiel-domain/laureat": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel/email-sender": "*",
+    "@potentiel-librairies/email-sender": "*",
     "@potentiel-libraries/routes": "*",
     "mediateur": "^0.1.0"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*"
   }
 }

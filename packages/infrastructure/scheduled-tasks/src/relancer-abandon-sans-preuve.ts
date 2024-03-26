@@ -7,7 +7,7 @@ import {
 import { DateTime } from '@potentiel-domain/common';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
-import { getLogger } from '@potentiel/monitoring';
+import { getLogger } from '@potentiel-librairies/monitoring';
 import {
   consulterCahierDesChargesChoisiAdapter,
   listerAbandonsAdapter,

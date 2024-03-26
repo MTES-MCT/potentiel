@@ -13,6 +13,6 @@
     "flat": "^6.0.1"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*"
   }
 }

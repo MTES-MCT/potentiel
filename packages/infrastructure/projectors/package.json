@@ -14,11 +14,11 @@
     "@potentiel-domain/tache": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projections": "*",
-    "@potentiel/pg-helpers": "*",
+    "@potentiel-librairies/pg-helpers": "*",
     "flat": "^6.0.1",
     "mediateur": "^0.1.0"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*"
   }
 }

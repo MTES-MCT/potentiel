@@ -18,6 +18,6 @@
     "@potentiel-domain/utilisateur": "*"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*"
   }
 }

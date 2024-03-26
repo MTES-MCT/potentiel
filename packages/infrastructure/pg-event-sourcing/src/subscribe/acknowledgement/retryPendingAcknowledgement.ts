@@ -1,4 +1,4 @@
-import { getLogger } from '@potentiel/monitoring';
+import { getLogger } from '@potentiel-librairies/monitoring';
 
 import { Event } from '../../event';
 import { Subscriber } from '../subscriber/subscriber';

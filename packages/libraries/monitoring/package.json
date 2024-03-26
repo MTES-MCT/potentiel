@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel/monitoring",
+  "name": "@potentiel-librairies/monitoring",
   "version": "0.0.0",
   "description": "Potentiel Monitoring",
   "main": "dist/index.js",
@@ -13,6 +13,6 @@
     "winston": "^3.10.0"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*"
   }
 }

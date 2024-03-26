@@ -1,6 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel/monads';
-import { executeSelect } from '@potentiel/pg-helpers';
+import { executeSelect } from '@potentiel-librairies/pg-helpers';
 
 const selectPorteursProjectQuery = `
   select json_build_object(
