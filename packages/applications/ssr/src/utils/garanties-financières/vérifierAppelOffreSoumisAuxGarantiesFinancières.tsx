@@ -2,14 +2,19 @@ import { mediator } from 'mediateur';
 
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 
-export const vérifierAppelOffreSoumisAuxGarantiesFinancières = async (appelOffreId: string) => {
-  const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
+export const projetSoumisAuxGarantiesFinancières = async ({
+  appelOffre,
+  famille,
+}: {
+  appelOffre: string;
+  famille?: string;
+}) => {
+  const détailAppelOffre = await mediator.send<ConsulterAppelOffreQuery>({
     type: 'AppelOffre.Query.ConsulterAppelOffre',
-    data: { identifiantAppelOffre: appelOffreId },
+    data: { identifiantAppelOffre: appelOffre },
   });
-
-  return (
-    appelOffre.soumisAuxGarantiesFinancieres === 'à la candidature' ||
-    appelOffre.soumisAuxGarantiesFinancieres === 'après candidature'
-  );
+  return famille
+    ? détailAppelOffre.familles.find((f) => f.id === famille)?.soumisAuxGarantiesFinancieres !==
+        'non soumis'
+    : détailAppelOffre.soumisAuxGarantiesFinancieres !== 'non soumis';
 };
