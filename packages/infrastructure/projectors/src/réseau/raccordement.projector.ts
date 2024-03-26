@@ -6,7 +6,7 @@ import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel/monads';
 import { upsertProjection } from '../utils/upsertProjection';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { getLogger } from '@potentiel/monitoring';
+import { getLogger } from '@potentiel-librairies/monitoring';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 export type SubscriptionEvent = (Raccordement.RaccordementEvent & Event) | RebuildTriggered;

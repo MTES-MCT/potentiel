@@ -8,7 +8,7 @@ import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { removeProjection } from '../utils/removeProjection';
 import { upsertProjection } from '../utils/upsertProjection';
-import { getLogger } from '@potentiel/monitoring';
+import { getLogger } from '@potentiel-librairies/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 export type SubscriptionEvent =

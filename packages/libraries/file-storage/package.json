@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel/file-storage",
+  "name": "@potentiel-librairies/file-storage",
   "version": "0.0.0",
   "description": "File storage for managing files",
   "main": "dist/index.js",
@@ -9,7 +9,7 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.405.0",

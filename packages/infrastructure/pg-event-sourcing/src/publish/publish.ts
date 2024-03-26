@@ -1,4 +1,4 @@
-import { executeQuery } from '@potentiel/pg-helpers';
+import { executeQuery } from '@potentiel-librairies/pg-helpers';
 import { Event } from '../event';
 
 const insertEvent =

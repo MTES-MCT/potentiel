@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { sendEmail } from '@potentiel/email-sender';
+import { sendEmail } from '@potentiel-librairies/email-sender';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';

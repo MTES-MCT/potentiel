@@ -8,7 +8,7 @@
     "start:relancer-abandon-sans-preuve": "node ./dist/relancer-abandon-sans-preuve"
   },
   "dependencies": {
-    "@potentiel/monitoring": "*",
+    "@potentiel-librairies/monitoring": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/laureat": "*",
     "@potentiel-infrastructure/document-builder": "*",
@@ -17,6 +17,6 @@
     "@potentiel-infrastructure/pg-event-sourcing": "*"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*"
   }
 }

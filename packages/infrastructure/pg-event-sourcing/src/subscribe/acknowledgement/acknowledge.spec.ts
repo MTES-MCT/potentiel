@@ -3,7 +3,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { publish } from '../../publish/publish';
 import { acknowledge } from './acknowledge';
 import { registerSubscriber } from '../subscriber/registerSubscriber';
-import { executeQuery, killPool } from '@potentiel/pg-helpers';
+import { executeQuery, killPool } from '@potentiel-librairies/pg-helpers';
 import { getPendingAcknowledgements } from './getPendingAcknowledgements';
 
 describe('acknowledgement', () => {

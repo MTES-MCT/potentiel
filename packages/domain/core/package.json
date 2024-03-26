@@ -13,6 +13,6 @@
     "mediateur": "^0.1.0"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*"
   }
 }

@@ -1,5 +1,5 @@
 import { appelsOffreData } from '@potentiel/domain-inmemory-referential';
-import { getLogger } from '@potentiel/monitoring';
+import { getLogger } from '@potentiel-librairies/monitoring';
 import { removeProjectionByCategory } from '../utils/removeProjectionByCategory';
 import { createProjection } from '../utils/createProjection';
 

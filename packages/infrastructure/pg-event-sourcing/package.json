@@ -10,12 +10,12 @@
   },
   "dependencies": {
     "@potentiel/monads": "*",
-    "@potentiel/monitoring": "*",
-    "@potentiel/pg-helpers": "*",
+    "@potentiel-librairies/monitoring": "*",
+    "@potentiel-librairies/pg-helpers": "*",
     "pg": "^8.11.3"
   },
   "devDependencies": {
     "@types/pg": "^8.10.2",
-    "@potentiel/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*"
   }
 }

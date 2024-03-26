@@ -9,6 +9,6 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*"
   }
 }

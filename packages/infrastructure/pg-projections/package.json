@@ -10,12 +10,12 @@
   },
   "dependencies": {
     "@potentiel-domain/core": "*",
-    "@potentiel/pg-helpers": "*",
+    "@potentiel-librairies/pg-helpers": "*",
     "flat": "^6.0.1",
     "pg-format": "^1.0.4"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*",
+    "@potentiel-config/tsconfig": "*",
     "@types/pg-format": "^1.0.2"
   }
 }

@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
-import { executeQuery, killPool } from '@potentiel/pg-helpers';
+import { executeQuery, killPool } from '@potentiel-librairies/pg-helpers';
 import { Entity } from '@potentiel-domain/core';
 import { listProjection } from './listProjection';
 

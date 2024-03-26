@@ -1,4 +1,4 @@
-import { executeSelect } from '@potentiel/pg-helpers';
+import { executeSelect } from '@potentiel-librairies/pg-helpers';
 import { Option } from '@potentiel/monads';
 import { Entity } from '@potentiel-domain/core';
 

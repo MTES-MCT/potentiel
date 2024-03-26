@@ -8,12 +8,12 @@ import {
   jest,
   expect,
 } from '@jest/globals';
-import { executeQuery, executeSelect, killPool } from '@potentiel/pg-helpers';
+import { executeQuery, executeSelect, killPool } from '@potentiel-librairies/pg-helpers';
 import { subscribe } from './subscribe';
 import { registerSubscriber } from './subscriber/registerSubscriber';
 import { Event } from '../event';
 import waitForExpect from 'wait-for-expect';
-import * as monitoring from '@potentiel/monitoring';
+import * as monitoring from '@potentiel-librairies/monitoring';
 import { getPendingAcknowledgements } from './acknowledgement/getPendingAcknowledgements';
 import { publish } from '../publish/publish';
 import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEventsWithPendingAcknowledgement';
