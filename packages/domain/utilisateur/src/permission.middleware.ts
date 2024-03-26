@@ -64,9 +64,9 @@ const isSystemProcess = (message: Message<string, Record<string, unknown>, void>
 const mustSkipMessage = (message: Message<string, Record<string, unknown>, void>) => {
   return (
     message.type.endsWith('System.Authorization.RécupérerUtilisateur') ||
-    message.type.endsWith('.Command.') || // Message to skip because executed by a saga or legacy app
-    message.type.endsWith('.UseCase.') || // Message executed by the legacy app
-    message.type.endsWith('.Query.') // Message executed by the legacy app
+    message.type.includes('.Command.') || // Message to skip because executed by a saga or legacy app
+    message.type.includes('.UseCase.') || // Message executed by the legacy app
+    message.type.includes('.Query.') // Message executed by the legacy app
   );
 };
 
