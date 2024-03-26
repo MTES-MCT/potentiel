@@ -1,6 +1,7 @@
 import { When as Quand, DataTable } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../potentiel.world';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel/monads';
 import { mediator } from 'mediateur';
 import { sleep } from '../../helpers/sleep';
 
@@ -101,6 +102,7 @@ Quand(
       });
 
     const résultatValidation =
+      !Option.isNone(actualReadModel) &&
       actualReadModel.aideSaisieRéférenceDossierRaccordement.expressionReguliere.valider(
         référenceÀValider,
       );

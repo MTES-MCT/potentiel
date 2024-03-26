@@ -43,7 +43,7 @@ EtantDonné(
     const aideSaisieRéférenceDossierRaccordement = {
       format: '',
       légende: '',
-      expressionReguliere: '(.*)',
+      expressionReguliere: '',
     };
 
     await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({

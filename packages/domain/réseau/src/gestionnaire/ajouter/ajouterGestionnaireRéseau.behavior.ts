@@ -61,6 +61,7 @@ export function applyGestionnaireRéseauAjouté(
   }: GestionnaireRéseauAjoutéEvent,
 ) {
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
-  this.référenceDossierRaccordementExpressionRegulière =
-    ExpressionRegulière.convertirEnValueType(expressionReguliere);
+  this.référenceDossierRaccordementExpressionRegulière = !expressionReguliere
+    ? ExpressionRegulière.défaut
+    : ExpressionRegulière.convertirEnValueType(expressionReguliere);
 }

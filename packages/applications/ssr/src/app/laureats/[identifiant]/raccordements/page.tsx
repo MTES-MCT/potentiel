@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
+import { Option } from '@potentiel/monads';
 import {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
@@ -44,22 +45,14 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           },
         });
 
-      let gestionnaireRéseau = undefined;
-
-      if (
-        !listeDossiersRaccordement.identifiantGestionnaireRéseau.estÉgaleÀ(
-          GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
-        )
-      ) {
-        gestionnaireRéseau =
-          await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
-            type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
-            data: {
-              identifiantGestionnaireRéseau:
-                listeDossiersRaccordement.identifiantGestionnaireRéseau.formatter(),
-            },
-          });
-      }
+      const gestionnaireRéseau =
+        await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
+          type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
+          data: {
+            identifiantGestionnaireRéseau:
+              listeDossiersRaccordement.identifiantGestionnaireRéseau.formatter(),
+          },
+        });
 
       const props = mapToProps({
         rôleUtilisateur: utilisateur.role,
@@ -76,7 +69,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 type MapToProps = (args: {
   rôleUtilisateur: Role.ValueType;
   candidature: ConsulterCandidatureReadModel;
-  gestionnaireRéseau?: GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel;
+  gestionnaireRéseau: Option.Type<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;
   listeDossiersRaccordement: Raccordement.ConsulterRaccordementReadModel;
 }) => DétailsRaccordementPageProps;
 
@@ -93,7 +86,7 @@ const mapToProps: MapToProps = ({
       ...candidature,
       identifiantProjet,
     },
-    ...(gestionnaireRéseau && {
+    ...(Option.isSome(gestionnaireRéseau) && {
       gestionnaireRéseau: {
         ...gestionnaireRéseau,
         identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),

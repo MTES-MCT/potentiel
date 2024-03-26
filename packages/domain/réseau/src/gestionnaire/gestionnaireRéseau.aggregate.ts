@@ -29,7 +29,7 @@ export const getDefaultGestionnaireRéseauAggregate: GetDefaultAggregateState<
   GestionnaireRéseauEvent
 > = () => ({
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
-  référenceDossierRaccordementExpressionRegulière: ExpressionRegulière.convertirEnValueType(''),
+  référenceDossierRaccordementExpressionRegulière: ExpressionRegulière.défaut,
   apply,
   ajouter,
   modifier,

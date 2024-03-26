@@ -4,7 +4,6 @@ import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRése
 import { Find } from '@potentiel-domain/core';
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import { Option } from '@potentiel/monads';
-import { GestionnaireRéseauInconnuError } from '../gestionnaireRéseauInconnu.error';
 
 export type ConsulterGestionnaireRéseauReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -21,7 +20,7 @@ export type ConsulterGestionnaireRéseauQuery = Message<
   {
     identifiantGestionnaireRéseau: string;
   },
-  ConsulterGestionnaireRéseauReadModel
+  Option.Type<ConsulterGestionnaireRéseauReadModel>
 >;
 
 export type ConsulterGestionnaireRéseauQueryDependencies = {
@@ -38,11 +37,7 @@ export const registerConsulterGestionnaireRéseauQuery = ({
       `gestionnaire-réseau|${identifiantGestionnaireRéseau}`,
     );
 
-    if (Option.isNone(result)) {
-      throw new GestionnaireRéseauInconnuError();
-    }
-
-    return mapToReadModel(result);
+    return Option.isNone(result) ? Option.none : mapToReadModel(result);
   };
 
   mediator.register('Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau', handler);
@@ -59,7 +54,9 @@ const mapToReadModel = ({
     aideSaisieRéférenceDossierRaccordement: {
       format,
       légende,
-      expressionReguliere: ExpressionRegulière.convertirEnValueType(expressionReguliere || ''),
+      expressionReguliere: !expressionReguliere
+        ? ExpressionRegulière.défaut
+        : ExpressionRegulière.convertirEnValueType(expressionReguliere),
     },
   };
 };
