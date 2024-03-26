@@ -70,6 +70,8 @@ export type ProjectDataForProjectPage = {
   details: Record<string, any>;
 
   updatedAt?: Date;
+
+  garantiesFinancières?: GarantiesFinancières;
 } & (IsNotified | IsNotNotified) &
   (IsClasse | IsElimine | IsAbandoned);
 
@@ -117,4 +119,10 @@ type NotesInnovation = {
   qualitéTechnique: string;
   adéquationAmbitionsIndustrielles: string;
   aspectsEnvironnementauxEtSociaux: string;
+};
+
+type GarantiesFinancières = {
+  garantiesFinancièresEnAttente?: true;
+  actuelles?: { type: string; dateConstitution: string; dateÉchéance?: string };
+  dépôtÀTraiter?: { type: string; dateConstitution: string; dateÉchéance?: string };
 };
