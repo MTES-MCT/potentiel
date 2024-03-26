@@ -9,7 +9,6 @@ import Link from 'next/link';
 import { Routes } from '@potentiel-libraries/routes';
 
 import { Tile } from '@/components/organisms/Tile';
-import { ClockIcon, WarningIcon } from '@/components/atoms/icons';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { displayDate } from '@/utils/displayDate';
@@ -205,7 +204,12 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
   >
     <div className="flex flex-col text-sm gap-2">
       <div className="flex items-center">
-        <Icon id="fr-icon-information-line" size="sm" className="mr-1" />
+        <Icon
+          id="fr-icon-information-line"
+          size="sm"
+          className="mr-1"
+          title="référence du dossier de raccordement"
+        />
         <span className="font-bold">{référence}</span>
       </div>
 
@@ -234,12 +238,7 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
 
       {accuséRéception && (
         <div>
-          {accuséRéception.endsWith('.bin') && (
-            <WarningIcon
-              className="w-8 h-8 md:mx-auto text-warning-425-base"
-              title="format du fichier invalide"
-            />
-          )}
+          {accuséRéception.endsWith('.bin') && <FormatFichierInvalide />}
           <Download
             className="flex items-center"
             linkProps={{
@@ -308,12 +307,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
 
         {propositionTechniqueEtFinancièreSignée && (
           <div>
-            {propositionTechniqueEtFinancièreSignée.endsWith('.bin') && (
-              <WarningIcon
-                className="w-8 h-8 md:mx-auto text-warning-425-base"
-                title="format du fichier invalide"
-              />
-            )}
+            {propositionTechniqueEtFinancièreSignée.endsWith('.bin') && <FormatFichierInvalide />}
             <Download
               className="flex items-center"
               linkProps={{
@@ -436,8 +430,10 @@ export const Etape: FC<{
       break;
     case 'étape incomplète':
       icon = (
-        <WarningIcon
-          className="w-8 h-8 md:mx-auto text-warning-425-base"
+        <Icon
+          id="fr-icon-alert-fill"
+          size="lg"
+          className="md:mx-auto text-warning-425-base"
           title="étape incomplète"
         />
       );
@@ -445,7 +441,15 @@ export const Etape: FC<{
       backgroundColor = 'bg-warning-975-base';
       break;
     case 'étape à venir':
-      icon = <ClockIcon className="w-8 h-8 md:mx-auto text-grey-625-base" title="étape à venir" />;
+      icon = (
+        <Icon
+          id="fr-icon-time-line"
+          size="lg"
+          className="md:mx-auto text-grey-625-base"
+          title="étape à venir"
+        />
+      );
+
       borderColor = 'border-grey-625-base';
       backgroundColor = '';
       break;
@@ -473,14 +477,26 @@ export const Etape: FC<{
 export const Separateur: FC = () => (
   <div className="flex flex-col my-3 mx-auto md:mx-3">
     <Icon
-      id="fr-icon-arrow-right-fill"
+      id="ri-arrow-right-circle-line"
       size="lg"
       className="my-auto text-blue-france-sun-base hidden md:block"
     />
     <Icon
-      id="fr-icon-arrow-down-fill"
+      id="ri-arrow-down-circle-line"
       size="lg"
       className="my-auto text-blue-france-sun-base block md:hidden"
     />
+  </div>
+);
+
+export const FormatFichierInvalide: FC = () => (
+  <div className="flex items-center gap-1">
+    <Icon
+      id="fr-icon-alert-fill"
+      size="sm"
+      className=" text-warning-425-base"
+      title="format du fichier invalide"
+    />
+    <p className="text-xs">Le format du fichier est invalide</p>
   </div>
 );

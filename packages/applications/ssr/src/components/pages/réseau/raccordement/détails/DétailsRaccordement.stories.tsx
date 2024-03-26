@@ -83,7 +83,7 @@ export const Incomplet: Story = {
         propositionTechniqueEtFinancière: {
           canEdit: false,
           dateSignature: '2022-09-30',
-          propositionTechniqueEtFinancièreSignée: 'propositionTechniqueEtFinancièreSignée#2',
+          propositionTechniqueEtFinancièreSignée: 'propositionTechniqueEtFinancièreSignée#2.bin',
         },
         miseEnService: {
           canEdit: false,

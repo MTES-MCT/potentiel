@@ -1,8 +1,8 @@
-import { FrIconClassName, fr } from '@codegouvfr/react-dsfr';
+import { FrIconClassName, RiIconClassName, fr } from '@codegouvfr/react-dsfr';
 import { FC } from 'react';
 
 type IconProps = {
-  id: FrIconClassName;
+  id: FrIconClassName | RiIconClassName;
   size?: 'xs' | 'sm' | 'md' | 'lg';
   title?: string;
   className?: string;
