@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { LoadAggregate } from '@potentiel-domain/core';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 import { loadGestionnaireRéseauFactory } from '../gestionnaireRéseau.aggregate';
+import { ExpressionRegulière } from '@potentiel-domain/common';
 
 export type AjouterGestionnaireRéseauCommand = Message<
   'Réseau.Gestionnaire.Command.AjouterGestionnaireRéseau',
@@ -11,7 +12,7 @@ export type AjouterGestionnaireRéseauCommand = Message<
     aideSaisieRéférenceDossierRaccordement: {
       format: string;
       légende: string;
-      expressionReguliere: string;
+      expressionReguliere: ExpressionRegulière.ValueType;
     };
   }
 >;

@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonEntity } from '../abandon.entity';
 import { DateTime, IdentifiantProjet, CommonPort, CommonError } from '@potentiel-domain/common';
 import { StatutAbandon, StatutPreuveRecandidature } from '..';
-import { Option } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

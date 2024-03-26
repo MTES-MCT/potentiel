@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
-import { Option } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 import {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
@@ -86,15 +86,14 @@ const mapToProps: MapToProps = ({
       ...candidature,
       identifiantProjet,
     },
-    ...(Option.isSome(gestionnaireRéseau) && {
+    ...(!Option.isNone(gestionnaireRéseau) && {
       gestionnaireRéseau: {
         ...gestionnaireRéseau,
         identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
         aideSaisieRéférenceDossierRaccordement: {
           ...gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement,
           expressionReguliere:
-            gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere
-              .expression,
+            gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere.formatter(),
         },
         canEdit:
           rôleUtilisateur.estÉgaleÀ(Role.admin) ||

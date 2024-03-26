@@ -23,14 +23,14 @@ export type AjouterOptions = {
   aideSaisieRéférenceDossierRaccordement: {
     format: string;
     légende: string;
-    expressionReguliere: string;
+    expressionReguliere: ExpressionRegulière.ValueType;
   };
 };
 
 export async function ajouter(
   this: GestionnaireRéseauAggregate,
   {
-    aideSaisieRéférenceDossierRaccordement,
+    aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
     identifiantGestionnaireRéseau,
     raisonSociale,
   }: AjouterOptions,
@@ -44,7 +44,11 @@ export async function ajouter(
     payload: {
       codeEIC: identifiantGestionnaireRéseau.formatter(),
       raisonSociale,
-      aideSaisieRéférenceDossierRaccordement,
+      aideSaisieRéférenceDossierRaccordement: {
+        format,
+        légende,
+        expressionReguliere: expressionReguliere.formatter(),
+      },
     },
   };
 

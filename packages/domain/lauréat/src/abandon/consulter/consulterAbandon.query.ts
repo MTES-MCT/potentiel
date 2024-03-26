@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 

@@ -3,7 +3,7 @@ import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sour
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { removeProjection } from '../utils/removeProjection';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
-import { Option } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 import { upsertProjection } from '../utils/upsertProjection';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-librairies/monitoring';

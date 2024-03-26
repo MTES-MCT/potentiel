@@ -8,7 +8,7 @@ import {
 } from '../..';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantUtilisateur, Role } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 
 export type ListerDépôtsEnCoursGarantiesFinancièresPort = (args: {
   where: {

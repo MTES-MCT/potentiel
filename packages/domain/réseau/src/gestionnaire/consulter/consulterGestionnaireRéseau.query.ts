@@ -3,7 +3,7 @@ import { ExpressionRegulière } from '@potentiel-domain/common';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 import { Find } from '@potentiel-domain/core';
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
-import { Option } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 
 export type ConsulterGestionnaireRéseauReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;

@@ -1,4 +1,4 @@
-import { Option } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 
 export type Entity<
   TType extends string = string,

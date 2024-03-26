@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 import { Abandon } from '@potentiel-domain/laureat';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
