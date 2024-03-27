@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel-infrastructure/notifications",
+  "name": "@potentiel-applications/notifications",
   "version": "0.0.0",
   "description": "Potentiel notifications",
   "main": "dist/index.js",
