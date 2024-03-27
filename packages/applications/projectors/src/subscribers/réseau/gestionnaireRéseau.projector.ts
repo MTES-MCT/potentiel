@@ -1,8 +1,8 @@
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { removeProjection } from '../infrastructure/removeProjection';
-import { upsertProjection } from '../infrastructure/upsertProjection';
+import { removeProjection } from '../../infrastructure/removeProjection';
+import { upsertProjection } from '../../infrastructure/upsertProjection';
 
 export type SubscriptionEvent =
   | (GestionnaireRéseau.GestionnaireRéseauEvent & Event)

@@ -9,8 +9,7 @@ import {
 } from '@potentiel-infrastructure/domain-adapters';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
-import { templateId } from '../templateId';
-import { sendEmail } from '../infrastructure/sendEmail';
+import { sendEmail } from '../../infrastructure/sendEmail';
 
 export type SubscriptionEvent = GarantiesFinancières.GarantiesFinancièresEvent & Event;
 
@@ -18,6 +17,15 @@ export type Execute = Message<
   'System.Notification.Lauréat.GarantiesFinancières',
   SubscriptionEvent
 >;
+
+export const templateId = {
+  dépôtSoumisPourDreal: 5740312,
+  dépôtSoumisPourPorteur: 5740394,
+  dépôtValidéPourPorteur: 5765321,
+  attestationGFActuellesEnregistréePourDreal: 5765406,
+  GFActuellesModifiéesPourPorteur: 5765519,
+  GFActuellesModifiéesPourDreal: 5765536,
+};
 
 const sendEmailGarantiesFinancièresChangementDeStatut = async ({
   identifiantProjet,
@@ -80,7 +88,7 @@ export const register = () => {
         await sendEmailGarantiesFinancièresChangementDeStatut({
           statut: 'en attente de validation',
           subject: `Potentiel - Des garanties financières sont en attente de validation pour le projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.garantiesFinancières.dépôtSoumisPourDreal,
+          templateId: templateId.dépôtSoumisPourDreal,
           recipients: dreals,
           identifiantProjet,
           nomProjet,
@@ -91,7 +99,7 @@ export const register = () => {
         await sendEmailGarantiesFinancièresChangementDeStatut({
           statut: 'en attente de validation',
           subject: `Potentiel - Des garanties financières sont en attente de validation pour le projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.garantiesFinancières.dépôtSoumisPourPorteur,
+          templateId: templateId.dépôtSoumisPourPorteur,
           recipients: porteurs,
           identifiantProjet,
           nomProjet,
@@ -104,7 +112,7 @@ export const register = () => {
         await sendEmailGarantiesFinancièresChangementDeStatut({
           statut: 'validées',
           subject: `Potentiel - Des garanties financières sont validées pour le projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.garantiesFinancières.dépôtValidéPourPorteur,
+          templateId: templateId.dépôtValidéPourPorteur,
           recipients: porteurs,
           identifiantProjet,
           nomProjet,
@@ -116,7 +124,7 @@ export const register = () => {
       case 'AttestationGarantiesFinancièresEnregistrée-V1':
         await sendEmailGarantiesFinancièresChangementDeStatut({
           subject: `Potentiel - Attestation de constitution des garanties financières enregistrée pour le projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.garantiesFinancières.attestationGFActuellesEnregistréePourDreal,
+          templateId: templateId.attestationGFActuellesEnregistréePourDreal,
           recipients: dreals,
           identifiantProjet,
           nomProjet,
@@ -129,7 +137,7 @@ export const register = () => {
       case 'GarantiesFinancièresEnregistrées-V1':
         await sendEmailGarantiesFinancièresChangementDeStatut({
           subject: `Potentiel - Garanties financières mises à jour pour le projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.garantiesFinancières.GFActuellesModifiéesPourDreal,
+          templateId: templateId.GFActuellesModifiéesPourDreal,
           recipients: dreals,
           identifiantProjet,
           nomProjet,
@@ -139,7 +147,7 @@ export const register = () => {
 
         await sendEmailGarantiesFinancièresChangementDeStatut({
           subject: `Potentiel - Garanties financières mises à jour pour le projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.garantiesFinancières.GFActuellesModifiéesPourPorteur,
+          templateId: templateId.GFActuellesModifiéesPourPorteur,
           recipients: porteurs,
           identifiantProjet,
           nomProjet,
