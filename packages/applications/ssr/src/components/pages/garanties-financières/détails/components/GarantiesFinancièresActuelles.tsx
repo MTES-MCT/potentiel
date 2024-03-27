@@ -17,7 +17,7 @@ export type GarantiesFinancièresActuelles = {
   soumisLe?: string;
   dernièreMiseÀJour: {
     date: string;
-    par: string;
+    par?: string;
   };
 };
 
@@ -50,8 +50,13 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
           <Heading2>Garanties financières actuelles</Heading2>
           <div className="text-xs italic">
             Dernière mise à jour le{' '}
-            <span className="font-semibold">{formatDateForText(dernièreMiseÀJour.date)}</span> par{' '}
-            <span className="font-semibold">{dernièreMiseÀJour.par}</span>
+            <span className="font-semibold">{formatDateForText(dernièreMiseÀJour.date)}</span>
+            {dernièreMiseÀJour.par && (
+              <>
+                {' '}
+                par <span className="font-semibold">{dernièreMiseÀJour.par}</span>
+              </>
+            )}
           </div>
           <div className="mt-5 gap-2 text-base">
             <div>

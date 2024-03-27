@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { TypeGarantiesFinancières } from '..';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { ImporterTypeGarantiesFinancièresCommand } from './importerTypeGarantiesFinancières.command';
 
 export type ImporterTypeGarantiesFinancièresUseCase = Message<
@@ -11,7 +10,6 @@ export type ImporterTypeGarantiesFinancièresUseCase = Message<
     typeValue: string;
     dateÉchéanceValue?: string;
     importéLeValue: string;
-    importéParValue: string;
   }
 >;
 
@@ -21,7 +19,6 @@ export const registerImporterTypeGarantiesFinancièresUseCase = () => {
     typeValue,
     dateÉchéanceValue,
     importéLeValue,
-    importéParValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const type = TypeGarantiesFinancières.convertirEnValueType(typeValue);
@@ -29,11 +26,10 @@ export const registerImporterTypeGarantiesFinancièresUseCase = () => {
       ? DateTime.convertirEnValueType(dateÉchéanceValue)
       : undefined;
     const importéLe = DateTime.convertirEnValueType(importéLeValue);
-    const importéPar = IdentifiantUtilisateur.convertirEnValueType(importéParValue);
 
     await mediator.send<ImporterTypeGarantiesFinancièresCommand>({
       type: 'Lauréat.GarantiesFinancières.Command.ImporterTypeGarantiesFinancières',
-      data: { identifiantProjet, importéLe, importéPar, type, dateÉchéance },
+      data: { identifiantProjet, importéLe, type, dateÉchéance },
     });
   };
 

@@ -5,7 +5,6 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { TypeGarantiesFinancières } from '..';
 import { loadGarantiesFinancièresFactory } from '../garantiesFinancières.aggregate';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 export type ImporterTypeGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.ImporterTypeGarantiesFinancières',
@@ -14,7 +13,6 @@ export type ImporterTypeGarantiesFinancièresCommand = Message<
     type: TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
     importéLe: DateTime.ValueType;
-    importéPar: IdentifiantUtilisateur.ValueType;
   }
 >;
 
@@ -25,7 +23,6 @@ export const registerImporterTypeGarantiesFinancièresCommand = (loadAggregate: 
     importéLe,
     type,
     dateÉchéance,
-    importéPar,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
 
@@ -34,7 +31,6 @@ export const registerImporterTypeGarantiesFinancièresCommand = (loadAggregate: 
       importéLe,
       type,
       dateÉchéance,
-      importéPar,
     });
   };
   mediator.register(
