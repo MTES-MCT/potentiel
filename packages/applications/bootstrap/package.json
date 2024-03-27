@@ -17,7 +17,7 @@
     "@potentiel-domain/tache": "*",
     "@potentiel-infrastructure/document-builder": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-infrastructure/projectors": "*",
+    "@potentiel-applications/projectors": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projections": "*",
     "@potentiel-applications/notifications": "*",

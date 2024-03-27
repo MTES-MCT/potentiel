@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Input from '@codegouvfr/react-dsfr/Input';
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
