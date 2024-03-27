@@ -28,7 +28,7 @@
   ],
   "references": [
     {
-      "path": "../../domain-inmemory-referential"
+      "path": "../../domain/inmemory-referential"
     },
     {
       "path": "../../libraries/monitoring"
