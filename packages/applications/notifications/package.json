@@ -12,11 +12,13 @@
     "@potentiel-domain/laureat": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-libraries/email-sender": "*",
+    "@potentiel-libraries/monitoring": "*",
     "@potentiel-applications/routes": "*",
-    "mediateur": "^0.1.0"
+    "mediateur": "^0.1.0",
+    "node-mailjet": "^6.0.4"
   },
   "devDependencies": {
+    "@types/node-mailjet": "^3.3.9",
     "@potentiel-config/tsconfig": "*"
   }
 }

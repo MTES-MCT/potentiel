@@ -6,8 +6,8 @@ import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sour
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 
-import { removeProjection } from '../utils/removeProjection';
-import { upsertProjection } from '../utils/upsertProjection';
+import { removeProjection } from '../infrastructure/removeProjection';
+import { upsertProjection } from '../infrastructure/upsertProjection';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DateTime } from '@potentiel-domain/common';
 
