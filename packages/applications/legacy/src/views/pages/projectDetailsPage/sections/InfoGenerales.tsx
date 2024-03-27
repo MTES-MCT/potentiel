@@ -20,7 +20,10 @@ export const InfoGenerales = ({ project, role }: InfoGeneralesProps) => {
       <div>
         <Heading3 className="m-0">Performances</Heading3>
         <p className="m-0">
-          Puissance installée: {project.puissance} {project.appelOffre?.unitePuissance}
+          {project.appelOffre.typeAppelOffre === 'biométhane'
+            ? `Production annuelle prévisionnelle`
+            : `Puissance installée`}{' '}
+          : {project.puissance} {project.appelOffre?.unitePuissance}
         </p>
         {project.désignationCatégorie === 'volume-réservé' && (
           <p className="mb-0 mt-1">Ce projet fait partie du volume réservé de la période.</p>
