@@ -3,7 +3,6 @@ import { DomainEvent } from '@potentiel-domain/core';
 
 import { TypeGarantiesFinancières } from '..';
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DateÉchéanceManquanteError } from '../dateÉchéanceManquante.error';
 import { DateÉchéanceNonAttendueError } from '../dateÉchéanceNonAttendue.error';
 
@@ -14,7 +13,6 @@ export type TypeGarantiesFinancièresImportéEvent = DomainEvent<
     type: TypeGarantiesFinancières.RawType;
     dateÉchéance?: DateTime.RawType;
     importéLe: DateTime.RawType;
-    importéPar: IdentifiantUtilisateur.RawType;
   }
 >;
 
@@ -23,12 +21,11 @@ export type Options = {
   type: TypeGarantiesFinancières.ValueType;
   dateÉchéance?: DateTime.ValueType;
   importéLe: DateTime.ValueType;
-  importéPar: IdentifiantUtilisateur.ValueType;
 };
 
 export async function importerType(
   this: GarantiesFinancièresAggregate,
-  { identifiantProjet, type, dateÉchéance, importéLe, importéPar }: Options,
+  { identifiantProjet, type, dateÉchéance, importéLe }: Options,
 ) {
   if (type.estAvecDateÉchéance() && !dateÉchéance) {
     throw new DateÉchéanceManquanteError();
@@ -43,7 +40,6 @@ export async function importerType(
       type: type.type,
       dateÉchéance: dateÉchéance?.formatter(),
       importéLe: importéLe.formatter(),
-      importéPar: importéPar.formatter(),
     },
   };
 

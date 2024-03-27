@@ -121,7 +121,6 @@ EtantDonné(
         typeValue: typeGarantiesFinancières,
         ...(dateÉchéance && { dteÉchéanceValue: new Date(dateÉchéance).toISOString() }),
         importéLeValue: new Date().toISOString(),
-        importéParValue: 'admin@test.test',
       },
     });
 

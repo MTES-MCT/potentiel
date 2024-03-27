@@ -123,7 +123,7 @@ const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) 
           attestation: garantiesFinancières.actuelles.attestation?.formatter(),
           dernièreMiseÀJour: {
             date: garantiesFinancières.actuelles.dernièreMiseÀJour.date.formatter(),
-            par: garantiesFinancières.actuelles.dernièreMiseÀJour.par.formatter(),
+            par: garantiesFinancières.actuelles.dernièreMiseÀJour.par?.formatter(),
           },
           action:
             utilisateur.role.estÉgaleÀ(Role.porteur) &&

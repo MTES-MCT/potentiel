@@ -137,7 +137,6 @@ Quand(
           identifiantProjetValue: identifiantProjet.formatter(),
           typeValue: typeGarantiesFinancières,
           importéLeValue: new Date(importéLe).toISOString(),
-          importéParValue: 'admin@test.test',
           ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
         },
       });
