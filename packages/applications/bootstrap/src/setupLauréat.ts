@@ -4,7 +4,7 @@ import { findProjection, listProjection } from '@potentiel-infrastructure/pg-pro
 import {
   AbandonNotification,
   GarantiesFinancièresNotification,
-} from '@potentiel-infrastructure/notifications';
+} from '@potentiel-applications/notifications';
 import {
   AbandonProjector,
   GarantiesFinancièreProjector,
