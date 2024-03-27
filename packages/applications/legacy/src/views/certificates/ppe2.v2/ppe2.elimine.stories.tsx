@@ -6,7 +6,7 @@ import { Certificate } from './Certificate';
 import {
   batimentPPE2,
   eolienPPE2,
-} from '@potentiel/domain-inmemory-referential/src/appelOffre/PPE2';
+} from '@potentiel-domain/inmemory-referential/src/appelOffre/PPE2';
 import { Elimine } from './components/elimine/Elimine';
 
 import { Validateur } from '..';

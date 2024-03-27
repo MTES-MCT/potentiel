@@ -1,7 +1,7 @@
 {
-  "name": "@potentiel/domain-inmemory-referential",
+  "name": "@potentiel-domain/inmemory-referential",
   "version": "0.0.0",
-  "description": "Domain in memory referential package",
+  "description": "[Deprecated] Domain in memory referential package - This package is temporary in the repository to handle compatibility regarding AO in legacy and ssr app",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
