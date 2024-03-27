@@ -184,6 +184,8 @@ v1Router.post(
                   dateLimiteSoumissionValue: new Date(
                     dateActuelle.setMonth(dateActuelle.getMonth() + 2),
                   ).toISOString(),
+                  motifValue:
+                    GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé.motif,
                 },
               });
             }
