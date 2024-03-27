@@ -1,6 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { executeSelect } from '@potentiel-librairies/pg-helpers';
-import { Option } from '@potentiel-librairies/monads';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
+import { Option } from '@potentiel-libraries/monads';
 
 const selectDrealsProjectQuery = `
 select 

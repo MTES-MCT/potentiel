@@ -1,6 +1,6 @@
 import { Entity } from '@potentiel-domain/core';
-import { executeQuery } from '@potentiel-librairies/pg-helpers';
-import { flatten } from '@potentiel-librairies/flat-cjs';
+import { executeQuery } from '@potentiel-libraries/pg-helpers';
+import { flatten } from '@potentiel-libraries/flat-cjs';
 
 const upsertQuery =
   'insert into domain_views.projection values($1, $2) on conflict (key) do update set value=$2';

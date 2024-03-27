@@ -1,6 +1,6 @@
 import { Middleware, mediator } from 'mediateur';
 import { setupLauréat } from './setupLauréat';
-import { getLogger } from '@potentiel-librairies/monitoring';
+import { getLogger } from '@potentiel-libraries/monitoring';
 import { setupCandidature } from './setupCandidature';
 import { setupDocumentProjet } from './setupDocumentProjet';
 import { setupAppelOffre } from './setupAppelOffre';

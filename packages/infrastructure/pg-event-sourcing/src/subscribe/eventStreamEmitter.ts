@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { isEvent, Event } from '../event';
-import { getLogger } from '@potentiel-librairies/monitoring';
+import { getLogger } from '@potentiel-libraries/monitoring';
 import { acknowledge } from './acknowledgement/acknowledge';
 import { Client } from 'pg';
 import { rebuild } from './rebuild/rebuild';

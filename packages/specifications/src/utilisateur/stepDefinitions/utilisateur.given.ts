@@ -1,7 +1,7 @@
 import { Given as EtantDonné, DataTable } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../potentiel.world';
 import { sleep } from '../../helpers/sleep';
-import { executeQuery, executeSelect } from '@potentiel-librairies/pg-helpers';
+import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 import { randomUUID } from 'crypto';
 
 EtantDonné(

@@ -3,7 +3,7 @@ import { registerSubscriber } from './subscriber/registerSubscriber';
 import { EventStreamEmitter } from './eventStreamEmitter';
 import { retryPendingAcknowledgement } from './acknowledgement/retryPendingAcknowledgement';
 import { Client } from 'pg';
-import { getConnectionString } from '@potentiel-librairies/pg-helpers';
+import { getConnectionString } from '@potentiel-libraries/pg-helpers';
 import { Subscriber, Unsubscribe } from './subscriber/subscriber';
 
 let client: Client | undefined;

@@ -1,5 +1,5 @@
 import { logger } from '../core/utils';
-import { getLogger } from '@potentiel-librairies/monitoring';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 logger.on('debugLog', (message: string) => {
   getLogger().debug(message);

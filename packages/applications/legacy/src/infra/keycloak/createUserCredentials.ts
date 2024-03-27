@@ -1,4 +1,4 @@
-import { requiredAction } from '@potentiel-librairies/keycloak-cjs';
+import { requiredAction } from '@potentiel-libraries/keycloak-cjs';
 import { authorizedTestEmails, isProdEnv } from '../../config';
 import { logger, ResultAsync } from '../../core/utils';
 import { CreateUserCredentials } from '../../modules/authN';

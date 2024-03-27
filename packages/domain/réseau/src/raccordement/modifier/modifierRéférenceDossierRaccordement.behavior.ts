@@ -5,7 +5,7 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
 import { FormatRéférenceDossierRaccordementInvalideError } from '../transmettre/transmettreDemandeComplèteRaccordement.behavior';
-import { Option } from '@potentiel-librairies/monads';
+import { Option } from '@potentiel-libraries/monads';
 
 export type RéférenceDossierRacordementModifiéeEvent = DomainEvent<
   'RéférenceDossierRacordementModifiée-V1',
