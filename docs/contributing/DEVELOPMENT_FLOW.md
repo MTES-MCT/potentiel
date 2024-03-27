@@ -37,7 +37,7 @@ Nous avons donc :
 |   ├── applications
 |   |   ├── web : application web
 |   ├── domain : core source métier
-|   ├── libraries : librairies du projet
+|   ├── libraries : libraries du projet
 |   ├── specifications : scénarios de tests de toute l'application
 ├── scripts : divers scripts utilitaires
 ├── src : code source des fonctionnalités à migrer dans la partie `packages`

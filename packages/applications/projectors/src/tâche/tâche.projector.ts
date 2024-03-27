@@ -5,11 +5,11 @@ import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sour
 
 import { removeProjection } from '../utils/removeProjection';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
-import { Option } from '@potentiel-librairies/monads';
+import { Option } from '@potentiel-libraries/monads';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { upsertProjection } from '../utils/upsertProjection';
 import { DateTime } from '@potentiel-domain/common';
-import { getLogger } from '@potentiel-librairies/monitoring';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export type SubscriptionEvent = (TâcheEvent & Event) | RebuildTriggered;
 

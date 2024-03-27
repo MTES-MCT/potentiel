@@ -1,5 +1,5 @@
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
-import { Option } from '@potentiel-librairies/monads';
+import { Option } from '@potentiel-libraries/monads';
 import {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
   DemandeComplèteRaccordementTransmiseEvent,

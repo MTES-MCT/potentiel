@@ -511,7 +511,7 @@ Les scénarios eux sont écrits en langage [Gherkin](https://cucumber.io/docs/gh
 
 ### Adapters
 
-Package regroupant les implémentations des `Ports` nécessaire et définis dans le domaine qui font appels à des librairies tierces. Cette séparation permet de ne pas coupler la couche domaine à des parties spécifique de l'infrastructure, comme par exemple l'accès à un bucket s3 pour le stockage de fichiers.
+Package regroupant les implémentations des `Ports` nécessaire et définis dans le domaine qui font appels à des libraries tierces. Cette séparation permet de ne pas coupler la couche domaine à des parties spécifique de l'infrastructure, comme par exemple l'accès à un bucket s3 pour le stockage de fichiers.
 
 ### Notifications
 
