@@ -37,7 +37,7 @@
     "./packages/specifications"
   ],
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "husky install && npm run lint -- --fix",
     "start": "npm run start --workspaces --if-present ",
     "prestart:dev": "npm run build",
     "start:dev": "docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U potadmindb -d potentiel; do sleep 1; done && npm run start:dev --workspaces --if-present ",
