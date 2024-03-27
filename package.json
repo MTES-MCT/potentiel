@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Monorepo du projet potentiel",
   "workspaces": [
-    "./packages/libraries/tsconfig/",
+    "./packages/config/*",
     "./packages/libraries/monads/",
     "./packages/domain/core",
     "./packages/domain/entity",
