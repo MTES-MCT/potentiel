@@ -1,0 +1,209 @@
+/*
+Requête pour récupérer les fichiers  :
+-------------------------------------------------------------------------------------------------------------------------------------------------
+SELECT p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" as identifiant_projet,
+        REPLACE(f."storedAt", 'S3:potentiel-production:', '') as file_path,
+        gf."validéesLe" as date_validation,
+        gf."dateEnvoi" as date_envoi
+    FROM "garantiesFinancières" as gf
+    INNER JOIN "files" as f on gf."fichierId" = f.id
+    INNER JOIN "projects" as p on gf."projetId" = p.id
+    WHERE "statut" <> 'en attente';
+-------------------------------------------------------------------------------------------------------------------------------------------------
+*/
+
+import * as readline from "node:readline";
+import { extname } from "node:path";
+import { contentType } from "mime-types";
+
+import { mediator } from "mediateur";
+import { GarantiesFinancières } from "@potentiel-domain/laureat";
+
+import { S3, GetObjectCommand } from "@aws-sdk/client-s3";
+import {
+  DocumentProjet,
+  EnregistrerDocumentProjetCommand,
+  ConsulterDocumentProjetQuery,
+  registerDocumentProjetQueries,
+  registerDocumentProjetCommand,
+} from "@potentiel-domain/document";
+import { executeSelect } from "@potentiel/pg-helpers";
+import { DocumentAdapter } from "@potentiel-infrastructure/domain-adapters";
+
+const printProgress = (progress: string) => {
+  readline.cursorTo(process.stdout, 0);
+  process.stdout.write(progress);
+};
+
+const legacyBucketEndPoint = process.env.LEGACY_S3_ENDPOINT || "";
+const legacyBucketAccessKeyId = process.env.LEGACY_S3_ACCESS_KEY_ID || "";
+const legacyBucketSecretAccessKey =
+  process.env.LEGACY_S3_SECRET_ACCESS_KEY || "";
+const legacyBucketName = process.env.LEGACY_S3_BUCKET || "";
+
+const legacyBucket = new S3({
+  endpoint: legacyBucketEndPoint,
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: legacyBucketAccessKeyId,
+    secretAccessKey: legacyBucketSecretAccessKey,
+  },
+  forcePathStyle: true,
+});
+
+async function moveFiles() {
+  registerDocumentProjetQueries({
+    récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
+  });
+  registerDocumentProjetCommand({
+    déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
+    enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
+  });
+
+  const startTime = new Date();
+
+  const files = await executeSelect<{
+    identifiant_projet: string;
+    file_path: string;
+    date_validation: string | undefined;
+    date_envoi: string;
+  }>(`
+    SELECT p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" as identifiant_projet,
+        REPLACE(f."storedAt", 'S3:potentiel-production:', '') as file_path,
+        gf."validéesLe" as date_validation,
+        gf."dateEnvoi" as date_envoi
+    FROM "garantiesFinancières" as gf
+    INNER JOIN "files" as f on gf."fichierId" = f.id
+    INNER JOIN "projects" as p on gf."projetId" = p.id
+    WHERE "statut" <> 'en attente';
+  `);
+
+  const total = files.length;
+  let totalExisting = 0;
+
+  console.info(`🚚 Start moving files 10 by 10`);
+
+  while (files.length) {
+    await Promise.all(
+      files
+        .splice(0, 10)
+        .map(
+          async ({
+            file_path,
+            identifiant_projet,
+            date_validation,
+            date_envoi,
+          }) => {
+            const start = new Date().getTime();
+
+            const gfSoumisesDocument = DocumentProjet.convertirEnValueType(
+              identifiant_projet,
+              GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
+              new Date(date_envoi).toISOString(),
+              contentType(extname(file_path)).toString()
+            );
+
+            const gfSoumisesExists = await getFileContent(gfSoumisesDocument);
+
+            if (!gfSoumisesExists) {
+              try {
+                const legacyAttestationSoumiseContent = await legacyBucket.send(
+                  new GetObjectCommand({
+                    Bucket: legacyBucketName,
+                    Key: file_path,
+                  })
+                );
+
+                if (!legacyAttestationSoumiseContent.Body) {
+                  throw new Error("Empty document soumise");
+                }
+
+                await mediator.send<EnregistrerDocumentProjetCommand>({
+                  type: "Document.Command.EnregistrerDocumentProjet",
+                  data: {
+                    content:
+                      legacyAttestationSoumiseContent.Body.transformToWebStream(),
+                    documentProjet: gfSoumisesDocument,
+                  },
+                });
+
+                console.info(
+                  `GF soumises: [${file_path}] migration to [${gfSoumisesDocument.formatter()}] took ${
+                    new Date().getTime() - start
+                  }ms`
+                );
+
+                if (date_validation) {
+                  const legacyAttestationActuelleContent =
+                    await legacyBucket.send(
+                      new GetObjectCommand({
+                        Bucket: legacyBucketName,
+                        Key: file_path,
+                      })
+                    );
+
+                  if (!legacyAttestationActuelleContent.Body) {
+                    throw new Error("Empty document actuelle");
+                  }
+
+                  const gfActuelleDocument =
+                    DocumentProjet.convertirEnValueType(
+                      identifiant_projet,
+                      GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
+                      new Date(date_validation).toISOString(),
+                      contentType(extname(file_path)).toString()
+                    );
+
+                  await mediator.send<EnregistrerDocumentProjetCommand>({
+                    type: "Document.Command.EnregistrerDocumentProjet",
+                    data: {
+                      content:
+                        legacyAttestationActuelleContent.Body.transformToWebStream(),
+                      documentProjet: gfActuelleDocument,
+                    },
+                  });
+
+                  console.info(
+                    `GF actuelle: [${file_path}] migration to [${gfSoumisesDocument.formatter()}] took ${
+                      new Date().getTime() - start
+                    }ms`
+                  );
+                }
+              } catch (error) {
+                console.error(
+                  `\nAn error occured while moving file ${file_path}\n ${
+                    (error as Error).message
+                  }`
+                );
+              }
+            } else {
+              totalExisting = totalExisting + 1;
+            }
+          }
+        )
+    );
+
+    printProgress(`${total - files.length}/${total}`);
+  }
+
+  const timeElapsed = new Date().getTime() - startTime.getTime();
+  console.info(
+    `\n✅ Migration completed successfully ${timeElapsed}ms. Total already uploaded = ${totalExisting}`
+  );
+}
+
+moveFiles();
+
+const getFileContent = async (documentProjet: DocumentProjet.ValueType) => {
+  try {
+    await mediator.send<ConsulterDocumentProjetQuery>({
+      type: "Document.Query.ConsulterDocumentProjet",
+      data: {
+        documentKey: documentProjet.formatter(),
+      },
+    });
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
