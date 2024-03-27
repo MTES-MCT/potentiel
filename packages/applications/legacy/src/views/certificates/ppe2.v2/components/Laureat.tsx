@@ -27,7 +27,7 @@ export const makeLaureat: MakeLaureat = (project) => {
       >
         A la suite de l’instruction de votre offre par la Commission de régulation de l’énergie
         (CRE), j’ai le plaisir de vous annoncer que le projet susmentionné est désigné lauréat de la{' '}
-        {periode.title} tranche de l’appel d’offres visé en objet.
+        {periode.title} période de l’appel d’offres visé en objet.
       </Text>
 
       {project.désignationCatégorie && project.désignationCatégorie === 'volume-réservé' && (
@@ -43,7 +43,7 @@ export const makeLaureat: MakeLaureat = (project) => {
 
       <Text style={{ marginTop: 10 }}>
         Conformément à l’engagement contenu dans votre offre, je vous informe que{' '}
-        {appelOffre.tarifOuPrimeRetenue} en application des dispositions du point{' '}
+        {appelOffre.tarifOuPrimeRetenue} en application des dispositions du chapitre{' '}
         {appelOffre.paragraphePrixReference} du cahier des charges est de{' '}
         {formatNumber(project.prixReference)} €/MWh.
         {appelOffre.affichageParagrapheECS && project.evaluationCarbone > 0
@@ -185,15 +185,27 @@ export const makeLaureat: MakeLaureat = (project) => {
               paragraphe 6.5 du cahier des charges.
               {addFootNote('6.5')};
             </Text>
-            <Text
-              style={{
-                marginTop: 10,
-              }}
-            >
-              - respecter les engagements pris conformément aux paragraphes 3.3.10, 4.3 et 6.5
-              concernant la gouvernance partagée.
-              {addFootNote('3.3.10, 4.3 et 6.5')};
-            </Text>
+            {project.actionnariat === 'gouvernance-partagee' && (
+              <Text
+                style={{
+                  marginTop: 10,
+                }}
+              >
+                - respecter les engagements pris conformément aux paragraphes{' '}
+                {appelOffre.paragrapheEngagementIPFPGPFC} concernant la gouvernance partagée;
+              </Text>
+            )}
+
+            {project.actionnariat === 'financement-collectif' && (
+              <Text
+                style={{
+                  marginTop: 10,
+                }}
+              >
+                - respecter les engagements pris conformément aux paragraphes{' '}
+                {appelOffre.paragrapheEngagementIPFPGPFC} concernant le financement collectif;
+              </Text>
+            )}
           </>
         )}
       </View>

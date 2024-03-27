@@ -1,4 +1,4 @@
-import { Text } from '@react-pdf/renderer';
+import { Text, View } from '@react-pdf/renderer';
 import React from 'react';
 import { ProjectDataForCertificate } from '../../../../../modules/project/dtos';
 import { MotifElimination } from './motifElimination';
@@ -13,9 +13,9 @@ export const Elimine = ({ project }: ElimineProps) => {
 
   return (
     <>
-      <Text style={{ marginTop: 10 }}>
+      <View style={{ marginTop: 10 }}>
         <MotifElimination {...{ project }} />
-      </Text>
+      </View>
 
       {isSoumisAuxGF && (
         <Text style={{ marginTop: 10 }}>

@@ -2,6 +2,7 @@ import React from 'react';
 import { ProjectDataForCertificate } from '../../../../../../modules/project';
 import { formatNumber } from '../../../../helpers/formatNumber';
 import { getNoteThreshold } from '../../../../helpers/getNoteThreshold';
+import { Text } from '@react-pdf/renderer';
 
 type AuDessusDePcibleProps = {
   project: ProjectDataForCertificate;
@@ -11,7 +12,7 @@ export const AuDessusDePcible = ({ project }: AuDessusDePcibleProps) => {
   const { appelOffre } = project;
 
   return (
-    <>
+    <Text>
       A la suite de l’instruction par les services de la Commission de régulation de l’énergie, je
       suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte
       pour cette période de candidature
@@ -26,6 +27,6 @@ export const AuDessusDePcible = ({ project }: AuDessusDePcibleProps) => {
       a été atteint avec les offres ayant des notes supérieures à{' '}
       {formatNumber(getNoteThreshold(project))} points. Par conséquent, cette offre n’a pas été
       retenue. `
-    </>
+    </Text>
   );
 };
