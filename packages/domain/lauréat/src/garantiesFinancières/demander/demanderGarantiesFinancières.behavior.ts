@@ -2,6 +2,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
+import { MotifDemandeGarantiesFinancières } from '..';
 
 export type GarantiesFinancièresDemandéesEvent = DomainEvent<
   'GarantiesFinancièresDemandées-V1',
@@ -9,6 +10,7 @@ export type GarantiesFinancièresDemandéesEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     dateLimiteSoumission: DateTime.RawType;
     demandéLe: DateTime.RawType;
+    motif?: MotifDemandeGarantiesFinancières.RawType;
   }
 >;
 
@@ -16,11 +18,12 @@ export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dateLimiteSoumission: DateTime.ValueType;
   demandéLe: DateTime.ValueType;
+  motif: MotifDemandeGarantiesFinancières.ValueType;
 };
 
 export async function demanderGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
-  { dateLimiteSoumission, identifiantProjet, demandéLe }: Options,
+  { dateLimiteSoumission, identifiantProjet, demandéLe, motif }: Options,
 ) {
   const event: GarantiesFinancièresDemandéesEvent = {
     type: 'GarantiesFinancièresDemandées-V1',
@@ -28,6 +31,7 @@ export async function demanderGarantiesFinancières(
       identifiantProjet: identifiantProjet.formatter(),
       dateLimiteSoumission: dateLimiteSoumission.formatter(),
       demandéLe: demandéLe.formatter(),
+      motif: motif.motif,
     },
   };
 

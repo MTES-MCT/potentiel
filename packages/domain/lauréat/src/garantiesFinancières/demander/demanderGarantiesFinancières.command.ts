@@ -4,6 +4,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { LoadAggregate } from '@potentiel-domain/core';
 import { loadGarantiesFinancièresFactory } from '../garantiesFinancières.aggregate';
+import { MotifDemandeGarantiesFinancières } from '..';
 
 export type DemanderGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
@@ -11,6 +12,7 @@ export type DemanderGarantiesFinancièresCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     dateLimiteSoumission: DateTime.ValueType;
     demandéLe: DateTime.ValueType;
+    motif: MotifDemandeGarantiesFinancières.ValueType;
   }
 >;
 
@@ -20,6 +22,7 @@ export const registerDemanderGarantiesFinancièresCommand = (loadAggregate: Load
     identifiantProjet,
     dateLimiteSoumission,
     demandéLe,
+    motif,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
 
@@ -27,6 +30,7 @@ export const registerDemanderGarantiesFinancièresCommand = (loadAggregate: Load
       identifiantProjet,
       dateLimiteSoumission,
       demandéLe,
+      motif,
     });
   };
   mediator.register('Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières', handler);

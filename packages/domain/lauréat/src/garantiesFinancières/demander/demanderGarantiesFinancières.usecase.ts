@@ -1,6 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DemanderGarantiesFinancièresCommand } from './demanderGarantiesFinancières.command';
+import { MotifDemandeGarantiesFinancières } from '..';
 
 export type DemanderGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
@@ -8,6 +9,7 @@ export type DemanderGarantiesFinancièresUseCase = Message<
     identifiantProjetValue: string;
     dateLimiteSoumissionValue: string;
     demandéLeValue: string;
+    motifValue: string;
   }
 >;
 
@@ -16,10 +18,12 @@ export const registerDemanderGarantiesFinancièresUseCase = () => {
     identifiantProjetValue,
     dateLimiteSoumissionValue,
     demandéLeValue,
+    motifValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateLimiteSoumission = DateTime.convertirEnValueType(dateLimiteSoumissionValue);
     const demandéLe = DateTime.convertirEnValueType(demandéLeValue);
+    const motif = MotifDemandeGarantiesFinancières.convertirEnValueType(motifValue);
 
     await mediator.send<DemanderGarantiesFinancièresCommand>({
       type: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
@@ -27,6 +31,7 @@ export const registerDemanderGarantiesFinancièresUseCase = () => {
         dateLimiteSoumission,
         identifiantProjet,
         demandéLe,
+        motif,
       },
     });
   };

@@ -73,6 +73,7 @@ export * as GarantiesFinancières from './garantiesFinancières.valueType';
 export * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
 export * as StatutDépôtGarantiesFinancières from './statutDépôtGarantiesFinancières.valueType';
+export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinancières.valueType';
 
 // Projections
 export * from './garantiesFinancières.entity';
