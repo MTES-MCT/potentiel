@@ -29,7 +29,7 @@
     "./packages/infrastructure/document-builder",
     "./packages/infrastructure/domain-adapters",
     "./packages/infrastructure/scheduled-tasks",
-    "./packages/infrastructure/projectors",
+    "./packages/applications/projectors",
     "./packages/applications/notifications",
     "./packages/applications/bootstrap",
     "./packages/applications/ssr",
