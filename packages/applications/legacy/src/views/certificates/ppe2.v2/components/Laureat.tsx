@@ -4,20 +4,14 @@ import { ProjectDataForCertificate } from '../../../../modules/project/dtos';
 import { formatNumber } from '../../helpers/formatNumber';
 import { getDelaiDeRealisation } from '../../../../modules/projectAppelOffre';
 
-type MakeLaureat = (project: ProjectDataForCertificate) => {
-  content: React.ReactNode;
-  footnotes: Array<Footnote>;
-};
+type LaureatProps = { project: ProjectDataForCertificate };
 
-export const makeLaureat: MakeLaureat = (project) => {
+export const Laureat = ({ project }: LaureatProps) => {
   const { appelOffre, technologie } = project;
   const { periode, isSoumisAuxGF } = appelOffre || {};
   const { delaiDcrEnMois } = periode;
 
-  const footnotes: Array<Footnote> = [];
-  const addFootNote = makeAddFootnote(footnotes);
-
-  const content = (
+  return (
     <>
       <Text
         style={{
@@ -27,7 +21,7 @@ export const makeLaureat: MakeLaureat = (project) => {
       >
         A la suite de l’instruction de votre offre par la Commission de régulation de l’énergie
         (CRE), j’ai le plaisir de vous annoncer que le projet susmentionné est désigné lauréat de la{' '}
-        {periode.title} tranche de l’appel d’offres visé en objet.
+        {periode.title} période de l’appel d’offres visé en objet.
       </Text>
 
       {project.désignationCatégorie && project.désignationCatégorie === 'volume-réservé' && (
@@ -43,7 +37,7 @@ export const makeLaureat: MakeLaureat = (project) => {
 
       <Text style={{ marginTop: 10 }}>
         Conformément à l’engagement contenu dans votre offre, je vous informe que{' '}
-        {appelOffre.tarifOuPrimeRetenue} en application des dispositions du point{' '}
+        {appelOffre.tarifOuPrimeRetenue} en application des dispositions du chapitre{' '}
         {appelOffre.paragraphePrixReference} du cahier des charges est de{' '}
         {formatNumber(project.prixReference)} €/MWh.
         {appelOffre.affichageParagrapheECS && project.evaluationCarbone > 0
@@ -53,15 +47,14 @@ export const makeLaureat: MakeLaureat = (project) => {
           : ' '}
         {project.actionnariat === 'gouvernance-partagee' && (
           <Text>
-            Vous vous êtes engagés{addFootNote(appelOffre.renvoiEngagementIPFPGPFC)} à la
-            gouvernance partagée jusqu’à dix ans minimum après la Date d’Achèvement de
-            l’Installation.
+            Vous vous êtes engagés à la gouvernance partagée jusqu’à dix ans minimum après la Date
+            d’Achèvement de l’Installation.
           </Text>
         )}
         {project.actionnariat === 'financement-collectif' && (
           <Text>
-            Vous vous êtes engagés{addFootNote(appelOffre.renvoiEngagementIPFPGPFC)} au financement
-            collectif jusqu’à trois ans minimum après la Date d’Achèvement de l’Installation.
+            Vous vous êtes engagés au financement collectif jusqu’à trois ans minimum après la Date
+            d’Achèvement de l’Installation.
           </Text>
         )}
       </Text>
@@ -98,7 +91,6 @@ export const makeLaureat: MakeLaureat = (project) => {
               - si ce n’est déjà fait, déposer une demande complète de raccordement dans les{' '}
               {delaiDcrEnMois.texte} ({delaiDcrEnMois.valeur}) mois à compter de la présente
               notification
-              {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}
               {appelOffre.typeAppelOffre === 'eolien' &&
                 ` ou dans les ${delaiDcrEnMois.texte} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`}
               ;
@@ -114,8 +106,7 @@ export const makeLaureat: MakeLaureat = (project) => {
                 mois après la date d’Achèvement de l’installation (date de fourniture de
                 l’attestation de conformité selon les dispositions du chapitre{' '}
                 {appelOffre.paragrapheAttestationConformite}) ou un renouvellement régulier afin
-                d’assurer une telle couverture temporelle
-                {addFootNote(appelOffre.renvoiRetraitDesignationGarantieFinancieres)};
+                d’assurer une telle couverture temporelle;
               </Text>
             )}
 
@@ -127,8 +118,7 @@ export const makeLaureat: MakeLaureat = (project) => {
               >
                 - mettre en oeuvre les éléments, dispositifs et systèmes innovants décrits dans le
                 rapport de contribution à l’innovation et le cas échéant dans le mémoire technique
-                sur la synergie avec l’usage agricole, remis lors du dépôt de l’offre
-                {addFootNote('3.2.4 et 3.2.5')};
+                sur la synergie avec l’usage agricole, remis lors du dépôt de l’offre;
               </Text>
             )}
 
@@ -182,18 +172,29 @@ export const makeLaureat: MakeLaureat = (project) => {
               }}
             >
               - fournir au cocontractant l’attestation de conformité de l’installation prévue au
-              paragraphe 6.5 du cahier des charges.
-              {addFootNote('6.5')};
+              paragraphe 6.5 du cahier des charges;
             </Text>
-            <Text
-              style={{
-                marginTop: 10,
-              }}
-            >
-              - respecter les engagements pris conformément aux paragraphes 3.3.10, 4.3 et 6.5
-              concernant la gouvernance partagée.
-              {addFootNote('3.3.10, 4.3 et 6.5')};
-            </Text>
+            {project.actionnariat === 'gouvernance-partagee' && (
+              <Text
+                style={{
+                  marginTop: 10,
+                }}
+              >
+                - respecter les engagements pris conformément aux paragraphes{' '}
+                {appelOffre.paragrapheEngagementIPFPGPFC} concernant la gouvernance partagée;
+              </Text>
+            )}
+
+            {project.actionnariat === 'financement-collectif' && (
+              <Text
+                style={{
+                  marginTop: 10,
+                }}
+              >
+                - respecter les engagements pris conformément aux paragraphes{' '}
+                {appelOffre.paragrapheEngagementIPFPGPFC} concernant le financement collectif;
+              </Text>
+            )}
           </>
         )}
       </View>
@@ -228,7 +229,6 @@ export const makeLaureat: MakeLaureat = (project) => {
                 }}
               >
                 Toute demande de modification substantielle de l’innovation sera notamment refusée{' '}
-                {addFootNote('5.2.3')}
               </Text>
             </>
           )}
@@ -237,27 +237,4 @@ export const makeLaureat: MakeLaureat = (project) => {
       )}
     </>
   );
-
-  return { content, footnotes };
-};
-
-const FOOTNOTE_INDICES = [185, 178, 179, 186, 9824, 9827, 9829, 9830];
-
-type Footnote = {
-  footnote: string;
-  indice: number;
-};
-
-export const makeAddFootnote = (footnotes: Array<Footnote>) => (footnote: string) => {
-  if (!footnote) {
-    return '';
-  }
-
-  const indice = FOOTNOTE_INDICES[footnotes.length % FOOTNOTE_INDICES.length];
-  footnotes.push({
-    footnote,
-    indice,
-  });
-
-  return String.fromCharCode(indice);
 };
