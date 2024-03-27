@@ -4,8 +4,8 @@ import { errAsync, Queue, ResultAsync } from '../../../core/utils';
 import { ProjectDataForCertificate } from '../../../modules/project/dtos';
 import { IllegalProjectStateError } from '../../../modules/project/errors';
 import { OtherError } from '../../../modules/shared';
-import { Certificate, CertificateProps } from './Certificate';
-import { makeLaureat } from './components/Laureat';
+import { Certificate } from './Certificate';
+import { Laureat } from './components/Laureat';
 import { Elimine } from './components/elimine';
 import { Validateur } from '..';
 
@@ -43,11 +43,11 @@ const makeCertificate = (
     );
   }
 
-  const certificateProps: CertificateProps = project.isClasse
-    ? { project, type: 'laureat', ...makeLaureat(project), validateur }
-    : { project, type: 'elimine', content: Elimine({ project }), validateur };
-
-  const certificate = Certificate(certificateProps);
+  const certificate = Certificate({
+    content: project.isClasse ? Laureat({ project }) : Elimine({ project }),
+    project,
+    validateur,
+  });
   const ticket = queue.push(() => ReactPDF.renderToStream(certificate));
 
   return ResultAsync.fromPromise(ticket, (e: any) => new OtherError(e.message));

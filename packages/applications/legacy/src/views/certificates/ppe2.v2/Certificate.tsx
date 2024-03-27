@@ -6,26 +6,16 @@ import { Objet } from './components/Objet';
 import { Introduction } from './components/Introduction';
 import { Signature } from './components/Signature';
 import { PageFooter } from './components/PageFooter';
-import { Footnote, FootnoteProps } from './components/Footnote';
 import { Validateur } from '..';
 
 export type CertificateProps = {
   project: ProjectDataForCertificate;
   content: React.ReactNode;
   validateur: Validateur;
-} & (
-  | {
-      type: 'laureat';
-      footnotes: Array<FootnoteProps>;
-    }
-  | {
-      type: 'elimine';
-    }
-);
+};
 
 export const Certificate = (props: CertificateProps) => {
-  const { type, project, content, validateur } = props;
-  const footnotes = type === 'laureat' && props.footnotes;
+  const { project, content, validateur } = props;
 
   return (
     <Document>
@@ -57,19 +47,6 @@ export const Certificate = (props: CertificateProps) => {
               <Signature validateur={validateur} />
             </View>
           </View>
-
-          {footnotes && (
-            <View
-              style={{
-                marginTop: 100,
-                fontSize: 8,
-              }}
-            >
-              {footnotes.map((footnote, index) => (
-                <Footnote {...{ ...footnote }} key={`foot_note_${index}`} />
-              ))}
-            </View>
-          )}
         </View>
 
         <PageFooter />
