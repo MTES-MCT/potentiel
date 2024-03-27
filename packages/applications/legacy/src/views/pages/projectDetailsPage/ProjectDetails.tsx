@@ -24,7 +24,7 @@ import {
   ResultatsAppelOffreInnovation,
 } from './sections';
 import { ProjectHeader } from './components';
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 
 export type AlerteRaccordement =

@@ -1,6 +1,6 @@
 import { registerTâcheCommand, registerTâcheQuery, TâcheSaga } from '@potentiel-domain/tache';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { TâcheProjector } from '@potentiel-infrastructure/projectors';
+import { TâcheProjector } from '@potentiel-applications/projectors';
 import { mediator } from 'mediateur';
 import { TâcheAdapter } from '@potentiel-infrastructure/domain-adapters';
 

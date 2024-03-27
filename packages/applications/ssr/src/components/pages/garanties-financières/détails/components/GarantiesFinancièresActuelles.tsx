@@ -2,7 +2,7 @@ import { FC } from 'react';
 import Download from '@codegouvfr/react-dsfr/Download';
 import Button from '@codegouvfr/react-dsfr/Button';
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 import { CallOut } from '@/components/atoms/CallOut';
 import { formatDateForText } from '@/utils/formatDateForText';

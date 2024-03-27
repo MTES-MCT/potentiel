@@ -5,7 +5,7 @@ import { userIs } from '../../../../modules/users';
 import { ProjectEventListDTO } from '../../../../modules/frise';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 type EtapesProjetProps = {
   project: {

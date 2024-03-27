@@ -7,7 +7,7 @@ import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';

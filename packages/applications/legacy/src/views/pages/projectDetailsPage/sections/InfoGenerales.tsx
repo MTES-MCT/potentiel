@@ -2,7 +2,7 @@ import React from 'react';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { BuildingIcon, Heading3, Link, Section } from '../../../components';
 import { UserRole } from '../../../../modules/users';
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 
 type InfoGeneralesProps = {

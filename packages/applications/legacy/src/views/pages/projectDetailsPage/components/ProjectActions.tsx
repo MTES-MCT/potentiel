@@ -10,7 +10,7 @@ import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { userIs } from '../../../../modules/users';
 import routes from '../../../../routes';
 import React from 'react';
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 
 type ProjectActionsProps = {

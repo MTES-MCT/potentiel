@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 import { formatDateForText } from '@/utils/formatDateForText';
 

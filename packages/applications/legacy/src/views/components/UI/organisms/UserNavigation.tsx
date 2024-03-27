@@ -3,7 +3,7 @@ import routes from '../../../../routes';
 import { Header } from './Header';
 import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 export const UserNavigation = ({
   user,

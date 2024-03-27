@@ -3,7 +3,7 @@ import ROUTES from '../../../routes';
 import { porteurProjetActions } from '.';
 import makeFakeProject from '../../../__tests__/fixtures/project';
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 describe('porteurProjetActions', () => {
   describe('when project is abandoned', () => {

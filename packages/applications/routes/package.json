@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel-libraries/routes",
+  "name": "@potentiel-applications/routes",
   "version": "0.0.0",
   "description": "A simple routes repository",
   "main": "dist/index.js",

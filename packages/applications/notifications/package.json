@@ -13,7 +13,7 @@
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-librairies/email-sender": "*",
-    "@potentiel-libraries/routes": "*",
+    "@potentiel-applications/routes": "*",
     "mediateur": "^0.1.0"
   },
   "devDependencies": {
