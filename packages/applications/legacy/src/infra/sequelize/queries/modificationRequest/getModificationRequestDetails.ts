@@ -137,6 +137,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
         unitePuissance: appelOffre?.unitePuissance || '??',
         technologie: technologie || 'N/A',
         cahiersDesChargesUrl: appelOffre?.cahiersDesChargesUrl,
+        appelOffre,
       },
       ...(type === 'puissance' && {
         puissanceAuMomentDuDepot,

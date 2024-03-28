@@ -121,7 +121,7 @@ export const ChangementPuissance = ({
 
       <div>
         <Label htmlFor="puissance">
-          Nouvelle {textPuissance} (en {appelOffre?.unitePuissance})
+          Nouvelle {textPuissance.toLowerCase()} (en {appelOffre?.unitePuissance})
         </Label>
         <Input
           type="text"

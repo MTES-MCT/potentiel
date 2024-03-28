@@ -90,7 +90,7 @@ const PuissanceDetails = ({ modificationRequest }: PuissanceDetailsProps) => {
 
   return (
     <div>
-      <Heading3 className="mb-2">Nouvelle {textPuissance}</Heading3>
+      <Heading3 className="mb-2">Nouvelle {textPuissance.toLowerCase()}</Heading3>
       <div>
         {textPuissance} à la notification :{' '}
         <span className="font-bold">
@@ -121,7 +121,7 @@ const PuissanceDetails = ({ modificationRequest }: PuissanceDetailsProps) => {
       )}
 
       <div>
-        Nouvelle {textPuissance} demandée :{' '}
+        Nouvelle {textPuissance.toLowerCase()} demandée :{' '}
         <span className="font-bold">
           {modificationRequest.puissance} {unitePuissance}
         </span>
