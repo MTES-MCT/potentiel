@@ -3,7 +3,7 @@
 import React, { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { PageTemplate } from '@/components/templates/Page.template';

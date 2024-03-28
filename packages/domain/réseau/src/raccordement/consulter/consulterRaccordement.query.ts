@@ -4,7 +4,7 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 import { Find } from '@potentiel-domain/core';
 import { RaccordementEntity } from '../raccordement.entity';
-import { Option } from '@potentiel-librairies/monads';
+import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { GestionnaireRéseau } from '../..';

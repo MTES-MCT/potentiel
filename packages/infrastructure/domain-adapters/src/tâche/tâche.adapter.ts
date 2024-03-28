@@ -4,7 +4,7 @@ import {
   RécupérerTâchesPort,
   TâcheEntity,
 } from '@potentiel-domain/tache';
-import { executeSelect } from '@potentiel-librairies/pg-helpers';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { listerIdentifiantsProjetsParPorteurAdapter } from '../projet/listerIdentifiantsProjetsParPorteur.adapter';
 
 const countTâchesQuery = `

@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Link from 'next/link';
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';

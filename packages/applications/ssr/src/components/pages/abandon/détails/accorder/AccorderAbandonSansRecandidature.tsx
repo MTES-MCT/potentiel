@@ -5,7 +5,7 @@ import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
 

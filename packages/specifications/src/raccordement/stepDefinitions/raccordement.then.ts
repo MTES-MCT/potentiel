@@ -6,7 +6,7 @@ import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
-import { Option } from '@potentiel-librairies/monads';
+import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 
 Alors(

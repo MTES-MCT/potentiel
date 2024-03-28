@@ -7,7 +7,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Link from 'next/link';
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { Form } from '@/components/atoms/form/Form';

@@ -1,5 +1,5 @@
 import { CommonPort } from '@potentiel-domain/common';
-import { executeSelect } from '@potentiel-librairies/pg-helpers';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 const getIdentifiantProjetByEmailUtilisateurQuery = `
   select json_build_object(

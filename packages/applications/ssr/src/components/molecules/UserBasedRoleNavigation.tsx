@@ -1,7 +1,7 @@
 import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 
 import { Utilisateur } from '@potentiel-domain/utilisateur';
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 import { getAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
 

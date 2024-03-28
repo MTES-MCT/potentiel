@@ -9,7 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-librairies/monads": "*",
+    "@potentiel-libraries/monads": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/common": "*"
   },

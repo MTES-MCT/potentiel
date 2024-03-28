@@ -4,11 +4,8 @@ import { findProjection, listProjection } from '@potentiel-infrastructure/pg-pro
 import {
   AbandonNotification,
   GarantiesFinancièresNotification,
-} from '@potentiel-infrastructure/notifications';
-import {
-  AbandonProjector,
-  GarantiesFinancièreProjector,
-} from '@potentiel-infrastructure/projectors';
+} from '@potentiel-applications/notifications';
+import { AbandonProjector, GarantiesFinancièreProjector } from '@potentiel-applications/projectors';
 import { mediator } from 'mediateur';
 import {
   consulterCahierDesChargesChoisiAdapter,

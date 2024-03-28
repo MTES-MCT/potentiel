@@ -1,9 +1,9 @@
-import { executeSelect } from '@potentiel-librairies/pg-helpers';
-import { Option } from '@potentiel-librairies/monads';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
+import { Option } from '@potentiel-libraries/monads';
 import { Entity } from '@potentiel-domain/core';
 
 import { KeyValuePair } from './keyValuePair';
-import { unflatten } from '@potentiel-librairies/flat-cjs';
+import { unflatten } from '@potentiel-libraries/flat-cjs';
 
 export const findProjection = async <TProjection extends Entity>(
   id: `${TProjection['type']}|${string}`,
