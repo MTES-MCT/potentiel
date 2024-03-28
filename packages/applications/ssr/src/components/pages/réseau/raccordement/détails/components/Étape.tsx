@@ -1,7 +1,6 @@
 import { FC } from 'react';
 
 import { Icon } from '@/components/atoms/Icon';
-import { ClockIcon, WarningIcon } from '@/components/atoms/icons';
 
 type EtapeProps = {
   statut: 'étape validée' | 'étape à venir' | 'étape incomplète';
@@ -30,8 +29,10 @@ export const Etape: FC<EtapeProps> = ({ statut, titre, children, className = '' 
       break;
     case 'étape incomplète':
       icon = (
-        <WarningIcon
-          className="w-8 h-8 md:mx-auto text-warning-425-base"
+        <Icon
+          id="fr-icon-alert-fill"
+          size="lg"
+          className="md:mx-auto text-warning-425-base"
           title="étape incomplète"
         />
       );
@@ -39,7 +40,14 @@ export const Etape: FC<EtapeProps> = ({ statut, titre, children, className = '' 
       backgroundColor = 'bg-warning-975-base';
       break;
     case 'étape à venir':
-      icon = <ClockIcon className="w-8 h-8 md:mx-auto text-grey-625-base" title="étape à venir" />;
+      icon = (
+        <Icon
+          id="fr-icon-time-line"
+          size="lg"
+          className="md:mx-auto text-grey-625-base"
+          title="étape à venir"
+        />
+      );
       borderColor = 'border-grey-625-base';
       backgroundColor = '';
       break;
