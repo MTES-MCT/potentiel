@@ -61,9 +61,8 @@ const columnMapper = {
   actionnaire: (line: any) => line['Société mère'],
   nomCandidat: (line: any) =>
     line['Nom (personne physique) ou raison sociale (personne morale) :'] || line['Candidat'],
-  puissance_production_annuelle: (line: any) =>
-    prepareNumber(line['puissance_production_annuelle']),
-  prix_reference: (line: any) => {
+  puissance: (line: any) => prepareNumber(line['puissance_production_annuelle']),
+  prixReference: (line: any) => {
     const prix = prepareNumber(line['prix_reference']);
 
     if (prix === '') return null;
@@ -234,12 +233,12 @@ const projectSchema = yup.object().shape({
   nomCandidat: yup.string().required('Candidat manquant'),
   actionnaire: yup.string().ensure(),
   nomProjet: yup.string().required('Nom projet manquant'),
-  puissance_production_annuelle: yup
+  puissance: yup
     .number()
     .typeError('Le champ Puissance doit être un nombre')
     .positive('Le champ Puissance doit être strictement positif')
     .required(),
-  prix_reference: yup
+  prixReference: yup
     .number()
     .typeError('Le Prix doit être un nombre')
     .min(0, 'Le champ Prix doit être strictement positif')

@@ -195,8 +195,7 @@ const getDésignationCatégorie = ({
     return;
   }
 
-  return projectData.puissance_production_annuelle <=
-    periodeDetails.noteThreshold.volumeReserve.puissanceMax &&
+  return projectData.puissance <= periodeDetails.noteThreshold.volumeReserve.puissanceMax &&
     projectData.note >= periodeDetails.noteThreshold.volumeReserve.noteThreshold
     ? 'volume-réservé'
     : 'hors-volume-réservé';
