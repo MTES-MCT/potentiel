@@ -13,8 +13,8 @@ export interface ProjectRawDataImportedPayload {
     nomCandidat: string;
     actionnaire: string;
     nomProjet: string;
-    puissance: number;
-    prixReference: number;
+    puissance_production_annuelle: number;
+    prix_reference: number;
     evaluationCarbone: number;
     note: number;
     nomRepresentantLegal: string;
