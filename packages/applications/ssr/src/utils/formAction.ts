@@ -1,6 +1,5 @@
 import * as zod from 'zod';
 
-// import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainError } from '@potentiel-domain/core';
 
 import { CsvError, CsvValidationError } from './parseCsv';
