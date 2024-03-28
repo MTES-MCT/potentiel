@@ -72,7 +72,9 @@ const mapToReadModel = ({
     aideSaisieRéférenceDossierRaccordement: {
       format,
       légende,
-      expressionReguliere: ExpressionRegulière.convertirEnValueType(expressionReguliere || ''),
+      expressionReguliere: !expressionReguliere
+        ? ExpressionRegulière.accepteTout
+        : ExpressionRegulière.convertirEnValueType(expressionReguliere),
     },
   };
 };
