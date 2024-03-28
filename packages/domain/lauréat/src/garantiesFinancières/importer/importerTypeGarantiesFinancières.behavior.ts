@@ -14,7 +14,7 @@ export type TypeGarantiesFinancièresImportéEvent = DomainEvent<
     type: TypeGarantiesFinancières.RawType;
     dateÉchéance?: DateTime.RawType;
     importéLe: DateTime.RawType;
-    importéPar: IdentifiantUtilisateur.RawType;
+    importéPar?: IdentifiantUtilisateur.RawType;
   }
 >;
 
