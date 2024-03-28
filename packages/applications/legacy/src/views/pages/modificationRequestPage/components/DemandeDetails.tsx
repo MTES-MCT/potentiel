@@ -83,11 +83,16 @@ const PuissanceDetails = ({ modificationRequest }: PuissanceDetailsProps) => {
   const hasPuissanceChangedSinceDepot =
     puissance !== (puissanceAuMomentDuDepot || puissanceInitiale);
 
+  const textPuissance =
+    project.appelOffre?.typeAppelOffre === 'biométhane'
+      ? `Production annuelle prévisionnelle`
+      : `Puissance`;
+
   return (
     <div>
-      <Heading3 className="mb-2">Nouvelle puissance</Heading3>
+      <Heading3 className="mb-2">Nouvelle {textPuissance.toLowerCase()}</Heading3>
       <div>
-        Puissance à la notification :{' '}
+        {textPuissance} à la notification :{' '}
         <span className="font-bold">
           {puissanceInitiale} {unitePuissance}
         </span>
@@ -95,7 +100,7 @@ const PuissanceDetails = ({ modificationRequest }: PuissanceDetailsProps) => {
 
       {puissanceAuMomentDuDepot && puissanceInitiale !== puissanceAuMomentDuDepot && (
         <div>
-          Puissance au moment du dépôt :{' '}
+          {textPuissance} au moment du dépôt :{' '}
           <span className="font-bold">
             {puissanceAuMomentDuDepot} {unitePuissance}
           </span>
@@ -106,7 +111,7 @@ const PuissanceDetails = ({ modificationRequest }: PuissanceDetailsProps) => {
         <>
           {hasPuissanceChangedSinceDepot && (
             <div>
-              Puissance actuelle :{' '}
+              {textPuissance} actuelle :{' '}
               <span className="font-bold">
                 {project.puissance} {unitePuissance}
               </span>
@@ -116,7 +121,7 @@ const PuissanceDetails = ({ modificationRequest }: PuissanceDetailsProps) => {
       )}
 
       <div>
-        Nouvelle puissance demandée :{' '}
+        Nouvelle {textPuissance.toLowerCase()} demandée :{' '}
         <span className="font-bold">
           {modificationRequest.puissance} {unitePuissance}
         </span>

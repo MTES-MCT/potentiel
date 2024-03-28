@@ -92,14 +92,15 @@ export const ChangementPuissance = ({
 
   const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(cahierDesChargesActuel);
 
-  fichierEtJustificationRequis;
+  const textPuissance =
+    appelOffre.typeAppelOffre === 'biométhane' ? `Production annuelle prévisionnelle` : `Puissance`;
 
   return (
     <>
       <Callout>
         <>
           <div>
-            Puissance à la notification :{' '}
+            {textPuissance} à la notification :{' '}
             <span className="font-bold">
               {puissanceInitiale} {appelOffre.unitePuissance}
             </span>
@@ -107,7 +108,7 @@ export const ChangementPuissance = ({
 
           {puissance !== puissanceInitiale && (
             <div>
-              Puissance actuelle :{' '}
+              {textPuissance} actuelle :{' '}
               <span className="font-bold">
                 {puissance} {appelOffre.unitePuissance}
               </span>
@@ -119,7 +120,9 @@ export const ChangementPuissance = ({
       <ChampsObligatoiresLégende />
 
       <div>
-        <Label htmlFor="puissance">Nouvelle puissance (en {appelOffre?.unitePuissance})</Label>
+        <Label htmlFor="puissance">
+          Nouvelle {textPuissance.toLowerCase()} (en {appelOffre?.unitePuissance})
+        </Label>
         <Input
           type="text"
           pattern="[0-9]+([\.,][0-9]+)?"

@@ -10,6 +10,7 @@ const porteurProjetActions = (project: {
   familleId: string;
   numeroCRE: string;
   appelOffre?: {
+    typeAppelOffre: ProjectAppelOffre['typeAppelOffre'];
     changementProducteurPossibleAvantAchèvement: ProjectAppelOffre['changementProducteurPossibleAvantAchèvement'];
     unitePuissance: ProjectAppelOffre['unitePuissance'];
     periode: { type: ProjectAppelOffre['periode'] };
@@ -90,7 +91,10 @@ const porteurProjetActions = (project: {
         link: ROUTES.CHANGER_ACTIONNAIRE(project.id),
       },
       {
-        title: 'Changer de puissance',
+        title:
+          project.appelOffre?.typeAppelOffre === 'biométhane'
+            ? `Changer la production annuelle prévisionnelle`
+            : `Changer de puissance`,
         link: ROUTES.DEMANDER_CHANGEMENT_PUISSANCE(project.id),
       },
       {
