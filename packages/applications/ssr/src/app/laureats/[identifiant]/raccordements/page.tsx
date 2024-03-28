@@ -17,6 +17,7 @@ import {
   DétailsRaccordementPage,
   DétailsRaccordementPageProps,
 } from '@/components/pages/réseau/raccordement/détails/DétailsRaccordement.page';
+import { AucunDossierDeRaccordementPage } from '@/components/pages/réseau/raccordement/détails/AucunDossierDeRaccordement.page';
 
 type PageProps = IdentifiantParameter;
 
@@ -37,6 +38,11 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
+      const projet = {
+        ...candidature,
+        identifiantProjet,
+      };
+
       const listeDossiersRaccordement =
         await mediator.send<Raccordement.ConsulterRaccordementQuery>({
           type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
@@ -54,9 +60,14 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           },
         });
 
+      if (listeDossiersRaccordement.dossiers.length === 0) {
+        return <AucunDossierDeRaccordementPage projet={projet} />;
+      }
+
       const props = mapToProps({
         rôleUtilisateur: utilisateur.role,
         candidature,
+        identifiantProjet,
         gestionnaireRéseau,
         listeDossiersRaccordement,
       });
@@ -69,6 +80,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 type MapToProps = (args: {
   rôleUtilisateur: Role.ValueType;
   candidature: ConsulterCandidatureReadModel;
+  identifiantProjet: string;
   gestionnaireRéseau: Option.Type<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;
   listeDossiersRaccordement: Raccordement.ConsulterRaccordementReadModel;
 }) => DétailsRaccordementPageProps;
@@ -76,58 +88,55 @@ type MapToProps = (args: {
 const mapToProps: MapToProps = ({
   rôleUtilisateur,
   candidature,
+  identifiantProjet,
   gestionnaireRéseau,
   listeDossiersRaccordement,
-}) => {
-  const identifiantProjet = listeDossiersRaccordement.identifiantProjet.formatter();
-
-  return {
-    projet: {
-      ...candidature,
-      identifiantProjet,
+}) => ({
+  projet: {
+    ...candidature,
+    identifiantProjet,
+  },
+  ...(!Option.isNone(gestionnaireRéseau) && {
+    gestionnaireRéseau: {
+      ...gestionnaireRéseau,
+      identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
+      aideSaisieRéférenceDossierRaccordement: {
+        ...gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement,
+        expressionReguliere:
+          gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere.formatter(),
+      },
+      canEdit:
+        rôleUtilisateur.estÉgaleÀ(Role.admin) ||
+        rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
+        rôleUtilisateur.estÉgaleÀ(Role.porteur),
     },
-    ...(!Option.isNone(gestionnaireRéseau) && {
-      gestionnaireRéseau: {
-        ...gestionnaireRéseau,
-        identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
-        aideSaisieRéférenceDossierRaccordement: {
-          ...gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement,
-          expressionReguliere:
-            gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere.formatter(),
-        },
+  }),
+  dossiers: listeDossiersRaccordement.dossiers.map((dossier) => {
+    return {
+      identifiantProjet,
+      référence: dossier.référence.formatter(),
+      demandeComplèteRaccordement: {
         canEdit:
           rôleUtilisateur.estÉgaleÀ(Role.admin) ||
           rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
           rôleUtilisateur.estÉgaleÀ(Role.porteur),
+        accuséRéception: dossier.demandeComplèteRaccordement.accuséRéception?.formatter(),
+        dateQualification: dossier.demandeComplèteRaccordement.dateQualification?.formatter(),
       },
-    }),
-    dossiers: listeDossiersRaccordement.dossiers.map((dossier) => {
-      return {
-        identifiantProjet,
-        référence: dossier.référence.formatter(),
-        demandeComplèteRaccordement: {
-          canEdit:
-            rôleUtilisateur.estÉgaleÀ(Role.admin) ||
-            rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
-            rôleUtilisateur.estÉgaleÀ(Role.porteur),
-          accuséRéception: dossier.demandeComplèteRaccordement.accuséRéception?.formatter(),
-          dateQualification: dossier.demandeComplèteRaccordement.dateQualification?.formatter(),
-        },
-        propositionTechniqueEtFinancière: {
-          canEdit:
-            rôleUtilisateur.estÉgaleÀ(Role.admin) ||
-            rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
-            rôleUtilisateur.estÉgaleÀ(Role.porteur),
-          dateSignature: dossier.propositionTechniqueEtFinancière?.dateSignature.formatter(),
-          propositionTechniqueEtFinancièreSignée:
-            dossier.propositionTechniqueEtFinancière?.propositionTechniqueEtFinancièreSignée.formatter(),
-        },
-        miseEnService: {
-          canEdit:
-            rôleUtilisateur.estÉgaleÀ(Role.admin) || rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur),
-          dateMiseEnService: dossier.miseEnService?.dateMiseEnService?.formatter(),
-        },
-      };
-    }),
-  };
-};
+      propositionTechniqueEtFinancière: {
+        canEdit:
+          rôleUtilisateur.estÉgaleÀ(Role.admin) ||
+          rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
+          rôleUtilisateur.estÉgaleÀ(Role.porteur),
+        dateSignature: dossier.propositionTechniqueEtFinancière?.dateSignature.formatter(),
+        propositionTechniqueEtFinancièreSignée:
+          dossier.propositionTechniqueEtFinancière?.propositionTechniqueEtFinancièreSignée.formatter(),
+      },
+      miseEnService: {
+        canEdit:
+          rôleUtilisateur.estÉgaleÀ(Role.admin) || rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur),
+        dateMiseEnService: dossier.miseEnService?.dateMiseEnService?.formatter(),
+      },
+    };
+  }),
+});
