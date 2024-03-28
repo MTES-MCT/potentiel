@@ -11,8 +11,8 @@ const fakeLine = {
   'Nom projet': 'nomProjet',
   'Société mère': 'actionnaire',
   'N°CRE': 'numeroCRE',
-  puissance: '1.234',
-  prixReference: '3.456',
+  puissance_production_annuelle: '1.234',
+  prix_reference: '3.456',
   'Note totale': '10.10',
   'Nom et prénom du représentant légal': 'nomRepresentantLegal',
   'Adresse électronique du contact': 'test@test.test',
@@ -208,7 +208,7 @@ describe('parseProjectLine', () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
-          prixReference: '',
+          prix_reference: '',
         }),
       ).toThrowError('Le Prix doit être un nombre');
     });
@@ -218,7 +218,7 @@ describe('parseProjectLine', () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
-          prixReference: '-32',
+          prix_reference: '-32',
         }),
       ).toThrowError('Le champ Prix doit être strictement positif');
     });
@@ -232,7 +232,7 @@ describe('parseProjectLine', () => {
           parseProjectLine({
             ...fakeLine,
             "Appel d'offres": 'blabla Autoconsommation blabla',
-            prixReference: '0',
+            prix_reference: '0',
           }),
         ).toMatchObject({ prixReference: 0 });
       });
@@ -245,7 +245,7 @@ describe('parseProjectLine', () => {
           parseProjectLine({
             ...fakeLine,
             "Appel d'offres": 'other',
-            prixReference: '0',
+            prix_reference: '0',
           }),
         ).toThrowError('Le champ Prix doit être strictement positif');
       });
@@ -257,7 +257,7 @@ describe('parseProjectLine', () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
-          puissance: '',
+          puissance_production_annuelle: '',
         }),
       ).toThrowError('Le champ Puissance doit être un nombre');
     });
@@ -267,7 +267,7 @@ describe('parseProjectLine', () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
-          puissance: '-32',
+          puissance_production_annuelle: '-32',
         }),
       ).toThrowError('Le champ Puissance doit être strictement positif');
     });
@@ -277,7 +277,7 @@ describe('parseProjectLine', () => {
       expect(() =>
         parseProjectLine({
           ...fakeLine,
-          puissance: '0',
+          puissance_production_annuelle: '0',
         }),
       ).toThrowError('Le champ Puissance doit être strictement positif');
     });

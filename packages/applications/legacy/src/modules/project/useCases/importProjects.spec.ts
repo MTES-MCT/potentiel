@@ -18,8 +18,8 @@ const validLine = {
   Candidat: '',
   'Nom projet': 'nomProjet',
   'N°CRE': 'numeroCRE',
-  puissance: '1.234',
-  prixReference: '3.456',
+  puissance_production_annuelle: '1.234',
+  prix_reference: '3.456',
   'Note totale': '10.10',
   'Nom et prénom du représentant légal': 'nomRepresentantLegal',
   'Adresse électronique du contact': 'test@test.test',
@@ -623,7 +623,7 @@ describe('importProjects', () => {
       const lines = [
         {
           ...validLine,
-          puissance: '3',
+          puissance_production_annuelle: '3',
           'Note totale': '11',
         },
       ] as Record<string, string>[];
@@ -671,7 +671,7 @@ describe('importProjects', () => {
       const lines = [
         {
           ...validLine,
-          puissance: '3',
+          puissance_production_annuelle: '3',
           'Note totale': '5',
         },
       ] as Record<string, string>[];
@@ -719,7 +719,7 @@ describe('importProjects', () => {
       const lines = [
         {
           ...validLine,
-          puissance: '10',
+          puissance_production_annuelle: '10',
           'Note totale': '11',
         },
       ] as Record<string, string>[];
