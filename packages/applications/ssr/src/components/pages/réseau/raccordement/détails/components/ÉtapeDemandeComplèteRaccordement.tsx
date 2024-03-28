@@ -5,10 +5,10 @@ import { FC } from 'react';
 import { Routes } from '@potentiel-libraries/routes';
 
 import { displayDate } from '@/utils/displayDate';
-import { WarningIcon } from '@/components/atoms/icons';
 import { Icon } from '@/components/atoms/Icon';
 
 import { Etape } from './Étape';
+import { FormatFichierInvalide } from './FormatFichierInvalide';
 
 type ÉtapeDemandeComplèteRaccordementProps = {
   identifiantProjet: string;
@@ -61,12 +61,7 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
 
       {accuséRéception && (
         <div>
-          {accuséRéception.endsWith('.bin') && (
-            <WarningIcon
-              className="w-8 h-8 md:mx-auto text-warning-425-base"
-              title="format du fichier invalide"
-            />
-          )}
+          {accuséRéception.endsWith('.bin') && <FormatFichierInvalide />}
           <Download
             className="flex items-center"
             linkProps={{

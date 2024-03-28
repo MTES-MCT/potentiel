@@ -6,9 +6,9 @@ import { Routes } from '@potentiel-libraries/routes';
 
 import { Icon } from '@/components/atoms/Icon';
 import { displayDate } from '@/utils/displayDate';
-import { WarningIcon } from '@/components/atoms/icons';
 
 import { Etape } from './Étape';
+import { FormatFichierInvalide } from './FormatFichierInvalide';
 
 type ÉtapePropositionTechniqueEtFinancièreProps = {
   identifiantProjet: string;
@@ -48,12 +48,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
 
         {propositionTechniqueEtFinancièreSignée && (
           <div>
-            {propositionTechniqueEtFinancièreSignée.endsWith('.bin') && (
-              <WarningIcon
-                className="w-8 h-8 md:mx-auto text-warning-425-base"
-                title="format du fichier invalide"
-              />
-            )}
+            {propositionTechniqueEtFinancièreSignée.endsWith('.bin') && <FormatFichierInvalide />}
             <Download
               className="flex items-center"
               linkProps={{
