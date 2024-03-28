@@ -21,6 +21,7 @@ EtantDonné(
         identifiantProjetValue: identifiantProjet.formatter(),
         demandéLeValue: new Date(notifiéLe).toISOString(),
         dateLimiteSoumissionValue: new Date(dateLimiteSoumission).toISOString(),
+        motifValue: 'garanties-financières-initiales',
       },
     });
 
@@ -121,7 +122,6 @@ EtantDonné(
         typeValue: typeGarantiesFinancières,
         ...(dateÉchéance && { dteÉchéanceValue: new Date(dateÉchéance).toISOString() }),
         importéLeValue: new Date().toISOString(),
-        importéParValue: 'admin@test.test',
       },
     });
 
