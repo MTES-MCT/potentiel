@@ -140,9 +140,12 @@ v1Router.get(
         },
       });
 
-      const garantiesFinancières =
-        projet.appelOffre.isSoumisAuxGF &&
-        (await getGarantiesFinancières(identifiantProjetValueType));
+      let garantiesFinancières: ProjectDataForProjectPage['garantiesFinancières'] | undefined =
+        undefined;
+
+      if (projet.appelOffre.isSoumisAuxGF) {
+        garantiesFinancières = await getGarantiesFinancières(identifiantProjetValueType);
+      }
 
       return response.send(
         ProjectDetailsPage({
