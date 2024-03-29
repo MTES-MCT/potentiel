@@ -152,7 +152,7 @@ v1Router.post(
         acceptanceParams,
         submittedBy: request.user,
       }).match(async () => {
-        if (type === 'recours') {
+        if (type === 'recours' || type === 'producteur') {
           try {
             // récupérer identifiant projet value
             const modificationRequest = await ModificationRequest.findByPk(modificationRequestId);
@@ -174,8 +174,32 @@ v1Router.post(
             });
 
             if (isSoumisAuxGF({ appelOffres, famille: projet.familleId })) {
-              // demander des garanties financières
               const dateActuelle = new Date();
+              if (type === 'producteur') {
+                // supprimer les éventuelles garanties financières du projet
+                try {
+                  const garantiesFinancières =
+                    await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+                      type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+                      data: {
+                        identifiantProjetValue,
+                      },
+                    });
+                  if (garantiesFinancières) {
+                    await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresUseCase>(
+                      {
+                        type: 'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
+                        data: {
+                          identifiantProjetValue,
+                          effacéLeValue: dateActuelle.toISOString(),
+                          effacéParValue: request.user.email,
+                        },
+                      },
+                    );
+                  }
+                } catch (error) {}
+              }
+              // demander des garanties financières
               await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
                 type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
                 data: {
@@ -185,7 +209,10 @@ v1Router.post(
                     dateActuelle.setMonth(dateActuelle.getMonth() + 2),
                   ).toISOString(),
                   motifValue:
-                    GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé.motif,
+                    type === 'recours'
+                      ? GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé.motif
+                      : GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur
+                          .motif,
                 },
               });
             }
