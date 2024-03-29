@@ -18,8 +18,8 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Garanties financières à traiter - Potentiel',
-  description: 'Liste des garanties financières à traiter',
+  title: 'Garanties financières en cours - Potentiel',
+  description: 'Liste des garanties financières en cours',
 };
 
 export default async function Page({ searchParams }: PageProps) {

@@ -17,6 +17,17 @@ export async function UserBasedRoleNavigation() {
   return <MainNavigation items={navigationItems} />;
 }
 
+const menuLinks = {
+  garantiesFinancières: {
+    listerDépôtsEnCours: {
+      text: 'Garanties financières en cours',
+      linkProps: {
+        href: Routes.GarantiesFinancières.dépôt.lister,
+      },
+    },
+  },
+};
+
 const getNavigationItemsBasedOnRole = (
   utilisateur: Utilisateur.ValueType,
 ): MainNavigationProps['items'] => {
@@ -46,6 +57,10 @@ const getNavigationItemsBasedOnRole = (
               },
             },
           ],
+        },
+        {
+          text: 'Garanties Financières',
+          menuLinks: [menuLinks.garantiesFinancières.listerDépôtsEnCours],
         },
         {
           text: 'Imports',
@@ -170,6 +185,10 @@ const getNavigationItemsBasedOnRole = (
               },
             },
           ],
+        },
+        {
+          text: 'Garanties Financières',
+          menuLinks: [menuLinks.garantiesFinancières.listerDépôtsEnCours],
         },
         {
           text: 'Garanties Financières',

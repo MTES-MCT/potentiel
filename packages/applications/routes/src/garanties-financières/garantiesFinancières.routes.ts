@@ -5,6 +5,7 @@ export const dépôt = {
     `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/depot:soumettre`,
   modifier: (identifiantProjet: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/depot:modifier`,
+  lister: `/garanties-financieres/en-cours`,
 };
 
 export const actuelles = {
