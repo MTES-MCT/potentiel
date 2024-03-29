@@ -125,12 +125,12 @@ type NotesInnovation = {
 export type GarantiesFinancièresForProjectPage = {
   garantiesFinancièresEnAttente?: true;
   actuelles?: {
-    type: GarantiesFinancières.TypeGarantiesFinancières.RawType;
-    dateConstitution: string;
+    type?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+    dateConstitution?: string;
     dateÉchéance?: string;
   };
   dépôtÀTraiter?: {
-    type: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+    type?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
     dateConstitution: string;
     dateÉchéance?: string;
   };

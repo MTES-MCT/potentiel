@@ -144,21 +144,38 @@ const GarantiesFinancièresProjet = ({
     )}
 
     {garantiesFinancières.actuelles && (
-      <p className="mt-0 mb-3">
-        Le projet dispose actuellement de{' '}
-        <span className="font-semibold">
-          garanties financières validées {getGFLabel(garantiesFinancières.actuelles.type)}
-        </span>
-        , constituées le {afficherDate(new Date(garantiesFinancières.actuelles.dateConstitution))}
-        {garantiesFinancières.actuelles.dateÉchéance && (
-          <span>
-            {' '}
-            et avec échéance au{' '}
-            {afficherDate(new Date(garantiesFinancières.actuelles.dateÉchéance))}
+      <>
+        <p className="mt-0 mb-3">
+          Le projet dispose actuellement de{' '}
+          <span className="font-semibold">
+            garanties financières validées {getGFLabel(garantiesFinancières.actuelles.type)}
           </span>
+          {garantiesFinancières.actuelles.dateConstitution && (
+            <>
+              , constituées le{' '}
+              {afficherDate(new Date(garantiesFinancières.actuelles.dateConstitution))}
+            </>
+          )}
+          {garantiesFinancières.actuelles.dateÉchéance && (
+            <span>
+              {' '}
+              et avec échéance au{' '}
+              {afficherDate(new Date(garantiesFinancières.actuelles.dateÉchéance))}
+            </span>
+          )}
+          .
+        </p>
+
+        {!garantiesFinancières.actuelles?.dateConstitution && (
+          <AlertMessage>
+            L'attestation de constitution des garanties financières reste à transmettre.
+          </AlertMessage>
         )}
-        .
-      </p>
+
+        {!garantiesFinancières.actuelles?.type && (
+          <AlertMessage>Le type de garanties financières reste à préciser.</AlertMessage>
+        )}
+      </>
     )}
 
     {garantiesFinancières.dépôtÀTraiter && (

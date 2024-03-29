@@ -266,15 +266,19 @@ const getGarantiesFinancières = async (
       ...(garantiesFinancières.actuelles && {
         actuelles: {
           type: garantiesFinancières.actuelles.type.type,
-          dateÉchéance: garantiesFinancières.actuelles.dateÉchéance?.formatter(),
-          dateConstitution: garantiesFinancières.actuelles.dateConstitution!.formatter(),
+          dateÉchéance:
+            garantiesFinancières.actuelles.dateÉchéance &&
+            garantiesFinancières.actuelles.dateÉchéance.formatter(),
+          dateConstitution:
+            garantiesFinancières.actuelles.dateConstitution &&
+            garantiesFinancières.actuelles.dateConstitution.formatter(),
         },
       }),
       ...(dépôtEnCours && {
         dépôtÀTraiter: {
           type: dépôtEnCours.type.type,
-          dateÉchéance: dépôtEnCours.dateÉchéance?.formatter(),
-          dateConstitution: dépôtEnCours.dateConstitution!.formatter(),
+          dateÉchéance: dépôtEnCours.dateÉchéance && dépôtEnCours.dateÉchéance.formatter(),
+          dateConstitution: dépôtEnCours.dateConstitution.formatter(),
         },
       }),
     };
