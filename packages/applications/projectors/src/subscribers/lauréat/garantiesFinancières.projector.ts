@@ -355,6 +355,16 @@ export const register = () => {
             },
           );
           break;
+
+        case 'HistoriqueGarantiesFinancièresEffacé-V1':
+          await removeProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+          );
+
+          await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+            `depot-en-cours-garanties-financieres|${identifiantProjet}`,
+          );
+          break;
       }
     }
   };

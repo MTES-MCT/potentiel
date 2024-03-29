@@ -24,7 +24,7 @@ export async function validerDépôtEnCours(
   this: GarantiesFinancièresAggregate,
   { validéLe, identifiantProjet, validéPar }: Options,
 ) {
-  if (!this.dépôtEnCours) {
+  if (!this.dépôts?.some((dépôt) => dépôt.statut.estEnCours())) {
     throw new AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError();
   }
   const event: DépôtGarantiesFinancièresEnCoursValidéEvent = {
@@ -43,13 +43,14 @@ export function applyDépôtGarantiesFinancièresEnCoursValidé(
   this: GarantiesFinancièresAggregate,
   { payload: { validéLe } }: DépôtGarantiesFinancièresEnCoursValidéEvent,
 ) {
+  const dépôtValidé = this.dépôts!.find((dépôt) => dépôt.statut.estEnCours());
+
   this.actuelles = {
-    type: this.dépôtEnCours ? this.dépôtEnCours.type : 'type-inconnu',
-    ...(this.dépôtEnCours &&
-      this.dépôtEnCours.dateÉchéance && { dateÉchéance: this.dépôtEnCours!.dateÉchéance }),
-    dateConstitution: this.dépôtEnCours!.dateConstitution,
+    type: dépôtValidé!.type,
+    ...(dépôtValidé!.dateÉchéance && { dateÉchéance: dépôtValidé!.dateÉchéance }),
+    dateConstitution: dépôtValidé!.dateConstitution,
     validéLe: DateTime.convertirEnValueType(validéLe),
-    attestation: this.dépôtEnCours?.attestation,
+    attestation: dépôtValidé!.attestation,
   };
-  this.dépôtEnCours = undefined;
+  this.dépôts = this.dépôts!.filter((dépôt) => !dépôt.statut.estEnCours());
 }

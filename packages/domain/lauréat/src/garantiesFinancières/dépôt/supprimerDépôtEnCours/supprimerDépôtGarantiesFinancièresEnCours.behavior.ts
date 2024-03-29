@@ -24,7 +24,7 @@ export async function supprimerDépôtGarantiesFinancièresEnCours(
   this: GarantiesFinancièresAggregate,
   { suppriméLe, identifiantProjet, suppriméPar }: Options,
 ) {
-  if (!this.dépôtEnCours) {
+  if (!this.dépôts?.some((dépôt) => dépôt.statut.estEnCours())) {
     throw new AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError();
   }
   const event: DépôtGarantiesFinancièresEnCoursSuppriméEvent = {
@@ -40,5 +40,5 @@ export async function supprimerDépôtGarantiesFinancièresEnCours(
 }
 
 export function applyDépôtGarantiesFinancièresEnCoursSupprimé(this: GarantiesFinancièresAggregate) {
-  this.dépôtEnCours = undefined;
+  this.dépôts = this.dépôts?.filter((dépôt) => !dépôt.statut.estEnCours());
 }

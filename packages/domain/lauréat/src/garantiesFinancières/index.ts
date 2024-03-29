@@ -16,6 +16,7 @@ import { ImporterTypeGarantiesFinancièresUseCase } from './importer/importerTyp
 import { ModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase';
 import { EnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
 import { EnregistrerGarantiesFinancièresUseCase } from './enregistrer/enregistrerGarantiesFinancières.usecase';
+import { EffacerHistoriqueGarantiesFinancièresUseCase } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.usecase';
 
 // Query
 export type GarantiesFinancièresQuery =
@@ -37,7 +38,8 @@ export type GarantiesFinancièresUseCase =
   | ImporterTypeGarantiesFinancièresUseCase
   | ModifierGarantiesFinancièresUseCase
   | EnregistrerAttestationGarantiesFinancièresUseCase
-  | EnregistrerGarantiesFinancièresUseCase;
+  | EnregistrerGarantiesFinancièresUseCase
+  | EffacerHistoriqueGarantiesFinancièresUseCase;
 
 export {
   SoumettreDépôtGarantiesFinancièresUseCase,
@@ -49,6 +51,7 @@ export {
   ModifierGarantiesFinancièresUseCase,
   EnregistrerAttestationGarantiesFinancièresUseCase,
   EnregistrerGarantiesFinancièresUseCase,
+  EffacerHistoriqueGarantiesFinancièresUseCase,
 };
 
 // Event
@@ -61,6 +64,7 @@ export { DépôtGarantiesFinancièresEnCoursModifiéEvent } from './dépôt/modi
 export { TypeGarantiesFinancièresImportéEvent } from './importer/importerTypeGarantiesFinancières.behavior';
 export { GarantiesFinancièresModifiéesEvent } from './modifier/modifierGarantiesFinancières.behavior';
 export { AttestationGarantiesFinancièresEnregistréeEvent } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
+export { HistoriqueGarantiesFinancièresEffacéEvent } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.behavior';
 
 // Register
 export {

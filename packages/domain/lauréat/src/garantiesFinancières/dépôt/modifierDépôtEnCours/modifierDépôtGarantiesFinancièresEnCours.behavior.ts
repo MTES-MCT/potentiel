@@ -2,7 +2,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { DocumentProjet } from '@potentiel-domain/document';
-import { TypeGarantiesFinancières } from '../..';
+import { StatutDépôtGarantiesFinancières, TypeGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DateConstitutionDansLeFuturError } from '../../dateConstitutionDansLeFutur.error';
@@ -45,7 +45,7 @@ export async function modifierDépôtGarantiesFinancièresEnCours(
     modifiéPar,
   }: Options,
 ) {
-  if (!this.dépôtEnCours) {
+  if (!this.dépôts || !this.dépôts?.some((dépôt) => dépôt.statut.estEnCours())) {
     throw new AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError();
   }
   if (dateConstitution.estDansLeFutur()) {
@@ -79,11 +79,15 @@ export function applyDépôtGarantiesFinancièresEnCoursModifié(
     payload: { type, dateÉchéance, dateConstitution, modifiéLe, attestation },
   }: DépôtGarantiesFinancièresEnCoursModifiéEvent,
 ) {
-  this.dépôtEnCours = {
-    type: TypeGarantiesFinancières.convertirEnValueType(type),
-    dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
-    dateConstitution: DateTime.convertirEnValueType(dateConstitution),
-    soumisLe: DateTime.convertirEnValueType(modifiéLe),
-    attestation,
-  };
+  this.dépôts = [
+    ...this.dépôts!.filter((dépôt) => !dépôt.statut.estEnCours()),
+    {
+      statut: StatutDépôtGarantiesFinancières.enCours,
+      dateConstitution: DateTime.convertirEnValueType(dateConstitution),
+      soumisLe: DateTime.convertirEnValueType(modifiéLe),
+      type: TypeGarantiesFinancières.convertirEnValueType(type),
+      ...(dateÉchéance && { dateÉchéance: DateTime.convertirEnValueType(dateÉchéance) }),
+      attestation,
+    },
+  ];
 }

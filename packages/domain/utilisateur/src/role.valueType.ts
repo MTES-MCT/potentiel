@@ -133,6 +133,8 @@ const référencielPermissions = {
         modifier: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
         enregistrerAttestation: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
         enregistrer: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
+        effacerHistorique:
+          'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
       },
       command: {
         demander: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
@@ -146,6 +148,8 @@ const référencielPermissions = {
         modifier: 'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières',
         enregistrerAttestation: 'Lauréat.GarantiesFinancières.Command.EnregistrerAttestation',
         enregistrer: 'Lauréat.GarantiesFinancières.Command.EnregistrerGarantiesFinancières',
+        effacerHistorique:
+          'Lauréat.GarantiesFinancières.Command.EffacerHistoriqueGarantiesFinancières',
       },
     },
   },
@@ -448,6 +452,10 @@ const policies = {
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.lauréat.garantiesFinancières.query.consulter,
     ],
+    effacerHistorique: [
+      référencielPermissions.lauréat.garantiesFinancières.usecase.effacerHistorique,
+      référencielPermissions.lauréat.garantiesFinancières.command.effacerHistorique,
+    ],
     dépôt: {
       demander: [
         référencielPermissions.lauréat.garantiesFinancières.usecase.demander,
@@ -545,6 +553,7 @@ const permissionAdmin = [
   ...policies.garantiesFinancières.actuelles.modifier,
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.actuelles.enregistrer,
+  ...policies.garantiesFinancières.effacerHistorique,
 ];
 
 const permissionCRE = [
@@ -579,6 +588,7 @@ const permissionDreal = [
   ...policies.garantiesFinancières.actuelles.modifier,
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.actuelles.enregistrer,
+  ...policies.garantiesFinancières.effacerHistorique,
 ];
 
 const permissionDgecValidateur = [
@@ -616,6 +626,7 @@ const permissionDgecValidateur = [
   ...policies.garantiesFinancières.actuelles.modifier,
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.actuelles.enregistrer,
+  ...policies.garantiesFinancières.effacerHistorique,
 ];
 
 const permissionPorteurProjet = [
@@ -647,6 +658,7 @@ const permissionPorteurProjet = [
   ...policies.garantiesFinancières.dépôt.supprimer,
   ...policies.garantiesFinancières.dépôt.modifier,
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
+  ...policies.garantiesFinancières.effacerHistorique,
 ];
 
 const permissionAcheteurObligé = [
