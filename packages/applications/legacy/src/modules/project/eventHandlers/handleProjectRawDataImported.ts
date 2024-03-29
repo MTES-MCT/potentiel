@@ -18,7 +18,7 @@ export const handleProjectRawDataImported =
     const { findProjectByIdentifiers, projectRepo, getProjectAppelOffre } = deps;
 
     const { data, importId } = event.payload;
-    const { appelOffreId, periodeId, familleId, numeroCRE } = data;
+    const { appelOffreId, periodeId, familleId, numeroCRE, classe } = data;
     const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId });
 
     // PAD: There is a concurrency risk here:
@@ -50,34 +50,36 @@ export const handleProjectRawDataImported =
       console.error('handleProjectRawDataImported error', res.error);
     }
 
-    const typeGarantiesFinancières =
-      data.garantiesFinancièresType &&
-      convertGarantiesFinancièresType(data.garantiesFinancièresType);
+    if (classe === 'Classé') {
+      const typeGarantiesFinancières =
+        data.garantiesFinancièresType &&
+        convertGarantiesFinancièresType(data.garantiesFinancièresType);
 
-    if (typeGarantiesFinancières) {
-      const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
-        `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
-      ).formatter();
+      if (typeGarantiesFinancières) {
+        const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
+          `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+        ).formatter();
 
-      try {
-        await mediator.send<GarantiesFinancières.ImporterTypeGarantiesFinancièresUseCase>({
-          type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
-          data: {
-            identifiantProjetValue,
-            importéLeValue: new Date(event.occurredAt).toISOString(),
-            typeValue: typeGarantiesFinancières,
-            ...(data.garantiesFinancièresDateEchéance &&
-              GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
-                typeGarantiesFinancières,
-              ).estAvecDateÉchéance() && {
-                dateÉchéanceValue: new Date(data.garantiesFinancièresDateEchéance).toISOString(),
-              }),
-          },
-        });
-      } catch (error) {
-        logger.error(
-          `handleProjectRawDataImported : enregistrer le type de garantie financière (projet ${identifiantProjetValue}) : ${error.message}`,
-        );
+        try {
+          await mediator.send<GarantiesFinancières.ImporterTypeGarantiesFinancièresUseCase>({
+            type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
+            data: {
+              identifiantProjetValue,
+              importéLeValue: new Date(event.occurredAt).toISOString(),
+              typeValue: typeGarantiesFinancières,
+              ...(data.garantiesFinancièresDateEchéance &&
+                GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
+                  typeGarantiesFinancières,
+                ).estAvecDateÉchéance() && {
+                  dateÉchéanceValue: new Date(data.garantiesFinancièresDateEchéance).toISOString(),
+                }),
+            },
+          });
+        } catch (error) {
+          logger.error(
+            `handleProjectRawDataImported : enregistrer le type de garantie financière (projet ${identifiantProjetValue}) : ${error.message}`,
+          );
+        }
       }
     }
   };
