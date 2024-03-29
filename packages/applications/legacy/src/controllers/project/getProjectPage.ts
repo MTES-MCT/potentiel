@@ -12,13 +12,13 @@ import {
 } from '../helpers';
 import routes from '../../routes';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
-import { PermissionConsulterProjet } from '../../modules/project';
+import { PermissionConsulterProjet, ProjectDataForProjectPage } from '../../modules/project';
 import { mediator } from 'mediateur';
 import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Project } from '../../infra/sequelize';
 
-import { Abandon } from '@potentiel-domain/laureat';
+import { Abandon, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
 
@@ -140,10 +140,17 @@ v1Router.get(
         },
       });
 
+      let garantiesFinancières: ProjectDataForProjectPage['garantiesFinancières'] | undefined =
+        undefined;
+
+      if (projet.appelOffre.isSoumisAuxGF) {
+        garantiesFinancières = await getGarantiesFinancières(identifiantProjetValueType);
+      }
+
       return response.send(
         ProjectDetailsPage({
           request,
-          project: projet,
+          project: { ...projet, ...(garantiesFinancières && { garantiesFinancières }) },
           projectEventList: rawProjectEventList.value,
           alertesRaccordement,
           ...(abandon && { abandon }),
@@ -236,4 +243,42 @@ const getAlertesRaccordement = async ({
   }
 
   return alertes.length > 0 ? alertes : undefined;
+};
+
+const getGarantiesFinancières = async (
+  identifiantProjet: IdentifiantProjet.ValueType,
+): Promise<ProjectDataForProjectPage['garantiesFinancières']> => {
+  let garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel;
+  try {
+    garantiesFinancières =
+      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+        data: { identifiantProjetValue: identifiantProjet.formatter() },
+      });
+
+    const dépôtEnCours = garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours());
+
+    if (!garantiesFinancières || (!garantiesFinancières.actuelles && !dépôtEnCours)) {
+      return { garantiesFinancièresEnAttente: true };
+    }
+
+    return {
+      ...(garantiesFinancières.actuelles && {
+        actuelles: {
+          type: garantiesFinancières.actuelles.type.type,
+          dateÉchéance: garantiesFinancières.actuelles.dateÉchéance?.formatter(),
+          dateConstitution: garantiesFinancières.actuelles.dateConstitution!.formatter(),
+        },
+      }),
+      ...(dépôtEnCours && {
+        dépôtÀTraiter: {
+          type: dépôtEnCours.type.type,
+          dateÉchéance: dépôtEnCours.dateÉchéance?.formatter(),
+          dateConstitution: dépôtEnCours.dateConstitution!.formatter(),
+        },
+      }),
+    };
+  } catch (error) {
+    return { garantiesFinancièresEnAttente: true };
+  }
 };

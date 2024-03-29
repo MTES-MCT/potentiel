@@ -18,7 +18,7 @@ import {
   DétailsGarantiesFinancièresPage,
   DétailsGarantiesFinancièresPageProps,
 } from '@/components/pages/garanties-financières/détails/DétailsGarantiesFinancières.page';
-import { vérifierAppelOffreSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
+import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import { tryToGetResource } from '@/utils/tryToGetRessource';
 
@@ -43,7 +43,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       const projet = { ...candidature, identifiantProjet };
 
-      if (!vérifierAppelOffreSoumisAuxGarantiesFinancières(candidature.appelOffre)) {
+      const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
+        appelOffre: candidature.appelOffre,
+        famille: candidature.famille,
+      });
+
+      if (!soumisAuxGarantiesFinancières) {
         return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
       }
 

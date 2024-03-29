@@ -11,7 +11,7 @@ import {
   EnregistrerAttestationGarantiesFinancièresPage,
   EnregistrerAttestationGarantiesFinancièresProps,
 } from '@/components/pages/garanties-financières/actuelles/enregistrerAttestation/EnregistrerAttestationGarantiesFinancières.page';
-import { vérifierAppelOffreSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
+import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 
 export const metadata: Metadata = {
@@ -34,7 +34,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const projet = { ...candidature, identifiantProjet };
 
-    if (!vérifierAppelOffreSoumisAuxGarantiesFinancières(candidature.appelOffre)) {
+    const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
+      appelOffre: candidature.appelOffre,
+      famille: candidature.famille,
+    });
+
+    if (!soumisAuxGarantiesFinancières) {
       return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
     }
 

@@ -1,3 +1,4 @@
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { ResultAsync } from '../../../core/utils';
 import { ProjectAppelOffre, User } from '../../../entities';
 import { Permission } from '../../authN';
@@ -70,6 +71,8 @@ export type ProjectDataForProjectPage = {
   details: Record<string, any>;
 
   updatedAt?: Date;
+
+  garantiesFinancières?: GarantiesFinancièresForProjectPage;
 } & (IsNotified | IsNotNotified) &
   (IsClasse | IsElimine | IsAbandoned);
 
@@ -117,4 +120,18 @@ type NotesInnovation = {
   qualitéTechnique: string;
   adéquationAmbitionsIndustrielles: string;
   aspectsEnvironnementauxEtSociaux: string;
+};
+
+export type GarantiesFinancièresForProjectPage = {
+  garantiesFinancièresEnAttente?: true;
+  actuelles?: {
+    type: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+    dateConstitution: string;
+    dateÉchéance?: string;
+  };
+  dépôtÀTraiter?: {
+    type: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+    dateConstitution: string;
+    dateÉchéance?: string;
+  };
 };

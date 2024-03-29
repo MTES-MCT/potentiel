@@ -8,7 +8,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { vérifierAppelOffreSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
+import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import {
   EnregistrerGarantiesFinancièresPage,
@@ -36,7 +36,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const projet = { ...candidature, identifiantProjet };
 
-    if (!vérifierAppelOffreSoumisAuxGarantiesFinancières(candidature.appelOffre)) {
+    const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
+      appelOffre: candidature.appelOffre,
+      famille: candidature.famille,
+    });
+
+    if (!soumisAuxGarantiesFinancières) {
       return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
     }
 
