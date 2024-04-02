@@ -29,7 +29,7 @@ export type ListerDépôtsEnCoursGarantiesFinancièresPort = (args: {
 type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
-  régionProjet: ReadonlyArray<string>;
+  régionProjet: string;
   appelOffre: string;
   période: string;
   famille?: string;
@@ -68,12 +68,13 @@ export type ListerDépôtsEnCoursGarantiesFinancièresQuery = Message<
 >;
 
 export type ListerDépôtsEnCoursGarantiesFinancièresDependencies = {
+  list: List;
   listerDépôtsEnCoursGarantiesFinancières: ListerDépôtsEnCoursGarantiesFinancièresPort;
   récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
-  listerDépôtsEnCoursGarantiesFinancières,
+  list,
   récupérerRégionDreal,
 }: ListerDépôtsEnCoursGarantiesFinancièresDependencies) => {
   const handler: MessageHandler<ListerDépôtsEnCoursGarantiesFinancièresQuery> = async ({
@@ -94,12 +95,13 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
 
     const where = {
       ...(appelOffre && { appelOffre }),
+      ...(région && { régionProjet: région }),
     };
 
-    const result = await listerDépôtsEnCoursGarantiesFinancières({
+    const result = await list<DépôtEnCoursGarantiesFinancièresEntity>({
+      type: 'depot-en-cours-garanties-financieres',
       where,
       pagination,
-      région,
     });
 
     return {

@@ -94,7 +94,7 @@ const mapToListProps = (
       misÀJourLe: dernièreMiseÀJour.date.formatter(),
       type: getGarantiesFinancièresTypeLabel(type.type),
       dateÉchéance: dateÉchéance?.formatter(),
-      régionProjet: régionProjet.join(' / '),
+      régionProjet,
     }),
   );
 
