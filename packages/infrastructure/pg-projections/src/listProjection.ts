@@ -1,8 +1,8 @@
-import { executeSelect } from '@potentiel-librairies/pg-helpers';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { KeyValuePair } from './keyValuePair';
 import format from 'pg-format';
 import { Entity, ListOptions, ListResult } from '@potentiel-domain/core';
-import { unflatten } from '@potentiel-librairies/flat-cjs';
+import { unflatten } from '@potentiel-libraries/flat-cjs';
 
 const selectQuery = 'select key, value from domain_views.projection where key like $1';
 

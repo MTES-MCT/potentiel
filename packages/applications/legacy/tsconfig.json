@@ -28,7 +28,7 @@
   ],
   "references": [
     {
-      "path": "../../domain-inmemory-referential"
+      "path": "../../domain/inmemory-referential"
     },
     {
       "path": "../../libraries/monitoring"
@@ -37,7 +37,7 @@
       "path": "../../infrastructure/pg-event-sourcing"
     },
     {
-      "path": "../../libraries/routes"
+      "path": "../routes"
     },
     {
       "path": "../../domain/common"

@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
-import { Option } from '@potentiel-librairies/monads';
+import { Option } from '@potentiel-libraries/monads';
 import {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,

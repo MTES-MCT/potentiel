@@ -5,9 +5,9 @@ import {
 } from '../../../../modules/project';
 import { BuildingIcon, Heading3, Link, Section, WarningIcon } from '../../../components';
 import { UserRole } from '../../../../modules/users';
+import { Routes } from '@potentiel-applications/routes';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 import { afficherDate } from '../../../helpers';
-import { Routes } from '@potentiel-libraries/routes';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 

@@ -1,5 +1,5 @@
 import format from 'pg-format';
-import { executeSelect } from '@potentiel-librairies/pg-helpers';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { Abandon } from '@potentiel-domain/laureat';
 
 const countAbandonsQuery = `

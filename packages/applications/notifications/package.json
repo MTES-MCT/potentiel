@@ -1,0 +1,24 @@
+{
+  "name": "@potentiel-applications/notifications",
+  "version": "0.0.0",
+  "description": "Potentiel notifications",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@potentiel-domain/laureat": "*",
+    "@potentiel-infrastructure/pg-event-sourcing": "*",
+    "@potentiel-infrastructure/domain-adapters": "*",
+    "@potentiel-libraries/monitoring": "*",
+    "@potentiel-applications/routes": "*",
+    "mediateur": "^0.1.0",
+    "node-mailjet": "^6.0.4"
+  },
+  "devDependencies": {
+    "@types/node-mailjet": "^3.3.9",
+    "@potentiel-config/tsconfig": "*"
+  }
+}

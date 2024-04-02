@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@potentiel-domain/core": "*",
-    "@potentiel-librairies/pg-helpers": "*",
+    "@potentiel-libraries/pg-helpers": "*",
     "flat": "^6.0.1",
     "pg-format": "^1.0.4"
   },

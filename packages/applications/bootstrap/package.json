@@ -17,11 +17,11 @@
     "@potentiel-domain/tache": "*",
     "@potentiel-infrastructure/document-builder": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-infrastructure/projectors": "*",
+    "@potentiel-applications/projectors": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projections": "*",
-    "@potentiel-infrastructure/notifications": "*",
-    "@potentiel-librairies/pg-helpers": "*",
+    "@potentiel-applications/notifications": "*",
+    "@potentiel-libraries/pg-helpers": "*",
     "mediateur": "^0.1.0"
   },
   "devDependencies": {

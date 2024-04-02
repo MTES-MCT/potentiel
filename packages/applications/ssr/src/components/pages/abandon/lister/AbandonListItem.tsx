@@ -2,7 +2,7 @@ import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
 import { Abandon } from '@potentiel-domain/laureat';
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 import { StatutAbandonBadge } from '../StatutAbandonBadge';
 import { StatutPreuveRecandidatureBadge } from '../détails/PreuveRecandidatureStatutBadge';
