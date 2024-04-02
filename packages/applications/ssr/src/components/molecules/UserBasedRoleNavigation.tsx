@@ -22,7 +22,7 @@ const menuLinks = {
     listerDépôtsEnCours: {
       text: 'Garanties financières en cours',
       linkProps: {
-        href: process.env.FEATURE_FLAG_GARANTIES_FINANCIERES
+        href: process.env.FEATURE_FLAG_SHOW_GARANTIES_FINANCIERES
           ? Routes.GarantiesFinancières.dépôt.lister
           : '/admin/garanties-financieres.html',
       },
