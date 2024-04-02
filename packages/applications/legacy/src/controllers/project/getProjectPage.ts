@@ -143,7 +143,7 @@ v1Router.get(
       let garantiesFinancières: ProjectDataForProjectPage['garantiesFinancières'] | undefined =
         undefined;
 
-      if (projet.appelOffre.isSoumisAuxGF) {
+      if (projet.appelOffre.isSoumisAuxGF && process.env.FEATURE_FLAG_SHOW_GARANTIES_FINANCIERES) {
         garantiesFinancières = await getGarantiesFinancières(identifiantProjetValueType);
       }
 

@@ -11,8 +11,6 @@ import { afficherDate } from '../../../helpers';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-const { FEATURE_FLAG_SHOW_GARANTIES_FINANCIERES } = process.env;
-
 type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
   role: UserRole;
@@ -43,7 +41,6 @@ export const InfoGenerales = ({
     puissance < appelOffre.periode.noteThreshold.volumeReserve.puissanceMax;
 
   const shouldDisplayGf =
-    FEATURE_FLAG_SHOW_GARANTIES_FINANCIERES &&
     isClasse &&
     !isAbandoned &&
     [
@@ -60,7 +57,7 @@ export const InfoGenerales = ({
 
   return (
     <Section title="Informations générales" icon={<BuildingIcon />} className="flex gap-5 flex-col">
-      {shouldDisplayGf && garantiesFinancières && (
+      {garantiesFinancières && shouldDisplayGf && (
         <GarantiesFinancièresProjet
           garantiesFinancières={garantiesFinancières}
           project={{
