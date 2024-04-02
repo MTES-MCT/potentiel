@@ -22,7 +22,9 @@ const menuLinks = {
     listerDépôtsEnCours: {
       text: 'Garanties financières en cours',
       linkProps: {
-        href: Routes.GarantiesFinancières.dépôt.lister,
+        href: process.env.FEATURE_FLAG_GARANTIES_FINANCIERES
+          ? Routes.GarantiesFinancières.dépôt.lister
+          : '/admin/garanties-financieres.html',
       },
     },
   },
@@ -189,12 +191,6 @@ const getNavigationItemsBasedOnRole = (
         {
           text: 'Garanties Financières',
           menuLinks: [menuLinks.garantiesFinancières.listerDépôtsEnCours],
-        },
-        {
-          text: 'Garanties Financières',
-          linkProps: {
-            href: '/admin/garanties-financieres.html',
-          },
         },
       ];
     case 'porteur-projet':
