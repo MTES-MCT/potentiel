@@ -37,6 +37,7 @@
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-domain/laureat": "*",
     "@potentiel-domain/reseau": "*",
+    "@potentiel-applications/feature-flags": "*",
     "aws-sdk": "^2.1450.0",
     "cookie-parser": "^1.4.6",
     "connect-session-sequelize": "^7.1.7",

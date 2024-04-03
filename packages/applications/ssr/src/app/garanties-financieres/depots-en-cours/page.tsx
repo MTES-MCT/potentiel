@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { featureFlags } from '@potentiel-applications/feature-flags';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import {
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ searchParams }: PageProps) {
-  if (!process.env.FEATURE_FLAG_SHOW_GARANTIES_FINANCIERES) {
+  if (!featureFlags.SHOW_GARANTIES_FINANCIERES) {
     return notFound();
   }
 
