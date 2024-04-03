@@ -211,7 +211,7 @@ export const AdminNotificationCandidats = ({
           <>
             {
               <div className="mb-7 font-bold">
-                {classement !== 'default' && `${classement}  : `}
+                {classement === 'classés' || classement === 'éliminés' ? `${classement}  : ` : ''}
                 {données.projetsPériodeSélectionnée.itemCount}
                 {données.projetsPériodeSélectionnée.itemCount > 1 ? ' projets' : ' projet'}
               </div>
