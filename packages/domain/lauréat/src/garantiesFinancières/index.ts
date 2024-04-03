@@ -10,7 +10,6 @@ import { ModifierDépôtGarantiesFinancièresEnCoursUseCase } from './dépôt/mo
 import {
   ListerDépôtsEnCoursGarantiesFinancièresQuery,
   ListerDépôtsEnCoursGarantiesFinancièresReadModel,
-  ListerDépôtsEnCoursGarantiesFinancièresPort,
 } from './dépôt/lister/listerDépôtsEnCoursGarantiesFinancières.query';
 
 import { ImporterTypeGarantiesFinancièresUseCase } from './importer/importerTypeGarantiesFinancières.usecase';
@@ -78,6 +77,3 @@ export * as StatutDépôtGarantiesFinancières from './statutDépôtGarantiesFin
 // Projections
 export * from './garantiesFinancières.entity';
 export * from './dépôtEnCoursGarantiesFinancières.entity';
-
-// Ports
-export { ListerDépôtsEnCoursGarantiesFinancièresPort };
