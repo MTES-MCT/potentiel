@@ -5,9 +5,14 @@ import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Routes } from '@potentiel-applications/routes';
 
-const routeListeGarantiesFinancières = process.env.FEATURE_FLAG_SHOW_GARANTIES_FINANCIERES
-  ? Routes.GarantiesFinancières.dépôt.lister
-  : routes.ADMIN_GARANTIES_FINANCIERES;
+const routeListeGarantiesFinancières =
+  /** &&
+   * @todo check feature flag
+   *
+   * featureFlag ? Routes.GarantiesFinancières.dépôt.lister : routes.ADMIN_GARANTIES_FINANCIERES
+   */
+
+  routes.ADMIN_GARANTIES_FINANCIERES;
 
 export const UserNavigation = ({
   user,
