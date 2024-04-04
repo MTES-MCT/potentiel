@@ -21,6 +21,7 @@
     "@emotion/styled": "*",
     "@mui/lab": "*",
     "@mui/material": "*",
+    "@potentiel-applications/feature-flags": "*",
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/candidature": "*",
     "@potentiel-domain/document": "*",

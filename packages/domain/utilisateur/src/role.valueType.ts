@@ -444,67 +444,69 @@ const policies = {
     ],
   },
   garantiesFinancières: {
-    consulter: {
-      détail: [
-        référencielPermissions.appelOffre.query.consulter,
-        référencielPermissions.lauréat.garantiesFinancières.query.consulter,
+    consulter: [
+      référencielPermissions.appelOffre.query.consulter,
+      référencielPermissions.lauréat.garantiesFinancières.query.consulter,
+    ],
+    dépôt: {
+      demander: [
+        référencielPermissions.lauréat.garantiesFinancières.usecase.demander,
+        référencielPermissions.lauréat.garantiesFinancières.command.demander,
       ],
-      liste: [
+      soumettre: [
+        référencielPermissions.candidature.query.consulter,
+        référencielPermissions.appelOffre.query.consulter,
+        référencielPermissions.lauréat.garantiesFinancières.usecase.soumettre,
+        référencielPermissions.lauréat.garantiesFinancières.command.soumettre,
+        référencielPermissions.document.command.enregister,
+      ],
+      valider: [
+        référencielPermissions.lauréat.garantiesFinancières.usecase.valider,
+        référencielPermissions.lauréat.garantiesFinancières.command.valider,
+        référencielPermissions.document.command.déplacer,
+      ],
+      supprimer: [
+        référencielPermissions.lauréat.garantiesFinancières.usecase
+          .supprimerGarantiesFinancièresÀTraiter,
+        référencielPermissions.lauréat.garantiesFinancières.command
+          .supprimerGarantiesFinancièresÀTraiter,
+      ],
+      modifier: [
+        référencielPermissions.appelOffre.query.consulter,
+        référencielPermissions.lauréat.garantiesFinancières.usecase
+          .modifierGarantiesFinancièresÀTraiter,
+        référencielPermissions.lauréat.garantiesFinancières.command
+          .modifierGarantiesFinancièresÀTraiter,
+        référencielPermissions.document.command.enregister,
+      ],
+      lister: [
         référencielPermissions.lauréat.garantiesFinancières.query.listerDépôtsEnCours,
         référencielPermissions.appelOffre.query.lister,
       ],
     },
-    demander: [
-      référencielPermissions.lauréat.garantiesFinancières.usecase.demander,
-      référencielPermissions.lauréat.garantiesFinancières.command.demander,
-    ],
-    soumettre: [
-      référencielPermissions.candidature.query.consulter,
-      référencielPermissions.appelOffre.query.consulter,
-      référencielPermissions.lauréat.garantiesFinancières.usecase.soumettre,
-      référencielPermissions.lauréat.garantiesFinancières.command.soumettre,
-      référencielPermissions.document.command.enregister,
-    ],
-    valider: [
-      référencielPermissions.lauréat.garantiesFinancières.usecase.valider,
-      référencielPermissions.lauréat.garantiesFinancières.command.valider,
-      référencielPermissions.document.command.déplacer,
-    ],
-    'supprimer-dépôt-garanties-financières-en-cours': [
-      référencielPermissions.lauréat.garantiesFinancières.usecase
-        .supprimerGarantiesFinancièresÀTraiter,
-      référencielPermissions.lauréat.garantiesFinancières.command
-        .supprimerGarantiesFinancièresÀTraiter,
-    ],
-    'modifier-dépôt-garanties-financières-en-cours': [
-      référencielPermissions.appelOffre.query.consulter,
-      référencielPermissions.lauréat.garantiesFinancières.usecase
-        .modifierGarantiesFinancièresÀTraiter,
-      référencielPermissions.lauréat.garantiesFinancières.command
-        .modifierGarantiesFinancièresÀTraiter,
-      référencielPermissions.document.command.enregister,
-    ],
-    importer: [
-      référencielPermissions.lauréat.garantiesFinancières.usecase.importerType,
-      référencielPermissions.lauréat.garantiesFinancières.command.importerType,
-    ],
-    modifier: [
-      référencielPermissions.appelOffre.query.consulter,
-      référencielPermissions.document.command.enregister,
-      référencielPermissions.lauréat.garantiesFinancières.usecase.modifier,
-      référencielPermissions.lauréat.garantiesFinancières.command.modifier,
-    ],
-    enregistrerAttestation: [
-      référencielPermissions.appelOffre.query.consulter,
-      référencielPermissions.document.command.enregister,
-      référencielPermissions.lauréat.garantiesFinancières.usecase.enregistrerAttestation,
-      référencielPermissions.lauréat.garantiesFinancières.command.enregistrerAttestation,
-    ],
-    enregistrer: [
-      référencielPermissions.document.command.enregister,
-      référencielPermissions.lauréat.garantiesFinancières.usecase.enregistrer,
-      référencielPermissions.lauréat.garantiesFinancières.command.enregistrer,
-    ],
+    actuelles: {
+      importer: [
+        référencielPermissions.lauréat.garantiesFinancières.usecase.importerType,
+        référencielPermissions.lauréat.garantiesFinancières.command.importerType,
+      ],
+      modifier: [
+        référencielPermissions.appelOffre.query.consulter,
+        référencielPermissions.document.command.enregister,
+        référencielPermissions.lauréat.garantiesFinancières.usecase.modifier,
+        référencielPermissions.lauréat.garantiesFinancières.command.modifier,
+      ],
+      enregistrerAttestation: [
+        référencielPermissions.appelOffre.query.consulter,
+        référencielPermissions.document.command.enregister,
+        référencielPermissions.lauréat.garantiesFinancières.usecase.enregistrerAttestation,
+        référencielPermissions.lauréat.garantiesFinancières.command.enregistrerAttestation,
+      ],
+      enregistrer: [
+        référencielPermissions.document.command.enregister,
+        référencielPermissions.lauréat.garantiesFinancières.usecase.enregistrer,
+        référencielPermissions.lauréat.garantiesFinancières.command.enregistrer,
+      ],
+    },
   },
 };
 
@@ -534,15 +536,15 @@ const permissionAdmin = [
   ...policies.réseau.raccordement['référence-dossier'].modifier,
 
   // Garanties financières
-  ...policies.garantiesFinancières.consulter.détail,
-  ...policies.garantiesFinancières.consulter.liste,
-  ...policies.garantiesFinancières.demander,
-  ...policies.garantiesFinancières.valider,
-  ...policies.garantiesFinancières['modifier-dépôt-garanties-financières-en-cours'],
-  ...policies.garantiesFinancières.importer,
-  ...policies.garantiesFinancières.modifier,
-  ...policies.garantiesFinancières.enregistrerAttestation,
-  ...policies.garantiesFinancières.enregistrer,
+  ...policies.garantiesFinancières.consulter,
+  ...policies.garantiesFinancières.dépôt.lister,
+  ...policies.garantiesFinancières.dépôt.demander,
+  ...policies.garantiesFinancières.dépôt.valider,
+  ...policies.garantiesFinancières.dépôt.modifier,
+  ...policies.garantiesFinancières.actuelles.importer,
+  ...policies.garantiesFinancières.actuelles.modifier,
+  ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
+  ...policies.garantiesFinancières.actuelles.enregistrer,
 ];
 
 const permissionCRE = [
@@ -554,10 +556,10 @@ const permissionCRE = [
   ...policies.réseau.raccordement.consulter,
 
   // Garanties financières
-  ...policies.garantiesFinancières.consulter.détail,
-  ...policies.garantiesFinancières.modifier,
-  ...policies.garantiesFinancières.enregistrerAttestation,
-  ...policies.garantiesFinancières.enregistrer,
+  ...policies.garantiesFinancières.consulter,
+  ...policies.garantiesFinancières.actuelles.modifier,
+  ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
+  ...policies.garantiesFinancières.actuelles.enregistrer,
 ];
 
 const permissionDreal = [
@@ -569,14 +571,14 @@ const permissionDreal = [
   ...policies.réseau.raccordement.consulter,
 
   // Garanties financières
-  ...policies.garantiesFinancières.consulter.détail,
-  ...policies.garantiesFinancières.consulter.liste,
-  ...policies.garantiesFinancières.demander,
-  ...policies.garantiesFinancières.valider,
-  ...policies.garantiesFinancières['modifier-dépôt-garanties-financières-en-cours'],
-  ...policies.garantiesFinancières.modifier,
-  ...policies.garantiesFinancières.enregistrerAttestation,
-  ...policies.garantiesFinancières.enregistrer,
+  ...policies.garantiesFinancières.consulter,
+  ...policies.garantiesFinancières.dépôt.lister,
+  ...policies.garantiesFinancières.dépôt.demander,
+  ...policies.garantiesFinancières.dépôt.valider,
+  ...policies.garantiesFinancières.dépôt.modifier,
+  ...policies.garantiesFinancières.actuelles.modifier,
+  ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
+  ...policies.garantiesFinancières.actuelles.enregistrer,
 ];
 
 const permissionDgecValidateur = [
@@ -606,14 +608,14 @@ const permissionDgecValidateur = [
   ...policies.réseau.raccordement['référence-dossier'].modifier,
 
   // Garanties financières
-  ...policies.garantiesFinancières.consulter.détail,
-  ...policies.garantiesFinancières.consulter.liste,
-  ...policies.garantiesFinancières.demander,
-  ...policies.garantiesFinancières.valider,
-  ...policies.garantiesFinancières.importer,
-  ...policies.garantiesFinancières.modifier,
-  ...policies.garantiesFinancières.enregistrerAttestation,
-  ...policies.garantiesFinancières.enregistrer,
+  ...policies.garantiesFinancières.consulter,
+  ...policies.garantiesFinancières.dépôt.lister,
+  ...policies.garantiesFinancières.dépôt.demander,
+  ...policies.garantiesFinancières.dépôt.valider,
+  ...policies.garantiesFinancières.actuelles.importer,
+  ...policies.garantiesFinancières.actuelles.modifier,
+  ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
+  ...policies.garantiesFinancières.actuelles.enregistrer,
 ];
 
 const permissionPorteurProjet = [
@@ -638,28 +640,28 @@ const permissionPorteurProjet = [
   ...policies.tâche.consulter,
 
   // Garanties financières
-  ...policies.garantiesFinancières.consulter.détail,
-  ...policies.garantiesFinancières.demander,
-  ...policies.garantiesFinancières.valider,
-  ...policies.garantiesFinancières.soumettre,
-  ...policies.garantiesFinancières['supprimer-dépôt-garanties-financières-en-cours'],
-  ...policies.garantiesFinancières['modifier-dépôt-garanties-financières-en-cours'],
-  ...policies.garantiesFinancières.enregistrerAttestation,
+  ...policies.garantiesFinancières.consulter,
+  ...policies.garantiesFinancières.dépôt.demander,
+  ...policies.garantiesFinancières.dépôt.valider,
+  ...policies.garantiesFinancières.dépôt.soumettre,
+  ...policies.garantiesFinancières.dépôt.supprimer,
+  ...policies.garantiesFinancières.dépôt.modifier,
+  ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
 ];
 
 const permissionAcheteurObligé = [
   ...policies.réseau.raccordement.consulter,
 
   // Garanties financières
-  ...policies.garantiesFinancières.consulter.détail,
+  ...policies.garantiesFinancières.consulter,
 ];
 
 const permissionCaisseDesDépôts = [
   // Garanties financières
-  ...policies.garantiesFinancières.consulter.détail,
-  ...policies.garantiesFinancières.modifier,
-  ...policies.garantiesFinancières.enregistrerAttestation,
-  ...policies.garantiesFinancières.enregistrer,
+  ...policies.garantiesFinancières.consulter,
+  ...policies.garantiesFinancières.actuelles.modifier,
+  ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
+  ...policies.garantiesFinancières.actuelles.enregistrer,
 ];
 
 const permissions: Record<RawType, string[]> = {

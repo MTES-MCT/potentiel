@@ -49,6 +49,6 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
 
 v1Router.get(
   routes.ADMIN_GARANTIES_FINANCIERES,
-  ensureRole(['dreal']),
+  ensureRole(['dreal', 'dgec-validateur', 'admin']),
   getGarantiesFinancieresPage,
 );

@@ -30,6 +30,7 @@
     "./packages/applications/scheduled-tasks",
     "./packages/applications/notifications",
     "./packages/applications/projectors",
+    "./packages/applications/feature-flags/",
     "./packages/applications/bootstrap",
     "./packages/applications/ssr",
     "./packages/applications/legacy",
