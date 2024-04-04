@@ -30,7 +30,7 @@
     "@react-pdf/renderer": "^3.1.13",
     "@sentry/node": "^7.66.0",
     "@keycloak/keycloak-admin-client": "^23.0.4",
-    "@potentiel/domain-inmemory-referential": "*",
+    "@potentiel-domain/inmemory-referential": "*",
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-applications/routes": "*",

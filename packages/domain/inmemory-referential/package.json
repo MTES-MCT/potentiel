@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel/domain-inmemory-referential",
+  "name": "@potentiel-domain/inmemory-referential",
   "version": "0.0.0",
   "description": "Domain in memory referential package",
   "main": "dist/index.js",
