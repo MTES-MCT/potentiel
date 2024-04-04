@@ -4,7 +4,7 @@ import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useRouter } from 'next/navigation';
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 import { formatDateForInput } from '@/utils/formatDateForInput';
 import { Form } from '@/components/atoms/form/Form';

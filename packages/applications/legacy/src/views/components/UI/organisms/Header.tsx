@@ -19,7 +19,7 @@ import {
   TasksDone,
 } from '../..';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 type HeaderProps = {
   user?: UtilisateurReadModel;

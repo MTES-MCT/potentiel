@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';

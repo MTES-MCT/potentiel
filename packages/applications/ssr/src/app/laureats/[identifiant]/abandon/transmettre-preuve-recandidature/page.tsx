@@ -7,7 +7,7 @@ import {
   ListerCandidaturesEligiblesPreuveRecanditureQuery,
 } from '@potentiel-domain/candidature';
 import { Abandon } from '@potentiel-domain/laureat';
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 import {
   TransmettrePreuveRecandidaturePage,

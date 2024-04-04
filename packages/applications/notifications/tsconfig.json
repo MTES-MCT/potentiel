@@ -15,7 +15,7 @@
       "path": "../../infrastructure/pg-event-sourcing"
     },
     {
-      "path": "../../libraries/routes"
+      "path": "../routes"
     }
   ]
 }

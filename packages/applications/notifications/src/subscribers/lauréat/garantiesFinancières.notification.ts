@@ -8,7 +8,7 @@ import {
   récupérerDrealsParIdentifiantProjetAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 import { sendEmail } from '../../infrastructure/sendEmail';
 
 export type SubscriptionEvent = GarantiesFinancières.GarantiesFinancièresEvent & Event;
