@@ -70,10 +70,14 @@ const porteurProjetActions = (project: {
   }
   actions.push(
     ...[
-      {
-        title: 'Demander un délai',
-        link: ROUTES.DEMANDER_DELAI(project.id),
-      },
+      ...(project.appelOffre?.typeAppelOffre !== 'biométhane'
+        ? [
+            {
+              title: 'Demander un délai',
+              link: ROUTES.DEMANDER_DELAI(project.id),
+            },
+          ]
+        : []),
       ...(project.appelOffre?.changementProducteurPossibleAvantAchèvement
         ? [
             {

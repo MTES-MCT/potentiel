@@ -12,10 +12,10 @@ export const biométhanePPE2: AppelOffre = {
   unitePuissance: 'GWh PCS/an',
   delaiRealisationEnMois: 36,
   delaiRealisationTexte: 'trente six (36) mois',
-  autoritéCompétenteDemandesDélai: 'dreal', // Pas de demandes de délais ?
+  autoritéCompétenteDemandesDélai: 'dreal',
   decoupageParTechnologie: false,
   paragraphePrixReference: '7',
-  paragrapheDelaiDerogatoire: '6.2', // Pas de demandes de délais ?
+  paragrapheDelaiDerogatoire: '6.2',
   paragrapheAttestationConformite: '6.4',
   paragrapheEngagementIPFPGPFC: '3.3.10, 4.3 et 6.5',
   afficherParagrapheInstallationMiseEnServiceModification: true,
@@ -47,11 +47,6 @@ export const biométhanePPE2: AppelOffre = {
       référenceParagraphe: '5.7',
       dispositions: `Les modifications de la Production annuelle prévisionnelle de l’Installation sont autorisées, sous réserve que la Production annuelle prévisionnelle de l’Installation modifiée soit comprise entre quatre-vingts pourcents (80 %) et cent vingt pourcents (120 %) de la Production annuelle prévisionnelle indiquée dans l’offre, dans la limite du plafond de Production annuelle prévisionnelle de 50 GWh PCS/an spécifié au paragraphe 1.2.2 pour le cas d'une offre entrant dans le volume réservé. Elles doivent faire l’objet d’une information au Préfet.`,
     },
-    // Pas de demandes de délais ???
-    // texteDélaisDAchèvement: {
-    //   référenceParagraphe: "",
-    //   dispositions: ``,
-    // },
   },
   periodes: [
     {
@@ -77,5 +72,3 @@ export const biométhanePPE2: AppelOffre = {
   ],
   familles: [],
 };
-
-// Cloisonner les appels d'offres : fonctionnalités, accès, ...

@@ -76,9 +76,11 @@ const PorteurProjetActions = ({
 
       {project.isClasse && (
         <DropdownMenuSecondaryButton buttonChildren="Faire une demande" className="w-fit">
-          <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
-            <span>Demander un délai</span>
-          </DropdownMenuSecondaryButton.DropdownItem>
+          {project.appelOffre.typeAppelOffre !== 'biométhane' && (
+            <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
+              <span>Demander un délai</span>
+            </DropdownMenuSecondaryButton.DropdownItem>
+          )}
           {project.appelOffre.changementProducteurPossibleAvantAchèvement && (
             <DropdownMenuSecondaryButton.DropdownItem
               href={routes.GET_CHANGER_PRODUCTEUR(project.id)}
