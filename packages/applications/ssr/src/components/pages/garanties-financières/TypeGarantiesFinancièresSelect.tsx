@@ -12,9 +12,7 @@ export type TypeGarantiesFinancièresSelectProps = {
   label?: string;
   disabled?: true;
   validationErrors: Array<string>;
-  typeGarantiesFinancièresActuel?:
-    | GarantiesFinancières.TypeGarantiesFinancières.RawType
-    | 'type-inconnu';
+  typeGarantiesFinancièresActuel?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
   dateÉchéanceActuelle?: string;
   typesGarantiesFinancières: Array<{
     label: string;

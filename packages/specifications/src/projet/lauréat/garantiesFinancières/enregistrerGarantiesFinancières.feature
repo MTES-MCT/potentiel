@@ -49,7 +49,7 @@ Fonctionnalité: Enregistrer des garanties financières validées
 
     Scénario: Erreur s'il y a déjà des garanties financières validées 
         Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
-            | type                 | type-inconnu           |
+            | type                 |                        |
             | date d'échéance      |                        |
             | format               | application/pdf        |
             | contenu fichier      | contenu fichier 1      |

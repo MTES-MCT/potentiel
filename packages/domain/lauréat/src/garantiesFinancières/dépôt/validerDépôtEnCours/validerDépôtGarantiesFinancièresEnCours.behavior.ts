@@ -44,7 +44,7 @@ export function applyDépôtGarantiesFinancièresEnCoursValidé(
   { payload: { validéLe } }: DépôtGarantiesFinancièresEnCoursValidéEvent,
 ) {
   this.actuelles = {
-    type: this.dépôtEnCours ? this.dépôtEnCours.type : 'type-inconnu',
+    ...(this.dépôtEnCours?.type && { type: this.dépôtEnCours.type }),
     ...(this.dépôtEnCours &&
       this.dépôtEnCours.dateÉchéance && { dateÉchéance: this.dépôtEnCours!.dateÉchéance }),
     dateConstitution: this.dépôtEnCours!.dateConstitution,
