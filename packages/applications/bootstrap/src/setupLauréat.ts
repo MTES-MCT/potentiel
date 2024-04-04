@@ -5,10 +5,7 @@ import {
   AbandonNotification,
   GarantiesFinancièresNotification,
 } from '@potentiel-infrastructure/notifications';
-import {
-  AbandonProjector,
-  GarantiesFinancièreProjector,
-} from '@potentiel-infrastructure/projectors';
+import { AbandonProjector, GarantiesFinancièreProjector } from '@potentiel-application/projectors';
 import { mediator } from 'mediateur';
 import {
   consulterCahierDesChargesChoisiAdapter,

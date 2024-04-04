@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel-infrastructure/projectors",
+  "name": "@potentiel-application/projectors",
   "version": "0.0.0",
   "description": "Potentiel projectors",
   "main": "dist/index.js",
