@@ -13,6 +13,9 @@ import {
   ArrowRightIcon,
   SecondaryLinkButton,
   PageListeTemplate,
+  Dialog,
+  SecondaryButton,
+  Heading2,
 } from '../components';
 import { ProjectListItem } from '../../modules/project/queries';
 import ROUTES from '../../routes';
@@ -51,6 +54,8 @@ export const AdminNotificationCandidats = ({
   const hasFilters = !!(classement || recherche || appelOffreId || periodeId);
 
   const [formOpen, setFormOpen] = useState(true);
+
+  const [isConfirmationOpened, openConfirmationDialog] = useState(false);
 
   return (
     <PageListeTemplate
@@ -107,7 +112,7 @@ export const AdminNotificationCandidats = ({
         </Form>
       </PageListeTemplate.TopBar>
       <PageListeTemplate.SideBar open={formOpen}>
-        <Form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post">
+        <Form id="form-notifier-candidats" action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post">
           <div>
             <Label htmlFor="appelOffreId">Appel d'offres concerné</Label>
             <Select
@@ -176,7 +181,11 @@ export const AdminNotificationCandidats = ({
                     defaultValue={afficherDate(new Date())}
                   />
                 </div>
-                <PrimaryButton type="submit" name="submit" id="submit" className="mt-2">
+                <PrimaryButton
+                  type="button"
+                  onClick={() => openConfirmationDialog(true)}
+                  className="mt-2"
+                >
                   Notifier tous les candidats de la période
                 </PrimaryButton>
               </>
@@ -240,6 +249,30 @@ export const AdminNotificationCandidats = ({
                   : undefined
               }
             />
+            <Dialog open={isConfirmationOpened}>
+              <Heading2>Notifier la période ?</Heading2>
+              <p>
+                Confirmez-vous la notification des candidats de la période{' '}
+                {données.périodeSélectionnée} de l'appel d'offres{' '}
+                <span className="font-bold">{données.AOSélectionné}</span> ?
+              </p>
+              <p>
+                Si vous confirmez, les candidats seront notifiés sans retour en arrière possible.
+              </p>
+
+              <ul className="flex flex-row-reverse justify-start gap-4 list-none">
+                <li>
+                  <PrimaryButton form="form-notifier-candidats" type="submit">
+                    Notifier
+                  </PrimaryButton>
+                </li>
+                <li>
+                  <SecondaryButton type="button" onClick={() => openConfirmationDialog(false)}>
+                    Annuler
+                  </SecondaryButton>
+                </li>
+              </ul>
+            </Dialog>
           </>
         ) : (
           <ListeVide titre="Aucun candidat à notifier" />
