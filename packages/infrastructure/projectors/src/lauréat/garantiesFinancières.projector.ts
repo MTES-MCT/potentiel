@@ -49,7 +49,7 @@ export const register = () => {
         appelOffre: '',
         période: '',
         famille: undefined,
-        régionProjet: [],
+        régionProjet: '',
         actuelles: undefined,
         dépôts: [],
       };
@@ -63,7 +63,7 @@ export const register = () => {
         appelOffre: '',
         période: '',
         famille: undefined,
-        régionProjet: [],
+        régionProjet: '',
         dépôt: {
           type: '',
           dateÉchéance: '',
@@ -107,7 +107,7 @@ export const register = () => {
           appelOffre: Option.isSome(projet) ? projet.appelOffre : `N/A`,
           période: Option.isSome(projet) ? projet.période : `N/A`,
           famille: Option.isSome(projet) ? projet.famille : undefined,
-          régionProjet: Option.isSome(projet) ? [...projet.localité.région.split(' / ')] : [],
+          régionProjet: Option.isSome(projet) ? projet.localité.région : '',
         };
       };
 

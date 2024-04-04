@@ -9,27 +9,12 @@ import {
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantUtilisateur, Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-librairies/monads';
-
-export type ListerDépôtsEnCoursGarantiesFinancièresPort = (args: {
-  where: {
-    appelOffre?: string;
-  };
-  pagination: {
-    page: number;
-    itemsPerPage: number;
-  };
-  région?: string;
-}) => Promise<{
-  items: ReadonlyArray<DépôtEnCoursGarantiesFinancièresEntity>;
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
-}>;
+import { List } from '@potentiel-domain/core';
 
 type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
-  régionProjet: ReadonlyArray<string>;
+  régionProjet: string;
   appelOffre: string;
   période: string;
   famille?: string;
@@ -68,12 +53,12 @@ export type ListerDépôtsEnCoursGarantiesFinancièresQuery = Message<
 >;
 
 export type ListerDépôtsEnCoursGarantiesFinancièresDependencies = {
-  listerDépôtsEnCoursGarantiesFinancières: ListerDépôtsEnCoursGarantiesFinancièresPort;
+  list: List;
   récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
-  listerDépôtsEnCoursGarantiesFinancières,
+  list,
   récupérerRégionDreal,
 }: ListerDépôtsEnCoursGarantiesFinancièresDependencies) => {
   const handler: MessageHandler<ListerDépôtsEnCoursGarantiesFinancièresQuery> = async ({
@@ -94,12 +79,13 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
 
     const where = {
       ...(appelOffre && { appelOffre }),
+      ...(région && { régionProjet: région }),
     };
 
-    const result = await listerDépôtsEnCoursGarantiesFinancières({
+    const result = await list<DépôtEnCoursGarantiesFinancièresEntity>({
+      type: 'depot-en-cours-garanties-financieres',
       where,
       pagination,
-      région,
     });
 
     return {

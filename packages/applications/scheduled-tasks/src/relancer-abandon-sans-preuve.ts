@@ -12,7 +12,6 @@ import {
   consulterCahierDesChargesChoisiAdapter,
   listerAbandonsAdapter,
   listerAbandonsPourPorteurAdapter,
-  listerDépôtsEnCoursGarantiesFinancièresAdapter,
   récupérerRégionDreal,
 } from '@potentiel-infrastructure/domain-adapters';
 import { getModèleRéponseAbandon } from '@potentiel-infrastructure/document-builder';
@@ -25,7 +24,6 @@ registerLauréatQueries({
   buildModèleRéponseAbandon: getModèleRéponseAbandon,
   listerAbandons: listerAbandonsAdapter,
   récupérerRégionDreal: récupérerRégionDreal,
-  listerDépôtsEnCoursGarantiesFinancières: listerDépôtsEnCoursGarantiesFinancièresAdapter,
 });
 
 registerLauréatUseCases({

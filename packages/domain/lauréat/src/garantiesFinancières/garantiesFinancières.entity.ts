@@ -5,7 +5,7 @@ export type GarantiesFinancièresEntity = Entity<
   {
     identifiantProjet: string;
     nomProjet: string;
-    régionProjet: Array<string>;
+    régionProjet: string;
     appelOffre: string;
     période: string;
     famille?: string;
