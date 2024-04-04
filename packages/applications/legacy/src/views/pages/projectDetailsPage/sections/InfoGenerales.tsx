@@ -73,7 +73,8 @@ export const InfoGenerales = ({
         !isAbandoned &&
         ['admin', 'dgec-validateur', 'porteur-projet', 'dreal', 'acheteur-obligé', 'cre'].includes(
           role,
-        ) && (
+        ) &&
+        appelOffre.typeAppelOffre !== 'biométhane' && (
           <div className="print:hidden">
             <Heading3 className="m-0">Raccordement au réseau</Heading3>
             <Link
