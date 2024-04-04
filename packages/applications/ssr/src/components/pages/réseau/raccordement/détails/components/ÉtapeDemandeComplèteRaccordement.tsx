@@ -2,7 +2,7 @@ import Download from '@codegouvfr/react-dsfr/Download';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 import { displayDate } from '@/utils/displayDate';
 import { Icon } from '@/components/atoms/Icon';

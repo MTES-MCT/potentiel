@@ -12,7 +12,7 @@
     "@potentiel-domain/laureat": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-libraries/routes": "*",
+    "@potentiel-applications/routes": "*",
     "@potentiel-librairies/monitoring": "*",
     "node-mailjet": "^6.0.4",
     "mediateur": "^0.1.0"

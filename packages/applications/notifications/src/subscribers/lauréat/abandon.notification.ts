@@ -7,7 +7,7 @@ import {
   CandidatureAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { Abandon } from '@potentiel-domain/laureat';
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 import { sendEmail } from '../../infrastructure/sendEmail';
 
 export type SubscriptionEvent = Abandon.AbandonEvent & Event;
