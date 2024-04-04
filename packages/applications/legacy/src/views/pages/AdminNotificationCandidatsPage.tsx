@@ -16,6 +16,7 @@ import {
   Dialog,
   SecondaryButton,
   Heading2,
+  Checkbox,
 } from '../components';
 import { ProjectListItem } from '../../modules/project/queries';
 import ROUTES from '../../routes';
@@ -56,6 +57,7 @@ export const AdminNotificationCandidats = ({
   const [formOpen, setFormOpen] = useState(true);
 
   const [isConfirmationOpened, openConfirmationDialog] = useState(false);
+  const [isNotificationConfirmed, confirmNotification] = useState(false);
 
   return (
     <PageListeTemplate
@@ -256,13 +258,25 @@ export const AdminNotificationCandidats = ({
                 {données.périodeSélectionnée} de l'appel d'offres{' '}
                 <span className="font-bold">{données.AOSélectionné}</span> ?
               </p>
+
               <p>
                 Si vous confirmez, les candidats seront notifiés sans retour en arrière possible.
               </p>
 
+              <Checkbox
+                id="confirm-notification"
+                onChange={(e) => confirmNotification(e.currentTarget.checked)}
+              >
+                Cocher cette case afin de débloquer le bouton pour notifier.
+              </Checkbox>
+
               <ul className="flex flex-row-reverse justify-start gap-4 list-none">
                 <li>
-                  <PrimaryButton form="form-notifier-candidats" type="submit">
+                  <PrimaryButton
+                    disabled={!isNotificationConfirmed}
+                    form="form-notifier-candidats"
+                    type="submit"
+                  >
                     Notifier
                   </PrimaryButton>
                 </li>
