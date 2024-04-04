@@ -39,7 +39,7 @@
       "path": "../projectors"
     },
     {
-      "path": "../../infrastructure/notifications"
+      "path": "../notifications"
     },
     {
       "path": "../../libraries/pg-helpers"

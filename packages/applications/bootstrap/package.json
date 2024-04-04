@@ -18,9 +18,9 @@
     "@potentiel-infrastructure/document-builder": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-application/projectors": "*",
+    "@potentiel-applications/notifications": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projections": "*",
-    "@potentiel-infrastructure/notifications": "*",
     "@potentiel-librairies/pg-helpers": "*",
     "mediateur": "^0.1.0"
   },

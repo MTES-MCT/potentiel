@@ -1,5 +1,4 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { sendEmail } from '@potentiel-librairies/email-sender';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-librairies/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
@@ -9,11 +8,23 @@ import {
 } from '@potentiel-infrastructure/domain-adapters';
 import { Abandon } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-libraries/routes';
-import { templateId } from '../templateId';
+import { sendEmail } from '../../infrastructure/sendEmail';
 
 export type SubscriptionEvent = Abandon.AbandonEvent & Event;
 
 export type Execute = Message<'System.Notification.Lauréat.Abandon', SubscriptionEvent>;
+
+const abandonChangementStatutTemplateId = 5335914;
+
+const templateId = {
+  accorder: abandonChangementStatutTemplateId,
+  annuler: abandonChangementStatutTemplateId,
+  confirmer: abandonChangementStatutTemplateId,
+  demander: abandonChangementStatutTemplateId,
+  demanderConfirmation: abandonChangementStatutTemplateId,
+  rejeter: abandonChangementStatutTemplateId,
+  demanderPreuveRecandidature: 5308275,
+};
 
 const sendEmailAbandonChangementDeStatut = async ({
   identifiantProjet,
@@ -92,7 +103,7 @@ export const register = () => {
       case 'AbandonDemandé-V1':
         await sendEmailAbandonChangementDeStatut({
           statut: 'envoyée',
-          templateId: templateId.abandon.demander,
+          templateId: templateId.demander,
           recipients: [...porteurs, ...admins],
           identifiantProjet,
           nomProjet,
@@ -104,7 +115,7 @@ export const register = () => {
       case 'AbandonAnnulé-V1':
         await sendEmailAbandonChangementDeStatut({
           statut: 'annulée',
-          templateId: templateId.abandon.annuler,
+          templateId: templateId.annuler,
           recipients: [...porteurs, ...admins],
           identifiantProjet,
           nomProjet,
@@ -116,7 +127,7 @@ export const register = () => {
       case 'ConfirmationAbandonDemandée-V1':
         await sendEmailAbandonChangementDeStatut({
           statut: 'en attente de confirmation',
-          templateId: templateId.abandon.demanderConfirmation,
+          templateId: templateId.demanderConfirmation,
           recipients: porteurs,
           identifiantProjet,
           nomProjet,
@@ -128,7 +139,7 @@ export const register = () => {
       case 'AbandonConfirmé-V1':
         await sendEmailAbandonChangementDeStatut({
           statut: 'confirmée',
-          templateId: templateId.abandon.demanderConfirmation,
+          templateId: templateId.demanderConfirmation,
           recipients: [...porteurs, ...admins],
           identifiantProjet,
           nomProjet,
@@ -140,7 +151,7 @@ export const register = () => {
       case 'AbandonAccordé-V1':
         await sendEmailAbandonChangementDeStatut({
           statut: 'accordée',
-          templateId: templateId.abandon.accorder,
+          templateId: templateId.accorder,
           recipients: porteurs,
           identifiantProjet,
           nomProjet,
@@ -152,7 +163,7 @@ export const register = () => {
       case 'AbandonRejeté-V1':
         await sendEmailAbandonChangementDeStatut({
           statut: 'rejetée',
-          templateId: templateId.abandon.rejeter,
+          templateId: templateId.rejeter,
           recipients: porteurs,
           identifiantProjet,
           nomProjet,
@@ -163,7 +174,7 @@ export const register = () => {
         break;
       case 'PreuveRecandidatureDemandée-V1':
         await sendEmail({
-          templateId: templateId.abandon.demanderPreuveRecandidature,
+          templateId: templateId.demanderPreuveRecandidature,
           messageSubject: `Potentiel - Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
           recipients: porteurs,
           variables: {

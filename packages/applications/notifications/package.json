@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel-infrastructure/notifications",
+  "name": "@potentiel-applications/notifications",
   "version": "0.0.0",
   "description": "Potentiel notifications",
   "main": "dist/index.js",
@@ -12,11 +12,13 @@
     "@potentiel-domain/laureat": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-librairies/email-sender": "*",
     "@potentiel-libraries/routes": "*",
+    "@potentiel-librairies/monitoring": "*",
+    "node-mailjet": "^6.0.4",
     "mediateur": "^0.1.0"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*",
+    "@types/node-mailjet": "^3.3.9"
   }
 }
