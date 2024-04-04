@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel-infrastructure/scheduled-tasks",
+  "name": "@potentiel-applications/scheduled-tasks",
   "version": "0.0.0",
   "description": "Potentiel Scheduled Tasks",
   "private": true,
