@@ -7,6 +7,7 @@ import { Project } from '../Project';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mediator } from 'mediateur';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { featureFlags } from '@potentiel-applications/feature-flags';
 
 export const handleProjectRawDataImported =
   (deps: {
@@ -50,7 +51,7 @@ export const handleProjectRawDataImported =
       console.error('handleProjectRawDataImported error', res.error);
     }
 
-    if (classe === 'Classé') {
+    if (classe === 'Classé' && featureFlags.SHOW_GARANTIES_FINANCIERES) {
       const typeGarantiesFinancières =
         data.garantiesFinancièresType &&
         convertGarantiesFinancièresType(data.garantiesFinancièresType);

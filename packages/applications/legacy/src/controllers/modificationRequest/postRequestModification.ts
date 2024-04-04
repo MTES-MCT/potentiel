@@ -18,10 +18,14 @@ import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helper
 import asyncHandler from '../helpers/asyncHandler';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
-import { Project } from '../../infra/sequelize/projectionsNext';
+import {
+  Project,
+  GarantiesFinancières as GarantiesFinancièresLegacy,
+} from '../../infra/sequelize/projectionsNext';
 import { mediator } from 'mediateur';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { featureFlags } from '@potentiel-applications/feature-flags';
 
 const routeRedirection = (type, projectId) => {
   let returnRoute: string;
@@ -150,65 +154,82 @@ v1Router.post(
           ? détailAppelOffre.familles.find((f) => f.id === familleId)?.soumisAuxGarantiesFinancieres
           : détailAppelOffre.soumisAuxGarantiesFinancieres;
 
-        if (soumisAuxGarantiesFinancières === 'après candidature') {
-          try {
-            const garantiesFinancières =
-              await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-                type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-                data: {
-                  identifiantProjetValue: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
-                },
-              });
+        if (featureFlags.SHOW_GARANTIES_FINANCIERES) {
+          if (soumisAuxGarantiesFinancières === 'après candidature') {
+            try {
+              const garantiesFinancières =
+                await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+                  type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+                  data: {
+                    identifiantProjetValue: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+                  },
+                });
 
-            await requestActionnaireModification({
-              projectId: data.projectId,
-              requestedBy: request.user,
-              newActionnaire: data.actionnaire,
-              justification: data.justification,
-              file,
-              soumisAuxGarantiesFinancières: 'après candidature',
-              ...(garantiesFinancières.actuelles ||
-                (garantiesFinancières.dépôts.length && {
-                  garantiesFinancièresConstituées: true,
-                })),
-            });
-          } catch (error) {
-            if (error instanceof AggregateHasBeenUpdatedSinceError) {
-              return response.redirect(
-                addQueryParams(routes.CHANGER_ACTIONNAIRE(projectId), {
-                  ...omit(data, 'projectId'),
-                  error:
-                    'Le projet a été modifié entre le moment où vous avez ouvert cette page et le moment où vous avez validé la demande. Merci de prendre en compte le changement et refaire votre demande si nécessaire.',
-                }),
-              );
+              await requestActionnaireModification({
+                projectId: data.projectId,
+                requestedBy: request.user,
+                newActionnaire: data.actionnaire,
+                justification: data.justification,
+                file,
+                soumisAuxGarantiesFinancières: 'après candidature',
+                ...(garantiesFinancières.actuelles ||
+                  (garantiesFinancières.dépôts.length && {
+                    garantiesFinancièresConstituées: true,
+                  })),
+              });
+            } catch (error) {
+              if (error instanceof AggregateHasBeenUpdatedSinceError) {
+                return response.redirect(
+                  addQueryParams(routes.CHANGER_ACTIONNAIRE(projectId), {
+                    ...omit(data, 'projectId'),
+                    error:
+                      'Le projet a été modifié entre le moment où vous avez ouvert cette page et le moment où vous avez validé la demande. Merci de prendre en compte le changement et refaire votre demande si nécessaire.',
+                  }),
+                );
+              }
+              return requestActionnaireModification({
+                projectId: data.projectId,
+                requestedBy: request.user,
+                newActionnaire: data.actionnaire,
+                justification: data.justification,
+                file,
+                soumisAuxGarantiesFinancières: 'après candidature',
+              }).match(handleSuccess, handleError);
             }
-            return requestActionnaireModification({
-              projectId: data.projectId,
-              requestedBy: request.user,
-              newActionnaire: data.actionnaire,
-              justification: data.justification,
-              file,
-              soumisAuxGarantiesFinancières: 'après candidature',
-            }).match(handleSuccess, handleError);
+
+            return response.redirect(
+              routes.SUCCESS_OR_ERROR_PAGE({
+                success: 'Votre demande a bien été prise en compte.',
+                redirectUrl: routes.PROJECT_DETAILS(projectId),
+                redirectTitle: 'Retourner à la page projet',
+              }),
+            );
           }
 
-          return response.redirect(
-            routes.SUCCESS_OR_ERROR_PAGE({
-              success: 'Votre demande a bien été prise en compte.',
-              redirectUrl: routes.PROJECT_DETAILS(projectId),
-              redirectTitle: 'Retourner à la page projet',
+          await requestActionnaireModification({
+            projectId: data.projectId,
+            requestedBy: request.user,
+            newActionnaire: data.actionnaire,
+            justification: data.justification,
+            file,
+            soumisAuxGarantiesFinancières: soumisAuxGarantiesFinancières ?? 'non soumis',
+          }).match(handleSuccess, handleError);
+        } else {
+          const garantiesFinancièresLegacy = await GarantiesFinancièresLegacy.findOne({
+            where: { projetId: data.projectId },
+          });
+          return requestActionnaireModification({
+            projectId: data.projectId,
+            requestedBy: request.user,
+            newActionnaire: data.actionnaire,
+            justification: data.justification,
+            file,
+            soumisAuxGarantiesFinancières: soumisAuxGarantiesFinancières ?? 'non soumis',
+            ...(garantiesFinancièresLegacy?.statut !== 'en attente' && {
+              garantiesFinancièresConstituées: true,
             }),
-          );
+          }).match(handleSuccess, handleError);
         }
-
-        await requestActionnaireModification({
-          projectId: data.projectId,
-          requestedBy: request.user,
-          newActionnaire: data.actionnaire,
-          justification: data.justification,
-          file,
-          soumisAuxGarantiesFinancières: soumisAuxGarantiesFinancières ?? 'non soumis',
-        }).match(handleSuccess, handleError);
         break;
       default:
         await requestModification({

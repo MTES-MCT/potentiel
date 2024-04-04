@@ -38,6 +38,7 @@ import {
   ConsulterAppelOffreQuery,
   ConsulterAppelOffreReadModel,
 } from '@potentiel-domain/appel-offre';
+import { featureFlags } from '@potentiel-applications/feature-flags';
 
 const FORMAT_DATE = 'DD/MM/YYYY';
 
@@ -152,7 +153,10 @@ v1Router.post(
         acceptanceParams,
         submittedBy: request.user,
       }).match(async () => {
-        if (type === 'recours' || type === 'producteur') {
+        if (
+          featureFlags.SHOW_GARANTIES_FINANCIERES &&
+          (type === 'recours' || type === 'producteur')
+        ) {
           try {
             // récupérer identifiant projet value
             const modificationRequest = await ModificationRequest.findByPk(modificationRequestId);
