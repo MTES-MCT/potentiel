@@ -3,11 +3,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { TâcheEvent, TâcheEntity } from '@potentiel-domain/tache';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { removeProjection } from '../utils/removeProjection';
+import { removeProjection } from '../../infrastructure/removeProjection';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-librairies/monads';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { upsertProjection } from '../utils/upsertProjection';
+import { upsertProjection } from '../../infrastructure/upsertProjection';
 import { DateTime } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-librairies/monitoring';
 
