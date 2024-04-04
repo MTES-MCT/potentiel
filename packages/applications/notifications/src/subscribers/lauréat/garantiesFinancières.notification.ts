@@ -1,5 +1,4 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { sendEmail } from '@potentiel-librairies/email-sender';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-librairies/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
@@ -10,7 +9,8 @@ import {
 } from '@potentiel-infrastructure/domain-adapters';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-libraries/routes';
-import { templateId } from '../templateId';
+import { templateId } from '../../templateId';
+import { sendEmail } from '../../infrastructure/sendEmail';
 
 export type SubscriptionEvent = GarantiesFinancières.GarantiesFinancièresEvent & Event;
 
