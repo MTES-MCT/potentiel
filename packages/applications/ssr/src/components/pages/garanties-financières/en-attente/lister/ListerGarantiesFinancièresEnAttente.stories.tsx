@@ -1,22 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { getGarantiesFinancièresTypeLabel } from '../../getGarantiesFinancièresTypeLabel';
-
 import {
-  GarantiesFinancièresDépôtsEnCoursListPage,
-  GarantiesFinancièresDépôtsEnCoursListProps,
-} from './GarantiesFinancièresDépôtsEnCoursList.page';
+  ListerGarantiesFinancièresEnAttentePage,
+  ListerGarantiesFinancièresEnAttenteProps,
+} from './ListerGarantiesFinancièresEnAttente.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Pages/Garanties-financières/Dépôt',
-  component: GarantiesFinancièresDépôtsEnCoursListPage,
+  title: 'Pages/Garanties-financières/En attente/Lister',
+  component: ListerGarantiesFinancièresEnAttentePage,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {
     list: {},
   },
-} satisfies Meta<GarantiesFinancièresDépôtsEnCoursListProps>;
+} satisfies Meta<ListerGarantiesFinancièresEnAttenteProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -45,7 +43,7 @@ const list = {
   totalItems: 10,
 };
 
-export const Liste: Story = {
+export const Default: Story = {
   args: {
     filters,
     list: {
@@ -57,10 +55,10 @@ export const Liste: Story = {
           période: 'Période',
           famille: 'Famille',
           nomProjet: 'Le projet',
-          statut: 'en-cours',
+          statut: 'en-attente',
           misÀJourLe: '2023-02-12',
-          type: getGarantiesFinancièresTypeLabel('consignation'),
           régionProjet: 'Région A / Région B',
+          action: 'relancer',
         },
         {
           identifiantProjet: '#identifiantProjet-3',
@@ -68,11 +66,11 @@ export const Liste: Story = {
           période: 'Période',
           famille: 'Famille',
           nomProjet: 'Le projet',
-          statut: 'en-cours',
+          statut: 'en-attente',
           misÀJourLe: '2023-02-12',
-          type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
           dateÉchéance: '2023-02-12',
           régionProjet: 'Région A / Région B',
+          action: 'télécharger--modèle-mise-en-demeure',
         },
       ],
     },

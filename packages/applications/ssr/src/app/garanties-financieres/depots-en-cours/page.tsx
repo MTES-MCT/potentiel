@@ -8,9 +8,9 @@ import { featureFlags } from '@potentiel-applications/feature-flags';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import {
-  GarantiesFinancièresDépôtsEnCoursListPage,
-  GarantiesFinancièresDépôtsEnCoursListProps,
-} from '@/components/pages/garanties-financières/dépôt/lister/GarantiesFinancièresDépôtsEnCoursList.page';
+  ListDépôtsEnCoursGarantiesFinancièresPage,
+  ListDépôtsEnCoursGarantiesFinancièresProps,
+} from '@/components/pages/garanties-financières/dépôt/lister/ListerDépôtsEnCoursGarantiesFinancières.page';
 import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -19,8 +19,8 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Garanties financières en cours - Potentiel',
-  description: 'Liste des garanties financières en cours',
+  title: 'Garanties financières en attente de validation - Potentiel',
+  description: 'Liste des garanties financières en attente de validation',
 };
 
 export default async function Page({ searchParams }: PageProps) {
@@ -64,7 +64,7 @@ export default async function Page({ searchParams }: PageProps) {
       ];
 
       return (
-        <GarantiesFinancièresDépôtsEnCoursListPage
+        <ListDépôtsEnCoursGarantiesFinancièresPage
           list={mapToListProps(dépôtsEnCoursGarantiesFinancières)}
           filters={filters}
         />
@@ -75,7 +75,7 @@ export default async function Page({ searchParams }: PageProps) {
 
 const mapToListProps = (
   readModel: GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresReadModel,
-): GarantiesFinancièresDépôtsEnCoursListProps['list'] => {
+): ListDépôtsEnCoursGarantiesFinancièresProps['list'] => {
   const items = readModel.items.map(
     ({
       identifiantProjet,

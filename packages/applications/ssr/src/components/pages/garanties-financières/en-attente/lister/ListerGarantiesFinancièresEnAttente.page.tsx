@@ -6,22 +6,22 @@ import { FC } from 'react';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 
 import {
-  GarantiesFinancièresDépôtsEnCoursListItem,
-  GarantiesFinancièresDépôtsEnCoursListItemProps,
-} from './GarantiesFinancièresListItem';
+  ListItemGarantiesFinancièresEnAttente,
+  ListItemGarantiesFinancièresEnAttenteProps,
+} from './ListItemGarantiesFinancièresEnAttente';
 
-export type GarantiesFinancièresDépôtsEnCoursListProps = {
+export type ListerGarantiesFinancièresEnAttenteProps = {
   list: {
-    items: Array<GarantiesFinancièresDépôtsEnCoursListItemProps>;
+    items: Array<ListItemGarantiesFinancièresEnAttenteProps>;
     currentPage: number;
     totalItems: number;
     itemsPerPage: number;
   };
-  filters: ListPageTemplateProps<GarantiesFinancièresDépôtsEnCoursListItemProps>['filters'];
+  filters: ListPageTemplateProps<ListItemGarantiesFinancièresEnAttenteProps>['filters'];
 };
 
-export const GarantiesFinancièresDépôtsEnCoursListPage: FC<
-  GarantiesFinancièresDépôtsEnCoursListProps
+export const ListerGarantiesFinancièresEnAttentePage: FC<
+  ListerGarantiesFinancièresEnAttenteProps
 > = ({ list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage }, filters }) => {
   const searchParams = useSearchParams();
   const appelOffre = searchParams.get('appelOffre') ?? undefined;
@@ -39,7 +39,7 @@ export const GarantiesFinancièresDépôtsEnCoursListPage: FC<
 
   return (
     <ListPageTemplate
-      heading="Garanties financières en attente de validation"
+      heading="Garanties financières en attente"
       actions={[]}
       items={garantiesFinancières.map((gf) => ({
         ...gf,
@@ -48,7 +48,7 @@ export const GarantiesFinancièresDépôtsEnCoursListPage: FC<
       currentPage={currentPage}
       totalItems={totalItems}
       itemsPerPage={itemsPerPage}
-      ItemComponent={GarantiesFinancièresDépôtsEnCoursListItem}
+      ItemComponent={ListItemGarantiesFinancièresEnAttente}
       tagFilters={tagFilters}
       filters={filters}
     />

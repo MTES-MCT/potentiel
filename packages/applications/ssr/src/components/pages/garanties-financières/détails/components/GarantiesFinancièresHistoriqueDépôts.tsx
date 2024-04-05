@@ -1,12 +1,11 @@
 import { FC } from 'react';
+import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { formatDateForText } from '@/utils/formatDateForText';
 
-import { StatutDépôtGarantiesFinancièresBadge } from '../../StatutDépôtGarantiesFinancièresBadge';
-
-export type DépôtStatut = 'en-cours' | 'validé' | 'rejeté';
+type DépôtStatut = 'en-cours' | 'validé' | 'rejeté';
 
 export type DépôtGarantiesFinancières = {
   type: string;
@@ -80,4 +79,28 @@ const getTimelineItemStatus = (statut: DépôtStatut): TimelineItemProps['status
     case 'rejeté':
       return 'error';
   }
+};
+
+type StatutDépôtGarantiesFinancièresBadgProps = {
+  statut: DépôtStatut;
+};
+const StatutDépôtGarantiesFinancièresBadge: FC<StatutDépôtGarantiesFinancièresBadgProps> = ({
+  statut,
+}) => {
+  const getSeverity = (statut: DépôtStatut): BadgeProps['severity'] => {
+    switch (statut) {
+      case 'en-cours':
+        return 'new';
+      case 'rejeté':
+        return 'error';
+      case 'validé':
+        return 'success';
+    }
+  };
+
+  return (
+    <Badge noIcon severity={getSeverity(statut)} small={true}>
+      {statut.replace(/-/g, ' ')}
+    </Badge>
+  );
 };
