@@ -8,7 +8,7 @@ import { Elimine } from './components/elimine/Elimine';
 import {
   batimentPPE2,
   eolienPPE2,
-} from '@potentiel/domain-inmemory-referential/src/appelOffre/PPE2';
+} from '@potentiel-domain/inmemory-referential/src/appelOffre/PPE2';
 import { Validateur } from '..';
 
 export default { title: 'Attestations PDF/PPE2/v1' };
