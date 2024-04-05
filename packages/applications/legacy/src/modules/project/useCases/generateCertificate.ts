@@ -75,8 +75,8 @@ export const makeGenerateCertificate =
           const validateurParDéfaut =
             certificateData.template === 'ppe2.v2'
               ? {
-                  fullName: 'Nicolas CLAUSSET',
-                  fonction: `Le sous-directeur du système électrique et des énergies renouvelables`,
+                  fullName: 'Hermine Durand',
+                  fonction: `Sous-directrice du système électrique et des énergies renouvelables`,
                 }
               : {
                   fullName: 'Ghislain FERRAN',
