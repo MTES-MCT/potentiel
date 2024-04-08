@@ -1,20 +1,20 @@
-import { ValidateurParDéfaut } from '@potentiel-domain/appel-offre';
+import { Validateur } from '@potentiel-domain/appel-offre';
 
 export const validateurParDéfaut = {
   sd2: {
-    name: 'Sous-directeur bureau SD2',
+    fullName: 'Sous-directeur bureau SD2',
     fonction: 'Sous-directrice du système électrique et des énergies renouvelables',
-  } satisfies ValidateurParDéfaut,
+  } satisfies Validateur,
   hermine: {
-    name: 'Hermine DURAND',
+    fullName: 'Hermine DURAND',
     fonction: `Sous-directrice du système électrique et des énergies renouvelables`,
-  } satisfies ValidateurParDéfaut,
+  } satisfies Validateur,
   nicolas: {
-    name: 'Nicolas CLAUSSET',
+    fullName: 'Nicolas CLAUSSET',
     fonction: `Le sous-directeur du système électrique et des énergies renouvelables`,
-  } satisfies ValidateurParDéfaut,
+  } satisfies Validateur,
   ghislain: {
-    name: 'Ghislain FERRAN',
+    fullName: 'Ghislain FERRAN',
     fonction: `L’adjoint au sous-directeur du système électrique et des énergies renouvelables`,
-  } satisfies ValidateurParDéfaut,
+  } satisfies Validateur,
 };

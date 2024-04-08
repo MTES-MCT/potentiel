@@ -133,14 +133,14 @@ type NoteThresholdByCategory = {
   };
 };
 
-export type ValidateurParDéfaut = {
-  name: string;
-  fonction: string;
+export type Validateur = {
+  fullName: string;
+  fonction?: string;
 };
 export type NotifiedPeriode = {
   type?: 'notified';
   certificateTemplate: CertificateTemplate;
-  validateurParDéfaut: ValidateurParDéfaut;
+  validateurParDéfaut: Validateur;
 } & (
   | {
       noteThresholdBy: 'family';
@@ -159,7 +159,7 @@ export type NotifiedPeriode = {
 type NotYetNotifiedPeriode = {
   type: 'not-yet-notified';
   certificateTemplate: CertificateTemplate;
-  validateurParDéfaut: ValidateurParDéfaut;
+  validateurParDéfaut: Validateur;
   noteThresholdBy?: undefined;
   noteThreshold?: undefined;
 };
