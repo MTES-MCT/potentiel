@@ -43,14 +43,14 @@ export function applyDépôtGarantiesFinancièresEnCoursValidé(
   this: GarantiesFinancièresAggregate,
   { payload: { validéLe } }: DépôtGarantiesFinancièresEnCoursValidéEvent,
 ) {
-  const dépôtValidé = this.dépôts!.find((dépôt) => dépôt.statut.estEnCours());
+  const dépôtValidé = this.dépôts && this.dépôts.find((dépôt) => dépôt.statut.estEnCours());
 
   this.actuelles = {
-    type: dépôtValidé!.type,
-    ...(dépôtValidé!.dateÉchéance && { dateÉchéance: dépôtValidé!.dateÉchéance }),
-    dateConstitution: dépôtValidé!.dateConstitution,
+    type: dépôtValidé ? dépôtValidé.type : 'type-inconnu',
+    ...(dépôtValidé && dépôtValidé.dateÉchéance && { dateÉchéance: dépôtValidé!.dateÉchéance }),
+    dateConstitution: dépôtValidé && dépôtValidé.dateConstitution,
     validéLe: DateTime.convertirEnValueType(validéLe),
-    attestation: dépôtValidé!.attestation,
+    attestation: dépôtValidé && dépôtValidé.attestation,
   };
-  this.dépôts = this.dépôts!.filter((dépôt) => !dépôt.statut.estEnCours());
+  this.dépôts = this.dépôts && this.dépôts.filter((dépôt) => !dépôt.statut.estEnCours());
 }

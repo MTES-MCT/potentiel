@@ -54,7 +54,7 @@ export const handleProjectRawDataImported =
     if (classe === 'Classé' && featureFlags.SHOW_GARANTIES_FINANCIERES) {
       const typeGarantiesFinancières =
         data.garantiesFinancièresType &&
-        convertGarantiesFinancièresType(data.garantiesFinancièresType);
+        convertirGarantiesFinancièresType(data.garantiesFinancièresType);
 
       if (typeGarantiesFinancières) {
         const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
@@ -85,7 +85,7 @@ export const handleProjectRawDataImported =
     }
   };
 
-const convertGarantiesFinancièresType = (typeImporté: string) => {
+const convertirGarantiesFinancièresType = (typeImporté: string) => {
   switch (typeImporté) {
     case "Garantie financière jusqu'à 6 mois après la date d'achèvement":
       return GarantiesFinancières.TypeGarantiesFinancières.sixMoisAprèsAchèvement.type;
