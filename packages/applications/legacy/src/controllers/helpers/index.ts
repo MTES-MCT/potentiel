@@ -12,3 +12,4 @@ export * from './vérifierPermissionUtilisateur';
 export * from './yupTransformations';
 export * from './getCurrentUrl';
 export * from './getPagination';
+export * from './isSoumisAuxGF';

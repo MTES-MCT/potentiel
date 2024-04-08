@@ -8,16 +8,18 @@ import { UnauthorizedError } from '../../../modules/shared';
 import routes from '../../../routes';
 
 import { addQueryParams } from '../../../helpers/addQueryParams';
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../../helpers';
+import {
+  errorResponse,
+  isSoumisAuxGF,
+  notFoundResponse,
+  unauthorizedResponse,
+} from '../../helpers';
 import { upload } from '../../upload';
 import { v1Router } from '../../v1Router';
 import { ChangementProducteurImpossiblePourEolienError } from '../../../modules/project/errors';
 import { NouveauCahierDesChargesNonChoisiError } from '../../../modules/demandeModification';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
-import {
-  ConsulterAppelOffreQuery,
-  ConsulterAppelOffreReadModel,
-} from '@potentiel-domain/appel-offre';
+import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { Project } from '../../../infra/sequelize';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mediator } from 'mediateur';
@@ -155,16 +157,3 @@ v1Router.post(
     },
   ),
 );
-
-const isSoumisAuxGF = ({
-  appelOffres,
-  famille,
-}: {
-  appelOffres: ConsulterAppelOffreReadModel;
-  famille?: string;
-}) => {
-  return famille
-    ? appelOffres.familles.find((f) => f.id === famille)?.soumisAuxGarantiesFinancieres !==
-        'non soumis'
-    : appelOffres.soumisAuxGarantiesFinancieres !== 'non soumis';
-};

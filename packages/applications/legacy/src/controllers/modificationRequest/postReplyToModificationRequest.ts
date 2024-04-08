@@ -21,7 +21,7 @@ import {
   UnauthorizedError,
 } from '../../modules/shared';
 import routes from '../../routes';
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers';
+import { errorResponse, isSoumisAuxGF, notFoundResponse, unauthorizedResponse } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
@@ -34,10 +34,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { ModificationRequest, Project } from '../../infra/sequelize';
 import { mediator } from 'mediateur';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import {
-  ConsulterAppelOffreQuery,
-  ConsulterAppelOffreReadModel,
-} from '@potentiel-domain/appel-offre';
+import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { featureFlags } from '@potentiel-applications/feature-flags';
 
 const FORMAT_DATE = 'DD/MM/YYYY';
@@ -310,16 +307,3 @@ function _handleErrors(request, response, modificationRequestId) {
     return errorResponse({ request, response });
   };
 }
-
-const isSoumisAuxGF = ({
-  appelOffres,
-  famille,
-}: {
-  appelOffres: ConsulterAppelOffreReadModel;
-  famille?: string;
-}) => {
-  return famille
-    ? appelOffres.familles.find((f) => f.id === famille)?.soumisAuxGarantiesFinancieres !==
-        'non soumis'
-    : appelOffres.soumisAuxGarantiesFinancieres !== 'non soumis';
-};
