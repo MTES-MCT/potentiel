@@ -290,6 +290,7 @@ export const register = () => {
                 typeImportéLe: payload.importéLe,
                 dernièreMiseÀJour: {
                   date: payload.importéLe,
+                  par: '',
                 },
               },
             },
