@@ -1,4 +1,5 @@
 import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { validateurParDéfaut } from '../../validateurParDéfaut';
 
 const CDCModifié30082022: CahierDesChargesModifié = {
   type: 'modifié',
@@ -100,6 +101,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '1',
       title: 'première',
       certificateTemplate: 'ppe2.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       noteThreshold: 0.68,
       cahierDesCharges: {
         référence: '2021/S 146-386083',
@@ -131,6 +133,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '2',
       title: 'deuxième',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.nicolas,
       noteThreshold: 0.692142857142864,
       cahierDesCharges: {
         référence: '2022/S 035-088651',
@@ -166,6 +169,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       id: '3',
       title: 'troisième',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.nicolas,
       noteThreshold: 1.2,
       cahierDesCharges: {
         référence: '2022/S 214-614410',
@@ -189,6 +193,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       id: '4',
       title: 'quatrième',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.nicolas,
       noteThreshold: 13.8,
       cahierDesCharges: {
         référence: '2023/S 063-187148',
@@ -211,6 +216,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       id: '5',
       title: 'cinquième',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.hermine,
       noteThreshold: 14.22,
       cahierDesCharges: {
         référence: '2023/S 183-570186',
@@ -222,6 +228,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       id: '6',
       title: 'sixième',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.hermine,
       noteThreshold: 16.85,
       cahierDesCharges: {
         référence: '2023/S 215-677967',

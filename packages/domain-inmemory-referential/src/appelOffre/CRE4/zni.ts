@@ -1,4 +1,5 @@
 import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { validateurParDéfaut } from '../../validateurParDéfaut';
 
 const garantieFinanciereEnMois = 36;
 
@@ -157,6 +158,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       id: '1',
       title: 'première',
       certificateTemplate: 'cre4.v0',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2019/S 113-276264',
       },
@@ -194,6 +196,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       id: '2',
       title: 'deuxième',
       certificateTemplate: 'cre4.v0',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2019/S 113-276264',
       },
@@ -230,6 +233,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       id: '3',
       title: 'troisième',
       certificateTemplate: 'cre4.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2019/S 113-276264',
       },
@@ -264,6 +268,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       id: '4',
       title: 'quatrième',
       certificateTemplate: 'cre4.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2019/S 113-276264',
       },
@@ -300,6 +305,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       id: '5',
       title: 'cinquième',
       certificateTemplate: 'cre4.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2019/S 113-276264',
       },
@@ -329,6 +335,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       id: '6',
       title: 'sixième',
       certificateTemplate: 'cre4.v1',
+      validateurParDéfaut: validateurParDéfaut.nicolas,
       cahierDesCharges: {
         référence: '2020/S 202-487521',
       },

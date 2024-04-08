@@ -1,4 +1,5 @@
 import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { validateurParDéfaut } from '../../validateurParDéfaut';
 
 const CDCModifié30082022: CahierDesChargesModifié = {
   type: 'modifié',
@@ -101,6 +102,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '1',
       title: 'première',
       certificateTemplate: 'ppe2.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2021 S 211-553136',
       },
@@ -143,6 +145,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '2',
       title: 'deuxième',
       certificateTemplate: 'ppe2.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2022/S 061-160516',
       },
@@ -178,6 +181,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '3',
       title: 'troisième',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.nicolas,
       cahierDesCharges: {
         référence: '2022 S 214-614411',
       },
@@ -198,6 +202,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '4',
       title: 'quatrième',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.hermine,
       cahierDesCharges: {
         référence: '2023 S 063-187860',
       },
@@ -229,6 +234,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       id: '5',
       title: 'cinquième',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.hermine,
       cahierDesCharges: {
         référence: '2023/S 217-681379',
       },

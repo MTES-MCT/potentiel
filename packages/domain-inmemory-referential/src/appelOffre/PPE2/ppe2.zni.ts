@@ -1,4 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { validateurParDéfaut } from '../../validateurParDéfaut';
 
 export const zniPPE2: AppelOffre = {
   id: 'PPE2 - ZNI',
@@ -73,6 +74,7 @@ export const zniPPE2: AppelOffre = {
       id: '1',
       title: 'première',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.hermine,
       cahierDesCharges: {
         référence: '2023/S 183-570186',
       },

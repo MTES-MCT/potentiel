@@ -1,4 +1,5 @@
 import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { validateurParDéfaut } from '../../validateurParDéfaut';
 
 const CDCModifié30082022: CahierDesChargesModifié = {
   type: 'modifié',
@@ -118,6 +119,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'première',
       type: 'notified',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.nicolas,
       cahierDesCharges: {
         référence: '2021 S 203-530267',
       },

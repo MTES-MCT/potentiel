@@ -1,4 +1,5 @@
 import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { validateurParDéfaut } from '../../validateurParDéfaut';
 
 const CDCModifié30082022: CahierDesChargesModifié = {
   type: 'modifié',
@@ -349,6 +350,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       id: '6',
       title: 'sixième',
       certificateTemplate: 'cre4.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       noteThreshold: 10.19,
       cahierDesCharges: {
         référence: '2017/S 083-161855',
@@ -399,6 +401,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       id: '7',
       title: 'septième',
       certificateTemplate: 'cre4.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       noteThreshold: 13,
       cahierDesCharges: {
         référence: '2017/S 083-161855',
@@ -449,6 +452,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       id: '8',
       title: 'huitième',
       certificateTemplate: 'cre4.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       noteThreshold: 9.8,
       cahierDesCharges: {
         référence: '2017/S 083-161855',

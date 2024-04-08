@@ -1,5 +1,5 @@
 import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
-
+import { validateurParDéfaut } from '../../validateurParDéfaut';
 const CDCModifié30082022: CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
@@ -100,6 +100,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '1',
       title: 'première',
       certificateTemplate: 'ppe2.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2021 S 176-457518',
       },
@@ -139,6 +140,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '2',
       title: 'deuxième',
       certificateTemplate: 'ppe2.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2022 S 020-047803',
       },
@@ -178,6 +180,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '3',
       title: 'troisième',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.nicolas,
       cahierDesCharges: {
         référence: '2022 S 093-254888',
       },
@@ -210,6 +213,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '4',
       title: 'quatrième',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.nicolas,
       cahierDesCharges: {
         référence: '2022 S 216-620968',
       },
@@ -230,6 +234,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '5',
       title: 'cinquième',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.nicolas,
       cahierDesCharges: {
         référence: '2023 S 071-217458',
       },
@@ -261,6 +266,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '6',
       title: 'sixième',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.hermine,
       cahierDesCharges: {
         référence: '2023/S 217-683937',
       },

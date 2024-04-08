@@ -70,6 +70,7 @@ export const makeGenerateCertificate =
       .andThen((project) => projectRepo.save(project));
 
     function _buildCertificateForProject(project: Project, validateur?: User | null) {
+      console.log('🙊🙊🙊🙊🙊 projet', project);
       return project.certificateData
         .asyncAndThen((certificateData) => {
           const validateurParDéfaut =
