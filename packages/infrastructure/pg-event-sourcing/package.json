@@ -12,6 +12,7 @@
     "@potentiel-librairies/monitoring": "*",
     "@potentiel-librairies/pg-helpers": "*",
     "@potentiel-librairies/monads": "*",
+    "@potentiel-domain/core": "*",
     "pg": "^8.11.3"
   },
   "devDependencies": {

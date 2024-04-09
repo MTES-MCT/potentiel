@@ -1,0 +1,17 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "pipeline": {
+    "build": {
+      "inputs": [
+        "src/**/*.{ts,tsx}"
+      ],
+      "dependsOn": [
+        "^build"
+      ],
+      "outputMode": "new-only"
+    }
+  },
+  "globalDependencies": [
+    "package.json"
+  ]
+}

@@ -21,6 +21,9 @@
       "path": "../../infrastructure/pg-projections"
     },
     {
+      "path": "../../infrastructure/domain-adapters"
+    },
+    {
       "path": "../../libraries/pg-helpers"
     }
   ]

@@ -40,6 +40,9 @@
       "path": "../routes"
     },
     {
+      "path": "../bootstrap"
+    },
+    {
       "path": "../../domain/common"
     },
     {

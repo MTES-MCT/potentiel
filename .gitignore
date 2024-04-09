@@ -143,3 +143,6 @@ storybook-static/
 .~lock.*
 
 test-results/
+
+# Turbo repo
+.turbo
