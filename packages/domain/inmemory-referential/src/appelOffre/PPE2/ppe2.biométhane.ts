@@ -1,4 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { validateurParDéfaut } from '../../validateurParDéfaut';
 
 export const biométhanePPE2: AppelOffre = {
   id: 'PPE2 - Biométhane',
@@ -12,10 +13,10 @@ export const biométhanePPE2: AppelOffre = {
   unitePuissance: 'GWh PCS/an',
   delaiRealisationEnMois: 36,
   delaiRealisationTexte: 'trente six (36) mois',
-  autoritéCompétenteDemandesDélai: 'dreal',
+  autoritéCompétenteDemandesDélai: 'dreal', // Pas de demandes de délais ?
   decoupageParTechnologie: false,
   paragraphePrixReference: '7',
-  paragrapheDelaiDerogatoire: '6.2',
+  paragrapheDelaiDerogatoire: '6.2', // Pas de demandes de délais ?
   paragrapheAttestationConformite: '6.4',
   paragrapheEngagementIPFPGPFC: '3.3.10, 4.3 et 6.5',
   afficherParagrapheInstallationMiseEnServiceModification: true,
@@ -53,6 +54,10 @@ export const biométhanePPE2: AppelOffre = {
       id: '1',
       title: 'première',
       certificateTemplate: 'ppe2.v2',
+      /**
+       * @todo Penser à ajouter le validateur du bureau SD2 quand on aura le contact (cf @potentiel-domain-inmemory-referential/src/validateurParDéfaut/index.ts)
+       */
+      validateurParDéfaut: validateurParDéfaut.sd2,
       cahierDesCharges: {
         référence: '2023/S 249-790242',
       },

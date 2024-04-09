@@ -90,6 +90,7 @@ export const shouldUserAccessProject = new BaseShouldUserAccessProject(
 export const generateCertificate = makeGenerateCertificate({
   fileRepo,
   projectRepo,
+  findAppelOffreById: oldAppelOffreRepo.findById,
   buildCertificate,
   getUserById,
 });

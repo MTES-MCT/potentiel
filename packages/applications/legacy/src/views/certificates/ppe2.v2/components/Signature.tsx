@@ -1,6 +1,6 @@
+import { Validateur } from '@potentiel-domain/appel-offre';
 import { Text, View } from '@react-pdf/renderer';
 import React from 'react';
-import { Validateur } from '../..';
 
 type SignatureProps = {
   validateur: Validateur;
