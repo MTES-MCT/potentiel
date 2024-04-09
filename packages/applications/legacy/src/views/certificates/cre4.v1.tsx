@@ -8,7 +8,7 @@ import { ProjectDataForCertificate } from '../../modules/project/dtos';
 import { IllegalProjectStateError } from '../../modules/project/errors';
 import { OtherError } from '../../modules/shared';
 import { formatNumber, getNoteThreshold } from './helpers';
-import { Validateur } from '.';
+import { Validateur } from '@potentiel-domain/appel-offre';
 
 dotenv.config();
 

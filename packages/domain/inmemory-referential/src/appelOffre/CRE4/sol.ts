@@ -1,4 +1,5 @@
 import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { validateurParDéfaut } from '../../validateurParDéfaut';
 
 const garantieFinanciereEnMois = 42;
 
@@ -360,6 +361,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '3', noteThreshold: 54.15 },
       ],
       certificateTemplate: 'cre4.v0',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
@@ -404,6 +406,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '3', noteThreshold: 54.35 },
       ],
       certificateTemplate: 'cre4.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
@@ -448,6 +451,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '3', noteThreshold: 36.02 },
       ],
       certificateTemplate: 'cre4.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },
@@ -492,6 +496,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '3', noteThreshold: 23.94 },
       ],
       certificateTemplate: 'cre4.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2016/S 148-268152',
       },

@@ -1,4 +1,5 @@
 import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { validateurParDéfaut } from '../../validateurParDéfaut';
 
 const CDCModifié30072021: CahierDesChargesModifié = {
   type: 'modifié',
@@ -284,6 +285,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       title: 'septième',
       noteThreshold: 20.04,
       certificateTemplate: 'cre4.v0',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2017/S 054-100223',
       },
@@ -320,6 +322,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       title: 'huitième',
       noteThreshold: 32.04,
       certificateTemplate: 'cre4.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2017/S 054-100223',
       },
@@ -356,6 +359,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       title: 'neuvième',
       noteThreshold: 9.9,
       certificateTemplate: 'cre4.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2017/S 054-100223',
       },
@@ -392,6 +396,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       title: 'dixième',
       noteThreshold: 44.9,
       certificateTemplate: 'cre4.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2017/S 054-100223',
       },

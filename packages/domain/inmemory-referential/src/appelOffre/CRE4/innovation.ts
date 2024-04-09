@@ -1,4 +1,5 @@
 import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { validateurParDéfaut } from '../../validateurParDéfaut';
 
 const CDCModifié30072021: CahierDesChargesModifié = {
   type: 'modifié',
@@ -162,6 +163,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '2', noteThreshold: 45.49 },
       ],
       certificateTemplate: 'cre4.v0',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2017/S 051-094731',
       },
@@ -185,6 +187,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '2', noteThreshold: 59.32 },
       ],
       certificateTemplate: 'cre4.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2017/S 051-094731',
       },

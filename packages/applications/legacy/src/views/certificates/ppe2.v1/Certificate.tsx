@@ -7,7 +7,7 @@ import { Introduction } from './components/Introduction';
 import { Signature } from './components/Signature';
 import { PageFooter } from './components/PageFooter';
 import { Footnote, FootnoteProps } from './components/Footnote';
-import { Validateur } from '..';
+import { Validateur } from '@potentiel-domain/appel-offre';
 
 export type CertificateProps = {
   project: ProjectDataForCertificate;

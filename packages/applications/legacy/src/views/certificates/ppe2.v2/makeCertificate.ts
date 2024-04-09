@@ -7,7 +7,7 @@ import { OtherError } from '../../../modules/shared';
 import { Certificate } from './Certificate';
 import { Laureat } from './components/Laureat';
 import { Elimine } from './components/elimine';
-import { Validateur } from '..';
+import { Validateur } from '@potentiel-domain/appel-offre';
 
 dotenv.config();
 
