@@ -135,9 +135,8 @@ SELECT
         	END,
         'dateÉchéance', CASE WHEN gf."dateEchéance" IS NOT NULL THEN TO_CHAR(gf."dateEchéance", 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') ELSE NULL END,
         'importéLe', TO_CHAR(gf."updatedAt", 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')
-        'importéPar', ''  
     )
 FROM "garantiesFinancières" gf
 	JOIN "projects" p ON gf."projetId" = p.id
-WHERE gf.statut = 'en attente' AND gf.type IS NOT NULL;
+WHERE gf.statut = 'en attente' AND gf.type IS NOT NULL AND p.classe = 'Classé';
         
