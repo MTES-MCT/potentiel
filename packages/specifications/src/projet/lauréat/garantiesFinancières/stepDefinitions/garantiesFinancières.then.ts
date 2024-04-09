@@ -150,3 +150,26 @@ Alors(
     });
   },
 );
+
+Alors(
+  `il ne devrait pas y avoir d'historique de garanties financières pour le projet {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      let résultat: any;
+      try {
+        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
+      } catch (error) {
+        résultat = error;
+      }
+      expect(résultat).not.to.be.undefined;
+      résultat.message.should.be.equal(`Il n'y a aucunes garanties financières sur le projet`);
+    });
+  },
+);

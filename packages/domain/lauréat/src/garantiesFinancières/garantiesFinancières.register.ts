@@ -25,6 +25,8 @@ import {
   ListerDépôtsEnCoursGarantiesFinancièresDependencies,
   registerListerDépôtsEnCoursGarantiesFinancièresQuery,
 } from './dépôt/lister/listerDépôtsEnCoursGarantiesFinancières.query';
+import { registerEffacerHistoriqueGarantiesFinancièresCommand } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.command';
+import { registerEffacerHistoriqueGarantiesFinancièresUseCase } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.usecase';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerDépôtsEnCoursGarantiesFinancièresDependencies;
@@ -45,6 +47,7 @@ export const registerGarantiesFinancièresUseCases = ({
   registerModifierGarantiesFinancièresCommand(loadAggregate);
   registerEnregistrerAttestationGarantiesFinancièresCommand(loadAggregate);
   registerEnregistrerGarantiesFinancièresCommand(loadAggregate);
+  registerEffacerHistoriqueGarantiesFinancièresCommand(loadAggregate);
 
   registerSoumettreDépôtGarantiesFinancièresUseCase();
   registerDemanderGarantiesFinancièresUseCase();
@@ -55,6 +58,7 @@ export const registerGarantiesFinancièresUseCases = ({
   registerModifierGarantiesFinancièresUseCase();
   registerEnregistrerAttestationGarantiesFinancièresUseCase();
   registerEnregistrerGarantiesFinancièresUseCase();
+  registerEffacerHistoriqueGarantiesFinancièresUseCase();
 };
 
 export const registerGarantiesFinancièresQueries = (

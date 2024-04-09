@@ -6,7 +6,7 @@ import {
   applyDépôtGarantiesFinancièresSoumis,
   soumettreDépôt,
 } from './dépôt/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
-import { TypeGarantiesFinancières } from '.';
+import { StatutDépôtGarantiesFinancières, TypeGarantiesFinancières } from '.';
 import { AucunesGarantiesFinancièresPourLeProjetError } from './aucunesGarantiesFinancièresPourLeProjet.error';
 import {
   GarantiesFinancièresDemandéesEvent,
@@ -47,6 +47,11 @@ import {
   applyEnregistrerGarantiesFinancières,
   enregistrer,
 } from './enregistrer/enregistrerGarantiesFinancières.behavior';
+import {
+  HistoriqueGarantiesFinancièresEffacéEvent,
+  applyEffacerHistoriqueGarantiesFinancières,
+  effacerHistorique,
+} from './effacerHistorique/effacerHistoriqueGarantiesFinancières.behavior';
 
 export type GarantiesFinancièresEvent =
   | DépôtGarantiesFinancièresSoumisEvent
@@ -57,7 +62,8 @@ export type GarantiesFinancièresEvent =
   | TypeGarantiesFinancièresImportéEvent
   | GarantiesFinancièresModifiéesEvent
   | AttestationGarantiesFinancièresEnregistréeEvent
-  | GarantiesFinancièresEnregistréesEvent;
+  | GarantiesFinancièresEnregistréesEvent
+  | HistoriqueGarantiesFinancièresEffacéEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   actuelles?: {
@@ -68,13 +74,14 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     validéLe?: DateTime.ValueType;
     importéLe?: DateTime.ValueType;
   };
-  dépôtEnCours?: {
+  dépôts?: Array<{
+    statut: StatutDépôtGarantiesFinancières.ValueType;
     type: TypeGarantiesFinancières.ValueType | 'type-inconnu';
     dateÉchéance?: DateTime.ValueType;
     dateConstitution: DateTime.ValueType;
     soumisLe: DateTime.ValueType;
     attestation?: { format: string };
-  };
+  }>;
   readonly soumettreDépôt: typeof soumettreDépôt;
   readonly demanderGarantiesFinancières: typeof demanderGarantiesFinancières;
   readonly supprimerDépôtGarantiesFinancièresEnCours: typeof supprimerDépôtGarantiesFinancièresEnCours;
@@ -84,6 +91,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly modifier: typeof modifier;
   readonly enregistrerAttestation: typeof enregistrerAttestation;
   readonly enregistrer: typeof enregistrer;
+  readonly effacerHistorique: typeof effacerHistorique;
 };
 
 export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
@@ -100,6 +108,7 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   modifier,
   enregistrerAttestation,
   enregistrer,
+  effacerHistorique,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
@@ -127,6 +136,9 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       break;
     case 'GarantiesFinancièresEnregistrées-V1':
       applyEnregistrerGarantiesFinancières.bind(this)(event);
+      break;
+    case 'HistoriqueGarantiesFinancièresEffacé-V1':
+      applyEffacerHistoriqueGarantiesFinancières.bind(this)();
       break;
   }
 }

@@ -137,7 +137,6 @@ Quand(
           identifiantProjetValue: identifiantProjet.formatter(),
           typeValue: typeGarantiesFinancières,
           importéLeValue: new Date(importéLe).toISOString(),
-          importéParValue: 'admin@test.test',
           ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
         },
       });
@@ -240,6 +239,27 @@ Quand(
         },
       });
       await sleep(300);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `un admin efface l'historique des garanties financières pour le projet {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    try {
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          effacéLeValue: new Date().toISOString(),
+          effacéParValue: 'admin@test.test',
+        },
+      });
+      await sleep(500);
     } catch (error) {
       this.error = error as Error;
     }

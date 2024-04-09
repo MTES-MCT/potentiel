@@ -21,7 +21,7 @@ import {
   UnauthorizedError,
 } from '../../modules/shared';
 import routes from '../../routes';
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers';
+import { errorResponse, isSoumisAuxGF, notFoundResponse, unauthorizedResponse } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
@@ -30,6 +30,12 @@ import moment from 'moment';
 /* eslint-disable import/no-duplicates */
 import { format, parseISO } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { ModificationRequest, Project } from '../../infra/sequelize';
+import { mediator } from 'mediateur';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { featureFlags } from '@potentiel-applications/feature-flags';
 
 const FORMAT_DATE = 'DD/MM/YYYY';
 
@@ -143,10 +149,87 @@ v1Router.post(
         versionDate: new Date(Number(versionDate)),
         acceptanceParams,
         submittedBy: request.user,
-      }).match(
-        _handleSuccess(response, modificationRequestId),
-        _handleErrors(request, response, modificationRequestId),
-      );
+      }).match(async () => {
+        if (
+          featureFlags.SHOW_GARANTIES_FINANCIERES &&
+          (type === 'recours' || type === 'producteur')
+        ) {
+          try {
+            // récupérer identifiant projet value
+            const modificationRequest = await ModificationRequest.findByPk(modificationRequestId);
+            if (!modificationRequest) {
+              return notFoundResponse({ request, response });
+            }
+            const projet = await Project.findByPk(modificationRequest.projectId);
+            if (!projet) {
+              return notFoundResponse({ request, response });
+            }
+            const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
+              `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
+            ).formatter();
+
+            // récupérer appel offres
+            const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
+              type: 'AppelOffre.Query.ConsulterAppelOffre',
+              data: { identifiantAppelOffre: projet.appelOffreId },
+            });
+
+            if (isSoumisAuxGF({ appelOffres, famille: projet.familleId })) {
+              const dateActuelle = new Date();
+              if (type === 'producteur') {
+                // supprimer les éventuelles garanties financières du projet
+                try {
+                  const garantiesFinancières =
+                    await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+                      type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+                      data: {
+                        identifiantProjetValue,
+                      },
+                    });
+                  if (garantiesFinancières) {
+                    await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresUseCase>(
+                      {
+                        type: 'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
+                        data: {
+                          identifiantProjetValue,
+                          effacéLeValue: dateActuelle.toISOString(),
+                          effacéParValue: request.user.email,
+                        },
+                      },
+                    );
+                  }
+                } catch (error) {}
+              }
+              // demander des garanties financières
+              await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
+                type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
+                data: {
+                  demandéLeValue: dateActuelle.toISOString(),
+                  identifiantProjetValue,
+                  dateLimiteSoumissionValue: new Date(
+                    dateActuelle.setMonth(dateActuelle.getMonth() + 2),
+                  ).toISOString(),
+                  motifValue:
+                    type === 'recours'
+                      ? GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé.motif
+                      : GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur
+                          .motif,
+                },
+              });
+            }
+          } catch (e) {
+            logger.error(e);
+            return errorResponse({ request, response });
+          }
+        }
+        return response.redirect(
+          routes.SUCCESS_OR_ERROR_PAGE({
+            success: 'Votre réponse a bien été enregistrée.',
+            redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+            redirectTitle: 'Retourner à la demande',
+          }),
+        );
+      }, _handleErrors(request, response, modificationRequestId));
     }
 
     if (confirmReply) {

@@ -2,7 +2,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 
 import { DocumentProjet } from '@potentiel-domain/document';
-import { TypeGarantiesFinancières } from '../..';
+import { StatutDépôtGarantiesFinancières, TypeGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DateConstitutionDansLeFuturError } from '../../dateConstitutionDansLeFutur.error';
@@ -44,7 +44,7 @@ export async function soumettreDépôt(
     soumisPar,
   }: Options,
 ) {
-  if (this.dépôtEnCours) {
+  if (this.dépôts?.some((dépôt) => dépôt.statut.estEnCours())) {
     throw new DépôtGarantiesFinancièresDéjàSoumisError();
   }
   if (dateConstitution.estDansLeFutur()) {
@@ -75,16 +75,18 @@ export async function soumettreDépôt(
 export function applyDépôtGarantiesFinancièresSoumis(
   this: GarantiesFinancièresAggregate,
   {
-    payload: { type, dateÉchéance, dateConstitution, soumisLe, attestation },
+    payload: { attestation, dateConstitution, soumisLe, type, dateÉchéance },
   }: DépôtGarantiesFinancièresSoumisEvent,
 ) {
-  this.dépôtEnCours = {
-    type: TypeGarantiesFinancières.convertirEnValueType(type),
-    dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
+  const dépôt = {
+    statut: StatutDépôtGarantiesFinancières.enCours,
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),
     soumisLe: DateTime.convertirEnValueType(soumisLe),
+    type: TypeGarantiesFinancières.convertirEnValueType(type),
+    ...(dateÉchéance && { dateÉchéance: DateTime.convertirEnValueType(dateÉchéance) }),
     attestation,
   };
+  this.dépôts ? this.dépôts.push(dépôt) : (this.dépôts = [dépôt]);
 }
 
 class DépôtGarantiesFinancièresDéjàSoumisError extends InvalidOperationError {

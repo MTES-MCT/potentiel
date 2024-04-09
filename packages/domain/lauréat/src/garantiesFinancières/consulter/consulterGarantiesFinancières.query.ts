@@ -38,7 +38,7 @@ export type ConsulterGarantiesFinancièresReadModel = {
     validéLe?: DateTime.ValueType;
     dernièreMiseÀJour: {
       date: DateTime.ValueType;
-      par: IdentifiantUtilisateur.ValueType;
+      par?: IdentifiantUtilisateur.ValueType;
     };
   };
   dépôts: Array<DépôtGarantiesFinancières>;
@@ -96,7 +96,9 @@ export const registerConsulterGarantiesFinancièresQuery = ({
           : undefined,
       dernièreMiseÀJour: {
         date: DateTime.convertirEnValueType(result.actuelles.dernièreMiseÀJour.date),
-        par: IdentifiantUtilisateur.convertirEnValueType(result.actuelles.dernièreMiseÀJour.par),
+        par: result.actuelles.dernièreMiseÀJour.par
+          ? IdentifiantUtilisateur.convertirEnValueType(result.actuelles.dernièreMiseÀJour.par)
+          : undefined,
       },
     };
 
