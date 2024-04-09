@@ -165,9 +165,10 @@ Alors(
             identifiantProjetValue: identifiantProjet.formatter(),
           },
         });
-      } catch (error: any) {
+      } catch (error) {
         résultat = error;
       }
+      expect(résultat).not.to.be.undefined;
       résultat.message.should.be.equal(`Il n'y a aucunes garanties financières sur le projet`);
     });
   },
