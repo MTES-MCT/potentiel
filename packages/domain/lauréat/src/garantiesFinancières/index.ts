@@ -17,16 +17,25 @@ import { ModifierGarantiesFinancièresUseCase } from './modifier/modifierGaranti
 import { EnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
 import { EnregistrerGarantiesFinancièresUseCase } from './enregistrer/enregistrerGarantiesFinancières.usecase';
 import { EffacerHistoriqueGarantiesFinancièresUseCase } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.usecase';
+import {
+  ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
+  ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
+} from './enAttente/lister/listerProjetsAvecGarantiesFinancièresEnAttente.query';
 
 // Query
 export type GarantiesFinancièresQuery =
   | ConsulterGarantiesFinancièresQuery
-  | ListerDépôtsEnCoursGarantiesFinancièresQuery;
+  | ListerDépôtsEnCoursGarantiesFinancièresQuery
+  | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery;
 
 export { ConsulterGarantiesFinancièresQuery, ListerDépôtsEnCoursGarantiesFinancièresQuery };
 
 // ReadModel
-export { ConsulterGarantiesFinancièresReadModel, ListerDépôtsEnCoursGarantiesFinancièresReadModel };
+export {
+  ConsulterGarantiesFinancièresReadModel,
+  ListerDépôtsEnCoursGarantiesFinancièresReadModel,
+  ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
+};
 
 // UseCases
 export type GarantiesFinancièresUseCase =
@@ -82,3 +91,4 @@ export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinan
 // Projections
 export * from './garantiesFinancières.entity';
 export * from './dépôtEnCoursGarantiesFinancières.entity';
+export * from './projetAvecGarantiesFinancièresEnAttente.entity';
