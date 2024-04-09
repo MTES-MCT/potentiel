@@ -1,15 +1,15 @@
-import { Entity } from "@potentiel-domain/core";
+import { Entity } from '@potentiel-domain/core';
 
 type AppelOffreTypes =
-  | "autoconso"
-  | "batiment"
-  | "eolien"
-  | "innovation"
-  | "neutre"
-  | "sol"
-  | "zni"
-  | "biométhane"
-  | "autre";
+  | 'autoconso'
+  | 'batiment'
+  | 'eolien'
+  | 'innovation'
+  | 'neutre'
+  | 'sol'
+  | 'zni'
+  | 'biométhane'
+  | 'autre';
 
 type Ratios = {
   min: number;
@@ -23,7 +23,7 @@ type ChangementPuissance = { paragrapheAlerte?: string } & (
     }
   | {
       changementByTechnologie: true;
-      ratios: { [key in Exclude<Technologie, "N/A">]: Ratios };
+      ratios: { [key in Exclude<Technologie, 'N/A'>]: Ratios };
     }
 );
 
@@ -34,7 +34,7 @@ type DelaiRealisation =
     }
   | {
       delaiRealisationEnMoisParTechnologie: {
-        [key in Exclude<Technologie, "N/A">]: number;
+        [key in Exclude<Technologie, 'N/A'>]: number;
       };
       decoupageParTechnologie: true;
     };
@@ -48,12 +48,12 @@ type GarantiesFinancièresAppelOffre =
 
 // Courriers
 export type DonnéesCourriersRéponse = Record<
-  | "texteEngagementRéalisationEtModalitésAbandon"
-  | "texteChangementDActionnariat"
-  | "texteChangementDePuissance"
-  | "texteIdentitéDuProducteur"
-  | "texteChangementDeProducteur"
-  | "texteDélaisDAchèvement",
+  | 'texteEngagementRéalisationEtModalitésAbandon'
+  | 'texteChangementDActionnariat'
+  | 'texteChangementDePuissance'
+  | 'texteIdentitéDuProducteur'
+  | 'texteChangementDeProducteur'
+  | 'texteDélaisDAchèvement',
   {
     référenceParagraphe: string;
     dispositions: string;
@@ -71,28 +71,23 @@ export type DélaiApplicable = {
 };
 
 export const cahiersDesChargesRéférences = [
-  "initial",
-  "30/07/2021",
-  "30/08/2022",
-  "30/08/2022-alternatif",
-  "07/02/2023",
-  "07/02/2023-alternatif",
+  'initial',
+  '30/07/2021',
+  '30/08/2022',
+  '30/08/2022-alternatif',
+  '07/02/2023',
+  '07/02/2023-alternatif',
 ] as const;
 
-export type CahierDesChargesRéférence =
-  (typeof cahiersDesChargesRéférences)[number];
+export type CahierDesChargesRéférence = (typeof cahiersDesChargesRéférences)[number];
 
-const datesParutionCahiersDesChargesModifiés = [
-  "30/07/2021",
-  "30/08/2022",
-  "07/02/2023",
-] as const;
+const datesParutionCahiersDesChargesModifiés = ['30/07/2021', '30/08/2022', '07/02/2023'] as const;
 
 export type DateParutionCahierDesChargesModifié =
   (typeof datesParutionCahiersDesChargesModifiés)[number];
 
 export type CahierDesChargesModifié = {
-  type: "modifié";
+  type: 'modifié';
   paruLe: DateParutionCahierDesChargesModifié;
   alternatif?: true;
   numéroGestionnaireRequis?: true;
@@ -103,17 +98,17 @@ export type CahierDesChargesModifié = {
 };
 
 // Technologies
-export const technologies = ["pv", "eolien", "hydraulique", "N/A"] as const;
+export const technologies = ['pv', 'eolien', 'hydraulique', 'N/A'] as const;
 export type Technologie = (typeof technologies)[number];
 
 // Famille
 export type GarantiesFinancièresFamille =
   | {
-      soumisAuxGarantiesFinancieres: "après candidature";
+      soumisAuxGarantiesFinancieres: 'après candidature';
       garantieFinanciereEnMois: number;
     }
   | {
-      soumisAuxGarantiesFinancieres: "à la candidature" | "non soumis";
+      soumisAuxGarantiesFinancieres: 'à la candidature' | 'non soumis';
     };
 
 export type Famille = {
@@ -138,16 +133,21 @@ type NoteThresholdByCategory = {
   };
 };
 
+export type Validateur = {
+  fullName: string;
+  fonction?: string;
+};
 export type NotifiedPeriode = {
-  type?: "notified";
+  type?: 'notified';
   certificateTemplate: CertificateTemplate;
+  validateurParDéfaut: Validateur;
 } & (
   | {
-      noteThresholdBy: "family";
+      noteThresholdBy: 'family';
       noteThreshold: NoteThresholdByFamily[];
     }
   | {
-      noteThresholdBy: "category";
+      noteThresholdBy: 'category';
       noteThreshold: NoteThresholdByCategory;
     }
   | {
@@ -157,20 +157,21 @@ export type NotifiedPeriode = {
 );
 
 type NotYetNotifiedPeriode = {
-  type: "not-yet-notified";
+  type: 'not-yet-notified';
   certificateTemplate: CertificateTemplate;
+  validateurParDéfaut: Validateur;
   noteThresholdBy?: undefined;
   noteThreshold?: undefined;
 };
 
 type LegacyPeriode = {
-  type: "legacy";
+  type: 'legacy';
   certificateTemplate?: undefined;
   noteThresholdBy?: undefined;
   noteThreshold?: undefined;
 };
 
-export type CertificateTemplate = "cre4.v0" | "cre4.v1" | "ppe2.v1" | "ppe2.v2";
+export type CertificateTemplate = 'cre4.v0' | 'cre4.v1' | 'ppe2.v1' | 'ppe2.v2';
 
 export type Periode = {
   id: string;
@@ -190,12 +191,12 @@ export type Periode = {
 
 // Territoire
 export const territoires = [
-  "Corse",
-  "Guadeloupe",
-  "Guyane",
-  "La Réunion",
-  "Mayotte",
-  "Martinique",
+  'Corse',
+  'Guadeloupe',
+  'Guyane',
+  'La Réunion',
+  'Mayotte',
+  'Martinique',
 ] as const;
 export type Territoire = (typeof territoires)[number];
 
@@ -232,8 +233,8 @@ export type AppelOffre = {
   changementProducteurPossibleAvantAchèvement: boolean;
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponse>;
   doitPouvoirChoisirCDCInitial?: true;
-  autoritéCompétenteDemandesDélai: "dgec" | "dreal";
+  autoritéCompétenteDemandesDélai: 'dgec' | 'dreal';
 } & DelaiRealisation &
   GarantiesFinancièresAppelOffre;
 
-export type AppelOffreEntity = Entity<"appel-offre", AppelOffre>;
+export type AppelOffreEntity = Entity<'appel-offre', AppelOffre>;

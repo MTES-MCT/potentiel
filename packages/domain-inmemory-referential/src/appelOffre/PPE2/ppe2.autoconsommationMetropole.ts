@@ -1,4 +1,5 @@
 import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { validateurParDéfaut } from '../../validateurParDéfaut';
 
 const CDCModifié30082022: CahierDesChargesModifié = {
   type: 'modifié',
@@ -155,6 +156,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '1',
       title: 'première',
       certificateTemplate: 'ppe2.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       noteThreshold: 62.5,
       cahierDesCharges: {
         référence: '2021 S 176-457526',
@@ -167,6 +169,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '2',
       title: 'deuxième',
       certificateTemplate: 'ppe2.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
       noteThreshold: 66.95,
       cahierDesCharges: {
         référence: '2022 S 038 098159',
@@ -179,6 +182,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '3',
       title: 'troisième',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.nicolas,
       noteThreshold: 72.13,
       cahierDesCharges: {
         référence: '2022 S 150-427955',
@@ -190,6 +194,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     {
       id: '4',
       title: 'quatrième',
+      validateurParDéfaut: validateurParDéfaut.hermine,
       certificateTemplate: 'ppe2.v2',
       noteThreshold: 76.25,
       cahierDesCharges: {

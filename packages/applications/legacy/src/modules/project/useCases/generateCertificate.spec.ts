@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { Readable } from 'stream';
 import { Repository, UniqueEntityID } from '../../../core/domain';
 import { ok, okAsync } from '../../../core/utils';
-import { CertificateTemplate } from '@potentiel-domain/appel-offre';
+import { AppelOffre, CertificateTemplate, Validateur } from '@potentiel-domain/appel-offre';
 import { fakeRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates';
 import { FileObject } from '../../file';
 import { OtherError, InfraNotAvailableError } from '../../shared';
@@ -11,8 +11,8 @@ import makeFakeUser from '../../../__tests__/fixtures/user';
 import { ProjectDataForCertificate } from '../dtos';
 import { Project } from '../Project';
 import { makeGenerateCertificate } from './generateCertificate';
-import { Validateur } from '../../../views/certificates';
 import { User } from '../../../infra/sequelize/projectionsNext';
+import { AppelOffreRepo } from '../../../dataAccess';
 
 const projectId = 'project1';
 
@@ -44,6 +44,13 @@ describe('useCase generateCertificate', () => {
     load: jest.fn(),
   };
 
+  const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
+    ({
+      id: 'appelOffreId',
+      periodes: [{ id: 'periodeId', type: 'notified', choisirNouveauCahierDesCharges: true }],
+      familles: [{ id: 'familleId' }],
+    } as AppelOffre);
+
   const user = makeFakeUser({ id: validateurId, fonction: 'directeur' });
   const getUserById = jest.fn((id: string) => okAsync<User | null, InfraNotAvailableError>(user));
 
@@ -51,6 +58,7 @@ describe('useCase generateCertificate', () => {
     fileRepo: fileRepo as Repository<FileObject>,
     projectRepo,
     buildCertificate,
+    findAppelOffreById,
     getUserById,
   });
 

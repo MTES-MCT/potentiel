@@ -1,4 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { validateurParDéfaut } from '../../validateurParDéfaut';
 
 export const neutrePPE2: AppelOffre = {
   id: 'PPE2 - Neutre',
@@ -74,6 +75,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'première',
       type: 'notified',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.nicolas,
       noteThreshold: 26.89,
       cahierDesCharges: {
         référence: '2022 S 100-276861',
@@ -98,6 +100,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'deuxième',
       type: 'notified',
       certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.hermine,
       noteThreshold: 26.87,
       cahierDesCharges: {
         référence: '2023 S 147-469153',
