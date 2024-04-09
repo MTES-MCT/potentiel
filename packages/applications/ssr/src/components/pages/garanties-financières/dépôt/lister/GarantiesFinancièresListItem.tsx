@@ -87,7 +87,13 @@ export const GarantiesFinancièresDépôtsEnCoursListItem: FC<
         </div>
         <ul className="mt-3 text-sm">
           <li>
-            Type : <span className="font-semibold">{type}</span>
+            {type ? (
+              <span>
+                Type : <span className="font-semibold">{type}</span>
+              </span>
+            ) : (
+              'Type de garanties financières à compléter'
+            )}
           </li>
           {dateÉchéance && (
             <li>

@@ -4,6 +4,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError } from '../../aucunDépôtEnCoursGarantiesFinancièresPourLeProjet.error';
+import { TypeGarantiesFinancières } from '../..';
 
 export type DépôtGarantiesFinancièresEnCoursValidéEvent = DomainEvent<
   'DépôtGarantiesFinancièresEnCoursValidé-V1',
@@ -46,7 +47,7 @@ export function applyDépôtGarantiesFinancièresEnCoursValidé(
   const dépôtValidé = this.dépôts && this.dépôts.find((dépôt) => dépôt.statut.estEnCours());
 
   this.actuelles = {
-    type: dépôtValidé ? dépôtValidé.type : 'type-inconnu',
+    type: dépôtValidé ? dépôtValidé.type : TypeGarantiesFinancières.typeInconnu,
     ...(dépôtValidé && dépôtValidé.dateÉchéance && { dateÉchéance: dépôtValidé!.dateÉchéance }),
     dateConstitution: dépôtValidé && dépôtValidé.dateConstitution,
     validéLe: DateTime.convertirEnValueType(validéLe),

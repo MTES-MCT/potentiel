@@ -325,7 +325,7 @@ export const register = () => {
               actuelles: {
                 type:
                   garantiesFinancièresToUpsert.actuelles?.type ??
-                  GarantiesFinancières.TypeGarantiesFinancières.inconnu.type,
+                  GarantiesFinancières.TypeGarantiesFinancières.typeInconnu.type,
                 ...garantiesFinancièresToUpsert.actuelles,
                 dateConstitution: payload.dateConstitution,
                 attestation: payload.attestation,

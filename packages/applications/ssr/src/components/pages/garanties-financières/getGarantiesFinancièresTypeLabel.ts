@@ -10,5 +10,7 @@ export const getGarantiesFinancièresTypeLabel = (
       return "Avec date d'échéance";
     case 'six-mois-après-achèvement':
       return 'Six mois après achèvement';
+    case 'type-inconnu':
+      return '';
   }
 };
