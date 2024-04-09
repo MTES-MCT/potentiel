@@ -1,6 +1,9 @@
 import { CommonError, CommonPort, DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { ProjetAvecGarantiesFinancièresEnAttenteEntity } from '../..';
+import {
+  MotifDemandeGarantiesFinancières,
+  ProjetAvecGarantiesFinancièresEnAttenteEntity,
+} from '../..';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-librairies/monads';
 import { List } from '@potentiel-domain/core';
@@ -12,6 +15,7 @@ type ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel = {
   appelOffre: string;
   période: string;
   famille?: string;
+  motif: MotifDemandeGarantiesFinancières.ValueType;
   dernièreMiseÀJour: {
     date: DateTime.ValueType;
   };
@@ -92,6 +96,7 @@ const mapToReadModel = ({
   période,
   régionProjet,
   famille,
+  motif,
   dernièreMiseÀJour: { date },
 }: ProjetAvecGarantiesFinancièresEnAttenteEntity): ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
@@ -100,6 +105,7 @@ const mapToReadModel = ({
   période,
   famille,
   régionProjet,
+  motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
   dernièreMiseÀJour: {
     date: DateTime.convertirEnValueType(date),
   },

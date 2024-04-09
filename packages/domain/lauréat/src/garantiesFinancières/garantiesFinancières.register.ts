@@ -27,6 +27,7 @@ import {
 } from './dépôt/lister/listerDépôtsEnCoursGarantiesFinancières.query';
 import { registerEffacerHistoriqueGarantiesFinancièresCommand } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.command';
 import { registerEffacerHistoriqueGarantiesFinancièresUseCase } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.usecase';
+import { registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery } from './enAttente/lister/listerProjetsAvecGarantiesFinancièresEnAttente.query';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerDépôtsEnCoursGarantiesFinancièresDependencies;
@@ -66,4 +67,5 @@ export const registerGarantiesFinancièresQueries = (
 ) => {
   registerConsulterGarantiesFinancièresQuery(dependencies);
   registerListerDépôtsEnCoursGarantiesFinancièresQuery(dependencies);
+  registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery(dependencies);
 };

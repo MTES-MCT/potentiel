@@ -9,6 +9,7 @@ export type ProjetAvecGarantiesFinancièresEnAttenteEntity = Entity<
     appelOffre: string;
     période: string;
     famille?: string;
+    motif: string;
     dernièreMiseÀJour: {
       date: string;
     };

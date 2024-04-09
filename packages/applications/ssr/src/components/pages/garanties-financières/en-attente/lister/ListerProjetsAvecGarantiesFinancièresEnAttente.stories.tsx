@@ -1,20 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import {
-  ListerGarantiesFinancièresEnAttentePage,
-  ListerGarantiesFinancièresEnAttenteProps,
-} from './ListerGarantiesFinancièresEnAttente.page';
+  ListProjetsAvecGarantiesFinancièresEnAttentePage,
+  ListProjetsAvecGarantiesFinancièresEnAttenteProps,
+} from './ListerProjetsAvecGarantiesFinancièresEnAttente.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Pages/Garanties-financières/En attente/Lister',
-  component: ListerGarantiesFinancièresEnAttentePage,
+  title: 'Pages/Garanties-financières/Projets en attente/Lister',
+  component: ListProjetsAvecGarantiesFinancièresEnAttentePage,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {
     list: {},
   },
-} satisfies Meta<ListerGarantiesFinancièresEnAttenteProps>;
+} satisfies Meta<ListProjetsAvecGarantiesFinancièresEnAttenteProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -55,10 +55,8 @@ export const Default: Story = {
           période: 'Période',
           famille: 'Famille',
           nomProjet: 'Le projet',
-          statut: 'en-attente',
           misÀJourLe: '2023-02-12',
           régionProjet: 'Région A / Région B',
-          action: 'relancer',
         },
         {
           identifiantProjet: '#identifiantProjet-3',
@@ -66,11 +64,8 @@ export const Default: Story = {
           période: 'Période',
           famille: 'Famille',
           nomProjet: 'Le projet',
-          statut: 'en-attente',
           misÀJourLe: '2023-02-12',
-          dateÉchéance: '2023-02-12',
           régionProjet: 'Région A / Région B',
-          action: 'télécharger--modèle-mise-en-demeure',
         },
       ],
     },

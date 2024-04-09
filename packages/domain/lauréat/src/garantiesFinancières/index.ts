@@ -28,7 +28,11 @@ export type GarantiesFinancièresQuery =
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
   | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery;
 
-export { ConsulterGarantiesFinancièresQuery, ListerDépôtsEnCoursGarantiesFinancièresQuery };
+export {
+  ConsulterGarantiesFinancièresQuery,
+  ListerDépôtsEnCoursGarantiesFinancièresQuery,
+  ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
+};
 
 // ReadModel
 export {

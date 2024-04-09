@@ -95,6 +95,7 @@ export const register = () => {
         période: '',
         famille: '',
         régionProjet: '',
+        motif: '',
         dernièreMiseÀJour: {
           date: '',
         },
@@ -152,6 +153,7 @@ export const register = () => {
               période: projetPourGarantiesFinancièresSoumises.période,
               famille: projetPourGarantiesFinancièresSoumises.famille,
               régionProjet: projetPourGarantiesFinancièresSoumises.régionProjet,
+              motif: payload.motif ?? '',
               dernièreMiseÀJour: {
                 date: payload.demandéLe,
               },

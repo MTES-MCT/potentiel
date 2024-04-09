@@ -6,22 +6,22 @@ import { FC } from 'react';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 
 import {
-  ListItemGarantiesFinancièresEnAttente,
-  ListItemGarantiesFinancièresEnAttenteProps,
-} from './ListItemGarantiesFinancièresEnAttente';
+  ListItemProjetAvecGarantiesFinancièresEnAttente,
+  ListItemProjetAvecGarantiesFinancièresEnAttenteProps,
+} from './ListItemProjetAvecGarantiesFinancièresEnAttente';
 
-export type ListerGarantiesFinancièresEnAttenteProps = {
+export type ListProjetsAvecGarantiesFinancièresEnAttenteProps = {
   list: {
-    items: Array<ListItemGarantiesFinancièresEnAttenteProps>;
+    items: Array<ListItemProjetAvecGarantiesFinancièresEnAttenteProps>;
     currentPage: number;
     totalItems: number;
     itemsPerPage: number;
   };
-  filters: ListPageTemplateProps<ListItemGarantiesFinancièresEnAttenteProps>['filters'];
+  filters: ListPageTemplateProps<ListItemProjetAvecGarantiesFinancièresEnAttenteProps>['filters'];
 };
 
-export const ListerGarantiesFinancièresEnAttentePage: FC<
-  ListerGarantiesFinancièresEnAttenteProps
+export const ListProjetsAvecGarantiesFinancièresEnAttentePage: FC<
+  ListProjetsAvecGarantiesFinancièresEnAttenteProps
 > = ({ list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage }, filters }) => {
   const searchParams = useSearchParams();
   const appelOffre = searchParams.get('appelOffre') ?? undefined;
@@ -39,7 +39,7 @@ export const ListerGarantiesFinancièresEnAttentePage: FC<
 
   return (
     <ListPageTemplate
-      heading="Garanties financières en attente"
+      heading="Projets avec des garanties financières en attente"
       actions={[]}
       items={garantiesFinancières.map((gf) => ({
         ...gf,
@@ -48,7 +48,7 @@ export const ListerGarantiesFinancièresEnAttentePage: FC<
       currentPage={currentPage}
       totalItems={totalItems}
       itemsPerPage={itemsPerPage}
-      ItemComponent={ListItemGarantiesFinancièresEnAttente}
+      ItemComponent={ListItemProjetAvecGarantiesFinancièresEnAttente}
       tagFilters={tagFilters}
       filters={filters}
     />

@@ -19,8 +19,8 @@ export async function UserBasedRoleNavigation() {
 }
 
 const menuLinks = {
-  garantiesFinancières: {
-    listerDépôtsEnCours: {
+  listerGarantiesFinancières: [
+    {
       text: 'Garanties financières en cours',
       linkProps: {
         href: featureFlags.SHOW_GARANTIES_FINANCIERES
@@ -28,7 +28,17 @@ const menuLinks = {
           : '/admin/garanties-financieres.html',
       },
     },
-  },
+    ...(featureFlags.SHOW_GARANTIES_FINANCIERES
+      ? [
+          {
+            text: 'Projets avec garanties financières en attente',
+            linkProps: {
+              href: Routes.GarantiesFinancières.enAttente.lister,
+            },
+          },
+        ]
+      : []),
+  ],
 };
 
 const getNavigationItemsBasedOnRole = (
@@ -63,7 +73,7 @@ const getNavigationItemsBasedOnRole = (
         },
         {
           text: 'Garanties Financières',
-          menuLinks: [menuLinks.garantiesFinancières.listerDépôtsEnCours],
+          menuLinks: [...menuLinks.listerGarantiesFinancières],
         },
         {
           text: 'Imports',
@@ -191,7 +201,7 @@ const getNavigationItemsBasedOnRole = (
         },
         {
           text: 'Garanties Financières',
-          menuLinks: [menuLinks.garantiesFinancières.listerDépôtsEnCours],
+          menuLinks: [...menuLinks.listerGarantiesFinancières],
         },
       ];
     case 'porteur-projet':

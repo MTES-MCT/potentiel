@@ -120,6 +120,8 @@ const référencielPermissions = {
         consulter: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
         listerDépôtsEnCours:
           'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
+        listerProjetsAvecGarantiesFinancièresEnAttente:
+          'Lauréat.GarantiesFinancières.Query.ListerProjetsAvecGarantiesFinancièresEnAttente',
       },
       usecase: {
         demander: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
@@ -515,6 +517,13 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.command.enregistrer,
       ],
     },
+    enAttente: {
+      lister: [
+        référencielPermissions.lauréat.garantiesFinancières.query
+          .listerProjetsAvecGarantiesFinancièresEnAttente,
+        référencielPermissions.appelOffre.query.lister,
+      ],
+    },
   },
 };
 
@@ -554,6 +563,7 @@ const permissionAdmin = [
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.actuelles.enregistrer,
   ...policies.garantiesFinancières.effacerHistorique,
+  ...policies.garantiesFinancières.enAttente.lister,
 ];
 
 const permissionCRE = [
@@ -589,6 +599,7 @@ const permissionDreal = [
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.actuelles.enregistrer,
   ...policies.garantiesFinancières.effacerHistorique,
+  ...policies.garantiesFinancières.enAttente.lister,
 ];
 
 const permissionDgecValidateur = [
@@ -627,6 +638,7 @@ const permissionDgecValidateur = [
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.actuelles.enregistrer,
   ...policies.garantiesFinancières.effacerHistorique,
+  ...policies.garantiesFinancières.enAttente.lister,
 ];
 
 const permissionPorteurProjet = [

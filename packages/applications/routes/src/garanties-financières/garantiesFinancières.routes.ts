@@ -24,3 +24,7 @@ export const détail = (identifiantProjet: string) =>
 
 export const téléchargerModèleMiseEnDemeure = (identitifiantProjet: string) =>
   `/laureats/${encodeParameter(identitifiantProjet)}/garanties-financieres/modèle-mise-en-demeure`;
+
+export const enAttente = {
+  lister: `/garanties-financieres/projets-en-attente`,
+};
