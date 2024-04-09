@@ -8,7 +8,9 @@
   "scripts": {
     "build": "tsc"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@potentiel-domain/appel-offre": "*"
+  },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"
   }
