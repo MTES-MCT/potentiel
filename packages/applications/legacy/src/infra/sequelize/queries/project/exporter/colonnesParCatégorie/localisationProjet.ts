@@ -8,6 +8,6 @@ export const localisationProjet: Readonly<Array<Colonne>> = [
   },
   { source: 'champ-simple', nomColonneTableProjet: 'codePostalProjet', intitulé: 'CP' },
   { source: 'champ-simple', nomColonneTableProjet: 'communeProjet', intitulé: 'Commune' },
-  { nomPropriété: `Département`, source: 'propriété-colonne-détail' },
-  { nomPropriété: `Région`, source: 'propriété-colonne-détail' },
+  { source: 'champ-simple', nomColonneTableProjet: 'departementProjet', intitulé: 'Département' },
+  { source: 'champ-simple', nomColonneTableProjet: 'regionProjet', intitulé: 'Région' },
 ];
