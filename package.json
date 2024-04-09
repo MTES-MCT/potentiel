@@ -42,7 +42,7 @@
     "prestart:dev": "npm run build",
     "start:dev": "docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U potadmindb -d potentiel; do sleep 1; done && npm run start:dev --workspaces --if-present ",
     "stop:dev": "docker compose  --profile app down --remove-orphans",
-    "build": "npm run build --workspaces --if-present",
+    "build": "turbo run build",
     "dev": "npm run dev --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "format": "npm run format --workspaces --if-present",
@@ -75,6 +75,7 @@
     "prettier": "^2.8.8",
     "pretty-format": "^29.6.3",
     "ts-node": "^10.9.2",
+    "turbo": "^1.13.2",
     "typescript": "^5.2.2"
   },
   "engines": {
