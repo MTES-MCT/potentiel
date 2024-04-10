@@ -51,7 +51,6 @@ export const listerProjetsPourDreal: ListerProjets = async ({
         [Op.substring]: utilisateur.dreal,
       },
     },
-    include: [...(findOptions?.include ? findOptions.include : [])],
     ...mapToOffsetAndLimit(pagination),
     attributes,
   });

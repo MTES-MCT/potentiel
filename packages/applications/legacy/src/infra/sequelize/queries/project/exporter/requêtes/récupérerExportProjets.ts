@@ -35,7 +35,6 @@ export const récupérerExportProjets = ({
         }),
       },
       include: [
-        ...(findOptions ? findOptions.include : []),
         ...(seulementLesProjetsAvecAccèsPour
           ? [
               {

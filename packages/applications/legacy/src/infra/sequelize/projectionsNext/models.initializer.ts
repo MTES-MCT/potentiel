@@ -1,10 +1,6 @@
 import { Sequelize } from 'sequelize';
 import { initializeFileModel } from './file/file.initializer';
 import {
-  initializeGarantiesFinancièresModel,
-  initializeGarantiesFinancièresModelAssociations,
-} from './garantiesFinancières/garantiesFinancières.initializer';
-import {
   initializeModificationRequestModel,
   initializeModificationRequestModelAssociations,
 } from './modificationRequest/modificationRequest.initializer';
@@ -32,7 +28,7 @@ import { initializeUserModel, initializeUserModelAssociations } from './users/us
 export const initializeModels = (sequelize: Sequelize) => {
   // First initialize models
   initializeFileModel(sequelize);
-  initializeGarantiesFinancièresModel(sequelize);
+
   initializeModificationRequestModel(sequelize);
   initializeNotificationModel(sequelize);
   initializeProjectModel(sequelize);
@@ -44,7 +40,7 @@ export const initializeModels = (sequelize: Sequelize) => {
   initializeUserModel(sequelize);
 
   // Then initialize model associations
-  initializeGarantiesFinancièresModelAssociations();
+
   initializeModificationRequestModelAssociations();
   initializeProjectModelModelAssociations();
   initializeUserDrealModelAssociations();
