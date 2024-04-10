@@ -1,3 +1,5 @@
+--TO DO ! Avant de jouer ces requêtes vérifier qu'on a tous les types de fichiers pris en compte
+
 -- Migration des garanties financières demandées [projet classé, non abandonné, pas de GF et une date limite d'envoi définie, ou à traiter avec date limite d'envoi]
 
 INSERT INTO
