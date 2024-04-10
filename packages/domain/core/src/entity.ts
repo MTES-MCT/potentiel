@@ -46,11 +46,19 @@ export type List = <TEntity extends Entity>(
   options: ListOptions<TEntity>,
 ) => Promise<ListResult<TEntity>>;
 
-type OrderByOptions<TEntity extends Entity> = {};
+export type Order = 'ascending' | 'descending';
+
+export type OrderByOptions<TType> = {
+  [TProperty in keyof TType]?: TType[TProperty] extends string | boolean | number
+    ? Order
+    : TType[TProperty] extends Record<string, infer U>
+    ? OrderByOptions<TType[TProperty]>
+    : never;
+};
 
 export type ListOptionsV2<TEntity extends Entity> = {
   type: TEntity['type'];
-  orderBy: OrderByOptions<TEntity>;
+  orderBy?: OrderByOptions<Omit<TEntity, 'type'>>;
 };
 
 export type ListResultV2<TEntity extends Entity> = {

@@ -81,7 +81,8 @@ describe('listProjectionV2', () => {
       type: 'gestionnaire-réseau',
       orderBy: {
         data: {
-          name: 'desc',
+          name: 'ascending',
+          value: 'descending',
         },
       },
     });
