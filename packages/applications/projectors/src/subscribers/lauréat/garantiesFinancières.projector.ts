@@ -148,11 +148,11 @@ export const register = () => {
             {
               ...projetAvecGarantiesFinancièresEnAttenteToUpsert,
               identifiantProjet: payload.identifiantProjet,
-              nomProjet: projetPourGarantiesFinancièresSoumises.nomProjet,
-              appelOffre: projetPourGarantiesFinancièresSoumises.appelOffre,
-              période: projetPourGarantiesFinancièresSoumises.période,
-              famille: projetPourGarantiesFinancièresSoumises.famille,
-              régionProjet: projetPourGarantiesFinancièresSoumises.régionProjet,
+              nomProjet: projet.nomProjet,
+              appelOffre: projet.appelOffre,
+              période: projet.période,
+              famille: projet.famille,
+              régionProjet: projet.régionProjet,
               motif: payload.motif ?? '',
               dernièreMiseÀJour: {
                 date: payload.demandéLe,
