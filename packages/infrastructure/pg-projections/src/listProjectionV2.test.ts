@@ -1,9 +1,9 @@
-import { describe, it, beforeEach, before, after } from 'node:test';
 import { should } from 'chai';
+import { after, before, beforeEach, describe, it } from 'node:test';
 
-import { executeQuery, killPool } from '@potentiel-librairies/pg-helpers';
 import { Entity, ListResultV2 } from '@potentiel-domain/core';
 import { unflatten } from '@potentiel-librairies/flat-cjs';
+import { executeQuery, killPool } from '@potentiel-librairies/pg-helpers';
 
 import { listProjectionV2 } from './listProjectionV2';
 
@@ -56,8 +56,7 @@ describe('listProjectionV2', () => {
     Quand je récupére la liste des gestionnaire réseau
     Alors l'ensemble des gestionnaire réseaux est retourné sous la forme d'un résultat
   `, async () => {
-    // Act
-    const { items: actual } = await listProjectionV2<GestionnaireRéseau>({
+    const actual = await listProjectionV2<GestionnaireRéseau>({
       type: 'gestionnaire-réseau',
     });
 
@@ -68,10 +67,6 @@ describe('listProjectionV2', () => {
       })),
     };
 
-    console.table(actual[0]);
-    console.table(expected.items[0]);
-
-    // Assert
-    actual.should.be.deep.equal(expected);
+    actual.should.be.eql(expected);
   });
 });
