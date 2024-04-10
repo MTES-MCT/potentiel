@@ -63,6 +63,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
     identifiantProjetValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+
     const result = await find<GarantiesFinancièresEntity>(
       `garanties-financieres|${identifiantProjet.formatter()}`,
     );
@@ -129,6 +130,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
         statut: StatutDépôtGarantiesFinancières.convertirEnValueType(statut),
       }),
     );
+
     return {
       identifiantProjet,
       actuelles,

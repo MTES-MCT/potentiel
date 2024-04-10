@@ -1,6 +1,11 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const types = ['consignation', 'avec-date-échéance', 'six-mois-après-achèvement'] as const;
+export const types = [
+  'consignation',
+  'avec-date-échéance',
+  'six-mois-après-achèvement',
+  'type-inconnu',
+] as const;
 
 export type RawType = (typeof types)[number];
 
@@ -9,6 +14,7 @@ export type ValueType = ReadonlyValueType<{
   estConsignation: () => boolean;
   estAvecDateÉchéance: () => boolean;
   estSixMoisAprèsAchèvement: () => boolean;
+  estInconnu: () => boolean;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -29,11 +35,14 @@ export const convertirEnValueType = (value: string): ValueType => {
     estSixMoisAprèsAchèvement() {
       return this.type === 'six-mois-après-achèvement';
     },
+    estInconnu() {
+      return this.type === 'type-inconnu';
+    },
   };
 };
 
 function estValide(value: string): asserts value is RawType {
-  const isValid = [...types, 'type-inconnu'].includes(value as RawType);
+  const isValid = types.includes(value as RawType);
 
   if (!isValid) {
     throw new TypeGarantiesFinancièresInvalideError(value);
@@ -43,7 +52,7 @@ function estValide(value: string): asserts value is RawType {
 export const consignation = convertirEnValueType('consignation');
 export const avecDateÉchéance = convertirEnValueType('avec-date-échéance');
 export const sixMoisAprèsAchèvement = convertirEnValueType('six-mois-après-achèvement');
-export const inconnu = convertirEnValueType('type-inconnu');
+export const typeInconnu = convertirEnValueType('type-inconnu');
 
 class TypeGarantiesFinancièresInvalideError extends InvalidOperationError {
   constructor(value: string) {

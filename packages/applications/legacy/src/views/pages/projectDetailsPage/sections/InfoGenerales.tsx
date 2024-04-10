@@ -148,7 +148,9 @@ const GarantiesFinancièresProjet = ({
         <p className="mt-0 mb-3">
           Le projet dispose actuellement de{' '}
           <span className="font-semibold">
-            garanties financières validées {getGFLabel(garantiesFinancières.actuelles.type)}
+            garanties financières validées
+            {garantiesFinancières.actuelles.type &&
+              `${getGFLabel(garantiesFinancières.actuelles.type)}`}
           </span>
           {garantiesFinancières.actuelles.dateConstitution && (
             <>
@@ -224,11 +226,11 @@ const GarantiesFinancièresProjet = ({
 const getGFLabel = (type?: GarantiesFinancières.TypeGarantiesFinancières.RawType) => {
   switch (type) {
     case 'consignation':
-      return 'de type consignation';
+      return ' de type consignation';
     case 'avec-date-échéance':
-      return "avec date d'échéance";
+      return " avec date d'échéance";
     case 'six-mois-après-achèvement':
-      return "avec une durée de validité jusqu'à six mois après achèvement du projet";
+      return " avec une durée de validité jusqu'à six mois après achèvement du projet";
     default:
       return '';
   }

@@ -111,7 +111,7 @@ export const register = () => {
         };
       };
 
-      const projetPourGarantiesFinancièresSoumises = await getProjectData(identifiantProjet);
+      const projet = await getProjectData(identifiantProjet);
 
       switch (type) {
         case 'DépôtGarantiesFinancièresSoumis-V1':
@@ -119,7 +119,7 @@ export const register = () => {
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
-              ...projetPourGarantiesFinancièresSoumises,
+              ...projet,
               dépôts: [
                 ...garantiesFinancièresToUpsert.dépôts,
                 {
@@ -141,7 +141,7 @@ export const register = () => {
           await upsertProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
             `depot-en-cours-garanties-financieres|${identifiantProjet}`,
             {
-              ...projetPourGarantiesFinancièresSoumises,
+              ...projet,
               identifiantProjet,
               dépôt: {
                 type: payload.type,
@@ -260,7 +260,7 @@ export const register = () => {
           await upsertProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
             `depot-en-cours-garanties-financieres|${identifiantProjet}`,
             {
-              ...projetPourGarantiesFinancièresSoumises,
+              ...projet,
               identifiantProjet,
               dépôt: {
                 ...dépôtEnCoursGarantiesFinancièresToUpsert.dépôt,
@@ -278,12 +278,11 @@ export const register = () => {
           break;
 
         case 'TypeGarantiesFinancièresImporté-V1':
-          const projetPourTypeGarantiesFinancièresImporté = await getProjectData(identifiantProjet);
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
-              ...projetPourTypeGarantiesFinancièresImporté,
+              ...projet,
               actuelles: {
                 type: payload.type,
                 dateÉchéance: payload.dateÉchéance,
@@ -322,10 +321,11 @@ export const register = () => {
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
+              ...projet,
               actuelles: {
                 type:
                   garantiesFinancièresToUpsert.actuelles?.type ??
-                  GarantiesFinancières.TypeGarantiesFinancières.inconnu.type,
+                  GarantiesFinancières.TypeGarantiesFinancières.typeInconnu.type,
                 ...garantiesFinancièresToUpsert.actuelles,
                 dateConstitution: payload.dateConstitution,
                 attestation: payload.attestation,
@@ -343,6 +343,7 @@ export const register = () => {
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
+              ...projet,
               actuelles: {
                 type: payload.type,
                 dateÉchéance: payload.dateÉchéance,
