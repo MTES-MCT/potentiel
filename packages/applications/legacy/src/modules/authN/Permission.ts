@@ -1,12 +1,6 @@
 import { UserRole } from '../users';
 import {
   PermissionConsulterProjet,
-  PermissionInvaliderGF,
-  PermissionValiderGF,
-  PermissionAnnulerGF,
-  PermissionAjouterTypeEtDateEcheanceGF,
-  PermissionUploaderGF,
-  PermissionRetirerGF,
   PermissionListerProjets,
   PermissionExporterProjets,
 } from '../project';
@@ -25,41 +19,18 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
       return [
         PermissionListerProjets,
         PermissionConsulterProjet,
-        PermissionValiderGF,
-        PermissionInvaliderGF,
-        PermissionAjouterTypeEtDateEcheanceGF,
-        PermissionUploaderGF,
-        PermissionRetirerGF,
         PermissionListerDemandesAdmin,
         PermissionExporterProjets,
       ];
     case 'porteur-projet':
-      return [
-        PermissionListerProjets,
-        PermissionConsulterProjet,
-        PermissionAnnulerGF,
-        PermissionRetirerGF,
-        PermissionExporterProjets,
-        PermissionUploaderGF,
-      ];
+      return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets];
     case 'caisse-des-dépôts':
-      return [
-        PermissionListerProjets,
-        PermissionConsulterProjet,
-        PermissionAnnulerGF,
-        PermissionAjouterTypeEtDateEcheanceGF,
-        PermissionUploaderGF,
-        PermissionRetirerGF,
-        PermissionExporterProjets,
-      ];
+      return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets];
     case 'admin':
       return [
         PermissionListerProjets,
         PermissionListerDemandesAdmin,
         PermissionConsulterProjet,
-        PermissionAjouterTypeEtDateEcheanceGF,
-        PermissionUploaderGF,
-        PermissionRetirerGF,
         PermissionInviterDgecValidateur,
         PermissionInviterAdministrateur,
         PermissionExporterProjets,
@@ -70,9 +41,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionListerProjets,
         PermissionListerDemandesAdmin,
         PermissionConsulterProjet,
-        PermissionAjouterTypeEtDateEcheanceGF,
-        PermissionUploaderGF,
-        PermissionRetirerGF,
         PermissionExporterProjets,
         PermissionListerProjetsÀNotifier,
         PermissionInviterAdministrateur,
@@ -80,12 +48,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
     case 'acheteur-obligé':
       return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets];
     case 'cre':
-      return [
-        PermissionListerProjets,
-        PermissionConsulterProjet,
-        PermissionExporterProjets,
-        PermissionUploaderGF,
-      ];
+      return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets];
     case 'ademe':
       return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets];
     default:
