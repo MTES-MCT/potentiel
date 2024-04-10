@@ -1,7 +1,6 @@
 import { wrapInfra } from '../../../../../../core/utils';
 import { FiltreListeProjets } from '../../../../../../modules/project/queries/listerProjets';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
-import { GarantiesFinancières } from '../../../../projectionsNext/garantiesFinancières/garantiesFinancières.model';
 import { Colonne, isNotPropriétéDeLaColonneDétail, isPropriétéDeLaColonneDétail } from '../Colonne';
 import { Literal } from 'sequelize/types/utils';
 import { Project, UserProjects } from '../../../../projectionsNext';
@@ -37,11 +36,6 @@ export const récupérerExportProjets = ({
       },
       include: [
         ...(findOptions ? findOptions.include : []),
-        {
-          model: GarantiesFinancières,
-          as: 'garantiesFinancières',
-          attributes: [],
-        },
         ...(seulementLesProjetsAvecAccèsPour
           ? [
               {
