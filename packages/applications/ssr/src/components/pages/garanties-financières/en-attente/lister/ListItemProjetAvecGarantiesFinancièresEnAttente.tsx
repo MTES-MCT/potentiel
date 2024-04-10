@@ -4,6 +4,8 @@ import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 
+import { formatDateForText } from '@/utils/formatDateForText';
+
 export type ListItemProjetAvecGarantiesFinancièresEnAttenteProps = {
   identifiantProjet: string;
   nomProjet: string;
@@ -49,7 +51,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
     </div>
 
     <div className="flex flex-col justify-between mt-4 md:mt-0">
-      <p className="italic text-xs">Dernière mise à jour le {misÀJourLe}</p>
+      <p className="italic text-xs">Dernière mise à jour le {formatDateForText(misÀJourLe)}</p>
       <Link
         href={Routes.Projet.details(identifiantProjet)}
         className="self-end mt-2"

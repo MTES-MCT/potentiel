@@ -50,6 +50,24 @@ export const setupTâche = async () => {
     },
   });
 
+  const unsubscribeTâcheGarantiesFinancièresSaga = await subscribe<
+    TâcheSaga.GarantiesFinancièresSubscriptionEvent & Event
+  >({
+    name: 'tache-saga',
+    streamCategory: 'garanties-financieres',
+    eventType: [
+      'GarantiesFinancièresDemandées-V1',
+      'DépôtGarantiesFinancièresSoumis-V1',
+      'GarantiesFinancièresEnregistrées-V1',
+    ],
+    eventHandler: async (event) => {
+      await mediator.publish<TâcheSaga.Execute>({
+        type: 'System.Saga.Tâche',
+        data: event,
+      });
+    },
+  });
+
   const unsubscribeTâcheProjector = await subscribe<TâcheProjector.SubscriptionEvent>({
     name: 'projector',
     eventType: [
@@ -71,6 +89,7 @@ export const setupTâche = async () => {
   return async () => {
     await unsubscribeTâcheAbandonSaga();
     await unsubscribeTâcheRaccordementSaga();
+    await unsubscribeTâcheGarantiesFinancièresSaga();
     await unsubscribeTâcheProjector();
   };
 };

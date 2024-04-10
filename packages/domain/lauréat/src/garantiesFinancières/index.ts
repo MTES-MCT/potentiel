@@ -78,6 +78,7 @@ export { TypeGarantiesFinancièresImportéEvent } from './importer/importerTypeG
 export { GarantiesFinancièresModifiéesEvent } from './modifier/modifierGarantiesFinancières.behavior';
 export { AttestationGarantiesFinancièresEnregistréeEvent } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
 export { HistoriqueGarantiesFinancièresEffacéEvent } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.behavior';
+export { GarantiesFinancièresEnregistréesEvent } from './enregistrer/enregistrerGarantiesFinancières.behavior';
 
 // Register
 export {

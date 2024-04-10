@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { Abandon } from '@potentiel-domain/laureat';
+import { Abandon, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { AjouterTâcheCommand } from './ajouter/ajouterTâche.command';
@@ -16,7 +16,15 @@ export type AbandonSubscriptionEvent =
 
 export type RaccordementSubscriptionEvent = Raccordement.RéférenceDossierRacordementModifiéeEvent;
 
-type SubscriptionEvent = AbandonSubscriptionEvent | RaccordementSubscriptionEvent;
+export type GarantiesFinancièresSubscriptionEvent =
+  | GarantiesFinancières.GarantiesFinancièresDemandéesEvent
+  | GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent
+  | GarantiesFinancières.GarantiesFinancièresEnregistréesEvent;
+
+type SubscriptionEvent =
+  | AbandonSubscriptionEvent
+  | RaccordementSubscriptionEvent
+  | GarantiesFinancièresSubscriptionEvent;
 
 export type Execute = Message<'System.Saga.Tâche', SubscriptionEvent>;
 
@@ -26,6 +34,9 @@ export const register = () => {
       payload: { identifiantProjet },
     } = event;
     switch (event.type) {
+      /**
+       * Abandon
+       */
       case 'ConfirmationAbandonDemandée-V1':
         await mediator.send<AjouterTâcheCommand>({
           type: 'System.Tâche.Command.AjouterTâche',
@@ -64,6 +75,9 @@ export const register = () => {
           },
         });
         break;
+      /**
+       * Raccordement
+       */
       case 'RéférenceDossierRacordementModifiée-V1':
         await mediator.send<AcheverTâcheCommand>({
           type: 'System.Tâche.Command.AcheverTâche',
@@ -72,6 +86,29 @@ export const register = () => {
             typeTâche: Tâche.raccordementRéférenceNonTransmise,
           },
         });
+        break;
+      /**
+       * Garanties financières
+       */
+      case 'GarantiesFinancièresDemandées-V1':
+        await mediator.send<AjouterTâcheCommand>({
+          type: 'System.Tâche.Command.AjouterTâche',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            typeTâche: Tâche.garantiesFinancieresDemander,
+          },
+        });
+        break;
+      case 'DépôtGarantiesFinancièresSoumis-V1':
+      case 'GarantiesFinancièresEnregistrées-V1':
+        await mediator.send<AcheverTâcheCommand>({
+          type: 'System.Tâche.Command.AcheverTâche',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            typeTâche: Tâche.garantiesFinancieresDemander,
+          },
+        });
+        break;
     }
   };
 
