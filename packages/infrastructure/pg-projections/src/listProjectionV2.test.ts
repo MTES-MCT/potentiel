@@ -15,6 +15,7 @@ describe('listProjectionV2', () => {
     {
       data: {
         value: string;
+        name: string;
       };
     }
   >;
@@ -36,6 +37,7 @@ describe('listProjectionV2', () => {
       gestionnaires.push({
         data: {
           value: `a random value ${time}`,
+          name: time.toString(),
         },
       });
     }
@@ -58,6 +60,30 @@ describe('listProjectionV2', () => {
   `, async () => {
     const actual = await listProjectionV2<GestionnaireRéseau>({
       type: 'gestionnaire-réseau',
+    });
+
+    const expected: ListResultV2<GestionnaireRéseau> = {
+      items: gestionnaires.map((g) => ({
+        ...unflatten(g),
+        type: 'gestionnaire-réseau',
+      })),
+    };
+
+    actual.should.be.eql(expected);
+  });
+
+  it(`
+    Etant données des projections de type gestionnaire réseau
+    Quand je récupére la liste en triant par nom dans l'ordre descendant des gestionnaire réseau
+    Alors l'ensemble des gestionnaire réseaux est retourné sous la forme d'un résultat trié par ordre de nom descendant
+  `, async () => {
+    const actual = await listProjectionV2<GestionnaireRéseau>({
+      type: 'gestionnaire-réseau',
+      orderBy: {
+        data: {
+          name: 'desc',
+        },
+      },
     });
 
     const expected: ListResultV2<GestionnaireRéseau> = {

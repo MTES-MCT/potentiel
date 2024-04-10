@@ -46,8 +46,11 @@ export type List = <TEntity extends Entity>(
   options: ListOptions<TEntity>,
 ) => Promise<ListResult<TEntity>>;
 
+type OrderByOptions<TEntity extends Entity> = {};
+
 export type ListOptionsV2<TEntity extends Entity> = {
   type: TEntity['type'];
+  orderBy: OrderByOptions<TEntity>;
 };
 
 export type ListResultV2<TEntity extends Entity> = {
