@@ -8,7 +8,7 @@ import { unflatten } from '@potentiel-librairies/flat-cjs';
 export const findProjection = async <TProjection extends Entity>(
   id: `${TProjection['type']}|${string}`,
 ): Promise<Option.Type<TProjection>> => {
-  const result = await executeSelect<KeyValuePair<TProjection['type'], TProjection>>(
+  const result = await executeSelect<KeyValuePair<TProjection>>(
     `select key, value from domain_views.projection where key = $1`,
     id,
   );

@@ -34,7 +34,7 @@ export const listProjection = async <TProjection extends Entity>({
     : '';
 
   const query = `${selectQuery} ${whereClause} ${orderByClause} ${paginationClause}`;
-  const result = await executeSelect<KeyValuePair<TProjection['type'], TProjection>>(
+  const result = await executeSelect<KeyValuePair<TProjection>>(
     query,
     `${type}|%`,
     ...(where ? Object.values(where) : []),

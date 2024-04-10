@@ -6,7 +6,9 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "pretest": "npm run build",
+    "test": "node --test"
   },
   "dependencies": {
     "@potentiel-domain/core": "*",
