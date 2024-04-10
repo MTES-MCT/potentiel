@@ -8,7 +8,6 @@ export * from './getModificationRequestStatus';
 export * from './getModificationRequestType';
 export * from './getProjectAppelOffreId';
 export * from './getPuissanceProjet';
-export * from './hasGarantiesFinancières';
 export * from './isProjectParticipatif';
 export * from './getProjectInfoForModificationReceivedNotification';
 export * from './getProjectInfoForModificationRequestedNotification';
