@@ -7,7 +7,7 @@ import { formatDate } from '../../helpers/formatDate';
 import { ProjectDataForCertificate } from '../../modules/project/dtos';
 import { IllegalProjectStateError } from '../../modules/project/errors';
 import { OtherError } from '../../modules/shared';
-import { formatNumber, getNoteThreshold } from './helpers';
+import { formatNumber } from './helpers';
 import { Validateur } from '@potentiel-domain/appel-offre';
 
 dotenv.config();
@@ -300,32 +300,9 @@ const Elimine = (project: ProjectDataForCertificate) => {
           marginTop: 10,
         }}
       >
-        {project.motifsElimination === 'Au-dessus de Pcible'
-          ? 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance offerte pour cette période de candidature dans la famille concernée. Votre offre a en effet obtenu une note de ' +
-            formatNumber(project.note) +
-            ' points alors que le classement des dossiers a fait apparaître que la sélection des offres jusqu’à la note de ' +
-            formatNumber(getNoteThreshold(project)) +
-            ' points permettait de remplir les objectifs de volumes de l’appel d’offres dans cette famille' +
-            (appelOffre.afficherPhraseRegionImplantation
-              ? ', et pour la région d’implantation du projet définis au 1.2.2 du cahier des charges'
-              : '') +
-            '. Par conséquent, cette offre n’a pas été retenue.'
-          : project.motifsElimination === 'Déjà lauréat - Non instruit'
-          ? 'Suite à l’examen par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été retirée de l’instruction, ayant été désignée lauréate au cours d’un précédent appel d’offres. Par conséquent, cette offre n’a pas été retenue.'
-          : project.motifsElimination.includes('20%') &&
-            project.motifsElimination.includes('compétitivité')
-          ? 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été classée au-delà de la puissance maximale que la Ministre a décidé de retenir afin de préserver la compétitivité de l’appel d’offres en application des dispositions du paragraphe ' +
-            appelOffre.paragrapheClauseCompetitivite +
-            ' du cahier des charges. Ainsi, ' +
-            (appelOffre.familles.length ? 'pour chaque famille,' : '') +
-            ' seuls 80 % des projets les mieux notés ont été retenus. Votre offre a en effet obtenu une note de ' +
-            formatNumber(project.note) +
-            ' points alors que la sélection des offres s’est faite jusqu’à la note de ' +
-            formatNumber(getNoteThreshold(project)) +
-            ' points. Par conséquent, votre offre n’a pas été retenue.'
-          : 'Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : «' +
-            project.motifsElimination +
-            '». Par conséquent, cette offre n’a pas été retenue.'}
+        Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis
+        au regret de vous informer que votre offre a été éliminée pour le motif suivant : "
+        {project.motifsElimination}". Par conséquent, cette offre n’a pas été retenue.
       </Text>
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
         Vous avez la possibilité de contester la présente décision auprès du tribunal administratif

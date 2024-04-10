@@ -1,7 +1,6 @@
 import { Text } from '@react-pdf/renderer';
 import React from 'react';
 import { ProjectDataForCertificate } from '../../../../../modules/project/dtos';
-import { MotifElimination } from './motifElimination';
 
 type ElimineProps = {
   project: ProjectDataForCertificate;
@@ -14,7 +13,9 @@ export const Elimine = ({ project }: ElimineProps) => {
   return (
     <>
       <Text style={{ marginTop: 10 }}>
-        <MotifElimination {...{ project }} />
+        À la suite de l'instruction par les services de la Commission de régulation de l’énergie, je
+        suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : «
+        {project.motifsElimination}». Par conséquent, cette offre n’a pas été retenue.
       </Text>
 
       {isSoumisAuxGF && (
