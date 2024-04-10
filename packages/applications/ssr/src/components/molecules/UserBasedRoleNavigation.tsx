@@ -2,7 +2,6 @@ import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/Main
 
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
-import { featureFlags } from '@potentiel-applications/feature-flags';
 
 import { getAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
 
@@ -23,9 +22,7 @@ const menuLinks = {
     {
       text: 'Garanties financières à traiter',
       linkProps: {
-        href: featureFlags.SHOW_GARANTIES_FINANCIERES
-          ? Routes.GarantiesFinancières.dépôt.lister
-          : '/admin/garanties-financieres.html',
+        href: Routes.GarantiesFinancières.dépôt.lister,
       },
     },
     ...(featureFlags.SHOW_GARANTIES_FINANCIERES

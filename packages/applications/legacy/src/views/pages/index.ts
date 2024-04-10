@@ -5,7 +5,6 @@ export * from './changerProducteurPage';
 export * from './choisirCahierDesChargesPage';
 export * from './demanderChangementPuissancePage';
 export * from './drealListPage';
-export * from './garantiesFinancieresPage';
 export * from './homePage';
 export * from './inviterDgecValidateurPage';
 export * from './inviterAdministrateurPage';

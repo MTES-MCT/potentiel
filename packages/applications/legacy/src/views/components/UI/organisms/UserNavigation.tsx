@@ -4,34 +4,25 @@ import { Header } from './Header';
 import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Routes } from '@potentiel-applications/routes';
-import { featureFlags } from '@potentiel-applications/feature-flags';
 
-const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) =>
-  featureFlags.SHOW_GARANTIES_FINANCIERES ? (
-    <DropdownMenu buttonChildren={'Garanties financières'}>
-      <DropdownMenu.DropdownItem
-        href={Routes.GarantiesFinancières.dépôt.lister}
-        {...(currentPage === 'list-garanties-financieres' && { isCurrent: true })}
-      >
-        Garanties financières à traiter
-      </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={Routes.GarantiesFinancières.enAttente.lister}
-        {...(currentPage === 'list-projet-garanties-financieres-en-attente' && {
-          isCurrent: true,
-        })}
-      >
-        Projets avec garanties financières en attente
-      </DropdownMenu.DropdownItem>
-    </DropdownMenu>
-  ) : (
-    <Header.MenuItem
-      href={routes.ADMIN_GARANTIES_FINANCIERES}
+const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) => (
+  <DropdownMenu buttonChildren={'Garanties financières'}>
+    <DropdownMenu.DropdownItem
+      href={Routes.GarantiesFinancières.dépôt.lister}
       {...(currentPage === 'list-garanties-financieres' && { isCurrent: true })}
     >
-      Garanties Financières
-    </Header.MenuItem>
-  );
+      Garanties financières à traiter
+    </DropdownMenu.DropdownItem>
+    <DropdownMenu.DropdownItem
+      href={Routes.GarantiesFinancières.enAttente.lister}
+      {...(currentPage === 'list-projet-garanties-financieres-en-attente' && {
+        isCurrent: true,
+      })}
+    >
+      Projets avec garanties financières en attente
+    </DropdownMenu.DropdownItem>
+  </DropdownMenu>
+);
 
 export const UserNavigation = ({
   user,
