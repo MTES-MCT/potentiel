@@ -10,7 +10,7 @@ export type GarantiesFinancièresDemandéesEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     dateLimiteSoumission: DateTime.RawType;
     demandéLe: DateTime.RawType;
-    motif?: MotifDemandeGarantiesFinancières.RawType;
+    motif: MotifDemandeGarantiesFinancières.RawType;
   }
 >;
 

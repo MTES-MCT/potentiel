@@ -99,6 +99,7 @@ export const register = () => {
         dernièreMiseÀJour: {
           date: '',
         },
+        dateLimiteSoumission: '',
       };
 
       const garantiesFinancièresToUpsert: Omit<
@@ -154,6 +155,7 @@ export const register = () => {
               famille: projet.famille,
               régionProjet: projet.régionProjet,
               motif: payload.motif ?? '',
+              dateLimiteSoumission: payload.dateLimiteSoumission,
               dernièreMiseÀJour: {
                 date: payload.demandéLe,
               },

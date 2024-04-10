@@ -16,6 +16,7 @@ type ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel = {
   période: string;
   famille?: string;
   motif: MotifDemandeGarantiesFinancières.ValueType;
+  dateLimiteSoumission: DateTime.ValueType;
   dernièreMiseÀJour: {
     date: DateTime.ValueType;
   };
@@ -97,6 +98,7 @@ const mapToReadModel = ({
   régionProjet,
   famille,
   motif,
+  dateLimiteSoumission,
   dernièreMiseÀJour: { date },
 }: ProjetAvecGarantiesFinancièresEnAttenteEntity): ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
@@ -106,6 +108,7 @@ const mapToReadModel = ({
   famille,
   régionProjet,
   motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
+  dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
   dernièreMiseÀJour: {
     date: DateTime.convertirEnValueType(date),
   },

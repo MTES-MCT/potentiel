@@ -14,11 +14,21 @@ export type ListItemProjetAvecGarantiesFinancièresEnAttenteProps = {
   famille?: string;
   régionProjet: string;
   misÀJourLe: string;
+  dateLimiteSoumission: string;
 };
 
 export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
   ListItemProjetAvecGarantiesFinancièresEnAttenteProps
-> = ({ identifiantProjet, nomProjet, appelOffre, période, famille, régionProjet, misÀJourLe }) => (
+> = ({
+  identifiantProjet,
+  nomProjet,
+  appelOffre,
+  période,
+  famille,
+  régionProjet,
+  misÀJourLe,
+  dateLimiteSoumission,
+}) => (
   <>
     <div>
       <div className="flex flex-col gap-1">
@@ -46,6 +56,9 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
               Région : {régionProjet}
             </div>
           )}
+        </div>
+        <div className="mt-3 text-sm">
+          Date limite de soumission : {formatDateForText(dateLimiteSoumission)}
         </div>
       </div>
     </div>

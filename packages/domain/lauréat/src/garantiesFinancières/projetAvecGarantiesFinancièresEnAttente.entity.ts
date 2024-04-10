@@ -10,6 +10,7 @@ export type ProjetAvecGarantiesFinancièresEnAttenteEntity = Entity<
     période: string;
     famille?: string;
     motif: string;
+    dateLimiteSoumission: string;
     dernièreMiseÀJour: {
       date: string;
     };

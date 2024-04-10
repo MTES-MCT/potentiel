@@ -95,10 +95,10 @@ const getDescriptionTâche = (
     case 'garanties-financières.demander':
       return {
         titre: 'Garanties financières demandées',
-        description: `La DGEC vous demande de fournir les garanties financières pour le projet ${nomProjet}`,
+        description: `Des garanties financières sont en attente pour ce projet`,
         lien: Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet),
         action: 'Soumettre les garanties financières',
-        ariaLabel: `Soumettre les garanties financières du projet ${nomProjet}`,
+        ariaLabel: `Soumettre des garanties financières pour le projet ${nomProjet}`,
       };
     default: {
       return {

@@ -5,6 +5,7 @@ export const motifs = [
   'changement-producteur',
   'échéance-garanties-financières-actuelles',
   'garanties-financières-initiales',
+  'motif-inconnu',
 ] as const;
 
 export type RawType = (typeof motifs)[number];
@@ -58,7 +59,7 @@ export const échéanceGarantiesFinancièresActuelles = convertirEnValueType(
 export const garantiesFinancièresInitiales = convertirEnValueType(
   'garanties-financières-initiales',
 );
-
+export const motifInconnu = convertirEnValueType('motif-inconnu');
 class MotifDemandeGarantiesFinancièresInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(`Le motif ne correspond à aucune valeur connue`, {

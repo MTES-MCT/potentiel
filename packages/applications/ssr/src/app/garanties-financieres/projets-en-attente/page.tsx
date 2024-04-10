@@ -86,6 +86,7 @@ const mapToListProps = (
       famille,
       régionProjet,
       dernièreMiseÀJour,
+      dateLimiteSoumission,
     }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,
@@ -94,6 +95,7 @@ const mapToListProps = (
       famille,
       régionProjet,
       misÀJourLe: dernièreMiseÀJour.date.formatter(),
+      dateLimiteSoumission: dateLimiteSoumission.formatter(),
     }),
   );
 
