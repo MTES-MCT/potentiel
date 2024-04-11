@@ -67,7 +67,16 @@ const getWhereClause = <TEntity extends Entity>(
   const whereClause = format(
     whereTypes
       .map(
-        ([_, value], index) => `and value->>%L ${value === 'equal' ? '=' : 'ILIKE'} $${index + 2}`,
+        ([_, value], index) =>
+          `and value->>%L ${
+            value === 'equal'
+              ? '='
+              : value === 'match'
+              ? 'ILIKE'
+              : value === 'notEqual'
+              ? '<>'
+              : 'NOT ILIKE'
+          } $${index + 2}`,
       )
       .join(' '),
     ...whereTypes.map(([key]) => key.replace('.type', '')),

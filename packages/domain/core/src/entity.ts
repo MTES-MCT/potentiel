@@ -62,10 +62,15 @@ export type LimitOptions = {
 };
 
 export type EqualWhere<T> = { type: 'equal'; value: T };
+export type NotEqualWhere<T> = { type: 'notEqual'; value: T };
 
 export type MatchWhere = { type: 'match'; value: `%${string}` | `${string}%` | `%${string}%` };
+export type NotMatchWhere = {
+  type: 'notMatch';
+  value: `%${string}` | `${string}%` | `%${string}%`;
+};
 
-type Where<T> = EqualWhere<T> | MatchWhere;
+type Where<T> = EqualWhere<T> | NotEqualWhere<T> | MatchWhere | NotMatchWhere;
 
 export type WhereOptions<T> = {
   [P in keyof T]?: T[P] extends string | boolean | number

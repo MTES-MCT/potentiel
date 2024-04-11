@@ -150,6 +150,35 @@ describe('listProjectionV2', () => {
 
   it(`
     Etant donnée des projections
+    Quand je récupère la liste des projections par catégorie avec un filtre strict exclusif
+    Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération le filtre strict exclusif
+  `, async () => {
+    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+      where: {
+        data: {
+          name: {
+            type: 'notEqual',
+            value: '1',
+          },
+        },
+      },
+    });
+
+    const filteredFakes = fakeData.filter((g) => g.data.name !== '1');
+
+    const expected: ListResultV2<FakeProjection> = {
+      total: filteredFakes.length,
+      items: filteredFakes.map((g) => ({
+        ...unflatten(g),
+        type: 'fake-projection',
+      })),
+    };
+
+    actual.should.be.deep.equal(expected);
+  });
+
+  it(`
+    Etant donnée des projections
     Quand je récupère la liste des projections par catégorie avec un filtre de recherche insensible à la casse 
     Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération le filtre de recherche sans sensibilité à la casse
   `, async () => {
@@ -182,6 +211,98 @@ describe('listProjectionV2', () => {
     });
 
     const filteredFakes = fakeData.filter((g) => g.data.name.toLowerCase().startsWith('a'));
+
+    const expected: ListResultV2<FakeProjection> = {
+      total: filteredFakes.length,
+      items: filteredFakes.map((g) => ({
+        ...unflatten(g),
+        type: 'fake-projection',
+      })),
+    };
+
+    actual.should.be.deep.equal(expected);
+  });
+
+  it(`
+    Etant donnée des projections
+    Quand je récupère la liste des projections par catégorie avec un filtre de recherche insensible à la casse 
+    Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération le filtre de recherche sans sensibilité à la casse
+  `, async () => {
+    const insensitiveCaseFakeData = {
+      data: {
+        value: 'a random value',
+        name: 'A RANDOM NAME',
+      },
+    };
+
+    fakeData.push(insensitiveCaseFakeData);
+
+    await executeQuery(
+      `insert
+        into domain_views.projection
+        values ($1, $2)`,
+      `fake-projection|${insensitiveCaseFakeData.data.value}`,
+      flatten(insensitiveCaseFakeData),
+    );
+
+    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+      where: {
+        data: {
+          name: {
+            type: 'match',
+            value: 'a%',
+          },
+        },
+      },
+    });
+
+    const filteredFakes = fakeData.filter((g) => g.data.name.toLowerCase().startsWith('a'));
+
+    const expected: ListResultV2<FakeProjection> = {
+      total: filteredFakes.length,
+      items: filteredFakes.map((g) => ({
+        ...unflatten(g),
+        type: 'fake-projection',
+      })),
+    };
+
+    actual.should.be.deep.equal(expected);
+  });
+
+  it(`
+    Etant donnée des projections
+    Quand je récupère la liste des projections par catégorie avec un filtre de recherche insensible à la casse sélectif
+    Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération le filtre de recherche sans sensibilité à la casse sélectif
+  `, async () => {
+    const insensitiveCaseFakeData = {
+      data: {
+        value: 'a random value',
+        name: 'A RANDOM NAME',
+      },
+    };
+
+    fakeData.push(insensitiveCaseFakeData);
+
+    await executeQuery(
+      `insert
+        into domain_views.projection
+        values ($1, $2)`,
+      `fake-projection|${insensitiveCaseFakeData.data.value}`,
+      flatten(insensitiveCaseFakeData),
+    );
+
+    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+      where: {
+        data: {
+          name: {
+            type: 'notMatch',
+            value: 'a%',
+          },
+        },
+      },
+    });
+
+    const filteredFakes = fakeData.filter((g) => !g.data.name.toLowerCase().startsWith('a'));
 
     const expected: ListResultV2<FakeProjection> = {
       total: filteredFakes.length,
