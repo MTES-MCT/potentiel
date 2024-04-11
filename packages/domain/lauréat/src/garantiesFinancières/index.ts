@@ -25,19 +25,26 @@ import {
   ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery,
   ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel,
 } from './enAttente/consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
+import {
+  GénérerModèleMiseEnDemeureGarantiesFinancièresQuery,
+  GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel,
+} from './générerModèleMiseEnDemeure/générerModèleMiseEnDemeure.query';
 
 // Query
 export type GarantiesFinancièresQuery =
   | ConsulterGarantiesFinancièresQuery
   | ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
-  | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery;
+  | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery
+  | ListerDépôtsEnCoursGarantiesFinancièresQuery
+  | GénérerModèleMiseEnDemeureGarantiesFinancièresQuery;
 
 export {
   ConsulterGarantiesFinancièresQuery,
   ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery,
   ListerDépôtsEnCoursGarantiesFinancièresQuery,
   ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
+  GénérerModèleMiseEnDemeureGarantiesFinancièresQuery,
 };
 
 // ReadModel
@@ -46,6 +53,7 @@ export {
   ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel,
   ListerDépôtsEnCoursGarantiesFinancièresReadModel,
   ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
+  GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel,
 };
 
 // UseCases
@@ -104,3 +112,6 @@ export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinan
 export * from './garantiesFinancières.entity';
 export * from './dépôtEnCoursGarantiesFinancières.entity';
 export * from './projetAvecGarantiesFinancièresEnAttente.entity';
+
+// Ports
+export { BuildModèleMiseEnDemeureGarantiesFinancièresPort } from './générerModèleMiseEnDemeure/générerModèleMiseEnDemeure.query';
