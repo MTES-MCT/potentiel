@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
+
 import {
   ModifierGarantiesFinancièresActuellesPage,
   ModifierGarantiesFinancièresActuellesProps,
@@ -33,20 +35,7 @@ const projet: ModifierGarantiesFinancièresActuellesProps['projet'] = {
 };
 
 const typesGarantiesFinancières: ModifierGarantiesFinancièresActuellesProps['typesGarantiesFinancières'] =
-  [
-    {
-      label: 'Consignation',
-      value: 'consignation',
-    },
-    {
-      label: "Avec date d'échéance",
-      value: 'avec-date-échéance',
-    },
-    {
-      label: 'Six mois après achèvement',
-      value: 'six-mois-après-achèvement',
-    },
-  ];
+  typesGarantiesFinancièresSansInconnuPourFormulaire;
 
 export const Default: Story = {
   args: {

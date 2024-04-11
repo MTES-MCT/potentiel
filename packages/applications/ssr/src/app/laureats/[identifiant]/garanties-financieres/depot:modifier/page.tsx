@@ -11,13 +11,13 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
 import {
   ModifierDépôtEnCoursGarantiesFinancièresPage,
   ModifierDépôtEnCoursGarantiesFinancièresProps,
 } from '@/components/pages/garanties-financières/dépôt/modifier/ModifierDépôtEnCoursGarantiesFinancières.page';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
+import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
 
 export const metadata: Metadata = {
   title: 'Modifier dépôt des garanties financières en cours - Potentiel',
@@ -63,12 +63,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       const props: ModifierDépôtEnCoursGarantiesFinancièresProps = {
         projet,
-        typesGarantiesFinancières: GarantiesFinancières.TypeGarantiesFinancières.types.map(
-          (type) => ({
-            label: getGarantiesFinancièresTypeLabel(type),
-            value: type,
-          }),
-        ),
+        typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
         dépôtEnCours: {
           type: dépôtEnCours.type.type,
           statut: dépôtEnCours.statut.statut,

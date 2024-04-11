@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
+
 import {
   ModifierDépôtEnCoursGarantiesFinancièresPage,
   ModifierDépôtEnCoursGarantiesFinancièresProps,
@@ -33,20 +35,7 @@ const projet: ModifierDépôtEnCoursGarantiesFinancièresProps['projet'] = {
 };
 
 const typesGarantiesFinancières: ModifierDépôtEnCoursGarantiesFinancièresProps['typesGarantiesFinancières'] =
-  [
-    {
-      label: 'Consignation',
-      value: 'consignation',
-    },
-    {
-      label: "Avec date d'échéance",
-      value: 'avec-date-échéance',
-    },
-    {
-      label: 'Six mois après achèvement',
-      value: 'six-mois-après-achèvement',
-    },
-  ];
+  typesGarantiesFinancièresSansInconnuPourFormulaire;
 
 export const EnTantQueDreal: Story = {
   args: {

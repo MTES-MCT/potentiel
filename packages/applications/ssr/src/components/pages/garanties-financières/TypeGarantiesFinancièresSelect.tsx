@@ -30,7 +30,9 @@ export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelect
   typesGarantiesFinancières,
   dateÉchéanceActuelle,
 }) => {
-  const [typeSélectionné, setTypeSélectionné] = useState(typeGarantiesFinancièresActuel || '');
+  const [typeSélectionné, setTypeSélectionné] = useState<
+    TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel']
+  >(typeGarantiesFinancièresActuel);
 
   return (
     <>
@@ -45,13 +47,13 @@ export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelect
               typeGarantiesFinancièresActuel,
             )
               ? typeGarantiesFinancièresActuel
-              : '',
+              : undefined,
           onChange: (e) => setTypeSélectionné(e.target.value),
           'aria-required': true,
           required: true,
         }}
         placeholder="Sélectionnez le type de garanties financières"
-        options={[...typesGarantiesFinancières, { value: '', label: '', disabled }]}
+        options={[...typesGarantiesFinancières]}
         state={validationErrors.includes('type') ? 'error' : 'default'}
         stateRelatedMessage="Type de garanties financières obligatoire"
         disabled={disabled}
