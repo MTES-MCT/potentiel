@@ -63,7 +63,9 @@ export type LimitOptions = {
 
 export type WhereOptions<TType> = {
   [TProperty in keyof TType]?: TType[TProperty] extends string | boolean | number
-    ? TType[TProperty]
+    ?
+        | { type: 'strict'; value: TType[TProperty] }
+        | { type: 'like'; value: `%${string}` | `${string}%` | `%${string}%` }
     : TType[TProperty] extends Record<string, infer U>
     ? WhereOptions<TType[TProperty]>
     : never;

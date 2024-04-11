@@ -20,7 +20,7 @@ describe('listProjectionV2', () => {
     }
   >;
 
-  let gestionnaires: Array<Omit<FakeProjection, 'type'>> = [];
+  let fakeData: Array<Omit<FakeProjection, 'type'>> = [];
 
   before(() => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
@@ -31,10 +31,10 @@ describe('listProjectionV2', () => {
   beforeEach(async () => {
     await executeQuery(`delete from domain_views.projection`);
 
-    gestionnaires = [];
+    fakeData = [];
 
     for (let time = 0; time <= Math.random() * 100 + 10; time++) {
-      gestionnaires.push({
+      fakeData.push({
         data: {
           value: `a random value ${time}`,
           name: `${time}`,
@@ -42,13 +42,13 @@ describe('listProjectionV2', () => {
       });
     }
 
-    for (const gestionnaire of gestionnaires) {
+    for (const fake of fakeData) {
       await executeQuery(
         `insert
         into domain_views.projection
         values ($1, $2)`,
-        `fake-projection|${gestionnaire.data.value}`,
-        flatten(gestionnaire),
+        `fake-projection|${fake.data.value}`,
+        flatten(fake),
       );
     }
   });
@@ -61,8 +61,8 @@ describe('listProjectionV2', () => {
     const actual = await listProjectionV2<FakeProjection>('fake-projection');
 
     const expected: ListResultV2<FakeProjection> = {
-      total: gestionnaires.length,
-      items: gestionnaires.map((g) => ({
+      total: fakeData.length,
+      items: fakeData.map((g) => ({
         ...unflatten(g),
         type: 'fake-projection',
       })),
@@ -86,8 +86,8 @@ describe('listProjectionV2', () => {
     });
 
     const expected: ListResultV2<FakeProjection> = {
-      total: gestionnaires.length,
-      items: gestionnaires
+      total: fakeData.length,
+      items: fakeData
         .sort(({ data: { value: a } }, { data: { value: b } }) => b.localeCompare(a))
         .map((g) => ({
           ...unflatten(g),
@@ -111,8 +111,8 @@ describe('listProjectionV2', () => {
     });
 
     const expected: ListResultV2<FakeProjection> = {
-      total: gestionnaires.length,
-      items: [gestionnaires[5], gestionnaires[6], gestionnaires[7]].map((g) => ({
+      total: fakeData.length,
+      items: [fakeData[5], fakeData[6], fakeData[7]].map((g) => ({
         ...unflatten(g),
         type: 'fake-projection',
       })),
@@ -129,14 +129,50 @@ describe('listProjectionV2', () => {
     const actual = await listProjectionV2<FakeProjection>('fake-projection', {
       where: {
         data: {
-          name: '1',
+          name: {
+            type: 'strict',
+            value: '1',
+          },
         },
       },
     });
 
     const expected: ListResultV2<FakeProjection> = {
       total: 1,
-      items: [gestionnaires[1]].map((g) => ({
+      items: [fakeData[1]].map((g) => ({
+        ...unflatten(g),
+        type: 'fake-projection',
+      })),
+    };
+
+    actual.should.be.deep.equal(expected);
+  });
+
+  it(`
+    Etant donnée des projections
+    Quand je récupére la liste des projections par category avec un filtre de recherche
+    Alors l'ensemble des projections de cette category est retournée en prenant en considération le filtre de recherche
+  `, async () => {
+    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+      where: {
+        data: {
+          name: {
+            type: 'like',
+            value: '1%',
+          },
+          value: {
+            type: 'like',
+            value: '%1',
+          },
+        },
+      },
+    });
+
+    const filteredFakes = fakeData.filter((g) => g.data.value.endsWith('1'));
+
+    const expected: ListResultV2<FakeProjection> = {
+      total: filteredFakes.length,
+      items: filteredFakes.map((g) => ({
         ...unflatten(g),
         type: 'fake-projection',
       })),

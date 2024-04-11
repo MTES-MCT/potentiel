@@ -22,6 +22,9 @@ export const listProjectionV2 = async <TEntity extends Entity>(
   const limitClause = limit ? getLimitClause(limit) : '';
   const [whereClause, whereValues] = where ? getWhereClause(where) : ['', []];
 
+  console.log(whereClause);
+  console.log(whereValues);
+
   const select = format(`${selectQuery} ${whereClause} ${orderByClause} ${limitClause}`);
   const count = format(`${countQuery} ${whereClause}`);
 
@@ -62,17 +65,22 @@ const getWhereClause = <TEntity extends Entity>(
   where: WhereOptions<Omit<TEntity, 'type'>>,
 ): [clause: string, values: Array<unknown>] => {
   const flattenWhere = flatten<typeof where, Record<string, unknown>>(where);
+  const whereTypes = Object.entries(flattenWhere).filter(([key]) => key.endsWith('.type'));
 
   const whereClause = format(
-    Object.keys(flattenWhere)
-      .map((_, index) => `and value->>%L = $${index + 2}`)
+    whereTypes
+      .map(
+        ([_, value], index) => `and value->>%L ${value === 'strict' ? '=' : 'LIKE'} $${index + 2}`,
+      )
       .join(' '),
-    ...Object.keys(flattenWhere),
+    ...whereTypes.map(([key]) => key.replace('.type', '')),
   );
 
-  const whereValue = Object.values(flattenWhere);
+  const whereValues = Object.entries(flattenWhere)
+    .filter(([key]) => key.endsWith('.value'))
+    .map(([_, value]) => value);
 
-  return [whereClause, whereValue];
+  return [whereClause, whereValues];
 };
 
 const getLimitClause = ({ next, offset }: LimitOptions) =>
