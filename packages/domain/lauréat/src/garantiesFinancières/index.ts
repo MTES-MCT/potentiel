@@ -21,15 +21,21 @@ import {
   ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
   ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
 } from './enAttente/lister/listerProjetsAvecGarantiesFinancièresEnAttente.query';
+import {
+  ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery,
+  ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel,
+} from './enAttente/consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
 
 // Query
 export type GarantiesFinancièresQuery =
   | ConsulterGarantiesFinancièresQuery
+  | ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
   | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery;
 
 export {
   ConsulterGarantiesFinancièresQuery,
+  ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery,
   ListerDépôtsEnCoursGarantiesFinancièresQuery,
   ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
 };
@@ -37,6 +43,7 @@ export {
 // ReadModel
 export {
   ConsulterGarantiesFinancièresReadModel,
+  ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel,
   ListerDépôtsEnCoursGarantiesFinancièresReadModel,
   ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
 };

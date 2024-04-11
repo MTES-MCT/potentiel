@@ -4,10 +4,12 @@ Fonctionnalité: Valider des garanties financières en attente de validation
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
     
+    @select
     Plan du Scénario: Un utilisateur dreal valide des garanties financières à traiter
         Etant donné des garanties financières en attente pour le projet "Centrale PV" avec :
-            | date limite de soumission | 2023-11-01 |
-            | date de notification      | 2023-09-01 |
+            | date limite de soumission | 2023-11-01                      |
+            | date de notification      | 2023-09-01                      |
+            | motif                     | garanties-financières-initiales |
         Et des garanties financières à traiter pour le projet "Centrale PV" avec :
             | type                 | <type>                 |
             | date d'échéance      | <date d'échéance>      |
@@ -31,11 +33,12 @@ Fonctionnalité: Valider des garanties financières en attente de validation
             | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
             | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
             | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |     
-
+    @select
     Scénario: Erreur si aucunes garanties financières à traiter ne sont trouvées
         Etant donné des garanties financières en attente pour le projet "Centrale PV" avec :
-            | date limite de soumission | 2023-11-01 |
-            | date de notification      | 2023-09-01 |
+            | date limite de soumission | 2023-11-01                      |
+            | date de notification      | 2023-09-01                      |
+            | motif                     | garanties-financières-initiales |
         Quand l'utilisateur dreal valide les garanties financières à traiter pour le projet "Centrale PV" avec :
             | date de validation        | 2023-09-02 |  s
         Alors l'utilisateur devrait être informé que "Il n'y a aucun dépôt de garanties financières en cours pour ce projet"  

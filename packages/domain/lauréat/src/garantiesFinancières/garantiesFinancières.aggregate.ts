@@ -82,6 +82,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     soumisLe: DateTime.ValueType;
     attestation?: { format: string };
   }>;
+  dateLimiteSoumission?: DateTime.ValueType;
   readonly soumettreDépôt: typeof soumettreDépôt;
   readonly demanderGarantiesFinancières: typeof demanderGarantiesFinancières;
   readonly supprimerDépôtGarantiesFinancièresEnCours: typeof supprimerDépôtGarantiesFinancièresEnCours;

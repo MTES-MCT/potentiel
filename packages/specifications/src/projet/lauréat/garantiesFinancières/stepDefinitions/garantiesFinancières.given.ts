@@ -13,6 +13,7 @@ EtantDonné(
 
     const notifiéLe = exemple['date de notification'];
     const dateLimiteSoumission = exemple['date limite de soumission'];
+    const motif = exemple['motif'];
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
@@ -21,7 +22,7 @@ EtantDonné(
         identifiantProjetValue: identifiantProjet.formatter(),
         demandéLeValue: new Date(notifiéLe).toISOString(),
         dateLimiteSoumissionValue: new Date(dateLimiteSoumission).toISOString(),
-        motifValue: 'garanties-financières-initiales',
+        motifValue: motif,
       },
     });
 

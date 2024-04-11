@@ -173,3 +173,32 @@ Alors(
     });
   },
 );
+
+Alors(
+  `des garanties financières devraient être attendues pour le projet {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const exemple = dataTable.rowsHash();
+    const dateLimiteSoumission = exemple['date limite de soumission'];
+    const motif = exemple['motif'];
+
+    await waitForExpect(async () => {
+      const actualReadModel =
+        await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
+          },
+        );
+
+      expect(actualReadModel).not.to.be.undefined;
+      expect(actualReadModel.nomProjet).to.deep.equal(nomProjet);
+      expect(actualReadModel.motif).to.deep.equal(motif);
+      expect(actualReadModel.dateLimiteSoumission.date).to.deep.equal(
+        new Date(dateLimiteSoumission),
+      );
+    });
+  },
+);
