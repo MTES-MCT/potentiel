@@ -122,6 +122,10 @@ const référencielPermissions = {
           'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
         listerProjetsAvecGarantiesFinancièresEnAttente:
           'Lauréat.GarantiesFinancières.Query.ListerProjetsAvecGarantiesFinancièresEnAttente',
+        consulterProjetAvecGarantiesFinancièresEnAttente:
+          'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+        générerModèleMiseEnDemeureGarantiesFinancières:
+          'Document.Query.GénérerModèleMideEnDemeureGarantiesFinancières',
       },
       usecase: {
         demander: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
@@ -523,6 +527,19 @@ const policies = {
           .listerProjetsAvecGarantiesFinancièresEnAttente,
         référencielPermissions.appelOffre.query.lister,
       ],
+      consulter: [
+        référencielPermissions.lauréat.garantiesFinancières.query
+          .consulterProjetAvecGarantiesFinancièresEnAttente,
+      ],
+      générerModèleMiseEnDemeure: [
+        référencielPermissions.utilisateur.query.consulter,
+        référencielPermissions.candidature.query.consulter,
+        référencielPermissions.appelOffre.query.consulter,
+        référencielPermissions.lauréat.garantiesFinancières.query
+          .consulterProjetAvecGarantiesFinancièresEnAttente,
+        référencielPermissions.lauréat.garantiesFinancières.query
+          .générerModèleMiseEnDemeureGarantiesFinancières,
+      ],
     },
   },
 };
@@ -564,6 +581,7 @@ const permissionAdmin = [
   ...policies.garantiesFinancières.actuelles.enregistrer,
   ...policies.garantiesFinancières.effacerHistorique,
   ...policies.garantiesFinancières.enAttente.lister,
+  ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
 ];
 
 const permissionCRE = [
@@ -600,6 +618,7 @@ const permissionDreal = [
   ...policies.garantiesFinancières.actuelles.enregistrer,
   ...policies.garantiesFinancières.effacerHistorique,
   ...policies.garantiesFinancières.enAttente.lister,
+  ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
 ];
 
 const permissionDgecValidateur = [
@@ -639,6 +658,7 @@ const permissionDgecValidateur = [
   ...policies.garantiesFinancières.actuelles.enregistrer,
   ...policies.garantiesFinancières.effacerHistorique,
   ...policies.garantiesFinancières.enAttente.lister,
+  ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
 ];
 
 const permissionPorteurProjet = [

@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import Link from 'next/link';
+import Download from '@codegouvfr/react-dsfr/Download';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -15,6 +16,7 @@ export type ListItemProjetAvecGarantiesFinancièresEnAttenteProps = {
   régionProjet: string;
   misÀJourLe: string;
   dateLimiteSoumission: string;
+  afficherModèleMiseEnDemeure: boolean;
 };
 
 export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
@@ -28,6 +30,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
   régionProjet,
   misÀJourLe,
   dateLimiteSoumission,
+  afficherModèleMiseEnDemeure,
 }) => (
   <>
     <div>
@@ -60,6 +63,17 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
         <div className="mt-3 text-sm">
           Date limite de soumission : {formatDateForText(dateLimiteSoumission)}
         </div>
+        {afficherModèleMiseEnDemeure && (
+          <Download
+            linkProps={{
+              href: Routes.GarantiesFinancières.téléchargerModèleMiseEnDemeure(identifiantProjet),
+            }}
+            details="docx"
+            label="Télécharger un modèle de mise en demeure"
+            className="mb-4"
+            aria-label={`télécharger un modèle de mise en demeure projet ${nomProjet}`}
+          />
+        )}
       </div>
     </div>
 

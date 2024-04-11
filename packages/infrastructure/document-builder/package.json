@@ -5,9 +5,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
-  "scripts": {
-    "build": "tsc && copyfiles -f src/abandon/modèlesRéponseDocx/*.docx dist/abandon/modèlesRéponseDocx"
-  },
+"scripts": {
+  "build": "tsc && copyfiles -f src/abandon/modèlesRéponseDocx/*.docx dist/abandon/modèlesRéponseDocx && copyfiles -f src/garantiesFinancières/modèleMiseEnDemeureDocx/*.docx dist/garantiesFinancières/modèleMiseEnDemeureDocx"
+},
   "dependencies": {
     "@potentiel-domain/laureat": "*",
     "@potentiel-domain/document": "*",

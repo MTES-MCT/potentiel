@@ -16,6 +16,7 @@ const selectCandidatureQuery = `
     'famille', "familleId",
     'numéroCRE', "numeroCRE",
     'localité', json_build_object(
+        'adresse', "adresseProjet",
         'commune', "communeProjet",
         'département', "departementProjet",
         'région', "regionProjet",

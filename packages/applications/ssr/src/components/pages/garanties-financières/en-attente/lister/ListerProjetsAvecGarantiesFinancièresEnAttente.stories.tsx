@@ -57,7 +57,8 @@ export const Default: Story = {
           nomProjet: 'Le projet',
           misÀJourLe: '2023-02-12',
           régionProjet: 'Région A / Région B',
-          dateLimiteSoumission: '2023-02-12',
+          dateLimiteSoumission: '2025-02-12',
+          afficherModèleMiseEnDemeure: false,
         },
         {
           identifiantProjet: '#identifiantProjet-3',
@@ -68,6 +69,7 @@ export const Default: Story = {
           misÀJourLe: '2023-02-12',
           régionProjet: 'Région A / Région B',
           dateLimiteSoumission: '2023-02-12',
+          afficherModèleMiseEnDemeure: true,
         },
       ],
     },

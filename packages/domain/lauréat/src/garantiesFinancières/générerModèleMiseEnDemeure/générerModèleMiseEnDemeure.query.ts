@@ -107,17 +107,17 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
     const content = await buildModèleMiseEnDemeureGarantiesFinancières({
       data: {
         dreal: régionDreal.région,
-        dateMiseEnDemeure: dateCourrierValue,
+        dateMiseEnDemeure: new Date(dateCourrierValue).toLocaleDateString('fr-FR'),
         contactDreal: utilisateur.email,
         referenceProjet: identifiantProjetValue,
         titreAppelOffre: `${détailPériode.cahierDesCharges.référence} ${appelOffres.title}`,
-        dateLancementAppelOffre: appelOffres.launchDate,
+        dateLancementAppelOffre: new Date(appelOffres.launchDate).toLocaleDateString('fr-FR'),
         nomProjet: candidature.nom,
         adresseCompleteProjet: `${candidature.localité.adresse} ${candidature.localité.codePostal} ${candidature.localité.commune}`,
         puissanceProjet: candidature.puissance.toString(),
         unitePuissance: appelOffres.unitePuissance,
         titrePeriode: détailPériode.title,
-        dateNotification: candidature.dateDésignation,
+        dateNotification: new Date(candidature.dateDésignation).toLocaleDateString('fr-FR'),
         paragrapheGF: appelOffres.renvoiRetraitDesignationGarantieFinancieres,
         garantieFinanciereEnMois:
           détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
@@ -132,17 +132,19 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
                   new Date(candidature.dateDésignation).getMonth() +
                     détailFamille.garantieFinanciereEnMois,
                 ),
-              ).toISOString()
+              ).toLocaleDateString('fr-FR')
             : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
             ? new Date(
                 new Date(candidature.dateDésignation).setMonth(
                   new Date(candidature.dateDésignation).getMonth() +
                     appelOffres.garantieFinanciereEnMois,
                 ),
-              ).toISOString()
+              ).toLocaleDateString('fr-FR')
             : '!!! dateFinGarantieFinanciere non disponible !!!',
         dateLimiteDepotGF:
-          projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.formatter() || '',
+          projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.date.toLocaleDateString(
+            'fr-FR',
+          ) || '',
         nomRepresentantLegal: candidature.candidat.nom,
         adresseProjet: candidature.candidat.adressePostale,
         codePostalProjet: candidature.localité.codePostal,

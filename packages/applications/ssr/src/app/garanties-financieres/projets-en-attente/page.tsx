@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { featureFlags } from '@potentiel-applications/feature-flags';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -66,7 +67,7 @@ export default async function Page({ searchParams }: PageProps) {
 
       return (
         <ListProjetsAvecGarantiesFinancièresEnAttentePage
-          list={mapToListProps(projetsAvecGarantiesFinancièresEnAttente)}
+          list={mapToListProps(projetsAvecGarantiesFinancièresEnAttente, utilisateur)}
           filters={filters}
         />
       );
@@ -76,7 +77,9 @@ export default async function Page({ searchParams }: PageProps) {
 
 const mapToListProps = (
   readModel: GarantiesFinancières.ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
+  utilisateur: Utilisateur.ValueType,
 ): ListProjetsAvecGarantiesFinancièresEnAttenteProps['list'] => {
+  const now = new Date();
   const items = readModel.items.map(
     ({
       identifiantProjet,
@@ -96,6 +99,8 @@ const mapToListProps = (
       régionProjet,
       misÀJourLe: dernièreMiseÀJour.date.formatter(),
       dateLimiteSoumission: dateLimiteSoumission.formatter(),
+      afficherModèleMiseEnDemeure:
+        dateLimiteSoumission.date.getTime() < now.getTime() && utilisateur.role.nom === 'dreal',
     }),
   );
 

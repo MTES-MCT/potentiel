@@ -6,7 +6,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 export const getModèleMiseEnDemeureGarantiesFinancières: GarantiesFinancières.BuildModèleMiseEnDemeureGarantiesFinancièresPort =
   async ({ data }) => {
-    const content = fs.readFileSync(path.resolve(__dirname, 'modèleMiseEnDemeure.docx'), 'binary');
+    const content = fs.readFileSync(path.resolve(__dirname, 'modeleMiseEnDemeure.docx'), 'binary');
     const zip = new PizZip(content);
     const doc = new Docxtemplater(zip, {
       paragraphLoop: true,
