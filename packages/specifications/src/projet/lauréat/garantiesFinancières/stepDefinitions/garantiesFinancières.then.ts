@@ -195,7 +195,7 @@ Alors(
 
       expect(actualReadModel).not.to.be.undefined;
       expect(actualReadModel.nomProjet).to.deep.equal(nomProjet);
-      expect(actualReadModel.motif).to.deep.equal(motif);
+      expect(actualReadModel.motif.motif).to.deep.equal(motif);
       expect(actualReadModel.dateLimiteSoumission.date).to.deep.equal(
         new Date(dateLimiteSoumission),
       );

@@ -6,10 +6,15 @@ import {
   applyDépôtGarantiesFinancièresSoumis,
   soumettreDépôt,
 } from './dépôt/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
-import { StatutDépôtGarantiesFinancières, TypeGarantiesFinancières } from '.';
+import {
+  MotifDemandeGarantiesFinancières,
+  StatutDépôtGarantiesFinancières,
+  TypeGarantiesFinancières,
+} from '.';
 import { AucunesGarantiesFinancièresPourLeProjetError } from './aucunesGarantiesFinancièresPourLeProjet.error';
 import {
   GarantiesFinancièresDemandéesEvent,
+  applyDemanderGarantiesFinancières,
   demanderGarantiesFinancières,
 } from './demander/demanderGarantiesFinancières.behavior';
 import {
@@ -82,6 +87,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     soumisLe: DateTime.ValueType;
     attestation?: { format: string };
   }>;
+  motifDemandeGarantiesFinancières?: MotifDemandeGarantiesFinancières.ValueType;
   dateLimiteSoumission?: DateTime.ValueType;
   readonly soumettreDépôt: typeof soumettreDépôt;
   readonly demanderGarantiesFinancières: typeof demanderGarantiesFinancières;
@@ -114,6 +120,9 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
   switch (event.type) {
+    case 'GarantiesFinancièresDemandées-V1':
+      applyDemanderGarantiesFinancières.bind(this)(event);
+      break;
     case 'DépôtGarantiesFinancièresSoumis-V1':
       applyDépôtGarantiesFinancièresSoumis.bind(this)(event);
       break;

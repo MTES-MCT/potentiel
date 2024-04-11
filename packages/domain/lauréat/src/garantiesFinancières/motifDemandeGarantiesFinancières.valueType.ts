@@ -36,7 +36,6 @@ export const convertirEnValueType = (value: string): ValueType => {
     estÉchéance() {
       return this.motif === 'échéance-garanties-financières-actuelles';
     },
-
     estGarantiesFinancièresInitiales() {
       return this.motif === 'garanties-financières-initiales';
     },
