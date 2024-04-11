@@ -1,4 +1,10 @@
-import { Entity, ListOptionsV2, ListResultV2, OrderByOptions } from '@potentiel-domain/core';
+import {
+  Entity,
+  LimitOptions,
+  ListOptionsV2,
+  ListResultV2,
+  OrderByOptions,
+} from '@potentiel-domain/core';
 import { executeSelect } from '@potentiel-librairies/pg-helpers';
 import { KeyValuePair } from './keyValuePair';
 import { flatten, unflatten } from '@potentiel-librairies/flat-cjs';
@@ -8,9 +14,12 @@ const selectQuery = 'SELECT key, value FROM domain_views.projection WHERE key LI
 
 export const listProjectionV2 = async <TEntity extends Entity>(
   category: TEntity['type'],
-  { orderBy }: ListOptionsV2<TEntity> = {},
+  { orderBy, limit }: ListOptionsV2<TEntity> = {},
 ): Promise<ListResultV2<TEntity>> => {
-  const query = format(`${selectQuery} ${orderBy ? getOrderClause(orderBy) : ''}`);
+  const orderByClause = orderBy ? getOrderClause(orderBy) : '';
+  const limitClause = limit ? getLimitClause(limit) : '';
+
+  const query = format(`${selectQuery} ${orderByClause} ${limitClause}`);
 
   const result = await executeSelect<KeyValuePair<TEntity>>(query, `${category}|%`);
 
@@ -34,3 +43,6 @@ const getOrderClause = <TEntity extends Entity>(orderBy: OrderByOptions<Omit<TEn
     .map(([key, value]) => `value->>'${key}' ${value === 'ascending' ? 'ASC' : 'DESC'}`)
     .join(', ')}`;
 };
+
+const getLimitClause = ({ next, offset }: LimitOptions) =>
+  format('limit %s offset %s', next, offset);

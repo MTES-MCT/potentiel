@@ -33,7 +33,7 @@ describe('listProjectionV2', () => {
 
     gestionnaires = [];
 
-    for (let time = 0; time <= Math.random() * 100; time++) {
+    for (let time = 0; time <= Math.random() * 100 + 10; time++) {
       gestionnaires.push({
         data: {
           value: `a random value ${time}`,
@@ -91,6 +91,28 @@ describe('listProjectionV2', () => {
           ...unflatten(g),
           type: 'fake-projection',
         })),
+    };
+
+    actual.should.be.eql(expected);
+  });
+
+  it(`
+    Etant donnée des projections
+    Quand je récupére la liste des projections par category avec une limite du nombre de ligne retournée
+    Alors l'ensemble des projections de cette category est retournée en prenant en considération la limite
+  `, async () => {
+    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+      limit: {
+        offset: 5,
+        next: 3,
+      },
+    });
+
+    const expected: ListResultV2<FakeProjection> = {
+      items: [gestionnaires[5], gestionnaires[6], gestionnaires[7]].map((g) => ({
+        ...unflatten(g),
+        type: 'fake-projection',
+      })),
     };
 
     actual.should.be.eql(expected);

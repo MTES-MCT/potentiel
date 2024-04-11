@@ -56,8 +56,14 @@ export type OrderByOptions<TType> = {
     : never;
 };
 
+export type LimitOptions = {
+  offset: number;
+  next: number;
+};
+
 export type ListOptionsV2<TEntity extends Entity> = {
   orderBy?: OrderByOptions<Omit<TEntity, 'type'>>;
+  limit?: LimitOptions;
 };
 
 export type ListResultV2<TEntity extends Entity> = {
