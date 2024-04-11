@@ -57,7 +57,6 @@ export type OrderByOptions<TType> = {
 };
 
 export type ListOptionsV2<TEntity extends Entity> = {
-  type: TEntity['type'];
   orderBy?: OrderByOptions<Omit<TEntity, 'type'>>;
 };
 
@@ -66,5 +65,6 @@ export type ListResultV2<TEntity extends Entity> = {
 };
 
 export type ListV2 = <TEntity extends Entity>(
-  options: ListOptionsV2<TEntity>,
+  category: TEntity['type'],
+  options?: ListOptionsV2<TEntity>,
 ) => Promise<ListResultV2<TEntity>>;

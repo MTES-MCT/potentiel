@@ -1,14 +1,19 @@
-import { Entity, ListOptionsV2, ListResultV2 } from '@potentiel-domain/core';
+import { Entity, ListOptionsV2, ListResultV2, OrderByOptions } from '@potentiel-domain/core';
 import { executeSelect } from '@potentiel-librairies/pg-helpers';
 import { KeyValuePair } from './keyValuePair';
-import { unflatten } from '@potentiel-librairies/flat-cjs';
+import { flatten, unflatten } from '@potentiel-librairies/flat-cjs';
+import format from 'pg-format';
 
-const selectQuery = 'select key, value from domain_views.projection where key like $1';
+const selectQuery = 'SELECT key, value FROM domain_views.projection WHERE key LIKE $1';
 
-export const listProjectionV2 = async <TEntity extends Entity>({
-  type,
-}: ListOptionsV2<TEntity>): Promise<ListResultV2<TEntity>> => {
-  const result = await executeSelect<KeyValuePair<TEntity>>(selectQuery, `${type}|%`);
+export const listProjectionV2 = async <TEntity extends Entity>(
+  category: TEntity['type'],
+  { orderBy }: ListOptionsV2<TEntity> = {},
+): Promise<ListResultV2<TEntity>> => {
+  const query = format(`${selectQuery} ${orderBy ? getOrderClause(orderBy) : ''}`);
+
+  const result = await executeSelect<KeyValuePair<TEntity>>(query, `${category}|%`);
+
   return {
     items: result.map(
       ({ key, value }) =>
@@ -18,4 +23,14 @@ export const listProjectionV2 = async <TEntity extends Entity>({
         } as TEntity),
     ),
   };
+};
+
+const getOrderClause = <TEntity extends Entity>(orderBy: OrderByOptions<Omit<TEntity, 'type'>>) => {
+  const flattenOrderBy = flatten<typeof orderBy, Record<string, 'ascending' | 'descending'>>(
+    orderBy,
+  );
+
+  return `order by ${Object.entries(flattenOrderBy)
+    .map(([key, value]) => `value->>'${key}' ${value === 'ascending' ? 'ASC' : 'DESC'}`)
+    .join(', ')}`;
 };

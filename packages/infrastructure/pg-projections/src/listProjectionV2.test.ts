@@ -2,7 +2,7 @@ import { should } from 'chai';
 import { after, before, beforeEach, describe, it } from 'node:test';
 
 import { Entity, ListResultV2 } from '@potentiel-domain/core';
-import { unflatten } from '@potentiel-librairies/flat-cjs';
+import { flatten, unflatten } from '@potentiel-librairies/flat-cjs';
 import { executeQuery, killPool } from '@potentiel-librairies/pg-helpers';
 
 import { listProjectionV2 } from './listProjectionV2';
@@ -10,8 +10,8 @@ import { listProjectionV2 } from './listProjectionV2';
 should();
 
 describe('listProjectionV2', () => {
-  type GestionnaireRéseau = Entity<
-    'gestionnaire-réseau',
+  type FakeProjection = Entity<
+    'fake-projection',
     {
       data: {
         value: string;
@@ -20,7 +20,7 @@ describe('listProjectionV2', () => {
     }
   >;
 
-  let gestionnaires: Array<Omit<GestionnaireRéseau, 'type'>> = [];
+  let gestionnaires: Array<Omit<FakeProjection, 'type'>> = [];
 
   before(() => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
@@ -37,7 +37,7 @@ describe('listProjectionV2', () => {
       gestionnaires.push({
         data: {
           value: `a random value ${time}`,
-          name: time.toString(),
+          name: `${time}`,
         },
       });
     }
@@ -47,25 +47,23 @@ describe('listProjectionV2', () => {
         `insert
         into domain_views.projection
         values ($1, $2)`,
-        `gestionnaire-réseau|${gestionnaire.data.value}`,
-        gestionnaire,
+        `fake-projection|${gestionnaire.data.value}`,
+        flatten(gestionnaire),
       );
     }
   });
 
   it(`
-    Etant donnée des projections de type gestionnaire réseau
-    Quand je récupére la liste des gestionnaire réseau
-    Alors l'ensemble des gestionnaire réseaux est retourné sous la forme d'un résultat
+    Etant donnée des projections
+    Quand je récupére la liste des projections par category
+    Alors l'ensemble des projections de cette category est retournée sous la forme d'un résultat
   `, async () => {
-    const actual = await listProjectionV2<GestionnaireRéseau>({
-      type: 'gestionnaire-réseau',
-    });
+    const actual = await listProjectionV2<FakeProjection>('fake-projection');
 
-    const expected: ListResultV2<GestionnaireRéseau> = {
+    const expected: ListResultV2<FakeProjection> = {
       items: gestionnaires.map((g) => ({
         ...unflatten(g),
-        type: 'gestionnaire-réseau',
+        type: 'fake-projection',
       })),
     };
 
@@ -73,25 +71,26 @@ describe('listProjectionV2', () => {
   });
 
   it(`
-    Etant données des projections de type gestionnaire réseau
-    Quand je récupére la liste en triant par nom dans l'ordre descendant des gestionnaire réseau
-    Alors l'ensemble des gestionnaire réseaux est retourné sous la forme d'un résultat trié par ordre de nom descendant
+    Etant donnée des projections
+    Quand je récupére la liste des projections par category en triant par une propriété descendante
+    Alors l'ensemble des projections de cette category est retournée sous la forme d'un résultat trié par ordre de nom descendant
   `, async () => {
-    const actual = await listProjectionV2<GestionnaireRéseau>({
-      type: 'gestionnaire-réseau',
+    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
       orderBy: {
         data: {
-          name: 'ascending',
+          name: 'descending',
           value: 'descending',
         },
       },
     });
 
-    const expected: ListResultV2<GestionnaireRéseau> = {
-      items: gestionnaires.map((g) => ({
-        ...unflatten(g),
-        type: 'gestionnaire-réseau',
-      })),
+    const expected: ListResultV2<FakeProjection> = {
+      items: gestionnaires
+        .sort(({ data: { value: a } }, { data: { value: b } }) => b.localeCompare(a))
+        .map((g) => ({
+          ...unflatten(g),
+          type: 'fake-projection',
+        })),
     };
 
     actual.should.be.eql(expected);
