@@ -62,6 +62,7 @@ const getOrderClause = <TEntity extends Entity>(orderBy: OrderByOptions<Omit<TEn
     .join(', ')}`;
 };
 
+// TODO: remplacer type par operations
 const getWhereClause = <TEntity extends Entity>(
   where: WhereOptions<Omit<TEntity, 'type'>>,
 ): [clause: string, values: Array<unknown>] => {
@@ -103,6 +104,8 @@ const getParameters = (value: string, index: number) => {
         return `${baseCondition} NOT ILIKE $${index + 2}`;
       case 'include':
         return `${baseCondition} = ANY($${index + 2})`;
+      case 'notInclude':
+        return `${baseCondition} <> ALL($${index + 2})`;
       default:
         // TODO: cas limite à traiter
         return '';

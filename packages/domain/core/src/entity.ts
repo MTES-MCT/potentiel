@@ -65,6 +65,7 @@ export type EqualWhere<T> = { type: 'equal'; value: T };
 export type NotEqualWhere<T> = { type: 'notEqual'; value: T };
 
 export type IncludeWhere<T> = { type: 'include'; value: Array<T> };
+export type NotIncludeWhere<T> = { type: 'notInclude'; value: Array<T> };
 
 export type MatchWhere = { type: 'match'; value: `%${string}` | `${string}%` | `%${string}%` };
 export type NotMatchWhere = {
@@ -77,11 +78,19 @@ export type WhereOperation<T = {}> =
   | NotEqualWhere<T>
   | MatchWhere
   | NotMatchWhere
-  | IncludeWhere<T>;
+  | IncludeWhere<T>
+  | NotIncludeWhere<T>;
 
 export type WhereOperationType = WhereOperation['type'];
 
-const operations: Array<WhereOperationType> = ['equal', 'include', 'match', 'notEqual', 'notMatch'];
+const operations: Array<WhereOperationType> = [
+  'equal',
+  'include',
+  'notInclude',
+  'match',
+  'notEqual',
+  'notMatch',
+];
 
 export const isWhereOperationType = (value: string): value is WhereOperationType => {
   return operations.includes(value as WhereOperationType);

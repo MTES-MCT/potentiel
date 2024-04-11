@@ -53,6 +53,16 @@ describe('listProjectionV2', () => {
     }
   });
 
+  const formatExpectedData = (
+    expectedData: Array<Omit<FakeProjection, 'type'>>,
+  ): ListResultV2<FakeProjection> => ({
+    total: expectedData.length,
+    items: expectedData.map((g) => ({
+      ...unflatten(g),
+      type: 'fake-projection',
+    })),
+  });
+
   it(`
     Etant donnée des projections
     Quand je récupère la liste des projections par catégorie
@@ -60,15 +70,9 @@ describe('listProjectionV2', () => {
   `, async () => {
     const actual = await listProjectionV2<FakeProjection>('fake-projection');
 
-    const expected: ListResultV2<FakeProjection> = {
-      total: fakeData.length,
-      items: fakeData.map((g) => ({
-        ...unflatten(g),
-        type: 'fake-projection',
-      })),
-    };
+    const expectedData = fakeData;
 
-    actual.should.be.deep.equal(expected);
+    actual.should.be.deep.equal(formatExpectedData(expectedData));
   });
 
   it(`
@@ -85,17 +89,11 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expected: ListResultV2<FakeProjection> = {
-      total: fakeData.length,
-      items: fakeData
-        .sort(({ data: { value: a } }, { data: { value: b } }) => b.localeCompare(a))
-        .map((g) => ({
-          ...unflatten(g),
-          type: 'fake-projection',
-        })),
-    };
+    const expectedData = fakeData.sort(({ data: { value: a } }, { data: { value: b } }) =>
+      b.localeCompare(a),
+    );
 
-    actual.should.be.deep.equal(expected);
+    actual.should.be.deep.equal(formatExpectedData(expectedData));
   });
 
   it(`
@@ -110,15 +108,10 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expected: ListResultV2<FakeProjection> = {
-      total: fakeData.length,
-      items: [fakeData[5], fakeData[6], fakeData[7]].map((g) => ({
-        ...unflatten(g),
-        type: 'fake-projection',
-      })),
-    };
+    const expectedData = [fakeData[5], fakeData[6], fakeData[7]];
 
-    actual.should.be.deep.equal(expected);
+    // TODO: fix total ??
+    actual.should.be.deep.equal(formatExpectedData(expectedData));
   });
 
   it(`
@@ -137,15 +130,9 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expected: ListResultV2<FakeProjection> = {
-      total: 1,
-      items: [fakeData[1]].map((g) => ({
-        ...unflatten(g),
-        type: 'fake-projection',
-      })),
-    };
+    const expectedData = [fakeData[1]];
 
-    actual.should.be.deep.equal(expected);
+    actual.should.be.deep.equal(formatExpectedData(expectedData));
   });
 
   it(`
@@ -164,17 +151,9 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const filteredFakes = fakeData.filter((g) => g.data.name !== '1');
+    const expectedData = fakeData.filter((g) => g.data.name !== '1');
 
-    const expected: ListResultV2<FakeProjection> = {
-      total: filteredFakes.length,
-      items: filteredFakes.map((g) => ({
-        ...unflatten(g),
-        type: 'fake-projection',
-      })),
-    };
-
-    actual.should.be.deep.equal(expected);
+    actual.should.be.deep.equal(formatExpectedData(expectedData));
   });
 
   it(`
@@ -210,17 +189,9 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const filteredFakes = fakeData.filter((g) => g.data.name.toLowerCase().startsWith('a'));
+    const expectedData = fakeData.filter((g) => g.data.name.toLowerCase().startsWith('a'));
 
-    const expected: ListResultV2<FakeProjection> = {
-      total: filteredFakes.length,
-      items: filteredFakes.map((g) => ({
-        ...unflatten(g),
-        type: 'fake-projection',
-      })),
-    };
-
-    actual.should.be.deep.equal(expected);
+    actual.should.be.deep.equal(formatExpectedData(expectedData));
   });
 
   it(`
@@ -256,17 +227,9 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const filteredFakes = fakeData.filter((g) => g.data.name.toLowerCase().startsWith('a'));
+    const expectedData = fakeData.filter((g) => g.data.name.toLowerCase().startsWith('a'));
 
-    const expected: ListResultV2<FakeProjection> = {
-      total: filteredFakes.length,
-      items: filteredFakes.map((g) => ({
-        ...unflatten(g),
-        type: 'fake-projection',
-      })),
-    };
-
-    actual.should.be.deep.equal(expected);
+    actual.should.be.deep.equal(formatExpectedData(expectedData));
   });
 
   it(`
@@ -302,17 +265,9 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const filteredFakes = fakeData.filter((g) => !g.data.name.toLowerCase().startsWith('a'));
+    const expectedData = fakeData.filter((g) => !g.data.name.toLowerCase().startsWith('a'));
 
-    const expected: ListResultV2<FakeProjection> = {
-      total: filteredFakes.length,
-      items: filteredFakes.map((g) => ({
-        ...unflatten(g),
-        type: 'fake-projection',
-      })),
-    };
-
-    actual.should.be.deep.equal(expected);
+    actual.should.be.deep.equal(formatExpectedData(expectedData));
   });
 
   it(`
@@ -320,25 +275,44 @@ describe('listProjectionV2', () => {
     Quand je récupère la liste des projections par catégorie dont une valeur est inclue dans une liste des valeurs 
     Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération l'inclusion de la valeur dans la liste
   `, async () => {
+    const valuesArray = ['1', '2'];
+
     const actual = await listProjectionV2<FakeProjection>('fake-projection', {
       where: {
         data: {
           name: {
             type: 'include',
-            value: ['1', '2'],
+            value: valuesArray,
           },
         },
       },
     });
 
-    const expected: ListResultV2<FakeProjection> = {
-      total: 2,
-      items: [fakeData[1], fakeData[2]].map((g) => ({
-        ...unflatten(g),
-        type: 'fake-projection',
-      })),
-    };
+    const expectedData = fakeData.filter(({ data }) => valuesArray.includes(data.name));
 
-    actual.should.be.deep.equal(expected);
+    actual.should.be.deep.equal(formatExpectedData(expectedData));
+  });
+
+  it(`
+    Etant donnée des projections
+    Quand je récupère la liste des projections par catégorie dont une valeur n'est pas incluse dans une liste des valeurs 
+    Alors les projections de cette catégorie dont la valeur est non incluse dans la liste sont retournées
+  `, async () => {
+    const valuesArray = ['1', '2'];
+
+    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+      where: {
+        data: {
+          name: {
+            type: 'notInclude',
+            value: valuesArray,
+          },
+        },
+      },
+    });
+
+    const expectedData = fakeData.filter(({ data }) => !valuesArray.includes(data.name));
+
+    actual.should.be.deep.equal(formatExpectedData(expectedData));
   });
 });
