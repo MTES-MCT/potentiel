@@ -130,7 +130,7 @@ describe('listProjectionV2', () => {
       where: {
         data: {
           name: {
-            type: 'strict',
+            type: 'equal',
             value: '1',
           },
         },
@@ -140,41 +140,6 @@ describe('listProjectionV2', () => {
     const expected: ListResultV2<FakeProjection> = {
       total: 1,
       items: [fakeData[1]].map((g) => ({
-        ...unflatten(g),
-        type: 'fake-projection',
-      })),
-    };
-
-    actual.should.be.deep.equal(expected);
-  });
-
-  it(`
-    Etant donnée des projections
-    Quand je récupère la liste des projections par catégorie avec un filtre de recherche
-    Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération le filtre de recherche
-  `, async () => {
-    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
-      where: {
-        data: {
-          name: {
-            type: 'like',
-            value: '1%',
-          },
-          value: {
-            type: 'like',
-            value: '%1',
-          },
-        },
-      },
-    });
-
-    const filteredFakes = fakeData.filter(
-      (g) => g.data.value.endsWith('1') && g.data.name.startsWith('1'),
-    );
-
-    const expected: ListResultV2<FakeProjection> = {
-      total: filteredFakes.length,
-      items: filteredFakes.map((g) => ({
         ...unflatten(g),
         type: 'fake-projection',
       })),
@@ -209,7 +174,7 @@ describe('listProjectionV2', () => {
       where: {
         data: {
           name: {
-            type: 'ilike',
+            type: 'match',
             value: 'a%',
           },
         },

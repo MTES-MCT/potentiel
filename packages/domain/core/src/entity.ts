@@ -48,11 +48,11 @@ export type List = <TEntity extends Entity>(
 
 export type Order = 'ascending' | 'descending';
 
-export type OrderByOptions<TType> = {
-  [TProperty in keyof TType]?: TType[TProperty] extends string | boolean | number
+export type OrderByOptions<T> = {
+  [P in keyof T]?: T[P] extends string | boolean | number
     ? Order
-    : TType[TProperty] extends Record<string, infer U>
-    ? OrderByOptions<TType[TProperty]>
+    : T[P] extends Record<string, infer U>
+    ? OrderByOptions<T[P]>
     : never;
 };
 
@@ -61,14 +61,17 @@ export type LimitOptions = {
   next: number;
 };
 
-export type WhereOptions<TType> = {
-  [TProperty in keyof TType]?: TType[TProperty] extends string | boolean | number
-    ?
-        | { type: 'strict'; value: TType[TProperty] }
-        | { type: 'like'; value: `%${string}` | `${string}%` | `%${string}%` }
-        | { type: 'ilike'; value: `%${string}` | `${string}%` | `%${string}%` }
-    : TType[TProperty] extends Record<string, infer U>
-    ? WhereOptions<TType[TProperty]>
+export type EqualWhere<T> = { type: 'equal'; value: T };
+
+export type MatchWhere = { type: 'match'; value: `%${string}` | `${string}%` | `%${string}%` };
+
+type Where<T> = EqualWhere<T> | MatchWhere;
+
+export type WhereOptions<T> = {
+  [P in keyof T]?: T[P] extends string | boolean | number
+    ? Where<T[P]>
+    : T[P] extends Record<string, infer U>
+    ? WhereOptions<T[P]>
     : never;
 };
 

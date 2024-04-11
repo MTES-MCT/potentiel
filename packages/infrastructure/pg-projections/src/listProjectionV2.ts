@@ -64,14 +64,10 @@ const getWhereClause = <TEntity extends Entity>(
   const flattenWhere = flatten<typeof where, Record<string, unknown>>(where);
   const whereTypes = Object.entries(flattenWhere).filter(([key]) => key.endsWith('.type'));
 
-  // maybe replace with a map object with several types
   const whereClause = format(
     whereTypes
       .map(
-        ([_, value], index) =>
-          `and value->>%L ${value === 'strict' ? '=' : (value as string).toUpperCase()} $${
-            index + 2
-          }`,
+        ([_, value], index) => `and value->>%L ${value === 'equal' ? '=' : 'ILIKE'} $${index + 2}`,
       )
       .join(' '),
     ...whereTypes.map(([key]) => key.replace('.type', '')),
