@@ -61,13 +61,14 @@ describe('listProjectionV2', () => {
     const actual = await listProjectionV2<FakeProjection>('fake-projection');
 
     const expected: ListResultV2<FakeProjection> = {
+      total: gestionnaires.length,
       items: gestionnaires.map((g) => ({
         ...unflatten(g),
         type: 'fake-projection',
       })),
     };
 
-    actual.should.be.eql(expected);
+    actual.should.be.deep.equal(expected);
   });
 
   it(`
@@ -85,6 +86,7 @@ describe('listProjectionV2', () => {
     });
 
     const expected: ListResultV2<FakeProjection> = {
+      total: gestionnaires.length,
       items: gestionnaires
         .sort(({ data: { value: a } }, { data: { value: b } }) => b.localeCompare(a))
         .map((g) => ({
@@ -93,7 +95,7 @@ describe('listProjectionV2', () => {
         })),
     };
 
-    actual.should.be.eql(expected);
+    actual.should.be.deep.equal(expected);
   });
 
   it(`
@@ -109,12 +111,13 @@ describe('listProjectionV2', () => {
     });
 
     const expected: ListResultV2<FakeProjection> = {
+      total: gestionnaires.length,
       items: [gestionnaires[5], gestionnaires[6], gestionnaires[7]].map((g) => ({
         ...unflatten(g),
         type: 'fake-projection',
       })),
     };
 
-    actual.should.be.eql(expected);
+    actual.should.be.deep.equal(expected);
   });
 });

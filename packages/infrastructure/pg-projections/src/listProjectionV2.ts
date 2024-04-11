@@ -11,6 +11,7 @@ import { flatten, unflatten } from '@potentiel-librairies/flat-cjs';
 import format from 'pg-format';
 
 const selectQuery = 'SELECT key, value FROM domain_views.projection WHERE key LIKE $1';
+const countQuery = 'SELECT COUNT(key) as total FROM domain_views.projection where key like $1';
 
 export const listProjectionV2 = async <TEntity extends Entity>(
   category: TEntity['type'],
@@ -19,11 +20,14 @@ export const listProjectionV2 = async <TEntity extends Entity>(
   const orderByClause = orderBy ? getOrderClause(orderBy) : '';
   const limitClause = limit ? getLimitClause(limit) : '';
 
-  const query = format(`${selectQuery} ${orderByClause} ${limitClause}`);
+  const select = format(`${selectQuery} ${orderByClause} ${limitClause}`);
+  const count = format(`${countQuery}`);
 
-  const result = await executeSelect<KeyValuePair<TEntity>>(query, `${category}|%`);
+  const result = await executeSelect<KeyValuePair<TEntity>>(select, `${category}|%`);
+  const [{ total }] = await executeSelect<{ total: string }>(count, `${category}|%`);
 
   return {
+    total: parseInt(total),
     items: result.map(
       ({ key, value }) =>
         ({
