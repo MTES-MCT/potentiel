@@ -314,4 +314,31 @@ describe('listProjectionV2', () => {
 
     actual.should.be.deep.equal(expected);
   });
+
+  it(`
+    Etant donnée des projections
+    Quand je récupère la liste des projections par catégorie dont une valeur est inclue dans une liste des valeurs 
+    Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération l'inclusion de la valeur dans la liste
+  `, async () => {
+    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+      where: {
+        data: {
+          name: {
+            type: 'include',
+            value: ['1', '2'],
+          },
+        },
+      },
+    });
+
+    const expected: ListResultV2<FakeProjection> = {
+      total: 2,
+      items: [fakeData[1], fakeData[2]].map((g) => ({
+        ...unflatten(g),
+        type: 'fake-projection',
+      })),
+    };
+
+    actual.should.be.deep.equal(expected);
+  });
 });

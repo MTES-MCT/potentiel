@@ -64,17 +64,32 @@ export type LimitOptions = {
 export type EqualWhere<T> = { type: 'equal'; value: T };
 export type NotEqualWhere<T> = { type: 'notEqual'; value: T };
 
+export type IncludeWhere<T> = { type: 'include'; value: Array<T> };
+
 export type MatchWhere = { type: 'match'; value: `%${string}` | `${string}%` | `%${string}%` };
 export type NotMatchWhere = {
   type: 'notMatch';
   value: `%${string}` | `${string}%` | `%${string}%`;
 };
 
-type Where<T> = EqualWhere<T> | NotEqualWhere<T> | MatchWhere | NotMatchWhere;
+export type WhereOperation<T = {}> =
+  | EqualWhere<T>
+  | NotEqualWhere<T>
+  | MatchWhere
+  | NotMatchWhere
+  | IncludeWhere<T>;
+
+export type WhereOperationType = WhereOperation['type'];
+
+const operations: Array<WhereOperationType> = ['equal', 'include', 'match', 'notEqual', 'notMatch'];
+
+export const isWhereOperationType = (value: string): value is WhereOperationType => {
+  return operations.includes(value as WhereOperationType);
+};
 
 export type WhereOptions<T> = {
   [P in keyof T]?: T[P] extends string | boolean | number
-    ? Where<T[P]>
+    ? WhereOperation<T[P]>
     : T[P] extends Record<string, infer U>
     ? WhereOptions<T[P]>
     : never;

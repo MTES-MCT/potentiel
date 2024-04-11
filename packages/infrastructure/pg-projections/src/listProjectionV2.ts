@@ -5,6 +5,7 @@ import {
   ListResultV2,
   OrderByOptions,
   WhereOptions,
+  isWhereOperationType,
 } from '@potentiel-domain/core';
 import { flatten, unflatten } from '@potentiel-librairies/flat-cjs';
 import { executeSelect } from '@potentiel-librairies/pg-helpers';
@@ -51,6 +52,9 @@ export const listProjectionV2 = async <TEntity extends Entity>(
 const getOrderClause = <TEntity extends Entity>(orderBy: OrderByOptions<Omit<TEntity, 'type'>>) => {
   const flattenOrderBy = flatten<typeof orderBy, Record<string, 'ascending' | 'descending'>>(
     orderBy,
+    {
+      safe: true, // TODO : créer un helper pour ça, à la lecture c'est pas clair l'objectif
+    },
   );
 
   return `order by ${Object.entries(flattenOrderBy)
@@ -61,22 +65,15 @@ const getOrderClause = <TEntity extends Entity>(orderBy: OrderByOptions<Omit<TEn
 const getWhereClause = <TEntity extends Entity>(
   where: WhereOptions<Omit<TEntity, 'type'>>,
 ): [clause: string, values: Array<unknown>] => {
-  const flattenWhere = flatten<typeof where, Record<string, unknown>>(where);
+  const flattenWhere = flatten<typeof where, Record<string, unknown>>(where, {
+    safe: true, // TODO : créer un helper pour ça, à la lecture c'est pas clair l'objectif
+  });
   const whereTypes = Object.entries(flattenWhere).filter(([key]) => key.endsWith('.type'));
 
   const whereClause = format(
     whereTypes
       .map(
-        ([_, value], index) =>
-          `and value->>%L ${
-            value === 'equal'
-              ? '='
-              : value === 'match'
-              ? 'ILIKE'
-              : value === 'notEqual'
-              ? '<>'
-              : 'NOT ILIKE'
-          } $${index + 2}`,
+        ([_, value], index) => getParameters(value as string, index), // TODO as c'est le mal !!!
       )
       .join(' '),
     ...whereTypes.map(([key]) => key.replace('.type', '')),
@@ -91,3 +88,26 @@ const getWhereClause = <TEntity extends Entity>(
 
 const getLimitClause = ({ next, offset }: LimitOptions) =>
   format('limit %s offset %s', next, offset);
+
+const getParameters = (value: string, index: number) => {
+  if (isWhereOperationType(value)) {
+    const baseCondition = 'and value->>%L';
+    switch (value) {
+      case 'equal':
+        return `${baseCondition} = $${index + 2}`;
+      case 'notEqual':
+        return `${baseCondition} <> $${index + 2}`;
+      case 'match':
+        return `${baseCondition} ILIKE $${index + 2}`;
+      case 'notMatch':
+        return `${baseCondition} NOT ILIKE $${index + 2}`;
+      case 'include':
+        return `${baseCondition} = ANY($${index + 2})`;
+      default:
+        // TODO: cas limite à traiter
+        return '';
+    }
+  } else {
+    return '';
+  }
+};
