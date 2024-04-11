@@ -202,3 +202,47 @@ Alors(
     });
   },
 );
+
+Alors(
+  `les garanties financières à traiter du projet {string} devraient être consultable dans la liste des garanties financières à traiter`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      const actualReadModel =
+        await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
+          data: {
+            pagination: { page: 1, itemsPerPage: 10 },
+            utilisateur: {
+              email: 'admin@test.test',
+              rôle: 'admin',
+            },
+          },
+        });
+
+      expect(actualReadModel.items[0].identifiantProjet.estÉgaleÀ(identifiantProjet)).to.be.true;
+    });
+  },
+);
+
+Alors(
+  `les garanties financières à traiter du projet {string} devraient être supprimées de la liste des garanties financières à traiter`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    await waitForExpect(async () => {
+      const actualReadModel =
+        await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
+          data: {
+            pagination: { page: 1, itemsPerPage: 10 },
+            utilisateur: {
+              email: 'admin@test.test',
+              rôle: 'admin',
+            },
+          },
+        });
+
+      expect(actualReadModel.items).to.be.empty;
+    });
+  },
+);
