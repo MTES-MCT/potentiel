@@ -61,9 +61,18 @@ export type LimitOptions = {
   next: number;
 };
 
+export type WhereOptions<TType> = {
+  [TProperty in keyof TType]?: TType[TProperty] extends string | boolean | number
+    ? TType[TProperty]
+    : TType[TProperty] extends Record<string, infer U>
+    ? WhereOptions<TType[TProperty]>
+    : never;
+};
+
 export type ListOptionsV2<TEntity extends Entity> = {
   orderBy?: OrderByOptions<Omit<TEntity, 'type'>>;
   limit?: LimitOptions;
+  where?: WhereOptions<Omit<TEntity, 'type'>>;
 };
 
 export type ListResultV2<TEntity extends Entity> = {

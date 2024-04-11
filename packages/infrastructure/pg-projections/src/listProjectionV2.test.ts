@@ -120,4 +120,28 @@ describe('listProjectionV2', () => {
 
     actual.should.be.deep.equal(expected);
   });
+
+  it(`
+    Etant donnée des projections
+    Quand je récupére la liste des projections par category avec un filtre
+    Alors l'ensemble des projections de cette category est retournée en prenant en considération le filtre
+  `, async () => {
+    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+      where: {
+        data: {
+          name: '1',
+        },
+      },
+    });
+
+    const expected: ListResultV2<FakeProjection> = {
+      total: 1,
+      items: [gestionnaires[0]].map((g) => ({
+        ...unflatten(g),
+        type: 'fake-projection',
+      })),
+    };
+
+    actual.should.be.deep.equal(expected);
+  });
 });
