@@ -4,6 +4,7 @@ import {
   ListOptionsV2,
   ListResultV2,
   OrderByOptions,
+  WhereOptions,
 } from '@potentiel-domain/core';
 import { executeSelect } from '@potentiel-librairies/pg-helpers';
 import { KeyValuePair } from './keyValuePair';
@@ -15,16 +16,25 @@ const countQuery = 'SELECT COUNT(key) as total FROM domain_views.projection wher
 
 export const listProjectionV2 = async <TEntity extends Entity>(
   category: TEntity['type'],
-  { orderBy, limit }: ListOptionsV2<TEntity> = {},
+  { orderBy, limit, where }: ListOptionsV2<TEntity> = {},
 ): Promise<ListResultV2<TEntity>> => {
   const orderByClause = orderBy ? getOrderClause(orderBy) : '';
   const limitClause = limit ? getLimitClause(limit) : '';
+  const [whereClause, whereValues] = where ? getWhereClause(where) : ['', []];
 
-  const select = format(`${selectQuery} ${orderByClause} ${limitClause}`);
-  const count = format(`${countQuery}`);
+  const select = format(`${selectQuery} ${whereClause} ${orderByClause} ${limitClause}`);
+  const count = format(`${countQuery} ${whereClause}`);
 
-  const result = await executeSelect<KeyValuePair<TEntity>>(select, `${category}|%`);
-  const [{ total }] = await executeSelect<{ total: string }>(count, `${category}|%`);
+  const result = await executeSelect<KeyValuePair<TEntity>>(
+    select,
+    `${category}|%`,
+    ...whereValues,
+  );
+  const [{ total }] = await executeSelect<{ total: string }>(
+    count,
+    `${category}|%`,
+    ...whereValues,
+  );
 
   return {
     total: parseInt(total),
@@ -46,6 +56,23 @@ const getOrderClause = <TEntity extends Entity>(orderBy: OrderByOptions<Omit<TEn
   return `order by ${Object.entries(flattenOrderBy)
     .map(([key, value]) => `value->>'${key}' ${value === 'ascending' ? 'ASC' : 'DESC'}`)
     .join(', ')}`;
+};
+
+const getWhereClause = <TEntity extends Entity>(
+  where: WhereOptions<Omit<TEntity, 'type'>>,
+): [clause: string, values: Array<unknown>] => {
+  const flattenWhere = flatten<typeof where, Record<string, unknown>>(where);
+
+  const whereClause = format(
+    Object.keys(flattenWhere)
+      .map((_, index) => `and value->>%L = $${index + 2}`)
+      .join(' '),
+    ...Object.keys(flattenWhere),
+  );
+
+  const whereValue = Object.values(flattenWhere);
+
+  return [whereClause, whereValue];
 };
 
 const getLimitClause = ({ next, offset }: LimitOptions) =>

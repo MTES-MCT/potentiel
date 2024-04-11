@@ -123,8 +123,8 @@ describe('listProjectionV2', () => {
 
   it(`
     Etant donnée des projections
-    Quand je récupére la liste des projections par category avec un filtre
-    Alors l'ensemble des projections de cette category est retournée en prenant en considération le filtre
+    Quand je récupére la liste des projections par category avec un filtre strict
+    Alors l'ensemble des projections de cette category est retournée en prenant en considération le filtre strict
   `, async () => {
     const actual = await listProjectionV2<FakeProjection>('fake-projection', {
       where: {
@@ -136,7 +136,7 @@ describe('listProjectionV2', () => {
 
     const expected: ListResultV2<FakeProjection> = {
       total: 1,
-      items: [gestionnaires[0]].map((g) => ({
+      items: [gestionnaires[1]].map((g) => ({
         ...unflatten(g),
         type: 'fake-projection',
       })),
