@@ -66,6 +66,7 @@ export type WhereOptions<TType> = {
     ?
         | { type: 'strict'; value: TType[TProperty] }
         | { type: 'like'; value: `%${string}` | `${string}%` | `%${string}%` }
+        | { type: 'ilike'; value: `%${string}` | `${string}%` | `%${string}%` }
     : TType[TProperty] extends Record<string, infer U>
     ? WhereOptions<TType[TProperty]>
     : never;

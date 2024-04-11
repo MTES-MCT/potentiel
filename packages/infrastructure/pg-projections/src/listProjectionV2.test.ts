@@ -55,8 +55,8 @@ describe('listProjectionV2', () => {
 
   it(`
     Etant donnée des projections
-    Quand je récupére la liste des projections par category
-    Alors l'ensemble des projections de cette category est retournée sous la forme d'un résultat
+    Quand je récupère la liste des projections par catégorie
+    Alors l'ensemble des projections de cette catégorie est retournée sous la forme d'un résultat
   `, async () => {
     const actual = await listProjectionV2<FakeProjection>('fake-projection');
 
@@ -73,8 +73,8 @@ describe('listProjectionV2', () => {
 
   it(`
     Etant donnée des projections
-    Quand je récupére la liste des projections par category en triant par une propriété descendante
-    Alors l'ensemble des projections de cette category est retournée sous la forme d'un résultat trié par ordre de nom descendant
+    Quand je récupère la liste des projections par catégorie en triant par une propriété descendante
+    Alors l'ensemble des projections de cette catégorie est retournée sous la forme d'un résultat trié par ordre de nom descendant
   `, async () => {
     const actual = await listProjectionV2<FakeProjection>('fake-projection', {
       orderBy: {
@@ -100,8 +100,8 @@ describe('listProjectionV2', () => {
 
   it(`
     Etant donnée des projections
-    Quand je récupére la liste des projections par category avec une limite du nombre de ligne retournée
-    Alors l'ensemble des projections de cette category est retournée en prenant en considération la limite
+    Quand je récupère la liste des projections par catégorie avec une limite du nombre de ligne retournée
+    Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération la limite
   `, async () => {
     const actual = await listProjectionV2<FakeProjection>('fake-projection', {
       limit: {
@@ -123,8 +123,8 @@ describe('listProjectionV2', () => {
 
   it(`
     Etant donnée des projections
-    Quand je récupére la liste des projections par category avec un filtre strict
-    Alors l'ensemble des projections de cette category est retournée en prenant en considération le filtre strict
+    Quand je récupère la liste des projections par catégorie avec un filtre strict
+    Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération le filtre strict
   `, async () => {
     const actual = await listProjectionV2<FakeProjection>('fake-projection', {
       where: {
@@ -150,8 +150,8 @@ describe('listProjectionV2', () => {
 
   it(`
     Etant donnée des projections
-    Quand je récupére la liste des projections par category avec un filtre de recherche
-    Alors l'ensemble des projections de cette category est retournée en prenant en considération le filtre de recherche
+    Quand je récupère la liste des projections par catégorie avec un filtre de recherche
+    Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération le filtre de recherche
   `, async () => {
     const actual = await listProjectionV2<FakeProjection>('fake-projection', {
       where: {
@@ -168,7 +168,55 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const filteredFakes = fakeData.filter((g) => g.data.value.endsWith('1'));
+    const filteredFakes = fakeData.filter(
+      (g) => g.data.value.endsWith('1') && g.data.name.startsWith('1'),
+    );
+
+    const expected: ListResultV2<FakeProjection> = {
+      total: filteredFakes.length,
+      items: filteredFakes.map((g) => ({
+        ...unflatten(g),
+        type: 'fake-projection',
+      })),
+    };
+
+    actual.should.be.deep.equal(expected);
+  });
+
+  it(`
+    Etant donnée des projections
+    Quand je récupère la liste des projections par catégorie avec un filtre de recherche insensible à la casse 
+    Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération le filtre de recherche sans sensibilité à la casse
+  `, async () => {
+    const insensitiveCaseFakeData = {
+      data: {
+        value: 'a random value',
+        name: 'A RANDOM NAME',
+      },
+    };
+
+    fakeData.push(insensitiveCaseFakeData);
+
+    await executeQuery(
+      `insert
+        into domain_views.projection
+        values ($1, $2)`,
+      `fake-projection|${insensitiveCaseFakeData.data.value}`,
+      flatten(insensitiveCaseFakeData),
+    );
+
+    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+      where: {
+        data: {
+          name: {
+            type: 'ilike',
+            value: 'a%',
+          },
+        },
+      },
+    });
+
+    const filteredFakes = fakeData.filter((g) => g.data.name.toLowerCase().startsWith('a'));
 
     const expected: ListResultV2<FakeProjection> = {
       total: filteredFakes.length,
