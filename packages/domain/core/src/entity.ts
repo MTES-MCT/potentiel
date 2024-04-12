@@ -56,9 +56,9 @@ export type OrderByOptions<T> = {
     : never;
 };
 
-export type LimitOptions = {
-  offset: number;
-  next: number;
+export type RangeOptions = {
+  startPosition: number;
+  endPosition: number;
 };
 
 export type EqualWhereCondition<T> = { operator: 'equal'; value: T };
@@ -96,14 +96,14 @@ export type WhereOptions<T> = {
 
 export type ListOptionsV2<TEntity extends Entity> = {
   orderBy?: OrderByOptions<Omit<TEntity, 'type'>>;
-  limit?: LimitOptions;
+  range?: RangeOptions;
   where?: WhereOptions<Omit<TEntity, 'type'>>;
 };
 
 export type ListResultV2<TEntity extends Entity> = {
   total: number;
   items: ReadonlyArray<TEntity>;
-  limit: LimitOptions;
+  range: RangeOptions;
 };
 
 export type ListV2 = <TEntity extends Entity>(

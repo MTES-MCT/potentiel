@@ -1,6 +1,6 @@
 import {
   Entity,
-  LimitOptions,
+  RangeOptions,
   ListOptionsV2,
   ListResultV2,
   OrderByOptions,
@@ -17,13 +17,13 @@ const countQuery = 'SELECT COUNT(key) as total FROM domain_views.projection wher
 
 export const listProjectionV2 = async <TEntity extends Entity>(
   category: TEntity['type'],
-  { orderBy, limit, where }: ListOptionsV2<TEntity> = {},
+  { orderBy, range, where }: ListOptionsV2<TEntity> = {},
 ): Promise<ListResultV2<TEntity>> => {
   const orderByClause = orderBy ? getOrderClause(orderBy) : '';
-  const limitClause = limit ? getLimitClause(limit) : '';
+  const rangeClause = range ? getRangeClause(range) : '';
   const [whereClause, whereValues] = where ? getWhereClause(where) : ['', []];
 
-  const select = format(`${selectQuery} ${whereClause} ${orderByClause} ${limitClause}`);
+  const select = format(`${selectQuery} ${whereClause} ${orderByClause} ${rangeClause}`);
   const count = format(`${countQuery} ${whereClause}`);
 
   const result = await executeSelect<KeyValuePair<TEntity>>(
@@ -46,15 +46,18 @@ export const listProjectionV2 = async <TEntity extends Entity>(
           type: key.split('|')[0],
         } as TEntity),
     ),
-    limit: limit ?? {
-      next: total,
-      offset: 0,
+    range: range ?? {
+      endPosition: total,
+      startPosition: 0,
     },
   };
 };
 
-const getLimitClause = ({ next, offset }: LimitOptions) =>
-  format('limit %s offset %s', next, offset);
+const getRangeClause = ({ endPosition, startPosition }: RangeOptions) => {
+  const limit = endPosition - startPosition + 1;
+  const offset = startPosition;
+  return format('limit %s offset %s', limit, offset);
+};
 
 const getOrderClause = <TEntity extends Entity>(orderBy: OrderByOptions<Omit<TEntity, 'type'>>) => {
   const flattenOrderBy = flatten<typeof orderBy, Record<string, 'ascending' | 'descending'>>(
