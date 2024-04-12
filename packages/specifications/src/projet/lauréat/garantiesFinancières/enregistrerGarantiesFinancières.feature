@@ -3,6 +3,35 @@
 Fonctionnalité: Enregistrer des garanties financières validées
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
+
+    Plan du Scénario: Un admin enregistre des garanties financières validées pour un projet ayant des garanties financières en attente
+        Etant donné des garanties financières en attente pour le projet "Centrale PV" avec :
+            | date limite de soumission | 2023-11-01                      |
+            | date de notification      | 2023-09-01                      |
+            | motif                     | <motif>                         |
+        Quand un admin enregistre les garanties financières validées pour le projet "Centrale PV" avec : 
+            | type                 | <type>                 |
+            | date d'échéance      | <date d'échéance>      |
+            | format               | application/pdf        |
+            | contenu fichier      | contenu fichier        |
+            | date de constitution | 2023-06-12             |
+            | date mise à jour     | 2024-03-01             |
+        Alors les garanties financières validées devraient consultables pour le projet "Centrale PV" avec :
+            | type                 | <type>                 |
+            | date d'échéance      | <date d'échéance>      |
+            | format               | application/pdf        |
+            | contenu fichier      | contenu fichier        |
+            | date de constitution | 2023-06-12             |
+            | date de soumission   | 2023-11-01             |
+            | soumis par           | porteur@test.test      |
+        Et les garanties financières en attente du projet "Centrale PV" ne devraient plus être consultable dans la liste des garanties financières en attente    
+    Exemples:
+            | type                      | date d'échéance | motif                                    |
+            | avec-date-échéance        | 2027-12-01      | garanties-financières-initiales          |
+            | consignation              |                 | recours-accordé                          |
+            | six-mois-après-achèvement |                 | changement-producteur                    |
+            | consignation              |                 | échéance-garanties-financières-actuelles |
+            | consignation              |                 | motif-inconnu                            |
     
     Plan du Scénario: Un admin enregistre des garanties financières validées
         Quand un admin enregistre les garanties financières validées pour le projet "Centrale PV" avec : 

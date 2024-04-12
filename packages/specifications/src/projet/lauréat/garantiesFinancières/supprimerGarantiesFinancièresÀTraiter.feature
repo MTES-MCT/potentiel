@@ -43,7 +43,7 @@ Fonctionnalité: Supprimer des garanties financières en attente de validation
             | soumis par           | porteur@test.test      |
         Quand le porteur supprime les garanties financières à traiter pour le projet "Centrale PV"    
         Alors il ne devrait pas y avoir de garanties financières à traiter pour le projet "Centrale PV"
-        Et les garanties financières à traiter du projet "Centrale PV" devraient être supprimées de la liste des garanties financières à traiter
+        Et les garanties financières à traiter du projet "Centrale PV" ne devraient plus être consultable dans la liste des garanties financières à traiter
     Exemples:
             | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
             | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |

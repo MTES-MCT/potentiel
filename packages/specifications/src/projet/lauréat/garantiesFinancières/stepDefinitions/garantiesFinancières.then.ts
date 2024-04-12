@@ -6,6 +6,7 @@ import { expect } from 'chai';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
 import waitForExpect from 'wait-for-expect';
+import { NotFoundError } from '@potentiel-domain/core';
 
 Alors(
   'les garanties financières à traiter devraient être consultables pour le projet {string} avec :',
@@ -157,19 +158,20 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      let résultat: any;
       try {
-        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+        const result = await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
           },
-        });
-      } catch (error) {
-        résultat = error;
+        );
+
+        result.should.be.undefined;
+      } catch (e) {
+        (e as Error).should.be.instanceOf(NotFoundError);
       }
-      expect(résultat).not.to.be.undefined;
-      résultat.message.should.be.equal(`Il n'y a aucunes garanties financières sur le projet`);
     });
   },
 );
@@ -243,6 +245,30 @@ Alors(
         });
 
       expect(actualReadModel.items).to.be.empty;
+    });
+  },
+);
+
+Alors(
+  `les garanties financières en attente du projet {string} ne devraient plus être consultable dans la liste des garanties financières en attente`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    await waitForExpect(async () => {
+      try {
+        const result =
+          await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
+            {
+              type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+              data: {
+                identifiantProjetValue: identifiantProjet.formatter(),
+              },
+            },
+          );
+
+        result.should.be.undefined;
+      } catch (e) {
+        (e as Error).should.be.instanceOf(NotFoundError);
+      }
     });
   },
 );
