@@ -79,7 +79,7 @@ const getWhereClause = <TEntity extends Entity>(
   const whereClause = format(
     whereOperators
       .map(
-        ([_, value], index) => getParameters(value as string, index), // TODO as c'est le mal !!!
+        ([_, value], index) => mapOperatorToSqlCondition(value as string, index), // TODO as c'est le mal !!!
       )
       .join(' '),
     ...whereOperators.map(([key]) => key.replace('.operator', '')),
@@ -95,7 +95,7 @@ const getWhereClause = <TEntity extends Entity>(
 const getLimitClause = ({ next, offset }: LimitOptions) =>
   format('limit %s offset %s', next, offset);
 
-const getParameters = (value: string, index: number) => {
+const mapOperatorToSqlCondition = (value: string, index: number) => {
   if (isWhereOperator(value)) {
     const baseCondition = 'and value->>%L';
     switch (value) {
