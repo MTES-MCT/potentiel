@@ -1,6 +1,6 @@
 import { describe, it, expect, afterAll, beforeEach, beforeAll } from '@jest/globals';
 import { DomainEvent } from '@potentiel-domain/core';
-import { executeQuery, killPool } from '@potentiel/pg-helpers';
+import { executeQuery, killPool } from '@potentiel-librairies/pg-helpers';
 import { registerSubscriber } from '../subscriber/registerSubscriber';
 import { publish } from '../../publish/publish';
 import { retryPendingAcknowledgement } from './retryPendingAcknowledgement';

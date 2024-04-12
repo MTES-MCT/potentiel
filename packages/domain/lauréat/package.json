@@ -9,16 +9,15 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/monads": "*",
-    "@potentiel-libraries/projection": "*",
-    "@potentiel-domain/common": "*",
+    "@potentiel-librairies/monads": "*",
     "@potentiel-domain/core": "*",
+    "@potentiel-domain/common": "*",
     "@potentiel-domain/document": "*",
     "@potentiel-domain/candidature": "*",
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/utilisateur": "*"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*"
   }
 }

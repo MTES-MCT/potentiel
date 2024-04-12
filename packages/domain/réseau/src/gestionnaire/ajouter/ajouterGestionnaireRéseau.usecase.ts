@@ -1,9 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AjouterGestionnaireRéseauCommand } from './ajouterGestionnaireRéseau.command';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
+import { ExpressionRegulière } from '@potentiel-domain/common';
 
 export type AjouterGestionnaireRéseauUseCase = Message<
-  'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
+  'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
   {
     identifiantGestionnaireRéseauValue: string;
     raisonSocialeValue: string;
@@ -29,13 +30,17 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
       identifiantGestionnaireRéseauValue,
     );
 
+    const expressionReguliere = !expressionReguliereValue
+      ? ExpressionRegulière.accepteTout
+      : ExpressionRegulière.convertirEnValueType(expressionReguliereValue);
+
     await mediator.send<AjouterGestionnaireRéseauCommand>({
-      type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_COMMAND',
+      type: 'Réseau.Gestionnaire.Command.AjouterGestionnaireRéseau',
       data: {
         identifiantGestionnaireRéseau,
         raisonSociale: raisonSocialeValue,
         aideSaisieRéférenceDossierRaccordement: {
-          expressionReguliere: expressionReguliereValue,
+          expressionReguliere,
           format: formatValue,
           légende: légendeValue,
         },
@@ -43,5 +48,5 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
     });
   };
 
-  mediator.register('AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE', handler);
+  mediator.register('Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau', handler);
 };

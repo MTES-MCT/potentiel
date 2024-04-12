@@ -8,7 +8,7 @@ export type ConsulterDocumentProjetReadModel = {
 };
 
 export type ConsulterDocumentProjetQuery = Message<
-  'CONSULTER_DOCUMENT_PROJET',
+  'Document.Query.ConsulterDocumentProjet',
   {
     documentKey: string;
   },
@@ -34,5 +34,5 @@ export const registerConsulterDocumentProjetQuery = ({
     };
   };
 
-  mediator.register('CONSULTER_DOCUMENT_PROJET', handler);
+  mediator.register('Document.Query.ConsulterDocumentProjet', handler);
 };

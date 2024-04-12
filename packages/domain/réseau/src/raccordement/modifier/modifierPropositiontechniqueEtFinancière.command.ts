@@ -5,7 +5,7 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 
 export type ModifierPropositionTechniqueEtFinancièreCommand = Message<
-  'MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND',
+  'Réseau.Raccordement.Command.ModifierPropositionTechniqueEtFinancière',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     dateSignature: DateTime.ValueType;
@@ -33,5 +33,8 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = (
     });
   };
 
-  mediator.register('MODIFIER_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_COMMAND', handler);
+  mediator.register(
+    'Réseau.Raccordement.Command.ModifierPropositionTechniqueEtFinancière',
+    handler,
+  );
 };

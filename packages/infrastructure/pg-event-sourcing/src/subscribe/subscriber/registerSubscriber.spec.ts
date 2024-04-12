@@ -1,5 +1,5 @@
 import { describe, it, expect, afterAll, beforeEach, beforeAll } from '@jest/globals';
-import { executeQuery, killPool } from '@potentiel/pg-helpers';
+import { executeQuery, killPool } from '@potentiel-librairies/pg-helpers';
 import { registerSubscriber } from './registerSubscriber';
 import { getSubscriber } from './getSubscriber';
 import { SubscriberConfiguration } from './subscriberConfiguration';

@@ -1,16 +1,17 @@
-import { executeSelect } from '@potentiel/pg-helpers';
+import { executeSelect } from '@potentiel-librairies/pg-helpers';
 import { KeyValuePair } from './keyValuePair';
 import format from 'pg-format';
-import { Projection, ListOptions, ListResult } from '@potentiel-libraries/projection';
+import { Entity, ListOptions, ListResult } from '@potentiel-domain/core';
+import { unflatten } from '@potentiel-librairies/flat-cjs';
 
-export const listProjection = async <TProjection extends Projection>({
+const selectQuery = 'select key, value from domain_views.projection where key like $1';
+
+export const listProjection = async <TProjection extends Entity>({
   type,
   orderBy,
   where,
   pagination,
 }: ListOptions<TProjection>): Promise<ListResult<TProjection>> => {
-  const baseQuery = `select key, value from domain_views.projection where key like $1`;
-
   const orderByClause = orderBy
     ? format(`order by value ->> %L ${orderBy.ascending ? 'asc' : 'desc'}`, orderBy.property)
     : '';
@@ -32,7 +33,7 @@ export const listProjection = async <TProjection extends Projection>({
       )
     : '';
 
-  const query = `${baseQuery} ${whereClause} ${orderByClause} ${paginationClause}`;
+  const query = `${selectQuery} ${whereClause} ${orderByClause} ${paginationClause}`;
   const result = await executeSelect<KeyValuePair<TProjection['type'], TProjection>>(
     query,
     `${type}|%`,
@@ -55,7 +56,7 @@ export const listProjection = async <TProjection extends Projection>({
       ({ key, value }) =>
         ({
           type: key.split('|')[0],
-          ...value,
+          ...unflatten<unknown, Omit<TProjection, 'type'>>(value),
         } as TProjection),
     ),
   };

@@ -1,5 +1,5 @@
-import { Ports } from '@potentiel-domain/common';
-import { executeSelect } from '@potentiel/pg-helpers';
+import { CommonPort } from '@potentiel-domain/common';
+import { executeSelect } from '@potentiel-librairies/pg-helpers';
 
 const getIdentifiantProjetByEmailUtilisateurQuery = `
   select json_build_object(
@@ -14,7 +14,7 @@ const getIdentifiantProjetByEmailUtilisateurQuery = `
   where p."notifiedOn" > 0 and u."email" = $1
 `;
 
-export const listerIdentifiantsProjetsParPorteurAdapter: Ports.ListerIdentifiantsProjetsAccessiblesPort =
+export const listerIdentifiantsProjetsParPorteurAdapter: CommonPort.ListerIdentifiantsProjetsAccessiblesPort =
   async (email) => {
     const results = await executeSelect<{
       value: {

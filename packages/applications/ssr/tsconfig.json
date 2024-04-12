@@ -62,9 +62,6 @@
     },
     {
       "path": "../../../packages/infrastructure/document-builder"
-    },
-    {
-      "path": "../../../packages/libraries/mediateur-middlewares"
     }
   ]
 }

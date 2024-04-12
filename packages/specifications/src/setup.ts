@@ -7,11 +7,11 @@ import {
   setDefaultTimeout,
   AfterAll,
 } from '@cucumber/cucumber';
-import { executeQuery, killPool } from '@potentiel/pg-helpers';
+import { executeQuery, killPool } from '@potentiel-librairies/pg-helpers';
 import { should } from 'chai';
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
-import { getClient } from '@potentiel/file-storage';
+import { getClient } from '@potentiel-librairies/file-storage';
 import { bootstrap } from '@potentiel-application/bootstrap';
 import { clear } from 'mediateur';
 import {

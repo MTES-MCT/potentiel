@@ -5,7 +5,6 @@ import {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
 } from '@potentiel-domain/candidature';
-import { NotFoundError } from '@potentiel-domain/core';
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -26,23 +25,19 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const identifiantProjet = decodeParameter(identifiant);
 
     const candidature = await mediator.send<ConsulterCandidatureQuery>({
-      type: 'CONSULTER_CANDIDATURE_QUERY',
+      type: 'Candidature.Query.ConsulterCandidature',
       data: { identifiantProjet },
     });
 
     const gestionnairesRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
-        type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
+        type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
         data: { pagination: { itemsPerPage: 1000, page: 1 } },
       });
 
-    if (gestionnairesRéseau.items.length === 0) {
-      throw new NotFoundError('Aucun gestionnaire de réseau à lister');
-    }
-
     const gestionnaireRéseau =
       await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
-        type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_QUERY',
+        type: 'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
         data: { identifiantProjetValue: identifiantProjet },
       });
 

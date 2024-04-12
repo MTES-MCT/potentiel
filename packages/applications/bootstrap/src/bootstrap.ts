@@ -1,23 +1,22 @@
 import { Middleware, mediator } from 'mediateur';
 import { setupLauréat } from './setupLauréat';
-import { getLogger } from '@potentiel/monitoring';
+import { getLogger } from '@potentiel-librairies/monitoring';
 import { setupCandidature } from './setupCandidature';
 import { setupDocumentProjet } from './setupDocumentProjet';
 import { setupAppelOffre } from './setupAppelOffre';
 import { setupTâche } from './setupTâche';
 import { setupUtilisateur } from './setupUtilisateur';
 import { setupRéseau } from './setupRéseau';
-import { seed } from './seed';
+import { logMiddleware } from './middlewares/log.middleware';
+import { delayMiddleware } from './middlewares/delay.middleware';
 
 export const bootstrap = async ({
   middlewares,
 }: {
   middlewares: Array<Middleware>;
 }): Promise<() => Promise<void>> => {
-  await seed();
-
   mediator.use({
-    middlewares,
+    middlewares: [logMiddleware, delayMiddleware, ...middlewares],
   });
 
   setupAppelOffre();

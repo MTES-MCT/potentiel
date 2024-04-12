@@ -11,10 +11,10 @@ import {
 
 // Query
 export type TâcheQuery = ConsulterNombreTâchesQuery | ListerTâchesQuery;
-export { ConsulterNombreTâchesQuery, ListerTâchesQuery as ListerTâcheQuery };
+export { ConsulterNombreTâchesQuery, ListerTâchesQuery };
 
 // ReadModel
-export { ConsulterNombreTâchesReadModel, ListerTâchesReadModel as ListerTâcheReadModel };
+export { ConsulterNombreTâchesReadModel, ListerTâchesReadModel };
 
 // Event
 export { TâcheEvent } from './tâche.aggregate';
@@ -28,8 +28,8 @@ export * from './register';
 // ValueTypes
 export * as TypeTâche from './typeTâche.valueType';
 
-// Projections
-export * from './tâche.projection';
+// Entities
+export * from './tâche.entity';
 
 // Port
 export { RécupérerNombreTâchePort };

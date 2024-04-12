@@ -1,5 +1,5 @@
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
-import { Option } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 import {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
   DemandeComplèteRaccordementTransmiseEvent,
@@ -78,15 +78,15 @@ export type RaccordementEvent =
 type DossierRaccordement = {
   référence: RéférenceDossierRaccordement.ValueType;
   demandeComplèteRaccordement: {
-    dateQualification: Option<DateTime.ValueType>;
-    format: Option<string>;
+    dateQualification: Option.Type<DateTime.ValueType>;
+    format: Option.Type<string>;
   };
   miseEnService: {
-    dateMiseEnService: Option<DateTime.ValueType>;
+    dateMiseEnService: Option.Type<DateTime.ValueType>;
   };
   propositionTechniqueEtFinancière: {
-    dateSignature: Option<DateTime.ValueType>;
-    format: Option<string>;
+    dateSignature: Option.Type<DateTime.ValueType>;
+    format: Option.Type<string>;
   };
 };
 

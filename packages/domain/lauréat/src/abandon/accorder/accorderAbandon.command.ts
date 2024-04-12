@@ -11,7 +11,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { loadAbandonFactory } from '../abandon.aggregate';
 
 export type AccorderAbandonCommand = Message<
-  'ACCORDER_ABANDON_COMMAND',
+  'Lauréat.Abandon.Command.AccorderAbandon',
   {
     dateAccord: DateTime.ValueType;
     identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
@@ -37,5 +37,5 @@ export const registerAccorderAbandonCommand = (loadAggregate: LoadAggregate) => 
       réponseSignée,
     });
   };
-  mediator.register('ACCORDER_ABANDON_COMMAND', handler);
+  mediator.register('Lauréat.Abandon.Command.AccorderAbandon', handler);
 };

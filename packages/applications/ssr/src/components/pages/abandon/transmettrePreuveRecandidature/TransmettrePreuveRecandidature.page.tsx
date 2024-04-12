@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
@@ -44,6 +44,8 @@ export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidatu
       projet.famille ? `-${projet.famille}` : ''
     }-${projet.numéroCRE}`;
 
+  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+
   return (
     <PageTemplate banner={<ProjetBanner {...projet} />}>
       <Heading1>Transmettre preuve de recandidature</Heading1>
@@ -51,6 +53,7 @@ export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidatu
         <Form
           action={transmettrePreuveRecandidatureAction}
           method="post"
+          onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           onSuccess={() => router.push(Routes.Abandon.détail(projet.identifiantProjet))}
         >
           <input type={'hidden'} value={projet.identifiantProjet} name="identifiantProjet" />
@@ -58,6 +61,8 @@ export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidatu
           <SelectNext
             label="Choisir un projet comme preuve de recandidature"
             placeholder={`Sélectionner un projet`}
+            state={validationErrors.includes('preuveRecandidature') ? 'error' : 'default'}
+            stateRelatedMessage="La sélection du projet est obligatoire"
             nativeSelectProps={{
               onChange: ({ currentTarget: { value } }) => {
                 const projet = projetsÀSélectionner.find(

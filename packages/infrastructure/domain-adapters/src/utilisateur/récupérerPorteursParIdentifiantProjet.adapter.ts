@@ -1,6 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { isSome } from '@potentiel/monads';
-import { executeSelect } from '@potentiel/pg-helpers';
+import { executeSelect } from '@potentiel-librairies/pg-helpers';
+import { Option } from '@potentiel-librairies/monads';
 
 const selectPorteursProjectQuery = `
   select json_build_object(
@@ -23,7 +23,13 @@ export const récupérerPorteursParIdentifiantProjetAdapter = async ({
 }: IdentifiantProjet.ValueType) => {
   const porteurs = await executeSelect<{
     value: { email: string; fullName: string };
-  }>(selectPorteursProjectQuery, appelOffre, période, numéroCRE, isSome(famille) ? famille : '');
+  }>(
+    selectPorteursProjectQuery,
+    appelOffre,
+    période,
+    numéroCRE,
+    Option.isSome(famille) ? famille : '',
+  );
 
   return porteurs.map((p) => ({ ...p.value }));
 };

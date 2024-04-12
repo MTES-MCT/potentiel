@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { AbandonAvecRecandidatureSansPreuveProjection } from '../abandon.projection';
-import { List } from '@potentiel-libraries/projection';
+import { AbandonAvecRecandidatureSansPreuveProjection } from '../abandon.entity';
+import { List } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 type AbandonsAvecRecandidatureÀRelancerReadModel = {
@@ -11,7 +11,7 @@ type AbandonsAvecRecandidatureÀRelancerReadModel = {
 };
 
 export type ListerAbandonsAvecRecandidatureÀRelancerQuery = Message<
-  'LISTER_ABANDONS_AVEC_RECANDIDATURE_À_RELANCER_QUERY',
+  'Lauréat.Abandon.Query.ListerAbandonsAvecRecandidatureÀRelancer',
   {},
   AbandonsAvecRecandidatureÀRelancerReadModel
 >;
@@ -38,5 +38,5 @@ export const registerListerAbandonsAvecRecandidatureÀRelancerQuery = ({
     };
   };
 
-  mediator.register('LISTER_ABANDONS_AVEC_RECANDIDATURE_À_RELANCER_QUERY', handler);
+  mediator.register('Lauréat.Abandon.Query.ListerAbandonsAvecRecandidatureÀRelancer', handler);
 };

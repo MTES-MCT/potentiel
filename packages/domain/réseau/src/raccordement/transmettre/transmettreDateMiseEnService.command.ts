@@ -5,7 +5,7 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 
 export type TransmettreDateMiseEnServiceCommand = Message<
-  'TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND',
+  'Réseau.Raccordement.Command.TransmettreDateMiseEnService',
   {
     dateMiseEnService: DateTime.ValueType;
     référenceDossier: RéférenceDossierRaccordement.ValueType;
@@ -33,5 +33,5 @@ export const registerTransmettreDateMiseEnServiceCommand = (loadAggregate: LoadA
     });
   };
 
-  mediator.register('TRANSMETTRE_DATE_MISE_EN_SERVICE_COMMAND', handler);
+  mediator.register('Réseau.Raccordement.Command.TransmettreDateMiseEnService', handler);
 };

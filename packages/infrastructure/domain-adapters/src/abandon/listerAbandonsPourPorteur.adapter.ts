@@ -1,5 +1,5 @@
 import format from 'pg-format';
-import { executeSelect } from '@potentiel/pg-helpers';
+import { executeSelect } from '@potentiel-librairies/pg-helpers';
 import { Abandon } from '@potentiel-domain/laureat';
 
 const countAbandonsQuery = `
@@ -51,7 +51,7 @@ export const listerAbandonsPourPorteurAdapter: Abandon.ListerAbandonsPourPorteur
   const query = `${getAbandonsQuery} ${whereClause} order by value->>'misÀJourLe' desc ${paginationClause}`;
 
   const result = await executeSelect<{
-    value: Abandon.AbandonProjection;
+    value: Abandon.AbandonEntity;
   }>(query, identifiantUtilisateur, ...(where ? Object.values(where) : []));
 
   const countQuery = `${countAbandonsQuery} ${whereClause}`;

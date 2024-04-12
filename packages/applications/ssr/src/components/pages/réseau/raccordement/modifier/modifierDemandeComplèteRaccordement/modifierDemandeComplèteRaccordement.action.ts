@@ -11,11 +11,11 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 export type ModifierDemandeComplèteRaccordementState = FormState;
 
 const schema = zod.object({
-  identifiantProjet: zod.string(),
-  identifiantGestionnaireReseau: zod.string(),
-  dateQualification: zod.string(),
-  referenceDossierRaccordement: zod.string(),
-  referenceDossierRaccordementActuelle: zod.string(),
+  identifiantProjet: zod.string().min(1),
+  identifiantGestionnaireReseau: zod.string().min(1),
+  dateQualification: zod.string().min(1),
+  referenceDossierRaccordement: zod.string().min(1),
+  referenceDossierRaccordementActuelle: zod.string().min(1),
   accuseReception: zod.instanceof(Blob).refine((data) => data.size > 0),
 });
 
@@ -33,7 +33,7 @@ const action: FormAction<FormState, typeof schema> = async (
   withUtilisateur(async (utilisateur) => {
     if (referenceDossierRaccordement !== referenceDossierRaccordementActuelle) {
       await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
-        type: 'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_USE_CASE',
+        type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
         data: {
           identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
           identifiantProjetValue: identifiantProjet,
@@ -45,7 +45,7 @@ const action: FormAction<FormState, typeof schema> = async (
     }
 
     await mediator.send<Raccordement.RaccordementUseCase>({
-      type: 'MODIFIER_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+      type: 'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,

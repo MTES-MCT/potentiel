@@ -1,6 +1,6 @@
-import { RécupérerUtilisateurPort, UtilisateurProjection } from '@potentiel-domain/utilisateur';
-import { none } from '@potentiel/monads';
-import { executeSelect } from '@potentiel/pg-helpers';
+import { RécupérerUtilisateurPort, UtilisateurEntity } from '@potentiel-domain/utilisateur';
+import { executeSelect } from '@potentiel-librairies/pg-helpers';
+import { Option } from '@potentiel-librairies/monads';
 
 const selectUtilisateurQuery = `
   select json_build_object(
@@ -17,11 +17,11 @@ export const récupérerUtilisateurAdapter: RécupérerUtilisateurPort = async (
   identifiantUtilisateur,
 ) => {
   const utilisateurs = await executeSelect<{
-    value: UtilisateurProjection;
+    value: UtilisateurEntity;
   }>(selectUtilisateurQuery, identifiantUtilisateur);
 
   if (!utilisateurs.length) {
-    return none;
+    return Option.none;
   }
 
   return utilisateurs[0].value;

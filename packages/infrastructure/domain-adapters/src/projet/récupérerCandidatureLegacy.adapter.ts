@@ -1,6 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { isSome, none } from '@potentiel/monads';
-import { executeSelect } from '@potentiel/pg-helpers';
+import { executeSelect } from '@potentiel-librairies/pg-helpers';
+import { Option } from '@potentiel-librairies/monads';
 
 export type CandidatureLegacyReadModel = {
   legacyId: string;
@@ -71,10 +71,10 @@ export const récupérerCandidatureAdapter = async ({
 }: IdentifiantProjet.ValueType) => {
   const projets = await executeSelect<{
     value: Omit<CandidatureLegacyReadModel, 'type' | 'identifiantProjet'>;
-  }>(selectProjectQuery, appelOffre, période, numéroCRE, isSome(famille) ? famille : '');
+  }>(selectProjectQuery, appelOffre, période, numéroCRE, Option.isSome(famille) ? famille : '');
 
   if (!projets.length) {
-    return none;
+    return Option.none;
   }
 
   const projet = projets[0].value;

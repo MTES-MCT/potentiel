@@ -1,8 +1,8 @@
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 import { ExpressionRegulière } from '@potentiel-domain/common';
-import { GestionnaireRéseauProjection } from '../gestionnaireRéseau.projection';
+import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { List } from '@potentiel-libraries/projection';
+import { List } from '@potentiel-domain/core';
 
 type GetionnaireRéseauListItemReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -22,7 +22,7 @@ export type ListerGestionnaireRéseauReadModel = {
 };
 
 export type ListerGestionnaireRéseauQuery = Message<
-  'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
+  'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
   {
     pagination: {
       page: number;
@@ -42,7 +42,7 @@ export const registerListerGestionnaireRéseauQuery = ({
   const handler: MessageHandler<ListerGestionnaireRéseauQuery> = async ({
     pagination: { itemsPerPage, page },
   }) => {
-    const { currentPage, items, totalItems } = await list<GestionnaireRéseauProjection>({
+    const { currentPage, items, totalItems } = await list<GestionnaireRéseauEntity>({
       type: 'gestionnaire-réseau',
       orderBy: { property: 'raisonSociale', ascending: true },
       pagination: {
@@ -58,21 +58,23 @@ export const registerListerGestionnaireRéseauQuery = ({
       items: items.map((item) => mapToReadModel(item)),
     };
   };
-  mediator.register('LISTER_GESTIONNAIRE_RÉSEAU_QUERY', handler);
+  mediator.register('Réseau.Gestionnaire.Query.ListerGestionnaireRéseau', handler);
 };
 
 const mapToReadModel = ({
   codeEIC,
   raisonSociale,
   aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
-}: GestionnaireRéseauProjection): GetionnaireRéseauListItemReadModel => {
+}: GestionnaireRéseauEntity): GetionnaireRéseauListItemReadModel => {
   return {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
     raisonSociale,
     aideSaisieRéférenceDossierRaccordement: {
       format,
       légende,
-      expressionReguliere: ExpressionRegulière.convertirEnValueType(expressionReguliere || ''),
+      expressionReguliere: !expressionReguliere
+        ? ExpressionRegulière.accepteTout
+        : ExpressionRegulière.convertirEnValueType(expressionReguliere),
     },
   };
 };

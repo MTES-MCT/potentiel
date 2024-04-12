@@ -9,10 +9,8 @@ import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
-  identifiantProjet: zod.string(),
-  reponseSignee: zod
-    .instanceof(Blob)
-    .refine((data) => data.size > 0, { message: 'Vous devez joindre une réponse signée.' }),
+  identifiantProjet: zod.string().min(1),
+  reponseSignee: zod.instanceof(Blob).refine((data) => data.size > 0),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
@@ -26,7 +24,7 @@ const action: FormAction<FormState, typeof schema> = async (
     };
 
     await mediator.send<Abandon.AbandonUseCase>({
-      type: 'ACCORDER_ABANDON_USECASE',
+      type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),

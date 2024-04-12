@@ -1,5 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
-import { executeQuery } from '@potentiel/pg-helpers';
+import { executeQuery } from '@potentiel-librairies/pg-helpers';
 import { publish } from './publish';
 import { loadFromStream } from '../load/loadFromStream';
 import { DomainEvent } from '@potentiel-domain/core';

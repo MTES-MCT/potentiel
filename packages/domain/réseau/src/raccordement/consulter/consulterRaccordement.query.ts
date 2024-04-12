@@ -2,9 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
-import { Find } from '@potentiel-libraries/projection';
+import { Find } from '@potentiel-domain/core';
 import { RaccordementEntity } from '../raccordement.entity';
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { GestionnaireRéseau } from '../..';
@@ -30,7 +30,7 @@ export type ConsulterRaccordementReadModel = {
 };
 
 export type ConsulterRaccordementQuery = Message<
-  'CONSULTER_RACCORDEMENT_QUERY',
+  'Réseau.Raccordement.Query.ConsulterRaccordement',
   {
     identifiantProjetValue: string;
   },
@@ -49,7 +49,7 @@ export const registerConsulterRaccordementQuery = ({ find }: ConsulterRaccordeme
 
     const result = await find<RaccordementEntity>(`raccordement|${identifiantProjet.formatter()}`);
 
-    if (isNone(result)) {
+    if (Option.isNone(result)) {
       return {
         identifiantProjet,
         identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
@@ -60,7 +60,7 @@ export const registerConsulterRaccordementQuery = ({ find }: ConsulterRaccordeme
     return mapToReadModel(result);
   };
 
-  mediator.register('CONSULTER_RACCORDEMENT_QUERY', handler);
+  mediator.register('Réseau.Raccordement.Query.ConsulterRaccordement', handler);
 };
 
 const mapToReadModel = (entity: RaccordementEntity): ConsulterRaccordementReadModel => {

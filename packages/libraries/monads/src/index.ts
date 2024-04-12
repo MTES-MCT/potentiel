@@ -1,3 +1,2 @@
-export { Option } from './option';
-export { isNone, none } from './none';
-export { isSome } from './some';
+export * as Option from './option';
+export * as Either from './either';

@@ -1,5 +1,5 @@
 {
-  "extends": "@potentiel/tsconfig/tsconfig.base.json",
+  "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src"
@@ -10,6 +10,9 @@
     },
     {
       "path": "../domain/lauréat"
+    },
+    {
+      "path": "../domain/tâche"
     },
     {
       "path": "../domain/utilisateur"

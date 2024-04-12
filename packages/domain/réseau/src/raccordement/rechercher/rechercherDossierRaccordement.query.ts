@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { List } from '@potentiel-libraries/projection';
+import { List } from '@potentiel-domain/core';
 import { RéférenceRaccordementIdentifiantProjetEntity } from '../raccordement.entity';
 
 export type RechercherDossierRaccordementReadModel = ReadonlyArray<{
@@ -10,7 +10,7 @@ export type RechercherDossierRaccordementReadModel = ReadonlyArray<{
 }>;
 
 export type RechercherDossierRaccordementQuery = Message<
-  'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
+  'Réseau.Raccordement.Query.RechercherDossierRaccordement',
   {
     référenceDossierRaccordement: string;
   },
@@ -37,7 +37,7 @@ export const registerRechercherDossierRaccordementQuery = ({
     return mapToReadModel(results.items);
   };
 
-  mediator.register('RECHERCHER_DOSSIER_RACCORDEMENT_QUERY', handler);
+  mediator.register('Réseau.Raccordement.Query.RechercherDossierRaccordement', handler);
 };
 
 const mapToReadModel = (result: ReadonlyArray<RéférenceRaccordementIdentifiantProjetEntity>) => {

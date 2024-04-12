@@ -1,9 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
-import { Find } from '@potentiel-libraries/projection';
+import { Find } from '@potentiel-domain/core';
 import { RaccordementEntity } from '../raccordement.entity';
-import { isNone } from '@potentiel/monads';
-import { GestionnaireRéseauProjection, IdentifiantGestionnaireRéseau } from '../../gestionnaire';
+import { Option } from '@potentiel-librairies/monads';
+import { GestionnaireRéseauEntity, IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 export type ConsulterGestionnaireRéseauRaccordementReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -16,7 +16,7 @@ export type ConsulterGestionnaireRéseauRaccordementReadModel = {
 };
 
 export type ConsulterGestionnaireRéseauRaccordementQuery = Message<
-  'CONSULTER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_QUERY',
+  'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
   {
     identifiantProjetValue: string;
   },
@@ -39,18 +39,18 @@ export const registerConsulterGestionnaireRéseauRaccordementQuery = ({
       `raccordement|${identifiantProjet.formatter()}`,
     );
 
-    if (isNone(raccordementResult)) {
+    if (Option.isNone(raccordementResult)) {
       return {
         identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
         raisonSociale: IdentifiantGestionnaireRéseau.inconnu.formatter(),
       };
     }
 
-    const gestionnaireRéseauResult = await find<GestionnaireRéseauProjection>(
+    const gestionnaireRéseauResult = await find<GestionnaireRéseauEntity>(
       `gestionnaire-réseau|${raccordementResult.identifiantGestionnaireRéseau}`,
     );
 
-    if (isNone(gestionnaireRéseauResult)) {
+    if (Option.isNone(gestionnaireRéseauResult)) {
       return {
         identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
         raisonSociale: IdentifiantGestionnaireRéseau.inconnu.formatter(),
@@ -60,14 +60,14 @@ export const registerConsulterGestionnaireRéseauRaccordementQuery = ({
     return mapToResult(gestionnaireRéseauResult);
   };
 
-  mediator.register('CONSULTER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_QUERY', handler);
+  mediator.register('Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement', handler);
 };
 
 const mapToResult = ({
   raisonSociale,
   codeEIC,
   aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
-}: GestionnaireRéseauProjection): ConsulterGestionnaireRéseauRaccordementReadModel => {
+}: GestionnaireRéseauEntity): ConsulterGestionnaireRéseauRaccordementReadModel => {
   return {
     raisonSociale,
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),

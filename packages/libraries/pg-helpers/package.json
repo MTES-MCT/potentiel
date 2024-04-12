@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel/pg-helpers",
+  "name": "@potentiel-librairies/pg-helpers",
   "version": "0.0.0",
   "description": "Fonction utilitaire pour PostgreSQL",
   "main": "dist/index.js",
@@ -12,6 +12,7 @@
     "pg": "^8.11.3"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*",
+    "@types/pg": "^8.10.2"
   }
 }

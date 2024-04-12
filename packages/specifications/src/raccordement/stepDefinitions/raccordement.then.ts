@@ -6,7 +6,7 @@ import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 import { DateTime } from '@potentiel-domain/common';
 
 Alors(
@@ -15,7 +15,7 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     await waitForExpect(async () => {
       const actual = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-        type: 'CONSULTER_RACCORDEMENT_QUERY',
+        type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -40,7 +40,7 @@ Alors(
           dateQualification: actualDateQualification,
         },
       } = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-        type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+        type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierRaccordementValue:
@@ -59,7 +59,7 @@ Alors(
 
       if (actualAccuséRéception) {
         const result = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'CONSULTER_DOCUMENT_PROJET',
+          type: 'Document.Query.ConsulterDocumentProjet',
           data: {
             documentKey: actualAccuséRéception.formatter(),
           },
@@ -81,7 +81,7 @@ Alors(
 
     // Assert on read model
     const résultat = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-      type: 'CONSULTER_RACCORDEMENT_QUERY',
+      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
       },
@@ -107,7 +107,7 @@ Alors(
 
     await waitForExpect(async () => {
       const actual = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-        type: 'CONSULTER_RACCORDEMENT_QUERY',
+        type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -129,18 +129,18 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     await waitForExpect(async () => {
       const actual = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-        type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+        type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
         data: {
           référenceDossierRaccordementValue: référenceDossierRaccordement,
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
-      if (isNone(actual)) {
+      if (Option.isNone(actual)) {
         throw new Error('Dossier de raccordement non trouvé');
       }
 
-      if (isNone(actual.miseEnService)) {
+      if (Option.isNone(actual.miseEnService)) {
         throw new Error('Date mise en service non trouvé');
       }
 
@@ -160,7 +160,7 @@ Alors(
     await waitForExpect(async () => {
       const { propositionTechniqueEtFinancière } =
         await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-          type: 'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+          type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
             référenceDossierRaccordementValue: référenceDossierRaccordement,
@@ -179,7 +179,7 @@ Alors(
 
       if (propositionTechniqueEtFinancière) {
         const result = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'CONSULTER_DOCUMENT_PROJET',
+          type: 'Document.Query.ConsulterDocumentProjet',
           data: {
             documentKey:
               propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.formatter(),

@@ -9,10 +9,10 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/monads": "*",
+    "@potentiel-librairies/monads": "*",
     "@potentiel-domain/core": "*"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*"
   }
 }

@@ -7,7 +7,7 @@ import {
   ListerCandidaturesEligiblesPreuveRecanditureQuery,
 } from '@potentiel-domain/candidature';
 import { Abandon } from '@potentiel-domain/laureat';
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
 import {
   TransmettrePreuveRecandidaturePage,
@@ -29,7 +29,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const identifiantProjet = decodeParameter(identifiant);
 
       const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
-        type: 'CONSULTER_ABANDON_QUERY',
+        type: 'Lauréat.Abandon.Query.ConsulterAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,
         },
@@ -42,7 +42,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       }
 
       const candidature = await mediator.send<ConsulterCandidatureQuery>({
-        type: 'CONSULTER_CANDIDATURE_QUERY',
+        type: 'Candidature.Query.ConsulterCandidature',
         data: {
           identifiantProjet,
         },
@@ -50,7 +50,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       const projetsÀSélectionner =
         await mediator.send<ListerCandidaturesEligiblesPreuveRecanditureQuery>({
-          type: 'LISTER_CANDIDATURES_ELIGIBLES_PREUVE_RECANDIDATURE_QUERY',
+          type: 'Candidature.Query.ListerCandidaturesEligiblesPreuveRecandidature',
           data: {
             identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
           },

@@ -5,7 +5,7 @@ export type ConsulterNombreTâchesReadModel = {
 };
 
 export type ConsulterNombreTâchesQuery = Message<
-  'CONSULTER_NOMBRE_TÂCHES_QUERY',
+  'Tâche.Query.ConsulterNombreTâches',
   {
     email: string;
   },
@@ -27,5 +27,5 @@ export const registerConsulterNombreTâchesQuery = ({
       nombreTâches,
     };
   };
-  mediator.register('CONSULTER_NOMBRE_TÂCHES_QUERY', handler);
+  mediator.register('Tâche.Query.ConsulterNombreTâches', handler);
 };

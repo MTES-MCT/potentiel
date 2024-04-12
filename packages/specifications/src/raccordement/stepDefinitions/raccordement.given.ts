@@ -57,7 +57,7 @@ EtantDonné(
     };
 
     await mediator.send<Raccordement.RaccordementUseCase>({
-      type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+      type: 'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         identifiantGestionnaireRéseauValue: codeEIC,
@@ -96,7 +96,7 @@ EtantDonné(
     };
 
     await mediator.send<Raccordement.RaccordementUseCase>({
-      type: 'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+      type: 'Réseau.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         référenceDossierRaccordementValue: référenceDossierRaccordement,
@@ -127,7 +127,7 @@ EtantDonné(
 
     try {
       await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
+        type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierValue: référenceDossierRaccordement,

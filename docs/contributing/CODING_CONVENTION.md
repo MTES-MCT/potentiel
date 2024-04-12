@@ -59,7 +59,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
       const page = searchParams?.page ? parseInt(searchParams.page) : 1;
 
       const exemples = await mediator.send<ListerExemplesQuery>({
-        type: 'LISTER_EXEMPLES_QUERY',
+        type: 'Exemple.Query.ListerExemples',
         data: {
           pagination: { page, itemsPerPage: 10 },
           email: utilisateur.identifiantUtilisateur.email,
@@ -160,19 +160,19 @@ L'accès aux domaines métier se fait grâce au `mediator` dans lequel sont rép
 ```typescript
 // Lister
 const results = await mediator.send<ListerDesChosesQuery>({
-  type: 'LISTER_DES_CHOSES_QUERY',
+  type: 'Exemple.Query.ListerDesChoses',
   data: {},
 });
 
 // Consulter
 const result = await mediator.send<ConsulterUneChoseQuery>({
-  type: 'CONSULTER_UNE_CHOSE_QUERY',
+  type: 'Exemple.Query.ConsulterUneChose',
   data: { identifiant },
 });
 
 // Exécuter un comportement métier
 await mediator.send<ExécuterUnComportementUseCase>({
-  type: 'EXECUTER_UN_COMPORTEMENT_USECASE',
+  type: 'Exemple.Query.ExecuterUnComportement',
   data: { identifiant },
 });
 ```
@@ -192,7 +192,7 @@ export type ConsulterExempleReadModel = {
 };
 
 export type ExempleQuery = Message<
-  'EXEMPLE_QUERY',
+  'Exemple.Query.Executer',
   {
     identifiantValue: string;
   },
@@ -207,7 +207,7 @@ export const registerExempleQuery = ({ find }: ExempleDependencies) => {
   const handler: MessageHandler<ExempleQuery> = async ({ identifiant }) => {
     // Implémenter la logique ici
   };
-  mediator.register('EXEMPLE_QUERY', handler);
+  mediator.register('Exemple.Query.Executer', handler);
 };
 ```
 
@@ -225,7 +225,7 @@ Exemple d'un use case :
 // file: exemple.usecase.ts
 
 export type ExempleUseCase = Message<
-  'EXEMPLE_USECASE',
+  'Exemple.UseCase.Execute1',
   {
     identifiantValue: string;
     donnée: string;
@@ -237,7 +237,7 @@ export const registerExempleUseCase = () => {
     const identifiant = Identifiant.convertirEnValueType(identifiantValue);
 
     await mediator.send<Exemple1Command>({
-      type: 'EXEMPLE1_COMMAND',
+      type: 'Exemple.Command.Execute1',
       data: {
         identifiant,
         donnée,
@@ -245,14 +245,14 @@ export const registerExempleUseCase = () => {
     });
 
     await mediator.send<Exemple2Command>({
-      type: 'EXEMPLE2_COMMAND',
+      type: 'Exemple.Command.Execute2',
       data: {
         identifiant,
         donnée,
       },
     });
   };
-  mediator.register('EXEMPLE_USECASE', runner);
+  mediator.register('Exemple.Command.Execute1', runner);
 };
 ```
 
@@ -272,7 +272,7 @@ Exemple d'une commande et de son comportement associé :
 // file: exemple1.command.ts
 
 export type Exemple1Command = Message<
-  'EXEMPLE1_COMMAND',
+  'Exemple.Command.Execute1',
   {
     date: DateTime.ValueType;
     identifiant: Identifiant.ValueType;
@@ -290,7 +290,7 @@ export const registerExemple1Command = (loadAggregate: LoadAggregate) => {
       donnée,
     });
   };
-  mediator.register('EXEMPLE1_COMMAND', handler);
+  mediator.register('Exemple.Command.Execute1', handler);
 };
 ```
 
@@ -400,7 +400,7 @@ type ExempleSubscriptionEvent =
 
 export type SubscriptionEvent = ExempleSubscriptionEvent;
 
-export type Execute = Message<'EXECUTE_EXEMPLE_SAGA', SubscriptionEvent>;
+export type Execute = Message<'Exemple.Saga.Execute', SubscriptionEvent>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
@@ -410,7 +410,7 @@ export const register = () => {
     switch (event.type) {
       case 'ComportementArrivé-V1':
         await mediator.send<Exemple1Command>({
-          type: 'EXEMPLE1_COMMAND',
+          type: 'Exemple.Command.Execute1',
           data: {
             identifiant: Identifiant.convertirEnValueType(identifiant),
           },
@@ -419,7 +419,7 @@ export const register = () => {
     }
   };
 
-  mediator.register('EXECUTE_EXEMPLE_SAGA', handler);
+  mediator.register('Exemple.Saga.Execute', handler);
 };
 ```
 
@@ -526,7 +526,7 @@ Cette partie de l'infrastructure permet l'alimentation de la partie `Query` et d
 
 export type SubscriptionEvent = (ExempleEvent & Event) | RebuildTriggered;
 
-export type Execute = Message<'EXECUTE_EXEMPLE_PROJECTOR', SubscriptionEvent>;
+export type Execute = Message<'System.Projector.Exemple', SubscriptionEvent>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
@@ -564,6 +564,6 @@ export const register = () => {
     }
   };
 
-  mediator.register('EXECUTE_EXEMPLE_PROJECTOR', handler);
+  mediator.register('System.Projector.Exemple', handler);
 };
 ```

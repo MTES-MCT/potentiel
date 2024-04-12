@@ -8,7 +8,7 @@ import { DossierProjet, DéplacerDocumentProjetCommand } from '@potentiel-domain
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 
 export type ModifierRéférenceDossierRaccordementUseCase = Message<
-  'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_USE_CASE',
+  'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
   {
     identifiantProjetValue: string;
     identifiantGestionnaireRéseauValue: string;
@@ -68,7 +68,7 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
       );
 
     await mediator.send<DéplacerDocumentProjetCommand>({
-      type: 'DÉPLACER_DOCUMENT_PROJET_COMMAND',
+      type: 'Document.Command.DéplacerDocumentProjet',
       data: {
         dossierProjetSource: dossierAccuséRéceptionSource,
         dossierProjetTarget: dossierAccuséRéceptionDestination,
@@ -76,7 +76,7 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
     });
 
     await mediator.send<DéplacerDocumentProjetCommand>({
-      type: 'DÉPLACER_DOCUMENT_PROJET_COMMAND',
+      type: 'Document.Command.DéplacerDocumentProjet',
       data: {
         dossierProjetSource: dossierPropositionTechniqueEtFinancièreSignéeSource,
         dossierProjetTarget: dossierPropositionTechniqueEtFinancièreSignéeDestination,
@@ -84,7 +84,7 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
     });
 
     await mediator.send<ModifierRéférenceDossierRaccordementCommand>({
-      type: 'MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_COMMAND',
+      type: 'Réseau.Raccordement.Command.ModifierRéférenceDossierRaccordement',
       data: {
         identifiantGestionnaireRéseau,
         identifiantProjet,
@@ -95,5 +95,5 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
     });
   };
 
-  mediator.register('MODIFIER_RÉFÉRENCE_DOSSIER_RACCORDEMENT_USE_CASE', runner);
+  mediator.register('Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement', runner);
 };

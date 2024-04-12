@@ -1,6 +1,7 @@
 import { When as Quand, DataTable } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../potentiel.world';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-librairies/monads';
 import { mediator } from 'mediateur';
 import { sleep } from '../../helpers/sleep';
 
@@ -19,7 +20,7 @@ Quand(
       };
 
       await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
-        type: 'AJOUTER_GESTIONNAIRE_RÉSEAU_USECASE',
+        type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
         data: {
           identifiantGestionnaireRéseauValue: codeEIC,
           raisonSocialeValue: raisonSociale,
@@ -57,7 +58,7 @@ Quand(
 
     try {
       await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
-        type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_USECASE',
+        type: 'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',
         data: {
           identifiantGestionnaireRéseauValue: codeEIC,
           raisonSocialeValue: raisonSociale,
@@ -97,10 +98,11 @@ Quand(
         data: {
           identifiantGestionnaireRéseau: codeEIC,
         },
-        type: 'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
+        type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
       });
 
     const résultatValidation =
+      !Option.isNone(actualReadModel) &&
       actualReadModel.aideSaisieRéférenceDossierRaccordement.expressionReguliere.valider(
         référenceÀValider,
       );

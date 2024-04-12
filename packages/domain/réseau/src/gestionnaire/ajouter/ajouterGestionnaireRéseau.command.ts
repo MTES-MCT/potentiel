@@ -2,16 +2,17 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { LoadAggregate } from '@potentiel-domain/core';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 import { loadGestionnaireRéseauFactory } from '../gestionnaireRéseau.aggregate';
+import { ExpressionRegulière } from '@potentiel-domain/common';
 
 export type AjouterGestionnaireRéseauCommand = Message<
-  'AJOUTER_GESTIONNAIRE_RÉSEAU_COMMAND',
+  'Réseau.Gestionnaire.Command.AjouterGestionnaireRéseau',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
     raisonSociale: string;
     aideSaisieRéférenceDossierRaccordement: {
       format: string;
       légende: string;
-      expressionReguliere: string;
+      expressionReguliere: ExpressionRegulière.ValueType;
     };
   }
 >;
@@ -33,5 +34,5 @@ export const registerAjouterGestionnaireRéseauCommand = (loadAggregate: LoadAgg
     });
   };
 
-  mediator.register('AJOUTER_GESTIONNAIRE_RÉSEAU_COMMAND', handler);
+  mediator.register('Réseau.Gestionnaire.Command.AjouterGestionnaireRéseau', handler);
 };

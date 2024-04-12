@@ -8,7 +8,7 @@ import { loadAbandonFactory } from '../abandon.aggregate';
 import { LoadAggregate } from '@potentiel-domain/core';
 
 export type DemanderAbandonCommand = Message<
-  'DEMANDER_ABANDON_COMMAND',
+  'Lauréat.Abandon.Command.DemanderAbandon',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     raison: string;
@@ -40,5 +40,5 @@ export const registerDemanderAbandonCommand = (loadAggregate: LoadAggregate) => 
       recandidature,
     });
   };
-  mediator.register('DEMANDER_ABANDON_COMMAND', handler);
+  mediator.register('Lauréat.Abandon.Command.DemanderAbandon', handler);
 };

@@ -1,13 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { Find } from '@potentiel-libraries/projection';
-import { AppelOffre, AppelOffreProjection } from '../appelOffre.projection';
-import { isNone } from '@potentiel/monads';
+import { Find } from '@potentiel-domain/core';
+import { AppelOffre, AppelOffreEntity } from '../appelOffre.entity';
+import { Option } from '@potentiel-librairies/monads';
 import { AppelOffreInconnuErreur } from '../appelOffreInconnu.error';
 
 export type ConsulterAppelOffreReadModel = AppelOffre;
 
 export type ConsulterAppelOffreQuery = Message<
-  'CONSULTER_APPEL_OFFRE_QUERY',
+  'AppelOffre.Query.ConsulterAppelOffre',
   {
     identifiantAppelOffre: string;
   },
@@ -20,14 +20,14 @@ export type ConsulterAppelOffreDependencies = {
 
 export const registerConsulterAppelOffreQuery = ({ find }: ConsulterAppelOffreDependencies) => {
   const handler: MessageHandler<ConsulterAppelOffreQuery> = async ({ identifiantAppelOffre }) => {
-    const result = await find<AppelOffreProjection>(`appel-offre|${identifiantAppelOffre}`);
+    const result = await find<AppelOffreEntity>(`appel-offre|${identifiantAppelOffre}`);
 
-    if (isNone(result)) {
+    if (Option.isNone(result)) {
       throw new AppelOffreInconnuErreur();
     }
 
     return result;
   };
 
-  mediator.register('CONSULTER_APPEL_OFFRE_QUERY', handler);
+  mediator.register('AppelOffre.Query.ConsulterAppelOffre', handler);
 };

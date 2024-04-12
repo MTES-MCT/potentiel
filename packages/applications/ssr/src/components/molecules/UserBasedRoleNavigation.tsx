@@ -1,7 +1,8 @@
 import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 
 import { Utilisateur } from '@potentiel-domain/utilisateur';
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
+import { featureFlags } from '@potentiel-applications/feature-flags';
 
 import { getAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
 
@@ -16,6 +17,19 @@ export async function UserBasedRoleNavigation() {
 
   return <MainNavigation items={navigationItems} />;
 }
+
+const menuLinks = {
+  garantiesFinancières: {
+    listerDépôtsEnCours: {
+      text: 'Garanties financières en cours',
+      linkProps: {
+        href: featureFlags.SHOW_GARANTIES_FINANCIERES
+          ? Routes.GarantiesFinancières.dépôt.lister
+          : '/admin/garanties-financieres.html',
+      },
+    },
+  },
+};
 
 const getNavigationItemsBasedOnRole = (
   utilisateur: Utilisateur.ValueType,
@@ -46,6 +60,10 @@ const getNavigationItemsBasedOnRole = (
               },
             },
           ],
+        },
+        {
+          text: 'Garanties Financières',
+          menuLinks: [menuLinks.garantiesFinancières.listerDépôtsEnCours],
         },
         {
           text: 'Imports',
@@ -173,9 +191,7 @@ const getNavigationItemsBasedOnRole = (
         },
         {
           text: 'Garanties Financières',
-          linkProps: {
-            href: '/admin/garanties-financieres.html',
-          },
+          menuLinks: [menuLinks.garantiesFinancières.listerDépôtsEnCours],
         },
       ];
     case 'porteur-projet':

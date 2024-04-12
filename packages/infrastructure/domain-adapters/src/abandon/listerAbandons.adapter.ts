@@ -1,5 +1,5 @@
 import format from 'pg-format';
-import { executeSelect } from '@potentiel/pg-helpers';
+import { executeSelect } from '@potentiel-librairies/pg-helpers';
 import { Abandon } from '@potentiel-domain/laureat';
 
 const countAbandonsQuery = `
@@ -43,7 +43,7 @@ export const listerAbandonsAdapter: Abandon.ListerAbandonsPort = async ({
   const query = `${getAbandonsQuery} ${whereClause} ${régionClause} order by value->>'misÀJourLe' desc ${paginationClause}`;
 
   const result = await executeSelect<{
-    value: Abandon.AbandonProjection;
+    value: Abandon.AbandonEntity;
   }>(query, ...(where ? Object.values(where) : []).concat(région ? [région] : []));
 
   const countQuery = `${countAbandonsQuery} ${whereClause} ${régionClause}`;

@@ -10,9 +10,9 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 export type transmettrePropositionTechniqueEtFinancièreState = FormState;
 
 const schema = zod.object({
-  identifiantProjet: zod.string(),
-  referenceDossier: zod.string(),
-  dateSignature: zod.string(),
+  identifiantProjet: zod.string().min(1),
+  referenceDossier: zod.string().min(1),
+  dateSignature: zod.string().min(1),
   propositionTechniqueEtFinanciereSignee: zod.instanceof(Blob).refine((data) => data.size > 0),
 });
 
@@ -21,7 +21,7 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, referenceDossier, dateSignature, propositionTechniqueEtFinanciereSignee },
 ) => {
   await mediator.send<Raccordement.RaccordementUseCase>({
-    type: 'TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIÈRE_USECASE',
+    type: 'Réseau.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
     data: {
       identifiantProjetValue: identifiantProjet,
       référenceDossierRaccordementValue: referenceDossier,

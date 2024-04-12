@@ -10,7 +10,7 @@ import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 // nous avons besoin du CDC actuel et de l'AO pour vérifier cela
 
 export type DemanderAbandonUseCase = Message<
-  'DEMANDER_ABANDON_USECASE',
+  'Lauréat.Abandon.UseCase.DemanderAbandon',
   {
     dateDemandeValue: string;
     identifiantUtilisateurValue: string;
@@ -50,7 +50,7 @@ export const registerDemanderAbandonUseCase = () => {
 
     if (pièceJustificative) {
       await mediator.send<EnregistrerDocumentProjetCommand>({
-        type: 'ENREGISTRER_DOCUMENT_PROJET_COMMAND',
+        type: 'Document.Command.EnregistrerDocumentProjet',
         data: {
           content: pièceJustificativeValue!.content,
           documentProjet: pièceJustificative,
@@ -59,7 +59,7 @@ export const registerDemanderAbandonUseCase = () => {
     }
 
     await mediator.send<DemanderAbandonCommand>({
-      type: 'DEMANDER_ABANDON_COMMAND',
+      type: 'Lauréat.Abandon.Command.DemanderAbandon',
       data: {
         dateDemande,
         raison: raisonValue,
@@ -70,5 +70,5 @@ export const registerDemanderAbandonUseCase = () => {
       },
     });
   };
-  mediator.register('DEMANDER_ABANDON_USECASE', runner);
+  mediator.register('Lauréat.Abandon.UseCase.DemanderAbandon', runner);
 };

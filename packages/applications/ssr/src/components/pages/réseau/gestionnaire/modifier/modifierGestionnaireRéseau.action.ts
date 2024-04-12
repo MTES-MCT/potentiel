@@ -18,11 +18,11 @@ const schema = zod.object({
 });
 
 const action: FormAction<ModifierGestionnaireRéseauState, typeof schema> = async (
-  previousState,
+  _,
   { identifiantGestionnaireReseau, raisonSociale, expressionReguliere, format, legende },
 ) => {
   await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
-    type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_USECASE',
+    type: 'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',
     data: {
       aideSaisieRéférenceDossierRaccordementValue: {
         expressionReguliereValue: expressionReguliere || '',

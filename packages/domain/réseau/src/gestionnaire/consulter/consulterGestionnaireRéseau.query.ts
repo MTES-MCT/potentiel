@@ -1,10 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { ExpressionRegulière } from '@potentiel-domain/common';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
-import { Find } from '@potentiel-libraries/projection';
-import { GestionnaireRéseauProjection } from '../gestionnaireRéseau.projection';
-import { isNone } from '@potentiel/monads';
-import { GestionnaireRéseauInconnuError } from '../gestionnaireRéseauInconnu.error';
+import { Find } from '@potentiel-domain/core';
+import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
+import { Option } from '@potentiel-librairies/monads';
 
 export type ConsulterGestionnaireRéseauReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -17,11 +16,11 @@ export type ConsulterGestionnaireRéseauReadModel = {
 };
 
 export type ConsulterGestionnaireRéseauQuery = Message<
-  'CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY',
+  'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
   {
     identifiantGestionnaireRéseau: string;
   },
-  ConsulterGestionnaireRéseauReadModel
+  Option.Type<ConsulterGestionnaireRéseauReadModel>
 >;
 
 export type ConsulterGestionnaireRéseauQueryDependencies = {
@@ -34,32 +33,30 @@ export const registerConsulterGestionnaireRéseauQuery = ({
   const handler: MessageHandler<ConsulterGestionnaireRéseauQuery> = async ({
     identifiantGestionnaireRéseau,
   }) => {
-    const result = await find<GestionnaireRéseauProjection>(
+    const result = await find<GestionnaireRéseauEntity>(
       `gestionnaire-réseau|${identifiantGestionnaireRéseau}`,
     );
 
-    if (isNone(result)) {
-      throw new GestionnaireRéseauInconnuError();
-    }
-
-    return mapToReadModel(result);
+    return Option.isNone(result) ? Option.none : mapToReadModel(result);
   };
 
-  mediator.register('CONSULTER_GESTIONNAIRE_RÉSEAU_QUERY', handler);
+  mediator.register('Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau', handler);
 };
 
 const mapToReadModel = ({
   codeEIC,
   raisonSociale,
   aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
-}: GestionnaireRéseauProjection): ConsulterGestionnaireRéseauReadModel => {
+}: GestionnaireRéseauEntity): ConsulterGestionnaireRéseauReadModel => {
   return {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
     raisonSociale,
     aideSaisieRéférenceDossierRaccordement: {
       format,
       légende,
-      expressionReguliere: ExpressionRegulière.convertirEnValueType(expressionReguliere || ''),
+      expressionReguliere: !expressionReguliere
+        ? ExpressionRegulière.accepteTout
+        : ExpressionRegulière.convertirEnValueType(expressionReguliere),
     },
   };
 };

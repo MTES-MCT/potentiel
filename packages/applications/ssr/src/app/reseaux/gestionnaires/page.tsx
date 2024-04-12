@@ -15,7 +15,7 @@ export default async function Page({ searchParams }: PageProps) {
 
     const gestionnaireRéseaux =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
-        type: 'LISTER_GESTIONNAIRE_RÉSEAU_QUERY',
+        type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
         data: {
           pagination: { page, itemsPerPage: 10 },
         },

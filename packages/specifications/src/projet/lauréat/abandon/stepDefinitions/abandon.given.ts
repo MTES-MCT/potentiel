@@ -12,7 +12,7 @@ EtantDonné(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<Abandon.AbandonUseCase>({
-      type: 'DEMANDER_ABANDON_USECASE',
+      type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         pièceJustificativeValue: {
@@ -38,7 +38,7 @@ EtantDonné(
     const preuve = etat.includes('avec preuve transmise');
 
     await mediator.send<Abandon.AbandonUseCase>({
-      type: 'DEMANDER_ABANDON_USECASE',
+      type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
       data: {
         identifiantProjetValue,
         pièceJustificativeValue: {
@@ -53,7 +53,7 @@ EtantDonné(
     });
 
     await mediator.send<Abandon.AbandonUseCase>({
-      type: 'ACCORDER_ABANDON_USECASE',
+      type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
       data: {
         identifiantProjetValue,
         réponseSignéeValue: {
@@ -69,7 +69,7 @@ EtantDonné(
       const dateMininum = DateTime.convertirEnValueType(new Date('2023-12-15'));
 
       await mediator.send<Abandon.AbandonUseCase>({
-        type: 'TRANSMETTRE_PREUVE_RECANDIDATURE_ABANDON_USECASE',
+        type: 'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
         data: {
           identifiantProjetValue,
           dateNotificationValue: (DateTime.now().estAntérieurÀ(dateMininum)
@@ -93,7 +93,7 @@ EtantDonné(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<Abandon.AbandonUseCase>({
-      type: 'DEMANDER_ABANDON_USECASE',
+      type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         pièceJustificativeValue: {
@@ -108,7 +108,7 @@ EtantDonné(
     });
 
     await mediator.send<Abandon.AbandonUseCase>({
-      type: 'REJETER_ABANDON_USECASE',
+      type: 'Lauréat.Abandon.UseCase.RejeterAbandon',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         réponseSignéeValue: {
@@ -128,7 +128,7 @@ EtantDonné(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<Abandon.AbandonUseCase>({
-      type: 'DEMANDER_ABANDON_USECASE',
+      type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         pièceJustificativeValue: {
@@ -143,7 +143,7 @@ EtantDonné(
     });
 
     await mediator.send<Abandon.AbandonUseCase>({
-      type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
+      type: 'Lauréat.Abandon.UseCase.DemanderConfirmationAbandon',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         réponseSignéeValue: {
@@ -163,7 +163,7 @@ EtantDonné(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<Abandon.AbandonUseCase>({
-      type: 'DEMANDER_ABANDON_USECASE',
+      type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         pièceJustificativeValue: {
@@ -178,7 +178,7 @@ EtantDonné(
     });
 
     await mediator.send<Abandon.AbandonUseCase>({
-      type: 'DEMANDER_CONFIRMATION_ABANDON_USECASE',
+      type: 'Lauréat.Abandon.UseCase.DemanderConfirmationAbandon',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         réponseSignéeValue: {
@@ -191,7 +191,7 @@ EtantDonné(
     });
 
     await mediator.send<Abandon.AbandonUseCase>({
-      type: 'CONFIRMER_ABANDON_USECASE',
+      type: 'Lauréat.Abandon.UseCase.ConfirmerAbandon',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         dateConfirmationValue: DateTime.convertirEnValueType(new Date()).formatter(),

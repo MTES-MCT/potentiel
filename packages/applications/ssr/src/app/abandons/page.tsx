@@ -44,7 +44,7 @@ export default async function Page({ searchParams }: PageProps) {
         : undefined;
 
       const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
-        type: 'LISTER_ABANDONS_QUERY',
+        type: 'Lauréat.Abandon.Query.ListerAbandons',
         data: {
           utilisateur: {
             email: utilisateur.identifiantUtilisateur.email,
@@ -59,7 +59,7 @@ export default async function Page({ searchParams }: PageProps) {
       });
 
       const appelOffres = await mediator.send<ListerAppelOffreQuery>({
-        type: 'LISTER_APPEL_OFFRE_QUERY',
+        type: 'AppelOffre.Query.ListerAppelOffre',
         data: {},
       });
 

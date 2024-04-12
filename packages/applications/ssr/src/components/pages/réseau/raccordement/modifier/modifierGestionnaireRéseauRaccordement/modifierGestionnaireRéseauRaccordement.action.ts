@@ -10,8 +10,8 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 export type ModifierGestionnaireRéseauRaccordementState = FormState;
 
 const schema = zod.object({
-  identifiantProjet: zod.string(),
-  identifiantGestionnaireReseau: zod.string(),
+  identifiantProjet: zod.string().min(1),
+  identifiantGestionnaireReseau: zod.string().min(1),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
@@ -19,7 +19,7 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, identifiantGestionnaireReseau },
 ) => {
   await mediator.send<Raccordement.RaccordementUseCase>({
-    type: 'MODIFIER_GESTIONNAIRE_RÉSEAU_RACCORDEMENT_USE_CASE',
+    type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
     data: {
       identifiantProjetValue: identifiantProjet,
       identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,

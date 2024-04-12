@@ -9,13 +9,13 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/monads": "*",
+    "@potentiel-librairies/monads": "*",
     "@potentiel-domain/document": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*"
   },
   "devDependencies": {
-    "@potentiel/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*"
   }
 }

@@ -1,11 +1,11 @@
 import {
-  CandidatureProjection,
+  CandidatureEntity,
   RécupérerCandidaturePort,
   RécupérerCandidaturesEligiblesPreuveRecanditurePort,
 } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { none } from '@potentiel/monads';
-import { executeSelect } from '@potentiel/pg-helpers';
+import { executeSelect } from '@potentiel-librairies/pg-helpers';
+import { Option } from '@potentiel-librairies/monads';
 
 // MERCI DE NE PAS TOUCHER CETTE QUERY
 const selectCandidatureQuery = `
@@ -42,7 +42,7 @@ const selectCandidatureQuery = `
 export const récupérerCandidatureAdapter: RécupérerCandidaturePort = async (identifiant) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiant);
-  const result = await executeSelect<{ value: CandidatureProjection }>(
+  const result = await executeSelect<{ value: CandidatureEntity }>(
     selectCandidatureQuery,
     appelOffre,
     période,
@@ -51,7 +51,7 @@ export const récupérerCandidatureAdapter: RécupérerCandidaturePort = async (
   );
 
   if (!result.length) {
-    return none;
+    return Option.none;
   }
 
   return result[0].value;
@@ -97,7 +97,7 @@ const selectPreuveRecandidature = `
 
 export const récupérerCandidaturesEligiblesPreuveRecanditureAdapter: RécupérerCandidaturesEligiblesPreuveRecanditurePort =
   async (identifiantUtilisateur) => {
-    const results = await executeSelect<{ value: CandidatureProjection }>(
+    const results = await executeSelect<{ value: CandidatureEntity }>(
       selectCandidaturesEligiblesPreuveRecanditureQuery,
       identifiantUtilisateur,
     );

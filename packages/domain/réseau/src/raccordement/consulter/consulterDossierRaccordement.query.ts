@@ -2,9 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
-import { Find } from '@potentiel-libraries/projection';
+import { Find } from '@potentiel-domain/core';
 import { DossierRaccordementEntity } from '../raccordement.entity';
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -24,7 +24,7 @@ export type ConsulterDossierRaccordementReadModel = {
 };
 
 export type ConsulterDossierRaccordementQuery = Message<
-  'CONSULTER_DOSSIER_RACCORDEMENT_QUERY',
+  'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
   {
     identifiantProjetValue: string;
     référenceDossierRaccordementValue: string;
@@ -52,14 +52,14 @@ export const registerConsulterDossierRaccordementQuery = ({
       `dossier-raccordement|${identifiantProjet.formatter()}#${référenceDossierRaccordement}`,
     );
 
-    if (isNone(result)) {
+    if (Option.isNone(result)) {
       throw new DossierRaccordementNonRéférencéError();
     }
 
     return mapToResult(identifiantProjet, référence, result);
   };
 
-  mediator.register('CONSULTER_DOSSIER_RACCORDEMENT_QUERY', handler);
+  mediator.register('Réseau.Raccordement.Query.ConsulterDossierRaccordement', handler);
 };
 
 const mapToResult = (

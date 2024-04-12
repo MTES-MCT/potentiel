@@ -6,24 +6,26 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "prespecs": "tsc",
-    "specs": "cucumber-js"
+    "build": "tsc",
+    "test": "cucumber-js --tags \"not @NotImplemented\"",
+    "test:select": "cucumber-js --tags @select"
   },
   "dependencies": {
     "@potentiel-application/bootstrap": "*",
     "@potentiel-domain/laureat": "*",
+    "@potentiel-domain/tache": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-domain/core": "^0.0.0",
-    "@potentiel/file-storage": "^0.0.0",
+    "@potentiel-librairies/file-storage": "^0.0.0",
     "@potentiel-infrastructure/domain-adapters": "^0.0.0",
     "@potentiel-infrastructure/pg-event-sourcing": "^0.0.0",
-    "@potentiel/pg-helpers": "^0.0.0",
+    "@potentiel-librairies/pg-helpers": "^0.0.0",
     "mediateur": "^0.1.0"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^9.5.0",
     "@cucumber/pretty-formatter": "^1.0.0",
-    "@potentiel/tsconfig": "*",
+    "@potentiel-config/tsconfig": "*",
     "@types/chai": "^4.3.5",
     "chai": "^4.3.8"
   }

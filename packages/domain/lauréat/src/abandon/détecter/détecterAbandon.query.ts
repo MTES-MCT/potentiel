@@ -1,13 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { isSome } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { AbandonProjection } from '../abandon.projection';
-import { Find } from '@potentiel-libraries/projection';
+import { AbandonEntity } from '../abandon.entity';
+import { Find } from '@potentiel-domain/core';
 
 export type DétecterAbandonQuery = Message<
-  'DÉTECTER_ABANDON_QUERY',
+  'Lauréat.Abandon.Query.DétecterAbandon',
   {
     identifiantProjetValue: string;
   },
@@ -21,9 +21,9 @@ export type DétecterAbandonDependencies = {
 export const registerDétecterAbandonQuery = ({ find }: DétecterAbandonDependencies) => {
   const handler: MessageHandler<DétecterAbandonQuery> = async ({ identifiantProjetValue }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const result = await find<AbandonProjection>(`abandon|${identifiantProjet.formatter()}`);
+    const result = await find<AbandonEntity>(`abandon|${identifiantProjet.formatter()}`);
 
-    return isSome(result);
+    return Option.isSome(result);
   };
-  mediator.register('DÉTECTER_ABANDON_QUERY', handler);
+  mediator.register('Lauréat.Abandon.Query.DétecterAbandon', handler);
 };

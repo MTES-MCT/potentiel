@@ -9,7 +9,7 @@ import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
-  identifiantProjet: zod.string(),
+  identifiantProjet: zod.string().min(1),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
@@ -18,7 +18,7 @@ const action: FormAction<FormState, typeof schema> = async (
 ) => {
   return withUtilisateur(async (utilisateur) => {
     await mediator.send<Abandon.AbandonUseCase>({
-      type: 'ANNULER_ABANDON_USECASE',
+      type: 'Lauréat.Abandon.UseCase.AnnulerAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),

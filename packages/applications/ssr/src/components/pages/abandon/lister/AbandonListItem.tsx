@@ -2,9 +2,9 @@ import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
 import { Abandon } from '@potentiel-domain/laureat';
-import { Routes } from '@potentiel-libraries/routes';
+import { Routes } from '@potentiel-applications/routes';
 
-import { StatutBadge } from '../../../molecules/StatutBadge';
+import { StatutAbandonBadge } from '../StatutAbandonBadge';
 import { StatutPreuveRecandidatureBadge } from '../détails/PreuveRecandidatureStatutBadge';
 
 export type AbandonListItemProps = {
@@ -50,7 +50,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
           )}
         </div>
         <div className="flex flex-col md:flex-row gap-2 mt-3">
-          <StatutBadge statut={statut} small />
+          <StatutAbandonBadge statut={statut} small />
           {recandidature && (
             <>
               <Badge noIcon small severity="info">
@@ -63,8 +63,8 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
       </div>
     </div>
 
-    <div className="flex flex-col justify-between mt-4 md:mt-2">
-      <p className="italic text-sm">dernière mise à jour le {misÀJourLe}</p>
+    <div className="flex flex-col justify-between mt-4 md:mt-0">
+      <p className="italic text-xs">Dernière mise à jour le {misÀJourLe}</p>
       <a
         href={Routes.Abandon.détail(identifiantProjet)}
         className="self-end mt-2"

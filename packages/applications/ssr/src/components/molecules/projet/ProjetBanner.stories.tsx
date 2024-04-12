@@ -9,6 +9,15 @@ const meta = {
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
+  decorators: [
+    (Story) => (
+      <div className="bg-blue-france-sun-base text-white py-6 mb-3">
+        <div className="fr-container">
+          <Story />
+        </div>
+      </div>
+    ),
+  ],
 } satisfies Meta<ProjetBannerProps>;
 
 export default meta;

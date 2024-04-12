@@ -13,7 +13,7 @@ import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
-  identifiantProjet: zod.string(),
+  identifiantProjet: zod.string().min(1),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
@@ -22,7 +22,7 @@ const action: FormAction<FormState, typeof schema> = async (
 ) => {
   return withUtilisateur(async (utilisateur) => {
     const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
-      type: 'CONSULTER_ABANDON_QUERY',
+      type: 'Lauréat.Abandon.Query.ConsulterAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
       },
@@ -34,7 +34,7 @@ const action: FormAction<FormState, typeof schema> = async (
     );
 
     await mediator.send<Abandon.AbandonUseCase>({
-      type: 'ACCORDER_ABANDON_USECASE',
+      type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
@@ -57,18 +57,18 @@ const buildReponseSignee = async (
 ): Promise<Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue']> => {
   const projet = await mediator.send<ConsulterCandidatureQuery>({
     data: { identifiantProjet: abandon.identifiantProjet.formatter() },
-    type: 'CONSULTER_CANDIDATURE_QUERY',
+    type: 'Candidature.Query.ConsulterCandidature',
   });
 
   const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
-    type: 'CONSULTER_APPEL_OFFRE_QUERY',
+    type: 'AppelOffre.Query.ConsulterAppelOffre',
     data: {
       identifiantAppelOffre: projet.appelOffre,
     },
   });
 
   const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
-    type: 'CONSULTER_UTILISATEUR_QUERY',
+    type: 'Utilisateur.Query.ConsulterUtilisateur',
     data: {
       identifiantUtilisateur,
     },

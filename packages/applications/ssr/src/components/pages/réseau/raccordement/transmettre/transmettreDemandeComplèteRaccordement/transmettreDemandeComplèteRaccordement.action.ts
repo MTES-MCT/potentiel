@@ -10,10 +10,10 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 export type TransmettreDemandeComplèteRaccordementState = FormState;
 
 const schema = zod.object({
-  identifiantProjet: zod.string(),
-  dateQualification: zod.string(),
-  identifiantGestionnaireReseau: zod.string(),
-  referenceDossier: zod.string(),
+  identifiantProjet: zod.string().min(1),
+  dateQualification: zod.string().min(1),
+  identifiantGestionnaireReseau: zod.string().min(1),
+  referenceDossier: zod.string().min(1),
   accuseReception: zod.instanceof(Blob).refine((data) => data.size > 0),
 });
 
@@ -28,7 +28,7 @@ const action: FormAction<FormState, typeof schema> = async (
   },
 ) => {
   await mediator.send<Raccordement.RaccordementUseCase>({
-    type: 'TRANSMETTRE_DEMANDE_COMPLÈTE_RACCORDEMENT_USE_CASE',
+    type: 'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
     data: {
       identifiantProjetValue: identifiantProjet,
       dateQualificationValue: new Date(dateQualification).toISOString(),

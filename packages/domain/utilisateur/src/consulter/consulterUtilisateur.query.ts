@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { UtilisateurProjection } from '../utilisateur.projection';
-import { isNone, Option } from '@potentiel/monads';
+import { UtilisateurEntity } from '../utilisateur.entity';
+import { Option } from '@potentiel-librairies/monads';
 import { UtilisateurInconnuErreur } from '../utilisateurInconnu.error';
-import { IdentifiantUtilisateur } from '..';
+import * as IdentifiantUtilisateur from '../identifiantUtilisateur.valueType';
 
 export type ConsulterUtilisateurReadModel = {
   identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
@@ -12,7 +12,7 @@ export type ConsulterUtilisateurReadModel = {
 };
 
 export type ConsulterUtilisateurQuery = Message<
-  'CONSULTER_UTILISATEUR_QUERY',
+  'Utilisateur.Query.ConsulterUtilisateur',
   {
     identifiantUtilisateur: string;
   },
@@ -21,7 +21,7 @@ export type ConsulterUtilisateurQuery = Message<
 
 export type RécupérerUtilisateurPort = (
   identifiantUtilisateur: string,
-) => Promise<Option<UtilisateurProjection>>;
+) => Promise<Option.Type<UtilisateurEntity>>;
 
 export type ConsulterUtilisateurDependencies = {
   récupérerUtilisateur: RécupérerUtilisateurPort;
@@ -33,14 +33,14 @@ export const registerConsulterUtilisateurQuery = ({
   const handler: MessageHandler<ConsulterUtilisateurQuery> = async ({ identifiantUtilisateur }) => {
     const result = await récupérerUtilisateur(identifiantUtilisateur);
 
-    if (isNone(result)) {
+    if (Option.isNone(result)) {
       throw new UtilisateurInconnuErreur();
     }
 
     return mapToReadModel(result);
   };
 
-  mediator.register('CONSULTER_UTILISATEUR_QUERY', handler);
+  mediator.register('Utilisateur.Query.ConsulterUtilisateur', handler);
 };
 
 const mapToReadModel = ({
@@ -48,7 +48,7 @@ const mapToReadModel = ({
   email,
   nomComplet,
   fonction,
-}: UtilisateurProjection): ConsulterUtilisateurReadModel => ({
+}: UtilisateurEntity): ConsulterUtilisateurReadModel => ({
   identifiantUtilisateur: IdentifiantUtilisateur.convertirEnValueType(identifiantUtilisateur),
   email,
   nomComplet,

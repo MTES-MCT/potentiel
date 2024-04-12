@@ -1,14 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { isNone } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { AucunAbandonEnCours } from '../aucunAbandonEnCours.error';
 import * as StatutAbandon from '../statutAbandon.valueType';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { AbandonProjection } from '../abandon.projection';
-import { Find } from '@potentiel-libraries/projection';
+import { AbandonEntity } from '../abandon.entity';
+import { Find } from '@potentiel-domain/core';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 import { StatutPreuveRecandidature } from '..';
 
@@ -47,7 +47,7 @@ export type ConsulterAbandonReadModel = {
 };
 
 export type ConsulterAbandonQuery = Message<
-  'CONSULTER_ABANDON_QUERY',
+  'Lauréat.Abandon.Query.ConsulterAbandon',
   {
     identifiantProjetValue: string;
   },
@@ -61,9 +61,9 @@ export type ConsulterAbandonDependencies = {
 export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependencies) => {
   const handler: MessageHandler<ConsulterAbandonQuery> = async ({ identifiantProjetValue }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const result = await find<AbandonProjection>(`abandon|${identifiantProjet.formatter()}`);
+    const result = await find<AbandonEntity>(`abandon|${identifiantProjet.formatter()}`);
 
-    if (isNone(result)) {
+    if (Option.isNone(result)) {
       throw new AucunAbandonEnCours();
     }
 
@@ -151,5 +151,5 @@ export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependen
       rejet,
     };
   };
-  mediator.register('CONSULTER_ABANDON_QUERY', handler);
+  mediator.register('Lauréat.Abandon.Query.ConsulterAbandon', handler);
 };

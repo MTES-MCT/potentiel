@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import * as DossierProjet from '../dossierProjet.valueType';
 
 export type DéplacerDossierProjetCommand = Message<
-  'DÉPLACER_DOCUMENT_PROJET_COMMAND',
+  'Document.Command.DéplacerDocumentProjet',
   {
     dossierProjetSource: DossierProjet.ValueType;
     dossierProjetTarget: DossierProjet.ValueType;
@@ -25,5 +25,5 @@ export const registerDéplacerDocumentCommand = ({
     dossierProjetSource,
     dossierProjetTarget,
   }) => déplacerDossierProjet(dossierProjetSource.formatter(), dossierProjetTarget.formatter());
-  mediator.register('DÉPLACER_DOCUMENT_PROJET_COMMAND', handler);
+  mediator.register('Document.Command.DéplacerDocumentProjet', handler);
 };

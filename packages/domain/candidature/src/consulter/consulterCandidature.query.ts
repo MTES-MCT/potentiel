@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Option, isNone } from '@potentiel/monads';
+import { Option } from '@potentiel-librairies/monads';
 
-import { CandidatureProjection } from '../candidature.projection';
+import { CandidatureEntity } from '../candidature.entity';
 import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { CandidatureInconnueErreur } from '../candidatureInconnue.error';
@@ -34,7 +34,7 @@ export type ConsulterCandidatureReadModel = {
 };
 
 export type ConsulterCandidatureQuery = Message<
-  'CONSULTER_CANDIDATURE_QUERY',
+  'Candidature.Query.ConsulterCandidature',
   {
     identifiantProjet: string;
   },
@@ -43,7 +43,7 @@ export type ConsulterCandidatureQuery = Message<
 
 export type RécupérerCandidaturePort = (
   identifiantProjet: string,
-) => Promise<Option<CandidatureProjection>>;
+) => Promise<Option.Type<CandidatureEntity>>;
 
 export type ConsulterCandidatureDependencies = {
   récupérerCandidature: RécupérerCandidaturePort;
@@ -55,14 +55,14 @@ export const registerConsulterCandidatureQuery = ({
   const handler: MessageHandler<ConsulterCandidatureQuery> = async ({ identifiantProjet }) => {
     const result = await récupérerCandidature(identifiantProjet);
 
-    if (isNone(result)) {
+    if (Option.isNone(result)) {
       throw new CandidatureInconnueErreur();
     }
 
     return mapToReadModel(result);
   };
 
-  mediator.register('CONSULTER_CANDIDATURE_QUERY', handler);
+  mediator.register('Candidature.Query.ConsulterCandidature', handler);
 };
 
 const mapToReadModel = ({
@@ -80,7 +80,7 @@ const mapToReadModel = ({
   statut,
   adressePostaleCandidat,
   technologie,
-}: CandidatureProjection): ConsulterCandidatureReadModel => {
+}: CandidatureEntity): ConsulterCandidatureReadModel => {
   return {
     appelOffre,
     candidat: {

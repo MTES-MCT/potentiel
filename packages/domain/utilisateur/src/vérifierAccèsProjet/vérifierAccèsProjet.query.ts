@@ -1,9 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { OperationRejectedError } from '@potentiel-domain/core';
-import { Role, Utilisateur } from '..';
+import * as Role from '../role.valueType';
+import * as Utilisateur from '../utilisateur.valueType';
 
 export type VérifierAccèsProjetQuery = Message<
-  'VERIFIER_ACCES_PROJET_QUERY',
+  'System.Authorization.VérifierAccésProjet',
   {
     utilisateur: Utilisateur.ValueType;
     identifiantProjetValue: string;
@@ -54,5 +55,5 @@ export const registerVérifierAccèsProjetQuery = ({
     }
   };
 
-  mediator.register('VERIFIER_ACCES_PROJET_QUERY', handler);
+  mediator.register('System.Authorization.VérifierAccésProjet', handler);
 };

@@ -10,10 +10,10 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 export type transmettreDateMiseEnServiceState = FormState;
 
 const schema = zod.object({
-  identifiantProjet: zod.string(),
-  referenceDossier: zod.string(),
-  dateDesignation: zod.string(),
-  dateMiseEnService: zod.string(),
+  identifiantProjet: zod.string().min(1),
+  referenceDossier: zod.string().min(1),
+  dateDesignation: zod.string().min(1),
+  dateMiseEnService: zod.string().min(1),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
@@ -21,7 +21,7 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, referenceDossier, dateMiseEnService, dateDesignation },
 ) => {
   await mediator.send<Raccordement.RaccordementUseCase>({
-    type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
+    type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
     data: {
       identifiantProjetValue: identifiantProjet,
       référenceDossierValue: referenceDossier,

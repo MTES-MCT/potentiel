@@ -2,9 +2,9 @@ import format from 'pg-format';
 import {
   RécupérerNombreTâchePort,
   RécupérerTâchesPort,
-  TâcheProjection,
+  TâcheEntity,
 } from '@potentiel-domain/tache';
-import { executeSelect } from '@potentiel/pg-helpers';
+import { executeSelect } from '@potentiel-librairies/pg-helpers';
 import { listerIdentifiantsProjetsParPorteurAdapter } from '../projet/listerIdentifiantsProjetsParPorteur.adapter';
 
 const countTâchesQuery = `
@@ -46,7 +46,7 @@ export const récupérerTâchesAdapter: RécupérerTâchesPort = async (email, f
   const query = `${getTâchesQuery} ${whereClause} order by value->>'misÀJourLe' ${paginationClause}`;
 
   const result = await executeSelect<{
-    value: TâcheProjection;
+    value: TâcheEntity;
   }>(
     query,
     identifiants.map(

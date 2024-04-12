@@ -13,9 +13,7 @@ import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAct
 export type ImporterDatesMiseEnServiceState = FormState;
 
 const schema = zod.object({
-  fichierDatesMiseEnService: zod
-    .instanceof(Blob)
-    .refine((data) => data.size > 0, { message: 'Vous devez joindre un fichier non vide.' }),
+  fichierDatesMiseEnService: zod.instanceof(Blob).refine((data) => data.size > 0),
 });
 
 const csvSchema = zod.object({
@@ -47,7 +45,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
 
   for (const { referenceDossier, dateMiseEnService } of lines) {
     const dossiers = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
-      type: 'RECHERCHER_DOSSIER_RACCORDEMENT_QUERY',
+      type: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
       data: {
         référenceDossierRaccordement: referenceDossier,
       },
@@ -65,14 +63,14 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
     for (const { identifiantProjet, référenceDossierRaccordement } of dossiers) {
       try {
         const candidature = await mediator.send<ConsulterCandidatureQuery>({
-          type: 'CONSULTER_CANDIDATURE_QUERY',
+          type: 'Candidature.Query.ConsulterCandidature',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
           },
         });
 
         await mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
-          type: 'TRANSMETTRE_DATE_MISE_EN_SERVICE_USECASE',
+          type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
             dateDésignationValue: candidature.dateDésignation,

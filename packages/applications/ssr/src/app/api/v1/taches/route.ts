@@ -11,7 +11,7 @@ export const GET = () =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
       const result = await mediator.send<ConsulterNombreTâchesQuery>({
-        type: 'CONSULTER_NOMBRE_TÂCHES_QUERY',
+        type: 'Tâche.Query.ConsulterNombreTâches',
         data: {
           email: utilisateur.identifiantUtilisateur.email,
         },

@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import * as TypeTâche from '../typeTâche.valueType';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { TâcheProjection } from '../tâche.projection';
+import { TâcheEntity } from '../tâche.entity';
 
 type TâcheListItem = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -24,7 +24,7 @@ export type ListerTâchesReadModel = {
 };
 
 export type ListerTâchesQuery = Message<
-  'LISTER_TÂCHES_QUERY',
+  'Tâche.Query.ListerTâches',
   {
     email: string;
     appelOffre?: string;
@@ -43,7 +43,7 @@ export type RécupérerTâchesPort = (
     itemsPerPage: number;
   },
 ) => Promise<{
-  items: ReadonlyArray<TâcheProjection>;
+  items: ReadonlyArray<TâcheEntity>;
   currentPage: number;
   itemsPerPage: number;
   totalItems: number;
@@ -69,7 +69,7 @@ export const registerListerTâchesQuery = ({ récupérerTâches }: ListerTâches
       totalItems,
     };
   };
-  mediator.register('LISTER_TÂCHES_QUERY', handler);
+  mediator.register('Tâche.Query.ListerTâches', handler);
 };
 
 const mapToReadModel = ({
@@ -81,7 +81,7 @@ const mapToReadModel = ({
   période,
   typeTâche,
   famille,
-}: TâcheProjection): TâcheListItem => {
+}: TâcheEntity): TâcheListItem => {
   return {
     appelOffre,
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),

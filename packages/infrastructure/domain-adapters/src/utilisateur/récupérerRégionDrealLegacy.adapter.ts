@@ -1,6 +1,6 @@
-import { Abandon } from '@potentiel-domain/laureat';
-import { none } from '@potentiel/monads';
-import { executeSelect } from '@potentiel/pg-helpers';
+import { CommonPort } from '@potentiel-domain/common';
+import { executeSelect } from '@potentiel-librairies/pg-helpers';
+import { Option } from '@potentiel-librairies/monads';
 
 const query = `
   select json_build_object(
@@ -16,7 +16,7 @@ const query = `
   ;                 
 `;
 
-export const récupérerRégionDrealAdapter: Abandon.RécupérerRégionDrealPort = async (
+export const récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort = async (
   identifiantUtilisateur,
 ) => {
   const résultat = await executeSelect<{
@@ -24,7 +24,7 @@ export const récupérerRégionDrealAdapter: Abandon.RécupérerRégionDrealPort
   }>(query, identifiantUtilisateur);
 
   if (!résultat.length) {
-    return none;
+    return Option.none;
   }
 
   return résultat[0].value;

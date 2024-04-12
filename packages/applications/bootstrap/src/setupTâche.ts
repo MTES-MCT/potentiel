@@ -1,6 +1,6 @@
 import { registerTâcheCommand, registerTâcheQuery, TâcheSaga } from '@potentiel-domain/tache';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { TâcheProjector } from '@potentiel-infrastructure/projectors';
+import { TâcheProjector } from '@potentiel-application/projectors';
 import { mediator } from 'mediateur';
 import { TâcheAdapter } from '@potentiel-infrastructure/domain-adapters';
 
@@ -30,7 +30,7 @@ export const setupTâche = async () => {
     ],
     eventHandler: async (event) => {
       await mediator.publish<TâcheSaga.Execute>({
-        type: 'EXECUTE_TÂCHE_SAGA',
+        type: 'System.Saga.Tâche',
         data: event,
       });
     },
@@ -44,7 +44,7 @@ export const setupTâche = async () => {
     eventType: ['RéférenceDossierRacordementModifiée-V1'],
     eventHandler: async (event) => {
       await mediator.publish<TâcheSaga.Execute>({
-        type: 'EXECUTE_TÂCHE_SAGA',
+        type: 'System.Saga.Tâche',
         data: event,
       });
     },
@@ -61,7 +61,7 @@ export const setupTâche = async () => {
     ],
     eventHandler: async (event) => {
       await mediator.send<TâcheProjector.Execute>({
-        type: 'EXECUTE_TÂCHE_PROJECTOR',
+        type: 'System.Projector.Tâche',
         data: event,
       });
     },
