@@ -8,6 +8,8 @@ import { executeQuery, killPool } from '@potentiel-librairies/pg-helpers';
 import {
   NegativeEndPositionError,
   NegativeStartPositionError,
+  StartPositionEqualToEndPositionError,
+  StartPositionGreaterThanEndPositionError,
   listProjectionV2,
 } from './listProjectionV2';
 
@@ -169,6 +171,50 @@ describe('listProjectionV2', () => {
 
     error.should.be.instanceOf(NegativeEndPositionError);
     error.message.should.be.equal('End position must be a positive value');
+  });
+
+  it(`
+    it should throw when start position is greater than end position
+  `, async () => {
+    const range: RangeOptions = {
+      startPosition: 2,
+      endPosition: 1,
+    };
+
+    let error = new Error();
+
+    try {
+      await listProjectionV2<FakeProjection>('fake-projection', {
+        range: range,
+      });
+    } catch (e) {
+      error = e as Error;
+    }
+
+    error.should.be.instanceOf(StartPositionGreaterThanEndPositionError);
+    error.message.should.be.equal('Start position must be greater than end position value');
+  });
+
+  it(`
+    it should throw when start position is equal to end position
+  `, async () => {
+    const range: RangeOptions = {
+      startPosition: 1,
+      endPosition: 1,
+    };
+
+    let error = new Error();
+
+    try {
+      await listProjectionV2<FakeProjection>('fake-projection', {
+        range: range,
+      });
+    } catch (e) {
+      error = e as Error;
+    }
+
+    error.should.be.instanceOf(StartPositionEqualToEndPositionError);
+    error.message.should.be.equal('Start and end position values can not be the same');
   });
 
   it(`
