@@ -53,7 +53,7 @@ describe('listProjectionV2', () => {
     }
   });
 
-  const mapToListResult = (
+  const mapToListResultItems = (
     expectedData: Array<Omit<FakeProjection, 'type'>>,
   ): ListResultV2<FakeProjection> => ({
     total: expectedData.length,
@@ -70,7 +70,7 @@ describe('listProjectionV2', () => {
   `, async () => {
     const actual = await listProjectionV2<FakeProjection>('fake-projection');
 
-    const expected = mapToListResult(fakeData);
+    const expected = mapToListResultItems(fakeData);
 
     actual.should.be.deep.equal(expected);
   });
@@ -89,7 +89,7 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expected = mapToListResult(
+    const expected = mapToListResultItems(
       fakeData.sort(({ data: { value: a } }, { data: { value: b } }) => b.localeCompare(a)),
     );
 
@@ -108,9 +108,11 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expected = mapToListResult([fakeData[5], fakeData[6], fakeData[7]]);
+    const expected = {
+      ...mapToListResultItems([fakeData[5], fakeData[6], fakeData[7]]),
+      total: fakeData.length,
+    };
 
-    // TODO: fix total ??
     actual.should.be.deep.equal(expected);
   });
 
@@ -130,7 +132,7 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expected = mapToListResult([fakeData[1]]);
+    const expected = mapToListResultItems([fakeData[1]]);
 
     actual.should.be.deep.equal(expected);
   });
@@ -151,7 +153,7 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expected = mapToListResult(fakeData.filter((g) => g.data.name !== '1'));
+    const expected = mapToListResultItems(fakeData.filter((g) => g.data.name !== '1'));
 
     actual.should.be.deep.equal(expected);
   });
@@ -189,7 +191,7 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expected = mapToListResult(
+    const expected = mapToListResultItems(
       fakeData.filter((g) => g.data.name.toLowerCase().startsWith('a')),
     );
 
@@ -229,7 +231,7 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expected = mapToListResult(
+    const expected = mapToListResultItems(
       fakeData.filter((g) => g.data.name.toLowerCase().startsWith('a')),
     );
 
@@ -269,7 +271,7 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expected = mapToListResult(
+    const expected = mapToListResultItems(
       fakeData.filter((g) => !g.data.name.toLowerCase().startsWith('a')),
     );
 
@@ -294,7 +296,7 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expected = mapToListResult(
+    const expected = mapToListResultItems(
       fakeData.filter(({ data }) => valuesArray.includes(data.name)),
     );
 
@@ -319,7 +321,7 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expected = mapToListResult(
+    const expected = mapToListResultItems(
       fakeData.filter(({ data }) => !valuesArray.includes(data.name)),
     );
 
