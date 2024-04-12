@@ -2,7 +2,7 @@ import { should } from 'chai';
 import { after, before, beforeEach, describe, it } from 'node:test';
 
 import { Entity, LimitOptions, ListResultV2 } from '@potentiel-domain/core';
-import { flatten, unflatten } from '@potentiel-librairies/flat-cjs';
+import { flatten, unflatten } from '../../../libraries/flat/dist';
 import { executeQuery, killPool } from '@potentiel-librairies/pg-helpers';
 
 import { listProjectionV2 } from './listProjectionV2';

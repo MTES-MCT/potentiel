@@ -7,7 +7,7 @@ import {
   WhereOperator,
   WhereOptions,
 } from '@potentiel-domain/core';
-import { flatten, unflatten } from '@potentiel-librairies/flat-cjs';
+import { flatten, unflatten } from '../../../libraries/flat/dist';
 import { executeSelect } from '@potentiel-librairies/pg-helpers';
 import format from 'pg-format';
 import { KeyValuePair } from './keyValuePair';
@@ -59,9 +59,6 @@ const getLimitClause = ({ next, offset }: LimitOptions) =>
 const getOrderClause = <TEntity extends Entity>(orderBy: OrderByOptions<Omit<TEntity, 'type'>>) => {
   const flattenOrderBy = flatten<typeof orderBy, Record<string, 'ascending' | 'descending'>>(
     orderBy,
-    {
-      safe: true, // TODO : créer un helper pour ça, à la lecture c'est pas clair l'objectif
-    },
   );
 
   return `order by ${Object.entries(flattenOrderBy)
@@ -72,9 +69,7 @@ const getOrderClause = <TEntity extends Entity>(orderBy: OrderByOptions<Omit<TEn
 const getWhereClause = <TEntity extends Entity>(
   where: WhereOptions<Omit<TEntity, 'type'>>,
 ): [clause: string, values: Array<unknown>] => {
-  const rawWhere = flatten<typeof where, Record<string, unknown>>(where, {
-    safe: true, // TODO : créer un helper pour ça, à la lecture c'est pas clair l'objectif
-  });
+  const rawWhere = flatten<typeof where, Record<string, unknown>>(where);
 
   const clause = mapToWhereClause(getWhereOperators(rawWhere));
   const values = getWhereValues(rawWhere);
