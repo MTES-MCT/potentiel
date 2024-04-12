@@ -33,14 +33,14 @@ export const listProjectionV2 = async <TEntity extends Entity>(
     `${category}|%`,
     ...whereValues,
   );
-  const [{ total }] = await executeSelect<{ total: string }>(
+  const [{ total }] = await executeSelect<{ total: number }>(
     count,
     `${category}|%`,
     ...whereValues,
   );
 
   return {
-    total: parseInt(total),
+    total,
     items: result.map(
       ({ key, value }) =>
         ({
@@ -49,7 +49,7 @@ export const listProjectionV2 = async <TEntity extends Entity>(
         } as TEntity),
     ),
     limit: limit ?? {
-      next: parseInt(total),
+      next: total,
       offset: 0,
     },
   };
