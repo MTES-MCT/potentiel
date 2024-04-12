@@ -5,7 +5,8 @@ import { notFound } from 'next/navigation';
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { featureFlags } from '@potentiel-applications/feature-flags';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime } from '@potentiel-domain/common';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -79,7 +80,6 @@ const mapToListProps = (
   readModel: GarantiesFinancières.ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
   utilisateur: Utilisateur.ValueType,
 ): ListProjetsAvecGarantiesFinancièresEnAttenteProps['list'] => {
-  const now = new Date();
   const items = readModel.items.map(
     ({
       identifiantProjet,
@@ -100,7 +100,8 @@ const mapToListProps = (
       misÀJourLe: dernièreMiseÀJour.date.formatter(),
       dateLimiteSoumission: dateLimiteSoumission.formatter(),
       afficherModèleMiseEnDemeure:
-        dateLimiteSoumission.date.getTime() < now.getTime() && utilisateur.role.nom === 'dreal',
+        dateLimiteSoumission.estAntérieurÀ(DateTime.now()) &&
+        utilisateur.role.estÉgaleÀ(Role.dreal),
     }),
   );
 
