@@ -67,20 +67,20 @@ export type NotEqualWhereCondition<T> = { operator: 'notEqual'; value: T };
 export type IncludeWhereCondition<T> = { operator: 'include'; value: Array<T> };
 export type NotIncludeWhereCondition<T> = { operator: 'notInclude'; value: Array<T> };
 
-export type MatchWhereCondition = {
-  operator: 'match';
+export type LikeWhereCondition = {
+  operator: 'like';
   value: `%${string}` | `${string}%` | `%${string}%`;
 };
-export type NotMatchWhereCondition = {
-  operator: 'notMatch';
+export type NotLikeWhereCondition = {
+  operator: 'notLike';
   value: `%${string}` | `${string}%` | `%${string}%`;
 };
 
 export type WhereCondition<T = {}> =
   | EqualWhereCondition<T>
   | NotEqualWhereCondition<T>
-  | MatchWhereCondition
-  | NotMatchWhereCondition
+  | LikeWhereCondition
+  | NotLikeWhereCondition
   | IncludeWhereCondition<T>
   | NotIncludeWhereCondition<T>;
 

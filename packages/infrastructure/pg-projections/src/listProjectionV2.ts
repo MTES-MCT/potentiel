@@ -110,9 +110,9 @@ const mapOperatorToSqlCondition = (value: WhereOperator, index: number) => {
       return `${baseCondition} = $${index + 2}`;
     case 'notEqual':
       return `${baseCondition} <> $${index + 2}`;
-    case 'match':
+    case 'like':
       return `${baseCondition} ILIKE $${index + 2}`;
-    case 'notMatch':
+    case 'notLike':
       return `${baseCondition} NOT ILIKE $${index + 2}`;
     case 'include':
       return `${baseCondition} = ANY($${index + 2})`;

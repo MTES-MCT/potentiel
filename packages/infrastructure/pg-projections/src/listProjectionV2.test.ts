@@ -191,7 +191,7 @@ describe('listProjectionV2', () => {
       where: {
         data: {
           name: {
-            operator: 'match',
+            operator: 'like',
             value: 'a%',
           },
         },
@@ -231,7 +231,7 @@ describe('listProjectionV2', () => {
       where: {
         data: {
           name: {
-            operator: 'match',
+            operator: 'like',
             value: 'a%',
           },
         },
@@ -271,7 +271,7 @@ describe('listProjectionV2', () => {
       where: {
         data: {
           name: {
-            operator: 'notMatch',
+            operator: 'notLike',
             value: 'a%',
           },
         },
