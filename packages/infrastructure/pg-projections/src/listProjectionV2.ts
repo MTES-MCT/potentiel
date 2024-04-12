@@ -4,8 +4,8 @@ import {
   ListOptionsV2,
   ListResultV2,
   OrderByOptions,
+  WhereOperator,
   WhereOptions,
-  isWhereOperator,
 } from '@potentiel-domain/core';
 import { flatten, unflatten } from '@potentiel-librairies/flat-cjs';
 import { executeSelect } from '@potentiel-librairies/pg-helpers';
@@ -77,7 +77,7 @@ const getWhereClause = <TEntity extends Entity>(
   const whereClause = format(
     whereOperators
       .map(
-        ([_, value], index) => mapOperatorToSqlCondition(value as string, index), // TODO as c'est le mal !!!
+        ([_, value], index) => mapOperatorToSqlCondition(value as WhereOperator, index), // TODO as c'est le mal !!!
       )
       .join(' '),
     ...whereOperators.map(([key]) => key.replace('.operator', '')),
@@ -93,27 +93,20 @@ const getWhereClause = <TEntity extends Entity>(
 const getLimitClause = ({ next, offset }: LimitOptions) =>
   format('limit %s offset %s', next, offset);
 
-const mapOperatorToSqlCondition = (value: string, index: number) => {
-  if (isWhereOperator(value)) {
-    const baseCondition = 'and value->>%L';
-    switch (value) {
-      case 'equal':
-        return `${baseCondition} = $${index + 2}`;
-      case 'notEqual':
-        return `${baseCondition} <> $${index + 2}`;
-      case 'match':
-        return `${baseCondition} ILIKE $${index + 2}`;
-      case 'notMatch':
-        return `${baseCondition} NOT ILIKE $${index + 2}`;
-      case 'include':
-        return `${baseCondition} = ANY($${index + 2})`;
-      case 'notInclude':
-        return `${baseCondition} <> ALL($${index + 2})`;
-      default:
-        // TODO: cas limite à traiter
-        return '';
-    }
-  } else {
-    return '';
+const mapOperatorToSqlCondition = (value: WhereOperator, index: number) => {
+  const baseCondition = 'and value->>%L';
+  switch (value) {
+    case 'equal':
+      return `${baseCondition} = $${index + 2}`;
+    case 'notEqual':
+      return `${baseCondition} <> $${index + 2}`;
+    case 'match':
+      return `${baseCondition} ILIKE $${index + 2}`;
+    case 'notMatch':
+      return `${baseCondition} NOT ILIKE $${index + 2}`;
+    case 'include':
+      return `${baseCondition} = ANY($${index + 2})`;
+    case 'notInclude':
+      return `${baseCondition} <> ALL($${index + 2})`;
   }
 };

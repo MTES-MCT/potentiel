@@ -86,19 +86,6 @@ export type WhereCondition<T = {}> =
 
 export type WhereOperator = WhereCondition['operator'];
 
-const operators: Array<WhereOperator> = [
-  'equal',
-  'include',
-  'notInclude',
-  'match',
-  'notEqual',
-  'notMatch',
-];
-
-export const isWhereOperator = (value: string): value is WhereOperator => {
-  return operators.includes(value as WhereOperator);
-};
-
 export type WhereOptions<T> = {
   [P in keyof T]?: T[P] extends string | boolean | number
     ? WhereCondition<T[P]>
