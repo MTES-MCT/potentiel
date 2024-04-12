@@ -73,11 +73,7 @@ describe('listProjectionV2', () => {
     },
   });
 
-  it(`
-    Etant donnée des projections
-    Quand je récupère la liste des projections par catégorie
-    Alors l'ensemble des projections de cette catégorie est retournée sous la forme d'un résultat
-  `, async () => {
+  it('should find projections by their key', async () => {
     const actual = await listProjectionV2<FakeProjection>('fake-projection');
 
     const expected = mapToListResultItems(fakeData);
@@ -85,11 +81,7 @@ describe('listProjectionV2', () => {
     actual.should.be.deep.equal(expected);
   });
 
-  it(`
-    Etant donnée des projections
-    Quand je récupère la liste des projections par catégorie en triant par une propriété descendante
-    Alors l'ensemble des projections de cette catégorie est retournée sous la forme d'un résultat trié par ordre de nom descendant
-  `, async () => {
+  it('should find projections by their key and sort them according to an order option', async () => {
     const actual = await listProjectionV2<FakeProjection>('fake-projection', {
       orderBy: {
         data: {
@@ -106,11 +98,7 @@ describe('listProjectionV2', () => {
     actual.should.be.deep.equal(expected);
   });
 
-  it(`
-    Etant donnée des projections
-    Quand je récupère la liste des projections par catégorie avec une limite du nombre de ligne retournée
-    Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération la limite
-  `, async () => {
+  it('should find projections by their key and limiting them according to a range option', async () => {
     const range: RangeOptions = {
       startPosition: 5,
       endPosition: 9,
@@ -129,9 +117,7 @@ describe('listProjectionV2', () => {
     actual.should.be.deep.equal(expected);
   });
 
-  it(`
-    it should throw when start position is negative
-  `, async () => {
+  it('should throw when range start position is negative', async () => {
     const range: RangeOptions = {
       startPosition: -1,
       endPosition: 1,
@@ -151,9 +137,7 @@ describe('listProjectionV2', () => {
     error.message.should.be.equal('Start position must be a positive value');
   });
 
-  it(`
-    it should throw when end position is negative
-  `, async () => {
+  it('should throw when range end position is negative', async () => {
     const range: RangeOptions = {
       startPosition: 1,
       endPosition: -1,
@@ -173,9 +157,7 @@ describe('listProjectionV2', () => {
     error.message.should.be.equal('End position must be a positive value');
   });
 
-  it(`
-    it should throw when start position is greater than end position
-  `, async () => {
+  it('should throw when range start position is greater than end position', async () => {
     const range: RangeOptions = {
       startPosition: 2,
       endPosition: 1,
@@ -195,9 +177,7 @@ describe('listProjectionV2', () => {
     error.message.should.be.equal('Start position must be greater than end position value');
   });
 
-  it(`
-    it should throw when start position is equal to end position
-  `, async () => {
+  it('should throw when range start position is equal to end position', async () => {
     const range: RangeOptions = {
       startPosition: 1,
       endPosition: 1,
@@ -217,11 +197,7 @@ describe('listProjectionV2', () => {
     error.message.should.be.equal('Start and end position values can not be the same');
   });
 
-  it(`
-    Etant donnée des projections
-    Quand je récupère la liste des projections par catégorie avec un filtre strict
-    Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération le filtre strict
-  `, async () => {
+  it('should find projections by their key and filter them according to an equal condition option', async () => {
     const actual = await listProjectionV2<FakeProjection>('fake-projection', {
       where: {
         data: {
@@ -238,11 +214,7 @@ describe('listProjectionV2', () => {
     actual.should.be.deep.equal(expected);
   });
 
-  it(`
-    Etant donnée des projections
-    Quand je récupère la liste des projections par catégorie avec un filtre strict exclusif
-    Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération le filtre strict exclusif
-  `, async () => {
+  it('should find projections by their key and filter them according to an not equal condition option', async () => {
     const actual = await listProjectionV2<FakeProjection>('fake-projection', {
       where: {
         data: {
@@ -259,11 +231,7 @@ describe('listProjectionV2', () => {
     actual.should.be.deep.equal(expected);
   });
 
-  it(`
-    Etant donnée des projections
-    Quand je récupère la liste des projections par catégorie avec un filtre de recherche insensible à la casse 
-    Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération le filtre de recherche sans sensibilité à la casse
-  `, async () => {
+  it('should find projections by their key and filter them according to a like condition option', async () => {
     const insensitiveCaseFakeData = {
       data: {
         value: 'a random value',
@@ -299,51 +267,7 @@ describe('listProjectionV2', () => {
     actual.should.be.deep.equal(expected);
   });
 
-  it(`
-    Etant donnée des projections
-    Quand je récupère la liste des projections par catégorie avec un filtre de recherche insensible à la casse 
-    Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération le filtre de recherche sans sensibilité à la casse
-  `, async () => {
-    const insensitiveCaseFakeData = {
-      data: {
-        value: 'a random value',
-        name: 'A RANDOM NAME',
-      },
-    };
-
-    fakeData.push(insensitiveCaseFakeData);
-
-    await executeQuery(
-      `insert
-        into domain_views.projection
-        values ($1, $2)`,
-      `fake-projection|${insensitiveCaseFakeData.data.value}`,
-      flatten(insensitiveCaseFakeData),
-    );
-
-    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
-      where: {
-        data: {
-          name: {
-            operator: 'like',
-            value: 'a%',
-          },
-        },
-      },
-    });
-
-    const expected = mapToListResultItems(
-      fakeData.filter((g) => g.data.name.toLowerCase().startsWith('a')),
-    );
-
-    actual.should.be.deep.equal(expected);
-  });
-
-  it(`
-    Etant donnée des projections
-    Quand je récupère la liste des projections par catégorie avec un filtre de recherche insensible à la casse sélectif
-    Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération le filtre de recherche sans sensibilité à la casse sélectif
-  `, async () => {
+  it('should find projections by their key and filter them according to a not like condition option', async () => {
     const insensitiveCaseFakeData = {
       data: {
         value: 'a random value',
@@ -379,11 +303,7 @@ describe('listProjectionV2', () => {
     actual.should.be.deep.equal(expected);
   });
 
-  it(`
-    Etant donnée des projections
-    Quand je récupère la liste des projections par catégorie dont une valeur est inclue dans une liste des valeurs 
-    Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération l'inclusion de la valeur dans la liste
-  `, async () => {
+  it('should find projections by their key and filter them according to a include condition option', async () => {
     const valuesArray = ['1', '2'];
 
     const actual = await listProjectionV2<FakeProjection>('fake-projection', {
@@ -404,11 +324,7 @@ describe('listProjectionV2', () => {
     actual.should.be.deep.equal(expected);
   });
 
-  it(`
-    Etant donnée des projections
-    Quand je récupère la liste des projections par catégorie dont une valeur n'est pas incluse dans une liste des valeurs 
-    Alors les projections de cette catégorie dont la valeur est non incluse dans la liste sont retournées
-  `, async () => {
+  it('should find projections by their key and filter them according to a not include condition option', async () => {
     const valuesArray = ['1', '2'];
 
     const actual = await listProjectionV2<FakeProjection>('fake-projection', {
