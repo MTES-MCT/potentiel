@@ -48,6 +48,10 @@ export const listProjectionV2 = async <TEntity extends Entity>(
           type: key.split('|')[0],
         } as TEntity),
     ),
+    limit: limit ?? {
+      next: parseInt(total),
+      offset: 0,
+    },
   };
 };
 

@@ -1,7 +1,7 @@
 import { should } from 'chai';
 import { after, before, beforeEach, describe, it } from 'node:test';
 
-import { Entity, ListResultV2 } from '@potentiel-domain/core';
+import { Entity, LimitOptions, ListResultV2 } from '@potentiel-domain/core';
 import { flatten, unflatten } from '@potentiel-librairies/flat-cjs';
 import { executeQuery, killPool } from '@potentiel-librairies/pg-helpers';
 
@@ -61,6 +61,10 @@ describe('listProjectionV2', () => {
       ...unflatten(g),
       type: 'fake-projection',
     })),
+    limit: {
+      next: expectedData.length,
+      offset: 0,
+    },
   });
 
   it(`
@@ -101,16 +105,19 @@ describe('listProjectionV2', () => {
     Quand je récupère la liste des projections par catégorie avec une limite du nombre de ligne retournée
     Alors l'ensemble des projections de cette catégorie est retournée en prenant en considération la limite
   `, async () => {
+    const limit: LimitOptions = {
+      offset: 5,
+      next: 3,
+    };
+
     const actual = await listProjectionV2<FakeProjection>('fake-projection', {
-      limit: {
-        offset: 5,
-        next: 3,
-      },
+      limit,
     });
 
     const expected = {
       ...mapToListResultItems([fakeData[5], fakeData[6], fakeData[7]]),
       total: fakeData.length,
+      limit,
     };
 
     actual.should.be.deep.equal(expected);

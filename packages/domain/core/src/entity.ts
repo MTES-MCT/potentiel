@@ -113,6 +113,7 @@ export type ListOptionsV2<TEntity extends Entity> = {
 export type ListResultV2<TEntity extends Entity> = {
   total: number;
   items: ReadonlyArray<TEntity>;
+  limit: LimitOptions;
 };
 
 export type ListV2 = <TEntity extends Entity>(
