@@ -6,22 +6,22 @@ import { FC } from 'react';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 
 import {
-  GarantiesFinancièresDépôtsEnCoursListItem,
-  GarantiesFinancièresDépôtsEnCoursListItemProps,
-} from './GarantiesFinancièresListItem';
+  ListItemDépôtEnCoursGarantiesFinancières,
+  ListItemDépôtEnCoursGarantiesFinancièresProps,
+} from './ListItemDépôtEnCoursGarantiesFinancières';
 
-export type GarantiesFinancièresDépôtsEnCoursListProps = {
+export type ListDépôtsEnCoursGarantiesFinancièresProps = {
   list: {
-    items: Array<GarantiesFinancièresDépôtsEnCoursListItemProps>;
+    items: Array<ListItemDépôtEnCoursGarantiesFinancièresProps>;
     currentPage: number;
     totalItems: number;
     itemsPerPage: number;
   };
-  filters: ListPageTemplateProps<GarantiesFinancièresDépôtsEnCoursListItemProps>['filters'];
+  filters: ListPageTemplateProps<ListItemDépôtEnCoursGarantiesFinancièresProps>['filters'];
 };
 
-export const GarantiesFinancièresDépôtsEnCoursListPage: FC<
-  GarantiesFinancièresDépôtsEnCoursListProps
+export const ListDépôtsEnCoursGarantiesFinancièresPage: FC<
+  ListDépôtsEnCoursGarantiesFinancièresProps
 > = ({ list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage }, filters }) => {
   const searchParams = useSearchParams();
   const appelOffre = searchParams.get('appelOffre') ?? undefined;
@@ -48,7 +48,7 @@ export const GarantiesFinancièresDépôtsEnCoursListPage: FC<
       currentPage={currentPage}
       totalItems={totalItems}
       itemsPerPage={itemsPerPage}
-      ItemComponent={GarantiesFinancièresDépôtsEnCoursListItem}
+      ItemComponent={ListItemDépôtEnCoursGarantiesFinancières}
       tagFilters={tagFilters}
       filters={filters}
     />

@@ -16,6 +16,7 @@ const selectCandidatureQuery = `
     'famille', "familleId",
     'numéroCRE', "numeroCRE",
     'localité', json_build_object(
+        'adresse', "adresseProjet",
         'commune', "communeProjet",
         'département', "departementProjet",
         'région', "regionProjet",
@@ -66,6 +67,7 @@ const selectCandidaturesEligiblesPreuveRecanditureQuery = `
     'famille', p."familleId",
     'numéroCRE', p."numeroCRE",
     'localité', json_build_object(
+        'adresse', p."adresseProjet",
         'commune', p."communeProjet",
         'département', p."departementProjet",
         'région', p."regionProjet",

@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
+
 import {
   SoumettreGarantiesFinancièresPage,
   SoumettreGarantiesFinancièresProps,
@@ -16,20 +18,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const typesGarantiesFinancières: SoumettreGarantiesFinancièresProps['typesGarantiesFinancières'] = [
-  {
-    label: 'Consignation',
-    value: 'consignation',
-  },
-  {
-    label: "Avec date d'échéance",
-    value: 'avec-date-échéance',
-  },
-  {
-    label: 'Six mois après achèvement',
-    value: 'six-mois-après-achèvement',
-  },
-];
+const typesGarantiesFinancières: SoumettreGarantiesFinancièresProps['typesGarantiesFinancières'] =
+  typesGarantiesFinancièresSansInconnuPourFormulaire;
 
 const projet: SoumettreGarantiesFinancièresProps['projet'] = {
   identifiantProjet: 'identifiantProjet#1',

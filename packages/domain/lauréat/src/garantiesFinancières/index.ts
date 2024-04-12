@@ -17,16 +17,44 @@ import { ModifierGarantiesFinancièresUseCase } from './modifier/modifierGaranti
 import { EnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
 import { EnregistrerGarantiesFinancièresUseCase } from './enregistrer/enregistrerGarantiesFinancières.usecase';
 import { EffacerHistoriqueGarantiesFinancièresUseCase } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.usecase';
+import {
+  ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
+  ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
+} from './enAttente/lister/listerProjetsAvecGarantiesFinancièresEnAttente.query';
+import {
+  ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery,
+  ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel,
+} from './enAttente/consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
+import {
+  GénérerModèleMiseEnDemeureGarantiesFinancièresQuery,
+  GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel,
+} from './générerModèleMiseEnDemeure/générerModèleMiseEnDemeure.query';
 
 // Query
 export type GarantiesFinancièresQuery =
   | ConsulterGarantiesFinancièresQuery
-  | ListerDépôtsEnCoursGarantiesFinancièresQuery;
+  | ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery
+  | ListerDépôtsEnCoursGarantiesFinancièresQuery
+  | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery
+  | ListerDépôtsEnCoursGarantiesFinancièresQuery
+  | GénérerModèleMiseEnDemeureGarantiesFinancièresQuery;
 
-export { ConsulterGarantiesFinancièresQuery, ListerDépôtsEnCoursGarantiesFinancièresQuery };
+export {
+  ConsulterGarantiesFinancièresQuery,
+  ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery,
+  ListerDépôtsEnCoursGarantiesFinancièresQuery,
+  ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
+  GénérerModèleMiseEnDemeureGarantiesFinancièresQuery,
+};
 
 // ReadModel
-export { ConsulterGarantiesFinancièresReadModel, ListerDépôtsEnCoursGarantiesFinancièresReadModel };
+export {
+  ConsulterGarantiesFinancièresReadModel,
+  ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel,
+  ListerDépôtsEnCoursGarantiesFinancièresReadModel,
+  ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
+  GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel,
+};
 
 // UseCases
 export type GarantiesFinancièresUseCase =
@@ -65,6 +93,7 @@ export { TypeGarantiesFinancièresImportéEvent } from './importer/importerTypeG
 export { GarantiesFinancièresModifiéesEvent } from './modifier/modifierGarantiesFinancières.behavior';
 export { AttestationGarantiesFinancièresEnregistréeEvent } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
 export { HistoriqueGarantiesFinancièresEffacéEvent } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.behavior';
+export { GarantiesFinancièresEnregistréesEvent } from './enregistrer/enregistrerGarantiesFinancières.behavior';
 
 // Register
 export {
@@ -82,3 +111,7 @@ export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinan
 // Projections
 export * from './garantiesFinancières.entity';
 export * from './dépôtEnCoursGarantiesFinancières.entity';
+export * from './projetAvecGarantiesFinancièresEnAttente.entity';
+
+// Ports
+export { BuildModèleMiseEnDemeureGarantiesFinancièresPort } from './générerModèleMiseEnDemeure/générerModèleMiseEnDemeure.query';

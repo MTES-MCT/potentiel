@@ -27,9 +27,16 @@ import {
 } from './dépôt/lister/listerDépôtsEnCoursGarantiesFinancières.query';
 import { registerEffacerHistoriqueGarantiesFinancièresCommand } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.command';
 import { registerEffacerHistoriqueGarantiesFinancièresUseCase } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.usecase';
+import { registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery } from './enAttente/lister/listerProjetsAvecGarantiesFinancièresEnAttente.query';
+import { registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery } from './enAttente/consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
+import {
+  GénérerModèleMiseEnDemeureGarantiesFinancièresDependencies,
+  registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery,
+} from './générerModèleMiseEnDemeure/générerModèleMiseEnDemeure.query';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
-  ListerDépôtsEnCoursGarantiesFinancièresDependencies;
+  ListerDépôtsEnCoursGarantiesFinancièresDependencies &
+  GénérerModèleMiseEnDemeureGarantiesFinancièresDependencies;
 
 export type GarantiesFinancièresCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -65,5 +72,8 @@ export const registerGarantiesFinancièresQueries = (
   dependencies: GarantiesFinancièresQueryDependencies,
 ) => {
   registerConsulterGarantiesFinancièresQuery(dependencies);
+  registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery(dependencies);
   registerListerDépôtsEnCoursGarantiesFinancièresQuery(dependencies);
+  registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery(dependencies);
+  registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery(dependencies);
 };

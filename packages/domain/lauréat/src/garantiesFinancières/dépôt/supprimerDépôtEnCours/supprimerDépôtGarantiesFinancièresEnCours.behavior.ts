@@ -4,6 +4,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError } from '../../aucunDépôtEnCoursGarantiesFinancièresPourLeProjet.error';
+import { GarantiesFinancièresDemandéesEvent } from '../../demander/demanderGarantiesFinancières.behavior';
 
 export type DépôtGarantiesFinancièresEnCoursSuppriméEvent = DomainEvent<
   'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
@@ -35,8 +36,20 @@ export async function supprimerDépôtGarantiesFinancièresEnCours(
       suppriméPar: suppriméPar.formatter(),
     },
   };
-
   await this.publish(event);
+
+  if (this.dateLimiteSoumission) {
+    const event: GarantiesFinancièresDemandéesEvent = {
+      type: 'GarantiesFinancièresDemandées-V1',
+      payload: {
+        identifiantProjet: identifiantProjet.formatter(),
+        demandéLe: suppriméLe.formatter(),
+        dateLimiteSoumission: this.dateLimiteSoumission.formatter(),
+        motif: this.motifDemandeGarantiesFinancières.motif,
+      },
+    };
+    await this.publish(event);
+  }
 }
 
 export function applyDépôtGarantiesFinancièresEnCoursSupprimé(this: GarantiesFinancièresAggregate) {

@@ -40,6 +40,11 @@ export const register = () => {
           `depot-en-cours-garanties-financieres|${identifiantProjet}`,
         );
 
+      const projetAvecGarantiesFinancièresEnAttente =
+        await findProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
+          `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
+        );
+
       const garantiesFinancièresDefaultValue: Omit<
         GarantiesFinancières.GarantiesFinancièresEntity,
         'type'
@@ -80,12 +85,22 @@ export const register = () => {
         },
       };
 
-      const dépôtEnCoursGarantiesFinancièresToUpsert: Omit<
-        GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity,
+      const projetAvecGarantiesFinancièresEnAttenteDefaultValue: Omit<
+        GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity,
         'type'
-      > = Option.isSome(dépôtEnCoursGarantiesFinancières)
-        ? dépôtEnCoursGarantiesFinancières
-        : dépôtEnCoursGarantiesFinancièresDefaultValue;
+      > = {
+        identifiantProjet,
+        nomProjet: '',
+        appelOffre: '',
+        période: '',
+        famille: '',
+        régionProjet: '',
+        motif: '',
+        dernièreMiseÀJour: {
+          date: '',
+        },
+        dateLimiteSoumission: '',
+      };
 
       const garantiesFinancièresToUpsert: Omit<
         GarantiesFinancières.GarantiesFinancièresEntity,
@@ -93,6 +108,20 @@ export const register = () => {
       > = Option.isSome(garantiesFinancières)
         ? garantiesFinancières
         : garantiesFinancièresDefaultValue;
+
+      const dépôtEnCoursGarantiesFinancièresToUpsert: Omit<
+        GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity,
+        'type'
+      > = Option.isSome(dépôtEnCoursGarantiesFinancières)
+        ? dépôtEnCoursGarantiesFinancières
+        : dépôtEnCoursGarantiesFinancièresDefaultValue;
+
+      const projetAvecGarantiesFinancièresEnAttenteToUpsert: Omit<
+        GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity,
+        'type'
+      > = Option.isSome(projetAvecGarantiesFinancièresEnAttente)
+        ? projetAvecGarantiesFinancièresEnAttente
+        : projetAvecGarantiesFinancièresEnAttenteDefaultValue;
 
       const getProjectData = async (identifiantProjet: IdentifiantProjet.RawType) => {
         const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
@@ -114,6 +143,26 @@ export const register = () => {
       const projet = await getProjectData(identifiantProjet);
 
       switch (type) {
+        case 'GarantiesFinancièresDemandées-V1':
+          await upsertProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
+            `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
+            {
+              ...projetAvecGarantiesFinancièresEnAttenteToUpsert,
+              identifiantProjet: payload.identifiantProjet,
+              nomProjet: projet.nomProjet,
+              appelOffre: projet.appelOffre,
+              période: projet.période,
+              famille: projet.famille,
+              régionProjet: projet.régionProjet,
+              motif: payload.motif ?? '',
+              dateLimiteSoumission: payload.dateLimiteSoumission,
+              dernièreMiseÀJour: {
+                date: payload.demandéLe,
+              },
+            },
+          );
+          break;
+
         case 'DépôtGarantiesFinancièresSoumis-V1':
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
@@ -156,6 +205,10 @@ export const register = () => {
                 },
               },
             },
+          );
+
+          await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
+            `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
           );
           break;
 
@@ -355,6 +408,10 @@ export const register = () => {
                 },
               },
             },
+          );
+
+          await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
+            `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
           );
           break;
 

@@ -14,7 +14,10 @@ import {
   listerAbandonsPourPorteurAdapter,
   récupérerRégionDreal,
 } from '@potentiel-infrastructure/domain-adapters';
-import { getModèleRéponseAbandon } from '@potentiel-infrastructure/document-builder';
+import {
+  getModèleRéponseAbandon,
+  getModèleMiseEnDemeureGarantiesFinancières,
+} from '@potentiel-infrastructure/document-builder';
 
 registerLauréatQueries({
   find: findProjection,
@@ -24,6 +27,7 @@ registerLauréatQueries({
   buildModèleRéponseAbandon: getModèleRéponseAbandon,
   listerAbandons: listerAbandonsAdapter,
   récupérerRégionDreal: récupérerRégionDreal,
+  buildModèleMiseEnDemeureGarantiesFinancières: getModèleMiseEnDemeureGarantiesFinancières,
 });
 
 registerLauréatUseCases({

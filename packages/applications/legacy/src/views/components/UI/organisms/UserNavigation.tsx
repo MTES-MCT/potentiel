@@ -6,9 +6,36 @@ import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupére
 import { Routes } from '@potentiel-applications/routes';
 import { featureFlags } from '@potentiel-applications/feature-flags';
 
-const routeListeGarantiesFinancières = featureFlags.SHOW_GARANTIES_FINANCIERES
-  ? Routes.GarantiesFinancières.dépôt.lister
-  : routes.ADMIN_GARANTIES_FINANCIERES;
+// const routeListeGarantiesFinancières = featureFlags.SHOW_GARANTIES_FINANCIERES
+//   ? Routes.GarantiesFinancières.dépôt.lister
+//   : routes.ADMIN_GARANTIES_FINANCIERES;
+
+const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) =>
+  featureFlags.SHOW_GARANTIES_FINANCIERES ? (
+    <DropdownMenu buttonChildren={'Garanties financières'}>
+      <DropdownMenu.DropdownItem
+        href={Routes.GarantiesFinancières.dépôt.lister}
+        {...(currentPage === 'list-garanties-financieres' && { isCurrent: true })}
+      >
+        Garanties financières en cours
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={Routes.GarantiesFinancières.enAttente.lister}
+        {...(currentPage === 'list-projet-garanties-financieres-en-attente' && {
+          isCurrent: true,
+        })}
+      >
+        Projets avec garanties financières en attente
+      </DropdownMenu.DropdownItem>
+    </DropdownMenu>
+  ) : (
+    <Header.MenuItem
+      href={routes.ADMIN_GARANTIES_FINANCIERES}
+      {...(currentPage === 'list-garanties-financieres' && { isCurrent: true })}
+    >
+      Garanties Financières
+    </Header.MenuItem>
+  );
 
 export const UserNavigation = ({
   user,
@@ -27,7 +54,6 @@ export const UserNavigation = ({
     case 'dreal':
       return MenuDreal(currentPage);
     case 'admin':
-      return MenuAdmin(currentPage);
     case 'dgec-validateur':
       return MenuAdmin(currentPage);
     case 'cre':
@@ -91,12 +117,7 @@ const MenuAdmin = (currentPage?: string) => (
         Abandons
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
-    <Header.MenuItem
-      href={routeListeGarantiesFinancières}
-      {...(currentPage === 'list-garanties-financieres' && { isCurrent: true })}
-    >
-      Garanties Financières
-    </Header.MenuItem>
+    <MenuGarantiesFinancières currentPage={currentPage} />
     <DropdownMenu buttonChildren={'Imports'}>
       <DropdownMenu.DropdownItem
         href={routes.IMPORT_PROJECTS}
@@ -275,11 +296,6 @@ const MenuDreal = (currentPage?: string) => (
         Abandons
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
-    <Header.MenuItem
-      href={routeListeGarantiesFinancières}
-      {...(currentPage === 'list-garanties-financieres' && { isCurrent: true })}
-    >
-      Garanties Financières
-    </Header.MenuItem>
+    <MenuGarantiesFinancières currentPage={currentPage} />
   </>
 );

@@ -5,6 +5,7 @@ export const types = [
   'abandon.confirmer',
   'abandon.transmettre-preuve-recandidature',
   'raccordement.référence-non-transmise',
+  'garanties-financières.demander',
 ];
 
 export type RawType = (typeof types)[number];
@@ -39,6 +40,8 @@ export const abandonTransmettrePreuveRecandidature = convertirEnValueType(
 export const raccordementRéférenceNonTransmise = convertirEnValueType(
   'raccordement.référence-non-transmise',
 );
+
+export const garantiesFinancieresDemander = convertirEnValueType('garanties-financières.demander');
 
 class TypeTâcheInvalideError extends InvalidOperationError {
   constructor(value: string) {

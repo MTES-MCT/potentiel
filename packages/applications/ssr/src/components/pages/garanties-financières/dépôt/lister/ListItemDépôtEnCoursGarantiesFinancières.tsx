@@ -1,52 +1,26 @@
 import { FC } from 'react';
-import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
+import Badge from '@codegouvfr/react-dsfr/Badge';
 
 import { Routes } from '@potentiel-applications/routes';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { formatDateForText } from '@/utils/formatDateForText';
 
-import { DépôtStatut } from '../../détails/components/GarantiesFinancièresHistoriqueDépôts';
-
-export type GarantiesFinancièresDépôtsEnCoursListItemProps = {
+export type ListItemDépôtEnCoursGarantiesFinancièresProps = {
   identifiantProjet: string;
   nomProjet: string;
   appelOffre: string;
   période: string;
   famille?: string;
-  statut: DépôtStatut;
+  statut: GarantiesFinancières.StatutDépôtGarantiesFinancières.RawType;
   type: string;
   dateÉchéance?: string;
   misÀJourLe: string;
   régionProjet: string;
 };
 
-const GarantiesFinancièresStatusBadge = ({
-  statut,
-}: {
-  statut: GarantiesFinancièresDépôtsEnCoursListItemProps['statut'];
-}) => {
-  const getSeverity = (
-    statut: GarantiesFinancièresDépôtsEnCoursListItemProps['statut'],
-  ): BadgeProps['severity'] => {
-    switch (statut) {
-      case 'en-cours':
-        return 'new';
-      case 'rejeté':
-        return 'error';
-      case 'validé':
-        return 'success';
-    }
-  };
-
-  return (
-    <Badge noIcon severity={getSeverity(statut)} small={true}>
-      {statut}
-    </Badge>
-  );
-};
-
-export const GarantiesFinancièresDépôtsEnCoursListItem: FC<
-  GarantiesFinancièresDépôtsEnCoursListItemProps
+export const ListItemDépôtEnCoursGarantiesFinancières: FC<
+  ListItemDépôtEnCoursGarantiesFinancièresProps
 > = ({
   identifiantProjet,
   nomProjet,
@@ -64,7 +38,9 @@ export const GarantiesFinancièresDépôtsEnCoursListItem: FC<
       <div className="flex flex-col gap-1">
         <h2 className="leading-4">
           Garanties financières du projet <span className="font-bold mr-3">{nomProjet}</span>{' '}
-          <GarantiesFinancièresStatusBadge statut={statut} />
+          <Badge noIcon severity={'new'} small={true}>
+            {statut}
+          </Badge>
         </h2>
         <div className="flex flex-col md:flex-row gap-2 md:gap-0 italic text-xs">
           <div>

@@ -17,6 +17,7 @@ export type ConsulterCandidatureReadModel = {
   statut: StatutProjet.RawType;
   nom: string;
   localité: {
+    adresse: string;
     commune: string;
     département: string;
     région: string;
