@@ -227,7 +227,7 @@ Alors(
 );
 
 Alors(
-  `les garanties financières à traiter du projet {string} devraient être supprimées de la liste des garanties financières à traiter`,
+  `les garanties financières à traiter du projet {string} ne devraient plus être consultable dans la liste des garanties financières à traiter`,
   async function (this: PotentielWorld, nomProjet: string) {
     await waitForExpect(async () => {
       const actualReadModel =

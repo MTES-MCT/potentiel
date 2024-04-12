@@ -4,6 +4,7 @@ Fonctionnalité: Supprimer des garanties financières en attente de validation
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
 
+    @select
     Plan du Scénario: Un porteur supprime des garanties financières avec une date limite de soumission après les avoir soumises
         Etant donné des garanties financières en attente pour le projet "Centrale PV" avec :
             | date limite de soumission | 2023-11-01                      |
@@ -19,7 +20,7 @@ Fonctionnalité: Supprimer des garanties financières en attente de validation
             | soumis par           | porteur@test.test      |
         Quand le porteur supprime les garanties financières à traiter pour le projet "Centrale PV"    
         Alors il ne devrait pas y avoir de garanties financières à traiter pour le projet "Centrale PV"
-        Et les garanties financières à traiter du projet "Centrale PV" devraient être supprimées de la liste des garanties financières à traiter
+        Et les garanties financières à traiter du projet "Centrale PV" ne devraient plus être consultable dans la liste des garanties financières à traiter
         Et des garanties financières devraient être attendues pour le projet "Centrale PV" avec :
             | date limite de soumission | 2023-11-01                      |
             | motif                     | <motif>                         |

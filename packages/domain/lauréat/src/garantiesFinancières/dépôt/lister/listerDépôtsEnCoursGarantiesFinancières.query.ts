@@ -68,6 +68,9 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
   }) => {
     let région: string | undefined = undefined;
 
+    /**
+     * @todo on devrait passer uniquement la région dans la query et pas les infos utilisateur pour le déterminer
+     */
     if (rôle === Role.dreal.nom) {
       const régionDreal = await récupérerRégionDreal(email);
       if (Option.isNone(régionDreal)) {

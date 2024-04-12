@@ -38,7 +38,7 @@ export async function supprimerDépôtGarantiesFinancièresEnCours(
   };
   await this.publish(event);
 
-  if (this.dateLimiteSoumission && this.motifDemandeGarantiesFinancières) {
+  if (this.dateLimiteSoumission) {
     const event: GarantiesFinancièresDemandéesEvent = {
       type: 'GarantiesFinancièresDemandées-V1',
       payload: {

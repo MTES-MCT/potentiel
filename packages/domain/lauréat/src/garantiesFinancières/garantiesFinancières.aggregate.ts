@@ -87,7 +87,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     soumisLe: DateTime.ValueType;
     attestation?: { format: string };
   }>;
-  motifDemandeGarantiesFinancières?: MotifDemandeGarantiesFinancières.ValueType;
+  motifDemandeGarantiesFinancières: MotifDemandeGarantiesFinancières.ValueType;
   dateLimiteSoumission?: DateTime.ValueType;
   readonly soumettreDépôt: typeof soumettreDépôt;
   readonly demanderGarantiesFinancières: typeof demanderGarantiesFinancières;
@@ -116,6 +116,7 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   enregistrerAttestation,
   enregistrer,
   effacerHistorique,
+  motifDemandeGarantiesFinancières: MotifDemandeGarantiesFinancières.motifInconnu,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
