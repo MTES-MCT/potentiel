@@ -5,7 +5,7 @@ import { Entity, RangeOptions, ListResultV2 } from '@potentiel-domain/core';
 import { flatten, unflatten } from '../../../libraries/flat/dist';
 import { executeQuery, killPool } from '@potentiel-librairies/pg-helpers';
 
-import { listProjectionV2 } from './listProjectionV2';
+import { NegativeStartPositionError, listProjectionV2 } from './listProjectionV2';
 
 should();
 
@@ -121,6 +121,28 @@ describe('listProjectionV2', () => {
     };
 
     actual.should.be.deep.equal(expected);
+  });
+
+  it(`
+    it should throw when start position is negative
+  `, async () => {
+    const range: RangeOptions = {
+      startPosition: -1,
+      endPosition: 1,
+    };
+
+    let error = new Error();
+
+    try {
+      await listProjectionV2<FakeProjection>('fake-projection', {
+        range: range,
+      });
+    } catch (e) {
+      error = e as Error;
+    }
+
+    error.should.be.instanceOf(NegativeStartPositionError);
+    error.message.should.be.equal('Start position must be a positive value');
   });
 
   it(`
