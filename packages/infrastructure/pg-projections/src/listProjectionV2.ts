@@ -57,6 +57,10 @@ const getRangeClause = ({ endPosition, startPosition }: RangeOptions) => {
   if (startPosition < 0) {
     throw new NegativeStartPositionError();
   }
+
+  if (endPosition < 0) {
+    throw new NegativeEndPositionError();
+  }
   const limit = endPosition - startPosition + 1;
   const offset = startPosition;
   return format('limit %s offset %s', limit, offset);
@@ -125,5 +129,11 @@ const mapOperatorToSqlCondition = (value: WhereOperator, index: number) => {
 export class NegativeStartPositionError extends Error {
   constructor() {
     super('Start position must be a positive value');
+  }
+}
+
+export class NegativeEndPositionError extends Error {
+  constructor() {
+    super('End position must be a positive value');
   }
 }
