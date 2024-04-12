@@ -4,7 +4,7 @@ import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { CommonError, CommonPort } from '@potentiel-domain/common';
 import { Option } from '@potentiel-librairies/monads';
-import { périodeNonIdentifiéError } from '../périodeNonIdentifiéError.error';
+import { PériodeNonIdentifiéError } from '../périodeNonIdentifiéError.error';
 import { ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery } from '../enAttente/consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
 
 export type GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel = {
@@ -91,7 +91,7 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
     );
 
     if (!détailPériode) {
-      throw new périodeNonIdentifiéError();
+      throw new PériodeNonIdentifiéError();
     }
 
     const détailFamille = appelOffres.familles.find(
