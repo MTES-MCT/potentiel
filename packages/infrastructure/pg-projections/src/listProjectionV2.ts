@@ -53,6 +53,9 @@ export const listProjectionV2 = async <TEntity extends Entity>(
   };
 };
 
+const getLimitClause = ({ next, offset }: LimitOptions) =>
+  format('limit %s offset %s', next, offset);
+
 const getOrderClause = <TEntity extends Entity>(orderBy: OrderByOptions<Omit<TEntity, 'type'>>) => {
   const flattenOrderBy = flatten<typeof orderBy, Record<string, 'ascending' | 'descending'>>(
     orderBy,
@@ -69,29 +72,36 @@ const getOrderClause = <TEntity extends Entity>(orderBy: OrderByOptions<Omit<TEn
 const getWhereClause = <TEntity extends Entity>(
   where: WhereOptions<Omit<TEntity, 'type'>>,
 ): [clause: string, values: Array<unknown>] => {
-  const flattenWhere = flatten<typeof where, Record<string, unknown>>(where, {
+  const rawWhere = flatten<typeof where, Record<string, unknown>>(where, {
     safe: true, // TODO : créer un helper pour ça, à la lecture c'est pas clair l'objectif
   });
-  const whereOperators = Object.entries(flattenWhere).filter(([key]) => key.endsWith('.operator'));
 
-  const whereClause = format(
-    whereOperators
-      .map(
-        ([_, value], index) => mapOperatorToSqlCondition(value as WhereOperator, index), // TODO as c'est le mal !!!
-      )
-      .join(' '),
-    ...whereOperators.map(([key]) => key.replace('.operator', '')),
-  );
+  const clause = mapToWhereClause(getWhereOperators(rawWhere));
+  const values = getWhereValues(rawWhere);
 
-  const whereValues = Object.entries(flattenWhere)
+  return [clause, values];
+};
+
+const getWhereValues = (flattenWhere: Record<string, unknown>) =>
+  Object.entries(flattenWhere)
     .filter(([key]) => key.endsWith('.value'))
     .map(([_, value]) => value);
 
-  return [whereClause, whereValues];
-};
+const getWhereOperators = (flattenWhere: Record<string, unknown>) =>
+  Object.entries(flattenWhere)
+    .filter(([key]) => key.endsWith('.operator'))
+    .map(([key, value]) => {
+      return {
+        name: key.replace('.operator', ''),
+        operator: value as WhereOperator,
+      };
+    });
 
-const getLimitClause = ({ next, offset }: LimitOptions) =>
-  format('limit %s offset %s', next, offset);
+const mapToWhereClause = (operators: Array<{ name: string; operator: WhereOperator }>) =>
+  format(
+    operators.map(({ operator }, index) => mapOperatorToSqlCondition(operator, index)).join(' '),
+    ...operators.map(({ name }) => name),
+  );
 
 const mapOperatorToSqlCondition = (value: WhereOperator, index: number) => {
   const baseCondition = 'and value->>%L';
