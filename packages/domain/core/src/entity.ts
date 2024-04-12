@@ -61,29 +61,32 @@ export type LimitOptions = {
   next: number;
 };
 
-export type EqualWhere<T> = { type: 'equal'; value: T };
-export type NotEqualWhere<T> = { type: 'notEqual'; value: T };
+export type EqualWhereCondition<T> = { operator: 'equal'; value: T };
+export type NotEqualWhereCondition<T> = { operator: 'notEqual'; value: T };
 
-export type IncludeWhere<T> = { type: 'include'; value: Array<T> };
-export type NotIncludeWhere<T> = { type: 'notInclude'; value: Array<T> };
+export type IncludeWhereCondition<T> = { operator: 'include'; value: Array<T> };
+export type NotIncludeWhereCondition<T> = { operator: 'notInclude'; value: Array<T> };
 
-export type MatchWhere = { type: 'match'; value: `%${string}` | `${string}%` | `%${string}%` };
-export type NotMatchWhere = {
-  type: 'notMatch';
+export type MatchWhereCondition = {
+  operator: 'match';
+  value: `%${string}` | `${string}%` | `%${string}%`;
+};
+export type NotMatchWhereCondition = {
+  operator: 'notMatch';
   value: `%${string}` | `${string}%` | `%${string}%`;
 };
 
-export type WhereOperation<T = {}> =
-  | EqualWhere<T>
-  | NotEqualWhere<T>
-  | MatchWhere
-  | NotMatchWhere
-  | IncludeWhere<T>
-  | NotIncludeWhere<T>;
+export type WhereCondition<T = {}> =
+  | EqualWhereCondition<T>
+  | NotEqualWhereCondition<T>
+  | MatchWhereCondition
+  | NotMatchWhereCondition
+  | IncludeWhereCondition<T>
+  | NotIncludeWhereCondition<T>;
 
-export type WhereOperationType = WhereOperation['type'];
+export type WhereOperator = WhereCondition['operator'];
 
-const operations: Array<WhereOperationType> = [
+const operators: Array<WhereOperator> = [
   'equal',
   'include',
   'notInclude',
@@ -92,13 +95,13 @@ const operations: Array<WhereOperationType> = [
   'notMatch',
 ];
 
-export const isWhereOperationType = (value: string): value is WhereOperationType => {
-  return operations.includes(value as WhereOperationType);
+export const isWhereOperator = (value: string): value is WhereOperator => {
+  return operators.includes(value as WhereOperator);
 };
 
 export type WhereOptions<T> = {
   [P in keyof T]?: T[P] extends string | boolean | number
-    ? WhereOperation<T[P]>
+    ? WhereCondition<T[P]>
     : T[P] extends Record<string, infer U>
     ? WhereOptions<T[P]>
     : never;

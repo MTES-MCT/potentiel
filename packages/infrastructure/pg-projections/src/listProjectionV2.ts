@@ -5,7 +5,7 @@ import {
   ListResultV2,
   OrderByOptions,
   WhereOptions,
-  isWhereOperationType,
+  isWhereOperator,
 } from '@potentiel-domain/core';
 import { flatten, unflatten } from '@potentiel-librairies/flat-cjs';
 import { executeSelect } from '@potentiel-librairies/pg-helpers';
@@ -68,22 +68,21 @@ const getOrderClause = <TEntity extends Entity>(orderBy: OrderByOptions<Omit<TEn
     .join(', ')}`;
 };
 
-// TODO: remplacer type par operations
 const getWhereClause = <TEntity extends Entity>(
   where: WhereOptions<Omit<TEntity, 'type'>>,
 ): [clause: string, values: Array<unknown>] => {
   const flattenWhere = flatten<typeof where, Record<string, unknown>>(where, {
     safe: true, // TODO : créer un helper pour ça, à la lecture c'est pas clair l'objectif
   });
-  const whereTypes = Object.entries(flattenWhere).filter(([key]) => key.endsWith('.type'));
+  const whereOperators = Object.entries(flattenWhere).filter(([key]) => key.endsWith('.operator'));
 
   const whereClause = format(
-    whereTypes
+    whereOperators
       .map(
         ([_, value], index) => getParameters(value as string, index), // TODO as c'est le mal !!!
       )
       .join(' '),
-    ...whereTypes.map(([key]) => key.replace('.type', '')),
+    ...whereOperators.map(([key]) => key.replace('.operator', '')),
   );
 
   const whereValues = Object.entries(flattenWhere)
@@ -97,7 +96,7 @@ const getLimitClause = ({ next, offset }: LimitOptions) =>
   format('limit %s offset %s', next, offset);
 
 const getParameters = (value: string, index: number) => {
-  if (isWhereOperationType(value)) {
+  if (isWhereOperator(value)) {
     const baseCondition = 'and value->>%L';
     switch (value) {
       case 'equal':

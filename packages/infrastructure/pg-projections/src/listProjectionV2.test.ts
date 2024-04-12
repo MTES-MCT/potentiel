@@ -132,7 +132,7 @@ describe('listProjectionV2', () => {
       where: {
         data: {
           name: {
-            type: 'equal',
+            operator: 'equal',
             value: '1',
           },
         },
@@ -153,7 +153,7 @@ describe('listProjectionV2', () => {
       where: {
         data: {
           name: {
-            type: 'notEqual',
+            operator: 'notEqual',
             value: '1',
           },
         },
@@ -191,7 +191,7 @@ describe('listProjectionV2', () => {
       where: {
         data: {
           name: {
-            type: 'match',
+            operator: 'match',
             value: 'a%',
           },
         },
@@ -231,7 +231,7 @@ describe('listProjectionV2', () => {
       where: {
         data: {
           name: {
-            type: 'match',
+            operator: 'match',
             value: 'a%',
           },
         },
@@ -271,7 +271,7 @@ describe('listProjectionV2', () => {
       where: {
         data: {
           name: {
-            type: 'notMatch',
+            operator: 'notMatch',
             value: 'a%',
           },
         },
@@ -296,7 +296,7 @@ describe('listProjectionV2', () => {
       where: {
         data: {
           name: {
-            type: 'include',
+            operator: 'include',
             value: valuesArray,
           },
         },
@@ -321,7 +321,7 @@ describe('listProjectionV2', () => {
       where: {
         data: {
           name: {
-            type: 'notInclude',
+            operator: 'notInclude',
             value: valuesArray,
           },
         },
