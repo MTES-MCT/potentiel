@@ -53,7 +53,7 @@ describe('listProjectionV2', () => {
     }
   });
 
-  const formatExpectedData = (
+  const mapToListResult = (
     expectedData: Array<Omit<FakeProjection, 'type'>>,
   ): ListResultV2<FakeProjection> => ({
     total: expectedData.length,
@@ -70,9 +70,9 @@ describe('listProjectionV2', () => {
   `, async () => {
     const actual = await listProjectionV2<FakeProjection>('fake-projection');
 
-    const expectedData = fakeData;
+    const expected = mapToListResult(fakeData);
 
-    actual.should.be.deep.equal(formatExpectedData(expectedData));
+    actual.should.be.deep.equal(expected);
   });
 
   it(`
@@ -89,11 +89,11 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expectedData = fakeData.sort(({ data: { value: a } }, { data: { value: b } }) =>
-      b.localeCompare(a),
+    const expected = mapToListResult(
+      fakeData.sort(({ data: { value: a } }, { data: { value: b } }) => b.localeCompare(a)),
     );
 
-    actual.should.be.deep.equal(formatExpectedData(expectedData));
+    actual.should.be.deep.equal(expected);
   });
 
   it(`
@@ -108,10 +108,10 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expectedData = [fakeData[5], fakeData[6], fakeData[7]];
+    const expected = mapToListResult([fakeData[5], fakeData[6], fakeData[7]]);
 
     // TODO: fix total ??
-    actual.should.be.deep.equal(formatExpectedData(expectedData));
+    actual.should.be.deep.equal(expected);
   });
 
   it(`
@@ -130,9 +130,9 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expectedData = [fakeData[1]];
+    const expected = mapToListResult([fakeData[1]]);
 
-    actual.should.be.deep.equal(formatExpectedData(expectedData));
+    actual.should.be.deep.equal(expected);
   });
 
   it(`
@@ -151,9 +151,9 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expectedData = fakeData.filter((g) => g.data.name !== '1');
+    const expected = mapToListResult(fakeData.filter((g) => g.data.name !== '1'));
 
-    actual.should.be.deep.equal(formatExpectedData(expectedData));
+    actual.should.be.deep.equal(expected);
   });
 
   it(`
@@ -189,9 +189,11 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expectedData = fakeData.filter((g) => g.data.name.toLowerCase().startsWith('a'));
+    const expected = mapToListResult(
+      fakeData.filter((g) => g.data.name.toLowerCase().startsWith('a')),
+    );
 
-    actual.should.be.deep.equal(formatExpectedData(expectedData));
+    actual.should.be.deep.equal(expected);
   });
 
   it(`
@@ -227,9 +229,11 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expectedData = fakeData.filter((g) => g.data.name.toLowerCase().startsWith('a'));
+    const expected = mapToListResult(
+      fakeData.filter((g) => g.data.name.toLowerCase().startsWith('a')),
+    );
 
-    actual.should.be.deep.equal(formatExpectedData(expectedData));
+    actual.should.be.deep.equal(expected);
   });
 
   it(`
@@ -265,9 +269,11 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expectedData = fakeData.filter((g) => !g.data.name.toLowerCase().startsWith('a'));
+    const expected = mapToListResult(
+      fakeData.filter((g) => !g.data.name.toLowerCase().startsWith('a')),
+    );
 
-    actual.should.be.deep.equal(formatExpectedData(expectedData));
+    actual.should.be.deep.equal(expected);
   });
 
   it(`
@@ -288,9 +294,11 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expectedData = fakeData.filter(({ data }) => valuesArray.includes(data.name));
+    const expected = mapToListResult(
+      fakeData.filter(({ data }) => valuesArray.includes(data.name)),
+    );
 
-    actual.should.be.deep.equal(formatExpectedData(expectedData));
+    actual.should.be.deep.equal(expected);
   });
 
   it(`
@@ -311,8 +319,10 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expectedData = fakeData.filter(({ data }) => !valuesArray.includes(data.name));
+    const expected = mapToListResult(
+      fakeData.filter(({ data }) => !valuesArray.includes(data.name)),
+    );
 
-    actual.should.be.deep.equal(formatExpectedData(expectedData));
+    actual.should.be.deep.equal(expected);
   });
 });

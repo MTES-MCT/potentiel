@@ -25,6 +25,8 @@ export const listProjectionV2 = async <TEntity extends Entity>(
 
   const select = format(`${selectQuery} ${whereClause} ${orderByClause} ${limitClause}`);
   const count = format(`${countQuery} ${whereClause}`);
+  console.log(select);
+  console.log(count);
 
   const result = await executeSelect<KeyValuePair<TEntity>>(
     select,
