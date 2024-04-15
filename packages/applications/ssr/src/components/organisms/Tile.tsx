@@ -1,3 +1,4 @@
+import { fr } from '@codegouvfr/react-dsfr';
 import React, { FC } from 'react';
 
 type TileProps = {
@@ -7,7 +8,10 @@ type TileProps = {
 
 export const Tile: FC<TileProps> = ({ children, className = '' }) => (
   <div
-    className={`p-5 border border-solid border-grey-925-base border-b-[3px] border-b-text-decisions-background-active-blueFrance-default${className}`}
+    className={`p-5 border border-solid border-grey-925-base border-b-[3px] ${className}`}
+    style={{
+      borderBottom: fr.colors.decisions.background.active.blueFrance.default,
+    }}
   >
     {children}
   </div>

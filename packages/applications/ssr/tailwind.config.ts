@@ -1,7 +1,4 @@
 import type { Config } from 'tailwindcss';
-import { fr } from '@codegouvfr/react-dsfr';
-
-const { getHex, ...colorsObject } = fr.colors;
 
 const config: Config = {
   content: [
@@ -17,10 +14,6 @@ const config: Config = {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
-        ...colorsObject,
-        success: {
-          base: 'var(--)',
-        },
         // 'grey-425': {
         //   base: '#666666',
         //   hover: '#919191',
@@ -40,11 +33,6 @@ const config: Config = {
         //   base: '#b34000',
         //   hover: '#ff6218',
         //   active: '#ff7a55',
-        // },
-        // 'blue-france-sun': {
-        //   base: '#000091',
-        //   hover: '#1212ff',
-        //   active: '#2323ff',
         // },
       },
     },

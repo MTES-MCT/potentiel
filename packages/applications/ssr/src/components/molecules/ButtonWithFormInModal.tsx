@@ -3,6 +3,7 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import { FC, useState } from 'react';
+import { fr } from '@codegouvfr/react-dsfr';
 
 import { Form, FormProps } from '../atoms/form/Form';
 
@@ -42,7 +43,10 @@ export const ButtonWithFormInModal: FC<ButtonWithFormInModalProps> = ({
           {
             type: 'submit',
             nativeButtonProps: {
-              className: 'bg-decisions-background-active-blueFrance-defaulttext-white',
+              className: 'text-white',
+              style: {
+                backgroundColor: fr.colors.decisions.background.active.blueFrance.default,
+              },
               form: form.id,
             },
             children: yesNo ? 'Oui' : name,

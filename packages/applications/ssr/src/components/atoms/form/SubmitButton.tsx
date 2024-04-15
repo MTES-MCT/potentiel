@@ -1,4 +1,5 @@
 'use client';
+import { fr } from '@codegouvfr/react-dsfr';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { FC } from 'react';
 import { useFormStatus } from 'react-dom';
@@ -16,7 +17,10 @@ export const SubmitButton: FC<SubmitButtonProps> = ({ disabledCondition, childre
       type="submit"
       priority="primary"
       disabled={isDisabled}
-      className="bg-decisions-background-active-blueFrance-defaulttext-white"
+      className="text-white"
+      style={{
+        backgroundColor: fr.colors.decisions.background.active.blueFrance.default,
+      }}
       nativeButtonProps={{
         'aria-disabled': isDisabled,
       }}

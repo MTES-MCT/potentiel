@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { fr } from '@codegouvfr/react-dsfr';
 
 import { Icon } from '@/components/atoms/Icon';
 
@@ -20,35 +21,44 @@ export const Etape: FC<EtapeProps> = ({ statut, titre, children, className = '' 
         <Icon
           id="fr-icon-success-fill"
           size="lg"
-          className="md:mx-auto text-success-425-base"
+          className="md:mx-auto"
+          style={{
+            color: fr.colors.decisions.text.default.success.default,
+          }}
           title="étape validée"
         />
       );
-      borderColor = 'border-success-425-base';
-      backgroundColor = 'bg-green-50';
+      borderColor = fr.colors.decisions.border.actionHigh.success.default;
+      backgroundColor = fr.colors.decisions.background.contrast.success.default;
       break;
     case 'étape incomplète':
       icon = (
         <Icon
           id="fr-icon-alert-fill"
           size="lg"
-          className="md:mx-auto text-warning-425-base"
+          className="md:mx-auto"
+          style={{
+            color: fr.colors.decisions.text.default.warning.default,
+          }}
           title="étape incomplète"
         />
       );
-      borderColor = 'border-warning-425-base';
-      backgroundColor = 'bg-warning-975-base';
+      borderColor = fr.colors.decisions.border.actionHigh.warning.default;
+      backgroundColor = fr.colors.decisions.background.contrast.warning.default;
       break;
     case 'étape à venir':
       icon = (
         <Icon
           id="fr-icon-time-line"
           size="lg"
-          className="md:mx-auto text-grey-625-base"
+          className="md:mx-auto"
+          style={{
+            color: fr.colors.decisions.text.default.grey.default,
+          }}
           title="étape à venir"
         />
       );
-      borderColor = 'border-grey-625-base';
+      borderColor = fr.colors.decisions.border.default.grey.default;
       backgroundColor = '';
       break;
     default:
@@ -62,6 +72,10 @@ export const Etape: FC<EtapeProps> = ({ statut, titre, children, className = '' 
     <div
       className={`flex flex-col p-5 border-2 border-solid md:w-1/3 ${borderColor} ${backgroundColor}
       ${className}`}
+      style={{
+        borderColor,
+        backgroundColor,
+      }}
     >
       <div className="flex flex-row items-center md:flex-col gap-3 mb-5">
         {icon}

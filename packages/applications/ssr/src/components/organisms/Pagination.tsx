@@ -1,4 +1,5 @@
 import React, { ComponentProps, FC } from 'react';
+import { fr } from '@codegouvfr/react-dsfr';
 
 import { Icon } from '../atoms/Icon';
 
@@ -85,7 +86,10 @@ const CurrentPageLink: FC<ComponentProps<'a'> & { pageNumber: number }> = ({ pag
     role="link"
     aria-current="page"
     aria-disabled
-    className="bg-decisions-background-active-blueFrance-default !text-white px-2 py-1"
+    className="!text-white px-2 py-1"
+    style={{
+      backgroundColor: fr.colors.decisions.background.active.blueFrance.default,
+    }}
   >
     {pageNumber}
   </a>

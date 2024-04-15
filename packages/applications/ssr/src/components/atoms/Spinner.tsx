@@ -1,3 +1,4 @@
+import { fr } from '@codegouvfr/react-dsfr';
 import { FC } from 'react';
 
 export type SpinnerProps = {
@@ -19,10 +20,13 @@ export const Spinner: FC<SpinnerProps> = ({ className, size }) => {
 
   return (
     <div
-      className={`inline-block animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite text-text-decisions-background-active-blueFrance-default${sizeClass(
+      className={`inline-block animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite ${sizeClass(
         size,
       )} ${className || ''}`}
       role="status"
+      style={{
+        color: fr.colors.decisions.background.active.blueFrance.default,
+      }}
     >
       <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
         Loading...
