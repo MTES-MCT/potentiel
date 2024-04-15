@@ -14,6 +14,7 @@ export type ListItemProjetAvecGarantiesFinancièresEnAttenteProps = {
   période: string;
   famille?: string;
   régionProjet: string;
+  motif: string;
   misÀJourLe: string;
   dateLimiteSoumission: string;
   afficherModèleMiseEnDemeure: boolean;
@@ -29,6 +30,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
   famille,
   régionProjet,
   misÀJourLe,
+  motif,
   dateLimiteSoumission,
   afficherModèleMiseEnDemeure,
 }) => (
@@ -36,7 +38,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
     <div>
       <div className="flex flex-col gap-1">
         <h2 className="leading-4">
-          Garanties financières du projet <span className="font-bold mr-3">{nomProjet}</span>{' '}
+          Projet <strong className="mr-3">{nomProjet}</strong>{' '}
           <Badge noIcon severity={'error'} small={true}>
             en-attente
           </Badge>
@@ -61,7 +63,10 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
           )}
         </div>
         <div className="mt-3 text-sm">
-          Date limite de soumission : {formatDateForText(dateLimiteSoumission)}
+          Motif : <strong>{motif}</strong>
+        </div>
+        <div className="text-sm">
+          Date limite de soumission : <strong>{formatDateForText(dateLimiteSoumission)}</strong>
         </div>
         {afficherModèleMiseEnDemeure && (
           <Download
