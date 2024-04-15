@@ -1,5 +1,5 @@
 import { Entity } from '@potentiel-domain/core';
-import { executeQuery } from '@potentiel-librairies/pg-helpers';
+import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { flatten } from '../../../../libraries/flat/dist';
 
 const updateQuery = 'update domain_views.projection set value=$2 where key = $1';

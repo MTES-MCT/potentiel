@@ -1,7 +1,7 @@
 import { When as Quand, DataTable } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../potentiel.world';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Option } from '@potentiel-librairies/monads';
+import { Option } from '@potentiel-libraries/monads';
 import { mediator } from 'mediateur';
 import { sleep } from '../../helpers/sleep';
 

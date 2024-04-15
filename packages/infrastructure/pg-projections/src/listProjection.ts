@@ -1,4 +1,4 @@
-import { executeSelect } from '@potentiel-librairies/pg-helpers';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { KeyValuePair } from './keyValuePair';
 import format from 'pg-format';
 import { Entity, ListOptions, ListResult } from '@potentiel-domain/core';

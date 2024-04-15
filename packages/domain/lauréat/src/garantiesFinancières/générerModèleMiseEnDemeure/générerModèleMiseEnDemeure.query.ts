@@ -3,7 +3,7 @@ import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { CommonError, CommonPort } from '@potentiel-domain/common';
-import { Option } from '@potentiel-librairies/monads';
+import { Option } from '@potentiel-libraries/monads';
 import { PériodeNonIdentifiéError } from '../périodeNonIdentifiéError.error';
 import { ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery } from '../enAttente/consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
 

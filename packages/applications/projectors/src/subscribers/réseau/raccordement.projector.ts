@@ -3,10 +3,10 @@ import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sour
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
-import { Option } from '@potentiel-librairies/monads';
+import { Option } from '@potentiel-libraries/monads';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { getLogger } from '@potentiel-librairies/monitoring';
+import { getLogger } from '@potentiel-libraries/monitoring';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 export type SubscriptionEvent = (Raccordement.RaccordementEvent & Event) | RebuildTriggered;

@@ -1,5 +1,5 @@
 import { Entity } from '@potentiel-domain/core';
-import { executeQuery } from '@potentiel-librairies/pg-helpers';
+import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 const deleteQuery = 'delete from domain_views.projection where key = $1';
 

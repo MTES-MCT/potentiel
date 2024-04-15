@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/core';
 import { RaccordementEntity } from '../raccordement.entity';
-import { Option } from '@potentiel-librairies/monads';
+import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseauEntity, IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 export type ConsulterGestionnaireRéseauRaccordementReadModel = {

@@ -1,6 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { VérifierAccèsProjetPort } from '@potentiel-domain/utilisateur';
-import { executeSelect } from '@potentiel-librairies/pg-helpers';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 const getEstUnProjetAccessibleQuery = `
   select json_build_object(

@@ -1,4 +1,4 @@
-import { getLogger } from '@potentiel-librairies/monitoring';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getMailjetClient } from './getMailjetClient';
 import { mapToSendEmailMode } from './sendEmailMode';

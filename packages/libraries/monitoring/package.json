@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel-librairies/monitoring",
+  "name": "@potentiel-libraries/monitoring",
   "version": "0.0.0",
   "description": "Potentiel Monitoring",
   "main": "dist/index.js",
