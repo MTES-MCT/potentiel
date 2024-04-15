@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { UtilisateurEntity } from '../utilisateur.entity';
-import { Option } from '@potentiel-librairies/monads';
+import { Option } from '@potentiel-libraries/monads';
 import { UtilisateurInconnuErreur } from '../utilisateurInconnu.error';
 import * as IdentifiantUtilisateur from '../identifiantUtilisateur.valueType';
 

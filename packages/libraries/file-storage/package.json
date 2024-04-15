@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel-librairies/file-storage",
+  "name": "@potentiel-libraries/file-storage",
   "version": "0.0.0",
   "description": "File storage for managing files",
   "main": "dist/index.js",

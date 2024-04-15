@@ -1,4 +1,4 @@
-import { getLogger } from '@potentiel-librairies/monitoring';
+import { getLogger } from '@potentiel-libraries/monitoring';
 import { randomUUID } from 'crypto';
 import { Middleware } from 'mediateur';
 import { DomainError } from '@potentiel-domain/core';

@@ -3,7 +3,7 @@ import { after, before, beforeEach, describe, it } from 'node:test';
 
 import { Entity, RangeOptions, ListResultV2 } from '@potentiel-domain/core';
 import { flatten, unflatten } from '../../../libraries/flat/dist';
-import { executeQuery, killPool } from '@potentiel-librairies/pg-helpers';
+import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import {
   NegativeEndPositionError,
