@@ -39,11 +39,6 @@ const meta = {
       description: "Les classes css additionnelles à appliquer à l'icone (optionnel)",
       control: { type: 'text' },
     },
-    style: {
-      description:
-        "Les styles css additionnels à appliquer à l'icone, notamment si on a besoin de surcharger en utilisant les couleurs provenant de l'utilitaire fr (optionnel)",
-      control: { type: 'object' },
-    },
   },
 } satisfies Meta<IconProps>;
 

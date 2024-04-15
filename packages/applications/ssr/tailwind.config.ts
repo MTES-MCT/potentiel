@@ -1,4 +1,9 @@
 import type { Config } from 'tailwindcss';
+import { fr } from '@codegouvfr/react-dsfr';
+
+const {
+  colors: { getHex, ...dsfrColors },
+} = fr;
 
 const config: Config = {
   content: [
@@ -14,7 +19,11 @@ const config: Config = {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
     },
+    colors: {
+      ...dsfrColors,
+    },
   },
   plugins: [],
 };
+
 export default config;

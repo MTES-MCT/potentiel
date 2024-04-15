@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { fr } from '@codegouvfr/react-dsfr';
 
 import { Icon } from '@/components/atoms/Icon';
 
@@ -21,44 +20,35 @@ export const Etape: FC<EtapeProps> = ({ statut, titre, children, className = '' 
         <Icon
           id="fr-icon-success-fill"
           size="lg"
-          className="md:mx-auto"
-          style={{
-            color: fr.colors.decisions.text.default.success.default,
-          }}
+          className="md:mx-auto text-options-success-_425_625-default"
           title="étape validée"
         />
       );
-      borderColor = fr.colors.decisions.border.actionHigh.success.default;
-      backgroundColor = fr.colors.decisions.background.contrast.success.default;
+      borderColor = 'border-options-success-_425_625-default';
+      backgroundColor = 'bg-decisions-background-contrast-success-default';
       break;
     case 'étape incomplète':
       icon = (
         <Icon
           id="fr-icon-alert-fill"
           size="lg"
-          className="md:mx-auto"
-          style={{
-            color: fr.colors.decisions.text.default.warning.default,
-          }}
+          className="md:mx-auto text-options-warning-_425_625-default"
           title="étape incomplète"
         />
       );
-      borderColor = fr.colors.decisions.border.actionHigh.warning.default;
-      backgroundColor = fr.colors.decisions.background.contrast.warning.default;
+      borderColor = 'border-options-warning-_425_625-default';
+      backgroundColor = 'border-decisions-background-contrast-warning-default';
       break;
     case 'étape à venir':
       icon = (
         <Icon
           id="fr-icon-time-line"
           size="lg"
-          className="md:mx-auto"
-          style={{
-            color: fr.colors.decisions.text.default.grey.default,
-          }}
+          className="md:mx-auto text-options-grey-_625_425-default"
           title="étape à venir"
         />
       );
-      borderColor = fr.colors.decisions.border.default.grey.default;
+      borderColor = 'border--options-grey-_625_425-default';
       backgroundColor = '';
       break;
     default:
@@ -72,10 +62,6 @@ export const Etape: FC<EtapeProps> = ({ statut, titre, children, className = '' 
     <div
       className={`flex flex-col p-5 border-2 border-solid md:w-1/3 ${borderColor} ${backgroundColor}
       ${className}`}
-      style={{
-        borderColor,
-        backgroundColor,
-      }}
     >
       <div className="flex flex-row items-center md:flex-col gap-3 mb-5">
         {icon}

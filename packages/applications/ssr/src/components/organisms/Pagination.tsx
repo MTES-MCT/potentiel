@@ -1,5 +1,4 @@
 import React, { ComponentProps, FC } from 'react';
-import { fr } from '@codegouvfr/react-dsfr';
 
 import { Icon } from '../atoms/Icon';
 
@@ -68,11 +67,10 @@ type PageLinkProps = ComponentProps<'a'> & {
 const PageLink: FC<PageLinkProps> = ({ href, title, disabled, children }) => (
   <a
     className={`flex px-2 py-1 bg-none no-underline hover:no-underline focus:no-underline ${
-      disabled ? 'cursor-not-allowed' : 'focus:no-underline !text-black hover:text-black'
+      disabled
+        ? 'cursor-not-allowed !text-options-grey-_425_625-default !hover:text-options-grey-_425_625-default'
+        : 'focus:no-underline !text-black hover:text-black hover:bg-options-grey-_1000_50-default'
     }`}
-    style={{
-      color: disabled ? fr.colors.decisions.text.default.grey.default : '',
-    }}
     title={title}
     href={disabled ? undefined : href}
     aria-disabled={disabled}
@@ -87,10 +85,7 @@ const CurrentPageLink: FC<ComponentProps<'a'> & { pageNumber: number }> = ({ pag
     role="link"
     aria-current="page"
     aria-disabled
-    className="!text-white px-2 py-1"
-    style={{
-      backgroundColor: fr.colors.decisions.background.active.blueFrance.default,
-    }}
+    className="!text-white px-2 py-1 bg-options-blueFrance-_975_75-default"
   >
     {pageNumber}
   </a>
