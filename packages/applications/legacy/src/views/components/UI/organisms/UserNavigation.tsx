@@ -6,10 +6,6 @@ import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupére
 import { Routes } from '@potentiel-applications/routes';
 import { featureFlags } from '@potentiel-applications/feature-flags';
 
-// const routeListeGarantiesFinancières = featureFlags.SHOW_GARANTIES_FINANCIERES
-//   ? Routes.GarantiesFinancières.dépôt.lister
-//   : routes.ADMIN_GARANTIES_FINANCIERES;
-
 const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) =>
   featureFlags.SHOW_GARANTIES_FINANCIERES ? (
     <DropdownMenu buttonChildren={'Garanties financières'}>
@@ -17,7 +13,7 @@ const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) =>
         href={Routes.GarantiesFinancières.dépôt.lister}
         {...(currentPage === 'list-garanties-financieres' && { isCurrent: true })}
       >
-        Garanties financières en cours
+        Garanties financières à traiter
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
         href={Routes.GarantiesFinancières.enAttente.lister}

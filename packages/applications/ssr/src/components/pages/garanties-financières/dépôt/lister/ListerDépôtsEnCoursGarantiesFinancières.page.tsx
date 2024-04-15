@@ -39,7 +39,7 @@ export const ListDépôtsEnCoursGarantiesFinancièresPage: FC<
 
   return (
     <ListPageTemplate
-      heading="Garanties financières en attente de validation"
+      heading="Garanties financières à traiter"
       actions={[]}
       items={garantiesFinancières.map((gf) => ({
         ...gf,
