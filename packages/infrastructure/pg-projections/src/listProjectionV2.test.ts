@@ -32,7 +32,9 @@ describe('listProjectionV2', () => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   });
 
-  after(() => killPool());
+  after(async () => {
+    await killPool();
+  });
 
   beforeEach(async () => {
     await executeQuery(`delete from domain_views.projection`);
