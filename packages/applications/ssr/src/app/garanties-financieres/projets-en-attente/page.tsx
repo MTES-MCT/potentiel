@@ -1,10 +1,8 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { featureFlags } from '@potentiel-applications/feature-flags';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { DateTime } from '@potentiel-domain/common';
 
@@ -25,10 +23,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ searchParams }: PageProps) {
-  if (!featureFlags.SHOW_GARANTIES_FINANCIERES) {
-    return notFound();
-  }
-
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const page = searchParams?.page ? parseInt(searchParams.page) : 1;
