@@ -1,45 +1,42 @@
 import React from 'react';
 import {
-  DemandeDelaiSignaledDTO,
-  DemandeAbandonSignaledDTO,
-  DemandeRecoursSignaledDTO,
-  is,
-  ProjectEventListDTO,
-  DemandeDélaiDTO,
   CahierDesChargesChoisiDTO,
+  DemandeAbandonSignaledDTO,
+  DemandeDelaiSignaledDTO,
+  DemandeDélaiDTO,
+  DemandeRecoursSignaledDTO,
+  ProjectEventListDTO,
+  is,
 } from '../../../modules/frise';
 import {
-  TimelineItem,
-  DesignationItem,
-  ImportItem,
   ACItem,
-  CAItem,
-  ModificationRequestItem,
-  ModificationReceivedItem,
   AttachedFileItem,
-  LegacyModificationsItem,
+  CahierDesChargesChoisiItem,
+  DemandeDelaiSignaledItem,
   DemandeDélaiItem,
   DemandeRecoursSignaledItem,
-  DemandeDelaiSignaledItem,
-  CahierDesChargesChoisiItem,
+  DesignationItem,
+  ImportItem,
+  LegacyModificationsItem,
+  ModificationReceivedItem,
+  ModificationRequestItem,
+  TimelineItem,
 } from './components';
 import {
   ACItemProps,
-  CAItemProps,
+  AttachedFileItemProps,
   DesignationItemProps,
+  ImportItemProps,
+  LegacyModificationsItemProps,
+  ModificationReceivedItemProps,
+  ModificationRequestItemProps,
   extractACItemProps,
-  extractCAItemProps,
+  extractAttachedFileItemProps,
   extractDesignationItemProps,
   extractImportItemProps,
-  ImportItemProps,
-  extractModificationRequestsItemProps,
-  ModificationRequestItemProps,
-  ModificationReceivedItemProps,
-  extractModificationReceivedItemProps,
   extractLegacyModificationsItemProps,
-  LegacyModificationsItemProps,
-  AttachedFileItemProps,
-  extractAttachedFileItemProps,
+  extractModificationReceivedItemProps,
+  extractModificationRequestsItemProps,
 } from './helpers';
 
 export type TimelineProps = {
@@ -50,7 +47,6 @@ type ItemProps =
   | ImportItemProps
   | DesignationItemProps
   | ACItemProps
-  | CAItemProps
   | ModificationRequestItemProps
   | ModificationReceivedItemProps
   | LegacyModificationsItemProps
@@ -84,8 +80,6 @@ export const Timeline = ({
     .filter(isNotNil)
     .sort((a, b) => a.date - b.date);
 
-  insertAfter(itemProps, 'attestation-de-conformite', extractCAItemProps(events, { status }));
-
   const timelineItems = itemProps.map((props) => {
     const { type } = props;
 
@@ -98,9 +92,6 @@ export const Timeline = ({
 
       case 'attestation-de-conformite':
         return <ACItem {...props} />;
-
-      case 'contrat-achat':
-        return <CAItem />;
 
       case 'demande-de-modification':
         return <ModificationRequestItem {...{ ...props, projectStatus: status }} />;
