@@ -12,7 +12,8 @@ SELECT
     json_build_object(
     	'identifiantProjet', p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE",
     	'dateLimiteSoumission', TO_CHAR(gf."dateLimiteEnvoi", 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'), 
-    	'demandéLe', TO_CHAR(gf."updatedAt", 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')
+    	'demandéLe', TO_CHAR(gf."updatedAt", 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
+        'motif', 'motif-inconnu'
     )
 FROM "garantiesFinancières" gf
 JOIN "projects" p

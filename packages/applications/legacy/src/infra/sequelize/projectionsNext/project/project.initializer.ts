@@ -1,6 +1,5 @@
 import { DataTypes, Sequelize } from 'sequelize';
 import { Project } from './project.model';
-import { GarantiesFinancières } from '../garantiesFinancières/garantiesFinancières.model';
 import { File } from '../file/file.model';
 import { UserProjects } from '../userProjects/userProjects.model';
 
@@ -165,11 +164,6 @@ export const initializeProjectModel = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      soumisAuxGF: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-      },
       désignationCatégorie: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -203,10 +197,5 @@ export const initializeProjectModelModelAssociations = () => {
   Project.hasMany(UserProjects, {
     as: 'users',
     foreignKey: 'projectId',
-  });
-
-  Project.hasOne(GarantiesFinancières, {
-    as: 'garantiesFinancières',
-    foreignKey: 'projetId',
   });
 };

@@ -7,14 +7,17 @@ import {
 import { DateTime } from '@potentiel-domain/common';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
-import { getLogger } from '@potentiel-librairies/monitoring';
+import { getLogger } from '@potentiel-libraries/monitoring';
 import {
   consulterCahierDesChargesChoisiAdapter,
   listerAbandonsAdapter,
   listerAbandonsPourPorteurAdapter,
   récupérerRégionDreal,
 } from '@potentiel-infrastructure/domain-adapters';
-import { getModèleRéponseAbandon } from '@potentiel-infrastructure/document-builder';
+import {
+  getModèleRéponseAbandon,
+  getModèleMiseEnDemeureGarantiesFinancières,
+} from '@potentiel-infrastructure/document-builder';
 
 registerLauréatQueries({
   find: findProjection,
@@ -24,6 +27,7 @@ registerLauréatQueries({
   buildModèleRéponseAbandon: getModèleRéponseAbandon,
   listerAbandons: listerAbandonsAdapter,
   récupérerRégionDreal: récupérerRégionDreal,
+  buildModèleMiseEnDemeureGarantiesFinancières: getModèleMiseEnDemeureGarantiesFinancières,
 });
 
 registerLauréatUseCases({

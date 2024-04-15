@@ -1,10 +1,7 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { featureFlags } from '@potentiel-applications/feature-flags';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -15,7 +12,7 @@ import {
   EnregistrerGarantiesFinancièresPage,
   EnregistrerGarantiesFinancièresProps,
 } from '@/components/pages/garanties-financières/actuelles/enregistrer/enregistrerGarantiesFinancières.page';
-import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
+import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
 
 export const metadata: Metadata = {
   title: `Enregistrer des garanties financières actuelles - Potentiel`,
@@ -23,10 +20,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  if (!featureFlags.SHOW_GARANTIES_FINANCIERES) {
-    return notFound();
-  }
-
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
@@ -48,12 +41,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const props: EnregistrerGarantiesFinancièresProps = {
       projet,
-      typesGarantiesFinancières: GarantiesFinancières.TypeGarantiesFinancières.types.map(
-        (type) => ({
-          label: getGarantiesFinancièresTypeLabel(type),
-          value: type,
-        }),
-      ),
+      typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
     };
 
     return <EnregistrerGarantiesFinancièresPage {...props} />;

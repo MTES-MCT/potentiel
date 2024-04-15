@@ -4,18 +4,17 @@ import { notFound } from 'next/navigation';
 
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { featureFlags } from '@potentiel-applications/feature-flags';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
 import {
   ModifierGarantiesFinancièresActuellesPage,
   ModifierGarantiesFinancièresActuellesProps,
 } from '@/components/pages/garanties-financières/actuelles/modifier/ModifierGarantiesFinancièresActuelles.page';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
+import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
 
 export const metadata: Metadata = {
   title: 'Modifier les garanties financières actuelles - Potentiel',
@@ -23,10 +22,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  if (!featureFlags.SHOW_GARANTIES_FINANCIERES) {
-    return notFound();
-  }
-
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
@@ -58,12 +53,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const props: ModifierGarantiesFinancièresActuellesProps = {
       projet,
-      typesGarantiesFinancières: GarantiesFinancières.TypeGarantiesFinancières.types.map(
-        (type) => ({
-          label: getGarantiesFinancièresTypeLabel(type),
-          value: type,
-        }),
-      ),
+      typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
       actuelles: {
         type: garantiesFinancières.actuelles.type.type,
         dateÉchéance: garantiesFinancières.actuelles.dateÉchéance?.formatter(),

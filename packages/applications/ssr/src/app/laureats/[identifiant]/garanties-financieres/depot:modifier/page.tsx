@@ -5,19 +5,18 @@ import { notFound } from 'next/navigation';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
-import { featureFlags } from '@potentiel-applications/feature-flags';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
 import {
   ModifierDépôtEnCoursGarantiesFinancièresPage,
   ModifierDépôtEnCoursGarantiesFinancièresProps,
 } from '@/components/pages/garanties-financières/dépôt/modifier/ModifierDépôtEnCoursGarantiesFinancières.page';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
+import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
 
 export const metadata: Metadata = {
   title: 'Modifier dépôt des garanties financières en cours - Potentiel',
@@ -25,10 +24,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  if (!featureFlags.SHOW_GARANTIES_FINANCIERES) {
-    return notFound();
-  }
-
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
@@ -63,12 +58,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       const props: ModifierDépôtEnCoursGarantiesFinancièresProps = {
         projet,
-        typesGarantiesFinancières: GarantiesFinancières.TypeGarantiesFinancières.types.map(
-          (type) => ({
-            label: getGarantiesFinancièresTypeLabel(type),
-            value: type,
-          }),
-        ),
+        typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
         dépôtEnCours: {
           type: dépôtEnCours.type.type,
           statut: dépôtEnCours.statut.statut,

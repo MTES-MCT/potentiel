@@ -1,6 +1,5 @@
 export * from './ACItem';
 export * from './AttachedFileItem';
-export * from './CAItem';
 export * from './CahierDesChargesChoisiItem';
 export * from './ContentArea';
 export * from './CurrentIcon';
@@ -8,7 +7,6 @@ export * from './DemandeDelaiSignaledItem';
 export * from './DemandeDélaiItem';
 export * from './DemandeRecoursSignaledItem';
 export * from './DesignationItem';
-export * from './GFItem';
 export * from './ImportItem';
 export * from './InfoItem';
 export * from './ItemDate';

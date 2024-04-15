@@ -9,6 +9,7 @@ export type CandidatureEntity = {
   statut: StatutProjet.RawType;
   nom: string;
   localité: {
+    adresse: string;
     commune: string;
     département: string;
     région: string;

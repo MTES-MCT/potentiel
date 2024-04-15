@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-librairies/monads';
+import { Option } from '@potentiel-libraries/monads';
 
 import { CandidatureEntity } from '../candidature.entity';
 import { DateTime, StatutProjet } from '@potentiel-domain/common';
@@ -17,6 +17,7 @@ export type ConsulterCandidatureReadModel = {
   statut: StatutProjet.RawType;
   nom: string;
   localité: {
+    adresse: string;
     commune: string;
     département: string;
     région: string;

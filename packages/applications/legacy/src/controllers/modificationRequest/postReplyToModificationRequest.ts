@@ -35,7 +35,6 @@ import { ModificationRequest, Project } from '../../infra/sequelize';
 import { mediator } from 'mediateur';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { featureFlags } from '@potentiel-applications/feature-flags';
 
 const FORMAT_DATE = 'DD/MM/YYYY';
 
@@ -150,10 +149,7 @@ v1Router.post(
         acceptanceParams,
         submittedBy: request.user,
       }).match(async () => {
-        if (
-          featureFlags.SHOW_GARANTIES_FINANCIERES &&
-          (type === 'recours' || type === 'producteur')
-        ) {
+        if (type === 'recours' || type === 'producteur') {
           try {
             // récupérer identifiant projet value
             const modificationRequest = await ModificationRequest.findByPk(modificationRequestId);

@@ -1,6 +1,6 @@
 import { RécupérerUtilisateurPort, UtilisateurEntity } from '@potentiel-domain/utilisateur';
-import { executeSelect } from '@potentiel-librairies/pg-helpers';
-import { Option } from '@potentiel-librairies/monads';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
+import { Option } from '@potentiel-libraries/monads';
 
 const selectUtilisateurQuery = `
   select json_build_object(

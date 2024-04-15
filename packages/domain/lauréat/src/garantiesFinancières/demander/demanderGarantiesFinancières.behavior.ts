@@ -10,7 +10,7 @@ export type GarantiesFinancièresDemandéesEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     dateLimiteSoumission: DateTime.RawType;
     demandéLe: DateTime.RawType;
-    motif?: MotifDemandeGarantiesFinancières.RawType;
+    motif: MotifDemandeGarantiesFinancières.RawType;
   }
 >;
 
@@ -36,4 +36,14 @@ export async function demanderGarantiesFinancières(
   };
 
   await this.publish(event);
+}
+
+export function applyDemanderGarantiesFinancières(
+  this: GarantiesFinancièresAggregate,
+  event: GarantiesFinancièresDemandéesEvent,
+) {
+  this.motifDemandeGarantiesFinancières = MotifDemandeGarantiesFinancières.convertirEnValueType(
+    event.payload.motif,
+  );
+  this.dateLimiteSoumission = DateTime.convertirEnValueType(event.payload.dateLimiteSoumission);
 }

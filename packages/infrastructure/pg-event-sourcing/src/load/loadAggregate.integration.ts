@@ -1,6 +1,6 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { DomainEvent, Aggregate, GetDefaultAggregateState } from '@potentiel-domain/core';
-import { executeQuery } from '@potentiel-librairies/pg-helpers';
+import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { loadAggregate } from './loadAggregate';
 import { publish } from '../publish/publish';
 

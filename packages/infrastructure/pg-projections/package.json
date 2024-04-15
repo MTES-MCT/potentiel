@@ -6,11 +6,13 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "pretest:lib": "npm run build",
+    "test:lib": "node --test"
   },
   "dependencies": {
     "@potentiel-domain/core": "*",
-    "@potentiel-librairies/pg-helpers": "*",
+    "@potentiel-libraries/pg-helpers": "*",
     "flat": "^6.0.1",
     "pg-format": "^1.0.4"
   },

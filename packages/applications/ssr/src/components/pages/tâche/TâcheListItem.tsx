@@ -92,6 +92,14 @@ const getDescriptionTâche = (
         action: 'Voir le raccordement',
         ariaLabel: `Voir le raccordement du projet ${nomProjet}`,
       };
+    case 'garanties-financières.demander':
+      return {
+        titre: 'Garanties financières demandées',
+        description: `Des garanties financières sont en attente pour ce projet`,
+        lien: Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet),
+        action: 'Soumettre les garanties financières',
+        ariaLabel: `Soumettre des garanties financières pour le projet ${nomProjet}`,
+      };
     default: {
       return {
         titre: '',

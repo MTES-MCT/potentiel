@@ -5,8 +5,9 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     
     Plan du Scénario: Un porteur soumet des garanties financières initiales
         Etant donné des garanties financières en attente pour le projet "Centrale PV" avec :
-            | date limite de soumission | 2023-11-01 |
-            | date de notification      | 2023-09-01 |
+            | date limite de soumission | 2023-11-01                      |
+            | date de notification      | 2023-09-01                      |
+            | motif                     | garanties-financières-initiales |
         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type                 | <type>                 |
             | date d'échéance      | <date d'échéance>      |
@@ -23,6 +24,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | date de constitution | <date de constitution> |
             | date de soumission   | 2023-10-01             |
             | soumis par           | porteur@test.test      |
+        Et les garanties financières en attente du projet "Centrale PV" ne devraient plus être consultable dans la liste des garanties financières en attente
     Exemples:
             | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
             | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |

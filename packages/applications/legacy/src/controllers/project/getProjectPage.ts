@@ -21,7 +21,6 @@ import { Project } from '../../infra/sequelize';
 import { Abandon, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
-import { featureFlags } from '@potentiel-applications/feature-flags';
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
 });
@@ -143,7 +142,7 @@ v1Router.get(
       let garantiesFinancières: ProjectDataForProjectPage['garantiesFinancières'] | undefined =
         undefined;
 
-      if (projet.appelOffre.isSoumisAuxGF && featureFlags.SHOW_GARANTIES_FINANCIERES) {
+      if (projet.appelOffre.isSoumisAuxGF) {
         garantiesFinancières = await getGarantiesFinancières(identifiantProjetValueType);
       }
 

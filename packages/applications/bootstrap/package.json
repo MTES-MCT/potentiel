@@ -21,7 +21,7 @@
     "@potentiel-applications/notifications": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projections": "*",
-    "@potentiel-librairies/pg-helpers": "*",
+    "@potentiel-libraries/pg-helpers": "*",
     "mediateur": "^0.1.0"
   },
   "devDependencies": {

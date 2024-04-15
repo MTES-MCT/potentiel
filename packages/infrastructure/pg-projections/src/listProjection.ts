@@ -1,8 +1,8 @@
-import { executeSelect } from '@potentiel-librairies/pg-helpers';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { KeyValuePair } from './keyValuePair';
 import format from 'pg-format';
 import { Entity, ListOptions, ListResult } from '@potentiel-domain/core';
-import { unflatten } from '@potentiel-librairies/flat-cjs';
+import { unflatten } from '../../../libraries/flat/dist';
 
 const selectQuery = 'select key, value from domain_views.projection where key like $1';
 
@@ -34,7 +34,7 @@ export const listProjection = async <TProjection extends Entity>({
     : '';
 
   const query = `${selectQuery} ${whereClause} ${orderByClause} ${paginationClause}`;
-  const result = await executeSelect<KeyValuePair<TProjection['type'], TProjection>>(
+  const result = await executeSelect<KeyValuePair<TProjection>>(
     query,
     `${type}|%`,
     ...(where ? Object.values(where) : []),

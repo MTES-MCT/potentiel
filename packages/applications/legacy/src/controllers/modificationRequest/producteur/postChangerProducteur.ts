@@ -24,7 +24,6 @@ import { Project } from '../../../infra/sequelize';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mediator } from 'mediateur';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { featureFlags } from '@potentiel-applications/feature-flags';
 
 const schema = yup.object({
   body: yup.object({
@@ -68,59 +67,57 @@ v1Router.post(
           nouveauProducteur: producteur,
         });
 
-        if (featureFlags.SHOW_GARANTIES_FINANCIERES) {
-          const projet = await Project.findByPk(projetId);
-          if (!projet) {
-            return notFoundResponse({ request, response });
-          }
-          const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
-            `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
-          ).formatter();
+        const projet = await Project.findByPk(projetId);
+        if (!projet) {
+          return notFoundResponse({ request, response });
+        }
+        const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
+          `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
+        ).formatter();
 
-          // récupérer appel offres
-          const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
-            type: 'AppelOffre.Query.ConsulterAppelOffre',
-            data: { identifiantAppelOffre: projet.appelOffreId },
-          });
-          if (isSoumisAuxGF({ appelOffres, famille: projet.familleId })) {
-            // supprimer les éventuelles garanties financières du projet
-            const dateActuelle = new Date();
-            try {
-              const garantiesFinancières =
-                await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-                  type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+        // récupérer appel offres
+        const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
+          type: 'AppelOffre.Query.ConsulterAppelOffre',
+          data: { identifiantAppelOffre: projet.appelOffreId },
+        });
+        if (isSoumisAuxGF({ appelOffres, famille: projet.familleId })) {
+          // supprimer les éventuelles garanties financières du projet
+          const dateActuelle = new Date();
+          try {
+            const garantiesFinancières =
+              await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+                type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+                data: {
+                  identifiantProjetValue,
+                },
+              });
+            if (garantiesFinancières) {
+              await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresUseCase>(
+                {
+                  type: 'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
                   data: {
                     identifiantProjetValue,
+                    effacéLeValue: dateActuelle.toISOString(),
+                    effacéParValue: user.email,
                   },
-                });
-              if (garantiesFinancières) {
-                await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresUseCase>(
-                  {
-                    type: 'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
-                    data: {
-                      identifiantProjetValue,
-                      effacéLeValue: dateActuelle.toISOString(),
-                      effacéParValue: user.email,
-                    },
-                  },
-                );
-              }
-            } catch (error) {}
+                },
+              );
+            }
+          } catch (error) {}
 
-            // demander de nouvelles garanties financières
-            await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
-              type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
-              data: {
-                demandéLeValue: dateActuelle.toISOString(),
-                identifiantProjetValue,
-                dateLimiteSoumissionValue: new Date(
-                  dateActuelle.setMonth(dateActuelle.getMonth() + 2),
-                ).toISOString(),
-                motifValue:
-                  GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur.motif,
-              },
-            });
-          }
+          // demander de nouvelles garanties financières
+          await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
+            type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
+            data: {
+              demandéLeValue: dateActuelle.toISOString(),
+              identifiantProjetValue,
+              dateLimiteSoumissionValue: new Date(
+                dateActuelle.setMonth(dateActuelle.getMonth() + 2),
+              ).toISOString(),
+              motifValue:
+                GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur.motif,
+            },
+          });
         }
 
         return response.redirect(

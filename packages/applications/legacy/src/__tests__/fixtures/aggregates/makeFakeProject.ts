@@ -12,8 +12,6 @@ import {
   ProjectCannotBeUpdatedIfUnnotifiedError,
   ProjectDataCorrectedPayload,
   ProjectDataProps,
-  GFCertificateHasAlreadyBeenSentError,
-  NoGFCertificateToDeleteError,
 } from '../../../modules/project';
 import { ProjectNotQualifiedForCovidDelay } from '../../../modules/shared';
 
@@ -52,37 +50,6 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   addGeneratedCertificate: jest.fn(
     (args: { projectVersionDate: Date; certificateFileId: string }) => ok<null, never>(null),
   ),
-
-  submitGarantiesFinancieres: jest.fn(
-    (args: {
-      gfDate: Date;
-      fileId: string;
-      submittedBy: User;
-      type: string;
-      dateEchéance?: Date;
-    }) =>
-      ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>(
-        null,
-      ),
-  ),
-  removeGarantiesFinancieres: jest.fn((removedBy: User) =>
-    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>(null),
-  ),
-  uploadGarantiesFinancieres: jest.fn(
-    (args: {
-      gfDate: Date;
-      fileId: string;
-      submittedBy: User;
-      type?: string;
-      dateEchéance?: Date;
-    }) =>
-      ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>(
-        null,
-      ),
-  ),
-  withdrawGarantiesFinancieres: jest.fn((removedBy: User) =>
-    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>(null),
-  ),
   applyCovidDelay: jest.fn(() => ok<null, ProjectNotQualifiedForCovidDelay>(null)),
   signalerDemandeDelai: jest.fn(
     (args: {
@@ -113,10 +80,6 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
     }) => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null),
   ),
   modifierAppelOffre: jest.fn((appelOffre: { id: string }) => ok<null, null>(null)),
-  addGFTypeAndExpirationDate: jest.fn(
-    (args: { dateEchéance?: Date; submittedBy: User; projectId: string; type: string }) =>
-      ok<null | ProjectCannotBeUpdatedIfUnnotifiedError>(null),
-  ),
   certificateData: ok({
     template: 'v1' as CertificateTemplate,
     data: {} as ProjectDataForCertificate,
@@ -139,8 +102,5 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   abandonedOn: 0,
   identifiantGestionnaireRéseau: '',
   délaiCDC2022appliqué: false,
-  soumisAuxGF: false,
-  GFValidées: false,
   notifiedOn: new Date('2020-01-01').getTime(),
-  hasCurrentGf: false,
 });

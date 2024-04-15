@@ -6,6 +6,7 @@ import { expect } from 'chai';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
 import waitForExpect from 'wait-for-expect';
+import { NotFoundError } from '@potentiel-domain/core';
 
 Alors(
   'les garanties financières à traiter devraient être consultables pour le projet {string} avec :',
@@ -157,19 +158,117 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      let résultat: any;
       try {
-        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+        const result = await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
+          },
+        );
+
+        result.should.be.undefined;
+      } catch (e) {
+        (e as Error).should.be.instanceOf(NotFoundError);
+      }
+    });
+  },
+);
+
+Alors(
+  `des garanties financières devraient être attendues pour le projet {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const exemple = dataTable.rowsHash();
+    const dateLimiteSoumission = exemple['date limite de soumission'];
+    const motif = exemple['motif'];
+
+    await waitForExpect(async () => {
+      const actualReadModel =
+        await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
+          },
+        );
+
+      expect(actualReadModel).not.to.be.undefined;
+      expect(actualReadModel.nomProjet).to.deep.equal(nomProjet);
+      expect(actualReadModel.motif.motif).to.deep.equal(motif);
+      expect(actualReadModel.dateLimiteSoumission.date).to.deep.equal(
+        new Date(dateLimiteSoumission),
+      );
+    });
+  },
+);
+
+Alors(
+  `les garanties financières à traiter du projet {string} devraient être consultable dans la liste des garanties financières à traiter`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      const actualReadModel =
+        await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
           data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+            pagination: { page: 1, itemsPerPage: 10 },
+            utilisateur: {
+              email: 'admin@test.test',
+              rôle: 'admin',
+            },
           },
         });
-      } catch (error) {
-        résultat = error;
+
+      expect(actualReadModel.items[0].identifiantProjet.estÉgaleÀ(identifiantProjet)).to.be.true;
+    });
+  },
+);
+
+Alors(
+  `les garanties financières à traiter du projet {string} ne devraient plus être consultable dans la liste des garanties financières à traiter`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    await waitForExpect(async () => {
+      const actualReadModel =
+        await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
+          data: {
+            pagination: { page: 1, itemsPerPage: 10 },
+            utilisateur: {
+              email: 'admin@test.test',
+              rôle: 'admin',
+            },
+          },
+        });
+
+      expect(actualReadModel.items).to.be.empty;
+    });
+  },
+);
+
+Alors(
+  `les garanties financières en attente du projet {string} ne devraient plus être consultable dans la liste des garanties financières en attente`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    await waitForExpect(async () => {
+      try {
+        const result =
+          await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
+            {
+              type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+              data: {
+                identifiantProjetValue: identifiantProjet.formatter(),
+              },
+            },
+          );
+
+        result.should.be.undefined;
+      } catch (e) {
+        (e as Error).should.be.instanceOf(NotFoundError);
       }
-      expect(résultat).not.to.be.undefined;
-      résultat.message.should.be.equal(`Il n'y a aucunes garanties financières sur le projet`);
     });
   },
 );

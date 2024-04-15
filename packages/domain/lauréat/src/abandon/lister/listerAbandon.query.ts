@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonEntity } from '../abandon.entity';
 import { DateTime, IdentifiantProjet, CommonPort, CommonError } from '@potentiel-domain/common';
 import { StatutAbandon, StatutPreuveRecandidature } from '..';
-import { Option } from '@potentiel-librairies/monads';
+import { Option } from '@potentiel-libraries/monads';
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -119,6 +119,9 @@ export const registerListerAbandonQuery = ({
       };
     }
 
+    /**
+     * @todo on devrait passer uniquement la région dans la query et pas les infos utilisateur pour le déterminer
+     */
     if (rôle === 'dreal') {
       const région = await récupérerRégionDreal(email);
       if (Option.isNone(région)) {
