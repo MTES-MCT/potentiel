@@ -25,16 +25,12 @@ const menuLinks = {
         href: Routes.GarantiesFinancières.dépôt.lister,
       },
     },
-    ...(featureFlags.SHOW_GARANTIES_FINANCIERES
-      ? [
-          {
-            text: 'Projets avec garanties financières en attente',
-            linkProps: {
-              href: Routes.GarantiesFinancières.enAttente.lister,
-            },
-          },
-        ]
-      : []),
+    {
+      text: 'Projets avec garanties financières en attente',
+      linkProps: {
+        href: Routes.GarantiesFinancières.enAttente.lister,
+      },
+    },
   ],
 };
 
