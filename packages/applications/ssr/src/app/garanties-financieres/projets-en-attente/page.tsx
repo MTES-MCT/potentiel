@@ -14,6 +14,7 @@ import {
   ListProjetsAvecGarantiesFinancièresEnAttentePage,
   ListProjetsAvecGarantiesFinancièresEnAttenteProps,
 } from '@/components/pages/garanties-financières/en-attente/lister/ListerProjetsAvecGarantiesFinancièresEnAttente.page';
+import { getGarantiesFinancièresMotifLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresMotifLabel';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -87,6 +88,7 @@ const mapToListProps = (
       appelOffre,
       période,
       famille,
+      motif,
       régionProjet,
       dernièreMiseÀJour,
       dateLimiteSoumission,
@@ -97,6 +99,7 @@ const mapToListProps = (
       période,
       famille,
       régionProjet,
+      motif: getGarantiesFinancièresMotifLabel(motif.motif),
       misÀJourLe: dernièreMiseÀJour.date.formatter(),
       dateLimiteSoumission: dateLimiteSoumission.formatter(),
       afficherModèleMiseEnDemeure:
