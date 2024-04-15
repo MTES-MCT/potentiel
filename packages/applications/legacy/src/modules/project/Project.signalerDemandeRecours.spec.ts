@@ -9,7 +9,6 @@ import {
   ProjectClasseGranted,
   ProjectCompletionDueDateSet,
   ProjectDCRDueDateSet,
-  ProjectGFDueDateSet,
   ProjectImported,
   ProjectNotificationDateSet,
   ProjectNotified,
@@ -291,7 +290,7 @@ describe('Project.signalerDemandeRecours()', () => {
             signaledBy: fakeUser,
           });
 
-          expect(project.pendingEvents).toHaveLength(7);
+          expect(project.pendingEvents).toHaveLength(6);
 
           const targetEvent = project.pendingEvents[0];
 
@@ -417,36 +416,6 @@ describe('Project.signalerDemandeRecours()', () => {
           );
         });
 
-        it('should emit a ProjectGFDueDateSet event', () => {
-          const project = UnwrapForTest(
-            makeProject({
-              projectId,
-              history: fakeHistory,
-              getProjectAppelOffre,
-              buildProjectIdentifier: () => '',
-            }),
-          );
-
-          const decidedOn = new Date('2022-04-12');
-
-          project.signalerDemandeRecours({
-            decidedOn,
-            status: 'acceptée',
-            notes: 'notes',
-            attachment: { id: 'file-id', name: 'file-name' },
-            signaledBy: fakeUser,
-          });
-
-          const targetEvent = project.pendingEvents[5];
-
-          expect(targetEvent).toBeDefined();
-          expect(targetEvent.type).toEqual(ProjectGFDueDateSet.type);
-          expect(targetEvent.payload.projectId).toEqual(projectId.toString());
-          expect(targetEvent.payload.garantiesFinancieresDueOn).toEqual(
-            new Date(decidedOn.setMonth(decidedOn.getMonth() + 2)).getTime(),
-          );
-        });
-
         it('should emit a ProjectCompletionDueDateSet event', () => {
           const project = UnwrapForTest(
             makeProject({
@@ -467,7 +436,7 @@ describe('Project.signalerDemandeRecours()', () => {
             signaledBy: fakeUser,
           });
 
-          const targetEvent = project.pendingEvents[6];
+          const targetEvent = project.pendingEvents[5];
 
           expect(targetEvent).toBeDefined();
           expect(targetEvent.type).toEqual(ProjectCompletionDueDateSet.type);
