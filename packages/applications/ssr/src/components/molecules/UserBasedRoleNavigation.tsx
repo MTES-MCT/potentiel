@@ -21,7 +21,7 @@ export async function UserBasedRoleNavigation() {
 const menuLinks = {
   listerGarantiesFinancières: [
     {
-      text: 'Garanties financières en cours',
+      text: 'Garanties financières à traiter',
       linkProps: {
         href: featureFlags.SHOW_GARANTIES_FINANCIERES
           ? Routes.GarantiesFinancières.dépôt.lister
