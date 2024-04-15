@@ -17,7 +17,9 @@ export const ImporterDatesMiseEnServicePage = () => {
 
   return (
     <ColumnPageTemplate
-      banner={<Heading1 className="text-white">Importer des dates de mise en service</Heading1>}
+      banner={
+        <Heading1 className="text-potentiel-white">Importer des dates de mise en service</Heading1>
+      }
       leftColumn={{
         children: (
           <Form

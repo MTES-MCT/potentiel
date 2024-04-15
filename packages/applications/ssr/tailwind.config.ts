@@ -1,9 +1,10 @@
 import type { Config } from 'tailwindcss';
 import { fr } from '@codegouvfr/react-dsfr';
 
-const {
-  colors: { getHex, ...dsfrColors },
-} = fr;
+/**
+ * @description Cette variable permet de récupérer les [différentes couleurs conforme DSFR](https://components.react-dsfr.codegouv.studio/?path=/docs/%F0%9F%8E%A8-color-helper--page).
+ */
+const decisionsColors = fr.colors.decisions;
 
 const config: Config = {
   content: [
@@ -20,9 +21,19 @@ const config: Config = {
       },
     },
     colors: {
-      ...dsfrColors,
-      white: fr.colors.decisions.text.inverted.grey.default,
-      black: fr.colors.decisions.text.default.grey.default,
+      dsfr: {
+        ...decisionsColors,
+      },
+      potentiel: {
+        info: decisionsColors.text.default.info.default,
+        warning: decisionsColors.text.default.warning.default,
+        success: decisionsColors.text.default.success.default,
+        error: decisionsColors.text.default.error.default,
+        white: decisionsColors.text.inverted.grey.default,
+        grey: decisionsColors.text.default.grey.default,
+        black: decisionsColors.text.default.grey.default,
+        blueFrance: decisionsColors.text.label.blueFrance.default,
+      },
     },
   },
   plugins: [],

@@ -68,8 +68,8 @@ const PageLink: FC<PageLinkProps> = ({ href, title, disabled, children }) => (
   <a
     className={`flex px-2 py-1 bg-none no-underline hover:no-underline focus:no-underline ${
       disabled
-        ? 'cursor-not-allowed !text-decisions-text-default-grey-default-grey-_425_625-default !hover:text-options-grey-_425_625-default'
-        : 'focus:no-underline !text-black hover:text-black hover:bg-options-grey-_1000_50-default'
+        ? 'cursor-not-allowed !text-potentiel-grey hover:text-potentiel-grey'
+        : 'focus:no-underline !text-potentiel-black hover:text-potentiel-black'
     }`}
     title={title}
     href={disabled ? undefined : href}
@@ -85,7 +85,7 @@ const CurrentPageLink: FC<ComponentProps<'a'> & { pageNumber: number }> = ({ pag
     role="link"
     aria-current="page"
     aria-disabled
-    className="!text-white px-2 py-1 bg-decisions-background-flat-blueFrance-default"
+    className="!text-potentiel-white px-2 py-1 bg-potentiel-blueFrance"
   >
     {pageNumber}
   </a>

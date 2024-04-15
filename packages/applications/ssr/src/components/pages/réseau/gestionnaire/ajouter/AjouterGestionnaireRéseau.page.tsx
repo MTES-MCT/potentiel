@@ -19,7 +19,9 @@ export const AjouterGestionnaireRéseauPage: FC = () => {
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
   return (
     <PageTemplate
-      banner={<Heading1 className="text-white">Ajouter un gestionnaire de réseau</Heading1>}
+      banner={
+        <Heading1 className="text-potentiel-white">Ajouter un gestionnaire de réseau</Heading1>
+      }
     >
       <Form
         action={ajouterGestionnaireRéseauAction}

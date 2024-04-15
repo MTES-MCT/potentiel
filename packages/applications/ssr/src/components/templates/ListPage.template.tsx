@@ -45,7 +45,7 @@ export const ListPageTemplate = <TItem,>({
   const listFiltersKey = new URLSearchParams(useSearchParams()).toString();
 
   return (
-    <PageTemplate banner={<Heading1 className="text-white">{heading}</Heading1>}>
+    <PageTemplate banner={<Heading1 className="text-potentiel-white">{heading}</Heading1>}>
       <div className="flex flex-col md:flex-row gap-5 md:gap-10">
         {filters.length || actions.length ? (
           <div className="flex flex-col pb-2 border-solid border-0 border-b md:border-b-0 md:w-1/4">

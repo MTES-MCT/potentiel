@@ -39,7 +39,7 @@ export const ProjetBanner: FC<ProjetBannerProps> = ({
       <div className="flex justify-start items-center">
         <a
           href={Routes.Projet.details(identifiantProjet)}
-          className="text-xl font-bold !text-white mr-2"
+          className="text-xl font-bold !text-potentiel-white mr-2"
         >
           {nom}
         </a>
