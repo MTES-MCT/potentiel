@@ -8,7 +8,7 @@ export type IconProps = {
   className?: string;
 };
 
-export const Icon: FC<IconProps> = ({ id, size = 'md', className, title, style }) => (
+export const Icon: FC<IconProps> = ({ id, size = 'md', className, title }) => (
   <i
     className={`${fr.cx(id, `fr-icon--${size}`)} ${className ?? ''}`}
     {...(title ? { title } : { 'aria-hidden': true })}

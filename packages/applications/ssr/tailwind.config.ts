@@ -21,6 +21,8 @@ const config: Config = {
     },
     colors: {
       ...dsfrColors,
+      white: fr.colors.decisions.text.inverted.grey.default,
+      black: fr.colors.decisions.text.default.grey.default,
     },
   },
   plugins: [],
