@@ -1,6 +1,5 @@
 export * from './extractACItemProps';
 export * from './extractAttachedFileItemProps';
-export * from './extractCAItemProps';
 export * from './extractDesignationItemProps';
 export * from './extractImportItemProps';
 export * from './extractLegacyModificationsItemProps';

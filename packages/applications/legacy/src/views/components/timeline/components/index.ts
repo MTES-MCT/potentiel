@@ -1,6 +1,5 @@
 export * from './ACItem';
 export * from './AttachedFileItem';
-export * from './CAItem';
 export * from './CahierDesChargesChoisiItem';
 export * from './ContentArea';
 export * from './CurrentIcon';
