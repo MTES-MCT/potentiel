@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { fr } from '@codegouvfr/react-dsfr';
 
 import { Icon } from '@/components/atoms/Icon';
 
@@ -7,12 +8,18 @@ export const Separateur: FC = () => (
     <Icon
       id="fr-icon-arrow-right-fill"
       size="lg"
-      className="my-auto text-blue-france-sun-base hidden md:block"
+      className="my-auto hidden md:block"
+      style={{
+        color: fr.colors.decisions.text.title.blueFrance.default,
+      }}
     />
     <Icon
       id="fr-icon-arrow-down-fill"
       size="lg"
-      className="my-auto text-blue-france-sun-base block md:hidden"
+      className="my-auto block md:hidden"
+      style={{
+        color: fr.colors.decisions.text.title.blueFrance.default,
+      }}
     />
   </div>
 );

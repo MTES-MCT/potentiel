@@ -8,9 +8,10 @@ type TileProps = {
 
 export const Tile: FC<TileProps> = ({ children, className = '' }) => (
   <div
-    className={`p-5 border border-solid border-grey-925-base border-b-[3px] ${className}`}
+    className={`p-5 border border-solid border-b-[3px] ${className}`}
     style={{
-      borderBottom: fr.colors.decisions.background.active.blueFrance.default,
+      border: fr.colors.decisions.border.default.grey.default,
+      borderBottom: fr.colors.decisions.border.default.blueFrance.default,
     }}
   >
     {children}

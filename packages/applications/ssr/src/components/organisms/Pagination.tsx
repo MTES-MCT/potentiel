@@ -68,10 +68,11 @@ type PageLinkProps = ComponentProps<'a'> & {
 const PageLink: FC<PageLinkProps> = ({ href, title, disabled, children }) => (
   <a
     className={`flex px-2 py-1 bg-none no-underline hover:no-underline focus:no-underline ${
-      disabled
-        ? 'cursor-not-allowed !text-grey-425-base hover:!text-grey-425-base'
-        : 'hover:bg-grey-1000-hover focus:no-underline !text-black hover:text-black'
+      disabled ? 'cursor-not-allowed' : 'focus:no-underline !text-black hover:text-black'
     }`}
+    style={{
+      color: disabled ? fr.colors.decisions.text.default.grey.default : '',
+    }}
     title={title}
     href={disabled ? undefined : href}
     aria-disabled={disabled}

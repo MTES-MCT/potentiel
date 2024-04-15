@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import { Table } from '@codegouvfr/react-dsfr/Table';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -56,34 +57,15 @@ export const ImporterDatesMiseEnServicePage = () => {
             small
             description={
               <div className="py-4 text-justify">
-                <table className="lg:mx-4 my-4 border-spacing-0">
-                  <thead>
-                    <tr>
-                      <th
-                        className="bg-grey-950-base border-solid border-0 border-b-2 border-b-grey-920-base text-left p-4"
-                        scope="col"
-                      >
-                        Colonne
-                      </th>
-                      <th
-                        className="bg-grey-950-base border-solid border-0 border-b-2 border-b-grey-920-base text-left p-4"
-                        scope="col"
-                      >
-                        Format
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-grey-950-base">
-                    <tr className="odd:bg-grey-975-base">
-                      <td className="text-left p-4">referenceDossier</td>
-                      <td className="text-left p-4">chaîne de caractères</td>
-                    </tr>
-                    <tr className="odd:bg-grey-975-base">
-                      <td className="text-left p-4">dateMiseEnService</td>
-                      <td className="text-left p-4">date au format JJ/MM/AAAA</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <Table
+                  className="lg:mx-4 my-4 border-spacing-0"
+                  caption="Résumé du tableau attendu pour l'import des dates de mise en service"
+                  headers={['Colonne', 'Format']}
+                  data={[
+                    ['referenceDossier', 'chaîne de caractères'],
+                    ['dateMiseEnService', 'date au format JJ/MM/AAAA'],
+                  ]}
+                />
               </div>
             }
           />

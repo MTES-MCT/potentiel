@@ -13,28 +13,6 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
-      colors: {
-        // 'grey-425': {
-        //   base: '#666666',
-        //   hover: '#919191',
-        //   active: '#a6a6a6',
-        // },
-        // 'grey-625': {
-        //   base: '#929292',
-        //   hover: '#bbbbbb',
-        //   active: '#cecece',
-        // },
-        // 'success-425': {
-        //   base: '#18753c',
-        //   hover: '#27a959',
-        //   active: '#2fc368',
-        // },
-        // 'warning-425': {
-        //   base: '#b34000',
-        //   hover: '#ff6218',
-        //   active: '#ff7a55',
-        // },
-      },
     },
   },
   plugins: [],
