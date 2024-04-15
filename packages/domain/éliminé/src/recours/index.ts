@@ -13,12 +13,11 @@ import {
   RécupérerRégionDrealPort,
 } from './lister/listerRecours.query';
 import { RejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase';
-import { DétecterRecoursQuery } from './détecter/détecterRecours.query';
 
 // Query
-export type RecoursQuery = DétecterRecoursQuery | ConsulterRecoursQuery | ListerRecoursQuery;
+export type RecoursQuery = ConsulterRecoursQuery | ListerRecoursQuery;
 
-export { DétecterRecoursQuery, ConsulterRecoursQuery, ListerRecoursQuery };
+export { ConsulterRecoursQuery, ListerRecoursQuery };
 
 // ReadModel
 export { ConsulterRecoursReadModel, ListerRecoursReadModel };

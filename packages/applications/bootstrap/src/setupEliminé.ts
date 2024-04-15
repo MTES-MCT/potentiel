@@ -1,14 +1,14 @@
 import { registerEliminéQueries, registerEliminéUseCases } from '@potentiel-domain/elimine';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
-// import { RecoursNotification } from '@potentiel-infrastructure/notifications';
-import { RecoursProjector } from '@potentiel-infrastructure/projectors';
 import { mediator } from 'mediateur';
 import {
   listerRecoursAdapter,
   listerRecoursPourPorteurAdapter,
   récupérerRégionDrealAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
+import { RecoursProjector } from '@potentiel-application/projectors';
+import { RecoursNotification } from '@potentiel-applications/notifications';
 
 export const setupEliminé = async () => {
   registerEliminéUseCases({
@@ -23,19 +23,19 @@ export const setupEliminé = async () => {
   });
 
   RecoursProjector.register();
-  // RecoursNotification.register();
+  RecoursNotification.register();
 
-  // const unsubscribeRecoursNotification = await subscribe<RecoursNotification.SubscriptionEvent>({
-  //   name: 'notifications',
-  //   streamCategory: 'recours',
-  //   eventType: ['RecoursDemandé-V1', 'RecoursAccordé-V1', 'RecoursAnnulé-V1', 'RecoursRejeté-V1'],
-  //   eventHandler: async (event) => {
-  //     await mediator.publish<RecoursNotification.Execute>({
-  //       type: 'EXECUTE_ELIMINE_RECOURS_NOTIFICATION',
-  //       data: event,
-  //     });
-  //   },
-  // });
+  const unsubscribeRecoursNotification = await subscribe<RecoursNotification.SubscriptionEvent>({
+    name: 'notifications',
+    streamCategory: 'recours',
+    eventType: ['RecoursDemandé-V1', 'RecoursAccordé-V1', 'RecoursAnnulé-V1', 'RecoursRejeté-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<RecoursNotification.Execute>({
+        type: 'EXECUTE_ELIMINE_RECOURS_NOTIFICATION',
+        data: event,
+      });
+    },
+  });
 
   const unsubscribeRecoursProjector = await subscribe<RecoursProjector.SubscriptionEvent>({
     name: 'projector',
@@ -56,7 +56,7 @@ export const setupEliminé = async () => {
   });
 
   return async () => {
-    // await unsubscribeRecoursNotification();
+    await unsubscribeRecoursNotification();
     await unsubscribeRecoursProjector();
   };
 };

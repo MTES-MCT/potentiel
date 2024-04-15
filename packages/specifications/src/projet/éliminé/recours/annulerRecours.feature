@@ -3,6 +3,7 @@ Fonctionnalité: Annuler le recours d'un projet éliminé
   Contexte:
     Etant donné le projet éliminé "Du boulodrome de Marseille"
 
+  @select
   Scénario: Un porteur annule le recours d'un projet éliminé
     Etant donné un recours en cours pour le projet éliminé "Du boulodrome de Marseille"
     Quand le porteur annule le recours pour le projet éliminé "Du boulodrome de Marseille"

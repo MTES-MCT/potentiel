@@ -1,5 +1,5 @@
 import format from 'pg-format';
-import { executeSelect } from '@potentiel/pg-helpers';
+import { executeSelect } from '@potentiel-librairies/pg-helpers';
 import { Recours } from '@potentiel-domain/elimine';
 
 const countRecoursQuery = `

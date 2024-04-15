@@ -1,5 +1,5 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
-import { executeQuery } from '@potentiel/pg-helpers';
+import { executeQuery } from '@potentiel-librairies/pg-helpers';
 import { randomUUID } from 'crypto';
 import { PotentielWorld } from '../../potentiel.world';
 import { IdentifiantProjet } from '@potentiel-domain/common';
