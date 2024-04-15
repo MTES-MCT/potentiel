@@ -1,6 +1,5 @@
 import { makeCertificateFilename } from './modules/project';
 import querystring from 'querystring';
-import sanitize from 'sanitize-filename';
 import type { Project } from './entities';
 
 const withParams =
@@ -289,74 +288,6 @@ class routes {
   static POST_CORRIGER_DELAI_ACCORDE = '/corriger-delai-accorde.html';
 
   static INVITE_USER_TO_PROJECT_ACTION = '/invite-user-to-project';
-
-  /* CRE4 GF */
-  static REMOVE_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
-    const route = '/projet/:projectId/annuler-depot/garanties-financieres';
-    if (args) {
-      const { projectId } = args;
-      return route.replace(':projectId', projectId);
-    } else return route;
-  };
-  static SUBMIT_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
-    const route = '/projet/:projectId/deposer/garanties-financieres';
-    if (args) {
-      const { projectId } = args;
-      return route.replace(':projectId', projectId);
-    } else return route;
-  };
-
-  /* PPE2 GF */
-  static WITHDRAW_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
-    const route = '/projet/:projectId/supprimer/garanties-financieres';
-    if (args) {
-      const { projectId } = args;
-      return route.replace(':projectId', projectId);
-    } else return route;
-  };
-  static UPLOAD_GARANTIES_FINANCIERES = (args?: { projectId: string }) => {
-    const route = '/projet/:projectId/enregistrer/garanties-financieres';
-    if (args) {
-      const { projectId } = args;
-      return route.replace(':projectId', projectId);
-    } else return route;
-  };
-
-  static ADD_GF_TYPE_AND_EXPIRATION_DATE = (args?: { projectId: string }) => {
-    const route = '/projet/:projectId/actualiser/garanties-financieres';
-    if (args) {
-      const { projectId } = args;
-      return route.replace(':projectId', projectId);
-    } else return route;
-  };
-
-  static VALIDER_GF = (args?: { projetId: string }) => {
-    const route = '/projet/:projetId/valider/garanties-financieres';
-    if (args) {
-      const { projetId } = args;
-      return route.replace(':projetId', projetId);
-    } else return route;
-  };
-
-  static INVALIDER_GF = (args?: { projetId: string }) => {
-    const route = '/projet/:projetId/invalider/garanties-financieres';
-    if (args) {
-      const { projetId } = args;
-      return route.replace(':projetId', projetId);
-    } else return route;
-  };
-
-  static TELECHARGER_MODELE_MISE_EN_DEMEURE = (project?: { id: string; nomProjet: string }) => {
-    const route = '/projet/:projectId/telecharger-mise-en-demeure/:filename';
-    if (project) {
-      return route
-        .replace(':projectId', project.id)
-        .replace(
-          ':filename',
-          sanitize(`Mise en demeure Garanties Financières - ${project.nomProjet}.docx`),
-        );
-    } else return route;
-  };
 
   static TELECHARGER_MODELE_REPONSE = (
     project?: { potentielIdentifier: string; id: string },

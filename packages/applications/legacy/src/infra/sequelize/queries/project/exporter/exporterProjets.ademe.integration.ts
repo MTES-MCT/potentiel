@@ -13,7 +13,6 @@ import {
   donnéesDeRaccordement,
   donnéesFournisseurs,
   financementCitoyen,
-  garantiesFinancières,
   identificationProjet,
   implantation,
   instruction,
@@ -55,7 +54,6 @@ describe(`Export des projets en tant qu'utilisateur "ademe"`, () => {
     ...noteInnovationSensible,
     ...notes,
     ...modificationsAvantImport,
-    ...garantiesFinancières,
   ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé));
 
   it(`

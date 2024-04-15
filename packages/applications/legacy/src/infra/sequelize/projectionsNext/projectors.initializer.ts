@@ -1,6 +1,5 @@
 import { logger } from '../../../core/utils';
 import { Subscribe } from './subscribe';
-import { initializeGarantiesFinancièresProjector } from './garantiesFinancières/garantiesFinancières.projector';
 import { ProjectEventProjector } from './projectEvents/projectEvent.projector';
 import { TâchesProjector } from './tâches/tâches.projector';
 import { ModificationRequestProjector } from './modificationRequest/modificationRequest.projector';
@@ -24,7 +23,6 @@ export const initializeProjectors = (sequelize: Sequelize, subscribe: Subscribe)
     UserProjectsProjector,
     UserProjectClaimsProjector,
     UserDrealProjector,
-    initializeGarantiesFinancièresProjector(projectorFactory),
   ];
 
   for (const projector of projectors) {

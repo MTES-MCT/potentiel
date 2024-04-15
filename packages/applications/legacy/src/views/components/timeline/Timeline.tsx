@@ -7,12 +7,10 @@ import {
   ProjectEventListDTO,
   DemandeDélaiDTO,
   CahierDesChargesChoisiDTO,
-  GarantiesFinancièresDTO,
 } from '../../../modules/frise';
 import {
   TimelineItem,
   DesignationItem,
-  GFItem,
   ImportItem,
   ACItem,
   CAItem,
@@ -61,8 +59,7 @@ type ItemProps =
   | DemandeAbandonSignaledDTO
   | DemandeRecoursSignaledDTO
   | DemandeDélaiDTO
-  | CahierDesChargesChoisiDTO
-  | GarantiesFinancièresDTO;
+  | CahierDesChargesChoisiDTO;
 
 export const Timeline = ({
   projectEventList: {
@@ -70,12 +67,9 @@ export const Timeline = ({
     project: { id: projectId, status, garantieFinanciereEnMois, nomProjet },
   },
 }: TimelineProps) => {
-  const garantiesFinancières = events.find(is('garanties-financières'));
-
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId, status),
     extractImportItemProps(events),
-    garantiesFinancières?.date !== 0 ? garantiesFinancières : undefined,
     extractACItemProps(events, { status }),
     ...extractModificationRequestsItemProps(events),
     ...events.filter(is('DemandeDelaiSignaled')),
@@ -91,7 +85,6 @@ export const Timeline = ({
     .sort((a, b) => a.date - b.date);
 
   insertAfter(itemProps, 'attestation-de-conformite', extractCAItemProps(events, { status }));
-  garantiesFinancières?.date === 0 && insertAfter(itemProps, 'designation', garantiesFinancières);
 
   const timelineItems = itemProps.map((props) => {
     const { type } = props;
@@ -102,16 +95,6 @@ export const Timeline = ({
 
       case 'import':
         return <ImportItem {...props} />;
-
-      case 'garanties-financières':
-        return (
-          <GFItem
-            {...{
-              project: { id: projectId, status, garantieFinanciereEnMois, nomProjet },
-              ...props,
-            }}
-          />
-        );
 
       case 'attestation-de-conformite':
         return <ACItem {...props} />;

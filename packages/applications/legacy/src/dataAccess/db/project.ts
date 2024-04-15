@@ -1,4 +1,4 @@
-import { Attributes, literal, Op } from 'sequelize';
+import { literal, Op } from 'sequelize';
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '..';
 import { logger } from '../../core/utils';
 import { Project, User } from '../../entities';
@@ -9,39 +9,13 @@ import { Err, Ok, ResultAsync } from '../../types';
 import CONFIG from '../config';
 import isDbReady from './helpers/isDbReady';
 import { GetProjectAppelOffre } from '../../modules/projectAppelOffre';
-import { GarantiesFinancières } from '../../infra/sequelize';
 import { Région } from '../../modules/dreal/région';
 import {
-  User as UserModel,
   UserProjects,
   File as FileModel,
   Project as ProjectModel,
 } from '../../infra/sequelize/projectionsNext';
 import { PaginatedList, Pagination } from '../../modules/pagination';
-
-const deserializeGarantiesFinancières = (
-  gf: Attributes<GarantiesFinancières> & {
-    fichier: any;
-    envoyéesParRef: User;
-    validéesParRef: User;
-  },
-): Project['garantiesFinancières'] => {
-  if (!gf) return;
-  return {
-    id: gf.id,
-    projetId: gf.projetId,
-    statut: gf.statut,
-    soumisesALaCandidature: gf.soumisesALaCandidature,
-    dateConstitution: gf.dateConstitution ?? undefined,
-    dateEchéance: gf.dateEchéance ?? undefined,
-    dateEnvoi: gf.dateEnvoi ?? undefined,
-    dateLimiteEnvoi: gf.dateLimiteEnvoi ?? undefined,
-    fichier: gf.fichier ?? undefined,
-    validéesLe: gf.validéesLe ?? undefined,
-    validéesPar: gf.validéesParRef ? { fullName: gf.validéesParRef.fullName } : undefined,
-    envoyéesPar: gf.envoyéesParRef ? { fullName: gf.envoyéesParRef.fullName } : undefined,
-  };
-};
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
@@ -52,7 +26,6 @@ const deserialize = (item) => ({
   dcrFileId: item.dcrFileId || '',
   dcrDueOn: item.dcrDueOn || 0,
   certificateFileId: item.certificateFileId || '',
-  garantiesFinancières: deserializeGarantiesFinancières(item.garantiesFinancières),
   dcrDate: item.dcr?.stepDate.getTime() || 0,
   dcrSubmittedOn: item.dcr?.submittedOn.getTime() || 0,
   dcrSubmittedBy: item.dcr?.submittedBy,
@@ -111,15 +84,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       const projectInDb = await ProjectModel.findByPk(id, {
         include: [
           {
-            model: GarantiesFinancières,
-            as: 'garantiesFinancières',
-            include: [
-              { model: FileModel, as: 'fichier' },
-              { model: UserModel, as: 'envoyéesParRef' },
-              { model: UserModel, as: 'validéesParRef' },
-            ],
-          },
-          {
             model: FileModel,
             as: 'certificateFile',
             attributes: ['id', 'filename'],
@@ -160,15 +124,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
 
     opts.include = [
       {
-        model: GarantiesFinancières,
-        as: 'garantiesFinancières',
-        include: [
-          { model: FileModel, as: 'fichier' },
-          { model: UserModel, as: 'envoyéesParRef' },
-          { model: UserModel, as: 'validéesParRef' },
-        ],
-      },
-      {
         model: FileModel,
         as: 'certificateFile',
         attributes: ['id', 'filename'],
@@ -182,25 +137,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
 
       if ('isAbandoned' in query) {
         opts.where.abandonedOn = query.isAbandoned ? { [Op.ne]: 0 } : 0;
-      }
-
-      if ('garantiesFinancieres' in query) {
-        switch (query.garantiesFinancieres) {
-          case 'submitted':
-            opts.where['$garantiesFinancières.dateEnvoi$'] = { [Op.ne]: null };
-            break;
-          case 'notSubmitted':
-            opts.where['$garantiesFinancières.dateLimiteEnvoi$'] = { [Op.ne]: null };
-            opts.where['$garantiesFinancières.dateEnvoi$'] = null;
-            break;
-          case 'pastDue':
-            opts.where['$garantiesFinancières.dateLimiteEnvoi$'] = {
-              [Op.lte]: new Date(),
-              [Op.ne]: null,
-            };
-            opts.where['$garantiesFinancières.dateEnvoi$'] = null;
-            break;
-        }
       }
 
       if ('isClasse' in query) {

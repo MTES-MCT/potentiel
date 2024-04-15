@@ -116,23 +116,6 @@ type BaseProject = Static<typeof projectSchema> & {
     id: string;
     filename: string;
   };
-  garantiesFinancières?: {
-    id: string;
-    projetId: string;
-    statut: 'en attente' | 'à traiter' | 'validé';
-    soumisesALaCandidature: boolean;
-    dateLimiteEnvoi?: Date;
-    fichier?: {
-      id: string;
-      filename: string;
-    };
-    dateEnvoi?: Date;
-    envoyéesPar?: { fullName: string };
-    validéesPar?: { fullName: string };
-    dateConstitution?: Date;
-    dateEchéance?: Date;
-    validéesLe?: Date;
-  };
   cahierDesChargesActuel: CahierDesChargesRéférence;
   readonly potentielIdentifier: string;
   actionnariat?: '' | 'financement-collectif' | 'gouvernance-partagee';
@@ -149,9 +132,6 @@ type ProjectEvent = {
     | 'import'
     | 'candidate-notification'
     | 'certificate-generation'
-    | 'garanties-financieres-submission'
-    | 'garanties-financieres-file-move'
-    | 'garanties-financieres-removal'
     | 'manual-edition'
     | 'dcr-submission'
     | 'dcr-removal'

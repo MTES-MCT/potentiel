@@ -1,5 +1,4 @@
 export * from './admin';
-export * from './garantiesFinancieres';
 export * from './helpers';
 export * from './home';
 export * from './lettreInformation';

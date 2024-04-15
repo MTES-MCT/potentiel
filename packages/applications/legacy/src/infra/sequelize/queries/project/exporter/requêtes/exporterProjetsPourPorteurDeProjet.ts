@@ -9,7 +9,6 @@ import {
   donnéesDeRaccordement,
   donnéesFournisseurs,
   financementCitoyen,
-  garantiesFinancières,
   identificationProjet,
   implantation,
   localisationProjet,
@@ -40,7 +39,6 @@ const colonnesÀExporter = [
   ...résultatInstructionSensible,
   ...noteInnovation,
   ...modificationsAvantImport,
-  ...garantiesFinancières,
 ];
 
 export const exporterProjetsPourPorteurDeProjet = ({

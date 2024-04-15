@@ -18,8 +18,6 @@ export * from './models.initializer';
 
 // Export des models pour utilisation dans les queries
 export * from './file/file.model';
-export * from './garantiesFinancières/garantiesFinancières.model';
-export * from './garantiesFinancières/garantiesFinancières.projector';
 export * from './modificationRequest/modificationRequest.model';
 export * from './notification/notification.model';
 export * from './project/project.model';
@@ -32,7 +30,6 @@ export * from './users/users.model';
 
 // Export des projectors pour rebuild dans les migrations si besoin
 export * from './projector.factory';
-export * from './garantiesFinancières/garantiesFinancières.projector';
 export * from './modificationRequest/modificationRequest.projector';
 export * from './project/project.projector';
 export * from './projectEvents/projectEvent.projector';

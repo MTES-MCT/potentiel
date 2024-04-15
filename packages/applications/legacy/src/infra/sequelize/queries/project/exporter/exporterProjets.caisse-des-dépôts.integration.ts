@@ -6,7 +6,6 @@ import { resetDatabase } from '../../../../../dataAccess';
 
 import {
   coordonnéesCandidat,
-  garantiesFinancières,
   identificationProjet,
   localisationProjet,
 } from './colonnesParCatégorie';
@@ -19,7 +18,6 @@ describe(`Export des projets en tant qu'utilisateur "Caisse des dépôts"`, () =
     ...identificationProjet,
     ...coordonnéesCandidat,
     ...localisationProjet,
-    ...garantiesFinancières,
   ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé));
 
   it(`Étant donné des projets notifiés et non notifiés avec des détails

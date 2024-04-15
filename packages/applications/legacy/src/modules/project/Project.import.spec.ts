@@ -4,7 +4,6 @@ import { UnwrapForTest } from '../../core/utils';
 import { appelsOffreStatic } from '../../dataAccess/inMemory';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import {
-  TypeGarantiesFinancièresEtDateEchéanceTransmis,
   LegacyProjectSourced,
   ProjectActionnaireUpdated,
   ProjectCertificateObsolete,
@@ -12,7 +11,6 @@ import {
   ProjectDataCorrected,
   ProjectDCRDueDateSet,
   ProjectFournisseursUpdated,
-  ProjectGFDueDateSet,
   ProjectImported,
   ProjectNotificationDateSet,
   ProjectProducteurUpdated,
@@ -84,31 +82,6 @@ describe('Project.import({ data, importId })', () => {
       });
     });
 
-    it('when there is a garanties financières type it should trigger TypeGarantiesFinancièresEtDateEchéanceTransmis', () => {
-      project.import({
-        appelOffre,
-        data: {
-          ...fakeProject,
-          garantiesFinancièresType: "Garantie financière avec date d'échéance et à renouveler",
-          garantiesFinancièresDateEchéance: new Date('2021-01-01').toISOString(),
-        },
-        importId,
-      });
-
-      const targetEvent = project.pendingEvents.find(
-        (item) => item.type === TypeGarantiesFinancièresEtDateEchéanceTransmis.type,
-      ) as TypeGarantiesFinancièresEtDateEchéanceTransmis | undefined;
-
-      expect(targetEvent).toBeDefined();
-      if (!targetEvent) return;
-
-      expect(targetEvent.payload).toEqual({
-        projectId: projectId.toString(),
-        type: "Garantie financière avec date d'échéance et à renouveler",
-        dateEchéance: new Date('2021-01-01').toISOString(),
-      });
-    });
-
     describe('when data contains a notification date', () => {
       describe('when the project is classé', () => {
         const project = UnwrapForTest(
@@ -124,7 +97,7 @@ describe('Project.import({ data, importId })', () => {
           importId,
         });
 
-        expect(project.pendingEvents).toHaveLength(5);
+        expect(project.pendingEvents).toHaveLength(4);
 
         it('should trigger a ProjectNotificationDateSet', () => {
           const targetEvent = findEventOfType(ProjectNotificationDateSet, project.pendingEvents);
@@ -133,14 +106,6 @@ describe('Project.import({ data, importId })', () => {
 
           expect(targetEvent.payload.projectId).toEqual(projectId.toString());
           expect(targetEvent.payload.notifiedOn).toEqual(1234);
-        });
-
-        it('should trigger a ProjectGFDueDateSet', () => {
-          const targetEvent = findEventOfType(ProjectGFDueDateSet, project.pendingEvents);
-          expect(targetEvent).toBeDefined();
-          if (!targetEvent) return;
-
-          expect(targetEvent.payload.projectId).toEqual(projectId.toString());
         });
 
         it('should trigger a ProjectDCRDueDateSet', () => {
@@ -592,11 +557,10 @@ describe('Project.import({ data, importId })', () => {
           project.import({ appelOffre, data: { ...data, classe: 'Classé' }, importId });
         });
 
-        it('should emit GF/DCR/CompletionDueDateSet', () => {
-          expect(project.pendingEvents).toHaveLength(5);
+        it('should emit DCR/CompletionDueDateSet', () => {
+          expect(project.pendingEvents).toHaveLength(4);
 
           const pendingEventTypes = project.pendingEvents.map((item) => item.type);
-          expect(pendingEventTypes).toContain('ProjectGFDueDateSet');
           expect(pendingEventTypes).toContain('ProjectDCRDueDateSet');
           expect(pendingEventTypes).toContain('ProjectCompletionDueDateSet');
         });
@@ -637,17 +601,16 @@ describe('Project.import({ data, importId })', () => {
             }),
           );
 
-          it('should emit GF/DCR/CompletionDueDateSet', () => {
+          it('should emit DCR/CompletionDueDateSet', () => {
             project.import({
               appelOffre,
               data: { ...data, classe: 'Classé', notifiedOn: new Date('2020-01-02').getTime() },
               importId,
             });
 
-            expect(project.pendingEvents).toHaveLength(4);
+            expect(project.pendingEvents).toHaveLength(3);
 
             const pendingEventTypes = project.pendingEvents.map((item) => item.type);
-            expect(pendingEventTypes).toContain('ProjectGFDueDateSet');
             expect(pendingEventTypes).toContain('ProjectDCRDueDateSet');
             expect(pendingEventTypes).toContain('ProjectCompletionDueDateSet');
           });
@@ -759,11 +722,10 @@ describe('Project.import({ data, importId })', () => {
           });
         });
 
-        it('should emit GF/DCR/CompletionDueDateCancelled', () => {
-          expect(project.pendingEvents).toHaveLength(5);
+        it('should emit DCR/CompletionDueDateCancelled', () => {
+          expect(project.pendingEvents).toHaveLength(4);
 
           const pendingEventTypes = project.pendingEvents.map((item) => item.type);
-          expect(pendingEventTypes).toContain('ProjectGFDueDateCancelled');
           expect(pendingEventTypes).toContain('ProjectDCRDueDateCancelled');
           expect(pendingEventTypes).toContain('ProjectCompletionDueDateCancelled');
         });

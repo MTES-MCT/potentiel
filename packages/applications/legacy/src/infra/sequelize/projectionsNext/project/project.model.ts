@@ -6,7 +6,6 @@ import {
   NonAttribute,
 } from 'sequelize';
 import { Technologie } from '@potentiel-domain/appel-offre';
-import { GarantiesFinancières } from '../garantiesFinancières/garantiesFinancières.model';
 import { User } from '../users/users.model';
 import { File } from '../file/file.model';
 
@@ -51,10 +50,8 @@ export class Project extends Model<InferAttributes<Project>, InferCreationAttrib
   actionnariat: 'financement-collectif' | 'gouvernance-partagee' | '';
   dateMiseEnService?: Date;
   dateFileAttente?: Date;
-  soumisAuxGF: boolean;
   désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
   historiqueAbandon?: 'première-candidature' | 'abandon-classique' | 'abandon-avec-recandidature';
-  garantiesFinancières?: NonAttribute<GarantiesFinancières>;
   users?: NonAttribute<User[]>;
   certificateFile?: NonAttribute<File>;
   createdAt: CreationOptional<Date>;
