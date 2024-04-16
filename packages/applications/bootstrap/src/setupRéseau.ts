@@ -4,7 +4,7 @@ import { findProjection, listProjection } from '@potentiel-infrastructure/pg-pro
 import {
   GestionnaireRéseauProjector,
   RaccordementProjector,
-} from '@potentiel-application/projectors';
+} from '@potentiel-applications/projectors';
 import { mediator } from 'mediateur';
 
 export const setupRéseau = async () => {

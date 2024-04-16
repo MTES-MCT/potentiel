@@ -1,23 +1,26 @@
 import { should } from 'chai';
-import { after, before, beforeEach, describe, it } from 'node:test';
+import { after, before, beforeEach, afterEach, describe, it } from 'node:test';
+import { randomUUID } from 'node:crypto';
 
 import { Entity, RangeOptions, ListResultV2 } from '@potentiel-domain/core';
 import { flatten, unflatten } from '../../../libraries/flat/dist';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
+import { listProjectionV2 } from './listProjectionV2';
 import {
   NegativeEndPositionError,
   NegativeStartPositionError,
   StartPositionEqualToEndPositionError,
   StartPositionGreaterThanEndPositionError,
-  listProjectionV2,
-} from './listProjectionV2';
+} from './getRangeClause';
 
 should();
 
 describe('listProjectionV2', () => {
+  let category = '';
+
   type FakeProjection = Entity<
-    'fake-projection',
+    typeof category,
     {
       data: {
         value: string;
@@ -37,8 +40,7 @@ describe('listProjectionV2', () => {
   });
 
   beforeEach(async () => {
-    await executeQuery(`delete from domain_views.projection`);
-
+    category = randomUUID();
     fakeData = [];
 
     for (let time = 0; time <= Math.random() * 100 + 10; time++) {
@@ -55,10 +57,14 @@ describe('listProjectionV2', () => {
         `insert
         into domain_views.projection
         values ($1, $2)`,
-        `fake-projection|${fake.data.value}`,
+        `${category}|${fake.data.value}`,
         flatten(fake),
       );
     }
+  });
+
+  afterEach(async () => {
+    await executeQuery(`delete from domain_views.projection where key like $1`, `${category}|%`);
   });
 
   const mapToListResultItems = (
@@ -67,7 +73,7 @@ describe('listProjectionV2', () => {
     total: expectedData.length,
     items: expectedData.map((g) => ({
       ...unflatten(g),
-      type: 'fake-projection',
+      type: category,
     })),
     range: {
       endPosition: expectedData.length,
@@ -76,7 +82,7 @@ describe('listProjectionV2', () => {
   });
 
   it('should find projections by their key', async () => {
-    const actual = await listProjectionV2<FakeProjection>('fake-projection');
+    const actual = await listProjectionV2<FakeProjection>(category);
 
     const expected = mapToListResultItems(fakeData);
 
@@ -84,7 +90,7 @@ describe('listProjectionV2', () => {
   });
 
   it('should find projections by their key and sort them according to an order option', async () => {
-    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+    const actual = await listProjectionV2<FakeProjection>(category, {
       orderBy: {
         data: {
           name: 'descending',
@@ -106,7 +112,7 @@ describe('listProjectionV2', () => {
       endPosition: 9,
     };
 
-    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+    const actual = await listProjectionV2<FakeProjection>(category, {
       range: range,
     });
 
@@ -128,7 +134,7 @@ describe('listProjectionV2', () => {
     let error = new Error();
 
     try {
-      await listProjectionV2<FakeProjection>('fake-projection', {
+      await listProjectionV2<FakeProjection>(category, {
         range: range,
       });
     } catch (e) {
@@ -148,7 +154,7 @@ describe('listProjectionV2', () => {
     let error = new Error();
 
     try {
-      await listProjectionV2<FakeProjection>('fake-projection', {
+      await listProjectionV2<FakeProjection>(category, {
         range: range,
       });
     } catch (e) {
@@ -168,7 +174,7 @@ describe('listProjectionV2', () => {
     let error = new Error();
 
     try {
-      await listProjectionV2<FakeProjection>('fake-projection', {
+      await listProjectionV2<FakeProjection>(category, {
         range: range,
       });
     } catch (e) {
@@ -188,7 +194,7 @@ describe('listProjectionV2', () => {
     let error = new Error();
 
     try {
-      await listProjectionV2<FakeProjection>('fake-projection', {
+      await listProjectionV2<FakeProjection>(category, {
         range: range,
       });
     } catch (e) {
@@ -200,7 +206,7 @@ describe('listProjectionV2', () => {
   });
 
   it('should find projections by their key and filter them according to an equal condition option', async () => {
-    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+    const actual = await listProjectionV2<FakeProjection>(category, {
       where: {
         data: {
           name: {
@@ -217,7 +223,7 @@ describe('listProjectionV2', () => {
   });
 
   it('should find projections by their key and filter them according to an not equal condition option', async () => {
-    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+    const actual = await listProjectionV2<FakeProjection>(category, {
       where: {
         data: {
           name: {
@@ -247,11 +253,11 @@ describe('listProjectionV2', () => {
       `insert
         into domain_views.projection
         values ($1, $2)`,
-      `fake-projection|${insensitiveCaseFakeData.data.value}`,
+      `${category}|${insensitiveCaseFakeData.data.value}`,
       flatten(insensitiveCaseFakeData),
     );
 
-    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+    const actual = await listProjectionV2<FakeProjection>(category, {
       where: {
         data: {
           name: {
@@ -283,11 +289,11 @@ describe('listProjectionV2', () => {
       `insert
         into domain_views.projection
         values ($1, $2)`,
-      `fake-projection|${insensitiveCaseFakeData.data.value}`,
+      `${category}|${insensitiveCaseFakeData.data.value}`,
       flatten(insensitiveCaseFakeData),
     );
 
-    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+    const actual = await listProjectionV2<FakeProjection>(category, {
       where: {
         data: {
           name: {
@@ -308,7 +314,7 @@ describe('listProjectionV2', () => {
   it('should find projections by their key and filter them according to a include condition option', async () => {
     const valuesArray = ['1', '2'];
 
-    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+    const actual = await listProjectionV2<FakeProjection>(category, {
       where: {
         data: {
           name: {
@@ -329,7 +335,7 @@ describe('listProjectionV2', () => {
   it('should find projections by their key and filter them according to a not include condition option', async () => {
     const valuesArray = ['1', '2'];
 
-    const actual = await listProjectionV2<FakeProjection>('fake-projection', {
+    const actual = await listProjectionV2<FakeProjection>(category, {
       where: {
         data: {
           name: {

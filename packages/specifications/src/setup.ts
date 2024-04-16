@@ -12,7 +12,7 @@ import { should } from 'chai';
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
 import { getClient } from '@potentiel-libraries/file-storage';
-import { bootstrap } from '@potentiel-application/bootstrap';
+import { bootstrap } from '@potentiel-applications/bootstrap';
 import { clear } from 'mediateur';
 import {
   CreateBucketCommand,
