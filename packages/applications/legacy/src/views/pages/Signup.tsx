@@ -2,17 +2,17 @@ import { Request } from 'express';
 import React from 'react';
 import routes from '../../routes';
 import {
-  Footer,
-  Header,
-  PrimaryButton,
-  Input,
-  Container,
-  LinkButton,
-  SecondaryLinkButton,
-  Form,
-  ErrorIcon,
-  SaveIcon,
   ChampsObligatoiresLégende,
+  Container,
+  ErrorIcon,
+  Footer,
+  Form,
+  Header,
+  Input,
+  LinkButton,
+  PrimaryButton,
+  SaveIcon,
+  SecondaryLinkButton,
 } from '../components';
 import { hydrateOnClient } from '../helpers';
 
@@ -77,6 +77,12 @@ const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: Sign
         )}
 
         <ChampsObligatoiresLégende />
+
+        <div className="text-sm italic">
+          Ce formulaire d’inscription est réservé aux porteurs de projet. <br /> Si vous n'êtes pas
+          un porteur de projet mais que vous souhaitez vous inscrire, contactez-nous sur{' '}
+          <a href="mailto:contact@potentiel.beta.gouv.fr">contact@potentiel.beta.gouv.fr</a>
+        </div>
 
         <div>
           <label htmlFor="firstname">Prénom</label>
