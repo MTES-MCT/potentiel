@@ -1,4 +1,7 @@
+import { Count } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { TâcheEntity } from '../tâche.entity';
+import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
 export type ConsulterNombreTâchesReadModel = {
   nombreTâches: number;
@@ -12,17 +15,27 @@ export type ConsulterNombreTâchesQuery = Message<
   ConsulterNombreTâchesReadModel
 >;
 
-export type RécupérerNombreTâchePort = (email: string) => Promise<number>;
-
 export type ConsulterNombreTâchesQueryDependencies = {
-  récupérerNombreTâche: RécupérerNombreTâchePort;
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
+  count: Count;
 };
 
 export const registerConsulterNombreTâchesQuery = ({
-  récupérerNombreTâche,
+  récupérerIdentifiantsProjetParEmailPorteur,
+  count,
 }: ConsulterNombreTâchesQueryDependencies) => {
   const handler: MessageHandler<ConsulterNombreTâchesQuery> = async ({ email }) => {
-    const nombreTâches = await récupérerNombreTâche(email);
+    const identifiants = await récupérerIdentifiantsProjetParEmailPorteur(email);
+
+    const nombreTâches = await count<TâcheEntity>('tâche', {
+      where: {
+        identifiantProjet: {
+          operator: 'include',
+          value: identifiants,
+        },
+      },
+    });
+
     return {
       nombreTâches,
     };

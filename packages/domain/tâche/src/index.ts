@@ -1,7 +1,6 @@
 import {
   ConsulterNombreTâchesQuery,
   ConsulterNombreTâchesReadModel,
-  RécupérerNombreTâchePort,
 } from './consulter/consulterNombreTâches.query';
 import {
   ListerTâchesQuery,
@@ -32,5 +31,4 @@ export * as TypeTâche from './typeTâche.valueType';
 export * from './tâche.entity';
 
 // Port
-export { RécupérerNombreTâchePort };
 export { RécupérerTâchesPort };

@@ -1,9 +1,5 @@
 import format from 'pg-format';
-import {
-  RécupérerNombreTâchePort,
-  RécupérerTâchesPort,
-  TâcheEntity,
-} from '@potentiel-domain/tache';
+import { RécupérerTâchesPort, TâcheEntity } from '@potentiel-domain/tache';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { listerIdentifiantsProjetsParPorteurAdapter } from '../projet/listerIdentifiantsProjetsParPorteur.adapter';
 
@@ -12,19 +8,6 @@ const countTâchesQuery = `
   from domain_views.projection 
   where key like 'tâche|%' and value->>'identifiantProjet' = any($1)
 `;
-
-export const récupérerNombreTâcheAdapter: RécupérerNombreTâchePort = async (email) => {
-  const identifiants = await listerIdentifiantsProjetsParPorteurAdapter(email);
-
-  const countResult = await executeSelect<{ totalItems: string }>(
-    countTâchesQuery,
-    identifiants.map(
-      ({ appelOffre, numéroCRE, période, famille }) =>
-        `${appelOffre}#${période}#${famille}#${numéroCRE}`,
-    ),
-  );
-  return parseInt(countResult[0].totalItems);
-};
 
 const getTâchesQuery = `
   select value
