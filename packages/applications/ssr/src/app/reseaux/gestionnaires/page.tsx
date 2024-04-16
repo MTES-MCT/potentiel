@@ -4,6 +4,8 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { GestionnaireRéseauListPage } from '@/components/pages/réseau/gestionnaire/lister/GestionnaireRéseauList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { mapToPagination } from '@/utils/mapToPagination';
+import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -17,7 +19,10 @@ export default async function Page({ searchParams }: PageProps) {
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
         type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
         data: {
-          pagination: { page, itemsPerPage: 10 },
+          range: mapToRangeOptions({
+            currentPage: page,
+            itemsPerPage: 10,
+          }),
         },
       });
 
@@ -25,18 +30,19 @@ export default async function Page({ searchParams }: PageProps) {
   });
 }
 
-const mapToListProps = (
-  readModel: GestionnaireRéseau.ListerGestionnaireRéseauReadModel,
-): Parameters<typeof GestionnaireRéseauListPage>[0]['list'] => {
-  const items = readModel.items.map(({ identifiantGestionnaireRéseau, raisonSociale }) => ({
-    identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
-    raisonSociale,
-  }));
-
+const mapToListProps = ({
+  items,
+  range,
+  total,
+}: GestionnaireRéseau.ListerGestionnaireRéseauReadModel): Parameters<
+  typeof GestionnaireRéseauListPage
+>[0]['list'] => {
   return {
-    items,
-    currentPage: readModel.currentPage,
-    itemsPerPage: readModel.itemsPerPage,
-    totalItems: readModel.totalItems,
+    items: items.map(({ identifiantGestionnaireRéseau, raisonSociale }) => ({
+      identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
+      raisonSociale,
+    })),
+    totalItems: total,
+    ...mapToPagination(range, 10),
   };
 };

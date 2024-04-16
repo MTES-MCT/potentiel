@@ -2,7 +2,7 @@ import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRése
 import { ExpressionRegulière } from '@potentiel-domain/common';
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { List } from '@potentiel-domain/core';
+import { ListV2, RangeOptions } from '@potentiel-domain/core';
 
 type GetionnaireRéseauListItemReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -16,46 +16,44 @@ type GetionnaireRéseauListItemReadModel = {
 
 export type ListerGestionnaireRéseauReadModel = {
   items: ReadonlyArray<GetionnaireRéseauListItemReadModel>;
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
+  range: RangeOptions;
+  total: number;
 };
 
 export type ListerGestionnaireRéseauQuery = Message<
   'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
   {
-    pagination: {
-      page: number;
-      itemsPerPage: number;
-    };
+    range?: RangeOptions;
   },
   ListerGestionnaireRéseauReadModel
 >;
 
 export type ListerGestionnaireRéseauQueryDependencies = {
-  list: List;
+  listV2: ListV2;
 };
 
 export const registerListerGestionnaireRéseauQuery = ({
-  list,
+  listV2: list,
 }: ListerGestionnaireRéseauQueryDependencies) => {
-  const handler: MessageHandler<ListerGestionnaireRéseauQuery> = async ({
-    pagination: { itemsPerPage, page },
-  }) => {
-    const { currentPage, items, totalItems } = await list<GestionnaireRéseauEntity>({
-      type: 'gestionnaire-réseau',
-      orderBy: { property: 'raisonSociale', ascending: true },
-      pagination: {
-        itemsPerPage,
-        page,
+  const handler: MessageHandler<ListerGestionnaireRéseauQuery> = async ({ range }) => {
+    const {
+      items,
+      range: { endPosition, startPosition },
+      total,
+    } = await list<GestionnaireRéseauEntity>('gestionnaire-réseau', {
+      orderBy: {
+        raisonSociale: 'ascending',
       },
+      range,
     });
 
     return {
-      currentPage,
-      itemsPerPage,
-      totalItems,
       items: items.map((item) => mapToReadModel(item)),
+      range: {
+        endPosition,
+        startPosition,
+      },
+      total,
     };
   };
   mediator.register('Réseau.Gestionnaire.Query.ListerGestionnaireRéseau', handler);
