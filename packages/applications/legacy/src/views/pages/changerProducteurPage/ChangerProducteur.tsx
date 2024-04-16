@@ -1,28 +1,28 @@
+import { Request } from 'express';
 import React from 'react';
 import { ProjectAppelOffre } from '../../../entities';
-import { Request } from 'express';
 
+import routes from '../../../routes';
 import {
-  ProjectInfo,
-  PrimaryButton,
-  Label,
-  SecondaryLinkButton,
-  Input,
-  TextArea,
   AlertBox,
-  ChoisirCahierDesChargesFormulaire,
-  LegacyPageTemplate,
-  SuccessBox,
-  ErrorBox,
-  Heading1,
-  ProjectProps,
-  Form,
-  ChampsObligatoiresLégende,
-  LabelDescription,
   Callout,
+  ChampsObligatoiresLégende,
+  ChoisirCahierDesChargesFormulaire,
+  ErrorBox,
+  Form,
+  Heading1,
+  Input,
+  Label,
+  LabelDescription,
+  LegacyPageTemplate,
+  PrimaryButton,
+  ProjectInfo,
+  ProjectProps,
+  SecondaryLinkButton,
+  SuccessBox,
+  TextArea,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
-import routes from '../../../routes';
 
 type ChangerProducteurProps = {
   request: Request;
@@ -96,17 +96,17 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
               id="producteur"
               {...(!appelOffre?.changementProducteurPossibleAvantAchèvement && { disabled: true })}
               required
-              aria-required="true"
+              aria-required
             />
           </div>
           <div>
-            <Label htmlFor="file" optionnel>
-              Joindre les statuts mis à jour
-            </Label>
+            <Label htmlFor="file">Joindre les statuts mis à jour</Label>
             <Input
               type="file"
               name="file"
               id="file"
+              required
+              aria-required
               {...(!appelOffre?.changementProducteurPossibleAvantAchèvement && { disabled: true })}
             />
           </div>
