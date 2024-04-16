@@ -2,24 +2,24 @@ import React, { useEffect, useState } from 'react';
 
 import routes from '../../../../routes';
 
+import { Routes } from '@potentiel-applications/routes';
 import {
-  ExternalLinkIcon,
-  Link,
-  QuestionIcon,
-  LoginIcon,
-  UserIcon,
-  MenuIcon,
-  LogoutBoxIcon,
-  CloseIcon,
-  Checkbox,
-  Label,
-  Container,
   AccountIcon,
-  TasksToDo,
+  Checkbox,
+  CloseIcon,
+  Container,
+  ExternalLinkIcon,
+  Label,
+  Link,
+  LoginIcon,
+  LogoutBoxIcon,
+  MenuIcon,
+  QuestionIcon,
   TasksDone,
+  TasksToDo,
+  UserIcon,
 } from '../..';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Routes } from '@potentiel-applications/routes';
 
 type HeaderProps = {
   user?: UtilisateurReadModel;
@@ -88,7 +88,10 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
 
   return (
     <>
-      <header className="py-2 lg:py-0 text-lg shadow-md print:shadow-none">
+      <header
+        className="py-2 lg:py-0 text-lg shadow-md print:shadow-none"
+        style={{ fontFamily: 'Marianne, arial, sans-serif' }}
+      >
         {skipLinksVisible && <MenuAccèsRapides menuDisponible={!!children} />}
         <Container>
           <div className="flex flex-row pb-1 lg:py-4 items-center">
