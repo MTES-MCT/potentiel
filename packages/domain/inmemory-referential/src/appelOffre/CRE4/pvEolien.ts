@@ -129,6 +129,7 @@ Des délais supplémentaires, laissés à l’appréciation du ministre chargé 
         référence: '2017/S 238-494941',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.4.4',
@@ -139,5 +140,4 @@ Des délais supplémentaires, laissés à l’appréciation du ministre chargé 
       choisirNouveauCahierDesCharges: true,
     },
   ],
-  familles: [],
 };

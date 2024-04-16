@@ -62,6 +62,7 @@ export const biométhanePPE2: AppelOffre = {
         référence: '2023/S 249-790242',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {
@@ -75,5 +76,4 @@ export const biométhanePPE2: AppelOffre = {
       cahiersDesChargesModifiésDisponibles: [],
     },
   ],
-  familles: [],
 };

@@ -105,6 +105,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2021 S 176-457518',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {
@@ -145,6 +146,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2022 S 020-047803',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {
@@ -185,6 +187,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2022 S 093-254888',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {
@@ -218,6 +221,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2022 S 216-620968',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {
@@ -239,6 +243,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2023 S 071-217458',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {
@@ -271,6 +276,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2023/S 217-683937',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {
@@ -295,5 +301,4 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [],
     },
   ],
-  familles: [],
 };

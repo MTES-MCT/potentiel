@@ -104,6 +104,7 @@ Les changements de Producteur postérieurement à l’Achèvement sont réputés
         référence: '2017/S 083-161855',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       garantieFinanciereEnMoisSansAutorisationEnvironnementale: 57,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
@@ -156,6 +157,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
         référence: '2017/S 083-161855',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -206,6 +208,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
         référence: '2017/S 083-161855',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       garantieFinanciereEnMoisSansAutorisationEnvironnementale: 57,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
@@ -256,6 +259,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         référence: '2017/S 083-161855',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -305,6 +309,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         référence: '2017/S 083-161855',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -356,6 +361,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         référence: '2017/S 083-161855',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -407,6 +413,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         référence: '2017/S 083-161855',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -458,6 +465,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         référence: '2017/S 083-161855',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -500,5 +508,4 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       abandonAvecRecandidature: true,
     },
   ],
-  familles: [],
 };

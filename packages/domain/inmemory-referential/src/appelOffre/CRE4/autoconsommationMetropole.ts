@@ -76,6 +76,7 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
         référence: '2017/S 054-100223',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.4.4',
@@ -113,6 +114,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         référence: '2017/S 054-100223',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.4.4',
@@ -148,6 +150,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         référence: '2017/S 054-100223',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -183,6 +186,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         référence: '2017/S 054-100223',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -218,6 +222,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         référence: '2017/S 054-100223',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -253,6 +258,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         référence: '2017/S 054-100223',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -290,6 +296,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         référence: '2017/S 054-100223',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -327,6 +334,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         référence: '2017/S 054-100223',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -364,6 +372,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         référence: '2017/S 054-100223',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -401,6 +410,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         référence: '2017/S 054-100223',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -429,5 +439,4 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       choisirNouveauCahierDesCharges: true,
     },
   ],
-  familles: [],
 };
