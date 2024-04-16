@@ -11,7 +11,7 @@ const meta = {
   argTypes: {},
   decorators: [
     (Story) => (
-      <div className="bg-blue-france-sun-base text-white py-6 mb-3">
+      <div className="bg-blue-france-sun-base text-theme-white py-6 mb-3">
         <div className="fr-container">
           <Story />
         </div>

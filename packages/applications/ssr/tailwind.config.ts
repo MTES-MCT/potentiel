@@ -1,4 +1,10 @@
 import type { Config } from 'tailwindcss';
+import { fr } from '@codegouvfr/react-dsfr';
+
+/**
+ * @description Cette variable permet de récupérer les [différentes couleurs conforme DSFR](https://components.react-dsfr.codegouv.studio/?path=/docs/%F0%9F%8E%A8-color-helper--page).
+ */
+const decisionsColors = fr.colors.decisions;
 
 const config: Config = {
   content: [
@@ -13,35 +19,24 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
-      colors: {
-        'grey-425': {
-          base: '#666666',
-          hover: '#919191',
-          active: '#a6a6a6',
-        },
-        'grey-625': {
-          base: '#929292',
-          hover: '#bbbbbb',
-          active: '#cecece',
-        },
-        'success-425': {
-          base: '#18753c',
-          hover: '#27a959',
-          active: '#2fc368',
-        },
-        'warning-425': {
-          base: '#b34000',
-          hover: '#ff6218',
-          active: '#ff7a55',
-        },
-        'blue-france-sun': {
-          base: '#000091',
-          hover: '#1212ff',
-          active: '#2323ff',
-        },
+    },
+    colors: {
+      dsfr: {
+        ...decisionsColors,
+      },
+      theme: {
+        info: decisionsColors.text.default.info.default,
+        warning: decisionsColors.text.default.warning.default,
+        success: decisionsColors.text.default.success.default,
+        error: decisionsColors.text.default.error.default,
+        white: decisionsColors.text.inverted.grey.default,
+        grey: decisionsColors.text.default.grey.default,
+        black: decisionsColors.text.default.grey.default,
+        blueFrance: decisionsColors.text.label.blueFrance.default,
       },
     },
   },
   plugins: [],
 };
+
 export default config;

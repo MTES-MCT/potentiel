@@ -20,35 +20,35 @@ export const Etape: FC<EtapeProps> = ({ statut, titre, children, className = '' 
         <Icon
           id="fr-icon-success-fill"
           size="lg"
-          className="md:mx-auto text-success-425-base"
+          className="md:mx-auto text-theme-success"
           title="étape validée"
         />
       );
-      borderColor = 'border-success-425-base';
-      backgroundColor = 'bg-green-50';
+      borderColor = 'border-theme-success';
+      backgroundColor = 'bg-dsfr-background-contrast-success-default';
       break;
     case 'étape incomplète':
       icon = (
         <Icon
           id="fr-icon-alert-fill"
           size="lg"
-          className="md:mx-auto text-warning-425-base"
+          className="md:mx-auto text-theme-warning"
           title="étape incomplète"
         />
       );
-      borderColor = 'border-warning-425-base';
-      backgroundColor = 'bg-warning-975-base';
+      borderColor = 'border-theme-warning';
+      backgroundColor = 'bg-dsfr-background-contrast-warning-default';
       break;
     case 'étape à venir':
       icon = (
         <Icon
           id="fr-icon-time-line"
           size="lg"
-          className="md:mx-auto text-grey-625-base"
+          className="md:mx-auto text-theme-grey"
           title="étape à venir"
         />
       );
-      borderColor = 'border-grey-625-base';
+      borderColor = 'border-dsfr-border-default-grey-default';
       backgroundColor = '';
       break;
     default:

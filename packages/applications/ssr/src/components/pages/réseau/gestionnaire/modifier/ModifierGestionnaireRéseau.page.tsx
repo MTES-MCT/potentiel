@@ -33,7 +33,7 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
   return (
     <PageTemplate
       banner={
-        <Heading1 className="text-white">
+        <Heading1 className="text-theme-white">
           Modifier le gestionnaire de réseau ({raisonSociale})
         </Heading1>
       }

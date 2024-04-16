@@ -7,7 +7,7 @@ export const FormatFichierInvalide: FC = () => (
     <Icon
       id="fr-icon-alert-fill"
       size="sm"
-      className=" text-warning-425-base"
+      className="text-theme-warning"
       title="format du fichier invalide"
     />
     <p className="text-xs">Le format du fichier est invalide</p>

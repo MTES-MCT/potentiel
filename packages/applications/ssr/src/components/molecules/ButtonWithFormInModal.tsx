@@ -42,7 +42,7 @@ export const ButtonWithFormInModal: FC<ButtonWithFormInModalProps> = ({
           {
             type: 'submit',
             nativeButtonProps: {
-              className: 'bg-blue-france-sun-base text-white',
+              className: 'text-theme-white bg-theme-blueFrance',
               form: form.id,
             },
             children: yesNo ? 'Oui' : name,

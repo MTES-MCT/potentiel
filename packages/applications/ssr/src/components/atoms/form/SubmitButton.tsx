@@ -16,7 +16,7 @@ export const SubmitButton: FC<SubmitButtonProps> = ({ disabledCondition, childre
       type="submit"
       priority="primary"
       disabled={isDisabled}
-      className="bg-blue-france-sun-base text-white"
+      className="text-theme-white bg-theme-blueFrance"
       nativeButtonProps={{
         'aria-disabled': isDisabled,
       }}

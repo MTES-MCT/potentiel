@@ -12,7 +12,6 @@ const getColorVariant = (colorVariant: CallOutProps['colorVariant']) => {
     case 'warning':
       return 'fr-callout--brown-caramel';
     case 'info':
-    default:
       return undefined;
   }
 };
