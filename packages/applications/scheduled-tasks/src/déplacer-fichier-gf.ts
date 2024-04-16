@@ -30,8 +30,20 @@ import {
   DocumentProjet,
   EnregistrerDocumentProjetCommand,
   ConsulterDocumentProjetQuery,
+  registerDocumentProjetQueries,
+  registerDocumentProjetCommand,
 } from '@potentiel-domain/document';
-import { executeSelect } from '@potentiel-librairies/pg-helpers';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
+import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+
+registerDocumentProjetQueries({
+  récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
+});
+
+registerDocumentProjetCommand({
+  enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
+  déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
+});
 
 const printProgress = (progress: string) => {
   readline.cursorTo(process.stdout, 0);
@@ -73,6 +85,7 @@ async function moveFiles() {
 
   const total = files.length;
   let totalExisting = 0;
+  let totalErrors = 0;
 
   console.info(`🚚 Start moving files 10 by 10`);
 
@@ -92,62 +105,67 @@ async function moveFiles() {
 
           const gfSoumisesExists = await getFileContent(gfSoumisesDocument);
 
-          if (!gfSoumisesExists) {
-            try {
-              const content = await legacyBucket.send(
-                new GetObjectCommand({
-                  Bucket: legacyBucketName,
-                  Key: file_path,
-                }),
-              );
+          if (gfSoumisesExists) {
+            totalExisting = totalExisting + 1;
+            return;
+          }
 
-              if (!content.Body) {
-                throw new Error('Empty document');
-              }
+          try {
+            const { Body } = await legacyBucket.send(
+              new GetObjectCommand({
+                Bucket: legacyBucketName,
+                Key: file_path,
+              }),
+            );
+
+            if (!Body) {
+              throw new Error('Empty document');
+            }
+
+            const content = Body.transformToWebStream();
+
+            await mediator.send<EnregistrerDocumentProjetCommand>({
+              type: 'Document.Command.EnregistrerDocumentProjet',
+              data: {
+                content,
+                documentProjet: gfSoumisesDocument,
+              },
+            });
+
+            console.info(
+              `GF soumises: [${file_path}] migration to [${gfSoumisesDocument.formatter()}] took ${
+                new Date().getTime() - start
+              }ms`,
+            );
+
+            if (date_validation) {
+              const gfActuelleDocument = DocumentProjet.convertirEnValueType(
+                identifiant_projet,
+                GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
+                new Date(date_validation).toISOString(),
+                contentType(extname(file_path)).toString(),
+              );
 
               await mediator.send<EnregistrerDocumentProjetCommand>({
                 type: 'Document.Command.EnregistrerDocumentProjet',
                 data: {
-                  content: content.Body.transformToWebStream(),
-                  documentProjet: gfSoumisesDocument,
+                  content,
+                  documentProjet: gfActuelleDocument,
                 },
               });
 
               console.info(
-                `GF soumises: [${file_path}] migration to [${gfSoumisesDocument.formatter()}] took ${
+                `GF actuelle: [${file_path}] migration to [${gfSoumisesDocument.formatter()}] took ${
                   new Date().getTime() - start
                 }ms`,
               );
-
-              if (date_validation) {
-                const gfActuelleDocument = DocumentProjet.convertirEnValueType(
-                  identifiant_projet,
-                  GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
-                  new Date(date_validation).toISOString(),
-                  contentType(extname(file_path)).toString(),
-                );
-
-                await mediator.send<EnregistrerDocumentProjetCommand>({
-                  type: 'Document.Command.EnregistrerDocumentProjet',
-                  data: {
-                    content: content.Body.transformToWebStream(),
-                    documentProjet: gfActuelleDocument,
-                  },
-                });
-
-                console.info(
-                  `GF actuelle: [${file_path}] migration to [${gfSoumisesDocument.formatter()}] took ${
-                    new Date().getTime() - start
-                  }ms`,
-                );
-              }
-            } catch (error) {
-              console.error(
-                `\nAn error occured while moving file ${file_path}\n ${(error as Error).message}`,
-              );
             }
-          } else {
-            totalExisting = totalExisting + 1;
+          } catch (error) {
+            totalErrors = totalErrors + 1;
+
+            console.error(
+              `\nAn error occured while moving file ${file_path}\n ${(error as Error).message}`,
+            );
           }
         }),
     );
@@ -156,6 +174,11 @@ async function moveFiles() {
   }
 
   const timeElapsed = new Date().getTime() - startTime.getTime();
+
+  if (totalErrors > 0) {
+    console.info(`\n☠️ Migration has errors. Total errors = ${totalErrors} / ${total}`);
+  }
+
   console.info(
     `\n✅ Migration completed successfully ${timeElapsed}ms. Total already uploaded = ${totalExisting}`,
   );
