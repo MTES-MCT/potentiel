@@ -96,7 +96,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
               id="producteur"
               {...(!appelOffre?.changementProducteurPossibleAvantAchèvement && { disabled: true })}
               required
-              aria-required="true"
+              aria-required
             />
           </div>
           <div>
@@ -106,6 +106,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
               name="file"
               id="file"
               required
+              aria-required
               {...(!appelOffre?.changementProducteurPossibleAvantAchèvement && { disabled: true })}
             />
           </div>
