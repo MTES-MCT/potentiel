@@ -6,6 +6,7 @@
 - [Système d'authentification avec Keycloak](#keycloak)
 - [Configurer un environnement local](#configurer-un-environnement-local)
 - [Lancer l'application en local](#lancer-application-en-local)
+- [Avoir des données de test en local](#avoir-des-donnees-de-test-en-local)
 - [Lancer les tests](#lancer-les-tests)
 - [Metabase](#metabase)
 - [Restaurer un dump de la base](#restaurer-dump-db)
@@ -17,20 +18,16 @@ Pour installer et lancer le projet vous aurez besoin de :
 - <a href="https://github.com/nvm-sh/nvm#installing-and-updating" target="_blank">NVM</a>
 - <a href="https://docs.docker.com/get-docker/" target="_blank">Docker</a>
 
-
 ## <a id="keycloak"></a> Système d'authentification avec Keycloak
 
 Keycloak est un service open source d'identité et de gestion d'accès. Pour comprendre comment ce service est mise en oeuvre, vous pouvez trouver la documentation sur le [repo dédié au thème](https://github.com/MTES-MCT/potentiel-keycloak#mise-en-oeuvre).
 
-En local, lorsque la commande `npm run start:dev` (ou `docker compose up -d`) est lancée, un container `auth` va se monter avec l'[image officielle de keycloak](https://quay.io/repository/keycloak/keycloak). 
+En local, lorsque la commande `npm run start:dev` (ou `docker compose up -d`) est lancée, un container `auth` va se monter avec l'[image officielle de Keycloak](https://quay.io/repository/keycloak/keycloak).
 
 Lors du montage de l'image, le fichier [realm-dev.json](./keycloak/import/realm-dev.json) est importé et va configurer le royaume keycloak pour l'environnement de dev, et y ajouter des utilisateurs de tests.
 
-Keycloak fonctionnant avec un système de thème, l'application Potentiel utilise un thème personnalisé qui se base sur les recommandations du DSFR (Design System de l'Etat Français). Le code source est disponible sur ce [repo](https://github.com/MTES-MCT/potentiel-keycloak). Afin que le thème puisse fonctionner avec notre image docker, vous devrez binder (dans le fichier [docker-compose](./docker-compose.yml)) le thème à utiliser. Pour se faire, un système de submodule git a été mis en place dans le dossier `keycloak/potentiel-keycloak`.
+Pour les environnements de production et de staging, Keycloak est hébergé sur une application scalingo et utilise le [repo du thème custom](https://github.com/MTES-MCT/potentiel-keycloak).
 
-[Lien de ressource vers les sous-modules git](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
-
-Pour les environnements de production et de staging, keycloak est hébergé sur une application scalingo et utilise également le repo du thème custom.
 ## <a id="configurer-un-environnement-local"></a> Configurer un environnement local
 
 1. Cloner le repository
@@ -64,21 +61,24 @@ Pour les environnements de production et de staging, keycloak est hébergé sur 
    gitmoji -i
    ```
 
-6. Configurer Gitmoji pour l'utilisation des Emojis (♻️) plutôt que des Emoji codes (_:recycle:_) :
+6. Configurer Gitmoji pour l'utilisation des Emojis (♻️) plutôt que des Emoji codes (`:recycle:`) :
 
    ```bash
    gitmoji -g
    ```
 
-7. Configurer les variables d'environnement :
+7. Configurer les variables d'environnement à la base des deux applications (ssr et legacy) :
 
    ```bash
+   cd packages/applications/ssr
+   cp .env.template .env
+   cd ../legacy
    cp .env.template .env
    ```
 
 ## <a id="lancer-application-en-local"></a> Lancer l'application en local
 
-> ℹ️ Pour démarrer l'application vous aurez besoin de Docker 🐋
+> ⚠️ Pour démarrer l'application vous aurez besoin de Docker 🐋
 
 1. Lancer l'application via le script npm **start:dev** :
 
@@ -100,34 +100,55 @@ npm run start:dev
 
 > ℹ️ Il est possible de couper les services utilisés localement pour lancer l'application via le script npm **`stop:dev`**
 
+## <a id="avoir-des-donnees-de-test-en-local"></a> Avoir des données de test en local
+
+0. [Lancer l'application en local](#lancer-application-en-local)
+
+1. Récupérer les fichiers présents dans `.demo`
+
+2. Se connecter au compte test **dgec-validateur@test.test** (mot de passe **test**)
+
+3. Dans l'interface
+
+- Importer un fichier
+
+Se rendre dans l'onglet Imports >> Nouveaux Candidats >> Choisir un fichier (un des fichiers de `.demo`) >> Envoyer.
+
+- Valider les candidats
+
+Se rendre dans l'onglet Désignation >> Notifier les Candidats >> Notifier tous les candidats de la période.
+
+- Se connecter à n'importe quel compte de test en fonction des besoins
+
 ## <a id="lancer-les-tests"></a>Lancer les tests
 
 ### Specifications
 
-Il existe deux types de test dans le projet, les tests dit **`legacy`** (couvrant l'ancien socle technique de manière disparatent) et les tests dit de **`specifications`** liés au nouveau socle mise en place en Behavior Driven Development.
+Il existe deux types de test dans le projet, les tests dit **`legacy`** (couvrant l'ancien socle technique de manière disparate) et les tests dits de **`specification`** liés au nouveau socle mise en place en Behavior Driven Development.
 
 1. Pour lancer les tests **`legacy`**, vous pouvez utiliser le script npm **`test:legacy`** :
+
    ```shell
    npm run test:legacy
    ```
 
 2. Lancer tous les tests **`legacy`**, en relançant à chaque changement
 
-  ```shell
-  npm run test:legacy -- --watch
-  ```
+```shell
+npm run test:legacy -- --watch
+```
 
-3. Lancer un seul test  **`legacy`**, en relançant à chaque changement
+3. Lancer un seul test **`legacy`**, en relançant à chaque changement
 
-  ```shell
-  npm run test:legacy -- --watch src/modules/AppelOffre.spec.ts
-  ```
+```shell
+npm run test:legacy -- --watch src/modules/AppelOffre.spec.ts
+```
 
 4. Pour lancer les tests de **`specifications`**, vous pouvez utiliser le script npm `specs` :
    ```shell
    npm run specs
    ```
-5. Il est possible de lancer les tests de **`specifications`** uniquement sur certains scénarios. Pour se faire, ajoutez un tag **`@select`** sur les scénarios que vous voulez lancer. Exemple :
+5. Il est possible de lancer les tests de **`specifications`** uniquement sur certains scénarios. Pour ce faire, ajoutez un tag **`@select`** sur les scénarios que vous voulez lancer. Exemple :
 
 ```gherkin
 @select
@@ -143,6 +164,7 @@ Scénario: Ajouter un gestionnaire de réseau
 ```
 
 Utilisez ensuite le script npm **`specs:select`** :
+
 ```shell
 npm run specs:select
 ```
