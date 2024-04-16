@@ -6,7 +6,7 @@ import {
 } from '../..';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { List } from '@potentiel-domain/core';
+import { ListV2, RangeOptions } from '@potentiel-domain/core';
 
 type ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -24,9 +24,8 @@ type ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel = {
 
 export type ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel = {
   items: ReadonlyArray<ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel>;
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
+  range: RangeOptions;
+  total: number;
 };
 
 export type ListerProjetsAvecGarantiesFinancièresEnAttenteQuery = Message<
@@ -37,24 +36,24 @@ export type ListerProjetsAvecGarantiesFinancièresEnAttenteQuery = Message<
       rôle: string;
       email: string;
     };
-    pagination: { page: number; itemsPerPage: number };
+    range?: RangeOptions;
   },
   ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel
 >;
 
 export type ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies = {
-  list: List;
+  listV2: ListV2;
   récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
-  list,
+  listV2,
   récupérerRégionDreal,
 }: ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies) => {
   const handler: MessageHandler<ListerProjetsAvecGarantiesFinancièresEnAttenteQuery> = async ({
     appelOffre,
     utilisateur: { email, rôle },
-    pagination,
+    range,
   }) => {
     let région: string | undefined = undefined;
 
@@ -70,20 +69,30 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
       région = régionDreal.région;
     }
 
-    const where = {
-      ...(appelOffre && { appelOffre }),
-      ...(région && { régionProjet: région }),
-    };
-
-    const result = await list<ProjetAvecGarantiesFinancièresEnAttenteEntity>({
-      type: 'projet-avec-garanties-financieres-en-attente',
-      where,
-      pagination,
-    });
+    const {
+      items,
+      range: { endPosition, startPosition },
+      total,
+    } = await listV2<ProjetAvecGarantiesFinancièresEnAttenteEntity>(
+      'projet-avec-garanties-financieres-en-attente',
+      {
+        orderBy: { dernièreMiseÀJour: { date: 'descending' } },
+        range,
+        where: {
+          ...(appelOffre && {
+            appelOffre: { operator: 'equal', value: appelOffre },
+          }),
+          ...(région && {
+            régionProjet: { operator: 'equal', value: région },
+          }),
+        },
+      },
+    );
 
     return {
-      ...result,
-      items: result.items.map((item) => mapToReadModel(item)),
+      items: items.map((item) => mapToReadModel(item)),
+      range: { endPosition: endPosition, startPosition: startPosition },
+      total,
     };
   };
 
