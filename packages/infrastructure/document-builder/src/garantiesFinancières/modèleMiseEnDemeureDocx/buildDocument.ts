@@ -3,6 +3,7 @@ import path from 'path';
 import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const getModèleMiseEnDemeureGarantiesFinancières: GarantiesFinancières.BuildModèleMiseEnDemeureGarantiesFinancièresPort =
   async ({ data }) => {
@@ -25,7 +26,7 @@ export const getModèleMiseEnDemeureGarantiesFinancières: GarantiesFinancières
         const imageContents = fs.readFileSync(imageToInject, 'binary');
         zip.file('word/media/image1.png', imageContents, { binary: true });
       } catch (e) {
-        // If image is not found, ignore it
+        getLogger().error(e as Error);
       }
     }
 
