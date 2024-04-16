@@ -11,7 +11,7 @@
     "test:select": "cucumber-js --tags @select"
   },
   "dependencies": {
-    "@potentiel-application/bootstrap": "*",
+    "@potentiel-applications/bootstrap": "*",
     "@potentiel-domain/laureat": "*",
     "@potentiel-domain/tache": "*",
     "@potentiel-domain/utilisateur": "*",

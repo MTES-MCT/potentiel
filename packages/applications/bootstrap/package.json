@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel-application/bootstrap",
+  "name": "@potentiel-applications/bootstrap",
   "version": "0.0.0",
   "description": "Potentiel projector",
   "main": "dist/index.js",
@@ -17,7 +17,7 @@
     "@potentiel-domain/tache": "*",
     "@potentiel-infrastructure/document-builder": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-application/projectors": "*",
+    "@potentiel-applications/projectors": "*",
     "@potentiel-applications/notifications": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projections": "*",
