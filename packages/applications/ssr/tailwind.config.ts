@@ -24,7 +24,7 @@ const config: Config = {
       dsfr: {
         ...decisionsColors,
       },
-      potentiel: {
+      theme: {
         info: decisionsColors.text.default.info.default,
         warning: decisionsColors.text.default.warning.default,
         success: decisionsColors.text.default.success.default,

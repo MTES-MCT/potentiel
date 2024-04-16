@@ -9,7 +9,7 @@ export const PageTemplate: FC<PageTemplateProps> = ({ banner, children }) => {
   return (
     <>
       {banner && (
-        <div className="text-potentiel-white py-6 mb-3 bg-potentiel-blueFrance">
+        <div className="text-theme-white py-6 mb-3 bg-theme-blueFrance">
           <div className="fr-container">{banner}</div>
         </div>
       )}

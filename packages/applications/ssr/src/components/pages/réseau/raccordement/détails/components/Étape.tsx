@@ -20,11 +20,11 @@ export const Etape: FC<EtapeProps> = ({ statut, titre, children, className = '' 
         <Icon
           id="fr-icon-success-fill"
           size="lg"
-          className="md:mx-auto text-potentiel-success"
+          className="md:mx-auto text-theme-success"
           title="étape validée"
         />
       );
-      borderColor = 'border-potentiel-success';
+      borderColor = 'border-theme-success';
       backgroundColor = 'bg-dsfr-background-contrast-success-default';
       break;
     case 'étape incomplète':
@@ -32,11 +32,11 @@ export const Etape: FC<EtapeProps> = ({ statut, titre, children, className = '' 
         <Icon
           id="fr-icon-alert-fill"
           size="lg"
-          className="md:mx-auto text-potentiel-warning"
+          className="md:mx-auto text-theme-warning"
           title="étape incomplète"
         />
       );
-      borderColor = 'border-potentiel-warning';
+      borderColor = 'border-theme-warning';
       backgroundColor = 'bg-dsfr-background-contrast-warning-default';
       break;
     case 'étape à venir':
@@ -44,7 +44,7 @@ export const Etape: FC<EtapeProps> = ({ statut, titre, children, className = '' 
         <Icon
           id="fr-icon-time-line"
           size="lg"
-          className="md:mx-auto text-potentiel-grey"
+          className="md:mx-auto text-theme-grey"
           title="étape à venir"
         />
       );
