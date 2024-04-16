@@ -110,3 +110,12 @@ export type ListV2 = <TEntity extends Entity>(
   category: TEntity['type'],
   options?: ListOptionsV2<TEntity>,
 ) => Promise<ListResultV2<TEntity>>;
+
+export type CountOption<TEntity extends Entity> = {
+  where?: WhereOptions<Omit<TEntity, 'type'>>;
+};
+
+export type Count = <TEntity extends Entity>(
+  category: TEntity['type'],
+  options?: CountOption<TEntity>,
+) => Promise<number>;
