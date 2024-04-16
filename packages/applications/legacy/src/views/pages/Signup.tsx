@@ -76,13 +76,13 @@ const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: Sign
           </div>
         )}
 
-        <ChampsObligatoiresLégende />
-
         <div className="text-sm italic">
           Ce formulaire d’inscription est réservé aux porteurs de projet. <br /> Si vous n'êtes pas
           un porteur de projet mais que vous souhaitez vous inscrire, contactez-nous sur{' '}
           <a href="mailto:contact@potentiel.beta.gouv.fr">contact@potentiel.beta.gouv.fr</a>
         </div>
+
+        <ChampsObligatoiresLégende />
 
         <div>
           <label htmlFor="firstname">Prénom</label>
