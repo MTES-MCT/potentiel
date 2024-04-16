@@ -47,8 +47,7 @@ const appelOffreRepo = {
   findAll: async () => [
     {
       id: 'appelOffreId',
-      periodes: [{ id: 'periodeId', type: 'notified' }],
-      familles: [{ id: 'familleId' }],
+      periodes: [{ id: 'periodeId', type: 'notified', familles: [{ id: 'familleId' }] }],
     },
   ],
 } as unknown as AppelOffreRepo;
@@ -157,8 +156,7 @@ describe('importProjects', () => {
       findAll: async () => [
         {
           id: 'appelOffreId',
-          periodes: [{ id: 'periodeId', type: 'legacy' }],
-          familles: [{ id: 'familleId' }],
+          periodes: [{ id: 'periodeId', type: 'legacy', familles: [{ id: 'familleId' }] }],
         },
       ],
     } as unknown as AppelOffreRepo;
@@ -314,8 +312,7 @@ describe('importProjects', () => {
       findAll: async () => [
         {
           id: 'appelOffreId',
-          periodes: [{ id: 'periodeId' }],
-          familles: [],
+          periodes: [{ id: 'periodeId', familles: [] }],
         },
       ],
     } as unknown as AppelOffreRepo;
@@ -424,8 +421,7 @@ describe('importProjects', () => {
       findAll: async () => [
         {
           id: 'appelOffreId',
-          periodes: [{ id: 'periodeId', type: 'legacy' }],
-          familles: [{ id: 'familleId' }],
+          periodes: [{ id: 'periodeId', type: 'legacy', familles: [{ id: 'familleId' }] }],
         },
       ],
     } as unknown as AppelOffreRepo;
@@ -470,8 +466,7 @@ describe('importProjects', () => {
       findAll: async () => [
         {
           id: 'appelOffreId',
-          periodes: [{ id: 'periodeId', type: 'notified' }],
-          familles: [{ id: 'familleId' }],
+          periodes: [{ id: 'periodeId', type: 'notified', familles: [{ id: 'familleId' }] }],
         },
       ],
     } as unknown as AppelOffreRepo;
@@ -520,8 +515,7 @@ describe('importProjects', () => {
       findAll: async () => [
         {
           id: 'appelOffreId',
-          periodes: [{ id: 'periodeId', type: 'notified' }],
-          familles: [{ id: 'familleId' }],
+          periodes: [{ id: 'periodeId', type: 'notified', familles: [{ id: 'familleId' }] }],
         },
       ],
     } as unknown as AppelOffreRepo;
@@ -563,9 +557,13 @@ describe('importProjects', () => {
         findAll: async () => [
           {
             id: 'appelOffreId',
-            periodes: [{ id: 'periodeId', type: 'notified' }],
-            familles: [{ id: 'familleId' }],
-            soumisAuxGarantiesFinancieres: 'à la candidature',
+            periodes: [
+              {
+                id: 'periodeId',
+                type: 'notified',
+                familles: [{ id: 'familleId', soumisAuxGarantiesFinancieres: 'à la candidature' }],
+              },
+            ],
           },
         ],
       } as unknown as AppelOffreRepo;
@@ -611,9 +609,9 @@ describe('importProjects', () => {
                 volumeReserve: { noteThreshold: 10, puissanceMax: 5 },
                 autres: { noteThreshold: 20 },
               },
+              familles: [{ id: 'familleId' }],
             } as Periode,
           ],
-          familles: [{ id: 'familleId' }],
         },
       ],
     } as unknown as AppelOffreRepo;

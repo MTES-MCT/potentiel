@@ -72,7 +72,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       ...project,
       ...(projectAppelOffre && {
         appelOffre: projectAppelOffre,
-        famille: projectAppelOffre.famille,
+        famille: projectAppelOffre.periode.familles.find((f) => f.id === project.familleId),
       }),
     };
   }

@@ -75,11 +75,11 @@ export const ListeProjets = ({
   const periodes = appelsOffre
     .find((ao) => ao.id === appelOffreId)
     ?.periodes.filter((periode) => !existingPeriodes || existingPeriodes.includes(periode.id));
+  const periode = periodes?.find((p) => p.id === periodeId);
   const filtreParPériodeActif = appelOffreId && periodes && periodes.length > 0;
 
-  const familles = appelsOffre
-    .find((ao) => ao.id === appelOffreId)
-    ?.familles.sort((a, b) => a.title.localeCompare(b.title))
+  const familles = periode?.familles
+    .sort((a, b) => a.title.localeCompare(b.title))
     .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id));
   const filtreParFamilleActif = appelOffreId && familles && familles.length > 0;
 

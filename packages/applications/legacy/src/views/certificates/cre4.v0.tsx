@@ -52,7 +52,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
 
   const objet = `Désignation des lauréats de la ${periode.title} période de l'appel d'offres ${periode.cahierDesCharges.référence} ${appelOffre.title}`;
 
-  const famille = appelOffre.familles.find((famille) => famille.id === project.familleId);
+  const famille = periode.familles.find((famille) => famille.id === project.familleId);
   const garantieFinanciereEnMois =
     famille?.soumisAuxGarantiesFinancieres === 'après candidature'
       ? famille.garantieFinanciereEnMois

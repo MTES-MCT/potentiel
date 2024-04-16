@@ -39,6 +39,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         !projetSoumisAuxGarantiesFinancières({
           appelOffre: candidature.appelOffre,
           famille: candidature.famille,
+          periode: candidature.période,
         })
       ) {
         return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;

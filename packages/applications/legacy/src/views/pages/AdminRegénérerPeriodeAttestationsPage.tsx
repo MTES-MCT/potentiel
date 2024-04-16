@@ -29,10 +29,9 @@ export const AdminRegénérerPeriodeAttestations = ({
     (request.query as any) || {};
 
   const periodes = appelsOffreStatic.find((ao) => ao.id === appelOffreId)?.periodes;
+  const periode = periodes?.find((p) => p.id === periodeId);
 
-  const familles = appelsOffreStatic
-    .find((ao) => ao.id === appelOffreId)
-    ?.familles.sort((a, b) => a.title.localeCompare(b.title));
+  const familles = periode?.familles.sort((a, b) => a.title.localeCompare(b.title));
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="regenerate-certificates">

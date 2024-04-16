@@ -80,7 +80,7 @@ v1Router.post(
           type: 'AppelOffre.Query.ConsulterAppelOffre',
           data: { identifiantAppelOffre: projet.appelOffreId },
         });
-        if (isSoumisAuxGF({ appelOffres, famille: projet.familleId })) {
+        if (isSoumisAuxGF({ appelOffres, famille: projet.familleId, période: projet.periodeId })) {
           // supprimer les éventuelles garanties financières du projet
           const dateActuelle = new Date();
           try {
