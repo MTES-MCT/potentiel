@@ -1,5 +1,6 @@
 import { should } from 'chai';
-import { after, before, beforeEach, describe, it } from 'node:test';
+import { after, before, beforeEach, afterEach, describe, it } from 'node:test';
+import { randomUUID } from 'node:crypto';
 
 import { Entity } from '@potentiel-domain/core';
 import { flatten } from '../../../libraries/flat/dist';
@@ -10,8 +11,9 @@ import { countProjection } from './countProjection';
 should();
 
 describe('countProjection', () => {
+  let category = '';
   type FakeProjection = Entity<
-    'count-fake-projection',
+    typeof category,
     {
       data: {
         value: string;
@@ -31,11 +33,7 @@ describe('countProjection', () => {
   });
 
   beforeEach(async () => {
-    await executeQuery(
-      `delete from domain_views.projection where key like $1`,
-      'count-fake-projection|%',
-    );
-
+    category = randomUUID();
     fakeData = [];
 
     for (let time = 0; time <= Math.random() * 100 + 10; time++) {
@@ -52,14 +50,18 @@ describe('countProjection', () => {
         `insert
         into domain_views.projection
         values ($1, $2)`,
-        `count-fake-projection|${fake.data.value}`,
+        `${category}|${fake.data.value}`,
         flatten(fake),
       );
     }
   });
 
+  afterEach(async () => {
+    await executeQuery(`delete from domain_views.projection where key like $1`, `${category}|%`);
+  });
+
   it('should count projections by their key', async () => {
-    const actual = await countProjection<FakeProjection>('count-fake-projection');
+    const actual = await countProjection<FakeProjection>(category);
 
     const expected = fakeData.length;
 
@@ -67,7 +69,7 @@ describe('countProjection', () => {
   });
 
   it('should count projections by their key and filter them according to an equal condition option', async () => {
-    const actual = await countProjection<FakeProjection>('count-fake-projection', {
+    const actual = await countProjection<FakeProjection>(category, {
       where: {
         data: {
           name: {
@@ -84,7 +86,7 @@ describe('countProjection', () => {
   });
 
   it('should count projections by their key and filter them according to an not equal condition option', async () => {
-    const actual = await countProjection<FakeProjection>('count-fake-projection', {
+    const actual = await countProjection<FakeProjection>(category, {
       where: {
         data: {
           name: {
@@ -114,11 +116,11 @@ describe('countProjection', () => {
       `insert
         into domain_views.projection
         values ($1, $2)`,
-      `count-fake-projection|${insensitiveCaseFakeData.data.value}`,
+      `${category}|${insensitiveCaseFakeData.data.value}`,
       flatten(insensitiveCaseFakeData),
     );
 
-    const actual = await countProjection<FakeProjection>('count-fake-projection', {
+    const actual = await countProjection<FakeProjection>(category, {
       where: {
         data: {
           name: {
@@ -148,11 +150,11 @@ describe('countProjection', () => {
       `insert
         into domain_views.projection
         values ($1, $2)`,
-      `count-fake-projection|${insensitiveCaseFakeData.data.value}`,
+      `${category}|${insensitiveCaseFakeData.data.value}`,
       flatten(insensitiveCaseFakeData),
     );
 
-    const actual = await countProjection<FakeProjection>('count-fake-projection', {
+    const actual = await countProjection<FakeProjection>(category, {
       where: {
         data: {
           name: {
@@ -171,7 +173,7 @@ describe('countProjection', () => {
   it('should count projections by their key and filter them according to a include condition option', async () => {
     const valuesArray = ['1', '2'];
 
-    const actual = await countProjection<FakeProjection>('count-fake-projection', {
+    const actual = await countProjection<FakeProjection>(category, {
       where: {
         data: {
           name: {
@@ -190,7 +192,7 @@ describe('countProjection', () => {
   it('should count projections by their key and filter them according to a not include condition option', async () => {
     const valuesArray = ['1', '2'];
 
-    const actual = await countProjection<FakeProjection>('count-fake-projection', {
+    const actual = await countProjection<FakeProjection>(category, {
       where: {
         data: {
           name: {

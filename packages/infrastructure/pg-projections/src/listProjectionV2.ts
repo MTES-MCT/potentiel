@@ -6,9 +6,9 @@ import { KeyValuePair } from './keyValuePair';
 import { getWhereClause } from './getWhereClause';
 import { getOrderClause } from './getOrderClause';
 import { getRangeClause } from './getRangeClause';
+import { countProjection } from './countProjection';
 
 const selectQuery = 'SELECT key, value FROM domain_views.projection WHERE key LIKE $1';
-const countQuery = 'SELECT COUNT(key) as total FROM domain_views.projection where key like $1';
 
 export const listProjectionV2 = async <TEntity extends Entity>(
   category: TEntity['type'],
@@ -19,18 +19,15 @@ export const listProjectionV2 = async <TEntity extends Entity>(
   const [whereClause, whereValues] = where ? getWhereClause(where) : ['', []];
 
   const select = format(`${selectQuery} ${whereClause} ${orderByClause} ${rangeClause}`);
-  const count = format(`${countQuery} ${whereClause}`);
 
   const result = await executeSelect<KeyValuePair<TEntity>>(
     select,
     `${category}|%`,
     ...whereValues,
   );
-  const [{ total }] = await executeSelect<{ total: number }>(
-    count,
-    `${category}|%`,
-    ...whereValues,
-  );
+  const total = await countProjection(category, {
+    where,
+  });
 
   return {
     total,
