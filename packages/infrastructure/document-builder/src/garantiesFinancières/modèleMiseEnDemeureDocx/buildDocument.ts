@@ -3,9 +3,16 @@ import path from 'path';
 import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const getModèleMiseEnDemeureGarantiesFinancières: GarantiesFinancières.BuildModèleMiseEnDemeureGarantiesFinancièresPort =
   async ({ data }) => {
+    const imageToInject = path.resolve(
+      __dirname,
+      '../../../../../applications/ssr/public/logo_dreals',
+      `${data.dreal}.png`,
+    );
+
     const content = fs.readFileSync(path.resolve(__dirname, 'modeleMiseEnDemeure.docx'), 'binary');
     const zip = new PizZip(content);
     const doc = new Docxtemplater(zip, {
@@ -13,6 +20,15 @@ export const getModèleMiseEnDemeureGarantiesFinancières: GarantiesFinancières
       linebreaks: true,
     });
     doc.render(data);
+
+    if (imageToInject) {
+      try {
+        const imageContents = fs.readFileSync(imageToInject, 'binary');
+        zip.file('word/media/image1.png', imageContents, { binary: true });
+      } catch (e) {
+        getLogger().error(e as Error);
+      }
+    }
 
     const buf = doc.getZip().generate({
       type: 'nodebuffer',
