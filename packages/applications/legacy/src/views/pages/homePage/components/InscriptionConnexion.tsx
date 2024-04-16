@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { User } from '../../../../entities';
 import routes from '../../../../routes';
 import {
-  LinkButton,
-  Container,
-  SecondaryLinkButton,
-  Link,
-  DashboardIcon,
-  LogoutBoxIcon,
   AccountIcon,
+  Container,
+  DashboardIcon,
+  Link,
+  LinkButton,
   LoginIcon,
+  LogoutBoxIcon,
+  SecondaryLinkButton,
 } from '../../../components';
 
 type InscriptionConnexionProps = {
@@ -98,7 +98,8 @@ const SignupBox = () => {
         )}
         {active === 'autre-partenaire' && (
           <p className="m-0 p-0 font-semibold text-lg">
-            Contactez-nous par email <br />
+            Contactez-nous <Link href="mailto:contact@potentiel.beta.gouv.fr">par email</Link>{' '}
+            <br />
             pour obtenir un accès à Potentiel.
           </p>
         )}
