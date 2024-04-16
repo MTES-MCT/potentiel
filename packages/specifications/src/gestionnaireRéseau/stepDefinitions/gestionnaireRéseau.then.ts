@@ -14,16 +14,10 @@ Alors(
     // Assert read model
     const actualReadModel = await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
       type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
-      data: {
-        pagination: {
-          itemsPerPage: 1000,
-          page: 1,
-        },
-      },
+      data: {},
     });
 
     const expected = {
-      currentPage: 1,
       items: [
         {
           aideSaisieRéférenceDossierRaccordement: {
@@ -36,12 +30,14 @@ Alors(
           raisonSociale: gestionnaireRéseau.raisonSociale,
         },
       ],
-      itemsPerPage: 1000,
-      totalItems: 1,
+      total: 1,
+      range: {
+        startPosition: 0,
+        endPosition: 1,
+      },
     };
 
     ({
-      currentPage: actualReadModel.currentPage,
       items: actualReadModel.items.map((g) => ({
         aideSaisieRéférenceDossierRaccordement: {
           format: g.aideSaisieRéférenceDossierRaccordement.format,
@@ -52,8 +48,8 @@ Alors(
         identifiantGestionnaireRéseau: g.identifiantGestionnaireRéseau.codeEIC,
         raisonSociale: g.raisonSociale,
       })),
-      itemsPerPage: actualReadModel.itemsPerPage,
-      totalItems: 1,
+      total: actualReadModel.total,
+      range: actualReadModel.range,
     }).should.deep.equal(expected);
   },
 );

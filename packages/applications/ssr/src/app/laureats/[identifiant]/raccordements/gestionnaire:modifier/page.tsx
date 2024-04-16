@@ -32,7 +32,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const gestionnairesRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
         type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
-        data: { pagination: { itemsPerPage: 1000, page: 1 } },
+        data: {},
       });
 
     const gestionnaireRéseau =
