@@ -11,7 +11,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { displayDate } from '@/utils/displayDate';
+import { FormattedForPageDate } from '@/utils/displayDate';
 import { formatDateForInput } from '@/utils/formatDateForInput';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
@@ -24,7 +24,7 @@ export type TransmettreDateMiseEnServiceProps = {
     référence: string;
     miseEnService?: string;
   };
-  intervalleDatesMeSDélaiCDC2022?: { min: string; max: string };
+  intervalleDatesMeSDélaiCDC2022?: { min: FormattedForPageDate; max: FormattedForPageDate };
 };
 
 export const TransmettreDateMiseEnServicePage = ({
@@ -95,15 +95,10 @@ export const TransmettreDateMiseEnServicePage = ({
                         30/08/2022
                       </span>
                       , la saisie d'une date de mise en service non comprise entre le{' '}
-                      <span className="font-bold">
-                        {displayDate(intervalleDatesMeSDélaiCDC2022.min)}
-                      </span>{' '}
-                      et le{' '}
-                      <span className="font-bold">
-                        {displayDate(intervalleDatesMeSDélaiCDC2022.max)}
-                      </span>{' '}
-                      peut remettre en cause l'application de ce délai et entraîner une modification
-                      de la date d'achèvement du projet.
+                      <span className="font-bold">{intervalleDatesMeSDélaiCDC2022.min}</span> et le{' '}
+                      <span className="font-bold">{intervalleDatesMeSDélaiCDC2022.max}</span> peut
+                      remettre en cause l'application de ce délai et entraîner une modification de
+                      la date d'achèvement du projet.
                     </li>
                   )}
                   <li>
@@ -114,7 +109,7 @@ export const TransmettreDateMiseEnServicePage = ({
                     </span>
                     , la saisie d'une date de mise en service doit être comprise entre la date de
                     désignation du projet (
-                    <span className="font-bold">{displayDate(projet.dateDésignation)}</span>) et{' '}
+                    <span className="font-bold">{projet.dateDésignation}</span>) et{' '}
                     <span className="font-bold">ce jour</span>.
                   </li>
                 </ul>

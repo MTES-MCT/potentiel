@@ -6,17 +6,17 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { CallOut } from '@/components/atoms/CallOut';
 import { Heading2 } from '@/components/atoms/headings';
-import { displayDate } from '@/utils/displayDate';
+import { FormattedForPageDate } from '@/utils/displayDate';
 
 export type GarantiesFinancièresActuelles = {
   type: string;
-  dateÉchéance?: string;
-  dateConstitution?: string;
+  dateÉchéance?: FormattedForPageDate;
+  dateConstitution?: FormattedForPageDate;
   attestation?: string;
-  validéLe?: string;
-  soumisLe?: string;
+  validéLe?: FormattedForPageDate;
+  soumisLe?: FormattedForPageDate;
   dernièreMiseÀJour: {
-    date: string;
+    date: FormattedForPageDate;
     par?: string;
   };
 };
@@ -49,8 +49,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
         <>
           <Heading2>Garanties financières actuelles</Heading2>
           <div className="text-xs italic">
-            Dernière mise à jour le{' '}
-            <span className="font-semibold">{displayDate(dernièreMiseÀJour.date)}</span>
+            Dernière mise à jour le <span className="font-semibold">{dernièreMiseÀJour.date}</span>
             {dernièreMiseÀJour.par && (
               <>
                 {' '}
@@ -80,23 +79,22 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
             </div>
             {dateÉchéance && (
               <div>
-                Date d'échéance : <span className="font-semibold">{displayDate(dateÉchéance)}</span>
+                Date d'échéance : <span className="font-semibold">{dateÉchéance}</span>
               </div>
             )}
             {dateConstitution && (
               <div>
-                Date de constitution :{' '}
-                <span className="font-semibold">{displayDate(dateConstitution)}</span>
+                Date de constitution : <span className="font-semibold">{dateConstitution}</span>
               </div>
             )}
             {validéLe && (
               <div>
-                Validé le : <span className="font-semibold">{displayDate(validéLe)}</span>
+                Validé le : <span className="font-semibold">{validéLe}</span>
               </div>
             )}
             {soumisLe && (
               <div>
-                Soumis le : <span className="font-semibold">{displayDate(soumisLe)}</span>
+                Soumis le : <span className="font-semibold">{soumisLe}</span>
               </div>
             )}
             <div>

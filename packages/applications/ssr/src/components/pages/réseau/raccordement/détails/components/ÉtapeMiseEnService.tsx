@@ -4,14 +4,14 @@ import Link from 'next/link';
 import { Routes } from '@potentiel-applications/routes';
 
 import { Icon } from '@/components/atoms/Icon';
-import { displayDate } from '@/utils/displayDate';
+import { FormattedForPageDate } from '@/utils/displayDate';
 
 import { Etape } from './Étape';
 
 type ÉtapeMiseEnServiceProps = {
   identifiantProjet: string;
   référence: string;
-  dateMiseEnService?: string;
+  dateMiseEnService?: FormattedForPageDate;
   canEdit: boolean;
 };
 
@@ -35,7 +35,7 @@ export const ÉtapeMiseEnService: FC<ÉtapeMiseEnServiceProps> = ({
             className="mr-1"
             title="date de mise en service"
           />
-          {displayDate(dateMiseEnService)}
+          {dateMiseEnService}
         </div>
 
         {canEdit && (

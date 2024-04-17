@@ -4,7 +4,7 @@ import { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { displayDate } from '@/utils/displayDate';
+import { FormattedForPageDate } from '@/utils/displayDate';
 
 export type ListItemDépôtEnCoursGarantiesFinancièresProps = {
   identifiantProjet: string;
@@ -14,8 +14,8 @@ export type ListItemDépôtEnCoursGarantiesFinancièresProps = {
   famille?: string;
   statut: GarantiesFinancières.StatutDépôtGarantiesFinancières.RawType;
   type: string;
-  dateÉchéance?: string;
-  misÀJourLe: string;
+  dateÉchéance?: FormattedForPageDate;
+  misÀJourLe: FormattedForPageDate;
   régionProjet: string;
 };
 
@@ -73,7 +73,7 @@ export const ListItemDépôtEnCoursGarantiesFinancières: FC<
           </li>
           {dateÉchéance && (
             <li>
-              Date d'échéance : <span className="font-semibold">{displayDate(dateÉchéance)}</span>
+              Date d'échéance : <span className="font-semibold">{dateÉchéance}</span>
             </li>
           )}
         </ul>
@@ -81,7 +81,7 @@ export const ListItemDépôtEnCoursGarantiesFinancières: FC<
     </div>
 
     <div className="flex flex-col justify-between mt-4 md:mt-0">
-      <p className="italic text-xs">dernière mise à jour le {displayDate(misÀJourLe)}</p>
+      <p className="italic text-xs">dernière mise à jour le {misÀJourLe}</p>
       <a
         href={Routes.GarantiesFinancières.détail(identifiantProjet)}
         className="self-end mt-2"

@@ -3,19 +3,19 @@ import { FC } from 'react';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
-import { displayDate } from '@/utils/displayDate';
+import { FormattedForPageDate } from '@/utils/displayDate';
 
 type DépôtStatut = 'en-cours' | 'validé' | 'rejeté';
 
 export type DépôtGarantiesFinancières = {
   type: string;
-  dateÉchéance?: string;
+  dateÉchéance?: FormattedForPageDate;
   statut: DépôtStatut;
-  dateConstitution: string;
-  soumisLe: string;
+  dateConstitution: FormattedForPageDate;
+  soumisLe: FormattedForPageDate;
   attestation: string;
   dernièreMiseÀJour: {
-    date: string;
+    date: FormattedForPageDate;
     par: string;
   };
 };
@@ -33,7 +33,7 @@ export const GarantiesFinancièresHistoriqueDépôts: FC<
     <Timeline
       className="mt-4"
       items={dépôts.map((dépôt) => ({
-        date: displayDate(dépôt.dernièreMiseÀJour.date),
+        date: dépôt.dernièreMiseÀJour.date,
         status: getTimelineItemStatus(dépôt.statut),
         title: (
           <p>
@@ -48,17 +48,15 @@ export const GarantiesFinancièresHistoriqueDépôts: FC<
                   Type : <span className="font-semibold">{dépôt.type}</span>
                 </li>
                 <li>
-                  Date de dépôt :{' '}
-                  <span className="font-semibold">{displayDate(dépôt.soumisLe)}</span>
+                  Date de dépôt : <span className="font-semibold">{dépôt.soumisLe}</span>
                 </li>
                 <li>
                   Date de constitution :{' '}
-                  <span className="font-semibold">{displayDate(dépôt.dateConstitution)}</span>
+                  <span className="font-semibold">{dépôt.dateConstitution}</span>
                 </li>
                 {dépôt.dateÉchéance && (
                   <li>
-                    Date d'échéance :{' '}
-                    <span className="font-semibold">{displayDate(dépôt.dateÉchéance)}</span>
+                    Date d'échéance : <span className="font-semibold">{dépôt.dateÉchéance}</span>
                   </li>
                 )}
               </ul>
