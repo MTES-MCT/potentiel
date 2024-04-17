@@ -1,12 +1,12 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
-import { PotentielWorld } from '../../../../potentiel.world';
+import { NotFoundError } from '@potentiel-domain/core';
+import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { expect } from 'chai';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
+import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
-import { NotFoundError } from '@potentiel-domain/core';
+import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
+import { PotentielWorld } from '../../../../potentiel.world';
 
 Alors(
   'les garanties financières à traiter devraient être consultables pour le projet {string} avec :',
@@ -272,5 +272,3 @@ Alors(
     });
   },
 );
-
-console.log(new Date('coucou'));

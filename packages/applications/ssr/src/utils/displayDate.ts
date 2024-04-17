@@ -1,4 +1,3 @@
-/* eslint-disable import/no-duplicates */
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
@@ -13,8 +12,8 @@ export const displayDate = (date: Date | number | string): FormattedForPageDate 
     if (isFormattedForPageDate(date)) {
       return date as FormattedForPageDate;
     }
-    const stringAsDate = new Date(date);
-    if (isNaN(stringAsDate.getTime())) {
+    const parseDate = new Date(date);
+    if (isNaN(parseDate.getTime())) {
       throw new Error(`[displayDate] ${date} is not a valid date string`);
     }
     return format(new Date(date), 'dd/MM/yyyy', { locale: fr }) as FormattedForPageDate;
