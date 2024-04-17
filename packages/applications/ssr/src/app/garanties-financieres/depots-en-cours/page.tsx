@@ -13,6 +13,7 @@ import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
 import { mapToPagination } from '@/utils/mapToPagination';
+import { displayDate } from '@/utils/displayDate';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -93,9 +94,9 @@ const mapToListProps = ({
       période,
       famille,
       statut: statut.statut,
-      misÀJourLe: dernièreMiseÀJour.date.formatter(),
+      misÀJourLe: displayDate(dernièreMiseÀJour.date.formatter()),
       type: getGarantiesFinancièresTypeLabel(type.type),
-      dateÉchéance: dateÉchéance?.formatter(),
+      dateÉchéance: dateÉchéance ? displayDate(dateÉchéance.formatter()) : undefined,
       régionProjet,
     }),
   );

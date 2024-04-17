@@ -13,6 +13,8 @@ import {
   EnregistrerGarantiesFinancièresProps,
 } from '@/components/pages/garanties-financières/actuelles/enregistrer/enregistrerGarantiesFinancières.page';
 import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { displayDate } from '@/utils/displayDate';
 
 export const metadata: Metadata = {
   title: `Enregistrer des garanties financières actuelles - Potentiel`,
@@ -28,7 +30,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       data: { identifiantProjet },
     });
 
-    const projet = { ...candidature, identifiantProjet };
+    const projet: ProjetBannerProps = {
+      ...candidature,
+      dateDésignation: displayDate(candidature.dateDésignation),
+      identifiantProjet,
+    };
 
     const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
       appelOffre: candidature.appelOffre,

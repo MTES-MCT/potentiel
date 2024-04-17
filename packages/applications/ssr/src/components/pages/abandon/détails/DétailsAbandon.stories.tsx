@@ -20,7 +20,7 @@ const projet: DétailsAbandonPageProps['projet'] = {
   période: 'Période',
   famille: 'Famille',
   nom: 'Nom du projet',
-  dateDésignation: '2021-10-23',
+  dateDésignation: '23/10/2021',
   localité: {
     codePostal: 'XXXXX',
     commune: 'Commune',
@@ -37,7 +37,7 @@ export const Demandé: Story = {
     abandon: {
       demande: {
         demandéPar: 'Porteur#1',
-        demandéLe: '2022-01-01',
+        demandéLe: '01/01/2022',
         recandidature: false,
         preuveRecandidatureStatut: 'non-applicable',
         raison: "Justification de l'abandon",
@@ -54,15 +54,15 @@ export const Confirmé: Story = {
     abandon: {
       demande: {
         demandéPar: 'Porteur#1',
-        demandéLe: '2022-01-01',
+        demandéLe: '01/01/2022',
         recandidature: false,
         preuveRecandidatureStatut: 'non-applicable',
         raison: "Justification de l'abandon",
       },
       confirmation: {
         demandéPar: 'Admin#1',
-        demandéLe: '2022-02-01',
-        confirméLe: '2022-03-01',
+        demandéLe: '01/02/2022',
+        confirméLe: '01/03/2022',
         confirméPar: 'Porteur#1',
         réponseSignée: 'Réponse signée',
       },
@@ -78,14 +78,14 @@ export const Rejeté: Story = {
     abandon: {
       demande: {
         demandéPar: 'Porteur#1',
-        demandéLe: '2022-01-01',
+        demandéLe: '01/01/2022',
         recandidature: false,
         preuveRecandidatureStatut: 'non-applicable',
         raison: "Justification de l'abandon",
       },
       rejet: {
         rejetéPar: 'Gestionnaire#1',
-        rejetéLe: '2022-04-01',
+        rejetéLe: '01/04/2022',
         réponseSignée: 'Réponse signée',
       },
     },
@@ -100,14 +100,14 @@ export const Accordé: Story = {
     abandon: {
       demande: {
         demandéPar: 'Porteur#1',
-        demandéLe: '2022-01-01',
+        demandéLe: '01/01/2022',
         recandidature: false,
         preuveRecandidatureStatut: 'non-applicable',
         raison: "Justification de l'abandon",
       },
       accord: {
         accordéPar: 'Gestionnaire#1',
-        accordéLe: '2022-04-01',
+        accordéLe: '01/04/2022',
         réponseSignée: 'Réponse signée',
       },
     },
@@ -122,14 +122,14 @@ export const AccordéAvecRecandidature: Story = {
     abandon: {
       demande: {
         demandéPar: 'Porteur#1',
-        demandéLe: '2022-01-01',
+        demandéLe: '01/01/2022',
         recandidature: false,
         preuveRecandidatureStatut: 'en-attente',
         raison: "Justification de l'abandon",
       },
       accord: {
         accordéPar: 'Gestionnaire#1',
-        accordéLe: '2022-04-01',
+        accordéLe: '01/04/2022',
         réponseSignée: 'Réponse signée',
       },
     },
@@ -144,7 +144,7 @@ export const AccordéAvecRecandidatureAvecLienPourTransmettre: Story = {
     abandon: {
       demande: {
         demandéPar: 'Porteur#1',
-        demandéLe: '2022-01-01',
+        demandéLe: '01/01/2022',
         recandidature: true,
         lienRecandidature: 'path/to/page/recandidature',
         preuveRecandidatureStatut: 'en-attente',
@@ -152,7 +152,7 @@ export const AccordéAvecRecandidatureAvecLienPourTransmettre: Story = {
       },
       accord: {
         accordéPar: 'Gestionnaire#1',
-        accordéLe: '2022-04-01',
+        accordéLe: '01/04/2022',
         réponseSignée: 'Réponse signée',
       },
     },

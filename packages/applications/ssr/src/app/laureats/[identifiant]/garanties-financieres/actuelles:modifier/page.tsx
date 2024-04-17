@@ -15,6 +15,8 @@ import {
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { displayDate } from '@/utils/displayDate';
 
 export const metadata: Metadata = {
   title: 'Modifier les garanties financières actuelles - Potentiel',
@@ -30,7 +32,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       data: { identifiantProjet },
     });
 
-    const projet = { ...candidature, identifiantProjet };
+    const projet: ProjetBannerProps = {
+      ...candidature,
+      dateDésignation: displayDate(candidature.dateDésignation),
+      identifiantProjet,
+    };
 
     const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
       appelOffre: candidature.appelOffre,
@@ -56,12 +62,18 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
       actuelles: {
         type: garantiesFinancières.actuelles.type.type,
-        dateÉchéance: garantiesFinancières.actuelles.dateÉchéance?.formatter(),
-        dateConstitution: garantiesFinancières.actuelles.dateConstitution?.formatter(),
-        validéLe: garantiesFinancières.actuelles.validéLe?.formatter(),
+        dateÉchéance: garantiesFinancières.actuelles.dateÉchéance
+          ? displayDate(garantiesFinancières.actuelles.dateÉchéance.formatter())
+          : undefined,
+        dateConstitution: garantiesFinancières.actuelles.dateConstitution
+          ? displayDate(garantiesFinancières.actuelles.dateConstitution.formatter())
+          : undefined,
+        validéLe: garantiesFinancières.actuelles.validéLe
+          ? displayDate(garantiesFinancières.actuelles.validéLe.formatter())
+          : undefined,
         attestation: garantiesFinancières.actuelles.attestation?.formatter(),
         dernièreMiseÀJour: {
-          date: garantiesFinancières.actuelles.dernièreMiseÀJour.date.formatter(),
+          date: displayDate(garantiesFinancières.actuelles.dernièreMiseÀJour.date.formatter()),
           par: garantiesFinancières.actuelles.dernièreMiseÀJour.par?.formatter(),
         },
       },

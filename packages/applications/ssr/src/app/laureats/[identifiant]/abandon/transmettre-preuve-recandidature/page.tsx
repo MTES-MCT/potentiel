@@ -17,6 +17,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { displayDate } from '@/utils/displayDate';
 
 export const metadata: Metadata = {
   title: 'Transmettre preuve de recandidature - Potentiel',
@@ -59,6 +60,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const transmettrePreuveRecandidaturePageProps: TransmettrePreuveRecandidaturePageProps = {
         projet: {
           ...candidature,
+          dateDésignation: displayDate(candidature.dateDésignation),
           identifiantProjet,
         },
         projetsÀSélectionner: projetsÀSélectionner

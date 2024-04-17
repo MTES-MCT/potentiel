@@ -15,6 +15,7 @@ import {
 import { getGarantiesFinancièresMotifLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresMotifLabel';
 import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
 import { mapToPagination } from '@/utils/mapToPagination';
+import { displayDate } from '@/utils/displayDate';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -100,8 +101,8 @@ const mapToListProps = (
       famille,
       régionProjet,
       motif: getGarantiesFinancièresMotifLabel(motif.motif),
-      misÀJourLe: dernièreMiseÀJour.date.formatter(),
-      dateLimiteSoumission: dateLimiteSoumission.formatter(),
+      misÀJourLe: displayDate(dernièreMiseÀJour.date.formatter()),
+      dateLimiteSoumission: displayDate(dateLimiteSoumission.formatter()),
       afficherModèleMiseEnDemeure:
         dateLimiteSoumission.estAntérieurÀ(DateTime.now()) &&
         utilisateur.role.estÉgaleÀ(Role.dreal),

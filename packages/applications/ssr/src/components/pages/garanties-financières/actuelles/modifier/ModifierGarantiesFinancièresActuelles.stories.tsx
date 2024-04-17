@@ -24,7 +24,7 @@ const projet: ModifierGarantiesFinancièresActuellesProps['projet'] = {
   période: 'Période',
   famille: 'Famille',
   nom: 'Nom du projet',
-  dateDésignation: '2021-10-23',
+  dateDésignation: '23/10/2021',
   localité: {
     codePostal: 'XXXXX',
     commune: 'Commune',
@@ -43,11 +43,11 @@ export const Default: Story = {
     typesGarantiesFinancières,
     actuelles: {
       type: 'consignation',
-      dateConstitution: '2021-10-23',
-      soumisLe: '2022-01-01',
+      dateConstitution: '23/10/2021',
+      soumisLe: '01/01/2022',
       attestation: 'path/to/attestationConstitution',
       dernièreMiseÀJour: {
-        date: '2022-01-01',
+        date: '01/01/2022',
         par: 'PORTEUR#1',
       },
     },

@@ -2,10 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
 import { Option } from '@potentiel-libraries/monads';
-import {
-  ConsulterCandidatureQuery,
-  ConsulterCandidatureReadModel,
-} from '@potentiel-domain/candidature';
+import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
 
@@ -18,6 +15,8 @@ import {
   DétailsRaccordementPageProps,
 } from '@/components/pages/réseau/raccordement/détails/DétailsRaccordement.page';
 import { AucunDossierDeRaccordementPage } from '@/components/pages/réseau/raccordement/détails/AucunDossierDeRaccordement.page';
+import { displayDate } from '@/utils/displayDate';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 type PageProps = IdentifiantParameter;
 
@@ -38,8 +37,9 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
-      const projet = {
+      const projet: ProjetBannerProps = {
         ...candidature,
+        dateDésignation: displayDate(candidature.dateDésignation),
         identifiantProjet,
       };
 
@@ -66,7 +66,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       const props = mapToProps({
         rôleUtilisateur: utilisateur.role,
-        candidature,
+        projet,
         identifiantProjet,
         gestionnaireRéseau,
         listeDossiersRaccordement,
@@ -79,7 +79,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
 type MapToProps = (args: {
   rôleUtilisateur: Role.ValueType;
-  candidature: ConsulterCandidatureReadModel;
+  projet: ProjetBannerProps;
   identifiantProjet: string;
   gestionnaireRéseau: Option.Type<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;
   listeDossiersRaccordement: Raccordement.ConsulterRaccordementReadModel;
@@ -87,15 +87,12 @@ type MapToProps = (args: {
 
 const mapToProps: MapToProps = ({
   rôleUtilisateur,
-  candidature,
+  projet,
   identifiantProjet,
   gestionnaireRéseau,
   listeDossiersRaccordement,
 }) => ({
-  projet: {
-    ...candidature,
-    identifiantProjet,
-  },
+  projet,
   ...(!Option.isNone(gestionnaireRéseau) && {
     gestionnaireRéseau: {
       ...gestionnaireRéseau,
@@ -120,22 +117,30 @@ const mapToProps: MapToProps = ({
           rôleUtilisateur.estÉgaleÀ(Role.admin) ||
           rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
           rôleUtilisateur.estÉgaleÀ(Role.porteur),
-        accuséRéception: dossier.demandeComplèteRaccordement.accuséRéception?.formatter(),
-        dateQualification: dossier.demandeComplèteRaccordement.dateQualification?.formatter(),
+        accuséRéception: dossier.demandeComplèteRaccordement.accuséRéception
+          ? displayDate(dossier.demandeComplèteRaccordement.accuséRéception.formatter())
+          : undefined,
+        dateQualification: dossier.demandeComplèteRaccordement.dateQualification
+          ? displayDate(dossier.demandeComplèteRaccordement.dateQualification.formatter())
+          : undefined,
       },
       propositionTechniqueEtFinancière: {
         canEdit:
           rôleUtilisateur.estÉgaleÀ(Role.admin) ||
           rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
           rôleUtilisateur.estÉgaleÀ(Role.porteur),
-        dateSignature: dossier.propositionTechniqueEtFinancière?.dateSignature.formatter(),
+        dateSignature: dossier.propositionTechniqueEtFinancière
+          ? displayDate(dossier.propositionTechniqueEtFinancière.dateSignature.formatter())
+          : undefined,
         propositionTechniqueEtFinancièreSignée:
           dossier.propositionTechniqueEtFinancière?.propositionTechniqueEtFinancièreSignée.formatter(),
       },
       miseEnService: {
         canEdit:
           rôleUtilisateur.estÉgaleÀ(Role.admin) || rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur),
-        dateMiseEnService: dossier.miseEnService?.dateMiseEnService?.formatter(),
+        dateMiseEnService: dossier.miseEnService?.dateMiseEnService
+          ? displayDate(dossier.miseEnService.dateMiseEnService.formatter())
+          : undefined,
       },
     };
   }),

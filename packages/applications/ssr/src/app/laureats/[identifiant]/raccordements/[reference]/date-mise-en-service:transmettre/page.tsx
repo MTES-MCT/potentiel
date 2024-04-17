@@ -12,6 +12,7 @@ import {
   TransmettreDateMiseEnServicePage,
   TransmettreDateMiseEnServiceProps,
 } from '@/components/pages/réseau/raccordement/transmettre/transmettreDateMiseEnService/TransmettreDateMiseEnService.page';
+import { displayDate } from '@/utils/displayDate';
 
 type PageProps = {
   params: {
@@ -63,6 +64,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
     const props: TransmettreDateMiseEnServiceProps = {
       projet: {
         ...candidature,
+        dateDésignation: displayDate(candidature.dateDésignation),
         identifiantProjet,
       },
       dossierRaccordement: {
@@ -70,8 +72,12 @@ export default async function Page({ params: { identifiant, reference } }: PageP
         miseEnService:
           dossierRaccordement.miseEnService?.dateMiseEnService?.formatter() ?? undefined,
       },
-
-      intervalleDatesMeSDélaiCDC2022,
+      intervalleDatesMeSDélaiCDC2022: intervalleDatesMeSDélaiCDC2022
+        ? {
+            min: displayDate(intervalleDatesMeSDélaiCDC2022.min),
+            max: displayDate(intervalleDatesMeSDélaiCDC2022.max),
+          }
+        : undefined,
     };
 
     return <TransmettreDateMiseEnServicePage {...props} />;

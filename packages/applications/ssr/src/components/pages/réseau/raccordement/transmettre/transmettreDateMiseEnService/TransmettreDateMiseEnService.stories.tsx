@@ -23,8 +23,8 @@ export const Default: Story = {
       référence: 'Référence',
     },
     intervalleDatesMeSDélaiCDC2022: {
-      min: new Date('2022-09-01').toISOString(),
-      max: new Date('2024-12-31').toISOString(),
+      min: '01/09/2022',
+      max: '31/12/2024',
     },
     projet: {
       identifiantProjet: 'identifiantProjet#1',
@@ -32,7 +32,7 @@ export const Default: Story = {
       période: 'Période',
       famille: 'Famille',
       nom: 'Nom du projet',
-      dateDésignation: '2021-10-23',
+      dateDésignation: '23/10/2021',
       localité: {
         codePostal: 'XXXXX',
         commune: 'Commune',

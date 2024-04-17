@@ -87,7 +87,7 @@ export const Default: Story = {
           statut: 'accordé',
           recandidature: false,
           preuveRecandidatureStatut: 'en-attente',
-          misÀJourLe: '2023-02-12',
+          misÀJourLe: '02/12/2023',
         },
         {
           identifiantProjet: '#identifiantProjet-2',
@@ -98,7 +98,7 @@ export const Default: Story = {
           statut: 'demandé',
           recandidature: true,
           preuveRecandidatureStatut: 'en-attente',
-          misÀJourLe: '2023-02-12',
+          misÀJourLe: '02/12/2023',
         },
         {
           identifiantProjet: '#identifiantProjet-3',
@@ -109,7 +109,7 @@ export const Default: Story = {
           statut: 'rejeté',
           recandidature: false,
           preuveRecandidatureStatut: 'en-attente',
-          misÀJourLe: '2023-02-12',
+          misÀJourLe: '02/12/2023',
         },
       ],
       itemsPerPage: 10,

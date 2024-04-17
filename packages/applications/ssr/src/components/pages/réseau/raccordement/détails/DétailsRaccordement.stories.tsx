@@ -20,7 +20,7 @@ const projet: DétailsRaccordementPageProps['projet'] = {
   période: 'Période',
   famille: 'Famille',
   nom: 'Nom du projet',
-  dateDésignation: '2021-10-23',
+  dateDésignation: '23/10/2021',
   localité: {
     codePostal: 'XXXXX',
     commune: 'Commune',
@@ -52,16 +52,16 @@ export const Complet: Story = {
         demandeComplèteRaccordement: {
           canEdit: true,
           accuséRéception: 'accusé-reception#1',
-          dateQualification: '2022-05-10',
+          dateQualification: '10/05/2022',
         },
         propositionTechniqueEtFinancière: {
           canEdit: true,
-          dateSignature: '2022-09-30',
+          dateSignature: '30/09/2022',
           propositionTechniqueEtFinancièreSignée: 'propositionTechniqueEtFinancièreSignée#1',
         },
         miseEnService: {
           canEdit: true,
-          dateMiseEnService: '2023-12-25',
+          dateMiseEnService: '25/12/2023',
         },
       },
     ],
@@ -82,7 +82,7 @@ export const Incomplet: Story = {
         },
         propositionTechniqueEtFinancière: {
           canEdit: false,
-          dateSignature: '2022-09-30',
+          dateSignature: '30/09/2022',
           propositionTechniqueEtFinancièreSignée: 'propositionTechniqueEtFinancièreSignée#2.bin',
         },
         miseEnService: {

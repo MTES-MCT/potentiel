@@ -24,7 +24,7 @@ const projet: ModifierDépôtEnCoursGarantiesFinancièresProps['projet'] = {
   période: 'Période',
   famille: 'Famille',
   nom: 'Nom du projet',
-  dateDésignation: '2021-10-23',
+  dateDésignation: '23/10/2021',
   localité: {
     codePostal: 'XXXXX',
     commune: 'Commune',
@@ -42,12 +42,12 @@ export const EnTantQueDreal: Story = {
     projet,
     dépôtEnCours: {
       type: 'consignation',
-      dateConstitution: '2021-10-23',
+      dateConstitution: '23/10/2021',
       statut: 'en-cours',
-      soumisLe: '2022-01-01',
+      soumisLe: '01/01/2022',
       attestation: 'path/to/attestationConstitution',
       dernièreMiseÀJour: {
-        date: '2022-01-01',
+        date: '01/01/2022',
         par: 'PORTEUR#1',
       },
     },
@@ -62,12 +62,12 @@ export const EnTantQuePorteur: Story = {
     dépôtEnCours: {
       type: 'avec-date-échéance',
       statut: 'en-cours',
-      dateÉchéance: '2023-10-23',
-      dateConstitution: '2021-10-23',
-      soumisLe: '2022-01-01',
+      dateÉchéance: '23/10/2023',
+      dateConstitution: '23/10/2023',
+      soumisLe: '01/01/2022',
       attestation: 'path/to/attestationConstitution',
       dernièreMiseÀJour: {
-        date: '2022-01-15',
+        date: '15/01/2022',
         par: 'DREAL#1',
       },
     },

@@ -1,10 +1,7 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
-import {
-  ConsulterCandidatureQuery,
-  ConsulterCandidatureReadModel,
-} from '@potentiel-domain/candidature';
+import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 
@@ -20,6 +17,8 @@ import {
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import { tryToGetResource } from '@/utils/tryToGetRessource';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { displayDate } from '@/utils/displayDate';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
@@ -36,7 +35,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjet },
       });
 
-      const projet = { ...candidature, identifiantProjet };
+      const projet: ProjetBannerProps = {
+        ...candidature,
+        dateDésignation: displayDate(candidature.dateDésignation),
+        identifiantProjet,
+      };
 
       const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
         appelOffre: candidature.appelOffre,
@@ -71,7 +74,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 }
 
 type MapToProps = (args: {
-  projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
+  projet: ProjetBannerProps;
   utilisateur: Utilisateur.ValueType;
   garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel | null;
 }) => DétailsGarantiesFinancièresPageProps;
@@ -83,7 +86,10 @@ const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) 
       !garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours()))
   ) {
     return {
-      projet,
+      projet: {
+        ...projet,
+        dateDésignation: displayDate(projet.dateDésignation),
+      },
       action: utilisateur.role.estÉgaleÀ(Role.porteur)
         ? 'soumettre'
         : utilisateur.role.estÉgaleÀ(Role.admin) ||
@@ -96,12 +102,14 @@ const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) 
       historiqueDépôts:
         garantiesFinancières?.dépôts.map((dépôt) => ({
           type: getGarantiesFinancièresTypeLabel(dépôt.type.type),
-          dateÉchéance: dépôt.dateÉchéance?.formatter(),
-          dateConstitution: dépôt.dateConstitution.formatter(),
-          soumisLe: dépôt.soumisLe.formatter(),
+          dateÉchéance: dépôt.dateÉchéance
+            ? displayDate(dépôt.dateÉchéance.formatter())
+            : undefined,
+          dateConstitution: displayDate(dépôt.dateConstitution.formatter()),
+          soumisLe: displayDate(dépôt.soumisLe.formatter()),
           statut: dépôt.statut.statut,
           dernièreMiseÀJour: {
-            date: dépôt.dernièreMiseÀJour.date.formatter(),
+            date: displayDate(dépôt.dernièreMiseÀJour.date.formatter()),
             par: dépôt.dernièreMiseÀJour.par.formatter(),
           },
           attestation: dépôt.attestation.formatter(),
@@ -116,13 +124,21 @@ const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) 
     actuelles: garantiesFinancières.actuelles
       ? {
           type: getGarantiesFinancièresTypeLabel(garantiesFinancières.actuelles.type.type),
-          dateÉchéance: garantiesFinancières.actuelles.dateÉchéance?.formatter(),
-          dateConstitution: garantiesFinancières.actuelles.dateConstitution?.formatter(),
-          soumisLe: garantiesFinancières.actuelles.soumisLe?.formatter(),
-          validéLe: garantiesFinancières.actuelles.validéLe?.formatter(),
+          dateÉchéance: garantiesFinancières.actuelles.dateÉchéance
+            ? displayDate(garantiesFinancières.actuelles.dateÉchéance.formatter())
+            : undefined,
+          dateConstitution: garantiesFinancières.actuelles.dateConstitution
+            ? displayDate(garantiesFinancières.actuelles.dateConstitution.formatter())
+            : undefined,
+          soumisLe: garantiesFinancières.actuelles.soumisLe
+            ? displayDate(garantiesFinancières.actuelles.soumisLe.formatter())
+            : undefined,
+          validéLe: garantiesFinancières.actuelles.validéLe
+            ? displayDate(garantiesFinancières.actuelles.validéLe.formatter())
+            : undefined,
           attestation: garantiesFinancières.actuelles.attestation?.formatter(),
           dernièreMiseÀJour: {
-            date: garantiesFinancières.actuelles.dernièreMiseÀJour.date.formatter(),
+            date: displayDate(garantiesFinancières.actuelles.dernièreMiseÀJour.date.formatter()),
             par: garantiesFinancières.actuelles.dernièreMiseÀJour.par?.formatter(),
           },
           action:
@@ -140,12 +156,14 @@ const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) 
     dépôtEnCours: dépôtEnCours
       ? {
           type: getGarantiesFinancièresTypeLabel(dépôtEnCours.type.type),
-          dateÉchéance: dépôtEnCours.dateÉchéance?.formatter(),
-          dateConstitution: dépôtEnCours.dateConstitution.formatter(),
-          soumisLe: dépôtEnCours.soumisLe.formatter(),
+          dateÉchéance: dépôtEnCours.dateÉchéance
+            ? displayDate(dépôtEnCours.dateÉchéance.formatter())
+            : undefined,
+          dateConstitution: displayDate(dépôtEnCours.dateConstitution.formatter()),
+          soumisLe: displayDate(dépôtEnCours.soumisLe.formatter()),
           statut: dépôtEnCours.statut.statut,
           dernièreMiseÀJour: {
-            date: dépôtEnCours.dernièreMiseÀJour.date.formatter(),
+            date: displayDate(dépôtEnCours.dernièreMiseÀJour.date.formatter()),
             par: dépôtEnCours.dernièreMiseÀJour.par.formatter(),
           },
           attestation: dépôtEnCours.attestation.formatter(),
@@ -161,12 +179,12 @@ const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) 
       .filter((dépôt) => !dépôt.statut.estEnCours())
       .map((dépôt) => ({
         type: getGarantiesFinancièresTypeLabel(dépôt.type.type),
-        dateÉchéance: dépôt.dateÉchéance?.formatter(),
-        dateConstitution: dépôt.dateConstitution.formatter(),
-        soumisLe: dépôt.soumisLe.formatter(),
+        dateÉchéance: dépôt.dateÉchéance ? displayDate(dépôt.dateÉchéance.formatter()) : undefined,
+        dateConstitution: displayDate(dépôt.dateConstitution.formatter()),
+        soumisLe: displayDate(dépôt.soumisLe.formatter()),
         statut: dépôt.statut.statut,
         dernièreMiseÀJour: {
-          date: dépôt.dernièreMiseÀJour.date.formatter(),
+          date: displayDate(dépôt.dernièreMiseÀJour.date.formatter()),
           par: dépôt.dernièreMiseÀJour.par.formatter(),
         },
         attestation: dépôt.attestation.formatter(),

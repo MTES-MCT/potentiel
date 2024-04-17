@@ -38,7 +38,7 @@ const projet: EnregistrerGarantiesFinancièresProps['projet'] = {
   période: 'Période',
   famille: 'Famille',
   nom: 'Nom du projet',
-  dateDésignation: '2021-10-23',
+  dateDésignation: '23/10/2021',
   localité: {
     codePostal: 'XXXXX',
     commune: 'Commune',

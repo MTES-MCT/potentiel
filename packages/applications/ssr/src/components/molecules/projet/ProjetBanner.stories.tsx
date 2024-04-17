@@ -37,6 +37,6 @@ export const Default: Story = {
       département: 'Département',
       région: 'Région',
     },
-    dateDésignation: '2021-10-22',
+    dateDésignation: '22/10/2021',
   },
 };

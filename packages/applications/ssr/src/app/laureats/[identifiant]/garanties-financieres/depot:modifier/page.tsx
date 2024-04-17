@@ -17,6 +17,8 @@ import {
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { displayDate } from '@/utils/displayDate';
 
 export const metadata: Metadata = {
   title: 'Modifier dépôt des garanties financières en cours - Potentiel',
@@ -33,7 +35,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjet },
       });
 
-      const projet = { ...candidature, identifiantProjet };
+      const projet: ProjetBannerProps = {
+        ...candidature,
+        dateDésignation: displayDate(candidature.dateDésignation),
+        identifiantProjet,
+      };
 
       if (
         !projetSoumisAuxGarantiesFinancières({
@@ -62,12 +68,14 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         dépôtEnCours: {
           type: dépôtEnCours.type.type,
           statut: dépôtEnCours.statut.statut,
-          dateÉchéance: dépôtEnCours.dateÉchéance?.formatter(),
-          dateConstitution: dépôtEnCours.dateConstitution.formatter(),
-          soumisLe: dépôtEnCours.soumisLe.formatter(),
+          dateÉchéance: dépôtEnCours.dateÉchéance
+            ? displayDate(dépôtEnCours.dateÉchéance.formatter())
+            : undefined,
+          dateConstitution: displayDate(dépôtEnCours.dateConstitution.formatter()),
+          soumisLe: displayDate(dépôtEnCours.soumisLe.formatter()),
           attestation: dépôtEnCours.attestation.formatter(),
           dernièreMiseÀJour: {
-            date: dépôtEnCours.dernièreMiseÀJour.date.formatter(),
+            date: displayDate(dépôtEnCours.dernièreMiseÀJour.date.formatter()),
             par: dépôtEnCours.dernièreMiseÀJour.par.formatter(),
           },
         },

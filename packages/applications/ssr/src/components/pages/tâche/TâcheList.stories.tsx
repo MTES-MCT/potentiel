@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { FormattedForPageDate } from '@/utils/displayDate';
+
 import { TâcheListPage, TâcheListPageProps } from './TâcheList.page';
 
 const meta = {
@@ -24,7 +26,7 @@ const commonItem = {
   période: 'Période 1',
   identifiantProjet: 'identifiant-projet-1',
   nomProjet: 'Nom projet 1',
-  misÀJourLe: new Date().toISOString(),
+  misÀJourLe: '01/01/2024' as FormattedForPageDate,
 };
 
 export const Default: Story = {

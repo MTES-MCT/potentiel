@@ -18,6 +18,7 @@ import {
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { displayDate } from '@/utils/displayDate';
 
 export const metadata: Metadata = {
   title: 'Ajouter un dossier de raccordement - Potentiel',
@@ -97,6 +98,7 @@ const mapToProps: MapToProps = ({
     })),
     projet: {
       ...candidature,
+      dateDésignation: displayDate(candidature.dateDésignation),
       identifiantProjet: identifiantProjet,
     },
   };
