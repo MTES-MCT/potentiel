@@ -12,7 +12,9 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "prestorybook": "copy-dsfr-to-public --publicDir .storybook/static && only-include-used-icons --publicDir .storybook/static",
-    "prebuild-storybook": "npm run prestorybook"
+    "prebuild-storybook": "npm run prestorybook",
+    "pretest": "npm run build",
+    "test": "node --test"
   },
   "dependencies": {
     "@codegouvfr/react-dsfr": "^1.7.2",
