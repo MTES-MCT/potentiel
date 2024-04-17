@@ -3,8 +3,6 @@ import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { formatDateForText } from '@/utils/formatDateForText';
-
 export type TâcheListItemProps = {
   identifiantProjet: string;
   nomProjet: string;
@@ -50,7 +48,7 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
         <h3 className="font-bold">{descriptionTâche.titre}</h3>
         <p className="m-0 text-sm">{descriptionTâche.description}</p>
       </div>
-      <p className="italic text-xs">dernière mise à jour le {formatDateForText(misÀJourLe)}</p>
+      <p className="italic text-xs">dernière mise à jour le {misÀJourLe}</p>
       <Link
         href={descriptionTâche.lien}
         className="self-center mt-4 md:self-end md:mt-0"

@@ -2,11 +2,7 @@ import {
   ConsulterNombreTâchesQuery,
   ConsulterNombreTâchesReadModel,
 } from './consulter/consulterNombreTâches.query';
-import {
-  ListerTâchesQuery,
-  ListerTâchesReadModel,
-  RécupérerTâchesPort,
-} from './lister/listerTâches.query';
+import { ListerTâchesQuery, ListerTâchesReadModel } from './lister/listerTâches.query';
 
 // Query
 export type TâcheQuery = ConsulterNombreTâchesQuery | ListerTâchesQuery;
@@ -29,6 +25,3 @@ export * as TypeTâche from './typeTâche.valueType';
 
 // Entities
 export * from './tâche.entity';
-
-// Port
-export { RécupérerTâchesPort };

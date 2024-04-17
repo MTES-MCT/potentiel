@@ -9,6 +9,8 @@ import { displayDate } from '@/utils/displayDate';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
+import { mapToPagination } from '@/utils/mapToPagination';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -34,7 +36,10 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
       const tâches = await mediator.send<ListerTâchesQuery>({
         type: 'Tâche.Query.ListerTâches',
         data: {
-          pagination: { page, itemsPerPage: 10 },
+          range: mapToRangeOptions({
+            currentPage: page,
+            itemsPerPage: 10,
+          }),
           email: utilisateur.identifiantUtilisateur.email,
           appelOffre,
         },
@@ -57,33 +62,34 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
   );
 }
 
-const mapToListProps = (readModel: ListerTâchesReadModel): TâcheListPageProps['list'] => {
-  const items = readModel.items.map(
-    ({
-      identifiantProjet,
-      appelOffre,
-      période,
-      famille,
-      nomProjet,
-      misÀJourLe,
-      numéroCRE,
-      typeTâche,
-    }) => ({
-      identifiantProjet: identifiantProjet.formatter(),
-      nomProjet,
-      appelOffre,
-      période,
-      numéroCRE,
-      famille,
-      misÀJourLe: displayDate(misÀJourLe.date),
-      typeTâche: typeTâche.type,
-    }),
-  );
-
+const mapToListProps = ({
+  items,
+  range,
+  total,
+}: ListerTâchesReadModel): TâcheListPageProps['list'] => {
   return {
-    items,
-    currentPage: readModel.currentPage,
-    itemsPerPage: readModel.itemsPerPage,
-    totalItems: readModel.totalItems,
+    items: items.map(
+      ({
+        identifiantProjet,
+        appelOffre,
+        période,
+        famille,
+        nomProjet,
+        misÀJourLe,
+        numéroCRE,
+        typeTâche,
+      }) => ({
+        identifiantProjet: identifiantProjet.formatter(),
+        nomProjet,
+        appelOffre,
+        période,
+        numéroCRE,
+        famille,
+        misÀJourLe: displayDate(misÀJourLe.date),
+        typeTâche: typeTâche.type,
+      }),
+    ),
+    totalItems: total,
+    ...mapToPagination(range, 10),
   };
 };
