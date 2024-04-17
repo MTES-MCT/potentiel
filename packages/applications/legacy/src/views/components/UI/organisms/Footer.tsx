@@ -14,7 +14,6 @@ const Footer: React.FC<FooterProps> = ({ user }) => (
     <footer
       className="pt-10 border-0 border-t-2 border-solid border-blue-france-sun-base"
       id="pied-de-page"
-      style={{ fontFamily: 'Marianne, arial, sans-serif' }}
     >
       <div className="px-4 mx-auto lg:px-6 lg:max-w-[78rem]">
         <div className="flex flex-row flex-wrap items-center mb-4 md:mb-6">

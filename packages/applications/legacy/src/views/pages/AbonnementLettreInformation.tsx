@@ -14,6 +14,7 @@ import {
   ChampsObligatoiresLégende,
 } from '../components';
 import { hydrateOnClient } from '../helpers';
+import { App } from '../App';
 
 type AbonnementLettreInformationProps = {
   request: Request;
@@ -28,10 +29,10 @@ export const AbonnementLettreInformation = ({
   error,
   success,
 }: AbonnementLettreInformationProps) => (
-  <>
+  <App>
     <Header {...{ user }} />
 
-    <main id="contenu" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
+    <main id="contenu">
       <section className="bg-blue-france-sun-base pb-0.5">
         {success ? (
           <AbonnementLettreInformationSuccessful />
@@ -42,7 +43,7 @@ export const AbonnementLettreInformation = ({
     </main>
 
     <Footer user={user} />
-  </>
+  </App>
 );
 
 type AbonnementLettreInformationFormProps = {
@@ -56,10 +57,7 @@ const AbonnementLettreInformationForm = ({
   error,
 }: AbonnementLettreInformationFormProps) => (
   <Container className="flex flex-col md:flex-row">
-    <h1
-      className="flex items-center w-full md:w-1/2 lg:w-3/5 m-0 p-4 text-white text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold"
-      style={{ fontFamily: 'Marianne, arial, sans-serif' }}
-    >
+    <h1 className="flex items-center w-full md:w-1/2 lg:w-3/5 m-0 p-4 text-white text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold">
       Abonnez-vous à la lettre d'information Potentiel.
     </h1>
 
@@ -112,10 +110,7 @@ const AbonnementLettreInformationForm = ({
 
 const AbonnementLettreInformationSuccessful = () => (
   <Container className="flex flex-col p-4 md:p-10 text-white">
-    <h1
-      className="flex items-center text-center w-full m-0 text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold"
-      style={{ fontFamily: 'Marianne, arial, sans-serif' }}
-    >
+    <h1 className="flex items-center text-center w-full m-0 text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold">
       <div className="flex flex-col gap-5 md:text-center md:mx-auto">
         <div>🎉</div>
         Vous êtes bien inscrit à la lettre d'information Potentiel.

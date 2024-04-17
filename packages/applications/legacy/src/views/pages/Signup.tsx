@@ -15,6 +15,7 @@ import {
   SecondaryLinkButton,
 } from '../components';
 import { hydrateOnClient } from '../helpers';
+import { App } from '../App';
 
 type SignupProps = {
   request: Request;
@@ -24,10 +25,10 @@ type SignupProps = {
 } & ({ utilisateurInvité: true; email: string } | { utilisateurInvité: false });
 
 export const Signup = (props: SignupProps) => (
-  <>
+  <App>
     <Header />
 
-    <main style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
+    <main>
       <section className="bg-blue-france-sun-base pb-0.5">
         {props.success ? (
           <SignupSuccessful />
@@ -40,7 +41,7 @@ export const Signup = (props: SignupProps) => (
     </main>
 
     <Footer />
-  </>
+  </App>
 );
 
 type SignupFormProps = {
@@ -51,10 +52,7 @@ type SignupFormProps = {
 };
 const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: SignupFormProps) => (
   <Container className="flex flex-col md:flex-row">
-    <h1
-      className="flex items-center w-full md:w-1/2 lg:w-3/5 m-0 p-4 text-white text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold"
-      style={{ fontFamily: 'Marianne, arial, sans-serif' }}
-    >
+    <h1 className="flex items-center w-full md:w-1/2 lg:w-3/5 m-0 p-4 text-white text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold">
       {utilisateurInvité
         ? `Inscrivez-vous sur Potentiel pour suivre des projets d'EnR électriques soumis à appel d'offres en France.`
         : `Porteur de projet, inscrivez-vous sur Potentiel pour suivre vos projets, transmettre vos
@@ -142,10 +140,7 @@ const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: Sign
 
 const SignupSuccessful = () => (
   <Container className="flex flex-col p-4 md:p-10 text-white">
-    <h1
-      className="flex items-center text-center w-full m-0 text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold"
-      style={{ fontFamily: 'Marianne, arial, sans-serif' }}
-    >
+    <h1 className="flex items-center text-center w-full m-0 text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold">
       <div className="flex flex-col gap-5 md:text-center md:mx-auto">
         <div>🎉</div>
         Votre compte a été créé avec succès
@@ -167,10 +162,7 @@ type SignupFailedProps = {
 };
 const SignupFailed = ({ error }: SignupFailedProps) => (
   <Container className="flex flex-col p-4 md:p-10 text-white">
-    <h1
-      className="flex items-center text-center w-full m-0 text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold"
-      style={{ fontFamily: 'Marianne, arial, sans-serif' }}
-    >
+    <h1 className="flex items-center text-center w-full m-0 text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold">
       <span className="flex flex-col gap-5 md:text-center md:mx-auto">
         Le compte utilisateur n'a pas pu être créé.
       </span>

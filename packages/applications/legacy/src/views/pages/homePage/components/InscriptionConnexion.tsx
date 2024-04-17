@@ -21,9 +21,7 @@ export const InscriptionConnexion = ({ user }: InscriptionConnexionProps) => (
     className="bg-blue-france-sun-base"
     style={{ background: 'linear-gradient(180deg, #000091 50%, white 50%)' }}
   >
-    <h2 className="sr-only" style={{ fontFamily: 'Marianne, arial, sans-serif' }}>
-      Acccéder à Potentiel
-    </h2>
+    <h2 className="sr-only">Acccéder à Potentiel</h2>
     <Container className="flex p-0 lg:p-8">
       {user ? (
         <Bienvenue {...{ user }} />
@@ -69,12 +67,7 @@ const SignupBox = () => {
 
   return (
     <div className="px-2 py-4 md:px-12 md:py-10 shadow-md text-center flex-1 flex flex-col justify-between gap-7 bg-white">
-      <h3
-        className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5"
-        style={{ fontFamily: 'Marianne, arial, sans-serif' }}
-      >
-        Inscription
-      </h3>
+      <h3 className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5">Inscription</h3>
       <div className="flex justify-center">
         <Tab
           key="porteur-projet"
@@ -139,12 +132,7 @@ const LoginBox = () => (
     className="px-2 py-4 md:px-12 md:py-10 shadow-md text-center flex-1 flex flex-col gap-[1.72rem]"
     style={{ backgroundColor: '#f5f5fe' }}
   >
-    <h3
-      className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5"
-      style={{ fontFamily: 'Marianne, arial, sans-serif' }}
-    >
-      Connexion
-    </h3>
+    <h3 className="text-blue-france-sun-base font-semibold text-4xl m-0 pb-5">Connexion</h3>
     <div>
       <p className="m-0 mb-3 font-semibold text-xl text-blue-france-sun-base md:whitespace-nowrap">
         Vous avez déjà un compte sur Potentiel ?
