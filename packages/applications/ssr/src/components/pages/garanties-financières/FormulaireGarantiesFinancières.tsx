@@ -3,6 +3,7 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -29,9 +30,10 @@ export type FormulaireGarantiesFinancièresProps = {
   submitButtonLabel: string;
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
   defaultValues?: {
-    typeGarantiesFinancièresActuel?: TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel'];
-    dateÉchéanceActuelle?: string;
-    dateConstitutionActuelle?: string;
+    typeGarantiesFinancières?: TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel'];
+    dateÉchéance?: string;
+    dateConstitution?: string;
+    attestation?: string;
   };
 };
 
@@ -58,8 +60,8 @@ export const FormulaireGarantiesFinancières: FC<FormulaireGarantiesFinancières
         id="type"
         name="type"
         typesGarantiesFinancières={typesGarantiesFinancières}
-        dateÉchéanceActuelle={defaultValues?.dateÉchéanceActuelle}
-        typeGarantiesFinancièresActuel={defaultValues?.typeGarantiesFinancièresActuel}
+        dateÉchéanceActuelle={defaultValues?.dateÉchéance}
+        typeGarantiesFinancièresActuel={defaultValues?.typeGarantiesFinancières}
         validationErrors={validationErrors}
       />
 
@@ -69,7 +71,9 @@ export const FormulaireGarantiesFinancières: FC<FormulaireGarantiesFinancières
           type: 'date',
           name: 'dateConstitution',
           max: formatDateForInput(new Date().toISOString()),
-          defaultValue: defaultValues?.dateConstitutionActuelle,
+          defaultValue: defaultValues?.dateConstitution
+            ? formatDateForInput(defaultValues.dateConstitution)
+            : undefined,
           required: true,
           'aria-required': true,
         }}
@@ -78,7 +82,26 @@ export const FormulaireGarantiesFinancières: FC<FormulaireGarantiesFinancières
       />
 
       <Upload
-        label="Attestation de constitution"
+        label={
+          <>
+            Attestation de constitution{' '}
+            {defaultValues && defaultValues.attestation && (
+              <>
+                <br />
+                <small>
+                  Pour que la modification puisse fonctionner, merci de joindre un nouveau fichier
+                  ou{' '}
+                  <Link
+                    href={Routes.Document.télécharger(defaultValues.attestation)}
+                    target="_blank"
+                  >
+                    celui préalablement transmis
+                  </Link>
+                </small>
+              </>
+            )}
+          </>
+        }
         hint="Format accepté : pdf"
         nativeInputProps={{
           name: 'attestation',
