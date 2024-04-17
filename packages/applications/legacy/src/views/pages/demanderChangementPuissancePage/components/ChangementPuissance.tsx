@@ -4,6 +4,7 @@ import { isStrictlyPositiveNumber } from '../../../../helpers/formValidators';
 import {
   exceedsRatiosChangementPuissance,
   exceedsPuissanceMaxDuVolumeReserve,
+  exceedsPuissanceMaxFamille,
 } from '../../../../modules/demandeModification';
 import {
   ErrorBox,
@@ -13,6 +14,7 @@ import {
   ChampsObligatoiresLégende,
   LabelDescription,
   Callout,
+  AlertBox,
 } from '../../../components';
 import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee';
 import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios';
@@ -30,6 +32,7 @@ export type ChangementPuissanceProps = {
   technologie: Technologie;
   puissanceSaisie?: number;
   désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
+  familleId: string | undefined;
   onUpdateEtatFormulaire: (bloquerEnvoi: boolean) => void;
 };
 
@@ -42,11 +45,13 @@ export const ChangementPuissance = ({
   technologie,
   puissanceSaisie,
   désignationCatégorie,
+  familleId,
   onUpdateEtatFormulaire,
 }: ChangementPuissanceProps) => {
   const [displayAlertOnPuissanceType, setDisplayAlertOnPuissanceType] = useState(false);
   const [displayAlertHorsRatios, setDisplayAlertHorsRatios] = useState(false);
   const [puissanceMaxVolumeReservéDépassée, setPuissanceMaxVolumeReservéDépassée] = useState(false);
+  const [puissanceMaxFamilleDépassée, setPuissanceMaxFamilleDépassée] = useState(false);
   const [fichierEtJustificationRequis, setFichierEtJustificationRequis] = useState(false);
   const [
     displayAlertOnPuissancebetweenInitialAndCDC2022Ratios,
@@ -78,8 +83,12 @@ export const ChangementPuissance = ({
       project: { appelOffre, désignationCatégorie },
       nouvellePuissance,
     });
-
+    const exceedsPuissanceMaxdeLaFamille = exceedsPuissanceMaxFamille({
+      project: { appelOffre, familleId },
+      nouvellePuissance,
+    });
     setDisplayAlertOnPuissanceType(!isNewValueCorrect);
+    setPuissanceMaxFamilleDépassée(exceedsPuissanceMaxdeLaFamille);
     setDisplayAlertHorsRatios(exceedsActualCDCRatios);
     setPuissanceMaxVolumeReservéDépassée(exceedsPuissanceMax);
     setFichierEtJustificationRequis(exceedsActualCDCRatios || exceedsPuissanceMax);
@@ -88,12 +97,17 @@ export const ChangementPuissance = ({
     );
 
     onUpdateEtatFormulaire(exceedsPuissanceMax);
+    onUpdateEtatFormulaire(exceedsPuissanceMaxdeLaFamille);
   };
 
   const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(cahierDesChargesActuel);
 
   const textPuissance =
     appelOffre.typeAppelOffre === 'biométhane' ? `Production annuelle prévisionnelle` : `Puissance`;
+
+  const puissanceMaxFamille = appelOffre.periode.familles.find(
+    (f) => f.id === familleId,
+  )?.puissanceMax;
 
   return (
     <>
@@ -135,7 +149,14 @@ export const ChangementPuissance = ({
         />
       </div>
 
-      {!puissanceMaxVolumeReservéDépassée && displayAlertHorsRatios && (
+      {puissanceMaxFamille && puissanceMaxFamilleDépassée && (
+        <AlertBox className="mt-4">
+          Les modifications de la Puissance installée ne peuvent pas dépasser le plafond de
+          puissance de la famille du projet, soit {puissanceMaxFamille} {appelOffre.unitePuissance}.
+        </AlertBox>
+      )}
+
+      {!puissanceMaxFamille && !puissanceMaxVolumeReservéDépassée && displayAlertHorsRatios && (
         <AlertePuissanceHorsRatios
           {...{
             project: {
