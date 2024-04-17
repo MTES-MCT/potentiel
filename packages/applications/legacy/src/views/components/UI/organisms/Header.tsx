@@ -87,30 +87,25 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
   }, []);
 
   return (
-    <>
-      <header
-        className="py-2 lg:py-0 text-lg shadow-md print:shadow-none"
-        style={{ fontFamily: 'Marianne, arial, sans-serif' }}
-      >
-        {skipLinksVisible && <MenuAccèsRapides menuDisponible={!!children} />}
-        <Container>
-          <div className="flex flex-row pb-1 lg:py-4 items-center">
-            <LogoAndTitle />
-            <div className={`flex flex-row ml-auto ${children && 'mr-6'}`}>
-              <QuickAccess {...{ user }} />
-            </div>
+    <header className="py-2 lg:py-0 text-lg shadow-md print:shadow-none">
+      {skipLinksVisible && <MenuAccèsRapides menuDisponible={!!children} />}
+      <Container>
+        <div className="flex flex-row pb-1 lg:py-4 items-center">
+          <LogoAndTitle />
+          <div className={`flex flex-row ml-auto ${children && 'mr-6'}`}>
+            <QuickAccess {...{ user }} />
           </div>
-        </Container>
+        </div>
+      </Container>
 
-        {children && (
-          <div className="lg:border-0 lg:border-t lg:border-solid lg:border-slate-200 lg:mt-5">
-            <Container>
-              <MainMenu>{children}</MainMenu>
-            </Container>
-          </div>
-        )}
-      </header>
-    </>
+      {children && (
+        <div className="lg:border-0 lg:border-t lg:border-solid lg:border-slate-200 lg:mt-5">
+          <Container>
+            <MainMenu>{children}</MainMenu>
+          </Container>
+        </div>
+      )}
+    </header>
   );
 };
 

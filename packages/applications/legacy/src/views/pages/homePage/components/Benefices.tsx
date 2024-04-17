@@ -3,10 +3,7 @@ import { Container } from '../../../components';
 
 export const Benefices = () => (
   <section className="text-blue-france-sun-base mb-10">
-    <h2
-      className="text-3xl lg:text-4xl xl:text-5xl font-semibold pb-5 pt-10 px-4 text-center mb-0 md:mb-10"
-      style={{ fontFamily: 'Marianne, arial, sans-serif' }}
-    >
+    <h2 className="text-3xl lg:text-4xl xl:text-5xl font-semibold pb-5 pt-10 px-4 text-center mb-0 md:mb-10">
       Producteurs d'énergies renouvelables électriques
     </h2>
     <Container className="flex flex-col lg:flex-row">
