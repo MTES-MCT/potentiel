@@ -122,12 +122,12 @@ async function moveFiles() {
               throw new Error('Empty document');
             }
 
-            const content = Body.transformToWebStream();
+            const contentGfSoumises = Body.transformToWebStream();
 
             await mediator.send<EnregistrerDocumentProjetCommand>({
               type: 'Document.Command.EnregistrerDocumentProjet',
               data: {
-                content,
+                content: contentGfSoumises,
                 documentProjet: gfSoumisesDocument,
               },
             });
@@ -139,6 +139,19 @@ async function moveFiles() {
             );
 
             if (date_validation) {
+              const { Body } = await legacyBucket.send(
+                new GetObjectCommand({
+                  Bucket: legacyBucketName,
+                  Key: file_path,
+                }),
+              );
+
+              if (!Body) {
+                throw new Error('Empty document');
+              }
+
+              const contentGfActuelles = Body.transformToWebStream();
+
               const gfActuelleDocument = DocumentProjet.convertirEnValueType(
                 identifiant_projet,
                 GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
@@ -149,7 +162,7 @@ async function moveFiles() {
               await mediator.send<EnregistrerDocumentProjetCommand>({
                 type: 'Document.Command.EnregistrerDocumentProjet',
                 data: {
-                  content,
+                  content: contentGfActuelles,
                   documentProjet: gfActuelleDocument,
                 },
               });
