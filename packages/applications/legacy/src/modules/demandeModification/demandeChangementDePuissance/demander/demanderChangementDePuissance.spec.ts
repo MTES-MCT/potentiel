@@ -12,8 +12,9 @@ import { Project } from '../../../project';
 import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import { ModificationReceived, ModificationRequested } from '../../../modificationRequest/events';
 import { makeDemanderChangementDePuissance } from './demanderChangementDePuissance';
-import { CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { CahierDesChargesModifié, Periode } from '@potentiel-domain/appel-offre';
 import { NouvellePuissanceAuDessusPuissanceMaxVolumeReserveError } from './NouvellePuissanceAuDessusPuissanceMaxVolumeReserveError';
+import { NouvellePuissanceAuDessusPuissanceFamilleError } from './NouvellePuissanceAuDessusPuissanceFamilleError';
 
 describe('Commande requestPuissanceModification', () => {
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })));
@@ -65,6 +66,7 @@ describe('Commande requestPuissanceModification', () => {
       shouldUserAccessProject,
       exceedsRatiosChangementPuissance: () => false,
       exceedsPuissanceMaxDuVolumeReserve: () => false,
+      exceedsPuissanceMaxFamille: () => false,
       fileRepo: fileRepo as Repository<FileObject>,
       getProjectAppelOffre,
     });
@@ -104,6 +106,7 @@ describe('Commande requestPuissanceModification', () => {
               shouldUserAccessProject,
               exceedsRatiosChangementPuissance: () => true,
               exceedsPuissanceMaxDuVolumeReserve: () => false,
+              exceedsPuissanceMaxFamille: () => false,
               fileRepo: fileRepo as Repository<FileObject>,
               getProjectAppelOffre,
             });
@@ -140,6 +143,7 @@ describe('Commande requestPuissanceModification', () => {
               shouldUserAccessProject,
               exceedsRatiosChangementPuissance: () => true,
               exceedsPuissanceMaxDuVolumeReserve: () => false,
+              exceedsPuissanceMaxFamille: () => false,
               fileRepo: fileRepo as Repository<FileObject>,
               getProjectAppelOffre,
             });
@@ -174,6 +178,7 @@ describe('Commande requestPuissanceModification', () => {
               shouldUserAccessProject,
               exceedsRatiosChangementPuissance: () => true,
               exceedsPuissanceMaxDuVolumeReserve: () => false,
+              exceedsPuissanceMaxFamille: () => false,
               fileRepo: fileRepo as Repository<FileObject>,
               getProjectAppelOffre,
             });
@@ -228,6 +233,7 @@ describe('Commande requestPuissanceModification', () => {
           shouldUserAccessProject,
           exceedsRatiosChangementPuissance: () => false,
           exceedsPuissanceMaxDuVolumeReserve: () => false,
+          exceedsPuissanceMaxFamille: () => false,
           fileRepo: fileRepo as Repository<FileObject>,
           getProjectAppelOffre,
         });
@@ -308,6 +314,7 @@ describe('Commande requestPuissanceModification', () => {
           shouldUserAccessProject,
           exceedsRatiosChangementPuissance: () => false,
           exceedsPuissanceMaxDuVolumeReserve: () => false,
+          exceedsPuissanceMaxFamille: () => false,
           fileRepo: fileRepo as Repository<FileObject>,
           getProjectAppelOffre,
         });
@@ -347,7 +354,7 @@ describe('Commande requestPuissanceModification', () => {
       });
     });
 
-    describe(`Cas d'une nouvelle puissance dépassant la puissance max du volume réservé`, () => {
+    describe(`Erreur si nouvelle puissance dépassant la puissance max du volume réservé`, () => {
       it(`Étant donné un projet notifié dans un volume réservé
           Lorsque le porteur demande un changement de puissance au dessus de la puissance max du volume réservé
           Alors une erreur devrait être retournée et le changement ne devrait pas être enregistré`, async () => {
@@ -358,6 +365,7 @@ describe('Commande requestPuissanceModification', () => {
           shouldUserAccessProject,
           exceedsRatiosChangementPuissance: () => false,
           exceedsPuissanceMaxDuVolumeReserve: () => true,
+          exceedsPuissanceMaxFamille: () => false,
           fileRepo: fileRepo as Repository<FileObject>,
           getProjectAppelOffre,
         });
@@ -373,6 +381,54 @@ describe('Commande requestPuissanceModification', () => {
         expect(res.isErr()).toBe(true);
         if (res.isOk()) return;
         expect(res.error).toBeInstanceOf(NouvellePuissanceAuDessusPuissanceMaxVolumeReserveError);
+      });
+    });
+
+    describe(`Erreur si nouvelle puissance dépassant la puissance max de la famille`, () => {
+      it(`Étant donné un projet notifié dans une famille d'une période avec puissance max
+          Lorsque le porteur demande un changement de puissance au dessus de la puissance max de la famille
+          Alors une erreur devrait être retournée et le changement ne devrait pas être enregistré`, async () => {
+        const getProjectAppelOffre = jest.fn(
+          () =>
+            ({
+              typeAppelOffre: 'eolien',
+              changementPuissance: { ratios: { min: 0.8, max: 1.2 } },
+              periode: {
+                familles: [
+                  { id: '1', soumisAuxGarantiesFinancieres: 'non soumis', puissanceMax: 110 },
+                ],
+                cahiersDesChargesModifiésDisponibles: [
+                  {
+                    type: 'modifié',
+                    paruLe: '30/08/2022',
+                  } as CahierDesChargesModifié,
+                ] as ReadonlyArray<CahierDesChargesModifié>,
+              } as Periode,
+            } as ProjectAppelOffre),
+        );
+        const requestPuissanceModification = makeDemanderChangementDePuissance({
+          projectRepo,
+          eventBus,
+          getPuissanceProjet,
+          shouldUserAccessProject,
+          exceedsRatiosChangementPuissance: () => false,
+          exceedsPuissanceMaxDuVolumeReserve: () => false,
+          exceedsPuissanceMaxFamille: () => true,
+          fileRepo: fileRepo as Repository<FileObject>,
+          getProjectAppelOffre,
+        });
+
+        const newPuissance = 115;
+
+        const res = await requestPuissanceModification({
+          projectId: fakeProject.id.toString(),
+          requestedBy: fakeUser,
+          newPuissance,
+        });
+
+        expect(res.isErr()).toBe(true);
+        if (res.isOk()) return;
+        expect(res.error).toBeInstanceOf(NouvellePuissanceAuDessusPuissanceFamilleError);
       });
     });
   });
