@@ -17,6 +17,7 @@ import {
 import { AucunDossierDeRaccordementPage } from '@/components/pages/réseau/raccordement/détails/AucunDossierDeRaccordement.page';
 import { displayDate } from '@/utils/displayDate';
 import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { mapToProjetBannerProps } from '@/utils/mapToProjetBannerProps';
 
 type PageProps = IdentifiantParameter;
 
@@ -37,11 +38,10 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
-      const projet: ProjetBannerProps = {
-        ...candidature,
-        dateDésignation: displayDate(candidature.dateDésignation),
+      const projet = mapToProjetBannerProps({
         identifiantProjet,
-      };
+        projet: candidature,
+      });
 
       const listeDossiersRaccordement =
         await mediator.send<Raccordement.ConsulterRaccordementQuery>({

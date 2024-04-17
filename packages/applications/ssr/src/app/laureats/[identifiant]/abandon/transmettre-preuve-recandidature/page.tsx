@@ -17,7 +17,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { displayDate } from '@/utils/displayDate';
+import { mapToProjetBannerProps } from '@/utils/mapToProjetBannerProps';
 
 export const metadata: Metadata = {
   title: 'Transmettre preuve de recandidature - Potentiel',
@@ -58,11 +58,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         });
 
       const transmettrePreuveRecandidaturePageProps: TransmettrePreuveRecandidaturePageProps = {
-        projet: {
-          ...candidature,
-          dateDésignation: displayDate(candidature.dateDésignation),
+        projet: mapToProjetBannerProps({
           identifiantProjet,
-        },
+          projet: candidature,
+        }),
         projetsÀSélectionner: projetsÀSélectionner
           .filter((p) => p.identifiantProjet.formatter() !== identifiantProjet)
           .map((projet) => ({

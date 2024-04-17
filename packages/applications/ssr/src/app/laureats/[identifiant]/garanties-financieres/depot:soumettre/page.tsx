@@ -16,8 +16,7 @@ import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financi�
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import { ProjetADéjàUnDépôtEnCoursPage } from '@/components/pages/garanties-financières/dépôt/soumettre/ProjetADéjàUnDépôtEnCours.page';
 import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
-import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
-import { displayDate } from '@/utils/displayDate';
+import { mapToProjetBannerProps } from '@/utils/mapToProjetBannerProps';
 
 export const metadata: Metadata = {
   title: 'Soumettre des garanties financières - Potentiel',
@@ -33,11 +32,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       data: { identifiantProjet },
     });
 
-    const projet: ProjetBannerProps = {
-      ...candidature,
-      dateDésignation: displayDate(candidature.dateDésignation),
+    const projet = mapToProjetBannerProps({
       identifiantProjet,
-    };
+      projet: candidature,
+    });
 
     const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
       appelOffre: candidature.appelOffre,

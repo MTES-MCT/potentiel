@@ -18,7 +18,7 @@ import {
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { displayDate } from '@/utils/displayDate';
+import { mapToProjetBannerProps } from '@/utils/mapToProjetBannerProps';
 
 export const metadata: Metadata = {
   title: 'Ajouter un dossier de raccordement - Potentiel',
@@ -96,10 +96,9 @@ const mapToProps: MapToProps = ({
           gestionnaire.aideSaisieRéférenceDossierRaccordement.expressionReguliere.expression,
       },
     })),
-    projet: {
-      ...candidature,
-      dateDésignation: displayDate(candidature.dateDésignation),
-      identifiantProjet: identifiantProjet,
-    },
+    projet: mapToProjetBannerProps({
+      identifiantProjet,
+      projet: candidature,
+    }),
   };
 };

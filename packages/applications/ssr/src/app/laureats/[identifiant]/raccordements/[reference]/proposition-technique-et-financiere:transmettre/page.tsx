@@ -11,7 +11,7 @@ import {
   TransmettrePropositionTechniqueEtFinancièrePage,
   TransmettrePropositionTechniqueEtFinancièreProps,
 } from '@/components/pages/réseau/raccordement/transmettre/transmettrePropositionTechniqueEtFinancière/TransmettrePropositionTechniqueEtFinancière.page';
-import { displayDate } from '@/utils/displayDate';
+import { mapToProjetBannerProps } from '@/utils/mapToProjetBannerProps';
 
 type PageProps = {
   params: {
@@ -46,11 +46,10 @@ export default async function Page({ params: { identifiant, reference } }: PageP
     });
 
     const props: TransmettrePropositionTechniqueEtFinancièreProps = {
-      projet: {
-        ...candidature,
-        dateDésignation: displayDate(candidature.dateDésignation),
+      projet: mapToProjetBannerProps({
         identifiantProjet,
-      },
+        projet: candidature,
+      }),
       referenceDossierRaccordement,
     };
 

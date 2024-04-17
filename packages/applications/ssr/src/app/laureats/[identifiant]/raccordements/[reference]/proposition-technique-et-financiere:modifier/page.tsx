@@ -12,7 +12,7 @@ import {
   ModifierPropositionTechniqueEtFinancièrePageProps,
 } from '@/components/pages/réseau/raccordement/modifier/modifierPropositionTechniqueEtFinancière/ModifierPropositionTechniqueEtFinancière.page';
 import { formatDateForInput } from '@/utils/formatDateForInput';
-import { displayDate } from '@/utils/displayDate';
+import { mapToProjetBannerProps } from '@/utils/mapToProjetBannerProps';
 
 type PageProps = {
   params: {
@@ -49,11 +49,10 @@ export default async function Page({ params: { identifiant, reference } }: PageP
     );
 
     const props: ModifierPropositionTechniqueEtFinancièrePageProps = {
-      projet: {
-        ...candidature,
-        dateDésignation: displayDate(candidature.dateDésignation),
+      projet: mapToProjetBannerProps({
         identifiantProjet,
-      },
+        projet: candidature,
+      }),
       raccordement: {
         reference: referenceDossierRaccordement,
         propositionTechniqueEtFinancière: {

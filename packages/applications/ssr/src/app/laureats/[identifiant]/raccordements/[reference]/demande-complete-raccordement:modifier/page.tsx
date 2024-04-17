@@ -20,7 +20,7 @@ import {
   ModifierDemandeComplèteRaccordementPageProps,
 } from '@/components/pages/réseau/raccordement/modifier/modifierDemandeComplèteRaccordement/ModifierDemandeComplèteRaccordement.page';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { displayDate } from '@/utils/displayDate';
+import { mapToProjetBannerProps } from '@/utils/mapToProjetBannerProps';
 
 export const metadata: Metadata = {
   title: 'Modifier un dossier de raccordement - Potentiel',
@@ -97,11 +97,10 @@ const mapToProps: MapToProps = ({
   utilisateur,
 }) => {
   return {
-    projet: {
-      ...candidature,
-      dateDésignation: displayDate(candidature.dateDésignation),
-      identifiantProjet: identifiantProjet,
-    },
+    projet: mapToProjetBannerProps({
+      identifiantProjet,
+      projet: candidature,
+    }),
     raccordement: {
       référence: dossierRaccordement.référence.référence,
       demandeComplèteRaccordement: {

@@ -19,6 +19,7 @@ import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/
 import { tryToGetResource } from '@/utils/tryToGetRessource';
 import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { displayDate } from '@/utils/displayDate';
+import { mapToProjetBannerProps } from '@/utils/mapToProjetBannerProps';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
@@ -35,11 +36,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjet },
       });
 
-      const projet: ProjetBannerProps = {
-        ...candidature,
-        dateDésignation: displayDate(candidature.dateDésignation),
+      const projet = mapToProjetBannerProps({
         identifiantProjet,
-      };
+        projet: candidature,
+      });
 
       const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
         appelOffre: candidature.appelOffre,

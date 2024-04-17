@@ -15,6 +15,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { displayDate } from '@/utils/displayDate';
+import { mapToProjetBannerProps } from '@/utils/mapToProjetBannerProps';
 
 type PageProps = IdentifiantParameter;
 
@@ -51,11 +52,10 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       // TODO: extract the logic in a dedicated function mapToProps
       // identifiantProjet must come from the readmodel as a value type
       const detailAbandonPageProps: DétailsAbandonPageProps = {
-        projet: {
-          ...candidature,
-          dateDésignation: displayDate(candidature.dateDésignation),
+        projet: mapToProjetBannerProps({
           identifiantProjet,
-        },
+          projet: candidature,
+        }),
         statut: statut.statut,
         abandon: {
           demande: {

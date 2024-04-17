@@ -13,6 +13,7 @@ import {
   TransmettreDateMiseEnServiceProps,
 } from '@/components/pages/réseau/raccordement/transmettre/transmettreDateMiseEnService/TransmettreDateMiseEnService.page';
 import { displayDate } from '@/utils/displayDate';
+import { mapToProjetBannerProps } from '@/utils/mapToProjetBannerProps';
 
 type PageProps = {
   params: {
@@ -62,11 +63,10 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       )?.délaiApplicable?.intervaleDateMiseEnService;
 
     const props: TransmettreDateMiseEnServiceProps = {
-      projet: {
-        ...candidature,
-        dateDésignation: displayDate(candidature.dateDésignation),
+      projet: mapToProjetBannerProps({
         identifiantProjet,
-      },
+        projet: candidature,
+      }),
       dossierRaccordement: {
         référence: referenceDossierRaccordement,
         miseEnService:

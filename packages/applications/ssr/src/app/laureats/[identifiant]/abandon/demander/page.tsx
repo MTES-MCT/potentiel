@@ -15,7 +15,7 @@ import {
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { displayDate } from '@/utils/displayDate';
+import { mapToProjetBannerProps } from '@/utils/mapToProjetBannerProps';
 
 export const metadata: Metadata = {
   title: "Demander l'abandon du projet - Potentiel",
@@ -62,11 +62,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     // TODO: extract the logic in a dedicated function mapToProps
     // identifiantProjet must come from the readmodel as a value type
     const demanderAbandonPageProps: DemanderAbandonPageProps = {
-      projet: {
-        ...candidature,
-        dateDésignation: displayDate(candidature.dateDésignation),
+      projet: mapToProjetBannerProps({
         identifiantProjet,
-      },
+        projet: candidature,
+      }),
       showRecandidatureCheckBox: période.abandonAvecRecandidature ? true : false,
     };
 
