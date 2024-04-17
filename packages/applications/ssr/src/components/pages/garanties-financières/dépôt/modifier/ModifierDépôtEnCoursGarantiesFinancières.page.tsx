@@ -59,11 +59,12 @@ export const ModifierDépôtEnCoursGarantiesFinancièresPage: FC<
             submitButtonLabel="Modifier"
             typesGarantiesFinancières={typesGarantiesFinancières}
             defaultValues={{
-              typeGarantiesFinancièresActuel:
+              typeGarantiesFinancières:
                 dépôtEnCours.type as TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel'],
-              dateÉchéanceActuelle:
+              dateÉchéance:
                 dépôtEnCours.type === 'avec-date-échéance' ? dépôtEnCours.dateÉchéance : undefined,
-              dateConstitutionActuelle: dépôtEnCours.dateConstitution,
+              dateConstitution: dépôtEnCours.dateConstitution,
+              attestation: dépôtEnCours.attestation,
             }}
           />
         </>
