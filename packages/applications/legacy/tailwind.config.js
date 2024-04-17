@@ -3,7 +3,7 @@ module.exports = {
   darkMode: 'media', // or 'class'
   theme: {
     fontFamily: {
-      body: ['Marianne', 'Arial', 'sans-serif'],
+      sans: ['Marianne', 'Arial', 'sans-serif'],
     },
     extend: {
       colors: {
