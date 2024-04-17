@@ -2,13 +2,13 @@
 
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Download from '@codegouvfr/react-dsfr/Download';
-import { FC } from 'react';
 import Link from 'next/link';
+import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { displayDate } from '@/utils/displayDate';
 import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
+import { displayDate } from '@/utils/displayDate';
 
 import { StatutPreuveRecandidatureBadgeProps } from './PreuveRecandidatureStatutBadge';
 
@@ -70,7 +70,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
   if (preuveRecandidature && preuveRecandidatureTransmiseLe && preuveRecandidatureTransmisePar) {
     items.push({
       status: 'success',
-      date: displayDate(new Date(preuveRecandidatureTransmiseLe)),
+      date: displayDate(preuveRecandidatureTransmiseLe),
       title: (
         <div>
           Le{' '}
@@ -90,7 +90,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
   if (accord) {
     items.push({
       status: 'success',
-      date: displayDate(new Date(accord.accordéLe)),
+      date: displayDate(accord.accordéLe),
       title: (
         <div>Abandon accordé par {<span className="font-semibold">{accord.accordéPar}</span>}</div>
       ),
@@ -115,7 +115,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
   if (rejet) {
     items.push({
       status: 'error',
-      date: displayDate(new Date(rejet.rejetéLe)),
+      date: displayDate(rejet.rejetéLe),
       title: (
         <div>Abandon rejeté par {<span className="font-semibold">{rejet.rejetéPar}</span>}</div>
       ),
@@ -139,7 +139,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
 
   if (confirmation?.confirméLe) {
     items.push({
-      date: displayDate(new Date(confirmation.confirméLe)),
+      date: displayDate(confirmation.confirméLe),
       title: (
         <div>
           Demande confirmée par {<span className="font-semibold">{confirmation.confirméPar}</span>}
@@ -150,7 +150,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
 
   if (confirmation) {
     items.push({
-      date: displayDate(new Date(confirmation.demandéLe)),
+      date: displayDate(confirmation.demandéLe),
       title: (
         <div>
           Confirmation demandée par{' '}
@@ -176,7 +176,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
   }
 
   items.push({
-    date: displayDate(new Date(demandéLe)),
+    date: displayDate(demandéLe),
     title: <div>Demande déposée par {<span className="font-semibold">{demandéPar}</span>}</div>,
     content: (
       <>

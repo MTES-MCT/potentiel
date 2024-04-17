@@ -1,12 +1,12 @@
-import { FC } from 'react';
-import Download from '@codegouvfr/react-dsfr/Download';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Download from '@codegouvfr/react-dsfr/Download';
+import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { CallOut } from '@/components/atoms/CallOut';
-import { formatDateForText } from '@/utils/formatDateForText';
 import { Heading2 } from '@/components/atoms/headings';
+import { displayDate } from '@/utils/displayDate';
 
 export type GarantiesFinancièresActuelles = {
   type: string;
@@ -50,7 +50,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
           <Heading2>Garanties financières actuelles</Heading2>
           <div className="text-xs italic">
             Dernière mise à jour le{' '}
-            <span className="font-semibold">{formatDateForText(dernièreMiseÀJour.date)}</span>
+            <span className="font-semibold">{displayDate(dernièreMiseÀJour.date)}</span>
             {dernièreMiseÀJour.par && (
               <>
                 {' '}
@@ -80,24 +80,23 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
             </div>
             {dateÉchéance && (
               <div>
-                Date d'échéance :{' '}
-                <span className="font-semibold">{formatDateForText(dateÉchéance)}</span>
+                Date d'échéance : <span className="font-semibold">{displayDate(dateÉchéance)}</span>
               </div>
             )}
             {dateConstitution && (
               <div>
                 Date de constitution :{' '}
-                <span className="font-semibold">{formatDateForText(dateConstitution)}</span>
+                <span className="font-semibold">{displayDate(dateConstitution)}</span>
               </div>
             )}
             {validéLe && (
               <div>
-                Validé le : <span className="font-semibold">{formatDateForText(validéLe)}</span>
+                Validé le : <span className="font-semibold">{displayDate(validéLe)}</span>
               </div>
             )}
             {soumisLe && (
               <div>
-                Soumis le : <span className="font-semibold">{formatDateForText(soumisLe)}</span>
+                Soumis le : <span className="font-semibold">{displayDate(soumisLe)}</span>
               </div>
             )}
             <div>

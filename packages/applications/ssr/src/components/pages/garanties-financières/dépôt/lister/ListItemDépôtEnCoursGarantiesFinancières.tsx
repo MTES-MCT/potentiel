@@ -1,10 +1,10 @@
-import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
+import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { formatDateForText } from '@/utils/formatDateForText';
+import { displayDate } from '@/utils/displayDate';
 
 export type ListItemDépôtEnCoursGarantiesFinancièresProps = {
   identifiantProjet: string;
@@ -73,8 +73,7 @@ export const ListItemDépôtEnCoursGarantiesFinancières: FC<
           </li>
           {dateÉchéance && (
             <li>
-              Date d'échéance :{' '}
-              <span className="font-semibold">{formatDateForText(dateÉchéance)}</span>
+              Date d'échéance : <span className="font-semibold">{displayDate(dateÉchéance)}</span>
             </li>
           )}
         </ul>
@@ -82,7 +81,7 @@ export const ListItemDépôtEnCoursGarantiesFinancières: FC<
     </div>
 
     <div className="flex flex-col justify-between mt-4 md:mt-0">
-      <p className="italic text-xs">dernière mise à jour le {formatDateForText(misÀJourLe)}</p>
+      <p className="italic text-xs">dernière mise à jour le {displayDate(misÀJourLe)}</p>
       <a
         href={Routes.GarantiesFinancières.détail(identifiantProjet)}
         className="self-end mt-2"

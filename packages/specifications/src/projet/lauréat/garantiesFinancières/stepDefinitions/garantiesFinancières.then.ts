@@ -272,3 +272,5 @@ Alors(
     });
   },
 );
+
+console.log(new Date('coucou'));

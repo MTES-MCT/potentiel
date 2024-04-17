@@ -35,7 +35,7 @@ export const ÉtapeMiseEnService: FC<ÉtapeMiseEnServiceProps> = ({
             className="mr-1"
             title="date de mise en service"
           />
-          {displayDate(new Date(dateMiseEnService))}
+          {displayDate(dateMiseEnService)}
         </div>
 
         {canEdit && (

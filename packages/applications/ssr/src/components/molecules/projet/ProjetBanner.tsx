@@ -49,7 +49,7 @@ export const ProjetBanner: FC<ProjetBannerProps> = ({
         {localité.commune}, {localité.département}, {localité.région}
       </p>
       <div>
-        désigné le {displayDate(new Date(dateDésignation))} pour la période {appelOffre} {période}
+        désigné le {displayDate(dateDésignation)} pour la période {appelOffre} {période}
         {famille ? `, famille ${famille}` : ''}
       </div>
     </aside>
