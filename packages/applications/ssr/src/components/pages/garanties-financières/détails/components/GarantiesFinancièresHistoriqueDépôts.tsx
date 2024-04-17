@@ -1,9 +1,9 @@
-import { FC } from 'react';
 import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
+import { FC } from 'react';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
-import { formatDateForText } from '@/utils/formatDateForText';
+import { displayDate } from '@/utils/displayDate';
 
 type DépôtStatut = 'en-cours' | 'validé' | 'rejeté';
 
@@ -33,7 +33,7 @@ export const GarantiesFinancièresHistoriqueDépôts: FC<
     <Timeline
       className="mt-4"
       items={dépôts.map((dépôt) => ({
-        date: formatDateForText(dépôt.dernièreMiseÀJour.date),
+        date: displayDate(dépôt.dernièreMiseÀJour.date),
         status: getTimelineItemStatus(dépôt.statut),
         title: (
           <p>
@@ -49,16 +49,16 @@ export const GarantiesFinancièresHistoriqueDépôts: FC<
                 </li>
                 <li>
                   Date de dépôt :{' '}
-                  <span className="font-semibold">{formatDateForText(dépôt.soumisLe)}</span>
+                  <span className="font-semibold">{displayDate(dépôt.soumisLe)}</span>
                 </li>
                 <li>
                   Date de constitution :{' '}
-                  <span className="font-semibold">{formatDateForText(dépôt.dateConstitution)}</span>
+                  <span className="font-semibold">{displayDate(dépôt.dateConstitution)}</span>
                 </li>
                 {dépôt.dateÉchéance && (
                   <li>
                     Date d'échéance :{' '}
-                    <span className="font-semibold">{formatDateForText(dépôt.dateÉchéance)}</span>
+                    <span className="font-semibold">{displayDate(dépôt.dateÉchéance)}</span>
                   </li>
                 )}
               </ul>

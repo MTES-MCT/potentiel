@@ -1,11 +1,11 @@
-import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
-import Link from 'next/link';
 import Download from '@codegouvfr/react-dsfr/Download';
+import Link from 'next/link';
+import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { formatDateForText } from '@/utils/formatDateForText';
+import { displayDate } from '@/utils/displayDate';
 
 export type ListItemProjetAvecGarantiesFinancièresEnAttenteProps = {
   identifiantProjet: string;
@@ -66,7 +66,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
           Motif : <strong>{motif}</strong>
         </div>
         <div className="text-sm">
-          Date limite de soumission : <strong>{formatDateForText(dateLimiteSoumission)}</strong>
+          Date limite de soumission : <strong>{displayDate(dateLimiteSoumission)}</strong>
         </div>
         {afficherModèleMiseEnDemeure && (
           <Download
@@ -83,7 +83,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
     </div>
 
     <div className="flex flex-col justify-between mt-4 md:mt-0">
-      <p className="italic text-xs">Dernière mise à jour le {formatDateForText(misÀJourLe)}</p>
+      <p className="italic text-xs">Dernière mise à jour le {displayDate(misÀJourLe)}</p>
       <Link
         href={Routes.Projet.details(identifiantProjet)}
         className="self-end mt-2"

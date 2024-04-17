@@ -4,11 +4,11 @@ import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { displayDate } from '@/utils/displayDate';
 import { Icon } from '@/components/atoms/Icon';
+import { displayDate } from '@/utils/displayDate';
 
-import { Etape } from './Étape';
 import { FormatFichierInvalide } from './FormatFichierInvalide';
+import { Etape } from './Étape';
 
 type ÉtapeDemandeComplèteRaccordementProps = {
   identifiantProjet: string;
@@ -44,7 +44,7 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
           title="date de l'accusé de réception"
         />
         {dateQualification ? (
-          displayDate(new Date(dateQualification))
+          displayDate(dateQualification)
         ) : canEdit ? (
           <Link
             href={Routes.Raccordement.modifierDemandeComplèteRaccordement(

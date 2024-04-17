@@ -1,18 +1,17 @@
 'use client';
 
-import React from 'react';
-import Input from '@codegouvfr/react-dsfr/Input';
-import { useRouter } from 'next/navigation';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Input from '@codegouvfr/react-dsfr/Input';
+import { useRouter } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { displayDate } from '@/utils/displayDate';
 import { Form } from '@/components/atoms/form/Form';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { displayDate } from '@/utils/displayDate';
 import { formatDateForInput } from '@/utils/formatDateForInput';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
@@ -97,11 +96,11 @@ export const TransmettreDateMiseEnServicePage = ({
                       </span>
                       , la saisie d'une date de mise en service non comprise entre le{' '}
                       <span className="font-bold">
-                        {displayDate(new Date(intervalleDatesMeSDélaiCDC2022.min))}
+                        {displayDate(intervalleDatesMeSDélaiCDC2022.min)}
                       </span>{' '}
                       et le{' '}
                       <span className="font-bold">
-                        {displayDate(new Date(intervalleDatesMeSDélaiCDC2022.max))}
+                        {displayDate(intervalleDatesMeSDélaiCDC2022.max)}
                       </span>{' '}
                       peut remettre en cause l'application de ce délai et entraîner une modification
                       de la date d'achèvement du projet.
@@ -115,10 +114,8 @@ export const TransmettreDateMiseEnServicePage = ({
                     </span>
                     , la saisie d'une date de mise en service doit être comprise entre la date de
                     désignation du projet (
-                    <span className="font-bold">
-                      {displayDate(new Date(projet.dateDésignation))}
-                    </span>
-                    ) et <span className="font-bold">ce jour</span>.
+                    <span className="font-bold">{displayDate(projet.dateDésignation)}</span>) et{' '}
+                    <span className="font-bold">ce jour</span>.
                   </li>
                 </ul>
               </div>

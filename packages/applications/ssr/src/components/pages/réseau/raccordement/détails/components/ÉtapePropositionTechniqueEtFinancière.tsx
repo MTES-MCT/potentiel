@@ -1,14 +1,14 @@
-import { FC } from 'react';
 import Download from '@codegouvfr/react-dsfr/Download';
 import Link from 'next/link';
+import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { Icon } from '@/components/atoms/Icon';
 import { displayDate } from '@/utils/displayDate';
 
-import { Etape } from './Étape';
 import { FormatFichierInvalide } from './FormatFichierInvalide';
+import { Etape } from './Étape';
 
 type ÉtapePropositionTechniqueEtFinancièreProps = {
   identifiantProjet: string;
@@ -43,7 +43,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
             className="mr-1"
             title="date de signature de la proposition technique et financière"
           />
-          {displayDate(new Date(dateSignature))}
+          {displayDate(dateSignature)}
         </div>
 
         {propositionTechniqueEtFinancièreSignée && (
