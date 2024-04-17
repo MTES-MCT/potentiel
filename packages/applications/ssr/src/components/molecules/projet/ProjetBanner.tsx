@@ -6,7 +6,7 @@ import {
   StatutProjetBadge,
   StatutProjetBadgeProps,
 } from '@/components/molecules/projet/StatutProjetBadge';
-import { FormattedForPageDate } from '@/utils/displayDate';
+import { DisplayDateFormatted } from '@/utils/displayDate';
 
 export type ProjetBannerProps = {
   statut: StatutProjetBadgeProps['statut'];
@@ -20,7 +20,7 @@ export type ProjetBannerProps = {
     région: string;
     codePostal: string;
   };
-  dateDésignation: FormattedForPageDate;
+  dateDésignation: DisplayDateFormatted;
   identifiantProjet: string;
 };
 

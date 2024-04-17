@@ -4,7 +4,7 @@ import { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { FormattedForPageDate } from '@/utils/displayDate';
+import { DisplayDateFormatted } from '@/utils/displayDate';
 
 export type ListItemDépôtEnCoursGarantiesFinancièresProps = {
   identifiantProjet: string;
@@ -14,8 +14,8 @@ export type ListItemDépôtEnCoursGarantiesFinancièresProps = {
   famille?: string;
   statut: GarantiesFinancières.StatutDépôtGarantiesFinancières.RawType;
   type: string;
-  dateÉchéance?: FormattedForPageDate;
-  misÀJourLe: FormattedForPageDate;
+  dateÉchéance?: DisplayDateFormatted;
+  misÀJourLe: DisplayDateFormatted;
   régionProjet: string;
 };
 

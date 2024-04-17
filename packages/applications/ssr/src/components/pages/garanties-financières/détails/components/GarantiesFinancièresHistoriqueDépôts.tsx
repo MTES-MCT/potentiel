@@ -3,19 +3,19 @@ import { FC } from 'react';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
-import { FormattedForPageDate } from '@/utils/displayDate';
+import { DisplayDateFormatted } from '@/utils/displayDate';
 
 type DépôtStatut = 'en-cours' | 'validé' | 'rejeté';
 
 export type DépôtGarantiesFinancières = {
   type: string;
-  dateÉchéance?: FormattedForPageDate;
+  dateÉchéance?: DisplayDateFormatted;
   statut: DépôtStatut;
-  dateConstitution: FormattedForPageDate;
-  soumisLe: FormattedForPageDate;
+  dateConstitution: DisplayDateFormatted;
+  soumisLe: DisplayDateFormatted;
   attestation: string;
   dernièreMiseÀJour: {
-    date: FormattedForPageDate;
+    date: DisplayDateFormatted;
     par: string;
   };
 };

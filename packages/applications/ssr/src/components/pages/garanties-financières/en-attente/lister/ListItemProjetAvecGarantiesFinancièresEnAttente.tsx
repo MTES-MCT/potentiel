@@ -5,7 +5,7 @@ import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { FormattedForPageDate } from '@/utils/displayDate';
+import { DisplayDateFormatted } from '@/utils/displayDate';
 
 export type ListItemProjetAvecGarantiesFinancièresEnAttenteProps = {
   identifiantProjet: string;
@@ -15,8 +15,8 @@ export type ListItemProjetAvecGarantiesFinancièresEnAttenteProps = {
   famille?: string;
   régionProjet: string;
   motif: string;
-  misÀJourLe: FormattedForPageDate;
-  dateLimiteSoumission: FormattedForPageDate;
+  misÀJourLe: DisplayDateFormatted;
+  dateLimiteSoumission: DisplayDateFormatted;
   afficherModèleMiseEnDemeure: boolean;
 };
 

@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { FormattedForPageDate } from '@/utils/displayDate';
+import { DisplayDateFormatted } from '@/utils/displayDate';
 
 export type TâcheListItemProps = {
   identifiantProjet: string;
@@ -11,7 +11,7 @@ export type TâcheListItemProps = {
   appelOffre: string;
   période: string;
   famille?: string;
-  misÀJourLe: FormattedForPageDate;
+  misÀJourLe: DisplayDateFormatted;
   typeTâche: string;
 };
 

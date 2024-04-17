@@ -11,7 +11,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { FormattedForPageDate } from '@/utils/displayDate';
+import { DisplayDateFormatted } from '@/utils/displayDate';
 import { formatDateForInput } from '@/utils/formatDateForInput';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
@@ -24,7 +24,7 @@ export type TransmettreDateMiseEnServiceProps = {
     référence: string;
     miseEnService?: string;
   };
-  intervalleDatesMeSDélaiCDC2022?: { min: FormattedForPageDate; max: FormattedForPageDate };
+  intervalleDatesMeSDélaiCDC2022?: { min: DisplayDateFormatted; max: DisplayDateFormatted };
 };
 
 export const TransmettreDateMiseEnServicePage = ({

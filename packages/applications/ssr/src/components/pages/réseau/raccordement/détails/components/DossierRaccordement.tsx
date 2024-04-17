@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { FormattedForPageDate } from '@/utils/displayDate';
+import { DisplayDateFormatted } from '@/utils/displayDate';
 
 import { Separateur } from './Separateur';
 import { ÉtapeDemandeComplèteRaccordement } from './ÉtapeDemandeComplèteRaccordement';
@@ -11,17 +11,17 @@ export type DossierRaccordementProps = {
   identifiantProjet: string;
   référence: string;
   demandeComplèteRaccordement: {
-    dateQualification?: FormattedForPageDate;
+    dateQualification?: DisplayDateFormatted;
     accuséRéception?: string;
     canEdit: boolean;
   };
   propositionTechniqueEtFinancière: {
-    dateSignature?: FormattedForPageDate;
+    dateSignature?: DisplayDateFormatted;
     propositionTechniqueEtFinancièreSignée?: string;
     canEdit: boolean;
   };
   miseEnService: {
-    dateMiseEnService?: FormattedForPageDate;
+    dateMiseEnService?: DisplayDateFormatted;
     canEdit: boolean;
   };
 };

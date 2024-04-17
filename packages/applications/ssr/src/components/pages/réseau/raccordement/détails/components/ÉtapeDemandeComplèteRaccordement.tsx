@@ -5,7 +5,7 @@ import { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 
 import { Icon } from '@/components/atoms/Icon';
-import { FormattedForPageDate } from '@/utils/displayDate';
+import { DisplayDateFormatted } from '@/utils/displayDate';
 
 import { FormatFichierInvalide } from './FormatFichierInvalide';
 import { Etape } from './Étape';
@@ -13,7 +13,7 @@ import { Etape } from './Étape';
 type ÉtapeDemandeComplèteRaccordementProps = {
   identifiantProjet: string;
   référence: string;
-  dateQualification?: FormattedForPageDate;
+  dateQualification?: DisplayDateFormatted;
   accuséRéception?: string;
   canEdit: boolean;
 };

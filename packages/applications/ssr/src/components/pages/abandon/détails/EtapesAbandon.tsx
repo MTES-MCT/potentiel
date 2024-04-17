@@ -8,32 +8,32 @@ import { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 
 import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
-import { FormattedForPageDate } from '@/utils/displayDate';
+import { DisplayDateFormatted } from '@/utils/displayDate';
 
 import { StatutPreuveRecandidatureBadgeProps } from './PreuveRecandidatureStatutBadge';
 
 export type EtapesAbandonProps = {
   demande: {
     demandéPar: string;
-    demandéLe: FormattedForPageDate;
+    demandéLe: DisplayDateFormatted;
     lienRecandidature?: string;
     recandidature: boolean;
     preuveRecandidatureStatut: StatutPreuveRecandidatureBadgeProps['statut'];
     preuveRecandidature?: string;
-    preuveRecandidatureTransmiseLe?: FormattedForPageDate;
+    preuveRecandidatureTransmiseLe?: DisplayDateFormatted;
     preuveRecandidatureTransmisePar?: string;
     raison: string;
     pièceJustificative?: string;
   };
   confirmation?: {
-    demandéLe: FormattedForPageDate;
+    demandéLe: DisplayDateFormatted;
     demandéPar: string;
     réponseSignée: string;
-    confirméLe?: FormattedForPageDate;
+    confirméLe?: DisplayDateFormatted;
     confirméPar?: string;
   };
-  accord?: { accordéPar: string; accordéLe: FormattedForPageDate; réponseSignée: string };
-  rejet?: { rejetéPar: string; rejetéLe: FormattedForPageDate; réponseSignée: string };
+  accord?: { accordéPar: string; accordéLe: DisplayDateFormatted; réponseSignée: string };
+  rejet?: { rejetéPar: string; rejetéLe: DisplayDateFormatted; réponseSignée: string };
 };
 
 export const EtapesAbandon: FC<EtapesAbandonProps> = ({

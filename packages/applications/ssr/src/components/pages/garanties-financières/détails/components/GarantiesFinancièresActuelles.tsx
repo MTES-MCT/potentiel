@@ -6,17 +6,17 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { CallOut } from '@/components/atoms/CallOut';
 import { Heading2 } from '@/components/atoms/headings';
-import { FormattedForPageDate } from '@/utils/displayDate';
+import { DisplayDateFormatted } from '@/utils/displayDate';
 
 export type GarantiesFinancièresActuelles = {
   type: string;
-  dateÉchéance?: FormattedForPageDate;
-  dateConstitution?: FormattedForPageDate;
+  dateÉchéance?: DisplayDateFormatted;
+  dateConstitution?: DisplayDateFormatted;
   attestation?: string;
-  validéLe?: FormattedForPageDate;
-  soumisLe?: FormattedForPageDate;
+  validéLe?: DisplayDateFormatted;
+  soumisLe?: DisplayDateFormatted;
   dernièreMiseÀJour: {
-    date: FormattedForPageDate;
+    date: DisplayDateFormatted;
     par?: string;
   };
 };
