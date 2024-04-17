@@ -91,7 +91,7 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
 
     return {
       items: items.map((item) => mapToReadModel(item)),
-      range: { endPosition: endPosition, startPosition: startPosition },
+      range: { endPosition, startPosition },
       total,
     };
   };
