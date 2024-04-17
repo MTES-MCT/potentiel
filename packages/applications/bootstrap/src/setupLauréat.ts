@@ -1,6 +1,10 @@
 import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
+import {
+  findProjection,
+  listProjection,
+  listProjectionV2,
+} from '@potentiel-infrastructure/pg-projections';
 import {
   AbandonNotification,
   GarantiesFinancièresNotification,
@@ -26,6 +30,7 @@ export const setupLauréat = async () => {
   registerLauréatQueries({
     find: findProjection,
     list: listProjection,
+    listV2: listProjectionV2,
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
     listerAbandonsPourPorteur: listerAbandonsPourPorteurAdapter,
     buildModèleRéponseAbandon: getModèleRéponseAbandon,

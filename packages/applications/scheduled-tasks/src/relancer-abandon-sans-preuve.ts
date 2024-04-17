@@ -5,7 +5,11 @@ import {
   registerLauréatUseCases,
 } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
+import {
+  findProjection,
+  listProjection,
+  listProjectionV2,
+} from '@potentiel-infrastructure/pg-projections';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import {
@@ -22,6 +26,7 @@ import {
 registerLauréatQueries({
   find: findProjection,
   list: listProjection,
+  listV2: listProjectionV2,
   consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
   listerAbandonsPourPorteur: listerAbandonsPourPorteurAdapter,
   buildModèleRéponseAbandon: getModèleRéponseAbandon,

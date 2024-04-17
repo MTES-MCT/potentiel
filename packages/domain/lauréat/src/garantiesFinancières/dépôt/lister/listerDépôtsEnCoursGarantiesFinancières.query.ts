@@ -9,7 +9,7 @@ import {
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantUtilisateur, Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { List } from '@potentiel-domain/core';
+import { ListV2, RangeOptions } from '@potentiel-domain/core';
 
 type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -34,9 +34,8 @@ type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
 
 export type ListerDépôtsEnCoursGarantiesFinancièresReadModel = {
   items: ReadonlyArray<DépôtEnCoursGarantiesFinancièresListItemReadModel>;
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
+  range: RangeOptions;
+  total: number;
 };
 
 export type ListerDépôtsEnCoursGarantiesFinancièresQuery = Message<
@@ -47,24 +46,24 @@ export type ListerDépôtsEnCoursGarantiesFinancièresQuery = Message<
       rôle: string;
       email: string;
     };
-    pagination: { page: number; itemsPerPage: number };
+    range?: RangeOptions;
   },
   ListerDépôtsEnCoursGarantiesFinancièresReadModel
 >;
 
 export type ListerDépôtsEnCoursGarantiesFinancièresDependencies = {
-  list: List;
+  listV2: ListV2;
   récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
-  list,
+  listV2,
   récupérerRégionDreal,
 }: ListerDépôtsEnCoursGarantiesFinancièresDependencies) => {
   const handler: MessageHandler<ListerDépôtsEnCoursGarantiesFinancièresQuery> = async ({
     appelOffre,
     utilisateur: { email, rôle },
-    pagination,
+    range,
   }) => {
     let région: string | undefined = undefined;
 
@@ -80,20 +79,30 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
       région = régionDreal.région;
     }
 
-    const where = {
-      ...(appelOffre && { appelOffre }),
-      ...(région && { régionProjet: région }),
-    };
-
-    const result = await list<DépôtEnCoursGarantiesFinancièresEntity>({
-      type: 'depot-en-cours-garanties-financieres',
-      where,
-      pagination,
-    });
+    const {
+      items,
+      range: { startPosition, endPosition },
+      total,
+    } = await listV2<DépôtEnCoursGarantiesFinancièresEntity>(
+      'depot-en-cours-garanties-financieres',
+      {
+        orderBy: { dépôt: { dernièreMiseÀJour: { date: 'descending' } } },
+        range,
+        where: {
+          ...(appelOffre && {
+            appelOffre: { operator: 'equal', value: appelOffre },
+          }),
+          ...(région && {
+            régionProjet: { operator: 'equal', value: région },
+          }),
+        },
+      },
+    );
 
     return {
-      ...result,
-      items: result.items.map((item) => mapToReadModel(item)),
+      items: items.map((item) => mapToReadModel(item)),
+      range: { endPosition, startPosition },
+      total,
     };
   };
 

@@ -215,7 +215,7 @@ Alors(
         await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
           data: {
-            pagination: { page: 1, itemsPerPage: 10 },
+            range: { startPosition: 1, endPosition: 10 },
             utilisateur: {
               email: 'admin@test.test',
               rôle: 'admin',
@@ -236,7 +236,7 @@ Alors(
         await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
           data: {
-            pagination: { page: 1, itemsPerPage: 10 },
+            range: { startPosition: 1, endPosition: 10 },
             utilisateur: {
               email: 'admin@test.test',
               rôle: 'admin',

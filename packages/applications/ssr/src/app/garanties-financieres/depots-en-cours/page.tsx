@@ -11,6 +11,8 @@ import {
 } from '@/components/pages/garanties-financières/dépôt/lister/ListerDépôtsEnCoursGarantiesFinancières.page';
 import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
+import { mapToPagination } from '@/utils/mapToPagination';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -36,7 +38,10 @@ export default async function Page({ searchParams }: PageProps) {
               rôle: utilisateur.role.nom,
             },
             ...(appelOffre && { appelOffre }),
-            pagination: { page, itemsPerPage: 10 },
+            range: mapToRangeOptions({
+              currentPage: page,
+              itemsPerPage: 10,
+            }),
           },
         });
 
@@ -67,10 +72,12 @@ export default async function Page({ searchParams }: PageProps) {
   );
 }
 
-const mapToListProps = (
-  readModel: GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresReadModel,
-): ListDépôtsEnCoursGarantiesFinancièresProps['list'] => {
-  const items = readModel.items.map(
+const mapToListProps = ({
+  items,
+  range,
+  total,
+}: GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresReadModel): ListDépôtsEnCoursGarantiesFinancièresProps['list'] => {
+  const mappedItems = items.map(
     ({
       identifiantProjet,
       appelOffre,
@@ -94,9 +101,8 @@ const mapToListProps = (
   );
 
   return {
-    items,
-    currentPage: readModel.currentPage,
-    itemsPerPage: readModel.itemsPerPage,
-    totalItems: readModel.totalItems,
+    items: mappedItems,
+    totalItems: total,
+    ...mapToPagination(range, 10),
   };
 };

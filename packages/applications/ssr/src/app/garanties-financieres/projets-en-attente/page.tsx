@@ -13,6 +13,8 @@ import {
   ListProjetsAvecGarantiesFinancièresEnAttenteProps,
 } from '@/components/pages/garanties-financières/en-attente/lister/ListerProjetsAvecGarantiesFinancièresEnAttente.page';
 import { getGarantiesFinancièresMotifLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresMotifLabel';
+import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
+import { mapToPagination } from '@/utils/mapToPagination';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -39,7 +41,7 @@ export default async function Page({ searchParams }: PageProps) {
                 rôle: utilisateur.role.nom,
               },
               ...(appelOffre && { appelOffre }),
-              pagination: { page, itemsPerPage: 10 },
+              range: mapToRangeOptions({ currentPage: page, itemsPerPage: 10 }),
             },
           },
         );
@@ -72,10 +74,14 @@ export default async function Page({ searchParams }: PageProps) {
 }
 
 const mapToListProps = (
-  readModel: GarantiesFinancières.ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
+  {
+    items,
+    range,
+    total,
+  }: GarantiesFinancières.ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
   utilisateur: Utilisateur.ValueType,
 ): ListProjetsAvecGarantiesFinancièresEnAttenteProps['list'] => {
-  const items = readModel.items.map(
+  const mappedItems = items.map(
     ({
       identifiantProjet,
       nomProjet,
@@ -103,9 +109,8 @@ const mapToListProps = (
   );
 
   return {
-    items,
-    currentPage: readModel.currentPage,
-    itemsPerPage: readModel.itemsPerPage,
-    totalItems: readModel.totalItems,
+    items: mappedItems,
+    totalItems: total,
+    ...mapToPagination(range, 10),
   };
 };
