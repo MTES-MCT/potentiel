@@ -2,6 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import * as TypeTâche from '../typeTâche.valueType';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { TâcheEntity } from '../tâche.entity';
+import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
+import { ListV2, RangeOptions } from '@potentiel-domain/core';
 
 type TâcheListItem = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -18,9 +20,8 @@ type TâcheListItem = {
 
 export type ListerTâchesReadModel = {
   items: Array<TâcheListItem>;
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
+  range: RangeOptions;
+  total: number;
 };
 
 export type ListerTâchesQuery = Message<
@@ -28,45 +29,50 @@ export type ListerTâchesQuery = Message<
   {
     email: string;
     appelOffre?: string;
-    pagination: { page: number; itemsPerPage: number };
+    range?: RangeOptions;
   },
   ListerTâchesReadModel
 >;
 
-export type RécupérerTâchesPort = (
-  email: string,
-  filters: {
-    appelOffre?: string;
-  },
-  pagination: {
-    page: number;
-    itemsPerPage: number;
-  },
-) => Promise<{
-  items: ReadonlyArray<TâcheEntity>;
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
-}>;
-
 export type ListerTâchesQueryDependencies = {
-  récupérerTâches: RécupérerTâchesPort;
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
+  listV2: ListV2;
 };
 
-export const registerListerTâchesQuery = ({ récupérerTâches }: ListerTâchesQueryDependencies) => {
-  const handler: MessageHandler<ListerTâchesQuery> = async ({ email, pagination, appelOffre }) => {
-    const { items, currentPage, itemsPerPage, totalItems } = await récupérerTâches(
-      email,
-      {
-        appelOffre,
+export const registerListerTâchesQuery = ({
+  listV2,
+  récupérerIdentifiantsProjetParEmailPorteur,
+}: ListerTâchesQueryDependencies) => {
+  const handler: MessageHandler<ListerTâchesQuery> = async ({ email, range, appelOffre }) => {
+    const identifiants = await récupérerIdentifiantsProjetParEmailPorteur(email);
+
+    const {
+      items,
+      range: { endPosition, startPosition },
+      total,
+    } = await listV2<TâcheEntity>('tâche', {
+      where: {
+        identifiantProjet: {
+          operator: 'include',
+          value: identifiants,
+        },
+        appelOffre: appelOffre
+          ? {
+              operator: 'equal',
+              value: appelOffre,
+            }
+          : undefined,
       },
-      pagination,
-    );
+      range,
+    });
+
     return {
       items: items.map(mapToReadModel),
-      currentPage,
-      itemsPerPage,
-      totalItems,
+      range: {
+        endPosition,
+        startPosition,
+      },
+      total,
     };
   };
   mediator.register('Tâche.Query.ListerTâches', handler);

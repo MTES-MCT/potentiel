@@ -16,10 +16,6 @@ Alors(
         type: 'Tâche.Query.ListerTâches',
         data: {
           email: this.utilisateurWorld.porteur,
-          pagination: {
-            page: 1,
-            itemsPerPage: 10,
-          },
         },
       });
 
@@ -39,10 +35,6 @@ Alors(
         type: 'Tâche.Query.ListerTâches',
         data: {
           email: this.utilisateurWorld.porteur,
-          pagination: {
-            page: 1,
-            itemsPerPage: 10,
-          },
         },
       });
 

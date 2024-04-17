@@ -21,6 +21,7 @@ export * from './register';
 
 // Port
 export { RécupérerUtilisateurPort, VérifierAccèsProjetPort };
+export * from './utilisateur.port';
 
 // Entity
 export * from './utilisateur.entity';
