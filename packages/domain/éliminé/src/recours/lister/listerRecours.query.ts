@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { RecoursEntity } from '../recours.entity';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { StatutRecours } from '..';
-import { Option } from '@potentiel-librairies/monads';
+import { Option } from '@potentiel-libraries/monads';
 import { RégionNonTrouvéeError } from '../régionNonTrouvée.error';
 
 type RecoursListItemReadModel = {

@@ -7,7 +7,7 @@ import {
   listerRecoursPourPorteurAdapter,
   récupérerRégionDrealAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
-import { RecoursProjector } from '@potentiel-application/projectors';
+import { RecoursProjector } from '@potentiel-applications/projectors';
 import { RecoursNotification } from '@potentiel-applications/notifications';
 
 export const setupEliminé = async () => {

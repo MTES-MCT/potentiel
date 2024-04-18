@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-librairies/monads';
+import { Option } from '@potentiel-libraries/monads';
 import { Recours } from '@potentiel-domain/elimine';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
@@ -8,7 +8,7 @@ import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { DateTime } from '@potentiel-domain/common';
 import { removeProjection } from '../../infrastructure/removeProjection';
-import { getLogger } from '@potentiel-librairies/monitoring';
+import { getLogger } from '@potentiel-libraries/monitoring';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
 
 export type SubscriptionEvent = (Recours.RecoursEvent & Event) | RebuildTriggered;
