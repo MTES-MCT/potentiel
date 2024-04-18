@@ -6,9 +6,11 @@
   "scripts": {
     "build": "tsc",
     "start:relancer-abandon-sans-preuve": "node ./dist/relancer-abandon-sans-preuve",
-    "start:deplacer-fichier-gf": "node ./dist/déplacer-fichier-gf"
+    "start:deplacer-fichier-gf": "node ./dist/déplacer-fichier-gf",
+    "start:créer-backup-oss": "node ./dist/créer-backup-oss"
   },
   "dependencies": {
+    "@potentiel-libraries/file-storage": "*",
     "@potentiel-libraries/monitoring": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/laureat": "*",
