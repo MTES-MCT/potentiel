@@ -2,8 +2,8 @@
 
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Button from '@codegouvfr/react-dsfr/Button';
-import Input from '@codegouvfr/react-dsfr/Input';
 import { useRouter } from 'next/navigation';
+import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -57,7 +57,7 @@ export const TransmettreDateMiseEnServicePage = ({
                 type: 'date',
                 name: 'dateMiseEnService',
                 defaultValue: miseEnService && formatDateForInput(miseEnService),
-                min: formatDateForInput(projet.dateDésignation),
+                min: projet.dateDésignation,
                 max: formatDateForInput(new Date().toISOString()),
                 required: true,
                 'aria-required': true,

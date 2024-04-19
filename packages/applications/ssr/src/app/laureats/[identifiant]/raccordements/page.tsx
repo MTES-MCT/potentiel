@@ -117,9 +117,7 @@ const mapToProps: MapToProps = ({
           rôleUtilisateur.estÉgaleÀ(Role.admin) ||
           rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
           rôleUtilisateur.estÉgaleÀ(Role.porteur),
-        accuséRéception: dossier.demandeComplèteRaccordement.accuséRéception
-          ? displayDate(dossier.demandeComplèteRaccordement.accuséRéception.formatter())
-          : undefined,
+        accuséRéception: dossier.demandeComplèteRaccordement.accuséRéception?.formatter(),
         dateQualification: dossier.demandeComplèteRaccordement.dateQualification
           ? displayDate(dossier.demandeComplèteRaccordement.dateQualification.formatter())
           : undefined,
