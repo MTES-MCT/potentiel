@@ -12,7 +12,7 @@ import { Recours } from '@potentiel-domain/elimine';
 
 export type SubscriptionEvent = Recours.RecoursEvent & Event;
 
-export type Execute = Message<'EXECUTE_ELIMINE_RECOURS_NOTIFICATION', SubscriptionEvent>;
+export type Execute = Message<'System.Notification.Eliminé.Recours', SubscriptionEvent>;
 
 const templateId = {
   recours: {
@@ -140,5 +140,5 @@ export const register = () => {
     }
   };
 
-  mediator.register('EXECUTE_ELIMINE_RECOURS_NOTIFICATION', handler);
+  mediator.register('System.Notification.Eliminé.Recours', handler);
 };

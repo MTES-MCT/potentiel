@@ -31,7 +31,7 @@ export const setupEliminé = async () => {
     eventType: ['RecoursDemandé-V1', 'RecoursAccordé-V1', 'RecoursAnnulé-V1', 'RecoursRejeté-V1'],
     eventHandler: async (event) => {
       await mediator.publish<RecoursNotification.Execute>({
-        type: 'EXECUTE_ELIMINE_RECOURS_NOTIFICATION',
+        type: 'System.Notification.Eliminé.Recours',
         data: event,
       });
     },
@@ -48,7 +48,7 @@ export const setupEliminé = async () => {
     ],
     eventHandler: async (event) => {
       await mediator.send<RecoursProjector.Execute>({
-        type: 'EXECUTE_RECOURS_PROJECTOR',
+        type: 'System.Projector.Eliminé.Recours',
         data: event,
       });
     },

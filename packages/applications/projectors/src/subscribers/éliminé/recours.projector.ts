@@ -13,7 +13,7 @@ import { upsertProjection } from '../../infrastructure/upsertProjection';
 
 export type SubscriptionEvent = (Recours.RecoursEvent & Event) | RebuildTriggered;
 
-export type Execute = Message<'EXECUTE_RECOURS_PROJECTOR', SubscriptionEvent>;
+export type Execute = Message<'System.Projector.Eliminé.Recours', SubscriptionEvent>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
@@ -96,5 +96,5 @@ export const register = () => {
     }
   };
 
-  mediator.register('EXECUTE_RECOURS_PROJECTOR', handler);
+  mediator.register('System.Projector.Eliminé.Recours', handler);
 };
