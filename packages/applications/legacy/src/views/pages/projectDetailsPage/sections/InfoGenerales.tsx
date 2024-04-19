@@ -146,25 +146,22 @@ const GarantiesFinancièresProjet = ({
     {garantiesFinancières.actuelles && (
       <>
         <p className="mt-0 mb-3">
-          Le projet dispose actuellement de{' '}
-          <span className="font-semibold">
-            garanties financières validées
-            {garantiesFinancières.actuelles.type &&
-              `${getGFLabel(garantiesFinancières.actuelles.type)}`}
-          </span>
+          Le projet dispose actuellement de garanties financières validées
           {garantiesFinancières.actuelles.dateConstitution && (
             <>
               , constituées le{' '}
               {afficherDate(new Date(garantiesFinancières.actuelles.dateConstitution))}
             </>
           )}
-          {garantiesFinancières.actuelles.dateÉchéance && (
-            <span>
-              {' '}
-              et avec échéance au{' '}
-              {afficherDate(new Date(garantiesFinancières.actuelles.dateÉchéance))}
+          {garantiesFinancières.actuelles.type !== 'type-inconnu' && (
+            <span className="font-semibold">
+              , {getGFLabel(garantiesFinancières.actuelles.type)}
             </span>
           )}
+          {garantiesFinancières.actuelles.dateÉchéance &&
+            garantiesFinancières.actuelles.type === 'avec-date-échéance' && (
+              <span> au {afficherDate(new Date(garantiesFinancières.actuelles.dateÉchéance))}</span>
+            )}
           .
         </p>
 
@@ -174,7 +171,7 @@ const GarantiesFinancièresProjet = ({
           </AlertMessage>
         )}
 
-        {!garantiesFinancières.actuelles?.type && (
+        {garantiesFinancières.actuelles.type === 'type-inconnu' && (
           <AlertMessage>Le type de garanties financières reste à préciser.</AlertMessage>
         )}
       </>
@@ -226,11 +223,11 @@ const GarantiesFinancièresProjet = ({
 const getGFLabel = (type?: GarantiesFinancières.TypeGarantiesFinancières.RawType) => {
   switch (type) {
     case 'consignation':
-      return ' de type consignation';
+      return 'de type consignation';
     case 'avec-date-échéance':
-      return " avec date d'échéance";
+      return "avec date d'échéance";
     case 'six-mois-après-achèvement':
-      return " avec une durée de validité jusqu'à six mois après achèvement du projet";
+      return "avec une durée de validité jusqu'à six mois après achèvement du projet";
     default:
       return '';
   }
