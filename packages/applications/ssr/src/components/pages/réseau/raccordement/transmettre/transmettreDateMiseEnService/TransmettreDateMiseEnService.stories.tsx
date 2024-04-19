@@ -26,6 +26,10 @@ export const Default: Story = {
       min: '01/09/2022',
       max: '31/12/2024',
     },
+    invervalleDateMiseEnService: {
+      min: new Date('2024-01-01').toISOString(),
+      max: new Date('2024-06-01').toISOString(),
+    },
     projet: {
       identifiantProjet: 'identifiantProjet#1',
       appelOffre: 'Appel offre',

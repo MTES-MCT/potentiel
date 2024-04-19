@@ -25,15 +25,17 @@ export type TransmettreDateMiseEnServiceProps = {
     miseEnService?: string;
   };
   intervalleDatesMeSDélaiCDC2022?: { min: DisplayDateFormatted; max: DisplayDateFormatted };
+  invervalleDateMiseEnService: { min: string; max: string };
 };
 
 export const TransmettreDateMiseEnServicePage = ({
   projet,
   dossierRaccordement: { référence, miseEnService },
   intervalleDatesMeSDélaiCDC2022,
+  invervalleDateMiseEnService: { min, max },
 }: TransmettreDateMiseEnServiceProps) => {
   const router = useRouter();
-  const { identifiantProjet, dateDésignation } = projet;
+  const { identifiantProjet } = projet;
 
   return (
     <ColumnPageTemplate
@@ -49,7 +51,8 @@ export const TransmettreDateMiseEnServicePage = ({
           >
             <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
             <input type="hidden" name="referenceDossier" value={référence} />
-            <input type="hidden" name="dateDesignation" value={dateDésignation} />
+            {/* TODO : récupérer la donnée date de désignation via une query dans l'action, ou dans le useCase */}
+            <input type="hidden" name="dateDesignation" value={min} />
 
             <Input
               label="Date de mise en service"
@@ -57,8 +60,8 @@ export const TransmettreDateMiseEnServicePage = ({
                 type: 'date',
                 name: 'dateMiseEnService',
                 defaultValue: miseEnService && formatDateForInput(miseEnService),
-                min: projet.dateDésignation,
-                max: formatDateForInput(new Date().toISOString()),
+                min,
+                max,
                 required: true,
                 'aria-required': true,
               }}

@@ -14,6 +14,7 @@ import {
 } from '@/components/pages/réseau/raccordement/transmettre/transmettreDateMiseEnService/TransmettreDateMiseEnService.page';
 import { displayDate } from '@/utils/displayDate';
 import { mapToProjetBannerProps } from '@/utils/mapToProjetBannerProps';
+import { formatDateForInput } from '@/utils/formatDateForInput';
 
 type PageProps = {
   params: {
@@ -78,6 +79,10 @@ export default async function Page({ params: { identifiant, reference } }: PageP
             max: displayDate(intervalleDatesMeSDélaiCDC2022.max),
           }
         : undefined,
+      invervalleDateMiseEnService: {
+        max: formatDateForInput(new Date().toISOString()),
+        min: formatDateForInput(candidature.dateDésignation),
+      },
     };
 
     return <TransmettreDateMiseEnServicePage {...props} />;
