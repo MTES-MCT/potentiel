@@ -6,7 +6,7 @@ INSERT INTO
     event_store.event_stream(stream_id, created_at, type, version, payload)
 SELECT 
     'garanties-financieres|' || p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE",
-    to_json(now()), 
+   TO_CHAR(now(), 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'), 
     'GarantiesFinancièresDemandées-V1',
     (SELECT count(stream_id) + 1 from event_store.event_stream WHERE stream_id = 'garanties-financieres|' || p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE"),
     json_build_object(
@@ -29,7 +29,7 @@ INSERT INTO
     event_store.event_stream(stream_id, created_at, type, version, payload)
 SELECT 
     'garanties-financieres|' || p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE",
-    to_json(now()),
+   TO_CHAR(now(), 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
     'DépôtGarantiesFinancièresSoumis-V1',
     (SELECT count(stream_id) + 1 FROM event_store.event_stream WHERE stream_id = 'garanties-financieres|' || p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE"),
     json_build_object(
@@ -67,7 +67,7 @@ INSERT INTO
     event_store.event_stream(stream_id, created_at, type, version, payload)
 SELECT 
     'garanties-financieres|' || p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE",
-    to_json(now()),
+   TO_CHAR(now(), 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
     'DépôtGarantiesFinancièresEnCoursValidé-V1',
     (SELECT count(stream_id) + 1 from event_store.event_stream WHERE stream_id = 'garanties-financieres|' || p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE"),
     json_build_object(
@@ -86,7 +86,7 @@ INSERT INTO
     event_store.event_stream(stream_id, created_at, type, version, payload)
 SELECT 
     'garanties-financieres|' || p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE",
-    to_json(now()),
+   TO_CHAR(now(), 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
     'GarantiesFinancièresEnregistrées-V1',
     (SELECT count(stream_id) + 1 from event_store.event_stream WHERE stream_id = 'garanties-financieres|' || p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE"),
     json_build_object(
@@ -124,7 +124,7 @@ INSERT INTO
     event_store.event_stream(stream_id, created_at, type, version, payload)
 SELECT 
     'garanties-financieres|' || p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE",
-    to_json(now()),
+   TO_CHAR(now(), 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
     'TypeGarantiesFinancièresImporté-V1',
     (SELECT count(stream_id) + 1 from event_store.event_stream WHERE stream_id = 'garanties-financieres|' || p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE"),
     json_build_object(
