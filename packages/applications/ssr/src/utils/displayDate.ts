@@ -7,7 +7,7 @@ const FormattedForPageDateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
 
 const isFormattedForPageDate = (date: string) => FormattedForPageDateRegex.test(date);
 
-export const displayDate = (date: Date | number | string): FormattedForPageDate => {
+export const displayDate = (date: Date | string): FormattedForPageDate => {
   if (typeof date === 'string') {
     if (isFormattedForPageDate(date)) {
       return date as FormattedForPageDate;

@@ -42,12 +42,4 @@ describe('displayDate', () => {
 
     actual.should.equal(expected);
   });
-
-  it('should format a number representing milliseconds since Unix epoch', () => {
-    const dateInMilliseconds = 1681682400000;
-
-    const actual = displayDate(dateInMilliseconds);
-
-    actual.should.equal(expected);
-  });
 });
