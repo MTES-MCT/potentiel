@@ -3,13 +3,15 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Recours } from '@potentiel-domain/elimine';
 import { getLegacyIdByIdentifiantProjet } from '../infra/sequelize/queries/project/getLegacyIdByIdentifiantProjet';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { File as FileModel, User as UserModel } from '../infra/sequelize';
+import { User as UserModel } from '../infra/sequelize';
 import { randomUUID } from 'crypto';
 import { fileRepo, projectRepo } from '../infra/sequelize/repos';
 import { UniqueEntityID } from '../core/domain';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { DocumentProjet } from '@potentiel-domain/document';
+import { DocumentProjet, ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { makeAndSaveFile } from '../modules/file';
+import { Readable } from 'node:stream';
+import { ReadableStream } from 'stream/web';
 
 /**
  * @deprecated à bouger dans la nouvelle app
@@ -56,45 +58,58 @@ export const register = () => {
           return;
         }
 
-        const fileId = await makeAndSaveFile({
-          file: {
-            designation: 'modification-request-response',
-            forProject: new UniqueEntityID(projectId),
-            createdBy: new UniqueEntityID(randomUUID()),
-            filename: responseFile.filename,
-            contents: responseFile.contents,
-          },
-          fileRepo,
-        })
-          .map((responseFileId) => responseFileId)
-          .mapErr((e: Error) => {
-            getLogger().error(e);
-          });
-
-        const courrier = DocumentProjet.convertirEnValueType(
+        const document = DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
           Recours.TypeDocumentRecours.recoursAccordé.formatter(),
           accordéLe,
           réponseSignée.format,
         );
 
-        await FileModel.create({
-          id: fileId,
-          filename: courrier.formatter(),
-          forProject: projectId,
-          designation: 'modification-request-response',
-          storedAt: storedAt,
+        const courrier = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: document.formatter(),
+          },
         });
 
         return new Promise<void>((resolve) => {
-          projectRepo
-            .load(new UniqueEntityID(projectId))
-            .andThen((project) =>
-              project
-                .grantClasse(user)
-                .andThen(() => project.updateCertificate(user, fileId))
-                .andThen(() => project.setNotificationDate(user, new Date(accordéLe).getTime())),
+          makeAndSaveFile({
+            file: {
+              designation: 'modification-request-response',
+              forProject: new UniqueEntityID(projectId),
+              createdBy: new UniqueEntityID(randomUUID()),
+              filename: `${Recours.TypeDocumentRecours.recoursAccordé.type}.${courrier.format}`,
+              contents: Readable.fromWeb(courrier.content as ReadableStream),
+            },
+            fileRepo,
+          })
+            .mapErr((error) => {
+              getLogger().error(new Error('La sauvegarde du courrier côté legacy a échouée'), {
+                saga: 'System.Saga.Recours',
+                event,
+                error,
+              });
+              resolve();
+            })
+            .andThen((fileId) =>
+              projectRepo.load(new UniqueEntityID(projectId)).andThen((project) =>
+                project
+                  .grantClasse(user)
+                  .andThen(() => project.updateCertificate(user, fileId))
+                  .andThen(() => project.setNotificationDate(user, new Date(accordéLe).getTime())),
+              ),
             )
+            .mapErr((error) => {
+              getLogger().error(
+                new Error('La désgnation comme lauréat du projet côté legacy a échouée'),
+                {
+                  saga: 'System.Saga.Recours',
+                  event,
+                  error,
+                },
+              );
+              resolve();
+            })
             .map(() => {
               resolve();
             });
