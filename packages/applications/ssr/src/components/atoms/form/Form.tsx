@@ -20,7 +20,7 @@ export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action'> & {
   onValidationError?: (validationErrors: Array<string>) => void;
 };
 
-export const Form: FC<FormProps> = ({
+export const Form: FC<FormProps> = async ({
   action,
   omitMandatoryFieldsLegend,
   onSuccess,
@@ -36,6 +36,7 @@ export const Form: FC<FormProps> = ({
   });
 
   if (state.status === 'success' && onSuccess) {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     onSuccess();
   }
   if (state.status === 'form-error' && onValidationError) {

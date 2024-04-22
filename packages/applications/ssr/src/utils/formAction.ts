@@ -55,11 +55,7 @@ export const formAction =
         ? schema.parse(Object.fromEntries(formData))
         : Object.fromEntries(formData);
 
-      const result = await action(previousState, data);
-
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      return result;
+      return await action(previousState, data);
     } catch (e) {
       if (e instanceof CsvValidationError) {
         return {
