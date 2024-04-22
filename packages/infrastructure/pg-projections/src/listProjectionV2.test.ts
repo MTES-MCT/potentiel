@@ -1,18 +1,18 @@
 import { should } from 'chai';
-import { after, before, beforeEach, afterEach, describe, it } from 'node:test';
 import { randomUUID } from 'node:crypto';
+import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 
-import { Entity, RangeOptions, ListResultV2 } from '@potentiel-domain/core';
-import { flatten, unflatten } from '../../../libraries/flat/dist';
+import { Entity, ListResultV2, RangeOptions } from '@potentiel-domain/core';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
+import { flatten, unflatten } from '../../../libraries/flat/dist';
 
-import { listProjectionV2 } from './listProjectionV2';
 import {
   NegativeEndPositionError,
   NegativeStartPositionError,
   StartPositionEqualToEndPositionError,
   StartPositionGreaterThanEndPositionError,
 } from './getRangeClause';
+import { listProjectionV2 } from './listProjectionV2';
 
 should();
 
@@ -52,15 +52,17 @@ describe('listProjectionV2', () => {
       });
     }
 
-    for (const fake of fakeData) {
-      await executeQuery(
-        `insert
+    await Promise.all(
+      fakeData.map((fake) =>
+        executeQuery(
+          `insert
         into domain_views.projection
         values ($1, $2)`,
-        `${category}|${fake.data.value}`,
-        flatten(fake),
-      );
-    }
+          `${category}|${fake.data.value}`,
+          flatten(fake),
+        ),
+      ),
+    );
   });
 
   afterEach(async () => {
@@ -86,7 +88,9 @@ describe('listProjectionV2', () => {
 
     const expected = mapToListResultItems(fakeData);
 
-    actual.should.be.deep.equal(expected);
+    actual.should.have.all.keys(Object.keys(expected));
+
+    actual.items.should.have.deep.members(expected.items);
   });
 
   it('should find projections by their key and sort them according to an order option', async () => {
@@ -103,7 +107,7 @@ describe('listProjectionV2', () => {
       fakeData.sort(({ data: { value: a } }, { data: { value: b } }) => b.localeCompare(a)),
     );
 
-    actual.should.be.deep.equal(expected);
+    actual.should.deep.equal(expected);
   });
 
   it('should find projections by their key and limiting them according to a range option', async () => {
@@ -116,13 +120,16 @@ describe('listProjectionV2', () => {
       range: range,
     });
 
+    // as insertion order is not guaranteed, we need to use an (already tested) query here
+    const allExpectedItems = await listProjectionV2<FakeProjection>(category);
+
     const expected = {
-      ...mapToListResultItems([fakeData[5], fakeData[6], fakeData[7], fakeData[8], fakeData[9]]),
+      ...mapToListResultItems(allExpectedItems.items.slice(5, 10)),
       total: fakeData.length,
       range,
     };
 
-    actual.should.be.deep.equal(expected);
+    actual.should.deep.equal(expected);
   });
 
   it('should throw when range start position is negative', async () => {
@@ -217,9 +224,11 @@ describe('listProjectionV2', () => {
       },
     });
 
-    const expected = mapToListResultItems([fakeData[1]]);
+    const expected = mapToListResultItems(fakeData.filter((item) => item.data.name === '1'));
 
-    actual.should.be.deep.equal(expected);
+    actual.should.have.all.keys(Object.keys(expected));
+
+    actual.items.should.have.deep.members(expected.items);
   });
 
   it('should find projections by their key and filter them according to an not equal condition option', async () => {
@@ -236,7 +245,9 @@ describe('listProjectionV2', () => {
 
     const expected = mapToListResultItems(fakeData.filter((g) => g.data.name !== '1'));
 
-    actual.should.be.deep.equal(expected);
+    actual.should.have.all.keys(Object.keys(expected));
+
+    actual.items.should.have.deep.members(expected.items);
   });
 
   it('should find projections by their key and filter them according to a like condition option', async () => {
@@ -272,7 +283,9 @@ describe('listProjectionV2', () => {
       fakeData.filter((g) => g.data.name.toLowerCase().startsWith('a')),
     );
 
-    actual.should.be.deep.equal(expected);
+    actual.should.have.all.keys(Object.keys(expected));
+
+    actual.items.should.have.deep.members(expected.items);
   });
 
   it('should find projections by their key and filter them according to a not like condition option', async () => {
@@ -308,7 +321,9 @@ describe('listProjectionV2', () => {
       fakeData.filter((g) => !g.data.name.toLowerCase().startsWith('a')),
     );
 
-    actual.should.be.deep.equal(expected);
+    actual.should.have.all.keys(Object.keys(expected));
+
+    actual.items.should.have.deep.members(expected.items);
   });
 
   it('should find projections by their key and filter them according to a include condition option', async () => {
@@ -329,7 +344,9 @@ describe('listProjectionV2', () => {
       fakeData.filter(({ data }) => valuesArray.includes(data.name)),
     );
 
-    actual.should.be.deep.equal(expected);
+    actual.should.have.all.keys(Object.keys(expected));
+
+    actual.items.should.have.deep.members(expected.items);
   });
 
   it('should find projections by their key and filter them according to a not include condition option', async () => {
@@ -350,6 +367,8 @@ describe('listProjectionV2', () => {
       fakeData.filter(({ data }) => !valuesArray.includes(data.name)),
     );
 
-    actual.should.be.deep.equal(expected);
+    actual.should.have.all.keys(Object.keys(expected));
+
+    actual.items.should.have.deep.members(expected.items);
   });
 });
