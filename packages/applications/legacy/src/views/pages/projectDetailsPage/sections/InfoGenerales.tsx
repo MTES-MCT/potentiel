@@ -136,89 +136,101 @@ type GarantiesFinancièresProjetProps = {
 const GarantiesFinancièresProjet = ({
   garantiesFinancières,
   project: { appelOffreId, periodeId, familleId, numeroCRE },
-}: GarantiesFinancièresProjetProps) => (
-  <div>
-    <Heading3 className="m-0">Garanties financières</Heading3>
-    {garantiesFinancières.garantiesFinancièresEnAttente && (
-      <AlertMessage>Des garanties financières sont en attente pour ce projet.</AlertMessage>
-    )}
-
-    {garantiesFinancières.actuelles && (
-      <>
-        <p className="mt-0 mb-3">
-          Le projet dispose actuellement de garanties financières validées
-          {garantiesFinancières.actuelles.dateConstitution && (
-            <>
-              , constituées le{' '}
-              {afficherDate(new Date(garantiesFinancières.actuelles.dateConstitution))}
-            </>
-          )}
-          {garantiesFinancières.actuelles.type !== 'type-inconnu' && (
-            <span className="font-semibold">
-              , {getGFLabel(garantiesFinancières.actuelles.type)}
-            </span>
-          )}
-          {garantiesFinancières.actuelles.dateÉchéance &&
-            garantiesFinancières.actuelles.type === 'avec-date-échéance' && (
-              <span> au {afficherDate(new Date(garantiesFinancières.actuelles.dateÉchéance))}</span>
-            )}
-          .
-        </p>
-
-        {!garantiesFinancières.actuelles?.dateConstitution && (
-          <AlertMessage>
-            L'attestation de constitution des garanties financières reste à transmettre.
-          </AlertMessage>
-        )}
-
-        {garantiesFinancières.actuelles.type === 'type-inconnu' && (
-          <AlertMessage>Le type de garanties financières reste à préciser.</AlertMessage>
-        )}
-      </>
-    )}
-
-    {garantiesFinancières.dépôtÀTraiter && (
-      <AlertMessage>
-        De nouvelles garanties financières {getGFLabel(garantiesFinancières.dépôtÀTraiter?.type)},
-        constituées le {afficherDate(new Date(garantiesFinancières.dépôtÀTraiter.dateConstitution))}
-        {garantiesFinancières.dépôtÀTraiter.dateÉchéance && (
-          <span>
-            {' '}
-            et avec échéance au{' '}
-            {afficherDate(new Date(garantiesFinancières.dépôtÀTraiter.dateÉchéance))}{' '}
-          </span>
-        )}{' '}
-        sont à traiter par l'autorité compétente (
-        <Link
-          href={Routes.GarantiesFinancières.détail(
-            formatProjectDataToIdentifiantProjetValueType({
-              appelOffreId,
-              periodeId,
-              familleId,
-              numeroCRE,
-            }).formatter(),
-          )}
-        >
-          voir le détail
-        </Link>
-        ).
-      </AlertMessage>
-    )}
-
-    <Link
-      href={Routes.GarantiesFinancières.détail(
-        formatProjectDataToIdentifiantProjetValueType({
-          appelOffreId,
-          periodeId,
-          familleId,
-          numeroCRE,
-        }).formatter(),
+}: GarantiesFinancièresProjetProps) => {
+  const motifDemandeGarantiesFinancières =
+    garantiesFinancières.garantiesFinancièresEnAttente &&
+    getMotifGFEnAttente(garantiesFinancières.garantiesFinancièresEnAttente.motif);
+  return (
+    <div>
+      <Heading3 className="m-0">Garanties financières</Heading3>
+      {garantiesFinancières.garantiesFinancièresEnAttente && (
+        <AlertMessage>
+          Des garanties financières sont en attente pour ce projet
+          {motifDemandeGarantiesFinancières ? <> ({motifDemandeGarantiesFinancières})</> : ''}.
+        </AlertMessage>
       )}
-    >
-      Mettre à jour ou consulter les garanties financières du projet
-    </Link>
-  </div>
-);
+
+      {garantiesFinancières.actuelles && (
+        <>
+          <p className="mt-0 mb-3">
+            Le projet dispose actuellement de garanties financières validées
+            {garantiesFinancières.actuelles.dateConstitution && (
+              <>
+                , constituées le{' '}
+                {afficherDate(new Date(garantiesFinancières.actuelles.dateConstitution))}
+              </>
+            )}
+            {garantiesFinancières.actuelles.type !== 'type-inconnu' && (
+              <span className="font-semibold">
+                , {getGFLabel(garantiesFinancières.actuelles.type)}
+              </span>
+            )}
+            {garantiesFinancières.actuelles.dateÉchéance &&
+              garantiesFinancières.actuelles.type === 'avec-date-échéance' && (
+                <span>
+                  {' '}
+                  au {afficherDate(new Date(garantiesFinancières.actuelles.dateÉchéance))}
+                </span>
+              )}
+            .
+          </p>
+
+          {!garantiesFinancières.actuelles?.dateConstitution && (
+            <AlertMessage>
+              L'attestation de constitution des garanties financières reste à transmettre.
+            </AlertMessage>
+          )}
+
+          {garantiesFinancières.actuelles.type === 'type-inconnu' && (
+            <AlertMessage>Le type de garanties financières reste à préciser.</AlertMessage>
+          )}
+        </>
+      )}
+
+      {garantiesFinancières.dépôtÀTraiter && (
+        <AlertMessage>
+          De nouvelles garanties financières {getGFLabel(garantiesFinancières.dépôtÀTraiter?.type)},
+          constituées le{' '}
+          {afficherDate(new Date(garantiesFinancières.dépôtÀTraiter.dateConstitution))}
+          {garantiesFinancières.dépôtÀTraiter.dateÉchéance && (
+            <span>
+              {' '}
+              et avec échéance au{' '}
+              {afficherDate(new Date(garantiesFinancières.dépôtÀTraiter.dateÉchéance))}{' '}
+            </span>
+          )}{' '}
+          sont à traiter par l'autorité compétente (
+          <Link
+            href={Routes.GarantiesFinancières.détail(
+              formatProjectDataToIdentifiantProjetValueType({
+                appelOffreId,
+                periodeId,
+                familleId,
+                numeroCRE,
+              }).formatter(),
+            )}
+          >
+            voir le détail
+          </Link>
+          ).
+        </AlertMessage>
+      )}
+
+      <Link
+        href={Routes.GarantiesFinancières.détail(
+          formatProjectDataToIdentifiantProjetValueType({
+            appelOffreId,
+            periodeId,
+            familleId,
+            numeroCRE,
+          }).formatter(),
+        )}
+      >
+        Mettre à jour ou consulter les garanties financières du projet
+      </Link>
+    </div>
+  );
+};
 
 const getGFLabel = (type?: GarantiesFinancières.TypeGarantiesFinancières.RawType) => {
   switch (type) {
@@ -228,6 +240,23 @@ const getGFLabel = (type?: GarantiesFinancières.TypeGarantiesFinancières.RawTy
       return "avec date d'échéance";
     case 'six-mois-après-achèvement':
       return "avec une durée de validité jusqu'à six mois après achèvement du projet";
+    default:
+      return '';
+  }
+};
+
+const getMotifGFEnAttente = (
+  motif?: GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType,
+) => {
+  switch (motif) {
+    case 'recours-accordé':
+      return 'recours accordé';
+    case 'changement-producteur':
+      return 'changement de producteur';
+    case 'garanties-financières-initiales':
+      return 'garanties financières initiales';
+    case 'échéance-garanties-financières-actuelles':
+      return 'garanties financières arrivant à échéance';
     default:
       return '';
   }
