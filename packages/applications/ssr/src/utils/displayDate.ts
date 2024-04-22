@@ -16,7 +16,7 @@ export const displayDate = (date: Date | number | string): FormattedForPageDate 
     if (isNaN(parseDate.getTime())) {
       throw new Error(`[displayDate] ${date} is not a valid date string`);
     }
-    return format(new Date(date), 'dd/MM/yyyy', { locale: fr }) as FormattedForPageDate;
+    return format(parseDate, 'dd/MM/yyyy', { locale: fr }) as FormattedForPageDate;
   }
   return format(date, 'dd/MM/yyyy', { locale: fr }) as FormattedForPageDate;
 };
