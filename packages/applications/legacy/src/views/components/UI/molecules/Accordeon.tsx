@@ -1,4 +1,4 @@
-import React, { ComponentProps, ReactNode, useRef, useState, FC, useEffect } from 'react';
+import React, { ComponentProps, FC, ReactNode, useEffect, useRef, useState } from 'react';
 import { AddIcon, SubtractIcon } from '../atoms/icons';
 
 type AccordeonProps = ComponentProps<'div'> & {
@@ -46,7 +46,7 @@ export const Accordeon: FC<AccordeonProps> = ({
       {...props}
     >
       <div
-        className={`flex justify-between items-center px-4 py-3 text-base text-decoration-none font-medium hover:bg-grey-1000-hover focus:bg-grey-1000-hover`}
+        className={`flex justify-between items-center px-4 py-3 text-base no-underline font-medium hover:bg-grey-1000-hover focus:bg-grey-1000-hover`}
         onClick={() => handleChangeVisibility(!visible)}
         onKeyDown={(event) => handleKeyDown(event)}
         tabIndex={0}

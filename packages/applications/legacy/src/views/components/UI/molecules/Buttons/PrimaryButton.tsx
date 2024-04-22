@@ -1,5 +1,5 @@
-import { ConfirmationProp } from '../../../../helpers';
 import React, { ComponentProps, FC } from 'react';
+import { ConfirmationProp } from '../../../../helpers';
 import { Button } from '../../atoms/Button';
 
 export type PrimaryButtonProps = ComponentProps<'button'> & ConfirmationProp;
