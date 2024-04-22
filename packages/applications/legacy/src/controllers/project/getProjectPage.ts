@@ -12,7 +12,11 @@ import {
 } from '../helpers';
 import routes from '../../routes';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
-import { PermissionConsulterProjet, ProjectDataForProjectPage } from '../../modules/project';
+import {
+  GarantiesFinancièresForProjectPage,
+  PermissionConsulterProjet,
+  ProjectDataForProjectPage,
+} from '../../modules/project';
 import { mediator } from 'mediateur';
 import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
@@ -247,41 +251,57 @@ const getAlertesRaccordement = async ({
 const getGarantiesFinancières = async (
   identifiantProjet: IdentifiantProjet.ValueType,
 ): Promise<ProjectDataForProjectPage['garantiesFinancières']> => {
-  let garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel;
+  let garantiesFinancièresActuellesProps: GarantiesFinancièresForProjectPage['actuelles'];
+  let dépôtEnCoursProps: GarantiesFinancièresForProjectPage['dépôtÀTraiter'];
+  let garantiesFinancièresEnAttenteProps: GarantiesFinancièresForProjectPage['garantiesFinancièresEnAttente'];
+
   try {
-    garantiesFinancières =
+    const garantiesFinancières =
       await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
         type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 
-    const dépôtEnCours = garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours());
-
-    if (!garantiesFinancières || (!garantiesFinancières.actuelles && !dépôtEnCours)) {
-      return { garantiesFinancièresEnAttente: true };
+    if (garantiesFinancières.actuelles) {
+      garantiesFinancièresActuellesProps = {
+        type: garantiesFinancières.actuelles.type.type,
+        dateÉchéance:
+          garantiesFinancières.actuelles.dateÉchéance &&
+          garantiesFinancières.actuelles.dateÉchéance.formatter(),
+        dateConstitution:
+          garantiesFinancières.actuelles.dateConstitution &&
+          garantiesFinancières.actuelles.dateConstitution.formatter(),
+      };
     }
 
-    return {
-      ...(garantiesFinancières.actuelles && {
-        actuelles: {
-          type: garantiesFinancières.actuelles.type.type,
-          dateÉchéance:
-            garantiesFinancières.actuelles.dateÉchéance &&
-            garantiesFinancières.actuelles.dateÉchéance.formatter(),
-          dateConstitution:
-            garantiesFinancières.actuelles.dateConstitution &&
-            garantiesFinancières.actuelles.dateConstitution.formatter(),
+    const dépôtEnCours = garantiesFinancières.dépôts.find((d) => d.statut.estEnCours());
+    if (dépôtEnCours) {
+      dépôtEnCoursProps = {
+        type: dépôtEnCours.type.type,
+        dateÉchéance: dépôtEnCours.dateÉchéance && dépôtEnCours.dateÉchéance.formatter(),
+        dateConstitution: dépôtEnCours.dateConstitution.formatter(),
+      };
+    }
+  } catch (error) {}
+
+  try {
+    const garantiesFinancièresEnAttente =
+      await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
+        {
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+          data: { identifiantProjetValue: identifiantProjet.formatter() },
         },
-      }),
-      ...(dépôtEnCours && {
-        dépôtÀTraiter: {
-          type: dépôtEnCours.type.type,
-          dateÉchéance: dépôtEnCours.dateÉchéance && dépôtEnCours.dateÉchéance.formatter(),
-          dateConstitution: dépôtEnCours.dateConstitution.formatter(),
-        },
-      }),
-    };
-  } catch (error) {
-    return { garantiesFinancièresEnAttente: true };
-  }
+      );
+    if (garantiesFinancièresEnAttente) {
+      garantiesFinancièresEnAttenteProps = { motif: garantiesFinancièresEnAttente.motif.motif };
+    }
+  } catch (error) {}
+
+  return {
+    ...(garantiesFinancièresActuellesProps && { actuelles: garantiesFinancièresActuellesProps }),
+    ...(dépôtEnCoursProps && { dépôtÀTraiter: dépôtEnCoursProps }),
+    ...(garantiesFinancièresEnAttenteProps && {
+      garantiesFinancièresEnAttente: garantiesFinancièresEnAttenteProps,
+    }),
+  };
 };
