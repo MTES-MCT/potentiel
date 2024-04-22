@@ -31,12 +31,14 @@ export const Form: FC<FormProps> = async ({
   className,
   ...props
 }) => {
+  const TEMPORARY_ONSUCCESS_WAITING_TIME_IN_MS = 2000;
+
   const [state, formAction] = useFormState(action, {
     status: undefined,
   });
 
   if (state.status === 'success' && onSuccess) {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, TEMPORARY_ONSUCCESS_WAITING_TIME_IN_MS));
     onSuccess();
   }
   if (state.status === 'form-error' && onValidationError) {
