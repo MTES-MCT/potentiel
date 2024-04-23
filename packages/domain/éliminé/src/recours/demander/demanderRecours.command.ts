@@ -1,14 +1,14 @@
-import { Message, MessageHandler, mediator } from "mediateur";
+import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from "@potentiel-domain/common";
-import { IdentifiantUtilisateur } from "@potentiel-domain/utilisateur";
-import { DocumentProjet } from "@potentiel-domain/document";
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DocumentProjet } from '@potentiel-domain/document';
 
-import { loadRecoursFactory } from "../recours.aggregate";
-import { LoadAggregate } from "@potentiel-domain/core";
+import { loadRecoursFactory } from '../recours.aggregate';
+import { LoadAggregate } from '@potentiel-domain/core';
 
 export type DemanderRecoursCommand = Message<
-  "Eliminé.Recours.Command.Demander",
+  'Eliminé.Recours.Command.DemanderRecours',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     raison: string;
@@ -18,9 +18,7 @@ export type DemanderRecoursCommand = Message<
   }
 >;
 
-export const registerDemanderRecoursCommand = (
-  loadAggregate: LoadAggregate
-) => {
+export const registerDemanderRecoursCommand = (loadAggregate: LoadAggregate) => {
   const loadRecours = loadRecoursFactory(loadAggregate);
   const handler: MessageHandler<DemanderRecoursCommand> = async ({
     identifiantProjet,
@@ -39,5 +37,5 @@ export const registerDemanderRecoursCommand = (
       dateDemande,
     });
   };
-  mediator.register("Eliminé.Recours.Command.Demander", handler);
+  mediator.register('Eliminé.Recours.Command.DemanderRecours', handler);
 };

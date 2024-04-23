@@ -1,15 +1,12 @@
-import { Message, MessageHandler, mediator } from "mediateur";
-import { DemanderRecoursCommand } from "./demanderRecours.command";
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from "@potentiel-domain/document";
-import { DateTime, IdentifiantProjet } from "@potentiel-domain/common";
-import { IdentifiantUtilisateur } from "@potentiel-domain/utilisateur";
-import * as TypeDocumentRecours from "../typeDocumentRecours.valueType";
+import { Message, MessageHandler, mediator } from 'mediateur';
+import { DemanderRecoursCommand } from './demanderRecours.command';
+import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
 
 export type DemanderRecoursUseCase = Message<
-  "Eliminé.Recours.UseCase.Demander",
+  'Eliminé.Recours.UseCase.DemanderRecours',
   {
     dateDemandeValue: string;
     identifiantUtilisateurValue: string;
@@ -30,12 +27,10 @@ export const registerDemanderRecoursUseCase = () => {
     identifiantUtilisateurValue,
     raisonValue,
   }) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      identifiantProjetValue
-    );
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
     const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
-      identifiantUtilisateurValue
+      identifiantUtilisateurValue,
     );
 
     const pièceJustificative = pièceJustificativeValue
@@ -43,13 +38,13 @@ export const registerDemanderRecoursUseCase = () => {
           identifiantProjetValue,
           TypeDocumentRecours.pièceJustificative.formatter(),
           dateDemandeValue,
-          pièceJustificativeValue.format
+          pièceJustificativeValue.format,
         )
       : undefined;
 
     if (pièceJustificative) {
       await mediator.send<EnregistrerDocumentProjetCommand>({
-        type: "Document.Command.EnregistrerDocumentProjet",
+        type: 'Document.Command.EnregistrerDocumentProjet',
         data: {
           content: pièceJustificativeValue!.content,
           documentProjet: pièceJustificative,
@@ -58,7 +53,7 @@ export const registerDemanderRecoursUseCase = () => {
     }
 
     await mediator.send<DemanderRecoursCommand>({
-      type: "Eliminé.Recours.Command.Demander",
+      type: 'Eliminé.Recours.Command.DemanderRecours',
       data: {
         dateDemande,
         raison: raisonValue,
@@ -68,5 +63,5 @@ export const registerDemanderRecoursUseCase = () => {
       },
     });
   };
-  mediator.register("Eliminé.Recours.UseCase.Demander", runner);
+  mediator.register('Eliminé.Recours.UseCase.DemanderRecours', runner);
 };

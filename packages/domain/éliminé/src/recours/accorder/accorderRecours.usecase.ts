@@ -11,7 +11,7 @@ import { AccorderRecoursCommand } from './accorderRecours.command';
 import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
 
 export type AccorderRecoursUseCase = Message<
-  'Eliminé.Recours.UseCase.Accorder',
+  'Eliminé.Recours.UseCase.AccorderRecours',
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
@@ -52,7 +52,7 @@ export const registerAccorderRecoursUseCase = () => {
     });
 
     await mediator.send<AccorderRecoursCommand>({
-      type: 'Eliminé.Recours.Command.Accorder',
+      type: 'Eliminé.Recours.Command.AccorderRecours',
       data: {
         dateAccord,
         identifiantUtilisateur,
@@ -61,5 +61,5 @@ export const registerAccorderRecoursUseCase = () => {
       },
     });
   };
-  mediator.register('Eliminé.Recours.UseCase.Accorder', runner);
+  mediator.register('Eliminé.Recours.UseCase.AccorderRecours', runner);
 };

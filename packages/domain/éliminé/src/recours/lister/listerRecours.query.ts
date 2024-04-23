@@ -61,7 +61,7 @@ export type RécupérerRégionDrealPort = (
 ) => Promise<Option.Type<{ région: string }>>;
 
 export type ListerRecoursQuery = Message<
-  'Eliminé.Recours.Query.Lister',
+  'Eliminé.Recours.Query.ListerRecours',
   {
     utilisateur: {
       rôle: string;
@@ -141,7 +141,7 @@ export const registerListerRecoursQuery = ({
     };
   };
 
-  mediator.register('Eliminé.Recours.Query.Lister', handler);
+  mediator.register('Eliminé.Recours.Query.ListerRecours', handler);
 };
 
 const mapToReadModel = (projection: RecoursEntity): RecoursListItemReadModel => {

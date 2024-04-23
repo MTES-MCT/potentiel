@@ -33,7 +33,7 @@ export type ConsulterRecoursReadModel = {
 };
 
 export type ConsulterRecoursQuery = Message<
-  'Eliminé.Recours.Query.Consulter',
+  'Eliminé.Recours.Query.ConsulterRecours',
   {
     identifiantProjetValue: string;
   },
@@ -101,5 +101,5 @@ export const registerConsulterRecoursQuery = ({ find }: ConsulterRecoursDependen
       rejet,
     };
   };
-  mediator.register('Eliminé.Recours.Query.Consulter', handler);
+  mediator.register('Eliminé.Recours.Query.ConsulterRecours', handler);
 };
