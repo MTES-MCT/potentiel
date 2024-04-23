@@ -16,8 +16,13 @@ import {
 } from '../../../shared';
 import { ModificationRequested, ModificationReceived } from '../../../modificationRequest/events';
 
-import { ExceedsPuissanceMaxDuVolumeReserve, ExceedsRatiosChangementPuissance } from './helpers';
 import {
+  ExceedsPuissanceMaxDuVolumeReserve,
+  ExceedsPuissanceMaxFamille,
+  ExceedsRatiosChangementPuissance,
+} from './helpers';
+import {
+  NouvellePuissanceAuDessusPuissanceFamilleError,
   NouvellePuissanceAuDessusPuissanceMaxVolumeReserveError,
   PuissanceJustificationEtCourrierManquantError,
 } from '.';
@@ -32,6 +37,7 @@ type DemanderChangementDePuissance = (commande: {
 }) => ResultAsync<
   null,
   | PuissanceJustificationEtCourrierManquantError
+  | NouvellePuissanceAuDessusPuissanceMaxVolumeReserveError
   | AggregateHasBeenUpdatedSinceError
   | EntityNotFoundError
   | UnauthorizedError
@@ -41,6 +47,7 @@ type MakeDemanderChangementDePuissance = (dépendances: {
   eventBus: EventBus;
   exceedsRatiosChangementPuissance: ExceedsRatiosChangementPuissance;
   exceedsPuissanceMaxDuVolumeReserve: ExceedsPuissanceMaxDuVolumeReserve;
+  exceedsPuissanceMaxFamille: ExceedsPuissanceMaxFamille;
   getPuissanceProjet: (
     projectId: string,
   ) => ResultAsync<number, EntityNotFoundError | InfraNotAvailableError>;
@@ -55,6 +62,7 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
     eventBus,
     exceedsRatiosChangementPuissance,
     exceedsPuissanceMaxDuVolumeReserve,
+    exceedsPuissanceMaxFamille,
     getPuissanceProjet,
     shouldUserAccessProject,
     projectRepo,
@@ -98,7 +106,23 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
             familleId: project.familleId,
           });
 
-          const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
+          if (!appelOffreProjet) {
+            return errAsync(new EntityNotFoundError());
+          }
+
+          const exceedsPuissanceMaxdeLaFamille = exceedsPuissanceMaxFamille({
+            nouvellePuissance: newPuissance,
+            project: {
+              appelOffre: appelOffreProjet,
+              familleId: project.familleId,
+            },
+          });
+
+          if (exceedsPuissanceMaxdeLaFamille) {
+            return errAsync(new NouvellePuissanceAuDessusPuissanceFamilleError());
+          }
+
+          const exceedsPuissanceMaxVolumeReserve = exceedsPuissanceMaxDuVolumeReserve({
             nouvellePuissance: newPuissance,
             project: {
               appelOffre: appelOffreProjet,
@@ -106,7 +130,7 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
             },
           });
 
-          if (exceedsPuissanceMax) {
+          if (exceedsPuissanceMaxVolumeReserve) {
             return errAsync(new NouvellePuissanceAuDessusPuissanceMaxVolumeReserveError());
           }
 

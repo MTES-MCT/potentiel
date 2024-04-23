@@ -18,6 +18,10 @@ import { errorResponse, notFoundResponse, unauthorizedResponse } from '../../hel
 import { upload } from '../../upload';
 import { v1Router } from '../../v1Router';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
+import {
+  NouvellePuissanceAuDessusPuissanceFamilleError,
+  NouvellePuissanceAuDessusPuissanceMaxVolumeReserveError,
+} from '../../../modules/demandeModification';
 
 const schema = yup.object({
   body: yup.object({
@@ -78,7 +82,11 @@ v1Router.post(
             }),
           ),
         (error) => {
-          if (error instanceof PuissanceJustificationEtCourrierManquantError) {
+          if (
+            error instanceof PuissanceJustificationEtCourrierManquantError ||
+            error instanceof NouvellePuissanceAuDessusPuissanceFamilleError ||
+            error instanceof NouvellePuissanceAuDessusPuissanceMaxVolumeReserveError
+          ) {
             return errorResponse({
               request,
               response,

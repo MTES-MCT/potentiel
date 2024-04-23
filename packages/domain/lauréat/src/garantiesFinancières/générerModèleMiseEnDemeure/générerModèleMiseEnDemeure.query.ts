@@ -94,9 +94,7 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
       throw new PériodeNonIdentifiéError();
     }
 
-    const détailFamille = appelOffres.familles.find(
-      (famille) => famille.id === candidature.famille,
-    );
+    const détailFamille = détailPériode?.familles.find((f) => f.id === candidature.famille);
 
     const projetAvecGarantiesFinancièresEnAttente =
       await mediator.send<ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>({

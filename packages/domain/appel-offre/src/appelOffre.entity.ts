@@ -114,6 +114,7 @@ export type GarantiesFinancièresFamille =
 export type Famille = {
   id: string;
   title: string;
+  puissanceMax?: number;
 } & GarantiesFinancièresFamille;
 
 // Periode
@@ -187,6 +188,7 @@ export type Periode = {
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
   choisirNouveauCahierDesCharges?: true;
+  familles: Array<Famille>;
 } & (NotifiedPeriode | NotYetNotifiedPeriode | LegacyPeriode);
 
 // Territoire
@@ -227,7 +229,6 @@ export type AppelOffre = {
   afficherPhraseRegionImplantation: boolean;
   dossierSuiviPar: string;
   periodes: Periode[];
-  familles: Famille[];
   renvoiSoumisAuxGarantiesFinancieres?: string;
   changementPuissance: ChangementPuissance;
   changementProducteurPossibleAvantAchèvement: boolean;

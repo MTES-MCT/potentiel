@@ -126,29 +126,32 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 242-441980',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 100kWc - 250kWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 0.25,
+        },
+        {
+          id: '2',
+          title: '2. 250kWc - 1,5MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 1.5,
+        },
+        {
+          id: '3',
+          title: '3. 250kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 5,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-    },
-  ],
-  familles: [
-    {
-      id: '1',
-      title: '1. 100kWc - 250kWc',
-      soumisAuxGarantiesFinancieres: 'après candidature',
-      garantieFinanciereEnMois,
-    },
-    {
-      id: '2',
-      title: '2. 250kWc - 1,5MWc',
-      soumisAuxGarantiesFinancieres: 'après candidature',
-      garantieFinanciereEnMois,
-    },
-    {
-      id: '3',
-      title: '3. 250kWc - 5MWc',
-      soumisAuxGarantiesFinancieres: 'après candidature',
-      garantieFinanciereEnMois,
     },
   ],
 };

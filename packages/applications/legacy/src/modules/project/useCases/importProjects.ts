@@ -122,18 +122,18 @@ const checkFamille = (
 ) => {
   const { appelOffreId, familleId } = projectData;
   if (familleId) {
-    if (!projectAppelOffre.familles.length) {
+    if (!periodeDetails.familles.length) {
       throw new Error(
         `L'appel d'offre ${appelOffreId} n'a pas de familles, mais la ligne en comporte une: ${familleId}`,
       );
     }
 
-    const famille = projectAppelOffre.familles.find((famille) => famille.id === familleId);
+    const famille = periodeDetails.familles.find((famille) => famille.id === familleId);
     if (!famille) {
       throw new Error(`La famille ${familleId} n’existe pas dans l'appel d'offre ${appelOffreId}`);
     }
   } else {
-    if (projectAppelOffre.familles.length) {
+    if (periodeDetails.familles.length) {
       throw new Error(
         `L'appel d'offre ${appelOffreId} requiert une famille et aucune n'est présente`,
       );
@@ -146,8 +146,15 @@ const checkGarantiesFinancières = (
   projectData: ReturnType<typeof parseProjectLine>,
   projectAppelOffre: AppelOffre,
 ) => {
+  const familleDetails = projectAppelOffre.periodes
+    .find((p) => p.id === projectData.periodeId)
+    ?.familles.find((f) => f.id === projectData.familleId);
+
+  const isSoumisAuxGFÀLaCandidature = familleDetails
+    ? familleDetails.soumisAuxGarantiesFinancieres === 'à la candidature'
+    : projectAppelOffre.soumisAuxGarantiesFinancieres === 'à la candidature';
   if (
-    projectAppelOffre.soumisAuxGarantiesFinancieres === 'à la candidature' &&
+    isSoumisAuxGFÀLaCandidature &&
     projectData.classe === 'Classé' &&
     !projectData.garantiesFinancièresType
   ) {

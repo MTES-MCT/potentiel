@@ -170,7 +170,9 @@ v1Router.post(
               data: { identifiantAppelOffre: projet.appelOffreId },
             });
 
-            if (isSoumisAuxGF({ appelOffres, famille: projet.familleId })) {
+            if (
+              isSoumisAuxGF({ appelOffres, famille: projet.familleId, période: projet.periodeId })
+            ) {
               const dateActuelle = new Date();
               if (type === 'producteur') {
                 // supprimer les éventuelles garanties financières du projet

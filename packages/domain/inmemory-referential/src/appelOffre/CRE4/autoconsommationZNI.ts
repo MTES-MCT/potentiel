@@ -115,6 +115,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2019/S 113-276257',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -135,6 +136,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2019/S 113-276257',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -148,5 +150,4 @@ Par dérogation, les modifications à la baisse de la Puissance installée qui s
       choisirNouveauCahierDesCharges: true,
     },
   ],
-  familles: [],
 };

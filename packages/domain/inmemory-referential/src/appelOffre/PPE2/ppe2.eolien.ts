@@ -107,6 +107,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2021/S 146-386083',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
       cahiersDesChargesModifiésDisponibles: [
         {
@@ -139,6 +140,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2022/S 035-088651',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       cahiersDesChargesModifiésDisponibles: [
         {
           ...CDCModifié30082022,
@@ -175,6 +177,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         référence: '2022/S 214-614410',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
           référenceParagraphe: '6.2',
@@ -199,6 +202,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         référence: '2023/S 063-187148',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
           référenceParagraphe: '6.2',
@@ -222,6 +226,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         référence: '2023/S 183-570186',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       cahiersDesChargesModifiésDisponibles: [],
     },
     {
@@ -234,8 +239,8 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         référence: '2023/S 215-677967',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       cahiersDesChargesModifiésDisponibles: [],
     },
   ],
-  familles: [],
 };

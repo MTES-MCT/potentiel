@@ -14,6 +14,7 @@ import {
   makeDemanderChangementDePuissance,
   exceedsPuissanceMaxDuVolumeReserve,
   exceedsRatiosChangementPuissance,
+  exceedsPuissanceMaxFamille,
 } from '../modules/demandeModification/demandeChangementDePuissance';
 import { makeLoadFileForUser } from '../modules/file';
 import {
@@ -129,6 +130,7 @@ export const demanderChangementDePuissance = makeDemanderChangementDePuissance({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   exceedsRatiosChangementPuissance,
   exceedsPuissanceMaxDuVolumeReserve,
+  exceedsPuissanceMaxFamille,
   projectRepo,
   fileRepo,
   getPuissanceProjet,

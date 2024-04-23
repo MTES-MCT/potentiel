@@ -69,11 +69,10 @@ export const ModificationRequestList = ({
   );
 
   const periodes = appelsOffre.find((ao) => ao.id === appelOffreId)?.periodes;
+  const période = periodes?.find((p) => p.id === periodeId);
   const filtreParPériodeActif = appelOffreId && periodes && periodes.length > 0;
 
-  const familles = appelsOffre
-    .find((ao) => ao.id === appelOffreId)
-    ?.familles.sort((a, b) => a.title.localeCompare(b.title));
+  const familles = période?.familles.sort((a, b) => a.title.localeCompare(b.title));
   const filtreParFamilleActif = appelOffreId && familles && familles.length > 0;
 
   const targetRoute =

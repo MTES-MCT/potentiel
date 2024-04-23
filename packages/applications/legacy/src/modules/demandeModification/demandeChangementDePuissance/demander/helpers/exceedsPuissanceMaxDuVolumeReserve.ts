@@ -1,4 +1,4 @@
-import { DésignationCatégorie } from 'src/modules/project';
+import { DésignationCatégorie } from '../../../../project';
 import { ProjectAppelOffre } from '../../../../../entities';
 import { getVolumeReserve } from './getVolumeReserve';
 

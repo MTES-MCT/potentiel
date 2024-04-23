@@ -131,6 +131,29 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 5 MWc – 30 Mwc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 17,
+        },
+        {
+          id: '2',
+          title: '2. 500kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 5,
+        },
+        {
+          id: '3',
+          title: '3. 500 kWc - 10MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 10,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -169,6 +192,29 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 5 MWc – 30 Mwc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 17,
+        },
+        {
+          id: '2',
+          title: '2. 500kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 5,
+        },
+        {
+          id: '3',
+          title: '3. 500 kWc - 10MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 10,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -207,6 +253,29 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 5 MWc – 30 Mwc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 17,
+        },
+        {
+          id: '2',
+          title: '2. 500kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 5,
+        },
+        {
+          id: '3',
+          title: '3. 500 kWc - 10MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 10,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -245,6 +314,29 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 5 MWc – 30 Mwc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 30,
+        },
+        {
+          id: '2',
+          title: '2. 500kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 5,
+        },
+        {
+          id: '3',
+          title: '3. 500 kWc - 10MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 10,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -283,6 +375,29 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 5 MWc – 30 Mwc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 30,
+        },
+        {
+          id: '2',
+          title: '2. 500kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 5,
+        },
+        {
+          id: '3',
+          title: '3. 500 kWc - 10MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 10,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -321,6 +436,28 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 5 MWc – 30 Mwc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+        },
+        {
+          id: '2',
+          title: '2. 500kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 5,
+        },
+        {
+          id: '3',
+          title: '3. 500 kWc - 10MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 10,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -366,6 +503,28 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 5 MWc – 30 Mwc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+        },
+        {
+          id: '2',
+          title: '2. 500kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 5,
+        },
+        {
+          id: '3',
+          title: '3. 500 kWc - 10MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 10,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -411,6 +570,28 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 5 MWc – 30 Mwc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+        },
+        {
+          id: '2',
+          title: '2. 500kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 5,
+        },
+        {
+          id: '3',
+          title: '3. 500 kWc - 10MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 10,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -456,6 +637,28 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 5 MWc – 30 Mwc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+        },
+        {
+          id: '2',
+          title: '2. 500kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 5,
+        },
+        {
+          id: '3',
+          title: '3. 500 kWc - 10MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 10,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -501,6 +704,28 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2016/S 148-268152',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 5 MWc – 30 Mwc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+        },
+        {
+          id: '2',
+          title: '2. 500kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 5,
+        },
+        {
+          id: '3',
+          title: '3. 500 kWc - 10MWc',
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantieFinanciereEnMois,
+          puissanceMax: 10,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -530,26 +755,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-    },
-  ],
-  familles: [
-    {
-      id: '1',
-      title: '1. 5 MWc – 30 Mwc',
-      soumisAuxGarantiesFinancieres: 'après candidature',
-      garantieFinanciereEnMois,
-    },
-    {
-      id: '2',
-      title: '2. 500kWc - 5MWc',
-      soumisAuxGarantiesFinancieres: 'après candidature',
-      garantieFinanciereEnMois,
-    },
-    {
-      id: '3',
-      title: '3. 500 kWc - 10MWc',
-      soumisAuxGarantiesFinancieres: 'après candidature',
-      garantieFinanciereEnMois,
     },
   ],
 };

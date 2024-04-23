@@ -144,6 +144,39 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2017/S 051-094731',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1a',
+          title: "1a. Nouvelles conceptions d'intégration",
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.5,
+        },
+        {
+          id: '1b',
+          title: '1b. Autres innovations de composants',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 3,
+        },
+        {
+          id: '2',
+          title: '2. 100 kWc - 3MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 3,
+        },
+        {
+          id: '3',
+          title:
+            "3. Innovation liée à l'optimisation et à l'exploitation électrique de la centrale",
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 3,
+        },
+        {
+          id: '4',
+          title: '4. Agrivoltaïsme',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 3,
+        },
+      ],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.4.5',
@@ -168,6 +201,20 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2017/S 051-094731',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 500 kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 5,
+        },
+        {
+          id: '2',
+          title: '2. 100 kWc - 3MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 3,
+        },
+      ],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.4.5',
@@ -192,6 +239,20 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2017/S 051-094731',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 500 kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 5,
+        },
+        {
+          id: '2',
+          title: '2. 100 kWc - 3MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 3,
+        },
+      ],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.4.5',
@@ -201,40 +262,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-    },
-  ],
-  familles: [
-    // La période 1 a les familles 1a, 1b, 2, 3 et 4
-    // Les périodes 2 et 3 ont les familles 1 et 2 seulement
-    {
-      id: '1a',
-      title: "1a. Nouvelles conceptions d'intégration",
-      soumisAuxGarantiesFinancieres: 'non soumis',
-    },
-    {
-      id: '1b',
-      title: '1b. Autres innovations de composants',
-      soumisAuxGarantiesFinancieres: 'non soumis',
-    },
-    {
-      id: '3',
-      title: "3. Innovation liée à l'optimisation et à l'exploitation électrique de la centrale",
-      soumisAuxGarantiesFinancieres: 'non soumis',
-    },
-    {
-      id: '4',
-      title: '4. Agrivoltaïsme',
-      soumisAuxGarantiesFinancieres: 'non soumis',
-    },
-    {
-      id: '1',
-      title: '1. 500 kWc - 5MWc',
-      soumisAuxGarantiesFinancieres: 'non soumis',
-    },
-    {
-      id: '2',
-      title: '2. 100 kWc - 3MWc',
-      soumisAuxGarantiesFinancieres: 'non soumis',
     },
   ],
 };

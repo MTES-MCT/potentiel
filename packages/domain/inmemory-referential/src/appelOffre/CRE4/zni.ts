@@ -182,6 +182,66 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '1c', territoire: 'Martinique', noteThreshold: 75.9 },
         { familleId: '1c', territoire: 'Mayotte', noteThreshold: 19.6 },
       ],
+      familles: [
+        // 2017 ZNI avec stockage
+        {
+          id: '1',
+          title: '1. 100kWc - 250kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        {
+          id: '2',
+          title: '2. 250kWc - 1,5MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        {
+          id: '3',
+          title: '3. 250kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        // 2019 ZNI avec stockage
+        {
+          id: '1a',
+          title: '1a. 100kWc - 500 kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.5,
+        },
+        {
+          id: '1b',
+          title: '1b. 500 kWc - 1,5MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 1.5,
+        },
+        {
+          id: '1c',
+          title: '1c. 500 kWc - 5 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 5,
+        },
+        // 2019 ZNI sans stockage
+        {
+          id: '2a',
+          title: '2a. 100kWc - 500 kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.5,
+        },
+        {
+          id: '2b',
+          title: '2b. 500 kWc - 1,5MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 1.5,
+        },
+        {
+          id: '2c',
+          title: '2c. 500 kWc - 5 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 5,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         CDCModifié30082022,
@@ -219,6 +279,66 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '2c', territoire: 'La Réunion', noteThreshold: 17.1 },
         { familleId: '2c', territoire: 'Martinique', noteThreshold: 27.2 },
       ],
+      familles: [
+        // 2017 ZNI avec stockage
+        {
+          id: '1',
+          title: '1. 100kWc - 250kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        {
+          id: '2',
+          title: '2. 250kWc - 1,5MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        {
+          id: '3',
+          title: '3. 250kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        // 2019 ZNI avec stockage
+        {
+          id: '1a',
+          title: '1a. 100kWc - 500 kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.5,
+        },
+        {
+          id: '1b',
+          title: '1b. 500 kWc - 1,5MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 1.5,
+        },
+        {
+          id: '1c',
+          title: '1c. 500 kWc - 5 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 5,
+        },
+        // 2019 ZNI sans stockage
+        {
+          id: '2a',
+          title: '2a. 100kWc - 500 kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.5,
+        },
+        {
+          id: '2b',
+          title: '2b. 500 kWc - 1,5MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 1.5,
+        },
+        {
+          id: '2c',
+          title: '2c. 500 kWc - 5 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 5,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         CDCModifié30082022,
@@ -253,6 +373,66 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '1c', territoire: 'Corse', noteThreshold: 80.7 },
         { familleId: '1c', territoire: 'Guadeloupe', noteThreshold: 64.1 },
         { familleId: '1c', territoire: 'La Réunion', noteThreshold: 33.7 },
+      ],
+      familles: [
+        // 2017 ZNI avec stockage
+        {
+          id: '1',
+          title: '1. 100kWc - 250kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        {
+          id: '2',
+          title: '2. 250kWc - 1,5MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        {
+          id: '3',
+          title: '3. 250kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        // 2019 ZNI avec stockage
+        {
+          id: '1a',
+          title: '1a. 100kWc - 500 kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.5,
+        },
+        {
+          id: '1b',
+          title: '1b. 500 kWc - 1,5MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 1.5,
+        },
+        {
+          id: '1c',
+          title: '1c. 500 kWc - 5 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 5,
+        },
+        // 2019 ZNI sans stockage
+        {
+          id: '2a',
+          title: '2a. 100kWc - 500 kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.5,
+        },
+        {
+          id: '2b',
+          title: '2b. 500 kWc - 1,5MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 1.5,
+        },
+        {
+          id: '2c',
+          title: '2c. 500 kWc - 5 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 5,
+        },
       ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
@@ -291,6 +471,66 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '2c', territoire: 'Guyane', noteThreshold: 62.19 },
         { familleId: '2c', territoire: 'La Réunion', noteThreshold: 19.93 },
       ],
+      familles: [
+        // 2017 ZNI avec stockage
+        {
+          id: '1',
+          title: '1. 100kWc - 250kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        {
+          id: '2',
+          title: '2. 250kWc - 1,5MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        {
+          id: '3',
+          title: '3. 250kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        // 2019 ZNI avec stockage
+        {
+          id: '1a',
+          title: '1a. 100kWc - 500 kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.5,
+        },
+        {
+          id: '1b',
+          title: '1b. 500 kWc - 1,5MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 1.5,
+        },
+        {
+          id: '1c',
+          title: '1c. 500 kWc - 5 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 5,
+        },
+        // 2019 ZNI sans stockage
+        {
+          id: '2a',
+          title: '2a. 100kWc - 500 kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.5,
+        },
+        {
+          id: '2b',
+          title: '2b. 500 kWc - 1,5MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 1.5,
+        },
+        {
+          id: '2c',
+          title: '2c. 500 kWc - 5 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 5,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         CDCModifié30082022,
@@ -320,6 +560,66 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         //
         { familleId: '1c', territoire: 'Mayotte', noteThreshold: 21.4 },
         { familleId: '1c', territoire: 'Guyane', noteThreshold: 65.52 },
+      ],
+      familles: [
+        // 2017 ZNI avec stockage
+        {
+          id: '1',
+          title: '1. 100kWc - 250kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        {
+          id: '2',
+          title: '2. 250kWc - 1,5MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        {
+          id: '3',
+          title: '3. 250kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        // 2019 ZNI avec stockage
+        {
+          id: '1a',
+          title: '1a. 100kWc - 500 kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.5,
+        },
+        {
+          id: '1b',
+          title: '1b. 500 kWc - 1,5MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 1.5,
+        },
+        {
+          id: '1c',
+          title: '1c. 500 kWc - 5 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 5,
+        },
+        // 2019 ZNI sans stockage
+        {
+          id: '2a',
+          title: '2a. 100kWc - 500 kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.5,
+        },
+        {
+          id: '2b',
+          title: '2b. 500 kWc - 1,5MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 1.5,
+        },
+        {
+          id: '2c',
+          title: '2c. 500 kWc - 5 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 5,
+        },
       ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
@@ -358,61 +658,67 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '2b', territoire: 'La Réunion', noteThreshold: 32.6 },
         { familleId: '2c', territoire: 'La Réunion', noteThreshold: 24.18 },
       ],
+      familles: [
+        // 2017 ZNI avec stockage
+        {
+          id: '1',
+          title: '1. 100kWc - 250kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        {
+          id: '2',
+          title: '2. 250kWc - 1,5MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        {
+          id: '3',
+          title: '3. 250kWc - 5MWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+        },
+        // 2019 ZNI avec stockage
+        {
+          id: '1a',
+          title: '1a. 100kWc - 500 kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.5,
+        },
+        {
+          id: '1b',
+          title: '1b. 500 kWc - 1,5MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 1.5,
+        },
+        {
+          id: '1c',
+          title: '1c. 500 kWc - 5 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 5,
+        },
+        // 2019 ZNI sans stockage
+        {
+          id: '2a',
+          title: '2a. 100kWc - 500 kWc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.5,
+        },
+        {
+          id: '2b',
+          title: '2b. 500 kWc - 1,5MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 1.5,
+        },
+        {
+          id: '2c',
+          title: '2c. 500 kWc - 5 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 5,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [CDCModifié07022023, CDCModifié07022023Alternatif],
-    },
-  ],
-  familles: [
-    // 2017 ZNI avec stockage
-    {
-      id: '1',
-      title: '1. 100kWc - 250kWc',
-      soumisAuxGarantiesFinancieres: 'non soumis',
-    },
-    {
-      id: '2',
-      title: '2. 250kWc - 1,5MWc',
-      soumisAuxGarantiesFinancieres: 'non soumis',
-    },
-    {
-      id: '3',
-      title: '3. 250kWc - 5MWc',
-      soumisAuxGarantiesFinancieres: 'non soumis',
-    },
-    // 2019 ZNI avec stockage
-    {
-      id: '1a',
-      title: '1a. 100kWc - 500 kWc',
-      soumisAuxGarantiesFinancieres: 'non soumis',
-    },
-    {
-      id: '1b',
-      title: '1b. 500 kWc - 1,5MWc',
-      garantieFinanciereEnMois,
-      soumisAuxGarantiesFinancieres: 'après candidature',
-    },
-    {
-      id: '1c',
-      title: '1c. 500 kWc - 5 MWc',
-      garantieFinanciereEnMois,
-      soumisAuxGarantiesFinancieres: 'après candidature',
-    },
-    // 2019 ZNI sans stockage
-    {
-      id: '2a',
-      title: '2a. 100kWc - 500 kWc',
-      soumisAuxGarantiesFinancieres: 'non soumis',
-    },
-    {
-      id: '2b',
-      title: '2b. 500 kWc - 1,5MWc',
-      garantieFinanciereEnMois,
-      soumisAuxGarantiesFinancieres: 'après candidature',
-    },
-    {
-      id: '2c',
-      title: '2c. 500 kWc - 5 MWc',
-      garantieFinanciereEnMois,
-      soumisAuxGarantiesFinancieres: 'après candidature',
     },
   ],
 };

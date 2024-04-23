@@ -143,6 +143,28 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2019/S 019-040037',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 30,
+        },
+        {
+          id: '2',
+          title: '2',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 8,
+        },
+        {
+          id: '3',
+          title: '3',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.5,
+        },
+      ],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.4.4',
@@ -167,6 +189,28 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2019/S 019-040037',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 30,
+        },
+        {
+          id: '2',
+          title: '2',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 8,
+        },
+        {
+          id: '3',
+          title: '3',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.5,
+        },
+      ],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -192,6 +236,27 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2019/S 019-040037',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+        },
+        {
+          id: '2',
+          title: '2',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 8,
+        },
+        {
+          id: '3',
+          title: '3',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.5,
+        },
+      ],
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',
@@ -201,25 +266,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-    },
-  ],
-  familles: [
-    {
-      id: '1',
-      title: '1',
-      garantieFinanciereEnMois,
-      soumisAuxGarantiesFinancieres: 'après candidature',
-    },
-    {
-      id: '2',
-      title: '2',
-      garantieFinanciereEnMois,
-      soumisAuxGarantiesFinancieres: 'après candidature',
-    },
-    {
-      id: '3',
-      title: '3',
-      soumisAuxGarantiesFinancieres: 'non soumis',
     },
   ],
 };

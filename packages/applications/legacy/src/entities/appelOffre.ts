@@ -1,7 +1,6 @@
-import { AppelOffre, Periode, Famille } from '@potentiel-domain/appel-offre';
+import { AppelOffre, Periode } from '@potentiel-domain/appel-offre';
 
 export type ProjectAppelOffre = AppelOffre & {
   periode: Periode;
-  famille: Famille | undefined;
   isSoumisAuxGF: boolean;
 };

@@ -218,7 +218,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             periodeId: periode.id,
             appelOffreId: appelOffre.id,
             titreAppelOffre: `${periode.cahierDesCharges.référence} ${appelOffre.title}`,
-            familles: appelOffre.familles.length ? 'yes' : '',
+            familles: periode.familles.length ? 'yes' : '',
             titreFamille: familleId,
             nomProjet,
             puissance: puissance.toString(),

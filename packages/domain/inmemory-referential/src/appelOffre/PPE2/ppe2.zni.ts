@@ -79,23 +79,23 @@ export const zniPPE2: AppelOffre = {
         référence: '2023/S 183-570186',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
-      noteThreshold: 41.8253968253968,
-      cahiersDesChargesModifiésDisponibles: [],
-    },
-  ],
-  familles: [
-    {
-      id: '1',
-      title: `Installations sur bâtiments, hangars, ombrières, ombrières agrivoltaïques et serres agrivoltaïques, de puissance strictement supérieure à 500 kWc`,
-      soumisAuxGarantiesFinancieres: 'à la candidature',
-    },
-    {
-      id: '2',
-      title: `Installations au sol, de puissance strictement supérieure à 500 kWc et inférieure
+      familles: [
+        {
+          id: '1',
+          title: `Installations sur bâtiments, hangars, ombrières, ombrières agrivoltaïques et serres agrivoltaïques, de puissance strictement supérieure à 500 kWc`,
+          soumisAuxGarantiesFinancieres: 'à la candidature',
+        },
+        {
+          id: '2',
+          title: `Installations au sol, de puissance strictement supérieure à 500 kWc et inférieure
 ou égale à 12 MWc pour les projets sur terrains correspondant aux cas 1 et 2 du paragraphe
 2.6 et strictement supérieure à 500 kWc pour les projets sur terrains correspondant au cas 3
 du paragraphe 2.6.`,
-      soumisAuxGarantiesFinancieres: 'à la candidature',
+          soumisAuxGarantiesFinancieres: 'à la candidature',
+        },
+      ],
+      noteThreshold: 41.8253968253968,
+      cahiersDesChargesModifiésDisponibles: [],
     },
   ],
 };

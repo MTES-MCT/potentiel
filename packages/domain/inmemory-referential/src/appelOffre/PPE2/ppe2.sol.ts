@@ -107,6 +107,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2021 S 211-553136',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {
@@ -150,6 +151,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2022/S 061-160516',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {
@@ -186,6 +188,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2022 S 214-614411',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {
@@ -207,6 +210,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         référence: '2023 S 063-187860',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {
@@ -239,6 +243,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         référence: '2023/S 217-681379',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {
@@ -263,5 +268,4 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
     },
   ],
-  familles: [],
 };

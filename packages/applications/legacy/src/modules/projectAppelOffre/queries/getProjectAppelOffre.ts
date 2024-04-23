@@ -18,7 +18,7 @@ export const makeGetProjectAppelOffre: (appelsOffre: AppelOffre[]) => GetProject
 
     if (!periode) return undefined;
 
-    const famille = appelOffre.familles.find((famille) => famille.id === familleId);
+    const famille = periode.familles.find((famille) => famille.id === familleId);
 
     return {
       ...appelOffre,

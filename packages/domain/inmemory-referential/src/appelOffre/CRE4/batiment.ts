@@ -126,6 +126,21 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 100 kWc – 500 Mwc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.499,
+        },
+        {
+          id: '2',
+          title: '2. 500 kWc – 8 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 8,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -163,6 +178,21 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 100 kWc – 500 Mwc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.499,
+        },
+        {
+          id: '2',
+          title: '2. 500 kWc – 8 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 8,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -200,6 +230,21 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 100 kWc – 500 Mwc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.499,
+        },
+        {
+          id: '2',
+          title: '2. 500 kWc – 8 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 8,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -237,6 +282,21 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 100 kWc – 500 Mwc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.499,
+        },
+        {
+          id: '2',
+          title: '2. 500 kWc – 8 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 8,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -274,6 +334,21 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 100 kWc – 500 Mwc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.499,
+        },
+        {
+          id: '2',
+          title: '2. 500 kWc – 8 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 8,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -311,6 +386,21 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 100 kWc – 500 Mwc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.499,
+        },
+        {
+          id: '2',
+          title: '2. 500 kWc – 8 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 8,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -348,6 +438,21 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 100 kWc – 500 Mwc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.499,
+        },
+        {
+          id: '2',
+          title: '2. 500 kWc – 8 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 8,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -385,6 +490,21 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 100 kWc – 500 Mwc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.499,
+        },
+        {
+          id: '2',
+          title: '2. 500 kWc – 8 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 8,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -422,6 +542,21 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 100 kWc – 500 Mwc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.499,
+        },
+        {
+          id: '2',
+          title: '2. 500 kWc – 8 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 8,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -465,6 +600,21 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 100 kWc – 500 Mwc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.499,
+        },
+        {
+          id: '2',
+          title: '2. 500 kWc – 8 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 8,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -508,6 +658,21 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 100 kWc – 500 Mwc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.499,
+        },
+        {
+          id: '2',
+          title: '2. 500 kWc – 8 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 8,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -551,6 +716,21 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 100 kWc – 500 Mwc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.499,
+        },
+        {
+          id: '2',
+          title: '2. 500 kWc – 8 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 8,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         CDCModifié30072021,
         {
@@ -594,6 +774,21 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         référence: '2016/S 174-312851',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      familles: [
+        {
+          id: '1',
+          title: '1. 100 kWc – 500 Mwc',
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          puissanceMax: 0.499,
+        },
+        {
+          id: '2',
+          title: '2. 500 kWc – 8 MWc',
+          garantieFinanciereEnMois,
+          soumisAuxGarantiesFinancieres: 'après candidature',
+          puissanceMax: 8,
+        },
+      ],
       cahiersDesChargesModifiésDisponibles: [
         {
           ...CDCModifié30082022,
@@ -620,19 +815,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-    },
-  ],
-  familles: [
-    {
-      id: '1',
-      title: '1. 100 kWc – 500 Mwc',
-      soumisAuxGarantiesFinancieres: 'non soumis',
-    },
-    {
-      id: '2',
-      title: '2. 500 kWc – 8 MWc',
-      garantieFinanciereEnMois,
-      soumisAuxGarantiesFinancieres: 'après candidature',
     },
   ],
 };

@@ -145,9 +145,10 @@ v1Router.post(
           type: 'AppelOffre.Query.ConsulterAppelOffre',
           data: { identifiantAppelOffre: appelOffreId },
         });
+        const détailPériode = détailAppelOffre.periodes.find((p) => p.id === project.periodeId);
 
         const soumisAuxGarantiesFinancières = familleId
-          ? détailAppelOffre.familles.find((f) => f.id === familleId)?.soumisAuxGarantiesFinancieres
+          ? détailPériode?.familles.find((f) => f.id === familleId)?.soumisAuxGarantiesFinancieres
           : détailAppelOffre.soumisAuxGarantiesFinancieres;
 
         if (soumisAuxGarantiesFinancières === 'après candidature') {

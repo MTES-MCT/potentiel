@@ -366,14 +366,7 @@ export const makeProject = (args: {
       return ok(null);
     },
     import: function ({ appelOffre, data, importId }) {
-      const {
-        appelOffreId,
-        periodeId,
-        familleId,
-        numeroCRE,
-        garantiesFinancièresDateEchéance,
-        garantiesFinancièresType,
-      } = data;
+      const { appelOffreId, periodeId, familleId, numeroCRE } = data;
 
       const id = projectId.toString();
 
@@ -1102,7 +1095,8 @@ export const makeProject = (args: {
 
     const appelOffreId = args.appelOffreId || currentAppelOffre?.id;
     const periodeId = args.periodeId || currentAppelOffre?.periode.id;
-    const familleId = args.familleId || currentAppelOffre?.famille?.id;
+    const familleId =
+      args.familleId || currentAppelOffre?.periode.familles.find((f) => f.id === familleId);
 
     if (!appelOffreId || !periodeId) return;
 

@@ -36,6 +36,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
       appelOffre: candidature.appelOffre,
       famille: candidature.famille,
+      periode: candidature.période,
     });
 
     if (!soumisAuxGarantiesFinancières) {

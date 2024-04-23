@@ -1,4 +1,4 @@
-import { AppelOffre, Famille, Periode } from '@potentiel-domain/appel-offre';
+import { AppelOffre, Periode } from '@potentiel-domain/appel-offre';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { errAsync, okAsync } from '../../core/utils';
@@ -12,17 +12,6 @@ const appelOffreRepo: AppelOffreRepo = {
   },
   findById: async (id: AppelOffre['id']) => {
     return cloneDeep(appelsOffreStatic.find((ao) => ao.id === id));
-  },
-  getFamille: (appelOffreId: AppelOffre['id'], familleId: Famille['id']) => {
-    const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId);
-
-    if (!appelOffre) return errAsync(new EntityNotFoundError());
-
-    const famille = appelOffre.familles.find((famille) => famille.id === familleId);
-
-    if (!famille) return errAsync(new EntityNotFoundError());
-
-    return okAsync(famille);
   },
   getPeriodeTitle: (appelOffreId: AppelOffre['id'], periodeId: Periode['id']) => {
     const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId);

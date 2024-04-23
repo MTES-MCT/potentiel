@@ -51,7 +51,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
   const { delaiDcrEnMois } = periode;
   const objet = `Désignation des lauréats de la ${periode.title} période de l'appel d'offres ${periode.cahierDesCharges.référence} ${appelOffre.title}`;
 
-  const famille = appelOffre.familles.find((famille) => famille.id === project.familleId);
+  const famille = periode.familles.find((famille) => famille.id === project.familleId);
   const soumisAuxGarantiesFinancieres =
     famille?.soumisAuxGarantiesFinancieres || appelOffre?.soumisAuxGarantiesFinancieres;
 
@@ -418,7 +418,7 @@ const Certificate = ({ project, objet, body, footnotes, validateur }: Certificat
           </Text>
           <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
             En réponse à la {periode.title} tranche de cet appel d’offres, vous avez déposé{' '}
-            {appelOffre.familles.length && project.familleId
+            {periode.familles.length && project.familleId
               ? `dans la famille ${project.familleId} `
               : ''}
             le projet « {project.nomProjet} », situé {project.adresseProjet}{' '}
