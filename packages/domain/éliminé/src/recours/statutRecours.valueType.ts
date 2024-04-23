@@ -4,13 +4,10 @@ export const statuts = ['accordé', 'annulé', 'demandé', 'rejeté', 'inconnu']
 
 export type RawType = (typeof statuts)[number];
 
-const statutsEnCours: Array<RawType> = ['demandé'];
-
 export type ValueType = ReadonlyValueType<{
   statut: RawType;
   estAccordé: () => boolean;
   estRejeté: () => boolean;
-  estEnCours: () => boolean;
   estAnnulé: () => boolean;
   estDemandé: () => boolean;
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
@@ -24,9 +21,6 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
     estAccordé() {
       return this.statut === 'accordé';
-    },
-    estEnCours() {
-      return statutsEnCours.includes(value);
     },
     estRejeté() {
       return this.statut === 'rejeté';
@@ -61,7 +55,7 @@ export const convertirEnValueType = (value: string): ValueType => {
           throw new RecoursDéjàAccordéError();
         }
 
-        if (this.estEnCours()) {
+        if (this.estDemandé()) {
           throw new RecoursEnCoursErreur();
         }
       } else if (nouveauStatut.estRejeté()) {
