@@ -67,4 +67,20 @@ describe('Vérifier si une nouvelle puissance dépasse la puissance de la famill
     });
     expect(actual).toBe(true);
   });
+
+  it(`Etant donné un projet avec famille non référencée dans la période
+      Alors le retour est "false"`, () => {
+    const appelOffre = {
+      periode: {
+        noteThresholdBy: 'family',
+        noteThreshold: [{ familleId: '1', noteThreshold: 22.59 }],
+        familles: [{ soumisAuxGarantiesFinancieres: 'non soumis', id: '1', puissanceMax: 200 }],
+      } as Periode,
+    } as ProjectAppelOffre;
+    const actual = exceedsPuissanceMaxFamille({
+      project: { appelOffre, familleId: '2' }, // famille inconnue
+      nouvellePuissance: 300,
+    });
+    expect(actual).toBe(false);
+  });
 });

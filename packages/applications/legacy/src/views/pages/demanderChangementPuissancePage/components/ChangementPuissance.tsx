@@ -96,8 +96,7 @@ export const ChangementPuissance = ({
       exceedInitialCDCRatio && !exceedsActualCDCRatios,
     );
 
-    onUpdateEtatFormulaire(exceedsPuissanceMax);
-    onUpdateEtatFormulaire(exceedsPuissanceMaxdeLaFamille);
+    onUpdateEtatFormulaire(exceedsPuissanceMax || exceedsPuissanceMaxdeLaFamille);
   };
 
   const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(cahierDesChargesActuel);
