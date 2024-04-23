@@ -11,6 +11,7 @@ import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/P
 import { Heading1 } from '@/components/atoms/headings';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { Iso8601DateTime } from '@/utils/formatDate';
 
 import { transmettrePreuveRecandidatureAction } from './transmettrePreuveRecandidature.action';
 
@@ -20,7 +21,7 @@ type ProjetÀSélectionner = {
   période: string;
   famille: string;
   numéroCRE: string;
-  dateDésignation: string;
+  dateDésignation: Iso8601DateTime;
   nom: string;
 };
 

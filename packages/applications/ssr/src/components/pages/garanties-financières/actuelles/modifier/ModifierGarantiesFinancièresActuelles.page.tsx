@@ -11,9 +11,9 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { Form } from '@/components/atoms/form/Form';
-import { formatDateForInput } from '@/utils/formatDateForInput';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { PageTemplate } from '@/components/templates/Page.template';
+import { formatDate, now } from '@/utils/formatDate';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 import {
@@ -64,9 +64,9 @@ export const ModifierGarantiesFinancièresActuellesPage: FC<
           nativeInputProps={{
             type: 'date',
             name: 'dateConstitution',
-            max: formatDateForInput(new Date().toISOString()),
+            max: formatDate(now(), 'yyyy-MM-dd'),
             defaultValue: actuelles.dateConstitution
-              ? formatDateForInput(actuelles.dateConstitution)
+              ? formatDate(actuelles.dateConstitution, 'yyyy-MM-dd')
               : undefined,
             required: true,
             'aria-required': true,

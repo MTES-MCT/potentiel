@@ -11,8 +11,8 @@ import { Routes } from '@potentiel-applications/routes';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { Form } from '@/components/atoms/form/Form';
-import { formatDateForInput } from '@/utils/formatDateForInput';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { formatDate, now } from '@/utils/formatDate';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 
@@ -45,7 +45,7 @@ export const EnregistrerAttestationGarantiesFinancièresPage: FC<
           nativeInputProps={{
             type: 'date',
             name: 'dateConstitution',
-            max: formatDateForInput(new Date().toISOString()),
+            max: formatDate(now(), 'yyyy-MM-dd'),
             required: true,
             'aria-required': true,
           }}

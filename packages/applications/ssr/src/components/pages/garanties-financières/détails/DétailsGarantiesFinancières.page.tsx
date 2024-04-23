@@ -8,6 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { Iso8601DateTime } from '@/utils/formatDate';
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
 
@@ -28,7 +29,7 @@ export type DétailsGarantiesFinancièresPageProps = {
   dépôtEnCours?: DépôtGarantiesFinancières & {
     action?: 'modifier' | 'instruire';
   };
-  dateLimiteSoummission?: string;
+  dateLimiteSoummission?: Iso8601DateTime;
   historiqueDépôts: GarantiesFinancièresHistoriqueDépôtsProps['dépôts'];
   action?: 'soumettre' | 'enregistrer';
 };

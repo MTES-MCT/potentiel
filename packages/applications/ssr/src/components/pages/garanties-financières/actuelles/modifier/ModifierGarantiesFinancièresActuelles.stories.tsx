@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
+import { Iso8601DateTime } from '@/utils/formatDate';
 
 import {
   ModifierGarantiesFinancièresActuellesPage,
@@ -24,7 +25,7 @@ const projet: ModifierGarantiesFinancièresActuellesProps['projet'] = {
   période: 'Période',
   famille: 'Famille',
   nom: 'Nom du projet',
-  dateDésignation: '2021-10-23',
+  dateDésignation: new Date('2021-10-23').toISOString() as Iso8601DateTime,
   localité: {
     codePostal: 'XXXXX',
     commune: 'Commune',
@@ -43,11 +44,11 @@ export const Default: Story = {
     typesGarantiesFinancières,
     actuelles: {
       type: 'consignation',
-      dateConstitution: '2021-10-23',
-      soumisLe: '2022-01-01',
+      dateConstitution: new Date('2021-10-23').toISOString() as Iso8601DateTime,
+      soumisLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
       attestation: 'path/to/attestationConstitution',
       dernièreMiseÀJour: {
-        date: '2022-01-01',
+        date: new Date('2022-01-01').toISOString() as Iso8601DateTime,
         par: 'PORTEUR#1',
       },
     },

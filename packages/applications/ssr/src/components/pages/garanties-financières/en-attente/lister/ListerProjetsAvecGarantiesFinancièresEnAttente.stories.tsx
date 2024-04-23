@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Iso8601DateTime } from '@/utils/formatDate';
+
 import {
   ListProjetsAvecGarantiesFinancièresEnAttentePage,
   ListProjetsAvecGarantiesFinancièresEnAttenteProps,
@@ -55,10 +57,10 @@ export const Default: Story = {
           période: 'Période',
           famille: 'Famille',
           nomProjet: 'Le projet',
-          misÀJourLe: '2023-02-12',
+          misÀJourLe: new Date('2023-02-12').toISOString() as Iso8601DateTime,
           régionProjet: 'Région A / Région B',
           motif: 'Inconnu',
-          dateLimiteSoumission: '2025-02-12',
+          dateLimiteSoumission: new Date('2025-02-12').toISOString() as Iso8601DateTime,
           afficherModèleMiseEnDemeure: false,
         },
         {
@@ -67,10 +69,10 @@ export const Default: Story = {
           période: 'Période',
           famille: 'Famille',
           nomProjet: 'Le projet',
-          misÀJourLe: '2023-02-12',
+          misÀJourLe: new Date('2023-02-12').toISOString() as Iso8601DateTime,
           régionProjet: 'Région A / Région B',
           motif: 'Recours accordé',
-          dateLimiteSoumission: '2023-02-12',
+          dateLimiteSoumission: new Date('2023-02-12').toISOString() as Iso8601DateTime,
           afficherModèleMiseEnDemeure: true,
         },
       ],

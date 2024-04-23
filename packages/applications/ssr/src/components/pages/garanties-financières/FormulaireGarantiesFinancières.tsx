@@ -7,9 +7,9 @@ import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { formatDateForInput } from '@/utils/formatDateForInput';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { Iso8601DateTime, formatDate, now } from '@/utils/formatDate';
 
 import { soumettreGarantiesFinancièresAction } from './dépôt/soumettre/soumettreGarantiesFinancières.action';
 import { modifierDépôtEnCoursGarantiesFinancièresAction } from './dépôt/modifier/modifierDépôtEnCoursGarantiesFinancières.action';
@@ -31,8 +31,8 @@ export type FormulaireGarantiesFinancièresProps = {
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
   defaultValues?: {
     typeGarantiesFinancières?: TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel'];
-    dateÉchéance?: string;
-    dateConstitution?: string;
+    dateÉchéance?: Iso8601DateTime;
+    dateConstitution?: Iso8601DateTime;
     attestation?: string;
   };
 };
@@ -70,9 +70,9 @@ export const FormulaireGarantiesFinancières: FC<FormulaireGarantiesFinancières
         nativeInputProps={{
           type: 'date',
           name: 'dateConstitution',
-          max: formatDateForInput(new Date().toISOString()),
+          max: formatDate(now(), 'yyyy-MM-dd'),
           defaultValue: defaultValues?.dateConstitution
-            ? formatDateForInput(defaultValues.dateConstitution)
+            ? formatDate(defaultValues.dateConstitution, 'yyyy-MM-dd')
             : undefined,
           required: true,
           'aria-required': true,

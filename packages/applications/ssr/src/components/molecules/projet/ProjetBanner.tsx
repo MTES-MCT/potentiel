@@ -6,7 +6,7 @@ import {
   StatutProjetBadge,
   StatutProjetBadgeProps,
 } from '@/components/molecules/projet/StatutProjetBadge';
-import { displayDate } from '@/utils/displayDate';
+import { Iso8601DateTime, formatDate } from '@/utils/formatDate';
 
 export type ProjetBannerProps = {
   statut: StatutProjetBadgeProps['statut'];
@@ -20,7 +20,7 @@ export type ProjetBannerProps = {
     région: string;
     codePostal: string;
   };
-  dateDésignation: string;
+  dateDésignation: Iso8601DateTime;
   identifiantProjet: string;
 };
 
@@ -49,7 +49,8 @@ export const ProjetBanner: FC<ProjetBannerProps> = ({
         {localité.commune}, {localité.département}, {localité.région}
       </p>
       <div>
-        désigné le {displayDate(dateDésignation)} pour la période {appelOffre} {période}
+        désigné le {formatDate(dateDésignation, 'dd/MM/yyyy')} pour la période {appelOffre}{' '}
+        {période}
         {famille ? `, famille ${famille}` : ''}
       </div>
     </aside>

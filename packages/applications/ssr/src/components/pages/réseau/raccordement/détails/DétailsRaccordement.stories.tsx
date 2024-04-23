@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Iso8601DateTime } from '@/utils/formatDate';
+
 import { DétailsRaccordementPage, DétailsRaccordementPageProps } from './DétailsRaccordement.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -20,7 +22,7 @@ const projet: DétailsRaccordementPageProps['projet'] = {
   période: 'Période',
   famille: 'Famille',
   nom: 'Nom du projet',
-  dateDésignation: '2021-10-23',
+  dateDésignation: new Date('2021-10-23').toISOString() as Iso8601DateTime,
   localité: {
     codePostal: 'XXXXX',
     commune: 'Commune',
@@ -52,16 +54,16 @@ export const Complet: Story = {
         demandeComplèteRaccordement: {
           canEdit: true,
           accuséRéception: 'accusé-reception#1',
-          dateQualification: '2022-05-10',
+          dateQualification: new Date('2022-05-10').toISOString() as Iso8601DateTime,
         },
         propositionTechniqueEtFinancière: {
           canEdit: true,
-          dateSignature: '2022-09-30',
+          dateSignature: new Date('2022-09-30').toISOString() as Iso8601DateTime,
           propositionTechniqueEtFinancièreSignée: 'propositionTechniqueEtFinancièreSignée#1',
         },
         miseEnService: {
           canEdit: true,
-          dateMiseEnService: '2023-12-25',
+          dateMiseEnService: new Date('2023-12-25').toISOString() as Iso8601DateTime,
         },
       },
     ],
@@ -82,7 +84,7 @@ export const Incomplet: Story = {
         },
         propositionTechniqueEtFinancière: {
           canEdit: false,
-          dateSignature: '2022-09-30',
+          dateSignature: new Date('2022-09-30').toISOString() as Iso8601DateTime,
           propositionTechniqueEtFinancièreSignée: 'propositionTechniqueEtFinancièreSignée#2.bin',
         },
         miseEnService: {

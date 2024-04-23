@@ -11,7 +11,6 @@ import {
   ModifierPropositionTechniqueEtFinancièrePage,
   ModifierPropositionTechniqueEtFinancièrePageProps,
 } from '@/components/pages/réseau/raccordement/modifier/modifierPropositionTechniqueEtFinancière/ModifierPropositionTechniqueEtFinancière.page';
-import { formatDateForInput } from '@/utils/formatDateForInput';
 
 type PageProps = {
   params: {
@@ -55,9 +54,8 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       raccordement: {
         reference: referenceDossierRaccordement,
         propositionTechniqueEtFinancière: {
-          dateSignature: formatDateForInput(
+          dateSignature:
             dossierRaccordement.propositionTechniqueEtFinancière!.dateSignature.formatter(),
-          ),
           propositionTechniqueEtFinancièreSignée:
             dossierRaccordement.propositionTechniqueEtFinancière!.propositionTechniqueEtFinancièreSignée.formatter(),
         },

@@ -3,13 +3,15 @@ import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
+import { Iso8601DateTime } from '@/utils/formatDate';
+
 export type TâcheListItemProps = {
   identifiantProjet: string;
   nomProjet: string;
   appelOffre: string;
   période: string;
   famille?: string;
-  misÀJourLe: string;
+  misÀJourLe: Iso8601DateTime;
   typeTâche: string;
 };
 

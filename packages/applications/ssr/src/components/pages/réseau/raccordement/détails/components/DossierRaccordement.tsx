@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
+import { Iso8601DateTime } from '@/utils/formatDate';
+
 import { Separateur } from './Separateur';
 import { ÉtapeDemandeComplèteRaccordement } from './ÉtapeDemandeComplèteRaccordement';
 import { ÉtapeMiseEnService } from './ÉtapeMiseEnService';
@@ -9,17 +11,17 @@ export type DossierRaccordementProps = {
   identifiantProjet: string;
   référence: string;
   demandeComplèteRaccordement: {
-    dateQualification?: string;
+    dateQualification?: Iso8601DateTime;
     accuséRéception?: string;
     canEdit: boolean;
   };
   propositionTechniqueEtFinancière: {
-    dateSignature?: string;
+    dateSignature?: Iso8601DateTime;
     propositionTechniqueEtFinancièreSignée?: string;
     canEdit: boolean;
   };
   miseEnService: {
-    dateMiseEnService?: string;
+    dateMiseEnService?: Iso8601DateTime;
     canEdit: boolean;
   };
 };

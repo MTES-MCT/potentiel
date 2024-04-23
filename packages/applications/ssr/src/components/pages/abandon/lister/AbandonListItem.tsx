@@ -4,6 +4,8 @@ import { FC } from 'react';
 import { Abandon } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 
+import { Iso8601DateTime } from '@/utils/formatDate';
+
 import { StatutAbandonBadge } from '../StatutAbandonBadge';
 import { StatutPreuveRecandidatureBadge } from '../détails/PreuveRecandidatureStatutBadge';
 
@@ -16,7 +18,7 @@ export type AbandonListItemProps = {
   statut: Abandon.StatutAbandon.RawType;
   recandidature: boolean;
   preuveRecandidatureStatut: Abandon.StatutPreuveRecandidature.RawType;
-  misÀJourLe: string;
+  misÀJourLe: Iso8601DateTime;
 };
 
 export const AbandonListItem: FC<AbandonListItemProps> = ({

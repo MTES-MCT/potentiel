@@ -8,32 +8,32 @@ import { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 
 import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
-import { displayDate } from '@/utils/displayDate';
+import { Iso8601DateTime } from '@/utils/formatDate';
 
 import { StatutPreuveRecandidatureBadgeProps } from './PreuveRecandidatureStatutBadge';
 
 export type EtapesAbandonProps = {
   demande: {
     demandéPar: string;
-    demandéLe: string;
+    demandéLe: Iso8601DateTime;
     lienRecandidature?: string;
     recandidature: boolean;
     preuveRecandidatureStatut: StatutPreuveRecandidatureBadgeProps['statut'];
     preuveRecandidature?: string;
-    preuveRecandidatureTransmiseLe?: string;
+    preuveRecandidatureTransmiseLe?: Iso8601DateTime;
     preuveRecandidatureTransmisePar?: string;
     raison: string;
     pièceJustificative?: string;
   };
   confirmation?: {
-    demandéLe: string;
+    demandéLe: Iso8601DateTime;
     demandéPar: string;
     réponseSignée: string;
-    confirméLe?: string;
+    confirméLe?: Iso8601DateTime;
     confirméPar?: string;
   };
-  accord?: { accordéPar: string; accordéLe: string; réponseSignée: string };
-  rejet?: { rejetéPar: string; rejetéLe: string; réponseSignée: string };
+  accord?: { accordéPar: string; accordéLe: Iso8601DateTime; réponseSignée: string };
+  rejet?: { rejetéPar: string; rejetéLe: Iso8601DateTime; réponseSignée: string };
 };
 
 export const EtapesAbandon: FC<EtapesAbandonProps> = ({
@@ -70,7 +70,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
   if (preuveRecandidature && preuveRecandidatureTransmiseLe && preuveRecandidatureTransmisePar) {
     items.push({
       status: 'success',
-      date: displayDate(preuveRecandidatureTransmiseLe),
+      date: preuveRecandidatureTransmiseLe,
       title: (
         <div>
           Le{' '}
@@ -90,7 +90,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
   if (accord) {
     items.push({
       status: 'success',
-      date: displayDate(accord.accordéLe),
+      date: accord.accordéLe,
       title: (
         <div>Abandon accordé par {<span className="font-semibold">{accord.accordéPar}</span>}</div>
       ),
@@ -115,7 +115,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
   if (rejet) {
     items.push({
       status: 'error',
-      date: displayDate(rejet.rejetéLe),
+      date: rejet.rejetéLe,
       title: (
         <div>Abandon rejeté par {<span className="font-semibold">{rejet.rejetéPar}</span>}</div>
       ),
@@ -139,7 +139,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
 
   if (confirmation?.confirméLe) {
     items.push({
-      date: displayDate(confirmation.confirméLe),
+      date: confirmation.confirméLe,
       title: (
         <div>
           Demande confirmée par {<span className="font-semibold">{confirmation.confirméPar}</span>}
@@ -150,7 +150,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
 
   if (confirmation) {
     items.push({
-      date: displayDate(confirmation.demandéLe),
+      date: confirmation.demandéLe,
       title: (
         <div>
           Confirmation demandée par{' '}
@@ -176,7 +176,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
   }
 
   items.push({
-    date: displayDate(demandéLe),
+    date: demandéLe,
     title: <div>Demande déposée par {<span className="font-semibold">{demandéPar}</span>}</div>,
     content: (
       <>

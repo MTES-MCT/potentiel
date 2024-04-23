@@ -12,9 +12,9 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { formatDateForInput } from '@/utils/formatDateForInput';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { Iso8601DateTime, formatDate, now } from '@/utils/formatDate';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
@@ -25,7 +25,7 @@ export type ModifierPropositionTechniqueEtFinancièrePageProps = {
   raccordement: {
     reference: string;
     propositionTechniqueEtFinancière: {
-      dateSignature: string;
+      dateSignature: Iso8601DateTime;
       propositionTechniqueEtFinancièreSignée: string;
     };
   };
@@ -70,8 +70,8 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
               nativeInputProps={{
                 type: 'date',
                 name: 'dateSignature',
-                defaultValue: formatDateForInput(dateSignature),
-                max: new Date().toISOString().split('T').shift(),
+                defaultValue: formatDate(dateSignature, 'yyyy-MM-dd'),
+                max: formatDate(now(), 'yyyy-MM-dd'),
                 required: true,
               }}
             />

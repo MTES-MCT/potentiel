@@ -5,7 +5,7 @@ import { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 
 import { Icon } from '@/components/atoms/Icon';
-import { displayDate } from '@/utils/displayDate';
+import { Iso8601DateTime, formatDate } from '@/utils/formatDate';
 
 import { FormatFichierInvalide } from './FormatFichierInvalide';
 import { Etape } from './Étape';
@@ -13,7 +13,7 @@ import { Etape } from './Étape';
 type ÉtapePropositionTechniqueEtFinancièreProps = {
   identifiantProjet: string;
   référence: string;
-  dateSignature?: string;
+  dateSignature?: Iso8601DateTime;
   propositionTechniqueEtFinancièreSignée?: string;
   canEdit: boolean;
 };
@@ -43,7 +43,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
             className="mr-1"
             title="date de signature de la proposition technique et financière"
           />
-          {displayDate(dateSignature)}
+          {formatDate(dateSignature, 'dd/MM/yyyy')}
         </div>
 
         {propositionTechniqueEtFinancièreSignée && (

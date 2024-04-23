@@ -9,6 +9,8 @@ import TimelineOppositeContent, {
 } from '@mui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
 
+import { Iso8601DateTime, formatDate } from '@/utils/formatDate';
+
 export type TimelineProps = {
   items: Array<TimelineItemProps>;
   className?: string;
@@ -34,13 +36,15 @@ export type TimelineItemProps = {
   status?: 'error' | 'success' | 'warning' | 'info';
   title: ReactNode;
   content?: ReactNode;
-  date: string;
+  date: Iso8601DateTime | 'En attente';
 };
 
 const TimelineItem: FC<TimelineItemProps> = ({ status, date, title, content }) => (
   <MuiTimelineItem>
     <TimelineOppositeContent className="w-">
-      <span className="font-bold">{date}</span>
+      <span className="font-bold">
+        {date === 'En attente' ? date : formatDate(date, 'dd/MM/yyyy')}
+      </span>
     </TimelineOppositeContent>
     <TimelineSeparator>
       <TimelineDot

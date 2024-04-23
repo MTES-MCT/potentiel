@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
+import { Iso8601DateTime } from '@/utils/formatDate';
 
 import {
   ModifierDépôtEnCoursGarantiesFinancièresPage,
@@ -24,7 +25,7 @@ const projet: ModifierDépôtEnCoursGarantiesFinancièresProps['projet'] = {
   période: 'Période',
   famille: 'Famille',
   nom: 'Nom du projet',
-  dateDésignation: '2021-10-23',
+  dateDésignation: new Date('2021-10-23').toISOString() as Iso8601DateTime,
   localité: {
     codePostal: 'XXXXX',
     commune: 'Commune',
@@ -42,12 +43,12 @@ export const EnTantQueDreal: Story = {
     projet,
     dépôtEnCours: {
       type: 'consignation',
-      dateConstitution: '2021-10-23',
+      dateConstitution: new Date('2021-10-23').toISOString() as Iso8601DateTime,
       statut: 'en-cours',
-      soumisLe: '2022-01-01',
+      soumisLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
       attestation: 'path/to/attestationConstitution',
       dernièreMiseÀJour: {
-        date: '2022-01-01',
+        date: new Date('2022-01-01').toISOString() as Iso8601DateTime,
         par: 'PORTEUR#1',
       },
     },
@@ -62,12 +63,12 @@ export const EnTantQuePorteur: Story = {
     dépôtEnCours: {
       type: 'avec-date-échéance',
       statut: 'en-cours',
-      dateÉchéance: '2023-10-23',
-      dateConstitution: '2021-10-23',
-      soumisLe: '2022-01-01',
+      dateÉchéance: new Date('2023-10-23').toISOString() as Iso8601DateTime,
+      dateConstitution: new Date('2021-10-23').toISOString() as Iso8601DateTime,
+      soumisLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
       attestation: 'path/to/attestationConstitution',
       dernièreMiseÀJour: {
-        date: '2022-01-15',
+        date: new Date('2022-01-15').toISOString() as Iso8601DateTime,
         par: 'DREAL#1',
       },
     },

@@ -12,9 +12,9 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { formatDateForInput } from '@/utils/formatDateForInput';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { Iso8601DateTime, formatDate, now } from '@/utils/formatDate';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import { GestionnaireRéseauSelect } from '../modifierGestionnaireRéseauRaccordement/GestionnaireRéseauSelect';
@@ -30,7 +30,7 @@ export type ModifierDemandeComplèteRaccordementPageProps = {
   raccordement: {
     référence: string;
     demandeComplèteRaccordement: {
-      dateQualification?: string;
+      dateQualification?: Iso8601DateTime;
       accuséRéception?: string;
     };
     canEditRéférence: boolean;
@@ -165,8 +165,8 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
               nativeInputProps={{
                 type: 'date',
                 name: 'dateQualification',
-                defaultValue: dateQualification && formatDateForInput(dateQualification),
-                max: new Date().toISOString().split('T').shift(),
+                defaultValue: dateQualification && formatDate(dateQualification, 'yyyy-MM-dd'),
+                max: formatDate(now(), 'yyyy-MM-dd'),
                 required: true,
               }}
             />

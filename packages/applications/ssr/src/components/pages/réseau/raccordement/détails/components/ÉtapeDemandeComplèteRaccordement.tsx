@@ -5,7 +5,7 @@ import { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 
 import { Icon } from '@/components/atoms/Icon';
-import { displayDate } from '@/utils/displayDate';
+import { Iso8601DateTime, formatDate } from '@/utils/formatDate';
 
 import { FormatFichierInvalide } from './FormatFichierInvalide';
 import { Etape } from './Étape';
@@ -13,7 +13,7 @@ import { Etape } from './Étape';
 type ÉtapeDemandeComplèteRaccordementProps = {
   identifiantProjet: string;
   référence: string;
-  dateQualification?: string;
+  dateQualification?: Iso8601DateTime;
   accuséRéception?: string;
   canEdit: boolean;
 };
@@ -44,7 +44,7 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
           title="date de l'accusé de réception"
         />
         {dateQualification ? (
-          displayDate(dateQualification)
+          formatDate(dateQualification, 'dd/MM/yyyy')
         ) : canEdit ? (
           <Link
             href={Routes.Raccordement.modifierDemandeComplèteRaccordement(

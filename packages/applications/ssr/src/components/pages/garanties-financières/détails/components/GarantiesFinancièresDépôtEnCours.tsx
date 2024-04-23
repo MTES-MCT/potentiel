@@ -6,7 +6,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { CallOut } from '@/components/atoms/CallOut';
 import { Heading2 } from '@/components/atoms/headings';
-import { displayDate } from '@/utils/displayDate';
+import { formatDate } from '@/utils/formatDate';
 
 import { DépôtGarantiesFinancières } from './GarantiesFinancièresHistoriqueDépôts';
 
@@ -28,8 +28,10 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
           <Heading2>Garanties financières à traiter</Heading2>
           <div className="text-xs italic">
             Dernière mise à jour le{' '}
-            <span className="font-semibold">{displayDate(dernièreMiseÀJour.date)}</span> par{' '}
-            <span className="font-semibold">{dernièreMiseÀJour.par}</span>
+            <span className="font-semibold">
+              {formatDate(dernièreMiseÀJour.date, 'dd/MM/yyyy')}
+            </span>{' '}
+            par <span className="font-semibold">{dernièreMiseÀJour.par}</span>
           </div>
           <div className="mt-5 gap-2 text-base">
             {type ? (
@@ -49,13 +51,14 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
             )}
             {dateÉchéance && (
               <div>
-                Date d'échéance : <span className="font-semibold">{displayDate(dateÉchéance)}</span>
+                Date d'échéance :{' '}
+                <span className="font-semibold">{formatDate(dateÉchéance, 'dd/MM/yyyy')}</span>
               </div>
             )}
             {dateConstitution && (
               <div>
                 Date de constitution :{' '}
-                <span className="font-semibold">{displayDate(dateConstitution)}</span>
+                <span className="font-semibold">{formatDate(dateConstitution, 'dd/MM/yyyy')}</span>
               </div>
             )}
             <div>

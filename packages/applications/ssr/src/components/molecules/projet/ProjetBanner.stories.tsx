@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Iso8601DateTime } from '@/utils/formatDate';
+
 import { ProjetBanner, ProjetBannerProps } from './ProjetBanner';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -37,6 +39,6 @@ export const Default: Story = {
       département: 'Département',
       région: 'Région',
     },
-    dateDésignation: '2021-10-22',
+    dateDésignation: new Date('2021-10-22').toISOString() as Iso8601DateTime,
   },
 };

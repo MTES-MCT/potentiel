@@ -11,8 +11,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { displayDate } from '@/utils/displayDate';
-import { formatDateForInput } from '@/utils/formatDateForInput';
+import { Iso8601DateTime, formatDate, now } from '@/utils/formatDate';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
@@ -22,9 +21,9 @@ export type TransmettreDateMiseEnServiceProps = {
   projet: ProjetBannerProps;
   dossierRaccordement: {
     référence: string;
-    miseEnService?: string;
+    miseEnService?: Iso8601DateTime;
   };
-  intervalleDatesMeSDélaiCDC2022?: { min: string; max: string };
+  intervalleDatesMeSDélaiCDC2022?: { min: Iso8601DateTime; max: Iso8601DateTime };
 };
 
 export const TransmettreDateMiseEnServicePage = ({
@@ -56,9 +55,9 @@ export const TransmettreDateMiseEnServicePage = ({
               nativeInputProps={{
                 type: 'date',
                 name: 'dateMiseEnService',
-                defaultValue: miseEnService && formatDateForInput(miseEnService),
-                min: formatDateForInput(projet.dateDésignation),
-                max: formatDateForInput(new Date().toISOString()),
+                defaultValue: miseEnService && formatDate(miseEnService, 'yyyy-MM-dd'),
+                min: formatDate(projet.dateDésignation, 'yyyy-MM-dd'),
+                max: formatDate(now(), 'yyyy-MM-dd'),
                 required: true,
                 'aria-required': true,
               }}
@@ -96,11 +95,11 @@ export const TransmettreDateMiseEnServicePage = ({
                       </span>
                       , la saisie d'une date de mise en service non comprise entre le{' '}
                       <span className="font-bold">
-                        {displayDate(intervalleDatesMeSDélaiCDC2022.min)}
+                        {formatDate(intervalleDatesMeSDélaiCDC2022.min, 'dd/MM/yyyy')}
                       </span>{' '}
                       et le{' '}
                       <span className="font-bold">
-                        {displayDate(intervalleDatesMeSDélaiCDC2022.max)}
+                        {formatDate(intervalleDatesMeSDélaiCDC2022.max, 'dd/MM/yyyy')}
                       </span>{' '}
                       peut remettre en cause l'application de ce délai et entraîner une modification
                       de la date d'achèvement du projet.
@@ -114,8 +113,10 @@ export const TransmettreDateMiseEnServicePage = ({
                     </span>
                     , la saisie d'une date de mise en service doit être comprise entre la date de
                     désignation du projet (
-                    <span className="font-bold">{displayDate(projet.dateDésignation)}</span>) et{' '}
-                    <span className="font-bold">ce jour</span>.
+                    <span className="font-bold">
+                      {formatDate(projet.dateDésignation, 'dd/MM/yyyy')}
+                    </span>
+                    ) et <span className="font-bold">ce jour</span>.
                   </li>
                 </ul>
               </div>

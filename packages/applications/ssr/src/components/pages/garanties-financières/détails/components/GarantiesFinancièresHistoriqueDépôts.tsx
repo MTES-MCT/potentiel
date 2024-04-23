@@ -3,19 +3,19 @@ import { FC } from 'react';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
-import { displayDate } from '@/utils/displayDate';
+import { Iso8601DateTime, formatDate } from '@/utils/formatDate';
 
 type DépôtStatut = 'en-cours' | 'validé' | 'rejeté';
 
 export type DépôtGarantiesFinancières = {
   type: string;
-  dateÉchéance?: string;
+  dateÉchéance?: Iso8601DateTime;
   statut: DépôtStatut;
-  dateConstitution: string;
-  soumisLe: string;
+  dateConstitution: Iso8601DateTime;
+  soumisLe: Iso8601DateTime;
   attestation: string;
   dernièreMiseÀJour: {
-    date: string;
+    date: Iso8601DateTime;
     par: string;
   };
 };
@@ -33,7 +33,7 @@ export const GarantiesFinancièresHistoriqueDépôts: FC<
     <Timeline
       className="mt-4"
       items={dépôts.map((dépôt) => ({
-        date: displayDate(dépôt.dernièreMiseÀJour.date),
+        date: dépôt.dernièreMiseÀJour.date,
         status: getTimelineItemStatus(dépôt.statut),
         title: (
           <p>
@@ -49,16 +49,20 @@ export const GarantiesFinancièresHistoriqueDépôts: FC<
                 </li>
                 <li>
                   Date de dépôt :{' '}
-                  <span className="font-semibold">{displayDate(dépôt.soumisLe)}</span>
+                  <span className="font-semibold">{formatDate(dépôt.soumisLe, 'dd/MM/yyyy')}</span>
                 </li>
                 <li>
                   Date de constitution :{' '}
-                  <span className="font-semibold">{displayDate(dépôt.dateConstitution)}</span>
+                  <span className="font-semibold">
+                    {formatDate(dépôt.dateConstitution, 'dd/MM/yyyy')}
+                  </span>
                 </li>
                 {dépôt.dateÉchéance && (
                   <li>
                     Date d'échéance :{' '}
-                    <span className="font-semibold">{displayDate(dépôt.dateÉchéance)}</span>
+                    <span className="font-semibold">
+                      {formatDate(dépôt.dateÉchéance, 'dd/MM/yyyy')}
+                    </span>
                   </li>
                 )}
               </ul>
