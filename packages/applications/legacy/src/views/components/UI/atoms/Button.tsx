@@ -1,5 +1,5 @@
-import { ConfirmationProp, demanderConfirmation } from '../../../helpers';
 import React, { ComponentProps, FC, useRef } from 'react';
+import { ConfirmationProp, demanderConfirmation } from '../../../helpers';
 
 export type ButtonProps = ComponentProps<'button'> & ConfirmationProp;
 
@@ -21,8 +21,7 @@ export const Button: FC<ButtonProps> = ({
 
   return (
     <button
-      className={`inline-flex items-center px-6 py-2 border border-solid text-base text-decoration-none shadow-sm outline-offset-4 outline-2 outline-solid outline-outline-base
-                ${className}`}
+      className={`inline-flex items-center px-6 py-2 border border-solid text-base no-underline shadow-sm outline-offset-4 outline-2 outline-solid outline-outline-base font-sans ${className}`}
       ref={buttonRef}
       onClick={(event) => confirmation && demanderConfirmation(event, confirmation)}
       onKeyDown={(event) => handleKeyDown(event)}

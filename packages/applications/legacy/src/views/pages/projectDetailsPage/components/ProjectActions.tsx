@@ -1,17 +1,17 @@
-import {
-  DownloadLinkButton,
-  SecondaryLinkButton,
-  DropdownMenuSecondaryButton,
-  PrimaryButton,
-  PrintIcon,
-} from '../../../components';
+import { Routes } from '@potentiel-applications/routes';
+import React from 'react';
 import { User } from '../../../../entities';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { userIs } from '../../../../modules/users';
 import routes from '../../../../routes';
-import React from 'react';
-import { Routes } from '@potentiel-applications/routes';
-import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
+import {
+  DownloadLinkButton,
+  DropdownMenuSecondaryButton,
+  PrimaryButton,
+  PrintIcon,
+  SecondaryLinkButton,
+} from '../../../components';
 
 type ProjectActionsProps = {
   project: ProjectDataForProjectPage;
