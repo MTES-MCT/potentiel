@@ -1,9 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { RecoursEntity } from '../recours.entity';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet, CommonPort } from '@potentiel-domain/common';
 import { StatutRecours } from '..';
 import { Option } from '@potentiel-libraries/monads';
-import { RégionNonTrouvéeError } from '../régionNonTrouvée.error';
+import { ListResultV2, ListV2, RangeOptions } from '@potentiel-domain/core';
 
 type RecoursListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -17,48 +17,9 @@ type RecoursListItemReadModel = {
 
 export type ListerRecoursReadModel = {
   items: ReadonlyArray<RecoursListItemReadModel>;
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
+  range: RangeOptions;
+  total: number;
 };
-
-export type ListerRecoursPort = (args: {
-  where: {
-    statut?: StatutRecours.RawType;
-    appelOffre?: string;
-  };
-  pagination: {
-    page: number;
-    itemsPerPage: number;
-  };
-  région?: string;
-}) => Promise<{
-  items: ReadonlyArray<RecoursEntity>;
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
-}>;
-
-export type ListerRecoursPourPorteurPort = (args: {
-  identifiantUtilisateur: string;
-  where: {
-    statut?: StatutRecours.RawType;
-    appelOffre?: string;
-  };
-  pagination: {
-    page: number;
-    itemsPerPage: number;
-  };
-}) => Promise<{
-  items: ReadonlyArray<RecoursEntity>;
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
-}>;
-
-export type RécupérerRégionDrealPort = (
-  identifiantUtilisateur: string,
-) => Promise<Option.Type<{ région: string }>>;
 
 export type ListerRecoursQuery = Message<
   'Eliminé.Recours.Query.ListerRecours',
@@ -69,72 +30,78 @@ export type ListerRecoursQuery = Message<
     };
     statut?: StatutRecours.RawType;
     appelOffre?: string;
-    pagination: { page: number; itemsPerPage: number };
+    range?: RangeOptions;
   },
   ListerRecoursReadModel
 >;
 
 export type ListerRecoursDependencies = {
-  listerRecoursPourPorteur: ListerRecoursPourPorteurPort;
-  listerRecours: ListerRecoursPort;
-  récupérerRégionDreal: RécupérerRégionDrealPort;
+  list: ListV2;
+  listerProjetsAccessibles: CommonPort.ListerIdentifiantsProjetsAccessiblesPort;
+  récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerRecoursQuery = ({
-  listerRecoursPourPorteur,
-  listerRecours,
+  list,
+  listerProjetsAccessibles,
   récupérerRégionDreal,
 }: ListerRecoursDependencies) => {
   const handler: MessageHandler<ListerRecoursQuery> = async ({
     statut,
     appelOffre,
     utilisateur: { email, rôle },
-    pagination: { page, itemsPerPage },
+    range,
   }) => {
-    const where = {
-      ...(statut && { statut }),
-      ...(appelOffre && { appelOffre }),
-    };
+    let recours: ListResultV2<RecoursEntity>;
 
     if (['admin', 'dgec-validateur', 'cre'].includes(rôle)) {
-      const recours = await listerRecours({
-        where,
-        pagination: {
-          page,
-          itemsPerPage,
+      recours = await list<RecoursEntity>('recours', {
+        orderBy: { misÀJourLe: 'descending' },
+        range,
+        where: {
+          statut: statut ? { operator: 'equal', value: statut } : undefined,
+          appelOffre: appelOffre ? { operator: 'equal', value: appelOffre } : undefined,
         },
       });
-      return {
-        ...recours,
-        items: recours.items.map((recours) => mapToReadModel(recours)),
-      };
-    }
-
-    if (rôle === 'dreal') {
+    } else if (rôle === 'dreal') {
       const région = await récupérerRégionDreal(email);
       if (Option.isNone(région)) {
-        throw new RégionNonTrouvéeError();
+        return {
+          items: [],
+          range: { startPosition: 0, endPosition: 0 },
+          total: 0,
+        };
       }
 
-      const recours = await listerRecours({
-        where,
-        pagination: {
-          page,
-          itemsPerPage,
+      recours = await list<RecoursEntity>('recours', {
+        orderBy: { misÀJourLe: 'descending' },
+        range,
+        where: {
+          statut: statut ? { operator: 'equal', value: statut } : undefined,
+          appelOffre: appelOffre ? { operator: 'equal', value: appelOffre } : undefined,
+          régionProjet: { operator: 'equal', value: région.région },
         },
-        région: région.région,
       });
-      return {
-        ...recours,
-        items: recours.items.map((recours) => mapToReadModel(recours)),
-      };
+    } else {
+      const identifiantsProjets = await listerProjetsAccessibles(email);
+
+      recours = await list<RecoursEntity>('recours', {
+        orderBy: { misÀJourLe: 'descending' },
+        range,
+        where: {
+          identifiantProjet: {
+            operator: 'include',
+            value: identifiantsProjets.map(
+              ({ appelOffre, période, famille, numéroCRE }) =>
+                `${appelOffre}#${période}#${famille}#${numéroCRE}`,
+            ),
+          },
+          statut: statut ? { operator: 'equal', value: statut } : undefined,
+          appelOffre: appelOffre ? { operator: 'equal', value: appelOffre } : undefined,
+        },
+      });
     }
 
-    const recours = await listerRecoursPourPorteur({
-      identifiantUtilisateur: email,
-      where,
-      pagination: { itemsPerPage, page },
-    });
     return {
       ...recours,
       items: recours.items.map((recours) => mapToReadModel(recours)),

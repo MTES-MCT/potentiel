@@ -26,7 +26,7 @@ Alors(
           piéceJustificative: actualPiéceJustificative,
         },
       } = await mediator.send<Recours.ConsulterRecoursQuery>({
-        type: 'Eliminé.Recours.Query.Consulter',
+        type: 'Eliminé.Recours.Query.ConsulterRecours',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -68,7 +68,7 @@ Alors(
     await waitForExpect(async () => {
       try {
         const result = await mediator.send<Recours.ConsulterRecoursQuery>({
-          type: 'Eliminé.Recours.Query.Consulter',
+          type: 'Eliminé.Recours.Query.ConsulterRecours',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
           },
@@ -92,7 +92,7 @@ Alors(
         identifiantProjet: actualIdentifiantProjet,
         rejet,
       } = await mediator.send<Recours.ConsulterRecoursQuery>({
-        type: 'Eliminé.Recours.Query.Consulter',
+        type: 'Eliminé.Recours.Query.ConsulterRecours',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -139,7 +139,7 @@ Alors(
         identifiantProjet: actualIdentifiantProjet,
         accord,
       } = await mediator.send<Recours.ConsulterRecoursQuery>({
-        type: 'Eliminé.Recours.Query.Consulter',
+        type: 'Eliminé.Recours.Query.ConsulterRecours',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -186,7 +186,7 @@ Alors(
         identifiantProjet: actualIdentifiantProjet,
         rejet,
       } = await mediator.send<Recours.ConsulterRecoursQuery>({
-        type: 'Eliminé.Recours.Query.Consulter',
+        type: 'Eliminé.Recours.Query.ConsulterRecours',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },

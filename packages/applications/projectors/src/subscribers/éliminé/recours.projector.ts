@@ -38,7 +38,7 @@ export const register = () => {
         demandeRaison: '',
         statut: 'demandé',
         misÀJourLe: DateTime.now().formatter(),
-        régionProjet: [],
+        régionProjet: '',
       };
 
       const recoursToUpsert: Omit<Recours.RecoursEntity, 'type'> = Option.isSome(recours)
@@ -66,7 +66,7 @@ export const register = () => {
             demandeRaison: payload.raison,
             statut: 'demandé',
             misÀJourLe: payload.demandéLe,
-            régionProjet: Option.isSome(projet) ? [...projet.localité.région.split(' / ')] : [],
+            régionProjet: Option.isSome(projet) ? projet.localité.région : '',
           });
           break;
         case 'RecoursAccordé-V1':

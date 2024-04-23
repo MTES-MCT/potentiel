@@ -5,7 +5,7 @@ export type RecoursEntity = Entity<
   {
     identifiantProjet: string;
     nomProjet: string;
-    régionProjet: Array<string>;
+    régionProjet: string;
 
     appelOffre: string;
     période: string;

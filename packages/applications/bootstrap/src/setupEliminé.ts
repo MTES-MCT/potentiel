@@ -1,10 +1,9 @@
 import { registerEliminéQueries, registerEliminéUseCases } from '@potentiel-domain/elimine';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection, listProjectionV2 } from '@potentiel-infrastructure/pg-projections';
 import { mediator } from 'mediateur';
 import {
-  listerRecoursAdapter,
-  listerRecoursPourPorteurAdapter,
+  listerIdentifiantsProjetsParPorteurAdapter,
   récupérerRégionDrealAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { RecoursProjector } from '@potentiel-applications/projectors';
@@ -17,8 +16,8 @@ export const setupEliminé = async () => {
 
   registerEliminéQueries({
     find: findProjection,
-    listerRecoursPourPorteur: listerRecoursPourPorteurAdapter,
-    listerRecours: listerRecoursAdapter,
+    list: listProjectionV2,
+    listerProjetsAccessibles: listerIdentifiantsProjetsParPorteurAdapter,
     récupérerRégionDreal: récupérerRégionDrealAdapter,
   });
 

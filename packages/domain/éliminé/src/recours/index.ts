@@ -5,13 +5,7 @@ import {
   ConsulterRecoursReadModel,
 } from './consulter/consulterRecours.query';
 import { DemanderRecoursUseCase } from './demander/demanderRecours.usecase';
-import {
-  ListerRecoursQuery,
-  ListerRecoursReadModel,
-  ListerRecoursPourPorteurPort,
-  ListerRecoursPort,
-  RécupérerRégionDrealPort,
-} from './lister/listerRecours.query';
+import { ListerRecoursQuery, ListerRecoursReadModel } from './lister/listerRecours.query';
 import { RejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase';
 
 // Query
@@ -51,6 +45,3 @@ export * as TypeDocumentRecours from './typeDocumentRecours.valueType';
 
 // Entities
 export * from './recours.entity';
-
-// Ports
-export { ListerRecoursPourPorteurPort, ListerRecoursPort, RécupérerRégionDrealPort };
