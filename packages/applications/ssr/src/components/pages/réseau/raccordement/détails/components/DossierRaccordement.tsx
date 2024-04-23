@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Iso8601DateTime } from '@/utils/formatDate';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { Separateur } from './Separateur';
 import { ÉtapeDemandeComplèteRaccordement } from './ÉtapeDemandeComplèteRaccordement';

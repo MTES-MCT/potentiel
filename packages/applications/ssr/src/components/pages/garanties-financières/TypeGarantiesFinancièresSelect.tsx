@@ -3,8 +3,7 @@ import Select from '@codegouvfr/react-dsfr/SelectNext';
 import Input from '@codegouvfr/react-dsfr/Input';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-
-import { Iso8601DateTime } from '@/utils/formatDate';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 export type TypeGarantiesFinancièresSelectProps = {
   id: string;

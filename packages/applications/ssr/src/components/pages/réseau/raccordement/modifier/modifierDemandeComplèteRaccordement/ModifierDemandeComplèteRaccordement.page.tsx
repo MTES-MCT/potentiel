@@ -9,12 +9,12 @@ import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
+import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
-import { Iso8601DateTime, now } from '@/utils/formatDate';
 import { InputDate } from '@/components/atoms/form/InputDate';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';

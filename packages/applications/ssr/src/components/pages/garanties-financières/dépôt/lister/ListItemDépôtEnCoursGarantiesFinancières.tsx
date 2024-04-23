@@ -3,8 +3,7 @@ import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-
-import { Iso8601DateTime, formatDate } from '@/utils/formatDate';
+import { Iso8601DateTime, formatDate } from '@potentiel-libraries/iso8601-datetime';
 
 export type ListItemDépôtEnCoursGarantiesFinancièresProps = {
   identifiantProjet: string;
@@ -73,8 +72,7 @@ export const ListItemDépôtEnCoursGarantiesFinancières: FC<
           </li>
           {dateÉchéance && (
             <li>
-              Date d'échéance :{' '}
-              <span className="font-semibold">{formatDate(dateÉchéance, 'dd/MM/yyyy')}</span>
+              Date d'échéance : <span className="font-semibold">{formatDate(dateÉchéance)}</span>
             </li>
           )}
         </ul>
@@ -82,9 +80,7 @@ export const ListItemDépôtEnCoursGarantiesFinancières: FC<
     </div>
 
     <div className="flex flex-col justify-between mt-4 md:mt-0">
-      <p className="italic text-xs">
-        dernière mise à jour le {formatDate(misÀJourLe, 'dd/MM/yyyy')}
-      </p>
+      <p className="italic text-xs">dernière mise à jour le {formatDate(misÀJourLe)}</p>
       <a
         href={Routes.GarantiesFinancières.détail(identifiantProjet)}
         className="self-end mt-2"

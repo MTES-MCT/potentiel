@@ -4,8 +4,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-
-import { Iso8601DateTime, formatDate } from '@/utils/formatDate';
+import { Iso8601DateTime, formatDate } from '@potentiel-libraries/iso8601-datetime';
 
 export type ListItemProjetAvecGarantiesFinancièresEnAttenteProps = {
   identifiantProjet: string;
@@ -66,8 +65,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
           Motif : <strong>{motif}</strong>
         </div>
         <div className="text-sm">
-          Date limite de soumission :{' '}
-          <strong>{formatDate(dateLimiteSoumission, 'dd/MM/yyyy')}</strong>
+          Date limite de soumission : <strong>{formatDate(dateLimiteSoumission)}</strong>
         </div>
         {afficherModèleMiseEnDemeure && (
           <Download
@@ -84,9 +82,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
     </div>
 
     <div className="flex flex-col justify-between mt-4 md:mt-0">
-      <p className="italic text-xs">
-        Dernière mise à jour le {formatDate(misÀJourLe, 'dd/MM/yyyy')}
-      </p>
+      <p className="italic text-xs">Dernière mise à jour le {formatDate(misÀJourLe)}</p>
       <Link
         href={Routes.Projet.details(identifiantProjet)}
         className="self-end mt-2"

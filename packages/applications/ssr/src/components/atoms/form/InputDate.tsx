@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Input, { InputProps } from '@codegouvfr/react-dsfr/Input';
 
-import { Iso8601DateTime } from '@/utils/formatDate';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 type InputDateProps = InputProps.RegularInput & {
   nativeInputProps: {

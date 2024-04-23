@@ -1,7 +1,8 @@
 import { ReadonlyValueType, InvalidOperationError } from '@potentiel-domain/core';
+import { Iso8601DateTime, regexDateISO8601 } from '@potentiel-libraries/iso8601-datetime';
 import { differenceInDays } from 'date-fns';
 
-export type RawType = `${number}-${number}-${number}T${number}:${number}:${number}.${number}Z`;
+export type RawType = Iso8601DateTime;
 
 export type ValueType = ReadonlyValueType<{
   date: Date;
@@ -47,8 +48,6 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
 };
 
 export const now = () => convertirEnValueType(new Date());
-
-const regexDateISO8601 = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d+)?Z$/;
 
 function estValide(value: string): asserts value is RawType {
   const isValid = regexDateISO8601.test(value);

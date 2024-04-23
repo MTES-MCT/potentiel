@@ -7,12 +7,12 @@ import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
+import { now } from '@potentiel-libraries/iso8601-datetime';
 
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { PageTemplate } from '@/components/templates/Page.template';
-import { now } from '@/utils/formatDate';
 import { InputDate } from '@/components/atoms/form/InputDate';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';

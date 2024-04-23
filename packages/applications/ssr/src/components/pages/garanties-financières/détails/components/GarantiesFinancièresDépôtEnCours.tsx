@@ -3,10 +3,10 @@ import Download from '@codegouvfr/react-dsfr/Download';
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import { formatDate } from '@potentiel-libraries/iso8601-datetime';
 
 import { CallOut } from '@/components/atoms/CallOut';
 import { Heading2 } from '@/components/atoms/headings';
-import { formatDate } from '@/utils/formatDate';
 
 import { DépôtGarantiesFinancières } from './GarantiesFinancièresHistoriqueDépôts';
 
@@ -28,10 +28,8 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
           <Heading2>Garanties financières à traiter</Heading2>
           <div className="text-xs italic">
             Dernière mise à jour le{' '}
-            <span className="font-semibold">
-              {formatDate(dernièreMiseÀJour.date, 'dd/MM/yyyy')}
-            </span>{' '}
-            par <span className="font-semibold">{dernièreMiseÀJour.par}</span>
+            <span className="font-semibold">{formatDate(dernièreMiseÀJour.date)}</span> par{' '}
+            <span className="font-semibold">{dernièreMiseÀJour.par}</span>
           </div>
           <div className="mt-5 gap-2 text-base">
             {type ? (
@@ -51,14 +49,13 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
             )}
             {dateÉchéance && (
               <div>
-                Date d'échéance :{' '}
-                <span className="font-semibold">{formatDate(dateÉchéance, 'dd/MM/yyyy')}</span>
+                Date d'échéance : <span className="font-semibold">{formatDate(dateÉchéance)}</span>
               </div>
             )}
             {dateConstitution && (
               <div>
                 Date de constitution :{' '}
-                <span className="font-semibold">{formatDate(dateConstitution, 'dd/MM/yyyy')}</span>
+                <span className="font-semibold">{formatDate(dateConstitution)}</span>
               </div>
             )}
             <div>

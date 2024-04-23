@@ -3,8 +3,7 @@ import { FC } from 'react';
 
 import { Abandon } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
-
-import { Iso8601DateTime, formatDate } from '@/utils/formatDate';
+import { Iso8601DateTime, formatDate } from '@potentiel-libraries/iso8601-datetime';
 
 import { StatutAbandonBadge } from '../StatutAbandonBadge';
 import { StatutPreuveRecandidatureBadge } from '../détails/PreuveRecandidatureStatutBadge';
@@ -66,9 +65,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
     </div>
 
     <div className="flex flex-col justify-between mt-4 md:mt-0">
-      <p className="italic text-xs">
-        Dernière mise à jour le {formatDate(misÀJourLe, 'dd/MM/yyyy')}
-      </p>
+      <p className="italic text-xs">Dernière mise à jour le {formatDate(misÀJourLe)}</p>
       <a
         href={Routes.Abandon.détail(identifiantProjet)}
         className="self-end mt-2"

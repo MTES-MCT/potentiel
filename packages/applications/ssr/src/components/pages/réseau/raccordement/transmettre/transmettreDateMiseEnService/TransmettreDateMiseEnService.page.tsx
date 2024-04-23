@@ -5,12 +5,12 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { useRouter } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
+import { Iso8601DateTime, formatDate, now } from '@potentiel-libraries/iso8601-datetime';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { Iso8601DateTime, formatDate, now } from '@/utils/formatDate';
 import { InputDate } from '@/components/atoms/form/InputDate';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
@@ -95,11 +95,11 @@ export const TransmettreDateMiseEnServicePage = ({
                       </span>
                       , la saisie d'une date de mise en service non comprise entre le{' '}
                       <span className="font-bold">
-                        {formatDate(intervalleDatesMeSDélaiCDC2022.min, 'dd/MM/yyyy')}
+                        {formatDate(intervalleDatesMeSDélaiCDC2022.min)}
                       </span>{' '}
                       et le{' '}
                       <span className="font-bold">
-                        {formatDate(intervalleDatesMeSDélaiCDC2022.max, 'dd/MM/yyyy')}
+                        {formatDate(intervalleDatesMeSDélaiCDC2022.max)}
                       </span>{' '}
                       peut remettre en cause l'application de ce délai et entraîner une modification
                       de la date d'achèvement du projet.
@@ -113,10 +113,8 @@ export const TransmettreDateMiseEnServicePage = ({
                     </span>
                     , la saisie d'une date de mise en service doit être comprise entre la date de
                     désignation du projet (
-                    <span className="font-bold">
-                      {formatDate(projet.dateDésignation, 'dd/MM/yyyy')}
-                    </span>
-                    ) et <span className="font-bold">ce jour</span>.
+                    <span className="font-bold">{formatDate(projet.dateDésignation)}</span>) et{' '}
+                    <span className="font-bold">ce jour</span>.
                   </li>
                 </ul>
               </div>

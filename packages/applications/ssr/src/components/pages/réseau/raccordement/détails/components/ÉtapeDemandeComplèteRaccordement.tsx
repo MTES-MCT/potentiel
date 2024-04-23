@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import { Iso8601DateTime, formatDate } from '@potentiel-libraries/iso8601-datetime';
 
 import { Icon } from '@/components/atoms/Icon';
-import { Iso8601DateTime, formatDate } from '@/utils/formatDate';
 
 import { FormatFichierInvalide } from './FormatFichierInvalide';
 import { Etape } from './Étape';
@@ -44,7 +44,7 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
           title="date de l'accusé de réception"
         />
         {dateQualification ? (
-          formatDate(dateQualification, 'dd/MM/yyyy')
+          formatDate(dateQualification)
         ) : canEdit ? (
           <Link
             href={Routes.Raccordement.modifierDemandeComplèteRaccordement(
