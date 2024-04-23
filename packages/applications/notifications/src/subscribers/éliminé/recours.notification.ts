@@ -72,7 +72,6 @@ export const register = () => {
     const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
 
     if (Option.isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {
-      // Que faire ?
       return;
     }
 
