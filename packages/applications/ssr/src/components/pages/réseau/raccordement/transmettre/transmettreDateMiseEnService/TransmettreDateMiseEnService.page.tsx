@@ -2,7 +2,6 @@
 
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Button from '@codegouvfr/react-dsfr/Button';
-import Input from '@codegouvfr/react-dsfr/Input';
 import { useRouter } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -12,6 +11,7 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Iso8601DateTime, formatDate, now } from '@/utils/formatDate';
+import { InputDate } from '@/components/atoms/form/InputDate';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
@@ -50,14 +50,14 @@ export const TransmettreDateMiseEnServicePage = ({
             <input type="hidden" name="referenceDossier" value={référence} />
             <input type="hidden" name="dateDesignation" value={dateDésignation} />
 
-            <Input
+            <InputDate
               label="Date de mise en service"
               nativeInputProps={{
                 type: 'date',
                 name: 'dateMiseEnService',
-                defaultValue: miseEnService && formatDate(miseEnService, 'yyyy-MM-dd'),
-                min: formatDate(projet.dateDésignation, 'yyyy-MM-dd'),
-                max: formatDate(now(), 'yyyy-MM-dd'),
+                defaultValue: miseEnService,
+                min: projet.dateDésignation,
+                max: now(),
                 required: true,
                 'aria-required': true,
               }}

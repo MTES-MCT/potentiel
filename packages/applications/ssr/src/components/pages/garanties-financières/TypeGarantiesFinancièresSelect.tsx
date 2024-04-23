@@ -4,7 +4,7 @@ import Input from '@codegouvfr/react-dsfr/Input';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { Iso8601DateTime, formatDate } from '@/utils/formatDate';
+import { Iso8601DateTime } from '@/utils/formatDate';
 
 export type TypeGarantiesFinancièresSelectProps = {
   id: string;
@@ -69,9 +69,7 @@ export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelect
             name: 'dateEcheance',
             required: true,
             'aria-required': true,
-            defaultValue: dateÉchéanceActuelle
-              ? formatDate(dateÉchéanceActuelle, 'yyyy-MM-dd')
-              : undefined,
+            defaultValue: dateÉchéanceActuelle,
           }}
           state={validationErrors.includes('dateEcheance') ? 'error' : 'default'}
           stateRelatedMessage="Date d'échéance obligatoire"

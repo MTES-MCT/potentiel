@@ -6,7 +6,7 @@ export type Iso8601DateTime =
 
 export const now = () => new Date().toISOString() as Iso8601DateTime;
 
-type Format = 'dd/MM/yyyy' | 'yyyy-MM-dd';
+type Format = 'dd/MM/yyyy';
 
 export const formatDate = (date: Iso8601DateTime, format: Format) => {
   return formatWithDateFns(new Date(date), format, { locale: fr });

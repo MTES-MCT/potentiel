@@ -1,7 +1,6 @@
 'use client';
 
 import React, { FC, useState } from 'react';
-import Input from '@codegouvfr/react-dsfr/Input';
 import { Alert } from '@codegouvfr/react-dsfr/Alert';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useRouter } from 'next/navigation';
@@ -14,7 +13,8 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
-import { Iso8601DateTime, formatDate, now } from '@/utils/formatDate';
+import { Iso8601DateTime, now } from '@/utils/formatDate';
+import { InputDate } from '@/components/atoms/form/InputDate';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
@@ -64,14 +64,14 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
             <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
             <input type="hidden" name="referenceDossierRaccordement" value={reference} />
 
-            <Input
+            <InputDate
               id="dateSignature"
               label="Date de signature"
               nativeInputProps={{
                 type: 'date',
                 name: 'dateSignature',
-                defaultValue: formatDate(dateSignature, 'yyyy-MM-dd'),
-                max: formatDate(now(), 'yyyy-MM-dd'),
+                max: now(),
+                defaultValue: dateSignature,
                 required: true,
               }}
             />

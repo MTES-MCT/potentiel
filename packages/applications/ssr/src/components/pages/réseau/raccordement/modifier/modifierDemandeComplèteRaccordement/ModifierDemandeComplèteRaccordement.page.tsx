@@ -14,7 +14,8 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
-import { Iso8601DateTime, formatDate, now } from '@/utils/formatDate';
+import { Iso8601DateTime, now } from '@/utils/formatDate';
+import { InputDate } from '@/components/atoms/form/InputDate';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import { GestionnaireRéseauSelect } from '../modifierGestionnaireRéseauRaccordement/GestionnaireRéseauSelect';
@@ -158,15 +159,15 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
               stateRelatedMessage="Accusé de réception de la demande complète de raccordement obligatoire"
             />
 
-            <Input
+            <InputDate
               id="dateQualification"
               state={validationErrors.includes('dateQualification') ? 'error' : 'default'}
               label="Date de l'accusé de réception"
               nativeInputProps={{
                 type: 'date',
                 name: 'dateQualification',
-                defaultValue: dateQualification && formatDate(dateQualification, 'yyyy-MM-dd'),
-                max: formatDate(now(), 'yyyy-MM-dd'),
+                max: now(),
+                defaultValue: dateQualification,
                 required: true,
               }}
             />

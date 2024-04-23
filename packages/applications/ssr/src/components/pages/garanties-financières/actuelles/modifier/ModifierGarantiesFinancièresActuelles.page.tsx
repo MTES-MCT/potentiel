@@ -2,7 +2,6 @@
 
 import { FC, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Input from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Link from 'next/link';
@@ -13,7 +12,8 @@ import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/P
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { PageTemplate } from '@/components/templates/Page.template';
-import { formatDate, now } from '@/utils/formatDate';
+import { now } from '@/utils/formatDate';
+import { InputDate } from '@/components/atoms/form/InputDate';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 import {
@@ -59,15 +59,13 @@ export const ModifierGarantiesFinancièresActuellesPage: FC<
           dateÉchéanceActuelle={actuelles.dateÉchéance}
         />
 
-        <Input
+        <InputDate
           label="Date de constitution"
           nativeInputProps={{
             type: 'date',
             name: 'dateConstitution',
-            max: formatDate(now(), 'yyyy-MM-dd'),
-            defaultValue: actuelles.dateConstitution
-              ? formatDate(actuelles.dateConstitution, 'yyyy-MM-dd')
-              : undefined,
+            max: now(),
+            defaultValue: actuelles.dateConstitution,
             required: true,
             'aria-required': true,
           }}

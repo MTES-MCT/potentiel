@@ -1,5 +1,4 @@
 import { FC, useState } from 'react';
-import Input from '@codegouvfr/react-dsfr/Input';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useRouter } from 'next/navigation';
@@ -9,7 +8,8 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { Iso8601DateTime, formatDate, now } from '@/utils/formatDate';
+import { Iso8601DateTime, now } from '@/utils/formatDate';
+import { InputDate } from '@/components/atoms/form/InputDate';
 
 import { soumettreGarantiesFinancièresAction } from './dépôt/soumettre/soumettreGarantiesFinancières.action';
 import { modifierDépôtEnCoursGarantiesFinancièresAction } from './dépôt/modifier/modifierDépôtEnCoursGarantiesFinancières.action';
@@ -65,15 +65,13 @@ export const FormulaireGarantiesFinancières: FC<FormulaireGarantiesFinancières
         validationErrors={validationErrors}
       />
 
-      <Input
+      <InputDate
         label="Date de constitution"
         nativeInputProps={{
           type: 'date',
           name: 'dateConstitution',
-          max: formatDate(now(), 'yyyy-MM-dd'),
-          defaultValue: defaultValues?.dateConstitution
-            ? formatDate(defaultValues.dateConstitution, 'yyyy-MM-dd')
-            : undefined,
+          max: now(),
+          defaultValue: defaultValues?.dateConstitution,
           required: true,
           'aria-required': true,
         }}

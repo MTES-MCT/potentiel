@@ -2,7 +2,6 @@
 
 import { FC, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Input from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 
@@ -12,7 +11,8 @@ import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { formatDate, now } from '@/utils/formatDate';
+import { now } from '@/utils/formatDate';
+import { InputDate } from '@/components/atoms/form/InputDate';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 
@@ -40,12 +40,12 @@ export const EnregistrerAttestationGarantiesFinancièresPage: FC<
       >
         <input type="hidden" name="identifiantProjet" value={projet.identifiantProjet} />
 
-        <Input
+        <InputDate
           label="Date de constitution"
           nativeInputProps={{
             type: 'date',
             name: 'dateConstitution',
-            max: formatDate(now(), 'yyyy-MM-dd'),
+            max: now(),
             required: true,
             'aria-required': true,
           }}
