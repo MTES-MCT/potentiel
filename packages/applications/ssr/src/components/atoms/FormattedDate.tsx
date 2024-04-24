@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-type FormattedDateProps = {
+export type FormattedDateProps = {
   date: Iso8601DateTime;
   className?: string;
 };
