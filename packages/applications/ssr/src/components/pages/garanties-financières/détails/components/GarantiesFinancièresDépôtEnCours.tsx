@@ -9,11 +9,12 @@ import { Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 import { ValiderDépôtEnCoursGarantiesFinancières } from '../../dépôt/modifier/valider/validerDépôtEnCoursGarantiesFinancières';
+import { SupprimerDépôtEnCoursGarantiesFinancières } from '../../dépôt/modifier/supprimer/SupprimerDépôtEnCoursGarantiesFinancières';
 
 import { DépôtGarantiesFinancières } from './GarantiesFinancièresHistoriqueDépôts';
 
 export type GarantiesFinancièresDépôtEnCoursProps = {
-  dépôt: DépôtGarantiesFinancières & { actions?: Array<'modifier' | 'instruire'> };
+  dépôt: DépôtGarantiesFinancières & { actions?: Array<'modifier' | 'instruire' | 'supprimer'> };
   identifiantProjet: string;
 };
 
@@ -86,6 +87,9 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
             )}
             {actions?.includes('instruire') && (
               <ValiderDépôtEnCoursGarantiesFinancières identifiantProjet={identifiantProjet} />
+            )}
+            {actions?.includes('supprimer') && (
+              <SupprimerDépôtEnCoursGarantiesFinancières identifiantProjet={identifiantProjet} />
             )}
           </div>
         </div>

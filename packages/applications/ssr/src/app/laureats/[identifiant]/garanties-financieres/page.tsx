@@ -113,11 +113,14 @@ const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) 
 
   const dépôtEnCours = garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours());
   let dépôtEnCoursActions: GarantiesFinancièresDépôtEnCoursProps['dépôt']['actions'] = [];
-  if (utilisateur.role.estÉgaleÀ(Role.porteur) || utilisateur.role.estÉgaleÀ(Role.admin)) {
+  if (utilisateur.role.estÉgaleÀ(Role.admin)) {
     dépôtEnCoursActions = ['modifier'];
   }
   if (utilisateur.role.estÉgaleÀ(Role.dreal)) {
     dépôtEnCoursActions = ['instruire', 'modifier'];
+  }
+  if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
+    dépôtEnCoursActions = ['modifier', 'supprimer'];
   }
 
   return {
