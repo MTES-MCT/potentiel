@@ -27,6 +27,7 @@ import {
   PuissanceJustificationEtCourrierManquantError,
 } from '.';
 import { GetProjectAppelOffre } from '../../../projectAppelOffre';
+import { getAutoritéCompétenteInstructionPuissance } from './helpers/getAutoritéCompétenteInstructionPuissance';
 
 type DemanderChangementDePuissance = (commande: {
   projectId: string;
@@ -149,6 +150,7 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
               newPuissanceIsAutoAccepted: true,
               fileId,
               project,
+              authority: 'dreal' as const,
             }));
           }
 
@@ -156,7 +158,17 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
             return errAsync(new PuissanceJustificationEtCourrierManquantError());
           }
 
-          return okAsync({ newPuissanceIsAutoAccepted: false, fileId, project });
+          const authority = getAutoritéCompétenteInstructionPuissance({
+            nouvellePuissance: newPuissance,
+            project: {
+              ...project,
+              appelOffre: appelOffreProjet,
+              technologie: project.data?.technologie ?? 'N/A',
+              cahierDesCharges: project.cahierDesCharges,
+            },
+          });
+
+          return okAsync({ newPuissanceIsAutoAccepted: false, fileId, project, authority });
         });
       })
       .andThen(
@@ -164,6 +176,7 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
           newPuissanceIsAutoAccepted,
           fileId,
           project,
+          authority,
         }): ResultAsync<null, AggregateHasBeenUpdatedSinceError | InfraNotAvailableError> => {
           const modificationRequestId = new UniqueEntityID().toString();
 
@@ -198,7 +211,7 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
                         puissanceAuMomentDuDepot,
                         justification,
                         fileId,
-                        authority: 'dreal',
+                        authority,
                         cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
                       },
                     }),

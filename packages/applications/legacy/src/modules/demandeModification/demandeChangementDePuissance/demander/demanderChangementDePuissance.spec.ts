@@ -218,6 +218,164 @@ describe('Commande requestPuissanceModification', () => {
           });
         });
       });
+
+      it(`Etant donné un projet avec le CDC 2022
+          Lorsque le porteur demande une puissance à la hausse dépassant le seuil de l'AO et le seuil du CDC 2022
+          Alors une demande devrait être envoyée à la DGEC`, async () => {
+        const fakeProject = {
+          ...makeFakeProject(),
+          puissanceInitiale: 100,
+          cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
+        };
+        const projectRepo = fakeTransactionalRepo(fakeProject as Project);
+
+        const getPuissanceProjet = jest.fn((projectId: string) => okAsync(100));
+
+        const getProjectAppelOffre = jest.fn(
+          () =>
+            ({
+              typeAppelOffre: 'eolien',
+              changementPuissance: { ratios: { min: 0.8, max: 1.2 } },
+              periode: {
+                cahiersDesChargesModifiésDisponibles: [
+                  {
+                    type: 'modifié',
+                    paruLe: '30/08/2022',
+                    seuilSupplémentaireChangementPuissance: { ratios: { min: 0.8, max: 1.4 } },
+                  } as CahierDesChargesModifié,
+                ] as ReadonlyArray<CahierDesChargesModifié>,
+              },
+            } as ProjectAppelOffre),
+        );
+        const requestPuissanceModification = makeDemanderChangementDePuissance({
+          projectRepo,
+          eventBus,
+          getPuissanceProjet,
+          shouldUserAccessProject,
+          exceedsRatiosChangementPuissance: () => true,
+          exceedsPuissanceMaxDuVolumeReserve: () => false,
+          exceedsPuissanceMaxFamille: () => false,
+          fileRepo: fileRepo as Repository<FileObject>,
+          getProjectAppelOffre,
+        });
+
+        const newPuissance = 160;
+
+        const res = await requestPuissanceModification({
+          projectId: fakeProject.id.toString(),
+          requestedBy: fakeUser,
+          newPuissance,
+          fichier: file,
+          justification: 'test',
+        });
+
+        expect(res.isOk()).toBe(true);
+
+        expect(shouldUserAccessProject).toHaveBeenCalledWith({
+          user: fakeUser,
+          projectId: fakeProject.id.toString(),
+        });
+
+        expect(eventBus.publish).toHaveBeenCalledTimes(1);
+        const event = eventBus.publish.mock.calls[0][0];
+        expect(event).toBeInstanceOf(ModificationRequested);
+
+        expect(event).toMatchObject({
+          payload: {
+            type: 'puissance',
+            puissance: 160,
+            puissanceAuMomentDuDepot: 100,
+            cahierDesCharges: '30/08/2022',
+            authority: 'dgec',
+          },
+        });
+
+        expect(fakeProject.pendingEvents).toHaveLength(0);
+
+        expect(fileRepo.save).toHaveBeenCalledTimes(1);
+        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(file.contents);
+        expect(fileRepo.save.mock.calls[0][0].filename).toEqual(file.filename);
+      });
+
+      it(`Etant donné un projet
+          Lorsque le porteur demande une puissance à la baisse inférieure au seuil du CDC
+          Alors une demande devrait être envoyée à la DREAL`, async () => {
+        const fakeProject = {
+          ...makeFakeProject(),
+          puissanceInitiale: 100,
+          cahierDesCharges: { type: 'initial' },
+        };
+        const projectRepo = fakeTransactionalRepo(fakeProject as Project);
+
+        const getPuissanceProjet = jest.fn((projectId: string) => okAsync(100));
+
+        const getProjectAppelOffre = jest.fn(
+          () =>
+            ({
+              typeAppelOffre: 'eolien',
+              changementPuissance: { ratios: { min: 0.8, max: 1.2 } },
+              periode: {
+                cahiersDesChargesModifiésDisponibles: [
+                  {
+                    type: 'modifié',
+                    paruLe: '30/08/2022',
+                    seuilSupplémentaireChangementPuissance: {
+                      ratios: { min: 0.8, max: 1.4 },
+                    },
+                  } as CahierDesChargesModifié,
+                ] as ReadonlyArray<CahierDesChargesModifié>,
+              },
+            } as ProjectAppelOffre),
+        );
+        const requestPuissanceModification = makeDemanderChangementDePuissance({
+          projectRepo,
+          eventBus,
+          getPuissanceProjet,
+          shouldUserAccessProject,
+          exceedsRatiosChangementPuissance: () => true,
+          exceedsPuissanceMaxDuVolumeReserve: () => false,
+          exceedsPuissanceMaxFamille: () => false,
+          fileRepo: fileRepo as Repository<FileObject>,
+          getProjectAppelOffre,
+        });
+
+        const newPuissance = 70;
+
+        const res = await requestPuissanceModification({
+          projectId: fakeProject.id.toString(),
+          requestedBy: fakeUser,
+          newPuissance,
+          fichier: file,
+          justification: 'test',
+        });
+
+        expect(res.isOk()).toBe(true);
+
+        expect(shouldUserAccessProject).toHaveBeenCalledWith({
+          user: fakeUser,
+          projectId: fakeProject.id.toString(),
+        });
+
+        expect(eventBus.publish).toHaveBeenCalledTimes(1);
+        const event = eventBus.publish.mock.calls[0][0];
+        expect(event).toBeInstanceOf(ModificationRequested);
+
+        expect(event).toMatchObject({
+          payload: {
+            type: 'puissance',
+            puissance: 70,
+            puissanceAuMomentDuDepot: 100,
+            cahierDesCharges: 'initial',
+            authority: 'dreal',
+          },
+        });
+
+        expect(fakeProject.pendingEvents).toHaveLength(0);
+
+        expect(fileRepo.save).toHaveBeenCalledTimes(1);
+        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(file.contents);
+        expect(fileRepo.save.mock.calls[0][0].filename).toEqual(file.filename);
+      });
     });
 
     describe('Informations enregistrées', () => {
