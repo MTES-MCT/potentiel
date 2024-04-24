@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { DateTime } from '@potentiel-domain/common';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -71,7 +72,12 @@ export default async function Page({ params: { identifiant, reference } }: PageP
           dossierRaccordement.miseEnService?.dateMiseEnService?.formatter() ?? undefined,
       },
 
-      intervalleDatesMeSDélaiCDC2022,
+      intervalleDatesMeSDélaiCDC2022: intervalleDatesMeSDélaiCDC2022
+        ? {
+            min: DateTime.convertirEnValueType(intervalleDatesMeSDélaiCDC2022.min).formatter(),
+            max: DateTime.convertirEnValueType(intervalleDatesMeSDélaiCDC2022.max).formatter(),
+          }
+        : undefined,
     };
 
     return <TransmettreDateMiseEnServicePage {...props} />;

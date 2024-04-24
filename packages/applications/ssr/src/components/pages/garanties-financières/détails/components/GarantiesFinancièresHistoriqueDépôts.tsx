@@ -1,21 +1,23 @@
-import { FC } from 'react';
 import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
+import { FC } from 'react';
 
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
-import { formatDateForText } from '@/utils/formatDateForText';
 
 type DépôtStatut = 'en-cours' | 'validé' | 'rejeté';
 
 export type DépôtGarantiesFinancières = {
   type: string;
-  dateÉchéance?: string;
+  dateÉchéance?: Iso8601DateTime;
   statut: DépôtStatut;
-  dateConstitution: string;
-  soumisLe: string;
+  dateConstitution: Iso8601DateTime;
+  soumisLe: Iso8601DateTime;
   attestation: string;
   dernièreMiseÀJour: {
-    date: string;
+    date: Iso8601DateTime;
     par: string;
   };
 };
@@ -33,7 +35,7 @@ export const GarantiesFinancièresHistoriqueDépôts: FC<
     <Timeline
       className="mt-4"
       items={dépôts.map((dépôt) => ({
-        date: formatDateForText(dépôt.dernièreMiseÀJour.date),
+        date: dépôt.dernièreMiseÀJour.date,
         status: getTimelineItemStatus(dépôt.statut),
         title: (
           <p>
@@ -48,17 +50,16 @@ export const GarantiesFinancièresHistoriqueDépôts: FC<
                   Type : <span className="font-semibold">{dépôt.type}</span>
                 </li>
                 <li>
-                  Date de dépôt :{' '}
-                  <span className="font-semibold">{formatDateForText(dépôt.soumisLe)}</span>
+                  Date de dépôt : <FormattedDate className="font-semibold" date={dépôt.soumisLe} />
                 </li>
                 <li>
-                  Date de constitution :{' '}
-                  <span className="font-semibold">{formatDateForText(dépôt.dateConstitution)}</span>
+                  Date de constitution :
+                  <FormattedDate date={dépôt.dateConstitution} className="font-semibold" />
                 </li>
                 {dépôt.dateÉchéance && (
                   <li>
-                    Date d'échéance :{' '}
-                    <span className="font-semibold">{formatDateForText(dépôt.dateÉchéance)}</span>
+                    Date d'échéance :
+                    <FormattedDate date={dépôt.dateÉchéance} className="font-semibold" />
                   </li>
                 )}
               </ul>

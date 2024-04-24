@@ -1,12 +1,13 @@
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import {
   StatutProjetBadge,
   StatutProjetBadgeProps,
 } from '@/components/molecules/projet/StatutProjetBadge';
-import { displayDate } from '@/utils/displayDate';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export type ProjetBannerProps = {
   statut: StatutProjetBadgeProps['statut'];
@@ -20,7 +21,7 @@ export type ProjetBannerProps = {
     région: string;
     codePostal: string;
   };
-  dateDésignation: string;
+  dateDésignation: Iso8601DateTime;
   identifiantProjet: string;
 };
 
@@ -49,7 +50,7 @@ export const ProjetBanner: FC<ProjetBannerProps> = ({
         {localité.commune}, {localité.département}, {localité.région}
       </p>
       <div>
-        désigné le {displayDate(new Date(dateDésignation))} pour la période {appelOffre} {période}
+        désigné le <FormattedDate date={dateDésignation} /> pour la période {appelOffre} {période}
         {famille ? `, famille ${famille}` : ''}
       </div>
     </aside>

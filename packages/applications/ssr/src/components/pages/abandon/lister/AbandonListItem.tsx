@@ -3,6 +3,9 @@ import { FC } from 'react';
 
 import { Abandon } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 import { StatutAbandonBadge } from '../StatutAbandonBadge';
 import { StatutPreuveRecandidatureBadge } from '../détails/PreuveRecandidatureStatutBadge';
@@ -16,7 +19,7 @@ export type AbandonListItemProps = {
   statut: Abandon.StatutAbandon.RawType;
   recandidature: boolean;
   preuveRecandidatureStatut: Abandon.StatutPreuveRecandidature.RawType;
-  misÀJourLe: string;
+  misÀJourLe: Iso8601DateTime;
 };
 
 export const AbandonListItem: FC<AbandonListItemProps> = ({
@@ -64,7 +67,9 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
     </div>
 
     <div className="flex flex-col justify-between mt-4 md:mt-0">
-      <p className="italic text-xs">Dernière mise à jour le {misÀJourLe}</p>
+      <p className="italic text-xs">
+        Dernière mise à jour le <FormattedDate date={misÀJourLe} />
+      </p>
       <a
         href={Routes.Abandon.détail(identifiantProjet)}
         className="self-end mt-2"

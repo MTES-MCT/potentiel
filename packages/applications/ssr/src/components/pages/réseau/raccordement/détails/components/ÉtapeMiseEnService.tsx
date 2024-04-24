@@ -1,17 +1,18 @@
-import { FC } from 'react';
 import Link from 'next/link';
+import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Icon } from '@/components/atoms/Icon';
-import { displayDate } from '@/utils/displayDate';
 
 import { Etape } from './Étape';
 
 type ÉtapeMiseEnServiceProps = {
   identifiantProjet: string;
   référence: string;
-  dateMiseEnService?: string;
+  dateMiseEnService?: Iso8601DateTime;
   canEdit: boolean;
 };
 
@@ -35,7 +36,7 @@ export const ÉtapeMiseEnService: FC<ÉtapeMiseEnServiceProps> = ({
             className="mr-1"
             title="date de mise en service"
           />
-          {displayDate(new Date(dateMiseEnService))}
+          <FormattedDate date={dateMiseEnService} />
         </div>
 
         {canEdit && (

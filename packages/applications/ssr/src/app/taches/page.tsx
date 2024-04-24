@@ -5,7 +5,6 @@ import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ListerTâchesQuery, ListerTâchesReadModel } from '@potentiel-domain/tache';
 
 import { TâcheListPage, TâcheListPageProps } from '@/components/pages/tâche/TâcheList.page';
-import { displayDate } from '@/utils/displayDate';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -85,7 +84,7 @@ const mapToListProps = ({
         période,
         numéroCRE,
         famille,
-        misÀJourLe: displayDate(misÀJourLe.date),
+        misÀJourLe: misÀJourLe.formatter(),
         typeTâche: typeTâche.type,
       }),
     ),

@@ -1,19 +1,20 @@
-import { FC } from 'react';
 import Download from '@codegouvfr/react-dsfr/Download';
 import Link from 'next/link';
+import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Icon } from '@/components/atoms/Icon';
-import { displayDate } from '@/utils/displayDate';
 
-import { Etape } from './Étape';
 import { FormatFichierInvalide } from './FormatFichierInvalide';
+import { Etape } from './Étape';
 
 type ÉtapePropositionTechniqueEtFinancièreProps = {
   identifiantProjet: string;
   référence: string;
-  dateSignature?: string;
+  dateSignature?: Iso8601DateTime;
   propositionTechniqueEtFinancièreSignée?: string;
   canEdit: boolean;
 };
@@ -43,7 +44,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
             className="mr-1"
             title="date de signature de la proposition technique et financière"
           />
-          {displayDate(new Date(dateSignature))}
+          <FormattedDate date={dateSignature} />
         </div>
 
         {propositionTechniqueEtFinancièreSignée && (

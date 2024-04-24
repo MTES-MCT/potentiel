@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+
 import { getGarantiesFinancièresTypeLabel } from '../../getGarantiesFinancièresTypeLabel';
 
 import {
@@ -58,7 +60,7 @@ export const Default: Story = {
           famille: 'Famille',
           nomProjet: 'Le projet',
           statut: 'en-cours',
-          misÀJourLe: '2023-02-12',
+          misÀJourLe: new Date('2023-02-12').toISOString() as Iso8601DateTime,
           type: getGarantiesFinancièresTypeLabel('consignation'),
           régionProjet: 'Région A / Région B',
         },
@@ -69,9 +71,9 @@ export const Default: Story = {
           famille: 'Famille',
           nomProjet: 'Le projet',
           statut: 'en-cours',
-          misÀJourLe: '2023-02-12',
+          misÀJourLe: new Date('2023-02-12').toISOString() as Iso8601DateTime,
           type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
-          dateÉchéance: '2023-02-12',
+          dateÉchéance: new Date('2023-02-12').toISOString() as Iso8601DateTime,
           régionProjet: 'Région A / Région B',
         },
       ],

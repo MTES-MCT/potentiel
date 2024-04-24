@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+
 import {
   ModifierPropositionTechniqueEtFinancièrePage,
   ModifierPropositionTechniqueEtFinancièrePageProps,
@@ -25,7 +27,7 @@ export const Default: Story = {
       période: 'Période',
       famille: 'Famille',
       nom: 'Nom du projet',
-      dateDésignation: '2021-10-23',
+      dateDésignation: new Date('2021-10-23').toISOString() as Iso8601DateTime,
       localité: {
         codePostal: 'XXXXX',
         commune: 'Commune',
@@ -39,7 +41,7 @@ export const Default: Story = {
       propositionTechniqueEtFinancière: {
         propositionTechniqueEtFinancièreSignée:
           'référence#1/propositionTechniqueEtFinancièreSignée',
-        dateSignature: '2024-01-18',
+        dateSignature: new Date('2024-01-18').toISOString() as Iso8601DateTime,
       },
     },
   },

@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+
 import {
   ModifierDemandeComplèteRaccordementPage,
   ModifierDemandeComplèteRaccordementPageProps,
@@ -25,7 +27,7 @@ export const Default: Story = {
       période: 'Période',
       famille: 'Famille',
       nom: 'Nom du projet',
-      dateDésignation: '2021-10-23',
+      dateDésignation: new Date('2021-10-23').toISOString() as Iso8601DateTime,
       localité: {
         codePostal: 'XXXXX',
         commune: 'Commune',
@@ -48,7 +50,7 @@ export const Default: Story = {
       canEditRéférence: true,
       demandeComplèteRaccordement: {
         accuséRéception: 'référence#1/accuséRéception',
-        dateQualification: '2024-01-18',
+        dateQualification: new Date('2024-01-18').toISOString() as Iso8601DateTime,
       },
     },
     delaiDemandeDeRaccordementEnMois: {

@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+
 import { AbandonListPage, AbandonListPageProps } from './AbandonList.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -87,7 +89,7 @@ export const Default: Story = {
           statut: 'accordé',
           recandidature: false,
           preuveRecandidatureStatut: 'en-attente',
-          misÀJourLe: '2023-02-12',
+          misÀJourLe: new Date('2023-02-12').toISOString() as Iso8601DateTime,
         },
         {
           identifiantProjet: '#identifiantProjet-2',
@@ -98,7 +100,7 @@ export const Default: Story = {
           statut: 'demandé',
           recandidature: true,
           preuveRecandidatureStatut: 'en-attente',
-          misÀJourLe: '2023-02-12',
+          misÀJourLe: new Date('2023-02-12').toISOString() as Iso8601DateTime,
         },
         {
           identifiantProjet: '#identifiantProjet-3',
@@ -109,7 +111,7 @@ export const Default: Story = {
           statut: 'rejeté',
           recandidature: false,
           preuveRecandidatureStatut: 'en-attente',
-          misÀJourLe: '2023-02-12',
+          misÀJourLe: new Date('2023-02-12').toISOString() as Iso8601DateTime,
         },
       ],
       itemsPerPage: 10,

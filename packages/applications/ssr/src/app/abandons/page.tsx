@@ -8,7 +8,6 @@ import {
   AbandonListPage,
   AbandonListPageProps,
 } from '@/components/pages/abandon/lister/AbandonList.page';
-import { displayDate } from '@/utils/displayDate';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -138,7 +137,7 @@ const mapToListProps = (
       période,
       famille,
       statut,
-      misÀJourLe: displayDate(misÀJourLe.date),
+      misÀJourLe: misÀJourLe.formatter(),
       recandidature,
       preuveRecandidatureStatut,
     }),

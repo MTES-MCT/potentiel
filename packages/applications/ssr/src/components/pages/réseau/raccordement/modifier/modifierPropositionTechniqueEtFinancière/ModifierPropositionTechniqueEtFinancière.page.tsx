@@ -1,7 +1,6 @@
 'use client';
 
 import React, { FC, useState } from 'react';
-import Input from '@codegouvfr/react-dsfr/Input';
 import { Alert } from '@codegouvfr/react-dsfr/Alert';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useRouter } from 'next/navigation';
@@ -9,12 +8,13 @@ import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
+import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { formatDateForInput } from '@/utils/formatDateForInput';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { InputDate } from '@/components/atoms/form/InputDate';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
@@ -25,7 +25,7 @@ export type ModifierPropositionTechniqueEtFinancièrePageProps = {
   raccordement: {
     reference: string;
     propositionTechniqueEtFinancière: {
-      dateSignature: string;
+      dateSignature: Iso8601DateTime;
       propositionTechniqueEtFinancièreSignée: string;
     };
   };
@@ -64,14 +64,14 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
             <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
             <input type="hidden" name="referenceDossierRaccordement" value={reference} />
 
-            <Input
+            <InputDate
               id="dateSignature"
               label="Date de signature"
               nativeInputProps={{
                 type: 'date',
                 name: 'dateSignature',
-                defaultValue: formatDateForInput(dateSignature),
-                max: new Date().toISOString().split('T').shift(),
+                max: now(),
+                defaultValue: dateSignature,
                 required: true,
               }}
             />

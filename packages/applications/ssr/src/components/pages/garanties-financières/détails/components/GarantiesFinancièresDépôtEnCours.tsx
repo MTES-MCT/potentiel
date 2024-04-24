@@ -1,12 +1,12 @@
-import { FC } from 'react';
-import Download from '@codegouvfr/react-dsfr/Download';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Download from '@codegouvfr/react-dsfr/Download';
+import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { Heading2 } from '@/components/atoms/headings';
 import { CallOut } from '@/components/atoms/CallOut';
-import { formatDateForText } from '@/utils/formatDateForText';
+import { Heading2 } from '@/components/atoms/headings';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 import { DépôtGarantiesFinancières } from './GarantiesFinancièresHistoriqueDépôts';
 
@@ -28,7 +28,7 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
           <Heading2>Garanties financières à traiter</Heading2>
           <div className="text-xs italic">
             Dernière mise à jour le{' '}
-            <span className="font-semibold">{formatDateForText(dernièreMiseÀJour.date)}</span> par{' '}
+            <FormattedDate className="font-semibold" date={dernièreMiseÀJour.date} /> par{' '}
             <span className="font-semibold">{dernièreMiseÀJour.par}</span>
           </div>
           <div className="mt-5 gap-2 text-base">
@@ -49,14 +49,13 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
             )}
             {dateÉchéance && (
               <div>
-                Date d'échéance :{' '}
-                <span className="font-semibold">{formatDateForText(dateÉchéance)}</span>
+                Date d'échéance : <FormattedDate className="font-semibold" date={dateÉchéance} />
               </div>
             )}
             {dateConstitution && (
               <div>
                 Date de constitution :{' '}
-                <span className="font-semibold">{formatDateForText(dateConstitution)}</span>
+                <FormattedDate className="font-semibold" date={dateConstitution} />
               </div>
             )}
             <div>

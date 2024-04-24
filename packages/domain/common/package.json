@@ -9,6 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@potentiel-libraries/iso8601-datetime": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-domain/core": "*"
   },

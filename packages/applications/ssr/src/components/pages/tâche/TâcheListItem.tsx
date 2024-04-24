@@ -1,7 +1,10 @@
-import { FC } from 'react';
 import Link from 'next/link';
+import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export type TâcheListItemProps = {
   identifiantProjet: string;
@@ -9,7 +12,7 @@ export type TâcheListItemProps = {
   appelOffre: string;
   période: string;
   famille?: string;
-  misÀJourLe: string;
+  misÀJourLe: Iso8601DateTime;
   typeTâche: string;
 };
 
@@ -48,7 +51,9 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
         <h3 className="font-bold">{descriptionTâche.titre}</h3>
         <p className="m-0 text-sm">{descriptionTâche.description}</p>
       </div>
-      <p className="italic text-xs">dernière mise à jour le {misÀJourLe}</p>
+      <p className="italic text-xs">
+        dernière mise à jour le <FormattedDate date={misÀJourLe} />
+      </p>
       <Link
         href={descriptionTâche.lien}
         className="self-center mt-4 md:self-end md:mt-0"

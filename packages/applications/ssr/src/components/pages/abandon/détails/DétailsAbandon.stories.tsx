@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+
 import { DétailsAbandonPage, DétailsAbandonPageProps } from './DétailsAbandon.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -20,7 +22,7 @@ const projet: DétailsAbandonPageProps['projet'] = {
   période: 'Période',
   famille: 'Famille',
   nom: 'Nom du projet',
-  dateDésignation: '2021-10-23',
+  dateDésignation: new Date('2021-10-23').toISOString() as Iso8601DateTime,
   localité: {
     codePostal: 'XXXXX',
     commune: 'Commune',
@@ -37,7 +39,7 @@ export const Demandé: Story = {
     abandon: {
       demande: {
         demandéPar: 'Porteur#1',
-        demandéLe: '2022-01-01',
+        demandéLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
         recandidature: false,
         preuveRecandidatureStatut: 'non-applicable',
         raison: "Justification de l'abandon",
@@ -54,15 +56,15 @@ export const Confirmé: Story = {
     abandon: {
       demande: {
         demandéPar: 'Porteur#1',
-        demandéLe: '2022-01-01',
+        demandéLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
         recandidature: false,
         preuveRecandidatureStatut: 'non-applicable',
         raison: "Justification de l'abandon",
       },
       confirmation: {
         demandéPar: 'Admin#1',
-        demandéLe: '2022-02-01',
-        confirméLe: '2022-03-01',
+        demandéLe: new Date('2022-02-01').toISOString() as Iso8601DateTime,
+        confirméLe: new Date('2022-03-01').toISOString() as Iso8601DateTime,
         confirméPar: 'Porteur#1',
         réponseSignée: 'Réponse signée',
       },
@@ -78,14 +80,14 @@ export const Rejeté: Story = {
     abandon: {
       demande: {
         demandéPar: 'Porteur#1',
-        demandéLe: '2022-01-01',
+        demandéLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
         recandidature: false,
         preuveRecandidatureStatut: 'non-applicable',
         raison: "Justification de l'abandon",
       },
       rejet: {
         rejetéPar: 'Gestionnaire#1',
-        rejetéLe: '2022-04-01',
+        rejetéLe: new Date('2022-04-01').toISOString() as Iso8601DateTime,
         réponseSignée: 'Réponse signée',
       },
     },
@@ -100,14 +102,14 @@ export const Accordé: Story = {
     abandon: {
       demande: {
         demandéPar: 'Porteur#1',
-        demandéLe: '2022-01-01',
+        demandéLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
         recandidature: false,
         preuveRecandidatureStatut: 'non-applicable',
         raison: "Justification de l'abandon",
       },
       accord: {
         accordéPar: 'Gestionnaire#1',
-        accordéLe: '2022-04-01',
+        accordéLe: new Date('2022-04-01').toISOString() as Iso8601DateTime,
         réponseSignée: 'Réponse signée',
       },
     },
@@ -122,14 +124,14 @@ export const AccordéAvecRecandidature: Story = {
     abandon: {
       demande: {
         demandéPar: 'Porteur#1',
-        demandéLe: '2022-01-01',
+        demandéLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
         recandidature: false,
         preuveRecandidatureStatut: 'en-attente',
         raison: "Justification de l'abandon",
       },
       accord: {
         accordéPar: 'Gestionnaire#1',
-        accordéLe: '2022-04-01',
+        accordéLe: new Date('2022-04-01').toISOString() as Iso8601DateTime,
         réponseSignée: 'Réponse signée',
       },
     },
@@ -144,7 +146,7 @@ export const AccordéAvecRecandidatureAvecLienPourTransmettre: Story = {
     abandon: {
       demande: {
         demandéPar: 'Porteur#1',
-        demandéLe: '2022-01-01',
+        demandéLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
         recandidature: true,
         lienRecandidature: 'path/to/page/recandidature',
         preuveRecandidatureStatut: 'en-attente',
@@ -152,7 +154,7 @@ export const AccordéAvecRecandidatureAvecLienPourTransmettre: Story = {
       },
       accord: {
         accordéPar: 'Gestionnaire#1',
-        accordéLe: '2022-04-01',
+        accordéLe: new Date('2022-04-01').toISOString() as Iso8601DateTime,
         réponseSignée: 'Réponse signée',
       },
     },

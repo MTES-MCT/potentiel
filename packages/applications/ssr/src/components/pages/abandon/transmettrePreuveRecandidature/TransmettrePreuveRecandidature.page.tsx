@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 
 import { Routes } from '@potentiel-applications/routes';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
@@ -20,7 +21,7 @@ type ProjetÀSélectionner = {
   période: string;
   famille: string;
   numéroCRE: string;
-  dateDésignation: string;
+  dateDésignation: Iso8601DateTime;
   nom: string;
 };
 

@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+
 import {
   TransmettreDateMiseEnServicePage,
   TransmettreDateMiseEnServiceProps,
@@ -23,8 +25,8 @@ export const Default: Story = {
       référence: 'Référence',
     },
     intervalleDatesMeSDélaiCDC2022: {
-      min: new Date('2022-09-01').toISOString(),
-      max: new Date('2024-12-31').toISOString(),
+      min: new Date('2022-09-01').toISOString() as Iso8601DateTime,
+      max: new Date('2024-12-31').toISOString() as Iso8601DateTime,
     },
     projet: {
       identifiantProjet: 'identifiantProjet#1',
@@ -32,7 +34,7 @@ export const Default: Story = {
       période: 'Période',
       famille: 'Famille',
       nom: 'Nom du projet',
-      dateDésignation: '2021-10-23',
+      dateDésignation: new Date('2021-10-23').toISOString() as Iso8601DateTime,
       localité: {
         codePostal: 'XXXXX',
         commune: 'Commune',
