@@ -8,16 +8,18 @@ import { CallOut } from '@/components/atoms/CallOut';
 import { Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
+import { ValiderDépôtEnCoursGarantiesFinancières } from '../../dépôt/modifier/valider/validerDépôtEnCoursGarantiesFinancières';
+
 import { DépôtGarantiesFinancières } from './GarantiesFinancièresHistoriqueDépôts';
 
-type GarantiesFinancièresDépôtEnCoursProps = {
-  dépôt: DépôtGarantiesFinancières & { action?: 'modifier' | 'instruire' };
+export type GarantiesFinancièresDépôtEnCoursProps = {
+  dépôt: DépôtGarantiesFinancières & { actions?: Array<'modifier' | 'instruire'> };
   identifiantProjet: string;
 };
 
 export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépôtEnCoursProps> = ({
   identifiantProjet,
-  dépôt: { type, dateÉchéance, dateConstitution, attestation, action, dernièreMiseÀJour },
+  dépôt: { type, dateÉchéance, dateConstitution, attestation, actions, dernièreMiseÀJour },
 }) => (
   <>
     <CallOut
@@ -36,7 +38,7 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
               <>
                 Type : <span className="font-semibold">{type}</span>
               </>
-            ) : action === 'modifier' || action === 'instruire' ? (
+            ) : actions?.includes('modifier') ? (
               <>
                 Type de garanties financières manquant (
                 <a href={Routes.GarantiesFinancières.dépôt.modifier(identifiantProjet)}>
@@ -71,16 +73,21 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
               )}
             </div>
           </div>
-          {action && (
-            <Button
-              className="mt-auto w-fit"
-              linkProps={{
-                href: Routes.GarantiesFinancières.dépôt.modifier(identifiantProjet),
-              }}
-            >
-              {action.charAt(0).toUpperCase() + action.slice(1)}
-            </Button>
-          )}
+          <div className="flex md:flex-row flex-col gap-4">
+            {actions?.includes('modifier') && (
+              <Button
+                priority="secondary"
+                linkProps={{
+                  href: Routes.GarantiesFinancières.dépôt.modifier(identifiantProjet),
+                }}
+              >
+                Modifier
+              </Button>
+            )}
+            {actions?.includes('instruire') && (
+              <ValiderDépôtEnCoursGarantiesFinancières identifiantProjet={identifiantProjet} />
+            )}
+          </div>
         </div>
       }
     />
