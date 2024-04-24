@@ -1,6 +1,6 @@
 import type { StorybookConfig } from '@storybook/nextjs';
 
-import path, { join, dirname } from 'path';
+import path, { dirname, join } from 'path';
 import webpack from 'webpack';
 
 /**
@@ -34,6 +34,18 @@ const config: StorybookConfig = {
         '@': path.resolve(__dirname, '../src'),
       };
     }
+
+    config.resolve = {
+      ...config.resolve,
+      fallback: {
+        ...(config.resolve || {}).fallback,
+        async_hooks: false,
+        inspector: false,
+        child_process: false,
+        net: false,
+        tls: false,
+      },
+    };
 
     if (config.module?.rules) {
       config.module.rules.push({
