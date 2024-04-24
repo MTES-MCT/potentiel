@@ -1,6 +1,5 @@
 import * as zod from 'zod';
 
-// import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainError } from '@potentiel-domain/core';
 
 import { CsvError, CsvValidationError } from './parseCsv';
@@ -41,6 +40,8 @@ export type FormAction<
     | zod.ZodDiscriminatedUnion<string, zod.AnyZodObject[]> = zod.AnyZodObject,
 > = (previousState: TState, data: zod.infer<TSchema>) => Promise<TState>;
 
+const TWO_SECONDS = 2000;
+
 export const formAction =
   <
     TSchema extends zod.AnyZodObject | zod.ZodDiscriminatedUnion<string, zod.AnyZodObject[]>,
@@ -55,7 +56,11 @@ export const formAction =
         ? schema.parse(Object.fromEntries(formData))
         : Object.fromEntries(formData);
 
-      return await action(previousState, data);
+      const result = await action(previousState, data);
+
+      await waitToAvoidConsistencyProblemsInApp(TWO_SECONDS);
+
+      return result;
     } catch (e) {
       if (e instanceof CsvValidationError) {
         return {
@@ -83,3 +88,6 @@ export const formAction =
       };
     }
   };
+
+const waitToAvoidConsistencyProblemsInApp = (timeInMs: number) =>
+  new Promise((resolve) => setTimeout(resolve, timeInMs));
