@@ -5,8 +5,8 @@ import { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { Icon } from '@/components/atoms/Icon';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { Icon } from '@/components/atoms/Icon';
 
 import { FormatFichierInvalide } from './FormatFichierInvalide';
 import { Etape } from './Étape';
@@ -44,7 +44,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
             className="mr-1"
             title="date de signature de la proposition technique et financière"
           />
-          {<FormattedDate date={dateSignature} />}
+          <FormattedDate date={dateSignature} />
         </div>
 
         {propositionTechniqueEtFinancièreSignée && (

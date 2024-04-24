@@ -52,7 +52,7 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
         <p className="m-0 text-sm">{descriptionTâche.description}</p>
       </div>
       <p className="italic text-xs">
-        dernière mise à jour le {<FormattedDate date={misÀJourLe} />}
+        dernière mise à jour le <FormattedDate date={misÀJourLe} />
       </p>
       <Link
         href={descriptionTâche.lien}

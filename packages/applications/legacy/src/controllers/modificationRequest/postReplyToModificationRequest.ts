@@ -151,7 +151,6 @@ v1Router.post(
       }).match(async () => {
         if (type === 'recours' || type === 'producteur') {
           try {
-            // récupérer identifiant projet value
             const modificationRequest = await ModificationRequest.findByPk(modificationRequestId);
             if (!modificationRequest) {
               return notFoundResponse({ request, response });
@@ -164,7 +163,6 @@ v1Router.post(
               `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
             ).formatter();
 
-            // récupérer appel offres
             const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
               type: 'AppelOffre.Query.ConsulterAppelOffre',
               data: { identifiantAppelOffre: projet.appelOffreId },
@@ -173,7 +171,6 @@ v1Router.post(
             if (isSoumisAuxGF({ appelOffres, famille: projet.familleId })) {
               const dateActuelle = new Date();
               if (type === 'producteur') {
-                // supprimer les éventuelles garanties financières du projet
                 try {
                   const garantiesFinancières =
                     await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
@@ -196,7 +193,6 @@ v1Router.post(
                   }
                 } catch (error) {}
               }
-              // demander des garanties financières
               await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
                 type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
                 data: {

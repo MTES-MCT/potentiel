@@ -7,12 +7,12 @@ import { useRouter } from 'next/navigation';
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Form } from '@/components/atoms/form/Form';
+import { InputDate } from '@/components/atoms/form/InputDate';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { InputDate } from '@/components/atoms/form/InputDate';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
@@ -95,13 +95,15 @@ export const TransmettreDateMiseEnServicePage = ({
                         30/08/2022
                       </span>
                       , la saisie d'une date de mise en service non comprise entre le{' '}
-                      <span className="font-bold">
-                        {<FormattedDate date={intervalleDatesMeSDélaiCDC2022.min} />}
-                      </span>{' '}
+                      <FormattedDate
+                        className="font-bold"
+                        date={intervalleDatesMeSDélaiCDC2022.min}
+                      />{' '}
                       et le{' '}
-                      <span className="font-bold">
-                        {<FormattedDate date={intervalleDatesMeSDélaiCDC2022.max} />}
-                      </span>{' '}
+                      <FormattedDate
+                        className="font-bold"
+                        date={intervalleDatesMeSDélaiCDC2022.max}
+                      />{' '}
                       peut remettre en cause l'application de ce délai et entraîner une modification
                       de la date d'achèvement du projet.
                     </li>

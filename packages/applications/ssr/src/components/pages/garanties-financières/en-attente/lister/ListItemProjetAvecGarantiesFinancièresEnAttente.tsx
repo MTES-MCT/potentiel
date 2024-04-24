@@ -68,7 +68,9 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
         </div>
         <div className="text-sm">
           Date limite de soumission :{' '}
-          <strong>{<FormattedDate date={dateLimiteSoumission} />}</strong>
+          <strong>
+            <FormattedDate date={dateLimiteSoumission} />
+          </strong>
         </div>
         {afficherModèleMiseEnDemeure && (
           <Download
@@ -86,7 +88,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
 
     <div className="flex flex-col justify-between mt-4 md:mt-0">
       <p className="italic text-xs">
-        Dernière mise à jour le {<FormattedDate date={misÀJourLe} />}
+        Dernière mise à jour le <FormattedDate date={misÀJourLe} />
       </p>
       <Link
         href={Routes.Projet.details(identifiantProjet)}

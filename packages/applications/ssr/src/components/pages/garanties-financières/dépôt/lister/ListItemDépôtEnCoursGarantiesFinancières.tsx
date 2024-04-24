@@ -83,7 +83,7 @@ export const ListItemDépôtEnCoursGarantiesFinancières: FC<
 
     <div className="flex flex-col justify-between mt-4 md:mt-0">
       <p className="italic text-xs">
-        dernière mise à jour le {<FormattedDate date={misÀJourLe} />}
+        dernière mise à jour le <FormattedDate date={misÀJourLe} />
       </p>
       <a
         href={Routes.GarantiesFinancières.détail(identifiantProjet)}

@@ -3,9 +3,9 @@ import { FC } from 'react';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 type DépôtStatut = 'en-cours' | 'validé' | 'rejeté';
 
@@ -53,17 +53,13 @@ export const GarantiesFinancièresHistoriqueDépôts: FC<
                   Date de dépôt : <FormattedDate className="font-semibold" date={dépôt.soumisLe} />
                 </li>
                 <li>
-                  Date de constitution :{' '}
-                  <span className="font-semibold">
-                    {<FormattedDate date={dépôt.dateConstitution} />}
-                  </span>
+                  Date de constitution :
+                  <FormattedDate date={dépôt.dateConstitution} className="font-semibold" />
                 </li>
                 {dépôt.dateÉchéance && (
                   <li>
-                    Date d'échéance :{' '}
-                    <span className="font-semibold">
-                      {<FormattedDate date={dépôt.dateÉchéance} />}
-                    </span>
+                    Date d'échéance :
+                    <FormattedDate date={dépôt.dateÉchéance} className="font-semibold" />
                   </li>
                 )}
               </ul>

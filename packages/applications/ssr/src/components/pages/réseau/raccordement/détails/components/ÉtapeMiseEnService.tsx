@@ -1,11 +1,11 @@
-import { FC } from 'react';
 import Link from 'next/link';
+import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { Icon } from '@/components/atoms/Icon';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { Icon } from '@/components/atoms/Icon';
 
 import { Etape } from './Étape';
 
@@ -36,7 +36,7 @@ export const ÉtapeMiseEnService: FC<ÉtapeMiseEnServiceProps> = ({
             className="mr-1"
             title="date de mise en service"
           />
-          {<FormattedDate date={dateMiseEnService} />}
+          <FormattedDate date={dateMiseEnService} />
         </div>
 
         {canEdit && (
