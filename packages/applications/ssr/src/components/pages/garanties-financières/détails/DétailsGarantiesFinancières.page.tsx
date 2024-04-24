@@ -27,7 +27,7 @@ export type DétailsGarantiesFinancièresPageProps = {
   projet: ProjetBannerProps;
   actuelles?: GarantiesFinancièresActuellesProps['actuelles'];
   dépôtEnCours?: DépôtGarantiesFinancières & {
-    action?: 'modifier' | 'instruire';
+    actions: Array<'modifier' | 'instruire' | 'supprimer'>;
   };
   dateLimiteSoummission?: Iso8601DateTime;
   historiqueDépôts: GarantiesFinancièresHistoriqueDépôtsProps['dépôts'];

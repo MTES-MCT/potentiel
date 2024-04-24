@@ -107,7 +107,7 @@ export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = 
         date: new Date('2024-01-01').toISOString() as Iso8601DateTime,
         par: 'PORTEUR#1',
       },
-      action: 'modifier',
+      actions: ['modifier'],
     },
     historiqueDépôts: [
       {
@@ -169,7 +169,7 @@ export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
         date: new Date('2024-01-01').toISOString() as Iso8601DateTime,
         par: 'PORTEUR#1',
       },
-      action: 'modifier',
+      actions: ['modifier'],
     },
     historiqueDépôts: [],
   },
