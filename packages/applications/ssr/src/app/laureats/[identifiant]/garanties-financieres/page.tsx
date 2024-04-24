@@ -20,6 +20,7 @@ import {
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import { tryToGetResource } from '@/utils/tryToGetRessource';
+import { GarantiesFinancièresDépôtEnCoursProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresDépôtEnCours';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
@@ -111,6 +112,16 @@ const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) 
   }
 
   const dépôtEnCours = garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours());
+  let dépôtEnCoursActions: GarantiesFinancièresDépôtEnCoursProps['dépôt']['actions'] = [];
+  if (utilisateur.role.estÉgaleÀ(Role.admin)) {
+    dépôtEnCoursActions = ['modifier'];
+  }
+  if (utilisateur.role.estÉgaleÀ(Role.dreal)) {
+    dépôtEnCoursActions = ['instruire', 'modifier'];
+  }
+  if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
+    dépôtEnCoursActions = ['modifier', 'supprimer'];
+  }
 
   return {
     projet,
@@ -150,12 +161,7 @@ const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) 
             par: dépôtEnCours.dernièreMiseÀJour.par.formatter(),
           },
           attestation: dépôtEnCours.attestation.formatter(),
-          action:
-            utilisateur.role.estÉgaleÀ(Role.porteur) || utilisateur.role.estÉgaleÀ(Role.admin)
-              ? 'modifier'
-              : utilisateur.role.estÉgaleÀ(Role.dreal)
-              ? 'instruire'
-              : undefined,
+          actions: dépôtEnCoursActions,
         }
       : undefined,
     historiqueDépôts: garantiesFinancières.dépôts

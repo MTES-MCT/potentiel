@@ -73,11 +73,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           },
         },
         showWarning: utilisateur.role.estÉgaleÀ(Role.porteur) ? true : undefined,
-        actions: utilisateur.role.estÉgaleÀ(Role.porteur)
-          ? ['supprimer']
-          : utilisateur.role.estÉgaleÀ(Role.dreal)
-          ? ['valider']
-          : [],
       };
 
       return <ModifierDépôtEnCoursGarantiesFinancièresPage {...props} />;

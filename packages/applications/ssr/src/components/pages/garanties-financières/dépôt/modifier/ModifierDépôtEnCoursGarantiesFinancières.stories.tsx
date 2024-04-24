@@ -53,7 +53,6 @@ export const EnTantQueDreal: Story = {
         par: 'PORTEUR#1',
       },
     },
-    actions: ['valider', 'rejeter'],
     typesGarantiesFinancières,
   },
 };
@@ -73,7 +72,6 @@ export const EnTantQuePorteur: Story = {
         par: 'DREAL#1',
       },
     },
-    actions: ['supprimer'],
     showWarning: true,
     typesGarantiesFinancières,
   },
