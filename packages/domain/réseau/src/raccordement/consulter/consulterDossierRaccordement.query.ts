@@ -74,10 +74,10 @@ const mapToResult = (
   return {
     référence,
     demandeComplèteRaccordement: {
-      dateQualification: demandeComplèteRaccordement.dateQualification
+      dateQualification: demandeComplèteRaccordement?.dateQualification
         ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
         : undefined,
-      accuséRéception: demandeComplèteRaccordement.accuséRéception
+      accuséRéception: demandeComplèteRaccordement?.accuséRéception
         ? DocumentProjet.convertirEnValueType(
             identifiantProjet.formatter(),
             TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(

@@ -302,16 +302,3 @@ const getRaccordementToUpsert = async (
 
   return Option.isSome(raccordement) ? raccordement : raccordementDefaultValue;
 };
-
-function récupérerRéférence(
-  event: Exclude<
-    Raccordement.RaccordementEvent,
-    Raccordement.GestionnaireRéseauRaccordementModifiéEvent
-  >,
-) {
-  return event.type === 'DemandeComplèteRaccordementModifiée-V1'
-    ? event.payload.referenceActuelle
-    : event.type === 'RéférenceDossierRacordementModifiée-V1'
-    ? event.payload.référenceDossierRaccordementActuelle
-    : event.payload.référenceDossierRaccordement;
-}
