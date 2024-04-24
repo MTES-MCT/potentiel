@@ -1,12 +1,13 @@
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Iso8601DateTime, formatDate } from '@potentiel-libraries/iso8601-datetime';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import {
   StatutProjetBadge,
   StatutProjetBadgeProps,
 } from '@/components/molecules/projet/StatutProjetBadge';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export type ProjetBannerProps = {
   statut: StatutProjetBadgeProps['statut'];
@@ -49,7 +50,7 @@ export const ProjetBanner: FC<ProjetBannerProps> = ({
         {localité.commune}, {localité.département}, {localité.région}
       </p>
       <div>
-        désigné le {formatDate(dateDésignation)} pour la période {appelOffre} {période}
+        désigné le <FormattedDate date={dateDésignation} /> pour la période {appelOffre} {période}
         {famille ? `, famille ${famille}` : ''}
       </div>
     </aside>

@@ -1,10 +1,11 @@
 import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
-import { Iso8601DateTime, formatDate } from '@potentiel-libraries/iso8601-datetime';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 type DépôtStatut = 'en-cours' | 'validé' | 'rejeté';
 
@@ -49,17 +50,20 @@ export const GarantiesFinancièresHistoriqueDépôts: FC<
                   Type : <span className="font-semibold">{dépôt.type}</span>
                 </li>
                 <li>
-                  Date de dépôt :{' '}
-                  <span className="font-semibold">{formatDate(dépôt.soumisLe)}</span>
+                  Date de dépôt : <FormattedDate className="font-semibold" date={dépôt.soumisLe} />
                 </li>
                 <li>
                   Date de constitution :{' '}
-                  <span className="font-semibold">{formatDate(dépôt.dateConstitution)}</span>
+                  <span className="font-semibold">
+                    {<FormattedDate date={dépôt.dateConstitution} />}
+                  </span>
                 </li>
                 {dépôt.dateÉchéance && (
                   <li>
                     Date d'échéance :{' '}
-                    <span className="font-semibold">{formatDate(dépôt.dateÉchéance)}</span>
+                    <span className="font-semibold">
+                      {<FormattedDate date={dépôt.dateÉchéance} />}
+                    </span>
                   </li>
                 )}
               </ul>
