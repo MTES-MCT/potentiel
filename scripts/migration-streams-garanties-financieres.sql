@@ -142,4 +142,31 @@ SELECT
 FROM "garantiesFinancières" gf
 	JOIN "projects" p ON gf."projetId" = p.id
 WHERE gf.statut = 'en attente' AND gf.type IS NOT NULL AND p.classe = 'Classé';
+
+-- Migration des GF pour lesquelles le type n'a pas été importé mais pour lesquelles on souhaite des GF validées avec un type inconnu
+-- Il s'agit des projets PPE2 pour lesquels le type de GF n'a pas été importé
+
+INSERT INTO
+    event_store.event_stream(stream_id, created_at, type, version, payload)
+SELECT 
+    'garanties-financieres|' || p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE",
+   TO_CHAR(now(), 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
+    'TypeGarantiesFinancièresImporté-V1',
+    (SELECT count(stream_id) + 1 from event_store.event_stream WHERE stream_id = 'garanties-financieres|' || p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE"),
+    json_build_object(
+    	'identifiantProjet', p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE",
+        'type', 'type-inconnu',
+        'dateÉchéance', NULL,
+        'importéLe', TO_CHAR(gf."updatedAt", 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')
+    )
+FROM "garantiesFinancières" gf
+	JOIN "projects" p ON gf."projetId" = p.id
+WHERE
+    gf.type IS NULL 
+    AND gf.statut = 'en attente' 
+    AND gf."dateLimiteEnvoi" IS NULL 
+    AND gf."soumisesALaCandidature" = true
+    AND p."abandonedOn" = 0 
+    AND p.classe = 'Classé'
+    AND p."motifsElimination" = ''; --on retire les cas qui ont un motif d'élimination car il s'agit projets ayant bénéficié d'un recours accordé
         
