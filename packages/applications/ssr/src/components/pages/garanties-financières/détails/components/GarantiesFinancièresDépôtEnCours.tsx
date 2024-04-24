@@ -39,7 +39,7 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
               <>
                 Type : <span className="font-semibold">{type}</span>
               </>
-            ) : actions?.includes('modifier') ? (
+            ) : actions.includes('modifier') ? (
               <>
                 Type de garanties financières manquant (
                 <a href={Routes.GarantiesFinancières.dépôt.modifier(identifiantProjet)}>
