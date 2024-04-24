@@ -14,7 +14,7 @@ import { SupprimerDépôtEnCoursGarantiesFinancières } from '../../dépôt/modi
 import { DépôtGarantiesFinancières } from './GarantiesFinancièresHistoriqueDépôts';
 
 export type GarantiesFinancièresDépôtEnCoursProps = {
-  dépôt: DépôtGarantiesFinancières & { actions?: Array<'modifier' | 'instruire' | 'supprimer'> };
+  dépôt: DépôtGarantiesFinancières & { actions: Array<'modifier' | 'instruire' | 'supprimer'> };
   identifiantProjet: string;
 };
 
