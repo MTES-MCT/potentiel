@@ -2,6 +2,8 @@ import { CahierDesChargesRéférenceParsed, ProjectAppelOffre } from '../../../.
 import { Technologie } from '@potentiel-domain/appel-offre';
 import { getRatiosChangementPuissance } from './getRatiosChangementPuissance';
 
+type AutoritéCompétenteInstructionPuissance = 'dgec' | 'dreal';
+
 export type GetAutoritéCompétenteInstructionPuissance = (arg: {
   project: {
     puissanceInitiale: number;
@@ -10,14 +12,14 @@ export type GetAutoritéCompétenteInstructionPuissance = (arg: {
     cahierDesCharges: CahierDesChargesRéférenceParsed;
   };
   nouvellePuissance: number;
-}) => 'dgec' | 'dreal';
+}) => AutoritéCompétenteInstructionPuissance;
 
 export const getAutoritéCompétenteInstructionPuissance: GetAutoritéCompétenteInstructionPuissance =
   ({ project, nouvellePuissance }) => {
     const { puissanceInitiale } = project;
-    const { max } = getRatiosChangementPuissance(project);
+    const { max: maxRatio } = getRatiosChangementPuissance(project);
 
     const ratio = (nouvellePuissance * 1000000) / (puissanceInitiale * 1000000);
 
-    return ratio > max ? 'dgec' : 'dreal';
+    return ratio > maxRatio ? 'dgec' : 'dreal';
   };

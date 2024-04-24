@@ -110,6 +110,8 @@ v1Router.post(
     };
 
     const courrierReponseIsOk = responseFile || (acceptedReply && isDecisionJustice);
+    // courrier de réponse optionnel si demande de puissance accordée suite à une décision de justice
+    // TO DO : ajouter le cas où la puissance est hors ratio à la hausse et la demande es rejetée
 
     if (!courrierReponseIsOk) {
       return response.redirect(
