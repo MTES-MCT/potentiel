@@ -74,24 +74,28 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
               )}
             </div>
           </div>
-          <div className="flex md:flex-row flex-col gap-4">
-            {actions?.includes('modifier') && (
-              <Button
-                priority="secondary"
-                linkProps={{
-                  href: Routes.GarantiesFinancières.dépôt.modifier(identifiantProjet),
-                }}
-              >
-                Modifier
-              </Button>
-            )}
-            {actions?.includes('instruire') && (
-              <ValiderDépôtEnCoursGarantiesFinancières identifiantProjet={identifiantProjet} />
-            )}
-            {actions?.includes('supprimer') && (
-              <SupprimerDépôtEnCoursGarantiesFinancières identifiantProjet={identifiantProjet} />
-            )}
-          </div>
+         {
+          actions.length > 0 ? (
+            <div className="flex md:flex-row flex-col gap-4">
+              {actions.includes('modifier') && (
+                <Button
+                  priority="secondary"
+                  linkProps={{
+                    href: Routes.GarantiesFinancières.dépôt.modifier(identifiantProjet),
+                  }}
+                >
+                  Modifier
+                </Button>
+              )}
+              {actions.includes('instruire') && (
+                <ValiderDépôtEnCoursGarantiesFinancières identifiantProjet={identifiantProjet} />
+              )}
+              {actions.includes('supprimer') && (
+                <SupprimerDépôtEnCoursGarantiesFinancières identifiantProjet={identifiantProjet} />
+              )}
+            </div>
+         ) : null
+       }
         </div>
       }
     />
