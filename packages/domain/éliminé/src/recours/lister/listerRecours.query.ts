@@ -3,7 +3,12 @@ import { RecoursEntity } from '../recours.entity';
 import { DateTime, IdentifiantProjet, CommonPort } from '@potentiel-domain/common';
 import { StatutRecours } from '..';
 import { Option } from '@potentiel-libraries/monads';
-import { ListResultV2, ListV2, RangeOptions } from '@potentiel-domain/core';
+import {
+  EqualWhereCondition,
+  IncludeWhereCondition,
+  ListV2,
+  RangeOptions,
+} from '@potentiel-domain/core';
 
 type RecoursListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -52,55 +57,26 @@ export const registerListerRecoursQuery = ({
     utilisateur: { email, rôle },
     range,
   }) => {
-    let recours: ListResultV2<RecoursEntity>;
+    const régionProjet =
+      rôle === 'dreal'
+        ? await getRegionProjetWhereCondition(récupérerRégionDreal, email)
+        : undefined;
 
-    if (['admin', 'dgec-validateur', 'cre'].includes(rôle)) {
-      recours = await list<RecoursEntity>('recours', {
-        orderBy: { misÀJourLe: 'descending' },
-        range,
-        where: {
-          statut: statut ? { operator: 'equal', value: statut } : undefined,
-          appelOffre: appelOffre ? { operator: 'equal', value: appelOffre } : undefined,
-        },
-      });
-    } else if (rôle === 'dreal') {
-      const région = await récupérerRégionDreal(email);
-      if (Option.isNone(région)) {
-        return {
-          items: [],
-          range: { startPosition: 0, endPosition: 0 },
-          total: 0,
-        };
-      }
+    const canSeeAllProjects = ['admin', 'dgec-validateur', 'dreal'].includes(rôle);
+    const identifiantProjet = canSeeAllProjects
+      ? undefined
+      : await getIdentifiantProjetWhereCondition(listerProjetsAccessibles, email);
 
-      recours = await list<RecoursEntity>('recours', {
-        orderBy: { misÀJourLe: 'descending' },
-        range,
-        where: {
-          statut: statut ? { operator: 'equal', value: statut } : undefined,
-          appelOffre: appelOffre ? { operator: 'equal', value: appelOffre } : undefined,
-          régionProjet: { operator: 'equal', value: région.région },
-        },
-      });
-    } else {
-      const identifiantsProjets = await listerProjetsAccessibles(email);
-
-      recours = await list<RecoursEntity>('recours', {
-        orderBy: { misÀJourLe: 'descending' },
-        range,
-        where: {
-          identifiantProjet: {
-            operator: 'include',
-            value: identifiantsProjets.map(
-              ({ appelOffre, période, famille, numéroCRE }) =>
-                `${appelOffre}#${période}#${famille}#${numéroCRE}`,
-            ),
-          },
-          statut: statut ? { operator: 'equal', value: statut } : undefined,
-          appelOffre: appelOffre ? { operator: 'equal', value: appelOffre } : undefined,
-        },
-      });
-    }
+    const recours = await list<RecoursEntity>('recours', {
+      orderBy: { misÀJourLe: 'descending' },
+      range,
+      where: {
+        statut: statut ? { operator: 'equal', value: statut } : undefined,
+        appelOffre: appelOffre ? { operator: 'equal', value: appelOffre } : undefined,
+        régionProjet,
+        identifiantProjet,
+      },
+    });
 
     return {
       ...recours,
@@ -117,5 +93,33 @@ const mapToReadModel = (projection: RecoursEntity): RecoursListItemReadModel => 
     statut: StatutRecours.convertirEnValueType(projection.statut),
     misÀJourLe: DateTime.convertirEnValueType(projection.misÀJourLe),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(projection.identifiantProjet),
+  };
+};
+
+const getRegionProjetWhereCondition = async (
+  récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort,
+  email: string,
+): Promise<EqualWhereCondition<string> | undefined> => {
+  const région = await récupérerRégionDreal(email);
+
+  if (Option.isNone(région)) {
+    return undefined;
+  }
+
+  return { operator: 'equal', value: région.région };
+};
+
+const getIdentifiantProjetWhereCondition = async (
+  listerIdentifiantsProjetsAccessiblesPort: CommonPort.ListerIdentifiantsProjetsAccessiblesPort,
+  email: string,
+): Promise<IncludeWhereCondition<string> | undefined> => {
+  const projets = await listerIdentifiantsProjetsAccessiblesPort(email);
+
+  return {
+    operator: 'include',
+    value: projets.map(
+      ({ appelOffre, période, famille, numéroCRE }) =>
+        `${appelOffre}#${période}#${famille}#${numéroCRE}`,
+    ),
   };
 };
