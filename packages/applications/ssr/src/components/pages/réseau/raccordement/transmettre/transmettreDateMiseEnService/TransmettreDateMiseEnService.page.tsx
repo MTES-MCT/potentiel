@@ -46,6 +46,20 @@ export const TransmettreDateMiseEnServicePage = ({
             heading="Transmettre la date de mise en service"
             action={transmettreDateMiseEnServiceAction}
             onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
+            buttons={
+              <>
+                <Button
+                  priority="secondary"
+                  linkProps={{
+                    href: Routes.Raccordement.détail(identifiantProjet),
+                  }}
+                  iconId="fr-icon-arrow-left-line"
+                >
+                  Retour aux dossiers de raccordement
+                </Button>
+                <SubmitButton>Transmettre</SubmitButton>
+              </>
+            }
           >
             <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
             <input type="hidden" name="referenceDossier" value={référence} />
@@ -63,19 +77,6 @@ export const TransmettreDateMiseEnServicePage = ({
                 'aria-required': true,
               }}
             />
-
-            <div className="flex flex-col md:flex-row gap-4 md:mt-4">
-              <Button
-                priority="secondary"
-                linkProps={{
-                  href: Routes.Raccordement.détail(identifiantProjet),
-                }}
-                iconId="fr-icon-arrow-left-line"
-              >
-                Retour aux dossiers de raccordement
-              </Button>
-              <SubmitButton>Transmettre</SubmitButton>
-            </div>
           </Form>
         ),
       }}

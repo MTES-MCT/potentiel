@@ -4,10 +4,12 @@ import { Download } from '@codegouvfr/react-dsfr/Download';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
 import { accorderAbandonSansRecandidatureAction } from './accorderAbandonSansRecandidature.action';
 
@@ -57,6 +59,12 @@ export const AccorderAbandonSansRecandidature = ({
               label="Télécharger le modèle de réponse"
               className="mb-4"
             />
+          </>
+        ),
+        buttons: (
+          <>
+            <Button priority="secondary">Non</Button>
+            <SubmitButton>Oui</SubmitButton>`
           </>
         ),
       }}

@@ -13,6 +13,7 @@ import { FormPendingModal, FormPendingModalProps } from './FormPendingModal';
 export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action'> & {
   action: ReturnType<typeof formAction>;
   children: React.ReactNode;
+  buttons: React.ReactNode;
   heading?: React.ReactNode;
   omitMandatoryFieldsLegend?: true;
   pendingModal?: FormPendingModalProps;
@@ -26,6 +27,7 @@ export const Form: FC<FormProps> = async ({
   onSuccess,
   onValidationError,
   children,
+  buttons,
   heading,
   pendingModal,
   className,
@@ -58,7 +60,11 @@ export const Form: FC<FormProps> = async ({
         </div>
       )}
 
-      <div className={`flex flex-col gap-5 ${className || ''}`}>{children}</div>
+      <div className={`flex flex-col gap-5 ${className || ''}`}>
+        {children}
+
+        <div className="flex flex-col md:flex-row gap-4 mt-5">{buttons}</div>
+      </div>
     </form>
   );
 };

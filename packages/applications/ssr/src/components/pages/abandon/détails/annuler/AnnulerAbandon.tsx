@@ -1,8 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
 import { annulerAbandonAction } from './annulerAbandon.action';
 
@@ -16,7 +18,6 @@ export const AnnulerAbandon = ({ identifiantProjet }: AnnulerAbandonFormProps) =
   return (
     <ButtonWithFormInModal
       name="Annuler"
-      yesNo
       description="Annuler l'abandon"
       form={{
         action: annulerAbandonAction,
@@ -28,6 +29,12 @@ export const AnnulerAbandon = ({ identifiantProjet }: AnnulerAbandonFormProps) =
           <>
             <p className="mt-3">Êtes-vous sûr de vouloir annuler cet abandon ?</p>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+          </>
+        ),
+        buttons: (
+          <>
+            <Button priority="secondary">Non</Button>
+            <SubmitButton>Oui</SubmitButton>
           </>
         ),
       }}

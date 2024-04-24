@@ -50,6 +50,20 @@ export const ModifierGestionnaireRéseauRaccordementPage: FC<
             onSuccess={() => router.push(Routes.Raccordement.détail(projet.identifiantProjet))}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
             heading="Modifier le gestionnaire de réseau du projet"
+            buttons={
+              <>
+                <Button
+                  priority="secondary"
+                  linkProps={{
+                    href: Routes.Raccordement.détail(identifiantProjet),
+                  }}
+                  iconId="fr-icon-arrow-left-line"
+                >
+                  Retour aux dossiers de raccordement
+                </Button>
+                <SubmitButton>Modifier</SubmitButton>
+              </>
+            }
           >
             <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
@@ -67,19 +81,6 @@ export const ModifierGestionnaireRéseauRaccordementPage: FC<
                     gestionnaireActuel?.identifiantGestionnaireRéseau
                   }
                 />
-              </div>
-
-              <div className="flex flex-col md:flex-row gap-4 m-auto">
-                <Button
-                  priority="secondary"
-                  linkProps={{
-                    href: Routes.Raccordement.détail(identifiantProjet),
-                  }}
-                  iconId="fr-icon-arrow-left-line"
-                >
-                  Retour aux dossiers de raccordement
-                </Button>
-                <SubmitButton>Modifier</SubmitButton>
               </div>
             </div>
           </Form>

@@ -56,6 +56,11 @@ export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidatu
           method="post"
           onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           onSuccess={() => router.push(Routes.Abandon.détail(projet.identifiantProjet))}
+          buttons={
+            <SubmitButton disabledCondition={() => !projetSélectionné}>
+              Transmettre la preuve de recandidature
+            </SubmitButton>
+          }
         >
           <input type={'hidden'} value={projet.identifiantProjet} name="identifiantProjet" />
 
@@ -98,10 +103,6 @@ export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidatu
               />
             </>
           )}
-
-          <SubmitButton disabledCondition={() => !projetSélectionné}>
-            Transmettre la preuve de recandidature
-          </SubmitButton>
         </Form>
       ) : (
         <p>Vous ne disposez d'aucun projet éligible avec une preuve de recandidature</p>

@@ -68,18 +68,29 @@ export default function NewApp() {
             form={{
               id: 'action1',
               children: <></>,
+              buttons: <></>,
               action: newAppAction,
             }}
           />
           <ButtonWithFormInModal
             name="Action 2"
             description="Action 2 descirption"
-            form={{ id: 'action2', children: <p>Action 2 component</p>, action: newAppAction }}
+            form={{
+              id: 'action2',
+              children: <p>Action 2 component</p>,
+              action: newAppAction,
+              buttons: <></>,
+            }}
           />
           <ButtonWithFormInModal
             name="Action 3"
             description="Action 3 descirption"
-            form={{ id: 'action3', children: <p>Action 3 component</p>, action: newAppAction }}
+            form={{
+              id: 'action3',
+              children: <p>Action 3 component</p>,
+              action: newAppAction,
+              buttons: <></>,
+            }}
           />
         </div>
       </div>

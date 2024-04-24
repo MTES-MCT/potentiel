@@ -27,6 +27,7 @@ export const AjouterGestionnaireRéseauPage: FC = () => {
         encType="multipart/form-data"
         onSuccess={() => router.push(Routes.Gestionnaire.lister)}
         onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+        buttons={<SubmitButton>Envoyer</SubmitButton>}
       >
         <Input
           textArea
@@ -75,8 +76,6 @@ export const AjouterGestionnaireRéseauPage: FC = () => {
           stateRelatedMessage="expression régulière à préciser"
           hintText="Exemple : [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}"
         />
-
-        <SubmitButton>Envoyer</SubmitButton>
       </Form>
     </PageTemplate>
   );

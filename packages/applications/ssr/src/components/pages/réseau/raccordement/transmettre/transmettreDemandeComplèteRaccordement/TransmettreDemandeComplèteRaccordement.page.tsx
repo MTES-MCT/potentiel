@@ -76,6 +76,20 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
             heading="Transmettre une demande complète de raccordement"
             onSuccess={() => router.push(Routes.Raccordement.détail(projet.identifiantProjet))}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+            buttons={
+              <>
+                <Button
+                  priority="secondary"
+                  linkProps={{
+                    href: Routes.Raccordement.détail(identifiantProjet),
+                  }}
+                  iconId="fr-icon-arrow-left-line"
+                >
+                  Retour aux dossiers de raccordement
+                </Button>
+                <SubmitButton>Transmettre</SubmitButton>
+              </>
+            }
           >
             <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
@@ -141,19 +155,6 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
               state={validationErrors.includes('accuseReception') ? 'error' : 'default'}
               stateRelatedMessage="Accusé de réception de la demande complète de raccordement obligatoire"
             />
-
-            <div className="flex flex-col md:flex-row gap-4 mt-5">
-              <Button
-                priority="secondary"
-                linkProps={{
-                  href: Routes.Raccordement.détail(identifiantProjet),
-                }}
-                iconId="fr-icon-arrow-left-line"
-              >
-                Retour aux dossiers de raccordement
-              </Button>
-              <SubmitButton>Transmettre</SubmitButton>
-            </div>
           </Form>
         ),
       }}

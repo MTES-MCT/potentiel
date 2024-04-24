@@ -33,6 +33,7 @@ export const ImporterDatesMiseEnServicePage = () => {
               children: 'Import des dates de mise en service en cours ...',
             }}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+            buttons={<SubmitButton>Importer</SubmitButton>}
           >
             <Upload
               label="Fichier des dates de mise en service"
@@ -46,9 +47,6 @@ export const ImporterDatesMiseEnServicePage = () => {
               state={validationErrors.includes('fichierDatesMiseEnService') ? 'error' : 'default'}
               stateRelatedMessage={'Vous devez joindre un fichier non vide.'}
             />
-            <div className="flex flex-col md:flex-row mx-auto">
-              <SubmitButton>Importer</SubmitButton>
-            </div>
           </Form>
         ),
       }}

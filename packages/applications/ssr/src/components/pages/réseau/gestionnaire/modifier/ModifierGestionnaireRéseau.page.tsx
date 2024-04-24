@@ -44,6 +44,7 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
         encType="multipart/form-data"
         onSuccess={() => router.push(Routes.Gestionnaire.lister)}
         onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+        buttons={<SubmitButton>Envoyer</SubmitButton>}
       >
         <div className="mb-6">
           <label>Code EIC ou Gestionnaire: {identifiantGestionnaireRéseau}</label>
@@ -105,8 +106,6 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
           stateRelatedMessage="Expression régulière à préciser"
           hintText="Exemple : [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}"
         />
-
-        <SubmitButton>Envoyer</SubmitButton>
       </Form>
     </PageTemplate>
   );

@@ -37,6 +37,20 @@ export const EnregistrerAttestationGarantiesFinancièresPage: FC<
         action={enregistrerAttestationGarantiesFinancièresAction}
         onSuccess={() => router.push(Routes.GarantiesFinancières.détail(projet.identifiantProjet))}
         onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+        buttons={
+          <>
+            <Button
+              priority="secondary"
+              linkProps={{
+                href: Routes.GarantiesFinancières.détail(projet.identifiantProjet),
+              }}
+              iconId="fr-icon-arrow-left-line"
+            >
+              Retour au détail des garanties financières
+            </Button>
+            <SubmitButton>Enregistrer</SubmitButton>
+          </>
+        }
       >
         <input type="hidden" name="identifiantProjet" value={projet.identifiantProjet} />
 
@@ -65,19 +79,6 @@ export const EnregistrerAttestationGarantiesFinancièresPage: FC<
           state={validationErrors.includes('attestation') ? 'error' : 'default'}
           stateRelatedMessage="Attestation de constitution des garantières financières obligatoire"
         />
-
-        <div className="flex flex-col md:flex-row gap-4 mt-5">
-          <Button
-            priority="secondary"
-            linkProps={{
-              href: Routes.GarantiesFinancières.détail(projet.identifiantProjet),
-            }}
-            iconId="fr-icon-arrow-left-line"
-          >
-            Retour au détail des garanties financières
-          </Button>
-          <SubmitButton>Enregistrer</SubmitButton>
-        </div>
       </Form>
     </PageTemplate>
   );

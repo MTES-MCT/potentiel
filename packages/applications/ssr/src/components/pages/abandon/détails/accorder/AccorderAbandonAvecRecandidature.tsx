@@ -1,10 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
 import { accorderAbandonAvecRecandidatureAction } from './accorderAbandonAvecRecandidature.action';
 
@@ -20,7 +22,6 @@ export const AccorderAbandonAvecRecandidature = ({
   return (
     <ButtonWithFormInModal
       name="Accorder"
-      yesNo
       description="Accorder l'abandon"
       form={{
         id: 'accorder-abandon-avec-recandidature-form',
@@ -33,6 +34,12 @@ export const AccorderAbandonAvecRecandidature = ({
           <>
             <p className="mt-3">Êtes-vous sûr de vouloir accorder cet abandon ?</p>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+          </>
+        ),
+        buttons: (
+          <>
+            <Button priority="secondary">Non</Button>
+            <SubmitButton>Oui</SubmitButton>
           </>
         ),
       }}

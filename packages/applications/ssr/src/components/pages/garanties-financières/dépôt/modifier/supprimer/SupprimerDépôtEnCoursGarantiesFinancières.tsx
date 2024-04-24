@@ -1,10 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
 import { supprimerDépôtEnCoursGarantiesFinancièresAction } from './supprimerDépôtEnCoursGarantiesFinancières.action';
 
@@ -20,7 +22,6 @@ export const SupprimerDépôtEnCoursGarantiesFinancières = ({
   return (
     <ButtonWithFormInModal
       name="Supprimer"
-      yesNo
       description="Supprimer les garanties financières en attente de validation"
       form={{
         id: 'supprimer-garanties-financieres-a-traiter-form',
@@ -33,6 +34,12 @@ export const SupprimerDépôtEnCoursGarantiesFinancières = ({
           <>
             <p className="mt-3">Êtes-vous sûr de vouloir supprimer ces garanties financières ?</p>
             <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+          </>
+        ),
+        buttons: (
+          <>
+            <Button priority="secondary">Non</Button>
+            <SubmitButton>Oui</SubmitButton>
           </>
         ),
       }}

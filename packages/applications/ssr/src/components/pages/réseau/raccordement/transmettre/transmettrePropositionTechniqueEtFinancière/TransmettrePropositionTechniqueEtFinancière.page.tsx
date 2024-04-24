@@ -45,6 +45,20 @@ export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
             action={transmettrePropositionTechniqueEtFinancièreAction}
             onSuccess={() => router.push(Routes.Raccordement.détail(projet.identifiantProjet))}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+            buttons={
+              <>
+                <Button
+                  priority="secondary"
+                  linkProps={{
+                    href: Routes.Raccordement.détail(identifiantProjet),
+                  }}
+                  iconId="fr-icon-arrow-left-line"
+                >
+                  Retour aux dossiers de raccordement
+                </Button>
+                <SubmitButton>Transmettre</SubmitButton>
+              </>
+            }
           >
             <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
             <input type="hidden" name="referenceDossier" value={referenceDossierRaccordement} />
@@ -77,19 +91,6 @@ export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
               }
               stateRelatedMessage="Accusé de réception de la proposition technique et finançière obligatoire"
             />
-
-            <div className="flex flex-col md:flex-row gap-4 mt-5">
-              <Button
-                priority="secondary"
-                linkProps={{
-                  href: Routes.Raccordement.détail(identifiantProjet),
-                }}
-                iconId="fr-icon-arrow-left-line"
-              >
-                Retour aux dossiers de raccordement
-              </Button>
-              <SubmitButton>Transmettre</SubmitButton>
-            </div>
           </Form>
         ),
       }}
