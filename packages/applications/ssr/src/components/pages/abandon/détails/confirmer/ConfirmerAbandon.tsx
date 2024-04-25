@@ -17,6 +17,7 @@ export const ConfirmerAbandon = ({ identifiantProjet }: ConfirmerAbandonFormProp
     <ButtonWithFormInModal
       name="Confirmer"
       description="Confirmer l'abandon"
+      widthFull
       form={{
         action: confirmerAbandonAction,
         method: 'post',

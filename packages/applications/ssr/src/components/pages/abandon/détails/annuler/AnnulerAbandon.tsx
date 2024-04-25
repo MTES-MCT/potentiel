@@ -17,6 +17,7 @@ export const AnnulerAbandon = ({ identifiantProjet }: AnnulerAbandonFormProps) =
     <ButtonWithFormInModal
       name="Annuler"
       yesNo
+      widthFull
       description="Annuler l'abandon"
       form={{
         action: annulerAbandonAction,

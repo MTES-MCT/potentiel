@@ -25,6 +25,7 @@ export const DemanderConfirmationAbandon = ({
     <ButtonWithFormInModal
       name="Demander la confirmation"
       description="Demander la confirmation de l'abandon"
+      widthFull
       form={{
         id: 'demande-confirmation-abandon-form',
         action: demanderConfirmationAbandonAction,

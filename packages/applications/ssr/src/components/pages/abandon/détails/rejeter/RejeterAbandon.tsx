@@ -23,6 +23,7 @@ export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) =
     <ButtonWithFormInModal
       name="Rejeter"
       description="Rejeter l'abandon"
+      widthFull
       form={{
         action: rejeterAbandonAction,
         method: 'post',

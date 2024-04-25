@@ -22,6 +22,7 @@ export const AccorderAbandonAvecRecandidature = ({
       name="Accorder"
       yesNo
       description="Accorder l'abandon"
+      widthFull
       form={{
         id: 'accorder-abandon-avec-recandidature-form',
         action: accorderAbandonAvecRecandidatureAction,

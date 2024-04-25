@@ -25,6 +25,7 @@ export const AccorderAbandonSansRecandidature = ({
     <ButtonWithFormInModal
       name="Accorder"
       description="Accorder l'abandon"
+      widthFull
       form={{
         action: accorderAbandonSansRecandidatureAction,
         method: 'post',
