@@ -32,16 +32,19 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
     }),
   );
 
-  const isModalOpen = useIsModalOpen(modal);
-
-  if (isOpen && !isModalOpen) {
-    modal.open();
-  }
-
   const closeModal = () => {
     setIsOpen(false);
     modal.close();
   };
+
+  // a to cope with DSFR constraints
+  useIsModalOpen(modal, {
+    onConceal: () => closeModal(),
+  });
+
+  if (isOpen) {
+    modal.open();
+  }
 
   return (
     <modal.Component title={title}>
