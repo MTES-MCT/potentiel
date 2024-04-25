@@ -20,7 +20,6 @@ export const ValiderDépôtEnCoursGarantiesFinancières = ({
   return (
     <ButtonWithFormInModal
       name="Valider"
-      priority="primary"
       description="Valider les garanties financières"
       yesNo
       form={{
@@ -37,8 +36,6 @@ export const ValiderDépôtEnCoursGarantiesFinancières = ({
           </>
         ),
       }}
-    >
-      Valider
-    </ButtonWithFormInModal>
+    ></ButtonWithFormInModal>
   );
 };

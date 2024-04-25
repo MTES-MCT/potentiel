@@ -19,7 +19,7 @@ export const AccorderAbandonAvecRecandidature = ({
 
   return (
     <ButtonWithFormInModal
-      className="w-full"
+      // className="w-full"
       name="Accorder"
       yesNo
       description="Accorder l'abandon"
@@ -37,8 +37,6 @@ export const AccorderAbandonAvecRecandidature = ({
           </>
         ),
       }}
-    >
-      Accorder
-    </ButtonWithFormInModal>
+    ></ButtonWithFormInModal>
   );
 };

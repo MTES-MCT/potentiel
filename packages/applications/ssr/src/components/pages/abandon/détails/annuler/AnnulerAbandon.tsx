@@ -17,7 +17,6 @@ export const AnnulerAbandon = ({ identifiantProjet }: AnnulerAbandonFormProps) =
     <ButtonWithFormInModal
       name="Annuler"
       yesNo
-      className="w-full"
       description="Annuler l'abandon"
       form={{
         action: annulerAbandonAction,
@@ -32,8 +31,6 @@ export const AnnulerAbandon = ({ identifiantProjet }: AnnulerAbandonFormProps) =
           </>
         ),
       }}
-    >
-      Annuler
-    </ButtonWithFormInModal>
+    ></ButtonWithFormInModal>
   );
 };
