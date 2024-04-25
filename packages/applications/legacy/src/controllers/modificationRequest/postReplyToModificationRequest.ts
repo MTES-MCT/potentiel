@@ -110,7 +110,7 @@ v1Router.post(
     };
 
     const courrierEstOptionnelSiRefuséEtObligatoireSiAccepté =
-      type === 'puissance' && role === 'dgec-validateur';
+      type === 'puissance' && role === 'admin';
 
     const courrierReponseIsOk =
       responseFile ||
