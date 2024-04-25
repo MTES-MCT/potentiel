@@ -19,10 +19,10 @@ export const AccorderAbandonAvecRecandidature = ({
 
   return (
     <ButtonWithFormInModal
+      className="w-full"
       name="Accorder"
       yesNo
       description="Accorder l'abandon"
-      widthFull
       form={{
         id: 'accorder-abandon-avec-recandidature-form',
         action: accorderAbandonAvecRecandidatureAction,
@@ -37,6 +37,8 @@ export const AccorderAbandonAvecRecandidature = ({
           </>
         ),
       }}
-    />
+    >
+      Accorder
+    </ButtonWithFormInModal>
   );
 };

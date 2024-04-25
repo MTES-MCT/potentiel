@@ -20,7 +20,7 @@ export const SupprimerDépôtEnCoursGarantiesFinancières = ({
   return (
     <ButtonWithFormInModal
       name="Supprimer"
-      prority="primary"
+      priority="primary"
       description="Supprimer les garanties financières en attente de validation"
       yesNo
       form={{
@@ -37,6 +37,8 @@ export const SupprimerDépôtEnCoursGarantiesFinancières = ({
           </>
         ),
       }}
-    />
+    >
+      Supprimer
+    </ButtonWithFormInModal>
   );
 };
