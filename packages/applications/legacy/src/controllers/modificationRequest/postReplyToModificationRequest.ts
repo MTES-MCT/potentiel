@@ -1,4 +1,5 @@
 import fs from 'fs';
+import moment from 'moment';
 import {
   acceptModificationRequest,
   ensureRole,
@@ -6,10 +7,10 @@ import {
   requestConfirmation,
 } from '../../config';
 import { logger } from '../../core/utils';
-import { getModificationRequestAuthority } from '../../infra/sequelize/queries';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
+import { getModificationRequestAuthority } from '../../infra/sequelize/queries';
 import {
   ModificationRequestAcceptanceParams,
   ProjetDéjàClasséError,
@@ -25,16 +26,15 @@ import { errorResponse, isSoumisAuxGF, notFoundResponse, unauthorizedResponse } 
 import asyncHandler from '../helpers/asyncHandler';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
-import moment from 'moment';
 
 /* eslint-disable import/no-duplicates */
+import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { format, parseISO } from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { IdentifiantProjet } from '@potentiel-domain/common';
-import { ModificationRequest, Project } from '../../infra/sequelize';
 import { mediator } from 'mediateur';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { ModificationRequest, Project } from '../../infra/sequelize';
 
 const FORMAT_DATE = 'DD/MM/YYYY';
 
@@ -109,9 +109,13 @@ v1Router.post(
       filename: request.file.originalname,
     };
 
-    const courrierReponseIsOk = responseFile || (acceptedReply && isDecisionJustice);
-    // courrier de réponse optionnel si demande de puissance accordée suite à une décision de justice
-    // TO DO : ajouter le cas où la puissance est hors ratio à la hausse et la demande es rejetée
+    const courrierEstOptionnelSiRefuséEtObligatoireSiAccepté =
+      type === 'puissance' && role === 'dgec-validateur';
+
+    const courrierReponseIsOk =
+      responseFile ||
+      (acceptedReply && isDecisionJustice) ||
+      (courrierEstOptionnelSiRefuséEtObligatoireSiAccepté && !acceptedReply && !responseFile);
 
     if (!courrierReponseIsOk) {
       return response.redirect(
