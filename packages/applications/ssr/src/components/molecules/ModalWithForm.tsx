@@ -29,7 +29,7 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
 }) => {
   const [modal, _] = useState(
     createModal({
-      id: `form--modal-${title}`,
+      id: `form-modal-${title}`,
       isOpenedByDefault: isOpen,
     }),
   );
@@ -56,8 +56,9 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
   return (
     <modal.Component title={title}>
       <Form {...form} onSuccess={closeModal}>
+        {form.children}
         <div className="flex flex-col md:flex-row gap-4 mt-5">
-          <Button priority="secondary" onClick={handleRejectClick}>
+          <Button priority="secondary" onClick={handleRejectClick} type="button">
             {rejectButtonLabel}
           </Button>
           <SubmitButton>{acceptButtonLabel}</SubmitButton>
