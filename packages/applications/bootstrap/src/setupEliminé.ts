@@ -7,6 +7,7 @@ import {
   récupérerRégionDrealAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { RecoursProjector } from '@potentiel-applications/projectors';
+import { RecoursNotification } from '@potentiel-applications/notifications';
 
 export const setupEliminé = async () => {
   registerEliminéUseCases({
@@ -21,6 +22,19 @@ export const setupEliminé = async () => {
   });
 
   RecoursProjector.register();
+  RecoursNotification.register();
+
+  const unsubscribeRecoursNotification = await subscribe<RecoursNotification.SubscriptionEvent>({
+    name: 'notifications',
+    streamCategory: 'recours',
+    eventType: ['RecoursDemandé-V1', 'RecoursAccordé-V1', 'RecoursAnnulé-V1', 'RecoursRejeté-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<RecoursNotification.Execute>({
+        type: 'System.Notification.Eliminé.Recours',
+        data: event,
+      });
+    },
+  });
 
   const unsubscribeRecoursProjector = await subscribe<RecoursProjector.SubscriptionEvent>({
     name: 'projector',
@@ -41,6 +55,7 @@ export const setupEliminé = async () => {
   });
 
   return async () => {
+    await unsubscribeRecoursNotification();
     await unsubscribeRecoursProjector();
   };
 };
