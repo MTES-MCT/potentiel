@@ -7,7 +7,6 @@ const destinationBucketName = process.env.S3_BACKUP_BUCKET || '';
 
 (async () => {
   getLogger().info('🏁 Creating production files backup');
-  const backupDate = new Date();
   const source = new S3({
     endpoint: process.env.S3_ENDPOINT || '',
     credentials: {
@@ -53,7 +52,7 @@ const destinationBucketName = process.env.S3_BACKUP_BUCKET || '';
             client: destination,
             params: {
               Bucket: destinationBucketName,
-              Key: `${backupDate.toISOString()}/${key}`,
+              Key: key,
               Body,
             },
           }).done();
