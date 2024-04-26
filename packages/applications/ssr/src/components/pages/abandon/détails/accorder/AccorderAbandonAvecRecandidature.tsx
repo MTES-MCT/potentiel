@@ -22,7 +22,11 @@ export const AccorderAbandonAvecRecandidature = ({
 
   return (
     <>
-      <Button priority="secondary" onClick={() => setIsOpen(true)} className="w-full text-center">
+      <Button
+        priority="secondary"
+        onClick={() => setIsOpen(true)}
+        className="block w-full text-center"
+      >
         Accorder
       </Button>
 

@@ -46,7 +46,7 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
 
   const onFormSuccess = async () => {
     form.onSuccess && (await form.onSuccess());
-    closeModal;
+    closeModal();
   };
 
   // a to cope with DSFR constraints
