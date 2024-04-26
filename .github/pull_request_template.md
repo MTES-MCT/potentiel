@@ -2,8 +2,6 @@
 
 Veuillez inclure un résumé des changements apportés dans la PR. Veuillez également inclure la motivation et le contexte pertinents. Listez toutes les dépendances nécessaires pour ce changement.
 
-**Mettre un lien vers l'issue**
-
 ## Type de changement
 
 Veuillez supprimer les options qui ne sont pas pertinentes.
