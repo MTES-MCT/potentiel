@@ -30,7 +30,7 @@ export const RejeterDépôtEnCoursGarantiesFinancières = ({
       </Button>
 
       <ModalWithForm
-        title="Rejeter les garanties financières"
+        title="Rejeter les garanties financières en attente de validation"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
