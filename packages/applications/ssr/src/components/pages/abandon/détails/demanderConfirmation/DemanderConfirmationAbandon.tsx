@@ -59,6 +59,7 @@ export const DemanderConfirmationAbandon = ({
                   name: 'reponseSignee',
                   required: true,
                   'aria-required': true,
+                  accept: '.pdf',
                 }}
                 className="mb-8"
               />

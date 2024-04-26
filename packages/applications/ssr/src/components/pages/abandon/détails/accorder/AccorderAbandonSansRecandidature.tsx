@@ -59,6 +59,7 @@ export const AccorderAbandonSansRecandidature = ({
                   name: 'reponseSignee',
                   required: true,
                   'aria-required': true,
+                  accept: '.pdf',
                 }}
                 className="mb-4"
               />
