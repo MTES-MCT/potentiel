@@ -44,6 +44,11 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
     closeModal();
   };
 
+  const onFormSuccess = async () => {
+    form.onSuccess && (await form.onSuccess());
+    closeModal;
+  };
+
   // a to cope with DSFR constraints
   useIsModalOpen(modal, {
     onConceal: () => closeModal(),
@@ -55,7 +60,7 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
 
   return (
     <modal.Component title={title}>
-      <Form {...form} onSuccess={closeModal}>
+      <Form {...form} onSuccess={onFormSuccess}>
         {form.children}
         <div className="flex flex-col md:flex-row gap-4 mt-5">
           <Button priority="secondary" onClick={handleRejectClick} type="button">
