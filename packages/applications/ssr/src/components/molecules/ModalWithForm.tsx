@@ -30,7 +30,7 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
   const [modal, _] = useState(
     createModal({
       id: `form--modal-${title}`,
-      isOpenedByDefault: false,
+      isOpenedByDefault: isOpen,
     }),
   );
 
@@ -39,8 +39,8 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
     modal.close();
   };
 
-  const handleRejectClick = () => {
-    onRejectClick && onRejectClick();
+  const handleRejectClick = async () => {
+    onRejectClick && (await onRejectClick());
     closeModal();
   };
 
@@ -55,7 +55,7 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
 
   return (
     <modal.Component title={title}>
-      <Form {...form} onSubmit={closeModal}>
+      <Form {...form} onSuccess={closeModal}>
         <div className="flex flex-col md:flex-row gap-4 mt-5">
           <Button priority="secondary" onClick={handleRejectClick}>
             {rejectButtonLabel}
