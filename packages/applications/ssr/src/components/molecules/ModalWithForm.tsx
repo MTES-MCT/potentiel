@@ -4,6 +4,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import { useIsModalOpen } from '@codegouvfr/react-dsfr/Modal/useIsModalOpen';
 import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { v4 as uuid } from 'uuid';
 
 import { Form, FormProps } from '../atoms/form/Form';
 import { SubmitButton } from '../atoms/form/SubmitButton';
@@ -18,6 +19,8 @@ export type ModalWithFormProps = {
   title: string;
 };
 
+const SUCCESS_CLOSING_TIMEOUT_IN_MS = 800;
+
 export const ModalWithForm: FC<ModalWithFormProps> = ({
   acceptButtonLabel,
   form,
@@ -27,6 +30,9 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
   setIsOpen,
   title,
 }) => {
+  // cheap trick to reset the form when re-opening the modal
+  const id = uuid();
+
   const [modal, _] = useState(
     createModal({
       id: `form-modal-${title}`,
@@ -46,10 +52,11 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
 
   const onFormSuccess = async () => {
     form.onSuccess && (await form.onSuccess());
+    await delay();
     closeModal();
   };
 
-  // a to cope with DSFR constraints
+  // close modal if inside "fermer" button is triggered
   useIsModalOpen(modal, {
     onConceal: () => closeModal(),
   });
@@ -60,7 +67,7 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
 
   return (
     <modal.Component title={title}>
-      <Form {...form} onSuccess={onFormSuccess}>
+      <Form {...form} onSuccess={onFormSuccess} key={id}>
         {form.children}
         <div className="flex flex-col md:flex-row gap-4 mt-5">
           <Button priority="secondary" onClick={handleRejectClick} type="button">
@@ -72,3 +79,5 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
     </modal.Component>
   );
 };
+
+const delay = () => new Promise((resolve) => setTimeout(resolve, SUCCESS_CLOSING_TIMEOUT_IN_MS));
