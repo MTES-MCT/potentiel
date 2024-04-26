@@ -1,4 +1,5 @@
 import { Abandon, Raccordement } from './lauréat';
+import { Recours } from './éliminé';
 import { Document } from './document';
 import { Gestionnaire } from './réseau';
 import { Projet } from './projet';
@@ -13,4 +14,5 @@ export const Routes = {
   Raccordement,
   Tache,
   GarantiesFinancières,
+  Recours,
 };

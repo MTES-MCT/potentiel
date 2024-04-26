@@ -1,3 +1,4 @@
+import { EventEmitter } from 'events';
 import {
   Before,
   setWorldConstructor,
@@ -31,6 +32,8 @@ const bucketName = 'potentiel';
 
 let unsetup: (() => Promise<void>) | undefined;
 
+const disableNodeMaxListenerWarning = () => (EventEmitter.defaultMaxListeners = Infinity);
+
 BeforeStep(async () => {
   // As read data are inconsistant, we wait 100ms before each step.
   await sleep(200);
@@ -43,6 +46,8 @@ BeforeAll(async () => {
   process.env.AWS_REGION = 'localhost';
   process.env.AWS_ACCESS_KEY_ID = 'minioadmin';
   process.env.AWS_SECRET_ACCESS_KEY = 'minioadmin';
+
+  disableNodeMaxListenerWarning();
 });
 
 Before<PotentielWorld>(async function (this: PotentielWorld) {

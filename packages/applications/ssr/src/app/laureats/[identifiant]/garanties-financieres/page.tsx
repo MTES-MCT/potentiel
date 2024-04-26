@@ -50,7 +50,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       }
 
       /**
-       * @todo à refacto suite à l'introduction d'une réponse de la query en utilisant @potentiel/monads
+       * @todo à refacto suite à l'introduction d'une réponse de la query en utilisant @potentiel-libraries/monads
        */
 
       const garantiesFinancières = await tryToGetResource(

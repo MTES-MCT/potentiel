@@ -16,7 +16,7 @@ const query = `
   ;                 
 `;
 
-export const récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort = async (
+export const récupérerRégionDrealAdapter: CommonPort.RécupérerRégionDrealPort = async (
   identifiantUtilisateur,
 ) => {
   const résultat = await executeSelect<{
