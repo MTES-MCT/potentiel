@@ -9,25 +9,27 @@ import { Form, FormProps } from '../atoms/form/Form';
 import { SubmitButton } from '../atoms/form/SubmitButton';
 
 export type ModalWithFormProps = {
-  title: string;
-  form: FormProps;
-  rejectButtonLabel: string;
   acceptButtonLabel: string;
+  form: FormProps;
   isOpen: boolean;
+  onRejectClick?: () => any;
+  rejectButtonLabel: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  title: string;
 };
 
 export const ModalWithForm: FC<ModalWithFormProps> = ({
-  title,
-  form,
-  rejectButtonLabel,
   acceptButtonLabel,
+  form,
   isOpen,
+  onRejectClick,
+  rejectButtonLabel,
   setIsOpen,
+  title,
 }) => {
   const [modal, _] = useState(
     createModal({
-      id: `action-modal-${title}`,
+      id: `form--modal-${title}`,
       isOpenedByDefault: false,
     }),
   );
@@ -35,6 +37,11 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
   const closeModal = () => {
     setIsOpen(false);
     modal.close();
+  };
+
+  const handleRejectClick = () => {
+    onRejectClick && onRejectClick();
+    closeModal();
   };
 
   // a to cope with DSFR constraints
@@ -48,9 +55,9 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
 
   return (
     <modal.Component title={title}>
-      <Form {...form}>
+      <Form {...form} onSubmit={closeModal}>
         <div className="flex flex-col md:flex-row gap-4 mt-5">
-          <Button priority="secondary" onClick={() => closeModal()}>
+          <Button priority="secondary" onClick={handleRejectClick}>
             {rejectButtonLabel}
           </Button>
           <SubmitButton>{acceptButtonLabel}</SubmitButton>
