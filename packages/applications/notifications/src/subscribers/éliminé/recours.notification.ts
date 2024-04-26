@@ -34,7 +34,7 @@ const sendEmailRecoursChangementDeStatut = async ({
   période,
 }: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  statut: 'demandé' | 'annulé' | 'accordé' | 'rejeté';
+  statut: Exclude<Recours.StatutRecours.RawType, 'inconnu'>;
   templateId: number;
   recipients: Array<{ email: string; fullName: string }>;
   nomProjet: string;
