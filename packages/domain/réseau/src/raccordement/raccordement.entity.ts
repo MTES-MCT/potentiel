@@ -2,7 +2,7 @@ import { Entity } from '@potentiel-domain/core';
 
 type DossierRaccordement = {
   référence: string;
-  demandeComplèteRaccordement: {
+  demandeComplèteRaccordement?: {
     dateQualification?: string;
     accuséRéception?: { format: string };
   };
