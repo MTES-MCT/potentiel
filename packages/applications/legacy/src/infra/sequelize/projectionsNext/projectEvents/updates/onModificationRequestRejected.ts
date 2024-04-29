@@ -1,3 +1,4 @@
+import { Transaction } from 'sequelize';
 import { UniqueEntityID } from '../../../../../core/domain';
 import { logger } from '../../../../../core/utils';
 import { ModificationRequestRejected } from '../../../../../modules/modificationRequest';
@@ -57,16 +58,7 @@ export default ProjectEventProjector.on(
       if (modificationRequest) {
         const { projectId } = modificationRequest;
 
-        let file: undefined | { id: string; name: string };
-
-        if (responseFileId) {
-          const rawFileName = await File.findByPk(responseFileId, {
-            attributes: ['filename'],
-            transaction,
-          });
-          const filename: string | undefined = rawFileName?.filename;
-          file = filename ? { id: responseFileId, name: filename } : undefined;
-        }
+        const file = responseFileId && (await getFile(responseFileId, transaction));
 
         await ProjectEvent.create(
           {
@@ -83,3 +75,15 @@ export default ProjectEventProjector.on(
     }
   },
 );
+
+const getFile = async (responseFileId: string, transaction: Transaction | undefined) => {
+  const rawFilename = await File.findByPk(responseFileId, {
+    attributes: ['filename'],
+    transaction,
+  });
+
+  const filename: string | undefined = rawFilename?.filename;
+  const file = filename && { id: responseFileId, name: filename };
+
+  return file;
+};

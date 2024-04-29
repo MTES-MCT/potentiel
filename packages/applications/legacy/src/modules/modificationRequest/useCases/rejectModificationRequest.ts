@@ -56,7 +56,10 @@ export const makeRejectModificationRequest =
             return errAsync(new AggregateHasBeenUpdatedSinceError());
           }
 
-          if (!responseFile) return okAsync({ modificationRequest });
+          if (!responseFile && modificationRequest.type === 'puissance')
+            return okAsync({ modificationRequest });
+
+          if (!responseFile) return okAsync({ modificationRequest, responseFile: '' });
 
           return makeAndSaveFile({
             file: {
@@ -77,7 +80,7 @@ export const makeRejectModificationRequest =
       )
       .andThen(({ modificationRequest, responseFileId }) => {
         return modificationRequest
-          .reject(rejectedBy, responseFileId)
+          .reject(rejectedBy, responseFileId as string)
           .map(() => modificationRequest);
       })
       .andThen((modificationRequest) => {

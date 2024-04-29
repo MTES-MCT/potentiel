@@ -112,7 +112,7 @@ v1Router.post(
     const courrierEstOptionnelSiAcceptéEtObligatoireSiRefusé = isDecisionJustice;
 
     const courrierEstOptionnelSiRefuséEtObligatoireSiAccepté =
-      type === 'puissance' && role === 'admin';
+      type === 'puissance' && role === 'admin' && !isDecisionJustice;
 
     const courrierReponseIsOk =
       responseFile ||
