@@ -115,11 +115,11 @@ export const FormulaireGarantiesFinancières: FC<FormulaireGarantiesFinancières
         <Button
           priority="secondary"
           linkProps={{
-            href: Routes.Projet.details(identifiantProjet),
+            href: Routes.GarantiesFinancières.détail(identifiantProjet),
           }}
           iconId="fr-icon-arrow-left-line"
         >
-          Retour au détail du projet
+          Retour au détail des garanties financières
         </Button>
         <SubmitButton>{submitButtonLabel}</SubmitButton>
       </div>
