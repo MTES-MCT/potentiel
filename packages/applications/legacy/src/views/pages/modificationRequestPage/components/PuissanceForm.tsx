@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   exceedsPuissanceMaxDuVolumeReserve,
   exceedsRatiosChangementPuissance,
@@ -6,10 +6,10 @@ import {
   getVolumeReserve,
 } from '../../../../modules/demandeModification/demandeChangementDePuissance';
 
-import { AlertBox, Checkbox } from '../../../components';
-import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest/dtos';
-import { UploadResponseFile } from './UploadResponseFile';
 import { parseCahierDesChargesRéférence } from '../../../../entities';
+import { ModificationRequestPageDTO } from '../../../../modules/modificationRequest/dtos';
+import { AlertBox, Checkbox } from '../../../components';
+import { UploadResponseFile } from './UploadResponseFile';
 
 type PuissanceFormProps = {
   modificationRequest: ModificationRequestPageDTO & { type: 'puissance' };
@@ -36,8 +36,6 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
     project.cahierDesChargesActuel,
   );
 
-  const [responseFileOptionnel, setResponseFileOptionnel] = useState(false);
-
   const textPuissance =
     project.appelOffre?.typeAppelOffre === 'biométhane'
       ? `Production annuelle prévisionnelle`
@@ -47,7 +45,8 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
     <>
       <UploadResponseFile
         modificationRequest={modificationRequest}
-        optionnel={responseFileOptionnel ? true : undefined}
+        optionnel={true}
+        reasonForOptionnel={`en cas de refus ou de décision favorable de l'état`}
       />
 
       <div>
@@ -76,18 +75,12 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
       </div>
 
       <div className="form__group mb-4">
-        <Checkbox
-          id="statusUpdateOnly"
-          name="isDecisionJustice"
-          onChange={(event) => setResponseFileOptionnel(event.target.checked)}
-        >
+        <Checkbox id="statusUpdateOnly" name="isDecisionJustice">
           La demande de changement de {textPuissance.toLowerCase()} fait suite à une décision de
           l'État
         </Checkbox>
         <div style={{ fontSize: 11, lineHeight: '1.5em', marginTop: 3 }}>
-          En cochant cette case, vous n'aurez pas à joindre de courrier de réponse en cas
-          d'acceptation de la demande. <br />
-          Un refus quant à lui devra être accompagné d'un courrier.
+          En cochant cette case, vous devrez joindre un courrier uniquement en cas de refus.
         </div>
       </div>
     </>

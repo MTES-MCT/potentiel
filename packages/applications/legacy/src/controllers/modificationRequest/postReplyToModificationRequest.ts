@@ -109,13 +109,15 @@ v1Router.post(
       filename: request.file.originalname,
     };
 
+    const courrierEstOptionnelSiAcceptéEtObligatoireSiRefusé = isDecisionJustice;
+
     const courrierEstOptionnelSiRefuséEtObligatoireSiAccepté =
       type === 'puissance' && role === 'admin';
 
     const courrierReponseIsOk =
       responseFile ||
-      (acceptedReply && isDecisionJustice) ||
-      (courrierEstOptionnelSiRefuséEtObligatoireSiAccepté && !acceptedReply && !responseFile);
+      (courrierEstOptionnelSiAcceptéEtObligatoireSiRefusé && acceptedReply) ||
+      (courrierEstOptionnelSiRefuséEtObligatoireSiAccepté && !acceptedReply);
 
     if (!courrierReponseIsOk) {
       return response.redirect(
