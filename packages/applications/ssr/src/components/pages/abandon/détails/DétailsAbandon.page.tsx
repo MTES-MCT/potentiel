@@ -11,13 +11,13 @@ import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/P
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1 } from '@/components/atoms/headings';
 
+import { EtapesAbandon, EtapesAbandonProps } from './EtapesAbandon';
+import { StatutPreuveRecandidatureBadge } from './PreuveRecandidatureStatutBadge';
+import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
 import { AccorderAbandonAvecRecandidature } from './accorder/AccorderAbandonAvecRecandidature';
 import { AccorderAbandonSansRecandidature } from './accorder/AccorderAbandonSansRecandidature';
 import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
-import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
-import { EtapesAbandon, EtapesAbandonProps } from './EtapesAbandon';
-import { StatutPreuveRecandidatureBadge } from './PreuveRecandidatureStatutBadge';
 import { RejeterAbandon } from './rejeter/RejeterAbandon';
 
 type AvailableActions = Array<

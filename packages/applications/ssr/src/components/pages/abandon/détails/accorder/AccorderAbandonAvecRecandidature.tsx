@@ -1,10 +1,12 @@
 'use client';
 
+import Button from '@codegouvfr/react-dsfr/Button';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
+import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
 import { accorderAbandonAvecRecandidatureAction } from './accorderAbandonAvecRecandidature.action';
 
@@ -16,26 +18,39 @@ export const AccorderAbandonAvecRecandidature = ({
   identifiantProjet,
 }: AccorderAbandonAvecRecandidatureFormProps) => {
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <ButtonWithFormInModal
-      name="Accorder"
-      yesNo
-      description="Accorder l'abandon"
-      form={{
-        id: 'accorder-abandon-avec-recandidature-form',
-        action: accorderAbandonAvecRecandidatureAction,
-        method: 'post',
-        encType: 'multipart/form-data',
-        omitMandatoryFieldsLegend: true,
-        onSuccess: () => router.push(Routes.Abandon.détail(identifiantProjet)),
-        children: (
-          <>
-            <p className="mt-3">Êtes-vous sûr de vouloir accorder cet abandon ?</p>
-            <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-          </>
-        ),
-      }}
-    />
+    <>
+      <Button
+        priority="secondary"
+        onClick={() => setIsOpen(true)}
+        className="block w-full text-center"
+      >
+        Accorder
+      </Button>
+
+      <ModalWithForm
+        title="Accorder l'abandon"
+        acceptButtonLabel="Oui"
+        rejectButtonLabel="Non"
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        form={{
+          id: 'accorder-abandon-avec-recandidature-form',
+          action: accorderAbandonAvecRecandidatureAction,
+          method: 'post',
+          encType: 'multipart/form-data',
+          omitMandatoryFieldsLegend: true,
+          onSuccess: () => router.push(Routes.Abandon.détail(identifiantProjet)),
+          children: (
+            <>
+              <p className="mt-3">Êtes-vous sûr de vouloir accorder cet abandon ?</p>
+              <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+            </>
+          ),
+        }}
+      />
+    </>
   );
 };

@@ -1,10 +1,12 @@
 'use client';
 
+import { Button } from '@codegouvfr/react-dsfr/Button';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { ButtonWithFormInModal } from '@/components/molecules/ButtonWithFormInModal';
+import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
 import { rejeterGarantiesFinancièresÀTraiterAction } from './rejeterDépôtEnCoursGarantiesFinancières.action';
 
@@ -16,26 +18,38 @@ export const RejeterDépôtEnCoursGarantiesFinancières = ({
   identifiantProjet,
 }: RejeterDépôtEnCoursGarantiesFinancièresProps) => {
   const router = useRouter();
-
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <ButtonWithFormInModal
-      name="Rejeter"
-      yesNo
-      description="Rejeter les garanties financières"
-      form={{
-        id: 'rejeter-garanties-financieres-a-traiter-form',
-        action: rejeterGarantiesFinancièresÀTraiterAction,
-        method: 'post',
-        encType: 'multipart/form-data',
-        omitMandatoryFieldsLegend: true,
-        onSuccess: () => router.push(Routes.GarantiesFinancières.détail(identifiantProjet)),
-        children: (
-          <>
-            <p className="mt-3">Êtes-vous sûr de vouloir rejeter ces garanties financières ?</p>
-            <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-          </>
-        ),
-      }}
-    />
+    <>
+      <Button
+        priority="secondary"
+        onClick={() => setIsOpen(true)}
+        className="block w-full text-center"
+      >
+        Rejeter
+      </Button>
+
+      <ModalWithForm
+        title="Rejeter les garanties financières en attente de validation"
+        acceptButtonLabel="Oui"
+        rejectButtonLabel="Non"
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        form={{
+          id: 'rejeter-garanties-financieres-a-traiter-form',
+          action: rejeterGarantiesFinancièresÀTraiterAction,
+          method: 'post',
+          encType: 'multipart/form-data',
+          omitMandatoryFieldsLegend: true,
+          onSuccess: () => router.push(Routes.GarantiesFinancières.détail(identifiantProjet)),
+          children: (
+            <>
+              <p className="mt-3">Êtes-vous sûr de vouloir rejeter ces garanties financières ?</p>
+              <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+            </>
+          ),
+        }}
+      />
+    </>
   );
 };
