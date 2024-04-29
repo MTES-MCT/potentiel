@@ -46,7 +46,7 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
       <UploadResponseFile
         modificationRequest={modificationRequest}
         optionnel={true}
-        reasonForOptionnel={`en cas de refus ou de décision favorable de l'état`}
+        reasonForOptionnel={`en cas de refus ou de décision favorable de l'État`}
       />
 
       <div>
