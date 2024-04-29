@@ -15,6 +15,8 @@ import {
 import { getGarantiesFinancièresMotifLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresMotifLabel';
 import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
 import { mapToPagination } from '@/utils/mapToPagination';
+import { ListPageTemplateProps } from '@/components/templates/ListPage.template';
+import { ListItemProjetAvecGarantiesFinancièresEnAttenteProps } from '@/components/pages/garanties-financières/en-attente/lister/ListItemProjetAvecGarantiesFinancièresEnAttente';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -30,6 +32,7 @@ export default async function Page({ searchParams }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const page = searchParams?.page ? parseInt(searchParams.page) : 1;
       const appelOffre = searchParams?.appelOffre;
+      const motif = searchParams?.motif;
 
       const projetsAvecGarantiesFinancièresEnAttente =
         await mediator.send<GarantiesFinancières.ListerProjetsAvecGarantiesFinancièresEnAttenteQuery>(
@@ -40,7 +43,8 @@ export default async function Page({ searchParams }: PageProps) {
                 email: utilisateur.identifiantUtilisateur.email,
                 rôle: utilisateur.role.nom,
               },
-              ...(appelOffre && { appelOffre }),
+              appelOffre,
+              motif,
               range: mapToRangeOptions({ currentPage: page, itemsPerPage: 10 }),
             },
           },
@@ -51,17 +55,27 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const filters = [
-        {
-          label: `Appel d'offres`,
-          searchParamKey: 'appelOffre',
-          defaultValue: appelOffre,
-          options: appelOffres.items.map((appelOffre) => ({
-            label: appelOffre.id,
-            value: appelOffre.id,
-          })),
-        },
-      ];
+      const filters: ListPageTemplateProps<ListItemProjetAvecGarantiesFinancièresEnAttenteProps>['filters'] =
+        [
+          {
+            label: `Appel d'offres`,
+            searchParamKey: 'appelOffre',
+            defaultValue: appelOffre,
+            options: appelOffres.items.map((appelOffre) => ({
+              label: appelOffre.id,
+              value: appelOffre.id,
+            })),
+          },
+          {
+            label: 'Motif',
+            searchParamKey: 'motif',
+            defaultValue: motif,
+            options: GarantiesFinancières.MotifDemandeGarantiesFinancières.motifs.map((motif) => ({
+              label: getGarantiesFinancièresMotifLabel(motif),
+              value: motif,
+            })),
+          },
+        ];
 
       return (
         <ListProjetsAvecGarantiesFinancièresEnAttentePage

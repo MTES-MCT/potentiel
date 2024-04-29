@@ -21,7 +21,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const filters = [
+const filters: ListProjetsAvecGarantiesFinancièresEnAttenteProps['filters'] = [
   {
     label: `Appel d'offres`,
     searchParamKey: 'appelOffre',
@@ -34,6 +34,21 @@ const filters = [
       {
         label: 'Appel offre 2',
         value: 'appel-offre-2',
+      },
+    ],
+  },
+  {
+    label: 'Motifs',
+    searchParamKey: 'motif',
+    defaultValue: undefined,
+    options: [
+      {
+        label: 'Inconnu',
+        value: 'inconnu',
+      },
+      {
+        label: 'Recours accordé',
+        value: 'recours-accordé',
       },
     ],
   },
