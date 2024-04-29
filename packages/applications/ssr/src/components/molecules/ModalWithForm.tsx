@@ -3,7 +3,7 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import { useIsModalOpen } from '@codegouvfr/react-dsfr/Modal/useIsModalOpen';
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { FC, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import { Form, FormProps } from '../atoms/form/Form';
@@ -13,24 +13,20 @@ export type ModalWithFormProps = {
   acceptButtonLabel: string;
   form: FormProps;
   isOpen: boolean;
-  onRejectClick?: () => any;
   rejectButtonLabel: string;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  onClose: () => void;
   title: string;
 };
-
-const SUCCESS_CLOSING_TIMEOUT_IN_MS = 800;
 
 export const ModalWithForm: FC<ModalWithFormProps> = ({
   acceptButtonLabel,
   form,
   isOpen,
-  onRejectClick,
   rejectButtonLabel,
-  setIsOpen,
+  onClose,
   title,
 }) => {
-  // cheap trick to reset the form when re-opening the modal
+  // trick to reset the form when re-opening the modal
   const id = uuid();
 
   const [modal, _] = useState(
@@ -41,18 +37,16 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
   );
 
   const closeModal = () => {
-    setIsOpen(false);
+    onClose && onClose();
     modal.close();
   };
 
   const handleRejectClick = async () => {
-    onRejectClick && (await onRejectClick());
     closeModal();
   };
 
-  const onFormSuccess = async () => {
-    form.onSuccess && (await form.onSuccess());
-    await delay();
+  const onFormSuccess = () => {
+    form.onSuccess && form.onSuccess();
     closeModal();
   };
 
@@ -79,5 +73,3 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
     </modal.Component>
   );
 };
-
-const delay = () => new Promise((resolve) => setTimeout(resolve, SUCCESS_CLOSING_TIMEOUT_IN_MS));

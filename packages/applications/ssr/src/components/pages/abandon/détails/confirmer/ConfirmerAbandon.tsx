@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
@@ -31,7 +31,7 @@ export const ConfirmerAbandon = ({ identifiantProjet }: ConfirmerAbandonFormProp
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
-        setIsOpen={setIsOpen}
+        onClose={() => setIsOpen(false)}
         form={{
           action: confirmerAbandonAction,
           method: 'post',

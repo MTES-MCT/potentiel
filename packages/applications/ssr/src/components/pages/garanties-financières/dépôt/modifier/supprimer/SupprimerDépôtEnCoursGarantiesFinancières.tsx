@@ -1,8 +1,8 @@
 'use client';
 
+import Button from '@codegouvfr/react-dsfr/Button';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -31,7 +31,7 @@ export const SupprimerDépôtEnCoursGarantiesFinancières = ({
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
-        setIsOpen={setIsOpen}
+        onClose={() => setIsOpen(false)}
         form={{
           id: 'supprimer-garanties-financieres-a-traiter-form',
           method: 'post',

@@ -1,8 +1,8 @@
 'use client';
 
+import { Button } from '@codegouvfr/react-dsfr/Button';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Button } from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -34,7 +34,7 @@ export const RejeterDépôtEnCoursGarantiesFinancières = ({
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
-        setIsOpen={setIsOpen}
+        onClose={() => setIsOpen(false)}
         form={{
           id: 'rejeter-garanties-financieres-a-traiter-form',
           action: rejeterGarantiesFinancièresÀTraiterAction,

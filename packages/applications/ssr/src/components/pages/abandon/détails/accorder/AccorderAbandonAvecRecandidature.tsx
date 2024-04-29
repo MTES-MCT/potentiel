@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -35,7 +35,7 @@ export const AccorderAbandonAvecRecandidature = ({
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
-        setIsOpen={setIsOpen}
+        onClose={() => setIsOpen(false)}
         form={{
           id: 'accorder-abandon-avec-recandidature-form',
           action: accorderAbandonAvecRecandidatureAction,

@@ -1,10 +1,10 @@
 'use client';
 
+import Button from '@codegouvfr/react-dsfr/Button';
 import Download from '@codegouvfr/react-dsfr/Download';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -38,7 +38,7 @@ export const DemanderConfirmationAbandon = ({
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
-        setIsOpen={setIsOpen}
+        onClose={() => setIsOpen(false)}
         form={{
           id: 'demande-confirmation-abandon-form',
           action: demanderConfirmationAbandonAction,

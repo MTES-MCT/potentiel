@@ -1,8 +1,8 @@
 'use client';
 
+import Button from '@codegouvfr/react-dsfr/Button';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
@@ -31,7 +31,7 @@ export const AnnulerAbandon = ({ identifiantProjet }: AnnulerAbandonFormProps) =
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
-        setIsOpen={setIsOpen}
+        onClose={() => setIsOpen(false)}
         form={{
           action: annulerAbandonAction,
           method: 'post',
