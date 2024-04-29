@@ -1,7 +1,7 @@
 import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '../../core/domain';
-import { err, ok, Result } from '../../core/utils';
+import { Result, err, ok } from '../../core/utils';
 import { User } from '../../entities';
-import { RejetRecoursAnnulé, RejetChangementDePuissanceAnnulé } from '../demandeModification';
+import { RejetChangementDePuissanceAnnulé, RejetRecoursAnnulé } from '../demandeModification';
 import { EntityNotFoundError, IllegalInitialStateForAggregateError } from '../shared';
 import {
   StatusPreventsAcceptingError,
@@ -12,23 +12,23 @@ import {
 } from './errors';
 import { StatusPreventsCancellingError } from './errors/StatusPreventsCancellingError';
 import {
-  ModificationRequested,
-  ModificationRequestAccepted,
-  ModificationRequestRejected,
-  ResponseTemplateDownloaded,
-  ModificationRequestStatusUpdated,
   ConfirmationRequested,
+  ModificationRequestAccepted,
   ModificationRequestConfirmed,
+  ModificationRequestRejected,
+  ModificationRequestStatusUpdated,
+  ModificationRequested,
+  ResponseTemplateDownloaded,
 } from './events';
 import { ModificationRequestCancelled } from './events/ModificationRequestCancelled';
 
 export interface ModificationRequest extends EventStoreAggregate {
   accept(args: {
     acceptedBy: User;
-    responseFileId: string;
+    responseFileId?: string;
     params?: ModificationRequestAcceptanceParams;
   }): Result<null, StatusPreventsAcceptingError>;
-  reject(rejectedBy: User, responseFileId: string): Result<null, StatusPreventsRejectingError>;
+  reject(rejectedBy: User, responseFileId?: string): Result<null, StatusPreventsRejectingError>;
   requestConfirmation(
     confirmationRequestedBy: User,
     responseFileId: string,

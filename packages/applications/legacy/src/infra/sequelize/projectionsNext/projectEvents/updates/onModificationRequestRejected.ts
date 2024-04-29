@@ -2,10 +2,10 @@ import { UniqueEntityID } from '../../../../../core/domain';
 import { logger } from '../../../../../core/utils';
 import { ModificationRequestRejected } from '../../../../../modules/modificationRequest';
 import { ProjectionEnEchec } from '../../../../../modules/shared';
+import { File } from '../../file/file.model';
 import { ModificationRequest } from '../../modificationRequest/modificationRequest.model';
 import { ProjectEvent } from '../projectEvent.model';
 import { ProjectEventProjector } from '../projectEvent.projector';
-import { File } from '../../file/file.model';
 
 export default ProjectEventProjector.on(
   ModificationRequestRejected,
@@ -56,13 +56,17 @@ export default ProjectEventProjector.on(
 
       if (modificationRequest) {
         const { projectId } = modificationRequest;
-        const rawFilename = await File.findByPk(responseFileId, {
-          attributes: ['filename'],
-          transaction,
-        });
 
-        const filename: string | undefined = rawFilename?.filename;
-        const file = filename && { id: responseFileId, name: filename };
+        let file: undefined | { id: string; name: string };
+
+        if (responseFileId) {
+          const rawFileName = await File.findByPk(responseFileId, {
+            attributes: ['filename'],
+            transaction,
+          });
+          const filename: string | undefined = rawFileName?.filename;
+          file = filename ? { id: responseFileId, name: filename } : undefined;
+        }
 
         await ProjectEvent.create(
           {

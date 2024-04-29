@@ -1,5 +1,5 @@
 import { Repository, UniqueEntityID } from '../../../core/domain';
-import { errAsync, logger, okAsync, ResultAsync } from '../../../core/utils';
+import { ResultAsync, errAsync, logger, okAsync } from '../../../core/utils';
 import { User } from '../../../entities';
 import { FileContents, FileObject, makeAndSaveFile } from '../../file';
 import {
@@ -46,7 +46,7 @@ export const makeRejectModificationRequest =
         (
           modificationRequest,
         ): ResultAsync<
-          { modificationRequest: ModificationRequest; responseFileId: string },
+          { modificationRequest: ModificationRequest; responseFileId?: string },
           AggregateHasBeenUpdatedSinceError | InfraNotAvailableError
         > => {
           if (
@@ -56,7 +56,7 @@ export const makeRejectModificationRequest =
             return errAsync(new AggregateHasBeenUpdatedSinceError());
           }
 
-          if (!responseFile) return okAsync({ modificationRequest, responseFileId: '' });
+          if (!responseFile) return okAsync({ modificationRequest });
 
           return makeAndSaveFile({
             file: {
