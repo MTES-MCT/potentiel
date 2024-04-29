@@ -2,38 +2,56 @@ import { S3, ListObjectsCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-const sourceBucketName = process.env.S3_BUCKET || '';
-const destinationBucketName = process.env.S3_BACKUP_BUCKET || '';
+const sourceBucketName = process.env.S3_BUCKET || 'potentiel';
+const destinationBucketName = process.env.S3_BACKUP_BUCKET || 'backup';
+
+const getAllFileKeys = async (source: S3, nextMarker?: string) => {
+  getLogger().info('ℹ Getting all files from production');
+  getLogger().info(`ℹ Next marker : ${nextMarker ? 'Yes' : 'No'}`);
+  const {
+    Contents: fileKeys,
+    IsTruncated,
+    NextMarker,
+  } = await source.send(
+    new ListObjectsCommand({
+      Bucket: sourceBucketName,
+      Marker: nextMarker,
+    }),
+  );
+
+  let keys = fileKeys ? fileKeys.map((f) => f.Key).filter((f): f is string => f !== undefined) : [];
+
+  if (IsTruncated) {
+    getLogger().info(`ℹ List objects is truntaced : ${IsTruncated}`);
+    const nextKeys = await getAllFileKeys(source, NextMarker);
+    keys = [...keys, ...nextKeys];
+  }
+
+  return keys;
+};
 
 (async () => {
   getLogger().info('🏁 Creating production files backup');
   const backupDate = new Date();
   const source = new S3({
-    endpoint: process.env.S3_ENDPOINT || '',
+    endpoint: process.env.S3_ENDPOINT || 'http://localhost:9000',
     credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'minioadmin',
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'minioadmin',
     },
     forcePathStyle: true,
   });
 
   const destination = new S3({
-    endpoint: process.env.S3_BACKUP_ENDPOINT || '',
+    endpoint: process.env.S3_BACKUP_ENDPOINT || 'http://localhost:9000',
     credentials: {
-      accessKeyId: process.env.S3_BACKUP_AWS_ACCESS_KEY_ID || '',
-      secretAccessKey: process.env.S3_BACKUP_AWS_SECRET_ACCESS_KEY || '',
+      accessKeyId: process.env.S3_BACKUP_AWS_ACCESS_KEY_ID || 'minioadmin',
+      secretAccessKey: process.env.S3_BACKUP_AWS_SECRET_ACCESS_KEY || 'minioadmin',
     },
     forcePathStyle: true,
   });
 
-  getLogger().info('ℹ Getting all files from production');
-  const { Contents: fileKeys } = await source.send(
-    new ListObjectsCommand({
-      Bucket: sourceBucketName,
-    }),
-  );
-
-  const keys = fileKeys?.map((f) => f.Key).filter((f) => f !== undefined);
+  const keys = await getAllFileKeys(source);
 
   if (keys) {
     for (const key of keys as string[]) {
