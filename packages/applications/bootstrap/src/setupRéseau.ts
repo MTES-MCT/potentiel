@@ -10,8 +10,13 @@ import {
   RaccordementProjector,
 } from '@potentiel-applications/projectors';
 import { mediator } from 'mediateur';
+import { getAllGRDs } from '@potentiel-infrastructure/ore-client';
 
 export const setupRéseau = async () => {
+  const gestionnaires = await getAllGRDs();
+
+  console.table(gestionnaires);
+
   registerRéseauUseCases({
     loadAggregate,
   });

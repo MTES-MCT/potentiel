@@ -9,6 +9,8 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@potentiel-applications/notifications": "*",
+    "@potentiel-applications/projectors": "*",
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/candidature": "*",
     "@potentiel-domain/document": "*",
@@ -17,8 +19,7 @@
     "@potentiel-domain/tache": "*",
     "@potentiel-infrastructure/document-builder": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-applications/projectors": "*",
-    "@potentiel-applications/notifications": "*",
+    "@potentiel-infrastructure/ore-client": "^0.0.0",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projections": "*",
     "@potentiel-libraries/pg-helpers": "*",
