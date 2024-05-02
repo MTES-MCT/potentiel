@@ -13,7 +13,7 @@
   "dependencies": {
     "@potentiel-domain/core": "*",
     "@potentiel-libraries/pg-helpers": "*",
-    "flat": "^6.0.1",
+    "@potentiel-libraries/flat": "*",
     "pg-format": "^1.0.4"
   },
   "devDependencies": {
