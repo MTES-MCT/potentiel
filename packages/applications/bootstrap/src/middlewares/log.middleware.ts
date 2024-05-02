@@ -14,7 +14,7 @@ export const logMiddleware: Middleware = async (message, next) => {
     if (e instanceof DomainError) {
       getLogger().warn(e.message, { meta: e.meta });
     } else {
-      getLogger().error(e as Error, { result: JSON.stringify(e), correlationId });
+      getLogger().error(e as Error, { correlationId });
     }
 
     throw e;
