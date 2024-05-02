@@ -6,7 +6,7 @@ const selectDrealsProjectQuery = `
 select 
     json_build_object   
     (
-      ' email', "email", 
+      'email', "email", 
       'fullName', "fullName"
     ) 
   as value
@@ -16,7 +16,7 @@ from
       from "users" u
       inner join "userDreals" ud on u.id = ud."userId"
       inner join "projects" p on p."regionProjet" = ud."dreal"
-      where p."appelOffre" = $1 and p."periodeId" = $2 and p."numeroCRE" = $3 and p."familleId" = $4
+      where p."appelOffreId" = $1 and p."periodeId" = $2 and p."numeroCRE" = $3 and p."familleId" = $4
     ) as "user"; 
 `;
 
