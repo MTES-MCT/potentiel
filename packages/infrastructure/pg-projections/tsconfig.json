@@ -10,6 +10,9 @@
     },
     {
       "path": "../../libraries/pg-helpers"
+    },
+    {
+      "path": "../../libraries/flat"
     }
   ]
 }

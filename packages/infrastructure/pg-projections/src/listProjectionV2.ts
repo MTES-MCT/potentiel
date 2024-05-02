@@ -1,5 +1,5 @@
 import { Entity, ListOptionsV2, ListResultV2 } from '@potentiel-domain/core';
-import { unflatten } from '../../../libraries/flat/dist';
+import { unflatten } from '@potentiel-libraries/flat';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import format from 'pg-format';
 import { KeyValuePair } from './keyValuePair';

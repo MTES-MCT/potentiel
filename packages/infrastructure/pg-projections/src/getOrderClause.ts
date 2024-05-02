@@ -1,5 +1,5 @@
 import { Entity, OrderByOptions } from '@potentiel-domain/core';
-import { flatten } from '../../../libraries/flat/dist';
+import { flatten } from '@potentiel-libraries/flat';
 
 export const getOrderClause = <TEntity extends Entity>(
   orderBy: OrderByOptions<Omit<TEntity, 'type'>>,

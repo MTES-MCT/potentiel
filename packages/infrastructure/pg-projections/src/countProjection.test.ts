@@ -3,7 +3,7 @@ import { after, before, beforeEach, afterEach, describe, it } from 'node:test';
 import { randomUUID } from 'node:crypto';
 
 import { Entity } from '@potentiel-domain/core';
-import { flatten } from '../../../libraries/flat/dist';
+import { flatten } from '@potentiel-libraries/flat';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import { countProjection } from './countProjection';

@@ -4,7 +4,7 @@ import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 
 import { Entity, ListResultV2, RangeOptions } from '@potentiel-domain/core';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
-import { flatten, unflatten } from '../../../libraries/flat/dist';
+import { flatten, unflatten } from '@potentiel-libraries/flat';
 
 import {
   NegativeEndPositionError,
