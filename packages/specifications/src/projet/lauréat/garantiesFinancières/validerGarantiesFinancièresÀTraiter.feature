@@ -8,7 +8,7 @@ Fonctionnalité: Valider des garanties financières en attente de validation
         Etant donné des garanties financières en attente pour le projet "Centrale PV" avec :
             | date limite de soumission | 2023-11-01                      |
             | date de notification      | 2023-09-01                      |
-            | motif                     | garanties-financières-initiales |
+            | motif                     | motif-inconnu                   |
         Et des garanties financières à traiter pour le projet "Centrale PV" avec :
             | type                 | <type>                 |
             | date d'échéance      | <date d'échéance>      |
@@ -38,7 +38,7 @@ Fonctionnalité: Valider des garanties financières en attente de validation
         Etant donné des garanties financières en attente pour le projet "Centrale PV" avec :
             | date limite de soumission | 2023-11-01                      |
             | date de notification      | 2023-09-01                      |
-            | motif                     | garanties-financières-initiales |
+            | motif                     | motif-inconnu                   |
         Quand l'utilisateur dreal valide les garanties financières à traiter pour le projet "Centrale PV" avec :
             | date de validation | 2023-09-02 |
         Alors l'utilisateur devrait être informé que "Il n'y a aucun dépôt de garanties financières en cours pour ce projet"
