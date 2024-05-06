@@ -9,7 +9,11 @@ import {
   AbandonNotification,
   GarantiesFinancièresNotification,
 } from '@potentiel-applications/notifications';
-import { AbandonProjector, GarantiesFinancièreProjector } from '@potentiel-applications/projectors';
+import {
+  AbandonProjector,
+  AttestationConformitéProjector,
+  GarantiesFinancièreProjector,
+} from '@potentiel-applications/projectors';
 import { mediator } from 'mediateur';
 import {
   consulterCahierDesChargesChoisiAdapter,
@@ -43,6 +47,7 @@ export const setupLauréat = async () => {
   AbandonNotification.register();
   GarantiesFinancièreProjector.register();
   GarantiesFinancièresNotification.register();
+  AttestationConformitéProjector.register();
 
   const unsubscribeAbandonNotification = await subscribe<AbandonNotification.SubscriptionEvent>({
     name: 'notifications',
@@ -111,6 +116,19 @@ export const setupLauréat = async () => {
       streamCategory: 'garanties-financieres',
     });
 
+  const unsubscribeAttestationConformitéProjector =
+    await subscribe<AttestationConformitéProjector.SubscriptionEvent>({
+      name: 'projector',
+      eventType: ['AttestationConformitéTransmise-V1', 'RebuildTriggered'],
+      eventHandler: async (event) => {
+        await mediator.send<AttestationConformitéProjector.Execute>({
+          type: 'System.Projector.Lauréat.Achèvement.AttestationConformité',
+          data: event,
+        });
+      },
+      streamCategory: 'attestation-conformite',
+    });
+
   const unsubscribeGarantiesFinancièresNotification =
     await subscribe<GarantiesFinancièresNotification.SubscriptionEvent>({
       name: 'notifications',
@@ -135,5 +153,6 @@ export const setupLauréat = async () => {
     await unsubscribeAbandonProjector();
     await unsubscribeGarantiesFinancièresProjector();
     await unsubscribeGarantiesFinancièresNotification();
+    await unsubscribeAttestationConformitéProjector();
   };
 };

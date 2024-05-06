@@ -5,6 +5,12 @@ import {
   registerAbandonUseCases,
 } from './abandon/abandon.register';
 import {
+  AttestationConformitéCommandDependencies,
+  AttestationConformitéQueryDependencies,
+  registerAttestationConformitéQueries,
+  registerAttestationConformitéUseCases,
+} from './achèvement/attestationConformité/attestationConformité.register';
+import {
   CahierDesChargesChoisiQueryDependencies,
   registerCahierDesChargesChoisiQueries,
 } from './cahierDesChargesChoisi/cahierDesChargesChoisi.register';
@@ -17,17 +23,21 @@ import {
 
 export type LauréatQueryDependencies = AbandonQueryDependencies &
   CahierDesChargesChoisiQueryDependencies &
-  GarantiesFinancièresQueryDependencies;
+  GarantiesFinancièresQueryDependencies &
+  AttestationConformitéQueryDependencies;
 export type LauréatCommandDependencies = AbandonCommandDependencies &
-  GarantiesFinancièresCommandDependencies;
+  GarantiesFinancièresCommandDependencies &
+  AttestationConformitéCommandDependencies;
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
   registerAbandonUseCases(dependencies);
   registerGarantiesFinancièresUseCases(dependencies);
+  registerAttestationConformitéUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
   registerAbandonQueries(dependencies);
   registerCahierDesChargesChoisiQueries(dependencies);
   registerGarantiesFinancièresQueries(dependencies);
+  registerAttestationConformitéQueries(dependencies);
 };
