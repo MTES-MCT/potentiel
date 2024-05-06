@@ -4,7 +4,6 @@ export const motifs = [
   'recours-accordé',
   'changement-producteur',
   'échéance-garanties-financières-actuelles',
-  'garanties-financières-initiales',
   'motif-inconnu',
 ] as const;
 
@@ -15,7 +14,6 @@ export type ValueType = ReadonlyValueType<{
   estRecoursAccordé: () => boolean;
   estChangementProducteur: () => boolean;
   estÉchéance: () => boolean;
-  estGarantiesFinancièresInitiales: () => boolean;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -36,9 +34,6 @@ export const convertirEnValueType = (value: string): ValueType => {
     estÉchéance() {
       return this.motif === 'échéance-garanties-financières-actuelles';
     },
-    estGarantiesFinancièresInitiales() {
-      return this.motif === 'garanties-financières-initiales';
-    },
   };
 };
 
@@ -54,9 +49,6 @@ export const recoursAccordé = convertirEnValueType('recours-accordé');
 export const changementProducteur = convertirEnValueType('changement-producteur');
 export const échéanceGarantiesFinancièresActuelles = convertirEnValueType(
   'échéance-garanties-financières-actuelles',
-);
-export const garantiesFinancièresInitiales = convertirEnValueType(
-  'garanties-financières-initiales',
 );
 export const motifInconnu = convertirEnValueType('motif-inconnu');
 class MotifDemandeGarantiesFinancièresInvalideError extends InvalidOperationError {
