@@ -25,17 +25,24 @@ export const ListProjetsAvecGarantiesFinancièresEnAttentePage: FC<
 > = ({ list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage }, filters }) => {
   const searchParams = useSearchParams();
   const appelOffre = searchParams.get('appelOffre') ?? undefined;
+  const motif = searchParams.get('motif') ?? undefined;
 
-  const tagFilters = [
-    ...(appelOffre
-      ? [
-          {
-            label: `appel d'offres : ${appelOffre}`,
-            searchParamKey: 'appelOffre',
-          },
-        ]
-      : []),
-  ];
+  const tagFilters: ListPageTemplateProps<ListItemProjetAvecGarantiesFinancièresEnAttenteProps>['tagFilters'] =
+    [];
+
+  if (appelOffre) {
+    tagFilters.push({
+      label: `appel d'offres : ${appelOffre}`,
+      searchParamKey: 'appelOffre',
+    });
+  }
+
+  if (motif) {
+    tagFilters.push({
+      label: `motif : ${motif}`,
+      searchParamKey: 'motif',
+    });
+  }
 
   return (
     <ListPageTemplate

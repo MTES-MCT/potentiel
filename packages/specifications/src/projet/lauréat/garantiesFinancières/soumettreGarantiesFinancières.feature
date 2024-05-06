@@ -7,7 +7,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Etant donné des garanties financières en attente pour le projet "Centrale PV" avec :
             | date limite de soumission | 2023-11-01                      |
             | date de notification      | 2023-09-01                      |
-            | motif                     | garanties-financières-initiales |
+            | motif                     | motif-inconnu                   |
         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type                 | <type>                 |
             | date d'échéance      | <date d'échéance>      |

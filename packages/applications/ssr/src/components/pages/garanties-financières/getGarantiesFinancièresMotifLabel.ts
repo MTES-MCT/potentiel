@@ -6,8 +6,6 @@ export const getGarantiesFinancièresMotifLabel = (
   switch (type) {
     case 'changement-producteur':
       return 'Changement de producteur';
-    case 'garanties-financières-initiales':
-      return 'Garanties financières initiales';
     case 'recours-accordé':
       return 'Recours accordé';
     case 'échéance-garanties-financières-actuelles':

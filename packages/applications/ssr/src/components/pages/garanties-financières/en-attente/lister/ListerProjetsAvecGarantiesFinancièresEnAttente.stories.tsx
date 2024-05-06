@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+
+import { getGarantiesFinancièresMotifLabel } from '../../getGarantiesFinancièresMotifLabel';
 
 import {
   ListProjetsAvecGarantiesFinancièresEnAttentePage,
@@ -21,7 +24,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const filters = [
+const filters: ListProjetsAvecGarantiesFinancièresEnAttenteProps['filters'] = [
   {
     label: `Appel d'offres`,
     searchParamKey: 'appelOffre',
@@ -32,10 +35,19 @@ const filters = [
         value: 'appel-offre-1',
       },
       {
-        label: 'Appel offre 2',
+        label: 'App`el offre 2',
         value: 'appel-offre-2',
       },
     ],
+  },
+  {
+    label: 'Motifs',
+    searchParamKey: 'motif',
+    defaultValue: undefined,
+    options: GarantiesFinancières.MotifDemandeGarantiesFinancières.motifs.map((motif) => ({
+      label: getGarantiesFinancièresMotifLabel(motif),
+      value: motif,
+    })),
   },
 ];
 

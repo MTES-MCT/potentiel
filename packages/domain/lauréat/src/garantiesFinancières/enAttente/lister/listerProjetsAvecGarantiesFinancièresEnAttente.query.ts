@@ -32,6 +32,7 @@ export type ListerProjetsAvecGarantiesFinancièresEnAttenteQuery = Message<
   'Lauréat.GarantiesFinancières.Query.ListerProjetsAvecGarantiesFinancièresEnAttente',
   {
     appelOffre?: string;
+    motif?: string;
     utilisateur: {
       rôle: string;
       email: string;
@@ -52,6 +53,7 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
 }: ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies) => {
   const handler: MessageHandler<ListerProjetsAvecGarantiesFinancièresEnAttenteQuery> = async ({
     appelOffre,
+    motif,
     utilisateur: { email, rôle },
     range,
   }) => {
@@ -81,6 +83,9 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
         where: {
           ...(appelOffre && {
             appelOffre: { operator: 'equal', value: appelOffre },
+          }),
+          ...(motif && {
+            motif: { operator: 'equal', value: motif },
           }),
           ...(région && {
             régionProjet: { operator: 'equal', value: région },
