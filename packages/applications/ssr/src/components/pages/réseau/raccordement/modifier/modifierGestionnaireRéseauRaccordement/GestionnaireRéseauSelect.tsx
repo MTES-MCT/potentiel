@@ -1,6 +1,6 @@
 import Select, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
 
-export type PartialGestionnaireRéseau = {
+type GestionnaireRéseau = {
   identifiantGestionnaireRéseau: string;
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement?: {
@@ -17,7 +17,7 @@ export type GestionnaireRéseauSelectProps = {
   disabled?: true;
   state?: SelectProps.State | 'default';
   stateRelatedMessage?: string;
-  gestionnairesRéseau: ReadonlyArray<PartialGestionnaireRéseau>;
+  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau>;
   identifiantGestionnaireRéseauActuel?: string;
   onGestionnaireRéseauSelected?: (gestionnaireRéseau: {
     identifiantGestionnaireRéseau: string;
