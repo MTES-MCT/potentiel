@@ -253,8 +253,6 @@ const getMotifGFEnAttente = (
       return 'recours accordé';
     case 'changement-producteur':
       return 'changement de producteur';
-    case 'garanties-financières-initiales':
-      return 'garanties financières initiales';
     case 'échéance-garanties-financières-actuelles':
       return 'garanties financières arrivant à échéance';
     default:
