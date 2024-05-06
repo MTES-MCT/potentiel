@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+
+import { getGarantiesFinancièresMotifLabel } from '../../getGarantiesFinancièresMotifLabel';
 
 import {
   ListProjetsAvecGarantiesFinancièresEnAttentePage,
@@ -32,7 +35,7 @@ const filters: ListProjetsAvecGarantiesFinancièresEnAttenteProps['filters'] = [
         value: 'appel-offre-1',
       },
       {
-        label: 'Appel offre 2',
+        label: 'App`el offre 2',
         value: 'appel-offre-2',
       },
     ],
@@ -41,16 +44,10 @@ const filters: ListProjetsAvecGarantiesFinancièresEnAttenteProps['filters'] = [
     label: 'Motifs',
     searchParamKey: 'motif',
     defaultValue: undefined,
-    options: [
-      {
-        label: 'Inconnu',
-        value: 'inconnu',
-      },
-      {
-        label: 'Recours accordé',
-        value: 'recours-accordé',
-      },
-    ],
+    options: GarantiesFinancières.MotifDemandeGarantiesFinancières.motifs.map((motif) => ({
+      label: getGarantiesFinancièresMotifLabel(motif),
+      value: motif,
+    })),
   },
 ];
 
