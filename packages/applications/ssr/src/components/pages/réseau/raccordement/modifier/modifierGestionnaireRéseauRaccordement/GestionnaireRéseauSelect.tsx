@@ -1,5 +1,14 @@
-import React from 'react';
 import Select, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
+
+export type PartialGestionnaireRéseau = {
+  identifiantGestionnaireRéseau: string;
+  raisonSociale: string;
+  aideSaisieRéférenceDossierRaccordement?: {
+    format: string;
+    légende: string;
+    expressionReguliere: string;
+  };
+};
 
 export type GestionnaireRéseauSelectProps = {
   id: string;
@@ -8,15 +17,7 @@ export type GestionnaireRéseauSelectProps = {
   disabled?: true;
   state?: SelectProps.State | 'default';
   stateRelatedMessage?: string;
-  gestionnairesRéseau: ReadonlyArray<{
-    identifiantGestionnaireRéseau: string;
-    raisonSociale: string;
-    aideSaisieRéférenceDossierRaccordement?: {
-      format: string;
-      légende: string;
-      expressionReguliere: string;
-    };
-  }>;
+  gestionnairesRéseau: ReadonlyArray<PartialGestionnaireRéseau>;
   identifiantGestionnaireRéseauActuel?: string;
   onGestionnaireRéseauSelected?: (gestionnaireRéseau: {
     identifiantGestionnaireRéseau: string;
@@ -40,7 +41,7 @@ export const GestionnaireRéseauSelect = ({
   identifiantGestionnaireRéseauActuel,
   onGestionnaireRéseauSelected,
 }: GestionnaireRéseauSelectProps) => {
-  const handleGestionnaireSéléctionné = (identifiantGestionnaireRéseau: string) => {
+  const handleGestionnaireSélectionné = (identifiantGestionnaireRéseau: string) => {
     const gestionnaireSélectionné = gestionnairesRéseau?.find(
       (gestionnaire) =>
         gestionnaire.identifiantGestionnaireRéseau === identifiantGestionnaireRéseau,
@@ -54,6 +55,14 @@ export const GestionnaireRéseauSelect = ({
     }
   };
 
+  const gestionnaireRéseauOptions = gestionnairesRéseau.map(
+    ({ identifiantGestionnaireRéseau, raisonSociale }) => ({
+      label: `${raisonSociale} (code EIC ou gestionnaire : ${identifiantGestionnaireRéseau})`,
+      value: identifiantGestionnaireRéseau,
+      key: identifiantGestionnaireRéseau,
+    }),
+  );
+
   return (
     <div>
       <Select
@@ -61,15 +70,15 @@ export const GestionnaireRéseauSelect = ({
         label={label}
         nativeSelectProps={{
           name,
-          defaultValue: identifiantGestionnaireRéseauActuel,
-          onChange: (e) => handleGestionnaireSéléctionné(e.currentTarget.value),
+          defaultValue:
+            !identifiantGestionnaireRéseauActuel ||
+            identifiantGestionnaireRéseauActuel === 'inconnu'
+              ? undefined
+              : identifiantGestionnaireRéseauActuel,
+          onChange: (e) => handleGestionnaireSélectionné(e.currentTarget.value),
         }}
         placeholder="Sélectionnez votre gestionnaire de réseau"
-        options={gestionnairesRéseau.map(({ identifiantGestionnaireRéseau, raisonSociale }) => ({
-          label: `${raisonSociale} (code EIC ou gestionnaire : ${identifiantGestionnaireRéseau})`,
-          value: identifiantGestionnaireRéseau,
-          key: identifiantGestionnaireRéseau,
-        }))}
+        options={gestionnaireRéseauOptions}
         state={state}
         stateRelatedMessage={stateRelatedMessage}
         disabled={disabled}

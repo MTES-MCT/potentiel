@@ -1,28 +1,28 @@
 'use client';
 
-import React, { FC, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Input from '@codegouvfr/react-dsfr/Input';
-import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Input from '@codegouvfr/react-dsfr/Input';
+import { Upload } from '@codegouvfr/react-dsfr/Upload';
+import { useRouter } from 'next/navigation';
+import { FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { Form } from '@/components/atoms/form/Form';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
+import {
+  InformationDemandeComplèteRaccordement,
+  InformationDemandeComplèteRaccordementProps,
+} from '../../InformationDemandeComplèteRaccordement';
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import {
   GestionnaireRéseauSelect,
   GestionnaireRéseauSelectProps,
 } from '../../modifier/modifierGestionnaireRéseauRaccordement/GestionnaireRéseauSelect';
-import {
-  InformationDemandeComplèteRaccordement,
-  InformationDemandeComplèteRaccordementProps,
-} from '../../InformationDemandeComplèteRaccordement';
 
 import { transmettreDemandeComplèteRaccordementAction } from './transmettreDemandeComplèteRaccordement.action';
 
@@ -44,24 +44,24 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
   const router = useRouter();
 
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [selectedIdentifiantGestionnaireRéseau, setSelectedIdentifiantGestionnaireRéseau] =
+    useState<string | undefined>(identifiantGestionnaireRéseauActuel);
+
+  const alreadyHasAGestionnaireRéseau =
+    identifiantGestionnaireRéseauActuel && identifiantGestionnaireRéseauActuel !== 'inconnu';
 
   const { identifiantProjet } = projet;
-  const gestionnaireActuel = identifiantGestionnaireRéseauActuel
+
+  const gestionnaireActuel = selectedIdentifiantGestionnaireRéseau
     ? listeGestionnairesRéseau.find(
         (gestionnaire) =>
-          gestionnaire.identifiantGestionnaireRéseau === identifiantGestionnaireRéseauActuel,
+          gestionnaire.identifiantGestionnaireRéseau === selectedIdentifiantGestionnaireRéseau,
       )
     : undefined;
-
-  const [format, setFormat] = useState(
-    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement?.format ?? '',
-  );
-  const [légende, setLégende] = useState(
-    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement?.légende ?? '',
-  );
-  const [expressionReguliere, setExpressionReguliere] = useState(
-    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement?.expressionReguliere,
-  );
+  const format = gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement?.format ?? '';
+  const légende = gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement?.légende ?? '';
+  const expressionReguliere =
+    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement?.expressionReguliere;
 
   return (
     <ColumnPageTemplate
@@ -83,19 +83,15 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
               id="identifiantGestionnaireReseau"
               name="identifiantGestionnaireReseau"
               label="Gestionnaire de réseau"
-              disabled={gestionnaireActuel ? true : undefined}
+              disabled={alreadyHasAGestionnaireRéseau ? true : undefined}
               identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
               gestionnairesRéseau={listeGestionnairesRéseau}
               state={
                 validationErrors.includes('identifiantGestionnaireRéseau') ? 'error' : 'default'
               }
-              onGestionnaireRéseauSelected={({ aideSaisieRéférenceDossierRaccordement }) => {
-                setFormat(aideSaisieRéférenceDossierRaccordement?.format || '');
-                setLégende(aideSaisieRéférenceDossierRaccordement?.légende || '');
-                setExpressionReguliere(
-                  aideSaisieRéférenceDossierRaccordement?.expressionReguliere || '',
-                );
-              }}
+              onGestionnaireRéseauSelected={({ identifiantGestionnaireRéseau }) =>
+                setSelectedIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau)
+              }
             />
 
             <Input

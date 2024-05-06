@@ -112,7 +112,7 @@ export async function makeServer(port: number, sessionSecret: string) {
       res
         .status(500)
         .send(
-          'Une erreur inattendue est survenue. Veuillez nous excuser pour la gêne occasionée. Merci de réessayer et de contacter l‘équipe si le problème persiste.',
+          'Une erreur inattendue est survenue. Veuillez nous excuser pour la gêne occasionnée. Merci de réessayer et de contacter l‘équipe si le problème persiste.',
         );
     });
 

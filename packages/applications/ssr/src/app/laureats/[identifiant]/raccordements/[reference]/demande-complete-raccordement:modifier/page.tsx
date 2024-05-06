@@ -12,13 +12,13 @@ import {
 import { Raccordement } from '@potentiel-domain/reseau';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import {
   ModifierDemandeComplèteRaccordementPage,
   ModifierDemandeComplèteRaccordementPageProps,
 } from '@/components/pages/réseau/raccordement/modifier/modifierDemandeComplèteRaccordement/ModifierDemandeComplèteRaccordement.page';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { decodeParameter } from '@/utils/decodeParameter';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export const metadata: Metadata = {
@@ -114,7 +114,7 @@ const mapToProps: MapToProps = ({
         (utilisateur.role.estÉgaleÀ(Role.porteur) && !dossierRaccordement.miseEnService),
     },
     delaiDemandeDeRaccordementEnMois: appelOffre.periodes.find(
-      (periode) => (periode.id = candidature.période),
+      (periode) => periode.id === candidature.période,
     )!.delaiDcrEnMois,
     gestionnaireRéseauActuel: {
       identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),

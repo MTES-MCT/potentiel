@@ -1,9 +1,9 @@
 'use client';
 
-import React, { FC, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { useRouter } from 'next/navigation';
+import { FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
