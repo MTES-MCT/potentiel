@@ -94,7 +94,7 @@ export const makeAcceptModificationRequest =
           if (!responseFile && modificationRequest.type === 'puissance')
             return okAsync({ project, modificationRequest });
 
-          if (!responseFile) return okAsync({ project, modificationRequest, responseFile: '' });
+          if (!responseFile) return okAsync({ project, modificationRequest, responseFileId: '' });
 
           return makeAndSaveFile({
             file: {
@@ -121,11 +121,11 @@ export const makeAcceptModificationRequest =
 
         switch (modificationRequest.type) {
           case 'recours':
-            if (acceptanceParams?.type === 'recours')
+            // responseFileId will never be undefined here
+            if (acceptanceParams?.type === 'recours' && responseFileId !== undefined)
               action = project
                 .grantClasse(submittedBy)
-                // cheap trick (as)
-                .andThen(() => project.updateCertificate(submittedBy, responseFileId as string))
+                .andThen(() => project.updateCertificate(submittedBy, responseFileId))
                 .andThen(() =>
                   project.setNotificationDate(
                     submittedBy,

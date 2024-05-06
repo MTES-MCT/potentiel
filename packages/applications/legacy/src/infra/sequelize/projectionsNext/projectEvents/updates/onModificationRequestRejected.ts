@@ -82,8 +82,7 @@ const getFile = async (responseFileId: string, transaction: Transaction | undefi
     transaction,
   });
 
-  const filename: string | undefined = rawFilename?.filename;
-  const file = filename && { id: responseFileId, name: filename };
+  const file = rawFilename ? { id: responseFileId, name: rawFilename.filename } : undefined;
 
   return file;
 };

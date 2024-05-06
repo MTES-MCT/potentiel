@@ -59,7 +59,7 @@ export const makeRejectModificationRequest =
           if (!responseFile && modificationRequest.type === 'puissance')
             return okAsync({ modificationRequest });
 
-          if (!responseFile) return okAsync({ modificationRequest, responseFile: '' });
+          if (!responseFile) return okAsync({ modificationRequest, responseFileId: '' });
 
           return makeAndSaveFile({
             file: {
