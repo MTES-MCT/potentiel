@@ -6,16 +6,17 @@ import { Input, Label } from '../../../components';
 interface UploadResponseFileProps {
   modificationRequest: ModificationRequestPageDTO & { type: string };
   optionnel?: true;
+  reasonForOptionnel?: string;
 }
 
 export const UploadResponseFile = ({
   modificationRequest,
   optionnel = undefined,
+  reasonForOptionnel,
 }: UploadResponseFileProps) => (
-  <>
-    <DownloadResponseTemplate modificationRequest={modificationRequest} />
+  <div className="flex flex-col gap-2">
     <div className="form__group">
-      <Label htmlFor="file" optionnel={optionnel}>
+      <Label htmlFor="file" optionnel={optionnel} reasonForOptionnel={reasonForOptionnel}>
         Réponse signée (fichier pdf)
       </Label>
       <Input
@@ -26,5 +27,6 @@ export const UploadResponseFile = ({
         aria-required={modificationRequest.type !== 'puissance'}
       />
     </div>
-  </>
+    <DownloadResponseTemplate modificationRequest={modificationRequest} />
+  </div>
 );

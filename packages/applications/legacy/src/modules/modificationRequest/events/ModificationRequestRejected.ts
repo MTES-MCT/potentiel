@@ -2,7 +2,7 @@ import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
 
 export interface ModificationRequestRejectedPayload {
   modificationRequestId: string;
-  responseFileId: string;
+  responseFileId?: string;
   rejectedBy: string;
 }
 export class ModificationRequestRejected

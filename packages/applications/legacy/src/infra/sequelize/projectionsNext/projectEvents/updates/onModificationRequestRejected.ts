@@ -1,11 +1,12 @@
+import { Transaction } from 'sequelize';
 import { UniqueEntityID } from '../../../../../core/domain';
 import { logger } from '../../../../../core/utils';
 import { ModificationRequestRejected } from '../../../../../modules/modificationRequest';
 import { ProjectionEnEchec } from '../../../../../modules/shared';
+import { File } from '../../file/file.model';
 import { ModificationRequest } from '../../modificationRequest/modificationRequest.model';
 import { ProjectEvent } from '../projectEvent.model';
 import { ProjectEventProjector } from '../projectEvent.projector';
-import { File } from '../../file/file.model';
 
 export default ProjectEventProjector.on(
   ModificationRequestRejected,
@@ -56,13 +57,8 @@ export default ProjectEventProjector.on(
 
       if (modificationRequest) {
         const { projectId } = modificationRequest;
-        const rawFilename = await File.findByPk(responseFileId, {
-          attributes: ['filename'],
-          transaction,
-        });
 
-        const filename: string | undefined = rawFilename?.filename;
-        const file = filename && { id: responseFileId, name: filename };
+        const file = responseFileId && (await getFile(responseFileId, transaction));
 
         await ProjectEvent.create(
           {
@@ -79,3 +75,14 @@ export default ProjectEventProjector.on(
     }
   },
 );
+
+const getFile = async (responseFileId: string, transaction: Transaction | undefined) => {
+  const rawFilename = await File.findByPk(responseFileId, {
+    attributes: ['filename'],
+    transaction,
+  });
+
+  const file = rawFilename ? { id: responseFileId, name: rawFilename.filename } : undefined;
+
+  return file;
+};

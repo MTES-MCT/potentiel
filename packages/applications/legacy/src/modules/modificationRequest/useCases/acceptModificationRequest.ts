@@ -88,9 +88,12 @@ export const makeAcceptModificationRequest =
           project,
           modificationRequest,
         }): ResultAsync<
-          { project: Project; modificationRequest: ModificationRequest; responseFileId: string },
+          { project: Project; modificationRequest: ModificationRequest; responseFileId?: string },
           InfraNotAvailableError
         > => {
+          if (!responseFile && modificationRequest.type === 'puissance')
+            return okAsync({ project, modificationRequest });
+
           if (!responseFile) return okAsync({ project, modificationRequest, responseFileId: '' });
 
           return makeAndSaveFile({
@@ -118,7 +121,8 @@ export const makeAcceptModificationRequest =
 
         switch (modificationRequest.type) {
           case 'recours':
-            if (acceptanceParams?.type === 'recours')
+            // responseFileId will never be undefined here
+            if (acceptanceParams?.type === 'recours' && responseFileId !== undefined)
               action = project
                 .grantClasse(submittedBy)
                 .andThen(() => project.updateCertificate(submittedBy, responseFileId))

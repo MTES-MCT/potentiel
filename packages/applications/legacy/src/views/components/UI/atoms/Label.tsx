@@ -4,22 +4,32 @@ type LabelProps = ComponentProps<'label'> & {
   htmlFor: string;
   disabled?: true;
   optionnel?: true;
+  reasonForOptionnel?: string;
 };
 
 export const Label = ({
-  optionnel,
   children,
+  className = '',
   disabled = undefined,
   htmlFor,
-  className = '',
+  optionnel,
+  reasonForOptionnel,
   ...props
-}: LabelProps) => (
-  <label
-    htmlFor={htmlFor}
-    {...props}
-    className={`${disabled && 'text-grey-625-base'} ${className}`}
-  >
-    {children}
-    {optionnel && ' (optionnel)'}
-  </label>
-);
+}: LabelProps) => {
+  const optionnelLabel = optionnel
+    ? reasonForOptionnel
+      ? ` (optionnel ${reasonForOptionnel})`
+      : ' (optionnel)'
+    : undefined;
+
+  return (
+    <label
+      htmlFor={htmlFor}
+      {...props}
+      className={`${disabled && 'text-grey-625-base'} ${className}`}
+    >
+      {children}
+      {optionnelLabel}
+    </label>
+  );
+};
