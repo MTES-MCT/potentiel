@@ -7,6 +7,7 @@ import {
 } from '@potentiel-infrastructure/pg-projections';
 import {
   AbandonNotification,
+  AttestationConformitéNotification,
   GarantiesFinancièresNotification,
 } from '@potentiel-applications/notifications';
 import {
@@ -48,6 +49,7 @@ export const setupLauréat = async () => {
   GarantiesFinancièreProjector.register();
   GarantiesFinancièresNotification.register();
   AchèvementProjector.register();
+  AttestationConformitéNotification.register();
 
   const unsubscribeAbandonNotification = await subscribe<AbandonNotification.SubscriptionEvent>({
     name: 'notifications',
@@ -147,11 +149,25 @@ export const setupLauréat = async () => {
       },
     });
 
+  const unsubscribeAttestationConformitéNotification =
+    await subscribe<AttestationConformitéNotification.SubscriptionEvent>({
+      name: 'notifications',
+      streamCategory: 'attestation-conformite',
+      eventType: ['AttestationConformitéTransmise-V1'],
+      eventHandler: async (event) => {
+        await mediator.publish<AttestationConformitéNotification.Execute>({
+          type: 'System.Notification.Lauréat.Achèvement.AttestationConformité',
+          data: event,
+        });
+      },
+    });
+
   return async () => {
     await unsubscribeAbandonNotification();
     await unsubscribeAbandonProjector();
     await unsubscribeGarantiesFinancièresProjector();
     await unsubscribeGarantiesFinancièresNotification();
     await unsubscribeAchèvementProjector();
+    await unsubscribeAttestationConformitéNotification();
   };
 };
