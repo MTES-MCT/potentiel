@@ -47,15 +47,6 @@ const EnregistrerUneModification = ({
   </DropdownMenuSecondaryButton>
 );
 
-const getProjectStatus = (project: ProjectDataForProjectPage) =>
-  !project.notifiedOn
-    ? 'non-notifié'
-    : project.isAbandoned
-    ? 'abandonné'
-    : project.isClasse
-    ? 'lauréat'
-    : 'éliminé';
-
 type PorteurProjetActionsProps = {
   project: ProjectDataForProjectPage;
   abandonEnCours: boolean;
@@ -75,7 +66,7 @@ const PorteurProjetActions = ({
       )}
 
       {project.isClasse && (
-        <DropdownMenuSecondaryButton buttonChildren="Faire une demande" className="w-fit">
+        <DropdownMenuSecondaryButton buttonChildren="Actions" className="w-fit">
           {project.appelOffre.typeAppelOffre !== 'biométhane' && (
             <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
               <span>Demander un délai</span>
@@ -105,19 +96,35 @@ const PorteurProjetActions = ({
             </span>
           </DropdownMenuSecondaryButton.DropdownItem>
           {!abandonEnCours && (
-            <DropdownMenuSecondaryButton.DropdownItem
-              href={Routes.Abandon.demander(
-                formatProjectDataToIdentifiantProjetValueType({
-                  appelOffreId: project.appelOffreId,
-                  periodeId: project.periodeId,
-                  familleId: project.familleId,
-                  numeroCRE: project.numeroCRE,
-                }).formatter(),
+            <>
+              <DropdownMenuSecondaryButton.DropdownItem
+                href={Routes.Abandon.demander(
+                  formatProjectDataToIdentifiantProjetValueType({
+                    appelOffreId: project.appelOffreId,
+                    periodeId: project.periodeId,
+                    familleId: project.familleId,
+                    numeroCRE: project.numeroCRE,
+                  }).formatter(),
+                )}
+                {...(modificationsNonPermisesParLeCDCActuel && { disabled: true })}
+              >
+                <span>Demander un abandon</span>
+              </DropdownMenuSecondaryButton.DropdownItem>
+              {getProjectStatus(project) === 'lauréat' && (
+                <DropdownMenuSecondaryButton.DropdownItem
+                  href={Routes.Achèvement.transmettreAttestationConformité(
+                    formatProjectDataToIdentifiantProjetValueType({
+                      appelOffreId: project.appelOffreId,
+                      periodeId: project.periodeId,
+                      familleId: project.familleId,
+                      numeroCRE: project.numeroCRE,
+                    }).formatter(),
+                  )}
+                >
+                  <span>Transmettre l'attestation de conformité</span>
+                </DropdownMenuSecondaryButton.DropdownItem>
               )}
-              {...(modificationsNonPermisesParLeCDCActuel && { disabled: true })}
-            >
-              <span>Demander un abandon</span>
-            </DropdownMenuSecondaryButton.DropdownItem>
+            </>
           )}
         </DropdownMenuSecondaryButton>
       )}
@@ -203,3 +210,13 @@ export const ProjectActions = ({
     {userIs(['dreal'])(user) && <EnregistrerUneModification {...{ project }} />}
   </div>
 );
+
+type ProjectStatus = 'non-notifié' | 'abandonné' | 'lauréat' | 'éliminé';
+const getProjectStatus = (project: ProjectDataForProjectPage): ProjectStatus =>
+  !project.notifiedOn
+    ? 'non-notifié'
+    : project.isAbandoned
+    ? 'abandonné'
+    : project.isClasse
+    ? 'lauréat'
+    : 'éliminé';
