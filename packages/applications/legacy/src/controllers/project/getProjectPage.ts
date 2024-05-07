@@ -22,7 +22,7 @@ import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Project } from '../../infra/sequelize';
 
-import { Abandon, GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
 const schema = yup.object({
@@ -153,10 +153,14 @@ v1Router.get(
       return response.send(
         ProjectDetailsPage({
           request,
-          project: { ...projet, ...(garantiesFinancières && { garantiesFinancières }) },
+          project: {
+            ...projet,
+            ...(garantiesFinancières && { garantiesFinancières }),
+          },
           projectEventList: rawProjectEventList.value,
           alertesRaccordement,
           ...(abandon && { abandon }),
+          hasAttestationConformité: await hasAttestationConformité(identifiantProjetValueType),
         }),
       );
     },
@@ -195,6 +199,21 @@ const getAbandon = async (
     }
   } catch (error) {
     return;
+  }
+};
+
+const hasAttestationConformité = async (
+  identifiantProjet: IdentifiantProjet.ValueType,
+): Promise<boolean> => {
+  try {
+    await mediator.send<Achèvement.AttestationConformité.ConsulterAttestationConformitéQuery>({
+      type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
+      data: { identifiantProjetValue: identifiantProjet.formatter() },
+    });
+
+    return true;
+  } catch (error) {
+    return false;
   }
 };
 

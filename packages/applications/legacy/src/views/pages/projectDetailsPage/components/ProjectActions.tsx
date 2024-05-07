@@ -13,13 +13,6 @@ import {
   SecondaryLinkButton,
 } from '../../../components';
 
-type ProjectActionsProps = {
-  project: ProjectDataForProjectPage;
-  user: User;
-  abandonEnCours: boolean;
-  modificationsNonPermisesParLeCDCActuel: boolean;
-};
-
 type EnregistrerUneModificationProps = {
   project: ProjectDataForProjectPage;
   signalementRecoursAutorisé?: true;
@@ -51,11 +44,13 @@ type PorteurProjetActionsProps = {
   project: ProjectDataForProjectPage;
   abandonEnCours: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
+  hasAttestationConformité: boolean;
 };
 const PorteurProjetActions = ({
   project,
   abandonEnCours,
   modificationsNonPermisesParLeCDCActuel,
+  hasAttestationConformité,
 }: PorteurProjetActionsProps) => (
   <div className="flex flex-col gap-3">
     <div className="flex flex-col xl:flex-row gap-2">
@@ -110,7 +105,7 @@ const PorteurProjetActions = ({
               >
                 <span>Demander un abandon</span>
               </DropdownMenuSecondaryButton.DropdownItem>
-              {getProjectStatus(project) === 'lauréat' && (
+              {!hasAttestationConformité && getProjectStatus(project) === 'lauréat' && (
                 <DropdownMenuSecondaryButton.DropdownItem
                   href={Routes.Achèvement.transmettreAttestationConformité(
                     formatProjectDataToIdentifiantProjetValueType({
@@ -190,11 +185,19 @@ const AdminActions = ({
   </div>
 );
 
+type ProjectActionsProps = {
+  project: ProjectDataForProjectPage;
+  user: User;
+  abandonEnCours: boolean;
+  modificationsNonPermisesParLeCDCActuel: boolean;
+  hasAttestationConformité: boolean;
+};
 export const ProjectActions = ({
   project,
   user,
   abandonEnCours,
   modificationsNonPermisesParLeCDCActuel,
+  hasAttestationConformité,
 }: ProjectActionsProps) => (
   <div className="print:hidden whitespace-nowrap">
     {userIs(['admin', 'dgec-validateur'])(user) && (
@@ -204,7 +207,12 @@ export const ProjectActions = ({
     )}
     {userIs(['porteur-projet'])(user) && (
       <PorteurProjetActions
-        {...{ project, abandonEnCours, modificationsNonPermisesParLeCDCActuel }}
+        {...{
+          project,
+          abandonEnCours,
+          modificationsNonPermisesParLeCDCActuel,
+          hasAttestationConformité,
+        }}
       />
     )}
     {userIs(['dreal'])(user) && <EnregistrerUneModification {...{ project }} />}

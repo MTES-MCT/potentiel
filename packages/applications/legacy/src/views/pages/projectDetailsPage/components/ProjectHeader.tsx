@@ -9,6 +9,7 @@ type ProjectHeaderProps = {
   user: User;
   abandonEnCours: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
+  hasAttestationConformité: boolean;
 };
 
 export const ProjectHeader = ({
@@ -16,6 +17,7 @@ export const ProjectHeader = ({
   user,
   abandonEnCours,
   modificationsNonPermisesParLeCDCActuel,
+  hasAttestationConformité,
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 print:pl-0 mb-3 text-sm">
@@ -52,7 +54,13 @@ export const ProjectHeader = ({
 
     <div className="px-3">
       <ProjectActions
-        {...{ project, user, abandonEnCours, modificationsNonPermisesParLeCDCActuel }}
+        {...{
+          project,
+          user,
+          abandonEnCours,
+          modificationsNonPermisesParLeCDCActuel,
+          hasAttestationConformité,
+        }}
       />
     </div>
   </div>
