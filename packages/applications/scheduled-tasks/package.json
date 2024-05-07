@@ -7,7 +7,8 @@
     "build": "tsc",
     "start:relancer-abandon-sans-preuve": "node ./dist/relancer-abandon-sans-preuve",
     "start:deplacer-fichier-gf": "node ./dist/déplacer-fichier-gf",
-    "start:créer-backup-oos": "node ./dist/créer-backup-oos"
+    "start:créer-backup-oos": "node ./dist/créer-backup-oos",
+    "start:fix-missing-gf-files": "node ./dist/fix-missing-gf-files"
   },
   "dependencies": {
     "@potentiel-libraries/file-storage": "*",
