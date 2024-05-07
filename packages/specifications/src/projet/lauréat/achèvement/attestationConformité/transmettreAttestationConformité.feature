@@ -21,5 +21,10 @@ Fonctionnalité: Transmettre une attestation de conformité
             | contenu preuve transmission au co-contractant | le contenu de la preuve     |
             | date                                          | 2024-01-05                  |
             | utilisateur                                   | porteur@test.test           |
+
+    Scénario: Erreur si la date de transmission au co-contractant est dans le futur
+        Quand un porteur transmet une attestation de conformité pour le projet "Centrale PV" avec : 
+            | date transmission au co-contractant           | 2040-01-01                  |
+        Alors le porteur devrait être informé que "la date de transmission au co-contractant ne peut pas être une date future"           
     
         
