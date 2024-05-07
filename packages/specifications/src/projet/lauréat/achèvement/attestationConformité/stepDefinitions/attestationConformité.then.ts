@@ -2,9 +2,9 @@ import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import { Achèvement } from '@potentiel-domain/laureat';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
-import { PotentielWorld } from '../../../potentiel.world';
+import { PotentielWorld } from '../../../../../potentiel.world';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { convertReadableStreamToString } from '../../../helpers/convertReadableToString';
+import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 import waitForExpect from 'wait-for-expect';
 
 Alors(
