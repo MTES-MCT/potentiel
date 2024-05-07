@@ -1,18 +1,21 @@
+/* eslint-disable no-console */
 import './global.css';
 
+import { SkipLinks } from '@codegouvfr/react-dsfr/SkipLinks';
 import { DsfrHead } from '@codegouvfr/react-dsfr/next-appdir/DsfrHead';
 import { getHtmlAttributes } from '@codegouvfr/react-dsfr/next-appdir/getHtmlAttributes';
-import { SkipLinks } from '@codegouvfr/react-dsfr/SkipLinks';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
 import { Footer } from '@/components/organisms/Footer';
 import { Header } from '@/components/organisms/Header';
 
+import initSentry from '../utils/sentry';
+
 import { BootstrapApp } from './BootstrapApp';
-import { defaultColorScheme } from './defaultColorScheme';
 import Providers from './Providers';
 import { StartDsfr } from './StartDsfr';
+import { defaultColorScheme } from './defaultColorScheme';
 
 export const metadata: Metadata = {
   title: 'Potentiel',
@@ -25,6 +28,8 @@ type RootLayoutProps = {
 };
 
 export default function RootLayout({ children }: RootLayoutProps) {
+  initSentry();
+
   //NOTE: The lang parameter is optional and defaults to "fr"
   return (
     <html {...getHtmlAttributes({ defaultColorScheme })} lang="fr">

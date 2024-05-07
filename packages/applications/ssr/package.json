@@ -34,6 +34,7 @@
     "@potentiel-infrastructure/document-builder": "*",
     "@potentiel-libraries/iso8601-datetime": "*",
     "@potentiel-libraries/monitoring": "*",
+    "@sentry/react": "^7.113.0",
     "iconv-lite": "^0.6.3",
     "mediateur": "^0.1.0",
     "next": "^14.0.1",
@@ -43,6 +44,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@sentry/webpack-plugin": "^2.16.1",
     "@storybook/addon-essentials": "^7.6.10",
     "@storybook/addon-links": "^7.6.10",
     "@storybook/addon-themes": "^7.6.10",

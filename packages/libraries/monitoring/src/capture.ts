@@ -26,7 +26,7 @@ export const getCapture: GetCapture = (): Capture | undefined => {
         message: string,
         context: Record<string, unknown>,
       ) => {
-        const scope = Sentry.getCurrentHub().getScope();
+        const scope = Sentry.getCurrentScope();
 
         scope.addBreadcrumb({
           message,
@@ -44,7 +44,7 @@ export const getCapture: GetCapture = (): Capture | undefined => {
           capture('info', message, context),
         error: (error: Error, context: Record<string, unknown>) => {
           capture('error', error.message, context);
-          Sentry.getCurrentHub().captureException(error);
+          Sentry.captureException(error);
         },
         debug: (message: string, context: Record<string, unknown>) =>
           capture('debug', message, context),

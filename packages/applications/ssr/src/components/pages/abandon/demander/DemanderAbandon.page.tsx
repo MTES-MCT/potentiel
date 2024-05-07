@@ -11,9 +11,9 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { Heading1 } from '@/components/atoms/headings';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { Heading1 } from '@/components/atoms/headings';
 
 import { demanderAbandonAction } from './demanderAbandon.action';
 
