@@ -1,5 +1,5 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
@@ -37,6 +37,9 @@ export async function transmettre(
     utilisateur,
   }: Options,
 ) {
+  if (dateTransmissionAuCocontractant.estDansLeFutur()) {
+    throw new DateDeTransmissionAuCoContractantFutureError();
+  }
   const event: AttestationConformitéTransmiseEvent = {
     type: 'AttestationConformitéTransmise-V1',
     payload: {
@@ -63,4 +66,10 @@ export function applyAttestationConformitéTransmise(
   );
   this.date = DateTime.convertirEnValueType(date);
   this.utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+}
+
+class DateDeTransmissionAuCoContractantFutureError extends InvalidOperationError {
+  constructor() {
+    super('la date de transmission au co-contractant ne peut pas être une date future');
+  }
 }
