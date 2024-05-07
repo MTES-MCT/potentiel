@@ -70,13 +70,13 @@ async function moveFiles() {
   const files = await executeSelect<{
     identifiant_projet: string;
     file_path: string;
-    date_validation: string | undefined;
-    date_envoi: string;
+    date_constitution: string;
+    statut: string;
   }>(`
     SELECT p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" as identifiant_projet,
         REPLACE(f."storedAt", 'S3:potentiel-production:', '') as file_path,
-        gf."validéesLe" as date_validation,
-        gf."dateEnvoi" as date_envoi
+        gf."dateConstitution" as date_constitution,
+        gf."statut" as statut
     FROM "garantiesFinancières" as gf
     INNER JOIN "files" as f on gf."fichierId" = f.id
     INNER JOIN "projects" as p on gf."projetId" = p.id
@@ -93,13 +93,13 @@ async function moveFiles() {
     await Promise.all(
       files
         .splice(0, 10)
-        .map(async ({ file_path, identifiant_projet, date_validation, date_envoi }) => {
+        .map(async ({ file_path, identifiant_projet, date_constitution, statut }) => {
           const start = new Date().getTime();
 
           const gfSoumisesDocument = DocumentProjet.convertirEnValueType(
             identifiant_projet,
             GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
-            new Date(date_envoi).toISOString(),
+            new Date(date_constitution).toISOString(),
             contentType(extname(file_path)).toString(),
           );
 
@@ -138,7 +138,7 @@ async function moveFiles() {
               }ms`,
             );
 
-            if (date_validation) {
+            if (statut === 'validé') {
               const { Body } = await legacyBucket.send(
                 new GetObjectCommand({
                   Bucket: legacyBucketName,
@@ -155,7 +155,7 @@ async function moveFiles() {
               const gfActuelleDocument = DocumentProjet.convertirEnValueType(
                 identifiant_projet,
                 GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
-                new Date(date_validation).toISOString(),
+                date_constitution,
                 contentType(extname(file_path)).toString(),
               );
 
