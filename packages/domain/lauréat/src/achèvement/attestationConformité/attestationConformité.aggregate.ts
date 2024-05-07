@@ -8,6 +8,7 @@ import {
   transmettre,
 } from './transmettre/transmettreAttestationConformité.behavior';
 import { AucuneAttestationConformitéError } from './aucuneAttestationConformité.error';
+import { Option } from '@potentiel-libraries/monads';
 
 export type AttestationConformitéEvent = AttestationConformitéTransmiseEvent;
 
@@ -15,6 +16,8 @@ export type AttestationConformitéAggregate = Aggregate<AttestationConformitéEv
   dateTransmissionAuCocontractant: DateTime.ValueType;
   date: DateTime.ValueType;
   utilisateur: IdentifiantUtilisateur.ValueType;
+  attestation: { format: Option.Type<string> };
+  preuveTransmissionAuCocontractant: { format: Option.Type<string> };
   readonly transmettre: typeof transmettre;
 };
 
@@ -25,6 +28,8 @@ export const getDefaultAttestationConformitéAggregate: GetDefaultAggregateState
   dateTransmissionAuCocontractant: DateTime.convertirEnValueType(new Date()),
   date: DateTime.convertirEnValueType(new Date()),
   utilisateur: IdentifiantUtilisateur.convertirEnValueType('unknown-user@unknown-email.com'),
+  attestation: { format: '' },
+  preuveTransmissionAuCocontractant: { format: '' },
   apply,
   transmettre,
 });

@@ -40,6 +40,10 @@ export async function transmettre(
   if (dateTransmissionAuCocontractant.estDansLeFutur()) {
     throw new DateDeTransmissionAuCoContractantFutureError();
   }
+  if (this.attestation.format && this.preuveTransmissionAuCocontractant.format) {
+    throw new AttestationDeConformitéDéjàTransmiseError();
+  }
+
   const event: AttestationConformitéTransmiseEvent = {
     type: 'AttestationConformitéTransmise-V1',
     payload: {
@@ -58,7 +62,13 @@ export async function transmettre(
 export function applyAttestationConformitéTransmise(
   this: AttestationConformitéAggregate,
   {
-    payload: { dateTransmissionAuCocontractant, date, utilisateur },
+    payload: {
+      dateTransmissionAuCocontractant,
+      date,
+      utilisateur,
+      attestation,
+      preuveTransmissionAuCocontractant,
+    },
   }: AttestationConformitéTransmiseEvent,
 ) {
   this.dateTransmissionAuCocontractant = DateTime.convertirEnValueType(
@@ -66,10 +76,18 @@ export function applyAttestationConformitéTransmise(
   );
   this.date = DateTime.convertirEnValueType(date);
   this.utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateur);
+  this.attestation = { format: attestation.format };
+  this.preuveTransmissionAuCocontractant = { format: preuveTransmissionAuCocontractant.format };
 }
 
 class DateDeTransmissionAuCoContractantFutureError extends InvalidOperationError {
   constructor() {
     super('la date de transmission au co-contractant ne peut pas être une date future');
+  }
+}
+
+class AttestationDeConformitéDéjàTransmiseError extends InvalidOperationError {
+  constructor() {
+    super('le projet a déjà une attestation de conformité');
   }
 }

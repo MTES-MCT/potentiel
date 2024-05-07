@@ -51,7 +51,6 @@ Quand(
       );
       await sleep(100);
     } catch (error) {
-      console.log('ERREUR WHEN', error);
       this.error = error as Error;
     }
   },
