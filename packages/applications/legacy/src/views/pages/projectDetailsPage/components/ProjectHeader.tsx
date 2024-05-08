@@ -54,13 +54,11 @@ export const ProjectHeader = ({
 
     <div className="px-3">
       <ProjectActions
-        {...{
-          project,
-          user,
-          abandonEnCours,
-          modificationsNonPermisesParLeCDCActuel,
-          hasAttestationConformité,
-        }}
+        project={project}
+        user={user}
+        abandonEnCours={abandonEnCours}
+        modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
+        hasAttestationConformité={hasAttestationConformité}
       />
     </div>
   </div>
