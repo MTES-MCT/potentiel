@@ -30,13 +30,13 @@ import {
   LegacyModificationsItemProps,
   ModificationReceivedItemProps,
   ModificationRequestItemProps,
-  extractACItemProps,
   extractAttachedFileItemProps,
   extractDesignationItemProps,
   extractImportItemProps,
   extractLegacyModificationsItemProps,
   extractModificationReceivedItemProps,
   extractModificationRequestsItemProps,
+  extractAttestationConformiteItemProps,
 } from './helpers';
 
 export type TimelineProps = {
@@ -60,13 +60,13 @@ type ItemProps =
 export const Timeline = ({
   projectEventList: {
     events,
-    project: { id: projectId, status, garantieFinanciereEnMois, nomProjet },
+    project: { id: projectId, status },
   },
 }: TimelineProps) => {
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId, status),
     extractImportItemProps(events),
-    extractACItemProps(events, { status }),
+    extractAttestationConformiteItemProps(events, { status }),
     ...extractModificationRequestsItemProps(events),
     ...events.filter(is('DemandeDelaiSignaled')),
     ...events.filter(is('DemandeAbandonSignaled')),
@@ -130,6 +130,8 @@ export const Timeline = ({
             {component}
           </TimelineItem>
         ))}
+
+        <TimelineItem isLastItem={true}>test</TimelineItem>
       </ol>
     </aside>
   );

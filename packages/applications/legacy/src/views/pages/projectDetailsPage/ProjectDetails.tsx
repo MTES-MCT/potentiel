@@ -23,7 +23,7 @@ import {
   MaterielsEtTechnologies,
   ResultatsAppelOffreInnovation,
 } from './sections';
-import { ProjectHeader } from './components';
+import { PorteurProjetActionsProps, ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 
@@ -39,7 +39,7 @@ type ProjectDetailsProps = {
   abandon?: {
     statut: string;
   };
-  hasAttestationConformité: boolean;
+  attestationConformité?: PorteurProjetActionsProps['attestationConformité'];
 };
 
 export const ProjectDetails = ({
@@ -48,7 +48,7 @@ export const ProjectDetails = ({
   projectEventList,
   alertesRaccordement,
   abandon,
-  hasAttestationConformité,
+  attestationConformité,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -64,6 +64,8 @@ export const ProjectDetails = ({
   const modificationsNonPermisesParLeCDCActuel =
     project.cahierDesChargesActuel.type === 'initial' &&
     !!project.appelOffre.periode.choisirNouveauCahierDesCharges;
+
+  const hasAttestationConformité = !!attestationConformité;
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">

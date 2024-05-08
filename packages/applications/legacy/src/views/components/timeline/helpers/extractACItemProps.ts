@@ -1,3 +1,4 @@
+import { Achèvement } from '@potentiel-domain/laureat';
 import { ProjectEventDTO, ProjectStatus } from '../../../../modules/frise';
 
 export type AttestationConformiteItemProps = {
@@ -5,11 +6,13 @@ export type AttestationConformiteItemProps = {
   date: number;
   covidDelay: boolean;
   délaiCDC2022Appliqué: boolean;
+  attestationConformite?: Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel;
 };
 
-export const extractACItemProps = (
+export const extractAttestationConformiteItemProps = (
   events: ProjectEventDTO[],
   project: { status: ProjectStatus },
+  attestationConformite,
 ): AttestationConformiteItemProps | null => {
   if (project.status !== 'Classé') {
     return null;
@@ -24,6 +27,7 @@ export const extractACItemProps = (
     date: 0,
     covidDelay: false,
     délaiCDC2022Appliqué: false,
+    attestationConformite: undefined,
   };
 
   const props = completionDueOnEvents.reduce((props, currentEvent) => {
