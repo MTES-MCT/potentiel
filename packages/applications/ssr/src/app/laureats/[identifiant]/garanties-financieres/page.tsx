@@ -19,7 +19,6 @@ import {
 } from '@/components/pages/garanties-financières/détails/DétailsGarantiesFinancières.page';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
-import { tryToGetResource } from '@/utils/tryToGetRessource';
 import { GarantiesFinancièresDépôtEnCoursProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresDépôtEnCours';
 
 export const metadata: Metadata = {
@@ -49,25 +48,28 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
       }
 
-      /**
-       * @todo à refacto suite à l'introduction d'une réponse de la query en utilisant @potentiel-libraries/monads
-       */
-
-      const garantiesFinancières = await tryToGetResource(
-        async () =>
+      try {
+        const garantiesFinancières =
           await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
             type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
             data: { identifiantProjetValue: identifiantProjet },
-          }),
-      );
+          });
 
-      const props = mapToProps({
-        projet,
-        utilisateur,
-        garantiesFinancières,
-      });
+        const props = mapToProps({
+          projet,
+          utilisateur,
+          garantiesFinancières,
+        });
 
-      return <DétailsGarantiesFinancièresPage {...props} />;
+        return <DétailsGarantiesFinancièresPage {...props} />;
+      } catch (error) {
+        const props = mapToProps({
+          projet,
+          utilisateur,
+        });
+
+        return <DétailsGarantiesFinancièresPage {...props} />;
+      }
     }),
   );
 }
@@ -75,7 +77,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 type MapToProps = (args: {
   projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
   utilisateur: Utilisateur.ValueType;
-  garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel | null;
+  garantiesFinancières?: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel;
 }) => DétailsGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) => {

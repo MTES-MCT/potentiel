@@ -11,7 +11,6 @@ import {
   SoumettreGarantiesFinancièresPage,
   SoumettreGarantiesFinancièresProps,
 } from '@/components/pages/garanties-financières/dépôt/soumettre/SoumettreGarantiesFinancières.page';
-import { tryToGetResource } from '@/utils/tryToGetRessource';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import { ProjetADéjàUnDépôtEnCoursPage } from '@/components/pages/garanties-financières/dépôt/soumettre/ProjetADéjàUnDépôtEnCours.page';
@@ -43,23 +42,25 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
     }
 
-    const gf = await tryToGetResource(
-      async () =>
-        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: { identifiantProjetValue: identifiantProjet },
-        }),
-    );
-
-    if (gf?.dépôts.find((dépôt) => dépôt.statut.estEnCours())) {
-      return <ProjetADéjàUnDépôtEnCoursPage projet={projet} />;
-    }
-
     const props: SoumettreGarantiesFinancièresProps = {
       projet,
       typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
     };
 
-    return <SoumettreGarantiesFinancièresPage {...props} />;
+    try {
+      const garantiesFinancières =
+        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: { identifiantProjetValue: identifiantProjet },
+        });
+
+      if (garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours())) {
+        return <ProjetADéjàUnDépôtEnCoursPage projet={projet} />;
+      }
+
+      return <SoumettreGarantiesFinancièresPage {...props} />;
+    } catch (e) {
+      return <SoumettreGarantiesFinancièresPage {...props} />;
+    }
   });
 }
