@@ -89,11 +89,9 @@ export const register = () => {
               période: projet.période,
               famille: projet.famille,
               régionProjet: projet.régionProjet,
-              attestation: { format: payload.attestation.format },
+              attestation: payload.attestation,
               dateTransmission: payload.date,
-              preuveTransmissionAuCocontractant: {
-                format: payload.preuveTransmissionAuCocontractant.format,
-              },
+              preuveTransmissionAuCocontractant: payload.preuveTransmissionAuCocontractant,
               dateTransmissionAuCocontractant: payload.dateTransmissionAuCocontractant,
               dernièreMiseÀJour: { date: payload.date, utilisateur: payload.utilisateur },
             },

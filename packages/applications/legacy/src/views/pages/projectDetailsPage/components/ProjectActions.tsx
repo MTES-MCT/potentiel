@@ -207,15 +207,13 @@ export const ProjectActions = ({
     )}
     {userIs(['porteur-projet'])(user) && (
       <PorteurProjetActions
-        {...{
-          project,
-          abandonEnCours,
-          modificationsNonPermisesParLeCDCActuel,
-          hasAttestationConformité,
-        }}
+        project={project}
+        abandonEnCours={abandonEnCours}
+        modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
+        hasAttestationConformité={hasAttestationConformité}
       />
     )}
-    {userIs(['dreal'])(user) && <EnregistrerUneModification {...{ project }} />}
+    {userIs(['dreal'])(user) && <EnregistrerUneModification project={project} />}
   </div>
 );
 
