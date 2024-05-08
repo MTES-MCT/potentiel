@@ -1,7 +1,7 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
-import { AjouterGestionnaireRéseauCommand } from './ajouterGestionnaireRéseau.command';
-import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 import { ExpressionRegulière } from '@potentiel-domain/common';
+import { Message, MessageHandler, mediator } from 'mediateur';
+import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
+import { AjouterGestionnaireRéseauCommand } from './ajouterGestionnaireRéseau.command';
 
 export type AjouterGestionnaireRéseauUseCase = Message<
   'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
@@ -13,6 +13,10 @@ export type AjouterGestionnaireRéseauUseCase = Message<
       légendeValue: string;
       expressionReguliereValue: string;
     };
+    // contactInformationsValue?: {
+    //   emailValue: string;
+    //   phoneValue: string;
+    // };
   }
 >;
 
@@ -25,6 +29,7 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
     },
     identifiantGestionnaireRéseauValue,
     raisonSocialeValue,
+    // contactInformationsValue,
   }) => {
     const identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
       identifiantGestionnaireRéseauValue,
@@ -44,6 +49,10 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
           format: formatValue,
           légende: légendeValue,
         },
+        // contactInformations: {
+        //   email: contactInformationsValue?.emailValue,
+        //   phone: contactInformationsValue?.phoneValue,
+        // },
       },
     });
   };

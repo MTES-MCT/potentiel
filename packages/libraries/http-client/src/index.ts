@@ -7,7 +7,6 @@ const retryPolicy = retry(handleAll, {
 
 export const get = async (url: URL, signal?: AbortSignal): Promise<unknown> => {
   return await retryPolicy.execute(async () => {
-    console.log(url);
     const response = await fetch(url, { signal });
 
     if (!response.ok) {

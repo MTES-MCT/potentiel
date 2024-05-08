@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
-import { LoadAggregate } from '@potentiel-domain/core';
-import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
-import { loadGestionnaireRéseauFactory } from '../gestionnaireRéseau.aggregate';
 import { ExpressionRegulière } from '@potentiel-domain/common';
+import { LoadAggregate } from '@potentiel-domain/core';
+import { Message, MessageHandler, mediator } from 'mediateur';
+import { loadGestionnaireRéseauFactory } from '../gestionnaireRéseau.aggregate';
+import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 
 export type AjouterGestionnaireRéseauCommand = Message<
   'Réseau.Gestionnaire.Command.AjouterGestionnaireRéseau',
@@ -14,12 +14,17 @@ export type AjouterGestionnaireRéseauCommand = Message<
       légende: string;
       expressionReguliere: ExpressionRegulière.ValueType;
     };
+    // contactInformations?: {
+    //   email?: string;
+    //   phone?: string;
+    // };
   }
 >;
 
 export const registerAjouterGestionnaireRéseauCommand = (loadAggregate: LoadAggregate) => {
   const load = loadGestionnaireRéseauFactory(loadAggregate);
 
+  // TODO VIO ICI
   const handler: MessageHandler<AjouterGestionnaireRéseauCommand> = async ({
     aideSaisieRéférenceDossierRaccordement,
     identifiantGestionnaireRéseau,

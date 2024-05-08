@@ -1,7 +1,7 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
-import { ModifierGestionnaireRéseauCommand } from './modifierGestionnaireRéseau.command';
-import { IdentifiantGestionnaireRéseau } from '..';
 import { ExpressionRegulière } from '@potentiel-domain/common';
+import { Message, MessageHandler, mediator } from 'mediateur';
+import { IdentifiantGestionnaireRéseau } from '..';
+import { ModifierGestionnaireRéseauCommand } from './modifierGestionnaireRéseau.command';
 
 export type ModifierGestionnaireRéseauUseCase = Message<
   'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',
@@ -13,6 +13,10 @@ export type ModifierGestionnaireRéseauUseCase = Message<
       légendeValue: string;
       expressionReguliereValue: string;
     };
+    // contactInformationsValue?: {
+    //   emailValue?: string;
+    //   phoneValue?: string;
+    // };
   }
 >;
 
@@ -25,6 +29,7 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
       formatValue,
       légendeValue,
     },
+    // contactInformationsValue: { emailValue, phoneValue },
   }) => {
     const identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
       identifiantGestionnaireRéseauValue,
@@ -44,6 +49,7 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
           format: formatValue,
           légende: légendeValue,
         },
+        // contactInformations: contactInformationsValue
       },
     });
   };

@@ -1,3 +1,7 @@
+import {
+  GestionnaireRéseauProjector,
+  RaccordementProjector,
+} from '@potentiel-applications/projectors';
 import { registerRéseauQueries, registerRéseauUseCases } from '@potentiel-domain/reseau';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
@@ -5,18 +9,9 @@ import {
   listProjection,
   listProjectionV2,
 } from '@potentiel-infrastructure/pg-projections';
-import {
-  GestionnaireRéseauProjector,
-  RaccordementProjector,
-} from '@potentiel-applications/projectors';
 import { mediator } from 'mediateur';
-import { getAllGRDs } from '@potentiel-infrastructure/ore-client';
 
 export const setupRéseau = async () => {
-  const gestionnaires = await getAllGRDs();
-
-  console.table(gestionnaires);
-
   registerRéseauUseCases({
     loadAggregate,
   });

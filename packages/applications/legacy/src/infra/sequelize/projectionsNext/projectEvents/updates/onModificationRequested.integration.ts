@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { resetDatabase } from '../../../helpers';
+import { ProjectEvent } from '../..';
 import { UniqueEntityID } from '../../../../../core/domain';
 import {
   ModificationRequested,
   ModificationRequestedPayload,
 } from '../../../../../modules/modificationRequest';
-import { ProjectEvent } from '../..';
+import { resetDatabase } from '../../../helpers';
 import onModificationRequested from './onModificationRequested';
 
 describe(`Handler onModificationRequested`, () => {

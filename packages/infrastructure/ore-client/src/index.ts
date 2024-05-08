@@ -1,8 +1,10 @@
-import { get } from '@potentiel-libraries/http-client';
 import { GestionnaireRéseau as Gestionnaire } from '@potentiel-domain/reseau';
+import { get } from '@potentiel-libraries/http-client';
 import zod from 'zod';
 
-const getOreEndpoint = () => process.env.ORE_ENDPOINT || '';
+const OreEndpoint = process.env.ORE_ENDPOINT || '';
+
+const ORE_API_LIMIT_IN_STRING = '100';
 
 const schema = zod.object({
   total_count: zod.number(),
@@ -10,27 +12,62 @@ const schema = zod.object({
     zod.object({
       grd: zod.string(),
       eic: zod.string(),
+      telephone: zod.string().nullable(),
+      contact: zod.string().nullable(),
     }),
   ),
 });
 
-type Gestionnaire = Pick<Gestionnaire.GestionnaireRéseauEntity, 'raisonSociale' | 'codeEIC'>;
+export type OreGestionnaire = Pick<
+  Gestionnaire.GestionnaireRéseauEntity,
+  'raisonSociale' | 'codeEIC'
+  // 'raisonSociale' | 'codeEIC' | 'contactInformations'
+>;
 
-export const getAllGRDs = async (): Promise<Array<Gestionnaire>> => {
+type OreGestionnaireSlice = {
+  gestionnaires: OreGestionnaire[];
+  totalCount: number;
+};
+
+const getGRDsSlice = async (offset: string): Promise<OreGestionnaireSlice> => {
   const searchParams = new URLSearchParams();
-  searchParams.append('where', 'energie:"Électricité"');
-  searchParams.append('select', 'grd,eic');
+  searchParams.append('where', 'energie:"Électricité" and eic is not null and grd is not null');
+  searchParams.append('select', 'grd, eic, contact, telephone');
+  searchParams.append('limit', ORE_API_LIMIT_IN_STRING);
+  searchParams.append('offset', offset);
 
   const url = new URL(
-    `${getOreEndpoint()}/api/explore/v2.1/catalog/datasets/referentiel-distributeurs-denergie/records?${searchParams.toString()}`,
+    `${OreEndpoint}/api/explore/v2.1/catalog/datasets/referentiel-distributeurs-denergie/records?${searchParams.toString()}`,
   );
 
   const result = await get(url);
 
-  const gestionnaires = schema.parse(result);
+  const parsedResult = schema.parse(result);
 
-  return gestionnaires.results.map(({ eic, grd }) => ({
-    codeEIC: eic,
-    raisonSociale: grd,
-  }));
+  return {
+    // gestionnaires.results.map(({ eic, grd, telephone, contact }) => ({
+    gestionnaires: parsedResult.results.map(({ eic, grd }) => ({
+      codeEIC: eic,
+      raisonSociale: grd,
+      // contactInformations: {
+      //   ...(telephone && { phone: telephone }),
+      //   ...(contact && { email: contact }),
+      // },
+    })),
+    totalCount: parsedResult.total_count,
+  };
+};
+
+export const getAllGRDs = async (
+  offset: number = 0,
+  gestionnaires: OreGestionnaire[] = [],
+): Promise<Array<OreGestionnaire>> => {
+  const gestionnaireSlice = await getGRDsSlice(offset.toString());
+  const updatedGestionnaires = gestionnaires.concat(gestionnaireSlice.gestionnaires);
+
+  if (updatedGestionnaires.length < gestionnaireSlice.totalCount) {
+    return getAllGRDs(offset + gestionnaireSlice.gestionnaires.length, updatedGestionnaires);
+  }
+
+  return updatedGestionnaires;
 };

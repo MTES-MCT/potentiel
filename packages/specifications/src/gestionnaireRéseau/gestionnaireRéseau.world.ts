@@ -6,6 +6,10 @@ type GestionnaireRéseau = {
     légende: string;
     expressionReguliere: string;
   };
+  // contactInformations?: {
+  //   email?: string;
+  //   phone?: string;
+  // };
 };
 
 export class GestionnaireRéseauWorld {

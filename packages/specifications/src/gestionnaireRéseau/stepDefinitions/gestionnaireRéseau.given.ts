@@ -1,8 +1,8 @@
-import { Given as EtantDonné, DataTable } from '@cucumber/cucumber';
-import { PotentielWorld } from '../../potentiel.world';
-import { mediator } from 'mediateur';
+import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { mediator } from 'mediateur';
 import { sleep } from '../../helpers/sleep';
+import { PotentielWorld } from '../../potentiel.world';
 
 EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
   const exemple = table.rowsHash();
@@ -14,6 +14,8 @@ EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, 
     légende: exemple['Légende'],
     expressionReguliere: exemple['Expression régulière'],
   };
+  // TODO VIO
+  // const contactInformations
 
   await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
     type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
@@ -25,6 +27,7 @@ EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, 
         formatValue: aideSaisieRéférenceDossierRaccordement.format,
         légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
       },
+      // contactInformations:
     },
   });
 
