@@ -1,4 +1,4 @@
-export * from './ACItem';
+export * from './AttestationConformiteItem';
 export * from './AttachedFileItem';
 export * from './CahierDesChargesChoisiItem';
 export * from './ContentArea';

@@ -1,6 +1,6 @@
 import { ProjectEventDTO, ProjectStatus } from '../../../../modules/frise';
 
-export type ACItemProps = {
+export type AttestationConformiteItemProps = {
   type: 'attestation-de-conformite';
   date: number;
   covidDelay: boolean;
@@ -10,7 +10,7 @@ export type ACItemProps = {
 export const extractACItemProps = (
   events: ProjectEventDTO[],
   project: { status: ProjectStatus },
-): ACItemProps | null => {
+): AttestationConformiteItemProps | null => {
   if (project.status !== 'Classé') {
     return null;
   }
@@ -19,7 +19,7 @@ export const extractACItemProps = (
     (event) => event.type === 'ProjectCompletionDueDateSet' || event.type == 'CovidDelayGranted',
   );
 
-  const initialProps: ACItemProps = {
+  const initialProps: AttestationConformiteItemProps = {
     type: 'attestation-de-conformite',
     date: 0,
     covidDelay: false,

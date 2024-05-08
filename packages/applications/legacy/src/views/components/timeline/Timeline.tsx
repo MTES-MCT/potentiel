@@ -9,7 +9,7 @@ import {
   is,
 } from '../../../modules/frise';
 import {
-  ACItem,
+  AttestationConformiteItem,
   AttachedFileItem,
   CahierDesChargesChoisiItem,
   DemandeDelaiSignaledItem,
@@ -23,7 +23,7 @@ import {
   TimelineItem,
 } from './components';
 import {
-  ACItemProps,
+  AttestationConformiteItemProps,
   AttachedFileItemProps,
   DesignationItemProps,
   ImportItemProps,
@@ -46,7 +46,7 @@ export type TimelineProps = {
 type ItemProps =
   | ImportItemProps
   | DesignationItemProps
-  | ACItemProps
+  | AttestationConformiteItemProps
   | ModificationRequestItemProps
   | ModificationReceivedItemProps
   | LegacyModificationsItemProps
@@ -91,7 +91,7 @@ export const Timeline = ({
         return <ImportItem {...props} />;
 
       case 'attestation-de-conformite':
-        return <ACItem {...props} />;
+        return <AttestationConformiteItem {...props} />;
 
       case 'demande-de-modification':
         return <ModificationRequestItem {...{ ...props, projectStatus: status }} />;

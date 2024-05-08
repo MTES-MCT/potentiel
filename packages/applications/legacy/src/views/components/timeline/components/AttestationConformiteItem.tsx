@@ -1,14 +1,19 @@
 import { Link } from '../..';
 import React from 'react';
 import { ContentArea, ItemDate, ItemTitle, NextUpIcon } from '.';
-import { ACItemProps } from '../helpers';
-export const ACItem = ({ date, covidDelay, délaiCDC2022Appliqué }: ACItemProps) => {
+import { AttestationConformiteItemProps } from '../helpers';
+export const AttestationConformiteItem = ({
+  date,
+  covidDelay,
+  délaiCDC2022Appliqué,
+}: AttestationConformiteItemProps) => {
   return (
     <>
       <NextUpIcon />
       <ContentArea>
         {date && <ItemDate date={date} />}
-        <ItemTitle title="Attestation de conformité" />
+        <ItemTitle title="Date d'achèvement prévisionnelle" />
+
         <span aria-disabled className="disabled-action">
           Transmettre l'attestation (fonctionnalité bientôt disponible sur Potentiel)
         </span>
