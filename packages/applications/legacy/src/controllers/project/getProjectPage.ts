@@ -160,7 +160,7 @@ v1Router.get(
           projectEventList: rawProjectEventList.value,
           alertesRaccordement,
           ...(abandon && { abandon }),
-          hasAttestationConformité: await hasAttestationConformité(identifiantProjetValueType),
+          attestationConformité: await getAttestationConformité(identifiantProjetValueType),
         }),
       );
     },
@@ -202,18 +202,21 @@ const getAbandon = async (
   }
 };
 
-const hasAttestationConformité = async (
+const getAttestationConformité = async (
   identifiantProjet: IdentifiantProjet.ValueType,
-): Promise<boolean> => {
+): Promise<
+  Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel | undefined
+> => {
   try {
-    await mediator.send<Achèvement.AttestationConformité.ConsulterAttestationConformitéQuery>({
-      type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-      data: { identifiantProjetValue: identifiantProjet.formatter() },
-    });
+    const attestation =
+      await mediator.send<Achèvement.AttestationConformité.ConsulterAttestationConformitéQuery>({
+        type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
+        data: { identifiantProjetValue: identifiantProjet.formatter() },
+      });
 
-    return true;
+    return attestation;
   } catch (error) {
-    return false;
+    return undefined;
   }
 };
 

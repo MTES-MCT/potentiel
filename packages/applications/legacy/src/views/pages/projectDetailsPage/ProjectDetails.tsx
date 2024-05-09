@@ -13,6 +13,7 @@ import {
   AlertBox,
   Heading2,
   InfoBox,
+  Heading3,
 } from '../../components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
@@ -26,6 +27,7 @@ import {
 import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
+import { Achèvement } from '@potentiel-domain/laureat';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
@@ -39,7 +41,7 @@ type ProjectDetailsProps = {
   abandon?: {
     statut: string;
   };
-  hasAttestationConformité: boolean;
+  attestationConformité?: Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel;
 };
 
 export const ProjectDetails = ({
@@ -48,7 +50,7 @@ export const ProjectDetails = ({
   projectEventList,
   alertesRaccordement,
   abandon,
-  hasAttestationConformité,
+  attestationConformité,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -64,6 +66,8 @@ export const ProjectDetails = ({
   const modificationsNonPermisesParLeCDCActuel =
     project.cahierDesChargesActuel.type === 'initial' &&
     !!project.appelOffre.periode.choisirNouveauCahierDesCharges;
+
+  const hasAttestationConformité = !!attestationConformité;
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
@@ -118,6 +122,7 @@ export const ProjectDetails = ({
           )}
           <div className={`flex flex-col flex-grow gap-3 break-before-page`}>
             <InfoGenerales {...{ project, role: user.role }} />
+            <AttestationConformité attestationConformité={attestationConformité} />
             <Contact {...{ user, project }} />
             <MaterielsEtTechnologies {...{ project }} />
 
@@ -199,5 +204,25 @@ const AlerteBoxRaccordement: FC<{
     </Link>
   </AlertBox>
 );
+
+const AttestationConformité: FC<{
+  attestationConformité: ProjectDetailsProps['attestationConformité'];
+}> = ({ attestationConformité }) => {
+  console.log(attestationConformité);
+  return (
+    <>
+      <Heading2>Achèvement du projet</Heading2>
+
+      <div className="print:hidden">
+        <Heading3 className="m-0">Attestation de conformité</Heading3>
+        <p>
+          {attestationConformité
+            ? `Une attestation de conformité a été déposée.`
+            : `Aucune attestation de conformité n'a été déposée.`}
+        </p>
+      </div>
+    </>
+  );
+};
 
 hydrateOnClient(ProjectDetails);
