@@ -5,9 +5,9 @@ import {
   ProjectEventListDTO,
   ProjectImportedDTO,
 } from '../../../../modules/frise';
-import { extractACItemProps } from '.';
+import { extractAttestationConformiteItemProps } from './extractAttestationConformiteItemProps';
 
-describe('extractACItemProps', () => {
+describe('extractAttestationConformiteItemProps', () => {
   describe('when there is no ProjectCompletionDueDateSet event', () => {
     it('should return null', () => {
       const project = {
@@ -20,7 +20,7 @@ describe('extractACItemProps', () => {
           variant: 'admin',
         } as ProjectImportedDTO,
       ];
-      const result = extractACItemProps(events, project);
+      const result = extractAttestationConformiteItemProps(events, project);
       expect(result).toBeNull();
     });
   });
@@ -48,7 +48,7 @@ describe('extractACItemProps', () => {
             variant: 'admin',
           } as ProjectCompletionDueDateSetDTO,
         ];
-        const result = extractACItemProps(events, project);
+        const result = extractAttestationConformiteItemProps(events, project);
         expect(result).toMatchObject({
           type: 'attestation-de-conformite',
           date: new Date('2023-01-01').getTime(),
@@ -76,7 +76,7 @@ describe('extractACItemProps', () => {
           } as ProjectCompletionDueDateSetDTO,
         ];
 
-        const result = extractACItemProps(events, project);
+        const result = extractAttestationConformiteItemProps(events, project);
         expect(result).toMatchObject({
           type: 'attestation-de-conformite',
           date: 1,
@@ -98,7 +98,7 @@ describe('extractACItemProps', () => {
           variant: 'admin',
         } as ProjectCompletionDueDateSetDTO,
       ];
-      const result = extractACItemProps(events, project);
+      const result = extractAttestationConformiteItemProps(events, project);
       expect(result).toBeNull();
     });
   });
@@ -115,7 +115,7 @@ describe('extractACItemProps', () => {
           variant: 'admin',
         } as ProjectCompletionDueDateSetDTO,
       ];
-      const result = extractACItemProps(events, project);
+      const result = extractAttestationConformiteItemProps(events, project);
       expect(result).toBeNull();
     });
   });

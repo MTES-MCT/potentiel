@@ -1,18 +1,17 @@
-import { Achèvement } from '@potentiel-domain/laureat';
 import { ProjectEventDTO, ProjectStatus } from '../../../../modules/frise';
 
 export type AttestationConformiteItemProps = {
   type: 'attestation-de-conformite';
-  date: number;
   covidDelay: boolean;
   délaiCDC2022Appliqué: boolean;
-  attestationConformite?: Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel;
 };
 
+/**
+ * @todo Je sais pas si on doit encore utilsier ça pour la frise avec la nouvelle feature de transmission de l'attestation de conformité
+ */
 export const extractAttestationConformiteItemProps = (
   events: ProjectEventDTO[],
   project: { status: ProjectStatus },
-  attestationConformite,
 ): AttestationConformiteItemProps | null => {
   if (project.status !== 'Classé') {
     return null;
@@ -24,21 +23,18 @@ export const extractAttestationConformiteItemProps = (
 
   const initialProps: AttestationConformiteItemProps = {
     type: 'attestation-de-conformite',
-    date: 0,
     covidDelay: false,
     délaiCDC2022Appliqué: false,
-    attestationConformite: undefined,
   };
 
   const props = completionDueOnEvents.reduce((props, currentEvent) => {
     return {
       ...props,
-      ...('date' in currentEvent && { date: currentEvent.date }),
       ...('délaiCDC2022Appliqué' in currentEvent && { délaiCDC2022Appliqué: true }),
       ...('délaiCDC2022Annulé' in currentEvent && { délaiCDC2022Appliqué: false }),
       ...(currentEvent.type === 'CovidDelayGranted' && { covidDelay: true }),
     };
   }, initialProps);
 
-  return props.date > 0 ? props : null;
+  return props;
 };
