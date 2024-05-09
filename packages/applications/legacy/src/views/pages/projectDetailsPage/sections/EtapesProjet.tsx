@@ -21,12 +21,14 @@ type EtapesProjetProps = {
   user: Request['user'];
   projectEventList: ProjectEventListDTO;
   attestationConformité?: AttestationConformiteItemProps['attestationConformité'];
+  identifiantProjet: string;
 };
 export const EtapesProjet = ({
   user,
   projectEventList,
   project,
   attestationConformité,
+  identifiantProjet,
 }: EtapesProjetProps) => (
   <Section
     title="Étapes du projet"
@@ -38,6 +40,7 @@ export const EtapesProjet = ({
         projectEventList,
         attestationConformité,
         project,
+        identifiantProjet,
       }}
     />
     {project.isClasse &&

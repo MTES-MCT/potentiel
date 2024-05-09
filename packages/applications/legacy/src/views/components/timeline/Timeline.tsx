@@ -41,11 +41,13 @@ import {
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO;
   attestationConformité?: AttestationConformiteItemProps['attestationConformité'];
+  identifiantProjet: string;
 };
 
 type ItemProps =
   | ImportItemProps
   | DesignationItemProps
+  // | AttestationConformiteItemProps
   | ModificationRequestItemProps
   | ModificationReceivedItemProps
   | LegacyModificationsItemProps
@@ -61,11 +63,13 @@ export const Timeline = ({
     events,
     project: { id: projectId, status },
   },
+  identifiantProjet,
   attestationConformité,
 }: TimelineProps) => {
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId, status),
     extractImportItemProps(events),
+    // extractAttestationConformiteItemProps(events, { status }),
     ...extractModificationRequestsItemProps(events),
     ...events.filter(is('DemandeDelaiSignaled')),
     ...events.filter(is('DemandeAbandonSignaled')),
@@ -125,7 +129,10 @@ export const Timeline = ({
         ))}
 
         <TimelineItem isLastItem={true}>
-          <AttestationConformiteItem attestationConformité={attestationConformité} />
+          <AttestationConformiteItem
+            attestationConformité={attestationConformité}
+            identifiantProjet={identifiantProjet}
+          />
         </TimelineItem>
       </ol>
     </aside>

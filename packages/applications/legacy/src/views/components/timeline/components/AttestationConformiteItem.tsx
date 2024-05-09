@@ -1,6 +1,6 @@
 import React from 'react';
 import { ContentArea, ItemTitle, NextUpIcon, PastIcon } from '.';
-import { DownloadLink } from '../../UI';
+import { DownloadLink, Link } from '../../UI';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { afficherDate } from '../../../helpers/afficherDate';
 import { Routes } from '@potentiel-applications/routes';
@@ -11,10 +11,12 @@ export type AttestationConformiteItemProps = {
     attestation: string;
     preuveTransmissionAuCocontractant: string;
   };
+  identifiantProjet: string;
 };
 
 export const AttestationConformiteItem = ({
   attestationConformité,
+  identifiantProjet,
 }: AttestationConformiteItemProps) => {
   if (attestationConformité) {
     const { attestation, preuveTransmissionAuCocontractant, dateTransmissionAuCocontractant } =
@@ -25,7 +27,12 @@ export const AttestationConformiteItem = ({
         <PastIcon />
         <ContentArea>
           <ItemTitle title="Date d'achèvement réelle" />
-          <p>Date de transmission : {afficherDate(new Date(dateTransmissionAuCocontractant))}</p>
+          <p className="m-0">
+            Date de transmission :{' '}
+            <span className="font-semibold">
+              {afficherDate(new Date(dateTransmissionAuCocontractant))}
+            </span>
+          </p>
           <DownloadLink
             fileUrl={Routes.Document.télécharger(attestation)}
             aria-label={`Télécharger l'attestation de conformité`}
@@ -48,7 +55,12 @@ export const AttestationConformiteItem = ({
       <NextUpIcon />
       <ContentArea>
         <ItemTitle title="Date d'achèvement prévisionnelle" />
-        <p>En attente de la transmission de l'attestation de conformité</p>
+        <p className="m-0">
+          En attente de la{' '}
+          <Link href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}>
+            transmission de l'attestation de conformité
+          </Link>
+        </p>
         {/**
          * @todo doit-on afficher les messages suivants ?
          * 

@@ -117,7 +117,9 @@ export const ProjectDetails = ({
         </div>
         <div className="flex flex-col lg:flex-row gap-3">
           {!!projectEventList?.events.length && (
-            <EtapesProjet {...{ project, user, projectEventList, attestationConformité }} />
+            <EtapesProjet
+              {...{ project, user, projectEventList, attestationConformité, identifiantProjet }}
+            />
           )}
           <div className={`flex flex-col flex-grow gap-3 break-before-page`}>
             <InfoGenerales {...{ project, role: user.role }} />
