@@ -9,7 +9,6 @@ import {
   is,
 } from '../../../modules/frise';
 import {
-  ACItem,
   AttachedFileItem,
   CahierDesChargesChoisiItem,
   DemandeDelaiSignaledItem,
@@ -23,14 +22,12 @@ import {
   TimelineItem,
 } from './components';
 import {
-  ACItemProps,
   AttachedFileItemProps,
   DesignationItemProps,
   ImportItemProps,
   LegacyModificationsItemProps,
   ModificationReceivedItemProps,
   ModificationRequestItemProps,
-  extractACItemProps,
   extractAttachedFileItemProps,
   extractDesignationItemProps,
   extractImportItemProps,
@@ -46,7 +43,6 @@ export type TimelineProps = {
 type ItemProps =
   | ImportItemProps
   | DesignationItemProps
-  | ACItemProps
   | ModificationRequestItemProps
   | ModificationReceivedItemProps
   | LegacyModificationsItemProps
@@ -66,7 +62,6 @@ export const Timeline = ({
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId, status),
     extractImportItemProps(events),
-    extractACItemProps(events, { status }),
     ...extractModificationRequestsItemProps(events),
     ...events.filter(is('DemandeDelaiSignaled')),
     ...events.filter(is('DemandeAbandonSignaled')),
@@ -89,9 +84,6 @@ export const Timeline = ({
 
       case 'import':
         return <ImportItem {...props} />;
-
-      case 'attestation-de-conformite':
-        return <ACItem {...props} />;
 
       case 'demande-de-modification':
         return <ModificationRequestItem {...{ ...props, projectStatus: status }} />;
@@ -137,16 +129,4 @@ export const Timeline = ({
 
 function isNotNil<T>(arg: T): arg is Exclude<T, null | undefined> {
   return arg !== null && arg !== undefined;
-}
-
-function insertAfter(
-  itemProps: ItemProps[],
-  referenceType: ItemProps['type'],
-  item: ItemProps | null,
-) {
-  if (itemProps.findIndex((props) => props.type === referenceType) !== -1) {
-    if (item) {
-      itemProps.splice(itemProps.findIndex((props) => props.type === referenceType) + 1, 0, item);
-    }
-  }
 }

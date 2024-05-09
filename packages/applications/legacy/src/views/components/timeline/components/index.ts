@@ -1,4 +1,3 @@
-export * from './ACItem';
 export * from './AttachedFileItem';
 export * from './CahierDesChargesChoisiItem';
 export * from './ContentArea';
