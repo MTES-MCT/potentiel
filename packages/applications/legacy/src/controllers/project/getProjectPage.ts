@@ -18,7 +18,7 @@ import {
   ProjectDataForProjectPage,
 } from '../../modules/project';
 import { mediator } from 'mediateur';
-import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';
+import { AlerteRaccordement, ProjectDetailsProps } from '../../views/pages/projectDetailsPage';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Project } from '../../infra/sequelize';
 
@@ -204,17 +204,21 @@ const getAbandon = async (
 
 const getAttestationConformité = async (
   identifiantProjet: IdentifiantProjet.ValueType,
-): Promise<
-  Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel | undefined
-> => {
+): Promise<ProjectDetailsProps['attestationConformité'] | undefined> => {
   try {
-    const attestation =
+    const attestationConformité =
       await mediator.send<Achèvement.AttestationConformité.ConsulterAttestationConformitéQuery>({
         type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 
-    return attestation;
+    return {
+      attestation: attestationConformité.attestation.formatter(),
+      dateTransmissionAuCocontractant:
+        attestationConformité.dateTransmissionAuCocontractant.formatter(),
+      preuveTransmissionAuCocontractant:
+        attestationConformité.preuveTransmissionAuCocontractant.formatter(),
+    };
   } catch (error) {
     return undefined;
   }

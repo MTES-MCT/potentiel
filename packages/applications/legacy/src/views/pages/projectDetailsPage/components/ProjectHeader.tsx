@@ -9,7 +9,7 @@ type ProjectHeaderProps = {
   user: User;
   abandonEnCours: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
-  hasAttestationConformité: boolean;
+  shouldDisplayAttestationConformité: boolean;
 };
 
 export const ProjectHeader = ({
@@ -17,7 +17,7 @@ export const ProjectHeader = ({
   user,
   abandonEnCours,
   modificationsNonPermisesParLeCDCActuel,
-  hasAttestationConformité,
+  shouldDisplayAttestationConformité,
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 print:pl-0 mb-3 text-sm">
@@ -58,7 +58,7 @@ export const ProjectHeader = ({
         user={user}
         abandonEnCours={abandonEnCours}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
-        hasAttestationConformité={hasAttestationConformité}
+        shouldDisplayAttestationConformité={shouldDisplayAttestationConformité}
       />
     </div>
   </div>

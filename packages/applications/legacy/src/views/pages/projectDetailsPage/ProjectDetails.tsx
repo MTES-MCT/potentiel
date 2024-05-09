@@ -14,6 +14,9 @@ import {
   Heading2,
   InfoBox,
   Heading3,
+  Section,
+  VerifiedBadgeIcon,
+  DownloadLink,
 } from '../../components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
@@ -27,13 +30,12 @@ import {
 import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
-import { Achèvement } from '@potentiel-domain/laureat';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
   | 'demandeComplèteRaccordementManquante';
 
-type ProjectDetailsProps = {
+export type ProjectDetailsProps = {
   request: Request;
   project: ProjectDataForProjectPage;
   projectEventList?: ProjectEventListDTO;
@@ -41,7 +43,11 @@ type ProjectDetailsProps = {
   abandon?: {
     statut: string;
   };
-  attestationConformité?: Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel;
+  attestationConformité?: {
+    attestation: string;
+    preuveTransmissionAuCocontractant: string;
+    dateTransmissionAuCocontractant: string;
+  };
 };
 
 export const ProjectDetails = ({
@@ -67,8 +73,6 @@ export const ProjectDetails = ({
     project.cahierDesChargesActuel.type === 'initial' &&
     !!project.appelOffre.periode.choisirNouveauCahierDesCharges;
 
-  const hasAttestationConformité = !!attestationConformité;
-
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
       <p className="hidden print:block m-0 mb-2 font-semibold">
@@ -82,7 +86,7 @@ export const ProjectDetails = ({
           user,
           abandonEnCours,
           modificationsNonPermisesParLeCDCActuel,
-          hasAttestationConformité,
+          shouldDisplayAttestationConformité: project.isClasse && !attestationConformité,
         }}
       />
       <div className="print:hidden">
@@ -122,7 +126,12 @@ export const ProjectDetails = ({
           )}
           <div className={`flex flex-col flex-grow gap-3 break-before-page`}>
             <InfoGenerales {...{ project, role: user.role }} />
-            <AttestationConformité attestationConformité={attestationConformité} />
+            {project.isClasse && (
+              <SectionPageProjetAttestationConformité
+                attestationConformité={attestationConformité}
+                identifiantProjet={identifiantProjet}
+              />
+            )}
             <Contact {...{ user, project }} />
             <MaterielsEtTechnologies {...{ project }} />
 
@@ -205,23 +214,49 @@ const AlerteBoxRaccordement: FC<{
   </AlertBox>
 );
 
-const AttestationConformité: FC<{
+const SectionPageProjetAttestationConformité: FC<{
   attestationConformité: ProjectDetailsProps['attestationConformité'];
-}> = ({ attestationConformité }) => {
-  console.log(attestationConformité);
+  identifiantProjet: string;
+}> = ({ attestationConformité, identifiantProjet }) => {
   return (
-    <>
-      <Heading2>Achèvement du projet</Heading2>
-
-      <div className="print:hidden">
-        <Heading3 className="m-0">Attestation de conformité</Heading3>
-        <p>
-          {attestationConformité
-            ? `Une attestation de conformité a été déposée.`
-            : `Aucune attestation de conformité n'a été déposée.`}
+    <Section
+      title="Achèvement du projet"
+      icon={<VerifiedBadgeIcon />}
+      className="flex gap-5 flex-col"
+    >
+      <Heading3 className="m-0">Attestation de conformité</Heading3>
+      {attestationConformité ? (
+        <>
+          <p className="m-0">
+            Date de transmission :{' '}
+            <span className="font-semibold">
+              {afficherDate(new Date(attestationConformité.dateTransmissionAuCocontractant))}
+            </span>
+          </p>
+          <div className="flex flex-col gap-3">
+            <DownloadLink
+              fileUrl={Routes.Document.télécharger(attestationConformité.attestation)}
+              aria-label={`Télécharger l'attestation de conformité`}
+            >
+              Télécharger l'attestation de conformité
+            </DownloadLink>
+            <DownloadLink
+              fileUrl={attestationConformité.preuveTransmissionAuCocontractant}
+              aria-label={`Télécharger la preuve de transmission au cocontractant`}
+            >
+              Télécharger la preuve de transmission au cocontractant
+            </DownloadLink>
+          </div>
+        </>
+      ) : (
+        <p className="m-0">
+          En attente de la{' '}
+          <Link href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}>
+            transmission de l'attestation de conformité
+          </Link>
         </p>
-      </div>
-    </>
+      )}
+    </Section>
   );
 };
 

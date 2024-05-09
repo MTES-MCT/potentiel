@@ -36,6 +36,7 @@ export {
   RiPrinterLine as PrintIcon,
   RiMailUnreadLine as TasksToDo,
   RiMailCheckLine as TasksDone,
+  RiVerifiedBadgeLine as VerifiedBadgeIcon,
 } from 'react-icons/ri';
 export {
   HiOutlineTrash as TrashIcon,
