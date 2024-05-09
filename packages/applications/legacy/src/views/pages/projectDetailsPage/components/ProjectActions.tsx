@@ -44,13 +44,13 @@ type PorteurProjetActionsProps = {
   project: ProjectDataForProjectPage;
   abandonEnCours: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
-  hasAttestationConformité: boolean;
+  shouldDisplayAttestationConformité: boolean;
 };
 const PorteurProjetActions = ({
   project,
   abandonEnCours,
   modificationsNonPermisesParLeCDCActuel,
-  hasAttestationConformité,
+  shouldDisplayAttestationConformité,
 }: PorteurProjetActionsProps) => (
   <div className="flex flex-col gap-3">
     <div className="flex flex-col xl:flex-row gap-2">
@@ -105,7 +105,7 @@ const PorteurProjetActions = ({
               >
                 <span>Demander un abandon</span>
               </DropdownMenuSecondaryButton.DropdownItem>
-              {!hasAttestationConformité && getProjectStatus(project) === 'lauréat' && (
+              {shouldDisplayAttestationConformité && (
                 <DropdownMenuSecondaryButton.DropdownItem
                   href={Routes.Achèvement.transmettreAttestationConformité(
                     formatProjectDataToIdentifiantProjetValueType({
@@ -190,14 +190,14 @@ type ProjectActionsProps = {
   user: User;
   abandonEnCours: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
-  hasAttestationConformité: boolean;
+  shouldDisplayAttestationConformité: boolean;
 };
 export const ProjectActions = ({
   project,
   user,
   abandonEnCours,
   modificationsNonPermisesParLeCDCActuel,
-  hasAttestationConformité,
+  shouldDisplayAttestationConformité,
 }: ProjectActionsProps) => (
   <div className="print:hidden whitespace-nowrap">
     {userIs(['admin', 'dgec-validateur'])(user) && (
@@ -210,7 +210,7 @@ export const ProjectActions = ({
         project={project}
         abandonEnCours={abandonEnCours}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
-        hasAttestationConformité={hasAttestationConformité}
+        shouldDisplayAttestationConformité={shouldDisplayAttestationConformité}
       />
     )}
     {userIs(['dreal'])(user) && <EnregistrerUneModification project={project} />}

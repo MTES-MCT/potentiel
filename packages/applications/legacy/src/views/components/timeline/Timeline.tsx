@@ -40,6 +40,7 @@ import {
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO;
+  shouldDisplayAttestationConformité: boolean;
   attestationConformité?: AttestationConformiteItemProps['attestationConformité'];
   identifiantProjet: string;
 };
@@ -64,6 +65,7 @@ export const Timeline = ({
     project: { id: projectId, status },
   },
   identifiantProjet,
+  shouldDisplayAttestationConformité,
   attestationConformité,
 }: TimelineProps) => {
   const itemProps: ItemProps[] = [
@@ -123,17 +125,23 @@ export const Timeline = ({
     <aside aria-label="Progress">
       <ol className="pl-0 overflow-hidden list-none">
         {timelineItems.map((component, groupIndex) => (
-          <TimelineItem key={`project-timeline-item-${groupIndex}`} isLastItem={false}>
+          <TimelineItem
+            key={`project-timeline-item-${groupIndex}`}
+            isLastItem={
+              !shouldDisplayAttestationConformité ? groupIndex === timelineItems.length - 1 : false
+            }
+          >
             {component}
           </TimelineItem>
         ))}
-
-        <TimelineItem isLastItem={true}>
-          <AttestationConformiteItem
-            attestationConformité={attestationConformité}
-            identifiantProjet={identifiantProjet}
-          />
-        </TimelineItem>
+        {shouldDisplayAttestationConformité && (
+          <TimelineItem isLastItem={true}>
+            <AttestationConformiteItem
+              attestationConformité={attestationConformité}
+              identifiantProjet={identifiantProjet}
+            />
+          </TimelineItem>
+        )}
       </ol>
     </aside>
   );

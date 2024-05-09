@@ -20,6 +20,7 @@ type EtapesProjetProps = {
   };
   user: Request['user'];
   projectEventList: ProjectEventListDTO;
+  shouldDisplayAttestationConformité: boolean;
   attestationConformité?: AttestationConformiteItemProps['attestationConformité'];
   identifiantProjet: string;
 };
@@ -27,6 +28,7 @@ export const EtapesProjet = ({
   user,
   projectEventList,
   project,
+  shouldDisplayAttestationConformité,
   attestationConformité,
   identifiantProjet,
 }: EtapesProjetProps) => (
@@ -38,6 +40,7 @@ export const EtapesProjet = ({
     <Timeline
       {...{
         projectEventList,
+        shouldDisplayAttestationConformité,
         attestationConformité,
         project,
         identifiantProjet,

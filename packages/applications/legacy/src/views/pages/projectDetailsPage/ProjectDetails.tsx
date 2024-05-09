@@ -66,8 +66,6 @@ export const ProjectDetails = ({
     project.cahierDesChargesActuel.type === 'initial' &&
     !!project.appelOffre.periode.choisirNouveauCahierDesCharges;
 
-  const hasAttestationConformité = !!attestationConformité;
-
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
       <p className="hidden print:block m-0 mb-2 font-semibold">
@@ -81,7 +79,7 @@ export const ProjectDetails = ({
           user,
           abandonEnCours,
           modificationsNonPermisesParLeCDCActuel,
-          hasAttestationConformité,
+          shouldDisplayAttestationConformité: project.isClasse && !attestationConformité,
         }}
       />
       <div className="print:hidden">
@@ -118,7 +116,14 @@ export const ProjectDetails = ({
         <div className="flex flex-col lg:flex-row gap-3">
           {!!projectEventList?.events.length && (
             <EtapesProjet
-              {...{ project, user, projectEventList, attestationConformité, identifiantProjet }}
+              {...{
+                project,
+                user,
+                projectEventList,
+                shouldDisplayAttestationConformité: project.isClasse,
+                attestationConformité,
+                identifiantProjet,
+              }}
             />
           )}
           <div className={`flex flex-col flex-grow gap-3 break-before-page`}>
