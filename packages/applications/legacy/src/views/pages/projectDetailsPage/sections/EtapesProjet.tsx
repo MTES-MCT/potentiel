@@ -6,6 +6,7 @@ import { ProjectEventListDTO } from '../../../../modules/frise';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 
 import { Routes } from '@potentiel-applications/routes';
+import { AttestationConformiteItemProps } from '../../../components/timeline/components';
 
 type EtapesProjetProps = {
   project: {
@@ -19,9 +20,14 @@ type EtapesProjetProps = {
   };
   user: Request['user'];
   projectEventList: ProjectEventListDTO;
+  attestationConformité?: AttestationConformiteItemProps['attestationConformité'];
 };
-
-export const EtapesProjet = ({ user, projectEventList, project }: EtapesProjetProps) => (
+export const EtapesProjet = ({
+  user,
+  projectEventList,
+  project,
+  attestationConformité,
+}: EtapesProjetProps) => (
   <Section
     title="Étapes du projet"
     icon={<CalendarIcon />}
@@ -30,6 +36,8 @@ export const EtapesProjet = ({ user, projectEventList, project }: EtapesProjetPr
     <Timeline
       {...{
         projectEventList,
+        attestationConformité,
+        project,
       }}
     />
     {project.isClasse &&

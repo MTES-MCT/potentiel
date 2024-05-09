@@ -1,18 +1,18 @@
 import { ProjectEventDTO, ProjectStatus } from '../../../../modules/frise';
 
-export type AttestationConformiteItemProps = {
+export type AttestationConformiteItemLegacyProps = {
   type: 'attestation-de-conformite';
   covidDelay: boolean;
   délaiCDC2022Appliqué: boolean;
 };
 
 /**
- * @todo Je sais pas si on doit encore utilsier ça pour la frise avec la nouvelle feature de transmission de l'attestation de conformité
+ * @todo Je sais pas si on doit encore utiliser les informations concernant les délais covid + cdc 2022 pour la frise avec la nouvelle feature de transmission de l'attestation de conformité
  */
 export const extractAttestationConformiteItemProps = (
   events: ProjectEventDTO[],
   project: { status: ProjectStatus },
-): AttestationConformiteItemProps | null => {
+): AttestationConformiteItemLegacyProps | null => {
   if (project.status !== 'Classé') {
     return null;
   }
@@ -21,7 +21,7 @@ export const extractAttestationConformiteItemProps = (
     (event) => event.type === 'ProjectCompletionDueDateSet' || event.type == 'CovidDelayGranted',
   );
 
-  const initialProps: AttestationConformiteItemProps = {
+  const initialProps: AttestationConformiteItemLegacyProps = {
     type: 'attestation-de-conformite',
     covidDelay: false,
     délaiCDC2022Appliqué: false,

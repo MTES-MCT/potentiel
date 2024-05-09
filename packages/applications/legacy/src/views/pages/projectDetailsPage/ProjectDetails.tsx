@@ -23,9 +23,10 @@ import {
   MaterielsEtTechnologies,
   ResultatsAppelOffreInnovation,
 } from './sections';
-import { PorteurProjetActionsProps, ProjectHeader } from './components';
+import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
+import { AttestationConformiteItemProps } from '../../components/timeline/components/AttestationConformiteItem';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
@@ -39,7 +40,7 @@ type ProjectDetailsProps = {
   abandon?: {
     statut: string;
   };
-  attestationConformité?: PorteurProjetActionsProps['attestationConformité'];
+  attestationConformité?: AttestationConformiteItemProps['attestationConformité'];
 };
 
 export const ProjectDetails = ({
@@ -116,7 +117,7 @@ export const ProjectDetails = ({
         </div>
         <div className="flex flex-col lg:flex-row gap-3">
           {!!projectEventList?.events.length && (
-            <EtapesProjet {...{ project, user, projectEventList }} />
+            <EtapesProjet {...{ project, user, projectEventList, attestationConformité }} />
           )}
           <div className={`flex flex-col flex-grow gap-3 break-before-page`}>
             <InfoGenerales {...{ project, role: user.role }} />

@@ -9,8 +9,9 @@ import {
   is,
 } from '../../../modules/frise';
 import {
-  AttestationConformiteItem,
   AttachedFileItem,
+  AttestationConformiteItem,
+  AttestationConformiteItemProps,
   CahierDesChargesChoisiItem,
   DemandeDelaiSignaledItem,
   DemandeDélaiItem,
@@ -23,7 +24,6 @@ import {
   TimelineItem,
 } from './components';
 import {
-  AttestationConformiteItemProps,
   AttachedFileItemProps,
   DesignationItemProps,
   ImportItemProps,
@@ -36,17 +36,16 @@ import {
   extractLegacyModificationsItemProps,
   extractModificationReceivedItemProps,
   extractModificationRequestsItemProps,
-  extractAttestationConformiteItemProps,
 } from './helpers';
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO;
+  attestationConformité?: AttestationConformiteItemProps['attestationConformité'];
 };
 
 type ItemProps =
   | ImportItemProps
   | DesignationItemProps
-  | AttestationConformiteItemProps
   | ModificationRequestItemProps
   | ModificationReceivedItemProps
   | LegacyModificationsItemProps
@@ -62,11 +61,11 @@ export const Timeline = ({
     events,
     project: { id: projectId, status },
   },
+  attestationConformité,
 }: TimelineProps) => {
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId, status),
     extractImportItemProps(events),
-    extractAttestationConformiteItemProps(events, { status }),
     ...extractModificationRequestsItemProps(events),
     ...events.filter(is('DemandeDelaiSignaled')),
     ...events.filter(is('DemandeAbandonSignaled')),
@@ -89,9 +88,6 @@ export const Timeline = ({
 
       case 'import':
         return <ImportItem {...props} />;
-
-      case 'attestation-de-conformite':
-        return <AttestationConformiteItem {...props} />;
 
       case 'demande-de-modification':
         return <ModificationRequestItem {...{ ...props, projectStatus: status }} />;
@@ -123,15 +119,14 @@ export const Timeline = ({
     <aside aria-label="Progress">
       <ol className="pl-0 overflow-hidden list-none">
         {timelineItems.map((component, groupIndex) => (
-          <TimelineItem
-            key={`project-timeline-item-${groupIndex}`}
-            isLastItem={groupIndex === timelineItems.length - 1}
-          >
+          <TimelineItem key={`project-timeline-item-${groupIndex}`} isLastItem={false}>
             {component}
           </TimelineItem>
         ))}
 
-        <TimelineItem isLastItem={true}>test</TimelineItem>
+        <TimelineItem isLastItem={true}>
+          <AttestationConformiteItem attestationConformité={attestationConformité} />
+        </TimelineItem>
       </ol>
     </aside>
   );
@@ -139,16 +134,4 @@ export const Timeline = ({
 
 function isNotNil<T>(arg: T): arg is Exclude<T, null | undefined> {
   return arg !== null && arg !== undefined;
-}
-
-function insertAfter(
-  itemProps: ItemProps[],
-  referenceType: ItemProps['type'],
-  item: ItemProps | null,
-) {
-  if (itemProps.findIndex((props) => props.type === referenceType) !== -1) {
-    if (item) {
-      itemProps.splice(itemProps.findIndex((props) => props.type === referenceType) + 1, 0, item);
-    }
-  }
 }

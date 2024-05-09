@@ -25,6 +25,7 @@ import { Project } from '../../infra/sequelize';
 import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
+import { AttestationConformiteItemProps } from '../../views/components/timeline/components';
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
 });
@@ -204,9 +205,7 @@ const getAbandon = async (
 
 const getAttestationConformité = async (
   identifiantProjet: IdentifiantProjet.ValueType,
-): Promise<
-  Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel | undefined
-> => {
+): Promise<AttestationConformiteItemProps['attestationConformité'] | undefined> => {
   try {
     const attestationConformité =
       await mediator.send<Achèvement.AttestationConformité.ConsulterAttestationConformitéQuery>({
@@ -214,7 +213,13 @@ const getAttestationConformité = async (
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 
-    return attestationConformité;
+    return {
+      attestation: attestationConformité.attestation.formatter(),
+      dateTransmissionAuCocontractant:
+        attestationConformité.dateTransmissionAuCocontractant.formatter(),
+      preuveTransmissionAuCocontractant:
+        attestationConformité.preuveTransmissionAuCocontractant.formatter(),
+    };
   } catch (error) {
     return undefined;
   }
