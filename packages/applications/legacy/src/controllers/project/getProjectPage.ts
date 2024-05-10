@@ -25,8 +25,8 @@ import { Project } from '../../infra/sequelize';
 import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
+import { AchèvementRéelDTO } from '../../modules/frise';
 import { Option } from '@potentiel-libraries/monads';
-
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
 });
@@ -152,6 +152,8 @@ v1Router.get(
         garantiesFinancières = await getGarantiesFinancières(identifiantProjetValueType);
       }
 
+      const attestationConformité = await getAttestationConformité(identifiantProjetValueType);
+
       return response.send(
         ProjectDetailsPage({
           request,
@@ -159,10 +161,15 @@ v1Router.get(
             ...projet,
             ...(garantiesFinancières && { garantiesFinancières }),
           },
-          projectEventList: rawProjectEventList.value,
+          projectEventList: {
+            ...rawProjectEventList.value,
+            events: attestationConformité
+              ? rawProjectEventList.value.events.concat(attestationConformité)
+              : rawProjectEventList.value.events,
+          },
           alertesRaccordement,
           abandon,
-          hasAttestationConformité: await hasAttestationConformité(identifiantProjetValueType),
+          hasAttestationConformité: !!attestationConformité,
         }),
       );
     },
@@ -204,9 +211,9 @@ const getAbandon = async (
   }
 };
 
-const hasAttestationConformité = async (
+const getAttestationConformité = async (
   identifiantProjet: IdentifiantProjet.ValueType,
-): Promise<boolean> => {
+): Promise<AchèvementRéelDTO | undefined> => {
   const attestationConformité = await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>(
     {
       type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
@@ -214,7 +221,15 @@ const hasAttestationConformité = async (
     },
   );
 
-  return Option.isSome(attestationConformité);
+  return Option.isSome(attestationConformité)
+    ? {
+        type: 'achevement-reel',
+        date: attestationConformité.dateTransmissionAuCocontractant.date.getTime(),
+        attestation: attestationConformité.attestation.formatter(),
+        preuveTransmissionAuCocontractant:
+          attestationConformité.preuveTransmissionAuCocontractant.formatter(),
+      }
+    : undefined;
 };
 
 const getAlertesRaccordement = async ({

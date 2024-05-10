@@ -6,10 +6,12 @@ import {
   DemandeDélaiDTO,
   DemandeRecoursSignaledDTO,
   ProjectEventListDTO,
+  AchèvementRéelDTO,
   is,
 } from '../../../modules/frise';
 import {
   AchèvementPrévisionnelItem,
+  AchèvementRéelItem,
   AttachedFileItem,
   CahierDesChargesChoisiItem,
   DemandeDelaiSignaledItem,
@@ -55,7 +57,8 @@ type ItemProps =
   | DemandeAbandonSignaledDTO
   | DemandeRecoursSignaledDTO
   | DemandeDélaiDTO
-  | CahierDesChargesChoisiDTO;
+  | CahierDesChargesChoisiDTO
+  | AchèvementRéelDTO;
 
 export const Timeline = ({
   projectEventList: {
@@ -76,6 +79,7 @@ export const Timeline = ({
     ...extractAttachedFileItemProps(events),
     ...events.filter(is('DemandeDélai')),
     ...events.filter(is('CahierDesChargesChoisi')),
+    ...events.filter(is('achevement-reel')),
   ]
     .filter(isNotNil)
     .sort((a, b) => a.date - b.date);
@@ -116,6 +120,9 @@ export const Timeline = ({
 
       case 'CahierDesChargesChoisi':
         return <CahierDesChargesChoisiItem {...props} />;
+
+      case 'achevement-reel':
+        return <AchèvementRéelItem {...props} />;
     }
   });
 
@@ -137,16 +144,4 @@ export const Timeline = ({
 
 function isNotNil<T>(arg: T): arg is Exclude<T, null | undefined> {
   return arg !== null && arg !== undefined;
-}
-
-function insertAfter(
-  itemProps: ItemProps[],
-  referenceType: ItemProps['type'],
-  item: ItemProps | null,
-) {
-  if (itemProps.findIndex((props) => props.type === referenceType) !== -1) {
-    if (item) {
-      itemProps.splice(itemProps.findIndex((props) => props.type === referenceType) + 1, 0, item);
-    }
-  }
 }

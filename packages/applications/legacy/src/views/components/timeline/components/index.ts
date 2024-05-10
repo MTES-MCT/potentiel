@@ -21,3 +21,4 @@ export * from './WarningIcon';
 export * from './WarningItem';
 export * from './cancelledStepIcon';
 export * from './unvalidatedStepIcon';
+export * from './AchèvementRéelItem';
