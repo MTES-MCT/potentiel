@@ -50,7 +50,7 @@ describe('extractAchèvementPrévisionnelItemProps', () => {
         ];
         const result = extractAchèvementPrévisionnelItemProps(events, project);
         expect(result).toMatchObject({
-          type: 'attestation-de-conformite',
+          type: 'achevement-previsionnel',
           date: new Date('2023-01-01').getTime(),
         });
       });
@@ -78,7 +78,7 @@ describe('extractAchèvementPrévisionnelItemProps', () => {
 
         const result = extractAchèvementPrévisionnelItemProps(events, project);
         expect(result).toMatchObject({
-          type: 'attestation-de-conformite',
+          type: 'achevement-previsionnel',
           date: 1,
           covidDelay: true,
         });
