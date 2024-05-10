@@ -1,17 +1,18 @@
 import { Link } from '../..';
 import React from 'react';
 import { ContentArea, ItemDate, ItemTitle, NextUpIcon } from '.';
-import { ACItemProps } from '../helpers';
-export const ACItem = ({ date, covidDelay, délaiCDC2022Appliqué }: ACItemProps) => {
+import { AchèvementPrévisionnelItemProps } from '../helpers/extractAchèvementPrévisionneltemProps';
+export const AchèvementPrévisionnelItem = ({
+  date,
+  covidDelay,
+  délaiCDC2022Appliqué,
+}: AchèvementPrévisionnelItemProps) => {
   return (
     <>
       <NextUpIcon />
       <ContentArea>
         {date && <ItemDate date={date} />}
-        <ItemTitle title="Attestation de conformité" />
-        <span aria-disabled className="disabled-action">
-          Transmettre l'attestation (fonctionnalité bientôt disponible sur Potentiel)
-        </span>
+        <ItemTitle title="Date d'achèvement prévisionnelle" />
         {covidDelay && (
           <p className="p-0 mb-0 mt-3">
             Ce projet bénéficie d'une prolongation de délai d'achèvement ou de mise en service

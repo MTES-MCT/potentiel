@@ -9,7 +9,7 @@ import {
   is,
 } from '../../../modules/frise';
 import {
-  ACItem,
+  AchèvementPrévisionnelItem,
   AttachedFileItem,
   CahierDesChargesChoisiItem,
   DemandeDelaiSignaledItem,
@@ -23,14 +23,14 @@ import {
   TimelineItem,
 } from './components';
 import {
-  ACItemProps,
+  AchèvementPrévisionnelItemProps,
   AttachedFileItemProps,
   DesignationItemProps,
   ImportItemProps,
   LegacyModificationsItemProps,
   ModificationReceivedItemProps,
   ModificationRequestItemProps,
-  extractACItemProps,
+  extractAchèvementPrévisionnelItemProps,
   extractAttachedFileItemProps,
   extractDesignationItemProps,
   extractImportItemProps,
@@ -46,7 +46,7 @@ export type TimelineProps = {
 type ItemProps =
   | ImportItemProps
   | DesignationItemProps
-  | ACItemProps
+  | AchèvementPrévisionnelItemProps
   | ModificationRequestItemProps
   | ModificationReceivedItemProps
   | LegacyModificationsItemProps
@@ -60,13 +60,13 @@ type ItemProps =
 export const Timeline = ({
   projectEventList: {
     events,
-    project: { id: projectId, status, garantieFinanciereEnMois, nomProjet },
+    project: { id: projectId, status },
   },
 }: TimelineProps) => {
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId, status),
     extractImportItemProps(events),
-    extractACItemProps(events, { status }),
+    extractAchèvementPrévisionnelItemProps(events, { status }),
     ...extractModificationRequestsItemProps(events),
     ...events.filter(is('DemandeDelaiSignaled')),
     ...events.filter(is('DemandeAbandonSignaled')),
@@ -90,8 +90,8 @@ export const Timeline = ({
       case 'import':
         return <ImportItem {...props} />;
 
-      case 'attestation-de-conformite':
-        return <ACItem {...props} />;
+      case 'achevement-previsionnel':
+        return <AchèvementPrévisionnelItem {...props} />;
 
       case 'demande-de-modification':
         return <ModificationRequestItem {...{ ...props, projectStatus: status }} />;
