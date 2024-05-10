@@ -1,4 +1,5 @@
 #Language: fr-FR
+@select
 Fonctionnalité: Transmettre une attestation de conformité
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"

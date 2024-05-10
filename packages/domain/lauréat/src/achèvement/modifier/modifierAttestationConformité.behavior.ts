@@ -6,8 +6,8 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { AchèvementAggregate } from '../achèvement.aggregate';
 import { DateDeTransmissionAuCoContractantFuturError } from '../dateTransmissionAuCocontractantFutureError.error';
 
-export type AttestationConformitéTransmiseEvent = DomainEvent<
-  'AttestationConformitéTransmise-V1',
+export type AttestationConformitéModifiéeEvent = DomainEvent<
+  'AttestationConformitéModifiée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     attestation: { format: string };
@@ -27,7 +27,7 @@ export type Options = {
   utilisateur: IdentifiantUtilisateur.ValueType;
 };
 
-export async function transmettre(
+export async function modifier(
   this: AchèvementAggregate,
   {
     identifiantProjet,
@@ -41,12 +41,12 @@ export async function transmettre(
   if (dateTransmissionAuCocontractant.estDansLeFutur()) {
     throw new DateDeTransmissionAuCoContractantFuturError();
   }
-  if (this.attestationConformité.format && this.preuveTransmissionAuCocontractant.format) {
-    throw new AttestationDeConformitéDéjàTransmiseError();
+  if (!this.attestationConformité.format) {
+    throw new AucuneAttestationDeConformitéÀCorrigerError();
   }
 
-  const event: AttestationConformitéTransmiseEvent = {
-    type: 'AttestationConformitéTransmise-V1',
+  const event: AttestationConformitéModifiéeEvent = {
+    type: 'AttestationConformitéModifiée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       attestation,
@@ -60,30 +60,29 @@ export async function transmettre(
   await this.publish(event);
 }
 
-export function applyAttestationConformitéTransmise(
+export function applyAttestationConformitéModifiée(
   this: AchèvementAggregate,
   {
     payload: {
       dateTransmissionAuCocontractant,
       date,
-      utilisateur,
       attestation,
       preuveTransmissionAuCocontractant,
     },
-  }: AttestationConformitéTransmiseEvent,
+  }: AttestationConformitéModifiéeEvent,
 ) {
-  this.utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateur);
   this.attestationConformité = {
-    format: attestation.format,
     date: DateTime.convertirEnValueType(date),
+    format: attestation.format,
   };
   this.preuveTransmissionAuCocontractant = {
-    format: preuveTransmissionAuCocontractant.format,
     date: DateTime.convertirEnValueType(dateTransmissionAuCocontractant),
+    format: preuveTransmissionAuCocontractant.format,
   };
 }
-class AttestationDeConformitéDéjàTransmiseError extends InvalidOperationError {
+
+class AucuneAttestationDeConformitéÀCorrigerError extends InvalidOperationError {
   constructor() {
-    super('le projet a déjà une attestation de conformité');
+    super("Aucune attestation de conformité à modifier n'a été trouvée");
   }
 }
