@@ -1,6 +1,6 @@
 import React from 'react';
 import { ContentArea, ItemDate, ItemTitle, PastIcon } from '.';
-import { DownloadLink } from '../../UI';
+import { DownloadLink, Link } from '../../UI';
 import { Routes } from '@potentiel-applications/routes';
 import { AchèvementRéelDTO } from '../../../../modules/frise';
 
@@ -8,6 +8,8 @@ export const AchèvementRéelItem = ({
   date,
   attestation,
   preuveTransmissionAuCocontractant,
+  identifiantProjet,
+  permissionModifier,
 }: AchèvementRéelDTO) => {
   return (
     <>
@@ -27,6 +29,11 @@ export const AchèvementRéelItem = ({
         >
           Télécharger la preuve de transmission au cocontractant
         </DownloadLink>
+        {permissionModifier && (
+          <Link href={Routes.Achèvement.modifierAttestationConformité(identifiantProjet)}>
+            Modifier les données d'achèvement du projet
+          </Link>
+        )}
       </ContentArea>
     </>
   );
