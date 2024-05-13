@@ -282,18 +282,16 @@ const getGarantiesFinancières = async (
     };
   }
 
-  try {
-    const garantiesFinancièresEnAttente =
-      await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
-        {
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
-          data: { identifiantProjetValue: identifiantProjet.formatter() },
-        },
-      );
-    if (garantiesFinancièresEnAttente) {
-      garantiesFinancièresEnAttenteProps = { motif: garantiesFinancièresEnAttente.motif.motif };
-    }
-  } catch (error) {}
+  const garantiesFinancièresEnAttente =
+    await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
+      {
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+        data: { identifiantProjetValue: identifiantProjet.formatter() },
+      },
+    );
+  if (garantiesFinancièresEnAttente) {
+    garantiesFinancièresEnAttenteProps = { motif: garantiesFinancièresEnAttente.motif.motif };
+  }
 
   return {
     ...(garantiesFinancièresActuellesProps && { actuelles: garantiesFinancièresActuellesProps }),

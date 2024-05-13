@@ -140,9 +140,11 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
               ).toLocaleDateString('fr-FR')
             : '!!! dateFinGarantieFinanciere non disponible !!!',
         dateLimiteDepotGF:
-          projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.date.toLocaleDateString(
-            'fr-FR',
-          ) || '',
+          (projetAvecGarantiesFinancièresEnAttente &&
+            projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.date.toLocaleDateString(
+              'fr-FR',
+            )) ||
+          '',
         nomRepresentantLegal: candidature.candidat.nom,
         adresseProjet: candidature.candidat.adressePostale,
         codePostalProjet: candidature.localité.codePostal,

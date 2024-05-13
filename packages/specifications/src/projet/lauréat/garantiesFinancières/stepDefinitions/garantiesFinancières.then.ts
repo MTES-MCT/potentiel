@@ -196,11 +196,13 @@ Alors(
         );
 
       expect(actualReadModel).not.to.be.undefined;
-      expect(actualReadModel.nomProjet).to.deep.equal(nomProjet);
-      expect(actualReadModel.motif.motif).to.deep.equal(motif);
-      expect(actualReadModel.dateLimiteSoumission.date).to.deep.equal(
-        new Date(dateLimiteSoumission),
-      );
+      if (actualReadModel) {
+        expect(actualReadModel.nomProjet).to.deep.equal(nomProjet);
+        expect(actualReadModel.motif.motif).to.deep.equal(motif);
+        expect(actualReadModel.dateLimiteSoumission.date).to.deep.equal(
+          new Date(dateLimiteSoumission),
+        );
+      }
     });
   },
 );
@@ -265,7 +267,7 @@ Alors(
             },
           );
 
-        result.should.be.undefined;
+        expect(result).to.be.undefined;
       } catch (e) {
         (e as Error).should.be.instanceOf(NotFoundError);
       }

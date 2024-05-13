@@ -8,21 +8,22 @@ import {
   MotifDemandeGarantiesFinancières,
   ProjetAvecGarantiesFinancièresEnAttenteEntity,
 } from '../..';
-import { AucuneGarantiesFinancieresEnAttentePourLeProjetError } from '../../aucuneGarantiesFinancieresEnAttentePourLeProjet.error';
 
-export type ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel = {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  nomProjet: string;
-  régionProjet: string;
-  appelOffre: string;
-  période: string;
-  famille?: string;
-  motif: MotifDemandeGarantiesFinancières.ValueType;
-  dateLimiteSoumission: DateTime.ValueType;
-  dernièreMiseÀJour: {
-    date: DateTime.ValueType;
-  };
-};
+export type ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel =
+  | {
+      identifiantProjet: IdentifiantProjet.ValueType;
+      nomProjet: string;
+      régionProjet: string;
+      appelOffre: string;
+      période: string;
+      famille?: string;
+      motif: MotifDemandeGarantiesFinancières.ValueType;
+      dateLimiteSoumission: DateTime.ValueType;
+      dernièreMiseÀJour: {
+        date: DateTime.ValueType;
+      };
+    }
+  | undefined;
 
 export type ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery = Message<
   'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
@@ -49,7 +50,7 @@ export const registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery = ({
     );
 
     if (Option.isNone(result)) {
-      throw new AucuneGarantiesFinancieresEnAttentePourLeProjetError();
+      return undefined;
     }
 
     return {
