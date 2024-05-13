@@ -1,5 +1,4 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
-import { NotFoundError } from '@potentiel-domain/core';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
@@ -135,9 +134,15 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    const actualReadModel = await getGarantiesFinancières(identifiantProjet);
+    const actualReadModel =
+      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
 
-    expect(actualReadModel.dépôts).to.be.empty;
+    expect(actualReadModel).to.deep.equal(Option.none);
   },
 );
 
@@ -207,21 +212,17 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     await waitForExpect(async () => {
-      try {
-        const result =
-          await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
-            {
-              type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
-              data: {
-                identifiantProjetValue: identifiantProjet.formatter(),
-              },
+      const result =
+        await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
             },
-          );
+          },
+        );
 
-        expect(result).to.be.undefined;
-      } catch (e) {
-        (e as Error).should.be.instanceOf(NotFoundError);
-      }
+      expect(Option.isNone(result)).to.be.true;
     });
   },
 );
