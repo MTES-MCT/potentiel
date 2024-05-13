@@ -158,20 +158,16 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      try {
-        const result = await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>(
-          {
-            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-            data: {
-              identifiantProjetValue: identifiantProjet.formatter(),
-            },
-          },
-        );
+      const result = await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
 
-        result.should.be.undefined;
-      } catch (e) {
-        (e as Error).should.be.instanceOf(NotFoundError);
-      }
+      expect(result.identifiantProjet.estÉgaleÀ(identifiantProjet)).to.be.true;
+      expect(result.dépôts).to.be.empty;
+      expect(result.actuelles).to.be.undefined;
     });
   },
 );
