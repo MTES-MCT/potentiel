@@ -1,13 +1,13 @@
 import * as readline from 'node:readline';
 import fs from 'fs';
-// import { S3, GetObjectCommand } from '@aws-sdk/client-s3';
+import { S3, GetObjectCommand } from '@aws-sdk/client-s3';
 import { mediator } from 'mediateur';
 import { extname } from 'node:path';
 import { contentType } from 'mime-types';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { findProjection, listProjectionV2 } from '@potentiel-infrastructure/pg-projections';
 import {
-  // DocumentAdapter,
+  DocumentAdapter,
   récupérerRégionDrealAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { getModèleMiseEnDemeureGarantiesFinancières } from '@potentiel-infrastructure/document-builder';
@@ -15,8 +15,8 @@ import { exists } from '@potentiel-libraries/file-storage';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import {
   DocumentProjet,
-  // EnregistrerDocumentProjetCommand,
-  // registerDocumentProjetCommand,
+  EnregistrerDocumentProjetCommand,
+  registerDocumentProjetCommand,
 } from '@potentiel-domain/document';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
@@ -27,29 +27,29 @@ GarantiesFinancières.registerGarantiesFinancièresQueries({
   buildModèleMiseEnDemeureGarantiesFinancières: getModèleMiseEnDemeureGarantiesFinancières,
 });
 
-// registerDocumentProjetCommand({
-//   enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
-//   déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
-// });
+registerDocumentProjetCommand({
+  enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
+  déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
+});
 
 const printProgress = (progress: string) => {
   readline.cursorTo(process.stdout, 0);
   process.stdout.write(progress);
 };
 
-// const legacyBucketEndPoint = process.env.LEGACY_S3_ENDPOINT || '';
-// const legacyBucketAccessKeyId = process.env.LEGACY_S3_ACCESS_KEY_ID || '';
-// const legacyBucketSecretAccessKey = process.env.LEGACY_S3_SECRET_ACCESS_KEY || '';
-// const legacyBucketName = process.env.LEGACY_S3_BUCKET || '';
+const legacyBucketEndPoint = process.env.LEGACY_S3_ENDPOINT || '';
+const legacyBucketAccessKeyId = process.env.LEGACY_S3_ACCESS_KEY_ID || '';
+const legacyBucketSecretAccessKey = process.env.LEGACY_S3_SECRET_ACCESS_KEY || '';
+const legacyBucketName = process.env.LEGACY_S3_BUCKET || '';
 
-// const legacyBucket = new S3({
-//   endpoint: legacyBucketEndPoint,
-//   credentials: {
-//     accessKeyId: legacyBucketAccessKeyId,
-//     secretAccessKey: legacyBucketSecretAccessKey,
-//   },
-//   forcePathStyle: true,
-// });
+const legacyBucket = new S3({
+  endpoint: legacyBucketEndPoint,
+  credentials: {
+    accessKeyId: legacyBucketAccessKeyId,
+    secretAccessKey: legacyBucketSecretAccessKey,
+  },
+  forcePathStyle: true,
+});
 
 (async () => {
   const start = new Date();
@@ -113,20 +113,20 @@ const printProgress = (progress: string) => {
             }
 
             const file_path = files[0].file_path;
-            // const { Body } = await legacyBucket.send(
-            //   new GetObjectCommand({
-            //     Bucket: legacyBucketName,
-            //     Key: file_path,
-            //   }),
-            // );
+            const { Body } = await legacyBucket.send(
+              new GetObjectCommand({
+                Bucket: legacyBucketName,
+                Key: file_path,
+              }),
+            );
 
-            // if (!Body) {
-            //   const errorLine = `Error : No content retreived for file ${file_path} !! - Projet : ${identifiantProjet}`;
-            //   errors.push(errorLine);
-            //   continue;
-            // }
+            if (!Body) {
+              const errorLine = `Error : No content retreived for file ${file_path} !! - Projet : ${identifiantProjet}`;
+              errors.push(errorLine);
+              continue;
+            }
 
-            // const content = Body.transformToWebStream();
+            const content = Body.transformToWebStream();
 
             const documentProjet = DocumentProjet.convertirEnValueType(
               garantieFinancière.identifiantProjet.formatter(),
@@ -135,13 +135,13 @@ const printProgress = (progress: string) => {
               contentType(extname(file_path)).toString(),
             );
 
-            // await mediator.send<EnregistrerDocumentProjetCommand>({
-            //   type: 'Document.Command.EnregistrerDocumentProjet',
-            //   data: {
-            //     content,
-            //     documentProjet,
-            //   },
-            // });
+            await mediator.send<EnregistrerDocumentProjetCommand>({
+              type: 'Document.Command.EnregistrerDocumentProjet',
+              data: {
+                content,
+                documentProjet,
+              },
+            });
 
             success.push(
               `✅ Successfully fix the current attestation file for the project ${identifiantProjet} - from ${file_path} to ${documentProjet.formatter()}`,
@@ -190,20 +190,20 @@ const printProgress = (progress: string) => {
             }
 
             const file_path = files[0].file_path;
-            // const { Body } = await legacyBucket.send(
-            //   new GetObjectCommand({
-            //     Bucket: legacyBucketName,
-            //     Key: file_path,
-            //   }),
-            // );
+            const { Body } = await legacyBucket.send(
+              new GetObjectCommand({
+                Bucket: legacyBucketName,
+                Key: file_path,
+              }),
+            );
 
-            // if (!Body) {
-            //   const errorLine = `Error : No content retreived for file ${file_path} !! - Projet : ${identifiantProjet}`;
-            //   errors.push(errorLine);
-            //   continue;
-            // }
+            if (!Body) {
+              const errorLine = `Error : No content retreived for file ${file_path} !! - Projet : ${identifiantProjet}`;
+              errors.push(errorLine);
+              continue;
+            }
 
-            // const content = Body.transformToWebStream();
+            const content = Body.transformToWebStream();
 
             const documentProjet = DocumentProjet.convertirEnValueType(
               garantieFinancière.identifiantProjet.formatter(),
@@ -212,13 +212,13 @@ const printProgress = (progress: string) => {
               contentType(extname(file_path)).toString(),
             );
 
-            // await mediator.send<EnregistrerDocumentProjetCommand>({
-            //   type: 'Document.Command.EnregistrerDocumentProjet',
-            //   data: {
-            //     content,
-            //     documentProjet,
-            //   },
-            // });
+            await mediator.send<EnregistrerDocumentProjetCommand>({
+              type: 'Document.Command.EnregistrerDocumentProjet',
+              data: {
+                content,
+                documentProjet,
+              },
+            });
 
             success.push(
               `✅ Successfully fix the attestation file of the deposit for the project ${identifiantProjet} - from ${file_path} to ${documentProjet.formatter()}`,
