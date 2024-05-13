@@ -47,20 +47,16 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
     };
 
-    try {
-      const garantiesFinancières =
-        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: { identifiantProjetValue: identifiantProjet },
-        });
+    const garantiesFinancières =
+      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+        data: { identifiantProjetValue: identifiantProjet },
+      });
 
-      if (garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours())) {
-        return <ProjetADéjàUnDépôtEnCoursPage projet={projet} />;
-      }
-
-      return <SoumettreGarantiesFinancièresPage {...props} />;
-    } catch (e) {
-      return <SoumettreGarantiesFinancièresPage {...props} />;
+    if (garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours())) {
+      return <ProjetADéjàUnDépôtEnCoursPage projet={projet} />;
     }
+
+    return <SoumettreGarantiesFinancièresPage {...props} />;
   });
 }

@@ -48,28 +48,19 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
       }
 
-      try {
-        const garantiesFinancières =
-          await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-            data: { identifiantProjetValue: identifiantProjet },
-          });
-
-        const props = mapToProps({
-          projet,
-          utilisateur,
-          garantiesFinancières,
+      const garantiesFinancières =
+        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: { identifiantProjetValue: identifiantProjet },
         });
 
-        return <DétailsGarantiesFinancièresPage {...props} />;
-      } catch (error) {
-        const props = mapToProps({
-          projet,
-          utilisateur,
-        });
+      const props = mapToProps({
+        projet,
+        utilisateur,
+        garantiesFinancières,
+      });
 
-        return <DétailsGarantiesFinancièresPage {...props} />;
-      }
+      return <DétailsGarantiesFinancièresPage {...props} />;
     }),
   );
 }

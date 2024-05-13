@@ -255,34 +255,32 @@ const getGarantiesFinancières = async (
   let dépôtEnCoursProps: GarantiesFinancièresForProjectPage['dépôtÀTraiter'];
   let garantiesFinancièresEnAttenteProps: GarantiesFinancièresForProjectPage['garantiesFinancièresEnAttente'];
 
-  try {
-    const garantiesFinancières =
-      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        data: { identifiantProjetValue: identifiantProjet.formatter() },
-      });
+  const garantiesFinancières =
+    await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+      type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+      data: { identifiantProjetValue: identifiantProjet.formatter() },
+    });
 
-    if (garantiesFinancières.actuelles) {
-      garantiesFinancièresActuellesProps = {
-        type: garantiesFinancières.actuelles.type.type,
-        dateÉchéance:
-          garantiesFinancières.actuelles.dateÉchéance &&
-          garantiesFinancières.actuelles.dateÉchéance.formatter(),
-        dateConstitution:
-          garantiesFinancières.actuelles.dateConstitution &&
-          garantiesFinancières.actuelles.dateConstitution.formatter(),
-      };
-    }
+  if (garantiesFinancières.actuelles) {
+    garantiesFinancièresActuellesProps = {
+      type: garantiesFinancières.actuelles.type.type,
+      dateÉchéance:
+        garantiesFinancières.actuelles.dateÉchéance &&
+        garantiesFinancières.actuelles.dateÉchéance.formatter(),
+      dateConstitution:
+        garantiesFinancières.actuelles.dateConstitution &&
+        garantiesFinancières.actuelles.dateConstitution.formatter(),
+    };
+  }
 
-    const dépôtEnCours = garantiesFinancières.dépôts.find((d) => d.statut.estEnCours());
-    if (dépôtEnCours) {
-      dépôtEnCoursProps = {
-        type: dépôtEnCours.type.type,
-        dateÉchéance: dépôtEnCours.dateÉchéance && dépôtEnCours.dateÉchéance.formatter(),
-        dateConstitution: dépôtEnCours.dateConstitution.formatter(),
-      };
-    }
-  } catch (error) {}
+  const dépôtEnCours = garantiesFinancières.dépôts.find((d) => d.statut.estEnCours());
+  if (dépôtEnCours) {
+    dépôtEnCoursProps = {
+      type: dépôtEnCours.type.type,
+      dateÉchéance: dépôtEnCours.dateÉchéance && dépôtEnCours.dateÉchéance.formatter(),
+      dateConstitution: dépôtEnCours.dateConstitution.formatter(),
+    };
+  }
 
   try {
     const garantiesFinancièresEnAttente =
