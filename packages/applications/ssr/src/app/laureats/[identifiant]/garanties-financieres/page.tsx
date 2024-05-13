@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
+import { Option } from '@potentiel-libraries/monads';
 import {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
@@ -57,7 +58,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const props = mapToProps({
         projet,
         utilisateur,
-        garantiesFinancières,
+        ...(Option.isSome(garantiesFinancières) && { garantiesFinancières }),
       });
 
       return <DétailsGarantiesFinancièresPage {...props} />;

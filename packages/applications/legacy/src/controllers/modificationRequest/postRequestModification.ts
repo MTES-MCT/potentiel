@@ -22,6 +22,7 @@ import { Project } from '../../infra/sequelize/projectionsNext';
 import { mediator } from 'mediateur';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Option } from '@potentiel-libraries/monads';
 
 const routeRedirection = (type, projectId) => {
   let returnRoute: string;
@@ -168,10 +169,10 @@ v1Router.post(
               justification: data.justification,
               file,
               soumisAuxGarantiesFinancières: 'après candidature',
-              ...(garantiesFinancières.actuelles ||
-                (garantiesFinancières.dépôts.length && {
+              ...(Option.isSome(garantiesFinancières) &&
+                (garantiesFinancières.actuelles || garantiesFinancières.dépôts.length) && {
                   garantiesFinancièresConstituées: true,
-                })),
+                }),
             });
           } catch (error) {
             if (error instanceof AggregateHasBeenUpdatedSinceError) {

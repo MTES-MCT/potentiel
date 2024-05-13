@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
+import { Option } from '@potentiel-libraries/monads';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
@@ -53,7 +54,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjetValue: identifiantProjet },
       });
 
-    if (garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours())) {
+    if (
+      Option.isSome(garantiesFinancières) &&
+      garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours())
+    ) {
       return <ProjetADéjàUnDépôtEnCoursPage projet={projet} />;
     }
 

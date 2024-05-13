@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
+import { Option } from '@potentiel-libraries/monads';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
@@ -50,6 +51,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
           data: { identifiantProjetValue: identifiantProjet },
         });
+
+      if (Option.isNone(garantiesFinancières)) {
+        return notFound();
+      }
 
       const dépôtEnCours = garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours());
 
