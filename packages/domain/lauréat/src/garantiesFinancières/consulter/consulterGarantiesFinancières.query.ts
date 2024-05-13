@@ -48,7 +48,7 @@ export type ConsulterGarantiesFinancièresQuery = Message<
   {
     identifiantProjetValue: string;
   },
-  ConsulterGarantiesFinancièresReadModel
+  Option.Type<ConsulterGarantiesFinancièresReadModel>
 >;
 
 export type ConsulterGarantiesFinancièresDependencies = {
@@ -68,13 +68,10 @@ export const registerConsulterGarantiesFinancièresQuery = ({
     );
 
     if (Option.isNone(result)) {
-      return {
-        identifiantProjet,
-        dépôts: [],
-      };
+      return Option.none;
     }
 
-    const actuelles: ConsulterGarantiesFinancièresReadModel['actuelles'] = result.actuelles && {
+    const actuelles = result.actuelles && {
       type: TypeGarantiesFinancières.convertirEnValueType(result.actuelles.type),
       ...(result.actuelles.dateÉchéance && {
         dateÉchéance: DateTime.convertirEnValueType(result.actuelles.dateÉchéance),
@@ -105,7 +102,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
       },
     };
 
-    const dépôts: ConsulterGarantiesFinancièresReadModel['dépôts'] = result.dépôts.map(
+    const dépôts = result.dépôts.map(
       ({
         type,
         dateÉchéance,

@@ -25,6 +25,7 @@ import { Project } from '../../infra/sequelize';
 import { Abandon, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
 });
@@ -261,25 +262,27 @@ const getGarantiesFinancières = async (
       data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
 
-  if (garantiesFinancières.actuelles) {
-    garantiesFinancièresActuellesProps = {
-      type: garantiesFinancières.actuelles.type.type,
-      dateÉchéance:
-        garantiesFinancières.actuelles.dateÉchéance &&
-        garantiesFinancières.actuelles.dateÉchéance.formatter(),
-      dateConstitution:
-        garantiesFinancières.actuelles.dateConstitution &&
-        garantiesFinancières.actuelles.dateConstitution.formatter(),
-    };
-  }
+  if (Option.isSome(garantiesFinancières)) {
+    if (garantiesFinancières.actuelles) {
+      garantiesFinancièresActuellesProps = {
+        type: garantiesFinancières.actuelles.type.type,
+        dateÉchéance:
+          garantiesFinancières.actuelles.dateÉchéance &&
+          garantiesFinancières.actuelles.dateÉchéance.formatter(),
+        dateConstitution:
+          garantiesFinancières.actuelles.dateConstitution &&
+          garantiesFinancières.actuelles.dateConstitution.formatter(),
+      };
+    }
 
-  const dépôtEnCours = garantiesFinancières.dépôts.find((d) => d.statut.estEnCours());
-  if (dépôtEnCours) {
-    dépôtEnCoursProps = {
-      type: dépôtEnCours.type.type,
-      dateÉchéance: dépôtEnCours.dateÉchéance && dépôtEnCours.dateÉchéance.formatter(),
-      dateConstitution: dépôtEnCours.dateConstitution.formatter(),
-    };
+    const dépôtEnCours = garantiesFinancières.dépôts.find((d) => d.statut.estEnCours());
+    if (dépôtEnCours) {
+      dépôtEnCoursProps = {
+        type: dépôtEnCours.type.type,
+        dateÉchéance: dépôtEnCours.dateÉchéance && dépôtEnCours.dateÉchéance.formatter(),
+        dateConstitution: dépôtEnCours.dateConstitution.formatter(),
+      };
+    }
   }
 
   const garantiesFinancièresEnAttente =
@@ -289,7 +292,7 @@ const getGarantiesFinancières = async (
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       },
     );
-  if (garantiesFinancièresEnAttente) {
+  if (Option.isSome(garantiesFinancièresEnAttente)) {
     garantiesFinancièresEnAttenteProps = { motif: garantiesFinancièresEnAttente.motif.motif };
   }
 
