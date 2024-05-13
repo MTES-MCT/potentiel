@@ -7,7 +7,13 @@ export abstract class DomainError extends Error {
   }
 }
 
+/**
+ * @deprecated not found are only throw for Aggregate when executing a command.
+ * Use AggregateNotFoundError instead, or return an Option if your operation is a query
+ */
 export class NotFoundError extends DomainError {}
+
+export class AggregateNotFoundError extends DomainError {}
 
 export class InvalidOperationError extends DomainError {}
 
