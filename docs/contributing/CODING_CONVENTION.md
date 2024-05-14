@@ -388,7 +388,7 @@ export const loadExempleFactory =
 export class AucuneExempleError extends AggregateNotFoundError {}
 ```
 
-> ⚠ AggregateNotFoundError ne doit être utilisé que pour renvoyer une erreur lors du chargement de l'agrégat.
+> ⚠ AggregateNotFoundError ne doit être utilisée que pour renvoyer une erreur lors du chargement de l'agrégat.
 
 ### <a id="sagas"></a>Sagas
 
