@@ -266,7 +266,7 @@ Les paramètres en entrée d'une commande représentant des éléments métier s
 
 C'est ici que l'on va charger l'agrégat, exécuter le comportement (`behavior`) attendu.
 
-Le `behavior` lui fait les vérifications nécessaires, publie les évènements ou lève des erreurs si les vérifications n'ont pas abouti via des exceptions héritant de `InvalidOperationError` ou OperationRejectedError (cette dernière est réservée pour le contrôle des accès à la fonctionnalité).
+Le `behavior` lui fait les vérifications nécessaires, publie les évènements ou lève des erreurs si les vérifications n'ont pas abouti via des exceptions héritant de `InvalidOperationError` ou OperationRejectedError (cette dernière est réservée au contrôle des accès à la fonctionnalité).
 
 Exemple d'une commande et de son comportement associé :
 
