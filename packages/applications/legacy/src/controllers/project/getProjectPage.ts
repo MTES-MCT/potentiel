@@ -254,7 +254,6 @@ const getGarantiesFinancières = async (
 ): Promise<ProjectDataForProjectPage['garantiesFinancières']> => {
   let garantiesFinancièresActuellesProps: GarantiesFinancièresForProjectPage['actuelles'];
   let dépôtEnCoursProps: GarantiesFinancièresForProjectPage['dépôtÀTraiter'];
-  let garantiesFinancièresEnAttenteProps: GarantiesFinancièresForProjectPage['garantiesFinancièresEnAttente'];
 
   const garantiesFinancières =
     await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
@@ -292,15 +291,15 @@ const getGarantiesFinancières = async (
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       },
     );
-  if (Option.isSome(garantiesFinancièresEnAttente)) {
-    garantiesFinancièresEnAttenteProps = { motif: garantiesFinancièresEnAttente.motif.motif };
-  }
+
+  const garantiesFinancièresEnAttenteProps: GarantiesFinancièresForProjectPage['garantiesFinancièresEnAttente'] =
+    Option.isSome(garantiesFinancièresEnAttente)
+      ? { motif: garantiesFinancièresEnAttente.motif.motif }
+      : undefined;
 
   return {
-    ...(garantiesFinancièresActuellesProps && { actuelles: garantiesFinancièresActuellesProps }),
-    ...(dépôtEnCoursProps && { dépôtÀTraiter: dépôtEnCoursProps }),
-    ...(garantiesFinancièresEnAttenteProps && {
-      garantiesFinancièresEnAttente: garantiesFinancièresEnAttenteProps,
-    }),
+    actuelles: garantiesFinancièresActuellesProps,
+    dépôtÀTraiter: dépôtEnCoursProps,
+    garantiesFinancièresEnAttente: garantiesFinancièresEnAttenteProps,
   };
 };

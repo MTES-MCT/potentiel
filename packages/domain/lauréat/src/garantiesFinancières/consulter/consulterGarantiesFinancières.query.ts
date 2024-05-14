@@ -71,7 +71,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
       return Option.none;
     }
 
-    const actuelles = result.actuelles && {
+    const actuelles: ConsulterGarantiesFinancièresReadModel['actuelles'] = result.actuelles && {
       type: TypeGarantiesFinancières.convertirEnValueType(result.actuelles.type),
       ...(result.actuelles.dateÉchéance && {
         dateÉchéance: DateTime.convertirEnValueType(result.actuelles.dateÉchéance),
@@ -102,7 +102,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
       },
     };
 
-    const dépôts = result.dépôts.map(
+    const dépôts: ConsulterGarantiesFinancièresReadModel['dépôts'] = result.dépôts.map(
       ({
         type,
         dateÉchéance,

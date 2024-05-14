@@ -58,7 +58,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const props = mapToProps({
         projet,
         utilisateur,
-        ...(Option.isSome(garantiesFinancières) && { garantiesFinancières }),
+        garantiesFinancières,
       });
 
       return <DétailsGarantiesFinancièresPage {...props} />;
@@ -69,12 +69,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 type MapToProps = (args: {
   projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
   utilisateur: Utilisateur.ValueType;
-  garantiesFinancières?: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel;
+  garantiesFinancières: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
 }) => DétailsGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) => {
   if (
-    !garantiesFinancières ||
+    Option.isNone(garantiesFinancières) ||
     (!garantiesFinancières.actuelles &&
       !garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours()))
   ) {
@@ -89,32 +89,32 @@ const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) 
           utilisateur.role.estÉgaleÀ(Role.acheteurObligé)
         ? 'enregistrer'
         : undefined,
-      historiqueDépôts:
-        garantiesFinancières?.dépôts.map((dépôt) => ({
-          type: getGarantiesFinancièresTypeLabel(dépôt.type.type),
-          dateÉchéance: dépôt.dateÉchéance?.formatter(),
-          dateConstitution: dépôt.dateConstitution.formatter(),
-          soumisLe: dépôt.soumisLe.formatter(),
-          statut: dépôt.statut.statut,
-          dernièreMiseÀJour: {
-            date: dépôt.dernièreMiseÀJour.date.formatter(),
-            par: dépôt.dernièreMiseÀJour.par.formatter(),
-          },
-          attestation: dépôt.attestation.formatter(),
-        })) ?? [],
+      historiqueDépôts: Option.isSome(garantiesFinancières)
+        ? garantiesFinancières.dépôts.map((dépôt) => ({
+            type: getGarantiesFinancièresTypeLabel(dépôt.type.type),
+            dateÉchéance: dépôt.dateÉchéance?.formatter(),
+            dateConstitution: dépôt.dateConstitution.formatter(),
+            soumisLe: dépôt.soumisLe.formatter(),
+            statut: dépôt.statut.statut,
+            dernièreMiseÀJour: {
+              date: dépôt.dernièreMiseÀJour.date.formatter(),
+              par: dépôt.dernièreMiseÀJour.par.formatter(),
+            },
+            attestation: dépôt.attestation.formatter(),
+          }))
+        : [],
     };
   }
 
   const dépôtEnCours = garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours());
-  let dépôtEnCoursActions: GarantiesFinancièresDépôtEnCoursProps['dépôt']['actions'] = [];
+  const dépôtEnCoursActions: GarantiesFinancièresDépôtEnCoursProps['dépôt']['actions'] = [];
+
   if (utilisateur.role.estÉgaleÀ(Role.admin)) {
-    dépôtEnCoursActions = ['modifier'];
-  }
-  if (utilisateur.role.estÉgaleÀ(Role.dreal)) {
-    dépôtEnCoursActions = ['instruire', 'modifier'];
-  }
-  if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
-    dépôtEnCoursActions = ['modifier', 'supprimer'];
+    dépôtEnCoursActions.push('modifier');
+  } else if (utilisateur.role.estÉgaleÀ(Role.dreal)) {
+    dépôtEnCoursActions.push('instruire', 'modifier');
+  } else if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
+    dépôtEnCoursActions.push('modifier', 'supprimer');
   }
 
   return {

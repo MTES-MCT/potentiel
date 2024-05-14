@@ -54,13 +54,14 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjetValue: identifiantProjet },
       });
 
-    if (
+    const hasDépotEnCours =
       Option.isSome(garantiesFinancières) &&
-      garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours())
-    ) {
-      return <ProjetADéjàUnDépôtEnCoursPage projet={projet} />;
-    }
+      garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours());
 
-    return <SoumettreGarantiesFinancièresPage {...props} />;
+    return hasDépotEnCours ? (
+      <ProjetADéjàUnDépôtEnCoursPage projet={projet} />
+    ) : (
+      <SoumettreGarantiesFinancièresPage {...props} />
+    );
   });
 }

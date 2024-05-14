@@ -25,39 +25,41 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     // ASSERT ON READ MODEL
-    const actualReadModel = await getGarantiesFinancières(identifiantProjet);
+    await waitForExpect(async () => {
+      const actualReadModel = await getGarantiesFinancières(identifiantProjet);
 
-    const dépôtEnCours = actualReadModel.dépôts.find((dépôt) => dépôt.statut.estEnCours());
+      const dépôtEnCours = actualReadModel.dépôts.find((dépôt) => dépôt.statut.estEnCours());
 
-    expect(dépôtEnCours).not.to.be.undefined;
+      expect(dépôtEnCours).not.to.be.undefined;
 
-    if (dépôtEnCours) {
-      expect(dépôtEnCours.type.type).to.deep.equal(typeGarantiesFinancières);
-      expect(dépôtEnCours.dateConstitution.date).to.deep.equal(new Date(dateConstitution));
-      expect(dépôtEnCours.soumisLe.date).to.deep.equal(new Date(dateSoumission));
-      expect(dépôtEnCours.dernièreMiseÀJour.date.date).to.deep.equal(new Date(dateSoumission));
-      expect(dépôtEnCours.dernièreMiseÀJour.par.formatter()).to.deep.equal(soumisPar);
+      if (dépôtEnCours) {
+        expect(dépôtEnCours.type.type).to.deep.equal(typeGarantiesFinancières);
+        expect(dépôtEnCours.dateConstitution.date).to.deep.equal(new Date(dateConstitution));
+        expect(dépôtEnCours.soumisLe.date).to.deep.equal(new Date(dateSoumission));
+        expect(dépôtEnCours.dernièreMiseÀJour.date.date).to.deep.equal(new Date(dateSoumission));
+        expect(dépôtEnCours.dernièreMiseÀJour.par.formatter()).to.deep.equal(soumisPar);
 
-      if (dépôtEnCours.dateÉchéance) {
-        expect(dépôtEnCours.dateÉchéance.date).to.deep.equal(new Date(dateÉchéance));
+        if (dépôtEnCours.dateÉchéance) {
+          expect(dépôtEnCours.dateÉchéance.date).to.deep.equal(new Date(dateÉchéance));
+        }
+
+        // ASSERT ON FILE
+        expect(dépôtEnCours.attestation).not.to.be.undefined;
+        expect(dépôtEnCours.attestation.format).to.deep.equal(format);
+
+        if (dépôtEnCours?.attestation) {
+          const file = await mediator.send<ConsulterDocumentProjetQuery>({
+            type: 'Document.Query.ConsulterDocumentProjet',
+            data: {
+              documentKey: dépôtEnCours.attestation.formatter(),
+            },
+          });
+
+          const actualContent = await convertReadableStreamToString(file.content);
+          actualContent.should.be.equal(contenu);
+        }
       }
-
-      // ASSERT ON FILE
-      expect(dépôtEnCours.attestation).not.to.be.undefined;
-      expect(dépôtEnCours.attestation.format).to.deep.equal(format);
-
-      if (dépôtEnCours?.attestation) {
-        const file = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: dépôtEnCours.attestation.formatter(),
-          },
-        });
-
-        const actualContent = await convertReadableStreamToString(file.content);
-        actualContent.should.be.equal(contenu);
-      }
-    }
+    });
   },
 );
 
@@ -66,10 +68,12 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    const actualReadModel = await getGarantiesFinancières(identifiantProjet);
+    await waitForExpect(async () => {
+      const actualReadModel = await getGarantiesFinancières(identifiantProjet);
 
-    const dépôtEnCours = actualReadModel.dépôts.find((dépôt) => dépôt.statut.estEnCours());
-    expect(dépôtEnCours).to.be.undefined;
+      const dépôtEnCours = actualReadModel.dépôts.find((dépôt) => dépôt.statut.estEnCours());
+      expect(dépôtEnCours).to.be.undefined;
+    });
   },
 );
 
@@ -89,43 +93,45 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     // ASSERT ON READ MODEL
-    const actualReadModel = await getGarantiesFinancières(identifiantProjet);
+    await waitForExpect(async () => {
+      const actualReadModel = await getGarantiesFinancières(identifiantProjet);
 
-    expect(actualReadModel.actuelles).not.to.be.undefined;
-    expect(actualReadModel.actuelles?.type.type).to.deep.equal(typeGarantiesFinancières);
-    if (dateÉchéance) {
-      expect(actualReadModel.actuelles?.dateÉchéance?.date).to.deep.equal(new Date(dateÉchéance));
-    }
-    if (dateConstitution) {
-      expect(actualReadModel.actuelles?.dateConstitution?.date).to.deep.equal(
-        new Date(dateConstitution),
-      );
-    }
-    if (dateMiseÀJour) {
-      expect(actualReadModel.actuelles?.dernièreMiseÀJour.date.date).to.deep.equal(
-        new Date(dateMiseÀJour),
-      );
-    }
-    if (dateValidation) {
-      expect(actualReadModel.actuelles?.validéLe?.date).to.deep.equal(new Date(dateValidation));
-    }
-
-    // ASSERT ON FILE
-    if (format && contenu) {
-      expect(actualReadModel.actuelles?.attestation).not.to.be.undefined;
-
-      if (actualReadModel.actuelles?.attestation) {
-        const file = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: actualReadModel.actuelles?.attestation.formatter(),
-          },
-        });
-
-        const actualContent = await convertReadableStreamToString(file.content);
-        actualContent.should.be.equal(contenu);
+      expect(actualReadModel.actuelles).not.to.be.undefined;
+      expect(actualReadModel.actuelles?.type.type).to.deep.equal(typeGarantiesFinancières);
+      if (dateÉchéance) {
+        expect(actualReadModel.actuelles?.dateÉchéance?.date).to.deep.equal(new Date(dateÉchéance));
       }
-    }
+      if (dateConstitution) {
+        expect(actualReadModel.actuelles?.dateConstitution?.date).to.deep.equal(
+          new Date(dateConstitution),
+        );
+      }
+      if (dateMiseÀJour) {
+        expect(actualReadModel.actuelles?.dernièreMiseÀJour.date.date).to.deep.equal(
+          new Date(dateMiseÀJour),
+        );
+      }
+      if (dateValidation) {
+        expect(actualReadModel.actuelles?.validéLe?.date).to.deep.equal(new Date(dateValidation));
+      }
+
+      // ASSERT ON FILE
+      if (format && contenu) {
+        expect(actualReadModel.actuelles?.attestation).not.to.be.undefined;
+
+        if (actualReadModel.actuelles?.attestation) {
+          const file = await mediator.send<ConsulterDocumentProjetQuery>({
+            type: 'Document.Query.ConsulterDocumentProjet',
+            data: {
+              documentKey: actualReadModel.actuelles?.attestation.formatter(),
+            },
+          });
+
+          const actualContent = await convertReadableStreamToString(file.content);
+          actualContent.should.be.equal(contenu);
+        }
+      }
+    });
   },
 );
 
@@ -134,15 +140,17 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    const actualReadModel =
-      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
+    await waitForExpect(async () => {
+      const actualReadModel =
+        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
 
-    expect(actualReadModel).to.deep.equal(Option.none);
+      expect(actualReadModel).to.deep.equal(Option.none);
+    });
   },
 );
 
@@ -151,15 +159,19 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    const actualReadModel = await getProjetAvecGarantiesFinancièresEnAttente(identifiantProjet);
-
     const exemple = dataTable.rowsHash();
     const dateLimiteSoumission = exemple['date limite de soumission'];
     const motif = exemple['motif'];
 
-    expect(actualReadModel.nomProjet).to.deep.equal(nomProjet);
-    expect(actualReadModel.motif.motif).to.deep.equal(motif);
-    expect(actualReadModel.dateLimiteSoumission.date).to.deep.equal(new Date(dateLimiteSoumission));
+    await waitForExpect(async () => {
+      const actualReadModel = await getProjetAvecGarantiesFinancièresEnAttente(identifiantProjet);
+
+      expect(actualReadModel.nomProjet).to.deep.equal(nomProjet);
+      expect(actualReadModel.motif.motif).to.deep.equal(motif);
+      expect(actualReadModel.dateLimiteSoumission.date).to.deep.equal(
+        new Date(dateLimiteSoumission),
+      );
+    });
   },
 );
 

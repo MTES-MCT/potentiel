@@ -35,7 +35,7 @@ type RequestActionnaireModificationArgs = {
     }
   | {
       soumisAuxGarantiesFinancières: 'après candidature';
-      garantiesFinancièresConstituées?: true;
+      garantiesFinancièresConstituées: boolean;
     }
 );
 
