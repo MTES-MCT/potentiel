@@ -14,10 +14,7 @@ EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, 
     légende: exemple['Légende'],
     expressionReguliere: exemple['Expression régulière'],
   };
-  const contactInformations = {
-    email: exemple['Email'],
-    phone: exemple['Téléphone'],
-  };
+  const contactEmail = exemple['Email'];
 
   await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
     type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
@@ -29,10 +26,7 @@ EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, 
         formatValue: aideSaisieRéférenceDossierRaccordement.format,
         légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
       },
-      contactInformationsValue: {
-        emailValue: contactInformations.email,
-        phoneValue: contactInformations.phone,
-      },
+      contactEmailValue: contactEmail,
     },
   });
 
@@ -40,7 +34,7 @@ EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, 
     codeEIC,
     raisonSociale,
     aideSaisieRéférenceDossierRaccordement,
-    contactInformations,
+    contactEmail,
   });
   await sleep(100);
 });

@@ -13,10 +13,7 @@ export type AjouterGestionnaireRéseauUseCase = Message<
       légendeValue: string;
       expressionReguliereValue: string;
     };
-    contactInformationsValue?: {
-      emailValue?: string;
-      phoneValue?: string;
-    };
+    contactEmailValue?: string;
   }
 >;
 
@@ -29,7 +26,7 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
     },
     identifiantGestionnaireRéseauValue,
     raisonSocialeValue,
-    contactInformationsValue,
+    contactEmailValue,
   }) => {
     const identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
       identifiantGestionnaireRéseauValue,
@@ -49,10 +46,7 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
           format: formatValue,
           légende: légendeValue,
         },
-        contactInformations: {
-          email: contactInformationsValue?.emailValue,
-          phone: contactInformationsValue?.phoneValue,
-        },
+        contactEmail: contactEmailValue,
       },
     });
   };

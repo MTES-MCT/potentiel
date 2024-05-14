@@ -27,10 +27,7 @@ Alors(
           },
           identifiantGestionnaireRéseau: gestionnaireRéseau.codeEIC,
           raisonSociale: gestionnaireRéseau.raisonSociale,
-          contactInformation: {
-            email: gestionnaireRéseau.contactInformations?.email,
-            phone: gestionnaireRéseau.contactInformations?.phone,
-          },
+          contactEmail: gestionnaireRéseau.contactEmail,
         },
       ],
       total: 1,
@@ -50,10 +47,7 @@ Alors(
         },
         identifiantGestionnaireRéseau: g.identifiantGestionnaireRéseau.codeEIC,
         raisonSociale: g.raisonSociale,
-        contactInformation: {
-          email: g.contactInformations?.email,
-          phone: g.contactInformations?.phone,
-        },
+        contactEmail: g.contactEmail,
       })),
       total: actualReadModel.total,
       range: actualReadModel.range,
@@ -79,10 +73,7 @@ Alors(
       },
       identifiantGestionnaireRéseau: gestionnaireRéseau.codeEIC,
       raisonSociale: gestionnaireRéseau.raisonSociale,
-      contactInformation: {
-        email: gestionnaireRéseau.contactInformations?.email,
-        phone: gestionnaireRéseau.contactInformations?.phone,
-      },
+      contactEmail: gestionnaireRéseau.contactEmail,
     };
 
     ({
@@ -94,10 +85,7 @@ Alors(
       },
       identifiantGestionnaireRéseau: actualReadModel.identifiantGestionnaireRéseau.codeEIC,
       raisonSociale: actualReadModel.raisonSociale,
-      contactInformation: {
-        email: actualReadModel.contactInformations?.email,
-        phone: actualReadModel.contactInformations?.phone,
-      },
+      contactEmail: actualReadModel.contactEmail,
     }).should.be.deep.equal(expected);
   },
 );

@@ -14,10 +14,7 @@ export type GestionnaireRéseauAjoutéEvent = DomainEvent<
       légende: string;
       expressionReguliere: string;
     };
-    contactInformations?: {
-      email?: string;
-      phone?: string;
-    };
+    contactEmail?: string;
   }
 >;
 
@@ -29,10 +26,7 @@ export type AjouterOptions = {
     légende: string;
     expressionReguliere: ExpressionRegulière.ValueType;
   };
-  contactInformations?: {
-    email?: string;
-    phone?: string;
-  };
+  contactEmail?: string;
 };
 
 export async function ajouter(
@@ -41,7 +35,7 @@ export async function ajouter(
     aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
     identifiantGestionnaireRéseau,
     raisonSociale,
-    contactInformations,
+    contactEmail,
   }: AjouterOptions,
 ) {
   if (!this.identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu)) {
@@ -58,7 +52,7 @@ export async function ajouter(
         légende,
         expressionReguliere: expressionReguliere.formatter(),
       },
-      contactInformations,
+      contactEmail,
     },
   };
 

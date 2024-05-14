@@ -20,7 +20,7 @@ type Params = {
   gestionnairesRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel;
 };
 
-async function updateExistingGestionnairesDeRéseauContactInformations({
+async function updateExistingGestionnairesDeRéseauContactEmail({
   gestionnairesFromORE,
   gestionnairesRéseau,
 }: Params) {
@@ -28,9 +28,8 @@ async function updateExistingGestionnairesDeRéseauContactInformations({
     return gestionnairesFromORE.some(
       (g) =>
         g.codeEIC === gestionnaire.identifiantGestionnaireRéseau.codeEIC &&
-        g.contactInformations &&
-        (g.contactInformations.email !== gestionnaire.contactInformations?.email ||
-          g.contactInformations.phone !== gestionnaire.contactInformations?.phone),
+        g.contactEmail &&
+        g.contactEmail !== gestionnaire.contactEmail,
     );
   });
 
@@ -56,10 +55,7 @@ async function updateExistingGestionnairesDeRéseauContactInformations({
           formatValue: gestionnaireRéseauToUpdate.aideSaisieRéférenceDossierRaccordement.format,
         },
         raisonSocialeValue: gestionnaireRéseauToUpdate.raisonSociale,
-        contactInformationsValue: {
-          emailValue: siblingOreGestionnaireRéseau?.contactInformations?.email,
-          phoneValue: siblingOreGestionnaireRéseau?.contactInformations?.phone,
-        },
+        contactEmailValue: siblingOreGestionnaireRéseau?.contactEmail,
       },
     });
   }
@@ -89,10 +85,7 @@ async function addNewGestionnairesDeRéseau({ gestionnairesFromORE, gestionnaire
         },
         identifiantGestionnaireRéseauValue: newGestionnaireRéseaux.codeEIC,
         raisonSocialeValue: newGestionnaireRéseaux.raisonSociale,
-        contactInformationsValue: {
-          emailValue: newGestionnaireRéseaux.contactInformations?.email ?? '',
-          phoneValue: newGestionnaireRéseaux.contactInformations?.phone ?? '',
-        },
+        contactEmailValue: newGestionnaireRéseaux.contactEmail,
       },
     });
   }
@@ -117,7 +110,7 @@ async function updateGestionnaireDeRéseau() {
         data: {},
       });
 
-    await updateExistingGestionnairesDeRéseauContactInformations({
+    await updateExistingGestionnairesDeRéseauContactEmail({
       gestionnairesFromORE,
       gestionnairesRéseau,
     });

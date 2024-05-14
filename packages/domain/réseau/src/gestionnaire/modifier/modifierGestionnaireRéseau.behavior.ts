@@ -13,10 +13,7 @@ export type GestionnaireRéseauModifiéEvent = DomainEvent<
       légende: string;
       expressionReguliere: string;
     };
-    contactInformations?: {
-      email?: string;
-      phone?: string;
-    };
+    contactEmail?: string;
   }
 >;
 
@@ -28,10 +25,7 @@ export type ModifierOptions = {
     légende: string;
     expressionReguliere: ExpressionRegulière.ValueType;
   };
-  contactInformations?: {
-    email?: string;
-    phone?: string;
-  };
+  contactEmail?: string;
 };
 
 export async function modifier(
@@ -40,7 +34,7 @@ export async function modifier(
     aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
     identifiantGestionnaireRéseau,
     raisonSociale,
-    contactInformations,
+    contactEmail,
   }: ModifierOptions,
 ) {
   const event: GestionnaireRéseauModifiéEvent = {
@@ -53,7 +47,7 @@ export async function modifier(
         légende,
         expressionReguliere: expressionReguliere.formatter(),
       },
-      contactInformations,
+      contactEmail,
     },
   };
 

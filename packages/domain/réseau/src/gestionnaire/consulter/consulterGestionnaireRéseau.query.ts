@@ -13,10 +13,7 @@ export type ConsulterGestionnaireRéseauReadModel = {
     légende: string;
     expressionReguliere: ExpressionRegulière.ValueType;
   };
-  contactInformations?: {
-    email?: string;
-    phone?: string;
-  };
+  contactEmail?: string;
 };
 
 export type ConsulterGestionnaireRéseauQuery = Message<
@@ -51,7 +48,7 @@ const mapToReadModel = ({
   codeEIC,
   raisonSociale,
   aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
-  contactInformations,
+  contactEmail,
 }: GestionnaireRéseauEntity): ConsulterGestionnaireRéseauReadModel => {
   return {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
@@ -63,6 +60,6 @@ const mapToReadModel = ({
         ? ExpressionRegulière.accepteTout
         : ExpressionRegulière.convertirEnValueType(expressionReguliere),
     },
-    contactInformations,
+    contactEmail,
   };
 };

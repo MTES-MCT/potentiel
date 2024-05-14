@@ -14,10 +14,7 @@ export type AjouterGestionnaireRéseauCommand = Message<
       légende: string;
       expressionReguliere: ExpressionRegulière.ValueType;
     };
-    contactInformations?: {
-      email?: string;
-      phone?: string;
-    };
+    contactEmail?: string;
   }
 >;
 
@@ -28,7 +25,7 @@ export const registerAjouterGestionnaireRéseauCommand = (loadAggregate: LoadAgg
     aideSaisieRéférenceDossierRaccordement,
     identifiantGestionnaireRéseau,
     raisonSociale,
-    contactInformations,
+    contactEmail,
   }) => {
     const gestionnaireRéseau = await load(identifiantGestionnaireRéseau, false);
 
@@ -36,7 +33,7 @@ export const registerAjouterGestionnaireRéseauCommand = (loadAggregate: LoadAgg
       aideSaisieRéférenceDossierRaccordement,
       identifiantGestionnaireRéseau,
       raisonSociale,
-      contactInformations,
+      contactEmail,
     });
   };
 

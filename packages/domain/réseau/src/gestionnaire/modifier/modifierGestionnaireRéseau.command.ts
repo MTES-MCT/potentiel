@@ -1,9 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
-import { loadGestionnaireRéseauFactory } from '../gestionnaireRéseau.aggregate';
-import { LoadAggregate } from '@potentiel-domain/core';
 import { ExpressionRegulière } from '@potentiel-domain/common';
+import { LoadAggregate } from '@potentiel-domain/core';
+import { loadGestionnaireRéseauFactory } from '../gestionnaireRéseau.aggregate';
+import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 
 export type ModifierGestionnaireRéseauCommand = Message<
   'Réseau.Gestionnaire.Command.ModifierGestionnaireRéseau',
@@ -15,10 +15,7 @@ export type ModifierGestionnaireRéseauCommand = Message<
       légende: string;
       expressionReguliere: ExpressionRegulière.ValueType;
     };
-    contactInformations?: {
-      email?: string;
-      phone?: string;
-    };
+    contactEmail?: string;
   }
 >;
 
@@ -29,7 +26,7 @@ export const registerModifierGestionnaireRéseauCommand = (loadAggregate: LoadAg
     identifiantGestionnaireRéseau,
     raisonSociale,
     aideSaisieRéférenceDossierRaccordement,
-    contactInformations,
+    contactEmail,
   }) => {
     const gestionnaireRéseau = await load(identifiantGestionnaireRéseau);
 
@@ -37,7 +34,7 @@ export const registerModifierGestionnaireRéseauCommand = (loadAggregate: LoadAg
       identifiantGestionnaireRéseau,
       raisonSociale,
       aideSaisieRéférenceDossierRaccordement,
-      contactInformations,
+      contactEmail,
     });
   };
 

@@ -18,10 +18,7 @@ Quand(
         légende: exemple['Légende'],
         expressionReguliere: exemple['Expression régulière'],
       };
-      const contactInformations = {
-        email: exemple['email'],
-        phone: exemple['phone'],
-      };
+      const contactEmail = exemple['Email'];
 
       await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
         type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
@@ -33,10 +30,7 @@ Quand(
             formatValue: aideSaisieRéférenceDossierRaccordement.format,
             légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
           },
-          contactInformationsValue: {
-            emailValue: contactInformations.email,
-            phoneValue: contactInformations.phone,
-          },
+          contactEmailValue: contactEmail,
         },
       });
 
@@ -44,7 +38,7 @@ Quand(
         codeEIC,
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement,
-        contactInformations,
+        contactEmail,
       });
       await sleep(100);
     } catch (error) {
@@ -64,10 +58,7 @@ Quand(
       légende: exemple['Légende'],
       expressionReguliere: exemple['Expression régulière'],
     };
-    const contactInformations = {
-      email: exemple['email'],
-      phone: exemple['phone'],
-    };
+    const contactEmail = exemple['Email'];
 
     try {
       await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
@@ -80,10 +71,7 @@ Quand(
             formatValue: aideSaisieRéférenceDossierRaccordement.format,
             légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
           },
-          contactInformationsValue: {
-            emailValue: contactInformations.email,
-            phoneValue: contactInformations.phone,
-          },
+          contactEmailValue: contactEmail,
         },
       });
 
@@ -91,7 +79,7 @@ Quand(
         codeEIC,
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement,
-        contactInformations,
+        contactEmail,
       });
       await sleep(100);
     } catch (error) {
