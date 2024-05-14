@@ -14,6 +14,10 @@ export type GestionnaireRéseauAjoutéEvent = DomainEvent<
       légende: string;
       expressionReguliere: string;
     };
+    contactInformations?: {
+      email?: string;
+      phone?: string;
+    };
   }
 >;
 
@@ -37,6 +41,7 @@ export async function ajouter(
     aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
     identifiantGestionnaireRéseau,
     raisonSociale,
+    contactInformations,
   }: AjouterOptions,
 ) {
   if (!this.identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu)) {
@@ -53,6 +58,7 @@ export async function ajouter(
         légende,
         expressionReguliere: expressionReguliere.formatter(),
       },
+      contactInformations,
     },
   };
 

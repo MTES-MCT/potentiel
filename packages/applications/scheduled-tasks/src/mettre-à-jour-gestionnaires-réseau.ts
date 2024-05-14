@@ -38,18 +38,14 @@ async function updateExistingGestionnairesDeRéseauContactInformations({
     );
   });
 
-  console.log('gestionnairesRéseauToUpdate', gestionnairesRéseauToUpdate);
+  getLogger().info(
+    `[updateGestionnaireDeRéseau] Il y a ${gestionnairesRéseauToUpdate.length} gestionnaires réseau à mettre à jour`,
+  );
 
-  // tester ces conditions
-  // faire la modification
   for (const gestionnaireRéseauToUpdate of gestionnairesRéseauToUpdate) {
-    console.log(gestionnaireRéseauToUpdate);
-
     const siblingOreGestionnaireRéseau = gestionnairesFromORE.find(
       ({ codeEIC }) => codeEIC === gestionnaireRéseauToUpdate.identifiantGestionnaireRéseau.codeEIC,
     );
-
-    console.log(siblingOreGestionnaireRéseau);
 
     await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
       type: 'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',
@@ -82,7 +78,7 @@ async function addNewGestionnairesDeRéseau({ gestionnairesFromORE, gestionnaire
     (gestionnaire) => !gestionnairesRéseauEICFromDb.includes(gestionnaire.codeEIC),
   );
 
-  getLogger().debug(
+  getLogger().info(
     `[updateGestionnaireDeRéseau] Il y a ${newGestionnairesRéseaux.length} nouveaux gestionnaires réseau à ajouter`,
   );
 
