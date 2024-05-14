@@ -8,7 +8,6 @@ import {
   TypeDocumentGarantiesFinancières,
   TypeGarantiesFinancières,
 } from '..';
-import { AucunesGarantiesFinancièresPourLeProjetError } from '../aucunesGarantiesFinancièresPourLeProjet.error';
 import { GarantiesFinancièresEntity } from '../garantiesFinancières.entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/core';
@@ -49,7 +48,7 @@ export type ConsulterGarantiesFinancièresQuery = Message<
   {
     identifiantProjetValue: string;
   },
-  ConsulterGarantiesFinancièresReadModel
+  Option.Type<ConsulterGarantiesFinancièresReadModel>
 >;
 
 export type ConsulterGarantiesFinancièresDependencies = {
@@ -69,7 +68,7 @@ export const registerConsulterGarantiesFinancièresQuery = ({
     );
 
     if (Option.isNone(result)) {
-      throw new AucunesGarantiesFinancièresPourLeProjetError();
+      return Option.none;
     }
 
     const actuelles: ConsulterGarantiesFinancièresReadModel['actuelles'] = result.actuelles && {

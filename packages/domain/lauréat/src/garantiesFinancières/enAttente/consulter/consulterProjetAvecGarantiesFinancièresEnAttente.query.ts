@@ -8,7 +8,6 @@ import {
   MotifDemandeGarantiesFinancières,
   ProjetAvecGarantiesFinancièresEnAttenteEntity,
 } from '../..';
-import { AucuneGarantiesFinancieresEnAttentePourLeProjetError } from '../../aucuneGarantiesFinancieresEnAttentePourLeProjet.error';
 
 export type ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -29,7 +28,7 @@ export type ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery = Message<
   {
     identifiantProjetValue: string;
   },
-  ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel
+  Option.Type<ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel>
 >;
 
 export type ConsulterProjetAvecGarantiesFinancièresEnAttenteDependencies = {
@@ -48,26 +47,35 @@ export const registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery = ({
       `projet-avec-garanties-financieres-en-attente|${identifiantProjet.formatter()}`,
     );
 
-    if (Option.isNone(result)) {
-      throw new AucuneGarantiesFinancieresEnAttentePourLeProjetError();
-    }
-
-    return {
-      identifiantProjet,
-      nomProjet: result.nomProjet,
-      régionProjet: result.régionProjet,
-      appelOffre: result.appelOffre,
-      période: result.période,
-      famille: result.famille,
-      motif: MotifDemandeGarantiesFinancières.convertirEnValueType(result.motif),
-      dateLimiteSoumission: DateTime.convertirEnValueType(result.dateLimiteSoumission),
-      dernièreMiseÀJour: {
-        date: DateTime.convertirEnValueType(result.dernièreMiseÀJour.date),
-      },
-    };
+    return Option.isNone(result) ? Option.none : mapToReadModel(result);
   };
+
   mediator.register(
     'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
     handler,
   );
 };
+
+const mapToReadModel = ({
+  identifiantProjet,
+  nomProjet,
+  appelOffre,
+  période,
+  famille,
+  régionProjet,
+  motif,
+  dateLimiteSoumission,
+  dernièreMiseÀJour,
+}: ProjetAvecGarantiesFinancièresEnAttenteEntity): ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  nomProjet,
+  régionProjet,
+  appelOffre,
+  période,
+  famille,
+  motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
+  dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
+  dernièreMiseÀJour: {
+    date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
+  },
+});

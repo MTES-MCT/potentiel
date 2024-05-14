@@ -25,6 +25,7 @@ import { Project } from '../../infra/sequelize';
 import { Abandon, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
 });
@@ -253,15 +254,14 @@ const getGarantiesFinancières = async (
 ): Promise<ProjectDataForProjectPage['garantiesFinancières']> => {
   let garantiesFinancièresActuellesProps: GarantiesFinancièresForProjectPage['actuelles'];
   let dépôtEnCoursProps: GarantiesFinancièresForProjectPage['dépôtÀTraiter'];
-  let garantiesFinancièresEnAttenteProps: GarantiesFinancièresForProjectPage['garantiesFinancièresEnAttente'];
 
-  try {
-    const garantiesFinancières =
-      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        data: { identifiantProjetValue: identifiantProjet.formatter() },
-      });
+  const garantiesFinancières =
+    await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+      type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+      data: { identifiantProjetValue: identifiantProjet.formatter() },
+    });
 
+  if (Option.isSome(garantiesFinancières)) {
     if (garantiesFinancières.actuelles) {
       garantiesFinancièresActuellesProps = {
         type: garantiesFinancières.actuelles.type.type,
@@ -282,26 +282,24 @@ const getGarantiesFinancières = async (
         dateConstitution: dépôtEnCours.dateConstitution.formatter(),
       };
     }
-  } catch (error) {}
+  }
 
-  try {
-    const garantiesFinancièresEnAttente =
-      await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
-        {
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
-          data: { identifiantProjetValue: identifiantProjet.formatter() },
-        },
-      );
-    if (garantiesFinancièresEnAttente) {
-      garantiesFinancièresEnAttenteProps = { motif: garantiesFinancièresEnAttente.motif.motif };
-    }
-  } catch (error) {}
+  const garantiesFinancièresEnAttente =
+    await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
+      {
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+        data: { identifiantProjetValue: identifiantProjet.formatter() },
+      },
+    );
+
+  const garantiesFinancièresEnAttenteProps: GarantiesFinancièresForProjectPage['garantiesFinancièresEnAttente'] =
+    Option.isSome(garantiesFinancièresEnAttente)
+      ? { motif: garantiesFinancièresEnAttente.motif.motif }
+      : undefined;
 
   return {
-    ...(garantiesFinancièresActuellesProps && { actuelles: garantiesFinancièresActuellesProps }),
-    ...(dépôtEnCoursProps && { dépôtÀTraiter: dépôtEnCoursProps }),
-    ...(garantiesFinancièresEnAttenteProps && {
-      garantiesFinancièresEnAttente: garantiesFinancièresEnAttenteProps,
-    }),
+    actuelles: garantiesFinancièresActuellesProps,
+    dépôtÀTraiter: dépôtEnCoursProps,
+    garantiesFinancièresEnAttente: garantiesFinancièresEnAttenteProps,
   };
 };

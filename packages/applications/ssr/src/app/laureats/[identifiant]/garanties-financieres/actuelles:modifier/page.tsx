@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -48,7 +49,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjetValue: identifiantProjet },
       });
 
-    if (!garantiesFinancières.actuelles) {
+    if (Option.isNone(garantiesFinancières) || !garantiesFinancières.actuelles) {
       return notFound();
     }
 

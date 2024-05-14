@@ -4,7 +4,6 @@ Fonctionnalité: Supprimer des garanties financières en attente de validation
     Contexte:
         Etant donné le projet lauréat "Centrale PV"
 
-    @select
     Plan du Scénario: Un porteur supprime des garanties financières avec une date limite de soumission après les avoir soumises
         Etant donné des garanties financières en attente pour le projet "Centrale PV" avec :
             | date limite de soumission | 2023-11-01 |

@@ -95,6 +95,7 @@ describe('requestActionnaireModification use-case', () => {
           newActionnaire,
           file: { contents: fakeFileContents, filename: fakeFileName },
           soumisAuxGarantiesFinancières: 'après candidature',
+          garantiesFinancièresConstituées: false,
         });
 
         expect(res.isOk()).toBe(true);

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
+import { Option } from '@potentiel-libraries/monads';
 import {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
@@ -19,7 +20,6 @@ import {
 } from '@/components/pages/garanties-financières/détails/DétailsGarantiesFinancières.page';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
-import { tryToGetResource } from '@/utils/tryToGetRessource';
 import { GarantiesFinancièresDépôtEnCoursProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresDépôtEnCours';
 
 export const metadata: Metadata = {
@@ -49,17 +49,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
       }
 
-      /**
-       * @todo à refacto suite à l'introduction d'une réponse de la query en utilisant @potentiel-libraries/monads
-       */
-
-      const garantiesFinancières = await tryToGetResource(
-        async () =>
-          await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-            data: { identifiantProjetValue: identifiantProjet },
-          }),
-      );
+      const garantiesFinancières =
+        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: { identifiantProjetValue: identifiantProjet },
+        });
 
       const props = mapToProps({
         projet,
@@ -75,12 +69,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 type MapToProps = (args: {
   projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
   utilisateur: Utilisateur.ValueType;
-  garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel | null;
+  garantiesFinancières: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
 }) => DétailsGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) => {
   if (
-    !garantiesFinancières ||
+    Option.isNone(garantiesFinancières) ||
     (!garantiesFinancières.actuelles &&
       !garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours()))
   ) {
@@ -95,32 +89,32 @@ const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) 
           utilisateur.role.estÉgaleÀ(Role.acheteurObligé)
         ? 'enregistrer'
         : undefined,
-      historiqueDépôts:
-        garantiesFinancières?.dépôts.map((dépôt) => ({
-          type: getGarantiesFinancièresTypeLabel(dépôt.type.type),
-          dateÉchéance: dépôt.dateÉchéance?.formatter(),
-          dateConstitution: dépôt.dateConstitution.formatter(),
-          soumisLe: dépôt.soumisLe.formatter(),
-          statut: dépôt.statut.statut,
-          dernièreMiseÀJour: {
-            date: dépôt.dernièreMiseÀJour.date.formatter(),
-            par: dépôt.dernièreMiseÀJour.par.formatter(),
-          },
-          attestation: dépôt.attestation.formatter(),
-        })) ?? [],
+      historiqueDépôts: Option.isSome(garantiesFinancières)
+        ? garantiesFinancières.dépôts.map((dépôt) => ({
+            type: getGarantiesFinancièresTypeLabel(dépôt.type.type),
+            dateÉchéance: dépôt.dateÉchéance?.formatter(),
+            dateConstitution: dépôt.dateConstitution.formatter(),
+            soumisLe: dépôt.soumisLe.formatter(),
+            statut: dépôt.statut.statut,
+            dernièreMiseÀJour: {
+              date: dépôt.dernièreMiseÀJour.date.formatter(),
+              par: dépôt.dernièreMiseÀJour.par.formatter(),
+            },
+            attestation: dépôt.attestation.formatter(),
+          }))
+        : [],
     };
   }
 
   const dépôtEnCours = garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours());
-  let dépôtEnCoursActions: GarantiesFinancièresDépôtEnCoursProps['dépôt']['actions'] = [];
+  const dépôtEnCoursActions: GarantiesFinancièresDépôtEnCoursProps['dépôt']['actions'] = [];
+
   if (utilisateur.role.estÉgaleÀ(Role.admin)) {
-    dépôtEnCoursActions = ['modifier'];
-  }
-  if (utilisateur.role.estÉgaleÀ(Role.dreal)) {
-    dépôtEnCoursActions = ['instruire', 'modifier'];
-  }
-  if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
-    dépôtEnCoursActions = ['modifier', 'supprimer'];
+    dépôtEnCoursActions.push('modifier');
+  } else if (utilisateur.role.estÉgaleÀ(Role.dreal)) {
+    dépôtEnCoursActions.push('instruire', 'modifier');
+  } else if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
+    dépôtEnCoursActions.push('modifier', 'supprimer');
   }
 
   return {

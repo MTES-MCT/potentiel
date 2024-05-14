@@ -1,4 +1,9 @@
-import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
+import {
+  Aggregate,
+  AggregateNotFoundError,
+  GetDefaultAggregateState,
+  LoadAggregate,
+} from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import {
@@ -11,7 +16,6 @@ import {
   StatutDépôtGarantiesFinancières,
   TypeGarantiesFinancières,
 } from '.';
-import { AucunesGarantiesFinancièresPourLeProjetError } from './aucunesGarantiesFinancièresPourLeProjet.error';
 import {
   GarantiesFinancièresDemandéesEvent,
   applyDemanderGarantiesFinancières,
@@ -167,3 +171,9 @@ export const loadGarantiesFinancièresFactory =
         : undefined,
     });
   };
+
+class AucunesGarantiesFinancièresPourLeProjetError extends AggregateNotFoundError {
+  constructor() {
+    super(`Il n'y a aucunes garanties financières sur le projet`);
+  }
+}
