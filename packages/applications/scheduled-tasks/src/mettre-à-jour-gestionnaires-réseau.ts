@@ -6,10 +6,6 @@ import {
   registerRéseauUseCases,
 } from '@potentiel-domain/reseau';
 
-import {
-  GestionnaireRéseauProjector,
-  RaccordementProjector,
-} from '@potentiel-applications/projectors';
 import { OreGestionnaire, getAllGRDs } from '@potentiel-infrastructure/ore-client';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
@@ -112,9 +108,6 @@ async function updateGestionnaireDeRéseau() {
       listV2: listProjectionV2,
       find: findProjection,
     });
-
-    GestionnaireRéseauProjector.register();
-    RaccordementProjector.register();
 
     const gestionnairesFromORE = await getAllGRDs();
 

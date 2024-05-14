@@ -7,6 +7,10 @@
     {
       "command": "0 1 * * * ./packages/applications/scheduled-tasks/relancer-abandon-sans-preuve.sh",
       "size": "M"
+    },
+    {
+      "command": "0 8 * * 7 ./packages/applications/scheduled-tasks/mettre-à-jour-gestionnaires-réseau.sh",
+      "size": "M"
     }
   ]
 }

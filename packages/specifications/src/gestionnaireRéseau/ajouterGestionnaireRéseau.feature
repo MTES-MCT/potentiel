@@ -7,6 +7,9 @@ Fonctionnalité: Ajouter un gestionnaire de réseau
             | Format               | XXX                    |
             | Légende              | Trois lettres          |
             | Expression régulière | [a-zA-Z]{3}            |
+            | Email                | arc@gmail.com          |
+            | Téléphone            | 06 00 00 00 00         |
+
         Alors le gestionnaire de réseau "Arc Energies Maurienne" devrait être disponible dans le référenciel des gestionnaires de réseau
         Et les détails du gestionnaire de réseau "Arc Energies Maurienne" devraient être consultables
 

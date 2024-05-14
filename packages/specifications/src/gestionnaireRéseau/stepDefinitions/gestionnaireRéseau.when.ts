@@ -18,10 +18,10 @@ Quand(
         légende: exemple['Légende'],
         expressionReguliere: exemple['Expression régulière'],
       };
-      // const contactInformations = {
-      //   email: exemple['email'],
-      //   photo: exemple['phone'],
-      // };
+      const contactInformations = {
+        email: exemple['email'],
+        phone: exemple['phone'],
+      };
 
       await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
         type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
@@ -33,7 +33,10 @@ Quand(
             formatValue: aideSaisieRéférenceDossierRaccordement.format,
             légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
           },
-          // contactInformations,
+          contactInformationsValue: {
+            emailValue: contactInformations.email,
+            phoneValue: contactInformations.phone,
+          },
         },
       });
 
@@ -41,6 +44,7 @@ Quand(
         codeEIC,
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement,
+        contactInformations,
       });
       await sleep(100);
     } catch (error) {
@@ -60,10 +64,10 @@ Quand(
       légende: exemple['Légende'],
       expressionReguliere: exemple['Expression régulière'],
     };
-    // const contactInformations = {
-    //   email: exemple['email'],
-    //   photo: exemple['phone'],
-    // };
+    const contactInformations = {
+      email: exemple['email'],
+      phone: exemple['phone'],
+    };
 
     try {
       await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
@@ -76,7 +80,10 @@ Quand(
             formatValue: aideSaisieRéférenceDossierRaccordement.format,
             légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
           },
-          // contactInformations,
+          contactInformationsValue: {
+            emailValue: contactInformations.email,
+            phoneValue: contactInformations.phone,
+          },
         },
       });
 
@@ -84,6 +91,7 @@ Quand(
         codeEIC,
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement,
+        contactInformations,
       });
       await sleep(100);
     } catch (error) {
