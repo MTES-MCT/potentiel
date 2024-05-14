@@ -1,7 +1,7 @@
+import { ExpressionRegulière } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
-import { ExpressionRegulière } from '@potentiel-domain/common';
 
 export type GestionnaireRéseauModifiéEvent = DomainEvent<
   'GestionnaireRéseauModifié-V1',
@@ -12,6 +12,10 @@ export type GestionnaireRéseauModifiéEvent = DomainEvent<
       format: string;
       légende: string;
       expressionReguliere: string;
+    };
+    contactInformations?: {
+      email?: string;
+      phone?: string;
     };
   }
 >;
@@ -24,6 +28,10 @@ export type ModifierOptions = {
     légende: string;
     expressionReguliere: ExpressionRegulière.ValueType;
   };
+  contactInformations?: {
+    email?: string;
+    phone?: string;
+  };
 };
 
 export async function modifier(
@@ -32,6 +40,7 @@ export async function modifier(
     aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
     identifiantGestionnaireRéseau,
     raisonSociale,
+    contactInformations,
   }: ModifierOptions,
 ) {
   const event: GestionnaireRéseauModifiéEvent = {
@@ -44,6 +53,7 @@ export async function modifier(
         légende,
         expressionReguliere: expressionReguliere.formatter(),
       },
+      contactInformations,
     },
   };
 

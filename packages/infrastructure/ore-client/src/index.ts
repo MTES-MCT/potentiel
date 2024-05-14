@@ -20,12 +20,11 @@ const schema = zod.object({
 
 export type OreGestionnaire = Pick<
   Gestionnaire.GestionnaireRéseauEntity,
-  'raisonSociale' | 'codeEIC'
-  // 'raisonSociale' | 'codeEIC' | 'contactInformations'
+  'raisonSociale' | 'codeEIC' | 'contactInformations'
 >;
 
 type OreGestionnaireSlice = {
-  gestionnaires: OreGestionnaire[];
+  gestionnaires: Array<OreGestionnaire>;
   totalCount: number;
 };
 
@@ -45,14 +44,13 @@ const getGRDsSlice = async (offset: string): Promise<OreGestionnaireSlice> => {
   const parsedResult = schema.parse(result);
 
   return {
-    // gestionnaires.results.map(({ eic, grd, telephone, contact }) => ({
-    gestionnaires: parsedResult.results.map(({ eic, grd }) => ({
+    gestionnaires: parsedResult.results.map(({ eic, grd, telephone, contact }) => ({
       codeEIC: eic,
       raisonSociale: grd,
-      // contactInformations: {
-      //   ...(telephone && { phone: telephone }),
-      //   ...(contact && { email: contact }),
-      // },
+      contactInformations: {
+        ...(telephone && { phone: telephone }),
+        ...(contact && { email: contact }),
+      },
     })),
     totalCount: parsedResult.total_count,
   };
@@ -60,7 +58,7 @@ const getGRDsSlice = async (offset: string): Promise<OreGestionnaireSlice> => {
 
 export const getAllGRDs = async (
   offset: number = 0,
-  gestionnaires: OreGestionnaire[] = [],
+  gestionnaires: Array<OreGestionnaire> = [],
 ): Promise<Array<OreGestionnaire>> => {
   const gestionnaireSlice = await getGRDsSlice(offset.toString());
   const updatedGestionnaires = gestionnaires.concat(gestionnaireSlice.gestionnaires);

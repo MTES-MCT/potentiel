@@ -1,8 +1,8 @@
-import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 import { ExpressionRegulière } from '@potentiel-domain/common';
-import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
-import { Message, MessageHandler, mediator } from 'mediateur';
 import { ListV2, RangeOptions } from '@potentiel-domain/core';
+import { Message, MessageHandler, mediator } from 'mediateur';
+import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
+import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 
 type GetionnaireRéseauListItemReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -11,6 +11,10 @@ type GetionnaireRéseauListItemReadModel = {
     format: string;
     légende: string;
     expressionReguliere: ExpressionRegulière.ValueType;
+  };
+  contactInformations?: {
+    email?: string;
+    phone?: string;
   };
 };
 
@@ -63,6 +67,7 @@ const mapToReadModel = ({
   codeEIC,
   raisonSociale,
   aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
+  contactInformations,
 }: GestionnaireRéseauEntity): GetionnaireRéseauListItemReadModel => {
   return {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
@@ -74,5 +79,6 @@ const mapToReadModel = ({
         ? ExpressionRegulière.accepteTout
         : ExpressionRegulière.convertirEnValueType(expressionReguliere),
     },
+    contactInformations,
   };
 };

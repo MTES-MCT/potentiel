@@ -5,14 +5,14 @@ export type GestionnaireRéseauEntity = Entity<
   {
     codeEIC: string;
     raisonSociale: string;
-    // contactInformations?: {
-    //   email?: string;
-    //   phone?: string;
-    // };
     aideSaisieRéférenceDossierRaccordement: {
       format: string;
       légende: string;
       expressionReguliere: string;
+    };
+    contactInformations?: {
+      email?: string;
+      phone?: string;
     };
   }
 >;

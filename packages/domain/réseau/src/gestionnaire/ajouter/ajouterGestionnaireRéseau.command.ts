@@ -14,21 +14,21 @@ export type AjouterGestionnaireRéseauCommand = Message<
       légende: string;
       expressionReguliere: ExpressionRegulière.ValueType;
     };
-    // contactInformations?: {
-    //   email?: string;
-    //   phone?: string;
-    // };
+    contactInformations?: {
+      email?: string;
+      phone?: string;
+    };
   }
 >;
 
 export const registerAjouterGestionnaireRéseauCommand = (loadAggregate: LoadAggregate) => {
   const load = loadGestionnaireRéseauFactory(loadAggregate);
 
-  // TODO VIO ICI
   const handler: MessageHandler<AjouterGestionnaireRéseauCommand> = async ({
     aideSaisieRéférenceDossierRaccordement,
     identifiantGestionnaireRéseau,
     raisonSociale,
+    contactInformations,
   }) => {
     const gestionnaireRéseau = await load(identifiantGestionnaireRéseau, false);
 
@@ -36,6 +36,7 @@ export const registerAjouterGestionnaireRéseauCommand = (loadAggregate: LoadAgg
       aideSaisieRéférenceDossierRaccordement,
       identifiantGestionnaireRéseau,
       raisonSociale,
+      contactInformations,
     });
   };
 

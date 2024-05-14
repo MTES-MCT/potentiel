@@ -1,9 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
 import { ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/core';
-import { RaccordementEntity } from '../raccordement.entity';
 import { Option } from '@potentiel-libraries/monads';
+import { Message, MessageHandler, mediator } from 'mediateur';
 import { GestionnaireRéseauEntity, IdentifiantGestionnaireRéseau } from '../../gestionnaire';
+import { RaccordementEntity } from '../raccordement.entity';
 
 export type ConsulterGestionnaireRéseauRaccordementReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -12,6 +12,10 @@ export type ConsulterGestionnaireRéseauRaccordementReadModel = {
     format: string;
     légende: string;
     expressionReguliere: ExpressionRegulière.ValueType;
+  };
+  contactInformations?: {
+    email?: string;
+    phone?: string;
   };
 };
 
@@ -67,6 +71,7 @@ const mapToResult = ({
   raisonSociale,
   codeEIC,
   aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
+  contactInformations,
 }: GestionnaireRéseauEntity): ConsulterGestionnaireRéseauRaccordementReadModel => {
   return {
     raisonSociale,
@@ -76,5 +81,6 @@ const mapToResult = ({
       légende,
       expressionReguliere: ExpressionRegulière.convertirEnValueType(expressionReguliere || ''),
     },
+    contactInformations,
   };
 };

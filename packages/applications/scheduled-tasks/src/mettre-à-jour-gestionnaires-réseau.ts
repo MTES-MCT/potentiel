@@ -20,14 +20,58 @@ import {
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 type Params = {
-  gestionnairesFromORE: OreGestionnaire;
+  gestionnairesFromORE: Array<OreGestionnaire>;
   gestionnairesRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel;
 };
 
 async function updateExistingGestionnairesDeRéseauContactInformations({
   gestionnairesFromORE,
   gestionnairesRéseau,
-}: Params) {}
+}: Params) {
+  const gestionnairesRéseauToUpdate = gestionnairesRéseau.items.filter((gestionnaire) => {
+    return gestionnairesFromORE.some(
+      (g) =>
+        g.codeEIC === gestionnaire.identifiantGestionnaireRéseau.codeEIC &&
+        g.contactInformations &&
+        (g.contactInformations.email !== gestionnaire.contactInformations?.email ||
+          g.contactInformations.phone !== gestionnaire.contactInformations?.phone),
+    );
+  });
+
+  console.log('gestionnairesRéseauToUpdate', gestionnairesRéseauToUpdate);
+
+  // tester ces conditions
+  // faire la modification
+  for (const gestionnaireRéseauToUpdate of gestionnairesRéseauToUpdate) {
+    console.log(gestionnaireRéseauToUpdate);
+
+    const siblingOreGestionnaireRéseau = gestionnairesFromORE.find(
+      ({ codeEIC }) => codeEIC === gestionnaireRéseauToUpdate.identifiantGestionnaireRéseau.codeEIC,
+    );
+
+    console.log(siblingOreGestionnaireRéseau);
+
+    await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
+      type: 'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',
+      data: {
+        identifiantGestionnaireRéseauValue:
+          gestionnaireRéseauToUpdate.identifiantGestionnaireRéseau.codeEIC,
+        aideSaisieRéférenceDossierRaccordementValue: {
+          expressionReguliereValue:
+            gestionnaireRéseauToUpdate.aideSaisieRéférenceDossierRaccordement.expressionReguliere
+              .expression,
+          légendeValue: gestionnaireRéseauToUpdate.aideSaisieRéférenceDossierRaccordement.légende,
+          formatValue: gestionnaireRéseauToUpdate.aideSaisieRéférenceDossierRaccordement.format,
+        },
+        raisonSocialeValue: gestionnaireRéseauToUpdate.raisonSociale,
+        contactInformationsValue: {
+          emailValue: siblingOreGestionnaireRéseau?.contactInformations?.email,
+          phoneValue: siblingOreGestionnaireRéseau?.contactInformations?.phone,
+        },
+      },
+    });
+  }
+}
 
 async function addNewGestionnairesDeRéseau({ gestionnairesFromORE, gestionnairesRéseau }: Params) {
   const gestionnairesRéseauEICFromDb = gestionnairesRéseau.items.map(
@@ -53,10 +97,10 @@ async function addNewGestionnairesDeRéseau({ gestionnairesFromORE, gestionnaire
         },
         identifiantGestionnaireRéseauValue: newGestionnaireRéseaux.codeEIC,
         raisonSocialeValue: newGestionnaireRéseaux.raisonSociale,
-        // contactInformationsValue: {
-        //   emailValue: newGestionnaireRéseaux.contactInformations?.email ?? '',
-        //   phoneValue: newGestionnaireRéseaux.contactInformations?.phone ?? '',
-        // },
+        contactInformationsValue: {
+          emailValue: newGestionnaireRéseaux.contactInformations?.email ?? '',
+          phoneValue: newGestionnaireRéseaux.contactInformations?.phone ?? '',
+        },
       },
     });
   }

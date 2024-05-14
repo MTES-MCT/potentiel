@@ -15,6 +15,10 @@ export type ModifierGestionnaireRéseauCommand = Message<
       légende: string;
       expressionReguliere: ExpressionRegulière.ValueType;
     };
+    contactInformations?: {
+      email?: string;
+      phone?: string;
+    };
   }
 >;
 
@@ -25,6 +29,7 @@ export const registerModifierGestionnaireRéseauCommand = (loadAggregate: LoadAg
     identifiantGestionnaireRéseau,
     raisonSociale,
     aideSaisieRéférenceDossierRaccordement,
+    contactInformations,
   }) => {
     const gestionnaireRéseau = await load(identifiantGestionnaireRéseau);
 
@@ -32,6 +37,7 @@ export const registerModifierGestionnaireRéseauCommand = (loadAggregate: LoadAg
       identifiantGestionnaireRéseau,
       raisonSociale,
       aideSaisieRéférenceDossierRaccordement,
+      contactInformations,
     });
   };
 

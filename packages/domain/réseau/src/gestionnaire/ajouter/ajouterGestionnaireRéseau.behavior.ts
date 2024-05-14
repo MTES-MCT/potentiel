@@ -1,8 +1,8 @@
+import { ExpressionRegulière } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
-import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 import { GestionnaireRéseauDéjàExistantError } from '../gestionnaireRéseauDéjàExistant.error';
-import { ExpressionRegulière } from '@potentiel-domain/common';
+import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 
 export type GestionnaireRéseauAjoutéEvent = DomainEvent<
   'GestionnaireRéseauAjouté-V1',
@@ -24,6 +24,10 @@ export type AjouterOptions = {
     format: string;
     légende: string;
     expressionReguliere: ExpressionRegulière.ValueType;
+  };
+  contactInformations?: {
+    email?: string;
+    phone?: string;
   };
 };
 
