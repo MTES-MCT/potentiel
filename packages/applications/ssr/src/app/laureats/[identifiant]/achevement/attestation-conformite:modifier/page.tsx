@@ -1,9 +1,11 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { InvalidOperationError } from '@potentiel-domain/core';
 import { Achèvement } from '@potentiel-domain/laureat';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -38,6 +40,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
         data: { identifiantProjetValue: identifiantProjet },
       });
+
+    if (Option.isNone(attestationConformitéActuelle)) {
+      return notFound();
+    }
 
     const projet = { ...candidature, identifiantProjet };
 
