@@ -211,6 +211,8 @@ export const registerExempleQuery = ({ find }: ExempleDependencies) => {
 };
 ```
 
+> Si une query n'arrive pas à récupérer des données elle doit retourner une Option. Le symbol `none` permet de préciser qu'il n'y a aucune Option correspondante aux paramètres de la query lors de la récupération des données. Toutefois, si le retour de la query est une liste il faut retourner un tableau vide à la place d'une Option.
+
 Bonne pratique : préférer avoir des projections au plus proche du besoin afin de limiter au maximum la logique métier dans cette partie
 
 ### <a id="usecases"></a>Usecases
@@ -264,7 +266,7 @@ Les paramètres en entrée d'une commande représentant des éléments métier s
 
 C'est ici que l'on va charger l'agrégat, exécuter le comportement (`behavior`) attendu.
 
-Le `behavior` lui fait les vérifications nécessaires et publie les évènements.
+Le `behavior` lui fait les vérifications nécessaires, publie les évènements ou lève des erreurs si les vérifications n'ont pas abouti via des exceptions héritant de `InvalidOperationError` ou OperationRejectedError (cette dernière est réservée pour le contrôle des accès à la fonctionnalité).
 
 Exemple d'une commande et de son comportement associé :
 
@@ -377,12 +379,16 @@ export const loadExempleFactory =
       getDefaultAggregate: getDefaultExempleAggregate,
       onNone: throwOnNone
         ? () => {
-            throw new AucunExemple();
+            throw new AucuneExempleError();
           }
         : undefined,
     });
   };
+
+export class AucuneExempleError extends AggregateNotFoundError {}
 ```
+
+> ⚠ AggregateNotFoundError ne doit être utilisé que pour renvoyer une erreur lors du chargement de l'agrégat.
 
 ### <a id="sagas"></a>Sagas
 
