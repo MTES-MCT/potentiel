@@ -29,5 +29,3 @@ export * as TypeDocumentAttestationConformité from './typeDocumentAttestationCo
 
 // Entities
 export * from './attestationConformité.entity';
-
-// Ports

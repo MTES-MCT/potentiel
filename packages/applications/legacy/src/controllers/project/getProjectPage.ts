@@ -21,6 +21,7 @@ import { mediator } from 'mediateur';
 import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Project } from '../../infra/sequelize';
+import { Option } from '@potentiel-libraries/monads';
 
 import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
@@ -206,16 +207,13 @@ const getAbandon = async (
 const hasAttestationConformité = async (
   identifiantProjet: IdentifiantProjet.ValueType,
 ): Promise<boolean> => {
-  try {
+  const attestationConformité =
     await mediator.send<Achèvement.AttestationConformité.ConsulterAttestationConformitéQuery>({
       type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
       data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
 
-    return true;
-  } catch (error) {
-    return false;
-  }
+  return Option.isSome(attestationConformité);
 };
 
 const getAlertesRaccordement = async ({

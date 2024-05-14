@@ -6,6 +6,7 @@ import { PotentielWorld } from '../../../../../potentiel.world';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 import waitForExpect from 'wait-for-expect';
+import { Option } from '@potentiel-libraries/monads';
 
 Alors(
   'une attestation de conformité devrait être consultable pour le projet {string} avec :',
@@ -43,47 +44,51 @@ Alors(
           },
         });
 
-      expect(actualReadModel.attestation.format).to.deep.equal(expectedAttestationFormat);
-      expect(actualReadModel.preuveTransmissionAuCocontractant.format).to.deep.equal(
-        expectedPreuveTransmissionAuCocontractantFormat,
-      );
-      expect(actualReadModel.dateTransmissionAuCocontractant.date).to.deep.equal(
-        new Date(expectedDateTransmissionAuCocontractant),
-      );
-      expect(actualReadModel.misÀJourLe.date).to.deep.equal(new Date(expectedDate));
-      expect(actualReadModel.misÀJourPar.formatter()).to.deep.equal(expectedUtilisateur);
+      expect(Option.isSome(actualReadModel)).to.be.true;
 
-      // ASSERT ON FILES CONTENT
-      //attestation
-      if (actualReadModel.attestation) {
-        const actualAttestation = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: actualReadModel.attestation.formatter(),
-          },
-        });
-
-        const actualAttestationContent = await convertReadableStreamToString(
-          actualAttestation.content,
+      if (Option.isSome(actualReadModel)) {
+        expect(actualReadModel.attestation.format).to.deep.equal(expectedAttestationFormat);
+        expect(actualReadModel.preuveTransmissionAuCocontractant.format).to.deep.equal(
+          expectedPreuveTransmissionAuCocontractantFormat,
         );
-
-        actualAttestationContent.should.be.equal(expectedAttestationContent);
-      }
-
-      // preuve transmission
-      if (actualReadModel.preuveTransmissionAuCocontractant) {
-        const preuveTransmission = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: actualReadModel.preuveTransmissionAuCocontractant.formatter(),
-          },
-        });
-        const actualPreuveTransmissionContent = await convertReadableStreamToString(
-          preuveTransmission.content,
+        expect(actualReadModel.dateTransmissionAuCocontractant.date).to.deep.equal(
+          new Date(expectedDateTransmissionAuCocontractant),
         );
-        actualPreuveTransmissionContent.should.be.equal(
-          expectedPreuveTransmissionAuCocontractantContent,
-        );
+        expect(actualReadModel.misÀJourLe.date).to.deep.equal(new Date(expectedDate));
+        expect(actualReadModel.misÀJourPar.formatter()).to.deep.equal(expectedUtilisateur);
+
+        // ASSERT ON FILES CONTENT
+        //attestation
+        if (actualReadModel.attestation) {
+          const actualAttestation = await mediator.send<ConsulterDocumentProjetQuery>({
+            type: 'Document.Query.ConsulterDocumentProjet',
+            data: {
+              documentKey: actualReadModel.attestation.formatter(),
+            },
+          });
+
+          const actualAttestationContent = await convertReadableStreamToString(
+            actualAttestation.content,
+          );
+
+          actualAttestationContent.should.be.equal(expectedAttestationContent);
+        }
+
+        // preuve transmission
+        if (actualReadModel.preuveTransmissionAuCocontractant) {
+          const preuveTransmission = await mediator.send<ConsulterDocumentProjetQuery>({
+            type: 'Document.Query.ConsulterDocumentProjet',
+            data: {
+              documentKey: actualReadModel.preuveTransmissionAuCocontractant.formatter(),
+            },
+          });
+          const actualPreuveTransmissionContent = await convertReadableStreamToString(
+            preuveTransmission.content,
+          );
+          actualPreuveTransmissionContent.should.be.equal(
+            expectedPreuveTransmissionAuCocontractantContent,
+          );
+        }
       }
     });
   },

@@ -8,7 +8,6 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { AttestationConformitéEntity } from '../attestationConformité.entity';
-import { AucuneAttestationConformitéError } from '../aucuneAttestationConformité.error';
 
 export type ConsulterAttestationConformitéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -24,7 +23,7 @@ export type ConsulterAttestationConformitéQuery = Message<
   {
     identifiantProjetValue: string;
   },
-  ConsulterAttestationConformitéReadModel
+  Option.Type<ConsulterAttestationConformitéReadModel>
 >;
 
 export type ConsulterAttestationConformitéDependencies = {
@@ -44,7 +43,7 @@ export const registerConsulterAttestationConformitéQuery = ({
     );
 
     if (Option.isNone(result)) {
-      throw new AucuneAttestationConformitéError();
+      return Option.none;
     }
 
     const {
@@ -76,6 +75,7 @@ export const registerConsulterAttestationConformitéQuery = ({
       misÀJourPar: IdentifiantUtilisateur.convertirEnValueType(dernièreMiseÀJour.utilisateur),
     };
   };
+
   mediator.register(
     'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
     handler,

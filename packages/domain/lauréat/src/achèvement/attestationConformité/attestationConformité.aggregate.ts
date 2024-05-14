@@ -1,4 +1,9 @@
-import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
+import {
+  Aggregate,
+  AggregateNotFoundError,
+  GetDefaultAggregateState,
+  LoadAggregate,
+} from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
@@ -7,7 +12,6 @@ import {
   applyAttestationConformitéTransmise,
   transmettre,
 } from './transmettre/transmettreAttestationConformité.behavior';
-import { AucuneAttestationConformitéError } from './aucuneAttestationConformité.error';
 import { Option } from '@potentiel-libraries/monads';
 
 export type AttestationConformitéEvent = AttestationConformitéTransmiseEvent;
@@ -55,3 +59,9 @@ export const loadAttestationConformitéFactory =
         : undefined,
     });
   };
+
+class AucuneAttestationConformitéError extends AggregateNotFoundError {
+  constructor() {
+    super(`Il n'y a aucune attestation de conformité pour ce projet`);
+  }
+}
