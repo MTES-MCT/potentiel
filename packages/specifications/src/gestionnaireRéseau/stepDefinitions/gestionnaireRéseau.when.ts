@@ -18,7 +18,7 @@ Quand(
         légende: exemple['Légende'],
         expressionReguliere: exemple['Expression régulière'],
       };
-      const contactEmail = exemple['Email'];
+      const contactEmail = exemple['Email de contact'];
 
       await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
         type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
@@ -58,7 +58,7 @@ Quand(
       légende: exemple['Légende'],
       expressionReguliere: exemple['Expression régulière'],
     };
-    const contactEmail = exemple['Email'];
+    const contactEmail = exemple['Email de contact'];
 
     try {
       await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({

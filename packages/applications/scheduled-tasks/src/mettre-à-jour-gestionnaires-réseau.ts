@@ -20,10 +20,10 @@ type Params = {
   gestionnairesRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel;
 };
 
-async function updateExistingGestionnairesDeRéseauContactEmail({
+const updateExistingGestionnairesDeRéseauContactEmail = async ({
   gestionnairesFromORE,
   gestionnairesRéseau,
-}: Params) {
+}: Params) => {
   const gestionnairesRéseauToUpdate = gestionnairesRéseau.items.filter((gestionnaire) => {
     return gestionnairesFromORE.some(
       (g) =>
@@ -33,12 +33,17 @@ async function updateExistingGestionnairesDeRéseauContactEmail({
     );
   });
 
-  getLogger().info(
-    `[updateGestionnaireDeRéseau] Il y a ${gestionnairesRéseauToUpdate.length} gestionnaires réseau à mettre à jour`,
-  );
+  gestionnairesRéseauToUpdate.length
+    ? getLogger().info(
+        '[updateGestionnaireDeRéseau] Des gestionnaires de réseau vont être mis à jour',
+        { gestionnairesToUpdate: gestionnairesRéseauToUpdate },
+      )
+    : getLogger().info(
+        "[updateGestionnaireDeRéseau] Il n'y a pas de gestionnaires de réseaux à mettre à jour",
+      );
 
   for (const gestionnaireRéseauToUpdate of gestionnairesRéseauToUpdate) {
-    const siblingOreGestionnaireRéseau = gestionnairesFromORE.find(
+    const relatedOreGestionnaireRéseau = gestionnairesFromORE.find(
       ({ codeEIC }) => codeEIC === gestionnaireRéseauToUpdate.identifiantGestionnaireRéseau.codeEIC,
     );
 
@@ -55,13 +60,16 @@ async function updateExistingGestionnairesDeRéseauContactEmail({
           formatValue: gestionnaireRéseauToUpdate.aideSaisieRéférenceDossierRaccordement.format,
         },
         raisonSocialeValue: gestionnaireRéseauToUpdate.raisonSociale,
-        contactEmailValue: siblingOreGestionnaireRéseau?.contactEmail,
+        contactEmailValue: relatedOreGestionnaireRéseau?.contactEmail,
       },
     });
   }
-}
+};
 
-async function addNewGestionnairesDeRéseau({ gestionnairesFromORE, gestionnairesRéseau }: Params) {
+const addNewGestionnairesDeRéseau = async ({
+  gestionnairesFromORE,
+  gestionnairesRéseau,
+}: Params) => {
   const gestionnairesRéseauEICFromDb = gestionnairesRéseau.items.map(
     (gestionnaire) => gestionnaire.identifiantGestionnaireRéseau.codeEIC,
   );
@@ -70,9 +78,14 @@ async function addNewGestionnairesDeRéseau({ gestionnairesFromORE, gestionnaire
     (gestionnaire) => !gestionnairesRéseauEICFromDb.includes(gestionnaire.codeEIC),
   );
 
-  getLogger().info(
-    `[updateGestionnaireDeRéseau] Il y a ${newGestionnairesRéseaux.length} nouveaux gestionnaires réseau à ajouter`,
-  );
+  newGestionnairesRéseaux.length
+    ? getLogger().info(
+        '[updateGestionnaireDeRéseau] Des nouveaux gestionnaires de réseau vont être ajoutés',
+        { nouveauxGestionnaires: newGestionnairesRéseaux },
+      )
+    : getLogger().info(
+        "[updateGestionnaireDeRéseau] Il n'y a pas de nouveaux gestionnaires de réseaux",
+      );
 
   for (const newGestionnaireRéseaux of newGestionnairesRéseaux) {
     await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
@@ -89,8 +102,8 @@ async function addNewGestionnairesDeRéseau({ gestionnairesFromORE, gestionnaire
       },
     });
   }
-}
-async function updateGestionnaireDeRéseau() {
+};
+const updateGestionnaireDeRéseau = async () => {
   try {
     registerRéseauUseCases({
       loadAggregate,
@@ -124,6 +137,6 @@ async function updateGestionnaireDeRéseau() {
   } catch (error) {
     return getLogger().error(error as Error);
   }
-}
+};
 
 updateGestionnaireDeRéseau();

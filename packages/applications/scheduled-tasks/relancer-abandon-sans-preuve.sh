@@ -2,7 +2,7 @@
 
 if [ "$APPLICATION_STAGE" != "production" ] && [ "$APPLICATION_STAGE" != "development" ]
 then
-        echo "This job can't be exeucted on $APPLICATION_STAGE environment"
+        echo "This job can't be executed on $APPLICATION_STAGE environment"
         exit 0
 fi
 

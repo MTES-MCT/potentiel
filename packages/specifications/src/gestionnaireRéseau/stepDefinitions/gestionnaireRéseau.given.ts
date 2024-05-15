@@ -14,7 +14,7 @@ EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, 
     légende: exemple['Légende'],
     expressionReguliere: exemple['Expression régulière'],
   };
-  const contactEmail = exemple['Email'];
+  const contactEmail = exemple['Email de contact'];
 
   await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
     type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',

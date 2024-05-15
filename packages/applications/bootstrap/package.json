@@ -19,7 +19,6 @@
     "@potentiel-domain/tache": "*",
     "@potentiel-infrastructure/document-builder": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-infrastructure/ore-client": "^0.0.0",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projections": "*",
     "@potentiel-libraries/pg-helpers": "*",

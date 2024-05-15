@@ -11,7 +11,7 @@ Fonctionnalité: Modifier un gestionnaire de réseau
             | Légende              | Trois lettres    |
             | Format               | XXX              |
             | Expression régulière | [a-zA-Z]{3}      |
-            | Email                | arc@gmail.com    |
+            | Email de contact     | arc@gmail.com    |
         Alors le gestionnaire de réseau "RTE" devrait être à jour dans le référenciel des gestionnaires de réseau
         Et les détails à jour du gestionnaire de réseau "RTE" devraient être consultables
 

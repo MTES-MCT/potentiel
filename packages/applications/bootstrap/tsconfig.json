@@ -24,9 +24,6 @@
       "path": "../../domain/document"
     },
     {
-      "path": "../../infrastructure/ore-client"
-    },
-    {
       "path": "../../infrastructure/document-builder"
     },
     {
