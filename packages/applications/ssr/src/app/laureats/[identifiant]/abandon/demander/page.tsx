@@ -1,12 +1,13 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
-import { NotFoundError } from '@potentiel-domain/core';
 import { CahierDesCharges } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { StatutProjet } from '@potentiel-domain/common';
+import { InvalidOperationError } from '@potentiel-domain/core';
 
 import {
   DemanderAbandonPage,
@@ -32,6 +33,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       },
     });
 
+    if (!StatutProjet.convertirEnValueType(candidature.statut).estClassé()) {
+      throw new InvalidOperationError(
+        `Vous ne pouvez pas demander l'abandon d'un projet non lauréat`,
+      );
+    }
+
     const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: { identifiantAppelOffre: candidature.appelOffre },
@@ -55,7 +62,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const période = appelOffre.periodes.find((p) => p.id === candidature.période);
     if (!période) {
-      throw new NotFoundError('Période de notification introuvable');
+      return notFound();
     }
 
     // TODO: extract the logic in a dedicated function mapToProps
