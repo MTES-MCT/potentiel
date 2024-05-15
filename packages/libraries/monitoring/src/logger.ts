@@ -4,7 +4,7 @@ import { getCapture } from './capture';
 // RFC5424 from higher to lower level
 export const levels: ReadonlyArray<string> = ['error', 'warn', 'info', 'debug'] as const;
 
-export type Level = typeof levels[number];
+export type Level = (typeof levels)[number];
 
 export type Logger = {
   debug(message: string, meta?: Record<string, unknown>): void;

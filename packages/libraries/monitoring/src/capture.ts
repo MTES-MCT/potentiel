@@ -13,11 +13,12 @@ let captureInstance: Capture | undefined;
 
 export const getCapture: GetCapture = (): Capture | undefined => {
   if (!captureInstance) {
-    const sentryDsn = process.env.SENTRY_DSN;
+    const shouldInitSentry = process.env.SENTRY_DSN && process.env.APPLICATION_STAGE !== 'local';
 
-    if (sentryDsn) {
+    if (shouldInitSentry) {
       Sentry.init({
         dsn: process.env.SENTRY_DSN,
+        environment: process.env.APPLICATION_STAGE,
         tracesSampleRate: 1.0,
       });
 
@@ -26,7 +27,7 @@ export const getCapture: GetCapture = (): Capture | undefined => {
         message: string,
         context: Record<string, unknown>,
       ) => {
-        const scope = Sentry.getCurrentHub().getScope();
+        const scope = Sentry.getCurrentScope();
 
         scope.addBreadcrumb({
           message,
@@ -44,7 +45,7 @@ export const getCapture: GetCapture = (): Capture | undefined => {
           capture('info', message, context),
         error: (error: Error, context: Record<string, unknown>) => {
           capture('error', error.message, context);
-          Sentry.getCurrentHub().captureException(error);
+          Sentry.captureException(error);
         },
         debug: (message: string, context: Record<string, unknown>) =>
           capture('debug', message, context),
