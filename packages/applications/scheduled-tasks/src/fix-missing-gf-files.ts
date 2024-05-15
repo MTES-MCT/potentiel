@@ -66,6 +66,7 @@ const legacyBucket = new S3({
   for (const { identifiantProjet } of garantiesFinancières.items) {
     const { appelOffre, période, famille, numéroCRE } =
       IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
     try {
       const garantieFinancière =
         await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
@@ -101,14 +102,16 @@ const legacyBucket = new S3({
             );
 
             if (!files.length) {
-              const errorLine = `Error : No file retreived !! - Projet : ${identifiantProjet}`;
+              const errorLine = `Error : No file retreived for actual GF !! - Projet : ${identifiantProjet} - Document key : ${documentKey}`;
               errors.push(errorLine);
+              actual++;
               continue;
             }
 
             if (files.length > 1) {
               const errorLine = `Error : More than one file retreived !! - Projet : ${identifiantProjet}`;
               errors.push(errorLine);
+              actual++;
               continue;
             }
 
@@ -123,6 +126,7 @@ const legacyBucket = new S3({
             if (!Body) {
               const errorLine = `Error : No content retreived for file ${file_path} !! - Projet : ${identifiantProjet}`;
               errors.push(errorLine);
+              actual++;
               continue;
             }
 
@@ -178,14 +182,16 @@ const legacyBucket = new S3({
             );
 
             if (!files.length) {
-              const errorLine = `Error : No file retreived !! - Projet : ${identifiantProjet}`;
+              const errorLine = `Error : No file retreived for deposit GF !! - Projet : ${identifiantProjet} - Document key : ${documentKey}`;
               errors.push(errorLine);
+              actual++;
               continue;
             }
 
             if (files.length > 1) {
               const errorLine = `Error : More than one file retreived !! - Projet : ${identifiantProjet}`;
               errors.push(errorLine);
+              actual++;
               continue;
             }
 
@@ -200,6 +206,7 @@ const legacyBucket = new S3({
             if (!Body) {
               const errorLine = `Error : No content retreived for file ${file_path} !! - Projet : ${identifiantProjet}`;
               errors.push(errorLine);
+              actual++;
               continue;
             }
 
