@@ -10,6 +10,6 @@ export type GestionnaireRéseauEntity = Entity<
       légende: string;
       expressionReguliere: string;
     };
-    contactEmail?: string;
+    contactEmail: string;
   }
 >;

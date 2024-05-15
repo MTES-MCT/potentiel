@@ -48,6 +48,7 @@ EtantDonné(
       légende: '',
       expressionReguliere: '',
     };
+    const contactEmail = '';
 
     await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
       type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
@@ -59,6 +60,7 @@ EtantDonné(
           formatValue: aideSaisieRéférenceDossierRaccordement.format,
           légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
         },
+        contactEmailValue: contactEmail,
       },
     });
 
@@ -66,7 +68,9 @@ EtantDonné(
       codeEIC,
       raisonSociale,
       aideSaisieRéférenceDossierRaccordement,
+      contactEmail,
     });
+
     await sleep(100);
   },
 );

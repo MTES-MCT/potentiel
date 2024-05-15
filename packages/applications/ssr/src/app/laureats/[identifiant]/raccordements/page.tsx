@@ -106,7 +106,9 @@ const mapToProps: MapToProps = ({
           expressionReguliere:
             gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere.formatter(),
         },
-        contactEmail: gestionnaireRéseau.contactEmail,
+        contactEmail: Option.isNone(gestionnaireRéseau.contactEmail)
+          ? undefined
+          : gestionnaireRéseau.contactEmail.email,
         canEdit:
           rôleUtilisateur.estÉgaleÀ(Role.admin) ||
           rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||

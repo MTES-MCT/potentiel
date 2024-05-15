@@ -1,6 +1,8 @@
 import { ExpressionRegulière } from '@potentiel-domain/common';
 import { Message, MessageHandler, mediator } from 'mediateur';
+import * as ContactEmailGestionnaireRéseau from '../contactEmailGestionnaireRéseau.valueType';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
+
 import { AjouterGestionnaireRéseauCommand } from './ajouterGestionnaireRéseau.command';
 
 export type AjouterGestionnaireRéseauUseCase = Message<
@@ -36,6 +38,10 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
       ? ExpressionRegulière.accepteTout
       : ExpressionRegulière.convertirEnValueType(expressionReguliereValue);
 
+    const contactEmail = !contactEmailValue
+      ? ContactEmailGestionnaireRéseau.defaultValue
+      : ContactEmailGestionnaireRéseau.convertirEnValueType(contactEmailValue);
+
     await mediator.send<AjouterGestionnaireRéseauCommand>({
       type: 'Réseau.Gestionnaire.Command.AjouterGestionnaireRéseau',
       data: {
@@ -46,7 +52,7 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
           format: formatValue,
           légende: légendeValue,
         },
-        contactEmail: contactEmailValue,
+        contactEmail,
       },
     });
   };

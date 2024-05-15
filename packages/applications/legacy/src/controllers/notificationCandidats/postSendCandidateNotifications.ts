@@ -54,7 +54,7 @@ v1Router.post(
               appelOffreId,
               periodeId,
             }),
-            redirectTitle: 'Liste des projets de cette période',
+            redirectTitle: 'Lister les projets de cette période',
           }),
         ),
       (e: Error) => {

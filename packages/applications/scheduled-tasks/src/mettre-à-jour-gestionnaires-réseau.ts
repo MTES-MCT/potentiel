@@ -13,6 +13,7 @@ import {
   listProjection,
   listProjectionV2,
 } from '@potentiel-infrastructure/pg-projections';
+import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 type Params = {
@@ -29,7 +30,8 @@ const updateExistingGestionnairesDeRéseauContactEmail = async ({
       (g) =>
         g.codeEIC === gestionnaire.identifiantGestionnaireRéseau.codeEIC &&
         g.contactEmail &&
-        g.contactEmail !== gestionnaire.contactEmail,
+        (Option.isNone(gestionnaire.contactEmail) ||
+          g.contactEmail !== gestionnaire.contactEmail.email),
     );
   });
 
@@ -47,6 +49,10 @@ const updateExistingGestionnairesDeRéseauContactEmail = async ({
       ({ codeEIC }) => codeEIC === gestionnaireRéseauToUpdate.identifiantGestionnaireRéseau.codeEIC,
     );
 
+    if (!relatedOreGestionnaireRéseau) {
+      throw new Error('related OreGestionnaireRéseau not found');
+    }
+
     await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
       type: 'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',
       data: {
@@ -60,7 +66,7 @@ const updateExistingGestionnairesDeRéseauContactEmail = async ({
           formatValue: gestionnaireRéseauToUpdate.aideSaisieRéférenceDossierRaccordement.format,
         },
         raisonSocialeValue: gestionnaireRéseauToUpdate.raisonSociale,
-        contactEmailValue: relatedOreGestionnaireRéseau?.contactEmail,
+        contactEmailValue: relatedOreGestionnaireRéseau.contactEmail,
       },
     });
   }

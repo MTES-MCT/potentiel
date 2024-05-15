@@ -46,7 +46,7 @@ const getGRDsSlice = async (offset: string): Promise<OreGestionnaireSlice> => {
     gestionnaires: parsedResult.results.map(({ eic, grd, contact }) => ({
       codeEIC: eic,
       raisonSociale: grd,
-      contactEmail: contact ?? undefined,
+      contactEmail: contact ?? '',
     })),
     totalCount: parsedResult.total_count,
   };

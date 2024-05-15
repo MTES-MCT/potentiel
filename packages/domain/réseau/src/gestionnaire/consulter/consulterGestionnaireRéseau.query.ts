@@ -2,6 +2,7 @@ import { ExpressionRegulière } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { Message, MessageHandler, mediator } from 'mediateur';
+import * as ContactEmailGestionnaireRéseau from '../contactEmailGestionnaireRéseau.valueType';
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 
@@ -13,7 +14,7 @@ export type ConsulterGestionnaireRéseauReadModel = {
     légende: string;
     expressionReguliere: ExpressionRegulière.ValueType;
   };
-  contactEmail?: string;
+  contactEmail: Option.Type<ContactEmailGestionnaireRéseau.ValueType>;
 };
 
 export type ConsulterGestionnaireRéseauQuery = Message<
@@ -60,6 +61,8 @@ const mapToReadModel = ({
         ? ExpressionRegulière.accepteTout
         : ExpressionRegulière.convertirEnValueType(expressionReguliere),
     },
-    contactEmail,
+    contactEmail: Option.isNone(contactEmail)
+      ? ContactEmailGestionnaireRéseau.defaultValue
+      : ContactEmailGestionnaireRéseau.convertirEnValueType(contactEmail),
   };
 };

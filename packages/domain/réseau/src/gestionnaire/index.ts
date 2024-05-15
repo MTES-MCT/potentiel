@@ -14,10 +14,10 @@ export type GestionnaireRéseauQuery =
   | ListerGestionnaireRéseauQuery
   | ConsulterGestionnaireRéseauQuery;
 
-export { ListerGestionnaireRéseauQuery, ConsulterGestionnaireRéseauQuery };
+export { ConsulterGestionnaireRéseauQuery, ListerGestionnaireRéseauQuery };
 
 // ReadModel
-export { ListerGestionnaireRéseauReadModel, ConsulterGestionnaireRéseauReadModel };
+export { ConsulterGestionnaireRéseauReadModel, ListerGestionnaireRéseauReadModel };
 
 // UseCases
 export type GestionnaireRéseauUseCase =
@@ -27,11 +27,12 @@ export type GestionnaireRéseauUseCase =
 export { AjouterGestionnaireRéseauUseCase, ModifierGestionnaireRéseauUseCase };
 
 // Event
-export { GestionnaireRéseauEvent } from './gestionnaireRéseau.aggregate';
 export { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouterGestionnaireRéseau.behavior';
+export { GestionnaireRéseauEvent } from './gestionnaireRéseau.aggregate';
 export { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.behavior';
 
 // ValueTypes
+export * as ContactEmailGestionnaireRéseau from './contactEmailGestionnaireRéseau.valueType';
 export * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType';
 
 // Entities

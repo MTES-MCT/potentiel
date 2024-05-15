@@ -3,6 +3,9 @@ import { ListV2, RangeOptions } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
+import * as ContactEmailGestionnaireRéseau from '../contactEmailGestionnaireRéseau.valueType';
+
+import { Option } from '@potentiel-libraries/monads';
 
 type GetionnaireRéseauListItemReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -12,7 +15,7 @@ type GetionnaireRéseauListItemReadModel = {
     légende: string;
     expressionReguliere: ExpressionRegulière.ValueType;
   };
-  contactEmail?: string;
+  contactEmail: Option.Type<ContactEmailGestionnaireRéseau.ValueType>;
 };
 
 export type ListerGestionnaireRéseauReadModel = {
@@ -76,6 +79,8 @@ const mapToReadModel = ({
         ? ExpressionRegulière.accepteTout
         : ExpressionRegulière.convertirEnValueType(expressionReguliere),
     },
-    contactEmail,
+    contactEmail: Option.isNone(contactEmail)
+      ? ContactEmailGestionnaireRéseau.defaultValue
+      : ContactEmailGestionnaireRéseau.convertirEnValueType(contactEmail),
   };
 };
