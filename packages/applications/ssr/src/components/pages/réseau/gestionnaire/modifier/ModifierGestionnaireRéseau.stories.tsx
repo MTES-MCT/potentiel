@@ -24,5 +24,6 @@ export const Default: Story = {
     format: 'format',
     légende: 'légende',
     expressionReguliere: 'expressionReguliere',
+    contactEmail: 'contactEmail',
   },
 };

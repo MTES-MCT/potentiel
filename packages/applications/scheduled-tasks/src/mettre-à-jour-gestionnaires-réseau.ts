@@ -35,6 +35,8 @@ const updateExistingGestionnairesDeRéseauContactEmail = async ({
     );
   });
 
+  console.log('update', gestionnairesRéseauToUpdate);
+
   gestionnairesRéseauToUpdate.length
     ? getLogger().info(
         '[updateGestionnaireDeRéseau] Des gestionnaires de réseau vont être mis à jour',
@@ -48,6 +50,9 @@ const updateExistingGestionnairesDeRéseauContactEmail = async ({
     const relatedOreGestionnaireRéseau = gestionnairesFromORE.find(
       ({ codeEIC }) => codeEIC === gestionnaireRéseauToUpdate.identifiantGestionnaireRéseau.codeEIC,
     );
+
+    console.log('relatedOreGestionnaireRéseau', relatedOreGestionnaireRéseau);
+    console.log('relatedOreGestionnaireRéseauContact', relatedOreGestionnaireRéseau?.contactEmail);
 
     if (!relatedOreGestionnaireRéseau) {
       throw new Error('related OreGestionnaireRéseau not found');

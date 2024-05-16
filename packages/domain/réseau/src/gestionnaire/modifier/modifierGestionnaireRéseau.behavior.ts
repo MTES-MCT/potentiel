@@ -49,7 +49,7 @@ export async function modifier(
         légende,
         expressionReguliere: expressionReguliere.formatter(),
       },
-      contactEmail: contactEmail.toString(),
+      contactEmail: Option.isSome(contactEmail) ? contactEmail.formatter() : '',
     },
   };
 

@@ -82,8 +82,6 @@ const mapToResult = ({
       légende,
       expressionReguliere: ExpressionRegulière.convertirEnValueType(expressionReguliere || ''),
     },
-    contactEmail: Option.isNone(contactEmail)
-      ? ContactEmailGestionnaireRéseau.defaultValue
-      : ContactEmailGestionnaireRéseau.convertirEnValueType(contactEmail),
+    contactEmail: ContactEmailGestionnaireRéseau.convertirEnValueType(contactEmail),
   };
 };

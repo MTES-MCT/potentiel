@@ -14,7 +14,7 @@ export type ModifierGestionnaireRéseauUseCase = Message<
       légendeValue: string;
       expressionReguliereValue: string;
     };
-    contactEmailValue?: string;
+    contactEmailValue: string;
   }
 >;
 
