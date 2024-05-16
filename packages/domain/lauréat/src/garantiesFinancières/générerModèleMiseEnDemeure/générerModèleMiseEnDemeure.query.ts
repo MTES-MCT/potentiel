@@ -101,20 +101,60 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
         data: { identifiantProjetValue },
       });
 
+    // type GetDateFinGarantieFinanciere = {
+    //   détailFamille?: Famille;
+    //   appelOffre: {
+    //     garantieFinanciereEnMois: AppelOffre[''];
+    //     soumisAuxGarantiesFinancieres: AppelOffre['soumisAuxGarantiesFinancieres'];
+    //   };
+    // };
+    // const getDateFinGarantieFinanciere = ({
+    //   détailFamille,
+    //   soumisAuxGarantiesFinancieres,
+    // }: GetDateFinGarantieFinanciere) => {
+    //   if (détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature') {
+    //     const date = DateTime.convertirEnValueType(candidature.dateDésignation).ajouterNombreDeMois(
+    //       détailFamille.garantieFinanciereEnMois,
+    //     );
+
+    //     return DateTime.convertirEnValueType(date).afficherDateAvecTimezone();
+    //   }
+
+    //   if (soumisAuxGarantiesFinancieres === 'après candidature') {
+    //     const date = DateTime.convertirEnValueType(candidature.dateDésignation).ajouterNombreDeMois(
+    //       appelOffres.garantieFinanciereEnMois,
+    //     );
+
+    //     //     .toLocaleDateString('fr-FR')
+    //   }
+
+    //   // : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
+    //   // ? DateTime.convertirEnValueType(candidature.dateDésignation)
+    //   //     .ajouterNombreDeMois(appelOffres.garantieFinanciereEnMois)
+
+    //   //     .toLocaleDateString('fr-FR')
+    //   // : '!!! dateFinGarantieFinanciere non disponible !!!';
+    // };
+
     const content = await buildModèleMiseEnDemeureGarantiesFinancières({
       data: {
         dreal: régionDreal.région,
-        dateMiseEnDemeure: new Date(dateCourrierValue).toLocaleDateString('fr-FR'),
+        dateMiseEnDemeure:
+          DateTime.convertirEnValueType(dateCourrierValue).afficherDateAvecTimezone(),
         contactDreal: utilisateur.email,
         referenceProjet: identifiantProjetValue,
         titreAppelOffre: `${détailPériode.cahierDesCharges.référence} ${appelOffres.title}`,
-        dateLancementAppelOffre: new Date(appelOffres.launchDate).toLocaleDateString('fr-FR'),
+        dateLancementAppelOffre: DateTime.convertirEnValueType(
+          appelOffres.launchDate,
+        ).afficherDateAvecTimezone(),
         nomProjet: candidature.nom,
         adresseCompleteProjet: `${candidature.localité.adresse} ${candidature.localité.codePostal} ${candidature.localité.commune}`,
         puissanceProjet: candidature.puissance.toString(),
         unitePuissance: appelOffres.unitePuissance,
         titrePeriode: détailPériode.title,
-        dateNotification: new Date(candidature.dateDésignation).toLocaleDateString('fr-FR'),
+        dateNotification: DateTime.convertirEnValueType(
+          candidature.dateDésignation,
+        ).afficherDateAvecTimezone(),
         paragrapheGF: appelOffres.renvoiRetraitDesignationGarantieFinancieres,
         garantieFinanciereEnMois:
           détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
@@ -134,9 +174,7 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
             : '!!! dateFinGarantieFinanciere non disponible !!!',
         dateLimiteDepotGF:
           (Option.isSome(projetAvecGarantiesFinancièresEnAttente) &&
-            projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.date.toLocaleDateString(
-              'fr-FR',
-            )) ||
+            projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.afficherDateAvecTimezone()) ||
           '',
         nomRepresentantLegal: candidature.candidat.nom,
         adresseProjet: candidature.candidat.adressePostale,
