@@ -28,6 +28,7 @@ export default async function Page({ searchParams }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const page = searchParams?.page ? parseInt(searchParams.page) : 1;
       const appelOffre = searchParams?.appelOffre;
+      const cycle = searchParams?.cycle;
 
       const dépôtsEnCoursGarantiesFinancières =
         await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
@@ -38,6 +39,7 @@ export default async function Page({ searchParams }: PageProps) {
               rôle: utilisateur.role.nom,
             },
             ...(appelOffre && { appelOffre }),
+            cycle,
             range: mapToRangeOptions({
               currentPage: page,
               itemsPerPage: 10,
@@ -51,6 +53,15 @@ export default async function Page({ searchParams }: PageProps) {
       });
 
       const filters = [
+        {
+          label: "Cycle d'appels d'offres",
+          searchParamKey: 'cycle',
+          defaultValue: cycle,
+          options: [
+            { label: 'PPE2', value: 'PPE2' },
+            { label: 'CRE4', value: 'CRE4' },
+          ],
+        },
         {
           label: `Appel d'offres`,
           searchParamKey: 'appelOffre',
