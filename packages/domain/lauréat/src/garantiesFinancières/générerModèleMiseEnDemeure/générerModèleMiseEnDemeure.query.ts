@@ -101,52 +101,16 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
         data: { identifiantProjetValue },
       });
 
-    // type GetDateFinGarantieFinanciere = {
-    //   détailFamille?: Famille;
-    //   appelOffre: {
-    //     garantieFinanciereEnMois: AppelOffre[''];
-    //     soumisAuxGarantiesFinancieres: AppelOffre['soumisAuxGarantiesFinancieres'];
-    //   };
-    // };
-    // const getDateFinGarantieFinanciere = ({
-    //   détailFamille,
-    //   soumisAuxGarantiesFinancieres,
-    // }: GetDateFinGarantieFinanciere) => {
-    //   if (détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature') {
-    //     const date = DateTime.convertirEnValueType(candidature.dateDésignation).ajouterNombreDeMois(
-    //       détailFamille.garantieFinanciereEnMois,
-    //     );
-
-    //     return DateTime.convertirEnValueType(date).afficherDateAvecTimezone();
-    //   }
-
-    //   if (soumisAuxGarantiesFinancieres === 'après candidature') {
-    //     const date = DateTime.convertirEnValueType(candidature.dateDésignation).ajouterNombreDeMois(
-    //       appelOffres.garantieFinanciereEnMois,
-    //     );
-
-    //     //     .toLocaleDateString('fr-FR')
-    //   }
-
-    //   // : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
-    //   // ? DateTime.convertirEnValueType(candidature.dateDésignation)
-    //   //     .ajouterNombreDeMois(appelOffres.garantieFinanciereEnMois)
-
-    //   //     .toLocaleDateString('fr-FR')
-    //   // : '!!! dateFinGarantieFinanciere non disponible !!!';
-    // };
-
     const content = await buildModèleMiseEnDemeureGarantiesFinancières({
       data: {
         dreal: régionDreal.région,
-        dateMiseEnDemeure:
-          DateTime.convertirEnValueType(dateCourrierValue).afficherDateAvecTimezone(),
+        dateMiseEnDemeure: DateTime.convertirEnValueType(dateCourrierValue).formatterEnFr(),
         contactDreal: utilisateur.email,
         referenceProjet: identifiantProjetValue,
         titreAppelOffre: `${détailPériode.cahierDesCharges.référence} ${appelOffres.title}`,
         dateLancementAppelOffre: DateTime.convertirEnValueType(
           appelOffres.launchDate,
-        ).afficherDateAvecTimezone(),
+        ).formatterEnFr(),
         nomProjet: candidature.nom,
         adresseCompleteProjet: `${candidature.localité.adresse} ${candidature.localité.codePostal} ${candidature.localité.commune}`,
         puissanceProjet: candidature.puissance.toString(),
@@ -154,7 +118,7 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
         titrePeriode: détailPériode.title,
         dateNotification: DateTime.convertirEnValueType(
           candidature.dateDésignation,
-        ).afficherDateAvecTimezone(),
+        ).formatterEnFr(),
         paragrapheGF: appelOffres.renvoiRetraitDesignationGarantieFinancieres,
         garantieFinanciereEnMois:
           détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
@@ -166,15 +130,15 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
           détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
             ? DateTime.convertirEnValueType(candidature.dateDésignation)
                 .ajouterNombreDeMois(détailFamille.garantieFinanciereEnMois)
-                .date.toLocaleDateString('fr-FR')
+                .formatterEnFr()
             : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
             ? DateTime.convertirEnValueType(candidature.dateDésignation)
                 .ajouterNombreDeMois(appelOffres.garantieFinanciereEnMois)
-                .date.toLocaleDateString('fr-FR')
+                .formatterEnFr()
             : '!!! dateFinGarantieFinanciere non disponible !!!',
         dateLimiteDepotGF:
           (Option.isSome(projetAvecGarantiesFinancièresEnAttente) &&
-            projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.afficherDateAvecTimezone()) ||
+            projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.formatterEnFr()) ||
           '',
         nomRepresentantLegal: candidature.candidat.nom,
         adresseProjet: candidature.candidat.adressePostale,
