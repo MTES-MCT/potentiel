@@ -1,6 +1,5 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { ContactEmailGestionnaireRéseau } from '@potentiel-domain/reseau/src/gestionnaire';
 import { Option } from '@potentiel-libraries/monads';
 import { mediator } from 'mediateur';
 import { PotentielWorld } from '../../potentiel.world';
@@ -88,7 +87,7 @@ Alors(
       raisonSociale: actualReadModel.raisonSociale,
       contactEmail: Option.isSome(actualReadModel.contactEmail)
         ? actualReadModel.contactEmail.email
-        : ContactEmailGestionnaireRéseau.defaultValue.email,
+        : '',
     }).should.be.deep.equal(expected);
   },
 );
