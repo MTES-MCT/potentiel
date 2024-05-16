@@ -1,10 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { CommonPort } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
+import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
-import { CommonError, CommonPort } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
-import { PériodeNonIdentifiéError } from '../périodeNonIdentifiéError.error';
 import { ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery } from '../enAttente/consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
 
 export type GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel = {
@@ -19,7 +18,7 @@ export type GénérerModèleMiseEnDemeureGarantiesFinancièresQuery = Message<
     identifiantUtilisateurValue: string;
     dateCourrierValue: string;
   },
-  GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel
+  Option.Type<GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel>
 >;
 
 export type BuildModèleMiseEnDemeureGarantiesFinancièresPort = (options: {
@@ -64,7 +63,7 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
   }) => {
     const régionDreal = await récupérerRégionDreal(identifiantUtilisateurValue);
     if (Option.isNone(régionDreal)) {
-      throw new CommonError.RégionNonTrouvéeError();
+      return Option.none;
     }
 
     const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
@@ -91,7 +90,7 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
     );
 
     if (!détailPériode) {
-      throw new PériodeNonIdentifiéError();
+      return Option.none;
     }
 
     const détailFamille = détailPériode?.familles.find((f) => f.id === candidature.famille);
