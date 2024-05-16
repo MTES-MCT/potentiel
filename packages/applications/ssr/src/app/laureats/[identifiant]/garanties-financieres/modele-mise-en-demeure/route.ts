@@ -9,7 +9,7 @@ import { InvalidOperationError } from '@potentiel-domain/core';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getGlobalErrorPageForRouteHandler } from '@/utils/error/getGlobalErrorPageForRouteHandler';
+import { getErrorUrl } from '@/utils/error/getErrorUrl';
 
 export const GET = async (
   request: NextRequest,
@@ -43,7 +43,7 @@ export const GET = async (
           },
         ),
       );
-      return NextResponse.redirect(getGlobalErrorPageForRouteHandler(request));
+      return NextResponse.redirect(getErrorUrl(request));
     }
 
     return new NextResponse(modèleRéponse.content, {
