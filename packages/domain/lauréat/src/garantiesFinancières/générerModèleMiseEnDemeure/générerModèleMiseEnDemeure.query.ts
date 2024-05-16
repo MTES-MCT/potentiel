@@ -126,11 +126,11 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
           détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
             ? DateTime.convertirEnValueType(candidature.dateDésignation)
                 .ajouterNombreDeMois(détailFamille.garantieFinanciereEnMois)
-                .toLocaleDateString('fr-FR')
+                .date.toLocaleDateString('fr-FR')
             : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
             ? DateTime.convertirEnValueType(candidature.dateDésignation)
                 .ajouterNombreDeMois(appelOffres.garantieFinanciereEnMois)
-                .toLocaleDateString('fr-FR')
+                .date.toLocaleDateString('fr-FR')
             : '!!! dateFinGarantieFinanciere non disponible !!!',
         dateLimiteDepotGF:
           (Option.isSome(projetAvecGarantiesFinancièresEnAttente) &&
