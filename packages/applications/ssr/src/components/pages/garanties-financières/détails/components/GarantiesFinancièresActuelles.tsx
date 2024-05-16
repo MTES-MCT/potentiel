@@ -61,13 +61,15 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
           </div>
           <div className="mt-5 gap-2 text-base">
             <div>
-              {type ? (
+              {type && (
                 <>
                   Type : <span className="font-semibold">{type}</span>
                 </>
-              ) : action === 'modifier' ? (
+              )}
+              {!type && action === 'modifier' && (
                 <span className="font-semibold italic">Type de garanties financières manquant</span>
-              ) : (
+              )}
+              {!type && action !== 'modifier' && (
                 <span className="font-semibold italic">
                   Type à compléter par l'autorité instructrice compétente
                 </span>
