@@ -49,7 +49,9 @@ export async function modifier(
         légende,
         expressionReguliere: expressionReguliere.formatter(),
       },
-      contactEmail: Option.isSome(contactEmail) ? contactEmail.formatter() : '',
+      contactEmail: Option.isSome(contactEmail)
+        ? contactEmail.formatter()
+        : ContactEmailGestionnaireRéseau.defaultValue.email,
     },
   };
 

@@ -14,10 +14,10 @@ export type GestionnaireRéseauQuery =
   | ListerGestionnaireRéseauQuery
   | ConsulterGestionnaireRéseauQuery;
 
-export { ConsulterGestionnaireRéseauQuery, ListerGestionnaireRéseauQuery };
+export { ListerGestionnaireRéseauQuery, ConsulterGestionnaireRéseauQuery };
 
 // ReadModel
-export { ConsulterGestionnaireRéseauReadModel, ListerGestionnaireRéseauReadModel };
+export { ListerGestionnaireRéseauReadModel, ConsulterGestionnaireRéseauReadModel };
 
 // UseCases
 export type GestionnaireRéseauUseCase =
