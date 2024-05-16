@@ -47,7 +47,7 @@ Alors(
         },
         identifiantGestionnaireRéseau: g.identifiantGestionnaireRéseau.codeEIC,
         raisonSociale: g.raisonSociale,
-        contactEmail: g.contactEmail,
+        contactEmail: Option.isSome(g.contactEmail) ? g.contactEmail.email : '',
       })),
       total: actualReadModel.total,
       range: actualReadModel.range,
@@ -85,7 +85,9 @@ Alors(
       },
       identifiantGestionnaireRéseau: actualReadModel.identifiantGestionnaireRéseau.codeEIC,
       raisonSociale: actualReadModel.raisonSociale,
-      contactEmail: actualReadModel.contactEmail,
+      contactEmail: Option.isSome(actualReadModel.contactEmail)
+        ? actualReadModel.contactEmail.email
+        : '',
     }).should.be.deep.equal(expected);
   },
 );
