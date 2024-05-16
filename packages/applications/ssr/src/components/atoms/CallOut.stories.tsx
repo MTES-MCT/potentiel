@@ -35,7 +35,7 @@ const meta = {
       control: {
         type: 'select',
       },
-      options: ['info', 'sucess', 'error', 'warning'],
+      options: ['info', 'success', 'error', 'warning'],
     },
   },
   args: {
