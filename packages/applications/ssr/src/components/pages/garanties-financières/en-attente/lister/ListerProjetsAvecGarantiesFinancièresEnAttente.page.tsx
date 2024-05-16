@@ -26,9 +26,17 @@ export const ListProjetsAvecGarantiesFinancièresEnAttentePage: FC<
   const searchParams = useSearchParams();
   const appelOffre = searchParams.get('appelOffre') ?? undefined;
   const motif = searchParams.get('motif') ?? undefined;
+  const cycle = searchParams.get('cycle') ?? undefined;
 
   const tagFilters: ListPageTemplateProps<ListItemProjetAvecGarantiesFinancièresEnAttenteProps>['tagFilters'] =
     [];
+
+  if (cycle) {
+    tagFilters.push({
+      label: `cycle d'appels d'offres : ${cycle}`,
+      searchParamKey: 'cycle',
+    });
+  }
 
   if (appelOffre) {
     tagFilters.push({
@@ -46,7 +54,7 @@ export const ListProjetsAvecGarantiesFinancièresEnAttentePage: FC<
 
   return (
     <ListPageTemplate
-      heading="Projets avec des garanties financières en attente"
+      heading="Projets en attente de garanties financières"
       actions={[]}
       items={garantiesFinancières.map((gf) => ({
         ...gf,
