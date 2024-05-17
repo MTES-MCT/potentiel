@@ -8,7 +8,7 @@ import { getOrderClause } from './getOrderClause';
 import { getRangeClause } from './getRangeClause';
 import { countProjection } from './countProjection';
 
-const selectQuery = 'SELECT key, value FROM domain_views.projection WHERE key LIKE $1';
+const selectQuery = 'SELECT key, value FROM domain_views.projection WHERE key ILIKE $1';
 
 export const listProjectionV2 = async <TEntity extends Entity>(
   category: TEntity['type'],

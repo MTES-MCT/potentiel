@@ -1,13 +1,13 @@
 import { ExpressionRegulière } from '@potentiel-domain/common';
-import { ListV2, RangeOptions } from '@potentiel-domain/core';
+import { ListV2, RangeOptions, WhereOptions } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
+import * as ContactEmailGestionnaireRéseau from '../contactEmailGestionnaireRéseau.valueType';
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
-import * as ContactEmailGestionnaireRéseau from '../contactEmailGestionnaireRéseau.valueType';
 
 import { Option } from '@potentiel-libraries/monads';
 
-type GetionnaireRéseauListItemReadModel = {
+type GestionnaireRéseauListItemReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement: {
@@ -19,7 +19,7 @@ type GetionnaireRéseauListItemReadModel = {
 };
 
 export type ListerGestionnaireRéseauReadModel = {
-  items: ReadonlyArray<GetionnaireRéseauListItemReadModel>;
+  items: ReadonlyArray<GestionnaireRéseauListItemReadModel>;
   range: RangeOptions;
   total: number;
 };
@@ -28,6 +28,7 @@ export type ListerGestionnaireRéseauQuery = Message<
   'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
   {
     range?: RangeOptions;
+    where?: WhereOptions<Pick<GestionnaireRéseauEntity, 'raisonSociale'>>;
   },
   ListerGestionnaireRéseauReadModel
 >;
@@ -39,7 +40,7 @@ export type ListerGestionnaireRéseauQueryDependencies = {
 export const registerListerGestionnaireRéseauQuery = ({
   listV2: list,
 }: ListerGestionnaireRéseauQueryDependencies) => {
-  const handler: MessageHandler<ListerGestionnaireRéseauQuery> = async ({ range }) => {
+  const handler: MessageHandler<ListerGestionnaireRéseauQuery> = async ({ range, where }) => {
     const {
       items,
       range: { endPosition, startPosition },
@@ -48,6 +49,7 @@ export const registerListerGestionnaireRéseauQuery = ({
       orderBy: {
         raisonSociale: 'ascending',
       },
+      where,
       range,
     });
 
@@ -68,7 +70,7 @@ const mapToReadModel = ({
   raisonSociale,
   aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
   contactEmail,
-}: GestionnaireRéseauEntity): GetionnaireRéseauListItemReadModel => {
+}: GestionnaireRéseauEntity): GestionnaireRéseauListItemReadModel => {
   return {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
     raisonSociale,
