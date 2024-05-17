@@ -1,11 +1,11 @@
-import { FC, ReactNode } from 'react';
 import { FrIconClassName, RiIconClassName, fr } from '@codegouvfr/react-dsfr';
+import { FC, ReactNode } from 'react';
 
 import { Heading3 } from './headings';
 
 const getColorVariant = (colorVariant: CallOutProps['colorVariant']) => {
   switch (colorVariant) {
-    case 'sucess':
+    case 'success':
       return 'fr-callout--green-emeraude';
     case 'error':
       return 'fr-callout--orange-terre-battue';
@@ -18,7 +18,7 @@ const getColorVariant = (colorVariant: CallOutProps['colorVariant']) => {
 
 const getIconId = (colorVariant: CallOutProps['colorVariant'], iconId: CallOutProps['iconId']) => {
   switch (colorVariant) {
-    case 'sucess':
+    case 'success':
       return 'fr-icon-checkbox-circle-line';
     case 'error':
       return 'fr-icon-error-line';
@@ -34,7 +34,7 @@ export type CallOutProps = {
   content: ReactNode;
   title?: string;
   iconId?: FrIconClassName | RiIconClassName;
-  colorVariant?: 'sucess' | 'error' | 'warning' | 'info';
+  colorVariant?: 'success' | 'error' | 'warning' | 'info';
   className?: string;
 };
 

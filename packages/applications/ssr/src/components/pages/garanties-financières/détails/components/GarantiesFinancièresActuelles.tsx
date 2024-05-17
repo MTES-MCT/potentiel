@@ -6,8 +6,8 @@ import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { CallOut } from '@/components/atoms/CallOut';
-import { Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { Heading2 } from '@/components/atoms/headings';
 
 export type GarantiesFinancièresActuelles = {
   type: string;
@@ -45,7 +45,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
   <>
     <CallOut
       className="flex-1"
-      colorVariant={action === 'enregister-attestation' ? 'warning' : 'sucess'}
+      colorVariant={action === 'enregister-attestation' ? 'warning' : 'success'}
       content={
         <>
           <Heading2>Garanties financières actuelles</Heading2>
@@ -61,19 +61,15 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
           </div>
           <div className="mt-5 gap-2 text-base">
             <div>
-              {type ? (
+              {type && (
                 <>
                   Type : <span className="font-semibold">{type}</span>
                 </>
-              ) : action === 'modifier' ? (
-                <>
-                  Type de garanties financières manquant (
-                  <a href={Routes.GarantiesFinancières.actuelles.modifier(identifiantProjet)}>
-                    compléter
-                  </a>
-                  )
-                </>
-              ) : (
+              )}
+              {!type && action === 'modifier' && (
+                <span className="font-semibold italic">Type de garanties financières manquant</span>
+              )}
+              {!type && action !== 'modifier' && (
                 <span className="font-semibold italic">
                   Type à compléter par l'autorité instructrice compétente
                 </span>
@@ -129,7 +125,6 @@ const ButtonAction: FC<ButtonActionProps> = ({ identifiantProjet, action }) => {
     case 'modifier':
       return (
         <Button
-          priority="secondary"
           linkProps={{
             href: Routes.GarantiesFinancières.actuelles.modifier(identifiantProjet),
           }}
