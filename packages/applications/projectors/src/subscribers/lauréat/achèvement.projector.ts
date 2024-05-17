@@ -33,10 +33,8 @@ export const register = () => {
         famille: undefined,
         nomProjet: '',
         régionProjet: '',
-        attestationConformité: { format: '' },
-        dateTransmissionAttestationConformité: '',
-        preuveTransmissionAuCocontractant: { format: '' },
-        dateTransmissionAuCocontractant: '',
+        attestationConformité: { format: '', date: '' },
+        preuveTransmissionAuCocontractant: { format: '', date: '' },
         dernièreMiseÀJour: { date: '', utilisateur: '' },
         identifiantProjet: '',
       };
@@ -76,10 +74,11 @@ export const register = () => {
             ...attestationConformitéToUpsert,
             ...projet,
             identifiantProjet: payload.identifiantProjet,
-            attestationConformité: payload.attestation,
-            dateTransmissionAttestationConformité: payload.date,
-            preuveTransmissionAuCocontractant: payload.preuveTransmissionAuCocontractant,
-            dateTransmissionAuCocontractant: payload.dateTransmissionAuCocontractant,
+            attestationConformité: { format: payload.attestation.format, date: payload.date },
+            preuveTransmissionAuCocontractant: {
+              format: payload.preuveTransmissionAuCocontractant.format,
+              date: payload.dateTransmissionAuCocontractant,
+            },
             dernièreMiseÀJour: { date: payload.date, utilisateur: payload.utilisateur },
           });
           break;

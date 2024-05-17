@@ -54,10 +54,8 @@ export const registerConsulterAttestationConformitéQuery = ({
 };
 
 const mapToReadModel = ({
-  attestationConformité: attestation,
+  attestationConformité,
   preuveTransmissionAuCocontractant,
-  dateTransmissionAttestationConformité: dateTransmission,
-  dateTransmissionAuCocontractant,
   dernièreMiseÀJour,
   identifiantProjetValueType,
 }: AchèvementEntity & {
@@ -68,14 +66,16 @@ const mapToReadModel = ({
     attestation: DocumentProjet.convertirEnValueType(
       identifiantProjetValueType.formatter(),
       TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
-      DateTime.convertirEnValueType(dateTransmission).formatter(),
-      attestation.format,
+      DateTime.convertirEnValueType(attestationConformité.date).formatter(),
+      attestationConformité.format,
     ),
-    dateTransmissionAuCocontractant: DateTime.convertirEnValueType(dateTransmissionAuCocontractant),
+    dateTransmissionAuCocontractant: DateTime.convertirEnValueType(
+      preuveTransmissionAuCocontractant.date,
+    ),
     preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
       identifiantProjetValueType.formatter(),
       TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
-      DateTime.convertirEnValueType(dateTransmissionAuCocontractant).formatter(),
+      DateTime.convertirEnValueType(preuveTransmissionAuCocontractant.date).formatter(),
       preuveTransmissionAuCocontractant.format,
     ),
     misÀJourLe: DateTime.convertirEnValueType(dernièreMiseÀJour.date),

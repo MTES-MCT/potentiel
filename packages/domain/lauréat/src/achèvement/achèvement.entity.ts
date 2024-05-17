@@ -10,10 +10,8 @@ export type AchèvementEntity = Entity<
     période: string;
     famille?: string;
 
-    attestationConformité: { format: string };
-    dateTransmissionAttestationConformité: string;
-    dateTransmissionAuCocontractant: string;
-    preuveTransmissionAuCocontractant: { format: string };
+    attestationConformité: { format: string; date: string };
+    preuveTransmissionAuCocontractant: { format: string; date: string };
 
     dernièreMiseÀJour: {
       date: string;
