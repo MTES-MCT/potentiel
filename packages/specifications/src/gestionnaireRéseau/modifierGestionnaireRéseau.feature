@@ -1,4 +1,5 @@
 #Language: fr-FR
+@select
 Fonctionnalité: Modifier un gestionnaire de réseau
 
     Scénario: Modifier un gestionnaire de réseau

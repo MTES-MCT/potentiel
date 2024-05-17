@@ -1,9 +1,9 @@
 import { ExpressionRegulière } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import * as ContactEmailGestionnaireRéseau from '../contactEmailGestionnaireRéseau.valueType';
 import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 /**
  * @deprecated Use GestionnaireRéseauModifiéEvent instead
@@ -43,7 +43,7 @@ export type ModifierOptions = {
     légende: string;
     expressionReguliere: ExpressionRegulière.ValueType;
   };
-  contactEmail: Option.Type<ContactEmailGestionnaireRéseau.ValueType>;
+  contactEmail: Option.Type<IdentifiantUtilisateur.ValueType>;
 };
 
 export async function modifier(
@@ -65,9 +65,7 @@ export async function modifier(
         légende,
         expressionReguliere: expressionReguliere.formatter(),
       },
-      contactEmail: Option.isSome(contactEmail)
-        ? contactEmail.formatter()
-        : ContactEmailGestionnaireRéseau.defaultValue.email,
+      contactEmail: Option.isNone(contactEmail) ? '' : contactEmail.formatter(),
     },
   };
 

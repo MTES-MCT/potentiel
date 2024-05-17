@@ -32,7 +32,6 @@ export { GestionnaireRéseauEvent } from './gestionnaireRéseau.aggregate';
 export { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.behavior';
 
 // ValueTypes
-export * as ContactEmailGestionnaireRéseau from './contactEmailGestionnaireRéseau.valueType';
 export * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType';
 
 // Entities

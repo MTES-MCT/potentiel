@@ -1,4 +1,5 @@
 #Language: fr-FR
+@select
 Fonctionnalité: Valider une référence de dossier de raccordement
 
     Plan du Scénario: Valider/Invalider une référence de dossier de raccordement

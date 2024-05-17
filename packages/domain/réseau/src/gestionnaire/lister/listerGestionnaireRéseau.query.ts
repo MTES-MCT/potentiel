@@ -6,6 +6,8 @@ import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 
 import { Option } from '@potentiel-libraries/monads';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { match } from 'ts-pattern';
 
 type GestionnaireRéseauListItemReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -15,7 +17,7 @@ type GestionnaireRéseauListItemReadModel = {
     légende: string;
     expressionReguliere: ExpressionRegulière.ValueType;
   };
-  contactEmail: Option.Type<ContactEmailGestionnaireRéseau.ValueType>;
+  contactEmail: Option.Type<IdentifiantUtilisateur.ValueType>;
 };
 
 export type ListerGestionnaireRéseauReadModel = {
@@ -81,8 +83,9 @@ const mapToReadModel = ({
         ? ExpressionRegulière.accepteTout
         : ExpressionRegulière.convertirEnValueType(expressionReguliere),
     },
-    contactEmail: Option.isNone(contactEmail)
-      ? ContactEmailGestionnaireRéseau.defaultValue
-      : ContactEmailGestionnaireRéseau.convertirEnValueType(contactEmail),
+    contactEmail: match(expressionReguliere)
+      .returnType<Option.Type<IdentifiantUtilisateur.ValueType>>()
+      .with('', () => Option.none)
+      .otherwise(() => IdentifiantUtilisateur.convertirEnValueType(contactEmail)),
   };
 };

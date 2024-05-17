@@ -2,12 +2,10 @@ import { ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/commo
 import { Find } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import {
-  ContactEmailGestionnaireRéseau,
-  GestionnaireRéseauEntity,
-  IdentifiantGestionnaireRéseau,
-} from '../../gestionnaire';
+import { GestionnaireRéseauEntity, IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { RaccordementEntity } from '../raccordement.entity';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { match } from 'ts-pattern';
 
 export type ConsulterGestionnaireRéseauRaccordementReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -17,7 +15,7 @@ export type ConsulterGestionnaireRéseauRaccordementReadModel = {
     légende: string;
     expressionReguliere: ExpressionRegulière.ValueType;
   };
-  contactEmail?: ContactEmailGestionnaireRéseau.ValueType;
+  contactEmail?: IdentifiantUtilisateur.ValueType;
 };
 
 export type ConsulterGestionnaireRéseauRaccordementQuery = Message<
@@ -82,6 +80,9 @@ const mapToResult = ({
       légende,
       expressionReguliere: ExpressionRegulière.convertirEnValueType(expressionReguliere || ''),
     },
-    contactEmail: ContactEmailGestionnaireRéseau.convertirEnValueType(contactEmail),
+    contactEmail: match(expressionReguliere)
+      .returnType<IdentifiantUtilisateur.ValueType | undefined>() // TODO : a revoir quand le refactor GRD sur option aura été finalisé
+      .with('', () => undefined)
+      .otherwise(() => IdentifiantUtilisateur.convertirEnValueType(contactEmail)),
   };
 };
