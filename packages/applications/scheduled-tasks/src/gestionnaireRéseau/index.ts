@@ -53,6 +53,8 @@ registerRéseauQueries({
       gestionnairesFromORE,
       gestionnairesRéseau,
     });
+
+    process.exit(0);
   } catch (error) {
     getLogger().error(error as Error);
   }
