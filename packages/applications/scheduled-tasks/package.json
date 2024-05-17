@@ -7,7 +7,7 @@
     "build": "tsc",
     "start:relancer-abandon-sans-preuve": "node ./dist/relancer-abandon-sans-preuve",
     "start:créer-backup-oos": "node ./dist/créer-backup-oos",
-    "start:maj-gestionnaire-réseaux": "node ./dist/mettre-à-jour-gestionnaires-réseau"
+    "start:maj-gestionnaire-réseaux": "node ./dist/gestionnaireRéseau"
   },
   "dependencies": {
     "@potentiel-libraries/file-storage": "*",
