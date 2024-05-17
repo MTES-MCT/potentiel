@@ -21,12 +21,12 @@ import { mediator } from 'mediateur';
 import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Project } from '../../infra/sequelize';
-import { Option } from '@potentiel-libraries/monads';
 
 import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
+
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
 });
