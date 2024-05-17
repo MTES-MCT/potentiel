@@ -59,7 +59,7 @@ export const getDefaultRecoursAggregate: GetDefaultAggregateState<
   statut: StatutRecours.convertirEnValueType('inconnu'),
   demande: {
     raison: '',
-    demandéPar: IdentifiantUtilisateur.convertirEnValueType('unknown-user@unknown-email.com'),
+    demandéPar: IdentifiantUtilisateur.unknownUser,
     recandidature: false,
     demandéLe: DateTime.convertirEnValueType(new Date()),
   },

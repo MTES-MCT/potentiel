@@ -31,7 +31,7 @@ export const getDefaultAttestationConformitéAggregate: GetDefaultAggregateState
 > = () => ({
   dateTransmissionAuCocontractant: DateTime.convertirEnValueType(new Date()),
   date: DateTime.convertirEnValueType(new Date()),
-  utilisateur: IdentifiantUtilisateur.convertirEnValueType('unknown-user@unknown-email.com'),
+  utilisateur: IdentifiantUtilisateur.unknownUser,
   attestation: { format: '' },
   preuveTransmissionAuCocontractant: { format: '' },
   apply,
