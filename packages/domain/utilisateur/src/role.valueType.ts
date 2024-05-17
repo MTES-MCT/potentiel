@@ -158,7 +158,7 @@ const référencielPermissions = {
           'Lauréat.GarantiesFinancières.Command.EffacerHistoriqueGarantiesFinancières',
       },
     },
-    attestationConformité: {
+    achèvement: {
       query: {
         consulter: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
       },
@@ -558,12 +558,12 @@ const policies = {
   attestationConformité: {
     consulter: [
       référencielPermissions.candidature.query.consulter,
-      référencielPermissions.lauréat.attestationConformité.query.consulter,
+      référencielPermissions.lauréat.achèvement.query.consulter,
       référencielPermissions.document.query.consulter,
     ],
     transmettre: [
-      référencielPermissions.lauréat.attestationConformité.useCase.transmettre,
-      référencielPermissions.lauréat.attestationConformité.command.transmettre,
+      référencielPermissions.lauréat.achèvement.useCase.transmettre,
+      référencielPermissions.lauréat.achèvement.command.transmettre,
       référencielPermissions.document.command.enregister,
     ],
   },
