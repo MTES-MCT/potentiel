@@ -74,12 +74,8 @@ export const register = () => {
           const projet = await getProjectData(identifiantProjet);
           await upsertProjection<Achèvement.AchèvementEntity>(`achevement|${identifiantProjet}`, {
             ...attestationConformitéToUpsert,
+            ...projet,
             identifiantProjet: payload.identifiantProjet,
-            nomProjet: projet.nomProjet,
-            appelOffre: projet.appelOffre,
-            période: projet.période,
-            famille: projet.famille,
-            régionProjet: projet.régionProjet,
             attestationConformité: payload.attestation,
             dateTransmissionAttestationConformité: payload.date,
             preuveTransmissionAuCocontractant: payload.preuveTransmissionAuCocontractant,

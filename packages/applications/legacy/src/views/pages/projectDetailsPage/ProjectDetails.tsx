@@ -73,13 +73,11 @@ export const ProjectDetails = ({
         éléments fournis à Potentiel à date. Elles sont susceptibles de modifications ultérieures.
       </p>
       <ProjectHeader
-        {...{
-          project,
-          user,
-          abandonEnCours,
-          modificationsNonPermisesParLeCDCActuel,
-          hasAttestationConformité,
-        }}
+        user={user}
+        project={project}
+        abandonEnCours={abandonEnCours}
+        modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
+        hasAttestationConformité={hasAttestationConformité}
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}

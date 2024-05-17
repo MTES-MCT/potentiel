@@ -35,7 +35,6 @@ Alors(
     const expectedUtilisateur = exemple['utilisateur'] || 'utilisateur@test.test';
 
     await waitForExpect(async () => {
-      // ASSERT ON READ MODEL
       const actualReadModel = await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({
         type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
         data: {
@@ -56,8 +55,6 @@ Alors(
         expect(actualReadModel.misÀJourLe.date).to.deep.equal(new Date(expectedDate));
         expect(actualReadModel.misÀJourPar.formatter()).to.deep.equal(expectedUtilisateur);
 
-        // ASSERT ON FILES CONTENT
-        //attestation
         if (actualReadModel.attestation) {
           const actualAttestation = await mediator.send<ConsulterDocumentProjetQuery>({
             type: 'Document.Query.ConsulterDocumentProjet',
@@ -73,7 +70,6 @@ Alors(
           actualAttestationContent.should.be.equal(expectedAttestationContent);
         }
 
-        // preuve transmission
         if (actualReadModel.preuveTransmissionAuCocontractant) {
           const preuveTransmission = await mediator.send<ConsulterDocumentProjetQuery>({
             type: 'Document.Query.ConsulterDocumentProjet',
