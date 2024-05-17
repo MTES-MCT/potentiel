@@ -36,13 +36,12 @@ Alors(
 
     await waitForExpect(async () => {
       // ASSERT ON READ MODEL
-      const actualReadModel =
-        await mediator.send<Achèvement.AttestationConformité.ConsulterAttestationConformitéQuery>({
-          type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-          },
-        });
+      const actualReadModel = await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({
+        type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
 
       expect(Option.isSome(actualReadModel)).to.be.true;
 

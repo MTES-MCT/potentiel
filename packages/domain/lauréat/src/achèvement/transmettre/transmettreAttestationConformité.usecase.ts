@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { TypeDocumentAttestationConformité } from '..';
+import { TypeDocumentAchèvement } from '..';
 import { TransmettreAttestationConformitéCommand } from './transmettreAttestationConformité.command';
 
 export type TransmettreAttestationConformitéUseCase = Message<
@@ -35,7 +35,7 @@ export const registerTransmettreAttestationConformitéUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const attestation = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
-      TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
+      TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
       dateValue,
       attestationValue.format,
     );
@@ -44,7 +44,7 @@ export const registerTransmettreAttestationConformitéUseCase = () => {
     );
     const preuveTransmissionAuCocontractant = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
-      TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
+      TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
       dateTransmissionAuCocontractantValue,
       preuveTransmissionAuCocontractantValue.format,
     );

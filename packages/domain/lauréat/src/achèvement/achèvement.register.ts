@@ -6,22 +6,18 @@ import {
 } from './consulter/consulterAttestationConformité.query';
 import { registerTransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase';
 
-export type AttestationConformitéCommandDependencies = {
+export type AchèvementCommandDependencies = {
   loadAggregate: LoadAggregate;
 };
 
-export type AttestationConformitéQueryDependencies = ConsulterAttestationConformitéDependencies;
+export type AchèvementQueryDependencies = ConsulterAttestationConformitéDependencies;
 
-export const registerAttestationConformitéUseCases = ({
-  loadAggregate,
-}: AttestationConformitéCommandDependencies) => {
+export const registerAchèvementUseCases = ({ loadAggregate }: AchèvementCommandDependencies) => {
   registerTransmettreAttestationConformitéCommand(loadAggregate);
 
   registerTransmettreAttestationConformitéUseCase();
 };
 
-export const registerAttestationConformitéQueries = (
-  dependencies: AttestationConformitéQueryDependencies,
-) => {
+export const registerAchèvementQueries = (dependencies: AchèvementQueryDependencies) => {
   registerConsulterAttestationConformitéQuery(dependencies);
 };

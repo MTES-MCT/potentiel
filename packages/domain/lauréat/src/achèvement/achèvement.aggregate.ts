@@ -14,9 +14,9 @@ import {
 } from './transmettre/transmettreAttestationConformité.behavior';
 import { Option } from '@potentiel-libraries/monads';
 
-export type AttestationConformitéEvent = AttestationConformitéTransmiseEvent;
+export type AchèvementEvent = AttestationConformitéTransmiseEvent;
 
-export type AttestationConformitéAggregate = Aggregate<AttestationConformitéEvent> & {
+export type AchèvementAggregate = Aggregate<AchèvementEvent> & {
   dateTransmissionAuCocontractant: DateTime.ValueType;
   date: DateTime.ValueType;
   utilisateur: IdentifiantUtilisateur.ValueType;
@@ -26,8 +26,8 @@ export type AttestationConformitéAggregate = Aggregate<AttestationConformitéEv
 };
 
 export const getDefaultAttestationConformitéAggregate: GetDefaultAggregateState<
-  AttestationConformitéAggregate,
-  AttestationConformitéEvent
+  AchèvementAggregate,
+  AchèvementEvent
 > = () => ({
   dateTransmissionAuCocontractant: DateTime.convertirEnValueType(new Date()),
   date: DateTime.convertirEnValueType(new Date()),
@@ -38,7 +38,7 @@ export const getDefaultAttestationConformitéAggregate: GetDefaultAggregateState
   transmettre,
 });
 
-function apply(this: AttestationConformitéAggregate, event: AttestationConformitéEvent) {
+function apply(this: AchèvementAggregate, event: AchèvementEvent) {
   switch (event.type) {
     case 'AttestationConformitéTransmise-V1':
       applyAttestationConformitéTransmise.bind(this)(event);
@@ -50,17 +50,17 @@ export const loadAttestationConformitéFactory =
   (loadAggregate: LoadAggregate) =>
   (identifiantProjet: IdentifiantProjet.ValueType, throwOnNone = true) => {
     return loadAggregate({
-      aggregateId: `attestation-conformite|${identifiantProjet.formatter()}`,
+      aggregateId: `achevement|${identifiantProjet.formatter()}`,
       getDefaultAggregate: getDefaultAttestationConformitéAggregate,
       onNone: throwOnNone
         ? () => {
-            throw new AucuneAttestationConformitéError();
+            throw new AucunAchèvementError();
           }
         : undefined,
     });
   };
 
-class AucuneAttestationConformitéError extends AggregateNotFoundError {
+class AucunAchèvementError extends AggregateNotFoundError {
   constructor() {
     super(`Il n'y a aucune attestation de conformité pour ce projet`);
   }

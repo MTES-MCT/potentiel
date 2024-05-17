@@ -2,7 +2,7 @@
 Fonctionnalité: Transmettre une attestation de conformité
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
-
+@select
     Scénario: Un porteur transmet une attestation de conformité
         Quand un porteur transmet une attestation de conformité pour le projet "Centrale PV" avec : 
             | format attestation                            | application/pdf             |

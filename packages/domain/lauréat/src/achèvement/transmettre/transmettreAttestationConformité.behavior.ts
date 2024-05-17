@@ -3,7 +3,7 @@ import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { AttestationConformitéAggregate } from '../attestationConformité.aggregate';
+import { AchèvementAggregate } from '../achèvement.aggregate';
 
 export type AttestationConformitéTransmiseEvent = DomainEvent<
   'AttestationConformitéTransmise-V1',
@@ -27,7 +27,7 @@ export type Options = {
 };
 
 export async function transmettre(
-  this: AttestationConformitéAggregate,
+  this: AchèvementAggregate,
   {
     identifiantProjet,
     attestation,
@@ -60,7 +60,7 @@ export async function transmettre(
 }
 
 export function applyAttestationConformitéTransmise(
-  this: AttestationConformitéAggregate,
+  this: AchèvementAggregate,
   {
     payload: {
       dateTransmissionAuCocontractant,

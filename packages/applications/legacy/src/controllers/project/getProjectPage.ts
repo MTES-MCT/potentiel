@@ -207,11 +207,12 @@ const getAbandon = async (
 const hasAttestationConformité = async (
   identifiantProjet: IdentifiantProjet.ValueType,
 ): Promise<boolean> => {
-  const attestationConformité =
-    await mediator.send<Achèvement.AttestationConformité.ConsulterAttestationConformitéQuery>({
+  const attestationConformité = await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>(
+    {
       type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
       data: { identifiantProjetValue: identifiantProjet.formatter() },
-    });
+    },
+  );
 
   return Option.isSome(attestationConformité);
 };

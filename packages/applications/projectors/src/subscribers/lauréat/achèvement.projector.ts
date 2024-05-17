@@ -11,53 +11,38 @@ import { upsertProjection } from '../../infrastructure/upsertProjection';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-export type SubscriptionEvent =
-  | (Achèvement.AttestationConformité.AttestationConformitéEvent & Event)
-  | RebuildTriggered;
+export type SubscriptionEvent = (Achèvement.AchèvementEvent & Event) | RebuildTriggered;
 
-export type Execute = Message<
-  'System.Projector.Lauréat.Achèvement.AttestationConformité',
-  SubscriptionEvent
->;
+export type Execute = Message<'System.Projector.Lauréat.Achèvement', SubscriptionEvent>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     const { type, payload } = event;
     if (type === 'RebuildTriggered') {
-      await removeProjection<Achèvement.AttestationConformité.AttestationConformitéEntity>(
-        `attestation-conformite|${payload.id}`,
-      );
+      await removeProjection<Achèvement.AchèvementEntity>(`achevement|${payload.id}`);
     } else {
       const { identifiantProjet } = payload;
 
-      const attestationConformité =
-        await findProjection<Achèvement.AttestationConformité.AttestationConformitéEntity>(
-          `attestation-conformite|${identifiantProjet}`,
-        );
+      const achèvement = await findProjection<Achèvement.AchèvementEntity>(
+        `achevement|${identifiantProjet}`,
+      );
 
-      const attestationConformitéDefaultValue: Omit<
-        Achèvement.AttestationConformité.AttestationConformitéEntity,
-        'type'
-      > = {
+      const achèvementDefaultValue: Omit<Achèvement.AchèvementEntity, 'type'> = {
         appelOffre: '',
         période: '',
         famille: undefined,
         nomProjet: '',
         régionProjet: '',
-        attestation: { format: '' },
-        dateTransmission: '',
+        attestationConformité: { format: '' },
+        dateTransmissionAttestationConformité: '',
         preuveTransmissionAuCocontractant: { format: '' },
         dateTransmissionAuCocontractant: '',
         dernièreMiseÀJour: { date: '', utilisateur: '' },
         identifiantProjet: '',
       };
 
-      const attestationConformitéToUpsert: Omit<
-        Achèvement.AttestationConformité.AttestationConformitéEntity,
-        'type'
-      > = Option.isSome(attestationConformité)
-        ? attestationConformité
-        : attestationConformitéDefaultValue;
+      const attestationConformitéToUpsert: Omit<Achèvement.AchèvementEntity, 'type'> =
+        Option.isSome(achèvement) ? achèvement : achèvementDefaultValue;
 
       const getProjectData = async (identifiantProjet: IdentifiantProjet.RawType) => {
         const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
@@ -79,27 +64,24 @@ export const register = () => {
       switch (type) {
         case 'AttestationConformitéTransmise-V1':
           const projet = await getProjectData(identifiantProjet);
-          await upsertProjection<Achèvement.AttestationConformité.AttestationConformitéEntity>(
-            `attestation-conformite|${identifiantProjet}`,
-            {
-              ...attestationConformitéToUpsert,
-              identifiantProjet: payload.identifiantProjet,
-              nomProjet: projet.nomProjet,
-              appelOffre: projet.appelOffre,
-              période: projet.période,
-              famille: projet.famille,
-              régionProjet: projet.régionProjet,
-              attestation: payload.attestation,
-              dateTransmission: payload.date,
-              preuveTransmissionAuCocontractant: payload.preuveTransmissionAuCocontractant,
-              dateTransmissionAuCocontractant: payload.dateTransmissionAuCocontractant,
-              dernièreMiseÀJour: { date: payload.date, utilisateur: payload.utilisateur },
-            },
-          );
+          await upsertProjection<Achèvement.AchèvementEntity>(`achevement|${identifiantProjet}`, {
+            ...attestationConformitéToUpsert,
+            identifiantProjet: payload.identifiantProjet,
+            nomProjet: projet.nomProjet,
+            appelOffre: projet.appelOffre,
+            période: projet.période,
+            famille: projet.famille,
+            régionProjet: projet.régionProjet,
+            attestationConformité: payload.attestation,
+            dateTransmissionAttestationConformité: payload.date,
+            preuveTransmissionAuCocontractant: payload.preuveTransmissionAuCocontractant,
+            dateTransmissionAuCocontractant: payload.dateTransmissionAuCocontractant,
+            dernièreMiseÀJour: { date: payload.date, utilisateur: payload.utilisateur },
+          });
           break;
       }
     }
   };
 
-  mediator.register('System.Projector.Lauréat.Achèvement.AttestationConformité', handler);
+  mediator.register('System.Projector.Lauréat.Achèvement', handler);
 };

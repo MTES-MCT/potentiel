@@ -1,11 +1,11 @@
-import { When as Quand } from '@cucumber/cucumber';
+import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 import { sleep } from '../../../../../helpers/sleep';
 import { Achèvement } from '@potentiel-domain/laureat';
 
-Quand(
+EtantDonné(
   'le projet {string} avec une attestation de conformité transmise',
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
@@ -26,7 +26,7 @@ Quand(
 
     const utilisateurValue = 'utilisateur@test.test';
 
-    await mediator.send<Achèvement.AttestationConformité.TransmettreAttestationConformitéUseCase>({
+    await mediator.send<Achèvement.TransmettreAttestationConformitéUseCase>({
       type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),

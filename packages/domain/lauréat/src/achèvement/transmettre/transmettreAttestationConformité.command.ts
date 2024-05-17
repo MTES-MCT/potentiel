@@ -5,7 +5,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { loadAttestationConformitéFactory } from '../attestationConformité.aggregate';
+import { loadAttestationConformitéFactory } from '../achèvement.aggregate';
 
 export type TransmettreAttestationConformitéCommand = Message<
   'Lauréat.Achèvement.AttestationConformité.Command.TransmettreAttestationConformité',

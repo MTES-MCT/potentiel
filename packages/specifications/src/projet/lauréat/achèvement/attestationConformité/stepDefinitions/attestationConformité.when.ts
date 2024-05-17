@@ -36,19 +36,17 @@ Quand(
 
       const utilisateurValue = exemple['utilisateur'] || 'utilisateur@test.test';
 
-      await mediator.send<Achèvement.AttestationConformité.TransmettreAttestationConformitéUseCase>(
-        {
-          type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-            attestationValue,
-            dateTransmissionAuCocontractantValue,
-            dateValue,
-            preuveTransmissionAuCocontractantValue,
-            utilisateurValue,
-          },
+      await mediator.send<Achèvement.TransmettreAttestationConformitéUseCase>({
+        type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          attestationValue,
+          dateTransmissionAuCocontractantValue,
+          dateValue,
+          preuveTransmissionAuCocontractantValue,
+          utilisateurValue,
         },
-      );
+      });
       await sleep(100);
     } catch (error) {
       this.error = error as Error;

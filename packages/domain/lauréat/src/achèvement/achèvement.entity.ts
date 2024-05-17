@@ -1,7 +1,7 @@
 import { Entity } from '@potentiel-domain/core';
 
-export type AttestationConformitéEntity = Entity<
-  'attestation-conformite',
+export type AchèvementEntity = Entity<
+  'achevement',
   {
     identifiantProjet: string;
     nomProjet: string;
@@ -10,8 +10,8 @@ export type AttestationConformitéEntity = Entity<
     période: string;
     famille?: string;
 
-    attestation: { format: string };
-    dateTransmission: string;
+    attestationConformité: { format: string };
+    dateTransmissionAttestationConformité: string;
     dateTransmissionAuCocontractant: string;
     preuveTransmissionAuCocontractant: { format: string };
 
