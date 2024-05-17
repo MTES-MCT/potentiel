@@ -40,7 +40,7 @@ export async function transmettre(
   if (dateTransmissionAuCocontractant.estDansLeFutur()) {
     throw new DateDeTransmissionAuCoContractantFuturError();
   }
-  if (this.attestation.format && this.preuveTransmissionAuCocontractant.format) {
+  if (this.attestationConformité.format && this.preuveTransmissionAuCocontractant.format) {
     throw new AttestationDeConformitéDéjàTransmiseError();
   }
 
@@ -71,13 +71,15 @@ export function applyAttestationConformitéTransmise(
     },
   }: AttestationConformitéTransmiseEvent,
 ) {
-  this.dateTransmissionAuCocontractant = DateTime.convertirEnValueType(
-    dateTransmissionAuCocontractant,
-  );
-  this.date = DateTime.convertirEnValueType(date);
   this.utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateur);
-  this.attestation = attestation;
-  this.preuveTransmissionAuCocontractant = preuveTransmissionAuCocontractant;
+  this.attestationConformité = {
+    format: attestation.format,
+    date: DateTime.convertirEnValueType(date),
+  };
+  this.preuveTransmissionAuCocontractant = {
+    format: preuveTransmissionAuCocontractant.format,
+    date: DateTime.convertirEnValueType(dateTransmissionAuCocontractant),
+  };
 }
 
 class DateDeTransmissionAuCoContractantFuturError extends InvalidOperationError {

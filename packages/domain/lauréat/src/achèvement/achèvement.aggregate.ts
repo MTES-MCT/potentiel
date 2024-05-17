@@ -17,11 +17,9 @@ import { Option } from '@potentiel-libraries/monads';
 export type AchèvementEvent = AttestationConformitéTransmiseEvent;
 
 export type AchèvementAggregate = Aggregate<AchèvementEvent> & {
-  dateTransmissionAuCocontractant: DateTime.ValueType;
-  date: DateTime.ValueType;
   utilisateur: IdentifiantUtilisateur.ValueType;
-  attestation: { format: Option.Type<string> };
-  preuveTransmissionAuCocontractant: { format: Option.Type<string> };
+  attestationConformité: { format: Option.Type<string>; date: DateTime.ValueType };
+  preuveTransmissionAuCocontractant: { format: Option.Type<string>; date: DateTime.ValueType };
   readonly transmettre: typeof transmettre;
 };
 
@@ -29,11 +27,12 @@ export const getDefaultAttestationConformitéAggregate: GetDefaultAggregateState
   AchèvementAggregate,
   AchèvementEvent
 > = () => ({
-  dateTransmissionAuCocontractant: DateTime.convertirEnValueType(new Date()),
-  date: DateTime.convertirEnValueType(new Date()),
   utilisateur: IdentifiantUtilisateur.unknownUser,
-  attestation: { format: '' },
-  preuveTransmissionAuCocontractant: { format: '' },
+  attestationConformité: { format: '', date: DateTime.convertirEnValueType(new Date()) },
+  preuveTransmissionAuCocontractant: {
+    format: '',
+    date: DateTime.convertirEnValueType(new Date()),
+  },
   apply,
   transmettre,
 });
