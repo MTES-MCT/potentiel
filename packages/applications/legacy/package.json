@@ -8,7 +8,6 @@
     "type:check": "tsc --noEmit",
     "start": "node ./dist/src/index.js",
     "start:dev": "npm run migrate && npm run seed && concurrently \"ts-node-dev --transpile-only src/index.ts\" \"webpack --config=webpack.config.js --watch\" \"npm run build:css -- --watch\"",
-    "build": "npm run build:front && npm run build:css && npm run build:back && npm run build:migration",
     "build:back": "npx --node-options=\"--max-old-space-size=8192\" tsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views && cp -R src/views/maintenance.html dist/src/views",
     "build:css": "tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
     "build:front": "webpack --config=webpack.config.js",

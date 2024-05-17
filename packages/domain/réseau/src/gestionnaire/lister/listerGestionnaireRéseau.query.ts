@@ -3,22 +3,13 @@ import { ListV2, RangeOptions, WhereOptions } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import * as ContactEmailGestionnaireRéseau from '../contactEmailGestionnaireRéseau.valueType';
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
-import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 
-import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { match } from 'ts-pattern';
+import {
+  ConsulterGestionnaireRéseauReadModel,
+  mapToReadModel,
+} from '../consulter/consulterGestionnaireRéseau.query';
 
-type GestionnaireRéseauListItemReadModel = {
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
-  raisonSociale: string;
-  aideSaisieRéférenceDossierRaccordement: {
-    format: string;
-    légende: string;
-    expressionReguliere: ExpressionRegulière.ValueType;
-  };
-  contactEmail: Option.Type<IdentifiantUtilisateur.ValueType>;
-};
+type GestionnaireRéseauListItemReadModel = ConsulterGestionnaireRéseauReadModel;
 
 export type ListerGestionnaireRéseauReadModel = {
   items: ReadonlyArray<GestionnaireRéseauListItemReadModel>;
@@ -56,7 +47,7 @@ export const registerListerGestionnaireRéseauQuery = ({
     });
 
     return {
-      items: items.map((item) => mapToReadModel(item)),
+      items: items.map(mapToReadModel),
       range: {
         endPosition,
         startPosition,
@@ -65,27 +56,4 @@ export const registerListerGestionnaireRéseauQuery = ({
     };
   };
   mediator.register('Réseau.Gestionnaire.Query.ListerGestionnaireRéseau', handler);
-};
-
-const mapToReadModel = ({
-  codeEIC,
-  raisonSociale,
-  aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
-  contactEmail,
-}: GestionnaireRéseauEntity): GestionnaireRéseauListItemReadModel => {
-  return {
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
-    raisonSociale,
-    aideSaisieRéférenceDossierRaccordement: {
-      format,
-      légende,
-      expressionReguliere: !expressionReguliere
-        ? ExpressionRegulière.accepteTout
-        : ExpressionRegulière.convertirEnValueType(expressionReguliere),
-    },
-    contactEmail: match(expressionReguliere)
-      .returnType<Option.Type<IdentifiantUtilisateur.ValueType>>()
-      .with('', () => Option.none)
-      .otherwise(() => IdentifiantUtilisateur.convertirEnValueType(contactEmail)),
-  };
 };

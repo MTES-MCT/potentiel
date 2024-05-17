@@ -40,13 +40,13 @@ export const registerConsulterGestionnaireRéseauQuery = ({
       `gestionnaire-réseau|${identifiantGestionnaireRéseau}`,
     );
 
-    return Option.isNone(result) ? Option.none : mapToReadModel(result);
+    return Option.match(result).some(mapToReadModel).none();
   };
 
   mediator.register('Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau', handler);
 };
 
-const mapToReadModel = ({
+export const mapToReadModel = ({
   codeEIC,
   raisonSociale,
   aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },

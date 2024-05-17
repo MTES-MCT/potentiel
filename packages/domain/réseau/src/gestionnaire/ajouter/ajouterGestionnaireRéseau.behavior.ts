@@ -70,7 +70,9 @@ export async function ajouter(
         légende,
         expressionReguliere: expressionReguliere.formatter(),
       },
-      contactEmail: Option.isNone(contactEmail) ? '' : contactEmail.formatter(),
+      contactEmail: Option.match(contactEmail)
+        .some((value) => value.formatter())
+        .none(() => ''),
     },
   };
 
