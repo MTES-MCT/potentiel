@@ -15,11 +15,19 @@ const schema = zod.object({
   expressionReguliere: zod.string().optional(),
   format: zod.string().optional(),
   legende: zod.string().optional(),
+  contactEmail: zod.string().optional(),
 });
 
 const action: FormAction<ModifierGestionnaireRéseauState, typeof schema> = async (
   _,
-  { identifiantGestionnaireReseau, raisonSociale, expressionReguliere, format, legende },
+  {
+    identifiantGestionnaireReseau,
+    raisonSociale,
+    expressionReguliere,
+    format,
+    legende,
+    contactEmail,
+  },
 ) => {
   await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
     type: 'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',
@@ -31,6 +39,7 @@ const action: FormAction<ModifierGestionnaireRéseauState, typeof schema> = asyn
       },
       identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
       raisonSocialeValue: raisonSociale,
+      contactEmailValue: contactEmail || '',
     },
   });
 

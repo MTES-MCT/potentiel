@@ -1,8 +1,8 @@
 import { Then as Alors } from '@cucumber/cucumber';
-import { PotentielWorld } from '../../potentiel.world';
-import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 import { mediator } from 'mediateur';
+import { PotentielWorld } from '../../potentiel.world';
 
 Alors(
   `le gestionnaire de réseau {string} devrait être( disponible)( à jour) dans le référenciel des gestionnaires de réseau`,
@@ -11,7 +11,6 @@ Alors(
       raisonSocialeGestionnaireRéseau,
     );
 
-    // Assert read model
     const actualReadModel = await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
       type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
       data: {},
@@ -28,6 +27,7 @@ Alors(
           },
           identifiantGestionnaireRéseau: gestionnaireRéseau.codeEIC,
           raisonSociale: gestionnaireRéseau.raisonSociale,
+          contactEmail: gestionnaireRéseau.contactEmail,
         },
       ],
       total: 1,
@@ -47,6 +47,7 @@ Alors(
         },
         identifiantGestionnaireRéseau: g.identifiantGestionnaireRéseau.codeEIC,
         raisonSociale: g.raisonSociale,
+        contactEmail: Option.isSome(g.contactEmail) ? g.contactEmail.email : '',
       })),
       total: actualReadModel.total,
       range: actualReadModel.range,
@@ -61,7 +62,6 @@ Alors(
       raisonSocialeGestionnaireRéseau,
     );
 
-    // Assert read model
     const actualReadModel = await getConsulterReadModel(gestionnaireRéseau.codeEIC);
 
     const expected = {
@@ -73,6 +73,7 @@ Alors(
       },
       identifiantGestionnaireRéseau: gestionnaireRéseau.codeEIC,
       raisonSociale: gestionnaireRéseau.raisonSociale,
+      contactEmail: gestionnaireRéseau.contactEmail,
     };
 
     ({
@@ -84,6 +85,9 @@ Alors(
       },
       identifiantGestionnaireRéseau: actualReadModel.identifiantGestionnaireRéseau.codeEIC,
       raisonSociale: actualReadModel.raisonSociale,
+      contactEmail: Option.isSome(actualReadModel.contactEmail)
+        ? actualReadModel.contactEmail.email
+        : '',
     }).should.be.deep.equal(expected);
   },
 );

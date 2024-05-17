@@ -1,23 +1,23 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
-import { Option } from '@potentiel-libraries/monads';
 import {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
 } from '@potentiel-domain/candidature';
+import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { decodeParameter } from '@/utils/decodeParameter';
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
+import { AucunDossierDeRaccordementPage } from '@/components/pages/réseau/raccordement/détails/AucunDossierDeRaccordement.page';
 import {
   DétailsRaccordementPage,
   DétailsRaccordementPageProps,
 } from '@/components/pages/réseau/raccordement/détails/DétailsRaccordement.page';
-import { AucunDossierDeRaccordementPage } from '@/components/pages/réseau/raccordement/détails/AucunDossierDeRaccordement.page';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { decodeParameter } from '@/utils/decodeParameter';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type PageProps = IdentifiantParameter;
 
@@ -96,21 +96,24 @@ const mapToProps: MapToProps = ({
     ...candidature,
     identifiantProjet,
   },
-  ...(!Option.isNone(gestionnaireRéseau) && {
-    gestionnaireRéseau: {
-      ...gestionnaireRéseau,
-      identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
-      aideSaisieRéférenceDossierRaccordement: {
-        ...gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement,
-        expressionReguliere:
-          gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere.formatter(),
+  gestionnaireRéseau: Option.isNone(gestionnaireRéseau)
+    ? undefined
+    : {
+        ...gestionnaireRéseau,
+        identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
+        aideSaisieRéférenceDossierRaccordement: {
+          ...gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement,
+          expressionReguliere:
+            gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere.formatter(),
+        },
+        contactEmail: Option.isNone(gestionnaireRéseau.contactEmail)
+          ? undefined
+          : gestionnaireRéseau.contactEmail.email,
+        canEdit:
+          rôleUtilisateur.estÉgaleÀ(Role.admin) ||
+          rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
+          rôleUtilisateur.estÉgaleÀ(Role.porteur),
       },
-      canEdit:
-        rôleUtilisateur.estÉgaleÀ(Role.admin) ||
-        rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
-        rôleUtilisateur.estÉgaleÀ(Role.porteur),
-    },
-  }),
   dossiers: listeDossiersRaccordement.dossiers.map((dossier) => {
     return {
       identifiantProjet,

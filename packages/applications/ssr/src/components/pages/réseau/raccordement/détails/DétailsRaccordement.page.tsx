@@ -1,16 +1,16 @@
 'use client';
 
-import { FC } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Button from '@codegouvfr/react-dsfr/Button';
 import Link from 'next/link';
+import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
+import { Icon } from '@/components/atoms/Icon';
+import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { Tile } from '@/components/organisms/Tile';
 import { PageTemplate } from '@/components/templates/Page.template';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
-import { Icon } from '@/components/atoms/Icon';
 
 import { TitrePageRaccordement } from '../TitrePageRaccordement';
 
@@ -26,6 +26,7 @@ export type DétailsRaccordementPageProps = {
       légende: string;
       expressionReguliere: string;
     };
+    contactEmail?: string;
     canEdit: boolean;
   };
   dossiers: ReadonlyArray<DossierRaccordementProps>;
@@ -42,6 +43,7 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
       {gestionnaireRéseau && (
         <p className="mt-2 mb-4 p-0">
           Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}
+          {gestionnaireRéseau.contactEmail && `, contact: ${gestionnaireRéseau.contactEmail}`}
           {gestionnaireRéseau.canEdit && (
             <a
               className="ml-1"

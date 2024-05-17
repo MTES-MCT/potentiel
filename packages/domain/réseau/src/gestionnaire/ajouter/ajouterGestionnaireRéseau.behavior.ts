@@ -1,8 +1,10 @@
-import { DomainEvent } from '@potentiel-domain/core';
-import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
-import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
-import { GestionnaireRéseauDéjàExistantError } from '../gestionnaireRéseauDéjàExistant.error';
 import { ExpressionRegulière } from '@potentiel-domain/common';
+import { DomainEvent } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
+import * as ContactEmailGestionnaireRéseau from '../contactEmailGestionnaireRéseau.valueType';
+import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
+import { GestionnaireRéseauDéjàExistantError } from '../gestionnaireRéseauDéjàExistant.error';
+import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 
 export type GestionnaireRéseauAjoutéEvent = DomainEvent<
   'GestionnaireRéseauAjouté-V1',
@@ -14,6 +16,7 @@ export type GestionnaireRéseauAjoutéEvent = DomainEvent<
       légende: string;
       expressionReguliere: string;
     };
+    contactEmail: string;
   }
 >;
 
@@ -25,6 +28,7 @@ export type AjouterOptions = {
     légende: string;
     expressionReguliere: ExpressionRegulière.ValueType;
   };
+  contactEmail: Option.Type<ContactEmailGestionnaireRéseau.ValueType>;
 };
 
 export async function ajouter(
@@ -33,6 +37,7 @@ export async function ajouter(
     aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
     identifiantGestionnaireRéseau,
     raisonSociale,
+    contactEmail,
   }: AjouterOptions,
 ) {
   if (!this.identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu)) {
@@ -49,6 +54,9 @@ export async function ajouter(
         légende,
         expressionReguliere: expressionReguliere.formatter(),
       },
+      contactEmail: Option.isNone(contactEmail)
+        ? ContactEmailGestionnaireRéseau.defaultValue.email
+        : contactEmail.formatter(),
     },
   };
 

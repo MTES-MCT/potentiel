@@ -1,8 +1,8 @@
-import { Given as EtantDonné, DataTable } from '@cucumber/cucumber';
-import { PotentielWorld } from '../../potentiel.world';
-import { mediator } from 'mediateur';
+import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { mediator } from 'mediateur';
 import { sleep } from '../../helpers/sleep';
+import { PotentielWorld } from '../../potentiel.world';
 
 EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
   const exemple = table.rowsHash();
@@ -14,6 +14,7 @@ EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, 
     légende: exemple['Légende'],
     expressionReguliere: exemple['Expression régulière'],
   };
+  const contactEmail = exemple['Email de contact'];
 
   await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
     type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
@@ -25,6 +26,7 @@ EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, 
         formatValue: aideSaisieRéférenceDossierRaccordement.format,
         légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
       },
+      contactEmailValue: contactEmail,
     },
   });
 
@@ -32,6 +34,7 @@ EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, 
     codeEIC,
     raisonSociale,
     aideSaisieRéférenceDossierRaccordement,
+    contactEmail,
   });
   await sleep(100);
 });
@@ -45,6 +48,7 @@ EtantDonné(
       légende: '',
       expressionReguliere: '',
     };
+    const contactEmail = '';
 
     await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
       type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
@@ -56,6 +60,7 @@ EtantDonné(
           formatValue: aideSaisieRéférenceDossierRaccordement.format,
           légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
         },
+        contactEmailValue: contactEmail,
       },
     });
 
@@ -63,7 +68,9 @@ EtantDonné(
       codeEIC,
       raisonSociale,
       aideSaisieRéférenceDossierRaccordement,
+      contactEmail,
     });
+
     await sleep(100);
   },
 );

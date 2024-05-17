@@ -6,6 +6,7 @@ type GestionnaireRéseau = {
     légende: string;
     expressionReguliere: string;
   };
+  contactEmail?: string;
 };
 
 export class GestionnaireRéseauWorld {

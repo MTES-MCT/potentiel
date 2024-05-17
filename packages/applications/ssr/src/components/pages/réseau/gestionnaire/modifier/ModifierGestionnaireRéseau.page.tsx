@@ -1,15 +1,15 @@
 'use client';
 
-import { FC, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Input from '@codegouvfr/react-dsfr/Input';
+import { useRouter } from 'next/navigation';
+import { FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { Heading1 } from '@/components/atoms/headings';
-import { PageTemplate } from '@/components/templates/Page.template';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { Heading1 } from '@/components/atoms/headings';
+import { PageTemplate } from '@/components/templates/Page.template';
 
 import { modifierGestionnaireRéseauAction } from './modifierGestionnaireRéseau.action';
 
@@ -19,6 +19,7 @@ export type ModifierGestionnaireRéseauProps = {
   expressionReguliere: string;
   format: string;
   légende: string;
+  contactEmail: string;
 };
 
 export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProps> = ({
@@ -27,6 +28,7 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
   format,
   légende,
   expressionReguliere,
+  contactEmail,
 }: ModifierGestionnaireRéseauProps) => {
   const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
@@ -54,6 +56,8 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
           value={identifiantGestionnaireRéseau}
           name="identifiantGestionnaireReseau"
         />
+
+        <input type={'hidden'} value={contactEmail} name="contactEmail" />
 
         <Input
           textArea

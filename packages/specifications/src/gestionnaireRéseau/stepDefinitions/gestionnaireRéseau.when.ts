@@ -1,9 +1,9 @@
-import { When as Quand, DataTable } from '@cucumber/cucumber';
-import { PotentielWorld } from '../../potentiel.world';
+import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { mediator } from 'mediateur';
 import { sleep } from '../../helpers/sleep';
+import { PotentielWorld } from '../../potentiel.world';
 
 Quand(
   'un administrateur ajoute un gestionnaire de réseau( avec le même code EIC)',
@@ -18,6 +18,7 @@ Quand(
         légende: exemple['Légende'],
         expressionReguliere: exemple['Expression régulière'],
       };
+      const contactEmail = exemple['Email de contact'];
 
       await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
         type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
@@ -29,6 +30,7 @@ Quand(
             formatValue: aideSaisieRéférenceDossierRaccordement.format,
             légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
           },
+          contactEmailValue: contactEmail,
         },
       });
 
@@ -36,6 +38,7 @@ Quand(
         codeEIC,
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement,
+        contactEmail,
       });
       await sleep(100);
     } catch (error) {
@@ -55,6 +58,7 @@ Quand(
       légende: exemple['Légende'],
       expressionReguliere: exemple['Expression régulière'],
     };
+    const contactEmail = exemple['Email de contact'];
 
     try {
       await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
@@ -67,6 +71,7 @@ Quand(
             formatValue: aideSaisieRéférenceDossierRaccordement.format,
             légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
           },
+          contactEmailValue: contactEmail,
         },
       });
 
@@ -74,6 +79,7 @@ Quand(
         codeEIC,
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement,
+        contactEmail,
       });
       await sleep(100);
     } catch (error) {

@@ -38,6 +38,7 @@ const gestionnaireRéseau: DétailsRaccordementPageProps['gestionnaireRéseau'] 
     format: 'Format',
     légende: 'Légende',
   },
+  contactEmail: 'email@gmail.com',
   raisonSociale: 'Raison sociale',
   identifiantGestionnaireRéseau: 'identifiantGestionnaireRéseau#1',
   canEdit: true,

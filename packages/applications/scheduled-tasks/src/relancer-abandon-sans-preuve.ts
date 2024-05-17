@@ -1,27 +1,27 @@
-import { mediator } from 'mediateur';
+import { DateTime } from '@potentiel-domain/common';
 import {
   Abandon,
   registerLauréatQueries,
   registerLauréatUseCases,
 } from '@potentiel-domain/laureat';
-import { DateTime } from '@potentiel-domain/common';
 import {
-  findProjection,
-  listProjection,
-  listProjectionV2,
-} from '@potentiel-infrastructure/pg-projections';
-import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
-import { getLogger } from '@potentiel-libraries/monitoring';
+  getModèleMiseEnDemeureGarantiesFinancières,
+  getModèleRéponseAbandon,
+} from '@potentiel-infrastructure/document-builder';
 import {
   consulterCahierDesChargesChoisiAdapter,
   listerAbandonsAdapter,
   listerAbandonsPourPorteurAdapter,
   récupérerRégionDrealAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
-  getModèleRéponseAbandon,
-  getModèleMiseEnDemeureGarantiesFinancières,
-} from '@potentiel-infrastructure/document-builder';
+  findProjection,
+  listProjection,
+  listProjectionV2,
+} from '@potentiel-infrastructure/pg-projections';
+import { getLogger } from '@potentiel-libraries/monitoring';
+import { mediator } from 'mediateur';
 
 registerLauréatQueries({
   find: findProjection,
@@ -55,6 +55,8 @@ registerLauréatUseCases({
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
+
+      process.exit(0);
     } catch (e) {
       getLogger().error(e as Error);
     }

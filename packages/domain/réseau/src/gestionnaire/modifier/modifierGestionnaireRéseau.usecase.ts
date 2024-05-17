@@ -1,7 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
-import { ModifierGestionnaireRéseauCommand } from './modifierGestionnaireRéseau.command';
-import { IdentifiantGestionnaireRéseau } from '..';
 import { ExpressionRegulière } from '@potentiel-domain/common';
+import { Message, MessageHandler, mediator } from 'mediateur';
+import { IdentifiantGestionnaireRéseau } from '..';
+import * as ContactEmailGestionnaireRéseau from '../contactEmailGestionnaireRéseau.valueType';
+import { ModifierGestionnaireRéseauCommand } from './modifierGestionnaireRéseau.command';
 
 export type ModifierGestionnaireRéseauUseCase = Message<
   'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',
@@ -13,6 +14,7 @@ export type ModifierGestionnaireRéseauUseCase = Message<
       légendeValue: string;
       expressionReguliereValue: string;
     };
+    contactEmailValue: string;
   }
 >;
 
@@ -25,6 +27,7 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
       formatValue,
       légendeValue,
     },
+    contactEmailValue,
   }) => {
     const identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
       identifiantGestionnaireRéseauValue,
@@ -33,6 +36,10 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
     const expressionReguliere = !expressionReguliereValue
       ? ExpressionRegulière.accepteTout
       : ExpressionRegulière.convertirEnValueType(expressionReguliereValue);
+
+    const contactEmail = !contactEmailValue
+      ? ContactEmailGestionnaireRéseau.defaultValue
+      : ContactEmailGestionnaireRéseau.convertirEnValueType(contactEmailValue);
 
     return mediator.send<ModifierGestionnaireRéseauCommand>({
       type: 'Réseau.Gestionnaire.Command.ModifierGestionnaireRéseau',
@@ -44,6 +51,7 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
           format: formatValue,
           légende: légendeValue,
         },
+        contactEmail,
       },
     });
   };
