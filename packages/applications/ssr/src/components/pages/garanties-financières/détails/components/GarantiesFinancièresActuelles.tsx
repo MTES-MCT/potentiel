@@ -129,7 +129,7 @@ const ButtonAction: FC<ButtonActionProps> = ({ identifiantProjet, action }) => {
             href: Routes.GarantiesFinancières.actuelles.modifier(identifiantProjet),
           }}
         >
-          Compléter
+          Modifier
         </Button>
       );
     case 'enregister-attestation':
