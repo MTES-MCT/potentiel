@@ -25,17 +25,24 @@ export const ListDépôtsEnCoursGarantiesFinancièresPage: FC<
 > = ({ list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage }, filters }) => {
   const searchParams = useSearchParams();
   const appelOffre = searchParams.get('appelOffre') ?? undefined;
+  const cycle = searchParams.get('cycle') ?? undefined;
 
-  const tagFilters = [
-    ...(appelOffre
-      ? [
-          {
-            label: `appel d'offres : ${appelOffre}`,
-            searchParamKey: 'appelOffre',
-          },
-        ]
-      : []),
-  ];
+  const tagFilters: ListPageTemplateProps<ListItemDépôtEnCoursGarantiesFinancièresProps>['tagFilters'] =
+    [];
+
+  if (cycle) {
+    tagFilters.push({
+      label: `cycle d'appels d'offres : ${cycle}`,
+      searchParamKey: 'cycle',
+    });
+  }
+
+  if (appelOffre) {
+    tagFilters.push({
+      label: `appel d'offres : ${appelOffre}`,
+      searchParamKey: 'appelOffre',
+    });
+  }
 
   return (
     <ListPageTemplate

@@ -33,6 +33,7 @@ export type ListerProjetsAvecGarantiesFinancièresEnAttenteQuery = Message<
   {
     appelOffre?: string;
     motif?: string;
+    cycle?: string;
     utilisateur: {
       rôle: string;
       email: string;
@@ -56,6 +57,7 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
     motif,
     utilisateur: { email, rôle },
     range,
+    cycle,
   }) => {
     let région: string | undefined = undefined;
 
@@ -89,6 +91,9 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
           }),
           ...(région && {
             régionProjet: { operator: 'equal', value: région },
+          }),
+          ...(cycle && {
+            appelOffre: { operator: cycle === 'PPE2' ? 'like' : 'notLike', value: '%PPE2%' },
           }),
         },
       },

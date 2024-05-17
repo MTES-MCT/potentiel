@@ -42,6 +42,7 @@ export type ListerDépôtsEnCoursGarantiesFinancièresQuery = Message<
   'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
   {
     appelOffre?: string;
+    cycle?: string;
     utilisateur: {
       rôle: string;
       email: string;
@@ -64,6 +65,7 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
     appelOffre,
     utilisateur: { email, rôle },
     range,
+    cycle,
   }) => {
     let région: string | undefined = undefined;
 
@@ -94,6 +96,9 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
           }),
           ...(région && {
             régionProjet: { operator: 'equal', value: région },
+          }),
+          ...(cycle && {
+            appelOffre: { operator: cycle === 'PPE2' ? 'like' : 'notLike', value: '%PPE2%' },
           }),
         },
       },

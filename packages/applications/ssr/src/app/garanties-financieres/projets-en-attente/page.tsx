@@ -23,8 +23,8 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Garanties financières en attente - Potentiel',
-  description: 'Liste des garanties financières en attente',
+  title: 'Projets en attente de garanties financières - Potentiel',
+  description: 'Liste des projets pour lesquels de nouvelles garanties financières sont attendues',
 };
 
 export default async function Page({ searchParams }: PageProps) {
@@ -33,6 +33,7 @@ export default async function Page({ searchParams }: PageProps) {
       const page = searchParams?.page ? parseInt(searchParams.page) : 1;
       const appelOffre = searchParams?.appelOffre;
       const motif = searchParams?.motif;
+      const cycle = searchParams?.cycle;
 
       const projetsAvecGarantiesFinancièresEnAttente =
         await mediator.send<GarantiesFinancières.ListerProjetsAvecGarantiesFinancièresEnAttenteQuery>(
@@ -45,6 +46,7 @@ export default async function Page({ searchParams }: PageProps) {
               },
               appelOffre,
               motif,
+              cycle,
               range: mapToRangeOptions({ currentPage: page, itemsPerPage: 10 }),
             },
           },
@@ -57,6 +59,15 @@ export default async function Page({ searchParams }: PageProps) {
 
       const filters: ListPageTemplateProps<ListItemProjetAvecGarantiesFinancièresEnAttenteProps>['filters'] =
         [
+          {
+            label: "Cycle d'appels d'offres",
+            searchParamKey: 'cycle',
+            defaultValue: cycle,
+            options: [
+              { label: 'PPE2', value: 'PPE2' },
+              { label: 'CRE4', value: 'CRE4' },
+            ],
+          },
           {
             label: `Appel d'offres`,
             searchParamKey: 'appelOffre',
