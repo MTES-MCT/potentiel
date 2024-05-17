@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { CommonPort } from '@potentiel-domain/common';
+import { CommonPort, DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
@@ -124,19 +124,13 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
             : '!!! garantieFinanciereEnMois non disponible !!!',
         dateFinGarantieFinanciere:
           détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
-            ? new Date(
-                new Date(candidature.dateDésignation).setMonth(
-                  new Date(candidature.dateDésignation).getMonth() +
-                    détailFamille.garantieFinanciereEnMois,
-                ),
-              ).toLocaleDateString('fr-FR')
+            ? DateTime.convertirEnValueType(candidature.dateDésignation)
+                .ajouterNombreDeMois(détailFamille.garantieFinanciereEnMois)
+                .date.toLocaleDateString('fr-FR')
             : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
-            ? new Date(
-                new Date(candidature.dateDésignation).setMonth(
-                  new Date(candidature.dateDésignation).getMonth() +
-                    appelOffres.garantieFinanciereEnMois,
-                ),
-              ).toLocaleDateString('fr-FR')
+            ? DateTime.convertirEnValueType(candidature.dateDésignation)
+                .ajouterNombreDeMois(appelOffres.garantieFinanciereEnMois)
+                .date.toLocaleDateString('fr-FR')
             : '!!! dateFinGarantieFinanciere non disponible !!!',
         dateLimiteDepotGF:
           (Option.isSome(projetAvecGarantiesFinancièresEnAttente) &&

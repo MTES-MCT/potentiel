@@ -10,6 +10,7 @@ export type ValueType = ReadonlyValueType<{
   estAntérieurÀ(dateTime: ValueType): boolean;
   estUltérieureÀ(dateTime: ValueType): boolean;
   nombreJoursÉcartAvec(dateTime: ValueType): number;
+  ajouterNombreDeMois(nombreDeMois: number): ValueType;
   formatter(): RawType;
 }>;
 
@@ -43,6 +44,10 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
     nombreJoursÉcartAvec(dateTime) {
       const écart = differenceInDays(this.date, dateTime.date);
       return Math.abs(écart); // Peu importe si la date est avant ou aprés, on veut l'écart positif.
+    },
+    ajouterNombreDeMois(nombreDeMois) {
+      const nouvelleDate = new Date(this.date.setMonth(this.date.getMonth() + nombreDeMois));
+      return convertirEnValueType(nouvelleDate);
     },
   };
 };
