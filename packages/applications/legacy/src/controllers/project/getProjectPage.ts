@@ -161,7 +161,7 @@ v1Router.get(
           },
           projectEventList: rawProjectEventList.value,
           alertesRaccordement,
-          ...(abandon && { abandon }),
+          abandon,
           hasAttestationConformité: await hasAttestationConformité(identifiantProjetValueType),
         }),
       );

@@ -44,38 +44,41 @@ export const registerConsulterAttestationConformitéQuery = ({
       return Option.none;
     }
 
-    const {
-      attestationConformité: attestation,
-      preuveTransmissionAuCocontractant,
-      dateTransmissionAttestationConformité: dateTransmission,
-      dateTransmissionAuCocontractant,
-      dernièreMiseÀJour,
-    } = result;
-
-    return {
-      identifiantProjet,
-      attestation: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
-        DateTime.convertirEnValueType(dateTransmission).formatter(),
-        attestation.format,
-      ),
-      dateTransmissionAuCocontractant: DateTime.convertirEnValueType(
-        dateTransmissionAuCocontractant,
-      ),
-      preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
-        DateTime.convertirEnValueType(dateTransmissionAuCocontractant).formatter(),
-        preuveTransmissionAuCocontractant.format,
-      ),
-      misÀJourLe: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
-      misÀJourPar: IdentifiantUtilisateur.convertirEnValueType(dernièreMiseÀJour.utilisateur),
-    };
+    return mapToReadModel({ ...result, identifiantProjetValueType: identifiantProjet });
   };
 
   mediator.register(
     'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
     handler,
   );
+};
+
+const mapToReadModel = ({
+  attestationConformité: attestation,
+  preuveTransmissionAuCocontractant,
+  dateTransmissionAttestationConformité: dateTransmission,
+  dateTransmissionAuCocontractant,
+  dernièreMiseÀJour,
+  identifiantProjetValueType,
+}: AchèvementEntity & {
+  identifiantProjetValueType: IdentifiantProjet.ValueType;
+}): ConsulterAttestationConformitéReadModel => {
+  return {
+    identifiantProjet: identifiantProjetValueType,
+    attestation: DocumentProjet.convertirEnValueType(
+      identifiantProjetValueType.formatter(),
+      TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
+      DateTime.convertirEnValueType(dateTransmission).formatter(),
+      attestation.format,
+    ),
+    dateTransmissionAuCocontractant: DateTime.convertirEnValueType(dateTransmissionAuCocontractant),
+    preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
+      identifiantProjetValueType.formatter(),
+      TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
+      DateTime.convertirEnValueType(dateTransmissionAuCocontractant).formatter(),
+      preuveTransmissionAuCocontractant.format,
+    ),
+    misÀJourLe: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
+    misÀJourPar: IdentifiantUtilisateur.convertirEnValueType(dernièreMiseÀJour.utilisateur),
+  };
 };

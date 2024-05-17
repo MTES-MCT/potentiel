@@ -51,13 +51,21 @@ export const register = () => {
             identifiantProjet,
             message: event,
           });
+          return {
+            nomProjet: 'Projet inconnu',
+            appelOffre: `N/A`,
+            période: `N/A`,
+            famille: undefined,
+            régionProjet: '',
+          };
         }
+
         return {
-          nomProjet: Option.isSome(projet) ? projet.nom : 'Projet inconnu',
-          appelOffre: Option.isSome(projet) ? projet.appelOffre : `N/A`,
-          période: Option.isSome(projet) ? projet.période : `N/A`,
-          famille: Option.isSome(projet) ? projet.famille : undefined,
-          régionProjet: Option.isSome(projet) ? projet.localité.région : '',
+          nomProjet: projet.nom,
+          appelOffre: projet.appelOffre,
+          période: projet.période,
+          famille: projet.famille,
+          régionProjet: projet.localité.région,
         };
       };
 
