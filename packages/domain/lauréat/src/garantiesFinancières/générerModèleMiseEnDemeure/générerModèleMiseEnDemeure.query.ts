@@ -104,21 +104,17 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
     const content = await buildModèleMiseEnDemeureGarantiesFinancières({
       data: {
         dreal: régionDreal.région,
-        dateMiseEnDemeure: DateTime.convertirEnValueType(dateCourrierValue).formatterEnFr(),
+        dateMiseEnDemeure: dateCourrierValue,
         contactDreal: utilisateur.email,
         referenceProjet: identifiantProjetValue,
         titreAppelOffre: `${détailPériode.cahierDesCharges.référence} ${appelOffres.title}`,
-        dateLancementAppelOffre: DateTime.convertirEnValueType(
-          appelOffres.launchDate,
-        ).formatterEnFr(),
+        dateLancementAppelOffre: appelOffres.launchDate,
         nomProjet: candidature.nom,
         adresseCompleteProjet: `${candidature.localité.adresse} ${candidature.localité.codePostal} ${candidature.localité.commune}`,
         puissanceProjet: candidature.puissance.toString(),
         unitePuissance: appelOffres.unitePuissance,
         titrePeriode: détailPériode.title,
-        dateNotification: DateTime.convertirEnValueType(
-          candidature.dateDésignation,
-        ).formatterEnFr(),
+        dateNotification: candidature.dateDésignation,
         paragrapheGF: appelOffres.renvoiRetraitDesignationGarantieFinancieres,
         garantieFinanciereEnMois:
           détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
@@ -130,15 +126,15 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
           détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
             ? DateTime.convertirEnValueType(candidature.dateDésignation)
                 .ajouterNombreDeMois(détailFamille.garantieFinanciereEnMois)
-                .formatterEnFr()
+                .formatter()
             : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
             ? DateTime.convertirEnValueType(candidature.dateDésignation)
                 .ajouterNombreDeMois(appelOffres.garantieFinanciereEnMois)
-                .formatterEnFr()
+                .formatter()
             : '!!! dateFinGarantieFinanciere non disponible !!!',
         dateLimiteDepotGF:
           (Option.isSome(projetAvecGarantiesFinancièresEnAttente) &&
-            projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.formatterEnFr()) ||
+            projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.formatter()) ||
           '',
         nomRepresentantLegal: candidature.candidat.nom,
         adresseProjet: candidature.candidat.adressePostale,

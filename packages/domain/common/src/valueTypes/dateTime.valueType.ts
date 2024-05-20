@@ -11,7 +11,6 @@ export type ValueType = ReadonlyValueType<{
   estUltérieureÀ(dateTime: ValueType): boolean;
   nombreJoursÉcartAvec(dateTime: ValueType): number;
   ajouterNombreDeMois(nombreDeMois: number): ValueType;
-  formatterEnFr(): string;
   formatter(): RawType;
 }>;
 
@@ -49,9 +48,6 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
     ajouterNombreDeMois(nombreDeMois) {
       const nouvelleDate = new Date(this.date.setMonth(this.date.getMonth() + nombreDeMois));
       return convertirEnValueType(nouvelleDate);
-    },
-    formatterEnFr() {
-      return this.date.toLocaleDateString('fr-FR');
     },
   };
 };
