@@ -3,6 +3,8 @@ version: '3'
 services:
   db:
     image: postgres:13
+    volumes:
+      - ./init-dev-db.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       - POSTGRES_USER=potadmindb
       - POSTGRES_PASSWORD=localpwd
