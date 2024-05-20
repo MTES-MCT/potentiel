@@ -8,6 +8,8 @@ export type ValueType = ReadonlyValueType<{
 }>;
 
 export const bind = ({ codeEIC }: PlainType<ValueType>): ValueType => {
+  estValide(codeEIC);
+
   return {
     codeEIC,
     formatter() {
@@ -20,8 +22,6 @@ export const bind = ({ codeEIC }: PlainType<ValueType>): ValueType => {
 };
 
 export const convertirEnValueType = (identifiantGestionnaireRéseau: string): ValueType => {
-  estValide(identifiantGestionnaireRéseau);
-
   return bind({ codeEIC: identifiantGestionnaireRéseau });
 };
 

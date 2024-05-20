@@ -9,6 +9,8 @@ export type ValueType = ReadonlyValueType<{
 }>;
 
 export const bind = ({ expression }: PlainType<ValueType>): ValueType => {
+  estValide(expression);
+
   return {
     expression,
     estÉgaleÀ(valueType) {
@@ -24,8 +26,6 @@ export const bind = ({ expression }: PlainType<ValueType>): ValueType => {
 };
 
 export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
-
   return bind({
     expression: value,
   });

@@ -8,6 +8,7 @@ export type ValueType = ReadonlyValueType<{
 }>;
 
 export const bind = ({ email }: PlainType<ValueType>): ValueType => {
+  estValide(email);
   return {
     email,
     formatter() {
@@ -20,7 +21,6 @@ export const bind = ({ email }: PlainType<ValueType>): ValueType => {
 };
 
 export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
   return bind({
     email: value,
   });

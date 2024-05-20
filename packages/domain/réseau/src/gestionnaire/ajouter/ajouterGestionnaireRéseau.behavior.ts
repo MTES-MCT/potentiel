@@ -41,9 +41,9 @@ export type AjouterOptions = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement: {
-    format: string;
-    légende: string;
-    expressionReguliere: ExpressionRegulière.ValueType;
+    format: Option.Type<string>;
+    légende: Option.Type<string>;
+    expressionReguliere: Option.Type<ExpressionRegulière.ValueType>;
   };
   contactEmail: Option.Type<IdentifiantUtilisateur.ValueType>;
 };
@@ -67,13 +67,19 @@ export async function ajouter(
       codeEIC: identifiantGestionnaireRéseau.formatter(),
       raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
-        format,
-        légende,
-        expressionReguliere: expressionReguliere.formatter(),
+        format: Option.match(format)
+          .some((value) => value)
+          .none(() => ''),
+        légende: Option.match(légende)
+          .some((value) => value)
+          .none(() => ''),
+        expressionReguliere: Option.match(expressionReguliere)
+          .some((value) => value.formatter())
+          .none(() => ExpressionRegulière.accepteTout.formatter()),
       },
       contactEmail: Option.match(contactEmail)
         .some((value) => value.formatter())
-        .none(),
+        .none(() => ''),
     },
   };
 

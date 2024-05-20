@@ -29,48 +29,43 @@ export const AjouterGestionnaireRéseauPage: FC = () => {
         onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       >
         <Input
-          textArea
           label="Code EIC ou gestionnaire"
           id="identifiantGestionnaireReseau"
-          nativeTextAreaProps={{ name: 'identifiantGestionnaireReseau' }}
+          nativeInputProps={{ name: 'identifiantGestionnaireReseau' }}
           state={validationErrors.includes('identifiantGestionnaireReseau') ? 'error' : 'default'}
           stateRelatedMessage="Code EIC ou gestionnaire à préciser"
         />
 
         <Input
-          textArea
           label="Raison sociale"
           id="raisonSociale"
-          nativeTextAreaProps={{ name: 'raisonSociale' }}
+          nativeInputProps={{ name: 'raisonSociale' }}
           state={validationErrors.includes('raisonSociale') ? 'error' : 'default'}
           stateRelatedMessage="Raison sociale à préciser"
         />
 
         <Input
-          textArea
           label="Format de l'identifiant du dossier de raccordement (optionnel)"
           id="format"
-          nativeTextAreaProps={{ name: 'format' }}
+          nativeInputProps={{ name: 'format' }}
           state={validationErrors.includes('format') ? 'error' : 'default'}
           stateRelatedMessage="Format à préciser"
           hintText="Exemple : XXX-RP-AAAA-999999"
         />
 
         <Input
-          textArea
           label="Aide à la saisie de l'identifiant du dossier de raccordement (optionnel)"
           id="legende"
-          nativeTextAreaProps={{ name: 'legende' }}
+          nativeInputProps={{ name: 'legende' }}
           state={validationErrors.includes('legende') ? 'error' : 'default'}
           stateRelatedMessage="Légende à préciser"
           hintText="Exemple : X = caractère alphabétique en majuscule, AAAA = Année, 9 = caractère numérique de 0 à 9"
         />
 
         <Input
-          textArea
           label="Expression régulière (optionnel)"
           id="expressionReguliere"
-          nativeTextAreaProps={{ name: 'expressionReguliere' }}
+          nativeInputProps={{ name: 'expressionReguliere' }}
           state={validationErrors.includes('expressionReguliere') ? 'error' : 'default'}
           stateRelatedMessage="expression régulière à préciser"
           hintText="Exemple : [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}"

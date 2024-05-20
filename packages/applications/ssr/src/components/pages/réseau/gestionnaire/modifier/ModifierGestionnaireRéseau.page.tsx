@@ -21,7 +21,7 @@ import { PageTemplate } from '@/components/templates/Page.template';
 
 import { modifierGestionnaireRéseauAction } from './modifierGestionnaireRéseau.action';
 
-type ModifierGestionnaireRéseauProps = PlainType<ConsulterGestionnaireRéseauReadModel>;
+export type ModifierGestionnaireRéseauProps = PlainType<ConsulterGestionnaireRéseauReadModel>;
 
 export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProps> = ({
   identifiantGestionnaireRéseau,
