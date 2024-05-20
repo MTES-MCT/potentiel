@@ -39,7 +39,7 @@ export const GestionnaireRéseauListPage: FC<GestionnaireRéseauListPageProps> =
         ItemComponent={GestionnaireRéseauListItem}
         filters={[]}
         tagFilters={[]}
-        search={{ placeholder: 'Rechercher par raison sociale', params: 'raisonSociale' }}
+        search={{ placeholder: 'Raison sociale', params: 'raisonSociale' }}
       />
     </>
   );

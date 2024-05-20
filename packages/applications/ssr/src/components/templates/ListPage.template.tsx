@@ -88,6 +88,3 @@ export const ListPageTemplate = <TItem,>({
     </PageTemplate>
   );
 };
-
-// const buildUrl = (pathname: string, searchParams: URLSearchParams) =>
-//   `${pathname}${searchParams.size > 0 ? `?${searchParams.toString()}` : ''}`;

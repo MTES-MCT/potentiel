@@ -66,7 +66,7 @@ describe('listProjectionV2', () => {
   });
 
   afterEach(async () => {
-    await executeQuery(`delete from domain_views.projection where key ilike $1`, `${category}|%`);
+    await executeQuery(`delete from domain_views.projection where key like $1`, `${category}|%`);
   });
 
   const mapToListResultItems = (
