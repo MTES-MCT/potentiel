@@ -73,7 +73,7 @@ export async function ajouter(
       },
       contactEmail: Option.match(contactEmail)
         .some((value) => value.formatter())
-        .none(() => ''),
+        .none(),
     },
   };
 

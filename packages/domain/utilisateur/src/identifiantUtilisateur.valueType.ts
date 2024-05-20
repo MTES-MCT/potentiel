@@ -1,4 +1,4 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export type RawType = string;
 
@@ -7,10 +7,9 @@ export type ValueType = ReadonlyValueType<{
   formatter: () => RawType;
 }>;
 
-export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
+export const bind = ({ email }: PlainType<ValueType>): ValueType => {
   return {
-    email: value,
+    email,
     formatter() {
       return this.email;
     },
@@ -18,6 +17,13 @@ export const convertirEnValueType = (value: string): ValueType => {
       return valueType.email === this.email;
     },
   };
+};
+
+export const convertirEnValueType = (value: string): ValueType => {
+  estValide(value);
+  return bind({
+    email: value,
+  });
 };
 
 const regexEmail = /^[a-zA-Z0-9.+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;

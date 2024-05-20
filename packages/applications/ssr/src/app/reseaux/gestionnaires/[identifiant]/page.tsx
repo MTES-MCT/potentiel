@@ -19,26 +19,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         },
       });
 
-    return Option.isNone(gestionnaireRéseau) ? (
-      <CustomErrorPage statusCode="404" type="NotFoundError" />
-    ) : (
-      <ModifierGestionnaireRéseauPage {...mapToProps(gestionnaireRéseau)} />
-    );
+    return Option.match(gestionnaireRéseau)
+      .some((grd) => <ModifierGestionnaireRéseauPage {...grd} />)
+      .none(() => <CustomErrorPage statusCode="404" type="NotFoundError" />);
   });
 }
-
-const mapToProps = ({
-  aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
-  identifiantGestionnaireRéseau,
-  raisonSociale,
-  contactEmail,
-}: GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel) => {
-  return {
-    identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
-    raisonSociale,
-    format,
-    légende,
-    expressionReguliere: expressionReguliere.formatter(),
-    contactEmail: Option.isSome(contactEmail) ? contactEmail.formatter() : '',
-  };
-};

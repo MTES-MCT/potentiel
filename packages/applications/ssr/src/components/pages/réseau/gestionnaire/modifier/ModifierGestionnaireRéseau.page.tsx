@@ -5,6 +5,14 @@ import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import {
+  ConsulterGestionnaireRéseauReadModel,
+  IdentifiantGestionnaireRéseau,
+} from '@potentiel-domain/reseau/src/gestionnaire';
+import { PlainType } from '@potentiel-domain/core';
+import { ExpressionRegulière } from '@potentiel-domain/common';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -13,25 +21,29 @@ import { PageTemplate } from '@/components/templates/Page.template';
 
 import { modifierGestionnaireRéseauAction } from './modifierGestionnaireRéseau.action';
 
-export type ModifierGestionnaireRéseauProps = {
-  identifiantGestionnaireRéseau: string;
-  raisonSociale: string;
-  expressionReguliere: string;
-  format: string;
-  légende: string;
-  contactEmail: string;
-};
+type ModifierGestionnaireRéseauProps = PlainType<ConsulterGestionnaireRéseauReadModel>;
 
 export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProps> = ({
   identifiantGestionnaireRéseau,
   raisonSociale,
-  format,
-  légende,
-  expressionReguliere,
+  aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
   contactEmail,
 }: ModifierGestionnaireRéseauProps) => {
   const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+
+  const contactEmailValue = Option.match(contactEmail)
+    .some((email) => {
+      const emailValueType = IdentifiantUtilisateur.bind(email);
+      return emailValueType.formatter();
+    })
+    .none(() => '');
+
+  const expressionReguliereValue = ExpressionRegulière.bind(expressionReguliere).formatter();
+
+  const identifiantGestionnaireReseauValue = IdentifiantGestionnaireRéseau.bind(
+    identifiantGestionnaireRéseau,
+  ).formatter();
   return (
     <PageTemplate
       banner={
@@ -48,16 +60,16 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
         onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       >
         <div className="mb-6">
-          <label>Code EIC ou Gestionnaire: {identifiantGestionnaireRéseau}</label>
+          <label>Code EIC ou Gestionnaire: {identifiantGestionnaireReseauValue}</label>
         </div>
 
         <input
           type={'hidden'}
-          value={identifiantGestionnaireRéseau}
+          value={identifiantGestionnaireReseauValue}
           name="identifiantGestionnaireReseau"
         />
 
-        <input type={'hidden'} value={contactEmail} name="contactEmail" />
+        <input type={'hidden'} value={contactEmailValue} name="contactEmail" />
 
         <Input
           textArea
@@ -103,7 +115,7 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
           id="expressionReguliere"
           nativeTextAreaProps={{
             name: 'expressionReguliere',
-            value: expressionReguliere,
+            value: expressionReguliereValue,
           }}
           state={validationErrors.includes('expressionReguliere') ? 'error' : 'default'}
           stateRelatedMessage="Expression régulière à préciser"

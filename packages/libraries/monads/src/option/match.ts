@@ -9,20 +9,14 @@ export const match = <TType>(option: Option<TType>) => {
   const some = <TReturn>(onSome: OnSome<TType, TReturn>) => {
     if (isSome(option)) {
       return {
-        none: (): Option<TReturn> => {
+        none: (): TReturn => {
           return onSome(option);
         },
       };
     }
 
     return {
-      none: (onNone?: OnNone<TReturn>): Option<TReturn> => {
-        if (onNone) {
-          return onNone();
-        }
-
-        return none;
-      },
+      none: handleNone<TReturn>,
     };
   };
 
@@ -30,3 +24,13 @@ export const match = <TType>(option: Option<TType>) => {
     some,
   };
 };
+
+function handleNone<TReturn>(): Option<TReturn>;
+function handleNone<TReturn>(onNone: OnNone<TReturn>): TReturn;
+function handleNone<TReturn>(onNone?: OnNone<TReturn>) {
+  if (onNone) {
+    return onNone();
+  }
+
+  return none;
+}
