@@ -1,5 +1,4 @@
 import { mediator } from 'mediateur';
-import { useState } from 'react';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
@@ -13,10 +12,9 @@ type PageProps = {
 };
 
 export default async function Page({ searchParams }: PageProps) {
-  const [search, setSearch] = useState<string>('');
-
   return PageWithErrorHandling(async () => {
     const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+    const raisonSocialeSearch = searchParams ? searchParams['raisonSociale'] : '';
 
     const gestionnaireRéseaux =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
@@ -26,14 +24,18 @@ export default async function Page({ searchParams }: PageProps) {
             currentPage: page,
             itemsPerPage: 10,
           }),
-          where: {
-            raisonSociale: {
-              operator: 'like',
-              value: `%${search}%`,
+          ...(raisonSocialeSearch && {
+            where: {
+              raisonSociale: {
+                operator: 'like',
+                value: `%${raisonSocialeSearch}%`,
+              },
             },
-          },
+          }),
         },
       });
+
+    console.log('gestionnaireRéseaux', gestionnaireRéseaux);
 
     return <GestionnaireRéseauListPage list={mapToListProps(gestionnaireRéseaux)} />;
   });
