@@ -35,25 +35,21 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
       identifiantGestionnaireRéseauValue,
     );
 
-    const expressionReguliere = match(expressionReguliereValue)
-      .with('', () => ExpressionRegulière.accepteTout)
-      .otherwise((value) => ExpressionRegulière.convertirEnValueType(value));
-
-    const contactEmail = Option.match(Option.map(contactEmailValue))
-      .some(IdentifiantUtilisateur.convertirEnValueType)
-      .none();
-
     await mediator.send<AjouterGestionnaireRéseauCommand>({
       type: 'Réseau.Gestionnaire.Command.AjouterGestionnaireRéseau',
       data: {
         identifiantGestionnaireRéseau,
         raisonSociale: raisonSocialeValue,
         aideSaisieRéférenceDossierRaccordement: {
-          expressionReguliere,
+          expressionReguliere: match(expressionReguliereValue)
+            .with('', () => ExpressionRegulière.accepteTout)
+            .otherwise((value) => ExpressionRegulière.convertirEnValueType(value)),
           format: formatValue,
           légende: légendeValue,
         },
-        contactEmail,
+        contactEmail: Option.match(Option.map(contactEmailValue))
+          .some(IdentifiantUtilisateur.convertirEnValueType)
+          .none(),
       },
     });
   };

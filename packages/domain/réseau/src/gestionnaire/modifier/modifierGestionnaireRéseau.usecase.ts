@@ -4,6 +4,7 @@ import { IdentifiantGestionnaireRéseau } from '..';
 import { ModifierGestionnaireRéseauCommand } from './modifierGestionnaireRéseau.command';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { match } from 'ts-pattern';
 
 export type ModifierGestionnaireRéseauUseCase = Message<
   'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',
@@ -34,13 +35,13 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
       identifiantGestionnaireRéseauValue,
     );
 
-    const expressionReguliere = !expressionReguliereValue
-      ? ExpressionRegulière.accepteTout
-      : ExpressionRegulière.convertirEnValueType(expressionReguliereValue);
+    const expressionReguliere = match(expressionReguliereValue)
+      .with('', () => ExpressionRegulière.accepteTout)
+      .otherwise((value) => ExpressionRegulière.convertirEnValueType(value));
 
-    const contactEmail = !contactEmailValue
-      ? Option.none
-      : IdentifiantUtilisateur.convertirEnValueType(contactEmailValue);
+    const contactEmail = Option.match(Option.map(contactEmailValue))
+      .some(IdentifiantUtilisateur.convertirEnValueType)
+      .none();
 
     return mediator.send<ModifierGestionnaireRéseauCommand>({
       type: 'Réseau.Gestionnaire.Command.ModifierGestionnaireRéseau',

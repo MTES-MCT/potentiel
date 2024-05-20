@@ -5,6 +5,7 @@ import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 import { GestionnaireRéseauDéjàExistantError } from '../gestionnaireRéseauDéjàExistant.error';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { match } from 'ts-pattern';
 
 /**
  * @deprecated use GestionnaireRéseauAjoutéEvent instead
@@ -89,7 +90,7 @@ export function applyGestionnaireRéseauAjouté(
   }: GestionnaireRéseauAjoutéEventV1 | GestionnaireRéseauAjoutéEvent,
 ) {
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
-  this.référenceDossierRaccordementExpressionRegulière = !expressionReguliere
-    ? ExpressionRegulière.accepteTout
-    : ExpressionRegulière.convertirEnValueType(expressionReguliere);
+  this.référenceDossierRaccordementExpressionRegulière = match(expressionReguliere)
+    .with('', () => ExpressionRegulière.accepteTout)
+    .otherwise((value) => ExpressionRegulière.convertirEnValueType(value));
 }

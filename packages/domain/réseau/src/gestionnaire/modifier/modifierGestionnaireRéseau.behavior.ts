@@ -4,6 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { match } from 'ts-pattern';
 
 /**
  * @deprecated Use GestionnaireRéseauModifiéEvent instead
@@ -65,7 +66,9 @@ export async function modifier(
         légende,
         expressionReguliere: expressionReguliere.formatter(),
       },
-      contactEmail: Option.isNone(contactEmail) ? '' : contactEmail.formatter(),
+      contactEmail: Option.match(contactEmail)
+        .some((email) => email.formatter())
+        .none(() => ''),
     },
   };
 
@@ -82,7 +85,7 @@ export function applyGestionnaireRéseauModifié(
   }: GestionnaireRéseauModifiéEventV1 | GestionnaireRéseauModifiéEvent,
 ) {
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
-  this.référenceDossierRaccordementExpressionRegulière = !expressionReguliere
-    ? ExpressionRegulière.accepteTout
-    : ExpressionRegulière.convertirEnValueType(expressionReguliere);
+  this.référenceDossierRaccordementExpressionRegulière = match(expressionReguliere)
+    .with('', () => ExpressionRegulière.accepteTout)
+    .otherwise((value) => ExpressionRegulière.convertirEnValueType(value));
 }
