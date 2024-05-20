@@ -9,14 +9,16 @@ import { Icon } from '../atoms/Icon';
 we won't use SearchBar from DSFR from now
 as it is a bit buggy
  */
-export const Search = () => {
+
+export type SearchProps = {
+  placeholder: string;
+  params: string;
+};
+
+export const Search = ({ placeholder, params }: SearchProps) => {
   const pathname = usePathname();
   const [searchParams, setSearchParams] = useState<string>('');
-  const url = buildUrl(
-    pathname,
-    new URLSearchParams({ raisonSociale: searchParams }),
-    searchParams,
-  );
+  const url = buildUrl(pathname, new URLSearchParams({ [params]: searchParams }), searchParams);
 
   return (
     <>
@@ -24,7 +26,7 @@ export const Search = () => {
         <div className="flex">
           <input
             value={searchParams}
-            placeholder="Rechercher par raison sociale"
+            placeholder={placeholder}
             onChange={(e) => setSearchParams(e.target.value)}
             className="leading-none !mt-0 px-4 pt-2 pb-[5px] rounded-t-[4px] rounded-tr-[4px] rounded-b-none rounded-bl-none border-0 border-b-[3px] border-b-blue-france-sun-base focus:border-b-blue-france-sun-base placeholder:italic"
           />

@@ -35,8 +35,6 @@ export default async function Page({ searchParams }: PageProps) {
         },
       });
 
-    console.log('gestionnaireRéseaux', gestionnaireRéseaux);
-
     return <GestionnaireRéseauListPage list={mapToListProps(gestionnaireRéseaux)} />;
   });
 }

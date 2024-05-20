@@ -5,7 +5,7 @@ import { FC } from 'react';
 
 import { LinkAction } from '../atoms/LinkAction';
 import { Heading1 } from '../atoms/headings';
-import { Search } from '../molecules/Search';
+import { Search, SearchProps } from '../molecules/Search';
 import { List } from '../organisms/List';
 import { ListFilters, ListFiltersProps } from '../organisms/ListFilters';
 import { ListHeader, ListHeaderProps } from '../organisms/ListHeader';
@@ -25,7 +25,7 @@ export type ListPageTemplateProps<TItem> = {
   itemsPerPage: number;
   items: Array<TItem & { key: string }>;
   ItemComponent: FC<TItem>;
-  withSearch?: boolean;
+  search?: SearchProps;
 };
 
 export const ListPageTemplate = <TItem,>({
@@ -38,7 +38,7 @@ export const ListPageTemplate = <TItem,>({
   itemsPerPage,
   tagFilters,
   totalItems,
-  withSearch,
+  search,
 }: ListPageTemplateProps<TItem>) => {
   /**
    * Use search params as key for the ListFilters component
@@ -51,7 +51,7 @@ export const ListPageTemplate = <TItem,>({
     <PageTemplate banner={<Heading1 className="text-theme-white">{heading}</Heading1>}>
       <div className="flex flex-col md:flex-row gap-5 md:gap-10">
         <div className="flex flex-col gap-3 pb-2 border-solid border-0 border-b md:border-b-0 md:w-1/4">
-          {withSearch ? <Search /> : null}
+          {search ? <Search placeholder={search.placeholder} params={search.params} /> : null}
           {filters.length || actions.length ? (
             <>
               {actions.map((a) => (

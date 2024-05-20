@@ -1,6 +1,5 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -20,10 +19,6 @@ export type GestionnaireRéseauListPageProps = {
 export const GestionnaireRéseauListPage: FC<GestionnaireRéseauListPageProps> = ({
   list: { items: gestionnaireRéseaux, currentPage, totalItems, itemsPerPage },
 }) => {
-  const searchParams = useSearchParams();
-  const raisonSociale = searchParams.get('raisonSociale') ?? undefined;
-  console.log('raisonSociale', raisonSociale);
-
   return (
     <>
       <ListPageTemplate
@@ -44,7 +39,7 @@ export const GestionnaireRéseauListPage: FC<GestionnaireRéseauListPageProps> =
         ItemComponent={GestionnaireRéseauListItem}
         filters={[]}
         tagFilters={[]}
-        withSearch={true}
+        search={{ placeholder: 'Rechercher par raison sociale', params: 'raisonSociale' }}
       />
     </>
   );
