@@ -12,7 +12,7 @@ export const addNewGestionnairesDeRéseau = async ({
   );
 
   const newGestionnairesRéseaux = gestionnairesFromORE.filter(
-    (gestionnaire) => !gestionnairesRéseauEICFromDb.includes(gestionnaire.codeEIC),
+    (gestionnaire) => !gestionnairesRéseauEICFromDb.includes(gestionnaire.eic),
   );
 
   newGestionnairesRéseaux.length
@@ -25,18 +25,18 @@ export const addNewGestionnairesDeRéseau = async ({
       );
 
   for (const newGestionnaireRéseaux of newGestionnairesRéseaux) {
-    await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
-      type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
-      data: {
-        aideSaisieRéférenceDossierRaccordementValue: {
-          expressionReguliereValue: '',
-          formatValue: '',
-          légendeValue: '',
+    try {
+      await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
+        type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
+        data: {
+          aideSaisieRéférenceDossierRaccordementValue: {},
+          identifiantGestionnaireRéseauValue: newGestionnaireRéseaux.eic,
+          raisonSocialeValue: newGestionnaireRéseaux.grd,
+          contactEmailValue: newGestionnaireRéseaux.contact ?? undefined,
         },
-        identifiantGestionnaireRéseauValue: newGestionnaireRéseaux.codeEIC,
-        raisonSocialeValue: newGestionnaireRéseaux.raisonSociale,
-        contactEmailValue: newGestionnaireRéseaux.contactEmail,
-      },
-    });
+      });
+    } catch (error) {
+      getLogger().error(error as Error);
+    }
   }
 };

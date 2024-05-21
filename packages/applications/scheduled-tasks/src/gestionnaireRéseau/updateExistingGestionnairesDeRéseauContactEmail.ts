@@ -11,10 +11,9 @@ export const updateExistingGestionnairesDeRéseauContactEmail = async ({
   const gestionnairesRéseauToUpdate = gestionnairesRéseau.items.filter((gestionnaire) => {
     return gestionnairesFromORE.some(
       (g) =>
-        g.codeEIC === gestionnaire.identifiantGestionnaireRéseau.codeEIC &&
-        g.contactEmail &&
-        (Option.isNone(gestionnaire.contactEmail) ||
-          g.contactEmail !== gestionnaire.contactEmail.email),
+        g.eic === gestionnaire.identifiantGestionnaireRéseau.codeEIC &&
+        g.contact &&
+        (Option.isNone(gestionnaire.contactEmail) || g.contact !== gestionnaire.contactEmail.email),
     );
   });
 
@@ -29,7 +28,7 @@ export const updateExistingGestionnairesDeRéseauContactEmail = async ({
 
   for (const gestionnaireRéseauToUpdate of gestionnairesRéseauToUpdate) {
     const relatedOreGestionnaireRéseau = gestionnairesFromORE.find(
-      ({ codeEIC }) => codeEIC === gestionnaireRéseauToUpdate.identifiantGestionnaireRéseau.codeEIC,
+      ({ eic }) => eic === gestionnaireRéseauToUpdate.identifiantGestionnaireRéseau.codeEIC,
     );
 
     if (!relatedOreGestionnaireRéseau) {
@@ -49,7 +48,7 @@ export const updateExistingGestionnairesDeRéseauContactEmail = async ({
           formatValue: gestionnaireRéseauToUpdate.aideSaisieRéférenceDossierRaccordement.format,
         },
         raisonSocialeValue: gestionnaireRéseauToUpdate.raisonSociale,
-        contactEmailValue: relatedOreGestionnaireRéseau.contactEmail,
+        contactEmailValue: relatedOreGestionnaireRéseau.contact ?? undefined,
       },
     });
   }
