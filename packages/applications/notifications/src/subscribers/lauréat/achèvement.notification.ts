@@ -21,7 +21,7 @@ const templateId = {
   attestationConformitéTransmise: 5945568,
 };
 
-const sendEmailAttestationConformité = async ({
+const sendEmailAchèvement = async ({
   identifiantProjet,
   templateId,
   recipients,
@@ -74,7 +74,7 @@ export const register = () => {
 
     switch (event.type) {
       case 'AttestationConformitéTransmise-V1':
-        await sendEmailAttestationConformité({
+        await sendEmailAchèvement({
           subject: `Potentiel - Une attestation de conformité a été transmise pour le projet ${nomProjet} dans le département ${départementProjet}`,
           templateId: templateId.attestationConformitéTransmise,
           recipients: dreals,
