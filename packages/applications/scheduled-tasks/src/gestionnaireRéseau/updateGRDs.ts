@@ -3,13 +3,11 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { mediator } from 'mediateur';
 import { RéférencielGRD } from './référencielGRD';
 
-export const updateExistingGestionnairesDeRéseauContactEmail = async (
-  gestionnaires: RéférencielGRD['àModifier'],
-) => {
+export const updateGRDs = async (gestionnaires: RéférencielGRD['àModifier']) => {
   gestionnaires.length
     ? getLogger().info(
         '[updateGestionnaireDeRéseau] Des gestionnaires de réseau vont être mis à jour',
-        { gestionnaires },
+        { total: gestionnaires.length },
       )
     : getLogger().info(
         "[updateGestionnaireDeRéseau] Il n'y a pas de gestionnaires de réseaux à mettre à jour",
@@ -41,6 +39,8 @@ export const updateExistingGestionnairesDeRéseauContactEmail = async (
           gestionnaire,
         });
       }
+    } else {
+      console.log('ore null');
     }
   }
 };

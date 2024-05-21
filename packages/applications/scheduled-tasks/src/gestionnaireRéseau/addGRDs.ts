@@ -3,13 +3,11 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { mediator } from 'mediateur';
 import { OreGestionnaire } from '@potentiel-infrastructure/ore-client';
 
-export const addNewGestionnairesDeRéseau = async (
-  gestionnairesORE: ReadonlyArray<OreGestionnaire>,
-) => {
+export const addGRDs = async (gestionnairesORE: ReadonlyArray<OreGestionnaire>) => {
   gestionnairesORE.length
     ? getLogger().info(
         '[updateGestionnaireDeRéseau] Des nouveaux gestionnaires de réseau vont être ajoutés',
-        { nouveauxGestionnaires: gestionnairesORE },
+        { total: gestionnairesORE.length, gestionnaires: gestionnairesORE },
       )
     : getLogger().info(
         "[updateGestionnaireDeRéseau] Il n'y a pas de nouveaux gestionnaires de réseaux",
@@ -21,14 +19,14 @@ export const addNewGestionnairesDeRéseau = async (
         type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
         data: {
           aideSaisieRéférenceDossierRaccordementValue: {},
-          identifiantGestionnaireRéseauValue: gestionnaire.eic,
+          identifiantGestionnaireRéseauValue: gestionnaire.eic ?? gestionnaire.grd,
           raisonSocialeValue: gestionnaire.grd,
           contactEmailValue: gestionnaire.contact ?? undefined,
         },
       });
     } catch (error) {
       getLogger().error(error as Error, {
-        newGestionnaireRéseaux: JSON.stringify(gestionnaire),
+        gestionnaire,
       });
     }
   }

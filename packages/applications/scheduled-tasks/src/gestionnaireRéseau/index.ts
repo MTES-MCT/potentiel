@@ -14,8 +14,8 @@ import {
   listProjectionV2,
 } from '@potentiel-infrastructure/pg-projections';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { addNewGestionnairesDeRéseau } from './addGRD';
-import { updateExistingGestionnairesDeRéseauContactEmail } from './updateGRD';
+import { addGRDs } from './addGRDs';
+import { updateGRDs } from './updateGRDs';
 import { mapToRéférencielGRD } from './référencielGRD';
 
 registerRéseauUseCases({
@@ -40,11 +40,11 @@ registerRéseauQueries({
         data: {},
       });
 
-    const référencielGRD = mapToRéférencielGRD(gestionnairesFromORE, gestionnairesRéseau);
+    const { àAjouter, àModifier } = mapToRéférencielGRD(gestionnairesFromORE, gestionnairesRéseau);
 
-    await addNewGestionnairesDeRéseau(référencielGRD.àAjouter);
+    await addGRDs(àAjouter);
 
-    await updateExistingGestionnairesDeRéseauContactEmail(référencielGRD.àModifier);
+    await updateGRDs(àModifier);
 
     process.exit(0);
   } catch (error) {

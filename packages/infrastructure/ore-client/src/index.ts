@@ -10,7 +10,7 @@ const schema = zod.object({
   results: zod.array(
     zod.object({
       grd: zod.string(),
-      eic: zod.string(),
+      eic: zod.string().nullable(),
       contact: zod.string().nullable(),
     }),
   ),
@@ -25,7 +25,7 @@ type OreGestionnaireSlice = {
 
 const getGRDsSlice = async (offset: string): Promise<OreGestionnaireSlice> => {
   const searchParams = new URLSearchParams();
-  searchParams.append('where', 'energie:"Électricité" and eic is not null and grd is not null');
+  searchParams.append('where', 'energie:"Électricité" and grd is not null');
   searchParams.append('select', 'grd, eic, contact');
   searchParams.append('limit', ORE_API_LIMIT_IN_STRING);
   searchParams.append('offset', offset);
