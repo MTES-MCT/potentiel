@@ -158,6 +158,19 @@ const référencielPermissions = {
           'Lauréat.GarantiesFinancières.Command.EffacerHistoriqueGarantiesFinancières',
       },
     },
+    achèvement: {
+      query: {
+        consulter: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
+      },
+      command: {
+        transmettre:
+          'Lauréat.Achèvement.AttestationConformité.Command.TransmettreAttestationConformité',
+      },
+      useCase: {
+        transmettre:
+          'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
+      },
+    },
   },
   appelOffre: {
     cahierDesCharges: {
@@ -542,6 +555,18 @@ const policies = {
       ],
     },
   },
+  attestationConformité: {
+    consulter: [
+      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.lauréat.achèvement.query.consulter,
+      référencielPermissions.document.query.consulter,
+    ],
+    transmettre: [
+      référencielPermissions.lauréat.achèvement.useCase.transmettre,
+      référencielPermissions.lauréat.achèvement.command.transmettre,
+      référencielPermissions.document.command.enregister,
+    ],
+  },
 };
 
 const permissionAdmin = [
@@ -582,12 +607,19 @@ const permissionAdmin = [
   ...policies.garantiesFinancières.effacerHistorique,
   ...policies.garantiesFinancières.enAttente.lister,
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
+
+  // Achèvement
+  ...policies.attestationConformité.consulter,
+  ...policies.attestationConformité.transmettre,
 ];
 
 const permissionCRE = [
   // Abandon
   ...policies.abandon.consulter.liste,
   ...policies.abandon.consulter.détail,
+
+  // Achèvement
+  ...policies.attestationConformité.consulter,
 
   // Raccordement
   ...policies.réseau.raccordement.consulter,
@@ -619,6 +651,10 @@ const permissionDreal = [
   ...policies.garantiesFinancières.effacerHistorique,
   ...policies.garantiesFinancières.enAttente.lister,
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
+
+  // Achèvement
+  ...policies.attestationConformité.consulter,
+  ...policies.attestationConformité.transmettre,
 ];
 
 const permissionDgecValidateur = [
@@ -659,6 +695,10 @@ const permissionDgecValidateur = [
   ...policies.garantiesFinancières.effacerHistorique,
   ...policies.garantiesFinancières.enAttente.lister,
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
+
+  // Achèvement
+  ...policies.attestationConformité.consulter,
+  ...policies.attestationConformité.transmettre,
 ];
 
 const permissionPorteurProjet = [
@@ -691,6 +731,10 @@ const permissionPorteurProjet = [
   ...policies.garantiesFinancières.dépôt.modifier,
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.effacerHistorique,
+
+  // Achèvement
+  ...policies.attestationConformité.consulter,
+  ...policies.attestationConformité.transmettre,
 ];
 
 const permissionAcheteurObligé = [
@@ -698,6 +742,9 @@ const permissionAcheteurObligé = [
 
   // Garanties financières
   ...policies.garantiesFinancières.consulter,
+
+  // Achèvement
+  ...policies.attestationConformité.transmettre,
 ];
 
 const permissionCaisseDesDépôts = [

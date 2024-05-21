@@ -13,13 +13,6 @@ import {
   SecondaryLinkButton,
 } from '../../../components';
 
-type ProjectActionsProps = {
-  project: ProjectDataForProjectPage;
-  user: User;
-  abandonEnCours: boolean;
-  modificationsNonPermisesParLeCDCActuel: boolean;
-};
-
 type EnregistrerUneModificationProps = {
   project: ProjectDataForProjectPage;
   signalementRecoursAutorisé?: true;
@@ -47,24 +40,17 @@ const EnregistrerUneModification = ({
   </DropdownMenuSecondaryButton>
 );
 
-const getProjectStatus = (project: ProjectDataForProjectPage) =>
-  !project.notifiedOn
-    ? 'non-notifié'
-    : project.isAbandoned
-    ? 'abandonné'
-    : project.isClasse
-    ? 'lauréat'
-    : 'éliminé';
-
 type PorteurProjetActionsProps = {
   project: ProjectDataForProjectPage;
   abandonEnCours: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
+  hasAttestationConformité: boolean;
 };
 const PorteurProjetActions = ({
   project,
   abandonEnCours,
   modificationsNonPermisesParLeCDCActuel,
+  hasAttestationConformité,
 }: PorteurProjetActionsProps) => (
   <div className="flex flex-col gap-3">
     <div className="flex flex-col xl:flex-row gap-2">
@@ -75,7 +61,7 @@ const PorteurProjetActions = ({
       )}
 
       {project.isClasse && (
-        <DropdownMenuSecondaryButton buttonChildren="Faire une demande" className="w-fit">
+        <DropdownMenuSecondaryButton buttonChildren="Actions" className="w-fit">
           {project.appelOffre.typeAppelOffre !== 'biométhane' && (
             <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
               <span>Demander un délai</span>
@@ -105,19 +91,35 @@ const PorteurProjetActions = ({
             </span>
           </DropdownMenuSecondaryButton.DropdownItem>
           {!abandonEnCours && (
-            <DropdownMenuSecondaryButton.DropdownItem
-              href={Routes.Abandon.demander(
-                formatProjectDataToIdentifiantProjetValueType({
-                  appelOffreId: project.appelOffreId,
-                  periodeId: project.periodeId,
-                  familleId: project.familleId,
-                  numeroCRE: project.numeroCRE,
-                }).formatter(),
+            <>
+              <DropdownMenuSecondaryButton.DropdownItem
+                href={Routes.Abandon.demander(
+                  formatProjectDataToIdentifiantProjetValueType({
+                    appelOffreId: project.appelOffreId,
+                    periodeId: project.periodeId,
+                    familleId: project.familleId,
+                    numeroCRE: project.numeroCRE,
+                  }).formatter(),
+                )}
+                {...(modificationsNonPermisesParLeCDCActuel && { disabled: true })}
+              >
+                <span>Demander un abandon</span>
+              </DropdownMenuSecondaryButton.DropdownItem>
+              {!hasAttestationConformité && getProjectStatus(project) === 'lauréat' && (
+                <DropdownMenuSecondaryButton.DropdownItem
+                  href={Routes.Achèvement.transmettreAttestationConformité(
+                    formatProjectDataToIdentifiantProjetValueType({
+                      appelOffreId: project.appelOffreId,
+                      periodeId: project.periodeId,
+                      familleId: project.familleId,
+                      numeroCRE: project.numeroCRE,
+                    }).formatter(),
+                  )}
+                >
+                  <span>Transmettre l'attestation de conformité</span>
+                </DropdownMenuSecondaryButton.DropdownItem>
               )}
-              {...(modificationsNonPermisesParLeCDCActuel && { disabled: true })}
-            >
-              <span>Demander un abandon</span>
-            </DropdownMenuSecondaryButton.DropdownItem>
+            </>
           )}
         </DropdownMenuSecondaryButton>
       )}
@@ -183,11 +185,19 @@ const AdminActions = ({
   </div>
 );
 
+type ProjectActionsProps = {
+  project: ProjectDataForProjectPage;
+  user: User;
+  abandonEnCours: boolean;
+  modificationsNonPermisesParLeCDCActuel: boolean;
+  hasAttestationConformité: boolean;
+};
 export const ProjectActions = ({
   project,
   user,
   abandonEnCours,
   modificationsNonPermisesParLeCDCActuel,
+  hasAttestationConformité,
 }: ProjectActionsProps) => (
   <div className="print:hidden whitespace-nowrap">
     {userIs(['admin', 'dgec-validateur'])(user) && (
@@ -197,9 +207,22 @@ export const ProjectActions = ({
     )}
     {userIs(['porteur-projet'])(user) && (
       <PorteurProjetActions
-        {...{ project, abandonEnCours, modificationsNonPermisesParLeCDCActuel }}
+        project={project}
+        abandonEnCours={abandonEnCours}
+        modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
+        hasAttestationConformité={hasAttestationConformité}
       />
     )}
-    {userIs(['dreal'])(user) && <EnregistrerUneModification {...{ project }} />}
+    {userIs(['dreal'])(user) && <EnregistrerUneModification project={project} />}
   </div>
 );
+
+type ProjectStatus = 'non-notifié' | 'abandonné' | 'lauréat' | 'éliminé';
+const getProjectStatus = (project: ProjectDataForProjectPage): ProjectStatus =>
+  !project.notifiedOn
+    ? 'non-notifié'
+    : project.isAbandoned
+    ? 'abandonné'
+    : project.isClasse
+    ? 'lauréat'
+    : 'éliminé';

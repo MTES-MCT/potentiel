@@ -101,7 +101,7 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   statut: StatutAbandon.convertirEnValueType('inconnu'),
   demande: {
     raison: '',
-    demandéPar: IdentifiantUtilisateur.convertirEnValueType('unknown-user@unknown-email.com'),
+    demandéPar: IdentifiantUtilisateur.unknownUser,
     recandidature: false,
     demandéLe: DateTime.convertirEnValueType(new Date()),
   },

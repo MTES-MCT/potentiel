@@ -39,6 +39,7 @@ type ProjectDetailsProps = {
   abandon?: {
     statut: string;
   };
+  hasAttestationConformité: boolean;
 };
 
 export const ProjectDetails = ({
@@ -47,6 +48,7 @@ export const ProjectDetails = ({
   projectEventList,
   alertesRaccordement,
   abandon,
+  hasAttestationConformité,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -71,7 +73,11 @@ export const ProjectDetails = ({
         éléments fournis à Potentiel à date. Elles sont susceptibles de modifications ultérieures.
       </p>
       <ProjectHeader
-        {...{ project, user, abandonEnCours, modificationsNonPermisesParLeCDCActuel }}
+        user={user}
+        project={project}
+        abandonEnCours={abandonEnCours}
+        modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
+        hasAttestationConformité={hasAttestationConformité}
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}
