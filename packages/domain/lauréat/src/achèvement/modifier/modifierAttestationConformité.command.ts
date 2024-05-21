@@ -5,7 +5,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { loadAttestationConformitéFactory } from '../achèvement.aggregate';
+import { loadAchèvementFactory } from '../achèvement.aggregate';
 
 export type ModifierAttestationConformitéCommand = Message<
   'Lauréat.Achèvement.AttestationConformité.Command.ModifierAttestationConformité',
@@ -20,7 +20,7 @@ export type ModifierAttestationConformitéCommand = Message<
 >;
 
 export const registerModifierAttestationConformitéCommand = (loadAggregate: LoadAggregate) => {
-  const loadAttestationConformitéAggregate = loadAttestationConformitéFactory(loadAggregate);
+  const loadAchèvementAggregate = loadAchèvementFactory(loadAggregate);
   const handler: MessageHandler<ModifierAttestationConformitéCommand> = async ({
     identifiantProjet,
     attestation,
@@ -29,10 +29,7 @@ export const registerModifierAttestationConformitéCommand = (loadAggregate: Loa
     date,
     utilisateur,
   }) => {
-    const attestationConformité = await loadAttestationConformitéAggregate(
-      identifiantProjet,
-      false,
-    );
+    const attestationConformité = await loadAchèvementAggregate(identifiantProjet, false);
 
     await attestationConformité.modifier({
       identifiantProjet,

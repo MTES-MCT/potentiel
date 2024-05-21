@@ -5,7 +5,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { loadAttestationConformitéFactory } from '../achèvement.aggregate';
+import { loadAchèvementFactory } from '../achèvement.aggregate';
 
 export type TransmettreAttestationConformitéCommand = Message<
   'Lauréat.Achèvement.AttestationConformité.Command.TransmettreAttestationConformité',
@@ -20,7 +20,7 @@ export type TransmettreAttestationConformitéCommand = Message<
 >;
 
 export const registerTransmettreAttestationConformitéCommand = (loadAggregate: LoadAggregate) => {
-  const loadAttestationConformitéAggregate = loadAttestationConformitéFactory(loadAggregate);
+  const loadAttestationConformitéAggregate = loadAchèvementFactory(loadAggregate);
   const handler: MessageHandler<TransmettreAttestationConformitéCommand> = async ({
     identifiantProjet,
     attestation,

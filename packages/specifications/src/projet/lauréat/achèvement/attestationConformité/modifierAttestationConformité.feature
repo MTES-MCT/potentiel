@@ -1,5 +1,4 @@
 #Language: fr-FR
-@select
 Fonctionnalité: Modifier une attestation de conformité
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"

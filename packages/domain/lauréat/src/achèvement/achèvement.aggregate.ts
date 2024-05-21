@@ -31,7 +31,7 @@ export type AchèvementAggregate = Aggregate<AchèvementEvent> & {
   readonly modifier: typeof modifier;
 };
 
-export const getDefaultAttestationConformitéAggregate: GetDefaultAggregateState<
+export const getDefaultAchèvementAggregate: GetDefaultAggregateState<
   AchèvementAggregate,
   AchèvementEvent
 > = () => ({
@@ -56,12 +56,12 @@ function apply(this: AchèvementAggregate, event: AchèvementEvent) {
   }
 }
 
-export const loadAttestationConformitéFactory =
+export const loadAchèvementFactory =
   (loadAggregate: LoadAggregate) =>
   (identifiantProjet: IdentifiantProjet.ValueType, throwOnNone = true) => {
     return loadAggregate({
       aggregateId: `achevement|${identifiantProjet.formatter()}`,
-      getDefaultAggregate: getDefaultAttestationConformitéAggregate,
+      getDefaultAggregate: getDefaultAchèvementAggregate,
       onNone: throwOnNone
         ? () => {
             throw new AucunAchèvementError();
