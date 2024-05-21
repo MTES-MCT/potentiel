@@ -569,6 +569,8 @@ const policies = {
       référencielPermissions.document.command.enregister,
     ],
     modifier: [
+      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.lauréat.achèvement.query.consulter,
       référencielPermissions.lauréat.achèvement.useCase.modifier,
       référencielPermissions.lauréat.achèvement.command.modifier,
       référencielPermissions.document.command.enregister,
