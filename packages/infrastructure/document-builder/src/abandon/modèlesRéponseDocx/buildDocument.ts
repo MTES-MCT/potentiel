@@ -5,6 +5,7 @@ import Docxtemplater from 'docxtemplater';
 import { Abandon } from '@potentiel-domain/laureat';
 
 import { formatDatesFromDataToFrFormat } from '../../formatDatesFromDataToFrFormat';
+import { formatIdentifiantProjetForDocument } from '../../formatIdentifiantProjetForDocument';
 
 export const getModèleRéponseAbandon: Abandon.BuildModèleRéponseAbandonPort = async ({
   aprèsConfirmation,
@@ -27,7 +28,10 @@ export const getModèleRéponseAbandon: Abandon.BuildModèleRéponseAbandonPort 
 
   doc.render(
     formatDatesFromDataToFrFormat({
-      data,
+      data: {
+        ...data,
+        refPotentiel: formatIdentifiantProjetForDocument(data.refPotentiel),
+      },
       keys: ['dateDemande', 'dateDemandeConfirmation', 'dateConfirmation', 'dateNotification'],
     }),
   );
