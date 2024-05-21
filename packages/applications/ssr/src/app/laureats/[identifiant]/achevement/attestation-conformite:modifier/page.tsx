@@ -36,7 +36,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     }
 
     const attestationConformitéActuelle =
-      await mediator.send<Achèvement.AttestationConformité.ConsulterAttestationConformitéQuery>({
+      await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({
         type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
         data: { identifiantProjetValue: identifiantProjet },
       });

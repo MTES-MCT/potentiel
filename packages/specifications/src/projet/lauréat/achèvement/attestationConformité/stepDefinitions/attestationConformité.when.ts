@@ -85,7 +85,7 @@ Quand(
 
       const utilisateurValue = exemple['utilisateur'] || 'utilisateur@test.test';
 
-      await mediator.send<Achèvement.AttestationConformité.ModifierAttestationConformitéUseCase>({
+      await mediator.send<Achèvement.ModifierAttestationConformitéUseCase>({
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),

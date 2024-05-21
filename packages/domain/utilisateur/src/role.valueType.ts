@@ -569,8 +569,8 @@ const policies = {
       référencielPermissions.document.command.enregister,
     ],
     modifier: [
-      référencielPermissions.lauréat.attestationConformité.useCase.modifier,
-      référencielPermissions.lauréat.attestationConformité.command.modifier,
+      référencielPermissions.lauréat.achèvement.useCase.modifier,
+      référencielPermissions.lauréat.achèvement.command.modifier,
       référencielPermissions.document.command.enregister,
     ],
   },

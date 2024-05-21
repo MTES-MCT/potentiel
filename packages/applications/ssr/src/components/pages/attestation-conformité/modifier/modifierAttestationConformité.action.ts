@@ -19,7 +19,7 @@ const schema = zod.object({
 
 const action: FormAction<FormState, typeof schema> = async (_, props) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Achèvement.AttestationConformité.ModifierAttestationConformitéUseCase>({
+    await mediator.send<Achèvement.ModifierAttestationConformitéUseCase>({
       type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
       data: {
         identifiantProjetValue: props.identifiantProjet,

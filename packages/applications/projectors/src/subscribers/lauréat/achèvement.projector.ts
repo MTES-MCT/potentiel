@@ -82,6 +82,19 @@ export const register = () => {
             dernièreMiseÀJour: { date: payload.date, utilisateur: payload.utilisateur },
           });
           break;
+
+        case 'AttestationConformitéModifiée-V1':
+          await upsertProjection<Achèvement.AchèvementEntity>(`achevement|${identifiantProjet}`, {
+            ...attestationConformitéToUpsert,
+            identifiantProjet: payload.identifiantProjet,
+            attestationConformité: { format: payload.attestation.format, date: payload.date },
+            preuveTransmissionAuCocontractant: {
+              format: payload.preuveTransmissionAuCocontractant.format,
+              date: payload.dateTransmissionAuCocontractant,
+            },
+            dernièreMiseÀJour: { date: payload.date, utilisateur: payload.utilisateur },
+          });
+          break;
       }
     }
   };
