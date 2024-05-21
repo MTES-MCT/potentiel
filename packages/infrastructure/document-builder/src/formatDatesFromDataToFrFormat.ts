@@ -2,7 +2,7 @@ type FormatterDatesEnFr<TData> = {
   data: TData;
   keys: ReadonlyArray<keyof TData>;
 };
-export const formatterDatesEnFr = <TData extends Record<string, string>>({
+export const formatDatesFromDataToFrFormat = <TData extends Record<string, string>>({
   data,
   keys,
 }: FormatterDatesEnFr<TData>) => {

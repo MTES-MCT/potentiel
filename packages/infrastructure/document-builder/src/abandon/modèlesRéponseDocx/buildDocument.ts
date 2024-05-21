@@ -4,7 +4,7 @@ import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
 import { Abandon } from '@potentiel-domain/laureat';
 
-import { formatterDatesEnFr } from '../../formatterDatesEnFr';
+import { formatDatesFromDataToFrFormat } from '../../formatDatesFromDataToFrFormat';
 
 export const getModèleRéponseAbandon: Abandon.BuildModèleRéponseAbandonPort = async ({
   aprèsConfirmation,
@@ -26,7 +26,7 @@ export const getModèleRéponseAbandon: Abandon.BuildModèleRéponseAbandonPort 
   });
 
   doc.render(
-    formatterDatesEnFr({
+    formatDatesFromDataToFrFormat({
       data,
       keys: ['dateDemande', 'dateDemandeConfirmation', 'dateConfirmation', 'dateNotification'],
     }),

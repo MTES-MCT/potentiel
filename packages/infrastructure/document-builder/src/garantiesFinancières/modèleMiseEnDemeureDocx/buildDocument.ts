@@ -4,7 +4,7 @@ import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { formatterDatesEnFr } from '../../formatterDatesEnFr';
+import { formatDatesFromDataToFrFormat } from '../../formatDatesFromDataToFrFormat';
 
 export const getModèleMiseEnDemeureGarantiesFinancières: GarantiesFinancières.BuildModèleMiseEnDemeureGarantiesFinancièresPort =
   async ({ data }) => {
@@ -21,7 +21,7 @@ export const getModèleMiseEnDemeureGarantiesFinancières: GarantiesFinancières
       linebreaks: true,
     });
     doc.render(
-      formatterDatesEnFr({
+      formatDatesFromDataToFrFormat({
         data,
         keys: [
           'dateMiseEnDemeure',
