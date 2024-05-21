@@ -2,6 +2,9 @@ import { RangeOptions } from '@potentiel-domain/core';
 
 import { Pagination } from './pagination';
 
+/**
+ * @deprecated Use mapToPagination from ./pagination.ts module
+ */
 export const mapToRangeOptions = ({ currentPage, itemsPerPage }: Pagination): RangeOptions => {
   const nextPage = currentPage + 1;
 
