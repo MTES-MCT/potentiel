@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { ModifierGestionnaireRéseauPage } from '@/components/pages/réseau/gestionnaire/modifier/ModifierGestionnaireRéseau.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -23,6 +24,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
-    return <ModifierGestionnaireRéseauPage {...gestionnaireRéseau} />;
+    return <ModifierGestionnaireRéseauPage {...mapToPlainObject(gestionnaireRéseau)} />;
   });
 }

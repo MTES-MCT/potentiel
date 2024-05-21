@@ -4,7 +4,6 @@ import { IdentifiantGestionnaireRéseau } from '..';
 import { ModifierGestionnaireRéseauCommand } from './modifierGestionnaireRéseau.command';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { match } from 'ts-pattern';
 
 export type ModifierGestionnaireRéseauUseCase = Message<
   'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',
@@ -12,11 +11,11 @@ export type ModifierGestionnaireRéseauUseCase = Message<
     identifiantGestionnaireRéseauValue: string;
     raisonSocialeValue: string;
     aideSaisieRéférenceDossierRaccordementValue: {
-      formatValue: string;
-      légendeValue: string;
-      expressionReguliereValue: string;
+      formatValue?: string;
+      légendeValue?: string;
+      expressionReguliereValue?: string;
     };
-    contactEmailValue: string;
+    contactEmailValue?: string;
   }
 >;
 
@@ -35,13 +34,10 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
       identifiantGestionnaireRéseauValue,
     );
 
-    const expressionReguliere = match(expressionReguliereValue)
-      .with('', () => ExpressionRegulière.accepteTout)
-      .otherwise((value) => ExpressionRegulière.convertirEnValueType(value));
-
-    const contactEmail = Option.match(Option.map(contactEmailValue))
-      .some(IdentifiantUtilisateur.convertirEnValueType)
-      .none();
+    const format = Option.map(formatValue);
+    const légende = Option.map(légendeValue);
+    const expressionReguliere = Option.map(expressionReguliereValue);
+    const contactEmail = Option.map(contactEmailValue);
 
     return mediator.send<ModifierGestionnaireRéseauCommand>({
       type: 'Réseau.Gestionnaire.Command.ModifierGestionnaireRéseau',
@@ -49,11 +45,15 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
         identifiantGestionnaireRéseau,
         raisonSociale: raisonSocialeValue,
         aideSaisieRéférenceDossierRaccordement: {
-          expressionReguliere,
-          format: formatValue,
-          légende: légendeValue,
+          expressionReguliere: Option.match(expressionReguliere)
+            .some(ExpressionRegulière.convertirEnValueType)
+            .none(),
+          format,
+          légende,
         },
-        contactEmail,
+        contactEmail: Option.match(contactEmail)
+          .some(IdentifiantUtilisateur.convertirEnValueType)
+          .none(),
       },
     });
   };

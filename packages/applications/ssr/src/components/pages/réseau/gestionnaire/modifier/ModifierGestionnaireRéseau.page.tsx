@@ -85,6 +85,18 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
 
         <Input
           textArea
+          label="Courriel de contact"
+          id="contactEmail"
+          nativeTextAreaProps={{
+            name: 'contactEmail',
+            defaultValue: contactEmailValue,
+          }}
+          state={validationErrors.includes('contactEmail') ? 'error' : 'default'}
+          stateRelatedMessage="Contact à préciser"
+        />
+
+        <Input
+          textArea
           label="Format de l'identifiant du dossier de raccordement (optionnel)"
           id="format"
           nativeTextAreaProps={{

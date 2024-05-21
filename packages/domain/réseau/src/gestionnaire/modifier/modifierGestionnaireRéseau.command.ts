@@ -13,9 +13,9 @@ export type ModifierGestionnaireRéseauCommand = Message<
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
     raisonSociale: string;
     aideSaisieRéférenceDossierRaccordement: {
-      format: string;
-      légende: string;
-      expressionReguliere: ExpressionRegulière.ValueType;
+      format: Option.Type<string>;
+      légende: Option.Type<string>;
+      expressionReguliere: Option.Type<ExpressionRegulière.ValueType>;
     };
     contactEmail: Option.Type<IdentifiantUtilisateur.ValueType>;
   }
