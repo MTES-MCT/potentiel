@@ -53,7 +53,6 @@ type Props = {
   className?: string;
   projects: PaginatedList<ProjectListItem>;
   role: UserRole;
-  GFPastDue?: boolean;
   displaySelection?: boolean;
   selectedIds?: string[];
   onSelectedIdsChanged?: (projectIds: string[]) => void;
@@ -68,7 +67,6 @@ export const ProjectList = ({
   className = '',
   projects,
   role,
-  GFPastDue,
   selectedIds = [],
   displaySelection = false,
   onSelectedIdsChanged,
@@ -152,7 +150,7 @@ export const ProjectList = ({
               checked={selectedIds.length === projects.items.length}
             />
             <span className="text-sm">
-              Séléctioner tous les projets de la page ({projects.items.length})
+              Sélectionner tous les projets de la page ({projects.items.length})
             </span>
           </>
         </div>
