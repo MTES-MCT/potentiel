@@ -19,4 +19,3 @@ export * from './ProjectCannotBeUpdatedIfUnnotifiedError';
 export * from './ProjectHasBeenUpdatedSinceError';
 export * from './ProjectNotEligibileForCertificateError';
 export * from './DateEchéanceIncompatibleAvecLeTypeDeGFError';
-export * from './PasDePermissionPourChangerTypeGFError';
