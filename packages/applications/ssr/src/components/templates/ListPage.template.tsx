@@ -51,8 +51,7 @@ export const ListPageTemplate = <TItem,>({
     <PageTemplate banner={<Heading1 className="text-theme-white">{heading}</Heading1>}>
       <div className="flex flex-col md:flex-row gap-5 md:gap-10">
         <div className="flex flex-col gap-3 pb-2 border-solid border-0 border-b md:border-b-0 md:w-1/4">
-          {search ? <Search placeholder={search.placeholder} params={search.params} /> : null}
-          {filters.length || actions.length ? (
+          {actions.length ? (
             <>
               {actions.map((a) => (
                 <LinkAction
@@ -62,9 +61,10 @@ export const ListPageTemplate = <TItem,>({
                   className="w-fit fr-link fr-icon-arrow-right-line fr-link--icon-right"
                 />
               ))}
-              {filters.length ? <ListFilters key={listFiltersKey} filters={filters} /> : null}
             </>
           ) : null}
+          {search ? <Search label={search.label} params={search.params} /> : null}
+          {filters.length ? <ListFilters key={listFiltersKey} filters={filters} /> : null}
         </div>
 
         <div className="flex flex-col gap-3 flex-grow md:w-3/4">
