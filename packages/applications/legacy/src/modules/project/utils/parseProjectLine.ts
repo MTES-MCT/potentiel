@@ -1,7 +1,7 @@
-import * as yup from 'yup';
+import { isValid, parse } from 'date-fns';
 import moment from 'moment-timezone';
+import * as yup from 'yup';
 import getDepartementRegionFromCodePostal from '../../../helpers/getDepartementRegionFromCodePostal';
-import { parse, isValid } from 'date-fns';
 
 moment.tz.setDefault('Europe/Paris');
 
@@ -286,7 +286,7 @@ const projectSchema = yup.object().shape({
 
       return null; // will result in error
     })
-    .typeError(`Le champ 'Investissement ou financement participatif ?' a une valeur erronnée`),
+    .typeError(`Le champ 'Investissement ou financement participatif ?' a une valeur erronée`),
   isFinancementParticipatif: yup
     .boolean()
     .transform((str) => {
@@ -296,7 +296,7 @@ const projectSchema = yup.object().shape({
 
       return null; // will result in error
     })
-    .typeError(`Le champ 'Investissement ou financement participatif ?' a une valeur erronnée`),
+    .typeError(`Le champ 'Investissement ou financement participatif ?' a une valeur erronée`),
   notifiedOn: yup
     .number()
     .typeError(
@@ -339,7 +339,7 @@ const projectSchema = yup.object().shape({
       .mixed()
       .oneOf(
         ['Corse', 'Guadeloupe', 'Guyane', 'La Réunion', 'Mayotte', 'Martinique'],
-        `Le champ 'Territoire (AO ZNI)' a une valeur erronnée`,
+        `Le champ 'Territoire (AO ZNI)' a une valeur erronée`,
       )
       .required();
   }),

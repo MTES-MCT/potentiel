@@ -27,7 +27,7 @@ v1Router.post(
           }),
           {
             error:
-              "Les notifications n'ont pas pu être envoyées: la date de notification est erronnée.",
+              "Les notifications n'ont pas pu être envoyées: la date de notification est erronée.",
           },
         ),
       );
@@ -54,9 +54,10 @@ v1Router.post(
               appelOffreId,
               periodeId,
             }),
-            redirectTitle: 'Lister les projets de cette période',
+            redirectTitle: 'Liste des projets de cette période',
           }),
         ),
+
       (e: Error) => {
         logger.error(e);
         return response.redirect(

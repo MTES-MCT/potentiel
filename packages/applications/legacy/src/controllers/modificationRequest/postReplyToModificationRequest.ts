@@ -90,7 +90,7 @@ v1Router.post(
     ) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-          error: "La réponse n'a pas pu être envoyée: la date de notification est erronnée.",
+          error: "La réponse n'a pas pu être envoyée: la date de notification est erronée.",
         }),
       );
     }

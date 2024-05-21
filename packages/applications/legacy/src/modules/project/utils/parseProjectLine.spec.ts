@@ -587,7 +587,7 @@ describe('parseProjectLine', () => {
           "Appel d'offres": 'CRE4 - ZNI',
           'Territoire\n(AO ZNI)': 'Autre', // valeur inconnue
         }),
-      ).toThrowError("Le champ 'Territoire (AO ZNI)' a une valeur erronnée");
+      ).toThrowError("Le champ 'Territoire (AO ZNI)' a une valeur erronée");
 
       expect(() =>
         parseProjectLine({
@@ -759,7 +759,7 @@ describe('parseProjectLine', () => {
           'Investissement ou financement participatif ?': 'autre',
         }),
       ).toThrowError(
-        "Le champ 'Investissement ou financement participatif ?' a une valeur erronnée",
+        "Le champ 'Investissement ou financement participatif ?' a une valeur erronée",
       );
     });
     it(`Lorsque la colonne 'Investissement ou financement participatif ?' n'existe pas

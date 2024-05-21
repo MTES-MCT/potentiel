@@ -1,9 +1,10 @@
 import { ensureRole, loadFileForUser } from '../../config';
 import { UniqueEntityID } from '../../core/domain';
+import { validateUniqueId } from '../../helpers/validateUniqueId';
+import { Project } from '../../infra/sequelize/projectionsNext';
 import { FileAccessDeniedError, FileNotFoundError } from '../../modules/file';
 import { InfraNotAvailableError } from '../../modules/shared';
 import routes from '../../routes';
-import { validateUniqueId } from '../../helpers/validateUniqueId';
 import {
   errorResponse,
   miseAJourStatistiquesUtilisation,
@@ -12,7 +13,6 @@ import {
 } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';
-import { Project } from '../../infra/sequelize/projectionsNext';
 
 v1Router.get(
   routes.DOWNLOAD_CERTIFICATE_FILE(),
@@ -31,7 +31,6 @@ v1Router.get(
     }).match(
       async (fileStream) => {
         if (user.role === 'porteur-projet') {
-          // TODO: lecture faite directement sur la table Project sans passé par une query...
           const projet = await Project.findOne({
             where: { id: projectId },
             attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
