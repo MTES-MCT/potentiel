@@ -72,10 +72,9 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
         <input type={'hidden'} value={contactEmailValue} name="contactEmail" />
 
         <Input
-          textArea
           label="Raison sociale"
           id="raisonSociale"
-          nativeTextAreaProps={{
+          nativeInputProps={{
             name: 'raisonSociale',
             defaultValue: raisonSociale,
           }}
@@ -84,10 +83,9 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
         />
 
         <Input
-          textArea
           label="Courriel de contact"
           id="contactEmail"
-          nativeTextAreaProps={{
+          nativeInputProps={{
             name: 'contactEmail',
             defaultValue: contactEmailValue,
           }}
@@ -96,10 +94,9 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
         />
 
         <Input
-          textArea
           label="Format de l'identifiant du dossier de raccordement (optionnel)"
           id="format"
-          nativeTextAreaProps={{
+          nativeInputProps={{
             name: 'format',
             defaultValue: format,
           }}
@@ -109,10 +106,9 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
         />
 
         <Input
-          textArea
           label="Aide à la saisie de l'identifiant du dossier de raccordement (optionnel)"
           id="legende"
-          nativeTextAreaProps={{
+          nativeInputProps={{
             name: 'legende',
             defaultValue: légende,
           }}
@@ -122,10 +118,9 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
         />
 
         <Input
-          textArea
           label="Expression régulière (optionnel)"
           id="expressionReguliere"
-          nativeTextAreaProps={{
+          nativeInputProps={{
             name: 'expressionReguliere',
             value: expressionReguliereValue,
           }}
