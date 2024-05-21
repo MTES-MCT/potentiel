@@ -14,7 +14,7 @@ EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, 
     légende: exemple['Légende'],
     expressionReguliere: exemple['Expression régulière'],
   };
-  const contactEmail = exemple['Email de contact'] ?? undefined;
+  const contactEmail = exemple['Email de contact'];
 
   await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
     type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
@@ -43,32 +43,21 @@ EtantDonné(
   'le gestionnaire de réseau {string}',
   async function (this: PotentielWorld, raisonSociale: string) {
     const codeEIC = raisonSociale.toUpperCase();
-    const aideSaisieRéférenceDossierRaccordement = {
-      format: '',
-      légende: '',
-      expressionReguliere: '',
-    };
-    const contactEmail = '';
+    const aideSaisieRéférenceDossierRaccordement = {};
 
     await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
       type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
       data: {
         identifiantGestionnaireRéseauValue: codeEIC,
         raisonSocialeValue: raisonSociale,
-        aideSaisieRéférenceDossierRaccordementValue: {
-          expressionReguliereValue: aideSaisieRéférenceDossierRaccordement.expressionReguliere,
-          formatValue: aideSaisieRéférenceDossierRaccordement.format,
-          légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
-        },
-        contactEmailValue: contactEmail,
+        aideSaisieRéférenceDossierRaccordementValue: {},
       },
     });
 
     this.gestionnaireRéseauWorld.gestionnairesRéseauFixtures.set(raisonSociale, {
       codeEIC,
       raisonSociale,
-      aideSaisieRéférenceDossierRaccordement,
-      contactEmail,
+      aideSaisieRéférenceDossierRaccordement: {},
     });
 
     await sleep(100);

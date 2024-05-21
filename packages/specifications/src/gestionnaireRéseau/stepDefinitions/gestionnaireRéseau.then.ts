@@ -1,94 +1,109 @@
+import { expect } from 'chai';
 import { Then as Alors } from '@cucumber/cucumber';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Option } from '@potentiel-libraries/monads';
-import { mediator } from 'mediateur';
+import waitForExpect from 'wait-for-expect';
 import { PotentielWorld } from '../../potentiel.world';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { mediator } from 'mediateur';
+import { PlainType, mapToPlainObject } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
+import { ExpressionRegulière } from '@potentiel-domain/common';
 
 Alors(
   `le gestionnaire de réseau {string} devrait être( disponible)( à jour) dans le référenciel des gestionnaires de réseau`,
   async function (this: PotentielWorld, raisonSocialeGestionnaireRéseau: string) {
-    const gestionnaireRéseau = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
-      raisonSocialeGestionnaireRéseau,
-    );
+    await waitForExpect(async () => {
+      const gestionnaireRéseau = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
+        raisonSocialeGestionnaireRéseau,
+      );
 
-    const actualReadModel = await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
-      type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
-      data: {},
-    });
+      // Assert read model
+      const listerGestionnaireRéseauReadModel =
+        await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
+          type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
+          data: {},
+        });
 
-    const expected = {
-      items: [
-        {
-          aideSaisieRéférenceDossierRaccordement: {
-            format: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.format,
-            légende: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.légende,
-            expressionReguliere:
-              gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere,
+      const actual = mapToPlainObject(listerGestionnaireRéseauReadModel);
+      actual.items[0];
+
+      const expected: PlainType<GestionnaireRéseau.ListerGestionnaireRéseauReadModel> = {
+        items: [
+          {
+            aideSaisieRéférenceDossierRaccordement: {
+              format: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement?.format || '',
+              légende: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.légende || '',
+
+              expressionReguliere: {
+                expression:
+                  gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere ||
+                  ExpressionRegulière.accepteTout.formatter(),
+              },
+            },
+            identifiantGestionnaireRéseau: {
+              codeEIC: gestionnaireRéseau.codeEIC,
+            },
+            raisonSociale: gestionnaireRéseau.raisonSociale,
+            contactEmail: gestionnaireRéseau.contactEmail
+              ? {
+                  email: gestionnaireRéseau.contactEmail,
+                }
+              : Option.none,
           },
-          identifiantGestionnaireRéseau: gestionnaireRéseau.codeEIC,
-          raisonSociale: gestionnaireRéseau.raisonSociale,
-          contactEmail: gestionnaireRéseau.contactEmail,
+        ],
+        total: 1,
+        range: {
+          startPosition: 0,
+          endPosition: 1,
         },
-      ],
-      total: 1,
-      range: {
-        startPosition: 0,
-        endPosition: 1,
-      },
-    };
+      };
 
-    ({
-      items: actualReadModel.items.map((g) => ({
-        aideSaisieRéférenceDossierRaccordement: {
-          format: g.aideSaisieRéférenceDossierRaccordement.format,
-          légende: g.aideSaisieRéférenceDossierRaccordement.légende,
-          expressionReguliere:
-            g.aideSaisieRéférenceDossierRaccordement.expressionReguliere.expression,
-        },
-        identifiantGestionnaireRéseau: g.identifiantGestionnaireRéseau.codeEIC,
-        raisonSociale: g.raisonSociale,
-        contactEmail: Option.isSome(g.contactEmail) ? g.contactEmail.email : '',
-      })),
-      total: actualReadModel.total,
-      range: actualReadModel.range,
-    }).should.deep.equal(expected);
+      expect(actual).to.be.deep.equal(expected);
+    });
   },
 );
 
 Alors(
   `les détails( à jour) du gestionnaire de réseau {string} devraient être consultables`,
   async function (this: PotentielWorld, raisonSocialeGestionnaireRéseau: string) {
-    const gestionnaireRéseau = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
-      raisonSocialeGestionnaireRéseau,
-    );
+    await waitForExpect(async () => {
+      const gestionnaireRéseau = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
+        raisonSocialeGestionnaireRéseau,
+      );
 
-    const actualReadModel = await getConsulterReadModel(gestionnaireRéseau.codeEIC);
+      // Assert read model
+      const consulterGestionnaireRéseauReadModel =
+        await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
+          type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
+          data: {
+            identifiantGestionnaireRéseau: gestionnaireRéseau.codeEIC,
+          },
+        });
 
-    const expected = {
-      aideSaisieRéférenceDossierRaccordement: {
-        format: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.format,
-        légende: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.légende,
-        expressionReguliere:
-          gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere,
-      },
-      identifiantGestionnaireRéseau: gestionnaireRéseau.codeEIC,
-      raisonSociale: gestionnaireRéseau.raisonSociale,
-      contactEmail: gestionnaireRéseau.contactEmail,
-    };
+      const actual = mapToPlainObject(consulterGestionnaireRéseauReadModel);
 
-    ({
-      aideSaisieRéférenceDossierRaccordement: {
-        format: actualReadModel.aideSaisieRéférenceDossierRaccordement.format,
-        légende: actualReadModel.aideSaisieRéférenceDossierRaccordement.légende,
-        expressionReguliere:
-          actualReadModel.aideSaisieRéférenceDossierRaccordement.expressionReguliere.expression,
-      },
-      identifiantGestionnaireRéseau: actualReadModel.identifiantGestionnaireRéseau.codeEIC,
-      raisonSociale: actualReadModel.raisonSociale,
-      contactEmail: Option.isSome(actualReadModel.contactEmail)
-        ? actualReadModel.contactEmail.email
-        : '',
-    }).should.be.deep.equal(expected);
+      const expected: PlainType<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel> = {
+        aideSaisieRéférenceDossierRaccordement: {
+          format: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.format || '',
+          légende: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.légende || '',
+          expressionReguliere: {
+            expression:
+              gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere ||
+              ExpressionRegulière.accepteTout.formatter(),
+          },
+        },
+        identifiantGestionnaireRéseau: {
+          codeEIC: gestionnaireRéseau.codeEIC,
+        },
+        contactEmail: gestionnaireRéseau.contactEmail
+          ? {
+              email: gestionnaireRéseau.contactEmail,
+            }
+          : Option.none,
+        raisonSociale: gestionnaireRéseau.raisonSociale,
+      };
+
+      expect(actual).to.be.deep.equal(expected);
+    });
   },
 );
 
@@ -110,18 +125,3 @@ Alors(
     actual.should.equal(résultat === 'valide' ? true : false);
   },
 );
-
-const getConsulterReadModel = async (codeEIC: string) => {
-  const actualReadModel = await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
-    type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
-    data: {
-      identifiantGestionnaireRéseau: codeEIC,
-    },
-  });
-
-  if (Option.isNone(actualReadModel)) {
-    throw new Error(`Le read model gestionnaire de réseau n'existe pas !`);
-  }
-
-  return actualReadModel;
-};

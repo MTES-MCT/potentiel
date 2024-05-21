@@ -1,5 +1,4 @@
 #Language: fr-FR
-@select
 Fonctionnalité: Ajouter un gestionnaire de réseau
     Scénario: Ajouter un gestionnaire de réseau
         Quand un administrateur ajoute un gestionnaire de réseau
