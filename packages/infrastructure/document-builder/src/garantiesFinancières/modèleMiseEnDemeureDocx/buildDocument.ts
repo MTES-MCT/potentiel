@@ -4,6 +4,7 @@ import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { formatDatesFromDataToFrFormat } from '../../formatDatesFromDataToFrFormat';
 
 export const getModèleMiseEnDemeureGarantiesFinancières: GarantiesFinancières.BuildModèleMiseEnDemeureGarantiesFinancièresPort =
   async ({ data }) => {
@@ -19,7 +20,18 @@ export const getModèleMiseEnDemeureGarantiesFinancières: GarantiesFinancières
       paragraphLoop: true,
       linebreaks: true,
     });
-    doc.render(data);
+    doc.render(
+      formatDatesFromDataToFrFormat({
+        data,
+        keys: [
+          'dateMiseEnDemeure',
+          'dateLancementAppelOffre',
+          'dateNotification',
+          'dateFinGarantieFinanciere',
+          'dateLimiteDepotGF',
+        ],
+      }),
+    );
 
     if (imageToInject) {
       try {

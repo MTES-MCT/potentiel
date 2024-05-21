@@ -4,6 +4,7 @@ import { ConsulterAppelOffreQuery, AppelOffre } from '@potentiel-domain/appel-of
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { ConsulterAbandonQuery } from '../consulter/consulterAbandon.query';
 import { ConsulterCahierDesChargesChoisiQuery } from '../../cahierDesChargesChoisi/consulter/consulterCahierDesChargesChoisi.query';
+import { DateTime } from '@potentiel-domain/common';
 
 export type GénérerModèleRéponseAbandonReadModel = {
   format: string;
@@ -117,12 +118,10 @@ export const registerGénérerModèleRéponseAbandonQuery = ({
         codePostalProjet: candidature.localité.codePostal,
         communeProjet: candidature.localité.commune,
         contenuParagrapheAbandon: dispositionCDC.dispositions,
-        dateConfirmation:
-          abandon.demande.confirmation?.confirméLe?.date.toLocaleDateString('fr-FR') || '',
-        dateDemande: abandon.demande.demandéLe.date.toLocaleDateString('fr-FR'),
-        dateDemandeConfirmation:
-          abandon.demande.confirmation?.demandéLe.date.toLocaleDateString('fr-FR') || '',
-        dateNotification: new Date(candidature.dateDésignation).toLocaleDateString('fr-FR'),
+        dateConfirmation: abandon.demande.confirmation?.confirméLe?.formatter() || '',
+        dateDemande: abandon.demande.demandéLe.formatter(),
+        dateDemandeConfirmation: abandon.demande.confirmation?.demandéLe.formatter() || '',
+        dateNotification: DateTime.convertirEnValueType(candidature.dateDésignation).formatter(),
         dreal: candidature.localité.région,
         email: '',
         familles: candidature.famille ? 'yes' : '',

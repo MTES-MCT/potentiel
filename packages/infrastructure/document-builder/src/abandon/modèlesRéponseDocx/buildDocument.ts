@@ -4,6 +4,8 @@ import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
 import { Abandon } from '@potentiel-domain/laureat';
 
+import { formatDatesFromDataToFrFormat } from '../../formatDatesFromDataToFrFormat';
+
 export const getModèleRéponseAbandon: Abandon.BuildModèleRéponseAbandonPort = async ({
   aprèsConfirmation,
   data,
@@ -22,7 +24,13 @@ export const getModèleRéponseAbandon: Abandon.BuildModèleRéponseAbandonPort 
     paragraphLoop: true,
     linebreaks: true,
   });
-  doc.render(data);
+
+  doc.render(
+    formatDatesFromDataToFrFormat({
+      data,
+      keys: ['dateDemande', 'dateDemandeConfirmation', 'dateConfirmation', 'dateNotification'],
+    }),
+  );
 
   const buf = doc.getZip().generate({
     type: 'nodebuffer',
