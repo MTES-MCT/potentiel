@@ -101,7 +101,7 @@ const PorteurProjetActions = ({
                     numeroCRE: project.numeroCRE,
                   }).formatter(),
                 )}
-                {...(modificationsNonPermisesParLeCDCActuel && { disabled: true })}
+                disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
               >
                 <span>Demander un abandon</span>
               </DropdownMenuSecondaryButton.DropdownItem>
