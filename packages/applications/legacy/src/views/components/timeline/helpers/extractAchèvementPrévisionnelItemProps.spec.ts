@@ -5,9 +5,9 @@ import {
   ProjectEventListDTO,
   ProjectImportedDTO,
 } from '../../../../modules/frise';
-import { extractACItemProps } from '.';
+import { extractAchèvementPrévisionnelItemProps } from './extractAchèvementPrévisionneltemProps';
 
-describe('extractACItemProps', () => {
+describe('extractAchèvementPrévisionnelItemProps', () => {
   describe('when there is no ProjectCompletionDueDateSet event', () => {
     it('should return null', () => {
       const project = {
@@ -20,7 +20,7 @@ describe('extractACItemProps', () => {
           variant: 'admin',
         } as ProjectImportedDTO,
       ];
-      const result = extractACItemProps(events, project);
+      const result = extractAchèvementPrévisionnelItemProps(events, project);
       expect(result).toBeNull();
     });
   });
@@ -48,9 +48,9 @@ describe('extractACItemProps', () => {
             variant: 'admin',
           } as ProjectCompletionDueDateSetDTO,
         ];
-        const result = extractACItemProps(events, project);
+        const result = extractAchèvementPrévisionnelItemProps(events, project);
         expect(result).toMatchObject({
-          type: 'attestation-de-conformite',
+          type: 'achevement-previsionnel',
           date: new Date('2023-01-01').getTime(),
         });
       });
@@ -76,9 +76,9 @@ describe('extractACItemProps', () => {
           } as ProjectCompletionDueDateSetDTO,
         ];
 
-        const result = extractACItemProps(events, project);
+        const result = extractAchèvementPrévisionnelItemProps(events, project);
         expect(result).toMatchObject({
-          type: 'attestation-de-conformite',
+          type: 'achevement-previsionnel',
           date: 1,
           covidDelay: true,
         });
@@ -98,7 +98,7 @@ describe('extractACItemProps', () => {
           variant: 'admin',
         } as ProjectCompletionDueDateSetDTO,
       ];
-      const result = extractACItemProps(events, project);
+      const result = extractAchèvementPrévisionnelItemProps(events, project);
       expect(result).toBeNull();
     });
   });
@@ -115,7 +115,7 @@ describe('extractACItemProps', () => {
           variant: 'admin',
         } as ProjectCompletionDueDateSetDTO,
       ];
-      const result = extractACItemProps(events, project);
+      const result = extractAchèvementPrévisionnelItemProps(events, project);
       expect(result).toBeNull();
     });
   });

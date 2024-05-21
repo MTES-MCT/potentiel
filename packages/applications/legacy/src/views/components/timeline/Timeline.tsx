@@ -6,10 +6,12 @@ import {
   DemandeDélaiDTO,
   DemandeRecoursSignaledDTO,
   ProjectEventListDTO,
+  AchèvementRéelDTO,
   is,
 } from '../../../modules/frise';
 import {
-  ACItem,
+  AchèvementPrévisionnelItem,
+  AchèvementRéelItem,
   AttachedFileItem,
   CahierDesChargesChoisiItem,
   DemandeDelaiSignaledItem,
@@ -23,14 +25,14 @@ import {
   TimelineItem,
 } from './components';
 import {
-  ACItemProps,
+  AchèvementPrévisionnelItemProps,
   AttachedFileItemProps,
   DesignationItemProps,
   ImportItemProps,
   LegacyModificationsItemProps,
   ModificationReceivedItemProps,
   ModificationRequestItemProps,
-  extractACItemProps,
+  extractAchèvementPrévisionnelItemProps,
   extractAttachedFileItemProps,
   extractDesignationItemProps,
   extractImportItemProps,
@@ -46,7 +48,7 @@ export type TimelineProps = {
 type ItemProps =
   | ImportItemProps
   | DesignationItemProps
-  | ACItemProps
+  | AchèvementPrévisionnelItemProps
   | ModificationRequestItemProps
   | ModificationReceivedItemProps
   | LegacyModificationsItemProps
@@ -55,18 +57,19 @@ type ItemProps =
   | DemandeAbandonSignaledDTO
   | DemandeRecoursSignaledDTO
   | DemandeDélaiDTO
-  | CahierDesChargesChoisiDTO;
+  | CahierDesChargesChoisiDTO
+  | AchèvementRéelDTO;
 
 export const Timeline = ({
   projectEventList: {
     events,
-    project: { id: projectId, status, garantieFinanciereEnMois, nomProjet },
+    project: { id: projectId, status },
   },
 }: TimelineProps) => {
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId, status),
     extractImportItemProps(events),
-    extractACItemProps(events, { status }),
+    extractAchèvementPrévisionnelItemProps(events, { status }),
     ...extractModificationRequestsItemProps(events),
     ...events.filter(is('DemandeDelaiSignaled')),
     ...events.filter(is('DemandeAbandonSignaled')),
@@ -76,6 +79,7 @@ export const Timeline = ({
     ...extractAttachedFileItemProps(events),
     ...events.filter(is('DemandeDélai')),
     ...events.filter(is('CahierDesChargesChoisi')),
+    ...events.filter(is('achevement-reel')),
   ]
     .filter(isNotNil)
     .sort((a, b) => a.date - b.date);
@@ -90,8 +94,8 @@ export const Timeline = ({
       case 'import':
         return <ImportItem {...props} />;
 
-      case 'attestation-de-conformite':
-        return <ACItem {...props} />;
+      case 'achevement-previsionnel':
+        return <AchèvementPrévisionnelItem {...props} />;
 
       case 'demande-de-modification':
         return <ModificationRequestItem {...{ ...props, projectStatus: status }} />;
@@ -116,6 +120,9 @@ export const Timeline = ({
 
       case 'CahierDesChargesChoisi':
         return <CahierDesChargesChoisiItem {...props} />;
+
+      case 'achevement-reel':
+        return <AchèvementRéelItem {...props} />;
     }
   });
 
@@ -137,16 +144,4 @@ export const Timeline = ({
 
 function isNotNil<T>(arg: T): arg is Exclude<T, null | undefined> {
   return arg !== null && arg !== undefined;
-}
-
-function insertAfter(
-  itemProps: ItemProps[],
-  referenceType: ItemProps['type'],
-  item: ItemProps | null,
-) {
-  if (itemProps.findIndex((props) => props.type === referenceType) !== -1) {
-    if (item) {
-      itemProps.splice(itemProps.findIndex((props) => props.type === referenceType) + 1, 0, item);
-    }
-  }
 }

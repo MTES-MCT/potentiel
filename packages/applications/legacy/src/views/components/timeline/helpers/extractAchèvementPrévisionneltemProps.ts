@@ -1,16 +1,16 @@
 import { ProjectEventDTO, ProjectStatus } from '../../../../modules/frise';
 
-export type ACItemProps = {
-  type: 'attestation-de-conformite';
+export type AchèvementPrévisionnelItemProps = {
+  type: 'achevement-previsionnel';
   date: number;
   covidDelay: boolean;
   délaiCDC2022Appliqué: boolean;
 };
 
-export const extractACItemProps = (
+export const extractAchèvementPrévisionnelItemProps = (
   events: ProjectEventDTO[],
   project: { status: ProjectStatus },
-): ACItemProps | null => {
+): AchèvementPrévisionnelItemProps | null => {
   if (project.status !== 'Classé') {
     return null;
   }
@@ -19,8 +19,8 @@ export const extractACItemProps = (
     (event) => event.type === 'ProjectCompletionDueDateSet' || event.type == 'CovidDelayGranted',
   );
 
-  const initialProps: ACItemProps = {
-    type: 'attestation-de-conformite',
+  const initialProps: AchèvementPrévisionnelItemProps = {
+    type: 'achevement-previsionnel',
     date: 0,
     covidDelay: false,
     délaiCDC2022Appliqué: false,

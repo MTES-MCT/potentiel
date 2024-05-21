@@ -27,7 +27,8 @@ export type ProjectEventDTO =
   | DemandeAbandonSignaledDTO
   | DemandeRecoursSignaledDTO
   | DemandeDélaiDTO
-  | CahierDesChargesChoisiDTO;
+  | CahierDesChargesChoisiDTO
+  | AchèvementRéelDTO;
 
 type File = {
   id: string;
@@ -433,6 +434,13 @@ export type CahierDesChargesChoisiDTO = {
       alternatif?: true;
     }
 );
+
+export type AchèvementRéelDTO = {
+  type: 'achevement-reel';
+  date: number;
+  attestation: string;
+  preuveTransmissionAuCocontractant: string;
+};
 
 export type ProjectEventListDTO = {
   project: {
