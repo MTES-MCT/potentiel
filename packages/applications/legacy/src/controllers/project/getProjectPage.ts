@@ -1,26 +1,26 @@
+import { mediator } from 'mediateur';
+import * as yup from 'yup';
 import { getProjectEvents } from '../../config';
 import { getProjectDataForProjectPage } from '../../config/queries.config';
 import { shouldUserAccessProject } from '../../config/useCases.config';
-import { v1Router } from '../v1Router';
-import * as yup from 'yup';
-import { ProjectDetailsPage } from '../../views';
-import {
-  notFoundResponse,
-  unauthorizedResponse,
-  miseAJourStatistiquesUtilisation,
-  vérifierPermissionUtilisateur,
-} from '../helpers';
-import routes from '../../routes';
-import safeAsyncHandler from '../helpers/safeAsyncHandler';
+import { Project } from '../../infra/sequelize';
 import {
   GarantiesFinancièresForProjectPage,
   PermissionConsulterProjet,
   ProjectDataForProjectPage,
 } from '../../modules/project';
-import { mediator } from 'mediateur';
-import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Project } from '../../infra/sequelize';
+import routes from '../../routes';
+import { ProjectDetailsPage } from '../../views';
+import { AlerteRaccordement } from '../../views/pages/projectDetailsPage';
+import {
+  miseAJourStatistiquesUtilisation,
+  notFoundResponse,
+  unauthorizedResponse,
+  vérifierPermissionUtilisateur,
+} from '../helpers';
+import safeAsyncHandler from '../helpers/safeAsyncHandler';
+import { v1Router } from '../v1Router';
 
 import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
@@ -145,12 +145,9 @@ v1Router.get(
         },
       });
 
-      let garantiesFinancières: ProjectDataForProjectPage['garantiesFinancières'] | undefined =
-        undefined;
-
-      if (projet.appelOffre.isSoumisAuxGF) {
-        garantiesFinancières = await getGarantiesFinancières(identifiantProjetValueType);
-      }
+      const garantiesFinancières = projet.appelOffre.isSoumisAuxGF
+        ? await getGarantiesFinancières(identifiantProjetValueType)
+        : undefined;
 
       const attestationConformité = await getAttestationConformité(identifiantProjetValueType);
 
@@ -159,7 +156,7 @@ v1Router.get(
           request,
           project: {
             ...projet,
-            ...(garantiesFinancières && { garantiesFinancières }),
+            ...garantiesFinancières,
           },
           projectEventList: {
             ...rawProjectEventList.value,
