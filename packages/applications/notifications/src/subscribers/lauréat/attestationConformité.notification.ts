@@ -10,7 +10,7 @@ import { Achèvement } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { sendEmail } from '../../infrastructure/sendEmail';
 
-export type SubscriptionEvent = Achèvement.AttestationConformité.AttestationConformitéEvent & Event;
+export type SubscriptionEvent = Achèvement.AchèvementEvent & Event;
 
 export type Execute = Message<
   'System.Notification.Lauréat.Achèvement.AttestationConformité',
