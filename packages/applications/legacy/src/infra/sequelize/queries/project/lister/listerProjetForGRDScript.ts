@@ -1,4 +1,4 @@
-import { Project } from '../../../../projectionsNext';
+import { Project } from '../../../projectionsNext';
 
 const attributes: (keyof Project)[] = [
   'id',
