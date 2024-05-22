@@ -13,17 +13,25 @@ import {
   transmettre,
 } from './transmettre/transmettreAttestationConformité.behavior';
 import { Option } from '@potentiel-libraries/monads';
+import {
+  AttestationConformitéModifiéeEvent,
+  applyAttestationConformitéModifiée,
+  modifier,
+} from './modifier/modifierAttestationConformité.behavior';
 
-export type AchèvementEvent = AttestationConformitéTransmiseEvent;
+export type AchèvementEvent =
+  | AttestationConformitéTransmiseEvent
+  | AttestationConformitéModifiéeEvent;
 
 export type AchèvementAggregate = Aggregate<AchèvementEvent> & {
   utilisateur: IdentifiantUtilisateur.ValueType;
   attestationConformité: { format: Option.Type<string>; date: DateTime.ValueType };
   preuveTransmissionAuCocontractant: { format: Option.Type<string>; date: DateTime.ValueType };
   readonly transmettre: typeof transmettre;
+  readonly modifier: typeof modifier;
 };
 
-export const getDefaultAttestationConformitéAggregate: GetDefaultAggregateState<
+export const getDefaultAchèvementAggregate: GetDefaultAggregateState<
   AchèvementAggregate,
   AchèvementEvent
 > = () => ({
@@ -35,6 +43,7 @@ export const getDefaultAttestationConformitéAggregate: GetDefaultAggregateState
   },
   apply,
   transmettre,
+  modifier,
 });
 
 function apply(this: AchèvementAggregate, event: AchèvementEvent) {
@@ -42,15 +51,17 @@ function apply(this: AchèvementAggregate, event: AchèvementEvent) {
     case 'AttestationConformitéTransmise-V1':
       applyAttestationConformitéTransmise.bind(this)(event);
       break;
+    case 'AttestationConformitéModifiée-V1':
+      applyAttestationConformitéModifiée.bind(this)(event);
   }
 }
 
-export const loadAttestationConformitéFactory =
+export const loadAchèvementFactory =
   (loadAggregate: LoadAggregate) =>
   (identifiantProjet: IdentifiantProjet.ValueType, throwOnNone = true) => {
     return loadAggregate({
       aggregateId: `achevement|${identifiantProjet.formatter()}`,
-      getDefaultAggregate: getDefaultAttestationConformitéAggregate,
+      getDefaultAggregate: getDefaultAchèvementAggregate,
       onNone: throwOnNone
         ? () => {
             throw new AucunAchèvementError();

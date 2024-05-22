@@ -8,7 +8,7 @@ import { Achèvement } from '@potentiel-domain/laureat';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-export type TransmettreAttestationConformitéState = FormState;
+export type ModifierAttestationConformitéState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -27,8 +27,8 @@ const action: FormAction<FormState, typeof schema> = async (
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Achèvement.TransmettreAttestationConformitéUseCase>({
-      type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
+    await mediator.send<Achèvement.ModifierAttestationConformitéUseCase>({
+      type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet,
         attestationValue: {
@@ -52,4 +52,4 @@ const action: FormAction<FormState, typeof schema> = async (
     };
   });
 
-export const transmettreAttestationConformitéAction = formAction(action, schema);
+export const modifierAttestationConformitéAction = formAction(action, schema);

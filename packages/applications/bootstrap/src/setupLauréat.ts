@@ -120,7 +120,11 @@ export const setupLauréat = async () => {
 
   const unsubscribeAchèvementProjector = await subscribe<AchèvementProjector.SubscriptionEvent>({
     name: 'projector',
-    eventType: ['AttestationConformitéTransmise-V1', 'RebuildTriggered'],
+    eventType: [
+      'AttestationConformitéTransmise-V1',
+      'AttestationConformitéModifiée-V1',
+      'RebuildTriggered',
+    ],
     eventHandler: async (event) => {
       await mediator.send<AchèvementProjector.Execute>({
         type: 'System.Projector.Lauréat.Achèvement',

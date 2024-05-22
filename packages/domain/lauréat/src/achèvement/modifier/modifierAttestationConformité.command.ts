@@ -7,8 +7,8 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { loadAchèvementFactory } from '../achèvement.aggregate';
 
-export type TransmettreAttestationConformitéCommand = Message<
-  'Lauréat.Achèvement.AttestationConformité.Command.TransmettreAttestationConformité',
+export type ModifierAttestationConformitéCommand = Message<
+  'Lauréat.Achèvement.AttestationConformité.Command.ModifierAttestationConformité',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     attestation: DocumentProjet.ValueType;
@@ -19,9 +19,9 @@ export type TransmettreAttestationConformitéCommand = Message<
   }
 >;
 
-export const registerTransmettreAttestationConformitéCommand = (loadAggregate: LoadAggregate) => {
-  const loadAttestationConformitéAggregate = loadAchèvementFactory(loadAggregate);
-  const handler: MessageHandler<TransmettreAttestationConformitéCommand> = async ({
+export const registerModifierAttestationConformitéCommand = (loadAggregate: LoadAggregate) => {
+  const loadAchèvementAggregate = loadAchèvementFactory(loadAggregate);
+  const handler: MessageHandler<ModifierAttestationConformitéCommand> = async ({
     identifiantProjet,
     attestation,
     dateTransmissionAuCocontractant,
@@ -29,12 +29,9 @@ export const registerTransmettreAttestationConformitéCommand = (loadAggregate: 
     date,
     utilisateur,
   }) => {
-    const attestationConformité = await loadAttestationConformitéAggregate(
-      identifiantProjet,
-      false,
-    );
+    const attestationConformité = await loadAchèvementAggregate(identifiantProjet, false);
 
-    await attestationConformité.transmettre({
+    await attestationConformité.modifier({
       identifiantProjet,
       attestation,
       dateTransmissionAuCocontractant,
@@ -44,7 +41,7 @@ export const registerTransmettreAttestationConformitéCommand = (loadAggregate: 
     });
   };
   mediator.register(
-    'Lauréat.Achèvement.AttestationConformité.Command.TransmettreAttestationConformité',
+    'Lauréat.Achèvement.AttestationConformité.Command.ModifierAttestationConformité',
     handler,
   );
 };

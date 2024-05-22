@@ -27,6 +27,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { AchèvementRéelDTO } from '../../modules/frise';
 import { Option } from '@potentiel-libraries/monads';
+import { User } from '../../entities';
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
 });
@@ -149,7 +150,10 @@ v1Router.get(
         ? await getGarantiesFinancières(identifiantProjetValueType)
         : undefined;
 
-      const attestationConformité = await getAttestationConformité(identifiantProjetValueType);
+      const attestationConformité = await getAttestationConformité(
+        identifiantProjetValueType,
+        user,
+      );
 
       return response.send(
         ProjectDetailsPage({
@@ -210,6 +214,7 @@ const getAbandon = async (
 
 const getAttestationConformité = async (
   identifiantProjet: IdentifiantProjet.ValueType,
+  user: User,
 ): Promise<AchèvementRéelDTO | undefined> => {
   const attestationConformité = await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>(
     {
@@ -225,6 +230,8 @@ const getAttestationConformité = async (
         attestation: attestationConformité.attestation.formatter(),
         preuveTransmissionAuCocontractant:
           attestationConformité.preuveTransmissionAuCocontractant.formatter(),
+        identifiantProjet: identifiantProjet.formatter(),
+        permissionModifier: ['admin', 'dreal', 'dgec-validateur'].includes(user.role),
       }
     : undefined;
 };

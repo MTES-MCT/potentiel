@@ -440,6 +440,8 @@ export type AchèvementRéelDTO = {
   date: number;
   attestation: string;
   preuveTransmissionAuCocontractant: string;
+  identifiantProjet: string;
+  permissionModifier: boolean;
 };
 
 export type ProjectEventListDTO = {

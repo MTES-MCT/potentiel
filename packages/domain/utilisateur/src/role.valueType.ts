@@ -165,10 +165,12 @@ const référencielPermissions = {
       command: {
         transmettre:
           'Lauréat.Achèvement.AttestationConformité.Command.TransmettreAttestationConformité',
+        modifier: 'Lauréat.Achèvement.AttestationConformité.Command.ModifierAttestationConformité',
       },
       useCase: {
         transmettre:
           'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
+        modifier: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
       },
     },
   },
@@ -566,6 +568,13 @@ const policies = {
       référencielPermissions.lauréat.achèvement.command.transmettre,
       référencielPermissions.document.command.enregister,
     ],
+    modifier: [
+      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.lauréat.achèvement.query.consulter,
+      référencielPermissions.lauréat.achèvement.useCase.modifier,
+      référencielPermissions.lauréat.achèvement.command.modifier,
+      référencielPermissions.document.command.enregister,
+    ],
   },
 };
 
@@ -611,6 +620,7 @@ const permissionAdmin = [
   // Achèvement
   ...policies.attestationConformité.consulter,
   ...policies.attestationConformité.transmettre,
+  ...policies.attestationConformité.modifier,
 ];
 
 const permissionCRE = [
@@ -655,6 +665,7 @@ const permissionDreal = [
   // Achèvement
   ...policies.attestationConformité.consulter,
   ...policies.attestationConformité.transmettre,
+  ...policies.attestationConformité.modifier,
 ];
 
 const permissionDgecValidateur = [
@@ -699,6 +710,7 @@ const permissionDgecValidateur = [
   // Achèvement
   ...policies.attestationConformité.consulter,
   ...policies.attestationConformité.transmettre,
+  ...policies.attestationConformité.modifier,
 ];
 
 const permissionPorteurProjet = [

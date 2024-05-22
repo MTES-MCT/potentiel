@@ -2,6 +2,7 @@ import {
   ConsulterAttestationConformitéQuery,
   ConsulterAttestationConformitéReadModel,
 } from './consulter/consulterAttestationConformité.query';
+import { ModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase';
 import { TransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase';
 
 // Query
@@ -13,13 +14,16 @@ export { ConsulterAttestationConformitéQuery };
 export { ConsulterAttestationConformitéReadModel };
 
 // UseCases
-export type AttestationConformitéUseCase = TransmettreAttestationConformitéUseCase;
+export type AttestationConformitéUseCase =
+  | TransmettreAttestationConformitéUseCase
+  | ModifierAttestationConformitéUseCase;
 
-export { TransmettreAttestationConformitéUseCase };
+export { TransmettreAttestationConformitéUseCase, ModifierAttestationConformitéUseCase };
 
 // Event
 export { AchèvementEvent } from './achèvement.aggregate';
 export { AttestationConformitéTransmiseEvent } from './transmettre/transmettreAttestationConformité.behavior';
+export { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.behavior';
 
 // Register
 export { registerAchèvementUseCases } from './achèvement.register';
