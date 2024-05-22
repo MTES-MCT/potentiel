@@ -32,15 +32,15 @@ import {
   registerConsulterGestionnaireRéseauRaccordementQuery,
 } from './consulter/consulterGestionnaireRéseauRaccordement.query';
 import {
-  registerListerDossierRaccordementQuery,
-  ListerDossierRaccordementQueryDependencies,
-} from './lister/listerDossierRaccordement.query';
+  registerListerRaccordementQuery,
+  ListerRaccordementQueryDependencies,
+} from './lister/listerRaccordement.query';
 
 export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
   ConsulterGestionnaireRéseauRaccordementDependencies &
   ConsulterRaccordementDependencies &
   RechercherDossierRaccordementDependencies &
-  ListerDossierRaccordementQueryDependencies;
+  ListerRaccordementQueryDependencies;
 
 export type RaccordementCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -51,7 +51,7 @@ export const registerRaccordementQueries = (dependencies: RaccordementQueryDepen
   registerConsulterGestionnaireRéseauRaccordementQuery(dependencies);
   registerConsulterRaccordementQuery(dependencies);
   registerRechercherDossierRaccordementQuery(dependencies);
-  registerListerDossierRaccordementQuery(dependencies);
+  registerListerRaccordementQuery(dependencies);
 };
 
 export const registerRaccordementUseCases = ({
