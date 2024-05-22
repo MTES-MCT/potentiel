@@ -48,9 +48,12 @@ import { Raccordement } from '@potentiel-domain/reseau';
     for (const project of projects) {
       const raccordement = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
         type: 'Réseau.Réseau.Raccordement.Query.ConsulterDossierRaccordement',
-        data: {identifiantProjetValue: project.id},
+        where: { identifiantGestionnaireRéseau: { operator: 'notInclude', value: ['inconnu'] } },
       });
     }
+
+    // les inconnus
+    // les non inconnus
 
     // compare both and select projects without raccordement
     // sûrement prendre que les projets classé (pas abandonné ou élimité) ?
