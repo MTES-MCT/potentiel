@@ -5,17 +5,17 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { GestionnaireRéseauEntity, IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { RaccordementEntity } from '../raccordement.entity';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { match } from 'ts-pattern';
+import { mapToReadModel } from '../../gestionnaire/consulter/consulterGestionnaireRéseau.query';
 
 export type ConsulterGestionnaireRéseauRaccordementReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   raisonSociale: string;
-  aideSaisieRéférenceDossierRaccordement?: {
-    format: string;
-    légende: string;
+  aideSaisieRéférenceDossierRaccordement: {
+    format: Option.Type<string>;
+    légende: Option.Type<string>;
     expressionReguliere: ExpressionRegulière.ValueType;
   };
-  contactEmail?: IdentifiantUtilisateur.ValueType;
+  contactEmail: Option.Type<IdentifiantUtilisateur.ValueType>;
 };
 
 export type ConsulterGestionnaireRéseauRaccordementQuery = Message<
@@ -23,7 +23,7 @@ export type ConsulterGestionnaireRéseauRaccordementQuery = Message<
   {
     identifiantProjetValue: string;
   },
-  ConsulterGestionnaireRéseauRaccordementReadModel
+  Option.Type<ConsulterGestionnaireRéseauRaccordementReadModel>
 >;
 
 export type ConsulterGestionnaireRéseauRaccordementDependencies = {
@@ -43,46 +43,17 @@ export const registerConsulterGestionnaireRéseauRaccordementQuery = ({
     );
 
     if (Option.isNone(raccordementResult)) {
-      return {
-        identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
-        raisonSociale: IdentifiantGestionnaireRéseau.inconnu.formatter(),
-      };
+      return Option.none;
     }
 
     const gestionnaireRéseauResult = await find<GestionnaireRéseauEntity>(
       `gestionnaire-réseau|${raccordementResult.identifiantGestionnaireRéseau}`,
     );
 
-    if (Option.isNone(gestionnaireRéseauResult)) {
-      return {
-        identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
-        raisonSociale: IdentifiantGestionnaireRéseau.inconnu.formatter(),
-      };
-    }
-
-    return mapToResult(gestionnaireRéseauResult);
+    return Option.match(gestionnaireRéseauResult)
+      .some((grd) => mapToReadModel(grd))
+      .none();
   };
 
   mediator.register('Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement', handler);
-};
-
-const mapToResult = ({
-  raisonSociale,
-  codeEIC,
-  aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
-  contactEmail,
-}: GestionnaireRéseauEntity): ConsulterGestionnaireRéseauRaccordementReadModel => {
-  return {
-    raisonSociale,
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
-    aideSaisieRéférenceDossierRaccordement: {
-      format,
-      légende,
-      expressionReguliere: ExpressionRegulière.convertirEnValueType(expressionReguliere || ''),
-    },
-    contactEmail: match(expressionReguliere)
-      .returnType<IdentifiantUtilisateur.ValueType | undefined>() // TODO : a revoir quand le refactor GRD sur option aura été finalisé
-      .with('', () => undefined)
-      .otherwise(() => IdentifiantUtilisateur.convertirEnValueType(contactEmail)),
-  };
 };
