@@ -160,7 +160,7 @@ v1Router.get(
           request,
           project: {
             ...projet,
-            ...garantiesFinancières,
+            garantiesFinancières,
           },
           projectEventList: {
             ...rawProjectEventList.value,
