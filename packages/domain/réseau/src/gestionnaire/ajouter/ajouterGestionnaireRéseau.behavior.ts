@@ -6,8 +6,24 @@ import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 import { GestionnaireRéseauDéjàExistantError } from '../gestionnaireRéseauDéjàExistant.error';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 
-export type GestionnaireRéseauAjoutéEvent = DomainEvent<
+/**
+ * @deprecated use GestionnaireRéseauAjoutéEvent instead
+ */
+export type GestionnaireRéseauAjoutéEventV1 = DomainEvent<
   'GestionnaireRéseauAjouté-V1',
+  {
+    raisonSociale: string;
+    codeEIC: string;
+    aideSaisieRéférenceDossierRaccordement: {
+      format: string;
+      légende: string;
+      expressionReguliere: string;
+    };
+  }
+>;
+
+export type GestionnaireRéseauAjoutéEvent = DomainEvent<
+  'GestionnaireRéseauAjouté-V2',
   {
     raisonSociale: string;
     codeEIC: string;
@@ -45,7 +61,7 @@ export async function ajouter(
   }
 
   const event: GestionnaireRéseauAjoutéEvent = {
-    type: 'GestionnaireRéseauAjouté-V1',
+    type: 'GestionnaireRéseauAjouté-V2',
     payload: {
       codeEIC: identifiantGestionnaireRéseau.formatter(),
       raisonSociale,
@@ -70,7 +86,7 @@ export function applyGestionnaireRéseauAjouté(
       codeEIC,
       aideSaisieRéférenceDossierRaccordement: { expressionReguliere },
     },
-  }: GestionnaireRéseauAjoutéEvent,
+  }: GestionnaireRéseauAjoutéEventV1 | GestionnaireRéseauAjoutéEvent,
 ) {
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
   this.référenceDossierRaccordementExpressionRegulière = !expressionReguliere

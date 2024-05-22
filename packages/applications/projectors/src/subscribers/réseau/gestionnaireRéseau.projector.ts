@@ -26,6 +26,16 @@ export const register = () => {
             `gestionnaire-réseau|${payload.codeEIC}`,
             {
               ...payload,
+              contactEmail: '',
+            },
+          );
+          break;
+        case 'GestionnaireRéseauAjouté-V2':
+        case 'GestionnaireRéseauModifié-V2':
+          await upsertProjection<GestionnaireRéseau.GestionnaireRéseauEntity>(
+            `gestionnaire-réseau|${payload.codeEIC}`,
+            {
+              ...payload,
             },
           );
           break;
