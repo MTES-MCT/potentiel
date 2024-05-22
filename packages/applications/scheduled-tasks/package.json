@@ -8,7 +8,7 @@
     "start:relancer-abandon-sans-preuve": "node ./dist/relancer-abandon-sans-preuve",
     "start:créer-backup-oos": "node ./dist/créer-backup-oos",
     "start:maj-gestionnaire-réseaux": "node ./dist/gestionnaireRéseau",
-    "start:newScript": "node ./dist/raccordement"
+    "start:raccordement": "node ./dist/raccordement"
   },
   "dependencies": {
     "@potentiel-libraries/file-storage": "*",
@@ -18,8 +18,7 @@
     "@potentiel-infrastructure/document-builder": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/pg-projections": "*",
-    "@potentiel-infrastructure/pg-event-sourcing": "*",
-    "@potentiel-applications/legacy": "*"
+    "@potentiel-infrastructure/pg-event-sourcing": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

@@ -1,15 +1,33 @@
 import { mediator } from 'mediateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { listerProjetsForGRDScript } from '@potentiel-applications/legacy/src/infra/sequelize/queries/project/lister';
+// import { listerProjetsForGRDScript } from '@potentiel-applications/legacy/src/infra/sequelize/queries/project/lister';
 import { Raccordement } from '@potentiel-domain/reseau';
+import { registerRéseauQueries, registerRéseauUseCases } from '@potentiel-domain/reseau';
+
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+import {
+  findProjection,
+  listProjection,
+  listProjectionV2,
+} from '@potentiel-infrastructure/pg-projections';
+
+registerRéseauUseCases({
+  loadAggregate,
+});
+
+registerRéseauQueries({
+  list: listProjection,
+  listV2: listProjectionV2,
+  find: findProjection,
+});
 
 (async () => {
   getLogger().info('[newScript] Starting script');
 
   try {
     // get every Projects
-    const projects = await listerProjetsForGRDScript();
-    console.log(projects);
+    // const projects = await listerProjetsForGRDScript();
+    // console.log(projects);
 
     // get every raccordement with known gestionnaire
     const raccordements = await mediator.send<Raccordement.ListerRaccordementQuery>({
