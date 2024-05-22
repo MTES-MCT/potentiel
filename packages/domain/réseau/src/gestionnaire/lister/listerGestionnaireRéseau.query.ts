@@ -1,7 +1,5 @@
-import { ExpressionRegulière } from '@potentiel-domain/common';
 import { ListV2, RangeOptions, WhereOptions } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import * as ContactEmailGestionnaireRéseau from '../contactEmailGestionnaireRéseau.valueType';
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 
 import {
@@ -11,11 +9,11 @@ import {
 
 type GestionnaireRéseauListItemReadModel = ConsulterGestionnaireRéseauReadModel;
 
-export type ListerGestionnaireRéseauReadModel = {
+export type ListerGestionnaireRéseauReadModel = Readonly<{
   items: ReadonlyArray<GestionnaireRéseauListItemReadModel>;
   range: RangeOptions;
   total: number;
-};
+}>;
 
 export type ListerGestionnaireRéseauQuery = Message<
   'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',

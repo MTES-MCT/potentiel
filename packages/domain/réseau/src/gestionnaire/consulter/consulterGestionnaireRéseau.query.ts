@@ -6,7 +6,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 
-export type ConsulterGestionnaireRéseauReadModel = {
+export type ConsulterGestionnaireRéseauReadModel = Readonly<{
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement: {
@@ -15,7 +15,7 @@ export type ConsulterGestionnaireRéseauReadModel = {
     expressionReguliere: ExpressionRegulière.ValueType;
   };
   contactEmail: Option.Type<Email.ValueType>;
-};
+}>;
 
 export type ConsulterGestionnaireRéseauQuery = Message<
   'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
