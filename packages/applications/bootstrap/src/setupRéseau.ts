@@ -32,6 +32,8 @@ export const setupRéseau = async () => {
         'RebuildTriggered',
         'GestionnaireRéseauAjouté-V1',
         'GestionnaireRéseauModifié-V1',
+        'GestionnaireRéseauAjouté-V2',
+        'GestionnaireRéseauModifié-V2',
       ],
       eventHandler: async (event) => {
         await mediator.send<GestionnaireRéseauProjector.Execute>({
