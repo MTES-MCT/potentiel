@@ -10,8 +10,7 @@ import {
   IdentifiantGestionnaireRéseau,
 } from '@potentiel-domain/reseau/src/gestionnaire';
 import { PlainType } from '@potentiel-domain/core';
-import { ExpressionRegulière } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { ExpressionRegulière, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
 import { Form } from '@/components/atoms/form/Form';
@@ -32,9 +31,12 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
   const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
+  // Ici on match bind pour montrer un cas d'utilisation simple vu que c'est
+  // la première mise en place de Option et ValueType en mode Isomorphique.
+  // Utiliser bind uniquement si besoin d'une fonctionnalité avancée du ValueType (exemple: comparaison de date)
   const contactEmailValue = Option.match(contactEmail)
     .some((email) => {
-      const emailValueType = IdentifiantUtilisateur.bind(email);
+      const emailValueType = Email.bind(email);
       return emailValueType.formatter();
     })
     .none(() => '');

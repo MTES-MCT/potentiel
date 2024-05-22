@@ -1,9 +1,8 @@
-import { ExpressionRegulière } from '@potentiel-domain/common';
+import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantGestionnaireRéseau } from '..';
 import { ModifierGestionnaireRéseauCommand } from './modifierGestionnaireRéseau.command';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 export type ModifierGestionnaireRéseauUseCase = Message<
   'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',
@@ -51,9 +50,7 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
           format,
           légende,
         },
-        contactEmail: Option.match(contactEmail)
-          .some(IdentifiantUtilisateur.convertirEnValueType)
-          .none(),
+        contactEmail: Option.match(contactEmail).some(Email.convertirEnValueType).none(),
       },
     });
   };

@@ -1,11 +1,10 @@
 import { match } from 'ts-pattern';
-import { ExpressionRegulière } from '@potentiel-domain/common';
+import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 export type ConsulterGestionnaireRéseauReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -15,7 +14,7 @@ export type ConsulterGestionnaireRéseauReadModel = {
     légende: string;
     expressionReguliere: ExpressionRegulière.ValueType;
   };
-  contactEmail: Option.Type<IdentifiantUtilisateur.ValueType>;
+  contactEmail: Option.Type<Email.ValueType>;
 };
 
 export type ConsulterGestionnaireRéseauQuery = Message<
@@ -64,8 +63,8 @@ export const mapToReadModel = ({
         .otherwise(() => ExpressionRegulière.convertirEnValueType(expressionReguliere)),
     },
     contactEmail: match(contactEmail)
-      .returnType<Option.Type<IdentifiantUtilisateur.ValueType>>()
+      .returnType<Option.Type<Email.ValueType>>()
       .with('', () => Option.none)
-      .otherwise(() => IdentifiantUtilisateur.convertirEnValueType(contactEmail)),
+      .otherwise(() => Email.convertirEnValueType(contactEmail)),
   };
 };

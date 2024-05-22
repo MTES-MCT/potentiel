@@ -1,9 +1,8 @@
-import { ExpressionRegulière } from '@potentiel-domain/common';
+import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { match } from 'ts-pattern';
 
 /**
@@ -44,7 +43,7 @@ export type ModifierOptions = {
     légende: Option.Type<string>;
     expressionReguliere: Option.Type<ExpressionRegulière.ValueType>;
   };
-  contactEmail: Option.Type<IdentifiantUtilisateur.ValueType>;
+  contactEmail: Option.Type<Email.ValueType>;
 };
 
 export async function modifier(
