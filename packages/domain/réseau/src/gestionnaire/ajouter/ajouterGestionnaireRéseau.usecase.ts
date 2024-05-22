@@ -11,9 +11,9 @@ export type AjouterGestionnaireRéseauUseCase = Message<
     identifiantGestionnaireRéseauValue: string;
     raisonSocialeValue: string;
     aideSaisieRéférenceDossierRaccordementValue: {
-      formatValue?: string | null;
-      légendeValue?: string | null;
-      expressionReguliereValue?: string | null;
+      formatValue?: string;
+      légendeValue?: string;
+      expressionReguliereValue?: string;
     };
     contactEmailValue?: string;
   }
