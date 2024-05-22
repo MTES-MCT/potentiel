@@ -38,6 +38,7 @@ export const GestionnaireRéseauListPage: FC<GestionnaireRéseauListPageProps> =
       ItemComponent={GestionnaireRéseauListItem}
       filters={[]}
       tagFilters={[]}
+      search={{ label: 'Recherche par raison sociale', params: 'raisonSociale' }}
     />
   );
 };

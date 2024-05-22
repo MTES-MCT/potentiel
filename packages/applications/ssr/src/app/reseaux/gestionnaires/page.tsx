@@ -14,6 +14,7 @@ type PageProps = {
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
     const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+    const raisonSocialeSearch = searchParams ? searchParams['raisonSociale'] : '';
 
     const gestionnaireRéseaux =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
@@ -22,6 +23,14 @@ export default async function Page({ searchParams }: PageProps) {
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
+          }),
+          ...(raisonSocialeSearch && {
+            where: {
+              raisonSociale: {
+                operator: 'like',
+                value: `%${raisonSocialeSearch}%`,
+              },
+            },
           }),
         },
       });
