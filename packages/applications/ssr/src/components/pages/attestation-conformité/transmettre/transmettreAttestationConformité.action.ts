@@ -17,22 +17,30 @@ const schema = zod.object({
   dateTransmissionAuCocontractant: zod.string().min(1),
 });
 
-const action: FormAction<FormState, typeof schema> = async (_, props) =>
+const action: FormAction<FormState, typeof schema> = async (
+  _,
+  {
+    identifiantProjet,
+    attestation,
+    dateTransmissionAuCocontractant,
+    preuveTransmissionAuCocontractant,
+  },
+) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Achèvement.TransmettreAttestationConformitéUseCase>({
       type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
       data: {
-        identifiantProjetValue: props.identifiantProjet,
+        identifiantProjetValue: identifiantProjet,
         attestationValue: {
-          content: props.attestation.stream(),
-          format: props.attestation.type,
+          content: attestation.stream(),
+          format: attestation.type,
         },
         preuveTransmissionAuCocontractantValue: {
-          content: props.preuveTransmissionAuCocontractant.stream(),
-          format: props.preuveTransmissionAuCocontractant.type,
+          content: preuveTransmissionAuCocontractant.stream(),
+          format: preuveTransmissionAuCocontractant.type,
         },
         dateTransmissionAuCocontractantValue: new Date(
-          props.dateTransmissionAuCocontractant,
+          dateTransmissionAuCocontractant,
         ).toISOString(),
         dateValue: new Date().toISOString(),
         utilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
