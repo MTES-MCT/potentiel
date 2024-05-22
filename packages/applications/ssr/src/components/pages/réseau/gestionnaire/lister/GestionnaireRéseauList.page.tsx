@@ -17,7 +17,7 @@ export const GestionnaireRéseauListPage: FC<GestionnaireRéseauListPageProps> =
   items: gestionnaireRéseaux,
   range,
   total,
-}: GestionnaireRéseauListPageProps) => {
+}) => {
   const { currentPage, itemsPerPage } = mapToPagination(range);
 
   return (
