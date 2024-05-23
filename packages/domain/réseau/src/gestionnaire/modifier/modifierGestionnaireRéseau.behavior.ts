@@ -16,7 +16,7 @@ export type GestionnaireRéseauModifiéEventV1 = DomainEvent<
     aideSaisieRéférenceDossierRaccordement: {
       format: string;
       légende: string;
-      expressionReguliere: string;
+      expressionReguliere?: string;
     };
   }
 >;
@@ -92,5 +92,6 @@ export function applyGestionnaireRéseauModifié(
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
   this.référenceDossierRaccordementExpressionRegulière = match(expressionReguliere)
     .with('', () => ExpressionRegulière.accepteTout)
+    .with(undefined, () => ExpressionRegulière.accepteTout)
     .otherwise((value) => ExpressionRegulière.convertirEnValueType(value));
 }

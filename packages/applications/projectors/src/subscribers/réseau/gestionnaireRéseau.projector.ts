@@ -3,6 +3,8 @@ import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sour
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
+import { ExpressionRegulière } from '@potentiel-domain/common';
+import { match } from 'ts-pattern';
 
 export type SubscriptionEvent =
   | (GestionnaireRéseau.GestionnaireRéseauEvent & Event)
@@ -22,11 +24,26 @@ export const register = () => {
       switch (type) {
         case 'GestionnaireRéseauAjouté-V1':
         case 'GestionnaireRéseauModifié-V1':
+          const {
+            aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
+            codeEIC,
+            raisonSociale,
+          } = payload;
           await upsertProjection<GestionnaireRéseau.GestionnaireRéseauEntity>(
             `gestionnaire-réseau|${payload.codeEIC}`,
             {
-              ...payload,
+              codeEIC,
+              raisonSociale,
               contactEmail: '',
+              aideSaisieRéférenceDossierRaccordement: {
+                format,
+                légende,
+                expressionReguliere: match(expressionReguliere)
+                  .with('', () => ExpressionRegulière.accepteTout)
+                  .with(undefined, () => ExpressionRegulière.accepteTout)
+                  .otherwise((value) => ExpressionRegulière.convertirEnValueType(value))
+                  .formatter(),
+              },
             },
           );
           break;

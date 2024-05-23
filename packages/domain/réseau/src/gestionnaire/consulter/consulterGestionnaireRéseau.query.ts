@@ -57,14 +57,11 @@ export const mapToReadModel = ({
     aideSaisieRéférenceDossierRaccordement: {
       format,
       légende,
-      expressionReguliere: match(expressionReguliere)
-        .returnType<ExpressionRegulière.ValueType>()
-        .with('', () => ExpressionRegulière.accepteTout)
-        .otherwise(() => ExpressionRegulière.convertirEnValueType(expressionReguliere)),
+      expressionReguliere: ExpressionRegulière.convertirEnValueType(expressionReguliere),
     },
     contactEmail: match(contactEmail)
       .returnType<Option.Type<Email.ValueType>>()
       .with('', () => Option.none)
-      .otherwise(() => Email.convertirEnValueType(contactEmail)),
+      .otherwise((email) => Email.convertirEnValueType(email)),
   };
 };
