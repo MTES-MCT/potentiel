@@ -765,6 +765,9 @@ const permissionCaisseDesDépôts = [
   ...policies.garantiesFinancières.actuelles.modifier,
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.actuelles.enregistrer,
+
+  // Achèvement
+  ...policies.achèvement.consulter,
 ];
 
 const permissions: Record<RawType, string[]> = {
