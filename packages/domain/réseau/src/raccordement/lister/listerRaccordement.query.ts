@@ -17,7 +17,7 @@ export type ListerRaccordementReadModel = {
 
 export type ListerRaccordementQuery = Message<
   'Réseau.Raccordement.Query.ListerRaccordement',
-  // TODO: check this type, use a Pick ?
+  // TODO: check this type with Sylvain
   { where?: WhereOptions<RaccordementEntity> },
   ListerRaccordementReadModel
 >;
