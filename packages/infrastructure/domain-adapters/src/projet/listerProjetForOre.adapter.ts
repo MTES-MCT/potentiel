@@ -1,5 +1,4 @@
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 export type OREProjectsReadModel = {
@@ -36,16 +35,14 @@ export const listerProjetForOreAdapter = async () => {
     value: Omit<OREProjectsReadModel, 'type' | 'identifiantProjet'>;
   }>(selectProjectQuery);
 
-  if (!projets.length) {
-    return Option.none;
-  }
-
-  return projets.map((projet) => {
+  const projectsWithIdentifiantProject = projets.map((projet) => {
     return {
-      ...projet,
+      ...projet.value,
       identifiantProjet: IdentifiantProjet.convertirEnValueType(
         `${projet.value.appelOffre}#${projet.value.période}#${projet.value.famille}#${projet.value.numéroCRE}`,
       ).formatter(),
     };
   });
+
+  return projectsWithIdentifiantProject;
 };

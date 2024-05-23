@@ -37,15 +37,28 @@ registerRéseauQueries({
         where: { identifiantGestionnaireRéseau: { operator: 'notEqual', value: 'inconnu' } },
       },
     });
-    console.log(raccordements);
 
-    // get every raccordement with unknown gestionnaire
-    const raccordementsWithUnknownGestionnaire =
-      await mediator.send<Raccordement.ListerRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ListerRaccordement',
-        data: { where: { identifiantGestionnaireRéseau: { operator: 'equal', value: 'inconnu' } } },
-      });
-    console.log(raccordementsWithUnknownGestionnaire);
+    const raccordementsProjectsIds = raccordements.items.map((raccordement) =>
+      raccordement.identifiantProjet.formatter(),
+    );
+    console.log(raccordementsProjectsIds);
+
+    // TODO: see what to do with raccordementWithUnknownGestionnaire
+    // const raccordementsWithUnknownGestionnaire =
+    //   await mediator.send<Raccordement.ListerRaccordementQuery>({
+    //     type: 'Réseau.Raccordement.Query.ListerRaccordement',
+    //     data: { where: { identifiantGestionnaireRéseau: { operator: 'equal', value: 'inconnu' } } },
+    //   });
+
+    // const raccordementsWithUnknownGestionnaireProjectsIds =
+    //   raccordementsWithUnknownGestionnaire.items.map(
+    //     (raccordement) => raccordement.identifiantProjet,
+    //   );
+
+    const projetWithNoAttributedGestionnaire = classéProjects.filter(
+      (projet) => !raccordementsProjectsIds.includes(projet.identifiantProjet),
+    );
+    console.log('projetWithNoAttributedGestionnaire', projetWithNoAttributedGestionnaire);
 
     // les inconnus
     // les non inconnus
