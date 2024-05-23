@@ -18,7 +18,7 @@
     "@potentiel-infrastructure/document-builder": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/pg-projections": "*",
-    "@potentiel-infrastructure/pg-event-sourcing": "*"
+    "@potentiel-infrastructure/pg-event-sourcing": "*"  
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"
