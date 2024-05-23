@@ -60,12 +60,6 @@ registerRéseauQueries({
     );
     console.log('projetWithNoAttributedGestionnaire', projetWithNoAttributedGestionnaire);
 
-    // les inconnus
-    // les non inconnus
-
-    // compare both and select projects without raccordement
-    // sûrement prendre que les projets classé (pas abandonné ou élimité) ?
-
     // créer affiliation gestionnaire
     // un nouvel évènement
 
