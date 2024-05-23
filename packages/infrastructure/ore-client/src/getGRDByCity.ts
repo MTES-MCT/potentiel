@@ -40,7 +40,7 @@ export const getGRDByCity = async ({
     )}" and grd_elec is not null and grd_elec_eic is not null`,
   );
   searchParams.append('select', 'grd_elec, grd_elec_eic');
-  searchParams.append('limit', '1');
+  searchParams.append('limit', '20');
 
   const url = new URL(
     `${OreEndpoint}/distributeurs-denergie-par-commune/records?${searchParams.toString()}`,
@@ -50,37 +50,36 @@ export const getGRDByCity = async ({
     const result = await get(url);
 
     const parsedResult = schema.parse(result);
-    let count = 0;
-    if (parsedResult.total_count > 1) {
-      count += 1;
-      console.log(
-        `🤡 More than one result for communde : ${commune} and postal code ${codePostal}`,
-      );
-      console.log(parsedResult.results);
-    }
 
     if (parsedResult.total_count === 0) {
       getLogger().warn(`No GRD could be found for codePostal ${codePostal} and commune ${commune}`);
-      return {
-        codeEIC: '',
-        raisonSociale: '',
-      };
+      return undefined;
     }
 
-    // if (
-    //   (!parsedResult.results[0].grd_elec || parsedResult.results[0].grd_elec.length === 0) &&
-    //   (!parsedResult.results[0].grd_elec_eic || parsedResult.results[0].grd_elec_eic.length === 0)
-    // ) {
-    //   getLogger().warn(`No GRD could be found for codePostal ${codePostal} and commune ${commune}`);
-    //   return {
-    //     codeEIC: '',
-    //     raisonSociale: '',
-    //   };
-    // }
+    if (parsedResult.total_count !== 1) {
+      console.log(
+        `🤡 More than one commune found for commune : ${commune} and postal code ${codePostal}`,
+      );
+      console.log(parsedResult.results);
+      getLogger().info(
+        `${parsedResult.total_count} communes could be found for codePostal ${codePostal} and commune ${commune}`,
+      );
+      return undefined;
+    }
+
+    const hasOneValidGRD = parsedResult.results[0].grd_elec_eic.length === 1;
+
+    if (!hasOneValidGRD) {
+      getLogger().info(
+        `${parsedResult.results[0].grd_elec_eic.length} GRD could be found for codePostal ${codePostal} and commune ${commune}`,
+      );
+      console.log(parsedResult.results[0].grd_elec_eic);
+      return undefined;
+    }
 
     const gestionnaire = {
-      codeEIC: parsedResult.results[0].grd_elec_eic[0] ?? '',
-      raisonSociale: parsedResult.results[0].grd_elec[0] ?? '',
+      codeEIC: parsedResult.results[0].grd_elec_eic[0],
+      raisonSociale: parsedResult.results[0].grd_elec[0],
     };
 
     return gestionnaire;

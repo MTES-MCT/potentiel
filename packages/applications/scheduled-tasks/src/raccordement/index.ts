@@ -25,15 +25,15 @@ registerRéseauQueries({
 });
 
 (async () => {
-  getLogger().info('[newScript] Starting script');
+  getLogger().info('[raccordement] Starting script');
 
   try {
     const classéProjects = await listerProjetForOreAdapter();
 
-    // get every raccordement with known gestionnaire
     const raccordements = await mediator.send<Raccordement.ListerRaccordementQuery>({
       type: 'Réseau.Raccordement.Query.ListerRaccordement',
       data: {
+        // TODO: see if we keep this condition
         where: { identifiantGestionnaireRéseau: { operator: 'notEqual', value: 'inconnu' } },
       },
     });
@@ -65,12 +65,10 @@ registerRéseauQueries({
       });
 
       if (!gestionnaire) {
-        getLogger().warn('Could not find a gestionnaire for projet');
-        getLogger().warn(projet.identifiantProjet);
         continue;
       }
 
-      // console.log(gestionnaire);
+      console.log('succès', gestionnaire);
     }
 
     process.exit(0);
