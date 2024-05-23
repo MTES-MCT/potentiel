@@ -1,6 +1,6 @@
-import { logger } from '../../../../../core/utils';
+import { getLogger } from '@potentiel-libraries/monitoring';
+
 import { UserInvitedToProject } from '../../../../../modules/authZ/events';
-import { ProjectionEnEchec } from '../../../../../modules/shared';
 import { User, UserProjects } from '../..';
 import { UserProjectsProjector } from '../userProjects.projector';
 
@@ -25,15 +25,9 @@ export default UserProjectsProjector.on(UserInvitedToProject, async (évènement
       }),
     );
   } catch (error) {
-    logger.error(
-      new ProjectionEnEchec(
-        `Erreur lors du traitement de l'évènement UserInvitedToProject`,
-        {
-          évènement,
-          nomProjection: 'UserProjects.UserInvitedToProject',
-        },
-        error,
-      ),
-    );
+    getLogger().error(error, {
+      évènement,
+      nomProjection: 'UserProjects.UserInvitedToProject',
+    });
   }
 });
