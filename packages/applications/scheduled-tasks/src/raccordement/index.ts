@@ -12,6 +12,7 @@ import {
   listProjection,
   listProjectionV2,
 } from '@potentiel-infrastructure/pg-projections';
+import { getGRDByCity } from '@potentiel-infrastructure/ore-client';
 
 registerRéseauUseCases({
   loadAggregate,
@@ -55,13 +56,25 @@ registerRéseauQueries({
     //     (raccordement) => raccordement.identifiantProjet,
     //   );
 
-    const projetWithNoAttributedGestionnaire = classéProjects.filter(
+    const projestWithNoAttributedGestionnaire = classéProjects.filter(
       (projet) => !raccordementsProjectsIds.includes(projet.identifiantProjet),
     );
-    console.log('projetWithNoAttributedGestionnaire', projetWithNoAttributedGestionnaire);
+    console.log('projetWithNoAttributedGestionnaire', projestWithNoAttributedGestionnaire);
 
-    // créer affiliation gestionnaire
-    // un nouvel évènement
+    for (const projet of projestWithNoAttributedGestionnaire) {
+      const gestionnaire = await getGRDByCity({
+        codePostal: projet.localité.codePostal,
+        commune: projet.localité.commune,
+      });
+
+      if (!gestionnaire) {
+        getLogger().warn('Could not find a gestionnaire for projet');
+        getLogger().warn(projet.identifiantProjet);
+        continue;
+      }
+
+      console.log(gestionnaire);
+    }
 
     process.exit(0);
   } catch (error) {

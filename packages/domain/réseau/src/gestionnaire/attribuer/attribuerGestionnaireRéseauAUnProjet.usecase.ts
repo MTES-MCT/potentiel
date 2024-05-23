@@ -24,19 +24,19 @@ export const registerAttribuerGestionnaireRéseauAUnProjetUseCase = () => {
     projet,
     isValidatedByPorteurValue,
   }) => {
-    const identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
-      identifiantGestionnaireRéseauValue,
-    );
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(projet.identifiantProjetValue);
-    const nomProjet = projet.nomProjetValue;
-    const appelOffre = projet.appelOffreValue;
-    const période = projet.périodeValue;
-    const famille = projet.familleValue;
-    const numéroCRE = projet.numéroCREValue;
-    const isValidatedByPorteur = isValidatedByPorteurValue;
+    const commandParams = {
+      identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
+        identifiantGestionnaireRéseauValue,
+      ),
+      projet: {
+        ...projet,
+        identifiantProjet: IdentifiantProjet.convertirEnValueType(projet.identifiantProjetValue),
+      },
+      isValidatedByPorteur: isValidatedByPorteurValue,
+    };
 
     // appeler la commande
   };
 
-  mediator.register('Réseau.Gestionnaire.UseCase.AttribuerGestionnaireRéseau', handler);
+  mediator.register('Réseau.Gestionnaire.UseCase.AttribuerGestionnaireRéseauAUnProjet', handler);
 };

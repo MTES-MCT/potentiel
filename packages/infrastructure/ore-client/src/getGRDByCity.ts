@@ -34,10 +34,10 @@ export const getGRDByCity = async ({
   const searchParams = new URLSearchParams();
   searchParams.append('where', `code_postal:"${codePostal}" and commune like "${commune}"`);
   searchParams.append('select', 'grd_elec, grd_elec_eic');
-  searchParams.append('limit', '1');
+  searchParams.append('limit', '20');
 
   const url = new URL(
-    `${OreEndpoint}referentiel-distributeurs-denergie/records?${searchParams.toString()}`,
+    `${OreEndpoint}/distributeurs-denergie-par-commune/records?${searchParams.toString()}`,
   );
 
   const result = await get(url);

@@ -34,8 +34,9 @@ export const registerAttribuerGestionnaireRéseauAUnProjetCommand = (
     // vérifier qu'on a pas déjà un raccordement
     const raccordement = await load(projet.identifiantProjetValue, false);
 
-    if(raccordement){
-      throw une erreur
+    if (raccordement) {
+      console.log(raccordement);
+      //throw une erreur d'invalité
     }
 
     // TODO: call à un usecase pour ajouter un raccordement vide
