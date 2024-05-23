@@ -17,7 +17,8 @@ export type ListerRaccordementReadModel = {
 
 export type ListerRaccordementQuery = Message<
   'Réseau.Raccordement.Query.ListerRaccordement',
-  { where?: WhereOptions<Pick<RaccordementEntity, 'identifiantGestionnaireRéseau'>> },
+  // TODO: check this type, use a Pick ?
+  { where?: WhereOptions<RaccordementEntity> },
   ListerRaccordementReadModel
 >;
 

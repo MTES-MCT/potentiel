@@ -27,9 +27,8 @@ registerRéseauQueries({
   getLogger().info('[newScript] Starting script');
 
   try {
-    // get every Projects
-    const projects = await listerProjetForOreAdapter();
-    console.log(projects);
+    const classéProjects = await listerProjetForOreAdapter();
+    console.log(classéProjects);
 
     // get every raccordement with known gestionnaire
     const raccordements = await mediator.send<Raccordement.ListerRaccordementQuery>({
@@ -38,7 +37,6 @@ registerRéseauQueries({
         where: { identifiantGestionnaireRéseau: { operator: 'notEqual', value: 'inconnu' } },
       },
     });
-
     console.log(raccordements);
 
     // get every raccordement with unknown gestionnaire
@@ -47,7 +45,6 @@ registerRéseauQueries({
         type: 'Réseau.Raccordement.Query.ListerRaccordement',
         data: { where: { identifiantGestionnaireRéseau: { operator: 'equal', value: 'inconnu' } } },
       });
-
     console.log(raccordementsWithUnknownGestionnaire);
 
     // les inconnus

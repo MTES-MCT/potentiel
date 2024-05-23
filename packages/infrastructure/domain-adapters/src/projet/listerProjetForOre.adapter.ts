@@ -3,7 +3,7 @@ import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { Option } from '@potentiel-libraries/monads';
 
 export type OREProjectsReadModel = {
-  id: string;
+  legacyId: string;
   identifiantProjet: string;
   appelOffre: string;
   période: string;
@@ -17,7 +17,7 @@ export type OREProjectsReadModel = {
 
 const selectProjectQuery = `
   SELECT json_build_object(
-    'id', "id",
+    'legacyId', "id",
     'appelOffre', "appelOffreId",
     'période', "periodeId",
     'famille', "familleId",
