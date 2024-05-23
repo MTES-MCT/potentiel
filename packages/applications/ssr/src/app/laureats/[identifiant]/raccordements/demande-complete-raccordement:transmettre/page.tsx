@@ -10,6 +10,7 @@ import {
   ConsulterCandidatureReadModel,
 } from '@potentiel-domain/candidature';
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 
 import {
   TransmettreDemandeComplèteRaccordementPage,
@@ -66,7 +67,7 @@ type MapToProps = (args: {
   gestionnairesRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel;
   candidature: ConsulterCandidatureReadModel;
   appelOffre: ConsulterAppelOffreReadModel;
-  gestionnaireRéseau?: Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel;
+  gestionnaireRéseau: Option.Type<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>;
   identifiantProjet: string;
 }) => TransmettreDemandeComplèteRaccordementProps;
 
@@ -81,7 +82,7 @@ const mapToProps: MapToProps = ({
     delaiDemandeDeRaccordementEnMois: appelOffre.periodes.find(
       (periode) => (periode.id = candidature.période),
     )!.delaiDcrEnMois,
-    ...(gestionnaireRéseau && {
+    ...(Option.isSome(gestionnaireRéseau) && {
       identifiantGestionnaireRéseauActuel:
         gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
     }),

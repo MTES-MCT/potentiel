@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import {
   ConsulterAppelOffreQuery,
@@ -11,6 +12,7 @@ import {
 } from '@potentiel-domain/candidature';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 import {
   ModifierDemandeComplèteRaccordementPage,
@@ -55,6 +57,10 @@ export default async function Page({ params: { identifiant, reference } }: PageP
           data: { identifiantProjetValue: identifiantProjet },
         });
 
+      if (Option.isNone(gestionnaireRéseau)) {
+        return notFound();
+      }
+
       const dossierRaccordement =
         await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
           type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
@@ -90,7 +96,11 @@ type MapToProps = (args: {
 const mapToProps: MapToProps = ({
   candidature,
   appelOffre,
-  gestionnaireRéseau,
+  gestionnaireRéseau: {
+    aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
+    identifiantGestionnaireRéseau,
+    raisonSociale,
+  },
   dossierRaccordement,
   identifiantProjet,
   utilisateur,
@@ -117,17 +127,17 @@ const mapToProps: MapToProps = ({
       (periode) => periode.id === candidature.période,
     )!.delaiDcrEnMois,
     gestionnaireRéseauActuel: {
-      identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
-      raisonSociale: gestionnaireRéseau.raisonSociale,
-      ...(gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement && {
-        aideSaisieRéférenceDossierRaccordement: {
-          format: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.format,
-          légende: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.légende,
-          expressionReguliere:
-            gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere
-              .expression,
-        },
-      }),
+      identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
+      raisonSociale: raisonSociale,
+      aideSaisieRéférenceDossierRaccordement: {
+        expressionReguliere: expressionReguliere.formatter(),
+        format: Option.match(format)
+          .some((f) => f)
+          .none(() => ''),
+        légende: Option.match(légende)
+          .some((l) => l)
+          .none(() => ''),
+      },
     },
   };
 };

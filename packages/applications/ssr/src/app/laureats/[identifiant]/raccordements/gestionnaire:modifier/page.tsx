@@ -1,11 +1,13 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
 } from '@potentiel-domain/candidature';
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -40,6 +42,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         type: 'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
         data: { identifiantProjetValue: identifiantProjet },
       });
+
+    if (Option.isNone(gestionnaireRéseau)) {
+      return notFound();
+    }
 
     const props = mapToProps({
       gestionnairesRéseau,

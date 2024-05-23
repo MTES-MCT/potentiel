@@ -1,16 +1,25 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
+/**
+ * @deprecated Use potentiel-domain/common Email ValueType instead
+ */
 export type RawType = string;
 
+/**
+ * @deprecated Use potentiel-domain/common Email ValueType instead
+ */
 export type ValueType = ReadonlyValueType<{
   email: string;
   formatter: () => RawType;
 }>;
 
-export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
+/**
+ * @deprecated Use potentiel-domain/common Email ValueType instead
+ */
+export const bind = ({ email }: PlainType<ValueType>): ValueType => {
+  estValide(email);
   return {
-    email: value,
+    email,
     formatter() {
       return this.email;
     },
@@ -20,8 +29,23 @@ export const convertirEnValueType = (value: string): ValueType => {
   };
 };
 
+/**
+ * @deprecated Use potentiel-domain/common Email ValueType instead
+ */
+export const convertirEnValueType = (value: string): ValueType => {
+  return bind({
+    email: value,
+  });
+};
+
+/**
+ * @deprecated Use potentiel-domain/common Email ValueType instead
+ */
 const regexEmail = /^[a-zA-Z0-9.+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
+/**
+ * @deprecated Use potentiel-domain/common Email ValueType instead
+ */
 function estValide(value: string): asserts value is RawType {
   const isValid = regexEmail.test(value);
 
@@ -32,6 +56,9 @@ function estValide(value: string): asserts value is RawType {
 
 export const unknownUser = convertirEnValueType('unknown-user@unknown-email.com');
 
+/**
+ * @deprecated Use potentiel-domain/common Email ValueType instead
+ */
 class EmailInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(`L'email ne correspond pas à un format valide`, {

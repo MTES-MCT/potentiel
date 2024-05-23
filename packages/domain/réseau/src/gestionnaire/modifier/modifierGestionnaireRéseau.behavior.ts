@@ -1,9 +1,9 @@
-import { ExpressionRegulière } from '@potentiel-domain/common';
+import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import * as ContactEmailGestionnaireRéseau from '../contactEmailGestionnaireRéseau.valueType';
 import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
+import { match } from 'ts-pattern';
 
 /**
  * @deprecated Use GestionnaireRéseauModifiéEvent instead
@@ -16,7 +16,7 @@ export type GestionnaireRéseauModifiéEventV1 = DomainEvent<
     aideSaisieRéférenceDossierRaccordement: {
       format: string;
       légende: string;
-      expressionReguliere: string;
+      expressionReguliere?: string;
     };
   }
 >;
@@ -39,11 +39,11 @@ export type ModifierOptions = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement: {
-    format: string;
-    légende: string;
-    expressionReguliere: ExpressionRegulière.ValueType;
+    format: Option.Type<string>;
+    légende: Option.Type<string>;
+    expressionReguliere: Option.Type<ExpressionRegulière.ValueType>;
   };
-  contactEmail: Option.Type<ContactEmailGestionnaireRéseau.ValueType>;
+  contactEmail: Option.Type<Email.ValueType>;
 };
 
 export async function modifier(
@@ -55,19 +55,26 @@ export async function modifier(
     contactEmail,
   }: ModifierOptions,
 ) {
+  // TODO : publish l'event uniquement si pas deep equal avec l'état de l'aggregate.
   const event: GestionnaireRéseauModifiéEvent = {
     type: 'GestionnaireRéseauModifié-V2',
     payload: {
       codeEIC: identifiantGestionnaireRéseau.formatter(),
       raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
-        format,
-        légende,
-        expressionReguliere: expressionReguliere.formatter(),
+        format: Option.match(format)
+          .some((value) => value)
+          .none(() => ''),
+        légende: Option.match(légende)
+          .some((value) => value)
+          .none(() => ''),
+        expressionReguliere: Option.match(expressionReguliere)
+          .some((value) => value.formatter())
+          .none(() => ExpressionRegulière.accepteTout.formatter()),
       },
-      contactEmail: Option.isSome(contactEmail)
-        ? contactEmail.formatter()
-        : ContactEmailGestionnaireRéseau.defaultValue.email,
+      contactEmail: Option.match(contactEmail)
+        .some((value) => value.formatter())
+        .none(() => ''),
     },
   };
 
@@ -84,7 +91,8 @@ export function applyGestionnaireRéseauModifié(
   }: GestionnaireRéseauModifiéEventV1 | GestionnaireRéseauModifiéEvent,
 ) {
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
-  this.référenceDossierRaccordementExpressionRegulière = !expressionReguliere
-    ? ExpressionRegulière.accepteTout
-    : ExpressionRegulière.convertirEnValueType(expressionReguliere);
+  this.référenceDossierRaccordementExpressionRegulière = match(expressionReguliere)
+    .with('', () => ExpressionRegulière.accepteTout)
+    .with(undefined, () => ExpressionRegulière.accepteTout)
+    .otherwise((value) => ExpressionRegulière.convertirEnValueType(value));
 }

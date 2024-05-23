@@ -1,10 +1,10 @@
-import { ExpressionRegulière } from '@potentiel-domain/common';
+import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import * as ContactEmailGestionnaireRéseau from '../contactEmailGestionnaireRéseau.valueType';
 import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 import { GestionnaireRéseauDéjàExistantError } from '../gestionnaireRéseauDéjàExistant.error';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
+import { match } from 'ts-pattern';
 
 /**
  * @deprecated use GestionnaireRéseauAjoutéEvent instead
@@ -17,7 +17,7 @@ export type GestionnaireRéseauAjoutéEventV1 = DomainEvent<
     aideSaisieRéférenceDossierRaccordement: {
       format: string;
       légende: string;
-      expressionReguliere: string;
+      expressionReguliere?: string;
     };
   }
 >;
@@ -40,11 +40,11 @@ export type AjouterOptions = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement: {
-    format: string;
-    légende: string;
-    expressionReguliere: ExpressionRegulière.ValueType;
+    format: Option.Type<string>;
+    légende: Option.Type<string>;
+    expressionReguliere: Option.Type<ExpressionRegulière.ValueType>;
   };
-  contactEmail: Option.Type<ContactEmailGestionnaireRéseau.ValueType>;
+  contactEmail: Option.Type<Email.ValueType>;
 };
 
 export async function ajouter(
@@ -66,13 +66,19 @@ export async function ajouter(
       codeEIC: identifiantGestionnaireRéseau.formatter(),
       raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
-        format,
-        légende,
-        expressionReguliere: expressionReguliere.formatter(),
+        format: Option.match(format)
+          .some((value) => value)
+          .none(() => ''),
+        légende: Option.match(légende)
+          .some((value) => value)
+          .none(() => ''),
+        expressionReguliere: Option.match(expressionReguliere)
+          .some((value) => value.formatter())
+          .none(() => ExpressionRegulière.accepteTout.formatter()),
       },
-      contactEmail: Option.isNone(contactEmail)
-        ? ContactEmailGestionnaireRéseau.defaultValue.email
-        : contactEmail.formatter(),
+      contactEmail: Option.match(contactEmail)
+        .some((value) => value.formatter())
+        .none(() => ''),
     },
   };
 
@@ -89,7 +95,8 @@ export function applyGestionnaireRéseauAjouté(
   }: GestionnaireRéseauAjoutéEventV1 | GestionnaireRéseauAjoutéEvent,
 ) {
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
-  this.référenceDossierRaccordementExpressionRegulière = !expressionReguliere
-    ? ExpressionRegulière.accepteTout
-    : ExpressionRegulière.convertirEnValueType(expressionReguliere);
+  this.référenceDossierRaccordementExpressionRegulière = match(expressionReguliere)
+    .with('', () => ExpressionRegulière.accepteTout)
+    .with(undefined, () => ExpressionRegulière.accepteTout)
+    .otherwise((value) => ExpressionRegulière.convertirEnValueType(value));
 }

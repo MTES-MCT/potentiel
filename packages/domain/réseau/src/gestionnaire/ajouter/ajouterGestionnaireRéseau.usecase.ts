@@ -1,8 +1,7 @@
-import { ExpressionRegulière } from '@potentiel-domain/common';
+import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import * as ContactEmailGestionnaireRéseau from '../contactEmailGestionnaireRéseau.valueType';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
-
+import { Option } from '@potentiel-libraries/monads';
 import { AjouterGestionnaireRéseauCommand } from './ajouterGestionnaireRéseau.command';
 
 export type AjouterGestionnaireRéseauUseCase = Message<
@@ -11,9 +10,9 @@ export type AjouterGestionnaireRéseauUseCase = Message<
     identifiantGestionnaireRéseauValue: string;
     raisonSocialeValue: string;
     aideSaisieRéférenceDossierRaccordementValue: {
-      formatValue: string;
-      légendeValue: string;
-      expressionReguliereValue: string;
+      formatValue?: string;
+      légendeValue?: string;
+      expressionReguliereValue?: string;
     };
     contactEmailValue?: string;
   }
@@ -34,13 +33,10 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
       identifiantGestionnaireRéseauValue,
     );
 
-    const expressionReguliere = !expressionReguliereValue
-      ? ExpressionRegulière.accepteTout
-      : ExpressionRegulière.convertirEnValueType(expressionReguliereValue);
-
-    const contactEmail = !contactEmailValue
-      ? ContactEmailGestionnaireRéseau.defaultValue
-      : ContactEmailGestionnaireRéseau.convertirEnValueType(contactEmailValue);
+    const format = Option.map(formatValue);
+    const légende = Option.map(légendeValue);
+    const expressionReguliere = Option.map(expressionReguliereValue);
+    const contactEmail = Option.map(contactEmailValue);
 
     await mediator.send<AjouterGestionnaireRéseauCommand>({
       type: 'Réseau.Gestionnaire.Command.AjouterGestionnaireRéseau',
@@ -48,11 +44,13 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
         identifiantGestionnaireRéseau,
         raisonSociale: raisonSocialeValue,
         aideSaisieRéférenceDossierRaccordement: {
-          expressionReguliere,
-          format: formatValue,
-          légende: légendeValue,
+          expressionReguliere: Option.match(expressionReguliere)
+            .some(ExpressionRegulière.convertirEnValueType)
+            .none(),
+          format,
+          légende,
         },
-        contactEmail,
+        contactEmail: Option.match(contactEmail).some(Email.convertirEnValueType).none(),
       },
     });
   };

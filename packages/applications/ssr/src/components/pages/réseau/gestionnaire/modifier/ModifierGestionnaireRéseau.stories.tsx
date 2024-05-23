@@ -19,11 +19,15 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    identifiantGestionnaireRéseau: 'identifiantGestionnaireRéseau',
+    identifiantGestionnaireRéseau: {
+      codeEIC: 'identifiantGestionnaireRéseau',
+    },
     raisonSociale: 'raisonSociale',
-    format: 'format',
-    légende: 'légende',
-    expressionReguliere: 'expressionReguliere',
-    contactEmail: 'contactEmail',
+    aideSaisieRéférenceDossierRaccordement: {
+      format: 'format',
+      légende: 'légende',
+      expressionReguliere: { expression: 'expressionReguliere' },
+    },
+    contactEmail: { email: 'contactEmail' },
   },
 };

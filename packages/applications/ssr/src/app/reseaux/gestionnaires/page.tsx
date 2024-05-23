@@ -1,11 +1,11 @@
 import { mediator } from 'mediateur';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { GestionnaireRéseauListPage } from '@/components/pages/réseau/gestionnaire/lister/GestionnaireRéseauList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { mapToPagination } from '@/utils/mapToPagination';
-import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
+import { mapToRangeOptions } from '@/utils/pagination';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -22,7 +22,6 @@ export default async function Page({ searchParams }: PageProps) {
         data: {
           range: mapToRangeOptions({
             currentPage: page,
-            itemsPerPage: 10,
           }),
           ...(raisonSocialeSearch && {
             where: {
@@ -35,23 +34,6 @@ export default async function Page({ searchParams }: PageProps) {
         },
       });
 
-    return <GestionnaireRéseauListPage list={mapToListProps(gestionnaireRéseaux)} />;
+    return <GestionnaireRéseauListPage {...mapToPlainObject(gestionnaireRéseaux)} />;
   });
 }
-
-const mapToListProps = ({
-  items,
-  range,
-  total,
-}: GestionnaireRéseau.ListerGestionnaireRéseauReadModel): Parameters<
-  typeof GestionnaireRéseauListPage
->[0]['list'] => {
-  return {
-    items: items.map(({ identifiantGestionnaireRéseau, raisonSociale }) => ({
-      identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
-      raisonSociale,
-    })),
-    totalItems: total,
-    ...mapToPagination(range, 10),
-  };
-};

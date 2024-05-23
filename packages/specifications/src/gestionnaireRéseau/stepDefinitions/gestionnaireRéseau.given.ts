@@ -43,32 +43,21 @@ EtantDonné(
   'le gestionnaire de réseau {string}',
   async function (this: PotentielWorld, raisonSociale: string) {
     const codeEIC = raisonSociale.toUpperCase();
-    const aideSaisieRéférenceDossierRaccordement = {
-      format: '',
-      légende: '',
-      expressionReguliere: '',
-    };
-    const contactEmail = '';
+    const aideSaisieRéférenceDossierRaccordement = {};
 
     await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
       type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
       data: {
         identifiantGestionnaireRéseauValue: codeEIC,
         raisonSocialeValue: raisonSociale,
-        aideSaisieRéférenceDossierRaccordementValue: {
-          expressionReguliereValue: aideSaisieRéférenceDossierRaccordement.expressionReguliere,
-          formatValue: aideSaisieRéférenceDossierRaccordement.format,
-          légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
-        },
-        contactEmailValue: contactEmail,
+        aideSaisieRéférenceDossierRaccordementValue: {},
       },
     });
 
     this.gestionnaireRéseauWorld.gestionnairesRéseauFixtures.set(raisonSociale, {
       codeEIC,
       raisonSociale,
-      aideSaisieRéférenceDossierRaccordement,
-      contactEmail,
+      aideSaisieRéférenceDossierRaccordement: {},
     });
 
     await sleep(100);

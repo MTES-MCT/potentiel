@@ -1,4 +1,4 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export type RawType = string;
 
@@ -7,11 +7,11 @@ export type ValueType = ReadonlyValueType<{
   formatter(): RawType;
 }>;
 
-export const convertirEnValueType = (identifiantGestionnaireRéseau: string): ValueType => {
-  estValide(identifiantGestionnaireRéseau);
+export const bind = ({ codeEIC }: PlainType<ValueType>): ValueType => {
+  estValide(codeEIC);
 
   return {
-    codeEIC: identifiantGestionnaireRéseau,
+    codeEIC,
     formatter() {
       return this.codeEIC;
     },
@@ -19,6 +19,10 @@ export const convertirEnValueType = (identifiantGestionnaireRéseau: string): Va
       return valueType.formatter() === this.formatter();
     },
   };
+};
+
+export const convertirEnValueType = (identifiantGestionnaireRéseau: string): ValueType => {
+  return bind({ codeEIC: identifiantGestionnaireRéseau });
 };
 
 function estValide(value: string): asserts value is RawType {

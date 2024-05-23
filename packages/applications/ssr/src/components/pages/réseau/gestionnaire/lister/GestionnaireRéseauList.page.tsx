@@ -3,22 +3,23 @@
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import { PlainType } from '@potentiel-domain/core';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { GestionnaireRéseauListItem } from '@/components/molecules/réseau/gestionnaireRéseau/GestionnaireRéseauListItem';
 import { ListPageTemplate } from '@/components/templates/ListPage.template';
+import { mapToPagination } from '@/utils/pagination';
 
-export type GestionnaireRéseauListPageProps = {
-  list: {
-    items: Array<Parameters<typeof GestionnaireRéseauListItem>[0]>;
-    currentPage: number;
-    totalItems: number;
-    itemsPerPage: number;
-  };
-};
+export type GestionnaireRéseauListPageProps =
+  PlainType<GestionnaireRéseau.ListerGestionnaireRéseauReadModel>;
 
 export const GestionnaireRéseauListPage: FC<GestionnaireRéseauListPageProps> = ({
-  list: { items: gestionnaireRéseaux, currentPage, totalItems, itemsPerPage },
+  items: gestionnaireRéseaux,
+  range,
+  total,
 }) => {
+  const { currentPage, itemsPerPage } = mapToPagination(range);
+
   return (
     <ListPageTemplate
       heading="Gestionnaires réseaux"
@@ -30,10 +31,10 @@ export const GestionnaireRéseauListPage: FC<GestionnaireRéseauListPageProps> =
       ]}
       items={gestionnaireRéseaux.map((gestionnaireRéseaux) => ({
         ...gestionnaireRéseaux,
-        key: gestionnaireRéseaux.identifiantGestionnaireRéseau,
+        key: gestionnaireRéseaux.identifiantGestionnaireRéseau.codeEIC,
       }))}
       currentPage={currentPage}
-      totalItems={totalItems}
+      totalItems={total}
       itemsPerPage={itemsPerPage}
       ItemComponent={GestionnaireRéseauListItem}
       filters={[]}

@@ -1,4 +1,3 @@
-import { GestionnaireRéseau as Gestionnaire } from '@potentiel-domain/reseau';
 import { get } from '@potentiel-libraries/http-client';
 import zod from 'zod';
 
@@ -11,16 +10,13 @@ const schema = zod.object({
   results: zod.array(
     zod.object({
       grd: zod.string(),
-      eic: zod.string(),
+      eic: zod.string().nullable(),
       contact: zod.string().nullable(),
     }),
   ),
 });
 
-export type OreGestionnaire = Pick<
-  Gestionnaire.GestionnaireRéseauEntity,
-  'raisonSociale' | 'codeEIC' | 'contactEmail'
->;
+export type OreGestionnaire = zod.TypeOf<typeof schema>['results'][number];
 
 type OreGestionnaireSlice = {
   gestionnaires: Array<OreGestionnaire>;
@@ -29,7 +25,7 @@ type OreGestionnaireSlice = {
 
 const getGRDsSlice = async (offset: string): Promise<OreGestionnaireSlice> => {
   const searchParams = new URLSearchParams();
-  searchParams.append('where', 'energie:"Électricité" and eic is not null and grd is not null');
+  searchParams.append('where', 'energie:"Électricité" and grd is not null');
   searchParams.append('select', 'grd, eic, contact');
   searchParams.append('limit', ORE_API_LIMIT_IN_STRING);
   searchParams.append('offset', offset);
@@ -43,12 +39,8 @@ const getGRDsSlice = async (offset: string): Promise<OreGestionnaireSlice> => {
   const parsedResult = schema.parse(result);
 
   return {
-    gestionnaires: parsedResult.results.map(({ eic, grd, contact }) => ({
-      codeEIC: eic,
-      raisonSociale: grd,
-      contactEmail: contact ?? '',
-    })),
     totalCount: parsedResult.total_count,
+    gestionnaires: parsedResult.results,
   };
 };
 

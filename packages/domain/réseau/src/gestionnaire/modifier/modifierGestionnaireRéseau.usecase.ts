@@ -1,8 +1,8 @@
-import { ExpressionRegulière } from '@potentiel-domain/common';
+import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantGestionnaireRéseau } from '..';
-import * as ContactEmailGestionnaireRéseau from '../contactEmailGestionnaireRéseau.valueType';
 import { ModifierGestionnaireRéseauCommand } from './modifierGestionnaireRéseau.command';
+import { Option } from '@potentiel-libraries/monads';
 
 export type ModifierGestionnaireRéseauUseCase = Message<
   'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',
@@ -10,11 +10,11 @@ export type ModifierGestionnaireRéseauUseCase = Message<
     identifiantGestionnaireRéseauValue: string;
     raisonSocialeValue: string;
     aideSaisieRéférenceDossierRaccordementValue: {
-      formatValue: string;
-      légendeValue: string;
-      expressionReguliereValue: string;
+      formatValue?: string;
+      légendeValue?: string;
+      expressionReguliereValue?: string;
     };
-    contactEmailValue: string;
+    contactEmailValue?: string;
   }
 >;
 
@@ -29,29 +29,26 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
     },
     contactEmailValue,
   }) => {
-    const identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
-      identifiantGestionnaireRéseauValue,
-    );
-
-    const expressionReguliere = !expressionReguliereValue
-      ? ExpressionRegulière.accepteTout
-      : ExpressionRegulière.convertirEnValueType(expressionReguliereValue);
-
-    const contactEmail = !contactEmailValue
-      ? ContactEmailGestionnaireRéseau.defaultValue
-      : ContactEmailGestionnaireRéseau.convertirEnValueType(contactEmailValue);
+    const format = Option.map(formatValue);
+    const légende = Option.map(légendeValue);
+    const expressionReguliere = Option.map(expressionReguliereValue);
+    const contactEmail = Option.map(contactEmailValue);
 
     return mediator.send<ModifierGestionnaireRéseauCommand>({
       type: 'Réseau.Gestionnaire.Command.ModifierGestionnaireRéseau',
       data: {
-        identifiantGestionnaireRéseau,
+        identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
+          identifiantGestionnaireRéseauValue,
+        ),
         raisonSociale: raisonSocialeValue,
         aideSaisieRéférenceDossierRaccordement: {
-          expressionReguliere,
-          format: formatValue,
-          légende: légendeValue,
+          expressionReguliere: Option.match(expressionReguliere)
+            .some(ExpressionRegulière.convertirEnValueType)
+            .none(),
+          format,
+          légende,
         },
-        contactEmail,
+        contactEmail: Option.match(contactEmail).some(Email.convertirEnValueType).none(),
       },
     });
   };

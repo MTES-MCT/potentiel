@@ -1,12 +1,12 @@
-import { ExpressionRegulière } from '@potentiel-domain/common';
+import { match } from 'ts-pattern';
+import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import * as ContactEmailGestionnaireRéseau from '../contactEmailGestionnaireRéseau.valueType';
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 
-export type ConsulterGestionnaireRéseauReadModel = {
+export type ConsulterGestionnaireRéseauReadModel = Readonly<{
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement: {
@@ -14,8 +14,8 @@ export type ConsulterGestionnaireRéseauReadModel = {
     légende: string;
     expressionReguliere: ExpressionRegulière.ValueType;
   };
-  contactEmail: Option.Type<ContactEmailGestionnaireRéseau.ValueType>;
-};
+  contactEmail: Option.Type<Email.ValueType>;
+}>;
 
 export type ConsulterGestionnaireRéseauQuery = Message<
   'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
@@ -39,13 +39,13 @@ export const registerConsulterGestionnaireRéseauQuery = ({
       `gestionnaire-réseau|${identifiantGestionnaireRéseau}`,
     );
 
-    return Option.isNone(result) ? Option.none : mapToReadModel(result);
+    return Option.match(result).some(mapToReadModel).none();
   };
 
   mediator.register('Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau', handler);
 };
 
-const mapToReadModel = ({
+export const mapToReadModel = ({
   codeEIC,
   raisonSociale,
   aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
@@ -57,12 +57,11 @@ const mapToReadModel = ({
     aideSaisieRéférenceDossierRaccordement: {
       format,
       légende,
-      expressionReguliere: !expressionReguliere
-        ? ExpressionRegulière.accepteTout
-        : ExpressionRegulière.convertirEnValueType(expressionReguliere),
+      expressionReguliere: ExpressionRegulière.convertirEnValueType(expressionReguliere),
     },
-    contactEmail: Option.isNone(contactEmail)
-      ? ContactEmailGestionnaireRéseau.defaultValue
-      : ContactEmailGestionnaireRéseau.convertirEnValueType(contactEmail),
+    contactEmail: match(contactEmail)
+      .returnType<Option.Type<Email.ValueType>>()
+      .with('', () => Option.none)
+      .otherwise((email) => Email.convertirEnValueType(email)),
   };
 };

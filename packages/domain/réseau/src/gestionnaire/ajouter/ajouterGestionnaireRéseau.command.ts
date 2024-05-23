@@ -1,8 +1,7 @@
-import { ExpressionRegulière } from '@potentiel-domain/common';
+import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import * as ContactEmailGestionnaireRéseau from '../contactEmailGestionnaireRéseau.valueType';
 import { loadGestionnaireRéseauFactory } from '../gestionnaireRéseau.aggregate';
 
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
@@ -13,11 +12,11 @@ export type AjouterGestionnaireRéseauCommand = Message<
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
     raisonSociale: string;
     aideSaisieRéférenceDossierRaccordement: {
-      format: string;
-      légende: string;
-      expressionReguliere: ExpressionRegulière.ValueType;
+      format: Option.Type<string>;
+      légende: Option.Type<string>;
+      expressionReguliere: Option.Type<ExpressionRegulière.ValueType>;
     };
-    contactEmail: Option.Type<ContactEmailGestionnaireRéseau.ValueType>;
+    contactEmail: Option.Type<Email.ValueType>;
   }
 >;
 

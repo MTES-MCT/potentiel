@@ -11,7 +11,6 @@
   "dependencies": {
     "@potentiel-libraries/monads": "*",
     "@potentiel-domain/document": "*",
-    "@potentiel-domain/utilisateur": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*"
   },

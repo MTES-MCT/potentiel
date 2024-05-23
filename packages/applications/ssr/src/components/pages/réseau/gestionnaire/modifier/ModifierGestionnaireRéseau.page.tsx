@@ -5,6 +5,13 @@ import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import {
+  ConsulterGestionnaireRéseauReadModel,
+  IdentifiantGestionnaireRéseau,
+} from '@potentiel-domain/reseau/src/gestionnaire';
+import { PlainType } from '@potentiel-domain/core';
+import { ExpressionRegulière, Email } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -13,25 +20,32 @@ import { PageTemplate } from '@/components/templates/Page.template';
 
 import { modifierGestionnaireRéseauAction } from './modifierGestionnaireRéseau.action';
 
-export type ModifierGestionnaireRéseauProps = {
-  identifiantGestionnaireRéseau: string;
-  raisonSociale: string;
-  expressionReguliere: string;
-  format: string;
-  légende: string;
-  contactEmail: string;
-};
+export type ModifierGestionnaireRéseauProps = PlainType<ConsulterGestionnaireRéseauReadModel>;
 
 export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProps> = ({
   identifiantGestionnaireRéseau,
   raisonSociale,
-  format,
-  légende,
-  expressionReguliere,
+  aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
   contactEmail,
-}: ModifierGestionnaireRéseauProps) => {
+}) => {
   const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+
+  // Ici on match bind pour montrer un cas d'utilisation simple vu que c'est
+  // la première mise en place de Option et ValueType en mode Isomorphique.
+  // Utiliser bind uniquement si besoin d'une fonctionnalité avancée du ValueType (exemple: comparaison de date)
+  const contactEmailValue = Option.match(contactEmail)
+    .some((email) => {
+      const emailValueType = Email.bind(email);
+      return emailValueType.formatter();
+    })
+    .none(() => '');
+
+  const expressionReguliereValue = ExpressionRegulière.bind(expressionReguliere).formatter();
+
+  const identifiantGestionnaireReseauValue = IdentifiantGestionnaireRéseau.bind(
+    identifiantGestionnaireRéseau,
+  ).formatter();
   return (
     <PageTemplate
       banner={
@@ -48,22 +62,21 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
         onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       >
         <div className="mb-6">
-          <label>Code EIC ou Gestionnaire: {identifiantGestionnaireRéseau}</label>
+          <label>Code EIC ou Gestionnaire: {identifiantGestionnaireReseauValue}</label>
         </div>
 
         <input
           type={'hidden'}
-          value={identifiantGestionnaireRéseau}
+          value={identifiantGestionnaireReseauValue}
           name="identifiantGestionnaireReseau"
         />
 
-        <input type={'hidden'} value={contactEmail} name="contactEmail" />
+        <input type={'hidden'} value={contactEmailValue} name="contactEmail" />
 
         <Input
-          textArea
           label="Raison sociale"
           id="raisonSociale"
-          nativeTextAreaProps={{
+          nativeInputProps={{
             name: 'raisonSociale',
             defaultValue: raisonSociale,
           }}
@@ -72,10 +85,20 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
         />
 
         <Input
-          textArea
+          label="Courriel de contact"
+          id="contactEmail"
+          nativeInputProps={{
+            name: 'contactEmail',
+            defaultValue: contactEmailValue,
+          }}
+          state={validationErrors.includes('contactEmail') ? 'error' : 'default'}
+          stateRelatedMessage="Contact à préciser"
+        />
+
+        <Input
           label="Format de l'identifiant du dossier de raccordement (optionnel)"
           id="format"
-          nativeTextAreaProps={{
+          nativeInputProps={{
             name: 'format',
             defaultValue: format,
           }}
@@ -85,10 +108,9 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
         />
 
         <Input
-          textArea
           label="Aide à la saisie de l'identifiant du dossier de raccordement (optionnel)"
           id="legende"
-          nativeTextAreaProps={{
+          nativeInputProps={{
             name: 'legende',
             defaultValue: légende,
           }}
@@ -98,12 +120,11 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
         />
 
         <Input
-          textArea
           label="Expression régulière (optionnel)"
           id="expressionReguliere"
-          nativeTextAreaProps={{
+          nativeInputProps={{
             name: 'expressionReguliere',
-            value: expressionReguliere,
+            value: expressionReguliereValue,
           }}
           state={validationErrors.includes('expressionReguliere') ? 'error' : 'default'}
           stateRelatedMessage="Expression régulière à préciser"

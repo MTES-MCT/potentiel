@@ -1,4 +1,4 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export type RawType = string;
 
@@ -7,10 +7,10 @@ export type ValueType = ReadonlyValueType<{
   formatter: () => RawType;
 }>;
 
-export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
+export const bind = ({ email }: PlainType<ValueType>): ValueType => {
+  estValide(email);
   return {
-    email: value,
+    email,
     formatter() {
       return this.email;
     },
@@ -20,21 +20,25 @@ export const convertirEnValueType = (value: string): ValueType => {
   };
 };
 
+export const convertirEnValueType = (value: string): ValueType => {
+  return bind({
+    email: value,
+  });
+};
+
 const regexEmail = /^[a-zA-Z0-9.+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 function estValide(value: string): asserts value is RawType {
-  const isValid = regexEmail.test(value) || value === '';
+  const isValid = regexEmail.test(value);
 
   if (!isValid) {
     throw new EmailInvalideError(value);
   }
 }
 
-export const defaultValue = convertirEnValueType('');
-
 class EmailInvalideError extends InvalidOperationError {
   constructor(value: string) {
-    super(`L'email du gestionnaire réseau ne correspond pas à un format valide`, {
+    super(`L'email ne correspond pas à un format valide`, {
       value,
     });
   }

@@ -20,14 +20,22 @@ type Story = StoryObj<typeof meta>;
 const itemsLength = 10;
 export const Default: Story = {
   args: {
-    list: {
-      items: Array.from({ length: itemsLength }, (_, i) => ({
-        identifiantGestionnaireRéseau: `identifiantGestionnaireRéseau${i}`,
-        raisonSociale: `Gestionnaire#${(i += 1)}`,
-      })),
-      currentPage: 1,
-      itemsPerPage: 10,
-      totalItems: itemsLength,
+    items: Array.from({ length: itemsLength }, (_, i) => ({
+      identifiantGestionnaireRéseau: {
+        codeEIC: `identifiantGestionnaireRéseau${i}`,
+      },
+      raisonSociale: `Gestionnaire#${(i += 1)}`,
+      aideSaisieRéférenceDossierRaccordement: {
+        format: 'format',
+        légende: 'légende',
+        expressionReguliere: { expression: 'expressionReguliere' },
+      },
+      contactEmail: { email: 'contactEmail' },
+    })),
+    range: {
+      startPosition: 0,
+      endPosition: 9,
     },
+    total: itemsLength,
   },
 };

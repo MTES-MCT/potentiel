@@ -1,9 +1,10 @@
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { CustomErrorPage } from '@/components/pages/custom-error/CustomError.page';
 import { ModifierGestionnaireRéseauPage } from '@/components/pages/réseau/gestionnaire/modifier/ModifierGestionnaireRéseau.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -19,26 +20,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         },
       });
 
-    return Option.isNone(gestionnaireRéseau) ? (
-      <CustomErrorPage statusCode="404" type="NotFoundError" />
-    ) : (
-      <ModifierGestionnaireRéseauPage {...mapToProps(gestionnaireRéseau)} />
-    );
+    if (Option.isNone(gestionnaireRéseau)) {
+      return notFound();
+    }
+
+    return <ModifierGestionnaireRéseauPage {...mapToPlainObject(gestionnaireRéseau)} />;
   });
 }
-
-const mapToProps = ({
-  aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
-  identifiantGestionnaireRéseau,
-  raisonSociale,
-  contactEmail,
-}: GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel) => {
-  return {
-    identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
-    raisonSociale,
-    format,
-    légende,
-    expressionReguliere: expressionReguliere.formatter(),
-    contactEmail: Option.isSome(contactEmail) ? contactEmail.formatter() : '',
-  };
-};

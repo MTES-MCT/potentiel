@@ -6,7 +6,7 @@ import {
   registerRéseauUseCases,
 } from '@potentiel-domain/reseau';
 
-import { OreGestionnaire, getAllGRDs } from '@potentiel-infrastructure/ore-client';
+import { getAllGRDs } from '@potentiel-infrastructure/ore-client';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   findProjection,
@@ -14,13 +14,9 @@ import {
   listProjectionV2,
 } from '@potentiel-infrastructure/pg-projections';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { addNewGestionnairesDeRéseau } from './addNewGestionnairesDeRéseau';
-import { updateExistingGestionnairesDeRéseauContactEmail } from './updateExistingGestionnairesDeRéseauContactEmail';
-
-export type Params = {
-  gestionnairesFromORE: Array<OreGestionnaire>;
-  gestionnairesRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel;
-};
+import { addGRDs } from './addGRDs';
+import { updateGRDs } from './updateGRDs';
+import { mapToRéférencielGRD } from './référencielGRD';
 
 registerRéseauUseCases({
   loadAggregate,
@@ -44,15 +40,11 @@ registerRéseauQueries({
         data: {},
       });
 
-    await updateExistingGestionnairesDeRéseauContactEmail({
-      gestionnairesFromORE,
-      gestionnairesRéseau,
-    });
+    const { àAjouter, àModifier } = mapToRéférencielGRD(gestionnairesFromORE, gestionnairesRéseau);
 
-    await addNewGestionnairesDeRéseau({
-      gestionnairesFromORE,
-      gestionnairesRéseau,
-    });
+    await addGRDs(àAjouter);
+
+    await updateGRDs(àModifier);
 
     process.exit(0);
   } catch (error) {
