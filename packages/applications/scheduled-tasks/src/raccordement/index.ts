@@ -12,7 +12,6 @@ import {
   listProjection,
   listProjectionV2,
 } from '@potentiel-infrastructure/pg-projections';
-import { killPool } from '@potentiel-libraries/pg-helpers';
 
 registerRéseauUseCases({
   loadAggregate,
@@ -58,9 +57,7 @@ registerRéseauQueries({
     // sûrement prendre que les projets classé (pas abandonné ou élimité) ?
 
     // créer affiliation gestionnaire
-    // un raccordement vide ?
-
-    await killPool();
+    // un nouvel évènement
 
     process.exit(0);
   } catch (error) {
