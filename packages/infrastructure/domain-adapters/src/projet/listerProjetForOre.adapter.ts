@@ -1,6 +1,6 @@
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { Option } from '@potentiel-libraries/monads';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 export type OREProjectsReadModel = {
   legacyId: string;
@@ -26,7 +26,7 @@ const selectProjectQuery = `
         'commune', "communeProjet",
         'codePostal', "codePostalProjet"
     )
-  )
+  ) as value
   FROM "projects"
   where "classe" = 'Classé'
 `;
@@ -40,10 +40,12 @@ export const listerProjetForOreAdapter = async () => {
     return Option.none;
   }
 
-  return projets.map((projet) => ({
-    ...projet,
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(
-      `${projet.value.appelOffre}#${projet.value.période}#${projet.value.famille}#${projet.value.numéroCRE}`,
-    ).formatter(),
-  }));
+  return projets.map((projet) => {
+    return {
+      ...projet,
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(
+        `${projet.value.appelOffre}#${projet.value.période}#${projet.value.famille}#${projet.value.numéroCRE}`,
+      ).formatter(),
+    };
+  });
 };
