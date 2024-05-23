@@ -29,7 +29,6 @@ registerRéseauQueries({
 
   try {
     const classéProjects = await listerProjetForOreAdapter();
-    console.log(classéProjects);
 
     // get every raccordement with known gestionnaire
     const raccordements = await mediator.send<Raccordement.ListerRaccordementQuery>({
@@ -42,7 +41,6 @@ registerRéseauQueries({
     const raccordementsProjectsIds = raccordements.items.map((raccordement) =>
       raccordement.identifiantProjet.formatter(),
     );
-    console.log(raccordementsProjectsIds);
 
     // TODO: see what to do with raccordementWithUnknownGestionnaire
     // const raccordementsWithUnknownGestionnaire =
@@ -59,7 +57,6 @@ registerRéseauQueries({
     const projestWithNoAttributedGestionnaire = classéProjects.filter(
       (projet) => !raccordementsProjectsIds.includes(projet.identifiantProjet),
     );
-    console.log('projetWithNoAttributedGestionnaire', projestWithNoAttributedGestionnaire);
 
     for (const projet of projestWithNoAttributedGestionnaire) {
       const gestionnaire = await getGRDByCity({
@@ -73,7 +70,7 @@ registerRéseauQueries({
         continue;
       }
 
-      console.log(gestionnaire);
+      // console.log(gestionnaire);
     }
 
     process.exit(0);

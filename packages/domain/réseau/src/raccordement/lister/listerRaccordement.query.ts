@@ -17,7 +17,9 @@ export type ListerRaccordementReadModel = {
 
 export type ListerRaccordementQuery = Message<
   'Réseau.Raccordement.Query.ListerRaccordement',
-  // TODO: check this type with Sylvain
+  /**
+   * @todo Avoir une discussion autour de l'utilisation de `WhereOptions` pour les queries
+   */
   { where?: WhereOptions<RaccordementEntity> },
   ListerRaccordementReadModel
 >;
