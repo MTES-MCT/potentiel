@@ -29,10 +29,6 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
     },
     contactEmailValue,
   }) => {
-    const identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
-      identifiantGestionnaireRéseauValue,
-    );
-
     const format = Option.map(formatValue);
     const légende = Option.map(légendeValue);
     const expressionReguliere = Option.map(expressionReguliereValue);
@@ -41,7 +37,9 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
     return mediator.send<ModifierGestionnaireRéseauCommand>({
       type: 'Réseau.Gestionnaire.Command.ModifierGestionnaireRéseau',
       data: {
-        identifiantGestionnaireRéseau,
+        identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
+          identifiantGestionnaireRéseauValue,
+        ),
         raisonSociale: raisonSocialeValue,
         aideSaisieRéférenceDossierRaccordement: {
           expressionReguliere: Option.match(expressionReguliere)

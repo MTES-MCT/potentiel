@@ -55,6 +55,7 @@ export async function modifier(
     contactEmail,
   }: ModifierOptions,
 ) {
+  // TODO : publish l'event uniquement si pas deep equal avec l'état de l'aggregate.
   const event: GestionnaireRéseauModifiéEvent = {
     type: 'GestionnaireRéseauModifié-V2',
     payload: {
