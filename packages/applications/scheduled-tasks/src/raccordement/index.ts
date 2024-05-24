@@ -57,19 +57,24 @@ registerRéseauQueries({
     const projestWithNoAttributedGestionnaire = classéProjects.filter(
       (projet) => !raccordementsProjectsIds.includes(projet.identifiantProjet),
     );
-
+    let count = 0;
     for (const projet of projestWithNoAttributedGestionnaire) {
+      // setTimeout(async () => {
       const gestionnaire = await getGRDByCity({
+        count,
         codePostal: projet.localité.codePostal,
         commune: projet.localité.commune,
       });
 
-      if (!gestionnaire) {
-        continue;
-      }
+      // if (!gestionnaire) {
+      //   continue;
+      // }
 
-      console.log('succès', gestionnaire);
+      count = gestionnaire.count;
+      // }, 100);
     }
+
+    console.log(`☠️ DONE !! ${count} / ${projestWithNoAttributedGestionnaire.length}`);
 
     process.exit(0);
   } catch (error) {
