@@ -3,6 +3,7 @@ import zod from 'zod';
 
 import { OreEndpoint } from './constant';
 import { GestionnaireRéseau as Gestionnaire } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 
 const schema = zod.object({
   total_count: zod.number(),
@@ -15,7 +16,7 @@ const schema = zod.object({
   ),
 });
 
-type Params = {
+type GetGRDByCityProps = {
   codePostal: string;
   commune: string;
 };
@@ -47,7 +48,7 @@ const transformCommuneString = (commune: string) => {
 export const getGRDByCity = async ({
   codePostal,
   commune,
-}: Params): Promise<{ gestionnaire: OreGestionnaireByCity | undefined }> => {
+}: GetGRDByCityProps): Promise<Option.Type<OreGestionnaireByCity>> => {
   const searchParams = new URLSearchParams();
   searchParams.append(
     'where',
@@ -80,9 +81,7 @@ export const getGRDByCity = async ({
         )}`,
       );
 
-      return {
-        gestionnaire: undefined,
-      };
+      return Option.none;
     }
 
     if (parsedResult.total_count > 1) {
@@ -109,16 +108,12 @@ export const getGRDByCity = async ({
         //   )} but problem with ${parsedResult.results[0]}`,
         // );
 
-        return {
-          gestionnaire: undefined,
-        };
+        return Option.none;
       }
 
       return {
-        gestionnaire: {
-          codeEIC: parsedResult.results[0].grd_elec_eic[0],
-          raisonSociale: parsedResult.results[0].grd_elec[0],
-        },
+        codeEIC: parsedResult.results[0].grd_elec_eic[0],
+        raisonSociale: parsedResult.results[0].grd_elec[0],
       };
     }
 
@@ -129,24 +124,16 @@ export const getGRDByCity = async ({
       //   )} but grd elec eic is null : ${parsedResult.results[0]}}`,
       // );
 
-      return {
-        gestionnaire: undefined,
-      };
+      return Option.none;
     }
 
-    const gestionnaire = {
+    return {
       codeEIC: parsedResult.results[0].grd_elec_eic[0],
       raisonSociale: parsedResult.results[0].grd_elec[0],
     };
-
-    return {
-      gestionnaire,
-    };
   } catch (error) {
     console.error(error);
-    return {
-      gestionnaire: undefined,
-    };
+    return Option.none;
     // getLogger().error(error as Error);
   }
 };
