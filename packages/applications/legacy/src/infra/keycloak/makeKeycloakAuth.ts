@@ -2,7 +2,6 @@ import makeSequelizeStore from 'connect-session-sequelize';
 import session from 'express-session';
 import Keycloak from 'keycloak-connect';
 import QueryString from 'querystring';
-import { logger } from '../../core/utils';
 import { User } from '../../entities';
 import { EnsureRole, RegisterAuth } from '../../modules/authN';
 import { CreateUser, GetUserByEmail } from '../../modules/users';
@@ -10,6 +9,7 @@ import routes from '../../routes';
 import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware';
 import { miseAJourStatistiquesUtilisation } from '../../controllers/helpers';
 import { isLocalEnv } from '../../config';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export interface KeycloakAuthDeps {
   sequelizeInstance: any;
@@ -121,11 +121,9 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
 
         // @ts-ignore
         if (req.kauth && Object.keys(req.kauth).length) {
-          // This user has a session but no user was found, log him out
-          // res.send('Found kauth but not req.user')
-          logger.error(
-            `Found user keycloak auth but not user in database for id ${req.kauth?.grant?.access_token?.content?.sub}`,
-          );
+          getLogger().error(new Error(`Got a valid auth token but no user associated !`), {
+            token: req.kauth?.grant?.access_token?.content,
+          });
           res.redirect(routes.LOGOUT_ACTION);
           return;
         }
