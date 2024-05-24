@@ -557,7 +557,7 @@ const policies = {
       ],
     },
   },
-  attestationConformité: {
+  achèvement: {
     consulter: [
       référencielPermissions.candidature.query.consulter,
       référencielPermissions.lauréat.achèvement.query.consulter,
@@ -618,9 +618,9 @@ const permissionAdmin = [
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
 
   // Achèvement
-  ...policies.attestationConformité.consulter,
-  ...policies.attestationConformité.transmettre,
-  ...policies.attestationConformité.modifier,
+  ...policies.achèvement.consulter,
+  ...policies.achèvement.transmettre,
+  ...policies.achèvement.modifier,
 ];
 
 const permissionCRE = [
@@ -629,7 +629,7 @@ const permissionCRE = [
   ...policies.abandon.consulter.détail,
 
   // Achèvement
-  ...policies.attestationConformité.consulter,
+  ...policies.achèvement.consulter,
 
   // Raccordement
   ...policies.réseau.raccordement.consulter,
@@ -663,9 +663,9 @@ const permissionDreal = [
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
 
   // Achèvement
-  ...policies.attestationConformité.consulter,
-  ...policies.attestationConformité.transmettre,
-  ...policies.attestationConformité.modifier,
+  ...policies.achèvement.consulter,
+  ...policies.achèvement.transmettre,
+  ...policies.achèvement.modifier,
 ];
 
 const permissionDgecValidateur = [
@@ -708,9 +708,9 @@ const permissionDgecValidateur = [
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
 
   // Achèvement
-  ...policies.attestationConformité.consulter,
-  ...policies.attestationConformité.transmettre,
-  ...policies.attestationConformité.modifier,
+  ...policies.achèvement.consulter,
+  ...policies.achèvement.transmettre,
+  ...policies.achèvement.modifier,
 ];
 
 const permissionPorteurProjet = [
@@ -745,8 +745,8 @@ const permissionPorteurProjet = [
   ...policies.garantiesFinancières.effacerHistorique,
 
   // Achèvement
-  ...policies.attestationConformité.consulter,
-  ...policies.attestationConformité.transmettre,
+  ...policies.achèvement.consulter,
+  ...policies.achèvement.transmettre,
 ];
 
 const permissionAcheteurObligé = [
@@ -756,7 +756,7 @@ const permissionAcheteurObligé = [
   ...policies.garantiesFinancières.consulter,
 
   // Achèvement
-  ...policies.attestationConformité.transmettre,
+  ...policies.achèvement.transmettre,
 ];
 
 const permissionCaisseDesDépôts = [
@@ -765,6 +765,9 @@ const permissionCaisseDesDépôts = [
   ...policies.garantiesFinancières.actuelles.modifier,
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.actuelles.enregistrer,
+
+  // Achèvement
+  ...policies.achèvement.consulter,
 ];
 
 const permissions: Record<RawType, string[]> = {
