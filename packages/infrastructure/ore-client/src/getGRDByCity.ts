@@ -16,7 +16,6 @@ const schema = zod.object({
 });
 
 type Params = {
-  count: number;
   codePostal: string;
   commune: string;
 };
@@ -27,33 +26,28 @@ export type OreGestionnaireByCity = Pick<
 >;
 
 const transformCommuneString = (commune: string) => {
-  return (
-    commune
-      .toLowerCase()
-      .replace(/(?:^|[^a-zA-Z])([a-z])/g, (match, p1, offset) => {
-        // Capitaliser la première lettre de chaque mot
-        if (offset === 0) {
-          return p1.toUpperCase();
-        }
-        return match.slice(0, -1) + match.charAt(match.length - 1).toUpperCase();
-      })
-      .replace(/\d/g, '') // Supprimer les chiffres
-      .replace('St ', 'Saint ')
-      .replace('Ste ', 'Sainte ')
-      .replace(' St ', ' Saint ')
-      .replace(' Ste ', ' Sainte ')
-      .replace('D ', "D'")
-      .replace('L ', "L'")
-      // .replace(/\s+/g, '-') // Remplacer les espaces par des tirets
-      .trim()
-  );
+  return commune
+    .toLowerCase()
+    .replace(/(?:^|[^a-zA-Z])([a-z])/g, (match, p1, offset) => {
+      if (offset === 0) {
+        return p1.toUpperCase();
+      }
+      return match.slice(0, -1) + match.charAt(match.length - 1).toUpperCase();
+    })
+    .replace(/\d/g, '')
+    .replace('St ', 'Saint ')
+    .replace('Ste ', 'Sainte ')
+    .replace(' St ', ' Saint ')
+    .replace(' Ste ', ' Sainte ')
+    .replace('D ', "D'")
+    .replace('L ', "L'")
+    .trim();
 };
 
 export const getGRDByCity = async ({
   codePostal,
   commune,
-  count,
-}: Params): Promise<{ gestionnaire: OreGestionnaireByCity | undefined; count: number }> => {
+}: Params): Promise<{ gestionnaire: OreGestionnaireByCity | undefined }> => {
   const searchParams = new URLSearchParams();
   searchParams.append(
     'where',
@@ -87,7 +81,6 @@ export const getGRDByCity = async ({
       );
 
       return {
-        count: (count += 1),
         gestionnaire: undefined,
       };
     }
@@ -117,13 +110,11 @@ export const getGRDByCity = async ({
         // );
 
         return {
-          count: (count += 1),
           gestionnaire: undefined,
         };
       }
 
       return {
-        count: (count += 1),
         gestionnaire: {
           codeEIC: parsedResult.results[0].grd_elec_eic[0],
           raisonSociale: parsedResult.results[0].grd_elec[0],
@@ -139,7 +130,6 @@ export const getGRDByCity = async ({
       // );
 
       return {
-        count: (count += 1),
         gestionnaire: undefined,
       };
     }
@@ -150,13 +140,11 @@ export const getGRDByCity = async ({
     };
 
     return {
-      count,
       gestionnaire,
     };
   } catch (error) {
     console.error(error);
     return {
-      count: (count += 1),
       gestionnaire: undefined,
     };
     // getLogger().error(error as Error);

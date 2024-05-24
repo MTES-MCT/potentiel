@@ -43,11 +43,12 @@ registerRéseauQueries({
     );
 
     // TODO: see what to do with raccordementWithUnknownGestionnaire
-    // const raccordementsWithUnknownGestionnaire =
-    //   await mediator.send<Raccordement.ListerRaccordementQuery>({
-    //     type: 'Réseau.Raccordement.Query.ListerRaccordement',
-    //     data: { where: { identifiantGestionnaireRéseau: { operator: 'equal', value: 'inconnu' } } },
-    //   });
+    const raccordementsWithUnknownGestionnaire =
+      await mediator.send<Raccordement.ListerRaccordementQuery>({
+        type: 'Réseau.Raccordement.Query.ListerRaccordement',
+        data: { where: { identifiantGestionnaireRéseau: { operator: 'equal', value: 'inconnu' } } },
+      });
+    console.log(raccordementsWithUnknownGestionnaire.items.length);
 
     // const raccordementsWithUnknownGestionnaireProjectsIds =
     //   raccordementsWithUnknownGestionnaire.items.map(
@@ -57,24 +58,12 @@ registerRéseauQueries({
     const projestWithNoAttributedGestionnaire = classéProjects.filter(
       (projet) => !raccordementsProjectsIds.includes(projet.identifiantProjet),
     );
-    let count = 0;
     for (const projet of projestWithNoAttributedGestionnaire) {
-      // setTimeout(async () => {
       const gestionnaire = await getGRDByCity({
-        count,
         codePostal: projet.localité.codePostal,
         commune: projet.localité.commune,
       });
-
-      // if (!gestionnaire) {
-      //   continue;
-      // }
-
-      count = gestionnaire.count;
-      // }, 100);
     }
-
-    console.log(`☠️ DONE !! ${count} / ${projestWithNoAttributedGestionnaire.length}`);
 
     process.exit(0);
   } catch (error) {
