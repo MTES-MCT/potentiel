@@ -10,8 +10,8 @@ const schema = zod.object({
   total_count: zod.number(),
   results: zod.array(
     zod.object({
-      grd_elec: zod.array(zod.string()),
-      grd_elec_eic: zod.array(zod.string()),
+      grd_elec: zod.array(zod.string()).nullable(),
+      grd_elec_eic: zod.array(zod.string()).nullable(),
       commune: zod.string(),
     }),
   ),
@@ -55,7 +55,7 @@ export const getGRDByCity = async ({
   const searchParams = new URLSearchParams();
   searchParams.append(
     'where',
-    `code_postal in ("${codePostal}") and commune like "${oreFormatCommune}" and grd_elec is not null and grd_elec_eic is not null`,
+    `code_postal in ("${codePostal}") and commune like "${oreFormatCommune}"`,
   );
   searchParams.append('select', 'grd_elec, grd_elec_eic, commune');
   searchParams.append('limit', '2');
@@ -70,9 +70,6 @@ export const getGRDByCity = async ({
     const parsedResult = schema.parse(result);
 
     if (parsedResult.total_count === 0) {
-      console.log(
-        `No GRD could be found for codePostal ${codePostal} and commune ${oreFormatCommune}`,
-      );
       logger.warn(
         `No GRD could be found for codePostal ${codePostal} and commune ${oreFormatCommune}`,
       );
@@ -80,45 +77,29 @@ export const getGRDByCity = async ({
       return Option.none;
     }
 
-    if (parsedResult.total_count > 1) {
-      // console.log(
-      //   `🤡 More than one commune found for commune : ${transformCommuneString(
-      //     commune,
-      //   )} and postal code ${codePostal}`,
-      // );
-      // console.log(parsedResult.results[0].commune, transformCommuneString(commune));
-      // getLogger().info(
-      //   `${
-      //     parsedResult.total_count
-      //   } communes could be found for codePostal ${codePostal} and commune ${transformCommuneString(
-      //     commune,
-      //   )}`,
-      // );
+    if (
+      !parsedResult.results[0].grd_elec_eic ||
+      parsedResult.results[0].grd_elec_eic.length === 0
+    ) {
+      logger.warn(
+        `A GRD could be found for codePostal ${codePostal} and commune ${oreFormatCommune} but with no EIC`,
+      );
 
-      if (parsedResult.results[0].grd_elec_eic.length === 0) {
-        // console.log(
-        //   `${
-        //     parsedResult.total_count
-        //   } communes could be found for codePostal ${codePostal} and commune ${transformCommuneString(
-        //     commune,
-        //   )} but problem with ${parsedResult.results[0]}`,
-        // );
-
-        return Option.none;
-      }
-
-      return {
-        codeEIC: parsedResult.results[0].grd_elec_eic[0],
-        raisonSociale: parsedResult.results[0].grd_elec[0],
-      };
+      return Option.none;
     }
 
-    if (parsedResult.results[0].grd_elec_eic.length === 0) {
-      // console.log(
-      //   `1 commune found for ${codePostal} and commune ${transformCommuneString(
-      //     commune,
-      //   )} but grd elec eic is null : ${parsedResult.results[0]}}`,
-      // );
+    if (!parsedResult.results[0].grd_elec || parsedResult.results[0].grd_elec.length === 0) {
+      logger.warn(
+        `A GRD could be found for codePostal ${codePostal} and commune ${oreFormatCommune} but with no raison sociale`,
+      );
+
+      return Option.none;
+    }
+
+    if (parsedResult.results[0].grd_elec_eic.length > 1) {
+      logger.warn(
+        `A GRD could be found for codePostal ${codePostal} and commune ${oreFormatCommune} but with more than one EIC`,
+      );
 
       return Option.none;
     }
@@ -128,8 +109,8 @@ export const getGRDByCity = async ({
       raisonSociale: parsedResult.results[0].grd_elec[0],
     };
   } catch (error) {
-    console.error(error);
+    logger.error(error as Error);
+
     return Option.none;
-    // getLogger().error(error as Error);
   }
 };
