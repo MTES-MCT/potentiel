@@ -1,6 +1,4 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { IdentifiantGestionnaireRéseau } from '..';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 
 export type AttribuerGestionnaireRéseauAUnProjetUseCase = Message<
   'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireRéseauAUnProjet',
@@ -8,7 +6,6 @@ export type AttribuerGestionnaireRéseauAUnProjetUseCase = Message<
     identifiantGestionnaireRéseauValue: string;
     projet: {
       identifiantProjetValue: string;
-      nomProjetValue: string;
       appelOffreValue: string;
       périodeValue: string;
       familleValue: string;
@@ -22,18 +19,17 @@ export const registerAttribuerGestionnaireRéseauAUnProjetUseCase = () => {
     identifiantGestionnaireRéseauValue,
     projet,
   }) => {
+    console.log('🤘🏻', identifiantGestionnaireRéseauValue, projet);
     // await mediator.send<GestionnaireRéseau.Attr>()
-
-    const commandParams = {
-      identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
-        identifiantGestionnaireRéseauValue,
-      ),
-      projet: {
-        ...projet,
-        identifiantProjet: IdentifiantProjet.convertirEnValueType(projet.identifiantProjetValue),
-      },
-    };
-
+    // const commandParams = {
+    //   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
+    //     identifiantGestionnaireRéseauValue,
+    //   ),
+    //   projet: {
+    //     ...projet,
+    //     identifiantProjet: IdentifiantProjet.convertirEnValueType(projet.identifiantProjetValue),
+    //   },
+    // };
     // appeler la commande
   };
 

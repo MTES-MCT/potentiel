@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import {
+  GestionnaireRéseau,
   Raccordement,
   registerRéseauQueries,
   registerRéseauUseCases,
@@ -48,18 +49,46 @@ registerRéseauQueries({
     );
 
     getLogger().info(`Looking for ${projectsWithNoAttributedGestionnaire.length} gestionnaires`);
-
     let projetWithNoOreGestionnaireFoundCount = 0;
 
     for (const projet of projectsWithNoAttributedGestionnaire) {
-      const gestionnaire = await getGRDByCity({
+      const gestionnaireByCity = await getGRDByCity({
         codePostal: projet.localité.codePostal,
         commune: projet.localité.commune,
       });
 
-      if (Option.isNone(gestionnaire)) {
+      if (Option.isNone(gestionnaireByCity)) {
         projetWithNoOreGestionnaireFoundCount++;
+        continue;
       }
+
+      const gestionnaire = await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>(
+        {
+          type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
+          data: {
+            identifiantGestionnaireRéseau: gestionnaireByCity.codeEIC,
+          },
+        },
+      );
+
+      if (Option.isNone(gestionnaire)) {
+        continue;
+      }
+
+      await mediator.send<GestionnaireRéseau.AttribuerGestionnaireRéseauAUnProjetUseCase>({
+        type: 'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireRéseauAUnProjet',
+        data: {
+          identifiantGestionnaireRéseauValue:
+            gestionnaire.identifiantGestionnaireRéseau.formatter(),
+          projet: {
+            identifiantProjetValue: projet.identifiantProjet,
+            appelOffreValue: projet.appelOffre,
+            périodeValue: projet.période,
+            familleValue: projet.famille,
+            numéroCREValue: projet.numéroCRE,
+          },
+        },
+      });
     }
 
     const notFoundinPercent = Math.round(

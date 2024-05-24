@@ -11,6 +11,7 @@ import type { ModifierGestionnaireRéseauUseCase } from './modifier/modifierGest
 import type { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouterGestionnaireRéseau.behavior';
 import type { GestionnaireRéseauEvent } from './gestionnaireRéseau.aggregate';
 import type { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.behavior';
+import { AttribuerGestionnaireRéseauAUnProjetUseCase } from './attribuerAUnProjet/attribuerGestionnaireRéseauAUnProjet.usecase';
 
 // Query
 export type GestionnaireRéseauQuery =
@@ -25,9 +26,14 @@ export { ListerGestionnaireRéseauReadModel, ConsulterGestionnaireRéseauReadMod
 // UseCases
 export type GestionnaireRéseauUseCase =
   | AjouterGestionnaireRéseauUseCase
-  | ModifierGestionnaireRéseauUseCase;
+  | ModifierGestionnaireRéseauUseCase
+  | AttribuerGestionnaireRéseauAUnProjetUseCase;
 
-export { AjouterGestionnaireRéseauUseCase, ModifierGestionnaireRéseauUseCase };
+export type {
+  AjouterGestionnaireRéseauUseCase,
+  ModifierGestionnaireRéseauUseCase,
+  AttribuerGestionnaireRéseauAUnProjetUseCase,
+};
 
 // Event
 export { GestionnaireRéseauAjoutéEvent, GestionnaireRéseauEvent, GestionnaireRéseauModifiéEvent };
