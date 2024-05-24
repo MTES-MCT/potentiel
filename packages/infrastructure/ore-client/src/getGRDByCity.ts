@@ -4,6 +4,7 @@ import zod from 'zod';
 import { OreEndpoint } from './constant';
 import { GestionnaireRéseau as Gestionnaire } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 const schema = zod.object({
   total_count: zod.number(),
@@ -26,7 +27,7 @@ export type OreGestionnaireByCity = Pick<
   'raisonSociale' | 'codeEIC'
 >;
 
-const transformCommuneString = (commune: string) => {
+const transformCommuneToOreFormat = (commune: string) => {
   return commune
     .toLowerCase()
     .replace(/(?:^|[^a-zA-Z])([a-z])/g, (match, p1, offset) => {
@@ -49,12 +50,12 @@ export const getGRDByCity = async ({
   codePostal,
   commune,
 }: GetGRDByCityProps): Promise<Option.Type<OreGestionnaireByCity>> => {
+  const oreFormatCommune = transformCommuneToOreFormat(commune);
+  const logger = getLogger();
   const searchParams = new URLSearchParams();
   searchParams.append(
     'where',
-    `code_postal in ("${codePostal}") and commune like "${transformCommuneString(
-      commune,
-    )}" and grd_elec is not null and grd_elec_eic is not null`,
+    `code_postal in ("${codePostal}") and commune like "${oreFormatCommune}" and grd_elec is not null and grd_elec_eic is not null`,
   );
   searchParams.append('select', 'grd_elec, grd_elec_eic, commune');
   searchParams.append('limit', '2');
@@ -69,16 +70,11 @@ export const getGRDByCity = async ({
     const parsedResult = schema.parse(result);
 
     if (parsedResult.total_count === 0) {
-      // getLogger().warn(
-      //   `No GRD could be found for codePostal ${codePostal} and commune ${transformCommuneString(
-      //     commune,
-      //   )}`,
-      // );
-
       console.log(
-        `No GRD could be found for codePostal ${codePostal} and commune ${transformCommuneString(
-          commune,
-        )}`,
+        `No GRD could be found for codePostal ${codePostal} and commune ${oreFormatCommune}`,
+      );
+      logger.warn(
+        `No GRD could be found for codePostal ${codePostal} and commune ${oreFormatCommune}`,
       );
 
       return Option.none;
