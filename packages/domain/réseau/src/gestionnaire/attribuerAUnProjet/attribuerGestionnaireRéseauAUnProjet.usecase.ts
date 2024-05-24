@@ -14,7 +14,6 @@ export type AttribuerGestionnaireRéseauAUnProjetUseCase = Message<
       familleValue: string;
       numéroCREValue: string;
     };
-    isValidatedByPorteurValue: boolean;
   }
 >;
 
@@ -22,8 +21,9 @@ export const registerAttribuerGestionnaireRéseauAUnProjetUseCase = () => {
   const handler: MessageHandler<AttribuerGestionnaireRéseauAUnProjetUseCase> = async ({
     identifiantGestionnaireRéseauValue,
     projet,
-    isValidatedByPorteurValue,
   }) => {
+    // await mediator.send<GestionnaireRéseau.Attr>()
+
     const commandParams = {
       identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
         identifiantGestionnaireRéseauValue,
@@ -32,7 +32,6 @@ export const registerAttribuerGestionnaireRéseauAUnProjetUseCase = () => {
         ...projet,
         identifiantProjet: IdentifiantProjet.convertirEnValueType(projet.identifiantProjetValue),
       },
-      isValidatedByPorteur: isValidatedByPorteurValue,
     };
 
     // appeler la commande

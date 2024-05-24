@@ -10,34 +10,29 @@ export type AttribuerGestionnaireRéseauAUnProjetCommand = Message<
   {
     identifiantGestionnaireRéseauValue: IdentifiantGestionnaireRéseau.ValueType;
     projet: {
-      identifiantProjetValue: IdentifiantProjet.ValueType;
-      nomProjetValue: string;
-      appelOffreValue: string;
-      périodeValue: string;
-      familleValue: string;
-      numéroCREValue: string;
+      identifiantProjet: IdentifiantProjet.ValueType;
+      nomProjet: string;
+      appelOffre: string;
+      période: string;
+      famille: string;
+      numéroCRE: string;
     };
-    isValidatedByPorteurValue: boolean;
   }
 >;
 
 export const registerAttribuerGestionnaireRéseauAUnProjetCommand = (
   loadAggregate: LoadAggregate,
 ) => {
-  const load = loadRaccordementAggregateFactory(loadAggregate);
+  const loadRaccordement = loadRaccordementAggregateFactory(loadAggregate);
 
   const handler: MessageHandler<AttribuerGestionnaireRéseauAUnProjetCommand> = async ({
     identifiantGestionnaireRéseauValue,
-    projet,
-    isValidatedByPorteurValue,
+    projet: { identifiantProjet, nomProjet, appelOffre, période, famille, numéroCRE },
   }) => {
-    // vérifier qu'on a pas déjà un raccordement
-    const raccordement = await load(projet.identifiantProjetValue, false);
+    const raccordement = await loadRaccordement(identifiantProjet, false);
 
-    if (raccordement) {
-      console.log(raccordement);
-      //throw une erreur d'invalité
-    }
+    console.log('🤡 RACCORDEMENT'), raccordement;
+    // await raccordement.
 
     // TODO: call à un usecase pour ajouter un raccordement vide
     // je pense qu'il faut créer un nouveau usecase dans raccordement
