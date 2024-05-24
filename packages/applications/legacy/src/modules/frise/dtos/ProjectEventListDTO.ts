@@ -159,6 +159,8 @@ export type ModificationRequestedDTO = {
       unitePuissance?: string;
     }
   | { modificationType: 'recours' }
+  | { modificationType: 'actionnaire'; actionnaire: string }
+  | { modificationType: 'producteur'; producteur: string }
 );
 
 export type ModificationRequestAcceptedDTO = {

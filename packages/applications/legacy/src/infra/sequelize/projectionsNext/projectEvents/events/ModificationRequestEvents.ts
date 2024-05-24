@@ -20,6 +20,14 @@ export type ModificationRequestEvents = ProjectEvent &
               modificationType: 'puissance';
               puissance: number;
             }
+          | {
+              modificationType: 'producteur';
+              producteur: string;
+            }
+          | {
+              modificationType: 'actionnaire';
+              actionnaire: string;
+            }
         );
       }
     | {

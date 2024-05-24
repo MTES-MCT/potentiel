@@ -25,6 +25,8 @@ export type ModificationRequestItemProps = {
   | {
       modificationType: 'recours';
     }
+  | { modificationType: 'actionnaire'; actionnaire: string }
+  | { modificationType: 'producteur'; producteur: string }
 );
 
 export const extractModificationRequestsItemProps = (
@@ -91,6 +93,32 @@ export const extractModificationRequestsItemProps = (
             role,
             responseUrl,
             detailsUrl,
+          };
+
+        case 'actionnaire':
+          return {
+            type: 'demande-de-modification',
+            date,
+            authority,
+            modificationType,
+            status,
+            role,
+            responseUrl,
+            detailsUrl,
+            actionnaire: requestEvent.actionnaire,
+          };
+
+        case 'producteur':
+          return {
+            type: 'demande-de-modification',
+            date,
+            authority,
+            modificationType,
+            status,
+            role,
+            responseUrl,
+            detailsUrl,
+            producteur: requestEvent.producteur,
           };
       }
     });

@@ -212,6 +212,28 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         authority: payload.authority,
                       });
                       break;
+                    case 'actionnaire':
+                      events.push({
+                        type,
+                        date: valueDate,
+                        variant: user.role,
+                        modificationType: payload.modificationType,
+                        modificationRequestId: payload.modificationRequestId,
+                        actionnaire: payload.actionnaire,
+                        authority: payload.authority,
+                      });
+                      break;
+                    case 'producteur':
+                      events.push({
+                        type,
+                        date: valueDate,
+                        variant: user.role,
+                        modificationType: payload.modificationType,
+                        modificationRequestId: payload.modificationRequestId,
+                        producteur: payload.producteur,
+                        authority: payload.authority,
+                      });
+                      break;
                   }
                 }
                 break;

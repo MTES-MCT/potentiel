@@ -141,6 +141,8 @@ const Details = (
     | { modificationType: 'delai'; delayInMonths: number }
     | { modificationType: 'puissance'; puissance: number; unitePuissance: string }
     | { modificationType: 'recours' }
+    | { modificationType: 'actionnaire'; actionnaire: string }
+    | { modificationType: 'producteur'; producteur: string }
   ),
 ) => {
   const { status, modificationType, detailsUrl, authority = undefined, role } = props;
@@ -150,6 +152,8 @@ const Details = (
       delai: `délai supplémentaire`,
       recours: `recours`,
       puissance: `changement de puissance installée`,
+      actionnaire: `changement de l'actionnariat`,
+      producteur: `changement de producteur`,
     };
 
   const libelleStatus: { [key in ModificationRequestItemProps['status']]: string } = {
@@ -172,6 +176,12 @@ const Details = (
         <p className="p-0 m-0">
           Puissance demandée : {props.puissance} {props.unitePuissance}
         </p>
+      )}
+      {modificationType === 'actionnaire' && (
+        <p className="p-0 m-0">Actionnaire : {props.actionnaire}</p>
+      )}
+      {modificationType === 'producteur' && (
+        <p className="p-0 m-0">Producteur : {props.producteur}</p>
       )}
       {['admin', 'dgec-validateur', 'porteur-projet', 'cre', 'acheteur-obligé', 'dreal'].includes(
         role,
