@@ -24,6 +24,14 @@ export async function attribuerGestionnaireRéseauAuRaccordement(
     identifiantProjet,
   }: AttribuerGestionnaireRéseauAuRaccordementOptions,
 ) {
+  const raccordementDéjàExistantPourLeProjet = this.identifiantProjet.estÉgaleÀ(
+    IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  );
+
+  if (raccordementDéjàExistantPourLeProjet) {
+    throw new RaccordementDéjàExistantError(this.identifiantProjet);
+  }
+
   const event: GestionnaireRéseauAttribuéAuRaccordementEvent = {
     type: 'GestionnaireRéseauAttribuéAuRaccordement-V1',
     payload: {
@@ -41,14 +49,6 @@ export function applyAttribuerGestionnaireRéseauAuRaccordementEventV1(
     payload: { identifiantGestionnaireRéseau, identifiantProjet },
   }: GestionnaireRéseauAttribuéAuRaccordementEvent,
 ) {
-  const raccordementDéjàExistantPourLeProjet = this.identifiantProjet.estÉgaleÀ(
-    IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  );
-
-  if (raccordementDéjàExistantPourLeProjet) {
-    throw new RaccordementDéjàExistantError(this.identifiantProjet);
-  }
-
   this.identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
     identifiantGestionnaireRéseau,
