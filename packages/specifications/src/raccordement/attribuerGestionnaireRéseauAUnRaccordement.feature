@@ -1,19 +1,29 @@
 #Language: fr-FR
 Fonctionnalité: Attribuer un gestionnaire de réseau à un raccordement 
     Contexte:
-        Etant donné le gestionnaire de réseau "Enedis"
+        Etant donné le gestionnaire de réseau "EDF Corse"
         Et le projet lauréat "Du boulodrome de Marseille"
 
-    # TODO Violette 
-    Scénario: Le porteur transmet une date de mise en service pour un dossier de raccordement
-        Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
-            | La date de qualification                | 2022-10-28                                                                                            |
-            | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
-            | Le format de l'accusé de réception      | application/pdf                                                                                       |
-            | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
-        Quand le porteur transmet la date de mise en service "2023-03-27" pour le dossier de raccordement du le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033"
-        Alors la date de mise en service "2023-03-27" devrait être consultable dans le dossier de raccordement du le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033"
+    @NotImplemented
+    Scénario: Un gestionnaire de réseau est attribué au raccordement d'un projet lauréat
+        Quand le gestionnaire réseau "EDF Corse" est attribué au raccordement du projet lauréat "Du boulodrome de Marseille"
+        Alors le raccordement pour le projet lauréat "Du boulodrome de Marseille" devrait être consultable
+        Et le projet "Du boulodrome de Marseille" devrait avoir comme gestionnaire de réseau "EDF Corse"
+    
+    @NotImplemented
+    Scénario: Impossible d'attribuer un gestionnaire de réseau au raccordement d'un projet éliminé
+        Etant donné le projet éliminé "MIOS"
+        Quand le gestionnaire réseau "EDF Corse" est attribué au raccordement du projet éliminé "MIOS"
+        Alors on devrait être informé que "Un gestionnaire de réseau ne peut pas être attribué au raccordement d'un projet éliminé"
 
-    Scénario: Impossible de transmettre une date de mise en service pour un projet sans dossier de raccordement
-        Quand le porteur transmet la date de mise en service "2023-03-27" pour le dossier de raccordement du le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033"
-        Alors le porteur devrait être informé que "Raccordement inconnu"
+    @NotImplemented
+    Scénario: Impossible d'attribuer un gestionnaire de réseau au raccordement d'un projet abandonné
+        Etant donné le projet abandonné "MIOS II"
+        Quand le gestionnaire réseau "EDF Corse" est attribué au raccordement du projet abandonné "MIOS II"
+        Alors on devrait être informé que "Un gestionnaire de réseau ne peut pas être attribué au raccordement d'un projet abandonné"
+
+    @NotImplemented
+    Scénario: Impossible d'attribuer un gestionnaire de réseau au raccordement d'un projet lauréat si celui-ci a déjà un raccordement attribué à un gestionnaire
+        Etant donné un gestionnaire réseau "Enedis" attribué au raccordement du projet lauréat "Du boulodrome de Marseille"
+        Quand le gestionnaire réseau "EDF Corse" est attribué au raccordement du projet lauréat "Du boulodrome de Marseille"
+        Alors on devrait être informé que "Un raccordement existe déjà pour ce projet"
