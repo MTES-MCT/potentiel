@@ -73,7 +73,7 @@ Alors(
 );
 
 Alors(
-  `le projet {string} devrait avoir comme gestionnaire de réseau {string}`,
+  `le projet {string} devrait avoir un raccordement attribué au gestionnaire de réseau {string}`,
   async function (this: PotentielWorld, nomProjet: string, raisonSociale: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     const { codeEIC } =
