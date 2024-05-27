@@ -12,17 +12,14 @@ export type GestionnaireRéseauAttribuéAuRaccordementEvent = DomainEvent<
   }
 >;
 
-export type AttribuerGestionnaireRéseauAuRaccordementOptions = {
+export type AttribuerGestionnaireRéseauOptions = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.RawType;
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
-export async function attribuerGestionnaireRéseauAuRaccordement(
+export async function attribuerGestionnaireRéseau(
   this: RaccordementAggregate,
-  {
-    identifiantGestionnaireRéseau,
-    identifiantProjet,
-  }: AttribuerGestionnaireRéseauAuRaccordementOptions,
+  { identifiantGestionnaireRéseau, identifiantProjet }: AttribuerGestionnaireRéseauOptions,
 ) {
   const raccordementDéjàExistantPourLeProjet = this.identifiantProjet.estÉgaleÀ(
     IdentifiantProjet.convertirEnValueType(identifiantProjet),

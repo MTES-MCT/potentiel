@@ -58,7 +58,7 @@ import {
 import {
   GestionnaireRéseauAttribuéAuRaccordementEvent,
   applyAttribuerGestionnaireRéseauAuRaccordementEventV1,
-  attribuerGestionnaireRéseauAuRaccordement,
+  attribuerGestionnaireRéseau,
 } from './attribuerGestionnaireRéseauAuRaccordement/attribuerGestionnaireRéseauAuRaccordement.behavior';
 
 export type DeprecateEvent =
@@ -109,7 +109,7 @@ export type RaccordementAggregate = Aggregate<RaccordementEvent> & {
   readonly modifierGestionnaireRéseau: typeof modifierGestionnaireRéseau;
   readonly contientLeDossier: (référence: RéférenceDossierRaccordement.ValueType) => boolean;
   readonly récupérerDossier: (référence: string) => DossierRaccordement;
-  readonly attribuerGestionnaireRéseauAuRaccordement: typeof attribuerGestionnaireRéseauAuRaccordement;
+  readonly attribuerGestionnaireRéseau: typeof attribuerGestionnaireRéseau;
 };
 
 export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
@@ -127,7 +127,7 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
   modifierRéférenceDossierRacordement,
   modifierPropositionTechniqueEtFinancière,
   modifierGestionnaireRéseau,
-  attribuerGestionnaireRéseauAuRaccordement,
+  attribuerGestionnaireRéseau,
   contientLeDossier({ référence }) {
     return this.dossiers.has(référence);
   },
