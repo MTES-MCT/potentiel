@@ -55,7 +55,11 @@ import {
   applyGestionnaireRéseauRaccordementModifiéEventV1,
   modifierGestionnaireRéseau,
 } from './modifier/modifierGestionnaireRéseauRaccordement.behavior';
-// import { attribuerGestionnaireAuRaccordement } from './attribuerGestionnaireAuRaccordement/attribuerGestionnaireAuRaccordement.behavior';
+import {
+  GestionnaireRéseauAttribuéAuRaccordementEvent,
+  applyAttribuerGestionnaireRéseauAuRaccordementEventV1,
+  attribuerGestionnaireRéseauAuRaccordement,
+} from './attribuerGestionnaireRéseauAuRaccordement/attribuerGestionnaireRéseauAuRaccordement.behavior';
 
 export type DeprecateEvent =
   | DemandeComplèteRaccordementTransmiseEventV1
@@ -74,7 +78,8 @@ export type RaccordementEvent =
   | DemandeComplèteRaccordementModifiéeEvent
   | RéférenceDossierRacordementModifiéeEvent
   | PropositionTechniqueEtFinancièreModifiéeEvent
-  | GestionnaireRéseauRaccordementModifiéEvent;
+  | GestionnaireRéseauRaccordementModifiéEvent
+  | GestionnaireRéseauAttribuéAuRaccordementEvent;
 
 type DossierRaccordement = {
   référence: RéférenceDossierRaccordement.ValueType;
@@ -98,16 +103,13 @@ export type RaccordementAggregate = Aggregate<RaccordementEvent> & {
   readonly transmettreDemande: typeof transmettreDemande;
   readonly transmettreDateMiseEnService: typeof transmettreDateMiseEnService;
   readonly transmettrePropositionTechniqueEtFinancière: typeof transmettrePropositionTechniqueEtFinancière;
-  /**
-   * @todo Ajouter une méthode transmettreRaccordementSansUseCase
-   */
   readonly modifierDemandeComplèteRaccordement: typeof modifierDemandeComplèteRaccordement;
   readonly modifierRéférenceDossierRacordement: typeof modifierRéférenceDossierRacordement;
   readonly modifierPropositionTechniqueEtFinancière: typeof modifierPropositionTechniqueEtFinancière;
   readonly modifierGestionnaireRéseau: typeof modifierGestionnaireRéseau;
   readonly contientLeDossier: (référence: RéférenceDossierRaccordement.ValueType) => boolean;
   readonly récupérerDossier: (référence: string) => DossierRaccordement;
-  // readonly attribuerGestionnaireAuRaccordement: typeof attribuerGestionnaireAuRaccordement;
+  readonly attribuerGestionnaireRéseauAuRaccordement: typeof attribuerGestionnaireRéseauAuRaccordement;
 };
 
 export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
@@ -125,7 +127,7 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
   modifierRéférenceDossierRacordement,
   modifierPropositionTechniqueEtFinancière,
   modifierGestionnaireRéseau,
-  // attribuerGestionnaireAuRaccordement,
+  attribuerGestionnaireRéseauAuRaccordement,
   contientLeDossier({ référence }) {
     return this.dossiers.has(référence);
   },
@@ -183,9 +185,10 @@ function apply(this: RaccordementAggregate, event: RaccordementEvent) {
       break;
     case 'GestionnaireRéseauRaccordementModifié-V1':
       applyGestionnaireRéseauRaccordementModifiéEventV1.bind(this)(event);
-    // case 'GestionnaireRéseauAttribuéAuRaccordement-V1':
-    //   applyGestionnaireRéseauAttribuéAuRaccordementEventV1.bind(this)(event);
-    //   break;
+      break;
+    case 'GestionnaireRéseauAttribuéAuRaccordement-V1':
+      applyAttribuerGestionnaireRéseauAuRaccordementEventV1.bind(this)(event);
+      break;
   }
 }
 

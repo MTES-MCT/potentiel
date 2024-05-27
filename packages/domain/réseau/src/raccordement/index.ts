@@ -1,5 +1,5 @@
 // import { AttribuerGestionnaireAuRaccordementUseCase } from './attribuerGestionnaireAuRaccordement/attribuerGestionnaireAuRaccordement.usecase';
-import { AttribuerGestionnaireAuRaccordementUseCase } from './attribuerGestionnaireAuRaccordement/attribuerGestionnaireAuRaccordement.usecase';
+import { AttribuerGestionnaireRéseauAuRaccordementUseCase } from './attribuerGestionnaireRéseauAuRaccordement/attribuerGestionnaireRéseauAuRaccordement.usecase';
 import {
   ConsulterDossierRaccordementQuery,
   ConsulterDossierRaccordementReadModel,
@@ -62,7 +62,7 @@ export type RaccordementUseCase =
   | TransmettreDateMiseEnServiceUseCase
   | TransmettreDemandeComplèteRaccordementUseCase
   | TransmettrePropositionTechniqueEtFinancièreUseCase
-  | AttribuerGestionnaireAuRaccordementUseCase;
+  | AttribuerGestionnaireRéseauAuRaccordementUseCase;
 
 export {
   ModifierDemandeComplèteRaccordementUseCase,
@@ -72,7 +72,7 @@ export {
   TransmettreDateMiseEnServiceUseCase,
   TransmettreDemandeComplèteRaccordementUseCase,
   TransmettrePropositionTechniqueEtFinancièreUseCase,
-  AttribuerGestionnaireAuRaccordementUseCase,
+  AttribuerGestionnaireRéseauAuRaccordementUseCase,
 };
 
 // Event

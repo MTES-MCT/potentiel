@@ -316,7 +316,7 @@ Quand(
     const { codeEIC } =
       this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(nomGestionnaireRéseau);
 
-    await mediator.send<Raccordement.AttribuerGestionnaireAuRaccordementUseCase>({
+    await mediator.send<Raccordement.AttribuerGestionnaireRéseauAuRaccordementUseCase>({
       type: 'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireAuRaccordement',
       data: {
         identifiantGestionnaireRéseauValue: codeEIC,

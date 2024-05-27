@@ -5,10 +5,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import * as IdentifiantGestionnaireRéseau from '../../gestionnaire/identifiantGestionnaireRéseau.valueType';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 
-export type AttribuerGestionnaireAuRaccordementCommand = Message<
-  'Réseau.Gestionnaire.Command.AttribuerGestionnaireAuRaccordement',
+export type AttribuerGestionnaireRéseauAuRaccordementCommand = Message<
+  'Réseau.Gestionnaire.Command.AttribuerGestionnaireRéseauAuRaccordement',
   {
-    identifiantGestionnaireRéseauValue: IdentifiantGestionnaireRéseau.ValueType;
+    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
     projet: {
       identifiantProjet: IdentifiantProjet.ValueType;
       nomProjet: string;
@@ -25,24 +25,27 @@ export const registerAttribuerGestionnaireAuRaccordementCommand = (
 ) => {
   const loadRaccordement = loadRaccordementAggregateFactory(loadAggregate);
 
-  const handler: MessageHandler<AttribuerGestionnaireAuRaccordementCommand> = async ({
-    identifiantGestionnaireRéseauValue,
+  const handler: MessageHandler<AttribuerGestionnaireRéseauAuRaccordementCommand> = async ({
+    identifiantGestionnaireRéseau,
     projet,
   }) => {
     const raccordement = await loadRaccordement(projet.identifiantProjet, false);
 
-    // raccordement.attribuerGestionnaireAuRaccordement({
-    //   identifiantGestionnaireRéseauValue,
-    //   projet: {
-    //     identifiantProjet: projet.identifiantProjet.formatter(),
-    //     nomProjet: projet.nomProjet,
-    //     appelOffre: projet.appelOffre,
-    //     période: projet.période,
-    //     famille: projet.famille,
-    //     numéroCRE: projet.numéroCRE,
-    //   },
-    // });
+    raccordement.attribuerGestionnaireRéseauAuRaccordement({
+      identifiantGestionnaireRéseau,
+      projet: {
+        identifiantProjet: projet.identifiantProjet,
+        nomProjet: projet.nomProjet,
+        appelOffre: projet.appelOffre,
+        période: projet.période,
+        famille: projet.famille,
+        numéroCRE: projet.numéroCRE,
+      },
+    });
   };
 
-  mediator.register('Réseau.Gestionnaire.Command.AttribuerGestionnaireAuRaccordement', handler);
+  mediator.register(
+    'Réseau.Gestionnaire.Command.AttribuerGestionnaireRéseauAuRaccordement',
+    handler,
+  );
 };

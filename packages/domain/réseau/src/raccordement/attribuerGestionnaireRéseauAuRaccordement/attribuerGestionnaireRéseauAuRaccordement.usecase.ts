@@ -1,10 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { AttribuerGestionnaireAuRaccordementCommand } from './attribuerGestionnaireAuRaccordement.command';
+import { AttribuerGestionnaireRéseauAuRaccordementCommand } from './attribuerGestionnaireRéseauAuRaccordement.command';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-export type AttribuerGestionnaireAuRaccordementUseCase = Message<
-  'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireAuRaccordement',
+export type AttribuerGestionnaireRéseauAuRaccordementUseCase = Message<
+  'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
   {
     identifiantGestionnaireRéseauValue: string;
     projet: {
@@ -18,15 +18,15 @@ export type AttribuerGestionnaireAuRaccordementUseCase = Message<
   }
 >;
 
-export const registerAttribuerGestionnaireAuRaccordementUseCase = () => {
-  const handler: MessageHandler<AttribuerGestionnaireAuRaccordementUseCase> = async ({
+export const registerAttribuerGestionnaireRéseauAuRaccordementUseCase = () => {
+  const handler: MessageHandler<AttribuerGestionnaireRéseauAuRaccordementUseCase> = async ({
     identifiantGestionnaireRéseauValue,
     projet,
   }) => {
-    await mediator.send<AttribuerGestionnaireAuRaccordementCommand>({
-      type: 'Réseau.Gestionnaire.Command.AttribuerGestionnaireAuRaccordement',
+    await mediator.send<AttribuerGestionnaireRéseauAuRaccordementCommand>({
+      type: 'Réseau.Gestionnaire.Command.AttribuerGestionnaireRéseauAuRaccordement',
       data: {
-        identifiantGestionnaireRéseauValue: IdentifiantGestionnaireRéseau.convertirEnValueType(
+        identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
           identifiantGestionnaireRéseauValue,
         ),
         projet: {
@@ -41,5 +41,8 @@ export const registerAttribuerGestionnaireAuRaccordementUseCase = () => {
     });
   };
 
-  mediator.register('Réseau.Gestionnaire.UseCase.AttribuerGestionnaireAuRaccordement', handler);
+  mediator.register(
+    'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
+    handler,
+  );
 };
