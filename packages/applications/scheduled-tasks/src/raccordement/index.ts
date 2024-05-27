@@ -82,6 +82,7 @@ registerRéseauQueries({
             gestionnaire.identifiantGestionnaireRéseau.formatter(),
           projet: {
             identifiantProjetValue: projet.identifiantProjet,
+            nomProjetValue: projet.nomProjet,
             appelOffreValue: projet.appelOffre,
             périodeValue: projet.période,
             familleValue: projet.famille,

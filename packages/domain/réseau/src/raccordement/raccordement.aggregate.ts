@@ -55,6 +55,7 @@ import {
   applyGestionnaireRéseauRaccordementModifiéEventV1,
   modifierGestionnaireRéseau,
 } from './modifier/modifierGestionnaireRéseauRaccordement.behavior';
+import { attribuerGestionnaireAuRaccordement } from './attribuerGestionnaireAuRaccordement/attribuerGestionnaireAuRaccordement.behavior';
 
 export type DeprecateEvent =
   | DemandeComplèteRaccordementTransmiseEventV1
@@ -106,6 +107,7 @@ export type RaccordementAggregate = Aggregate<RaccordementEvent> & {
   readonly modifierGestionnaireRéseau: typeof modifierGestionnaireRéseau;
   readonly contientLeDossier: (référence: RéférenceDossierRaccordement.ValueType) => boolean;
   readonly récupérerDossier: (référence: string) => DossierRaccordement;
+  readonly attribuerGestionnaireAuRaccordement: typeof attribuerGestionnaireAuRaccordement;
 };
 
 export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
@@ -123,6 +125,7 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
   modifierRéférenceDossierRacordement,
   modifierPropositionTechniqueEtFinancière,
   modifierGestionnaireRéseau,
+  attribuerGestionnaireAuRaccordement,
   contientLeDossier({ référence }) {
     return this.dossiers.has(référence);
   },
@@ -180,6 +183,8 @@ function apply(this: RaccordementAggregate, event: RaccordementEvent) {
       break;
     case 'GestionnaireRéseauRaccordementModifié-V1':
       applyGestionnaireRéseauRaccordementModifiéEventV1.bind(this)(event);
+    case 'GestionnaireRéseauAttribuéAuRaccordement-V1':
+      applyGestionnaireRéseauAttribuéAuRaccordementEventV1.bind(this)(event);
       break;
   }
 }
