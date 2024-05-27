@@ -35,6 +35,8 @@ import {
   registerListerRaccordementQuery,
   ListerRaccordementQueryDependencies,
 } from './lister/listerRaccordement.query';
+import { registerAttribuerGestionnaireAuRaccordementUseCase } from './attribuerGestionnaireAuRaccordement/attribuerGestionnaireAuRaccordement.usecase';
+import { registerAttribuerGestionnaireAuRaccordementCommand } from './attribuerGestionnaireAuRaccordement/attribuerGestionnaireAuRaccordement.command';
 
 export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
   ConsulterGestionnaireRéseauRaccordementDependencies &
@@ -64,6 +66,7 @@ export const registerRaccordementUseCases = ({
   registerTransmettreDateMiseEnServiceCommand(loadAggregate);
   registerTransmettreDemandeComplèteRaccordementCommand(loadAggregate);
   registerTransmettrePropositionTechniqueEtFinancièreCommand(loadAggregate);
+  registerAttribuerGestionnaireAuRaccordementCommand(loadAggregate);
 
   registerModifierDemandeComplèteRaccordementUseCase();
   registerModifierGestionnaireRéseauRaccordementUseCase();
@@ -72,4 +75,5 @@ export const registerRaccordementUseCases = ({
   registerTransmettreDateMiseEnServiceUseCase();
   registerTransmettreDemandeComplèteRaccordementUseCase();
   registerTransmettrePropositionTechniqueEtFinancièreUseCase();
+  registerAttribuerGestionnaireAuRaccordementUseCase();
 };

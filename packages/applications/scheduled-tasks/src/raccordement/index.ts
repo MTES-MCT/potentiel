@@ -75,8 +75,8 @@ registerRéseauQueries({
         continue;
       }
 
-      await mediator.send<GestionnaireRéseau.AttribuerGestionnaireRéseauAUnProjetUseCase>({
-        type: 'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireRéseauAUnProjet',
+      await mediator.send<Raccordement.AttribuerGestionnaireAuRaccordementUseCase>({
+        type: 'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireAuRaccordement',
         data: {
           identifiantGestionnaireRéseauValue:
             gestionnaire.identifiantGestionnaireRéseau.formatter(),

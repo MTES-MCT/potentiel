@@ -2,11 +2,11 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
-import { loadRaccordementAggregateFactory } from '../../raccordement/raccordement.aggregate';
+import * as IdentifiantGestionnaireRéseau from '../../gestionnaire/identifiantGestionnaireRéseau.valueType';
+import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 
-export type AttribuerGestionnaireRéseauAUnProjetCommand = Message<
-  'Réseau.Gestionnaire.Command.AttribuerGestionnaireRéseauAUnProjet',
+export type AttribuerGestionnaireAuRaccordementCommand = Message<
+  'Réseau.Gestionnaire.Command.AttribuerGestionnaireAuRaccordement',
   {
     identifiantGestionnaireRéseauValue: IdentifiantGestionnaireRéseau.ValueType;
     projet: {
@@ -20,12 +20,12 @@ export type AttribuerGestionnaireRéseauAUnProjetCommand = Message<
   }
 >;
 
-export const registerAttribuerGestionnaireRéseauAUnProjetCommand = (
+export const registerAttribuerGestionnaireAuRaccordementCommand = (
   loadAggregate: LoadAggregate,
 ) => {
   const loadRaccordement = loadRaccordementAggregateFactory(loadAggregate);
 
-  const handler: MessageHandler<AttribuerGestionnaireRéseauAUnProjetCommand> = async ({
+  const handler: MessageHandler<AttribuerGestionnaireAuRaccordementCommand> = async ({
     identifiantGestionnaireRéseauValue,
     projet: { identifiantProjet, nomProjet, appelOffre, période, famille, numéroCRE },
   }) => {
@@ -39,5 +39,5 @@ export const registerAttribuerGestionnaireRéseauAUnProjetCommand = (
     // ou ajouter une fonction "ajouter" dans l'aggrégat de raccordement à l'instar de gestionnaire de réseau
   };
 
-  mediator.register('Réseau.Gestionnaire.Command.AttribuerGestionnaireRéseauAUnProjet', handler);
+  mediator.register('Réseau.Gestionnaire.Command.AttribuerGestionnaireAuRaccordement', handler);
 };

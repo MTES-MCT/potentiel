@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-export type AttribuerGestionnaireRéseauAUnProjetUseCase = Message<
-  'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireRéseauAUnProjet',
+export type AttribuerGestionnaireAuRaccordementUseCase = Message<
+  'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireAuRaccordement',
   {
     identifiantGestionnaireRéseauValue: string;
     projet: {
@@ -14,8 +14,8 @@ export type AttribuerGestionnaireRéseauAUnProjetUseCase = Message<
   }
 >;
 
-export const registerAttribuerGestionnaireRéseauAUnProjetUseCase = () => {
-  const handler: MessageHandler<AttribuerGestionnaireRéseauAUnProjetUseCase> = async ({
+export const registerAttribuerGestionnaireAuRaccordementUseCase = () => {
+  const handler: MessageHandler<AttribuerGestionnaireAuRaccordementUseCase> = async ({
     identifiantGestionnaireRéseauValue,
     projet,
   }) => {
@@ -33,5 +33,5 @@ export const registerAttribuerGestionnaireRéseauAUnProjetUseCase = () => {
     // appeler la commande
   };
 
-  mediator.register('Réseau.Gestionnaire.UseCase.AttribuerGestionnaireRéseauAUnProjet', handler);
+  mediator.register('Réseau.Gestionnaire.UseCase.AttribuerGestionnaireAuRaccordement', handler);
 };

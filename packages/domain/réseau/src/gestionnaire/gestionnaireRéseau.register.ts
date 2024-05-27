@@ -11,8 +11,6 @@ import {
   ConsulterGestionnaireRéseauQueryDependencies,
   registerConsulterGestionnaireRéseauQuery,
 } from './consulter/consulterGestionnaireRéseau.query';
-import { registerAttribuerGestionnaireRéseauAUnProjetUseCase } from './attribuerAUnProjet/attribuerGestionnaireRéseauAUnProjet.usecase';
-import { registerAttribuerGestionnaireRéseauAUnProjetCommand } from './attribuerAUnProjet/attribuerGestionnaireRéseauAUnProjet.command';
 
 export type GestionnaireRéseauQueryDependencies = ListerGestionnaireRéseauQueryDependencies &
   ConsulterGestionnaireRéseauQueryDependencies;
@@ -26,11 +24,9 @@ export const registerGestionnaireRéseauUseCases = ({
 }: GestionnaireRéseauCommandDependencies) => {
   registerAjouterGestionnaireRéseauCommand(loadAggregate);
   registerModifierGestionnaireRéseauCommand(loadAggregate);
-  registerAttribuerGestionnaireRéseauAUnProjetCommand(loadAggregate);
 
   registerAjouterGestionnaireRéseauUseCase();
   registerModifierGestionnaireRéseauUseCase();
-  registerAttribuerGestionnaireRéseauAUnProjetUseCase();
 };
 
 export const registerGestionnaireRéseauQueries = (
