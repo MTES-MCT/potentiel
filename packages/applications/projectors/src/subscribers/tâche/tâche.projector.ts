@@ -30,11 +30,13 @@ export const register = () => {
 
       const tâcheDefaultValue = {
         identifiantProjet,
-        nomProjet: '',
-        appelOffre: '',
-        période: '',
-        numéroCRE: '',
-        famille: undefined,
+        projet: {
+          nom: '',
+          appelOffre: '',
+          période: '',
+          numéroCRE: '',
+          famille: '',
+        },
         typeTâche: '',
         misÀJourLe: DateTime.now().formatter(),
       };
@@ -57,11 +59,13 @@ export const register = () => {
         case 'TâcheRenouvellée-V1':
           await upsertProjection<TâcheEntity>(`tâche|${payload.typeTâche}#${identifiantProjet}`, {
             ...tâcheToUpsert,
-            nomProjet: Option.isSome(projet) ? projet.nom : 'Projet inconnu',
-            appelOffre: Option.isSome(projet) ? projet.appelOffre : `N/A`,
-            période: Option.isSome(projet) ? projet.période : `N/A`,
-            famille: Option.isSome(projet) ? projet.famille : undefined,
-            numéroCRE: Option.isSome(projet) ? projet.numéroCRE : `N/A`,
+            projet: {
+              nom: Option.isSome(projet) ? projet.nom : 'Projet inconnu',
+              appelOffre: Option.isSome(projet) ? projet.appelOffre : `N/A`,
+              période: Option.isSome(projet) ? projet.période : `N/A`,
+              famille: Option.isSome(projet) ? projet.famille : undefined,
+              numéroCRE: Option.isSome(projet) ? projet.numéroCRE : `N/A`,
+            },
             typeTâche: payload.typeTâche,
             misÀJourLe: payload.ajoutéeLe,
           });

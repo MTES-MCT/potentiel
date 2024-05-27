@@ -8,11 +8,13 @@ import { ListV2, RangeOptions } from '@potentiel-domain/core';
 type TâcheListItem = {
   identifiantProjet: IdentifiantProjet.ValueType;
 
-  nomProjet: string;
-  appelOffre: string;
-  période: string;
-  famille?: string;
-  numéroCRE: string;
+  projet: {
+    nom: string;
+    appelOffre: string;
+    période: string;
+    famille?: string;
+    numéroCRE: string;
+  };
 
   typeTâche: TypeTâche.ValueType;
   misÀJourLe: DateTime.ValueType;
@@ -56,10 +58,12 @@ export const registerListerTâchesQuery = ({
           operator: 'include',
           value: identifiants,
         },
-        appelOffre: appelOffre
+        projet: appelOffre
           ? {
-              operator: 'equal',
-              value: appelOffre,
+              appelOffre: {
+                operator: 'equal',
+                value: appelOffre,
+              },
             }
           : undefined,
       },
@@ -79,23 +83,15 @@ export const registerListerTâchesQuery = ({
 };
 
 const mapToReadModel = ({
-  appelOffre,
   identifiantProjet,
   misÀJourLe,
-  nomProjet,
-  numéroCRE,
-  période,
   typeTâche,
-  famille,
+  projet,
 }: TâcheEntity): TâcheListItem => {
   return {
-    appelOffre,
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
-    nomProjet,
-    numéroCRE,
-    période,
-    famille,
     typeTâche: TypeTâche.convertirEnValueType(typeTâche),
+    projet,
   };
 };
