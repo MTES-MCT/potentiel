@@ -324,15 +324,16 @@ Quand(
       this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(nomGestionnaireRéseau);
 
     try {
-      await mediator.send<Raccordement.AttribuerGestionnaireRéseauAuRaccordementUseCase>({
+      await mediator.send<Raccordement.RaccordementUseCase>({
         type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
         data: {
           identifiantGestionnaireRéseauValue: codeEIC,
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
-    } catch (error) {
-      this.error = error as Error;
+    } catch (e) {
+      console.log('🤡 HELLO MY DEAR FRIEND');
+      this.error = e as Error;
     }
   },
 );

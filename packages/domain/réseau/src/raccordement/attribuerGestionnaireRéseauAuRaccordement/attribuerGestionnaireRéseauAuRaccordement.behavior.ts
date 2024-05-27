@@ -29,7 +29,8 @@ export async function attribuerGestionnaireRéseauAuRaccordement(
   );
 
   if (raccordementDéjàExistantPourLeProjet) {
-    throw new RaccordementDéjàExistantError(this.identifiantProjet);
+    console.log('🤡 COUCOU');
+    throw new RaccordementDéjàExistantError(identifiantProjet);
   }
 
   const event: GestionnaireRéseauAttribuéAuRaccordementEvent = {
