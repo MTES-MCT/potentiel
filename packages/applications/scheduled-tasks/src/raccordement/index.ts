@@ -35,7 +35,6 @@ registerRéseauQueries({
     const raccordements = await mediator.send<Raccordement.ListerRaccordementQuery>({
       type: 'Réseau.Raccordement.Query.ListerRaccordement',
       data: {
-        // TODO: see if we keep this condition
         where: { identifiantGestionnaireRéseau: { operator: 'notEqual', value: 'inconnu' } },
       },
     });
@@ -49,6 +48,7 @@ registerRéseauQueries({
     );
 
     getLogger().info(`Looking for ${projectsWithNoAttributedGestionnaire.length} gestionnaires`);
+
     let projetWithNoOreGestionnaireFoundCount = 0;
 
     for (const projet of projectsWithNoAttributedGestionnaire) {
@@ -75,30 +75,20 @@ registerRéseauQueries({
         continue;
       }
 
-      // await mediator.send<Raccordement.AttribuerGestionnaireAuRaccordementUseCase>({
-      //   type: 'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireAuRaccordement',
-      //   data: {
-      //     identifiantGestionnaireRéseauValue:
-      //       gestionnaire.identifiantGestionnaireRéseau.formatter(),
-      //     projet: {
-      //       identifiantProjetValue: projet.identifiantProjet,
-      //       nomProjetValue: projet.nomProjet,
-      //       appelOffreValue: projet.appelOffre,
-      //       périodeValue: projet.période,
-      //       familleValue: projet.famille,
-      //       numéroCREValue: projet.numéroCRE,
-      //     },
-      //   },
-      // });
+      await mediator.send<Raccordement.AttribuerGestionnaireRéseauAuRaccordementUseCase>({
+        type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
+        data: {
+          identifiantGestionnaireRéseauValue:
+            gestionnaire.identifiantGestionnaireRéseau.formatter(),
+          identifiantProjetValue: projet.identifiantProjet,
+        },
+      });
     }
 
     const notFoundinPercent = Math.round(
       (projetWithNoOreGestionnaireFoundCount / projectsWithNoAttributedGestionnaire.length) * 100,
     );
 
-    console.log(
-      `Out of ${projectsWithNoAttributedGestionnaire.length} projets classés with no raccordement, we were unable to assign GRD for ${notFoundinPercent} % of them`,
-    );
     getLogger().info(
       `Out of ${projectsWithNoAttributedGestionnaire.length} projets classés with no raccordement, we were unable to assign GRD for ${notFoundinPercent} % of them`,
     );
