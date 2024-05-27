@@ -141,47 +141,24 @@ EtantDonné(
   },
 );
 
-// EtantDonné(
-//   'une demande complète de raccordement pour le projet lauréat {string} transmise auprès du gestionnaire de réseau {string} avec :',
-//   async function (
-//     this: PotentielWorld,
-//     nomProjet: string,
-//     raisonSocialeGestionnaireRéseau: string,
-//     table: DataTable,
-//   ) {
-//     const exemple = table.rowsHash();
-//     const dateQualification = new Date(exemple['La date de qualification']).toISOString();
-//     const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
-//     const format = exemple[`Le format de l'accusé de réception`];
-//     const content = exemple[`Le contenu de l'accusé de réception`];
+EtantDonné(
+  'le gestionnaire de réseau {string} attribué au raccordement du projet lauréat {string}',
+  async function (
+    this: PotentielWorld,
+    raisonSocialeGestionnaireRéseau: string,
+    nomProjet: string,
+  ) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
+      raisonSocialeGestionnaireRéseau,
+    );
 
-//     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-//     const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
-//       raisonSocialeGestionnaireRéseau,
-//     );
-
-//     const accuséRéception = {
-//       format,
-//       content: convertStringToReadableStream(content),
-//     };
-
-//     this.raccordementWorld.dateQualification = DateTime.convertirEnValueType(dateQualification);
-//     this.raccordementWorld.référenceDossierRaccordement =
-//       Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement);
-//     this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
-//       format,
-//       content,
-//     };
-
-//     await mediator.send<Raccordement.RaccordementUseCase>({
-//       type: 'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
-//       data: {
-//         identifiantProjetValue: identifiantProjet.formatter(),
-//         identifiantGestionnaireRéseauValue: codeEIC,
-//         référenceDossierValue: référenceDossierRaccordement,
-//         dateQualificationValue: dateQualification,
-//         accuséRéceptionValue: accuséRéception,
-//       },
-//     });
-//   },
-// );
+    await mediator.send<Raccordement.AttribuerGestionnaireRéseauAuRaccordementUseCase>({
+      type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        identifiantGestionnaireRéseauValue: codeEIC,
+      },
+    });
+  },
+);

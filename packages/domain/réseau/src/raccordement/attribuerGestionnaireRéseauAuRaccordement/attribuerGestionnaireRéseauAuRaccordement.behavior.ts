@@ -2,6 +2,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
+import { RaccordementDéjàExistantError } from '../raccordementDéjàExistantError';
 
 export type GestionnaireRéseauAttribuéAuRaccordementEvent = DomainEvent<
   'GestionnaireRéseauAttribuéAuRaccordement-V1',
@@ -40,6 +41,14 @@ export function applyAttribuerGestionnaireRéseauAuRaccordementEventV1(
     payload: { identifiantGestionnaireRéseau, identifiantProjet },
   }: GestionnaireRéseauAttribuéAuRaccordementEvent,
 ) {
+  const raccordementDéjàExistantPourLeProjet = this.identifiantProjet.estÉgaleÀ(
+    IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  );
+
+  if (raccordementDéjàExistantPourLeProjet) {
+    throw new RaccordementDéjàExistantError(this.identifiantProjet);
+  }
+
   this.identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
     identifiantGestionnaireRéseau,

@@ -308,19 +308,31 @@ Quand(
 );
 
 Quand(
-  `le gestionnaire réseau {string} est attribué au raccordement du projet lauréat {string}`,
-  async function (this: PotentielWorld, nomGestionnaireRéseau: string, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `le gestionnaire de réseau {string} est attribué au raccordement du projet {lauréat-éliminé} {string}`,
+  async function (
+    this: PotentielWorld,
+    nomGestionnaireRéseau: string,
+    statutProjet: 'lauréat' | 'éliminé',
+    nomProjet: string,
+  ) {
+    const { identifiantProjet } =
+      statutProjet === 'lauréat'
+        ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
+        : this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
     const { codeEIC } =
       this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(nomGestionnaireRéseau);
 
-    await mediator.send<Raccordement.AttribuerGestionnaireRéseauAuRaccordementUseCase>({
-      type: 'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
-      data: {
-        identifiantGestionnaireRéseauValue: codeEIC,
-        identifiantProjetValue: identifiantProjet.formatter(),
-      },
-    });
+    try {
+      await mediator.send<Raccordement.AttribuerGestionnaireRéseauAuRaccordementUseCase>({
+        type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
+        data: {
+          identifiantGestionnaireRéseauValue: codeEIC,
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
   },
 );

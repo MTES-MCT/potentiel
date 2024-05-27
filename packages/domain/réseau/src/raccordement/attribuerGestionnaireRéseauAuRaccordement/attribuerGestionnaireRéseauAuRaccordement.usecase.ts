@@ -4,7 +4,7 @@ import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 export type AttribuerGestionnaireRéseauAuRaccordementUseCase = Message<
-  'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
+  'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
   {
     identifiantGestionnaireRéseauValue: string;
     identifiantProjetValue: string;
@@ -17,7 +17,7 @@ export const registerAttribuerGestionnaireRéseauAuRaccordementUseCase = () => {
     identifiantProjetValue,
   }) => {
     await mediator.send<AttribuerGestionnaireRéseauAuRaccordementCommand>({
-      type: 'Réseau.Gestionnaire.Command.AttribuerGestionnaireRéseauAuRaccordement',
+      type: 'Réseau.Raccordement.Command.AttribuerGestionnaireRéseauAuRaccordement',
       data: {
         identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
           identifiantGestionnaireRéseauValue,
@@ -28,7 +28,7 @@ export const registerAttribuerGestionnaireRéseauAuRaccordementUseCase = () => {
   };
 
   mediator.register(
-    'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
+    'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
     handler,
   );
 };

@@ -6,7 +6,7 @@ import * as IdentifiantGestionnaireRéseau from '../../gestionnaire/identifiantG
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 
 export type AttribuerGestionnaireRéseauAuRaccordementCommand = Message<
-  'Réseau.Gestionnaire.Command.AttribuerGestionnaireRéseauAuRaccordement',
+  'Réseau.Raccordement.Command.AttribuerGestionnaireRéseauAuRaccordement',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
@@ -31,7 +31,7 @@ export const registerAttribuerGestionnaireAuRaccordementCommand = (
   };
 
   mediator.register(
-    'Réseau.Gestionnaire.Command.AttribuerGestionnaireRéseauAuRaccordement',
+    'Réseau.Raccordement.Command.AttribuerGestionnaireRéseauAuRaccordement',
     handler,
   );
 };

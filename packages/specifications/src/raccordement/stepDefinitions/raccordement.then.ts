@@ -96,13 +96,8 @@ Alors(
 );
 
 Alors(
-  'le projet lauréat {string} devrait avoir {int} dossiers de raccordement pour le gestionnaire de réseau {string}',
-  async function (
-    this: PotentielWorld,
-    nomProjet: string,
-    nombreDeDemandes: number,
-    nomGestionnaireRéseau: string,
-  ) {
+  'le projet lauréat {string} devrait avoir {int} dossiers de raccordement pour le gestionnaire de réseau',
+  async function (this: PotentielWorld, nomProjet: string, nombreDeDemandes: number) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
