@@ -75,21 +75,21 @@ registerRéseauQueries({
         continue;
       }
 
-      await mediator.send<Raccordement.AttribuerGestionnaireAuRaccordementUseCase>({
-        type: 'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireAuRaccordement',
-        data: {
-          identifiantGestionnaireRéseauValue:
-            gestionnaire.identifiantGestionnaireRéseau.formatter(),
-          projet: {
-            identifiantProjetValue: projet.identifiantProjet,
-            nomProjetValue: projet.nomProjet,
-            appelOffreValue: projet.appelOffre,
-            périodeValue: projet.période,
-            familleValue: projet.famille,
-            numéroCREValue: projet.numéroCRE,
-          },
-        },
-      });
+      // await mediator.send<Raccordement.AttribuerGestionnaireAuRaccordementUseCase>({
+      //   type: 'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireAuRaccordement',
+      //   data: {
+      //     identifiantGestionnaireRéseauValue:
+      //       gestionnaire.identifiantGestionnaireRéseau.formatter(),
+      //     projet: {
+      //       identifiantProjetValue: projet.identifiantProjet,
+      //       nomProjetValue: projet.nomProjet,
+      //       appelOffreValue: projet.appelOffre,
+      //       périodeValue: projet.période,
+      //       familleValue: projet.famille,
+      //       numéroCREValue: projet.numéroCRE,
+      //     },
+      //   },
+      // });
     }
 
     const notFoundinPercent = Math.round(
