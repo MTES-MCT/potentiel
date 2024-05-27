@@ -5,6 +5,8 @@ export type PlainType<T> = {
     ? ReadonlyArray<PlainType<U>>
     : T[K] extends Record<string, unknown>
     ? PlainType<T[K]>
+    : T[K] extends Date
+    ? string
     : T[K];
 };
 

@@ -2,14 +2,14 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { ListerTâchesQuery, ListerTâchesReadModel } from '@potentiel-domain/tache';
+import { ListerTâchesQuery } from '@potentiel-domain/tache';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { TâcheListPage, TâcheListPageProps } from '@/components/pages/tâche/TâcheList.page';
+import { TâcheListPage } from '@/components/pages/tâche/TâcheList.page';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
-import { mapToPagination } from '@/utils/mapToPagination';
+import { mapToRangeOptions } from '@/utils/pagination';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -37,7 +37,6 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
         data: {
           range: mapToRangeOptions({
             currentPage: page,
-            itemsPerPage: 10,
           }),
           email: utilisateur.identifiantUtilisateur.email,
           appelOffre,
@@ -56,39 +55,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
         },
       ];
 
-      return <TâcheListPage list={mapToListProps(tâches)} filters={filters} />;
+      return <TâcheListPage list={mapToPlainObject(tâches)} filters={filters} />;
     }),
   );
 }
-
-const mapToListProps = ({
-  items,
-  range,
-  total,
-}: ListerTâchesReadModel): TâcheListPageProps['list'] => {
-  return {
-    items: items.map(
-      ({
-        identifiantProjet,
-        appelOffre,
-        période,
-        famille,
-        nomProjet,
-        misÀJourLe,
-        numéroCRE,
-        typeTâche,
-      }) => ({
-        identifiantProjet: identifiantProjet.formatter(),
-        nomProjet,
-        appelOffre,
-        période,
-        numéroCRE,
-        famille,
-        misÀJourLe: misÀJourLe.formatter(),
-        typeTâche: typeTâche.type,
-      }),
-    ),
-    totalItems: total,
-    ...mapToPagination(range, 10),
-  };
-};

@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-
 import { TâcheListPage, TâcheListPageProps } from './TâcheList.page';
 
 const meta = {
@@ -21,12 +19,26 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const commonItem = {
-  appelOffre: 'Appel offre 1',
-  période: 'Période 1',
-  identifiantProjet: 'identifiant-projet-1',
-  nomProjet: 'Nom projet 1',
-  misÀJourLe: new Date().toISOString() as Iso8601DateTime,
+const commonItem: TâcheListPageProps['list']['items'][number] = {
+  projet: {
+    appelOffre: 'Appel offre 1',
+    période: 'Période 1',
+    famille: 'Famille 1',
+    numéroCRE: 'Numéro CRE 1',
+    nom: 'Nom projet 1',
+  },
+  identifiantProjet: {
+    appelOffre: 'Appel offre 1',
+    période: 'Période 1',
+    famille: 'Famille 1',
+    numéroCRE: 'Numéro CRE 1',
+  },
+  misÀJourLe: {
+    date: new Date().toISOString(),
+  },
+  typeTâche: {
+    type: 'inconnue',
+  },
 };
 
 export const Default: Story = {
@@ -43,23 +55,31 @@ export const Default: Story = {
       },
     ],
     list: {
-      currentPage: 1,
       items: [
         {
           ...commonItem,
-          typeTâche: 'abandon.transmettre-preuve-recandidature',
+          typeTâche: {
+            type: 'abandon.transmettre-preuve-recandidature',
+          },
         },
         {
           ...commonItem,
-          typeTâche: 'abandon.confirmer',
+          typeTâche: {
+            type: 'abandon.confirmer',
+          },
         },
         {
           ...commonItem,
-          typeTâche: 'raccordement.référence-non-transmise',
+          typeTâche: {
+            type: 'raccordement.référence-non-transmise',
+          },
         },
       ],
-      itemsPerPage: 10,
-      totalItems: 10,
+      range: {
+        startPosition: 0,
+        endPosition: 9,
+      },
+      total: 3,
     },
   },
 };

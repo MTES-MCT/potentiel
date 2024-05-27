@@ -3,25 +3,27 @@
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { TâcheListItem, TâcheListItemProps } from '@/components/pages/tâche/TâcheListItem';
+import { ListerTâchesReadModel } from '@potentiel-domain/tache';
+import { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+
+import { TâcheListItem } from '@/components/pages/tâche/TâcheListItem';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
+import { mapToPagination } from '@/utils/pagination';
 
 export type TâcheListPageProps = {
-  list: {
-    items: Array<TâcheListItemProps>;
-    currentPage: number;
-    totalItems: number;
-    itemsPerPage: number;
-  };
+  list: PlainType<ListerTâchesReadModel>;
   filters: ListPageTemplateProps<typeof TâcheListItem>['filters'];
 };
 
 export const TâcheListPage: FC<TâcheListPageProps> = ({
-  list: { items: tâches, currentPage, totalItems, itemsPerPage },
+  list: { items: tâches, range, total },
   filters,
 }) => {
   const searchParams = useSearchParams();
   const appelOffre = searchParams.get('appelOffre') ?? undefined;
+
+  const { currentPage, itemsPerPage } = mapToPagination(range);
 
   const tagFilters = appelOffre
     ? [{ label: `appel d'offres : ${appelOffre}`, searchParamKey: 'appelOffre' }]
@@ -33,10 +35,10 @@ export const TâcheListPage: FC<TâcheListPageProps> = ({
       actions={[]}
       items={tâches.map((tâche) => ({
         ...tâche,
-        key: tâche.identifiantProjet,
+        key: IdentifiantProjet.bind(tâche.identifiantProjet).formatter(),
       }))}
       currentPage={currentPage}
-      totalItems={totalItems}
+      totalItems={total}
       itemsPerPage={itemsPerPage}
       ItemComponent={TâcheListItem}
       tagFilters={tagFilters}
