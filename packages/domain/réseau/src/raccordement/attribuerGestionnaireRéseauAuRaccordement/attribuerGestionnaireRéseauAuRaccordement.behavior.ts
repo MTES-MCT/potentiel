@@ -6,50 +6,28 @@ import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 export type GestionnaireRéseauAttribuéAuRaccordementEvent = DomainEvent<
   'GestionnaireRéseauAttribuéAuRaccordement-V1',
   {
-    identifiantGestionnaireRéseau: string;
-    projet: {
-      identifiantProjet: string;
-      nomProjet: string;
-      appelOffre: string;
-      période: string;
-      famille: string;
-      numéroCRE: string;
-    };
-    // isValidatedByPorteur: boolean;
+    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.RawType;
+    identifiantProjet: IdentifiantProjet.RawType;
   }
 >;
 
 export type AttribuerGestionnaireRéseauAuRaccordementOptions = {
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
-  projet: {
-    identifiantProjet: IdentifiantProjet.ValueType;
-    nomProjet: string;
-    appelOffre: string;
-    période: string;
-    famille: string;
-    numéroCRE: string;
-  };
+  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.RawType;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export async function attribuerGestionnaireRéseauAuRaccordement(
   this: RaccordementAggregate,
   {
     identifiantGestionnaireRéseau,
-    projet: { identifiantProjet, nomProjet, appelOffre, période, famille, numéroCRE },
+    identifiantProjet,
   }: AttribuerGestionnaireRéseauAuRaccordementOptions,
 ) {
   const event: GestionnaireRéseauAttribuéAuRaccordementEvent = {
     type: 'GestionnaireRéseauAttribuéAuRaccordement-V1',
     payload: {
-      identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
-      projet: {
-        identifiantProjet: identifiantProjet.formatter(),
-        nomProjet,
-        appelOffre,
-        période,
-        famille,
-        numéroCRE,
-      },
+      identifiantGestionnaireRéseau,
+      identifiantProjet,
     },
   };
 
@@ -59,10 +37,10 @@ export async function attribuerGestionnaireRéseauAuRaccordement(
 export function applyAttribuerGestionnaireRéseauAuRaccordementEventV1(
   this: RaccordementAggregate,
   {
-    payload: { identifiantGestionnaireRéseau, projet },
+    payload: { identifiantGestionnaireRéseau, identifiantProjet },
   }: GestionnaireRéseauAttribuéAuRaccordementEvent,
 ) {
-  this.identifiantProjet = IdentifiantProjet.convertirEnValueType(projet.identifiantProjet);
+  this.identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
     identifiantGestionnaireRéseau,
   );

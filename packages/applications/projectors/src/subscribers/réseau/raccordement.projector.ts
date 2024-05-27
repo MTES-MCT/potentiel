@@ -82,6 +82,11 @@ export const register = () => {
             référence: event.payload.référenceDossierRaccordement,
           },
         );
+      } else if (event.type === 'GestionnaireRéseauAttribuéAuRaccordement-V1') {
+        await upsertProjection(`raccordement|${event.payload.identifiantProjet}`, {
+          ...raccordement,
+          identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau,
+        });
       } else {
         const référence =
           event.type === 'DemandeComplèteRaccordementModifiée-V1'

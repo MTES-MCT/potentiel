@@ -310,24 +310,16 @@ Quand(
 Quand(
   `le gestionnaire réseau {string} est attribué au raccordement du projet lauréat {string}`,
   async function (this: PotentielWorld, nomGestionnaireRéseau: string, nomProjet: string) {
-    const { identifiantProjet, appelOffre, période } =
-      this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     const { codeEIC } =
       this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(nomGestionnaireRéseau);
 
     await mediator.send<Raccordement.AttribuerGestionnaireRéseauAuRaccordementUseCase>({
-      type: 'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireAuRaccordement',
+      type: 'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
       data: {
         identifiantGestionnaireRéseauValue: codeEIC,
-        projet: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          nomProjetValue: nomProjet,
-          appelOffreValue: appelOffre,
-          périodeValue: période,
-          familleValue: 'Famille',
-          numéroCREValue: 'Numéro CRE',
-        },
+        identifiantProjetValue: identifiantProjet.formatter(),
       },
     });
   },

@@ -4,7 +4,6 @@ Fonctionnalité: Attribuer un gestionnaire de réseau à un raccordement
         Etant donné le gestionnaire de réseau "EDF Corse"
         Et le projet lauréat "Du boulodrome de Marseille"
 
-    @select
     Scénario: Un gestionnaire de réseau est attribué au raccordement d'un projet lauréat
         Quand le gestionnaire réseau "EDF Corse" est attribué au raccordement du projet lauréat "Du boulodrome de Marseille"
         Alors le projet "Du boulodrome de Marseille" devrait avoir un raccordement attribué au gestionnaire de réseau "EDF Corse"

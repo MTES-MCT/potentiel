@@ -9,14 +9,7 @@ export type AttribuerGestionnaireRéseauAuRaccordementCommand = Message<
   'Réseau.Gestionnaire.Command.AttribuerGestionnaireRéseauAuRaccordement',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
-    projet: {
-      identifiantProjet: IdentifiantProjet.ValueType;
-      nomProjet: string;
-      appelOffre: string;
-      période: string;
-      famille: string;
-      numéroCRE: string;
-    };
+    identifiantProjet: IdentifiantProjet.ValueType;
   }
 >;
 
@@ -27,20 +20,13 @@ export const registerAttribuerGestionnaireAuRaccordementCommand = (
 
   const handler: MessageHandler<AttribuerGestionnaireRéseauAuRaccordementCommand> = async ({
     identifiantGestionnaireRéseau,
-    projet,
+    identifiantProjet,
   }) => {
-    const raccordement = await loadRaccordement(projet.identifiantProjet, false);
+    const raccordement = await loadRaccordement(identifiantProjet, false);
 
     raccordement.attribuerGestionnaireRéseauAuRaccordement({
-      identifiantGestionnaireRéseau,
-      projet: {
-        identifiantProjet: projet.identifiantProjet,
-        nomProjet: projet.nomProjet,
-        appelOffre: projet.appelOffre,
-        période: projet.période,
-        famille: projet.famille,
-        numéroCRE: projet.numéroCRE,
-      },
+      identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
+      identifiantProjet: identifiantProjet.formatter(),
     });
   };
 

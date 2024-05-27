@@ -7,21 +7,14 @@ export type AttribuerGestionnaireRéseauAuRaccordementUseCase = Message<
   'Réseau.Gestionnaire.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
   {
     identifiantGestionnaireRéseauValue: string;
-    projet: {
-      identifiantProjetValue: string;
-      nomProjetValue: string;
-      appelOffreValue: string;
-      périodeValue: string;
-      familleValue: string;
-      numéroCREValue: string;
-    };
+    identifiantProjetValue: string;
   }
 >;
 
 export const registerAttribuerGestionnaireRéseauAuRaccordementUseCase = () => {
   const handler: MessageHandler<AttribuerGestionnaireRéseauAuRaccordementUseCase> = async ({
     identifiantGestionnaireRéseauValue,
-    projet,
+    identifiantProjetValue,
   }) => {
     await mediator.send<AttribuerGestionnaireRéseauAuRaccordementCommand>({
       type: 'Réseau.Gestionnaire.Command.AttribuerGestionnaireRéseauAuRaccordement',
@@ -29,14 +22,7 @@ export const registerAttribuerGestionnaireRéseauAuRaccordementUseCase = () => {
         identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
           identifiantGestionnaireRéseauValue,
         ),
-        projet: {
-          identifiantProjet: IdentifiantProjet.convertirEnValueType(projet.identifiantProjetValue),
-          nomProjet: projet.nomProjetValue,
-          appelOffre: projet.appelOffreValue,
-          période: projet.périodeValue,
-          famille: projet.familleValue,
-          numéroCRE: projet.numéroCREValue,
-        },
+        identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
       },
     });
   };
