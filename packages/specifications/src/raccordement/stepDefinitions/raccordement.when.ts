@@ -332,7 +332,6 @@ Quand(
         },
       });
     } catch (e) {
-      console.log('🤡 HELLO MY DEAR FRIEND');
       this.error = e as Error;
     }
   },

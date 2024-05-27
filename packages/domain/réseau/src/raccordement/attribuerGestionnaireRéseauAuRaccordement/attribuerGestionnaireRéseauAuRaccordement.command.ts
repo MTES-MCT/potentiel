@@ -24,7 +24,7 @@ export const registerAttribuerGestionnaireAuRaccordementCommand = (
   }) => {
     const raccordement = await loadRaccordement(identifiantProjet, false);
 
-    raccordement.attribuerGestionnaireRéseauAuRaccordement({
+    await raccordement.attribuerGestionnaireRéseauAuRaccordement({
       identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
       identifiantProjet: identifiantProjet.formatter(),
     });
