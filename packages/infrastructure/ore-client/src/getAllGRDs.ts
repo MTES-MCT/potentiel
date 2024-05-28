@@ -31,7 +31,7 @@ const getGRDsSlice = async (offset: string): Promise<OreGestionnaireSlice> => {
   searchParams.append('offset', offset);
 
   const url = new URL(
-    `${OreEndpoint}/api/explore/v2.1/catalog/datasets/referentiel-distributeurs-denergie/records?${searchParams.toString()}`,
+    `${OreEndpoint}/referentiel-distributeurs-denergie/records?${searchParams.toString()}`,
   );
 
   const result = await get(url);
