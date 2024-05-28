@@ -79,7 +79,7 @@ RaccordementProjector.register();
       }
 
       try {
-        await mediator.send<Raccordement.AttribuerGestionnaireRéseauAuRaccordementUseCase>({
+        await mediator.send<Raccordement.RaccordementUseCase>({
           type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
           data: {
             identifiantGestionnaireRéseauValue:
