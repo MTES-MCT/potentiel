@@ -38,41 +38,37 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
-      const projet = {
-        ...candidature,
-        identifiantProjet,
-      };
-
-      const listeDossiersRaccordement =
-        await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-          type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
-          data: {
-            identifiantProjetValue: identifiantProjet,
-          },
-        });
+      const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+        type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+        },
+      });
 
       const gestionnaireRéseau =
         await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
           type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
           data: {
-            identifiantGestionnaireRéseau:
-              listeDossiersRaccordement.identifiantGestionnaireRéseau.formatter(),
+            identifiantGestionnaireRéseau: raccordement.identifiantGestionnaireRéseau.formatter(),
           },
         });
-
-      if (listeDossiersRaccordement.dossiers.length === 0) {
-        return <AucunDossierDeRaccordementPage projet={projet} />;
-      }
 
       const props = mapToProps({
         rôleUtilisateur: utilisateur.role,
         candidature,
         identifiantProjet,
         gestionnaireRéseau,
-        listeDossiersRaccordement,
+        raccordement,
       });
 
-      return <DétailsRaccordementPage {...props} />;
+      return raccordement.dossiers.length === 0 ? (
+        <AucunDossierDeRaccordementPage
+          projet={props.projet}
+          gestionnaireRéseau={props.gestionnaireRéseau}
+        />
+      ) : (
+        <DétailsRaccordementPage {...props} />
+      );
     }),
   );
 }
@@ -82,7 +78,7 @@ type MapToProps = (args: {
   candidature: ConsulterCandidatureReadModel;
   identifiantProjet: string;
   gestionnaireRéseau: Option.Type<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;
-  listeDossiersRaccordement: Raccordement.ConsulterRaccordementReadModel;
+  raccordement: Raccordement.ConsulterRaccordementReadModel;
 }) => DétailsRaccordementPageProps;
 
 const mapToProps: MapToProps = ({
@@ -90,7 +86,7 @@ const mapToProps: MapToProps = ({
   candidature,
   identifiantProjet,
   gestionnaireRéseau,
-  listeDossiersRaccordement,
+  raccordement,
 }) => ({
   projet: {
     ...candidature,
@@ -114,7 +110,7 @@ const mapToProps: MapToProps = ({
           rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
           rôleUtilisateur.estÉgaleÀ(Role.porteur),
       },
-  dossiers: listeDossiersRaccordement.dossiers.map((dossier) => {
+  dossiers: raccordement.dossiers.map((dossier) => {
     return {
       identifiantProjet,
       référence: dossier.référence.formatter(),
