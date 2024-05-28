@@ -3,7 +3,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
-import { match } from 'ts-pattern';
+import { Pattern, match } from 'ts-pattern';
 
 /**
  * @deprecated Use GestionnaireRéseauModifiéEvent instead
@@ -93,6 +93,6 @@ export function applyGestionnaireRéseauModifié(
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
   this.référenceDossierRaccordementExpressionRegulière = match(expressionReguliere)
     .with('', () => ExpressionRegulière.accepteTout)
-    .with(undefined, () => ExpressionRegulière.accepteTout)
+    .with(Pattern.nullish, () => ExpressionRegulière.accepteTout)
     .otherwise((value) => ExpressionRegulière.convertirEnValueType(value));
 }

@@ -4,7 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 import { GestionnaireRéseauDéjàExistantError } from '../gestionnaireRéseauDéjàExistant.error';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
-import { match } from 'ts-pattern';
+import { Pattern, match } from 'ts-pattern';
 
 /**
  * @deprecated use GestionnaireRéseauAjoutéEvent instead
@@ -97,6 +97,6 @@ export function applyGestionnaireRéseauAjouté(
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
   this.référenceDossierRaccordementExpressionRegulière = match(expressionReguliere)
     .with('', () => ExpressionRegulière.accepteTout)
-    .with(undefined, () => ExpressionRegulière.accepteTout)
+    .with(Pattern.nullish, () => ExpressionRegulière.accepteTout)
     .otherwise((value) => ExpressionRegulière.convertirEnValueType(value));
 }

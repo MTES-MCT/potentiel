@@ -4,7 +4,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
 import { ExpressionRegulière } from '@potentiel-domain/common';
-import { match } from 'ts-pattern';
+import { Pattern, match } from 'ts-pattern';
 
 export type SubscriptionEvent =
   | (GestionnaireRéseau.GestionnaireRéseauEvent & Event)
@@ -40,7 +40,7 @@ export const register = () => {
                 légende,
                 expressionReguliere: match(expressionReguliere)
                   .with('', () => ExpressionRegulière.accepteTout)
-                  .with(undefined, () => ExpressionRegulière.accepteTout)
+                  .with(Pattern.nullish, () => ExpressionRegulière.accepteTout)
                   .otherwise((value) => ExpressionRegulière.convertirEnValueType(value))
                   .formatter(),
               },
