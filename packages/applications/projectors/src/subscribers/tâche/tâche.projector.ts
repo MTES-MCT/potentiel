@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { TâcheEvent, TâcheEntity } from '@potentiel-domain/tache';
+import { TâcheEvent, TâcheEntity, TypeTâche } from '@potentiel-domain/tache';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
@@ -10,6 +10,7 @@ import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
 import { DateTime } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { match } from 'ts-pattern';
 
 export type SubscriptionEvent = (TâcheEvent & Event) | RebuildTriggered;
 
@@ -24,30 +25,36 @@ export const register = () => {
     } else {
       const { identifiantProjet, typeTâche } = payload;
 
-      const tâche = await findProjection<TâcheEntity>(
-        `tâche|${payload.typeTâche}#${identifiantProjet}`,
+      const tâcheEntity = await findProjection<TâcheEntity>(
+        `tâche|${typeTâche}#${identifiantProjet}`,
       );
 
-      const tâcheDefaultValue = {
+      const tâcheDefaultEntity: TâcheEntity = {
         identifiantProjet,
-        projet: {
-          nom: '',
-          appelOffre: '',
-          période: '',
-          numéroCRE: '',
-          famille: '',
-        },
-        typeTâche: '',
+        typeTâche: TypeTâche.inconnue.type,
         misÀJourLe: DateTime.now().formatter(),
+        type: 'tâche',
       };
 
-      const tâcheToUpsert: Omit<TâcheEntity, 'type'> = Option.isSome(tâche)
-        ? tâche
-        : tâcheDefaultValue;
+      const tâche: TâcheEntity = Option.match(tâcheEntity)
+        .some((value) => value)
+        .none(() => tâcheDefaultEntity);
 
-      const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
+      const projetEntity = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
 
-      if (Option.isNone(projet)) {
+      const projet = Option.match(projetEntity)
+        .some<TâcheEntity['projet']>(({ nom, appelOffre, période, numéroCRE, famille }) => ({
+          appelOffre,
+          nom,
+          numéroCRE,
+          période,
+          famille: match(famille)
+            .with('', () => undefined)
+            .otherwise((value) => value),
+        }))
+        .none(() => undefined);
+
+      if (Option.isNone(projetEntity)) {
         getLogger().error(new Error(`Projet inconnu !`), { identifiantProjet, message: event });
       }
 
@@ -58,21 +65,15 @@ export const register = () => {
         case 'TâcheAjoutée-V1':
         case 'TâcheRenouvellée-V1':
           await upsertProjection<TâcheEntity>(`tâche|${payload.typeTâche}#${identifiantProjet}`, {
-            ...tâcheToUpsert,
-            projet: {
-              nom: Option.isSome(projet) ? projet.nom : 'Projet inconnu',
-              appelOffre: Option.isSome(projet) ? projet.appelOffre : `N/A`,
-              période: Option.isSome(projet) ? projet.période : `N/A`,
-              famille: Option.isSome(projet) ? projet.famille : undefined,
-              numéroCRE: Option.isSome(projet) ? projet.numéroCRE : `N/A`,
-            },
+            ...tâche,
             typeTâche: payload.typeTâche,
             misÀJourLe: payload.ajoutéeLe,
+            projet,
           });
           break;
         case 'TâcheRelancée-V1':
           await upsertProjection<TâcheEntity>(`tâche|${payload.typeTâche}#${identifiantProjet}`, {
-            ...tâcheToUpsert,
+            ...tâche,
             typeTâche: payload.typeTâche,
             misÀJourLe: event.payload.relancéeLe,
           });

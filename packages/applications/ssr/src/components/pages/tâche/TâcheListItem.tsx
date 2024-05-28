@@ -5,6 +5,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { ListerTâchesReadModel, TypeTâche } from '@potentiel-domain/tache';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
@@ -12,10 +13,20 @@ export type TâcheListItemProps = PlainType<ListerTâchesReadModel['items'][numb
 
 export const TâcheListItem: FC<TâcheListItemProps> = ({
   identifiantProjet,
-  projet: { appelOffre, nom, période, famille },
+  projet,
   misÀJourLe,
   typeTâche,
 }) => {
+  const { nom, appelOffre, période, famille } = Option.match(projet)
+    .some((some) => some)
+    .none(() => ({
+      appelOffre: 'N/A',
+      famille: Option.none,
+      nom: 'Projet inconnu',
+      numéroCRE: 'N/A',
+      période: 'N/A',
+    }));
+
   const descriptionTâche = getDescriptionTâche(typeTâche, identifiantProjet, nom);
   const dateMiseÀJourLe = DateTime.bind(misÀJourLe);
 
@@ -31,12 +42,13 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
             <span className="hidden md:inline-block mr-2">,</span>
           </div>
           <div>Période : {période}</div>
-          {famille && (
-            <div>
-              <span className="hidden md:inline-block mr-2">,</span>
-              Famille : {famille}
-            </div>
-          )}
+          <div>
+            <span className="hidden md:inline-block mr-2">,</span>
+            Famille :{' '}
+            {Option.match(famille)
+              .some((value) => value)
+              .none(() => 'N/A')}
+          </div>
         </div>
       </div>
       <div className="flex flex-col gap-1">

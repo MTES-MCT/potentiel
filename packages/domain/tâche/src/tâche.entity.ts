@@ -5,7 +5,7 @@ export type TâcheEntity = Entity<
   {
     identifiantProjet: string;
 
-    projet: {
+    projet?: {
       nom: string;
       appelOffre: string;
       période: string;

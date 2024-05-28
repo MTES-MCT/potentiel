@@ -89,7 +89,7 @@ export type WhereOperator = WhereCondition['operator'];
 export type WhereOptions<T> = {
   [P in keyof T]?: T[P] extends string | boolean | number
     ? WhereCondition<T[P]>
-    : T[P] extends Record<string, infer U>
+    : T[P] extends Record<string, infer U> | undefined
     ? WhereOptions<T[P]>
     : never;
 };
