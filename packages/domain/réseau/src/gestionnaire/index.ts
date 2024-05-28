@@ -27,7 +27,7 @@ export type GestionnaireRéseauUseCase =
   | AjouterGestionnaireRéseauUseCase
   | ModifierGestionnaireRéseauUseCase;
 
-export type { AjouterGestionnaireRéseauUseCase, ModifierGestionnaireRéseauUseCase };
+export { AjouterGestionnaireRéseauUseCase, ModifierGestionnaireRéseauUseCase };
 
 // Event
 export { GestionnaireRéseauAjoutéEvent, GestionnaireRéseauEvent, GestionnaireRéseauModifiéEvent };

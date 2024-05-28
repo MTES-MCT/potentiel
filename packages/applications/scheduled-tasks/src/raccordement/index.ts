@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { RaccordementProjector } from '@potentiel-applications/projectors';
 import {
   GestionnaireRéseau,
   Raccordement,
@@ -25,6 +26,8 @@ registerRéseauQueries({
   listV2: listProjectionV2,
   find: findProjection,
 });
+
+RaccordementProjector.register();
 
 (async () => {
   getLogger().info('[raccordement] Starting script');
@@ -75,14 +78,19 @@ registerRéseauQueries({
         continue;
       }
 
-      await mediator.send<Raccordement.AttribuerGestionnaireRéseauAuRaccordementUseCase>({
-        type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
-        data: {
-          identifiantGestionnaireRéseauValue:
-            gestionnaire.identifiantGestionnaireRéseau.formatter(),
-          identifiantProjetValue: projet.identifiantProjet,
-        },
-      });
+      try {
+        await mediator.send<Raccordement.AttribuerGestionnaireRéseauAuRaccordementUseCase>({
+          type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
+          data: {
+            identifiantGestionnaireRéseauValue:
+              gestionnaire.identifiantGestionnaireRéseau.formatter(),
+            identifiantProjetValue: projet.identifiantProjet,
+          },
+        });
+      } catch (error) {
+        getLogger().error(error as Error);
+        continue;
+      }
     }
 
     const notFoundinPercent = Math.round(
