@@ -52,7 +52,7 @@ RaccordementProjector.register();
 
     getLogger().info(`Looking for ${projectsWithNoAttributedGestionnaire.length} gestionnaires`);
 
-    let projetWithNoOreGestionnaireFoundCount = 0;
+    let projectsWithNoOreGestionnaireFoundCount = 0;
 
     for (const projet of projectsWithNoAttributedGestionnaire) {
       const gestionnaireByCity = await getGRDByCity({
@@ -61,7 +61,7 @@ RaccordementProjector.register();
       });
 
       if (Option.isNone(gestionnaireByCity)) {
-        projetWithNoOreGestionnaireFoundCount++;
+        projectsWithNoOreGestionnaireFoundCount++;
         continue;
       }
 
@@ -94,7 +94,7 @@ RaccordementProjector.register();
     }
 
     const notFoundinPercent = Math.round(
-      (projetWithNoOreGestionnaireFoundCount / projectsWithNoAttributedGestionnaire.length) * 100,
+      (projectsWithNoOreGestionnaireFoundCount / projectsWithNoAttributedGestionnaire.length) * 100,
     );
 
     getLogger().info(
