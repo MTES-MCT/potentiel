@@ -1,23 +1,22 @@
-import { GestionnaireRéseau as Gestionnaire } from '@potentiel-domain/reseau';
 import { get } from '@potentiel-libraries/http-client';
 import zod from 'zod';
-import { ORE_API_LIMIT_IN_STRING, OreEndpoint } from './constant';
+
+const OreEndpoint = process.env.ORE_ENDPOINT || '';
+
+const ORE_API_LIMIT_IN_STRING = '100';
 
 const schema = zod.object({
   total_count: zod.number(),
   results: zod.array(
     zod.object({
       grd: zod.string(),
-      eic: zod.string(),
+      eic: zod.string().nullable(),
       contact: zod.string().nullable(),
     }),
   ),
 });
 
-export type OreGestionnaire = Pick<
-  Gestionnaire.GestionnaireRéseauEntity,
-  'raisonSociale' | 'codeEIC' | 'contactEmail'
->;
+export type OreGestionnaire = zod.TypeOf<typeof schema>['results'][number];
 
 type OreGestionnaireSlice = {
   gestionnaires: Array<OreGestionnaire>;
@@ -26,13 +25,13 @@ type OreGestionnaireSlice = {
 
 const getGRDsSlice = async (offset: string): Promise<OreGestionnaireSlice> => {
   const searchParams = new URLSearchParams();
-  searchParams.append('where', 'grd:"Enedis"');
+  searchParams.append('where', 'energie:"Électricité" and grd is not null');
   searchParams.append('select', 'grd, eic, contact');
   searchParams.append('limit', ORE_API_LIMIT_IN_STRING);
   searchParams.append('offset', offset);
 
   const url = new URL(
-    `${OreEndpoint}/referentiel-distributeurs-denergie/records?${searchParams.toString()}`,
+    `${OreEndpoint}/api/explore/v2.1/catalog/datasets/referentiel-distributeurs-denergie/records?${searchParams.toString()}`,
   );
 
   const result = await get(url);
@@ -40,12 +39,8 @@ const getGRDsSlice = async (offset: string): Promise<OreGestionnaireSlice> => {
   const parsedResult = schema.parse(result);
 
   return {
-    gestionnaires: parsedResult.results.map(({ eic, grd, contact }) => ({
-      codeEIC: eic,
-      raisonSociale: grd,
-      contactEmail: contact ?? '',
-    })),
     totalCount: parsedResult.total_count,
+    gestionnaires: parsedResult.results,
   };
 };
 
