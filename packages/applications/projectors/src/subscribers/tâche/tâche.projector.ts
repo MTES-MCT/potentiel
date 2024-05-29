@@ -25,37 +25,13 @@ export const register = () => {
     } else {
       const { identifiantProjet, typeTâche } = payload;
 
-      const tâcheEntity = await findProjection<TâcheEntity>(
-        `tâche|${typeTâche}#${identifiantProjet}`,
-      );
+      const [tâche, projet] = await Promise.all([
+        récupérerTâche(typeTâche, identifiantProjet),
+        récupérerProjet(identifiantProjet),
+      ]);
 
-      const tâcheDefaultEntity: TâcheEntity = {
-        identifiantProjet,
-        typeTâche: TypeTâche.inconnue.type,
-        misÀJourLe: DateTime.now().formatter(),
-        type: 'tâche',
-      };
-
-      const tâche: TâcheEntity = Option.match(tâcheEntity)
-        .some((value) => value)
-        .none(() => tâcheDefaultEntity);
-
-      const projetEntity = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
-
-      const projet = Option.match(projetEntity)
-        .some<TâcheEntity['projet']>(({ nom, appelOffre, période, numéroCRE, famille }) => ({
-          appelOffre,
-          nom,
-          numéroCRE,
-          période,
-          famille: match(famille)
-            .with('', () => undefined)
-            .otherwise((value) => value),
-        }))
-        .none(() => undefined);
-
-      if (Option.isNone(projetEntity)) {
-        getLogger().error(new Error(`Projet inconnu !`), { identifiantProjet, message: event });
+      if (!projet) {
+        getLogger().error(new Error(`Projet inconnu !`), { identifiantProjet, event });
       }
 
       switch (type) {
@@ -82,4 +58,38 @@ export const register = () => {
   };
 
   mediator.register('System.Projector.Tâche', handler);
+};
+
+const récupérerTâche = async (typeTâche: string, identifiantProjet: string) => {
+  const tâcheEntity = await findProjection<TâcheEntity>(`tâche|${typeTâche}#${identifiantProjet}`);
+
+  const tâcheDefaultEntity: TâcheEntity = {
+    identifiantProjet,
+    typeTâche: TypeTâche.inconnue.type,
+    misÀJourLe: DateTime.now().formatter(),
+    type: 'tâche',
+  };
+
+  const tâche: TâcheEntity = Option.match(tâcheEntity)
+    .some((value) => value)
+    .none(() => tâcheDefaultEntity);
+  return tâche;
+};
+
+const récupérerProjet = async (identifiantProjet: string) => {
+  const projetEntity = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
+
+  const projet = Option.match(projetEntity)
+    .some<TâcheEntity['projet']>(({ nom, appelOffre, période, numéroCRE, famille }) => ({
+      appelOffre,
+      nom,
+      numéroCRE,
+      période,
+      famille: match(famille)
+        .with('', () => undefined)
+        .otherwise((value) => value),
+    }))
+    .none(() => undefined);
+
+  return projet;
 };

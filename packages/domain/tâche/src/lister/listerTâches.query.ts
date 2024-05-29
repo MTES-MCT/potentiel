@@ -95,6 +95,7 @@ const mapToReadModel = ({
     misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
     typeTâche: TypeTâche.convertirEnValueType(typeTâche),
     projet: match(projet)
+      .returnType<Option.Type<TâcheListItem['projet']>>()
       .with(Pattern.nullish, () => Option.none)
       .otherwise(({ appelOffre, nom, numéroCRE, période, famille }) => ({
         appelOffre,

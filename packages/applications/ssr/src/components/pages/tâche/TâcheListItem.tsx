@@ -42,13 +42,12 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
             <span className="hidden md:inline-block mr-2">,</span>
           </div>
           <div>Période : {période}</div>
-          <div>
-            <span className="hidden md:inline-block mr-2">,</span>
-            Famille :{' '}
-            {Option.match(famille)
-              .some((value) => value)
-              .none(() => 'N/A')}
-          </div>
+          {Option.isSome(famille) && (
+            <div>
+              <span className="hidden md:inline-block mr-2">,</span>
+              Famille :{famille}
+            </div>
+          )}
         </div>
       </div>
       <div className="flex flex-col gap-1">
