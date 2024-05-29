@@ -92,16 +92,16 @@ registerRéseauQueries({
       }
     }
 
-    const pourcentageProjetsNonTrouvés = Math.round(
-      (projetsSansGestionnaireTrouvés / projetsSansGestionnaire.length) * 100,
-    );
-
     if (projetsSansGestionnaire.length) {
+      const pourcentageProjetsNonTrouvés = Math.round(
+        (projetsSansGestionnaireTrouvés / projetsSansGestionnaire.length) * 100,
+      );
       getLogger().info(
         `Sur ${projetsSansGestionnaire.length} projets classés sans raccordement, nous n'avons pas pu attribuer de GRD à ${pourcentageProjetsNonTrouvés} % d'entre eux`,
       );
-      getLogger().info('Fin du script ✨');
     }
+
+    getLogger().info('Fin du script ✨');
 
     process.exit(0);
   } catch (error) {

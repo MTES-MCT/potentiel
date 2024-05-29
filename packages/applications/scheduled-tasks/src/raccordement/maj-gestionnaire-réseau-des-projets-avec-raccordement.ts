@@ -1,7 +1,6 @@
 import { mediator } from 'mediateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import {
-  GestionnaireRéseau,
   Raccordement,
   registerRéseauQueries,
   registerRéseauUseCases,
@@ -76,22 +75,6 @@ registerRéseauQueries({
           `Le gestionnaire réseau actuellement relié au projet ${identifiantProjet} est le même que celui de ORE`,
         );
         nombreDeRaccordementsDéjàAttribuésAuBonGRD++;
-        continue;
-      }
-
-      // additional check
-      const gestionnaireProjection =
-        await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
-          type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
-          data: {
-            identifiantGestionnaireRéseau: nouveauGestionnaireRéseau.codeEIC,
-          },
-        });
-
-      if (Option.isNone(gestionnaireProjection)) {
-        getLogger().warn(
-          `Le gestionnaire ${nouveauGestionnaireRéseau.raisonSociale} n'existe pas en base de données`,
-        );
         continue;
       }
 
