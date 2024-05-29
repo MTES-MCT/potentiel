@@ -71,7 +71,7 @@ export const getGRDByCity = async ({
 
     if (parsedResult.total_count === 0) {
       logger.warn(
-        `No GRD could be found for codePostal ${codePostal} and commune ${oreFormatCommune}`,
+        `Aucun GRD trouvé pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
       );
 
       return Option.none;
@@ -82,7 +82,7 @@ export const getGRDByCity = async ({
       parsedResult.results[0].grd_elec_eic.length === 0
     ) {
       logger.warn(
-        `A GRD could be found for codePostal ${codePostal} and commune ${oreFormatCommune} but with no EIC`,
+        `Un GRD (${parsedResult.results[0].grd_elec}) a été trouvé mais sans code EIC pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
       );
 
       return Option.none;
@@ -90,7 +90,7 @@ export const getGRDByCity = async ({
 
     if (!parsedResult.results[0].grd_elec || parsedResult.results[0].grd_elec.length === 0) {
       logger.warn(
-        `A GRD could be found for codePostal ${codePostal} and commune ${oreFormatCommune} but with no raison sociale`,
+        `Un GRD a été trouvé avec code EIC (${parsedResult.results[0].grd_elec_eic}) mais sans raison social pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
       );
 
       return Option.none;
@@ -98,7 +98,11 @@ export const getGRDByCity = async ({
 
     if (parsedResult.results[0].grd_elec_eic.length > 1) {
       logger.warn(
-        `A GRD could be found for codePostal ${codePostal} and commune ${oreFormatCommune} but with more than one EIC`,
+        `Un GRD (${
+          parsedResult.results[0].grd_elec
+        }) a été trouvé avec plusieurs code EIC (${parsedResult.results[0].grd_elec_eic.join(
+          '/',
+        )}) pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
       );
 
       return Option.none;
