@@ -1,6 +1,5 @@
 import { mediator } from 'mediateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { RaccordementProjector } from '@potentiel-applications/projectors';
 import {
   GestionnaireRéseau,
   Raccordement,
@@ -26,8 +25,6 @@ registerRéseauQueries({
   listV2: listProjectionV2,
   find: findProjection,
 });
-
-RaccordementProjector.register();
 
 (async () => {
   getLogger().info('[raccordement] Starting script');
