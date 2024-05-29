@@ -5,11 +5,12 @@ import { ListerTâchesQuery } from '@potentiel-domain/tache';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { expect } from 'chai';
+import { RechercherTypeTâche } from '../tâche.world';
 
 Alors(
   `une tâche indiquant de {string} est consultable dans la liste des tâches du porteur pour le projet`,
   async function (this: PotentielWorld, typeTâche: string) {
-    const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(typeTâche);
+    const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(typeTâche as RechercherTypeTâche);
 
     await waitForExpect(async () => {
       const tâches = await mediator.send<ListerTâchesQuery>({
@@ -28,7 +29,7 @@ Alors(
 Alors(
   `une tâche indiquant de {string} n'est plus consultable dans la liste des tâches du porteur pour le projet`,
   async function (this: PotentielWorld, typeTâche: string) {
-    const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(typeTâche);
+    const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(typeTâche as RechercherTypeTâche);
 
     await waitForExpect(async () => {
       const tâches = await mediator.send<ListerTâchesQuery>({
