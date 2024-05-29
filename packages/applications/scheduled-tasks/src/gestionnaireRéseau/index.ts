@@ -46,6 +46,8 @@ registerRéseauQueries({
 
     await updateGRDs(àModifier);
 
+    getLogger().info('Done ✨');
+
     process.exit(0);
   } catch (error) {
     getLogger().error(error as Error);

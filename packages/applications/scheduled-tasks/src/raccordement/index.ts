@@ -50,7 +50,9 @@ RaccordementProjector.register();
       (projet) => !raccordementsProjectsIds.includes(projet.identifiantProjet),
     );
 
-    getLogger().info(`Looking for ${projectsWithNoAttributedGestionnaire.length} gestionnaires`);
+    getLogger().info(
+      `${projectsWithNoAttributedGestionnaire.length} projets sans gestionnaires ni raccordement trouvés`,
+    );
 
     let projectsWithNoOreGestionnaireFoundCount = 0;
 
@@ -87,6 +89,12 @@ RaccordementProjector.register();
             identifiantProjetValue: projet.identifiantProjet,
           },
         });
+
+        getLogger().info(
+          `✅ Gestionnaire ${gestionnaire.identifiantGestionnaireRéseau.formatter()} atttribué pour le projet ${
+            projet.identifiantProjet
+          }`,
+        );
       } catch (error) {
         getLogger().error(error as Error);
         continue;
@@ -98,7 +106,7 @@ RaccordementProjector.register();
     );
 
     getLogger().info(
-      `Out of ${projectsWithNoAttributedGestionnaire.length} projets classés with no raccordement, we were unable to assign GRD for ${notFoundinPercent} % of them`,
+      `${projectsWithNoAttributedGestionnaire.length} projets classés sans raccordement, nous n'avons pas pu attribué de GRD à ${notFoundinPercent} % des projets sans raccordement`,
     );
 
     process.exit(0);
