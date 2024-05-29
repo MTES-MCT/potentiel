@@ -31,20 +31,22 @@ registerRéseauQueries({
 
   try {
     const projetsClassé = await listerProjetForOreAdapter();
-    const projetsClassé;
+    const projetsClasséIdentifiants = projetsClassé.map((p) => p.identifiantProjet);
 
     const raccordements = await mediator.send<Raccordement.ListerRaccordementQuery>({
       type: 'Réseau.Raccordement.Query.ListerRaccordement',
       data: {},
     });
 
-    const raccordements = raccordements.items.filter((raccordement) => projetsClassé.map(projet));
+    const raccordementsDeProjetsClassés = raccordements.items.filter((raccordement) =>
+      projetsClasséIdentifiants.includes(raccordement.identifiantProjet.formatter()),
+    );
 
-    getLogger().info(`${raccordements.items.length} raccordements à vérifier`);
+    getLogger().info(`${raccordementsDeProjetsClassés.length} raccordements à vérifier`);
 
     let nombreDeRaccordementsMisAJour = 0;
 
-    for (const raccordement of raccordements.items) {
+    for (const raccordement of raccordementsDeProjetsClassés) {
       const identifiantProjet = raccordement.identifiantProjet.formatter();
       const identifiantActuelGestionnaireRéseau =
         raccordement.identifiantGestionnaireRéseau.formatter();
@@ -53,6 +55,7 @@ registerRéseauQueries({
         (projet) => projet.identifiantProjet === identifiantProjet,
       );
 
+      // ce cas est déjà vérifié ci dessus mais typescript est restrictif
       if (!relatedProjet) {
         getLogger().warn(`Il n'y a pas de projet classé lié à ce raccordement`);
         continue;
@@ -69,7 +72,7 @@ registerRéseauQueries({
 
       if (nouveauGestionnaireRéseau.codeEIC === identifiantActuelGestionnaireRéseau) {
         getLogger().info(
-          `Le gestionnaire réseau actuellement relié au projet ${raccordement.identifiantProjet.formatter} est le même que celui de ORE`,
+          `💪 Le gestionnaire réseau actuellement relié au projet ${raccordement.identifiantProjet.formatter} est le même que celui de ORE`,
         );
         continue;
       }
@@ -111,11 +114,11 @@ registerRéseauQueries({
     }
 
     const pourcentageRaccordementMisAJour = Math.round(
-      (nombreDeRaccordementsMisAJour / raccordements.items.length) * 100,
+      (nombreDeRaccordementsMisAJour / raccordementsDeProjetsClassés.length) * 100,
     );
 
     getLogger().info(
-      `Sur ${raccordements.items.length} raccordements, nous avons mis à jour ${pourcentageRaccordementMisAJour} % d'entre eux`,
+      `Sur ${raccordementsDeProjetsClassés.length} raccordements, nous avons mis à jour ${pourcentageRaccordementMisAJour} % d'entre eux`,
     );
 
     getLogger().info('Fin du script ✨');
