@@ -1,5 +1,5 @@
 #Language: fr-FR
-Fonctionnalité: Attribuer un gestionnaire de réseau à un raccordement 
+Fonctionnalité: Attribuer un gestionnaire de réseau au raccordement d'un projet
     Contexte:
         Etant donné le gestionnaire de réseau "EDF Corse"
         Et le projet lauréat "Du boulodrome de Marseille"
