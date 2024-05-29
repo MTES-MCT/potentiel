@@ -31,11 +31,18 @@ import {
   ConsulterGestionnaireRéseauRaccordementDependencies,
   registerConsulterGestionnaireRéseauRaccordementQuery,
 } from './consulter/consulterGestionnaireRéseauRaccordement.query';
+import {
+  registerListerRaccordementQuery,
+  ListerRaccordementQueryDependencies,
+} from './lister/listerRaccordement.query';
+import { registerAttribuerGestionnaireRéseauUseCase } from './attribuer/attribuerGestionnaireRéseau.usecase';
+import { registerAttribuerGestionnaireCommand } from './attribuer/attribuerGestionnaireRéseau.command';
 
 export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
   ConsulterGestionnaireRéseauRaccordementDependencies &
   ConsulterRaccordementDependencies &
-  RechercherDossierRaccordementDependencies;
+  RechercherDossierRaccordementDependencies &
+  ListerRaccordementQueryDependencies;
 
 export type RaccordementCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -46,6 +53,7 @@ export const registerRaccordementQueries = (dependencies: RaccordementQueryDepen
   registerConsulterGestionnaireRéseauRaccordementQuery(dependencies);
   registerConsulterRaccordementQuery(dependencies);
   registerRechercherDossierRaccordementQuery(dependencies);
+  registerListerRaccordementQuery(dependencies);
 };
 
 export const registerRaccordementUseCases = ({
@@ -58,6 +66,7 @@ export const registerRaccordementUseCases = ({
   registerTransmettreDateMiseEnServiceCommand(loadAggregate);
   registerTransmettreDemandeComplèteRaccordementCommand(loadAggregate);
   registerTransmettrePropositionTechniqueEtFinancièreCommand(loadAggregate);
+  registerAttribuerGestionnaireCommand(loadAggregate);
 
   registerModifierDemandeComplèteRaccordementUseCase();
   registerModifierGestionnaireRéseauRaccordementUseCase();
@@ -66,4 +75,5 @@ export const registerRaccordementUseCases = ({
   registerTransmettreDateMiseEnServiceUseCase();
   registerTransmettreDemandeComplèteRaccordementUseCase();
   registerTransmettrePropositionTechniqueEtFinancièreUseCase();
+  registerAttribuerGestionnaireRéseauUseCase();
 };

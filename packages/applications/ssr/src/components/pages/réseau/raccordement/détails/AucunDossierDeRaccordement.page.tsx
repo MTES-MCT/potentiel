@@ -9,15 +9,28 @@ import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/P
 
 import { TitrePageRaccordement } from '../TitrePageRaccordement';
 
+import { ModifierGestionnaireRéseauDuRaccordement } from './components/ModifierGestionnaireRéseauDuRaccordement';
+import { GestionnaireRéseau } from './type';
+
 export type AucunDossierDeRaccordementProps = {
   projet: ProjetBannerProps;
+  gestionnaireRéseau?: GestionnaireRéseau;
 };
 
-export const AucunDossierDeRaccordementPage: FC<AucunDossierDeRaccordementProps> = ({ projet }) => (
+export const AucunDossierDeRaccordementPage: FC<AucunDossierDeRaccordementProps> = ({
+  projet,
+  gestionnaireRéseau,
+}) => (
   <PageTemplate banner={<ProjetBanner {...projet} />}>
     <TitrePageRaccordement />
 
     <div className="flex flex-col gap-8">
+      {gestionnaireRéseau && (
+        <ModifierGestionnaireRéseauDuRaccordement
+          gestionnaireRéseau={gestionnaireRéseau}
+          identifiantProjet={projet.identifiantProjet}
+        />
+      )}
       <p>
         Aucun dossier de raccordement trouvé pour ce projet, vous pouvez transmettre une{' '}
         <Link

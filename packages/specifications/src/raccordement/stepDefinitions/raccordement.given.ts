@@ -140,3 +140,25 @@ EtantDonné(
     }
   },
 );
+
+EtantDonné(
+  'le gestionnaire de réseau {string} attribué au raccordement du projet lauréat {string}',
+  async function (
+    this: PotentielWorld,
+    raisonSocialeGestionnaireRéseau: string,
+    nomProjet: string,
+  ) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
+      raisonSocialeGestionnaireRéseau,
+    );
+
+    await mediator.send<Raccordement.RaccordementUseCase>({
+      type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        identifiantGestionnaireRéseauValue: codeEIC,
+      },
+    });
+  },
+);

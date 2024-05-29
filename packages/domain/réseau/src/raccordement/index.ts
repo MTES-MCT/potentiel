@@ -1,3 +1,4 @@
+import { AttribuerGestionnaireRéseauUseCase } from './attribuer/attribuerGestionnaireRéseau.usecase';
 import {
   ConsulterDossierRaccordementQuery,
   ConsulterDossierRaccordementReadModel,
@@ -10,6 +11,10 @@ import {
   ConsulterRaccordementQuery,
   ConsulterRaccordementReadModel,
 } from './consulter/consulterRaccordement.query';
+import {
+  ListerRaccordementQuery,
+  ListerRaccordementReadModel,
+} from './lister/listerRaccordement.query';
 import { ModifierDemandeComplèteRaccordementUseCase } from './modifier/modifierDemandeComplèteRaccordement.usecase';
 import { ModifierGestionnaireRéseauRaccordementUseCase } from './modifier/modifierGestionnaireRéseauRaccordement.usecase';
 import { ModifierPropositiontechniqueEtFinancièreUseCase } from './modifier/modifierPropositiontechniqueEtFinancière.usecase';
@@ -27,13 +32,15 @@ export type RaccordementQuery =
   | ConsulterRaccordementQuery
   | ConsulterDossierRaccordementQuery
   | ConsulterGestionnaireRéseauRaccordementQuery
-  | RechercherDossierRaccordementQuery;
+  | RechercherDossierRaccordementQuery
+  | ListerRaccordementQuery;
 
 export {
   ConsulterDossierRaccordementQuery,
   ConsulterGestionnaireRéseauRaccordementQuery,
   RechercherDossierRaccordementQuery,
   ConsulterRaccordementQuery,
+  ListerRaccordementQuery,
 };
 
 // ReadModel
@@ -42,6 +49,7 @@ export {
   ConsulterDossierRaccordementReadModel,
   ConsulterGestionnaireRéseauRaccordementReadModel,
   RechercherDossierRaccordementReadModel,
+  ListerRaccordementReadModel,
 };
 
 // UseCases
@@ -52,7 +60,8 @@ export type RaccordementUseCase =
   | ModifierRéférenceDossierRaccordementUseCase
   | TransmettreDateMiseEnServiceUseCase
   | TransmettreDemandeComplèteRaccordementUseCase
-  | TransmettrePropositionTechniqueEtFinancièreUseCase;
+  | TransmettrePropositionTechniqueEtFinancièreUseCase
+  | AttribuerGestionnaireRéseauUseCase;
 
 export {
   ModifierDemandeComplèteRaccordementUseCase,
@@ -62,6 +71,7 @@ export {
   TransmettreDateMiseEnServiceUseCase,
   TransmettreDemandeComplèteRaccordementUseCase,
   TransmettrePropositionTechniqueEtFinancièreUseCase,
+  AttribuerGestionnaireRéseauUseCase,
 };
 
 // Event
@@ -91,6 +101,7 @@ export {
   PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
   PropositionTechniqueEtFinancièreTransmiseEventV1,
 } from './transmettre/transmettrePropositionTechniqueEtFinancière.behavior';
+export { GestionnaireRéseauAttribuéEvent } from './attribuer/attribuerGestionnaireRéseau.behavior';
 
 // ValueTypes
 export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';

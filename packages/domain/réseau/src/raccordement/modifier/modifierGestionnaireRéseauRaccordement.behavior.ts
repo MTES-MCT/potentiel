@@ -63,7 +63,7 @@ export class MêmeGestionnaireRéseauUtiliséPourModifierLeRaccordementError ext
     identifiantProjet: IdentifiantProjet.ValueType,
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType,
   ) {
-    super(`Ce gestionnaire de réseau est déjà déclarer pour le dossier de raccordement`, {
+    super(`Ce gestionnaire de réseau est déjà déclaré pour le dossier de raccordement`, {
       identifiantProjet: identifiantProjet.formatter(),
       identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
     });

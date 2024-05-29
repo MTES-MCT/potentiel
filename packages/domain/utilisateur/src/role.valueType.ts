@@ -224,6 +224,7 @@ const référencielPermissions = {
         consulterGestionnaireRéseau:
           'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
         rechercher: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
+        lister: 'Réseau.Raccordement.Query.ListerRaccordement',
       },
       usecase: {
         modifierDemandeComplète: 'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',

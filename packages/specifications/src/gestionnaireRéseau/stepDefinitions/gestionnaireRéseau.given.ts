@@ -43,7 +43,6 @@ EtantDonné(
   'le gestionnaire de réseau {string}',
   async function (this: PotentielWorld, raisonSociale: string) {
     const codeEIC = raisonSociale.toUpperCase();
-    const aideSaisieRéférenceDossierRaccordement = {};
 
     await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
       type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',

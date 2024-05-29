@@ -55,6 +55,11 @@ import {
   applyGestionnaireRéseauRaccordementModifiéEventV1,
   modifierGestionnaireRéseau,
 } from './modifier/modifierGestionnaireRéseauRaccordement.behavior';
+import {
+  GestionnaireRéseauAttribuéEvent,
+  applyAttribuerGestionnaireRéseauEventV1,
+  attribuerGestionnaireRéseau,
+} from './attribuer/attribuerGestionnaireRéseau.behavior';
 
 export type DeprecateEvent =
   | DemandeComplèteRaccordementTransmiseEventV1
@@ -73,7 +78,8 @@ export type RaccordementEvent =
   | DemandeComplèteRaccordementModifiéeEvent
   | RéférenceDossierRacordementModifiéeEvent
   | PropositionTechniqueEtFinancièreModifiéeEvent
-  | GestionnaireRéseauRaccordementModifiéEvent;
+  | GestionnaireRéseauRaccordementModifiéEvent
+  | GestionnaireRéseauAttribuéEvent;
 
 type DossierRaccordement = {
   référence: RéférenceDossierRaccordement.ValueType;
@@ -103,6 +109,7 @@ export type RaccordementAggregate = Aggregate<RaccordementEvent> & {
   readonly modifierGestionnaireRéseau: typeof modifierGestionnaireRéseau;
   readonly contientLeDossier: (référence: RéférenceDossierRaccordement.ValueType) => boolean;
   readonly récupérerDossier: (référence: string) => DossierRaccordement;
+  readonly attribuerGestionnaireRéseau: typeof attribuerGestionnaireRéseau;
 };
 
 export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
@@ -120,6 +127,7 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
   modifierRéférenceDossierRacordement,
   modifierPropositionTechniqueEtFinancière,
   modifierGestionnaireRéseau,
+  attribuerGestionnaireRéseau,
   contientLeDossier({ référence }) {
     return this.dossiers.has(référence);
   },
@@ -177,6 +185,9 @@ function apply(this: RaccordementAggregate, event: RaccordementEvent) {
       break;
     case 'GestionnaireRéseauRaccordementModifié-V1':
       applyGestionnaireRéseauRaccordementModifiéEventV1.bind(this)(event);
+      break;
+    case 'GestionnaireRéseauAttribué-V1':
+      applyAttribuerGestionnaireRéseauEventV1.bind(this)(event);
       break;
   }
 }

@@ -63,6 +63,7 @@ export const setupRéseau = async () => {
         'PropositionTechniqueEtFinancièreTransmise-V1',
         'PropositionTechniqueEtFinancièreTransmise-V2',
         'RéférenceDossierRacordementModifiée-V1',
+        'GestionnaireRéseauAttribué-V1',
       ],
       eventHandler: async (event) => {
         await mediator.send<RaccordementProjector.Execute>({

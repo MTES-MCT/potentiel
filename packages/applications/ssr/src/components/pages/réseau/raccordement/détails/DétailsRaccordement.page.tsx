@@ -7,7 +7,6 @@ import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { Icon } from '@/components/atoms/Icon';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { Tile } from '@/components/organisms/Tile';
 import { PageTemplate } from '@/components/templates/Page.template';
@@ -15,20 +14,12 @@ import { PageTemplate } from '@/components/templates/Page.template';
 import { TitrePageRaccordement } from '../TitrePageRaccordement';
 
 import { DossierRaccordement, DossierRaccordementProps } from './components/DossierRaccordement';
+import { ModifierGestionnaireRéseauDuRaccordement } from './components/ModifierGestionnaireRéseauDuRaccordement';
+import { GestionnaireRéseau } from './type';
 
 export type DétailsRaccordementPageProps = {
   projet: ProjetBannerProps;
-  gestionnaireRéseau?: {
-    identifiantGestionnaireRéseau: string;
-    raisonSociale: string;
-    aideSaisieRéférenceDossierRaccordement: {
-      format: string;
-      légende: string;
-      expressionReguliere: string;
-    };
-    contactEmail?: string;
-    canEdit: boolean;
-  };
+  gestionnaireRéseau?: GestionnaireRéseau;
   dossiers: ReadonlyArray<DossierRaccordementProps>;
 };
 
@@ -41,20 +32,10 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
     <TitrePageRaccordement />
     <div className="my-2 md:my-4">
       {gestionnaireRéseau && (
-        <p className="mt-2 mb-4 p-0">
-          Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}
-          {gestionnaireRéseau.contactEmail && `, contact: ${gestionnaireRéseau.contactEmail}`}
-          {gestionnaireRéseau.canEdit && (
-            <a
-              className="ml-1"
-              href={Routes.Raccordement.modifierGestionnaireDeRéseau(projet.identifiantProjet)}
-              aria-label={`Modifier le gestionnaire (actuel : ${gestionnaireRéseau.raisonSociale})`}
-            >
-              (<Icon id="fr-icon-pencil-fill" size="xs" className="mr-1" />
-              Modifier)
-            </a>
-          )}
-        </p>
+        <ModifierGestionnaireRéseauDuRaccordement
+          gestionnaireRéseau={gestionnaireRéseau}
+          identifiantProjet={projet.identifiantProjet}
+        />
       )}
       {dossiers.length === 1 ? (
         <DossierRaccordement {...dossiers[0]} />
