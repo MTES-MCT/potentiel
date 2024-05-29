@@ -16,19 +16,28 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
   ModifierGestionnaireRéseauDuRaccordementProps
 > = ({ gestionnaireRéseau, identifiantProjet }: ModifierGestionnaireRéseauDuRaccordementProps) => {
   return (
-    <p className="mt-2 mb-4 p-0">
-      Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}
-      {gestionnaireRéseau.contactEmail && `, contact: ${gestionnaireRéseau.contactEmail}`}
-      {gestionnaireRéseau.canEdit && (
-        <a
-          className="ml-1"
-          href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
-          aria-label={`Modifier le gestionnaire (actuel : ${gestionnaireRéseau.raisonSociale})`}
-        >
-          (<Icon id="fr-icon-pencil-fill" size="xs" className="mr-1" />
-          Modifier)
-        </a>
+    <div className="mt-2 mb-4 p-0">
+      <div>
+        Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}{' '}
+        {gestionnaireRéseau.canEdit && (
+          <a
+            className="ml-1"
+            href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
+            aria-label={`Modifier le gestionnaire (actuel : ${gestionnaireRéseau.raisonSociale})`}
+          >
+            (<Icon id="fr-icon-pencil-fill" size="xs" className="mr-1" />
+            Modifier)
+          </a>
+        )}
+      </div>
+      {gestionnaireRéseau.contactEmail && (
+        <div>
+          Contact :{' '}
+          <a href={`mailto:${gestionnaireRéseau.contactEmail}`} target="_blank">
+            {gestionnaireRéseau.contactEmail}
+          </a>
+        </div>
       )}
-    </p>
+    </div>
   );
 };
