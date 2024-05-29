@@ -117,7 +117,10 @@ const référencielPermissions = {
     },
     garantiesFinancières: {
       query: {
-        consulter: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+        consulterGarantiesFinancièresActuelles:
+          'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+        consulterDépôtEnCoursGarantiesFinancières:
+          'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
         listerDépôtsEnCours:
           'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
         listerProjetsAvecGarantiesFinancièresEnAttente:
@@ -469,15 +472,16 @@ const policies = {
     ],
   },
   garantiesFinancières: {
-    consulter: [
-      référencielPermissions.appelOffre.query.consulter,
-      référencielPermissions.lauréat.garantiesFinancières.query.consulter,
-    ],
     effacerHistorique: [
       référencielPermissions.lauréat.garantiesFinancières.usecase.effacerHistorique,
       référencielPermissions.lauréat.garantiesFinancières.command.effacerHistorique,
     ],
     dépôt: {
+      consulter: [
+        référencielPermissions.appelOffre.query.consulter,
+        référencielPermissions.lauréat.garantiesFinancières.query
+          .consulterDépôtEnCoursGarantiesFinancières,
+      ],
       demander: [
         référencielPermissions.lauréat.garantiesFinancières.usecase.demander,
         référencielPermissions.lauréat.garantiesFinancières.command.demander,
@@ -514,6 +518,11 @@ const policies = {
       ],
     },
     actuelles: {
+      consulter: [
+        référencielPermissions.appelOffre.query.consulter,
+        référencielPermissions.lauréat.garantiesFinancières.query
+          .consulterGarantiesFinancièresActuelles,
+      ],
       importer: [
         référencielPermissions.lauréat.garantiesFinancières.usecase.importerType,
         référencielPermissions.lauréat.garantiesFinancières.command.importerType,
@@ -604,7 +613,8 @@ const permissionAdmin = [
   ...policies.réseau.raccordement['référence-dossier'].modifier,
 
   // Garanties financières
-  ...policies.garantiesFinancières.consulter,
+  ...policies.garantiesFinancières.actuelles.consulter,
+  ...policies.garantiesFinancières.dépôt.consulter,
   ...policies.garantiesFinancières.dépôt.lister,
   ...policies.garantiesFinancières.dépôt.demander,
   ...policies.garantiesFinancières.dépôt.valider,
@@ -635,7 +645,8 @@ const permissionCRE = [
   ...policies.réseau.raccordement.consulter,
 
   // Garanties financières
-  ...policies.garantiesFinancières.consulter,
+  ...policies.garantiesFinancières.actuelles.consulter,
+  ...policies.garantiesFinancières.dépôt.consulter,
   ...policies.garantiesFinancières.actuelles.modifier,
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.actuelles.enregistrer,
@@ -650,7 +661,8 @@ const permissionDreal = [
   ...policies.réseau.raccordement.consulter,
 
   // Garanties financières
-  ...policies.garantiesFinancières.consulter,
+  ...policies.garantiesFinancières.actuelles.consulter,
+  ...policies.garantiesFinancières.dépôt.consulter,
   ...policies.garantiesFinancières.dépôt.lister,
   ...policies.garantiesFinancières.dépôt.demander,
   ...policies.garantiesFinancières.dépôt.valider,
@@ -695,7 +707,8 @@ const permissionDgecValidateur = [
   ...policies.réseau.raccordement['référence-dossier'].modifier,
 
   // Garanties financières
-  ...policies.garantiesFinancières.consulter,
+  ...policies.garantiesFinancières.actuelles.consulter,
+  ...policies.garantiesFinancières.dépôt.consulter,
   ...policies.garantiesFinancières.dépôt.lister,
   ...policies.garantiesFinancières.dépôt.demander,
   ...policies.garantiesFinancières.dépôt.valider,
@@ -735,7 +748,8 @@ const permissionPorteurProjet = [
   ...policies.tâche.consulter,
 
   // Garanties financières
-  ...policies.garantiesFinancières.consulter,
+  ...policies.garantiesFinancières.actuelles.consulter,
+  ...policies.garantiesFinancières.dépôt.consulter,
   ...policies.garantiesFinancières.dépôt.demander,
   ...policies.garantiesFinancières.dépôt.valider,
   ...policies.garantiesFinancières.dépôt.soumettre,
@@ -753,7 +767,8 @@ const permissionAcheteurObligé = [
   ...policies.réseau.raccordement.consulter,
 
   // Garanties financières
-  ...policies.garantiesFinancières.consulter,
+  ...policies.garantiesFinancières.actuelles.consulter,
+  ...policies.garantiesFinancières.dépôt.consulter,
 
   // Achèvement
   ...policies.achèvement.transmettre,
@@ -761,7 +776,8 @@ const permissionAcheteurObligé = [
 
 const permissionCaisseDesDépôts = [
   // Garanties financières
-  ...policies.garantiesFinancières.consulter,
+  ...policies.garantiesFinancières.actuelles.consulter,
+  ...policies.garantiesFinancières.dépôt.consulter,
   ...policies.garantiesFinancières.actuelles.modifier,
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.actuelles.enregistrer,

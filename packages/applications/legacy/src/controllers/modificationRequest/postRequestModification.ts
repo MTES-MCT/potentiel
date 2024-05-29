@@ -154,7 +154,7 @@ v1Router.post(
 
         if (soumisAuxGarantiesFinancières === 'après candidature') {
           try {
-            const garantiesFinancières =
+            const garantiesFinancièresActuelles =
               await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
                 type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
                 data: {
@@ -162,9 +162,19 @@ v1Router.post(
                 },
               });
 
+            const dépôtEnCoursGarantiesFinancières =
+              await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>(
+                {
+                  type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
+                  data: {
+                    identifiantProjetValue: `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
+                  },
+                },
+              );
+
             const hasGarantiesFinancières =
-              Option.isSome(garantiesFinancières) &&
-              (!!garantiesFinancières.actuelles || garantiesFinancières.dépôts.length > 0);
+              Option.isSome(garantiesFinancièresActuelles) ||
+              Option.isSome(dépôtEnCoursGarantiesFinancières);
 
             await requestActionnaireModification({
               projectId: data.projectId,

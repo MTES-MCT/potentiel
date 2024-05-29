@@ -17,20 +17,15 @@ import {
   GarantiesFinancièresActuellesProps,
 } from './components/GarantiesFinancièresActuelles';
 import {
-  DépôtGarantiesFinancières,
-  GarantiesFinancièresHistoriqueDépôts,
-  GarantiesFinancièresHistoriqueDépôtsProps,
-} from './components/GarantiesFinancièresHistoriqueDépôts';
-import { GarantiesFinancièresDépôtEnCours } from './components/GarantiesFinancièresDépôtEnCours';
+  GarantiesFinancièresDépôtEnCours,
+  GarantiesFinancièresDépôtEnCoursProps,
+} from './components/GarantiesFinancièresDépôtEnCours';
 
 export type DétailsGarantiesFinancièresPageProps = {
   projet: ProjetBannerProps;
   actuelles?: GarantiesFinancièresActuellesProps['actuelles'];
-  dépôtEnCours?: DépôtGarantiesFinancières & {
-    actions: Array<'modifier' | 'instruire' | 'supprimer'>;
-  };
+  dépôtEnCours?: GarantiesFinancièresDépôtEnCoursProps['dépôt'];
   dateLimiteSoummission?: Iso8601DateTime;
-  historiqueDépôts: GarantiesFinancièresHistoriqueDépôtsProps['dépôts'];
   action?: 'soumettre' | 'enregistrer';
 };
 
@@ -38,7 +33,6 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   projet,
   actuelles,
   dépôtEnCours,
-  historiqueDépôts,
   action,
 }) => (
   <PageTemplate banner={<ProjetBanner {...projet} />}>
@@ -61,7 +55,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
             />
           )}
         </div>
-        {historiqueDépôts.length === 0 && action === 'soumettre' && (
+        {action === 'soumettre' && (
           <Alert
             severity="info"
             small
@@ -109,13 +103,6 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           </>
         )}
       </p>
-    )}
-
-    {historiqueDépôts.length > 0 && (
-      <GarantiesFinancièresHistoriqueDépôts
-        identifiantProjet={projet.identifiantProjet}
-        dépôts={historiqueDépôts}
-      />
     )}
   </PageTemplate>
 );

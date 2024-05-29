@@ -3,18 +3,27 @@ import Download from '@codegouvfr/react-dsfr/Download';
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { CallOut } from '@/components/atoms/CallOut';
 import { Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
-import { ValiderDépôtEnCoursGarantiesFinancières } from '../../dépôt/modifier/valider/validerDépôtEnCoursGarantiesFinancières';
-import { SupprimerDépôtEnCoursGarantiesFinancières } from '../../dépôt/modifier/supprimer/SupprimerDépôtEnCoursGarantiesFinancières';
-
-import { DépôtGarantiesFinancières } from './GarantiesFinancièresHistoriqueDépôts';
+import { ValiderDépôtEnCoursGarantiesFinancières } from '../../dépôt/valider/validerDépôtEnCoursGarantiesFinancières';
+import { SupprimerDépôtEnCoursGarantiesFinancières } from '../../dépôt/supprimer/SupprimerDépôtEnCoursGarantiesFinancières';
 
 export type GarantiesFinancièresDépôtEnCoursProps = {
-  dépôt: DépôtGarantiesFinancières & { actions: Array<'modifier' | 'instruire' | 'supprimer'> };
+  dépôt: {
+    type: string;
+    dateÉchéance?: Iso8601DateTime;
+    dateConstitution: Iso8601DateTime;
+    attestation: string;
+    dernièreMiseÀJour: {
+      date: Iso8601DateTime;
+      par?: string;
+    };
+    actions: Array<'modifier' | 'instruire' | 'supprimer'>;
+  };
   identifiantProjet: string;
 };
 
@@ -74,8 +83,7 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
               )}
             </div>
           </div>
-         {
-          actions.length > 0 ? (
+          {actions.length > 0 ? (
             <div className="flex md:flex-row flex-col gap-4">
               {actions.includes('modifier') && (
                 <Button
@@ -94,8 +102,7 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
                 <SupprimerDépôtEnCoursGarantiesFinancières identifiantProjet={identifiantProjet} />
               )}
             </div>
-         ) : null
-       }
+          ) : null}
         </div>
       }
     />

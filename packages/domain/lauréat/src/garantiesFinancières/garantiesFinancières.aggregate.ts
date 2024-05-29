@@ -10,11 +10,14 @@ import {
   DépôtGarantiesFinancièresSoumisEvent,
   applyDépôtGarantiesFinancièresSoumis,
   soumettreDépôt,
-} from './dépôt/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
+} from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
 import {
+  AttestationGarantiesFinancièresEnregistréeEvent,
+  GarantiesFinancièresEnregistréesEvent,
+  GarantiesFinancièresModifiéesEvent,
   MotifDemandeGarantiesFinancières,
-  StatutDépôtGarantiesFinancières,
   TypeGarantiesFinancières,
+  TypeGarantiesFinancièresImportéEvent,
 } from '.';
 import {
   GarantiesFinancièresDemandéesEvent,
@@ -25,42 +28,38 @@ import {
   DépôtGarantiesFinancièresEnCoursSuppriméEvent,
   applyDépôtGarantiesFinancièresEnCoursSupprimé,
   supprimerDépôtGarantiesFinancièresEnCours,
-} from './dépôt/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
+} from './dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
 import {
   DépôtGarantiesFinancièresEnCoursValidéEvent,
   applyDépôtGarantiesFinancièresEnCoursValidé,
   validerDépôtEnCours,
-} from './dépôt/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.behavior';
+} from './dépôtEnCours/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.behavior';
 import {
   DépôtGarantiesFinancièresEnCoursModifiéEvent,
   applyDépôtGarantiesFinancièresEnCoursModifié,
   modifierDépôtGarantiesFinancièresEnCours,
-} from './dépôt/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
-import {
-  TypeGarantiesFinancièresImportéEvent,
-  applyTypeGarantiesFinancièresImporté,
-  importerType,
-} from './importer/importerTypeGarantiesFinancières.behavior';
-import {
-  GarantiesFinancièresModifiéesEvent,
-  applyModifierGarantiesFinancières,
-  modifier,
-} from './modifier/modifierGarantiesFinancières.behavior';
-import {
-  AttestationGarantiesFinancièresEnregistréeEvent,
-  applyEnregistrerAttestationGarantiesFinancières,
-  enregistrerAttestation,
-} from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
-import {
-  GarantiesFinancièresEnregistréesEvent,
-  applyEnregistrerGarantiesFinancières,
-  enregistrer,
-} from './enregistrer/enregistrerGarantiesFinancières.behavior';
+} from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
 import {
   HistoriqueGarantiesFinancièresEffacéEvent,
   applyEffacerHistoriqueGarantiesFinancières,
   effacerHistorique,
 } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.behavior';
+import {
+  applyTypeGarantiesFinancièresImporté,
+  importerType,
+} from './garantiesFinancièresActuelles/importer/importerTypeGarantiesFinancières.behavior';
+import {
+  enregistrer,
+  applyEnregistrerGarantiesFinancières,
+} from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.behavior';
+import {
+  applyModifierGarantiesFinancières,
+  modifier,
+} from './garantiesFinancièresActuelles/modifier/modifierGarantiesFinancières.behavior';
+import {
+  enregistrerAttestation,
+  applyEnregistrerAttestationGarantiesFinancières,
+} from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
 
 export type GarantiesFinancièresEvent =
   | DépôtGarantiesFinancièresSoumisEvent
@@ -83,14 +82,13 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     validéLe?: DateTime.ValueType;
     importéLe?: DateTime.ValueType;
   };
-  dépôts?: Array<{
-    statut: StatutDépôtGarantiesFinancières.ValueType;
+  dépôtsEnCours?: {
     type: TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
     dateConstitution: DateTime.ValueType;
     soumisLe: DateTime.ValueType;
     attestation?: { format: string };
-  }>;
+  };
   motifDemandeGarantiesFinancières: MotifDemandeGarantiesFinancières.ValueType;
   dateLimiteSoumission?: DateTime.ValueType;
   readonly soumettreDépôt: typeof soumettreDépôt;

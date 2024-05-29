@@ -26,9 +26,9 @@ Alors(
 
     // ASSERT ON READ MODEL
     await waitForExpect(async () => {
-      const actualReadModel = await getGarantiesFinancières(identifiantProjet);
+      const actualReadModel = await getDépôtEnCoursGarantiesFinancières(identifiantProjet);
 
-      const dépôtEnCours = actualReadModel.dépôts.find((dépôt) => dépôt.statut.estEnCours());
+      const dépôtEnCours = actualReadModel.dépôt;
 
       expect(dépôtEnCours).not.to.be.undefined;
 
@@ -69,9 +69,9 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const actualReadModel = await getGarantiesFinancières(identifiantProjet);
+      const actualReadModel = await getDépôtEnCoursGarantiesFinancières(identifiantProjet);
 
-      const dépôtEnCours = actualReadModel.dépôts.find((dépôt) => dépôt.statut.estEnCours());
+      const dépôtEnCours = actualReadModel.dépôt;
       expect(dépôtEnCours).to.be.undefined;
     });
   },
@@ -96,34 +96,40 @@ Alors(
     await waitForExpect(async () => {
       const actualReadModel = await getGarantiesFinancières(identifiantProjet);
 
-      expect(actualReadModel.actuelles).not.to.be.undefined;
-      expect(actualReadModel.actuelles?.type.type).to.deep.equal(typeGarantiesFinancières);
+      expect(actualReadModel.garantiesFinancières).not.to.be.undefined;
+      expect(actualReadModel.garantiesFinancières?.type.type).to.deep.equal(
+        typeGarantiesFinancières,
+      );
       if (dateÉchéance) {
-        expect(actualReadModel.actuelles?.dateÉchéance?.date).to.deep.equal(new Date(dateÉchéance));
+        expect(actualReadModel.garantiesFinancières?.dateÉchéance?.date).to.deep.equal(
+          new Date(dateÉchéance),
+        );
       }
       if (dateConstitution) {
-        expect(actualReadModel.actuelles?.dateConstitution?.date).to.deep.equal(
+        expect(actualReadModel.garantiesFinancières?.dateConstitution?.date).to.deep.equal(
           new Date(dateConstitution),
         );
       }
       if (dateMiseÀJour) {
-        expect(actualReadModel.actuelles?.dernièreMiseÀJour.date.date).to.deep.equal(
+        expect(actualReadModel.garantiesFinancières?.dernièreMiseÀJour.date.date).to.deep.equal(
           new Date(dateMiseÀJour),
         );
       }
       if (dateValidation) {
-        expect(actualReadModel.actuelles?.validéLe?.date).to.deep.equal(new Date(dateValidation));
+        expect(actualReadModel.garantiesFinancières?.validéLe?.date).to.deep.equal(
+          new Date(dateValidation),
+        );
       }
 
       // ASSERT ON FILE
       if (format && contenu) {
-        expect(actualReadModel.actuelles?.attestation).not.to.be.undefined;
+        expect(actualReadModel.garantiesFinancières?.attestation).not.to.be.undefined;
 
-        if (actualReadModel.actuelles?.attestation) {
+        if (actualReadModel.garantiesFinancières?.attestation) {
           const file = await mediator.send<ConsulterDocumentProjetQuery>({
             type: 'Document.Query.ConsulterDocumentProjet',
             data: {
-              documentKey: actualReadModel.actuelles?.attestation.formatter(),
+              documentKey: actualReadModel.garantiesFinancières?.attestation.formatter(),
             },
           });
 
@@ -141,7 +147,7 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const actualReadModel =
+      const actualGarantiesFinancièresReadModel =
         await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
           data: {
@@ -149,7 +155,16 @@ Alors(
           },
         });
 
-      expect(actualReadModel).to.deep.equal(Option.none);
+      const actualDépôtGarantiesFinancièresReadModel =
+        await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
+
+      expect(actualGarantiesFinancièresReadModel).to.deep.equal(Option.none);
+      expect(actualDépôtGarantiesFinancièresReadModel).to.deep.equal(Option.none);
     });
   },
 );
@@ -200,7 +215,7 @@ Alors(
 
 Alors(
   `les garanties financières à traiter du projet {string} ne devraient plus être consultable dans la liste des garanties financières à traiter`,
-  async function (this: PotentielWorld, nomProjet: string) {
+  async function (this: PotentielWorld) {
     await waitForExpect(async () => {
       const actualReadModel =
         await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
@@ -251,6 +266,26 @@ const getGarantiesFinancières = async (identifiantProjet: IdentifiantProjet.Val
   if (Option.isNone(actualReadModel)) {
     throw new Error(
       `Le read model des garanties financières du projet ${identifiantProjet.formatter()} n'existe pas`,
+    );
+  }
+
+  return actualReadModel;
+};
+
+const getDépôtEnCoursGarantiesFinancières = async (
+  identifiantProjet: IdentifiantProjet.ValueType,
+) => {
+  const actualReadModel =
+    await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
+      type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+      },
+    });
+
+  if (Option.isNone(actualReadModel)) {
+    throw new Error(
+      `Le read model du dépôt en cours de garanties financières du projet ${identifiantProjet.formatter()} n'existe pas`,
     );
   }
 

@@ -49,16 +49,23 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
       }
 
-      const garantiesFinancières =
+      const garantiesFinancièresActuelles =
         await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: { identifiantProjetValue: identifiantProjet },
+        });
+
+      const dépôtEnCoursGarantiesFinancières =
+        await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
           data: { identifiantProjetValue: identifiantProjet },
         });
 
       const props = mapToProps({
         projet,
         utilisateur,
-        garantiesFinancières,
+        garantiesFinancièresActuelles,
+        dépôtEnCoursGarantiesFinancières,
       });
 
       return <DétailsGarantiesFinancièresPage {...props} />;
@@ -69,14 +76,19 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 type MapToProps = (args: {
   projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
   utilisateur: Utilisateur.ValueType;
-  garantiesFinancières: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
+  garantiesFinancièresActuelles: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
+  dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
 }) => DétailsGarantiesFinancièresPageProps;
 
-const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) => {
+const mapToProps: MapToProps = ({
+  projet,
+  utilisateur,
+  garantiesFinancièresActuelles,
+  dépôtEnCoursGarantiesFinancières,
+}) => {
   if (
-    Option.isNone(garantiesFinancières) ||
-    (!garantiesFinancières.actuelles &&
-      !garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours()))
+    Option.isNone(garantiesFinancièresActuelles) &&
+    Option.isNone(dépôtEnCoursGarantiesFinancières)
   ) {
     return {
       projet,
@@ -89,26 +101,10 @@ const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) 
           utilisateur.role.estÉgaleÀ(Role.acheteurObligé)
         ? 'enregistrer'
         : undefined,
-      historiqueDépôts: Option.isSome(garantiesFinancières)
-        ? garantiesFinancières.dépôts.map((dépôt) => ({
-            type: getGarantiesFinancièresTypeLabel(dépôt.type.type),
-            dateÉchéance: dépôt.dateÉchéance?.formatter(),
-            dateConstitution: dépôt.dateConstitution.formatter(),
-            soumisLe: dépôt.soumisLe.formatter(),
-            statut: dépôt.statut.statut,
-            dernièreMiseÀJour: {
-              date: dépôt.dernièreMiseÀJour.date.formatter(),
-              par: dépôt.dernièreMiseÀJour.par.formatter(),
-            },
-            attestation: dépôt.attestation.formatter(),
-          }))
-        : [],
     };
   }
 
-  const dépôtEnCours = garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours());
   const dépôtEnCoursActions: GarantiesFinancièresDépôtEnCoursProps['dépôt']['actions'] = [];
-
   if (utilisateur.role.estÉgaleÀ(Role.admin)) {
     dépôtEnCoursActions.push('modifier');
   } else if (utilisateur.role.estÉgaleÀ(Role.dreal)) {
@@ -119,22 +115,26 @@ const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) 
 
   return {
     projet,
-    actuelles: garantiesFinancières.actuelles
+    actuelles: Option.isSome(garantiesFinancièresActuelles)
       ? {
-          type: getGarantiesFinancièresTypeLabel(garantiesFinancières.actuelles.type.type),
-          dateÉchéance: garantiesFinancières.actuelles.dateÉchéance?.formatter(),
-          dateConstitution: garantiesFinancières.actuelles.dateConstitution?.formatter(),
-          soumisLe: garantiesFinancières.actuelles.soumisLe?.formatter(),
-          validéLe: garantiesFinancières.actuelles.validéLe?.formatter(),
-          attestation: garantiesFinancières.actuelles.attestation?.formatter(),
+          type: getGarantiesFinancièresTypeLabel(
+            garantiesFinancièresActuelles.garantiesFinancières.type.type,
+          ),
+          dateÉchéance:
+            garantiesFinancièresActuelles.garantiesFinancières.dateÉchéance?.formatter(),
+          dateConstitution:
+            garantiesFinancièresActuelles.garantiesFinancières.dateConstitution?.formatter(),
+          soumisLe: garantiesFinancièresActuelles.garantiesFinancières.soumisLe?.formatter(),
+          validéLe: garantiesFinancièresActuelles.garantiesFinancières.validéLe?.formatter(),
+          attestation: garantiesFinancièresActuelles.garantiesFinancières.attestation?.formatter(),
           dernièreMiseÀJour: {
-            date: garantiesFinancières.actuelles.dernièreMiseÀJour.date.formatter(),
-            par: garantiesFinancières.actuelles.dernièreMiseÀJour.par?.formatter(),
+            date: garantiesFinancièresActuelles.garantiesFinancières.dernièreMiseÀJour.date.formatter(),
+            par: garantiesFinancièresActuelles.garantiesFinancières.dernièreMiseÀJour.par?.formatter(),
           },
           action:
             utilisateur.role.estÉgaleÀ(Role.porteur) &&
-            (!garantiesFinancières.actuelles.attestation ||
-              !garantiesFinancières.actuelles.dateConstitution)
+            (!garantiesFinancièresActuelles.garantiesFinancières.attestation ||
+              !garantiesFinancièresActuelles.garantiesFinancières.dateConstitution)
               ? 'enregister-attestation'
               : utilisateur.role.estÉgaleÀ(Role.dreal) ||
                 utilisateur.role.estÉgaleÀ(Role.admin) ||
@@ -143,35 +143,23 @@ const mapToProps: MapToProps = ({ projet, utilisateur, garantiesFinancières }) 
               : undefined,
         }
       : undefined,
-    dépôtEnCours: dépôtEnCours
+    dépôtEnCours: Option.isSome(dépôtEnCoursGarantiesFinancières)
       ? {
-          type: getGarantiesFinancièresTypeLabel(dépôtEnCours.type.type),
-          dateÉchéance: dépôtEnCours.dateÉchéance?.formatter(),
-          dateConstitution: dépôtEnCours.dateConstitution.formatter(),
-          soumisLe: dépôtEnCours.soumisLe.formatter(),
-          statut: dépôtEnCours.statut.statut,
+          type: getGarantiesFinancièresTypeLabel(dépôtEnCoursGarantiesFinancières.dépôt.type.type),
+          dateÉchéance: dépôtEnCoursGarantiesFinancières.dépôt.dateÉchéance?.formatter(),
+          dateConstitution: dépôtEnCoursGarantiesFinancières.dépôt.dateConstitution.formatter(),
+          soumisLe: dépôtEnCoursGarantiesFinancières.dépôt.soumisLe.formatter(),
           dernièreMiseÀJour: {
-            date: dépôtEnCours.dernièreMiseÀJour.date.formatter(),
-            par: dépôtEnCours.dernièreMiseÀJour.par.formatter(),
+            date: dépôtEnCoursGarantiesFinancières.dépôt.dernièreMiseÀJour.date.formatter(),
+            par: dépôtEnCoursGarantiesFinancières.dépôt.dernièreMiseÀJour.par.formatter(),
           },
-          attestation: dépôtEnCours.attestation.formatter(),
+          attestation: dépôtEnCoursGarantiesFinancières.dépôt.attestation.formatter(),
           actions: dépôtEnCoursActions,
         }
       : undefined,
-    historiqueDépôts: garantiesFinancières.dépôts
-      .filter((dépôt) => !dépôt.statut.estEnCours())
-      .map((dépôt) => ({
-        type: getGarantiesFinancièresTypeLabel(dépôt.type.type),
-        dateÉchéance: dépôt.dateÉchéance?.formatter(),
-        dateConstitution: dépôt.dateConstitution.formatter(),
-        soumisLe: dépôt.soumisLe.formatter(),
-        statut: dépôt.statut.statut,
-        dernièreMiseÀJour: {
-          date: dépôt.dernièreMiseÀJour.date.formatter(),
-          par: dépôt.dernièreMiseÀJour.par.formatter(),
-        },
-        attestation: dépôt.attestation.formatter(),
-      })),
-    action: utilisateur.role.estÉgaleÀ(Role.porteur) && !dépôtEnCours ? 'soumettre' : undefined,
+    action:
+      Option.isNone(dépôtEnCoursGarantiesFinancières) && utilisateur.role.estÉgaleÀ(Role.porteur)
+        ? 'soumettre'
+        : undefined,
   };
 };

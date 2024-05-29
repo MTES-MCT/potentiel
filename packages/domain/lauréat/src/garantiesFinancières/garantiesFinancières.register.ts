@@ -2,41 +2,48 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import {
   ConsulterGarantiesFinancièresDependencies,
   registerConsulterGarantiesFinancièresQuery,
-} from './consulter/consulterGarantiesFinancières.query';
-import { registerDépôtSoumettreGarantiesFinancièresCommand } from './dépôt/soumettreDépôt/soumettreDépôtGarantiesFinancières.command';
+} from './garantiesFinancièresActuelles/consulter/consulterGarantiesFinancières.query';
+import { registerDépôtSoumettreGarantiesFinancièresCommand } from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.command';
 import { registerDemanderGarantiesFinancièresCommand } from './demander/demanderGarantiesFinancières.command';
-import { registerSoumettreDépôtGarantiesFinancièresUseCase } from './dépôt/soumettreDépôt/soumettreDépôtGarantiesFinancières.usecase';
+import { registerSoumettreDépôtGarantiesFinancièresUseCase } from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.usecase';
 import { registerDemanderGarantiesFinancièresUseCase } from './demander/demanderGarantiesFinancières.usecase';
-import { registerSupprimerDépôtGarantiesFinancièresEnCoursCommand } from './dépôt/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.command';
-import { registerSupprimerGarantiesFinancièresÀTraiterUseCase } from './dépôt/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.usecase';
-import { registerValiderDépôtGarantiesFinancièresEnCoursCommand } from './dépôt/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.command';
-import { registerValiderDépôtGarantiesFinancièresEnCoursUseCase } from './dépôt/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.usecase';
-import { registerModifierDépôtGarantiesFinancièresEnCoursUseCase } from './dépôt/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.usecase';
-import { registerModifierDépôtGarantiesFinancièresEnCoursCommand } from './dépôt/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.command';
-import { registerImporterTypeGarantiesFinancièresCommand } from './importer/importerTypeGarantiesFinancières.command';
-import { registerImporterTypeGarantiesFinancièresUseCase } from './importer/importerTypeGarantiesFinancières.usecase';
-import { registerModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase';
-import { registerModifierGarantiesFinancièresCommand } from './modifier/modifierGarantiesFinancières.command';
-import { registerEnregistrerAttestationGarantiesFinancièresCommand } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.command';
-import { registerEnregistrerAttestationGarantiesFinancièresUseCase } from './enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
-import { registerEnregistrerGarantiesFinancièresUseCase } from './enregistrer/enregistrerGarantiesFinancières.usecase';
-import { registerEnregistrerGarantiesFinancièresCommand } from './enregistrer/enregistrerGarantiesFinancières.command';
+import { registerSupprimerDépôtGarantiesFinancièresEnCoursCommand } from './dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.command';
+import { registerSupprimerGarantiesFinancièresÀTraiterUseCase } from './dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.usecase';
+import { registerValiderDépôtGarantiesFinancièresEnCoursCommand } from './dépôtEnCours/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.command';
+import { registerValiderDépôtGarantiesFinancièresEnCoursUseCase } from './dépôtEnCours/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.usecase';
+import { registerModifierDépôtGarantiesFinancièresEnCoursUseCase } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.usecase';
+import { registerModifierDépôtGarantiesFinancièresEnCoursCommand } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.command';
+
 import {
   ListerDépôtsEnCoursGarantiesFinancièresDependencies,
   registerListerDépôtsEnCoursGarantiesFinancièresQuery,
-} from './dépôt/lister/listerDépôtsEnCoursGarantiesFinancières.query';
+} from './dépôtEnCours/lister/listerDépôtsEnCoursGarantiesFinancières.query';
 import { registerEffacerHistoriqueGarantiesFinancièresCommand } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.command';
 import { registerEffacerHistoriqueGarantiesFinancièresUseCase } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.usecase';
-import { registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery } from './enAttente/lister/listerProjetsAvecGarantiesFinancièresEnAttente.query';
-import { registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery } from './enAttente/consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
+import { registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery } from './projetEnAttenteDeGarantiesFinancières/lister/listerProjetsAvecGarantiesFinancièresEnAttente.query';
+import { registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery } from './projetEnAttenteDeGarantiesFinancières/consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
+
+import {
+  ConsulterDépôtEnCoursGarantiesFinancièresDependencies,
+  registerConsulterDépôtEnCoursGarantiesFinancièresQuery,
+} from './dépôtEnCours/consulter/consulterDépôtEnCoursGarantiesFinancières.query';
 import {
   GénérerModèleMiseEnDemeureGarantiesFinancièresDependencies,
   registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery,
-} from './générerModèleMiseEnDemeure/générerModèleMiseEnDemeure.query';
+} from './projetEnAttenteDeGarantiesFinancières/générerModèleMiseEnDemeure/générerModèleMiseEnDemeure.query';
+import { registerEnregistrerGarantiesFinancièresCommand } from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.command';
+import { registerEnregistrerGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.usecase';
+import { registerEnregistrerAttestationGarantiesFinancièresCommand } from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.command';
+import { registerEnregistrerAttestationGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
+import { registerImporterTypeGarantiesFinancièresCommand } from './garantiesFinancièresActuelles/importer/importerTypeGarantiesFinancières.command';
+import { registerImporterTypeGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/importer/importerTypeGarantiesFinancières.usecase';
+import { registerModifierGarantiesFinancièresCommand } from './garantiesFinancièresActuelles/modifier/modifierGarantiesFinancières.command';
+import { registerModifierGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/modifier/modifierGarantiesFinancières.usecase';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerDépôtsEnCoursGarantiesFinancièresDependencies &
-  GénérerModèleMiseEnDemeureGarantiesFinancièresDependencies;
+  GénérerModèleMiseEnDemeureGarantiesFinancièresDependencies &
+  ConsulterDépôtEnCoursGarantiesFinancièresDependencies;
 
 export type GarantiesFinancièresCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -76,4 +83,5 @@ export const registerGarantiesFinancièresQueries = (
   registerListerDépôtsEnCoursGarantiesFinancièresQuery(dependencies);
   registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery(dependencies);
   registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery(dependencies);
+  registerConsulterDépôtEnCoursGarantiesFinancièresQuery(dependencies);
 };

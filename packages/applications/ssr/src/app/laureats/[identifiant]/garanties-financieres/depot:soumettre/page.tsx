@@ -48,17 +48,13 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
     };
 
-    const garantiesFinancières =
-      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+    const dépôtGarantiesFinancières =
+      await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
         data: { identifiantProjetValue: identifiantProjet },
       });
 
-    const hasDépotEnCours =
-      Option.isSome(garantiesFinancières) &&
-      garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours());
-
-    return hasDépotEnCours ? (
+    return Option.isSome(dépôtGarantiesFinancières) ? (
       <ProjetADéjàUnDépôtEnCoursPage projet={projet} />
     ) : (
       <SoumettreGarantiesFinancièresPage {...props} />

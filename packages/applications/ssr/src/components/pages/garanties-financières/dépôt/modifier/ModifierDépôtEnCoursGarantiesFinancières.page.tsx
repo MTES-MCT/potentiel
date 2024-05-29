@@ -7,8 +7,6 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
-import { TypeGarantiesFinancièresSelectProps } from '../../TypeGarantiesFinancièresSelect';
-import { DépôtGarantiesFinancières } from '../../détails/components/GarantiesFinancièresHistoriqueDépôts';
 import {
   FormulaireGarantiesFinancières,
   FormulaireGarantiesFinancièresProps,
@@ -19,7 +17,7 @@ import { modifierDépôtEnCoursGarantiesFinancièresAction } from './modifierDé
 export type ModifierDépôtEnCoursGarantiesFinancièresProps = {
   projet: ProjetBannerProps;
   typesGarantiesFinancières: FormulaireGarantiesFinancièresProps['typesGarantiesFinancières'];
-  dépôtEnCours: DépôtGarantiesFinancières;
+  dépôtEnCours: FormulaireGarantiesFinancièresProps['defaultValues'];
   showWarning?: true;
 };
 
@@ -39,14 +37,7 @@ export const ModifierDépôtEnCoursGarantiesFinancièresPage: FC<
             action={modifierDépôtEnCoursGarantiesFinancièresAction}
             submitButtonLabel="Modifier"
             typesGarantiesFinancières={typesGarantiesFinancières}
-            defaultValues={{
-              typeGarantiesFinancières:
-                dépôtEnCours.type as TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel'],
-              dateÉchéance:
-                dépôtEnCours.type === 'avec-date-échéance' ? dépôtEnCours.dateÉchéance : undefined,
-              dateConstitution: dépôtEnCours.dateConstitution,
-              attestation: dépôtEnCours.attestation,
-            }}
+            defaultValues={dépôtEnCours}
           />
         </>
       ),

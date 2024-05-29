@@ -1,8 +1,6 @@
-import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -13,7 +11,6 @@ export type ListItemDépôtEnCoursGarantiesFinancièresProps = {
   appelOffre: string;
   période: string;
   famille?: string;
-  statut: GarantiesFinancières.StatutDépôtGarantiesFinancières.RawType;
   type: string;
   dateÉchéance?: Iso8601DateTime;
   misÀJourLe: Iso8601DateTime;
@@ -28,7 +25,6 @@ export const ListItemDépôtEnCoursGarantiesFinancières: FC<
   appelOffre,
   période,
   famille,
-  statut,
   misÀJourLe,
   type,
   dateÉchéance,
@@ -39,9 +35,6 @@ export const ListItemDépôtEnCoursGarantiesFinancières: FC<
       <div className="flex flex-col gap-1">
         <h2 className="leading-4">
           Garanties financières du projet <span className="font-bold mr-3">{nomProjet}</span>{' '}
-          <Badge noIcon severity={'new'} small={true}>
-            {statut}
-          </Badge>
         </h2>
         <div className="flex flex-col md:flex-row gap-2 md:gap-0 italic text-xs">
           <div>
@@ -88,7 +81,7 @@ export const ListItemDépôtEnCoursGarantiesFinancières: FC<
       <a
         href={Routes.GarantiesFinancières.détail(identifiantProjet)}
         className="self-end mt-2"
-        aria-label={`voir le détail des garanties financières en statut ${statut} pour le projet ${nomProjet}`}
+        aria-label={`voir le détail des garanties financières à traiter pour le projet ${nomProjet}`}
       >
         voir le détail
       </a>

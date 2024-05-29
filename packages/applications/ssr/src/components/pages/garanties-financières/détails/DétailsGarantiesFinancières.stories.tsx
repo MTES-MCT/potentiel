@@ -53,31 +53,6 @@ export const GarantiesFinancieresActuellesComplètes: Story = {
         par: 'DREAL#1',
       },
     },
-    historiqueDépôts: [
-      {
-        type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
-        attestation: 'path/to/attestation.pdf',
-        statut: 'validé',
-        dateÉchéance: new Date('2023-07-01').toISOString() as Iso8601DateTime,
-        dateConstitution: new Date('2022-10-01').toISOString() as Iso8601DateTime,
-        soumisLe: new Date('2022-10-01').toISOString() as Iso8601DateTime,
-        dernièreMiseÀJour: {
-          date: new Date('2022-11-01').toISOString() as Iso8601DateTime,
-          par: 'DREAL#1',
-        },
-      },
-      {
-        type: getGarantiesFinancièresTypeLabel('consignation'),
-        dateConstitution: new Date('2021-01-01').toISOString() as Iso8601DateTime,
-        attestation: 'path/to/attestation.pdf',
-        statut: 'rejeté',
-        soumisLe: new Date('2021-02-01').toISOString() as Iso8601DateTime,
-        dernièreMiseÀJour: {
-          date: new Date('2021-02-15').toISOString() as Iso8601DateTime,
-          par: 'DREAL#1',
-        },
-      },
-    ],
   },
 };
 
@@ -101,39 +76,12 @@ export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = 
       type: getGarantiesFinancièresTypeLabel('consignation'),
       dateConstitution: new Date('2024-01-01').toISOString() as Iso8601DateTime,
       attestation: 'path/to/attestation.pdf',
-      statut: 'en-cours',
-      soumisLe: new Date('2021-09-23').toISOString() as Iso8601DateTime,
       dernièreMiseÀJour: {
         date: new Date('2024-01-01').toISOString() as Iso8601DateTime,
         par: 'PORTEUR#1',
       },
       actions: ['modifier'],
     },
-    historiqueDépôts: [
-      {
-        type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
-        attestation: 'path/to/attestation.pdf',
-        statut: 'validé',
-        dateÉchéance: new Date('2023-07-01').toISOString() as Iso8601DateTime,
-        dateConstitution: new Date('2022-10-01').toISOString() as Iso8601DateTime,
-        soumisLe: new Date('2022-10-01').toISOString() as Iso8601DateTime,
-        dernièreMiseÀJour: {
-          date: new Date('2022-11-01').toISOString() as Iso8601DateTime,
-          par: 'DREAL#1',
-        },
-      },
-      {
-        type: getGarantiesFinancièresTypeLabel('consignation'),
-        dateConstitution: new Date('2021-01-01').toISOString() as Iso8601DateTime,
-        attestation: 'path/to/attestation.pdf',
-        statut: 'rejeté',
-        soumisLe: new Date('2021-02-01').toISOString() as Iso8601DateTime,
-        dernièreMiseÀJour: {
-          date: new Date('2021-02-15').toISOString() as Iso8601DateTime,
-          par: 'DREAL#1',
-        },
-      },
-    ],
   },
 };
 
@@ -152,7 +100,6 @@ export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
         par: 'PORTEUR#1',
       },
     },
-    historiqueDépôts: [],
   },
 };
 
@@ -163,22 +110,18 @@ export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
       type: getGarantiesFinancièresTypeLabel('consignation'),
       dateConstitution: new Date('2024-01-01').toISOString() as Iso8601DateTime,
       attestation: 'path/to/attestation.pdf',
-      statut: 'en-cours',
-      soumisLe: new Date('2021-09-23').toISOString() as Iso8601DateTime,
       dernièreMiseÀJour: {
         date: new Date('2024-01-01').toISOString() as Iso8601DateTime,
         par: 'PORTEUR#1',
       },
       actions: ['modifier'],
     },
-    historiqueDépôts: [],
   },
 };
 
 export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
   args: {
     projet,
-    historiqueDépôts: [],
     action: 'soumettre',
   },
 };
@@ -186,7 +129,6 @@ export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
 export const GarantiesFinancieresVideAvecActionEnregistrer: Story = {
   args: {
     projet,
-    historiqueDépôts: [],
     action: 'enregistrer',
   },
 };
