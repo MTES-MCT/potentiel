@@ -88,9 +88,7 @@ registerRéseauQueries({
         });
 
         getLogger().info(
-          `✅ Gestionnaire ${gestionnaire.identifiantGestionnaireRéseau.formatter()} attribué au projet ${
-            projet.identifiantProjet
-          }`,
+          `✅ Gestionnaire ${gestionnaire.raisonSociale} attribué au projet ${projet.identifiantProjet}`,
         );
       } catch (error) {
         getLogger().error(error as Error);
