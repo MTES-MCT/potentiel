@@ -325,7 +325,7 @@ Quand(
 
     try {
       await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
+        type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',
         data: {
           identifiantGestionnaireRéseauValue: codeEIC,
           identifiantProjetValue: identifiantProjet.formatter(),

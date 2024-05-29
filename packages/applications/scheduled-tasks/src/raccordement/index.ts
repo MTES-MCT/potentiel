@@ -13,7 +13,7 @@ import {
   listProjection,
   listProjectionV2,
 } from '@potentiel-infrastructure/pg-projections';
-import { getGRDByCity } from '@potentiel-infrastructure/ore-client';
+import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 import { Option } from '@potentiel-libraries/monads';
 
 registerRéseauUseCases({
@@ -30,7 +30,7 @@ registerRéseauQueries({
   getLogger().info('Lancement du script...');
 
   try {
-    const classéProjects = await listerProjetForOreAdapter();
+    const projetsClassé = await listerProjetForOreAdapter();
 
     const raccordements = await mediator.send<Raccordement.ListerRaccordementQuery>({
       type: 'Réseau.Raccordement.Query.ListerRaccordement',
@@ -39,28 +39,26 @@ registerRéseauQueries({
       },
     });
 
-    const raccordementsProjectsIds = raccordements.items.map((raccordement) =>
+    const raccordementsProjetsIds = raccordements.items.map((raccordement) =>
       raccordement.identifiantProjet.formatter(),
     );
 
-    const projectsWithNoAttributedGestionnaire = classéProjects.filter(
-      (projet) => !raccordementsProjectsIds.includes(projet.identifiantProjet),
+    const projetsSansGestionnaire = projetsClassé.filter(
+      (projet) => !raccordementsProjetsIds.includes(projet.identifiantProjet),
     );
 
-    getLogger().info(
-      `${projectsWithNoAttributedGestionnaire.length} projets sans gestionnaire ou raccordement`,
-    );
+    getLogger().info(`${projetsSansGestionnaire.length} projets sans gestionnaire ou raccordement`);
 
-    let projectsWithNoOreGestionnaireFoundCount = 0;
+    let projetsSansGestionnaireTrouvé = 0;
 
-    for (const projet of projectsWithNoAttributedGestionnaire) {
-      const gestionnaireByCity = await getGRDByCity({
+    for (const projet of projetsSansGestionnaire) {
+      const gestionnaireParVille = await récupérerGRDParVille({
         codePostal: projet.localité.codePostal,
         commune: projet.localité.commune,
       });
 
-      if (Option.isNone(gestionnaireByCity)) {
-        projectsWithNoOreGestionnaireFoundCount++;
+      if (Option.isNone(gestionnaireParVille)) {
+        projetsSansGestionnaireTrouvé++;
         continue;
       }
 
@@ -68,7 +66,7 @@ registerRéseauQueries({
         {
           type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
           data: {
-            identifiantGestionnaireRéseau: gestionnaireByCity.codeEIC,
+            identifiantGestionnaireRéseau: gestionnaireParVille.codeEIC,
           },
         },
       );
@@ -79,7 +77,7 @@ registerRéseauQueries({
 
       try {
         await mediator.send<Raccordement.RaccordementUseCase>({
-          type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseauAuRaccordement',
+          type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',
           data: {
             identifiantGestionnaireRéseauValue:
               gestionnaire.identifiantGestionnaireRéseau.formatter(),
@@ -96,12 +94,12 @@ registerRéseauQueries({
       }
     }
 
-    const notFoundinPercent = Math.round(
-      (projectsWithNoOreGestionnaireFoundCount / projectsWithNoAttributedGestionnaire.length) * 100,
+    const pourcentageProjetsNonTrouvés = Math.round(
+      (projetsSansGestionnaireTrouvé / projetsSansGestionnaire.length) * 100,
     );
 
     getLogger().info(
-      `Sur ${projectsWithNoAttributedGestionnaire.length} projets classés sans raccordement, nous n'avons pas pu attribuer de GRD à ${notFoundinPercent} % d'entre eux`,
+      `Sur ${projetsSansGestionnaire.length} projets classés sans raccordement, nous n'avons pas pu attribuer de GRD à ${pourcentageProjetsNonTrouvés} % d'entre eux`,
     );
     getLogger().info('Fin du script ✨');
 

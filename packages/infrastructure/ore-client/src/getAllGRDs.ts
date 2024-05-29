@@ -1,6 +1,6 @@
 import { get } from '@potentiel-libraries/http-client';
 import zod from 'zod';
-import { ORE_API_LIMIT_IN_STRING, OreEndpoint } from './constant';
+import { OREApiLimitInString, OreEndpoint } from './constant';
 
 const schema = zod.object({
   total_count: zod.number(),
@@ -20,11 +20,12 @@ type OreGestionnaireSlice = {
   totalCount: number;
 };
 
-const getGRDsSlice = async (offset: string): Promise<OreGestionnaireSlice> => {
+const récupérerGRDParTranche = async (offset: string): Promise<OreGestionnaireSlice> => {
   const searchParams = new URLSearchParams();
   searchParams.append('where', 'energie:"Électricité" and grd is not null');
   searchParams.append('select', 'grd, eic, contact');
-  searchParams.append('limit', ORE_API_LIMIT_IN_STRING);
+
+  searchParams.append('limit', OREApiLimitInString);
   searchParams.append('offset', offset);
 
   const url = new URL(
@@ -41,15 +42,18 @@ const getGRDsSlice = async (offset: string): Promise<OreGestionnaireSlice> => {
   };
 };
 
-export const getAllGRDs = async (
+export const récupérerToutLesGRD = async (
   offset: number = 0,
   gestionnaires: Array<OreGestionnaire> = [],
 ): Promise<Array<OreGestionnaire>> => {
-  const gestionnaireSlice = await getGRDsSlice(offset.toString());
+  const gestionnaireSlice = await récupérerGRDParTranche(offset.toString());
   const updatedGestionnaires = gestionnaires.concat(gestionnaireSlice.gestionnaires);
 
   if (updatedGestionnaires.length < gestionnaireSlice.totalCount) {
-    return getAllGRDs(offset + gestionnaireSlice.gestionnaires.length, updatedGestionnaires);
+    return récupérerToutLesGRD(
+      offset + gestionnaireSlice.gestionnaires.length,
+      updatedGestionnaires,
+    );
   }
 
   return updatedGestionnaires;

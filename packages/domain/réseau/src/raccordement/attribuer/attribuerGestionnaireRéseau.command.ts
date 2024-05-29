@@ -5,20 +5,18 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import * as IdentifiantGestionnaireRéseau from '../../gestionnaire/identifiantGestionnaireRéseau.valueType';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 
-export type AttribuerGestionnaireRéseauAuRaccordementCommand = Message<
-  'Réseau.Raccordement.Command.AttribuerGestionnaireRéseauAuRaccordement',
+export type AttribuerGestionnaireRéseauCommand = Message<
+  'Réseau.Raccordement.Command.AttribuerGestionnaireRéseau',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
   }
 >;
 
-export const registerAttribuerGestionnaireAuRaccordementCommand = (
-  loadAggregate: LoadAggregate,
-) => {
+export const registerAttribuerGestionnaireCommand = (loadAggregate: LoadAggregate) => {
   const loadRaccordement = loadRaccordementAggregateFactory(loadAggregate);
 
-  const handler: MessageHandler<AttribuerGestionnaireRéseauAuRaccordementCommand> = async ({
+  const handler: MessageHandler<AttribuerGestionnaireRéseauCommand> = async ({
     identifiantGestionnaireRéseau,
     identifiantProjet,
   }) => {
@@ -30,8 +28,5 @@ export const registerAttribuerGestionnaireAuRaccordementCommand = (
     });
   };
 
-  mediator.register(
-    'Réseau.Raccordement.Command.AttribuerGestionnaireRéseauAuRaccordement',
-    handler,
-  );
+  mediator.register('Réseau.Raccordement.Command.AttribuerGestionnaireRéseau', handler);
 };

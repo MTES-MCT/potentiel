@@ -35,8 +35,8 @@ import {
   registerListerRaccordementQuery,
   ListerRaccordementQueryDependencies,
 } from './lister/listerRaccordement.query';
-import { registerAttribuerGestionnaireRéseauAuRaccordementUseCase } from './attribuerGestionnaireRéseauAuRaccordement/attribuerGestionnaireRéseauAuRaccordement.usecase';
-import { registerAttribuerGestionnaireAuRaccordementCommand } from './attribuerGestionnaireRéseauAuRaccordement/attribuerGestionnaireRéseauAuRaccordement.command';
+import { registerAttribuerGestionnaireRéseauUseCase } from './attribuer/attribuerGestionnaireRéseau.usecase';
+import { registerAttribuerGestionnaireCommand } from './attribuer/attribuerGestionnaireRéseau.command';
 
 export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
   ConsulterGestionnaireRéseauRaccordementDependencies &
@@ -66,7 +66,7 @@ export const registerRaccordementUseCases = ({
   registerTransmettreDateMiseEnServiceCommand(loadAggregate);
   registerTransmettreDemandeComplèteRaccordementCommand(loadAggregate);
   registerTransmettrePropositionTechniqueEtFinancièreCommand(loadAggregate);
-  registerAttribuerGestionnaireAuRaccordementCommand(loadAggregate);
+  registerAttribuerGestionnaireCommand(loadAggregate);
 
   registerModifierDemandeComplèteRaccordementUseCase();
   registerModifierGestionnaireRéseauRaccordementUseCase();
@@ -75,5 +75,5 @@ export const registerRaccordementUseCases = ({
   registerTransmettreDateMiseEnServiceUseCase();
   registerTransmettreDemandeComplèteRaccordementUseCase();
   registerTransmettrePropositionTechniqueEtFinancièreUseCase();
-  registerAttribuerGestionnaireRéseauAuRaccordementUseCase();
+  registerAttribuerGestionnaireRéseauUseCase();
 };

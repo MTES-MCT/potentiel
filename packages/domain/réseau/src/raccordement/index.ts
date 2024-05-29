@@ -1,4 +1,4 @@
-import { AttribuerGestionnaireRéseauAuRaccordementUseCase } from './attribuerGestionnaireRéseauAuRaccordement/attribuerGestionnaireRéseauAuRaccordement.usecase';
+import { AttribuerGestionnaireRéseauUseCase } from './attribuer/attribuerGestionnaireRéseau.usecase';
 import {
   ConsulterDossierRaccordementQuery,
   ConsulterDossierRaccordementReadModel,
@@ -61,7 +61,7 @@ export type RaccordementUseCase =
   | TransmettreDateMiseEnServiceUseCase
   | TransmettreDemandeComplèteRaccordementUseCase
   | TransmettrePropositionTechniqueEtFinancièreUseCase
-  | AttribuerGestionnaireRéseauAuRaccordementUseCase;
+  | AttribuerGestionnaireRéseauUseCase;
 
 export {
   ModifierDemandeComplèteRaccordementUseCase,
@@ -71,7 +71,7 @@ export {
   TransmettreDateMiseEnServiceUseCase,
   TransmettreDemandeComplèteRaccordementUseCase,
   TransmettrePropositionTechniqueEtFinancièreUseCase,
-  AttribuerGestionnaireRéseauAuRaccordementUseCase,
+  AttribuerGestionnaireRéseauUseCase,
 };
 
 // Event
@@ -101,7 +101,7 @@ export {
   PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
   PropositionTechniqueEtFinancièreTransmiseEventV1,
 } from './transmettre/transmettrePropositionTechniqueEtFinancière.behavior';
-export { GestionnaireRéseauAttribuéAuRaccordementEvent } from './attribuerGestionnaireRéseauAuRaccordement/attribuerGestionnaireRéseauAuRaccordement.behavior';
+export { GestionnaireRéseauAttribuéEvent } from './attribuer/attribuerGestionnaireRéseau.behavior';
 
 // ValueTypes
 export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';

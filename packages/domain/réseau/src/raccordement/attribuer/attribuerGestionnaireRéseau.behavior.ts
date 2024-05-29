@@ -4,8 +4,8 @@ import { RaccordementAggregate } from '../raccordement.aggregate';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { RaccordementDéjàExistantError } from '../raccordementDéjàExistantError';
 
-export type GestionnaireRéseauAttribuéAuRaccordementEvent = DomainEvent<
-  'GestionnaireRéseauAttribuéAuRaccordement-V1',
+export type GestionnaireRéseauAttribuéEvent = DomainEvent<
+  'GestionnaireRéseauAttribué-V1',
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
@@ -29,8 +29,8 @@ export async function attribuerGestionnaireRéseau(
     throw new RaccordementDéjàExistantError(identifiantProjet);
   }
 
-  const event: GestionnaireRéseauAttribuéAuRaccordementEvent = {
-    type: 'GestionnaireRéseauAttribuéAuRaccordement-V1',
+  const event: GestionnaireRéseauAttribuéEvent = {
+    type: 'GestionnaireRéseauAttribué-V1',
     payload: {
       identifiantGestionnaireRéseau,
       identifiantProjet,
@@ -40,11 +40,11 @@ export async function attribuerGestionnaireRéseau(
   await this.publish(event);
 }
 
-export function applyAttribuerGestionnaireRéseauAuRaccordementEventV1(
+export function applyAttribuerGestionnaireRéseauEventV1(
   this: RaccordementAggregate,
   {
     payload: { identifiantGestionnaireRéseau, identifiantProjet },
-  }: GestionnaireRéseauAttribuéAuRaccordementEvent,
+  }: GestionnaireRéseauAttribuéEvent,
 ) {
   this.identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(

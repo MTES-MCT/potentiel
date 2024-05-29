@@ -30,7 +30,7 @@ export type OreGestionnaireByCity = Pick<
 
 const logger = getLogger();
 
-export const getGRDByCity = async ({
+export const récupérerGRDParVille = async ({
   codePostal,
   commune,
 }: GetGRDByCityProps): Promise<Option.Type<OreGestionnaireByCity>> => {
@@ -41,7 +41,9 @@ export const getGRDByCity = async ({
     `code_postal in ("${codePostal}") and commune like "${oreFormatCommune}"`,
   );
   searchParams.append('select', 'grd_elec, grd_elec_eic, commune');
-  // this is enough to check our conditions below
+  /**
+   * Nous limitons les résultats pour s'assurer si il y en a un ou plus, deux résultats suffisent pour ça
+   */
   searchParams.append('limit', '2');
 
   const url = new URL(

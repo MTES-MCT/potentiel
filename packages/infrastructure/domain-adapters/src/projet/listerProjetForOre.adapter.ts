@@ -1,7 +1,7 @@
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-export type OREProjectsReadModel = {
+export type ProjetListéPourOREReadModel = {
   legacyId: string;
   identifiantProjet: string;
   appelOffre: string;
@@ -32,7 +32,7 @@ const selectProjectQuery = `
 
 export const listerProjetForOreAdapter = async () => {
   const projets = await executeSelect<{
-    value: Omit<OREProjectsReadModel, 'type' | 'identifiantProjet'>;
+    value: Omit<ProjetListéPourOREReadModel, 'type' | 'identifiantProjet'>;
   }>(selectProjectQuery);
 
   const projectsWithIdentifiantProject = projets.map((projet) => {

@@ -56,10 +56,10 @@ import {
   modifierGestionnaireRéseau,
 } from './modifier/modifierGestionnaireRéseauRaccordement.behavior';
 import {
-  GestionnaireRéseauAttribuéAuRaccordementEvent,
-  applyAttribuerGestionnaireRéseauAuRaccordementEventV1,
+  GestionnaireRéseauAttribuéEvent,
+  applyAttribuerGestionnaireRéseauEventV1,
   attribuerGestionnaireRéseau,
-} from './attribuerGestionnaireRéseauAuRaccordement/attribuerGestionnaireRéseauAuRaccordement.behavior';
+} from './attribuer/attribuerGestionnaireRéseau.behavior';
 
 export type DeprecateEvent =
   | DemandeComplèteRaccordementTransmiseEventV1
@@ -79,7 +79,7 @@ export type RaccordementEvent =
   | RéférenceDossierRacordementModifiéeEvent
   | PropositionTechniqueEtFinancièreModifiéeEvent
   | GestionnaireRéseauRaccordementModifiéEvent
-  | GestionnaireRéseauAttribuéAuRaccordementEvent;
+  | GestionnaireRéseauAttribuéEvent;
 
 type DossierRaccordement = {
   référence: RéférenceDossierRaccordement.ValueType;
@@ -186,8 +186,8 @@ function apply(this: RaccordementAggregate, event: RaccordementEvent) {
     case 'GestionnaireRéseauRaccordementModifié-V1':
       applyGestionnaireRéseauRaccordementModifiéEventV1.bind(this)(event);
       break;
-    case 'GestionnaireRéseauAttribuéAuRaccordement-V1':
-      applyAttribuerGestionnaireRéseauAuRaccordementEventV1.bind(this)(event);
+    case 'GestionnaireRéseauAttribué-V1':
+      applyAttribuerGestionnaireRéseauEventV1.bind(this)(event);
       break;
   }
 }
