@@ -45,7 +45,7 @@ registerRéseauQueries({
       (projet) => !raccordementsProjetsIds.includes(projet.identifiantProjet),
     );
 
-    getLogger().info(`${projetsSansGestionnaire.length} projets sans gestionnaire ou raccordement`);
+    getLogger().info(`${projetsSansGestionnaire.length} projets sans raccordement`);
 
     let projetsSansGestionnaireTrouvés = 0;
 
@@ -92,14 +92,16 @@ registerRéseauQueries({
       }
     }
 
-    const pourcentageProjetsNonTrouvéss = Math.round(
+    const pourcentageProjetsNonTrouvés = Math.round(
       (projetsSansGestionnaireTrouvés / projetsSansGestionnaire.length) * 100,
     );
 
-    getLogger().info(
-      `Sur ${projetsSansGestionnaire.length} projets classés sans raccordement, nous n'avons pas pu attribuer de GRD à ${pourcentageProjetsNonTrouvéss} % d'entre eux`,
-    );
-    getLogger().info('Fin du script ✨');
+    if (projetsSansGestionnaire.length) {
+      getLogger().info(
+        `Sur ${projetsSansGestionnaire.length} projets classés sans raccordement, nous n'avons pas pu attribuer de GRD à ${pourcentageProjetsNonTrouvés} % d'entre eux`,
+      );
+      getLogger().info('Fin du script ✨');
+    }
 
     process.exit(0);
   } catch (error) {

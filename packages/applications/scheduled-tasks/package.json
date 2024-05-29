@@ -9,7 +9,7 @@
     "start:créer-backup-oos": "node ./dist/créer-backup-oos",
     "start:maj-gestionnaire-réseau": "node ./dist/gestionnaireRéseau",
     "start:attribuer-grd": "node ./dist/raccordement/attribuer-gestionnaire-réseau",
-    "start:vérifier-attribution-grd": "node ./dist/raccordement/vérifier-attribution-gestionnaire-réseau"
+    "start:vérifier-grd-de-raccordement": "node ./dist/raccordement/vérifier-gestionnaire-réseau-de-raccordement"
   },
   "dependencies": {
     "@potentiel-libraries/file-storage": "*",

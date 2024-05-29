@@ -45,6 +45,7 @@ registerRéseauQueries({
     getLogger().info(`${raccordementsDeProjetsClassés.length} raccordements à vérifier`);
 
     let nombreDeRaccordementsMisAJour = 0;
+    let nombreDeRaccordementsDéjàAttribuésAuBonGRD = 0;
 
     for (const raccordement of raccordementsDeProjetsClassés) {
       const identifiantProjet = raccordement.identifiantProjet.formatter();
@@ -72,8 +73,9 @@ registerRéseauQueries({
 
       if (nouveauGestionnaireRéseau.codeEIC === identifiantActuelGestionnaireRéseau) {
         getLogger().info(
-          `💪 Le gestionnaire réseau actuellement relié au projet ${raccordement.identifiantProjet.formatter} est le même que celui de ORE`,
+          `Le gestionnaire réseau actuellement relié au projet ${identifiantProjet} est le même que celui de ORE`,
         );
+        nombreDeRaccordementsDéjàAttribuésAuBonGRD++;
         continue;
       }
 
@@ -113,14 +115,14 @@ registerRéseauQueries({
       }
     }
 
-    const pourcentageRaccordementMisAJour = Math.round(
-      (nombreDeRaccordementsMisAJour / raccordementsDeProjetsClassés.length) * 100,
-    );
-
     getLogger().info(
-      `Sur ${raccordementsDeProjetsClassés.length} raccordements, nous avons mis à jour ${pourcentageRaccordementMisAJour} % d'entre eux`,
+      `💪${nombreDeRaccordementsDéjàAttribuésAuBonGRD} raccordements étaient attribué au bon gestionnaire`,
     );
-
+    getLogger().info(
+      `Sur ${
+        raccordementsDeProjetsClassés.length - nombreDeRaccordementsDéjàAttribuésAuBonGRD
+      } raccordements à mettre à jour, nous avons mis à jour ${nombreDeRaccordementsMisAJour} % d'entre eux`,
+    );
     getLogger().info('Fin du script ✨');
 
     process.exit(0);
