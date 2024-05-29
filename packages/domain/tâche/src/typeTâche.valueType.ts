@@ -1,4 +1,4 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const types = [
   'inconnue',
@@ -6,7 +6,7 @@ export const types = [
   'abandon.transmettre-preuve-recandidature',
   'raccordement.référence-non-transmise',
   'garanties-financières.demander',
-];
+] as const;
 
 export type RawType = (typeof types)[number];
 
@@ -14,18 +14,24 @@ export type ValueType = ReadonlyValueType<{
   type: RawType;
 }>;
 
-export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
+export const bind = ({ type }: PlainType<ValueType>): ValueType => {
   return {
-    type: value,
+    type,
     estÉgaleÀ: function ({ type }) {
       return this.type === type;
     },
   };
 };
 
+export const convertirEnValueType = (value: string): ValueType => {
+  estValide(value);
+  return bind({
+    type: value,
+  });
+};
+
 function estValide(value: string): asserts value is RawType {
-  const isValid = (types as Array<string>).includes(value);
+  const isValid = types.includes(value as RawType);
 
   if (!isValid) {
     throw new TypeTâcheInvalideError(value);

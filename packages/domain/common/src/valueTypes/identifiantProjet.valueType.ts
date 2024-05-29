@@ -1,4 +1,4 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export type RawType = `${string}#${string}#${string}#${string}`;
 
@@ -10,11 +10,12 @@ export type ValueType = ReadonlyValueType<{
   formatter(): RawType;
 }>;
 
-export const convertirEnValueType = (identifiantProjet: string): ValueType => {
-  estValide(identifiantProjet);
-
-  const [appelOffre, période, famille, numéroCRE] = identifiantProjet.split('#');
-
+export const bind = ({
+  appelOffre,
+  famille,
+  numéroCRE,
+  période,
+}: PlainType<ValueType>): ValueType => {
   return {
     appelOffre,
     période,
@@ -27,6 +28,19 @@ export const convertirEnValueType = (identifiantProjet: string): ValueType => {
       return valueType.formatter() === this.formatter();
     },
   };
+};
+
+export const convertirEnValueType = (identifiantProjet: string): ValueType => {
+  estValide(identifiantProjet);
+
+  const [appelOffre, période, famille, numéroCRE] = identifiantProjet.split('#');
+
+  return bind({
+    appelOffre,
+    période,
+    famille,
+    numéroCRE,
+  });
 };
 
 const regexIdentifiantProjet = /^[^#]+#[^#]+#([^#]+)?#[^#]+$/;

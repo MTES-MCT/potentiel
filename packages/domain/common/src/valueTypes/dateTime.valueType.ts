@@ -1,4 +1,4 @@
-import { ReadonlyValueType, InvalidOperationError } from '@potentiel-domain/core';
+import { ReadonlyValueType, InvalidOperationError, PlainType } from '@potentiel-domain/core';
 import { Iso8601DateTime, regexDateISO8601 } from '@potentiel-libraries/iso8601-datetime';
 import { differenceInDays } from 'date-fns';
 
@@ -13,6 +13,10 @@ export type ValueType = ReadonlyValueType<{
   ajouterNombreDeMois(nombreDeMois: number): ValueType;
   formatter(): RawType;
 }>;
+
+export const bind = ({ date }: PlainType<ValueType>): ValueType => {
+  return convertirEnValueType(date);
+};
 
 export const convertirEnValueType = (value: Date | string): ValueType => {
   let date: Date | undefined;
