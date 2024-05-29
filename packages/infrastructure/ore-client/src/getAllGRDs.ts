@@ -1,9 +1,6 @@
 import { get } from '@potentiel-libraries/http-client';
 import zod from 'zod';
-
-const OreEndpoint = process.env.ORE_ENDPOINT || '';
-
-const ORE_API_LIMIT_IN_STRING = '100';
+import { ORE_API_LIMIT_IN_STRING, OreEndpoint } from './constant';
 
 const schema = zod.object({
   total_count: zod.number(),

@@ -5,6 +5,7 @@ import { OreEndpoint } from './constant';
 import { GestionnaireRéseau as Gestionnaire } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { transformCommuneToOreFormat } from './helper/transformCommuneToOreFormat';
 
 const schema = zod.object({
   total_count: zod.number(),
@@ -27,37 +28,20 @@ export type OreGestionnaireByCity = Pick<
   'raisonSociale' | 'codeEIC'
 >;
 
-const transformCommuneToOreFormat = (commune: string) => {
-  return commune
-    .toLowerCase()
-    .replace(/(?:^|[^a-zA-Z])([a-z])/g, (match, p1, offset) => {
-      if (offset === 0) {
-        return p1.toUpperCase();
-      }
-      return match.slice(0, -1) + match.charAt(match.length - 1).toUpperCase();
-    })
-    .replace(/\d/g, '')
-    .replace('St ', 'Saint ')
-    .replace('Ste ', 'Sainte ')
-    .replace(' St ', ' Saint ')
-    .replace(' Ste ', ' Sainte ')
-    .replace('D ', "D'")
-    .replace('L ', "L'")
-    .trim();
-};
+const logger = getLogger();
 
 export const getGRDByCity = async ({
   codePostal,
   commune,
 }: GetGRDByCityProps): Promise<Option.Type<OreGestionnaireByCity>> => {
   const oreFormatCommune = transformCommuneToOreFormat(commune);
-  const logger = getLogger();
   const searchParams = new URLSearchParams();
   searchParams.append(
     'where',
     `code_postal in ("${codePostal}") and commune like "${oreFormatCommune}"`,
   );
   searchParams.append('select', 'grd_elec, grd_elec_eic, commune');
+  // this is enough to check our conditions below
   searchParams.append('limit', '2');
 
   const url = new URL(
@@ -73,7 +57,6 @@ export const getGRDByCity = async ({
       logger.warn(
         `Aucun GRD trouvé pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
       );
-
       return Option.none;
     }
 
@@ -92,7 +75,6 @@ export const getGRDByCity = async ({
       logger.warn(
         `Un GRD a été trouvé avec code EIC (${parsedResult.results[0].grd_elec_eic}) mais sans raison social pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
       );
-
       return Option.none;
     }
 
@@ -107,6 +89,10 @@ export const getGRDByCity = async ({
 
       return Option.none;
     }
+
+    logger.info(
+      `GRD ${parsedResult.results[0].grd_elec[0]} trouvé pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
+    );
 
     return {
       codeEIC: parsedResult.results[0].grd_elec_eic[0],

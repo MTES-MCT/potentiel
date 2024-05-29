@@ -27,7 +27,7 @@ registerRéseauQueries({
 });
 
 (async () => {
-  getLogger().info('[raccordement] Starting script');
+  getLogger().info('Lancement du script...');
 
   try {
     const classéProjects = await listerProjetForOreAdapter();
@@ -48,7 +48,7 @@ registerRéseauQueries({
     );
 
     getLogger().info(
-      `${projectsWithNoAttributedGestionnaire.length} projets sans gestionnaires ni raccordement trouvés`,
+      `${projectsWithNoAttributedGestionnaire.length} projets sans gestionnaire ou raccordement`,
     );
 
     let projectsWithNoOreGestionnaireFoundCount = 0;
@@ -88,7 +88,7 @@ registerRéseauQueries({
         });
 
         getLogger().info(
-          `✅ Gestionnaire ${gestionnaire.identifiantGestionnaireRéseau.formatter()} atttribué pour le projet ${
+          `✅ Gestionnaire ${gestionnaire.identifiantGestionnaireRéseau.formatter()} attribué au projet ${
             projet.identifiantProjet
           }`,
         );
@@ -103,8 +103,9 @@ registerRéseauQueries({
     );
 
     getLogger().info(
-      `${projectsWithNoAttributedGestionnaire.length} projets classés sans raccordement, nous n'avons pas pu attribué de GRD à ${notFoundinPercent} % des projets sans raccordement`,
+      `Sur ${projectsWithNoAttributedGestionnaire.length} projets classés sans raccordement, nous n'avons pas pu attribuer de GRD à ${notFoundinPercent} % d'entre eux`,
     );
+    getLogger().info('Fin du script ✨');
 
     process.exit(0);
   } catch (error) {

@@ -29,7 +29,7 @@ registerRéseauQueries({
 });
 
 (async () => {
-  getLogger().info('[updateGestionnaireDeRéseau] Starting script');
+  getLogger().info('Lancement du script...');
 
   try {
     const gestionnairesFromORE = await getAllGRDs();
@@ -46,7 +46,7 @@ registerRéseauQueries({
 
     await updateGRDs(àModifier);
 
-    getLogger().info('Done ✨');
+    getLogger().info('Fin du script ✨');
 
     process.exit(0);
   } catch (error) {
