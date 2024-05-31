@@ -14,7 +14,6 @@ fi
 
 echo "Launching job [RELANCER ABANDON SANS PREUVE]"
 
-npm run build
-npm run start:relancer-abandon-sans-preuve
+npm run start:relancer-abandon-sans-preuve -w @potentiel-applications/scheduled-tasks
 
 exit 0
