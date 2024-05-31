@@ -5,6 +5,7 @@ import {
 import { registerRéseauQueries, registerRéseauUseCases } from '@potentiel-domain/reseau';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
+  countProjection,
   findProjection,
   listProjection,
   listProjectionV2,
@@ -20,6 +21,7 @@ export const setupRéseau = async () => {
     list: listProjection,
     listV2: listProjectionV2,
     find: findProjection,
+    count: countProjection,
   });
 
   GestionnaireRéseauProjector.register();

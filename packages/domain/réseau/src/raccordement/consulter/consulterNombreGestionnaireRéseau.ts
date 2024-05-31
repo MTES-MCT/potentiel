@@ -1,4 +1,4 @@
-import { Count, WhereOptions } from '@potentiel-domain/core';
+import { Count } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { RaccordementEntity } from '..';
@@ -10,21 +10,30 @@ export type ConsulterNombreDeRaccordementReadModel = {
 export type ConsulterNombreDeRaccordementQuery = Message<
   'Réseau.Raccordement.Query.ConsulterNombreDeRaccordement',
   {
-    where?: WhereOptions<RaccordementEntity>;
+    identifiantGestionnaireRéseauValue?: RaccordementEntity['identifiantGestionnaireRéseau'];
   },
   ConsulterNombreDeRaccordementReadModel
 >;
 
-export type ConsulterNombreDeRaccordementQueryDependencies = {
+export type ConsulterNombreDeRaccordementDependencies = {
   count: Count;
 };
 
 export const registerConsulterNombreDeRaccordementQuery = ({
   count,
-}: ConsulterNombreDeRaccordementQueryDependencies) => {
-  const handler: MessageHandler<ConsulterNombreDeRaccordementQuery> = async ({ where }) => {
+}: ConsulterNombreDeRaccordementDependencies) => {
+  const handler: MessageHandler<ConsulterNombreDeRaccordementQuery> = async ({
+    identifiantGestionnaireRéseauValue,
+  }) => {
     const nombreRaccordements = await count<RaccordementEntity>('raccordement', {
-      where,
+      where: {
+        ...(identifiantGestionnaireRéseauValue && {
+          identifiantGestionnaireRéseau: {
+            operator: 'equal',
+            value: identifiantGestionnaireRéseauValue,
+          },
+        }),
+      },
     });
 
     return {

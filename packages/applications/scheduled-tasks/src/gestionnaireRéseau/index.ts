@@ -9,6 +9,7 @@ import {
 import { récupérerToutLesGRD } from '@potentiel-infrastructure/ore-client';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
+  countProjection,
   findProjection,
   listProjection,
   listProjectionV2,
@@ -26,6 +27,7 @@ registerRéseauQueries({
   list: listProjection,
   listV2: listProjectionV2,
   find: findProjection,
+  count: countProjection,
 });
 
 (async () => {

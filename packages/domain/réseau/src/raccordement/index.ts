@@ -8,6 +8,10 @@ import {
   ConsulterGestionnaireRéseauRaccordementReadModel,
 } from './consulter/consulterGestionnaireRéseauRaccordement.query';
 import {
+  ConsulterNombreDeRaccordementQuery,
+  ConsulterNombreDeRaccordementReadModel,
+} from './consulter/consulterNombreGestionnaireRéseau';
+import {
   ConsulterRaccordementQuery,
   ConsulterRaccordementReadModel,
 } from './consulter/consulterRaccordement.query';
@@ -32,6 +36,7 @@ export type RaccordementQuery =
   | ConsulterRaccordementQuery
   | ConsulterDossierRaccordementQuery
   | ConsulterGestionnaireRéseauRaccordementQuery
+  | ConsulterNombreDeRaccordementQuery
   | RechercherDossierRaccordementQuery
   | ListerRaccordementQuery;
 
@@ -39,6 +44,7 @@ export {
   ConsulterDossierRaccordementQuery,
   ConsulterGestionnaireRéseauRaccordementQuery,
   RechercherDossierRaccordementQuery,
+  ConsulterNombreDeRaccordementQuery,
   ConsulterRaccordementQuery,
   ListerRaccordementQuery,
 };
@@ -48,6 +54,7 @@ export {
   ConsulterRaccordementReadModel,
   ConsulterDossierRaccordementReadModel,
   ConsulterGestionnaireRéseauRaccordementReadModel,
+  ConsulterNombreDeRaccordementReadModel,
   RechercherDossierRaccordementReadModel,
   ListerRaccordementReadModel,
 };

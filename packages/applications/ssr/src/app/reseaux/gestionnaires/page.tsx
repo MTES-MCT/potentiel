@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { GestionnaireRéseauListPage } from '@/components/pages/réseau/gestionnaire/lister/GestionnaireRéseauList.page';
@@ -16,7 +16,7 @@ export default async function Page({ searchParams }: PageProps) {
     const page = searchParams?.page ? parseInt(searchParams.page) : 1;
     const raisonSocialeSearch = searchParams ? searchParams['raisonSociale'] : '';
 
-    const gestionnaireRéseaux =
+    const gestionnairesRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
         type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
         data: {
@@ -34,6 +34,18 @@ export default async function Page({ searchParams }: PageProps) {
         },
       });
 
-    return <GestionnaireRéseauListPage {...mapToPlainObject(gestionnaireRéseaux)} />;
+    for (const gestionnaire of gestionnairesRéseau.items) {
+      const nombreDeRaccordements =
+        await mediator.send<Raccordement.ConsulterNombreDeRaccordementQuery>({
+          type: 'Réseau.Raccordement.Query.ConsulterNombreDeRaccordement',
+          data: {
+            identifiantGestionnaireRéseauValue:
+              gestionnaire.identifiantGestionnaireRéseau.formatter(),
+          },
+        });
+      console.log(nombreDeRaccordements);
+    }
+
+    return <GestionnaireRéseauListPage {...mapToPlainObject(gestionnairesRéseau)} />;
   });
 }

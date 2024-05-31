@@ -226,6 +226,7 @@ const référencielPermissions = {
         consulterDossier: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
         consulterGestionnaireRéseau:
           'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
+        consulterNombre: 'Réseau.Raccordement.Query.ConsulterNombreDeRaccordement',
         rechercher: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
         lister: 'Réseau.Raccordement.Query.ListerRaccordement',
       },
@@ -278,8 +279,9 @@ const policies = {
       consulter: [
         référencielPermissions.candidature.query.consulter,
         référencielPermissions.réseau.raccordement.query.consulter,
-        référencielPermissions.document.query.consulter,
+        référencielPermissions.réseau.raccordement.query.consulterNombre,
         référencielPermissions.réseau.raccordement.query.consulterDossier,
+        référencielPermissions.document.query.consulter,
         référencielPermissions.réseau.gestionnaire.query.consulter,
       ],
       'demande-complète-raccordement': {
