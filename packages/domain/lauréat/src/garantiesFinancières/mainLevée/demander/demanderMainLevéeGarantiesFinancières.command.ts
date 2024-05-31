@@ -5,6 +5,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 import { MotifDemandeMainLevéeGarantiesFinancières } from '../..';
+import { loadAbandonFactory } from '../../../abandon/abandon.aggregate';
 
 export type DemanderMainLevéeGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.MainLevée.Command.Demander',
@@ -20,6 +21,7 @@ export const registerDemanderMainLevéeGarantiesFinancièresCommand = (
   loadAggregate: LoadAggregate,
 ) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
+  const loadAbandon = loadAbandonFactory(loadAggregate);
   const handler: MessageHandler<DemanderMainLevéeGarantiesFinancièresCommand> = async ({
     identifiantProjet,
     demandéLe,
@@ -28,11 +30,14 @@ export const registerDemanderMainLevéeGarantiesFinancièresCommand = (
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
 
+    const abandon = await loadAbandon(identifiantProjet, false);
+
     await garantiesFinancières.demanderMainLevée({
       identifiantProjet,
       demandéLe,
       demandéPar,
       motif,
+      statutAbandon: abandon.statut ?? undefined,
     });
   };
   mediator.register('Lauréat.GarantiesFinancières.MainLevée.Command.Demander', handler);

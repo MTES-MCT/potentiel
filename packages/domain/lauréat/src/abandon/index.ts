@@ -33,7 +33,7 @@ export type AbandonQuery =
   | ListerAbandonsAvecRecandidatureÀRelancerQuery
   | GénérerModèleRéponseAbandonQuery;
 
-export {
+export type {
   DétecterAbandonQuery,
   ConsulterAbandonQuery,
   ListerAbandonsQuery,
@@ -42,7 +42,11 @@ export {
 };
 
 // ReadModel
-export { ConsulterAbandonReadModel, ListerAbandonReadModel, GénérerModèleRéponseAbandonReadModel };
+export type {
+  ConsulterAbandonReadModel,
+  ListerAbandonReadModel,
+  GénérerModèleRéponseAbandonReadModel,
+};
 
 // UseCases
 export type AbandonUseCase =
@@ -56,7 +60,7 @@ export type AbandonUseCase =
   | TransmettrePreuveRecandidatureAbandonUseCase
   | DemanderPreuveRecandidatureAbandonUseCase;
 
-export {
+export type {
   AccorderAbandonUseCase,
   AnnulerAbandonUseCase,
   AnnulerRejetAbandonUseCase,
@@ -67,13 +71,13 @@ export {
 };
 
 // Event
-export { AbandonEvent } from './abandon.aggregate';
-export { AbandonAnnuléEvent } from './annuler/annulerAbandon.behavior';
-export { ConfirmationAbandonDemandéeEvent } from './demanderConfirmation/demanderConfirmationAbandon.behavior';
-export { AbandonConfirméEvent } from './confirmer/confirmerAbandon.behavior';
-export { AbandonRejetéEvent } from './rejeter/rejeterAbandon.behavior';
-export { PreuveRecandidatureDemandéeEvent } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.behavior';
-export { PreuveRecandidatureTransmiseEvent } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
+export type { AbandonEvent } from './abandon.aggregate';
+export type { AbandonAnnuléEvent } from './annuler/annulerAbandon.behavior';
+export type { ConfirmationAbandonDemandéeEvent } from './demanderConfirmation/demanderConfirmationAbandon.behavior';
+export type { AbandonConfirméEvent } from './confirmer/confirmerAbandon.behavior';
+export type { AbandonRejetéEvent } from './rejeter/rejeterAbandon.behavior';
+export type { PreuveRecandidatureDemandéeEvent } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.behavior';
+export type { PreuveRecandidatureTransmiseEvent } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
 
 // Register
 export { registerAbandonQueries, registerAbandonUseCases } from './abandon.register';
@@ -88,4 +92,4 @@ export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
 export * from './abandon.entity';
 
 // Ports
-export { ListerAbandonsPourPorteurPort, BuildModèleRéponseAbandonPort, ListerAbandonsPort };
+export type { ListerAbandonsPourPorteurPort, BuildModèleRéponseAbandonPort, ListerAbandonsPort };
