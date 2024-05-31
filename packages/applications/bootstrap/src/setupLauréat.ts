@@ -14,7 +14,6 @@ import {
   AbandonProjector,
   AchèvementProjector,
   GarantiesFinancièreProjector,
-  MainLevéeGarantiesFinancièresProjector,
 } from '@potentiel-applications/projectors';
 import { mediator } from 'mediateur';
 import {
@@ -51,7 +50,6 @@ export const setupLauréat = async () => {
   GarantiesFinancièresNotification.register();
   AchèvementProjector.register();
   AchèvementNotification.register();
-  MainLevéeGarantiesFinancièresProjector.register();
 
   const unsubscribeAbandonNotification = await subscribe<AbandonNotification.SubscriptionEvent>({
     name: 'notifications',
@@ -109,6 +107,7 @@ export const setupLauréat = async () => {
         'AttestationGarantiesFinancièresEnregistrée-V1',
         'GarantiesFinancièresEnregistrées-V1',
         'HistoriqueGarantiesFinancièresEffacé-V1',
+        'MainLevéeGarantiesFinancièresDemandée-V1',
         'RebuildTriggered',
       ],
       eventHandler: async (event) => {
@@ -118,19 +117,6 @@ export const setupLauréat = async () => {
         });
       },
       streamCategory: 'garanties-financieres',
-    });
-
-  const unsubscribeMainLevéeGarantiesFinancièresProjector =
-    await subscribe<GarantiesFinancièreProjector.SubscriptionEvent>({
-      name: 'projector',
-      eventType: ['MainLevéeGarantiesFinancièresDemandée-V1', 'RebuildTriggered'],
-      eventHandler: async (event) => {
-        await mediator.send<GarantiesFinancièreProjector.Execute>({
-          type: 'System.Projector.Lauréat.GarantiesFinancières',
-          data: event,
-        });
-      },
-      streamCategory: 'main-levee-garanties-financieres',
     });
 
   const unsubscribeAchèvementProjector = await subscribe<AchèvementProjector.SubscriptionEvent>({
@@ -188,6 +174,5 @@ export const setupLauréat = async () => {
     await unsubscribeGarantiesFinancièresNotification();
     await unsubscribeAchèvementProjector();
     await unsubscribeAchèvementNotification();
-    await unsubscribeMainLevéeGarantiesFinancièresProjector();
   };
 };
