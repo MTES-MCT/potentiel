@@ -11,7 +11,7 @@ export type MainLevéeGarantiesFinancièresDemandéeEvent = DomainEvent<
   'MainLevéeGarantiesFinancièresDemandée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    motif: MotifDemandeMainLevéeGarantiesFinancières.RawType;
+    motif: MotifDemandeMainLevéeGarantiesFinancières.RawMotif;
     demandéLe: DateTime.RawType;
     demandéPar: Email.RawType;
   }
@@ -36,7 +36,7 @@ export async function demanderMainLevée(
     type: 'MainLevéeGarantiesFinancièresDemandée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      motif: motif.statut,
+      motif: motif.motif,
       demandéLe: demandéLe.formatter(),
       demandéPar: demandéPar.formatter(),
     },

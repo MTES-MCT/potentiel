@@ -33,6 +33,10 @@ import {
   GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel,
 } from './projetEnAttenteDeGarantiesFinancières/générerModèleMiseEnDemeure/générerModèleMiseEnDemeure.query';
 import { DemanderMainLevéeGarantiesFinancièresUseCase } from './mainLevée/demander/demanderMainLevéeGarantiesFinancières.usecase';
+import {
+  ConsulterMainLevéeGarantiesFinancièresQuery,
+  ConsulterMainLevéeGarantiesFinancièresReadModel,
+} from './mainLevée/consulter/consulterMainLevéeGarantiesFinancières.query';
 // Query
 export type GarantiesFinancièresQuery =
   | ConsulterGarantiesFinancièresQuery
@@ -41,7 +45,8 @@ export type GarantiesFinancièresQuery =
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
   | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
-  | GénérerModèleMiseEnDemeureGarantiesFinancièresQuery;
+  | GénérerModèleMiseEnDemeureGarantiesFinancièresQuery
+  | ConsulterMainLevéeGarantiesFinancièresQuery;
 
 export type {
   ConsulterGarantiesFinancièresQuery,
@@ -50,6 +55,7 @@ export type {
   ListerDépôtsEnCoursGarantiesFinancièresQuery,
   ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
   GénérerModèleMiseEnDemeureGarantiesFinancièresQuery,
+  ConsulterMainLevéeGarantiesFinancièresQuery,
 };
 
 // ReadModel
@@ -60,6 +66,7 @@ export type {
   ListerDépôtsEnCoursGarantiesFinancièresReadModel,
   ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
   GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel,
+  ConsulterMainLevéeGarantiesFinancièresReadModel,
 };
 
 // UseCases
@@ -102,7 +109,7 @@ export type { GarantiesFinancièresModifiéesEvent } from './garantiesFinancièr
 export type { AttestationGarantiesFinancièresEnregistréeEvent } from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
 export type { HistoriqueGarantiesFinancièresEffacéEvent } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.behavior';
 export type { GarantiesFinancièresEnregistréesEvent } from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.behavior';
-export { MainLevéeGarantiesFinancièresDemandéeEvent } from './mainLevée/demander/demanderMainLevéeGarantiesFinancières.behavior';
+export type { MainLevéeGarantiesFinancièresDemandéeEvent } from './mainLevée/demander/demanderMainLevéeGarantiesFinancières.behavior';
 
 // Register
 export {

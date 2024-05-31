@@ -2,10 +2,10 @@ import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core
 
 export const motifs = ['projet-abandonné', 'projet-achevé'] as const;
 
-export type RawType = (typeof motifs)[number];
+export type RawMotif = (typeof motifs)[number];
 
 export type ValueType = ReadonlyValueType<{
-  statut: RawType;
+  motif: RawMotif;
   estProjetAbandonné: () => boolean;
   estProjetAchevé: () => boolean;
 }>;
@@ -13,37 +13,35 @@ export type ValueType = ReadonlyValueType<{
 export const convertirEnValueType = (value: string): ValueType => {
   estValide(value);
   return {
-    get statut() {
+    get motif() {
       return value;
     },
+    estÉgaleÀ(valueType) {
+      return this.motif === valueType.motif;
+    },
     estProjetAbandonné() {
-      return this.statut === 'projet-abandonné';
+      return this.motif === 'projet-abandonné';
     },
     estProjetAchevé() {
-      return this.statut === 'projet-achevé';
-    },
-    estÉgaleÀ(valueType) {
-      return this.statut === valueType.statut;
+      return this.motif === 'projet-achevé';
     },
   };
 };
 
-function estValide(value: string): asserts value is RawType {
-  const isValid = motifs.includes(value as RawType);
+function estValide(value: string): asserts value is RawMotif {
+  const isValid = motifs.includes(value as RawMotif);
 
   if (!isValid) {
     throw new MotifDemandeMainLevéeInvalideError(value);
   }
 }
 
-export const demandé = convertirEnValueType('demandé');
-export const enInstruction = convertirEnValueType('en-instruction');
-export const accordé = convertirEnValueType('accordé');
-export const rejeté = convertirEnValueType('rejeté');
+export const projetAbandonné = convertirEnValueType('projet-abandonné');
+export const projetAchevé = convertirEnValueType('projet-achevé');
 
 class MotifDemandeMainLevéeInvalideError extends InvalidOperationError {
   constructor(value: string) {
-    super(`Le motif ne correspond à aucune valeur connue`, {
+    super(`Le motif de demande de main levée est inconnu`, {
       value,
     });
   }
