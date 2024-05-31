@@ -57,7 +57,7 @@ export const récupérerGRDParVille = async ({
 
     if (parsedResult.total_count === 0) {
       logger.warn(
-        `Aucun GRD trouvé pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
+        `[récupérerGRDParVille] Aucun GRD trouvé pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
       );
       return Option.none;
     }
@@ -67,7 +67,7 @@ export const récupérerGRDParVille = async ({
       parsedResult.results[0].grd_elec_eic.length === 0
     ) {
       logger.warn(
-        `Un GRD (${parsedResult.results[0].grd_elec}) a été trouvé mais sans code EIC pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
+        `[récupérerGRDParVille] Un GRD (${parsedResult.results[0].grd_elec}) a été trouvé mais sans code EIC pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
       );
 
       return Option.none;
@@ -75,14 +75,14 @@ export const récupérerGRDParVille = async ({
 
     if (!parsedResult.results[0].grd_elec || parsedResult.results[0].grd_elec.length === 0) {
       logger.warn(
-        `Un GRD a été trouvé avec code EIC (${parsedResult.results[0].grd_elec_eic}) mais sans raison social pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
+        `[récupérerGRDParVille] Un GRD a été trouvé avec code EIC (${parsedResult.results[0].grd_elec_eic}) mais sans raison social pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
       );
       return Option.none;
     }
 
     if (parsedResult.results[0].grd_elec_eic.length > 1) {
       logger.warn(
-        `Un GRD (${
+        `[récupérerGRDParVille] Un GRD (${
           parsedResult.results[0].grd_elec
         }) a été trouvé avec plusieurs code EIC (${parsedResult.results[0].grd_elec_eic.join(
           '/',
@@ -91,10 +91,6 @@ export const récupérerGRDParVille = async ({
 
       return Option.none;
     }
-
-    logger.info(
-      `GRD ${parsedResult.results[0].grd_elec[0]} trouvé pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
-    );
 
     return {
       codeEIC: parsedResult.results[0].grd_elec_eic[0],

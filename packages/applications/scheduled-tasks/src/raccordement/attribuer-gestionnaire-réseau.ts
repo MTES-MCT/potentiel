@@ -34,9 +34,7 @@ registerRéseauQueries({
 
     const raccordements = await mediator.send<Raccordement.ListerRaccordementQuery>({
       type: 'Réseau.Raccordement.Query.ListerRaccordement',
-      data: {
-        where: { identifiantGestionnaireRéseau: { operator: 'notEqual', value: 'inconnu' } },
-      },
+      data: {},
     });
 
     const raccordementsProjetsIds = raccordements.items.map((raccordement) =>
@@ -47,9 +45,9 @@ registerRéseauQueries({
       (projet) => !raccordementsProjetsIds.includes(projet.identifiantProjet),
     );
 
-    getLogger().info(`${projetsSansGestionnaire.length} projets sans gestionnaire ou raccordement`);
+    getLogger().info(`${projetsSansGestionnaire.length} projets sans raccordement`);
 
-    let projetsSansGestionnaireTrouvé = 0;
+    let projetsSansGestionnaireTrouvés = 0;
 
     for (const projet of projetsSansGestionnaire) {
       const gestionnaireParVille = await récupérerGRDParVille({
@@ -58,7 +56,7 @@ registerRéseauQueries({
       });
 
       if (Option.isNone(gestionnaireParVille)) {
-        projetsSansGestionnaireTrouvé++;
+        projetsSansGestionnaireTrouvés++;
         continue;
       }
 
@@ -94,13 +92,15 @@ registerRéseauQueries({
       }
     }
 
-    const pourcentageProjetsNonTrouvés = Math.round(
-      (projetsSansGestionnaireTrouvé / projetsSansGestionnaire.length) * 100,
-    );
+    if (projetsSansGestionnaire.length) {
+      const pourcentageProjetsNonTrouvés = Math.round(
+        (projetsSansGestionnaireTrouvés / projetsSansGestionnaire.length) * 100,
+      );
+      getLogger().info(
+        `Sur ${projetsSansGestionnaire.length} projets classés sans raccordement, nous n'avons pas pu attribuer de GRD à ${pourcentageProjetsNonTrouvés} % d'entre eux`,
+      );
+    }
 
-    getLogger().info(
-      `Sur ${projetsSansGestionnaire.length} projets classés sans raccordement, nous n'avons pas pu attribuer de GRD à ${pourcentageProjetsNonTrouvés} % d'entre eux`,
-    );
     getLogger().info('Fin du script ✨');
 
     process.exit(0);

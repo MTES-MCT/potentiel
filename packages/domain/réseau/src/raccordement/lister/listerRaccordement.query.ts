@@ -1,5 +1,5 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { ListV2, WhereOptions } from '@potentiel-domain/core';
+import { ListV2 } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { RaccordementEntity } from '..';
@@ -17,10 +17,7 @@ export type ListerRaccordementReadModel = {
 
 export type ListerRaccordementQuery = Message<
   'Réseau.Raccordement.Query.ListerRaccordement',
-  /**
-   * @todo Avoir une discussion autour de l'utilisation de `WhereOptions` pour les queries
-   */
-  { where?: WhereOptions<RaccordementEntity> },
+  {},
   ListerRaccordementReadModel
 >;
 
@@ -31,12 +28,11 @@ export type ListerRaccordementQueryDependencies = {
 export const registerListerRaccordementQuery = ({
   listV2,
 }: ListerRaccordementQueryDependencies) => {
-  const handler: MessageHandler<ListerRaccordementQuery> = async ({ where }) => {
+  const handler: MessageHandler<ListerRaccordementQuery> = async () => {
     const { items, total } = await listV2<RaccordementEntity>('raccordement', {
       orderBy: {
         identifiantProjet: 'ascending',
       },
-      where,
     });
 
     return {
