@@ -17,9 +17,6 @@ export type ListerRaccordementReadModel = {
 
 export type ListerRaccordementQuery = Message<
   'Réseau.Raccordement.Query.ListerRaccordement',
-  /**
-   * @todo Avoir une discussion autour de l'utilisation de `WhereOptions` pour les queries
-   */
   {},
   ListerRaccordementReadModel
 >;
