@@ -1,7 +1,11 @@
 {
   "jobs": [
     {
-      "command": "0 0 * * * ./packages/applications/scheduled-tasks/s3-backup.sh",
+      "command": "0 4 * * * ./packages/applications/scheduled-tasks/créer-backup-oos.sh",
+      "size": "M"
+    },
+    {
+      "command": "0 8 * * 0 ./packages/applications/scheduled-tasks/mettre-à-jour-gestionnaire-réseau.sh",
       "size": "M"
     },
     {
@@ -9,8 +13,8 @@
       "size": "M"
     },
     {
-      "command": "0 8 * * 0 ./packages/applications/scheduled-tasks/mettre-à-jour-gestionnaires-réseau.sh",
+      "command": "0 0 * * * ./packages/applications/scheduled-tasks/s3-backup.sh",
       "size": "M"
-    }
+    },
   ]
 }

@@ -14,7 +14,6 @@ fi
 
 echo "Launching job [METTRE A JOUR GESTIONNAIRE RESEAU]"
 
-npm run build
-npm run start:maj-gestionnaire-réseaux
+npm run start:mettre-à-jour-gestionnaire-réseau
 
 exit 0
