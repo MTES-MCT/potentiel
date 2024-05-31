@@ -9,7 +9,8 @@
     "start:maj-grd-des-projets-avec-raccordement": "node ./dist/raccordement/maj-gestionnaire-réseau-des-projets-avec-raccordement",
     "start:relancer-abandon-sans-preuve": "node ./dist/abandon/relancer-abandon-sans-preuve",
     "start:créer-backup-oos": "node ./dist/backup/créer-backup-oos",
-    "start:mettre-à-jour-gestionnaire-réseau": "node ./dist/gestionnaireRéseau"
+    "start:mettre-à-jour-gestionnaire-réseau": "node ./dist/gestionnaireRéseau",
+    "start:déplacer-fichiers-vers-bucket-secnum": "node ./dist/déplacer-fichiers-vers-bucket-secnum"
   },
   "dependencies": {
     "@potentiel-libraries/file-storage": "*",
