@@ -7,6 +7,7 @@ import {
 } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { AbandonAggregate } from '../../../abandon/abandon.aggregate';
+import { AchèvementAggregate } from '../../../achèvement/achèvement.aggregate';
 
 export type MainLevéeGarantiesFinancièresDemandéeEvent = DomainEvent<
   'MainLevéeGarantiesFinancièresDemandée-V1',
@@ -24,14 +25,19 @@ export type Options = {
   demandéLe: DateTime.ValueType;
   demandéPar: Email.ValueType;
   statutAbandon?: AbandonAggregate['statut'];
+  achèvement?: AchèvementAggregate;
 };
 
 export async function demanderMainLevée(
   this: GarantiesFinancièresAggregate,
-  { identifiantProjet, motif, demandéLe, demandéPar, statutAbandon }: Options,
+  { identifiantProjet, motif, demandéLe, demandéPar, statutAbandon, achèvement }: Options,
 ) {
   if (motif.estProjetAbandonné() && !statutAbandon?.estAccordé()) {
     throw new ProjetNonAbandonnéError();
+  }
+
+  if (motif.estProjetAchevé() && !achèvement?.preuveTransmissionAuCocontractant.format) {
+    throw new ProjetNonAchevéError();
   }
 
   if (!this.actuelles) {
@@ -75,6 +81,14 @@ class ProjetNonAbandonnéError extends InvalidOperationError {
   constructor() {
     super(
       "Votre demande de main-levée de garanties financières est invalide car le projet n'est pas en statut abandonné",
+    );
+  }
+}
+
+class ProjetNonAchevéError extends InvalidOperationError {
+  constructor() {
+    super(
+      "Votre demande de main-levée de garanties financières est invalide car le projet n'est pas achevé (attestation de conformité transmise au co-contractant et dans Potentiel)",
     );
   }
 }

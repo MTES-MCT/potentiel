@@ -28,18 +28,18 @@ Fonctionnalité: Demander la main-levée des garanties financières d'un projet
             | utilisateur          | porteur@test.test      |
             | date demande         | 2014-05-28             |
             | statut               | demandé                | 
-@select
+
     Scénario: Erreur si le projet n'est pas abandonné
         Etant donné des garanties financières validées pour le projet "Centrale PV"
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
             | motif                | projet-abandonné       |
         Alors le porteur devrait être informé que "Votre demande de main-levée de garanties financières est invalide car le projet n'est pas en statut abandonné"
-@NotImplemented
+@select
     Scénario: Erreur si le projet n'est pas achevé
         Etant donné des garanties financières validées pour le projet "Centrale PV"
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
             | motif                | projet-achevé          |
-        Alors le porteur devrait être informé que 'Votre demande de main-levée de garanties financières est invalide car le projet n'est pas achevé (attestation de conformité transmise au co-contractant et dans Potentiel)'
+        Alors le porteur devrait être informé que "Votre demande de main-levée de garanties financières est invalide car le projet n'est pas achevé (attestation de conformité transmise au co-contractant et dans Potentiel)"
 
 @NotImplemented
     Scénario: Erreur si les garanties financières sont manquantes pour un projet abandonné
