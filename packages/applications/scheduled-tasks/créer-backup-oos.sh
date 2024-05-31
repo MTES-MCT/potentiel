@@ -8,7 +8,6 @@ fi
 
 echo "Launching job [CRÉER BACKUP OSS]"
 
-npm run build
-npm run start:créer-backup-oss
+npm run start:créer-backup-oos
 
 exit 0
