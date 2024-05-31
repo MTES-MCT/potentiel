@@ -2,7 +2,7 @@
 Fonctionnalité: Soumettre de nouvelles garanties financières
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
-    
+
     Plan du Scénario: Un porteur soumet des garanties financières initiales
         Etant donné des garanties financières en attente pour le projet "Centrale PV" avec :
             | date limite de soumission | 2023-11-01                      |
@@ -14,22 +14,23 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | format               | <format du fichier>    |
             | contenu fichier      | <contenu du fichier>   |
             | date de constitution | <date de constitution> |
-            | date de soumission   | 2023-10-01             |
+            | date de soumission   | <date de soumission>   |
             | soumis par           | porteur@test.test      |
         Alors les garanties financières à traiter devraient être consultables pour le projet "Centrale PV" avec :
-            | type                 | <type>                 |
-            | date d'échéance      | <date d'échéance>      |
-            | format               | <format du fichier>    |
-            | contenu fichier      | <contenu du fichier>   |
-            | date de constitution | <date de constitution> |
-            | date de soumission   | 2023-10-01             |
-            | soumis par           | porteur@test.test      |
+            | type                         | <type>                 |
+            | date d'échéance              | <date d'échéance>      |
+            | format                       | <format du fichier>    |
+            | contenu fichier              | <contenu du fichier>   |
+            | date de constitution         | <date de constitution> |
+            | date de soumission           | <date de soumission>   |
+            | soumis par                   | porteur@test.test      |
+            | date de dernière mise à jour | <date de soumission>   |
         Et les garanties financières en attente du projet "Centrale PV" ne devraient plus être consultable dans la liste des garanties financières en attente
     Exemples:
-            | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
-            | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
-            | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
-            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |   
+            | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution | date de soumission |
+            | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-01         |
+            | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-01         |
+            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-01         |
 
     @NotImplemented
     Plan du Scénario: Un porteur soumet de nouvelles garanties financières pour remplacer des garanties financières validées

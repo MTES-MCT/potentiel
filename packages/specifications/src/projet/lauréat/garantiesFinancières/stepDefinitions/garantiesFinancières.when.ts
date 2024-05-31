@@ -95,8 +95,8 @@ Quand(
       const format = exemple['format'] || 'application/pdf';
       const dateConstitution = exemple[`date de constitution`] || '2024-01-01';
       const contenuFichier = exemple['contenu fichier'] || 'contenu fichier';
-      const dateSoumission = exemple['date de soumission'] || '2024-01-02';
-      const soumisPar = exemple['soumis par'] || 'user@test.test';
+      const dateModification = exemple['date de modification'] || '2024-01-02';
+      const modifiéPar = exemple['modifié par'] || 'user@test.test';
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -106,8 +106,8 @@ Quand(
           identifiantProjetValue: identifiantProjet.formatter(),
           typeValue: typeGarantiesFinancières,
           dateConstitutionValue: new Date(dateConstitution).toISOString(),
-          modifiéLeValue: new Date(dateSoumission).toISOString(),
-          modifiéParValue: soumisPar,
+          modifiéLeValue: new Date(dateModification).toISOString(),
+          modifiéParValue: modifiéPar,
           attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
           ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
         },

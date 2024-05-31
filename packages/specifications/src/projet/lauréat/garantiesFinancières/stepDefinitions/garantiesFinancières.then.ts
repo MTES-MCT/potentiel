@@ -21,6 +21,7 @@ Alors(
     const contenu = exemple['contenu fichier'];
     const dateSoumission = exemple['date de soumission'];
     const soumisPar = exemple['soumis par'];
+    const dateMiseÀJour = exemple['date de dernière mise à jour'];
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -36,7 +37,7 @@ Alors(
         expect(dépôtEnCours.type.type).to.deep.equal(typeGarantiesFinancières);
         expect(dépôtEnCours.dateConstitution.date).to.deep.equal(new Date(dateConstitution));
         expect(dépôtEnCours.soumisLe.date).to.deep.equal(new Date(dateSoumission));
-        expect(dépôtEnCours.dernièreMiseÀJour.date.date).to.deep.equal(new Date(dateSoumission));
+        expect(dépôtEnCours.dernièreMiseÀJour.date.date).to.deep.equal(new Date(dateMiseÀJour));
         expect(dépôtEnCours.dernièreMiseÀJour.par.formatter()).to.deep.equal(soumisPar);
 
         if (dépôtEnCours.dateÉchéance) {
@@ -69,10 +70,14 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const actualReadModel = await getDépôtEnCoursGarantiesFinancières(identifiantProjet);
-
-      const dépôtEnCours = actualReadModel.dépôt;
-      expect(dépôtEnCours).to.be.undefined;
+      const actualReadModel =
+        await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
+      expect(Option.isNone(actualReadModel)).to.be.true;
     });
   },
 );
@@ -214,14 +219,13 @@ Alors(
 );
 
 Alors(
-  `les garanties financières à traiter du projet {string} ne devraient plus être consultable dans la liste des garanties financières à traiter`,
+  `la liste des garanties financières à traiter devrait être vide`,
   async function (this: PotentielWorld) {
     await waitForExpect(async () => {
       const actualReadModel =
         await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
           data: {
-            range: { startPosition: 1, endPosition: 10 },
             utilisateur: {
               email: 'admin@test.test',
               rôle: 'admin',

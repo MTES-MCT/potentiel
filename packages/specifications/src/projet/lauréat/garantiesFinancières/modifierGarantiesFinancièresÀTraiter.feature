@@ -2,7 +2,6 @@
 Fonctionnalité: Modifier des garanties financières en attente de validation
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
-    
     Plan du Scénario: Un porteur modifie des garanties financières en attente de validation
         Etant donné des garanties financières à traiter pour le projet "Centrale PV" avec :
             | type                 | <type>                 |
@@ -10,7 +9,7 @@ Fonctionnalité: Modifier des garanties financières en attente de validation
             | format               | <format du fichier>    |
             | contenu fichier      | <contenu du fichier>   |
             | date de constitution | <date de constitution> |
-            | date de soumission   | 2023-10-01             |
+            | date de soumission   | <date de soumission>   |
             | soumis par           | porteur@test.test      |
         Quand le porteur modifie les garanties financières à traiter pour le projet "Centrale PV" avec : 
             | type                 | consignation           |
@@ -18,21 +17,22 @@ Fonctionnalité: Modifier des garanties financières en attente de validation
             | format               | application/pdf        |
             | contenu fichier      | nouveau fichier        |
             | date de constitution | 2023-06-12             |
-            | date de soumission   | 2023-11-01             |
-            | soumis par           | porteur@test.test      |
+            | date de modification | <date de modification> |
+            | modifié par          | porteur@test.test      |
         Alors les garanties financières à traiter devraient être consultables pour le projet "Centrale PV" avec :
-            | type                 | consignation           |
-            | date d'échéance      |                        |
-            | format               | application/pdf        |
-            | contenu fichier      | nouveau fichier        |
-            | date de constitution | 2023-06-12             |
-            | date de soumission   | 2023-11-01             |
-            | soumis par           | porteur@test.test      |
+            | type                         | consignation           |
+            | date d'échéance              |                        |
+            | format                       | application/pdf        |
+            | contenu fichier              | nouveau fichier        |
+            | date de constitution         | 2023-06-12             |
+            | date de soumission           | <date de soumission>   |
+            | soumis par                   | porteur@test.test      |
+            | date de dernière mise à jour | <date de modification> |
     Exemples:
-            | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
-            | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
-            | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
-            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |  
+            | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution | date de soumission | date de modification |
+            | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-07-01         | 2023-11-01           |
+            | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-07-01         | 2023-11-01           |
+            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-07-01         | 2023-11-01           |
 
     Plan du Scénario: Erreur si le type renseigné n'est pas compatible avec une date d'échéance
        Etant donné des garanties financières à traiter pour le projet "Centrale PV" avec :
