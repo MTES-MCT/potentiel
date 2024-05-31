@@ -34,23 +34,23 @@ Fonctionnalité: Demander la main-levée des garanties financières d'un projet
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
             | motif                | projet-abandonné       |
         Alors le porteur devrait être informé que "Votre demande de main-levée de garanties financières est invalide car le projet n'est pas en statut abandonné"
-@select
+
     Scénario: Erreur si le projet n'est pas achevé
         Etant donné des garanties financières validées pour le projet "Centrale PV"
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
             | motif                | projet-achevé          |
         Alors le porteur devrait être informé que "Votre demande de main-levée de garanties financières est invalide car le projet n'est pas achevé (attestation de conformité transmise au co-contractant et dans Potentiel)"
 
-@NotImplemented
+@select
     Scénario: Erreur si les garanties financières sont manquantes pour un projet abandonné
         Etant donné un abandon accordé pour le projet lauréat "Centrale PV"
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
             | motif                | projet-abandonné       |
-        Alors le porteur devrait être informé que "Aucunes garanties financières n'ont été trouvée pour le projet"
-@NotImplemented
+        Alors le porteur devrait être informé que "Il n'y a pas de garanties financières à lever pour ce projet"
+@select
     Scénario: Erreur si les garanties financières sont manquantes pour un projet achevé
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
-            | motif                | projet-abandonné       |
-        Alors le porteur devrait être informé que "Aucunes garanties financières n'ont été trouvée pour le projet"
+            | motif                | projet-achevé          |
+        Alors le porteur devrait être informé que "Il n'y a pas de garanties financières à lever pour ce projet"
                    

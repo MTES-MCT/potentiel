@@ -73,7 +73,7 @@ export function applyMainLevéeGarantiesFinancièresDemandée(
 
 class GarantiesFinancièresNonTrouvéesError extends InvalidOperationError {
   constructor() {
-    super(`Il n'y a pas de garanties fnancières à lever`);
+    super("Il n'y a pas de garanties financières à lever pour ce projet");
   }
 }
 
