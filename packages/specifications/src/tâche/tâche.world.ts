@@ -1,13 +1,21 @@
 import { TypeTâche } from '@potentiel-domain/tache';
 
-export class TâcheWorld {
-  rechercherTypeTâche(value: string) {
-    if (value === 'transmettre la preuve de recandidature') {
-      return TypeTâche.abandonTransmettrePreuveRecandidature;
-    } else if (value === 'confirmer un abandon') {
-      return TypeTâche.abandonConfirmer;
-    }
+export type RechercherTypeTâche =
+  | 'transmettre la preuve de recandidature'
+  | 'confirmer un abandon'
+  | 'transmettre les garanties financières';
 
-    return TypeTâche.inconnue;
+export class TâcheWorld {
+  rechercherTypeTâche(value: RechercherTypeTâche): TypeTâche.ValueType {
+    switch (value) {
+      case 'transmettre la preuve de recandidature':
+        return TypeTâche.abandonTransmettrePreuveRecandidature;
+      case 'confirmer un abandon':
+        return TypeTâche.abandonConfirmer;
+      case 'transmettre les garanties financières':
+        return TypeTâche.garantiesFinancieresDemander;
+      default:
+        return TypeTâche.inconnue;
+    }
   }
 }

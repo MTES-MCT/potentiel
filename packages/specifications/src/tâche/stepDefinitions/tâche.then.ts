@@ -5,10 +5,11 @@ import { ListerTâchesQuery } from '@potentiel-domain/tache';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { expect } from 'chai';
+import { RechercherTypeTâche } from '../tâche.world';
 
 Alors(
   `une tâche indiquant de {string} est consultable dans la liste des tâches du porteur pour le projet`,
-  async function (this: PotentielWorld, typeTâche: string) {
+  async function (this: PotentielWorld, typeTâche: RechercherTypeTâche) {
     const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(typeTâche);
 
     await waitForExpect(async () => {
@@ -27,7 +28,7 @@ Alors(
 
 Alors(
   `une tâche indiquant de {string} n'est plus consultable dans la liste des tâches du porteur pour le projet`,
-  async function (this: PotentielWorld, typeTâche: string) {
+  async function (this: PotentielWorld, typeTâche: RechercherTypeTâche) {
     const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(typeTâche);
 
     await waitForExpect(async () => {
