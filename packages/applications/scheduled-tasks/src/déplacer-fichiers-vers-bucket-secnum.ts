@@ -117,7 +117,7 @@ const écrireFichierLog = ({ name, contenu }: ÉcrireFichierLogProps) => {
 
   for (const key of keys) {
     try {
-      getLogger().info(`👉 ${count} / ${keys.length} - Déplacement du fichier ${key} 👈`);
+      getLogger().info(`👉 ${count} / ${keys.length} - Déplacement du fichier ${key}`);
 
       const { Body } = await récupérerContenuFichier({
         s3: source,
@@ -189,38 +189,79 @@ const écrireFichierLog = ({ name, contenu }: ÉcrireFichierLogProps) => {
     }
   }
 
+  const now = DateTime.now().formatter();
+
   if (fichiersDuBucketSourceSansContenu.length) {
+    getLogger().info(
+      `🖊️ ${fichiersDuBucketSourceSansContenu.length} fichiers sur le bucket source sans contenu => Voir fichiers-du-bucket-source-sans-contenu-${now}.log`,
+    );
+
     écrireFichierLog({
-      name: `fichiers-du-bucket-source-sans-contenu-${DateTime.now().formatter()}.log`,
+      name: `fichiers-du-bucket-source-sans-contenu-${now}.log`,
       contenu: fichiersDuBucketSourceSansContenu,
     });
+  } else {
+    getLogger().info('🖊️  Aucun fichier sans contenu sur le bucket source sans contenu');
   }
 
   if (fichiersDuBucketDestinationSansContenu.length > 0) {
+    getLogger().info(
+      `🖊️ ${fichiersDuBucketDestinationSansContenu.length} fichiers sur le bucket de destination sans contenu => Voir fichiers-du-bucket-destination-sans-contenu-${now}.log`,
+    );
+
     écrireFichierLog({
-      name: `fichiers-du-bucket-destination-sans-contenu-${DateTime.now().formatter()}.log`,
+      name: `fichiers-du-bucket-destination-sans-contenu-${now}.log`,
       contenu: fichiersDuBucketDestinationSansContenu,
     });
+  } else {
+    getLogger().info('🖊️  Aucun fichier sans contenu sur le bucket de destination sans contenu');
   }
 
   if (fichiersAvecContenuDifférent.length > 0) {
+    getLogger().info(
+      `🖊️  ${fichiersAvecContenuDifférent.length} fichiers avec contenu différent entre le bucket source et le bucket de destination => Voir fichiers-avec-contenu-différent-${now}.log`,
+    );
     écrireFichierLog({
-      name: `fichiers-avec-contenu-différent-${DateTime.now().formatter()}.log`,
+      name: `fichiers-avec-contenu-différent-${now}.log`,
       contenu: fichiersAvecContenuDifférent,
     });
+  } else {
+    getLogger().info(
+      '🖊️  Aucun fichier avec contenu différent entre le bucket source et le bucket de destination',
+    );
   }
 
   if (erreursDeTraitement.length > 0) {
+    getLogger().info(
+      `🖊️ ${erreursDeTraitement.length} fichiers sont en erreur de traitement avec contenu différent entre le bucket source et le bucket de destination => Voir erreurs-de-traitement-${now}.log`,
+    );
+
     écrireFichierLog({
-      name: `erreurs-de-traitement-${DateTime.now().formatter()}.log`,
+      name: `erreurs-de-traitement-${now}.log`,
       contenu: erreursDeTraitement,
     });
+  } else {
+    getLogger().info('🖊️ Aucun fichier en erreur de traitement');
   }
 
   if (fichiersSuccès.length > 0) {
     écrireFichierLog({
-      name: `fichiers-succès-${DateTime.now().formatter()}.log`,
+      name: `fichiers-succès-${now}.log`,
       contenu: fichiersSuccès,
     });
+
+    if (fichiersSuccès.length === keys.length) {
+      getLogger().info(
+        `🎉 Tous les fichiers ont été déplacés avec succès => Voir fichiers-succès-${now}.log`,
+      );
+    } else {
+      getLogger().info(
+        `🖊️ ${fichiersSuccès.length} fichiers déplacés avec succès => Voir fichiers-succès-${now}.log`,
+      );
+    }
+  } else {
+    getLogger().info(
+      `🖊️ Aucun fichier n'a pu être déplacé, merci de consulter les fichiers de logs d'erreurs`,
+    );
   }
 })();
