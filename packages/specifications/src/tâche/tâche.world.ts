@@ -6,7 +6,7 @@ export type RechercherTypeTâche =
   | 'transmettre les garanties financières';
 
 export class TâcheWorld {
-  rechercherTypeTâche(value: RechercherTypeTâche) {
+  rechercherTypeTâche(value: RechercherTypeTâche): TypeTâche.ValueType {
     switch (value) {
       case 'transmettre la preuve de recandidature':
         return TypeTâche.abandonTransmettrePreuveRecandidature;
