@@ -5,13 +5,21 @@ import { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { GestionnaireRéseauListItemReadModel } from '@potentiel-domain/reseau/src/gestionnaire/lister/listerGestionnaireRéseau.query';
+import { ConsulterNombreDeRaccordementReadModel } from '@potentiel-domain/reseau/src/raccordement';
 
 import { GestionnaireRéseauListItem } from '@/components/molecules/réseau/gestionnaireRéseau/GestionnaireRéseauListItem';
 import { ListPageTemplate } from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
 
-export type GestionnaireRéseauListPageProps =
-  PlainType<GestionnaireRéseau.ListerGestionnaireRéseauReadModel>;
+export type GestionnaireWithRaccordementNumber = GestionnaireRéseauListItemReadModel &
+  ConsulterNombreDeRaccordementReadModel;
+
+export type GestionnaireRéseauListPageProps = PlainType<
+  Omit<GestionnaireRéseau.ListerGestionnaireRéseauReadModel, 'items'> & {
+    items: ReadonlyArray<GestionnaireWithRaccordementNumber>;
+  }
+>;
 
 export const GestionnaireRéseauListPage: FC<GestionnaireRéseauListPageProps> = ({
   items: gestionnaireRéseaux,

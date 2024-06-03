@@ -3,7 +3,10 @@ import { mediator } from 'mediateur';
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { GestionnaireRéseauListPage } from '@/components/pages/réseau/gestionnaire/lister/GestionnaireRéseauList.page';
+import {
+  GestionnaireRéseauListPage,
+  GestionnaireWithRaccordementNumber,
+} from '@/components/pages/réseau/gestionnaire/lister/GestionnaireRéseauList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
 
@@ -34,6 +37,8 @@ export default async function Page({ searchParams }: PageProps) {
         },
       });
 
+    const gestionnairesRéseauWithRaccordements: GestionnaireWithRaccordementNumber[] = [];
+
     for (const gestionnaire of gestionnairesRéseau.items) {
       const nombreDeRaccordements =
         await mediator.send<Raccordement.ConsulterNombreDeRaccordementQuery>({
@@ -43,9 +48,20 @@ export default async function Page({ searchParams }: PageProps) {
               gestionnaire.identifiantGestionnaireRéseau.formatter(),
           },
         });
-      console.log(nombreDeRaccordements);
+
+      gestionnairesRéseauWithRaccordements.push({
+        ...gestionnaire,
+        nombreRaccordements: nombreDeRaccordements.nombreRaccordements,
+      });
     }
 
-    return <GestionnaireRéseauListPage {...mapToPlainObject(gestionnairesRéseau)} />;
+    return (
+      <GestionnaireRéseauListPage
+        {...mapToPlainObject({
+          ...gestionnairesRéseau,
+          items: gestionnairesRéseauWithRaccordements,
+        })}
+      />
+    );
   });
 }

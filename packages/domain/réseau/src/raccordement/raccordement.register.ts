@@ -40,7 +40,7 @@ import { registerAttribuerGestionnaireCommand } from './attribuer/attribuerGesti
 import {
   ConsulterNombreDeRaccordementDependencies,
   registerConsulterNombreDeRaccordementQuery,
-} from './consulter/consulterNombreGestionnaireRéseau';
+} from './consulter/consulterNombreRaccordement';
 
 export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
   ConsulterGestionnaireRéseauRaccordementDependencies &
