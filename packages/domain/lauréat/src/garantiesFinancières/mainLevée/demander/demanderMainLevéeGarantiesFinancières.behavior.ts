@@ -52,6 +52,10 @@ export async function demanderMainLevée(
     throw new AttestationConstitutionGarantiesFinancièresManquanteError();
   }
 
+  if (this.dépôtsEnCours) {
+    throw new DépôtDeGarantiesFinancièresÀSupprimerError();
+  }
+
   const event: MainLevéeGarantiesFinancièresDemandéeEvent = {
     type: 'MainLevéeGarantiesFinancièresDemandée-V1',
     payload: {
@@ -111,6 +115,14 @@ class AttestationConstitutionGarantiesFinancièresManquanteError extends Invalid
   constructor() {
     super(
       "Votre demande n'a pas pu être enregistrée car l'attestation de constitution de vos garanties financières reste à transmettre dans Potentiel",
+    );
+  }
+}
+
+class DépôtDeGarantiesFinancièresÀSupprimerError extends InvalidOperationError {
+  constructor() {
+    super(
+      "Vous avez de nouvelles garanties financières à traiter pour ce projet. Pour demander la levée des garanties financières déjà validées vous devez d'abord annuler le dernier dépôt en attente de validation.",
     );
   }
 }

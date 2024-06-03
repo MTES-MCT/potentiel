@@ -63,6 +63,34 @@ EtantDonné(
 );
 
 EtantDonné(
+  'des garanties financières à traiter pour le projet {string}',
+  async function (this: PotentielWorld, nomProjet: string) {
+    const typeGarantiesFinancières = 'consignation';
+    const format = 'application/pdf';
+    const dateConstitution = '2024-01-01';
+    const contenuFichier = 'contenu fichier';
+    const dateSoumission = '2024-01-02';
+    const soumisPar = 'user@test.test';
+
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await mediator.send<GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
+      type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        typeValue: typeGarantiesFinancières,
+        dateConstitutionValue: new Date(dateConstitution).toISOString(),
+        soumisLeValue: new Date(dateSoumission).toISOString(),
+        soumisParValue: soumisPar,
+        attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
+      },
+    });
+
+    await sleep(500);
+  },
+);
+
+EtantDonné(
   'des garanties financières validées pour le projet {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();

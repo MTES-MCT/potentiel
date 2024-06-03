@@ -75,5 +75,33 @@ Fonctionnalité: Demander la main-levée des garanties financières d'un projet
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
             | motif                | projet-achevé          |
         Alors le porteur devrait être informé que "Il y a déjà une demande de main-levée pour ce projet"   
-    # Porteur, je ne peux pas modifier les GF de mon projet si j'ai une demande de main levée
-                   
+
+    Scénario: Erreur s'il y a des garanties financières à traiter pour le projet
+        Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
+        Etant donné des garanties financières validées pour le projet "Centrale PV"
+        Et des garanties financières à traiter pour le projet "Centrale PV"     
+        Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
+            | motif                | projet-achevé          |
+        Alors le porteur devrait être informé que "Vous avez de nouvelles garanties financières à traiter pour ce projet. Pour demander la levée des garanties financières déjà validées vous devez d'abord annuler le dernier dépôt en attente de validation."     
+
+@NotImplemented
+    Scénario: Erreur si le projet a déjà une demande de main-levée en cours d'instruction
+        Etant donné des garanties financières validées pour le projet "Centrale PV"
+        Et le projet "Centrale PV" avec une attestation de conformité transmise
+        Et une demande de main-levée de garanties financières envoyée le projet "Centrale PV" avec :
+            | motif                | projet-achevé          |
+        Et un passage en instruction de la demande de main-levée du projet "Centrale PV"  
+        Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
+            | motif                | projet-achevé          |
+        Alors le porteur devrait être informé que "Il y a déjà une demande de main-levée pour ce projet"    
+
+@NotImplemented
+    Scénario: Erreur si le projet a déjà une demande de main-levée accordée
+        Etant donné des garanties financières validées pour le projet "Centrale PV"
+        Et le projet "Centrale PV" avec une attestation de conformité transmise
+        Et une demande de main-levée de garanties financières envoyée le projet "Centrale PV" avec :
+            | motif                | projet-achevé          |
+        Et une validation de la demande de main-levée pour le projet "Centrale PV"    
+        Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
+            | motif                | projet-achevé          |
+        Alors le porteur devrait être informé que "Il y a déjà une demande de main-levée accordée pour ce projet"     
