@@ -12,12 +12,12 @@ import { GestionnaireRéseauListItem } from '@/components/molecules/réseau/gest
 import { ListPageTemplate } from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
 
-export type GestionnaireWithRaccordementNumber = GestionnaireRéseauListItemReadModel &
+export type GestionnaireAvecNombreDeRaccordement = GestionnaireRéseauListItemReadModel &
   ConsulterNombreDeRaccordementReadModel;
 
 export type GestionnaireRéseauListPageProps = PlainType<
   Omit<GestionnaireRéseau.ListerGestionnaireRéseauReadModel, 'items'> & {
-    items: ReadonlyArray<GestionnaireWithRaccordementNumber>;
+    items: ReadonlyArray<GestionnaireAvecNombreDeRaccordement>;
   }
 >;
 

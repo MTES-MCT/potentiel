@@ -5,7 +5,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 
 import {
   GestionnaireRéseauListPage,
-  GestionnaireWithRaccordementNumber,
+  GestionnaireAvecNombreDeRaccordement,
 } from '@/components/pages/réseau/gestionnaire/lister/GestionnaireRéseauList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
@@ -37,7 +37,7 @@ export default async function Page({ searchParams }: PageProps) {
         },
       });
 
-    const gestionnairesRéseauWithRaccordements: GestionnaireWithRaccordementNumber[] = [];
+    const gestionnairesRéseauWithRaccordements: GestionnaireAvecNombreDeRaccordement[] = [];
 
     for (const gestionnaire of gestionnairesRéseau.items) {
       const nombreDeRaccordements =

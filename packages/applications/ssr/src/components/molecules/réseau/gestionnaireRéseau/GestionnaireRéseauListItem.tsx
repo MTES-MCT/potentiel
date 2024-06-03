@@ -4,9 +4,9 @@ import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantGestionnaireRéseau } from '@potentiel-domain/reseau/src/gestionnaire';
 
-import { GestionnaireWithRaccordementNumber } from '../../../pages/réseau/gestionnaire/lister/GestionnaireRéseauList.page';
+import { GestionnaireAvecNombreDeRaccordement } from '../../../pages/réseau/gestionnaire/lister/GestionnaireRéseauList.page';
 
-type GestionnaireRéseauListItemProps = PlainType<GestionnaireWithRaccordementNumber>;
+type GestionnaireRéseauListItemProps = PlainType<GestionnaireAvecNombreDeRaccordement>;
 
 export const GestionnaireRéseauListItem: FC<GestionnaireRéseauListItemProps> = ({
   identifiantGestionnaireRéseau,
