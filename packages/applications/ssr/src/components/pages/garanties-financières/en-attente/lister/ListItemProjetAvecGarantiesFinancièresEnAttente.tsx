@@ -1,4 +1,3 @@
-import Badge from '@codegouvfr/react-dsfr/Badge';
 import Download from '@codegouvfr/react-dsfr/Download';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -39,10 +38,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
     <div>
       <div className="flex flex-col gap-1">
         <h2 className="leading-4">
-          Projet <strong className="mr-3">{nomProjet}</strong>{' '}
-          <Badge noIcon severity={'error'} small={true}>
-            en-attente
-          </Badge>
+          Projet <strong className="mr-3">{nomProjet}</strong>
         </h2>
         <div className="flex flex-col md:flex-row gap-2 md:gap-0 italic text-xs">
           <div>

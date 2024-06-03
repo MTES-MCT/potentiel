@@ -4,11 +4,7 @@ import { getProjectEvents } from '../../config';
 import { getProjectDataForProjectPage } from '../../config/queries.config';
 import { shouldUserAccessProject } from '../../config/useCases.config';
 import { Project } from '../../infra/sequelize';
-import {
-  GarantiesFinancièresForProjectPage,
-  PermissionConsulterProjet,
-  ProjectDataForProjectPage,
-} from '../../modules/project';
+import { PermissionConsulterProjet, ProjectDataForProjectPage } from '../../modules/project';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import routes from '../../routes';
 import { ProjectDetailsPage } from '../../views';
@@ -289,39 +285,19 @@ const getAlertesRaccordement = async ({
 const getGarantiesFinancières = async (
   identifiantProjet: IdentifiantProjet.ValueType,
 ): Promise<ProjectDataForProjectPage['garantiesFinancières']> => {
-  let garantiesFinancièresActuellesProps: GarantiesFinancièresForProjectPage['actuelles'];
-  let dépôtEnCoursProps: GarantiesFinancièresForProjectPage['dépôtÀTraiter'];
-
-  const garantiesFinancières =
+  const garantiesFinancièresActuelles =
     await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
       type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
       data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
 
-  if (Option.isSome(garantiesFinancières)) {
-    if (garantiesFinancières.actuelles) {
-      garantiesFinancièresActuellesProps = {
-        type: garantiesFinancières.actuelles.type.type,
-        dateÉchéance:
-          garantiesFinancières.actuelles.dateÉchéance &&
-          garantiesFinancières.actuelles.dateÉchéance.formatter(),
-        dateConstitution:
-          garantiesFinancières.actuelles.dateConstitution &&
-          garantiesFinancières.actuelles.dateConstitution.formatter(),
-      };
-    }
+  const dépôtEnCoursGarantiesFinancières =
+    await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
+      type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
+      data: { identifiantProjetValue: identifiantProjet.formatter() },
+    });
 
-    const dépôtEnCours = garantiesFinancières.dépôts.find((d) => d.statut.estEnCours());
-    if (dépôtEnCours) {
-      dépôtEnCoursProps = {
-        type: dépôtEnCours.type.type,
-        dateÉchéance: dépôtEnCours.dateÉchéance && dépôtEnCours.dateÉchéance.formatter(),
-        dateConstitution: dépôtEnCours.dateConstitution.formatter(),
-      };
-    }
-  }
-
-  const garantiesFinancièresEnAttente =
+  const projetAvecGarantiesFinancièresEnAttente =
     await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
       {
         type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
@@ -329,14 +305,35 @@ const getGarantiesFinancières = async (
       },
     );
 
-  const garantiesFinancièresEnAttenteProps: GarantiesFinancièresForProjectPage['garantiesFinancièresEnAttente'] =
-    Option.isSome(garantiesFinancièresEnAttente)
-      ? { motif: garantiesFinancièresEnAttente.motif.motif }
-      : undefined;
+  const actuelles = Option.isSome(garantiesFinancièresActuelles)
+    ? {
+        type: garantiesFinancièresActuelles.garantiesFinancières.type.type,
+        dateÉchéance:
+          garantiesFinancièresActuelles.garantiesFinancières.dateÉchéance &&
+          garantiesFinancièresActuelles.garantiesFinancières.dateÉchéance.formatter(),
+        dateConstitution:
+          garantiesFinancièresActuelles.garantiesFinancières.dateConstitution &&
+          garantiesFinancièresActuelles.garantiesFinancières.dateConstitution.formatter(),
+      }
+    : undefined;
+
+  const dépôtÀTraiter = Option.isSome(dépôtEnCoursGarantiesFinancières)
+    ? {
+        type: dépôtEnCoursGarantiesFinancières.dépôt.type.type,
+        dateÉchéance:
+          dépôtEnCoursGarantiesFinancières.dépôt.dateÉchéance &&
+          dépôtEnCoursGarantiesFinancières.dépôt.dateÉchéance.formatter(),
+        dateConstitution: dépôtEnCoursGarantiesFinancières.dépôt.dateConstitution.formatter(),
+      }
+    : undefined;
+
+  const garantiesFinancièresEnAttente = Option.isSome(projetAvecGarantiesFinancièresEnAttente)
+    ? { motif: projetAvecGarantiesFinancièresEnAttente.motif.motif }
+    : undefined;
 
   return {
-    actuelles: garantiesFinancièresActuellesProps,
-    dépôtÀTraiter: dépôtEnCoursProps,
-    garantiesFinancièresEnAttente: garantiesFinancièresEnAttenteProps,
+    actuelles,
+    dépôtÀTraiter,
+    garantiesFinancièresEnAttente,
   };
 };

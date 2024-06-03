@@ -2,9 +2,13 @@ import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import {
+  ConsulterCandidatureQuery,
+  ConsulterCandidatureReadModel,
+} from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
+import { ConsulterGarantiesFinancièresReadModel } from '@potentiel-domain/laureat/src/garantiesFinancières';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -49,26 +53,40 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjetValue: identifiantProjet },
       });
 
-    if (Option.isNone(garantiesFinancières) || !garantiesFinancières.actuelles) {
+    if (Option.isNone(garantiesFinancières)) {
       return notFound();
     }
 
-    const props: ModifierGarantiesFinancièresActuellesProps = {
-      projet,
-      typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
-      actuelles: {
-        type: garantiesFinancières.actuelles.type.type,
-        dateÉchéance: garantiesFinancières.actuelles.dateÉchéance?.formatter(),
-        dateConstitution: garantiesFinancières.actuelles.dateConstitution?.formatter(),
-        validéLe: garantiesFinancières.actuelles.validéLe?.formatter(),
-        attestation: garantiesFinancières.actuelles.attestation?.formatter(),
-        dernièreMiseÀJour: {
-          date: garantiesFinancières.actuelles.dernièreMiseÀJour.date.formatter(),
-          par: garantiesFinancières.actuelles.dernièreMiseÀJour.par?.formatter(),
-        },
-      },
-    };
+    const props = mapToProps({ ...garantiesFinancières, projet });
 
     return <ModifierGarantiesFinancièresActuellesPage {...props} />;
   });
 }
+
+const mapToProps = ({
+  projet,
+  garantiesFinancières: {
+    type,
+    dateÉchéance,
+    validéLe,
+    dernièreMiseÀJour,
+    dateConstitution,
+    attestation,
+  },
+}: ConsulterGarantiesFinancièresReadModel & {
+  projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
+}): ModifierGarantiesFinancièresActuellesProps => ({
+  projet,
+  typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
+  actuelles: {
+    type: type.type,
+    dateÉchéance: dateÉchéance?.formatter(),
+    dateConstitution: dateConstitution?.formatter(),
+    validéLe: validéLe?.formatter(),
+    attestation: attestation?.formatter(),
+    dernièreMiseÀJour: {
+      date: dernièreMiseÀJour.date.formatter(),
+      par: dernièreMiseÀJour.par?.formatter(),
+    },
+  },
+});

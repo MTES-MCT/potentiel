@@ -27,7 +27,7 @@ Fonctionnalité: Valider des garanties financières en attente de validation
             | date de constitution | <date de constitution> |
             | date de validation   | <date de validation>   |
         Alors il ne devrait pas y avoir de garanties financières à traiter pour le projet "Centrale PV"
-        Et les garanties financières à traiter du projet "Centrale PV" ne devraient plus être consultable dans la liste des garanties financières à traiter
+        Et la liste des garanties financières à traiter devrait être vide
     Exemples:
             | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution | date de validation |
             | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |

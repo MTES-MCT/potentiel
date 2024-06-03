@@ -23,7 +23,7 @@ export async function effacerHistorique(
   this: GarantiesFinancièresAggregate,
   { identifiantProjet, effacéLe, effacéPar }: Options,
 ) {
-  if (!this.actuelles && !this.dépôts?.length) {
+  if (!this.actuelles && !this.dépôtsEnCours) {
     throw new AucunHistoriqueÀEffacerError();
   }
 
@@ -41,7 +41,7 @@ export async function effacerHistorique(
 
 export function applyEffacerHistoriqueGarantiesFinancières(this: GarantiesFinancièresAggregate) {
   this.actuelles = undefined;
-  this.dépôts = [];
+  this.dépôtsEnCours = undefined;
 }
 
 class AucunHistoriqueÀEffacerError extends NotFoundError {

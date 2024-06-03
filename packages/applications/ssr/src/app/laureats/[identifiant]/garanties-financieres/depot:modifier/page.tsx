@@ -3,9 +3,13 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import {
+  ConsulterCandidatureQuery,
+  ConsulterCandidatureReadModel,
+} from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Role } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { ConsulterDépôtEnCoursGarantiesFinancièresReadModel } from '@potentiel-domain/laureat/src/garantiesFinancières';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -46,41 +50,38 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
       }
 
-      const garantiesFinancières =
-        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+      const dépôtGarantiesFinancières =
+        await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
           data: { identifiantProjetValue: identifiantProjet },
         });
 
-      if (Option.isNone(garantiesFinancières)) {
+      if (Option.isNone(dépôtGarantiesFinancières)) {
         return notFound();
       }
 
-      const dépôtEnCours = garantiesFinancières.dépôts.find((dépôt) => dépôt.statut.estEnCours());
-
-      if (!dépôtEnCours) {
-        return notFound();
-      }
-
-      const props: ModifierDépôtEnCoursGarantiesFinancièresProps = {
-        projet,
-        typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
-        dépôtEnCours: {
-          type: dépôtEnCours.type.type,
-          statut: dépôtEnCours.statut.statut,
-          dateÉchéance: dépôtEnCours.dateÉchéance?.formatter(),
-          dateConstitution: dépôtEnCours.dateConstitution.formatter(),
-          soumisLe: dépôtEnCours.soumisLe.formatter(),
-          attestation: dépôtEnCours.attestation.formatter(),
-          dernièreMiseÀJour: {
-            date: dépôtEnCours.dernièreMiseÀJour.date.formatter(),
-            par: dépôtEnCours.dernièreMiseÀJour.par.formatter(),
-          },
-        },
-        showWarning: utilisateur.role.estÉgaleÀ(Role.porteur) ? true : undefined,
-      };
+      const props = mapToProps({ ...dépôtGarantiesFinancières, projet, utilisateur });
 
       return <ModifierDépôtEnCoursGarantiesFinancièresPage {...props} />;
     }),
   );
 }
+
+const mapToProps = ({
+  projet,
+  dépôt: { type, dateÉchéance, dateConstitution, attestation },
+  utilisateur,
+}: ConsulterDépôtEnCoursGarantiesFinancièresReadModel & {
+  projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
+  utilisateur: Utilisateur.ValueType;
+}): ModifierDépôtEnCoursGarantiesFinancièresProps => ({
+  projet,
+  typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
+  dépôtEnCours: {
+    typeGarantiesFinancières: type.type,
+    dateÉchéance: dateÉchéance?.formatter(),
+    dateConstitution: dateConstitution.formatter(),
+    attestation: attestation.formatter(),
+  },
+  showWarning: utilisateur.role.estÉgaleÀ(Role.porteur) ? true : undefined,
+});

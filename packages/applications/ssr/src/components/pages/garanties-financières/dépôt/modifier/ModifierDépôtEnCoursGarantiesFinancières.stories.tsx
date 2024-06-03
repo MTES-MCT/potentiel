@@ -43,15 +43,9 @@ export const EnTantQueDreal: Story = {
   args: {
     projet,
     dépôtEnCours: {
-      type: 'consignation',
+      typeGarantiesFinancières: 'consignation',
       dateConstitution: new Date('2021-10-23').toISOString() as Iso8601DateTime,
-      statut: 'en-cours',
-      soumisLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
       attestation: 'path/to/attestationConstitution',
-      dernièreMiseÀJour: {
-        date: new Date('2022-01-01').toISOString() as Iso8601DateTime,
-        par: 'PORTEUR#1',
-      },
     },
     typesGarantiesFinancières,
   },
@@ -61,16 +55,9 @@ export const EnTantQuePorteur: Story = {
   args: {
     projet,
     dépôtEnCours: {
-      type: 'avec-date-échéance',
-      statut: 'en-cours',
       dateÉchéance: new Date('2023-10-23').toISOString() as Iso8601DateTime,
       dateConstitution: new Date('2021-10-23').toISOString() as Iso8601DateTime,
-      soumisLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
       attestation: 'path/to/attestationConstitution',
-      dernièreMiseÀJour: {
-        date: new Date('2022-01-15').toISOString() as Iso8601DateTime,
-        par: 'DREAL#1',
-      },
     },
     showWarning: true,
     typesGarantiesFinancières,
