@@ -48,6 +48,10 @@ export async function demanderMainLevée(
     throw new MainLevéeDéjàDemandéeError();
   }
 
+  if (!this.actuelles.attestation?.format) {
+    throw new AttestationConstitutionGarantiesFinancièresManquanteError();
+  }
+
   const event: MainLevéeGarantiesFinancièresDemandéeEvent = {
     type: 'MainLevéeGarantiesFinancièresDemandée-V1',
     payload: {
@@ -100,5 +104,13 @@ class ProjetNonAchevéError extends InvalidOperationError {
 class MainLevéeDéjàDemandéeError extends InvalidOperationError {
   constructor() {
     super('Il y a déjà une demande de main-levée pour ce projet');
+  }
+}
+
+class AttestationConstitutionGarantiesFinancièresManquanteError extends InvalidOperationError {
+  constructor() {
+    super(
+      "Votre demande n'a pas pu être enregistrée car l'attestation de constitution de vos garanties financières reste à transmettre dans Potentiel",
+    );
   }
 }

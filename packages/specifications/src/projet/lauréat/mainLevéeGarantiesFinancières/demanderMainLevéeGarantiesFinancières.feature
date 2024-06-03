@@ -53,6 +53,20 @@ Fonctionnalité: Demander la main-levée des garanties financières d'un projet
             | motif                | projet-achevé          |
         Alors le porteur devrait être informé que "Il n'y a pas de garanties financières à lever pour ce projet"
 
+    Scénario: Erreur si l'attestation de constitution de garanties financières manque pour un projet abandonné
+        Etant donné un abandon accordé pour le projet lauréat "Centrale PV"
+        Et le type de garanties financières importé  pour le projet "Centrale PV"
+        Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
+            | motif                | projet-abandonné       |
+        Alors le porteur devrait être informé que "Votre demande n'a pas pu être enregistrée car l'attestation de constitution de vos garanties financières reste à transmettre dans Potentiel"
+
+    Scénario: Erreur si l'attestation de constitution de garanties financières manque pour un projet achevé
+        Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
+        Et le type de garanties financières importé  pour le projet "Centrale PV"
+        Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
+            | motif                | projet-achevé          |
+        Alors le porteur devrait être informé que "Votre demande n'a pas pu être enregistrée car l'attestation de constitution de vos garanties financières reste à transmettre dans Potentiel"       
+
     Scénario: Erreur si le projet a déjà une demande de main-levée envoyée
         Etant donné des garanties financières validées pour le projet "Centrale PV"
         Et le projet "Centrale PV" avec une attestation de conformité transmise

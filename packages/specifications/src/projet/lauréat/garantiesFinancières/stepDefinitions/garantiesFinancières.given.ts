@@ -151,7 +151,7 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const typeGarantiesFinancières = exemple['type'] || 'Consignation';
+    const typeGarantiesFinancières = exemple['type'] || 'consignation';
     const dateÉchéance = exemple[`date d'échéance`] || undefined;
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
@@ -162,6 +162,24 @@ EtantDonné(
         identifiantProjetValue: identifiantProjet.formatter(),
         typeValue: typeGarantiesFinancières,
         ...(dateÉchéance && { dteÉchéanceValue: new Date(dateÉchéance).toISOString() }),
+        importéLeValue: new Date().toISOString(),
+      },
+    });
+
+    await sleep(100);
+  },
+);
+
+EtantDonné(
+  `le type de garanties financières importé  pour le projet {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await mediator.send<GarantiesFinancières.ImporterTypeGarantiesFinancièresUseCase>({
+      type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        typeValue: 'consignation',
         importéLeValue: new Date().toISOString(),
       },
     });
