@@ -10,7 +10,7 @@ export const get = async (url: URL, signal?: AbortSignal): Promise<unknown> => {
     const response = await fetch(url, { signal });
 
     if (!response.ok) {
-      throw new Error('Request failed');
+      throw new Error(`Request failed with status ${response.status} ${response.statusText}`);
     }
 
     return await response.json();

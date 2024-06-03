@@ -25,9 +25,9 @@ const getGRDsÀAjouter = (
   gestionnairesPotentiel: GestionnaireRéseau.ListerGestionnaireRéseauReadModel,
 ) => {
   return gestionnairesORE.filter(
-    ({ eic, grd }) =>
+    ({ eic }) =>
       !gestionnairesPotentiel.items.some(
-        ({ identifiantGestionnaireRéseau: { codeEIC } }) => codeEIC === (eic ?? grd),
+        ({ identifiantGestionnaireRéseau: { codeEIC } }) => codeEIC === eic,
       ),
   );
 };
@@ -41,7 +41,7 @@ const getGRDsÀModifier = (
       identifiantGestionnaireRéseau: { codeEIC },
     } = potentielGestionnaire;
 
-    const oreGestionnaire = gestionnairesORE.find(({ eic, grd }) => codeEIC === (eic ?? grd));
+    const oreGestionnaire = gestionnairesORE.find(({ eic }) => codeEIC === eic);
 
     return {
       oreGestionnaire,
@@ -57,13 +57,13 @@ const getGRDsWithDiff = (
   return gestionnairesPotentiel.items.filter(
     ({ identifiantGestionnaireRéseau: { codeEIC }, contactEmail, raisonSociale }) =>
       gestionnairesORE.some(({ eic, contact, grd }) => {
-        const sameIdentifiant = codeEIC === (eic ?? grd);
-        const sameRaisonSocial = raisonSociale === grd;
+        const sameIdentifiant = codeEIC === eic;
+        const sameRaisonSociale = raisonSociale === grd;
         const sameContactEmail = Option.match(contactEmail)
           .some((value) => value.formatter() === contact)
           .none(() => !contact);
 
-        return sameIdentifiant && (!sameContactEmail || !sameRaisonSocial);
+        return sameIdentifiant && (!sameContactEmail || !sameRaisonSociale);
       }),
   );
 };

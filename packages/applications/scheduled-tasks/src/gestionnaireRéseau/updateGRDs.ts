@@ -39,8 +39,6 @@ export const updateGRDs = async (gestionnaires: RéférencielGRD['àModifier']) 
           gestionnaire,
         });
       }
-    } else {
-      console.log('ore null');
     }
   }
 };

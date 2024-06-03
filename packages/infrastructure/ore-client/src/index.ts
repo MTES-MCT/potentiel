@@ -1,2 +1,2 @@
-export * from './getAllGRDs';
+export * from './récupérerTousLesGRD';
 export * from './récupérerGRDParVille';

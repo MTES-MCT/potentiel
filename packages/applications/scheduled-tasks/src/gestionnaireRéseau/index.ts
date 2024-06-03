@@ -6,7 +6,7 @@ import {
   registerRéseauUseCases,
 } from '@potentiel-domain/reseau';
 
-import { récupérerToutLesGRD } from '@potentiel-infrastructure/ore-client';
+import { récupérerTousLesGRD } from '@potentiel-infrastructure/ore-client';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   countProjection,
@@ -34,7 +34,7 @@ registerRéseauQueries({
   getLogger().info('Lancement du script...');
 
   try {
-    const gestionnairesFromORE = await récupérerToutLesGRD();
+    const gestionnairesFromORE = await récupérerTousLesGRD();
 
     const gestionnairesRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
