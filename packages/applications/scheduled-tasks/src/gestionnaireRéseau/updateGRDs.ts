@@ -5,13 +5,10 @@ import { RéférencielGRD } from './référencielGRD';
 
 export const updateGRDs = async (gestionnaires: RéférencielGRD['àModifier']) => {
   gestionnaires.length
-    ? getLogger().info(
-        '[updateGestionnaireDeRéseau] Des gestionnaires de réseau vont être mis à jour',
-        { total: gestionnaires.length },
-      )
-    : getLogger().info(
-        "[updateGestionnaireDeRéseau] Il n'y a pas de gestionnaires de réseaux à mettre à jour",
-      );
+    ? getLogger().info('Des gestionnaires de réseau vont être mis à jour', {
+        total: gestionnaires.length,
+      })
+    : getLogger().info("Il n'y a pas de gestionnaires de réseaux à mettre à jour");
 
   for (const gestionnaire of gestionnaires) {
     if (gestionnaire.oreGestionnaire) {

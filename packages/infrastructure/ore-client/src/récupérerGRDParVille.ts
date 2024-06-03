@@ -90,8 +90,6 @@ export const récupérerGRDParVille = async ({
     const codeEIC =
       parsedResult.results[0].grd_elec_eic?.[0] ?? parsedResult.results[0].grd_elec[0];
 
-    logger.info(codeEIC);
-
     return {
       codeEIC,
       raisonSociale: parsedResult.results[0].grd_elec[0],
