@@ -53,6 +53,13 @@ Fonctionnalité: Demander la main-levée des garanties financières d'un projet
             | motif                | projet-achevé          |
         Alors le porteur devrait être informé que "Il n'y a pas de garanties financières à lever pour ce projet"
 
-    # Erreurs si : main levée demandée, accordée ou en instruction, fichier GF manquant, dépôt de garanties financières à traiter     
+    Scénario: Erreur si le projet a déjà une demande de main-levée envoyée
+        Etant donné des garanties financières validées pour le projet "Centrale PV"
+        Et le projet "Centrale PV" avec une attestation de conformité transmise
+        Et une demande de main-levée de garanties financières envoyée le projet "Centrale PV" avec :
+            | motif                | projet-achevé          |
+        Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
+            | motif                | projet-achevé          |
+        Alors le porteur devrait être informé que "Il y a déjà une demande de main-levée pour ce projet"   
     # Porteur, je ne peux pas modifier les GF de mon projet si j'ai une demande de main levée
                    

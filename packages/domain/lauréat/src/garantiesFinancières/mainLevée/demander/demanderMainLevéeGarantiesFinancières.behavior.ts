@@ -44,6 +44,10 @@ export async function demanderMainLevée(
     throw new GarantiesFinancièresNonTrouvéesError();
   }
 
+  if (this.mainLevée?.statut.estDemandé()) {
+    throw new MainLevéeDéjàDemandéeError();
+  }
+
   const event: MainLevéeGarantiesFinancièresDemandéeEvent = {
     type: 'MainLevéeGarantiesFinancièresDemandée-V1',
     payload: {
@@ -90,5 +94,11 @@ class ProjetNonAchevéError extends InvalidOperationError {
     super(
       "Votre demande de main-levée de garanties financières est invalide car le projet n'est pas achevé (attestation de conformité transmise au co-contractant et dans Potentiel)",
     );
+  }
+}
+
+class MainLevéeDéjàDemandéeError extends InvalidOperationError {
+  constructor() {
+    super('Il y a déjà une demande de main-levée pour ce projet');
   }
 }
