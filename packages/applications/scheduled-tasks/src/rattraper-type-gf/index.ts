@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { createWriteStream } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { mediator } from 'mediateur';
 
 import {
@@ -24,6 +24,7 @@ import {
 } from '@potentiel-infrastructure/pg-projections';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 registerLauréatQueries({
   find: findProjection,
@@ -42,6 +43,8 @@ registerLauréatUseCases({
 });
 
 type CsvGFType = '1' | '2' | '3';
+
+const checkFileExists = (filePath: string) => (existsSync(filePath) ? true : false);
 
 const parseCsv = async (filePath: string) => {
   try {
@@ -87,59 +90,57 @@ const convertFrStringToDate = (date: string): string => {
 };
 
 (async () => {
-  const errors: Array<string> = [];
-  const success: Array<string> = [];
   const file = './rattraper-type-gfs-file.csv';
-  try {
-    const lines = await parseCsv(file);
-    if (lines.length === 0) {
-      throw new Error('💩 No lines found, empty file 💩');
-    }
 
-    for (const { appelOffre, periode, famille, numeroCRE, dateÉchéance, typeGF } of lines) {
-      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-        `${appelOffre}#${periode}#${famille}#${numeroCRE}`,
-      ).formatter();
+  const fileExists = checkFileExists(file);
 
-      const type = getGFType(typeGF);
-      const dateÉchéanceValue = dateÉchéance
-        ? DateTime.convertirEnValueType(convertFrStringToDate(dateÉchéance)).formatter()
-        : undefined;
-
-      try {
-        await mediator.send<GarantiesFinancières.ImporterTypeGarantiesFinancièresUseCase>({
-          type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
-          data: {
-            identifiantProjetValue: identifiantProjet,
-            typeValue: type,
-            dateÉchéanceValue,
-            importéLeValue: DateTime.now().formatter(),
-          },
-        });
-        success.push(
-          `✅ Success : Projet ${identifiantProjet} has a fresh GF type (${type}) ${
-            dateÉchéance ? `with date échéance ${dateÉchéance}` : ''
-          } ✅`,
-        );
-      } catch (error) {
-        errors.push(
-          `🩸 Error : Projet ${identifiantProjet} has error while importing the GF type => ${error}`,
-        );
-        continue;
-      }
-    }
-  } catch (error) {
-    errors.push((error as Error).message);
-  } finally {
-    const errorsFile = createWriteStream(`errors-${DateTime.now().formatter()}.log`);
-    errorsFile.write(errors.join('\n'));
-    errorsFile.end();
-
-    const successFile = createWriteStream(`success-${DateTime.now().formatter()}.log`);
-    successFile.write(success.join('\n'));
-    successFile.end();
-
-    console.log('🍀 Done !');
-    process.exit(0);
+  if (!fileExists) {
+    getLogger().error(new Error(`❌ File ${file} doesn't exist ❌`));
+    process.exit(1);
   }
+
+  const lines = await parseCsv(file);
+
+  if (lines.length === 0) {
+    getLogger().error(new Error('❌ No lines found, empty file ❌'));
+    process.exit(1);
+  }
+
+  for (const { appelOffre, periode, famille, numeroCRE, dateÉchéance, typeGF } of lines) {
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+      `${appelOffre}#${periode}#${famille}#${numeroCRE}`,
+    ).formatter();
+
+    const type = getGFType(typeGF);
+    const dateÉchéanceValue = dateÉchéance
+      ? DateTime.convertirEnValueType(convertFrStringToDate(dateÉchéance)).formatter()
+      : undefined;
+
+    try {
+      await mediator.send<GarantiesFinancières.ImporterTypeGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          typeValue: type,
+          dateÉchéanceValue,
+          importéLeValue: DateTime.now().formatter(),
+        },
+      });
+
+      getLogger().info(
+        `✅ Success : Projet ${identifiantProjet} has a fresh GF type (${type}) ${
+          dateÉchéance ? `with date échéance ${dateÉchéance}` : ''
+        }`,
+      );
+    } catch (error) {
+      getLogger().error(
+        new Error(
+          `❌ Error : Projet ${identifiantProjet} has error while importing the GF type => ${error}`,
+        ),
+      );
+    }
+  }
+
+  getLogger().info(`🎉 Process ended 🎉`);
+  process.exit(0);
 })();
