@@ -67,12 +67,19 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjetValue: identifiantProjet },
       });
 
+      const mainLevée =
+        await mediator.send<GarantiesFinancières.ConsulterMainLevéeGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.MainLevée.Query.Consulter',
+          data: { identifiantProjetValue: identifiantProjet },
+        });
+
       const props = mapToProps({
         projet,
         utilisateur,
         garantiesFinancièresActuelles,
         dépôtEnCoursGarantiesFinancières,
         achèvement,
+        mainLevée,
       });
 
       return <DétailsGarantiesFinancièresPage {...props} />;
@@ -86,6 +93,7 @@ type MapToProps = (args: {
   garantiesFinancièresActuelles: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
   achèvement: Option.Type<Achèvement.ConsulterAttestationConformitéReadModel>;
+  mainLevée: Option.Type<GarantiesFinancières.ConsulterMainLevéeGarantiesFinancièresReadModel>;
 }) => DétailsGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({
@@ -94,6 +102,7 @@ const mapToProps: MapToProps = ({
   garantiesFinancièresActuelles,
   dépôtEnCoursGarantiesFinancières,
   achèvement,
+  mainLevée,
 }) => {
   if (
     Option.isNone(garantiesFinancièresActuelles) &&
@@ -138,7 +147,8 @@ const mapToProps: MapToProps = ({
     utilisateur.role.estÉgaleÀ(Role.porteur) &&
     Option.isSome(garantiesFinancièresActuelles) &&
     garantiesFinancièresActuelles.garantiesFinancières.attestation &&
-    Option.isNone(dépôtEnCoursGarantiesFinancières)
+    Option.isNone(dépôtEnCoursGarantiesFinancières) &&
+    Option.isNone(mainLevée)
   ) {
     if (projet.statut === 'abandonné') {
       garantiesFinancièresActuellesActions.push('demander-main-levée-gf-pour-projet-abandonné');
@@ -187,5 +197,12 @@ const mapToProps: MapToProps = ({
       Option.isNone(dépôtEnCoursGarantiesFinancières) && utilisateur.role.estÉgaleÀ(Role.porteur)
         ? 'soumettre'
         : undefined,
+    mainLevée: Option.isSome(mainLevée)
+      ? {
+          motif: mainLevée.motif.motif,
+          statut: mainLevée.statut.statut,
+          demandéLe: mainLevée.demande.demandéeLe.formatter(),
+        }
+      : undefined,
   };
 };

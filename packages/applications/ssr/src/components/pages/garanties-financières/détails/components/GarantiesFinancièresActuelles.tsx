@@ -4,6 +4,7 @@ import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { CallOut } from '@/components/atoms/CallOut';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -34,6 +35,11 @@ export type GarantiesFinancièresActuellesProps = {
       | 'demander-main-levée-gf-pour-projet-achevé'
     >;
   };
+  mainLevée?: {
+    statut: GarantiesFinancières.StatutMainLevéeGarantiesFinancières.RawType;
+    motif: GarantiesFinancières.MotifDemandeMainLevéeGarantiesFinancières.RawMotif;
+    demandéLe: Iso8601DateTime;
+  };
 };
 
 export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesProps> = ({
@@ -48,6 +54,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
     soumisLe,
     dernièreMiseÀJour,
   },
+  mainLevée,
 }) => (
   <>
     <CallOut
@@ -116,6 +123,13 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
               )}
             </div>
           </div>
+          {mainLevée && (
+            <div className="font-semibold text-base">
+              Le porteur de projet a déposé une demande de main-levée en date du{' '}
+              <FormattedDate className="font-semibold" date={mainLevée.demandéLe} /> suite à{' '}
+              {mainLevée.motif === 'projet-abandonné' ? `l'abandon` : `l'achèvement`} du projet.
+            </div>
+          )}
           <Actions identifiantProjet={identifiantProjet} actions={actions} />
         </>
       }
