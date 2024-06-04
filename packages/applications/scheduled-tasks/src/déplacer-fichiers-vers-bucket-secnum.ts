@@ -8,7 +8,7 @@ import { createWriteStream } from 'node:fs';
 const sourceBucketName = process.env.S3_BUCKET || 'potentiel';
 const destinationBucketName = process.env.S3_SECNUM_BUCKET || 'potentiel-secnum';
 
-const getAllFileKeys = async (source: S3, nextMarker?: string) => {
+const récupérerToutesLesClésDesFichiers = async (source: S3, nextMarker?: string) => {
   getLogger().info('ℹ Getting all files from production');
   getLogger().info(`ℹ Next marker : ${nextMarker ? 'Yes' : 'No'}`);
   const {
@@ -26,7 +26,7 @@ const getAllFileKeys = async (source: S3, nextMarker?: string) => {
 
   if (IsTruncated) {
     getLogger().info(`ℹ List objects is truntaced : ${IsTruncated}`);
-    const nextKeys = await getAllFileKeys(source, NextMarker);
+    const nextKeys = await récupérerToutesLesClésDesFichiers(source, NextMarker);
     keys = [...keys, ...nextKeys];
   }
 
@@ -77,28 +77,62 @@ const écrireFichierLog = ({ name, contenu }: ÉcrireFichierLogProps) => {
   file.end();
 };
 
+const vérifierLesVariablesDEnvironnement = () => {
+  if (!process.env.S3_ENDPOINT) {
+    getLogger().error(new Error('❌ S3_ENDPOINT is not defined'));
+    process.exit(1);
+  }
+
+  if (!process.env.AWS_ACCESS_KEY_ID) {
+    getLogger().error(new Error('❌ AWS_ACCESS_KEY_ID is not defined'));
+    process.exit(1);
+  }
+
+  if (!process.env.AWS_SECRET_ACCESS_KEY) {
+    getLogger().error(new Error('❌ AWS_SECRET_ACCESS_KEY is not defined'));
+    process.exit(1);
+  }
+
+  if (!process.env.S3_SECNUM_ENDPOINT) {
+    getLogger().error(new Error('❌ S3_SECNUM_ENDPOINT is not defined'));
+    process.exit(1);
+  }
+
+  if (!process.env.S3_SECNUM_AWS_ACCESS_KEY_ID) {
+    getLogger().error(new Error('❌ S3_SECNUM_AWS_ACCESS_KEY_ID is not defined'));
+    process.exit(1);
+  }
+
+  if (!process.env.S3_SECNUM_AWS_SECRET_ACCESS_KEY) {
+    getLogger().error(new Error('❌ S3_SECNUM_AWS_SECRET_ACCESS_KEY is not defined'));
+    process.exit(1);
+  }
+};
+
 (async () => {
+  vérifierLesVariablesDEnvironnement();
+
   getLogger().info('🏁 Moving production files to secnum S3 bucket');
 
   const source = new S3({
-    endpoint: process.env.S3_ENDPOINT || 'http://localhost:9000',
+    endpoint: process.env.S3_ENDPOINT as string,
     credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'minioadmin',
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'minioadmin',
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
     },
     forcePathStyle: true,
   });
 
   const destination = new S3({
-    endpoint: process.env.S3_SECNUM_ENDPOINT || 'http://localhost:9000',
+    endpoint: process.env.S3_SECNUM_ENDPOINT as string,
     credentials: {
-      accessKeyId: process.env.S3_SECNUM_AWS_ACCESS_KEY_ID || 'minioadmin',
-      secretAccessKey: process.env.S3_SECNUM_AWS_SECRET_ACCESS_KEY || 'minioadmin',
+      accessKeyId: process.env.S3_SECNUM_AWS_ACCESS_KEY_ID as string,
+      secretAccessKey: process.env.S3_SECNUM_AWS_SECRET_ACCESS_KEY as string,
     },
     forcePathStyle: true,
   });
 
-  const keys = await getAllFileKeys(source);
+  const keys = await récupérerToutesLesClésDesFichiers(source);
 
   if (keys.length === 0) {
     getLogger().warn('⚠️ No file keys found in the source bucket');
