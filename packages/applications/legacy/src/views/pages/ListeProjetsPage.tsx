@@ -296,12 +296,12 @@ export const ListeProjets = ({
           <ListeVide titre="Aucun projet à lister" />
         ) : (
           <>
-            {userIs(['admin', 'dgec-validateur', 'porteur-projet'])(utilisateur) && (
+            {userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal'])(utilisateur) && (
               <Dropdown
                 design="link"
                 isOpen={displaySelection}
                 changeOpenState={(isOpen) => setDisplaySelection(isOpen)}
-                text="Donner accès à un utilisateur"
+                text="Donner accès à un autre utilisateur"
                 className={`mb-4 ${(success || error) && 'mt-4'}`}
               >
                 <Form
