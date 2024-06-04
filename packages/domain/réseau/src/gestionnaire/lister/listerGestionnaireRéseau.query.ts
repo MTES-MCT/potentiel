@@ -7,7 +7,7 @@ import {
   mapToReadModel,
 } from '../consulter/consulterGestionnaireRéseau.query';
 
-type GestionnaireRéseauListItemReadModel = ConsulterGestionnaireRéseauReadModel;
+export type GestionnaireRéseauListItemReadModel = ConsulterGestionnaireRéseauReadModel;
 
 export type ListerGestionnaireRéseauReadModel = Readonly<{
   items: ReadonlyArray<GestionnaireRéseauListItemReadModel>;

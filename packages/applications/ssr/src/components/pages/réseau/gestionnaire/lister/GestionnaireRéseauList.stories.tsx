@@ -31,6 +31,7 @@ export const Default: Story = {
         expressionReguliere: { expression: 'expressionReguliere' },
       },
       contactEmail: { email: 'contactEmail' },
+      nombreRaccordements: i + 1,
     })),
     range: {
       startPosition: 0,

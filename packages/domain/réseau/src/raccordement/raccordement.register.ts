@@ -37,10 +37,15 @@ import {
 } from './lister/listerRaccordement.query';
 import { registerAttribuerGestionnaireRéseauUseCase } from './attribuer/attribuerGestionnaireRéseau.usecase';
 import { registerAttribuerGestionnaireCommand } from './attribuer/attribuerGestionnaireRéseau.command';
+import {
+  ConsulterNombreDeRaccordementDependencies,
+  registerConsulterNombreDeRaccordementQuery,
+} from './consulter/consulterNombreRaccordement';
 
 export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
   ConsulterGestionnaireRéseauRaccordementDependencies &
   ConsulterRaccordementDependencies &
+  ConsulterNombreDeRaccordementDependencies &
   RechercherDossierRaccordementDependencies &
   ListerRaccordementQueryDependencies;
 
@@ -51,6 +56,7 @@ export type RaccordementCommandDependencies = {
 export const registerRaccordementQueries = (dependencies: RaccordementQueryDependencies) => {
   registerConsulterDossierRaccordementQuery(dependencies);
   registerConsulterGestionnaireRéseauRaccordementQuery(dependencies);
+  registerConsulterNombreDeRaccordementQuery(dependencies);
   registerConsulterRaccordementQuery(dependencies);
   registerRechercherDossierRaccordementQuery(dependencies);
   registerListerRaccordementQuery(dependencies);

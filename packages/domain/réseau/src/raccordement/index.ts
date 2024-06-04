@@ -8,6 +8,10 @@ import {
   ConsulterGestionnaireRéseauRaccordementReadModel,
 } from './consulter/consulterGestionnaireRéseauRaccordement.query';
 import {
+  ConsulterNombreDeRaccordementQuery,
+  ConsulterNombreDeRaccordementReadModel,
+} from './consulter/consulterNombreRaccordement';
+import {
   ConsulterRaccordementQuery,
   ConsulterRaccordementReadModel,
 } from './consulter/consulterRaccordement.query';
@@ -32,22 +36,25 @@ export type RaccordementQuery =
   | ConsulterRaccordementQuery
   | ConsulterDossierRaccordementQuery
   | ConsulterGestionnaireRéseauRaccordementQuery
+  | ConsulterNombreDeRaccordementQuery
   | RechercherDossierRaccordementQuery
   | ListerRaccordementQuery;
 
-export {
+export type {
   ConsulterDossierRaccordementQuery,
   ConsulterGestionnaireRéseauRaccordementQuery,
   RechercherDossierRaccordementQuery,
+  ConsulterNombreDeRaccordementQuery,
   ConsulterRaccordementQuery,
   ListerRaccordementQuery,
 };
 
 // ReadModel
-export {
+export type {
   ConsulterRaccordementReadModel,
   ConsulterDossierRaccordementReadModel,
   ConsulterGestionnaireRéseauRaccordementReadModel,
+  ConsulterNombreDeRaccordementReadModel,
   RechercherDossierRaccordementReadModel,
   ListerRaccordementReadModel,
 };
@@ -63,7 +70,7 @@ export type RaccordementUseCase =
   | TransmettrePropositionTechniqueEtFinancièreUseCase
   | AttribuerGestionnaireRéseauUseCase;
 
-export {
+export type {
   ModifierDemandeComplèteRaccordementUseCase,
   ModifierGestionnaireRéseauRaccordementUseCase,
   ModifierPropositiontechniqueEtFinancièreUseCase,
@@ -75,33 +82,33 @@ export {
 };
 
 // Event
-export { RaccordementEvent } from './raccordement.aggregate';
-export {
+export type { RaccordementEvent } from './raccordement.aggregate';
+export type {
   DemandeComplèteRaccordementModifiéeEvent,
   DemandeComplèteRaccordementModifiéeEventV1,
   DemandeComplèteRaccordementModifiéeEventV2,
 } from './modifier/modifierDemandeComplèteRaccordement.behavior';
-export { RéférenceDossierRacordementModifiéeEvent } from './modifier/modifierRéférenceDossierRaccordement.behavior';
-export {
+export type { RéférenceDossierRacordementModifiéeEvent } from './modifier/modifierRéférenceDossierRaccordement.behavior';
+export type {
   GestionnaireRéseauRaccordementModifiéEvent,
   GestionnaireRéseauProjetModifiéEvent,
 } from './modifier/modifierGestionnaireRéseauRaccordement.behavior';
-export {
+export type {
   PropositionTechniqueEtFinancièreModifiéeEvent,
   PropositionTechniqueEtFinancièreModifiéeEventV1,
 } from './modifier/modifierPropositiontechniqueEtFinancière.behavior';
-export { DateMiseEnServiceTransmiseEvent } from './transmettre/transmettreDateMiseEnService.behavior';
-export {
+export type { DateMiseEnServiceTransmiseEvent } from './transmettre/transmettreDateMiseEnService.behavior';
+export type {
   DemandeComplèteRaccordementTransmiseEvent,
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
   DemandeComplèteRaccordementTransmiseEventV1,
 } from './transmettre/transmettreDemandeComplèteRaccordement.behavior';
-export {
+export type {
   PropositionTechniqueEtFinancièreTransmiseEvent,
   PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
   PropositionTechniqueEtFinancièreTransmiseEventV1,
 } from './transmettre/transmettrePropositionTechniqueEtFinancière.behavior';
-export { GestionnaireRéseauAttribuéEvent } from './attribuer/attribuerGestionnaireRéseau.behavior';
+export type { GestionnaireRéseauAttribuéEvent } from './attribuer/attribuerGestionnaireRéseau.behavior';
 
 // ValueTypes
 export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';

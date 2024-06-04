@@ -1,9 +1,12 @@
 import { mediator } from 'mediateur';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { GestionnaireRéseauListPage } from '@/components/pages/réseau/gestionnaire/lister/GestionnaireRéseauList.page';
+import {
+  GestionnaireRéseauListPage,
+  GestionnaireAvecNombreDeRaccordement,
+} from '@/components/pages/réseau/gestionnaire/lister/GestionnaireRéseauList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
 
@@ -16,7 +19,7 @@ export default async function Page({ searchParams }: PageProps) {
     const page = searchParams?.page ? parseInt(searchParams.page) : 1;
     const raisonSocialeSearch = searchParams ? searchParams['raisonSociale'] : '';
 
-    const gestionnaireRéseaux =
+    const gestionnairesRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
         type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
         data: {
@@ -34,6 +37,33 @@ export default async function Page({ searchParams }: PageProps) {
         },
       });
 
-    return <GestionnaireRéseauListPage {...mapToPlainObject(gestionnaireRéseaux)} />;
+    const gestionnairesRéseauWithRaccordements: GestionnaireAvecNombreDeRaccordement[] = [];
+
+    await Promise.all(
+      gestionnairesRéseau.items.map(async (gestionnaire) => {
+        const nombreDeRaccordements =
+          await mediator.send<Raccordement.ConsulterNombreDeRaccordementQuery>({
+            type: 'Réseau.Raccordement.Query.ConsulterNombreDeRaccordement',
+            data: {
+              identifiantGestionnaireRéseauValue:
+                gestionnaire.identifiantGestionnaireRéseau.formatter(),
+            },
+          });
+
+        gestionnairesRéseauWithRaccordements.push({
+          ...gestionnaire,
+          nombreRaccordements: nombreDeRaccordements.nombreRaccordements,
+        });
+      }),
+    );
+
+    return (
+      <GestionnaireRéseauListPage
+        {...mapToPlainObject({
+          ...gestionnairesRéseau,
+          items: gestionnairesRéseauWithRaccordements,
+        })}
+      />
+    );
   });
 }

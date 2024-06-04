@@ -2,15 +2,16 @@ import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { IdentifiantGestionnaireRéseau } from '@potentiel-domain/reseau/src/gestionnaire';
 
-type GestionnaireRéseauListItemProps =
-  PlainType<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;
+import { GestionnaireAvecNombreDeRaccordement } from '../../../pages/réseau/gestionnaire/lister/GestionnaireRéseauList.page';
+
+type GestionnaireRéseauListItemProps = PlainType<GestionnaireAvecNombreDeRaccordement>;
 
 export const GestionnaireRéseauListItem: FC<GestionnaireRéseauListItemProps> = ({
   identifiantGestionnaireRéseau,
   raisonSociale,
+  nombreRaccordements,
 }) => {
   const identifiantGestionnaireReseauValue = IdentifiantGestionnaireRéseau.bind(
     identifiantGestionnaireRéseau,
@@ -23,6 +24,9 @@ export const GestionnaireRéseauListItem: FC<GestionnaireRéseauListItemProps> =
           <h2 className="leading-4">
             <span className="font-bold">{raisonSociale}</span>
           </h2>
+          <p>
+            {nombreRaccordements} raccordement{nombreRaccordements > 1 ? 's' : ''}
+          </p>
         </div>
       </div>
 
