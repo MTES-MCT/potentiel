@@ -42,7 +42,6 @@ export const InfoGenerales = ({
 
   const shouldDisplayGf =
     isClasse &&
-    !isAbandoned &&
     [
       'admin',
       'dgec-validateur',
