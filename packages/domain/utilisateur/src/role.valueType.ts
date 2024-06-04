@@ -129,6 +129,7 @@ const référencielPermissions = {
           'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
         générerModèleMiseEnDemeureGarantiesFinancières:
           'Document.Query.GénérerModèleMideEnDemeureGarantiesFinancières',
+        consulterMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.Query.Consulter',
       },
       usecase: {
         demander: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
@@ -144,6 +145,7 @@ const référencielPermissions = {
         enregistrer: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
         effacerHistorique:
           'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
+        demanderMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.UseCase.Demander',
       },
       command: {
         demander: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
@@ -159,6 +161,7 @@ const référencielPermissions = {
         enregistrer: 'Lauréat.GarantiesFinancières.Command.EnregistrerGarantiesFinancières',
         effacerHistorique:
           'Lauréat.GarantiesFinancières.Command.EffacerHistoriqueGarantiesFinancières',
+        demanderMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.Command.Demander',
       },
     },
     achèvement: {
@@ -546,6 +549,13 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.command.enregistrer,
       ],
     },
+    mainLevée: {
+      demander: [
+        référencielPermissions.lauréat.garantiesFinancières.usecase.demanderMainLevée,
+        référencielPermissions.lauréat.garantiesFinancières.command.demanderMainLevée,
+      ],
+      consulter: [référencielPermissions.lauréat.garantiesFinancières.query.consulterMainLevée],
+    },
     enAttente: {
       lister: [
         référencielPermissions.lauréat.garantiesFinancières.query
@@ -627,6 +637,7 @@ const permissionAdmin = [
   ...policies.garantiesFinancières.effacerHistorique,
   ...policies.garantiesFinancières.enAttente.lister,
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
+  ...policies.garantiesFinancières.mainLevée.consulter,
 
   // Achèvement
   ...policies.achèvement.consulter,
@@ -651,6 +662,7 @@ const permissionCRE = [
   ...policies.garantiesFinancières.actuelles.modifier,
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.actuelles.enregistrer,
+  ...policies.garantiesFinancières.mainLevée.consulter,
 ];
 
 const permissionDreal = [
@@ -674,6 +686,7 @@ const permissionDreal = [
   ...policies.garantiesFinancières.effacerHistorique,
   ...policies.garantiesFinancières.enAttente.lister,
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
+  ...policies.garantiesFinancières.mainLevée.consulter,
 
   // Achèvement
   ...policies.achèvement.consulter,
@@ -720,6 +733,7 @@ const permissionDgecValidateur = [
   ...policies.garantiesFinancières.effacerHistorique,
   ...policies.garantiesFinancières.enAttente.lister,
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
+  ...policies.garantiesFinancières.mainLevée.consulter,
 
   // Achèvement
   ...policies.achèvement.consulter,
@@ -758,6 +772,8 @@ const permissionPorteurProjet = [
   ...policies.garantiesFinancières.dépôt.modifier,
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.effacerHistorique,
+  ...policies.garantiesFinancières.mainLevée.consulter,
+  ...policies.garantiesFinancières.mainLevée.demander,
 
   // Achèvement
   ...policies.achèvement.consulter,
@@ -770,6 +786,7 @@ const permissionAcheteurObligé = [
   // Garanties financières
   ...policies.garantiesFinancières.actuelles.consulter,
   ...policies.garantiesFinancières.dépôt.consulter,
+  ...policies.garantiesFinancières.mainLevée.consulter,
 
   // Achèvement
   ...policies.achèvement.transmettre,
@@ -782,6 +799,7 @@ const permissionCaisseDesDépôts = [
   ...policies.garantiesFinancières.actuelles.modifier,
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.actuelles.enregistrer,
+  ...policies.garantiesFinancières.mainLevée.consulter,
 
   // Achèvement
   ...policies.achèvement.consulter,

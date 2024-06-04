@@ -47,7 +47,7 @@ export const GarantiesFinancieresActuellesComplètes: Story = {
       soumisLe: new Date('2021-09-23').toISOString() as Iso8601DateTime,
       validéLe: new Date('2021-10-23').toISOString() as Iso8601DateTime,
       attestation: 'path/to/attestation.pdf',
-      action: 'modifier',
+      actions: ['modifier'],
       dernièreMiseÀJour: {
         date: new Date('2021-10-23').toISOString() as Iso8601DateTime,
         par: 'DREAL#1',
@@ -66,7 +66,7 @@ export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = 
       soumisLe: new Date('2021-09-23').toISOString() as Iso8601DateTime,
       validéLe: new Date('2021-10-23').toISOString() as Iso8601DateTime,
       attestation: 'path/to/attestation.pdf',
-      action: 'modifier',
+      actions: ['modifier'],
       dernièreMiseÀJour: {
         date: new Date('2021-10-23').toISOString() as Iso8601DateTime,
         par: 'DREAL#1',
@@ -94,7 +94,7 @@ export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
       soumisLe: new Date('2024-01-01').toISOString() as Iso8601DateTime,
       validéLe: new Date('2024-01-15').toISOString() as Iso8601DateTime,
       attestation: 'path/to/attestation.pdf',
-      action: 'enregister-attestation',
+      actions: ['enregister-attestation'],
       dernièreMiseÀJour: {
         date: new Date('2024-01-15').toISOString() as Iso8601DateTime,
         par: 'PORTEUR#1',

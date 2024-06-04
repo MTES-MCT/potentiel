@@ -9,6 +9,8 @@ import { CallOut } from '@/components/atoms/CallOut';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2 } from '@/components/atoms/headings';
 
+import { DemanderMainLevéeGarantiesFinancières } from '../../mainLevée/demander/DemanderMainLevéeGarantiesFinancières';
+
 export type GarantiesFinancièresActuelles = {
   type: string;
   dateÉchéance?: Iso8601DateTime;
@@ -25,7 +27,12 @@ export type GarantiesFinancièresActuelles = {
 export type GarantiesFinancièresActuellesProps = {
   identifiantProjet: string;
   actuelles: GarantiesFinancièresActuelles & {
-    action?: 'modifier' | 'enregister-attestation';
+    actions: Array<
+      | 'modifier'
+      | 'enregister-attestation'
+      | 'demander-main-levée-gf-pour-projet-abandonné'
+      | 'demander-main-levée-gf-pour-projet-achevé'
+    >;
   };
 };
 
@@ -36,7 +43,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
     dateÉchéance,
     dateConstitution,
     attestation,
-    action,
+    actions,
     validéLe,
     soumisLe,
     dernièreMiseÀJour,
@@ -45,7 +52,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
   <>
     <CallOut
       className="flex-1"
-      colorVariant={action === 'enregister-attestation' ? 'warning' : 'success'}
+      colorVariant={actions.includes('enregister-attestation') ? 'warning' : 'success'}
       content={
         <>
           <Heading2>Garanties financières actuelles</Heading2>
@@ -66,10 +73,10 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
                   Type : <span className="font-semibold">{type}</span>
                 </>
               )}
-              {!type && action === 'modifier' && (
+              {!type && actions.includes('modifier') && (
                 <span className="font-semibold italic">Type de garanties financières manquant</span>
               )}
-              {!type && action !== 'modifier' && (
+              {!type && !actions.includes('modifier') && (
                 <span className="font-semibold italic">
                   Type à compléter par l'autorité instructrice compétente
                 </span>
@@ -109,21 +116,21 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
               )}
             </div>
           </div>
-          <ButtonAction identifiantProjet={identifiantProjet} action={action} />
+          <Actions identifiantProjet={identifiantProjet} actions={actions} />
         </>
       }
     />
   </>
 );
 
-type ButtonActionProps = {
+type ActionsProps = {
   identifiantProjet: GarantiesFinancièresActuellesProps['identifiantProjet'];
-  action: GarantiesFinancièresActuellesProps['actuelles']['action'];
+  actions: GarantiesFinancièresActuellesProps['actuelles']['actions'];
 };
-const ButtonAction: FC<ButtonActionProps> = ({ identifiantProjet, action }) => {
-  switch (action) {
-    case 'modifier':
-      return (
+const Actions: FC<ActionsProps> = ({ identifiantProjet, actions }) => {
+  return (
+    <>
+      {actions.includes('modifier') && (
         <Button
           linkProps={{
             href: Routes.GarantiesFinancières.actuelles.modifier(identifiantProjet),
@@ -131,9 +138,9 @@ const ButtonAction: FC<ButtonActionProps> = ({ identifiantProjet, action }) => {
         >
           Modifier
         </Button>
-      );
-    case 'enregister-attestation':
-      return (
+      )}
+
+      {actions.includes('enregister-attestation') && (
         <>
           <p className="italic">
             Les garanties financières sont incomplètes, merci de les compléter en enregistrant
@@ -148,8 +155,21 @@ const ButtonAction: FC<ButtonActionProps> = ({ identifiantProjet, action }) => {
             Enregistrer l'attestation de constitution
           </Button>
         </>
-      );
-    default:
-      return null;
-  }
+      )}
+
+      {(actions.includes('demander-main-levée-gf-pour-projet-abandonné') ||
+        actions.includes('demander-main-levée-gf-pour-projet-achevé')) && (
+        <>
+          <DemanderMainLevéeGarantiesFinancières
+            identifiantProjet={identifiantProjet}
+            motif={
+              actions.includes('demander-main-levée-gf-pour-projet-abandonné')
+                ? 'projet-abandonné'
+                : 'projet-achevé'
+            }
+          />
+        </>
+      )}
+    </>
+  );
 };
