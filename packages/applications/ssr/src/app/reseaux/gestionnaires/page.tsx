@@ -39,21 +39,23 @@ export default async function Page({ searchParams }: PageProps) {
 
     const gestionnairesRéseauWithRaccordements: GestionnaireAvecNombreDeRaccordement[] = [];
 
-    for (const gestionnaire of gestionnairesRéseau.items) {
-      const nombreDeRaccordements =
-        await mediator.send<Raccordement.ConsulterNombreDeRaccordementQuery>({
-          type: 'Réseau.Raccordement.Query.ConsulterNombreDeRaccordement',
-          data: {
-            identifiantGestionnaireRéseauValue:
-              gestionnaire.identifiantGestionnaireRéseau.formatter(),
-          },
-        });
+    await Promise.all(
+      gestionnairesRéseau.items.map(async (gestionnaire) => {
+        const nombreDeRaccordements =
+          await mediator.send<Raccordement.ConsulterNombreDeRaccordementQuery>({
+            type: 'Réseau.Raccordement.Query.ConsulterNombreDeRaccordement',
+            data: {
+              identifiantGestionnaireRéseauValue:
+                gestionnaire.identifiantGestionnaireRéseau.formatter(),
+            },
+          });
 
-      gestionnairesRéseauWithRaccordements.push({
-        ...gestionnaire,
-        nombreRaccordements: nombreDeRaccordements.nombreRaccordements,
-      });
-    }
+        gestionnairesRéseauWithRaccordements.push({
+          ...gestionnaire,
+          nombreRaccordements: nombreDeRaccordements.nombreRaccordements,
+        });
+      }),
+    );
 
     return (
       <GestionnaireRéseauListPage

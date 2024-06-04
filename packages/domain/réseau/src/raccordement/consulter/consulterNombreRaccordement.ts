@@ -10,7 +10,7 @@ export type ConsulterNombreDeRaccordementReadModel = {
 export type ConsulterNombreDeRaccordementQuery = Message<
   'Réseau.Raccordement.Query.ConsulterNombreDeRaccordement',
   {
-    identifiantGestionnaireRéseauValue?: RaccordementEntity['identifiantGestionnaireRéseau'];
+    identifiantGestionnaireRéseauValue: RaccordementEntity['identifiantGestionnaireRéseau'];
   },
   ConsulterNombreDeRaccordementReadModel
 >;
@@ -27,12 +27,10 @@ export const registerConsulterNombreDeRaccordementQuery = ({
   }) => {
     const nombreRaccordements = await count<RaccordementEntity>('raccordement', {
       where: {
-        ...(identifiantGestionnaireRéseauValue && {
-          identifiantGestionnaireRéseau: {
-            operator: 'equal',
-            value: identifiantGestionnaireRéseauValue,
-          },
-        }),
+        identifiantGestionnaireRéseau: {
+          operator: 'equal',
+          value: identifiantGestionnaireRéseauValue,
+        },
       },
     });
 
