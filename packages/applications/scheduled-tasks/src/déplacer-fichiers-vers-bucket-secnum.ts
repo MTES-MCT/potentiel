@@ -102,7 +102,7 @@ const écrireFichierLog = ({ name, contenu }: ÉcrireFichierLogProps) => {
 
   if (keys.length === 0) {
     getLogger().warn('⚠️ No file keys found in the source bucket');
-    process.exit();
+    process.exit(1);
   }
 
   getLogger().info(`✨ ${keys.length} fichiers à copier`);
