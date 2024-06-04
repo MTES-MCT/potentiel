@@ -78,34 +78,20 @@ const écrireFichierLog = ({ name, contenu }: ÉcrireFichierLogProps) => {
 };
 
 const vérifierLesVariablesDEnvironnement = () => {
-  if (!process.env.S3_ENDPOINT) {
-    getLogger().error(new Error('❌ S3_ENDPOINT is not defined'));
-    process.exit(1);
-  }
+  const variables = [
+    'S3_ENDPOINT',
+    'AWS_ACCESS_KEY_ID',
+    'AWS_SECRET_ACCESS_KEY',
+    'S3_SECNUM_ENDPOINT',
+    'S3_SECNUM_AWS_ACCESS_KEY_ID',
+    'S3_SECNUM_AWS_SECRET_ACCESS_KEY',
+  ];
 
-  if (!process.env.AWS_ACCESS_KEY_ID) {
-    getLogger().error(new Error('❌ AWS_ACCESS_KEY_ID is not defined'));
-    process.exit(1);
-  }
-
-  if (!process.env.AWS_SECRET_ACCESS_KEY) {
-    getLogger().error(new Error('❌ AWS_SECRET_ACCESS_KEY is not defined'));
-    process.exit(1);
-  }
-
-  if (!process.env.S3_SECNUM_ENDPOINT) {
-    getLogger().error(new Error('❌ S3_SECNUM_ENDPOINT is not defined'));
-    process.exit(1);
-  }
-
-  if (!process.env.S3_SECNUM_AWS_ACCESS_KEY_ID) {
-    getLogger().error(new Error('❌ S3_SECNUM_AWS_ACCESS_KEY_ID is not defined'));
-    process.exit(1);
-  }
-
-  if (!process.env.S3_SECNUM_AWS_SECRET_ACCESS_KEY) {
-    getLogger().error(new Error('❌ S3_SECNUM_AWS_SECRET_ACCESS_KEY is not defined'));
-    process.exit(1);
+  for (const variable of variables) {
+    if (!process.env[variable]) {
+      getLogger().error(new Error(`❌ ${variable} is not defined`));
+      process.exit(1);
+    }
   }
 };
 
