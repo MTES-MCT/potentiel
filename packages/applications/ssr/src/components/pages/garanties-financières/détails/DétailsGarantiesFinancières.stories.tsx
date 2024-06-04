@@ -40,6 +40,7 @@ const projet: DétailsGarantiesFinancièresPageProps['projet'] = {
 export const GarantiesFinancieresActuellesComplètes: Story = {
   args: {
     projet,
+    afficherInfoConditionsMainLevée: true,
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
       dateÉchéance: new Date('2023-07-01').toISOString() as Iso8601DateTime,
@@ -59,6 +60,7 @@ export const GarantiesFinancieresActuellesComplètes: Story = {
 export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = {
   args: {
     projet,
+    afficherInfoConditionsMainLevée: true,
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
       dateÉchéance: new Date('2023-07-01').toISOString() as Iso8601DateTime,
@@ -88,6 +90,7 @@ export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = 
 export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
   args: {
     projet,
+    afficherInfoConditionsMainLevée: true,
     action: 'soumettre',
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('six-mois-après-achèvement'),
@@ -106,6 +109,7 @@ export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
 export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
   args: {
     projet,
+    afficherInfoConditionsMainLevée: true,
     dépôtEnCours: {
       type: getGarantiesFinancièresTypeLabel('consignation'),
       dateConstitution: new Date('2024-01-01').toISOString() as Iso8601DateTime,
@@ -122,6 +126,7 @@ export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
 export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
   args: {
     projet,
+    afficherInfoConditionsMainLevée: true,
     action: 'soumettre',
   },
 };
@@ -129,6 +134,7 @@ export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
 export const GarantiesFinancieresVideAvecActionEnregistrer: Story = {
   args: {
     projet,
+    afficherInfoConditionsMainLevée: true,
     action: 'enregistrer',
   },
 };

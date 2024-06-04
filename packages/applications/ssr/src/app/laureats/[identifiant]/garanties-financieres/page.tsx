@@ -119,6 +119,7 @@ const mapToProps: MapToProps = ({
           utilisateur.role.estÉgaleÀ(Role.acheteurObligé)
         ? 'enregistrer'
         : undefined,
+      afficherInfoConditionsMainLevée: utilisateur.role.estÉgaleÀ(Role.porteur),
     };
   }
 
@@ -204,5 +205,7 @@ const mapToProps: MapToProps = ({
           demandéLe: mainLevée.demande.demandéeLe.formatter(),
         }
       : undefined,
+    afficherInfoConditionsMainLevée:
+      utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainLevée),
   };
 };
