@@ -1,6 +1,6 @@
 import { get } from '@potentiel-libraries/http-client';
 import zod from 'zod';
-import { OREApiLimitInString, OreEndpoint } from './constant';
+import { OREApiLimitInString, OreEndpoint, référentielDistributeursDEnergieUrl } from './constant';
 
 const schema = zod.object({
   total_count: zod.number(),
@@ -31,7 +31,8 @@ const récupérerGRDParTranche = async (offset: string): Promise<OreGestionnaire
   searchParams.append('offset', offset);
 
   const url = new URL(
-    `${OreEndpoint}api/explore/v2.1/catalog/datasets/referentiel-distributeurs-denergie/records?${searchParams.toString()}`,
+    `${référentielDistributeursDEnergieUrl}${searchParams.toString()}`,
+    OreEndpoint,
   );
 
   const result = await get(url);

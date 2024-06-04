@@ -1,7 +1,7 @@
 import { get } from '@potentiel-libraries/http-client';
 import zod from 'zod';
 
-import { OreEndpoint } from './constant';
+import { OreEndpoint, distributeurDEnergieParCommuneUrl } from './constant';
 import { GestionnaireRéseau as Gestionnaire } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -47,7 +47,8 @@ export const récupérerGRDParVille = async ({
   searchParams.append('limit', '2');
 
   const url = new URL(
-    `${OreEndpoint}api/explore/v2.1/catalog/datasets/distributeurs-denergie-par-commune/records?${searchParams.toString()}`,
+    `${distributeurDEnergieParCommuneUrl}${searchParams.toString()}`,
+    OreEndpoint,
   );
 
   try {
