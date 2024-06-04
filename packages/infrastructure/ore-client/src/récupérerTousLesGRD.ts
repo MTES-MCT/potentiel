@@ -1,6 +1,6 @@
 import { get } from '@potentiel-libraries/http-client';
 import zod from 'zod';
-import { OREApiLimitInString, OreEndpoint } from './constant';
+import { OREApiLimitInString, OreEndpoint, référentielDistributeursDEnergieUrl } from './constant';
 
 const schema = zod.object({
   total_count: zod.number(),
@@ -13,7 +13,9 @@ const schema = zod.object({
   ),
 });
 
-export type OreGestionnaire = zod.TypeOf<typeof schema>['results'][number];
+export type OreGestionnaire = Omit<zod.TypeOf<typeof schema>['results'][number], 'eic'> & {
+  eic: string;
+};
 
 type OreGestionnaireSlice = {
   gestionnaires: Array<OreGestionnaire>;
@@ -29,20 +31,29 @@ const récupérerGRDParTranche = async (offset: string): Promise<OreGestionnaire
   searchParams.append('offset', offset);
 
   const url = new URL(
-    `${OreEndpoint}/referentiel-distributeurs-denergie/records?${searchParams.toString()}`,
+    `${référentielDistributeursDEnergieUrl}${searchParams.toString()}`,
+    OreEndpoint,
   );
 
   const result = await get(url);
 
   const parsedResult = schema.parse(result);
 
+  /**
+   * Règle métier : quand aucun code EIC n'est fourni, on utilise la raison sociale (ou grd)
+   */
+  const parsedResultsWithNonNullableEIC = parsedResult.results.map((gestionnaire) => ({
+    ...gestionnaire,
+    eic: gestionnaire.eic ?? gestionnaire.grd,
+  }));
+
   return {
     totalCount: parsedResult.total_count,
-    gestionnaires: parsedResult.results,
+    gestionnaires: parsedResultsWithNonNullableEIC,
   };
 };
 
-export const récupérerToutLesGRD = async (
+export const récupérerTousLesGRD = async (
   offset: number = 0,
   gestionnaires: Array<OreGestionnaire> = [],
 ): Promise<Array<OreGestionnaire>> => {
@@ -50,7 +61,7 @@ export const récupérerToutLesGRD = async (
   const updatedGestionnaires = gestionnaires.concat(gestionnaireSlice.gestionnaires);
 
   if (updatedGestionnaires.length < gestionnaireSlice.totalCount) {
-    return récupérerToutLesGRD(
+    return récupérerTousLesGRD(
       offset + gestionnaireSlice.gestionnaires.length,
       updatedGestionnaires,
     );

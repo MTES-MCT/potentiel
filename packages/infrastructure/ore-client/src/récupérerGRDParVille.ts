@@ -1,7 +1,7 @@
 import { get } from '@potentiel-libraries/http-client';
 import zod from 'zod';
 
-import { OreEndpoint } from './constant';
+import { OreEndpoint, distributeurDEnergieParCommuneUrl } from './constant';
 import { GestionnaireRéseau as Gestionnaire } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -11,7 +11,7 @@ const schema = zod.object({
   total_count: zod.number(),
   results: zod.array(
     zod.object({
-      grd_elec: zod.array(zod.string()).nullable(),
+      grd_elec: zod.array(zod.string()),
       grd_elec_eic: zod.array(zod.string()).nullable(),
       commune: zod.string(),
     }),
@@ -38,16 +38,17 @@ export const récupérerGRDParVille = async ({
   const searchParams = new URLSearchParams();
   searchParams.append(
     'where',
-    `code_postal in ("${codePostal}") and commune like "${oreFormatCommune}"`,
+    `code_postal in ("${codePostal}") and commune like "${oreFormatCommune}" and grd_elec is not null`,
   );
   searchParams.append('select', 'grd_elec, grd_elec_eic, commune');
   /**
-   * Nous limitons les résultats pour s'assurer si il y en a un ou plus, deux résultats suffisent pour ça
+   * Il nous faut seulement vérifier si nous obtenons au moins un ou plusieurs résultats
    */
   searchParams.append('limit', '2');
 
   const url = new URL(
-    `${OreEndpoint}/distributeurs-denergie-par-commune/records?${searchParams.toString()}`,
+    `${distributeurDEnergieParCommuneUrl}${searchParams.toString()}`,
+    OreEndpoint,
   );
 
   try {
@@ -63,24 +64,17 @@ export const récupérerGRDParVille = async ({
     }
 
     if (
-      !parsedResult.results[0].grd_elec_eic ||
-      parsedResult.results[0].grd_elec_eic.length === 0
+      (!parsedResult.results[0].grd_elec_eic ||
+        parsedResult.results[0].grd_elec_eic.length === 0) &&
+      (!parsedResult.results[0].grd_elec || parsedResult.results[0].grd_elec.length === 0)
     ) {
       logger.warn(
-        `[récupérerGRDParVille] Un GRD (${parsedResult.results[0].grd_elec}) a été trouvé mais sans code EIC pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
-      );
-
-      return Option.none;
-    }
-
-    if (!parsedResult.results[0].grd_elec || parsedResult.results[0].grd_elec.length === 0) {
-      logger.warn(
-        `[récupérerGRDParVille] Un GRD a été trouvé avec code EIC (${parsedResult.results[0].grd_elec_eic}) mais sans raison social pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
+        `[récupérerGRDParVille] Un GRD (${parsedResult.results[0].grd_elec}) a été trouvé mais sans code EIC et sans raison sociale pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
       );
       return Option.none;
     }
 
-    if (parsedResult.results[0].grd_elec_eic.length > 1) {
+    if (parsedResult.results[0].grd_elec_eic && parsedResult.results[0].grd_elec_eic.length > 1) {
       logger.warn(
         `[récupérerGRDParVille] Un GRD (${
           parsedResult.results[0].grd_elec
@@ -88,12 +82,17 @@ export const récupérerGRDParVille = async ({
           '/',
         )}) pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
       );
-
       return Option.none;
     }
 
+    /**
+     * Règle métier : quand aucun code EIC n'est fourni, on utilise la raison sociale (ou grd)
+     */
+    const codeEIC =
+      parsedResult.results[0].grd_elec_eic?.[0] ?? parsedResult.results[0].grd_elec[0];
+
     return {
-      codeEIC: parsedResult.results[0].grd_elec_eic[0],
+      codeEIC,
       raisonSociale: parsedResult.results[0].grd_elec[0],
     };
   } catch (error) {
