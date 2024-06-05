@@ -65,9 +65,11 @@ const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
               })}
               aria-label={`Retirer les droits sur le projet à ${fullName || email}`}
               className="ml-1"
-              confirmation={`Êtes-vous sur de vouloir retirer les droits à ce projet à ${fullName} ?`}
+              confirmation={`Êtes-vous sûr de vouloir retirer les droits de ce projet à ${
+                fullName || email
+              } ?`}
             >
-              retirer les droits de {fullName}
+              retirer les droits {fullName || email}
             </Link>
           )}
         </>
