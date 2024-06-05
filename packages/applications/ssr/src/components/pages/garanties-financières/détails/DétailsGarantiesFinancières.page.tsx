@@ -67,7 +67,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
             description={
               <div className="p-3">
                 Vous pouvez accéder à la demande de levée de vos garanties bancaires sur Potentiel
-                si votre projet est dans les conditions suivantes :
+                si votre projet remplit toutes les conditions suivantes :
                 <ul className="list-disc list-inside">
                   <li>
                     Le projet a des garanties financières validées (l'attestation de constitution

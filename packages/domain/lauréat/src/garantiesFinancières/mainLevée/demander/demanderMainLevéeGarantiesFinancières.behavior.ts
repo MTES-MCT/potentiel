@@ -100,7 +100,7 @@ class ProjetNonAbandonnéError extends InvalidOperationError {
 class ProjetNonAchevéError extends InvalidOperationError {
   constructor() {
     super(
-      "Votre demande de main-levée de garanties financières est invalide car le projet n'est pas achevé (attestation de conformité transmise au co-contractant et dans Potentiel)",
+      "Votre demande de main-levée de garanties financières est invalide car le projet n'est pas achevé (attestation de conformité non transmise au co-contractant et dans Potentiel)",
     );
   }
 }
