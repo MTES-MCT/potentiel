@@ -59,4 +59,24 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | date d'échéance      | 2027-12-01          |
          Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type                 | consignation        |          
-        Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières en attente de validation pour ce projet"              
+        Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières en attente de validation pour ce projet"   
+
+@select
+    Scénario: Erreur si une demande de main-levée a été demandée    
+        Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
+        Et des garanties financières validées pour le projet "Centrale PV"    
+        Et une demande de main-levée de garanties financières envoyée le projet "Centrale PV" avec :
+            | motif                | projet-achevé          |              
+         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+            | type                 | consignation        |          
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une demande de main-levée de garanties financières en cours"  
+
+@NotImplemented
+    Scénario: Erreur si une demande de main-levée est en instruction    
+        Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
+        Et des garanties financières validées pour le projet "Centrale PV"      
+        Et une demande de main-levée de garanties financières envoyée le projet "Centrale PV" avec :
+            | motif                | projet-achevé          |            
+         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+            | type                 | consignation        |          
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une demande de main-levée de garanties financières en cours"          
