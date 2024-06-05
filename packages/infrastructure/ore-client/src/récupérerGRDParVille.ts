@@ -35,21 +35,18 @@ export const récupérerGRDParVille = async ({
   commune,
 }: GetGRDByCityProps): Promise<Option.Type<OreGestionnaireByCity>> => {
   const oreFormatCommune = transformCommuneToOreFormat(commune);
-  const searchParams = new URLSearchParams();
-  searchParams.append(
+
+  const url = new URL(distributeurDEnergieParCommuneUrl, OreEndpoint);
+
+  url.searchParams.append(
     'where',
     `code_postal in ("${codePostal}") and commune like "${oreFormatCommune}" and grd_elec is not null`,
   );
-  searchParams.append('select', 'grd_elec, grd_elec_eic, commune');
+  url.searchParams.append('select', 'grd_elec, grd_elec_eic, commune');
   /**
    * Il nous faut seulement vérifier si nous obtenons au moins un ou plusieurs résultats
    */
-  searchParams.append('limit', '2');
-
-  const url = new URL(
-    `${distributeurDEnergieParCommuneUrl}${searchParams.toString()}`,
-    OreEndpoint,
-  );
+  url.searchParams.append('limit', '2');
 
   try {
     const result = await get(url);
