@@ -24,6 +24,7 @@ export const TransmettreAttestationConformitéPage: FC<
       identifiantProjet={projet.identifiantProjet}
       action={transmettreAttestationConformitéAction}
       submitButtonLabel="Transmettre"
+      showDemanderMainLevée
     />
   </PageTemplate>
 );

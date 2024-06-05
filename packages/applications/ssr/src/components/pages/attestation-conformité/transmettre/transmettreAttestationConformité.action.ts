@@ -3,7 +3,8 @@
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
-import { Achèvement } from '@potentiel-domain/laureat';
+import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
+import { DateTime } from '@potentiel-domain/common';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -15,6 +16,7 @@ const schema = zod.object({
   attestation: zod.instanceof(Blob).refine((data) => data.size > 0),
   preuveTransmissionAuCocontractant: zod.instanceof(Blob).refine((data) => data.size > 0),
   dateTransmissionAuCocontractant: zod.string().min(1),
+  demanderMainLevee: zod.string().optional(),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
@@ -24,6 +26,7 @@ const action: FormAction<FormState, typeof schema> = async (
     attestation,
     dateTransmissionAuCocontractant,
     preuveTransmissionAuCocontractant,
+    demanderMainLevee,
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
@@ -46,6 +49,18 @@ const action: FormAction<FormState, typeof schema> = async (
         utilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
       },
     });
+
+    if (demanderMainLevee === 'true') {
+      await mediator.send<GarantiesFinancières.DemanderMainLevéeGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.MainLevée.UseCase.Demander',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          motifValue: 'projet-achevé',
+          demandéLeValue: DateTime.now().formatter(),
+          demandéParValue: utilisateur.identifiantUtilisateur.formatter(),
+        },
+      });
+    }
 
     return {
       status: 'success',
