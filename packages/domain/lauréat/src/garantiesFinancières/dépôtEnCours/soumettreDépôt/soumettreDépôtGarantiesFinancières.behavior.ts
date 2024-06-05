@@ -56,6 +56,10 @@ export async function soumettreDépôt(
   if (!type.estAvecDateÉchéance() && dateÉchéance) {
     throw new DateÉchéanceNonAttendueError();
   }
+  if (this.mainLevée?.statut.estDemandé()) {
+    throw new DemandeMainLevéeDemandéeError();
+  }
+
   const event: DépôtGarantiesFinancièresSoumisEvent = {
     type: 'DépôtGarantiesFinancièresSoumis-V1',
     payload: {
@@ -90,5 +94,13 @@ export function applyDépôtGarantiesFinancièresSoumis(
 class DépôtGarantiesFinancièresDéjàSoumisError extends InvalidOperationError {
   constructor() {
     super(`Il y a déjà des garanties financières en attente de validation pour ce projet`);
+  }
+}
+
+class DemandeMainLevéeDemandéeError extends InvalidOperationError {
+  constructor() {
+    super(
+      'Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une demande de main-levée de garanties financières en cours',
+    );
   }
 }
