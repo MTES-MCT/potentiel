@@ -42,7 +42,6 @@ export const InfoGenerales = ({
 
   const shouldDisplayGf =
     isClasse &&
-    !isAbandoned &&
     [
       'admin',
       'dgec-validateur',
@@ -226,7 +225,7 @@ const GarantiesFinancièresProjet = ({
           }).formatter(),
         )}
       >
-        Mettre à jour ou consulter les garanties financières du projet
+        Modifier, consulter ou lever les garanties financières du projet
       </Link>
     </div>
   );

@@ -6,7 +6,7 @@ import {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
 } from '@potentiel-domain/candidature';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -21,6 +21,7 @@ import {
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import { GarantiesFinancièresDépôtEnCoursProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresDépôtEnCours';
+import { GarantiesFinancièresActuellesProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresActuelles';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
@@ -61,11 +62,24 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           data: { identifiantProjetValue: identifiantProjet },
         });
 
+      const achèvement = await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({
+        type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
+        data: { identifiantProjetValue: identifiantProjet },
+      });
+
+      const mainLevée =
+        await mediator.send<GarantiesFinancières.ConsulterMainLevéeGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.MainLevée.Query.Consulter',
+          data: { identifiantProjetValue: identifiantProjet },
+        });
+
       const props = mapToProps({
         projet,
         utilisateur,
         garantiesFinancièresActuelles,
         dépôtEnCoursGarantiesFinancières,
+        achèvement,
+        mainLevée,
       });
 
       return <DétailsGarantiesFinancièresPage {...props} />;
@@ -78,6 +92,8 @@ type MapToProps = (args: {
   utilisateur: Utilisateur.ValueType;
   garantiesFinancièresActuelles: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
+  achèvement: Option.Type<Achèvement.ConsulterAttestationConformitéReadModel>;
+  mainLevée: Option.Type<GarantiesFinancières.ConsulterMainLevéeGarantiesFinancièresReadModel>;
 }) => DétailsGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({
@@ -85,6 +101,8 @@ const mapToProps: MapToProps = ({
   utilisateur,
   garantiesFinancièresActuelles,
   dépôtEnCoursGarantiesFinancières,
+  achèvement,
+  mainLevée,
 }) => {
   if (
     Option.isNone(garantiesFinancièresActuelles) &&
@@ -101,6 +119,7 @@ const mapToProps: MapToProps = ({
           utilisateur.role.estÉgaleÀ(Role.acheteurObligé)
         ? 'enregistrer'
         : undefined,
+      afficherInfoConditionsMainLevée: utilisateur.role.estÉgaleÀ(Role.porteur),
     };
   }
 
@@ -111,6 +130,33 @@ const mapToProps: MapToProps = ({
     dépôtEnCoursActions.push('instruire', 'modifier');
   } else if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
     dépôtEnCoursActions.push('modifier', 'supprimer');
+  }
+
+  const garantiesFinancièresActuellesActions: GarantiesFinancièresActuellesProps['actuelles']['actions'] =
+    [];
+  if (utilisateur.role.estÉgaleÀ(Role.admin) || utilisateur.role.estÉgaleÀ(Role.dgecValidateur)) {
+    garantiesFinancièresActuellesActions.push('modifier');
+  } else if (utilisateur.role.estÉgaleÀ(Role.dreal)) {
+    garantiesFinancièresActuellesActions.push('modifier');
+  } else if (
+    utilisateur.role.estÉgaleÀ(Role.porteur) &&
+    Option.isSome(garantiesFinancièresActuelles) &&
+    !garantiesFinancièresActuelles.garantiesFinancières.attestation
+  ) {
+    garantiesFinancièresActuellesActions.push('enregister-attestation');
+  } else if (
+    utilisateur.role.estÉgaleÀ(Role.porteur) &&
+    Option.isSome(garantiesFinancièresActuelles) &&
+    garantiesFinancièresActuelles.garantiesFinancières.attestation &&
+    Option.isNone(dépôtEnCoursGarantiesFinancières) &&
+    Option.isNone(mainLevée)
+  ) {
+    if (projet.statut === 'abandonné') {
+      garantiesFinancièresActuellesActions.push('demander-main-levée-gf-pour-projet-abandonné');
+    }
+    if (Option.isSome(achèvement)) {
+      garantiesFinancièresActuellesActions.push('demander-main-levée-gf-pour-projet-achevé');
+    }
   }
 
   return {
@@ -131,16 +177,7 @@ const mapToProps: MapToProps = ({
             date: garantiesFinancièresActuelles.garantiesFinancières.dernièreMiseÀJour.date.formatter(),
             par: garantiesFinancièresActuelles.garantiesFinancières.dernièreMiseÀJour.par?.formatter(),
           },
-          action:
-            utilisateur.role.estÉgaleÀ(Role.porteur) &&
-            (!garantiesFinancièresActuelles.garantiesFinancières.attestation ||
-              !garantiesFinancièresActuelles.garantiesFinancières.dateConstitution)
-              ? 'enregister-attestation'
-              : utilisateur.role.estÉgaleÀ(Role.dreal) ||
-                utilisateur.role.estÉgaleÀ(Role.admin) ||
-                utilisateur.role.estÉgaleÀ(Role.dgecValidateur)
-              ? 'modifier'
-              : undefined,
+          actions: garantiesFinancièresActuellesActions,
         }
       : undefined,
     dépôtEnCours: Option.isSome(dépôtEnCoursGarantiesFinancières)
@@ -161,5 +198,14 @@ const mapToProps: MapToProps = ({
       Option.isNone(dépôtEnCoursGarantiesFinancières) && utilisateur.role.estÉgaleÀ(Role.porteur)
         ? 'soumettre'
         : undefined,
+    mainLevée: Option.isSome(mainLevée)
+      ? {
+          motif: mainLevée.motif.motif,
+          statut: mainLevée.statut.statut,
+          demandéLe: mainLevée.demande.demandéeLe.formatter(),
+        }
+      : undefined,
+    afficherInfoConditionsMainLevée:
+      utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainLevée),
   };
 };

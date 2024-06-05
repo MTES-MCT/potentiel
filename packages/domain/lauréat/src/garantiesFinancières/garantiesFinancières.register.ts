@@ -39,11 +39,18 @@ import { registerImporterTypeGarantiesFinancièresCommand } from './garantiesFin
 import { registerImporterTypeGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/importer/importerTypeGarantiesFinancières.usecase';
 import { registerModifierGarantiesFinancièresCommand } from './garantiesFinancièresActuelles/modifier/modifierGarantiesFinancières.command';
 import { registerModifierGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/modifier/modifierGarantiesFinancières.usecase';
+import { registerDemanderMainLevéeGarantiesFinancièresCommand } from './mainLevée/demander/demanderMainLevéeGarantiesFinancières.command';
+import { registerDemanderMainLevéeGarantiesFinancièresUseCase } from './mainLevée/demander/demanderMainLevéeGarantiesFinancières.usecase';
+import {
+  ConsulterMainLevéeGarantiesFinancièresDependencies,
+  registerConsulterMainLevéeGarantiesFinancièresQuery,
+} from './mainLevée/consulter/consulterMainLevéeGarantiesFinancières.query';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerDépôtsEnCoursGarantiesFinancièresDependencies &
   GénérerModèleMiseEnDemeureGarantiesFinancièresDependencies &
-  ConsulterDépôtEnCoursGarantiesFinancièresDependencies;
+  ConsulterDépôtEnCoursGarantiesFinancièresDependencies &
+  ConsulterMainLevéeGarantiesFinancièresDependencies;
 
 export type GarantiesFinancièresCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -63,6 +70,8 @@ export const registerGarantiesFinancièresUseCases = ({
   registerEnregistrerGarantiesFinancièresCommand(loadAggregate);
   registerEffacerHistoriqueGarantiesFinancièresCommand(loadAggregate);
 
+  registerDemanderMainLevéeGarantiesFinancièresCommand(loadAggregate);
+
   registerSoumettreDépôtGarantiesFinancièresUseCase();
   registerDemanderGarantiesFinancièresUseCase();
   registerSupprimerGarantiesFinancièresÀTraiterUseCase();
@@ -73,6 +82,8 @@ export const registerGarantiesFinancièresUseCases = ({
   registerEnregistrerAttestationGarantiesFinancièresUseCase();
   registerEnregistrerGarantiesFinancièresUseCase();
   registerEffacerHistoriqueGarantiesFinancièresUseCase();
+
+  registerDemanderMainLevéeGarantiesFinancièresUseCase();
 };
 
 export const registerGarantiesFinancièresQueries = (
@@ -84,4 +95,5 @@ export const registerGarantiesFinancièresQueries = (
   registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery(dependencies);
   registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery(dependencies);
   registerConsulterDépôtEnCoursGarantiesFinancièresQuery(dependencies);
+  registerConsulterMainLevéeGarantiesFinancièresQuery(dependencies);
 };

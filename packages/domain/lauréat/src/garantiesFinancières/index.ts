@@ -32,7 +32,11 @@ import {
   GénérerModèleMiseEnDemeureGarantiesFinancièresQuery,
   GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel,
 } from './projetEnAttenteDeGarantiesFinancières/générerModèleMiseEnDemeure/générerModèleMiseEnDemeure.query';
-
+import { DemanderMainLevéeGarantiesFinancièresUseCase } from './mainLevée/demander/demanderMainLevéeGarantiesFinancières.usecase';
+import {
+  ConsulterMainLevéeGarantiesFinancièresQuery,
+  ConsulterMainLevéeGarantiesFinancièresReadModel,
+} from './mainLevée/consulter/consulterMainLevéeGarantiesFinancières.query';
 // Query
 export type GarantiesFinancièresQuery =
   | ConsulterGarantiesFinancièresQuery
@@ -41,7 +45,8 @@ export type GarantiesFinancièresQuery =
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
   | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
-  | GénérerModèleMiseEnDemeureGarantiesFinancièresQuery;
+  | GénérerModèleMiseEnDemeureGarantiesFinancièresQuery
+  | ConsulterMainLevéeGarantiesFinancièresQuery;
 
 export type {
   ConsulterGarantiesFinancièresQuery,
@@ -50,6 +55,7 @@ export type {
   ListerDépôtsEnCoursGarantiesFinancièresQuery,
   ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
   GénérerModèleMiseEnDemeureGarantiesFinancièresQuery,
+  ConsulterMainLevéeGarantiesFinancièresQuery,
 };
 
 // ReadModel
@@ -60,6 +66,7 @@ export type {
   ListerDépôtsEnCoursGarantiesFinancièresReadModel,
   ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
   GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel,
+  ConsulterMainLevéeGarantiesFinancièresReadModel,
 };
 
 // UseCases
@@ -73,7 +80,8 @@ export type GarantiesFinancièresUseCase =
   | ModifierGarantiesFinancièresUseCase
   | EnregistrerAttestationGarantiesFinancièresUseCase
   | EnregistrerGarantiesFinancièresUseCase
-  | EffacerHistoriqueGarantiesFinancièresUseCase;
+  | EffacerHistoriqueGarantiesFinancièresUseCase
+  | DemanderMainLevéeGarantiesFinancièresUseCase;
 
 export type {
   SoumettreDépôtGarantiesFinancièresUseCase,
@@ -86,6 +94,7 @@ export type {
   EnregistrerAttestationGarantiesFinancièresUseCase,
   EnregistrerGarantiesFinancièresUseCase,
   EffacerHistoriqueGarantiesFinancièresUseCase,
+  DemanderMainLevéeGarantiesFinancièresUseCase,
 };
 
 // Event
@@ -100,6 +109,7 @@ export type { GarantiesFinancièresModifiéesEvent } from './garantiesFinancièr
 export type { AttestationGarantiesFinancièresEnregistréeEvent } from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
 export type { HistoriqueGarantiesFinancièresEffacéEvent } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.behavior';
 export type { GarantiesFinancièresEnregistréesEvent } from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.behavior';
+export type { MainLevéeGarantiesFinancièresDemandéeEvent } from './mainLevée/demander/demanderMainLevéeGarantiesFinancières.behavior';
 
 // Register
 export {
@@ -112,11 +122,14 @@ export * as GarantiesFinancières from './garantiesFinancières.valueType';
 export * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
 export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinancières.valueType';
+export * as StatutMainLevéeGarantiesFinancières from './mainLevée/statutMainLevéeGarantiesFinancières.valueType';
+export * as MotifDemandeMainLevéeGarantiesFinancières from './mainLevée/motifDemandeMainLevéeGarantiesFinancières.valueType';
 
 // Projections
 export * from './garantiesFinancièresActuelles/garantiesFinancièresActuelles.entity';
 export * from './dépôtEnCours/dépôtEnCoursGarantiesFinancières.entity';
 export * from './projetEnAttenteDeGarantiesFinancières/projetAvecGarantiesFinancièresEnAttente.entity';
+export * from './mainLevée/mainLevéeGarantiesFinancières.entity';
 
 // Ports
 export type { BuildModèleMiseEnDemeureGarantiesFinancièresPort } from './projetEnAttenteDeGarantiesFinancières/générerModèleMiseEnDemeure/générerModèleMiseEnDemeure.query';

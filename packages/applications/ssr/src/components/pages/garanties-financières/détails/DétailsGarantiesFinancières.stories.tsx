@@ -40,6 +40,7 @@ const projet: DétailsGarantiesFinancièresPageProps['projet'] = {
 export const GarantiesFinancieresActuellesComplètes: Story = {
   args: {
     projet,
+    afficherInfoConditionsMainLevée: true,
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
       dateÉchéance: new Date('2023-07-01').toISOString() as Iso8601DateTime,
@@ -47,7 +48,7 @@ export const GarantiesFinancieresActuellesComplètes: Story = {
       soumisLe: new Date('2021-09-23').toISOString() as Iso8601DateTime,
       validéLe: new Date('2021-10-23').toISOString() as Iso8601DateTime,
       attestation: 'path/to/attestation.pdf',
-      action: 'modifier',
+      actions: ['modifier'],
       dernièreMiseÀJour: {
         date: new Date('2021-10-23').toISOString() as Iso8601DateTime,
         par: 'DREAL#1',
@@ -59,6 +60,7 @@ export const GarantiesFinancieresActuellesComplètes: Story = {
 export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = {
   args: {
     projet,
+    afficherInfoConditionsMainLevée: true,
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
       dateÉchéance: new Date('2023-07-01').toISOString() as Iso8601DateTime,
@@ -66,7 +68,7 @@ export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = 
       soumisLe: new Date('2021-09-23').toISOString() as Iso8601DateTime,
       validéLe: new Date('2021-10-23').toISOString() as Iso8601DateTime,
       attestation: 'path/to/attestation.pdf',
-      action: 'modifier',
+      actions: ['modifier'],
       dernièreMiseÀJour: {
         date: new Date('2021-10-23').toISOString() as Iso8601DateTime,
         par: 'DREAL#1',
@@ -88,13 +90,14 @@ export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = 
 export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
   args: {
     projet,
+    afficherInfoConditionsMainLevée: true,
     action: 'soumettre',
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('six-mois-après-achèvement'),
       soumisLe: new Date('2024-01-01').toISOString() as Iso8601DateTime,
       validéLe: new Date('2024-01-15').toISOString() as Iso8601DateTime,
       attestation: 'path/to/attestation.pdf',
-      action: 'enregister-attestation',
+      actions: ['enregister-attestation'],
       dernièreMiseÀJour: {
         date: new Date('2024-01-15').toISOString() as Iso8601DateTime,
         par: 'PORTEUR#1',
@@ -106,6 +109,7 @@ export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
 export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
   args: {
     projet,
+    afficherInfoConditionsMainLevée: true,
     dépôtEnCours: {
       type: getGarantiesFinancièresTypeLabel('consignation'),
       dateConstitution: new Date('2024-01-01').toISOString() as Iso8601DateTime,
@@ -122,6 +126,7 @@ export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
 export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
   args: {
     projet,
+    afficherInfoConditionsMainLevée: true,
     action: 'soumettre',
   },
 };
@@ -129,6 +134,7 @@ export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
 export const GarantiesFinancieresVideAvecActionEnregistrer: Story = {
   args: {
     projet,
+    afficherInfoConditionsMainLevée: true,
     action: 'enregistrer',
   },
 };

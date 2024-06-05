@@ -30,6 +30,9 @@ export const register = () => {
       await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
         `projet-avec-garanties-financieres-en-attente|${payload.id}`,
       );
+      await removeProjection<GarantiesFinancières.MainLevéeGarantiesFinancièresEntity>(
+        `main-levee-garanties-financieres|${payload.id}`,
+      );
     } else {
       const { identifiantProjet } = payload;
 
@@ -46,6 +49,11 @@ export const register = () => {
       const projetAvecGarantiesFinancièresEnAttente =
         await findProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
           `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
+        );
+
+      const mainLevéeGarantiesFinancières =
+        await findProjection<GarantiesFinancières.MainLevéeGarantiesFinancièresEntity>(
+          `main-levee-garanties-financieres|${identifiantProjet}`,
         );
 
       const garantiesFinancièresDefaultValue: Omit<
@@ -106,6 +114,22 @@ export const register = () => {
         dateLimiteSoumission: '',
       };
 
+      const mainLevéeGarantiesFinancièresDefaultValue: Omit<
+        GarantiesFinancières.MainLevéeGarantiesFinancièresEntity,
+        'type'
+      > = {
+        identifiantProjet,
+        nomProjet: '',
+        appelOffre: '',
+        période: '',
+        famille: undefined,
+        régionProjet: '',
+        demande: { demandéeLe: '', demandéePar: '' },
+        motif: '',
+        statut: '',
+        dernièreMiseÀJour: { date: '', par: '' },
+      };
+
       const garantiesFinancièresToUpsert: Omit<
         GarantiesFinancières.GarantiesFinancièresEntity,
         'type'
@@ -126,6 +150,13 @@ export const register = () => {
       > = Option.isSome(projetAvecGarantiesFinancièresEnAttente)
         ? projetAvecGarantiesFinancièresEnAttente
         : projetAvecGarantiesFinancièresEnAttenteDefaultValue;
+
+      const mainLevéeGarantiesFinancièresToUpsert: Omit<
+        GarantiesFinancières.MainLevéeGarantiesFinancièresEntity,
+        'type'
+      > = Option.isSome(mainLevéeGarantiesFinancières)
+        ? mainLevéeGarantiesFinancières
+        : mainLevéeGarantiesFinancièresDefaultValue;
 
       const getProjectData = async (identifiantProjet: IdentifiantProjet.RawType) => {
         const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
@@ -372,6 +403,26 @@ export const register = () => {
 
           await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
             `depot-en-cours-garanties-financieres|${identifiantProjet}`,
+          );
+          break;
+
+        case 'MainLevéeGarantiesFinancièresDemandée-V1':
+          détailProjet = await getProjectData(identifiantProjet);
+
+          await upsertProjection<GarantiesFinancières.MainLevéeGarantiesFinancièresEntity>(
+            `main-levee-garanties-financieres|${identifiantProjet}`,
+            {
+              ...mainLevéeGarantiesFinancièresToUpsert,
+              ...détailProjet,
+              identifiantProjet: payload.identifiantProjet,
+              demande: { demandéeLe: payload.demandéLe, demandéePar: payload.demandéPar },
+              motif: payload.motif,
+              statut: GarantiesFinancières.StatutMainLevéeGarantiesFinancières.demandé.statut,
+              dernièreMiseÀJour: {
+                date: payload.demandéLe,
+                par: payload.demandéPar,
+              },
+            },
           );
           break;
       }
