@@ -22,6 +22,7 @@ import {
   ProducteurForm,
   PuissanceForm,
   RecoursForm,
+  PuissanceALaHausseInfoBox,
 } from './components';
 
 moment.locale('fr');
@@ -37,14 +38,21 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
   const { type, id, status } = modificationRequest;
 
   const userIsDgec = userIs(['admin', 'dgec-validateur'])(user);
-  const userIsDrealWithAuthority =
-    userIs(['dreal'])(user) && modificationRequest.authority === 'dreal';
-
-  const showFormulaireAdministrateur =
-    (userIsDgec || userIsDrealWithAuthority) &&
+  const userIsDreal = userIs(['dreal'])(user);
+  const isPendingModificationRequest =
     !modificationRequest.respondedOn &&
     !modificationRequest.cancelledOn &&
     status !== 'information validée';
+
+  const showPuissanceInfoBox =
+    type === 'puissance' &&
+    userIsDreal &&
+    modificationRequest.authority !== 'dreal' &&
+    isPendingModificationRequest;
+
+  const showFormulaireAdministrateur =
+    (userIsDgec || (userIsDreal && modificationRequest.authority === 'dreal')) &&
+    isPendingModificationRequest;
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
@@ -62,6 +70,8 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
 
         <DemandeDetails modificationRequest={modificationRequest} className="mb-5" />
         <DemandeStatus role={user.role} modificationRequest={modificationRequest} />
+
+        {showPuissanceInfoBox && <PuissanceALaHausseInfoBox />}
 
         {showFormulaireAdministrateur && (
           <div>
