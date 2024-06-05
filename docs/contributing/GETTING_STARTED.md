@@ -110,7 +110,7 @@ npm run start:dev
 
 ### Le seed automatique
 
-Lorsque la comande `start:dev` est lancée, elle va automatiquement démarrer les containers docker. Le container dédié à la base de donnée va alors mapper le fichier [potentiel-dev.dump](../../potentiel-dev.dump) dans le container, et va ajouter le script [restore-dev-db.sh](../../restore-dev-db.sh) pour qu'il s'éxécute lors de l'initialisation de la base de donnée. Ce script restore le contenu du dump dans la base de donnée. 
+Lorsque la comande `start:dev` est lancée, elle va automatiquement démarrer les containers docker. Le container dédié à la base de donnée va alors mapper le fichier [potentiel-dev.dump](../../.database/potentiel-dev.dump) dans le container, et va ajouter le script [restore-dev-db.sh](../../.database/restore-dev-db.sh) pour qu'il s'éxécute lors de l'initialisation de la base de donnée. Ce script restore le contenu du dump dans la base de donnée. 
 
 
 > ✨ Si vous avez besoin de compléter le dump qui est seed par défaut, vous pouvez effectuer les modifications sur la base de donnée.  
