@@ -37,7 +37,7 @@ export const Contact = ({ project, user }: ContactProps) => (
         <ListComptesAvecAcces {...{ user, project }} />
       )}
 
-    {userIs(['admin', 'dgec-validateur', 'porteur-projet'])(user) && (
+    {userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal'])(user) && (
       <InvitationForm {...{ project }} />
     )}
   </Section>
@@ -52,9 +52,11 @@ const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
     <Heading3 className="mt-4 mb-1">Comptes ayant accès à ce projet</Heading3>
     <ul className="my-1">
       {project.users.map(({ id, fullName, email }) => (
-        <li key={'project_user_' + id}>
-          {fullName && `${fullName} - `}
-          {email}
+        <>
+          <li key={'project_user_' + id}>
+            {fullName && `${fullName} - `}
+            {email}
+          </li>
           {id !== user.id && (
             <Link
               href={ROUTES.REVOKE_USER_RIGHTS_TO_PROJECT_ACTION({
@@ -63,12 +65,14 @@ const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
               })}
               aria-label={`Retirer les droits sur le projet à ${fullName || email}`}
               className="ml-1"
-              confirmation={`Êtes-vous sur de vouloir retirer les droits à ce projet à ${fullName} ?`}
+              confirmation={`Êtes-vous sûr de vouloir retirer les droits de ce projet à ${
+                fullName || email
+              } ?`}
             >
-              retirer les droits
+              retirer les droits de {fullName || email}
             </Link>
           )}
-        </li>
+        </>
       ))}
       {!project.users.length && <li>Aucun utilisateur n'a accès à ce projet pour le moment.</li>}
     </ul>
@@ -112,6 +116,7 @@ const InvitationForm = ({ project }: InvitationFormProps) => {
               e.preventDefault();
               showForm(false);
             }}
+            className="cursor-pointer"
           >
             Annuler
           </Link>
