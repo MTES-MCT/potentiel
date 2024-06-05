@@ -69,7 +69,7 @@ const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
                 fullName || email
               } ?`}
             >
-              retirer les droits {fullName || email}
+              retirer les droits de {fullName || email}
             </Link>
           )}
         </>
