@@ -6,8 +6,8 @@ then
         exit 0
 fi
 
-echo "Launching job [CRÉER BACKUP OSS]"
+echo "Launching job [CRÉER BACKUP]"
 
-npm run start:créer-backup-oos -w @potentiel-applications/scheduled-tasks
+npm run start:créer-backup -w @potentiel-applications/scheduled-tasks
 
 exit 0
