@@ -5,8 +5,8 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { StreamingBlobPayloadOutputTypes } from '@smithy/types';
 import { createWriteStream } from 'node:fs';
 
-const sourceBucketName = process.env.S3_BUCKET || 'potentiel';
-const destinationBucketName = process.env.S3_SECNUM_BUCKET || 'potentiel-secnum';
+const sourceBucketName = process.env.S3_BUCKET;
+const destinationBucketName = process.env.S3_SECNUM_BUCKET;
 
 const récupérerToutesLesClésDesFichiers = async (source: S3, nextMarker?: string) => {
   getLogger().info('ℹ Getting all files from production');
@@ -79,9 +79,14 @@ const écrireFichierLog = ({ name, contenu }: ÉcrireFichierLogProps) => {
 
 const vérifierLesVariablesDEnvironnement = () => {
   const variables = [
+    // SOURCE
+    'S3_BUCKET',
     'S3_ENDPOINT',
     'AWS_ACCESS_KEY_ID',
     'AWS_SECRET_ACCESS_KEY',
+
+    // DESTINATION
+    'S3_SECNUM_BUCKET',
     'S3_SECNUM_ENDPOINT',
     'S3_SECNUM_AWS_ACCESS_KEY_ID',
     'S3_SECNUM_AWS_SECRET_ACCESS_KEY',
@@ -141,7 +146,7 @@ const vérifierLesVariablesDEnvironnement = () => {
 
       const { Body } = await récupérerContenuFichier({
         s3: source,
-        bucketName: sourceBucketName,
+        bucketName: sourceBucketName as string,
         key,
       });
 
@@ -163,7 +168,7 @@ const vérifierLesVariablesDEnvironnement = () => {
 
       const { Body: sourceFileBody } = await récupérerContenuFichier({
         s3: source,
-        bucketName: sourceBucketName,
+        bucketName: sourceBucketName as string,
         key,
       });
 
@@ -177,7 +182,7 @@ const vérifierLesVariablesDEnvironnement = () => {
 
       const { Body: destinationFileBody } = await récupérerContenuFichier({
         s3: destination,
-        bucketName: destinationBucketName,
+        bucketName: destinationBucketName as string,
         key,
       });
 
