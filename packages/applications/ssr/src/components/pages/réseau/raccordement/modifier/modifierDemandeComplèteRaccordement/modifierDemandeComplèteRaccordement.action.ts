@@ -7,6 +7,7 @@ import { Raccordement } from '@potentiel-domain/reseau';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { removeSpacesAndTabulations } from '@/utils/removeSpacesAndTabulations';
 
 export type ModifierDemandeComplèteRaccordementState = FormState;
 
@@ -38,7 +39,9 @@ const action: FormAction<FormState, typeof schema> = async (
           identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
           identifiantProjetValue: identifiantProjet,
           référenceDossierRaccordementActuelleValue: referenceDossierRaccordementActuelle,
-          nouvelleRéférenceDossierRaccordementValue: referenceDossierRaccordement,
+          nouvelleRéférenceDossierRaccordementValue: removeSpacesAndTabulations(
+            referenceDossierRaccordement,
+          ),
           rôleValue: utilisateur.role.nom,
         },
       });
