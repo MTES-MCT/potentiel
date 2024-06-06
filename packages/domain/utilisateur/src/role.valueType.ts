@@ -68,7 +68,7 @@ export const acheteurObligé = convertirEnValueType('acheteur-obligé');
 
 class RoleRefuséError extends OperationRejectedError {
   constructor(value: string) {
-    super(`Le role ne correspond à aucune valeur connue`, {
+    super(`Le rôle ne correspond à aucune valeur connue`, {
       value,
     });
   }
@@ -146,6 +146,7 @@ const référencielPermissions = {
         effacerHistorique:
           'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
         demanderMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.UseCase.Demander',
+        annulerMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.UseCase.Annuler',
       },
       command: {
         demander: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
@@ -162,6 +163,7 @@ const référencielPermissions = {
         effacerHistorique:
           'Lauréat.GarantiesFinancières.Command.EffacerHistoriqueGarantiesFinancières',
         demanderMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.Command.Demander',
+        annulerMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.Command.Annuler',
       },
     },
     achèvement: {

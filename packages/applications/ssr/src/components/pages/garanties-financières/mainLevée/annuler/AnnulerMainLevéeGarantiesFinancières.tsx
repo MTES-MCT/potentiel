@@ -18,7 +18,7 @@ export const AnnulerMainLevéeGarantiesFinancières = ({
   identifiantProjet,
 }: AnnulerMainLevéeGarantiesFinancièresFormProps) => {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <>
@@ -29,7 +29,7 @@ export const AnnulerMainLevéeGarantiesFinancières = ({
       <ModalWithForm
         title="Annuler sa demande de main-levée des garanties financières"
         acceptButtonLabel="Oui"
-        rejectButtonLabel="Annuler"
+        rejectButtonLabel="Retour"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

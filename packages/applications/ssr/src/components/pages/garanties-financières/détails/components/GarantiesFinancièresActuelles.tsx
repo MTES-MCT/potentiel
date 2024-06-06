@@ -131,7 +131,6 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
               <FormattedDate className="font-semibold" date={mainLevée.demandéLe} /> suite à{' '}
               {mainLevée.motif === 'projet-abandonné' ? `l'abandon` : `l'achèvement`} du projet.
             </div>
-            // violette voir pour mettre l'annulation ici
           )}
           <Actions identifiantProjet={identifiantProjet} actions={actions} />
         </>
