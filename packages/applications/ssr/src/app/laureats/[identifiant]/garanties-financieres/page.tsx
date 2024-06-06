@@ -135,35 +135,35 @@ const mapToProps: MapToProps = ({
 
   const garantiesFinancièresActuellesActions: GarantiesFinancièresActuellesProps['actuelles']['actions'] =
     [];
-  if (utilisateur.role.estÉgaleÀ(Role.admin) || utilisateur.role.estÉgaleÀ(Role.dgecValidateur)) {
-    garantiesFinancièresActuellesActions.push('modifier');
-  } else if (utilisateur.role.estÉgaleÀ(Role.dreal)) {
-    garantiesFinancièresActuellesActions.push('modifier');
-  } else if (
-    utilisateur.role.estÉgaleÀ(Role.porteur) &&
+
+  const estAdminOuDGEC =
+    utilisateur.role.estÉgaleÀ(Role.admin) || utilisateur.role.estÉgaleÀ(Role.dgecValidateur);
+  const estDreal = utilisateur.role.estÉgaleÀ(Role.dreal);
+  const estPorteur = utilisateur.role.estÉgaleÀ(Role.porteur);
+  const aGarantiesFinancièresSansAttestation =
     Option.isSome(garantiesFinancièresActuelles) &&
-    !garantiesFinancièresActuelles.garantiesFinancières.attestation
-  ) {
-    garantiesFinancièresActuellesActions.push('enregister-attestation');
-  } else if (
-    utilisateur.role.estÉgaleÀ(Role.porteur) &&
+    !garantiesFinancièresActuelles.garantiesFinancières.attestation;
+  const aGarantiesFinancièresAvecAttestationSansDepotNiMainLevée =
     Option.isSome(garantiesFinancièresActuelles) &&
     garantiesFinancièresActuelles.garantiesFinancières.attestation &&
     Option.isNone(dépôtEnCoursGarantiesFinancières) &&
-    Option.isNone(mainLevée)
-  ) {
-    if (projet.statut === 'abandonné') {
+    Option.isNone(mainLevée);
+  const projetAbandonne = projet.statut === 'abandonné';
+  const projetAcheve = Option.isSome(achèvement);
+  const mainLevéeDemandée = Option.isSome(mainLevée) && mainLevée.statut.estDemandé();
+
+  if (estAdminOuDGEC || estDreal) {
+    garantiesFinancièresActuellesActions.push('modifier');
+  } else if (estPorteur) {
+    if (aGarantiesFinancièresSansAttestation) {
+      garantiesFinancièresActuellesActions.push('enregister-attestation');
+    } else if (aGarantiesFinancièresAvecAttestationSansDepotNiMainLevée && projetAbandonne) {
       garantiesFinancièresActuellesActions.push('demander-main-levée-gf-pour-projet-abandonné');
-    }
-    if (Option.isSome(achèvement)) {
+    } else if (aGarantiesFinancièresAvecAttestationSansDepotNiMainLevée && projetAcheve) {
       garantiesFinancièresActuellesActions.push('demander-main-levée-gf-pour-projet-achevé');
+    } else if (mainLevéeDemandée) {
+      garantiesFinancièresActuellesActions.push('annuler-main-levée-gf');
     }
-  } else if (
-    utilisateur.role.estÉgaleÀ(Role.porteur) &&
-    Option.isSome(mainLevée) &&
-    mainLevée.statut.estDemandé()
-  ) {
-    garantiesFinancièresActuellesActions.push('annuler-main-levée-gf');
   }
 
   return {
