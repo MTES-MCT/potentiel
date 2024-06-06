@@ -8,3 +8,4 @@ export * from './ProducteurForm';
 export * from './PuissanceForm';
 export * from './RecoursForm';
 export * from './UploadResponseFile';
+export * from './PuissanceALaHausseInfoBox';
