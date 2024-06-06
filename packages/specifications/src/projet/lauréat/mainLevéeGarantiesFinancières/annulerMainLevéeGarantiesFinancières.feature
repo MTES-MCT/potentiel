@@ -8,9 +8,6 @@ Fonctionnalité: Annuler la main-levée des garanties financières d'un projet
         Etant donné un abandon accordé pour le projet lauréat "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :
-            | motif                | projet-achevé          |
-            | utilisateur          | porteur@test.test      |
-            | date demande         | 2014-05-28             |   
         Quand le porteur demande l'annulation de la main-levée pour le projet "Centrale PV"
         Alors une demande de main-levée de garanties financières ne devrait plus être consultable pour le projet "Centrale PV"
 
@@ -25,10 +22,7 @@ Fonctionnalité: Annuler la main-levée des garanties financières d'un projet
     Scénario: Erreur si la levée des garanties financières de son projet est rejetée
         Etant donné un abandon accordé pour le projet lauréat "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"
-        Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :
-            | motif                | projet-achevé          |
-            | utilisateur          | porteur@test.test      |
-            | date demande         | 2014-05-28             |       
+        Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :    
         Et un rejet de la demande de main-levée pour le projet "Centrale PV"
         Quand le porteur demande l'annulation de la main-levée pour le projet "Centrale PV"
         Alors le porteur devrait être informé que "La demande de main-levée a déjà été rejetée"
@@ -38,9 +32,6 @@ Fonctionnalité: Annuler la main-levée des garanties financières d'un projet
         Etant donné un abandon accordé pour le projet lauréat "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :
-            | motif                | projet-achevé          |
-            | utilisateur          | porteur@test.test      |
-            | date demande         | 2014-05-28             |   
         Et une validation de la demande de main-levée pour le projet "Centrale PV"    
         Quand le porteur demande l'annulation de la main-levée pour le projet "Centrale PV"
         Alors le porteur devrait être informé que "La demande de main-levée a déjà été accordée"
@@ -50,9 +41,6 @@ Fonctionnalité: Annuler la main-levée des garanties financières d'un projet
         Etant donné un abandon accordé pour le projet lauréat "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :
-            | motif                | projet-achevé          |
-            | utilisateur          | porteur@test.test      |
-            | date demande         | 2014-05-28             |   
         Et un passage en instruction de la demande de main-levée du projet "Centrale PV"  
         Quand le porteur demande l'annulation de la main-levée pour le projet "Centrale PV"
         Alors le porteur devrait être informé que "La demande de main-levée est en instruction"
