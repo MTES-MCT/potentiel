@@ -137,7 +137,7 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
           <Checkbox
             options={[
               {
-                label: `Je souhaite demander une mainlevée de mes garanties financières`,
+                label: `Je souhaite demander une main-levée de mes garanties financières`,
                 nativeInputProps: {
                   name: 'demanderMainLevee',
                   value: 'true',
