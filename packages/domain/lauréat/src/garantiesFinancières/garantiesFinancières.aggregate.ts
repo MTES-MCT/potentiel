@@ -67,6 +67,11 @@ import {
   applyMainLevéeGarantiesFinancièresDemandée,
   demanderMainLevée,
 } from './mainLevée/demander/demanderMainLevéeGarantiesFinancières.behavior';
+import {
+  MainLevéeGarantiesFinancièresAnnuléeEvent,
+  applyMainLevéeGarantiesFinancièresAnnulée,
+  annulerMainLevée,
+} from './mainLevée/annuler/annulerMainLevéeGarantiesFinancières.behavior';
 
 export type GarantiesFinancièresEvent =
   | DépôtGarantiesFinancièresSoumisEvent
@@ -79,7 +84,8 @@ export type GarantiesFinancièresEvent =
   | AttestationGarantiesFinancièresEnregistréeEvent
   | GarantiesFinancièresEnregistréesEvent
   | HistoriqueGarantiesFinancièresEffacéEvent
-  | MainLevéeGarantiesFinancièresDemandéeEvent;
+  | MainLevéeGarantiesFinancièresDemandéeEvent
+  | MainLevéeGarantiesFinancièresAnnuléeEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   actuelles?: {
@@ -115,6 +121,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly enregistrer: typeof enregistrer;
   readonly effacerHistorique: typeof effacerHistorique;
   readonly demanderMainLevée: typeof demanderMainLevée;
+  readonly annulerMainLevée: typeof annulerMainLevée;
 };
 
 export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
@@ -134,6 +141,7 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   effacerHistorique,
   motifDemandeGarantiesFinancières: MotifDemandeGarantiesFinancières.motifInconnu,
   demanderMainLevée,
+  annulerMainLevée,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
@@ -170,6 +178,8 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       break;
     case 'MainLevéeGarantiesFinancièresDemandée-V1':
       applyMainLevéeGarantiesFinancièresDemandée.bind(this)(event);
+    case 'MainLevéeGarantiesFinancièresAnnulée-V1':
+      applyMainLevéeGarantiesFinancièresAnnulée.bind(this)();
   }
 }
 
