@@ -33,7 +33,7 @@ Quand(
 );
 
 Quand(
-  `le porteur demande l'annulation de la levée des garanties financières pour le projet {string}`,
+  `le porteur demande l'annulation de la main-levée pour le projet {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
