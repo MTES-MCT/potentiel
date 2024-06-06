@@ -559,6 +559,10 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.command.demanderMainLevée,
       ],
       consulter: [référencielPermissions.lauréat.garantiesFinancières.query.consulterMainLevée],
+      annuler: [
+        référencielPermissions.lauréat.garantiesFinancières.usecase.annulerMainLevée,
+        référencielPermissions.lauréat.garantiesFinancières.command.annulerMainLevée,
+      ],
     },
     enAttente: {
       lister: [
@@ -778,6 +782,7 @@ const permissionPorteurProjet = [
   ...policies.garantiesFinancières.effacerHistorique,
   ...policies.garantiesFinancières.mainLevée.consulter,
   ...policies.garantiesFinancières.mainLevée.demander,
+  ...policies.garantiesFinancières.mainLevée.annuler,
 
   // Achèvement
   ...policies.achèvement.consulter,
