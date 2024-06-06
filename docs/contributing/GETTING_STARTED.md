@@ -2,14 +2,19 @@
 
 ## Table des matières
 
-- [Mise en place du projet](#mise-en-place-du-projet)
-- [Système d'authentification avec Keycloak](#keycloak)
-- [Configurer un environnement local](#configurer-un-environnement-local)
-- [Lancer l'application en local](#lancer-application-en-local)
-- [Avoir des données de test en local](#avoir-des-donnees-de-test-en-local)
-- [Lancer les tests](#lancer-les-tests)
-- [Metabase](#metabase)
-- [Restaurer un dump de la base](#restaurer-dump-db)
+- [Premiers pas dans le projet Potentiel](#premiers-pas-dans-le-projet-potentiel)
+  - [Table des matières](#table-des-matières)
+  - [ Mise en place du projet](#-mise-en-place-du-projet)
+  - [ Système d'authentification avec Keycloak](#-système-dauthentification-avec-keycloak)
+  - [ Configurer un environnement local](#-configurer-un-environnement-local)
+  - [ Lancer l'application en local](#-lancer-lapplication-en-local)
+  - [ Avoir des données de test en local](#-avoir-des-données-de-test-en-local)
+    - [Le seed automatique](#le-seed-automatique)
+    - [Ajouter "à la main des projets dans Potentiel"](#ajouter-à-la-main-des-projets-dans-potentiel)
+  - [Lancer les tests](#lancer-les-tests)
+    - [Specifications](#specifications)
+  - [ Metabase](#-metabase)
+  - [ Restaurer un dump de la base de donnée](#-restaurer-un-dump-de-la-base-de-donnée)
 
 ## <a id="mise-en-place-du-projet"></a> Mise en place du projet
 
@@ -102,13 +107,30 @@ npm run start:dev
 
 ## <a id="avoir-des-donnees-de-test-en-local"></a> Avoir des données de test en local
 
-0. [Lancer l'application en local](#lancer-application-en-local)
 
-1. Récupérer les fichiers présents dans `.demo`
+### Le seed automatique
 
-2. Se connecter au compte test **dgec-validateur@test.test** (mot de passe **test**)
+Lorsque la comande `start:dev` est lancée, elle va automatiquement démarrer les containers docker. Le container dédié à la base de donnée va alors mapper le fichier [potentiel-dev.dump](../../.database/potentiel-dev.dump) dans le container, et va ajouter le script [restore-dev-db.sh](../../.database/restore-dev-db.sh) pour qu'il s'éxécute lors de l'initialisation de la base de donnée. Ce script restore le contenu du dump dans la base de donnée. 
 
-3. Dans l'interface
+
+> ✨ Si vous avez besoin de compléter le dump qui est seed par défaut, vous pouvez effectuer les modifications sur la base de donnée avec votre éditeur de base de donnés.  
+> 
+> Une fois les modifications effectives, vous n'avez plus qu'à faire un dump de votre base de donnée. Pour se faire il faudra se connecter au container, et exécuter la commande `pg_dump -U potadmindb -Fc -b -v -f "potentiel-dev.dump" potentiel` pour générer le fichier, puis le copier dans `.database` 
+> 
+> Il ne vous reste qu'à remplacer votre fichier à jour avec celui existant
+
+
+### Ajouter "à la main des projets dans Potentiel"
+
+Afin de pouvoir tester le fonctionnement de la partie désignation et notification des candidats d'une période d'appel d'offre, vous avez la possibilité d'ajouter "à la main" des projets dans Potentiel. Pour celà :
+ 
+1. [Lancer l'application en local](#lancer-application-en-local)
+
+2. Récupérer les fichiers présents dans `.demo`
+
+3. Se connecter au compte test **dgec-validateur@test.test** (mot de passe `test`)
+
+4. Dans l'interface
 
 - Importer un fichier
 
