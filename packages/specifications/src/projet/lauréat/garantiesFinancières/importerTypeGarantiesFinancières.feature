@@ -18,13 +18,13 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | consignation              |                   | 2024-01-01  |
             | six-mois-après-achèvement |                   | 2024-01-01  |
     
-    Scénario: Erreur si date d'échéance manquante
+    Scénario: Importer le type (et la date d'échéance selon le cas) des garanties financières d'un projet si date d'échéance manquante
         Quand l'admin importe le type des garanties financières pour le projet "Centrale PV" avec :
             | type                 | avec-date-échéance     |
             | date d'échéance      |                        |    
         Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières" 
     
-    Plan du Scénario: Erreur si date d'échéance non compatible avec le type
+    Plan du Scénario: Importer le type (et la date d'échéance selon le cas) des garanties financières d'un projet si date d'échéance non compatible avec le type
         Quand l'admin importe le type des garanties financières pour le projet "Centrale PV" avec :
             | type            | <type>     |   
             | date d'échéance | 2028-01-01 |   

@@ -35,7 +35,7 @@ Fonctionnalité: Modifier des garanties financières validées
             | consignation              |                   |
             | six-mois-après-achèvement |                   |  
 
-    Plan du Scénario: Erreur si le type renseigné n'est pas compatible avec une date d'échéance
+    Plan du Scénario: Impossible de modifier des garanties financières validées si le type renseigné n'est pas compatible avec une date d'échéance
         Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
             | type                 | type-inconnu           |
         Quand un admin modifie les garanties financières validées pour le projet "Centrale PV" avec : 
@@ -47,7 +47,7 @@ Fonctionnalité: Modifier des garanties financières validées
             | consignation              |  2027-12-01       |
             | six-mois-après-achèvement |  2027-12-01       |       
 
-    Scénario: Erreur si la date d'échéance est manquante
+    Scénario: Impossible de modifier des garanties financières validées si la date d'échéance est manquante
         Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
             | type                 | type-inconnu           |
         Quand un admin modifie les garanties financières validées pour le projet "Centrale PV" avec : 
@@ -55,14 +55,14 @@ Fonctionnalité: Modifier des garanties financières validées
             | date d'échéance      |                        |
         Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières" 
 
-    Scénario: Erreur si la date de constitution est dans le futur
+    Scénario: Impossible de modifier des garanties financières validées si la date de constitution est dans le futur
         Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
             | type                 | type-inconnu           |
         Quand un admin modifie les garanties financières validées pour le projet "Centrale PV" avec : 
             | date de constitution | 2050-01-01             |
         Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future"                     
 
-    Scénario: Erreur si aucunes garanties financières validées ne sont trouvées    
+    Scénario: Impossible de modifier des garanties financières validées si aucunes garanties financières validées ne sont trouvées    
         Quand un admin modifie les garanties financières validées pour le projet "Centrale PV" avec : 
             | date de constitution | 2020-01-01             |
         Alors l'utilisateur devrait être informé que "Il n'y a aucunes garanties financières validées pour ce projet"          
