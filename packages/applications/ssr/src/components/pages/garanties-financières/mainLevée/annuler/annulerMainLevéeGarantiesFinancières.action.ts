@@ -21,9 +21,6 @@ const action: FormAction<FormState, typeof schema> = async (
       type: 'Lauréat.GarantiesFinancières.MainLevée.UseCase.Annuler',
       data: {
         identifiantProjetValue: identifiantProjet,
-        // violette voir si on ajoute ces valeurs
-        // annuléLeValue: new Date().toISOString(),
-        // annuléParValue: utilisateur.identifiantUtilisateur.formatter(),
       },
     });
 
