@@ -61,7 +61,6 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | type                 | consignation        |          
         Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières en attente de validation pour ce projet"   
 
-@select
     Scénario: Erreur si une demande de main-levée a été demandée    
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"    
