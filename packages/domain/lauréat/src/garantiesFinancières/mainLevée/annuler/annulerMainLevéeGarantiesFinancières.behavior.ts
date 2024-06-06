@@ -18,8 +18,6 @@ export async function annulerMainLevée(
   this: GarantiesFinancièresAggregate,
   { identifiantProjet }: Options,
 ) {
-  console.log('coucou', this);
-
   if (!this.mainLevée) {
     throw new MainLevéeNonTrouvéeError();
   }

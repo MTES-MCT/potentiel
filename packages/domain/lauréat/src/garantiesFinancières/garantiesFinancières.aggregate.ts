@@ -178,8 +178,10 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       break;
     case 'MainLevéeGarantiesFinancièresDemandée-V1':
       applyMainLevéeGarantiesFinancièresDemandée.bind(this)(event);
+      break;
     case 'MainLevéeGarantiesFinancièresAnnulée-V1':
       applyMainLevéeGarantiesFinancièresAnnulée.bind(this)();
+      break;
   }
 }
 
