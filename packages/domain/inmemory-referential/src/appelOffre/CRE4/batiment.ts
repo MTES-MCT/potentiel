@@ -90,9 +90,7 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
     },
     texteChangementDActionnariat: {
       référenceParagraphe: '5.4.2',
-      dispositions: `Les modifications de la structure du capital du Candidat avant constitution des garanties financières prévues au 6.2 ne sont pas autorisées. 
-Les modifications de la structure du capital du Candidat après constitution des garanties financières prévues au 6.2 sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. A cette fin, le producteur transmet à la DREAL les copies des statuts de la société et le(s) justificatif(s) relatif à la composition de l’actionnariat. 
-Si le candidat a joint à son offre la lettre d’engagement du 3.2.5, il est de sa responsabilité de s’assurer du respect de son engagement.`,
+      dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. Si le candidat a joint à son offre la lettre d’engagement du 3.2.5, il est de sa responsabilité de s’assurer du respect de son engagement.`,
     },
     texteIdentitéDuProducteur: {
       référenceParagraphe: '2.5',
