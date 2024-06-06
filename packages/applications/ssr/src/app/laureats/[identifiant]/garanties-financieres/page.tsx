@@ -195,7 +195,9 @@ const mapToProps: MapToProps = ({
         }
       : undefined,
     action:
-      Option.isNone(dépôtEnCoursGarantiesFinancières) && utilisateur.role.estÉgaleÀ(Role.porteur)
+      Option.isNone(dépôtEnCoursGarantiesFinancières) &&
+      utilisateur.role.estÉgaleÀ(Role.porteur) &&
+      (Option.isNone(mainLevée) || (Option.isSome(mainLevée) && !mainLevée.statut.estDemandé()))
         ? 'soumettre'
         : undefined,
     mainLevée: Option.isSome(mainLevée)

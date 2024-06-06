@@ -30,38 +30,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution | date de soumission |
             | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-01         |
             | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-01         |
-            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-01         |
-
-    @NotImplemented
-    Plan du Scénario: Un porteur soumet de nouvelles garanties financières pour remplacer des garanties financières validées
-        Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
-            | type                 | consignation          |
-            | format               | application/pdf       |
-            | contenu fichier      | contenu               |
-            | date de constitution | 2023-01-01            |
-            | date de validation   | 2023-01-01            |  
-        Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
-            | type                 | <type>                 |
-            | date d'échéance      | <date d'échéance>      |
-            | format               | <format du fichier>    |
-            | contenu fichier      | <contenu du fichier>   |
-            | date de constitution | <date de constitution> |
-            | date de soumission   | 2023-10-01             |
-            | soumis par           | porteur@test.test      |
-        Alors les garanties financières devraient être consultables pour le projet "Centrale PV" avec :
-            | type                 | <type>                 |
-            | date d'échéance      | <date d'échéance>      |
-            | format               | <format du fichier>    |
-            | contenu fichier      | <contenu du fichier>   |
-            | date de constitution | <date de constitution> |
-            | date de soumission   | 2023-10-01             |
-            | soumis par           | porteur@test.test      |
-            | région               | Corse                  |
-    Exemples:
-            | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
-            | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
-            | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
-            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |  
+            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-01         | 
     
     Scénario: Erreur si date de constitution dans le futur
         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
@@ -90,4 +59,23 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | date d'échéance      | 2027-12-01          |
          Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type                 | consignation        |          
-        Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières en attente de validation pour ce projet"              
+        Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières en attente de validation pour ce projet"   
+
+    Scénario: Erreur si une demande de main-levée a été demandée    
+        Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
+        Et des garanties financières validées pour le projet "Centrale PV"    
+        Et une demande de main-levée de garanties financières envoyée le projet "Centrale PV" avec :
+            | motif                | projet-achevé          |              
+         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+            | type                 | consignation        |          
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une demande de main-levée de garanties financières en cours"  
+
+@NotImplemented
+    Scénario: Erreur si une demande de main-levée est en instruction    
+        Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
+        Et des garanties financières validées pour le projet "Centrale PV"      
+        Et une demande de main-levée de garanties financières envoyée le projet "Centrale PV" avec :
+            | motif                | projet-achevé          |            
+         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+            | type                 | consignation        |          
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une demande de main-levée de garanties financières en cours"          
