@@ -10,8 +10,8 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2 } from '@/components/atoms/headings';
 import { InputDownload } from '@/components/atoms/form/InputDownload';
 
-import { DemanderMainLevéeGarantiesFinancières } from '../../mainLevée/demander/DemanderMainLevéeGarantiesFinancières';
-import { AnnulerDemandeMainLevéeGarantiesFinancières } from '../../mainLevée/annuler/AnnulerDemandeMainLevéeGarantiesFinancières';
+import { AnnulerDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/annuler/AnnulerDemandeMainlevéeGarantiesFinancières';
+import { DemanderMainlevéeGarantiesFinancières } from '../../mainlevée/demander/DemanderMainlevéeGarantiesFinancières';
 
 export type GarantiesFinancièresActuelles = {
   type: string;
@@ -32,15 +32,17 @@ export type GarantiesFinancièresActuellesProps = {
     actions: Array<
       | 'modifier'
       | 'enregister-attestation'
-      | 'demander-main-levée-gf-pour-projet-abandonné'
-      | 'demander-main-levée-gf-pour-projet-achevé'
-      | 'annuler-demande-main-levée-gf'
+      | 'demander-mainlevée-gf-pour-projet-abandonné'
+      | 'demander-mainlevée-gf-pour-projet-achevé'
+      | 'annuler-demande-mainlevée-gf'
+      | 'instruire-demande-mainlevée'
     >;
   };
-  mainLevée?: {
-    statut: GarantiesFinancières.StatutMainLevéeGarantiesFinancières.RawType;
-    motif: GarantiesFinancières.MotifDemandeMainLevéeGarantiesFinancières.RawType;
+  mainlevée?: {
+    statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
+    motif: GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
     demandéLe: Iso8601DateTime;
+    instructionDémarréeLe?: Iso8601DateTime;
   };
 };
 
@@ -56,7 +58,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
     soumisLe,
     dernièreMiseÀJour,
   },
-  mainLevée,
+  mainlevée,
 }) => (
   <>
     <CallOut
@@ -125,13 +127,23 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
               )}
             </div>
           </div>
-          {mainLevée && (
+
+          {mainlevée && (
             <div className="font-semibold text-base">
-              Le porteur de projet a déposé une demande de main-levée en date du{' '}
-              <FormattedDate className="font-semibold" date={mainLevée.demandéLe} /> suite à{' '}
-              {mainLevée.motif === 'projet-abandonné' ? `l'abandon` : `l'achèvement`} du projet.
+              <div>
+                Le porteur de projet a déposé une demande de mainlevée en date du{' '}
+                <FormattedDate date={mainlevée.demandéLe} /> suite à{' '}
+                {mainlevée.motif === 'projet-abandonné' ? `l'abandon` : `l'achèvement`} du projet.
+              </div>
+              {mainlevée.instructionDémarréeLe && (
+                <div>
+                  La Dreal a indiqué démarrer l'instruction de la demande de mainlevée en date du{' '}
+                  <FormattedDate date={mainlevée.instructionDémarréeLe} />
+                </div>
+              )}
             </div>
           )}
+
           <Actions identifiantProjet={identifiantProjet} actions={actions} />
         </>
       }
@@ -145,14 +157,24 @@ type ActionsProps = {
 };
 const Actions: FC<ActionsProps> = ({ identifiantProjet, actions }) => {
   return (
-    <>
+    <div className="flex flex-col md:flex-row gap-4">
       {actions.includes('modifier') && (
         <Button
           linkProps={{
             href: Routes.GarantiesFinancières.actuelles.modifier(identifiantProjet),
           }}
         >
-          Modifier
+          Modifier les garanties financières actuelles
+        </Button>
+      )}
+
+      {actions.includes('instruire-demande-mainlevée') && (
+        <Button
+          linkProps={{
+            href: Routes.GarantiesFinancières.mainlevée.instruire(identifiantProjet),
+          }}
+        >
+          Instruire la demande de mainlevée
         </Button>
       )}
       {actions.includes('enregister-attestation') && (
@@ -171,22 +193,22 @@ const Actions: FC<ActionsProps> = ({ identifiantProjet, actions }) => {
           </Button>
         </>
       )}
-      {(actions.includes('demander-main-levée-gf-pour-projet-abandonné') ||
-        actions.includes('demander-main-levée-gf-pour-projet-achevé')) && (
+      {(actions.includes('demander-mainlevée-gf-pour-projet-abandonné') ||
+        actions.includes('demander-mainlevée-gf-pour-projet-achevé')) && (
         <>
-          <DemanderMainLevéeGarantiesFinancières
+          <DemanderMainlevéeGarantiesFinancières
             identifiantProjet={identifiantProjet}
             motif={
-              actions.includes('demander-main-levée-gf-pour-projet-abandonné')
+              actions.includes('demander-mainlevée-gf-pour-projet-abandonné')
                 ? 'projet-abandonné'
                 : 'projet-achevé'
             }
           />
         </>
       )}
-      {actions.includes('annuler-demande-main-levée-gf') && (
-        <AnnulerDemandeMainLevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
+      {actions.includes('annuler-demande-mainlevée-gf') && (
+        <AnnulerDemandeMainlevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}
-    </>
+    </div>
   );
 };

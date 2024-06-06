@@ -146,8 +146,12 @@ const référencielPermissions = {
         enregistrer: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
         effacerHistorique:
           'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
-        demanderMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.UseCase.Demander',
-        annulerDemandeMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.UseCase.Annuler',
+        demanderMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.Demander',
+        annulerDemandeMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.Annuler',
+        démarrerInstructionMainlevée:
+          'Lauréat.GarantiesFinancières.Mainlevée.UseCase.DémarrerInstruction',
+        accorderDemandeMainLevée:
+          'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
       },
       command: {
         demander: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
@@ -163,8 +167,12 @@ const référencielPermissions = {
         enregistrer: 'Lauréat.GarantiesFinancières.Command.EnregistrerGarantiesFinancières',
         effacerHistorique:
           'Lauréat.GarantiesFinancières.Command.EffacerHistoriqueGarantiesFinancières',
-        demanderMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.Command.Demander',
-        annulerDemandeMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.Command.Annuler',
+        demanderMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Command.Demander',
+        annulerDemandeMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Command.Annuler',
+        démarrerInstructionMainlevée:
+          'Lauréat.GarantiesFinancières.Mainlevée.Command.DémarrerInstruction',
+        accorderDemandeMainLevée:
+          'Lauréat.GarantiesFinancières.Mainlevée.Command.AccorderDemandeMainlevée',
       },
     },
     achèvement: {
@@ -554,16 +562,25 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.command.enregistrer,
       ],
     },
-    mainLevée: {
+    mainlevée: {
       demander: [
-        référencielPermissions.lauréat.garantiesFinancières.usecase.demanderMainLevée,
-        référencielPermissions.lauréat.garantiesFinancières.command.demanderMainLevée,
+        référencielPermissions.lauréat.garantiesFinancières.usecase.demanderMainlevée,
+        référencielPermissions.lauréat.garantiesFinancières.command.demanderMainlevée,
       ],
       consulter: [référencielPermissions.lauréat.garantiesFinancières.query.consulterMainLevée],
       lister: [référencielPermissions.lauréat.garantiesFinancières.query.listerMainLevée],
       annuler: [
-        référencielPermissions.lauréat.garantiesFinancières.usecase.annulerDemandeMainLevée,
-        référencielPermissions.lauréat.garantiesFinancières.command.annulerDemandeMainLevée,
+        référencielPermissions.lauréat.garantiesFinancières.usecase.annulerDemandeMainlevée,
+        référencielPermissions.lauréat.garantiesFinancières.command.annulerDemandeMainlevée,
+      ],
+      démarrerInstruction: [
+        référencielPermissions.lauréat.garantiesFinancières.usecase.démarrerInstructionMainlevée,
+        référencielPermissions.lauréat.garantiesFinancières.command.démarrerInstructionMainlevée,
+      ],
+      accorder: [
+        référencielPermissions.lauréat.garantiesFinancières.usecase.accorderDemandeMainLevée,
+        référencielPermissions.lauréat.garantiesFinancières.command.accorderDemandeMainLevée,
+        référencielPermissions.document.command.enregister,
       ],
     },
     enAttente: {
@@ -647,8 +664,8 @@ const permissionAdmin = [
   ...policies.garantiesFinancières.effacerHistorique,
   ...policies.garantiesFinancières.enAttente.lister,
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
-  ...policies.garantiesFinancières.mainLevée.consulter,
-  ...policies.garantiesFinancières.mainLevée.lister,
+  ...policies.garantiesFinancières.mainlevée.consulter,
+  ...policies.garantiesFinancières.mainlevée.lister,
 
   // Achèvement
   ...policies.achèvement.consulter,
@@ -673,7 +690,7 @@ const permissionCRE = [
   ...policies.garantiesFinancières.actuelles.modifier,
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.actuelles.enregistrer,
-  ...policies.garantiesFinancières.mainLevée.consulter,
+  ...policies.garantiesFinancières.mainlevée.consulter,
 ];
 
 const permissionDreal = [
@@ -697,8 +714,10 @@ const permissionDreal = [
   ...policies.garantiesFinancières.effacerHistorique,
   ...policies.garantiesFinancières.enAttente.lister,
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
-  ...policies.garantiesFinancières.mainLevée.consulter,
-  ...policies.garantiesFinancières.mainLevée.lister,
+  ...policies.garantiesFinancières.mainlevée.consulter,
+  ...policies.garantiesFinancières.mainlevée.démarrerInstruction,
+  ...policies.garantiesFinancières.mainlevée.accorder,
+  ...policies.garantiesFinancières.mainlevée.lister,
 
   // Achèvement
   ...policies.achèvement.consulter,
@@ -745,8 +764,8 @@ const permissionDgecValidateur = [
   ...policies.garantiesFinancières.effacerHistorique,
   ...policies.garantiesFinancières.enAttente.lister,
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
-  ...policies.garantiesFinancières.mainLevée.consulter,
-  ...policies.garantiesFinancières.mainLevée.lister,
+  ...policies.garantiesFinancières.mainlevée.consulter,
+  ...policies.garantiesFinancières.mainlevée.lister,
 
   // Achèvement
   ...policies.achèvement.consulter,
@@ -785,9 +804,9 @@ const permissionPorteurProjet = [
   ...policies.garantiesFinancières.dépôt.modifier,
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.effacerHistorique,
-  ...policies.garantiesFinancières.mainLevée.consulter,
-  ...policies.garantiesFinancières.mainLevée.demander,
-  ...policies.garantiesFinancières.mainLevée.annuler,
+  ...policies.garantiesFinancières.mainlevée.consulter,
+  ...policies.garantiesFinancières.mainlevée.demander,
+  ...policies.garantiesFinancières.mainlevée.annuler,
 
   // Achèvement
   ...policies.achèvement.consulter,
@@ -800,7 +819,7 @@ const permissionAcheteurObligé = [
   // Garanties financières
   ...policies.garantiesFinancières.actuelles.consulter,
   ...policies.garantiesFinancières.dépôt.consulter,
-  ...policies.garantiesFinancières.mainLevée.consulter,
+  ...policies.garantiesFinancières.mainlevée.consulter,
 
   // Achèvement
   ...policies.achèvement.transmettre,
@@ -813,7 +832,7 @@ const permissionCaisseDesDépôts = [
   ...policies.garantiesFinancières.actuelles.modifier,
   ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
   ...policies.garantiesFinancières.actuelles.enregistrer,
-  ...policies.garantiesFinancières.mainLevée.consulter,
+  ...policies.garantiesFinancières.mainlevée.consulter,
 
   // Achèvement
   ...policies.achèvement.consulter,

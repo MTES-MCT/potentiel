@@ -4,7 +4,7 @@ import {
   GetDefaultAggregateState,
   LoadAggregate,
 } from '@potentiel-domain/core';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import {
   DépôtGarantiesFinancièresSoumisEvent,
@@ -16,8 +16,7 @@ import {
   GarantiesFinancièresEnregistréesEvent,
   GarantiesFinancièresModifiéesEvent,
   MotifDemandeGarantiesFinancières,
-  MotifDemandeMainLevéeGarantiesFinancières,
-  StatutMainLevéeGarantiesFinancières,
+  StatutMainlevéeGarantiesFinancières,
   TypeGarantiesFinancières,
   TypeGarantiesFinancièresImportéEvent,
 } from '.';
@@ -63,15 +62,30 @@ import {
   applyEnregistrerAttestationGarantiesFinancières,
 } from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
 import {
-  MainLevéeGarantiesFinancièresDemandéeEvent,
-  applyMainLevéeGarantiesFinancièresDemandée,
-  demanderMainLevée,
-} from './mainLevée/demander/demanderMainLevéeGarantiesFinancières.behavior';
+  MainlevéeGarantiesFinancièresDemandéeEvent,
+  applyMainlevéeGarantiesFinancièresDemandée,
+  demanderMainlevée,
+} from './mainlevée/demander/demanderMainlevéeGarantiesFinancières.behavior';
 import {
-  annulerDemandeMainLevée,
-  applyDemandeMainLevéeGarantiesFinancièresAnnulée,
-  DemandeMainLevéeGarantiesFinancièresAnnuléeEvent,
-} from './mainLevée/annuler/annulerDemandeMainLevéeGarantiesFinancières.behavior';
+  annulerDemandeMainlevée,
+  applyDemandeMainlevéeGarantiesFinancièresAnnulée,
+  DemandeMainlevéeGarantiesFinancièresAnnuléeEvent,
+} from './mainlevée/annuler/annulerDemandeMainlevéeGarantiesFinancières.behavior';
+import {
+  InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent,
+  applyInstructionDemandeMainlevéeGarantiesFinancièresDémarrée,
+  démarrerInstructionDemandeMainlevée,
+} from './mainlevée/démarrerInstruction/démarrerInstructionDemandeMainlevéeGarantiesFinancières.behavior';
+import {
+  DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
+  applyDemandeMainlevéeGarantiesFinancièresRejetée,
+  rejeterDemandeMainlevéeGarantiesFinancières,
+} from './mainlevée/rejeter/rejeterDemandeMainlevéeGarantiesFinancières.behavior';
+import {
+  DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
+  accorderDemandeMainlevéeGarantiesFinancières,
+  applyDemandeMainlevéeGarantiesFinancièresAccordée,
+} from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.behavior';
 
 export type GarantiesFinancièresEvent =
   | DépôtGarantiesFinancièresSoumisEvent
@@ -84,8 +98,11 @@ export type GarantiesFinancièresEvent =
   | AttestationGarantiesFinancièresEnregistréeEvent
   | GarantiesFinancièresEnregistréesEvent
   | HistoriqueGarantiesFinancièresEffacéEvent
-  | MainLevéeGarantiesFinancièresDemandéeEvent
-  | DemandeMainLevéeGarantiesFinancièresAnnuléeEvent;
+  | MainlevéeGarantiesFinancièresDemandéeEvent
+  | DemandeMainlevéeGarantiesFinancièresAnnuléeEvent
+  | InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent
+  | DemandeMainlevéeGarantiesFinancièresRejetéeEvent
+  | DemandeMainlevéeGarantiesFinancièresAccordéeEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   actuelles?: {
@@ -105,10 +122,8 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   };
   motifDemandeGarantiesFinancières: MotifDemandeGarantiesFinancières.ValueType;
   dateLimiteSoumission?: DateTime.ValueType;
-  mainLevée?: {
-    statut: StatutMainLevéeGarantiesFinancières.ValueType;
-    motif: MotifDemandeMainLevéeGarantiesFinancières.ValueType;
-    demande?: { demandéLe: DateTime.ValueType; demandéPar: Email.ValueType };
+  demandeMainlevéeEnCours?: {
+    statut: StatutMainlevéeGarantiesFinancières.ValueType;
   };
   readonly soumettreDépôt: typeof soumettreDépôt;
   readonly demanderGarantiesFinancières: typeof demanderGarantiesFinancières;
@@ -120,8 +135,11 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly enregistrerAttestation: typeof enregistrerAttestation;
   readonly enregistrer: typeof enregistrer;
   readonly effacerHistorique: typeof effacerHistorique;
-  readonly demanderMainLevée: typeof demanderMainLevée;
-  readonly annulerDemandeMainLevée: typeof annulerDemandeMainLevée;
+  readonly demanderMainlevée: typeof demanderMainlevée;
+  readonly annulerDemandeMainlevée: typeof annulerDemandeMainlevée;
+  readonly démarrerInstructionDemandeMainlevée: typeof démarrerInstructionDemandeMainlevée;
+  readonly rejeterDemandeMainlevéeGarantiesFinancières: typeof rejeterDemandeMainlevéeGarantiesFinancières;
+  readonly accorderDemandeMainlevéeGarantiesFinancières: typeof accorderDemandeMainlevéeGarantiesFinancières;
 };
 
 export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
@@ -132,7 +150,7 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   soumettreDépôt,
   demanderGarantiesFinancières,
   supprimerDépôtGarantiesFinancièresEnCours,
-  validerDépôtEnCours: validerDépôtEnCours,
+  validerDépôtEnCours,
   modifierDépôtGarantiesFinancièresEnCours,
   importerType,
   modifier,
@@ -140,8 +158,11 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   enregistrer,
   effacerHistorique,
   motifDemandeGarantiesFinancières: MotifDemandeGarantiesFinancières.motifInconnu,
-  demanderMainLevée,
-  annulerDemandeMainLevée,
+  demanderMainlevée,
+  annulerDemandeMainlevée,
+  démarrerInstructionDemandeMainlevée,
+  rejeterDemandeMainlevéeGarantiesFinancières,
+  accorderDemandeMainlevéeGarantiesFinancières,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
@@ -176,11 +197,20 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
     case 'HistoriqueGarantiesFinancièresEffacé-V1':
       applyEffacerHistoriqueGarantiesFinancières.bind(this)();
       break;
-    case 'MainLevéeGarantiesFinancièresDemandée-V1':
-      applyMainLevéeGarantiesFinancièresDemandée.bind(this)(event);
+    case 'MainlevéeGarantiesFinancièresDemandée-V1':
+      applyMainlevéeGarantiesFinancièresDemandée.bind(this)();
       break;
-    case 'DemandeMainLevéeGarantiesFinancièresAnnulée-V1':
-      applyDemandeMainLevéeGarantiesFinancièresAnnulée.bind(this)();
+    case 'DemandeMainlevéeGarantiesFinancièresAnnulée-V1':
+      applyDemandeMainlevéeGarantiesFinancièresAnnulée.bind(this)();
+      break;
+    case 'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1':
+      applyInstructionDemandeMainlevéeGarantiesFinancièresDémarrée.bind(this)();
+      break;
+    case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
+      applyDemandeMainlevéeGarantiesFinancièresRejetée.bind(this)();
+      break;
+    case 'DemandeMainlevéeGarantiesFinancièresAccordée-V1':
+      applyDemandeMainlevéeGarantiesFinancièresAccordée.bind(this)();
       break;
   }
 }

@@ -12,11 +12,11 @@ import { mapToPagination } from '@/utils/mapToPagination';
 import {
   ListeDemandeDeMainLevéeProps,
   ListeDemandeMainLevéePage,
-} from '../../../components/pages/garanties-financières/mainLevée/lister/ListeDemandeMainlevée.page';
+} from '../../../components/pages/garanties-financières/mainlevée/lister/ListeDemandeMainlevée.page';
 import {
   convertMotifMainlevéeForView,
   convertStatutMainlevéeForView,
-} from '../../../components/pages/garanties-financières/mainLevée/convertForView';
+} from '../../../components/pages/garanties-financières/mainlevée/convertForView';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -46,13 +46,13 @@ export default async function Page({ searchParams }: PageProps) {
             ...(appelOffre && { appelOffre }),
             ...(motif && {
               motif:
-                GarantiesFinancières.MotifDemandeMainLevéeGarantiesFinancières.convertirEnValueType(
+                GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
                   motif,
                 ).motif,
             }),
             ...(statut && {
               statut:
-                GarantiesFinancières.StatutMainLevéeGarantiesFinancières.convertirEnValueType(
+                GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
                   statut,
                 ).statut,
             }),
@@ -69,12 +69,12 @@ export default async function Page({ searchParams }: PageProps) {
       });
 
       const statutsMainLevéeEnCours =
-        GarantiesFinancières.StatutMainLevéeGarantiesFinancières.statuts.filter(
+        GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts.filter(
           (s) => s !== 'rejeté',
         );
 
       const motifMainLevéeEnCours =
-        GarantiesFinancières.MotifDemandeMainLevéeGarantiesFinancières.motifs;
+        GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.motifs;
 
       const filters = [
         {

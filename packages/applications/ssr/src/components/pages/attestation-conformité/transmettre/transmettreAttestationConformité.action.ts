@@ -16,7 +16,7 @@ const schema = zod.object({
   attestation: zod.instanceof(Blob).refine((data) => data.size > 0),
   preuveTransmissionAuCocontractant: zod.instanceof(Blob).refine((data) => data.size > 0),
   dateTransmissionAuCocontractant: zod.string().min(1),
-  demanderMainLevee: zod.string().optional(),
+  demanderMainlevee: zod.string().optional(),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
@@ -26,7 +26,7 @@ const action: FormAction<FormState, typeof schema> = async (
     attestation,
     dateTransmissionAuCocontractant,
     preuveTransmissionAuCocontractant,
-    demanderMainLevee,
+    demanderMainlevee,
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
@@ -50,9 +50,9 @@ const action: FormAction<FormState, typeof schema> = async (
       },
     });
 
-    if (demanderMainLevee === 'true') {
-      await mediator.send<GarantiesFinancières.DemanderMainLevéeGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.MainLevée.UseCase.Demander',
+    if (demanderMainlevee === 'true') {
+      await mediator.send<GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.Demander',
         data: {
           identifiantProjetValue: identifiantProjet,
           motifValue: 'projet-achevé',

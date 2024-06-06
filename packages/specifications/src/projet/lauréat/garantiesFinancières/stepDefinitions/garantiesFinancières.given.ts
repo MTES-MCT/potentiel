@@ -199,7 +199,7 @@ EtantDonné(
 );
 
 EtantDonné(
-  `le type de garanties financières importé  pour le projet {string}`,
+  `le type de garanties financières importé pour le projet {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 

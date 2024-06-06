@@ -1,18 +1,20 @@
 import { ListV2, RangeOptions } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import {
-  ConsulterMainLevéeGarantiesFinancièresReadModel,
-  MainLevéeGarantiesFinancièresEntity,
-  MotifDemandeMainLevéeGarantiesFinancières,
-  StatutMainLevéeGarantiesFinancières,
-} from '../..';
 import { Role } from '@potentiel-domain/utilisateur';
-import { CommonError, CommonPort } from '@potentiel-domain/common';
+import { CommonError, CommonPort, IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
-import { consulterMainLevéeGarantiesFinancièresMapToReadModel } from '../consulter/consulterMainLevéeGarantiesFinancières.query';
+import {
+  MotifDemandeMainlevéeGarantiesFinancières,
+  StatutMainlevéeGarantiesFinancières,
+} from '../..';
+import {
+  ConsulterMainlevéeGarantiesFinancièresReadModel,
+  consulterMainlevéeGarantiesFinancièresMapToReadModel,
+} from '../consulter/consulterMainlevéeGarantiesFinancières.query';
+import { MainlevéeGarantiesFinancièresEntity } from '../mainlevéeGarantiesFinancières.entity';
 
-export type ListerDemandeMainlevéeItemReadModel = ConsulterMainLevéeGarantiesFinancièresReadModel;
+export type ListerDemandeMainlevéeItemReadModel = ConsulterMainlevéeGarantiesFinancièresReadModel;
 
 export type ListerDemandeMainlevéeReadModel = Readonly<{
   items: ReadonlyArray<ListerDemandeMainlevéeItemReadModel>;
@@ -25,8 +27,8 @@ export type ListerDemandeMainlevéeQuery = Message<
   {
     range?: RangeOptions;
     appelOffre?: string;
-    motif?: MotifDemandeMainLevéeGarantiesFinancières.RawType;
-    statut?: StatutMainLevéeGarantiesFinancières.RawType;
+    motif?: MotifDemandeMainlevéeGarantiesFinancières.RawType;
+    statut?: StatutMainlevéeGarantiesFinancières.RawType;
     utilisateur: {
       rôle: string;
       email: string;
@@ -67,7 +69,7 @@ export const registerListerDemandeMainlevéeQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<MainLevéeGarantiesFinancièresEntity>('main-levee-garanties-financieres', {
+    } = await list<MainlevéeGarantiesFinancièresEntity>('mainlevee-garanties-financieres', {
       orderBy: {
         demande: {
           demandéeLe: 'ascending',
@@ -91,7 +93,14 @@ export const registerListerDemandeMainlevéeQuery = ({
     });
 
     return {
-      items: items.map(consulterMainLevéeGarantiesFinancièresMapToReadModel),
+      items: items.map((item) =>
+        consulterMainlevéeGarantiesFinancièresMapToReadModel({
+          ...item,
+          identifiantProjetValueType: IdentifiantProjet.convertirEnValueType(
+            item.identifiantProjet,
+          ),
+        }),
+      ),
       range: {
         endPosition,
         startPosition,

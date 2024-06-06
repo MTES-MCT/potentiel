@@ -68,9 +68,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjetValue: identifiantProjet },
       });
 
-      const mainLevée =
-        await mediator.send<GarantiesFinancières.ConsulterMainLevéeGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.MainLevée.Query.Consulter',
+      const mainlevée =
+        await mediator.send<GarantiesFinancières.ConsulterMainlevéeGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
           data: { identifiantProjetValue: identifiantProjet },
         });
 
@@ -80,7 +80,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         garantiesFinancièresActuelles,
         dépôtEnCoursGarantiesFinancières,
         achèvement,
-        mainLevée,
+        mainlevée,
       });
 
       return <DétailsGarantiesFinancièresPage {...props} />;
@@ -94,7 +94,7 @@ type MapToProps = (args: {
   garantiesFinancièresActuelles: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
   achèvement: Option.Type<Achèvement.ConsulterAttestationConformitéReadModel>;
-  mainLevée: Option.Type<GarantiesFinancières.ConsulterMainLevéeGarantiesFinancièresReadModel>;
+  mainlevée: Option.Type<GarantiesFinancières.ConsulterMainlevéeGarantiesFinancièresReadModel>;
 }) => DétailsGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({
@@ -103,7 +103,7 @@ const mapToProps: MapToProps = ({
   garantiesFinancièresActuelles,
   dépôtEnCoursGarantiesFinancières,
   achèvement,
-  mainLevée,
+  mainlevée,
 }) => {
   if (
     Option.isNone(garantiesFinancièresActuelles) &&
@@ -120,9 +120,9 @@ const mapToProps: MapToProps = ({
           utilisateur.role.estÉgaleÀ(Role.acheteurObligé)
         ? 'enregistrer'
         : undefined,
-      afficherInfoConditionsMainLevée:
+      afficherInfoConditionsMainlevée:
         utilisateur.role.estÉgaleÀ(Role.porteur) &&
-        Option.isNone(mainLevée) &&
+        Option.isNone(mainlevée) &&
         showMainLevéeGarantiesFinancières,
     };
   }
@@ -146,14 +146,15 @@ const mapToProps: MapToProps = ({
   const aGarantiesFinancièresSansAttestation =
     Option.isSome(garantiesFinancièresActuelles) &&
     !garantiesFinancièresActuelles.garantiesFinancières.attestation;
-  const aGarantiesFinancièresAvecAttestationSansDepotNiMainLevée =
+  const aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée =
     Option.isSome(garantiesFinancièresActuelles) &&
     garantiesFinancièresActuelles.garantiesFinancières.attestation &&
     Option.isNone(dépôtEnCoursGarantiesFinancières) &&
-    Option.isNone(mainLevée);
+    Option.isNone(mainlevée);
   const projetAbandonne = projet.statut === 'abandonné';
   const projetAcheve = Option.isSome(achèvement);
-  const mainLevéeDemandée = Option.isSome(mainLevée) && mainLevée.statut.estDemandé();
+  const mainlevéeDemandée = Option.isSome(mainlevée) && mainlevée.statut.estDemandé();
+  const mainlevéeEnInstruction = Option.isSome(mainlevée) && mainlevée.statut.estEnInstruction();
 
   if (estAdminOuDGEC || estDreal) {
     garantiesFinancièresActuellesActions.push('modifier');
@@ -161,20 +162,24 @@ const mapToProps: MapToProps = ({
     if (aGarantiesFinancièresSansAttestation) {
       garantiesFinancièresActuellesActions.push('enregister-attestation');
     } else if (
-      aGarantiesFinancièresAvecAttestationSansDepotNiMainLevée &&
+      aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée &&
       projetAbandonne &&
       showMainLevéeGarantiesFinancières
     ) {
-      garantiesFinancièresActuellesActions.push('demander-main-levée-gf-pour-projet-abandonné');
+      garantiesFinancièresActuellesActions.push('demander-mainlevée-gf-pour-projet-abandonné');
     } else if (
-      aGarantiesFinancièresAvecAttestationSansDepotNiMainLevée &&
+      aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée &&
       projetAcheve &&
       showMainLevéeGarantiesFinancières
     ) {
-      garantiesFinancièresActuellesActions.push('demander-main-levée-gf-pour-projet-achevé');
-    } else if (mainLevéeDemandée) {
-      garantiesFinancièresActuellesActions.push('annuler-demande-main-levée-gf');
+      garantiesFinancièresActuellesActions.push('demander-mainlevée-gf-pour-projet-achevé');
+    } else if (mainlevéeDemandée) {
+      garantiesFinancièresActuellesActions.push('annuler-demande-mainlevée-gf');
     }
+  }
+
+  if (estDreal && (mainlevéeDemandée || mainlevéeEnInstruction)) {
+    garantiesFinancièresActuellesActions.push('instruire-demande-mainlevée');
   }
 
   return {
@@ -215,19 +220,20 @@ const mapToProps: MapToProps = ({
     action:
       Option.isNone(dépôtEnCoursGarantiesFinancières) &&
       utilisateur.role.estÉgaleÀ(Role.porteur) &&
-      (Option.isNone(mainLevée) || (Option.isSome(mainLevée) && !mainLevée.statut.estDemandé()))
+      (Option.isNone(mainlevée) || (Option.isSome(mainlevée) && !mainlevée.statut.estDemandé()))
         ? 'soumettre'
         : undefined,
-    mainLevée: Option.isSome(mainLevée)
+    mainlevée: Option.isSome(mainlevée)
       ? {
-          motif: mainLevée.motif.motif,
-          statut: mainLevée.statut.statut,
-          demandéLe: mainLevée.demande.demandéeLe.formatter(),
+          motif: mainlevée.motif.motif,
+          statut: mainlevée.statut.statut,
+          demandéLe: mainlevée.demande.demandéeLe.formatter(),
+          instructionDémarréeLe: mainlevée.instruction?.démarréeLe.formatter(),
         }
       : undefined,
-    afficherInfoConditionsMainLevée:
+    afficherInfoConditionsMainlevée:
       utilisateur.role.estÉgaleÀ(Role.porteur) &&
-      Option.isNone(mainLevée) &&
+      Option.isNone(mainlevée) &&
       showMainLevéeGarantiesFinancières,
   };
 };

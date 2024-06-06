@@ -14,7 +14,7 @@ export type ListItemDemandeMainlevéeProps = {
   demandéLe: Iso8601DateTime;
   famille?: string;
   identifiantProjet: string;
-  statut: GarantiesFinancières.StatutMainLevéeGarantiesFinancières.RawType;
+  statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
   misÀJourLe: Iso8601DateTime;
   motif: string;
   nomProjet: string;

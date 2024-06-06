@@ -32,16 +32,21 @@ import {
   GénérerModèleMiseEnDemeureGarantiesFinancièresQuery,
   GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel,
 } from './projetEnAttenteDeGarantiesFinancières/générerModèleMiseEnDemeure/générerModèleMiseEnDemeure.query';
-import { DemanderMainLevéeGarantiesFinancièresUseCase } from './mainLevée/demander/demanderMainLevéeGarantiesFinancières.usecase';
-import {
-  ConsulterMainLevéeGarantiesFinancièresQuery,
-  ConsulterMainLevéeGarantiesFinancièresReadModel,
-} from './mainLevée/consulter/consulterMainLevéeGarantiesFinancières.query';
-import { AnnulerMainLevéeGarantiesFinancièresUseCase } from './mainLevée/annuler/annulerDemandeMainLevéeGarantiesFinancières.usecase';
+import { DemanderMainlevéeGarantiesFinancièresUseCase } from './mainlevée/demander/demanderMainlevéeGarantiesFinancières.usecase';
+
 import {
   ListerDemandeMainlevéeQuery,
   ListerDemandeMainlevéeReadModel,
-} from './mainLevée/lister/listerDemandeMainlevéeGarantiesFinancières.query';
+} from './mainlevée/lister/listerDemandeMainlevéeGarantiesFinancières.query';
+import { AnnulerMainlevéeGarantiesFinancièresUseCase } from './mainlevée/annuler/annulerDemandeMainlevéeGarantiesFinancières.usecase';
+import { DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/démarrerInstruction/démarrerInstructionDemandeMainlevéeGarantiesFinancières.usecase';
+import { RejeterDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/rejeter/rejeterDemandeMainlevéeGarantiesFinancières.usecase';
+import { AccorderDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.usecase';
+import {
+  ConsulterMainlevéeGarantiesFinancièresQuery,
+  ConsulterMainlevéeGarantiesFinancièresReadModel,
+} from './mainlevée/consulter/consulterMainlevéeGarantiesFinancières.query';
+
 // Query
 export type GarantiesFinancièresQuery =
   | ConsulterGarantiesFinancièresQuery
@@ -51,7 +56,7 @@ export type GarantiesFinancièresQuery =
   | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
   | GénérerModèleMiseEnDemeureGarantiesFinancièresQuery
-  | ConsulterMainLevéeGarantiesFinancièresQuery
+  | ConsulterMainlevéeGarantiesFinancièresQuery
   | ListerDemandeMainlevéeQuery;
 
 export type {
@@ -61,7 +66,7 @@ export type {
   ListerDépôtsEnCoursGarantiesFinancièresQuery,
   ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
   GénérerModèleMiseEnDemeureGarantiesFinancièresQuery,
-  ConsulterMainLevéeGarantiesFinancièresQuery,
+  ConsulterMainlevéeGarantiesFinancièresQuery,
   ListerDemandeMainlevéeQuery,
 };
 
@@ -73,7 +78,7 @@ export type {
   ListerDépôtsEnCoursGarantiesFinancièresReadModel,
   ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
   GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel,
-  ConsulterMainLevéeGarantiesFinancièresReadModel,
+  ConsulterMainlevéeGarantiesFinancièresReadModel,
   ListerDemandeMainlevéeReadModel,
 };
 
@@ -89,8 +94,11 @@ export type GarantiesFinancièresUseCase =
   | EnregistrerAttestationGarantiesFinancièresUseCase
   | EnregistrerGarantiesFinancièresUseCase
   | EffacerHistoriqueGarantiesFinancièresUseCase
-  | DemanderMainLevéeGarantiesFinancièresUseCase
-  | AnnulerMainLevéeGarantiesFinancièresUseCase;
+  | DemanderMainlevéeGarantiesFinancièresUseCase
+  | AnnulerMainlevéeGarantiesFinancièresUseCase
+  | DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase
+  | RejeterDemandeMainlevéeGarantiesFinancièresUseCase
+  | AccorderDemandeMainlevéeGarantiesFinancièresUseCase;
 
 export type {
   SoumettreDépôtGarantiesFinancièresUseCase,
@@ -103,8 +111,11 @@ export type {
   EnregistrerAttestationGarantiesFinancièresUseCase,
   EnregistrerGarantiesFinancièresUseCase,
   EffacerHistoriqueGarantiesFinancièresUseCase,
-  DemanderMainLevéeGarantiesFinancièresUseCase,
-  AnnulerMainLevéeGarantiesFinancièresUseCase,
+  DemanderMainlevéeGarantiesFinancièresUseCase,
+  AnnulerMainlevéeGarantiesFinancièresUseCase,
+  DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase,
+  RejeterDemandeMainlevéeGarantiesFinancièresUseCase,
+  AccorderDemandeMainlevéeGarantiesFinancièresUseCase,
 };
 
 // Event
@@ -119,8 +130,11 @@ export type { GarantiesFinancièresModifiéesEvent } from './garantiesFinancièr
 export type { AttestationGarantiesFinancièresEnregistréeEvent } from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
 export type { HistoriqueGarantiesFinancièresEffacéEvent } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.behavior';
 export type { GarantiesFinancièresEnregistréesEvent } from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.behavior';
-export type { MainLevéeGarantiesFinancièresDemandéeEvent } from './mainLevée/demander/demanderMainLevéeGarantiesFinancières.behavior';
-export type { DemandeMainLevéeGarantiesFinancièresAnnuléeEvent } from './mainLevée/annuler/annulerDemandeMainLevéeGarantiesFinancières.behavior';
+export type { MainlevéeGarantiesFinancièresDemandéeEvent } from './mainlevée/demander/demanderMainlevéeGarantiesFinancières.behavior';
+export type { DemandeMainlevéeGarantiesFinancièresAnnuléeEvent } from './mainlevée/annuler/annulerDemandeMainlevéeGarantiesFinancières.behavior';
+export type { InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent } from './mainlevée/démarrerInstruction/démarrerInstructionDemandeMainlevéeGarantiesFinancières.behavior';
+export type { DemandeMainlevéeGarantiesFinancièresRejetéeEvent } from './mainlevée/rejeter/rejeterDemandeMainlevéeGarantiesFinancières.behavior';
+export type { DemandeMainlevéeGarantiesFinancièresAccordéeEvent } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.behavior';
 
 // Register
 export {
@@ -133,14 +147,15 @@ export * as GarantiesFinancières from './garantiesFinancières.valueType';
 export * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
 export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinancières.valueType';
-export * as StatutMainLevéeGarantiesFinancières from './mainLevée/statutMainLevéeGarantiesFinancières.valueType';
-export * as MotifDemandeMainLevéeGarantiesFinancières from './mainLevée/motifDemandeMainLevéeGarantiesFinancières.valueType';
+export * as StatutMainlevéeGarantiesFinancières from './mainlevée/statutMainlevéeGarantiesFinancières.valueType';
+export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motifDemandeMainlevéeGarantiesFinancières.valueType';
+export * as TypeDocumentRéponseDemandeMainlevée from './mainlevée/typeDocumentRéponseDemandeMainlevée.valueType';
 
 // Projections
 export * from './garantiesFinancièresActuelles/garantiesFinancièresActuelles.entity';
 export * from './dépôtEnCours/dépôtEnCoursGarantiesFinancières.entity';
 export * from './projetEnAttenteDeGarantiesFinancières/projetAvecGarantiesFinancièresEnAttente.entity';
-export * from './mainLevée/mainLevéeGarantiesFinancières.entity';
+export * from './mainlevée/mainlevéeGarantiesFinancières.entity';
 
 // Ports
 export type { BuildModèleMiseEnDemeureGarantiesFinancièresPort } from './projetEnAttenteDeGarantiesFinancières/générerModèleMiseEnDemeure/générerModèleMiseEnDemeure.query';
