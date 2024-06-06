@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -27,6 +28,7 @@ export type FormulaireAttestationConformitéProps = {
     preuveTransmissionAuCocontractant: string;
     dateTransmissionAuCocontractant: Iso8601DateTime;
   };
+  showDemanderMainLevée?: boolean;
 };
 
 export const FormulaireAttestationConformité: FC<FormulaireAttestationConformitéProps> = ({
@@ -34,6 +36,7 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
   action,
   submitButtonLabel,
   donnéesActuelles,
+  showDemanderMainLevée,
 }) => {
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
   const router = useRouter();
@@ -129,6 +132,20 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
           state={validationErrors.includes('dateTransmissionAuCocontractant') ? 'error' : 'default'}
           stateRelatedMessage="Date de transmission au co-contractant obligatoire"
         />
+
+        {showDemanderMainLevée && (
+          <Checkbox
+            options={[
+              {
+                label: `Je souhaite demander une main-levée de mes garanties financières`,
+                nativeInputProps: {
+                  name: 'demanderMainLevee',
+                  value: 'true',
+                },
+              },
+            ]}
+          />
+        )}
       </div>
 
       <div className="flex flex-col md:flex-row gap-4 mt-5">
