@@ -11,6 +11,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2 } from '@/components/atoms/headings';
 
 import { DemanderMainLevéeGarantiesFinancières } from '../../mainLevée/demander/DemanderMainLevéeGarantiesFinancières';
+import { AnnulerMainLevéeGarantiesFinancières } from '../../mainLevée/annuler/AnnulerMainLevéeGarantiesFinancières';
 
 export type GarantiesFinancièresActuelles = {
   type: string;
@@ -33,6 +34,7 @@ export type GarantiesFinancièresActuellesProps = {
       | 'enregister-attestation'
       | 'demander-main-levée-gf-pour-projet-abandonné'
       | 'demander-main-levée-gf-pour-projet-achevé'
+      | 'annuler-main-levée-gf'
     >;
   };
   mainLevée?: {
@@ -129,6 +131,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
               <FormattedDate className="font-semibold" date={mainLevée.demandéLe} /> suite à{' '}
               {mainLevée.motif === 'projet-abandonné' ? `l'abandon` : `l'achèvement`} du projet.
             </div>
+            // violette voir pour mettre l'annulation ici
           )}
           <Actions identifiantProjet={identifiantProjet} actions={actions} />
         </>
@@ -153,7 +156,6 @@ const Actions: FC<ActionsProps> = ({ identifiantProjet, actions }) => {
           Modifier
         </Button>
       )}
-
       {actions.includes('enregister-attestation') && (
         <>
           <p className="italic">
@@ -170,7 +172,6 @@ const Actions: FC<ActionsProps> = ({ identifiantProjet, actions }) => {
           </Button>
         </>
       )}
-
       {(actions.includes('demander-main-levée-gf-pour-projet-abandonné') ||
         actions.includes('demander-main-levée-gf-pour-projet-achevé')) && (
         <>
@@ -183,6 +184,9 @@ const Actions: FC<ActionsProps> = ({ identifiantProjet, actions }) => {
             }
           />
         </>
+      )}
+      {actions.includes('annuler-main-levée-gf') && (
+        <AnnulerMainLevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}
     </>
   );

@@ -119,7 +119,8 @@ const mapToProps: MapToProps = ({
           utilisateur.role.estÉgaleÀ(Role.acheteurObligé)
         ? 'enregistrer'
         : undefined,
-      afficherInfoConditionsMainLevée: utilisateur.role.estÉgaleÀ(Role.porteur),
+      afficherInfoConditionsMainLevée:
+        utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainLevée),
     };
   }
 
@@ -157,6 +158,12 @@ const mapToProps: MapToProps = ({
     if (Option.isSome(achèvement)) {
       garantiesFinancièresActuellesActions.push('demander-main-levée-gf-pour-projet-achevé');
     }
+  } else if (
+    utilisateur.role.estÉgaleÀ(Role.porteur) &&
+    Option.isSome(mainLevée) &&
+    mainLevée.statut.estDemandé()
+  ) {
+    garantiesFinancièresActuellesActions.push('annuler-main-levée-gf');
   }
 
   return {
