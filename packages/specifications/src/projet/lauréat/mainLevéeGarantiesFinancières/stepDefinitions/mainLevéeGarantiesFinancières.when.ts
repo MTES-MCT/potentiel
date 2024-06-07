@@ -33,7 +33,7 @@ Quand(
 );
 
 Quand(
-  'le porteur demande à annuler la levée des garanties financières pour le projet {string} avec :',
+  'le porteur annule la demande de main-levée des garanties financières pour le projet {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const annulationData = dataTable.rowsHash();
 

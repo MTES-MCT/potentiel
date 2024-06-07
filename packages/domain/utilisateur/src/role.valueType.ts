@@ -146,7 +146,7 @@ const référencielPermissions = {
         effacerHistorique:
           'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
         demanderMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.UseCase.Demander',
-        annulerMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.UseCase.Annuler',
+        annulerDemandeMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.UseCase.Annuler',
       },
       command: {
         demander: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
@@ -163,7 +163,7 @@ const référencielPermissions = {
         effacerHistorique:
           'Lauréat.GarantiesFinancières.Command.EffacerHistoriqueGarantiesFinancières',
         demanderMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.Command.Demander',
-        annulerMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.Command.Annuler',
+        annulerDemandeMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.Command.Annuler',
       },
     },
     achèvement: {
@@ -560,8 +560,8 @@ const policies = {
       ],
       consulter: [référencielPermissions.lauréat.garantiesFinancières.query.consulterMainLevée],
       annuler: [
-        référencielPermissions.lauréat.garantiesFinancières.usecase.annulerMainLevée,
-        référencielPermissions.lauréat.garantiesFinancières.command.annulerMainLevée,
+        référencielPermissions.lauréat.garantiesFinancières.usecase.annulerDemandeMainLevée,
+        référencielPermissions.lauréat.garantiesFinancières.command.annulerDemandeMainLevée,
       ],
     },
     enAttente: {

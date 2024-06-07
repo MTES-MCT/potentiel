@@ -37,7 +37,7 @@ import {
   ConsulterMainLevéeGarantiesFinancièresQuery,
   ConsulterMainLevéeGarantiesFinancièresReadModel,
 } from './mainLevée/consulter/consulterMainLevéeGarantiesFinancières.query';
-import { AnnulerMainLevéeGarantiesFinancièresUseCase } from './mainLevée/annuler/annulerMainLevéeGarantiesFinancières.usecase';
+import { AnnulerMainLevéeGarantiesFinancièresUseCase } from './mainLevée/annuler/annulerDemandeMainLevéeGarantiesFinancières.usecase';
 // Query
 export type GarantiesFinancièresQuery =
   | ConsulterGarantiesFinancièresQuery
@@ -113,7 +113,7 @@ export type { AttestationGarantiesFinancièresEnregistréeEvent } from './garant
 export type { HistoriqueGarantiesFinancièresEffacéEvent } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.behavior';
 export type { GarantiesFinancièresEnregistréesEvent } from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.behavior';
 export type { MainLevéeGarantiesFinancièresDemandéeEvent } from './mainLevée/demander/demanderMainLevéeGarantiesFinancières.behavior';
-export type { MainLevéeGarantiesFinancièresAnnuléeEvent } from './mainLevée/annuler/annulerMainLevéeGarantiesFinancières.behavior';
+export type { DemandeMainLevéeGarantiesFinancièresAnnuléeEvent } from './mainLevée/annuler/annulerDemandeMainLevéeGarantiesFinancières.behavior';
 
 // Register
 export {

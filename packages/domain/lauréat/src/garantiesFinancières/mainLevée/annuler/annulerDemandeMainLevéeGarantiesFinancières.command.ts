@@ -25,7 +25,7 @@ export const registerAnnulerMainLevéeGarantiesFinancièresCommand = (
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
 
-    await garantiesFinancières.annulerMainLevée({
+    await garantiesFinancières.annulerDemandeMainLevée({
       identifiantProjet,
       annuléLe,
       annuléPar,

@@ -3,24 +3,22 @@ import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 
-export type MainLevéeGarantiesFinancièresAnnuléeEvent = DomainEvent<
-  'MainLevéeGarantiesFinancièresAnnulée-V1',
+export type DemandeMainLevéeGarantiesFinancièresAnnuléeEvent = DomainEvent<
+  'DemandeMainLevéeGarantiesFinancièresAnnulée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    annulation: {
-      annuléLe: DateTime.RawType;
-      annuléPar: Email.RawType;
-    };
+    annuléLe: DateTime.RawType;
+    annuléPar: Email.RawType;
   }
 >;
 
-export type Options = {
+type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
   annuléLe: DateTime.ValueType;
   annuléPar: Email.ValueType;
 };
 
-export async function annulerMainLevée(
+export async function annulerDemandeMainLevée(
   this: GarantiesFinancièresAggregate,
   { identifiantProjet, annuléLe, annuléPar }: Options,
 ) {
@@ -41,17 +39,15 @@ export async function annulerMainLevée(
   }
 
   /*
-  Pour le moment le champs annulation n'est pas utilisé
-  Mais il pourra l'être dans un second temps et enregistre l'historique
+  Pour le moment les champs d'annulation ne sont pas utilisés
+  Mais l'historique est enregistré au cas où
   */
-  const event: MainLevéeGarantiesFinancièresAnnuléeEvent = {
-    type: 'MainLevéeGarantiesFinancièresAnnulée-V1',
+  const event: DemandeMainLevéeGarantiesFinancièresAnnuléeEvent = {
+    type: 'DemandeMainLevéeGarantiesFinancièresAnnulée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      annulation: {
-        annuléLe: annuléLe.formatter(),
-        annuléPar: annuléPar.formatter(),
-      },
+      annuléLe: annuléLe.formatter(),
+      annuléPar: annuléPar.formatter(),
     },
   };
 

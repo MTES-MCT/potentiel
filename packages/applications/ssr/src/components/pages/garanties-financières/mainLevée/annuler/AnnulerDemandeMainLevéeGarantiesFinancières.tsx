@@ -8,13 +8,13 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
-import { annulerMainLevéeGarantiesFinancièresAction } from './annulerMainLevéeGarantiesFinancières.action';
+import { annulerDemandeMainLevéeGarantiesFinancièresAction } from './annulerDemandeMainLevéeGarantiesFinancières.action';
 
 type AnnulerMainLevéeGarantiesFinancièresFormProps = {
   identifiantProjet: string;
 };
 
-export const AnnulerMainLevéeGarantiesFinancières = ({
+export const AnnulerDemandeMainLevéeGarantiesFinancières = ({
   identifiantProjet,
 }: AnnulerMainLevéeGarantiesFinancièresFormProps) => {
   const router = useRouter();
@@ -23,17 +23,17 @@ export const AnnulerMainLevéeGarantiesFinancières = ({
   return (
     <>
       <Button priority="primary" onClick={() => setIsOpen(true)}>
-        Annuler sa demande de main-levée des garanties financières
+        Annuler la demande de main-levée des garanties financières
       </Button>
 
       <ModalWithForm
-        title="Annuler sa demande de main-levée des garanties financières"
+        title="Annuler la demande de main-levée des garanties financières"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Retour"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{
-          action: annulerMainLevéeGarantiesFinancièresAction,
+          action: annulerDemandeMainLevéeGarantiesFinancièresAction,
           method: 'post',
           encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,

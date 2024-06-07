@@ -33,4 +33,4 @@ const action: FormAction<FormState, typeof schema> = async (
   });
 };
 
-export const annulerMainLevéeGarantiesFinancièresAction = formAction(action, schema);
+export const annulerDemandeMainLevéeGarantiesFinancièresAction = formAction(action, schema);

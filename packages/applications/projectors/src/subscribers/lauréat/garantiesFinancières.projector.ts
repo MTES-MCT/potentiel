@@ -426,7 +426,7 @@ export const register = () => {
           );
           break;
 
-        case 'MainLevéeGarantiesFinancièresAnnulée-V1':
+        case 'DemandeMainLevéeGarantiesFinancièresAnnulée-V1':
           await removeProjection<GarantiesFinancières.MainLevéeGarantiesFinancièresEntity>(
             `main-levee-garanties-financieres|${identifiantProjet}`,
           );

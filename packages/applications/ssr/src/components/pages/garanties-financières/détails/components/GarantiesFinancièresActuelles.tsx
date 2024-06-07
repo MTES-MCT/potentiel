@@ -11,7 +11,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2 } from '@/components/atoms/headings';
 
 import { DemanderMainLevéeGarantiesFinancières } from '../../mainLevée/demander/DemanderMainLevéeGarantiesFinancières';
-import { AnnulerMainLevéeGarantiesFinancières } from '../../mainLevée/annuler/AnnulerMainLevéeGarantiesFinancières';
+import { AnnulerDemandeMainLevéeGarantiesFinancières } from '../../mainLevée/annuler/AnnulerDemandeMainLevéeGarantiesFinancières';
 
 export type GarantiesFinancièresActuelles = {
   type: string;
@@ -185,7 +185,7 @@ const Actions: FC<ActionsProps> = ({ identifiantProjet, actions }) => {
         </>
       )}
       {actions.includes('annuler-main-levée-gf') && (
-        <AnnulerMainLevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
+        <AnnulerDemandeMainLevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}
     </>
   );

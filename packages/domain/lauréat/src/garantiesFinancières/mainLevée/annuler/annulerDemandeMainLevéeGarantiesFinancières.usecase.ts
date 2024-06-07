@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { AnnulerMainLevéeGarantiesFinancièresCommand } from './annulerMainLevéeGarantiesFinancières.command';
+import { AnnulerMainLevéeGarantiesFinancièresCommand } from './annulerDemandeMainLevéeGarantiesFinancières.command';
 
 export type AnnulerMainLevéeGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.MainLevée.UseCase.Annuler',

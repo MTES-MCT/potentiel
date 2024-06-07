@@ -68,10 +68,10 @@ import {
   demanderMainLevée,
 } from './mainLevée/demander/demanderMainLevéeGarantiesFinancières.behavior';
 import {
-  MainLevéeGarantiesFinancièresAnnuléeEvent,
+  annulerDemandeMainLevée,
   applyMainLevéeGarantiesFinancièresAnnulée,
-  annulerMainLevée,
-} from './mainLevée/annuler/annulerMainLevéeGarantiesFinancières.behavior';
+  DemandeMainLevéeGarantiesFinancièresAnnuléeEvent,
+} from './mainLevée/annuler/annulerDemandeMainLevéeGarantiesFinancières.behavior';
 
 export type GarantiesFinancièresEvent =
   | DépôtGarantiesFinancièresSoumisEvent
@@ -85,7 +85,7 @@ export type GarantiesFinancièresEvent =
   | GarantiesFinancièresEnregistréesEvent
   | HistoriqueGarantiesFinancièresEffacéEvent
   | MainLevéeGarantiesFinancièresDemandéeEvent
-  | MainLevéeGarantiesFinancièresAnnuléeEvent;
+  | DemandeMainLevéeGarantiesFinancièresAnnuléeEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   actuelles?: {
@@ -121,7 +121,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly enregistrer: typeof enregistrer;
   readonly effacerHistorique: typeof effacerHistorique;
   readonly demanderMainLevée: typeof demanderMainLevée;
-  readonly annulerMainLevée: typeof annulerMainLevée;
+  readonly annulerDemandeMainLevée: typeof annulerDemandeMainLevée;
 };
 
 export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
@@ -141,7 +141,7 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   effacerHistorique,
   motifDemandeGarantiesFinancières: MotifDemandeGarantiesFinancières.motifInconnu,
   demanderMainLevée,
-  annulerMainLevée,
+  annulerDemandeMainLevée,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
@@ -179,7 +179,7 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
     case 'MainLevéeGarantiesFinancièresDemandée-V1':
       applyMainLevéeGarantiesFinancièresDemandée.bind(this)(event);
       break;
-    case 'MainLevéeGarantiesFinancièresAnnulée-V1':
+    case 'DemandeMainLevéeGarantiesFinancièresAnnulée-V1':
       applyMainLevéeGarantiesFinancièresAnnulée.bind(this)();
       break;
   }

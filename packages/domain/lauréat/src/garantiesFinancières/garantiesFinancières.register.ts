@@ -45,8 +45,8 @@ import {
   ConsulterMainLevéeGarantiesFinancièresDependencies,
   registerConsulterMainLevéeGarantiesFinancièresQuery,
 } from './mainLevée/consulter/consulterMainLevéeGarantiesFinancières.query';
-import { registerAnnulerMainLevéeGarantiesFinancièresCommand } from './mainLevée/annuler/annulerMainLevéeGarantiesFinancières.command';
-import { registerAnnulerMainLevéeGarantiesFinancièresUseCase } from './mainLevée/annuler/annulerMainLevéeGarantiesFinancières.usecase';
+import { registerAnnulerMainLevéeGarantiesFinancièresCommand } from './mainLevée/annuler/annulerDemandeMainLevéeGarantiesFinancières.command';
+import { registerAnnulerMainLevéeGarantiesFinancièresUseCase } from './mainLevée/annuler/annulerDemandeMainLevéeGarantiesFinancières.usecase';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerDépôtsEnCoursGarantiesFinancièresDependencies &
