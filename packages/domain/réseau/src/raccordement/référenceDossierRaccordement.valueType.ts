@@ -1,4 +1,4 @@
-import { ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
 export type RawType = string;
 
@@ -7,6 +7,7 @@ export type ValueType = ReadonlyValueType<{
   formatter(): RawType;
 }>;
 export const convertirEnValueType = (value: string): ValueType => {
+  estValide(value);
   return {
     référence: value,
     estÉgaleÀ({ référence }) {
@@ -17,3 +18,22 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
   };
 };
+
+function estValide(value: string): asserts value is RawType {
+  const isValid = value === value.trim().replace(/\s/g, '');
+
+  if (!isValid) {
+    throw new FormatRéférenceDossierRaccordementInvalideError(value);
+  }
+}
+
+class FormatRéférenceDossierRaccordementInvalideError extends InvalidOperationError {
+  constructor(value: string) {
+    super(
+      `La référence du dossier de raccordement ne doit pas comporter d'espace ou de tabulation extérieur`,
+      {
+        value,
+      },
+    );
+  }
+}

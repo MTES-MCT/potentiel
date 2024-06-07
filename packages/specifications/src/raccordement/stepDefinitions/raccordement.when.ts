@@ -35,15 +35,16 @@ Quand(
             raisonSocialeGestionnaire,
           ).codeEIC;
 
-    this.raccordementWorld.dateQualification = DateTime.convertirEnValueType(dateQualification);
-    this.raccordementWorld.référenceDossierRaccordement =
-      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement);
-    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
-      format,
-      content,
-    };
-
     try {
+      this.raccordementWorld.dateQualification = DateTime.convertirEnValueType(dateQualification);
+      this.raccordementWorld.référenceDossierRaccordement =
+        Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+          référenceDossierRaccordement,
+        );
+      this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
+        format,
+        content,
+      };
       await mediator.send<Raccordement.RaccordementUseCase>({
         type: 'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
         data: {
@@ -285,12 +286,12 @@ Quand(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     const { codeEIC } =
       this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSocialeGestionnaire);
-    this.raccordementWorld.référenceDossierRaccordement =
-      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
-        nouvelleRéférenceDossierRaccordement,
-      );
 
     try {
+      this.raccordementWorld.référenceDossierRaccordement =
+        Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+          nouvelleRéférenceDossierRaccordement,
+        );
       await mediator.send<Raccordement.RaccordementUseCase>({
         type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
         data: {
