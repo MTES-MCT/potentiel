@@ -24,7 +24,7 @@ Fonctionnalité: Annuler la main-levée des garanties financières d'un projet
         Alors le porteur devrait être informé que "Il n'y a pas de demande de main-levée pour ce projet"
 
     @NotImplemented
-    Scénario: Erreur si la levée des garanties financières de son projet est rejetée
+    Scénario: Impossible d'annuler une demande de main-levée des garanties financières de son projet si la levée des garanties financières de son projet est rejetée
         Etant donné un abandon accordé pour le projet lauréat "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :    
@@ -37,7 +37,7 @@ Fonctionnalité: Annuler la main-levée des garanties financières d'un projet
         Alors le porteur devrait être informé que "La demande de main-levée a déjà été rejetée"
 
     @NotImplemented
-    Scénario: Erreur si la levée des garanties financières de son projet est accordée
+    Scénario: Impossible d'annuler une demande de main-levée des garanties financières de son projet si la levée des garanties financières de son projet est accordée
         Etant donné un abandon accordé pour le projet lauréat "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :
@@ -48,7 +48,7 @@ Fonctionnalité: Annuler la main-levée des garanties financières d'un projet
         Alors le porteur devrait être informé que "La demande de main-levée a déjà été accordée"
 
     @NotImplemented
-    Scénario: Erreur si la levée des garanties financières de son projet est en instruction
+    Scénario: Impossible d'annuler une demande de main-levée des garanties financières de son projet si la levée des garanties financières de son projet est en instruction
         Etant donné un abandon accordé pour le projet lauréat "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :
