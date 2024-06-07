@@ -3,6 +3,7 @@ Fonctionnalité: Demander la main-levée des garanties financières d'un projet
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
     
+    @select
     Scénario: Un porteur demande la levée des garanties financières de son projet abandonné
         Etant donné un abandon accordé pour le projet lauréat "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"

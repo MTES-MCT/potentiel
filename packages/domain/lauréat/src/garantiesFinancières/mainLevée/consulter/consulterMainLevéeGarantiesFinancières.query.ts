@@ -64,21 +64,19 @@ export const registerConsulterMainLevéeGarantiesFinancièresQuery = ({
       return Option.none;
     }
 
-    return mapToReadModel({ ...result, identifiantProjetValueType: identifiantProjet });
+    return consulterMainLevéeGarantiesFinancièresMapToReadModel(result);
   };
   mediator.register('Lauréat.GarantiesFinancières.MainLevée.Query.Consulter', handler);
 };
 
-const mapToReadModel = ({
+export const consulterMainLevéeGarantiesFinancièresMapToReadModel = ({
   motif,
   demande,
   dernièreMiseÀJour,
   statut,
-  identifiantProjetValueType,
-}: MainLevéeGarantiesFinancièresEntity & {
-  identifiantProjetValueType: IdentifiantProjet.ValueType;
-}): ConsulterMainLevéeGarantiesFinancièresReadModel => ({
-  identifiantProjet: identifiantProjetValueType,
+  identifiantProjet,
+}: MainLevéeGarantiesFinancièresEntity): ConsulterMainLevéeGarantiesFinancièresReadModel => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   demande: {
     demandéeLe: DateTime.convertirEnValueType(demande.demandéeLe),
     demandéePar: Email.convertirEnValueType(demande.demandéePar),

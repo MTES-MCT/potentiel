@@ -83,6 +83,8 @@ class AccèsFonctionnalitéRefuséError extends OperationRejectedError {
   }
 }
 
+// violette autorisation ici
+
 // MATRICE en mémoire en attendant de pouvoir gérer les permissions depuis une interface d'administration
 const référencielPermissions = {
   lauréat: {

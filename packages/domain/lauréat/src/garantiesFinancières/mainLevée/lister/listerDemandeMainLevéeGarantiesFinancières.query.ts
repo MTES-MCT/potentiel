@@ -1,103 +1,93 @@
+import { ListV2, RangeOptions } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
-
-import { ListV2 } from '@potentiel-domain/core';
 import {
   ConsulterMainLevéeGarantiesFinancièresReadModel,
+  consulterMainLevéeGarantiesFinancièresMapToReadModel,
+} from '../consulter/consulterMainLevéeGarantiesFinancières.query';
+import {
   MainLevéeGarantiesFinancièresEntity,
   MotifDemandeMainLevéeGarantiesFinancières,
-  StatutMainLevéeGarantiesFinancières,
 } from '../..';
-import { DemanderMainLevéeGarantiesFinancièresCommand } from '../demander/demanderMainLevéeGarantiesFinancières.command';
 
-export type ListerDemandeMainLevéeGarantiesFinancièresReadModel =
-  ConsulterMainLevéeGarantiesFinancièresReadModel[];
+export type ListerDemandeMainLevéeItemReadModel = ConsulterMainLevéeGarantiesFinancièresReadModel;
 
-export type ListerDemandeMainLevéeGarantiesFinancièresQuery = Message<
+export type ListerDemandeMainLevéeReadModel = Readonly<{
+  items: ReadonlyArray<ListerDemandeMainLevéeItemReadModel>;
+  range: RangeOptions;
+  total: number;
+}>;
+
+export type ListerDemandeMainLevéeQuery = Message<
   'Lauréat.GarantiesFinancières.MainLevée.Query.Lister',
   {
-    identifiantProjetValue: string;
+    range?: RangeOptions;
+    appelOffre?: string;
+    motif?: MotifDemandeMainLevéeGarantiesFinancières.RawMotif;
     région?: string;
   },
-  ListerDemandeMainLevéeGarantiesFinancièresReadModel
+  ListerDemandeMainLevéeReadModel
 >;
 
-export type ListerDemandeMainLevéeGarantiesFinancièresDependencies = {
+export type ListerDemandeMainLevéeQueryDependencies = {
   listV2: ListV2;
 };
 
-// /**
-//  * @todo on devrait passer uniquement la région dans la query et pas les infos utilisateur pour le déterminer
-//  */
-// if (rôle === Role.dreal.nom) {
-//   const régionDreal = await récupérerRégionDreal(email);
-//   if (Option.isNone(régionDreal)) {
-//     throw new CommonError.RégionNonTrouvéeError();
-//   }
-
-//   région = régionDreal.région;
-// }
-
-export const registerConsulterMainLevéeGarantiesFinancièresQuery = ({
-  listV2,
-}: ListerDemandeMainLevéeGarantiesFinancièresDependencies) => {
-  const handler: MessageHandler<ListerDemandeMainLevéeGarantiesFinancièresQuery> = async ({
-    identifiantProjetValue,
+export const registerListerDemandeMainLevéeQuery = ({
+  listV2: list,
+}: ListerDemandeMainLevéeQueryDependencies) => {
+  const handler: MessageHandler<ListerDemandeMainLevéeQuery> = async ({
+    range,
+    appelOffre,
+    motif,
     région,
   }) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+    // let région: string | undefined = undefined;
+
+    // /**
+    //  * @todo on devrait passer uniquement la région dans la query et pas les infos utilisateur pour le déterminer
+    //  */
+    // if (rôle === Role.dreal.nom) {
+    //   const régionDreal = await récupérerRégionDreal(email);
+    //   if (Option.isNone(régionDreal)) {
+    //     throw new CommonError.RégionNonTrouvéeError();
+    //   }
+
+    //   région = régionDreal.région;
+    // }
 
     const {
       items,
-      range: { startPosition, endPosition },
+      range: { endPosition, startPosition },
       total,
-    } = await listV2<DemanderMainLevéeGarantiesFinancièresCommand>(
-      'depot-en-cours-garanties-financieres',
-      {
-        orderBy: { dépôt: { dernièreMiseÀJour: { date: 'descending' } } },
-        where: {
-          ...(région && {
-            région: { operator: 'equal', value: appelOffre },
-          }),
-          ...(région && {
-            régionProjet: { operator: 'equal', value: région },
-          }),
-          ...(cycle && {
-            appelOffre: { operator: cycle === 'PPE2' ? 'like' : 'notLike', value: '%PPE2%' },
-          }),
+    } = await list<MainLevéeGarantiesFinancièresEntity>('main-levee-garanties-financieres', {
+      orderBy: {
+        demande: {
+          demandéeLe: 'ascending',
         },
       },
-    );
+      range,
+      where: {
+        ...(appelOffre && {
+          appelOffre: { operator: 'equal', value: appelOffre },
+        }),
+        ...(motif && {
+          motif: { operator: 'equal', value: motif },
+        }),
+        ...(région && {
+          régionProjet: { operator: 'equal', value: région },
+        }),
+      },
+    });
 
-    if (Option.isNone(result)) {
-      return Option.none;
-    }
-
-    return mapToReadModel({ ...result, identifiantProjetValueType: identifiantProjet });
+    return {
+      items: items.map(consulterMainLevéeGarantiesFinancièresMapToReadModel),
+      range: {
+        endPosition,
+        startPosition,
+      },
+      total,
+    };
   };
-  mediator.register('Lauréat.GarantiesFinancières.MainLevée.Query.Consulter', handler);
+  mediator.register('Lauréat.GarantiesFinancières.MainLevée.Query.Lister', handler);
 };
-
-const mapToReadModel = ({
-  motif,
-  demande,
-  dernièreMiseÀJour,
-  statut,
-  identifiantProjetValueType,
-}: MainLevéeGarantiesFinancièresEntity & {
-  identifiantProjetValueType: IdentifiantProjet.ValueType;
-}): ConsulterMainLevéeGarantiesFinancièresReadModel => ({
-  identifiantProjet: identifiantProjetValueType,
-  demande: {
-    demandéeLe: DateTime.convertirEnValueType(demande.demandéeLe),
-    demandéePar: Email.convertirEnValueType(demande.demandéePar),
-  },
-  motif: MotifDemandeMainLevéeGarantiesFinancières.convertirEnValueType(motif),
-  statut: StatutMainLevéeGarantiesFinancières.convertirEnValueType(statut),
-  dernièreMiseÀJour: {
-    date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
-    par: Email.convertirEnValueType(dernièreMiseÀJour.par),
-  },
-});
