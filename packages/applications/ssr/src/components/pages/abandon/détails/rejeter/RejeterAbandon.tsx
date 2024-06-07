@@ -64,6 +64,7 @@ export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) =
               <Download
                 linkProps={{
                   href: Routes.Abandon.téléchargerModèleRéponse(identifiantProjet),
+                  target: '_blank',
                 }}
                 details="docx"
                 label="Télécharger le modèle de réponse"

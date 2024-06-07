@@ -72,6 +72,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
           <Download
             linkProps={{
               href: Routes.GarantiesFinancières.téléchargerModèleMiseEnDemeure(identifiantProjet),
+              target: '_blank',
             }}
             details="docx"
             label="Télécharger un modèle de mise en demeure"

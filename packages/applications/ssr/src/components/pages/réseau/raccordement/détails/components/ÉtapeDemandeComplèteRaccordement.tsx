@@ -69,6 +69,7 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
               href: Routes.Document.télécharger(accuséRéception),
               'aria-label': `Télécharger l'accusé de réception pour le dossier ${référence}`,
               title: `Télécharger l'accusé de réception pour le dossier ${référence}`,
+              target: '_blank',
             }}
             label="Télécharger la pièce justificative"
             details=""
