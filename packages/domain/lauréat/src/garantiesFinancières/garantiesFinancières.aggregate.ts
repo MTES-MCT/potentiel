@@ -69,7 +69,7 @@ import {
 } from './mainLevée/demander/demanderMainLevéeGarantiesFinancières.behavior';
 import {
   annulerDemandeMainLevée,
-  applyMainLevéeGarantiesFinancièresAnnulée,
+  applyDemandeMainLevéeGarantiesFinancièresAnnulée,
   DemandeMainLevéeGarantiesFinancièresAnnuléeEvent,
 } from './mainLevée/annuler/annulerDemandeMainLevéeGarantiesFinancières.behavior';
 
@@ -180,7 +180,7 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       applyMainLevéeGarantiesFinancièresDemandée.bind(this)(event);
       break;
     case 'DemandeMainLevéeGarantiesFinancièresAnnulée-V1':
-      applyMainLevéeGarantiesFinancièresAnnulée.bind(this)();
+      applyDemandeMainLevéeGarantiesFinancièresAnnulée.bind(this)();
       break;
   }
 }

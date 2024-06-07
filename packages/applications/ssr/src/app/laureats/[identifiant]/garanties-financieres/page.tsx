@@ -162,7 +162,7 @@ const mapToProps: MapToProps = ({
     } else if (aGarantiesFinancièresAvecAttestationSansDepotNiMainLevée && projetAcheve) {
       garantiesFinancièresActuellesActions.push('demander-main-levée-gf-pour-projet-achevé');
     } else if (mainLevéeDemandée) {
-      garantiesFinancièresActuellesActions.push('annuler-main-levée-gf');
+      garantiesFinancièresActuellesActions.push('annuler-demande-main-levée-gf');
     }
   }
 

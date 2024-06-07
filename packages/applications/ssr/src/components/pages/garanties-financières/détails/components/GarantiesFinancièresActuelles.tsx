@@ -34,7 +34,7 @@ export type GarantiesFinancièresActuellesProps = {
       | 'enregister-attestation'
       | 'demander-main-levée-gf-pour-projet-abandonné'
       | 'demander-main-levée-gf-pour-projet-achevé'
-      | 'annuler-main-levée-gf'
+      | 'annuler-demande-main-levée-gf'
     >;
   };
   mainLevée?: {
@@ -184,7 +184,7 @@ const Actions: FC<ActionsProps> = ({ identifiantProjet, actions }) => {
           />
         </>
       )}
-      {actions.includes('annuler-main-levée-gf') && (
+      {actions.includes('annuler-demande-main-levée-gf') && (
         <AnnulerDemandeMainLevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}
     </>

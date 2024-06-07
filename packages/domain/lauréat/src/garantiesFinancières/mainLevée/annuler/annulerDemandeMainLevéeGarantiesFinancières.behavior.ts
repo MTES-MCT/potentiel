@@ -54,7 +54,9 @@ export async function annulerDemandeMainLevée(
   await this.publish(event);
 }
 
-export function applyMainLevéeGarantiesFinancièresAnnulée(this: GarantiesFinancièresAggregate) {
+export function applyDemandeMainLevéeGarantiesFinancièresAnnulée(
+  this: GarantiesFinancièresAggregate,
+) {
   this.mainLevée = undefined;
 }
 
