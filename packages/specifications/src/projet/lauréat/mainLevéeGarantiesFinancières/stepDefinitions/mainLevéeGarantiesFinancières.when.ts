@@ -33,20 +33,20 @@ Quand(
 );
 
 Quand(
-  `le porteur demande l'annulation de la main-levée pour le projet {string} avec`,
+  'le porteur demande à annuler la levée des garanties financières pour le projet {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const annulationData = dataTable.rowsHash();
 
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
       const utilisateur = annulationData['utilisateur'] || 'user@test.test';
-      const dateDemande = annulationData['date demande'] || '2024-01-01';
+      const date = annulationData['date annulation'] || '2024-01-01';
 
       await mediator.send<GarantiesFinancières.AnnulerMainLevéeGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.MainLevée.UseCase.Annuler',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          annuléLeValue: new Date(dateDemande).toISOString(),
+          annuléLeValue: new Date(date).toISOString(),
           annuléParValue: utilisateur,
         },
       });

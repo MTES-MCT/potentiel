@@ -64,7 +64,7 @@ export function applyMainLevéeGarantiesFinancièresAnnulée(this: GarantiesFina
 
 class MainLevéeNonTrouvéeError extends InvalidOperationError {
   constructor() {
-    super("Il n'y a pas de main levée annulée pour ce projet");
+    super("Il n'y a pas de demande de main-levée pour ce projet");
   }
 }
 
