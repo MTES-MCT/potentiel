@@ -1,5 +1,5 @@
 type FeatureFlags = {
-  SHOW_GARANTIES_FINANCIERES?: true;
+  SHOW_MAIN_LEVEE_GARANTIES_FINANCIERES?: true;
 };
 
 export const featureFlags: FeatureFlags = {};
