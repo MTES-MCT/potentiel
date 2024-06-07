@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { DateTime } from '@potentiel-domain/common';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -21,6 +22,8 @@ const action: FormAction<FormState, typeof schema> = async (
       type: 'Lauréat.GarantiesFinancières.MainLevée.UseCase.Annuler',
       data: {
         identifiantProjetValue: identifiantProjet,
+        annuléLeValue: DateTime.now().formatter(),
+        annuléParValue: utilisateur.identifiantUtilisateur.formatter(),
       },
     });
 

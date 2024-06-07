@@ -10,13 +10,17 @@ Fonctionnalité: Annuler la main-levée des garanties financières d'un projet
             | motif                | projet-achevé          |
             | utilisateur          | porteur@test.test      |
             | date demande         | 2014-05-28             |
-        Quand le porteur demande l'annulation de la main-levée pour le projet "Centrale PV"
+        Quand le porteur demande l'annulation de la main-levée pour le projet "Centrale PV" avec :
+            | utilisateur          | porteur@test.test      |
+            | date demande         | 2014-05-28             |
         Alors une demande de main-levée de garanties financières ne devrait plus être consultable pour le projet "Centrale PV"
 
     Scénario: Impossible d'annuler une main-levée des garanties financières de son projet si la demande de main-levée n'existe pas
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"
-        Quand le porteur demande l'annulation de la main-levée pour le projet "Centrale PV"
+        Quand le porteur demande l'annulation de la main-levée pour le projet "Centrale PV" avec :
+            | utilisateur          | porteur@test.test      |
+            | date demande         | 2014-05-28             |
         Alors le porteur devrait être informé que "Il n'y a pas de main levée demandée pour ce projet"
 
     @NotImplemented
@@ -24,7 +28,9 @@ Fonctionnalité: Annuler la main-levée des garanties financières d'un projet
         Etant donné un abandon accordé pour le projet lauréat "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :    
-        Et un rejet de la demande de main-levée pour le projet "Centrale PV"
+        Et un rejet de la demande de main-levée pour le projet "Centrale PV" avec :
+            | utilisateur          | porteur@test.test      |
+            | date demande         | 2014-05-28             |
         Quand le porteur demande l'annulation de la main-levée pour le projet "Centrale PV"
         Alors le porteur devrait être informé que "La demande de main-levée a déjà été rejetée"
 
@@ -34,7 +40,9 @@ Fonctionnalité: Annuler la main-levée des garanties financières d'un projet
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :
         Et une validation de la demande de main-levée pour le projet "Centrale PV"    
-        Quand le porteur demande l'annulation de la main-levée pour le projet "Centrale PV"
+        Quand le porteur demande l'annulation de la main-levée pour le projet "Centrale PV" avec :
+            | utilisateur          | porteur@test.test      |
+            | date demande         | 2014-05-28             |
         Alors le porteur devrait être informé que "La demande de main-levée a déjà été accordée"
 
     @NotImplemented
@@ -43,5 +51,7 @@ Fonctionnalité: Annuler la main-levée des garanties financières d'un projet
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :
         Et un passage en instruction de la demande de main-levée du projet "Centrale PV"  
-        Quand le porteur demande l'annulation de la main-levée pour le projet "Centrale PV"
+        Quand le porteur demande l'annulation de la main-levée pour le projet "Centrale PV" avec :
+            | utilisateur          | porteur@test.test      |
+            | date demande         | 2014-05-28             |
         Alors le porteur devrait être informé que "La demande de main-levée est en instruction"

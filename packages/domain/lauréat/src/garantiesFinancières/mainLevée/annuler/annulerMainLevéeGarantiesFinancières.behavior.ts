@@ -1,4 +1,4 @@
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
@@ -7,16 +7,22 @@ export type MainLevéeGarantiesFinancièresAnnuléeEvent = DomainEvent<
   'MainLevéeGarantiesFinancièresAnnulée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
+    annulation: {
+      annuléLe: DateTime.RawType;
+      annuléPar: Email.RawType;
+    };
   }
 >;
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
+  annuléLe: DateTime.ValueType;
+  annuléPar: Email.ValueType;
 };
 
 export async function annulerMainLevée(
   this: GarantiesFinancièresAggregate,
-  { identifiantProjet }: Options,
+  { identifiantProjet, annuléLe, annuléPar }: Options,
 ) {
   if (!this.mainLevée) {
     throw new MainLevéeNonTrouvéeError();
@@ -34,10 +40,18 @@ export async function annulerMainLevée(
     throw new MainLevéeEnInstructionError();
   }
 
+  /*
+  Pour le moment le champs annulation n'est pas utilisé
+  Mais il pourra l'être dans un second temps et enregistre l'historique
+  */
   const event: MainLevéeGarantiesFinancièresAnnuléeEvent = {
     type: 'MainLevéeGarantiesFinancièresAnnulée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
+      annulation: {
+        annuléLe: annuléLe.formatter(),
+        annuléPar: annuléPar.formatter(),
+      },
     },
   };
 
@@ -50,7 +64,7 @@ export function applyMainLevéeGarantiesFinancièresAnnulée(this: GarantiesFina
 
 class MainLevéeNonTrouvéeError extends InvalidOperationError {
   constructor() {
-    super("Il n'y a pas de main levée demandée pour ce projet");
+    super("Il n'y a pas de main levée annulée pour ce projet");
   }
 }
 

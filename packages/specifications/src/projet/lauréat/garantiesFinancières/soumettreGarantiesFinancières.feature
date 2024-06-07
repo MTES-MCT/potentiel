@@ -64,7 +64,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     Scénario: Impossible de soumettre de nouvelles garanties financières si une demande de main-levée a été demandée    
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"    
-        Et une demande de main-levée de garanties financières envoyée le projet "Centrale PV" avec :
+        Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :
             | motif                | projet-achevé          |              
          Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type                 | consignation        |          
@@ -74,7 +74,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     Scénario: Impossible de soumettre de nouvelles garanties financières si une demande de main-levée est en instruction    
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"      
-        Et une demande de main-levée de garanties financières envoyée le projet "Centrale PV" avec :
+        Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :
             | motif                | projet-achevé          |            
          Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type                 | consignation        |          
