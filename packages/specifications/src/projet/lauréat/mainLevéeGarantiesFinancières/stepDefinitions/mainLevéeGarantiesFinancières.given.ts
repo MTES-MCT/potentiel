@@ -4,7 +4,7 @@ import { PotentielWorld } from '../../../../potentiel.world';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 EtantDonné(
-  'une demande de main-levée de garanties financières envoyée le projet {string} avec :',
+  'une demande de main-levée de garanties financières pour le projet {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 

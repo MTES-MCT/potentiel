@@ -70,7 +70,7 @@ Fonctionnalité: Demander la main-levée des garanties financières d'un projet
     Scénario: Erreur si le projet a déjà une demande de main-levée envoyée
         Etant donné des garanties financières validées pour le projet "Centrale PV"
         Et le projet "Centrale PV" avec une attestation de conformité transmise
-        Et une demande de main-levée de garanties financières envoyée le projet "Centrale PV" avec :
+        Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :
             | motif                | projet-achevé          |
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
             | motif                | projet-achevé          |
@@ -88,7 +88,7 @@ Fonctionnalité: Demander la main-levée des garanties financières d'un projet
     Scénario: Erreur si le projet a déjà une demande de main-levée en cours d'instruction
         Etant donné des garanties financières validées pour le projet "Centrale PV"
         Et le projet "Centrale PV" avec une attestation de conformité transmise
-        Et une demande de main-levée de garanties financières envoyée le projet "Centrale PV" avec :
+        Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :
             | motif                | projet-achevé          |
         Et un passage en instruction de la demande de main-levée du projet "Centrale PV"  
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
@@ -99,7 +99,7 @@ Fonctionnalité: Demander la main-levée des garanties financières d'un projet
     Scénario: Erreur si le projet a déjà une demande de main-levée accordée
         Etant donné des garanties financières validées pour le projet "Centrale PV"
         Et le projet "Centrale PV" avec une attestation de conformité transmise
-        Et une demande de main-levée de garanties financières envoyée le projet "Centrale PV" avec :
+        Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :
             | motif                | projet-achevé          |
         Et une validation de la demande de main-levée pour le projet "Centrale PV"    
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :

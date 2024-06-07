@@ -31,3 +31,28 @@ Quand(
     }
   },
 );
+
+Quand(
+  'le porteur annule la demande de main-levée des garanties financières pour le projet {string} avec :',
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+    const annulationData = dataTable.rowsHash();
+
+    try {
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const utilisateur = annulationData['utilisateur'] || 'user@test.test';
+      const date = annulationData['date annulation'] || '2024-01-01';
+
+      await mediator.send<GarantiesFinancières.AnnulerMainLevéeGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.MainLevée.UseCase.Annuler',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          annuléLeValue: new Date(date).toISOString(),
+          annuléParValue: utilisateur,
+        },
+      });
+      await sleep(500);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);

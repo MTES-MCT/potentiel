@@ -45,6 +45,8 @@ import {
   ConsulterMainLevéeGarantiesFinancièresDependencies,
   registerConsulterMainLevéeGarantiesFinancièresQuery,
 } from './mainLevée/consulter/consulterMainLevéeGarantiesFinancières.query';
+import { registerAnnulerMainLevéeGarantiesFinancièresCommand } from './mainLevée/annuler/annulerDemandeMainLevéeGarantiesFinancières.command';
+import { registerAnnulerMainLevéeGarantiesFinancièresUseCase } from './mainLevée/annuler/annulerDemandeMainLevéeGarantiesFinancières.usecase';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerDépôtsEnCoursGarantiesFinancièresDependencies &
@@ -71,6 +73,7 @@ export const registerGarantiesFinancièresUseCases = ({
   registerEffacerHistoriqueGarantiesFinancièresCommand(loadAggregate);
 
   registerDemanderMainLevéeGarantiesFinancièresCommand(loadAggregate);
+  registerAnnulerMainLevéeGarantiesFinancièresCommand(loadAggregate);
 
   registerSoumettreDépôtGarantiesFinancièresUseCase();
   registerDemanderGarantiesFinancièresUseCase();
@@ -84,6 +87,7 @@ export const registerGarantiesFinancièresUseCases = ({
   registerEffacerHistoriqueGarantiesFinancièresUseCase();
 
   registerDemanderMainLevéeGarantiesFinancièresUseCase();
+  registerAnnulerMainLevéeGarantiesFinancièresUseCase();
 };
 
 export const registerGarantiesFinancièresQueries = (

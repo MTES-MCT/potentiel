@@ -68,7 +68,7 @@ export const acheteurObligé = convertirEnValueType('acheteur-obligé');
 
 class RoleRefuséError extends OperationRejectedError {
   constructor(value: string) {
-    super(`Le role ne correspond à aucune valeur connue`, {
+    super(`Le rôle ne correspond à aucune valeur connue`, {
       value,
     });
   }
@@ -146,6 +146,7 @@ const référencielPermissions = {
         effacerHistorique:
           'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
         demanderMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.UseCase.Demander',
+        annulerDemandeMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.UseCase.Annuler',
       },
       command: {
         demander: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
@@ -162,6 +163,7 @@ const référencielPermissions = {
         effacerHistorique:
           'Lauréat.GarantiesFinancières.Command.EffacerHistoriqueGarantiesFinancières',
         demanderMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.Command.Demander',
+        annulerDemandeMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.Command.Annuler',
       },
     },
     achèvement: {
@@ -557,6 +559,10 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.command.demanderMainLevée,
       ],
       consulter: [référencielPermissions.lauréat.garantiesFinancières.query.consulterMainLevée],
+      annuler: [
+        référencielPermissions.lauréat.garantiesFinancières.usecase.annulerDemandeMainLevée,
+        référencielPermissions.lauréat.garantiesFinancières.command.annulerDemandeMainLevée,
+      ],
     },
     enAttente: {
       lister: [
@@ -776,6 +782,7 @@ const permissionPorteurProjet = [
   ...policies.garantiesFinancières.effacerHistorique,
   ...policies.garantiesFinancières.mainLevée.consulter,
   ...policies.garantiesFinancières.mainLevée.demander,
+  ...policies.garantiesFinancières.mainLevée.annuler,
 
   // Achèvement
   ...policies.achèvement.consulter,

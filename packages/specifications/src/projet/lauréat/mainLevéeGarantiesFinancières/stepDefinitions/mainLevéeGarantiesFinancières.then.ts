@@ -49,3 +49,22 @@ Alors(
     });
   },
 );
+
+Alors(
+  `une demande de main-levée de garanties financières ne devrait plus être consultable pour le projet {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      const actualReadModel =
+        await mediator.send<GarantiesFinancières.ConsulterMainLevéeGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.MainLevée.Query.Consulter',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
+
+      expect(Option.isNone(actualReadModel)).to.be.true;
+    });
+  },
+);

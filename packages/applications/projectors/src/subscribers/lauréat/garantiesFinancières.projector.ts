@@ -425,6 +425,12 @@ export const register = () => {
             },
           );
           break;
+
+        case 'DemandeMainLevéeGarantiesFinancièresAnnulée-V1':
+          await removeProjection<GarantiesFinancières.MainLevéeGarantiesFinancièresEntity>(
+            `main-levee-garanties-financieres|${identifiantProjet}`,
+          );
+          break;
       }
     }
   };
