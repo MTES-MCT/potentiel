@@ -286,12 +286,12 @@ Quand(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     const { codeEIC } =
       this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSocialeGestionnaire);
-    this.raccordementWorld.référenceDossierRaccordement =
-      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
-        nouvelleRéférenceDossierRaccordement,
-      );
 
     try {
+      this.raccordementWorld.référenceDossierRaccordement =
+        Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+          nouvelleRéférenceDossierRaccordement,
+        );
       await mediator.send<Raccordement.RaccordementUseCase>({
         type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
         data: {
