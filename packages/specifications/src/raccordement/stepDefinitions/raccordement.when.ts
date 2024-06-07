@@ -35,15 +35,16 @@ Quand(
             raisonSocialeGestionnaire,
           ).codeEIC;
 
-    this.raccordementWorld.dateQualification = DateTime.convertirEnValueType(dateQualification);
-    this.raccordementWorld.référenceDossierRaccordement =
-      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement);
-    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
-      format,
-      content,
-    };
-
     try {
+      this.raccordementWorld.dateQualification = DateTime.convertirEnValueType(dateQualification);
+      this.raccordementWorld.référenceDossierRaccordement =
+        Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+          référenceDossierRaccordement,
+        );
+      this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
+        format,
+        content,
+      };
       await mediator.send<Raccordement.RaccordementUseCase>({
         type: 'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
         data: {
