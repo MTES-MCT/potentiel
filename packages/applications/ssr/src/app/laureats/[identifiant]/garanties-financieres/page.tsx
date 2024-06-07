@@ -228,6 +228,6 @@ const mapToProps: MapToProps = ({
     afficherInfoConditionsMainLevée:
       utilisateur.role.estÉgaleÀ(Role.porteur) &&
       Option.isNone(mainLevée) &&
-      !!featureFlags.SHOW_MAIN_LEVEE_GARANTIES_FINANCIERES,
+      featureFlags.SHOW_MAIN_LEVEE_GARANTIES_FINANCIERES,
   };
 };
