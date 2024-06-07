@@ -1,12 +1,11 @@
 'use server';
 
-import * as zod from 'zod';
 import { mediator } from 'mediateur';
+import * as zod from 'zod';
 
 import { Raccordement } from '@potentiel-domain/reseau';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
-import { removeSpacesAndTabulations } from '@/utils/removeSpacesAndTabulations';
 
 export type TransmettreDemandeComplèteRaccordementState = FormState;
 
@@ -34,7 +33,7 @@ const action: FormAction<FormState, typeof schema> = async (
       identifiantProjetValue: identifiantProjet,
       dateQualificationValue: new Date(dateQualification).toISOString(),
       identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
-      référenceDossierValue: removeSpacesAndTabulations(referenceDossier),
+      référenceDossierValue: referenceDossier,
       accuséRéceptionValue: {
         content: accuseReception.stream(),
         format: accuseReception.type,
