@@ -14,7 +14,13 @@ export type ProjetListéPourOREReadModel = {
   };
 };
 
-const selectProjectQuery = `
+type Props = {
+  limit?: number;
+  offset?: number;
+};
+
+export const listerProjetForOreAdapter = async ({ limit, offset }: Props) => {
+  const selectProjectQuery = `
   SELECT json_build_object(
     'legacyId', "id",
     'appelOffre', "appelOffreId",
@@ -27,10 +33,11 @@ const selectProjectQuery = `
     )
   ) as value
   FROM "projects"
-  where "classe" = 'Classé'
+  WHERE "classe" = 'Classé'
+  ${limit !== undefined && `LIMIT ${limit}`}
+  ${offset !== undefined && `OFFSET ${limit}`}
 `;
 
-export const listerProjetForOreAdapter = async () => {
   const projets = await executeSelect<{
     value: Omit<ProjetListéPourOREReadModel, 'type' | 'identifiantProjet'>;
   }>(selectProjectQuery);
