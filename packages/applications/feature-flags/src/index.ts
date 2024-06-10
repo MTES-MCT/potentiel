@@ -3,7 +3,6 @@ type FeatureFlags = {
 };
 
 export const featureFlags: FeatureFlags = {
-  ...(process.env.APPLICATION_STAGE !== 'production' && {
-    SHOW_MAIN_LEVEE_GARANTIES_FINANCIERES: true,
-  }),
+  SHOW_MAIN_LEVEE_GARANTIES_FINANCIERES:
+    process.env.APPLICATION_STAGE !== 'production' ? true : undefined,
 };
