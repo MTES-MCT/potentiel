@@ -30,8 +30,12 @@ registerRéseauQueries({
 (async () => {
   getLogger().info('Lancement du script...');
 
+  const args = process.argv.slice(2);
+  const offset = args[0] ? Number(args[0]) : 0;
+  const limit = args[1] ? Number(args[1]) : 5000;
+
   try {
-    const projetsClassé = await listerProjetForOreAdapter();
+    const projetsClassé = await listerProjetForOreAdapter({ offset, limit });
     const projetsClasséIdentifiants = projetsClassé.map((p) => p.identifiantProjet);
 
     const raccordements = await mediator.send<Raccordement.ListerRaccordementQuery>({

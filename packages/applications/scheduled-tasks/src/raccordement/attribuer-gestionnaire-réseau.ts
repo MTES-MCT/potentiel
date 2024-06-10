@@ -32,7 +32,7 @@ registerRéseauQueries({
   getLogger().info('Lancement du script...');
 
   try {
-    const projetsClassé = await listerProjetForOreAdapter();
+    const projetsClassé = await listerProjetForOreAdapter({});
 
     const raccordements = await mediator.send<Raccordement.ListerRaccordementQuery>({
       type: 'Réseau.Raccordement.Query.ListerRaccordement',
@@ -72,6 +72,10 @@ registerRéseauQueries({
       );
 
       if (Option.isNone(gestionnaire)) {
+        getLogger().warn(
+          `Le gestionnaire ${gestionnaireParVille.raisonSociale} n'existe pas en base de données`,
+        );
+        projetsSansGestionnaireTrouvés++;
         continue;
       }
 
