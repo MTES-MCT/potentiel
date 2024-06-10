@@ -1,5 +1,4 @@
 import Button from '@codegouvfr/react-dsfr/Button';
-import Download from '@codegouvfr/react-dsfr/Download';
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -8,6 +7,7 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { CallOut } from '@/components/atoms/CallOut';
 import { Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { InputDownload } from '@/components/atoms/form/InputDownload';
 
 import { ValiderDépôtEnCoursGarantiesFinancières } from '../../dépôt/valider/validerDépôtEnCoursGarantiesFinancières';
 import { SupprimerDépôtEnCoursGarantiesFinancières } from '../../dépôt/supprimer/SupprimerDépôtEnCoursGarantiesFinancières';
@@ -72,12 +72,11 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
             )}
             <div>
               {attestation && (
-                <Download
+                <InputDownload
                   details="fichier au format pdf"
                   label="Télécharger l'attestation"
                   linkProps={{
                     href: Routes.Document.télécharger(attestation),
-                    target: '_blank',
                   }}
                 />
               )}

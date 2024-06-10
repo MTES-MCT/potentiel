@@ -1,7 +1,6 @@
 'use client';
 
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import Download from '@codegouvfr/react-dsfr/Download';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -9,6 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
+import { InputDownload } from '@/components/atoms/form/InputDownload';
 
 import { StatutPreuveRecandidatureBadgeProps } from './PreuveRecandidatureStatutBadge';
 
@@ -97,12 +97,11 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
       content: (
         <>
           {accord.réponseSignée && (
-            <Download
+            <InputDownload
               details=""
               label="Télécharger la pièce justificative"
               linkProps={{
                 href: Routes.Document.télécharger(accord.réponseSignée),
-                target: '_blank',
               }}
               className="mb-0 pb-0"
             />
@@ -122,12 +121,11 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
       content: (
         <>
           {rejet.réponseSignée && (
-            <Download
+            <InputDownload
               details=""
               label="Télécharger la pièce justificative"
               linkProps={{
                 href: Routes.Document.télécharger(rejet.réponseSignée),
-                target: '_blank',
               }}
               className="mb-0 pb-0"
             />
@@ -160,12 +158,11 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
       content: (
         <>
           {confirmation.réponseSignée && (
-            <Download
+            <InputDownload
               details=""
               label="Télécharger la pièce justificative"
               linkProps={{
                 href: Routes.Document.télécharger(confirmation.réponseSignée),
-                target: '_blank',
               }}
               className="mb-0 pb-0"
             />
@@ -193,12 +190,11 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
           </blockquote>
         </div>
         {justificatifDemande && (
-          <Download
+          <InputDownload
             details=""
             label="Télécharger la pièce justificative"
             linkProps={{
               href: Routes.Document.télécharger(justificatifDemande),
-              target: '_blank',
             }}
             className="mb-0 pb-0"
           />

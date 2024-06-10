@@ -1,4 +1,3 @@
-import Download from '@codegouvfr/react-dsfr/Download';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -7,6 +6,7 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Icon } from '@/components/atoms/Icon';
+import { InputDownload } from '@/components/atoms/form/InputDownload';
 
 import { FormatFichierInvalide } from './FormatFichierInvalide';
 import { Etape } from './Étape';
@@ -50,13 +50,12 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
         {propositionTechniqueEtFinancièreSignée && (
           <div>
             {propositionTechniqueEtFinancièreSignée.endsWith('.bin') && <FormatFichierInvalide />}
-            <Download
+            <InputDownload
               className="flex items-center"
               linkProps={{
                 href: Routes.Document.télécharger(propositionTechniqueEtFinancièreSignée),
                 'aria-label': `Télécharger la proposition technique et financière pour le dossier ${référence}`,
                 title: `Télécharger la proposition technique et financière pour le dossier ${référence}`,
-                target: '_blank',
               }}
               label="Télécharger la pièce justificative"
               details=""

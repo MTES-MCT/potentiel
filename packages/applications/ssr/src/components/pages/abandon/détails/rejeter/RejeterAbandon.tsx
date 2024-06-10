@@ -1,7 +1,6 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import Download from '@codegouvfr/react-dsfr/Download';
 import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -9,6 +8,7 @@ import { useState } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
+import { InputDownload } from '@/components/atoms/form/InputDownload';
 
 import { rejeterAbandonAction } from './rejeterAbandon.action';
 
@@ -61,7 +61,7 @@ export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) =
                 className="mb-4"
               />
 
-              <Download
+              <InputDownload
                 linkProps={{
                   href: Routes.Abandon.téléchargerModèleRéponse(identifiantProjet),
                   target: '_blank',

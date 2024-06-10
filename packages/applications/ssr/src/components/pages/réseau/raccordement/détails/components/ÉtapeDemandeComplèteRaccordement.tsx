@@ -1,4 +1,3 @@
-import Download from '@codegouvfr/react-dsfr/Download';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -7,6 +6,7 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { Icon } from '@/components/atoms/Icon';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { InputDownload } from '@/components/atoms/form/InputDownload';
 
 import { FormatFichierInvalide } from './FormatFichierInvalide';
 import { Etape } from './Étape';
@@ -63,13 +63,12 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
       {accuséRéception && (
         <div>
           {accuséRéception.endsWith('.bin') && <FormatFichierInvalide />}
-          <Download
+          <InputDownload
             className="flex items-center"
             linkProps={{
               href: Routes.Document.télécharger(accuséRéception),
               'aria-label': `Télécharger l'accusé de réception pour le dossier ${référence}`,
               title: `Télécharger l'accusé de réception pour le dossier ${référence}`,
-              target: '_blank',
             }}
             label="Télécharger la pièce justificative"
             details=""

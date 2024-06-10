@@ -1,4 +1,3 @@
-import Download from '@codegouvfr/react-dsfr/Download';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -6,6 +5,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { InputDownload } from '@/components/atoms/form/InputDownload';
 
 export type ListItemProjetAvecGarantiesFinancièresEnAttenteProps = {
   identifiantProjet: string;
@@ -69,10 +69,9 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
           </strong>
         </div>
         {afficherModèleMiseEnDemeure && (
-          <Download
+          <InputDownload
             linkProps={{
               href: Routes.GarantiesFinancières.téléchargerModèleMiseEnDemeure(identifiantProjet),
-              target: '_blank',
             }}
             details="docx"
             label="Télécharger un modèle de mise en demeure"
