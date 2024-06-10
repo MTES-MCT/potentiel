@@ -21,6 +21,14 @@ const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) =>
     >
       Projets avec garanties financières en attente
     </DropdownMenu.DropdownItem>
+    <DropdownMenu.DropdownItem
+      href={Routes.GarantiesFinancières.demandeMainLevée.lister}
+      {...(currentPage === 'liste-demandes-main-levee' && {
+        isCurrent: true,
+      })}
+    >
+      Demandes de main levée
+    </DropdownMenu.DropdownItem>
   </DropdownMenu>
 );
 

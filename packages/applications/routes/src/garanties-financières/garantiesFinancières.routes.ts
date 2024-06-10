@@ -19,6 +19,11 @@ export const actuelles = {
     )}/garanties-financieres/actuelles:enregistrer-attestation`,
 };
 
+// violette voir si route
+export const demandeMainLevée = {
+  lister: `/garanties-financieres/demandes-de-main-levée-en-cours`,
+};
+
 export const détail = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres`;
 
