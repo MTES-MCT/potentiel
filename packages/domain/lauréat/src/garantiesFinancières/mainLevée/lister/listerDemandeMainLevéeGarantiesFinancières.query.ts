@@ -9,6 +9,9 @@ import {
   MainLevéeGarantiesFinancièresEntity,
   MotifDemandeMainLevéeGarantiesFinancières,
 } from '../..';
+import { Role } from '@potentiel-domain/utilisateur';
+import { CommonError, CommonPort } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
 
 export type ListerDemandeMainLevéeItemReadModel = ConsulterMainLevéeGarantiesFinancièresReadModel;
 
@@ -24,37 +27,44 @@ export type ListerDemandeMainLevéeQuery = Message<
     range?: RangeOptions;
     appelOffre?: string;
     motif?: MotifDemandeMainLevéeGarantiesFinancières.RawMotif;
-    région?: string;
+    utilisateur: {
+      rôle: string;
+      email: string;
+    };
   },
   ListerDemandeMainLevéeReadModel
 >;
 
 export type ListerDemandeMainLevéeQueryDependencies = {
   listV2: ListV2;
+  récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerDemandeMainLevéeQuery = ({
   listV2: list,
+  récupérerRégionDreal,
 }: ListerDemandeMainLevéeQueryDependencies) => {
   const handler: MessageHandler<ListerDemandeMainLevéeQuery> = async ({
     range,
     appelOffre,
     motif,
-    région,
+    utilisateur,
   }) => {
-    // let région: string | undefined = undefined;
+    /**
+     * @todo on devrait passer uniquement la région dans la query et pas les infos utilisateur pour le déterminer
+     */
 
-    // /**
-    //  * @todo on devrait passer uniquement la région dans la query et pas les infos utilisateur pour le déterminer
-    //  */
-    // if (rôle === Role.dreal.nom) {
-    //   const régionDreal = await récupérerRégionDreal(email);
-    //   if (Option.isNone(régionDreal)) {
-    //     throw new CommonError.RégionNonTrouvéeError();
-    //   }
+    let région: string | undefined = undefined;
 
-    //   région = régionDreal.région;
-    // }
+    if (utilisateur.rôle === Role.dreal.nom) {
+      const régionDreal = await récupérerRégionDreal(utilisateur.email);
+
+      if (Option.isNone(régionDreal)) {
+        throw new CommonError.RégionNonTrouvéeError();
+      }
+
+      région = régionDreal.région;
+    }
 
     const {
       items,

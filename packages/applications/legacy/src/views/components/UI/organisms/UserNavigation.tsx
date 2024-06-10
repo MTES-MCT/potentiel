@@ -23,9 +23,10 @@ const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) =>
     </DropdownMenu.DropdownItem>
     <DropdownMenu.DropdownItem
       href={Routes.GarantiesFinancières.demandeMainLevée.lister}
-      {...(currentPage === 'liste-demandes-main-levee' && {
-        isCurrent: true,
-      })}
+      // {...(currentPage === 'liste-demandes-main-levee' && {
+      //   isCurrent: true,
+      // })}
+      // violette
     >
       Demandes de main levée
     </DropdownMenu.DropdownItem>
