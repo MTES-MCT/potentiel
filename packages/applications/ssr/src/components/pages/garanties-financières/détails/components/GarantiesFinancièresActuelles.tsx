@@ -1,5 +1,4 @@
 import Button from '@codegouvfr/react-dsfr/Button';
-import Download from '@codegouvfr/react-dsfr/Download';
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -9,6 +8,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { CallOut } from '@/components/atoms/CallOut';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2 } from '@/components/atoms/headings';
+import { InputDownload } from '@/components/atoms/form/InputDownload';
 
 import { DemanderMainLevéeGarantiesFinancières } from '../../mainLevée/demander/DemanderMainLevéeGarantiesFinancières';
 import { AnnulerDemandeMainLevéeGarantiesFinancières } from '../../mainLevée/annuler/AnnulerDemandeMainLevéeGarantiesFinancières';
@@ -114,12 +114,11 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
             )}
             <div>
               {attestation && (
-                <Download
+                <InputDownload
                   details="fichier au format pdf"
                   label="Télécharger l'attestation"
                   linkProps={{
                     href: Routes.Document.télécharger(attestation),
-                    target: '_blank',
                   }}
                 />
               )}
