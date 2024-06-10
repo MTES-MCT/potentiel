@@ -50,10 +50,6 @@ export const registerListerDemandeMainLevéeQuery = ({
     motif,
     utilisateur,
   }) => {
-    /**
-     * @todo on devrait passer uniquement la région dans la query et pas les infos utilisateur pour le déterminer
-     */
-
     let région: string | undefined = undefined;
 
     if (utilisateur.rôle === Role.dreal.nom) {
@@ -87,6 +83,8 @@ export const registerListerDemandeMainLevéeQuery = ({
         ...(région && {
           régionProjet: { operator: 'equal', value: région },
         }),
+        // seules les demandes sont récupérées pour cette v1
+        statut: { operator: 'include', value: ['en-instruction', 'demandé'] },
       },
     });
 

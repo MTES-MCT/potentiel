@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { MotifDemandeMainLevéeGarantiesFinancières } from '@potentiel-domain/laureat/src/garantiesFinancières';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -20,7 +19,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Demande de main levée des garanties financières',
+  title: 'Demande de main levée des garanties financières - Potentiel',
   description: 'Liste des demandes de main levée des garanties financières',
 };
 
@@ -41,7 +40,10 @@ export default async function Page({ searchParams }: PageProps) {
             },
             ...(appelOffre && { appelOffre }),
             ...(motif && {
-              motif: MotifDemandeMainLevéeGarantiesFinancières.convertirEnValueType(motif).motif,
+              motif:
+                GarantiesFinancières.MotifDemandeMainLevéeGarantiesFinancières.convertirEnValueType(
+                  motif,
+                ).motif,
             }),
             range: mapToRangeOptions({
               currentPage: page,
@@ -78,7 +80,10 @@ export default async function Page({ searchParams }: PageProps) {
 
       return (
         <ListeDemandeMainLevéePage
-          list={mapToListProps(demandeDeMainLevéeDesGarantiesFinancières)}
+          list={mapToListProps({
+            ...demandeDeMainLevéeDesGarantiesFinancières,
+            showInstruction: utilisateur.role.nom === 'dreal',
+          })}
           filters={filters}
         />
       );
@@ -90,15 +95,34 @@ const mapToListProps = ({
   items,
   range,
   total,
-}: GarantiesFinancières.ListerDemandeMainLevéeReadModel): ListeDemandeDeMainLevéeProps['list'] => {
+  showInstruction,
+}: GarantiesFinancières.ListerDemandeMainLevéeReadModel & {
+  showInstruction: boolean;
+}): ListeDemandeDeMainLevéeProps['list'] => {
   const mappedItems = items.map(
-    ({ identifiantProjet, nomProjet, demande, motif, statut, dernièreMiseÀJour }) => ({
+    ({
+      appelOffre,
+      demande,
+      dernièreMiseÀJour,
+      famille,
+      identifiantProjet,
+      motif,
+      nomProjet,
+      période,
+      régionProjet,
+      statut,
+    }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       motif: motif.motif,
       statut: statut.statut,
       demandéLe: demande.demandéeLe.formatter(),
       nomProjet,
       misÀJourLe: dernièreMiseÀJour.date.formatter(),
+      appelOffre,
+      famille,
+      période,
+      régionProjet,
+      showInstruction,
     }),
   );
 

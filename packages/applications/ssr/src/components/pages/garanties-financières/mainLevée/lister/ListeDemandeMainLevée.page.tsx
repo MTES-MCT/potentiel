@@ -26,14 +26,14 @@ export const ListeDemandeMainLevéePage: FC<ListeDemandeDeMainLevéeProps> = ({
 }) => {
   const searchParams = useSearchParams();
   const appelOffre = searchParams.get('appelOffre') ?? undefined;
-  const cycle = searchParams.get('cycle') ?? undefined;
+  const motif = searchParams.get('motif') ?? undefined;
 
   const tagFilters: ListPageTemplateProps<ListeItemDemandeMainLevéeProps>['tagFilters'] = [];
 
-  if (cycle) {
+  if (motif) {
     tagFilters.push({
-      label: `cycle d'appels d'offres : ${cycle}`,
-      searchParamKey: 'cycle',
+      label: `motif de main levée : ${motif}`,
+      searchParamKey: 'motif',
     });
   }
 
@@ -46,7 +46,7 @@ export const ListeDemandeMainLevéePage: FC<ListeDemandeDeMainLevéeProps> = ({
 
   return (
     <ListPageTemplate
-      heading="Mains levées en cours"
+      heading="Demandes de main levée en cours"
       actions={[]}
       items={mainsLevées.map((mainLevée) => ({
         ...mainLevée,

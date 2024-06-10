@@ -16,6 +16,10 @@ export type ConsulterMainLevéeGarantiesFinancièresReadModel = {
   statut: StatutMainLevéeGarantiesFinancières.ValueType;
   motif: MotifDemandeMainLevéeGarantiesFinancières.ValueType;
   nomProjet: string;
+  appelOffre: string;
+  famille?: string;
+  période: string;
+  régionProjet: string;
   demande: { demandéeLe: DateTime.ValueType; demandéePar: Email.ValueType };
   instruction?: {
     instructionDémarréeLe: DateTime.ValueType;
@@ -77,9 +81,17 @@ export const consulterMainLevéeGarantiesFinancièresMapToReadModel = ({
   statut,
   identifiantProjet,
   nomProjet,
+  appelOffre,
+  famille,
+  période,
+  régionProjet,
 }: MainLevéeGarantiesFinancièresEntity): ConsulterMainLevéeGarantiesFinancièresReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
+  appelOffre,
+  famille,
+  période,
+  régionProjet,
   demande: {
     demandéeLe: DateTime.convertirEnValueType(demande.demandéeLe),
     demandéePar: Email.convertirEnValueType(demande.demandéePar),

@@ -101,6 +101,5 @@ export const registerGarantiesFinancièresQueries = (
   registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery(dependencies);
   registerConsulterDépôtEnCoursGarantiesFinancièresQuery(dependencies);
   registerConsulterMainLevéeGarantiesFinancièresQuery(dependencies);
-  // violette
   registerListerDemandeMainLevéeQuery(dependencies);
 };
