@@ -56,6 +56,7 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
                 href: Routes.Document.télécharger(propositionTechniqueEtFinancièreSignée),
                 'aria-label': `Télécharger la proposition technique et financière pour le dossier ${référence}`,
                 title: `Télécharger la proposition technique et financière pour le dossier ${référence}`,
+                target: '_blank',
               }}
               label="Télécharger la pièce justificative"
               details=""
