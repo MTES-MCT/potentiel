@@ -8,6 +8,7 @@ import {
 } from '@potentiel-domain/candidature';
 import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { featureFlags } from '@potentiel-applications/feature-flags';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -120,7 +121,9 @@ const mapToProps: MapToProps = ({
         ? 'enregistrer'
         : undefined,
       afficherInfoConditionsMainLevée:
-        utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainLevée),
+        utilisateur.role.estÉgaleÀ(Role.porteur) &&
+        Option.isNone(mainLevée) &&
+        featureFlags.SHOW_MAIN_LEVEE_GARANTIES_FINANCIERES === true,
     };
   }
 
@@ -157,9 +160,17 @@ const mapToProps: MapToProps = ({
   } else if (estPorteur) {
     if (aGarantiesFinancièresSansAttestation) {
       garantiesFinancièresActuellesActions.push('enregister-attestation');
-    } else if (aGarantiesFinancièresAvecAttestationSansDepotNiMainLevée && projetAbandonne) {
+    } else if (
+      aGarantiesFinancièresAvecAttestationSansDepotNiMainLevée &&
+      projetAbandonne &&
+      featureFlags.SHOW_MAIN_LEVEE_GARANTIES_FINANCIERES === true
+    ) {
       garantiesFinancièresActuellesActions.push('demander-main-levée-gf-pour-projet-abandonné');
-    } else if (aGarantiesFinancièresAvecAttestationSansDepotNiMainLevée && projetAcheve) {
+    } else if (
+      aGarantiesFinancièresAvecAttestationSansDepotNiMainLevée &&
+      projetAcheve &&
+      featureFlags.SHOW_MAIN_LEVEE_GARANTIES_FINANCIERES === true
+    ) {
       garantiesFinancièresActuellesActions.push('demander-main-levée-gf-pour-projet-achevé');
     } else if (mainLevéeDemandée) {
       garantiesFinancièresActuellesActions.push('annuler-demande-main-levée-gf');
@@ -215,6 +226,8 @@ const mapToProps: MapToProps = ({
         }
       : undefined,
     afficherInfoConditionsMainLevée:
-      utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainLevée),
+      utilisateur.role.estÉgaleÀ(Role.porteur) &&
+      Option.isNone(mainLevée) &&
+      featureFlags.SHOW_MAIN_LEVEE_GARANTIES_FINANCIERES === true,
   };
 };
