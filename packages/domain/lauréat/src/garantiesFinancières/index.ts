@@ -41,7 +41,7 @@ import { AnnulerMainLevéeGarantiesFinancièresUseCase } from './mainLevée/annu
 import {
   ListerDemandeMainlevéeQuery,
   ListerDemandeMainlevéeReadModel,
-} from './mainLevée/lister/listerDemandeMainlevéeGarantiesFinancières.query';
+} from './mainLevée/lister/coucou';
 // Query
 export type GarantiesFinancièresQuery =
   | ConsulterGarantiesFinancièresQuery
