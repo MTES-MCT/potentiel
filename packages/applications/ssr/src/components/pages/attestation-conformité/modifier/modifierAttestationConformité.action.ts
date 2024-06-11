@@ -18,22 +18,22 @@ const schema = zod.object({
   dateTransmissionAuCocontractant: zod.string().min(1),
   test: zod
     .string()
-    // .or(zod.instanceof(Blob))
+    .or(zod.instanceof(Blob))
     .transform(async (test) => {
-      // if (typeof test === 'string') {
-      const document = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: test,
-        },
-      });
-      return document;
-      // }
+      if (typeof test === 'string') {
+        const document = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: test,
+          },
+        });
+        return document;
+      }
 
-      // return {
-      //   content: test.stream(),
-      //   format: test.type,
-      // };
+      return {
+        content: test.stream(),
+        format: test.type,
+      };
     }),
 });
 

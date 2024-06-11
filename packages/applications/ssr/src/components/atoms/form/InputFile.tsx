@@ -16,11 +16,13 @@ type InputFileProps = {
 
 export const InputFile = ({ documentKey, onFileChange, ...props }: InputFileProps) => {
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
-  const browseForFile = () => hiddenFileInput?.current?.click();
+  const browseForFile = () => {
+    setIsModificationActivated(true);
+    hiddenFileInput?.current?.click();
+  };
   const [uploadedFileName, setUploadFileName] = useState('');
 
   const [isModificationActivated, setIsModificationActivated] = useState(false);
-  const activateModification = () => setIsModificationActivated(true);
 
   return (
     <div
@@ -28,21 +30,20 @@ export const InputFile = ({ documentKey, onFileChange, ...props }: InputFileProp
         props.disabled && 'cursor-not-allowed border-b-grey-925-base bg-grey-950-base'
       }`}
     >
-      {isModificationActivated ? (
-        <input
-          {...props}
-          ref={hiddenFileInput}
-          type="file"
-          className="-z-50 opacity-0 h-full absolute top-0 left-0"
-          onChange={(e) => {
-            const fileName = e.currentTarget.value.replace(/^.*[\\\/]/, '');
-            setUploadFileName(fileName);
-            onFileChange && onFileChange(fileName);
-          }}
-        />
-      ) : (
-        <input {...props} type="text" hidden value={documentKey} />
-      )}
+      <input
+        {...props}
+        ref={hiddenFileInput}
+        type="file"
+        className="-z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0"
+        onChange={(e) => {
+          const fileName = e.currentTarget.value.replace(/^.*[\\\/]/, '');
+          setUploadFileName(fileName);
+          setIsModificationActivated(true);
+          onFileChange && onFileChange(fileName);
+        }}
+        disabled={!isModificationActivated}
+      />
+      <input {...props} type="text" hidden value={documentKey} disabled={isModificationActivated} />
 
       <div className="truncate mr-5">
         {uploadedFileName ? (
@@ -65,10 +66,7 @@ export const InputFile = ({ documentKey, onFileChange, ...props }: InputFileProp
           <button
             type="button"
             className="flex items-center text-base border-none bg-transparent hover:bg-transparent m-0 p-0"
-            onClick={() => {
-              activateModification();
-              browseForFile();
-            }}
+            onClick={browseForFile}
           >
             {documentKey || uploadedFileName ? (
               <>
