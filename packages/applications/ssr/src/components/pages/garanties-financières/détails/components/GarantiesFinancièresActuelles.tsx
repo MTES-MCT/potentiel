@@ -115,6 +115,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
             <div>
               {attestation && (
                 <InputDownload
+                  ariaLabel="Télécharger l'attestation de constitution des garanties financières"
                   details="fichier au format pdf"
                   label="Télécharger l'attestation"
                   linkProps={{

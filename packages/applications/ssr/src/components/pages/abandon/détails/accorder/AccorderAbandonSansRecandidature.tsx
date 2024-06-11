@@ -65,6 +65,7 @@ export const AccorderAbandonSansRecandidature = ({
               />
 
               <InputDownload
+                ariaLabel={`Télécharger le modèle de réponse pour l'accord de la demande d'abandon sans recandidature`}
                 linkProps={{
                   href: Routes.Abandon.téléchargerModèleRéponse(identifiantProjet),
                 }}
