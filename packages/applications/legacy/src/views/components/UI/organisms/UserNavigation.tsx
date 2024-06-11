@@ -24,7 +24,7 @@ const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) =>
     </DropdownMenu.DropdownItem>
     {showMainLevéeGarantiesFinancières && (
       <DropdownMenu.DropdownItem
-        href={Routes.GarantiesFinancières.demandeMainLevée.lister}
+        href={Routes.GarantiesFinancières.demandeMainlevée.lister}
         {...(currentPage === 'demandes-mainlevee-en-cours' && {
           isCurrent: true,
         })}
