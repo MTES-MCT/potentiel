@@ -34,7 +34,7 @@ const menuLinks = {
     {
       text: 'Demandes de mainlevée en cours',
       linkProps: {
-        href: Routes.GarantiesFinancières.demandeMainLevée.lister,
+        href: Routes.GarantiesFinancières.demandeMainlevée.lister,
       },
     },
   ],

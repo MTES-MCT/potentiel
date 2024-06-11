@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { convertStatutMainLeveeForView } from '../../pages/garanties-financières/mainLevée/helper';
+import { convertStatutMainLeveeForView } from '../../pages/garanties-financières/mainLevée/convertForView';
 
 const convertStatutMainLevéeToBadgeSeverity: Record<
   GarantiesFinancières.StatutMainLevéeGarantiesFinancières.RawType,

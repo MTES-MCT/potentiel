@@ -19,7 +19,7 @@ export const actuelles = {
     )}/garanties-financieres/actuelles:enregistrer-attestation`,
 };
 
-export const demandeMainLevée = {
+export const demandeMainlevée = {
   lister: `/garanties-financieres/demandes-mainlevee-en-cours`,
 };
 

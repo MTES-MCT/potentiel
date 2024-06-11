@@ -70,7 +70,7 @@ Alors(
 );
 
 Alors(
-  `une demande de main-levée pour le projet {string} devrait être consultable dans la liste des demandes de mainlevée`,
+  `une demande de mainlevée pour le projet {string} devrait être consultable dans la liste des demandes de mainlevée`,
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 

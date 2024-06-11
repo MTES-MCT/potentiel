@@ -13,10 +13,7 @@ import {
   ListeDemandeDeMainLevéeProps,
   ListeDemandeMainLevéePage,
 } from '../../../components/pages/garanties-financières/mainLevée/lister/ListeDemandeMainLevée.page';
-import {
-  convertMotifMainLeveeForView,
-  convertStatutMainLeveeForView,
-} from '../../../components/pages/garanties-financières/mainLevée/helper';
+import { convertStatutMainLeveeForView } from '../../../components/pages/garanties-financières/mainLevée/convertForView';
 
 type PageProps = {
   searchParams?: Record<string, string>;
