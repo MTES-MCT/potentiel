@@ -53,7 +53,7 @@ export const formAction =
   async (previousState: TState, formData: FormData) => {
     try {
       const data = schema
-        ? schema.parse(Object.fromEntries(formData))
+        ? await schema.parseAsync(Object.fromEntries(formData))
         : Object.fromEntries(formData);
 
       const result = await action(previousState, data);
@@ -62,6 +62,7 @@ export const formAction =
 
       return result;
     } catch (e) {
+      console.error((e as Error).message);
       if (e instanceof CsvValidationError) {
         return {
           status: 'csv-error' as const,
