@@ -4,6 +4,7 @@ import { Header } from './Header';
 import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Routes } from '@potentiel-applications/routes';
+import { showMainLevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
 
 const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) => (
   <DropdownMenu buttonChildren={'Garanties financières'}>
@@ -21,14 +22,16 @@ const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) =>
     >
       Projets avec garanties financières en attente
     </DropdownMenu.DropdownItem>
-    <DropdownMenu.DropdownItem
-      href={Routes.GarantiesFinancières.demandeMainLevée.lister}
-      {...(currentPage === 'demandes-main-levee-en-cours' && {
-        isCurrent: true,
-      })}
-    >
-      Demandes de main levée
-    </DropdownMenu.DropdownItem>
+    {showMainLevéeGarantiesFinancières && (
+      <DropdownMenu.DropdownItem
+        href={Routes.GarantiesFinancières.demandeMainLevée.lister}
+        {...(currentPage === 'demandes-main-levee-en-cours' && {
+          isCurrent: true,
+        })}
+      >
+        Demandes de main levée
+      </DropdownMenu.DropdownItem>
+    )}
   </DropdownMenu>
 );
 

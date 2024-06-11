@@ -6,3 +6,6 @@ export const featureFlags: FeatureFlags = {
   SHOW_MAIN_LEVEE_GARANTIES_FINANCIERES:
     process.env.APPLICATION_STAGE !== 'production' ? true : undefined,
 };
+
+export const showMainLevéeGarantiesFinancières =
+  featureFlags.SHOW_MAIN_LEVEE_GARANTIES_FINANCIERES === true;
