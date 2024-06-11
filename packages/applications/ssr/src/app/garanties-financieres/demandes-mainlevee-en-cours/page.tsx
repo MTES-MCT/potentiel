@@ -74,9 +74,7 @@ export default async function Page({ searchParams }: PageProps) {
         );
 
       const motifMainLevéeEnCours =
-        GarantiesFinancières.StatutMainLevéeGarantiesFinancières.statuts.filter(
-          (s) => s !== 'rejeté',
-        );
+        GarantiesFinancières.MotifDemandeMainLevéeGarantiesFinancières.motifs;
 
       const filters = [
         {
