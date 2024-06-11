@@ -4,6 +4,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
@@ -82,6 +83,24 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
           }}
           state={validationErrors.includes('attestation') ? 'error' : 'default'}
           stateRelatedMessage="Attestation de conformité obligatoire"
+        />
+        <Alert
+          severity="info"
+          small
+          description={
+            <div className="p-3">
+              <p>
+                Vous devez transmettre sur Potentiel la preuve, ainsi que la date de transmission au
+                co-contractant, car d'après les cahiers des charges, l'achèvement ou date
+                d’achèvement est la :
+                <br />
+                <span className="italic">
+                  Date de fourniture au cocontractant de l’attestation de conformité mentionnée à
+                  l’article R. 311-27-1 du code de l’énergie.
+                </span>
+              </p>
+            </div>
+          }
         />
         <Upload
           label={
