@@ -32,7 +32,7 @@ const menuLinks = {
       },
     },
     {
-      text: 'Demandes de main levée en cours',
+      text: 'Demandes de mainlevée en cours',
       linkProps: {
         href: Routes.GarantiesFinancières.demandeMainLevée.lister,
       },

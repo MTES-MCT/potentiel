@@ -41,7 +41,7 @@ export const projetAchevé = convertirEnValueType('projet-achevé');
 
 class MotifDemandeMainLevéeInvalideError extends InvalidOperationError {
   constructor(value: string) {
-    super(`Le motif de demande de main levée est inconnu`, {
+    super(`Le motif de demande de mainlevée est inconnu`, {
       value,
     });
   }

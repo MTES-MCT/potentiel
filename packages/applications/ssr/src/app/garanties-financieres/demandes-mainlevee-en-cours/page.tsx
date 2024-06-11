@@ -78,7 +78,7 @@ export default async function Page({ searchParams }: PageProps) {
 
       const filters = [
         {
-          label: `Statut`,
+          label: `Statut de mainlevée`,
           searchParamKey: 'statut',
           defaultValue: statut,
           options: statutsMainLevéeEnCours.map((statut) => ({
@@ -87,7 +87,7 @@ export default async function Page({ searchParams }: PageProps) {
           })),
         },
         {
-          label: 'Motif de main levée',
+          label: 'Motif de mainlevée',
           searchParamKey: 'motif',
           defaultValue: motif,
           options: motifMainLevéeEnCours.map((motif) => ({

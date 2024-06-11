@@ -56,7 +56,7 @@ export const ListeDemandeMainLevéePage: FC<ListeDemandeDeMainLevéeProps> = ({
 
   return (
     <ListPageTemplate
-      heading="Demandes de main levée en cours"
+      heading="Demandes de mainlevée en cours"
       actions={[]}
       items={mainsLevées.map((mainLevée) => ({
         ...mainLevée,
