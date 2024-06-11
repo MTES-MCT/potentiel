@@ -68,3 +68,26 @@ Alors(
     });
   },
 );
+
+Alors(
+  `une demande de main-levée pour le projet {string} devrait être consultable dans la liste des demandes de mainlevée`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      const actualReadModel = await mediator.send<GarantiesFinancières.ListerDemandeMainLevéeQuery>(
+        {
+          type: 'Lauréat.GarantiesFinancières.MainLevée.Query.Lister',
+          data: {
+            utilisateur: {
+              email: 'admin@test.test',
+              rôle: 'admin',
+            },
+          },
+        },
+      );
+
+      expect(actualReadModel.items[0].identifiantProjet.estÉgaleÀ(identifiantProjet)).to.be.true;
+    });
+  },
+);

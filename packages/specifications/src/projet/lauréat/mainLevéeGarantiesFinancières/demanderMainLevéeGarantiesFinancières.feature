@@ -15,6 +15,7 @@ Fonctionnalité: Demander la main-levée des garanties financières d'un projet
             | utilisateur          | porteur@test.test      |
             | date demande         | 2014-05-28             |
             | statut               | demandé                | 
+        Alors une demande de main-levée pour le projet "Centrale PV" devrait être consultable dans la liste des demandes de mainlevée
 
     Scénario: Un porteur demande la levée des garanties financières de son projet achevé
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
@@ -28,6 +29,8 @@ Fonctionnalité: Demander la main-levée des garanties financières d'un projet
             | utilisateur          | porteur@test.test      |
             | date demande         | 2014-05-28             |
             | statut               | demandé                | 
+        Alors une demande de main-levée pour le projet "Centrale PV" devrait être consultable dans la liste des demandes de mainlevée
+
 
     Scénario: Impossible de demander la main-levée des garanties financières d'un projet si le projet n'est pas abandonné
         Etant donné des garanties financières validées pour le projet "Centrale PV"

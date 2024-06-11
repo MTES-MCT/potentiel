@@ -196,29 +196,6 @@ Alors(
 );
 
 Alors(
-  `les garanties financières à traiter du projet {string} devraient être consultable dans la liste des garanties financières à traiter`,
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-    await waitForExpect(async () => {
-      const actualReadModel =
-        await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
-          data: {
-            range: { startPosition: 1, endPosition: 10 },
-            utilisateur: {
-              email: 'admin@test.test',
-              rôle: 'admin',
-            },
-          },
-        });
-
-      expect(actualReadModel.items[0].identifiantProjet.estÉgaleÀ(identifiantProjet)).to.be.true;
-    });
-  },
-);
-
-Alors(
   `la liste des garanties financières à traiter devrait être vide`,
   async function (this: PotentielWorld) {
     await waitForExpect(async () => {
