@@ -12,7 +12,7 @@ import { mapToPagination } from '@/utils/mapToPagination';
 import {
   ListeDemandeDeMainLevéeProps,
   ListeDemandeMainLevéePage,
-} from '../../../components/pages/garanties-financières/mainLevée/lister/ListeDemandeMainevée.page';
+} from '../../../components/pages/garanties-financières/mainLevée/lister/ListeDemandeMainlevée.page';
 import {
   convertMotifMainlevéeForView,
   convertStatutMainlevéeForView,

@@ -7,7 +7,10 @@ import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/
 
 import { convertMotifMainlevéeForView, convertStatutMainlevéeForView } from '../convertForView';
 
-import { ListItemDemandeMainlevée, ListItemDemandeMainlevéeProps } from './ListItemDemandeMainevée';
+import {
+  ListItemDemandeMainlevée,
+  ListItemDemandeMainlevéeProps,
+} from './ListItemDemandeMainlevée';
 
 export type ListeDemandeDeMainLevéeProps = {
   list: {
