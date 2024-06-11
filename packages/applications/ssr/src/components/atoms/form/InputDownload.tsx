@@ -1,7 +1,9 @@
 import { FC } from 'react';
 import { Download, DownloadProps } from '@codegouvfr/react-dsfr/Download';
 
-type InputDownloadProps = DownloadProps;
+type InputDownloadProps = DownloadProps & {
+  ariaLabel: string;
+};
 
 /**
  * @description Ce composant est une surcouche du composant Download de react-dsfr pour ajouter l'attribut target blan et que le document se télécharge directement dans un nouvel onglet, sans preview
@@ -13,6 +15,7 @@ export const InputDownload: FC<InputDownloadProps> = (props) => (
       ...props,
       linkProps: {
         href: props.linkProps.href,
+        'aria-label': `${props.ariaLabel} (dans un nouvel onglet)`,
         target: '_blank',
       },
     }}

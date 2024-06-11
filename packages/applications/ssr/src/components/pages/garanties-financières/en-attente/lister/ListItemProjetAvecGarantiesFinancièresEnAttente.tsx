@@ -70,6 +70,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
         </div>
         {afficherModèleMiseEnDemeure && (
           <InputDownload
+            ariaLabel={`Télécharger un modèle de mise en demeure pour le projet ${nomProjet}`}
             linkProps={{
               href: Routes.GarantiesFinancières.téléchargerModèleMiseEnDemeure(identifiantProjet),
             }}
