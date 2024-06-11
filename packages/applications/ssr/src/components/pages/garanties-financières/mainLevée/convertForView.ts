@@ -1,6 +1,6 @@
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-const statutMainLeveeLabels: Record<
+const statutMainlevéeLabels: Record<
   GarantiesFinancières.StatutMainLevéeGarantiesFinancières.RawType,
   string
 > = {
@@ -10,7 +10,7 @@ const statutMainLeveeLabels: Record<
   rejeté: 'Rejeté',
 };
 
-const motifMainLeveeLabels: Record<
+const motifMainlevéeLabels: Record<
   GarantiesFinancières.MotifDemandeMainLevéeGarantiesFinancières.RawType,
   string
 > = {
@@ -18,16 +18,16 @@ const motifMainLeveeLabels: Record<
   'projet-achevé': 'Projet achevé',
 };
 
-export const convertStatutMainLeveeForView = (statut: string) => {
+export const convertStatutMainlevéeForView = (statut: string) => {
   const statutRawType =
     GarantiesFinancières.StatutMainLevéeGarantiesFinancières.convertirEnValueType(statut).statut;
-  return statutMainLeveeLabels[statutRawType];
+  return statutMainlevéeLabels[statutRawType];
 };
 
-export const convertMotifMainLeveeForView = (motif: string) => {
+export const convertMotifMainlevéeForView = (motif: string) => {
   const motifRawType =
     GarantiesFinancières.MotifDemandeMainLevéeGarantiesFinancières.convertirEnValueType(
       motif,
     ).motif;
-  return motifMainLeveeLabels[motifRawType];
+  return motifMainlevéeLabels[motifRawType];
 };

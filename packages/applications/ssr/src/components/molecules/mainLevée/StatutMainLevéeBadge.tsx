@@ -4,9 +4,9 @@ import { FC } from 'react';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { convertStatutMainLeveeForView } from '../../pages/garanties-financières/mainLevée/convertForView';
+import { convertStatutMainlevéeForView } from '../../pages/garanties-financières/mainLevée/convertForView';
 
-const convertStatutMainLevéeToBadgeSeverity: Record<
+const convertStatutMainlevéeToBadgeSeverity: Record<
   GarantiesFinancières.StatutMainLevéeGarantiesFinancières.RawType,
   AlertProps.Severity
 > = {
@@ -16,10 +16,10 @@ const convertStatutMainLevéeToBadgeSeverity: Record<
   rejeté: 'error',
 };
 
-export const StatutMainLevéeBadge: FC<{
+export const StatutMainlevéeBadge: FC<{
   statut: GarantiesFinancières.StatutMainLevéeGarantiesFinancières.RawType;
 }> = ({ statut }) => (
-  <Badge small noIcon severity={convertStatutMainLevéeToBadgeSeverity[statut]}>
-    {convertStatutMainLeveeForView(statut)}
+  <Badge small noIcon severity={convertStatutMainlevéeToBadgeSeverity[statut]}>
+    {convertStatutMainlevéeForView(statut)}
   </Badge>
 );

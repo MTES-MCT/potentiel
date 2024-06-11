@@ -5,21 +5,21 @@ import { FC } from 'react';
 
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 
-import { convertMotifMainLeveeForView, convertStatutMainLeveeForView } from '../convertForView';
+import { convertMotifMainlevéeForView, convertStatutMainlevéeForView } from '../convertForView';
 
 import {
-  ListItemDemandeMainLevée,
-  ListeItemDemandeMainLevéeProps,
-} from './ListItemDemandeMainLevée';
+  ListItemDemandeMainlevée,
+  ListItemDemandeMainlevéeProps,
+} from './ListItemDemandeMainlevée';
 
 export type ListeDemandeDeMainLevéeProps = {
   list: {
-    items: Array<ListeItemDemandeMainLevéeProps>;
+    items: Array<ListItemDemandeMainlevéeProps>;
     currentPage: number;
     totalItems: number;
     itemsPerPage: number;
   };
-  filters: ListPageTemplateProps<ListeItemDemandeMainLevéeProps>['filters'];
+  filters: ListPageTemplateProps<ListItemDemandeMainlevéeProps>['filters'];
 };
 
 export const ListeDemandeMainLevéePage: FC<ListeDemandeDeMainLevéeProps> = ({
@@ -31,18 +31,18 @@ export const ListeDemandeMainLevéePage: FC<ListeDemandeDeMainLevéeProps> = ({
   const motif = searchParams.get('motif') ?? undefined;
   const statut = searchParams.get('statut') ?? undefined;
 
-  const tagFilters: ListPageTemplateProps<ListeItemDemandeMainLevéeProps>['tagFilters'] = [];
+  const tagFilters: ListPageTemplateProps<ListItemDemandeMainlevéeProps>['tagFilters'] = [];
 
   if (motif) {
     tagFilters.push({
-      label: `motif de mainlevée : ${convertMotifMainLeveeForView(motif)}`,
+      label: `motif de mainlevée : ${convertMotifMainlevéeForView(motif)}`,
       searchParamKey: 'motif',
     });
   }
 
   if (statut) {
     tagFilters.push({
-      label: `statut de mainlevée : ${convertStatutMainLeveeForView(statut)}`,
+      label: `statut de mainlevée : ${convertStatutMainlevéeForView(statut)}`,
       searchParamKey: 'statut',
     });
   }
@@ -65,7 +65,7 @@ export const ListeDemandeMainLevéePage: FC<ListeDemandeDeMainLevéeProps> = ({
       currentPage={currentPage}
       totalItems={totalItems}
       itemsPerPage={itemsPerPage}
-      ItemComponent={ListItemDemandeMainLevée}
+      ItemComponent={ListItemDemandeMainlevée}
       tagFilters={tagFilters}
       filters={filters}
     />

@@ -75,7 +75,7 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const actualReadModel = await mediator.send<GarantiesFinancières.ListerDemandeMainLevéeQuery>(
+      const actualReadModel = await mediator.send<GarantiesFinancières.ListerDemandeMainlevéeQuery>(
         {
           type: 'Lauréat.GarantiesFinancières.MainLevée.Query.Lister',
           data: {

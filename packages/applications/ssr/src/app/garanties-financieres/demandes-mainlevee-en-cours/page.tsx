@@ -12,10 +12,10 @@ import { mapToPagination } from '@/utils/mapToPagination';
 import {
   ListeDemandeDeMainLevéeProps,
   ListeDemandeMainLevéePage,
-} from '../../../components/pages/garanties-financières/mainLevée/lister/ListeDemandeMainLevée.page';
+} from '../../../components/pages/garanties-financières/mainLevée/lister/ListeDemandeMainlevée.page';
 import {
-  convertMotifMainLeveeForView,
-  convertStatutMainLeveeForView,
+  convertMotifMainlevéeForView,
+  convertStatutMainlevéeForView,
 } from '../../../components/pages/garanties-financières/mainLevée/convertForView';
 
 type PageProps = {
@@ -36,7 +36,7 @@ export default async function Page({ searchParams }: PageProps) {
       const statut = searchParams?.statut;
 
       const demandeDeMainLevéeDesGarantiesFinancières =
-        await mediator.send<GarantiesFinancières.ListerDemandeMainLevéeQuery>({
+        await mediator.send<GarantiesFinancières.ListerDemandeMainlevéeQuery>({
           type: 'Lauréat.GarantiesFinancières.MainLevée.Query.Lister',
           data: {
             utilisateur: {
@@ -82,7 +82,7 @@ export default async function Page({ searchParams }: PageProps) {
           searchParamKey: 'statut',
           defaultValue: statut,
           options: statutsMainLevéeEnCours.map((statut) => ({
-            label: convertStatutMainLeveeForView(statut),
+            label: convertStatutMainlevéeForView(statut),
             value: statut,
           })),
         },
@@ -91,7 +91,7 @@ export default async function Page({ searchParams }: PageProps) {
           searchParamKey: 'motif',
           defaultValue: motif,
           options: motifMainLevéeEnCours.map((motif) => ({
-            label: convertMotifMainLeveeForView(motif),
+            label: convertMotifMainlevéeForView(motif),
             value: motif,
           })),
         },
@@ -124,7 +124,7 @@ const mapToListProps = ({
   range,
   total,
   showInstruction,
-}: GarantiesFinancières.ListerDemandeMainLevéeReadModel & {
+}: GarantiesFinancières.ListerDemandeMainlevéeReadModel & {
   showInstruction: boolean;
 }): ListeDemandeDeMainLevéeProps['list'] => {
   const mappedItems = items.map(

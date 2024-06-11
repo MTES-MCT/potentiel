@@ -5,7 +5,7 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import {
   ListeDemandeDeMainLevéeProps,
   ListeDemandeMainLevéePage,
-} from './ListeDemandeMainLevée.page';
+} from './ListeDemandeMainlevée.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {

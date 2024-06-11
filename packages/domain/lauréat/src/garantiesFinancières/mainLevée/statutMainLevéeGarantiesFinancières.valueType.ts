@@ -1,6 +1,5 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-// TODO: remove "rejeté" after projection refacto
 export const statuts = ['demandé', 'en-instruction', 'accordé', 'rejeté'] as const;
 
 export type RawType = (typeof statuts)[number];

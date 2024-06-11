@@ -3,9 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import {
   ConsulterMainLevéeGarantiesFinancièresReadModel,
-  consulterMainLevéeGarantiesFinancièresMapToReadModel,
-} from '../consulter/consulterMainLevéeGarantiesFinancières.query';
-import {
   MainLevéeGarantiesFinancièresEntity,
   MotifDemandeMainLevéeGarantiesFinancières,
   StatutMainLevéeGarantiesFinancières,
@@ -13,16 +10,17 @@ import {
 import { Role } from '@potentiel-domain/utilisateur';
 import { CommonError, CommonPort } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
+import { consulterMainLevéeGarantiesFinancièresMapToReadModel } from '../consulter/consulterMainLevéeGarantiesFinancières.query';
 
-export type ListerDemandeMainLevéeItemReadModel = ConsulterMainLevéeGarantiesFinancièresReadModel;
+export type ListerDemandeMainlevéeItemReadModel = ConsulterMainLevéeGarantiesFinancièresReadModel;
 
-export type ListerDemandeMainLevéeReadModel = Readonly<{
-  items: ReadonlyArray<ListerDemandeMainLevéeItemReadModel>;
+export type ListerDemandeMainlevéeReadModel = Readonly<{
+  items: ReadonlyArray<ListerDemandeMainlevéeItemReadModel>;
   range: RangeOptions;
   total: number;
 }>;
 
-export type ListerDemandeMainLevéeQuery = Message<
+export type ListerDemandeMainlevéeQuery = Message<
   'Lauréat.GarantiesFinancières.MainLevée.Query.Lister',
   {
     range?: RangeOptions;
@@ -34,19 +32,19 @@ export type ListerDemandeMainLevéeQuery = Message<
       email: string;
     };
   },
-  ListerDemandeMainLevéeReadModel
+  ListerDemandeMainlevéeReadModel
 >;
 
-export type ListerDemandeMainLevéeQueryDependencies = {
+type ListerDemandeMainlevéeQueryDependencies = {
   listV2: ListV2;
   récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
-export const registerListerDemandeMainLevéeQuery = ({
+export const registerListerDemandeMainlevéeQuery = ({
   listV2: list,
   récupérerRégionDreal,
-}: ListerDemandeMainLevéeQueryDependencies) => {
-  const handler: MessageHandler<ListerDemandeMainLevéeQuery> = async ({
+}: ListerDemandeMainlevéeQueryDependencies) => {
+  const handler: MessageHandler<ListerDemandeMainlevéeQuery> = async ({
     range,
     appelOffre,
     motif,

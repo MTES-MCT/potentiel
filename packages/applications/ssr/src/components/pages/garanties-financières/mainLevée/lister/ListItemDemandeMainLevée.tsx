@@ -6,10 +6,10 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
-import { StatutMainLevéeBadge } from '../../../../molecules/mainLevée/StatutMainLevéeBadge';
-import { convertMotifMainLeveeForView } from '../convertForView';
+import { StatutMainlevéeBadge } from '../../../../molecules/mainlevée/StatutMainlevéeBadge';
+import { convertMotifMainlevéeForView } from '../convertForView';
 
-export type ListeItemDemandeMainLevéeProps = {
+export type ListItemDemandeMainlevéeProps = {
   appelOffre: string;
   demandéLe: Iso8601DateTime;
   famille?: string;
@@ -23,7 +23,7 @@ export type ListeItemDemandeMainLevéeProps = {
   showInstruction: boolean;
 };
 
-export const ListItemDemandeMainLevée: FC<ListeItemDemandeMainLevéeProps> = ({
+export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
   appelOffre,
   demandéLe,
   famille,
@@ -49,7 +49,7 @@ export const ListItemDemandeMainLevée: FC<ListeItemDemandeMainLevéeProps> = ({
             {nomProjet}
           </a>{' '}
         </h2>
-        <StatutMainLevéeBadge statut={statut} />
+        <StatutMainlevéeBadge statut={statut} />
         <div className="flex flex-col md:flex-row gap-2 md:gap-0 italic text-xs">
           <div>
             Appel d'offres : {appelOffre}
@@ -74,7 +74,7 @@ export const ListItemDemandeMainLevée: FC<ListeItemDemandeMainLevéeProps> = ({
             <span>
               Motif :{' '}
               <span className="font-semibold capitalize">
-                {convertMotifMainLeveeForView(motif)}
+                {convertMotifMainlevéeForView(motif)}
               </span>
             </span>
           </li>
