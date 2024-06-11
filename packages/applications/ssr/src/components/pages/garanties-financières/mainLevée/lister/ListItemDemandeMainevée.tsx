@@ -6,7 +6,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
-import { StatutMainlevéeBadge } from '../../../../molecules/mainlevée/StatutMainlevéeBadge';
+import { StatutMainlevéeBadge } from '../../../../molecules/mainevée/StatutMainevéeBadge';
 import { convertMotifMainlevéeForView } from '../convertForView';
 
 export type ListItemDemandeMainlevéeProps = {
