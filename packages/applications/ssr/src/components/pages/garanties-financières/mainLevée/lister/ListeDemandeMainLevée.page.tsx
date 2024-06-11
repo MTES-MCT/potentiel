@@ -5,7 +5,7 @@ import { FC } from 'react';
 
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 
-import { convertMotifMainLeveeForView, convertStatutMainLeveeForView } from '../helper';
+import { convertMotifMainLeveeForView, convertStatutMainLeveeForView } from '../convertForView';
 
 import {
   ListItemDemandeMainLevée,

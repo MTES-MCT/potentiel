@@ -7,7 +7,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 import { StatutMainLevéeBadge } from '../../../../molecules/mainLevée/StatutMainLevéeBadge';
-import { convertMotifMainLeveeForView } from '../helper';
+import { convertMotifMainLeveeForView } from '../convertForView';
 
 export type ListeItemDemandeMainLevéeProps = {
   appelOffre: string;
