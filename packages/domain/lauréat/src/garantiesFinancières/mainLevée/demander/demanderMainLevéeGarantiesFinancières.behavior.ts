@@ -13,7 +13,7 @@ export type MainLevéeGarantiesFinancièresDemandéeEvent = DomainEvent<
   'MainLevéeGarantiesFinancièresDemandée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    motif: MotifDemandeMainLevéeGarantiesFinancières.RawMotif;
+    motif: MotifDemandeMainLevéeGarantiesFinancières.RawType;
     demandéLe: DateTime.RawType;
     demandéPar: Email.RawType;
   }

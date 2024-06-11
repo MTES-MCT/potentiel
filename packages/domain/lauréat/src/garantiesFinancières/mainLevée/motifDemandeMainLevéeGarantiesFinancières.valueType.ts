@@ -2,10 +2,10 @@ import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core
 
 export const motifs = ['projet-abandonné', 'projet-achevé'] as const;
 
-export type RawMotif = (typeof motifs)[number];
+export type RawType = (typeof motifs)[number];
 
 export type ValueType = ReadonlyValueType<{
-  motif: RawMotif;
+  motif: RawType;
   estProjetAbandonné: () => boolean;
   estProjetAchevé: () => boolean;
 }>;
@@ -28,8 +28,8 @@ export const convertirEnValueType = (value: string): ValueType => {
   };
 };
 
-function estValide(value: string): asserts value is RawMotif {
-  const isValid = motifs.includes(value as RawMotif);
+function estValide(value: string): asserts value is RawType {
+  const isValid = motifs.includes(value as RawType);
 
   if (!isValid) {
     throw new MotifDemandeMainLevéeInvalideError(value);

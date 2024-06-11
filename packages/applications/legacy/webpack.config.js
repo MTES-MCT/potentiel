@@ -1,7 +1,7 @@
 const glob = require('glob');
 const startCase = require('lodash/startCase');
 const path = require('path');
-require('dotenv').config();
+const Dotenv = require('dotenv-webpack');
 
 const formatPageEntrieName = (name) => name.charAt(0).toLowerCase() + name.slice(1);
 const pageEntries = glob
@@ -45,6 +45,7 @@ module.exports = {
       stream: require.resolve('stream-browserify'),
     },
   },
+  plugins: [new Dotenv()],
   module: {
     rules: [
       {

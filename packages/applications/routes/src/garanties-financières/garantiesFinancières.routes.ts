@@ -20,7 +20,7 @@ export const actuelles = {
 };
 
 export const demandeMainLevée = {
-  lister: `/garanties-financieres/demandes-main-levee-en-cours`,
+  lister: `/garanties-financieres/demandes-mainlevee-en-cours`,
 };
 
 export const détail = (identifiantProjet: string) =>

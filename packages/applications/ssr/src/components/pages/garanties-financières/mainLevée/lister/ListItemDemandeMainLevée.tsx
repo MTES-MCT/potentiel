@@ -6,6 +6,9 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
+import { StatutMainLevéeBadge } from '../../../../molecules/mainLevée/StatutMainLevéeBadge';
+import { convertMotifMainLeveeForView } from '../helper';
+
 export type ListeItemDemandeMainLevéeProps = {
   appelOffre: string;
   demandéLe: Iso8601DateTime;
@@ -18,16 +21,6 @@ export type ListeItemDemandeMainLevéeProps = {
   période: string;
   régionProjet: string;
   showInstruction: boolean;
-};
-
-const ConvertStatutMainLeveeForView: Record<
-  GarantiesFinancières.StatutMainLevéeGarantiesFinancières.RawType,
-  string
-> = {
-  demandé: 'Demandé',
-  'en-instruction': 'En Instruction',
-  accordé: 'Accordé',
-  rejeté: 'Rejeté',
 };
 
 export const ListItemDemandeMainLevée: FC<ListeItemDemandeMainLevéeProps> = ({
@@ -47,7 +40,7 @@ export const ListItemDemandeMainLevée: FC<ListeItemDemandeMainLevéeProps> = ({
     <div>
       <div className="flex flex-col gap-1">
         <h2 className="leading-4">
-          Main levée du projet{' '}
+          Mainlevée du projet{' '}
           <a
             href={Routes.Projet.details(identifiantProjet)}
             className="font-bold mr-3"
@@ -56,6 +49,7 @@ export const ListItemDemandeMainLevée: FC<ListeItemDemandeMainLevéeProps> = ({
             {nomProjet}
           </a>{' '}
         </h2>
+        <StatutMainLevéeBadge statut={statut} />
         <div className="flex flex-col md:flex-row gap-2 md:gap-0 italic text-xs">
           <div>
             Appel d'offres : {appelOffre}
@@ -78,15 +72,10 @@ export const ListItemDemandeMainLevée: FC<ListeItemDemandeMainLevéeProps> = ({
         <ul className="mt-3 text-sm">
           <li>
             <span>
-              Statut de la demande :{' '}
+              Motif :{' '}
               <span className="font-semibold capitalize">
-                {ConvertStatutMainLeveeForView[statut]}
+                {convertMotifMainLeveeForView(motif)}
               </span>
-            </span>
-          </li>
-          <li>
-            <span>
-              Motif : <span className="font-semibold capitalize">{motif.split('-').join(' ')}</span>
             </span>
           </li>
           <li>

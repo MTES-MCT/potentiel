@@ -25,11 +25,11 @@ const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) =>
     {showMainLevéeGarantiesFinancières && (
       <DropdownMenu.DropdownItem
         href={Routes.GarantiesFinancières.demandeMainLevée.lister}
-        {...(currentPage === 'demandes-main-levee-en-cours' && {
+        {...(currentPage === 'demandes-mainlevee-en-cours' && {
           isCurrent: true,
         })}
       >
-        Demandes de main levée
+        Demandes de mainlevée
       </DropdownMenu.DropdownItem>
     )}
   </DropdownMenu>

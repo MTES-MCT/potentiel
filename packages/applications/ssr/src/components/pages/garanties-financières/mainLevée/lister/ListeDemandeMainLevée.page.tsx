@@ -5,6 +5,8 @@ import { FC } from 'react';
 
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 
+import { convertMotifMainLeveeForView, convertStatutMainLeveeForView } from '../helper';
+
 import {
   ListItemDemandeMainLevée,
   ListeItemDemandeMainLevéeProps,
@@ -27,13 +29,21 @@ export const ListeDemandeMainLevéePage: FC<ListeDemandeDeMainLevéeProps> = ({
   const searchParams = useSearchParams();
   const appelOffre = searchParams.get('appelOffre') ?? undefined;
   const motif = searchParams.get('motif') ?? undefined;
+  const statut = searchParams.get('statut') ?? undefined;
 
   const tagFilters: ListPageTemplateProps<ListeItemDemandeMainLevéeProps>['tagFilters'] = [];
 
   if (motif) {
     tagFilters.push({
-      label: `motif de main levée : ${motif}`,
+      label: `motif de mainlevée : ${convertMotifMainLeveeForView(motif)}`,
       searchParamKey: 'motif',
+    });
+  }
+
+  if (statut) {
+    tagFilters.push({
+      label: `statut de mainlevée : ${convertStatutMainLeveeForView(statut)}`,
+      searchParamKey: 'statut',
     });
   }
 

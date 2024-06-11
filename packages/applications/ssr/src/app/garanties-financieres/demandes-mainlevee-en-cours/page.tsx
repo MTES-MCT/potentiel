@@ -13,14 +13,18 @@ import {
   ListeDemandeDeMainLevéeProps,
   ListeDemandeMainLevéePage,
 } from '../../../components/pages/garanties-financières/mainLevée/lister/ListeDemandeMainLevée.page';
+import {
+  convertMotifMainLeveeForView,
+  convertStatutMainLeveeForView,
+} from '../../../components/pages/garanties-financières/mainLevée/helper';
 
 type PageProps = {
   searchParams?: Record<string, string>;
 };
 
 export const metadata: Metadata = {
-  title: 'Demande de main levée des garanties financières - Potentiel',
-  description: 'Liste des demandes de main levée des garanties financières',
+  title: 'Demande de mainlevée des garanties financières - Potentiel',
+  description: 'Liste des demandes de mainlevée des garanties financières',
 };
 
 export default async function Page({ searchParams }: PageProps) {
@@ -29,6 +33,7 @@ export default async function Page({ searchParams }: PageProps) {
       const page = searchParams?.page ? parseInt(searchParams.page) : 1;
       const appelOffre = searchParams?.appelOffre;
       const motif = searchParams?.motif;
+      const statut = searchParams?.statut;
 
       const demandeDeMainLevéeDesGarantiesFinancières =
         await mediator.send<GarantiesFinancières.ListerDemandeMainLevéeQuery>({
@@ -45,6 +50,12 @@ export default async function Page({ searchParams }: PageProps) {
                   motif,
                 ).motif,
             }),
+            ...(statut && {
+              statut:
+                GarantiesFinancières.StatutMainLevéeGarantiesFinancières.convertirEnValueType(
+                  statut,
+                ).statut,
+            }),
             range: mapToRangeOptions({
               currentPage: page,
               itemsPerPage: 10,
@@ -57,18 +68,37 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
+      const statutsMainLevéeEnCours =
+        GarantiesFinancières.StatutMainLevéeGarantiesFinancières.statuts.filter(
+          (s) => s !== 'rejeté',
+        );
+
+      const motifMainLevéeEnCours =
+        GarantiesFinancières.StatutMainLevéeGarantiesFinancières.statuts.filter(
+          (s) => s !== 'rejeté',
+        );
+
       const filters = [
+        {
+          label: `Statut`,
+          searchParamKey: 'statut',
+          defaultValue: statut,
+          options: statutsMainLevéeEnCours.map((statut) => ({
+            label: convertStatutMainLeveeForView(statut),
+            value: statut,
+          })),
+        },
         {
           label: 'Motif de main levée',
           searchParamKey: 'motif',
           defaultValue: motif,
-          options: [
-            { label: 'Projet abandonnée', value: 'projet-abandonné' },
-            { label: 'Projet achevé', value: 'projet-achevé' },
-          ],
+          options: motifMainLevéeEnCours.map((motif) => ({
+            label: convertMotifMainLeveeForView(motif),
+            value: motif,
+          })),
         },
         {
-          label: `Appel d'offres`,
+          label: `Appel d'offre`,
           searchParamKey: 'appelOffre',
           defaultValue: appelOffre,
           options: appelOffres.items.map((appelOffre) => ({

@@ -8,6 +8,7 @@ import {
 import {
   MainLevéeGarantiesFinancièresEntity,
   MotifDemandeMainLevéeGarantiesFinancières,
+  StatutMainLevéeGarantiesFinancières,
 } from '../..';
 import { Role } from '@potentiel-domain/utilisateur';
 import { CommonError, CommonPort } from '@potentiel-domain/common';
@@ -26,7 +27,8 @@ export type ListerDemandeMainLevéeQuery = Message<
   {
     range?: RangeOptions;
     appelOffre?: string;
-    motif?: MotifDemandeMainLevéeGarantiesFinancières.RawMotif;
+    motif?: MotifDemandeMainLevéeGarantiesFinancières.RawType;
+    statut?: StatutMainLevéeGarantiesFinancières.RawType;
     utilisateur: {
       rôle: string;
       email: string;
@@ -48,6 +50,7 @@ export const registerListerDemandeMainLevéeQuery = ({
     range,
     appelOffre,
     motif,
+    statut,
     utilisateur,
   }) => {
     let région: string | undefined = undefined;
@@ -80,11 +83,12 @@ export const registerListerDemandeMainLevéeQuery = ({
         ...(motif && {
           motif: { operator: 'equal', value: motif },
         }),
+        statut: statut
+          ? { operator: 'equal', value: statut }
+          : { operator: 'include', value: ['en-instruction', 'demandé', 'accepté'] },
         ...(région && {
           régionProjet: { operator: 'equal', value: région },
         }),
-        // seules les demandes sont récupérées pour cette v1
-        statut: { operator: 'include', value: ['en-instruction', 'demandé'] },
       },
     });
 

@@ -3,14 +3,11 @@ import { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import {
-  StatutProjetBadge,
-  StatutProjetBadgeProps,
-} from '@/components/molecules/projet/StatutProjetBadge';
+import { StatutProjet, StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export type ProjetBannerProps = {
-  statut: StatutProjetBadgeProps['statut'];
+  statut: StatutProjet;
   nom: string;
   appelOffre: string;
   période: string;
