@@ -47,7 +47,7 @@ import {
 } from './mainLevée/consulter/consulterMainLevéeGarantiesFinancières.query';
 import { registerAnnulerMainLevéeGarantiesFinancièresCommand } from './mainLevée/annuler/annulerDemandeMainLevéeGarantiesFinancières.command';
 import { registerAnnulerMainLevéeGarantiesFinancièresUseCase } from './mainLevée/annuler/annulerDemandeMainLevéeGarantiesFinancières.usecase';
-import { registerListerDemandeMainlevéeQuery } from './mainLevée/lister/coucou';
+import { registerListerDemandeMainlevéeQuery } from './mainLevée/lister/listerDemandeMainlevéeGarantiesFinancières.query';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerDépôtsEnCoursGarantiesFinancièresDependencies &
