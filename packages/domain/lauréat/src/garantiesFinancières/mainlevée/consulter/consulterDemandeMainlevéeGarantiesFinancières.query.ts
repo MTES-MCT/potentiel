@@ -31,11 +31,6 @@ export type ConsulterDemandeMainlevéeGarantiesFinancièresReadModel = {
     accordéePar: Email.ValueType;
     courrierAccord: DocumentProjet.ValueType;
   };
-  rejet?: {
-    refuséeLe: DateTime.ValueType;
-    refuséePar: Email.ValueType;
-    courrierRejet: DocumentProjet.ValueType;
-  };
   dernièreMiseÀJour: {
     date: DateTime.ValueType;
     par: Email.ValueType;

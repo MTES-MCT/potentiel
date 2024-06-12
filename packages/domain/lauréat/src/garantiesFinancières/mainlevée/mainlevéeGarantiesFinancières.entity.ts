@@ -15,7 +15,6 @@ export type MainlevéeGarantiesFinancièresEntity = Entity<
     demande: { demandéeLe: string; demandéePar: string };
     instruction?: { démarréeLe: string; démarréePar: string };
     accord?: { accordéeLe: string; accordéePar: string; courrierAccord: { format: string } };
-    rejet?: { refuséeLe: string; refuséePar: string; courrierRejet: { format: string } };
 
     dernièreMiseÀJour: {
       date: string;
