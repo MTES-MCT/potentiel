@@ -1,7 +1,6 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -9,6 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { InputDownload } from '@/components/atoms/form/InputDownload';
+import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
 import { demanderConfirmationAbandonAction } from './demanderConfirmation.action';
 
@@ -50,17 +50,12 @@ export const DemanderConfirmationAbandon = ({
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
-              <Upload
+              <UploadDocument
                 label="Téléverser une réponse signée"
-                hint="au format pdf"
                 state={validationErrors.includes('reponseSignee') ? 'error' : 'default'}
                 stateRelatedMessage="Réponse signée obligatoire"
-                nativeInputProps={{
-                  name: 'reponseSignee',
-                  required: true,
-                  'aria-required': true,
-                  accept: '.pdf',
-                }}
+                name="reponseSignee"
+                required
                 className="mb-8"
               />
 

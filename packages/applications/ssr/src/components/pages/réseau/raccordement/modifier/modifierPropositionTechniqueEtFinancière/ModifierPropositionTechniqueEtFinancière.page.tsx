@@ -4,8 +4,6 @@ import React, { FC, useState } from 'react';
 import { Alert } from '@codegouvfr/react-dsfr/Alert';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useRouter } from 'next/navigation';
-import { Upload } from '@codegouvfr/react-dsfr/Upload';
-import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
@@ -15,6 +13,7 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { InputDate } from '@/components/atoms/form/InputDate';
+import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
@@ -76,40 +75,17 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
               }}
             />
 
-            <Upload
-              label={
-                <>
-                  Proposition technique et finançière signée{' '}
-                  {propositionTechniqueEtFinancièreSignée && (
-                    <>
-                      <br />
-                      <small>
-                        Pour que la modification puisse fonctionner, merci de joindre un nouveau
-                        fichier ou{' '}
-                        <Link
-                          href={Routes.Document.télécharger(propositionTechniqueEtFinancièreSignée)}
-                          target="_blank"
-                        >
-                          celui préalablement transmis
-                        </Link>
-                      </small>
-                    </>
-                  )}
-                </>
-              }
-              hint="Format accepté : pdf"
-              nativeInputProps={{
-                name: 'propositionTechniqueEtFinanciereSignee',
-                required: true,
-                accept: '.pdf',
-                'aria-required': true,
-              }}
+            <UploadDocument
+              label="Proposition technique et finançière signée"
+              name="propositionTechniqueEtFinanciereSignee"
+              required
               state={
                 validationErrors.includes('propositionTechniqueEtFinanciereSignee')
                   ? 'error'
                   : 'default'
               }
               stateRelatedMessage="Accusé de réception de la proposition technique et finançière obligatoire"
+              documentKey={propositionTechniqueEtFinancièreSignée}
             />
 
             <div className="flex flex-col md:flex-row gap-4 m-auto">

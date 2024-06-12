@@ -3,7 +3,6 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
-import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 
@@ -13,6 +12,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
 import {
   InformationDemandeComplèteRaccordement,
@@ -125,15 +125,10 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
               }}
             />
 
-            <Upload
+            <UploadDocument
               label="Accusé de réception de la demande complète de raccordement **"
-              hint="Format accepté : pdf"
-              nativeInputProps={{
-                name: 'accuseReception',
-                required: true,
-                'aria-required': true,
-                accept: '.pdf',
-              }}
+              name="accuseReception"
+              required
               state={validationErrors.includes('accuseReception') ? 'error' : 'default'}
               stateRelatedMessage="Accusé de réception de la demande complète de raccordement obligatoire"
             />
