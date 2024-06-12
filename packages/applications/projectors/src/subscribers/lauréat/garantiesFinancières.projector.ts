@@ -33,6 +33,9 @@ export const register = () => {
       await removeProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
         `mainlevee-garanties-financieres|${payload.id}`,
       );
+      await removeProjection<GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
+        `historique-mainlevee-rejetee-garanties-financieres|${payload.id}`,
+      );
     } else {
       const { identifiantProjet } = payload;
 
@@ -54,6 +57,11 @@ export const register = () => {
       const mainlevéeGarantiesFinancières =
         await findProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
           `mainlevee-garanties-financieres|${identifiantProjet}`,
+        );
+
+      const historiqueMainlevéeRejetéeGarantiesFinancières =
+        await findProjection<GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
+          `historique-mainlevee-rejetee-garanties-financieres|${identifiantProjet}`,
         );
 
       const garantiesFinancièresDefaultValue: Omit<
@@ -130,6 +138,19 @@ export const register = () => {
         dernièreMiseÀJour: { date: '', par: '' },
       };
 
+      const historiqueMainlevéeRejetéeGarantiesFinancièresDefaultValue: Omit<
+        GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity,
+        'type'
+      > = {
+        identifiantProjet,
+        nomProjet: '',
+        appelOffre: '',
+        période: '',
+        famille: undefined,
+        régionProjet: '',
+        historique: [],
+      };
+
       const garantiesFinancièresToUpsert: Omit<
         GarantiesFinancières.GarantiesFinancièresEntity,
         'type'
@@ -157,6 +178,13 @@ export const register = () => {
       > = Option.isSome(mainlevéeGarantiesFinancières)
         ? mainlevéeGarantiesFinancières
         : mainlevéeGarantiesFinancièresDefaultValue;
+
+      const historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert: Omit<
+        GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity,
+        'type'
+      > = Option.isSome(historiqueMainlevéeRejetéeGarantiesFinancières)
+        ? historiqueMainlevéeRejetéeGarantiesFinancières
+        : historiqueMainlevéeRejetéeGarantiesFinancièresDefaultValue;
 
       const getProjectData = async (identifiantProjet: IdentifiantProjet.RawType) => {
         const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
@@ -463,6 +491,31 @@ export const register = () => {
                 par: payload.accordéPar,
               },
             },
+          );
+          break;
+
+        case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
+          await upsertProjection<GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
+            `historique-mainlevee-rejetee-garanties-financieres|${identifiantProjet}`,
+            {
+              ...historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert,
+              historique: [
+                ...historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert.historique,
+                {
+                  demande: mainlevéeGarantiesFinancièresToUpsert.demande,
+                  motif: mainlevéeGarantiesFinancièresToUpsert.motif,
+                  rejet: {
+                    rejetéLe: payload.rejetéLe,
+                    rejetéPar: payload.rejetéPar,
+                    courrierRejet: { format: payload.réponseSignée.format },
+                  },
+                },
+              ],
+            },
+          );
+
+          await removeProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+            `mainlevee-garanties-financieres|${identifiantProjet}`,
           );
           break;
       }

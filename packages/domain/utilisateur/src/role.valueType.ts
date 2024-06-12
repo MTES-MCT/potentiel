@@ -152,6 +152,8 @@ const référencielPermissions = {
           'Lauréat.GarantiesFinancières.Mainlevée.UseCase.DémarrerInstruction',
         accorderDemandeMainlevée:
           'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
+        rejeterDemandeMainlevée:
+          'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
       },
       command: {
         demander: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
@@ -173,6 +175,8 @@ const référencielPermissions = {
           'Lauréat.GarantiesFinancières.Mainlevée.Command.DémarrerInstruction',
         accorderDemandeMainlevée:
           'Lauréat.GarantiesFinancières.Mainlevée.Command.AccorderDemandeMainlevée',
+        rejeterDemandeMainlevée:
+          'Lauréat.GarantiesFinancières.Mainlevée.Command.RejeterDemandeMainlevée',
       },
     },
     achèvement: {
@@ -584,6 +588,11 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.command.accorderDemandeMainlevée,
         référencielPermissions.document.command.enregister,
       ],
+      rejeter: [
+        référencielPermissions.lauréat.garantiesFinancières.usecase.rejeterDemandeMainlevée,
+        référencielPermissions.lauréat.garantiesFinancières.command.rejeterDemandeMainlevée,
+        référencielPermissions.document.command.enregister,
+      ],
     },
     enAttente: {
       lister: [
@@ -720,6 +729,7 @@ const permissionDreal = [
   ...policies.garantiesFinancières.mainlevée.démarrerInstruction,
   ...policies.garantiesFinancières.mainlevée.accorder,
   ...policies.garantiesFinancières.mainlevée.lister,
+  ...policies.garantiesFinancières.mainlevée.rejeter,
 
   // Achèvement
   ...policies.achèvement.consulter,

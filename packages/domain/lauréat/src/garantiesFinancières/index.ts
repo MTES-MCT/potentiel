@@ -151,11 +151,12 @@ export * as StatutMainlevéeGarantiesFinancières from './mainlevée/statutMainl
 export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motifDemandeMainlevéeGarantiesFinancières.valueType';
 export * as TypeDocumentRéponseDemandeMainlevée from './mainlevée/typeDocumentRéponseDemandeMainlevée.valueType';
 
-// Projections
+// Entities
 export * from './garantiesFinancièresActuelles/garantiesFinancièresActuelles.entity';
 export * from './dépôtEnCours/dépôtEnCoursGarantiesFinancières.entity';
 export * from './projetEnAttenteDeGarantiesFinancières/projetAvecGarantiesFinancièresEnAttente.entity';
 export * from './mainlevée/mainlevéeGarantiesFinancières.entity';
+export * from './mainlevée/historiqueMainlevéeRejetéeGarantiesFinancières.entity';
 
 // Ports
 export type { BuildModèleMiseEnDemeureGarantiesFinancièresPort } from './projetEnAttenteDeGarantiesFinancières/générerModèleMiseEnDemeure/générerModèleMiseEnDemeure.query';
