@@ -17,6 +17,7 @@ Fonctionnalité: Démarrer l'instruction d'une demande de mainlevée des garanti
             | mise à jour le             | 2024-05-30             | 
             | mise à jour par            | dreal@test.test        | 
 
+    @select
     Scénario: Un utilisateur Dreal démarre l'instruction d'une demande de mainlevée pour un projet achevé
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"

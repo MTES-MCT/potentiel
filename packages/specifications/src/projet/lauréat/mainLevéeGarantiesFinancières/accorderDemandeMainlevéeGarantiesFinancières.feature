@@ -3,6 +3,7 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
 
+    @select
     Scénario: Un utilisateur Dreal accorde une demande de mainlevée pour un projet abandonné
         Etant donné un abandon accordé pour le projet lauréat "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"
@@ -21,6 +22,7 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
             | format fichier réponse     | application/pdf        |
             | contenu fichier réponse    | contenu du fichier     |
 
+    @select
     Scénario: Un utilisateur Dreal démarre l'instruction d'une demande de mainlevée pour un projet achevé
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"

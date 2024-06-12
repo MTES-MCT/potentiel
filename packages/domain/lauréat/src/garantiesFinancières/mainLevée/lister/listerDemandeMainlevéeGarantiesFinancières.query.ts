@@ -2,17 +2,21 @@ import { ListV2, RangeOptions } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Role } from '@potentiel-domain/utilisateur';
-import { CommonError, CommonPort, IdentifiantProjet } from '@potentiel-domain/common';
+import { CommonError, CommonPort } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import {
   MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
 } from '../..';
+// import {
+//   ConsulterMainlevéeGarantiesFinancièresReadModel,
+//   consulterMainlevéeGarantiesFinancièresMapToReadModel,
+// } from '../consulter/consulterMainlevéeGarantiesFinancières.query';
+import { MainlevéeGarantiesFinancièresEntity } from '../mainlevéeGarantiesFinancières.entity';
 import {
   ConsulterMainlevéeGarantiesFinancièresReadModel,
   consulterMainlevéeGarantiesFinancièresMapToReadModel,
 } from '../consulter/consulterMainlevéeGarantiesFinancières.query';
-import { MainlevéeGarantiesFinancièresEntity } from '../mainlevéeGarantiesFinancières.entity';
 
 export type ListerDemandeMainlevéeItemReadModel = ConsulterMainlevéeGarantiesFinancièresReadModel;
 
@@ -93,14 +97,7 @@ export const registerListerDemandeMainlevéeQuery = ({
     });
 
     return {
-      items: items.map((item) =>
-        consulterMainlevéeGarantiesFinancièresMapToReadModel({
-          ...item,
-          identifiantProjetValueType: IdentifiantProjet.convertirEnValueType(
-            item.identifiantProjet,
-          ),
-        }),
-      ),
+      items: items.map(consulterMainlevéeGarantiesFinancièresMapToReadModel),
       range: {
         endPosition,
         startPosition,
