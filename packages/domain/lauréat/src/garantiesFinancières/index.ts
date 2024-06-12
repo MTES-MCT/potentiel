@@ -46,6 +46,10 @@ import {
   ConsulterDemandeMainlevéeGarantiesFinancièresQuery,
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
 } from './mainlevée/consulter/consulterDemandeMainlevéeGarantiesFinancières.query';
+import {
+  ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery,
+  ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel,
+} from './mainlevée/consulter/consulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancières.query';
 
 // Query
 export type GarantiesFinancièresQuery =
@@ -57,7 +61,8 @@ export type GarantiesFinancièresQuery =
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
   | GénérerModèleMiseEnDemeureGarantiesFinancièresQuery
   | ConsulterDemandeMainlevéeGarantiesFinancièresQuery
-  | ListerDemandeMainlevéeQuery;
+  | ListerDemandeMainlevéeQuery
+  | ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery;
 
 export type {
   ConsulterGarantiesFinancièresQuery,
@@ -68,6 +73,7 @@ export type {
   GénérerModèleMiseEnDemeureGarantiesFinancièresQuery,
   ConsulterDemandeMainlevéeGarantiesFinancièresQuery,
   ListerDemandeMainlevéeQuery,
+  ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery,
 };
 
 // ReadModel
@@ -80,6 +86,7 @@ export type {
   GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel,
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
   ListerDemandeMainlevéeReadModel,
+  ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel,
 };
 
 // UseCases

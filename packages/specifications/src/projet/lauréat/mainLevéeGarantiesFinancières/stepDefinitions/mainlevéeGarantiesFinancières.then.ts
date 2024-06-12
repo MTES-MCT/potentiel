@@ -231,20 +231,15 @@ Alors(
     const motif = exemple['motif'];
 
     await waitForExpect(async () => {
-      /**
-       * @todo faire query
-       */
-      //     const actualReadModel = await mediator.send<GarantiesFinancières>(
-      //   {
-      //     type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
-      //     data: {
-      //       utilisateur: {
-      //         email: 'admin@test.test',
-      //         rôle: 'admin',
-      //       },
-      //     },
-      //   },
-      // );
+      const actualReadModel =
+        await mediator.send<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.ConsulterHistoriqueDemandeMainlevéeRejetée',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
+          },
+        );
     });
   },
 );
