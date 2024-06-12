@@ -15,13 +15,17 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const WithoutExistingDocument: Story = {
-  args: { name: 'test_1', label: 'Test', stateRelatedMessage: 'This is a state related message' },
+  args: {
+    name: 'test_1',
+    label: 'Without an existing document',
+    stateRelatedMessage: 'This is a state related message',
+  },
 };
 
 export const WithExistingDocument: Story = {
   args: {
     name: 'test_2',
-    label: 'Test',
+    label: 'With an existing document',
     documentKey: 'test',
     stateRelatedMessage: 'This is a wonderful state related message',
   },
