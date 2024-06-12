@@ -22,12 +22,14 @@ Alors(
 
     await waitForExpect(async () => {
       const actualReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterMainlevéeGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+        await mediator.send<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
           },
-        });
+        );
 
       expect(Option.isSome(actualReadModel)).to.be.true;
 
@@ -59,12 +61,14 @@ Alors(
 
     await waitForExpect(async () => {
       const actualReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterMainlevéeGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+        await mediator.send<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
           },
-        });
+        );
 
       expect(Option.isNone(actualReadModel)).to.be.true;
     });
@@ -85,12 +89,14 @@ Alors(
 
     await waitForExpect(async () => {
       const actualReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterMainlevéeGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+        await mediator.send<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
           },
-        });
+        );
 
       expect(Option.isSome(actualReadModel)).to.be.true;
 
@@ -137,12 +143,14 @@ Alors(
 
     await waitForExpect(async () => {
       const actualReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterMainlevéeGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+        await mediator.send<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
           },
-        });
+        );
 
       expect(Option.isSome(actualReadModel)).to.be.true;
 

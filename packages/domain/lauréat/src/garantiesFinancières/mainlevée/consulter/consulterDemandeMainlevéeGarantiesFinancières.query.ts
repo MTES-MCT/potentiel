@@ -12,7 +12,7 @@ import {
   TypeDocumentRéponseDemandeMainlevée,
 } from '../..';
 
-export type ConsulterMainlevéeGarantiesFinancièresReadModel = {
+export type ConsulterDemandeMainlevéeGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutMainlevéeGarantiesFinancières.ValueType;
   motif: MotifDemandeMainlevéeGarantiesFinancières.ValueType;
@@ -42,22 +42,22 @@ export type ConsulterMainlevéeGarantiesFinancièresReadModel = {
   };
 };
 
-export type ConsulterMainlevéeGarantiesFinancièresQuery = Message<
+export type ConsulterDemandeMainlevéeGarantiesFinancièresQuery = Message<
   'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
   {
     identifiantProjetValue: string;
   },
-  Option.Type<ConsulterMainlevéeGarantiesFinancièresReadModel>
+  Option.Type<ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>
 >;
 
-export type ConsulterMainlevéeGarantiesFinancièresDependencies = {
+export type ConsulterDemandeMainlevéeGarantiesFinancièresDependencies = {
   find: Find;
 };
 
-export const registerConsulterMainlevéeGarantiesFinancièresQuery = ({
+export const registerConsulterDemandeMainlevéeGarantiesFinancièresQuery = ({
   find,
-}: ConsulterMainlevéeGarantiesFinancièresDependencies) => {
-  const handler: MessageHandler<ConsulterMainlevéeGarantiesFinancièresQuery> = async ({
+}: ConsulterDemandeMainlevéeGarantiesFinancièresDependencies) => {
+  const handler: MessageHandler<ConsulterDemandeMainlevéeGarantiesFinancièresQuery> = async ({
     identifiantProjetValue,
   }) => {
     const identifiantProjetValueType =
@@ -71,12 +71,12 @@ export const registerConsulterMainlevéeGarantiesFinancièresQuery = ({
       return Option.none;
     }
 
-    return consulterMainlevéeGarantiesFinancièresMapToReadModel(result);
+    return consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel(result);
   };
   mediator.register('Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter', handler);
 };
 
-export const consulterMainlevéeGarantiesFinancièresMapToReadModel = ({
+export const consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel = ({
   motif,
   demande,
   dernièreMiseÀJour,
@@ -89,7 +89,7 @@ export const consulterMainlevéeGarantiesFinancièresMapToReadModel = ({
   régionProjet,
   instruction,
   accord,
-}: MainlevéeGarantiesFinancièresEntity): ConsulterMainlevéeGarantiesFinancièresReadModel => ({
+}: MainlevéeGarantiesFinancièresEntity): ConsulterDemandeMainlevéeGarantiesFinancièresReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
   appelOffre,

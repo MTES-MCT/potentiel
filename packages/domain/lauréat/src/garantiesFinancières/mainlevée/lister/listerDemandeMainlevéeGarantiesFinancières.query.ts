@@ -10,11 +10,12 @@ import {
 } from '../..';
 import { MainlevéeGarantiesFinancièresEntity } from '../mainlevéeGarantiesFinancières.entity';
 import {
-  ConsulterMainlevéeGarantiesFinancièresReadModel,
-  consulterMainlevéeGarantiesFinancièresMapToReadModel,
-} from '../consulter/consulterMainlevéeGarantiesFinancières.query';
+  ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
+  consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel,
+} from '../consulter/consulterDemandeMainlevéeGarantiesFinancières.query';
 
-export type ListerDemandeMainlevéeItemReadModel = ConsulterMainlevéeGarantiesFinancièresReadModel;
+export type ListerDemandeMainlevéeItemReadModel =
+  ConsulterDemandeMainlevéeGarantiesFinancièresReadModel;
 
 export type ListerDemandeMainlevéeReadModel = Readonly<{
   items: ReadonlyArray<ListerDemandeMainlevéeItemReadModel>;
@@ -93,7 +94,7 @@ export const registerListerDemandeMainlevéeQuery = ({
     });
 
     return {
-      items: items.map(consulterMainlevéeGarantiesFinancièresMapToReadModel),
+      items: items.map(consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel),
       range: {
         endPosition,
         startPosition,

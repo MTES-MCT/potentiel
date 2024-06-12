@@ -69,10 +69,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       });
 
       const mainlevée =
-        await mediator.send<GarantiesFinancières.ConsulterMainlevéeGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
-          data: { identifiantProjetValue: identifiantProjet },
-        });
+        await mediator.send<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
+            data: { identifiantProjetValue: identifiantProjet },
+          },
+        );
 
       const props = mapToProps({
         projet,
@@ -94,7 +96,7 @@ type MapToProps = (args: {
   garantiesFinancièresActuelles: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
   achèvement: Option.Type<Achèvement.ConsulterAttestationConformitéReadModel>;
-  mainlevée: Option.Type<GarantiesFinancières.ConsulterMainlevéeGarantiesFinancièresReadModel>;
+  mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>;
 }) => DétailsGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({

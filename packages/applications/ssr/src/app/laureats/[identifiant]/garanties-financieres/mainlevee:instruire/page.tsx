@@ -8,7 +8,6 @@ import {
 } from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { ConsulterMainlevéeGarantiesFinancièresReadModel } from '@potentiel-domain/laureat/src/garantiesFinancières';
 import { AppelOffre, ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -53,7 +52,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     }
 
     const demandeMainlevée =
-      await mediator.send<GarantiesFinancières.ConsulterMainlevéeGarantiesFinancièresQuery>({
+      await mediator.send<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresQuery>({
         type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
         data: { identifiantProjetValue: identifiantProjet },
       });
@@ -72,7 +71,7 @@ const mapToProps = ({
   projet,
   statut,
   appelOffreDetails,
-}: ConsulterMainlevéeGarantiesFinancièresReadModel & {
+}: GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresReadModel & {
   projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
   appelOffreDetails: AppelOffre;
 }): InstruireDemandeMainlevéeGarantiesFinancièresProps => ({

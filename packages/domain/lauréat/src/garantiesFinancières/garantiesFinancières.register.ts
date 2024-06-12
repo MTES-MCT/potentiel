@@ -42,7 +42,6 @@ import { registerModifierGarantiesFinancièresUseCase } from './garantiesFinanci
 import { registerDemanderMainlevéeGarantiesFinancièresCommand } from './mainlevée/demander/demanderMainlevéeGarantiesFinancières.command';
 import { registerDemanderMainlevéeGarantiesFinancièresUseCase } from './mainlevée/demander/demanderMainlevéeGarantiesFinancières.usecase';
 
-import { registerListerDemandeMainlevéeQuery } from './mainlevée/lister/listerDemandeMainlevéeGarantiesFinancières.query';
 import { registerAnnulerMainlevéeGarantiesFinancièresCommand } from './mainlevée/annuler/annulerDemandeMainlevéeGarantiesFinancières.command';
 import { registerAnnulerMainlevéeGarantiesFinancièresUseCase } from './mainlevée/annuler/annulerDemandeMainlevéeGarantiesFinancières.usecase';
 import { registerDémarrerInstructionDemandeMainlevéeGarantiesFinancières } from './mainlevée/démarrerInstruction/démarrerInstructionDemandeMainlevéeGarantiesFinancières.command';
@@ -52,15 +51,16 @@ import { registerRejeterDemandeMainlevéeGarantiesFinancièresUseCase } from './
 import { registeAccorderDemandeMainlevéeGarantiesFinancièresCommand } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.command';
 import { registerAccorderDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.usecase';
 import {
-  ConsulterMainlevéeGarantiesFinancièresDependencies,
-  registerConsulterMainlevéeGarantiesFinancièresQuery,
-} from './mainlevée/consulter/consulterMainlevéeGarantiesFinancières.query';
+  ConsulterDemandeMainlevéeGarantiesFinancièresDependencies,
+  registerConsulterDemandeMainlevéeGarantiesFinancièresQuery,
+} from './mainlevée/consulter/consulterDemandeMainlevéeGarantiesFinancières.query';
+import { registerListerDemandeMainlevéeQuery } from './mainlevée/lister/listerDemandeMainlevéeGarantiesFinancières.query';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerDépôtsEnCoursGarantiesFinancièresDependencies &
   GénérerModèleMiseEnDemeureGarantiesFinancièresDependencies &
   ConsulterDépôtEnCoursGarantiesFinancièresDependencies &
-  ConsulterMainlevéeGarantiesFinancièresDependencies;
+  ConsulterDemandeMainlevéeGarantiesFinancièresDependencies;
 
 export type GarantiesFinancièresCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -113,6 +113,6 @@ export const registerGarantiesFinancièresQueries = (
   registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery(dependencies);
   registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery(dependencies);
   registerConsulterDépôtEnCoursGarantiesFinancièresQuery(dependencies);
-  registerConsulterMainlevéeGarantiesFinancièresQuery(dependencies);
+  registerConsulterDemandeMainlevéeGarantiesFinancièresQuery(dependencies);
   registerListerDemandeMainlevéeQuery(dependencies);
 };
