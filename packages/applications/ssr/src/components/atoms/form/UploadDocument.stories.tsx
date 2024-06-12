@@ -27,6 +27,16 @@ export const WithExistingDocument: Story = {
   },
 };
 
+export const WithAnError: Story = {
+  args: {
+    name: 'test_error',
+    label: 'UploadDocument disabled',
+    documentKey: 'test',
+    state: 'error',
+    stateRelatedMessage: 'This is a wonderful state related message',
+  },
+};
+
 export const Disabled: Story = {
   args: {
     name: 'test_disabled',

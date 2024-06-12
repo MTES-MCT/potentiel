@@ -62,7 +62,6 @@ export const formAction =
 
       return result;
     } catch (e) {
-      console.error((e as Error).message);
       if (e instanceof CsvValidationError) {
         return {
           status: 'csv-error' as const,

@@ -33,26 +33,27 @@ const document = zod
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: zod.instanceof(Blob).refine((data) => data.size > 0),
-  preuveTransmissionAuCocontractant: zod.instanceof(Blob).refine((data) => data.size > 0),
+  attestation: document,
+  preuveTransmissionAuCocontractant: document,
   dateTransmissionAuCocontractant: zod.string().min(1),
-  test: document,
 });
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, dateTransmissionAuCocontractant, preuveTransmissionAuCocontractant, test },
+  {
+    identifiantProjet,
+    dateTransmissionAuCocontractant,
+    attestation,
+    preuveTransmissionAuCocontractant,
+  },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Achèvement.ModifierAttestationConformitéUseCase>({
       type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet,
-        attestationValue: test,
-        preuveTransmissionAuCocontractantValue: {
-          content: preuveTransmissionAuCocontractant.stream(),
-          format: preuveTransmissionAuCocontractant.type,
-        },
+        attestationValue: attestation,
+        preuveTransmissionAuCocontractantValue: preuveTransmissionAuCocontractant,
         dateTransmissionAuCocontractantValue: new Date(
           dateTransmissionAuCocontractant,
         ).toISOString(),

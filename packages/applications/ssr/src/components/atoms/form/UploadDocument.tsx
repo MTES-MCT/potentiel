@@ -9,18 +9,20 @@ import { Icon } from '../Icon';
 
 export type UploadDocumentProps = {
   label: React.ReactNode;
-  stateRelatedMessage?: React.ReactNode;
   name: string;
   id?: string;
+  documentKey?: string;
   required?: boolean;
   disabled?: boolean;
-  documentKey?: string;
+  state?: RadioButtonsProps['state'];
+  stateRelatedMessage?: React.ReactNode;
   onFileChange?: (fileName: string) => void;
 };
 
 export const UploadDocument = ({
   label,
   disabled,
+  state,
   documentKey,
   onFileChange,
   ...props
@@ -81,7 +83,7 @@ export const UploadDocument = ({
             {uploadedFileName
               ? uploadedFileName
               : documentKey
-              ? `Modifier le doument existant`
+              ? `Modifier le document existant`
               : 'Téléverser un document'}
           </div>
           <div>
@@ -113,7 +115,7 @@ export const UploadDocument = ({
       name={`${props.name}_document_selector`}
       disabled={disabled}
       options={options}
-      state="default"
+      state={state}
       stateRelatedMessage={props.stateRelatedMessage}
     />
   );
