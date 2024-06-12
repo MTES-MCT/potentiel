@@ -31,19 +31,13 @@ export const register = () => {
 
       const abandonDefaultValue: Omit<Abandon.AbandonEntity, 'type'> = {
         identifiantProjet,
-        nomProjet: '',
-        appelOffre: '',
-        période: '',
-        famille: undefined,
-        demandeDemandéLe: '',
-        demandeDemandéPar: '',
-        demandePièceJustificativeFormat: '',
-        demandeRaison: '',
-        demandeRecandidature: false,
-        preuveRecandidatureStatut: 'non-applicable',
+        demande: {
+          demandéLe: '',
+          demandéPar: '',
+          raison: '',
+        },
         statut: 'demandé',
         misÀJourLe: DateTime.now().formatter(),
-        régionProjet: [],
       };
 
       const abandonToUpsert: Omit<Abandon.AbandonEntity, 'type'> = Option.isSome(abandon)
@@ -60,37 +54,63 @@ export const register = () => {
 
           await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
             ...abandonDefaultValue,
-            nomProjet: Option.isSome(projet) ? projet.nom : 'Projet inconnu',
-            appelOffre: Option.isSome(projet) ? projet.appelOffre : `N/A`,
-            période: Option.isSome(projet) ? projet.période : `N/A`,
-            famille: Option.isSome(projet) ? projet.famille : undefined,
-            demandePièceJustificativeFormat:
-              payload.pièceJustificative && payload.pièceJustificative.format,
-            demandeDemandéLe: payload.demandéLe,
-            demandeDemandéPar: payload.demandéPar,
-            demandeRaison: payload.raison,
-            demandeRecandidature: payload.recandidature,
+            projet: Option.isSome(projet)
+              ? {
+                  appelOffre: projet.appelOffre,
+                  nom: projet.nom,
+                  numéroCRE: projet.numéroCRE,
+                  période: projet.période,
+                  région: projet.localité.région,
+                  famille: projet.famille,
+                }
+              : undefined,
+            demande: {
+              pièceJustificative: payload.pièceJustificative
+                ? {
+                    format: payload.pièceJustificative.format,
+                  }
+                : undefined,
+
+              demandéLe: payload.demandéLe,
+              demandéPar: payload.demandéPar,
+              raison: payload.raison,
+              recandidature: payload.recandidature
+                ? {
+                    statut: Abandon.StatutPreuveRecandidature.enAttente.statut,
+                  }
+                : undefined,
+            },
             statut: 'demandé',
             misÀJourLe: payload.demandéLe,
-            régionProjet: Option.isSome(projet) ? [...projet.localité.région.split(' / ')] : [],
           });
           break;
         case 'AbandonAccordé-V1':
+          const accord: Abandon.AbandonEntity['accord'] = {
+            accordéLe: payload.accordéLe,
+            accordéPar: payload.accordéPar,
+            réponseSignée: {
+              format: payload.réponseSignée.format,
+            },
+          };
           await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
             ...abandonToUpsert,
-            accordAccordéLe: payload.accordéLe,
-            accordAccordéPar: payload.accordéPar,
-            accordRéponseSignéeFormat: payload.réponseSignée.format,
+            accord,
             statut: 'accordé',
             misÀJourLe: payload.accordéLe,
           });
           break;
         case 'AbandonRejeté-V1':
+          const rejet: Abandon.AbandonEntity['rejet'] = {
+            rejetéLe: payload.rejetéLe,
+            rejetéPar: payload.rejetéPar,
+            réponseSignée: {
+              format: payload.réponseSignée.format,
+            },
+          };
+
           await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
             ...abandonToUpsert,
-            rejetRejetéLe: payload.rejetéLe,
-            rejetRejetéPar: payload.rejetéPar,
-            rejetRéponseSignéeFormat: payload.réponseSignée.format,
+            rejet,
             statut: 'rejeté',
             misÀJourLe: payload.rejetéLe,
           });
@@ -98,9 +118,16 @@ export const register = () => {
         case 'ConfirmationAbandonDemandée-V1':
           await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
             ...abandonToUpsert,
-            confirmationDemandéeLe: payload.confirmationDemandéeLe,
-            confirmationDemandéePar: payload.confirmationDemandéePar,
-            confirmationDemandéeRéponseSignéeFormat: payload.réponseSignée.format,
+            demande: {
+              ...abandonToUpsert.demande,
+              confirmation: {
+                demandéeLe: payload.confirmationDemandéeLe,
+                demandéePar: payload.confirmationDemandéePar,
+                réponseSignée: {
+                  format: payload.réponseSignée.format,
+                },
+              },
+            },
             statut: 'confirmation-demandée',
             misÀJourLe: payload.confirmationDemandéeLe,
           });
@@ -108,8 +135,14 @@ export const register = () => {
         case 'AbandonConfirmé-V1':
           await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
             ...abandonToUpsert,
-            confirmationConfirméLe: payload.confirméLe,
-            confirmationConfirméPar: payload.confirméPar,
+            demande: {
+              ...abandonToUpsert.demande,
+              confirmation: {
+                ...abandonToUpsert.demande.confirmation!,
+                confirméLe: payload.confirméLe,
+                confirméPar: payload.confirméPar,
+              },
+            },
             statut: 'confirmé',
             misÀJourLe: payload.confirméLe,
           });
@@ -117,10 +150,19 @@ export const register = () => {
         case 'PreuveRecandidatureTransmise-V1':
           await upsertProjection<Abandon.AbandonEntity>(`abandon|${payload.identifiantProjet}`, {
             ...abandonToUpsert,
-            preuveRecandidature: payload.preuveRecandidature,
-            preuveRecandidatureStatut: 'transmise',
-            preuveRecandidatureTransmiseLe: payload.transmiseLe,
-            preuveRecandidatureTransmisePar: payload.transmisePar,
+            demande: {
+              ...abandonToUpsert.demande,
+              recandidature: {
+                ...abandonToUpsert.demande.recandidature!,
+                statut: Abandon.StatutPreuveRecandidature.transmise.statut,
+                preuve: {
+                  ...abandonToUpsert.demande.recandidature?.preuve!,
+                  identifiantProjet: payload.preuveRecandidature,
+                  transmiseLe: payload.transmiseLe,
+                  transmisePar: payload.transmisePar,
+                },
+              },
+            },
           });
           await removeProjection<Abandon.AbandonAvecRecandidatureSansPreuveProjection>(
             `abandon-avec-recandidature-sans-preuve|${identifiantProjet}`,
@@ -129,8 +171,17 @@ export const register = () => {
         case 'PreuveRecandidatureDemandée-V1':
           await upsertProjection<Abandon.AbandonEntity>(`abandon|${payload.identifiantProjet}`, {
             ...abandonToUpsert,
-            preuveRecandidatureDemandéeLe: payload.demandéeLe,
-            preuveRecandidatureStatut: 'en-attente',
+            demande: {
+              ...abandonToUpsert.demande!,
+              recandidature: {
+                ...abandonToUpsert.demande.recandidature!,
+                statut: Abandon.StatutPreuveRecandidature.enAttente.statut,
+                preuve: {
+                  ...abandonToUpsert.demande.recandidature?.preuve!,
+                  demandéeLe: payload.demandéeLe,
+                },
+              },
+            },
           });
           await upsertProjection<Abandon.AbandonAvecRecandidatureSansPreuveProjection>(
             `abandon-avec-recandidature-sans-preuve|${identifiantProjet}`,

@@ -156,15 +156,18 @@ export const registerListerAbandonQuery = ({
   mediator.register('Lauréat.Abandon.Query.ListerAbandons', handler);
 };
 
-const mapToReadModel = (projection: AbandonEntity): AbandonListItemReadModel => {
+const mapToReadModel = (entity: AbandonEntity): AbandonListItemReadModel => {
   return {
-    ...projection,
-    statut: StatutAbandon.convertirEnValueType(projection.statut),
-    recandidature: projection.demandeRecandidature,
-    misÀJourLe: DateTime.convertirEnValueType(projection.misÀJourLe),
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(projection.identifiantProjet),
-    preuveRecandidatureStatut: StatutPreuveRecandidature.convertirEnValueType(
-      projection.preuveRecandidatureStatut,
-    ),
+    appelOffre: entity.projet?.appelOffre || 'N/A',
+    nomProjet: entity.projet?.nom || 'Projet inconnu',
+    période: entity.projet?.période || 'N/A',
+    famille: entity.projet?.famille,
+    statut: StatutAbandon.convertirEnValueType(entity.statut),
+    recandidature: !!entity.demande.recandidature,
+    misÀJourLe: DateTime.convertirEnValueType(entity.misÀJourLe),
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
+    preuveRecandidatureStatut: entity.demande.recandidature
+      ? StatutPreuveRecandidature.convertirEnValueType(entity.demande.recandidature.statut)
+      : StatutPreuveRecandidature.nonApplicable,
   };
 };
