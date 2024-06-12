@@ -99,6 +99,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
           {accord.réponseSignée && (
             <InputDownload
               details=""
+              ariaLabel="Télécharger la pièce justificative pour l'accord de la demande d'abandon"
               label="Télécharger la pièce justificative"
               linkProps={{
                 href: Routes.Document.télécharger(accord.réponseSignée),
@@ -123,6 +124,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
           {rejet.réponseSignée && (
             <InputDownload
               details=""
+              ariaLabel="Télécharger la pièce justificative pour le rejet de la demande d'abandon"
               label="Télécharger la pièce justificative"
               linkProps={{
                 href: Routes.Document.télécharger(rejet.réponseSignée),
@@ -160,6 +162,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
           {confirmation.réponseSignée && (
             <InputDownload
               details=""
+              ariaLabel="Télécharger la pièce justificative pour la confirmation de la demande d'abandon"
               label="Télécharger la pièce justificative"
               linkProps={{
                 href: Routes.Document.télécharger(confirmation.réponseSignée),
@@ -192,6 +195,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
         {justificatifDemande && (
           <InputDownload
             details=""
+            ariaLabel="Télécharger la pièce justificative pour la demande d'abandon"
             label="Télécharger la pièce justificative"
             linkProps={{
               href: Routes.Document.télécharger(justificatifDemande),

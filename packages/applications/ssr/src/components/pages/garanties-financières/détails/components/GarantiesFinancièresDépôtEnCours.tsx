@@ -73,6 +73,7 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
             <div>
               {attestation && (
                 <InputDownload
+                  ariaLabel="Télécharger l'attestation de constitution"
                   details="fichier au format pdf"
                   label="Télécharger l'attestation"
                   linkProps={{

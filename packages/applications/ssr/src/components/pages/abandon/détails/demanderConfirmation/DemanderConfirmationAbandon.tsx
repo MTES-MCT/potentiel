@@ -65,6 +65,7 @@ export const DemanderConfirmationAbandon = ({
               />
 
               <InputDownload
+                ariaLabel={`Télécharger le modèle de réponse pour demander la confirmation de la demande d'abandon `}
                 linkProps={{
                   href: Routes.Abandon.téléchargerModèleRéponse(identifiantProjet),
                 }}
