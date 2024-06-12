@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { AucunAbandonEnCours } from '../aucunAbandonEnCours.error';
@@ -68,77 +68,77 @@ export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependen
     }
 
     const demande: ConsulterAbandonReadModel['demande'] = {
-      demandéLe: DateTime.convertirEnValueType(result.demandeDemandéLe),
-      demandéPar: IdentifiantUtilisateur.convertirEnValueType(result.demandeDemandéPar),
-      raison: result.demandeRaison,
-      recandidature: result.demandeRecandidature,
-      preuveRecandidature: result.preuveRecandidature
-        ? IdentifiantProjet.convertirEnValueType(result.preuveRecandidature)
+      demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe),
+      demandéPar: Email.convertirEnValueType(result.demande.demandéPar),
+      raison: result.demande.raison,
+      recandidature: !!result.demande.recandidature,
+      preuveRecandidature: result.demande.recandidature?.preuve?.identifiantProjet
+        ? IdentifiantProjet.convertirEnValueType(
+            result.demande.recandidature.preuve.identifiantProjet,
+          )
         : undefined,
-      preuveRecandidatureTransmiseLe: result.preuveRecandidatureTransmiseLe
-        ? DateTime.convertirEnValueType(result.preuveRecandidatureTransmiseLe)
+      preuveRecandidatureTransmiseLe: result.demande.recandidature?.preuve?.transmiseLe
+        ? DateTime.convertirEnValueType(result.demande.recandidature?.preuve?.transmiseLe)
         : undefined,
-      preuveRecandidatureTransmisePar: result.preuveRecandidatureTransmisePar
-        ? IdentifiantUtilisateur.convertirEnValueType(result.preuveRecandidatureTransmisePar)
+      preuveRecandidatureTransmisePar: result.demande.recandidature?.preuve?.transmisePar
+        ? Email.convertirEnValueType(result.demande.recandidature?.preuve?.transmisePar)
         : undefined,
-      preuveRecandidatureDemandéeLe: result.preuveRecandidatureDemandéeLe
-        ? DateTime.convertirEnValueType(result.preuveRecandidatureDemandéeLe)
+      preuveRecandidatureDemandéeLe: result.demande.recandidature?.preuve?.demandéeLe
+        ? DateTime.convertirEnValueType(result.demande.recandidature?.preuve?.demandéeLe)
         : undefined,
-      preuveRecandidatureStatut: StatutPreuveRecandidature.convertirEnValueType(
-        result.preuveRecandidatureStatut,
-      ),
-      piéceJustificative: result.demandePièceJustificativeFormat
+      preuveRecandidatureStatut: result.demande.recandidature?.statut
+        ? StatutPreuveRecandidature.convertirEnValueType(result.demande.recandidature.statut)
+        : StatutPreuveRecandidature.nonApplicable,
+      piéceJustificative: result.demande.pièceJustificative?.format
         ? DocumentProjet.convertirEnValueType(
             identifiantProjet.formatter(),
             TypeDocumentAbandon.pièceJustificative.formatter(),
-            DateTime.convertirEnValueType(result.demandeDemandéLe).formatter(),
-            result.demandePièceJustificativeFormat,
+            DateTime.convertirEnValueType(result.demande.demandéLe).formatter(),
+            result.demande.pièceJustificative?.format,
           )
         : undefined,
-      confirmation: result.confirmationDemandéeLe
+      confirmation: result.demande.confirmation
         ? {
-            demandéLe: DateTime.convertirEnValueType(result.confirmationDemandéeLe!),
-            demandéPar: IdentifiantUtilisateur.convertirEnValueType(
-              result.confirmationDemandéePar!,
-            ),
+            demandéLe: DateTime.convertirEnValueType(result.demande.confirmation.demandéeLe),
+            demandéPar: Email.convertirEnValueType(result.demande.confirmation.demandéePar),
             réponseSignée: DocumentProjet.convertirEnValueType(
               identifiantProjet.formatter(),
               TypeDocumentAbandon.abandonÀConfirmer.formatter(),
-              DateTime.convertirEnValueType(result.confirmationDemandéeLe!).formatter(),
-              result.confirmationDemandéeRéponseSignéeFormat!,
+              DateTime.convertirEnValueType(result.demande.confirmation.demandéeLe).formatter(),
+              result.demande.confirmation.réponseSignée.format,
             ),
-            confirméLe: result.confirmationConfirméLe
-              ? DateTime.convertirEnValueType(result.confirmationConfirméLe)
+            confirméLe: result.demande.confirmation.confirméLe
+              ? DateTime.convertirEnValueType(result.demande.confirmation.confirméLe)
               : undefined,
-            confirméPar: result.confirmationConfirméPar
-              ? IdentifiantUtilisateur.convertirEnValueType(result.confirmationConfirméPar)
+            confirméPar: result.demande.confirmation.confirméPar
+              ? Email.convertirEnValueType(result.demande.confirmation.confirméPar)
               : undefined,
           }
         : undefined,
     };
 
-    const accord: ConsulterAbandonReadModel['accord'] = result.accordAccordéLe
+    const accord: ConsulterAbandonReadModel['accord'] = result.demande.accord
       ? {
-          accordéLe: DateTime.convertirEnValueType(result.accordAccordéLe!),
-          accordéPar: IdentifiantUtilisateur.convertirEnValueType(result.accordAccordéPar!),
+          accordéLe: DateTime.convertirEnValueType(result.demande.accord.accordéLe),
+          accordéPar: Email.convertirEnValueType(result.demande.accord.accordéPar),
           réponseSignée: DocumentProjet.convertirEnValueType(
             identifiantProjet.formatter(),
             TypeDocumentAbandon.abandonAccordé.formatter(),
-            DateTime.convertirEnValueType(result.accordAccordéLe!).formatter(),
-            result.accordRéponseSignéeFormat!,
+            DateTime.convertirEnValueType(result.demande.accord.accordéLe).formatter(),
+            result.demande.accord.réponseSignée.format,
           ),
         }
       : undefined;
 
-    const rejet: ConsulterAbandonReadModel['rejet'] = result.rejetRejetéLe
+    const rejet: ConsulterAbandonReadModel['rejet'] = result.demande.rejet
       ? {
-          rejetéLe: DateTime.convertirEnValueType(result.rejetRejetéLe!),
-          rejetéPar: IdentifiantUtilisateur.convertirEnValueType(result.rejetRejetéPar!),
+          rejetéLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéLe),
+          rejetéPar: Email.convertirEnValueType(result.demande.rejet.rejetéPar),
           réponseSignée: DocumentProjet.convertirEnValueType(
             identifiantProjet.formatter(),
             TypeDocumentAbandon.abandonRejeté.formatter(),
-            DateTime.convertirEnValueType(result.rejetRejetéLe!).formatter(),
-            result.rejetRéponseSignéeFormat!,
+            DateTime.convertirEnValueType(result.demande.rejet.rejetéLe).formatter(),
+            result.demande.rejet.réponseSignée.format,
           ),
         }
       : undefined;
