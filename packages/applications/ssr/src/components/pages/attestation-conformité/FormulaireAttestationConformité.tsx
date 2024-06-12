@@ -12,7 +12,7 @@ import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { InputDate } from '@/components/atoms/form/InputDate';
-import { InputFile } from '@/components/atoms/form/InputFile';
+import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
 import { transmettreAttestationConformitéAction } from './transmettre/transmettreAttestationConformité.action';
 import { modifierAttestationConformitéAction } from './modifier/modifierAttestationConformité.action';
@@ -165,7 +165,11 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
           />
         )}
 
-        <InputFile name="test" documentKey={donnéesActuelles?.attestation} />
+        <UploadDocument
+          name="test"
+          documentKey={donnéesActuelles?.attestation}
+          label="Attestation de conformité"
+        />
         {validationErrors.includes('test') && <p>Erreur Test</p>}
       </div>
 
