@@ -192,7 +192,7 @@ Alors(
     await waitForExpect(async () => {
       const actualReadModel = await mediator.send<GarantiesFinancières.ListerDemandeMainlevéeQuery>(
         {
-          type: 'Lauréat.GarantiesFinancières.MainLevée.Query.Lister',
+          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
           data: {
             utilisateur: {
               email: 'admin@test.test',

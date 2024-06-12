@@ -130,7 +130,7 @@ const référencielPermissions = {
         générerModèleMiseEnDemeureGarantiesFinancières:
           'Document.Query.GénérerModèleMideEnDemeureGarantiesFinancières',
         consulterMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.Query.Consulter',
-        listerMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.Query.Lister',
+        listerMainLevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
       },
       usecase: {
         demander: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',

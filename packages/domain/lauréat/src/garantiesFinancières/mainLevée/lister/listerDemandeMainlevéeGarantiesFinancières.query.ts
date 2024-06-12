@@ -8,10 +8,6 @@ import {
   MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
 } from '../..';
-// import {
-//   ConsulterMainlevéeGarantiesFinancièresReadModel,
-//   consulterMainlevéeGarantiesFinancièresMapToReadModel,
-// } from '../consulter/consulterMainlevéeGarantiesFinancières.query';
 import { MainlevéeGarantiesFinancièresEntity } from '../mainlevéeGarantiesFinancières.entity';
 import {
   ConsulterMainlevéeGarantiesFinancièresReadModel,
@@ -27,7 +23,7 @@ export type ListerDemandeMainlevéeReadModel = Readonly<{
 }>;
 
 export type ListerDemandeMainlevéeQuery = Message<
-  'Lauréat.GarantiesFinancières.MainLevée.Query.Lister',
+  'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
   {
     range?: RangeOptions;
     appelOffre?: string;
@@ -105,5 +101,5 @@ export const registerListerDemandeMainlevéeQuery = ({
       total,
     };
   };
-  mediator.register('Lauréat.GarantiesFinancières.MainLevée.Query.Lister', handler);
+  mediator.register('Lauréat.GarantiesFinancières.Mainlevée.Query.Lister', handler);
 };
