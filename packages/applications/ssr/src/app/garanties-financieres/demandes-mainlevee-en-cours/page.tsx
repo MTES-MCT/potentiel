@@ -8,15 +8,14 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
 import { mapToPagination } from '@/utils/mapToPagination';
-
 import {
   ListeDemandeDeMainLevéeProps,
   ListeDemandeMainLevéePage,
-} from '../../../components/pages/garanties-financières/mainlevée/lister/ListeDemandeMainlevée.page';
+} from '@/components/pages/garanties-financières/mainlevée/lister/ListeDemandeMainlevée.page';
 import {
   convertMotifMainlevéeForView,
   convertStatutMainlevéeForView,
-} from '../../../components/pages/garanties-financières/mainlevée/convertForView';
+} from '@/components/pages/garanties-financières/mainlevée/convertForView';
 
 type PageProps = {
   searchParams?: Record<string, string>;
