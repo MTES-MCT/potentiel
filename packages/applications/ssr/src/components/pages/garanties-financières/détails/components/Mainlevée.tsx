@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Link from 'next/link';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
@@ -19,7 +20,10 @@ export type MainlevéeProps = {
     statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
     motif: GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
     demandéLe: Iso8601DateTime;
+    dernièreMiseÀJourLe: Iso8601DateTime;
+    acceptéLe?: Iso8601DateTime;
     instructionDémarréeLe?: Iso8601DateTime;
+    urlAppelOffre: string;
     actions: Array<
       | 'instruire-demande-mainlevée-gf'
       | 'accepter-demande-mainlevée-gf'
@@ -29,26 +33,24 @@ export type MainlevéeProps = {
   };
 };
 
-// on affiche le statut
 export const Mainlevée: FC<MainlevéeProps> = ({ mainlevée, identifiantProjet }) => (
-  <>
+  <div className="mt-3 p-3 border border-dsfr-border-actionLow-blueFrance-default">
     <Heading3>Mainlevée en cours</Heading3>
+    <div className="text-xs italic">
+      Dernière mise à jour le{' '}
+      <FormattedDate className="font-semibold" date={mainlevée.dernièreMiseÀJourLe} />
+    </div>
     <StatutMainlevéeBadge statut={mainlevée.statut} />
-    {/* <div className="text-xs italic">
-            Dernière mise à jour le{' '}
-            <FormattedDate className="font-semibold" date={dernièreMiseÀJour.date} />
-            {dernièreMiseÀJour.par && (
-              <>
-                {' '}
-                par <span className="font-semibold">{dernièreMiseÀJour.par}</span>
-              </>
-            )}
-          </div> */}
     <div className="mt-5 gap-2 text-base">
       <div>
-        Le porteur de projet a déposé une demande de mainlevée en date du{' '}
-        <FormattedDate date={mainlevée.demandéLe} /> suite à{' '}
-        {mainlevée.motif === 'projet-abandonné' ? `l'abandon` : `l'achèvement`} du projet.
+        Mainlevée demandée le :{' '}
+        <FormattedDate className="font-semibold" date={mainlevée.demandéLe} />
+      </div>
+      <div>
+        Motif :{' '}
+        <span className="font-semibold">
+          {mainlevée.motif === 'projet-abandonné' ? `Abandon` : `Achèvement`} du projet
+        </span>
       </div>
       {mainlevée.instructionDémarréeLe && (
         <div>
@@ -56,23 +58,22 @@ export const Mainlevée: FC<MainlevéeProps> = ({ mainlevée, identifiantProjet 
           <FormattedDate className="font-semibold" date={mainlevée.instructionDémarréeLe} />
         </div>
       )}
-      {/* {mainlevée.instructionDémarréeLe && (
-        <div>
-          Instruction démarrée le :{' '}
-          <FormattedDate className="font-semibold" date={mainlevée.instructionDémarréeLe} />
-        </div>
-      )} */}
     </div>
-
-    <Actions identifiantProjet={identifiantProjet} actions={mainlevée.actions} />
-  </>
+    <Actions
+      identifiantProjet={identifiantProjet}
+      actions={mainlevée.actions}
+      urlAppelOffre={mainlevée.urlAppelOffre}
+    />
+  </div>
 );
 
 type ActionsProps = {
   identifiantProjet: MainlevéeProps['identifiantProjet'];
   actions: MainlevéeProps['mainlevée']['actions'];
+  urlAppelOffre: MainlevéeProps['mainlevée']['urlAppelOffre'];
 };
-const Actions: FC<ActionsProps> = ({ identifiantProjet, actions }) => {
+
+const Actions: FC<ActionsProps> = ({ identifiantProjet, actions, urlAppelOffre }) => {
   return (
     <div className="flex flex-col md:flex-row gap-4">
       {actions.includes('annuler-demande-mainlevée-gf') && (
@@ -83,10 +84,10 @@ const Actions: FC<ActionsProps> = ({ identifiantProjet, actions }) => {
           <Alert
             description={
               <span>
-                Vous pouvez consulter l'appel d'offres du projet en accédant à{' '}
-                {/* <Link href={urlAppelOffre} target="_blank">
+                Vous pouvez consulter l'appel d'offre du projet en accédant à{' '}
+                <Link href={urlAppelOffre} target="_blank">
                   cette page de la CRE
-                </Link> */}
+                </Link>
               </span>
             }
             severity="info"

@@ -25,11 +25,11 @@ export const RejeterDemandeMainlevéeGarantiesFinancières = ({
   return (
     <>
       <Button priority="secondary" onClick={() => setIsOpen(true)}>
-        Rejeter la demande de mainlevée
+        Rejeter la demande
       </Button>
 
       <ModalWithForm
-        title="Rejeter la demande de mainlevée"
+        title="Rejeter la demande"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Rejeter"
         isOpen={isOpen}

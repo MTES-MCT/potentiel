@@ -10,7 +10,6 @@ import { Heading2 } from '@/components/atoms/headings';
 import { InputDownload } from '@/components/atoms/form/InputDownload';
 
 import { DemanderMainlevéeGarantiesFinancières } from '../../mainlevée/demander/DemanderMainlevéeGarantiesFinancières';
-import { Separateur } from '../../../réseau/raccordement/détails/components/Separateur';
 
 import { Mainlevée, MainlevéeProps } from './Mainlevée';
 
@@ -122,7 +121,6 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
             </div>
           </div>
           <Actions identifiantProjet={identifiantProjet} actions={actions} />
-          <Separateur />
           {mainlevée && <Mainlevée identifiantProjet={identifiantProjet} mainlevée={mainlevée} />}
         </>
       }

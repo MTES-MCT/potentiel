@@ -9,6 +9,7 @@ import {
 import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { showMainlevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
+import { AppelOffre, ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -42,6 +43,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       });
 
       const projet = { ...candidature, identifiantProjet };
+
+      const appelOffreDetails = await mediator.send<ConsulterAppelOffreQuery>({
+        type: 'AppelOffre.Query.ConsulterAppelOffre',
+        data: { identifiantAppelOffre: candidature.appelOffre },
+      });
 
       const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
         appelOffre: candidature.appelOffre,
@@ -85,6 +91,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         dépôtEnCoursGarantiesFinancières,
         achèvement,
         mainlevée,
+        appelOffreDetails,
       });
 
       return <DétailsGarantiesFinancièresPage {...props} />;
@@ -99,6 +106,7 @@ type MapToProps = (args: {
   dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
   achèvement: Option.Type<Achèvement.ConsulterAttestationConformitéReadModel>;
   mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>;
+  appelOffreDetails: AppelOffre;
 }) => DétailsGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({
@@ -108,6 +116,7 @@ const mapToProps: MapToProps = ({
   dépôtEnCoursGarantiesFinancières,
   achèvement,
   mainlevée,
+  appelOffreDetails,
 }) => {
   if (
     Option.isNone(garantiesFinancièresActuelles) &&
@@ -239,7 +248,10 @@ const mapToProps: MapToProps = ({
           statut: mainlevée.statut.statut,
           demandéLe: mainlevée.demande.demandéeLe.formatter(),
           instructionDémarréeLe: mainlevée.instruction?.démarréeLe.formatter(),
+          acceptéLe: mainlevée.accord?.accordéeLe.formatter(),
+          dernièreMiseÀJourLe: mainlevée.dernièreMiseÀJour.date.formatter(),
           actions: mainlevéeActions,
+          urlAppelOffre: appelOffreDetails.cahiersDesChargesUrl,
         }
       : undefined,
     afficherInfoConditionsMainlevée:

@@ -25,11 +25,11 @@ export const AccepterDemandeMainlevéeGarantiesFinancières = ({
   return (
     <>
       <Button priority="primary" onClick={() => setIsOpen(true)}>
-        Accepter la demande de mainlevée
+        Accorder la demande
       </Button>
 
       <ModalWithForm
-        title="Accepter la demande de mainlevée"
+        title="Accorder la demande"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Annuler"
         isOpen={isOpen}
