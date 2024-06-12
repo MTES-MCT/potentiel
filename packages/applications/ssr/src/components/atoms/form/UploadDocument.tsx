@@ -29,6 +29,7 @@ export const UploadDocument: FC<UploadDocumentProps> = (props) => {
 };
 
 const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
+  label,
   format = 'pdf',
   className,
   ...props
@@ -40,32 +41,35 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
   const [uploadedFileName, setUploadFileName] = useState('');
 
   return (
-    <div className={`flex items-center relative top-[-0.5rem] ${className}`}>
-      <input
-        {...props}
-        ref={hiddenFileInput}
-        type="file"
-        accept={`.${format}`}
-        className="-z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0"
-        onChange={(e) => {
-          const fileName = e.currentTarget.value.replace(/^.*[\\\/]/, '');
-          setUploadFileName(fileName);
-        }}
-      />
+    <div className={`fr-input-group ${className}`}>
+      <label className="fr-label">{label}</label>
+      <div className={`flex items-center relative mt-2`}>
+        <input
+          {...props}
+          ref={hiddenFileInput}
+          type="file"
+          accept={`.${format}`}
+          className="-z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0"
+          onChange={(e) => {
+            const fileName = e.currentTarget.value.replace(/^.*[\\\/]/, '');
+            setUploadFileName(fileName);
+          }}
+        />
 
-      <div className="flex flex-col">
-        <div className="truncate mr-5">
-          {uploadedFileName ? uploadedFileName : 'Téléverser un document'}
+        <div className="flex flex-col">
+          <div className="truncate mr-5">
+            {uploadedFileName ? uploadedFileName : 'Téléverser un document'}
+          </div>
+          <div>
+            <span className="text-xs">Format accepté : {format}</span>
+          </div>
         </div>
-        <div>
-          <span className="text-xs">Format accepté : {format}</span>
-        </div>
+
+        <Button type="button" priority="secondary" onClick={browseForFile}>
+          <Icon id="fr-icon-folder-2-fill" className="md:mr-1" />
+          <span className="hidden md:inline-block text-sm">Parcourir</span>
+        </Button>
       </div>
-
-      <Button type="button" priority="secondary" onClick={browseForFile}>
-        <Icon id="fr-icon-folder-2-fill" className="md:mr-1" />
-        <span className="hidden md:inline-block text-sm">Parcourir</span>
-      </Button>
     </div>
   );
 };
