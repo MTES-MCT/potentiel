@@ -214,3 +214,37 @@ Alors(
     });
   },
 );
+
+Alors(
+  `une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainslevées rejettées pour le projet {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    const accordéLe = exemple['rejeté le'];
+    const accordéPar = exemple['rejeté par'];
+    const contenuFichierRéponse = exemple['contenu fichier réponse'];
+    const formatFichierRéponse = exemple['format fichier réponse'];
+    const demandéLe = exemple['demandé le'];
+    const demandéPar = exemple['demandé par'];
+    const motif = exemple['motif'];
+
+    await waitForExpect(async () => {
+      /**
+       * @todo faire query
+       */
+      //     const actualReadModel = await mediator.send<GarantiesFinancières>(
+      //   {
+      //     type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+      //     data: {
+      //       utilisateur: {
+      //         email: 'admin@test.test',
+      //         rôle: 'admin',
+      //       },
+      //     },
+      //   },
+      // );
+    });
+  },
+);

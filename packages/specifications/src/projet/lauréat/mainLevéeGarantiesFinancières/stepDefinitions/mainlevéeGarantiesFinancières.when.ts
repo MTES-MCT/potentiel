@@ -145,3 +145,55 @@ Quand(
     }
   },
 );
+
+Quand(
+  `un utilisateur Dreal rejette une demande de mainlevée des garanties financières du projet {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
+    try {
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      const utilisateur = exemple['utilisateur'];
+      const date = exemple['date'];
+      const content = exemple['contenu fichier réponse'];
+      const format = exemple['format fichier réponse'];
+
+      await mediator.send<GarantiesFinancières.RejeterDemandeMainlevéeGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          rejetéLeValue: new Date(date).toISOString(),
+          rejetéParValue: utilisateur,
+          réponseSignéeValue: { format, content: convertStringToReadableStream(content) },
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `un utilisateur Dreal rejette une demande de mainlevée des garanties financières du projet {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    try {
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await mediator.send<GarantiesFinancières.RejeterDemandeMainlevéeGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          rejetéLeValue: new Date('2024-06-12').toISOString(),
+          rejetéParValue: 'dreal@test.test',
+          réponseSignéeValue: {
+            format: 'application/pdf',
+            content: convertStringToReadableStream('contenu'),
+          },
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
