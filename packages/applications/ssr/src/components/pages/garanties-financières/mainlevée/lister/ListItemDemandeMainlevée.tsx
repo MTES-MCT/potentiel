@@ -5,8 +5,8 @@ import { Routes } from '@potentiel-applications/routes';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { StatutMainlevéeBadge } from '@/components/molecules/mainlevée/StatutMainlevéeBadge';
 
-import { StatutMainlevéeBadge } from '../../../../molecules/mainlevée/StatutMainlevéeBadge';
 import { convertMotifMainlevéeForView } from '../convertForView';
 
 export type ListItemDemandeMainlevéeProps = {
@@ -49,7 +49,6 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
             {nomProjet}
           </a>{' '}
         </h2>
-        <StatutMainlevéeBadge statut={statut} />
         <div className="flex flex-col md:flex-row gap-2 md:gap-0 italic text-xs">
           <div>
             Appel d'offres : {appelOffre}
@@ -69,6 +68,7 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
             </div>
           )}
         </div>
+        <StatutMainlevéeBadge statut={statut} />
         <ul className="mt-3 text-sm">
           <li>
             <span>

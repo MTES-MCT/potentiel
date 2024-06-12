@@ -3,15 +3,16 @@ import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { CallOut } from '@/components/atoms/CallOut';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2 } from '@/components/atoms/headings';
 import { InputDownload } from '@/components/atoms/form/InputDownload';
 
-import { AnnulerDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/annuler/AnnulerDemandeMainlevéeGarantiesFinancières';
 import { DemanderMainlevéeGarantiesFinancières } from '../../mainlevée/demander/DemanderMainlevéeGarantiesFinancières';
+import { Separateur } from '../../../réseau/raccordement/détails/components/Separateur';
+
+import { Mainlevée, MainlevéeProps } from './Mainlevée';
 
 export type GarantiesFinancièresActuelles = {
   type: string;
@@ -34,16 +35,9 @@ export type GarantiesFinancièresActuellesProps = {
       | 'enregister-attestation'
       | 'demander-mainlevée-gf-pour-projet-abandonné'
       | 'demander-mainlevée-gf-pour-projet-achevé'
-      | 'annuler-demande-mainlevée-gf'
-      | 'instruire-demande-mainlevée'
     >;
   };
-  mainlevée?: {
-    statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
-    motif: GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
-    demandéLe: Iso8601DateTime;
-    instructionDémarréeLe?: Iso8601DateTime;
-  };
+  mainlevée?: MainlevéeProps['mainlevée'];
 };
 
 export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesProps> = ({
@@ -127,24 +121,9 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
               )}
             </div>
           </div>
-
-          {mainlevée && (
-            <div className="font-semibold text-base">
-              <div>
-                Le porteur de projet a déposé une demande de mainlevée en date du{' '}
-                <FormattedDate date={mainlevée.demandéLe} /> suite à{' '}
-                {mainlevée.motif === 'projet-abandonné' ? `l'abandon` : `l'achèvement`} du projet.
-              </div>
-              {mainlevée.instructionDémarréeLe && (
-                <div>
-                  La Dreal a indiqué démarrer l'instruction de la demande de mainlevée en date du{' '}
-                  <FormattedDate date={mainlevée.instructionDémarréeLe} />
-                </div>
-              )}
-            </div>
-          )}
-
           <Actions identifiantProjet={identifiantProjet} actions={actions} />
+          <Separateur />
+          {mainlevée && <Mainlevée identifiantProjet={identifiantProjet} mainlevée={mainlevée} />}
         </>
       }
     />
@@ -165,16 +144,6 @@ const Actions: FC<ActionsProps> = ({ identifiantProjet, actions }) => {
           }}
         >
           Modifier les garanties financières actuelles
-        </Button>
-      )}
-
-      {actions.includes('instruire-demande-mainlevée') && (
-        <Button
-          linkProps={{
-            href: Routes.GarantiesFinancières.mainlevée.instruire(identifiantProjet),
-          }}
-        >
-          Instruire la demande de mainlevée
         </Button>
       )}
       {actions.includes('enregister-attestation') && (
@@ -205,9 +174,6 @@ const Actions: FC<ActionsProps> = ({ identifiantProjet, actions }) => {
             }
           />
         </>
-      )}
-      {actions.includes('annuler-demande-mainlevée-gf') && (
-        <AnnulerDemandeMainlevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}
     </div>
   );

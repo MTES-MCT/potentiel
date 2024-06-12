@@ -24,6 +24,8 @@ import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/
 import { GarantiesFinancièresDépôtEnCoursProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresDépôtEnCours';
 import { GarantiesFinancièresActuellesProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresActuelles';
 
+import { MainlevéeProps } from '../../../../components/pages/garanties-financières/détails/components/Mainlevée';
+
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
   description: 'Page de détails des garanties financières',
@@ -140,6 +142,7 @@ const mapToProps: MapToProps = ({
 
   const garantiesFinancièresActuellesActions: GarantiesFinancièresActuellesProps['actuelles']['actions'] =
     [];
+  const mainlevéeActions: MainlevéeProps['mainlevée']['actions'] = [];
 
   const estAdminOuDGEC =
     utilisateur.role.estÉgaleÀ(Role.admin) || utilisateur.role.estÉgaleÀ(Role.dgecValidateur);
@@ -176,12 +179,17 @@ const mapToProps: MapToProps = ({
     ) {
       garantiesFinancièresActuellesActions.push('demander-mainlevée-gf-pour-projet-achevé');
     } else if (mainlevéeDemandée) {
-      garantiesFinancièresActuellesActions.push('annuler-demande-mainlevée-gf');
+      mainlevéeActions.push('annuler-demande-mainlevée-gf');
     }
   }
 
-  if (estDreal && (mainlevéeDemandée || mainlevéeEnInstruction)) {
-    garantiesFinancièresActuellesActions.push('instruire-demande-mainlevée');
+  if (estDreal) {
+    if (mainlevéeDemandée) {
+      mainlevéeActions.push('instruire-demande-mainlevée-gf');
+    } else if (mainlevéeEnInstruction) {
+      mainlevéeActions.push('accepter-demande-mainlevée-gf');
+      mainlevéeActions.push('rejeter-demande-mainlevée-gf');
+    }
   }
 
   return {
@@ -231,6 +239,7 @@ const mapToProps: MapToProps = ({
           statut: mainlevée.statut.statut,
           demandéLe: mainlevée.demande.demandéeLe.formatter(),
           instructionDémarréeLe: mainlevée.instruction?.démarréeLe.formatter(),
+          actions: mainlevéeActions,
         }
       : undefined,
     afficherInfoConditionsMainlevée:
