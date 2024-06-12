@@ -24,7 +24,7 @@ export const UploadDocument: FC<UploadDocumentProps> = (props) => {
   return !props.documentKey ? (
     <UploadNewDocument {...props} />
   ) : (
-    <KeepOrEditDocument {...{ ...props, documentKey: props.documentKey }} />
+    <KeepOrEditDocument {...props} documentKey={props.documentKey} />
   );
 };
 
