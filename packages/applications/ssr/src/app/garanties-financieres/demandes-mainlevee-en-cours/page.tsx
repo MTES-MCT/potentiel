@@ -13,8 +13,8 @@ import {
   convertStatutMainlevéeForView,
 } from '@/components/pages/garanties-financières/mainlevée/convertForView';
 import {
-  ListeDemandeMainLevéePage,
-  ListeDemandeMainLevéeProps,
+  ListeDemandeMainlevéePage,
+  ListeDemandeMainlevéeProps,
 } from '@/components/pages/garanties-financières/mainlevée/lister/ListeDemandeMainlevée.page';
 
 type PageProps = {
@@ -34,7 +34,7 @@ export default async function Page({ searchParams }: PageProps) {
       const motif = searchParams?.motif;
       const statut = searchParams?.statut;
 
-      const demandeDeMainLevéeDesGarantiesFinancières =
+      const demandeMainlevéeDesGarantiesFinancières =
         await mediator.send<GarantiesFinancières.ListerDemandeMainlevéeQuery>({
           type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
           data: {
@@ -67,12 +67,12 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const statutsMainLevéeEnCours =
+      const statutsMainlevéeEnCours =
         GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts.filter(
           (s) => s !== 'rejeté',
         );
 
-      const motifMainLevéeEnCours =
+      const motifMainlevéeEnCours =
         GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.motifs;
 
       const filters = [
@@ -80,7 +80,7 @@ export default async function Page({ searchParams }: PageProps) {
           label: `Statut de mainlevée`,
           searchParamKey: 'statut',
           defaultValue: statut,
-          options: statutsMainLevéeEnCours.map((statut) => ({
+          options: statutsMainlevéeEnCours.map((statut) => ({
             label: convertStatutMainlevéeForView(statut),
             value: statut,
           })),
@@ -89,7 +89,7 @@ export default async function Page({ searchParams }: PageProps) {
           label: 'Motif de mainlevée',
           searchParamKey: 'motif',
           defaultValue: motif,
-          options: motifMainLevéeEnCours.map((motif) => ({
+          options: motifMainlevéeEnCours.map((motif) => ({
             label: convertMotifMainlevéeForView(motif),
             value: motif,
           })),
@@ -106,9 +106,9 @@ export default async function Page({ searchParams }: PageProps) {
       ];
 
       return (
-        <ListeDemandeMainLevéePage
+        <ListeDemandeMainlevéePage
           list={mapToListProps({
-            ...demandeDeMainLevéeDesGarantiesFinancières,
+            ...demandeMainlevéeDesGarantiesFinancières,
             showInstruction: utilisateur.role.nom === 'dreal',
           })}
           filters={filters}
@@ -125,7 +125,7 @@ const mapToListProps = ({
   showInstruction,
 }: GarantiesFinancières.ListerDemandeMainlevéeReadModel & {
   showInstruction: boolean;
-}): ListeDemandeMainLevéeProps['list'] => {
+}): ListeDemandeMainlevéeProps['list'] => {
   const mappedItems = items.map(
     ({
       appelOffre,

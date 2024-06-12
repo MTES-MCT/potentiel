@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { showMainLevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
+import { showMainlevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
 import { MotifDemandeMainlevéeGarantiesFinancières } from '../..';
 import { DemanderMainlevéeGarantiesFinancièresCommand } from './demanderMainlevéeGarantiesFinancières.command';
 
@@ -21,7 +21,7 @@ export const registerDemanderMainlevéeGarantiesFinancièresUseCase = () => {
     demandéLeValue,
     demandéParValue,
   }) => {
-    if (showMainLevéeGarantiesFinancières) {
+    if (showMainlevéeGarantiesFinancières) {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
       const motif = MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(motifValue);
       const demandéLe = DateTime.convertirEnValueType(demandéLeValue);

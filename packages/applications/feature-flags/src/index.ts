@@ -1,11 +1,11 @@
 type FeatureFlags = {
-  SHOW_MAIN_LEVEE_GARANTIES_FINANCIERES?: true;
+  SHOW_MAINLEVEE_GARANTIES_FINANCIERES?: true;
 };
 
 export const featureFlags: FeatureFlags = {
-  SHOW_MAIN_LEVEE_GARANTIES_FINANCIERES:
+  SHOW_MAINLEVEE_GARANTIES_FINANCIERES:
     process.env.APPLICATION_STAGE !== 'production' ? true : undefined,
 };
 
-export const showMainLevéeGarantiesFinancières =
-  featureFlags.SHOW_MAIN_LEVEE_GARANTIES_FINANCIERES === true;
+export const showMainlevéeGarantiesFinancières =
+  featureFlags.SHOW_MAINLEVEE_GARANTIES_FINANCIERES === true;

@@ -5,7 +5,7 @@ import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { InvalidOperationError } from '@potentiel-domain/core';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { showMainLevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
+import { showMainlevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -47,7 +47,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       Option.isSome(garantiesFinancières) &&
       Option.isSome(garantiesFinancières.garantiesFinancières.attestation) &&
       Option.isSome(garantiesFinancières.garantiesFinancières.validéLe) &&
-      showMainLevéeGarantiesFinancières;
+      showMainlevéeGarantiesFinancières;
 
     const projet = { ...candidature, identifiantProjet };
 

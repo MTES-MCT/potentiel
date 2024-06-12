@@ -12,7 +12,7 @@ import {
   ListItemDemandeMainlevéeProps,
 } from './ListItemDemandeMainlevée';
 
-export type ListeDemandeMainLevéeProps = {
+export type ListeDemandeMainlevéeProps = {
   list: {
     items: Array<ListItemDemandeMainlevéeProps>;
     currentPage: number;
@@ -22,8 +22,8 @@ export type ListeDemandeMainLevéeProps = {
   filters: ListPageTemplateProps<ListItemDemandeMainlevéeProps>['filters'];
 };
 
-export const ListeDemandeMainLevéePage: FC<ListeDemandeMainLevéeProps> = ({
-  list: { items: mainsLevées, currentPage, totalItems, itemsPerPage },
+export const ListeDemandeMainlevéePage: FC<ListeDemandeMainlevéeProps> = ({
+  list: { items: mainslevées, currentPage, totalItems, itemsPerPage },
   filters,
 }) => {
   const searchParams = useSearchParams();
@@ -58,9 +58,9 @@ export const ListeDemandeMainLevéePage: FC<ListeDemandeMainLevéeProps> = ({
     <ListPageTemplate
       heading="Demandes de mainlevée en cours"
       actions={[]}
-      items={mainsLevées.map((mainLevée) => ({
-        ...mainLevée,
-        key: mainLevée.identifiantProjet,
+      items={mainslevées.map((mainlevée) => ({
+        ...mainlevée,
+        key: mainlevée.identifiantProjet,
       }))}
       currentPage={currentPage}
       totalItems={totalItems}

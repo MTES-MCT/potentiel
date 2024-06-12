@@ -8,7 +8,7 @@ import {
 } from '@potentiel-domain/candidature';
 import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { showMainLevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
+import { showMainlevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -125,7 +125,7 @@ const mapToProps: MapToProps = ({
       afficherInfoConditionsMainlevée:
         utilisateur.role.estÉgaleÀ(Role.porteur) &&
         Option.isNone(mainlevée) &&
-        showMainLevéeGarantiesFinancières,
+        showMainlevéeGarantiesFinancières,
     };
   }
 
@@ -166,13 +166,13 @@ const mapToProps: MapToProps = ({
     } else if (
       aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée &&
       projetAbandonne &&
-      showMainLevéeGarantiesFinancières
+      showMainlevéeGarantiesFinancières
     ) {
       garantiesFinancièresActuellesActions.push('demander-mainlevée-gf-pour-projet-abandonné');
     } else if (
       aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée &&
       projetAcheve &&
-      showMainLevéeGarantiesFinancières
+      showMainlevéeGarantiesFinancières
     ) {
       garantiesFinancièresActuellesActions.push('demander-mainlevée-gf-pour-projet-achevé');
     } else if (mainlevéeDemandée) {
@@ -236,6 +236,6 @@ const mapToProps: MapToProps = ({
     afficherInfoConditionsMainlevée:
       utilisateur.role.estÉgaleÀ(Role.porteur) &&
       Option.isNone(mainlevée) &&
-      showMainLevéeGarantiesFinancières,
+      showMainlevéeGarantiesFinancières,
   };
 };
