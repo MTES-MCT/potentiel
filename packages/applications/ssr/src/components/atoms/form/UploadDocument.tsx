@@ -137,7 +137,7 @@ const KeepOrEditDocument: FC<UploadDocumentProps & { documentKey: string }> = ({
 
               <div className="flex flex-col">
                 <div className="truncate mr-5">
-                  {uploadedFileName ? uploadedFileName : `Modifier le document existant`}
+                  {uploadedFileName ? uploadedFileName : `Conserver le document existant`}
                 </div>
                 <div>
                   <span className="text-xs">Format accepté : {format}</span>
