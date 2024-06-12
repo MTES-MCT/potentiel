@@ -39,7 +39,7 @@ export type GarantiesFinancièresActuellesProps = {
   };
   mainLevée?: {
     statut: GarantiesFinancières.StatutMainLevéeGarantiesFinancières.RawType;
-    motif: GarantiesFinancières.MotifDemandeMainLevéeGarantiesFinancières.RawMotif;
+    motif: GarantiesFinancières.MotifDemandeMainLevéeGarantiesFinancières.RawType;
     demandéLe: Iso8601DateTime;
   };
 };

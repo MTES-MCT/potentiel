@@ -19,6 +19,10 @@ export const actuelles = {
     )}/garanties-financieres/actuelles:enregistrer-attestation`,
 };
 
+export const demandeMainlevée = {
+  lister: `/garanties-financieres/demandes-mainlevee-en-cours`,
+};
+
 export const détail = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres`;
 

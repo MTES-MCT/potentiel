@@ -15,6 +15,11 @@ export type ConsulterMainLevéeGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutMainLevéeGarantiesFinancières.ValueType;
   motif: MotifDemandeMainLevéeGarantiesFinancières.ValueType;
+  nomProjet: string;
+  appelOffre: string;
+  famille?: string;
+  période: string;
+  régionProjet: string;
   demande: { demandéeLe: DateTime.ValueType; demandéePar: Email.ValueType };
   instruction?: {
     instructionDémarréeLe: DateTime.ValueType;
@@ -64,21 +69,29 @@ export const registerConsulterMainLevéeGarantiesFinancièresQuery = ({
       return Option.none;
     }
 
-    return mapToReadModel({ ...result, identifiantProjetValueType: identifiantProjet });
+    return consulterMainLevéeGarantiesFinancièresMapToReadModel(result);
   };
   mediator.register('Lauréat.GarantiesFinancières.MainLevée.Query.Consulter', handler);
 };
 
-const mapToReadModel = ({
+export const consulterMainLevéeGarantiesFinancièresMapToReadModel = ({
   motif,
   demande,
   dernièreMiseÀJour,
   statut,
-  identifiantProjetValueType,
-}: MainLevéeGarantiesFinancièresEntity & {
-  identifiantProjetValueType: IdentifiantProjet.ValueType;
-}): ConsulterMainLevéeGarantiesFinancièresReadModel => ({
-  identifiantProjet: identifiantProjetValueType,
+  identifiantProjet,
+  nomProjet,
+  appelOffre,
+  famille,
+  période,
+  régionProjet,
+}: MainLevéeGarantiesFinancièresEntity): ConsulterMainLevéeGarantiesFinancièresReadModel => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  nomProjet,
+  appelOffre,
+  famille,
+  période,
+  régionProjet,
   demande: {
     demandéeLe: DateTime.convertirEnValueType(demande.demandéeLe),
     demandéePar: Email.convertirEnValueType(demande.demandéePar),

@@ -31,6 +31,12 @@ const menuLinks = {
         href: Routes.GarantiesFinancières.enAttente.lister,
       },
     },
+    {
+      text: 'Demandes de mainlevée en cours',
+      linkProps: {
+        href: Routes.GarantiesFinancières.demandeMainlevée.lister,
+      },
+    },
   ],
 };
 
@@ -66,7 +72,7 @@ const getNavigationItemsBasedOnRole = (
         },
         {
           text: 'Garanties Financières',
-          menuLinks: [...menuLinks.listerGarantiesFinancières],
+          menuLinks: menuLinks.listerGarantiesFinancières,
         },
         {
           text: 'Imports',

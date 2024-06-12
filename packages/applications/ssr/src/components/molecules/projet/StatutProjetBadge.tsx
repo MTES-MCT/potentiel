@@ -1,22 +1,18 @@
+import { AlertProps } from '@codegouvfr/react-dsfr/Alert';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
-export type StatutProjetBadgeProps = { statut: 'non-notifié' | 'abandonné' | 'classé' | 'éliminé' };
+export type StatutProjet = 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
 
-export const StatutProjetBadge: FC<StatutProjetBadgeProps> = ({ statut }) => (
-  <Badge
-    small
-    noIcon
-    severity={
-      statut === 'classé'
-        ? 'success'
-        : statut === 'abandonné'
-        ? 'warning'
-        : statut === 'non-notifié'
-        ? 'info'
-        : 'error'
-    }
-  >
+const convertStatutProjetToBadgeSeverity: Record<StatutProjet, AlertProps.Severity> = {
+  classé: 'success',
+  abandonné: 'warning',
+  'non-notifié': 'info',
+  éliminé: 'error',
+};
+
+export const StatutProjetBadge: FC<{ statut: StatutProjet }> = ({ statut }) => (
+  <Badge small noIcon severity={convertStatutProjetToBadgeSeverity[statut]}>
     {statut}
   </Badge>
 );

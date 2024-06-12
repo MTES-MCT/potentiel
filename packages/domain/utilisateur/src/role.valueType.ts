@@ -130,6 +130,7 @@ const référencielPermissions = {
         générerModèleMiseEnDemeureGarantiesFinancières:
           'Document.Query.GénérerModèleMideEnDemeureGarantiesFinancières',
         consulterMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.Query.Consulter',
+        listerMainLevée: 'Lauréat.GarantiesFinancières.MainLevée.Query.Lister',
       },
       usecase: {
         demander: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
@@ -559,6 +560,7 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.command.demanderMainLevée,
       ],
       consulter: [référencielPermissions.lauréat.garantiesFinancières.query.consulterMainLevée],
+      lister: [référencielPermissions.lauréat.garantiesFinancières.query.listerMainLevée],
       annuler: [
         référencielPermissions.lauréat.garantiesFinancières.usecase.annulerDemandeMainLevée,
         référencielPermissions.lauréat.garantiesFinancières.command.annulerDemandeMainLevée,
@@ -646,6 +648,7 @@ const permissionAdmin = [
   ...policies.garantiesFinancières.enAttente.lister,
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
   ...policies.garantiesFinancières.mainLevée.consulter,
+  ...policies.garantiesFinancières.mainLevée.lister,
 
   // Achèvement
   ...policies.achèvement.consulter,
@@ -695,6 +698,7 @@ const permissionDreal = [
   ...policies.garantiesFinancières.enAttente.lister,
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
   ...policies.garantiesFinancières.mainLevée.consulter,
+  ...policies.garantiesFinancières.mainLevée.lister,
 
   // Achèvement
   ...policies.achèvement.consulter,
@@ -742,6 +746,7 @@ const permissionDgecValidateur = [
   ...policies.garantiesFinancières.enAttente.lister,
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
   ...policies.garantiesFinancières.mainLevée.consulter,
+  ...policies.garantiesFinancières.mainLevée.lister,
 
   // Achèvement
   ...policies.achèvement.consulter,

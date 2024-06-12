@@ -38,6 +38,10 @@ import {
   ConsulterMainLevéeGarantiesFinancièresReadModel,
 } from './mainLevée/consulter/consulterMainLevéeGarantiesFinancières.query';
 import { AnnulerMainLevéeGarantiesFinancièresUseCase } from './mainLevée/annuler/annulerDemandeMainLevéeGarantiesFinancières.usecase';
+import {
+  ListerDemandeMainlevéeQuery,
+  ListerDemandeMainlevéeReadModel,
+} from './mainLevée/lister/listerDemandeMainlevéeGarantiesFinancières.query';
 // Query
 export type GarantiesFinancièresQuery =
   | ConsulterGarantiesFinancièresQuery
@@ -47,7 +51,8 @@ export type GarantiesFinancièresQuery =
   | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
   | GénérerModèleMiseEnDemeureGarantiesFinancièresQuery
-  | ConsulterMainLevéeGarantiesFinancièresQuery;
+  | ConsulterMainLevéeGarantiesFinancièresQuery
+  | ListerDemandeMainlevéeQuery;
 
 export type {
   ConsulterGarantiesFinancièresQuery,
@@ -57,6 +62,7 @@ export type {
   ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
   GénérerModèleMiseEnDemeureGarantiesFinancièresQuery,
   ConsulterMainLevéeGarantiesFinancièresQuery,
+  ListerDemandeMainlevéeQuery,
 };
 
 // ReadModel
@@ -68,6 +74,7 @@ export type {
   ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
   GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel,
   ConsulterMainLevéeGarantiesFinancièresReadModel,
+  ListerDemandeMainlevéeReadModel,
 };
 
 // UseCases
