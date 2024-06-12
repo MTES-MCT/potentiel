@@ -9,13 +9,13 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
 import { mapToPagination } from '@/utils/mapToPagination';
 import {
-  ListeDemandeDeMainLevéeProps,
-  ListeDemandeMainLevéePage,
-} from '@/components/pages/garanties-financières/mainlevée/lister/ListeDemandeMainlevée.page';
-import {
   convertMotifMainlevéeForView,
   convertStatutMainlevéeForView,
 } from '@/components/pages/garanties-financières/mainlevée/convertForView';
+import {
+  ListeDemandeMainLevéePage,
+  ListeDemandeMainLevéeProps,
+} from '@/components/pages/garanties-financières/mainlevée/lister/ListeDemandeMainlevée.page';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -125,7 +125,7 @@ const mapToListProps = ({
   showInstruction,
 }: GarantiesFinancières.ListerDemandeMainlevéeReadModel & {
   showInstruction: boolean;
-}): ListeDemandeDeMainLevéeProps['list'] => {
+}): ListeDemandeMainLevéeProps['list'] => {
   const mappedItems = items.map(
     ({
       appelOffre,

@@ -12,7 +12,7 @@ import {
   ListItemDemandeMainlevéeProps,
 } from './ListItemDemandeMainlevée';
 
-export type ListeDemandeDeMainLevéeProps = {
+export type ListeDemandeMainLevéeProps = {
   list: {
     items: Array<ListItemDemandeMainlevéeProps>;
     currentPage: number;
@@ -22,7 +22,7 @@ export type ListeDemandeDeMainLevéeProps = {
   filters: ListPageTemplateProps<ListItemDemandeMainlevéeProps>['filters'];
 };
 
-export const ListeDemandeMainLevéePage: FC<ListeDemandeDeMainLevéeProps> = ({
+export const ListeDemandeMainLevéePage: FC<ListeDemandeMainLevéeProps> = ({
   list: { items: mainsLevées, currentPage, totalItems, itemsPerPage },
   filters,
 }) => {
