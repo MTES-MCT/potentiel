@@ -39,22 +39,22 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
             | format fichier réponse     | application/pdf        |
             | contenu fichier réponse    | contenu du fichier     |   
 
-    Scénario: Erreur si le projet n'a pas de demande de mainlevée
+    Scénario: Impossible d'accorder une demande de mainlevée si le projet n'a pas de demande de mainlevée
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières du projet "Centrale PV"
         Alors l'utilisateur devrait être informé que "Il n'y a pas de demande de mainlevée de garanties financières à instruire pour ce projet"             
 
-    Scénario: Erreur si le projet a déjà une demande de mainlevée accordée
+    Scénario: Impossible d'accorder une demande de mainlevée si le projet a déjà une demande de mainlevée accordée
         Etant donné des garanties financières validées pour le projet "Centrale PV"
         Et le projet "Centrale PV" avec une attestation de conformité transmise
         Et une demande de mainlevée de garanties financières accordée pour le projet "Centrale PV" achevé
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières du projet "Centrale PV"
         Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée accordée pour ce projet"   
  
-    Scénario: Erreur si le projet a déjà une demande de mainlevée rejetée
+    Scénario: Impossible d'accorder une demande de mainlevée si le projet a déjà une demande de mainlevée rejetée et aucune en cours
         Etant donné des garanties financières validées pour le projet "Centrale PV"
         Et le projet "Centrale PV" avec une attestation de conformité transmise
         Et une demande de mainlevée de garanties financières rejetée pour le projet "Centrale PV" achevé
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières du projet "Centrale PV"
-        Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée rejetée pour ce projet"     
+        Alors le porteur devrait être informé que "La dernière demande de mainlevée pour ce projet a été rejetée, aucune n'est en cours"    

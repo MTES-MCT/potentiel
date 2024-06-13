@@ -55,7 +55,7 @@ export const convertirEnValueType = (value: string): ValueType => {
           throw new DemandeMainlevéeDéjàAccordéeError();
         }
         if (this.estRejeté()) {
-          throw new DemandeMainlevéeDéjàRejetéeError();
+          throw new DernièreDemandeMainlevéeRejetéeEtAucuneEnCours();
         }
       }
 
@@ -64,7 +64,7 @@ export const convertirEnValueType = (value: string): ValueType => {
           throw new DemandeMainlevéeDéjàAccordéeError();
         }
         if (this.estRejeté()) {
-          throw new DemandeMainlevéeDéjàRejetéeError();
+          throw new DernièreDemandeMainlevéeRejetéeEtAucuneEnCours();
         }
       }
     },
@@ -110,8 +110,8 @@ class DemandeMainlevéeDéjàAccordéeError extends InvalidOperationError {
   }
 }
 
-class DemandeMainlevéeDéjàRejetéeError extends InvalidOperationError {
+class DernièreDemandeMainlevéeRejetéeEtAucuneEnCours extends InvalidOperationError {
   constructor() {
-    super(`Il y a déjà une demande de mainlevée rejetée pour ce projet`);
+    super(`La dernière demande de mainlevée pour ce projet a été rejetée, aucune n'est en cours`);
   }
 }
