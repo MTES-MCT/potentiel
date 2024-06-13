@@ -87,6 +87,32 @@ Quand(
 );
 
 Quand(
+  `un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières du projet {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    try {
+      const utilisateur = 'user@test.test';
+      const date = '2024-01-01';
+
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await mediator.send<GarantiesFinancières.DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase>(
+        {
+          type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.DémarrerInstruction',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+            démarréLeValue: new Date(date).toISOString(),
+            démarréParValue: utilisateur,
+          },
+        },
+      );
+      await sleep(500);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
   `un utilisateur Dreal accorde la demande de mainlevée des garanties financières du projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
