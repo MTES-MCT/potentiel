@@ -6,6 +6,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { List, RangeOptions } from '@potentiel-domain/core';
 import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
+/**
+ * @todo A voir si on généralise cette pratique et si on déplace ça dans le package core ou un nouveau package entity
+ */
 const mapToWhereEqual = <T>(value: T | undefined) =>
   value
     ? {
