@@ -225,7 +225,7 @@ const mapToProps: MapToProps = ({
         rejet: {
           rejetéLe: mainlevée.rejet.rejetéLe.formatter(),
           rejetéPar: mainlevée.rejet.rejetéPar.email,
-          courrierRejet: { format: mainlevée.rejet.courrierRejet.format },
+          courrierRejet: mainlevée.rejet.courrierRejet.formatter(),
         },
       }))
     : undefined;

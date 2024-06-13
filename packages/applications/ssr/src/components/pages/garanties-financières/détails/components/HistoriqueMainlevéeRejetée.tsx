@@ -11,7 +11,7 @@ export type HistoriqueMainlevéeRejetéeProps = {
   historique: Array<{
     motif: string;
     demandéeLe: Iso8601DateTime;
-    rejet: { rejetéLe: Iso8601DateTime; rejetéPar: string; courrierRejet: { format: string } };
+    rejet: { rejetéLe: Iso8601DateTime; rejetéPar: string; courrierRejet: string };
   }>;
 };
 
@@ -45,7 +45,7 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
                 details=""
                 label="Télécharger la réponse signée"
                 linkProps={{
-                  href: Routes.Document.télécharger(mainlevéeRejetée.rejet.courrierRejet.format),
+                  href: Routes.Document.télécharger(mainlevéeRejetée.rejet.courrierRejet),
                 }}
               />
             </div>
