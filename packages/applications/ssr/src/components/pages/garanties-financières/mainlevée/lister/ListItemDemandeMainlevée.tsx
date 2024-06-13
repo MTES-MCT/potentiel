@@ -9,7 +9,7 @@ import { StatutMainlevéeBadge } from '@/components/molecules/mainlevée/StatutM
 
 import { convertMotifMainlevéeForView } from '../convertForView';
 
-export type ListItemDemandeMainlevéeEnCoursProps = {
+export type ListItemDemandeMainlevéeProps = {
   appelOffre: string;
   demandéLe: Iso8601DateTime;
   famille?: string;
