@@ -495,10 +495,14 @@ export const register = () => {
           break;
 
         case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
+          détailProjet = await getProjectData(identifiantProjet);
+
           await upsertProjection<GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
             `historique-mainlevee-rejetee-garanties-financieres|${identifiantProjet}`,
+
             {
               ...historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert,
+              ...détailProjet,
               historique: [
                 ...historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert.historique,
                 {
