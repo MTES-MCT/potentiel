@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { List } from '@potentiel-domain/core';
 import { RéférenceRaccordementIdentifiantProjetEntity } from '../raccordement.entity';
+import { ListV2 } from '@potentiel-domain/core';
 
 export type RechercherDossierRaccordementReadModel = ReadonlyArray<{
   référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
@@ -18,7 +18,7 @@ export type RechercherDossierRaccordementQuery = Message<
 >;
 
 export type RechercherDossierRaccordementDependencies = {
-  list: List;
+  list: ListV2;
 };
 
 export const registerRechercherDossierRaccordementQuery = ({
@@ -27,12 +27,17 @@ export const registerRechercherDossierRaccordementQuery = ({
   const handler: MessageHandler<RechercherDossierRaccordementQuery> = async ({
     référenceDossierRaccordement,
   }) => {
-    const results = await list<RéférenceRaccordementIdentifiantProjetEntity>({
-      type: 'référence-raccordement-projet',
-      where: {
-        référence: `%${référenceDossierRaccordement}%`,
+    const results = await list<RéférenceRaccordementIdentifiantProjetEntity>(
+      'référence-raccordement-projet',
+      {
+        where: {
+          référence: {
+            operator: 'like',
+            value: `%${référenceDossierRaccordement}%`,
+          },
+        },
       },
-    });
+    );
 
     return mapToReadModel(results.items);
   };

@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { List } from '@potentiel-domain/core';
+import { ListV2 } from '@potentiel-domain/core';
 import { AppelOffreEntity } from '../appelOffre.entity';
 
 type AppelOffreListItemReadModel = {
@@ -17,16 +17,14 @@ export type ListerAppelOffreQuery = Message<
 >;
 
 export type ListerAppelOffreDependencies = {
-  list: List;
+  list: ListV2;
 };
 
 export const registerListerAppelOffreQuery = ({ list }: ListerAppelOffreDependencies) => {
   const handler: MessageHandler<ListerAppelOffreQuery> = async () => {
-    const result = await list<AppelOffreEntity>({
-      type: 'appel-offre',
+    const result = await list<AppelOffreEntity>('appel-offre', {
       orderBy: {
-        property: 'id',
-        ascending: true,
+        id: 'ascending',
       },
     });
 

@@ -10,7 +10,6 @@ import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   countProjection,
   findProjection,
-  listProjection,
   listProjectionV2,
 } from '@potentiel-infrastructure/pg-projections';
 import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
@@ -21,7 +20,7 @@ registerRéseauUseCases({
 });
 
 registerRéseauQueries({
-  list: listProjection,
+  list: listProjectionV2,
   listV2: listProjectionV2,
   find: findProjection,
   count: countProjection,

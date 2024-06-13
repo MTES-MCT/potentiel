@@ -7,7 +7,6 @@ import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sou
 import {
   countProjection,
   findProjection,
-  listProjection,
   listProjectionV2,
 } from '@potentiel-infrastructure/pg-projections';
 import { mediator } from 'mediateur';
@@ -18,7 +17,7 @@ export const setupRéseau = async () => {
   });
 
   registerRéseauQueries({
-    list: listProjection,
+    list: listProjectionV2,
     listV2: listProjectionV2,
     find: findProjection,
     count: countProjection,
