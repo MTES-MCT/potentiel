@@ -131,6 +131,8 @@ const référencielPermissions = {
           'Document.Query.GénérerModèleMideEnDemeureGarantiesFinancières',
         consulterDemandeMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
         listerMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+        consulterHistoriqueMainlevée:
+          'Lauréat.GarantiesFinancières.Mainlevée.Query.ConsulterHistoriqueDemandeMainlevéeRejetée',
       },
       usecase: {
         demander: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
@@ -593,6 +595,9 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.command.rejeterDemandeMainlevée,
         référencielPermissions.document.command.enregister,
       ],
+      consulterHistorique: [
+        référencielPermissions.lauréat.garantiesFinancières.query.consulterHistoriqueMainlevée,
+      ],
     },
     enAttente: {
       lister: [
@@ -677,6 +682,7 @@ const permissionAdmin = [
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
   ...policies.garantiesFinancières.mainlevée.consulter,
   ...policies.garantiesFinancières.mainlevée.lister,
+  ...policies.garantiesFinancières.mainlevée.consulterHistorique,
 
   // Achèvement
   ...policies.achèvement.consulter,
@@ -711,6 +717,7 @@ const permissionDreal = [
 
   // Raccordement
   ...policies.réseau.raccordement.consulter,
+  ...policies.réseau.raccordement['demande-complète-raccordement'].transmettre,
 
   // Garanties financières
   ...policies.garantiesFinancières.actuelles.consulter,
@@ -729,6 +736,7 @@ const permissionDreal = [
   ...policies.garantiesFinancières.mainlevée.démarrerInstruction,
   ...policies.garantiesFinancières.mainlevée.accorder,
   ...policies.garantiesFinancières.mainlevée.lister,
+  ...policies.garantiesFinancières.mainlevée.consulterHistorique,
   ...policies.garantiesFinancières.mainlevée.rejeter,
 
   // Achèvement
@@ -778,6 +786,7 @@ const permissionDgecValidateur = [
   ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
   ...policies.garantiesFinancières.mainlevée.consulter,
   ...policies.garantiesFinancières.mainlevée.lister,
+  ...policies.garantiesFinancières.mainlevée.consulterHistorique,
 
   // Achèvement
   ...policies.achèvement.consulter,
@@ -819,6 +828,7 @@ const permissionPorteurProjet = [
   ...policies.garantiesFinancières.mainlevée.consulter,
   ...policies.garantiesFinancières.mainlevée.demander,
   ...policies.garantiesFinancières.mainlevée.annuler,
+  ...policies.garantiesFinancières.mainlevée.consulterHistorique,
 
   // Achèvement
   ...policies.achèvement.consulter,

@@ -17,7 +17,7 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
   const nombreDeMainlevéesRejetées = historique.length;
 
   return (
-    <div className="mt-3 p-3 border border-dsfr-border-actionLow-blueFrance-default">
+    <div className="mt-3 p-3 border-2 border-dsfr-border-default-blueFrance-default">
       <Heading3>Historique des mainlevées rejetées</Heading3>
       <div className="text-xs italic">
         ${nombreDeMainlevéesRejetées} mainlevée{nombreDeMainlevéesRejetées > 1 && 's'} rejetée
@@ -35,7 +35,16 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
             par <span className="font-semibold">{mainlevéeRejetée.rejet.rejetéLe}</span>
           </div>
           {/* <div>
-LIEN telechargement courrier réponse
+            {attestation && (
+              <InputDownload
+                ariaLabel="Télécharger l'attestation de constitution des garanties financières"
+                details="fichier au format pdf"
+                label="Télécharger l'attestation"
+                linkProps={{
+                  href: Routes.Document.télécharger(attestation),
+                }}
+              />
+            )}
           </div> */}
           ;
         </>

@@ -3,6 +3,7 @@ import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import { showMainlevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
 
 import { CallOut } from '@/components/atoms/CallOut';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -127,12 +128,14 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
             </div>
           </div>
           <Actions identifiantProjet={identifiantProjet} actions={actions} />
-          {mainlevée && (
+          {showMainlevéeGarantiesFinancières && mainlevée && (
             <MainlevéeEnCours identifiantProjet={identifiantProjet} mainlevée={mainlevée} />
           )}
-          {historiqueMainLevée && historiqueMainLevée.length > 1 && (
-            <HistoriqueMainlevéeRejetée historique={historiqueMainLevée} />
-          )}
+          {showMainlevéeGarantiesFinancières &&
+            historiqueMainLevée &&
+            historiqueMainLevée.length > 1 && (
+              <HistoriqueMainlevéeRejetée historique={historiqueMainLevée} />
+            )}
         </>
       }
     />
