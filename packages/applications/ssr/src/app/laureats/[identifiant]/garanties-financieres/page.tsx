@@ -188,30 +188,33 @@ const mapToProps: MapToProps = ({
   } else if (estPorteur) {
     if (aGarantiesFinancièresSansAttestation) {
       garantiesFinancièresActuellesActions.push('enregister-attestation');
-    } else if (
+    }
+    if (
       aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée &&
       projetAbandonne &&
       showMainlevéeGarantiesFinancières
     ) {
       garantiesFinancièresActuellesActions.push('demander-mainlevée-gf-pour-projet-abandonné');
-    } else if (
+    }
+    if (
       aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée &&
       projetAcheve &&
       showMainlevéeGarantiesFinancières
     ) {
       garantiesFinancièresActuellesActions.push('demander-mainlevée-gf-pour-projet-achevé');
-    } else if (mainlevéeDemandée) {
+    }
+    if (mainlevéeDemandée) {
       mainlevéeActions.push('annuler-demande-mainlevée-gf');
     }
   }
 
   if (estDreal) {
+    mainlevéeActions.push('voir-appel-offre-info');
     if (mainlevéeDemandée) {
       mainlevéeActions.push('instruire-demande-mainlevée-gf');
     }
     if (mainlevéeEnInstruction || mainlevéeDemandée) {
-      mainlevéeActions.push('accepter-demande-mainlevée-gf');
-      mainlevéeActions.push('rejeter-demande-mainlevée-gf');
+      mainlevéeActions.push('accepter-ou-rejeter-demande-mainlevée-gf');
     }
   }
 

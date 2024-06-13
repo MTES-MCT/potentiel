@@ -32,8 +32,3 @@ export const téléchargerModèleMiseEnDemeure = (identitifiantProjet: string) =
 export const enAttente = {
   lister: `/garanties-financieres/projets-en-attente`,
 };
-
-export const mainlevée = {
-  instruire: (identifiantProjet: string) =>
-    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/mainlevee:instruire`,
-};

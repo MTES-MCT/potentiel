@@ -31,20 +31,19 @@ export const RejeterDemandeMainlevéeGarantiesFinancières = ({
       <ModalWithForm
         title="Rejeter la demande"
         acceptButtonLabel="Oui"
-        rejectButtonLabel="Rejeter"
+        rejectButtonLabel="Annuler"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{
           action: rejeterDemandeMainlevéeGarantiesFinancièresAction,
           method: 'post',
           encType: 'multipart/form-data',
-          omitMandatoryFieldsLegend: true,
           onSuccess: () => router.push(Routes.GarantiesFinancières.détail(identifiantProjet)),
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
 
           children: (
             <>
-              <p className="mt-3">Rejeter la demande de mainlevée ?</p>
+              <p className="mt-3">Êtes-vous sûr de vouloir rejeter la demande de mainlevée ?</p>
               <Upload
                 label="Téléverser une réponse signée"
                 hint="au format pdf"

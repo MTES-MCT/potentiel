@@ -38,7 +38,6 @@ export const AccepterDemandeMainlevéeGarantiesFinancières = ({
           action: accorderDemandeMainlevéeGarantiesFinancièresAction,
           method: 'post',
           encType: 'multipart/form-data',
-          omitMandatoryFieldsLegend: true,
           onSuccess: () => router.push(Routes.GarantiesFinancières.détail(identifiantProjet)),
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
 

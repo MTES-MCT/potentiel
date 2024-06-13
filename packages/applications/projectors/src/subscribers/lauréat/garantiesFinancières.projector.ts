@@ -503,6 +503,7 @@ export const register = () => {
             {
               ...historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert,
               ...détailProjet,
+              identifiantProjet: payload.identifiantProjet,
               historique: [
                 ...historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert.historique,
                 {

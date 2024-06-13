@@ -25,9 +25,9 @@ export type MainlevéeEnCoursProps = {
     instructionDémarréeLe?: Iso8601DateTime;
     urlAppelOffre: string;
     actions: Array<
+      | 'voir-appel-offre-info'
       | 'instruire-demande-mainlevée-gf'
-      | 'accepter-demande-mainlevée-gf'
-      | 'rejeter-demande-mainlevée-gf'
+      | 'accepter-ou-rejeter-demande-mainlevée-gf'
       | 'annuler-demande-mainlevée-gf'
     >;
   };
@@ -75,35 +75,36 @@ type ActionsProps = {
 
 const Actions: FC<ActionsProps> = ({ identifiantProjet, actions, urlAppelOffre }) => {
   return (
-    <div className="flex flex-col md:flex-row gap-4">
+    <div className="flex flex-row gap-4">
       {actions.includes('annuler-demande-mainlevée-gf') && (
         <AnnulerDemandeMainlevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}
+
+      {actions.includes('voir-appel-offre-info') && (
+        <Alert
+          description={
+            <span>
+              Vous pouvez consulter l'appel d'offre du projet en accédant à{' '}
+              <Link href={urlAppelOffre} target="_blank">
+                cette page de la CRE
+              </Link>
+            </span>
+          }
+          severity="info"
+          small
+          className="mb-4"
+        />
+      )}
       {actions.includes('instruire-demande-mainlevée-gf') && (
-        <>
-          <Alert
-            description={
-              <span>
-                Vous pouvez consulter l'appel d'offre du projet en accédant à{' '}
-                <Link href={urlAppelOffre} target="_blank">
-                  cette page de la CRE
-                </Link>
-              </span>
-            }
-            severity="info"
-            small
-            className="mb-4"
-          />
-          <DémarrerInstructionDemandeMainlevéeGarantiesFinancières
-            identifiantProjet={identifiantProjet}
-          />
-        </>
+        <DémarrerInstructionDemandeMainlevéeGarantiesFinancières
+          identifiantProjet={identifiantProjet}
+        />
       )}
-      {actions.includes('accepter-demande-mainlevée-gf') && (
-        <AccepterDemandeMainlevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
-      )}
-      {actions.includes('rejeter-demande-mainlevée-gf') && (
-        <RejeterDemandeMainlevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
+      {actions.includes('accepter-ou-rejeter-demande-mainlevée-gf') && (
+        <div className="flex flex-col md:flex-row gap-3">
+          <AccepterDemandeMainlevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
+          <RejeterDemandeMainlevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
+        </div>
       )}
     </div>
   );
