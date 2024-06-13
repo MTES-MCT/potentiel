@@ -1,5 +1,5 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { ListV2 } from '@potentiel-domain/core';
+import { List } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { RaccordementEntity } from '..';
@@ -22,14 +22,12 @@ export type ListerRaccordementQuery = Message<
 >;
 
 export type ListerRaccordementQueryDependencies = {
-  listV2: ListV2;
+  list: List;
 };
 
-export const registerListerRaccordementQuery = ({
-  listV2,
-}: ListerRaccordementQueryDependencies) => {
+export const registerListerRaccordementQuery = ({ list }: ListerRaccordementQueryDependencies) => {
   const handler: MessageHandler<ListerRaccordementQuery> = async () => {
-    const { items, total } = await listV2<RaccordementEntity>('raccordement', {
+    const { items, total } = await list<RaccordementEntity>('raccordement', {
       orderBy: {
         identifiantProjet: 'ascending',
       },

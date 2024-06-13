@@ -14,17 +14,13 @@ import {
   récupérerRégionDrealAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
-import {
-  findProjection,
-  listProjectionV2,
-} from '@potentiel-infrastructure/pg-projections';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { mediator } from 'mediateur';
 
 registerLauréatQueries({
   find: findProjection,
-  list: listProjectionV2,
-  listV2: listProjectionV2,
+  list: listProjection,
   récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
   consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
   buildModèleRéponseAbandon: getModèleRéponseAbandon,

@@ -1,4 +1,4 @@
-import { ListV2, RangeOptions } from '@potentiel-domain/core';
+import { List, RangeOptions } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Role } from '@potentiel-domain/utilisateur';
@@ -39,12 +39,12 @@ export type ListerDemandeMainlevéeQuery = Message<
 >;
 
 type ListerDemandeMainlevéeQueryDependencies = {
-  listV2: ListV2;
+  list: List;
   récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerDemandeMainlevéeQuery = ({
-  listV2: list,
+  list,
   récupérerRégionDreal,
 }: ListerDemandeMainlevéeQueryDependencies) => {
   const handler: MessageHandler<ListerDemandeMainlevéeQuery> = async ({

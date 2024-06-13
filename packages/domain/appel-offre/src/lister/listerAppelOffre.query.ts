@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { ListV2 } from '@potentiel-domain/core';
+import { List } from '@potentiel-domain/core';
 import { AppelOffreEntity } from '../appelOffre.entity';
 
 type AppelOffreListItemReadModel = {
@@ -17,7 +17,7 @@ export type ListerAppelOffreQuery = Message<
 >;
 
 export type ListerAppelOffreDependencies = {
-  list: ListV2;
+  list: List;
 };
 
 export const registerListerAppelOffreQuery = ({ list }: ListerAppelOffreDependencies) => {

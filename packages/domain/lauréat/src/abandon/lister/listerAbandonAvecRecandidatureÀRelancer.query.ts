@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonAvecRecandidatureSansPreuveProjection } from '../abandon.entity';
-import { ListV2 } from '@potentiel-domain/core';
+import { List } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 type AbandonsAvecRecandidatureÀRelancerReadModel = {
@@ -17,7 +17,7 @@ export type ListerAbandonsAvecRecandidatureÀRelancerQuery = Message<
 >;
 
 export type ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies = {
-  list: ListV2;
+  list: List;
 };
 
 export const registerListerAbandonsAvecRecandidatureÀRelancerQuery = ({

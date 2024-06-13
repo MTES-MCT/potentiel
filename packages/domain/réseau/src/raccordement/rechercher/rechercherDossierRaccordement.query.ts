@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { RéférenceRaccordementIdentifiantProjetEntity } from '../raccordement.entity';
-import { ListV2 } from '@potentiel-domain/core';
+import { List } from '@potentiel-domain/core';
 
 export type RechercherDossierRaccordementReadModel = ReadonlyArray<{
   référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
@@ -18,7 +18,7 @@ export type RechercherDossierRaccordementQuery = Message<
 >;
 
 export type RechercherDossierRaccordementDependencies = {
-  list: ListV2;
+  list: List;
 };
 
 export const registerRechercherDossierRaccordementQuery = ({

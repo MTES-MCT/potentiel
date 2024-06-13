@@ -1,4 +1,4 @@
-import { ListV2, RangeOptions, WhereOptions } from '@potentiel-domain/core';
+import { List, RangeOptions, WhereOptions } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 
@@ -25,11 +25,11 @@ export type ListerGestionnaireRéseauQuery = Message<
 >;
 
 export type ListerGestionnaireRéseauQueryDependencies = {
-  listV2: ListV2;
+  list: List;
 };
 
 export const registerListerGestionnaireRéseauQuery = ({
-  listV2: list,
+  list,
 }: ListerGestionnaireRéseauQueryDependencies) => {
   const handler: MessageHandler<ListerGestionnaireRéseauQuery> = async ({ range, where }) => {
     const {

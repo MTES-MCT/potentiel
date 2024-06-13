@@ -11,7 +11,7 @@ import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   countProjection,
   findProjection,
-  listProjectionV2,
+  listProjection,
 } from '@potentiel-infrastructure/pg-projections';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { addGRDs } from './addGRDs';
@@ -23,8 +23,7 @@ registerRéseauUseCases({
 });
 
 registerRéseauQueries({
-  list: listProjectionV2,
-  listV2: listProjectionV2,
+  list: listProjection,
   find: findProjection,
   count: countProjection,
 });

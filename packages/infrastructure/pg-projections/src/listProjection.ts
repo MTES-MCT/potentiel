@@ -1,4 +1,4 @@
-import { Entity, ListOptionsV2, ListResultV2 } from '@potentiel-domain/core';
+import { Entity, ListOptions, ListResult } from '@potentiel-domain/core';
 import { unflatten } from '@potentiel-libraries/flat';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import format from 'pg-format';
@@ -10,10 +10,10 @@ import { countProjection } from './countProjection';
 
 const selectQuery = 'SELECT key, value FROM domain_views.projection WHERE key LIKE $1';
 
-export const listProjectionV2 = async <TEntity extends Entity>(
+export const listProjection = async <TEntity extends Entity>(
   category: TEntity['type'],
-  { orderBy, range, where }: ListOptionsV2<TEntity> = {},
-): Promise<ListResultV2<TEntity>> => {
+  { orderBy, range, where }: ListOptions<TEntity> = {},
+): Promise<ListResult<TEntity>> => {
   const orderByClause = orderBy ? getOrderClause(orderBy) : '';
   const rangeClause = range ? getRangeClause(range) : '';
   const [whereClause, whereValues] = where ? getWhereClause(where) : ['', []];

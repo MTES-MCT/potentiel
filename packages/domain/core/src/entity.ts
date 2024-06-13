@@ -61,22 +61,22 @@ export type WhereOptions<T> = {
     : never;
 };
 
-export type ListOptionsV2<TEntity extends Entity> = {
+export type ListOptions<TEntity extends Entity> = {
   orderBy?: OrderByOptions<Omit<TEntity, 'type'>>;
   range?: RangeOptions;
   where?: WhereOptions<Omit<TEntity, 'type'>>;
 };
 
-export type ListResultV2<TEntity extends Entity> = {
+export type ListResult<TEntity extends Entity> = {
   total: number;
   items: ReadonlyArray<TEntity>;
   range: RangeOptions;
 };
 
-export type ListV2 = <TEntity extends Entity>(
+export type List = <TEntity extends Entity>(
   category: TEntity['type'],
-  options?: ListOptionsV2<TEntity>,
-) => Promise<ListResultV2<TEntity>>;
+  options?: ListOptions<TEntity>,
+) => Promise<ListResult<TEntity>>;
 
 export type CountOption<TEntity extends Entity> = {
   where?: WhereOptions<Omit<TEntity, 'type'>>;

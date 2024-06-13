@@ -3,7 +3,7 @@ import { AbandonEntity } from '../abandon.entity';
 import { DateTime, IdentifiantProjet, CommonPort, CommonError } from '@potentiel-domain/common';
 import { StatutAbandon, StatutPreuveRecandidature } from '..';
 import { Option } from '@potentiel-libraries/monads';
-import { ListV2, RangeOptions } from '@potentiel-domain/core';
+import { List, RangeOptions } from '@potentiel-domain/core';
 import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
 const mapToWhereEqual = <T>(value: T | undefined) =>
@@ -49,13 +49,13 @@ export type ListerAbandonsQuery = Message<
 >;
 
 export type ListerAbandonDependencies = {
-  listV2: ListV2;
+  list: List;
   récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
   récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerAbandonQuery = ({
-  listV2,
+  list,
   récupérerIdentifiantsProjetParEmailPorteur,
   récupérerRégionDreal,
 }: ListerAbandonDependencies) => {
@@ -68,7 +68,7 @@ export const registerListerAbandonQuery = ({
     range,
   }) => {
     if (['admin', 'dgec-validateur', 'cre'].includes(rôle)) {
-      const abandons = await listV2<AbandonEntity>('abandon', {
+      const abandons = await list<AbandonEntity>('abandon', {
         range,
         orderBy: {
           misÀJourLe: 'descending',
@@ -101,7 +101,7 @@ export const registerListerAbandonQuery = ({
         throw new CommonError.RégionNonTrouvéeError();
       }
 
-      const abandons = await listV2<AbandonEntity>('abandon', {
+      const abandons = await list<AbandonEntity>('abandon', {
         range,
         orderBy: {
           misÀJourLe: 'descending',
@@ -128,7 +128,7 @@ export const registerListerAbandonQuery = ({
 
     const identifiantProjets = await récupérerIdentifiantsProjetParEmailPorteur(email);
 
-    const abandons = await listV2<AbandonEntity>('abandon', {
+    const abandons = await list<AbandonEntity>('abandon', {
       range,
       orderBy: {
         misÀJourLe: 'descending',
