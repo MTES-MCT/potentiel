@@ -26,8 +26,6 @@ export async function annulerDemandeMainlevée(
     throw new MainlevéeNonTrouvéeError();
   }
 
-  //@TODO : passer ces checks dans le valueType en utilisant vérifierQueLeChangementDeStatutEstPossibleEn
-
   if (this.demandeMainlevéeEnCours?.statut.estAccordé()) {
     throw new MainlevéeDéjàAccordéeError();
   }

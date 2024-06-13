@@ -23,36 +23,28 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
             | date annulation      | 2014-05-28             |
         Alors le porteur devrait être informé que "Il n'y a pas de demande de mainlevée pour ce projet"
 
-    @NotImplemented
     Scénario: Impossible d'annuler une demande de mainlevée des garanties financières si la demande de mainlevée des garanties financières est rejetée
-        Etant donné un abandon accordé pour le projet lauréat "Centrale PV"
+        Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"
-        Et une demande de mainlevée de garanties financières pour le projet "Centrale PV" avec :    
-        Et un rejet de la demande de mainlevée pour le projet "Centrale PV" avec :
-            | utilisateur          | porteur@test.test      |
-            | date demande         | 2014-05-28             |
+        Et une demande de mainlevée de garanties financières rejetée pour le projet "Centrale PV" achevé    
         Quand le porteur annule la demande de mainlevée des garanties financières pour le projet "Centrale PV" avec :
             | utilisateur          | porteur@test.test      |
             | date annulation      | 2014-05-28             |
         Alors le porteur devrait être informé que "La demande de mainlevée a déjà été rejetée"
 
-    @NotImplemented
     Scénario: Impossible d'annuler une demande de mainlevée des garanties financières si la demande de mainlevée des garanties financières est accordée
-        Etant donné un abandon accordé pour le projet lauréat "Centrale PV"
+        Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"
-        Et une demande de mainlevée de garanties financières pour le projet "Centrale PV" avec :
-        Et une validation de la demande de mainlevée pour le projet "Centrale PV"    
+        Et une demande de mainlevée de garanties financières accordée pour le projet "Centrale PV" achevé    
         Quand le porteur annule la demande de mainlevée des garanties financières pour le projet "Centrale PV" avec :
             | utilisateur          | porteur@test.test      |
             | date annulation      | 2014-05-28             |
         Alors le porteur devrait être informé que "La demande de mainlevée a déjà été accordée"
 
-    @NotImplemented
     Scénario: Impossible d'annuler une demande de mainlevée des garanties financières si la demande de mainlevée des garanties financières est en instruction
-        Etant donné un abandon accordé pour le projet lauréat "Centrale PV"
+        Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"
-        Et une demande de mainlevée de garanties financières pour le projet "Centrale PV" avec :
-        Et un passage en instruction de la demande de mainlevée du projet "Centrale PV"  
+        Et une demande de mainlevée de garanties financières en instruction pour le projet "Centrale PV"
         Quand le porteur annule la demande de mainlevée des garanties financières pour le projet "Centrale PV" avec :
             | utilisateur          | porteur@test.test      |
             | date annulation      | 2014-05-28             |

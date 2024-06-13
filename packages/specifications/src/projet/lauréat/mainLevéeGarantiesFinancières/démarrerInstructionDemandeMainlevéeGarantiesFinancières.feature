@@ -1,5 +1,4 @@
 #Language: fr-FR
-@select
 Fonctionnalité: Démarrer l'instruction d'une demande de mainlevée des garanties financières
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
