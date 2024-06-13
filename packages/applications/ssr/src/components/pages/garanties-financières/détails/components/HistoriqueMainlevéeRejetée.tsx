@@ -28,7 +28,7 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
       <div className="mt-3 flex flex-row flex-wrap gap-2">
         {historique.map((mainlevéeRejetée) => (
           <div
-            className="border border-dsfr-border-default-grey-default p-1"
+            className="border border-dsfr-border-default-grey-default p-2 flex flex-col justify-center gap-1 text-sm"
             key={mainlevéeRejetée.demandéeLe}
           >
             <p>
@@ -42,7 +42,7 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
             <div>
               <InputDownload
                 ariaLabel="Télécharger la réponse signée"
-                details=""
+                details="Au format .pdf"
                 label="Télécharger la réponse signée"
                 linkProps={{
                   href: Routes.Document.télécharger(mainlevéeRejetée.rejet.courrierRejet),

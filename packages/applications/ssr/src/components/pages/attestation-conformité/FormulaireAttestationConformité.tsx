@@ -156,7 +156,7 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
               {
                 label: `Je souhaite demander une mainlevée de mes garanties financières`,
                 nativeInputProps: {
-                  name: 'demanderMainlevee',
+                  name: 'demanderMainlevée',
                   value: 'true',
                 },
               },
