@@ -10,14 +10,12 @@ import {
 } from '@potentiel-infrastructure/document-builder';
 import {
   consulterCahierDesChargesChoisiAdapter,
-  listerAbandonsAdapter,
-  listerAbandonsPourPorteurAdapter,
+  récupérerIdentifiantsProjetParEmailPorteurAdapter,
   récupérerRégionDrealAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   findProjection,
-  listProjection,
   listProjectionV2,
 } from '@potentiel-infrastructure/pg-projections';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -25,12 +23,11 @@ import { mediator } from 'mediateur';
 
 registerLauréatQueries({
   find: findProjection,
-  list: listProjection,
+  list: listProjectionV2,
   listV2: listProjectionV2,
+  récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
   consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
-  listerAbandonsPourPorteur: listerAbandonsPourPorteurAdapter,
   buildModèleRéponseAbandon: getModèleRéponseAbandon,
-  listerAbandons: listerAbandonsAdapter,
   récupérerRégionDreal: récupérerRégionDrealAdapter,
   buildModèleMiseEnDemeureGarantiesFinancières: getModèleMiseEnDemeureGarantiesFinancières,
 });

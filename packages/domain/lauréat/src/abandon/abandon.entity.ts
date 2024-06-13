@@ -22,6 +22,8 @@ export type AbandonEntity = Entity<
         format: string;
       };
 
+      estUneRecandidature: boolean;
+
       recandidature?: {
         statut: string;
         preuve?: {

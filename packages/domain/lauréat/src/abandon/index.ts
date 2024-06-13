@@ -8,12 +8,7 @@ import {
 } from './consulter/consulterAbandon.query';
 import { DemanderAbandonUseCase } from './demander/demanderAbandon.usecase';
 import { DemanderConfirmationAbandonUseCase } from './demanderConfirmation/demanderConfirmationAbandon.usecase';
-import {
-  ListerAbandonsQuery,
-  ListerAbandonReadModel,
-  ListerAbandonsPourPorteurPort,
-  ListerAbandonsPort,
-} from './lister/listerAbandon.query';
+import { ListerAbandonsQuery, ListerAbandonReadModel } from './lister/listerAbandon.query';
 import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 import { DemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.usecase';
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
@@ -92,4 +87,4 @@ export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
 export * from './abandon.entity';
 
 // Ports
-export type { ListerAbandonsPourPorteurPort, BuildModèleRéponseAbandonPort, ListerAbandonsPort };
+export type { BuildModèleRéponseAbandonPort };

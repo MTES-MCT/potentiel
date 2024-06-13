@@ -2,7 +2,6 @@ import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-do
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   findProjection,
-  listProjection,
   listProjectionV2,
 } from '@potentiel-infrastructure/pg-projections';
 import {
@@ -18,8 +17,7 @@ import {
 import { mediator } from 'mediateur';
 import {
   consulterCahierDesChargesChoisiAdapter,
-  listerAbandonsAdapter,
-  listerAbandonsPourPorteurAdapter,
+  récupérerIdentifiantsProjetParEmailPorteurAdapter,
   récupérerRégionDrealAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import {
@@ -34,12 +32,11 @@ export const setupLauréat = async () => {
 
   registerLauréatQueries({
     find: findProjection,
-    list: listProjection,
     listV2: listProjectionV2,
+    list: listProjectionV2,
+    récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
-    listerAbandonsPourPorteur: listerAbandonsPourPorteurAdapter,
     buildModèleRéponseAbandon: getModèleRéponseAbandon,
-    listerAbandons: listerAbandonsAdapter,
     récupérerRégionDreal: récupérerRégionDrealAdapter,
     buildModèleMiseEnDemeureGarantiesFinancières: getModèleMiseEnDemeureGarantiesFinancières,
   });

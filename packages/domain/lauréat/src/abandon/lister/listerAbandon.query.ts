@@ -3,6 +3,16 @@ import { AbandonEntity } from '../abandon.entity';
 import { DateTime, IdentifiantProjet, CommonPort, CommonError } from '@potentiel-domain/common';
 import { StatutAbandon, StatutPreuveRecandidature } from '..';
 import { Option } from '@potentiel-libraries/monads';
+import { ListV2, RangeOptions } from '@potentiel-domain/core';
+import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
+
+const mapToWhereEqual = <T>(value: T | undefined) =>
+  value
+    ? {
+        operator: 'equal' as const,
+        value,
+      }
+    : undefined;
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -18,48 +28,9 @@ type AbandonListItemReadModel = {
 
 export type ListerAbandonReadModel = {
   items: ReadonlyArray<AbandonListItemReadModel>;
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
+  range: RangeOptions;
+  total: number;
 };
-
-export type ListerAbandonsPort = (args: {
-  where: {
-    recandidature?: boolean;
-    preuveRecandidatureStatut?: StatutPreuveRecandidature.RawType;
-    statut?: StatutAbandon.RawType;
-    appelOffre?: string;
-  };
-  pagination: {
-    page: number;
-    itemsPerPage: number;
-  };
-  région?: string;
-}) => Promise<{
-  items: ReadonlyArray<AbandonEntity>;
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
-}>;
-
-export type ListerAbandonsPourPorteurPort = (args: {
-  identifiantUtilisateur: string;
-  where: {
-    recandidature?: boolean;
-    preuveRecandidatureStatut?: StatutPreuveRecandidature.RawType;
-    statut?: StatutAbandon.RawType;
-    appelOffre?: string;
-  };
-  pagination: {
-    page: number;
-    itemsPerPage: number;
-  };
-}) => Promise<{
-  items: ReadonlyArray<AbandonEntity>;
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
-}>;
 
 export type ListerAbandonsQuery = Message<
   'Lauréat.Abandon.Query.ListerAbandons',
@@ -72,20 +43,20 @@ export type ListerAbandonsQuery = Message<
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
     preuveRecandidatureStatut?: StatutPreuveRecandidature.RawType;
-    pagination: { page: number; itemsPerPage: number };
+    range: RangeOptions;
   },
   ListerAbandonReadModel
 >;
 
 export type ListerAbandonDependencies = {
-  listerAbandonsPourPorteur: ListerAbandonsPourPorteurPort;
-  listerAbandons: ListerAbandonsPort;
+  listV2: ListV2;
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
   récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerAbandonQuery = ({
-  listerAbandonsPourPorteur,
-  listerAbandons,
+  listV2,
+  récupérerIdentifiantsProjetParEmailPorteur,
   récupérerRégionDreal,
 }: ListerAbandonDependencies) => {
   const handler: MessageHandler<ListerAbandonsQuery> = async ({
@@ -94,23 +65,25 @@ export const registerListerAbandonQuery = ({
     appelOffre,
     preuveRecandidatureStatut,
     utilisateur: { email, rôle },
-    pagination: { page, itemsPerPage },
+    range,
   }) => {
-    const where = {
-      ...(recandidature !== undefined && { demandeRecandidature: recandidature }),
-      ...(statut && { statut }),
-      ...(appelOffre && { appelOffre }),
-      ...(preuveRecandidatureStatut && {
-        preuveRecandidatureStatut,
-      }),
-    };
-
     if (['admin', 'dgec-validateur', 'cre'].includes(rôle)) {
-      const abandons = await listerAbandons({
-        where,
-        pagination: {
-          page,
-          itemsPerPage,
+      const abandons = await listV2<AbandonEntity>('abandon', {
+        range,
+        orderBy: {
+          misÀJourLe: 'descending',
+        },
+        where: {
+          statut: mapToWhereEqual(statut),
+          projet: {
+            appelOffre: mapToWhereEqual(appelOffre),
+          },
+          demande: {
+            estUneRecandidature: mapToWhereEqual(recandidature),
+            recandidature: {
+              statut: mapToWhereEqual(preuveRecandidatureStatut),
+            },
+          },
         },
       });
       return {
@@ -123,18 +96,29 @@ export const registerListerAbandonQuery = ({
      * @todo on devrait passer uniquement la région dans la query et pas les infos utilisateur pour le déterminer
      */
     if (rôle === 'dreal') {
-      const région = await récupérerRégionDreal(email);
-      if (Option.isNone(région)) {
+      const result = await récupérerRégionDreal(email);
+      if (Option.isNone(result)) {
         throw new CommonError.RégionNonTrouvéeError();
       }
 
-      const abandons = await listerAbandons({
-        where,
-        pagination: {
-          page,
-          itemsPerPage,
+      const abandons = await listV2<AbandonEntity>('abandon', {
+        range,
+        orderBy: {
+          misÀJourLe: 'descending',
         },
-        région: région.région,
+        where: {
+          statut: mapToWhereEqual(statut),
+          projet: {
+            appelOffre: mapToWhereEqual(appelOffre),
+            région: mapToWhereEqual(result.région),
+          },
+          demande: {
+            estUneRecandidature: mapToWhereEqual(recandidature),
+            recandidature: {
+              statut: mapToWhereEqual(preuveRecandidatureStatut),
+            },
+          },
+        },
       });
       return {
         ...abandons,
@@ -142,10 +126,29 @@ export const registerListerAbandonQuery = ({
       };
     }
 
-    const abandons = await listerAbandonsPourPorteur({
-      identifiantUtilisateur: email,
-      where,
-      pagination: { itemsPerPage, page },
+    const identifiantProjets = await récupérerIdentifiantsProjetParEmailPorteur(email);
+
+    const abandons = await listV2<AbandonEntity>('abandon', {
+      range,
+      orderBy: {
+        misÀJourLe: 'descending',
+      },
+      where: {
+        identifiantProjet: {
+          operator: 'include',
+          value: identifiantProjets,
+        },
+        statut: mapToWhereEqual(statut),
+        projet: {
+          appelOffre: mapToWhereEqual(appelOffre),
+        },
+        demande: {
+          estUneRecandidature: mapToWhereEqual(recandidature),
+          recandidature: {
+            statut: mapToWhereEqual(preuveRecandidatureStatut),
+          },
+        },
+      },
     });
     return {
       ...abandons,

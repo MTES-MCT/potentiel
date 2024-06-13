@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { AbandonAvecRecandidatureSansPreuveProjection } from '../abandon.entity';
-import { List } from '@potentiel-domain/core';
+import { ListV2 } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 type AbandonsAvecRecandidatureÀRelancerReadModel = {
@@ -17,16 +17,16 @@ export type ListerAbandonsAvecRecandidatureÀRelancerQuery = Message<
 >;
 
 export type ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies = {
-  list: List;
+  list: ListV2;
 };
 
 export const registerListerAbandonsAvecRecandidatureÀRelancerQuery = ({
   list,
 }: ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies) => {
   const handler: MessageHandler<ListerAbandonsAvecRecandidatureÀRelancerQuery> = async ({}) => {
-    const result = await list<AbandonAvecRecandidatureSansPreuveProjection>({
-      type: 'abandon-avec-recandidature-sans-preuve',
-    });
+    const result = await list<AbandonAvecRecandidatureSansPreuveProjection>(
+      'abandon-avec-recandidature-sans-preuve',
+    );
 
     return {
       résultats: result.items
