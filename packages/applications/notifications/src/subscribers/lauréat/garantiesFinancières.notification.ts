@@ -177,7 +177,7 @@ export const register = () => {
       case 'DemandeMainlevéeGarantiesFinancièresAccordée-V1':
       case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
         await sendEmailGarantiesFinancières({
-          subject: `Potentiel - Le statut de la demande de main-levée des garanties financière a été modifié ${nomProjet}`,
+          subject: `Potentiel - Le statut de la demande de mainlevée des garanties financières a été modifié ${nomProjet}`,
           templateId: templateId.mainlevéeGFStatutModifiéPourPorteur,
           recipients: porteurs,
           identifiantProjet,
