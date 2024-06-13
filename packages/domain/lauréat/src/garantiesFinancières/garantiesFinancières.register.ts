@@ -59,13 +59,18 @@ import {
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresDependencies,
   registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery,
 } from './mainlevée/consulter/consulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancières.query';
+import {
+  GénérerModèleRéponseMainlevéeGarantiesFinancièresDependencies,
+  registerGénérerModèleRéponseMainlevéeGarantiesFinancièresQuery,
+} from './mainlevée/générerModèleRéponse/générerModèleRéponse.query';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerDépôtsEnCoursGarantiesFinancièresDependencies &
   GénérerModèleMiseEnDemeureGarantiesFinancièresDependencies &
   ConsulterDépôtEnCoursGarantiesFinancièresDependencies &
   ConsulterDemandeMainlevéeGarantiesFinancièresDependencies &
-  ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresDependencies;
+  ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresDependencies &
+  GénérerModèleRéponseMainlevéeGarantiesFinancièresDependencies;
 
 export type GarantiesFinancièresCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -121,4 +126,5 @@ export const registerGarantiesFinancièresQueries = (
   registerConsulterDemandeMainlevéeGarantiesFinancièresQuery(dependencies);
   registerListerDemandeMainlevéeQuery(dependencies);
   registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery(dependencies);
+  registerGénérerModèleRéponseMainlevéeGarantiesFinancièresQuery(dependencies);
 };

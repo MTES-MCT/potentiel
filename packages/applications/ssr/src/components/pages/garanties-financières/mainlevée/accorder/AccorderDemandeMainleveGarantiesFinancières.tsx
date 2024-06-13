@@ -8,6 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { InputDownload } from '@/components/atoms/form/InputDownload';
 
 import { accorderDemandeMainlevéeGarantiesFinancièresAction } from './accorderDemandeMainlevéeGarantiesFinancières.action';
 
@@ -44,6 +45,17 @@ export const AccorderDemandeMainlevéeGarantiesFinancières = ({
           children: (
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir accorder la demande de mainlevée ?</p>
+
+              <InputDownload
+                ariaLabel="Télécharger le modèle de réponse de l'accord d'une demande de mainlevée des garanties financières"
+                details="fichier au format docx"
+                label="Télécharger le modèle de réponse"
+                linkProps={{
+                  href: Routes.GarantiesFinancières.mainlevée.téléchargerModèleRéponse(
+                    identifiantProjet,
+                  ),
+                }}
+              />
 
               <UploadDocument
                 label="Réponse signée"

@@ -7,6 +7,7 @@ import {
 import {
   getModèleMiseEnDemeureGarantiesFinancières,
   getModèleRéponseAbandon,
+  getModèleRéponseMainlevéeGarantiesFinancières,
 } from '@potentiel-infrastructure/document-builder';
 import {
   consulterCahierDesChargesChoisiAdapter,
@@ -33,6 +34,7 @@ registerLauréatQueries({
   listerAbandons: listerAbandonsAdapter,
   récupérerRégionDreal: récupérerRégionDrealAdapter,
   buildModèleMiseEnDemeureGarantiesFinancières: getModèleMiseEnDemeureGarantiesFinancières,
+  buildModèleRéponseMainlevéeGarantiesFinancières: getModèleRéponseMainlevéeGarantiesFinancières,
 });
 
 registerLauréatUseCases({

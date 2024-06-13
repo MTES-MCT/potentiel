@@ -51,12 +51,12 @@ export type BuildModèleRéponseMainlevéeGarantiesFinancièresPort = (options: 
 }) => Promise<ReadableStream>;
 
 export type GénérerModèleRéponseMainlevéeGarantiesFinancièresDependencies = {
-  buildModèleRéponseMainlevéeGarantiesFinancièresPort: BuildModèleRéponseMainlevéeGarantiesFinancièresPort;
+  buildModèleRéponseMainlevéeGarantiesFinancières: BuildModèleRéponseMainlevéeGarantiesFinancièresPort;
   récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerGénérerModèleRéponseMainlevéeGarantiesFinancièresQuery = ({
-  buildModèleRéponseMainlevéeGarantiesFinancièresPort,
+  buildModèleRéponseMainlevéeGarantiesFinancières,
   récupérerRégionDreal,
 }: GénérerModèleRéponseMainlevéeGarantiesFinancièresDependencies) => {
   const handler: MessageHandler<GénérerModèleRéponseMainlevéeGarantiesFinancièresQuery> = async ({
@@ -92,7 +92,7 @@ export const registerGénérerModèleRéponseMainlevéeGarantiesFinancièresQuer
       return Option.none;
     }
 
-    const content = await buildModèleRéponseMainlevéeGarantiesFinancièresPort({
+    const content = await buildModèleRéponseMainlevéeGarantiesFinancières({
       data: {
         dateModèleRéponse: dateModèleRéponseValue,
         mainlevée: {

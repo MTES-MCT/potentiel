@@ -25,6 +25,7 @@ import {
 import {
   getModèleMiseEnDemeureGarantiesFinancières,
   getModèleRéponseAbandon,
+  getModèleRéponseMainlevéeGarantiesFinancières,
 } from '@potentiel-infrastructure/document-builder';
 
 export const setupLauréat = async () => {
@@ -42,6 +43,7 @@ export const setupLauréat = async () => {
     listerAbandons: listerAbandonsAdapter,
     récupérerRégionDreal: récupérerRégionDrealAdapter,
     buildModèleMiseEnDemeureGarantiesFinancières: getModèleMiseEnDemeureGarantiesFinancières,
+    buildModèleRéponseMainlevéeGarantiesFinancières: getModèleRéponseMainlevéeGarantiesFinancières,
   });
 
   AbandonProjector.register();
