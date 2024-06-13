@@ -14,7 +14,7 @@ import { RejeterDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/
 import { AnnulerDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/annuler/AnnulerDemandeMainlevéeGarantiesFinancières';
 import { StatutMainlevéeBadge } from '../../../../molecules/mainlevée/StatutMainlevéeBadge';
 
-export type MainlevéeProps = {
+export type MainlevéeEnCoursProps = {
   identifiantProjet: string;
   mainlevée: {
     statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
@@ -33,7 +33,7 @@ export type MainlevéeProps = {
   };
 };
 
-export const Mainlevée: FC<MainlevéeProps> = ({ mainlevée, identifiantProjet }) => (
+export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, identifiantProjet }) => (
   <div className="mt-3 p-3 border border-dsfr-border-actionLow-blueFrance-default">
     <Heading3>Mainlevée en cours</Heading3>
     <div className="text-xs italic">
@@ -68,9 +68,9 @@ export const Mainlevée: FC<MainlevéeProps> = ({ mainlevée, identifiantProjet 
 );
 
 type ActionsProps = {
-  identifiantProjet: MainlevéeProps['identifiantProjet'];
-  actions: MainlevéeProps['mainlevée']['actions'];
-  urlAppelOffre: MainlevéeProps['mainlevée']['urlAppelOffre'];
+  identifiantProjet: MainlevéeEnCoursProps['identifiantProjet'];
+  actions: MainlevéeEnCoursProps['mainlevée']['actions'];
+  urlAppelOffre: MainlevéeEnCoursProps['mainlevée']['urlAppelOffre'];
 };
 
 const Actions: FC<ActionsProps> = ({ identifiantProjet, actions, urlAppelOffre }) => {

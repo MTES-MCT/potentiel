@@ -12,7 +12,7 @@ import {
   ListItemDemandeMainlevéeProps,
 } from './ListItemDemandeMainlevée';
 
-export type ListeDemandeMainlevéeProps = {
+export type ListeDemandeMainlevéeEnCoursProps = {
   list: {
     items: Array<ListItemDemandeMainlevéeProps>;
     currentPage: number;

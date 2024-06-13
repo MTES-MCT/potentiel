@@ -11,7 +11,11 @@ import { InputDownload } from '@/components/atoms/form/InputDownload';
 
 import { DemanderMainlevéeGarantiesFinancières } from '../../mainlevée/demander/DemanderMainlevéeGarantiesFinancières';
 
-import { Mainlevée, MainlevéeProps } from './Mainlevée';
+import { MainlevéeEnCours, MainlevéeEnCoursProps } from './MainlevéeEnCours';
+import {
+  HistoriqueMainlevéeRejetée,
+  HistoriqueMainlevéeRejetéeProps,
+} from './HistoriqueMainlevéeRejetée';
 
 export type GarantiesFinancièresActuelles = {
   type: string;
@@ -36,7 +40,8 @@ export type GarantiesFinancièresActuellesProps = {
       | 'demander-mainlevée-gf-pour-projet-achevé'
     >;
   };
-  mainlevée?: MainlevéeProps['mainlevée'];
+  mainlevée?: MainlevéeEnCoursProps['mainlevée'];
+  historiqueMainLevée?: HistoriqueMainlevéeRejetéeProps['historique'];
 };
 
 export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesProps> = ({
@@ -52,6 +57,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
     dernièreMiseÀJour,
   },
   mainlevée,
+  historiqueMainLevée,
 }) => (
   <>
     <CallOut
@@ -121,7 +127,12 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
             </div>
           </div>
           <Actions identifiantProjet={identifiantProjet} actions={actions} />
-          {mainlevée && <Mainlevée identifiantProjet={identifiantProjet} mainlevée={mainlevée} />}
+          {mainlevée && (
+            <MainlevéeEnCours identifiantProjet={identifiantProjet} mainlevée={mainlevée} />
+          )}
+          {historiqueMainLevée && historiqueMainLevée.length > 1 && (
+            <HistoriqueMainlevéeRejetée historique={historiqueMainLevée} />
+          )}
         </>
       }
     />

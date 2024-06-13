@@ -25,7 +25,7 @@ import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/
 import { GarantiesFinancièresDépôtEnCoursProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresDépôtEnCours';
 import { GarantiesFinancièresActuellesProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresActuelles';
 
-import { MainlevéeProps } from '../../../../components/pages/garanties-financières/détails/components/Mainlevée';
+import { MainlevéeEnCoursProps } from '../../../../components/pages/garanties-financières/détails/components/MainlevéeEnCours';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
@@ -84,6 +84,16 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           },
         );
 
+      const historiqueMainlevée =
+        await mediator.send<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.ConsulterHistoriqueDemandeMainlevéeRejetée',
+            data: {
+              identifiantProjetValue: identifiantProjet,
+            },
+          },
+        );
+
       const props = mapToProps({
         projet,
         utilisateur,
@@ -92,6 +102,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         achèvement,
         mainlevée,
         appelOffreDetails,
+        historiqueMainlevée,
       });
 
       return <DétailsGarantiesFinancièresPage {...props} />;
@@ -107,6 +118,7 @@ type MapToProps = (args: {
   achèvement: Option.Type<Achèvement.ConsulterAttestationConformitéReadModel>;
   mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>;
   appelOffreDetails: AppelOffre;
+  historiqueMainlevée: Option.Type<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel>;
 }) => DétailsGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({
@@ -117,6 +129,7 @@ const mapToProps: MapToProps = ({
   achèvement,
   mainlevée,
   appelOffreDetails,
+  historiqueMainlevée,
 }) => {
   if (
     Option.isNone(garantiesFinancièresActuelles) &&
@@ -151,7 +164,7 @@ const mapToProps: MapToProps = ({
 
   const garantiesFinancièresActuellesActions: GarantiesFinancièresActuellesProps['actuelles']['actions'] =
     [];
-  const mainlevéeActions: MainlevéeProps['mainlevée']['actions'] = [];
+  const mainlevéeActions: MainlevéeEnCoursProps['mainlevée']['actions'] = [];
 
   const estAdminOuDGEC =
     utilisateur.role.estÉgaleÀ(Role.admin) || utilisateur.role.estÉgaleÀ(Role.dgecValidateur);
@@ -195,7 +208,8 @@ const mapToProps: MapToProps = ({
   if (estDreal) {
     if (mainlevéeDemandée) {
       mainlevéeActions.push('instruire-demande-mainlevée-gf');
-    } else if (mainlevéeEnInstruction) {
+    }
+    if (mainlevéeEnInstruction || mainlevéeDemandée) {
       mainlevéeActions.push('accepter-demande-mainlevée-gf');
       mainlevéeActions.push('rejeter-demande-mainlevée-gf');
     }
@@ -253,6 +267,17 @@ const mapToProps: MapToProps = ({
           actions: mainlevéeActions,
           urlAppelOffre: appelOffreDetails.cahiersDesChargesUrl,
         }
+      : undefined,
+    historiqueMainlevée: Option.isSome(historiqueMainlevée)
+      ? historiqueMainlevée.historique.map((mainlevée) => ({
+          motif: mainlevée.motif.motif,
+          demandéLe: mainlevée.demande.demandéeLe.formatter(),
+          rejet: {
+            rejetéLe: mainlevée.rejet.rejetéLe.formatter(),
+            rejetéPar: mainlevée.rejet.rejetéPar.email,
+            courrierRejet: { format: mainlevée.rejet.courrierRejet.format },
+          },
+        }))
       : undefined,
     afficherInfoConditionsMainlevée:
       utilisateur.role.estÉgaleÀ(Role.porteur) &&
