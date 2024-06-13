@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
@@ -34,7 +33,7 @@ export type MainlevéeEnCoursProps = {
 };
 
 export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, identifiantProjet }) => (
-  <div className="mt-3 p-3 border border-dsfr-border-default-blueFrance-default">
+  <div className="mt-5 p-3 border border-dsfr-border-default-blueFrance-default">
     <Heading3>Mainlevée en cours</Heading3>
     <div className="text-xs italic">
       Dernière mise à jour le{' '}
@@ -75,25 +74,9 @@ type ActionsProps = {
 
 const Actions: FC<ActionsProps> = ({ identifiantProjet, actions, urlAppelOffre }) => {
   return (
-    <div className="flex flex-row gap-4">
+    <div className="flex flex-col gap-2">
       {actions.includes('annuler-demande-mainlevée-gf') && (
         <AnnulerDemandeMainlevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
-      )}
-
-      {actions.includes('voir-appel-offre-info') && (
-        <Alert
-          description={
-            <span>
-              Vous pouvez consulter l'appel d'offre du projet en accédant à{' '}
-              <Link href={urlAppelOffre} target="_blank">
-                cette page de la CRE
-              </Link>
-            </span>
-          }
-          severity="info"
-          small
-          className="mb-4"
-        />
       )}
       {actions.includes('instruire-demande-mainlevée-gf') && (
         <DémarrerInstructionDemandeMainlevéeGarantiesFinancières
@@ -105,6 +88,14 @@ const Actions: FC<ActionsProps> = ({ identifiantProjet, actions, urlAppelOffre }
           <AccepterDemandeMainlevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
           <RejeterDemandeMainlevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
         </div>
+      )}
+      {actions.includes('voir-appel-offre-info') && (
+        <p className="italic">
+          Vous pouvez consulter l'appel d'offre du projet en accédant à{' '}
+          <Link href={urlAppelOffre} target="_blank">
+            cette page de la CRE
+          </Link>
+        </p>
       )}
     </div>
   );

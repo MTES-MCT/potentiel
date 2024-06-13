@@ -27,6 +27,7 @@ export type DétailsGarantiesFinancièresPageProps = {
   dépôtEnCours?: GarantiesFinancièresDépôtEnCoursProps['dépôt'];
   dateLimiteSoummission?: Iso8601DateTime;
   mainlevée?: GarantiesFinancièresActuellesProps['mainlevée'];
+  historiqueMainlevée?: GarantiesFinancièresActuellesProps['historiqueMainlevée'];
   afficherInfoConditionsMainlevée: boolean;
   action?: 'soumettre' | 'enregistrer';
 };
@@ -37,11 +38,11 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   dépôtEnCours,
   action,
   mainlevée,
+  historiqueMainlevée,
   afficherInfoConditionsMainlevée,
 }) => (
   <PageTemplate banner={<ProjetBanner {...projet} />}>
     <TitrePageGarantiesFinancières title="Détail des garanties financières" />
-
     {actuelles || dépôtEnCours ? (
       <>
         <div className="flex flex-col lg:flex-row gap-4">
@@ -50,6 +51,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
               actuelles={actuelles}
               identifiantProjet={projet.identifiantProjet}
               mainlevée={mainlevée}
+              historiqueMainlevée={historiqueMainlevée}
             />
           )}
 

@@ -218,6 +218,18 @@ const mapToProps: MapToProps = ({
     }
   }
 
+  const historique = Option.isSome(historiqueMainlevée)
+    ? historiqueMainlevée.historique.map((mainlevée) => ({
+        motif: mainlevée.motif.motif,
+        demandéeLe: mainlevée.demande.demandéeLe.formatter(),
+        rejet: {
+          rejetéLe: mainlevée.rejet.rejetéLe.formatter(),
+          rejetéPar: mainlevée.rejet.rejetéPar.email,
+          courrierRejet: { format: mainlevée.rejet.courrierRejet.format },
+        },
+      }))
+    : undefined;
+
   return {
     projet,
     actuelles: Option.isSome(garantiesFinancièresActuelles)
@@ -271,17 +283,7 @@ const mapToProps: MapToProps = ({
           urlAppelOffre: appelOffreDetails.cahiersDesChargesUrl,
         }
       : undefined,
-    historiqueMainlevée: Option.isSome(historiqueMainlevée)
-      ? historiqueMainlevée.historique.map((mainlevée) => ({
-          motif: mainlevée.motif.motif,
-          demandéLe: mainlevée.demande.demandéeLe.formatter(),
-          rejet: {
-            rejetéLe: mainlevée.rejet.rejetéLe.formatter(),
-            rejetéPar: mainlevée.rejet.rejetéPar.email,
-            courrierRejet: { format: mainlevée.rejet.courrierRejet.format },
-          },
-        }))
-      : undefined,
+    historiqueMainlevée: historique,
     afficherInfoConditionsMainlevée:
       utilisateur.role.estÉgaleÀ(Role.porteur) &&
       Option.isNone(mainlevée) &&

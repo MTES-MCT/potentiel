@@ -92,13 +92,12 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
         dernière mise à jour le <FormattedDate date={misÀJourLe} />
       </p>
       {showInstruction && (
-        // TODO: ajouter lien vers la demande d'instruction
         <a
-          href={Routes.Projet.details(identifiantProjet)}
+          href={Routes.GarantiesFinancières.détail(identifiantProjet)}
           className="self-end mt-2"
-          aria-label={`voir le détail du projet ${nomProjet}`}
+          aria-label={`instruire`}
         >
-          voir l'instruction
+          Instruire
         </a>
       )}
     </div>
