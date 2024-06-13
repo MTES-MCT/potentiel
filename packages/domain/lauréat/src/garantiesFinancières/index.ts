@@ -167,3 +167,4 @@ export * from './mainlevée/historiqueMainlevéeRejetéeGarantiesFinancières.en
 
 // Ports
 export type { BuildModèleMiseEnDemeureGarantiesFinancièresPort } from './projetEnAttenteDeGarantiesFinancières/générerModèleMiseEnDemeure/générerModèleMiseEnDemeure.query';
+export type { BuildModèleRéponseMainlevéeGarantiesFinancièresPort } from './mainlevée/générerModèleRéponse/générerModèleRéponse.query';
