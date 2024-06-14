@@ -33,7 +33,7 @@ export type MainlevéeEnCoursProps = {
 };
 
 export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, identifiantProjet }) => (
-  <div className="mt-5 p-3 border border-dsfr-border-default-blueFrance-default">
+  <div className="p-3 flex-1">
     <Heading3>Mainlevée en cours</Heading3>
     <div className="text-xs italic">
       Dernière mise à jour le{' '}

@@ -60,7 +60,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
   mainlevée,
   historiqueMainlevée,
 }) => (
-  <>
+  <div className="flex flex-1 flex-row gap-2 md:flex-col">
     <CallOut
       className="flex-1"
       colorVariant={actions.includes('enregister-attestation') ? 'warning' : 'success'}
@@ -127,8 +127,16 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
                 )}
               </div>
             </div>
+            <Actions identifiantProjet={identifiantProjet} actions={actions} />
           </div>
-          <Actions identifiantProjet={identifiantProjet} actions={actions} />
+        </div>
+      }
+    />
+    <CallOut
+      className="flex-1"
+      colorVariant={mainlevée?.statut === 'accordé' ? 'success' : 'warning'}
+      content={
+        <div className="flex">
           {showMainlevéeGarantiesFinancières && mainlevée && (
             <MainlevéeEnCours identifiantProjet={identifiantProjet} mainlevée={mainlevée} />
           )}
@@ -140,7 +148,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
         </div>
       }
     />
-  </>
+  </div>
 );
 
 type ActionsProps = {
