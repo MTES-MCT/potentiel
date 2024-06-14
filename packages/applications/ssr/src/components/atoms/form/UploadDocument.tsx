@@ -44,8 +44,12 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
 
   return (
     <div className={`fr-input-group ${className}`}>
-      <label className="fr-label">{label}</label>
-      <div className={`flex items-center relative mt-2`}>
+      <label className="fr-label">
+        {label}
+        <div className="fr-hint-text">Format accepté : {format}</div>
+      </label>
+
+      <div className="flex items-center relative mt-3 gap-3">
         <input
           {...props}
           aria-required={props.required}
@@ -59,19 +63,14 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
           }}
         />
 
-        <div className="flex flex-col">
-          <div className="truncate mr-5">
-            {uploadedFileName ? uploadedFileName : 'Téléverser un document'}
-          </div>
-          <div>
-            <span className="text-xs">Format accepté : {format}</span>
-          </div>
-        </div>
-
         <Button type="button" priority="secondary" onClick={browseForFile}>
           <Icon id="fr-icon-folder-2-fill" className="md:mr-1" />
           <span className="hidden md:inline-block text-sm">Parcourir</span>
         </Button>
+
+        <div className="text-sm truncate mr-5">
+          {uploadedFileName ? uploadedFileName : 'Aucun document sélectionné'}
+        </div>
       </div>
     </div>
   );
@@ -121,6 +120,7 @@ const KeepOrEditDocument: FC<UploadDocumentProps & { documentKey: string }> = ({
               )}
             </div>
           ),
+
           nativeInputProps: {
             checked: documentSelection === 'keep_existing_document',
             onChange: () => setDocumentSelection('keep_existing_document'),
@@ -129,7 +129,7 @@ const KeepOrEditDocument: FC<UploadDocumentProps & { documentKey: string }> = ({
         },
         {
           label: (
-            <div className={`flex items-center relative top-[-0.5rem]`}>
+            <div className="relative top-[-0.5rem]">
               {documentSelection === 'edit_document' && (
                 <input
                   {...props}
@@ -146,23 +146,25 @@ const KeepOrEditDocument: FC<UploadDocumentProps & { documentKey: string }> = ({
               )}
 
               <div className="flex flex-col">
-                <div className="truncate mr-5">
-                  {uploadedFileName ? uploadedFileName : `Modifier le document existant`}
-                </div>
-                <div>
-                  <span className="text-xs">Format accepté : {format}</span>
+                <div>Modifier le document existant</div>
+                <div className="fr-hint-text">Format accepté : {format}</div>
+
+                <div className="flex items-center flex-row gap-2 mt-2">
+                  <Button
+                    type="button"
+                    priority="secondary"
+                    onClick={browseForFile}
+                    disabled={documentSelection === 'keep_existing_document'}
+                  >
+                    <Icon id="fr-icon-folder-2-fill" className="md:mr-1" />
+                    <span className="hidden md:inline-block text-sm">Parcourir</span>
+                  </Button>
+
+                  <div className="text-sm truncate mr-5">
+                    {uploadedFileName ? uploadedFileName : 'Aucun document sélectionné'}
+                  </div>
                 </div>
               </div>
-
-              <Button
-                type="button"
-                priority="secondary"
-                onClick={browseForFile}
-                disabled={documentSelection === 'keep_existing_document'}
-              >
-                <Icon id="fr-icon-folder-2-fill" className="md:mr-1" />
-                <span className="hidden md:inline-block text-sm">Parcourir</span>
-              </Button>
             </div>
           ),
           nativeInputProps: {
