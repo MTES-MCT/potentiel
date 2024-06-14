@@ -47,7 +47,7 @@ export const DémarrerInstructionDemandeMainlevéeGarantiesFinancières = ({
                 Êtes-vous sûr de vouloir démarrer l'instruction de la demande de mainlevée ?
               </p>
               <span className="italic">
-                Cela passera son statut en $
+                Cela passera son statut en
                 {convertStatutMainlevéeForView(
                   GarantiesFinancières.StatutMainlevéeGarantiesFinancières.enInstruction.statut,
                 )}
