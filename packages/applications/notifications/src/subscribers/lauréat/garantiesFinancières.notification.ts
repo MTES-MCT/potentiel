@@ -26,6 +26,7 @@ const templateId = {
   GFActuellesModifiéesPourPorteur: 5765519,
   GFActuellesModifiéesPourDreal: 5765536,
   mainlevéeGFDemandéePourDreal: 6025932,
+  mainlevéeGFStatutModifiéPourPorteur: 6051452,
 };
 
 const sendEmailGarantiesFinancières = async ({
@@ -165,6 +166,20 @@ export const register = () => {
           subject: `Potentiel - Demande de mainlevée des garanties financières pour le projet ${nomProjet} dans le département ${départementProjet}`,
           templateId: templateId.mainlevéeGFDemandéePourDreal,
           recipients: dreals,
+          identifiantProjet,
+          nomProjet,
+          départementProjet,
+          régionProjet,
+        });
+        break;
+
+      case 'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1':
+      case 'DemandeMainlevéeGarantiesFinancièresAccordée-V1':
+      case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
+        await sendEmailGarantiesFinancières({
+          subject: `Potentiel - Le statut de la demande de mainlevée des garanties financières a été modifié ${nomProjet}`,
+          templateId: templateId.mainlevéeGFStatutModifiéPourPorteur,
+          recipients: porteurs,
           identifiantProjet,
           nomProjet,
           départementProjet,

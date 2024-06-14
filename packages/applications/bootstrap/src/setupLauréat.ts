@@ -150,6 +150,9 @@ export const setupLauréat = async () => {
         'GarantiesFinancièresModifiées-V1',
         'GarantiesFinancièresEnregistrées-V1',
         'MainlevéeGarantiesFinancièresDemandée-V1',
+        'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1',
+        'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
+        'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
       ],
       eventHandler: async (event) => {
         await mediator.publish<GarantiesFinancièresNotification.Execute>({
