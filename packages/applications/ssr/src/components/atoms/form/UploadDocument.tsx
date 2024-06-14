@@ -33,7 +33,7 @@ const extractFileName = (path: string) => path.replace(/^.*[\\\/]/, '');
 const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
   label,
   format = 'pdf',
-  className,
+  className = '',
   ...props
 }) => {
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
@@ -63,21 +63,21 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
           }}
         />
 
-        <Button type="button" priority="secondary" onClick={browseForFile}>
+        <Button className="!mt-0" type="button" priority="secondary" onClick={browseForFile}>
           <Icon id="fr-icon-folder-2-fill" className="md:mr-1" />
           <span className="hidden md:inline-block text-sm">Parcourir</span>
         </Button>
 
-        <div className="text-sm truncate mr-5">
+        <p className="text-sm truncate m-0 p-0">
           {uploadedFileName ? uploadedFileName : 'Aucun document sélectionné'}
-        </div>
+        </p>
       </div>
     </div>
   );
 };
 
 const KeepOrEditDocument: FC<UploadDocumentProps & { documentKey: string }> = ({
-  className,
+  className = '',
   label,
   disabled,
   state,
@@ -160,9 +160,9 @@ const KeepOrEditDocument: FC<UploadDocumentProps & { documentKey: string }> = ({
                     <span className="hidden md:inline-block text-sm">Parcourir</span>
                   </Button>
 
-                  <div className="text-sm truncate mr-5">
+                  <p className="text-sm truncate m-0 p-0">
                     {uploadedFileName ? uploadedFileName : 'Aucun document sélectionné'}
-                  </div>
+                  </p>
                 </div>
               </div>
             </div>
