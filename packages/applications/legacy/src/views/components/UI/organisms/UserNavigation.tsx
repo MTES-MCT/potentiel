@@ -4,7 +4,7 @@ import { Header } from './Header';
 import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Routes } from '@potentiel-applications/routes';
-import { showMainLevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
+import { showMainlevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
 
 const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) => (
   <DropdownMenu buttonChildren={'Garanties financières'}>
@@ -22,7 +22,7 @@ const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) =>
     >
       Projets avec garanties financières en attente
     </DropdownMenu.DropdownItem>
-    {showMainLevéeGarantiesFinancières && (
+    {showMainlevéeGarantiesFinancières && (
       <DropdownMenu.DropdownItem
         href={Routes.GarantiesFinancières.demandeMainlevée.lister}
         {...(currentPage === 'demandes-mainlevee-en-cours' && {

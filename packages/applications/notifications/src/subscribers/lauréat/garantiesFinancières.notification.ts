@@ -25,7 +25,7 @@ const templateId = {
   attestationGFActuellesEnregistréePourDreal: 5765406,
   GFActuellesModifiéesPourPorteur: 5765519,
   GFActuellesModifiéesPourDreal: 5765536,
-  mainLevéeGFDemandéePourDreal: 6025932,
+  mainlevéeGFDemandéePourDreal: 6025932,
 };
 
 const sendEmailGarantiesFinancières = async ({
@@ -160,10 +160,10 @@ export const register = () => {
         });
         break;
 
-      case 'MainLevéeGarantiesFinancièresDemandée-V1':
+      case 'MainlevéeGarantiesFinancièresDemandée-V1':
         await sendEmailGarantiesFinancières({
-          subject: `Potentiel - Demande de main-levée des garanties financières pour le projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.mainLevéeGFDemandéePourDreal,
+          subject: `Potentiel - Demande de mainlevée des garanties financières pour le projet ${nomProjet} dans le département ${départementProjet}`,
+          templateId: templateId.mainlevéeGFDemandéePourDreal,
           recipients: dreals,
           identifiantProjet,
           nomProjet,

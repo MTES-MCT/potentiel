@@ -56,8 +56,11 @@ export async function soumettreDépôt(
   if (!type.estAvecDateÉchéance() && dateÉchéance) {
     throw new DateÉchéanceNonAttendueError();
   }
-  if (this.mainLevée?.statut.estDemandé()) {
-    throw new DemandeMainLevéeDemandéeError();
+  if (this.demandeMainlevéeEnCours?.statut.estDemandé()) {
+    throw new DemandeMainlevéeDemandéeError();
+  }
+  if (this.demandeMainlevéeEnCours?.statut.estEnInstruction()) {
+    throw new DemandeMainlevéeEnInstructionError();
   }
 
   const event: DépôtGarantiesFinancièresSoumisEvent = {
@@ -97,10 +100,18 @@ class DépôtGarantiesFinancièresDéjàSoumisError extends InvalidOperationErro
   }
 }
 
-class DemandeMainLevéeDemandéeError extends InvalidOperationError {
+class DemandeMainlevéeDemandéeError extends InvalidOperationError {
   constructor() {
     super(
-      'Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une demande de main-levée de garanties financières en cours',
+      'Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une demande de mainlevée de garanties financières en cours',
+    );
+  }
+}
+
+class DemandeMainlevéeEnInstructionError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une mainlevée de garanties financières en cours d'instruction`,
     );
   }
 }

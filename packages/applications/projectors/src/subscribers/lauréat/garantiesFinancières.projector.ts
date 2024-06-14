@@ -30,8 +30,11 @@ export const register = () => {
       await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
         `projet-avec-garanties-financieres-en-attente|${payload.id}`,
       );
-      await removeProjection<GarantiesFinancières.MainLevéeGarantiesFinancièresEntity>(
-        `main-levee-garanties-financieres|${payload.id}`,
+      await removeProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+        `mainlevee-garanties-financieres|${payload.id}`,
+      );
+      await removeProjection<GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
+        `historique-mainlevee-rejetee-garanties-financieres|${payload.id}`,
       );
     } else {
       const { identifiantProjet } = payload;
@@ -51,9 +54,14 @@ export const register = () => {
           `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
         );
 
-      const mainLevéeGarantiesFinancières =
-        await findProjection<GarantiesFinancières.MainLevéeGarantiesFinancièresEntity>(
-          `main-levee-garanties-financieres|${identifiantProjet}`,
+      const mainlevéeGarantiesFinancières =
+        await findProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+          `mainlevee-garanties-financieres|${identifiantProjet}`,
+        );
+
+      const historiqueMainlevéeRejetéeGarantiesFinancières =
+        await findProjection<GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
+          `historique-mainlevee-rejetee-garanties-financieres|${identifiantProjet}`,
         );
 
       const garantiesFinancièresDefaultValue: Omit<
@@ -114,8 +122,8 @@ export const register = () => {
         dateLimiteSoumission: '',
       };
 
-      const mainLevéeGarantiesFinancièresDefaultValue: Omit<
-        GarantiesFinancières.MainLevéeGarantiesFinancièresEntity,
+      const mainlevéeGarantiesFinancièresDefaultValue: Omit<
+        GarantiesFinancières.MainlevéeGarantiesFinancièresEntity,
         'type'
       > = {
         identifiantProjet,
@@ -128,6 +136,19 @@ export const register = () => {
         motif: '',
         statut: '',
         dernièreMiseÀJour: { date: '', par: '' },
+      };
+
+      const historiqueMainlevéeRejetéeGarantiesFinancièresDefaultValue: Omit<
+        GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity,
+        'type'
+      > = {
+        identifiantProjet,
+        nomProjet: '',
+        appelOffre: '',
+        période: '',
+        famille: undefined,
+        régionProjet: '',
+        historique: [],
       };
 
       const garantiesFinancièresToUpsert: Omit<
@@ -151,12 +172,19 @@ export const register = () => {
         ? projetAvecGarantiesFinancièresEnAttente
         : projetAvecGarantiesFinancièresEnAttenteDefaultValue;
 
-      const mainLevéeGarantiesFinancièresToUpsert: Omit<
-        GarantiesFinancières.MainLevéeGarantiesFinancièresEntity,
+      const mainlevéeGarantiesFinancièresToUpsert: Omit<
+        GarantiesFinancières.MainlevéeGarantiesFinancièresEntity,
         'type'
-      > = Option.isSome(mainLevéeGarantiesFinancières)
-        ? mainLevéeGarantiesFinancières
-        : mainLevéeGarantiesFinancièresDefaultValue;
+      > = Option.isSome(mainlevéeGarantiesFinancières)
+        ? mainlevéeGarantiesFinancières
+        : mainlevéeGarantiesFinancièresDefaultValue;
+
+      const historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert: Omit<
+        GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity,
+        'type'
+      > = Option.isSome(historiqueMainlevéeRejetéeGarantiesFinancières)
+        ? historiqueMainlevéeRejetéeGarantiesFinancières
+        : historiqueMainlevéeRejetéeGarantiesFinancièresDefaultValue;
 
       const getProjectData = async (identifiantProjet: IdentifiantProjet.RawType) => {
         const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
@@ -406,18 +434,18 @@ export const register = () => {
           );
           break;
 
-        case 'MainLevéeGarantiesFinancièresDemandée-V1':
+        case 'MainlevéeGarantiesFinancièresDemandée-V1':
           détailProjet = await getProjectData(identifiantProjet);
 
-          await upsertProjection<GarantiesFinancières.MainLevéeGarantiesFinancièresEntity>(
-            `main-levee-garanties-financieres|${identifiantProjet}`,
+          await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+            `mainlevee-garanties-financieres|${identifiantProjet}`,
             {
-              ...mainLevéeGarantiesFinancièresToUpsert,
+              ...mainlevéeGarantiesFinancièresToUpsert,
               ...détailProjet,
               identifiantProjet: payload.identifiantProjet,
               demande: { demandéeLe: payload.demandéLe, demandéePar: payload.demandéPar },
               motif: payload.motif,
-              statut: GarantiesFinancières.StatutMainLevéeGarantiesFinancières.demandé.statut,
+              statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.demandé.statut,
               dernièreMiseÀJour: {
                 date: payload.demandéLe,
                 par: payload.demandéPar,
@@ -426,9 +454,73 @@ export const register = () => {
           );
           break;
 
-        case 'DemandeMainLevéeGarantiesFinancièresAnnulée-V1':
-          await removeProjection<GarantiesFinancières.MainLevéeGarantiesFinancièresEntity>(
-            `main-levee-garanties-financieres|${identifiantProjet}`,
+        case 'DemandeMainlevéeGarantiesFinancièresAnnulée-V1':
+          await removeProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+            `mainlevee-garanties-financieres|${identifiantProjet}`,
+          );
+          break;
+
+        case 'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1':
+          await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+            `mainlevee-garanties-financieres|${identifiantProjet}`,
+            {
+              ...mainlevéeGarantiesFinancièresToUpsert,
+              statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.enInstruction.statut,
+              instruction: { démarréeLe: payload.démarréLe, démarréePar: payload.démarréPar },
+              dernièreMiseÀJour: {
+                date: payload.démarréLe,
+                par: payload.démarréPar,
+              },
+            },
+          );
+          break;
+
+        case 'DemandeMainlevéeGarantiesFinancièresAccordée-V1':
+          await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+            `mainlevee-garanties-financieres|${identifiantProjet}`,
+            {
+              ...mainlevéeGarantiesFinancièresToUpsert,
+              statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
+              accord: {
+                accordéeLe: payload.accordéLe,
+                accordéePar: payload.accordéPar,
+                courrierAccord: { format: payload.réponseSignée.format },
+              },
+              dernièreMiseÀJour: {
+                date: payload.accordéLe,
+                par: payload.accordéPar,
+              },
+            },
+          );
+          break;
+
+        case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
+          détailProjet = await getProjectData(identifiantProjet);
+
+          await upsertProjection<GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
+            `historique-mainlevee-rejetee-garanties-financieres|${identifiantProjet}`,
+
+            {
+              ...historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert,
+              ...détailProjet,
+              identifiantProjet: payload.identifiantProjet,
+              historique: [
+                ...historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert.historique,
+                {
+                  demande: mainlevéeGarantiesFinancièresToUpsert.demande,
+                  motif: mainlevéeGarantiesFinancièresToUpsert.motif,
+                  rejet: {
+                    rejetéLe: payload.rejetéLe,
+                    rejetéPar: payload.rejetéPar,
+                    courrierRejet: { format: payload.réponseSignée.format },
+                  },
+                },
+              ],
+            },
+          );
+
+          await removeProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+            `mainlevee-garanties-financieres|${identifiantProjet}`,
           );
           break;
       }

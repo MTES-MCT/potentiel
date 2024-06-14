@@ -61,21 +61,19 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | type                 | consignation        |          
         Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières en attente de validation pour ce projet"   
 
-    Scénario: Impossible de soumettre de nouvelles garanties financières si une demande de main-levée a été demandée    
+    Scénario: Impossible de soumettre de nouvelles garanties financières si une demande de mainlevée a été demandée    
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"    
-        Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :
+        Et une demande de mainlevée de garanties financières pour le projet "Centrale PV" avec :
             | motif                | projet-achevé          |              
          Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type                 | consignation        |          
-        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une demande de main-levée de garanties financières en cours"  
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une demande de mainlevée de garanties financières en cours"  
 
-@NotImplemented
-    Scénario: Impossible de soumettre de nouvelles garanties financières si une demande de main-levée est en instruction    
+    Scénario: Impossible de soumettre de nouvelles garanties financières si une demande de mainlevée est en instruction    
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"      
-        Et une demande de main-levée de garanties financières pour le projet "Centrale PV" avec :
-            | motif                | projet-achevé          |            
-         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+        Et une demande de mainlevée de garanties financières en instruction pour le projet "Centrale PV"
+        Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type                 | consignation        |          
-        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une demande de main-levée de garanties financières en cours"          
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une mainlevée de garanties financières en cours d'instruction"          

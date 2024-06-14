@@ -29,7 +29,7 @@ export type FormulaireAttestationConformitéProps = {
     preuveTransmissionAuCocontractant: string;
     dateTransmissionAuCocontractant: Iso8601DateTime;
   };
-  showDemanderMainLevée?: boolean;
+  showDemanderMainlevée?: boolean;
 };
 
 export const FormulaireAttestationConformité: FC<FormulaireAttestationConformitéProps> = ({
@@ -37,7 +37,7 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
   action,
   submitButtonLabel,
   donnéesActuelles,
-  showDemanderMainLevée,
+  showDemanderMainlevée,
 }) => {
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
   const router = useRouter();
@@ -150,13 +150,13 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
           stateRelatedMessage="Date de transmission au co-contractant obligatoire"
         />
 
-        {showDemanderMainLevée && (
+        {showDemanderMainlevée && (
           <Checkbox
             options={[
               {
-                label: `Je souhaite demander une main-levée de mes garanties financières`,
+                label: `Je souhaite demander une mainlevée de mes garanties financières`,
                 nativeInputProps: {
-                  name: 'demanderMainLevee',
+                  name: 'demanderMainlevée',
                   value: 'true',
                 },
               },

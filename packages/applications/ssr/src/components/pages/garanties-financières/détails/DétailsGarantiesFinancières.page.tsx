@@ -26,8 +26,9 @@ export type DétailsGarantiesFinancièresPageProps = {
   actuelles?: GarantiesFinancièresActuellesProps['actuelles'];
   dépôtEnCours?: GarantiesFinancièresDépôtEnCoursProps['dépôt'];
   dateLimiteSoummission?: Iso8601DateTime;
-  mainLevée?: GarantiesFinancièresActuellesProps['mainLevée'];
-  afficherInfoConditionsMainLevée: boolean;
+  mainlevée?: GarantiesFinancièresActuellesProps['mainlevée'];
+  historiqueMainlevée?: GarantiesFinancièresActuellesProps['historiqueMainlevée'];
+  afficherInfoConditionsMainlevée: boolean;
   action?: 'soumettre' | 'enregistrer';
 };
 
@@ -36,12 +37,12 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   actuelles,
   dépôtEnCours,
   action,
-  mainLevée,
-  afficherInfoConditionsMainLevée,
+  mainlevée,
+  historiqueMainlevée,
+  afficherInfoConditionsMainlevée,
 }) => (
   <PageTemplate banner={<ProjetBanner {...projet} />}>
     <TitrePageGarantiesFinancières title="Détail des garanties financières" />
-
     {actuelles || dépôtEnCours ? (
       <>
         <div className="flex flex-col lg:flex-row gap-4">
@@ -49,7 +50,8 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
             <GarantiesFinancièresActuelles
               actuelles={actuelles}
               identifiantProjet={projet.identifiantProjet}
-              mainLevée={mainLevée}
+              mainlevée={mainlevée}
+              historiqueMainlevée={historiqueMainlevée}
             />
           )}
 
@@ -60,14 +62,15 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
             />
           )}
         </div>
-        {afficherInfoConditionsMainLevée && (
+        {afficherInfoConditionsMainlevée && (
           <Alert
             severity="info"
             small
             description={
               <div className="p-3">
                 Vous pouvez accéder à la demande de levée de vos garanties bancaires sur Potentiel
-                si votre projet remplit toutes les conditions suivantes :
+                si votre projet remplit <span className="font-semibold">toutes</span> les conditions
+                suivantes :
                 <ul className="list-disc list-inside">
                   <li>
                     Le projet a des garanties financières validées (l'attestation de constitution

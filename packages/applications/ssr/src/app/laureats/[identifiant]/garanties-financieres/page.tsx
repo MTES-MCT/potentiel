@@ -8,7 +8,8 @@ import {
 } from '@potentiel-domain/candidature';
 import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { showMainLevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
+import { showMainlevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
+import { AppelOffre, ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -23,6 +24,8 @@ import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financi�
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import { GarantiesFinancièresDépôtEnCoursProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresDépôtEnCours';
 import { GarantiesFinancièresActuellesProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresActuelles';
+
+import { MainlevéeEnCoursProps } from '../../../../components/pages/garanties-financières/détails/components/MainlevéeEnCours';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
@@ -40,6 +43,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       });
 
       const projet = { ...candidature, identifiantProjet };
+
+      const appelOffreDetails = await mediator.send<ConsulterAppelOffreQuery>({
+        type: 'AppelOffre.Query.ConsulterAppelOffre',
+        data: { identifiantAppelOffre: candidature.appelOffre },
+      });
 
       const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
         appelOffre: candidature.appelOffre,
@@ -68,11 +76,23 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjetValue: identifiantProjet },
       });
 
-      const mainLevée =
-        await mediator.send<GarantiesFinancières.ConsulterMainLevéeGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.MainLevée.Query.Consulter',
-          data: { identifiantProjetValue: identifiantProjet },
-        });
+      const mainlevée =
+        await mediator.send<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
+            data: { identifiantProjetValue: identifiantProjet },
+          },
+        );
+
+      const historiqueMainlevée =
+        await mediator.send<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.ConsulterHistoriqueDemandeMainlevéeRejetée',
+            data: {
+              identifiantProjetValue: identifiantProjet,
+            },
+          },
+        );
 
       const props = mapToProps({
         projet,
@@ -80,7 +100,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         garantiesFinancièresActuelles,
         dépôtEnCoursGarantiesFinancières,
         achèvement,
-        mainLevée,
+        mainlevée,
+        appelOffreDetails,
+        historiqueMainlevée,
       });
 
       return <DétailsGarantiesFinancièresPage {...props} />;
@@ -94,7 +116,9 @@ type MapToProps = (args: {
   garantiesFinancièresActuelles: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
   achèvement: Option.Type<Achèvement.ConsulterAttestationConformitéReadModel>;
-  mainLevée: Option.Type<GarantiesFinancières.ConsulterMainLevéeGarantiesFinancièresReadModel>;
+  mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>;
+  appelOffreDetails: AppelOffre;
+  historiqueMainlevée: Option.Type<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel>;
 }) => DétailsGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({
@@ -103,7 +127,9 @@ const mapToProps: MapToProps = ({
   garantiesFinancièresActuelles,
   dépôtEnCoursGarantiesFinancières,
   achèvement,
-  mainLevée,
+  mainlevée,
+  appelOffreDetails,
+  historiqueMainlevée,
 }) => {
   if (
     Option.isNone(garantiesFinancièresActuelles) &&
@@ -120,10 +146,10 @@ const mapToProps: MapToProps = ({
           utilisateur.role.estÉgaleÀ(Role.acheteurObligé)
         ? 'enregistrer'
         : undefined,
-      afficherInfoConditionsMainLevée:
+      afficherInfoConditionsMainlevée:
         utilisateur.role.estÉgaleÀ(Role.porteur) &&
-        Option.isNone(mainLevée) &&
-        showMainLevéeGarantiesFinancières,
+        Option.isNone(mainlevée) &&
+        showMainlevéeGarantiesFinancières,
     };
   }
 
@@ -138,6 +164,7 @@ const mapToProps: MapToProps = ({
 
   const garantiesFinancièresActuellesActions: GarantiesFinancièresActuellesProps['actuelles']['actions'] =
     [];
+  const mainlevéeActions: MainlevéeEnCoursProps['mainlevée']['actions'] = [];
 
   const estAdminOuDGEC =
     utilisateur.role.estÉgaleÀ(Role.admin) || utilisateur.role.estÉgaleÀ(Role.dgecValidateur);
@@ -146,36 +173,62 @@ const mapToProps: MapToProps = ({
   const aGarantiesFinancièresSansAttestation =
     Option.isSome(garantiesFinancièresActuelles) &&
     !garantiesFinancièresActuelles.garantiesFinancières.attestation;
-  const aGarantiesFinancièresAvecAttestationSansDepotNiMainLevée =
+  const aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée =
     Option.isSome(garantiesFinancièresActuelles) &&
     garantiesFinancièresActuelles.garantiesFinancières.attestation &&
     Option.isNone(dépôtEnCoursGarantiesFinancières) &&
-    Option.isNone(mainLevée);
+    Option.isNone(mainlevée);
   const projetAbandonne = projet.statut === 'abandonné';
   const projetAcheve = Option.isSome(achèvement);
-  const mainLevéeDemandée = Option.isSome(mainLevée) && mainLevée.statut.estDemandé();
+  const mainlevéeDemandée = Option.isSome(mainlevée) && mainlevée.statut.estDemandé();
+  const mainlevéeEnInstruction = Option.isSome(mainlevée) && mainlevée.statut.estEnInstruction();
 
   if (estAdminOuDGEC || estDreal) {
     garantiesFinancièresActuellesActions.push('modifier');
   } else if (estPorteur) {
     if (aGarantiesFinancièresSansAttestation) {
       garantiesFinancièresActuellesActions.push('enregister-attestation');
-    } else if (
-      aGarantiesFinancièresAvecAttestationSansDepotNiMainLevée &&
+    }
+    if (
+      aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée &&
       projetAbandonne &&
-      showMainLevéeGarantiesFinancières
+      showMainlevéeGarantiesFinancières
     ) {
-      garantiesFinancièresActuellesActions.push('demander-main-levée-gf-pour-projet-abandonné');
-    } else if (
-      aGarantiesFinancièresAvecAttestationSansDepotNiMainLevée &&
+      garantiesFinancièresActuellesActions.push('demander-mainlevée-gf-pour-projet-abandonné');
+    }
+    if (
+      aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée &&
       projetAcheve &&
-      showMainLevéeGarantiesFinancières
+      showMainlevéeGarantiesFinancières
     ) {
-      garantiesFinancièresActuellesActions.push('demander-main-levée-gf-pour-projet-achevé');
-    } else if (mainLevéeDemandée) {
-      garantiesFinancièresActuellesActions.push('annuler-demande-main-levée-gf');
+      garantiesFinancièresActuellesActions.push('demander-mainlevée-gf-pour-projet-achevé');
+    }
+    if (mainlevéeDemandée) {
+      mainlevéeActions.push('annuler-demande-mainlevée-gf');
     }
   }
+
+  if (estDreal) {
+    mainlevéeActions.push('voir-appel-offre-info');
+    if (mainlevéeDemandée) {
+      mainlevéeActions.push('instruire-demande-mainlevée-gf');
+    }
+    if (mainlevéeEnInstruction || mainlevéeDemandée) {
+      mainlevéeActions.push('accorder-ou-rejeter-demande-mainlevée-gf');
+    }
+  }
+
+  const historique = Option.isSome(historiqueMainlevée)
+    ? historiqueMainlevée.historique.map((mainlevée) => ({
+        motif: mainlevée.motif.motif,
+        demandéeLe: mainlevée.demande.demandéeLe.formatter(),
+        rejet: {
+          rejetéLe: mainlevée.rejet.rejetéLe.formatter(),
+          rejetéPar: mainlevée.rejet.rejetéPar.email,
+          courrierRejet: mainlevée.rejet.courrierRejet.formatter(),
+        },
+      }))
+    : undefined;
 
   return {
     projet,
@@ -215,19 +268,25 @@ const mapToProps: MapToProps = ({
     action:
       Option.isNone(dépôtEnCoursGarantiesFinancières) &&
       utilisateur.role.estÉgaleÀ(Role.porteur) &&
-      (Option.isNone(mainLevée) || (Option.isSome(mainLevée) && !mainLevée.statut.estDemandé()))
+      (Option.isNone(mainlevée) || (Option.isSome(mainlevée) && !mainlevée.statut.estDemandé()))
         ? 'soumettre'
         : undefined,
-    mainLevée: Option.isSome(mainLevée)
+    mainlevée: Option.isSome(mainlevée)
       ? {
-          motif: mainLevée.motif.motif,
-          statut: mainLevée.statut.statut,
-          demandéLe: mainLevée.demande.demandéeLe.formatter(),
+          motif: mainlevée.motif.motif,
+          statut: mainlevée.statut.statut,
+          demandéLe: mainlevée.demande.demandéeLe.formatter(),
+          instructionDémarréeLe: mainlevée.instruction?.démarréeLe.formatter(),
+          accordéeLe: mainlevée.accord?.accordéeLe.formatter(),
+          dernièreMiseÀJourLe: mainlevée.dernièreMiseÀJour.date.formatter(),
+          actions: mainlevéeActions,
+          urlAppelOffre: appelOffreDetails.cahiersDesChargesUrl,
         }
       : undefined,
-    afficherInfoConditionsMainLevée:
+    historiqueMainlevée: historique,
+    afficherInfoConditionsMainlevée:
       utilisateur.role.estÉgaleÀ(Role.porteur) &&
-      Option.isNone(mainLevée) &&
-      showMainLevéeGarantiesFinancières,
+      Option.isNone(mainlevée) &&
+      showMainlevéeGarantiesFinancières,
   };
 };

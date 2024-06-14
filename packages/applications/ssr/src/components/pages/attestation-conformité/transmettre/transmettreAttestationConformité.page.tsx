@@ -12,12 +12,12 @@ import { transmettreAttestationConformitéAction } from './transmettreAttestatio
 
 export type TransmettreAttestationConformitéPageProps = {
   projet: ProjetBannerProps;
-  showDemanderMainLevée?: boolean;
+  showDemanderMainlevée?: boolean;
 };
 
 export const TransmettreAttestationConformitéPage: FC<
   TransmettreAttestationConformitéPageProps
-> = ({ projet, showDemanderMainLevée }) => (
+> = ({ projet, showDemanderMainlevée }) => (
   <PageTemplate banner={<ProjetBanner {...projet} />}>
     <TitrePageAttestationConformité title="Transmettre l'attestation de conformité du projet" />
 
@@ -25,7 +25,7 @@ export const TransmettreAttestationConformitéPage: FC<
       identifiantProjet={projet.identifiantProjet}
       action={transmettreAttestationConformitéAction}
       submitButtonLabel="Transmettre"
-      showDemanderMainLevée={showDemanderMainLevée}
+      showDemanderMainlevée={showDemanderMainlevée}
     />
   </PageTemplate>
 );
