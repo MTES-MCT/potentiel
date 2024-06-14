@@ -23,7 +23,7 @@ export const AnnulerDemandeMainlevéeGarantiesFinancières = ({
   return (
     <>
       <Button priority="primary" onClick={() => setIsOpen(true)}>
-        Annuler la demande de mainlevée des garanties financières
+        Annuler la demande de mainlevée
       </Button>
 
       <ModalWithForm

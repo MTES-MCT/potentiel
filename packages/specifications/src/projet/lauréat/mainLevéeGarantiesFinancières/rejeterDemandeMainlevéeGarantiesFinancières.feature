@@ -47,7 +47,6 @@ Fonctionnalité: Rejeter une demande de mainlevée des garanties financières
             | demandé par                | porteur@test.test      |
             | motif                      | projet-achevé          |
 
-// pas la bonne erreur
     Scénario: Impossible de rejeter une demande de mainlevée si le projet n'a pas de demande de mainlevée
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"
@@ -61,7 +60,6 @@ Fonctionnalité: Rejeter une demande de mainlevée des garanties financières
         Quand un utilisateur Dreal rejette une demande de mainlevée des garanties financières du projet "Centrale PV"
         Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée accordée pour ce projet"   
     
-    @select
     Scénario: Impossible de rejeter une demande de mainelevée si le projet a déjà une demande de mainlevée rejetée et aucune en cours
         Etant donné des garanties financières validées pour le projet "Centrale PV"
         Et le projet "Centrale PV" avec une attestation de conformité transmise

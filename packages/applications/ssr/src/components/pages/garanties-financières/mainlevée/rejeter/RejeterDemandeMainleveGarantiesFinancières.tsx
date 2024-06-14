@@ -25,7 +25,7 @@ export const RejeterDemandeMainlevéeGarantiesFinancières = ({
   return (
     <>
       <Button priority="secondary" onClick={() => setIsOpen(true)}>
-        Rejeter la demande
+        Rejeter
       </Button>
 
       <ModalWithForm

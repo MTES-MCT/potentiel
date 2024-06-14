@@ -25,7 +25,7 @@ export const AccorderDemandeMainlevéeGarantiesFinancières = ({
   return (
     <>
       <Button priority="primary" onClick={() => setIsOpen(true)}>
-        Accorder la demande
+        Accorder
       </Button>
 
       <ModalWithForm

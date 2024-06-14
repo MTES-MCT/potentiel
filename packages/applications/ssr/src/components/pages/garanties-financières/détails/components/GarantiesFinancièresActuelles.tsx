@@ -65,66 +65,70 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
       className="flex-1"
       colorVariant={actions.includes('enregister-attestation') ? 'warning' : 'success'}
       content={
-        <>
-          <Heading2>Garanties financières actuelles</Heading2>
-          <div className="text-xs italic">
-            Dernière mise à jour le{' '}
-            <FormattedDate className="font-semibold" date={dernièreMiseÀJour.date} />
-            {dernièreMiseÀJour.par && (
-              <>
-                {' '}
-                par <span className="font-semibold">{dernièreMiseÀJour.par}</span>
-              </>
-            )}
-          </div>
-          <div className="mt-5 gap-2 text-base">
-            <div>
-              {type && (
+        <div className="flex flex-col">
+          <div>
+            <Heading2>Garanties financières actuelles</Heading2>
+            <div className="text-xs italic">
+              Dernière mise à jour le{' '}
+              <FormattedDate className="font-semibold" date={dernièreMiseÀJour.date} />
+              {dernièreMiseÀJour.par && (
                 <>
-                  Type : <span className="font-semibold">{type}</span>
+                  {' '}
+                  par <span className="font-semibold">{dernièreMiseÀJour.par}</span>
                 </>
               )}
-              {!type && actions.includes('modifier') && (
-                <span className="font-semibold italic">Type de garanties financières manquant</span>
-              )}
-              {!type && !actions.includes('modifier') && (
-                <span className="font-semibold italic">
-                  Type à compléter par l'autorité instructrice compétente
-                </span>
-              )}
             </div>
-            {dateÉchéance && (
+            <div className="mt-5 gap-2 text-base">
               <div>
-                Date d'échéance : <FormattedDate className="font-semibold" date={dateÉchéance} />
+                {type && (
+                  <>
+                    Type : <span className="font-semibold">{type}</span>
+                  </>
+                )}
+                {!type && actions.includes('modifier') && (
+                  <span className="font-semibold italic">
+                    Type de garanties financières manquant
+                  </span>
+                )}
+                {!type && !actions.includes('modifier') && (
+                  <span className="font-semibold italic">
+                    Type à compléter par l'autorité instructrice compétente
+                  </span>
+                )}
               </div>
-            )}
-            {dateConstitution && (
-              <div>
-                Date de constitution :{' '}
-                <FormattedDate className="font-semibold" date={dateConstitution} />
-              </div>
-            )}
-            {validéLe && (
-              <div>
-                Validé le : <FormattedDate className="font-semibold" date={validéLe} />
-              </div>
-            )}
-            {soumisLe && (
-              <div>
-                Soumis le : <FormattedDate className="font-semibold" date={soumisLe} />
-              </div>
-            )}
-            <div>
-              {attestation && (
-                <InputDownload
-                  ariaLabel="Télécharger l'attestation de constitution des garanties financières"
-                  details="fichier au format pdf"
-                  label="Télécharger l'attestation"
-                  linkProps={{
-                    href: Routes.Document.télécharger(attestation),
-                  }}
-                />
+              {dateÉchéance && (
+                <div>
+                  Date d'échéance : <FormattedDate className="font-semibold" date={dateÉchéance} />
+                </div>
               )}
+              {dateConstitution && (
+                <div>
+                  Date de constitution :{' '}
+                  <FormattedDate className="font-semibold" date={dateConstitution} />
+                </div>
+              )}
+              {validéLe && (
+                <div>
+                  Validé le : <FormattedDate className="font-semibold" date={validéLe} />
+                </div>
+              )}
+              {soumisLe && (
+                <div>
+                  Soumis le : <FormattedDate className="font-semibold" date={soumisLe} />
+                </div>
+              )}
+              <div>
+                {attestation && (
+                  <InputDownload
+                    ariaLabel="Télécharger l'attestation de constitution des garanties financières"
+                    details="fichier au format pdf"
+                    label="Télécharger l'attestation"
+                    linkProps={{
+                      href: Routes.Document.télécharger(attestation),
+                    }}
+                  />
+                )}
+              </div>
             </div>
           </div>
           <Actions identifiantProjet={identifiantProjet} actions={actions} />
@@ -136,7 +140,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
             historiqueMainlevée.length && (
               <HistoriqueMainlevéeRejetée historique={historiqueMainlevée} />
             )}
-        </>
+        </div>
       }
     />
   </>
