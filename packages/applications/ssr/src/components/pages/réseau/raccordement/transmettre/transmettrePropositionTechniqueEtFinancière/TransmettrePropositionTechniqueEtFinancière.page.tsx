@@ -1,7 +1,6 @@
 'use client';
 
 import React, { FC, useState } from 'react';
-import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { useRouter } from 'next/navigation';
 import Alert from '@codegouvfr/react-dsfr/Alert';
@@ -11,6 +10,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { Form } from '@/components/atoms/form/Form';
+import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
@@ -61,21 +61,15 @@ export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
               }}
             />
 
-            <Upload
+            <UploadDocument
               label="Proposition technique et financière signée"
-              hint="Format accepté : pdf"
-              nativeInputProps={{
-                name: 'propositionTechniqueEtFinanciereSignee',
-                required: true,
-                accept: '.pdf',
-                'aria-required': true,
-              }}
+              name="propositionTechniqueEtFinanciereSignee"
+              required
               state={
                 validationErrors.includes('propositionTechniqueEtFinanciereSignee')
                   ? 'error'
                   : 'default'
               }
-              stateRelatedMessage="Accusé de réception de la proposition technique et finançière obligatoire"
             />
 
             <div className="flex flex-col md:flex-row gap-4 mt-5">

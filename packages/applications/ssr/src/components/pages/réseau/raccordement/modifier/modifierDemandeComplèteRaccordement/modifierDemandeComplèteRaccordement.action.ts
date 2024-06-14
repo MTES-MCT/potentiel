@@ -7,6 +7,7 @@ import { Raccordement } from '@potentiel-domain/reseau';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { document } from '@/utils/zod/documentType';
 
 export type ModifierDemandeComplèteRaccordementState = FormState;
 
@@ -16,7 +17,7 @@ const schema = zod.object({
   dateQualification: zod.string().min(1),
   referenceDossierRaccordement: zod.string().min(1),
   referenceDossierRaccordementActuelle: zod.string().min(1),
-  accuseReception: zod.instanceof(Blob).refine((data) => data.size > 0),
+  accuseReception: document,
 });
 
 const action: FormAction<FormState, typeof schema> = async (
@@ -49,10 +50,7 @@ const action: FormAction<FormState, typeof schema> = async (
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
-        accuséRéceptionValue: {
-          content: accuseReception.stream(),
-          format: accuseReception.type,
-        },
+        accuséRéceptionValue: accuseReception,
         dateQualificationValue: new Date(dateQualification).toISOString(),
         référenceDossierRaccordementValue: referenceDossierRaccordement,
       },

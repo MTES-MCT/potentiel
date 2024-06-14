@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Table } from '@codegouvfr/react-dsfr/Table';
 
@@ -9,6 +8,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
 import { importerDatesMiseEnServiceAction } from './importDatesMiseEnService.action';
 
@@ -34,17 +34,12 @@ export const ImporterDatesMiseEnServicePage = () => {
             }}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
-            <Upload
+            <UploadDocument
               label="Fichier des dates de mise en service"
-              hint='Format supporté : ".csv"'
-              nativeInputProps={{
-                name: 'fichierDatesMiseEnService',
-                accept: '.csv',
-                required: true,
-                'aria-required': true,
-              }}
+              format="csv"
+              name="fichierDatesMiseEnService"
+              required
               state={validationErrors.includes('fichierDatesMiseEnService') ? 'error' : 'default'}
-              stateRelatedMessage={'Vous devez joindre un fichier non vide.'}
             />
             <div className="flex flex-col md:flex-row mx-auto">
               <SubmitButton>Importer</SubmitButton>

@@ -7,13 +7,14 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { document } from '@/utils/zod/documentType';
 
 export type ModifierGarantiesFinancièresState = FormState;
 
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
   dateConstitution: zod.string().min(1),
-  attestation: zod.instanceof(Blob).refine((data) => data.size > 0),
+  attestation: document,
 };
 
 const schema = zod.discriminatedUnion('type', [
@@ -28,22 +29,19 @@ const schema = zod.discriminatedUnion('type', [
   }),
 ]);
 
-const action: FormAction<FormState, typeof schema> = async (_, props) =>
+const action: FormAction<FormState, typeof schema> = async (_, data) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<GarantiesFinancières.GarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
       data: {
-        identifiantProjetValue: props.identifiantProjet,
-        typeValue: props.type,
+        identifiantProjetValue: data.identifiantProjet,
+        typeValue: data.type,
         dateÉchéanceValue:
-          props.type === 'avec-date-échéance'
-            ? new Date(props.dateEcheance).toISOString()
+          data.type === 'avec-date-échéance'
+            ? new Date(data.dateEcheance).toISOString()
             : undefined,
-        dateConstitutionValue: new Date(props.dateConstitution).toISOString(),
-        attestationValue: {
-          content: props.attestation.stream(),
-          format: props.attestation.type,
-        },
+        dateConstitutionValue: new Date(data.dateConstitution).toISOString(),
+        attestationValue: data.attestation,
         modifiéLeValue: new Date().toISOString(),
         modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
       },

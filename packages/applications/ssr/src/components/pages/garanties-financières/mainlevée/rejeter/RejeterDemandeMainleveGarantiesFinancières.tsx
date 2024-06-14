@@ -3,11 +3,11 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Upload } from '@codegouvfr/react-dsfr/Upload';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
+import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
 import { rejeterDemandeMainlevéeGarantiesFinancièresAction } from './rejeterDemandeMainlevéeGarantiesFinancières.action';
 
@@ -44,19 +44,15 @@ export const RejeterDemandeMainlevéeGarantiesFinancières = ({
           children: (
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir rejeter la demande de mainlevée ?</p>
-              <Upload
-                label="Téléverser une réponse signée"
-                hint="au format pdf"
+
+              <UploadDocument
+                label="Réponse signée"
                 state={validationErrors.includes('reponseSignee') ? 'error' : 'default'}
-                stateRelatedMessage="Réponse signée obligatoire"
-                nativeInputProps={{
-                  name: 'reponseSignee',
-                  required: true,
-                  'aria-required': true,
-                  accept: '.pdf',
-                }}
+                name="reponseSignee"
+                required
                 className="mb-4"
               />
+
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             </>
           ),

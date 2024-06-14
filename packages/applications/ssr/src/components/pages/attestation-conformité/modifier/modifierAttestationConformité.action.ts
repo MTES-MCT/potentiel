@@ -7,13 +7,14 @@ import { Achèvement } from '@potentiel-domain/laureat';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { document } from '@/utils/zod/documentType';
 
 export type ModifierAttestationConformitéState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: zod.instanceof(Blob).refine((data) => data.size > 0),
-  preuveTransmissionAuCocontractant: zod.instanceof(Blob).refine((data) => data.size > 0),
+  attestation: document,
+  preuveTransmissionAuCocontractant: document,
   dateTransmissionAuCocontractant: zod.string().min(1),
 });
 
@@ -21,8 +22,8 @@ const action: FormAction<FormState, typeof schema> = async (
   _,
   {
     identifiantProjet,
-    attestation,
     dateTransmissionAuCocontractant,
+    attestation,
     preuveTransmissionAuCocontractant,
   },
 ) =>
@@ -31,14 +32,8 @@ const action: FormAction<FormState, typeof schema> = async (
       type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet,
-        attestationValue: {
-          content: attestation.stream(),
-          format: attestation.type,
-        },
-        preuveTransmissionAuCocontractantValue: {
-          content: preuveTransmissionAuCocontractant.stream(),
-          format: preuveTransmissionAuCocontractant.type,
-        },
+        attestationValue: attestation,
+        preuveTransmissionAuCocontractantValue: preuveTransmissionAuCocontractant,
         dateTransmissionAuCocontractantValue: new Date(
           dateTransmissionAuCocontractant,
         ).toISOString(),

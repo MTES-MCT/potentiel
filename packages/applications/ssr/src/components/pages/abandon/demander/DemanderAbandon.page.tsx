@@ -3,7 +3,6 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Input from '@codegouvfr/react-dsfr/Input';
-import { Upload } from '@codegouvfr/react-dsfr/Upload';
 import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 
@@ -11,6 +10,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1 } from '@/components/atoms/headings';
@@ -56,13 +56,11 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
               stateRelatedMessage="Raison à préciser"
             />
 
-            <Upload
+            <UploadDocument
               label="Pièce justificative (optionnel)"
-              hint="Format accepté : pdf"
               id="pieceJustificative"
-              nativeInputProps={{ name: 'pieceJustificative', accept: '.pdf' }}
+              name="pieceJustificative"
               state={validationErrors.includes('pieceJustificative') ? 'error' : 'default'}
-              stateRelatedMessage="Vous devez joindre un fichier au format PDF obligatoirement"
             />
 
             {showRecandidatureCheckBox && (

@@ -5,8 +5,6 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
-import { Upload } from '@codegouvfr/react-dsfr/Upload';
-import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
@@ -16,6 +14,7 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 import { InputDate } from '@/components/atoms/form/InputDate';
+import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import { GestionnaireRéseauSelect } from '../modifierGestionnaireRéseauRaccordement/GestionnaireRéseauSelect';
@@ -130,33 +129,12 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
               }}
             />
 
-            <Upload
-              label={
-                <>
-                  Accusé de réception de la demande complète de raccordement **{' '}
-                  {accuséRéception && (
-                    <>
-                      <br />
-                      <small>
-                        Pour que la modification puisse fonctionner, merci de joindre un nouveau
-                        fichier ou{' '}
-                        <Link href={Routes.Document.télécharger(accuséRéception)} target="_blank">
-                          celui préalablement transmis
-                        </Link>
-                      </small>
-                    </>
-                  )}
-                </>
-              }
-              hint="Format accepté : pdf"
-              nativeInputProps={{
-                name: 'accuseReception',
-                accept: '.pdf',
-                required: true,
-                'aria-required': true,
-              }}
+            <UploadDocument
+              label="Accusé de réception de la demande complète de raccordement **"
+              name="accuseReception"
+              required
               state={validationErrors.includes('accuseReception') ? 'error' : 'default'}
-              stateRelatedMessage="Accusé de réception de la demande complète de raccordement obligatoire"
+              documentKey={accuséRéception}
             />
 
             <InputDate

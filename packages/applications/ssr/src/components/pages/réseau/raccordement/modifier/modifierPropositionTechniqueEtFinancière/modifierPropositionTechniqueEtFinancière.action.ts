@@ -6,6 +6,7 @@ import * as zod from 'zod';
 import { Raccordement } from '@potentiel-domain/reseau';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
+import { document } from '@/utils/zod/documentType';
 
 export type ModifierPropositionTechniqueEtFinancièreState = FormState;
 
@@ -13,7 +14,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossierRaccordement: zod.string().min(1),
   dateSignature: zod.string().min(1),
-  propositionTechniqueEtFinanciereSignee: zod.instanceof(Blob).refine((data) => data.size > 0),
+  propositionTechniqueEtFinanciereSignee: document,
 });
 
 const action: FormAction<FormState, typeof schema> = async (
@@ -31,10 +32,7 @@ const action: FormAction<FormState, typeof schema> = async (
       identifiantProjetValue: identifiantProjet,
       référenceDossierRaccordementValue: referenceDossierRaccordement,
       dateSignatureValue: new Date(dateSignature).toISOString(),
-      propositionTechniqueEtFinancièreSignéeValue: {
-        content: propositionTechniqueEtFinanciereSignee.stream(),
-        format: propositionTechniqueEtFinanciereSignee.type,
-      },
+      propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinanciereSignee,
     },
   });
 

@@ -3,7 +3,6 @@
 import { FC, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
-import { Upload } from '@codegouvfr/react-dsfr/Upload';
 
 import { Routes } from '@potentiel-applications/routes';
 import { now } from '@potentiel-libraries/iso8601-datetime';
@@ -13,6 +12,7 @@ import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/P
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { InputDate } from '@/components/atoms/form/InputDate';
+import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 
@@ -53,17 +53,11 @@ export const EnregistrerAttestationGarantiesFinancièresPage: FC<
           stateRelatedMessage="Date de constitution des garanties financières obligatoire"
         />
 
-        <Upload
+        <UploadDocument
           label="Attestation de constitution"
-          hint="Format accepté : pdf"
-          nativeInputProps={{
-            name: 'attestation',
-            required: true,
-            'aria-required': true,
-            accept: '.pdf',
-          }}
+          name="attestation"
+          required
           state={validationErrors.includes('attestation') ? 'error' : 'default'}
-          stateRelatedMessage="Attestation de constitution des garantières financières obligatoire"
         />
 
         <div className="flex flex-col md:flex-row gap-4 mt-5">
