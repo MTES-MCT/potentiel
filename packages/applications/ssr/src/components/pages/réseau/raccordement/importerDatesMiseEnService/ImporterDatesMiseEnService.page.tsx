@@ -40,7 +40,6 @@ export const ImporterDatesMiseEnServicePage = () => {
               name="fichierDatesMiseEnService"
               required
               state={validationErrors.includes('fichierDatesMiseEnService') ? 'error' : 'default'}
-              stateRelatedMessage={'Vous devez joindre un fichier non vide.'}
             />
             <div className="flex flex-col md:flex-row mx-auto">
               <SubmitButton>Importer</SubmitButton>

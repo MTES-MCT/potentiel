@@ -77,7 +77,6 @@ export const ModifierGarantiesFinancièresActuellesPage: FC<
           name="attestation"
           required
           state={validationErrors.includes('attestation') ? 'error' : 'default'}
-          stateRelatedMessage="Attestation de consitution des garantières financières obligatoire"
           documentKey={actuelles.attestation}
         />
 

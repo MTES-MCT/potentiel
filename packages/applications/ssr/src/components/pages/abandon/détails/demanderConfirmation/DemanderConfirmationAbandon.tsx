@@ -51,9 +51,8 @@ export const DemanderConfirmationAbandon = ({
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
               <UploadDocument
-                label="Téléverser une réponse signée"
+                label="Réponse signée"
                 state={validationErrors.includes('reponseSignee') ? 'error' : 'default'}
-                stateRelatedMessage="Réponse signée obligatoire"
                 name="reponseSignee"
                 required
                 className="mb-8"

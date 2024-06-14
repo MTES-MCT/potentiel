@@ -130,7 +130,6 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
               name="accuseReception"
               required
               state={validationErrors.includes('accuseReception') ? 'error' : 'default'}
-              stateRelatedMessage="Accusé de réception de la demande complète de raccordement obligatoire"
             />
 
             <div className="flex flex-col md:flex-row gap-4 mt-5">

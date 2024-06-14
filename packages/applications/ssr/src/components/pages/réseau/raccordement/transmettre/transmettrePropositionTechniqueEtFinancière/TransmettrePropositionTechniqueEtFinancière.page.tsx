@@ -70,7 +70,6 @@ export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
                   ? 'error'
                   : 'default'
               }
-              stateRelatedMessage="Accusé de réception de la proposition technique et finançière obligatoire"
             />
 
             <div className="flex flex-col md:flex-row gap-4 mt-5">

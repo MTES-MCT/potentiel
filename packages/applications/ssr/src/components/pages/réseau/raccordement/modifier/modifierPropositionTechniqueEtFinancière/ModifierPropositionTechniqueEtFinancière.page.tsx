@@ -76,7 +76,7 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
             />
 
             <UploadDocument
-              label="Proposition technique et finançière signée"
+              label="Proposition technique et financière signée"
               name="propositionTechniqueEtFinanciereSignee"
               required
               state={
@@ -84,7 +84,6 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
                   ? 'error'
                   : 'default'
               }
-              stateRelatedMessage="Accusé de réception de la proposition technique et finançière obligatoire"
               documentKey={propositionTechniqueEtFinancièreSignée}
             />
 

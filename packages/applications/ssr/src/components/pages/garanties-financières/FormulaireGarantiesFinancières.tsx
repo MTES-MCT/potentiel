@@ -83,7 +83,6 @@ export const FormulaireGarantiesFinancières: FC<FormulaireGarantiesFinancières
         name="attestation"
         required
         state={validationErrors.includes('attestation') ? 'error' : 'default'}
-        stateRelatedMessage="Attestation de consitution des garantières financières obligatoire"
         documentKey={defaultValues?.attestation}
       />
 

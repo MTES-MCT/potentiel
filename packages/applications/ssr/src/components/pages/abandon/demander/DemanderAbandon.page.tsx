@@ -61,7 +61,6 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
               id="pieceJustificative"
               name="pieceJustificative"
               state={validationErrors.includes('pieceJustificative') ? 'error' : 'default'}
-              stateRelatedMessage="Vous devez joindre un fichier au format PDF obligatoirement"
             />
 
             {showRecandidatureCheckBox && (

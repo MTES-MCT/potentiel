@@ -134,7 +134,6 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
               name="accuseReception"
               required
               state={validationErrors.includes('accuseReception') ? 'error' : 'default'}
-              stateRelatedMessage="Accusé de réception de la demande complète de raccordement obligatoire"
               documentKey={accuséRéception}
             />
 

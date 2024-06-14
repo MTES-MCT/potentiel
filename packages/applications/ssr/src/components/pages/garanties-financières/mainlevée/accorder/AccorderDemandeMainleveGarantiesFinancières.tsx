@@ -46,9 +46,8 @@ export const AccorderDemandeMainlevéeGarantiesFinancières = ({
               <p className="mt-3">Êtes-vous sûr de vouloir accorder la demande de mainlevée ?</p>
 
               <UploadDocument
-                label="Téléverser une réponse signée"
+                label="Réponse signée"
                 state={validationErrors.includes('reponseSignee') ? 'error' : 'default'}
-                stateRelatedMessage="Réponse signée obligatoire"
                 name="reponseSignee"
                 required
                 className="mb-4"

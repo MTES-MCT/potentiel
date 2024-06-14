@@ -58,7 +58,6 @@ export const EnregistrerAttestationGarantiesFinancièresPage: FC<
           name="attestation"
           required
           state={validationErrors.includes('attestation') ? 'error' : 'default'}
-          stateRelatedMessage="Attestation de constitution des garantières financières obligatoire"
         />
 
         <div className="flex flex-col md:flex-row gap-4 mt-5">
