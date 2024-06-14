@@ -28,6 +28,8 @@ export const UploadDocument: FC<UploadDocumentProps> = (props) => {
   );
 };
 
+const extractFileName = (path: string) => path.replace(/^.*[\\\/]/, '');
+
 const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
   label,
   format = 'pdf',
@@ -46,12 +48,13 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
       <div className={`flex items-center relative mt-2`}>
         <input
           {...props}
+          aria-required={props.required}
           ref={hiddenFileInput}
           type="file"
           accept={`.${format}`}
           className="-z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0"
           onChange={(e) => {
-            const fileName = e.currentTarget.value.replace(/^.*[\\\/]/, '');
+            const fileName = extractFileName(e.currentTarget.value);
             setUploadFileName(fileName);
           }}
         />
@@ -108,7 +111,13 @@ const KeepOrEditDocument: FC<UploadDocumentProps & { documentKey: string }> = ({
               </Link>
               )
               {documentSelection === 'keep_existing_document' && (
-                <input {...props} type="text" hidden value={documentKey} />
+                <input
+                  {...props}
+                  aria-required={props.required}
+                  type="text"
+                  hidden
+                  value={documentKey}
+                />
               )}
             </div>
           ),
@@ -124,12 +133,13 @@ const KeepOrEditDocument: FC<UploadDocumentProps & { documentKey: string }> = ({
               {documentSelection === 'edit_document' && (
                 <input
                   {...props}
+                  aria-required={props.required}
                   ref={hiddenFileInput}
                   type="file"
                   accept={`.${format}`}
                   className="-z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0"
                   onChange={(e) => {
-                    const fileName = e.currentTarget.value.replace(/^.*[\\\/]/, '');
+                    const fileName = extractFileName(e.currentTarget.value);
                     setUploadFileName(fileName);
                   }}
                 />
