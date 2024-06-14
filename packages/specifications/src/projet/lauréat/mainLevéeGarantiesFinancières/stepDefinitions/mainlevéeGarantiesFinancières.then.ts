@@ -243,7 +243,7 @@ Alors(
 
       expect(Option.isSome(actualReadModel)).to.be.true;
       if (Option.isSome(actualReadModel)) {
-        expect(actualReadModel.identifiantProjet).to.deep.equal(identifiantProjet);
+        expect(actualReadModel.identifiantProjet.estÉgaleÀ(identifiantProjet)).to.be.true;
 
         expect(actualReadModel.historique[0].motif.motif).to.deep.equal(motif);
 
