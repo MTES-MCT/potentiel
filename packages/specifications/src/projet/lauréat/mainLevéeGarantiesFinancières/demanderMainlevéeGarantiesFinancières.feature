@@ -68,16 +68,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
         Et le type de garanties financières importé pour le projet "Centrale PV"
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
             | motif                | projet-achevé          |
-        Alors le porteur devrait être informé que "Votre demande n'a pas pu être enregistrée car l'attestation de constitution de vos garanties financières reste à transmettre dans Potentiel"       
-
-    Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet a déjà une demande de mainlevée envoyée
-        Etant donné des garanties financières validées pour le projet "Centrale PV"
-        Et le projet "Centrale PV" avec une attestation de conformité transmise
-        Et une demande de mainlevée de garanties financières pour le projet "Centrale PV" avec :
-            | motif                | projet-achevé          |
-        Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
-            | motif                | projet-achevé          |
-        Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée en cours pour ce projet"   
+        Alors le porteur devrait être informé que "Votre demande n'a pas pu être enregistrée car l'attestation de constitution de vos garanties financières reste à transmettre dans Potentiel"     
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet s'il y a des garanties financières à traiter pour le projet
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
@@ -85,7 +76,16 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
         Et des garanties financières à traiter pour le projet "Centrale PV"     
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
             | motif                | projet-achevé          |
-        Alors le porteur devrait être informé que "Vous avez de nouvelles garanties financières à traiter pour ce projet. Pour demander la levée des garanties financières déjà validées vous devez d'abord annuler le dernier dépôt en attente de validation."     
+        Alors le porteur devrait être informé que "Vous avez de nouvelles garanties financières à traiter pour ce projet. Pour demander la levée des garanties financières déjà validées vous devez d'abord annuler le dernier dépôt en attente de validation."    
+
+    Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet a déjà une demande de mainlevée
+        Etant donné des garanties financières validées pour le projet "Centrale PV"
+        Et le projet "Centrale PV" avec une attestation de conformité transmise
+        Et une demande de mainlevée de garanties financières pour le projet "Centrale PV" avec :
+            | motif                | projet-achevé          |
+        Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
+            | motif                | projet-achevé          |
+        Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée en cours pour ce projet"     
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet a déjà une demande de mainlevée en cours d'instruction
         Etant donné des garanties financières validées pour le projet "Centrale PV"

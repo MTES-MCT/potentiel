@@ -214,7 +214,7 @@ const mapToProps: MapToProps = ({
       mainlevéeActions.push('instruire-demande-mainlevée-gf');
     }
     if (mainlevéeEnInstruction || mainlevéeDemandée) {
-      mainlevéeActions.push('accepter-ou-rejeter-demande-mainlevée-gf');
+      mainlevéeActions.push('accorder-ou-rejeter-demande-mainlevée-gf');
     }
   }
 
@@ -277,7 +277,7 @@ const mapToProps: MapToProps = ({
           statut: mainlevée.statut.statut,
           demandéLe: mainlevée.demande.demandéeLe.formatter(),
           instructionDémarréeLe: mainlevée.instruction?.démarréeLe.formatter(),
-          acceptéLe: mainlevée.accord?.accordéeLe.formatter(),
+          accordéeLe: mainlevée.accord?.accordéeLe.formatter(),
           dernièreMiseÀJourLe: mainlevée.dernièreMiseÀJour.date.formatter(),
           actions: mainlevéeActions,
           urlAppelOffre: appelOffreDetails.cahiersDesChargesUrl,

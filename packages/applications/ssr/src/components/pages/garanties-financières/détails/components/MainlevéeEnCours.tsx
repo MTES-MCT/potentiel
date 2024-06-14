@@ -8,7 +8,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading3 } from '@/components/atoms/headings';
 
 import { DémarrerInstructionDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/instruire/DémarrerInstructionDemandeMainlevéeGarantiesFinancières';
-import { AccepterDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/accorder/AccorderDemandeMainleveGarantiesFinancières';
+import { AccorderDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/accorder/AccorderDemandeMainleveGarantiesFinancières';
 import { RejeterDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/rejeter/RejeterDemandeMainleveGarantiesFinancières';
 import { AnnulerDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/annuler/AnnulerDemandeMainlevéeGarantiesFinancières';
 import { StatutMainlevéeBadge } from '../../../../molecules/mainlevée/StatutMainlevéeBadge';
@@ -20,13 +20,13 @@ export type MainlevéeEnCoursProps = {
     motif: GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
     demandéLe: Iso8601DateTime;
     dernièreMiseÀJourLe: Iso8601DateTime;
-    acceptéLe?: Iso8601DateTime;
+    accordéeLe?: Iso8601DateTime;
     instructionDémarréeLe?: Iso8601DateTime;
     urlAppelOffre: string;
     actions: Array<
       | 'voir-appel-offre-info'
       | 'instruire-demande-mainlevée-gf'
-      | 'accepter-ou-rejeter-demande-mainlevée-gf'
+      | 'accorder-ou-rejeter-demande-mainlevée-gf'
       | 'annuler-demande-mainlevée-gf'
     >;
   };
@@ -57,6 +57,12 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, iden
           <FormattedDate className="font-semibold" date={mainlevée.instructionDémarréeLe} />
         </div>
       )}
+      {mainlevée.accordéeLe && (
+        <div>
+          Mainlevée accordée le :{' '}
+          <FormattedDate className="font-semibold" date={mainlevée.accordéeLe} />
+        </div>
+      )}
     </div>
     <Actions
       identifiantProjet={identifiantProjet}
@@ -83,9 +89,9 @@ const Actions: FC<ActionsProps> = ({ identifiantProjet, actions, urlAppelOffre }
           identifiantProjet={identifiantProjet}
         />
       )}
-      {actions.includes('accepter-ou-rejeter-demande-mainlevée-gf') && (
+      {actions.includes('accorder-ou-rejeter-demande-mainlevée-gf') && (
         <div className="flex flex-col md:flex-row gap-3">
-          <AccepterDemandeMainlevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
+          <AccorderDemandeMainlevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
           <RejeterDemandeMainlevéeGarantiesFinancières identifiantProjet={identifiantProjet} />
         </div>
       )}

@@ -15,7 +15,7 @@ type AccorderDemandeMainlevéeGarantiesFinancièresFormProps = {
   identifiantProjet: string;
 };
 
-export const AccepterDemandeMainlevéeGarantiesFinancières = ({
+export const AccorderDemandeMainlevéeGarantiesFinancières = ({
   identifiantProjet,
 }: AccorderDemandeMainlevéeGarantiesFinancièresFormProps) => {
   const router = useRouter();

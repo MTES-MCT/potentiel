@@ -216,7 +216,7 @@ Alors(
 );
 
 Alors(
-  `une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainslevées rejettées pour le projet {string} avec :`,
+  `une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainlevées rejetées pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
@@ -243,6 +243,8 @@ Alors(
 
       expect(Option.isSome(actualReadModel)).to.be.true;
       if (Option.isSome(actualReadModel)) {
+        expect(actualReadModel.identifiantProjet).to.deep.equal(identifiantProjet);
+
         expect(actualReadModel.historique[0].motif.motif).to.deep.equal(motif);
 
         expect(

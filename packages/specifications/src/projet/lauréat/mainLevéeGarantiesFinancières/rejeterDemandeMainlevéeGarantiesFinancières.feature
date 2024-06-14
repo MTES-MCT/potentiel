@@ -16,7 +16,7 @@ Fonctionnalité: Rejeter une demande de mainlevée des garanties financières
             | contenu fichier réponse    | contenu du fichier     |
             | format fichier réponse     | application/pdf        |
         Alors une demande de mainlevée de garanties financières ne devrait plus être consultable pour le projet "Centrale PV"
-        Et une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainslevées rejettées pour le projet "Centrale PV" avec :
+        Et une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainlevées rejetées pour le projet "Centrale PV" avec :
             | rejeté le                  | 2024-05-30             |
             | rejeté par                 | dreal@test.test        |
             | contenu fichier réponse    | contenu du fichier     |
@@ -38,7 +38,7 @@ Fonctionnalité: Rejeter une demande de mainlevée des garanties financières
             | contenu fichier réponse    | contenu du fichier     |
             | format fichier réponse     | application/pdf        |
         Alors une demande de mainlevée de garanties financières ne devrait plus être consultable pour le projet "Centrale PV"
-        Et une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainslevées rejettées pour le projet "Centrale PV" avec :
+        Et une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainlevées rejetées pour le projet "Centrale PV" avec :
             | rejeté le                  | 2024-05-30             |
             | rejeté par                 | dreal@test.test        |
             | contenu fichier réponse    | contenu du fichier     |
@@ -47,11 +47,12 @@ Fonctionnalité: Rejeter une demande de mainlevée des garanties financières
             | demandé par                | porteur@test.test      |
             | motif                      | projet-achevé          |
 
-    Scénario: Impossible de rejeter une demande de mainelevée si le projet n'a pas de demande de mainlevée
+// pas la bonne erreur
+    Scénario: Impossible de rejeter une demande de mainlevée si le projet n'a pas de demande de mainlevée
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"
         Quand un utilisateur Dreal rejette une demande de mainlevée des garanties financières du projet "Centrale PV"
-        Alors l'utilisateur devrait être informé que "Il n'y a pas de demande de mainlevée de garanties financières à instruire pour ce projet"             
+        Alors l'utilisateur devrait être informé que "Il n'y a pas de demande de mainlevée de garanties financières en cours pour ce projet"             
 
     Scénario: Impossible de rejeter une demande de mainelevée si le projet a déjà une demande de mainlevée accordée
         Etant donné des garanties financières validées pour le projet "Centrale PV"
