@@ -13,6 +13,7 @@ import { RejeterDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/
 import { AnnulerDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/annuler/AnnulerDemandeMainlevéeGarantiesFinancières';
 import { StatutMainlevéeBadge } from '../../../../molecules/mainlevée/StatutMainlevéeBadge';
 
+// TODO: ajouter le lien vers le courrier d'acceptation
 export type MainlevéeEnCoursProps = {
   identifiantProjet: string;
   mainlevée: {
@@ -34,13 +35,15 @@ export type MainlevéeEnCoursProps = {
 
 export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, identifiantProjet }) => (
   <div className="p-3 flex-1">
-    <Heading3>Mainlevée en cours</Heading3>
+    <div className="flex gap-2">
+      <Heading3>Mainlevée</Heading3>
+      <StatutMainlevéeBadge statut={mainlevée.statut} />
+    </div>
     <div className="text-xs italic">
       Dernière mise à jour le{' '}
       <FormattedDate className="font-semibold" date={mainlevée.dernièreMiseÀJourLe} />
     </div>
-    <StatutMainlevéeBadge statut={mainlevée.statut} />
-    <div className="mt-5 gap-2 text-base">
+    <div className="mt-5 mb-5 gap-2 text-base">
       <div>
         Mainlevée demandée le :{' '}
         <FormattedDate className="font-semibold" date={mainlevée.demandéLe} />

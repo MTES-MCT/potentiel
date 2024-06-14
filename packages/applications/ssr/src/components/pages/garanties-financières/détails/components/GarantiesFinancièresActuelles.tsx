@@ -136,15 +136,18 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
       className="flex-1"
       colorVariant={mainlevée?.statut === 'accordé' ? 'success' : 'warning'}
       content={
-        <div className="flex">
-          {showMainlevéeGarantiesFinancières && mainlevée && (
-            <MainlevéeEnCours identifiantProjet={identifiantProjet} mainlevée={mainlevée} />
-          )}
-          {showMainlevéeGarantiesFinancières &&
-            historiqueMainlevée &&
-            historiqueMainlevée.length && (
-              <HistoriqueMainlevéeRejetée historique={historiqueMainlevée} />
+        <div className="flex flex-col">
+          <Heading2>Mainlevée des garanties financières</Heading2>
+          <div className="flex">
+            {showMainlevéeGarantiesFinancières && mainlevée && (
+              <MainlevéeEnCours identifiantProjet={identifiantProjet} mainlevée={mainlevée} />
             )}
+            {showMainlevéeGarantiesFinancières &&
+              historiqueMainlevée &&
+              historiqueMainlevée.length && (
+                <HistoriqueMainlevéeRejetée historique={historiqueMainlevée} />
+              )}
+          </div>
         </div>
       }
     />
