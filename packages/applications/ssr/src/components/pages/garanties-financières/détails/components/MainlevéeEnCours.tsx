@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Routes } from '@potentiel-applications/routes';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading3 } from '@/components/atoms/headings';
@@ -12,8 +13,8 @@ import { AccorderDemandeMainlevéeGarantiesFinancières } from '../../mainlevée
 import { RejeterDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/rejeter/RejeterDemandeMainleveGarantiesFinancières';
 import { AnnulerDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/annuler/AnnulerDemandeMainlevéeGarantiesFinancières';
 import { StatutMainlevéeBadge } from '../../../../molecules/mainlevée/StatutMainlevéeBadge';
+import { InputDownload } from '../../../../atoms/form/InputDownload';
 
-// TODO: ajouter le lien vers le courrier d'acceptation
 export type MainlevéeEnCoursProps = {
   identifiantProjet: string;
   mainlevée: {
@@ -21,8 +22,11 @@ export type MainlevéeEnCoursProps = {
     motif: GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
     demandéLe: Iso8601DateTime;
     dernièreMiseÀJourLe: Iso8601DateTime;
-    accordéeLe?: Iso8601DateTime;
     instructionDémarréeLe?: Iso8601DateTime;
+    accord: {
+      accordéeLe?: Iso8601DateTime;
+      courrierAccord?: string;
+    };
     urlAppelOffre: string;
     actions: Array<
       | 'voir-appel-offre-info'
@@ -60,11 +64,21 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, iden
           <FormattedDate className="font-semibold" date={mainlevée.instructionDémarréeLe} />
         </div>
       )}
-      {mainlevée.accordéeLe && (
+      {mainlevée.accord.accordéeLe && (
         <div>
           Mainlevée accordée le :{' '}
-          <FormattedDate className="font-semibold" date={mainlevée.accordéeLe} />
+          <FormattedDate className="font-semibold" date={mainlevée.accord.accordéeLe} />
         </div>
+      )}
+      {mainlevée.accord.courrierAccord && (
+        <InputDownload
+          ariaLabel="Télécharger la réponse signée"
+          details="Au format .pdf"
+          label="Télécharger la réponse signée"
+          linkProps={{
+            href: Routes.Document.télécharger(mainlevée.accord.courrierAccord),
+          }}
+        />
       )}
     </div>
     <Actions

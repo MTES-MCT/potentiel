@@ -20,7 +20,7 @@ const schema = zod.object({
 });
 
 const action: FormAction<FormState, typeof schema> = async (
-  _,
+  previousState,
   {
     identifiantProjet,
     attestation,

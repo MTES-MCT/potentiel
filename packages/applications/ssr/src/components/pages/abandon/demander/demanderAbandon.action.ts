@@ -29,7 +29,7 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateDemandeValue: new Date().toISOString(),
         raisonValue: raison,
-        recandidatureValue: recandidature === 'true' ? true : false,
+        recandidatureValue: recandidature === 'true',
         ...(pieceJustificative.size > 0 && {
           pièceJustificativeValue: {
             content: pieceJustificative.stream(),

@@ -39,7 +39,9 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
   showDemanderMainlevée,
 }) => {
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [demanderMainlevée, setDemanderMainlevée] = useState<boolean>(false);
   const router = useRouter();
+
   return (
     <Form
       method="POST"
@@ -102,12 +104,15 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
 
         {showDemanderMainlevée && (
           <Checkbox
+            id="demanderMainlevée"
+            state={validationErrors.includes('demanderMainlevée') ? 'error' : 'default'}
             options={[
               {
                 label: `Je souhaite demander une mainlevée de mes garanties financières`,
                 nativeInputProps: {
                   name: 'demanderMainlevée',
                   value: 'true',
+                  onClick: () => setDemanderMainlevée(!demanderMainlevée),
                 },
               },
             ]}
