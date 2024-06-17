@@ -9,7 +9,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading3 } from '@/components/atoms/headings';
 
 import { DémarrerInstructionDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/instruire/DémarrerInstructionDemandeMainlevéeGarantiesFinancières';
-import { AccorderDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/accorder/AccorderDemandeMainleveGarantiesFinancières';
+import { AccorderDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/accorder/AccorderDemandeMainlevéeGarantiesFinancières';
 import { RejeterDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/rejeter/RejeterDemandeMainleveGarantiesFinancières';
 import { AnnulerDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/annuler/AnnulerDemandeMainlevéeGarantiesFinancières';
 import { StatutMainlevéeBadge } from '../../../../molecules/mainlevée/StatutMainlevéeBadge';
