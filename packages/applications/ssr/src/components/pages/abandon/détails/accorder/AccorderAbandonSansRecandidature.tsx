@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-import { InputDownload } from '@/components/atoms/form/InputDownload';
+import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
 import { accorderAbandonSansRecandidatureAction } from './accorderAbandonSansRecandidature.action';
@@ -58,10 +58,10 @@ export const AccorderAbandonSansRecandidature = ({
                 className="mb-4"
               />
 
-              <InputDownload
-                ariaLabel={`Télécharger le modèle de réponse pour l'accord de la demande d'abandon sans recandidature`}
+              <DownloadDocument
                 linkProps={{
                   href: Routes.Abandon.téléchargerModèleRéponse(identifiantProjet),
+                  'aria-label': `Télécharger le modèle de réponse pour l'accord de la demande d'abandon sans recandidature`,
                 }}
                 details="docx"
                 label="Télécharger le modèle de réponse"

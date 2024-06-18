@@ -8,7 +8,7 @@ import { showMainlevéeGarantiesFinancières } from '@potentiel-applications/fea
 import { CallOut } from '@/components/atoms/CallOut';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2 } from '@/components/atoms/headings';
-import { InputDownload } from '@/components/atoms/form/InputDownload';
+import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 
 import { DemanderMainlevéeGarantiesFinancières } from '../../mainlevée/demander/DemanderMainlevéeGarantiesFinancières';
 
@@ -119,12 +119,13 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
               )}
               <div>
                 {attestation && (
-                  <InputDownload
-                    ariaLabel="Télécharger l'attestation de constitution des garanties financières"
+                  <DownloadDocument
                     details="fichier au format pdf"
                     label="Télécharger l'attestation"
                     linkProps={{
                       href: Routes.Document.télécharger(attestation),
+                      'aria-label':
+                        "Télécharger l'attestation de constitution des garanties financières",
                     }}
                   />
                 )}

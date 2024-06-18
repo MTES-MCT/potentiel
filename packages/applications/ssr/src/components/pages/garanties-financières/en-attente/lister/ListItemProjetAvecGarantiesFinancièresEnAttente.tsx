@@ -5,7 +5,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { InputDownload } from '@/components/atoms/form/InputDownload';
+import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 
 export type ListItemProjetAvecGarantiesFinancièresEnAttenteProps = {
   identifiantProjet: string;
@@ -69,15 +69,14 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
           </strong>
         </div>
         {afficherModèleMiseEnDemeure && (
-          <InputDownload
-            ariaLabel={`Télécharger un modèle de mise en demeure pour le projet ${nomProjet}`}
+          <DownloadDocument
             linkProps={{
               href: Routes.GarantiesFinancières.téléchargerModèleMiseEnDemeure(identifiantProjet),
+              'aria-label': `Télécharger un modèle de mise en demeure pour le projet ${nomProjet}`,
             }}
             details="docx"
             label="Télécharger un modèle de mise en demeure"
             className="mb-4"
-            aria-label={`télécharger un modèle de mise en demeure projet ${nomProjet}`}
           />
         )}
       </div>

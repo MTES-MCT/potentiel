@@ -6,7 +6,7 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { Icon } from '@/components/atoms/Icon';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { InputDownload } from '@/components/atoms/form/InputDownload';
+import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 
 import { FormatFichierInvalide } from './FormatFichierInvalide';
 import { Etape } from './Étape';
@@ -63,12 +63,11 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
       {accuséRéception && (
         <div>
           {accuséRéception.endsWith('.bin') && <FormatFichierInvalide />}
-          <InputDownload
+          <DownloadDocument
             className="flex items-center"
-            ariaLabel={`Télécharger l'accusé de réception pour le dossier ${référence}`}
             linkProps={{
               href: Routes.Document.télécharger(accuséRéception),
-              title: `Télécharger l'accusé de réception pour le dossier ${référence}`,
+              'aria-label': `Télécharger l'accusé de réception pour le dossier ${référence}`,
             }}
             label="Télécharger la pièce justificative"
             details=""

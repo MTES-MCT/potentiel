@@ -7,7 +7,7 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { CallOut } from '@/components/atoms/CallOut';
 import { Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { InputDownload } from '@/components/atoms/form/InputDownload';
+import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 
 import { ValiderDépôtEnCoursGarantiesFinancières } from '../../dépôt/valider/validerDépôtEnCoursGarantiesFinancières';
 import { SupprimerDépôtEnCoursGarantiesFinancières } from '../../dépôt/supprimer/SupprimerDépôtEnCoursGarantiesFinancières';
@@ -72,12 +72,12 @@ export const GarantiesFinancièresDépôtEnCours: FC<GarantiesFinancièresDépô
             )}
             <div>
               {attestation && (
-                <InputDownload
-                  ariaLabel="Télécharger l'attestation de constitution"
+                <DownloadDocument
                   details="fichier au format pdf"
                   label="Télécharger l'attestation"
                   linkProps={{
                     href: Routes.Document.télécharger(attestation),
+                    'aria-label': "Télécharger l'attestation de constitution",
                   }}
                 />
               )}

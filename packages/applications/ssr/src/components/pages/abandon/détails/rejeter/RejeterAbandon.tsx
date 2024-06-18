@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-import { InputDownload } from '@/components/atoms/form/InputDownload';
+import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
 import { rejeterAbandonAction } from './rejeterAbandon.action';
@@ -55,11 +55,10 @@ export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) =
                 className="mb-4"
               />
 
-              <InputDownload
-                ariaLabel={`Télécharger le modèle de réponse pour le rejet de la demande d'abandon`}
+              <DownloadDocument
                 linkProps={{
                   href: Routes.Abandon.téléchargerModèleRéponse(identifiantProjet),
-                  target: '_blank',
+                  'aria-label': `Télécharger le modèle de réponse pour le rejet de la demande d'abandon`,
                 }}
                 details="docx"
                 label="Télécharger le modèle de réponse"
