@@ -6,7 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 import {
   EqualWhereCondition,
   IncludeWhereCondition,
-  ListV2,
+  List,
   RangeOptions,
 } from '@potentiel-domain/core';
 
@@ -41,7 +41,7 @@ export type ListerRecoursQuery = Message<
 >;
 
 export type ListerRecoursDependencies = {
-  list: ListV2;
+  list: List;
   listerProjetsAccessibles: CommonPort.ListerIdentifiantsProjetsAccessiblesPort;
   récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };

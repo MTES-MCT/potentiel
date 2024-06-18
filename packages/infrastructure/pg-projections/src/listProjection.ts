@@ -1,63 +1,46 @@
-import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import { KeyValuePair } from './keyValuePair';
-import format from 'pg-format';
 import { Entity, ListOptions, ListResult } from '@potentiel-domain/core';
 import { unflatten } from '@potentiel-libraries/flat';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
+import format from 'pg-format';
+import { KeyValuePair } from './keyValuePair';
+import { getWhereClause } from './getWhereClause';
+import { getOrderClause } from './getOrderClause';
+import { getRangeClause } from './getRangeClause';
+import { countProjection } from './countProjection';
 
-const selectQuery = 'select key, value from domain_views.projection where key like $1';
+const selectQuery = 'SELECT key, value FROM domain_views.projection WHERE key LIKE $1';
 
-export const listProjection = async <TProjection extends Entity>({
-  type,
-  orderBy,
-  where,
-  pagination,
-}: ListOptions<TProjection>): Promise<ListResult<TProjection>> => {
-  const orderByClause = orderBy
-    ? format(`order by value ->> %L ${orderBy.ascending ? 'asc' : 'desc'}`, orderBy.property)
-    : '';
+export const listProjection = async <TEntity extends Entity>(
+  category: TEntity['type'],
+  { orderBy, range, where }: ListOptions<TEntity> = {},
+): Promise<ListResult<TEntity>> => {
+  const orderByClause = orderBy ? getOrderClause(orderBy) : '';
+  const rangeClause = range ? getRangeClause(range) : '';
+  const [whereClause, whereValues] = where ? getWhereClause(where) : ['', []];
 
-  const whereClause = where
-    ? format(
-        Object.keys(where)
-          .map((_, index) => `and value ->> %L like $${index + 2}`)
-          .join(' '),
-        ...Object.keys(where),
-      )
-    : '';
+  const select = format(`${selectQuery} ${whereClause} ${orderByClause} ${rangeClause}`);
 
-  const paginationClause = pagination
-    ? format(
-        'limit %s offset %s',
-        pagination.itemsPerPage,
-        pagination.page <= 1 ? 0 : (pagination.page - 1) * pagination.itemsPerPage,
-      )
-    : '';
-
-  const query = `${selectQuery} ${whereClause} ${orderByClause} ${paginationClause}`;
-  const result = await executeSelect<KeyValuePair<TProjection>>(
-    query,
-    `${type}|%`,
-    ...(where ? Object.values(where) : []),
+  const result = await executeSelect<KeyValuePair<TEntity>>(
+    select,
+    `${category}|%`,
+    ...whereValues,
   );
-
-  const totalResult = pagination
-    ? await executeSelect<{ totalItems: string }>(
-        `select count(key) as "totalItems" from domain_views.projection where key like $1 ${whereClause}`,
-        `${type}|%`,
-        ...(where ? Object.values(where) : []),
-      )
-    : [{ totalItems: result.length.toString() }];
+  const total = await countProjection(category, {
+    where,
+  });
 
   return {
-    currentPage: pagination?.page ?? 1,
-    itemsPerPage: pagination?.itemsPerPage ?? result.length,
-    totalItems: parseInt(totalResult[0].totalItems),
+    total,
     items: result.map(
       ({ key, value }) =>
         ({
+          ...unflatten<unknown, Omit<TEntity, 'type'>>(value),
           type: key.split('|')[0],
-          ...unflatten<unknown, Omit<TProjection, 'type'>>(value),
-        } as TProjection),
+        } as TEntity),
     ),
+    range: range ?? {
+      endPosition: total,
+      startPosition: 0,
+    },
   };
 };

@@ -6,7 +6,7 @@ import {
 } from '../..';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { ListV2, RangeOptions } from '@potentiel-domain/core';
+import { List, RangeOptions } from '@potentiel-domain/core';
 
 type ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -44,12 +44,12 @@ export type ListerProjetsAvecGarantiesFinancièresEnAttenteQuery = Message<
 >;
 
 export type ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies = {
-  listV2: ListV2;
+  list: List;
   récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
-  listV2,
+  list,
   récupérerRégionDreal,
 }: ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies) => {
   const handler: MessageHandler<ListerProjetsAvecGarantiesFinancièresEnAttenteQuery> = async ({
@@ -77,7 +77,7 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await listV2<ProjetAvecGarantiesFinancièresEnAttenteEntity>(
+    } = await list<ProjetAvecGarantiesFinancièresEnAttenteEntity>(
       'projet-avec-garanties-financieres-en-attente',
       {
         orderBy: { dernièreMiseÀJour: { date: 'descending' } },

@@ -10,6 +10,7 @@ import {
 } from '@/components/pages/abandon/lister/AbandonList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -49,7 +50,10 @@ export default async function Page({ searchParams }: PageProps) {
             email: utilisateur.identifiantUtilisateur.email,
             rôle: utilisateur.role.nom,
           },
-          pagination: { page, itemsPerPage: 10 },
+          range: mapToRangeOptions({
+            currentPage: page,
+            itemsPerPage: 10,
+          }),
           recandidature,
           statut,
           appelOffre,
@@ -145,8 +149,7 @@ const mapToListProps = (
 
   return {
     items,
-    currentPage: readModel.currentPage,
-    itemsPerPage: readModel.itemsPerPage,
-    totalItems: readModel.totalItems,
+    ...mapToPagination(readModel.range),
+    totalItems: readModel.total,
   };
 };

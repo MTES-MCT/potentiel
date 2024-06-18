@@ -1,6 +1,6 @@
 import { registerEliminéQueries, registerEliminéUseCases } from '@potentiel-domain/elimine';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { findProjection, listProjectionV2 } from '@potentiel-infrastructure/pg-projections';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { mediator } from 'mediateur';
 import {
   listerIdentifiantsProjetsParPorteurAdapter,
@@ -15,7 +15,7 @@ export const setupEliminé = async () => {
 
   registerEliminéQueries({
     find: findProjection,
-    list: listProjectionV2,
+    list: listProjection,
     listerProjetsAccessibles: listerIdentifiantsProjetsParPorteurAdapter,
     récupérerRégionDreal: récupérerRégionDrealAdapter,
   });

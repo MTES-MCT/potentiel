@@ -3,7 +3,7 @@ import * as TypeTâche from '../typeTâche.valueType';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { TâcheEntity } from '../tâche.entity';
 import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
-import { ListV2, RangeOptions } from '@potentiel-domain/core';
+import { List, RangeOptions } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { match, Pattern } from 'ts-pattern';
 
@@ -40,11 +40,11 @@ export type ListerTâchesQuery = Message<
 
 export type ListerTâchesQueryDependencies = {
   récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
-  listV2: ListV2;
+  list: List;
 };
 
 export const registerListerTâchesQuery = ({
-  listV2,
+  list,
   récupérerIdentifiantsProjetParEmailPorteur,
 }: ListerTâchesQueryDependencies) => {
   const handler: MessageHandler<ListerTâchesQuery> = async ({ email, range, appelOffre }) => {
@@ -54,7 +54,7 @@ export const registerListerTâchesQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await listV2<TâcheEntity>('tâche', {
+    } = await list<TâcheEntity>('tâche', {
       where: {
         identifiantProjet: {
           operator: 'include',

@@ -8,7 +8,7 @@ import {
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantUtilisateur, Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { ListV2, RangeOptions } from '@potentiel-domain/core';
+import { List, RangeOptions } from '@potentiel-domain/core';
 
 type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -51,12 +51,12 @@ export type ListerDépôtsEnCoursGarantiesFinancièresQuery = Message<
 >;
 
 export type ListerDépôtsEnCoursGarantiesFinancièresDependencies = {
-  listV2: ListV2;
+  list: List;
   récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
-  listV2,
+  list,
   récupérerRégionDreal,
 }: ListerDépôtsEnCoursGarantiesFinancièresDependencies) => {
   const handler: MessageHandler<ListerDépôtsEnCoursGarantiesFinancièresQuery> = async ({
@@ -83,24 +83,21 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
       items,
       range: { startPosition, endPosition },
       total,
-    } = await listV2<DépôtEnCoursGarantiesFinancièresEntity>(
-      'depot-en-cours-garanties-financieres',
-      {
-        orderBy: { dépôt: { dernièreMiseÀJour: { date: 'descending' } } },
-        range,
-        where: {
-          ...(appelOffre && {
-            appelOffre: { operator: 'equal', value: appelOffre },
-          }),
-          ...(région && {
-            régionProjet: { operator: 'equal', value: région },
-          }),
-          ...(cycle && {
-            appelOffre: { operator: cycle === 'PPE2' ? 'like' : 'notLike', value: '%PPE2%' },
-          }),
-        },
+    } = await list<DépôtEnCoursGarantiesFinancièresEntity>('depot-en-cours-garanties-financieres', {
+      orderBy: { dépôt: { dernièreMiseÀJour: { date: 'descending' } } },
+      range,
+      where: {
+        ...(appelOffre && {
+          appelOffre: { operator: 'equal', value: appelOffre },
+        }),
+        ...(région && {
+          régionProjet: { operator: 'equal', value: région },
+        }),
+        ...(cycle && {
+          appelOffre: { operator: cycle === 'PPE2' ? 'like' : 'notLike', value: '%PPE2%' },
+        }),
       },
-    );
+    });
 
     return {
       items: items.map((item) => mapToReadModel(item)),

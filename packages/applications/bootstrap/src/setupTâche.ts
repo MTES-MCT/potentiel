@@ -3,7 +3,7 @@ import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-ev
 import { TâcheProjector } from '@potentiel-applications/projectors';
 import { mediator } from 'mediateur';
 import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { countProjection, listProjectionV2 } from '@potentiel-infrastructure/pg-projections';
+import { countProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 
 export const setupTâche = async () => {
   registerTâcheCommand({
@@ -13,7 +13,7 @@ export const setupTâche = async () => {
   registerTâcheQuery({
     count: countProjection,
     récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
-    listV2: listProjectionV2,
+    list: listProjection,
   });
 
   TâcheSaga.register();

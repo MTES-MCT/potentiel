@@ -24,9 +24,9 @@ export const registerListerAbandonsAvecRecandidatureÀRelancerQuery = ({
   list,
 }: ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies) => {
   const handler: MessageHandler<ListerAbandonsAvecRecandidatureÀRelancerQuery> = async ({}) => {
-    const result = await list<AbandonAvecRecandidatureSansPreuveProjection>({
-      type: 'abandon-avec-recandidature-sans-preuve',
-    });
+    const result = await list<AbandonAvecRecandidatureSansPreuveProjection>(
+      'abandon-avec-recandidature-sans-preuve',
+    );
 
     return {
       résultats: result.items

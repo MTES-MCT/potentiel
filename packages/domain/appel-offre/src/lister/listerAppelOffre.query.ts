@@ -22,11 +22,9 @@ export type ListerAppelOffreDependencies = {
 
 export const registerListerAppelOffreQuery = ({ list }: ListerAppelOffreDependencies) => {
   const handler: MessageHandler<ListerAppelOffreQuery> = async () => {
-    const result = await list<AppelOffreEntity>({
-      type: 'appel-offre',
+    const result = await list<AppelOffreEntity>('appel-offre', {
       orderBy: {
-        property: 'id',
-        ascending: true,
+        id: 'ascending',
       },
     });
 

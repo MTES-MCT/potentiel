@@ -35,6 +35,7 @@ export const register = () => {
           demandéLe: '',
           demandéPar: '',
           raison: '',
+          estUneRecandidature: false,
         },
         statut: 'demandé',
         misÀJourLe: DateTime.now().formatter(),
@@ -74,6 +75,7 @@ export const register = () => {
               demandéLe: payload.demandéLe,
               demandéPar: payload.demandéPar,
               raison: payload.raison,
+              estUneRecandidature: payload.recandidature,
               recandidature: payload.recandidature
                 ? {
                     statut: Abandon.StatutPreuveRecandidature.enAttente.statut,

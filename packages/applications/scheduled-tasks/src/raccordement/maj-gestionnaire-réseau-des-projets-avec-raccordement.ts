@@ -11,7 +11,6 @@ import {
   countProjection,
   findProjection,
   listProjection,
-  listProjectionV2,
 } from '@potentiel-infrastructure/pg-projections';
 import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 import { Option } from '@potentiel-libraries/monads';
@@ -22,7 +21,6 @@ registerRéseauUseCases({
 
 registerRéseauQueries({
   list: listProjection,
-  listV2: listProjectionV2,
   find: findProjection,
   count: countProjection,
 });
