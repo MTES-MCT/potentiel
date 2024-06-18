@@ -13,7 +13,7 @@ import { AccorderDemandeMainlevéeGarantiesFinancières } from '../../mainlevée
 import { RejeterDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/rejeter/RejeterDemandeMainleveGarantiesFinancières';
 import { AnnulerDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/annuler/AnnulerDemandeMainlevéeGarantiesFinancières';
 import { StatutMainlevéeBadge } from '../../../../molecules/mainlevée/StatutMainlevéeBadge';
-import { InputDownload } from '../../../../atoms/form/InputDownload';
+import { DownloadDocument } from '../../../../atoms/form/DownloadDocument';
 
 export type MainlevéeEnCoursProps = {
   identifiantProjet: string;
@@ -71,13 +71,10 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, iden
         </div>
       )}
       {mainlevée.accord.courrierAccord && (
-        <InputDownload
-          ariaLabel="Télécharger la réponse signée"
-          details="Au format .pdf"
+        <DownloadDocument
+          format="pdf"
           label="Télécharger la réponse signée"
-          linkProps={{
-            href: Routes.Document.télécharger(mainlevée.accord.courrierAccord),
-          }}
+          url={Routes.Document.télécharger(mainlevée.accord.courrierAccord)}
         />
       )}
     </div>
