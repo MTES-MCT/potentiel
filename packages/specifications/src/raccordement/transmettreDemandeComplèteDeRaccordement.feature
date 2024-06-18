@@ -13,6 +13,16 @@ Fonctionnalité: Transmettre une demande complète de raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat "Du boulodrome de Marseille"
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat "Du boulodrome de Marseille"
         Et le projet "Du boulodrome de Marseille" devrait avoir un raccordement attribué au gestionnaire de réseau "Enedis"
+
+    Scénario: Un porteur de projet transmet une demande complète de raccordement pour son projet avec la valeur de référence par défault
+        Quand le porteur transmet une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" auprès du gestionnaire de réseau "Enedis" avec :
+            | La date de qualification                | 2022-10-28                                                                                            |
+            | La référence du dossier de raccordement | Référence non transmise                                                                                             |
+            | Le format de l'accusé de réception      | application/pdf                                                                                       |
+            | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat "Du boulodrome de Marseille"
+        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat "Du boulodrome de Marseille"
+        Et le projet "Du boulodrome de Marseille" devrait avoir un raccordement attribué au gestionnaire de réseau "Enedis"
     
     Scénario: Un porteur de projet transmet plusieurs demandes complètes de raccordement pour son projet
         Quand le porteur transmet une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" auprès du gestionnaire de réseau "Enedis" avec :

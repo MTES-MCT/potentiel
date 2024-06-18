@@ -2,10 +2,13 @@ import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core
 
 export type RawType = string;
 
+export const defaultRéférenceDossierRaccordement = 'Référence non transmise';
+
 export type ValueType = ReadonlyValueType<{
   référence: string;
   formatter(): RawType;
 }>;
+
 export const convertirEnValueType = (value: string): ValueType => {
   estValide(value);
   return {
@@ -20,7 +23,8 @@ export const convertirEnValueType = (value: string): ValueType => {
 };
 
 function estValide(value: string): asserts value is RawType {
-  const isValid = value === value.trim().replace(/\s/g, '');
+  const isValid =
+    value === value.trim().replace(/\s/g, '') || value === defaultRéférenceDossierRaccordement;
 
   if (!isValid) {
     throw new FormatRéférenceDossierRaccordementInvalideError(value);

@@ -6,6 +6,7 @@ import { PlainType } from '@potentiel-domain/core';
 import { ListerTâchesReadModel, TypeTâche } from '@potentiel-domain/tache';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
+import { Raccordement } from '@potentiel-domain/reseau';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
@@ -94,7 +95,7 @@ const getDescriptionTâche = (
       };
     case 'raccordement.référence-non-transmise':
       return {
-        titre: 'Référence non transmise',
+        titre: Raccordement.RéférenceDossierRaccordement.defaultRéférenceDossierRaccordement,
         description: `La référence de votre dossier de raccordement n'a pas été transmise pour le projet ${nomProjet}`,
         lien: Routes.Raccordement.détail(identifiant),
         action: 'Voir le raccordement',
