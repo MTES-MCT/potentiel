@@ -17,7 +17,7 @@ export const bind = ({ expression }: PlainType<ValueType>): ValueType => {
       return this.expression === valueType.expression;
     },
     valider(value) {
-      return new RegExp(`^${this.expression}$`).test(value) || value === 'Référence non transmise';
+      return new RegExp(`^${this.expression}$`).test(value);
     },
     formatter() {
       return this.expression;
