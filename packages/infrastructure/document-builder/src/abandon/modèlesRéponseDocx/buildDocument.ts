@@ -15,8 +15,8 @@ export const getModèleRéponseAbandon: Abandon.BuildModèleRéponseAbandonPort 
     path.resolve(
       __dirname,
       aprèsConfirmation
-        ? 'Modèle réponse Abandon après confirmation.docx'
-        : 'Modèle réponse Abandon.docx',
+        ? '../../assets/docx/abandon-modèle-réponse-après-confirmation.docx'
+        : '../../assets/docx/abandon-modèle-réponse.docx',
     ),
     'binary',
   );

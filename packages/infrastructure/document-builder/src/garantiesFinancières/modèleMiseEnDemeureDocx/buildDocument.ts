@@ -9,13 +9,16 @@ import { formatIdentifiantProjetForDocument } from '../../formatIdentifiantProje
 
 export const getModèleMiseEnDemeureGarantiesFinancières: GarantiesFinancières.BuildModèleMiseEnDemeureGarantiesFinancièresPort =
   async ({ data }) => {
-    const imageToInject = path.resolve(
-      __dirname,
-      '../../../../../applications/ssr/public/logo_dreals',
-      `${data.dreal}.png`,
+    const imageToInject = path.resolve(__dirname, '../../assets/images', `${data.dreal}.png`);
+
+    const content = fs.readFileSync(
+      path.resolve(
+        __dirname,
+        '../../assets/docx/garanties-financières-modèle-mise-en-demeure.docx',
+      ),
+      'binary',
     );
 
-    const content = fs.readFileSync(path.resolve(__dirname, 'modeleMiseEnDemeure.docx'), 'binary');
     const zip = new PizZip(content);
     const doc = new Docxtemplater(zip, {
       paragraphLoop: true,

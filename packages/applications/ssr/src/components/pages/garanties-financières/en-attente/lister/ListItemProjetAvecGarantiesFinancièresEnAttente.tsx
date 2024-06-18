@@ -68,14 +68,14 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
             <FormattedDate date={dateLimiteSoumission} />
           </strong>
         </div>
-        {afficherModèleMiseEnDemeure && (
-          <DownloadDocument
-            className="mb-4"
-            url={Routes.GarantiesFinancières.téléchargerModèleMiseEnDemeure(identifiantProjet)}
-            format="docx"
-            label="Télécharger un modèle de mise en demeure"
-          />
-        )}
+        {/* {afficherModèleMiseEnDemeure && ( */}
+        <DownloadDocument
+          className="mb-4"
+          url={Routes.GarantiesFinancières.téléchargerModèleMiseEnDemeure(identifiantProjet)}
+          format="docx"
+          label="Télécharger un modèle de mise en demeure"
+        />
+        {/* )} */}
       </div>
     </div>
 
