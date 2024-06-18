@@ -17,6 +17,7 @@ export const subscribe = async <TEvent extends Event = Event>(
   }
 
   subscribers.add(`${subscriber.streamCategory}-${subscriber.name}`);
+  client?.setMaxListeners(subscribers.size);
 
   await retryPendingAcknowledgement<TEvent>(subscriber);
   await registerSubscriber(subscriber);
@@ -34,6 +35,7 @@ export const subscribe = async <TEvent extends Event = Event>(
     await eventStreamEmitter.unlisten();
 
     subscribers.delete(`${subscriber.streamCategory}-${subscriber.name}`);
+    client?.setMaxListeners(subscribers.size);
 
     if (subscribers.size === 0) {
       await disconnect();
