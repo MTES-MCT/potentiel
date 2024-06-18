@@ -11,8 +11,10 @@ Fonctionnalité: Valider une référence de dossier de raccordement
             | Expression régulière              | Référence à valider         | Résultat attendu |
             | [a-zA-Z]{3}                       | "ABC"                       | valide           |
             | [a-zA-Z]{3}                       | "123"                       | invalide         |
+            | [a-zA-Z]{3}                       | "Référence non transmise"   | valide           |
             | [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6} | "OUE-RP-2022-000034"        | valide           |
             | [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6} | "ENEDIS OUE-RP-2022-000034" | invalide         |
+            | [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6} | "Référence non transmise"   | valide           |
 
     Plan du Scénario: Valider/Invalider une référence de dossier de raccordement après modification du gestionnaire de réseau
         Etant donné un gestionnaire de réseau
@@ -27,6 +29,7 @@ Fonctionnalité: Valider une référence de dossier de raccordement
             | Expression régulière              | Référence à valider         | Résultat attendu |
             | [a-zA-Z]{3}                       | "ABC"                       | valide           |
             | [a-zA-Z]{3}                       | "123"                       | invalide         |
+            | [a-zA-Z]{3}                       | "Référence non transmise"   | valide           |
             | [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6} | "OUE-RP-2022-000034"        | valide           |
             | [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6} | "ENEDIS OUE-RP-2022-000034" | invalide         |
-
+            | [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6} | "Référence non transmise"   | valide           |
