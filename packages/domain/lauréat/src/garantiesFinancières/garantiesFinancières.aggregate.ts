@@ -87,6 +87,10 @@ import {
   accorderDemandeMainlevéeGarantiesFinancières,
   applyDemandeMainlevéeGarantiesFinancièresAccordée,
 } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.behavior';
+import {
+  RéponseSignéeMainlevéeAccordéeModifiéeEvent,
+  modifierRéponseSignéeMainlevéeAccordée,
+} from './mainlevée/modifierRéponseSignée/accord/modifierRéponseSignéeMainlevéeAccordée.behavior';
 
 export type GarantiesFinancièresEvent =
   | DépôtGarantiesFinancièresSoumisEvent
@@ -103,7 +107,8 @@ export type GarantiesFinancièresEvent =
   | DemandeMainlevéeGarantiesFinancièresAnnuléeEvent
   | InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent
   | DemandeMainlevéeGarantiesFinancièresRejetéeEvent
-  | DemandeMainlevéeGarantiesFinancièresAccordéeEvent;
+  | DemandeMainlevéeGarantiesFinancièresAccordéeEvent
+  | RéponseSignéeMainlevéeAccordéeModifiéeEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   actuelles?: {
@@ -141,6 +146,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly démarrerInstructionDemandeMainlevée: typeof démarrerInstructionDemandeMainlevée;
   readonly rejeterDemandeMainlevéeGarantiesFinancières: typeof rejeterDemandeMainlevéeGarantiesFinancières;
   readonly accorderDemandeMainlevéeGarantiesFinancières: typeof accorderDemandeMainlevéeGarantiesFinancières;
+  readonly modifierRéponseSignéeMainlevéeAccordée: typeof modifierRéponseSignéeMainlevéeAccordée;
 };
 
 export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
@@ -164,6 +170,7 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   démarrerInstructionDemandeMainlevée,
   rejeterDemandeMainlevéeGarantiesFinancières,
   accorderDemandeMainlevéeGarantiesFinancières,
+  modifierRéponseSignéeMainlevéeAccordée,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
@@ -213,6 +220,8 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
     case 'DemandeMainlevéeGarantiesFinancièresAccordée-V1':
       applyDemandeMainlevéeGarantiesFinancièresAccordée.bind(this)();
       break;
+    // violette
+    // normalement besoin de rien changer ici
   }
 }
 

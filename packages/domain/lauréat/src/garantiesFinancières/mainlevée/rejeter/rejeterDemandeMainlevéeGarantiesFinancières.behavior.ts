@@ -3,7 +3,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
-import { DemandeMainlevéeNonTrouvéeError } from '../demandeMainlevéeNonTrouvée.error';
+import { DemandeMainlevéeEnCoursNonTrouvéeError } from '../demandeMainlevéeNonTrouvée.error';
 import { StatutMainlevéeGarantiesFinancières } from '../..';
 
 export type DemandeMainlevéeGarantiesFinancièresRejetéeEvent = DomainEvent<
@@ -30,7 +30,7 @@ export async function rejeterDemandeMainlevéeGarantiesFinancières(
   { identifiantProjet, rejetéLe, rejetéPar, réponseSignée }: Options,
 ) {
   if (!this.demandeMainlevéeEnCours) {
-    throw new DemandeMainlevéeNonTrouvéeError();
+    throw new DemandeMainlevéeEnCoursNonTrouvéeError();
   }
 
   this.demandeMainlevéeEnCours.statut.vérifierQueLeChangementDeStatutEstPossibleEn(

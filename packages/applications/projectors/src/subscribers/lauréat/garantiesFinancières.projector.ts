@@ -524,6 +524,26 @@ export const register = () => {
             `mainlevee-garanties-financieres|${identifiantProjet}`,
           );
           break;
+
+        case 'RéponseSignéeMainlevéeAccordéeModifiée-V1':
+          await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+            `mainlevee-garanties-financieres|${identifiantProjet}`,
+            {
+              ...mainlevéeGarantiesFinancièresToUpsert,
+              accord: {
+                accordéeLe: mainlevéeGarantiesFinancièresToUpsert.accord!.accordéeLe,
+                accordéePar: mainlevéeGarantiesFinancièresToUpsert.accord!.accordéePar,
+                courrierAccord: {
+                  format: payload.nouvelleRéponseSignée.format,
+                },
+              },
+              dernièreMiseÀJour: {
+                date: payload.modifiéeLe,
+                par: payload.modifiéePar,
+              },
+            },
+          );
+          break;
       }
     }
   };

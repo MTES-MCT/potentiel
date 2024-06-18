@@ -2,7 +2,7 @@ import { DateTime, IdentifiantProjet, Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
-import { DemandeMainlevéeNonTrouvéeError } from '../demandeMainlevéeNonTrouvée.error';
+import { DemandeMainlevéeEnCoursNonTrouvéeError } from '../demandeMainlevéeNonTrouvée.error';
 import { StatutMainlevéeGarantiesFinancières } from '../..';
 
 export type InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent = DomainEvent<
@@ -25,7 +25,7 @@ export async function démarrerInstructionDemandeMainlevée(
   { identifiantProjet, démarréLe, démarréPar }: Options,
 ) {
   if (!this.demandeMainlevéeEnCours) {
-    throw new DemandeMainlevéeNonTrouvéeError();
+    throw new DemandeMainlevéeEnCoursNonTrouvéeError();
   }
 
   this.demandeMainlevéeEnCours.statut.vérifierQueLeChangementDeStatutEstPossibleEn(

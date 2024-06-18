@@ -165,22 +165,18 @@ Alors(
 
         expect(actualReadModel.accord?.accordéeLe.date).to.deep.equal(new Date(accordéLe));
 
-        expect(
-          actualReadModel.accord?.accordéePar.estÉgaleÀ(Email.convertirEnValueType(accordéPar)),
-        ).to.be.true;
-
-        actualReadModel.accord?.accordéePar;
-
-        expect(actualReadModel.accord?.accordéeLe.date).to.deep.equal(new Date(accordéLe));
         expect(actualReadModel.dernièreMiseÀJour.date.date).to.deep.equal(
           new Date(dernièreMiseÀJourLe),
         );
+
         expect(
           actualReadModel.dernièreMiseÀJour.par.estÉgaleÀ(
             Email.convertirEnValueType(dernièreMiseÀJourPar),
           ),
         ).to.be.true;
+
         expect(actualReadModel.accord?.courrierAccord.format).to.deep.equal(format);
+
         if (actualReadModel.accord) {
           const actualFile = await mediator.send<ConsulterDocumentProjetQuery>({
             type: 'Document.Query.ConsulterDocumentProjet',

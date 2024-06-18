@@ -4,7 +4,8 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { StatutMainlevéeGarantiesFinancières } from '../..';
-import { DemandeMainlevéeNonTrouvéeError } from '../demandeMainlevéeNonTrouvée.error';
+import { DocumentProjet } from '@potentiel-domain/document';
+import { DemandeMainlevéeEnCoursNonTrouvéeError } from '../demandeMainlevéeNonTrouvée.error';
 
 export type DemandeMainlevéeGarantiesFinancièresAccordéeEvent = DomainEvent<
   'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
@@ -30,7 +31,7 @@ export async function accorderDemandeMainlevéeGarantiesFinancières(
   { identifiantProjet, accordéLe, accordéPar, réponseSignée }: Options,
 ) {
   if (!this.demandeMainlevéeEnCours) {
-    throw new DemandeMainlevéeNonTrouvéeError();
+    throw new DemandeMainlevéeEnCoursNonTrouvéeError();
   }
 
   this.demandeMainlevéeEnCours.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
