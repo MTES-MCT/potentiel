@@ -5,7 +5,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormattedDate } from '../../../../atoms/FormattedDate';
 import { Heading3 } from '../../../../atoms/headings';
-import { InputDownload } from '../../../../atoms/form/InputDownload';
+import { DownloadDocument } from '../../../../atoms/form/DownloadDocument';
 
 export type HistoriqueMainlevéeRejetéeProps = {
   historique: Array<{
@@ -40,13 +40,10 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
               <FormattedDate className="font-semibold" date={mainlevéeRejetée.rejet.rejetéLe} />
             </div>
             <div>
-              <InputDownload
-                ariaLabel="Télécharger la réponse signée"
-                details="Au format .pdf"
+              <DownloadDocument
+                format="pdf"
                 label="Télécharger la réponse signée"
-                linkProps={{
-                  href: Routes.Document.télécharger(mainlevéeRejetée.rejet.courrierRejet),
-                }}
+                url={Routes.Document.télécharger(mainlevéeRejetée.rejet.courrierRejet)}
               />
             </div>
           </div>

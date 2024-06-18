@@ -8,7 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
-import { InputDownload } from '@/components/atoms/form/InputDownload';
+import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 
 import { StatutPreuveRecandidatureBadgeProps } from './PreuveRecandidatureStatutBadge';
 
@@ -97,14 +97,11 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
       content: (
         <>
           {accord.réponseSignée && (
-            <InputDownload
-              details=""
-              ariaLabel="Télécharger la pièce justificative pour l'accord de la demande d'abandon"
-              label="Télécharger la pièce justificative"
-              linkProps={{
-                href: Routes.Document.télécharger(accord.réponseSignée),
-              }}
+            <DownloadDocument
               className="mb-0 pb-0"
+              label="Télécharger la pièce justificative"
+              format="pdf"
+              url={Routes.Document.télécharger(accord.réponseSignée)}
             />
           )}
         </>
@@ -122,14 +119,11 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
       content: (
         <>
           {rejet.réponseSignée && (
-            <InputDownload
-              details=""
-              ariaLabel="Télécharger la pièce justificative pour le rejet de la demande d'abandon"
-              label="Télécharger la pièce justificative"
-              linkProps={{
-                href: Routes.Document.télécharger(rejet.réponseSignée),
-              }}
+            <DownloadDocument
               className="mb-0 pb-0"
+              label="Télécharger la pièce justificative"
+              format="pdf"
+              url={Routes.Document.télécharger(rejet.réponseSignée)}
             />
           )}
         </>
@@ -160,14 +154,11 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
       content: (
         <>
           {confirmation.réponseSignée && (
-            <InputDownload
-              details=""
-              ariaLabel="Télécharger la pièce justificative pour la confirmation de la demande d'abandon"
-              label="Télécharger la pièce justificative"
-              linkProps={{
-                href: Routes.Document.télécharger(confirmation.réponseSignée),
-              }}
+            <DownloadDocument
               className="mb-0 pb-0"
+              label="Télécharger la pièce justificative"
+              format="pdf"
+              url={Routes.Document.télécharger(confirmation.réponseSignée)}
             />
           )}
         </>
@@ -193,14 +184,11 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
           </blockquote>
         </div>
         {justificatifDemande && (
-          <InputDownload
-            details=""
-            ariaLabel="Télécharger la pièce justificative pour la demande d'abandon"
-            label="Télécharger la pièce justificative"
-            linkProps={{
-              href: Routes.Document.télécharger(justificatifDemande),
-            }}
+          <DownloadDocument
             className="mb-0 pb-0"
+            label="Télécharger la pièce justificative"
+            format="pdf"
+            url={Routes.Document.télécharger(justificatifDemande)}
           />
         )}
       </>

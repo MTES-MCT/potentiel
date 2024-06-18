@@ -6,7 +6,7 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Icon } from '@/components/atoms/Icon';
-import { InputDownload } from '@/components/atoms/form/InputDownload';
+import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 
 import { FormatFichierInvalide } from './FormatFichierInvalide';
 import { Etape } from './Étape';
@@ -50,15 +50,11 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
         {propositionTechniqueEtFinancièreSignée && (
           <div>
             {propositionTechniqueEtFinancièreSignée.endsWith('.bin') && <FormatFichierInvalide />}
-            <InputDownload
+            <DownloadDocument
               className="flex items-center"
-              ariaLabel={`Télécharger la proposition technique et financière pour le dossier ${référence}`}
-              linkProps={{
-                href: Routes.Document.télécharger(propositionTechniqueEtFinancièreSignée),
-                title: `Télécharger la proposition technique et financière pour le dossier ${référence}`,
-              }}
-              label="Télécharger la pièce justificative"
-              details=""
+              url={Routes.Document.télécharger(propositionTechniqueEtFinancièreSignée)}
+              label="Télécharger la proposition technique et financière"
+              format="pdf"
             />
           </div>
         )}
