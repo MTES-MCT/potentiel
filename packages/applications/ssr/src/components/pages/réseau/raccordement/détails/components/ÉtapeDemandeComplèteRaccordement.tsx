@@ -65,12 +65,9 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
           {accuséRéception.endsWith('.bin') && <FormatFichierInvalide />}
           <DownloadDocument
             className="flex items-center"
-            linkProps={{
-              href: Routes.Document.télécharger(accuséRéception),
-              'aria-label': `Télécharger l'accusé de réception pour le dossier ${référence}`,
-            }}
-            label="Télécharger la pièce justificative"
-            details=""
+            url={Routes.Document.télécharger(accuséRéception)}
+            label="Télécharger l'accusé de réception"
+            format="pdf"
           />
         </div>
       )}

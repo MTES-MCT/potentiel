@@ -52,12 +52,9 @@ export const ÉtapePropositionTechniqueEtFinancière: FC<
             {propositionTechniqueEtFinancièreSignée.endsWith('.bin') && <FormatFichierInvalide />}
             <DownloadDocument
               className="flex items-center"
-              linkProps={{
-                href: Routes.Document.télécharger(propositionTechniqueEtFinancièreSignée),
-                'aria-label': `Télécharger la proposition technique et financière pour le dossier ${référence}`,
-              }}
-              label="Télécharger la pièce justificative"
-              details=""
+              url={Routes.Document.télécharger(propositionTechniqueEtFinancièreSignée)}
+              label="Télécharger la proposition technique et financière"
+              format="pdf"
             />
           </div>
         )}

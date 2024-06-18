@@ -98,14 +98,10 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
         <>
           {accord.réponseSignée && (
             <DownloadDocument
-              label="Télécharger la pièce justificative"
-              details=""
-              linkProps={{
-                href: Routes.Document.télécharger(accord.réponseSignée),
-                'aria-label':
-                  "Télécharger la pièce justificative pour l'accord de la demande d'abandon",
-              }}
               className="mb-0 pb-0"
+              label="Télécharger la pièce justificative"
+              format="pdf"
+              url={Routes.Document.télécharger(accord.réponseSignée)}
             />
           )}
         </>
@@ -124,14 +120,10 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
         <>
           {rejet.réponseSignée && (
             <DownloadDocument
-              label="Télécharger la pièce justificative"
-              details=""
-              linkProps={{
-                href: Routes.Document.télécharger(rejet.réponseSignée),
-                'aria-label':
-                  "Télécharger la pièce justificative pour le rejet de la demande d'abandon",
-              }}
               className="mb-0 pb-0"
+              label="Télécharger la pièce justificative"
+              format="pdf"
+              url={Routes.Document.télécharger(rejet.réponseSignée)}
             />
           )}
         </>
@@ -163,14 +155,10 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
         <>
           {confirmation.réponseSignée && (
             <DownloadDocument
-              label="Télécharger la pièce justificative"
-              details=""
-              linkProps={{
-                href: Routes.Document.télécharger(confirmation.réponseSignée),
-                'aria-label':
-                  "Télécharger la pièce justificative pour la confirmation de la demande d'abandon",
-              }}
               className="mb-0 pb-0"
+              label="Télécharger la pièce justificative"
+              format="pdf"
+              url={Routes.Document.télécharger(confirmation.réponseSignée)}
             />
           )}
         </>
@@ -197,13 +185,10 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
         </div>
         {justificatifDemande && (
           <DownloadDocument
-            label="Télécharger la pièce justificative"
-            details=""
-            linkProps={{
-              href: Routes.Document.télécharger(justificatifDemande),
-              'aria-label': "Télécharger la pièce justificative pour la demande d'abandon",
-            }}
             className="mb-0 pb-0"
+            label="Télécharger la pièce justificative"
+            format="pdf"
+            url={Routes.Document.télécharger(justificatifDemande)}
           />
         )}
       </>

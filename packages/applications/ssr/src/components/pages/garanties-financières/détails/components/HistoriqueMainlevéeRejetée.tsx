@@ -41,12 +41,9 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
             </div>
             <div>
               <DownloadDocument
-                details="Au format .pdf"
+                format="pdf"
                 label="Télécharger la réponse signée"
-                linkProps={{
-                  href: Routes.Document.télécharger(mainlevéeRejetée.rejet.courrierRejet),
-                  'aria-label': 'Télécharger la réponse signée',
-                }}
+                url={Routes.Document.télécharger(mainlevéeRejetée.rejet.courrierRejet)}
               />
             </div>
           </div>

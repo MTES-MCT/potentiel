@@ -56,13 +56,10 @@ export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) =
               />
 
               <DownloadDocument
-                linkProps={{
-                  href: Routes.Abandon.téléchargerModèleRéponse(identifiantProjet),
-                  'aria-label': `Télécharger le modèle de réponse pour le rejet de la demande d'abandon`,
-                }}
-                details="docx"
-                label="Télécharger le modèle de réponse"
                 className="mt-4"
+                url={Routes.Abandon.téléchargerModèleRéponse(identifiantProjet)}
+                format="docx"
+                label="Télécharger le modèle de réponse"
               />
             </>
           ),

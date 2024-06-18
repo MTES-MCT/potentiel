@@ -120,13 +120,9 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
               <div>
                 {attestation && (
                   <DownloadDocument
-                    details="fichier au format pdf"
-                    label="Télécharger l'attestation"
-                    linkProps={{
-                      href: Routes.Document.télécharger(attestation),
-                      'aria-label':
-                        "Télécharger l'attestation de constitution des garanties financières",
-                    }}
+                    format="pdf"
+                    label="Télécharger l'attestation de constitution"
+                    url={Routes.Document.télécharger(attestation)}
                   />
                 )}
               </div>
