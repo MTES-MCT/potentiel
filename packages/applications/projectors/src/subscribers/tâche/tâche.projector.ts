@@ -31,7 +31,7 @@ export const register = () => {
       ]);
 
       if (!projet) {
-        getLogger().error(new Error(`Projet inconnu !`), { identifiantProjet, event });
+        getLogger().warn(`Projet inconnu !`, { identifiantProjet, event });
       }
 
       switch (type) {
