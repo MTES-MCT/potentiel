@@ -95,7 +95,7 @@ const getDescriptionTâche = (
       };
     case 'raccordement.référence-non-transmise':
       return {
-        titre: Raccordement.RéférenceDossierRaccordement.defaultRéférenceDossierRaccordement,
+        titre: Raccordement.RéférenceDossierRaccordement.référenceNonTransmise.formatter(),
         description: `La référence de votre dossier de raccordement n'a pas été transmise pour le projet ${nomProjet}`,
         lien: Routes.Raccordement.détail(identifiant),
         action: 'Voir le raccordement',

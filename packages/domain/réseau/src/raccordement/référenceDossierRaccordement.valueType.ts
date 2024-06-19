@@ -2,7 +2,7 @@ import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core
 
 export type RawType = string;
 
-export const defaultRéférenceDossierRaccordement = 'Référence non transmise';
+const defaultRéférenceDossierRaccordement = 'Référence non transmise';
 
 export type ValueType = ReadonlyValueType<{
   référence: string;
@@ -30,6 +30,8 @@ function estValide(value: string): asserts value is RawType {
     throw new FormatRéférenceDossierRaccordementInvalideError(value);
   }
 }
+
+export const référenceNonTransmise = convertirEnValueType(defaultRéférenceDossierRaccordement);
 
 class FormatRéférenceDossierRaccordementInvalideError extends InvalidOperationError {
   constructor(value: string) {
