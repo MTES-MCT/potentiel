@@ -5,10 +5,7 @@ import Docxtemplater from 'docxtemplater';
 
 import { GénérerModèleDocumentPort, OptionsGénération } from '@potentiel-domain/document';
 
-// import { formatDatesFromDataToFrFormat } from '../formatDatesFromDataToFrFormat';
-// import { formatIdentifiantProjetForDocument } from '../formatIdentifiantProjetForDocument';
-
-export const générerModèleDocumentAdapter: GénérerModèleDocumentPort = async (options) => {
+export const buildDocxDocument: GénérerModèleDocumentPort = async (options) => {
   const templateFilePath = getTemplateFilePath(options);
 
   const content = fs.readFileSync(path.resolve(__dirname, templateFilePath), 'binary');

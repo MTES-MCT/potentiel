@@ -4,10 +4,7 @@ import {
   registerLauréatQueries,
   registerLauréatUseCases,
 } from '@potentiel-domain/laureat';
-import {
-  getModèleMiseEnDemeureGarantiesFinancières,
-  getModèleRéponseAbandon,
-} from '@potentiel-infrastructure/document-builder';
+import { buildDocxDocument } from '@potentiel-infrastructure/document-builder';
 import {
   consulterCahierDesChargesChoisiAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
@@ -23,9 +20,8 @@ registerLauréatQueries({
   list: listProjection,
   récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
   consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
-  buildModèleRéponseAbandon: getModèleRéponseAbandon,
   récupérerRégionDreal: récupérerRégionDrealAdapter,
-  buildModèleMiseEnDemeureGarantiesFinancières: getModèleMiseEnDemeureGarantiesFinancières,
+  générerModèleDocument: buildDocxDocument,
 });
 
 registerLauréatUseCases({

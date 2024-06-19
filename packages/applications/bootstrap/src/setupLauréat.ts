@@ -16,11 +16,8 @@ import {
   consulterCahierDesChargesChoisiAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
   récupérerRégionDrealAdapter,
+  DocumentAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
-import {
-  getModèleMiseEnDemeureGarantiesFinancières,
-  getModèleRéponseAbandon,
-} from '@potentiel-infrastructure/document-builder';
 
 export const setupLauréat = async () => {
   registerLauréatUseCases({
@@ -32,9 +29,8 @@ export const setupLauréat = async () => {
     list: listProjection,
     récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
-    générerModèleDocument: getModèleRéponseAbandon,
     récupérerRégionDreal: récupérerRégionDrealAdapter,
-    générerModèleDocument: getModèleMiseEnDemeureGarantiesFinancières,
+    générerModèleDocument: DocumentAdapter.générerModèleDocument,
   });
 
   AbandonProjector.register();

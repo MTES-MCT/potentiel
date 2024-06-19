@@ -5,6 +5,7 @@ import * as zod from 'zod';
 
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { buildDocument, DonnéesDocument } from '@potentiel-infrastructure/document-builder';
@@ -79,7 +80,7 @@ const buildReponseSignee = async (
   const props: DonnéesDocument = {
     dateCourrier: new Date().toISOString(),
     projet: {
-      identifiantProjet: abandon.identifiantProjet.formatter(),
+      identifiantProjet: formatIdentifiantProjetForDocument(abandon.identifiantProjet),
       nomReprésentantLégal: projet.candidat.représentantLégal,
       nomCandidat: projet.candidat.nom,
       email: projet.candidat.contact,
@@ -113,4 +114,12 @@ const buildReponseSignee = async (
     content: await buildDocument(props),
     format: 'application/pdf',
   };
+};
+
+const formatIdentifiantProjetForDocument = (
+  identifiantProjet: IdentifiantProjet.ValueType,
+): string => {
+  const { appelOffre, période, famille, numéroCRE } = identifiantProjet;
+
+  return `${appelOffre}-P${période}${famille ? `-F${famille}` : ''}-${numéroCRE}`;
 };

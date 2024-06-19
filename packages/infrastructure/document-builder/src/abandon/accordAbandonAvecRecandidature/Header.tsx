@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { Image, Text, View } from '@react-pdf/renderer';
 import { format } from 'date-fns';
-import { formatIdentifiantProjetForDocument } from '../../formatIdentifiantProjetForDocument';
 
 type HeaderProps = {
   dateCourrier: string;
@@ -71,7 +70,7 @@ export const Header: FC<HeaderProps> = ({
 
       <View style={{ marginTop: 10 }}>
         <View style={{ fontSize: 8 }}>
-          <Text>Code Potentiel: {formatIdentifiantProjetForDocument(identifiantProjet)}</Text>
+          <Text>Code Potentiel: {identifiantProjet}</Text>
           <Text>Dossier suivi par : aopv.dgec@developpement-durable.gouv.fr</Text>
         </View>
       </View>
