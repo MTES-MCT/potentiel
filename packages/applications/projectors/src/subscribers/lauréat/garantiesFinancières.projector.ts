@@ -10,7 +10,6 @@ import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { v4 as uuid } from 'uuid';
 
 export type SubscriptionEvent =
   | (GarantiesFinancières.GarantiesFinancièresEvent & Event)
@@ -509,7 +508,7 @@ export const register = () => {
               historique: [
                 ...historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert.historique,
                 {
-                  id: uuid(),
+                  id: payload.id,
                   demande: mainlevéeGarantiesFinancièresToUpsert.demande,
                   motif: mainlevéeGarantiesFinancièresToUpsert.motif,
                   rejet: {
