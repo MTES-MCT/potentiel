@@ -15,6 +15,7 @@ export type DemandeMainlevéeGarantiesFinancièresRejetéeEvent = DomainEvent<
     réponseSignée: {
       format: string;
     };
+    id: string;
   }
 >;
 
@@ -23,11 +24,12 @@ type Options = {
   rejetéLe: DateTime.ValueType;
   rejetéPar: Email.ValueType;
   réponseSignée: DocumentProjet.ValueType;
+  id: string;
 };
 
 export async function rejeterDemandeMainlevéeGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
-  { identifiantProjet, rejetéLe, rejetéPar, réponseSignée }: Options,
+  { identifiantProjet, rejetéLe, rejetéPar, réponseSignée, id }: Options,
 ) {
   if (!this.demandeMainlevéeEnCours) {
     throw new DemandeMainlevéeNonTrouvéeError();
@@ -46,6 +48,7 @@ export async function rejeterDemandeMainlevéeGarantiesFinancières(
       réponseSignée: {
         format: réponseSignée.format,
       },
+      id,
     },
   };
 
@@ -54,10 +57,17 @@ export async function rejeterDemandeMainlevéeGarantiesFinancières(
 
 export function applyDemandeMainlevéeGarantiesFinancièresRejetée(
   this: GarantiesFinancièresAggregate,
+  { payload: { id } }: DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
 ) {
   if (this.demandeMainlevéeEnCours) {
     this.demandeMainlevéeEnCours.statut = StatutMainlevéeGarantiesFinancières.rejeté;
+    this.historiqueMainlevéeRejetée = this.historiqueMainlevéeRejetée
+      ? [...this.historiqueMainlevéeRejetée, id]
+      : [id];
   } else {
     this.demandeMainlevéeEnCours = { statut: StatutMainlevéeGarantiesFinancières.rejeté };
+    this.historiqueMainlevéeRejetée = this.historiqueMainlevéeRejetée
+      ? [...this.historiqueMainlevéeRejetée, id]
+      : [id];
   }
 }

@@ -19,6 +19,7 @@ export type ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresRea
   période: string;
   régionProjet: string;
   historique: Array<{
+    id: string;
     motif: MotifDemandeMainlevéeGarantiesFinancières.ValueType;
     demande: { demandéeLe: DateTime.ValueType; demandéePar: Email.ValueType };
     rejet: {
@@ -82,6 +83,7 @@ export const mapToReadModel = ({
   période,
   régionProjet,
   historique: historique.map((demandeRejetée) => ({
+    id: demandeRejetée.id,
     demande: {
       demandéeLe: DateTime.convertirEnValueType(demandeRejetée.demande.demandéeLe),
       demandéePar: Email.convertirEnValueType(demandeRejetée.demande.demandéePar),

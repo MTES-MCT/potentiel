@@ -3,6 +3,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { RejeterDemandeMainlevéeGarantiesFinancièresCommand } from './rejeterDemandeMainlevéeGarantiesFinancières.command';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { TypeDocumentRéponseDemandeMainlevée } from '../..';
+import { v4 as uuid } from 'uuid';
 
 export type RejeterDemandeMainlevéeGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
@@ -33,6 +34,7 @@ export const registerRejeterDemandeMainlevéeGarantiesFinancièresUseCase = () =
       rejetéLe.formatter(),
       format,
     );
+    const id = uuid();
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
@@ -49,6 +51,7 @@ export const registerRejeterDemandeMainlevéeGarantiesFinancièresUseCase = () =
         rejetéPar,
         identifiantProjet,
         réponseSignée,
+        id,
       },
     });
   };

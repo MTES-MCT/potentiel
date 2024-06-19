@@ -13,6 +13,7 @@ export type RejeterDemandeMainlevéeGarantiesFinancièresCommand = Message<
     rejetéLe: DateTime.ValueType;
     rejetéPar: Email.ValueType;
     réponseSignée: DocumentProjet.ValueType;
+    id: string;
   }
 >;
 
@@ -26,6 +27,7 @@ export const registeRejeterDemandeMainlevéeGarantiesFinancièresCommand = (
     rejetéLe,
     rejetéPar,
     réponseSignée,
+    id,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
 
@@ -34,6 +36,7 @@ export const registeRejeterDemandeMainlevéeGarantiesFinancièresCommand = (
       rejetéLe,
       rejetéPar,
       réponseSignée,
+      id,
     });
   };
   mediator.register(

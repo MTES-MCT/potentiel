@@ -125,6 +125,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   demandeMainlevéeEnCours?: {
     statut: StatutMainlevéeGarantiesFinancières.ValueType;
   };
+  historiqueMainlevéeRejetée?: Array<string>;
   readonly soumettreDépôt: typeof soumettreDépôt;
   readonly demanderGarantiesFinancières: typeof demanderGarantiesFinancières;
   readonly supprimerDépôtGarantiesFinancièresEnCours: typeof supprimerDépôtGarantiesFinancièresEnCours;
@@ -207,7 +208,7 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       applyInstructionDemandeMainlevéeGarantiesFinancièresDémarrée.bind(this)();
       break;
     case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
-      applyDemandeMainlevéeGarantiesFinancièresRejetée.bind(this)();
+      applyDemandeMainlevéeGarantiesFinancièresRejetée.bind(this)(event);
       break;
     case 'DemandeMainlevéeGarantiesFinancièresAccordée-V1':
       applyDemandeMainlevéeGarantiesFinancièresAccordée.bind(this)();
