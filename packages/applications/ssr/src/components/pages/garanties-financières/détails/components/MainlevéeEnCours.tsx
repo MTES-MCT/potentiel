@@ -3,15 +3,17 @@ import Link from 'next/link';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Routes } from '@potentiel-applications/routes';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading3 } from '@/components/atoms/headings';
 
 import { DémarrerInstructionDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/instruire/DémarrerInstructionDemandeMainlevéeGarantiesFinancières';
-import { AccorderDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/accorder/AccorderDemandeMainleveGarantiesFinancières';
+import { AccorderDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/accorder/AccorderDemandeMainlevéeGarantiesFinancières';
 import { RejeterDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/rejeter/RejeterDemandeMainleveGarantiesFinancières';
 import { AnnulerDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/annuler/AnnulerDemandeMainlevéeGarantiesFinancières';
 import { StatutMainlevéeBadge } from '../../../../molecules/mainlevée/StatutMainlevéeBadge';
+import { DownloadDocument } from '../../../../atoms/form/DownloadDocument';
 
 export type MainlevéeEnCoursProps = {
   identifiantProjet: string;
@@ -20,8 +22,11 @@ export type MainlevéeEnCoursProps = {
     motif: GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
     demandéLe: Iso8601DateTime;
     dernièreMiseÀJourLe: Iso8601DateTime;
-    accordéeLe?: Iso8601DateTime;
     instructionDémarréeLe?: Iso8601DateTime;
+    accord: {
+      accordéeLe?: Iso8601DateTime;
+      courrierAccord?: string;
+    };
     urlAppelOffre: string;
     actions: Array<
       | 'voir-appel-offre-info'
@@ -33,14 +38,16 @@ export type MainlevéeEnCoursProps = {
 };
 
 export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, identifiantProjet }) => (
-  <div className="mt-5 p-3 border border-dsfr-border-default-blueFrance-default">
-    <Heading3>Mainlevée en cours</Heading3>
+  <div className="p-3 flex-1">
+    <div className="flex gap-2">
+      <Heading3>Mainlevée</Heading3>
+      <StatutMainlevéeBadge statut={mainlevée.statut} />
+    </div>
     <div className="text-xs italic">
       Dernière mise à jour le{' '}
       <FormattedDate className="font-semibold" date={mainlevée.dernièreMiseÀJourLe} />
     </div>
-    <StatutMainlevéeBadge statut={mainlevée.statut} />
-    <div className="mt-5 gap-2 text-base">
+    <div className="mt-5 mb-5 gap-2 text-base">
       <div>
         Mainlevée demandée le :{' '}
         <FormattedDate className="font-semibold" date={mainlevée.demandéLe} />
@@ -57,11 +64,18 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, iden
           <FormattedDate className="font-semibold" date={mainlevée.instructionDémarréeLe} />
         </div>
       )}
-      {mainlevée.accordéeLe && (
+      {mainlevée.accord.accordéeLe && (
         <div>
           Mainlevée accordée le :{' '}
-          <FormattedDate className="font-semibold" date={mainlevée.accordéeLe} />
+          <FormattedDate className="font-semibold" date={mainlevée.accord.accordéeLe} />
         </div>
+      )}
+      {mainlevée.accord.courrierAccord && (
+        <DownloadDocument
+          format="pdf"
+          label="Télécharger la réponse signée"
+          url={Routes.Document.télécharger(mainlevée.accord.courrierAccord)}
+        />
       )}
     </div>
     <Actions

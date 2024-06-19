@@ -60,7 +60,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
   mainlevée,
   historiqueMainlevée,
 }) => (
-  <>
+  <div className="flex flex-1 flex-row gap-2 md:flex-col">
     <CallOut
       className="flex-1"
       colorVariant={actions.includes('enregister-attestation') ? 'warning' : 'success'}
@@ -78,7 +78,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
                 </>
               )}
             </div>
-            <div className="mt-5 gap-2 text-base">
+            <div className="mt-5 mb-5 gap-2 text-base">
               <div>
                 {type && (
                   <>
@@ -127,20 +127,32 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
                 )}
               </div>
             </div>
+            <Actions identifiantProjet={identifiantProjet} actions={actions} />
           </div>
-          <Actions identifiantProjet={identifiantProjet} actions={actions} />
-          {showMainlevéeGarantiesFinancières && mainlevée && (
-            <MainlevéeEnCours identifiantProjet={identifiantProjet} mainlevée={mainlevée} />
-          )}
-          {showMainlevéeGarantiesFinancières &&
-            historiqueMainlevée &&
-            historiqueMainlevée.length && (
-              <HistoriqueMainlevéeRejetée historique={historiqueMainlevée} />
-            )}
         </div>
       }
     />
-  </>
+    {showMainlevéeGarantiesFinancières &&
+      (mainlevée || (historiqueMainlevée && historiqueMainlevée.length)) && (
+        <CallOut
+          className="flex-1"
+          colorVariant={mainlevée?.statut === 'accordé' ? 'success' : 'warning'}
+          content={
+            <div className="flex flex-col">
+              <Heading2>Mainlevée des garanties financières</Heading2>
+              <div className="flex">
+                {mainlevée && (
+                  <MainlevéeEnCours identifiantProjet={identifiantProjet} mainlevée={mainlevée} />
+                )}
+                {historiqueMainlevée && historiqueMainlevée.length && (
+                  <HistoriqueMainlevéeRejetée historique={historiqueMainlevée} />
+                )}
+              </div>
+            </div>
+          }
+        />
+      )}
+  </div>
 );
 
 type ActionsProps = {
@@ -160,7 +172,7 @@ const Actions: FC<ActionsProps> = ({ identifiantProjet, actions }) => {
         </Button>
       )}
       {actions.includes('enregister-attestation') && (
-        <>
+        <div className="flex flex-col gap-1">
           <p className="italic">
             Les garanties financières sont incomplètes, merci de les compléter en enregistrant
             l'attestation de constitution
@@ -173,7 +185,7 @@ const Actions: FC<ActionsProps> = ({ identifiantProjet, actions }) => {
           >
             Enregistrer l'attestation de constitution
           </Button>
-        </>
+        </div>
       )}
       {(actions.includes('demander-mainlevée-gf-pour-projet-abandonné') ||
         actions.includes('demander-mainlevée-gf-pour-projet-achevé')) && (

@@ -1,11 +1,7 @@
 import React from 'react';
 import { Request } from 'express';
-import { Timeline, CalendarIcon, Section, Link, InfoBox } from '../../../components';
-import { userIs } from '../../../../modules/users';
+import { Timeline, CalendarIcon, Section } from '../../../components';
 import { ProjectEventListDTO } from '../../../../modules/frise';
-import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
-
-import { Routes } from '@potentiel-applications/routes';
 
 type EtapesProjetProps = {
   project: {
@@ -32,29 +28,5 @@ export const EtapesProjet = ({ user, projectEventList, project }: EtapesProjetPr
         projectEventList,
       }}
     />
-    {project.isClasse &&
-      !project.isAbandoned &&
-      userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal', 'acheteur-obligé', 'cre'])(
-        user,
-      ) && (
-        <InfoBox className="print:hidden">
-          Les données de raccordement du projet sont dorénavant consultables et modifiables sur{' '}
-          <Link
-            href={Routes.Raccordement.détail(
-              formatProjectDataToIdentifiantProjetValueType({
-                appelOffreId: project.appelOffreId,
-                periodeId: project.periodeId,
-                familleId: project.familleId,
-                numeroCRE: project.numeroCRE,
-              }).formatter(),
-            )}
-            aria-label="Accéder aux données de raccordement"
-          >
-            cette page dédiée.
-          </Link>
-        </InfoBox>
-      )}
-    {/* on teste si cette fonctionnalité est utlisée
-     {userIs(['admin', 'dgec-validateur', 'dreal'])(user) && <AttachFile projectId={project.id} />} */}
   </Section>
 );

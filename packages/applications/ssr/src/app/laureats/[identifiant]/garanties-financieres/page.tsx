@@ -277,7 +277,10 @@ const mapToProps: MapToProps = ({
           statut: mainlevée.statut.statut,
           demandéLe: mainlevée.demande.demandéeLe.formatter(),
           instructionDémarréeLe: mainlevée.instruction?.démarréeLe.formatter(),
-          accordéeLe: mainlevée.accord?.accordéeLe.formatter(),
+          accord: {
+            accordéeLe: mainlevée.accord?.accordéeLe.formatter(),
+            courrierAccord: mainlevée.accord?.courrierAccord.formatter(),
+          },
           dernièreMiseÀJourLe: mainlevée.dernièreMiseÀJour.date.formatter(),
           actions: mainlevéeActions,
           urlAppelOffre: appelOffreDetails.cahiersDesChargesUrl,

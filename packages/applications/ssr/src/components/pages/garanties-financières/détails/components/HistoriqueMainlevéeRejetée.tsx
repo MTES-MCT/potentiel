@@ -3,9 +3,9 @@ import { FC } from 'react';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { Routes } from '@potentiel-applications/routes';
 
-import { FormattedDate } from '../../../../atoms/FormattedDate';
 import { Heading3 } from '../../../../atoms/headings';
 import { DownloadDocument } from '../../../../atoms/form/DownloadDocument';
+import { Timeline, TimelineProps } from '../../../../organisms/Timeline';
 
 export type HistoriqueMainlevéeRejetéeProps = {
   historique: Array<{
@@ -17,37 +17,33 @@ export type HistoriqueMainlevéeRejetéeProps = {
 
 export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps> = ({ historique }) => {
   const nombreDeMainlevéesRejetées = historique.length;
+  const items: TimelineProps['items'] = historique.map((mainlevéeRejetée) => ({
+    status: 'warning',
+    date: mainlevéeRejetée.rejet.rejetéLe,
+    title: (
+      <div>
+        Mainlevée rejetée par{' '}
+        {<span className="font-semibold">{mainlevéeRejetée.rejet.rejetéPar}</span>}
+      </div>
+    ),
+    content: (
+      <DownloadDocument
+        format="pdf"
+        label="Télécharger la réponse signée"
+        url={Routes.Document.télécharger(mainlevéeRejetée.rejet.courrierRejet)}
+      />
+    ),
+  }));
 
   return (
-    <div className="mt-5 p-3 border border-dsfr-border-default-blueFrance-default">
+    <div className="p-3 flex-1">
       <Heading3>Historique des mainlevées rejetées</Heading3>
       <div className="text-xs italic">
         {nombreDeMainlevéesRejetées} mainlevée{nombreDeMainlevéesRejetées > 1 && 's'} rejetée
         {nombreDeMainlevéesRejetées > 1 && 's'}
       </div>
-      <div className="mt-3 flex flex-row flex-wrap gap-2">
-        {historique.map((mainlevéeRejetée) => (
-          <div
-            className="border border-dsfr-border-default-grey-default p-2 flex flex-col justify-center gap-1 text-sm"
-            key={mainlevéeRejetée.demandéeLe}
-          >
-            <p>
-              Mainlevée demandée le :{' '}
-              <FormattedDate className="font-semibold" date={mainlevéeRejetée.demandéeLe} />
-            </p>
-            <div>
-              Rejetée le{' '}
-              <FormattedDate className="font-semibold" date={mainlevéeRejetée.rejet.rejetéLe} />
-            </div>
-            <div>
-              <DownloadDocument
-                format="pdf"
-                label="Télécharger la réponse signée"
-                url={Routes.Document.télécharger(mainlevéeRejetée.rejet.courrierRejet)}
-              />
-            </div>
-          </div>
-        ))}
+      <div className="mt-3">
+        <Timeline items={items} />
       </div>
     </div>
   );
