@@ -13,6 +13,8 @@ import { logger } from './core/utils';
 import next from 'next';
 import { registerSagas } from './sagas/registerSagas';
 import { readFile } from 'node:fs/promises';
+import { permissionMiddleware } from '@potentiel-domain/utilisateur';
+import { bootstrap } from '@potentiel-applications/bootstrap';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -132,6 +134,8 @@ export async function makeServer(port: number, sessionSecret: string) {
     });
 
     await nextApp.prepare();
+
+    await bootstrap({ middlewares: [permissionMiddleware] });
 
     if (!process.env.MAINTENANCE_MODE) {
       app.listen(port, () => {
