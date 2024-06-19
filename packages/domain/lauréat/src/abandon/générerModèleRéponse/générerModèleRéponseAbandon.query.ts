@@ -4,7 +4,8 @@ import { ConsulterAppelOffreQuery, AppelOffre } from '@potentiel-domain/appel-of
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { ConsulterAbandonQuery } from '../consulter/consulterAbandon.query';
 import { ConsulterCahierDesChargesChoisiQuery } from '../../cahierDesChargesChoisi/consulter/consulterCahierDesChargesChoisi.query';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { GénérerModèleDocumentPort } from '@potentiel-domain/document';
 
 export type GénérerModèleRéponseAbandonReadModel = {
   format: string;
@@ -20,55 +21,12 @@ export type GénérerModèleRéponseAbandonQuery = Message<
   GénérerModèleRéponseAbandonReadModel
 >;
 
-export type BuildModèleRéponseAbandonPort = (options: {
-  aprèsConfirmation: boolean;
-  data: {
-    suiviPar: string; // user qui édite le document
-    suiviParEmail: string; // email dgec var env
-    refPotentiel: string; // identifiantProjet
-
-    dreal: string; // région projet
-
-    status: string;
-
-    nomRepresentantLegal: string;
-    nomCandidat: string;
-    adresseCandidat: string;
-    email: string;
-
-    titrePeriode: string;
-    titreAppelOffre: string;
-    familles: 'yes' | '';
-    titreFamille: string;
-    dateNotification: string;
-
-    nomProjet: string;
-    codePostalProjet: string;
-    communeProjet: string;
-    puissance: string;
-    unitePuissance: string;
-
-    dateDemande: string;
-    justificationDemande: string;
-
-    referenceParagrapheAbandon: string;
-    contenuParagrapheAbandon: string;
-
-    dateDemandeConfirmation: string;
-    dateConfirmation: string;
-
-    isEDFOA: string;
-    isEDFSEI: string;
-    isEDM: string;
-  };
-}) => Promise<ReadableStream>;
-
 export type GénérerModèleRéponseAbandonDependencies = {
-  buildModèleRéponseAbandon: BuildModèleRéponseAbandonPort;
+  générerModèleDocument: GénérerModèleDocumentPort;
 };
 
 export const registerGénérerModèleRéponseAbandonQuery = ({
-  buildModèleRéponseAbandon,
+  générerModèleDocument,
 }: GénérerModèleRéponseAbandonDependencies) => {
   const handler: MessageHandler<GénérerModèleRéponseAbandonQuery> = async ({
     identifiantProjet,
@@ -111,17 +69,22 @@ export const registerGénérerModèleRéponseAbandonQuery = ({
       cahierDesChargesChoisi,
     });
 
-    const content = await buildModèleRéponseAbandon({
-      aprèsConfirmation: abandon.demande.confirmation?.confirméLe ? true : false,
+    const content = await générerModèleDocument({
+      type: 'abandon',
       data: {
+        aprèsConfirmation: abandon.demande.confirmation?.confirméLe ? true : false,
         adresseCandidat: candidature.candidat.adressePostale,
         codePostalProjet: candidature.localité.codePostal,
         communeProjet: candidature.localité.commune,
         contenuParagrapheAbandon: dispositionCDC.dispositions,
-        dateConfirmation: abandon.demande.confirmation?.confirméLe?.formatter() || '',
-        dateDemande: abandon.demande.demandéLe.formatter(),
-        dateDemandeConfirmation: abandon.demande.confirmation?.demandéLe.formatter() || '',
-        dateNotification: DateTime.convertirEnValueType(candidature.dateDésignation).formatter(),
+        dateConfirmation:
+          abandon.demande.confirmation?.confirméLe?.date.toLocaleDateString('fr-FR') || '',
+        dateDemande: abandon.demande.demandéLe.date.toLocaleDateString('fr-FR'),
+        dateDemandeConfirmation:
+          abandon.demande.confirmation?.demandéLe.date.toLocaleDateString('fr-FR') || '',
+        dateNotification: DateTime.convertirEnValueType(
+          candidature.dateDésignation,
+        ).date.toLocaleDateString('fr-FR'),
         dreal: candidature.localité.région,
         email: '',
         familles: candidature.famille ? 'yes' : '',
@@ -132,7 +95,7 @@ export const registerGénérerModèleRéponseAbandonQuery = ({
         nomRepresentantLegal: candidature.candidat.représentantLégal,
         puissance: candidature.puissance.toString(),
         referenceParagrapheAbandon: dispositionCDC.référenceParagraphe,
-        refPotentiel: identifiantProjet,
+        refPotentiel: formatIdentifiantProjetForDocument(identifiantProjet),
         status: abandon.statut.statut,
         suiviPar: utilisateur?.nomComplet || '',
         suiviParEmail: appelOffres.dossierSuiviPar,
@@ -210,4 +173,11 @@ const parseCahierDesChargesChoisi = (référence: string) => {
     paruLe: référence.replace('-alternatif', ''),
     alternatif: référence.search('-alternatif') === -1 ? undefined : true,
   };
+};
+
+const formatIdentifiantProjetForDocument = (identifiantProjet: string): string => {
+  const { appelOffre, période, famille, numéroCRE } =
+    IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
+  return `${appelOffre}-P${période}${famille ? `-F${famille}` : ''}-${numéroCRE}`;
 };

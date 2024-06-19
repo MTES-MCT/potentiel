@@ -32,9 +32,9 @@ export const setupLauréat = async () => {
     list: listProjection,
     récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
-    buildModèleRéponseAbandon: getModèleRéponseAbandon,
+    générerModèleDocument: getModèleRéponseAbandon,
     récupérerRégionDreal: récupérerRégionDrealAdapter,
-    buildModèleMiseEnDemeureGarantiesFinancières: getModèleMiseEnDemeureGarantiesFinancières,
+    générerModèleDocument: getModèleMiseEnDemeureGarantiesFinancières,
   });
 
   AbandonProjector.register();
