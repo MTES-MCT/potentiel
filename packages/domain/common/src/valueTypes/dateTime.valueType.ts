@@ -69,7 +69,7 @@ function estValide(value: string): asserts value is RawType {
 class DateTimeInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(
-      `La date ne correspond pas au format ISO8601 sans décalage UTC ('{YYYY}-{MM}-{SS}T{HH}:{mm}:{ss}.{ms}Z`,
+      `La date ne correspond pas au format ISO8601 sans décalage UTC ('{YYYY}-{MM}-{SS}T{HH}:{mm}:{ss}.{ms}Z')`,
       {
         value,
       },

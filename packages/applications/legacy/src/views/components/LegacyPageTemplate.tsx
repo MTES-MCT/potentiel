@@ -8,7 +8,7 @@ export const LegacyPageTemplate = ({
   children,
   currentPage,
 }: {
-  user: UtilisateurReadModel;
+  user?: UtilisateurReadModel;
   children: React.ReactNode;
   currentPage?: string;
 }) => {
