@@ -48,6 +48,8 @@ BeforeAll(async () => {
   process.env.AWS_SECRET_ACCESS_KEY = 'minioadmin';
 
   disableNodeMaxListenerWarning();
+
+  await executeQuery('DROP RULE prevent_delete_on_event_stream on event_store.event_stream');
 });
 
 Before<PotentielWorld>(async function (this: PotentielWorld) {
