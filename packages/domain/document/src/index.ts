@@ -10,10 +10,6 @@ import {
   EnregistrerDocumentProjetCommand,
   EnregistrerDocumentProjetPort,
 } from './enregistrer/enregistrerDocument.command';
-import {
-  GénérerModèleDocumentPort,
-  OptionsGénération,
-} from './générerModèleDocument/générerModèleDocument.port';
 
 // Query
 export type DocumentProjetQuery = ConsulterDocumentProjetQuery;
@@ -36,10 +32,4 @@ export * as DocumentProjet from './documentProjet.valueType';
 export * as DossierProjet from './dossierProjet.valueType';
 
 // Port
-export {
-  RécupérerDocumentProjetPort,
-  EnregistrerDocumentProjetPort,
-  DéplacerDossierProjetPort,
-  GénérerModèleDocumentPort,
-  OptionsGénération,
-};
+export { RécupérerDocumentProjetPort, EnregistrerDocumentProjetPort, DéplacerDossierProjetPort };

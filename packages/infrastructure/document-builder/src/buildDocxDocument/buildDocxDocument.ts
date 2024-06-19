@@ -3,7 +3,7 @@ import path from 'path';
 import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
 
-import { GénérerModèleDocumentPort, OptionsGénération } from '@potentiel-domain/document';
+import { GénérerModèleDocumentPort, OptionsGénération } from '@potentiel-domain/modele-document';
 
 const assetsFolderPath = path.resolve(__dirname, '..', 'assets');
 const imagesFolderPath = path.resolve(assetsFolderPath, 'images');

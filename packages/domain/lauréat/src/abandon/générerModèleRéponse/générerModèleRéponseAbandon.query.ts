@@ -5,7 +5,7 @@ import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { ConsulterAbandonQuery } from '../consulter/consulterAbandon.query';
 import { ConsulterCahierDesChargesChoisiQuery } from '../../cahierDesChargesChoisi/consulter/consulterCahierDesChargesChoisi.query';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { GénérerModèleDocumentPort } from '@potentiel-domain/document';
+import { GénérerModèleDocumentPort } from '@potentiel-domain/modele-document';
 
 export type GénérerModèleRéponseAbandonReadModel = {
   format: string;

@@ -5,7 +5,7 @@ import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery } from '../consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
-import { GénérerModèleDocumentPort } from '@potentiel-domain/document';
+import { GénérerModèleDocumentPort } from '@potentiel-domain/modele-document';
 
 export type GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel = {
   format: string;
