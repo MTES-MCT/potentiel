@@ -5,10 +5,14 @@ import Docxtemplater from 'docxtemplater';
 
 import { GénérerModèleDocumentPort, OptionsGénération } from '@potentiel-domain/document';
 
+const assetsFolderPath = path.resolve(__dirname, '..', 'assets');
+const imagesFolderPath = path.resolve(assetsFolderPath, 'images');
+const docxFolderPath = path.resolve(assetsFolderPath, 'docx');
+
 export const buildDocxDocument: GénérerModèleDocumentPort = async (options) => {
   const templateFilePath = getTemplateFilePath(options);
 
-  const content = fs.readFileSync(path.resolve(__dirname, templateFilePath), 'binary');
+  const content = fs.readFileSync(templateFilePath, 'binary');
   const zip = new PizZip(content);
   const doc = new Docxtemplater(zip, {
     paragraphLoop: true,
@@ -25,7 +29,7 @@ export const buildDocxDocument: GénérerModèleDocumentPort = async (options) =
   });
 
   if (options.logo) {
-    const logoFilePath = path.resolve(__dirname, '../../assets/images', `${options.logo}.png`);
+    const logoFilePath = path.resolve(imagesFolderPath, `${options.logo}.png`);
     try {
       const imageContents = fs.readFileSync(logoFilePath, 'binary');
       zip.file('word/media/image1.png', imageContents, { binary: true });
@@ -44,10 +48,10 @@ const getTemplateFilePath = ({ type, data }: OptionsGénération) => {
   switch (type) {
     case 'abandon':
       return data.aprèsConfirmation
-        ? '../assets/docx/abandon-modèle-réponse-après-confirmation.docx'
-        : '../assets/docx/abandon-modèle-réponse.docx';
+        ? path.resolve(docxFolderPath, 'abandon-modèle-réponse-après-confirmation.docx')
+        : path.resolve(docxFolderPath, 'abandon-modèle-réponse.docx');
 
     case 'mise-en-demeure':
-      return '../assets/docx/garanties-financières-modèle-mise-en-demeure.docx';
+      return path.resolve(docxFolderPath, 'garanties-financières-modèle-mise-en-demeure.docx');
   }
 };

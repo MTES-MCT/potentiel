@@ -78,6 +78,7 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
 
     const content = await générerModèleDocument({
       type: 'mise-en-demeure',
+      logo: régionDreal.région,
       data: {
         dreal: régionDreal.région,
         dateMiseEnDemeure:
