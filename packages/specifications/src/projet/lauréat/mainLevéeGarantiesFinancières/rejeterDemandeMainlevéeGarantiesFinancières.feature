@@ -3,6 +3,7 @@ Fonctionnalité: Rejeter une demande de mainlevée des garanties financières
     Contexte: 
         Etant donné le projet lauréat "Centrale PV"
 
+@select
     Scénario: Un utilisateur Dreal rejette une demande de mainlevée pour un projet abandonné
         Etant donné un abandon accordé pour le projet lauréat "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"

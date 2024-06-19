@@ -275,7 +275,7 @@ Alors(
           formatFichierRéponse,
         );
 
-        expect(actualReadModel.historique[0].id).to.be.true;
+        expect(actualReadModel.historique[0].id).not.to.be.undefined;
 
         const actualFile = await mediator.send<ConsulterDocumentProjetQuery>({
           type: 'Document.Query.ConsulterDocumentProjet',
