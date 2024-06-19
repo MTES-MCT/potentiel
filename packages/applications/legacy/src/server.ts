@@ -10,10 +10,8 @@ import * as Sentry from '@sentry/node';
 import { isLocalEnv, registerAuth } from './config';
 import { v1Router } from './controllers';
 import { logger } from './core/utils';
-import { bootstrap } from '@potentiel-applications/bootstrap';
 import next from 'next';
 import { registerSagas } from './sagas/registerSagas';
-import { permissionMiddleware } from '@potentiel-domain/utilisateur';
 import { readFile } from 'node:fs/promises';
 
 setDefaultOptions({ locale: LOCALE.fr });
@@ -134,8 +132,6 @@ export async function makeServer(port: number, sessionSecret: string) {
     });
 
     await nextApp.prepare();
-
-    await bootstrap({ middlewares: [permissionMiddleware] });
 
     if (!process.env.MAINTENANCE_MODE) {
       app.listen(port, () => {
