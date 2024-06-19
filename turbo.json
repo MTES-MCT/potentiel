@@ -9,6 +9,21 @@
         "^build"
       ],
       "outputMode": "new-only"
+    },
+    "build:dev": {
+      "inputs": [
+        "src/**/*.{ts,tsx}"
+      ],
+      "dependsOn": [
+        "^build:dev"
+      ],
+      "outputMode": "new-only"
+    },
+    "dev": {
+      "dependsOn": [
+        "^build:dev"
+      ],
+      "cache": false
     }
   },
   "globalDependencies": [
