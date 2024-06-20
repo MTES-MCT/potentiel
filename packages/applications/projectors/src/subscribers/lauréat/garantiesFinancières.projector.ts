@@ -483,13 +483,13 @@ export const register = () => {
               ...mainlevéeGarantiesFinancièresToUpsert,
               statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
               accord: {
-                accordéeLe: payload.accordéLe,
-                accordéePar: payload.accordéPar,
+                accordéeLe: payload.accordéeLe,
+                accordéePar: payload.accordéePar,
                 courrierAccord: { format: payload.réponseSignée.format },
               },
               dernièreMiseÀJour: {
-                date: payload.accordéLe,
-                par: payload.accordéPar,
+                date: payload.accordéeLe,
+                par: payload.accordéePar,
               },
             },
           );
@@ -511,9 +511,13 @@ export const register = () => {
                   demande: mainlevéeGarantiesFinancièresToUpsert.demande,
                   motif: mainlevéeGarantiesFinancièresToUpsert.motif,
                   rejet: {
-                    rejetéLe: payload.rejetéLe,
-                    rejetéPar: payload.rejetéPar,
+                    rejetéeLe: payload.rejetéeLe,
+                    rejetéePar: payload.rejetéePar,
                     courrierRejet: { format: payload.réponseSignée.format },
+                  },
+                  dernièreMiseÀJour: {
+                    date: payload.rejetéeLe,
+                    par: payload.rejetéePar,
                   },
                 },
               ],
@@ -525,24 +529,60 @@ export const register = () => {
           );
           break;
 
-        case 'RéponseSignéeMainlevéeAccordéeModifiée-V1':
-          await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
-            `mainlevee-garanties-financieres|${identifiantProjet}`,
-            {
-              ...mainlevéeGarantiesFinancièresToUpsert,
-              accord: {
-                accordéeLe: mainlevéeGarantiesFinancièresToUpsert.accord!.accordéeLe,
-                accordéePar: mainlevéeGarantiesFinancièresToUpsert.accord!.accordéePar,
-                courrierAccord: {
-                  format: payload.nouvelleRéponseSignée.format,
+        case 'RéponseSignéeMainlevéeModifiée-V1':
+          if (payload.rejetéeLe) {
+            const mainlevéeModifiée =
+              historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert.historique.find(
+                (ml) => ml.rejet.rejetéeLe === payload.rejetéeLe,
+              );
+
+            if (!mainlevéeModifiée) {
+              return;
+            }
+
+            await upsertProjection<GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
+              `historique-mainlevee-rejetee-garanties-financieres|${identifiantProjet}`,
+
+              {
+                ...historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert,
+                historique: [
+                  ...historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert.historique.filter(
+                    (mainlevée) => mainlevée.rejet.rejetéeLe !== payload.rejetéeLe,
+                  ),
+                  {
+                    ...mainlevéeModifiée,
+                    rejet: {
+                      ...mainlevéeModifiée.rejet,
+                      rejetéeLe: payload.rejetéeLe,
+                      courrierRejet: { format: payload.nouvelleRéponseSignée.format },
+                    },
+                    dernièreMiseÀJour: {
+                      date: payload.modifiéeLe,
+                      par: payload.modifiéePar,
+                    },
+                  },
+                ],
+              },
+            );
+          } else {
+            await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+              `mainlevee-garanties-financieres|${identifiantProjet}`,
+              {
+                ...mainlevéeGarantiesFinancièresToUpsert,
+                accord: {
+                  accordéeLe: mainlevéeGarantiesFinancièresToUpsert.accord!.accordéeLe,
+                  accordéePar: mainlevéeGarantiesFinancièresToUpsert.accord!.accordéePar,
+                  courrierAccord: {
+                    format: payload.nouvelleRéponseSignée.format,
+                  },
+                },
+                dernièreMiseÀJour: {
+                  date: payload.modifiéeLe,
+                  par: payload.modifiéePar,
                 },
               },
-              dernièreMiseÀJour: {
-                date: payload.modifiéeLe,
-                par: payload.modifiéePar,
-              },
-            },
-          );
+            );
+          }
           break;
       }
     }

@@ -11,7 +11,7 @@ export type HistoriqueMainlevéeRejetéeProps = {
   historique: Array<{
     motif: string;
     demandéeLe: Iso8601DateTime;
-    rejet: { rejetéLe: Iso8601DateTime; rejetéPar: string; courrierRejet: string };
+    rejet: { rejetéeLe: Iso8601DateTime; rejetéePar: string; courrierRejet: string };
   }>;
 };
 
@@ -23,7 +23,7 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
     title: (
       <div>
         Mainlevée rejetée par{' '}
-        {<span className="font-semibold">{mainlevéeRejetée.rejet.rejetéPar}</span>}
+        {<span className="font-semibold">{mainlevéeRejetée.rejet.rejetéePar}</span>}
       </div>
     ),
     content: (

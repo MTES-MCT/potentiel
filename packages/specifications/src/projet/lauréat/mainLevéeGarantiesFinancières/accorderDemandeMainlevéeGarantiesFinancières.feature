@@ -14,8 +14,8 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
             | contenu fichier réponse    | contenu du fichier     |
             | format fichier réponse     | application/pdf        |
         Alors une demande de mainlevée de garanties financières accordée devrait être consultable pour le projet "Centrale PV" avec :
-            | accordé le                 | 2024-05-30             |
-            | accordé par                | dreal@test.test        |
+            | accordée le                | 2024-05-30             |
+            | accordée par               | dreal@test.test        |
             | mise à jour le             | 2024-05-30             | 
             | mise à jour par            | dreal@test.test        | 
             | format fichier réponse     | application/pdf        |
@@ -32,8 +32,8 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
             | contenu fichier réponse    | contenu du fichier     |
             | format fichier réponse     | application/pdf        |
         Alors une demande de mainlevée de garanties financières accordée devrait être consultable pour le projet "Centrale PV" avec :
-            | accordé le                 | 2024-05-30             |
-            | accordé par                | dreal@test.test        |
+            | accordée le                | 2024-05-30             |
+            | accordée par               | dreal@test.test        |
             | mise à jour le             | 2024-05-30             | 
             | mise à jour par            | dreal@test.test        | 
             | format fichier réponse     | application/pdf        |

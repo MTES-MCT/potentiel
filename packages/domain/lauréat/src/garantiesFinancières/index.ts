@@ -49,7 +49,7 @@ import {
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery,
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel,
 } from './mainlevée/consulter/consulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancières.query';
-import { ModifierRéponseSignéeMainlevéeAccordéeUseCase } from './mainlevée/modifierRéponseSignée/accord/modifierRéponseSignéeMainlevéeAccordée.usecase';
+import { ModifierRéponseSignéeMainlevéeAccordéeUseCase } from './mainlevée/modifierRéponseSignée/modifierRéponseSignéeMainlevée.usecase';
 
 // Query
 export type GarantiesFinancièresQuery =
@@ -144,7 +144,7 @@ export type { DemandeMainlevéeGarantiesFinancièresAnnuléeEvent } from './main
 export type { InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent } from './mainlevée/démarrerInstruction/démarrerInstructionDemandeMainlevéeGarantiesFinancières.behavior';
 export type { DemandeMainlevéeGarantiesFinancièresRejetéeEvent } from './mainlevée/rejeter/rejeterDemandeMainlevéeGarantiesFinancières.behavior';
 export type { DemandeMainlevéeGarantiesFinancièresAccordéeEvent } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.behavior';
-export type { RéponseSignéeMainlevéeAccordéeModifiéeEvent } from './mainlevée/modifierRéponseSignée/accord/modifierRéponseSignéeMainlevéeAccordée.behavior';
+export type { RéponseSignéeMainlevéeAccordéeModifiéeEvent } from './mainlevée/modifierRéponseSignée/modifierRéponseSignéeMainlevée.behavior';
 
 // Register
 export {

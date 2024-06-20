@@ -1,19 +1,22 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { GarantiesFinancièresAggregate } from '../../../garantiesFinancières.aggregate';
+import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { DocumentProjet } from '@potentiel-domain/document';
 import {
   DemandeMainlevéeEnCoursNonTrouvéeError,
+  HistoriqueMainlevéeRejetéeNonTrouvéError,
   MainlevéeAccordéeNonTrouvéeError,
-} from '../../demandeMainlevéeNonTrouvée.error';
+  MainlevéeRejetéeNonTrouvéeError,
+} from '../mainlevée.error';
 
 export type RéponseSignéeMainlevéeAccordéeModifiéeEvent = DomainEvent<
-  'RéponseSignéeMainlevéeAccordéeModifiée-V1',
+  'RéponseSignéeMainlevéeModifiée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     modifiéeLe: DateTime.RawType;
     modifiéePar: Email.RawType;
+    rejetéeLe?: DateTime.RawType;
     nouvelleRéponseSignée: {
       format: string;
     };
@@ -25,26 +28,40 @@ type Options = {
   nouvelleRéponseSignée: DocumentProjet.ValueType;
   modifiéeLe: DateTime.ValueType;
   modifiéePar: Email.ValueType;
+  rejetéeLe?: DateTime.ValueType;
 };
 
 export async function modifierRéponseSignéeMainlevéeAccordée(
   this: GarantiesFinancièresAggregate,
-  { identifiantProjet, nouvelleRéponseSignée, modifiéeLe, modifiéePar }: Options,
+  { identifiantProjet, nouvelleRéponseSignée, modifiéeLe, modifiéePar, rejetéeLe }: Options,
 ) {
-  if (!this.demandeMainlevéeEnCours) {
-    throw new DemandeMainlevéeEnCoursNonTrouvéeError();
-  }
+  const isAMainlevéeRejetéeModification = rejetéeLe !== undefined;
 
-  if (!this.demandeMainlevéeEnCours.statut.estAccordé()) {
-    throw new MainlevéeAccordéeNonTrouvéeError();
+  if (isAMainlevéeRejetéeModification) {
+    if (!this.historiqueMainlevéeRejetée) {
+      throw new HistoriqueMainlevéeRejetéeNonTrouvéError();
+    }
+
+    if (!this.historiqueMainlevéeRejetée.includes({ rejetéeLe })) {
+      throw new MainlevéeRejetéeNonTrouvéeError();
+    }
+  } else {
+    if (!this.demandeMainlevéeEnCours) {
+      throw new DemandeMainlevéeEnCoursNonTrouvéeError();
+    }
+
+    if (!this.demandeMainlevéeEnCours.statut.estAccordé()) {
+      throw new MainlevéeAccordéeNonTrouvéeError();
+    }
   }
 
   const event: RéponseSignéeMainlevéeAccordéeModifiéeEvent = {
-    type: 'RéponseSignéeMainlevéeAccordéeModifiée-V1',
+    type: 'RéponseSignéeMainlevéeModifiée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       modifiéeLe: modifiéeLe.formatter(),
       modifiéePar: modifiéePar.formatter(),
+      rejetéeLe: rejetéeLe?.formatter(),
       nouvelleRéponseSignée: {
         format: nouvelleRéponseSignée.format,
       },

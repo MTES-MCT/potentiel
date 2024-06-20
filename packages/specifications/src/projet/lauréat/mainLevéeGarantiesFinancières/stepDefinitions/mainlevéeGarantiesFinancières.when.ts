@@ -127,14 +127,16 @@ Quand(
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
+      const readableStream = await convertStringToReadableStream(content);
+
       await mediator.send<GarantiesFinancières.AccorderDemandeMainlevéeGarantiesFinancièresUseCase>(
         {
           type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
-            accordéLeValue: new Date(date).toISOString(),
-            accordéParValue: utilisateur,
-            réponseSignéeValue: { format, content: convertStringToReadableStream(content) },
+            accordéeLeValue: new Date(date).toISOString(),
+            accordéeParValue: utilisateur,
+            réponseSignéeValue: { format, content: readableStream },
           },
         },
       );
@@ -161,8 +163,8 @@ Quand(
           type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
-            accordéLeValue: new Date(date).toISOString(),
-            accordéParValue: utilisateur,
+            accordéeLeValue: new Date(date).toISOString(),
+            accordéeParValue: utilisateur,
             réponseSignéeValue: { format, content: convertStringToReadableStream(content) },
           },
         },
@@ -193,8 +195,8 @@ Quand(
         type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          rejetéLeValue: new Date(date).toISOString(),
-          rejetéParValue: utilisateur,
+          rejetéeLeValue: new Date(date).toISOString(),
+          rejetéeParValue: utilisateur,
           réponseSignéeValue: { format, content: readableStream },
         },
       });
@@ -216,8 +218,8 @@ Quand(
         type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          rejetéLeValue: new Date('2024-06-12').toISOString(),
-          rejetéParValue: 'dreal@test.test',
+          rejetéeLeValue: new Date('2024-06-12').toISOString(),
+          rejetéeParValue: 'dreal@test.test',
           réponseSignéeValue: {
             format: 'application/pdf',
             content: readableStream,
@@ -242,6 +244,7 @@ Quand(
       const date = exemple['date'];
       const content = exemple['contenu fichier réponse'];
       const format = exemple['format fichier réponse'];
+      const dateRejet = exemple['date rejet'] || undefined;
 
       const readableStream = await convertStringToReadableStream(content);
 
@@ -251,6 +254,7 @@ Quand(
           identifiantProjetValue: identifiantProjet.formatter(),
           modifiéeLeValue: new Date(date).toISOString(),
           modifiéeParValue: utilisateur,
+          rejetéeLeValue: dateRejet ? new Date(dateRejet).toISOString() : undefined,
           nouvelleRéponseSignéeValue: { format, content: readableStream },
         },
       });

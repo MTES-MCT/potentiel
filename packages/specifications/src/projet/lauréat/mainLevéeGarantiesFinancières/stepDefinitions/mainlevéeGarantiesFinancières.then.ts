@@ -134,8 +134,8 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const accordéLe = exemple['accordé le'] || '2024-01-01';
-    const accordéPar = exemple['accordé par'] || 'user@test.test';
+    const accordéeLe = exemple['accordée le'] || '2024-01-01';
+    const accordéePar = exemple['accordée par'] || 'user@test.test';
     const dernièreMiseÀJourLe = exemple['mise à jour le'] || '2024-01-01';
     const dernièreMiseÀJourPar = exemple['mise à jour par'] || 'user@test.test';
     const format = exemple['format fichier réponse'] || 'application/pdf';
@@ -160,10 +160,10 @@ Alors(
         expect(actualReadModel.statut.estAccordé()).to.be.true;
 
         expect(
-          actualReadModel.accord?.accordéePar.estÉgaleÀ(Email.convertirEnValueType(accordéPar)),
+          actualReadModel.accord?.accordéePar.estÉgaleÀ(Email.convertirEnValueType(accordéePar)),
         ).to.be.true;
 
-        expect(actualReadModel.accord?.accordéeLe.date).to.deep.equal(new Date(accordéLe));
+        expect(actualReadModel.accord?.accordéeLe.date).to.deep.equal(new Date(accordéeLe));
 
         expect(actualReadModel.dernièreMiseÀJour.date.date).to.deep.equal(
           new Date(dernièreMiseÀJourLe),
@@ -214,19 +214,21 @@ Alors(
 );
 
 Alors(
-  `une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainlevées rejetées pour le projet {string} avec :`,
+  `une demande de mainlevée de garanties financières rejetée devrait être consultable dans l'historique des mainlevées rejetées pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    const rejetéLe = exemple['rejeté le'];
-    const rejetéPar = exemple['rejeté par'];
+    const rejetéeLe = exemple['rejetée le'];
+    const rejetéePar = exemple['rejetée par'];
     const contenuFichierRéponse = exemple['contenu fichier réponse'];
     const formatFichierRéponse = exemple['format fichier réponse'];
-    const demandéLe = exemple['demandé le'];
-    const demandéPar = exemple['demandé par'];
+    const demandéeLe = exemple['demandée le'];
+    const demandéePar = exemple['demandée par'];
     const motif = exemple['motif'];
+    const miseAJourLe = exemple['mise à jour le'];
+    const miseAJourPar = exemple['mise à jour par'];
 
     await waitForExpect(async () => {
       const actualReadModel =
@@ -240,32 +242,39 @@ Alors(
         );
 
       expect(Option.isSome(actualReadModel)).to.be.true;
+
       if (Option.isSome(actualReadModel)) {
         expect(actualReadModel.identifiantProjet.estÉgaleÀ(identifiantProjet)).to.be.true;
 
         expect(actualReadModel.historique[0].motif.motif).to.deep.equal(motif);
 
-        expect(
-          actualReadModel.historique[0].demande.demandéePar.estÉgaleÀ(
-            Email.convertirEnValueType(demandéPar),
-          ),
-        ).to.be.true;
-
         expect(actualReadModel.historique[0].demande.demandéeLe.date).to.deep.equal(
-          new Date(demandéLe),
+          new Date(demandéeLe),
         );
 
-        expect(actualReadModel.historique[0].rejet.rejetéLe.date).to.deep.equal(new Date(rejetéLe));
-
         expect(
           actualReadModel.historique[0].demande.demandéePar.estÉgaleÀ(
-            Email.convertirEnValueType(demandéPar),
+            Email.convertirEnValueType(demandéePar),
           ),
         ).to.be.true;
 
+        expect(actualReadModel.historique[0].dernièreMiseÀJour.date).to.deep.equal(
+          new Date(miseAJourLe),
+        );
+
         expect(
-          actualReadModel.historique[0].rejet.rejetéPar.estÉgaleÀ(
-            Email.convertirEnValueType(rejetéPar),
+          actualReadModel.historique[0].dernièreMiseÀJour.par.estÉgaleÀ(
+            Email.convertirEnValueType(miseAJourPar),
+          ),
+        ).to.be.true;
+
+        expect(actualReadModel.historique[0].rejet.rejetéeLe.date).to.deep.equal(
+          new Date(rejetéeLe),
+        );
+
+        expect(
+          actualReadModel.historique[0].rejet.rejetéePar.estÉgaleÀ(
+            Email.convertirEnValueType(rejetéePar),
           ),
         ).to.be.true;
 
@@ -277,6 +286,7 @@ Alors(
           type: 'Document.Query.ConsulterDocumentProjet',
           data: { documentKey: actualReadModel.historique[0].rejet.courrierRejet.formatter() },
         });
+
         const actualContent = await convertReadableStreamToString(actualFile.content);
         actualContent.should.be.equal(contenuFichierRéponse);
       }

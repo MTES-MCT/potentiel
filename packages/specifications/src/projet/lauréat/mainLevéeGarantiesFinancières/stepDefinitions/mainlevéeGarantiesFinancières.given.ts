@@ -76,8 +76,8 @@ EtantDonné(
       type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-        accordéLeValue: new Date('2024-05-10').toISOString(),
-        accordéParValue: 'porteur@test.test',
+        accordéeLeValue: new Date('2024-05-10').toISOString(),
+        accordéeParValue: 'porteur@test.test',
         réponseSignéeValue: {
           format: 'application/pdf',
           content: convertStringToReadableStream('contenu'),
@@ -106,8 +106,8 @@ EtantDonné(
       type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-        rejetéLeValue: new Date('2024-05-10').toISOString(),
-        rejetéParValue: 'porteur@test.test',
+        rejetéeLeValue: new Date('2024-05-10').toISOString(),
+        rejetéeParValue: 'porteur@test.test',
         réponseSignéeValue: {
           format: 'application/pdf',
           content: convertStringToReadableStream('contenu'),

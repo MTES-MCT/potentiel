@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { LoadAggregate } from '@potentiel-domain/core';
-import { loadGarantiesFinancièresFactory } from '../../../garantiesFinancières.aggregate';
+import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 export type ModifierRéponseSignéeMainlevéeAccordéeCommand = Message<
@@ -12,6 +12,7 @@ export type ModifierRéponseSignéeMainlevéeAccordéeCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     modifiéeLe: DateTime.ValueType;
     modifiéePar: Email.ValueType;
+    rejetéeLe?: DateTime.ValueType;
     nouvelleRéponseSignée: DocumentProjet.ValueType;
   }
 >;
@@ -25,6 +26,7 @@ export const registerModifierRéponseSignéeMainlevéeAccordéeCommand = (
     identifiantProjet,
     modifiéeLe,
     modifiéePar,
+    rejetéeLe,
     nouvelleRéponseSignée,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
@@ -33,6 +35,7 @@ export const registerModifierRéponseSignéeMainlevéeAccordéeCommand = (
       identifiantProjet,
       modifiéeLe,
       modifiéePar,
+      rejetéeLe,
       nouvelleRéponseSignée,
     });
   };

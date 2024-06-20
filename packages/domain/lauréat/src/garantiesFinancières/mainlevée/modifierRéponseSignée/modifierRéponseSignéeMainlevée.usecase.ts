@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { TypeDocumentRéponseDemandeMainlevée } from '../../..';
-import { ModifierRéponseSignéeMainlevéeAccordéeCommand } from './modifierRéponseSignéeMainlevéeAccordée.command';
+import { TypeDocumentRéponseDemandeMainlevée } from '../..';
+import { ModifierRéponseSignéeMainlevéeAccordéeCommand } from './modifierRéponseSignéeMainlevée.command';
 
 export type ModifierRéponseSignéeMainlevéeAccordéeUseCase = Message<
   'Lauréat.GarantiesFinancières.Mainlevée.UseCase.ModifierRéponseSignéeAccord',
@@ -10,6 +10,7 @@ export type ModifierRéponseSignéeMainlevéeAccordéeUseCase = Message<
     identifiantProjetValue: string;
     modifiéeLeValue: string;
     modifiéeParValue: string;
+    rejetéeLeValue?: string;
     nouvelleRéponseSignéeValue: {
       content: ReadableStream;
       format: string;
@@ -22,14 +23,24 @@ export const registerModifierRéponseSignéeMainlevéeAccordéeUseCase = () => {
     identifiantProjetValue,
     modifiéeLeValue,
     modifiéeParValue,
+    rejetéeLeValue,
     nouvelleRéponseSignéeValue: { format, content },
   }) => {
+    const isAMainlevéeRejetéeModification = rejetéeLeValue !== undefined;
+
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const modifiéeLe = DateTime.convertirEnValueType(modifiéeLeValue);
     const modifiéePar = Email.convertirEnValueType(modifiéeParValue);
+    const rejetéeLe = isAMainlevéeRejetéeModification
+      ? DateTime.convertirEnValueType(rejetéeLeValue)
+      : undefined;
+    const typeDocument = isAMainlevéeRejetéeModification
+      ? TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeRejetéeValueType.formatter()
+      : TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter();
+
     const réponseSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
-      TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
+      typeDocument,
       modifiéeLe.formatter(),
       format,
     );
@@ -48,6 +59,7 @@ export const registerModifierRéponseSignéeMainlevéeAccordéeUseCase = () => {
         identifiantProjet,
         modifiéeLe,
         modifiéePar,
+        rejetéeLe,
         nouvelleRéponseSignée: réponseSignée,
       },
     });

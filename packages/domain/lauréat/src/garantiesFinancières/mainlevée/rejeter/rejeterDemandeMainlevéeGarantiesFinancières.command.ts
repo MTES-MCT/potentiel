@@ -10,8 +10,8 @@ export type RejeterDemandeMainlevéeGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Mainlevée.Command.RejeterDemandeMainlevée',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    rejetéLe: DateTime.ValueType;
-    rejetéPar: Email.ValueType;
+    rejetéeLe: DateTime.ValueType;
+    rejetéePar: Email.ValueType;
     réponseSignée: DocumentProjet.ValueType;
   }
 >;
@@ -23,16 +23,16 @@ export const registeRejeterDemandeMainlevéeGarantiesFinancièresCommand = (
 
   const handler: MessageHandler<RejeterDemandeMainlevéeGarantiesFinancièresCommand> = async ({
     identifiantProjet,
-    rejetéLe,
-    rejetéPar,
+    rejetéeLe,
+    rejetéePar,
     réponseSignée,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
 
     await garantiesFinancières.rejeterDemandeMainlevéeGarantiesFinancières({
       identifiantProjet,
-      rejetéLe,
-      rejetéPar,
+      rejetéeLe,
+      rejetéePar,
       réponseSignée,
     });
   };

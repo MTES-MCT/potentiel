@@ -102,7 +102,7 @@ export const setupLauréat = async () => {
         'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1',
         'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
         'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
-        'RéponseSignéeMainlevéeAccordéeModifiée-V1',
+        'RéponseSignéeMainlevéeModifiée-V1',
         'RebuildTriggered',
       ],
       eventHandler: async (event) => {
@@ -144,7 +144,7 @@ export const setupLauréat = async () => {
         'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1',
         'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
         'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
-        'RéponseSignéeMainlevéeAccordéeModifiée-V1',
+        'RéponseSignéeMainlevéeModifiée-V1',
         'DemandeMainlevéeGarantiesFinancièresAnnulée-V1',
       ],
       eventHandler: async (event) => {

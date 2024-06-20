@@ -2,7 +2,7 @@ import { DateTime, IdentifiantProjet, Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
-import { DemandeMainlevéeEnCoursNonTrouvéeError } from '../demandeMainlevéeNonTrouvée.error';
+import { DemandeMainlevéeEnCoursNonTrouvéeError } from '../mainlevée.error';
 import { StatutMainlevéeGarantiesFinancières } from '../..';
 
 export type InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent = DomainEvent<

@@ -57,8 +57,8 @@ import {
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresDependencies,
   registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery,
 } from './mainlevée/consulter/consulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancières.query';
-import { registerModifierRéponseSignéeMainlevéeAccordéeCommand } from './mainlevée/modifierRéponseSignée/accord/modifierRéponseSignéeMainlevéeAccordée.command';
-import { registerModifierRéponseSignéeMainlevéeAccordéeUseCase } from './mainlevée/modifierRéponseSignée/accord/modifierRéponseSignéeMainlevéeAccordée.usecase';
+import { registerModifierRéponseSignéeMainlevéeAccordéeCommand } from './mainlevée/modifierRéponseSignée/modifierRéponseSignéeMainlevée.command';
+import { registerModifierRéponseSignéeMainlevéeAccordéeUseCase } from './mainlevée/modifierRéponseSignée/modifierRéponseSignéeMainlevée.usecase';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerDépôtsEnCoursGarantiesFinancièresDependencies &

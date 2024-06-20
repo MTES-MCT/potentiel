@@ -11,3 +11,17 @@ export class MainlevéeAccordéeNonTrouvéeError extends InvalidOperationError {
     super(`Il n'y a pas de mainlevée de garanties financières accordée pour ce projet`);
   }
 }
+
+export class HistoriqueMainlevéeRejetéeNonTrouvéError extends InvalidOperationError {
+  constructor() {
+    super(`Il n'y a pas de mainlevée de garanties financières rejetée pour ce projet`);
+  }
+}
+
+export class MainlevéeRejetéeNonTrouvéeError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Il n'y a pas de mainlevée de garanties financières rejetée avec cette date de rejet pour ce projet`,
+    );
+  }
+}
