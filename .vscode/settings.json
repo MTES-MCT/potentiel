@@ -1,11 +1,4 @@
 {
-  "workbench.startupEditor": "newUntitledFile",
-  "editor.formatOnSave": true,
-  "editor.formatOnPaste": true,
-  "prettier.configPath": ".prettierrc",
-  "tailwindCSS.emmetCompletions": true,
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "git.autofetch": false,
   "search.exclude": {
     "src/public": true
   },
@@ -44,7 +37,7 @@
     "Mais que": 2,
     "Mais qu'": 2,
     "Mais": 2,
-    "Règle": 2,
+    "Règle": 2
   },
-  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
