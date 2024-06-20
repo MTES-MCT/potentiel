@@ -19,7 +19,7 @@ jobs:
     environment: staging
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Deploy to Staging
         run: |
           curl -O https://cli-dl.scalingo.com/install && bash install
@@ -32,7 +32,7 @@ jobs:
     outputs:
       applicationVersion: ${{ steps.app_version.outputs.version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: '0'
       - uses: actions/setup-node@v3
@@ -60,7 +60,7 @@ jobs:
     env:
       APPLICATION_VERSION: ${{ needs.application-version.outputs.applicationVersion }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: 18.x
@@ -86,7 +86,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: demo
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: 18.x
