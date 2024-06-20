@@ -11,7 +11,7 @@ import { logMiddleware } from './middlewares/log.middleware';
 import { delayMiddleware } from './middlewares/delay.middleware';
 import { setupEliminé } from './setupEliminé';
 
-let unsubscribe: () => Promise<void>;
+let unsubscribe: (() => Promise<void>) | undefined;
 
 export const bootstrap = async ({
   middlewares,
@@ -43,6 +43,7 @@ export const bootstrap = async ({
     await unsetupLauréat();
     await unsetupGestionnaireRéseau();
     await unsetupTâche();
+    unsubscribe = undefined;
   };
 
   return unsubscribe;
