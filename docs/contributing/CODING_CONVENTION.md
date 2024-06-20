@@ -26,7 +26,7 @@
 
 ### Routing (répertoire `app`)
 
-Les répertoires permettant de formaliser les routes de l'applications sont plurialisées afin d'avoir des URLs du genre :
+Les répertoires permettant de formaliser les routes de l'application sont plurialisés afin d'avoir des URLs du genre :
 
 - pour l'accès à l'abandon d'un projet lauréat : `/laureats/[:id]/abandon`
 - la liste complète des abandons : `/abandons`
@@ -496,7 +496,7 @@ function estValide(value: string): asserts value is RawType {
 class DateTimeInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(
-      `La date ne correspond pas au format ISO8601 sans décalage UTC ('{YYYY}-{MM}-{SS}T{HH}:{mm}:{ss}.{ms}Z`,
+      `La date ne correspond pas au format ISO8601 sans décalage UTC ('{YYYY}-{MM}-{SS}T{HH}:{mm}:{ss}.{ms}Z')`,
       {
         value,
       },

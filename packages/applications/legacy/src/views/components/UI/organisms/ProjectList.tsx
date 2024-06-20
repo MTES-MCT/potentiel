@@ -148,10 +148,11 @@ export const ProjectList = ({
               id="allProjects"
               onChange={(e) => toggleSelectAllPage(e.target.checked)}
               checked={selectedIds.length === projects.items.length}
-            />
-            <span className="text-sm">
-              Sélectionner tous les projets de la page ({projects.items.length})
-            </span>
+            >
+              <span className="text-sm">
+                Sélectionner tous les projets de la page ({projects.items.length})
+              </span>
+            </Checkbox>
           </>
         </div>
       )}
