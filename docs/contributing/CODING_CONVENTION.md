@@ -26,7 +26,7 @@
 
 ### Routing (répertoire `app`)
 
-Les répertoires permettant de formaliser les routes de l'application sont plurialisées afin d'avoir des URLs du genre :
+Les répertoires permettant de formaliser les routes de l'application sont plurialisés afin d'avoir des URLs du genre :
 
 - pour l'accès à l'abandon d'un projet lauréat : `/laureats/[:id]/abandon`
 - la liste complète des abandons : `/abandons`
