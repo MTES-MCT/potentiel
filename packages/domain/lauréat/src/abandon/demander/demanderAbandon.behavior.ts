@@ -43,7 +43,7 @@ export async function demander(
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.demandé);
   if (!recandidature && !pièceJustificative) {
-    throw new PièceJustificateObligatoireError();
+    throw new PièceJustificativeObligatoireError();
   }
 
   const event: AbandonDemandéEvent = {
@@ -97,7 +97,7 @@ export function applyAbandonDemandé(
   this.annuléLe = undefined;
 }
 
-class PièceJustificateObligatoireError extends InvalidOperationError {
+class PièceJustificativeObligatoireError extends InvalidOperationError {
   constructor() {
     super('La pièce justificative est obligatoire');
   }
