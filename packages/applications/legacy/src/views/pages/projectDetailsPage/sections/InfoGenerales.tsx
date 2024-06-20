@@ -10,6 +10,7 @@ import { afficherDate } from '../../../helpers';
 import { Routes } from '@potentiel-applications/routes';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { showMainlevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
 
 type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
@@ -50,9 +51,7 @@ export const InfoGenerales = ({
       'acheteur-obligé',
       'cre',
       'caisse-des-dépôts',
-    ].includes(role)
-      ? true
-      : false;
+    ].includes(role);
 
   return (
     <Section title="Informations générales" icon={<BuildingIcon />} className="flex gap-5 flex-col">
@@ -139,6 +138,10 @@ const GarantiesFinancièresProjet = ({
   const motifDemandeGarantiesFinancières =
     garantiesFinancières.garantiesFinancièresEnAttente &&
     getMotifGFEnAttente(garantiesFinancières.garantiesFinancièresEnAttente.motif);
+  const linkToGarantiesFinancièresText = showMainlevéeGarantiesFinancières
+    ? 'Modifier, consulter ou lever les garanties financières du projet'
+    : 'Modifier ou consulter les garanties financières du projet';
+
   return (
     <div>
       <Heading3 className="m-0">Garanties financières</Heading3>
@@ -225,7 +228,7 @@ const GarantiesFinancièresProjet = ({
           }).formatter(),
         )}
       >
-        Modifier, consulter ou lever les garanties financières du projet
+        {linkToGarantiesFinancièresText}
       </Link>
     </div>
   );
