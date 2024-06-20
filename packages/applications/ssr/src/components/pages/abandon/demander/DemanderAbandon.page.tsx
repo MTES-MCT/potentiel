@@ -57,9 +57,10 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
             />
 
             <UploadDocument
-              label="Pièce justificative (optionnel)"
+              label={`Pièce justificative${recandidature ? ' (optionnel)' : ''}`}
               id="pieceJustificative"
               name="pieceJustificative"
+              required={!recandidature}
               state={validationErrors.includes('pieceJustificative') ? 'error' : 'default'}
             />
 

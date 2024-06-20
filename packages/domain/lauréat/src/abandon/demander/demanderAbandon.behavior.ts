@@ -1,5 +1,5 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { AbandonAggregate } from '../abandon.aggregate';
@@ -42,6 +42,9 @@ export async function demander(
   }: DemanderOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.demandé);
+  if (!recandidature && !pièceJustificative) {
+    throw new PièceJustificativeObligatoireError();
+  }
 
   const event: AbandonDemandéEvent = {
     type: 'AbandonDemandé-V1',
@@ -92,4 +95,10 @@ export function applyAbandonDemandé(
   this.rejet = undefined;
   this.accord = undefined;
   this.annuléLe = undefined;
+}
+
+class PièceJustificativeObligatoireError extends InvalidOperationError {
+  constructor() {
+    super('La pièce justificative est obligatoire');
+  }
 }
