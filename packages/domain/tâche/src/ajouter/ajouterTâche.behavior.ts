@@ -83,6 +83,6 @@ export function applyTâcheAjoutée(
   this.achevée = false;
 }
 
-export function applyTâcheRenouvellée(this: TâcheAggregate, event: TâcheRenouvelléeEvent) {
+export function applyTâcheRenouvellée(this: TâcheAggregate, _event: TâcheRenouvelléeEvent) {
   this.achevée = false;
 }

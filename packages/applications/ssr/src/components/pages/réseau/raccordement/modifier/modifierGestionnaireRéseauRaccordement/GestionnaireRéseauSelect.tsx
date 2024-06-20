@@ -51,7 +51,7 @@ export const GestionnaireRéseauSelect = ({
       gestionnaireSélectionné &&
       gestionnaireSélectionné.identifiantGestionnaireRéseau !== identifiantGestionnaireRéseauActuel
     ) {
-      onGestionnaireRéseauSelected && onGestionnaireRéseauSelected(gestionnaireSélectionné);
+      onGestionnaireRéseauSelected?.(gestionnaireSélectionné);
     }
   };
 

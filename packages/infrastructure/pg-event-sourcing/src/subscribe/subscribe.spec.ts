@@ -238,7 +238,7 @@ describe(`subscribe`, () => {
 
     await publish(`${category}|${id}`, event1, event2);
 
-    const eventHandler = jest.fn((event) => Promise.resolve());
+    const eventHandler = jest.fn(() => Promise.resolve());
 
     const unsubscribe1 = await subscribe({
       name: 'event-handler',
@@ -303,7 +303,7 @@ describe(`subscribe`, () => {
 
     await publish(`${category}|${id}`, event1, event2);
 
-    const eventHandler = jest.fn((event) => Promise.resolve());
+    const eventHandler = jest.fn(() => Promise.resolve());
 
     const unsubscribe1 = await subscribe({
       name: 'event-handler',

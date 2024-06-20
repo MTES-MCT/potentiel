@@ -190,9 +190,3 @@ class AucuneDemandeConfirmationAbandonError extends InvalidOperationError {
     super(`Aucune demande de confirmation d'abandon en attente`);
   }
 }
-
-class AbandonEnAttenteConfirmationError extends InvalidOperationError {
-  constructor() {
-    super(`L'abandon est en attente de confirmation`);
-  }
-}

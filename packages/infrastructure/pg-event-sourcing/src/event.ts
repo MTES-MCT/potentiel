@@ -6,6 +6,7 @@ export type Event = DomainEvent & {
   stream_id: string;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isEvent = (value: any): value is Event => {
   return (
     typeof value?.payload === 'object' &&

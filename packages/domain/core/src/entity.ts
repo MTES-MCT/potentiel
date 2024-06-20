@@ -18,7 +18,7 @@ export type Order = 'ascending' | 'descending';
 export type OrderByOptions<T> = {
   [P in keyof T]?: T[P] extends string | boolean | number
     ? Order
-    : T[P] extends Record<string, infer U>
+    : T[P] extends Record<string, unknown>
     ? OrderByOptions<T[P]>
     : never;
 };
@@ -56,7 +56,7 @@ export type WhereOperator = WhereCondition['operator'];
 export type WhereOptions<T> = {
   [P in keyof T]?: T[P] extends string | boolean | number
     ? WhereCondition<T[P]>
-    : T[P] extends Record<string, infer U> | undefined
+    : T[P] extends Record<string, unknown> | undefined
     ? WhereOptions<T[P]>
     : never;
 };

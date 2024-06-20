@@ -63,7 +63,7 @@ describe(`loadAggregate`, () => {
     const onNone = jest.fn();
 
     // Act
-    const result = await loadAggregate({
+    await loadAggregate({
       aggregateId,
       getDefaultAggregate,
       onNone,
@@ -96,11 +96,6 @@ describe(`loadAggregate`, () => {
     };
 
     await publish(aggregateId, event1, event2);
-
-    type AggregateState = {
-      propriété?: string;
-      secondePropriété?: string;
-    };
 
     // Act
     const actual = await loadAggregate({

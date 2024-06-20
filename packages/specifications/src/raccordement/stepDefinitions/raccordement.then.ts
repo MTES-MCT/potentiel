@@ -100,7 +100,7 @@ Alors(
     this: PotentielWorld,
     nomProjet: string,
     nombreDeDemandes: number,
-    raisonSociale: string,
+    _raisonSociale: string,
   ) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 

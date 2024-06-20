@@ -5,25 +5,6 @@ import { convertStringToReadableStream } from '../../helpers/convertStringToRead
 import { DateTime } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
 
-type DemandeComplèteRaccordement = {
-  identifiantProjet: string;
-  raisonSociale: string;
-  dateQualification: string;
-  référenceDossierRaccordement: string;
-  format: string;
-  content: string;
-};
-
-const demandeComplèteRaccordementParDéfaut: Omit<
-  DemandeComplèteRaccordement,
-  'raisonSociale' | 'identifiantProjet'
-> = {
-  dateQualification: new Date().toISOString(),
-  référenceDossierRaccordement: 'REF_DOSSIER',
-  format: 'application/pdf',
-  content: `Accusé de réception ayant pour référence REF_DOSSIER et la date de qualification au ${new Date().toISOString()}`,
-};
-
 EtantDonné(
   'une demande complète de raccordement pour le projet lauréat {string} transmise auprès du gestionnaire de réseau {string} avec :',
   async function (

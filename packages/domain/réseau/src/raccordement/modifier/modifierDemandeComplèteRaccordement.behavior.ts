@@ -91,7 +91,7 @@ export async function modifierDemandeComplèteRaccordement(
 export function applyDemandeComplèteRaccordementModifiéeEventV1(
   this: RaccordementAggregate,
   {
-    payload: { dateQualification, identifiantProjet, nouvelleReference, referenceActuelle },
+    payload: { dateQualification, nouvelleReference, referenceActuelle },
   }: DemandeComplèteRaccordementModifiéeEventV1,
 ) {
   const dossier = this.récupérerDossier(referenceActuelle);
