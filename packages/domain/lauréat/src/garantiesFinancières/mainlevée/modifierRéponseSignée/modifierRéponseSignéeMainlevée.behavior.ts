@@ -10,7 +10,7 @@ import {
   MainlevéeRejetéeNonTrouvéeError,
 } from '../mainlevée.error';
 
-export type RéponseSignéeMainlevéeAccordéeModifiéeEvent = DomainEvent<
+export type RéponseSignéeMainlevéeModifiéeEvent = DomainEvent<
   'RéponseSignéeMainlevéeModifiée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
@@ -31,7 +31,7 @@ type Options = {
   rejetéeLe?: DateTime.ValueType;
 };
 
-export async function modifierRéponseSignéeMainlevéeAccordée(
+export async function modifierRéponseSignéeMainlevée(
   this: GarantiesFinancièresAggregate,
   { identifiantProjet, nouvelleRéponseSignée, modifiéeLe, modifiéePar, rejetéeLe }: Options,
 ) {
@@ -42,7 +42,7 @@ export async function modifierRéponseSignéeMainlevéeAccordée(
       throw new HistoriqueMainlevéeRejetéeNonTrouvéError();
     }
 
-    if (!this.historiqueMainlevéeRejetée.includes({ rejetéeLe })) {
+    if (!this.historiqueMainlevéeRejetée.includes({ rejetéeLe: rejetéeLe })) {
       throw new MainlevéeRejetéeNonTrouvéeError();
     }
   } else {
@@ -55,7 +55,7 @@ export async function modifierRéponseSignéeMainlevéeAccordée(
     }
   }
 
-  const event: RéponseSignéeMainlevéeAccordéeModifiéeEvent = {
+  const event: RéponseSignéeMainlevéeModifiéeEvent = {
     type: 'RéponseSignéeMainlevéeModifiée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),

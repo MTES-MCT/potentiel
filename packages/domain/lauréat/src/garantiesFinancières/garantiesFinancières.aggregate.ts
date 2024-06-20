@@ -88,8 +88,8 @@ import {
   applyDemandeMainlevéeGarantiesFinancièresAccordée,
 } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.behavior';
 import {
-  RéponseSignéeMainlevéeAccordéeModifiéeEvent,
-  modifierRéponseSignéeMainlevéeAccordée,
+  RéponseSignéeMainlevéeModifiéeEvent,
+  modifierRéponseSignéeMainlevée,
 } from './mainlevée/modifierRéponseSignée/modifierRéponseSignéeMainlevée.behavior';
 
 export type GarantiesFinancièresEvent =
@@ -108,7 +108,7 @@ export type GarantiesFinancièresEvent =
   | InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent
   | DemandeMainlevéeGarantiesFinancièresRejetéeEvent
   | DemandeMainlevéeGarantiesFinancièresAccordéeEvent
-  | RéponseSignéeMainlevéeAccordéeModifiéeEvent;
+  | RéponseSignéeMainlevéeModifiéeEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   actuelles?: {
@@ -147,7 +147,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly démarrerInstructionDemandeMainlevée: typeof démarrerInstructionDemandeMainlevée;
   readonly rejeterDemandeMainlevéeGarantiesFinancières: typeof rejeterDemandeMainlevéeGarantiesFinancières;
   readonly accorderDemandeMainlevéeGarantiesFinancières: typeof accorderDemandeMainlevéeGarantiesFinancières;
-  readonly modifierRéponseSignéeMainlevéeAccordée: typeof modifierRéponseSignéeMainlevéeAccordée;
+  readonly modifierRéponseSignéeMainlevée: typeof modifierRéponseSignéeMainlevée;
 };
 
 export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
@@ -171,7 +171,7 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   démarrerInstructionDemandeMainlevée,
   rejeterDemandeMainlevéeGarantiesFinancières,
   accorderDemandeMainlevéeGarantiesFinancières,
-  modifierRéponseSignéeMainlevéeAccordée,
+  modifierRéponseSignéeMainlevée,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {

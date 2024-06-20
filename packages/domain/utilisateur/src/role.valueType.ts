@@ -157,7 +157,7 @@ const référencielPermissions = {
         rejeterDemandeMainlevée:
           'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
         modifierRéponseMainlevéeAccordée:
-          'Lauréat.GarantiesFinancières.Mainlevée.UseCase.ModifierRéponseSignéeAccord',
+          'Lauréat.GarantiesFinancières.Mainlevée.UseCase.ModifierRéponseSignée',
       },
       command: {
         demander: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
@@ -182,7 +182,7 @@ const référencielPermissions = {
         rejeterDemandeMainlevée:
           'Lauréat.GarantiesFinancières.Mainlevée.Command.RejeterDemandeMainlevée',
         modifierRéponseMainlevéeAccordée:
-          'Lauréat.GarantiesFinancières.Mainlevée.Command.ModifierRéponseSignéeAccord',
+          'Lauréat.GarantiesFinancières.Mainlevée.Command.ModifierRéponseSignée',
       },
     },
     achèvement: {

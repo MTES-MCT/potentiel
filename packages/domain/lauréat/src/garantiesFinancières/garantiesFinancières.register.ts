@@ -57,8 +57,8 @@ import {
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresDependencies,
   registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery,
 } from './mainlevée/consulter/consulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancières.query';
-import { registerModifierRéponseSignéeMainlevéeAccordéeCommand } from './mainlevée/modifierRéponseSignée/modifierRéponseSignéeMainlevée.command';
-import { registerModifierRéponseSignéeMainlevéeAccordéeUseCase } from './mainlevée/modifierRéponseSignée/modifierRéponseSignéeMainlevée.usecase';
+import { registerModifierRéponseSignéeMainlevéeCommand } from './mainlevée/modifierRéponseSignée/modifierRéponseSignéeMainlevée.command';
+import { registerModifierRéponseSignéeMainlevéeUseCase } from './mainlevée/modifierRéponseSignée/modifierRéponseSignéeMainlevée.usecase';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerDépôtsEnCoursGarantiesFinancièresDependencies &
@@ -90,7 +90,7 @@ export const registerGarantiesFinancièresUseCases = ({
   registerDémarrerInstructionDemandeMainlevéeGarantiesFinancières(loadAggregate);
   registeRejeterDemandeMainlevéeGarantiesFinancièresCommand(loadAggregate);
   registeAccorderDemandeMainlevéeGarantiesFinancièresCommand(loadAggregate);
-  registerModifierRéponseSignéeMainlevéeAccordéeCommand(loadAggregate);
+  registerModifierRéponseSignéeMainlevéeCommand(loadAggregate);
 
   registerSoumettreDépôtGarantiesFinancièresUseCase();
   registerDemanderGarantiesFinancièresUseCase();
@@ -108,7 +108,7 @@ export const registerGarantiesFinancièresUseCases = ({
   registerDémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase();
   registerRejeterDemandeMainlevéeGarantiesFinancièresUseCase();
   registerAccorderDemandeMainlevéeGarantiesFinancièresUseCase();
-  registerModifierRéponseSignéeMainlevéeAccordéeUseCase();
+  registerModifierRéponseSignéeMainlevéeUseCase();
 };
 
 export const registerGarantiesFinancièresQueries = (

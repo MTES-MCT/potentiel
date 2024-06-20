@@ -19,7 +19,7 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
   const nombreDeMainlevéesRejetées = historique.length;
   const items: TimelineProps['items'] = historique.map((mainlevéeRejetée) => ({
     status: 'warning',
-    date: mainlevéeRejetée.rejet.rejetéLe,
+    date: mainlevéeRejetée.rejet.rejetéeLe,
     title: (
       <div>
         Mainlevée rejetée par{' '}

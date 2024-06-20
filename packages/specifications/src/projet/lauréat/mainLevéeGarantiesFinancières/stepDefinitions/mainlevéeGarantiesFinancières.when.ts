@@ -248,8 +248,8 @@ Quand(
 
       const readableStream = await convertStringToReadableStream(content);
 
-      await mediator.send<GarantiesFinancières.ModifierRéponseSignéeMainlevéeAccordéeUseCase>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.ModifierRéponseSignéeAccord',
+      await mediator.send<GarantiesFinancières.ModifierRéponseSignéeMainlevéeUseCase>({
+        type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.ModifierRéponseSignée',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           modifiéeLeValue: new Date(date).toISOString(),

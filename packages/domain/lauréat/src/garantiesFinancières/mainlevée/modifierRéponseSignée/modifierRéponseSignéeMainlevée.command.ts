@@ -6,8 +6,8 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-export type ModifierRéponseSignéeMainlevéeAccordéeCommand = Message<
-  'Lauréat.GarantiesFinancières.Mainlevée.Command.ModifierRéponseSignéeAccord',
+export type ModifierRéponseSignéeMainlevéeCommand = Message<
+  'Lauréat.GarantiesFinancières.Mainlevée.Command.ModifierRéponseSignée',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     modifiéeLe: DateTime.ValueType;
@@ -17,12 +17,10 @@ export type ModifierRéponseSignéeMainlevéeAccordéeCommand = Message<
   }
 >;
 
-export const registerModifierRéponseSignéeMainlevéeAccordéeCommand = (
-  loadAggregate: LoadAggregate,
-) => {
+export const registerModifierRéponseSignéeMainlevéeCommand = (loadAggregate: LoadAggregate) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
 
-  const handler: MessageHandler<ModifierRéponseSignéeMainlevéeAccordéeCommand> = async ({
+  const handler: MessageHandler<ModifierRéponseSignéeMainlevéeCommand> = async ({
     identifiantProjet,
     modifiéeLe,
     modifiéePar,
@@ -31,7 +29,7 @@ export const registerModifierRéponseSignéeMainlevéeAccordéeCommand = (
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
 
-    await garantiesFinancières.modifierRéponseSignéeMainlevéeAccordée({
+    await garantiesFinancières.modifierRéponseSignéeMainlevée({
       identifiantProjet,
       modifiéeLe,
       modifiéePar,
@@ -41,7 +39,7 @@ export const registerModifierRéponseSignéeMainlevéeAccordéeCommand = (
   };
 
   mediator.register(
-    'Lauréat.GarantiesFinancières.Mainlevée.Command.ModifierRéponseSignéeAccord',
+    'Lauréat.GarantiesFinancières.Mainlevée.Command.ModifierRéponseSignée',
     handler,
   );
 };

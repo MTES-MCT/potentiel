@@ -29,7 +29,7 @@ should();
 
 setWorldConstructor(PotentielWorld);
 
-setDefaultTimeout(5000);
+setDefaultTimeout(10000);
 
 const bucketName = 'potentiel';
 

@@ -531,14 +531,12 @@ export const register = () => {
 
         case 'RéponseSignéeMainlevéeModifiée-V1':
           if (payload.rejetéeLe) {
+            // it's been checked before that this mainlevée exists in the historique
+            // that's why "!" is been used below
             const mainlevéeModifiée =
               historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert.historique.find(
                 (ml) => ml.rejet.rejetéeLe === payload.rejetéeLe,
               );
-
-            if (!mainlevéeModifiée) {
-              return;
-            }
 
             await upsertProjection<GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
               `historique-mainlevee-rejetee-garanties-financieres|${identifiantProjet}`,
@@ -550,9 +548,9 @@ export const register = () => {
                     (mainlevée) => mainlevée.rejet.rejetéeLe !== payload.rejetéeLe,
                   ),
                   {
-                    ...mainlevéeModifiée,
+                    ...mainlevéeModifiée!,
                     rejet: {
-                      ...mainlevéeModifiée.rejet,
+                      ...mainlevéeModifiée!.rejet,
                       rejetéeLe: payload.rejetéeLe,
                       courrierRejet: { format: payload.nouvelleRéponseSignée.format },
                     },

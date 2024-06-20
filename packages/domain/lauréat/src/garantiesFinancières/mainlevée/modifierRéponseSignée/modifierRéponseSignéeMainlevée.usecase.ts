@@ -2,10 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { TypeDocumentRéponseDemandeMainlevée } from '../..';
-import { ModifierRéponseSignéeMainlevéeAccordéeCommand } from './modifierRéponseSignéeMainlevée.command';
+import { ModifierRéponseSignéeMainlevéeCommand } from './modifierRéponseSignéeMainlevée.command';
 
-export type ModifierRéponseSignéeMainlevéeAccordéeUseCase = Message<
-  'Lauréat.GarantiesFinancières.Mainlevée.UseCase.ModifierRéponseSignéeAccord',
+export type ModifierRéponseSignéeMainlevéeUseCase = Message<
+  'Lauréat.GarantiesFinancières.Mainlevée.UseCase.ModifierRéponseSignée',
   {
     identifiantProjetValue: string;
     modifiéeLeValue: string;
@@ -18,8 +18,8 @@ export type ModifierRéponseSignéeMainlevéeAccordéeUseCase = Message<
   }
 >;
 
-export const registerModifierRéponseSignéeMainlevéeAccordéeUseCase = () => {
-  const runner: MessageHandler<ModifierRéponseSignéeMainlevéeAccordéeUseCase> = async ({
+export const registerModifierRéponseSignéeMainlevéeUseCase = () => {
+  const runner: MessageHandler<ModifierRéponseSignéeMainlevéeUseCase> = async ({
     identifiantProjetValue,
     modifiéeLeValue,
     modifiéeParValue,
@@ -53,8 +53,8 @@ export const registerModifierRéponseSignéeMainlevéeAccordéeUseCase = () => {
       },
     });
 
-    await mediator.send<ModifierRéponseSignéeMainlevéeAccordéeCommand>({
-      type: 'Lauréat.GarantiesFinancières.Mainlevée.Command.ModifierRéponseSignéeAccord',
+    await mediator.send<ModifierRéponseSignéeMainlevéeCommand>({
+      type: 'Lauréat.GarantiesFinancières.Mainlevée.Command.ModifierRéponseSignée',
       data: {
         identifiantProjet,
         modifiéeLe,
@@ -64,8 +64,5 @@ export const registerModifierRéponseSignéeMainlevéeAccordéeUseCase = () => {
       },
     });
   };
-  mediator.register(
-    'Lauréat.GarantiesFinancières.Mainlevée.UseCase.ModifierRéponseSignéeAccord',
-    runner,
-  );
+  mediator.register('Lauréat.GarantiesFinancières.Mainlevée.UseCase.ModifierRéponseSignée', runner);
 };

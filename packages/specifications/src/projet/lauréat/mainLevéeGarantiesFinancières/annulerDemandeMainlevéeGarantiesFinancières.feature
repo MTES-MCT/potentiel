@@ -23,6 +23,7 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
             | date annulation      | 2014-05-28             |
         Alors le porteur devrait être informé que "Il n'y a pas de demande de mainlevée pour ce projet"
 
+@select
     Scénario: Impossible d'annuler une demande de mainlevée des garanties financières si la demande de mainlevée des garanties financières est rejetée
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"
