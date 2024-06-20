@@ -67,7 +67,8 @@ Fonctionnalité: Modifier une réponse signée de mainlevée de garanties financ
     Scénario: Impossible de modifier la réponse signée d'une mainlevée accordée si le projet n'a pas de mainlevée accordée
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"
-        Et une demande de mainlevée de garanties financières accordée pour le projet "Centrale PV" achevé   
+        Et une demande de mainlevée de garanties financières pour le projet "Centrale PV" avec :
+            | motif                      | projet-achevé          |  
         Quand un utilisateur Dreal modifie la réponse signée de la mainlevée des garanties financières du projet "Centrale PV" avec :
             | date                       | 2024-06-15             |
             | utilisateur                | dreal@test.test        |
@@ -86,7 +87,6 @@ Fonctionnalité: Modifier une réponse signée de mainlevée de garanties financ
             | contenu fichier réponse    | nouveau contenu        |           
         Alors l'utilisateur devrait être informé que "Il n'y a pas de mainlevée de garanties financières rejetée pour ce projet"
 
-@select
     Scénario: Impossible de modifier la réponse signée d'une mainlevée rejetée si le projet n'a pas de mainlevée rejetée correspondante
         Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
         Et des garanties financières validées pour le projet "Centrale PV"

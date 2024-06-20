@@ -5,7 +5,8 @@ import waitForExpect from 'wait-for-expect';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { Email } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
+import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
@@ -258,9 +259,11 @@ Alors(
           ),
         ).to.be.true;
 
-        expect(actualReadModel.historique[0].dernièreMiseÀJour.date).to.deep.equal(
-          new Date(miseAJourLe),
-        );
+        expect(
+          actualReadModel.historique[0].dernièreMiseÀJour.date.estÉgaleÀ(
+            DateTime.convertirEnValueType(miseAJourLe),
+          ),
+        ).to.be.true;
 
         expect(
           actualReadModel.historique[0].dernièreMiseÀJour.par.estÉgaleÀ(
