@@ -23,6 +23,7 @@
     "@mui/lab": "*",
     "@mui/material": "*",
     "@potentiel-applications/feature-flags": "*",
+    "@potentiel-applications/bootstrap": "*",
     "@potentiel-applications/routes": "*",
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/candidature": "*",

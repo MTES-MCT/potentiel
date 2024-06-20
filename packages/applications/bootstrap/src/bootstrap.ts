@@ -11,11 +11,17 @@ import { logMiddleware } from './middlewares/log.middleware';
 import { delayMiddleware } from './middlewares/delay.middleware';
 import { setupEliminé } from './setupEliminé';
 
+let unsubscribe: (() => Promise<void>) | undefined;
+
 export const bootstrap = async ({
   middlewares,
 }: {
   middlewares: Array<Middleware>;
 }): Promise<() => Promise<void>> => {
+  if (unsubscribe) {
+    return unsubscribe;
+  }
+
   mediator.use({
     middlewares: [logMiddleware, delayMiddleware, ...middlewares],
   });
@@ -32,10 +38,13 @@ export const bootstrap = async ({
 
   getLogger().info('Application bootstrapped');
 
-  return async () => {
+  unsubscribe = async () => {
     await unsetupEliminé();
     await unsetupLauréat();
     await unsetupGestionnaireRéseau();
     await unsetupTâche();
+    unsubscribe = undefined;
   };
+
+  return unsubscribe;
 };

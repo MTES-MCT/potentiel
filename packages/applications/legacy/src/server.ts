@@ -10,11 +10,11 @@ import * as Sentry from '@sentry/node';
 import { isLocalEnv, registerAuth } from './config';
 import { v1Router } from './controllers';
 import { logger } from './core/utils';
-import { bootstrap } from '@potentiel-applications/bootstrap';
 import next from 'next';
 import { registerSagas } from './sagas/registerSagas';
-import { permissionMiddleware } from '@potentiel-domain/utilisateur';
 import { readFile } from 'node:fs/promises';
+import { permissionMiddleware } from '@potentiel-domain/utilisateur';
+import { bootstrap } from '@potentiel-applications/bootstrap';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
