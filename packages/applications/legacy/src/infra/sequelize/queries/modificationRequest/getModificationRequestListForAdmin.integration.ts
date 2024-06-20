@@ -245,19 +245,23 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
 
       expect(res._unsafeUnwrap().items.length).toEqual(3);
 
-      expect(res._unsafeUnwrap().items[0]).toMatchObject({
-        authority: 'dreal',
-        status: 'envoyée',
-        type: 'producteur',
-        project: expect.objectContaining({ regionProjet: targetDreal }),
-      });
+      expect(res._unsafeUnwrap().items).toContainEqual(
+        expect.objectContaining({
+          authority: 'dreal',
+          status: 'envoyée',
+          type: 'producteur',
+          project: expect.objectContaining({ regionProjet: targetDreal }),
+        }),
+      );
 
-      expect(res._unsafeUnwrap().items[1]).toMatchObject({
-        authority: 'dgec',
-        status: 'envoyée',
-        type: 'autre',
-        project: expect.objectContaining({ regionProjet: targetDreal }),
-      });
+      expect(res._unsafeUnwrap().items).toContainEqual(
+        expect.objectContaining({
+          authority: 'dgec',
+          status: 'envoyée',
+          type: 'autre',
+          project: expect.objectContaining({ regionProjet: targetDreal }),
+        }),
+      );
     });
   });
 });

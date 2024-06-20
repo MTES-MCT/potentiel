@@ -7,21 +7,14 @@
   "scripts": {
     "type:check": "tsc --noEmit",
     "start": "node ./dist/src/index.js",
-    "start:dev": "npm run migrate && npm run seed && concurrently \"ts-node-dev --transpile-only src/index.ts\" \"webpack --config=webpack.config.js --watch\" \"npm run build:css -- --watch\"",
-    "build": "npm run build:front && npm run build:css && npm run build:back && npm run build:migration",
+    "start:dev": "concurrently \"ts-node-dev --transpile-only src/index.ts\" \"webpack --config=webpack.config.js --watch\" \"npm run build:css -- --watch\"",
+    "build": "npm run build:front && npm run build:css && npm run build:back",
     "build:back": "npx --node-options=\"--max-old-space-size=8192\" tsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views && cp -R src/views/maintenance.html dist/src/views",
     "build:css": "tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
     "build:front": "webpack --config=webpack.config.js",
-    "build:migration": "rimraf dist/migrations && tsc --build tsconfig.migrations.json",
-    "premigrate": "npm run build:migration",
-    "migrate": "sequelize-cli db:migrate",
-    "premigrate:undo": "npm run build:migration",
-    "migrate:undo": "sequelize-cli db:migrate:undo",
-    "preseed": "npm run build:migration",
-    "seed": "sequelize-cli db:seed:all",
     "lint": "eslint ./src --ext .ts,.tsx",
     "format": "prettier './src/**/*.{ts,tsx,css}' --write",
-    "test": "export APPLICATION_STAGE=test && npm run migrate && jest --config=jest.config.js --detectOpenHandles"
+    "test": "export APPLICATION_STAGE=test && jest --config=jest.config.js --detectOpenHandles"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",

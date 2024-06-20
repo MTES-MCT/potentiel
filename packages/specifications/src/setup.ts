@@ -48,9 +48,18 @@ BeforeAll(async () => {
   process.env.AWS_SECRET_ACCESS_KEY = 'minioadmin';
 
   disableNodeMaxListenerWarning();
+
+  await executeQuery(
+    'DROP RULE IF EXISTS prevent_delete_on_event_stream on event_store.event_stream',
+  );
 });
 
 Before<PotentielWorld>(async function (this: PotentielWorld) {
+  await executeQuery(`delete from "projects"`);
+  await executeQuery(`delete from event_store.event_stream`);
+  await executeQuery(`delete from event_store.subscriber`);
+  await executeQuery(`delete from domain_views.projection`);
+
   await getClient().send(
     new CreateBucketCommand({
       Bucket: bucketName,
@@ -63,11 +72,6 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 });
 
 After(async () => {
-  await executeQuery(`delete from "projects"`);
-  await executeQuery(`delete from event_store.event_stream`);
-  await executeQuery(`delete from event_store.subscriber`);
-  await executeQuery(`delete from domain_views.projection`);
-
   const objectsToDelete = await getClient().send(new ListObjectsCommand({ Bucket: bucketName }));
 
   if (objectsToDelete.Contents?.length) {
@@ -84,7 +88,6 @@ After(async () => {
       Bucket: bucketName,
     }),
   );
-
   if (unsetup) {
     await unsetup();
   }
