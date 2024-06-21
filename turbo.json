@@ -19,9 +19,36 @@
       ],
       "outputMode": "new-only"
     },
+    "build:test": {
+      "inputs": [
+        "src/**/*.{ts,tsx}"
+      ],
+      "dependsOn": [
+        "^build:test"
+      ],
+      "outputMode": "new-only"
+    },
     "dev": {
       "dependsOn": [
         "^build:dev"
+      ],
+      "cache": false
+    },
+    "test": {
+      "dependsOn": [
+        "^build:test"
+      ],
+      "cache": false
+    },
+    "specs": {
+      "dependsOn": [
+        "^build:test"
+      ],
+      "cache": false
+    },
+    "specs:select": {
+      "dependsOn": [
+        "^build:test"
       ],
       "cache": false
     }
