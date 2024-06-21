@@ -79,19 +79,21 @@ Alors(
     const { codeEIC } =
       this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale);
 
-    // Assert on read model
-    const résultat = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-      },
-    });
+    await waitForExpect(async () => {
+      // Assert on read model
+      const résultat = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+        type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
 
-    expect(
-      résultat.identifiantGestionnaireRéseau.estÉgaleÀ(
-        GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
-      ),
-    ).to.be.true;
+      expect(
+        résultat.identifiantGestionnaireRéseau.estÉgaleÀ(
+          GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
+        ),
+      ).to.be.true;
+    });
   },
 );
 Alors(

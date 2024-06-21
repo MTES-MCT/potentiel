@@ -2,7 +2,6 @@ import { EventEmitter } from 'events';
 import {
   Before,
   setWorldConstructor,
-  BeforeStep,
   After,
   BeforeAll,
   setDefaultTimeout,
@@ -11,7 +10,6 @@ import {
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { should } from 'chai';
 import { PotentielWorld } from './potentiel.world';
-import { sleep } from './helpers/sleep';
 import { getClient } from '@potentiel-libraries/file-storage';
 import { bootstrap } from '@potentiel-applications/bootstrap';
 import { clear } from 'mediateur';
@@ -33,11 +31,6 @@ const bucketName = 'potentiel';
 let unsetup: (() => Promise<void>) | undefined;
 
 const disableNodeMaxListenerWarning = () => (EventEmitter.defaultMaxListeners = Infinity);
-
-BeforeStep(async () => {
-  // As read data are inconsistant, we wait 100ms before each step.
-  await sleep(200);
-});
 
 BeforeAll(async () => {
   process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
