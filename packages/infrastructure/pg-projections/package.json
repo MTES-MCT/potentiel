@@ -7,8 +7,7 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "pretest:lib": "npm run build",
-    "test:lib": "node --test"
+    "test": "node --test"
   },
   "dependencies": {
     "@potentiel-domain/core": "*",
