@@ -5,6 +5,7 @@ import importPlugin from 'eslint-plugin-import';
 import prettierConfig from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier/recommended';
 import next from '@next/eslint-plugin-next';
+import monorepoPlugin from 'eslint-plugin-monorepo-cop';
 
 /**
  * @type {import("eslint").Linter.FlatConfig}
@@ -27,7 +28,7 @@ export default eslintTs.config(
   },
   {
     languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
-    plugins: { import: importPlugin },
+    plugins: { import: importPlugin, 'monorepo-cop': monorepoPlugin },
     settings: {
       'import/parsers': {
         espree: ['.js', '.cjs', '.mjs', '.jsx'],
@@ -43,6 +44,7 @@ export default eslintTs.config(
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       'no-case-declarations': 'off',
       'no-empty': ['error', { allowEmptyCatch: true }],
+      'monorepo-cop/no-relative-import-outside-package': 'error',
       'import/order': [
         'error',
         {
