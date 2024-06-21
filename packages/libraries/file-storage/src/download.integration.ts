@@ -1,4 +1,6 @@
-import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
+import { before, beforeEach, describe, it } from 'node:test';
+import { assert, expect } from 'chai';
+
 import { upload } from './upload';
 import { download } from './download';
 import { FichierInexistant } from './fichierInexistant.error';
@@ -8,7 +10,7 @@ import { createOrRecreateBucket, setTestBucket } from './test-utils';
 describe(`download file`, () => {
   const bucketName = 'potentiel';
 
-  beforeAll(() => {
+  before(() => {
     setTestBucket(bucketName);
   });
 
@@ -30,7 +32,8 @@ describe(`download file`, () => {
 
     await upload(filePath, content);
 
-    await expect(download(filePath)).resolves.toBeTruthy();
+    const actual = await download(filePath);
+    expect(actual).not.to.be.null;
   });
 
   it(`
@@ -39,6 +42,11 @@ describe(`download file`, () => {
     Alors le fichier ne devrait pas être récupérable depuis le bucket`, async () => {
     const filePath = 'path/to/file.pdf';
 
-    await expect(download(filePath)).rejects.toBeInstanceOf(FichierInexistant);
+    try {
+      await download(filePath);
+      assert.fail('should throw');
+    } catch (e) {
+      expect(e).to.be.instanceOf(FichierInexistant);
+    }
   });
 });

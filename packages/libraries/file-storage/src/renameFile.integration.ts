@@ -1,4 +1,5 @@
-import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
+import { before, beforeEach, describe, it } from 'node:test';
+import { expect } from 'chai';
 
 import { download } from './download';
 import { upload } from './upload';
@@ -8,7 +9,7 @@ import { createOrRecreateBucket, setTestBucket } from './test-utils';
 describe(`rename file`, () => {
   const bucketName = 'potentiel';
 
-  beforeAll(() => {
+  before(() => {
     setTestBucket(bucketName);
   });
 
@@ -36,6 +37,6 @@ describe(`rename file`, () => {
     await renameFile(originalName, newName);
 
     const actual = await download(newName);
-    expect(actual).not.toBeNull();
+    expect(actual).not.to.be.null;
   });
 });

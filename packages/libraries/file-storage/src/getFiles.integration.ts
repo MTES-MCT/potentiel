@@ -1,13 +1,14 @@
-import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
-import { getFiles } from './getFiles';
+import { before, beforeEach, describe, it } from 'node:test';
+import { expect } from 'chai';
 
+import { getFiles } from './getFiles';
 import { upload } from './upload';
 import { setTestBucket, createOrRecreateBucket } from './test-utils';
 
 describe(`get files`, () => {
   const bucketName = 'potentiel';
 
-  beforeAll(() => {
+  before(() => {
     setTestBucket(bucketName);
   });
 
@@ -30,7 +31,9 @@ describe(`get files`, () => {
 
     await upload(filePath, content);
 
-    await expect(getFiles(pattern)).resolves.toEqual([filePath]);
+    const files = await getFiles(pattern);
+    expect(files).to.have.length(1);
+    expect(files[0]).to.eq(filePath);
   });
 
   it(`
@@ -39,6 +42,7 @@ describe(`get files`, () => {
     Alors aucune clés d'accès ne devtait être récupérable depuis le bucket`, async () => {
     const pattern = 'path/to';
 
-    await expect(getFiles(pattern)).resolves.toEqual([]);
+    const files = await getFiles(pattern);
+    expect(files).to.have.length(0);
   });
 });
