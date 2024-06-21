@@ -1,67 +1,20 @@
 import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
 import { download } from './download';
-import { getClient } from './getClient';
 import { upload } from './upload';
-import {
-  CreateBucketCommand,
-  DeleteBucketCommand,
-  DeleteObjectsCommand,
-  HeadBucketCommand,
-  ListObjectsCommand,
-} from '@aws-sdk/client-s3';
+
 import { copyFolder } from './copyFolder';
 import { join } from 'path';
+import { createOrRecreateBucket, setTestBucket } from './test-utils';
 
 describe(`copy folder`, () => {
   const bucketName = 'potentiel';
+
   beforeAll(() => {
-    process.env.AWS_REGION = 'localhost';
-    process.env.S3_ENDPOINT = 'http://localhost:9001';
-    process.env.S3_BUCKET = bucketName;
-    process.env.AWS_ACCESS_KEY_ID = 'minioadmin';
-    process.env.AWS_SECRET_ACCESS_KEY = 'minioadmin';
+    setTestBucket(bucketName);
   });
 
   beforeEach(async () => {
-    const isBucketExists = async () => {
-      try {
-        await getClient().send(
-          new HeadBucketCommand({
-            Bucket: bucketName,
-          }),
-        );
-        return true;
-      } catch (err) {
-        return false;
-      }
-    };
-
-    if (await isBucketExists()) {
-      const objectsToDelete = await getClient().send(
-        new ListObjectsCommand({ Bucket: bucketName }),
-      );
-
-      if (objectsToDelete.Contents?.length) {
-        await getClient().send(
-          new DeleteObjectsCommand({
-            Bucket: bucketName,
-            Delete: { Objects: objectsToDelete.Contents.map((o) => ({ Key: o.Key! })) },
-          }),
-        );
-      }
-
-      await getClient().send(
-        new DeleteBucketCommand({
-          Bucket: bucketName,
-        }),
-      );
-    }
-
-    await getClient().send(
-      new CreateBucketCommand({
-        Bucket: bucketName,
-      }),
-    );
+    await createOrRecreateBucket(bucketName);
   });
 
   it(`

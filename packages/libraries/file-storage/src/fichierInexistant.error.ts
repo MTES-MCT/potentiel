@@ -1,5 +1,5 @@
 export class FichierInexistant extends Error {
-  constructor() {
-    super(`Le fichier n'existe pas`);
+  constructor(filePath?: string) {
+    super(`Le fichier ${filePath} n'existe pas`);
   }
 }

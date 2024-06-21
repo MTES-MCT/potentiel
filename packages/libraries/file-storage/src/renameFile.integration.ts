@@ -1,12 +1,13 @@
 import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
+
 import { download } from './download';
 import { upload } from './upload';
-
-import { copyFile } from './copyFile';
+import { renameFile } from './renameFile';
 import { createOrRecreateBucket, setTestBucket } from './test-utils';
 
-describe(`copy file`, () => {
+describe(`rename file`, () => {
   const bucketName = 'potentiel';
+
   beforeAll(() => {
     setTestBucket(bucketName);
   });
@@ -18,10 +19,10 @@ describe(`copy file`, () => {
   it(`
     Etant donné un endpoint et un bucket
     Et un fichier téléverśe
-    Quand un fichier est copié
-    Alors la copie devrait être récupérable depuis le bucket`, async () => {
-    const sourcePath = 'path/to/file.pdf';
-    const targetPath = 'path/to/another/file.pdf';
+    Quand un fichier est renommé
+    Alors il devrait être récupérable depuis le bucket`, async () => {
+    const originalName = 'original-name';
+    const newName = 'new-name';
 
     const content = new ReadableStream({
       start: async (controller) => {
@@ -30,10 +31,11 @@ describe(`copy file`, () => {
       },
     });
 
-    await upload(sourcePath, content);
-    await copyFile(sourcePath, targetPath);
+    await upload(originalName, content);
 
-    const actual = await download(targetPath);
+    await renameFile(originalName, newName);
+
+    const actual = await download(newName);
     expect(actual).not.toBeNull();
   });
 });

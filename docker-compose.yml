@@ -81,7 +81,7 @@ services:
   s3_test:
     container_name: potentiel_s3_tests_integration
     image: quay.io/minio/minio
-    command: server /data --console-address ":9091"
+    command: server /data --console-address ":9090"
     restart: always
     environment:
       - MINIO_ROOT_USER=minioadmin

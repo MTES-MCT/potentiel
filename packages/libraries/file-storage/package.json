@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test:lib": "jest --runInBand"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"
