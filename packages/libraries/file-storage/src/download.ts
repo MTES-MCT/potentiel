@@ -10,11 +10,11 @@ export const download = async (filePath: string) => {
     );
 
     if (!result.Body) {
-      throw new FichierInexistant();
+      throw new FichierInexistant(filePath);
     }
 
     return result.Body.transformToWebStream();
   } catch (e) {
-    throw new FichierInexistant();
+    throw new FichierInexistant(filePath);
   }
 };

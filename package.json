@@ -50,7 +50,7 @@
     "specs": "npm run test -w @potentiel/specifications",
     "prespecs:select": "npm run pretest",
     "specs:select": "npm run test:select -w @potentiel/specifications",
-    "version": "ts-node .github/getPatchVersion.ts"
+    "version": "tsx .github/getPatchVersion.ts"
   },
   "repository": {
     "type": "git",
@@ -76,7 +76,7 @@
     "lint-staged": "^13.3.0",
     "prettier": "^2.8.8",
     "pretty-format": "^29.6.3",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.15.7",
     "turbo": "^1.13.2",
     "typescript": "^5.2.2"
   },

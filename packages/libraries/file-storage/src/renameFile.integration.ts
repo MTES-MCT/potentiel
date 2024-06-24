@@ -3,9 +3,10 @@ import { expect } from 'chai';
 
 import { download } from './download';
 import { upload } from './upload';
-import { setTestBucketEnvVariable, createOrRecreateBucket } from './test-utils.integration';
+import { renameFile } from './renameFile';
+import { createOrRecreateBucket, setTestBucketEnvVariable } from './test-utils.integration';
 
-describe(`upload file`, () => {
+describe(`rename file`, () => {
   const bucketName = 'potentiel';
 
   before(() => {
@@ -18,9 +19,12 @@ describe(`upload file`, () => {
 
   it(`
     Etant donné un endpoint et un bucket
-    Quand un fichier est téléversé
+    Et un fichier téléverśe
+    Quand un fichier est renommé
     Alors il devrait être récupérable depuis le bucket`, async () => {
-    const filePath = 'path/to/file.pdf';
+    const originalName = 'original-name';
+    const newName = 'new-name';
+
     const content = new ReadableStream({
       start: async (controller) => {
         controller.enqueue(Buffer.from(`Contenu d'un fichier`, 'utf-8'));
@@ -28,9 +32,11 @@ describe(`upload file`, () => {
       },
     });
 
-    await upload(filePath, content);
+    await upload(originalName, content);
 
-    const actual = await download(filePath);
+    await renameFile(originalName, newName);
+
+    const actual = await download(newName);
     expect(actual).not.to.be.null;
   });
 });
