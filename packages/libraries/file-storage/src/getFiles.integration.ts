@@ -3,13 +3,13 @@ import { expect } from 'chai';
 
 import { getFiles } from './getFiles';
 import { upload } from './upload';
-import { setTestBucket, createOrRecreateBucket } from './test-utils';
+import { setTestBucketEnvVariable, createOrRecreateBucket } from './test-utils.integration';
 
 describe(`get files`, () => {
   const bucketName = 'potentiel';
 
   before(() => {
-    setTestBucket(bucketName);
+    setTestBucketEnvVariable(bucketName);
   });
 
   beforeEach(async () => {

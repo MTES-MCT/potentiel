@@ -6,13 +6,13 @@ import { upload } from './upload';
 
 import { copyFolder } from './copyFolder';
 import { join } from 'path';
-import { createOrRecreateBucket, setTestBucket } from './test-utils';
+import { createOrRecreateBucket, setTestBucketEnvVariable } from './test-utils.integration';
 
 describe(`copy folder`, () => {
   const bucketName = 'potentiel';
 
   before(() => {
-    setTestBucket(bucketName);
+    setTestBucketEnvVariable(bucketName);
   });
 
   beforeEach(async () => {

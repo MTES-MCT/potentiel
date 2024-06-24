@@ -4,13 +4,13 @@ import { expect } from 'chai';
 import { download } from './download';
 import { upload } from './upload';
 import { renameFile } from './renameFile';
-import { createOrRecreateBucket, setTestBucket } from './test-utils';
+import { createOrRecreateBucket, setTestBucketEnvVariable } from './test-utils.integration';
 
 describe(`rename file`, () => {
   const bucketName = 'potentiel';
 
   before(() => {
-    setTestBucket(bucketName);
+    setTestBucketEnvVariable(bucketName);
   });
 
   beforeEach(async () => {

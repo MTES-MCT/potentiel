@@ -40,7 +40,7 @@ export const createOrRecreateBucket = async (bucketName: string) => {
   await getClient().send(new CreateBucketCommand({ Bucket: bucketName }));
 };
 
-export const setTestBucket = (bucketName: string) => {
+export const setTestBucketEnvVariable = (bucketName: string) => {
   process.env.AWS_REGION = 'localhost';
   process.env.S3_ENDPOINT = 'http://localhost:9001';
   process.env.S3_BUCKET = bucketName;

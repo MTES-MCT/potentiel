@@ -5,13 +5,13 @@ import { upload } from './upload';
 import { download } from './download';
 import { FichierInexistant } from './fichierInexistant.error';
 
-import { createOrRecreateBucket, setTestBucket } from './test-utils';
+import { createOrRecreateBucket, setTestBucketEnvVariable } from './test-utils.integration';
 
 describe(`download file`, () => {
   const bucketName = 'potentiel';
 
   before(() => {
-    setTestBucket(bucketName);
+    setTestBucketEnvVariable(bucketName);
   });
 
   beforeEach(async () => {

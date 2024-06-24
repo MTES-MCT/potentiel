@@ -4,12 +4,12 @@ import { download } from './download';
 import { upload } from './upload';
 
 import { copyFile } from './copyFile';
-import { createOrRecreateBucket, setTestBucket } from './test-utils';
+import { createOrRecreateBucket, setTestBucketEnvVariable } from './test-utils.integration';
 
 describe(`copy file`, () => {
   const bucketName = 'potentiel';
   before(() => {
-    setTestBucket(bucketName);
+    setTestBucketEnvVariable(bucketName);
   });
 
   beforeEach(async () => {

@@ -11,7 +11,8 @@
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "@potentiel-libraries/monitoring": "*"
+    "@potentiel-libraries/monitoring": "*",
+    "tsx": "^4.15.7"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.405.0",
