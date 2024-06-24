@@ -67,11 +67,3 @@ export type AbandonEntity = Entity<
     misÀJourLe: string;
   }
 >;
-
-export type AbandonAvecRecandidatureSansPreuveProjection = Entity<
-  'abandon-avec-recandidature-sans-preuve',
-  {
-    identifiantProjet: string;
-    demandéeLe: string;
-  }
->;
