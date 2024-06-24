@@ -1,10 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": [
-      "esnext",
-      "dom"
-    ],
+    "lib": ["esnext", "dom"],
     "jsx": "react",
     "strictNullChecks": true,
     "esModuleInterop": true,
@@ -20,12 +17,8 @@
     "skipLibCheck": true,
     "baseUrl": "."
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"],
   "references": [
     {
       "path": "../../domain/inmemory-referential"
@@ -50,6 +43,6 @@
     },
     {
       "path": "../../domain/réseau"
-    },
-  ],
+    }
+  ]
 }
