@@ -1,4 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+
 import { validateurParDéfaut } from '../../validateurParDéfaut';
 
 export const neutrePPE2: AppelOffre = {

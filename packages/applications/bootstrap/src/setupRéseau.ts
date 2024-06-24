@@ -1,3 +1,5 @@
+import { mediator } from 'mediateur';
+
 import {
   GestionnaireRéseauProjector,
   RaccordementProjector,
@@ -9,7 +11,6 @@ import {
   findProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projections';
-import { mediator } from 'mediateur';
 
 export const setupRéseau = async () => {
   registerRéseauUseCases({

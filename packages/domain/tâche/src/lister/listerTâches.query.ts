@@ -1,11 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import * as TypeTâche from '../typeTâche.valueType';
+import { match, Pattern } from 'ts-pattern';
+
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { TâcheEntity } from '../tâche.entity';
 import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 import { List, RangeOptions } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { match, Pattern } from 'ts-pattern';
+
+import { TâcheEntity } from '../tâche.entity';
+import * as TypeTâche from '../typeTâche.valueType';
 
 type TâcheListItem = {
   identifiantProjet: IdentifiantProjet.ValueType;

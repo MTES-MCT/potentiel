@@ -1,9 +1,11 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+
+import { Achèvement } from '@potentiel-domain/laureat';
+
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 import { sleep } from '../../../../../helpers/sleep';
-import { Achèvement } from '@potentiel-domain/laureat';
 
 EtantDonné(
   'le projet {string} avec une attestation de conformité transmise',

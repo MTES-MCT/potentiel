@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { RecoursEntity } from '../recours.entity';
+
 import { DateTime, IdentifiantProjet, CommonPort } from '@potentiel-domain/common';
-import { StatutRecours } from '..';
 import { Option } from '@potentiel-libraries/monads';
 import {
   EqualWhereCondition,
@@ -9,6 +8,9 @@ import {
   List,
   RangeOptions,
 } from '@potentiel-domain/core';
+
+import { StatutRecours } from '..';
+import { RecoursEntity } from '../recours.entity';
 
 type RecoursListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

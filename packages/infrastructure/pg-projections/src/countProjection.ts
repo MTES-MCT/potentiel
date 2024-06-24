@@ -1,6 +1,8 @@
+import format from 'pg-format';
+
 import { Entity, CountOption } from '@potentiel-domain/core';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import format from 'pg-format';
+
 import { getWhereClause } from './getWhereClause';
 
 const countQuery = 'SELECT COUNT(key) as total FROM domain_views.projection where key like $1';

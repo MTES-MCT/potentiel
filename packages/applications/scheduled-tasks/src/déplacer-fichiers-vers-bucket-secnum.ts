@@ -1,9 +1,11 @@
+import { createWriteStream } from 'node:fs';
+
 import { S3, ListObjectsCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
+import { StreamingBlobPayloadOutputTypes } from '@smithy/types';
+
 import { DateTime } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { StreamingBlobPayloadOutputTypes } from '@smithy/types';
-import { createWriteStream } from 'node:fs';
 
 const sourceBucketName = process.env.S3_BUCKET;
 const destinationBucketName = process.env.S3_SECNUM_BUCKET;

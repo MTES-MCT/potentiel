@@ -1,12 +1,14 @@
 import { expect } from 'chai';
 import { Then as Alors } from '@cucumber/cucumber';
 import waitForExpect from 'wait-for-expect';
-import { PotentielWorld } from '../../potentiel.world';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mediator } from 'mediateur';
+
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { PlainType, mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { ExpressionRegulière } from '@potentiel-domain/common';
+
+import { PotentielWorld } from '../../potentiel.world';
 
 Alors(
   `le gestionnaire de réseau {string} devrait être( disponible)( à jour) dans le référenciel des gestionnaires de réseau`,

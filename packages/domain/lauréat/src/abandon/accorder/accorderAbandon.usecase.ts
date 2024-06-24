@@ -7,8 +7,9 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 // Package
-import { AccorderAbandonCommand } from './accorderAbandon.command';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
+
+import { AccorderAbandonCommand } from './accorderAbandon.command';
 
 export type AccorderAbandonUseCase = Message<
   'Lauréat.Abandon.UseCase.AccorderAbandon',

@@ -1,11 +1,12 @@
 import { ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
+
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
 import { FormatRéférenceDossierRaccordementInvalideError } from '../transmettre/transmettreDemandeComplèteRaccordement.behavior';
-import { Option } from '@potentiel-libraries/monads';
 
 export type RéférenceDossierRacordementModifiéeEvent = DomainEvent<
   'RéférenceDossierRacordementModifiée-V1',

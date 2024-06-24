@@ -3,7 +3,6 @@ import {
   RécupérerCandidaturePort,
   ConsulterCandidatureReadModel,
 } from './consulter/consulterCandidature.query';
-
 import {
   ListerCandidaturesEligiblesPreuveRecanditureQuery,
   RécupérerCandidaturesEligiblesPreuveRecanditurePort,

@@ -1,10 +1,11 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
+import { expect } from 'chai';
+
 import { ListerTâchesQuery } from '@potentiel-domain/tache';
 
 import { PotentielWorld } from '../../potentiel.world';
-import { expect } from 'chai';
 import { RechercherTypeTâche } from '../tâche.world';
 
 Alors(

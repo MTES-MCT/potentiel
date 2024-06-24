@@ -1,11 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterAppelOffreQuery, AppelOffre } from '@potentiel-domain/appel-offre';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
-import { ConsulterAbandonQuery } from '../consulter/consulterAbandon.query';
-import { ConsulterCahierDesChargesChoisiQuery } from '../../cahierDesChargesChoisi/consulter/consulterCahierDesChargesChoisi.query';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { GénérerModèleDocumentPort } from '@potentiel-domain/modele-document';
+
+import { ConsulterAbandonQuery } from '../consulter/consulterAbandon.query';
+import { ConsulterCahierDesChargesChoisiQuery } from '../../cahierDesChargesChoisi/consulter/consulterCahierDesChargesChoisi.query';
 
 export type GénérerModèleRéponseAbandonReadModel = {
   format: string;

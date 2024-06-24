@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+
 import {
   Before,
   setWorldConstructor,
@@ -8,12 +9,7 @@ import {
   setDefaultTimeout,
   AfterAll,
 } from '@cucumber/cucumber';
-import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { should } from 'chai';
-import { PotentielWorld } from './potentiel.world';
-import { sleep } from './helpers/sleep';
-import { getClient } from '@potentiel-libraries/file-storage';
-import { bootstrap } from '@potentiel-applications/bootstrap';
 import { clear } from 'mediateur';
 import {
   CreateBucketCommand,
@@ -21,6 +17,13 @@ import {
   DeleteObjectsCommand,
   ListObjectsCommand,
 } from '@aws-sdk/client-s3';
+
+import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
+import { getClient } from '@potentiel-libraries/file-storage';
+import { bootstrap } from '@potentiel-applications/bootstrap';
+
+import { PotentielWorld } from './potentiel.world';
+import { sleep } from './helpers/sleep';
 
 should();
 

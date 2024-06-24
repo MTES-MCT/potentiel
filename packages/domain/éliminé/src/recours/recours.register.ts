@@ -1,4 +1,5 @@
 import { LoadAggregate } from '@potentiel-domain/core';
+
 import { registerAccorderRecoursCommand } from './accorder/accorderRecours.command';
 import { registerAccorderRecoursUseCase } from './accorder/accorderRecours.usecase';
 import { registerAnnulerRecoursCommand } from './annuler/annulerRecours.command';

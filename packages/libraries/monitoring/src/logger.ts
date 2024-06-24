@@ -1,4 +1,5 @@
 import winston from 'winston';
+
 import { getCapture } from './capture';
 
 // RFC5424 from higher to lower level

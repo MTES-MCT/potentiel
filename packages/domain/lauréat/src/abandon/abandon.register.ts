@@ -1,4 +1,5 @@
 import { LoadAggregate } from '@potentiel-domain/core';
+
 import { registerAccorderAbandonCommand } from './accorder/accorderAbandon.command';
 import { registerAccorderAbandonUseCase } from './accorder/accorderAbandon.usecase';
 import { registerAnnulerAbandonCommand } from './annuler/annulerAbandon.command';

@@ -1,9 +1,11 @@
 import { Given as EtantDonné, DataTable } from '@cucumber/cucumber';
-import { PotentielWorld } from '../../potentiel.world';
 import { mediator } from 'mediateur';
-import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
+
 import { DateTime } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
+
+import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
+import { PotentielWorld } from '../../potentiel.world';
 
 EtantDonné(
   'une demande complète de raccordement pour le projet lauréat {string} transmise auprès du gestionnaire de réseau {string} avec :',

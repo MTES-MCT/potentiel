@@ -7,11 +7,6 @@ import {
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import {
-  DépôtGarantiesFinancièresSoumisEvent,
-  applyDépôtGarantiesFinancièresSoumis,
-  soumettreDépôt,
-} from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
-import {
   AttestationGarantiesFinancièresEnregistréeEvent,
   GarantiesFinancièresEnregistréesEvent,
   GarantiesFinancièresModifiéesEvent,
@@ -20,6 +15,12 @@ import {
   TypeGarantiesFinancières,
   TypeGarantiesFinancièresImportéEvent,
 } from '.';
+
+import {
+  DépôtGarantiesFinancièresSoumisEvent,
+  applyDépôtGarantiesFinancièresSoumis,
+  soumettreDépôt,
+} from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
 import {
   GarantiesFinancièresDemandéesEvent,
   applyDemanderGarantiesFinancières,

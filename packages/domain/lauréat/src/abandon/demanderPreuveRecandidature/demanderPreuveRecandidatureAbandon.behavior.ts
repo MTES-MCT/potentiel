@@ -1,6 +1,7 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { AbandonAggregate } from '../abandon.aggregate';
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+
+import { AbandonAggregate } from '../abandon.aggregate';
 
 const dateLégaleMaxTransimissionPreuveRecandidature = DateTime.convertirEnValueType(
   new Date('2025-03-31'),

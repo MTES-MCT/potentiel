@@ -1,5 +1,6 @@
 import { S3, ListObjectsCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
+
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 const sourceBucketName = process.env.S3_BUCKET || 'potentiel';

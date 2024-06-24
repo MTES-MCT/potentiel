@@ -1,8 +1,11 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals';
+
 import { DomainEvent, Aggregate, GetDefaultAggregateState } from '@potentiel-domain/core';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
-import { loadAggregate } from './loadAggregate';
+
 import { publish } from '../publish/publish';
+
+import { loadAggregate } from './loadAggregate';
 
 type CustomEvent1 = DomainEvent<'event-1', { propriété: string }>;
 type CustomEvent2 = DomainEvent<'event-2', { secondePropriété: string }>;

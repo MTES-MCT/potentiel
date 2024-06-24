@@ -1,7 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { loadAbandonFactory } from '../abandon.aggregate';
 import { LoadAggregate } from '@potentiel-domain/core';
+
+import { loadAbandonFactory } from '../abandon.aggregate';
 
 export type DemanderPreuveRecandidatureAbandonCommand = Message<
   'System.Lauréat.Abandon.Command.DemanderPreuveRecandidatureAbandon',

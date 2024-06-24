@@ -1,10 +1,12 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+
 import { Recours } from '@potentiel-domain/elimine';
-import { PotentielWorld } from '../../../../potentiel.world';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+
+import { PotentielWorld } from '../../../../potentiel.world';
+import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 Quand(
   `le porteur demande le recours pour le projet éliminé {string} avec :`,

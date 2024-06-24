@@ -1,4 +1,5 @@
 import { OperationRejectedError, ReadonlyValueType } from '@potentiel-domain/core';
+
 import * as Role from './role.valueType';
 import * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
 

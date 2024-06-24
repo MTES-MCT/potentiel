@@ -1,11 +1,14 @@
 import { mediator, MessageHandler, Message } from 'mediateur';
-import { ModifierRéférenceDossierRaccordementCommand } from './modifierRéférenceDossierRaccordement.command';
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
+
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
-import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { DossierProjet, DéplacerDocumentProjetCommand } from '@potentiel-domain/document';
+
+import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
+import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
+
+import { ModifierRéférenceDossierRaccordementCommand } from './modifierRéférenceDossierRaccordement.command';
 
 export type ModifierRéférenceDossierRaccordementUseCase = Message<
   'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',

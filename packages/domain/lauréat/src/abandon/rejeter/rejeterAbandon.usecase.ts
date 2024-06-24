@@ -1,10 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-import { RejeterAbandonCommand } from './rejeterAbandon.command';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
+
+import { RejeterAbandonCommand } from './rejeterAbandon.command';
 
 export type RejeterAbandonUseCase = Message<
   'Lauréat.Abandon.UseCase.RejeterAbandon',

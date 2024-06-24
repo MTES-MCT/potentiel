@@ -1,8 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
+
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { LoadAggregate } from '@potentiel-domain/core';
+
+import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
+import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { loadGestionnaireRéseauFactory } from '../../gestionnaire/gestionnaireRéseau.aggregate';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 

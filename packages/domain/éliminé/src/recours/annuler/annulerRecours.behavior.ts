@@ -1,6 +1,7 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+
 import { RecoursAggregate } from '../recours.aggregate';
 import * as StatutRecours from '../statutRecours.valueType';
 

@@ -1,4 +1,5 @@
 import { LoadAggregate } from '@potentiel-domain/core';
+
 import {
   ConsulterGarantiesFinancièresDependencies,
   registerConsulterGarantiesFinancièresQuery,
@@ -13,7 +14,6 @@ import { registerValiderDépôtGarantiesFinancièresEnCoursCommand } from './dé
 import { registerValiderDépôtGarantiesFinancièresEnCoursUseCase } from './dépôtEnCours/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.usecase';
 import { registerModifierDépôtGarantiesFinancièresEnCoursUseCase } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.usecase';
 import { registerModifierDépôtGarantiesFinancièresEnCoursCommand } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.command';
-
 import {
   ListerDépôtsEnCoursGarantiesFinancièresDependencies,
   registerListerDépôtsEnCoursGarantiesFinancièresQuery,
@@ -22,7 +22,6 @@ import { registerEffacerHistoriqueGarantiesFinancièresCommand } from './effacer
 import { registerEffacerHistoriqueGarantiesFinancièresUseCase } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.usecase';
 import { registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery } from './projetEnAttenteDeGarantiesFinancières/lister/listerProjetsAvecGarantiesFinancièresEnAttente.query';
 import { registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery } from './projetEnAttenteDeGarantiesFinancières/consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
-
 import {
   ConsulterDépôtEnCoursGarantiesFinancièresDependencies,
   registerConsulterDépôtEnCoursGarantiesFinancièresQuery,
@@ -41,7 +40,6 @@ import { registerModifierGarantiesFinancièresCommand } from './garantiesFinanci
 import { registerModifierGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/modifier/modifierGarantiesFinancières.usecase';
 import { registerDemanderMainlevéeGarantiesFinancièresCommand } from './mainlevée/demander/demanderMainlevéeGarantiesFinancières.command';
 import { registerDemanderMainlevéeGarantiesFinancièresUseCase } from './mainlevée/demander/demanderMainlevéeGarantiesFinancières.usecase';
-
 import { registerAnnulerMainlevéeGarantiesFinancièresCommand } from './mainlevée/annuler/annulerDemandeMainlevéeGarantiesFinancières.command';
 import { registerAnnulerMainlevéeGarantiesFinancièresUseCase } from './mainlevée/annuler/annulerDemandeMainlevéeGarantiesFinancières.usecase';
 import { registerDémarrerInstructionDemandeMainlevéeGarantiesFinancières } from './mainlevée/démarrerInstruction/démarrerInstructionDemandeMainlevéeGarantiesFinancières.command';

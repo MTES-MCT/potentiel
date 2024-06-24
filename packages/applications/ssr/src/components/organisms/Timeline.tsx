@@ -54,12 +54,12 @@ const TimelineItem: FC<TimelineItemProps> = ({ status, date, title, content }) =
           status === 'error'
             ? 'error'
             : status === 'success'
-            ? 'success'
-            : status === 'warning'
-            ? 'warning'
-            : status === 'info'
-            ? 'info'
-            : 'grey'
+              ? 'success'
+              : status === 'warning'
+                ? 'warning'
+                : status === 'info'
+                  ? 'info'
+                  : 'grey'
         }
       />
       <TimelineConnector />

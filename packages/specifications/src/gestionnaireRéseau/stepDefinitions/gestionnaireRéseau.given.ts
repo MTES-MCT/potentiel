@@ -1,6 +1,8 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mediator } from 'mediateur';
+
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+
 import { sleep } from '../../helpers/sleep';
 import { PotentielWorld } from '../../potentiel.world';
 

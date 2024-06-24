@@ -1,5 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { OperationRejectedError } from '@potentiel-domain/core';
+
 import * as Role from '../role.valueType';
 import * as Utilisateur from '../utilisateur.valueType';
 

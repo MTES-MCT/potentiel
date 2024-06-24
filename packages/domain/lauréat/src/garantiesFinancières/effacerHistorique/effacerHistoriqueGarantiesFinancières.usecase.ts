@@ -1,7 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { EffacerHistoriqueGarantiesFinancièresCommand } from './effacerHistoriqueGarantiesFinancières.command';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+
+import { EffacerHistoriqueGarantiesFinancièresCommand } from './effacerHistoriqueGarantiesFinancières.command';
 
 export type EffacerHistoriqueGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',

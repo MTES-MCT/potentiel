@@ -1,9 +1,10 @@
-import { List, RangeOptions } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
 
+import { List, RangeOptions } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
 import { CommonError, CommonPort } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
+
 import {
   MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,

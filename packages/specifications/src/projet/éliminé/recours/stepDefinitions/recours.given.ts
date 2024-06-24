@@ -1,5 +1,6 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+
 import { DateTime } from '@potentiel-domain/common';
 import { Recours } from '@potentiel-domain/elimine';
 

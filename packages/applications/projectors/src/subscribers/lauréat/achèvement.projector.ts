@@ -5,11 +5,11 @@ import { Achèvement } from '@potentiel-domain/laureat';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { getLogger } from '@potentiel-libraries/monitoring';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 
 export type SubscriptionEvent = (Achèvement.AchèvementEvent & Event) | RebuildTriggered;
 

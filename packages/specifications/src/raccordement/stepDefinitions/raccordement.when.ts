@@ -1,9 +1,11 @@
 import { When as Quand, DataTable } from '@cucumber/cucumber';
-import { PotentielWorld } from '../../potentiel.world';
-import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
 import { mediator } from 'mediateur';
+
 import { Raccordement } from '@potentiel-domain/reseau';
 import { DateTime } from '@potentiel-domain/common';
+
+import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
+import { PotentielWorld } from '../../potentiel.world';
 
 Quand(
   `le porteur transmet une demande complète de raccordement pour le projet lauréat {string} auprès du gestionnaire de réseau {string} avec :`,

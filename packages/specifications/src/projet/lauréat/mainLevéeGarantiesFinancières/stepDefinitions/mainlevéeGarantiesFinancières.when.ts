@@ -1,8 +1,10 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+
 import { PotentielWorld } from '../../../../potentiel.world';
 import { sleep } from '../../../../helpers/sleep';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 Quand(

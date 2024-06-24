@@ -1,4 +1,5 @@
 import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+
 import { validateurParDéfaut } from '../../validateurParDéfaut';
 const CDCModifié30082022: CahierDesChargesModifié = {
   type: 'modifié',

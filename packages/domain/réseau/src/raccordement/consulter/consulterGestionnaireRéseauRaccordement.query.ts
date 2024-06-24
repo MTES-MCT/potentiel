@@ -1,10 +1,12 @@
+import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+
 import { GestionnaireRéseauEntity, IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { RaccordementEntity } from '../raccordement.entity';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { mapToReadModel } from '../../gestionnaire/consulter/consulterGestionnaireRéseau.query';
 
 export type ConsulterGestionnaireRéseauRaccordementReadModel = {

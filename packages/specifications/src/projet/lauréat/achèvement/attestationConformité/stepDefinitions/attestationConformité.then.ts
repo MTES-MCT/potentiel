@@ -1,12 +1,14 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
-import { Achèvement } from '@potentiel-domain/laureat';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
-import { PotentielWorld } from '../../../../../potentiel.world';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 import waitForExpect from 'wait-for-expect';
+
+import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Achèvement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
+
+import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
+import { PotentielWorld } from '../../../../../potentiel.world';
 
 Alors(
   'une attestation de conformité devrait être consultable pour le projet {string} avec :',

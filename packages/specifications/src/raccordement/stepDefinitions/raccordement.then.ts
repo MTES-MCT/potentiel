@@ -1,13 +1,15 @@
 import { Then as Alors } from '@cucumber/cucumber';
-import { PotentielWorld } from '../../potentiel.world';
 import { mediator } from 'mediateur';
-import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
 import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
+
+import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
+
+import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
+import { PotentielWorld } from '../../potentiel.world';
 
 Alors(
   `le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat {string}`,

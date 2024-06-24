@@ -5,10 +5,10 @@ import { Recours } from '@potentiel-domain/elimine';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
-
 import { DateTime } from '@potentiel-domain/common';
-import { removeProjection } from '../../infrastructure/removeProjection';
 import { getLogger } from '@potentiel-libraries/monitoring';
+
+import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
 
 export type SubscriptionEvent = (Recours.RecoursEvent & Event) | RebuildTriggered;

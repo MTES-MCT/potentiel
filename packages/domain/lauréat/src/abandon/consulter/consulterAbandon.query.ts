@@ -3,12 +3,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DocumentProjet } from '@potentiel-domain/document';
+import { Find } from '@potentiel-domain/core';
 
 import { AucunAbandonEnCours } from '../aucunAbandonEnCours.error';
 import * as StatutAbandon from '../statutAbandon.valueType';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { AbandonEntity } from '../abandon.entity';
-import { Find } from '@potentiel-domain/core';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 import { StatutPreuveRecandidature } from '..';
 

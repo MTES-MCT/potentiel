@@ -1,9 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { DemanderAbandonCommand } from './demanderAbandon.command';
+
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
+
+import { DemanderAbandonCommand } from './demanderAbandon.command';
 
 // TODO :
 // Pour tout type de demande, il faut vérifier que le CDC permet une demande via Potentiel

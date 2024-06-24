@@ -2,12 +2,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
-
-import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '../..';
-import { GarantiesFinancièresEntity } from '../garantiesFinancièresActuelles.entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+
+import { GarantiesFinancièresEntity } from '../garantiesFinancièresActuelles.entity';
+import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '../..';
 
 export type ConsulterGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

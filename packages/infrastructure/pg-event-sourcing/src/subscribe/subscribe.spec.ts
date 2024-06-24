@@ -8,14 +8,17 @@ import {
   jest,
   expect,
 } from '@jest/globals';
+import waitForExpect from 'wait-for-expect';
+
 import { executeQuery, executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
+import * as monitoring from '@potentiel-libraries/monitoring';
+
+import { Event } from '../event';
+import { publish } from '../publish/publish';
+
 import { subscribe } from './subscribe';
 import { registerSubscriber } from './subscriber/registerSubscriber';
-import { Event } from '../event';
-import waitForExpect from 'wait-for-expect';
-import * as monitoring from '@potentiel-libraries/monitoring';
 import { getPendingAcknowledgements } from './acknowledgement/getPendingAcknowledgements';
-import { publish } from '../publish/publish';
 import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEventsWithPendingAcknowledgement';
 import { executeRebuild } from './rebuild/executeRebuild';
 import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error';

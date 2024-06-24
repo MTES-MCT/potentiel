@@ -1,10 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { AbandonEntity } from '../abandon.entity';
+
 import { DateTime, IdentifiantProjet, CommonPort, CommonError } from '@potentiel-domain/common';
-import { StatutAbandon, StatutPreuveRecandidature } from '..';
 import { Option } from '@potentiel-libraries/monads';
 import { List, RangeOptions } from '@potentiel-domain/core';
 import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
+
+import { StatutAbandon, StatutPreuveRecandidature } from '..';
+import { AbandonEntity } from '../abandon.entity';
 
 /**
  * @todo A voir si on généralise cette pratique et si on déplace ça dans le package core ou un nouveau package entity

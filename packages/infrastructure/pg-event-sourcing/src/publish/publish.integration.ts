@@ -1,8 +1,11 @@
 import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals';
+
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
-import { publish } from './publish';
-import { loadFromStream } from '../load/loadFromStream';
 import { DomainEvent } from '@potentiel-domain/core';
+
+import { loadFromStream } from '../load/loadFromStream';
+
+import { publish } from './publish';
 
 describe(`publish`, () => {
   beforeAll(() => {

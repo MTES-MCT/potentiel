@@ -1,7 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+
 import { TypeDocumentRéponseDemandeMainlevée } from '../..';
+
 import { AccorderDemandeMainlevéeGarantiesFinancièresCommand } from './accorderDemandeMainlevéeGarantiesFinancières.command';
 
 export type AccorderDemandeMainlevéeGarantiesFinancièresUseCase = Message<

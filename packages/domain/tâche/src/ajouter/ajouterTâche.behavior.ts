@@ -55,22 +55,22 @@ export async function ajouter(
           },
         }
       : this.achevée
-      ? {
-          type: 'TâcheRenouvellée-V1',
-          payload: {
-            ajoutéeLe: DateTime.now().formatter(),
-            identifiantProjet: identifiantProjet.formatter(),
-            typeTâche: typeTâche.type,
-          },
-        }
-      : {
-          type: 'TâcheRelancée-V1',
-          payload: {
-            relancéeLe: DateTime.now().formatter(),
-            identifiantProjet: identifiantProjet.formatter(),
-            typeTâche: typeTâche.type,
-          },
-        };
+        ? {
+            type: 'TâcheRenouvellée-V1',
+            payload: {
+              ajoutéeLe: DateTime.now().formatter(),
+              identifiantProjet: identifiantProjet.formatter(),
+              typeTâche: typeTâche.type,
+            },
+          }
+        : {
+            type: 'TâcheRelancée-V1',
+            payload: {
+              relancéeLe: DateTime.now().formatter(),
+              identifiantProjet: identifiantProjet.formatter(),
+              typeTâche: typeTâche.type,
+            },
+          };
 
   await this.publish(event);
 }

@@ -2,6 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert';
 
 import { Either } from '.';
+
 import { Right, right } from './either/right';
 import { Left, left } from './either/left';
 

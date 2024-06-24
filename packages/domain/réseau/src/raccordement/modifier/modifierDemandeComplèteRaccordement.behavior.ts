@@ -1,9 +1,10 @@
 import { DateTime, ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
+import { DomainEvent } from '@potentiel-domain/core';
+
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
 import { FormatRéférenceDossierRaccordementInvalideError } from '../transmettre/transmettreDemandeComplèteRaccordement.behavior';
 import { RaccordementAggregate } from '../raccordement.aggregate';
-import { DomainEvent } from '@potentiel-domain/core';
 import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
 
 /**

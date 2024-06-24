@@ -1,11 +1,8 @@
-import {
-  Aggregate,
-  DomainEvent,
-  LoadAggregate,
-  LoadAggregateOption,
-} from '@potentiel-domain/core';
-import { loadFromStream } from './loadFromStream';
+import { Aggregate, DomainEvent, LoadAggregate, LoadAggregateOption } from '@potentiel-domain/core';
+
 import { publish } from '../publish/publish';
+
+import { loadFromStream } from './loadFromStream';
 
 export const loadAggregate: LoadAggregate = async <
   TAggregate extends Aggregate<TDomainEvent>,
@@ -37,7 +34,7 @@ export const loadAggregate: LoadAggregate = async <
 
   const version = events[events.length - 1].version;
   const domainEvents = events.map<TDomainEvent>(
-    ({ type, payload }) => ({ type, payload } as TDomainEvent),
+    ({ type, payload }) => ({ type, payload }) as TDomainEvent,
   );
 
   for (const domainEvent of domainEvents) {

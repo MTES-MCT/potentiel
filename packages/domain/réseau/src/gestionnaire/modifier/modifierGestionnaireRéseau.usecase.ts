@@ -1,8 +1,11 @@
-import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { IdentifiantGestionnaireRéseau } from '..';
-import { ModifierGestionnaireRéseauCommand } from './modifierGestionnaireRéseau.command';
+
+import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
+
+import { IdentifiantGestionnaireRéseau } from '..';
+
+import { ModifierGestionnaireRéseauCommand } from './modifierGestionnaireRéseau.command';
 
 export type ModifierGestionnaireRéseauUseCase = Message<
   'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',

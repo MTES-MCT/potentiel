@@ -1,6 +1,7 @@
+import format from 'pg-format';
+
 import { Entity, WhereOperator, WhereOptions } from '@potentiel-domain/core';
 import { flatten } from '@potentiel-libraries/flat';
-import format from 'pg-format';
 
 export const getWhereClause = <TEntity extends Entity>(
   where: WhereOptions<Omit<TEntity, 'type'>>,

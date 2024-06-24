@@ -1,12 +1,14 @@
-import { CommonError, CommonPort, DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Message, MessageHandler, mediator } from 'mediateur';
+
+import { CommonError, CommonPort, DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
+import { List, RangeOptions } from '@potentiel-domain/core';
+
 import {
   MotifDemandeGarantiesFinancières,
   ProjetAvecGarantiesFinancièresEnAttenteEntity,
 } from '../..';
-import { Role } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
-import { List, RangeOptions } from '@potentiel-domain/core';
 
 type ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

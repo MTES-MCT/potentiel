@@ -1,10 +1,14 @@
 import { EventEmitter } from 'events';
-import { isEvent, Event } from '../event';
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { acknowledge } from './acknowledgement/acknowledge';
+
 import { Client } from 'pg';
-import { rebuild } from './rebuild/rebuild';
 import format from 'pg-format';
+
+import { getLogger } from '@potentiel-libraries/monitoring';
+
+import { isEvent, Event } from '../event';
+
+import { acknowledge } from './acknowledgement/acknowledge';
+import { rebuild } from './rebuild/rebuild';
 import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error';
 import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error';
 import { RebuildFailedError } from './errors/RebuildFailed.error';

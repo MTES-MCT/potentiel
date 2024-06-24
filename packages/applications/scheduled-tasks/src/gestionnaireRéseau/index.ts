@@ -5,7 +5,6 @@ import {
   registerRéseauQueries,
   registerRéseauUseCases,
 } from '@potentiel-domain/reseau';
-
 import { récupérerTousLesGRD } from '@potentiel-infrastructure/ore-client';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
@@ -14,6 +13,7 @@ import {
   listProjection,
 } from '@potentiel-infrastructure/pg-projections';
 import { getLogger } from '@potentiel-libraries/monitoring';
+
 import { addGRDs } from './addGRDs';
 import { updateGRDs } from './updateGRDs';
 import { mapToRéférencielGRD } from './référencielGRD';

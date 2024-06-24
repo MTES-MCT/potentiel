@@ -1,7 +1,9 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import { PotentielWorld } from '../../../../potentiel.world';
+
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+
+import { PotentielWorld } from '../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 EtantDonné(

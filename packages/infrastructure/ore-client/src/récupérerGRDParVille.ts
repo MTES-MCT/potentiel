@@ -1,10 +1,11 @@
-import { get } from '@potentiel-libraries/http-client';
 import zod from 'zod';
 
-import { OreEndpoint, distributeurDEnergieParCommuneUrl } from './constant';
+import { get } from '@potentiel-libraries/http-client';
 import { GestionnaireRéseau as Gestionnaire } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
+
+import { OreEndpoint, distributeurDEnergieParCommuneUrl } from './constant';
 import { transformCommuneToOreFormat } from './helper/transformCommuneToOreFormat';
 
 const schema = zod.object({

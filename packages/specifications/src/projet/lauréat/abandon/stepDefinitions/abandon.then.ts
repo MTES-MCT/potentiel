@@ -1,14 +1,14 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
+import { expect } from 'chai';
 
 import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { NotFoundError } from '@potentiel-domain/core';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
-import { NotFoundError } from '@potentiel-domain/core';
-import { expect } from 'chai';
 
 Alors(
   `l'abandon du projet lauréat {string} devrait être consultable dans la liste des projets lauréat abandonnés`,

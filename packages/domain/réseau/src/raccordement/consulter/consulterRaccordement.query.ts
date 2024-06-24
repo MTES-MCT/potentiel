@@ -1,11 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
-import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 import { Find } from '@potentiel-domain/core';
-import { RaccordementEntity } from '../raccordement.entity';
 import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
+
+import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
+import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
+import { RaccordementEntity } from '../raccordement.entity';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { GestionnaireRéseau } from '../..';
 

@@ -4,6 +4,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+
 import { loadRecoursFactory } from '../recours.aggregate';
 
 export type RejeterRecoursCommand = Message<

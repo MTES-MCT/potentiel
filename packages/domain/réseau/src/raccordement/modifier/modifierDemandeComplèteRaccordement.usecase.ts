@@ -1,10 +1,13 @@
 import { mediator, MessageHandler, Message } from 'mediateur';
-import { ModifierDemandeComplèteRaccordementCommand } from './modifierDemandeComplèteRaccordement.command';
+
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
+
+import { ModifierDemandeComplèteRaccordementCommand } from './modifierDemandeComplèteRaccordement.command';
 
 export type ModifierDemandeComplèteRaccordementUseCase = Message<
   'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',

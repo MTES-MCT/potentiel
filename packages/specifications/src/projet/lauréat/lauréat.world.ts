@@ -1,4 +1,5 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
+
 import { AbandonWord } from './abandon/abandon.world';
 
 type LauréatFixture = {

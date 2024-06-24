@@ -1,6 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+
 import { AnnulerRecoursCommand } from './annulerRecours.command';
 
 export type AnnulerRecoursUseCase = Message<

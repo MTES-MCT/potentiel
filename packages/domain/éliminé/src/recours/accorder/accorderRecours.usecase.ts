@@ -7,8 +7,9 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 // Package
-import { AccorderRecoursCommand } from './accorderRecours.command';
 import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
+
+import { AccorderRecoursCommand } from './accorderRecours.command';
 
 export type AccorderRecoursUseCase = Message<
   'Eliminé.Recours.UseCase.AccorderRecours',

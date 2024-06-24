@@ -1,5 +1,6 @@
-import { Count } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
+
+import { Count } from '@potentiel-domain/core';
 
 import { RaccordementEntity } from '..';
 

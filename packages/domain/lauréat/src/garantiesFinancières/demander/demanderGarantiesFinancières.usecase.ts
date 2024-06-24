@@ -1,7 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DemanderGarantiesFinancièresCommand } from './demanderGarantiesFinancières.command';
+
 import { MotifDemandeGarantiesFinancières } from '..';
+
+import { DemanderGarantiesFinancièresCommand } from './demanderGarantiesFinancières.command';
 
 export type DemanderGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',

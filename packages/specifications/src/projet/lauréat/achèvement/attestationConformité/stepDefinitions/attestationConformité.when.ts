@@ -1,9 +1,11 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+
+import { Achèvement } from '@potentiel-domain/laureat';
+
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 import { sleep } from '../../../../../helpers/sleep';
-import { Achèvement } from '@potentiel-domain/laureat';
 
 Quand(
   'un porteur transmet une attestation de conformité pour le projet {string} avec :',

@@ -19,8 +19,8 @@ export type OrderByOptions<T> = {
   [P in keyof T]?: T[P] extends string | boolean | number
     ? Order
     : T[P] extends Record<string, unknown>
-    ? OrderByOptions<T[P]>
-    : never;
+      ? OrderByOptions<T[P]>
+      : never;
 };
 
 export type RangeOptions = {
@@ -57,8 +57,8 @@ export type WhereOptions<T> = {
   [P in keyof T]?: T[P] extends string | boolean | number
     ? WhereCondition<T[P]>
     : T[P] extends Record<string, unknown> | undefined
-    ? WhereOptions<T[P]>
-    : never;
+      ? WhereOptions<T[P]>
+      : never;
 };
 
 export type ListOptions<TEntity extends Entity> = {

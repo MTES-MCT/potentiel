@@ -1,3 +1,5 @@
+import { mediator } from 'mediateur';
+
 import { DateTime } from '@potentiel-domain/common';
 import {
   Abandon,
@@ -13,7 +15,6 @@ import {
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { mediator } from 'mediateur';
 
 registerLauréatQueries({
   find: findProjection,

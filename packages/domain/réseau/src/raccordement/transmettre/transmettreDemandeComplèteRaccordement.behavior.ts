@@ -1,9 +1,10 @@
 import { DateTime, ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError, OperationRejectedError } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
+
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
-import { Option } from '@potentiel-libraries/monads';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
 
 /**

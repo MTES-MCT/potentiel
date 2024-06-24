@@ -1,4 +1,6 @@
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
+import { ExpressionRegulière } from '@potentiel-domain/common';
+
 import {
   GestionnaireRéseauAjoutéEvent,
   GestionnaireRéseauAjoutéEventV1,
@@ -13,7 +15,6 @@ import {
   applyGestionnaireRéseauModifié,
   modifier,
 } from './modifier/modifierGestionnaireRéseau.behavior';
-import { ExpressionRegulière } from '@potentiel-domain/common';
 
 export type GestionnaireRéseauEvent =
   | GestionnaireRéseauAjoutéEventV1

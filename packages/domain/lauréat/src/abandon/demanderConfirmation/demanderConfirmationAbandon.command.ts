@@ -3,9 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { LoadAggregate } from '@potentiel-domain/core';
 
 import { loadAbandonFactory } from '../abandon.aggregate';
-import { LoadAggregate } from '@potentiel-domain/core';
 
 export type DemanderConfirmationAbandonCommand = Message<
   'Lauréat.Abandon.Command.DemanderConfirmationAbandon',
