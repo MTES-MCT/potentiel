@@ -29,6 +29,18 @@ export const Footer = () => (
     }}
     bottomItems={[
       {
+        text: "Conditions générales d'utilisation",
+        linkProps: {
+          href: 'https://docs.potentiel.beta.gouv.fr/info/conditions-generales-dutilisation',
+        },
+      },
+      {
+        text: 'Politique de confidentialité',
+        linkProps: {
+          href: 'https://docs.potentiel.beta.gouv.fr/info/vie-privee-et-politique-de-confidentialite',
+        },
+      },
+      {
         text: "Guide d'utilisation",
         linkProps: {
           href: 'https://docs.potentiel.beta.gouv.fr/',
@@ -38,12 +50,6 @@ export const Footer = () => (
         text: 'Statistiques',
         linkProps: {
           href: '/stats.html',
-        },
-      },
-      {
-        text: 'Gestion des cookies',
-        linkProps: {
-          href: 'https://docs.potentiel.beta.gouv.fr/info/cgu#cookies',
         },
       },
     ]}
