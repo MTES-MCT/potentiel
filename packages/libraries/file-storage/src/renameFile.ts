@@ -1,5 +1,6 @@
+import path from 'node:path';
 import { CopyObjectCommand, DeleteObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3';
-
+import { getLogger } from '@potentiel-libraries/monitoring';
 import { getBucketName } from './getBucketName';
 import { getClient } from './getClient';
 import { FichierInexistant } from './fichierInexistant.error';
@@ -23,7 +24,10 @@ const assertFileExists = async (filePath: string) => {
   }
 };
 
-/** Renames a file in the same bucket */
+/**
+ * Renames a file in the same bucket
+ * Do not use in domain, this is intended for CLI utility
+ **/
 export const renameFile = async (fromName: string, toName: string) => {
   await assertFileExists(fromName);
 
@@ -32,7 +36,7 @@ export const renameFile = async (fromName: string, toName: string) => {
       new CopyObjectCommand({
         Bucket: getBucketName(),
         Key: toName,
-        CopySource: [getBucketName(), fromName].join('/'),
+        CopySource: path.join(getBucketName(), fromName),
       }),
     );
     if (!response.CopyObjectResult) {
@@ -40,18 +44,14 @@ export const renameFile = async (fromName: string, toName: string) => {
     }
     await assertFileExists(toName);
   } catch (e) {
-    console.log(e);
+    getLogger().warn('Copy failed', { error: e, fromName, toName });
     throw new CopyFailedError();
   }
 
   try {
-    await getClient().send(
-      new DeleteObjectCommand({
-        Bucket: getBucketName(),
-        Key: fromName,
-      }),
-    );
-  } catch {
+    await getClient().send(new DeleteObjectCommand({ Bucket: getBucketName(), Key: fromName }));
+  } catch (e) {
+    getLogger().warn('Delete failed', { error: e, fromName, toName });
     throw new DeleteFailedError();
   }
 };
