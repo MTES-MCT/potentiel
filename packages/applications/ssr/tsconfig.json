@@ -40,28 +40,37 @@
   ],
   "references": [
     {
-      "path": "../../../packages/domain/appel-offre"
+      "path": "../../domain/appel-offre"
     },
     {
-      "path": "../../../packages/domain/lauréat"
+      "path": "../../domain/lauréat"
     },
     {
-      "path": "../../../packages/domain/réseau"
+      "path": "../../domain/réseau"
     },
     {
-      "path": "../../../packages/domain/tâche"
+      "path": "../../domain/tâche"
     },
     {
-      "path": "../../../packages/domain/candidature"
+      "path": "../../domain/candidature"
     },
     {
-      "path": "../../../packages/domain/document"
+      "path": "../../domain/document"
     },
     {
-      "path": "../../../packages/domain/utilisateur"
+      "path": "../../domain/utilisateur"
     },
     {
-      "path": "../../../packages/infrastructure/document-builder"
+      "path": "../../infrastructure/document-builder"
+    },
+    {
+      "path": "../../libraries/csv"
+    },
+    {
+      "path": "../../libraries/monads"
+    },
+    {
+      "path": "../../libraries/monitoring"
     },
     {
       "path": "../bootstrap"

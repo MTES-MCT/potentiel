@@ -1,8 +1,7 @@
 import * as zod from 'zod';
 
 import { DomainError } from '@potentiel-domain/core';
-
-import { CsvError, CsvValidationError } from './parseCsv';
+import { CsvError, CsvValidationError } from '@potentiel-libraries/csv';
 
 export type ActionResult = {
   successCount: number;

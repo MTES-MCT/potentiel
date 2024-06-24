@@ -6,8 +6,8 @@ import { mediator } from 'mediateur';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { DomainError } from '@potentiel-domain/core';
+import { parseCsv } from '@potentiel-libraries/csv';
 
-import { parseCsv } from '@/utils/parseCsv';
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 
 export type ImporterDatesMiseEnServiceState = FormState;
