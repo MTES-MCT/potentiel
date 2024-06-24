@@ -21,9 +21,6 @@ export const register = () => {
 
     if (type === 'RebuildTriggered') {
       await removeProjection<Abandon.AbandonEntity>(`abandon|${payload.id}`);
-      await removeProjection<Abandon.AbandonAvecRecandidatureSansPreuveProjection>(
-        `abandon-avec-recandidature-sans-preuve|${payload.id}`,
-      );
     } else {
       const { identifiantProjet } = payload;
 
@@ -169,9 +166,6 @@ export const register = () => {
               },
             },
           });
-          await removeProjection<Abandon.AbandonAvecRecandidatureSansPreuveProjection>(
-            `abandon-avec-recandidature-sans-preuve|${identifiantProjet}`,
-          );
           break;
         case 'PreuveRecandidatureDemandée-V1':
           await upsertProjection<Abandon.AbandonEntity>(`abandon|${payload.identifiantProjet}`, {
@@ -188,10 +182,6 @@ export const register = () => {
               },
             },
           });
-          await upsertProjection<Abandon.AbandonAvecRecandidatureSansPreuveProjection>(
-            `abandon-avec-recandidature-sans-preuve|${identifiantProjet}`,
-            payload,
-          );
           break;
         case 'AbandonAnnulé-V1':
           await removeProjection(`abandon|${identifiantProjet}`);
