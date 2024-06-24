@@ -10,7 +10,8 @@
     "test": "tsx --test --test-concurrency=1 ./**/*.integration.ts"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*",
+    "@potentiel-libraries/monitoring": "*"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.405.0",
