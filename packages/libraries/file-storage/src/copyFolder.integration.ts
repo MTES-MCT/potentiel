@@ -1,11 +1,11 @@
 import { before, beforeEach, describe, it } from 'node:test';
+import { join } from 'path';
+
 import { expect } from 'chai';
 
 import { download } from './download';
 import { upload } from './upload';
-
 import { copyFolder } from './copyFolder';
-import { join } from 'path';
 import { createOrRecreateBucket, setTestBucketEnvVariable } from './test-utils.integration';
 
 describe(`copy folder`, () => {

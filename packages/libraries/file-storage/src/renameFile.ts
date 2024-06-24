@@ -1,6 +1,9 @@
 import path from 'node:path';
+
 import { CopyObjectCommand, DeleteObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3';
+
 import { getLogger } from '@potentiel-libraries/monitoring';
+
 import { getBucketName } from './getBucketName';
 import { getClient } from './getClient';
 import { FichierInexistant } from './fichierInexistant.error';

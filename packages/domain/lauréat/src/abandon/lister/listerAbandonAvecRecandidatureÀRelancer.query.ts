@@ -1,6 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { List } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+
 import { AbandonEntity } from '../abandon.entity';
 import { StatutPreuveRecandidature } from '..';
 
@@ -24,7 +26,7 @@ export type ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies = {
 export const registerListerAbandonsAvecRecandidatureÀRelancerQuery = ({
   list,
 }: ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies) => {
-  const handler: MessageHandler<ListerAbandonsAvecRecandidatureÀRelancerQuery> = async ({}) => {
+  const handler: MessageHandler<ListerAbandonsAvecRecandidatureÀRelancerQuery> = async () => {
     const result = await list<AbandonEntity>('abandon', {
       where: {
         demande: {
