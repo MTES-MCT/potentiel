@@ -15,7 +15,6 @@ import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/tran
 import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonAvecRecandidatureÀRelancer.query';
 import { DétecterAbandonQuery } from './détecter/détecterAbandon.query';
 import {
-  BuildModèleRéponseAbandonPort,
   GénérerModèleRéponseAbandonQuery,
   GénérerModèleRéponseAbandonReadModel,
 } from './générerModèleRéponse/générerModèleRéponseAbandon.query';
@@ -85,6 +84,3 @@ export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
 
 // Entities
 export * from './abandon.entity';
-
-// Ports
-export type { BuildModèleRéponseAbandonPort };

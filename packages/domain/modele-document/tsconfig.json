@@ -13,21 +13,6 @@
     },
     {
       "path": "../core"
-    },
-    {
-      "path": "../document"
-    },
-    {
-      "path": "../modele-document"
-    },
-    {
-      "path": "../candidature"
-    },
-    {
-      "path": "../appel-offre"
-    },
-    {
-      "path": "../utilisateur"
     }
   ]
 }

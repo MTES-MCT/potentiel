@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "build": "tsc && copyfiles -f src/abandon/modèlesRéponseDocx/*.docx dist/abandon/modèlesRéponseDocx && copyfiles -f src/garantiesFinancières/modèleMiseEnDemeureDocx/*.docx dist/garantiesFinancières/modèleMiseEnDemeureDocx"
+    "build": "tsc && copyfiles -f src/assets/docx/* dist/assets/docx && copyfiles -f src/assets/images/* dist/assets/images"
   },
   "dependencies": {
     "@potentiel-domain/laureat": "*",

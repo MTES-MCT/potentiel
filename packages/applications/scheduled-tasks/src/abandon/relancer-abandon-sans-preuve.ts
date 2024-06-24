@@ -5,13 +5,10 @@ import {
   registerLauréatUseCases,
 } from '@potentiel-domain/laureat';
 import {
-  getModèleMiseEnDemeureGarantiesFinancières,
-  getModèleRéponseAbandon,
-} from '@potentiel-infrastructure/document-builder';
-import {
   consulterCahierDesChargesChoisiAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
   récupérerRégionDrealAdapter,
+  ModeleDocumentAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
@@ -23,9 +20,8 @@ registerLauréatQueries({
   list: listProjection,
   récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
   consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
-  buildModèleRéponseAbandon: getModèleRéponseAbandon,
   récupérerRégionDreal: récupérerRégionDrealAdapter,
-  buildModèleMiseEnDemeureGarantiesFinancières: getModèleMiseEnDemeureGarantiesFinancières,
+  générerModèleDocument: ModeleDocumentAdapter.générerModèleDocument,
 });
 
 registerLauréatUseCases({

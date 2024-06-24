@@ -1,10 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { CommonPort, DateTime } from '@potentiel-domain/common';
+import { CommonPort, DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery } from '../consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
+import { GénérerModèleDocumentPort } from '@potentiel-domain/modele-document';
 
 export type GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel = {
   format: string;
@@ -21,39 +22,13 @@ export type GénérerModèleMiseEnDemeureGarantiesFinancièresQuery = Message<
   Option.Type<GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel>
 >;
 
-export type BuildModèleMiseEnDemeureGarantiesFinancièresPort = (options: {
-  data: {
-    dreal: string;
-    dateMiseEnDemeure: string;
-    contactDreal: string;
-    referenceProjet: string;
-    titreAppelOffre: string;
-    dateLancementAppelOffre: string;
-    nomProjet: string;
-    adresseCompleteProjet: string;
-    puissanceProjet: string;
-    unitePuissance: string;
-    titrePeriode: string;
-    dateNotification: string;
-    paragrapheGF: string;
-    garantieFinanciereEnMois: string;
-    dateFinGarantieFinanciere: string;
-    dateLimiteDepotGF: string;
-    nomRepresentantLegal: string;
-    adresseProjet: string;
-    codePostalProjet: string;
-    communeProjet: string;
-    emailProjet: string;
-  };
-}) => Promise<ReadableStream>;
-
 export type GénérerModèleMiseEnDemeureGarantiesFinancièresDependencies = {
-  buildModèleMiseEnDemeureGarantiesFinancières: BuildModèleMiseEnDemeureGarantiesFinancièresPort;
+  générerModèleDocument: GénérerModèleDocumentPort;
   récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = ({
-  buildModèleMiseEnDemeureGarantiesFinancières,
+  générerModèleDocument,
   récupérerRégionDreal,
 }: GénérerModèleMiseEnDemeureGarantiesFinancièresDependencies) => {
   const handler: MessageHandler<GénérerModèleMiseEnDemeureGarantiesFinancièresQuery> = async ({
@@ -101,20 +76,27 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
         data: { identifiantProjetValue },
       });
 
-    const content = await buildModèleMiseEnDemeureGarantiesFinancières({
+    const content = await générerModèleDocument({
+      type: 'mise-en-demeure',
+      logo: régionDreal.région,
       data: {
         dreal: régionDreal.région,
-        dateMiseEnDemeure: dateCourrierValue,
+        dateMiseEnDemeure:
+          DateTime.convertirEnValueType(dateCourrierValue).date.toLocaleDateString('fr-FR'),
         contactDreal: utilisateur.email,
-        referenceProjet: identifiantProjetValue,
+        referenceProjet: formatIdentifiantProjetForDocument(identifiantProjetValue),
         titreAppelOffre: `${détailPériode.cahierDesCharges.référence} ${appelOffres.title}`,
-        dateLancementAppelOffre: appelOffres.launchDate,
+        dateLancementAppelOffre: DateTime.convertirEnValueType(
+          appelOffres.launchDate,
+        ).date.toLocaleDateString('fr-FR'),
         nomProjet: candidature.nom,
         adresseCompleteProjet: `${candidature.localité.adresse} ${candidature.localité.codePostal} ${candidature.localité.commune}`,
         puissanceProjet: candidature.puissance.toString(),
         unitePuissance: appelOffres.unitePuissance,
         titrePeriode: détailPériode.title,
-        dateNotification: candidature.dateDésignation,
+        dateNotification: DateTime.convertirEnValueType(
+          candidature.dateDésignation,
+        ).date.toLocaleDateString('fr-FR'),
         paragrapheGF: appelOffres.renvoiRetraitDesignationGarantieFinancieres,
         garantieFinanciereEnMois:
           détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
@@ -126,15 +108,17 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
           détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
             ? DateTime.convertirEnValueType(candidature.dateDésignation)
                 .ajouterNombreDeMois(détailFamille.garantieFinanciereEnMois)
-                .formatter()
+                .date.toLocaleDateString('fr-FR')
             : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
             ? DateTime.convertirEnValueType(candidature.dateDésignation)
                 .ajouterNombreDeMois(appelOffres.garantieFinanciereEnMois)
-                .formatter()
+                .date.toLocaleDateString('fr-FR')
             : '!!! dateFinGarantieFinanciere non disponible !!!',
         dateLimiteDepotGF:
           (Option.isSome(projetAvecGarantiesFinancièresEnAttente) &&
-            projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.formatter()) ||
+            projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.date.toLocaleDateString(
+              'fr-FR',
+            )) ||
           '',
         nomRepresentantLegal: candidature.candidat.nom,
         adresseProjet: candidature.candidat.adressePostale,
@@ -150,4 +134,11 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
     };
   };
   mediator.register('Document.Query.GénérerModèleMideEnDemeureGarantiesFinancières', handler);
+};
+
+const formatIdentifiantProjetForDocument = (identifiantProjet: string): string => {
+  const { appelOffre, période, famille, numéroCRE } =
+    IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
+  return `${appelOffre}-P${période}${famille ? `-F${famille}` : ''}-${numéroCRE}`;
 };
