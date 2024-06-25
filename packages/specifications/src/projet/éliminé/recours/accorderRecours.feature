@@ -1,5 +1,6 @@
-#Language: fr-FR
+# language: fr
 Fonctionnalité: Accorder le recours d'un projet éliminé
+
     Contexte:
         Etant donné le projet éliminé "Du boulodrome de Marseille"
 
@@ -28,7 +29,8 @@ Fonctionnalité: Accorder le recours d'un projet éliminé
     Plan du Scénario: Impossible d'accorder le recours d'un projet éliminé en tant qu'utilisateur n'ayant pas le rôle de validateur ou admin
         Quand le "<Role non autorisé>" accorde le recours pour le projet éliminé "Du boulodrome de Marseille"
         Alors le "<Role non autorisé>" devrait être informé que "L'accés à cette fonctionnalité n'est pas autorisé"
-    Exemples:
+
+        Exemples:
             | Role non autorisé |
             | porteur-projet    |
             | dreal             |

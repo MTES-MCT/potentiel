@@ -1,5 +1,6 @@
-#Language: fr-FR
+# language: fr
 Fonctionnalité: Accorder l'abandon d'un projet lauréat
+
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
 
@@ -35,7 +36,8 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
     Plan du Scénario: Impossible d'accorder l'abandon d'un projet lauréat en tant qu'utilisateur n'ayant pas le rôle de validateur ou admin
         Quand le "<Role non autorisé>" accorde l'abandon pour le projet lauréat "Du boulodrome de Marseille"
         Alors le "<Role non autorisé>" devrait être informé que "L'accés à cette fonctionnalité n'est pas autorisé"
-    Exemples:
+
+        Exemples:
             | Role non autorisé |
             | porteur-projet    |
             | dreal             |

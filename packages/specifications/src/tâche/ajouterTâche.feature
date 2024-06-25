@@ -1,11 +1,12 @@
-#Language: fr-FR
+# language: fr
 Fonctionnalité: Ajouter une tâche
+
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur pour le projet lauréat "Du boulodrome de Marseille"
-            | email | porteur@test.test |
+            | email | porteur@test.test   |
             | nom   | Porteur Projet Test |
-            | role  | porteur-projet |
+            | role  | porteur-projet      |
 
     Scénario: Une tâche est ajoutée lorsqu'une demande d'abandon avec recandidature est accordé
         Etant donné une demande d'abandon en cours avec recandidature pour le projet lauréat "Du boulodrome de Marseille"
@@ -17,13 +18,13 @@ Fonctionnalité: Ajouter une tâche
     Scénario: Une tâche est ajoutée lorsqu'une confirmation d'abandon est demandée
         Etant donné une demande d'abandon en cours pour le projet lauréat "Du boulodrome de Marseille"
         Quand le DGEC validateur demande une confirmation d'abandon pour le projet lauréat "Du boulodrome de Marseille" avec :
-            | Le format de la réponse signée   | application/pdf                                                              |
-            | Le contenu de la réponse signée  | Le contenu de la la réponse signée expliquant la demande de confirmation par la DGEC |
+            | Le format de la réponse signée  | application/pdf                                                                      |
+            | Le contenu de la réponse signée | Le contenu de la la réponse signée expliquant la demande de confirmation par la DGEC |
         Alors une tâche indiquant de "confirmer un abandon" est consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Une tâche est ajoutée lorsque les garanties financières sont demandées
         Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
-            | date limite de soumission | 2023-11-01                      |
-            | date de notification      | 2023-09-01                      |
-            | motif                     | motif-inconnu                   |
+            | date limite de soumission | 2023-11-01    |
+            | date de notification      | 2023-09-01    |
+            | motif                     | motif-inconnu |
         Alors une tâche indiquant de "transmettre les garanties financières" est consultable dans la liste des tâches du porteur pour le projet

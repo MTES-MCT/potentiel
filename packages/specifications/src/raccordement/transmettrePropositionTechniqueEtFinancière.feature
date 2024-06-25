@@ -1,5 +1,6 @@
-#Language: fr-FR
+# language: fr
 Fonctionnalité: Transmettre une proposition technique et financière
+
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"

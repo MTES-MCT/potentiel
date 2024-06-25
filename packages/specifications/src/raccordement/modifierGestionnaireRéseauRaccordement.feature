@@ -1,5 +1,6 @@
-#Language: fr-FR
+# language: fr
 Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
+
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
         Et le gestionnaire de réseau "Arc Energies Maurienne"
@@ -37,5 +38,3 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000034 et la date de qualification au 2022-10-28 |
         Alors le projet lauréat "Du boulodrome de Marseille" devrait avoir 2 dossiers de raccordement pour le gestionnaire de réseau "Arc Energies Maurienne"
         Et le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat "Du boulodrome de Marseille"
-        
-
