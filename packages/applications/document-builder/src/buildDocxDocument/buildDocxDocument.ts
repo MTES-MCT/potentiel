@@ -84,8 +84,8 @@ export type OptionsGénération = { logo?: string } & (ModèleRéponseAbandon | 
 
 export type GénérerModèleDocumentPort = (options: OptionsGénération) => Promise<ReadableStream>;
 
-export const buildDocxDocument: GénérerModèleDocumentPort = async (options) => {
-  const templateFilePath = getTemplateFilePath(options);
+export const buildDocxDocument: GénérerModèleDocumentPort = async ({ type, logo, data }) => {
+  const templateFilePath = getTemplateFilePath(type);
 
   const content = fs.readFileSync(templateFilePath, 'binary');
   const zip = new PizZip(content);
@@ -94,7 +94,7 @@ export const buildDocxDocument: GénérerModèleDocumentPort = async (options) =
     linebreaks: true,
   });
 
-  doc.render(options.data);
+  doc.render(data);
 
   const buf = doc.getZip().generate({
     type: 'nodebuffer',
@@ -103,8 +103,8 @@ export const buildDocxDocument: GénérerModèleDocumentPort = async (options) =
     compression: 'DEFLATE',
   });
 
-  if (options.logo) {
-    const logoFilePath = path.resolve(imagesFolderPath, `${options.logo}.png`);
+  if (logo) {
+    const logoFilePath = path.resolve(imagesFolderPath, `${logo}.png`);
     try {
       const imageContents = fs.readFileSync(logoFilePath, 'binary');
       zip.file('word/media/image1.png', imageContents, { binary: true });
@@ -119,12 +119,10 @@ export const buildDocxDocument: GénérerModèleDocumentPort = async (options) =
   });
 };
 
-const getTemplateFilePath = ({ type, data }: OptionsGénération) => {
+const getTemplateFilePath = (type: OptionsGénération['type']) => {
   switch (type) {
     case 'abandon':
-      return data.aprèsConfirmation
-        ? path.resolve(docxFolderPath, 'abandon-modèle-réponse-après-confirmation.docx')
-        : path.resolve(docxFolderPath, 'abandon-modèle-réponse.docx');
+      return path.resolve(docxFolderPath, 'abandon-modèle-réponse.docx');
 
     case 'mise-en-demeure':
       return path.resolve(docxFolderPath, 'garanties-financières-modèle-mise-en-demeure.docx');
