@@ -26,10 +26,6 @@ import {
   ConsulterDépôtEnCoursGarantiesFinancièresDependencies,
   registerConsulterDépôtEnCoursGarantiesFinancièresQuery,
 } from './dépôtEnCours/consulter/consulterDépôtEnCoursGarantiesFinancières.query';
-import {
-  GénérerModèleMiseEnDemeureGarantiesFinancièresDependencies,
-  registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery,
-} from './projetEnAttenteDeGarantiesFinancières/générerModèleMiseEnDemeure/générerModèleMiseEnDemeure.query';
 import { registerEnregistrerGarantiesFinancièresCommand } from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.command';
 import { registerEnregistrerGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.usecase';
 import { registerEnregistrerAttestationGarantiesFinancièresCommand } from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.command';
@@ -60,7 +56,6 @@ import {
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerDépôtsEnCoursGarantiesFinancièresDependencies &
-  GénérerModèleMiseEnDemeureGarantiesFinancièresDependencies &
   ConsulterDépôtEnCoursGarantiesFinancièresDependencies &
   ConsulterDemandeMainlevéeGarantiesFinancièresDependencies &
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresDependencies;
@@ -114,7 +109,6 @@ export const registerGarantiesFinancièresQueries = (
   registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery(dependencies);
   registerListerDépôtsEnCoursGarantiesFinancièresQuery(dependencies);
   registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery(dependencies);
-  registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery(dependencies);
   registerConsulterDépôtEnCoursGarantiesFinancièresQuery(dependencies);
   registerConsulterDemandeMainlevéeGarantiesFinancièresQuery(dependencies);
   registerListerDemandeMainlevéeQuery(dependencies);

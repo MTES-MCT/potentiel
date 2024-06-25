@@ -28,10 +28,6 @@ import {
   ConsulterDépôtEnCoursGarantiesFinancièresQuery,
   ConsulterDépôtEnCoursGarantiesFinancièresReadModel,
 } from './dépôtEnCours/consulter/consulterDépôtEnCoursGarantiesFinancières.query';
-import {
-  GénérerModèleMiseEnDemeureGarantiesFinancièresQuery,
-  GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel,
-} from './projetEnAttenteDeGarantiesFinancières/générerModèleMiseEnDemeure/générerModèleMiseEnDemeure.query';
 import { DemanderMainlevéeGarantiesFinancièresUseCase } from './mainlevée/demander/demanderMainlevéeGarantiesFinancières.usecase';
 import { AnnulerMainlevéeGarantiesFinancièresUseCase } from './mainlevée/annuler/annulerDemandeMainlevéeGarantiesFinancières.usecase';
 import { DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/démarrerInstruction/démarrerInstructionDemandeMainlevéeGarantiesFinancières.usecase';
@@ -58,7 +54,6 @@ export type GarantiesFinancièresQuery =
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
   | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
-  | GénérerModèleMiseEnDemeureGarantiesFinancièresQuery
   | ConsulterDemandeMainlevéeGarantiesFinancièresQuery
   | ListerDemandeMainlevéeQuery
   | ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery;
@@ -69,7 +64,6 @@ export type {
   ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery,
   ListerDépôtsEnCoursGarantiesFinancièresQuery,
   ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
-  GénérerModèleMiseEnDemeureGarantiesFinancièresQuery,
   ConsulterDemandeMainlevéeGarantiesFinancièresQuery,
   ListerDemandeMainlevéeQuery,
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery,
@@ -82,7 +76,6 @@ export type {
   ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel,
   ListerDépôtsEnCoursGarantiesFinancièresReadModel,
   ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
-  GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel,
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
   ListerDemandeMainlevéeReadModel,
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel,

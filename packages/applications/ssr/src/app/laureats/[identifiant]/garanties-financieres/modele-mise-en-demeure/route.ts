@@ -3,13 +3,15 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { InvalidOperationError } from '@potentiel-domain/core';
+import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { buildDocxDocument } from '@potentiel-infrastructure/document-builder';
+import { récupérerRégionDrealAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getErrorUrl } from '@/utils/error/getErrorUrl';
 
 export const GET = async (
   request: NextRequest,
@@ -18,37 +20,101 @@ export const GET = async (
   withUtilisateur(async (utilisateur) => {
     const identifiantProjetValue = decodeParameter(identifiant);
 
-    const modèleRéponse =
-      await mediator.send<GarantiesFinancières.GénérerModèleMiseEnDemeureGarantiesFinancièresQuery>(
+    const régionDreal = await récupérerRégionDrealAdapter(
+      utilisateur.identifiantUtilisateur.formatter(),
+    );
+
+    const candidature = await mediator.send<ConsulterCandidatureQuery>({
+      type: 'Candidature.Query.ConsulterCandidature',
+      data: {
+        identifiantProjet: identifiantProjetValue,
+      },
+    });
+
+    const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
+      type: 'AppelOffre.Query.ConsulterAppelOffre',
+      data: { identifiantAppelOffre: candidature.appelOffre },
+    });
+
+    const détailPériode = appelOffres.periodes.find(
+      (période) => période.id === candidature.période,
+    );
+
+    const détailFamille = détailPériode?.familles.find((f) => f.id === candidature.famille);
+
+    const projetAvecGarantiesFinancièresEnAttente =
+      await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
         {
-          type: 'Document.Query.GénérerModèleMideEnDemeureGarantiesFinancières',
-          data: {
-            identifiantProjetValue,
-            identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.email,
-            dateCourrierValue: new Date().toISOString(),
-          },
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+          data: { identifiantProjetValue },
         },
       );
 
-    if (Option.isNone(modèleRéponse)) {
-      getLogger().error(
-        new InvalidOperationError(
-          'Erreur lors de la génération du modèle de mise en demeure des garanties financières',
-          {
-            utilisateur: {
-              email: utilisateur.identifiantUtilisateur.email,
-              role: utilisateur.role.nom,
-            },
-            identifiantProjet: identifiantProjetValue,
-          },
-        ),
-      );
-      return NextResponse.redirect(getErrorUrl(request));
-    }
+    const content = await buildDocxDocument({
+      type: 'mise-en-demeure',
+      logo: Option.match(régionDreal)
+        .some(({ région }) => région)
+        .none(() => 'none'),
+      data: {
+        dreal: Option.match(régionDreal)
+          .some(({ région }) => région)
+          .none(() => '!!! Région non disponible !!!'),
+        dateMiseEnDemeure: DateTime.now().date.toLocaleDateString('fr-FR'),
+        contactDreal: utilisateur.identifiantUtilisateur.email,
+        referenceProjet: formatIdentifiantProjetForDocument(identifiantProjetValue),
+        titreAppelOffre: `${détailPériode?.cahierDesCharges.référence ?? '!!! Cahier des charges non disponible !!!'} ${appelOffres.title}`,
+        dateLancementAppelOffre: DateTime.convertirEnValueType(
+          appelOffres.launchDate,
+        ).date.toLocaleDateString('fr-FR'),
+        nomProjet: candidature.nom,
+        adresseCompleteProjet: `${candidature.localité.adresse} ${candidature.localité.codePostal} ${candidature.localité.commune}`,
+        puissanceProjet: candidature.puissance.toString(),
+        unitePuissance: appelOffres.unitePuissance,
+        titrePeriode: détailPériode?.title ?? '!!! Titre de période non disponible !!!',
+        dateNotification: DateTime.convertirEnValueType(
+          candidature.dateDésignation,
+        ).date.toLocaleDateString('fr-FR'),
+        paragrapheGF: appelOffres.renvoiRetraitDesignationGarantieFinancieres,
+        garantieFinanciereEnMois:
+          détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
+            ? détailFamille.garantieFinanciereEnMois.toString()
+            : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
+              ? appelOffres.garantieFinanciereEnMois.toString()
+              : '!!! garantieFinanciereEnMois non disponible !!!',
+        dateFinGarantieFinanciere:
+          détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
+            ? DateTime.convertirEnValueType(candidature.dateDésignation)
+                .ajouterNombreDeMois(détailFamille.garantieFinanciereEnMois)
+                .date.toLocaleDateString('fr-FR')
+            : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
+              ? DateTime.convertirEnValueType(candidature.dateDésignation)
+                  .ajouterNombreDeMois(appelOffres.garantieFinanciereEnMois)
+                  .date.toLocaleDateString('fr-FR')
+              : '!!! dateFinGarantieFinanciere non disponible !!!',
+        dateLimiteDepotGF:
+          (Option.isSome(projetAvecGarantiesFinancièresEnAttente) &&
+            projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.date.toLocaleDateString(
+              'fr-FR',
+            )) ||
+          '',
+        nomRepresentantLegal: candidature.candidat.nom,
+        adresseProjet: candidature.candidat.adressePostale,
+        codePostalProjet: candidature.localité.codePostal,
+        communeProjet: candidature.localité.commune,
+        emailProjet: candidature.candidat.contact,
+      },
+    });
 
-    return new NextResponse(modèleRéponse.content, {
+    return new NextResponse(content, {
       headers: {
-        'content-type': modèleRéponse.format,
+        'content-type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       },
     });
   });
+
+const formatIdentifiantProjetForDocument = (identifiantProjet: string): string => {
+  const { appelOffre, période, famille, numéroCRE } =
+    IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
+  return `${appelOffre}-P${période}${famille ? `-F${famille}` : ''}-${numéroCRE}`;
+};

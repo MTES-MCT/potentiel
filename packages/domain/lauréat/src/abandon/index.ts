@@ -14,33 +14,23 @@ import { DemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecan
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
 import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonAvecRecandidatureÀRelancer.query';
 import { DétecterAbandonQuery } from './détecter/détecterAbandon.query';
-import {
-  GénérerModèleRéponseAbandonQuery,
-  GénérerModèleRéponseAbandonReadModel,
-} from './générerModèleRéponse/générerModèleRéponseAbandon.query';
 
 // Query
 export type AbandonQuery =
   | DétecterAbandonQuery
   | ConsulterAbandonQuery
   | ListerAbandonsQuery
-  | ListerAbandonsAvecRecandidatureÀRelancerQuery
-  | GénérerModèleRéponseAbandonQuery;
+  | ListerAbandonsAvecRecandidatureÀRelancerQuery;
 
 export type {
   DétecterAbandonQuery,
   ConsulterAbandonQuery,
   ListerAbandonsQuery,
   ListerAbandonsAvecRecandidatureÀRelancerQuery,
-  GénérerModèleRéponseAbandonQuery,
 };
 
 // ReadModel
-export type {
-  ConsulterAbandonReadModel,
-  ListerAbandonReadModel,
-  GénérerModèleRéponseAbandonReadModel,
-};
+export type { ConsulterAbandonReadModel, ListerAbandonReadModel };
 
 // UseCases
 export type AbandonUseCase =
