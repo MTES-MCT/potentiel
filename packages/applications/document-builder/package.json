@@ -1,7 +1,7 @@
 {
   "name": "@potentiel-applications/document-builder",
   "version": "0.0.0",
-  "description": "Document builder",
+  "description": "Application that build PDF/Docx documents",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,

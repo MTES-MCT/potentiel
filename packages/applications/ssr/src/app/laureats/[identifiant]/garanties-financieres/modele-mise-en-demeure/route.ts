@@ -5,13 +5,14 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { buildDocxDocument } from '@potentiel-applications/document-builder';
 import { récupérerRégionDrealAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
 
 export const GET = async (
   request: NextRequest,
@@ -111,10 +112,3 @@ export const GET = async (
       },
     });
   });
-
-const formatIdentifiantProjetForDocument = (identifiantProjet: string): string => {
-  const { appelOffre, période, famille, numéroCRE } =
-    IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
-  return `${appelOffre}-P${période}${famille ? `-F${famille}` : ''}-${numéroCRE}`;
-};

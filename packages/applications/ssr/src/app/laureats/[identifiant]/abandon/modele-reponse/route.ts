@@ -3,13 +3,14 @@ import { mediator } from 'mediateur';
 import { Abandon, CahierDesCharges } from '@potentiel-domain/laureat';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterAppelOffreQuery, AppelOffre } from '@potentiel-domain/appel-offre';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { buildDocxDocument } from '@potentiel-applications/document-builder';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
   withUtilisateur(async (utilisateur) => {
@@ -156,11 +157,4 @@ const parseCahierDesChargesChoisi = (référence: string) => {
     paruLe: référence.replace('-alternatif', ''),
     alternatif: référence.search('-alternatif') === -1 ? undefined : true,
   };
-};
-
-const formatIdentifiantProjetForDocument = (identifiantProjet: string): string => {
-  const { appelOffre, période, famille, numéroCRE } =
-    IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
-  return `${appelOffre}-P${période}${famille ? `-F${famille}` : ''}-${numéroCRE}`;
 };
