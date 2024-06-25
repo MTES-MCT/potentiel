@@ -13,7 +13,11 @@ export type HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity = Entity<
     historique: Array<{
       motif: string;
       demande: { demandéeLe: string; demandéePar: string };
-      rejet: { rejetéLe: string; rejetéPar: string; courrierRejet: { format: string } };
+      rejet: { rejetéeLe: string; rejetéePar: string; courrierRejet: { format: string } };
+      dernièreMiseÀJour: {
+        date: string;
+        par: string;
+      };
     }>;
   }
 >;

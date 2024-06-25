@@ -22,9 +22,13 @@ export type ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresRea
     motif: MotifDemandeMainlevéeGarantiesFinancières.ValueType;
     demande: { demandéeLe: DateTime.ValueType; demandéePar: Email.ValueType };
     rejet: {
-      rejetéLe: DateTime.ValueType;
-      rejetéPar: Email.ValueType;
+      rejetéeLe: DateTime.ValueType;
+      rejetéePar: Email.ValueType;
       courrierRejet: DocumentProjet.ValueType;
+    };
+    dernièreMiseÀJour: {
+      date: DateTime.ValueType;
+      par: Email.ValueType;
     };
   }>;
 };
@@ -88,14 +92,18 @@ export const mapToReadModel = ({
     },
     motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(demandeRejetée.motif),
     rejet: {
-      rejetéLe: DateTime.convertirEnValueType(demandeRejetée.rejet.rejetéLe),
-      rejetéPar: Email.convertirEnValueType(demandeRejetée.rejet.rejetéPar),
+      rejetéeLe: DateTime.convertirEnValueType(demandeRejetée.rejet.rejetéeLe),
+      rejetéePar: Email.convertirEnValueType(demandeRejetée.rejet.rejetéePar),
       courrierRejet: DocumentProjet.convertirEnValueType(
         identifiantProjet,
         TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeRejetéeValueType.formatter(),
-        demandeRejetée.rejet.rejetéLe,
+        demandeRejetée.rejet.rejetéeLe,
         demandeRejetée.rejet.courrierRejet.format,
       ),
+    },
+    dernièreMiseÀJour: {
+      date: DateTime.convertirEnValueType(demandeRejetée.dernièreMiseÀJour.date),
+      par: Email.convertirEnValueType(demandeRejetée.dernièreMiseÀJour.par),
     },
   })),
 });

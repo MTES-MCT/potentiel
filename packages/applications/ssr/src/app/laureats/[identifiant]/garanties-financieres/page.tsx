@@ -223,8 +223,8 @@ const mapToProps: MapToProps = ({
         motif: mainlevée.motif.motif,
         demandéeLe: mainlevée.demande.demandéeLe.formatter(),
         rejet: {
-          rejetéLe: mainlevée.rejet.rejetéLe.formatter(),
-          rejetéPar: mainlevée.rejet.rejetéPar.email,
+          rejetéeLe: mainlevée.rejet.rejetéeLe.formatter(),
+          rejetéePar: mainlevée.rejet.rejetéePar.email,
           courrierRejet: mainlevée.rejet.courrierRejet.formatter(),
         },
       }))

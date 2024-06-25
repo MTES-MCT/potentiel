@@ -127,14 +127,16 @@ Quand(
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
+      const readableStream = await convertStringToReadableStream(content);
+
       await mediator.send<GarantiesFinancières.AccorderDemandeMainlevéeGarantiesFinancièresUseCase>(
         {
           type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
-            accordéLeValue: new Date(date).toISOString(),
-            accordéParValue: utilisateur,
-            réponseSignéeValue: { format, content: convertStringToReadableStream(content) },
+            accordéeLeValue: new Date(date).toISOString(),
+            accordéeParValue: utilisateur,
+            réponseSignéeValue: { format, content: readableStream },
           },
         },
       );
@@ -161,8 +163,8 @@ Quand(
           type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
-            accordéLeValue: new Date(date).toISOString(),
-            accordéParValue: utilisateur,
+            accordéeLeValue: new Date(date).toISOString(),
+            accordéeParValue: utilisateur,
             réponseSignéeValue: { format, content: convertStringToReadableStream(content) },
           },
         },
@@ -187,13 +189,15 @@ Quand(
       const content = exemple['contenu fichier réponse'];
       const format = exemple['format fichier réponse'];
 
+      const readableStream = await convertStringToReadableStream(content);
+
       await mediator.send<GarantiesFinancières.RejeterDemandeMainlevéeGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          rejetéLeValue: new Date(date).toISOString(),
-          rejetéParValue: utilisateur,
-          réponseSignéeValue: { format, content: convertStringToReadableStream(content) },
+          rejetéeLeValue: new Date(date).toISOString(),
+          rejetéeParValue: utilisateur,
+          réponseSignéeValue: { format, content: readableStream },
         },
       });
     } catch (error) {
@@ -208,18 +212,53 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
+      const readableStream = await convertStringToReadableStream('contenu');
+
       await mediator.send<GarantiesFinancières.RejeterDemandeMainlevéeGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          rejetéLeValue: new Date('2024-06-12').toISOString(),
-          rejetéParValue: 'dreal@test.test',
+          rejetéeLeValue: new Date('2024-06-12').toISOString(),
+          rejetéeParValue: 'dreal@test.test',
           réponseSignéeValue: {
             format: 'application/pdf',
-            content: convertStringToReadableStream('contenu'),
+            content: readableStream,
           },
         },
       });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `un utilisateur Dreal modifie la réponse signée de la mainlevée des garanties financières du projet {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
+    try {
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      const utilisateur = exemple['utilisateur'];
+      const date = exemple['date'];
+      const content = exemple['contenu fichier réponse'];
+      const format = exemple['format fichier réponse'];
+      const dateRejet = exemple['date rejet'] || undefined;
+
+      const readableStream = await convertStringToReadableStream(content);
+
+      await mediator.send<GarantiesFinancières.ModifierRéponseSignéeMainlevéeUseCase>({
+        type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.ModifierRéponseSignée',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          modifiéeLeValue: new Date(date).toISOString(),
+          modifiéeParValue: utilisateur,
+          rejetéeLeValue: dateRejet ? new Date(dateRejet).toISOString() : undefined,
+          nouvelleRéponseSignéeValue: { format, content: readableStream },
+        },
+      });
+      await sleep(500);
     } catch (error) {
       this.error = error as Error;
     }

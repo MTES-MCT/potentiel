@@ -10,8 +10,8 @@ export type AccorderDemandeMainlevéeGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Mainlevée.Command.AccorderDemandeMainlevée',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    accordéLe: DateTime.ValueType;
-    accordéPar: Email.ValueType;
+    accordéeLe: DateTime.ValueType;
+    accordéePar: Email.ValueType;
     réponseSignée: DocumentProjet.ValueType;
   }
 >;
@@ -23,16 +23,16 @@ export const registeAccorderDemandeMainlevéeGarantiesFinancièresCommand = (
 
   const handler: MessageHandler<AccorderDemandeMainlevéeGarantiesFinancièresCommand> = async ({
     identifiantProjet,
-    accordéLe,
-    accordéPar,
+    accordéeLe,
+    accordéePar,
     réponseSignée,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
 
     await garantiesFinancières.accorderDemandeMainlevéeGarantiesFinancières({
       identifiantProjet,
-      accordéLe,
-      accordéPar,
+      accordéeLe,
+      accordéePar,
       réponseSignée,
     });
   };

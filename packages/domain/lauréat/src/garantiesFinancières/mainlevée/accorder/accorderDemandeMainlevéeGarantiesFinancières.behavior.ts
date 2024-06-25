@@ -4,14 +4,15 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { StatutMainlevéeGarantiesFinancières } from '../..';
-import { DemandeMainlevéeNonTrouvéeError } from '../demandeMainlevéeNonTrouvée.error';
+import { DocumentProjet } from '@potentiel-domain/document';
+import { DemandeMainlevéeEnCoursNonTrouvéeError } from '../mainlevée.error';
 
 export type DemandeMainlevéeGarantiesFinancièresAccordéeEvent = DomainEvent<
   'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    accordéLe: DateTime.RawType;
-    accordéPar: Email.RawType;
+    accordéeLe: DateTime.RawType;
+    accordéePar: Email.RawType;
     réponseSignée: {
       format: string;
     };
@@ -20,17 +21,17 @@ export type DemandeMainlevéeGarantiesFinancièresAccordéeEvent = DomainEvent<
 
 type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  accordéLe: DateTime.ValueType;
-  accordéPar: Email.ValueType;
+  accordéeLe: DateTime.ValueType;
+  accordéePar: Email.ValueType;
   réponseSignée: DocumentProjet.ValueType;
 };
 
 export async function accorderDemandeMainlevéeGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
-  { identifiantProjet, accordéLe, accordéPar, réponseSignée }: Options,
+  { identifiantProjet, accordéeLe, accordéePar, réponseSignée }: Options,
 ) {
   if (!this.demandeMainlevéeEnCours) {
-    throw new DemandeMainlevéeNonTrouvéeError();
+    throw new DemandeMainlevéeEnCoursNonTrouvéeError();
   }
 
   this.demandeMainlevéeEnCours.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
@@ -41,8 +42,8 @@ export async function accorderDemandeMainlevéeGarantiesFinancières(
     type: 'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      accordéLe: accordéLe.formatter(),
-      accordéPar: accordéPar.formatter(),
+      accordéeLe: accordéeLe.formatter(),
+      accordéePar: accordéePar.formatter(),
       réponseSignée: {
         format: réponseSignée.format,
       },
@@ -55,9 +56,5 @@ export async function accorderDemandeMainlevéeGarantiesFinancières(
 export function applyDemandeMainlevéeGarantiesFinancièresAccordée(
   this: GarantiesFinancièresAggregate,
 ) {
-  if (this.demandeMainlevéeEnCours) {
-    this.demandeMainlevéeEnCours.statut = StatutMainlevéeGarantiesFinancières.accordé;
-  } else {
-    this.demandeMainlevéeEnCours = { statut: StatutMainlevéeGarantiesFinancières.accordé };
-  }
+  this.demandeMainlevéeEnCours = { statut: StatutMainlevéeGarantiesFinancières.accordé };
 }

@@ -87,6 +87,10 @@ import {
   accorderDemandeMainlevéeGarantiesFinancières,
   applyDemandeMainlevéeGarantiesFinancièresAccordée,
 } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.behavior';
+import {
+  RéponseSignéeMainlevéeModifiéeEvent,
+  modifierRéponseSignéeMainlevée,
+} from './mainlevée/modifierRéponseSignée/modifierRéponseSignéeMainlevée.behavior';
 
 export type GarantiesFinancièresEvent =
   | DépôtGarantiesFinancièresSoumisEvent
@@ -103,7 +107,8 @@ export type GarantiesFinancièresEvent =
   | DemandeMainlevéeGarantiesFinancièresAnnuléeEvent
   | InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent
   | DemandeMainlevéeGarantiesFinancièresRejetéeEvent
-  | DemandeMainlevéeGarantiesFinancièresAccordéeEvent;
+  | DemandeMainlevéeGarantiesFinancièresAccordéeEvent
+  | RéponseSignéeMainlevéeModifiéeEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   actuelles?: {
@@ -126,6 +131,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   demandeMainlevéeEnCours?: {
     statut: StatutMainlevéeGarantiesFinancières.ValueType;
   };
+  historiqueMainlevéeRejetée?: Array<{ rejetéeLe: DateTime.ValueType }>;
   readonly soumettreDépôt: typeof soumettreDépôt;
   readonly demanderGarantiesFinancières: typeof demanderGarantiesFinancières;
   readonly supprimerDépôtGarantiesFinancièresEnCours: typeof supprimerDépôtGarantiesFinancièresEnCours;
@@ -141,6 +147,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly démarrerInstructionDemandeMainlevée: typeof démarrerInstructionDemandeMainlevée;
   readonly rejeterDemandeMainlevéeGarantiesFinancières: typeof rejeterDemandeMainlevéeGarantiesFinancières;
   readonly accorderDemandeMainlevéeGarantiesFinancières: typeof accorderDemandeMainlevéeGarantiesFinancières;
+  readonly modifierRéponseSignéeMainlevée: typeof modifierRéponseSignéeMainlevée;
 };
 
 export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
@@ -164,6 +171,7 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   démarrerInstructionDemandeMainlevée,
   rejeterDemandeMainlevéeGarantiesFinancières,
   accorderDemandeMainlevéeGarantiesFinancières,
+  modifierRéponseSignéeMainlevée,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
@@ -208,7 +216,7 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       applyInstructionDemandeMainlevéeGarantiesFinancièresDémarrée.bind(this)();
       break;
     case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
-      applyDemandeMainlevéeGarantiesFinancièresRejetée.bind(this)();
+      applyDemandeMainlevéeGarantiesFinancièresRejetée.bind(this)(event);
       break;
     case 'DemandeMainlevéeGarantiesFinancièresAccordée-V1':
       applyDemandeMainlevéeGarantiesFinancièresAccordée.bind(this)();

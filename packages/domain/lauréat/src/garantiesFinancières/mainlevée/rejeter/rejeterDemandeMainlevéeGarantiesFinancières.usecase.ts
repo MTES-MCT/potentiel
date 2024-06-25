@@ -11,8 +11,8 @@ export type RejeterDemandeMainlevéeGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
   {
     identifiantProjetValue: string;
-    rejetéLeValue: string;
-    rejetéParValue: string;
+    rejetéeLeValue: string;
+    rejetéeParValue: string;
     réponseSignéeValue: {
       content: ReadableStream;
       format: string;
@@ -23,17 +23,17 @@ export type RejeterDemandeMainlevéeGarantiesFinancièresUseCase = Message<
 export const registerRejeterDemandeMainlevéeGarantiesFinancièresUseCase = () => {
   const runner: MessageHandler<RejeterDemandeMainlevéeGarantiesFinancièresUseCase> = async ({
     identifiantProjetValue,
-    rejetéLeValue,
-    rejetéParValue,
+    rejetéeLeValue,
+    rejetéeParValue,
     réponseSignéeValue: { format, content },
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const rejetéLe = DateTime.convertirEnValueType(rejetéLeValue);
-    const rejetéPar = Email.convertirEnValueType(rejetéParValue);
+    const rejetéeLe = DateTime.convertirEnValueType(rejetéeLeValue);
+    const rejetéePar = Email.convertirEnValueType(rejetéeParValue);
     const réponseSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
       TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeRejetéeValueType.formatter(),
-      rejetéLe.formatter(),
+      rejetéeLe.formatter(),
       format,
     );
 
@@ -48,8 +48,8 @@ export const registerRejeterDemandeMainlevéeGarantiesFinancièresUseCase = () =
     await mediator.send<RejeterDemandeMainlevéeGarantiesFinancièresCommand>({
       type: 'Lauréat.GarantiesFinancières.Mainlevée.Command.RejeterDemandeMainlevée',
       data: {
-        rejetéLe,
-        rejetéPar,
+        rejetéeLe,
+        rejetéePar,
         identifiantProjet,
         réponseSignée,
       },

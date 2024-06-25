@@ -22,8 +22,8 @@ const action: FormAction<FormState, typeof schema> = async (
       type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
       data: {
         identifiantProjetValue: identifiantProjet,
-        rejetéLeValue: new Date().toISOString(),
-        rejetéParValue: utilisateur.identifiantUtilisateur.formatter(),
+        rejetéeLeValue: new Date().toISOString(),
+        rejetéeParValue: utilisateur.identifiantUtilisateur.formatter(),
         réponseSignéeValue: {
           content: reponseSignee.stream(),
           format: reponseSignee.type,

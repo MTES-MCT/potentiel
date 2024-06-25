@@ -11,8 +11,8 @@ export type AccorderDemandeMainlevéeGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
   {
     identifiantProjetValue: string;
-    accordéLeValue: string;
-    accordéParValue: string;
+    accordéeLeValue: string;
+    accordéeParValue: string;
     réponseSignéeValue: {
       content: ReadableStream;
       format: string;
@@ -23,17 +23,17 @@ export type AccorderDemandeMainlevéeGarantiesFinancièresUseCase = Message<
 export const registerAccorderDemandeMainlevéeGarantiesFinancièresUseCase = () => {
   const runner: MessageHandler<AccorderDemandeMainlevéeGarantiesFinancièresUseCase> = async ({
     identifiantProjetValue,
-    accordéLeValue,
-    accordéParValue,
+    accordéeLeValue,
+    accordéeParValue,
     réponseSignéeValue: { format, content },
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const accordéLe = DateTime.convertirEnValueType(accordéLeValue);
-    const accordéPar = Email.convertirEnValueType(accordéParValue);
+    const accordéeLe = DateTime.convertirEnValueType(accordéeLeValue);
+    const accordéePar = Email.convertirEnValueType(accordéeParValue);
     const réponseSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
       TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
-      accordéLe.formatter(),
+      accordéeLe.formatter(),
       format,
     );
 
@@ -48,8 +48,8 @@ export const registerAccorderDemandeMainlevéeGarantiesFinancièresUseCase = () 
     await mediator.send<AccorderDemandeMainlevéeGarantiesFinancièresCommand>({
       type: 'Lauréat.GarantiesFinancières.Mainlevée.Command.AccorderDemandeMainlevée',
       data: {
-        accordéLe,
-        accordéPar,
+        accordéeLe,
+        accordéePar,
         identifiantProjet,
         réponseSignée,
       },

@@ -16,13 +16,15 @@ Fonctionnalité: Rejeter une demande de mainlevée des garanties financières
             | contenu fichier réponse    | contenu du fichier     |
             | format fichier réponse     | application/pdf        |
         Alors une demande de mainlevée de garanties financières ne devrait plus être consultable pour le projet "Centrale PV"
-        Et une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainlevées rejetées pour le projet "Centrale PV" avec :
-            | rejeté le                  | 2024-05-30             |
-            | rejeté par                 | dreal@test.test        |
+        Et une demande de mainlevée de garanties financières rejetée devrait être consultable dans l'historique des mainlevées rejetées pour le projet "Centrale PV" avec :
+            | rejetée le                 | 2024-05-30             |
+            | rejetée par                | dreal@test.test        |
             | contenu fichier réponse    | contenu du fichier     |
             | format fichier réponse     | application/pdf        |
-            | demandé le                 | 2024-06-12             |
-            | demandé par                | porteur@test.test      |
+            | demandée le                | 2024-06-12             |
+            | demandée par               | porteur@test.test      |
+            | mise à jour le             | 2024-05-30             |
+            | mise à jour par            | dreal@test.test        |
             | motif                      | projet-abandonné       |
 
     Scénario: Un utilisateur Dreal rejette une demande de mainlevée pour un projet achevé
@@ -38,13 +40,15 @@ Fonctionnalité: Rejeter une demande de mainlevée des garanties financières
             | contenu fichier réponse    | contenu du fichier     |
             | format fichier réponse     | application/pdf        |
         Alors une demande de mainlevée de garanties financières ne devrait plus être consultable pour le projet "Centrale PV"
-        Et une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainlevées rejetées pour le projet "Centrale PV" avec :
-            | rejeté le                  | 2024-05-30             |
-            | rejeté par                 | dreal@test.test        |
+        Et une demande de mainlevée de garanties financières rejetée devrait être consultable dans l'historique des mainlevées rejetées pour le projet "Centrale PV" avec :
+            | rejetée le                 | 2024-05-30             |
+            | rejetée par                | dreal@test.test        |
             | contenu fichier réponse    | contenu du fichier     |
             | format fichier réponse     | application/pdf        |
-            | demandé le                 | 2024-04-14             |
-            | demandé par                | porteur@test.test      |
+            | demandée le                | 2024-04-14             |
+            | demandée par               | porteur@test.test      |
+            | mise à jour le             | 2024-05-30             |
+            | mise à jour par            | dreal@test.test        |
             | motif                      | projet-achevé          |
 
     Scénario: Impossible de rejeter une demande de mainlevée si le projet n'a pas de demande de mainlevée
