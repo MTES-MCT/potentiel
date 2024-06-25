@@ -1,5 +1,6 @@
-#Language: fr-FR
+# language: fr
 Fonctionnalité: Transmettre une date de mise en service pour une demande complète de raccordement
+
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
@@ -44,4 +45,4 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
         Quand le porteur transmet la date de mise en service "2021-12-31" pour le dossier de raccordement du le projet lauréat "Du boulodrome de Lille" ayant pour référence "OUE-RP-2022-000033"
-        Alors le porteur devrait être informé que "La date de mise en service ne peut pas être antérieure à la date de désignation du projet"    
+        Alors le porteur devrait être informé que "La date de mise en service ne peut pas être antérieure à la date de désignation du projet"

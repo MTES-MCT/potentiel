@@ -1,5 +1,6 @@
-#Language: fr-FR
+# language: fr
 Fonctionnalité: Modifier la référence d'une demande complète de raccordement
+
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
@@ -13,8 +14,8 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Quand l'utilisateur avec le rôle "porteur-projet" modifie la demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033" avec la référence "OUE-RP-2022-000034" auprès du gestionnaire de réseau "Enedis"
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat "Du boulodrome de Marseille"
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat "Du boulodrome de Marseille"
-    
-    Scénario: Modifier en tant qu'administrateur la référence d'une demande complète de raccordement pour un dossier ayant déjà une date de mise en service 
+
+    Scénario: Modifier en tant qu'administrateur la référence d'une demande complète de raccordement pour un dossier ayant déjà une date de mise en service
         Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
@@ -24,7 +25,7 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Quand l'utilisateur avec le rôle "admin" modifie la demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033" avec la référence "OUE-RP-2022-000034" auprès du gestionnaire de réseau "Enedis"
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat "Du boulodrome de Marseille"
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat "Du boulodrome de Marseille"
-    
+
     Scénario: Modifier un dossier de raccordement suite à la modification de la référence
         Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
@@ -95,4 +96,4 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
         Quand l'utilisateur avec le rôle "porteur-projet" modifie la demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033" avec la référence " OUE-RP-2022-000034 " auprès du gestionnaire de réseau "Enedis"
-        Alors le porteur devrait être informé que "La référence du dossier de raccordement ne doit pas comporter d'espace ou de tabulation extérieur"    
+        Alors le porteur devrait être informé que "La référence du dossier de raccordement ne doit pas comporter d'espace ou de tabulation extérieur"

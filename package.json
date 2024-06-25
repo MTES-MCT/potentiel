@@ -87,6 +87,7 @@
     "node": "^20.0.0"
   },
   "dependencies": {
+    "prettier-plugin-gherkin": "^2.3.0",
     "ts-pattern": "^5.1.1"
   }
 }
