@@ -5,11 +5,11 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { getLogger } from '@potentiel-libraries/monitoring';
+import { DateTime } from '@potentiel-domain/common';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { DateTime } from '@potentiel-domain/common';
 
 export type SubscriptionEvent = (Abandon.AbandonEvent & Event) | RebuildTriggered;
 
@@ -150,38 +150,49 @@ export const register = () => {
           });
           break;
         case 'PreuveRecandidatureTransmise-V1':
-          await upsertProjection<Abandon.AbandonEntity>(`abandon|${payload.identifiantProjet}`, {
-            ...abandonToUpsert,
-            demande: {
-              ...abandonToUpsert.demande,
-              recandidature: {
-                ...abandonToUpsert.demande.recandidature!,
-                statut: Abandon.StatutPreuveRecandidature.transmise.statut,
-                preuve: {
-                  ...abandonToUpsert.demande.recandidature?.preuve!,
-                  identifiantProjet: payload.preuveRecandidature,
-                  transmiseLe: payload.transmiseLe,
-                  transmisePar: payload.transmisePar,
+          if (
+            abandonToUpsert.demande.recandidature &&
+            abandonToUpsert.demande.recandidature.preuve
+          ) {
+            await upsertProjection<Abandon.AbandonEntity>(`abandon|${payload.identifiantProjet}`, {
+              ...abandonToUpsert,
+              demande: {
+                ...abandonToUpsert.demande,
+                recandidature: {
+                  ...abandonToUpsert.demande.recandidature,
+                  statut: Abandon.StatutPreuveRecandidature.transmise.statut,
+                  preuve: {
+                    ...abandonToUpsert.demande.recandidature.preuve,
+                    identifiantProjet: payload.preuveRecandidature,
+                    transmiseLe: payload.transmiseLe,
+                    transmisePar: payload.transmisePar,
+                  },
                 },
               },
-            },
-          });
+            });
+          } else {
+            getLogger().warn('Pas de preuve de recandidature demandée', { event });
+          }
+
           break;
         case 'PreuveRecandidatureDemandée-V1':
-          await upsertProjection<Abandon.AbandonEntity>(`abandon|${payload.identifiantProjet}`, {
-            ...abandonToUpsert,
-            demande: {
-              ...abandonToUpsert.demande!,
-              recandidature: {
-                ...abandonToUpsert.demande.recandidature!,
-                statut: Abandon.StatutPreuveRecandidature.enAttente.statut,
-                preuve: {
-                  ...abandonToUpsert.demande.recandidature?.preuve!,
-                  demandéeLe: payload.demandéeLe,
+          if (abandonToUpsert.demande.recandidature) {
+            await upsertProjection<Abandon.AbandonEntity>(`abandon|${payload.identifiantProjet}`, {
+              ...abandonToUpsert,
+              demande: {
+                ...abandonToUpsert.demande,
+                recandidature: {
+                  ...abandonToUpsert.demande.recandidature,
+                  statut: Abandon.StatutPreuveRecandidature.enAttente.statut,
+                  preuve: {
+                    demandéeLe: payload.demandéeLe,
+                  },
                 },
               },
-            },
-          });
+            });
+          } else {
+            getLogger().warn(`Pas de recandidature dans la demande d'abandon`, { event });
+          }
           break;
         case 'AbandonAnnulé-V1':
           await removeProjection(`abandon|${identifiantProjet}`);

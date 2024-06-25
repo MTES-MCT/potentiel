@@ -1,7 +1,8 @@
+import { mediator } from 'mediateur';
+
 import { registerEliminéQueries, registerEliminéUseCases } from '@potentiel-domain/elimine';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
-import { mediator } from 'mediateur';
 import {
   listerIdentifiantsProjetsParPorteurAdapter,
   récupérerRégionDrealAdapter,

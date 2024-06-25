@@ -1,28 +1,11 @@
 import { Given as EtantDonné, DataTable } from '@cucumber/cucumber';
-import { PotentielWorld } from '../../potentiel.world';
 import { mediator } from 'mediateur';
-import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
+
 import { DateTime } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
 
-type DemandeComplèteRaccordement = {
-  identifiantProjet: string;
-  raisonSociale: string;
-  dateQualification: string;
-  référenceDossierRaccordement: string;
-  format: string;
-  content: string;
-};
-
-const demandeComplèteRaccordementParDéfaut: Omit<
-  DemandeComplèteRaccordement,
-  'raisonSociale' | 'identifiantProjet'
-> = {
-  dateQualification: new Date().toISOString(),
-  référenceDossierRaccordement: 'REF_DOSSIER',
-  format: 'application/pdf',
-  content: `Accusé de réception ayant pour référence REF_DOSSIER et la date de qualification au ${new Date().toISOString()}`,
-};
+import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
+import { PotentielWorld } from '../../potentiel.world';
 
 EtantDonné(
   'une demande complète de raccordement pour le projet lauréat {string} transmise auprès du gestionnaire de réseau {string} avec :',

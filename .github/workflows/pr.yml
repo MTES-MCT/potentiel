@@ -1,6 +1,6 @@
 name: Pull Request workflow
 
-on: 
+on:
   pull_request:
     paths-ignore:
       - 'README.md'

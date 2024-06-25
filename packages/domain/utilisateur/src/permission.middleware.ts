@@ -1,5 +1,7 @@
 import { Message, Middleware, mediator } from 'mediateur';
+
 import { IdentifiantProjet } from '@potentiel-domain/common';
+
 import * as Utilisateur from './utilisateur.valueType';
 import { VérifierAccèsProjetQuery } from './vérifierAccèsProjet/vérifierAccèsProjet.query';
 

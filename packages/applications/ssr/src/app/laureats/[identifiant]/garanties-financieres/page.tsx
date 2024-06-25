@@ -140,12 +140,12 @@ const mapToProps: MapToProps = ({
       action: utilisateur.role.estÉgaleÀ(Role.porteur)
         ? 'soumettre'
         : utilisateur.role.estÉgaleÀ(Role.admin) ||
-          utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
-          utilisateur.role.estÉgaleÀ(Role.dreal) ||
-          utilisateur.role.estÉgaleÀ(Role.cre) ||
-          utilisateur.role.estÉgaleÀ(Role.acheteurObligé)
-        ? 'enregistrer'
-        : undefined,
+            utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
+            utilisateur.role.estÉgaleÀ(Role.dreal) ||
+            utilisateur.role.estÉgaleÀ(Role.cre) ||
+            utilisateur.role.estÉgaleÀ(Role.acheteurObligé)
+          ? 'enregistrer'
+          : undefined,
       afficherInfoConditionsMainlevée:
         utilisateur.role.estÉgaleÀ(Role.porteur) &&
         Option.isNone(mainlevée) &&

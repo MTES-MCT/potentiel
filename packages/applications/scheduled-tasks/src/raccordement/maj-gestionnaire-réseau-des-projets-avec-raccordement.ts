@@ -1,4 +1,5 @@
 import { mediator } from 'mediateur';
+
 import { getLogger } from '@potentiel-libraries/monitoring';
 import {
   Raccordement,

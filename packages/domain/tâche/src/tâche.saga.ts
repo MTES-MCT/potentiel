@@ -1,7 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { Abandon, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+
 import { AjouterTâcheCommand } from './ajouter/ajouterTâche.command';
 import { AcheverTâcheCommand } from './achever/acheverTâche.command';
 import * as Tâche from './typeTâche.valueType';

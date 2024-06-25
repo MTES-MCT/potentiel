@@ -1,4 +1,5 @@
 import { join } from 'path';
+
 import { extension } from 'mime-types';
 
 import { InvalidOperationError } from '@potentiel-domain/core';

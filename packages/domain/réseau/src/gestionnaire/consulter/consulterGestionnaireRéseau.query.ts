@@ -1,8 +1,10 @@
 import { match } from 'ts-pattern';
+import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 

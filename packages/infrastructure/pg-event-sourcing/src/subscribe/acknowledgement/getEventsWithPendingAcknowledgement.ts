@@ -1,4 +1,5 @@
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
+
 import { Event } from '../../event';
 
 const selectEventsWithPendingAcknowledgement = `

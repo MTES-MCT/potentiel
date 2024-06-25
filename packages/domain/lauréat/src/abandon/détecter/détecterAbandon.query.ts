@@ -2,9 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Find } from '@potentiel-domain/core';
 
 import { AbandonEntity } from '../abandon.entity';
-import { Find } from '@potentiel-domain/core';
 
 export type DétecterAbandonQuery = Message<
   'Lauréat.Abandon.Query.DétecterAbandon',

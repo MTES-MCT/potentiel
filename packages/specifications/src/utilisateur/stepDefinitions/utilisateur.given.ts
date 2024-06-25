@@ -1,8 +1,11 @@
+import { randomUUID } from 'crypto';
+
 import { Given as EtantDonné, DataTable } from '@cucumber/cucumber';
+
+import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
+
 import { PotentielWorld } from '../../potentiel.world';
 import { sleep } from '../../helpers/sleep';
-import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
-import { randomUUID } from 'crypto';
 
 EtantDonné(
   'le porteur pour le projet lauréat {string}',

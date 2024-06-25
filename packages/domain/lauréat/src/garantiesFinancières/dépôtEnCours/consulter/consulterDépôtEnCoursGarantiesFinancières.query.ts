@@ -2,10 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
-
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+
 import { DépôtEnCoursGarantiesFinancièresEntity } from '../dépôtEnCoursGarantiesFinancières.entity';
 import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '../..';
 

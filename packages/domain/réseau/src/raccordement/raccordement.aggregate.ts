@@ -1,5 +1,9 @@
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+
+import { IdentifiantGestionnaireRéseau } from '../gestionnaire';
+
 import {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
   DemandeComplèteRaccordementTransmiseEvent,
@@ -9,9 +13,6 @@ import {
   applyDemandeComplèteDeRaccordementTransmiseEventV2,
   transmettreDemande,
 } from './transmettre/transmettreDemandeComplèteRaccordement.behavior';
-import { IdentifiantGestionnaireRéseau } from '../gestionnaire';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-
 import * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';
 import { RaccordementInconnuError } from './raccordementInconnu.error';
 import {

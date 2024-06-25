@@ -2,12 +2,14 @@ import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
-import { PotentielWorld } from '../../../../potentiel.world';
+
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { Email } from '@potentiel-domain/common';
-import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+
+import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
+import { PotentielWorld } from '../../../../potentiel.world';
 
 Alors(
   `une demande de mainlevée de garanties financières devrait être consultable pour le projet {string} avec :`,

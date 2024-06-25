@@ -1,8 +1,9 @@
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import * as StatutAbandon from './statutAbandon.valueType';
+import { DocumentProjet } from '@potentiel-domain/document';
 
+import * as StatutAbandon from './statutAbandon.valueType';
 import {
   AbandonDemandéEvent,
   applyAbandonDemandé,
@@ -32,7 +33,6 @@ import {
   PreuveRecandidatureTransmiseEvent,
   applyPreuveRecandidatureTransmise,
 } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
-import { DocumentProjet } from '@potentiel-domain/document';
 import {
   PreuveRecandidatureDemandéeEvent,
   applyPreuveRecandidatureDemandée,

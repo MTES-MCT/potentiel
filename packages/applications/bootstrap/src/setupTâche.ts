@@ -1,7 +1,8 @@
+import { mediator } from 'mediateur';
+
 import { registerTâcheCommand, registerTâcheQuery, TâcheSaga } from '@potentiel-domain/tache';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { TâcheProjector } from '@potentiel-applications/projectors';
-import { mediator } from 'mediateur';
 import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { countProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 

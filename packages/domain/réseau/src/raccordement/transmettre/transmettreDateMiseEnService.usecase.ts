@@ -1,7 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { TransmettreDateMiseEnServiceCommand } from './transmettreDateMiseEnService.command';
+
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
+
+import { TransmettreDateMiseEnServiceCommand } from './transmettreDateMiseEnService.command';
 
 export type TransmettreDateMiseEnServiceUseCase = Message<
   'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',

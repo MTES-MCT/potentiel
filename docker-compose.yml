@@ -14,7 +14,7 @@ services:
     restart: always
     ports:
       - 5432:5432
-    profiles: [ "app" ]
+    profiles: ['app']
   eventBus:
     container_name: potentiel_eventBus
     image: redis:alpine
@@ -22,7 +22,7 @@ services:
     restart: always
     ports:
       - 6379:6379
-    profiles: [ "app" ]
+    profiles: ['app']
   s3:
     container_name: potentiel_s3
     image: quay.io/minio/minio
@@ -34,14 +34,14 @@ services:
     ports:
       - 9000:9000
       - 9090:9090
-    profiles: [ "app" ]
+    profiles: ['app']
   create_bucket:
     image: minio/mc
     depends_on:
       - s3
     entrypoint: >
       /bin/sh -c " /usr/bin/mc alias set myminio http://s3:9000 minioadmin minioadmin; /usr/bin/mc mb myminio/potentiel; exit 0; "
-    profiles: [ "app" ]
+    profiles: ['app']
   auth:
     container_name: potentiel_auth
     image: quay.io/keycloak/keycloak
@@ -56,7 +56,7 @@ services:
     volumes:
       - ./keycloak/import:/opt/keycloak/data/import
       - ./keycloak/potentiel-keycloak/theme/potentiel:/opt/keycloak/themes/potentiel
-    profiles: [ "app" ]
+    profiles: ['app']
   db_test:
     container_name: potentiel_db_tests_integration
     image: postgres:13
@@ -70,14 +70,14 @@ services:
     restart: always
     ports:
       - 5433:5432
-    profiles: [ "test" ]
+    profiles: ['test']
   eventBus_test:
     container_name: potentiel_eventBus_tests_integration
     image: redis:alpine
     restart: always
     ports:
       - 6380:6379
-    profiles: [ "test" ]
+    profiles: ['test']
   s3_test:
     container_name: potentiel_s3_tests_integration
     image: quay.io/minio/minio
@@ -89,4 +89,4 @@ services:
     ports:
       - 9001:9000
       - 9091:9090
-    profiles: [ "test" ]
+    profiles: ['test']

@@ -2,6 +2,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { Event } from '../../event';
 import { Subscriber } from '../subscriber/subscriber';
+
 import { acknowledge } from './acknowledge';
 import { getEventsWithPendingAcknowledgement } from './getEventsWithPendingAcknowledgement';
 

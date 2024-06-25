@@ -1,6 +1,7 @@
-import { should } from 'chai';
 import { randomUUID } from 'node:crypto';
 import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
+
+import { should } from 'chai';
 
 import { Entity, ListResult, RangeOptions } from '@potentiel-domain/core';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';

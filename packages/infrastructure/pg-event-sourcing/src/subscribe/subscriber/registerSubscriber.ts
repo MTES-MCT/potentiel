@@ -1,4 +1,5 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
+
 import { SubscriberConfiguration } from './subscriberConfiguration';
 import { checkSubscriberName } from './checkSubscriberName';
 

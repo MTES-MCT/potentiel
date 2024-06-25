@@ -1,4 +1,5 @@
 import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+
 import { validateurParDéfaut } from '../../validateurParDéfaut';
 
 const garantieFinanciereEnMois = 42;

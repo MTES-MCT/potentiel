@@ -2,21 +2,13 @@
   "$schema": "https://turborepo.org/schema.json",
   "pipeline": {
     "build": {
-      "inputs": [
-        "src/**/*.{ts,tsx}"
-      ],
-      "dependsOn": [
-        "^build"
-      ],
+      "inputs": ["src/**/*.{ts,tsx}"],
+      "dependsOn": ["^build"],
       "outputMode": "new-only"
     },
     "build:dev": {
-      "inputs": [
-        "src/**/*.{ts,tsx}"
-      ],
-      "dependsOn": [
-        "^build:dev"
-      ],
+      "inputs": ["src/**/*.{ts,tsx}"],
+      "dependsOn": ["^build:dev"],
       "outputMode": "new-only"
     },
     "build:test": {
@@ -29,9 +21,7 @@
       "outputMode": "new-only"
     },
     "dev": {
-      "dependsOn": [
-        "^build:dev"
-      ],
+      "dependsOn": ["^build:dev"],
       "cache": false
     },
     "test:legacy": {
@@ -59,7 +49,5 @@
       "cache": false
     }
   },
-  "globalDependencies": [
-    "package.json"
-  ]
+  "globalDependencies": ["package.json"]
 }

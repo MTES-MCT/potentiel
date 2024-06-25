@@ -1,7 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { AttribuerGestionnaireRéseauCommand } from './attribuerGestionnaireRéseau.command';
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
+
 import { IdentifiantProjet } from '@potentiel-domain/common';
+
+import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
+
+import { AttribuerGestionnaireRéseauCommand } from './attribuerGestionnaireRéseau.command';
 
 export type AttribuerGestionnaireRéseauUseCase = Message<
   'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',

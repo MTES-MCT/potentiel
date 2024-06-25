@@ -20,7 +20,7 @@ export const FormPendingModal: FC<FormPendingModalProps> = ({
 }) => {
   const status = useFormStatus();
 
-  const [modal, _] = useState(
+  const [modal] = useState(
     createModal({
       id: `action-modal-${id}`,
       isOpenedByDefault: status.pending,

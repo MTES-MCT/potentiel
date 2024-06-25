@@ -1,9 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { DemanderRecoursCommand } from './demanderRecours.command';
+
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+
 import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
+
+import { DemanderRecoursCommand } from './demanderRecours.command';
 
 export type DemanderRecoursUseCase = Message<
   'Eliminé.Recours.UseCase.DemanderRecours',

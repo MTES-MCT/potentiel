@@ -1,5 +1,6 @@
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+
 import * as TypeTâche from './typeTâche.valueType';
 import {
   TâcheRenouvelléeEvent,

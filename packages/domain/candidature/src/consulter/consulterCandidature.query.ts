@@ -1,12 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-
-import { CandidatureEntity } from '../candidature.entity';
 import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { CandidatureInconnueErreur } from '../candidatureInconnue.error';
 
+import { CandidatureEntity } from '../candidature.entity';
+import { CandidatureInconnueErreur } from '../candidatureInconnue.error';
 import * as Technologie from '../technologie.valueType';
 
 export type ConsulterCandidatureReadModel = {

@@ -11,7 +11,7 @@ export const mapToReadableStream = async (
 
 const mapToBuffer = async (oldReadableStream: NodeJS.ReadableStream): Promise<Buffer> => {
   return new Promise<Buffer>((resolve, reject) => {
-    const buffer = Array<any>();
+    const buffer = Array<Uint8Array>();
 
     oldReadableStream.on('data', (chunk) => buffer.push(chunk));
     oldReadableStream.on('end', () => resolve(Buffer.concat(buffer)));

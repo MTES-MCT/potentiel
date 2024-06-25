@@ -1,5 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
+
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { RaccordementDéjàExistantError } from '../raccordementDéjàExistantError';

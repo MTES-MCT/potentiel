@@ -1,7 +1,9 @@
-import { Count } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { TâcheEntity } from '../tâche.entity';
+
+import { Count } from '@potentiel-domain/core';
 import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
+
+import { TâcheEntity } from '../tâche.entity';
 
 export type ConsulterNombreTâchesReadModel = {
   nombreTâches: number;

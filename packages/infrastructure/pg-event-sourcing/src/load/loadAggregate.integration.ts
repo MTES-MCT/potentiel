@@ -1,8 +1,11 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals';
+
 import { DomainEvent, Aggregate, GetDefaultAggregateState } from '@potentiel-domain/core';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
-import { loadAggregate } from './loadAggregate';
+
 import { publish } from '../publish/publish';
+
+import { loadAggregate } from './loadAggregate';
 
 type CustomEvent1 = DomainEvent<'event-1', { propriété: string }>;
 type CustomEvent2 = DomainEvent<'event-2', { secondePropriété: string }>;
@@ -63,7 +66,7 @@ describe(`loadAggregate`, () => {
     const onNone = jest.fn();
 
     // Act
-    const result = await loadAggregate({
+    await loadAggregate({
       aggregateId,
       getDefaultAggregate,
       onNone,
@@ -96,11 +99,6 @@ describe(`loadAggregate`, () => {
     };
 
     await publish(aggregateId, event1, event2);
-
-    type AggregateState = {
-      propriété?: string;
-      secondePropriété?: string;
-    };
 
     // Act
     const actual = await loadAggregate({

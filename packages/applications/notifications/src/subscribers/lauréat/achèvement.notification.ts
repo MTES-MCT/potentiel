@@ -1,4 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
@@ -8,6 +9,7 @@ import {
 } from '@potentiel-infrastructure/domain-adapters';
 import { Achèvement } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+
 import { sendEmail } from '../../infrastructure/sendEmail';
 
 export type SubscriptionEvent = Achèvement.AchèvementEvent & Event;

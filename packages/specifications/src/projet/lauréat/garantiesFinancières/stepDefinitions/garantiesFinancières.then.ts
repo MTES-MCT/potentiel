@@ -1,13 +1,15 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Option } from '@potentiel-libraries/monads';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
+
+import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Option } from '@potentiel-libraries/monads';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../../../potentiel.world';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 
 Alors(
   'les garanties financières à traiter devraient être consultables pour le projet {string} avec :',

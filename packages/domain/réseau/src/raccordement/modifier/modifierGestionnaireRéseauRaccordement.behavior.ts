@@ -1,6 +1,7 @@
 import { DomainEvent, NotFoundError } from '@potentiel-domain/core';
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+
+import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 
 /**

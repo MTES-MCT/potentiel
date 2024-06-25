@@ -1,4 +1,4 @@
-export const convertReadableStreamToString = async (readable: ReadableStream<any>) => {
+export const convertReadableStreamToString = async (readable: ReadableStream) => {
   const reader = readable.getReader();
 
   const chunks: Buffer[] = [];

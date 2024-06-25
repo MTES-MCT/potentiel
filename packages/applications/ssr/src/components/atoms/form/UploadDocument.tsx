@@ -28,7 +28,7 @@ export const UploadDocument: FC<UploadDocumentProps> = (props) => {
   );
 };
 
-const extractFileName = (path: string) => path.replace(/^.*[\\\/]/, '');
+const extractFileName = (path: string) => path.replace(/^.*[\\/]/, '');
 
 const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
   label,

@@ -1,6 +1,7 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, NotFoundError } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+
 import { TypeGarantiesFinancières } from '../..';
 import { DateConstitutionDansLeFuturError } from '../../dateConstitutionDansLeFutur.error';
 import { DateÉchéanceManquanteError } from '../../dateÉchéanceManquante.error';

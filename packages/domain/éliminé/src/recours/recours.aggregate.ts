@@ -1,8 +1,9 @@
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import * as StatutRecours from './statutRecours.valueType';
+import { DocumentProjet } from '@potentiel-domain/document';
 
+import * as StatutRecours from './statutRecours.valueType';
 import {
   RecoursDemandéEvent,
   applyRecoursDemandé,
@@ -16,7 +17,6 @@ import {
 } from './accorder/accorderRecours.behavior';
 import { RecoursAnnuléEvent, annuler, applyRecoursAnnulé } from './annuler/annulerRecours.behavior';
 import { AucunRecoursEnCours } from './aucunRecoursEnCours.error';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 export type RecoursEvent =
   | RecoursDemandéEvent

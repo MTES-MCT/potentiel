@@ -1,10 +1,10 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { AbandonAggregate } from '../abandon.aggregate';
 import * as StatutAbandon from '../statutAbandon.valueType';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { TypeDocumentAbandon } from '..';
 
 export type AbandonDemandéEvent = DomainEvent<

@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-
 import { LoadAggregate } from '@potentiel-domain/core';
+
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 
 export type AnnulerMainlevéeGarantiesFinancièresCommand = Message<

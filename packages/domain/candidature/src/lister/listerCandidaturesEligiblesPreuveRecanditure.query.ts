@@ -1,7 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { CandidatureEntity } from '../candidature.entity';
 import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+
+import { CandidatureEntity } from '../candidature.entity';
 
 export type ListerCandidaturesEligiblesPreuveRecanditureReadModel = Array<{
   identifiantProjet: IdentifiantProjet.ValueType;

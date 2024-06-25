@@ -1,4 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import * as DossierProjet from '../dossierProjet.valueType';
 
 export type DéplacerDossierProjetCommand = Message<

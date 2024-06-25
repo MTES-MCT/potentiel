@@ -1,8 +1,8 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, NotFoundError } from '@potentiel-domain/core';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 export type HistoriqueGarantiesFinancièresEffacéEvent = DomainEvent<
   'HistoriqueGarantiesFinancièresEffacé-V1',

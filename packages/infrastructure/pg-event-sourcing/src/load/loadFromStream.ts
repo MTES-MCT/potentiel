@@ -1,6 +1,8 @@
-import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import { Event } from '../event';
 import format from 'pg-format';
+
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
+
+import { Event } from '../event';
 
 export type LoadFromStreamOptions = {
   streamId: string;

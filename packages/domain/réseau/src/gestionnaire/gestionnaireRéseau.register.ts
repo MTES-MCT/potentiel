@@ -1,4 +1,5 @@
 import { LoadAggregate } from '@potentiel-domain/core';
+
 import { registerAjouterGestionnaireRéseauCommand } from './ajouter/ajouterGestionnaireRéseau.command';
 import { registerModifierGestionnaireRéseauCommand } from './modifier/modifierGestionnaireRéseau.command';
 import { registerAjouterGestionnaireRéseauUseCase } from './ajouter/ajouterGestionnaireRéseau.usecase';

@@ -1,6 +1,7 @@
+import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
-import { Message, MessageHandler, mediator } from 'mediateur';
 
 import * as IdentifiantGestionnaireRéseau from '../../gestionnaire/identifiantGestionnaireRéseau.valueType';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';

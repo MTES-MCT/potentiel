@@ -1,7 +1,8 @@
-import { List, RangeOptions, WhereOptions } from '@potentiel-domain/core';
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 
+import { List, RangeOptions, WhereOptions } from '@potentiel-domain/core';
+
+import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import {
   ConsulterGestionnaireRéseauReadModel,
   mapToReadModel,

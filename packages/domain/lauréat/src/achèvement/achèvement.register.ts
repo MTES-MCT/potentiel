@@ -1,4 +1,5 @@
 import { LoadAggregate } from '@potentiel-domain/core';
+
 import { registerTransmettreAttestationConformitéCommand } from './transmettre/transmettreAttestationConformité.command';
 import {
   ConsulterAttestationConformitéDependencies,

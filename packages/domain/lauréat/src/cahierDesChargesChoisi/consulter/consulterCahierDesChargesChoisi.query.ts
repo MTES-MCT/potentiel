@@ -1,6 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+
 import { AucunCahierDesChargesChoisiTrouvéError } from '../aucunCahierDesChargesChoisiTrouvéError';
 
 export type ConsulterCahierDesChargesChoisiReadmodel = { cahierDesChargesChoisi: string };

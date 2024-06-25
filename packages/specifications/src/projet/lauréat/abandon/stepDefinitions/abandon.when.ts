@@ -1,10 +1,12 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+
 import { Abandon } from '@potentiel-domain/laureat';
-import { PotentielWorld } from '../../../../potentiel.world';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+
+import { PotentielWorld } from '../../../../potentiel.world';
+import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 Quand(
   `le porteur demande l'abandon pour le projet lauréat {string} avec :`,

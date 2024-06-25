@@ -1,7 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { showMainlevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
+
 import { MotifDemandeMainlevéeGarantiesFinancières } from '../..';
+
 import { DemanderMainlevéeGarantiesFinancièresCommand } from './demanderMainlevéeGarantiesFinancières.command';
 
 export type DemanderMainlevéeGarantiesFinancièresUseCase = Message<

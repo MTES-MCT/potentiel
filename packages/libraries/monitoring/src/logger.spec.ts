@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
+
 import { getLogger, levels, resetLogger } from './logger';
 
 describe('winston-logger', () => {

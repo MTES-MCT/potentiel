@@ -1,4 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { DocumentProjet } from '..';
 
 export type EnregistrerDocumentProjetCommand = Message<

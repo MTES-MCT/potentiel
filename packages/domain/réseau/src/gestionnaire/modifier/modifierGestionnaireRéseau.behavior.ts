@@ -1,9 +1,11 @@
+import { Pattern, match } from 'ts-pattern';
+
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
+
 import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
-import { Pattern, match } from 'ts-pattern';
 
 /**
  * @deprecated Use GestionnaireRéseauModifiéEvent instead

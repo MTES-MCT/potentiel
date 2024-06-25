@@ -12,7 +12,7 @@ export async function UserHeaderQuickAccessItem() {
 
   try {
     utilisateur = await getAuthenticatedUser({});
-  } catch (error) {}
+  } catch {}
 
   const accountUrl = `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`;
 

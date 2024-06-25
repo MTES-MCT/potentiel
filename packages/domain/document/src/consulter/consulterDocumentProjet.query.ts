@@ -1,6 +1,7 @@
+import { extname } from 'path';
+
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { contentType } from 'mime-types';
-import { extname } from 'path';
 
 export type ConsulterDocumentProjetReadModel = {
   content: ReadableStream;

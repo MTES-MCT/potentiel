@@ -1,12 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { Find } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
+import { DocumentProjet } from '@potentiel-domain/document';
+
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
-import { Find } from '@potentiel-domain/core';
 import { DossierRaccordementEntity } from '../raccordement.entity';
-import { Option } from '@potentiel-libraries/monads';
 import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 export type ConsulterDossierRaccordementReadModel = {
   référence: RéférenceDossierRaccordement.ValueType;

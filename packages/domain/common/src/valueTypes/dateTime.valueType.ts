@@ -1,6 +1,7 @@
+import { differenceInDays } from 'date-fns';
+
 import { ReadonlyValueType, InvalidOperationError, PlainType } from '@potentiel-domain/core';
 import { Iso8601DateTime, regexDateISO8601 } from '@potentiel-libraries/iso8601-datetime';
-import { differenceInDays } from 'date-fns';
 
 export type RawType = Iso8601DateTime;
 

@@ -1,4 +1,5 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
+
 import { RecoursWord } from './recours/recours.world';
 
 type EliminéFixture = {

@@ -1,7 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { Find } from '@potentiel-domain/core';
-import { AppelOffre, AppelOffreEntity } from '../appelOffre.entity';
 import { Option } from '@potentiel-libraries/monads';
+
+import { AppelOffre, AppelOffreEntity } from '../appelOffre.entity';
 import { AppelOffreInconnuErreur } from '../appelOffreInconnu.error';
 
 export type ConsulterAppelOffreReadModel = AppelOffre;

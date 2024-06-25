@@ -1,3 +1,5 @@
+import { mediator } from 'mediateur';
+
 import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
@@ -11,7 +13,6 @@ import {
   AchèvementProjector,
   GarantiesFinancièreProjector,
 } from '@potentiel-applications/projectors';
-import { mediator } from 'mediateur';
 import {
   consulterCahierDesChargesChoisiAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,

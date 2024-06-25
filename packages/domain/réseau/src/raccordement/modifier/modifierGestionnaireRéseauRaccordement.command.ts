@@ -1,7 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
+
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
+
+import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 import { loadGestionnaireRéseauFactory } from '../../gestionnaire/gestionnaireRéseau.aggregate';
 

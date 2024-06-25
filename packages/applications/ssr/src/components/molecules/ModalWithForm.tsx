@@ -29,7 +29,7 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
   // trick to reset the form when re-opening the modal
   const id = uuid();
 
-  const [modal, _] = useState(
+  const [modal] = useState(
     createModal({
       id: `form-modal-${title}`,
       isOpenedByDefault: isOpen,
@@ -37,7 +37,7 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
   );
 
   const closeModal = () => {
-    onClose && onClose();
+    onClose?.();
     modal.close();
   };
 

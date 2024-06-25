@@ -1,9 +1,10 @@
+import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { Message, MessageHandler, mediator } from 'mediateur';
-import { loadGestionnaireRéseauFactory } from '../gestionnaireRéseau.aggregate';
 
+import { loadGestionnaireRéseauFactory } from '../gestionnaireRéseau.aggregate';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
 
 export type AjouterGestionnaireRéseauCommand = Message<

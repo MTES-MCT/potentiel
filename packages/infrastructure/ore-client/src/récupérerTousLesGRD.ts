@@ -1,5 +1,7 @@
-import { get } from '@potentiel-libraries/http-client';
 import zod from 'zod';
+
+import { get } from '@potentiel-libraries/http-client';
+
 import { OREApiLimitInString, OreEndpoint, référentielDistributeursDEnergieUrl } from './constant';
 
 const schema = zod.object({

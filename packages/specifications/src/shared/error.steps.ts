@@ -1,4 +1,5 @@
 import { Then as Alors } from '@cucumber/cucumber';
+
 import { PotentielWorld } from '../potentiel.world';
 
 Alors(

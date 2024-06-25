@@ -1,8 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { loadAbandonFactory } from '../abandon.aggregate';
 import { LoadAggregate } from '@potentiel-domain/core';
+
+import { loadAbandonFactory } from '../abandon.aggregate';
 
 export type TransmettrePreuveRecandidatureCommand = Message<
   'Lauréat.Abandon.Command.TransmettrePreuveRecandidatureAbandon',

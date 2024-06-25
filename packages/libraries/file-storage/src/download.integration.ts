@@ -1,10 +1,10 @@
 import { before, beforeEach, describe, it } from 'node:test';
+
 import { assert, expect } from 'chai';
 
 import { upload } from './upload';
 import { download } from './download';
 import { FichierInexistant } from './fichierInexistant.error';
-
 import { createOrRecreateBucket, setTestBucketEnvVariable } from './test-utils.integration';
 
 describe(`download file`, () => {

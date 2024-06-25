@@ -36,6 +36,6 @@ export async function achever(this: TâcheAggregate, { identifiantProjet }: Ache
   }
 }
 
-export function applyTâcheAchevée(this: TâcheAggregate, event: TâcheAchevéeEvent) {
+export function applyTâcheAchevée(this: TâcheAggregate, _event: TâcheAchevéeEvent) {
   this.achevée = true;
 }

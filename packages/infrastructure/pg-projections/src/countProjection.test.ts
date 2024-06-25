@@ -1,6 +1,7 @@
-import { should } from 'chai';
 import { after, before, beforeEach, afterEach, describe, it } from 'node:test';
 import { randomUUID } from 'node:crypto';
+
+import { should } from 'chai';
 
 import { Entity } from '@potentiel-domain/core';
 import { flatten } from '@potentiel-libraries/flat';

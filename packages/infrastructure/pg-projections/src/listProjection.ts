@@ -1,7 +1,9 @@
+import format from 'pg-format';
+
 import { Entity, ListOptions, ListResult } from '@potentiel-domain/core';
 import { unflatten } from '@potentiel-libraries/flat';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import format from 'pg-format';
+
 import { KeyValuePair } from './keyValuePair';
 import { getWhereClause } from './getWhereClause';
 import { getOrderClause } from './getOrderClause';
@@ -36,7 +38,7 @@ export const listProjection = async <TEntity extends Entity>(
         ({
           ...unflatten<unknown, Omit<TEntity, 'type'>>(value),
           type: key.split('|')[0],
-        } as TEntity),
+        }) as TEntity,
     ),
     range: range ?? {
       endPosition: total,

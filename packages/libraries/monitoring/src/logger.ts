@@ -1,4 +1,5 @@
 import winston from 'winston';
+
 import { getCapture } from './capture';
 
 // RFC5424 from higher to lower level
@@ -27,6 +28,7 @@ const getLevel = (): Level => {
 
 const getApplicationName = () => process.env.APPLICATION_NAME;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isLoggerLevel = (value: any): value is Level => {
   return levels.includes(value);
 };

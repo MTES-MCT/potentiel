@@ -1,11 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+
 import { CommonPort, DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery } from '../consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
 import { GénérerModèleDocumentPort } from '@potentiel-domain/modele-document';
+
+import { ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery } from '../consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
 
 export type GénérerModèleMiseEnDemeureGarantiesFinancièresReadModel = {
   format: string;
@@ -102,18 +104,18 @@ export const registerGénérerModèleMiseEnDemeureGarantiesFinancièresQuery = (
           détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
             ? détailFamille.garantieFinanciereEnMois.toString()
             : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
-            ? appelOffres.garantieFinanciereEnMois.toString()
-            : '!!! garantieFinanciereEnMois non disponible !!!',
+              ? appelOffres.garantieFinanciereEnMois.toString()
+              : '!!! garantieFinanciereEnMois non disponible !!!',
         dateFinGarantieFinanciere:
           détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
             ? DateTime.convertirEnValueType(candidature.dateDésignation)
                 .ajouterNombreDeMois(détailFamille.garantieFinanciereEnMois)
                 .date.toLocaleDateString('fr-FR')
             : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
-            ? DateTime.convertirEnValueType(candidature.dateDésignation)
-                .ajouterNombreDeMois(appelOffres.garantieFinanciereEnMois)
-                .date.toLocaleDateString('fr-FR')
-            : '!!! dateFinGarantieFinanciere non disponible !!!',
+              ? DateTime.convertirEnValueType(candidature.dateDésignation)
+                  .ajouterNombreDeMois(appelOffres.garantieFinanciereEnMois)
+                  .date.toLocaleDateString('fr-FR')
+              : '!!! dateFinGarantieFinanciere non disponible !!!',
         dateLimiteDepotGF:
           (Option.isSome(projetAvecGarantiesFinancièresEnAttente) &&
             projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.date.toLocaleDateString(
