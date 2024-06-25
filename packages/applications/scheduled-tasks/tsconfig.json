@@ -22,9 +22,6 @@
     },
     {
       "path": "../../infrastructure/domain-adapters"
-    },
-    {
-      "path": "../../infrastructure/document-builder"
     }
   ]
 }

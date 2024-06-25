@@ -6,7 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { buildDocxDocument } from '@potentiel-infrastructure/document-builder';
+import { buildDocxDocument } from '@potentiel-applications/document-builder';
 import { récupérerRégionDrealAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { decodeParameter } from '@/utils/decodeParameter';

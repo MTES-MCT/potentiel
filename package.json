@@ -20,6 +20,7 @@
     "./packages/applications/scheduled-tasks",
     "./packages/applications/notifications",
     "./packages/applications/projectors",
+    "./packages/applications/document-builder",
     "./packages/applications/ssr",
     "./packages/applications/legacy",
     "./packages/specifications"

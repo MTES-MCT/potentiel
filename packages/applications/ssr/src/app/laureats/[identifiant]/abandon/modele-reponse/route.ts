@@ -5,7 +5,7 @@ import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterAppelOffreQuery, AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
-import { buildDocxDocument } from '@potentiel-infrastructure/document-builder';
+import { buildDocxDocument } from '@potentiel-applications/document-builder';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';

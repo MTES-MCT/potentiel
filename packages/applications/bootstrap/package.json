@@ -17,7 +17,6 @@
     "@potentiel-domain/laureat": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/tache": "*",
-    "@potentiel-infrastructure/document-builder": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projections": "*",

@@ -17,7 +17,6 @@
     "@potentiel-libraries/monitoring": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/laureat": "*",
-    "@potentiel-infrastructure/document-builder": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/pg-projections": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*"
