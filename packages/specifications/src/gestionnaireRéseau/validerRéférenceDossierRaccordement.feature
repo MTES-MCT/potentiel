@@ -14,7 +14,6 @@ Fonctionnalité: Valider une référence de dossier de raccordement
             | [a-zA-Z]{3}                       | "123"                       | invalide         |
             | [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6} | "OUE-RP-2022-000034"        | valide           |
             | [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6} | "ENEDIS OUE-RP-2022-000034" | invalide         |
-            | [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6} | "ENEDIS OUE-RP-2022-000034" | invalide         |
             | ^[^\s\t]*$                        | "Référence non transmise"   | invalide         |
             | ^[^\s\t]*$                        | "Enedis OUE-RP-2022-000033" | invalide         |
             | ^[^\s\t]*$                        | "Enedis DDD"                | invalide         |
