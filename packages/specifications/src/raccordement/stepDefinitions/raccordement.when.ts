@@ -254,6 +254,25 @@ Quand(
 );
 
 Quand(
+  `le système modifie le gestionnaire de réseau du projet {string} avec un gestionnaire inconnu`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    try {
+      await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
+        type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantGestionnaireRéseauValue: 'inconnu',
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
   `un porteur modifie le gestionnaire de réseau du projet {string} avec le gestionnaire {string}`,
   async function (this: PotentielWorld, nomProjet: string, raisonSocialGestionnaireRéseau: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);

@@ -16,14 +16,15 @@ export type ModifierGestionnaireRéseauRaccordementCommand = Message<
 >;
 
 export const registerModifierGestionnaireRéseauProjetCommand = (loadAggregate: LoadAggregate) => {
-  const loadRaccordementAggregate = loadRaccordementAggregateFactory(loadAggregate);
   const loadGestionnaireRéseau = loadGestionnaireRéseauFactory(loadAggregate);
+  const loadRaccordement = loadRaccordementAggregateFactory(loadAggregate);
+
   const handler: MessageHandler<ModifierGestionnaireRéseauRaccordementCommand> = async ({
     identifiantProjet,
     identifiantGestionnaireRéseau,
   }) => {
-    const raccordement = await loadRaccordementAggregate(identifiantProjet);
     const gestionnaireRéseau = await loadGestionnaireRéseau(identifiantGestionnaireRéseau);
+    const raccordement = await loadRaccordement(identifiantProjet);
 
     await raccordement.modifierGestionnaireRéseau({
       identifiantProjet,

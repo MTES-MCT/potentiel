@@ -17,18 +17,18 @@ export type AttribuerGestionnaireRéseauCommand = Message<
 
 export const registerAttribuerGestionnaireCommand = (loadAggregate: LoadAggregate) => {
   const loadRaccordement = loadRaccordementAggregateFactory(loadAggregate);
-  const loadGestionnaire = loadGestionnaireRéseauFactory(loadAggregate);
+  const loadGestionnaireRéseau = loadGestionnaireRéseauFactory(loadAggregate);
 
   const handler: MessageHandler<AttribuerGestionnaireRéseauCommand> = async ({
-    identifiantGestionnaireRéseau,
     identifiantProjet,
+    identifiantGestionnaireRéseau,
   }) => {
-    const gestionnaire = await loadGestionnaire(identifiantGestionnaireRéseau);
+    const gestionnaireRéseau = await loadGestionnaireRéseau(identifiantGestionnaireRéseau);
     const raccordement = await loadRaccordement(identifiantProjet, false);
 
     await raccordement.attribuerGestionnaireRéseau({
-      identifiantGestionnaireRéseau: gestionnaire.identifiantGestionnaireRéseau,
-      identifiantProjet: identifiantProjet,
+      identifiantProjet,
+      identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau,
     });
   };
 
