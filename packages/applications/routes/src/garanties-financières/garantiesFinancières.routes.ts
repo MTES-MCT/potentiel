@@ -21,6 +21,8 @@ export const actuelles = {
 
 export const demandeMainlevée = {
   lister: `/garanties-financieres/demandes-mainlevee-en-cours`,
+  téléchargerModèleRéponse: (identitifiantProjet: string) =>
+    `/laureats/${encodeParameter(identitifiantProjet)}/garanties-financieres/modele-reponse-mainlevee`,
 };
 
 export const détail = (identifiantProjet: string) =>

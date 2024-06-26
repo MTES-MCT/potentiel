@@ -60,6 +60,9 @@ type ModèleRéponseMainlevée = {
     dateCourrier: string;
     referenceProjet: string;
 
+    titrePeriode: string;
+    titreAppelOffre: string;
+
     nomProjet: string;
     nomRepresentantLegal: string;
     adresseProjet: string;
@@ -67,19 +70,15 @@ type ModèleRéponseMainlevée = {
     communeProjet: string;
     emailProjet: string;
 
-    titrePeriode: string;
-    titreAppelOffre: string;
-
     dateConstitutionGarantiesFinancières: string;
 
     estMotifAchèvement: boolean;
-    dateTransmissionAchèvement: string;
-    dateTransmissionAttestationConformité: string;
+    dateTransmissionAuCocontractant: string;
 
     estMotifAbandon: boolean;
     dateAbandonAccordé: string;
 
-    statutMainlevée: 'accordé' | 'rejeté';
+    statutMainlevée: string;
   };
 };
 
