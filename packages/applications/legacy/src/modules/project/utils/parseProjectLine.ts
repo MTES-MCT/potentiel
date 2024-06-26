@@ -195,7 +195,7 @@ const columnMapper = {
         "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période",
       )
     ) {
-      return 'erreur';
+      return 'N/A';
     }
 
     const value =
@@ -211,7 +211,7 @@ const columnMapper = {
       ? 'abandon-avec-recandidature'
       : value === '4'
       ? 'lauréat-autre-période'
-      : 'erreur';
+      : 'N/A';
   },
 } as const;
 
@@ -396,6 +396,7 @@ const projectSchema = yup.object().shape({
         'abandon-classique',
         'abandon-avec-recandidature',
         'lauréat-autre-période',
+        'N/A',
       ],
       `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature 4. Lauréat d'une autre période" est obligatoire et doit être complétée par 1, 2, 3 ou 4.`,
     ),
