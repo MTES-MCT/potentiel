@@ -20,7 +20,7 @@ export const convertirEnValueType = (value: string): ValueType => {
 };
 
 function estValide(value: string): asserts value is RawType {
-  const isValid = value === value.trim().replace(/\s/g, '');
+  const isValid = !!value;
 
   if (!isValid) {
     throw new FormatRéférenceDossierRaccordementInvalideError(value);
