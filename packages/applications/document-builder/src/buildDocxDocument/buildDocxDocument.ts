@@ -79,6 +79,7 @@ type ModèleRéponseMainlevée = {
     dateAbandonAccordé: string;
 
     statutMainlevée: string;
+    dateMainlevée: string;
   };
 };
 

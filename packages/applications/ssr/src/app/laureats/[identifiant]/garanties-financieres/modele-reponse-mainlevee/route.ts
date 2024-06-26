@@ -63,12 +63,15 @@ export const GET = async (
       },
     });
 
-    const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
-      type: 'Lauréat.Abandon.Query.ConsulterAbandon',
-      data: {
-        identifiantProjetValue,
-      },
-    });
+    let abandon: Option.Type<Abandon.ConsulterAbandonReadModel> = Option.none;
+    try {
+      abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        type: 'Lauréat.Abandon.Query.ConsulterAbandon',
+        data: {
+          identifiantProjetValue,
+        },
+      });
+    } catch {}
 
     const content = await buildDocxDocument({
       type: 'mainlevée',
@@ -122,6 +125,9 @@ export const GET = async (
 
         statutMainlevée: Option.match(mainlevée)
           .some(({ statut }) => statut.statut.toString())
+          .none(() => '!!! Pas de statut pour la mainlevée !!!'),
+        dateMainlevée: Option.match(mainlevée)
+          .some(({ demande: { demandéeLe } }) => demandéeLe.date.toLocaleDateString('fr-FR'))
           .none(() => '!!! Pas de statut pour la mainlevée !!!'),
       },
     });
