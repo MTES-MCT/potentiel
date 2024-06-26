@@ -8,8 +8,9 @@ import {
   BeforeAll,
   setDefaultTimeout,
   AfterAll,
+  AfterStep,
 } from '@cucumber/cucumber';
-import { should } from 'chai';
+import { expect, should } from 'chai';
 import { clear } from 'mediateur';
 import {
   CreateBucketCommand,
@@ -40,6 +41,14 @@ const disableNodeMaxListenerWarning = () => (EventEmitter.defaultMaxListeners = 
 BeforeStep(async () => {
   // As read data are inconsistant, we wait 100ms before each step.
   await sleep(200);
+});
+
+AfterStep(async function (this: PotentielWorld, { pickleStep, result }) {
+  if (pickleStep.type === 'Outcome' && result.status === 'PASSED') {
+    if (!pickleStep.text.includes('devrait être informé que')) {
+      expect(this.hasNoError).to.be.true;
+    }
+  }
 });
 
 BeforeAll(async () => {

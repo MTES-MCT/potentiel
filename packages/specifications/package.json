@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc",
     "test": "cucumber-js --tags \"not @NotImplemented\"",
-    "test:select": "cucumber-js --tags @select"
+    "test:select": "cucumber-js --tags @select --tags \"not @NotImplemented\""
   },
   "dependencies": {
     "@potentiel-applications/bootstrap": "*",

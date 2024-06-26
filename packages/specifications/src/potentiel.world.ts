@@ -46,6 +46,13 @@ export class PotentielWorld extends World {
 
   #error!: Error;
 
+  get hasNoError() {
+    if (this.#error) {
+      throw new Error('An error was thrown');
+    }
+    return true;
+  }
+
   get error() {
     if (!this.#error) {
       throw new Error('No error was thrown');
