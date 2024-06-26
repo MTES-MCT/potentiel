@@ -339,3 +339,47 @@ Quand(
     }
   },
 );
+
+Quand(
+  `un gestionnaire de réseau non référencé est attribué au raccordement du projet {lauréat-éliminé} {string}`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', nomProjet: string) {
+    const { identifiantProjet } =
+      statutProjet === 'lauréat'
+        ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
+        : this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+
+    try {
+      await mediator.send<Raccordement.RaccordementUseCase>({
+        type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',
+        data: {
+          identifiantGestionnaireRéseauValue: 'GESTIONNAIRE NON RÉFÉRENCÉ',
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
+  `le gestionnaire de réseau inconnu est attribué au raccordement du projet {lauréat-éliminé} {string}`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', nomProjet: string) {
+    const { identifiantProjet } =
+      statutProjet === 'lauréat'
+        ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
+        : this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+
+    try {
+      await mediator.send<Raccordement.RaccordementUseCase>({
+        type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',
+        data: {
+          identifiantGestionnaireRéseauValue: 'inconnu',
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);

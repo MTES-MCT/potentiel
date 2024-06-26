@@ -96,6 +96,28 @@ Alors(
     ).to.be.true;
   },
 );
+
+Alors(
+  `le projet {string} devrait avoir un raccordement attribué au gestionnaire de réseau inconnu`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    // Assert on read model
+    const résultat = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+      },
+    });
+
+    expect(
+      résultat.identifiantGestionnaireRéseau.estÉgaleÀ(
+        GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
+      ),
+    ).to.be.true;
+  },
+);
+
 Alors(
   'le projet lauréat {string} devrait avoir {int} dossiers de raccordement pour le gestionnaire de réseau {string}',
   async function (

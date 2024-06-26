@@ -5,6 +5,7 @@ import { LoadAggregate } from '@potentiel-domain/core';
 
 import * as IdentifiantGestionnaireRéseau from '../../gestionnaire/identifiantGestionnaireRéseau.valueType';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
+import { loadGestionnaireRéseauFactory } from '../../gestionnaire/gestionnaireRéseau.aggregate';
 
 export type AttribuerGestionnaireRéseauCommand = Message<
   'Réseau.Raccordement.Command.AttribuerGestionnaireRéseau',
@@ -16,16 +17,18 @@ export type AttribuerGestionnaireRéseauCommand = Message<
 
 export const registerAttribuerGestionnaireCommand = (loadAggregate: LoadAggregate) => {
   const loadRaccordement = loadRaccordementAggregateFactory(loadAggregate);
+  const loadGestionnaire = loadGestionnaireRéseauFactory(loadAggregate);
 
   const handler: MessageHandler<AttribuerGestionnaireRéseauCommand> = async ({
     identifiantGestionnaireRéseau,
     identifiantProjet,
   }) => {
+    const gestionnaire = await loadGestionnaire(identifiantGestionnaireRéseau);
     const raccordement = await loadRaccordement(identifiantProjet, false);
 
     await raccordement.attribuerGestionnaireRéseau({
-      identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
-      identifiantProjet: identifiantProjet.formatter(),
+      identifiantGestionnaireRéseau: gestionnaire.identifiantGestionnaireRéseau,
+      identifiantProjet: identifiantProjet,
     });
   };
 
