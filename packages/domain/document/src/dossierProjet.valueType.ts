@@ -3,7 +3,8 @@ import { join } from 'path';
 import { InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-export type RawType = `${IdentifiantProjet.RawType}/${string}`;
+type TypeDocument = string;
+export type RawType = `${IdentifiantProjet.RawType}/${TypeDocument}`;
 
 export type ValueType = Readonly<{
   formatter(): RawType;

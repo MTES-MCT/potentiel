@@ -5,7 +5,10 @@ import { extension } from 'mime-types';
 import { InvalidOperationError } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
-export type RawType = `${IdentifiantProjet.RawType}/${string}/${DateTime.RawType}.${string}`;
+import { DossierProjet } from '.';
+
+type Extension = string;
+export type RawType = `${DossierProjet.RawType}/${DateTime.RawType}.${Extension}`;
 
 export type ValueType = Readonly<{
   format: string;
