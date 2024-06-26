@@ -56,7 +56,7 @@ export const AccorderDemandeMainlevéeGarantiesFinancières = ({
 
               <DownloadDocument
                 className="mb-4"
-                url={Routes.GarantiesFinancières.demandeMainlevée.téléchargerModèleRéponse(
+                url={Routes.GarantiesFinancières.demandeMainlevée.téléchargerModèleRéponseAccordé(
                   identifiantProjet,
                 )}
                 format="docx"

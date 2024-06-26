@@ -56,7 +56,7 @@ export const RejeterDemandeMainlevéeGarantiesFinancières = ({
 
               <DownloadDocument
                 className="mb-4"
-                url={Routes.GarantiesFinancières.demandeMainlevée.téléchargerModèleRéponse(
+                url={Routes.GarantiesFinancières.demandeMainlevée.téléchargerModèleRéponseRejeté(
                   identifiantProjet,
                 )}
                 format="docx"

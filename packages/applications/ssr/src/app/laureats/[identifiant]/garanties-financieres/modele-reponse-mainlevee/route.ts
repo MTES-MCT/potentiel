@@ -10,9 +10,9 @@ import { buildDocxDocument } from '@potentiel-applications/document-builder';
 import { récupérerRégionDrealAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
 export const GET = async (
   request: NextRequest,
@@ -20,6 +20,7 @@ export const GET = async (
 ) =>
   withUtilisateur(async (utilisateur) => {
     const identifiantProjetValue = decodeParameter(identifiant);
+    const estAccordée = request.nextUrl.searchParams.get('estAccordée') === 'true';
 
     const régionDreal = await récupérerRégionDrealAdapter(
       utilisateur.identifiantUtilisateur.formatter(),
@@ -123,9 +124,7 @@ export const GET = async (
           )
           .none(() => 'JJ/MM/AAAA'),
 
-        statutMainlevée: Option.match(mainlevée)
-          .some(({ statut }) => statut.statut.toString())
-          .none(() => '!!! Pas de statut pour la mainlevée !!!'),
+        estAccordée,
         dateMainlevée: Option.match(mainlevée)
           .some(({ demande: { demandéeLe } }) => demandéeLe.date.toLocaleDateString('fr-FR'))
           .none(() => '!!! Pas de statut pour la mainlevée !!!'),

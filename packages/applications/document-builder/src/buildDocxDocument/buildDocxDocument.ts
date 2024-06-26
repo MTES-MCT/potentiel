@@ -78,7 +78,7 @@ type ModèleRéponseMainlevée = {
     estMotifAbandon: boolean;
     dateAbandonAccordé: string;
 
-    statutMainlevée: string;
+    estAccordée: boolean;
     dateMainlevée: string;
   };
 };
