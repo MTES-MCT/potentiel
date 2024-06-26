@@ -8,7 +8,7 @@ import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
-import { buildDocument, DonnéesDocument } from '@potentiel-infrastructure/document-builder';
+import { buildDocument, DonnéesDocument } from '@potentiel-applications/document-builder';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';

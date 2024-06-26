@@ -1,3 +1,13 @@
+import fs from 'fs';
+import path from 'path';
+
+import PizZip from 'pizzip';
+import Docxtemplater from 'docxtemplater';
+
+const assetsFolderPath = path.resolve(__dirname, '..', 'assets');
+const imagesFolderPath = path.resolve(assetsFolderPath, 'images');
+const docxFolderPath = path.resolve(assetsFolderPath, 'docx');
+
 type ModèleRéponseAbandon = {
   type: 'abandon';
   data: {
@@ -37,9 +47,7 @@ type ModèleRéponseAbandon = {
     dateDemandeConfirmation: string;
     dateConfirmation: string;
 
-    isEDFOA: string;
-    isEDFSEI: string;
-    isEDM: string;
+    enCopies: Array<string>;
   };
 };
 
@@ -73,3 +81,48 @@ type ModèleMiseEnDemeure = {
 export type OptionsGénération = { logo?: string } & (ModèleRéponseAbandon | ModèleMiseEnDemeure);
 
 export type GénérerModèleDocumentPort = (options: OptionsGénération) => Promise<ReadableStream>;
+
+export const buildDocxDocument: GénérerModèleDocumentPort = async ({ type, logo, data }) => {
+  const templateFilePath = getTemplateFilePath(type);
+
+  const content = fs.readFileSync(templateFilePath, 'binary');
+  const zip = new PizZip(content);
+  const doc = new Docxtemplater(zip, {
+    paragraphLoop: true,
+    linebreaks: true,
+  });
+
+  doc.render(data);
+
+  const buf = doc.getZip().generate({
+    type: 'nodebuffer',
+    // compression: DEFLATE adds a compression step.
+    // For a 50MB output document, expect 500ms additional CPU time
+    compression: 'DEFLATE',
+  });
+
+  if (logo) {
+    const logoFilePath = path.resolve(imagesFolderPath, `${logo}.png`);
+    try {
+      const imageContents = fs.readFileSync(logoFilePath, 'binary');
+      zip.file('word/media/image1.png', imageContents, { binary: true });
+    } catch (e) {}
+  }
+
+  return new ReadableStream({
+    start: async (controller) => {
+      controller.enqueue(buf);
+      controller.close();
+    },
+  });
+};
+
+const getTemplateFilePath = (type: OptionsGénération['type']) => {
+  switch (type) {
+    case 'abandon':
+      return path.resolve(docxFolderPath, 'abandon-modèle-réponse.docx');
+
+    case 'mise-en-demeure':
+      return path.resolve(docxFolderPath, 'garanties-financières-modèle-mise-en-demeure.docx');
+  }
+};

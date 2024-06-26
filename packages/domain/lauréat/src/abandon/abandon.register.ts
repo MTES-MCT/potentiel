@@ -34,16 +34,12 @@ import {
   DétecterAbandonDependencies,
   registerDétecterAbandonQuery,
 } from './détecter/détecterAbandon.query';
-import {
-  GénérerModèleRéponseAbandonDependencies,
-  registerGénérerModèleRéponseAbandonQuery,
-} from './générerModèleRéponse/générerModèleRéponseAbandon.query';
 
 export type AbandonQueryDependencies = DétecterAbandonDependencies &
   ConsulterAbandonDependencies &
   ListerAbandonDependencies &
-  ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies &
-  GénérerModèleRéponseAbandonDependencies;
+  ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies;
+
 export type AbandonCommandDependencies = {
   loadAggregate: LoadAggregate;
 };
@@ -75,5 +71,4 @@ export const registerAbandonQueries = (dependencies: AbandonQueryDependencies) =
   registerListerAbandonQuery(dependencies);
   registerListerAbandonsAvecRecandidatureÀRelancerQuery(dependencies);
   registerDétecterAbandonQuery(dependencies);
-  registerGénérerModèleRéponseAbandonQuery(dependencies);
 };
