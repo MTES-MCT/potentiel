@@ -73,7 +73,6 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         dreal: candidature.localité.région,
         email: '',
         familles: candidature.famille ? 'yes' : '',
-        ...getEdfType(candidature.localité.région),
         justificationDemande: abandon.demande.raison,
         nomCandidat: candidature.candidat.nom,
         nomProjet: candidature.nom,
@@ -89,6 +88,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         titrePeriode:
           appelOffres.periodes.find((période) => période.id === candidature.période)?.title || '',
         unitePuissance: appelOffres.unitePuissance,
+        enCopies: getEnCopies(candidature.localité.région),
       },
     });
 
@@ -99,29 +99,29 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     });
   });
 
-function getEdfType(region: string) {
+const getEnCopies = (region: string): Array<string> => {
   if (!region) {
-    return {
-      isEDFOA: '',
-      isEDFSEI: '',
-      isEDM: '',
-    };
+    return ['DREAL concernée', 'CRE'];
   }
 
-  return {
-    isEDFOA: `${
-      !['Guadeloupe', 'Guyane', 'Martinique', 'Corse', 'La Réunion', 'Mayotte'].includes(region)
-        ? 'true'
-        : ''
-    }`,
-    isEDFSEI: `${
-      ['Guadeloupe', 'Guyane', 'Martinique', 'Corse', 'La Réunion'].includes(region) ? 'true' : ''
-    }`,
-    isEDM: `${region === 'Mayotte' ? 'true' : ''}`,
-  };
-}
+  const enCopie = [];
 
-function getCDCAbandonRefs({
+  if (['Guadeloupe', 'Guyane', 'Martinique', 'Corse', 'La Réunion', 'Mayotte'].includes(region)) {
+    enCopie.push('EDF OA');
+  }
+
+  if (['Guadeloupe', 'Guyane', 'Martinique', 'Corse', 'La Réunion'].includes(region)) {
+    enCopie.push('EDF SEI');
+  }
+
+  if (['Mayotte'].includes(region)) {
+    enCopie.push('EDN');
+  }
+
+  return [...enCopie, `DREAL ${region}`, 'CRE'];
+};
+
+const getCDCAbandonRefs = ({
   appelOffres,
   période,
   cahierDesChargesChoisi,
@@ -129,7 +129,7 @@ function getCDCAbandonRefs({
   appelOffres: AppelOffre;
   période: string;
   cahierDesChargesChoisi: string;
-}) {
+}) => {
   const périodeDetails = appelOffres.periodes.find((periode) => periode.id === période);
   const cdc = parseCahierDesChargesChoisi(cahierDesChargesChoisi);
   const cahierDesChargesModifié = périodeDetails?.cahiersDesChargesModifiésDisponibles.find(
@@ -145,7 +145,7 @@ function getCDCAbandonRefs({
       cahierDesChargesModifié.donnéesCourriersRéponse
         ?.texteEngagementRéalisationEtModalitésAbandon),
   };
-}
+};
 
 const parseCahierDesChargesChoisi = (référence: string) => {
   if (référence === 'initial') {

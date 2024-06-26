@@ -47,9 +47,7 @@ type ModèleRéponseAbandon = {
     dateDemandeConfirmation: string;
     dateConfirmation: string;
 
-    isEDFOA: string;
-    isEDFSEI: string;
-    isEDM: string;
+    enCopies: Array<string>;
   };
 };
 
