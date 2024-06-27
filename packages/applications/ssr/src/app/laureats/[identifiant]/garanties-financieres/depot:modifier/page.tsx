@@ -9,7 +9,6 @@ import {
 } from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { ConsulterDépôtEnCoursGarantiesFinancièresReadModel } from '@potentiel-domain/laureat/src/garantiesFinancières';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -71,7 +70,7 @@ const mapToProps = ({
   projet,
   dépôt: { type, dateÉchéance, dateConstitution, attestation },
   utilisateur,
-}: ConsulterDépôtEnCoursGarantiesFinancièresReadModel & {
+}: GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel & {
   projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
   utilisateur: Utilisateur.ValueType;
 }): ModifierDépôtEnCoursGarantiesFinancièresProps => ({

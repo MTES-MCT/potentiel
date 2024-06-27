@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantGestionnaireRéseau } from '@potentiel-domain/reseau/src/gestionnaire';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { GestionnaireAvecNombreDeRaccordement } from '../../../pages/réseau/gestionnaire/lister/GestionnaireRéseauList.page';
 
@@ -13,7 +13,7 @@ export const GestionnaireRéseauListItem: FC<GestionnaireRéseauListItemProps> =
   raisonSociale,
   nombreRaccordements,
 }) => {
-  const identifiantGestionnaireReseauValue = IdentifiantGestionnaireRéseau.bind(
+  const identifiantGestionnaireReseauValue = GestionnaireRéseau.IdentifiantGestionnaireRéseau.bind(
     identifiantGestionnaireRéseau,
   );
 

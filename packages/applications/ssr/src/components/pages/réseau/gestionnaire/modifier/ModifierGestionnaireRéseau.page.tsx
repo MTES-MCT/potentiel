@@ -5,10 +5,7 @@ import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import {
-  ConsulterGestionnaireRéseauReadModel,
-  IdentifiantGestionnaireRéseau,
-} from '@potentiel-domain/reseau/src/gestionnaire';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { PlainType } from '@potentiel-domain/core';
 import { ExpressionRegulière, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
@@ -20,7 +17,8 @@ import { PageTemplate } from '@/components/templates/Page.template';
 
 import { modifierGestionnaireRéseauAction } from './modifierGestionnaireRéseau.action';
 
-export type ModifierGestionnaireRéseauProps = PlainType<ConsulterGestionnaireRéseauReadModel>;
+export type ModifierGestionnaireRéseauProps =
+  PlainType<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;
 
 export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProps> = ({
   identifiantGestionnaireRéseau,
@@ -43,7 +41,7 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProp
 
   const expressionReguliereValue = ExpressionRegulière.bind(expressionReguliere).formatter();
 
-  const identifiantGestionnaireReseauValue = IdentifiantGestionnaireRéseau.bind(
+  const identifiantGestionnaireReseauValue = GestionnaireRéseau.IdentifiantGestionnaireRéseau.bind(
     identifiantGestionnaireRéseau,
   ).formatter();
   return (

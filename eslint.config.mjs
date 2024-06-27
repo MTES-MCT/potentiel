@@ -45,6 +45,12 @@ export default eslintTs.config(
       'no-case-declarations': 'off',
       'no-empty': ['error', { allowEmptyCatch: true }],
       'monorepo-cop/no-relative-import-outside-package': 'error',
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [{ group: ['@potentiel*/**/src/*'], message: 'Use exposed properties' }],
+        },
+      ],
       'import/order': [
         'error',
         {
