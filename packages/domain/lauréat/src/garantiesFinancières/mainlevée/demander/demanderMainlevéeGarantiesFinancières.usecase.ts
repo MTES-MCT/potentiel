@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { showMainlevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
 
 import { MotifDemandeMainlevéeGarantiesFinancières } from '../..';
 
@@ -24,22 +23,20 @@ export const registerDemanderMainlevéeGarantiesFinancièresUseCase = () => {
     demandéLeValue,
     demandéParValue,
   }) => {
-    if (showMainlevéeGarantiesFinancières) {
-      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-      const motif = MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(motifValue);
-      const demandéLe = DateTime.convertirEnValueType(demandéLeValue);
-      const demandéPar = Email.convertirEnValueType(demandéParValue);
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+    const motif = MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(motifValue);
+    const demandéLe = DateTime.convertirEnValueType(demandéLeValue);
+    const demandéPar = Email.convertirEnValueType(demandéParValue);
 
-      await mediator.send<DemanderMainlevéeGarantiesFinancièresCommand>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.Command.Demander',
-        data: {
-          demandéLe,
-          demandéPar,
-          identifiantProjet,
-          motif,
-        },
-      });
-    }
+    await mediator.send<DemanderMainlevéeGarantiesFinancièresCommand>({
+      type: 'Lauréat.GarantiesFinancières.Mainlevée.Command.Demander',
+      data: {
+        demandéLe,
+        demandéPar,
+        identifiantProjet,
+        motif,
+      },
+    });
   };
   mediator.register('Lauréat.GarantiesFinancières.Mainlevée.UseCase.Demander', runner);
 };
