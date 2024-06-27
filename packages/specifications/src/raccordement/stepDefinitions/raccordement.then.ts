@@ -90,7 +90,7 @@ Alors(
     });
 
     expect(
-      résultat.identifiantGestionnaireRéseau.estÉgaleÀ(
+      résultat.identifiantGestionnaireRéseau?.estÉgaleÀ(
         GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
       ),
     ).to.be.true;
@@ -111,7 +111,7 @@ Alors(
     });
 
     expect(
-      résultat.identifiantGestionnaireRéseau.estÉgaleÀ(
+      résultat.identifiantGestionnaireRéseau?.estÉgaleÀ(
         GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
       ),
     ).to.be.true;
