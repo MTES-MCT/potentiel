@@ -1,3 +1,5 @@
+import format from 'pg-format';
+
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
@@ -20,7 +22,7 @@ type Props = {
 };
 
 export const listerProjetForOreAdapter = async ({ limit, offset }: Props) => {
-  const selectProjectQuery = `
+  const selectProjectQuery = format(`
   SELECT json_build_object(
     'legacyId', "id",
     'appelOffre', "appelOffreId",
@@ -34,9 +36,9 @@ export const listerProjetForOreAdapter = async ({ limit, offset }: Props) => {
   ) as value
   FROM "projects"
   WHERE "classe" = 'Classé'
-  ${limit !== undefined && `LIMIT ${limit}`}
-  ${offset !== undefined && `OFFSET ${limit}`}
-`;
+  ${limit !== undefined ? `LIMIT ${limit}` : ''}
+  ${offset !== undefined ? `OFFSET ${limit}` : ''}
+`);
 
   const projets = await executeSelect<{
     value: Omit<ProjetListéPourOREReadModel, 'type' | 'identifiantProjet'>;
