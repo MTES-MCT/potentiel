@@ -3,7 +3,6 @@ import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-import { showMainlevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
 
 import { CallOut } from '@/components/atoms/CallOut';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -132,26 +131,25 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
         </div>
       }
     />
-    {showMainlevéeGarantiesFinancières &&
-      (mainlevée || (historiqueMainlevée && historiqueMainlevée.length)) && (
-        <CallOut
-          className="flex-1"
-          colorVariant={mainlevée?.statut === 'accordé' ? 'success' : 'warning'}
-          content={
-            <div className="flex flex-col">
-              <Heading2>Mainlevée des garanties financières</Heading2>
-              <div className="flex">
-                {mainlevée && (
-                  <MainlevéeEnCours identifiantProjet={identifiantProjet} mainlevée={mainlevée} />
-                )}
-                {historiqueMainlevée && historiqueMainlevée.length && (
-                  <HistoriqueMainlevéeRejetée historique={historiqueMainlevée} />
-                )}
-              </div>
+    {(mainlevée || (historiqueMainlevée && historiqueMainlevée.length)) && (
+      <CallOut
+        className="flex-1"
+        colorVariant={mainlevée?.statut === 'accordé' ? 'success' : 'warning'}
+        content={
+          <div className="flex flex-col">
+            <Heading2>Mainlevée des garanties financières</Heading2>
+            <div className="flex">
+              {mainlevée && (
+                <MainlevéeEnCours identifiantProjet={identifiantProjet} mainlevée={mainlevée} />
+              )}
+              {historiqueMainlevée && historiqueMainlevée.length && (
+                <HistoriqueMainlevéeRejetée historique={historiqueMainlevée} />
+              )}
             </div>
-          }
-        />
-      )}
+          </div>
+        }
+      />
+    )}
   </div>
 );
 
