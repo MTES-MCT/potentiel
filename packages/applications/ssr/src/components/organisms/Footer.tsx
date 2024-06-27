@@ -11,7 +11,7 @@ export const Footer = () => (
         <br />
         des finances
         <br />
-        de la souveraineté
+        et de la souveraineté
         <br />
         industrielle et numérique
       </>
