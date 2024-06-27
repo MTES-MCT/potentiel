@@ -21,6 +21,10 @@ export const actuelles = {
 
 export const demandeMainlevée = {
   lister: `/garanties-financieres/demandes-mainlevee-en-cours`,
+  téléchargerModèleRéponseAccordé: (identitifiantProjet: string) =>
+    `/laureats/${encodeParameter(identitifiantProjet)}/garanties-financieres/modele-reponse-mainlevee?estAccordée=true`,
+  téléchargerModèleRéponseRejeté: (identitifiantProjet: string) =>
+    `/laureats/${encodeParameter(identitifiantProjet)}/garanties-financieres/modele-reponse-mainlevee?estAccordée=false`,
 };
 
 export const détail = (identifiantProjet: string) =>

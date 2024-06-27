@@ -8,6 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 
 import { rejeterDemandeMainlevéeGarantiesFinancièresAction } from './rejeterDemandeMainlevéeGarantiesFinancières.action';
 
@@ -51,6 +52,15 @@ export const RejeterDemandeMainlevéeGarantiesFinancières = ({
                 name="reponseSignee"
                 required
                 className="mb-4"
+              />
+
+              <DownloadDocument
+                className="mb-4"
+                url={Routes.GarantiesFinancières.demandeMainlevée.téléchargerModèleRéponseRejeté(
+                  identifiantProjet,
+                )}
+                format="docx"
+                label="Télécharger le modèle de réponse"
               />
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />

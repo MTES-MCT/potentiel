@@ -51,6 +51,38 @@ type ModèleRéponseAbandon = {
   };
 };
 
+type ModèleRéponseMainlevée = {
+  type: 'mainlevée';
+  data: {
+    dreal: string;
+    contactDreal: string;
+
+    dateCourrier: string;
+    referenceProjet: string;
+
+    titrePeriode: string;
+    titreAppelOffre: string;
+
+    nomProjet: string;
+    nomRepresentantLegal: string;
+    adresseProjet: string;
+    codePostalProjet: string;
+    communeProjet: string;
+    emailProjet: string;
+
+    dateConstitutionGarantiesFinancières: string;
+
+    estMotifAchèvement: boolean;
+    dateTransmissionAuCocontractant: string;
+
+    estMotifAbandon: boolean;
+    dateAbandonAccordé: string;
+
+    estAccordée: boolean;
+    dateMainlevée: string;
+  };
+};
+
 type ModèleMiseEnDemeure = {
   type: 'mise-en-demeure';
   data: {
@@ -78,7 +110,11 @@ type ModèleMiseEnDemeure = {
   };
 };
 
-export type OptionsGénération = { logo?: string } & (ModèleRéponseAbandon | ModèleMiseEnDemeure);
+export type OptionsGénération = { logo?: string } & (
+  | ModèleRéponseAbandon
+  | ModèleMiseEnDemeure
+  | ModèleRéponseMainlevée
+);
 
 export type GénérerModèleDocumentPort = (options: OptionsGénération) => Promise<ReadableStream>;
 
@@ -121,6 +157,9 @@ const getTemplateFilePath = (type: OptionsGénération['type']) => {
   switch (type) {
     case 'abandon':
       return path.resolve(docxFolderPath, 'abandon-modèle-réponse.docx');
+
+    case 'mainlevée':
+      return path.resolve(docxFolderPath, 'garanties-financières-mainlevée-modèle-réponse.docx');
 
     case 'mise-en-demeure':
       return path.resolve(docxFolderPath, 'garanties-financières-modèle-mise-en-demeure.docx');
