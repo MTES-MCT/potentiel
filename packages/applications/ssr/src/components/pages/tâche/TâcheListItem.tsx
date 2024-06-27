@@ -100,6 +100,14 @@ const getDescriptionTâche = (
         action: 'Voir le raccordement',
         ariaLabel: `Voir le raccordement du projet ${nomProjet}`,
       };
+    case 'raccordement.gestionnaire-réseau-inconnu-attribué':
+      return {
+        titre: 'Gestionnaire réseau inconnu',
+        description: `Le gestionnaire réseau pour le projet ${nomProjet} n'a pas pu être automatiquement attribué.`,
+        lien: Routes.Raccordement.modifierGestionnaireDeRéseau(identifiant),
+        action: 'Voir le gestionnaire réseau attribué',
+        ariaLabel: `Voir le gestionnaire réseau attribué au projet ${nomProjet}`,
+      };
     case 'garanties-financières.demander':
       return {
         titre: 'Garanties financières demandées',
