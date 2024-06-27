@@ -32,7 +32,7 @@ const Footer: React.FC<FooterProps> = ({ user }) => (
                 <br />
                 des finances
                 <br />
-                de la souveraineté
+                et de la souveraineté
                 <br />
                 industrielle et numérique
               </div>
