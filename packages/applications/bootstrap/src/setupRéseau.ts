@@ -58,6 +58,7 @@ export const setupRéseau = async () => {
         'DemandeComplèteRaccordementModifiée-V2',
         'DemandeComplèteRaccordementModifiée-V3',
         'GestionnaireRéseauRaccordementModifié-V1',
+        'GestionnaireRéseauRaccordementInconnu-V1',
         'PropositionTechniqueEtFinancièreModifiée-V1',
         'PropositionTechniqueEtFinancièreModifiée-V2',
         'PropositionTechniqueEtFinancièreSignéeTransmise-V1',

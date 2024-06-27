@@ -44,7 +44,11 @@ export const setupTâche = async () => {
   >({
     name: 'tache-saga',
     streamCategory: 'raccordement',
-    eventType: ['RéférenceDossierRacordementModifiée-V1'],
+    eventType: [
+      'RéférenceDossierRacordementModifiée-V1',
+      'GestionnaireRéseauRaccordementModifié-V1',
+      'GestionnaireRéseauRaccordementInconnu-V1',
+    ],
     eventHandler: async (event) => {
       await mediator.publish<TâcheSaga.Execute>({
         type: 'System.Saga.Tâche',

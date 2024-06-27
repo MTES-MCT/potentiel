@@ -52,7 +52,9 @@ import {
   modifierPropositionTechniqueEtFinancière,
 } from './modifier/modifierPropositiontechniqueEtFinancière.behavior';
 import {
+  GestionnaireRéseauRaccordementInconnuEvent,
   GestionnaireRéseauRaccordementModifiéEvent,
+  applyGestionnaireRéseauRaccordemenInconnuEventV1,
   applyGestionnaireRéseauRaccordementModifiéEventV1,
   modifierGestionnaireRéseau,
 } from './modifier/modifierGestionnaireRéseauRaccordement.behavior';
@@ -80,6 +82,7 @@ export type RaccordementEvent =
   | RéférenceDossierRacordementModifiéeEvent
   | PropositionTechniqueEtFinancièreModifiéeEvent
   | GestionnaireRéseauRaccordementModifiéEvent
+  | GestionnaireRéseauRaccordementInconnuEvent
   | GestionnaireRéseauAttribuéEvent;
 
 type DossierRaccordement = {
@@ -186,6 +189,9 @@ function apply(this: RaccordementAggregate, event: RaccordementEvent) {
       break;
     case 'GestionnaireRéseauRaccordementModifié-V1':
       applyGestionnaireRéseauRaccordementModifiéEventV1.bind(this)(event);
+      break;
+    case 'GestionnaireRéseauRaccordementInconnu-V1':
+      applyGestionnaireRéseauRaccordemenInconnuEventV1.bind(this)(event);
       break;
     case 'GestionnaireRéseauAttribué-V1':
       applyAttribuerGestionnaireRéseauEventV1.bind(this)(event);

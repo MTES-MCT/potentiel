@@ -23,6 +23,13 @@ export type GestionnaireRéseauRaccordementModifiéEvent = DomainEvent<
   }
 >;
 
+export type GestionnaireRéseauRaccordementInconnuEvent = DomainEvent<
+  'GestionnaireRéseauRaccordementInconnu-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+  }
+>;
+
 type ModifierGestionnaireRéseauOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -39,15 +46,26 @@ export async function modifierGestionnaireRéseau(
     );
   }
 
-  const event: GestionnaireRéseauRaccordementModifiéEvent = {
-    type: 'GestionnaireRéseauRaccordementModifié-V1',
-    payload: {
-      identifiantProjet: identifiantProjet.formatter(),
-      identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
-    },
-  };
+  if (identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu)) {
+    const event: GestionnaireRéseauRaccordementInconnuEvent = {
+      type: 'GestionnaireRéseauRaccordementInconnu-V1',
+      payload: {
+        identifiantProjet: identifiantProjet.formatter(),
+      },
+    };
 
-  await this.publish(event);
+    await this.publish(event);
+  } else {
+    const event: GestionnaireRéseauRaccordementModifiéEvent = {
+      type: 'GestionnaireRéseauRaccordementModifié-V1',
+      payload: {
+        identifiantProjet: identifiantProjet.formatter(),
+        identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
 }
 
 export function applyGestionnaireRéseauRaccordementModifiéEventV1(
@@ -57,6 +75,13 @@ export function applyGestionnaireRéseauRaccordementModifiéEventV1(
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
     identifiantGestionnaireRéseau,
   );
+}
+
+export function applyGestionnaireRéseauRaccordemenInconnuEventV1(
+  this: RaccordementAggregate,
+  _: GestionnaireRéseauRaccordementInconnuEvent,
+) {
+  this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.inconnu;
 }
 
 export class MêmeGestionnaireRéseauUtiliséPourModifierLeRaccordementError extends NotFoundError {

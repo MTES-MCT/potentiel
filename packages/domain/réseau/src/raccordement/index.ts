@@ -92,6 +92,7 @@ export type { RéférenceDossierRacordementModifiéeEvent } from './modifier/mod
 export type {
   GestionnaireRéseauRaccordementModifiéEvent,
   GestionnaireRéseauProjetModifiéEvent,
+  GestionnaireRéseauRaccordementInconnuEvent,
 } from './modifier/modifierGestionnaireRéseauRaccordement.behavior';
 export type {
   PropositionTechniqueEtFinancièreModifiéeEvent,

@@ -16,7 +16,10 @@ export type AbandonSubscriptionEvent =
   | Abandon.PreuveRecandidatureDemandéeEvent
   | Abandon.PreuveRecandidatureTransmiseEvent;
 
-export type RaccordementSubscriptionEvent = Raccordement.RéférenceDossierRacordementModifiéeEvent;
+export type RaccordementSubscriptionEvent =
+  | Raccordement.RéférenceDossierRacordementModifiéeEvent
+  | Raccordement.GestionnaireRéseauRaccordementModifiéEvent
+  | Raccordement.GestionnaireRéseauRaccordementInconnuEvent;
 
 export type GarantiesFinancièresSubscriptionEvent =
   | GarantiesFinancières.GarantiesFinancièresDemandéesEvent
@@ -86,6 +89,24 @@ export const register = () => {
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
             typeTâche: Tâche.raccordementRéférenceNonTransmise,
+          },
+        });
+        break;
+      case 'GestionnaireRéseauRaccordementInconnu-V1':
+        await mediator.send<AjouterTâcheCommand>({
+          type: 'System.Tâche.Command.AjouterTâche',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            typeTâche: Tâche.raccordementGestionnaireRéseauInconnuAttribué,
+          },
+        });
+        break;
+      case 'GestionnaireRéseauRaccordementModifié-V1':
+        await mediator.send<AcheverTâcheCommand>({
+          type: 'System.Tâche.Command.AcheverTâche',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            typeTâche: Tâche.raccordementGestionnaireRéseauInconnuAttribué,
           },
         });
         break;

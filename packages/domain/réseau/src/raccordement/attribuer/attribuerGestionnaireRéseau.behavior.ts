@@ -4,6 +4,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { RaccordementDéjàExistantError } from '../raccordementDéjàExistantError';
+import { GestionnaireRéseauRaccordementInconnuEvent } from '../modifier/modifierGestionnaireRéseauRaccordement.behavior';
 
 export type GestionnaireRéseauAttribuéEvent = DomainEvent<
   'GestionnaireRéseauAttribué-V1',
@@ -28,15 +29,26 @@ export async function attribuerGestionnaireRéseau(
     throw new RaccordementDéjàExistantError(identifiantProjet.formatter());
   }
 
-  const event: GestionnaireRéseauAttribuéEvent = {
-    type: 'GestionnaireRéseauAttribué-V1',
-    payload: {
-      identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
-      identifiantProjet: identifiantProjet.formatter(),
-    },
-  };
+  if (identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu)) {
+    const event: GestionnaireRéseauRaccordementInconnuEvent = {
+      type: 'GestionnaireRéseauRaccordementInconnu-V1',
+      payload: {
+        identifiantProjet: identifiantProjet.formatter(),
+      },
+    };
 
-  await this.publish(event);
+    await this.publish(event);
+  } else {
+    const event: GestionnaireRéseauAttribuéEvent = {
+      type: 'GestionnaireRéseauAttribué-V1',
+      payload: {
+        identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
+        identifiantProjet: identifiantProjet.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
 }
 
 export function applyAttribuerGestionnaireRéseauEventV1(
