@@ -102,12 +102,12 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
                   <>
                     {aideSaisieRéférenceDossierRaccordement.format !== '' && (
                       <div className="m-0">
-                        Format attendu : {aideSaisieRéférenceDossierRaccordement.légende}
+                        Format attendu : {aideSaisieRéférenceDossierRaccordement.format}
                       </div>
                     )}
                     {aideSaisieRéférenceDossierRaccordement.légende !== '' && (
                       <div className="m-0 italic">
-                        Exemple : {aideSaisieRéférenceDossierRaccordement.format}
+                        Exemple : {aideSaisieRéférenceDossierRaccordement.légende}
                       </div>
                     )}
                   </>

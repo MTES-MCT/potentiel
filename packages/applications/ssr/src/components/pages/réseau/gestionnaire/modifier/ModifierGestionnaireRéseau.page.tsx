@@ -5,10 +5,10 @@ import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { PlainType } from '@potentiel-domain/core';
 import { ExpressionRegulière, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';

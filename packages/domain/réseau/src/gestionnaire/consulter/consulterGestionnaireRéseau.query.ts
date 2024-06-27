@@ -37,6 +37,23 @@ export const registerConsulterGestionnaireRéseauQuery = ({
   const handler: MessageHandler<ConsulterGestionnaireRéseauQuery> = async ({
     identifiantGestionnaireRéseau,
   }) => {
+    if (
+      identifiantGestionnaireRéseau &&
+      IdentifiantGestionnaireRéseau.convertirEnValueType(identifiantGestionnaireRéseau).estÉgaleÀ(
+        IdentifiantGestionnaireRéseau.inconnu,
+      )
+    ) {
+      return {
+        identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
+        aideSaisieRéférenceDossierRaccordement: {
+          expressionReguliere: ExpressionRegulière.accepteTout,
+          format: '',
+          légende: '',
+        },
+        raisonSociale: 'Inconnu',
+        contactEmail: Option.none,
+      };
+    }
     const result = await find<GestionnaireRéseauEntity>(
       `gestionnaire-réseau|${identifiantGestionnaireRéseau}`,
     );
