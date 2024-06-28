@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Alert from '@codegouvfr/react-dsfr/Alert';
@@ -28,7 +29,7 @@ export type FormulaireAttestationConformitéProps = {
     preuveTransmissionAuCocontractant: string;
     dateTransmissionAuCocontractant: Iso8601DateTime;
   };
-  showDemanderMainlevée?: boolean;
+  canDemanderMainlevée?: boolean;
 };
 
 export const FormulaireAttestationConformité: FC<FormulaireAttestationConformitéProps> = ({
@@ -36,7 +37,7 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
   action,
   submitButtonLabel,
   donnéesActuelles,
-  showDemanderMainlevée,
+  canDemanderMainlevée,
 }) => {
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
   const router = useRouter();
@@ -101,21 +102,43 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
           stateRelatedMessage="Date de transmission au co-contractant obligatoire"
         />
 
-        {showDemanderMainlevée && (
-          <Checkbox
-            id="demanderMainlevee"
-            state={validationErrors.includes('demanderMainlevee') ? 'error' : 'default'}
-            options={[
-              {
-                label: `Je souhaite demander une mainlevée de mes garanties financières`,
-                nativeInputProps: {
-                  name: 'demanderMainlevee',
-                  value: 'true',
-                },
-              },
-            ]}
+        {!canDemanderMainlevée && (
+          <Alert
+            severity="warning"
+            small
+            description={
+              <p className="p-3">
+                Vous ne pouvez pas faire une demande de mainlevée automatique de vos garanties
+                financières depuis cette page de transmission de l'attestation de conformité en
+                l'absence de votre attestation de constitution des garanties financières sur
+                Potentiel que vous poouvez transmettre depuis la page pour{' '}
+                <Link
+                  href={Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet)}
+                  className="font-semibold"
+                >
+                  soumettre de nouvelles garanties financières
+                </Link>
+                .
+              </p>
+            }
           />
         )}
+
+        <Checkbox
+          id="demanderMainlevee"
+          state={validationErrors.includes('demanderMainlevee') ? 'error' : 'default'}
+          options={[
+            {
+              label: `Je souhaite demander une mainlevée de mes garanties financières`,
+
+              nativeInputProps: {
+                disabled: canDemanderMainlevée,
+                name: 'demanderMainlevee',
+                value: 'true',
+              },
+            },
+          ]}
+        />
       </div>
 
       <div className="flex flex-col md:flex-row gap-4 mt-5">

@@ -42,7 +42,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         },
       });
 
-    const showDemanderMainlevée =
+    const canDemanderMainlevée =
       Option.isSome(garantiesFinancières) &&
       garantiesFinancières.garantiesFinancières.attestation !== undefined &&
       garantiesFinancières.garantiesFinancières.validéLe !== undefined;
@@ -51,7 +51,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const props: TransmettreAttestationConformitéPageProps = {
       projet,
-      showDemanderMainlevée,
+      canDemanderMainlevée,
     };
 
     return <TransmettreAttestationConformitéPage {...props} />;
