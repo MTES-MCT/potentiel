@@ -44,8 +44,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const peutDemanderMainlevée =
       Option.isSome(garantiesFinancières) &&
-      garantiesFinancières.garantiesFinancières.attestation !== undefined &&
-      garantiesFinancières.garantiesFinancières.validéLe !== undefined;
+      garantiesFinancières.garantiesFinancières.attestation !== undefined;
 
     const projet = { ...candidature, identifiantProjet };
 

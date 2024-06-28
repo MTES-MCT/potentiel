@@ -117,12 +117,12 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
                     Vous ne pouvez pas faire une demande de mainlevée automatique de vos garanties
                     financières depuis cette page de transmission de l'attestation de conformité en
                     l'absence de votre attestation de constitution des garanties financières sur
-                    Potentiel que vous pouvez transmettre depuis la page pour{' '}
+                    Potentiel que vous pouvez transmettre depuis{' '}
                     <Link
                       href={Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet)}
                       className="font-semibold"
                     >
-                      soumettre de nouvelles garanties financières
+                      la page des garanties financières du projet
                     </Link>
                     .
                   </p>
