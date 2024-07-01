@@ -243,5 +243,18 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       familles: [],
       cahiersDesChargesModifiésDisponibles: [],
     },
+    {
+      id: '7',
+      title: 'septième',
+      certificateTemplate: 'ppe2.v2',
+      validateurParDéfaut: validateurParDéfaut.hermine,
+      noteThreshold: 16.7,
+      cahierDesCharges: {
+        référence: '2024/S 64-189193',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
+      cahiersDesChargesModifiésDisponibles: [],
+    },
   ],
 };
