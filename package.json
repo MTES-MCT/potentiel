@@ -53,6 +53,7 @@
     "prespecs:select": "npm run pretest",
     "specs:select": "npm run test:select -w @potentiel/specifications",
     "version": "tsx .github/getPatchVersion.ts",
+    "prerelease:prepare-from-master": "export RELEASE_VERSION=\"$(git describe --tags `git rev-list --tags --max-count=1` | sed 's/\\([0-9]*\\).\\([0-9]*\\).*/echo \\1.$((\\2+1))/e')\"",
     "release:prepare-from-master": "git checkout master && git pull --rebase && git checkout -b release/$RELEASE_VERSION",
     "release:merge-on-master": "git checkout master && git pull --rebase && git checkout -b merge/$RELEASE_VERSION && git merge release/$RELEASE_VERSION"
   },
