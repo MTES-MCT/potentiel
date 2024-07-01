@@ -7,8 +7,8 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { OreEndpoint, distributeurDEnergieParCommuneUrl } from './constant';
 import { transformCommuneToOreFormat } from './helper/transformCommuneToOreFormat';
-import { récupérerGRDEICPourDOMTOM } from './récupérerGRDEICPourDOMTOM';
 import { getDOMTOM } from './helper/getDOMTOM';
+import { récupérerGestionnairePourDOMTOM } from './récupérerGestionnairePourDOMTOM';
 
 const schema = zod.object({
   total_count: zod.number(),
@@ -55,7 +55,15 @@ export const récupérerGRDParVille = async ({
     const DOMTOM = getDOMTOM(parseInt(codePostal));
 
     if (DOMTOM) {
-      const gestionnaire = await récupérerGRDEICPourDOMTOM(DOMTOM);
+      const gestionnaire = await récupérerGestionnairePourDOMTOM(DOMTOM);
+
+      if (Option.isNone(gestionnaire)) {
+        logger.warn(
+          `[récupérerGRDParVille] Aucun GRD trouvé pour le DOMTOM ${DOMTOM} (code postal ${codePostal})`,
+        );
+        return Option.none;
+      }
+
       return {
         codeEIC: gestionnaire.eic,
         raisonSociale: gestionnaire.grd,
