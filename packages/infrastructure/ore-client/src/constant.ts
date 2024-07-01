@@ -22,14 +22,16 @@ export const DOMTOMPostalCodeRanges: Record<RelevantDOMTOM, { min: number; max: 
 };
 
 export const DOMTOMNameToGRDRaisonSociale: Record<RelevantDOMTOM, string> = {
-  Guadeloupe: 'EDF Guadeloupe',
+  Guadeloupe: 'EDF Archipel Guadeloupe',
   Martinique: 'EDF Martinique',
   Guyane: 'EDF Guyane',
   LaRéunion: 'EDF Réunion',
-  Mayotte: 'EDM976',
+  Mayotte: 'Electricité de Mayotte',
 };
 
-const gestionnaireSchema = zod.object({
+export const MayotteGRDEIC = 'EDM976';
+
+export const gestionnaireSchema = zod.object({
   grd: zod.string(),
   eic: zod.string().nullable(),
   contact: zod.string().nullable(),
