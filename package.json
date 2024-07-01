@@ -53,10 +53,8 @@
     "prespecs:select": "npm run pretest",
     "specs:select": "npm run test:select -w @potentiel/specifications",
     "version": "tsx .github/getPatchVersion.ts",
-    "prerelease:prepare-from-master": "export NEXT_VERSION=\"$(git describe --tags `git rev-list --tags --max-count=1` | sed 's/\\([0-9]*\\).\\([0-9]*\\).*/echo \\1.$((\\2+1))/e')\"",
-    "release:prepare-from-master": "git checkout master && git pull --rebase && git checkout -b release/$NEXT_VERSION",
-    "prerelease:merge-on-master": "export CURRENT_VERSION=\"$(git branch --list 'release/[0-9.]*' | sed 's/release/\\([0-9]*\\).\\([0-9]*\\).*/\\1.\\2/' | tail -1)\"",
-    "release:merge-on-master": "git checkout master && git pull --rebase && git checkout -b merge/$CURRENT_VERSION && git merge release/$CURRENT_VERSION"
+    "release:prepare-from-master": "export NEXT_VERSION=\"$(git describe --tags `git rev-list --tags --max-count=1` | sed 's/\\([0-9]*\\).\\([0-9]*\\).*/echo \\1.$((\\2+1))/e')\" && echo $NEXT_VERSION && git checkout master && git pull --rebase && git checkout -b release/$NEXT_VERSION",
+    "release:merge-on-master": "export CURRENT_VERSION=\"$(git branch --list 'release/[0-9.]*' | sed 's/\\srelease\\/\\([0-9]*\\).\\([0-9]*\\).*/\\1.\\2/' | tail -1)\" && echo $CURRENT_VERSION && git checkout master && git pull --rebase && git checkout -b merge/$CURRENT_VERSION && git merge release/$CURRENT_VERSION"
   },
   "repository": {
     "type": "git",
