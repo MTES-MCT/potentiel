@@ -37,5 +37,6 @@ const projet: TransmettreAttestationConformitéPageProps['projet'] = {
 export const Default: Story = {
   args: {
     projet,
+    peutDemanderMainlevée: false,
   },
 };

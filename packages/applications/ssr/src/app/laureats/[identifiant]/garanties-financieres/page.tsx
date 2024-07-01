@@ -8,7 +8,6 @@ import {
 } from '@potentiel-domain/candidature';
 import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { showMainlevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
 import { AppelOffre, ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -147,9 +146,7 @@ const mapToProps: MapToProps = ({
           ? 'enregistrer'
           : undefined,
       afficherInfoConditionsMainlevée:
-        utilisateur.role.estÉgaleÀ(Role.porteur) &&
-        Option.isNone(mainlevée) &&
-        showMainlevéeGarantiesFinancières,
+        utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainlevée),
     };
   }
 
@@ -189,18 +186,10 @@ const mapToProps: MapToProps = ({
     if (aGarantiesFinancièresSansAttestation) {
       garantiesFinancièresActuellesActions.push('enregister-attestation');
     }
-    if (
-      aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée &&
-      projetAbandonne &&
-      showMainlevéeGarantiesFinancières
-    ) {
+    if (aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée && projetAbandonne) {
       garantiesFinancièresActuellesActions.push('demander-mainlevée-gf-pour-projet-abandonné');
     }
-    if (
-      aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée &&
-      projetAcheve &&
-      showMainlevéeGarantiesFinancières
-    ) {
+    if (aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée && projetAcheve) {
       garantiesFinancièresActuellesActions.push('demander-mainlevée-gf-pour-projet-achevé');
     }
     if (mainlevéeDemandée) {
@@ -268,7 +257,7 @@ const mapToProps: MapToProps = ({
     action:
       Option.isNone(dépôtEnCoursGarantiesFinancières) &&
       utilisateur.role.estÉgaleÀ(Role.porteur) &&
-      (Option.isNone(mainlevée) || (Option.isSome(mainlevée) && !mainlevée.statut.estDemandé()))
+      Option.isNone(mainlevée)
         ? 'soumettre'
         : undefined,
     mainlevée: Option.isSome(mainlevée)
@@ -288,8 +277,6 @@ const mapToProps: MapToProps = ({
       : undefined,
     historiqueMainlevée: historique,
     afficherInfoConditionsMainlevée:
-      utilisateur.role.estÉgaleÀ(Role.porteur) &&
-      Option.isNone(mainlevée) &&
-      showMainlevéeGarantiesFinancières,
+      utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainlevée),
   };
 };

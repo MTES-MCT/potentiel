@@ -5,7 +5,6 @@ import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { InvalidOperationError } from '@potentiel-domain/core';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { showMainlevéeGarantiesFinancières } from '@potentiel-applications/feature-flags';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -43,17 +42,15 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         },
       });
 
-    const showDemanderMainlevée =
+    const peutDemanderMainlevée =
       Option.isSome(garantiesFinancières) &&
-      Option.isSome(garantiesFinancières.garantiesFinancières.attestation) &&
-      Option.isSome(garantiesFinancières.garantiesFinancières.validéLe) &&
-      showMainlevéeGarantiesFinancières;
+      garantiesFinancières.garantiesFinancières.attestation !== undefined;
 
     const projet = { ...candidature, identifiantProjet };
 
     const props: TransmettreAttestationConformitéPageProps = {
       projet,
-      showDemanderMainlevée,
+      peutDemanderMainlevée,
     };
 
     return <TransmettreAttestationConformitéPage {...props} />;

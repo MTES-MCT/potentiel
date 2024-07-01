@@ -14,7 +14,7 @@ const motifMainlevéeLabels: Record<
   GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType,
   string
 > = {
-  'projet-abandonné': 'Projet abandonnée',
+  'projet-abandonné': 'Projet abandonné',
   'projet-achevé': 'Projet achevé',
 };
 
