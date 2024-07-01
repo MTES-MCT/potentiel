@@ -1,14 +1,24 @@
 import zod from 'zod';
 
-import { get } from '@potentiel-libraries/http-client';
 import { GestionnaireRéseau as Gestionnaire } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { get } from '@potentiel-libraries/http-client';
 
 import { OreEndpoint, distributeurDEnergieParCommuneUrl } from './constant';
 import { normaliserCommune } from './helper/normaliserCommune';
 import { getDOMTOM } from './helper/getDOMTOM';
 import { récupérerGestionnairePourDOMTOM } from './récupérerGestionnairePourDOMTOM';
+
+type GetGRDByCityProps = {
+  codePostal: string;
+  commune: string;
+};
+
+export type OreGestionnaireByCity = Pick<
+  Gestionnaire.GestionnaireRéseauEntity,
+  'raisonSociale' | 'codeEIC'
+>;
 
 const schema = zod.object({
   total_count: zod.number(),
@@ -20,16 +30,6 @@ const schema = zod.object({
     }),
   ),
 });
-
-type GetGRDByCityProps = {
-  codePostal: string;
-  commune: string;
-};
-
-export type OreGestionnaireByCity = Pick<
-  Gestionnaire.GestionnaireRéseauEntity,
-  'raisonSociale' | 'codeEIC'
->;
 
 const logger = getLogger();
 
@@ -49,7 +49,8 @@ export const récupérerGRDParVille = async ({
   try {
     const DOMTOM = getDOMTOM(parseInt(codePostal));
 
-    if (DOMTOM) {
+    if (Option.isSome(DOMTOM)) {
+      logger.info(DOMTOM);
       const gestionnaire = await récupérerGestionnairePourDOMTOM(DOMTOM);
 
       if (Option.isNone(gestionnaire)) {

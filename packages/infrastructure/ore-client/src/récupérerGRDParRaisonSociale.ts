@@ -12,7 +12,7 @@ export const récupérerGRDParRaisonSociale = async (
   raisonSociale: string,
 ): Promise<Option.Type<OreGestionnaire>> => {
   const url = new URL(référentielDistributeursDEnergieUrl, OreEndpoint);
-  url.searchParams.append('where', `energie:"Électricité" and grd is ${raisonSociale}`);
+  url.searchParams.append('where', `energie:"Électricité" and grd like '${raisonSociale}'`);
   url.searchParams.append('select', 'grd, eic, contact');
   url.searchParams.append('limit', '1');
 
