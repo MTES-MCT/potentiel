@@ -2,22 +2,18 @@ import zod from 'zod';
 
 import { get } from '@potentiel-libraries/http-client';
 
-import { OREApiLimitInString, OreEndpoint, référentielDistributeursDEnergieUrl } from './constant';
+import {
+  OREApiLimitInString,
+  OreEndpoint,
+  OreGestionnaire,
+  gestionnaireSchema,
+  référentielDistributeursDEnergieUrl,
+} from './constant';
 
 const schema = zod.object({
   total_count: zod.number(),
-  results: zod.array(
-    zod.object({
-      grd: zod.string(),
-      eic: zod.string().nullable(),
-      contact: zod.string().nullable(),
-    }),
-  ),
+  results: zod.array(gestionnaireSchema),
 });
-
-export type OreGestionnaire = Omit<zod.TypeOf<typeof schema>['results'][number], 'eic'> & {
-  eic: string;
-};
 
 type OreGestionnaireSlice = {
   gestionnaires: Array<OreGestionnaire>;

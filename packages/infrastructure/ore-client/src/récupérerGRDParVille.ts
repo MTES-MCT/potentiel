@@ -7,6 +7,8 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { OreEndpoint, distributeurDEnergieParCommuneUrl } from './constant';
 import { normaliserCommune } from './helper/normaliserCommune';
+import { récupérerGRDEICPourDOMTOM } from './récupérerGRDEICPourDOMTOM';
+import { getDOMTOM } from './helper/getDOMTOM';
 
 const schema = zod.object({
   total_count: zod.number(),
@@ -45,6 +47,16 @@ export const récupérerGRDParVille = async ({
   url.searchParams.append('limit', '50');
 
   try {
+    const DOMTOM = getDOMTOM(parseInt(codePostal));
+
+    if (DOMTOM) {
+      const gestionnaire = await récupérerGRDEICPourDOMTOM(DOMTOM);
+      return {
+        codeEIC: gestionnaire.eic,
+        raisonSociale: gestionnaire.grd,
+      };
+    }
+
     const result = await get(url);
 
     const parsedResult = schema.parse(result);
