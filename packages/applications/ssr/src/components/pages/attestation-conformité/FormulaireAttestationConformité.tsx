@@ -119,7 +119,7 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
                     l'absence de votre attestation de constitution des garanties financières sur
                     Potentiel que vous pouvez transmettre depuis{' '}
                     <Link
-                      href={Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet)}
+                      href={Routes.GarantiesFinancières.détail(identifiantProjet)}
                       className="font-semibold"
                     >
                       la page des garanties financières du projet
