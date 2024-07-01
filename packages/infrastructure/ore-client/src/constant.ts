@@ -21,7 +21,7 @@ export const DOMTOMPostalCodeRanges: Record<RelevantDOMTOM, { min: number; max: 
   Mayotte: { min: 97600, max: 97699 },
 };
 
-export const DOMTOMNameToGRDEIC: Record<RelevantDOMTOM, string> = {
+export const DOMTOMNameToGRDRaisonSociale: Record<RelevantDOMTOM, string> = {
   Guadeloupe: 'EDF Guadeloupe',
   Martinique: 'EDF Martinique',
   Guyane: 'EDF Guyane',
@@ -29,10 +29,15 @@ export const DOMTOMNameToGRDEIC: Record<RelevantDOMTOM, string> = {
   Mayotte: 'EDM976',
 };
 
-export const gestionnaireSchema = zod.object({
+const gestionnaireSchema = zod.object({
   grd: zod.string(),
   eic: zod.string().nullable(),
   contact: zod.string().nullable(),
+});
+
+export const OREresultSchema = zod.object({
+  total_count: zod.number(),
+  results: zod.array(gestionnaireSchema),
 });
 
 export type OreGestionnaire = Omit<zod.TypeOf<typeof gestionnaireSchema>, 'eic'> & {
