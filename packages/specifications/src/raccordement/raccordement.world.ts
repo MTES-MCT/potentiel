@@ -1,5 +1,5 @@
 import { DateTime } from '@potentiel-domain/common';
-import { RéférenceDossierRaccordement } from '@potentiel-domain/reseau/src/raccordement';
+import { Raccordement } from '@potentiel-domain/reseau';
 
 export class RaccordementWorld {
   #dateQualification!: DateTime.ValueType;
@@ -67,16 +67,16 @@ export class RaccordementWorld {
     this.#propositionTechniqueEtFinancièreSignée = value;
   }
 
-  #référenceDossierRaccordement!: RéférenceDossierRaccordement.ValueType;
+  #référenceDossierRaccordement!: Raccordement.RéférenceDossierRaccordement.ValueType;
 
-  get référenceDossierRaccordement(): RéférenceDossierRaccordement.ValueType {
+  get référenceDossierRaccordement(): Raccordement.RéférenceDossierRaccordement.ValueType {
     if (!this.#référenceDossierRaccordement) {
       throw new Error('référenceDossierRaccordement not initialized');
     }
     return this.#référenceDossierRaccordement;
   }
 
-  set référenceDossierRaccordement(value: RéférenceDossierRaccordement.ValueType) {
+  set référenceDossierRaccordement(value: Raccordement.RéférenceDossierRaccordement.ValueType) {
     this.#référenceDossierRaccordement = value;
   }
 }

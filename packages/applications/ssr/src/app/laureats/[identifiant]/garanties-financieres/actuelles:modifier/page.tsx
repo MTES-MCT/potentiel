@@ -8,7 +8,6 @@ import {
 } from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { ConsulterGarantiesFinancièresReadModel } from '@potentiel-domain/laureat/src/garantiesFinancières';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -73,7 +72,7 @@ const mapToProps = ({
     dateConstitution,
     attestation,
   },
-}: ConsulterGarantiesFinancièresReadModel & {
+}: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel & {
   projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
 }): ModifierGarantiesFinancièresActuellesProps => ({
   projet,
