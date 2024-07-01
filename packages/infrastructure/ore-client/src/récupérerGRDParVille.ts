@@ -50,7 +50,6 @@ export const récupérerGRDParVille = async ({
     const DOMTOM = getDOMTOM(parseInt(codePostal));
 
     if (Option.isSome(DOMTOM)) {
-      logger.info(DOMTOM);
       const gestionnaire = await récupérerGestionnairePourDOMTOM(DOMTOM);
 
       if (Option.isNone(gestionnaire)) {
