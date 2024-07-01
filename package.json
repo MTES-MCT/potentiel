@@ -52,7 +52,9 @@
     "specs": "npm run test -w @potentiel/specifications",
     "prespecs:select": "npm run pretest",
     "specs:select": "npm run test:select -w @potentiel/specifications",
-    "version": "tsx .github/getPatchVersion.ts"
+    "version": "tsx .github/getPatchVersion.ts",
+    "release:prepare-from-master": "git checkout master && git pull --rebase && git checkout -b release/$RELEASE_VERSION",
+    "release:merge-on-master": "git checkout master && git pull --rebase && git checkout -b merge/$RELEASE_VERSION && git merge release/$RELEASE_VERSION"
   },
   "repository": {
     "type": "git",
