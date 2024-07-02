@@ -13,6 +13,13 @@ export type GestionnaireRéseauAttribuéEvent = DomainEvent<
   }
 >;
 
+export type GestionnaireRéseauInconnuAttribuéEvent = DomainEvent<
+  'GestionnaireRéseauInconnuAttribué-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+  }
+>;
+
 export type AttribuerGestionnaireRéseauOptions = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -28,15 +35,26 @@ export async function attribuerGestionnaireRéseau(
     throw new RaccordementDéjàExistantError(identifiantProjet.formatter());
   }
 
-  const event: GestionnaireRéseauAttribuéEvent = {
-    type: 'GestionnaireRéseauAttribué-V1',
-    payload: {
-      identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
-      identifiantProjet: identifiantProjet.formatter(),
-    },
-  };
+  if (identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu)) {
+    const event: GestionnaireRéseauInconnuAttribuéEvent = {
+      type: 'GestionnaireRéseauInconnuAttribué-V1',
+      payload: {
+        identifiantProjet: identifiantProjet.formatter(),
+      },
+    };
 
-  await this.publish(event);
+    await this.publish(event);
+  } else {
+    const event: GestionnaireRéseauAttribuéEvent = {
+      type: 'GestionnaireRéseauAttribué-V1',
+      payload: {
+        identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
+        identifiantProjet: identifiantProjet.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
 }
 
 export function applyAttribuerGestionnaireRéseauEventV1(

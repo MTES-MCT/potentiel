@@ -108,7 +108,10 @@ export type {
   PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
   PropositionTechniqueEtFinancièreTransmiseEventV1,
 } from './transmettre/transmettrePropositionTechniqueEtFinancière.behavior';
-export type { GestionnaireRéseauAttribuéEvent } from './attribuer/attribuerGestionnaireRéseau.behavior';
+export type {
+  GestionnaireRéseauAttribuéEvent,
+  GestionnaireRéseauInconnuAttribuéEvent,
+} from './attribuer/attribuerGestionnaireRéseau.behavior';
 
 // ValueTypes
 export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';

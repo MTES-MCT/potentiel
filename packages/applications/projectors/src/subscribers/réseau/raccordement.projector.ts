@@ -33,6 +33,12 @@ export const register = () => {
           ...raccordement,
           identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau,
         });
+      } else if (event.type === 'GestionnaireRéseauInconnuAttribué-V1') {
+        await upsertProjection(`raccordement|${event.payload.identifiantProjet}`, {
+          ...raccordement,
+          identifiantGestionnaireRéseau:
+            GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter(),
+        });
       } else if (
         event.type === 'DemandeComplèteDeRaccordementTransmise-V1' ||
         event.type === 'DemandeComplèteDeRaccordementTransmise-V2'

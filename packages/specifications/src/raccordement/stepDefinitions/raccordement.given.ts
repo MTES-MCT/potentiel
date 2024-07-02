@@ -1,11 +1,15 @@
 import { Given as EtantDonné, DataTable } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+import waitForExpect from 'wait-for-expect';
+import { expect } from 'chai';
 
 import { DateTime } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
+import { ListerTâchesQuery } from '@potentiel-domain/tache';
 
 import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
 import { PotentielWorld } from '../../potentiel.world';
+import { RechercherTypeTâche } from '../../tâche/tâche.world';
 
 EtantDonné(
   'une demande complète de raccordement pour le projet lauréat {string} transmise auprès du gestionnaire de réseau {string} avec :',
@@ -142,6 +146,38 @@ EtantDonné(
         identifiantProjetValue: identifiantProjet.formatter(),
         identifiantGestionnaireRéseauValue: codeEIC,
       },
+    });
+  },
+);
+
+EtantDonné(
+  'une tâche indiquant de {string} pour le projet lauréat {string} avec gestionnaire inconnu',
+  async function (this: PotentielWorld, tâche: RechercherTypeTâche, nomProjet: string) {
+    const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(tâche);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    try {
+      await mediator.send<Raccordement.RaccordementUseCase>({
+        type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',
+        data: {
+          identifiantGestionnaireRéseauValue: 'inconnu',
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+
+    await waitForExpect(async () => {
+      const tâches = await mediator.send<ListerTâchesQuery>({
+        type: 'Tâche.Query.ListerTâches',
+        data: {
+          email: this.utilisateurWorld.porteur,
+        },
+      });
+
+      const tâche = tâches.items.find((t) => t.typeTâche.estÉgaleÀ(actualTypeTâche));
+      expect(tâche).not.to.be.undefined;
     });
   },
 );
