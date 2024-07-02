@@ -24,6 +24,10 @@ const csvSchema = zod.object({
   dateMiseEnService: zod.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, {
     message: "Le format de la date n'est pas respecté (format attendu : JJ/MM/AAAA)",
   }),
+  referenceDossierEnedis: zod
+    .string()
+    .regex(/[a-zA-Z]{3}/)
+    .optional(),
 });
 
 const convertDateToCommonFormat = (date: string) => {
@@ -32,7 +36,7 @@ const convertDateToCommonFormat = (date: string) => {
 };
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMiseEnService }) =>
-  withUtilisateur(async () => {
+  withUtilisateur(async (utilisateur) => {
     const lines = await parseCsv(fichierDatesMiseEnService.stream(), csvSchema);
 
     if (lines.length === 0) {
@@ -45,7 +49,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
     let success: number = 0;
     const errors: ActionResult['errors'] = [];
 
-    for (const { referenceDossier, dateMiseEnService } of lines) {
+    for (const { referenceDossier, dateMiseEnService, referenceDossierEnedis } of lines) {
       const dossiers = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
         data: {
@@ -71,6 +75,9 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
             },
           });
 
+          /**
+           * Mise à jour de la date de mise en service
+           */
           await mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
             type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
             data: {
@@ -82,6 +89,29 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
               ).toISOString(),
             },
           });
+
+          /**
+           * Mise à jour de la référence dossier raccordement, si différente
+           **/
+          const réferenceDossierRaccordementCorrigée = referenceDossierEnedis
+            ? Raccordement.RéférenceDossierRaccordement.convertirEnValueType(referenceDossierEnedis)
+            : undefined;
+
+          if (
+            réferenceDossierRaccordementCorrigée &&
+            !réferenceDossierRaccordementCorrigée.estÉgaleÀ(référenceDossierRaccordement)
+          ) {
+            await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
+              type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+              data: {
+                identifiantProjetValue: identifiantProjet.formatter(),
+                rôleValue: utilisateur.role.formatter(),
+                référenceDossierRaccordementActuelleValue: référenceDossierRaccordement.formatter(),
+                nouvelleRéférenceDossierRaccordementValue:
+                  réferenceDossierRaccordementCorrigée.formatter(),
+              },
+            });
+          }
 
           success++;
         } catch (error) {
