@@ -95,3 +95,14 @@ export const Incomplet: Story = {
     ],
   },
 };
+
+export const GestionnaireInconnu: Story = {
+  args: {
+    projet,
+    gestionnaireRéseau: {
+      ...gestionnaireRéseau,
+      identifiantGestionnaireRéseau: 'inconnu',
+    },
+    dossiers: Complet.args.dossiers,
+  },
+};

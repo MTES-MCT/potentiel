@@ -49,7 +49,8 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
           type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
           data: {
-            identifiantGestionnaireRéseau: raccordement.identifiantGestionnaireRéseau.formatter(),
+            identifiantGestionnaireRéseau:
+              raccordement.identifiantGestionnaireRéseau?.formatter() || '',
           },
         });
 

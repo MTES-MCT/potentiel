@@ -14,27 +14,25 @@ export type GestionnaireRéseauAttribuéEvent = DomainEvent<
 >;
 
 export type AttribuerGestionnaireRéseauOptions = {
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.RawType;
-  identifiantProjet: IdentifiantProjet.RawType;
+  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
+  identifiantProjet: IdentifiantProjet.ValueType;
 };
 
 export async function attribuerGestionnaireRéseau(
   this: RaccordementAggregate,
   { identifiantGestionnaireRéseau, identifiantProjet }: AttribuerGestionnaireRéseauOptions,
 ) {
-  const raccordementDéjàExistantPourLeProjet = this.identifiantProjet.estÉgaleÀ(
-    IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  );
+  const raccordementDéjàExistantPourLeProjet = this.identifiantProjet.estÉgaleÀ(identifiantProjet);
 
   if (raccordementDéjàExistantPourLeProjet) {
-    throw new RaccordementDéjàExistantError(identifiantProjet);
+    throw new RaccordementDéjàExistantError(identifiantProjet.formatter());
   }
 
   const event: GestionnaireRéseauAttribuéEvent = {
     type: 'GestionnaireRéseauAttribué-V1',
     payload: {
-      identifiantGestionnaireRéseau,
-      identifiantProjet,
+      identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
+      identifiantProjet: identifiantProjet.formatter(),
     },
   };
 

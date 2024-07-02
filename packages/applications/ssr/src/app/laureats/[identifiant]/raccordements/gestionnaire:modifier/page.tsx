@@ -1,6 +1,5 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 
 import {
   ConsulterCandidatureQuery,
@@ -43,10 +42,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjetValue: identifiantProjet },
       });
 
-    if (Option.isNone(gestionnaireRéseau)) {
-      return notFound();
-    }
-
     const props = mapToProps({
       gestionnairesRéseau,
       candidature,
@@ -61,7 +56,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 type MapToProps = (args: {
   gestionnairesRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel;
   candidature: ConsulterCandidatureReadModel;
-  gestionnaireRéseau: Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel;
+  gestionnaireRéseau: Option.Type<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>;
   identifiantProjet: string;
 }) => ModifierGestionnaireRéseauRaccordementPageProps;
 
@@ -72,8 +67,9 @@ const mapToProps: MapToProps = ({
   identifiantProjet,
 }) => {
   return {
-    identifiantGestionnaireRéseauActuel:
-      gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
+    identifiantGestionnaireRéseauActuel: Option.match(gestionnaireRéseau)
+      .some((gestionnaireRéseau) => gestionnaireRéseau.identifiantGestionnaireRéseau.formatter())
+      .none(() => ''),
     listeGestionnairesRéseau: gestionnairesRéseau.items.map((gestionnaire) => ({
       identifiantGestionnaireRéseau: gestionnaire.identifiantGestionnaireRéseau.formatter(),
       raisonSociale: gestionnaire.raisonSociale,

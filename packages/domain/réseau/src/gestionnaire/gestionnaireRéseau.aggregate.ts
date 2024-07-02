@@ -61,7 +61,9 @@ export const loadGestionnaireRéseauFactory =
       getDefaultAggregate: getDefaultGestionnaireRéseauAggregate,
       onNone: throwOnNone
         ? () => {
-            throw new GestionnaireRéseauInconnuError();
+            if (!identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu)) {
+              throw new GestionnaireRéseauInconnuError();
+            }
           }
         : undefined,
     });

@@ -9,11 +9,10 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 import { RaccordementEntity } from '../raccordement.entity';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
-import { GestionnaireRéseau } from '../..';
 
 export type ConsulterRaccordementReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
+  identifiantGestionnaireRéseau?: IdentifiantGestionnaireRéseau.ValueType;
   dossiers: Array<{
     référence: RéférenceDossierRaccordement.ValueType;
     demandeComplèteRaccordement: {
@@ -54,7 +53,6 @@ export const registerConsulterRaccordementQuery = ({ find }: ConsulterRaccordeme
     if (Option.isNone(result)) {
       return {
         identifiantProjet,
-        identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
         dossiers: [],
       };
     }

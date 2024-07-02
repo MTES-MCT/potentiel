@@ -9,6 +9,14 @@ Fonctionnalité: Attribuer un gestionnaire de réseau au raccordement d'un proje
         Quand le gestionnaire de réseau "EDF Corse" est attribué au raccordement du projet lauréat "Du boulodrome de Marseille"
         Alors le projet "Du boulodrome de Marseille" devrait avoir un raccordement attribué au gestionnaire de réseau "EDF Corse"
 
+    Scénario: Un gestionnaire de réseau inconnu est attribué au raccordement d'un projet lauréat
+        Quand le gestionnaire de réseau inconnu est attribué au raccordement du projet lauréat "Du boulodrome de Marseille"
+        Alors le projet "Du boulodrome de Marseille" devrait avoir un raccordement attribué au gestionnaire de réseau inconnu
+
+    Scénario: Impossible d'attribuer un gestionnaire de réseau non référencé
+        Quand un gestionnaire de réseau non référencé est attribué au raccordement du projet lauréat "Du boulodrome de Marseille"
+        Alors on devrait être informé que "Le gestionnaire de réseau n'est pas référencé"
+
     Scénario: Impossible d'attribuer un gestionnaire de réseau au raccordement d'un projet lauréat si celui-ci a déjà un raccordement attribué à un gestionnaire
         Etant donné le gestionnaire de réseau "Enedis"
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat "Du boulodrome de Marseille"

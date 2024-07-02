@@ -254,6 +254,25 @@ Quand(
 );
 
 Quand(
+  `le système modifie le gestionnaire de réseau du projet {string} avec un gestionnaire inconnu`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    try {
+      await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
+        type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantGestionnaireRéseauValue: 'inconnu',
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
   `un porteur modifie le gestionnaire de réseau du projet {string} avec le gestionnaire {string}`,
   async function (this: PotentielWorld, nomProjet: string, raisonSocialGestionnaireRéseau: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
@@ -327,6 +346,50 @@ Quand(
         type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',
         data: {
           identifiantGestionnaireRéseauValue: codeEIC,
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
+  `un gestionnaire de réseau non référencé est attribué au raccordement du projet {lauréat-éliminé} {string}`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', nomProjet: string) {
+    const { identifiantProjet } =
+      statutProjet === 'lauréat'
+        ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
+        : this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+
+    try {
+      await mediator.send<Raccordement.RaccordementUseCase>({
+        type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',
+        data: {
+          identifiantGestionnaireRéseauValue: 'GESTIONNAIRE NON RÉFÉRENCÉ',
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
+  `le gestionnaire de réseau inconnu est attribué au raccordement du projet {lauréat-éliminé} {string}`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', nomProjet: string) {
+    const { identifiantProjet } =
+      statutProjet === 'lauréat'
+        ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
+        : this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+
+    try {
+      await mediator.send<Raccordement.RaccordementUseCase>({
+        type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',
+        data: {
+          identifiantGestionnaireRéseauValue: 'inconnu',
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
