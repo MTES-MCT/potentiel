@@ -5,7 +5,6 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { DossierProjet, DéplacerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 
 import { ModifierRéférenceDossierRaccordementCommand } from './modifierRéférenceDossierRaccordement.command';
@@ -14,7 +13,6 @@ export type ModifierRéférenceDossierRaccordementUseCase = Message<
   'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
   {
     identifiantProjetValue: string;
-    identifiantGestionnaireRéseauValue: string;
     référenceDossierRaccordementActuelleValue: string;
     nouvelleRéférenceDossierRaccordementValue: string;
     rôleValue: string;
@@ -23,15 +21,11 @@ export type ModifierRéférenceDossierRaccordementUseCase = Message<
 
 export const registerModifierRéférenceDossierRaccordementUseCase = () => {
   const runner: MessageHandler<ModifierRéférenceDossierRaccordementUseCase> = async ({
-    identifiantGestionnaireRéseauValue,
     identifiantProjetValue,
     nouvelleRéférenceDossierRaccordementValue,
     référenceDossierRaccordementActuelleValue,
     rôleValue,
   }) => {
-    const identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
-      identifiantGestionnaireRéseauValue,
-    );
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const nouvelleRéférenceDossierRaccordement = RéférenceDossierRaccordement.convertirEnValueType(
       nouvelleRéférenceDossierRaccordementValue,
@@ -89,7 +83,6 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
     await mediator.send<ModifierRéférenceDossierRaccordementCommand>({
       type: 'Réseau.Raccordement.Command.ModifierRéférenceDossierRaccordement',
       data: {
-        identifiantGestionnaireRéseau,
         identifiantProjet,
         nouvelleRéférenceDossierRaccordement,
         référenceDossierRaccordementActuelle,

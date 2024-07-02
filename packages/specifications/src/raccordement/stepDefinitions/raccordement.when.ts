@@ -276,18 +276,15 @@ Quand(
 );
 
 Quand(
-  `l'utilisateur avec le rôle {string} modifie la demande complète de raccordement pour le projet lauréat {string} ayant pour référence {string} avec la référence {string} auprès du gestionnaire de réseau {string}`,
+  `l'utilisateur avec le rôle {string} modifie la demande complète de raccordement pour le projet lauréat {string} ayant pour référence {string} avec la référence {string}`,
   async function (
     this: PotentielWorld,
     rôleUtilisateur: string,
     nomProjet: string,
     référenceDossierRaccordementActuelle: string,
     nouvelleRéférenceDossierRaccordement: string,
-    raisonSocialeGestionnaire: string,
   ) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-    const { codeEIC } =
-      this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSocialeGestionnaire);
 
     try {
       this.raccordementWorld.référenceDossierRaccordement =
@@ -297,7 +294,6 @@ Quand(
       await mediator.send<Raccordement.RaccordementUseCase>({
         type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
         data: {
-          identifiantGestionnaireRéseauValue: codeEIC,
           identifiantProjetValue: identifiantProjet.formatter(),
           nouvelleRéférenceDossierRaccordementValue: nouvelleRéférenceDossierRaccordement,
           référenceDossierRaccordementActuelleValue: référenceDossierRaccordementActuelle,
