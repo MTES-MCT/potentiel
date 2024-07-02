@@ -36,7 +36,6 @@ const action: FormAction<FormState, typeof schema> = async (
       await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
         type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
         data: {
-          identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
           identifiantProjetValue: identifiantProjet,
           référenceDossierRaccordementActuelleValue: referenceDossierRaccordementActuelle,
           nouvelleRéférenceDossierRaccordementValue: referenceDossierRaccordement,
