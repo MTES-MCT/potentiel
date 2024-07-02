@@ -1,12 +1,17 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-export type RawType = `${string}#${string}#${string}#${string}`;
+type AppelOffre = string;
+type Période = string;
+type Famille = string;
+type NuméroCRE = string;
+
+export type RawType = `${AppelOffre}#${Période}#${Famille}#${NuméroCRE}`;
 
 export type ValueType = ReadonlyValueType<{
-  appelOffre: string;
-  période: string;
-  famille: string;
-  numéroCRE: string;
+  appelOffre: AppelOffre;
+  période: Période;
+  famille: Famille;
+  numéroCRE: NuméroCRE;
   formatter(): RawType;
 }>;
 
