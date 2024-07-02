@@ -31,13 +31,15 @@ export const registerModifierRéférenceDossierRaccordementCommand = (
     rôle,
   }) => {
     const raccordement = await loadRaccordement(identifiantProjet);
-    const gestionnaireRéseau = loadGestionnaireRéseau(raccordement.identifiantGestionnaireRéseau);
+    const gestionnaireRéseau = await loadGestionnaireRéseau(
+      raccordement.identifiantGestionnaireRéseau,
+    );
 
     await raccordement.modifierRéférenceDossierRacordement({
       identifiantProjet,
       nouvelleRéférenceDossierRaccordement,
-      référenceDossierExpressionRegulière: (await gestionnaireRéseau)
-        .référenceDossierRaccordementExpressionRegulière,
+      référenceDossierExpressionRegulière:
+        gestionnaireRéseau.référenceDossierRaccordementExpressionRegulière,
       référenceDossierRaccordementActuelle,
       rôle,
     });
