@@ -276,7 +276,7 @@ Quand(
 );
 
 Quand(
-  `l'utilisateur avec le rôle {string} modifie la demande complète de raccordement pour le projet lauréat {string} ayant pour référence {string} avec la référence {string} auprès du gestionnaire de réseau {string}`,
+  `l'utilisateur avec le rôle {string} modifie la demande complète de raccordement pour le projet lauréat {string} ayant pour référence {string} avec la référence {string}`,
   async function (
     this: PotentielWorld,
     rôleUtilisateur: string,
