@@ -3,6 +3,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { RaccordementAggregate } from '../raccordement.aggregate';
+import { GestionnaireRéseauInconnuAttribuéEvent } from '../attribuer/attribuerGestionnaireRéseau.behavior';
 
 /**
  * @deprecated Utilisez GestionnaireRéseauRaccordementModifiéEvent et RéférenceDossierRacordementModifiéeEvent à la place. Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
@@ -23,13 +24,6 @@ export type GestionnaireRéseauRaccordementModifiéEvent = DomainEvent<
   }
 >;
 
-export type GestionnaireRéseauRaccordementInconnuEvent = DomainEvent<
-  'GestionnaireRéseauRaccordementInconnu-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-  }
->;
-
 type ModifierGestionnaireRéseauOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -47,8 +41,8 @@ export async function modifierGestionnaireRéseau(
   }
 
   if (identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu)) {
-    const event: GestionnaireRéseauRaccordementInconnuEvent = {
-      type: 'GestionnaireRéseauRaccordementInconnu-V1',
+    const event: GestionnaireRéseauInconnuAttribuéEvent = {
+      type: 'GestionnaireRéseauInconnuAttribué-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
       },
@@ -79,7 +73,7 @@ export function applyGestionnaireRéseauRaccordementModifiéEventV1(
 
 export function applyGestionnaireRéseauRaccordemenInconnuEventV1(
   this: RaccordementAggregate,
-  _: GestionnaireRéseauRaccordementInconnuEvent,
+  _: GestionnaireRéseauInconnuAttribuéEvent,
 ) {
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.inconnu;
 }

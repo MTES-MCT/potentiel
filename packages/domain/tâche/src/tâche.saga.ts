@@ -19,7 +19,7 @@ export type AbandonSubscriptionEvent =
 export type RaccordementSubscriptionEvent =
   | Raccordement.RéférenceDossierRacordementModifiéeEvent
   | Raccordement.GestionnaireRéseauRaccordementModifiéEvent
-  | Raccordement.GestionnaireRéseauRaccordementInconnuEvent;
+  | Raccordement.GestionnaireRéseauInconnuAttribuéEvent;
 
 export type GarantiesFinancièresSubscriptionEvent =
   | GarantiesFinancières.GarantiesFinancièresDemandéesEvent
@@ -92,7 +92,7 @@ export const register = () => {
           },
         });
         break;
-      case 'GestionnaireRéseauRaccordementInconnu-V1':
+      case 'GestionnaireRéseauInconnuAttribué-V1':
         await mediator.send<AjouterTâcheCommand>({
           type: 'System.Tâche.Command.AjouterTâche',
           data: {

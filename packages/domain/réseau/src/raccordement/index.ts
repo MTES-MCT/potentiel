@@ -92,7 +92,6 @@ export type { RéférenceDossierRacordementModifiéeEvent } from './modifier/mod
 export type {
   GestionnaireRéseauRaccordementModifiéEvent,
   GestionnaireRéseauProjetModifiéEvent,
-  GestionnaireRéseauRaccordementInconnuEvent,
 } from './modifier/modifierGestionnaireRéseauRaccordement.behavior';
 export type {
   PropositionTechniqueEtFinancièreModifiéeEvent,
@@ -109,7 +108,10 @@ export type {
   PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
   PropositionTechniqueEtFinancièreTransmiseEventV1,
 } from './transmettre/transmettrePropositionTechniqueEtFinancière.behavior';
-export type { GestionnaireRéseauAttribuéEvent } from './attribuer/attribuerGestionnaireRéseau.behavior';
+export type {
+  GestionnaireRéseauAttribuéEvent,
+  GestionnaireRéseauInconnuAttribuéEvent,
+} from './attribuer/attribuerGestionnaireRéseau.behavior';
 
 // ValueTypes
 export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';

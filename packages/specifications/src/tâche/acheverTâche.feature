@@ -49,6 +49,6 @@ Fonctionnalité: Achever une tâche
 
     Scénario: Une tâche est achevée lorsqu'un raccordement est modifié avec un gestionnaire réseau valide
         Etant donné le gestionnaire de réseau "Enedis"
-        Quand le gestionnaire de réseau inconnu est attribué au raccordement du projet lauréat "Du boulodrome de Marseille"
-        Et un porteur modifie le gestionnaire de réseau du projet "Du boulodrome de Marseille" avec le gestionnaire "Enedis"
+        Et une tâche indiquant de "mettre à jour le gestionnaire de réseau" pour le projet lauréat "Du boulodrome de Marseille" avec gestionnaire inconnu
+        Quand un porteur modifie le gestionnaire de réseau du projet "Du boulodrome de Marseille" avec le gestionnaire "Enedis"
         Alors une tâche indiquant de "mettre à jour le gestionnaire de réseau" n'est plus consultable dans la liste des tâches du porteur pour le projet

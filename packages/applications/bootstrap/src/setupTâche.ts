@@ -47,7 +47,7 @@ export const setupTâche = async () => {
     eventType: [
       'RéférenceDossierRacordementModifiée-V1',
       'GestionnaireRéseauRaccordementModifié-V1',
-      'GestionnaireRéseauRaccordementInconnu-V1',
+      'GestionnaireRéseauInconnuAttribué-V1',
     ],
     eventHandler: async (event) => {
       await mediator.publish<TâcheSaga.Execute>({
