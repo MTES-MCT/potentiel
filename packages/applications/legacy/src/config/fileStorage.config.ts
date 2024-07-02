@@ -1,17 +1,17 @@
 import { makeS3FileStorageService } from '../infra/file';
 
 const {
-  LEGACY_S3_ACCESS_KEY_ID,
-  LEGACY_S3_SECRET_ACCESS_KEY,
-  LEGACY_S3_ENDPOINT,
-  LEGACY_S3_BUCKET,
+  AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY,
+  S3_ENDPOINT,
+  S3_BUCKET,
 } = process.env;
 
 const missingVars = [
-  'LEGACY_S3_BUCKET',
-  'LEGACY_S3_ENDPOINT',
-  'LEGACY_S3_ACCESS_KEY_ID',
-  'LEGACY_S3_SECRET_ACCESS_KEY',
+  'S3_BUCKET',
+  'S3_ENDPOINT',
+  'AWS_ACCESS_KEY_ID',
+  'AWS_SECRET_ACCESS_KEY',
 ].filter((key) => !process.env[key]);
 
 if (missingVars.length) {
@@ -23,12 +23,12 @@ if (missingVars.length) {
 }
 
 const fileStorageService = makeS3FileStorageService({
-  accessKeyId: LEGACY_S3_ACCESS_KEY_ID!,
-  secretAccessKey: LEGACY_S3_SECRET_ACCESS_KEY!,
-  endpoint: LEGACY_S3_ENDPOINT!,
-  bucket: LEGACY_S3_BUCKET!,
+  accessKeyId: AWS_ACCESS_KEY_ID!,
+  secretAccessKey: AWS_SECRET_ACCESS_KEY!,
+  endpoint: S3_ENDPOINT!,
+  bucket: S3_BUCKET!,
 });
 
-console.log(`FileService will be using S3 on bucket ${LEGACY_S3_BUCKET}`);
+console.log(`FileService will be using S3 on bucket ${S3_BUCKET}`);
 
 export { fileStorageService };

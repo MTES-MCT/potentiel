@@ -4,10 +4,10 @@ import { makeS3FileStorageService } from './S3FileStorageService';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const accessKeyId = process.env.LEGACY_S3_ACCESS_KEY_ID!;
-const secretAccessKey = process.env.LEGACY_S3_SECRET_ACCESS_KEY!;
-const bucket = process.env.LEGACY_S3_BUCKET!;
-const endpoint = process.env.LEGACY_S3_ENDPOINT!;
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID!;
+const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY!;
+const bucket = process.env.S3_BUCKET!;
+const endpoint = process.env.S3_ENDPOINT!;
 
 describe.skip('S3FileStorageService', () => {
   const fakePath = `test/fakeFile-${Date.now()}.txt`;
