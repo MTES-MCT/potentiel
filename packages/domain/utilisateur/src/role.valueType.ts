@@ -23,7 +23,7 @@ const roles: Array<RawType> = [
 
 export type ValueType = ReadonlyValueType<{
   nom: RawType;
-  libellé(): string;
+  formatter(): string;
   vérifierLaPermission(value: string): void;
 }>;
 
@@ -34,7 +34,7 @@ export const convertirEnValueType = (value: string): ValueType => {
     estÉgaleÀ(valueType) {
       return valueType.nom === this.nom;
     },
-    libellé() {
+    formatter() {
       return this.nom.replace('-', ' ').toLocaleUpperCase();
     },
     vérifierLaPermission(permission) {
