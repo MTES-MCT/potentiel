@@ -283,11 +283,8 @@ Quand(
     nomProjet: string,
     référenceDossierRaccordementActuelle: string,
     nouvelleRéférenceDossierRaccordement: string,
-    raisonSocialeGestionnaire: string,
   ) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-    const { codeEIC } =
-      this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSocialeGestionnaire);
 
     try {
       this.raccordementWorld.référenceDossierRaccordement =
@@ -297,7 +294,6 @@ Quand(
       await mediator.send<Raccordement.RaccordementUseCase>({
         type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
         data: {
-          identifiantGestionnaireRéseauValue: codeEIC,
           identifiantProjetValue: identifiantProjet.formatter(),
           nouvelleRéférenceDossierRaccordementValue: nouvelleRéférenceDossierRaccordement,
           référenceDossierRaccordementActuelleValue: référenceDossierRaccordementActuelle,
