@@ -2,7 +2,6 @@ import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { Icon } from '@/components/atoms/Icon';
 
@@ -12,16 +11,16 @@ import { GestionnaireRéseau as GestionnaireRéseauProps } from '../type';
 type ModifierGestionnaireRéseauDuRaccordementProps = {
   gestionnaireRéseau: GestionnaireRéseauProps;
   identifiantProjet: ProjetBannerProps['identifiantProjet'];
+  isGestionnaireInconnu?: boolean;
 };
 
 export const ModifierGestionnaireRéseauDuRaccordement: FC<
   ModifierGestionnaireRéseauDuRaccordementProps
-> = ({ gestionnaireRéseau, identifiantProjet }: ModifierGestionnaireRéseauDuRaccordementProps) => {
-  const isGestionnaireInconnu =
-    GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
-      gestionnaireRéseau.identifiantGestionnaireRéseau,
-    ).estÉgaleÀ(GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu);
-
+> = ({
+  gestionnaireRéseau,
+  identifiantProjet,
+  isGestionnaireInconnu,
+}: ModifierGestionnaireRéseauDuRaccordementProps) => {
   const lienModifier = gestionnaireRéseau.canEdit ? (
     <a
       className="ml-1"

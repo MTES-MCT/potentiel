@@ -24,6 +24,7 @@ export type DossierRaccordementProps = {
     dateMiseEnService?: Iso8601DateTime;
     canEdit: boolean;
   };
+  isGestionnaireInconnu?: boolean;
 };
 
 export const DossierRaccordement: FC<DossierRaccordementProps> = ({
@@ -32,6 +33,7 @@ export const DossierRaccordement: FC<DossierRaccordementProps> = ({
   demandeComplèteRaccordement,
   propositionTechniqueEtFinancière,
   miseEnService,
+  isGestionnaireInconnu,
 }) => (
   <div className="flex flex-col md:flex-row justify-items-stretch">
     <ÉtapeDemandeComplèteRaccordement
@@ -39,7 +41,7 @@ export const DossierRaccordement: FC<DossierRaccordementProps> = ({
       référence={référence}
       dateQualification={demandeComplèteRaccordement.dateQualification}
       accuséRéception={demandeComplèteRaccordement.accuséRéception}
-      canEdit={demandeComplèteRaccordement.canEdit}
+      canEdit={demandeComplèteRaccordement.canEdit && !isGestionnaireInconnu}
     />
 
     <Separateur />
@@ -51,7 +53,7 @@ export const DossierRaccordement: FC<DossierRaccordementProps> = ({
       propositionTechniqueEtFinancièreSignée={
         propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée
       }
-      canEdit={propositionTechniqueEtFinancière.canEdit}
+      canEdit={propositionTechniqueEtFinancière.canEdit && !isGestionnaireInconnu}
     />
 
     <Separateur />
@@ -60,7 +62,7 @@ export const DossierRaccordement: FC<DossierRaccordementProps> = ({
       identifiantProjet={identifiantProjet}
       référence={référence}
       dateMiseEnService={miseEnService.dateMiseEnService}
-      canEdit={miseEnService.canEdit}
+      canEdit={miseEnService.canEdit && !isGestionnaireInconnu}
     />
   </div>
 );
