@@ -10,18 +10,18 @@ export const référentielDistributeursDEnergieUrl =
 export const distributeurDEnergieParCommuneUrl =
   'api/explore/v2.1/catalog/datasets/distributeurs-denergie-par-commune/records?';
 
-export const relevantDOMTOM = ['Guadeloupe', 'Martinique', 'Guyane', 'LaRéunion', 'Mayotte'];
-export type RelevantDOMTOM = (typeof relevantDOMTOM)[number];
+export const relevantOutreMer = ['Guadeloupe', 'Martinique', 'Guyane', 'LaRéunion', 'Mayotte'];
+export type RelevantOutreMer = (typeof relevantOutreMer)[number];
 
-export const DOMTOMPostalCodeRanges: Record<RelevantDOMTOM, { min: number; max: number }> = {
-  Guadeloupe: { min: 97100, max: 97199 },
-  Martinique: { min: 97200, max: 97299 },
-  Guyane: { min: 97300, max: 97399 },
-  LaRéunion: { min: 97400, max: 97499 },
-  Mayotte: { min: 97600, max: 97699 },
+export const outreMerPostalCodePrefix: Record<string, RelevantOutreMer> = {
+  971: 'Guadeloupe',
+  972: 'Martinique',
+  973: 'Guyane',
+  974: 'LaRéunion',
+  976: 'Mayotte',
 };
 
-export const DOMTOMNameToGRDRaisonSociale: Record<RelevantDOMTOM, string> = {
+export const outreMerNameToGRDRaisonSociale: Record<RelevantOutreMer, string> = {
   Guadeloupe: 'EDF Archipel Guadeloupe',
   Martinique: 'EDF Martinique',
   Guyane: 'EDF Guyane',

@@ -7,8 +7,8 @@ import { get } from '@potentiel-libraries/http-client';
 
 import { OreEndpoint, distributeurDEnergieParCommuneUrl } from './constant';
 import { normaliserCommune } from './helper/normaliserCommune';
-import { getDOMTOM } from './helper/getDOMTOM';
-import { récupérerGestionnairePourDOMTOM } from './récupérerGestionnairePourDOMTOM';
+import { récupérerGestionnairePourOutreMer } from './récupérerGestionnairePourOutreMer';
+import { getOutreMer } from './helper/getOutreMer';
 
 type GetGRDByCityProps = {
   codePostal: string;
@@ -47,14 +47,14 @@ export const récupérerGRDParVille = async ({
   url.searchParams.append('limit', '50');
 
   try {
-    const DOMTOM = getDOMTOM(parseInt(codePostal));
+    const outreMer = getOutreMer(codePostal);
 
-    if (Option.isSome(DOMTOM)) {
-      const gestionnaire = await récupérerGestionnairePourDOMTOM(DOMTOM);
+    if (Option.isSome(outreMer)) {
+      const gestionnaire = await récupérerGestionnairePourOutreMer(outreMer);
 
       if (Option.isNone(gestionnaire)) {
         logger.warn(
-          `[récupérerGRDParVille] Aucun GRD trouvé pour le DOMTOM ${DOMTOM} (code postal ${codePostal})`,
+          `[récupérerGRDParVille] Aucun GRD trouvé pour le Outre-mer ${outreMer} (code postal ${codePostal})`,
         );
         return Option.none;
       }

@@ -1,27 +1,27 @@
 import { Option } from '@potentiel-libraries/monads';
 
 import {
-  RelevantDOMTOM,
-  DOMTOMNameToGRDRaisonSociale,
+  RelevantOutreMer,
+  outreMerNameToGRDRaisonSociale,
   OreGestionnaire,
   MayotteGRDEIC,
 } from './constant';
 import { récupérerGRDParRaisonSociale } from './récupérerGRDParRaisonSociale';
 
-export const récupérerGestionnairePourDOMTOM = async (
-  DOMTOM: RelevantDOMTOM,
+export const récupérerGestionnairePourOutreMer = async (
+  outreMer: RelevantOutreMer,
 ): Promise<Option.Type<OreGestionnaire>> => {
   // Mayotte is an edge case
   // because it's not listed in ORE
-  if (DOMTOM === 'Mayotte') {
+  if (outreMer === 'Mayotte') {
     return {
-      grd: DOMTOMNameToGRDRaisonSociale[DOMTOM],
+      grd: outreMerNameToGRDRaisonSociale[outreMer],
       eic: MayotteGRDEIC,
       contact: '',
     };
   }
 
-  const raisonSociale = DOMTOMNameToGRDRaisonSociale[DOMTOM];
+  const raisonSociale = outreMerNameToGRDRaisonSociale[outreMer];
 
   const gestionnaire = await récupérerGRDParRaisonSociale(raisonSociale);
   return gestionnaire;
