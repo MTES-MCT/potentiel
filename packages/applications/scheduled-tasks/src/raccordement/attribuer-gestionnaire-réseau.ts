@@ -87,11 +87,8 @@ registerRéseauQueries({
     }
 
     if (projetsSansGestionnaire.length) {
-      const pourcentageProjetsNonTrouvés = Math.round(
-        (projetsSansGestionnaireTrouvés / projetsSansGestionnaire.length) * 100,
-      );
       getLogger().info(
-        `Sur ${projetsSansGestionnaire.length} projets classés sans raccordement, nous n'avons pas pu attribuer de GRD à ${pourcentageProjetsNonTrouvés} % d'entre eux`,
+        `Sur ${projetsSansGestionnaire.length} projets classés sans raccordement, nous n'avons pas pu attribuer de GRD à ${projetsSansGestionnaireTrouvés} d'entre eux`,
       );
     }
 
