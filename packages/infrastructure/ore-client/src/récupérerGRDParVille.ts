@@ -6,7 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { OreEndpoint, distributeurDEnergieParCommuneUrl } from './constant';
-import { transformCommuneToOreFormat } from './helper/transformCommuneToOreFormat';
+import { normaliserCommune } from './helper/normaliserCommune';
 
 const schema = zod.object({
   total_count: zod.number(),
@@ -35,19 +35,14 @@ export const récupérerGRDParVille = async ({
   codePostal,
   commune,
 }: GetGRDByCityProps): Promise<Option.Type<OreGestionnaireByCity>> => {
-  const oreFormatCommune = transformCommuneToOreFormat(commune);
-
   const url = new URL(distributeurDEnergieParCommuneUrl, OreEndpoint);
 
-  url.searchParams.append(
-    'where',
-    `code_postal in ("${codePostal}") and commune like "${oreFormatCommune}" and grd_elec is not null`,
-  );
+  url.searchParams.append('where', `code_postal="${codePostal}"`);
   url.searchParams.append('select', 'grd_elec, grd_elec_eic, commune');
   /**
-   * Il nous faut seulement vérifier si nous obtenons au moins un ou plusieurs résultats
+   * Un code postal peut correspondre à une cinquantaine de villes max (cf 51300)
    */
-  url.searchParams.append('limit', '2');
+  url.searchParams.append('limit', '50');
 
   try {
     const result = await get(url);
@@ -55,30 +50,46 @@ export const récupérerGRDParVille = async ({
     const parsedResult = schema.parse(result);
 
     if (parsedResult.total_count === 0) {
+      logger.warn(`[récupérerGRDParVille] Aucun GRD trouvé pour le code postal ${codePostal}`);
+      return Option.none;
+    }
+
+    const communeNormalisée = normaliserCommune(commune);
+    const communesTrouvées = parsedResult.results.filter(
+      (ore) => normaliserCommune(ore.commune) === communeNormalisée,
+    );
+
+    if (communesTrouvées.length === 0) {
       logger.warn(
-        `[récupérerGRDParVille] Aucun GRD trouvé pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
+        `[récupérerGRDParVille] Aucune commune trouvée dans la base ORE pour le code postal ${codePostal} et la commune ${communeNormalisée}`,
       );
       return Option.none;
     }
+    if (communesTrouvées.length > 1) {
+      logger.warn(
+        `[récupérerGRDParVille] Plus d'une commune trouvée dans la base ORE pour le code postal ${codePostal} et la commune ${communeNormalisée}`,
+      );
+      return Option.none;
+    }
+    const communeTrouvée = communesTrouvées[0];
 
     if (
-      (!parsedResult.results[0].grd_elec_eic ||
-        parsedResult.results[0].grd_elec_eic.length === 0) &&
-      (!parsedResult.results[0].grd_elec || parsedResult.results[0].grd_elec.length === 0)
+      (!communeTrouvée.grd_elec_eic || communeTrouvée.grd_elec_eic.length === 0) &&
+      (!communeTrouvée.grd_elec || communeTrouvée.grd_elec.length === 0)
     ) {
       logger.warn(
-        `[récupérerGRDParVille] Un GRD (${parsedResult.results[0].grd_elec}) a été trouvé mais sans code EIC et sans raison sociale pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
+        `[récupérerGRDParVille] Un GRD (${communeTrouvée.grd_elec}) a été trouvé mais sans code EIC et sans raison sociale pour le code postal ${codePostal} et la commune ${communeNormalisée}`,
       );
       return Option.none;
     }
 
-    if (parsedResult.results[0].grd_elec_eic && parsedResult.results[0].grd_elec_eic.length > 1) {
+    if (communeTrouvée.grd_elec_eic && communeTrouvée.grd_elec_eic.length > 1) {
       logger.warn(
         `[récupérerGRDParVille] Un GRD (${
-          parsedResult.results[0].grd_elec
-        }) a été trouvé avec plusieurs code EIC (${parsedResult.results[0].grd_elec_eic.join(
+          communeTrouvée.grd_elec
+        }) a été trouvé avec plusieurs code EIC (${communeTrouvée.grd_elec_eic.join(
           '/',
-        )}) pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
+        )}) pour le code postal ${codePostal} et la commune ${communeNormalisée}`,
       );
       return Option.none;
     }
@@ -86,12 +97,11 @@ export const récupérerGRDParVille = async ({
     /**
      * Règle métier : quand aucun code EIC n'est fourni, on utilise la raison sociale (ou grd)
      */
-    const codeEIC =
-      parsedResult.results[0].grd_elec_eic?.[0] ?? parsedResult.results[0].grd_elec[0];
+    const codeEIC = communeTrouvée.grd_elec_eic?.[0] ?? communeTrouvée.grd_elec[0];
 
     return {
       codeEIC,
-      raisonSociale: parsedResult.results[0].grd_elec[0],
+      raisonSociale: communeTrouvée.grd_elec[0],
     };
   } catch (error) {
     logger.error(error as Error);

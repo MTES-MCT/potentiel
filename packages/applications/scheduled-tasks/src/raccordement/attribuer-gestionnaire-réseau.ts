@@ -49,6 +49,7 @@ registerRéseauQueries({
     getLogger().info(`${projetsSansGestionnaire.length} projets sans raccordement`);
 
     let projetsSansGestionnaireTrouvés = 0;
+    const codeEicInconnu = GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.codeEIC;
 
     for (const projet of projetsSansGestionnaire) {
       const gestionnaireParVille = await récupérerGRDParVille({
@@ -56,40 +57,28 @@ registerRéseauQueries({
         commune: projet.localité.commune,
       });
 
-      if (Option.isNone(gestionnaireParVille)) {
-        projetsSansGestionnaireTrouvés++;
-        continue;
-      }
-
-      const gestionnaire = await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>(
-        {
-          type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
-          data: {
-            identifiantGestionnaireRéseau: gestionnaireParVille.codeEIC,
-          },
-        },
-      );
-
-      if (Option.isNone(gestionnaire)) {
-        getLogger().warn(
-          `Le gestionnaire ${gestionnaireParVille.raisonSociale} n'existe pas en base de données`,
-        );
-        projetsSansGestionnaireTrouvés++;
-        continue;
-      }
+      const grdOuInconnu = Option.match(gestionnaireParVille)
+        .some((grd) => grd)
+        .none(() => {
+          projetsSansGestionnaireTrouvés++;
+          return {
+            codeEIC: codeEicInconnu,
+            raisonSociale: 'Inconnu',
+          };
+        });
 
       try {
         await mediator.send<Raccordement.RaccordementUseCase>({
           type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',
           data: {
-            identifiantGestionnaireRéseauValue:
-              gestionnaire.identifiantGestionnaireRéseau.formatter(),
+            identifiantGestionnaireRéseauValue: grdOuInconnu.codeEIC,
             identifiantProjetValue: projet.identifiantProjet,
           },
         });
 
+        const emoji = grdOuInconnu.codeEIC === codeEicInconnu ? '⚠️' : '✅';
         getLogger().info(
-          `✅ Gestionnaire ${gestionnaire.raisonSociale} attribué au projet ${projet.identifiantProjet}`,
+          `${emoji} Gestionnaire ${grdOuInconnu.raisonSociale} attribué au projet ${projet.identifiantProjet}`,
         );
       } catch (error) {
         getLogger().error(error as Error);
