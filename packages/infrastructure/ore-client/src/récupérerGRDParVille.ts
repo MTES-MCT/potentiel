@@ -37,7 +37,7 @@ export const récupérerGRDParVille = async ({
 }: GetGRDByCityProps): Promise<Option.Type<OreGestionnaireByCity>> => {
   const url = new URL(distributeurDEnergieParCommuneUrl, OreEndpoint);
 
-  url.searchParams.append('where', `code_postal="${codePostal}"`);
+  url.searchParams.append('where', `code_postal="${codePostal}" and grd_elec is not null`);
   url.searchParams.append('select', 'grd_elec, grd_elec_eic, commune');
   /**
    * Un code postal peut correspondre à une cinquantaine de villes max (cf 51300)
