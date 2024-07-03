@@ -10,10 +10,11 @@ export const référentielDistributeursDEnergieUrl =
 export const distributeurDEnergieParCommuneUrl =
   'api/explore/v2.1/catalog/datasets/distributeurs-denergie-par-commune/records?';
 
+// constants relevant to Outre-mer
 export const relevantOutreMer = ['Guadeloupe', 'Martinique', 'Guyane', 'LaRéunion', 'Mayotte'];
 export type RelevantOutreMer = (typeof relevantOutreMer)[number];
 
-export const outreMerPostalCodePrefix: Record<string, RelevantOutreMer> = {
+export const outreMerPostalCodePrefixInString: Record<string, RelevantOutreMer> = {
   971: 'Guadeloupe',
   972: 'Martinique',
   973: 'Guyane',
@@ -31,6 +32,11 @@ export const outreMerNameToGRDRaisonSociale: Record<RelevantOutreMer, string> = 
 
 export const MayotteGRDEIC = 'EDM976';
 
+// constants relevant to Corsica
+export const CorsePostalCodePrefixInString = '20';
+export const corseGRDRaisonSociale = 'EDF Corse';
+
+// API schema validators and types
 export const gestionnaireSchema = zod.object({
   grd: zod.string(),
   eic: zod.string().nullable(),

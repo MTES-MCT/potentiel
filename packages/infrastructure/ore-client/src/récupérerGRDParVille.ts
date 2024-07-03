@@ -5,10 +5,11 @@ import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { get } from '@potentiel-libraries/http-client';
 
-import { OreEndpoint, distributeurDEnergieParCommuneUrl } from './constant';
+import { OreEndpoint, corseGRDRaisonSociale, distributeurDEnergieParCommuneUrl } from './constant';
 import { normaliserCommune } from './helper/normaliserCommune';
 import { récupérerGestionnairePourOutreMer } from './récupérerGestionnairePourOutreMer';
-import { getOutreMer } from './helper/getOutreMer';
+import { getOutreMer, isCorse } from './helper/checkPostalCode';
+import { récupérerGRDParRaisonSociale } from './récupérerGRDParRaisonSociale';
 
 type GetGRDByCityProps = {
   codePostal: string;
@@ -47,6 +48,22 @@ export const récupérerGRDParVille = async ({
   url.searchParams.append('limit', '50');
 
   try {
+    if (isCorse(codePostal)) {
+      const gestionnaire = await récupérerGRDParRaisonSociale(corseGRDRaisonSociale);
+
+      if (Option.isNone(gestionnaire)) {
+        logger.warn(
+          `[récupérerGRDParVille] Aucun GRD trouvé pour le code postal ${codePostal} et la commune ${oreFormatCommune}`,
+        );
+        return Option.none;
+      }
+
+      return {
+        codeEIC: gestionnaire.eic,
+        raisonSociale: gestionnaire.grd,
+      };
+    }
+
     const outreMer = getOutreMer(codePostal);
 
     if (Option.isSome(outreMer)) {
