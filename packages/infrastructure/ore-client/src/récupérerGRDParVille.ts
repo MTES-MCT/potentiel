@@ -1,12 +1,23 @@
 import zod from 'zod';
 
-import { get } from '@potentiel-libraries/http-client';
 import { GestionnaireRéseau as Gestionnaire } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { get } from '@potentiel-libraries/http-client';
 
 import { OreEndpoint, distributeurDEnergieParCommuneUrl } from './constant';
 import { normaliserCommune } from './helper/normaliserCommune';
+import { matchOutreMerAndCorseCodePostalToGRD } from './helper/matchOutreMerAndCorseCodePostalToGRD';
+
+type GetGRDByCityProps = {
+  codePostal: string;
+  commune: string;
+};
+
+export type OreGestionnaireByCity = Pick<
+  Gestionnaire.GestionnaireRéseauEntity,
+  'raisonSociale' | 'codeEIC'
+>;
 
 const schema = zod.object({
   total_count: zod.number(),
@@ -18,16 +29,6 @@ const schema = zod.object({
     }),
   ),
 });
-
-type GetGRDByCityProps = {
-  codePostal: string;
-  commune: string;
-};
-
-export type OreGestionnaireByCity = Pick<
-  Gestionnaire.GestionnaireRéseauEntity,
-  'raisonSociale' | 'codeEIC'
->;
 
 const logger = getLogger();
 
@@ -45,6 +46,10 @@ export const récupérerGRDParVille = async ({
   url.searchParams.append('limit', '50');
 
   try {
+    if (Option.isSome(matchOutreMerAndCorseCodePostalToGRD(codePostal))) {
+      return matchOutreMerAndCorseCodePostalToGRD(codePostal);
+    }
+
     const result = await get(url);
 
     const parsedResult = schema.parse(result);

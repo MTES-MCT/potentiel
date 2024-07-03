@@ -1,23 +1,12 @@
-import zod from 'zod';
-
 import { get } from '@potentiel-libraries/http-client';
 
-import { OREApiLimitInString, OreEndpoint, référentielDistributeursDEnergieUrl } from './constant';
-
-const schema = zod.object({
-  total_count: zod.number(),
-  results: zod.array(
-    zod.object({
-      grd: zod.string(),
-      eic: zod.string().nullable(),
-      contact: zod.string().nullable(),
-    }),
-  ),
-});
-
-export type OreGestionnaire = Omit<zod.TypeOf<typeof schema>['results'][number], 'eic'> & {
-  eic: string;
-};
+import {
+  OREApiLimitInString,
+  OREresultSchema,
+  OreEndpoint,
+  référentielDistributeursDEnergieUrl,
+} from './constant';
+import { OreGestionnaire } from './type';
 
 type OreGestionnaireSlice = {
   gestionnaires: Array<OreGestionnaire>;
@@ -33,7 +22,7 @@ const récupérerGRDParTranche = async (offset: string): Promise<OreGestionnaire
 
   const result = await get(url);
 
-  const parsedResult = schema.parse(result);
+  const parsedResult = OREresultSchema.parse(result);
 
   /**
    * Règle métier : quand aucun code EIC n'est fourni, on utilise la raison sociale (ou grd)
