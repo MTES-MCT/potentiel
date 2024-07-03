@@ -4,9 +4,9 @@ import {
   OREApiLimitInString,
   OREresultSchema,
   OreEndpoint,
-  OreGestionnaire,
   référentielDistributeursDEnergieUrl,
 } from './constant';
+import { OreGestionnaire } from './type';
 
 type OreGestionnaireSlice = {
   gestionnaires: Array<OreGestionnaire>;
