@@ -5,6 +5,7 @@ export const types = [
   'abandon.confirmer',
   'abandon.transmettre-preuve-recandidature',
   'raccordement.référence-non-transmise',
+  'raccordement.gestionnaire-réseau-inconnu-attribué',
   'garanties-financières.demander',
 ] as const;
 
@@ -45,6 +46,9 @@ export const abandonTransmettrePreuveRecandidature = convertirEnValueType(
 );
 export const raccordementRéférenceNonTransmise = convertirEnValueType(
   'raccordement.référence-non-transmise',
+);
+export const raccordementGestionnaireRéseauInconnuAttribué = convertirEnValueType(
+  'raccordement.gestionnaire-réseau-inconnu-attribué',
 );
 
 export const garantiesFinancieresDemander = convertirEnValueType('garanties-financières.demander');
