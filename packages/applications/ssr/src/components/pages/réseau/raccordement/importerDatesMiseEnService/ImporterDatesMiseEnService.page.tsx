@@ -61,6 +61,7 @@ export const ImporterDatesMiseEnServicePage = () => {
                   data={[
                     ['referenceDossier', 'chaîne de caractères'],
                     ['dateMiseEnService', 'date au format JJ/MM/AAAA'],
+                    ['referenceDossierCorrigee', 'chaîne de caractères (optionnel)'],
                   ]}
                 />
               </div>
