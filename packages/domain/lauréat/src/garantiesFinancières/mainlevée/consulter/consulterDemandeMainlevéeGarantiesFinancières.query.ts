@@ -73,8 +73,8 @@ export const registerConsulterDemandeMainlevéeGarantiesFinancièresQuery = ({
 
 export const consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel = ({
   motif,
-  demande,
-  dernièreMiseÀJour,
+  demandéLe,
+  demandéPar,
   statut,
   identifiantProjet,
   nomProjet,
@@ -82,8 +82,8 @@ export const consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel = ({
   famille,
   période,
   régionProjet,
-  instruction,
-  accord,
+  dateMiseÀJour,
+  misÀJourPar,
 }: MainlevéeGarantiesFinancièresEntity): ConsulterDemandeMainlevéeGarantiesFinancièresReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
@@ -92,31 +92,33 @@ export const consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel = ({
   période,
   régionProjet,
   demande: {
-    demandéeLe: DateTime.convertirEnValueType(demande.demandéeLe),
-    demandéePar: Email.convertirEnValueType(demande.demandéePar),
+    demandéeLe: DateTime.convertirEnValueType(demandéLe),
+    demandéePar: Email.convertirEnValueType(demandéPar),
   },
-  instruction: instruction
-    ? {
-        démarréePar: Email.convertirEnValueType(instruction?.démarréePar),
-        démarréeLe: DateTime.convertirEnValueType(instruction.démarréeLe),
-      }
-    : undefined,
-  accord: accord
-    ? {
-        accordéeLe: DateTime.convertirEnValueType(accord.accordéeLe),
-        accordéePar: Email.convertirEnValueType(accord.accordéePar),
-        courrierAccord: DocumentProjet.convertirEnValueType(
-          IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-          TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
-          accord.accordéeLe,
-          accord.courrierAccord.format,
-        ),
-      }
-    : undefined,
+  instruction:
+    statut.type === 'en-instruction'
+      ? {
+          démarréePar: Email.convertirEnValueType(statut.instructionDémarréPar),
+          démarréeLe: DateTime.convertirEnValueType(statut.instructionDémarréLe),
+        }
+      : undefined,
+  accord:
+    statut.type === 'accordé'
+      ? {
+          accordéeLe: DateTime.convertirEnValueType(statut.accordéLe),
+          accordéePar: Email.convertirEnValueType(statut.accordéPar),
+          courrierAccord: DocumentProjet.convertirEnValueType(
+            IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+            TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
+            statut.accordéLe,
+            statut.courrierRéponse.format,
+          ),
+        }
+      : undefined,
   motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(motif),
-  statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(statut),
+  statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(statut.type),
   dernièreMiseÀJour: {
-    date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
-    par: Email.convertirEnValueType(dernièreMiseÀJour.par),
+    date: DateTime.convertirEnValueType(dateMiseÀJour),
+    par: Email.convertirEnValueType(misÀJourPar),
   },
 });

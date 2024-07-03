@@ -1,7 +1,7 @@
 import { Entity } from '@potentiel-domain/core';
 
 export type MainlevéeGarantiesFinancièresEntity = Entity<
-  'demande-mainlevee',
+  'mainlevee-garanties-financieres',
   {
     identifiantProjet: string;
 
@@ -12,12 +12,15 @@ export type MainlevéeGarantiesFinancièresEntity = Entity<
     nomProjet: string;
     régionProjet: string;
 
-    statut: Demandé | EnCoursDInstruction | Accordé | Rejeté;
+    statut: Demandé | EnInstruction | Accordé | Rejeté;
 
     motif: string;
 
     demandéLe: string;
     demandéPar: string;
+
+    dateMiseÀJour: string;
+    misÀJourPar: string;
   }
 >;
 
@@ -25,8 +28,8 @@ type Demandé = {
   type: 'demandé';
 };
 
-type EnCoursDInstruction = {
-  type: 'en-cours-d-instruction';
+type EnInstruction = {
+  type: 'en-instruction';
   instructionDémarréPar: string;
   instructionDémarréLe: string;
 };

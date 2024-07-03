@@ -7,13 +7,15 @@ import { Option } from '@potentiel-libraries/monads';
 
 import {
   MotifDemandeMainlevéeGarantiesFinancières,
-  StatutMainlevéeGarantiesFinancières,
+  // StatutMainlevéeGarantiesFinancières,
 } from '../..';
 import { MainlevéeGarantiesFinancièresEntity } from '../mainlevéeGarantiesFinancières.entity';
 import {
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
   consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel,
 } from '../consulter/consulterDemandeMainlevéeGarantiesFinancières.query';
+
+type Status = 'demandé' | 'en-instruction' | 'accordé' | 'rejeté';
 
 export type ListerDemandeMainlevéeItemReadModel =
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel;
@@ -30,7 +32,7 @@ export type ListerDemandeMainlevéeQuery = Message<
     range?: RangeOptions;
     appelOffre?: string;
     motif?: MotifDemandeMainlevéeGarantiesFinancières.RawType;
-    statut?: StatutMainlevéeGarantiesFinancières.RawType;
+    statut: Array<Status>;
     utilisateur: {
       rôle: string;
       email: string;
@@ -44,6 +46,14 @@ type ListerDemandeMainlevéeQueryDependencies = {
   récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
+const mapToWhereEqual = <T>(value: T | undefined) =>
+  value
+    ? {
+        operator: 'equal' as const,
+        value,
+      }
+    : undefined;
+
 export const registerListerDemandeMainlevéeQuery = ({
   list,
   récupérerRégionDreal,
@@ -52,7 +62,7 @@ export const registerListerDemandeMainlevéeQuery = ({
     range,
     appelOffre,
     motif,
-    statut,
+    // statut,
     utilisateur,
   }) => {
     let région: string | undefined = undefined;
@@ -73,24 +83,19 @@ export const registerListerDemandeMainlevéeQuery = ({
       total,
     } = await list<MainlevéeGarantiesFinancièresEntity>('mainlevee-garanties-financieres', {
       orderBy: {
-        demande: {
-          demandéeLe: 'ascending',
-        },
+        demandéLe: 'ascending',
       },
       range,
       where: {
-        ...(appelOffre && {
-          appelOffre: { operator: 'equal', value: appelOffre },
-        }),
-        ...(motif && {
-          motif: { operator: 'equal', value: motif },
-        }),
-        statut: statut
-          ? { operator: 'equal', value: statut }
-          : { operator: 'include', value: ['en-instruction', 'demandé', 'accepté'] },
-        ...(région && {
-          régionProjet: { operator: 'equal', value: région },
-        }),
+        appelOffre: mapToWhereEqual(appelOffre),
+        motif: mapToWhereEqual(motif),
+        régionProjet: mapToWhereEqual(région),
+        // statut: {
+        //   type: {
+        //     operator: 'include',
+        //     value: statut as Array<Status>,
+        //   },
+        // },
       },
     });
 
