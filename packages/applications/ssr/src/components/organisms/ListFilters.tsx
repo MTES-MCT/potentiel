@@ -3,7 +3,6 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { usePathname } from 'next/navigation';
 import { FC, useState } from 'react';
 
-import { Heading2 } from '../atoms/headings';
 import { Filter } from '../molecules/Filter';
 
 export type ListFiltersProps = {
@@ -25,7 +24,6 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
 
   return (
     <>
-      <Heading2 className="mt-1 mb-6">Affiner la recherche</Heading2>
       {filters.map(({ label, searchParamKey, options, defaultValue }) => (
         <Filter
           key={`filter-${searchParamKey}`}

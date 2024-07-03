@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { LinkAction } from '../atoms/LinkAction';
-import { Heading1 } from '../atoms/headings';
+import { Heading1, Heading2 } from '../atoms/headings';
 import { Search, SearchProps } from '../molecules/Search';
 import { List } from '../organisms/List';
 import { ListFilters, ListFiltersProps } from '../organisms/ListFilters';
@@ -62,6 +62,9 @@ export const ListPageTemplate = <TItem,>({
                 />
               ))}
             </>
+          ) : null}
+          {search || filters.length ? (
+            <Heading2 className="mt-1 mb-4">Affiner la recherche</Heading2>
           ) : null}
           {search ? <Search label={search.label} params={search.params} /> : null}
           {filters.length ? <ListFilters key={listFiltersKey} filters={filters} /> : null}

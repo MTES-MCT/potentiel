@@ -19,6 +19,14 @@ const mapToWhereEqual = <T>(value: T | undefined) =>
       }
     : undefined;
 
+const mapToWhereLike = (value: string | undefined) =>
+  value
+    ? {
+        operator: 'like' as const,
+        value: `%${value}%` as `%${string}%`,
+      }
+    : undefined;
+
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   appelOffre: string;
@@ -48,6 +56,7 @@ export type ListerAbandonsQuery = Message<
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
     preuveRecandidatureStatut?: StatutPreuveRecandidature.RawType;
+    nomProjet?: string;
     range: RangeOptions;
   },
   ListerAbandonReadModel
@@ -69,6 +78,7 @@ export const registerListerAbandonQuery = ({
     statut,
     appelOffre,
     preuveRecandidatureStatut,
+    nomProjet,
     utilisateur: { email, rôle },
     range,
   }) => {
@@ -82,6 +92,7 @@ export const registerListerAbandonQuery = ({
           statut: mapToWhereEqual(statut),
           projet: {
             appelOffre: mapToWhereEqual(appelOffre),
+            nom: mapToWhereLike(nomProjet),
           },
           demande: {
             estUneRecandidature: mapToWhereEqual(recandidature),

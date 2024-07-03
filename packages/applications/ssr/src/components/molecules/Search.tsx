@@ -22,6 +22,7 @@ export const Search = ({ params, label }: SearchProps) => {
       onButtonClick={() => router.push(url)}
       label={label}
       allowEmptySearch
+      className="mb-4"
       renderInput={({ className, id, placeholder, type }) => (
         <input
           ref={setInputElement}

@@ -98,7 +98,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
         <>
           {accord.réponseSignée && (
             <DownloadDocument
-              className="mb-0 pb-0"
+              className="mb-0"
               label="Télécharger la pièce justificative"
               format="pdf"
               url={Routes.Document.télécharger(accord.réponseSignée)}
@@ -120,7 +120,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
         <>
           {rejet.réponseSignée && (
             <DownloadDocument
-              className="mb-0 pb-0"
+              className="mb-0"
               label="Télécharger la pièce justificative"
               format="pdf"
               url={Routes.Document.télécharger(rejet.réponseSignée)}
@@ -155,7 +155,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
         <>
           {confirmation.réponseSignée && (
             <DownloadDocument
-              className="mb-0 pb-0"
+              className="mb-0"
               label="Télécharger la pièce justificative"
               format="pdf"
               url={Routes.Document.télécharger(confirmation.réponseSignée)}
@@ -185,7 +185,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
         </div>
         {justificatifDemande && (
           <DownloadDocument
-            className="mb-0 pb-0"
+            className="mb-0"
             label="Télécharger la pièce justificative"
             format="pdf"
             url={Routes.Document.télécharger(justificatifDemande)}
