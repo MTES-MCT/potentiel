@@ -24,7 +24,7 @@ const csvSchema = zod.object({
   dateMiseEnService: zod.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, {
     message: "Le format de la date n'est pas respecté (format attendu : JJ/MM/AAAA)",
   }),
-  referenceDossierEnedis: zod
+  referenceDossierCorrigee: zod
     .string()
     .regex(/[a-zA-Z]{3}/)
     .optional(),
@@ -49,7 +49,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
     let success: number = 0;
     const errors: ActionResult['errors'] = [];
 
-    for (const { referenceDossier, dateMiseEnService, referenceDossierEnedis } of lines) {
+    for (const { referenceDossier, dateMiseEnService, referenceDossierCorrigee } of lines) {
       const dossiers = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
         data: {
@@ -93,8 +93,10 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
           /**
            * Mise à jour de la référence dossier raccordement, si différente
            **/
-          const réferenceDossierRaccordementCorrigée = referenceDossierEnedis
-            ? Raccordement.RéférenceDossierRaccordement.convertirEnValueType(referenceDossierEnedis)
+          const réferenceDossierRaccordementCorrigée = referenceDossierCorrigee
+            ? Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+                referenceDossierCorrigee,
+              )
             : undefined;
 
           if (
