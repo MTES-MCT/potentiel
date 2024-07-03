@@ -24,10 +24,7 @@ const csvSchema = zod.object({
   dateMiseEnService: zod.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, {
     message: "Le format de la date n'est pas respecté (format attendu : JJ/MM/AAAA)",
   }),
-  referenceDossierCorrigee: zod
-    .string()
-    .regex(/[a-zA-Z]{3}/)
-    .optional(),
+  referenceDossierCorrigee: zod.string().optional(),
 });
 
 const convertDateToCommonFormat = (date: string) => {
