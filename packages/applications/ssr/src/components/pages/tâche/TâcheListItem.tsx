@@ -105,8 +105,8 @@ const getDescriptionTâche = (
         titre: 'Gestionnaire réseau inconnu',
         description: `Le gestionnaire réseau pour le projet ${nomProjet} n'a pas pu être automatiquement attribué.`,
         lien: Routes.Raccordement.modifierGestionnaireDeRéseau(identifiant),
-        action: 'Voir le gestionnaire réseau attribué',
-        ariaLabel: `Voir le gestionnaire réseau attribué au projet ${nomProjet}`,
+        action: 'Modifier le gestionnaire réseau attribué',
+        ariaLabel: `Modifier le gestionnaire réseau attribué au projet ${nomProjet}`,
       };
     case 'garanties-financières.demander':
       return {
