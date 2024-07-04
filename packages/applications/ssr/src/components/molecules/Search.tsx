@@ -14,7 +14,11 @@ export const Search = ({ params, label }: SearchProps) => {
   const [searchParams, setSearchParams] = useState<string>('');
   const [inputElement, setInputElement] = useState<HTMLInputElement | null>(null);
 
-  const url = buildUrl(pathname, new URLSearchParams({ [params]: searchParams }), searchParams);
+  const url = buildUrl(
+    pathname,
+    new URLSearchParams({ [params]: searchParams.trim() }),
+    searchParams,
+  );
   const router = useRouter();
 
   return (
