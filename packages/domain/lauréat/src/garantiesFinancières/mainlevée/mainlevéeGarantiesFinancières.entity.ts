@@ -12,30 +12,28 @@ export type MainlevéeGarantiesFinancièresEntity = Entity<
     nomProjet: string;
     régionProjet: string;
 
-    statut: Demandé | EnInstruction | Accordé | Rejeté;
+    dernièreMiseÀJourLe: string;
+    dernièreMiseÀJourPar: string;
 
     motif: string;
 
     demandéLe: string;
     demandéPar: string;
-
-    dateMiseÀJour: string;
-    misÀJourPar: string;
-  }
+  } & (Demandé | EnInstruction | Accordé | Rejeté)
 >;
 
 type Demandé = {
-  type: 'demandé';
+  statut: 'demandé';
 };
 
 type EnInstruction = {
-  type: 'en-instruction';
+  statut: 'en-instruction';
   instructionDémarréPar: string;
   instructionDémarréLe: string;
 };
 
 type Accordé = {
-  type: 'accordé';
+  statut: 'accordé';
   accordéLe: string;
   accordéPar: string;
   courrierRéponse: {
@@ -44,7 +42,7 @@ type Accordé = {
 };
 
 type Rejeté = {
-  type: 'rejeté';
+  statut: 'rejeté';
   rejetéLe: string;
   rejetéPar: string;
   courrierRéponse: {

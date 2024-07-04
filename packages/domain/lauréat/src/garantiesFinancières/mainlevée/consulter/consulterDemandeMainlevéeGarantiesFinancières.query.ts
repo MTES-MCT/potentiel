@@ -75,15 +75,15 @@ export const consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel = ({
   motif,
   demandéLe,
   demandéPar,
-  statut,
   identifiantProjet,
   nomProjet,
   appelOffre,
   famille,
   période,
   régionProjet,
-  dateMiseÀJour,
-  misÀJourPar,
+  dernièreMiseÀJourLe,
+  dernièreMiseÀJourPar,
+  ...mainlevée
 }: MainlevéeGarantiesFinancièresEntity): ConsulterDemandeMainlevéeGarantiesFinancièresReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
@@ -96,29 +96,29 @@ export const consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel = ({
     demandéePar: Email.convertirEnValueType(demandéPar),
   },
   instruction:
-    statut.type === 'en-instruction'
+    mainlevée.statut === 'en-instruction'
       ? {
-          démarréePar: Email.convertirEnValueType(statut.instructionDémarréPar),
-          démarréeLe: DateTime.convertirEnValueType(statut.instructionDémarréLe),
+          démarréePar: Email.convertirEnValueType(mainlevée.instructionDémarréPar),
+          démarréeLe: DateTime.convertirEnValueType(mainlevée.instructionDémarréLe),
         }
       : undefined,
   accord:
-    statut.type === 'accordé'
+    mainlevée.statut === 'accordé'
       ? {
-          accordéeLe: DateTime.convertirEnValueType(statut.accordéLe),
-          accordéePar: Email.convertirEnValueType(statut.accordéPar),
+          accordéeLe: DateTime.convertirEnValueType(mainlevée.accordéLe),
+          accordéePar: Email.convertirEnValueType(mainlevée.accordéPar),
           courrierAccord: DocumentProjet.convertirEnValueType(
             IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
             TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
-            statut.accordéLe,
-            statut.courrierRéponse.format,
+            mainlevée.accordéLe,
+            mainlevée.courrierRéponse.format,
           ),
         }
       : undefined,
   motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(motif),
-  statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(statut.type),
+  statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut),
   dernièreMiseÀJour: {
-    date: DateTime.convertirEnValueType(dateMiseÀJour),
-    par: Email.convertirEnValueType(misÀJourPar),
+    date: DateTime.convertirEnValueType(dernièreMiseÀJourLe),
+    par: Email.convertirEnValueType(dernièreMiseÀJourPar),
   },
 });

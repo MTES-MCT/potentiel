@@ -42,19 +42,9 @@ export default async function Page({ searchParams }: PageProps) {
               email: utilisateur.identifiantUtilisateur.email,
               rôle: utilisateur.role.nom,
             },
-            ...(appelOffre && { appelOffre }),
-            ...(motif && {
-              motif:
-                GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
-                  motif,
-                ).motif,
-            }),
-            ...(statut && {
-              statut:
-                GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
-                  statut,
-                ).statut,
-            }),
+            appelOffre,
+            motif,
+            statuts: statut ? [statut] : [],
             range: mapToRangeOptions({
               currentPage: page,
               itemsPerPage: 10,

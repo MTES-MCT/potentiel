@@ -5,17 +5,12 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { CommonError, CommonPort } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
-import {
-  MotifDemandeMainlevéeGarantiesFinancières,
-  // StatutMainlevéeGarantiesFinancières,
-} from '../..';
+import { StatutMainlevéeGarantiesFinancières } from '../..';
 import { MainlevéeGarantiesFinancièresEntity } from '../mainlevéeGarantiesFinancières.entity';
 import {
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
   consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel,
 } from '../consulter/consulterDemandeMainlevéeGarantiesFinancières.query';
-
-type Status = 'demandé' | 'en-instruction' | 'accordé' | 'rejeté';
 
 export type ListerDemandeMainlevéeItemReadModel =
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel;
@@ -31,8 +26,8 @@ export type ListerDemandeMainlevéeQuery = Message<
   {
     range?: RangeOptions;
     appelOffre?: string;
-    motif?: MotifDemandeMainlevéeGarantiesFinancières.RawType;
-    statut: Array<Status>;
+    motif?: string;
+    statuts?: Array<string>;
     utilisateur: {
       rôle: string;
       email: string;
@@ -54,6 +49,14 @@ const mapToWhereEqual = <T>(value: T | undefined) =>
       }
     : undefined;
 
+const mapToWhereInclude = <T>(value: Array<T> | undefined) =>
+  value
+    ? {
+        operator: 'include' as const,
+        value,
+      }
+    : undefined;
+
 export const registerListerDemandeMainlevéeQuery = ({
   list,
   récupérerRégionDreal,
@@ -62,7 +65,7 @@ export const registerListerDemandeMainlevéeQuery = ({
     range,
     appelOffre,
     motif,
-    // statut,
+    statuts,
     utilisateur,
   }) => {
     let région: string | undefined = undefined;
@@ -77,6 +80,10 @@ export const registerListerDemandeMainlevéeQuery = ({
       région = régionDreal.région;
     }
 
+    const statut = statuts?.map(
+      (s) => StatutMainlevéeGarantiesFinancières.convertirEnValueType(s).statut,
+    );
+
     const {
       items,
       range: { endPosition, startPosition },
@@ -90,12 +97,7 @@ export const registerListerDemandeMainlevéeQuery = ({
         appelOffre: mapToWhereEqual(appelOffre),
         motif: mapToWhereEqual(motif),
         régionProjet: mapToWhereEqual(région),
-        // statut: {
-        //   type: {
-        //     operator: 'include',
-        //     value: statut as Array<Status>,
-        //   },
-        // },
+        statut: mapToWhereInclude(statut),
       },
     });
 
