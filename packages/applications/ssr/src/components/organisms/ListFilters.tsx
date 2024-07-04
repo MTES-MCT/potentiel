@@ -1,7 +1,6 @@
 'use client';
-import Button from '@codegouvfr/react-dsfr/Button';
-import { usePathname } from 'next/navigation';
-import { FC, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { FC, useEffect, useState } from 'react';
 
 import { Filter } from '../molecules/Filter';
 
@@ -19,11 +18,17 @@ export type ListFiltersProps = {
 
 export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
   const pathname = usePathname();
+  const router = useRouter();
+
   const [searchParams, setSearchParams] = useState(mapToURLSearchParams(filters));
   const [url, setUrl] = useState(buildUrl(pathname, searchParams));
 
+  useEffect(() => {
+    router.push(url);
+  }, [url]);
+
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap">
       {filters.map(({ label, searchParamKey, options, defaultValue }) => (
         <Filter
           key={`filter-${searchParamKey}`}
@@ -44,10 +49,6 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
           }}
         />
       ))}
-
-      <Button className="mb-4" linkProps={{ href: url }}>
-        Filtrer
-      </Button>
     </div>
   );
 };
