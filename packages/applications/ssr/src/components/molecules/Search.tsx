@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import SearchBar from '@codegouvfr/react-dsfr/SearchBar';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export type SearchProps = {
   label: string;
@@ -11,28 +11,25 @@ export type SearchProps = {
 
 export const Search = ({ params, label }: SearchProps) => {
   const pathname = usePathname();
-  const currentParams = useSearchParams();
-  const [searchParams, setSearchParams] = useState<string>(() => currentParams.get(params) ?? '');
+  const searchParams = useSearchParams();
+  const [search, setSearch] = useState<string>(() => searchParams.get(params) ?? '');
   const [inputElement, setInputElement] = useState<HTMLInputElement | null>(null);
-
-  const url = buildUrl(
-    pathname,
-    new URLSearchParams({ [params]: searchParams.trim() }),
-    searchParams,
-  );
-
   const router = useRouter();
 
-  // Cela permet de refresh automatiquement la page sans filtre quand on retire sa recherche (au clavier ou en utilisant le bouton "x" du composant)
-  useEffect(() => {
-    if (searchParams === '') {
-      router.push(url);
+  const updateSearch = (search: string) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    if (search) {
+      newSearchParams.set(params, search);
+    } else {
+      newSearchParams.delete(params);
     }
-  }, [searchParams]);
+    const url = buildUrl(pathname, newSearchParams);
+    router.push(url);
+  };
 
   return (
     <SearchBar
-      onButtonClick={() => router.push(url)}
+      onButtonClick={() => updateSearch(search)}
       label={label}
       allowEmptySearch
       className="mb-4"
@@ -43,8 +40,13 @@ export const Search = ({ params, label }: SearchProps) => {
           id={id}
           placeholder={placeholder}
           type={type}
-          value={searchParams}
-          onChange={(event) => setSearchParams(event.currentTarget.value)}
+          value={search}
+          onChange={(event) => {
+            setSearch(event.currentTarget.value);
+            if (event.currentTarget.value === '') {
+              updateSearch('');
+            }
+          }}
           // This is from DSFR documentation
           onKeyDown={(event) => {
             if (event.key === 'Escape') {
@@ -58,5 +60,5 @@ export const Search = ({ params, label }: SearchProps) => {
   );
 };
 
-const buildUrl = (pathname: string, URLSearchParams: URLSearchParams, searchParams: string) =>
-  `${pathname}${searchParams.length > 0 ? `?${URLSearchParams.toString()}` : ''}`;
+const buildUrl = (pathname: string, searchParams: URLSearchParams) =>
+  `${pathname}${searchParams.size > 0 ? `?${searchParams.toString()}` : ''}`;
