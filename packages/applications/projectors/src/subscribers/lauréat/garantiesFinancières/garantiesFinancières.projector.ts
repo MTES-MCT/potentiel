@@ -8,8 +8,8 @@ import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { removeProjection } from '../../infrastructure/removeProjection';
-import { upsertProjection } from '../../infrastructure/upsertProjection';
+import { removeProjection } from '../../../infrastructure/removeProjection';
+import { upsertProjection } from '../../../infrastructure/upsertProjection';
 
 export type SubscriptionEvent =
   | (GarantiesFinancières.GarantiesFinancièresEvent & Event)

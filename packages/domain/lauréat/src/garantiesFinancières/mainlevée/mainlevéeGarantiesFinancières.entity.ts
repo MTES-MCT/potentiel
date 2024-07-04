@@ -1,38 +1,35 @@
 import { Entity } from '@potentiel-domain/core';
 
+type Common = {
+  identifiantProjet: string;
+  appelOffre: string;
+  période: string;
+  famille: string;
+  nomProjet: string;
+  régionProjet: string;
+  dernièreMiseÀJourLe: string;
+  dernièreMiseÀJourPar: string;
+  motif: string;
+  demandéLe: string;
+  demandéPar: string;
+};
+
 export type MainlevéeGarantiesFinancièresEntity = Entity<
   'mainlevee-garanties-financieres',
-  {
-    identifiantProjet: string;
-
-    appelOffre: string;
-    période: string;
-    famille: string;
-
-    nomProjet: string;
-    régionProjet: string;
-
-    dernièreMiseÀJourLe: string;
-    dernièreMiseÀJourPar: string;
-
-    motif: string;
-
-    demandéLe: string;
-    demandéPar: string;
-  } & (Demandé | EnInstruction | Accordé | Rejeté)
+  Demandé | EnInstruction | Accordé | Rejeté
 >;
 
-type Demandé = {
+type Demandé = Common & {
   statut: 'demandé';
 };
 
-type EnInstruction = {
+type EnInstruction = Common & {
   statut: 'en-instruction';
   instructionDémarréPar: string;
   instructionDémarréLe: string;
 };
 
-type Accordé = {
+type Accordé = Common & {
   statut: 'accordé';
   accordéLe: string;
   accordéPar: string;
@@ -41,7 +38,7 @@ type Accordé = {
   };
 };
 
-type Rejeté = {
+type Rejeté = Common & {
   statut: 'rejeté';
   rejetéLe: string;
   rejetéPar: string;

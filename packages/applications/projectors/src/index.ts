@@ -3,6 +3,7 @@ export * as AbandonProjector from './subscribers/lauréat/abandon.projector';
 export * as GestionnaireRéseauProjector from './subscribers/réseau/gestionnaireRéseau.projector';
 export * as RaccordementProjector from './subscribers/réseau/raccordement.projector';
 export * as TâcheProjector from './subscribers/tâche/tâche.projector';
-export * as GarantiesFinancièreProjector from './subscribers/lauréat/garantiesFinancières.projector';
+export * as GarantiesFinancièreProjector from './subscribers/lauréat/garantiesFinancières/garantiesFinancières.projector';
 export * as RecoursProjector from './subscribers/éliminé/recours.projector';
 export * as AchèvementProjector from './subscribers/lauréat/achèvement.projector';
+export * as MainlevéeProjector from './subscribers/lauréat/garantiesFinancières/mainlevée/garantiesFinancières.mainlevée.projector';

@@ -44,7 +44,7 @@ export default async function Page({ searchParams }: PageProps) {
             },
             appelOffre,
             motif,
-            statuts: statut ? [statut] : [],
+            statut: statut ? [statut] : ['demandé', 'en-instruction', 'accordé'],
             range: mapToRangeOptions({
               currentPage: page,
               itemsPerPage: 10,

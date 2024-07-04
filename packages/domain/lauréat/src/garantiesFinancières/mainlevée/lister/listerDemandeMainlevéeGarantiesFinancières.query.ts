@@ -27,7 +27,7 @@ export type ListerDemandeMainlevéeQuery = Message<
     range?: RangeOptions;
     appelOffre?: string;
     motif?: string;
-    statuts?: Array<string>;
+    statut?: Array<string>;
     utilisateur: {
       rôle: string;
       email: string;
@@ -49,14 +49,6 @@ const mapToWhereEqual = <T>(value: T | undefined) =>
       }
     : undefined;
 
-const mapToWhereInclude = <T>(value: Array<T> | undefined) =>
-  value
-    ? {
-        operator: 'include' as const,
-        value,
-      }
-    : undefined;
-
 export const registerListerDemandeMainlevéeQuery = ({
   list,
   récupérerRégionDreal,
@@ -65,7 +57,7 @@ export const registerListerDemandeMainlevéeQuery = ({
     range,
     appelOffre,
     motif,
-    statuts,
+    statut = [],
     utilisateur,
   }) => {
     let région: string | undefined = undefined;
@@ -80,10 +72,6 @@ export const registerListerDemandeMainlevéeQuery = ({
       région = régionDreal.région;
     }
 
-    const statut = statuts?.map(
-      (s) => StatutMainlevéeGarantiesFinancières.convertirEnValueType(s).statut,
-    );
-
     const {
       items,
       range: { endPosition, startPosition },
@@ -97,7 +85,10 @@ export const registerListerDemandeMainlevéeQuery = ({
         appelOffre: mapToWhereEqual(appelOffre),
         motif: mapToWhereEqual(motif),
         régionProjet: mapToWhereEqual(région),
-        statut: mapToWhereInclude(statut),
+        statut: {
+          operator: 'include',
+          value: statut as Array<StatutMainlevéeGarantiesFinancières.RawType>,
+        },
       },
     });
 
