@@ -5,6 +5,10 @@
       "size": "M"
     },
     {
+      "command": "0 8 * * 1-5 ./packages/applications/scheduled-tasks/attribuer-grd.sh",
+      "size": "M"
+    },
+    {
       "command": "0 1 * * * ./packages/applications/scheduled-tasks/relancer-abandon-sans-preuve.sh",
       "size": "M"
     },

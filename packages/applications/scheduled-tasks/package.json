@@ -6,7 +6,6 @@
   "scripts": {
     "build": "tsc",
     "start:attribuer-grd": "node ./dist/raccordement/attribuer-gestionnaire-réseau",
-    "start:maj-grd-des-projets-avec-raccordement": "node ./dist/raccordement/maj-gestionnaire-réseau-des-projets-avec-raccordement",
     "start:relancer-abandon-sans-preuve": "node ./dist/abandon/relancer-abandon-sans-preuve",
     "start:déplacer-fichiers-vers-bucket-secnum": "node ./dist/déplacer-fichiers-vers-bucket-secnum",
     "start:créer-backup": "node ./dist/backup/créer-backup",
