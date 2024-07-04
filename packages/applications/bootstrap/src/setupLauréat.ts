@@ -36,6 +36,7 @@ export const setupLauréat = async () => {
   AbandonProjector.register();
   AbandonNotification.register();
   GarantiesFinancièreProjector.register();
+  MainlevéeProjector.register();
   GarantiesFinancièresNotification.register();
   AchèvementProjector.register();
   AchèvementNotification.register();
@@ -107,25 +108,24 @@ export const setupLauréat = async () => {
       streamCategory: 'garanties-financieres',
     });
 
-  const unsubscribeMainlevéeProjector =
-    await subscribe<GarantiesFinancièreProjector.SubscriptionEvent>({
-      name: 'mainlevee-projector',
-      eventType: [
-        'MainlevéeGarantiesFinancièresDemandée-V1',
-        'DemandeMainlevéeGarantiesFinancièresAnnulée-V1',
-        'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1',
-        'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
-        'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
-        'RebuildTriggered',
-      ],
-      eventHandler: async (event) => {
-        await mediator.send<MainlevéeProjector.Execute>({
-          type: 'System.Projector.Lauréat.GarantiesFinancières.Mainlevée',
-          data: event,
-        });
-      },
-      streamCategory: 'garanties-financieres',
-    });
+  const unsubscribeMainlevéeProjector = await subscribe<MainlevéeProjector.SubscriptionEvent>({
+    name: 'mainlevee-projector',
+    eventType: [
+      'MainlevéeGarantiesFinancièresDemandée-V1',
+      'DemandeMainlevéeGarantiesFinancièresAnnulée-V1',
+      'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1',
+      'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
+      'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
+      'RebuildTriggered',
+    ],
+    eventHandler: async (event) => {
+      await mediator.send<MainlevéeProjector.Execute>({
+        type: 'System.Projector.Lauréat.GarantiesFinancières.Mainlevée',
+        data: event,
+      });
+    },
+    streamCategory: 'garanties-financieres',
+  });
 
   const unsubscribeAchèvementProjector = await subscribe<AchèvementProjector.SubscriptionEvent>({
     name: 'projector',
