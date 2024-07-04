@@ -1,6 +1,6 @@
 'use client';
-import { usePathname, useRouter } from 'next/navigation';
-import { FC, useEffect, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { FC } from 'react';
 
 import { Filter } from '../molecules/Filter';
 
@@ -18,14 +18,8 @@ export type ListFiltersProps = {
 
 export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
-
-  const [searchParams, setSearchParams] = useState(mapToURLSearchParams(filters));
-  const [url, setUrl] = useState(buildUrl(pathname, searchParams));
-
-  useEffect(() => {
-    router.push(url);
-  }, [url]);
 
   return (
     <div className="flex flex-col gap">
@@ -34,33 +28,23 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
           key={`filter-${searchParamKey}`}
           label={label}
           options={options}
-          defaultValue={defaultValue ?? ''}
+          defaultValue={searchParams.get(searchParamKey) ?? defaultValue ?? ''}
           onValueSelected={(value) => {
+            const newSearchParams = new URLSearchParams(searchParams);
             if (value === '') {
-              searchParams.delete(searchParamKey);
+              newSearchParams.delete(searchParamKey);
             } else {
               const option = options.find((option) => option.value === value);
               if (option) {
-                searchParams.set(searchParamKey, option.value);
+                newSearchParams.set(searchParamKey, option.value);
               }
             }
-            setSearchParams(searchParams);
-            setUrl(buildUrl(pathname, searchParams));
+            router.push(buildUrl(pathname, newSearchParams));
           }}
         />
       ))}
     </div>
   );
-};
-
-const mapToURLSearchParams = (filters: ListFiltersProps['filters']): URLSearchParams => {
-  return filters.reduce((searchParams, filter) => {
-    if (filter.defaultValue) {
-      searchParams.set(filter.searchParamKey, filter.defaultValue);
-    }
-
-    return searchParams;
-  }, new URLSearchParams());
 };
 
 const buildUrl = (pathname: string, searchParams: URLSearchParams) =>
