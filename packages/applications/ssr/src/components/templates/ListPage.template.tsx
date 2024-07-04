@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { LinkAction } from '../atoms/LinkAction';
-import { Heading1, Heading2 } from '../atoms/headings';
+import { Heading1 } from '../atoms/headings';
 import { Search, SearchProps } from '../molecules/Search';
 import { List } from '../organisms/List';
 import { ListFilters, ListFiltersProps } from '../organisms/ListFilters';
@@ -63,18 +63,18 @@ export const ListPageTemplate = <TItem,>({
               ))}
             </>
           ) : null}
-          {search || filters.length ? (
-            <Heading2 className="mt-1 mb-4">Affiner la recherche</Heading2>
-          ) : null}
-          {search ? <Search label={search.label} params={search.params} /> : null}
           {filters.length ? <ListFilters key={listFiltersKey} filters={filters} /> : null}
         </div>
 
         <div className="flex flex-col gap-3 flex-grow md:w-3/4">
+          <div className="w-full flex justify-end">
+            <div className="w-2/3">
+              {search ? <Search label={search.label} params={search.params} /> : null}
+            </div>
+          </div>
           <div className="flex flex-col md:flex-row md:items-center gap-3">
             <ListHeader tagFilters={tagFilters} totalCount={totalItems} />
           </div>
-
           {items.length ? (
             <List
               items={items}

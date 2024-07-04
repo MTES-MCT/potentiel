@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import SearchBar from '@codegouvfr/react-dsfr/SearchBar';
 import { usePathname, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export type SearchProps = {
   label: string;
@@ -19,7 +19,15 @@ export const Search = ({ params, label }: SearchProps) => {
     new URLSearchParams({ [params]: searchParams.trim() }),
     searchParams,
   );
+
   const router = useRouter();
+
+  // Cela permet de refresh automatiquement la page sans filtre quand on retire sa recherche (au clavier ou en utilisant le bouton "x" du composant)
+  useEffect(() => {
+    if (searchParams === '') {
+      router.push(url);
+    }
+  }, [searchParams]);
 
   return (
     <SearchBar

@@ -23,7 +23,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
   const [url, setUrl] = useState(buildUrl(pathname, searchParams));
 
   return (
-    <>
+    <div className="flex flex-col gap-2">
       {filters.map(({ label, searchParamKey, options, defaultValue }) => (
         <Filter
           key={`filter-${searchParamKey}`}
@@ -48,7 +48,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
       <Button className="mb-4" linkProps={{ href: url }}>
         Filtrer
       </Button>
-    </>
+    </div>
   );
 };
 
