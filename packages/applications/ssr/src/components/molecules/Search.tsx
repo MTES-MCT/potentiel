@@ -1,7 +1,7 @@
 import assert from 'assert';
 
 import SearchBar from '@codegouvfr/react-dsfr/SearchBar';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export type SearchProps = {
@@ -11,7 +11,8 @@ export type SearchProps = {
 
 export const Search = ({ params, label }: SearchProps) => {
   const pathname = usePathname();
-  const [searchParams, setSearchParams] = useState<string>('');
+  const currentParams = useSearchParams();
+  const [searchParams, setSearchParams] = useState<string>(() => currentParams.get(params) ?? '');
   const [inputElement, setInputElement] = useState<HTMLInputElement | null>(null);
 
   const url = buildUrl(
