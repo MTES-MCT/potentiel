@@ -3,6 +3,12 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
+/**
+ * @deprecated Des informations provenant d'autres projections ne devrait pas être agrégées dans
+ * une projection car en cas de modfification celle-ci ne serait pas à jour et donc bugguée !!
+ * @param identifiantProjet
+ * @returns
+ */
 export const getProjectData = async (identifiantProjet: IdentifiantProjet.RawType) => {
   const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
   if (Option.isNone(projet)) {
