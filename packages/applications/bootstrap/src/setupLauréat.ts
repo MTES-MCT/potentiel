@@ -109,7 +109,7 @@ export const setupLauréat = async () => {
 
   const unsubscribeMainlevéeProjector =
     await subscribe<GarantiesFinancièreProjector.SubscriptionEvent>({
-      name: 'projector',
+      name: 'mainlevee-projector',
       eventType: [
         'MainlevéeGarantiesFinancièresDemandée-V1',
         'DemandeMainlevéeGarantiesFinancièresAnnulée-V1',
