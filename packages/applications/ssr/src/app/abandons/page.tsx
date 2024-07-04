@@ -43,6 +43,8 @@ export default async function Page({ searchParams }: PageProps) {
           ).statut
         : undefined;
 
+      const nomProjet = searchParams ? searchParams['nomProjet'] : '';
+
       const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
         type: 'Lauréat.Abandon.Query.ListerAbandons',
         data: {
@@ -58,6 +60,7 @@ export default async function Page({ searchParams }: PageProps) {
           statut,
           appelOffre,
           preuveRecandidatureStatut,
+          nomProjet,
         },
       });
 

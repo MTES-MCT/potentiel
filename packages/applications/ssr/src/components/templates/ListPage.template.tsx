@@ -63,15 +63,18 @@ export const ListPageTemplate = <TItem,>({
               ))}
             </>
           ) : null}
-          {search ? <Search label={search.label} params={search.params} /> : null}
           {filters.length ? <ListFilters key={listFiltersKey} filters={filters} /> : null}
         </div>
 
         <div className="flex flex-col gap-3 flex-grow md:w-3/4">
+          <div className="w-full flex justify-end">
+            <div className="w-2/3">
+              {search ? <Search label={search.label} params={search.params} /> : null}
+            </div>
+          </div>
           <div className="flex flex-col md:flex-row md:items-center gap-3">
             <ListHeader tagFilters={tagFilters} totalCount={totalItems} />
           </div>
-
           {items.length ? (
             <List
               items={items}

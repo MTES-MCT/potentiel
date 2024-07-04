@@ -70,6 +70,7 @@ export const AbandonListPage: FC<AbandonListPageProps> = ({
       ItemComponent={AbandonListItem}
       tagFilters={tagFilters}
       filters={filters}
+      search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
     />
   );
 };
