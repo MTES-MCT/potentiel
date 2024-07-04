@@ -7,7 +7,7 @@ export default class FilesRename extends Command {
   static override args = {};
 
   static override description =
-    'Rename a list of files based on a csv with the list of renamings to do';
+    'Rename a list of files based on a CSV file that contains the list of new names.';
 
   static override examples = [];
 
