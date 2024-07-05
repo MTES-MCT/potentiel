@@ -8,7 +8,7 @@ import {
   ConsulterCandidatureReadModel,
 } from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -21,6 +21,7 @@ import {
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
+import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
 
 export const metadata: Metadata = {
   title: 'Modifier dépôt des garanties financières en cours - Potentiel',
@@ -72,7 +73,7 @@ const mapToProps = ({
   utilisateur,
 }: GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel & {
   projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
-  utilisateur: Utilisateur.ValueType;
+  utilisateur: AuthenticatedUserReadModel;
 }): ModifierDépôtEnCoursGarantiesFinancièresProps => ({
   projet,
   typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,

@@ -48,7 +48,7 @@ export const GET = async (
 
     const content = await buildDocxDocument({
       type: 'mise-en-demeure',
-      logo: Option.match(régionDreal)
+      logo: Option.match(utilisateur.régionDreal)
         .some((région) => région)
         .none(() => 'none'),
       data: {
