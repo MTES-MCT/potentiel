@@ -84,6 +84,17 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
                     Type : <span className="font-semibold">{type}</span>
                   </>
                 )}
+                {!attestation && actions.includes('modifier') && (
+                  <span className="font-semibold italic">
+                    Attestation de constitution des garanties financières manquante
+                  </span>
+                )}
+                {!attestation && !actions.includes('modifier') && (
+                  <span className="font-semibold italic">
+                    Attestation de constitution des garanties financières à transmettre par
+                    l'autorité instructrice compétente
+                  </span>
+                )}
                 {!type && actions.includes('modifier') && (
                   <span className="font-semibold italic">
                     Type de garanties financières manquant
