@@ -1,10 +1,6 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 
-import {
-  ConsulterCandidatureQuery,
-  ConsulterCandidatureReadModel,
-} from '@potentiel-domain/candidature';
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -25,11 +21,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
-    const candidature = await mediator.send<ConsulterCandidatureQuery>({
-      type: 'Candidature.Query.ConsulterCandidature',
-      data: { identifiantProjet },
-    });
-
     const gestionnairesRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
         type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
@@ -44,7 +35,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const props = mapToProps({
       gestionnairesRéseau,
-      candidature,
       gestionnaireRéseau,
       identifiantProjet,
     });
@@ -55,17 +45,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
 type MapToProps = (args: {
   gestionnairesRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel;
-  candidature: ConsulterCandidatureReadModel;
   gestionnaireRéseau: Option.Type<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>;
   identifiantProjet: string;
 }) => ModifierGestionnaireRéseauRaccordementPageProps;
 
-const mapToProps: MapToProps = ({
-  gestionnairesRéseau,
-  candidature,
-  gestionnaireRéseau,
-  identifiantProjet,
-}) => {
+const mapToProps: MapToProps = ({ gestionnairesRéseau, gestionnaireRéseau, identifiantProjet }) => {
   return {
     identifiantGestionnaireRéseauActuel: Option.match(gestionnaireRéseau)
       .some((gestionnaireRéseau) => gestionnaireRéseau.identifiantGestionnaireRéseau.formatter())
@@ -80,9 +64,6 @@ const mapToProps: MapToProps = ({
           gestionnaire.aideSaisieRéférenceDossierRaccordement.expressionReguliere.expression,
       },
     })),
-    projet: {
-      ...candidature,
-      identifiantProjet: identifiantProjet,
-    },
+    identifiantProjet,
   };
 };

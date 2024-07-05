@@ -8,7 +8,7 @@ import { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Tile } from '@/components/organisms/Tile';
 import { PageTemplate } from '@/components/templates/Page.template';
 
@@ -19,13 +19,13 @@ import { ModifierGestionnaireRéseauDuRaccordement } from './components/Modifier
 import { GestionnaireRéseau as GestionnaireRéseauProps } from './type';
 
 export type DétailsRaccordementPageProps = {
-  projet: ProjetBannerProps;
+  identifiantProjet: string;
   gestionnaireRéseau?: GestionnaireRéseauProps;
   dossiers: ReadonlyArray<DossierRaccordementProps>;
 };
 
 export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
-  projet,
+  identifiantProjet,
   gestionnaireRéseau,
   dossiers,
 }) => {
@@ -35,13 +35,13 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
       ).estÉgaleÀ(GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu)
     : false;
   return (
-    <PageTemplate banner={<ProjetBanner {...projet} />}>
+    <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
       <TitrePageRaccordement />
       <div className="my-2 md:my-4">
         {gestionnaireRéseau && (
           <ModifierGestionnaireRéseauDuRaccordement
             gestionnaireRéseau={gestionnaireRéseau}
-            identifiantProjet={projet.identifiantProjet}
+            identifiantProjet={identifiantProjet}
             isGestionnaireInconnu={isGestionnaireInconnu}
           />
         )}
@@ -63,9 +63,7 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
           <div className="p-3">
             Si le raccordement comporte plusieurs points d'injection, vous pouvez{' '}
             <Link
-              href={Routes.Raccordement.transmettreDemandeComplèteRaccordement(
-                projet.identifiantProjet,
-              )}
+              href={Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet)}
               className="font-semibold"
             >
               transmettre une autre demande complète de raccordement
@@ -77,7 +75,7 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
 
       <Button
         priority="secondary"
-        linkProps={{ href: Routes.Projet.details(projet.identifiantProjet) }}
+        linkProps={{ href: Routes.Projet.details(identifiantProjet) }}
         className="mt-4"
         iconId="fr-icon-arrow-left-line"
       >

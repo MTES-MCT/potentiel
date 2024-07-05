@@ -10,7 +10,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
@@ -29,7 +29,7 @@ import { transmettreDemandeComplèteRaccordementAction } from './transmettreDema
 export type TransmettreDemandeComplèteRaccordementProps = {
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
   identifiantGestionnaireRéseauActuel?: string;
-  projet: ProjetBannerProps;
+  identifiantProjet: string;
   delaiDemandeDeRaccordementEnMois: InformationDemandeComplèteRaccordementProps['delaiDemandeDeRaccordementEnMois'];
 };
 
@@ -38,7 +38,7 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
 > = ({
   listeGestionnairesRéseau,
   identifiantGestionnaireRéseauActuel,
-  projet,
+  identifiantProjet,
   delaiDemandeDeRaccordementEnMois,
 }) => {
   const router = useRouter();
@@ -49,8 +49,6 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
 
   const alreadyHasAGestionnaireRéseau =
     identifiantGestionnaireRéseauActuel && identifiantGestionnaireRéseauActuel !== 'inconnu';
-
-  const { identifiantProjet } = projet;
 
   const gestionnaireActuel = selectedIdentifiantGestionnaireRéseau
     ? listeGestionnairesRéseau.find(
@@ -65,7 +63,7 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
 
   return (
     <ColumnPageTemplate
-      banner={<ProjetBanner {...projet} />}
+      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
       heading={<TitrePageRaccordement />}
       leftColumn={{
         children: (
@@ -74,7 +72,7 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
             encType="multipart/form-data"
             action={transmettreDemandeComplèteRaccordementAction}
             heading="Transmettre une demande complète de raccordement"
-            onSuccess={() => router.push(Routes.Raccordement.détail(projet.identifiantProjet))}
+            onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
             <input name="identifiantProjet" type="hidden" value={identifiantProjet} />

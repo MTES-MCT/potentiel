@@ -16,10 +16,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const projet: DétailsRaccordementPageProps['projet'] = {
-  identifiantProjet: 'identifiantProjet#1',
-};
-
 const gestionnaireRéseau: DétailsRaccordementPageProps['gestionnaireRéseau'] = {
   aideSaisieRéférenceDossierRaccordement: {
     expressionReguliere: 'expresion-régulière',
@@ -34,11 +30,11 @@ const gestionnaireRéseau: DétailsRaccordementPageProps['gestionnaireRéseau'] 
 
 export const Complet: Story = {
   args: {
-    projet,
+    identifiantProjet: 'appelOffre#période#famille#numéroCRE',
     gestionnaireRéseau,
     dossiers: [
       {
-        identifiantProjet: 'identifiantProjet#1',
+        identifiantProjet: 'appelOffre#période#famille#numéroCRE',
         référence: 'référence-dossier#1',
         demandeComplèteRaccordement: {
           canEdit: true,
@@ -61,7 +57,7 @@ export const Complet: Story = {
 
 export const Incomplet: Story = {
   args: {
-    projet,
+    identifiantProjet: 'identifiantProjet#1',
     gestionnaireRéseau,
     dossiers: [
       {
@@ -86,7 +82,7 @@ export const Incomplet: Story = {
 
 export const GestionnaireInconnu: Story = {
   args: {
-    projet,
+    identifiantProjet: 'identifiantProjet#1',
     gestionnaireRéseau: {
       ...gestionnaireRéseau,
       identifiantGestionnaireRéseau: 'inconnu',

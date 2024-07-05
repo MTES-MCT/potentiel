@@ -5,7 +5,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { Routes } from '@potentiel-applications/routes';
 
 import { PageTemplate } from '@/components/templates/Page.template';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageRaccordement } from '../TitrePageRaccordement';
 
@@ -13,30 +13,28 @@ import { ModifierGestionnaireRéseauDuRaccordement } from './components/Modifier
 import { GestionnaireRéseau } from './type';
 
 export type AucunDossierDeRaccordementProps = {
-  projet: ProjetBannerProps;
+  identifiantProjet: string;
   gestionnaireRéseau?: GestionnaireRéseau;
 };
 
 export const AucunDossierDeRaccordementPage: FC<AucunDossierDeRaccordementProps> = ({
-  projet,
+  identifiantProjet,
   gestionnaireRéseau,
 }) => (
-  <PageTemplate banner={<ProjetBanner {...projet} />}>
+  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
     <TitrePageRaccordement />
 
     <div className="flex flex-col gap-8">
       {gestionnaireRéseau && (
         <ModifierGestionnaireRéseauDuRaccordement
           gestionnaireRéseau={gestionnaireRéseau}
-          identifiantProjet={projet.identifiantProjet}
+          identifiantProjet={identifiantProjet}
         />
       )}
       <p>
         Aucun dossier de raccordement trouvé pour ce projet, vous pouvez transmettre une{' '}
         <Link
-          href={Routes.Raccordement.transmettreDemandeComplèteRaccordement(
-            projet.identifiantProjet,
-          )}
+          href={Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet)}
           className="font-semibold"
         >
           nouvelle demande complète de raccordement
@@ -44,7 +42,7 @@ export const AucunDossierDeRaccordementPage: FC<AucunDossierDeRaccordementProps>
       </p>
       <Button
         priority="secondary"
-        linkProps={{ href: Routes.Projet.details(projet.identifiantProjet) }}
+        linkProps={{ href: Routes.Projet.details(identifiantProjet) }}
         className="mt-4"
         iconId="fr-icon-arrow-left-line"
       >

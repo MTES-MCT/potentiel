@@ -9,7 +9,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
@@ -21,18 +21,17 @@ import {
 import { modifierGestionnaireRéseauRaccordementAction } from './modifierGestionnaireRéseauRaccordement.action';
 
 export type ModifierGestionnaireRéseauRaccordementPageProps = {
-  projet: ProjetBannerProps;
+  identifiantProjet: string;
   identifiantGestionnaireRéseauActuel: string;
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
 };
 
 export const ModifierGestionnaireRéseauRaccordementPage: FC<
   ModifierGestionnaireRéseauRaccordementPageProps
-> = ({ projet, identifiantGestionnaireRéseauActuel, listeGestionnairesRéseau }) => {
+> = ({ identifiantProjet, identifiantGestionnaireRéseauActuel, listeGestionnairesRéseau }) => {
   const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
-  const { identifiantProjet } = projet;
   const gestionnaireActuel = listeGestionnairesRéseau.find(
     (gestionnaire) =>
       gestionnaire.identifiantGestionnaireRéseau === identifiantGestionnaireRéseauActuel,
@@ -40,14 +39,14 @@ export const ModifierGestionnaireRéseauRaccordementPage: FC<
 
   return (
     <ColumnPageTemplate
-      banner={<ProjetBanner {...projet} />}
+      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
       heading={<TitrePageRaccordement />}
       leftColumn={{
         children: (
           <Form
             action={modifierGestionnaireRéseauRaccordementAction}
             method="post"
-            onSuccess={() => router.push(Routes.Raccordement.détail(projet.identifiantProjet))}
+            onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
             heading="Modifier le gestionnaire de réseau du projet"
           >
