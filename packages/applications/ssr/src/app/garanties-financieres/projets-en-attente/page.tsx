@@ -3,8 +3,9 @@ import type { Metadata } from 'next';
 
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -17,6 +18,7 @@ import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
 import { mapToPagination } from '@/utils/mapToPagination';
 import { ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { ListItemProjetAvecGarantiesFinancièresEnAttenteProps } from '@/components/pages/garanties-financières/en-attente/lister/ListItemProjetAvecGarantiesFinancièresEnAttente';
+import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -41,7 +43,9 @@ export default async function Page({ searchParams }: PageProps) {
             type: 'Lauréat.GarantiesFinancières.Query.ListerProjetsAvecGarantiesFinancièresEnAttente',
             data: {
               utilisateur: {
-                email: utilisateur.identifiantUtilisateur.email,
+                régionDreal: Option.isSome(utilisateur.régionDreal)
+                  ? utilisateur.régionDreal
+                  : undefined,
                 rôle: utilisateur.role.nom,
               },
               appelOffre,
@@ -104,7 +108,7 @@ const mapToListProps = (
     range,
     total,
   }: GarantiesFinancières.ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
-  utilisateur: Utilisateur.ValueType,
+  utilisateur: AuthenticatedUserReadModel,
 ): ListProjetsAvecGarantiesFinancièresEnAttenteProps['list'] => {
   const mappedItems = items.map(
     ({

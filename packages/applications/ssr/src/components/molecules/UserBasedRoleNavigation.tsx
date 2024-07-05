@@ -1,16 +1,14 @@
 import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 
-import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
+import {
+  AuthenticatedUserReadModel,
+  getOptionalAuthenticatedUser,
+} from '@/utils/getAuthenticatedUser.handler';
 
 export async function UserBasedRoleNavigation() {
-  let utilisateur: Utilisateur.ValueType | undefined;
-
-  try {
-    utilisateur = await getAuthenticatedUser({});
-  } catch (error) {}
+  const utilisateur = await getOptionalAuthenticatedUser();
 
   const navigationItems = utilisateur ? getNavigationItemsBasedOnRole(utilisateur) : [];
 
@@ -41,7 +39,7 @@ const menuLinks = {
 };
 
 const getNavigationItemsBasedOnRole = (
-  utilisateur: Utilisateur.ValueType,
+  utilisateur: AuthenticatedUserReadModel,
 ): MainNavigationProps['items'] => {
   switch (utilisateur.role.nom) {
     case 'admin':

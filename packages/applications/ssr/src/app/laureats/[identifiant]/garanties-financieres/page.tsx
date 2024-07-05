@@ -7,7 +7,7 @@ import {
   ConsulterCandidatureReadModel,
 } from '@potentiel-domain/candidature';
 import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role } from '@potentiel-domain/utilisateur';
 import { AppelOffre, ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -23,6 +23,7 @@ import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financi�
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import { GarantiesFinancièresDépôtEnCoursProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresDépôtEnCours';
 import { GarantiesFinancièresActuellesProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresActuelles';
+import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
 
 import { MainlevéeEnCoursProps } from '../../../../components/pages/garanties-financières/détails/components/MainlevéeEnCours';
 
@@ -111,7 +112,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
 type MapToProps = (args: {
   projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
-  utilisateur: Utilisateur.ValueType;
+  utilisateur: AuthenticatedUserReadModel;
   garantiesFinancièresActuelles: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
   achèvement: Option.Type<Achèvement.ConsulterAttestationConformitéReadModel>;

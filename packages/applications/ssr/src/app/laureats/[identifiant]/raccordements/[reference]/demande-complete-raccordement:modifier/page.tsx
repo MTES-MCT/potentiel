@@ -11,7 +11,7 @@ import {
   ConsulterCandidatureReadModel,
 } from '@potentiel-domain/candidature';
 import { Raccordement } from '@potentiel-domain/reseau';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import {
@@ -22,6 +22,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
 
 export const metadata: Metadata = {
   title: 'Modifier un dossier de raccordement - Potentiel',
@@ -90,7 +91,7 @@ type MapToProps = (args: {
   gestionnaireRéseau: Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel;
   dossierRaccordement: Raccordement.ConsulterDossierRaccordementReadModel;
   identifiantProjet: string;
-  utilisateur: Utilisateur.ValueType;
+  utilisateur: AuthenticatedUserReadModel;
 }) => ModifierDemandeComplèteRaccordementPageProps;
 
 const mapToProps: MapToProps = ({

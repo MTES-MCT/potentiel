@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet, CommonPort, CommonError } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { List, RangeOptions } from '@potentiel-domain/core';
 import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
@@ -51,6 +50,7 @@ export type ListerAbandonsQuery = Message<
     utilisateur: {
       rôle: string;
       email: string;
+      régionDreal?: string;
     };
     recandidature?: boolean;
     statut?: StatutAbandon.RawType;
@@ -65,13 +65,11 @@ export type ListerAbandonsQuery = Message<
 export type ListerAbandonDependencies = {
   list: List;
   récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
-  récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerAbandonQuery = ({
   list,
   récupérerIdentifiantsProjetParEmailPorteur,
-  récupérerRégionDreal,
 }: ListerAbandonDependencies) => {
   const handler: MessageHandler<ListerAbandonsQuery> = async ({
     recandidature,
@@ -79,7 +77,7 @@ export const registerListerAbandonQuery = ({
     appelOffre,
     preuveRecandidatureStatut,
     nomProjet,
-    utilisateur: { email, rôle },
+    utilisateur: { email, régionDreal, rôle },
     range,
   }) => {
     if (['admin', 'dgec-validateur', 'cre'].includes(rôle)) {
@@ -108,15 +106,7 @@ export const registerListerAbandonQuery = ({
       };
     }
 
-    /**
-     * @todo on devrait passer uniquement la région dans la query et pas les infos utilisateur pour le déterminer
-     */
     if (rôle === 'dreal') {
-      const result = await récupérerRégionDreal(email);
-      if (Option.isNone(result)) {
-        throw new CommonError.RégionNonTrouvéeError();
-      }
-
       const abandons = await list<AbandonEntity>('abandon', {
         range,
         orderBy: {
@@ -126,7 +116,7 @@ export const registerListerAbandonQuery = ({
           statut: mapToWhereEqual(statut),
           projet: {
             appelOffre: mapToWhereEqual(appelOffre),
-            région: mapToWhereEqual(result.région),
+            région: mapToWhereEqual(régionDreal),
           },
           demande: {
             estUneRecandidature: mapToWhereEqual(recandidature),

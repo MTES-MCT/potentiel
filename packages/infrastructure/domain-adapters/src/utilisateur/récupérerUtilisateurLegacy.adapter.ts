@@ -7,9 +7,11 @@ const selectUtilisateurQuery = `
     'email', "email",
     'nomComplet', "fullName",
     'fonction', "fonction",
-    'identifiantUtilisateur', "email"
+    'identifiantUtilisateur', "email",
+    'régionDreal', ud."dreal"
   ) as value
-  from "users"
+  from "users" u
+  left join "userDreals" ud on ud."userId" = u."id" 
   where "email" = $1
 `;
 

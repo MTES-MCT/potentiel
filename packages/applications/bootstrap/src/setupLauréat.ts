@@ -16,7 +16,6 @@ import {
 import {
   consulterCahierDesChargesChoisiAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
-  récupérerRégionDrealAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 
 export const setupLauréat = async () => {
@@ -29,7 +28,6 @@ export const setupLauréat = async () => {
     list: listProjection,
     récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
-    récupérerRégionDreal: récupérerRégionDrealAdapter,
   });
 
   AbandonProjector.register();

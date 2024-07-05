@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
 import { Abandon } from '@potentiel-domain/laureat';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 
 import {
@@ -13,6 +13,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
 
 type PageProps = IdentifiantParameter;
 
@@ -110,7 +111,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 type AvailableActions = DétailsAbandonPageProps['actions'];
 
 type MapToActionsProps = {
-  utilisateur: Utilisateur.ValueType;
+  utilisateur: AuthenticatedUserReadModel;
   recandidature: boolean;
   statut: Abandon.StatutAbandon.ValueType;
 };
