@@ -233,29 +233,27 @@ export const register = () => {
           await removeProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
           );
-
-          await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
-            `depot-en-cours-garanties-financieres|${identifiantProjet}`,
-          );
           break;
 
         case 'DépôtGarantiesFinancièresSoumis-V1':
-          détailProjet = await getProjectData(identifiantProjet);
-
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
-            `depot-en-cours-garanties-financieres|${identifiantProjet}`,
+            `garanties-financieres|${identifiantProjet}`,
             {
-              ...détailProjet,
-              identifiantProjet,
-              dépôt: {
-                type: payload.type,
-                dateÉchéance: payload.dateÉchéance,
+              ...garantiesFinancièresToUpsert,
+              dépôtEnCours: {
+                ...(payload.type === 'avec-date-échéance'
+                  ? {
+                      type: 'avec-date-échéance' as const,
+                      dateÉchéance: payload.dateÉchéance ?? 'pas-de-date-échéance',
+                    }
+                  : { type: payload.type }),
+
                 dateConstitution: payload.dateConstitution,
                 attestation: payload.attestation,
                 soumisLe: payload.soumisLe,
-                dernièreMiseÀJour: {
-                  date: payload.soumisLe,
-                  par: payload.soumisPar,
+                miseÀJour: {
+                  dernièreMiseÀJourLe: payload.soumisLe,
+                  dernièreMiseÀJourPar: payload.soumisPar,
                 },
               },
             },
@@ -267,26 +265,58 @@ export const register = () => {
           break;
 
         case 'DépôtGarantiesFinancièresEnCoursSupprimé-V1':
-          await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
-            `depot-en-cours-garanties-financieres|${identifiantProjet}`,
+          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+            {
+              ...garantiesFinancièresToUpsert,
+              dépôtEnCours: {
+                type: 'aucun',
+              },
+            },
           );
           break;
 
         case 'DépôtGarantiesFinancièresEnCoursValidé-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+          if (garantiesFinancièresToUpsert.dépôtEnCours.type === 'aucun') {
+            return;
+          }
 
-          const dépôtValidé = dépôtEnCoursGarantiesFinancièresToUpsert.dépôt;
+          const dépôtValidé = garantiesFinancièresToUpsert.dépôtEnCours;
 
-          if (!dépôtValidé) {
-            getLogger().error(
-              new Error(
-                `dépôt garanties financières en cours absent, impossible d'enregistrer les données des garanties financières validées`,
-              ),
-              {
-                identifiantProjet,
-                message: event,
+          const getTypeAndDateGf = () => {
+            if (dépôtValidé.type === 'avec-date-échéance') {
+              return {
+                type: 'avec-date-échéance',
+                dateÉchéance: dépôtValidé.dateÉchéance ?? 'pas-de-date-échéance',
+              };
+            }
+            return {
+              type: dépôtValidé.type,
+            };
+          };
+
+          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+            {
+              ...garantiesFinancièresToUpsert,
+              dépôtEnCours: {
+                type: 'aucun',
               },
-            );
+              ...getTypeAndDateGf(),
+              dateConstitution: dépôtValidé.dateConstitution,
+              attestation: dépôtValidé.attestation,
+              validéLe: payload.validéLe,
+              soumisLe: dépôtValidé.soumisLe,
+              miseÀJour: {
+                dernièreMiseÀJourLe: payload.validéLe,
+                dernièreMiseÀJourPar: payload.validéPar,
+              },
+            },
+          );
+          break;
+
+        case 'DépôtGarantiesFinancièresEnCoursModifié-V1':
+          if (garantiesFinancièresToUpsert.dépôtEnCours.type === 'aucun') {
             return;
           }
 
@@ -294,43 +324,16 @@ export const register = () => {
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
-              ...détailProjet,
-              garantiesFinancières: {
-                type: dépôtValidé.type,
-                ...(dépôtValidé.dateÉchéance && {
-                  dateÉchéance: dépôtValidé.dateÉchéance,
-                }),
-                attestation: dépôtValidé.attestation,
-                dateConstitution: dépôtValidé.dateConstitution,
-                validéLe: payload.validéLe,
-                soumisLe: dépôtValidé.soumisLe,
-                dernièreMiseÀJour: {
-                  date: payload.validéLe,
-                  par: payload.validéPar,
-                },
-              },
-            },
-          );
-
-          await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
-            `depot-en-cours-garanties-financieres|${identifiantProjet}`,
-          );
-          break;
-
-        case 'DépôtGarantiesFinancièresEnCoursModifié-V1':
-          await upsertProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
-            `depot-en-cours-garanties-financieres|${identifiantProjet}`,
-            {
-              ...dépôtEnCoursGarantiesFinancièresToUpsert,
-              dépôt: {
-                ...dépôtEnCoursGarantiesFinancièresToUpsert.dépôt,
-                type: payload.type,
+              dépôtEnCours: {
+                ...garantiesFinancièresToUpsert.dépôtEnCours,
+                ...(payload.type === 'avec-date-échéance'
+                  ? { typeGF: 'avec-date-échéance' as const, dateÉchéance: payload.dateÉchéance }
+                  : { typeGF: payload.type }),
                 dateConstitution: payload.dateConstitution,
                 attestation: payload.attestation,
-                dateÉchéance: payload.dateÉchéance,
-                dernièreMiseÀJour: {
-                  date: payload.modifiéLe,
-                  par: payload.modifiéPar,
+                miseÀJour: {
+                  dernièreMiseÀJourLe: payload.modifiéLe,
+                  dernièreMiseÀJourPar: payload.modifiéPar,
                 },
               },
             },

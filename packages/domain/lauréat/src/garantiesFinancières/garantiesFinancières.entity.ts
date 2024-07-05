@@ -65,7 +65,7 @@ export type DépôtAvecDateÉchéance = CommonDépôt & {
 };
 
 export type DépôtSansDateÉchéance = CommonDépôt & {
-  type: 'consignation' | 'six-mois-après-achèvement';
+  type: 'consignation' | 'six-mois-après-achèvement' | 'type-inconnu';
 };
 
 // Mainlevée
