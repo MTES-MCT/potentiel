@@ -36,7 +36,7 @@ export type ListerTâchesQuery = Message<
     email: string;
     appelOffre?: string;
     range?: RangeOptions;
-    typeTâches?: string[];
+    catégorieTâche?: string;
   },
   ListerTâchesReadModel
 >;
@@ -54,7 +54,7 @@ export const registerListerTâchesQuery = ({
     email,
     range,
     appelOffre,
-    typeTâches,
+    catégorieTâche,
   }) => {
     const identifiants = await récupérerIdentifiantsProjetParEmailPorteur(email);
 
@@ -76,11 +76,11 @@ export const registerListerTâchesQuery = ({
               value: value,
             },
           })),
-        typeTâche: match(typeTâches)
+        typeTâche: match(catégorieTâche)
           .with(Pattern.nullish, () => undefined)
           .otherwise((value) => ({
-            operator: 'include',
-            value: value,
+            operator: 'like',
+            value: `${value}.%`,
           })),
       },
       range,

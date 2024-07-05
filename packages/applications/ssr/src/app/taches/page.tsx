@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { ListerTâchesQuery, TypeTâche } from '@potentiel-domain/tache';
+import { ListerTâchesQuery } from '@potentiel-domain/tache';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { TâcheListPage } from '@/components/pages/tâche/TâcheList.page';
@@ -50,9 +50,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
           }),
           email: utilisateur.identifiantUtilisateur.email,
           appelOffre,
-          typeTâches: catégorieTâche
-            ? TypeTâche.types.filter((x) => x.split('.')[0] === catégorieTâche)
-            : undefined,
+          catégorieTâche: catégorieTâche,
         },
       });
 
