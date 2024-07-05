@@ -147,26 +147,22 @@ export const register = () => {
         case 'TypeGarantiesFinancièresImporté-V1':
           détailProjet = await getProjectData(identifiantProjet);
 
-          const data: GarantiesFinancières.GarantiesFinancièresEntity = {
-            ...garantiesFinancièresToUpsert,
-            projet: {
-              ...détailProjet,
-            },
-            identifiantProjet,
-            typeGF: payload.type,
-            dateÉchéance:
-              payload.type === 'avec-date-échéance' && payload.dateÉchéance
-                ? payload.dateÉchéance
-                : undefined,
-            miseÀJour: {
-              dernièreMiseÀJourLe: payload.importéLe,
-              dernièreMiseÀJourPar: '',
-            },
-          };
-
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
-            data,
+            {
+              ...garantiesFinancièresToUpsert,
+              projet: {
+                ...détailProjet,
+              },
+              identifiantProjet,
+              ...(payload.type === 'avec-date-échéance'
+                ? { typeGF: 'avec-date-échéance' as const, dateÉchéance: payload.dateÉchéance }
+                : { typeGF: payload.type }),
+              miseÀJour: {
+                dernièreMiseÀJourLe: payload.importéLe,
+                dernièreMiseÀJourPar: '',
+              },
+            },
           );
           break;
 
@@ -175,9 +171,9 @@ export const register = () => {
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
-              typeGF: payload.type,
-              // dateÉchéance:
-              //   payload.type === 'avec-date-échéance' ? payload.dateÉchéance : undefined,
+              ...(payload.type === 'avec-date-échéance'
+                ? { typeGF: 'avec-date-échéance' as const, dateÉchéance: payload.dateÉchéance }
+                : { typeGF: payload.type }),
               dateConstitution: payload.dateConstitution,
               attestation: payload.attestation,
               miseÀJour: {
@@ -216,9 +212,9 @@ export const register = () => {
               projet: {
                 ...détailProjet,
               },
-              typeGF: payload.type,
-              // dateÉchéance:
-              //   payload.type === 'avec-date-échéance' ? payload.dateÉchéance : undefined,
+              ...(payload.type === 'avec-date-échéance'
+                ? { typeGF: 'avec-date-échéance' as const, dateÉchéance: payload.dateÉchéance }
+                : { typeGF: payload.type }),
               dateConstitution: payload.dateConstitution,
               attestation: payload.attestation,
               miseÀJour: {
