@@ -6,7 +6,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-import { DépôtEnCoursGarantiesFinancièresEntity } from '../dépôtEnCoursGarantiesFinancières.entity';
+import { Dépôt, GarantiesFinancièresEntity } from '../../garantiesFinancières.entity';
 import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '../..';
 
 export type ConsulterDépôtEnCoursGarantiesFinancièresReadModel = {
@@ -44,15 +44,15 @@ export const registerConsulterDépôtEnCoursGarantiesFinancièresQuery = ({
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const result = await find<DépôtEnCoursGarantiesFinancièresEntity>(
-      `depot-en-cours-garanties-financieres|${identifiantProjet.formatter()}`,
+    const result = await find<GarantiesFinancièresEntity>(
+      `garanties-financieres|${identifiantProjet.formatter()}`,
     );
 
-    if (Option.isNone(result)) {
+    if (Option.isNone(result) || !result.dépôtEnCours) {
       return Option.none;
     }
 
-    return mapToReadModel({ ...result, identifiantProjetValueType: identifiantProjet });
+    return mapToReadModel(result.dépôtEnCours, identifiantProjet);
   };
   mediator.register(
     'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
@@ -60,29 +60,29 @@ export const registerConsulterDépôtEnCoursGarantiesFinancièresQuery = ({
   );
 };
 
-const mapToReadModel = ({
-  dépôt: { type, attestation, dateConstitution, dateÉchéance, soumisLe, dernièreMiseÀJour },
-  identifiantProjetValueType,
-}: DépôtEnCoursGarantiesFinancièresEntity & {
-  identifiantProjetValueType: IdentifiantProjet.ValueType;
-}): ConsulterDépôtEnCoursGarantiesFinancièresReadModel => ({
-  identifiantProjet: identifiantProjetValueType,
-  dépôt: {
-    type: TypeGarantiesFinancières.convertirEnValueType(type),
-    ...(dateÉchéance && {
-      dateÉchéance: DateTime.convertirEnValueType(dateÉchéance),
-    }),
-    dateConstitution: DateTime.convertirEnValueType(dateConstitution),
-    soumisLe: DateTime.convertirEnValueType(soumisLe),
-    attestation: DocumentProjet.convertirEnValueType(
-      identifiantProjetValueType.formatter(),
-      TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
-      DateTime.convertirEnValueType(dateConstitution).formatter(),
-      attestation.format,
-    ),
-    dernièreMiseÀJour: {
-      date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
-      par: IdentifiantUtilisateur.convertirEnValueType(dernièreMiseÀJour.par),
+const mapToReadModel = (entity: Dépôt, identifiantProjetValueType: IdentifiantProjet.ValueType) => {
+  const { type, attestation, dateConstitution, miseÀJour, soumisLe } = entity;
+  return {
+    identifiantProjet: identifiantProjetValueType,
+    dépôt: {
+      type: TypeGarantiesFinancières.convertirEnValueType(type),
+
+      dateÉchéance:
+        type === 'avec-date-échéance'
+          ? DateTime.convertirEnValueType(entity.dateÉchéance)
+          : undefined,
+      dateConstitution: DateTime.convertirEnValueType(dateConstitution),
+      soumisLe: DateTime.convertirEnValueType(soumisLe),
+      attestation: DocumentProjet.convertirEnValueType(
+        identifiantProjetValueType.formatter(),
+        TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
+        DateTime.convertirEnValueType(dateConstitution).formatter(),
+        attestation.format,
+      ),
+      dernièreMiseÀJour: {
+        date: DateTime.convertirEnValueType(miseÀJour.dernièreMiseÀJourLe),
+        par: IdentifiantUtilisateur.convertirEnValueType(miseÀJour.dernièreMiseÀJourPar),
+      },
     },
-  },
-});
+  };
+};

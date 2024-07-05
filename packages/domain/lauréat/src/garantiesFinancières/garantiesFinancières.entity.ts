@@ -42,7 +42,7 @@ type GFSansDateÉchéance = CommonGarantiesFinancière & {
 };
 
 // Dépôt
-type Dépôt = DépôtAvecDateÉchéance | DépôtSansDateÉchéance;
+export type Dépôt = DépôtAvecDateÉchéance | DépôtSansDateÉchéance;
 type CommonDépôt = {
   dateConstitution: string;
   attestation: { format: string };

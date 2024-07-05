@@ -151,8 +151,7 @@ export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motif
 export * as TypeDocumentRéponseDemandeMainlevée from './mainlevée/typeDocumentRéponseDemandeMainlevée.valueType';
 
 // Entities
-export * from './garantiesFinancièresActuelles/garantiesFinancièresActuelles.entity';
-export * from './dépôtEnCours/dépôtEnCoursGarantiesFinancières.entity';
+export * from './garantiesFinancières.entity';
 export * from './projetEnAttenteDeGarantiesFinancières/projetAvecGarantiesFinancièresEnAttente.entity';
 export * from './mainlevée/mainlevéeGarantiesFinancières.entity';
 export * from './mainlevée/historiqueMainlevéeRejetéeGarantiesFinancières.entity';
