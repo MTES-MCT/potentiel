@@ -12,29 +12,27 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { Form } from '@/components/atoms/form/Form';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
 import { transmettrePropositionTechniqueEtFinancièreAction } from './transmettrePropositionTechniqueEtFinancière.action';
 
 export type TransmettrePropositionTechniqueEtFinancièreProps = {
-  projet: ProjetBannerProps;
+  identifiantProjet: string;
   referenceDossierRaccordement: string;
 };
 
 export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
   TransmettrePropositionTechniqueEtFinancièreProps
-> = ({ projet, referenceDossierRaccordement }) => {
+> = ({ identifiantProjet, referenceDossierRaccordement }) => {
   const router = useRouter();
 
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
-  const { identifiantProjet } = projet;
-
   return (
     <ColumnPageTemplate
-      banner={<ProjetBanner {...projet} />}
+      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
       heading={<TitrePageRaccordement />}
       leftColumn={{
         children: (
@@ -43,7 +41,7 @@ export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
             encType="multipart/form-data"
             heading="Transmettre la proposition technique et financière"
             action={transmettrePropositionTechniqueEtFinancièreAction}
-            onSuccess={() => router.push(Routes.Raccordement.détail(projet.identifiantProjet))}
+            onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
             <input type="hidden" name="identifiantProjet" value={identifiantProjet} />

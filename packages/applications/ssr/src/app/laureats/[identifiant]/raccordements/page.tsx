@@ -1,10 +1,6 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
-import {
-  ConsulterCandidatureQuery,
-  ConsulterCandidatureReadModel,
-} from '@potentiel-domain/candidature';
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
@@ -31,13 +27,6 @@ export default async function Page({ params: { identifiant } }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
 
-      const candidature = await mediator.send<ConsulterCandidatureQuery>({
-        type: 'Candidature.Query.ConsulterCandidature',
-        data: {
-          identifiantProjet,
-        },
-      });
-
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
         data: {
@@ -56,7 +45,6 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       const props = mapToProps({
         rôleUtilisateur: utilisateur.role,
-        candidature,
         identifiantProjet,
         gestionnaireRéseau,
         raccordement,
@@ -64,7 +52,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       return raccordement.dossiers.length === 0 ? (
         <AucunDossierDeRaccordementPage
-          projet={props.projet}
+          identifiantProjet={identifiantProjet}
           gestionnaireRéseau={props.gestionnaireRéseau}
         />
       ) : (
@@ -76,7 +64,6 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
 type MapToProps = (args: {
   rôleUtilisateur: Role.ValueType;
-  candidature: ConsulterCandidatureReadModel;
   identifiantProjet: string;
   gestionnaireRéseau: Option.Type<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;
   raccordement: Raccordement.ConsulterRaccordementReadModel;
@@ -84,15 +71,11 @@ type MapToProps = (args: {
 
 const mapToProps: MapToProps = ({
   rôleUtilisateur,
-  candidature,
   identifiantProjet,
   gestionnaireRéseau,
   raccordement,
 }) => ({
-  projet: {
-    ...candidature,
-    identifiantProjet,
-  },
+  identifiantProjet,
   gestionnaireRéseau: Option.isNone(gestionnaireRéseau)
     ? undefined
     : {

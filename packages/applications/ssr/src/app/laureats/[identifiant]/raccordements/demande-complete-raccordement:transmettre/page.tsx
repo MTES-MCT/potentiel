@@ -5,12 +5,9 @@ import {
   ConsulterAppelOffreQuery,
   ConsulterAppelOffreReadModel,
 } from '@potentiel-domain/appel-offre';
-import {
-  ConsulterCandidatureQuery,
-  ConsulterCandidatureReadModel,
-} from '@potentiel-domain/candidature';
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import {
   TransmettreDemandeComplèteRaccordementPage,
@@ -27,16 +24,11 @@ export const metadata: Metadata = {
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
-    const identifiantProjet = decodeParameter(identifiant);
-
-    const candidature = await mediator.send<ConsulterCandidatureQuery>({
-      type: 'Candidature.Query.ConsulterCandidature',
-      data: { identifiantProjet },
-    });
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
     const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
-      data: { identifiantAppelOffre: candidature.appelOffre },
+      data: { identifiantAppelOffre: identifiantProjet.appelOffre },
     });
 
     const gestionnairesRéseau =
@@ -48,12 +40,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const gestionnaire =
       await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
-        data: { identifiantProjetValue: identifiantProjet },
+        data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 
     const props: TransmettreDemandeComplèteRaccordementProps = mapToProps({
       gestionnairesRéseau,
-      candidature,
       appelOffre,
       gestionnaireRéseau: gestionnaire,
       identifiantProjet,
@@ -65,22 +56,20 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
 type MapToProps = (args: {
   gestionnairesRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel;
-  candidature: ConsulterCandidatureReadModel;
   appelOffre: ConsulterAppelOffreReadModel;
   gestionnaireRéseau: Option.Type<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>;
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.ValueType;
 }) => TransmettreDemandeComplèteRaccordementProps;
 
 const mapToProps: MapToProps = ({
   gestionnairesRéseau,
-  candidature,
   appelOffre,
   gestionnaireRéseau,
   identifiantProjet,
 }) => {
   return {
     delaiDemandeDeRaccordementEnMois: appelOffre.periodes.find(
-      (periode) => (periode.id = candidature.période),
+      (periode) => (periode.id = identifiantProjet.période),
     )!.delaiDcrEnMois,
     ...(Option.isSome(gestionnaireRéseau) && {
       identifiantGestionnaireRéseauActuel:
@@ -96,9 +85,6 @@ const mapToProps: MapToProps = ({
           gestionnaire.aideSaisieRéférenceDossierRaccordement.expressionReguliere.expression,
       },
     })),
-    projet: {
-      ...candidature,
-      identifiantProjet: identifiantProjet,
-    },
+    identifiantProjet: identifiantProjet.formatter(),
   };
 };

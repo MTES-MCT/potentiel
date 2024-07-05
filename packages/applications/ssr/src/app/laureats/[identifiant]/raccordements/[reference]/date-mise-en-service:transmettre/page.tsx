@@ -63,8 +63,8 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 
     const props: TransmettreDateMiseEnServiceProps = {
       projet: {
-        ...candidature,
         identifiantProjet,
+        ...candidature,
       },
       dossierRaccordement: {
         référence: referenceDossierRaccordement,

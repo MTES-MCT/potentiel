@@ -29,7 +29,7 @@ export const Default: Story = {
       max: new Date('2024-12-31').toISOString() as Iso8601DateTime,
     },
     projet: {
-      identifiantProjet: 'identifiantProjet#1',
+      identifiantProjet: 'appelOffre#période#famille#numéroCRE',
       dateDésignation: new Date('2022-09-01').toISOString() as Iso8601DateTime,
     },
   },

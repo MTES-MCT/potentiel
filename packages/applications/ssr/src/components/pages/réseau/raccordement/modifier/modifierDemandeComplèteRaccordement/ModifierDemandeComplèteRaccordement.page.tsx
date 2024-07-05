@@ -12,7 +12,7 @@ import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
@@ -26,7 +26,7 @@ import {
 import { modifierDemandeComplèteRaccordementAction } from './modifierDemandeComplèteRaccordement.action';
 
 export type ModifierDemandeComplèteRaccordementPageProps = {
-  projet: ProjetBannerProps;
+  identifiantProjet: string;
   raccordement: {
     référence: string;
     demandeComplèteRaccordement: {
@@ -50,7 +50,7 @@ export type ModifierDemandeComplèteRaccordementPageProps = {
 export const ModifierDemandeComplèteRaccordementPage: FC<
   ModifierDemandeComplèteRaccordementPageProps
 > = ({
-  projet,
+  identifiantProjet,
   raccordement: {
     référence,
     canEditRéférence,
@@ -63,12 +63,11 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
 
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
-  const { identifiantProjet } = projet;
   const { aideSaisieRéférenceDossierRaccordement, identifiantGestionnaireRéseau } =
     gestionnaireRéseauActuel;
   return (
     <ColumnPageTemplate
-      banner={<ProjetBanner {...projet} />}
+      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
       heading={<TitrePageRaccordement />}
       leftColumn={{
         children: (
@@ -77,7 +76,7 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
             encType="multipart/form-data"
             action={modifierDemandeComplèteRaccordementAction}
             heading="Modifier une demande complète de raccordement"
-            onSuccess={() => router.push(Routes.Raccordement.détail(projet.identifiantProjet))}
+            onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
             <input name="identifiantProjet" type="hidden" value={identifiantProjet} />

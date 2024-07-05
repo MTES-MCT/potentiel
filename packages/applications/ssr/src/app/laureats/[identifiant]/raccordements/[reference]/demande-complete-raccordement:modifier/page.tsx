@@ -6,13 +6,10 @@ import {
   ConsulterAppelOffreQuery,
   ConsulterAppelOffreReadModel,
 } from '@potentiel-domain/appel-offre';
-import {
-  ConsulterCandidatureQuery,
-  ConsulterCandidatureReadModel,
-} from '@potentiel-domain/candidature';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import {
   ModifierDemandeComplèteRaccordementPage,
@@ -39,23 +36,20 @@ type PageProps = {
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const identifiantProjet = decodeParameter(identifiant);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
       const referenceDossierRaccordement = decodeParameter(reference);
-
-      const candidature = await mediator.send<ConsulterCandidatureQuery>({
-        type: 'Candidature.Query.ConsulterCandidature',
-        data: { identifiantProjet },
-      });
 
       const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
         type: 'AppelOffre.Query.ConsulterAppelOffre',
-        data: { identifiantAppelOffre: candidature.appelOffre },
+        data: { identifiantAppelOffre: identifiantProjet.appelOffre },
       });
 
       const gestionnaireRéseau =
         await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
           type: 'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
-          data: { identifiantProjetValue: identifiantProjet },
+          data: { identifiantProjetValue: identifiantProjet.formatter() },
         });
 
       if (Option.isNone(gestionnaireRéseau)) {
@@ -67,12 +61,11 @@ export default async function Page({ params: { identifiant, reference } }: PageP
           type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             référenceDossierRaccordementValue: referenceDossierRaccordement,
-            identifiantProjetValue: identifiantProjet,
+            identifiantProjetValue: identifiantProjet.formatter(),
           },
         });
 
       const props = mapToProps({
-        candidature,
         appelOffre,
         gestionnaireRéseau,
         identifiantProjet,
@@ -86,16 +79,14 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 }
 
 type MapToProps = (args: {
-  candidature: ConsulterCandidatureReadModel;
   appelOffre: ConsulterAppelOffreReadModel;
   gestionnaireRéseau: Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel;
   dossierRaccordement: Raccordement.ConsulterDossierRaccordementReadModel;
-  identifiantProjet: string;
   utilisateur: AuthenticatedUserReadModel;
+  identifiantProjet: IdentifiantProjet.ValueType;
 }) => ModifierDemandeComplèteRaccordementPageProps;
 
 const mapToProps: MapToProps = ({
-  candidature,
   appelOffre,
   gestionnaireRéseau: {
     aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
@@ -107,10 +98,7 @@ const mapToProps: MapToProps = ({
   utilisateur,
 }) => {
   return {
-    projet: {
-      ...candidature,
-      identifiantProjet: identifiantProjet,
-    },
+    identifiantProjet: identifiantProjet.formatter(),
     raccordement: {
       référence: dossierRaccordement.référence.référence,
       demandeComplèteRaccordement: {
@@ -125,7 +113,7 @@ const mapToProps: MapToProps = ({
         (utilisateur.role.estÉgaleÀ(Role.porteur) && !dossierRaccordement.miseEnService),
     },
     delaiDemandeDeRaccordementEnMois: appelOffre.periodes.find(
-      (periode) => periode.id === candidature.période,
+      (periode) => periode.id === identifiantProjet.période,
     )!.delaiDcrEnMois,
     gestionnaireRéseauActuel: {
       identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),

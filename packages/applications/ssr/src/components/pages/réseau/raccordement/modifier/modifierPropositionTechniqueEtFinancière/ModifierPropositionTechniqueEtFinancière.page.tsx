@@ -11,7 +11,7 @@ import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
@@ -20,7 +20,7 @@ import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import { modifierPropositionTechniqueEtFinancièreAction } from './modifierPropositionTechniqueEtFinancière.action';
 
 export type ModifierPropositionTechniqueEtFinancièrePageProps = {
-  projet: ProjetBannerProps;
+  identifiantProjet: string;
   raccordement: {
     reference: string;
     propositionTechniqueEtFinancière: {
@@ -33,20 +33,19 @@ export type ModifierPropositionTechniqueEtFinancièrePageProps = {
 export const ModifierPropositionTechniqueEtFinancièrePage: FC<
   ModifierPropositionTechniqueEtFinancièrePageProps
 > = ({
-  projet,
+  identifiantProjet,
   raccordement: {
     reference,
     propositionTechniqueEtFinancière: { dateSignature, propositionTechniqueEtFinancièreSignée },
   },
 }: ModifierPropositionTechniqueEtFinancièrePageProps) => {
-  const { identifiantProjet } = projet;
   const router = useRouter();
 
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   return (
     <ColumnPageTemplate
-      banner={<ProjetBanner {...projet} />}
+      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
       heading={<TitrePageRaccordement />}
       leftColumn={{
         children: (
@@ -54,7 +53,7 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
             method="POST"
             encType="multipart/form-data"
             action={modifierPropositionTechniqueEtFinancièreAction}
-            onSuccess={() => router.push(Routes.Raccordement.détail(projet.identifiantProjet))}
+            onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
             heading="Modifier la proposition technique et financière"
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
