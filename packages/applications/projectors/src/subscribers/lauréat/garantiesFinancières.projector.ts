@@ -24,17 +24,8 @@ export const register = () => {
       await removeProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
         `garanties-financieres|${payload.id}`,
       );
-      await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
-        `depot-en-cours-garanties-financieres|${payload.id}`,
-      );
       await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
         `projet-avec-garanties-financieres-en-attente|${payload.id}`,
-      );
-      await removeProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
-        `mainlevee-garanties-financieres|${payload.id}`,
-      );
-      await removeProjection<GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
-        `historique-mainlevee-rejetee-garanties-financieres|${payload.id}`,
       );
     } else {
       const { identifiantProjet } = payload;
@@ -44,24 +35,9 @@ export const register = () => {
           `garanties-financieres|${identifiantProjet}`,
         );
 
-      const dépôtEnCoursGarantiesFinancières =
-        await findProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
-          `depot-en-cours-garanties-financieres|${identifiantProjet}`,
-        );
-
       const projetAvecGarantiesFinancièresEnAttente =
         await findProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
           `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
-        );
-
-      const mainlevéeGarantiesFinancières =
-        await findProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
-          `mainlevee-garanties-financieres|${identifiantProjet}`,
-        );
-
-      const historiqueMainlevéeRejetéeGarantiesFinancières =
-        await findProjection<GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
-          `historique-mainlevee-rejetee-garanties-financieres|${identifiantProjet}`,
         );
 
       const garantiesFinancièresDefaultValue: Omit<
@@ -69,40 +45,18 @@ export const register = () => {
         'type'
       > = {
         identifiantProjet,
-        nomProjet: '',
-        appelOffre: '',
-        période: '',
-        famille: undefined,
-        régionProjet: '',
-        garantiesFinancières: {
-          type: '',
-          dernièreMiseÀJour: { date: '', par: '' },
+        projet: {
+          nomProjet: '',
+          appelOffre: '',
+          période: '',
+          famille: '',
+          régionProjet: '',
         },
-      };
 
-      const dépôtEnCoursGarantiesFinancièresDefaultValue: Omit<
-        GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity,
-        'type'
-      > = {
-        identifiantProjet,
-        nomProjet: '',
-        appelOffre: '',
-        période: '',
-        famille: undefined,
-        régionProjet: '',
-        dépôt: {
-          type: '',
-          dateÉchéance: '',
-          dateConstitution: '',
-          attestation: {
-            format: '',
-          },
-          soumisLe: '',
-          dernièreMiseÀJour: {
-            date: '',
-            par: '',
-          },
-        },
+        typeGF: 'type-inconnu',
+        dépôtEnCours: { type: 'aucun' },
+        mainlevée: { statut: 'aucun' },
+        miseÀJour: { dernièreMiseÀJourLe: '', dernièreMiseÀJourPar: '' },
       };
 
       const projetAvecGarantiesFinancièresEnAttenteDefaultValue: Omit<
@@ -122,35 +76,6 @@ export const register = () => {
         dateLimiteSoumission: '',
       };
 
-      const mainlevéeGarantiesFinancièresDefaultValue: Omit<
-        GarantiesFinancières.MainlevéeGarantiesFinancièresEntity,
-        'type'
-      > = {
-        identifiantProjet,
-        nomProjet: '',
-        appelOffre: '',
-        période: '',
-        famille: undefined,
-        régionProjet: '',
-        demande: { demandéeLe: '', demandéePar: '' },
-        motif: '',
-        statut: '',
-        dernièreMiseÀJour: { date: '', par: '' },
-      };
-
-      const historiqueMainlevéeRejetéeGarantiesFinancièresDefaultValue: Omit<
-        GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity,
-        'type'
-      > = {
-        identifiantProjet,
-        nomProjet: '',
-        appelOffre: '',
-        période: '',
-        famille: undefined,
-        régionProjet: '',
-        historique: [],
-      };
-
       const garantiesFinancièresToUpsert: Omit<
         GarantiesFinancières.GarantiesFinancièresEntity,
         'type'
@@ -158,33 +83,12 @@ export const register = () => {
         ? garantiesFinancières
         : garantiesFinancièresDefaultValue;
 
-      const dépôtEnCoursGarantiesFinancièresToUpsert: Omit<
-        GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity,
-        'type'
-      > = Option.isSome(dépôtEnCoursGarantiesFinancières)
-        ? dépôtEnCoursGarantiesFinancières
-        : dépôtEnCoursGarantiesFinancièresDefaultValue;
-
       const projetAvecGarantiesFinancièresEnAttenteToUpsert: Omit<
         GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity,
         'type'
       > = Option.isSome(projetAvecGarantiesFinancièresEnAttente)
         ? projetAvecGarantiesFinancièresEnAttente
         : projetAvecGarantiesFinancièresEnAttenteDefaultValue;
-
-      const mainlevéeGarantiesFinancièresToUpsert: Omit<
-        GarantiesFinancières.MainlevéeGarantiesFinancièresEntity,
-        'type'
-      > = Option.isSome(mainlevéeGarantiesFinancières)
-        ? mainlevéeGarantiesFinancières
-        : mainlevéeGarantiesFinancièresDefaultValue;
-
-      const historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert: Omit<
-        GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity,
-        'type'
-      > = Option.isSome(historiqueMainlevéeRejetéeGarantiesFinancières)
-        ? historiqueMainlevéeRejetéeGarantiesFinancières
-        : historiqueMainlevéeRejetéeGarantiesFinancièresDefaultValue;
 
       const getProjectData = async (identifiantProjet: IdentifiantProjet.RawType) => {
         const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
@@ -198,7 +102,7 @@ export const register = () => {
             nomProjet: 'Projet inconnu',
             appelOffre: `N/A`,
             période: `N/A`,
-            famille: undefined,
+            famille: '',
             régionProjet: '',
           };
         }
@@ -217,7 +121,7 @@ export const register = () => {
             régionProjet: string;
             appelOffre: string;
             période: string;
-            famille?: string;
+            famille: string;
           }
         | undefined = undefined;
 
@@ -240,10 +144,109 @@ export const register = () => {
           );
           break;
 
+        case 'TypeGarantiesFinancièresImporté-V1':
+          détailProjet = await getProjectData(identifiantProjet);
+
+          const data: GarantiesFinancières.GarantiesFinancièresEntity = {
+            ...garantiesFinancièresToUpsert,
+            projet: {
+              ...détailProjet,
+            },
+            identifiantProjet,
+            typeGF: payload.type,
+            dateÉchéance:
+              payload.type === 'avec-date-échéance' && payload.dateÉchéance
+                ? payload.dateÉchéance
+                : undefined,
+            miseÀJour: {
+              dernièreMiseÀJourLe: payload.importéLe,
+              dernièreMiseÀJourPar: '',
+            },
+          };
+
+          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+            data,
+          );
+          break;
+
+        case 'GarantiesFinancièresModifiées-V1':
+          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+            {
+              ...garantiesFinancièresToUpsert,
+              typeGF: payload.type,
+              // dateÉchéance:
+              //   payload.type === 'avec-date-échéance' ? payload.dateÉchéance : undefined,
+              dateConstitution: payload.dateConstitution,
+              attestation: payload.attestation,
+              miseÀJour: {
+                dernièreMiseÀJourLe: payload.modifiéLe,
+                dernièreMiseÀJourPar: payload.modifiéPar,
+              },
+            },
+          );
+          break;
+
+        case 'AttestationGarantiesFinancièresEnregistrée-V1':
+          détailProjet = await getProjectData(identifiantProjet);
+          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+            {
+              ...garantiesFinancièresToUpsert,
+              projet: {
+                ...détailProjet,
+              },
+              dateConstitution: payload.dateConstitution,
+              attestation: payload.attestation,
+              miseÀJour: {
+                dernièreMiseÀJourLe: payload.enregistréPar,
+                dernièreMiseÀJourPar: payload.enregistréLe,
+              },
+            },
+          );
+          break;
+
+        case 'GarantiesFinancièresEnregistrées-V1':
+          détailProjet = await getProjectData(identifiantProjet);
+          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+            {
+              ...garantiesFinancièresToUpsert,
+              projet: {
+                ...détailProjet,
+              },
+              typeGF: payload.type,
+              // dateÉchéance:
+              //   payload.type === 'avec-date-échéance' ? payload.dateÉchéance : undefined,
+              dateConstitution: payload.dateConstitution,
+              attestation: payload.attestation,
+              miseÀJour: {
+                dernièreMiseÀJourLe: payload.enregistréPar,
+                dernièreMiseÀJourPar: payload.enregistréLe,
+              },
+            },
+          );
+
+          await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
+            `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
+          );
+          break;
+
+        case 'HistoriqueGarantiesFinancièresEffacé-V1':
+          await removeProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+          );
+
+          await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+            `depot-en-cours-garanties-financieres|${identifiantProjet}`,
+          );
+          break;
+
         case 'DépôtGarantiesFinancièresSoumis-V1':
           détailProjet = await getProjectData(identifiantProjet);
 
-          await upsertProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `depot-en-cours-garanties-financieres|${identifiantProjet}`,
             {
               ...détailProjet,
@@ -335,103 +338,6 @@ export const register = () => {
                 },
               },
             },
-          );
-          break;
-
-        case 'TypeGarantiesFinancièresImporté-V1':
-          détailProjet = await getProjectData(identifiantProjet);
-          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
-            `garanties-financieres|${identifiantProjet}`,
-            {
-              ...garantiesFinancièresToUpsert,
-              ...détailProjet,
-              identifiantProjet,
-              garantiesFinancières: {
-                ...garantiesFinancièresToUpsert.garantiesFinancières,
-                type: payload.type,
-                dateÉchéance: payload.dateÉchéance,
-                typeImportéLe: payload.importéLe,
-                dernièreMiseÀJour: {
-                  date: payload.importéLe,
-                  par: '',
-                },
-              },
-            },
-          );
-          break;
-
-        case 'GarantiesFinancièresModifiées-V1':
-          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
-            `garanties-financieres|${identifiantProjet}`,
-            {
-              ...garantiesFinancièresToUpsert,
-              garantiesFinancières: {
-                ...garantiesFinancièresToUpsert.garantiesFinancières,
-                type: payload.type,
-                dateÉchéance: payload.dateÉchéance,
-                dateConstitution: payload.dateConstitution,
-                attestation: payload.attestation,
-                dernièreMiseÀJour: {
-                  date: payload.modifiéLe,
-                  par: payload.modifiéPar,
-                },
-              },
-            },
-          );
-          break;
-
-        case 'AttestationGarantiesFinancièresEnregistrée-V1':
-          détailProjet = await getProjectData(identifiantProjet);
-          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
-            `garanties-financieres|${identifiantProjet}`,
-            {
-              ...garantiesFinancièresToUpsert,
-              ...détailProjet,
-              garantiesFinancières: {
-                ...garantiesFinancièresToUpsert.garantiesFinancières,
-                dateConstitution: payload.dateConstitution,
-                attestation: payload.attestation,
-                dernièreMiseÀJour: {
-                  par: payload.enregistréPar,
-                  date: payload.enregistréLe,
-                },
-              },
-            },
-          );
-          break;
-
-        case 'GarantiesFinancièresEnregistrées-V1':
-          détailProjet = await getProjectData(identifiantProjet);
-          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
-            `garanties-financieres|${identifiantProjet}`,
-            {
-              ...garantiesFinancièresToUpsert,
-              ...détailProjet,
-              garantiesFinancières: {
-                type: payload.type,
-                dateÉchéance: payload.dateÉchéance,
-                dateConstitution: payload.dateConstitution,
-                attestation: payload.attestation,
-                dernièreMiseÀJour: {
-                  date: payload.enregistréLe,
-                  par: payload.enregistréPar,
-                },
-              },
-            },
-          );
-
-          await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
-            `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
-          );
-          break;
-
-        case 'HistoriqueGarantiesFinancièresEffacé-V1':
-          await removeProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
-            `garanties-financieres|${identifiantProjet}`,
-          );
-
-          await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
-            `depot-en-cours-garanties-financieres|${identifiantProjet}`,
           );
           break;
 
