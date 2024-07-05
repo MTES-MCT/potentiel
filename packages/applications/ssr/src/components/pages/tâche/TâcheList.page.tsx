@@ -1,6 +1,5 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { ListerTâchesReadModel } from '@potentiel-domain/tache';
@@ -22,24 +21,6 @@ export const TâcheListPage: FC<TâcheListPageProps> = ({
 }) => {
   const { currentPage, itemsPerPage } = mapToPagination(range);
 
-  const searchParams = useSearchParams();
-  const tagFilters = filters.reduce(
-    (allFilters, { searchParamKey, label, options }) => {
-      const currentFilterValue = searchParams.get(searchParamKey);
-      if (!currentFilterValue) {
-        return allFilters;
-      }
-      return [
-        ...allFilters,
-        {
-          label: `${label}: ${options.find((x) => x.value === currentFilterValue)?.label}`,
-          searchParamKey,
-        },
-      ];
-    },
-    [] as { label: string; searchParamKey: string }[],
-  );
-
   return (
     <ListPageTemplate
       heading="Tâches"
@@ -52,7 +33,6 @@ export const TâcheListPage: FC<TâcheListPageProps> = ({
       totalItems={total}
       itemsPerPage={itemsPerPage}
       ItemComponent={TâcheListItem}
-      tagFilters={tagFilters}
       filters={filters}
     />
   );
