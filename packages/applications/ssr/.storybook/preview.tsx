@@ -6,10 +6,41 @@ import { DsfrProvider } from '@codegouvfr/react-dsfr/next-appdir/DsfrProvider';
 import { createMuiDsfrThemeProvider } from '@codegouvfr/react-dsfr/mui';
 
 import { StartDsfr } from '../src/app/StartDsfr';
+import { registerCandidatureQueries } from '@potentiel-domain/candidature';
 
 import './static/dsfr/dsfr.min.css';
 import './static/dsfr/utility/icons/icons.min.css';
 import '../src/app/global.css';
+
+registerCandidatureQueries({
+  récupérerCandidature: async () => {
+    return {
+      appelOffre: 'Appel offre',
+      période: 'Période',
+      famille: 'Famille',
+      nom: 'Le projet',
+      statut: 'classé',
+      localité: {
+        commune: 'Commune',
+        codePostal: 'XXXXX',
+        département: 'Département',
+        région: 'Région',
+        adresse: ''
+      },
+      dateDésignation: new Date('2021-10-22').toISOString() as Iso8601DateTime,
+      adressePostaleCandidat: '',
+      cahierDesCharges: '',
+      email: '',
+      nomCandidat: '',
+      nomReprésentantLégal: '',
+      numéroCRE: '',
+      potentielIdentifier: '',
+      puissance: 0,
+      type: ''
+    }
+  },
+  récupérerCandidaturesEligiblesPreuveRecanditure: async () => []
+});
 
 export const decorators = [
   withThemeByClassName({

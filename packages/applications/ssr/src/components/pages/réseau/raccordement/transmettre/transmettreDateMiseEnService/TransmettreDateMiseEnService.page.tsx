@@ -11,7 +11,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
@@ -19,7 +19,10 @@ import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import { transmettreDateMiseEnServiceAction } from './transmettreDateMiseEnService.action';
 
 export type TransmettreDateMiseEnServiceProps = {
-  projet: ProjetBannerProps;
+  projet: {
+    identifiantProjet: string;
+    dateDésignation: Iso8601DateTime;
+  };
   dossierRaccordement: {
     référence: string;
     miseEnService?: Iso8601DateTime;
@@ -28,16 +31,15 @@ export type TransmettreDateMiseEnServiceProps = {
 };
 
 export const TransmettreDateMiseEnServicePage = ({
-  projet,
+  projet: { dateDésignation, identifiantProjet },
   dossierRaccordement: { référence, miseEnService },
   intervalleDatesMeSDélaiCDC2022,
 }: TransmettreDateMiseEnServiceProps) => {
   const router = useRouter();
-  const { identifiantProjet, dateDésignation } = projet;
 
   return (
     <ColumnPageTemplate
-      banner={<ProjetBanner {...projet} />}
+      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
       heading={<TitrePageRaccordement />}
       leftColumn={{
         children: (
@@ -57,7 +59,7 @@ export const TransmettreDateMiseEnServicePage = ({
                 type: 'date',
                 name: 'dateMiseEnService',
                 defaultValue: miseEnService,
-                min: projet.dateDésignation,
+                min: dateDésignation,
                 max: now(),
                 required: true,
                 'aria-required': true,
@@ -116,7 +118,7 @@ export const TransmettreDateMiseEnServicePage = ({
                     </span>
                     , la saisie d'une date de mise en service doit être comprise entre la date de
                     désignation du projet{' '}
-                    <FormattedDate className="font-bold" date={projet.dateDésignation} /> et{' '}
+                    <FormattedDate className="font-bold" date={dateDésignation} /> et{' '}
                     <span className="font-bold">ce jour</span>.
                   </li>
                 </ul>
