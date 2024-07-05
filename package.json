@@ -23,6 +23,7 @@
     "./packages/applications/document-builder",
     "./packages/applications/ssr",
     "./packages/applications/legacy",
+    "./packages/applications/cli",
     "./packages/specifications"
   ],
   "scripts": {
