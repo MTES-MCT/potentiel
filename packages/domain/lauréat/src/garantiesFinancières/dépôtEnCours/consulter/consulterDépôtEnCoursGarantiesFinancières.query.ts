@@ -6,7 +6,11 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-import { DépôtEntity, GarantiesFinancièresEntity } from '../../garantiesFinancières.entity';
+import {
+  DépôtAvecDateÉchéance,
+  DépôtSansDateÉchéance,
+  GarantiesFinancièresEntity,
+} from '../../garantiesFinancières.entity';
 import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '../..';
 
 export type ConsulterDépôtEnCoursGarantiesFinancièresReadModel = {
@@ -48,7 +52,7 @@ export const registerConsulterDépôtEnCoursGarantiesFinancièresQuery = ({
       `garanties-financieres|${identifiantProjet.formatter()}`,
     );
 
-    if (Option.isNone(result) || !result.dépôtEnCours) {
+    if (Option.isNone(result) || result.dépôtEnCours.type === 'aucun') {
       return Option.none;
     }
 
@@ -61,7 +65,7 @@ export const registerConsulterDépôtEnCoursGarantiesFinancièresQuery = ({
 };
 
 const mapToReadModel = (
-  entity: DépôtEntity,
+  entity: DépôtAvecDateÉchéance | DépôtSansDateÉchéance,
   identifiantProjetValueType: IdentifiantProjet.ValueType,
 ) => {
   const { type, attestation, dateConstitution, miseÀJour, soumisLe } = entity;

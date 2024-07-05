@@ -28,7 +28,7 @@ type CommonGarantiesFinancière = {
     dernièreMiseÀJourPar: string;
   };
 
-  dépôtEnCours: Dépôt;
+  dépôtEnCours: DépôtEntity;
   mainlevée: Mainlevée;
 };
 
@@ -42,7 +42,7 @@ type GFSansDateÉchéance = CommonGarantiesFinancière & {
 };
 
 // Dépôt
-export type Dépôt = AucunDépôt | DépôtAvecDateÉchéance | DépôtSansDateÉchéance;
+export type DépôtEntity = AucunDépôt | DépôtAvecDateÉchéance | DépôtSansDateÉchéance;
 type CommonDépôt = {
   dateConstitution: string;
   attestation: { format: string };
@@ -69,7 +69,12 @@ export type DépôtSansDateÉchéance = CommonDépôt & {
 };
 
 // Mainlevée
-type Mainlevée = MainlevéeDemandée | MainlevéeEnInstruction | MainlevéeAccordée | MainlevéeRejetée;
+type Mainlevée =
+  | AucuneMainlevée
+  | MainlevéeDemandée
+  | MainlevéeEnInstruction
+  | MainlevéeAccordée
+  | MainlevéeRejetée;
 
 type CommonMainlevée = {
   motif: string;
@@ -87,17 +92,21 @@ type CommonMainlevée = {
   instructionsRejetées: Array<MainlevéeRejetée>;
 };
 
-type MainlevéeDemandée = CommonMainlevée & {
+type AucuneMainlevée = {
+  statut: 'aucun';
+};
+
+export type MainlevéeDemandée = CommonMainlevée & {
   statut: 'demandé';
 };
 
-type MainlevéeEnInstruction = CommonMainlevée & {
+export type MainlevéeEnInstruction = CommonMainlevée & {
   statut: 'en-instruction';
   instructionDémarréPar: string;
   instructionDémarréLe: string;
 };
 
-type MainlevéeAccordée = CommonMainlevée & {
+export type MainlevéeAccordée = CommonMainlevée & {
   statut: 'accordé';
   accordéLe: string;
   accordéPar: string;
@@ -106,7 +115,7 @@ type MainlevéeAccordée = CommonMainlevée & {
   };
 };
 
-type MainlevéeRejetée = CommonMainlevée & {
+export type MainlevéeRejetée = CommonMainlevée & {
   statut: 'rejeté';
   rejetéLe: string;
   rejetéPar: string;

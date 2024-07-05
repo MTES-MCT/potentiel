@@ -6,7 +6,11 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/core';
 
 import {
-  MainlevéeGarantiesFinancièresEntity,
+  GarantiesFinancièresEntity,
+  MainlevéeAccordée,
+  MainlevéeDemandée,
+  MainlevéeEnInstruction,
+  MainlevéeRejetée,
   MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
   TypeDocumentRéponseDemandeMainlevée,
@@ -58,65 +62,66 @@ export const registerConsulterDemandeMainlevéeGarantiesFinancièresQuery = ({
     const identifiantProjetValueType =
       IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const result = await find<MainlevéeGarantiesFinancièresEntity>(
-      `mainlevee-garanties-financieres|${identifiantProjetValueType.formatter()}`,
+    const result = await find<GarantiesFinancièresEntity>(
+      `garanties-financieres|${identifiantProjetValueType.formatter()}`,
     );
 
-    if (Option.isNone(result)) {
+    if (Option.isNone(result) || result.mainlevée.statut === 'aucun') {
       return Option.none;
     }
 
-    return consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel(result);
+    return consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel(
+      identifiantProjetValue,
+      result.projet,
+      result.mainlevée,
+    );
   };
   mediator.register('Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter', handler);
 };
 
-export const consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel = ({
-  motif,
-  demande,
-  dernièreMiseÀJour,
-  statut,
-  identifiantProjet,
-  nomProjet,
-  appelOffre,
-  famille,
-  période,
-  régionProjet,
-  instruction,
-  accord,
-}: MainlevéeGarantiesFinancièresEntity): ConsulterDemandeMainlevéeGarantiesFinancièresReadModel => ({
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  nomProjet,
-  appelOffre,
-  famille,
-  période,
-  régionProjet,
-  demande: {
-    demandéeLe: DateTime.convertirEnValueType(demande.demandéeLe),
-    demandéePar: Email.convertirEnValueType(demande.demandéePar),
-  },
-  instruction: instruction
-    ? {
-        démarréePar: Email.convertirEnValueType(instruction?.démarréePar),
-        démarréeLe: DateTime.convertirEnValueType(instruction.démarréeLe),
-      }
-    : undefined,
-  accord: accord
-    ? {
-        accordéeLe: DateTime.convertirEnValueType(accord.accordéeLe),
-        accordéePar: Email.convertirEnValueType(accord.accordéePar),
-        courrierAccord: DocumentProjet.convertirEnValueType(
-          IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-          TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
-          accord.accordéeLe,
-          accord.courrierAccord.format,
-        ),
-      }
-    : undefined,
-  motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(motif),
-  statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(statut),
-  dernièreMiseÀJour: {
-    date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
-    par: Email.convertirEnValueType(dernièreMiseÀJour.par),
-  },
-});
+export const consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel = (
+  identifiantProjet: string,
+  { nomProjet, régionProjet, appelOffre, famille, période }: GarantiesFinancièresEntity['projet'],
+  mainlevée: MainlevéeDemandée | MainlevéeEnInstruction | MainlevéeAccordée | MainlevéeRejetée,
+): ConsulterDemandeMainlevéeGarantiesFinancièresReadModel => {
+  const { statut, motif, demande, miseÀJour } = mainlevée;
+
+  return {
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+    nomProjet,
+    appelOffre,
+    famille,
+    période,
+    régionProjet,
+    demande: {
+      demandéeLe: DateTime.convertirEnValueType(demande.demandéLe),
+      demandéePar: Email.convertirEnValueType(demande.demandéPar),
+    },
+    instruction:
+      statut === 'en-instruction'
+        ? {
+            démarréeLe: DateTime.convertirEnValueType(mainlevée.instructionDémarréLe),
+            démarréePar: Email.convertirEnValueType(mainlevée.instructionDémarréPar),
+          }
+        : undefined,
+    accord:
+      statut === 'accordé'
+        ? {
+            accordéeLe: DateTime.convertirEnValueType(mainlevée.accordéLe),
+            accordéePar: Email.convertirEnValueType(mainlevée.accordéPar),
+            courrierAccord: DocumentProjet.convertirEnValueType(
+              IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+              TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
+              mainlevée.accordéLe,
+              mainlevée.courrierRéponse.format,
+            ),
+          }
+        : undefined,
+    motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(motif),
+    statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(statut),
+    dernièreMiseÀJour: {
+      date: DateTime.convertirEnValueType(miseÀJour.dernièreMiseÀJourLe),
+      par: Email.convertirEnValueType(miseÀJour.dernièreMiseÀJourPar),
+    },
+  };
+};

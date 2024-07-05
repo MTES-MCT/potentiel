@@ -153,5 +153,4 @@ export * as TypeDocumentRéponseDemandeMainlevée from './mainlevée/typeDocumen
 // Entities
 export * from './garantiesFinancières.entity';
 export * from './projetEnAttenteDeGarantiesFinancières/projetAvecGarantiesFinancièresEnAttente.entity';
-export * from './mainlevée/mainlevéeGarantiesFinancières.entity';
 export * from './mainlevée/historiqueMainlevéeRejetéeGarantiesFinancières.entity';
