@@ -8,14 +8,13 @@ import { Heading1 } from '../atoms/headings';
 import { Search, SearchProps } from '../molecules/Search';
 import { List } from '../organisms/List';
 import { ListFilters, ListFiltersProps } from '../organisms/ListFilters';
-import { ListHeader, ListHeaderProps } from '../organisms/ListHeader';
+import { ListHeader } from '../organisms/ListHeader';
 
 import { PageTemplate } from './Page.template';
 
 export type ListPageTemplateProps<TItem> = {
   heading: string;
   filters: ListFiltersProps['filters'];
-  tagFilters: ListHeaderProps['tagFilters'];
   actions: Array<{
     name: string;
     link: string;
@@ -36,7 +35,6 @@ export const ListPageTemplate = <TItem,>({
   items,
   currentPage,
   itemsPerPage,
-  tagFilters,
   totalItems,
   search,
 }: ListPageTemplateProps<TItem>) => {
@@ -46,7 +44,23 @@ export const ListPageTemplate = <TItem,>({
    * when the search params changed
    */
   const listFiltersKey = new URLSearchParams(useSearchParams()).toString();
-
+  const searchParams = useSearchParams();
+  const tagFilters = filters.reduce(
+    (allFilters, { searchParamKey, label, options }) => {
+      const currentFilterValue = searchParams.get(searchParamKey);
+      if (!currentFilterValue) {
+        return allFilters;
+      }
+      return [
+        ...allFilters,
+        {
+          label: `${label}: ${options.find((x) => x.value === currentFilterValue)?.label}`,
+          searchParamKey,
+        },
+      ];
+    },
+    [] as { label: string; searchParamKey: string }[],
+  );
   return (
     <PageTemplate banner={<Heading1 className="text-theme-white">{heading}</Heading1>}>
       <div className="flex flex-col md:flex-row gap-5 md:gap-10">

@@ -1,6 +1,5 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
@@ -23,27 +22,6 @@ export type ListDépôtsEnCoursGarantiesFinancièresProps = {
 export const ListDépôtsEnCoursGarantiesFinancièresPage: FC<
   ListDépôtsEnCoursGarantiesFinancièresProps
 > = ({ list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage }, filters }) => {
-  const searchParams = useSearchParams();
-  const appelOffre = searchParams.get('appelOffre') ?? undefined;
-  const cycle = searchParams.get('cycle') ?? undefined;
-
-  const tagFilters: ListPageTemplateProps<ListItemDépôtEnCoursGarantiesFinancièresProps>['tagFilters'] =
-    [];
-
-  if (cycle) {
-    tagFilters.push({
-      label: `cycle d'appels d'offres : ${cycle}`,
-      searchParamKey: 'cycle',
-    });
-  }
-
-  if (appelOffre) {
-    tagFilters.push({
-      label: `appel d'offres : ${appelOffre}`,
-      searchParamKey: 'appelOffre',
-    });
-  }
-
   return (
     <ListPageTemplate
       heading="Garanties financières à traiter"
@@ -56,7 +34,6 @@ export const ListDépôtsEnCoursGarantiesFinancièresPage: FC<
       totalItems={totalItems}
       itemsPerPage={itemsPerPage}
       ItemComponent={ListItemDépôtEnCoursGarantiesFinancières}
-      tagFilters={tagFilters}
       filters={filters}
     />
   );

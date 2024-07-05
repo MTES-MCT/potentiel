@@ -1,6 +1,5 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import {
@@ -23,39 +22,6 @@ export const AbandonListPage: FC<AbandonListPageProps> = ({
   list: { items: abandons, currentPage, totalItems, itemsPerPage },
   filters,
 }) => {
-  const searchParams = useSearchParams();
-  const appelOffre = searchParams.get('appelOffre') ?? undefined;
-  const statut = searchParams.get('statut') ?? undefined;
-  const recandidature = searchParams.has('recandidature')
-    ? searchParams.get('recandidature') === 'true'
-    : undefined;
-  const preuveRecandidatureStatut = searchParams.get('preuveRecandidatureStatut') ?? undefined;
-
-  const tagFilters = [
-    ...(appelOffre
-      ? [{ label: `appel d'offres : ${appelOffre}`, searchParamKey: 'appelOffre' }]
-      : []),
-    ...(statut ? [{ label: `statut : ${statut}`, searchParamKey: 'statut' }] : []),
-    ...(recandidature !== undefined
-      ? [
-          {
-            label: `${recandidature ? 'avec' : 'sans'} recandidature`,
-            searchParamKey: 'recandidature',
-          },
-        ]
-      : []),
-    ...(preuveRecandidatureStatut !== undefined
-      ? [
-          {
-            label: `preuve de recandidature ${
-              preuveRecandidatureStatut === 'transmise' ? 'transmise' : 'en attente'
-            }`,
-            searchParamKey: 'preuveRecandidatureStatut',
-          },
-        ]
-      : []),
-  ];
-
   return (
     <ListPageTemplate
       heading="Abandons"
@@ -68,7 +34,6 @@ export const AbandonListPage: FC<AbandonListPageProps> = ({
       totalItems={totalItems}
       itemsPerPage={itemsPerPage}
       ItemComponent={AbandonListItem}
-      tagFilters={tagFilters}
       filters={filters}
       search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
     />
