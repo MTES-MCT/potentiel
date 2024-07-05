@@ -6,7 +6,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-import { Dépôt, GarantiesFinancièresEntity } from '../../garantiesFinancières.entity';
+import { DépôtEntity, GarantiesFinancièresEntity } from '../../garantiesFinancières.entity';
 import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '../..';
 
 export type ConsulterDépôtEnCoursGarantiesFinancièresReadModel = {
@@ -60,7 +60,10 @@ export const registerConsulterDépôtEnCoursGarantiesFinancièresQuery = ({
   );
 };
 
-const mapToReadModel = (entity: Dépôt, identifiantProjetValueType: IdentifiantProjet.ValueType) => {
+const mapToReadModel = (
+  entity: DépôtEntity,
+  identifiantProjetValueType: IdentifiantProjet.ValueType,
+) => {
   const { type, attestation, dateConstitution, miseÀJour, soumisLe } = entity;
   return {
     identifiantProjet: identifiantProjetValueType,

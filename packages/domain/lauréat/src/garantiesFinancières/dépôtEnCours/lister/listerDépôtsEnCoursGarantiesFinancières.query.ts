@@ -8,8 +8,10 @@ import { List, RangeOptions } from '@potentiel-domain/core';
 
 import {
   TypeGarantiesFinancières,
-  DépôtEnCoursGarantiesFinancièresEntity,
   TypeDocumentGarantiesFinancières,
+  GarantiesFinancièresEntity,
+  DépôtAvecDateÉchéance,
+  DépôtSansDateÉchéance,
 } from '../..';
 
 type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
@@ -85,24 +87,32 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
       items,
       range: { startPosition, endPosition },
       total,
-    } = await list<DépôtEnCoursGarantiesFinancièresEntity>('depot-en-cours-garanties-financieres', {
-      orderBy: { dépôt: { dernièreMiseÀJour: { date: 'descending' } } },
+    } = await list<GarantiesFinancièresEntity>('garanties-financieres', {
+      orderBy: { dépôtEnCours: { miseÀJour: { dernièreMiseÀJourLe: 'descending' } } },
       range,
       where: {
-        ...(appelOffre && {
-          appelOffre: { operator: 'equal', value: appelOffre },
-        }),
-        ...(région && {
-          régionProjet: { operator: 'equal', value: région },
-        }),
-        ...(cycle && {
-          appelOffre: { operator: cycle === 'PPE2' ? 'like' : 'notLike', value: '%PPE2%' },
-        }),
+        projet: {
+          appelOffre: appelOffre
+            ? mapToWhereEqual(appelOffre)
+            : cycle
+              ? { operator: cycle === 'PPE2' ? 'like' : 'notLike', value: '%PPE2%' }
+              : undefined,
+          régionProjet: mapToWhereEqual(région),
+        },
+        dépôtEnCours: {
+          type: {
+            operator: 'notEqual',
+            value: 'aucun',
+          },
+        },
       },
     });
 
     return {
-      items: items.map((item) => mapToReadModel(item)),
+      items: items.map((item) => {
+        const dépôt = item.dépôtEnCours as DépôtAvecDateÉchéance | DépôtSansDateÉchéance;
+        return mapToReadModel(item.identifiantProjet, item.projet, dépôt);
+      }),
       range: { endPosition, startPosition },
       total,
     };
@@ -114,37 +124,46 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
   );
 };
 
-const mapToReadModel = ({
-  nomProjet,
-  appelOffre,
-  identifiantProjet,
-  période,
-  régionProjet,
-  famille,
-  dépôt,
-}: DépôtEnCoursGarantiesFinancièresEntity): DépôtEnCoursGarantiesFinancièresListItemReadModel => ({
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  nomProjet,
-  appelOffre,
-  période,
-  famille,
-  régionProjet,
-  dépôt: {
-    type: TypeGarantiesFinancières.convertirEnValueType(dépôt.type),
-    dateÉchéance: dépôt.dateÉchéance
-      ? DateTime.convertirEnValueType(dépôt.dateÉchéance)
-      : undefined,
-    dateConstitution: DateTime.convertirEnValueType(dépôt.dateConstitution),
-    attestation: DocumentProjet.convertirEnValueType(
-      identifiantProjet,
-      TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
-      dépôt.dateConstitution,
-      dépôt.attestation.format,
-    ),
-    soumisLe: DateTime.convertirEnValueType(dépôt.soumisLe),
-    dernièreMiseÀJour: {
-      date: DateTime.convertirEnValueType(dépôt.dernièreMiseÀJour.date),
-      par: IdentifiantUtilisateur.convertirEnValueType(dépôt.dernièreMiseÀJour.par),
+const mapToReadModel = (
+  identifiantProjet: string,
+  { nomProjet, régionProjet, appelOffre, famille, période }: GarantiesFinancièresEntity['projet'],
+  dépôt: DépôtAvecDateÉchéance | DépôtSansDateÉchéance,
+): DépôtEnCoursGarantiesFinancièresListItemReadModel => {
+  const { type, attestation, dateConstitution, miseÀJour, soumisLe } = dépôt;
+
+  return {
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+    nomProjet,
+    appelOffre,
+    période,
+    famille,
+    régionProjet,
+    dépôt: {
+      type: TypeGarantiesFinancières.convertirEnValueType(type),
+      dateÉchéance:
+        type === 'avec-date-échéance'
+          ? DateTime.convertirEnValueType(dépôt.dateÉchéance)
+          : undefined,
+      dateConstitution: DateTime.convertirEnValueType(dateConstitution),
+      attestation: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
+        dateConstitution,
+        attestation.format,
+      ),
+      soumisLe: DateTime.convertirEnValueType(soumisLe),
+      dernièreMiseÀJour: {
+        date: DateTime.convertirEnValueType(miseÀJour.dernièreMiseÀJourLe),
+        par: IdentifiantUtilisateur.convertirEnValueType(miseÀJour.dernièreMiseÀJourPar),
+      },
     },
-  },
-});
+  };
+};
+
+const mapToWhereEqual = <T>(value: T | undefined) =>
+  value
+    ? {
+        operator: 'equal' as const,
+        value,
+      }
+    : undefined;

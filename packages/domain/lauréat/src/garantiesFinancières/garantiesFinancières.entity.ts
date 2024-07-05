@@ -28,8 +28,8 @@ type CommonGarantiesFinancière = {
     dernièreMiseÀJourPar: string;
   };
 
-  dépôtEnCours?: Dépôt;
-  mainlevée?: Mainlevée;
+  dépôtEnCours: Dépôt;
+  mainlevée: Mainlevée;
 };
 
 type GFAvecDateÉchéance = CommonGarantiesFinancière & {
@@ -42,7 +42,7 @@ type GFSansDateÉchéance = CommonGarantiesFinancière & {
 };
 
 // Dépôt
-export type Dépôt = DépôtAvecDateÉchéance | DépôtSansDateÉchéance;
+export type Dépôt = AucunDépôt | DépôtAvecDateÉchéance | DépôtSansDateÉchéance;
 type CommonDépôt = {
   dateConstitution: string;
   attestation: { format: string };
@@ -55,12 +55,16 @@ type CommonDépôt = {
   };
 };
 
-type DépôtAvecDateÉchéance = CommonDépôt & {
+type AucunDépôt = {
+  type: 'aucun';
+};
+
+export type DépôtAvecDateÉchéance = CommonDépôt & {
   type: 'avec-date-échéance';
   dateÉchéance: string;
 };
 
-type DépôtSansDateÉchéance = CommonDépôt & {
+export type DépôtSansDateÉchéance = CommonDépôt & {
   type: 'consignation' | 'six-mois-après-achèvement';
 };
 
