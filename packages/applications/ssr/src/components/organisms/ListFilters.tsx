@@ -4,16 +4,18 @@ import { FC } from 'react';
 
 import { Filter } from '../molecules/Filter';
 
-export type ListFiltersProps = {
-  filters: Array<{
+export type ListFilterItem<TSearchParamKey = string> = {
+  label: string;
+  searchParamKey: TSearchParamKey;
+  defaultValue: string | undefined;
+  options: Array<{
     label: string;
-    searchParamKey: string;
-    defaultValue: string | undefined;
-    options: Array<{
-      label: string;
-      value: string;
-    }>;
+    value: string;
   }>;
+};
+
+export type ListFiltersProps = {
+  filters: Array<ListFilterItem>;
 };
 
 export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
