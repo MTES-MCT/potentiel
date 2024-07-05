@@ -20,14 +20,25 @@ export const TâcheListPage: FC<TâcheListPageProps> = ({
   list: { items: tâches, range, total },
   filters,
 }) => {
-  const searchParams = useSearchParams();
-  const appelOffre = searchParams.get('appelOffre') ?? undefined;
-
   const { currentPage, itemsPerPage } = mapToPagination(range);
 
-  const tagFilters = appelOffre
-    ? [{ label: `appel d'offres : ${appelOffre}`, searchParamKey: 'appelOffre' }]
-    : [];
+  const searchParams = useSearchParams();
+  const tagFilters = filters.reduce(
+    (allFilters, { searchParamKey, label, options }) => {
+      const currentFilterValue = searchParams.get(searchParamKey);
+      if (!currentFilterValue) {
+        return allFilters;
+      }
+      return [
+        ...allFilters,
+        {
+          label: `${label}: ${options.find((x) => x.value === currentFilterValue)?.label}`,
+          searchParamKey,
+        },
+      ];
+    },
+    [] as { label: string; searchParamKey: string }[],
+  );
 
   return (
     <ListPageTemplate
