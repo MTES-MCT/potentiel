@@ -6,7 +6,8 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/core';
 
 import {
-  HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity,
+  GarantiesFinancièresEntity,
+  MainlevéeRejetée,
   MotifDemandeMainlevéeGarantiesFinancières,
   TypeDocumentRéponseDemandeMainlevée,
 } from '../..';
@@ -50,15 +51,23 @@ export const registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinanc
     const identifiantProjetValueType =
       IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const result = await find<HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
-      `historique-mainlevee-rejetee-garanties-financieres|${identifiantProjetValueType.formatter()}`,
+    const result = await find<GarantiesFinancièresEntity>(
+      `garanties-financieres|${identifiantProjetValueType.formatter()}`,
     );
 
-    if (Option.isNone(result)) {
+    if (
+      Option.isNone(result) ||
+      result.mainlevée.statut === 'aucun' ||
+      result.mainlevée.instructionsRejetées.length === 0
+    ) {
       return Option.none;
     }
 
-    return mapToReadModel(result);
+    return mapToReadModel(
+      identifiantProjetValue,
+      result.projet,
+      result.mainlevée.instructionsRejetées,
+    );
   };
   mediator.register(
     'Lauréat.GarantiesFinancières.Mainlevée.Query.ConsulterHistoriqueDemandeMainlevéeRejetée',
@@ -66,35 +75,31 @@ export const registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinanc
   );
 };
 
-export const mapToReadModel = ({
-  identifiantProjet,
-  nomProjet,
-  appelOffre,
-  famille,
-  période,
-  régionProjet,
-  historique,
-}: HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity): ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel => ({
+export const mapToReadModel = (
+  identifiantProjet: string,
+  { nomProjet, régionProjet, appelOffre, famille, période }: GarantiesFinancièresEntity['projet'],
+  historiqueMainlevéeRejetée: Array<MainlevéeRejetée>,
+): ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
   appelOffre,
   famille,
   période,
   régionProjet,
-  historique: historique.map((demandeRejetée) => ({
+  historique: historiqueMainlevéeRejetée.map((mainlevéeRejetée) => ({
     demande: {
-      demandéeLe: DateTime.convertirEnValueType(demandeRejetée.demande.demandéeLe),
-      demandéePar: Email.convertirEnValueType(demandeRejetée.demande.demandéePar),
+      demandéeLe: DateTime.convertirEnValueType(mainlevéeRejetée.demande.demandéLe),
+      demandéePar: Email.convertirEnValueType(mainlevéeRejetée.demande.demandéPar),
     },
-    motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(demandeRejetée.motif),
+    motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevéeRejetée.motif),
     rejet: {
-      rejetéLe: DateTime.convertirEnValueType(demandeRejetée.rejet.rejetéLe),
-      rejetéPar: Email.convertirEnValueType(demandeRejetée.rejet.rejetéPar),
+      rejetéLe: DateTime.convertirEnValueType(mainlevéeRejetée.rejetéLe),
+      rejetéPar: Email.convertirEnValueType(mainlevéeRejetée.rejetéPar),
       courrierRejet: DocumentProjet.convertirEnValueType(
         identifiantProjet,
         TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeRejetéeValueType.formatter(),
-        demandeRejetée.rejet.rejetéLe,
-        demandeRejetée.rejet.courrierRejet.format,
+        mainlevéeRejetée.rejetéLe,
+        mainlevéeRejetée.courrierRéponse.format,
       ),
     },
   })),
