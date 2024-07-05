@@ -11,19 +11,19 @@ import { Routes } from '@potentiel-applications/routes';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1 } from '@/components/atoms/headings';
 
 import { demanderAbandonAction } from './demanderAbandon.action';
 
 export type DemanderAbandonPageProps = {
-  projet: ProjetBannerProps;
+  identifiantProjet: string;
   showRecandidatureCheckBox: boolean;
 };
 
 export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
-  projet,
+  identifiantProjet,
   showRecandidatureCheckBox,
 }) => {
   const router = useRouter();
@@ -32,7 +32,7 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
 
   return (
     <ColumnPageTemplate
-      banner={<ProjetBanner {...projet} />}
+      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
       heading={<Heading1>Demander l'abandon du projet</Heading1>}
       leftColumn={{
         children: (
@@ -40,10 +40,10 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
             action={demanderAbandonAction}
             method="post"
             encType="multipart/form-data"
-            onSuccess={() => router.push(Routes.Abandon.détail(projet.identifiantProjet))}
+            onSuccess={() => router.push(Routes.Abandon.détail(identifiantProjet))}
             onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           >
-            <input type={'hidden'} value={projet.identifiantProjet} name="identifiantProjet" />
+            <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
             <Input
               textArea

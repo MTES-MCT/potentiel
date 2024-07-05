@@ -68,7 +68,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     // TODO: extract the logic in a dedicated function mapToProps
     // identifiantProjet must come from the readmodel as a value type
     const demanderAbandonPageProps: DemanderAbandonPageProps = {
-      projet: { ...candidature, identifiantProjet },
+      identifiantProjet,
       showRecandidatureCheckBox: période.abandonAvecRecandidature ? true : false,
     };
 

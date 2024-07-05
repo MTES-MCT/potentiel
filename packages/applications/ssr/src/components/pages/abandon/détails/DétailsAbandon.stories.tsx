@@ -16,13 +16,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const projet: DétailsAbandonPageProps['projet'] = {
-  identifiantProjet: 'identifiantProjet#1',
-};
+const identifiantProjet = 'identifiantProjet#1';
 
 export const Demandé: Story = {
   args: {
-    projet,
+    identifiantProjet,
     statut: 'demandé',
     abandon: {
       demande: {
@@ -39,7 +37,7 @@ export const Demandé: Story = {
 
 export const Confirmé: Story = {
   args: {
-    projet,
+    identifiantProjet,
     statut: 'confirmé',
     abandon: {
       demande: {
@@ -63,7 +61,7 @@ export const Confirmé: Story = {
 
 export const Rejeté: Story = {
   args: {
-    projet,
+    identifiantProjet,
     statut: 'rejeté',
     abandon: {
       demande: {
@@ -85,7 +83,7 @@ export const Rejeté: Story = {
 
 export const Accordé: Story = {
   args: {
-    projet,
+    identifiantProjet,
     statut: 'accordé',
     abandon: {
       demande: {
@@ -107,7 +105,7 @@ export const Accordé: Story = {
 
 export const AccordéAvecRecandidature: Story = {
   args: {
-    projet,
+    identifiantProjet,
     statut: 'accordé',
     abandon: {
       demande: {
@@ -129,7 +127,7 @@ export const AccordéAvecRecandidature: Story = {
 
 export const AccordéAvecRecandidatureAvecLienPourTransmettre: Story = {
   args: {
-    projet,
+    identifiantProjet,
     statut: 'accordé',
     abandon: {
       demande: {
