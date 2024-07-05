@@ -8,7 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { PageTemplate } from '@/components/templates/Page.template';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -26,12 +26,12 @@ type ProjetÀSélectionner = {
 };
 
 export type TransmettrePreuveRecandidaturePageProps = {
-  projet: ProjetBannerProps;
+  identifiantProjet: string;
   projetsÀSélectionner: Array<ProjetÀSélectionner>;
 };
 
 export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidaturePageProps> = ({
-  projet,
+  identifiantProjet,
   projetsÀSélectionner,
 }) => {
   const router = useRouter();
@@ -48,16 +48,16 @@ export const TransmettrePreuveRecandidaturePage: FC<TransmettrePreuveRecandidatu
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   return (
-    <PageTemplate banner={<ProjetBanner {...projet} />}>
+    <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
       <Heading1>Transmettre preuve de recandidature</Heading1>
       {projetsÀSélectionner.length > 0 ? (
         <Form
           action={transmettrePreuveRecandidatureAction}
           method="post"
           onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-          onSuccess={() => router.push(Routes.Abandon.détail(projet.identifiantProjet))}
+          onSuccess={() => router.push(Routes.Abandon.détail(identifiantProjet))}
         >
-          <input type={'hidden'} value={projet.identifiantProjet} name="identifiantProjet" />
+          <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
           <SelectNext
             label="Choisir un projet comme preuve de recandidature"

@@ -7,7 +7,7 @@ import {
   StatutAbandonBadge,
   StatutAbandonBadgeProps,
 } from '@/components/pages/abandon/StatutAbandonBadge';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1 } from '@/components/atoms/headings';
 
@@ -30,21 +30,21 @@ type AvailableActions = Array<
 >;
 
 export type DétailsAbandonPageProps = {
-  projet: ProjetBannerProps;
+  identifiantProjet: string;
   abandon: EtapesAbandonProps;
   statut: StatutAbandonBadgeProps['statut'];
   actions: AvailableActions;
 };
 
 export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
-  projet,
+  identifiantProjet,
   abandon,
   statut,
   actions,
 }) => {
   return (
     <ColumnPageTemplate
-      banner={<ProjetBanner {...projet} />}
+      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
       heading={
         <>
           <Heading1>Détail de l'abandon</Heading1>
@@ -71,7 +71,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
         className: 'flex flex-col w-full md:w-1/4 gap-4',
         children: mapToActionComponents({
           actions,
-          identifiantProjet: projet.identifiantProjet,
+          identifiantProjet,
         }),
       }}
     />

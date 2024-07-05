@@ -1,7 +1,6 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
-import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { Abandon } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
@@ -31,13 +30,6 @@ export default async function Page({ params: { identifiant } }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
 
-      const candidature = await mediator.send<ConsulterCandidatureQuery>({
-        type: 'Candidature.Query.ConsulterCandidature',
-        data: {
-          identifiantProjet,
-        },
-      });
-
       const { statut, demande, accord, rejet } = await mediator.send<Abandon.ConsulterAbandonQuery>(
         {
           type: 'Lauréat.Abandon.Query.ConsulterAbandon',
@@ -50,7 +42,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       // TODO: extract the logic in a dedicated function mapToProps
       // identifiantProjet must come from the readmodel as a value type
       const detailAbandonPageProps: DétailsAbandonPageProps = {
-        projet: { ...candidature, identifiantProjet },
+        identifiantProjet,
         statut: statut.statut,
         abandon: {
           demande: {
