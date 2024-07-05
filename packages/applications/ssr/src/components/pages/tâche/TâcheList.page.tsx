@@ -24,12 +24,18 @@ export const TâcheListPage: FC<TâcheListPageProps> = ({
 
   const searchParams = useSearchParams();
   const tagFilters = filters.reduce(
-    (allFilters, { searchParamKey, label }) => {
+    (allFilters, { searchParamKey, label, options }) => {
       const currentFilterValue = searchParams.get(searchParamKey);
       if (!currentFilterValue) {
         return allFilters;
       }
-      return [...allFilters, { label: `${label}: ${currentFilterValue}`, searchParamKey }];
+      return [
+        ...allFilters,
+        {
+          label: `${label}: ${options.find((x) => x.value === currentFilterValue)?.label}`,
+          searchParamKey,
+        },
+      ];
     },
     [] as { label: string; searchParamKey: string }[],
   );
