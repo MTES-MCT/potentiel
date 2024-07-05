@@ -14,6 +14,7 @@ import { RejeterDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/
 import { AnnulerDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/annuler/AnnulerDemandeMainlevéeGarantiesFinancières';
 import { StatutMainlevéeBadge } from '../../../../molecules/mainlevée/StatutMainlevéeBadge';
 import { DownloadDocument } from '../../../../atoms/form/DownloadDocument';
+import { CorrigerCourrierRéponse } from '../../mainlevée/corrigerCourrier/CorrigerCourrierRéponse';
 
 export type MainlevéeEnCoursProps = {
   identifiantProjet: string;
@@ -77,6 +78,10 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, iden
           url={Routes.Document.télécharger(mainlevée.accord.courrierAccord)}
         />
       )}
+      {mainlevée.accord.courrierAccord &&
+        mainlevée.actions.includes('accorder-ou-rejeter-demande-mainlevée-gf') && (
+          <CorrigerCourrierRéponse></CorrigerCourrierRéponse>
+        )}
     </div>
     <Actions
       identifiantProjet={identifiantProjet}
