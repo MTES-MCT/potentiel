@@ -7,6 +7,10 @@ import { Option } from '@potentiel-libraries/monads';
 
 import {
   GarantiesFinancièresEntity,
+  MainlevéeAccordée,
+  MainlevéeDemandée,
+  MainlevéeEnInstruction,
+  MainlevéeRejetée,
   MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
 } from '../..';
@@ -52,7 +56,7 @@ export const registerListerDemandeMainlevéeQuery = ({
     range,
     appelOffre,
     motif,
-    statut = [],
+    statut = ['accordé', 'demandé', 'en-instruction', 'rejeté'],
     utilisateur,
   }) => {
     let région: string | undefined = undefined;
@@ -81,6 +85,10 @@ export const registerListerDemandeMainlevéeQuery = ({
       },
       range,
       where: {
+        typeGF: {
+          operator: 'include',
+          value: ['avec-date-échéance', 'consignation'],
+        },
         projet: {
           appelOffre: mapToWhereEqual(appelOffre),
           régionProjet: mapToWhereEqual(région),
@@ -89,6 +97,7 @@ export const registerListerDemandeMainlevéeQuery = ({
           motif: mapToWhereEqual(motif),
           statut: {
             operator: 'include' as const,
+            //@ts-expect-error Il n'y a pas d'erreur au runtime mais nous avons un bug de typage avec les WhereCondtion
             value: statut,
           },
         },
@@ -96,7 +105,17 @@ export const registerListerDemandeMainlevéeQuery = ({
     });
 
     return {
-      items: items.map(consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel),
+      items: items.map((item) => {
+        return consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel(
+          item.identifiantProjet,
+          item.projet,
+          item.mainlevée as
+            | MainlevéeDemandée
+            | MainlevéeEnInstruction
+            | MainlevéeAccordée
+            | MainlevéeRejetée,
+        );
+      }),
       range: {
         endPosition,
         startPosition,
