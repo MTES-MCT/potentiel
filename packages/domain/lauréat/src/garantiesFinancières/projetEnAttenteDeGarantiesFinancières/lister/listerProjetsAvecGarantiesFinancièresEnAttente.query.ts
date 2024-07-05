@@ -1,8 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { CommonError, CommonPort, DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
 import { List, RangeOptions } from '@potentiel-domain/core';
 
 import {
@@ -38,7 +37,7 @@ export type ListerProjetsAvecGarantiesFinancièresEnAttenteQuery = Message<
     cycle?: string;
     utilisateur: {
       rôle: string;
-      email: string;
+      régionDreal?: string;
     };
     range?: RangeOptions;
   },
@@ -47,33 +46,29 @@ export type ListerProjetsAvecGarantiesFinancièresEnAttenteQuery = Message<
 
 export type ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies = {
   list: List;
-  récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
+
+const mapToWhereEqual = <T>(value: T | undefined) =>
+  value
+    ? {
+        operator: 'equal' as const,
+        value,
+      }
+    : undefined;
 
 export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
   list,
-  récupérerRégionDreal,
 }: ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies) => {
   const handler: MessageHandler<ListerProjetsAvecGarantiesFinancièresEnAttenteQuery> = async ({
     appelOffre,
     motif,
-    utilisateur: { email, rôle },
+    utilisateur: { régionDreal, rôle },
     range,
     cycle,
   }) => {
-    let région: string | undefined = undefined;
-
-    /**
-     * @todo on devrait passer uniquement la région dans la query et pas les infos utilisateur pour le déterminer
-     */
-    if (rôle === Role.dreal.nom) {
-      const régionDreal = await récupérerRégionDreal(email);
-      if (Option.isNone(régionDreal)) {
-        throw new CommonError.RégionNonTrouvéeError();
-      }
-
-      région = régionDreal.région;
-    }
+    const région = Role.convertirEnValueType(rôle).estÉgaleÀ(Role.dreal)
+      ? régionDreal ?? 'non-trouvée'
+      : undefined;
 
     const {
       items,
@@ -85,18 +80,11 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
         orderBy: { dernièreMiseÀJour: { date: 'descending' } },
         range,
         where: {
-          ...(appelOffre && {
-            appelOffre: { operator: 'equal', value: appelOffre },
-          }),
-          ...(motif && {
-            motif: { operator: 'equal', value: motif },
-          }),
-          ...(région && {
-            régionProjet: { operator: 'equal', value: région },
-          }),
-          ...(cycle && {
-            appelOffre: { operator: cycle === 'PPE2' ? 'like' : 'notLike', value: '%PPE2%' },
-          }),
+          appelOffre: cycle
+            ? { operator: cycle === 'PPE2' ? 'like' : 'notLike', value: '%PPE2%' }
+            : mapToWhereEqual(appelOffre),
+          motif: mapToWhereEqual(motif),
+          régionProjet: mapToWhereEqual(région),
         },
       },
     );

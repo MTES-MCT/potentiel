@@ -9,7 +9,6 @@ import {
 import {
   consulterCahierDesChargesChoisiAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
-  récupérerRégionDrealAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
@@ -20,7 +19,6 @@ registerLauréatQueries({
   list: listProjection,
   récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
   consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
-  récupérerRégionDreal: récupérerRégionDrealAdapter,
 });
 
 registerLauréatUseCases({

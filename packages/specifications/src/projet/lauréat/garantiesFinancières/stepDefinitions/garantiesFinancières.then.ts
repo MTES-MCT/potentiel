@@ -206,7 +206,6 @@ Alors(
           type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
           data: {
             utilisateur: {
-              email: 'admin@test.test',
               rôle: 'admin',
             },
           },

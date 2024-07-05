@@ -1,9 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { CommonError, CommonPort, DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantUtilisateur, Role } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
 import { List, RangeOptions } from '@potentiel-domain/core';
 
 import {
@@ -45,7 +44,7 @@ export type ListerDépôtsEnCoursGarantiesFinancièresQuery = Message<
     cycle?: string;
     utilisateur: {
       rôle: string;
-      email: string;
+      régionDreal?: string;
     };
     range?: RangeOptions;
   },
@@ -54,32 +53,20 @@ export type ListerDépôtsEnCoursGarantiesFinancièresQuery = Message<
 
 export type ListerDépôtsEnCoursGarantiesFinancièresDependencies = {
   list: List;
-  récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
   list,
-  récupérerRégionDreal,
 }: ListerDépôtsEnCoursGarantiesFinancièresDependencies) => {
   const handler: MessageHandler<ListerDépôtsEnCoursGarantiesFinancièresQuery> = async ({
     appelOffre,
-    utilisateur: { email, rôle },
+    utilisateur: { régionDreal, rôle },
     range,
     cycle,
   }) => {
-    let région: string | undefined = undefined;
-
-    /**
-     * @todo on devrait passer uniquement la région dans la query et pas les infos utilisateur pour le déterminer
-     */
-    if (rôle === Role.dreal.nom) {
-      const régionDreal = await récupérerRégionDreal(email);
-      if (Option.isNone(régionDreal)) {
-        throw new CommonError.RégionNonTrouvéeError();
-      }
-
-      région = régionDreal.région;
-    }
+    const région = Role.convertirEnValueType(rôle).estÉgaleÀ(Role.dreal)
+      ? régionDreal ?? 'non-trouvée'
+      : undefined;
 
     const {
       items,

@@ -2,17 +2,28 @@ import { Message, MessageHandler } from 'mediateur';
 import { cookies } from 'next/headers';
 import { decode } from 'next-auth/jwt';
 
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { IdentifiantUtilisateur, Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
+import { récupérerUtilisateurAdapter } from '@potentiel-infrastructure/domain-adapters';
+
+export type AuthenticatedUserReadModel = {
+  nom: string;
+  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+  role: Role.ValueType;
+  régionDreal: Option.Type<string>;
+};
 
 export type GetAuthenticatedUserMessage = Message<
   'System.Authorization.RécupérerUtilisateur',
   {},
-  Utilisateur.ValueType
+  AuthenticatedUserReadModel
 >;
 
 const { NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME = 'next-auth.session-token' } = process.env;
 
-export const getAuthenticatedUser: MessageHandler<GetAuthenticatedUserMessage> = async () => {
+export const getOptionalAuthenticatedUser = async (): Promise<
+  AuthenticatedUserReadModel | undefined
+> => {
   const cookiesContent = cookies();
   const sessionToken = cookiesContent.get(NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME)?.value || '';
 
@@ -22,10 +33,41 @@ export const getAuthenticatedUser: MessageHandler<GetAuthenticatedUserMessage> =
   });
 
   if (!decoded?.accessToken) {
-    throw new NoAuthenticatedUserError();
+    return undefined;
   }
 
-  return Utilisateur.convertirEnValueType(decoded.accessToken);
+  const user = Utilisateur.convertirEnValueType(decoded.accessToken);
+
+  const userBase = {
+    identifiantUtilisateur: user.identifiantUtilisateur,
+    nom: user.nom,
+    role: user.role,
+  };
+
+  if (!user.role.estÉgaleÀ(Role.dreal)) {
+    return {
+      ...userBase,
+      régionDreal: Option.none,
+    };
+  }
+
+  const utilisateur = await récupérerUtilisateurAdapter(user.identifiantUtilisateur.email);
+
+  if (Option.isNone(utilisateur)) {
+    return undefined;
+  }
+  return {
+    ...userBase,
+    régionDreal: utilisateur.régionDreal ?? 'non-trouvée',
+  };
+};
+
+export const getAuthenticatedUser: MessageHandler<GetAuthenticatedUserMessage> = async () => {
+  const user = await getOptionalAuthenticatedUser();
+  if (!user) {
+    throw new NoAuthenticatedUserError();
+  }
+  return user;
 };
 
 export class NoAuthenticatedUserError extends Error {

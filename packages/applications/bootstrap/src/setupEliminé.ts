@@ -3,10 +3,7 @@ import { mediator } from 'mediateur';
 import { registerEliminéQueries, registerEliminéUseCases } from '@potentiel-domain/elimine';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
-import {
-  listerIdentifiantsProjetsParPorteurAdapter,
-  récupérerRégionDrealAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { listerIdentifiantsProjetsParPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { RecoursProjector } from '@potentiel-applications/projectors';
 
 export const setupEliminé = async () => {
@@ -18,7 +15,6 @@ export const setupEliminé = async () => {
     find: findProjection,
     list: listProjection,
     listerProjetsAccessibles: listerIdentifiantsProjetsParPorteurAdapter,
-    récupérerRégionDreal: récupérerRégionDrealAdapter,
   });
 
   RecoursProjector.register();

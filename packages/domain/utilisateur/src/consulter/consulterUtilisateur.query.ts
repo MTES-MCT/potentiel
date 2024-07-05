@@ -11,6 +11,7 @@ export type ConsulterUtilisateurReadModel = {
   email: string;
   nomComplet: string;
   fonction: string;
+  régionDreal: Option.Type<string>;
 };
 
 export type ConsulterUtilisateurQuery = Message<
@@ -50,9 +51,11 @@ const mapToReadModel = ({
   email,
   nomComplet,
   fonction,
+  régionDreal,
 }: UtilisateurEntity): ConsulterUtilisateurReadModel => ({
   identifiantUtilisateur: IdentifiantUtilisateur.convertirEnValueType(identifiantUtilisateur),
   email,
   nomComplet,
   fonction,
+  régionDreal: régionDreal ?? Option.none,
 });

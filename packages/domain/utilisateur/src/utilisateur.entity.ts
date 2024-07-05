@@ -5,4 +5,5 @@ export type UtilisateurEntity = {
   email: string;
   nomComplet: string;
   fonction: string;
+  régionDreal?: string;
 };

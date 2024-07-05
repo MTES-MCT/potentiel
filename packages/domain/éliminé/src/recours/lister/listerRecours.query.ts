@@ -1,13 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet, CommonPort } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
-import {
-  EqualWhereCondition,
-  IncludeWhereCondition,
-  List,
-  RangeOptions,
-} from '@potentiel-domain/core';
+import { IncludeWhereCondition, List, RangeOptions } from '@potentiel-domain/core';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { StatutRecours } from '..';
 import { RecoursEntity } from '../recours.entity';
@@ -33,6 +28,7 @@ export type ListerRecoursQuery = Message<
   {
     utilisateur: {
       rôle: string;
+      régionDreal: string;
       email: string;
     };
     statut?: StatutRecours.RawType;
@@ -45,24 +41,21 @@ export type ListerRecoursQuery = Message<
 export type ListerRecoursDependencies = {
   list: List;
   listerProjetsAccessibles: CommonPort.ListerIdentifiantsProjetsAccessiblesPort;
-  récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort;
 };
 
 export const registerListerRecoursQuery = ({
   list,
   listerProjetsAccessibles,
-  récupérerRégionDreal,
 }: ListerRecoursDependencies) => {
   const handler: MessageHandler<ListerRecoursQuery> = async ({
     statut,
     appelOffre,
-    utilisateur: { email, rôle },
+    utilisateur: { régionDreal, rôle, email },
     range,
   }) => {
-    const régionProjet =
-      rôle === 'dreal'
-        ? await getRegionProjetWhereCondition(récupérerRégionDreal, email)
-        : undefined;
+    const régionProjet = Role.convertirEnValueType(rôle).estÉgaleÀ(Role.dreal)
+      ? régionDreal ?? 'non-trouvée'
+      : undefined;
 
     const canSeeAllProjects = ['admin', 'dgec-validateur', 'dreal'].includes(rôle);
     const identifiantProjet = canSeeAllProjects
@@ -73,9 +66,9 @@ export const registerListerRecoursQuery = ({
       orderBy: { misÀJourLe: 'descending' },
       range,
       where: {
-        statut: statut ? { operator: 'equal', value: statut } : undefined,
-        appelOffre: appelOffre ? { operator: 'equal', value: appelOffre } : undefined,
-        régionProjet,
+        statut: mapToWhereEqual(statut),
+        appelOffre: mapToWhereEqual(appelOffre),
+        régionProjet: mapToWhereEqual(régionProjet),
         identifiantProjet,
       },
     });
@@ -98,18 +91,8 @@ const mapToReadModel = (projection: RecoursEntity): RecoursListItemReadModel => 
   };
 };
 
-const getRegionProjetWhereCondition = async (
-  récupérerRégionDreal: CommonPort.RécupérerRégionDrealPort,
-  email: string,
-): Promise<EqualWhereCondition<string> | undefined> => {
-  const région = await récupérerRégionDreal(email);
-
-  if (Option.isNone(région)) {
-    return undefined;
-  }
-
-  return { operator: 'equal', value: région.région };
-};
+const mapToWhereEqual = <T>(value: T | undefined) =>
+  value ? { operator: 'equal' as const, value } : undefined;
 
 const getIdentifiantProjetWhereCondition = async (
   listerIdentifiantsProjetsAccessiblesPort: CommonPort.ListerIdentifiantsProjetsAccessiblesPort,

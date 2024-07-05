@@ -205,7 +205,6 @@ Alors(
           type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
           data: {
             utilisateur: {
-              email: 'admin@test.test',
               rôle: 'admin',
             },
           },

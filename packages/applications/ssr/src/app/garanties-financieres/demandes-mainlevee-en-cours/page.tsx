@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -39,7 +40,9 @@ export default async function Page({ searchParams }: PageProps) {
           type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
           data: {
             utilisateur: {
-              email: utilisateur.identifiantUtilisateur.email,
+              régionDreal: Option.isSome(utilisateur.régionDreal)
+                ? utilisateur.régionDreal
+                : undefined,
               rôle: utilisateur.role.nom,
             },
             ...(appelOffre && { appelOffre }),

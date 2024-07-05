@@ -7,7 +7,6 @@ import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { buildDocxDocument } from '@potentiel-applications/document-builder';
-import { récupérerRégionDrealAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -20,10 +19,6 @@ export const GET = async (
 ) =>
   withUtilisateur(async (utilisateur) => {
     const identifiantProjetValue = decodeParameter(identifiant);
-
-    const régionDreal = await récupérerRégionDrealAdapter(
-      utilisateur.identifiantUtilisateur.formatter(),
-    );
 
     const candidature = await mediator.send<ConsulterCandidatureQuery>({
       type: 'Candidature.Query.ConsulterCandidature',
@@ -54,11 +49,11 @@ export const GET = async (
     const content = await buildDocxDocument({
       type: 'mise-en-demeure',
       logo: Option.match(régionDreal)
-        .some(({ région }) => région)
+        .some((région) => région)
         .none(() => 'none'),
       data: {
-        dreal: Option.match(régionDreal)
-          .some(({ région }) => région)
+        dreal: Option.match(utilisateur.régionDreal)
+          .some((région) => région)
           .none(() => '!!! Région non disponible !!!'),
         dateMiseEnDemeure: DateTime.now().date.toLocaleDateString('fr-FR'),
         contactDreal: utilisateur.identifiantUtilisateur.email,

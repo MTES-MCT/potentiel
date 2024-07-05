@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { Abandon } from '@potentiel-domain/laureat';
+import { Option } from '@potentiel-libraries/monads';
 
 import {
   AbandonListPage,
@@ -51,6 +52,9 @@ export default async function Page({ searchParams }: PageProps) {
           utilisateur: {
             email: utilisateur.identifiantUtilisateur.email,
             rôle: utilisateur.role.nom,
+            régionDreal: Option.isSome(utilisateur.régionDreal)
+              ? utilisateur.régionDreal
+              : undefined,
           },
           range: mapToRangeOptions({
             currentPage: page,
