@@ -25,8 +25,7 @@ export const ProjetNonSoumisAuxGarantiesFinancièresPage: FC<
       title="Projet non soumis aux garanties financières"
       className="mt-4"
     >
-      Le projet <span className="font-semibold">{projet.nom}</span> n'est pas soumis aux garanties
-      financières.
+      Le projet n'est pas soumis aux garanties financières.
     </CallOut>
   </PageTemplate>
 );
