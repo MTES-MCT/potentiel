@@ -6,10 +6,10 @@ import { CommonError, CommonPort } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
 import {
+  GarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
 } from '../..';
-import { MainlevéeGarantiesFinancièresEntity } from '../mainlevéeGarantiesFinancières.entity';
 import {
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
   consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel,
@@ -30,7 +30,7 @@ export type ListerDemandeMainlevéeQuery = Message<
     range?: RangeOptions;
     appelOffre?: string;
     motif?: MotifDemandeMainlevéeGarantiesFinancières.RawType;
-    statut?: StatutMainlevéeGarantiesFinancières.RawType;
+    statut?: Array<StatutMainlevéeGarantiesFinancières.RawType>;
     utilisateur: {
       rôle: string;
       email: string;
@@ -52,7 +52,7 @@ export const registerListerDemandeMainlevéeQuery = ({
     range,
     appelOffre,
     motif,
-    statut,
+    statut = [],
     utilisateur,
   }) => {
     let région: string | undefined = undefined;
@@ -71,26 +71,27 @@ export const registerListerDemandeMainlevéeQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<MainlevéeGarantiesFinancièresEntity>('mainlevee-garanties-financieres', {
+    } = await list<GarantiesFinancièresEntity>('garanties-financieres', {
       orderBy: {
-        demande: {
-          demandéeLe: 'ascending',
+        mainlevée: {
+          demande: {
+            demandéLe: 'ascending',
+          },
         },
       },
       range,
       where: {
-        ...(appelOffre && {
-          appelOffre: { operator: 'equal', value: appelOffre },
-        }),
-        ...(motif && {
-          motif: { operator: 'equal', value: motif },
-        }),
-        statut: statut
-          ? { operator: 'equal', value: statut }
-          : { operator: 'include', value: ['en-instruction', 'demandé', 'accepté'] },
-        ...(région && {
-          régionProjet: { operator: 'equal', value: région },
-        }),
+        projet: {
+          appelOffre: mapToWhereEqual(appelOffre),
+          régionProjet: mapToWhereEqual(région),
+        },
+        mainlevée: {
+          motif: mapToWhereEqual(motif),
+          statut: {
+            operator: 'include' as const,
+            value: statut,
+          },
+        },
       },
     });
 
@@ -105,3 +106,11 @@ export const registerListerDemandeMainlevéeQuery = ({
   };
   mediator.register('Lauréat.GarantiesFinancières.Mainlevée.Query.Lister', handler);
 };
+
+const mapToWhereEqual = <T>(value: T | undefined) =>
+  value
+    ? {
+        operator: 'equal' as const,
+        value,
+      }
+    : undefined;
