@@ -179,6 +179,9 @@ const mapToProps: MapToProps = ({
   const projetAcheve = Option.isSome(achèvement);
   const mainlevéeDemandée = Option.isSome(mainlevée) && mainlevée.statut.estDemandé();
   const mainlevéeEnInstruction = Option.isSome(mainlevée) && mainlevée.statut.estEnInstruction();
+  const mainlevéeAccordéeOuRefusée =
+    (Option.isSome(mainlevée) && mainlevée.statut.estAccordé()) ||
+    Option.isSome(historiqueMainlevée);
 
   if (estAdminOuDGEC || estDreal) {
     garantiesFinancièresActuellesActions.push('modifier');
@@ -204,6 +207,9 @@ const mapToProps: MapToProps = ({
     }
     if (mainlevéeEnInstruction || mainlevéeDemandée) {
       mainlevéeActions.push('accorder-ou-rejeter-demande-mainlevée-gf');
+    }
+    if (mainlevéeAccordéeOuRefusée) {
+      mainlevéeActions.push('modifier-courrier-réponse-mainlevée-gf');
     }
   }
 

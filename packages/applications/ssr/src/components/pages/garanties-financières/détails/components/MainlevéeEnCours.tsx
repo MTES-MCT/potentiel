@@ -34,6 +34,7 @@ export type MainlevéeEnCoursProps = {
       | 'instruire-demande-mainlevée-gf'
       | 'accorder-ou-rejeter-demande-mainlevée-gf'
       | 'annuler-demande-mainlevée-gf'
+      | 'modifier-courrier-réponse-mainlevée-gf'
     >;
   };
 };
@@ -79,7 +80,7 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, iden
         />
       )}
       {mainlevée.accord.courrierAccord &&
-        mainlevée.actions.includes('accorder-ou-rejeter-demande-mainlevée-gf') && (
+        mainlevée.actions.includes('modifier-courrier-réponse-mainlevée-gf') && (
           <CorrigerCourrierRéponse
             identifiantProjet={identifiantProjet}
             courrierRéponse={mainlevée.accord.courrierAccord}

@@ -43,7 +43,7 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
           url={Routes.Document.télécharger(mainlevéeRejetée.rejet.courrierRejet)}
         />
         {mainlevéeRejetée.rejet.courrierRejet &&
-          mainlevéeActions?.includes('accorder-ou-rejeter-demande-mainlevée-gf') && (
+          mainlevéeActions?.includes('modifier-courrier-réponse-mainlevée-gf') && (
             <CorrigerCourrierRéponse
               identifiantProjet={identifiantProjet}
               courrierRéponse={mainlevéeRejetée.rejet.courrierRejet}
