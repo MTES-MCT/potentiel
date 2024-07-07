@@ -8,15 +8,14 @@ import { FormAction, formAction, FormState } from '@/utils/formAction';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  pieceJustificative: zod.instanceof(Blob),
+  documentCorrigé: zod.instanceof(Blob),
+  documentKey: zod.string().min(1),
 });
 
 const action: FormAction<FormState, typeof schema> = async (_, props) => {
-  // await copyFile
-  await copyFile(props.identifiantProjet, props.identifiantProjet);
+  await copyFile(props.documentKey, props.documentKey + new Date().toISOString());
 
-  // await upload
-  await upload(props.identifiantProjet, props.pieceJustificative.stream());
+  await upload(props.identifiantProjet, props.documentCorrigé.stream());
 
   return {
     status: 'success',

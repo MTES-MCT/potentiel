@@ -31,6 +31,7 @@ export const CorrigerDocumentModalForm = ({
   buttonLabel = defaultButtonLabel,
   confirmationLabel = defaultConfirmationLabel,
   uploadDocumentLabel = defaultUploadDocumentLabel,
+  documentKey,
   onSuccess,
 }: CorrigerDocumentModalFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,8 +58,13 @@ export const CorrigerDocumentModalForm = ({
           children: (
             <>
               <p className="mt-3">{confirmationLabel}</p>
-              <UploadDocument name="nouveauDocument" label={uploadDocumentLabel} />
+              <UploadDocument
+                name="documentCorrigé"
+                id="documentCorrigé"
+                label={uploadDocumentLabel}
+              />
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              <input type={'hidden'} value={documentKey} name="documentKey" />
             </>
           ),
         }}
