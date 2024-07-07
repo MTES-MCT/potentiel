@@ -80,7 +80,10 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, iden
       )}
       {mainlevée.accord.courrierAccord &&
         mainlevée.actions.includes('accorder-ou-rejeter-demande-mainlevée-gf') && (
-          <CorrigerCourrierRéponse></CorrigerCourrierRéponse>
+          <CorrigerCourrierRéponse
+            identifiantProjet={identifiantProjet}
+            courrierRéponse={mainlevée.accord.courrierAccord}
+          />
         )}
     </div>
     <Actions

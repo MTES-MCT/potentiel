@@ -11,26 +11,27 @@ import { UploadDocument } from '../../atoms/form/UploadDocument';
 import { corrigerDocumentAction } from './corrigerDocument.action';
 
 type CorrigerDocumentModalFormProps = {
-  courrierRéponse: string;
   identifiantProjet: string;
   title?: string;
   buttonLabel?: string;
   confirmationLabel?: string;
   documentKey: string;
+  uploadDocumentLabel?: string;
   onSuccess?: FormProps['onSuccess'];
 };
 
 const defaultButtonLabel = 'Corriger';
 const defaultTitle = 'Corriger le document';
 const defaultConfirmationLabel = 'Êtes-vous sûr de vouloir corriger ce document ?';
+const defaultUploadDocumentLabel = 'Fichier corrigé';
 
 export const CorrigerDocumentModalForm = ({
   identifiantProjet,
   title = defaultTitle,
   buttonLabel = defaultButtonLabel,
   confirmationLabel = defaultConfirmationLabel,
+  uploadDocumentLabel = defaultUploadDocumentLabel,
   onSuccess,
-  documentKey,
 }: CorrigerDocumentModalFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -56,7 +57,7 @@ export const CorrigerDocumentModalForm = ({
           children: (
             <>
               <p className="mt-3">{confirmationLabel}</p>
-              <UploadDocument name="coucou" label="ce document" documentKey={documentKey} />
+              <UploadDocument name="nouveauDocument" label={uploadDocumentLabel} />
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             </>
           ),

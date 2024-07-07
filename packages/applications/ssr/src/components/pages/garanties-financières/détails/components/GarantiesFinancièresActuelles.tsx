@@ -154,7 +154,11 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
                 <MainlevéeEnCours identifiantProjet={identifiantProjet} mainlevée={mainlevée} />
               )}
               {historiqueMainlevée && historiqueMainlevée.length && (
-                <HistoriqueMainlevéeRejetée historique={historiqueMainlevée} />
+                <HistoriqueMainlevéeRejetée
+                  historique={historiqueMainlevée}
+                  identifiantProjet={identifiantProjet}
+                  mainlevéeActions={mainlevée?.actions}
+                />
               )}
             </div>
           </div>

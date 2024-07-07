@@ -6,16 +6,25 @@ import { Routes } from '@potentiel-applications/routes';
 import { Heading3 } from '../../../../atoms/headings';
 import { DownloadDocument } from '../../../../atoms/form/DownloadDocument';
 import { Timeline, TimelineProps } from '../../../../organisms/Timeline';
+import { CorrigerCourrierRéponse } from '../../mainlevée/corrigerCourrier/CorrigerCourrierRéponse';
+
+import { MainlevéeEnCoursProps } from './MainlevéeEnCours';
 
 export type HistoriqueMainlevéeRejetéeProps = {
+  identifiantProjet: string;
   historique: Array<{
     motif: string;
     demandéeLe: Iso8601DateTime;
     rejet: { rejetéLe: Iso8601DateTime; rejetéPar: string; courrierRejet: string };
   }>;
+  mainlevéeActions?: MainlevéeEnCoursProps['mainlevée']['actions'];
 };
 
-export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps> = ({ historique }) => {
+export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps> = ({
+  historique,
+  identifiantProjet,
+  mainlevéeActions,
+}) => {
   const nombreDeMainlevéesRejetées = historique.length;
   const items: TimelineProps['items'] = historique.map((mainlevéeRejetée) => ({
     status: 'warning',
@@ -27,11 +36,20 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
       </div>
     ),
     content: (
-      <DownloadDocument
-        format="pdf"
-        label="Télécharger la réponse signée"
-        url={Routes.Document.télécharger(mainlevéeRejetée.rejet.courrierRejet)}
-      />
+      <>
+        <DownloadDocument
+          format="pdf"
+          label="Télécharger la réponse signée"
+          url={Routes.Document.télécharger(mainlevéeRejetée.rejet.courrierRejet)}
+        />
+        {mainlevéeRejetée.rejet.courrierRejet &&
+          mainlevéeActions?.includes('accorder-ou-rejeter-demande-mainlevée-gf') && (
+            <CorrigerCourrierRéponse
+              identifiantProjet={identifiantProjet}
+              courrierRéponse={mainlevéeRejetée.rejet.courrierRejet}
+            />
+          )}
+      </>
     ),
   }));
 
