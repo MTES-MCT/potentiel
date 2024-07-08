@@ -4,7 +4,7 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import {
   TransmettreDateMiseEnServicePage,
-  TransmettreDateMiseEnServiceProps,
+  TransmettreDateMiseEnServicePageProps,
 } from './TransmettreDateMiseEnService.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -14,7 +14,7 @@ const meta = {
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<TransmettreDateMiseEnServiceProps>;
+} satisfies Meta<TransmettreDateMiseEnServicePageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
