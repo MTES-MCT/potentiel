@@ -8,13 +8,13 @@ import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
 import { TransmettrePropositionTechniqueEtFinancièreForm } from './TransmettrePropositionTechniqueEtFinancière.form';
 
-export type TransmettrePropositionTechniqueEtFinancièreProps = {
+export type TransmettrePropositionTechniqueEtFinancièrePageProps = {
   identifiantProjet: string;
   referenceDossierRaccordement: string;
 };
 
 export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
-  TransmettrePropositionTechniqueEtFinancièreProps
+  TransmettrePropositionTechniqueEtFinancièrePageProps
 > = ({ identifiantProjet, referenceDossierRaccordement }) => {
   return (
     <ColumnPageTemplate

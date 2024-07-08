@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import {
   TransmettrePropositionTechniqueEtFinancièrePage,
-  TransmettrePropositionTechniqueEtFinancièreProps,
+  TransmettrePropositionTechniqueEtFinancièrePageProps,
 } from './TransmettrePropositionTechniqueEtFinancière.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -12,7 +12,7 @@ const meta = {
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<TransmettrePropositionTechniqueEtFinancièreProps>;
+} satisfies Meta<TransmettrePropositionTechniqueEtFinancièrePageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
