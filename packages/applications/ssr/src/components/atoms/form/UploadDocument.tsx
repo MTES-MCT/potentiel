@@ -11,6 +11,10 @@ export type UploadDocumentProps = {
   className?: string;
   label: React.ReactNode;
   name: string;
+  /*
+  Si utilisé dans un formulaire
+  l'id ne doit pas comprendre d'accent
+  */
   id?: string;
   documentKey?: string;
   required?: boolean;

@@ -22,7 +22,7 @@ export const CorrigerCourrierRéponse = ({
       onSuccess={() => router.push(Routes.GarantiesFinancières.détail(identifiantProjet))}
       title="Corriger le courrier de réponse"
       uploadDocumentLabel="Nouveau courrier de réponse"
-      identifiantProjet={identifiantProjet}
+      buttonLabel="Corriger le courrier de réponse"
       documentKey={courrierRéponse}
     />
   );

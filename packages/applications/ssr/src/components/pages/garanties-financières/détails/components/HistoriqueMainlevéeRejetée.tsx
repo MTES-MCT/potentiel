@@ -36,7 +36,7 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
       </div>
     ),
     content: (
-      <>
+      <div className="flex flex-col md:flex-row gap-3 items-start">
         <DownloadDocument
           format="pdf"
           label="Télécharger la réponse signée"
@@ -47,9 +47,10 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
             <CorrigerCourrierRéponse
               identifiantProjet={identifiantProjet}
               courrierRéponse={mainlevéeRejetée.rejet.courrierRejet}
+              key={mainlevéeRejetée.rejet.rejetéLe}
             />
           )}
-      </>
+      </div>
     ),
   }));
 

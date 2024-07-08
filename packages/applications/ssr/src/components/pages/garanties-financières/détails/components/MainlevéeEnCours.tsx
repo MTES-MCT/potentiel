@@ -72,20 +72,22 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, iden
           <FormattedDate className="font-semibold" date={mainlevée.accord.accordéeLe} />
         </div>
       )}
-      {mainlevée.accord.courrierAccord && (
-        <DownloadDocument
-          format="pdf"
-          label="Télécharger la réponse signée"
-          url={Routes.Document.télécharger(mainlevée.accord.courrierAccord)}
-        />
-      )}
-      {mainlevée.accord.courrierAccord &&
-        mainlevée.actions.includes('modifier-courrier-réponse-mainlevée-gf') && (
-          <CorrigerCourrierRéponse
-            identifiantProjet={identifiantProjet}
-            courrierRéponse={mainlevée.accord.courrierAccord}
+      <div className="flex flex-col md:flex-row gap-3 items-start">
+        {mainlevée.accord.courrierAccord && (
+          <DownloadDocument
+            format="pdf"
+            label="Télécharger la réponse signée"
+            url={Routes.Document.télécharger(mainlevée.accord.courrierAccord)}
           />
         )}
+        {mainlevée.accord.courrierAccord &&
+          mainlevée.actions.includes('modifier-courrier-réponse-mainlevée-gf') && (
+            <CorrigerCourrierRéponse
+              identifiantProjet={identifiantProjet}
+              courrierRéponse={mainlevée.accord.courrierAccord}
+            />
+          )}
+      </div>
     </div>
     <Actions
       identifiantProjet={identifiantProjet}
