@@ -14,10 +14,10 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
 import { modifierGestionnaireRéseauAction } from './modifierGestionnaireRéseau.action';
 
-export type ModifierGestionnaireRéseauProps =
+export type ModifierGestionnaireRéseauFormProps =
   PlainType<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;
 
-export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauProps> = ({
+export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauFormProps> = ({
   identifiantGestionnaireRéseau,
   raisonSociale,
   aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import {
   ModifierGestionnaireRéseauPage,
-  ModifierGestionnaireRéseauProps,
+  ModifierGestionnaireRéseauPageProps,
 } from './ModifierGestionnaireRéseau.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -12,7 +12,7 @@ const meta = {
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<ModifierGestionnaireRéseauProps>;
+} satisfies Meta<ModifierGestionnaireRéseauPageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

@@ -1,17 +1,16 @@
 import { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 
-import { ModifierGestionnaireRéseauForm } from './ModifierGestionnaireRéseau.form';
+import {
+  ModifierGestionnaireRéseauForm,
+  ModifierGestionnaireRéseauFormProps,
+} from './ModifierGestionnaireRéseau.form';
 
-export type ModifierGestionnaireRéseauProps =
-  PlainType<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;
+export type ModifierGestionnaireRéseauPageProps = ModifierGestionnaireRéseauFormProps;
 
-export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauProps> = ({
+export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauPageProps> = ({
   identifiantGestionnaireRéseau,
   raisonSociale,
   aideSaisieRéférenceDossierRaccordement,
