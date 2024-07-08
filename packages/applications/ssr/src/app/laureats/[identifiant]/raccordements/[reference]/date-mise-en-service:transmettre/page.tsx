@@ -11,7 +11,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import {
   TransmettreDateMiseEnServicePage,
-  TransmettreDateMiseEnServiceProps,
+  TransmettreDateMiseEnServicePageProps,
 } from '@/components/pages/réseau/raccordement/transmettre/transmettreDateMiseEnService/TransmettreDateMiseEnService.page';
 
 type PageProps = {
@@ -61,7 +61,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
         (cdc) => cdc.type === 'modifié' && cdc.paruLe === '30/08/2022',
       )?.délaiApplicable?.intervaleDateMiseEnService;
 
-    const props: TransmettreDateMiseEnServiceProps = {
+    const props: TransmettreDateMiseEnServicePageProps = {
       projet: {
         identifiantProjet,
         ...candidature,

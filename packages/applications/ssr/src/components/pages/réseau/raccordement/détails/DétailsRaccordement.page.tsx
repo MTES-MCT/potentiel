@@ -1,5 +1,3 @@
-'use client';
-
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Link from 'next/link';

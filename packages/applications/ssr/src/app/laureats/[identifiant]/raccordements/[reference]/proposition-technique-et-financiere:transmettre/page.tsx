@@ -9,7 +9,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import {
   TransmettrePropositionTechniqueEtFinancièrePage,
-  TransmettrePropositionTechniqueEtFinancièreProps,
+  TransmettrePropositionTechniqueEtFinancièrePageProps,
 } from '@/components/pages/réseau/raccordement/transmettre/transmettrePropositionTechniqueEtFinancière/TransmettrePropositionTechniqueEtFinancière.page';
 
 type PageProps = {
@@ -37,7 +37,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       },
     });
 
-    const props: TransmettrePropositionTechniqueEtFinancièreProps = {
+    const props: TransmettrePropositionTechniqueEtFinancièrePageProps = {
       identifiantProjet: identifiantProjet.formatter(),
       referenceDossierRaccordement,
     };
