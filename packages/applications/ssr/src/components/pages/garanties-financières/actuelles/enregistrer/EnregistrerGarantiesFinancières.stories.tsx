@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import {
   EnregistrerGarantiesFinancièresPage,
-  EnregistrerGarantiesFinancièresProps,
-} from './enregistrerGarantiesFinancières.page';
+  EnregistrerGarantiesFinancièresPageProps,
+} from './EnregistrerGarantiesFinancières.page';
 
 const meta = {
   title: 'Pages/Garanties-financières/Actuelles/Enregistrer',
@@ -11,12 +11,12 @@ const meta = {
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<EnregistrerGarantiesFinancièresProps>;
+} satisfies Meta<EnregistrerGarantiesFinancièresPageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const typesGarantiesFinancières: EnregistrerGarantiesFinancièresProps['typesGarantiesFinancières'] =
+const typesGarantiesFinancières: EnregistrerGarantiesFinancièresPageProps['typesGarantiesFinancières'] =
   [
     {
       label: 'Consignation',
@@ -32,13 +32,9 @@ const typesGarantiesFinancières: EnregistrerGarantiesFinancièresProps['typesGa
     },
   ];
 
-const projet: EnregistrerGarantiesFinancièresProps['projet'] = {
-  identifiantProjet: 'identifiantProjet#1',
-};
-
 export const Default: Story = {
   args: {
-    projet,
+    identifiantProjet: 'identifiantProjet#1',
     typesGarantiesFinancières,
   },
 };

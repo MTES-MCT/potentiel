@@ -21,13 +21,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const projet: DétailsGarantiesFinancièresPageProps['projet'] = {
-  identifiantProjet: 'identifiantProjet#1',
-};
-
 export const GarantiesFinancieresActuellesComplètes: Story = {
   args: {
-    projet,
+    identifiantProjet: 'identifiantProjet#1',
     afficherInfoConditionsMainlevée: true,
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
@@ -47,7 +43,7 @@ export const GarantiesFinancieresActuellesComplètes: Story = {
 
 export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = {
   args: {
-    projet,
+    identifiantProjet: 'identifiantProjet#1',
     afficherInfoConditionsMainlevée: true,
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
@@ -77,7 +73,7 @@ export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = 
 
 export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
   args: {
-    projet,
+    identifiantProjet: 'identifiantProjet#1',
     afficherInfoConditionsMainlevée: true,
     action: 'soumettre',
     actuelles: {
@@ -96,7 +92,7 @@ export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
 
 export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
   args: {
-    projet,
+    identifiantProjet: 'identifiantProjet#1',
     afficherInfoConditionsMainlevée: true,
     dépôtEnCours: {
       type: getGarantiesFinancièresTypeLabel('consignation'),
@@ -113,7 +109,7 @@ export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
 
 export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
   args: {
-    projet,
+    identifiantProjet: 'identifiantProjet#1',
     afficherInfoConditionsMainlevée: true,
     action: 'soumettre',
   },
@@ -121,7 +117,7 @@ export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
 
 export const GarantiesFinancieresVideAvecActionEnregistrer: Story = {
   args: {
-    projet,
+    identifiantProjet: 'identifiantProjet#1',
     afficherInfoConditionsMainlevée: true,
     action: 'enregistrer',
   },

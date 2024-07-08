@@ -1,10 +1,8 @@
-'use client';
-
 import React, { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 import { TypeGarantiesFinancièresSelectProps } from '../../TypeGarantiesFinancièresSelect';
@@ -13,21 +11,21 @@ import { FormulaireGarantiesFinancières } from '../../FormulaireGarantiesFinanc
 import { soumettreGarantiesFinancièresAction } from './soumettreGarantiesFinancières.action';
 
 export type SoumettreGarantiesFinancièresProps = {
-  projet: ProjetBannerProps;
+  identifiantProjet: string;
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
 };
 
 export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièresProps> = ({
-  projet,
+  identifiantProjet,
   typesGarantiesFinancières,
 }) => (
   <ColumnPageTemplate
-    banner={<ProjetBanner {...projet} />}
+    banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
     heading={<TitrePageGarantiesFinancières title="Soumettre des garanties financières" />}
     leftColumn={{
       children: (
         <FormulaireGarantiesFinancières
-          identifiantProjet={projet.identifiantProjet}
+          identifiantProjet={identifiantProjet}
           action={soumettreGarantiesFinancièresAction}
           submitButtonLabel="Soumettre"
           typesGarantiesFinancières={typesGarantiesFinancières}

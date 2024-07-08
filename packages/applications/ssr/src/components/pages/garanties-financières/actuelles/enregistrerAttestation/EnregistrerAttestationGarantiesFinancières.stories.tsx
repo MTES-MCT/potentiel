@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import {
   EnregistrerAttestationGarantiesFinancièresPage,
-  EnregistrerAttestationGarantiesFinancièresProps,
+  EnregistrerAttestationGarantiesFinancièresPageProps,
 } from './EnregistrerAttestationGarantiesFinancières.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -12,15 +12,13 @@ const meta = {
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<EnregistrerAttestationGarantiesFinancièresProps>;
+} satisfies Meta<EnregistrerAttestationGarantiesFinancièresPageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    projet: {
-      identifiantProjet: 'identifiantProjet#1',
-    },
+    identifiantProjet: 'identifiantProjet#1',
   },
 };

@@ -19,8 +19,6 @@ type Story = StoryObj<typeof meta>;
 
 export const ProjetNonSoumisAuxGarantiesFinancières: Story = {
   args: {
-    projet: {
-      identifiantProjet: 'identifiantProjet#1',
-    },
+    identifiantProjet: 'identifiantProjet#1',
   },
 };

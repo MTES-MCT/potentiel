@@ -3,22 +3,22 @@ import CallOut from '@codegouvfr/react-dsfr/CallOut';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
 
 export type ProjetNonSoumisAuxGarantiesFinancièresProps = {
-  projet: ProjetBannerProps;
+  identifiantProjet: string;
 };
 
 export const ProjetNonSoumisAuxGarantiesFinancièresPage: FC<
   ProjetNonSoumisAuxGarantiesFinancièresProps
-> = ({ projet }) => (
-  <PageTemplate banner={<ProjetBanner {...projet} />}>
+> = ({ identifiantProjet }) => (
+  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
     <CallOut
       buttonProps={{
         children: 'Retourner au projet',
         linkProps: {
-          href: Routes.Projet.details(projet.identifiantProjet),
+          href: Routes.Projet.details(identifiantProjet),
         },
       }}
       iconId="ri-information-line"

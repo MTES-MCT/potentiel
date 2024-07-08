@@ -1,10 +1,8 @@
-'use client';
-
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 import {
@@ -14,18 +12,19 @@ import {
 
 import { modifierDépôtEnCoursGarantiesFinancièresAction } from './modifierDépôtEnCoursGarantiesFinancières.action';
 
-export type ModifierDépôtEnCoursGarantiesFinancièresProps = {
-  projet: ProjetBannerProps;
-  typesGarantiesFinancières: FormulaireGarantiesFinancièresProps['typesGarantiesFinancières'];
+export type ModifierDépôtEnCoursGarantiesFinancièresPageProps = Pick<
+  FormulaireGarantiesFinancièresProps,
+  'identifiantProjet' | 'typesGarantiesFinancières'
+> & {
   dépôtEnCours: FormulaireGarantiesFinancièresProps['defaultValues'];
   showWarning?: true;
 };
 
 export const ModifierDépôtEnCoursGarantiesFinancièresPage: FC<
-  ModifierDépôtEnCoursGarantiesFinancièresProps
-> = ({ projet, typesGarantiesFinancières, dépôtEnCours, showWarning }) => (
+  ModifierDépôtEnCoursGarantiesFinancièresPageProps
+> = ({ identifiantProjet, typesGarantiesFinancières, dépôtEnCours, showWarning }) => (
   <ColumnPageTemplate
-    banner={<ProjetBanner {...projet} />}
+    banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
     heading={
       <TitrePageGarantiesFinancières title="Modifier des garanties financières en attente de validation" />
     }
@@ -33,7 +32,7 @@ export const ModifierDépôtEnCoursGarantiesFinancièresPage: FC<
       children: (
         <>
           <FormulaireGarantiesFinancières
-            identifiantProjet={projet.identifiantProjet}
+            identifiantProjet={identifiantProjet}
             action={modifierDépôtEnCoursGarantiesFinancièresAction}
             submitButtonLabel="Modifier"
             typesGarantiesFinancières={typesGarantiesFinancières}

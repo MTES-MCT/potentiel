@@ -10,8 +10,8 @@ import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financi�
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import {
   EnregistrerGarantiesFinancièresPage,
-  EnregistrerGarantiesFinancièresProps,
-} from '@/components/pages/garanties-financières/actuelles/enregistrer/enregistrerGarantiesFinancières.page';
+  EnregistrerGarantiesFinancièresPageProps,
+} from '@/components/pages/garanties-financières/actuelles/enregistrer/EnregistrerGarantiesFinancières.page';
 import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
 
 export const metadata: Metadata = {
@@ -28,8 +28,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       data: { identifiantProjet },
     });
 
-    const projet = { ...candidature, identifiantProjet };
-
     const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
       appelOffre: candidature.appelOffre,
       famille: candidature.famille,
@@ -37,11 +35,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     });
 
     if (!soumisAuxGarantiesFinancières) {
-      return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
+      return <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjet} />;
     }
 
-    const props: EnregistrerGarantiesFinancièresProps = {
-      projet,
+    const props: EnregistrerGarantiesFinancièresPageProps = {
+      identifiantProjet,
       typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
     };
 

@@ -1,5 +1,3 @@
-'use client';
-
 import { FC } from 'react';
 import Link from 'next/link';
 import Alert from '@codegouvfr/react-dsfr/Alert';
@@ -8,7 +6,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { PageTemplate } from '@/components/templates/Page.template';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
 
@@ -22,7 +20,7 @@ import {
 } from './components/GarantiesFinancièresDépôtEnCours';
 
 export type DétailsGarantiesFinancièresPageProps = {
-  projet: ProjetBannerProps;
+  identifiantProjet: string;
   actuelles?: GarantiesFinancièresActuellesProps['actuelles'];
   dépôtEnCours?: GarantiesFinancièresDépôtEnCoursProps['dépôt'];
   dateLimiteSoummission?: Iso8601DateTime;
@@ -33,7 +31,7 @@ export type DétailsGarantiesFinancièresPageProps = {
 };
 
 export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancièresPageProps> = ({
-  projet,
+  identifiantProjet,
   actuelles,
   dépôtEnCours,
   action,
@@ -41,7 +39,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   historiqueMainlevée,
   afficherInfoConditionsMainlevée,
 }) => (
-  <PageTemplate banner={<ProjetBanner {...projet} />}>
+  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
     <TitrePageGarantiesFinancières title="Détail des garanties financières" />
     {actuelles || dépôtEnCours ? (
       <>
@@ -49,7 +47,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           {actuelles && (
             <GarantiesFinancièresActuelles
               actuelles={actuelles}
-              identifiantProjet={projet.identifiantProjet}
+              identifiantProjet={identifiantProjet}
               mainlevée={mainlevée}
               historiqueMainlevée={historiqueMainlevée}
             />
@@ -58,7 +56,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           {dépôtEnCours && (
             <GarantiesFinancièresDépôtEnCours
               dépôt={dépôtEnCours}
-              identifiantProjet={projet.identifiantProjet}
+              identifiantProjet={identifiantProjet}
             />
           )}
         </div>
@@ -97,7 +95,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
               <div className="p-3">
                 Vous pouvez{' '}
                 <Link
-                  href={Routes.GarantiesFinancières.dépôt.soumettre(projet.identifiantProjet)}
+                  href={Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet)}
                   className="font-semibold"
                 >
                   soumettre de nouvelles garanties financières
@@ -116,7 +114,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
             {' '}
             Vous pouvez en{' '}
             <Link
-              href={Routes.GarantiesFinancières.dépôt.soumettre(projet.identifiantProjet)}
+              href={Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet)}
               className="font-semibold"
             >
               soumettre des nouvelles
@@ -129,7 +127,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
             {' '}
             Vous pouvez enregistrer des garanties financières en{' '}
             <Link
-              href={Routes.GarantiesFinancières.actuelles.enregistrer(projet.identifiantProjet)}
+              href={Routes.GarantiesFinancières.actuelles.enregistrer(identifiantProjet)}
               className="font-semibold"
             >
               suivant ce lien

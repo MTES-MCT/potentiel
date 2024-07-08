@@ -6,7 +6,7 @@ import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/gar
 
 import {
   ModifierDépôtEnCoursGarantiesFinancièresPage,
-  ModifierDépôtEnCoursGarantiesFinancièresProps,
+  ModifierDépôtEnCoursGarantiesFinancièresPageProps,
 } from './ModifierDépôtEnCoursGarantiesFinancières.page';
 
 const meta = {
@@ -15,21 +15,17 @@ const meta = {
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<ModifierDépôtEnCoursGarantiesFinancièresProps>;
+} satisfies Meta<ModifierDépôtEnCoursGarantiesFinancièresPageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const projet: ModifierDépôtEnCoursGarantiesFinancièresProps['projet'] = {
-  identifiantProjet: 'identifiantProjet#1',
-};
-
-const typesGarantiesFinancières: ModifierDépôtEnCoursGarantiesFinancièresProps['typesGarantiesFinancières'] =
+const typesGarantiesFinancières: ModifierDépôtEnCoursGarantiesFinancièresPageProps['typesGarantiesFinancières'] =
   typesGarantiesFinancièresSansInconnuPourFormulaire;
 
 export const EnTantQueDreal: Story = {
   args: {
-    projet,
+    identifiantProjet: 'identifiantProjet#1',
     dépôtEnCours: {
       typeGarantiesFinancières: 'consignation',
       dateConstitution: new Date('2021-10-23').toISOString() as Iso8601DateTime,
@@ -41,7 +37,7 @@ export const EnTantQueDreal: Story = {
 
 export const EnTantQuePorteur: Story = {
   args: {
-    projet,
+    identifiantProjet: 'identifiantProjet#1',
     dépôtEnCours: {
       dateÉchéance: new Date('2023-10-23').toISOString() as Iso8601DateTime,
       dateConstitution: new Date('2021-10-23').toISOString() as Iso8601DateTime,

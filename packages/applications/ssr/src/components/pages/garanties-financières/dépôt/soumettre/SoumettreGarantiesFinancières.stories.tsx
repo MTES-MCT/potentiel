@@ -21,13 +21,9 @@ type Story = StoryObj<typeof meta>;
 const typesGarantiesFinancières: SoumettreGarantiesFinancièresProps['typesGarantiesFinancières'] =
   typesGarantiesFinancièresSansInconnuPourFormulaire;
 
-const projet: SoumettreGarantiesFinancièresProps['projet'] = {
-  identifiantProjet: 'identifiantProjet#1',
-};
-
 export const Default: Story = {
   args: {
-    projet,
+    identifiantProjet: 'identifiantProjet#1',
     typesGarantiesFinancières,
   },
 };
