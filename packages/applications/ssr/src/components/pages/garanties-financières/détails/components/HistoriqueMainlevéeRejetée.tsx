@@ -8,25 +8,24 @@ import { DownloadDocument } from '../../../../atoms/form/DownloadDocument';
 import { Timeline, TimelineProps } from '../../../../organisms/Timeline';
 import { CorrigerRéponseSignée } from '../../mainlevée/corrigerRéponseSignée/CorrigerRéponseSignée';
 
-import { MainlevéeEnCoursProps } from './MainlevéeEnCours';
-
 export type HistoriqueMainlevéeRejetéeProps = {
   identifiantProjet: string;
-  historique: Array<{
-    motif: string;
-    demandéeLe: Iso8601DateTime;
-    rejet: { rejetéLe: Iso8601DateTime; rejetéPar: string; courrierRejet: string };
-  }>;
-  mainlevéeActions?: MainlevéeEnCoursProps['mainlevée']['actions'];
+  historiqueMainlevée: {
+    historique: Array<{
+      motif: string;
+      demandéeLe: Iso8601DateTime;
+      rejet: { rejetéLe: Iso8601DateTime; rejetéPar: string; courrierRejet: string };
+    }>;
+    actions: Array<'modifier-courrier-réponse-mainlevée-gf'>;
+  };
 };
 
 export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps> = ({
-  historique,
+  historiqueMainlevée,
   identifiantProjet,
-  mainlevéeActions,
 }) => {
-  const nombreDeMainlevéesRejetées = historique.length;
-  const items: TimelineProps['items'] = historique.map((mainlevéeRejetée) => ({
+  const nombreDeMainlevéesRejetées = historiqueMainlevée.historique.length;
+  const items: TimelineProps['items'] = historiqueMainlevée.historique.map((mainlevéeRejetée) => ({
     status: 'warning',
     date: mainlevéeRejetée.rejet.rejetéLe,
     title: (
@@ -36,14 +35,14 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
       </div>
     ),
     content: (
-      <div className="flex flex-col md:flex-row gap-3 items-start">
+      <div className="flex flex-col gap-1 justify-center">
         <DownloadDocument
           format="pdf"
           label="Télécharger la réponse signée"
           url={Routes.Document.télécharger(mainlevéeRejetée.rejet.courrierRejet)}
         />
         {mainlevéeRejetée.rejet.courrierRejet &&
-          mainlevéeActions?.includes('modifier-courrier-réponse-mainlevée-gf') && (
+          historiqueMainlevée.actions.includes('modifier-courrier-réponse-mainlevée-gf') && (
             <CorrigerRéponseSignée
               identifiantProjet={identifiantProjet}
               courrierRéponse={mainlevéeRejetée.rejet.courrierRejet}

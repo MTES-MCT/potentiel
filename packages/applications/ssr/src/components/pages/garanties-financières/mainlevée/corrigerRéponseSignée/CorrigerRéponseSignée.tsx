@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { CorrigerDocumentModalForm } from '../../../../organisms/corrigerDocument/CorrigerDocumentModalForm';
+import { CorrigerDocumentModalForm } from '@/components/organisms/corrigerDocument/CorrigerDocumentModalForm';
 
 type CorrigerRéponseSignéeProps = {
   courrierRéponse: string;

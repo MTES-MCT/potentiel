@@ -11,8 +11,11 @@ const schema = zod.object({
   documentKey: zod.string().min(1),
 });
 
+// nous gardons l'ancien fichier stocké pour l'historique avec un timestamp
 const action: FormAction<FormState, typeof schema> = async (_, props) => {
-  await copyFile(props.documentKey, props.documentKey + new Date().toISOString());
+  const { extension, fileBaseName } = splitFileName(props.documentKey);
+
+  await copyFile(props.documentKey, `${fileBaseName}.${new Date().toISOString()}.${extension}`);
 
   await upload(props.documentKey, props.documentCorrige.stream());
 
@@ -22,3 +25,9 @@ const action: FormAction<FormState, typeof schema> = async (_, props) => {
 };
 
 export const corrigerDocumentAction = formAction(action, schema);
+
+const splitFileName = (fileName: string) => {
+  const extension = fileName.split('.').pop();
+  const fileBaseName = fileName.replace(/\.[^/.]+$/, '');
+  return { fileBaseName, extension };
+};
