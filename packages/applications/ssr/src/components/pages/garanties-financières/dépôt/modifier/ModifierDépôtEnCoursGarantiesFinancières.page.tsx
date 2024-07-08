@@ -12,15 +12,16 @@ import {
 
 import { modifierDépôtEnCoursGarantiesFinancièresAction } from './modifierDépôtEnCoursGarantiesFinancières.action';
 
-export type ModifierDépôtEnCoursGarantiesFinancièresProps = {
-  identifiantProjet: string;
-  typesGarantiesFinancières: FormulaireGarantiesFinancièresProps['typesGarantiesFinancières'];
+export type ModifierDépôtEnCoursGarantiesFinancièresPageProps = Pick<
+  FormulaireGarantiesFinancièresProps,
+  'identifiantProjet' | 'typesGarantiesFinancières'
+> & {
   dépôtEnCours: FormulaireGarantiesFinancièresProps['defaultValues'];
   showWarning?: true;
 };
 
 export const ModifierDépôtEnCoursGarantiesFinancièresPage: FC<
-  ModifierDépôtEnCoursGarantiesFinancièresProps
+  ModifierDépôtEnCoursGarantiesFinancièresPageProps
 > = ({ identifiantProjet, typesGarantiesFinancières, dépôtEnCours, showWarning }) => (
   <ColumnPageTemplate
     banner={<ProjetBanner identifiantProjet={identifiantProjet} />}

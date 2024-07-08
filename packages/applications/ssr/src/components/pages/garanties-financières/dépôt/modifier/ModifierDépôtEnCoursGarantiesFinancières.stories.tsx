@@ -6,7 +6,7 @@ import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/gar
 
 import {
   ModifierDépôtEnCoursGarantiesFinancièresPage,
-  ModifierDépôtEnCoursGarantiesFinancièresProps,
+  ModifierDépôtEnCoursGarantiesFinancièresPageProps,
 } from './ModifierDépôtEnCoursGarantiesFinancières.page';
 
 const meta = {
@@ -15,12 +15,12 @@ const meta = {
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<ModifierDépôtEnCoursGarantiesFinancièresProps>;
+} satisfies Meta<ModifierDépôtEnCoursGarantiesFinancièresPageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const typesGarantiesFinancières: ModifierDépôtEnCoursGarantiesFinancièresProps['typesGarantiesFinancières'] =
+const typesGarantiesFinancières: ModifierDépôtEnCoursGarantiesFinancièresPageProps['typesGarantiesFinancières'] =
   typesGarantiesFinancièresSansInconnuPourFormulaire;
 
 export const EnTantQueDreal: Story = {

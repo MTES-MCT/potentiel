@@ -13,7 +13,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
   ModifierDépôtEnCoursGarantiesFinancièresPage,
-  ModifierDépôtEnCoursGarantiesFinancièresProps,
+  ModifierDépôtEnCoursGarantiesFinancièresPageProps,
 } from '@/components/pages/garanties-financières/dépôt/modifier/ModifierDépôtEnCoursGarantiesFinancières.page';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
@@ -72,7 +72,7 @@ const mapToProps = ({
 > & {
   identifiantProjet: string;
   utilisateur: AuthenticatedUserReadModel;
-}): ModifierDépôtEnCoursGarantiesFinancièresProps => ({
+}): ModifierDépôtEnCoursGarantiesFinancièresPageProps => ({
   identifiantProjet,
   typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
   dépôtEnCours: {
