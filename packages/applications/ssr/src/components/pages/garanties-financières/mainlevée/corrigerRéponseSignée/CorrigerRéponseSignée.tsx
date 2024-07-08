@@ -6,23 +6,23 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { CorrigerDocumentModalForm } from '../../../../organisms/corrigerDocument/CorrigerDocumentModalForm';
 
-type CorrigerCourrierRéponseProps = {
+type CorrigerRéponseSignéeProps = {
   courrierRéponse: string;
   identifiantProjet: string;
 };
 
-export const CorrigerCourrierRéponse = ({
+export const CorrigerRéponseSignée = ({
   identifiantProjet,
   courrierRéponse,
-}: CorrigerCourrierRéponseProps) => {
+}: CorrigerRéponseSignéeProps) => {
   const router = useRouter();
 
   return (
     <CorrigerDocumentModalForm
       onSuccess={() => router.push(Routes.GarantiesFinancières.détail(identifiantProjet))}
-      title="Corriger le courrier de réponse"
-      uploadDocumentLabel="Nouveau courrier de réponse"
-      buttonLabel="Corriger le courrier de réponse"
+      title="Télécharger une nouvelle réponse signée"
+      uploadDocumentLabel="Nouvelle réponse signée"
+      buttonLabel="Corriger la réponse signée"
       documentKey={courrierRéponse}
     />
   );

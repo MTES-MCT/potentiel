@@ -14,7 +14,7 @@ import { RejeterDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/
 import { AnnulerDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/annuler/AnnulerDemandeMainlevéeGarantiesFinancières';
 import { StatutMainlevéeBadge } from '../../../../molecules/mainlevée/StatutMainlevéeBadge';
 import { DownloadDocument } from '../../../../atoms/form/DownloadDocument';
-import { CorrigerCourrierRéponse } from '../../mainlevée/corrigerCourrier/CorrigerCourrierRéponse';
+import { CorrigerRéponseSignée } from '../../mainlevée/corrigerRéponseSignée/CorrigerRéponseSignée';
 
 export type MainlevéeEnCoursProps = {
   identifiantProjet: string;
@@ -72,7 +72,7 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, iden
           <FormattedDate className="font-semibold" date={mainlevée.accord.accordéeLe} />
         </div>
       )}
-      <div className="flex flex-col md:flex-row gap-3 items-start">
+      <div className="flex flex-col gap-1 justify-center">
         {mainlevée.accord.courrierAccord && (
           <DownloadDocument
             format="pdf"
@@ -82,7 +82,7 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, iden
         )}
         {mainlevée.accord.courrierAccord &&
           mainlevée.actions.includes('modifier-courrier-réponse-mainlevée-gf') && (
-            <CorrigerCourrierRéponse
+            <CorrigerRéponseSignée
               identifiantProjet={identifiantProjet}
               courrierRéponse={mainlevée.accord.courrierAccord}
             />

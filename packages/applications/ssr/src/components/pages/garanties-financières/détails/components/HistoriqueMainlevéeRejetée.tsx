@@ -6,7 +6,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Heading3 } from '../../../../atoms/headings';
 import { DownloadDocument } from '../../../../atoms/form/DownloadDocument';
 import { Timeline, TimelineProps } from '../../../../organisms/Timeline';
-import { CorrigerCourrierRéponse } from '../../mainlevée/corrigerCourrier/CorrigerCourrierRéponse';
+import { CorrigerRéponseSignée } from '../../mainlevée/corrigerRéponseSignée/CorrigerRéponseSignée';
 
 import { MainlevéeEnCoursProps } from './MainlevéeEnCours';
 
@@ -44,7 +44,7 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
         />
         {mainlevéeRejetée.rejet.courrierRejet &&
           mainlevéeActions?.includes('modifier-courrier-réponse-mainlevée-gf') && (
-            <CorrigerCourrierRéponse
+            <CorrigerRéponseSignée
               identifiantProjet={identifiantProjet}
               courrierRéponse={mainlevéeRejetée.rejet.courrierRejet}
               key={mainlevéeRejetée.rejet.rejetéLe}
