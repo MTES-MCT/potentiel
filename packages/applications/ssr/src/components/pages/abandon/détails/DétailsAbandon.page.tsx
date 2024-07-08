@@ -1,5 +1,3 @@
-'use client';
-
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
