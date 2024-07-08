@@ -4,17 +4,19 @@ import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
-import { TypeGarantiesFinancièresSelectProps } from '../../TypeGarantiesFinancièresSelect';
-import { FormulaireGarantiesFinancières } from '../../FormulaireGarantiesFinancières';
+import {
+  FormulaireGarantiesFinancières,
+  FormulaireGarantiesFinancièresProps,
+} from '../../FormulaireGarantiesFinancières';
 
 import { enregistrerGarantiesFinancièresAction } from './enregistrerGarantiesFinancières.action';
 
-export type EnregistrerGarantiesFinancièresProps = {
-  identifiantProjet: string;
-  typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
-};
+export type EnregistrerGarantiesFinancièresPageProps = Pick<
+  FormulaireGarantiesFinancièresProps,
+  'identifiantProjet' | 'typesGarantiesFinancières'
+>;
 
-export const EnregistrerGarantiesFinancièresPage: FC<EnregistrerGarantiesFinancièresProps> = ({
+export const EnregistrerGarantiesFinancièresPage: FC<EnregistrerGarantiesFinancièresPageProps> = ({
   identifiantProjet,
   typesGarantiesFinancières,
 }) => (

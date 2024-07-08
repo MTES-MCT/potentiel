@@ -11,7 +11,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import {
   ModifierGarantiesFinancièresActuellesPage,
-  ModifierGarantiesFinancièresActuellesProps,
+  ModifierGarantiesFinancièresActuellesPageProps,
 } from '@/components/pages/garanties-financières/actuelles/modifier/ModifierGarantiesFinancièresActuelles.page';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
@@ -69,7 +69,7 @@ const mapToProps = ({
   },
 }: Omit<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel, 'identifiantProjet'> & {
   identifiantProjet: string;
-}): ModifierGarantiesFinancièresActuellesProps => ({
+}): ModifierGarantiesFinancièresActuellesPageProps => ({
   identifiantProjet,
   typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
   actuelles: {

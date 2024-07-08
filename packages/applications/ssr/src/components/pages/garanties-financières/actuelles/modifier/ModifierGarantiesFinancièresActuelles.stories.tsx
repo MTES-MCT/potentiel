@@ -6,7 +6,7 @@ import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/gar
 
 import {
   ModifierGarantiesFinancièresActuellesPage,
-  ModifierGarantiesFinancièresActuellesProps,
+  ModifierGarantiesFinancièresActuellesPageProps,
 } from './ModifierGarantiesFinancièresActuelles.page';
 
 const meta = {
@@ -15,12 +15,12 @@ const meta = {
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<ModifierGarantiesFinancièresActuellesProps>;
+} satisfies Meta<ModifierGarantiesFinancièresActuellesPageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const typesGarantiesFinancières: ModifierGarantiesFinancièresActuellesProps['typesGarantiesFinancières'] =
+const typesGarantiesFinancières: ModifierGarantiesFinancièresActuellesPageProps['typesGarantiesFinancières'] =
   typesGarantiesFinancièresSansInconnuPourFormulaire;
 
 export const Default: Story = {

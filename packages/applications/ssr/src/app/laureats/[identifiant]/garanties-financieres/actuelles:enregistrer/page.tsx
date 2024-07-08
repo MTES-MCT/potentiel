@@ -10,7 +10,7 @@ import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financi�
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import {
   EnregistrerGarantiesFinancièresPage,
-  EnregistrerGarantiesFinancièresProps,
+  EnregistrerGarantiesFinancièresPageProps,
 } from '@/components/pages/garanties-financières/actuelles/enregistrer/EnregistrerGarantiesFinancières.page';
 import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
 
@@ -38,7 +38,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjet} />;
     }
 
-    const props: EnregistrerGarantiesFinancièresProps = {
+    const props: EnregistrerGarantiesFinancièresPageProps = {
       identifiantProjet,
       typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
     };

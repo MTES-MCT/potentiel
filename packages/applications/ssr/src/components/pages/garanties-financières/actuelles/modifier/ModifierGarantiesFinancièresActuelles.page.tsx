@@ -10,11 +10,11 @@ import {
   ModifierGarantiesFinancièresActuellesFormProps,
 } from './ModifierGarantiesFinancièresActuelles.form';
 
-export type ModifierGarantiesFinancièresActuellesProps =
+export type ModifierGarantiesFinancièresActuellesPageProps =
   ModifierGarantiesFinancièresActuellesFormProps;
 
 export const ModifierGarantiesFinancièresActuellesPage: FC<
-  ModifierGarantiesFinancièresActuellesProps
+  ModifierGarantiesFinancièresActuellesPageProps
 > = (props) => {
   return (
     <PageTemplate banner={<ProjetBanner identifiantProjet={props.identifiantProjet} />}>
