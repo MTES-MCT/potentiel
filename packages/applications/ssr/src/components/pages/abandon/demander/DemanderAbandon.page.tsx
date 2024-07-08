@@ -5,12 +5,9 @@ import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1 } from '@/components/atoms/headings';
 
-import { DemanderAbandonForm } from './DemanderAbandon.form';
+import { DemanderAbandonForm, DemanderAbandonFormProps } from './DemanderAbandon.form';
 
-export type DemanderAbandonPageProps = {
-  identifiantProjet: string;
-  showRecandidatureCheckBox: boolean;
-};
+export type DemanderAbandonPageProps = DemanderAbandonFormProps;
 
 export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
   identifiantProjet,
