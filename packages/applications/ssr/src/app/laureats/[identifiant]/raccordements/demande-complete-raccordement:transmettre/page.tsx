@@ -11,7 +11,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import {
   TransmettreDemandeComplèteRaccordementPage,
-  TransmettreDemandeComplèteRaccordementProps,
+  TransmettreDemandeComplèteRaccordementPageProps,
 } from '@/components/pages/réseau/raccordement/transmettre/transmettreDemandeComplèteRaccordement/TransmettreDemandeComplèteRaccordement.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -43,7 +43,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 
-    const props: TransmettreDemandeComplèteRaccordementProps = mapToProps({
+    const props: TransmettreDemandeComplèteRaccordementPageProps = mapToProps({
       gestionnairesRéseau,
       appelOffre,
       gestionnaireRéseau: gestionnaire,
@@ -59,7 +59,7 @@ type MapToProps = (args: {
   appelOffre: ConsulterAppelOffreReadModel;
   gestionnaireRéseau: Option.Type<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>;
   identifiantProjet: IdentifiantProjet.ValueType;
-}) => TransmettreDemandeComplèteRaccordementProps;
+}) => TransmettreDemandeComplèteRaccordementPageProps;
 
 const mapToProps: MapToProps = ({
   gestionnairesRéseau,

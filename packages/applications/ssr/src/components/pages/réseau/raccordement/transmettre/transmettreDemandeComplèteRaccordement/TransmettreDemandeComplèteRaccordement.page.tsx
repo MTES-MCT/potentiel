@@ -13,7 +13,7 @@ import { GestionnaireRéseauSelectProps } from '../../modifier/modifierGestionna
 
 import { TransmettreDemandeComplèteRaccordementForm } from './TransmettreDemandeComplèteRaccordement.form';
 
-export type TransmettreDemandeComplèteRaccordementProps = {
+export type TransmettreDemandeComplèteRaccordementPageProps = {
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
   identifiantGestionnaireRéseauActuel?: string;
   identifiantProjet: string;
@@ -21,7 +21,7 @@ export type TransmettreDemandeComplèteRaccordementProps = {
 };
 
 export const TransmettreDemandeComplèteRaccordementPage: FC<
-  TransmettreDemandeComplèteRaccordementProps
+  TransmettreDemandeComplèteRaccordementPageProps
 > = ({
   listeGestionnairesRéseau,
   identifiantGestionnaireRéseauActuel,
