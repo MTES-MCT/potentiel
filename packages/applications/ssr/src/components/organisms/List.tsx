@@ -1,9 +1,7 @@
-'use client';
-import { usePathname, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { Pagination } from './Pagination';
 import { Tile } from './Tile';
+import { ListPagination } from './ListPagination';
 
 type ListProps<TItem> = {
   items: Array<TItem & { key: string }>;
@@ -20,16 +18,6 @@ export const List = <TItem,>({
   itemsPerPage,
   ItemComponent,
 }: ListProps<TItem>) => {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const pageCount = Math.ceil(totalItems / itemsPerPage);
-
-  const getPageUrl = (pageToGo: number): string => {
-    const urlSearchParams = new URLSearchParams(searchParams);
-    urlSearchParams.set('page', pageToGo.toString());
-    return `${pathname}${urlSearchParams.size > 0 ? `?${urlSearchParams.toString()}` : ''}`;
-  };
-
   return (
     <>
       <ul>
@@ -41,8 +29,11 @@ export const List = <TItem,>({
           </li>
         ))}
       </ul>
-
-      <Pagination getPageUrl={getPageUrl} currentPage={currentPage} pageCount={pageCount} />
+      <ListPagination
+        currentPage={currentPage}
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+      />
     </>
   );
 };

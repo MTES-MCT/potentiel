@@ -3,31 +3,44 @@ import Tag from '@codegouvfr/react-dsfr/Tag';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
+import { ListFiltersProps } from './ListFilters';
+
 export type ListHeaderProps = {
-  tagFilters: Array<{
-    label: string;
-    searchParamKey: string;
-  }>;
+  filters: ListFiltersProps['filters'];
   totalCount: number;
 };
 
-export const ListHeader: FC<ListHeaderProps> = ({ tagFilters, totalCount }) => {
-  const currentSearchParams = useSearchParams();
-  const searchParams = tagFilters.reduce((urlSearchParams, { searchParamKey }) => {
-    if (currentSearchParams.has(searchParamKey)) {
-      urlSearchParams.set(searchParamKey, currentSearchParams.get(searchParamKey) ?? '');
-    }
-
-    return urlSearchParams;
-  }, new URLSearchParams());
-
+export const ListHeader: FC<ListHeaderProps> = ({ filters, totalCount }) => {
+  const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
 
-  const onClick = (tagName: string) => {
-    searchParams.delete(tagName);
+  const tagFilters = filters.reduce(
+    (allFilters, { searchParamKey, label, options }) => {
+      const currentFilterValue = searchParams.get(searchParamKey);
+      if (!currentFilterValue) {
+        return allFilters;
+      }
+      return [
+        ...allFilters,
+        {
+          label: `${label}: ${options.find((x) => x.value === currentFilterValue)?.label}`,
+          searchParamKey,
+        },
+      ];
+    },
+    [] as { label: string; searchParamKey: string }[],
+  );
 
-    const url = `${pathname}${searchParams.size > 0 ? `?${searchParams.toString()}` : ''}`;
+  const onClick = (tagName: string) => {
+    const newSearchParams = tagFilters.reduce((urlSearchParams, { searchParamKey }) => {
+      if (searchParams.has(searchParamKey)) {
+        urlSearchParams.set(searchParamKey, searchParams.get(searchParamKey) ?? '');
+      }
+      return urlSearchParams;
+    }, new URLSearchParams());
+    newSearchParams.delete(tagName);
+    const url = `${pathname}${newSearchParams.size > 0 ? `?${newSearchParams.toString()}` : ''}`;
     router.push(url);
   };
 

@@ -1,5 +1,3 @@
-'use client';
-
 import { FC } from 'react';
 
 import { ListerTâchesReadModel } from '@potentiel-domain/tache';

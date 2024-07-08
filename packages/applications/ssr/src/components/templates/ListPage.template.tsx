@@ -1,6 +1,3 @@
-'use client';
-
-import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { LinkAction } from '../atoms/LinkAction';
@@ -38,29 +35,6 @@ export const ListPageTemplate = <TItem,>({
   totalItems,
   search,
 }: ListPageTemplateProps<TItem>) => {
-  /**
-   * Use search params as key for the ListFilters component
-   * This will force react to mount again this component
-   * when the search params changed
-   */
-  const listFiltersKey = new URLSearchParams(useSearchParams()).toString();
-  const searchParams = useSearchParams();
-  const tagFilters = filters.reduce(
-    (allFilters, { searchParamKey, label, options }) => {
-      const currentFilterValue = searchParams.get(searchParamKey);
-      if (!currentFilterValue) {
-        return allFilters;
-      }
-      return [
-        ...allFilters,
-        {
-          label: `${label}: ${options.find((x) => x.value === currentFilterValue)?.label}`,
-          searchParamKey,
-        },
-      ];
-    },
-    [] as { label: string; searchParamKey: string }[],
-  );
   return (
     <PageTemplate banner={<Heading1 className="text-theme-white">{heading}</Heading1>}>
       <div className="flex flex-col md:flex-row gap-5 md:gap-10">
@@ -77,7 +51,7 @@ export const ListPageTemplate = <TItem,>({
               ))}
             </>
           ) : null}
-          {filters.length ? <ListFilters key={listFiltersKey} filters={filters} /> : null}
+          {filters.length ? <ListFilters filters={filters} /> : null}
         </div>
 
         <div className="flex flex-col gap-3 flex-grow md:w-3/4">
@@ -87,7 +61,7 @@ export const ListPageTemplate = <TItem,>({
             </div>
           </div>
           <div className="flex flex-col md:flex-row md:items-center gap-3">
-            <ListHeader tagFilters={tagFilters} totalCount={totalItems} />
+            <ListHeader filters={filters} totalCount={totalItems} />
           </div>
           {items.length ? (
             <List
