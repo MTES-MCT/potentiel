@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
+import { RedirectType, redirect } from 'next/navigation';
 
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ListerTâchesQuery } from '@potentiel-domain/tache';
@@ -12,7 +13,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/organisms/ListFilters';
 
-type SearchParams = 'page' | 'appelOffre' | 'catégorieTâche';
+type SearchParams = 'page' | 'appelOffre' | 'catégorieTâche' | 'cycle';
 
 type PageProps = {
   searchParams?: Partial<Record<SearchParams, string>>;
@@ -36,11 +37,17 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
 
       const appelOffre = searchParams?.appelOffre;
       const catégorieTâche = searchParams?.catégorieTâche;
+      const cycle = searchParams?.cycle;
 
       const appelOffres = await mediator.send<ListerAppelOffreQuery>({
         type: 'AppelOffre.Query.ListerAppelOffre',
         data: {},
       });
+      const appelOffresPourCycle = cycle
+        ? appelOffres.items.filter((ao) =>
+            cycle === 'PPE2' ? ao.id.startsWith('PPE2') : !ao.id.startsWith('PPE2'),
+          )
+        : appelOffres.items;
 
       const tâches = await mediator.send<ListerTâchesQuery>({
         type: 'Tâche.Query.ListerTâches',
@@ -50,16 +57,26 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
           }),
           email: utilisateur.identifiantUtilisateur.email,
           appelOffre,
-          catégorieTâche: catégorieTâche,
+          catégorieTâche,
+          cycle,
         },
       });
 
       const filters: ListFilterItem<SearchParams>[] = [
         {
+          label: "Cycle d'appels d'offres",
+          searchParamKey: 'cycle',
+          defaultValue: cycle,
+          options: [
+            { label: 'PPE2', value: 'PPE2' },
+            { label: 'CRE4', value: 'CRE4' },
+          ],
+        },
+        {
           label: `Appel d'offres`,
           searchParamKey: 'appelOffre',
           defaultValue: appelOffre,
-          options: appelOffres.items.map((appelOffre) => ({
+          options: appelOffresPourCycle.map((appelOffre) => ({
             label: appelOffre.id,
             value: appelOffre.id,
           })),
@@ -74,6 +91,13 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
           })),
         },
       ];
+
+      // on retire le searchParam "appelOffre" si l'AO ne fait pas partie du cycle passé en searchParam
+      if (appelOffre && cycle && !appelOffresPourCycle.find((ao) => ao.id === appelOffre)) {
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.delete('appelOffre');
+        redirect('./taches?' + newSearchParams.toString(), RedirectType.replace);
+      }
 
       return <TâcheListPage list={mapToPlainObject(tâches)} filters={filters} />;
     }),
