@@ -8,17 +8,14 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
-import { TransmettreDateMiseEnServiceForm } from './TransmettreDateMiseEnService.form';
+import {
+  TransmettreDateMiseEnServiceForm,
+  TransmettreDateMiseEnServiceFormProps,
+} from './TransmettreDateMiseEnService.form';
 
 export type TransmettreDateMiseEnServicePageProps = {
-  projet: {
-    identifiantProjet: string;
-    dateDésignation: Iso8601DateTime;
-  };
-  dossierRaccordement: {
-    référence: string;
-    miseEnService?: Iso8601DateTime;
-  };
+  projet: TransmettreDateMiseEnServiceFormProps['projet'];
+  dossierRaccordement: TransmettreDateMiseEnServiceFormProps['dossierRaccordement'];
   intervalleDatesMeSDélaiCDC2022?: { min: Iso8601DateTime; max: Iso8601DateTime };
 };
 

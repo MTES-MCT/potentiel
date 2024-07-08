@@ -9,12 +9,17 @@ import { Routes } from '@potentiel-applications/routes';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
-import { GestionnaireRéseauSelect } from './GestionnaireRéseauSelect';
+import {
+  GestionnaireRéseauSelect,
+  GestionnaireRéseauSelectProps,
+} from './GestionnaireRéseauSelect';
 import { modifierGestionnaireRéseauRaccordementAction } from './modifierGestionnaireRéseauRaccordement.action';
-import { ModifierGestionnaireRéseauRaccordementPageProps } from './ModifierGestionnaireRéseauRaccordement.page';
 
-type ModifierGestionnaireRéseauRaccordementFormProps =
-  ModifierGestionnaireRéseauRaccordementPageProps;
+export type ModifierGestionnaireRéseauRaccordementFormProps = {
+  identifiantProjet: string;
+  identifiantGestionnaireRéseauActuel: string;
+  listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
+};
 
 export const ModifierGestionnaireRéseauRaccordementForm: FC<
   ModifierGestionnaireRéseauRaccordementFormProps

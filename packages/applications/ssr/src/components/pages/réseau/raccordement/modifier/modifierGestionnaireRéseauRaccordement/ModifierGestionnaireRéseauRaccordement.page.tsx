@@ -6,13 +6,15 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
-import { GestionnaireRéseauSelectProps } from './GestionnaireRéseauSelect';
-import { ModifierGestionnaireRéseauRaccordementForm } from './ModifierGestionnaireRéseauRaccordement.form';
+import {
+  ModifierGestionnaireRéseauRaccordementForm,
+  ModifierGestionnaireRéseauRaccordementFormProps,
+} from './ModifierGestionnaireRéseauRaccordement.form';
 
 export type ModifierGestionnaireRéseauRaccordementPageProps = {
-  identifiantProjet: string;
-  identifiantGestionnaireRéseauActuel: string;
-  listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
+  identifiantProjet: ModifierGestionnaireRéseauRaccordementFormProps['identifiantProjet'];
+  identifiantGestionnaireRéseauActuel: ModifierGestionnaireRéseauRaccordementFormProps['identifiantGestionnaireRéseauActuel'];
+  listeGestionnairesRéseau: ModifierGestionnaireRéseauRaccordementFormProps['listeGestionnairesRéseau'];
 };
 
 export const ModifierGestionnaireRéseauRaccordementPage: FC<

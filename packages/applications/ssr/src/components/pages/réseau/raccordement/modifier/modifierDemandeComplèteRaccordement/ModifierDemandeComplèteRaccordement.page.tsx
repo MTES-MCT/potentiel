@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
@@ -12,27 +10,15 @@ import {
   InformationDemandeComplèteRaccordementProps,
 } from '../../InformationDemandeComplèteRaccordement';
 
-import { ModifierDemandeComplèteRaccordementForm } from './ModifierDemandeComplèteRaccordement.form';
+import {
+  ModifierDemandeComplèteRaccordementForm,
+  ModifierDemandeComplèteRaccordementFormProps,
+} from './ModifierDemandeComplèteRaccordement.form';
 
 export type ModifierDemandeComplèteRaccordementPageProps = {
-  identifiantProjet: string;
-  raccordement: {
-    référence: string;
-    demandeComplèteRaccordement: {
-      dateQualification?: Iso8601DateTime;
-      accuséRéception?: string;
-    };
-    canEditRéférence: boolean;
-  };
-  gestionnaireRéseauActuel: {
-    identifiantGestionnaireRéseau: string;
-    raisonSociale: string;
-    aideSaisieRéférenceDossierRaccordement?: {
-      format: string;
-      légende: string;
-      expressionReguliere: string;
-    };
-  };
+  identifiantProjet: ModifierDemandeComplèteRaccordementFormProps['identifiantProjet'];
+  raccordement: ModifierDemandeComplèteRaccordementFormProps['raccordement'];
+  gestionnaireRéseauActuel: ModifierDemandeComplèteRaccordementFormProps['gestionnaireRéseauActuel'];
   delaiDemandeDeRaccordementEnMois: InformationDemandeComplèteRaccordementProps['delaiDemandeDeRaccordementEnMois'];
 };
 

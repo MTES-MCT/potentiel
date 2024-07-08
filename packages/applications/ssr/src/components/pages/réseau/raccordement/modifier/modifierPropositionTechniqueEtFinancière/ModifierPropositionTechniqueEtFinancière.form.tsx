@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
-import { now } from '@potentiel-libraries/iso8601-datetime';
+import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
@@ -13,10 +13,17 @@ import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
 import { modifierPropositionTechniqueEtFinancièreAction } from './modifierPropositionTechniqueEtFinancière.action';
-import { ModifierPropositionTechniqueEtFinancièrePageProps } from './ModifierPropositionTechniqueEtFinancière.page';
 
-type ModifierPropositionTechniqueEtFinancièreFormProps =
-  ModifierPropositionTechniqueEtFinancièrePageProps;
+export type ModifierPropositionTechniqueEtFinancièreFormProps = {
+  identifiantProjet: string;
+  raccordement: {
+    reference: string;
+    propositionTechniqueEtFinancière: {
+      dateSignature: Iso8601DateTime;
+      propositionTechniqueEtFinancièreSignée: string;
+    };
+  };
+};
 
 export const ModifierPropositionTechniqueEtFinancièreForm: FC<
   ModifierPropositionTechniqueEtFinancièreFormProps

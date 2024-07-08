@@ -1,25 +1,18 @@
 import React, { FC } from 'react';
 import { Alert } from '@codegouvfr/react-dsfr/Alert';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
-import { ModifierPropositionTechniqueEtFinancièreForm } from './ModifierPropositionTechniqueEtFinancière.form';
+import {
+  ModifierPropositionTechniqueEtFinancièreForm,
+  ModifierPropositionTechniqueEtFinancièreFormProps,
+} from './ModifierPropositionTechniqueEtFinancière.form';
 
-export type ModifierPropositionTechniqueEtFinancièrePageProps = {
-  identifiantProjet: string;
-  raccordement: {
-    reference: string;
-    propositionTechniqueEtFinancière: {
-      dateSignature: Iso8601DateTime;
-      propositionTechniqueEtFinancièreSignée: string;
-    };
-  };
-};
+export type ModifierPropositionTechniqueEtFinancièrePageProps =
+  ModifierPropositionTechniqueEtFinancièreFormProps;
 
 export const ModifierPropositionTechniqueEtFinancièrePage: FC<
   ModifierPropositionTechniqueEtFinancièrePageProps

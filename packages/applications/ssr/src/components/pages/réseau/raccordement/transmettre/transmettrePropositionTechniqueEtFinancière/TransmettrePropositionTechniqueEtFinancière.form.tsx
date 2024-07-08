@@ -12,10 +12,11 @@ import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
 import { transmettrePropositionTechniqueEtFinancièreAction } from './transmettrePropositionTechniqueEtFinancière.action';
-import { TransmettrePropositionTechniqueEtFinancièrePageProps } from './TransmettrePropositionTechniqueEtFinancière.page';
 
-type TransmettrePropositionTechniqueEtFinancièreFormProps =
-  TransmettrePropositionTechniqueEtFinancièrePageProps;
+export type TransmettrePropositionTechniqueEtFinancièreFormProps = {
+  identifiantProjet: string;
+  referenceDossierRaccordement: string;
+};
 
 export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
   TransmettrePropositionTechniqueEtFinancièreFormProps

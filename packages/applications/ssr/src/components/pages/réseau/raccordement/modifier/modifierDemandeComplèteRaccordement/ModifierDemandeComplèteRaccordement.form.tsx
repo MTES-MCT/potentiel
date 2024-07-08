@@ -6,7 +6,7 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
-import { now } from '@potentiel-libraries/iso8601-datetime';
+import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 
 import { Form } from '@/components/atoms/form/Form';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
@@ -18,10 +18,25 @@ import { GestionnaireRéseauSelect } from '../modifierGestionnaireRéseauRaccord
 import { ModifierDemandeComplèteRaccordementPageProps } from './ModifierDemandeComplèteRaccordement.page';
 import { modifierDemandeComplèteRaccordementAction } from './modifierDemandeComplèteRaccordement.action';
 
-type ModifierDemandeComplèteRaccordementFormProps = {
-  identifiantProjet: ModifierDemandeComplèteRaccordementPageProps['identifiantProjet'];
-  gestionnaireRéseauActuel: ModifierDemandeComplèteRaccordementPageProps['gestionnaireRéseauActuel'];
-  raccordement: ModifierDemandeComplèteRaccordementPageProps['raccordement'];
+export type ModifierDemandeComplèteRaccordementFormProps = {
+  identifiantProjet: string;
+  raccordement: {
+    référence: string;
+    demandeComplèteRaccordement: {
+      dateQualification?: Iso8601DateTime;
+      accuséRéception?: string;
+    };
+    canEditRéférence: boolean;
+  };
+  gestionnaireRéseauActuel: {
+    identifiantGestionnaireRéseau: string;
+    raisonSociale: string;
+    aideSaisieRéférenceDossierRaccordement?: {
+      format: string;
+      légende: string;
+      expressionReguliere: string;
+    };
+  };
   canEditRéférence: ModifierDemandeComplèteRaccordementPageProps['raccordement']['canEditRéférence'];
 };
 

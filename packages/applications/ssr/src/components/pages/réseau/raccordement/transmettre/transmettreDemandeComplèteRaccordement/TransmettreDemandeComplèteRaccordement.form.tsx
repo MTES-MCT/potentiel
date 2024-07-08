@@ -17,11 +17,10 @@ import {
 } from '../../modifier/modifierGestionnaireRéseauRaccordement/GestionnaireRéseauSelect';
 
 import { transmettreDemandeComplèteRaccordementAction } from './transmettreDemandeComplèteRaccordement.action';
-import { TransmettreDemandeComplèteRaccordementPageProps } from './TransmettreDemandeComplèteRaccordement.page';
 
-type TransmettreDemandeComplèteRaccordementFormProps = {
-  identifiantProjet: TransmettreDemandeComplèteRaccordementPageProps['identifiantProjet'];
-  identifiantGestionnaireRéseauActuel?: TransmettreDemandeComplèteRaccordementPageProps['identifiantGestionnaireRéseauActuel'];
+export type TransmettreDemandeComplèteRaccordementFormProps = {
+  identifiantProjet: string;
+  identifiantGestionnaireRéseauActuel?: string;
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
 };
 

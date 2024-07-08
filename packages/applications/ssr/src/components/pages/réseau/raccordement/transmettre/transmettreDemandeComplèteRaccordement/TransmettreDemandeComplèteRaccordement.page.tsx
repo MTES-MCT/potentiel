@@ -9,14 +9,16 @@ import {
   InformationDemandeComplèteRaccordementProps,
 } from '../../InformationDemandeComplèteRaccordement';
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
-import { GestionnaireRéseauSelectProps } from '../../modifier/modifierGestionnaireRéseauRaccordement/GestionnaireRéseauSelect';
 
-import { TransmettreDemandeComplèteRaccordementForm } from './TransmettreDemandeComplèteRaccordement.form';
+import {
+  TransmettreDemandeComplèteRaccordementForm,
+  TransmettreDemandeComplèteRaccordementFormProps,
+} from './TransmettreDemandeComplèteRaccordement.form';
 
 export type TransmettreDemandeComplèteRaccordementPageProps = {
-  listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
-  identifiantGestionnaireRéseauActuel?: string;
-  identifiantProjet: string;
+  listeGestionnairesRéseau: TransmettreDemandeComplèteRaccordementFormProps['listeGestionnairesRéseau'];
+  identifiantGestionnaireRéseauActuel?: TransmettreDemandeComplèteRaccordementFormProps['identifiantGestionnaireRéseauActuel'];
+  identifiantProjet: TransmettreDemandeComplèteRaccordementFormProps['identifiantProjet'];
   delaiDemandeDeRaccordementEnMois: InformationDemandeComplèteRaccordementProps['delaiDemandeDeRaccordementEnMois'];
 };
 
