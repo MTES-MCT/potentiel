@@ -13,7 +13,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/organisms/ListFilters';
 
-type SearchParams = 'page' | 'appelOffre' | 'catégorieTâche' | 'cycle';
+type SearchParams = 'page' | 'appelOffre' | 'catégorieTâche' | 'cycle' | 'nomProjet';
 
 type PageProps = {
   searchParams?: Partial<Record<SearchParams, string>>;
@@ -38,6 +38,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
       const appelOffre = searchParams?.appelOffre;
       const catégorieTâche = searchParams?.catégorieTâche;
       const cycle = searchParams?.cycle;
+      const nomProjet = searchParams?.nomProjet;
 
       const appelOffres = await mediator.send<ListerAppelOffreQuery>({
         type: 'AppelOffre.Query.ListerAppelOffre',
@@ -59,6 +60,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
           appelOffre,
           catégorieTâche,
           cycle,
+          nomProjet,
         },
       });
 
