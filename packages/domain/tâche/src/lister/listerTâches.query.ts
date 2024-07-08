@@ -3,7 +3,7 @@ import { match, Pattern } from 'ts-pattern';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
-import { List, RangeOptions, WhereOptions } from '@potentiel-domain/core';
+import { List, RangeOptions, WhereCondition } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
 import { TâcheEntity } from '../tâche.entity';
@@ -38,6 +38,7 @@ export type ListerTâchesQuery = Message<
     range?: RangeOptions;
     catégorieTâche?: string;
     cycle?: string;
+    nomProjet?: string;
   },
   ListerTâchesReadModel
 >;
@@ -57,14 +58,15 @@ export const registerListerTâchesQuery = ({
     appelOffre,
     catégorieTâche,
     cycle,
+    nomProjet,
   }) => {
     const identifiants = await récupérerIdentifiantsProjetParEmailPorteur(email);
 
     // l'appel d'offre étant plus restrictif que le cycle d'AO, il a priorité
-    const projet: WhereOptions<TâcheEntity['projet']> = appelOffre
-      ? { appelOffre: { operator: 'equal', value: appelOffre } }
+    const appelOffreFilter: WhereCondition<string> | undefined = appelOffre
+      ? { operator: 'equal', value: appelOffre }
       : cycle
-        ? { appelOffre: { operator: cycle === 'PPE2' ? 'like' : 'notLike', value: '%PPE2%' } }
+        ? { operator: cycle === 'PPE2' ? 'like' : 'notLike', value: '%PPE2%' }
         : undefined;
 
     const {
@@ -77,7 +79,15 @@ export const registerListerTâchesQuery = ({
           operator: 'include',
           value: identifiants,
         },
-        projet,
+        projet: {
+          appelOffre: appelOffreFilter,
+          nom: match(nomProjet)
+            .with(Pattern.nullish, () => undefined)
+            .otherwise((value) => ({
+              operator: 'like',
+              value: `%${value}%`,
+            })),
+        },
         typeTâche: match(catégorieTâche)
           .with(Pattern.nullish, () => undefined)
           .otherwise((value) => ({

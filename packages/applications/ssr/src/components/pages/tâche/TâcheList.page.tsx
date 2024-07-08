@@ -34,6 +34,7 @@ export const TâcheListPage: FC<TâcheListPageProps> = ({
       itemsPerPage={itemsPerPage}
       ItemComponent={TâcheListItem}
       filters={filters}
+      search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
     />
   );
 };
