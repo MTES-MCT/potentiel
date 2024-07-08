@@ -15,7 +15,10 @@ const schema = zod.object({
 const action: FormAction<FormState, typeof schema> = async (_, props) => {
   const { extension, fileBaseName } = splitFileName(props.documentKey);
 
-  await copyFile(props.documentKey, `${fileBaseName}.${new Date().toISOString()}.${extension}`);
+  await copyFile(
+    props.documentKey,
+    `${fileBaseName}.snapshot-${new Date().toISOString()}.${extension}`,
+  );
 
   await upload(props.documentKey, props.documentCorrige.stream());
 
