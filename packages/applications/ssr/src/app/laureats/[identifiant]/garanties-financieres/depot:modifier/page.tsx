@@ -3,10 +3,7 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import {
-  ConsulterCandidatureQuery,
-  ConsulterCandidatureReadModel,
-} from '@potentiel-domain/candidature';
+import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 
@@ -38,8 +35,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjet },
       });
 
-      const projet = { ...candidature, identifiantProjet };
-
       if (
         !projetSoumisAuxGarantiesFinancières({
           appelOffre: candidature.appelOffre,
@@ -47,7 +42,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           periode: candidature.période,
         })
       ) {
-        return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
+        return <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjet} />;
       }
 
       const dépôtGarantiesFinancières =
@@ -60,7 +55,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         return notFound();
       }
 
-      const props = mapToProps({ ...dépôtGarantiesFinancières, projet, utilisateur });
+      const props = mapToProps({ ...dépôtGarantiesFinancières, identifiantProjet, utilisateur });
 
       return <ModifierDépôtEnCoursGarantiesFinancièresPage {...props} />;
     }),
@@ -68,14 +63,17 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 }
 
 const mapToProps = ({
-  projet,
+  identifiantProjet,
   dépôt: { type, dateÉchéance, dateConstitution, attestation },
   utilisateur,
-}: GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel & {
-  projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
+}: Omit<
+  GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel,
+  'identifiantProjet'
+> & {
+  identifiantProjet: string;
   utilisateur: AuthenticatedUserReadModel;
 }): ModifierDépôtEnCoursGarantiesFinancièresProps => ({
-  projet,
+  identifiantProjet,
   typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
   dépôtEnCours: {
     typeGarantiesFinancières: type.type,

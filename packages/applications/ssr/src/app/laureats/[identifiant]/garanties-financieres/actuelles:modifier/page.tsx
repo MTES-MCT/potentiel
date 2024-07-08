@@ -2,10 +2,7 @@ import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import {
-  ConsulterCandidatureQuery,
-  ConsulterCandidatureReadModel,
-} from '@potentiel-domain/candidature';
+import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -34,8 +31,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       data: { identifiantProjet },
     });
 
-    const projet = { ...candidature, identifiantProjet };
-
     const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
       appelOffre: candidature.appelOffre,
       famille: candidature.famille,
@@ -43,7 +38,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     });
 
     if (!soumisAuxGarantiesFinancières) {
-      return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
+      return <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjet} />;
     }
 
     const garantiesFinancières =
@@ -56,14 +51,14 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
-    const props = mapToProps({ ...garantiesFinancières, projet });
+    const props = mapToProps({ ...garantiesFinancières, identifiantProjet });
 
     return <ModifierGarantiesFinancièresActuellesPage {...props} />;
   });
 }
 
 const mapToProps = ({
-  projet,
+  identifiantProjet,
   garantiesFinancières: {
     type,
     dateÉchéance,
@@ -72,10 +67,10 @@ const mapToProps = ({
     dateConstitution,
     attestation,
   },
-}: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel & {
-  projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
+}: Omit<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel, 'identifiantProjet'> & {
+  identifiantProjet: string;
 }): ModifierGarantiesFinancièresActuellesProps => ({
-  projet,
+  identifiantProjet,
   typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
   actuelles: {
     type: type.type,

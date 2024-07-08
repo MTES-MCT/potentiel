@@ -8,7 +8,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import {
   EnregistrerAttestationGarantiesFinancièresPage,
-  EnregistrerAttestationGarantiesFinancièresProps,
+  EnregistrerAttestationGarantiesFinancièresPageProps,
 } from '@/components/pages/garanties-financières/actuelles/enregistrerAttestation/EnregistrerAttestationGarantiesFinancières.page';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
@@ -27,8 +27,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       data: { identifiantProjet },
     });
 
-    const projet = { ...candidature, identifiantProjet };
-
     const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
       appelOffre: candidature.appelOffre,
       famille: candidature.famille,
@@ -36,11 +34,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     });
 
     if (!soumisAuxGarantiesFinancières) {
-      return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
+      return <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjet} />;
     }
 
-    const props: EnregistrerAttestationGarantiesFinancièresProps = {
-      projet,
+    const props: EnregistrerAttestationGarantiesFinancièresPageProps = {
+      identifiantProjet,
     };
 
     return <EnregistrerAttestationGarantiesFinancièresPage {...props} />;

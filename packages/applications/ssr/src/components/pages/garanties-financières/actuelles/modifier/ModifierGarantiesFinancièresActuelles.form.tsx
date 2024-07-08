@@ -1,69 +1,56 @@
 'use client';
 
 import { FC, useState } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 import { useRouter } from 'next/navigation';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
+import { now } from '@potentiel-libraries/iso8601-datetime';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
-import { soumettreGarantiesFinancièresAction } from './dépôt/soumettre/soumettreGarantiesFinancières.action';
-import { modifierDépôtEnCoursGarantiesFinancièresAction } from './dépôt/modifier/modifierDépôtEnCoursGarantiesFinancières.action';
 import {
   TypeGarantiesFinancièresSelect,
   TypeGarantiesFinancièresSelectProps,
-} from './TypeGarantiesFinancièresSelect';
-import { enregistrerGarantiesFinancièresAction } from './actuelles/enregistrer/enregistrerGarantiesFinancières.action';
+} from '../../TypeGarantiesFinancièresSelect';
+import { GarantiesFinancièresActuelles } from '../../détails/components/GarantiesFinancièresActuelles';
 
-type Action =
-  | typeof soumettreGarantiesFinancièresAction
-  | typeof modifierDépôtEnCoursGarantiesFinancièresAction
-  | typeof enregistrerGarantiesFinancièresAction;
+import { modifierGarantiesFinancièresActuellesAction } from './modifierGarantiesFinancièresActuelles.action';
 
-export type FormulaireGarantiesFinancièresProps = {
+export type ModifierGarantiesFinancièresActuellesFormProps = {
   identifiantProjet: string;
-  action: Action;
-  submitButtonLabel: string;
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
-  defaultValues?: {
-    typeGarantiesFinancières?: TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel'];
-    dateÉchéance?: Iso8601DateTime;
-    dateConstitution?: Iso8601DateTime;
-    attestation?: string;
-  };
+  actuelles: GarantiesFinancièresActuelles;
 };
 
-export const FormulaireGarantiesFinancières: FC<FormulaireGarantiesFinancièresProps> = ({
-  identifiantProjet,
-  action,
-  submitButtonLabel,
-  typesGarantiesFinancières,
-  defaultValues,
-}) => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+export const ModifierGarantiesFinancièresActuellesForm: FC<
+  ModifierGarantiesFinancièresActuellesFormProps
+> = ({ typesGarantiesFinancières, actuelles, identifiantProjet }) => {
   const router = useRouter();
+  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+
   return (
     <Form
       method="POST"
       encType="multipart/form-data"
-      action={action}
+      action={modifierGarantiesFinancièresActuellesAction}
       onSuccess={() => router.push(Routes.GarantiesFinancières.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
     >
-      <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
+      <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
 
       <TypeGarantiesFinancièresSelect
         id="type"
         name="type"
-        typesGarantiesFinancières={typesGarantiesFinancières}
-        dateÉchéanceActuelle={defaultValues?.dateÉchéance}
-        typeGarantiesFinancièresActuel={defaultValues?.typeGarantiesFinancières}
         validationErrors={validationErrors}
+        typesGarantiesFinancières={typesGarantiesFinancières}
+        typeGarantiesFinancièresActuel={
+          actuelles.type as TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel']
+        }
+        dateÉchéanceActuelle={actuelles.dateÉchéance}
       />
 
       <InputDate
@@ -72,7 +59,7 @@ export const FormulaireGarantiesFinancières: FC<FormulaireGarantiesFinancières
           type: 'date',
           name: 'dateConstitution',
           max: now(),
-          defaultValue: defaultValues?.dateConstitution,
+          defaultValue: actuelles.dateConstitution,
           required: true,
           'aria-required': true,
         }}
@@ -85,7 +72,7 @@ export const FormulaireGarantiesFinancières: FC<FormulaireGarantiesFinancières
         name="attestation"
         required
         state={validationErrors.includes('attestation') ? 'error' : 'default'}
-        documentKey={defaultValues?.attestation}
+        documentKey={actuelles.attestation}
       />
 
       <div className="flex flex-col md:flex-row gap-4 mt-5">
@@ -98,7 +85,7 @@ export const FormulaireGarantiesFinancières: FC<FormulaireGarantiesFinancières
         >
           Retour au détail des garanties financières
         </Button>
-        <SubmitButton>{submitButtonLabel}</SubmitButton>
+        <SubmitButton>Modifier</SubmitButton>
       </div>
     </Form>
   );

@@ -1,5 +1,3 @@
-'use client';
-
 import { FC } from 'react';
 
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';

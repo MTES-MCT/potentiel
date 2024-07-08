@@ -2,13 +2,11 @@ import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import {
-  ConsulterCandidatureQuery,
-  ConsulterCandidatureReadModel,
-} from '@potentiel-domain/candidature';
+import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 import { AppelOffre, ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { StatutProjet } from '@potentiel-domain/common';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -42,8 +40,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjet },
       });
 
-      const projet = { ...candidature, identifiantProjet };
-
       const appelOffreDetails = await mediator.send<ConsulterAppelOffreQuery>({
         type: 'AppelOffre.Query.ConsulterAppelOffre',
         data: { identifiantAppelOffre: candidature.appelOffre },
@@ -56,7 +52,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       });
 
       if (!soumisAuxGarantiesFinancières) {
-        return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
+        return <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjet} />;
       }
 
       const garantiesFinancièresActuelles =
@@ -95,7 +91,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         );
 
       const props = mapToProps({
-        projet,
+        identifiantProjet,
         utilisateur,
         garantiesFinancièresActuelles,
         dépôtEnCoursGarantiesFinancières,
@@ -103,6 +99,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         mainlevée,
         appelOffreDetails,
         historiqueMainlevée,
+        statut: candidature.statut,
       });
 
       return <DétailsGarantiesFinancièresPage {...props} />;
@@ -111,7 +108,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 }
 
 type MapToProps = (args: {
-  projet: ConsulterCandidatureReadModel & { identifiantProjet: string };
+  identifiantProjet: string;
   utilisateur: AuthenticatedUserReadModel;
   garantiesFinancièresActuelles: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
@@ -119,10 +116,11 @@ type MapToProps = (args: {
   mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>;
   appelOffreDetails: AppelOffre;
   historiqueMainlevée: Option.Type<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel>;
+  statut: StatutProjet.RawType;
 }) => DétailsGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({
-  projet,
+  identifiantProjet,
   utilisateur,
   garantiesFinancièresActuelles,
   dépôtEnCoursGarantiesFinancières,
@@ -130,13 +128,14 @@ const mapToProps: MapToProps = ({
   mainlevée,
   appelOffreDetails,
   historiqueMainlevée,
+  statut,
 }) => {
   if (
     Option.isNone(garantiesFinancièresActuelles) &&
     Option.isNone(dépôtEnCoursGarantiesFinancières)
   ) {
     return {
-      projet,
+      identifiantProjet,
       action: utilisateur.role.estÉgaleÀ(Role.porteur)
         ? 'soumettre'
         : utilisateur.role.estÉgaleÀ(Role.admin) ||
@@ -176,7 +175,7 @@ const mapToProps: MapToProps = ({
     garantiesFinancièresActuelles.garantiesFinancières.attestation &&
     Option.isNone(dépôtEnCoursGarantiesFinancières) &&
     Option.isNone(mainlevée);
-  const projetAbandonne = projet.statut === 'abandonné';
+  const projetAbandonne = statut === 'abandonné';
   const projetAcheve = Option.isSome(achèvement);
   const mainlevéeDemandée = Option.isSome(mainlevée) && mainlevée.statut.estDemandé();
   const mainlevéeEnInstruction = Option.isSome(mainlevée) && mainlevée.statut.estEnInstruction();
@@ -221,7 +220,7 @@ const mapToProps: MapToProps = ({
     : undefined;
 
   return {
-    projet,
+    identifiantProjet,
     actuelles: Option.isSome(garantiesFinancièresActuelles)
       ? {
           type: getGarantiesFinancièresTypeLabel(

@@ -20,16 +20,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const projet: ModifierGarantiesFinancièresActuellesProps['projet'] = {
-  identifiantProjet: 'identifiantProjet#1',
-};
-
 const typesGarantiesFinancières: ModifierGarantiesFinancièresActuellesProps['typesGarantiesFinancières'] =
   typesGarantiesFinancièresSansInconnuPourFormulaire;
 
 export const Default: Story = {
   args: {
-    projet,
+    identifiantProjet: 'identifiantProjet#1',
     typesGarantiesFinancières,
     actuelles: {
       type: 'consignation',

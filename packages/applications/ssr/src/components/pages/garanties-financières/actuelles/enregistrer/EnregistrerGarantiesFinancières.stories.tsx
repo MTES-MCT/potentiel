@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import {
   EnregistrerGarantiesFinancièresPage,
   EnregistrerGarantiesFinancièresProps,
-} from './enregistrerGarantiesFinancières.page';
+} from './EnregistrerGarantiesFinancières.page';
 
 const meta = {
   title: 'Pages/Garanties-financières/Actuelles/Enregistrer',
@@ -32,13 +32,9 @@ const typesGarantiesFinancières: EnregistrerGarantiesFinancièresProps['typesGa
     },
   ];
 
-const projet: EnregistrerGarantiesFinancièresProps['projet'] = {
-  identifiantProjet: 'identifiantProjet#1',
-};
-
 export const Default: Story = {
   args: {
-    projet,
+    identifiantProjet: 'identifiantProjet#1',
     typesGarantiesFinancières,
   },
 };

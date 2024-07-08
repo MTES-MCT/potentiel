@@ -31,8 +31,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       data: { identifiantProjet },
     });
 
-    const projet = { ...candidature, identifiantProjet };
-
     const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
       appelOffre: candidature.appelOffre,
       famille: candidature.famille,
@@ -40,11 +38,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     });
 
     if (!soumisAuxGarantiesFinancières) {
-      return <ProjetNonSoumisAuxGarantiesFinancièresPage projet={projet} />;
+      return <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjet} />;
     }
 
     const props: SoumettreGarantiesFinancièresProps = {
-      projet,
+      identifiantProjet,
       typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
     };
 
@@ -55,7 +53,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       });
 
     return Option.isSome(dépôtGarantiesFinancières) ? (
-      <ProjetADéjàUnDépôtEnCoursPage projet={projet} />
+      <ProjetADéjàUnDépôtEnCoursPage identifiantProjet={identifiantProjet} />
     ) : (
       <SoumettreGarantiesFinancièresPage {...props} />
     );

@@ -1,78 +1,25 @@
-'use client';
-
-import { FC, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Button from '@codegouvfr/react-dsfr/Button';
-
-import { Routes } from '@potentiel-applications/routes';
-import { now } from '@potentiel-libraries/iso8601-datetime';
+import { FC } from 'react';
 
 import { PageTemplate } from '@/components/templates/Page.template';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
-import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { InputDate } from '@/components/atoms/form/InputDate';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 
-import { enregistrerAttestationGarantiesFinancièresAction } from './enregistrerAttestationGarantiesFinancières.action';
+import {
+  EnregistrerAttestationGarantiesFinancièresForm,
+  EnregistrerAttestationGarantiesFinancièresFormProps,
+} from './EnregistrerAttestationGarantiesFinancières.form';
 
-export type EnregistrerAttestationGarantiesFinancièresProps = {
-  projet: ProjetBannerProps;
-};
+export type EnregistrerAttestationGarantiesFinancièresPageProps =
+  EnregistrerAttestationGarantiesFinancièresFormProps;
 
 export const EnregistrerAttestationGarantiesFinancièresPage: FC<
-  EnregistrerAttestationGarantiesFinancièresProps
-> = ({ projet }) => {
-  const router = useRouter();
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
-
+  EnregistrerAttestationGarantiesFinancièresPageProps
+> = ({ identifiantProjet }) => {
   return (
-    <PageTemplate banner={<ProjetBanner {...projet} />}>
+    <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
       <TitrePageGarantiesFinancières title="Enregistrer l'attestation de constitution" />
-      <Form
-        method="POST"
-        encType="multipart/form-data"
-        action={enregistrerAttestationGarantiesFinancièresAction}
-        onSuccess={() => router.push(Routes.GarantiesFinancières.détail(projet.identifiantProjet))}
-        onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      >
-        <input type="hidden" name="identifiantProjet" value={projet.identifiantProjet} />
-
-        <InputDate
-          label="Date de constitution"
-          nativeInputProps={{
-            type: 'date',
-            name: 'dateConstitution',
-            max: now(),
-            required: true,
-            'aria-required': true,
-          }}
-          state={validationErrors.includes('dateConstitution') ? 'error' : 'default'}
-          stateRelatedMessage="Date de constitution des garanties financières obligatoire"
-        />
-
-        <UploadDocument
-          label="Attestation de constitution"
-          name="attestation"
-          required
-          state={validationErrors.includes('attestation') ? 'error' : 'default'}
-        />
-
-        <div className="flex flex-col md:flex-row gap-4 mt-5">
-          <Button
-            priority="secondary"
-            linkProps={{
-              href: Routes.GarantiesFinancières.détail(projet.identifiantProjet),
-            }}
-            iconId="fr-icon-arrow-left-line"
-          >
-            Retour au détail des garanties financières
-          </Button>
-          <SubmitButton>Enregistrer</SubmitButton>
-        </div>
-      </Form>
+      <EnregistrerAttestationGarantiesFinancièresForm identifiantProjet={identifiantProjet} />
     </PageTemplate>
   );
 };

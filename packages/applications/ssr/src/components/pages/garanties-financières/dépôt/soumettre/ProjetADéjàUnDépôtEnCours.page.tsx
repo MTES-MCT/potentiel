@@ -1,20 +1,20 @@
-'use client';
-
 import React, { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { CallOut } from '@/components/atoms/CallOut';
 
 export type ProjetADéjàUnDépôtEnCoursProps = {
-  projet: ProjetBannerProps;
+  identifiantProjet: string;
 };
 
-export const ProjetADéjàUnDépôtEnCoursPage: FC<ProjetADéjàUnDépôtEnCoursProps> = ({ projet }) => (
-  <PageTemplate banner={<ProjetBanner {...projet} />}>
+export const ProjetADéjàUnDépôtEnCoursPage: FC<ProjetADéjàUnDépôtEnCoursProps> = ({
+  identifiantProjet,
+}) => (
+  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
     <CallOut
       iconId="ri-information-line"
       title="Garanties financières en attente de validation"
@@ -26,7 +26,7 @@ export const ProjetADéjàUnDépôtEnCoursPage: FC<ProjetADéjàUnDépôtEnCours
             supprimer celles en attente.
           </p>
           <Button
-            linkProps={{ href: Routes.GarantiesFinancières.détail(projet.identifiantProjet) }}
+            linkProps={{ href: Routes.GarantiesFinancières.détail(identifiantProjet) }}
             className="mt-4"
           >
             Voir
