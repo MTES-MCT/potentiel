@@ -1,3 +1,4 @@
+'use client';
 import assert from 'assert';
 
 import SearchBar from '@codegouvfr/react-dsfr/SearchBar';

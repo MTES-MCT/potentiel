@@ -1,5 +1,3 @@
-'use client';
-
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
