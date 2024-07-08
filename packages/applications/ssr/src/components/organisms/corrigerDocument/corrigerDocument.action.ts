@@ -1,5 +1,7 @@
 'use server';
 
+import path from 'node:path';
+
 import * as zod from 'zod';
 
 import { copyFile, upload } from '@potentiel-libraries/file-storage';
@@ -30,7 +32,5 @@ const action: FormAction<FormState, typeof schema> = async (_, props) => {
 export const corrigerDocumentAction = formAction(action, schema);
 
 const splitFileName = (fileName: string) => {
-  const extension = fileName.split('.').pop();
-  const fileBaseName = fileName.replace(/\.[^/.]+$/, '');
-  return { fileBaseName, extension };
+  return { fileBaseName: path.dirname(fileName), extension: path.extname(fileName) };
 };
