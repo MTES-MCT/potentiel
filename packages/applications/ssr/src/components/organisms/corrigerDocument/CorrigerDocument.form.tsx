@@ -10,7 +10,7 @@ import { UploadDocument } from '../../atoms/form/UploadDocument';
 
 import { corrigerDocumentAction } from './corrigerDocument.action';
 
-type CorrigerDocumentModalFormProps = {
+type CorrigerDocumentFormProps = {
   documentKey: string;
   title?: string;
   buttonLabel?: string;
@@ -24,14 +24,14 @@ const defaultTitle = 'Corriger le document';
 const defaultConfirmationLabel = 'Êtes-vous sûr de vouloir corriger le document ?';
 const defaultUploadDocumentLabel = 'Fichier corrigé';
 
-export const CorrigerDocumentModalForm = ({
+export const CorrigerDocumentForm = ({
   documentKey,
   title = defaultTitle,
   buttonLabel = defaultButtonLabel,
   confirmationLabel = defaultConfirmationLabel,
   uploadDocumentLabel = defaultUploadDocumentLabel,
   onSuccess,
-}: CorrigerDocumentModalFormProps) => {
+}: CorrigerDocumentFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -48,7 +48,6 @@ export const CorrigerDocumentModalForm = ({
         onClose={() => setIsOpen(false)}
         form={{
           id: 'corriger-document-form',
-          method: 'post',
           encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
           onSuccess,

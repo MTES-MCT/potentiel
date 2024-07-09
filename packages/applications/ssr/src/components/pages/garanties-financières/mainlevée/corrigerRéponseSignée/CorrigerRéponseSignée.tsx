@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { CorrigerDocumentModalForm } from '@/components/organisms/corrigerDocument/CorrigerDocumentModalForm';
+import { CorrigerDocumentForm } from '@/components/organisms/corrigerDocument/CorrigerDocument.form';
 
 type CorrigerRéponseSignéeProps = {
   courrierRéponse: string;
@@ -18,7 +18,7 @@ export const CorrigerRéponseSignée = ({
   const router = useRouter();
 
   return (
-    <CorrigerDocumentModalForm
+    <CorrigerDocumentForm
       onSuccess={() => router.push(Routes.GarantiesFinancières.détail(identifiantProjet))}
       title="Télécharger une nouvelle réponse signée"
       uploadDocumentLabel="Nouvelle réponse signée"

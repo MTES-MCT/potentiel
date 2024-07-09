@@ -25,6 +25,7 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
   identifiantProjet,
 }) => {
   const nombreDeMainlevéesRejetées = historiqueMainlevée.historique.length;
+
   const items: TimelineProps['items'] = historiqueMainlevée.historique.map((mainlevéeRejetée) => ({
     status: 'warning',
     date: mainlevéeRejetée.rejet.rejetéLe,
@@ -42,13 +43,13 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
           url={Routes.Document.télécharger(mainlevéeRejetée.rejet.courrierRejet)}
         />
         {mainlevéeRejetée.rejet.courrierRejet &&
-          historiqueMainlevée.actions.includes('modifier-courrier-réponse-mainlevée-gf') && (
-            <CorrigerRéponseSignée
-              identifiantProjet={identifiantProjet}
-              courrierRéponse={mainlevéeRejetée.rejet.courrierRejet}
-              key={mainlevéeRejetée.rejet.rejetéLe}
-            />
-          )}
+        historiqueMainlevée.actions.includes('modifier-courrier-réponse-mainlevée-gf') ? (
+          <CorrigerRéponseSignée
+            identifiantProjet={identifiantProjet}
+            courrierRéponse={mainlevéeRejetée.rejet.courrierRejet}
+            key={mainlevéeRejetée.rejet.rejetéLe}
+          />
+        ) : null}
       </div>
     ),
   }));

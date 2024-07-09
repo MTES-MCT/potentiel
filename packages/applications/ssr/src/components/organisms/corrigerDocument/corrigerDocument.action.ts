@@ -19,7 +19,7 @@ const action: FormAction<FormState, typeof schema> = async (_, props) => {
 
   await copyFile(
     props.documentKey,
-    `${fileBaseName}.snapshot-${new Date().toISOString()}.${extension}`,
+    `${fileBaseName}/snapshot-${new Date().toISOString()}.${extension}`,
   );
 
   await upload(props.documentKey, props.documentCorrige.stream());
