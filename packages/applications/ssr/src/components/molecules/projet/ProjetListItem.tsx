@@ -23,6 +23,9 @@ export const ProjetListItem: FC<ProjetListItemProps> = (projet) => {
           <div className="italic text-xs text-grey-425-base">
             {identifiantProjetValue.formatter()}
           </div>
+          <div>
+            {projet.localité?.commune} - {projet.localité?.région}
+          </div>
         </div>
       </div>
 

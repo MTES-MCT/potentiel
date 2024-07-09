@@ -15,6 +15,7 @@ export type ListerCandidaturesListItemReadModel = {
   statut: StatutProjet.ValueType;
   nom: string;
   dateDésignation: DateTime.RawType;
+  localité: CandidatureEntity['localité'];
 };
 
 export type ListerCandidaturesReadModel = {
@@ -75,6 +76,7 @@ const mapToReadModel = ({
   période,
   statut,
   dateDésignation,
+  localité,
 }: CandidatureEntity): ListerCandidaturesListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(
     `${appelOffre}#${période}#${famille}#${numéroCRE}`,
@@ -86,4 +88,5 @@ const mapToReadModel = ({
   nom,
   statut: StatutProjet.convertirEnValueType(statut),
   dateDésignation,
+  localité,
 });

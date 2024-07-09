@@ -1,3 +1,5 @@
+import format from 'pg-format';
+
 import {
   CandidatureEntity,
   RécupérerCandidaturePort,
@@ -158,9 +160,12 @@ export const récupérerCandidaturesEligiblesPreuveRecanditureAdapter: Récupér
 const buildQueryByRole = (role: Role.RawType, query: string) => {
   switch (role) {
     case 'cre':
-    case 'dgec-validateur':
     case 'admin':
+    case 'dgec-validateur':
       return ['select', query, 'from projects p', 'where (1=1)'].join('\n');
+    case 'acheteur-obligé':
+    case 'caisse-des-dépôts':
+      return ['select', query, 'from projects p', 'where "notifiedOn">0'].join('\n');
     case 'porteur-projet':
       return [
         'select',
@@ -168,12 +173,22 @@ const buildQueryByRole = (role: Role.RawType, query: string) => {
         'from projects p',
         `inner join "UserProjects" up on p.id = up."projectId"`,
         `inner join "users" u on up."userId" = u.id`,
-        `where u."email" = $1`,
+        `where u."email" = %1$L AND "notifiedOn">0`,
+      ].join('\n');
+    case 'dreal':
+      return [
+        'select',
+        query,
+        'from projects p',
+        `inner join "UserDreal" ud on ud.dreal=up."regionProjet"`,
+        `inner join "users" u on ud."userId" = u.id`,
+        `where u."email" = %1$L AND "notifiedOn">0`,
       ].join('\n');
     default:
       throw new Error('not implemented');
   }
 };
+
 const addPagination = (sqlQuery: string, range: RangeOptions) => {
   return [
     sqlQuery,
@@ -187,7 +202,7 @@ const addSearch = (sqlQuery: string, search: string | undefined) => {
   if (!search) return sqlQuery;
   return [
     sqlQuery,
-    `AND  p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" = $2`,
+    `AND  p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" = %2$L`,
   ].join('\n');
 };
 
@@ -195,18 +210,21 @@ export const récupérerCandidaturesAdapter: RécupérerCandidaturesPort = async
   identifiantUtilisateur,
   role,
   range,
-  query,
+  search,
 ) => {
-  const values = query ? [query] : [];
+  const values = [identifiantUtilisateur, search];
+
   const results = await executeSelect<{ value: CandidatureEntity }>(
-    addPagination(addSearch(buildQueryByRole(role, selectCandidaturesQuerySelect), query), range),
-    identifiantUtilisateur,
-    ...values,
+    format(
+      addPagination(
+        addSearch(buildQueryByRole(role, selectCandidaturesQuerySelect), search),
+        range,
+      ),
+      ...values,
+    ),
   );
   const [{ total }] = await executeSelect<{ total: number }>(
-    addSearch(buildQueryByRole(role, 'count(*) as total'), query),
-    identifiantUtilisateur,
-    ...values,
+    format(addSearch(buildQueryByRole(role, 'count(*) as total'), search), ...values),
   );
 
   return { items: results.map((result) => result.value), total };

@@ -1,4 +1,5 @@
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { ListerCandidaturesQuery } from '@potentiel-domain/candidature';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -15,6 +16,10 @@ type PageProps = {
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
+      if (process.env.APPLICATION_STAGE !== 'local') {
+        return notFound();
+      }
+
       const identifiantProjet = searchParams?.identifiantProjet;
       const page = searchParams?.page ? parseInt(searchParams.page) : 1;
 

@@ -39,7 +39,6 @@ export const CandidaturesListPage: FC<CandidaturesListPageProps> = ({
       itemsPerPage={itemsPerPage}
       ItemComponent={ProjetListItem}
       filters={[]}
-      tagFilters={[]}
       search={{ label: 'Recherche par ID', params: 'identifiantProjet' }}
     />
   );
