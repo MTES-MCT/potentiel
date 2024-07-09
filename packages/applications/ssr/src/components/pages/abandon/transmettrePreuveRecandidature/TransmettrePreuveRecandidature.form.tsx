@@ -47,7 +47,7 @@ export const TransmettrePreuveRecandidatureForm: FC<TransmettrePreuveRecandidatu
   return (
     <Form
       action={transmettrePreuveRecandidatureAction}
-      method="post"
+      method="POST"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       onSuccess={() => router.push(Routes.Abandon.détail(identifiantProjet))}
     >

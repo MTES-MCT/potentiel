@@ -35,7 +35,7 @@ export const ModifierGestionnaireRéseauRaccordementForm: FC<
   return (
     <Form
       action={modifierGestionnaireRéseauRaccordementAction}
-      method="post"
+      method="POST"
       onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       heading="Modifier le gestionnaire de réseau du projet"

@@ -12,7 +12,7 @@ export const ImporterDatesMiseEnServiceForm: FC = () => {
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
   return (
     <Form
-      method="post"
+      method="POST"
       encType="multipart/form-data"
       action={importerDatesMiseEnServiceAction}
       heading="Importer des dates de mise en service"

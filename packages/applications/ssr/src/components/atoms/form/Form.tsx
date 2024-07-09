@@ -10,7 +10,8 @@ import { Heading2 } from '../headings';
 import { FormFeedback } from './FormFeedback';
 import { FormPendingModal, FormPendingModalProps } from './FormPendingModal';
 
-export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action'> & {
+export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action' | 'method'> & {
+  method?: 'POST';
   action: ReturnType<typeof formAction>;
   children: React.ReactNode;
   heading?: React.ReactNode;

@@ -34,7 +34,7 @@ export const ConfirmerAbandon = ({ identifiantProjet }: ConfirmerAbandonFormProp
         onClose={() => setIsOpen(false)}
         form={{
           action: confirmerAbandonAction,
-          method: 'post',
+          method: 'POST',
           id: 'confirmer-abandon-form',
           omitMandatoryFieldsLegend: true,
           onSuccess: () => router.refresh(),

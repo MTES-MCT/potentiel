@@ -17,7 +17,7 @@ export const AjouterGestionnaireRéseauForm = () => {
   return (
     <Form
       action={ajouterGestionnaireRéseauAction}
-      method="post"
+      method="POST"
       encType="multipart/form-data"
       onSuccess={() => router.push(Routes.Gestionnaire.lister)}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
