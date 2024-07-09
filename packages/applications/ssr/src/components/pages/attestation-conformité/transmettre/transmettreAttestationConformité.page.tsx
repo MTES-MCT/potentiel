@@ -11,11 +11,12 @@ import { transmettreAttestationConformitéAction } from './transmettreAttestatio
 export type TransmettreAttestationConformitéPageProps = {
   projet: ProjetBannerProps;
   peutDemanderMainlevée: boolean;
+  peutVoirMainlevée: boolean;
 };
 
 export const TransmettreAttestationConformitéPage: FC<
   TransmettreAttestationConformitéPageProps
-> = ({ projet, peutDemanderMainlevée }) => (
+> = ({ projet, peutDemanderMainlevée, peutVoirMainlevée }) => (
   <PageTemplate banner={<ProjetBanner {...projet} />}>
     <TitrePageAttestationConformité title="Transmettre l'attestation de conformité du projet" />
 
@@ -23,7 +24,7 @@ export const TransmettreAttestationConformitéPage: FC<
       identifiantProjet={projet.identifiantProjet}
       action={transmettreAttestationConformitéAction}
       submitButtonLabel="Transmettre"
-      demanderMainlevée={{ visible: true, canBeDone: peutDemanderMainlevée }}
+      demanderMainlevée={{ visible: peutVoirMainlevée, canBeDone: peutDemanderMainlevée }}
     />
   </PageTemplate>
 );

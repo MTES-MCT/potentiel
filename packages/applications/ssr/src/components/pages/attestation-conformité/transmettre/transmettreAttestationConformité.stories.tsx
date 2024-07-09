@@ -24,5 +24,6 @@ export const Default: Story = {
   args: {
     projet,
     peutDemanderMainlevée: false,
+    peutVoirMainlevée: true,
   },
 };
