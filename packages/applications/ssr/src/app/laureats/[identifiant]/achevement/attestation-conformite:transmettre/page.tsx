@@ -42,15 +42,17 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         },
       });
 
+    const peutVoirMainlevée = Option.isSome(garantiesFinancières);
+
     const peutDemanderMainlevée =
-      Option.isSome(garantiesFinancières) &&
-      garantiesFinancières.garantiesFinancières.attestation !== undefined;
+      peutVoirMainlevée && garantiesFinancières.garantiesFinancières.attestation !== undefined;
 
     const projet = { ...candidature, identifiantProjet };
 
     const props: TransmettreAttestationConformitéPageProps = {
       projet,
       peutDemanderMainlevée,
+      peutVoirMainlevée,
     };
 
     return <TransmettreAttestationConformitéPage {...props} />;

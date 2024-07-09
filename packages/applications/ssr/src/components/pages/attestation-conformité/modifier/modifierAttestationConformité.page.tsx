@@ -28,7 +28,7 @@ export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformit
       action={modifierAttestationConformitéAction}
       submitButtonLabel="Modifier"
       donnéesActuelles={attestationConformitéActuelle}
-      demanderMainlevée={{ visible: false }}
+      demanderMainlevée={{ visible: false, canBeDone: false }}
     />
   </PageTemplate>
 );

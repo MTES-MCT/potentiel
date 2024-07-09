@@ -30,11 +30,7 @@ export type FormulaireAttestationConformitéProps = {
     preuveTransmissionAuCocontractant: string;
     dateTransmissionAuCocontractant: Iso8601DateTime;
   };
-  demanderMainlevée:
-    | {
-        visible: false;
-      }
-    | { visible: true; canBeDone: boolean };
+  demanderMainlevée: { visible: boolean; canBeDone: boolean };
 };
 
 export const FormulaireAttestationConformité: FC<FormulaireAttestationConformitéProps> = ({
@@ -109,6 +105,21 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
 
         {demanderMainlevée.visible && (
           <>
+            <Checkbox
+              id="demanderMainlevee"
+              state={validationErrors.includes('demanderMainlevee') ? 'error' : 'default'}
+              options={[
+                {
+                  label: `Je souhaite demander une mainlevée de mes garanties financières`,
+                  nativeInputProps: {
+                    disabled: !demanderMainlevée.canBeDone,
+                    'aria-disabled': !demanderMainlevée.canBeDone,
+                    name: 'demanderMainlevee',
+                    value: 'true',
+                  },
+                },
+              ]}
+            />
             {!demanderMainlevée.canBeDone && (
               <Alert
                 severity="warning"
@@ -130,21 +141,6 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
                 }
               />
             )}
-            <Checkbox
-              id="demanderMainlevee"
-              state={validationErrors.includes('demanderMainlevee') ? 'error' : 'default'}
-              options={[
-                {
-                  label: `Je souhaite demander une mainlevée de mes garanties financières`,
-
-                  nativeInputProps: {
-                    disabled: !demanderMainlevée.canBeDone,
-                    name: 'demanderMainlevee',
-                    value: 'true',
-                  },
-                },
-              ]}
-            />
           </>
         )}
       </div>
