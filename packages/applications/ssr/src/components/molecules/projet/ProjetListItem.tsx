@@ -33,7 +33,12 @@ export const ProjetListItem: FC<ProjetListItemProps> = (projet) => {
         <ProjetLinks
           identifiantProjet={identifiantProjetValue.formatter()}
           title="Abandon"
-          links={['demander', 'détail', 'transmettrePreuveRecandidature']}
+          links={[
+            'demander',
+            'détail',
+            'transmettrePreuveRecandidature',
+            'téléchargerModèleRéponse',
+          ]}
         />
         <ProjetLinks
           identifiantProjet={identifiantProjetValue.formatter()}
@@ -52,6 +57,7 @@ export const ProjetListItem: FC<ProjetListItemProps> = (projet) => {
             'transmettreDemandeComplèteRaccordement',
             'détail',
             'modifierGestionnaireDeRéseau',
+            'importer',
           ]}
         />
       </div>
