@@ -41,7 +41,7 @@ export type GarantiesFinancièresActuellesProps = {
     >;
   };
   mainlevée?: MainlevéeEnCoursProps['mainlevée'];
-  historiqueMainlevée?: HistoriqueMainlevéeRejetéeProps['historique'];
+  historiqueMainlevée?: HistoriqueMainlevéeRejetéeProps['historiqueMainlevée'];
 };
 
 export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesProps> = ({
@@ -142,7 +142,7 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
         </div>
       }
     />
-    {(mainlevée || (historiqueMainlevée && historiqueMainlevée.length)) && (
+    {(mainlevée || (historiqueMainlevée && historiqueMainlevée.historique.length)) && (
       <CallOut
         className="flex-1"
         colorVariant={mainlevée?.statut === 'accordé' ? 'success' : 'warning'}
@@ -153,8 +153,11 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
               {mainlevée && (
                 <MainlevéeEnCours identifiantProjet={identifiantProjet} mainlevée={mainlevée} />
               )}
-              {historiqueMainlevée && historiqueMainlevée.length && (
-                <HistoriqueMainlevéeRejetée historique={historiqueMainlevée} />
+              {historiqueMainlevée && historiqueMainlevée.historique.length && (
+                <HistoriqueMainlevéeRejetée
+                  historiqueMainlevée={historiqueMainlevée}
+                  identifiantProjet={identifiantProjet}
+                />
               )}
             </div>
           </div>

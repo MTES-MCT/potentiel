@@ -22,8 +22,8 @@ import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/
 import { GarantiesFinancièresDépôtEnCoursProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresDépôtEnCours';
 import { GarantiesFinancièresActuellesProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresActuelles';
 import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
-
-import { MainlevéeEnCoursProps } from '../../../../components/pages/garanties-financières/détails/components/MainlevéeEnCours';
+import { MainlevéeEnCoursProps } from '@/components/pages/garanties-financières/détails/components/MainlevéeEnCours';
+import { HistoriqueMainlevéeRejetéeProps } from '@/components/pages/garanties-financières/détails/components/HistoriqueMainlevéeRejetée';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
@@ -162,6 +162,8 @@ const mapToProps: MapToProps = ({
   const garantiesFinancièresActuellesActions: GarantiesFinancièresActuellesProps['actuelles']['actions'] =
     [];
   const mainlevéeActions: MainlevéeEnCoursProps['mainlevée']['actions'] = [];
+  const historiqueMainlevéeActions: HistoriqueMainlevéeRejetéeProps['historiqueMainlevée']['actions'] =
+    [];
 
   const estAdminOuDGEC =
     utilisateur.role.estÉgaleÀ(Role.admin) || utilisateur.role.estÉgaleÀ(Role.dgecValidateur);
@@ -179,6 +181,9 @@ const mapToProps: MapToProps = ({
   const projetAcheve = Option.isSome(achèvement);
   const mainlevéeDemandée = Option.isSome(mainlevée) && mainlevée.statut.estDemandé();
   const mainlevéeEnInstruction = Option.isSome(mainlevée) && mainlevée.statut.estEnInstruction();
+  const mainlevéeAccordéeOuRefusée =
+    (Option.isSome(mainlevée) && mainlevée.statut.estAccordé()) ||
+    Option.isSome(historiqueMainlevée);
 
   if (estAdminOuDGEC || estDreal) {
     garantiesFinancièresActuellesActions.push('modifier');
@@ -205,19 +210,11 @@ const mapToProps: MapToProps = ({
     if (mainlevéeEnInstruction || mainlevéeDemandée) {
       mainlevéeActions.push('accorder-ou-rejeter-demande-mainlevée-gf');
     }
+    if (mainlevéeAccordéeOuRefusée) {
+      historiqueMainlevéeActions.push('modifier-courrier-réponse-mainlevée-gf');
+      mainlevéeActions.push('modifier-courrier-réponse-mainlevée-gf');
+    }
   }
-
-  const historique = Option.isSome(historiqueMainlevée)
-    ? historiqueMainlevée.historique.map((mainlevée) => ({
-        motif: mainlevée.motif.motif,
-        demandéeLe: mainlevée.demande.demandéeLe.formatter(),
-        rejet: {
-          rejetéLe: mainlevée.rejet.rejetéLe.formatter(),
-          rejetéPar: mainlevée.rejet.rejetéPar.email,
-          courrierRejet: mainlevée.rejet.courrierRejet.formatter(),
-        },
-      }))
-    : undefined;
 
   return {
     identifiantProjet,
@@ -275,7 +272,20 @@ const mapToProps: MapToProps = ({
           urlAppelOffre: appelOffreDetails.cahiersDesChargesUrl,
         }
       : undefined,
-    historiqueMainlevée: historique,
+    historiqueMainlevée: Option.isSome(historiqueMainlevée)
+      ? {
+          historique: historiqueMainlevée.historique.map((mainlevée) => ({
+            motif: mainlevée.motif.motif,
+            demandéeLe: mainlevée.demande.demandéeLe.formatter(),
+            rejet: {
+              rejetéLe: mainlevée.rejet.rejetéLe.formatter(),
+              rejetéPar: mainlevée.rejet.rejetéPar.email,
+              courrierRejet: mainlevée.rejet.courrierRejet.formatter(),
+            },
+          })),
+          actions: historiqueMainlevéeActions,
+        }
+      : undefined,
     afficherInfoConditionsMainlevée:
       utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainlevée),
   };

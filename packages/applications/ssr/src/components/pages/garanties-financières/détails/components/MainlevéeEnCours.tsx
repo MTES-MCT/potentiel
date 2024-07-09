@@ -14,6 +14,7 @@ import { RejeterDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/
 import { AnnulerDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/annuler/AnnulerDemandeMainlevéeGarantiesFinancières';
 import { StatutMainlevéeBadge } from '../../../../molecules/mainlevée/StatutMainlevéeBadge';
 import { DownloadDocument } from '../../../../atoms/form/DownloadDocument';
+import { CorrigerRéponseSignée } from '../../mainlevée/corrigerRéponseSignée/CorrigerRéponseSignée';
 
 export type MainlevéeEnCoursProps = {
   identifiantProjet: string;
@@ -33,6 +34,7 @@ export type MainlevéeEnCoursProps = {
       | 'instruire-demande-mainlevée-gf'
       | 'accorder-ou-rejeter-demande-mainlevée-gf'
       | 'annuler-demande-mainlevée-gf'
+      | 'modifier-courrier-réponse-mainlevée-gf'
     >;
   };
 };
@@ -70,13 +72,22 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, iden
           <FormattedDate className="font-semibold" date={mainlevée.accord.accordéeLe} />
         </div>
       )}
-      {mainlevée.accord.courrierAccord && (
-        <DownloadDocument
-          format="pdf"
-          label="Télécharger la réponse signée"
-          url={Routes.Document.télécharger(mainlevée.accord.courrierAccord)}
-        />
-      )}
+      <div className="flex flex-col gap-1 justify-center">
+        {mainlevée.accord.courrierAccord && (
+          <DownloadDocument
+            format="pdf"
+            label="Télécharger la réponse signée"
+            url={Routes.Document.télécharger(mainlevée.accord.courrierAccord)}
+          />
+        )}
+        {mainlevée.accord.courrierAccord &&
+          mainlevée.actions.includes('modifier-courrier-réponse-mainlevée-gf') && (
+            <CorrigerRéponseSignée
+              identifiantProjet={identifiantProjet}
+              courrierRéponse={mainlevée.accord.courrierAccord}
+            />
+          )}
+      </div>
     </div>
     <Actions
       identifiantProjet={identifiantProjet}
