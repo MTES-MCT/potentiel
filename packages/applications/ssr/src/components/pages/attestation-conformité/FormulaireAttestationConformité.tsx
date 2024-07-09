@@ -113,7 +113,7 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
                   label: `Je souhaite demander une mainlevée de mes garanties financières`,
                   nativeInputProps: {
                     disabled: !demanderMainlevée.canBeDone,
-                    "aria-disabled": !demanderMainlevée.canBeDone,
+                    'aria-disabled': !demanderMainlevée.canBeDone,
                     name: 'demanderMainlevee',
                     value: 'true',
                   },
