@@ -14,39 +14,48 @@ import { delayMiddleware } from './middlewares/delay.middleware';
 import { setupEliminé } from './setupEliminé';
 
 let unsubscribe: (() => Promise<void>) | undefined;
+let mutex: Promise<void> | undefined;
 
 export const bootstrap = async ({
   middlewares,
 }: {
   middlewares: Array<Middleware>;
 }): Promise<() => Promise<void>> => {
-  if (unsubscribe) {
-    return unsubscribe;
+  // if there's already a bootstrap operation in progress, wait for it to finish
+  if (mutex) {
+    await mutex;
   }
+  let resolveMutex: (() => void) | undefined;
+  mutex = new Promise((r) => (resolveMutex = r));
 
-  mediator.use({
-    middlewares: [logMiddleware, delayMiddleware, ...middlewares],
-  });
+  if (!unsubscribe) {
+    mediator.use({
+      middlewares: [logMiddleware, delayMiddleware, ...middlewares],
+    });
 
-  setupAppelOffre();
-  setupCandidature();
-  setupDocumentProjet();
-  const unsetupTâche = await setupTâche();
-  setupUtilisateur();
+    setupAppelOffre();
+    setupCandidature();
+    setupDocumentProjet();
+    const unsetupTâche = await setupTâche();
+    setupUtilisateur();
 
-  const unsetupEliminé = await setupEliminé();
-  const unsetupLauréat = await setupLauréat();
-  const unsetupGestionnaireRéseau = await setupRéseau();
+    const unsetupEliminé = await setupEliminé();
+    const unsetupLauréat = await setupLauréat();
+    const unsetupGestionnaireRéseau = await setupRéseau();
 
-  getLogger().info('Application bootstrapped');
+    getLogger().info('Application bootstrapped');
 
-  unsubscribe = async () => {
-    await unsetupEliminé();
-    await unsetupLauréat();
-    await unsetupGestionnaireRéseau();
-    await unsetupTâche();
-    unsubscribe = undefined;
-  };
-
+    unsubscribe = async () => {
+      await unsetupEliminé();
+      await unsetupLauréat();
+      await unsetupGestionnaireRéseau();
+      await unsetupTâche();
+      unsubscribe = undefined;
+    };
+  }
+  if (resolveMutex) {
+    resolveMutex();
+  }
+  mutex = undefined;
   return unsubscribe;
 };
