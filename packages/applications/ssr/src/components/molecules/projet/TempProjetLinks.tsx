@@ -43,6 +43,7 @@ export const ProjetLinks = <T extends keyof typeof Routes>({
         }}
       >
         {links.map((text) => (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           <Link href={(Routes[title][text] as any)(identifiantProjet)}>
             <MenuItem onClick={handleClose}>{text as string}</MenuItem>
           </Link>
