@@ -135,9 +135,7 @@ export const buildDocxDocument: GénérerModèleDocumentPort = async ({ type, lo
     try {
       const imageContents = fs.readFileSync(logoFilePath, 'binary');
       zip.file('word/media/image1.png', imageContents, { binary: true });
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   }
 
   const buf = doc.getZip().generate({
