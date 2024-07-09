@@ -216,6 +216,10 @@ const mapToProps: MapToProps = ({
     }
   }
 
+  const peutDemanderMainlevée =
+    garantiesFinancièresActuellesActions.includes('demander-mainlevée-gf-pour-projet-abandonné') ||
+    garantiesFinancièresActuellesActions.includes('demander-mainlevée-gf-pour-projet-achevé');
+
   return {
     identifiantProjet,
     actuelles: Option.isSome(garantiesFinancièresActuelles)
@@ -289,11 +293,6 @@ const mapToProps: MapToProps = ({
     afficherInfoConditionsMainlevée:
       utilisateur.role.estÉgaleÀ(Role.porteur) &&
       Option.isNone(mainlevée) &&
-      !(
-        garantiesFinancièresActuellesActions.includes(
-          'demander-mainlevée-gf-pour-projet-abandonné',
-        ) ||
-        garantiesFinancièresActuellesActions.includes('demander-mainlevée-gf-pour-projet-achevé')
-      ),
+      !peutDemanderMainlevée,
   };
 };
