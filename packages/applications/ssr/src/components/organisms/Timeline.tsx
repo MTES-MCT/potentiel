@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import MuiTimeline from '@mui/lab/Timeline';
 import MuiTimelineItem from '@mui/lab/TimelineItem';
 import TimelineConnector from '@mui/lab/TimelineConnector';
@@ -23,6 +23,9 @@ export const Timeline: FC<TimelineProps> = ({ items, className }) => (
       [`& .${timelineOppositeContentClasses.root}`]: {
         flex: 0.2,
         paddingLeft: 0,
+      },
+      '& .MuiTimelineItem-root:before': {
+        flex: 0,
       },
       paddingLeft: 0,
     }}

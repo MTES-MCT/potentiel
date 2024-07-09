@@ -36,7 +36,7 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
   }));
 
   return (
-    <div className="p-3 flex-1">
+    <div className="p-3 flex-1 flex flex-col items-start">
       <Heading3>Historique des mainlevées rejetées</Heading3>
       <div className="text-xs italic">
         {nombreDeMainlevéesRejetées} mainlevée{nombreDeMainlevéesRejetées > 1 && 's'} rejetée

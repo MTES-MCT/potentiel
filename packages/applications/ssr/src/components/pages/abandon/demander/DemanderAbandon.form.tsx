@@ -59,13 +59,11 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
       {showRecandidatureCheckBox && (
         <Checkbox
           className="mt-6"
-          legend="Option"
           id="recandidature"
           state={validationErrors.includes('recandidature') ? 'error' : 'default'}
           options={[
             {
               label: 'Je demande un abandon avec recandidature (optionnel)',
-              hintText: 'Cocher cette case pour signaler un abandon pour recandidature',
               nativeInputProps: {
                 name: 'recandidature',
                 value: 'true',
