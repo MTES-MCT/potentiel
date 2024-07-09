@@ -97,6 +97,10 @@ const mapToProps: MapToProps = ({
   identifiantProjet,
   utilisateur,
 }) => {
+  const roleCanEditRéférence =
+    utilisateur.role.estÉgaleÀ(Role.admin) || utilisateur.role.estÉgaleÀ(Role.dgecValidateur);
+  const porteurCanEditRéférence =
+    utilisateur.role.estÉgaleÀ(Role.porteur) && !dossierRaccordement.miseEnService;
   return {
     identifiantProjet: identifiantProjet.formatter(),
     raccordement: {
@@ -107,10 +111,7 @@ const mapToProps: MapToProps = ({
         accuséRéception:
           dossierRaccordement.demandeComplèteRaccordement.accuséRéception?.formatter(),
       },
-      canEditRéférence:
-        utilisateur.role.estÉgaleÀ(Role.admin) ||
-        utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
-        (utilisateur.role.estÉgaleÀ(Role.porteur) && !dossierRaccordement.miseEnService),
+      canEditRéférence: roleCanEditRéférence || porteurCanEditRéférence,
     },
     delaiDemandeDeRaccordementEnMois: appelOffre.periodes.find(
       (periode) => periode.id === identifiantProjet.période,

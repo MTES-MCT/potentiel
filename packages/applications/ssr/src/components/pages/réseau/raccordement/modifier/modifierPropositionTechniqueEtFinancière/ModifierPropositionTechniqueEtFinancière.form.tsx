@@ -46,7 +46,9 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
       heading="Modifier la proposition technique et financière"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
     >
-      <p className="my-2 p-0">Référence du dossier de raccordement : {reference}</p>
+      <div>
+        Référence du dossier de raccordement : <strong>{reference}</strong>
+      </div>
 
       <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
       <input type="hidden" name="referenceDossierRaccordement" value={reference} />
