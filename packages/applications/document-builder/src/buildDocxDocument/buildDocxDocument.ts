@@ -130,13 +130,6 @@ export const buildDocxDocument: GénérerModèleDocumentPort = async ({ type, lo
 
   doc.render(data);
 
-  const buf = doc.getZip().generate({
-    type: 'nodebuffer',
-    // compression: DEFLATE adds a compression step.
-    // For a 50MB output document, expect 500ms additional CPU time
-    compression: 'DEFLATE',
-  });
-
   if (logo) {
     const logoFilePath = path.resolve(imagesFolderPath, `${logo}.png`);
     try {
@@ -144,6 +137,13 @@ export const buildDocxDocument: GénérerModèleDocumentPort = async ({ type, lo
       zip.file('word/media/image1.png', imageContents, { binary: true });
     } catch (e) {}
   }
+
+  const buf = doc.getZip().generate({
+    type: 'nodebuffer',
+    // compression: DEFLATE adds a compression step.
+    // For a 50MB output document, expect 500ms additional CPU time
+    compression: 'DEFLATE',
+  });
 
   return new ReadableStream({
     start: async (controller) => {
