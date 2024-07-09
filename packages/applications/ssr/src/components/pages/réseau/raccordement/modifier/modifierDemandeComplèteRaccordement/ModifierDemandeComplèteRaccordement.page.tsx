@@ -15,12 +15,10 @@ import {
   ModifierDemandeComplèteRaccordementFormProps,
 } from './ModifierDemandeComplèteRaccordement.form';
 
-export type ModifierDemandeComplèteRaccordementPageProps = {
-  identifiantProjet: ModifierDemandeComplèteRaccordementFormProps['identifiantProjet'];
-  raccordement: ModifierDemandeComplèteRaccordementFormProps['raccordement'];
-  gestionnaireRéseauActuel: ModifierDemandeComplèteRaccordementFormProps['gestionnaireRéseauActuel'];
-  delaiDemandeDeRaccordementEnMois: InformationDemandeComplèteRaccordementProps['delaiDemandeDeRaccordementEnMois'];
-};
+export type ModifierDemandeComplèteRaccordementPageProps =
+  ModifierDemandeComplèteRaccordementFormProps & {
+    delaiDemandeDeRaccordementEnMois: InformationDemandeComplèteRaccordementProps['delaiDemandeDeRaccordementEnMois'];
+  };
 
 export const ModifierDemandeComplèteRaccordementPage: FC<
   ModifierDemandeComplèteRaccordementPageProps
@@ -39,7 +37,6 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
           identifiantProjet={identifiantProjet}
           gestionnaireRéseauActuel={gestionnaireRéseauActuel}
           raccordement={raccordement}
-          canEditRéférence={false}
         />
       ),
     }}

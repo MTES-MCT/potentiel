@@ -13,9 +13,6 @@ import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
-import { GestionnaireRéseauSelect } from '../modifierGestionnaireRéseauRaccordement/GestionnaireRéseauSelect';
-
-import { ModifierDemandeComplèteRaccordementPageProps } from './ModifierDemandeComplèteRaccordement.page';
 import { modifierDemandeComplèteRaccordementAction } from './modifierDemandeComplèteRaccordement.action';
 
 export type ModifierDemandeComplèteRaccordementFormProps = {
@@ -37,7 +34,6 @@ export type ModifierDemandeComplèteRaccordementFormProps = {
       expressionReguliere: string;
     };
   };
-  canEditRéférence: ModifierDemandeComplèteRaccordementPageProps['raccordement']['canEditRéférence'];
 };
 
 export const ModifierDemandeComplèteRaccordementForm: FC<
@@ -48,8 +44,8 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
   raccordement: {
     référence,
     demandeComplèteRaccordement: { accuséRéception, dateQualification },
+    canEditRéférence,
   },
-  canEditRéférence,
 }) => {
   const router = useRouter();
 
@@ -57,6 +53,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
 
   const { aideSaisieRéférenceDossierRaccordement, identifiantGestionnaireRéseau } =
     gestionnaireRéseauActuel;
+
   return (
     <Form
       method="POST"
@@ -68,48 +65,60 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
       <input name="referenceDossierRaccordementActuelle" type="hidden" value={référence} />
-
-      <GestionnaireRéseauSelect
-        id="identifiantGestionnaireReseau"
+      <input
         name="identifiantGestionnaireReseau"
-        disabled
-        identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseau}
-        gestionnairesRéseau={[gestionnaireRéseauActuel]}
-        state={validationErrors.includes('identifiantGestionnaireReseau') ? 'error' : 'default'}
+        type="hidden"
+        value={identifiantGestionnaireRéseau}
       />
 
-      <Input
-        id="referenceDossierRaccordement"
-        label="Référence du dossier de raccordement du projet *"
-        hintText={
-          aideSaisieRéférenceDossierRaccordement && (
-            <>
-              {aideSaisieRéférenceDossierRaccordement.format !== '' && (
-                <div className="m-0">
-                  Format attendu : {aideSaisieRéférenceDossierRaccordement.format}
-                </div>
-              )}
-              {aideSaisieRéférenceDossierRaccordement.légende !== '' && (
-                <div className="m-0 italic">
-                  Exemple : {aideSaisieRéférenceDossierRaccordement.légende}
-                </div>
-              )}
-            </>
-          )
-        }
-        state={validationErrors.includes('referenceDossierRaccordement') ? 'error' : 'default'}
-        nativeInputProps={{
-          type: 'text',
-          name: 'referenceDossierRaccordement',
-          placeholder: aideSaisieRéférenceDossierRaccordement?.format
-            ? `Exemple: ${aideSaisieRéférenceDossierRaccordement?.format}`
-            : `Renseigner l'identifiant`,
-          required: true,
-          readOnly: !canEditRéférence,
-          defaultValue: référence ?? '',
-          pattern: aideSaisieRéférenceDossierRaccordement?.expressionReguliere || undefined,
-        }}
-      />
+      <div>
+        Gestionnaire réseau :{' '}
+        <strong>
+          {gestionnaireRéseauActuel.raisonSociale} (
+          {gestionnaireRéseauActuel.identifiantGestionnaireRéseau})
+        </strong>
+      </div>
+
+      {!canEditRéférence ? (
+        <>
+          <input name="referenceDossierRaccordement" type="hidden" value={référence} />
+          <div>
+            Référence du dossier de raccordement du projet : <strong>{référence}</strong>
+          </div>
+        </>
+      ) : (
+        <Input
+          id="referenceDossierRaccordement"
+          label="Référence du dossier de raccordement du projet *"
+          hintText={
+            aideSaisieRéférenceDossierRaccordement && (
+              <>
+                {aideSaisieRéférenceDossierRaccordement.format !== '' && (
+                  <div className="m-0">
+                    Format attendu : {aideSaisieRéférenceDossierRaccordement.format}
+                  </div>
+                )}
+                {aideSaisieRéférenceDossierRaccordement.légende !== '' && (
+                  <div className="m-0 italic">
+                    Exemple : {aideSaisieRéférenceDossierRaccordement.légende}
+                  </div>
+                )}
+              </>
+            )
+          }
+          state={validationErrors.includes('referenceDossierRaccordement') ? 'error' : 'default'}
+          nativeInputProps={{
+            type: 'text',
+            name: 'referenceDossierRaccordement',
+            placeholder: aideSaisieRéférenceDossierRaccordement?.format
+              ? `Exemple: ${aideSaisieRéférenceDossierRaccordement?.format}`
+              : `Renseigner l'identifiant`,
+            required: true,
+            defaultValue: référence ?? '',
+            pattern: aideSaisieRéférenceDossierRaccordement?.expressionReguliere || undefined,
+          }}
+        />
+      )}
 
       <UploadDocument
         label="Accusé de réception de la demande complète de raccordement **"
