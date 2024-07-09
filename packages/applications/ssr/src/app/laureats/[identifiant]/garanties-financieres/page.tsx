@@ -287,6 +287,13 @@ const mapToProps: MapToProps = ({
         }
       : undefined,
     afficherInfoConditionsMainlevée:
-      utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainlevée),
+      utilisateur.role.estÉgaleÀ(Role.porteur) &&
+      Option.isNone(mainlevée) &&
+      !(
+        garantiesFinancièresActuellesActions.includes(
+          'demander-mainlevée-gf-pour-projet-abandonné',
+        ) ||
+        garantiesFinancièresActuellesActions.includes('demander-mainlevée-gf-pour-projet-achevé')
+      ),
   };
 };

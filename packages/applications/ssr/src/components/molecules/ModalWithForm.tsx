@@ -63,7 +63,7 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
     <modal.Component title={title}>
       <Form {...form} onSuccess={onFormSuccess} key={id}>
         {form.children}
-        <div className="flex flex-col md:flex-row gap-4 mt-5">
+        <div className="flex flex-col md:flex-row gap-4 mt-1">
           <Button priority="secondary" onClick={handleRejectClick} type="button">
             {rejectButtonLabel}
           </Button>
