@@ -79,14 +79,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
         </strong>
       </div>
 
-      {!canEditRéférence ? (
-        <>
-          <input name="referenceDossierRaccordement" type="hidden" value={référence} />
-          <div>
-            Référence du dossier de raccordement du projet : <strong>{référence}</strong>
-          </div>
-        </>
-      ) : (
+      {canEditRéférence ? (
         <Input
           id="referenceDossierRaccordement"
           label="Référence du dossier de raccordement du projet *"
@@ -118,6 +111,13 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
             pattern: aideSaisieRéférenceDossierRaccordement?.expressionReguliere || undefined,
           }}
         />
+      ) : (
+        <>
+          <input name="referenceDossierRaccordement" type="hidden" value={référence} />
+          <div>
+            Référence du dossier de raccordement du projet : <strong>{référence}</strong>
+          </div>
+        </>
       )}
 
       <UploadDocument
