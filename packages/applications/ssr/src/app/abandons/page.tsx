@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
+import { z } from 'zod';
 
 import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { Abandon } from '@potentiel-domain/laureat';
@@ -22,29 +23,23 @@ export const metadata: Metadata = {
   description: 'Liste des abandons de projet',
 };
 
+const paramsSchema = z.object({
+  page: z.coerce.number().int().optional().default(1),
+  recandidature: z
+    .string()
+    .optional()
+    .transform((v) => (v === 'true' ? true : v === 'false' ? false : undefined)),
+  nomProjet: z.string().optional(),
+  appelOffre: z.string().optional(),
+  statut: z.enum(Abandon.StatutAbandon.statuts).optional(),
+  preuveRecandidatureStatut: z.enum(Abandon.StatutPreuveRecandidature.statuts).optional(),
+});
+
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const page = searchParams?.page ? parseInt(searchParams.page) : 1;
-
-      const recandidature =
-        searchParams?.recandidature !== undefined
-          ? searchParams.recandidature === 'true'
-          : undefined;
-
-      const statut = searchParams?.statut
-        ? Abandon.StatutAbandon.convertirEnValueType(searchParams.statut).statut
-        : undefined;
-
-      const appelOffre = searchParams?.appelOffre;
-
-      const preuveRecandidatureStatut = searchParams?.preuveRecandidatureStatut
-        ? Abandon.StatutPreuveRecandidature.convertirEnValueType(
-            searchParams.preuveRecandidatureStatut,
-          ).statut
-        : undefined;
-
-      const nomProjet = searchParams ? searchParams['nomProjet'] : '';
+      const { page, recandidature, nomProjet, appelOffre, statut, preuveRecandidatureStatut } =
+        paramsSchema.parse(searchParams);
 
       const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
         type: 'Lauréat.Abandon.Query.ListerAbandons',

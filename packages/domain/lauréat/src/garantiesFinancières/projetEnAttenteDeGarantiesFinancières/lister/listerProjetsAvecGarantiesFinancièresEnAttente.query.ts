@@ -49,7 +49,7 @@ export type ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies = {
 };
 
 const mapToWhereEqual = <T>(value: T | undefined) =>
-  value
+  value !== undefined
     ? {
         operator: 'equal' as const,
         value,
