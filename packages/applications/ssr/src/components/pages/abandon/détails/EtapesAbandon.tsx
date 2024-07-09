@@ -55,7 +55,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
 }) => {
   const items: TimelineProps['items'] = [];
 
-  if (preuveRecandidatureStatut === 'en-attente') {
+  if (preuveRecandidatureStatut === 'en-attente' && accord) {
     items.push({
       status: 'warning',
       date: 'En attente',
