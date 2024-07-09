@@ -11,7 +11,7 @@ import { AbandonEntity } from '../abandon.entity';
  * @todo A voir si on généralise cette pratique et si on déplace ça dans le package core ou un nouveau package entity
  */
 const mapToWhereEqual = <T>(value: T | undefined) =>
-  value
+  value !== undefined
     ? {
         operator: 'equal' as const,
         value,
@@ -19,7 +19,7 @@ const mapToWhereEqual = <T>(value: T | undefined) =>
     : undefined;
 
 const mapToWhereLike = (value: string | undefined) =>
-  value
+  value !== undefined
     ? {
         operator: 'like' as const,
         value: `%${value}%` as `%${string}%`,

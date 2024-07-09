@@ -92,7 +92,7 @@ const mapToReadModel = (projection: RecoursEntity): RecoursListItemReadModel => 
 };
 
 const mapToWhereEqual = <T>(value: T | undefined) =>
-  value ? { operator: 'equal' as const, value } : undefined;
+  value !== undefined ? { operator: 'equal' as const, value } : undefined;
 
 const getIdentifiantProjetWhereCondition = async (
   listerIdentifiantsProjetsAccessiblesPort: CommonPort.ListerIdentifiantsProjetsAccessiblesPort,
