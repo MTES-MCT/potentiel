@@ -44,7 +44,7 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
   return (
     <Form
       action={modifierGestionnaireRéseauAction}
-      method="post"
+      method="POST"
       encType="multipart/form-data"
       onSuccess={() => router.push(Routes.Gestionnaire.lister)}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
@@ -112,7 +112,7 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
         id="expressionReguliere"
         nativeInputProps={{
           name: 'expressionReguliere',
-          value: expressionReguliereValue,
+          defaultValue: expressionReguliereValue,
         }}
         state={validationErrors.includes('expressionReguliere') ? 'error' : 'default'}
         stateRelatedMessage="Expression régulière à préciser"

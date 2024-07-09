@@ -38,7 +38,7 @@ export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) =
         onClose={() => setIsOpen(false)}
         form={{
           action: rejeterAbandonAction,
-          method: 'post',
+          method: 'POST',
           encType: 'multipart/form-data',
           id: 'rejeter-abandon-form',
           onSuccess: () => router.refresh(),

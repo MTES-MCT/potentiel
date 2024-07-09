@@ -30,7 +30,7 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
   return (
     <Form
       action={demanderAbandonAction}
-      method="post"
+      method="POST"
       encType="multipart/form-data"
       onSuccess={() => router.push(Routes.Abandon.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}

@@ -37,7 +37,7 @@ export const AccorderDemandeMainlevéeGarantiesFinancières = ({
         onClose={() => setIsOpen(false)}
         form={{
           action: accorderDemandeMainlevéeGarantiesFinancièresAction,
-          method: 'post',
+          method: 'POST',
           encType: 'multipart/form-data',
           onSuccess: () => router.push(Routes.GarantiesFinancières.détail(identifiantProjet)),
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),

@@ -37,7 +37,7 @@ export const DémarrerInstructionDemandeMainlevéeGarantiesFinancières = ({
         onClose={() => setIsOpen(false)}
         form={{
           action: démarrerInstructionDemandeMainlevéeGarantiesFinancièresAction,
-          method: 'post',
+          method: 'POST',
           encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
           onSuccess: () => router.push(Routes.GarantiesFinancières.détail(identifiantProjet)),

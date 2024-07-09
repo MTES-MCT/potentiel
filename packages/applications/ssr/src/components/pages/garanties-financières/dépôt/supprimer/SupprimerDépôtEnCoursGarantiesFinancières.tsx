@@ -34,7 +34,7 @@ export const SupprimerDépôtEnCoursGarantiesFinancières = ({
         onClose={() => setIsOpen(false)}
         form={{
           id: 'supprimer-garanties-financieres-a-traiter-form',
-          method: 'post',
+          method: 'POST',
           encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
           onSuccess: () => router.push(Routes.GarantiesFinancières.détail(identifiantProjet)),

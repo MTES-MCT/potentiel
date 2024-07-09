@@ -34,7 +34,7 @@ export const AnnulerDemandeMainlevéeGarantiesFinancières = ({
         onClose={() => setIsOpen(false)}
         form={{
           action: annulerDemandeMainlevéeGarantiesFinancièresAction,
-          method: 'post',
+          method: 'POST',
           encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
           onSuccess: () => router.push(Routes.GarantiesFinancières.détail(identifiantProjet)),

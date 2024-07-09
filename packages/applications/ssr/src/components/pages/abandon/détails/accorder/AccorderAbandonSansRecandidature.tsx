@@ -41,7 +41,7 @@ export const AccorderAbandonSansRecandidature = ({
         onClose={() => setIsOpen(false)}
         form={{
           action: accorderAbandonSansRecandidatureAction,
-          method: 'post',
+          method: 'POST',
           encType: 'multipart/form-data',
           id: 'accorder-abandon-form',
           onSuccess: () => router.push(Routes.Abandon.détail(identifiantProjet)),

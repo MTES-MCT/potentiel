@@ -39,7 +39,7 @@ export const AccorderAbandonAvecRecandidature = ({
         form={{
           id: 'accorder-abandon-avec-recandidature-form',
           action: accorderAbandonAvecRecandidatureAction,
-          method: 'post',
+          method: 'POST',
           encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
           onSuccess: () => router.push(Routes.Abandon.détail(identifiantProjet)),

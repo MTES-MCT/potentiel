@@ -35,7 +35,7 @@ export const ValiderDépôtEnCoursGarantiesFinancières = ({
         form={{
           id: 'valider-garanties-financieres-a-traiter-form',
           action: validerDépôtEnCoursGarantiesFinancièresAction,
-          method: 'post',
+          method: 'POST',
           encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
           onSuccess: () => router.push(Routes.GarantiesFinancières.détail(identifiantProjet)),
