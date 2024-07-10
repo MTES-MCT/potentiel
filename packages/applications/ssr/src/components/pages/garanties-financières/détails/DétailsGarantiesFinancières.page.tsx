@@ -80,7 +80,13 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
                   </li>
                   <li>
                     L'attestation de conformité a été transmise dans Potentiel ou le projet est
-                    abandonné (abandon accordé par la DGEC)
+                    abandonné (abandon accordé par la DGEC). Vous pouvez la transmettre{' '}
+                    <Link
+                      href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}
+                      className="font-semibold"
+                    >
+                      ici
+                    </Link>
                   </li>
                 </ul>
               </div>
