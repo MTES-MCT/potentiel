@@ -1,5 +1,7 @@
 import fs from 'fs';
 import moment from 'moment';
+import { Option } from '@potentiel-libraries/monads';
+
 import {
   acceptModificationRequest,
   ensureRole,
@@ -156,82 +158,86 @@ v1Router.post(
         versionDate: new Date(Number(versionDate)),
         acceptanceParams,
         submittedBy: request.user,
-      }).match(async () => {
-        if (type === 'recours' || type === 'producteur') {
-          try {
-            const modificationRequest = await ModificationRequest.findByPk(modificationRequestId);
-            if (!modificationRequest) {
-              return notFoundResponse({ request, response });
-            }
-            const projet = await Project.findByPk(modificationRequest.projectId);
-            if (!projet) {
-              return notFoundResponse({ request, response });
-            }
-            const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
-              `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
-            ).formatter();
+      }).match(
+        async () => {
+          if (type === 'recours' || type === 'producteur') {
+            try {
+              const modificationRequest = await ModificationRequest.findByPk(modificationRequestId);
+              if (!modificationRequest) {
+                return notFoundResponse({ request, response });
+              }
+              const projet = await Project.findByPk(modificationRequest.projectId);
+              if (!projet) {
+                return notFoundResponse({ request, response });
+              }
+              const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
+                `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
+              ).formatter();
 
-            const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
-              type: 'AppelOffre.Query.ConsulterAppelOffre',
-              data: { identifiantAppelOffre: projet.appelOffreId },
-            });
+              const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
+                type: 'AppelOffre.Query.ConsulterAppelOffre',
+                data: { identifiantAppelOffre: projet.appelOffreId },
+              });
 
-            if (
-              isSoumisAuxGF({ appelOffres, famille: projet.familleId, période: projet.periodeId })
-            ) {
-              const dateActuelle = new Date();
-              if (type === 'producteur') {
-                try {
-                  const garantiesFinancières =
-                    await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-                      type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-                      data: {
-                        identifiantProjetValue,
-                      },
-                    });
-                  if (garantiesFinancières) {
-                    await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresUseCase>(
-                      {
-                        type: 'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
+              if (
+                isSoumisAuxGF({ appelOffres, famille: projet.familleId, période: projet.periodeId })
+              ) {
+                const dateActuelle = new Date();
+                if (type === 'producteur') {
+                  try {
+                    const garantiesFinancières =
+                      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+                        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
                         data: {
                           identifiantProjetValue,
-                          effacéLeValue: dateActuelle.toISOString(),
-                          effacéParValue: request.user.email,
                         },
-                      },
-                    );
-                  }
-                } catch (error) {}
+                      });
+
+                    if (Option.isSome(garantiesFinancières)) {
+                      await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresUseCase>(
+                        {
+                          type: 'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
+                          data: {
+                            identifiantProjetValue,
+                            effacéLeValue: dateActuelle.toISOString(),
+                            effacéParValue: request.user.email,
+                          },
+                        },
+                      );
+                    }
+                  } catch (error) {}
+                }
+                await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
+                  type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
+                  data: {
+                    demandéLeValue: dateActuelle.toISOString(),
+                    identifiantProjetValue,
+                    dateLimiteSoumissionValue: new Date(
+                      dateActuelle.setMonth(dateActuelle.getMonth() + 2),
+                    ).toISOString(),
+                    motifValue:
+                      type === 'recours'
+                        ? GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé.motif
+                        : GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur
+                            .motif,
+                  },
+                });
               }
-              await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
-                type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
-                data: {
-                  demandéLeValue: dateActuelle.toISOString(),
-                  identifiantProjetValue,
-                  dateLimiteSoumissionValue: new Date(
-                    dateActuelle.setMonth(dateActuelle.getMonth() + 2),
-                  ).toISOString(),
-                  motifValue:
-                    type === 'recours'
-                      ? GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé.motif
-                      : GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur
-                          .motif,
-                },
-              });
+            } catch (e) {
+              logger.error(e);
+              return errorResponse({ request, response });
             }
-          } catch (e) {
-            logger.error(e);
-            return errorResponse({ request, response });
           }
-        }
-        return response.redirect(
-          routes.SUCCESS_OR_ERROR_PAGE({
-            success: 'Votre réponse a bien été enregistrée.',
-            redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
-            redirectTitle: 'Retourner à la demande',
-          }),
-        );
-      }, _handleErrors(request, response, modificationRequestId));
+          return response.redirect(
+            routes.SUCCESS_OR_ERROR_PAGE({
+              success: 'Votre réponse a bien été enregistrée.',
+              redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+              redirectTitle: 'Retourner à la demande',
+            }),
+          );
+        },
+        _handleErrors(request, response, modificationRequestId),
+      );
     }
 
     if (confirmReply) {
