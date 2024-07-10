@@ -128,13 +128,13 @@ export const GarantiesFinancièresActuelles: FC<GarantiesFinancièresActuellesPr
                 </div>
               )}
               <div>
-                {attestation && (
+                {/* {attestation && (
                   <DownloadDocument
                     format="pdf"
                     label="Télécharger l'attestation de constitution"
                     url={Routes.Document.télécharger(attestation)}
                   />
-                )}
+                )} */}
               </div>
             </div>
             <Actions identifiantProjet={identifiantProjet} actions={actions} />
@@ -171,6 +171,7 @@ type ActionsProps = {
   identifiantProjet: GarantiesFinancièresActuellesProps['identifiantProjet'];
   actions: GarantiesFinancièresActuellesProps['actuelles']['actions'];
 };
+
 const Actions: FC<ActionsProps> = ({ identifiantProjet, actions }) => {
   return (
     <div className="flex flex-col md:flex-row gap-4">

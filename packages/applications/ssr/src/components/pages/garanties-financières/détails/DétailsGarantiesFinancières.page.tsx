@@ -1,24 +1,18 @@
 import { FC } from 'react';
-import Link from 'next/link';
 
-import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
+import { GarantiesFinancières } from '../../../organisms/garantiesFinancières/GarantiesFinancières';
 
-import {
-  GarantiesFinancièresActuelles,
-  GarantiesFinancièresActuellesProps,
-} from './components/GarantiesFinancièresActuelles';
-import {
-  GarantiesFinancièresDépôtEnCours,
-  GarantiesFinancièresDépôtEnCoursProps,
-} from './components/GarantiesFinancièresDépôtEnCours';
+import { GarantiesFinancièresActuellesProps } from './components/GarantiesFinancièresActuelles';
+import { GarantiesFinancièresDépôtEnCoursProps } from './components/GarantiesFinancièresDépôtEnCours';
 import { InfoBoxMainlevée } from './components/InfoBoxMainlevée';
 import { InfoBoxSoumettreGarantiesFinancières } from './components/InfoBoxSoummettreGarantiesFinancières';
+import { GarantiesFinancièresManquantes } from './components/GarantiesFinancièresManquantes';
 
 export type DétailsGarantiesFinancièresPageProps = {
   identifiantProjet: string;
@@ -31,6 +25,8 @@ export type DétailsGarantiesFinancièresPageProps = {
   action?: 'soumettre' | 'enregistrer';
 };
 
+// meilleure gestion des actions à prévoir
+
 export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancièresPageProps> = ({
   identifiantProjet,
   actuelles,
@@ -42,59 +38,32 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
 }) => (
   <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
     <TitrePageGarantiesFinancières title="Détail des garanties financières" />
-    {actuelles || dépôtEnCours ? (
-      <>
-        <div className="flex flex-col lg:flex-row gap-4">
-          {actuelles && (
-            <GarantiesFinancièresActuelles
-              actuelles={actuelles}
-              identifiantProjet={identifiantProjet}
-              mainlevée={mainlevée}
-              historiqueMainlevée={historiqueMainlevée}
-            />
-          )}
-
-          {dépôtEnCours && (
-            <GarantiesFinancièresDépôtEnCours
-              dépôt={dépôtEnCours}
-              identifiantProjet={identifiantProjet}
-            />
-          )}
-        </div>
-        {afficherInfoConditionsMainlevée && <InfoBoxMainlevée />}
-        {action === 'soumettre' && (
-          <InfoBoxSoumettreGarantiesFinancières identifiantProjet={identifiantProjet} />
+    <>
+      <div className="flex flex-col lg:flex-row gap-4">
+        {actuelles && (
+          <GarantiesFinancières
+            garantiesFinancières={actuelles}
+            identifiantProjet={identifiantProjet}
+            actions={actuelles.actions}
+            mainlevée={mainlevée}
+            historiqueMainlevée={historiqueMainlevée}
+          />
         )}
-      </>
-    ) : (
-      <p>
-        Aucune garanties financières pour ce projet.
-        {action === 'soumettre' && (
-          <>
-            {' '}
-            Vous pouvez en{' '}
-            <Link
-              href={Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet)}
-              className="font-semibold"
-            >
-              soumettre des nouvelles
-            </Link>{' '}
-            qui seront validées par l'autorité compétente
-          </>
+        {dépôtEnCours && (
+          <GarantiesFinancières
+            garantiesFinancières={dépôtEnCours}
+            identifiantProjet={identifiantProjet}
+            actions={dépôtEnCours?.actions}
+            mainlevée={mainlevée}
+            historiqueMainlevée={historiqueMainlevée}
+          />
         )}
-        {action === 'enregistrer' && (
-          <>
-            {' '}
-            Vous pouvez enregistrer des garanties financières en{' '}
-            <Link
-              href={Routes.GarantiesFinancières.actuelles.enregistrer(identifiantProjet)}
-              className="font-semibold"
-            >
-              suivant ce lien
-            </Link>
-          </>
-        )}
-      </p>
-    )}
+      </div>
+      {afficherInfoConditionsMainlevée && <InfoBoxMainlevée />}
+      {action === 'soumettre' && (
+        <InfoBoxSoumettreGarantiesFinancières identifiantProjet={identifiantProjet} />
+      )}
+    </>
+    <GarantiesFinancièresManquantes identifiantProjet={identifiantProjet} action={action} />
   </PageTemplate>
 );
