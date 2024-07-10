@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import Link from 'next/link';
-import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
@@ -18,6 +17,8 @@ import {
   GarantiesFinancièresDépôtEnCours,
   GarantiesFinancièresDépôtEnCoursProps,
 } from './components/GarantiesFinancièresDépôtEnCours';
+import { InfoBoxMainlevée } from './components/InfoBoxMainlevée';
+import { InfoBoxSoumettreGarantiesFinancières } from './components/InfoBoxSoummettreGarantiesFinancières';
 
 export type DétailsGarantiesFinancièresPageProps = {
   identifiantProjet: string;
@@ -60,56 +61,9 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
             />
           )}
         </div>
-        {afficherInfoConditionsMainlevée && (
-          <Alert
-            severity="info"
-            small
-            description={
-              <div className="p-3">
-                Vous pouvez accéder à la demande de levée de vos garanties bancaires sur Potentiel
-                si votre projet remplit <span className="font-semibold">toutes</span> les conditions
-                suivantes :
-                <ul className="list-disc list-inside">
-                  <li>
-                    Le projet a des garanties financières validées (l'attestation de constitution
-                    doit être transmise dans Potentiel)
-                  </li>
-                  <li>
-                    Le projet ne dispose pas de demande de renouvellement ou de modifications de
-                    garanties financières en cours
-                  </li>
-                  <li>
-                    L'attestation de conformité a été transmise dans Potentiel ou le projet est
-                    abandonné (abandon accordé par la DGEC). Vous pouvez la transmettre{' '}
-                    <Link
-                      href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}
-                      className="font-semibold"
-                    >
-                      ici
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            }
-          />
-        )}
+        {afficherInfoConditionsMainlevée && <InfoBoxMainlevée />}
         {action === 'soumettre' && (
-          <Alert
-            severity="info"
-            small
-            description={
-              <div className="p-3">
-                Vous pouvez{' '}
-                <Link
-                  href={Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet)}
-                  className="font-semibold"
-                >
-                  soumettre de nouvelles garanties financières
-                </Link>{' '}
-                qui seront validées par l'autorité compétente
-              </div>
-            }
-          />
+          <InfoBoxSoumettreGarantiesFinancières identifiantProjet={identifiantProjet} />
         )}
       </>
     ) : (
