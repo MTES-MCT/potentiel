@@ -8,24 +8,38 @@ import {
   RécupérerCandidaturesEligiblesPreuveRecanditurePort,
   ListerCandidaturesEligiblesPreuveRecanditureReadModel,
 } from './lister/listerCandidaturesEligiblesPreuveRecanditure.query';
+import {
+  RécupérerCandidaturesPort,
+  ListerCandidaturesQuery,
+  ListerCandidaturesReadModel,
+  ListerCandidaturesListItemReadModel,
+} from './lister/listerCandidatures.query';
 
 // Query
 export type CandidatureQuery =
   | ConsulterCandidatureQuery
-  | ListerCandidaturesEligiblesPreuveRecanditureQuery;
+  | ListerCandidaturesEligiblesPreuveRecanditureQuery
+  | ListerCandidaturesQuery;
 
 export {
   ConsulterCandidatureQuery,
   ListerCandidaturesEligiblesPreuveRecanditureQuery,
   ConsulterCandidatureReadModel,
   ListerCandidaturesEligiblesPreuveRecanditureReadModel,
+  ListerCandidaturesQuery,
+  ListerCandidaturesListItemReadModel,
+  ListerCandidaturesReadModel,
 };
 
 // Register
 export * from './register';
 
 // Port
-export { RécupérerCandidaturePort, RécupérerCandidaturesEligiblesPreuveRecanditurePort };
+export {
+  RécupérerCandidaturePort,
+  RécupérerCandidaturesEligiblesPreuveRecanditurePort,
+  RécupérerCandidaturesPort,
+};
 
 // Entity
 export * from './candidature.entity';

@@ -6,5 +6,6 @@ export const setupCandidature = () => {
     récupérerCandidature: CandidatureAdapter.récupérerCandidatureAdapter,
     récupérerCandidaturesEligiblesPreuveRecanditure:
       CandidatureAdapter.récupérerCandidaturesEligiblesPreuveRecanditureAdapter,
+    récupérerCandidatures: CandidatureAdapter.récupérerCandidaturesAdapter,
   });
 };
