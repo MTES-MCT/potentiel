@@ -8,8 +8,8 @@ import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { removeProjection } from '../../infrastructure/removeProjection';
-import { upsertProjection } from '../../infrastructure/upsertProjection';
+import { removeProjection } from '../../../infrastructure/removeProjection';
+import { upsertProjection } from '../../../infrastructure/upsertProjection';
 
 export type SubscriptionEvent =
   | (GarantiesFinancières.GarantiesFinancièresEvent & Event)
@@ -23,9 +23,6 @@ export const register = () => {
     if (type === 'RebuildTriggered') {
       await removeProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
         `garanties-financieres|${payload.id}`,
-      );
-      await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
-        `depot-en-cours-garanties-financieres|${payload.id}`,
       );
       await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
         `projet-avec-garanties-financieres-en-attente|${payload.id}`,
@@ -44,10 +41,10 @@ export const register = () => {
           `garanties-financieres|${identifiantProjet}`,
         );
 
-      const dépôtEnCoursGarantiesFinancières =
-        await findProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
-          `depot-en-cours-garanties-financieres|${identifiantProjet}`,
-        );
+      // const dépôtEnCoursGarantiesFinancières =
+      //   await findProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+      //     `depot-en-cours-garanties-financieres|${identifiantProjet}`,
+      //   );
 
       const projetAvecGarantiesFinancièresEnAttente =
         await findProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
@@ -80,30 +77,30 @@ export const register = () => {
         },
       };
 
-      const dépôtEnCoursGarantiesFinancièresDefaultValue: Omit<
-        GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity,
-        'type'
-      > = {
-        identifiantProjet,
-        nomProjet: '',
-        appelOffre: '',
-        période: '',
-        famille: undefined,
-        régionProjet: '',
-        dépôt: {
-          type: '',
-          dateÉchéance: '',
-          dateConstitution: '',
-          attestation: {
-            format: '',
-          },
-          soumisLe: '',
-          dernièreMiseÀJour: {
-            date: '',
-            par: '',
-          },
-        },
-      };
+      // const dépôtEnCoursGarantiesFinancièresDefaultValue: Omit<
+      //   GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity,
+      //   'type'
+      // > = {
+      //   identifiantProjet,
+      //   nomProjet: '',
+      //   appelOffre: '',
+      //   période: '',
+      //   famille: undefined,
+      //   régionProjet: '',
+      //   dépôt: {
+      //     type: '',
+      //     dateÉchéance: '',
+      //     dateConstitution: '',
+      //     attestation: {
+      //       format: '',
+      //     },
+      //     soumisLe: '',
+      //     dernièreMiseÀJour: {
+      //       date: '',
+      //       par: '',
+      //     },
+      //   },
+      // };
 
       const projetAvecGarantiesFinancièresEnAttenteDefaultValue: Omit<
         GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity,
@@ -158,12 +155,12 @@ export const register = () => {
         ? garantiesFinancières
         : garantiesFinancièresDefaultValue;
 
-      const dépôtEnCoursGarantiesFinancièresToUpsert: Omit<
-        GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity,
-        'type'
-      > = Option.isSome(dépôtEnCoursGarantiesFinancières)
-        ? dépôtEnCoursGarantiesFinancières
-        : dépôtEnCoursGarantiesFinancièresDefaultValue;
+      // const dépôtEnCoursGarantiesFinancièresToUpsert: Omit<
+      //   GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity,
+      //   'type'
+      // > = Option.isSome(dépôtEnCoursGarantiesFinancières)
+      //   ? dépôtEnCoursGarantiesFinancières
+      //   : dépôtEnCoursGarantiesFinancièresDefaultValue;
 
       const projetAvecGarantiesFinancièresEnAttenteToUpsert: Omit<
         GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity,
@@ -240,103 +237,103 @@ export const register = () => {
           );
           break;
 
-        case 'DépôtGarantiesFinancièresSoumis-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+          // case 'DépôtGarantiesFinancièresSoumis-V1':
+          //   détailProjet = await getProjectData(identifiantProjet);
 
-          await upsertProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
-            `depot-en-cours-garanties-financieres|${identifiantProjet}`,
-            {
-              ...détailProjet,
-              identifiantProjet,
-              dépôt: {
-                type: payload.type,
-                dateÉchéance: payload.dateÉchéance,
-                dateConstitution: payload.dateConstitution,
-                attestation: payload.attestation,
-                soumisLe: payload.soumisLe,
-                dernièreMiseÀJour: {
-                  date: payload.soumisLe,
-                  par: payload.soumisPar,
-                },
-              },
-            },
-          );
+          //   await upsertProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+          //     `depot-en-cours-garanties-financieres|${identifiantProjet}`,
+          //     {
+          //       ...détailProjet,
+          //       identifiantProjet,
+          //       dépôt: {
+          //         type: payload.type,
+          //         dateÉchéance: payload.dateÉchéance,
+          //         dateConstitution: payload.dateConstitution,
+          //         attestation: payload.attestation,
+          //         soumisLe: payload.soumisLe,
+          //         dernièreMiseÀJour: {
+          //           date: payload.soumisLe,
+          //           par: payload.soumisPar,
+          //         },
+          //       },
+          //     },
+          //   );
 
-          await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
-            `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
-          );
-          break;
+          //   await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
+          //     `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
+          //   );
+          //   break;
 
-        case 'DépôtGarantiesFinancièresEnCoursSupprimé-V1':
+          // case 'DépôtGarantiesFinancièresEnCoursSupprimé-V1':
           await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
             `depot-en-cours-garanties-financieres|${identifiantProjet}`,
           );
           break;
 
-        case 'DépôtGarantiesFinancièresEnCoursValidé-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+        // case 'DépôtGarantiesFinancièresEnCoursValidé-V1':
+        //   détailProjet = await getProjectData(identifiantProjet);
 
-          const dépôtValidé = dépôtEnCoursGarantiesFinancièresToUpsert.dépôt;
+        //   const dépôtValidé = dépôtEnCoursGarantiesFinancièresToUpsert.dépôt;
 
-          if (!dépôtValidé) {
-            getLogger().error(
-              new Error(
-                `dépôt garanties financières en cours absent, impossible d'enregistrer les données des garanties financières validées`,
-              ),
-              {
-                identifiantProjet,
-                message: event,
-              },
-            );
-            return;
-          }
+        //   if (!dépôtValidé) {
+        //     getLogger().error(
+        //       new Error(
+        //         `dépôt garanties financières en cours absent, impossible d'enregistrer les données des garanties financières validées`,
+        //       ),
+        //       {
+        //         identifiantProjet,
+        //         message: event,
+        //       },
+        //     );
+        //     return;
+        //   }
 
-          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
-            `garanties-financieres|${identifiantProjet}`,
-            {
-              ...garantiesFinancièresToUpsert,
-              ...détailProjet,
-              garantiesFinancières: {
-                type: dépôtValidé.type,
-                ...(dépôtValidé.dateÉchéance && {
-                  dateÉchéance: dépôtValidé.dateÉchéance,
-                }),
-                attestation: dépôtValidé.attestation,
-                dateConstitution: dépôtValidé.dateConstitution,
-                validéLe: payload.validéLe,
-                soumisLe: dépôtValidé.soumisLe,
-                dernièreMiseÀJour: {
-                  date: payload.validéLe,
-                  par: payload.validéPar,
-                },
-              },
-            },
-          );
+        //   await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+        //     `garanties-financieres|${identifiantProjet}`,
+        //     {
+        //       ...garantiesFinancièresToUpsert,
+        //       ...détailProjet,
+        //       garantiesFinancières: {
+        //         type: dépôtValidé.type,
+        //         ...(dépôtValidé.dateÉchéance && {
+        //           dateÉchéance: dépôtValidé.dateÉchéance,
+        //         }),
+        //         attestation: dépôtValidé.attestation,
+        //         dateConstitution: dépôtValidé.dateConstitution,
+        //         validéLe: payload.validéLe,
+        //         soumisLe: dépôtValidé.soumisLe,
+        //         dernièreMiseÀJour: {
+        //           date: payload.validéLe,
+        //           par: payload.validéPar,
+        //         },
+        //       },
+        //     },
+        //   );
 
-          await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
-            `depot-en-cours-garanties-financieres|${identifiantProjet}`,
-          );
-          break;
+        //   await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+        //     `depot-en-cours-garanties-financieres|${identifiantProjet}`,
+        //   );
+        //   break;
 
-        case 'DépôtGarantiesFinancièresEnCoursModifié-V1':
-          await upsertProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
-            `depot-en-cours-garanties-financieres|${identifiantProjet}`,
-            {
-              ...dépôtEnCoursGarantiesFinancièresToUpsert,
-              dépôt: {
-                ...dépôtEnCoursGarantiesFinancièresToUpsert.dépôt,
-                type: payload.type,
-                dateConstitution: payload.dateConstitution,
-                attestation: payload.attestation,
-                dateÉchéance: payload.dateÉchéance,
-                dernièreMiseÀJour: {
-                  date: payload.modifiéLe,
-                  par: payload.modifiéPar,
-                },
-              },
-            },
-          );
-          break;
+        // case 'DépôtGarantiesFinancièresEnCoursModifié-V1':
+        //   await upsertProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+        //     `depot-en-cours-garanties-financieres|${identifiantProjet}`,
+        //     {
+        //       ...dépôtEnCoursGarantiesFinancièresToUpsert,
+        //       dépôt: {
+        //         ...dépôtEnCoursGarantiesFinancièresToUpsert.dépôt,
+        //         type: payload.type,
+        //         dateConstitution: payload.dateConstitution,
+        //         attestation: payload.attestation,
+        //         dateÉchéance: payload.dateÉchéance,
+        //         dernièreMiseÀJour: {
+        //           date: payload.modifiéLe,
+        //           par: payload.modifiéPar,
+        //         },
+        //       },
+        //     },
+        //   );
+        //   break;
 
         case 'TypeGarantiesFinancièresImporté-V1':
           détailProjet = await getProjectData(identifiantProjet);
@@ -430,9 +427,9 @@ export const register = () => {
             `garanties-financieres|${identifiantProjet}`,
           );
 
-          await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
-            `depot-en-cours-garanties-financieres|${identifiantProjet}`,
-          );
+          // await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+          //   `depot-en-cours-garanties-financieres|${identifiantProjet}`,
+          // );
           break;
 
         case 'MainlevéeGarantiesFinancièresDemandée-V1':

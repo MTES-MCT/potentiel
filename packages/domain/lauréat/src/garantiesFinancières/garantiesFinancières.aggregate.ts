@@ -88,12 +88,15 @@ import {
   applyDemandeMainlevéeGarantiesFinancièresAccordée,
 } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.behavior';
 
-export type GarantiesFinancièresEvent =
+export type DépôtGarantiesFinancièresEvent =
   | DépôtGarantiesFinancièresSoumisEvent
-  | GarantiesFinancièresDemandéesEvent
   | DépôtGarantiesFinancièresEnCoursSuppriméEvent
   | DépôtGarantiesFinancièresEnCoursValidéEvent
-  | DépôtGarantiesFinancièresEnCoursModifiéEvent
+  | DépôtGarantiesFinancièresEnCoursModifiéEvent;
+
+export type GarantiesFinancièresEvent =
+  | DépôtGarantiesFinancièresEvent
+  | GarantiesFinancièresDemandéesEvent
   | TypeGarantiesFinancièresImportéEvent
   | GarantiesFinancièresModifiéesEvent
   | AttestationGarantiesFinancièresEnregistréeEvent

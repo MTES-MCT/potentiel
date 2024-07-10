@@ -11,6 +11,7 @@ import {
 import {
   AbandonProjector,
   AchèvementProjector,
+  DépôtEnCoursGarantiesFinancièreProjector,
   GarantiesFinancièreProjector,
 } from '@potentiel-applications/projectors';
 import {
@@ -33,13 +34,13 @@ export const setupLauréat = async () => {
   AbandonProjector.register();
   AbandonNotification.register();
   GarantiesFinancièreProjector.register();
+  DépôtEnCoursGarantiesFinancièreProjector.register();
   GarantiesFinancièresNotification.register();
   AchèvementProjector.register();
   AchèvementNotification.register();
 
   const unsubscribeAbandonNotification = await subscribe<AbandonNotification.SubscriptionEvent>({
     name: 'notifications',
-    streamCategory: 'abandon',
     eventType: [
       'AbandonDemandé-V1',
       'AbandonAccordé-V1',
@@ -55,6 +56,7 @@ export const setupLauréat = async () => {
         data: event,
       });
     },
+    streamCategory: 'abandon',
   });
 
   const unsubscribeAbandonProjector = await subscribe<AbandonProjector.SubscriptionEvent>({
@@ -84,10 +86,10 @@ export const setupLauréat = async () => {
       name: 'projector',
       eventType: [
         'GarantiesFinancièresDemandées-V1',
-        'DépôtGarantiesFinancièresSoumis-V1',
-        'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
-        'DépôtGarantiesFinancièresEnCoursModifié-V1',
-        'DépôtGarantiesFinancièresEnCoursValidé-V1',
+        // 'DépôtGarantiesFinancièresSoumis-V1',
+        // 'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
+        // 'DépôtGarantiesFinancièresEnCoursModifié-V1',
+        // 'DépôtGarantiesFinancièresEnCoursValidé-V1',
         'TypeGarantiesFinancièresImporté-V1',
         'GarantiesFinancièresModifiées-V1',
         'AttestationGarantiesFinancièresEnregistrée-V1',
@@ -102,6 +104,26 @@ export const setupLauréat = async () => {
       ],
       eventHandler: async (event) => {
         await mediator.send<GarantiesFinancièreProjector.Execute>({
+          type: 'System.Projector.Lauréat.GarantiesFinancières',
+          data: event,
+        });
+      },
+      streamCategory: 'garanties-financieres',
+    });
+
+  const unsubscribeDépôtEnCoursGarantiesFinancièreProjector =
+    await subscribe<DépôtEnCoursGarantiesFinancièreProjector.SubscriptionEvent>({
+      name: 'projector',
+      eventType: [
+        'DépôtGarantiesFinancièresSoumis-V1',
+        'DépôtGarantiesFinancièresEnCoursModifié-V1',
+        'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
+        'DépôtGarantiesFinancièresEnCoursValidé-V1',
+        'HistoriqueGarantiesFinancièresEffacé-V1',
+        'RebuildTriggered',
+      ],
+      eventHandler: async (event) => {
+        await mediator.publish<DépôtEnCoursGarantiesFinancièreProjector.Execute>({
           type: 'System.Projector.Lauréat.GarantiesFinancières',
           data: event,
         });
@@ -165,6 +187,7 @@ export const setupLauréat = async () => {
     await unsubscribeAbandonNotification();
     await unsubscribeAbandonProjector();
     await unsubscribeGarantiesFinancièresProjector();
+    await unsubscribeDépôtEnCoursGarantiesFinancièreProjector();
     await unsubscribeGarantiesFinancièresNotification();
     await unsubscribeAchèvementProjector();
     await unsubscribeAchèvementNotification();

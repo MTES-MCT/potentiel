@@ -118,7 +118,10 @@ export type {
 };
 
 // Event
-export type { GarantiesFinancièresEvent } from './garantiesFinancières.aggregate';
+export type {
+  GarantiesFinancièresEvent,
+  DépôtGarantiesFinancièresEvent,
+} from './garantiesFinancières.aggregate';
 export type { DépôtGarantiesFinancièresSoumisEvent } from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
 export type { GarantiesFinancièresDemandéesEvent } from './demander/demanderGarantiesFinancières.behavior';
 export type { DépôtGarantiesFinancièresEnCoursSuppriméEvent } from './dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
