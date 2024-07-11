@@ -152,6 +152,9 @@ const mapToActions = ({
       if (statut.estEnCours()) {
         actions.push('annuler');
       }
+      if (statut.estAccordé()) {
+        actions.push('demander-mainlevée');
+      }
       if (recandidature) break;
   }
 
