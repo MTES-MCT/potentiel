@@ -7,25 +7,27 @@ import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
 import { GarantiesFinancières } from '../../../organisms/garantiesFinancières/GarantiesFinancières';
+import {
+  DépôtGarantiesFinancières,
+  GarantiesFinancièresActuelles,
+} from '../../../organisms/garantiesFinancières/types';
 
-import { GarantiesFinancièresActuellesProps } from './components/GarantiesFinancièresActuelles';
-import { GarantiesFinancièresDépôtEnCoursProps } from './components/GarantiesFinancièresDépôtEnCours';
 import { InfoBoxMainlevée } from './components/InfoBoxMainlevée';
 import { InfoBoxSoumettreGarantiesFinancières } from './components/InfoBoxSoummettreGarantiesFinancières';
 import { GarantiesFinancièresManquantes } from './components/GarantiesFinancièresManquantes';
+import { HistoriqueMainlevéeRejetéeProps } from './components/HistoriqueMainlevéeRejetée';
+import { MainlevéeEnCoursProps } from './components/MainlevéeEnCours';
 
 export type DétailsGarantiesFinancièresPageProps = {
   identifiantProjet: string;
-  actuelles?: GarantiesFinancièresActuellesProps['actuelles'];
-  dépôtEnCours?: GarantiesFinancièresDépôtEnCoursProps['dépôt'];
+  actuelles?: GarantiesFinancièresActuelles;
+  dépôtEnCours?: DépôtGarantiesFinancières;
   dateLimiteSoummission?: Iso8601DateTime;
-  mainlevée?: GarantiesFinancièresActuellesProps['mainlevée'];
-  historiqueMainlevée?: GarantiesFinancièresActuellesProps['historiqueMainlevée'];
+  mainlevée?: MainlevéeEnCoursProps['mainlevéeEnCours'];
+  historiqueMainlevée?: HistoriqueMainlevéeRejetéeProps['historiqueMainlevée'];
   afficherInfoConditionsMainlevée: boolean;
   action?: 'soumettre' | 'enregistrer';
 };
-
-// meilleure gestion des actions à prévoir
 
 export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancièresPageProps> = ({
   identifiantProjet,
@@ -44,7 +46,6 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           <GarantiesFinancières
             garantiesFinancières={actuelles}
             identifiantProjet={identifiantProjet}
-            actions={actuelles.actions}
             mainlevée={mainlevée}
             historiqueMainlevée={historiqueMainlevée}
           />
@@ -53,7 +54,6 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           <GarantiesFinancières
             garantiesFinancières={dépôtEnCours}
             identifiantProjet={identifiantProjet}
-            actions={dépôtEnCours?.actions}
             mainlevée={mainlevée}
             historiqueMainlevée={historiqueMainlevée}
           />

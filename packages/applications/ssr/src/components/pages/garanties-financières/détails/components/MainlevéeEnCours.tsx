@@ -18,7 +18,7 @@ import { CorrigerRéponseSignée } from '../../mainlevée/corrigerRéponseSigné
 
 export type MainlevéeEnCoursProps = {
   identifiantProjet: string;
-  mainlevée: {
+  mainlevéeEnCours: {
     statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
     motif: GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
     demandéLe: Iso8601DateTime;
@@ -39,68 +39,71 @@ export type MainlevéeEnCoursProps = {
   };
 };
 
-export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({ mainlevée, identifiantProjet }) => (
+export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
+  mainlevéeEnCours,
+  identifiantProjet,
+}) => (
   <div className="p-3 flex-1">
     <div className="flex gap-2">
       <Heading3>Mainlevée</Heading3>
-      <StatutMainlevéeBadge statut={mainlevée.statut} />
+      <StatutMainlevéeBadge statut={mainlevéeEnCours.statut} />
     </div>
     <div className="text-xs italic">
       Dernière mise à jour le{' '}
-      <FormattedDate className="font-semibold" date={mainlevée.dernièreMiseÀJourLe} />
+      <FormattedDate className="font-semibold" date={mainlevéeEnCours.dernièreMiseÀJourLe} />
     </div>
     <div className="mt-5 mb-5 gap-2 text-base">
       <div>
         Mainlevée demandée le :{' '}
-        <FormattedDate className="font-semibold" date={mainlevée.demandéLe} />
+        <FormattedDate className="font-semibold" date={mainlevéeEnCours.demandéLe} />
       </div>
       <div>
         Motif :{' '}
         <span className="font-semibold">
-          {mainlevée.motif === 'projet-abandonné' ? `Abandon` : `Achèvement`} du projet
+          {mainlevéeEnCours.motif === 'projet-abandonné' ? `Abandon` : `Achèvement`} du projet
         </span>
       </div>
-      {mainlevée.instructionDémarréeLe && (
+      {mainlevéeEnCours.instructionDémarréeLe && (
         <div>
           Instruction démarrée le :{' '}
-          <FormattedDate className="font-semibold" date={mainlevée.instructionDémarréeLe} />
+          <FormattedDate className="font-semibold" date={mainlevéeEnCours.instructionDémarréeLe} />
         </div>
       )}
-      {mainlevée.accord.accordéeLe && (
+      {mainlevéeEnCours.accord.accordéeLe && (
         <div>
           Mainlevée accordée le :{' '}
-          <FormattedDate className="font-semibold" date={mainlevée.accord.accordéeLe} />
+          <FormattedDate className="font-semibold" date={mainlevéeEnCours.accord.accordéeLe} />
         </div>
       )}
       <div className="flex flex-col gap-1 justify-center">
-        {mainlevée.accord.courrierAccord && (
+        {mainlevéeEnCours.accord.courrierAccord && (
           <DownloadDocument
             format="pdf"
             label="Télécharger la réponse signée"
-            url={Routes.Document.télécharger(mainlevée.accord.courrierAccord)}
+            url={Routes.Document.télécharger(mainlevéeEnCours.accord.courrierAccord)}
           />
         )}
-        {mainlevée.accord.courrierAccord &&
-          mainlevée.actions.includes('modifier-courrier-réponse-mainlevée-gf') && (
+        {mainlevéeEnCours.accord.courrierAccord &&
+          mainlevéeEnCours.actions.includes('modifier-courrier-réponse-mainlevée-gf') && (
             <CorrigerRéponseSignée
               identifiantProjet={identifiantProjet}
-              courrierRéponse={mainlevée.accord.courrierAccord}
+              courrierRéponse={mainlevéeEnCours.accord.courrierAccord}
             />
           )}
       </div>
     </div>
     <Actions
       identifiantProjet={identifiantProjet}
-      actions={mainlevée.actions}
-      urlAppelOffre={mainlevée.urlAppelOffre}
+      actions={mainlevéeEnCours.actions}
+      urlAppelOffre={mainlevéeEnCours.urlAppelOffre}
     />
   </div>
 );
 
 type ActionsProps = {
   identifiantProjet: MainlevéeEnCoursProps['identifiantProjet'];
-  actions: MainlevéeEnCoursProps['mainlevée']['actions'];
-  urlAppelOffre: MainlevéeEnCoursProps['mainlevée']['urlAppelOffre'];
+  actions: MainlevéeEnCoursProps['mainlevéeEnCours']['actions'];
+  urlAppelOffre: MainlevéeEnCoursProps['mainlevéeEnCours']['urlAppelOffre'];
 };
 
 const Actions: FC<ActionsProps> = ({ identifiantProjet, actions, urlAppelOffre }) => {
