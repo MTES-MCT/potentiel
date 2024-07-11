@@ -22,11 +22,10 @@ import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/
 import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
 import { MainlevéeEnCoursProps } from '@/components/pages/garanties-financières/détails/components/MainlevéeEnCours';
 import { HistoriqueMainlevéeRejetéeProps } from '@/components/pages/garanties-financières/détails/components/HistoriqueMainlevéeRejetée';
-
 import {
   DépôtGarantiesFinancières,
   GarantiesFinancièresActuelles,
-} from '../../../../components/organisms/garantiesFinancières/types';
+} from '@/components/organisms/garantiesFinancières/types';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',

@@ -54,9 +54,10 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           <GarantiesFinancières
             garantiesFinancières={dépôtEnCours}
             identifiantProjet={identifiantProjet}
-            mainlevée={mainlevée}
-            historiqueMainlevée={historiqueMainlevée}
           />
+        )}
+        {!dépôtEnCours && !actuelles && (
+          <GarantiesFinancièresManquantes identifiantProjet={identifiantProjet} action={action} />
         )}
       </div>
       {afficherInfoConditionsMainlevée && <InfoBoxMainlevée />}
@@ -64,6 +65,5 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
         <InfoBoxSoumettreGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}
     </>
-    <GarantiesFinancièresManquantes identifiantProjet={identifiantProjet} action={action} />
   </PageTemplate>
 );
