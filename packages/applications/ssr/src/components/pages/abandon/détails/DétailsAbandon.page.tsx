@@ -68,7 +68,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
         children: <EtapesAbandon {...abandon} />,
       }}
       rightColumn={{
-        className: 'flex flex-col w-full md:flex-1 gap-4',
+        className: 'flex flex-col w-full gap-4',
         children: mapToActionComponents({
           actions,
           identifiantProjet,
