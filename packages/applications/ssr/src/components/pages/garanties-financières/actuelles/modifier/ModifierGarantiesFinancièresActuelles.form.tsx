@@ -11,19 +11,19 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { GarantiesFinancièresActuelles } from '@/components/organisms/garantiesFinancières/types';
 
 import {
   TypeGarantiesFinancièresSelect,
   TypeGarantiesFinancièresSelectProps,
 } from '../../TypeGarantiesFinancièresSelect';
-import { GarantiesFinancièresActuelles } from '../../détails/components/GarantiesFinancièresActuelles';
 
 import { modifierGarantiesFinancièresActuellesAction } from './modifierGarantiesFinancièresActuelles.action';
 
 export type ModifierGarantiesFinancièresActuellesFormProps = {
   identifiantProjet: string;
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
-  actuelles: GarantiesFinancièresActuelles;
+  actuelles: Omit<GarantiesFinancièresActuelles, 'actions' | 'isActuelle'>;
 };
 
 export const ModifierGarantiesFinancièresActuellesForm: FC<

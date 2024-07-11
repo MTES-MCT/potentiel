@@ -37,6 +37,7 @@ export const GarantiesFinancieresActuellesComplètes: Story = {
         date: new Date('2021-10-23').toISOString() as Iso8601DateTime,
         par: 'DREAL#1',
       },
+      isActuelle: true,
     },
   },
 };
@@ -57,6 +58,7 @@ export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = 
         date: new Date('2021-10-23').toISOString() as Iso8601DateTime,
         par: 'DREAL#1',
       },
+      isActuelle: true,
     },
     dépôtEnCours: {
       type: getGarantiesFinancièresTypeLabel('consignation'),
@@ -67,6 +69,7 @@ export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = 
         par: 'PORTEUR#1',
       },
       actions: ['modifier'],
+      isActuelle: false,
     },
   },
 };
@@ -86,6 +89,7 @@ export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
         date: new Date('2024-01-15').toISOString() as Iso8601DateTime,
         par: 'PORTEUR#1',
       },
+      isActuelle: true,
     },
   },
 };
@@ -103,6 +107,7 @@ export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
         par: 'PORTEUR#1',
       },
       actions: ['modifier'],
+      isActuelle: false,
     },
   },
 };

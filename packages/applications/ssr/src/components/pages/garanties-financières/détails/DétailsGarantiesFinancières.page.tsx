@@ -4,13 +4,13 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-
-import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
-import { GarantiesFinancières } from '../../../organisms/garantiesFinancières/GarantiesFinancières';
+import { GarantiesFinancières } from '@/components/organisms/garantiesFinancières/GarantiesFinancières';
 import {
   DépôtGarantiesFinancières,
   GarantiesFinancièresActuelles,
-} from '../../../organisms/garantiesFinancières/types';
+} from '@/components/organisms/garantiesFinancières/types';
+
+import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
 
 import { InfoBoxMainlevée } from './components/InfoBoxMainlevée';
 import { InfoBoxSoumettreGarantiesFinancières } from './components/InfoBoxSoummettreGarantiesFinancières';

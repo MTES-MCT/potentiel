@@ -19,11 +19,14 @@ import {
 } from '@/components/pages/garanties-financières/détails/DétailsGarantiesFinancières.page';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
-import { GarantiesFinancièresDépôtEnCoursProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresDépôtEnCours';
-import { GarantiesFinancièresActuellesProps } from '@/components/pages/garanties-financières/détails/components/GarantiesFinancièresActuelles';
 import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
 import { MainlevéeEnCoursProps } from '@/components/pages/garanties-financières/détails/components/MainlevéeEnCours';
 import { HistoriqueMainlevéeRejetéeProps } from '@/components/pages/garanties-financières/détails/components/HistoriqueMainlevéeRejetée';
+
+import {
+  DépôtGarantiesFinancières,
+  GarantiesFinancièresActuelles,
+} from '../../../../components/organisms/garantiesFinancières/types';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
@@ -150,7 +153,7 @@ const mapToProps: MapToProps = ({
     };
   }
 
-  const dépôtEnCoursActions: GarantiesFinancièresDépôtEnCoursProps['dépôt']['actions'] = [];
+  const dépôtEnCoursActions: DépôtGarantiesFinancières['actions'] = [];
   if (utilisateur.role.estÉgaleÀ(Role.admin)) {
     dépôtEnCoursActions.push('modifier');
   } else if (utilisateur.role.estÉgaleÀ(Role.dreal)) {
@@ -159,9 +162,8 @@ const mapToProps: MapToProps = ({
     dépôtEnCoursActions.push('modifier', 'supprimer');
   }
 
-  const garantiesFinancièresActuellesActions: GarantiesFinancièresActuellesProps['actuelles']['actions'] =
-    [];
-  const mainlevéeActions: MainlevéeEnCoursProps['mainlevée']['actions'] = [];
+  const garantiesFinancièresActuellesActions: GarantiesFinancièresActuelles['actions'] = [];
+  const mainlevéeActions: MainlevéeEnCoursProps['mainlevéeEnCours']['actions'] = [];
   const historiqueMainlevéeActions: HistoriqueMainlevéeRejetéeProps['historiqueMainlevée']['actions'] =
     [];
 
@@ -239,6 +241,7 @@ const mapToProps: MapToProps = ({
             par: garantiesFinancièresActuelles.garantiesFinancières.dernièreMiseÀJour.par?.formatter(),
           },
           actions: garantiesFinancièresActuellesActions,
+          isActuelle: true,
         }
       : undefined,
     dépôtEnCours: Option.isSome(dépôtEnCoursGarantiesFinancières)
@@ -253,6 +256,7 @@ const mapToProps: MapToProps = ({
           },
           attestation: dépôtEnCoursGarantiesFinancières.dépôt.attestation.formatter(),
           actions: dépôtEnCoursActions,
+          isActuelle: false,
         }
       : undefined,
     action:

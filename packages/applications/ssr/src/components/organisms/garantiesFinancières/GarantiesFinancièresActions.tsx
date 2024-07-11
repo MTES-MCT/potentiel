@@ -11,11 +11,11 @@ import { DépôtGarantiesFinancières, GarantiesFinancièresActuelles } from './
 
 type ActionsProps = (
   | {
-      isActuelle: DépôtGarantiesFinancières['isActuelle'];
+      isActuelle: false;
       actions: DépôtGarantiesFinancières['actions'];
     }
   | {
-      isActuelle: GarantiesFinancièresActuelles['isActuelle'];
+      isActuelle: true;
       actions: GarantiesFinancièresActuelles['actions'];
     }
 ) & { identifiantProjet: GarantiesFinancièresProps['identifiantProjet'] };

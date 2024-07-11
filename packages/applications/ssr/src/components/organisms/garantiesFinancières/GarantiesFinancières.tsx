@@ -115,11 +115,19 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
               )}
             </div>
           </div>
-          <GarantiesFinancièresActions
-            identifiantProjet={identifiantProjet}
-            actions={garantiesFinancières.actions}
-            isActuelle={garantiesFinancières.isActuelle}
-          />
+          {garantiesFinancières.isActuelle ? (
+            <GarantiesFinancièresActions
+              identifiantProjet={identifiantProjet}
+              actions={garantiesFinancières.actions}
+              isActuelle={garantiesFinancières.isActuelle}
+            />
+          ) : (
+            <GarantiesFinancièresActions
+              identifiantProjet={identifiantProjet}
+              actions={garantiesFinancières.actions}
+              isActuelle={garantiesFinancières.isActuelle}
+            />
+          )}
           {(mainlevée || (historiqueMainlevée && historiqueMainlevée.historique.length)) && (
             <Mainlevée
               mainlevéeEnCours={mainlevée}
