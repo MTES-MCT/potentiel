@@ -17,6 +17,7 @@ import { InfoBoxSoumettreGarantiesFinancières } from './components/InfoBoxSoumm
 import { GarantiesFinancièresManquantes } from './components/GarantiesFinancièresManquantes';
 import { HistoriqueMainlevéeRejetéeProps } from './components/HistoriqueMainlevéeRejetée';
 import { MainlevéeEnCoursProps } from './components/MainlevéeEnCours';
+import { Mainlevée } from './components/Mainlevée';
 
 export type DétailsGarantiesFinancièresPageProps = {
   identifiantProjet: string;
@@ -46,8 +47,6 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           <GarantiesFinancières
             garantiesFinancières={actuelles}
             identifiantProjet={identifiantProjet}
-            mainlevée={mainlevée}
-            historiqueMainlevée={historiqueMainlevée}
           />
         )}
         {dépôtEnCours && (
@@ -56,10 +55,17 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
             identifiantProjet={identifiantProjet}
           />
         )}
-        {!dépôtEnCours && !actuelles && (
-          <GarantiesFinancièresManquantes identifiantProjet={identifiantProjet} action={action} />
-        )}
       </div>
+      {(mainlevée || (historiqueMainlevée && historiqueMainlevée.historique.length)) && (
+        <Mainlevée
+          mainlevéeEnCours={mainlevée}
+          historiqueMainlevée={historiqueMainlevée}
+          identifiantProjet={identifiantProjet}
+        />
+      )}
+      {!dépôtEnCours && !actuelles && (
+        <GarantiesFinancièresManquantes identifiantProjet={identifiantProjet} action={action} />
+      )}
       {afficherInfoConditionsMainlevée && <InfoBoxMainlevée />}
       {action === 'soumettre' && (
         <InfoBoxSoumettreGarantiesFinancières identifiantProjet={identifiantProjet} />

@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const GarantiesFinancièresManquantes = ({ identifiantProjet, action }: Props) => (
-  <p>
+  <p className="p-3">
     Aucune garanties financières pour ce projet.
     {action === 'soumettre' && (
       <>
