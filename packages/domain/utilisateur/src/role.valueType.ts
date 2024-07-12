@@ -718,6 +718,10 @@ const permissionDreal = [
   // Raccordement
   ...policies.réseau.raccordement.consulter,
   ...policies.réseau.raccordement['demande-complète-raccordement'].transmettre,
+  ...policies.réseau.raccordement['demande-complète-raccordement'].modifier,
+  ...policies.réseau.raccordement['proposition-technique-et-financière'].transmettre,
+  ...policies.réseau.raccordement['proposition-technique-et-financière'].modifier,
+  ...policies.réseau.raccordement.gestionnaire.modifier,
 
   // Garanties financières
   ...policies.garantiesFinancières.actuelles.consulter,
