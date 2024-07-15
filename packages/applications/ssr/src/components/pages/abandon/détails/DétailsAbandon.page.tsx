@@ -17,6 +17,7 @@ import { AccorderAbandonSansRecandidature } from './accorder/AccorderAbandonSans
 import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
 import { RejeterAbandon } from './rejeter/RejeterAbandon';
+import { InfoBoxMainlevéeSiAbandonAccordé } from './InfoBoxMainlevéeSiAbandonAccordé';
 
 type AvailableActions = Array<
   | 'demander-confirmation'
@@ -25,6 +26,7 @@ type AvailableActions = Array<
   | 'accorder-avec-recandidature'
   | 'accorder-sans-recandidature'
   | 'rejeter'
+  | 'demander-mainlevée'
 >;
 
 export type DétailsAbandonPageProps = {
@@ -66,7 +68,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
         children: <EtapesAbandon {...abandon} />,
       }}
       rightColumn={{
-        className: 'flex flex-col w-full md:w-1/4 gap-4',
+        className: 'flex flex-col w-full gap-4',
         children: mapToActionComponents({
           actions,
           identifiantProjet,
@@ -83,7 +85,7 @@ type MapToActionsComponentsProps = {
 
 const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) => {
   return actions.length ? (
-    <>
+    <div className="flex flex-col items-center">
       {actions.includes('demander-confirmation') && (
         <DemanderConfirmationAbandon identifiantProjet={identifiantProjet} />
       )}
@@ -96,6 +98,9 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
       {actions.includes('rejeter') && <RejeterAbandon identifiantProjet={identifiantProjet} />}
       {actions.includes('confirmer') && <ConfirmerAbandon identifiantProjet={identifiantProjet} />}
       {actions.includes('annuler') && <AnnulerAbandon identifiantProjet={identifiantProjet} />}
-    </>
+      {actions.includes('demander-mainlevée') && (
+        <InfoBoxMainlevéeSiAbandonAccordé identifiantProjet={identifiantProjet} />
+      )}
+    </div>
   ) : null;
 };

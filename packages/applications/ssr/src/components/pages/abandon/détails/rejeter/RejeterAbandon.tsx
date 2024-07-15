@@ -25,7 +25,7 @@ export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) =
       <Button
         priority="secondary"
         onClick={() => setIsOpen(true)}
-        className="block w-full text-center"
+        className="block w-1/2 text-center"
       >
         Rejeter
       </Button>
