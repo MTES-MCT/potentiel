@@ -26,6 +26,7 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   //NOTE: The lang parameter is optional and defaults to "fr"
+
   return (
     <html {...getHtmlAttributes({ defaultColorScheme })} lang="fr">
       <BootstrapApp />

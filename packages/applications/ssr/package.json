@@ -35,6 +35,7 @@
     "@potentiel-libraries/csv": "*",
     "@potentiel-libraries/iso8601-datetime": "*",
     "@potentiel-libraries/monitoring": "*",
+    "@sentry/nextjs": "^8.17.0",
     "mediateur": "^0.1.0",
     "next": "^14.1.1",
     "next-auth": "^4.24.5",
