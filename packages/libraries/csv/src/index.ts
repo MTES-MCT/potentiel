@@ -1,1 +1,1 @@
-export { parseCsv, CsvError, CsvValidationError } from './parseCsv';
+export { parseCsv, CsvError, CsvValidationError, ParseOptions } from './parseCsv';

@@ -16,13 +16,29 @@ export class CsvValidationError extends Error {
   }
 }
 
+const defaultParseOptions = {
+  delimiter: ';',
+  columns: true,
+  ltrim: true,
+  rtrim: true,
+  skip_empty_lines: true,
+  skip_records_with_empty_values: true,
+};
+
+export type ParseOptions = typeof defaultParseOptions;
+
 type ParseCsv = <TSchema extends zod.AnyZodObject>(
   fileStream: ReadableStream,
   lineSchema: TSchema,
+  parseOptions?: Partial<ParseOptions>,
 ) => Promise<ReadonlyArray<zod.infer<TSchema>>>;
 
-export const parseCsv: ParseCsv = async (fileStream, lineSchema) => {
-  const data = await loadCsv(fileStream);
+export const parseCsv: ParseCsv = async (
+  fileStream,
+  lineSchema,
+  parseOptions: Partial<ParseOptions> = {},
+) => {
+  const data = await loadCsv(fileStream, parseOptions);
 
   try {
     return zod.array(lineSchema).parse(data);
@@ -43,23 +59,14 @@ export const parseCsv: ParseCsv = async (fileStream, lineSchema) => {
   }
 };
 
-const loadCsv = (fileStream: ReadableStream) => {
+const loadCsv = (fileStream: ReadableStream, parseOptions: Partial<typeof defaultParseOptions>) => {
   return new Promise<Array<Record<string, string>>>((resolve, reject) => {
     const data: Array<Record<string, string>> = [];
     const decode = iconv.decodeStream('utf8');
 
     webRSToNodeRS(fileStream)
       .pipe(decode)
-      .pipe(
-        parse({
-          delimiter: ';',
-          columns: true,
-          ltrim: true,
-          rtrim: true,
-          skip_empty_lines: true,
-          skip_records_with_empty_values: true,
-        }),
-      )
+      .pipe(parse({ ...defaultParseOptions, ...parseOptions }))
       .on('data', (row: Record<string, string>) => {
         data.push(row);
       })
