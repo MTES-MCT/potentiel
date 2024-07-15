@@ -4,5 +4,10 @@
     "outDir": "dist",
     "rootDir": "src"
   },
-  "references": [{ "path": "../../libraries/csv" }, { "path": "../../libraries/file-storage" }]
+  "references": [
+    { "path": "../../libraries/csv" },
+    { "path": "../../libraries/file-storage" },
+    { "path": "../../applications/bootstrap" },
+    { "path": "../../domain/réseau" }
+  ]
 }
