@@ -9,7 +9,9 @@ type Props = {
   identifiantProjet: DétailsGarantiesFinancièresPageProps['identifiantProjet'];
 };
 
-export const InfoBoxSoumettreGarantiesFinancières = ({ identifiantProjet }: Props) => (
+export const InfoBoxSoumettreGarantiesFinancières: React.FC<Props> = ({
+  identifiantProjet,
+}: Props) => (
   <Alert
     severity="info"
     small

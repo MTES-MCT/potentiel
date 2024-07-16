@@ -9,7 +9,10 @@ type Props = {
   action: DétailsGarantiesFinancièresPageProps['action'];
 };
 
-export const GarantiesFinancièresManquantes = ({ identifiantProjet, action }: Props) => (
+export const GarantiesFinancièresManquantes: React.FC<Props> = ({
+  identifiantProjet,
+  action,
+}: Props) => (
   <p className="p-3">
     Aucune garanties financières pour ce projet.
     {action === 'soumettre' && (

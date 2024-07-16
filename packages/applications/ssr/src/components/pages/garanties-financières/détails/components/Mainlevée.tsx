@@ -13,7 +13,11 @@ type Props = {
   identifiantProjet: string;
 };
 
-export const Mainlevée = ({ mainlevéeEnCours, historiqueMainlevée, identifiantProjet }: Props) => (
+export const Mainlevée: React.FC<Props> = ({
+  mainlevéeEnCours,
+  historiqueMainlevée,
+  identifiantProjet,
+}: Props) => (
   <CallOut
     className="flex-1"
     colorVariant={mainlevéeEnCours?.statut === 'accordé' ? 'success' : 'warning'}
