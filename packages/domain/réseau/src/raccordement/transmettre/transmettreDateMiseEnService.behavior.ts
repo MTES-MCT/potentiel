@@ -56,7 +56,7 @@ export async function transmettreDateMiseEnService(
 
     await this.publish(dateMiseEnServiceTransmise);
   } else {
-    getLogger().info('Skipping update dateMiseEnService, values are identical', {
+    getLogger().info('Mise à jour de dateMiseEnService ignorée, les valeurs sont identiques', {
       dateMiseEnService: dateMiseEnService.formatter(),
       identifiantProjet: identifiantProjet.formatter(),
       référenceDossierRaccordement: référenceDossier.formatter(),
