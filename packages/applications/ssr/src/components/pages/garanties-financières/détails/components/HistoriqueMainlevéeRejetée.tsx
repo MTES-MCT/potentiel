@@ -3,9 +3,10 @@ import { FC } from 'react';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { Routes } from '@potentiel-applications/routes';
 
-import { Heading3 } from '../../../../atoms/headings';
-import { DownloadDocument } from '../../../../atoms/form/DownloadDocument';
-import { Timeline, TimelineProps } from '../../../../organisms/Timeline';
+import { Heading3 } from '@/components/atoms/headings';
+import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
+import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
+
 import { CorrigerRéponseSignée } from '../../mainlevée/corrigerRéponseSignée/CorrigerRéponseSignée';
 
 export type HistoriqueMainlevéeRejetéeProps = {

@@ -1,31 +1,31 @@
 import { FC } from 'react';
-import Link from 'next/link';
-import Alert from '@codegouvfr/react-dsfr/Alert';
 
-import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { GarantiesFinancières } from '@/components/organisms/garantiesFinancières/GarantiesFinancières';
+import {
+  DépôtGarantiesFinancières,
+  GarantiesFinancièresActuelles,
+} from '@/components/organisms/garantiesFinancières/types';
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
 
-import {
-  GarantiesFinancièresActuelles,
-  GarantiesFinancièresActuellesProps,
-} from './components/GarantiesFinancièresActuelles';
-import {
-  GarantiesFinancièresDépôtEnCours,
-  GarantiesFinancièresDépôtEnCoursProps,
-} from './components/GarantiesFinancièresDépôtEnCours';
+import { InfoBoxMainlevée } from './components/InfoBoxMainlevée';
+import { InfoBoxSoumettreGarantiesFinancières } from './components/InfoBoxSoummettreGarantiesFinancières';
+import { GarantiesFinancièresManquantes } from './components/GarantiesFinancièresManquantes';
+import { HistoriqueMainlevéeRejetéeProps } from './components/HistoriqueMainlevéeRejetée';
+import { MainlevéeEnCoursProps } from './components/MainlevéeEnCours';
+import { Mainlevée } from './components/Mainlevée';
 
 export type DétailsGarantiesFinancièresPageProps = {
   identifiantProjet: string;
-  actuelles?: GarantiesFinancièresActuellesProps['actuelles'];
-  dépôtEnCours?: GarantiesFinancièresDépôtEnCoursProps['dépôt'];
+  actuelles?: GarantiesFinancièresActuelles;
+  dépôtEnCours?: DépôtGarantiesFinancières;
   dateLimiteSoummission?: Iso8601DateTime;
-  mainlevée?: GarantiesFinancièresActuellesProps['mainlevée'];
-  historiqueMainlevée?: GarantiesFinancièresActuellesProps['historiqueMainlevée'];
+  mainlevée?: MainlevéeEnCoursProps['mainlevéeEnCours'];
+  historiqueMainlevée?: HistoriqueMainlevéeRejetéeProps['historiqueMainlevée'];
   afficherInfoConditionsMainlevée: boolean;
   action?: 'soumettre' | 'enregistrer';
 };
@@ -41,106 +41,35 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
 }) => (
   <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
     <TitrePageGarantiesFinancières title="Détail des garanties financières" />
-    {actuelles || dépôtEnCours ? (
-      <>
-        <div className="flex flex-col lg:flex-row gap-4">
-          {actuelles && (
-            <GarantiesFinancièresActuelles
-              actuelles={actuelles}
-              identifiantProjet={identifiantProjet}
-              mainlevée={mainlevée}
-              historiqueMainlevée={historiqueMainlevée}
-            />
-          )}
-
-          {dépôtEnCours && (
-            <GarantiesFinancièresDépôtEnCours
-              dépôt={dépôtEnCours}
-              identifiantProjet={identifiantProjet}
-            />
-          )}
-        </div>
-        {afficherInfoConditionsMainlevée && (
-          <Alert
-            severity="info"
-            small
-            description={
-              <div className="p-3">
-                Vous pouvez accéder à la demande de levée de vos garanties bancaires sur Potentiel
-                si votre projet remplit <span className="font-semibold">toutes</span> les conditions
-                suivantes :
-                <ul className="list-disc list-inside">
-                  <li>
-                    Le projet a des garanties financières validées (l'attestation de constitution
-                    doit être transmise dans Potentiel)
-                  </li>
-                  <li>
-                    Le projet ne dispose pas de demande de renouvellement ou de modifications de
-                    garanties financières en cours
-                  </li>
-                  <li>
-                    L'attestation de conformité a été transmise dans Potentiel ou le projet est
-                    abandonné (abandon accordé par la DGEC). Vous pouvez la transmettre{' '}
-                    <Link
-                      href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}
-                      className="font-semibold"
-                    >
-                      ici
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            }
+    <>
+      <div className="flex flex-col lg:flex-row gap-4">
+        {actuelles && (
+          <GarantiesFinancières
+            garantiesFinancières={actuelles}
+            identifiantProjet={identifiantProjet}
           />
         )}
-        {action === 'soumettre' && (
-          <Alert
-            severity="info"
-            small
-            description={
-              <div className="p-3">
-                Vous pouvez{' '}
-                <Link
-                  href={Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet)}
-                  className="font-semibold"
-                >
-                  soumettre de nouvelles garanties financières
-                </Link>{' '}
-                qui seront validées par l'autorité compétente
-              </div>
-            }
+        {dépôtEnCours && (
+          <GarantiesFinancières
+            garantiesFinancières={dépôtEnCours}
+            identifiantProjet={identifiantProjet}
           />
         )}
-      </>
-    ) : (
-      <p>
-        Aucune garanties financières pour ce projet.
-        {action === 'soumettre' && (
-          <>
-            {' '}
-            Vous pouvez en{' '}
-            <Link
-              href={Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet)}
-              className="font-semibold"
-            >
-              soumettre des nouvelles
-            </Link>{' '}
-            qui seront validées par l'autorité compétente
-          </>
-        )}
-        {action === 'enregistrer' && (
-          <>
-            {' '}
-            Vous pouvez enregistrer des garanties financières en{' '}
-            <Link
-              href={Routes.GarantiesFinancières.actuelles.enregistrer(identifiantProjet)}
-              className="font-semibold"
-            >
-              suivant ce lien
-            </Link>
-          </>
-        )}
-      </p>
-    )}
+      </div>
+      {(mainlevée || (historiqueMainlevée && historiqueMainlevée.historique.length)) && (
+        <Mainlevée
+          mainlevéeEnCours={mainlevée}
+          historiqueMainlevée={historiqueMainlevée}
+          identifiantProjet={identifiantProjet}
+        />
+      )}
+      {!dépôtEnCours && !actuelles && (
+        <GarantiesFinancièresManquantes identifiantProjet={identifiantProjet} action={action} />
+      )}
+      {afficherInfoConditionsMainlevée && <InfoBoxMainlevée />}
+      {action === 'soumettre' && (
+        <InfoBoxSoumettreGarantiesFinancières identifiantProjet={identifiantProjet} />
+      )}
+    </>
   </PageTemplate>
 );
