@@ -9,8 +9,22 @@ const nextConfig = {
 
     if (isServer) {
       config.externals.push(/^@potentiel-/, 'mediateur');
+    } else {
+      // This resolves an issue with sentry in the logger.
+      // Without this, the logger cannot be used in domain packages for instance
+      config.resolve = {
+        ...config.resolve,
+        fallback: {
+          ...(config.resolve || {}).fallback,
+          async_hooks: false,
+          inspector: false,
+          child_process: false,
+          net: false,
+          tls: false,
+          fs: false,
+        },
+      };
     }
-
     return config;
   },
 };
