@@ -62,6 +62,9 @@ export async function soumettreDépôt(
   if (this.demandeMainlevéeEnCours?.statut.estEnInstruction()) {
     throw new DemandeMainlevéeEnInstructionError();
   }
+  if (this.actuelles?.statut.estLevé()) {
+    throw new GarantiesFinancièresDéjàLevéesError();
+  }
 
   const event: DépôtGarantiesFinancièresSoumisEvent = {
     type: 'DépôtGarantiesFinancièresSoumis-V1',
@@ -112,6 +115,14 @@ class DemandeMainlevéeEnInstructionError extends InvalidOperationError {
   constructor() {
     super(
       `Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une mainlevée de garanties financières en cours d'instruction`,
+    );
+  }
+}
+
+class GarantiesFinancièresDéjàLevéesError extends InvalidOperationError {
+  constructor() {
+    super(
+      'Vous ne pouvez pas déposer de nouvelles garanties financières car elles ont été levées pour ce projet',
     );
   }
 }

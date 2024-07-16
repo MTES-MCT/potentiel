@@ -496,6 +496,21 @@ export const register = () => {
               },
             },
           );
+
+          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+            {
+              ...garantiesFinancièresToUpsert,
+              garantiesFinancières: {
+                ...garantiesFinancièresToUpsert.garantiesFinancières,
+                statut: GarantiesFinancières.StatutGarantiesFinancières.levé.statut,
+                dernièreMiseÀJour: {
+                  date: payload.accordéLe,
+                  par: payload.accordéPar,
+                },
+              },
+            },
+          );
           break;
 
         case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
