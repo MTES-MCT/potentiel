@@ -29,6 +29,7 @@ export const Default: Story = {
     typesGarantiesFinancières,
     actuelles: {
       type: 'consignation',
+      statut: 'levé',
       dateConstitution: new Date('2021-10-23').toISOString() as Iso8601DateTime,
       soumisLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
       attestation: 'path/to/attestationConstitution',

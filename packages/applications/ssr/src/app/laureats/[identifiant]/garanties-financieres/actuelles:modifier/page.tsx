@@ -66,6 +66,7 @@ const mapToProps = ({
     dernièreMiseÀJour,
     dateConstitution,
     attestation,
+    statut,
   },
 }: Omit<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel, 'identifiantProjet'> & {
   identifiantProjet: string;
@@ -74,6 +75,7 @@ const mapToProps = ({
   typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
   actuelles: {
     type: type.type,
+    statut: statut.statut,
     dateÉchéance: dateÉchéance?.formatter(),
     dateConstitution: dateConstitution?.formatter(),
     validéLe: validéLe?.formatter(),

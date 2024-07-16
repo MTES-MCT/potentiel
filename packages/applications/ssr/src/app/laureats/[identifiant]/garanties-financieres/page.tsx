@@ -231,6 +231,7 @@ const mapToProps: MapToProps = ({
           type: getGarantiesFinancièresTypeLabel(
             garantiesFinancièresActuelles.garantiesFinancières.type.type,
           ),
+          statut: garantiesFinancièresActuelles.garantiesFinancières.statut.statut,
           dateÉchéance:
             garantiesFinancièresActuelles.garantiesFinancières.dateÉchéance?.formatter(),
           dateConstitution:
