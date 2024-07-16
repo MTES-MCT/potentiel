@@ -148,7 +148,9 @@ export function applyDemandeComplèteDeRaccordementTransmiseEventV1(
       dateSignature: Option.none,
       format: Option.none,
     },
-    référence: RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement),
+    référence: référenceDossierRaccordement
+      ? RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement)
+      : RéférenceDossierRaccordement.référenceNonTransmise,
   });
 }
 

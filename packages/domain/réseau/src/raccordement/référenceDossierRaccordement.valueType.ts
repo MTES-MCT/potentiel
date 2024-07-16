@@ -19,6 +19,8 @@ export const convertirEnValueType = (value: string): ValueType => {
   };
 };
 
+export const référenceNonTransmise = convertirEnValueType('Référence non transmise');
+
 function estValide(value: string): asserts value is RawType {
   const isValid = !!value;
 
