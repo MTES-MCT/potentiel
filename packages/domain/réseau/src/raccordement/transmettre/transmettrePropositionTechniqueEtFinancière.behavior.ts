@@ -8,7 +8,7 @@ import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementN
 
 /**
  * @deprecated Utilisez PropositionTechniqueEtFinancièreTransmiseEvent à la place.
- * Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
  */
 export type PropositionTechniqueEtFinancièreTransmiseEventV1 = DomainEvent<
   'PropositionTechniqueEtFinancièreTransmise-V1',
@@ -21,7 +21,7 @@ export type PropositionTechniqueEtFinancièreTransmiseEventV1 = DomainEvent<
 
 /**
  * @deprecated Utilisez PropositionTechniqueEtFinancièreTransmiseEvent à la place.
- * Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
  */
 export type PropositionTechniqueEtFinancièreSignéeTransmiseEventV1 = DomainEvent<
   'PropositionTechniqueEtFinancièreSignéeTransmise-V1',

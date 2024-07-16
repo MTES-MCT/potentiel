@@ -198,9 +198,6 @@ export const register = () => {
                   ...dossier,
                   propositionTechniqueEtFinancière: {
                     dateSignature: event.payload.dateSignature,
-                    propositionTechniqueEtFinancièreSignée: {
-                      format: '',
-                    },
                   },
                   misÀJourLe: event.created_at,
                 };
