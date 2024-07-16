@@ -39,7 +39,7 @@ export const renameFile = async (fromName: string, toName: string) => {
       new CopyObjectCommand({
         Bucket: getBucketName(),
         Key: toName,
-        CopySource: path.join(getBucketName(), fromName),
+        CopySource: path.join(getBucketName(), encodeURIComponent(fromName)),
       }),
     );
     if (!response.CopyObjectResult) {
