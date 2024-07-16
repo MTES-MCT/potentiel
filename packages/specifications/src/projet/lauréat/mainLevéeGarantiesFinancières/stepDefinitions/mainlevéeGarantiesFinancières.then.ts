@@ -181,6 +181,7 @@ Alors(
           ),
         ).to.be.true;
         expect(actualReadModel.accord?.courrierAccord.format).to.deep.equal(format);
+
         if (actualReadModel.accord) {
           const actualFile = await mediator.send<ConsulterDocumentProjetQuery>({
             type: 'Document.Query.ConsulterDocumentProjet',
@@ -188,6 +189,20 @@ Alors(
           });
           const actualContent = await convertReadableStreamToString(actualFile.content);
           actualContent.should.be.equal(content);
+        }
+
+        const actualGarantiesFinancières =
+          await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
+          });
+
+        expect(Option.isSome(actualGarantiesFinancières)).to.be.true;
+
+        if (Option.isSome(actualGarantiesFinancières)) {
+          expect(actualGarantiesFinancières.garantiesFinancières.statut.estLevé()).to.be.true;
         }
       }
     });
