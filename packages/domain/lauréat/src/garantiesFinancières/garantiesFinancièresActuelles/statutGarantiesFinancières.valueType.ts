@@ -1,13 +1,14 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const statut = ['validé', 'levée'] as const;
+export const statut = ['validées', 'levées', 'échues'] as const;
 
 export type RawType = (typeof statut)[number];
 
 export type ValueType = ReadonlyValueType<{
   statut: RawType;
-  estValidé: () => boolean;
-  estLevée: () => boolean;
+  sontValidées: () => boolean;
+  sontLevées: () => boolean;
+  sontEchues: () => boolean;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -19,11 +20,14 @@ export const convertirEnValueType = (value: string): ValueType => {
     estÉgaleÀ(valueType) {
       return this.statut === valueType.statut;
     },
-    estValidé() {
-      return this.statut === 'validé';
+    sontValidées() {
+      return this.statut === 'validées';
     },
-    estLevée() {
-      return this.statut === 'levée';
+    sontLevées() {
+      return this.statut === 'levées';
+    },
+    sontEchues() {
+      return this.statut === 'échues';
     },
   };
 };
@@ -36,12 +40,12 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const validé = convertirEnValueType('validé');
-export const levée = convertirEnValueType('levée');
+export const validées = convertirEnValueType('validées');
+export const levées = convertirEnValueType('levées');
 
 class StatutGarantiesFinancièresInvalideError extends InvalidOperationError {
   constructor(value: string) {
-    super(`Le statut de la garanties financière est inconnu`, {
+    super(`Le statut des garanties financières est inconnu`, {
       value,
     });
   }

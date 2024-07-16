@@ -47,7 +47,7 @@ export function applyDépôtGarantiesFinancièresEnCoursValidé(
   const dépôtValidé = this.dépôtsEnCours;
 
   this.actuelles = {
-    statut: StatutGarantiesFinancières.validé,
+    statut: StatutGarantiesFinancières.validées,
     type: dépôtValidé ? dépôtValidé.type : TypeGarantiesFinancières.typeInconnu,
     dateÉchéance: dépôtValidé && dépôtValidé.dateÉchéance,
     dateConstitution: dépôtValidé && dépôtValidé.dateConstitution,
