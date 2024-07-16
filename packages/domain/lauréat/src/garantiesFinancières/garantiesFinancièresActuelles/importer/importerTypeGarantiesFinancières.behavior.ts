@@ -51,7 +51,7 @@ export function applyTypeGarantiesFinancièresImporté(
   { payload: { type, dateÉchéance, importéLe } }: TypeGarantiesFinancièresImportéEvent,
 ) {
   this.actuelles = {
-    statut: StatutGarantiesFinancières.validées,
+    statut: StatutGarantiesFinancières.validé,
     type: TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
     importéLe: DateTime.convertirEnValueType(importéLe),

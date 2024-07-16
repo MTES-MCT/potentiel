@@ -75,6 +75,7 @@ export const register = () => {
         famille: undefined,
         régionProjet: '',
         garantiesFinancières: {
+          statut: 'validé',
           type: '',
           dernièreMiseÀJour: { date: '', par: '' },
         },
@@ -297,6 +298,7 @@ export const register = () => {
               ...garantiesFinancièresToUpsert,
               ...détailProjet,
               garantiesFinancières: {
+                statut: GarantiesFinancières.StatutGarantiesFinancières.validé.statut,
                 type: dépôtValidé.type,
                 ...(dépôtValidé.dateÉchéance && {
                   dateÉchéance: dépôtValidé.dateÉchéance,
@@ -408,6 +410,7 @@ export const register = () => {
               ...garantiesFinancièresToUpsert,
               ...détailProjet,
               garantiesFinancières: {
+                statut: GarantiesFinancières.StatutGarantiesFinancières.validé.statut,
                 type: payload.type,
                 dateÉchéance: payload.dateÉchéance,
                 dateConstitution: payload.dateConstitution,

@@ -1,14 +1,14 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const statut = ['validées', 'levées', 'échues'] as const;
+export const statut = ['validé', 'levé', 'échu'] as const;
 
 export type RawType = (typeof statut)[number];
 
 export type ValueType = ReadonlyValueType<{
   statut: RawType;
-  sontValidées: () => boolean;
-  sontLevées: () => boolean;
-  sontEchues: () => boolean;
+  estValidé: () => boolean;
+  estLevé: () => boolean;
+  estÉchu: () => boolean;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -20,14 +20,14 @@ export const convertirEnValueType = (value: string): ValueType => {
     estÉgaleÀ(valueType) {
       return this.statut === valueType.statut;
     },
-    sontValidées() {
-      return this.statut === 'validées';
+    estValidé() {
+      return this.statut === 'validé';
     },
-    sontLevées() {
-      return this.statut === 'levées';
+    estLevé() {
+      return this.statut === 'levé';
     },
-    sontEchues() {
-      return this.statut === 'échues';
+    estÉchu() {
+      return this.statut === 'échu';
     },
   };
 };
@@ -40,8 +40,8 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const validées = convertirEnValueType('validées');
-export const levées = convertirEnValueType('levées');
+export const validé = convertirEnValueType('validé');
+export const levé = convertirEnValueType('levé');
 
 class StatutGarantiesFinancièresInvalideError extends InvalidOperationError {
   constructor(value: string) {

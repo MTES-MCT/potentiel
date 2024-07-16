@@ -80,7 +80,7 @@ export function applyModifierGarantiesFinancières(
 ) {
   this.actuelles = {
     ...this.actuelles,
-    statut: StatutGarantiesFinancières.validées,
+    statut: StatutGarantiesFinancières.validé,
     type: TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),
