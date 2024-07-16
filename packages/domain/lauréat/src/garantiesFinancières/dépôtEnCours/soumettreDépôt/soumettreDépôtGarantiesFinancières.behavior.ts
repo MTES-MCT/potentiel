@@ -8,6 +8,7 @@ import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggr
 import { DateConstitutionDansLeFuturError } from '../../dateConstitutionDansLeFutur.error';
 import { DateÉchéanceManquanteError } from '../../dateÉchéanceManquante.error';
 import { DateÉchéanceNonAttendueError } from '../../dateÉchéanceNonAttendue.error';
+import { GarantiesFinancièresDéjàLevéesError } from '../../garantiesFinancièresDéjàLevées.error';
 
 export type DépôtGarantiesFinancièresSoumisEvent = DomainEvent<
   'DépôtGarantiesFinancièresSoumis-V1',
@@ -115,14 +116,6 @@ class DemandeMainlevéeEnInstructionError extends InvalidOperationError {
   constructor() {
     super(
       `Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une mainlevée de garanties financières en cours d'instruction`,
-    );
-  }
-}
-
-class GarantiesFinancièresDéjàLevéesError extends InvalidOperationError {
-  constructor() {
-    super(
-      'Vous ne pouvez pas déposer de nouvelles garanties financières car elles ont été levées pour ce projet',
     );
   }
 }

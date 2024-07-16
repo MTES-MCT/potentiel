@@ -7,6 +7,7 @@ import { DateConstitutionDansLeFuturError } from '../../dateConstitutionDansLeFu
 import { DateÉchéanceManquanteError } from '../../dateÉchéanceManquante.error';
 import { DateÉchéanceNonAttendueError } from '../../dateÉchéanceNonAttendue.error';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
+import { GarantiesFinancièresDéjàLevéesError } from '../../garantiesFinancièresDéjàLevées.error';
 
 export type GarantiesFinancièresModifiéesEvent = DomainEvent<
   'GarantiesFinancièresModifiées-V1',
@@ -78,6 +79,10 @@ export function applyModifierGarantiesFinancières(
     payload: { type, dateÉchéance, dateConstitution, attestation },
   }: GarantiesFinancièresModifiéesEvent,
 ) {
+  if (this.actuelles?.statut.estLevé()) {
+    throw new GarantiesFinancièresDéjàLevéesError();
+  }
+
   this.actuelles = {
     ...this.actuelles,
     statut: StatutGarantiesFinancières.validé,
