@@ -70,6 +70,9 @@ export default class ModifierRéférence extends Command {
     let upToDate = 0;
 
     for (const row of data) {
+      // l'identifiant dans le fichier est au format "lisible" et pas au format technique
+      // on remplace les séparateurs de segments de "-" en "#"
+      // Ex: CRE4 - Bâtiment-1-2-3 => CRE4 - Bâtiment#1#2#3
       const identifiantProjet = row.identifiantProjet.replace(
         /(.*)-(\d*)-(.*)-(\d*)/,
         '$1#$2#$3#$4',
