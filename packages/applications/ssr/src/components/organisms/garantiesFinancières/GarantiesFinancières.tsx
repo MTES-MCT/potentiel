@@ -109,19 +109,10 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
               )}
             </div>
           </div>
-          {garantiesFinancières.isActuelle ? (
-            <GarantiesFinancièresActions
-              identifiantProjet={identifiantProjet}
-              actions={garantiesFinancières.actions}
-              isActuelle={garantiesFinancières.isActuelle}
-            />
-          ) : (
-            <GarantiesFinancièresActions
-              identifiantProjet={identifiantProjet}
-              actions={garantiesFinancières.actions}
-              isActuelle={garantiesFinancières.isActuelle}
-            />
-          )}
+          <GarantiesFinancièresActions
+            identifiantProjet={identifiantProjet}
+            {...garantiesFinancières}
+          />
         </div>
       </>
     }
