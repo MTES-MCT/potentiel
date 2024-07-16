@@ -4,7 +4,7 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError } from '../aucunDépôtEnCoursGarantiesFinancièresPourLeProjet.error';
-import { TypeGarantiesFinancières } from '../..';
+import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '../..';
 
 export type DépôtGarantiesFinancièresEnCoursValidéEvent = DomainEvent<
   'DépôtGarantiesFinancièresEnCoursValidé-V1',
@@ -47,6 +47,7 @@ export function applyDépôtGarantiesFinancièresEnCoursValidé(
   const dépôtValidé = this.dépôtsEnCours;
 
   this.actuelles = {
+    statut: StatutGarantiesFinancières.validé,
     type: dépôtValidé ? dépôtValidé.type : TypeGarantiesFinancières.typeInconnu,
     dateÉchéance: dépôtValidé && dépôtValidé.dateÉchéance,
     dateConstitution: dépôtValidé && dépôtValidé.dateConstitution,

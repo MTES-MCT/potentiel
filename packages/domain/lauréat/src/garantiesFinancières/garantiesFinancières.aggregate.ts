@@ -11,6 +11,7 @@ import {
   GarantiesFinancièresEnregistréesEvent,
   GarantiesFinancièresModifiéesEvent,
   MotifDemandeGarantiesFinancières,
+  StatutGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
   TypeGarantiesFinancières,
   TypeGarantiesFinancièresImportéEvent,
@@ -107,6 +108,7 @@ export type GarantiesFinancièresEvent =
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   actuelles?: {
+    statut: StatutGarantiesFinancières.ValueType;
     type: TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
     dateConstitution?: DateTime.ValueType;
