@@ -80,3 +80,12 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type | consignation |
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une mainlevée de garanties financières en cours d'instruction"
+
+    @NotImplemented
+    Scénario: Impossible de soumettre de nouvelles garanties financières si les garanties financières du projet sont levées
+        Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
+        Et des garanties financières validées pour le projet "Centrale PV"
+        Et une demande de mainlevée de garanties financières accordée pour le projet "Centrale PV"
+        Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+            | type | consignation |
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car elles ont été levées pour ce projet"

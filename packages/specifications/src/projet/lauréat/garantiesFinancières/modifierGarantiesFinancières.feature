@@ -68,3 +68,12 @@ Fonctionnalité: Modifier des garanties financières validées
         Quand un admin modifie les garanties financières validées pour le projet "Centrale PV" avec :
             | date de constitution | 2020-01-01 |
         Alors l'utilisateur devrait être informé que "Il n'y a aucunes garanties financières validées pour ce projet"
+
+    @NotImplemented
+    Scénario: Impossible de modifier des garanties financières validées si les garanties financières du projet sont levées
+        Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
+        Et des garanties financières validées pour le projet "Centrale PV"
+        Et une demande de mainlevée de garanties financières accordée pour le projet "Centrale PV"
+        Quand un admin modifie les garanties financières validées pour le projet "Centrale PV" avec :
+            | date de constitution | 2020-01-01 |
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas modifier les garanties financières car elles ont été levées pour ce projet"
