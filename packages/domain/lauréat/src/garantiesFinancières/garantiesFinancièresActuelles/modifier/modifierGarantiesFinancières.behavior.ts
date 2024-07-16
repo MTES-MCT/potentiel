@@ -2,7 +2,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, NotFoundError } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-import { TypeGarantiesFinancières } from '../..';
+import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '../..';
 import { DateConstitutionDansLeFuturError } from '../../dateConstitutionDansLeFutur.error';
 import { DateÉchéanceManquanteError } from '../../dateÉchéanceManquante.error';
 import { DateÉchéanceNonAttendueError } from '../../dateÉchéanceNonAttendue.error';
@@ -80,6 +80,7 @@ export function applyModifierGarantiesFinancières(
 ) {
   this.actuelles = {
     ...this.actuelles,
+    statut: StatutGarantiesFinancières.validées,
     type: TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),
