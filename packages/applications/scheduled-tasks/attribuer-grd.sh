@@ -14,6 +14,6 @@ fi
 
 echo "Launching job [ATTRIBUER GRD]"
 
-npm run start:start:attribuer-grd -w @potentiel-applications/scheduled-tasks
+npm run start:attribuer-grd -w @potentiel-applications/scheduled-tasks
 
 exit 0
