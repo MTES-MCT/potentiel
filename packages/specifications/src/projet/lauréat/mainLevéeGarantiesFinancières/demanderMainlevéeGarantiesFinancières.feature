@@ -34,12 +34,14 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet n'est pas abandonné
         Etant donné des garanties financières validées pour le projet "Centrale PV"
+            |  |  |
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
             | motif | projet-abandonné |
         Alors le porteur devrait être informé que "Votre demande de mainlevée de garanties financières est invalide car le projet n'est pas en statut abandonné"
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet n'est pas achevé
         Etant donné des garanties financières validées pour le projet "Centrale PV"
+            |  |  |
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
             | motif | projet-achevé |
         Alors le porteur devrait être informé que "Votre demande de mainlevée de garanties financières est invalide car le projet n'est pas achevé (attestation de conformité non transmise au co-contractant et dans Potentiel)"
@@ -73,6 +75,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet s'il y a des garanties financières à traiter pour le projet
         Etant donné une attestation de conformité transmise pour le projet "Centrale PV"
         Etant donné des garanties financières validées pour le projet "Centrale PV"
+            |  |  |
         Et des garanties financières à traiter pour le projet "Centrale PV"
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
             | motif | projet-achevé |
@@ -80,6 +83,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet a déjà une demande de mainlevée
         Etant donné des garanties financières validées pour le projet "Centrale PV"
+            |  |  |
         Et une attestation de conformité transmise pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières pour le projet "Centrale PV" avec :
             | motif | projet-achevé |
@@ -89,6 +93,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet a déjà une demande de mainlevée en cours d'instruction
         Etant donné des garanties financières validées pour le projet "Centrale PV"
+            |  |  |
         Et une attestation de conformité transmise pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières en instruction pour le projet "Centrale PV"
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
@@ -97,6 +102,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet a déjà une demande de mainlevée accordée
         Etant donné des garanties financières validées pour le projet "Centrale PV"
+            |  |  |
         Et une attestation de conformité transmise pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières accordée pour le projet "Centrale PV" achevé
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :

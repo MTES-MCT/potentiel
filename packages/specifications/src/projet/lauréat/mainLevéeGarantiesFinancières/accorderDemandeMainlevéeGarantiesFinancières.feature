@@ -48,6 +48,7 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
 
     Scénario: Impossible d'accorder une demande de mainlevée si le projet a déjà une demande de mainlevée accordée
         Etant donné des garanties financières validées pour le projet "Centrale PV"
+            |  |  |
         Et une attestation de conformité transmise pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières accordée pour le projet "Centrale PV" achevé
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières du projet "Centrale PV"
@@ -55,6 +56,7 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
 
     Scénario: Impossible d'accorder une demande de mainlevée si le projet a déjà une demande de mainlevée rejetée et aucune en cours
         Etant donné des garanties financières validées pour le projet "Centrale PV"
+            |  |  |
         Et une attestation de conformité transmise pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières rejetée pour le projet "Centrale PV" achevé
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières du projet "Centrale PV"

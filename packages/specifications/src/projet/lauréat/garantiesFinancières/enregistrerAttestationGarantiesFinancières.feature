@@ -23,7 +23,7 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières validées
             | soumis par           | porteur@test.test |
 
     Scénario: Impossible d'enregistrer l'attestation des garanties financières si l'attestation est déjà présente
-        Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
+        Etant donné des garanties financières validées pour le projet "Centrale PV"
             | format               | application/pdf |
             | contenu fichier      | contenu fichier |
             | date de constitution | 2023-06-12      |

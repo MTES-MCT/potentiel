@@ -34,11 +34,13 @@ Fonctionnalité: Démarrer l'instruction d'une demande de mainlevée des garanti
 
     Scénario: Impossible de démarrer une instruction de demande de mainlevée si le projet n'a pas de demande de mainlevée
         Etant donné des garanties financières validées pour le projet "Centrale PV"
+            |  |  |
         Quand un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières du projet "Centrale PV"
         Alors le porteur devrait être informé que "Il n'y a pas de demande de mainlevée de garanties financières en cours pour ce projet"
 
     Scénario: Impossible de démarrer une instruction de demande de mainlevée si le projet a déjà une demande de mainlevée en cours d'instruction
         Etant donné des garanties financières validées pour le projet "Centrale PV"
+            |  |  |
         Et une attestation de conformité transmise pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières en instruction pour le projet "Centrale PV"
         Quand un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières du projet "Centrale PV"
@@ -46,6 +48,7 @@ Fonctionnalité: Démarrer l'instruction d'une demande de mainlevée des garanti
 
     Scénario: Impossible de démarrer une instruction de demande de mainlevée si le projet a déjà une demande de mainlevée accordée
         Etant donné des garanties financières validées pour le projet "Centrale PV"
+            |  |  |
         Et une attestation de conformité transmise pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières accordée pour le projet "Centrale PV" achevé
         Quand un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières du projet "Centrale PV"
@@ -53,6 +56,7 @@ Fonctionnalité: Démarrer l'instruction d'une demande de mainlevée des garanti
 
     Scénario: Impossible de démarrer une instruction de demande de mainlevée si le projet a déjà une demande de mainlevée rejetée et aucune en cours
         Etant donné des garanties financières validées pour le projet "Centrale PV"
+            |  |  |
         Et une attestation de conformité transmise pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières rejetée pour le projet "Centrale PV" achevé
         Quand un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières du projet "Centrale PV" avec :

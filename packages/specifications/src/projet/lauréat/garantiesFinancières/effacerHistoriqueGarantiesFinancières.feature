@@ -5,7 +5,7 @@ Fonctionnalité: Effacer tout l'historique de garanties financières d'un projet
         Etant donné le projet lauréat "Centrale PV"
 
     Scénario: Un admin supprime l'historique de garanties financières d'un projet
-        Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
+        Etant donné des garanties financières validées pour le projet "Centrale PV"
             | type | six-mois-après-achèvement |
         Et des garanties financières à traiter pour le projet "Centrale PV" avec :
             | type | consignation |

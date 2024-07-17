@@ -5,7 +5,7 @@ Fonctionnalité: Modifier des garanties financières validées
         Etant donné le projet lauréat "Centrale PV"
 
     Plan du Scénario: Un admin modifie des garanties financières validées
-        Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
+        Etant donné des garanties financières validées pour le projet "Centrale PV"
             | type                 | type-inconnu      |
             | date d'échéance      |                   |
             | format               | application/pdf   |
@@ -37,7 +37,7 @@ Fonctionnalité: Modifier des garanties financières validées
             | six-mois-après-achèvement |                 |
 
     Plan du Scénario: Impossible de modifier des garanties financières validées si le type renseigné n'est pas compatible avec une date d'échéance
-        Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
+        Etant donné des garanties financières validées pour le projet "Centrale PV"
             | type | type-inconnu |
         Quand un admin modifie les garanties financières validées pour le projet "Centrale PV" avec :
             | type            | <type>            |
@@ -50,7 +50,7 @@ Fonctionnalité: Modifier des garanties financières validées
             | six-mois-après-achèvement | 2027-12-01      |
 
     Scénario: Impossible de modifier des garanties financières validées si la date d'échéance est manquante
-        Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
+        Etant donné des garanties financières validées pour le projet "Centrale PV"
             | type | type-inconnu |
         Quand un admin modifie les garanties financières validées pour le projet "Centrale PV" avec :
             | type            | avec-date-échéance |
@@ -58,7 +58,7 @@ Fonctionnalité: Modifier des garanties financières validées
         Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières"
 
     Scénario: Impossible de modifier des garanties financières validées si la date de constitution est dans le futur
-        Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
+        Etant donné des garanties financières validées pour le projet "Centrale PV"
             | type | type-inconnu |
         Quand un admin modifie les garanties financières validées pour le projet "Centrale PV" avec :
             | date de constitution | 2050-01-01 |

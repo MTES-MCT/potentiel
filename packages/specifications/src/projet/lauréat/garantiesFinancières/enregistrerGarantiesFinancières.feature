@@ -79,7 +79,7 @@ Fonctionnalité: Enregistrer des garanties financières validées
         Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future"
 
     Scénario: Impossible d'enregister des garanties financières validées s'il y a déjà des garanties financières validées
-        Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
+        Etant donné des garanties financières validées pour le projet "Centrale PV"
             | type                 | type-inconnu      |
             | date d'échéance      |                   |
             | format               | application/pdf   |
