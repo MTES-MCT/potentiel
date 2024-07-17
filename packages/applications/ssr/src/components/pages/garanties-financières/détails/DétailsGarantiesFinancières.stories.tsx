@@ -27,6 +27,7 @@ export const GarantiesFinancieresActuellesComplètes: Story = {
     afficherInfoConditionsMainlevée: true,
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
+      statut: 'levé',
       dateÉchéance: new Date('2023-07-01').toISOString() as Iso8601DateTime,
       dateConstitution: new Date('2022-10-01').toISOString() as Iso8601DateTime,
       soumisLe: new Date('2021-09-23').toISOString() as Iso8601DateTime,
@@ -48,6 +49,7 @@ export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = 
     afficherInfoConditionsMainlevée: true,
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
+      statut: 'validé',
       dateÉchéance: new Date('2023-07-01').toISOString() as Iso8601DateTime,
       dateConstitution: new Date('2022-10-01').toISOString() as Iso8601DateTime,
       soumisLe: new Date('2021-09-23').toISOString() as Iso8601DateTime,
@@ -81,6 +83,7 @@ export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
     action: 'soumettre',
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('six-mois-après-achèvement'),
+      statut: 'levé',
       soumisLe: new Date('2024-01-01').toISOString() as Iso8601DateTime,
       validéLe: new Date('2024-01-15').toISOString() as Iso8601DateTime,
       attestation: 'path/to/attestation.pdf',

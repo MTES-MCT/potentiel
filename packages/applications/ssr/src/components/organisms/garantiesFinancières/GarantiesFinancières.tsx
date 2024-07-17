@@ -7,6 +7,8 @@ import { Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 
+import { StatutGarantiesFinancièresBadge } from '../../molecules/garantiesFinancières/StatutGarantiesFinancièresBadge';
+
 import { GarantiesFinancièresActions } from './GarantiesFinancièresActions';
 import { GarantiesFinancièresActuelles, DépôtGarantiesFinancières } from './types';
 
@@ -26,9 +28,14 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
       <>
         <div className="flex flex-col h-full">
           <div>
-            <Heading2>
-              Garanties financières {garantiesFinancières.isActuelle ? 'actuelles' : 'à traiter'}
-            </Heading2>
+            <div className="flex gap-2">
+              <Heading2>
+                Garanties financières {garantiesFinancières.isActuelle ? 'actuelles' : 'à traiter'}
+              </Heading2>
+              {garantiesFinancières.isActuelle ? (
+                <StatutGarantiesFinancièresBadge statut={garantiesFinancières.statut} />
+              ) : null}
+            </div>
             <div className="text-xs italic">
               Dernière mise à jour le{' '}
               <FormattedDate

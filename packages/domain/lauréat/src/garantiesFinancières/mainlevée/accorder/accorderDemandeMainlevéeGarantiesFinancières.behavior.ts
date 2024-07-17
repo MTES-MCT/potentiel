@@ -3,7 +3,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
-import { StatutMainlevéeGarantiesFinancières } from '../..';
+import { StatutGarantiesFinancières, StatutMainlevéeGarantiesFinancières } from '../..';
 import { DemandeMainlevéeNonTrouvéeError } from '../demandeMainlevéeNonTrouvée.error';
 
 export type DemandeMainlevéeGarantiesFinancièresAccordéeEvent = DomainEvent<
@@ -59,5 +59,8 @@ export function applyDemandeMainlevéeGarantiesFinancièresAccordée(
     this.demandeMainlevéeEnCours.statut = StatutMainlevéeGarantiesFinancières.accordé;
   } else {
     this.demandeMainlevéeEnCours = { statut: StatutMainlevéeGarantiesFinancières.accordé };
+  }
+  if (this.actuelles) {
+    this.actuelles.statut = StatutGarantiesFinancières.levé;
   }
 }

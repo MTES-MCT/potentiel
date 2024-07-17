@@ -128,6 +128,8 @@ Alors(
         );
       }
 
+      expect(actualReadModel.garantiesFinancières.statut.estValidé()).to.be.true;
+
       // ASSERT ON FILE
       if (format && contenu) {
         expect(actualReadModel.garantiesFinancières?.attestation).not.to.be.undefined;

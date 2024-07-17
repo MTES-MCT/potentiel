@@ -173,6 +173,9 @@ const mapToProps: MapToProps = ({
   const aGarantiesFinancièresSansAttestation =
     Option.isSome(garantiesFinancièresActuelles) &&
     !garantiesFinancièresActuelles.garantiesFinancières.attestation;
+  const aGarantiesFinancièresNonLevées =
+    Option.isSome(garantiesFinancièresActuelles) &&
+    !garantiesFinancièresActuelles.garantiesFinancières.statut.estLevé();
   const aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée =
     Option.isSome(garantiesFinancièresActuelles) &&
     garantiesFinancièresActuelles.garantiesFinancières.attestation &&
@@ -186,7 +189,7 @@ const mapToProps: MapToProps = ({
     (Option.isSome(mainlevée) && mainlevée.statut.estAccordé()) ||
     Option.isSome(historiqueMainlevée);
 
-  if (estAdminOuDGEC || estDreal) {
+  if ((estAdminOuDGEC || estDreal) && aGarantiesFinancièresNonLevées) {
     garantiesFinancièresActuellesActions.push('modifier');
   } else if (estPorteur) {
     if (aGarantiesFinancièresSansAttestation) {
@@ -228,6 +231,7 @@ const mapToProps: MapToProps = ({
           type: getGarantiesFinancièresTypeLabel(
             garantiesFinancièresActuelles.garantiesFinancières.type.type,
           ),
+          statut: garantiesFinancièresActuelles.garantiesFinancières.statut.statut,
           dateÉchéance:
             garantiesFinancièresActuelles.garantiesFinancières.dateÉchéance?.formatter(),
           dateConstitution:

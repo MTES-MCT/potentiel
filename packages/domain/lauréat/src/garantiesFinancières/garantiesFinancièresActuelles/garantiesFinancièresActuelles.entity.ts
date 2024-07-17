@@ -1,5 +1,7 @@
 import { Entity } from '@potentiel-domain/core';
 
+import { StatutGarantiesFinancières } from '..';
+
 export type GarantiesFinancièresEntity = Entity<
   'garanties-financieres',
   {
@@ -11,6 +13,7 @@ export type GarantiesFinancièresEntity = Entity<
     famille?: string;
 
     garantiesFinancières: {
+      statut: StatutGarantiesFinancières.RawType;
       type: string;
       dateÉchéance?: string;
       attestation?: { format: string };

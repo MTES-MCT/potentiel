@@ -8,6 +8,7 @@ import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggr
 import { DateConstitutionDansLeFuturError } from '../../dateConstitutionDansLeFutur.error';
 import { DateÉchéanceManquanteError } from '../../dateÉchéanceManquante.error';
 import { DateÉchéanceNonAttendueError } from '../../dateÉchéanceNonAttendue.error';
+import { GarantiesFinancièresDéjàLevéesError } from '../../garantiesFinancièresDéjàLevées.error';
 
 export type DépôtGarantiesFinancièresSoumisEvent = DomainEvent<
   'DépôtGarantiesFinancièresSoumis-V1',
@@ -61,6 +62,9 @@ export async function soumettreDépôt(
   }
   if (this.demandeMainlevéeEnCours?.statut.estEnInstruction()) {
     throw new DemandeMainlevéeEnInstructionError();
+  }
+  if (this.actuelles?.statut.estLevé()) {
+    throw new GarantiesFinancièresDéjàLevéesError();
   }
 
   const event: DépôtGarantiesFinancièresSoumisEvent = {
