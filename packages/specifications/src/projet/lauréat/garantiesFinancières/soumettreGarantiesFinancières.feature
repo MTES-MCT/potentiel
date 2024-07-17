@@ -65,7 +65,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières en attente de validation pour ce projet"
 
     Scénario: Impossible de soumettre de nouvelles garanties financières si une demande de mainlevée a été demandée
-        Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
+        Etant donné une attestation de conformité transmise pour le projet "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières pour le projet "Centrale PV" avec :
             | motif | projet-achevé |
@@ -74,7 +74,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une demande de mainlevée de garanties financières en cours"
 
     Scénario: Impossible de soumettre de nouvelles garanties financières si une demande de mainlevée est en instruction
-        Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
+        Etant donné une attestation de conformité transmise pour le projet "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières en instruction pour le projet "Centrale PV"
         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
@@ -82,7 +82,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une mainlevée de garanties financières en cours d'instruction"
 
     Scénario: Impossible de soumettre de nouvelles garanties financières si les garanties financières du projet sont levées
-        Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
+        Etant donné une attestation de conformité transmise pour le projet "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières accordée pour le projet "Centrale PV" achevé
         Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :

@@ -8,7 +8,7 @@ import { convertStringToReadableStream } from '../../../../../helpers/convertStr
 import { sleep } from '../../../../../helpers/sleep';
 
 EtantDonné(
-  'le projet {string} avec une attestation de conformité transmise',
+  'une attestation de conformité transmise pour le projet {string}',
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
