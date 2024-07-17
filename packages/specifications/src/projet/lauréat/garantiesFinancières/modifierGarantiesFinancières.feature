@@ -70,7 +70,7 @@ Fonctionnalité: Modifier des garanties financières validées
         Alors l'utilisateur devrait être informé que "Il n'y a aucunes garanties financières validées pour ce projet"
 
     Scénario: Impossible de modifier des garanties financières validées si les garanties financières du projet sont levées
-        Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
+        Etant donné une attestation de conformité transmise pour le projet "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières accordée pour le projet "Centrale PV" achevé
         Quand un admin modifie les garanties financières validées pour le projet "Centrale PV" avec :

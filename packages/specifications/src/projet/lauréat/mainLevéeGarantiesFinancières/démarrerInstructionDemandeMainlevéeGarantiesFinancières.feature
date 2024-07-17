@@ -19,7 +19,7 @@ Fonctionnalité: Démarrer l'instruction d'une demande de mainlevée des garanti
             | mise à jour par          | dreal@test.test |
 
     Scénario: Un utilisateur Dreal démarre l'instruction d'une demande de mainlevée pour un projet achevé
-        Etant donné le projet "Centrale PV" avec une attestation de conformité transmise
+        Etant donné une attestation de conformité transmise pour le projet "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières pour le projet "Centrale PV" avec :
             | motif | projet-achevé |
@@ -39,21 +39,21 @@ Fonctionnalité: Démarrer l'instruction d'une demande de mainlevée des garanti
 
     Scénario: Impossible de démarrer une instruction de demande de mainlevée si le projet a déjà une demande de mainlevée en cours d'instruction
         Etant donné des garanties financières validées pour le projet "Centrale PV"
-        Et le projet "Centrale PV" avec une attestation de conformité transmise
+        Et une attestation de conformité transmise pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières en instruction pour le projet "Centrale PV"
         Quand un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières du projet "Centrale PV"
         Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée en instruction pour ce projet"
 
     Scénario: Impossible de démarrer une instruction de demande de mainlevée si le projet a déjà une demande de mainlevée accordée
         Etant donné des garanties financières validées pour le projet "Centrale PV"
-        Et le projet "Centrale PV" avec une attestation de conformité transmise
+        Et une attestation de conformité transmise pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières accordée pour le projet "Centrale PV" achevé
         Quand un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières du projet "Centrale PV"
         Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée accordée pour ce projet"
 
     Scénario: Impossible de démarrer une instruction de demande de mainlevée si le projet a déjà une demande de mainlevée rejetée et aucune en cours
         Etant donné des garanties financières validées pour le projet "Centrale PV"
-        Et le projet "Centrale PV" avec une attestation de conformité transmise
+        Et une attestation de conformité transmise pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières rejetée pour le projet "Centrale PV" achevé
         Quand un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières du projet "Centrale PV" avec :
             | utilisateur | dreal@test.test |

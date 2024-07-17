@@ -28,7 +28,7 @@ Fonctionnalité: Transmettre une attestation de conformité
         Alors le porteur devrait être informé que "la date de transmission au co-contractant ne peut pas être une date future"
 
     Scénario: Impossible de transmettre une attestation de conformité si le projet a déjà une attestation de conformité
-        Et le projet "Centrale PV" avec une attestation de conformité transmise
+        Et une attestation de conformité transmise pour le projet "Centrale PV"
         Quand un porteur transmet une attestation de conformité pour le projet "Centrale PV" avec :
             | format attestation                            | application/pdf             |
             | contenu attestation                           | le contenu de l'attestation |
