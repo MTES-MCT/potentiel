@@ -66,7 +66,9 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
       {!dépôtEnCours && !actuelles && (
         <GarantiesFinancièresManquantes identifiantProjet={identifiantProjet} action={action} />
       )}
-      {afficherInfoConditionsMainlevée && <InfoBoxMainlevée />}
+      {afficherInfoConditionsMainlevée && (
+        <InfoBoxMainlevée identifiantProjet={identifiantProjet} />
+      )}
       {action === 'soumettre' && (
         <InfoBoxSoumettreGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}

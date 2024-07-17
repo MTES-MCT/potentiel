@@ -1,6 +1,16 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Link from 'next/link';
+import { FC } from 'react';
 
-export const InfoBoxMainlevée = () => (
+import { Routes } from '@potentiel-applications/routes';
+
+import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
+
+type InfoBoxMainlevéeProps = {
+  identifiantProjet: DétailsGarantiesFinancièresPageProps['identifiantProjet'];
+};
+
+export const InfoBoxMainlevée: FC<InfoBoxMainlevéeProps> = ({ identifiantProjet }) => (
   <Alert
     severity="info"
     small
@@ -19,7 +29,10 @@ export const InfoBoxMainlevée = () => (
           </li>
           <li>
             L'attestation de conformité a été transmise dans Potentiel ou le projet est abandonné
-            (abandon accordé par la DGEC)
+            (abandon accordé par la DGEC). Vous pouvez la transmettre{' '}
+            <Link href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}>
+              ici
+            </Link>
           </li>
         </ul>
       </div>
