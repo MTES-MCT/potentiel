@@ -47,6 +47,6 @@ Fonctionnalité: Échoir les garanties financières d'un projet
         Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
             | type            | avec-date-échéance |
             | date d'échéance | 17/07/2024         |
-        Et le projet "Centrale PV" avec une attestation de conformité transmise
+        Et une attestation de conformité transmise pour le projet "Centrale PV"
         Quand un admin échoie les garanties financières pour le projet "Centrale PV" à la date du 18/07/2024
         Alors l'utilisateur devrait être informé que "Le projet dispose d'une attestation de conformité, ce qui empêche de pouvoir échoir ses garanties financières"
