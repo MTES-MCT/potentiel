@@ -1,6 +1,6 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const statut = ['validé', 'levé', 'échu'] as const;
+export const statut = ['validé', 'levé'] as const;
 
 export type RawType = (typeof statut)[number];
 
@@ -8,7 +8,6 @@ export type ValueType = ReadonlyValueType<{
   statut: RawType;
   estValidé: () => boolean;
   estLevé: () => boolean;
-  estÉchu: () => boolean;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -25,9 +24,6 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
     estLevé() {
       return this.statut === 'levé';
-    },
-    estÉchu() {
-      return this.statut === 'échu';
     },
   };
 };

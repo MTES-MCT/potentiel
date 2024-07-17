@@ -8,7 +8,6 @@ const convertStatutGarantiesFinancièresToBadgeSeverity: Record<
   GarantiesFinancières.StatutGarantiesFinancières.RawType,
   AlertProps.Severity
 > = {
-  échu: 'error',
   validé: 'success',
   levé: 'info',
 };

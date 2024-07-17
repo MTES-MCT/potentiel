@@ -47,6 +47,9 @@ export async function modifier(
   if (!this.actuelles) {
     throw new AucunesGarantiesFinancièresValidées();
   }
+  if (this.actuelles.statut.estLevé()) {
+    throw new GarantiesFinancièresDéjàLevéesError();
+  }
   if (type.estAvecDateÉchéance() && !dateÉchéance) {
     throw new DateÉchéanceManquanteError();
   }
@@ -79,13 +82,9 @@ export function applyModifierGarantiesFinancières(
     payload: { type, dateÉchéance, dateConstitution, attestation },
   }: GarantiesFinancièresModifiéesEvent,
 ) {
-  if (this.actuelles?.statut.estLevé()) {
-    throw new GarantiesFinancièresDéjàLevéesError();
-  }
-
   this.actuelles = {
-    ...this.actuelles,
     statut: StatutGarantiesFinancières.validé,
+    ...this.actuelles,
     type: TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),
