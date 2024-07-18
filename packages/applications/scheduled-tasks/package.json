@@ -9,8 +9,7 @@
     "start:relancer-abandon-sans-preuve": "node ./dist/abandon/relancer-abandon-sans-preuve",
     "start:déplacer-fichiers-vers-bucket-secnum": "node ./dist/déplacer-fichiers-vers-bucket-secnum",
     "start:créer-backup": "node ./dist/backup/créer-backup",
-    "start:mettre-à-jour-gestionnaire-réseau": "node ./dist/gestionnaireRéseau",
-    "start:vérifier-date-échéance-garanties-financières": "node ./dist/garantiesFinancières/vérifier-date-échéance-garanties-financières"
+    "start:mettre-à-jour-gestionnaire-réseau": "node ./dist/gestionnaireRéseau"
   },
   "dependencies": {
     "@potentiel-libraries/file-storage": "*",
