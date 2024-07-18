@@ -278,7 +278,10 @@ const mapToProps: MapToProps = ({
             accordéeLe: mainlevée.accord?.accordéeLe.formatter(),
             courrierAccord: mainlevée.accord?.courrierAccord.formatter(),
           },
-          dernièreMiseÀJourLe: mainlevée.dernièreMiseÀJour.date.formatter(),
+          dernièreMiseÀJour: {
+            date: mainlevée.dernièreMiseÀJour.date.formatter(),
+            par: mainlevée.dernièreMiseÀJour.par.formatter(),
+          },
           actions: mainlevéeActions,
           urlAppelOffre: appelOffreDetails.cahiersDesChargesUrl,
         }
