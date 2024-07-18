@@ -58,19 +58,19 @@ Alors(
     const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(typeTâche);
     const projet = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    // await waitForExpect(async () => {
-    const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
-      type: 'Tâche.Query.ListerTâchesPlanifiées',
-      data: {
-        àExecuterLe: new Date(dateTâche).toISOString(),
-      },
+    await waitForExpect(async () => {
+      const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
+        type: 'Tâche.Query.ListerTâchesPlanifiées',
+        data: {
+          àExecuterLe: new Date(dateTâche).toISOString(),
+        },
+      });
+      const tâche = tâches.items.find(
+        (t) =>
+          t.typeTâche.estÉgaleÀ(actualTypeTâche) &&
+          t.identifiantProjet.estÉgaleÀ(projet.identifiantProjet),
+      );
+      expect(tâche).not.to.be.undefined;
     });
-    const tâche = tâches.items.find(
-      (t) =>
-        t.typeTâche.estÉgaleÀ(actualTypeTâche) &&
-        t.identifiantProjet.estÉgaleÀ(projet.identifiantProjet),
-    );
-    expect(tâche).not.to.be.undefined;
-    // });
   },
 );

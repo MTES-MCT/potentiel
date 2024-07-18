@@ -62,7 +62,7 @@ export async function validerDépôtEnCours(
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       dateConstitution: dateConstitution.formatter(),
-      type: type,
+      type,
       dateÉchéance: dateÉchéance?.formatter(),
       soumisLe: soumisLe.formatter(),
       attestation,

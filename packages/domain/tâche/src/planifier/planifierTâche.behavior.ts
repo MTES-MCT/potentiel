@@ -24,16 +24,18 @@ export async function planifier(
   this: TâcheAggregate,
   { identifiantProjet, typeTâche, àExecuterLe }: PlanifierOptions,
 ) {
-  const event: TâchePlanifiéeEvent = {
-    type: 'TâchePlanifiée-V1',
-    payload: {
-      ajoutéeLe: DateTime.now().formatter(),
-      identifiantProjet: identifiantProjet.formatter(),
-      typeTâche: typeTâche.type,
-      àExecuterLe: àExecuterLe.formatter(),
-    },
-  };
-  await this.publish(event);
+  if (!this.àExecuterLe?.estÉgaleÀ(àExecuterLe)) {
+    const event: TâchePlanifiéeEvent = {
+      type: 'TâchePlanifiée-V1',
+      payload: {
+        ajoutéeLe: DateTime.now().formatter(),
+        identifiantProjet: identifiantProjet.formatter(),
+        typeTâche: typeTâche.type,
+        àExecuterLe: àExecuterLe.formatter(),
+      },
+    };
+    await this.publish(event);
+  }
 }
 
 export function applyTâchePlanifiée(
