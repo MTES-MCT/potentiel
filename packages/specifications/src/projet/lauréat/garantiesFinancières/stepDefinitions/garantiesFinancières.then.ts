@@ -1,5 +1,5 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 
@@ -297,3 +297,24 @@ const getProjetAvecGarantiesFinancièresEnAttente = async (
 
   return actualReadModel;
 };
+
+Alors(
+  `les garanties financières du projet {string} sont échues`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      const actualReadModel =
+        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
+
+      expect(Option.isSome(actualReadModel)).to.be.true;
+      assert(Option.isSome(actualReadModel));
+      expect(actualReadModel.garantiesFinancières.statut.estÉchu).to.be.true;
+    });
+  },
+);

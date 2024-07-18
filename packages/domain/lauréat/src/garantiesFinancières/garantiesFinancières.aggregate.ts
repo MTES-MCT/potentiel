@@ -90,6 +90,10 @@ import {
   accorderDemandeMainlevéeGarantiesFinancières,
   applyDemandeMainlevéeGarantiesFinancièresAccordée,
 } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.behavior';
+import {
+  applyGarantiesFinancièresÉchues,
+  GarantiesFinancièresÉchuesEvent,
+} from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.behavior';
 
 export type GarantiesFinancièresEvent =
   | DépôtGarantiesFinancièresSoumisEvent
@@ -107,7 +111,8 @@ export type GarantiesFinancièresEvent =
   | DemandeMainlevéeGarantiesFinancièresAnnuléeEvent
   | InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent
   | DemandeMainlevéeGarantiesFinancièresRejetéeEvent
-  | DemandeMainlevéeGarantiesFinancièresAccordéeEvent;
+  | DemandeMainlevéeGarantiesFinancièresAccordéeEvent
+  | GarantiesFinancièresÉchuesEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   actuelles?: {
@@ -220,6 +225,9 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       break;
     case 'DemandeMainlevéeGarantiesFinancièresAccordée-V1':
       applyDemandeMainlevéeGarantiesFinancièresAccordée.bind(this)();
+      break;
+    case 'GarantiesFinancièresÉchues-V1':
+      applyGarantiesFinancièresÉchues.bind(this)();
       break;
   }
 }

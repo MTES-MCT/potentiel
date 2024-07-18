@@ -267,3 +267,25 @@ Quand(
     }
   },
 );
+
+Quand(
+  `Quand un admin échoie les garanties financières pour le projet {string} à la date du {string}`,
+  async function (this: PotentielWorld, nomProjet: string, dateAVérifier: string) {
+    try {
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const dateAVérifierWithValidFormat = dateAVérifier.split('/').reverse().join('-');
+      console.log(dateAVérifierWithValidFormat);
+
+      await mediator.send<GarantiesFinancières.EchoirGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.UseCase.EchoirGarantiesFinancières',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          dateAVérifierValue: new Date(dateAVérifierWithValidFormat),
+        },
+      });
+      await sleep(500);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
