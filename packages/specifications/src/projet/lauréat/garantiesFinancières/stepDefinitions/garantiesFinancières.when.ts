@@ -6,7 +6,6 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { PotentielWorld } from '../../../../potentiel.world';
 import { sleep } from '../../../../helpers/sleep';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
-import { convertDateFrFormatToDateConstructorFormat } from '../../../../helpers/convertDateFrFormatToJsFormat';
 
 Quand(
   'le porteur soumet des garanties financières pour le projet {string} avec :',
@@ -270,16 +269,14 @@ Quand(
 );
 
 Quand(
-  `Quand un admin échoie les garanties financières pour le projet {string} avec :`,
+  `un admin échoie les garanties financières pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      const échuLeValue = convertDateFrFormatToDateConstructorFormat(exemple['date à vérifier']);
-      const dateÉchéanceValue = convertDateFrFormatToDateConstructorFormat(
-        exemple["date d'échéance"],
-      );
+      const échuLeValue = exemple['date à vérifier'];
+      const dateÉchéanceValue = exemple["date d'échéance"];
 
       await mediator.send<GarantiesFinancières.ÉchoirGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.ÉchoirGarantiesFinancières',
