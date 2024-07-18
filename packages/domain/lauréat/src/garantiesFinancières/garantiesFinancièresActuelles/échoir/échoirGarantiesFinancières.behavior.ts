@@ -40,6 +40,10 @@ export async function échoir(
     throw new GarantiesFinancièresDéjàÉchuesError();
   }
 
+  if (this.dépôtsEnCours) {
+    throw new ImpossibleÉchoirGarantiesFinancièresCarDépôtEnCoursError();
+  }
+
   const event: GarantiesFinancièresÉchuesEvent = {
     type: 'GarantiesFinancièresÉchues-V1',
     payload: {
@@ -67,5 +71,13 @@ class DateÉchéanceNonPasséeError extends InvalidOperationError {
 class GarantiesFinancièresDéjàÉchuesError extends InvalidOperationError {
   constructor() {
     super(`Les garanties financières du projet sont déjà échues`);
+  }
+}
+
+class ImpossibleÉchoirGarantiesFinancièresCarDépôtEnCoursError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Le projet dispose d'un dépôt de garanties financières en attente de validation, ce qui empêche de pouvoir échoir ses garanties financières`,
+    );
   }
 }
