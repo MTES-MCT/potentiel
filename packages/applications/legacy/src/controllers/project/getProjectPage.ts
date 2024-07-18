@@ -264,7 +264,9 @@ const getAlertesRaccordement = async ({
 
     if (
       CDC2022Choisi &&
-      dossiersRaccordement.dossiers[0].référence.formatter() === 'Référence non transmise'
+      dossiersRaccordement.dossiers[0].référence.estÉgaleÀ(
+        Raccordement.RéférenceDossierRaccordement.référenceNonTransmise,
+      )
     ) {
       alertes.push('référenceDossierManquantePourDélaiCDC2022');
     }
