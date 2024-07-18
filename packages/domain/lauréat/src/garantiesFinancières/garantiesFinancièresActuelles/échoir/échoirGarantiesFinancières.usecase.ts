@@ -2,6 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
+import { ÉchoirGarantiesFinancièresCommand } from './échoirGarantiesFinancières.command';
+
 export type ÉchoirGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.ÉchoirGarantiesFinancières',
   {

@@ -21,15 +21,15 @@ export const registerÉchoirGarantiesFinancièresCommand = (loadAggregate: LoadA
   const handler: MessageHandler<ÉchoirGarantiesFinancièresCommand> = async ({
     identifiantProjet,
     dateÉchéance,
-    échuéLe,
-    échuéPar,
+    échuLe,
+    échuPar,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
     await garantiesFinancières.échoir({
       identifiantProjet,
       dateÉchéance,
-      échuéLe,
-      échuéPar,
+      échuLe,
+      échuPar,
     });
   };
   mediator.register('Lauréat.GarantiesFinancières.Command.ÉchoirGarantiesFinancières', handler);
