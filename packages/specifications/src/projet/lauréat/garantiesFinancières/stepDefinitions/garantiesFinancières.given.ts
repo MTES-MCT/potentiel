@@ -103,7 +103,7 @@ EtantDonné(
     const contenuFichier = exemple['contenu fichier'] || 'contenu fichier';
     const dateSoumission = exemple['date de soumission'] || '2024-01-02';
     const soumisPar = exemple['soumis par'] || 'user@test.test';
-    const validéLe = exemple['date validation'] || '2024-01-03';
+    const validéLe = exemple['date de validation'] || '2024-01-03';
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 

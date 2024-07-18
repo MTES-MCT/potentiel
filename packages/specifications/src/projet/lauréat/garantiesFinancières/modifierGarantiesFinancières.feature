@@ -13,7 +13,7 @@ Fonctionnalité: Modifier des garanties financières validées
             | date de constitution | 2023-06-10        |
             | date de soumission   | 2023-11-01        |
             | soumis par           | porteur@test.test |
-            | date validation      | 2023-11-03        |
+            | date de validation   | 2023-11-03        |
         Quand un admin modifie les garanties financières validées pour le projet "Centrale PV" avec :
             | type                 | <type>            |
             | date d'échéance      | <date d'échéance> |
