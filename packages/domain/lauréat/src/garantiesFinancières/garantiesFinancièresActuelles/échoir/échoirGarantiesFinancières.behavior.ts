@@ -1,5 +1,5 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 
 import { StatutGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
@@ -28,6 +28,14 @@ export async function échoir(
     throw new AucunesGarantiesFinancièresValidéesError();
   }
 
+  if (échuLe.estAntérieurÀ(dateÉchéance)) {
+    throw new DateÉchéanceNonPasséeError();
+  }
+
+  if (échuLe.estÉgaleÀ(dateÉchéance)) {
+    throw new DateÉchéanceNonPasséeError();
+  }
+
   const event: GarantiesFinancièresÉchuesEvent = {
     type: 'GarantiesFinancièresÉchues-V1',
     payload: {
@@ -43,5 +51,11 @@ export async function échoir(
 export function applyGarantiesFinancièresÉchues(this: GarantiesFinancièresAggregate) {
   if (this.actuelles) {
     this.actuelles.statut = StatutGarantiesFinancières.échu;
+  }
+}
+
+class DateÉchéanceNonPasséeError extends InvalidOperationError {
+  constructor() {
+    super(`La date d'échéance des garanties financières n'est pas encore passée`);
   }
 }

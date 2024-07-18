@@ -19,7 +19,6 @@ Fonctionnalité: Échoir les garanties financières d'un projet
             | date à vérifier | 2024-07-18 |
         Alors l'utilisateur devrait être informé que "Il n'y a aucunes garanties financières validées pour ce projet"
 
-    @select
     Scénario: Impossible d'échoir les garanties financières d'un projet si la date d'échéance est dans le futur
         Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
             | type            | avec-date-échéance |
@@ -27,6 +26,15 @@ Fonctionnalité: Échoir les garanties financières d'un projet
         Quand un admin échoie les garanties financières pour le projet "Centrale PV" avec :
             | date d'échéance | 2024-07-17 |
             | date à vérifier | 2024-07-16 |
+        Alors l'utilisateur devrait être informé que "La date d'échéance des garanties financières n'est pas encore passée"
+
+    Scénario: Impossible d'échoir les garanties financières d'un projet si la vérification est le jour de la date d'échéance
+        Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
+            | type            | avec-date-échéance |
+            | date d'échéance | 2024-07-17         |
+        Quand un admin échoie les garanties financières pour le projet "Centrale PV" avec :
+            | date d'échéance | 2024-07-17 |
+            | date à vérifier | 2024-07-17 |
         Alors l'utilisateur devrait être informé que "La date d'échéance des garanties financières n'est pas encore passée"
 
     @NotImplemented
