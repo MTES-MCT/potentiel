@@ -3,6 +3,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 
 import { StatutGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
+import { AucunesGarantiesFinancièresValidéesError } from '../aucunesGarantiesFinancièresValidéesError';
 
 export type GarantiesFinancièresÉchuesEvent = DomainEvent<
   'GarantiesFinancièresÉchues-V1',
@@ -23,6 +24,10 @@ export async function échoir(
   this: GarantiesFinancièresAggregate,
   { identifiantProjet, dateÉchéance, échuLe }: Options,
 ) {
+  if (!this.actuelles) {
+    throw new AucunesGarantiesFinancièresValidéesError();
+  }
+
   const event: GarantiesFinancièresÉchuesEvent = {
     type: 'GarantiesFinancièresÉchues-V1',
     payload: {

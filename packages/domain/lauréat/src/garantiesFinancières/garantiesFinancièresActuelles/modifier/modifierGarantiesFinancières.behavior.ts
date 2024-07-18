@@ -1,5 +1,5 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, NotFoundError } from '@potentiel-domain/core';
+import { DomainEvent } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '../..';
@@ -8,6 +8,7 @@ import { DateÉchéanceManquanteError } from '../../dateÉchéanceManquante.erro
 import { DateÉchéanceNonAttendueError } from '../../dateÉchéanceNonAttendue.error';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { GarantiesFinancièresDéjàLevéesError } from '../../garantiesFinancièresDéjàLevées.error';
+import { AucunesGarantiesFinancièresValidéesError } from '../aucunesGarantiesFinancièresValidéesError';
 
 export type GarantiesFinancièresModifiéesEvent = DomainEvent<
   'GarantiesFinancièresModifiées-V1',
@@ -45,7 +46,7 @@ export async function modifier(
   }: Options,
 ) {
   if (!this.actuelles) {
-    throw new AucunesGarantiesFinancièresValidées();
+    throw new AucunesGarantiesFinancièresValidéesError();
   }
   if (this.actuelles.statut.estLevé()) {
     throw new GarantiesFinancièresDéjàLevéesError();
@@ -90,10 +91,4 @@ export function applyModifierGarantiesFinancières(
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),
     attestation,
   };
-}
-
-class AucunesGarantiesFinancièresValidées extends NotFoundError {
-  constructor() {
-    super(`Il n'y a aucunes garanties financières validées pour ce projet`);
-  }
 }
