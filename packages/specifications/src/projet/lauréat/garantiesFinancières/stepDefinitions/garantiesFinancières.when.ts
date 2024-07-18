@@ -275,8 +275,8 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      const échuLeValue = exemple['date à vérifier'];
-      const dateÉchéanceValue = exemple["date d'échéance"];
+      const échuLeValue = new Date(exemple['date à vérifier']).toISOString();
+      const dateÉchéanceValue = new Date(exemple["date d'échéance"]).toISOString();
 
       await mediator.send<GarantiesFinancières.ÉchoirGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.ÉchoirGarantiesFinancières',

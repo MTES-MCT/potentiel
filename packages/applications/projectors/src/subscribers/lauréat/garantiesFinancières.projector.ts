@@ -554,8 +554,6 @@ export const register = () => {
                 statut: GarantiesFinancières.StatutGarantiesFinancières.échu.statut,
                 dernièreMiseÀJour: {
                   date: payload.échuLe,
-                  // TODO: validé car c'est un changement du système
-                  par: 'potentiel',
                 },
               },
             },
