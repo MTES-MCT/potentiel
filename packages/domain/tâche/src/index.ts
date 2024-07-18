@@ -15,7 +15,9 @@ export { ConsulterNombreTâchesReadModel, ListerTâchesReadModel };
 export { TâcheEvent } from './tâche.aggregate';
 
 // Saga
-export * as TâcheSaga from './tâche.saga';
+export * as TâcheAbandonSaga from './saga/tâcheAbandon.saga';
+export * as TâcheGarantiesFinancièresSaga from './saga/tâcheGarantiesFinancières.saga';
+export * as TâcheRaccordementSaga from './saga/tâcheRaccordement.saga';
 
 // Register
 export * from './register';
