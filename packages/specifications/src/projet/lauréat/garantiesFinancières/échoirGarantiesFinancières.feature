@@ -37,12 +37,13 @@ Fonctionnalité: Échoir les garanties financières d'un projet
             | date à vérifier | 2024-07-17 |
         Alors l'utilisateur devrait être informé que "La date d'échéance des garanties financières n'est pas encore passée"
 
-    @NotImplemented
+    @select
     Scénario: Impossible d'échoir les garanties financières d'un projet si les garanties financières sont déjà échues
         Etant donné des garanties financières échues pour le projet "Centrale PV" avec :
-            | type            | avec-date-échéance |
-            | date d'échéance | 2024-07-17         |
-        Quand un admin échoie les garanties financières pour le projet "Centrale PV" à la date du 19/07/2024
+            | date d'échéance | 2024-07-17 |
+        Quand un admin échoie les garanties financières pour le projet "Centrale PV" avec :
+            | date d'échéance | 2024-07-17 |
+            | date à vérifier | 2024-07-18 |
         Alors l'utilisateur devrait être informé que "Les garanties financières du projet sont déjà échues"
 
     @NotImplemented
@@ -51,16 +52,20 @@ Fonctionnalité: Échoir les garanties financières d'un projet
             | type            | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
         Et des garanties financières à traiter pour le projet "Centrale PV"
-        Quand un admin échoie les garanties financières pour le projet "Centrale PV" à la date du 18/07/2024
+        Quand un admin échoie les garanties financières pour le projet "Centrale PV" avec :
+            | date d'échéance | 2024-07-17 |
+            | date à vérifier | 2024-07-18 |
         Alors l'utilisateur devrait être informé que "Le projet dispose d'un dépôt de garanties financières en attente de validation, ce qui empêche de pouvoir échoir ses garanties financières"
 
     @NotImplemented
-    Scénario: Impossible d'échoir les garanties financières d'un projet si le projet a transmis l'attesation de conformité
+    Scénario: Impossible d'échoir les garanties financières d'un projet si le projet a transmis l'attestation de conformité
         Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
             | type            | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
         Et une attestation de conformité transmise pour le projet "Centrale PV"
-        Quand un admin échoie les garanties financières pour le projet "Centrale PV" à la date du 18/07/2024
+        Quand un admin échoie les garanties financières pour le projet "Centrale PV" avec :
+            | date d'échéance | 2024-07-17 |
+            | date à vérifier | 2024-07-18 |
         Alors l'utilisateur devrait être informé que "Le projet dispose d'une attestation de conformité, ce qui empêche de pouvoir échoir ses garanties financières"
 
     # À vérifier côté métier

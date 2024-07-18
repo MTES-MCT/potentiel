@@ -36,6 +36,10 @@ export async function échoir(
     throw new DateÉchéanceNonPasséeError();
   }
 
+  if (this.actuelles.statut.estÉchu()) {
+    throw new GarantiesFinancièresDéjàÉchuesError();
+  }
+
   const event: GarantiesFinancièresÉchuesEvent = {
     type: 'GarantiesFinancièresÉchues-V1',
     payload: {
@@ -57,5 +61,11 @@ export function applyGarantiesFinancièresÉchues(this: GarantiesFinancièresAgg
 class DateÉchéanceNonPasséeError extends InvalidOperationError {
   constructor() {
     super(`La date d'échéance des garanties financières n'est pas encore passée`);
+  }
+}
+
+class GarantiesFinancièresDéjàÉchuesError extends InvalidOperationError {
+  constructor() {
+    super(`Les garanties financières du projet sont déjà échues`);
   }
 }
