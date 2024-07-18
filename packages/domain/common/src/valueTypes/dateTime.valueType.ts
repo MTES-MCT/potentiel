@@ -11,8 +11,11 @@ export type ValueType = ReadonlyValueType<{
   estAntérieurÀ(dateTime: ValueType): boolean;
   estUltérieureÀ(dateTime: ValueType): boolean;
   nombreJoursÉcartAvec(dateTime: ValueType): number;
+  ajouterNombreDeJours(nombreDeJours: number): ValueType;
   ajouterNombreDeMois(nombreDeMois: number): ValueType;
   formatter(): RawType;
+  /** Retourne la date au format YYYY-MM-DD */
+  formatterDate(): string;
 }>;
 
 export const bind = ({ date }: PlainType<ValueType>): ValueType => {
@@ -43,12 +46,19 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
     formatter() {
       return this.date.toISOString() as RawType;
     },
+    formatterDate() {
+      return this.date.toISOString().split('T')[0];
+    },
     estÉgaleÀ(valueType) {
       return valueType.formatter() === this.formatter();
     },
     nombreJoursÉcartAvec(dateTime) {
       const écart = differenceInDays(this.date, dateTime.date);
       return Math.abs(écart); // Peu importe si la date est avant ou aprés, on veut l'écart positif.
+    },
+    ajouterNombreDeJours(nombreDeJours) {
+      const nouvelleDate = new Date(this.date.setDate(this.date.getDate() + nombreDeJours));
+      return convertirEnValueType(nouvelleDate);
     },
     ajouterNombreDeMois(nombreDeMois) {
       const nouvelleDate = new Date(this.date.setMonth(this.date.getMonth() + nombreDeMois));

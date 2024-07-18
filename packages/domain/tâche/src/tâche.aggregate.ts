@@ -1,5 +1,5 @@
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import * as TypeTâche from './typeTâche.valueType';
 import {
@@ -12,18 +12,23 @@ import {
 } from './ajouter/ajouterTâche.behavior';
 import { TâcheAchevéeEvent, applyTâcheAchevée, achever } from './achever/acheverTâche.behavior';
 import { TâcheInconnueError } from './tâcheInconnue.error';
+import { TâchePlanifiéeEvent, applyTâchePlanifiée } from './planifier/planifierTâche.behavior';
+import { planifier } from './planifier/planifierTâche.behavior';
 
 export type TâcheEvent =
   | TâcheAjoutéeEvent
   | TâcheRenouvelléeEvent
   | TâcheRelancéeEvent
-  | TâcheAchevéeEvent;
+  | TâcheAchevéeEvent
+  | TâchePlanifiéeEvent;
 
 export type TâcheAggregate = Aggregate<TâcheEvent> & {
   typeTâche: TypeTâche.ValueType;
   achevée: boolean;
+  àExecuterLe?: DateTime.ValueType;
   ajouter: typeof ajouter;
   achever: typeof achever;
+  planifier: typeof planifier;
 };
 
 export const getDefaultAbandonAggregate: GetDefaultAggregateState<
@@ -35,6 +40,7 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   achevée: false,
   ajouter,
   achever,
+  planifier,
 });
 
 function apply(this: TâcheAggregate, event: TâcheEvent) {
@@ -48,6 +54,8 @@ function apply(this: TâcheAggregate, event: TâcheEvent) {
     case 'TâcheRenouvellée-V1':
       applyTâcheRenouvellée.bind(this)(event);
       break;
+    case 'TâchePlanifiée-V1':
+      applyTâchePlanifiée.bind(this)(event);
   }
 }
 

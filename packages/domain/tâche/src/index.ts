@@ -3,13 +3,17 @@ import {
   ConsulterNombreTâchesReadModel,
 } from './consulter/consulterNombreTâches.query';
 import { ListerTâchesQuery, ListerTâchesReadModel } from './lister/listerTâches.query';
+import {
+  ListerTâchesPlanifiéesQuery,
+  ListerTâchesPlanifiéesReadModel,
+} from './lister/listerTâchesPlanifiées.query';
 
 // Query
 export type TâcheQuery = ConsulterNombreTâchesQuery | ListerTâchesQuery;
-export { ConsulterNombreTâchesQuery, ListerTâchesQuery };
+export { ConsulterNombreTâchesQuery, ListerTâchesQuery, ListerTâchesPlanifiéesQuery };
 
 // ReadModel
-export { ConsulterNombreTâchesReadModel, ListerTâchesReadModel };
+export { ConsulterNombreTâchesReadModel, ListerTâchesReadModel, ListerTâchesPlanifiéesReadModel };
 
 // Event
 export { TâcheEvent } from './tâche.aggregate';
