@@ -275,6 +275,7 @@ export const register = () => {
           break;
 
         case 'DépôtGarantiesFinancièresEnCoursValidé-V1':
+        case 'DépôtGarantiesFinancièresEnCoursValidé-V2':
           détailProjet = await getProjectData(identifiantProjet);
 
           const dépôtValidé = dépôtEnCoursGarantiesFinancièresToUpsert.dépôt;
