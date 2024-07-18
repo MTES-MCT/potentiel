@@ -312,8 +312,6 @@ Alors(
           },
         });
 
-      console.log('violette', actualReadModel);
-
       expect(Option.isSome(actualReadModel)).to.be.true;
       assert(Option.isSome(actualReadModel));
       expect(actualReadModel.garantiesFinancières.statut.estÉchu()).to.be.true;
