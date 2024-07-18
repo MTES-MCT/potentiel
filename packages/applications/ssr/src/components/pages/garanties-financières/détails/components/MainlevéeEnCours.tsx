@@ -22,7 +22,10 @@ export type MainlevéeEnCoursProps = {
     statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
     motif: GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
     demandéLe: Iso8601DateTime;
-    dernièreMiseÀJourLe: Iso8601DateTime;
+    dernièreMiseÀJour: {
+      date: Iso8601DateTime;
+      par: string;
+    };
     instructionDémarréeLe?: Iso8601DateTime;
     accord: {
       accordéeLe?: Iso8601DateTime;
@@ -50,7 +53,13 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
     </div>
     <div className="text-xs italic">
       Dernière mise à jour le{' '}
-      <FormattedDate className="font-semibold" date={mainlevéeEnCours.dernièreMiseÀJourLe} />
+      <FormattedDate className="font-semibold" date={mainlevéeEnCours.dernièreMiseÀJour.date} />
+      {mainlevéeEnCours.dernièreMiseÀJour.par && (
+        <>
+          {' '}
+          par <span className="font-semibold">{mainlevéeEnCours.dernièreMiseÀJour.par}</span>
+        </>
+      )}
     </div>
     <div className="mt-5 mb-5 gap-2 text-base">
       <div>
