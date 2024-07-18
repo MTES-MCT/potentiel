@@ -85,7 +85,7 @@ type MapToActionsComponentsProps = {
 
 const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) => {
   return actions.length ? (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center gap-4">
       {actions.includes('demander-confirmation') && (
         <DemanderConfirmationAbandon identifiantProjet={identifiantProjet} />
       )}
