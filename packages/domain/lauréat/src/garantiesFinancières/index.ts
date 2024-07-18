@@ -117,6 +117,7 @@ export type {
   DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase,
   RejeterDemandeMainlevéeGarantiesFinancièresUseCase,
   AccorderDemandeMainlevéeGarantiesFinancièresUseCase,
+  ÉchoirGarantiesFinancièresUseCase,
 };
 
 // Event
@@ -136,6 +137,7 @@ export type { DemandeMainlevéeGarantiesFinancièresAnnuléeEvent } from './main
 export type { InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent } from './mainlevée/démarrerInstruction/démarrerInstructionDemandeMainlevéeGarantiesFinancières.behavior';
 export type { DemandeMainlevéeGarantiesFinancièresRejetéeEvent } from './mainlevée/rejeter/rejeterDemandeMainlevéeGarantiesFinancières.behavior';
 export type { DemandeMainlevéeGarantiesFinancièresAccordéeEvent } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.behavior';
+export type { GarantiesFinancièresÉchuesEvent } from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.behavior';
 
 // Register
 export {

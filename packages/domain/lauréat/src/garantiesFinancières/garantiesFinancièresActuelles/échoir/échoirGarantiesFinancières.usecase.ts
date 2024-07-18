@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ÉchoirGarantiesFinancièresCommand } from './échoirGarantiesFinancières.command';
 
@@ -10,8 +10,6 @@ export type ÉchoirGarantiesFinancièresUseCase = Message<
     identifiantProjetValue: string;
     dateÉchéanceValue: string;
     échuLeValue: string;
-    // vérifier la pertinence
-    échuParValue: string;
   }
 >;
 
@@ -20,12 +18,10 @@ export const registerÉchoirGarantiesFinancièresUseCase = () => {
     identifiantProjetValue,
     dateÉchéanceValue,
     échuLeValue,
-    échuParValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateÉchéance = DateTime.convertirEnValueType(dateÉchéanceValue);
     const échuLe = DateTime.convertirEnValueType(échuLeValue);
-    const échuPar = Email.convertirEnValueType(échuParValue);
 
     await mediator.send<ÉchoirGarantiesFinancièresCommand>({
       type: 'Lauréat.GarantiesFinancières.Command.ÉchoirGarantiesFinancières',
@@ -33,7 +29,6 @@ export const registerÉchoirGarantiesFinancièresUseCase = () => {
         identifiantProjet,
         dateÉchéance,
         échuLe,
-        échuPar,
       },
     });
   };

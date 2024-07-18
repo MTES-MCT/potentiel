@@ -6,6 +6,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { PotentielWorld } from '../../../../potentiel.world';
 import { sleep } from '../../../../helpers/sleep';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
+import { convertDateFrFormatToDateConstructorFormat } from '../../../../helpers/convertDateFrFormatToJsFormat';
 
 Quand(
   'le porteur soumet des garanties financières pour le projet {string} avec :',
@@ -269,18 +270,23 @@ Quand(
 );
 
 Quand(
-  `Quand un admin échoie les garanties financières pour le projet {string} à la date du {string}`,
-  async function (this: PotentielWorld, nomProjet: string, dateAVérifier: string) {
+  `Quand un admin échoie les garanties financières pour le projet {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-      const dateAVérifierWithValidFormat = dateAVérifier.split('/').reverse().join('-');
-      console.log(dateAVérifierWithValidFormat);
 
-      await mediator.send<GarantiesFinancières.EchoirGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.EchoirGarantiesFinancières',
+      const échuLeValue = convertDateFrFormatToDateConstructorFormat(exemple['date à vérifier']);
+      const dateÉchéanceValue = convertDateFrFormatToDateConstructorFormat(
+        exemple["date d'échéance"],
+      );
+
+      await mediator.send<GarantiesFinancières.ÉchoirGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.UseCase.ÉchoirGarantiesFinancières',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          dateAVérifierValue: new Date(dateAVérifierWithValidFormat),
+          dateÉchéanceValue,
+          échuLeValue,
         },
       });
       await sleep(500);

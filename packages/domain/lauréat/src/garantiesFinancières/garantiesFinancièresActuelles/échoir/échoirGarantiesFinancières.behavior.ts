@@ -1,4 +1,4 @@
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { StatutGarantiesFinancières } from '../..';
@@ -10,7 +10,6 @@ export type GarantiesFinancièresÉchuesEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     dateÉchéance: DateTime.RawType;
     échuLe: DateTime.RawType;
-    échuPar: Email.RawType;
   }
 >;
 
@@ -18,12 +17,11 @@ export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dateÉchéance: DateTime.ValueType;
   échuLe: DateTime.ValueType;
-  échuPar: Email.ValueType;
 };
 
 export async function échoir(
   this: GarantiesFinancièresAggregate,
-  { identifiantProjet, dateÉchéance, échuLe, échuPar }: Options,
+  { identifiantProjet, dateÉchéance, échuLe }: Options,
 ) {
   const event: GarantiesFinancièresÉchuesEvent = {
     type: 'GarantiesFinancièresÉchues-V1',
@@ -31,7 +29,6 @@ export async function échoir(
       identifiantProjet: identifiantProjet.formatter(),
       dateÉchéance: dateÉchéance?.formatter(),
       échuLe: échuLe.formatter(),
-      échuPar: échuPar.formatter(),
     },
   };
 

@@ -9,7 +9,9 @@ Fonctionnalité: Échoir les garanties financières d'un projet
         Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
             | type            | avec-date-échéance |
             | date d'échéance | 17/07/2024         |
-        Quand un admin échoie les garanties financières pour le projet "Centrale PV" à la date du 18/07/2024
+        Quand un admin échoie les garanties financières pour le projet "Centrale PV" avec :
+            | date d'échéance | 17/07/2024 |
+            | date à vérifier | 18/07/2024 |
         Alors les garanties financières du projet "Centrale PV" sont échues
 
     @NotImplemented

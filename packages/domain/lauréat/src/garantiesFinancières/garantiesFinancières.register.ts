@@ -53,6 +53,8 @@ import {
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresDependencies,
   registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery,
 } from './mainlevée/consulter/consulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancières.query';
+import { registerÉchoirGarantiesFinancièresCommand } from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.command';
+import { registerÉchoirGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.usecase';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerDépôtsEnCoursGarantiesFinancièresDependencies &
@@ -67,34 +69,52 @@ export type GarantiesFinancièresCommandDependencies = {
 export const registerGarantiesFinancièresUseCases = ({
   loadAggregate,
 }: GarantiesFinancièresCommandDependencies) => {
+  /**
+   * Commands
+   */
+
+  // Dépôt
   registerDépôtSoumettreGarantiesFinancièresCommand(loadAggregate);
-  registerDemanderGarantiesFinancièresCommand(loadAggregate);
-  registerSupprimerDépôtGarantiesFinancièresEnCoursCommand(loadAggregate);
   registerValiderDépôtGarantiesFinancièresEnCoursCommand(loadAggregate);
+  registerSupprimerDépôtGarantiesFinancièresEnCoursCommand(loadAggregate);
   registerModifierDépôtGarantiesFinancièresEnCoursCommand(loadAggregate);
+
+  // Garanties financières
+  registerDemanderGarantiesFinancièresCommand(loadAggregate);
   registerImporterTypeGarantiesFinancièresCommand(loadAggregate);
   registerModifierGarantiesFinancièresCommand(loadAggregate);
   registerEnregistrerAttestationGarantiesFinancièresCommand(loadAggregate);
   registerEnregistrerGarantiesFinancièresCommand(loadAggregate);
   registerEffacerHistoriqueGarantiesFinancièresCommand(loadAggregate);
+  registerÉchoirGarantiesFinancièresCommand(loadAggregate);
 
+  // Mainlevée
   registerDemanderMainlevéeGarantiesFinancièresCommand(loadAggregate);
   registerAnnulerMainlevéeGarantiesFinancièresCommand(loadAggregate);
   registerDémarrerInstructionDemandeMainlevéeGarantiesFinancières(loadAggregate);
   registeRejeterDemandeMainlevéeGarantiesFinancièresCommand(loadAggregate);
   registeAccorderDemandeMainlevéeGarantiesFinancièresCommand(loadAggregate);
 
+  /**
+   * Use cases
+   */
+
+  // Dépôt
   registerSoumettreDépôtGarantiesFinancièresUseCase();
-  registerDemanderGarantiesFinancièresUseCase();
-  registerSupprimerGarantiesFinancièresÀTraiterUseCase();
   registerValiderDépôtGarantiesFinancièresEnCoursUseCase();
   registerModifierDépôtGarantiesFinancièresEnCoursUseCase();
+
+  // Garanties financières
+  registerDemanderGarantiesFinancièresUseCase();
+  registerSupprimerGarantiesFinancièresÀTraiterUseCase();
   registerImporterTypeGarantiesFinancièresUseCase();
   registerModifierGarantiesFinancièresUseCase();
   registerEnregistrerAttestationGarantiesFinancièresUseCase();
   registerEnregistrerGarantiesFinancièresUseCase();
   registerEffacerHistoriqueGarantiesFinancièresUseCase();
+  registerÉchoirGarantiesFinancièresUseCase();
 
+  // Mainlevée
   registerDemanderMainlevéeGarantiesFinancièresUseCase();
   registerAnnulerMainlevéeGarantiesFinancièresUseCase();
   registerDémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase();
