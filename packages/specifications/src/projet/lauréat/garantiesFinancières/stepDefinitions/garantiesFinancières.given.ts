@@ -217,7 +217,6 @@ EtantDonné(
   },
 );
 
-// des garanties financières échues pour le projet
 EtantDonné(
   'des garanties financières échues pour le projet {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
@@ -260,7 +259,8 @@ EtantDonné(
 
     await sleep(100);
 
-    const echuLeValue = new Date(dateÉchéance.setDate(dateÉchéance.getDate() + 1));
+    const echuLeDate = new Date(dateÉchéance.getTime());
+    const echuLeValue = new Date(echuLeDate.setDate(echuLeDate.getDate() + 1));
 
     await mediator.send<GarantiesFinancières.ÉchoirGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ÉchoirGarantiesFinancières',

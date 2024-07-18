@@ -37,7 +37,6 @@ Fonctionnalité: Échoir les garanties financières d'un projet
             | date à vérifier | 2024-07-17 |
         Alors l'utilisateur devrait être informé que "La date d'échéance des garanties financières n'est pas encore passée"
 
-    @select
     Scénario: Impossible d'échoir les garanties financières d'un projet si les garanties financières sont déjà échues
         Etant donné des garanties financières échues pour le projet "Centrale PV" avec :
             | date d'échéance | 2024-07-17 |
