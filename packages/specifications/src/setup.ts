@@ -38,9 +38,12 @@ let unsetup: (() => Promise<void>) | undefined;
 
 const disableNodeMaxListenerWarning = () => (EventEmitter.defaultMaxListeners = Infinity);
 
-BeforeStep(async () => {
+BeforeStep(async ({ pickleStep }) => {
   // As read data are inconsistant, we wait 100ms before each step.
-  await sleep(200);
+  if (pickleStep.type !== 'Context') {
+    // As read data are inconsistant, we wait 100ms before each step.
+    await sleep(200);
+  }
 });
 
 AfterStep(async function (this: PotentielWorld, { pickleStep, result }) {

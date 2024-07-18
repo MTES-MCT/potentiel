@@ -34,7 +34,9 @@ import {
 } from './dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
 import {
   DépôtGarantiesFinancièresEnCoursValidéEvent,
+  DépôtGarantiesFinancièresEnCoursValidéEventV1,
   applyDépôtGarantiesFinancièresEnCoursValidé,
+  applyDépôtGarantiesFinancièresEnCoursValidéV1,
   validerDépôtEnCours,
 } from './dépôtEnCours/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.behavior';
 import {
@@ -93,6 +95,7 @@ export type GarantiesFinancièresEvent =
   | DépôtGarantiesFinancièresSoumisEvent
   | GarantiesFinancièresDemandéesEvent
   | DépôtGarantiesFinancièresEnCoursSuppriméEvent
+  | DépôtGarantiesFinancièresEnCoursValidéEventV1
   | DépôtGarantiesFinancièresEnCoursValidéEvent
   | DépôtGarantiesFinancièresEnCoursModifiéEvent
   | TypeGarantiesFinancièresImportéEvent
@@ -180,6 +183,9 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       applyDépôtGarantiesFinancièresEnCoursSupprimé.bind(this)();
       break;
     case 'DépôtGarantiesFinancièresEnCoursValidé-V1':
+      applyDépôtGarantiesFinancièresEnCoursValidéV1.bind(this)(event);
+      break;
+    case 'DépôtGarantiesFinancièresEnCoursValidé-V2':
       applyDépôtGarantiesFinancièresEnCoursValidé.bind(this)(event);
       break;
     case 'DépôtGarantiesFinancièresEnCoursModifié-V1':

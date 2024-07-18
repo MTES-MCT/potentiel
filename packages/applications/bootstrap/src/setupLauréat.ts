@@ -88,6 +88,7 @@ export const setupLauréat = async () => {
         'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
         'DépôtGarantiesFinancièresEnCoursModifié-V1',
         'DépôtGarantiesFinancièresEnCoursValidé-V1',
+        'DépôtGarantiesFinancièresEnCoursValidé-V2',
         'TypeGarantiesFinancièresImporté-V1',
         'GarantiesFinancièresModifiées-V1',
         'AttestationGarantiesFinancièresEnregistrée-V1',
