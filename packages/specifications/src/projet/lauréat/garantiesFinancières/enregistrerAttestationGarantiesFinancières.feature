@@ -42,3 +42,8 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières validées
         Quand un porteur enregistre l'attestation des garanties financières validées pour le projet "Centrale PV" avec :
             | date de constitution | 2020-01-01 |
         Alors l'utilisateur devrait être informé que "Il n'y a aucunes garanties financières validées pour ce projet"
+
+    # À vérifier côté métier
+    @NotImplemented
+    Scénario: Impossible d'enregistrer l'attestation des garanties financières si celles-ci sont échues
+

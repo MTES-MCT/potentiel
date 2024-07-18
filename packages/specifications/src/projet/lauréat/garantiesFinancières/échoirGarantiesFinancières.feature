@@ -50,3 +50,8 @@ Fonctionnalité: Échoir les garanties financières d'un projet
         Et une attestation de conformité transmise pour le projet "Centrale PV"
         Quand un admin échoie les garanties financières pour le projet "Centrale PV" à la date du 18/07/2024
         Alors l'utilisateur devrait être informé que "Le projet dispose d'une attestation de conformité, ce qui empêche de pouvoir échoir ses garanties financières"
+
+    # À vérifier côté métier
+    @NotImplemented
+    Scénario: Impossible d'échoir les garanties financières d'un projet abandonné
+

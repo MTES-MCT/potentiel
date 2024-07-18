@@ -102,3 +102,8 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
         Quand le porteur demande la levée des garanties financières pour le projet "Centrale PV" avec :
             | motif | projet-achevé |
         Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée accordée pour ce projet"
+
+    # À vérifier côté métier
+    @NotImplemented
+    Scénario: Impossible de demander la mainlevée des garanties financières si le projet dispose de garanties financières échues
+
