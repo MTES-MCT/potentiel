@@ -4,14 +4,12 @@ import { mediator } from 'mediateur';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../../potentiel.world';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 import {
-  defaultDateRejetOuAccord,
-  defaultDocumentContenu,
-  defaultDocumentFormat,
-  defaultUtilisateur,
+  setAccordMainlevéeData,
   setDemandeMainlevéeData,
+  setInstructionDemandeMainlevéeData,
+  setRejetMainlevéeData,
 } from './helper';
 
 EtantDonné(
@@ -21,12 +19,12 @@ EtantDonné(
 
     const motif = exemple['motif'];
     const utilisateur = exemple['utilisateur'];
-    const dateDemande = exemple['date demande'];
+    const date = exemple['date demande'];
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.Demander',
-      data: setDemandeMainlevéeData({ motif, utilisateur, dateDemande, identifiantProjet }),
+      data: setDemandeMainlevéeData({ motif, utilisateur, date, identifiantProjet }),
     });
   },
 );
@@ -44,11 +42,7 @@ EtantDonné(
     await mediator.send<GarantiesFinancières.DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase>(
       {
         type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.DémarrerInstruction',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          démarréLeValue: new Date('2024-05-10').toISOString(),
-          démarréParValue: 'dreal@test.test',
-        },
+        data: setInstructionDemandeMainlevéeData({ identifiantProjet }),
       },
     );
   },
@@ -66,15 +60,7 @@ EtantDonné(
 
     await mediator.send<GarantiesFinancières.AccorderDemandeMainlevéeGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        accordéLeValue: new Date(defaultDateRejetOuAccord).toISOString(),
-        accordéParValue: defaultUtilisateur,
-        réponseSignéeValue: {
-          format: defaultDocumentFormat,
-          content: convertStringToReadableStream(defaultDocumentContenu),
-        },
-      },
+      data: setAccordMainlevéeData({ identifiantProjet }),
     });
   },
 );
@@ -91,15 +77,7 @@ EtantDonné(
 
     await mediator.send<GarantiesFinancières.RejeterDemandeMainlevéeGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        rejetéLeValue: new Date(defaultDateRejetOuAccord).toISOString(),
-        rejetéParValue: defaultUtilisateur,
-        réponseSignéeValue: {
-          format: defaultDocumentFormat,
-          content: convertStringToReadableStream(defaultDocumentContenu),
-        },
-      },
+      data: setRejetMainlevéeData({ identifiantProjet }),
     });
   },
 );

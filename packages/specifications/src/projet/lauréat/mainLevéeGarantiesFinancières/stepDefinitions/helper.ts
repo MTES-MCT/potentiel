@@ -2,23 +2,16 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
-export const defaultMotif = 'projet-achevé';
-export const defaultUtilisateur = 'porteur@test.test';
-export const defaultDateDemande = '2024-01-01';
-export const defaultDateRejetOuAccord = '2024-06-01';
-export const defaultDocumentFormat = 'application/pdf';
-export const defaultDocumentContenu = 'contenu du fichier';
-
-const defaultMainlevéeData = {
+export const defaultMainlevéeData = {
   demande: {
     date: '2024-05-01',
     motif: 'projet-achevé',
     utilisateur: 'porteur@test.test',
   },
-  instruction: { date: '2024-06-01' },
+  instruction: { date: '2024-05-15', utilisateur: 'dreal@test.test' },
   rejetOuAccord: {
     date: '2024-06-01',
-    utilisateur: 'porteur@test.test',
+    utilisateur: 'dreal@test.test',
     documentFormat: 'application/pdf',
     documentContenu: 'contenu du fichier',
   },
@@ -39,6 +32,24 @@ export const setDemandeMainlevéeData = ({
     motifValue: motif || defaultMainlevéeData.demande.motif,
     demandéLeValue: new Date(date || defaultMainlevéeData.demande.date).toISOString(),
     demandéParValue: utilisateur || defaultMainlevéeData.demande.utilisateur,
+  };
+};
+
+type SetInstructionDemandeMainlevéeDataProps = Partial<
+  (typeof defaultMainlevéeData)['instruction']
+> & {
+  identifiantProjet: IdentifiantProjet.ValueType;
+};
+
+export const setInstructionDemandeMainlevéeData = ({
+  utilisateur,
+  date,
+  identifiantProjet,
+}: SetInstructionDemandeMainlevéeDataProps) => {
+  return {
+    identifiantProjetValue: identifiantProjet.formatter(),
+    démarréLeValue: new Date(date || defaultMainlevéeData.instruction.date).toISOString(),
+    démarréParValue: utilisateur || defaultMainlevéeData.instruction.utilisateur,
   };
 };
 
