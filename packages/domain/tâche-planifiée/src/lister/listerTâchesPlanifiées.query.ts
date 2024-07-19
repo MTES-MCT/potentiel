@@ -27,7 +27,7 @@ export type ListerTâchesPlanifiéesQuery = Message<
   {
     range?: RangeOptions;
     catégorieTâche?: string;
-    àExecuterLe: string;
+    àExécuterLe: string;
   },
   ListerTâchesPlanifiéesReadModel
 >;
@@ -42,7 +42,7 @@ export const registerListerTâchesPlanifiéesQuery = ({
   const handler: MessageHandler<ListerTâchesPlanifiéesQuery> = async ({
     range,
     catégorieTâche,
-    àExecuterLe,
+    àExécuterLe,
   }) => {
     const {
       items,
@@ -59,7 +59,7 @@ export const registerListerTâchesPlanifiéesQuery = ({
         àExécuterLe: {
           operator: 'like',
           // get only the date part, ignore the time
-          value: `${DateTime.convertirEnValueType(àExecuterLe).formatterDate()}T%`,
+          value: `${DateTime.convertirEnValueType(àExécuterLe).formatterDate()}T%`,
         },
       },
       range,
@@ -81,12 +81,12 @@ const mapToReadModel = ({
   identifiantProjet,
   misÀJourLe,
   typeTâche,
-  àExécuterLe: àExecuterLe,
+  àExécuterLe,
 }: TâchePlanifiéeEntity): TâchePlanifiéeListItem => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
-    àExécuterLe: DateTime.convertirEnValueType(àExecuterLe),
+    àExécuterLe: DateTime.convertirEnValueType(àExécuterLe),
     typeTâchePlanifiée: TypeTâchePlanifiée.convertirEnValueType(typeTâche),
   };
 };

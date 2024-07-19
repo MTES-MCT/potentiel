@@ -62,7 +62,7 @@ Alors(
       const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
         type: 'Tâche.Query.ListerTâchesPlanifiées',
         data: {
-          àExecuterLe: new Date(dateTâche).toISOString(),
+          àExécuterLe: new Date(dateTâche).toISOString(),
         },
       });
       const tâche = tâches.items.find(
