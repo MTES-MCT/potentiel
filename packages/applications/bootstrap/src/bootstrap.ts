@@ -12,6 +12,7 @@ import { setupRéseau } from './setupRéseau';
 import { logMiddleware } from './middlewares/log.middleware';
 import { delayMiddleware } from './middlewares/delay.middleware';
 import { setupEliminé } from './setupEliminé';
+import { setupTâchePlanifiée } from './setupTâchePlanifiée';
 
 let unsubscribe: (() => Promise<void>) | undefined;
 let mutex: Promise<void> | undefined;
@@ -37,6 +38,7 @@ export const bootstrap = async ({
     setupCandidature();
     setupDocumentProjet();
     const unsetupTâche = await setupTâche();
+    const unsetupTâchePlanifiée = await setupTâchePlanifiée();
     setupUtilisateur();
 
     const unsetupEliminé = await setupEliminé();
@@ -50,6 +52,7 @@ export const bootstrap = async ({
       await unsetupLauréat();
       await unsetupGestionnaireRéseau();
       await unsetupTâche();
+      await unsetupTâchePlanifiée();
       unsubscribe = undefined;
     };
   }

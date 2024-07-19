@@ -48,7 +48,7 @@ Alors(
 );
 
 Alors(
-  `une tâche {string} est planifée à la date du {string} pour le projet {string}`,
+  `une tâche {string} est planifiée à la date du {string} pour le projet {string}`,
   async function (
     this: PotentielWorld,
     typeTâche: RechercherTypeTâchePlanifiée,

@@ -14,7 +14,7 @@ export type TâchePlanifiéeEvent = TâchePlanifiéeAjoutéeEvent;
 export type TâchePlanifiéeAggregate = Aggregate<TâchePlanifiéeEvent> & {
   typeTâche: TypeTâchePlanifiée.ValueType;
   àExécuterLe: DateTime.ValueType;
-  planifier: typeof ajouter;
+  ajouter: typeof ajouter;
 };
 
 export const getDefaultTâchePlanifiéeAggregate: GetDefaultAggregateState<
@@ -24,7 +24,7 @@ export const getDefaultTâchePlanifiéeAggregate: GetDefaultAggregateState<
   apply,
   typeTâche: TypeTâchePlanifiée.convertirEnValueType('inconnue'),
   àExécuterLe: DateTime.now(),
-  planifier: ajouter,
+  ajouter,
 });
 
 function apply(this: TâchePlanifiéeAggregate, event: TâchePlanifiéeEvent) {

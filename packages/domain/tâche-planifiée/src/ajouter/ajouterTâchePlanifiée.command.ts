@@ -23,7 +23,7 @@ export const registerAjouterTâchePlanifiéeCommand = (loadAggregate: LoadAggreg
     àExecuterLe,
   }) => {
     const tâche = await loadTâchePlanifiée(typeTâchePlanifiée, identifiantProjet, false);
-    await tâche.planifier({
+    await tâche.ajouter({
       typeTâchePlanifiée,
       identifiantProjet,
       àExecuterLe,
