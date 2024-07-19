@@ -55,8 +55,6 @@ Fonctionnalité: Échoir les garanties financières d'un projet
             | date à vérifier | 2024-07-18 |
         Alors l'utilisateur devrait être informé que "Le projet dispose d'un dépôt de garanties financières en attente de validation, ce qui empêche de pouvoir échoir ses garanties financières"
 
-    # comment faire ? c'est un autre aggregat (achèvement.aggregate)
-    @NotImplemented
     Scénario: Impossible d'échoir les garanties financières d'un projet si le projet a transmis l'attestation de conformité
         Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
             | type            | avec-date-échéance |

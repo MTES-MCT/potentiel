@@ -18,11 +18,12 @@ export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dateÉchéance: DateTime.ValueType;
   échuLe: DateTime.ValueType;
+  aUneAttestationDeConformité: boolean;
 };
 
 export async function échoir(
   this: GarantiesFinancièresAggregate,
-  { identifiantProjet, dateÉchéance, échuLe }: Options,
+  { identifiantProjet, dateÉchéance, échuLe, aUneAttestationDeConformité }: Options,
 ) {
   if (!this.actuelles) {
     throw new AucunesGarantiesFinancièresValidéesError();
@@ -41,7 +42,11 @@ export async function échoir(
   }
 
   if (this.dépôtsEnCours) {
-    throw new ImpossibleÉchoirGarantiesFinancièresCarDépôtEnCoursError();
+    throw new DépôtEnCoursError();
+  }
+
+  if (aUneAttestationDeConformité) {
+    throw new AttestationDeConformitéError();
   }
 
   const event: GarantiesFinancièresÉchuesEvent = {
@@ -74,10 +79,18 @@ class GarantiesFinancièresDéjàÉchuesError extends InvalidOperationError {
   }
 }
 
-class ImpossibleÉchoirGarantiesFinancièresCarDépôtEnCoursError extends InvalidOperationError {
+class DépôtEnCoursError extends InvalidOperationError {
   constructor() {
     super(
       `Le projet dispose d'un dépôt de garanties financières en attente de validation, ce qui empêche de pouvoir échoir ses garanties financières`,
+    );
+  }
+}
+
+class AttestationDeConformitéError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Le projet dispose d'une attestation de conformité, ce qui empêche de pouvoir échoir ses garanties financières`,
     );
   }
 }
