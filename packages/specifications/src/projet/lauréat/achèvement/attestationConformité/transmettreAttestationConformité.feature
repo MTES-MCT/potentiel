@@ -38,3 +38,8 @@ Fonctionnalité: Transmettre une attestation de conformité
             | date                                          | 2024-01-05                  |
             | utilisateur                                   | porteur@test.test           |
         Alors le porteur devrait être informé que "le projet a déjà une attestation de conformité"
+
+    # À vérifier côté métier
+    @NotImplemented
+    Scénario: Impossible de transmettre une attestation de conformité si le projet dispose de garanties financières échues
+

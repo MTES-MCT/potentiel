@@ -267,3 +267,28 @@ Quand(
     }
   },
 );
+
+Quand(
+  `un admin échoie les garanties financières pour le projet {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+    try {
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      const échuLeValue = new Date(exemple['date à vérifier']).toISOString();
+      const dateÉchéanceValue = new Date(exemple["date d'échéance"]).toISOString();
+
+      await mediator.send<GarantiesFinancières.ÉchoirGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.UseCase.ÉchoirGarantiesFinancières',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          dateÉchéanceValue,
+          échuLeValue,
+        },
+      });
+      await sleep(100);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);

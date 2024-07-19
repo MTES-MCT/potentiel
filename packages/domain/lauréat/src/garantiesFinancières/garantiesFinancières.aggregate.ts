@@ -90,6 +90,11 @@ import {
   accorderDemandeMainlevéeGarantiesFinancières,
   applyDemandeMainlevéeGarantiesFinancièresAccordée,
 } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.behavior';
+import {
+  applyGarantiesFinancièresÉchues,
+  GarantiesFinancièresÉchuesEvent,
+  échoir,
+} from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.behavior';
 
 export type GarantiesFinancièresEvent =
   | DépôtGarantiesFinancièresSoumisEvent
@@ -107,7 +112,8 @@ export type GarantiesFinancièresEvent =
   | DemandeMainlevéeGarantiesFinancièresAnnuléeEvent
   | InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent
   | DemandeMainlevéeGarantiesFinancièresRejetéeEvent
-  | DemandeMainlevéeGarantiesFinancièresAccordéeEvent;
+  | DemandeMainlevéeGarantiesFinancièresAccordéeEvent
+  | GarantiesFinancièresÉchuesEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   actuelles?: {
@@ -140,6 +146,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly modifier: typeof modifier;
   readonly enregistrerAttestation: typeof enregistrerAttestation;
   readonly enregistrer: typeof enregistrer;
+  readonly échoir: typeof échoir;
   readonly effacerHistorique: typeof effacerHistorique;
   readonly demanderMainlevée: typeof demanderMainlevée;
   readonly annulerDemandeMainlevée: typeof annulerDemandeMainlevée;
@@ -169,6 +176,7 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   démarrerInstructionDemandeMainlevée,
   rejeterDemandeMainlevéeGarantiesFinancières,
   accorderDemandeMainlevéeGarantiesFinancières,
+  échoir,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
@@ -220,6 +228,9 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       break;
     case 'DemandeMainlevéeGarantiesFinancièresAccordée-V1':
       applyDemandeMainlevéeGarantiesFinancièresAccordée.bind(this)();
+      break;
+    case 'GarantiesFinancièresÉchues-V1':
+      applyGarantiesFinancièresÉchues.bind(this)();
       break;
   }
 }

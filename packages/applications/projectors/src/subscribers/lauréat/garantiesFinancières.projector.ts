@@ -543,6 +543,22 @@ export const register = () => {
             `mainlevee-garanties-financieres|${identifiantProjet}`,
           );
           break;
+
+        case 'GarantiesFinancièresÉchues-V1':
+          await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+            `garanties-financieres|${identifiantProjet}`,
+            {
+              ...garantiesFinancièresToUpsert,
+              garantiesFinancières: {
+                ...garantiesFinancièresToUpsert.garantiesFinancières,
+                statut: GarantiesFinancières.StatutGarantiesFinancières.échu.statut,
+                dernièreMiseÀJour: {
+                  date: payload.échuLe,
+                },
+              },
+            },
+          );
+          break;
       }
     }
   };

@@ -10,6 +10,7 @@ const convertStatutGarantiesFinancièresToBadgeSeverity: Record<
 > = {
   validé: 'success',
   levé: 'info',
+  échu: 'warning',
 };
 
 export const StatutGarantiesFinancièresBadge: FC<{
