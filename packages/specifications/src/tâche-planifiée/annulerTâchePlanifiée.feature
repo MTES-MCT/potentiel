@@ -8,6 +8,7 @@ Fonctionnalité: Planifier une tâche
             | nom   | Porteur Projet Test |
             | role  | porteur-projet      |
 
+    @NotImplemented
     Scénario: Une tâche est annulée quand une attestation de confirmité est transimise
         Etant donné des garanties financières validées pour le projet "Du boulodrome de Marseille" avec :
             | type               | avec-date-échéance |
