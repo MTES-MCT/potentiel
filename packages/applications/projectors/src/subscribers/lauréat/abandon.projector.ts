@@ -160,7 +160,7 @@ export const register = () => {
                 ...abandonToUpsert.demande,
                 recandidature: {
                   ...abandonToUpsert.demande.recandidature,
-                  statut: Abandon.StatutPreuveRecandidature.transmise.statut,
+                  statut: Abandon.StatutPreuveRecandidature.transmis.statut,
                   preuve: {
                     ...abandonToUpsert.demande.recandidature.preuve,
                     identifiantProjet: payload.preuveRecandidature,
