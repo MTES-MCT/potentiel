@@ -1,9 +1,9 @@
-import { NotFoundError } from '@potentiel-domain/core';
+import { AggregateNotFoundError } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import * as TypeTâche from './typeTâche.valueType';
 
-export class TâcheInconnueError extends NotFoundError {
+export class TâcheInconnueError extends AggregateNotFoundError {
   constructor(typeTâche: TypeTâche.RawType, identifiantProjet: IdentifiantProjet.RawType) {
     super(`Tâche inconnue`, {
       typeTâche,

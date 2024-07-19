@@ -6,6 +6,7 @@ import { EliminéWorld } from './projet/éliminé/eliminé.world';
 import { RaccordementWorld } from './raccordement/raccordement.world';
 import { TâcheWorld } from './tâche/tâche.world';
 import { UtilisateurWorld } from './utilisateur/utilisateur.world';
+import { TâchePlanifiéeWorld } from './tâche-planifiée/tâchePlanifiée.world';
 
 export class PotentielWorld extends World {
   #gestionnaireRéseauWorld!: GestionnaireRéseauWorld;
@@ -36,6 +37,12 @@ export class PotentielWorld extends World {
 
   get tâcheWorld() {
     return this.#tâcheWorld;
+  }
+
+  #tâchePlanifiéeWorld!: TâchePlanifiéeWorld;
+
+  get tâchePlanifiéeWorld() {
+    return this.#tâchePlanifiéeWorld;
   }
 
   #utilisateurWorld!: UtilisateurWorld;
@@ -72,6 +79,7 @@ export class PotentielWorld extends World {
     this.#eliminéWorld = new EliminéWorld();
     this.#raccordementWorld = new RaccordementWorld();
     this.#tâcheWorld = new TâcheWorld();
+    this.#tâchePlanifiéeWorld = new TâchePlanifiéeWorld();
     this.#utilisateurWorld = new UtilisateurWorld();
   }
 }

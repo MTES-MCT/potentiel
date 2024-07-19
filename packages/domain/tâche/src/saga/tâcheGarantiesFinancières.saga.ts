@@ -1,19 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { AjouterTâcheCommand } from '../ajouter/ajouterTâche.command';
 import { AcheverTâcheCommand } from '../achever/acheverTâche.command';
 import * as Tâche from '../typeTâche.valueType';
-import { PlanifierTâcheCommand } from '../planifier/planifierTâche.command';
 
 export type SubscriptionEvent =
   | GarantiesFinancières.GarantiesFinancièresDemandéesEvent
   | GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent
-  | GarantiesFinancières.GarantiesFinancièresEnregistréesEvent
-  | GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent
-  | GarantiesFinancières.GarantiesFinancièresModifiéesEvent;
+  | GarantiesFinancières.GarantiesFinancièresEnregistréesEvent;
 
 export type Execute = Message<'System.Saga.TâcheGarantiesFinancières', SubscriptionEvent>;
 
@@ -41,22 +38,6 @@ export const register = () => {
             typeTâche: Tâche.garantiesFinancieresDemander,
           },
         });
-        break;
-      case 'DépôtGarantiesFinancièresEnCoursValidé-V2':
-      case 'GarantiesFinancièresModifiées-V1':
-        if (event.payload.type === 'avec-date-échéance' && event.payload.dateÉchéance) {
-          await mediator.send<PlanifierTâcheCommand>({
-            type: 'System.Tâche.Command.PlanifierTâche',
-            data: {
-              identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-              typeTâche: Tâche.garantiesFinancieresPlanifiéeÉchoir,
-              àExecuterLe: DateTime.convertirEnValueType(
-                event.payload.dateÉchéance,
-              ).ajouterNombreDeJours(1),
-            },
-          });
-        }
-
         break;
     }
   };

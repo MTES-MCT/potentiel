@@ -5,15 +5,15 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { List, RangeOptions } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
-import { TâchePlanifiéeEntity } from '../tâche.entity';
-import * as TypeTâche from '../typeTâche.valueType';
+import { TâchePlanifiéeEntity } from '../tâchePlanifiée.entity';
+import * as TypeTâchePlanifiée from '../typeTâchePlanifiée.valueType';
 
 type TâchePlanifiéeListItem = {
   identifiantProjet: IdentifiantProjet.ValueType;
 
-  typeTâche: TypeTâche.ValueType;
+  typeTâchePlanifiée: TypeTâchePlanifiée.ValueType;
   misÀJourLe: DateTime.ValueType;
-  àExecuterLe: Option.Type<DateTime.ValueType>;
+  àExécuterLe: Option.Type<DateTime.ValueType>;
 };
 
 export type ListerTâchesPlanifiéesReadModel = {
@@ -27,7 +27,7 @@ export type ListerTâchesPlanifiéesQuery = Message<
   {
     range?: RangeOptions;
     catégorieTâche?: string;
-    àExecuterLe: string;
+    àExécuterLe: string;
   },
   ListerTâchesPlanifiéesReadModel
 >;
@@ -42,7 +42,7 @@ export const registerListerTâchesPlanifiéesQuery = ({
   const handler: MessageHandler<ListerTâchesPlanifiéesQuery> = async ({
     range,
     catégorieTâche,
-    àExecuterLe,
+    àExécuterLe,
   }) => {
     const {
       items,
@@ -56,10 +56,10 @@ export const registerListerTâchesPlanifiéesQuery = ({
             operator: 'like',
             value: `${value}.%`,
           })),
-        àExecuterLe: {
+        àExécuterLe: {
           operator: 'like',
           // get only the date part, ignore the time
-          value: `${DateTime.convertirEnValueType(àExecuterLe).formatterDate()}T%`,
+          value: `${DateTime.convertirEnValueType(àExécuterLe).formatterDate()}T%`,
         },
       },
       range,
@@ -81,12 +81,12 @@ const mapToReadModel = ({
   identifiantProjet,
   misÀJourLe,
   typeTâche,
-  àExecuterLe,
+  àExécuterLe,
 }: TâchePlanifiéeEntity): TâchePlanifiéeListItem => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
-    àExecuterLe: DateTime.convertirEnValueType(àExecuterLe),
-    typeTâche: TypeTâche.convertirEnValueType(typeTâche),
+    àExécuterLe: DateTime.convertirEnValueType(àExécuterLe),
+    typeTâchePlanifiée: TypeTâchePlanifiée.convertirEnValueType(typeTâche),
   };
 };

@@ -13,16 +13,6 @@ import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-
 import { countProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 
 export const setupTâche = async () => {
-  registerTâcheCommand({
-    loadAggregate,
-  });
-
-  registerTâcheQuery({
-    count: countProjection,
-    récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
-    list: listProjection,
-  });
-
   const unsubscribeTâcheProjector = await registerTâcheProjector();
 
   const unsubscribeTâcheAbandonSaga = await registerTâcheAbandonSaga();
@@ -38,6 +28,15 @@ export const setupTâche = async () => {
 };
 
 const registerTâcheProjector = async () => {
+  registerTâcheCommand({
+    loadAggregate,
+  });
+
+  registerTâcheQuery({
+    count: countProjection,
+    récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
+    list: listProjection,
+  });
   TâcheProjector.register();
 
   const unsubscribeTâcheProjector = await subscribe<TâcheProjector.SubscriptionEvent>({
@@ -48,7 +47,6 @@ const registerTâcheProjector = async () => {
       'TâcheAjoutée-V1',
       'TâcheRelancée-V1',
       'TâcheRenouvellée-V1',
-      'TâchePlanifiée-V1',
     ],
     eventHandler: async (event) => {
       await mediator.send<TâcheProjector.Execute>({
@@ -72,8 +70,6 @@ const registerTâcheGarantiesFinancières = async () => {
       'GarantiesFinancièresDemandées-V1',
       'DépôtGarantiesFinancièresSoumis-V1',
       'GarantiesFinancièresEnregistrées-V1',
-      'DépôtGarantiesFinancièresEnCoursValidé-V2',
-      'GarantiesFinancièresModifiées-V1',
     ],
     eventHandler: async (event) => {
       await mediator.publish<TâcheGarantiesFinancièresSaga.Execute>({
