@@ -11,7 +11,7 @@ export type AjouterTâchePlanifiéeCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     typeTâchePlanifiée: TâchePlanifiée.ValueType;
-    àExecuterLe: DateTime.ValueType;
+    àExécuterLe: DateTime.ValueType;
   }
 >;
 
@@ -20,13 +20,13 @@ export const registerAjouterTâchePlanifiéeCommand = (loadAggregate: LoadAggreg
   const handler: MessageHandler<AjouterTâchePlanifiéeCommand> = async ({
     identifiantProjet,
     typeTâchePlanifiée,
-    àExecuterLe,
+    àExécuterLe,
   }) => {
     const tâche = await loadTâchePlanifiée(typeTâchePlanifiée, identifiantProjet, false);
     await tâche.ajouter({
       typeTâchePlanifiée,
       identifiantProjet,
-      àExecuterLe,
+      àExécuterLe,
     });
   };
   mediator.register('System.TâchePlanifiée.Command.AjouterTâchePlanifiée', handler);

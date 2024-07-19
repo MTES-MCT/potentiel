@@ -17,21 +17,21 @@ export type TâchePlanifiéeAjoutéeEvent = DomainEvent<
 export type AjouterOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   typeTâchePlanifiée: TypePlanifiéeTâche.ValueType;
-  àExecuterLe: DateTime.ValueType;
+  àExécuterLe: DateTime.ValueType;
 };
 
 export async function ajouter(
   this: TâchePlanifiéeAggregate,
-  { identifiantProjet, typeTâchePlanifiée, àExecuterLe }: AjouterOptions,
+  { identifiantProjet, typeTâchePlanifiée, àExécuterLe }: AjouterOptions,
 ) {
-  if (!this.àExécuterLe.estÉgaleÀ(àExecuterLe)) {
+  if (!this.àExécuterLe.estÉgaleÀ(àExécuterLe)) {
     const event: TâchePlanifiéeAjoutéeEvent = {
       type: 'TâchePlanifiéeAjoutée-V1',
       payload: {
         ajoutéeLe: DateTime.now().formatter(),
         identifiantProjet: identifiantProjet.formatter(),
         typeTâchePlanifiée: typeTâchePlanifiée.type,
-        àExécuterLe: àExecuterLe.formatter(),
+        àExécuterLe: àExécuterLe.formatter(),
       },
     };
     await this.publish(event);

@@ -26,7 +26,7 @@ export const register = () => {
             data: {
               identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
               typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresÉchoir,
-              àExecuterLe: DateTime.convertirEnValueType(
+              àExécuterLe: DateTime.convertirEnValueType(
                 event.payload.dateÉchéance,
               ).ajouterNombreDeJours(1),
             },
