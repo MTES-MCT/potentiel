@@ -2,7 +2,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
-import { Option } from '@potentiel-libraries/monads';
 
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
@@ -32,7 +31,7 @@ export const registerÉchoirGarantiesFinancièresCommand = (loadAggregate: LoadA
       identifiantProjet,
       dateÉchéance,
       échuLe,
-      aUneAttestationDeConformité: !!Option.isSome(achèvement.attestationConformité.format),
+      aUneAttestationDeConformité: !!achèvement.attestationConformité.format,
     });
   };
   mediator.register('Lauréat.GarantiesFinancières.Command.ÉchoirGarantiesFinancières', handler);
