@@ -56,20 +56,19 @@ Fonctionnalité: Enregistrer des garanties financières validées
             | consignation              |                 |
             | six-mois-après-achèvement |                 |
 
-    @select
+    # Règles métier à confirmer
+    @NotImplemented
     Scénario: Un admin enregistre des garanties financières validées ayant initialement un statut échu
         Etant donné des garanties financières échues pour le projet "Centrale PV" avec :
             | date d'échéance | 2024-07-17 |
         Quand un admin enregistre les garanties financières validées pour le projet "Centrale PV" avec :
-            | type                 | <type>            |
-            | date d'échéance      | <date d'échéance> |
-            | format               | application/pdf   |
-            | contenu fichier      | contenu fichier   |
-            | date de constitution | 2023-06-12        |
-            | date mise à jour     | 2024-03-01        |
+            | type                 | consignation    |
+            | format               | application/pdf |
+            | contenu fichier      | contenu fichier |
+            | date de constitution | 2023-06-12      |
+            | date mise à jour     | 2024-03-01      |
         Alors les garanties financières validées devraient consultables pour le projet "Centrale PV" avec :
-            | type                 | <type>            |
-            | date d'échéance      | <date d'échéance> |
+            | type                 | consignation      |
             | format               | application/pdf   |
             | contenu fichier      | contenu fichier   |
             | date de constitution | 2023-06-12        |
