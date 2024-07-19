@@ -505,6 +505,24 @@ class DateTimeInvalideError extends InvalidOperationError {
 }
 ```
 
+Une convention existe pour les value type `Statut`
+On met toujours les statuts conjugués au singulier masculin, même pour des domains féminins et/ou pluriel.
+
+Par exemple pour `Garanties Financières`
+
+```typescript
+export const statut = ['validé', 'levé'] as const;
+
+export type RawType = (typeof statut)[number];
+
+export type ValueType = ReadonlyValueType<{
+  statut: RawType;
+  estValidé: () => boolean;
+  estLevé: () => boolean;
+}>;
+```
+
+
 ## Tests/Spécifications
 
 Dans le package `@potentiel/specifications` sont centralisés tous les scénarii des fonctionnalités implémentés dans le projet.
