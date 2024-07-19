@@ -6,8 +6,8 @@ import {
   ListerTâchesPlanifiéesQueryDependencies,
 } from './lister/listerTâchesPlanifiées.query';
 import { registerAnnulerTâchePlanifiéeCommand } from './annuler/annulerTâchePlanifiée.command';
-import { registerExécuterTâchePlanifiéeCommand } from './exécuter/exécuter.command';
-import { registerExécuterTâchePlanifiéeUseCase } from './exécuter/exécuter.usecase';
+import { registerExécuterTâchePlanifiéeCommand } from './exécuter/exécuterTâchePlanifiée.command';
+import { registerExécuterTâchePlanifiéeUseCase } from './exécuter/exécuterTâchePlanifiée.usecase';
 
 export type TâchePlanifiéeQueryDependencies = ListerTâchesPlanifiéesQueryDependencies;
 

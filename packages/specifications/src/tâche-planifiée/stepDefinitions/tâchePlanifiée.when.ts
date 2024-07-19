@@ -7,6 +7,7 @@ import {
 } from '@potentiel-domain/tache-planifiee';
 
 import { PotentielWorld } from '../../potentiel.world';
+import { RechercherTypeTâchePlanifiée } from '../tâchePlanifiée.world';
 
 Quand(
   'on execute les tâches planifiées à la date du {string}',
@@ -26,6 +27,30 @@ Quand(
           typeTâchePlanifiéeValue: tâche.typeTâchePlanifiée.type,
         },
       });
+    }
+  },
+);
+
+Quand(
+  'on execute la tâche planifiée {string} pour le projet {string}',
+  async function (
+    this: PotentielWorld,
+    typeTâche: RechercherTypeTâchePlanifiée,
+    nomProjet: string,
+  ) {
+    try {
+      const projet = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche);
+
+      await mediator.send<ExécuterTâchePlanifiéeUseCase>({
+        type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
+        data: {
+          identifiantProjetValue: projet.identifiantProjet.formatter(),
+          typeTâchePlanifiéeValue: actualTypeTâche.type,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
     }
   },
 );

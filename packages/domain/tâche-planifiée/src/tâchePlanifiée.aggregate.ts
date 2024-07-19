@@ -18,7 +18,7 @@ import {
   TâchePlanifiéeExecutéeEvent,
   applyTâchePlanifiéeExecutée,
   exécuter,
-} from './exécuter/exécuter.behavior';
+} from './exécuter/exécuterTâchePlanifiée.behavior';
 
 export type TâchePlanifiéeEvent =
   | TâchePlanifiéeAjoutéeEvent

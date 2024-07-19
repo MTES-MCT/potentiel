@@ -5,7 +5,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import * as TâchePlanifiée from '../typeTâchePlanifiée.valueType';
 import * as TypeTâchePlanifiée from '../typeTâchePlanifiée.valueType';
 
-import { ExécuterTâchePlanifiéeCommand } from './exécuter.command';
+import { ExécuterTâchePlanifiéeCommand } from './exécuterTâchePlanifiée.command';
 
 export type ExécuterTâchePlanifiéeUseCase = Message<
   'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',

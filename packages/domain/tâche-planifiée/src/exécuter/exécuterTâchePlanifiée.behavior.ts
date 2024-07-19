@@ -1,5 +1,5 @@
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 
 import * as TâchePlanifiéeType from '../typeTâchePlanifiée.valueType';
 import { TâchePlanifiéeAggregate } from '../tâchePlanifiée.aggregate';
@@ -9,7 +9,7 @@ export type TâchePlanifiéeExecutéeEvent = DomainEvent<
   'TâchePlanifiéeExecutée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    executéeLe: DateTime.RawType;
+    exécutéeLe: DateTime.RawType;
     typeTâchePlanifiée: TâchePlanifiéeType.RawType;
   }
 >;
@@ -23,17 +23,21 @@ export async function exécuter(
   this: TâchePlanifiéeAggregate,
   { identifiantProjet, typeTâchePlanifiée }: ExécuterOptions,
 ) {
-  // if(!this.statut.estExécutée()){
+  if (this.statut.estAnnulé()) {
+    throw new TâcheAnnuléeError(identifiantProjet, typeTâchePlanifiée);
+  }
+  if (this.statut.estExécuté()) {
+    throw new TâcheDéjàExécutéeError(identifiantProjet, typeTâchePlanifiée);
+  }
   const event: TâchePlanifiéeExecutéeEvent = {
     type: 'TâchePlanifiéeExecutée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      executéeLe: DateTime.now().formatter(),
+      exécutéeLe: DateTime.now().formatter(),
       typeTâchePlanifiée: typeTâchePlanifiée.type,
     },
   };
   await this.publish(event);
-  //}
 }
 
 export function applyTâchePlanifiéeExecutée(
@@ -41,4 +45,28 @@ export function applyTâchePlanifiéeExecutée(
   _: TâchePlanifiéeExecutéeEvent,
 ) {
   this.statut = StatutTâchePlanifiée.exécutée;
+}
+
+class TâcheDéjàExécutéeError extends InvalidOperationError {
+  constructor(
+    identifiantProjet: IdentifiantProjet.ValueType,
+    typeTâchePlanifiée: TâchePlanifiéeType.ValueType,
+  ) {
+    super('La tâche planifiée est déjà executée', {
+      identifiantProjet,
+      typeTâchePlanifiée,
+    });
+  }
+}
+
+class TâcheAnnuléeError extends InvalidOperationError {
+  constructor(
+    identifiantProjet: IdentifiantProjet.ValueType,
+    typeTâchePlanifiée: TâchePlanifiéeType.ValueType,
+  ) {
+    super('La tâche planifiée est annulée', {
+      identifiantProjet,
+      typeTâchePlanifiée,
+    });
+  }
 }

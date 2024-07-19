@@ -2,10 +2,11 @@ import {
   ListerTâchesPlanifiéesQuery,
   ListerTâchesPlanifiéesReadModel,
 } from './lister/listerTâchesPlanifiées.query';
-import { ExécuterTâchePlanifiéeUseCase } from './exécuter/exécuter.usecase';
-import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuter.behavior';
+import { ExécuterTâchePlanifiéeUseCase } from './exécuter/exécuterTâchePlanifiée.usecase';
+import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlanifiée.behavior';
 import { TâchePlanifiéeEvent } from './tâchePlanifiée.aggregate';
 import { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.behavior';
+import { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.behavior';
 
 // Query
 export type TâchePlanifiéeQuery = ListerTâchesPlanifiéesQuery;
@@ -16,7 +17,12 @@ export { ListerTâchesPlanifiéesReadModel };
 // UseCases
 export { ExécuterTâchePlanifiéeUseCase };
 // Event
-export { TâchePlanifiéeEvent, TâchePlanifiéeAjoutéeEvent, TâchePlanifiéeExecutéeEvent };
+export {
+  TâchePlanifiéeEvent,
+  TâchePlanifiéeAjoutéeEvent,
+  TâchePlanifiéeAnnuléeEvent,
+  TâchePlanifiéeExecutéeEvent,
+};
 
 // Saga
 export * as TâchePlanifiéeAchévementSaga from './saga/tâchePlanifiéeAchévement.saga';
