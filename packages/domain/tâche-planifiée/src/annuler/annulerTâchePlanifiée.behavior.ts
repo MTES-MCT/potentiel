@@ -23,7 +23,7 @@ export async function annuler(
   this: TâchePlanifiéeAggregate,
   { identifiantProjet, typeTâchePlanifiée }: AnnulerOptions,
 ) {
-  if (!this.statut.estÉgaleÀ(StatutTâchePlanifiée.annulée)) {
+  if (this.statut.estÉgaleÀ(StatutTâchePlanifiée.enAttenteExécution)) {
     const event: TâchePlanifiéeAnnuléeEvent = {
       type: 'TâchePlanifiéeAnnulée-V1',
       payload: {
