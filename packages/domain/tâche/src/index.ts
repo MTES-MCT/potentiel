@@ -17,6 +17,7 @@ export { ConsulterNombreTâchesReadModel, ListerTâchesReadModel, ListerTâchesP
 
 // Event
 export { TâcheEvent } from './tâche.aggregate';
+export { TâchePlanifiéeEvent } from './tâchePlanifiée.aggregate';
 
 // Saga
 export * as TâcheAbandonSaga from './saga/tâcheAbandon.saga';
@@ -28,6 +29,7 @@ export * from './register';
 
 // ValueTypes
 export * as TypeTâche from './typeTâche.valueType';
+export * as TypeTâchePlanifiée from './typeTâchePlanifiée.valueType';
 
 // Entities
 export * from './tâche.entity';

@@ -6,7 +6,8 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { AjouterTâcheCommand } from '../ajouter/ajouterTâche.command';
 import { AcheverTâcheCommand } from '../achever/acheverTâche.command';
 import * as Tâche from '../typeTâche.valueType';
-import { PlanifierTâcheCommand } from '../planifier/planifierTâche.command';
+import * as TâchePlanifiée from '../typeTâchePlanifiée.valueType';
+import { AjouterTâchePlanifiéeCommand } from '../planifier/planifierTâche.command';
 
 export type SubscriptionEvent =
   | GarantiesFinancières.GarantiesFinancièresDemandéesEvent
@@ -45,11 +46,11 @@ export const register = () => {
       case 'DépôtGarantiesFinancièresEnCoursValidé-V2':
       case 'GarantiesFinancièresModifiées-V1':
         if (event.payload.type === 'avec-date-échéance' && event.payload.dateÉchéance) {
-          await mediator.send<PlanifierTâcheCommand>({
-            type: 'System.Tâche.Command.PlanifierTâche',
+          await mediator.send<AjouterTâchePlanifiéeCommand>({
+            type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
             data: {
               identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-              typeTâche: Tâche.garantiesFinancieresPlanifiéeÉchoir,
+              typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresÉchoir,
               àExecuterLe: DateTime.convertirEnValueType(
                 event.payload.dateÉchéance,
               ).ajouterNombreDeJours(1),

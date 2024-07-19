@@ -8,7 +8,7 @@ import {
   registerTâcheQuery,
 } from '@potentiel-domain/tache';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { TâcheProjector } from '@potentiel-applications/projectors';
+import { TâcheProjector, TâchePlanifiéeProjector } from '@potentiel-applications/projectors';
 import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { countProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 
@@ -24,6 +24,7 @@ export const setupTâche = async () => {
   });
 
   const unsubscribeTâcheProjector = await registerTâcheProjector();
+  const unsubscribeTâchePlanifiéeProjector = await registerTâchePlanifiéeProjector();
 
   const unsubscribeTâcheAbandonSaga = await registerTâcheAbandonSaga();
   const unsubscribeTâcheRaccordementSaga = await registerTâcheRaccordementSaga();
@@ -31,6 +32,7 @@ export const setupTâche = async () => {
 
   return async () => {
     await unsubscribeTâcheAbandonSaga();
+    await unsubscribeTâchePlanifiéeProjector();
     await unsubscribeTâcheRaccordementSaga();
     await unsubscribeTâcheGarantiesFinancièresSaga();
     await unsubscribeTâcheProjector();
@@ -48,7 +50,6 @@ const registerTâcheProjector = async () => {
       'TâcheAjoutée-V1',
       'TâcheRelancée-V1',
       'TâcheRenouvellée-V1',
-      'TâchePlanifiée-V1',
     ],
     eventHandler: async (event) => {
       await mediator.send<TâcheProjector.Execute>({
@@ -57,6 +58,23 @@ const registerTâcheProjector = async () => {
       });
     },
     streamCategory: 'tâche',
+  });
+  return unsubscribeTâcheProjector;
+};
+
+const registerTâchePlanifiéeProjector = async () => {
+  TâchePlanifiéeProjector.register();
+
+  const unsubscribeTâcheProjector = await subscribe<TâchePlanifiéeProjector.SubscriptionEvent>({
+    name: 'projector',
+    eventType: ['RebuildTriggered', 'TâchePlanifiéeAjoutée-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<TâchePlanifiéeProjector.Execute>({
+        type: 'System.Projector.TâchePlanifiée',
+        data: event,
+      });
+    },
+    streamCategory: 'tâche-planifiée',
   });
   return unsubscribeTâcheProjector;
 };

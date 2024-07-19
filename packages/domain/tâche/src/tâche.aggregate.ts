@@ -12,15 +12,13 @@ import {
 } from './ajouter/ajouterTâche.behavior';
 import { TâcheAchevéeEvent, applyTâcheAchevée, achever } from './achever/acheverTâche.behavior';
 import { TâcheInconnueError } from './tâcheInconnue.error';
-import { TâchePlanifiéeEvent, applyTâchePlanifiée } from './planifier/planifierTâche.behavior';
 import { planifier } from './planifier/planifierTâche.behavior';
 
 export type TâcheEvent =
   | TâcheAjoutéeEvent
   | TâcheRenouvelléeEvent
   | TâcheRelancéeEvent
-  | TâcheAchevéeEvent
-  | TâchePlanifiéeEvent;
+  | TâcheAchevéeEvent;
 
 export type TâcheAggregate = Aggregate<TâcheEvent> & {
   typeTâche: TypeTâche.ValueType;
@@ -54,8 +52,6 @@ function apply(this: TâcheAggregate, event: TâcheEvent) {
     case 'TâcheRenouvellée-V1':
       applyTâcheRenouvellée.bind(this)(event);
       break;
-    case 'TâchePlanifiée-V1':
-      applyTâchePlanifiée.bind(this)(event);
   }
 }
 

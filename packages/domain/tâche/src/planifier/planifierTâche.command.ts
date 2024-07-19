@@ -3,31 +3,31 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 
-import { loadTâcheAggregateFactory } from '../tâche.aggregate';
-import * as Tâche from '../typeTâche.valueType';
+import * as TâchePlanifiée from '../typeTâchePlanifiée.valueType';
+import { loadTâchePlanifiéeAggregateFactory } from '../tâchePlanifiée.aggregate';
 
-export type PlanifierTâcheCommand = Message<
-  'System.Tâche.Command.PlanifierTâche',
+export type AjouterTâchePlanifiéeCommand = Message<
+  'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    typeTâche: Tâche.ValueType;
+    typeTâchePlanifiée: TâchePlanifiée.ValueType;
     àExecuterLe: DateTime.ValueType;
   }
 >;
 
-export const registerPlanifierTâcheCommand = (loadAggregate: LoadAggregate) => {
-  const loadTâche = loadTâcheAggregateFactory(loadAggregate);
-  const handler: MessageHandler<PlanifierTâcheCommand> = async ({
+export const registerAjouterTâchePlanifiéeCommand = (loadAggregate: LoadAggregate) => {
+  const loadTâchePlanifiée = loadTâchePlanifiéeAggregateFactory(loadAggregate);
+  const handler: MessageHandler<AjouterTâchePlanifiéeCommand> = async ({
     identifiantProjet,
-    typeTâche,
+    typeTâchePlanifiée,
     àExecuterLe,
   }) => {
-    const tâche = await loadTâche(typeTâche, identifiantProjet, false);
+    const tâche = await loadTâchePlanifiée(typeTâchePlanifiée, identifiantProjet, false);
     await tâche.planifier({
-      typeTâche,
+      typeTâchePlanifiée,
       identifiantProjet,
       àExecuterLe,
     });
   };
-  mediator.register('System.Tâche.Command.PlanifierTâche', handler);
+  mediator.register('System.TâchePlanifiée.Command.AjouterTâchePlanifiée', handler);
 };

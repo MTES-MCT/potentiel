@@ -1,37 +1,37 @@
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import * as TypeTâche from '../typeTâche.valueType';
-import { TâcheAggregate } from '../tâche.aggregate';
+import * as TypePlanifiéeTâche from '../typeTâchePlanifiée.valueType';
+import { TâchePlanifiéeAggregate } from '../tâchePlanifiée.aggregate';
 
-export type TâchePlanifiéeEvent = DomainEvent<
-  'TâchePlanifiée-V1',
+export type TâchePlanifiéeAjoutéeEvent = DomainEvent<
+  'TâchePlanifiéeAjoutée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    typeTâche: TypeTâche.RawType;
+    typeTâchePlanifiée: TypePlanifiéeTâche.RawType;
     ajoutéeLe: DateTime.RawType;
-    àExecuterLe: DateTime.RawType;
+    àExécuterLe: DateTime.RawType;
   }
 >;
 
 export type PlanifierOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  typeTâche: TypeTâche.ValueType;
+  typeTâchePlanifiée: TypePlanifiéeTâche.ValueType;
   àExecuterLe: DateTime.ValueType;
 };
 
 export async function planifier(
-  this: TâcheAggregate,
-  { identifiantProjet, typeTâche, àExecuterLe }: PlanifierOptions,
+  this: TâchePlanifiéeAggregate,
+  { identifiantProjet, typeTâchePlanifiée, àExecuterLe }: PlanifierOptions,
 ) {
-  if (!this.àExecuterLe?.estÉgaleÀ(àExecuterLe)) {
-    const event: TâchePlanifiéeEvent = {
-      type: 'TâchePlanifiée-V1',
+  if (!this.àExecuterLe.estÉgaleÀ(àExecuterLe)) {
+    const event: TâchePlanifiéeAjoutéeEvent = {
+      type: 'TâchePlanifiéeAjoutée-V1',
       payload: {
         ajoutéeLe: DateTime.now().formatter(),
         identifiantProjet: identifiantProjet.formatter(),
-        typeTâche: typeTâche.type,
-        àExecuterLe: àExecuterLe.formatter(),
+        typeTâchePlanifiée: typeTâchePlanifiée.type,
+        àExécuterLe: àExecuterLe.formatter(),
       },
     };
     await this.publish(event);
@@ -39,10 +39,9 @@ export async function planifier(
 }
 
 export function applyTâchePlanifiée(
-  this: TâcheAggregate,
-  { payload: { typeTâche: type, àExecuterLe } }: TâchePlanifiéeEvent,
+  this: TâchePlanifiéeAggregate,
+  { payload: { typeTâchePlanifiée: type, àExécuterLe } }: TâchePlanifiéeAjoutéeEvent,
 ) {
-  this.typeTâche = TypeTâche.convertirEnValueType(type);
-  this.achevée = false;
-  this.àExecuterLe = DateTime.convertirEnValueType(àExecuterLe);
+  this.typeTâche = TypePlanifiéeTâche.convertirEnValueType(type);
+  this.àExecuterLe = DateTime.convertirEnValueType(àExécuterLe);
 }

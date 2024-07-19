@@ -10,7 +10,7 @@ import {
   ListerTâchesQueryDependencies,
   registerListerTâchesQuery,
 } from './lister/listerTâches.query';
-import { registerPlanifierTâcheCommand } from './planifier/planifierTâche.command';
+import { registerAjouterTâchePlanifiéeCommand } from './planifier/planifierTâche.command';
 import { registerListerTâchesPlanifiéesQuery } from './lister/listerTâchesPlanifiées.query';
 
 export type TâcheQueryDependencies = ConsulterNombreTâchesQueryDependencies &
@@ -28,5 +28,5 @@ export const registerTâcheQuery = (dependencies: TâcheQueryDependencies) => {
 export const registerTâcheCommand = ({ loadAggregate }: TâcheCommandDependencies) => {
   registerAjouterTâcheCommand(loadAggregate);
   registerAcheverTâcheCommand(loadAggregate);
-  registerPlanifierTâcheCommand(loadAggregate);
+  registerAjouterTâchePlanifiéeCommand(loadAggregate);
 };

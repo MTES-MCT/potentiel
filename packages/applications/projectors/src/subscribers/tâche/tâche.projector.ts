@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { TâcheEvent, TâcheEntity, TypeTâche, TâchePlanifiéeEntity } from '@potentiel-domain/tache';
+import { TâcheEvent, TâcheEntity, TypeTâche } from '@potentiel-domain/tache';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
@@ -46,17 +46,6 @@ export const register = () => {
             misÀJourLe: payload.ajoutéeLe,
             projet,
           });
-          break;
-        case 'TâchePlanifiée-V1':
-          await upsertProjection<TâchePlanifiéeEntity>(
-            `tâche-planifiée|${payload.typeTâche}#${identifiantProjet}`,
-            {
-              ...tâche,
-              typeTâche: payload.typeTâche,
-              misÀJourLe: payload.ajoutéeLe,
-              àExecuterLe: payload.àExecuterLe,
-            },
-          );
           break;
         case 'TâcheRelancée-V1':
           await upsertProjection<TâcheEntity>(`tâche|${payload.typeTâche}#${identifiantProjet}`, {
