@@ -1,6 +1,6 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const statuts = ['transmise', 'en-attente', 'non-applicable'] as const;
+export const statuts = ['transmis', 'en-attente', 'non-applicable'] as const;
 
 export type RawType = (typeof statuts)[number];
 
@@ -28,7 +28,7 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const transmise = convertirEnValueType('transmise');
+export const transmis = convertirEnValueType('transmis');
 export const enAttente = convertirEnValueType('en-attente');
 export const nonApplicable = convertirEnValueType('non-applicable');
 

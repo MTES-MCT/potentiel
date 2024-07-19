@@ -58,7 +58,7 @@ export const Default: Story = {
         options: [
           {
             label: 'Transmise',
-            value: 'transmise',
+            value: 'transmis',
           },
           {
             label: 'En attente',

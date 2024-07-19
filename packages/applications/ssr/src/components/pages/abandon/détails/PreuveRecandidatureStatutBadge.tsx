@@ -11,9 +11,9 @@ export const StatutPreuveRecandidatureBadge: FC<StatutPreuveRecandidatureBadgePr
   statut,
   small,
 }) =>
-  (statut === 'transmise' || statut === 'en-attente') && (
-    <Badge noIcon severity={statut === 'transmise' ? 'success' : 'warning'} small={small}>
-      {statut === 'transmise'
+  (statut === 'transmis' || statut === 'en-attente') && (
+    <Badge noIcon severity={statut === 'transmis' ? 'success' : 'warning'} small={small}>
+      {statut === 'transmis'
         ? 'preuve de recandidature transmise'
         : 'preuve de recandidature en attente'}
     </Badge>
