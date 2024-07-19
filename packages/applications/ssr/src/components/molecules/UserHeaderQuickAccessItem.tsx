@@ -12,7 +12,6 @@ import {
 
 export async function UserHeaderQuickAccessItem() {
   const utilisateur = await getOptionalAuthenticatedUser();
-
   const accountUrl = `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`;
 
   if (utilisateur) {
@@ -52,30 +51,30 @@ export async function UserHeaderQuickAccessItem() {
         />
       </>
     );
-  } else {
-    return (
-      <>
-        <HeaderQuickAccessItem
-          quickAccessItem={{
-            iconId: 'ri-account-circle-line',
-            linkProps: {
-              href: '/signup.html',
-            },
-            text: "M'inscrire",
-          }}
-        />
-        <HeaderQuickAccessItem
-          quickAccessItem={{
-            iconId: 'ri-lock-line',
-            linkProps: {
-              href: '/auth/signIn',
-            },
-            text: "M'identifier",
-          }}
-        />
-      </>
-    );
   }
+
+  return (
+    <>
+      <HeaderQuickAccessItem
+        quickAccessItem={{
+          iconId: 'ri-account-circle-line',
+          linkProps: {
+            href: '/signup.html',
+          },
+          text: "M'inscrire",
+        }}
+      />
+      <HeaderQuickAccessItem
+        quickAccessItem={{
+          iconId: 'ri-lock-line',
+          linkProps: {
+            href: '/auth/signIn',
+          },
+          text: "M'identifier",
+        }}
+      />
+    </>
+  );
 }
 
 async function getTâcheHeaderQuickAccessItem(utilisateur: AuthenticatedUserReadModel) {

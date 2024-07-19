@@ -117,17 +117,22 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
     {user ? (
       <>
         <li className="flex items-center">
-          {['admin', 'dgec-validateur'].includes(user.role) ? (
+          {['admin', 'dgec-validateur', 'dreal'].includes(user.role) ? (
             <Link
               className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
               href={user.accountUrl}
+              target="_blank"
+              rel="noopener"
             >
               <UserIcon aria-hidden />
-              <span
-                className="hidden lg:block max-w-xs truncate pt-0.5 mx-1"
-                title={user.fullName ? user.fullName : user.email}
-              >
-                {user.fullName ? user.fullName : user.email}
+              <span className="hidden lg:flex lg:items-center mx-1 text-blue-france-sun-base">
+                <span
+                  className="hidden lg:block max-w-xs truncate pt-0.5 mx-1"
+                  title={user.fullName ? user.fullName : user.email}
+                >
+                  {user.fullName ? user.fullName : user.email}
+                </span>
+                <ExternalLinkIcon className="w-4 h-4 ml-1" title="(ouvrir dans un nouvel onglet)" />
               </span>
             </Link>
           ) : (
