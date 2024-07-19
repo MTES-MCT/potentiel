@@ -5,7 +5,7 @@ import * as TypeTâchePlanifiée from './typeTâchePlanifiée.valueType';
 
 export class TâchePlanifiéeInconnueError extends AggregateNotFoundError {
   constructor(typeTâche: TypeTâchePlanifiée.RawType, identifiantProjet: IdentifiantProjet.RawType) {
-    super(`Tâche inconnue`, {
+    super(`Tâche planifiée inconnue`, {
       typeTâche,
       identifiantProjet,
     });

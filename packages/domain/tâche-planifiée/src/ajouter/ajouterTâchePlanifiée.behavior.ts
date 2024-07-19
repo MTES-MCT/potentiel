@@ -14,17 +14,17 @@ export type TâchePlanifiéeAjoutéeEvent = DomainEvent<
   }
 >;
 
-export type PlanifierOptions = {
+export type AjouterOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   typeTâchePlanifiée: TypePlanifiéeTâche.ValueType;
   àExecuterLe: DateTime.ValueType;
 };
 
-export async function planifier(
+export async function ajouter(
   this: TâchePlanifiéeAggregate,
-  { identifiantProjet, typeTâchePlanifiée, àExecuterLe }: PlanifierOptions,
+  { identifiantProjet, typeTâchePlanifiée, àExecuterLe }: AjouterOptions,
 ) {
-  if (!this.àExecuterLe.estÉgaleÀ(àExecuterLe)) {
+  if (!this.àExécuterLe.estÉgaleÀ(àExecuterLe)) {
     const event: TâchePlanifiéeAjoutéeEvent = {
       type: 'TâchePlanifiéeAjoutée-V1',
       payload: {
@@ -38,10 +38,10 @@ export async function planifier(
   }
 }
 
-export function applyTâchePlanifiée(
+export function applyTâchePlanifiéeAjoutée(
   this: TâchePlanifiéeAggregate,
   { payload: { typeTâchePlanifiée: type, àExécuterLe } }: TâchePlanifiéeAjoutéeEvent,
 ) {
   this.typeTâche = TypePlanifiéeTâche.convertirEnValueType(type);
-  this.àExecuterLe = DateTime.convertirEnValueType(àExécuterLe);
+  this.àExécuterLe = DateTime.convertirEnValueType(àExécuterLe);
 }

@@ -12,7 +12,6 @@ import {
 } from './ajouter/ajouterTâche.behavior';
 import { TâcheAchevéeEvent, applyTâcheAchevée, achever } from './achever/acheverTâche.behavior';
 import { TâcheInconnueError } from './tâcheInconnue.error';
-import { planifier } from './planifier/planifierTâche.behavior';
 
 export type TâcheEvent =
   | TâcheAjoutéeEvent
@@ -26,7 +25,6 @@ export type TâcheAggregate = Aggregate<TâcheEvent> & {
   àExecuterLe?: DateTime.ValueType;
   ajouter: typeof ajouter;
   achever: typeof achever;
-  planifier: typeof planifier;
 };
 
 export const getDefaultAbandonAggregate: GetDefaultAggregateState<
@@ -38,7 +36,6 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   achevée: false,
   ajouter,
   achever,
-  planifier,
 });
 
 function apply(this: TâcheAggregate, event: TâcheEvent) {

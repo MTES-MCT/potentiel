@@ -28,16 +28,16 @@ function estValide(value: string): asserts value is RawType {
   const isValid = types.includes(value as RawType);
 
   if (!isValid) {
-    throw new TypeTâcheInvalideError(value);
+    throw new TypeTâchePlanifiéeInvalideError(value);
   }
 }
 
 export const inconnue = convertirEnValueType('inconnue');
 export const garantiesFinancieresÉchoir = convertirEnValueType('garanties-financières.échoir');
 
-class TypeTâcheInvalideError extends InvalidOperationError {
+class TypeTâchePlanifiéeInvalideError extends InvalidOperationError {
   constructor(value: string) {
-    super(`Le type de tâche ne correspond à aucune valeur connue`, {
+    super(`Le type de tâche planifiée ne correspond à aucune valeur connue`, {
       value,
     });
   }

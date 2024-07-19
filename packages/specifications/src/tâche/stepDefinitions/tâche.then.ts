@@ -4,10 +4,10 @@ import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 
 import { ListerTâchesQuery } from '@potentiel-domain/tache';
-import { ListerTâchesPlanifiéesQuery } from '@potentiel-domain/tache';
+import { ListerTâchesPlanifiéesQuery } from '@potentiel-domain/tache-planifiee';
 
 import { PotentielWorld } from '../../potentiel.world';
-import { RechercherTypeTâche } from '../tâche.world';
+import { RechercherTypeTâche, RechercherTypeTâchePlanifiée } from '../tâche.world';
 
 Alors(
   `une tâche indiquant de {string} est consultable dans la liste des tâches du porteur pour le projet`,
@@ -51,11 +51,11 @@ Alors(
   `une tâche {string} est planifée à la date du {string} pour le projet {string}`,
   async function (
     this: PotentielWorld,
-    typeTâche: RechercherTypeTâche,
+    typeTâche: RechercherTypeTâchePlanifiée,
     dateTâche: string,
     nomProjet: string,
   ) {
-    const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(typeTâche);
+    const actualTypeTâche = this.tâcheWorld.rechercherTypeTâchePlanifiée(typeTâche);
     const projet = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
@@ -67,7 +67,7 @@ Alors(
       });
       const tâche = tâches.items.find(
         (t) =>
-          t.typeTâche.estÉgaleÀ(actualTypeTâche) &&
+          t.typeTâchePlanifiée.estÉgaleÀ(actualTypeTâche) &&
           t.identifiantProjet.estÉgaleÀ(projet.identifiantProjet),
       );
       expect(tâche).not.to.be.undefined;

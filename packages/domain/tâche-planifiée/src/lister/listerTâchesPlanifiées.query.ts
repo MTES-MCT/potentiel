@@ -5,15 +5,15 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { List, RangeOptions } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
-import { TâchePlanifiéeEntity } from '../tâche.entity';
-import * as TypeTâche from '../typeTâche.valueType';
+import { TâchePlanifiéeEntity } from '../tâchePlanifiée.entity';
+import * as TypeTâchePlanifiée from '../typeTâchePlanifiée.valueType';
 
 type TâchePlanifiéeListItem = {
   identifiantProjet: IdentifiantProjet.ValueType;
 
-  typeTâche: TypeTâche.ValueType;
+  typeTâchePlanifiée: TypeTâchePlanifiée.ValueType;
   misÀJourLe: DateTime.ValueType;
-  àExecuterLe: Option.Type<DateTime.ValueType>;
+  àExécuterLe: Option.Type<DateTime.ValueType>;
 };
 
 export type ListerTâchesPlanifiéesReadModel = {
@@ -56,7 +56,7 @@ export const registerListerTâchesPlanifiéesQuery = ({
             operator: 'like',
             value: `${value}.%`,
           })),
-        àExecuterLe: {
+        àExécuterLe: {
           operator: 'like',
           // get only the date part, ignore the time
           value: `${DateTime.convertirEnValueType(àExecuterLe).formatterDate()}T%`,
@@ -81,12 +81,12 @@ const mapToReadModel = ({
   identifiantProjet,
   misÀJourLe,
   typeTâche,
-  àExecuterLe,
+  àExécuterLe: àExecuterLe,
 }: TâchePlanifiéeEntity): TâchePlanifiéeListItem => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
-    àExecuterLe: DateTime.convertirEnValueType(àExecuterLe),
-    typeTâche: TypeTâche.convertirEnValueType(typeTâche),
+    àExécuterLe: DateTime.convertirEnValueType(àExecuterLe),
+    typeTâchePlanifiée: TypeTâchePlanifiée.convertirEnValueType(typeTâche),
   };
 };

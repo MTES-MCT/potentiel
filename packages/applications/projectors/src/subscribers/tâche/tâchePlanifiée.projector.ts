@@ -4,8 +4,7 @@ import {
   TâchePlanifiéeEvent,
   TâchePlanifiéeEntity,
   TypeTâchePlanifiée,
-  TypeTâche,
-} from '@potentiel-domain/tache';
+} from '@potentiel-domain/tache-planifiee';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
@@ -37,7 +36,7 @@ export const register = () => {
               ...tâche,
               typeTâche: payload.typeTâchePlanifiée,
               misÀJourLe: payload.ajoutéeLe,
-              àExecuterLe: payload.àExécuterLe,
+              àExécuterLe: payload.àExécuterLe,
             },
           );
           break;
@@ -58,9 +57,9 @@ const récupérerTâchePlanifiée = async (
 
   const tâcheDefaultEntity: TâchePlanifiéeEntity = {
     identifiantProjet,
-    typeTâche: TypeTâche.inconnue.type,
+    typeTâche: TypeTâchePlanifiée.inconnue.type,
     misÀJourLe: DateTime.now().formatter(),
-    àExecuterLe: DateTime.now().formatter(),
+    àExécuterLe: DateTime.now().formatter(),
     type: 'tâche-planifiée',
   };
 

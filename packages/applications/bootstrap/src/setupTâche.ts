@@ -11,18 +11,12 @@ import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-ev
 import { TâcheProjector, TâchePlanifiéeProjector } from '@potentiel-applications/projectors';
 import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { countProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
+import {
+  registerTâchePlanifiéeCommand,
+  registerTâchePlanifiéeQuery,
+} from '@potentiel-domain/tache-planifiee';
 
 export const setupTâche = async () => {
-  registerTâcheCommand({
-    loadAggregate,
-  });
-
-  registerTâcheQuery({
-    count: countProjection,
-    récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
-    list: listProjection,
-  });
-
   const unsubscribeTâcheProjector = await registerTâcheProjector();
   const unsubscribeTâchePlanifiéeProjector = await registerTâchePlanifiéeProjector();
 
@@ -40,6 +34,15 @@ export const setupTâche = async () => {
 };
 
 const registerTâcheProjector = async () => {
+  registerTâcheCommand({
+    loadAggregate,
+  });
+
+  registerTâcheQuery({
+    count: countProjection,
+    récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
+    list: listProjection,
+  });
   TâcheProjector.register();
 
   const unsubscribeTâcheProjector = await subscribe<TâcheProjector.SubscriptionEvent>({
@@ -63,6 +66,13 @@ const registerTâcheProjector = async () => {
 };
 
 const registerTâchePlanifiéeProjector = async () => {
+  registerTâchePlanifiéeCommand({
+    loadAggregate,
+  });
+
+  registerTâchePlanifiéeQuery({
+    list: listProjection,
+  });
   TâchePlanifiéeProjector.register();
 
   const unsubscribeTâcheProjector = await subscribe<TâchePlanifiéeProjector.SubscriptionEvent>({
@@ -90,8 +100,6 @@ const registerTâcheGarantiesFinancières = async () => {
       'GarantiesFinancièresDemandées-V1',
       'DépôtGarantiesFinancièresSoumis-V1',
       'GarantiesFinancièresEnregistrées-V1',
-      'DépôtGarantiesFinancièresEnCoursValidé-V2',
-      'GarantiesFinancièresModifiées-V1',
     ],
     eventHandler: async (event) => {
       await mediator.publish<TâcheGarantiesFinancièresSaga.Execute>({

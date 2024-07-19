@@ -4,17 +4,17 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import * as TypeTâchePlanifiée from './typeTâchePlanifiée.valueType';
 import {
   TâchePlanifiéeAjoutéeEvent,
-  applyTâchePlanifiée,
-} from './planifier/planifierTâche.behavior';
-import { planifier } from './planifier/planifierTâche.behavior';
+  applyTâchePlanifiéeAjoutée,
+} from './ajouter/ajouterTâchePlanifiée.behavior';
+import { ajouter } from './ajouter/ajouterTâchePlanifiée.behavior';
 import { TâchePlanifiéeInconnueError } from './tâchePlanifiéeInconnue.error';
 
 export type TâchePlanifiéeEvent = TâchePlanifiéeAjoutéeEvent;
 
 export type TâchePlanifiéeAggregate = Aggregate<TâchePlanifiéeEvent> & {
   typeTâche: TypeTâchePlanifiée.ValueType;
-  àExecuterLe: DateTime.ValueType;
-  planifier: typeof planifier;
+  àExécuterLe: DateTime.ValueType;
+  planifier: typeof ajouter;
 };
 
 export const getDefaultTâchePlanifiéeAggregate: GetDefaultAggregateState<
@@ -23,14 +23,14 @@ export const getDefaultTâchePlanifiéeAggregate: GetDefaultAggregateState<
 > = () => ({
   apply,
   typeTâche: TypeTâchePlanifiée.convertirEnValueType('inconnue'),
-  àExecuterLe: DateTime.now(),
-  planifier,
+  àExécuterLe: DateTime.now(),
+  planifier: ajouter,
 });
 
 function apply(this: TâchePlanifiéeAggregate, event: TâchePlanifiéeEvent) {
   switch (event.type) {
     case 'TâchePlanifiéeAjoutée-V1':
-      applyTâchePlanifiée.bind(this)(event);
+      applyTâchePlanifiéeAjoutée.bind(this)(event);
   }
 }
 

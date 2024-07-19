@@ -1,0 +1,41 @@
+import { Message, MessageHandler, mediator } from 'mediateur';
+
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+
+import * as TâchePlanifiée from '../typeTâchePlanifiée.valueType';
+import { AjouterTâchePlanifiéeCommand } from '../ajouter/ajouterTâchePlanifiée.command';
+
+export type SubscriptionEvent =
+  | GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent
+  | GarantiesFinancières.GarantiesFinancièresModifiéesEvent;
+
+export type Execute = Message<'System.Saga.TâchePlanifiéeGarantiesFinancières', SubscriptionEvent>;
+
+export const register = () => {
+  const handler: MessageHandler<Execute> = async (event) => {
+    const {
+      payload: { identifiantProjet },
+    } = event;
+    switch (event.type) {
+      case 'DépôtGarantiesFinancièresEnCoursValidé-V2':
+      case 'GarantiesFinancièresModifiées-V1':
+        if (event.payload.type === 'avec-date-échéance' && event.payload.dateÉchéance) {
+          await mediator.send<AjouterTâchePlanifiéeCommand>({
+            type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
+            data: {
+              identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+              typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresÉchoir,
+              àExecuterLe: DateTime.convertirEnValueType(
+                event.payload.dateÉchéance,
+              ).ajouterNombreDeJours(1),
+            },
+          });
+        }
+
+        break;
+    }
+  };
+
+  mediator.register('System.Saga.TâchePlanifiéeGarantiesFinancières', handler);
+};

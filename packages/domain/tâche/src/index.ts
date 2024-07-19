@@ -3,21 +3,16 @@ import {
   ConsulterNombreTâchesReadModel,
 } from './consulter/consulterNombreTâches.query';
 import { ListerTâchesQuery, ListerTâchesReadModel } from './lister/listerTâches.query';
-import {
-  ListerTâchesPlanifiéesQuery,
-  ListerTâchesPlanifiéesReadModel,
-} from './lister/listerTâchesPlanifiées.query';
 
 // Query
 export type TâcheQuery = ConsulterNombreTâchesQuery | ListerTâchesQuery;
-export { ConsulterNombreTâchesQuery, ListerTâchesQuery, ListerTâchesPlanifiéesQuery };
+export { ConsulterNombreTâchesQuery, ListerTâchesQuery };
 
 // ReadModel
-export { ConsulterNombreTâchesReadModel, ListerTâchesReadModel, ListerTâchesPlanifiéesReadModel };
+export { ConsulterNombreTâchesReadModel, ListerTâchesReadModel };
 
 // Event
 export { TâcheEvent } from './tâche.aggregate';
-export { TâchePlanifiéeEvent } from './tâchePlanifiée.aggregate';
 
 // Saga
 export * as TâcheAbandonSaga from './saga/tâcheAbandon.saga';
@@ -29,7 +24,6 @@ export * from './register';
 
 // ValueTypes
 export * as TypeTâche from './typeTâche.valueType';
-export * as TypeTâchePlanifiée from './typeTâchePlanifiée.valueType';
 
 // Entities
 export * from './tâche.entity';
