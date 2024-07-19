@@ -8,11 +8,11 @@ import {
 } from './consulter/consulterAbandon.query';
 import { DemanderAbandonUseCase } from './demander/demanderAbandon.usecase';
 import { DemanderConfirmationAbandonUseCase } from './demanderConfirmation/demanderConfirmationAbandon.usecase';
-import { ListerAbandonsQuery, ListerAbandonReadModel } from './lister/listerAbandon.query';
+import { ListerAbandonsQuery, ListerAbandonReadModel } from './lister/listerAbandons.query';
 import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 import { DemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.usecase';
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
-import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonAvecRecandidatureÀRelancer.query';
+import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonsAvecRecandidatureÀRelancer.query';
 import { DétecterAbandonQuery } from './détecter/détecterAbandon.query';
 
 // Query

@@ -18,7 +18,7 @@ import { registerDemanderConfirmationAbandonUseCase } from './demanderConfirmati
 import {
   ListerAbandonDependencies,
   registerListerAbandonQuery,
-} from './lister/listerAbandon.query';
+} from './lister/listerAbandons.query';
 import { registerRejeterAbandonCommand } from './rejeter/rejeterAbandon.command';
 import { registerRejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 import { registerAnnulerRejetAbandonCommand } from './annulerRejet/annulerRejetAbandon.command';
@@ -29,7 +29,7 @@ import { registerDemanderPreuveRecandidatureAbandonUseCase } from './demanderPre
 import {
   ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies,
   registerListerAbandonsAvecRecandidatureÀRelancerQuery,
-} from './lister/listerAbandonAvecRecandidatureÀRelancer.query';
+} from './lister/listerAbandonsAvecRecandidatureÀRelancer.query';
 import {
   DétecterAbandonDependencies,
   registerDétecterAbandonQuery,
