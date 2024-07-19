@@ -5,6 +5,7 @@ import {
   registerListerTâchesPlanifiéesQuery,
   ListerTâchesPlanifiéesQueryDependencies,
 } from './lister/listerTâchesPlanifiées.query';
+import { registerAnnulerTâchePlanifiéeCommand } from './annuler/annulerTâchePlanifiée.command';
 
 export type TâchePlanifiéeQueryDependencies = ListerTâchesPlanifiéesQueryDependencies;
 
@@ -20,4 +21,5 @@ export const registerTâchePlanifiéeCommand = ({
   loadAggregate,
 }: TâchePlanifiéeCommandDependencies) => {
   registerAjouterTâchePlanifiéeCommand(loadAggregate);
+  registerAnnulerTâchePlanifiéeCommand(loadAggregate);
 };

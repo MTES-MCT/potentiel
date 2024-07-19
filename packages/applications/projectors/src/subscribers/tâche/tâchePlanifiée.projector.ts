@@ -40,6 +40,11 @@ export const register = () => {
             },
           );
           break;
+        case 'TâchePlanifiéeAnnulée-V1':
+          await removeProjection<TâchePlanifiéeEntity>(
+            `tâche-planifiée|${payload.typeTâchePlanifiée}#${identifiantProjet}`,
+          );
+          break;
       }
     }
   };

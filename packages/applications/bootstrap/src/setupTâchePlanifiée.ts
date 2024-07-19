@@ -4,6 +4,7 @@ import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-ev
 import { TâchePlanifiéeProjector } from '@potentiel-applications/projectors';
 import { listProjection } from '@potentiel-infrastructure/pg-projections';
 import {
+  TâchePlanifiéeAchévementSaga,
   TâchePlanifiéeGarantiesFinancièresSaga,
   registerTâchePlanifiéeCommand,
   registerTâchePlanifiéeQuery,
@@ -14,10 +15,12 @@ export const setupTâchePlanifiée = async () => {
 
   const unsubscribeTâchePlanifiéeGarantiesFinancièresSaga =
     await registerTâchePlanifiéeGarantiesFinancièresSaga();
+  const unsubscribeTâchePlanifiéeAchévementSaga = await registerTâchePlanifiéeAchévementSaga();
 
   return async () => {
     await unsubscribeTâchePlanifiéeProjector();
     await unsubscribeTâchePlanifiéeGarantiesFinancièresSaga();
+    await unsubscribeTâchePlanifiéeAchévementSaga();
   };
 };
 
@@ -57,6 +60,25 @@ async function registerTâchePlanifiéeGarantiesFinancièresSaga() {
       console.log({ event });
       await mediator.publish<TâchePlanifiéeGarantiesFinancièresSaga.Execute>({
         type: 'System.Saga.TâchePlanifiéeGarantiesFinancières',
+        data: event,
+      });
+    },
+  });
+  return unsubscribeTâcheAbandonSaga;
+}
+
+async function registerTâchePlanifiéeAchévementSaga() {
+  TâchePlanifiéeAchévementSaga.register();
+  const unsubscribeTâcheAbandonSaga = await subscribe<
+    TâchePlanifiéeAchévementSaga.SubscriptionEvent & Event
+  >({
+    name: 'tache-planifiee-saga',
+    streamCategory: 'achevement',
+    eventType: ['AttestationConformitéTransmise-V1'],
+    eventHandler: async (event) => {
+      console.log({ event });
+      await mediator.publish<TâchePlanifiéeAchévementSaga.Execute>({
+        type: 'System.Saga.TâchePlanifiéeAchèvement',
         data: event,
       });
     },

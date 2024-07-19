@@ -14,6 +14,7 @@ export { ListerTâchesPlanifiéesReadModel };
 export { TâchePlanifiéeEvent } from './tâchePlanifiée.aggregate';
 
 // Saga
+export * as TâchePlanifiéeAchévementSaga from './saga/tâchePlanifiéeAchévement.saga';
 export * as TâchePlanifiéeGarantiesFinancièresSaga from './saga/tâchePlanifiéeGarantiesFinancières.saga';
 
 // Register

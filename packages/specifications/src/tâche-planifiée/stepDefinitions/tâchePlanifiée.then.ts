@@ -4,6 +4,7 @@ import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 
 import { ListerTâchesPlanifiéesQuery } from '@potentiel-domain/tache-planifiee';
+import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { RechercherTypeTâchePlanifiée } from '../tâchePlanifiée.world';
@@ -37,11 +38,10 @@ Alors(
 );
 
 Alors(
-  `une tâche {string} n'est plus planifiée pour le projet {string}`,
+  `une tâche {string} n'est plus est planifiée pour le projet {string}`,
   async function (
     this: PotentielWorld,
     typeTâche: RechercherTypeTâchePlanifiée,
-    dateTâche: string,
     nomProjet: string,
   ) {
     const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche);
@@ -51,7 +51,7 @@ Alors(
       const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
         type: 'Tâche.Query.ListerTâchesPlanifiées',
         data: {
-          àExécuterLe: new Date(dateTâche).toISOString(),
+          àExécuterLe: DateTime.now().formatter(),
         },
       });
       const tâche = tâches.items.find(
