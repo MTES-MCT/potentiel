@@ -24,7 +24,7 @@ export type DépôtGarantiesFinancièresEnCoursValidéEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
 
-    typeDépôt: TypeGarantiesFinancières.RawType;
+    type: TypeGarantiesFinancières.RawType;
     dateÉchéance?: DateTime.RawType;
     dateConstitution: DateTime.RawType;
     soumisLe: DateTime.RawType;
@@ -62,7 +62,7 @@ export async function validerDépôtEnCours(
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       dateConstitution: dateConstitution.formatter(),
-      typeDépôt: type,
+      type,
       dateÉchéance: dateÉchéance?.formatter(),
       soumisLe: soumisLe.formatter(),
       attestation,
@@ -95,12 +95,12 @@ export function applyDépôtGarantiesFinancièresEnCoursValidéV1(
 export function applyDépôtGarantiesFinancièresEnCoursValidé(
   this: GarantiesFinancièresAggregate,
   {
-    payload: { validéLe, dateConstitution, typeDépôt, attestation, dateÉchéance },
+    payload: { validéLe, dateConstitution, type, attestation, dateÉchéance },
   }: DépôtGarantiesFinancièresEnCoursValidéEvent,
 ) {
   this.actuelles = {
     statut: StatutGarantiesFinancières.validé,
-    type: TypeGarantiesFinancières.convertirEnValueType(typeDépôt),
+    type: TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance ? DateTime.convertirEnValueType(dateÉchéance) : undefined,
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),
     attestation: attestation,

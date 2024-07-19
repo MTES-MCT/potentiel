@@ -4,6 +4,7 @@ import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 
 import { ListerTâchesQuery } from '@potentiel-domain/tache';
+import { ListerTâchesPlanifiéesQuery } from '@potentiel-domain/tache';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { RechercherTypeTâche } from '../tâche.world';
@@ -42,6 +43,34 @@ Alors(
 
       const tâche = tâches.items.find((t) => t.typeTâche.estÉgaleÀ(actualTypeTâche));
       expect(tâche).to.be.undefined;
+    });
+  },
+);
+
+Alors(
+  `une tâche {string} est planifée à la date du {string} pour le projet {string}`,
+  async function (
+    this: PotentielWorld,
+    typeTâche: RechercherTypeTâche,
+    dateTâche: string,
+    nomProjet: string,
+  ) {
+    const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(typeTâche);
+    const projet = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
+        type: 'Tâche.Query.ListerTâchesPlanifiées',
+        data: {
+          àExecuterLe: new Date(dateTâche).toISOString(),
+        },
+      });
+      const tâche = tâches.items.find(
+        (t) =>
+          t.typeTâche.estÉgaleÀ(actualTypeTâche) &&
+          t.identifiantProjet.estÉgaleÀ(projet.identifiantProjet),
+      );
+      expect(tâche).not.to.be.undefined;
     });
   },
 );

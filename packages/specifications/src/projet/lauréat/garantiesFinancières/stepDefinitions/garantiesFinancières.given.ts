@@ -116,7 +116,7 @@ EtantDonné(
         soumisLeValue: new Date(dateSoumission).toISOString(),
         soumisParValue: soumisPar,
         attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
-        ...(dateÉchéance && { dteÉchéanceValue: new Date(dateÉchéance).toISOString() }),
+        ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
       },
     });
 
