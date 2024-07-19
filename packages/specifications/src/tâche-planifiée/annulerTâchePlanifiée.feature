@@ -15,5 +15,5 @@ Fonctionnalité: Annuler une tâche planifiée
             | date d'échéance    | 2024-12-01         |
             | date de validation | 2024-11-24         |
         Quand un porteur transmet une attestation de conformité pour le projet "Du boulodrome de Marseille" avec :
-            | date transmission au co-contractant | 2040-01-01 |
+            | date transmission au co-contractant | 2024-01-01 |
         Alors une tâche "échoir les garanties financières" n'est plus est planifiée pour le projet "Du boulodrome de Marseille"

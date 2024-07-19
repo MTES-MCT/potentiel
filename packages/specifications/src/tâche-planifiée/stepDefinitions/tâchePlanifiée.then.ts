@@ -4,7 +4,6 @@ import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 
 import { ListerTâchesPlanifiéesQuery } from '@potentiel-domain/tache-planifiee';
-import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { RechercherTypeTâchePlanifiée } from '../tâchePlanifiée.world';
@@ -50,10 +49,9 @@ Alors(
     await waitForExpect(async () => {
       const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
         type: 'Tâche.Query.ListerTâchesPlanifiées',
-        data: {
-          àExécuterLe: DateTime.now().formatter(),
-        },
+        data: {},
       });
+
       const tâche = tâches.items.find(
         (t) =>
           t.typeTâchePlanifiée.estÉgaleÀ(actualTypeTâche) &&

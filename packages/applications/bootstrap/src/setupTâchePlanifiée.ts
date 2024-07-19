@@ -36,7 +36,7 @@ const registerTâchePlanifiéeProjector = async () => {
 
   const unsubscribeTâcheProjector = await subscribe<TâchePlanifiéeProjector.SubscriptionEvent>({
     name: 'projector',
-    eventType: ['RebuildTriggered', 'TâchePlanifiéeAjoutée-V1'],
+    eventType: ['RebuildTriggered', 'TâchePlanifiéeAjoutée-V1', 'TâchePlanifiéeAnnulée-V1'],
     eventHandler: async (event) => {
       await mediator.send<TâchePlanifiéeProjector.Execute>({
         type: 'System.Projector.TâchePlanifiée',
@@ -57,7 +57,6 @@ async function registerTâchePlanifiéeGarantiesFinancièresSaga() {
     streamCategory: 'garanties-financieres',
     eventType: ['GarantiesFinancièresModifiées-V1', 'DépôtGarantiesFinancièresEnCoursValidé-V2'],
     eventHandler: async (event) => {
-      console.log({ event });
       await mediator.publish<TâchePlanifiéeGarantiesFinancièresSaga.Execute>({
         type: 'System.Saga.TâchePlanifiéeGarantiesFinancières',
         data: event,
@@ -76,7 +75,6 @@ async function registerTâchePlanifiéeAchévementSaga() {
     streamCategory: 'achevement',
     eventType: ['AttestationConformitéTransmise-V1'],
     eventHandler: async (event) => {
-      console.log({ event });
       await mediator.publish<TâchePlanifiéeAchévementSaga.Execute>({
         type: 'System.Saga.TâchePlanifiéeAchèvement',
         data: event,

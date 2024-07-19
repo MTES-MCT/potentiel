@@ -27,7 +27,7 @@ export type ListerTâchesPlanifiéesQuery = Message<
   {
     range?: RangeOptions;
     catégorieTâche?: string;
-    àExécuterLe: string;
+    àExécuterLe?: string;
   },
   ListerTâchesPlanifiéesReadModel
 >;
@@ -56,11 +56,13 @@ export const registerListerTâchesPlanifiéesQuery = ({
             operator: 'like',
             value: `${value}.%`,
           })),
-        àExécuterLe: {
-          operator: 'like',
-          // get only the date part, ignore the time
-          value: `${DateTime.convertirEnValueType(àExécuterLe).formatterDate()}T%`,
-        },
+        àExécuterLe: àExécuterLe
+          ? {
+              operator: 'like',
+              // get only the date part, ignore the time
+              value: `${DateTime.convertirEnValueType(àExécuterLe).formatterDate()}T%`,
+            }
+          : undefined,
       },
       range,
     });
