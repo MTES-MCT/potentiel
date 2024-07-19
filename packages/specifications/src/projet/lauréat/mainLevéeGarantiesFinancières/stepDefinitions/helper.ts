@@ -9,55 +9,69 @@ export const defaultDateRejetOuAccord = '2024-06-01';
 export const defaultDocumentFormat = 'application/pdf';
 export const defaultDocumentContenu = 'contenu du fichier';
 
-const defaultDemandeDataProps = {
-  motif: 'projet-achevé',
-  utilisateur: 'porteur@test.test',
-  dateDemande: '2024-05-01',
-  dateRejetOuAccord: '2024-06-01',
+const defaultMainlevéeData = {
+  demande: {
+    date: '2024-05-01',
+    motif: 'projet-achevé',
+    utilisateur: 'porteur@test.test',
+  },
+  instruction: { date: '2024-06-01' },
+  rejetOuAccord: {
+    date: '2024-06-01',
+    utilisateur: 'porteur@test.test',
+    documentFormat: 'application/pdf',
+    documentContenu: 'contenu du fichier',
+  },
 };
 
-type SetDemandeMainlevéeDataProps = Partial<typeof defaultDemandeDataProps> & {
+type SetDemandeMainlevéeDataProps = Partial<(typeof defaultMainlevéeData)['demande']> & {
   identifiantProjet: IdentifiantProjet.ValueType;
 };
 
 export const setDemandeMainlevéeData = ({
   motif,
   utilisateur,
-  dateDemande,
+  date,
   identifiantProjet,
 }: SetDemandeMainlevéeDataProps) => {
   return {
     identifiantProjetValue: identifiantProjet.formatter(),
-    motifValue: motif || defaultMotif,
-    demandéLeValue: new Date(dateDemande || defaultDateDemande).toISOString(),
-    demandéParValue: utilisateur || defaultUtilisateur,
+    motifValue: motif || defaultMainlevéeData.demande.motif,
+    demandéLeValue: new Date(date || defaultMainlevéeData.demande.date).toISOString(),
+    demandéParValue: utilisateur || defaultMainlevéeData.demande.utilisateur,
   };
+};
+
+type SetRejetMainlevéeDataProps = Partial<(typeof defaultMainlevéeData)['rejetOuAccord']> & {
+  identifiantProjet: IdentifiantProjet.ValueType;
 };
 
 export const setRejetMainlevéeData = ({
-  motif,
+  date,
   utilisateur,
-  dateDemande,
+  documentFormat,
+  documentContenu,
   identifiantProjet,
-}: SetDemandeMainlevéeDataProps) => {
+}: SetRejetMainlevéeDataProps) => {
   return {
     identifiantProjetValue: identifiantProjet.formatter(),
-    motifValue: motif || defaultMotif,
-    demandéLeValue: new Date(dateDemande || defaultDateDemande).toISOString(),
-    demandéParValue: utilisateur || defaultUtilisateur,
+    rejetéLeValue: new Date(date || defaultMainlevéeData.rejetOuAccord.date).toISOString(),
+    rejetéParValue: utilisateur || defaultMainlevéeData.rejetOuAccord.utilisateur,
+    réponseSignéeValue: {
+      format: documentFormat || defaultMainlevéeData.rejetOuAccord.documentFormat,
+      content: convertStringToReadableStream(
+        documentContenu || defaultMainlevéeData.rejetOuAccord.documentContenu,
+      ),
+    },
   };
 };
 
-type SetAccordMainlevéeDataProps = {
-  dateAccordé?: string;
-  utilisateur?: string;
-  documentFormat?: string;
-  documentContenu?: string;
+type SetAccordMainlevéeDataProps = Partial<(typeof defaultMainlevéeData)['rejetOuAccord']> & {
   identifiantProjet: IdentifiantProjet.ValueType;
 };
 
 export const setAccordMainlevéeData = ({
-  dateAccordé,
+  date,
   utilisateur,
   documentFormat,
   documentContenu,
@@ -65,11 +79,13 @@ export const setAccordMainlevéeData = ({
 }: SetAccordMainlevéeDataProps) => {
   return {
     identifiantProjetValue: identifiantProjet.formatter(),
-    accordéLeValue: new Date(dateAccordé || defaultDateRejetOuAccord).toISOString(),
-    accordéParValue: utilisateur || defaultUtilisateur,
+    accordéLeValue: new Date(date || defaultMainlevéeData.rejetOuAccord.date).toISOString(),
+    accordéParValue: utilisateur || defaultMainlevéeData.rejetOuAccord.utilisateur,
     réponseSignéeValue: {
-      format: documentFormat || defaultDocumentFormat,
-      content: convertStringToReadableStream(documentContenu || defaultDocumentContenu),
+      format: documentFormat || defaultMainlevéeData.rejetOuAccord.documentFormat,
+      content: convertStringToReadableStream(
+        documentContenu || defaultMainlevéeData.rejetOuAccord.documentContenu,
+      ),
     },
   };
 };
