@@ -11,14 +11,23 @@ import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../../../potentiel.world';
 
+import {
+  defaultDateDemande,
+  defaultDateRejetOuAccord,
+  defaultDocumentContenu,
+  defaultDocumentFormat,
+  defaultMotif,
+  defaultUtilisateur,
+} from './helper';
+
 Alors(
   `une demande de mainlevée de garanties financières devrait être consultable pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const motif = exemple['motif'] || 'projet-abandonné';
-    const utilisateur = exemple['utilisateur'] || 'user@test.test';
-    const dateDemande = exemple['date demande'] || '2024-01-01';
+    const motif = exemple['motif'] || defaultMotif;
+    const utilisateur = exemple['utilisateur'] || defaultUtilisateur;
+    const dateDemande = exemple['date demande'] || defaultDateDemande;
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -134,12 +143,12 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const accordéLe = exemple['accordé le'] || '2024-01-01';
-    const accordéPar = exemple['accordé par'] || 'user@test.test';
+    const accordéLe = exemple['accordé le'] || defaultDateRejetOuAccord;
+    const accordéPar = exemple['accordé par'] || defaultUtilisateur;
     const dernièreMiseÀJourLe = exemple['mise à jour le'] || '2024-01-01';
-    const dernièreMiseÀJourPar = exemple['mise à jour par'] || 'user@test.test';
-    const format = exemple['format fichier réponse'] || 'application/pdf';
-    const content = exemple['contenu fichier réponse'] || 'contenu du fichier';
+    const dernièreMiseÀJourPar = exemple['mise à jour par'] || defaultUtilisateur;
+    const format = exemple['format fichier réponse'] || defaultDocumentFormat;
+    const content = exemple['contenu fichier réponse'] || defaultDocumentContenu;
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 

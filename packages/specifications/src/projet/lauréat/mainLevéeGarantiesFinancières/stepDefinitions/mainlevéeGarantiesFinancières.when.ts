@@ -7,26 +7,28 @@ import { PotentielWorld } from '../../../../potentiel.world';
 import { sleep } from '../../../../helpers/sleep';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
+import {
+  defaultDocumentContenu,
+  defaultDocumentFormat,
+  defaultUtilisateur,
+  setDemandeMainlevéeData,
+} from './helper';
+
 Quand(
   'le porteur demande la levée des garanties financières pour le projet {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     try {
-      const motif = exemple['motif'] || 'projet-abandonné';
-      const utilisateur = exemple['utilisateur'] || 'user@test.test';
-      const dateDemande = exemple['date demande'] || '2024-01-01';
+      const motif = exemple['motif'];
+      const utilisateur = exemple['utilisateur'];
+      const dateDemande = exemple['date demande'];
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.Demander',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          motifValue: motif,
-          demandéLeValue: new Date(dateDemande).toISOString(),
-          demandéParValue: utilisateur,
-        },
+        data: setDemandeMainlevéeData({ motif, utilisateur, dateDemande, identifiantProjet }),
       });
       await sleep(500);
     } catch (error) {
@@ -42,7 +44,7 @@ Quand(
 
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-      const utilisateur = annulationData['utilisateur'] || 'user@test.test';
+      const utilisateur = annulationData['utilisateur'] || defaultUtilisateur;
       const date = annulationData['date annulation'] || '2024-01-01';
 
       await mediator.send<GarantiesFinancières.AnnulerMainlevéeGarantiesFinancièresUseCase>({
@@ -66,7 +68,7 @@ Quand(
     const exemple = dataTable.rowsHash();
 
     try {
-      const utilisateur = exemple['utilisateur'] || 'user@test.test';
+      const utilisateur = exemple['utilisateur'] || defaultUtilisateur;
       const date = exemple['date'] || '2024-01-01';
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
@@ -92,7 +94,7 @@ Quand(
   `un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières du projet {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
     try {
-      const utilisateur = 'user@test.test';
+      const utilisateur = defaultUtilisateur;
       const date = '2024-01-01';
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
@@ -120,10 +122,10 @@ Quand(
     const exemple = dataTable.rowsHash();
 
     try {
-      const utilisateur = exemple['utilisateur'] || 'user@test.test';
+      const utilisateur = exemple['utilisateur'] || defaultUtilisateur;
       const date = exemple['date'] || '2024-01-01';
-      const content = exemple['contenu fichier réponse'] || 'le contenu du fichier';
-      const format = exemple['format fichier réponse'] || 'application/pdf';
+      const content = exemple['contenu fichier réponse'] || defaultDocumentContenu;
+      const format = exemple['format fichier réponse'] || defaultDocumentFormat;
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -149,10 +151,10 @@ Quand(
   `un utilisateur Dreal accorde la demande de mainlevée des garanties financières du projet {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
     try {
-      const utilisateur = 'user@test.test';
+      const utilisateur = defaultUtilisateur;
       const date = '2024-01-01';
-      const content = 'le contenu du fichier';
-      const format = 'application/pdf';
+      const content = defaultDocumentContenu;
+      const format = defaultDocumentFormat;
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -215,7 +217,7 @@ Quand(
           rejetéLeValue: new Date('2024-06-12').toISOString(),
           rejetéParValue: 'dreal@test.test',
           réponseSignéeValue: {
-            format: 'application/pdf',
+            format: defaultDocumentFormat,
             content: convertStringToReadableStream('contenu'),
           },
         },

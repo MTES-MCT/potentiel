@@ -6,7 +6,13 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { PotentielWorld } from '../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
-import { defaultDateRejetOuAccord, setDemandeMainlevéeData } from './helper';
+import {
+  defaultDateRejetOuAccord,
+  defaultDocumentContenu,
+  defaultDocumentFormat,
+  defaultUtilisateur,
+  setDemandeMainlevéeData,
+} from './helper';
 
 EtantDonné(
   'une demande de mainlevée de garanties financières pour le projet {string} avec :',
@@ -63,10 +69,10 @@ EtantDonné(
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         accordéLeValue: new Date(defaultDateRejetOuAccord).toISOString(),
-        accordéParValue: 'porteur@test.test',
+        accordéParValue: defaultUtilisateur,
         réponseSignéeValue: {
-          format: 'application/pdf',
-          content: convertStringToReadableStream('contenu'),
+          format: defaultDocumentFormat,
+          content: convertStringToReadableStream(defaultDocumentContenu),
         },
       },
     });
@@ -88,10 +94,10 @@ EtantDonné(
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         rejetéLeValue: new Date(defaultDateRejetOuAccord).toISOString(),
-        rejetéParValue: 'porteur@test.test',
+        rejetéParValue: defaultUtilisateur,
         réponseSignéeValue: {
-          format: 'application/pdf',
-          content: convertStringToReadableStream('contenu'),
+          format: defaultDocumentFormat,
+          content: convertStringToReadableStream(defaultDocumentContenu),
         },
       },
     });
