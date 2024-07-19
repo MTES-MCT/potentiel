@@ -1,6 +1,7 @@
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
+import * as StatutTâchePlanifiée from '../statutTâchePlanifiée.valueType';
 import * as TypePlanifiéeTâche from '../typeTâchePlanifiée.valueType';
 import { TâchePlanifiéeAggregate } from '../tâchePlanifiée.aggregate';
 
@@ -44,4 +45,5 @@ export function applyTâchePlanifiéeAjoutée(
 ) {
   this.typeTâche = TypePlanifiéeTâche.convertirEnValueType(type);
   this.àExécuterLe = DateTime.convertirEnValueType(àExécuterLe);
+  this.statut = StatutTâchePlanifiée.enAttenteExécution;
 }

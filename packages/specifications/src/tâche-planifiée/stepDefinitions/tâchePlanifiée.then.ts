@@ -37,11 +37,10 @@ Alors(
 );
 
 Alors(
-  `une tâche {string} n'est plus planifiée pour le projet {string}`,
+  `une tâche {string} n'est plus est planifiée pour le projet {string}`,
   async function (
     this: PotentielWorld,
     typeTâche: RechercherTypeTâchePlanifiée,
-    dateTâche: string,
     nomProjet: string,
   ) {
     const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche);
@@ -50,10 +49,9 @@ Alors(
     await waitForExpect(async () => {
       const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
         type: 'Tâche.Query.ListerTâchesPlanifiées',
-        data: {
-          àExécuterLe: new Date(dateTâche).toISOString(),
-        },
+        data: {},
       });
+
       const tâche = tâches.items.find(
         (t) =>
           t.typeTâchePlanifiée.estÉgaleÀ(actualTypeTâche) &&
