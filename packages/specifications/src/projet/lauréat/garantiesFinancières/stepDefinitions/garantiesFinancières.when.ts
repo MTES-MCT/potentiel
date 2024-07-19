@@ -286,7 +286,7 @@ Quand(
           échuLeValue,
         },
       });
-      await sleep(500);
+      await sleep(100);
     } catch (error) {
       this.error = error as Error;
     }

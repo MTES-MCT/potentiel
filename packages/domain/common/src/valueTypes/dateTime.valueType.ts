@@ -9,7 +9,6 @@ export type ValueType = ReadonlyValueType<{
   date: Date;
   estDansLeFutur(): boolean;
   estAntérieurÀ(dateTime: ValueType): boolean;
-  estÉgaleÀ(valueType: ValueType): boolean;
   estUltérieureÀ(dateTime: ValueType): boolean;
   nombreJoursÉcartAvec(dateTime: ValueType): number;
   ajouterNombreDeJours(nombreDeJours: number): ValueType;

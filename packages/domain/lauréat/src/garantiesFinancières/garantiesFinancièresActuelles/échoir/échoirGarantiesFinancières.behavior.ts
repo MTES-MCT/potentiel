@@ -29,11 +29,7 @@ export async function échoir(
     throw new AucunesGarantiesFinancièresValidéesError();
   }
 
-  if (échuLe.estAntérieurÀ(dateÉchéance)) {
-    throw new DateÉchéanceNonPasséeError();
-  }
-
-  if (échuLe.estÉgaleÀ(dateÉchéance)) {
+  if (échuLe.estAntérieurÀ(dateÉchéance) || échuLe.estÉgaleÀ(dateÉchéance)) {
     throw new DateÉchéanceNonPasséeError();
   }
 

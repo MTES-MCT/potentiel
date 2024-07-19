@@ -116,7 +116,7 @@ EtantDonné(
         soumisLeValue: new Date(dateSoumission).toISOString(),
         soumisParValue: soumisPar,
         attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
-        ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
+        dateÉchéanceValue: dateÉchéance && new Date(dateÉchéance).toISOString(),
       },
     });
 
@@ -190,7 +190,7 @@ EtantDonné(
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         typeValue: typeGarantiesFinancières,
-        ...(dateÉchéance && { dteÉchéanceValue: new Date(dateÉchéance).toISOString() }),
+        dateÉchéanceValue: dateÉchéance && new Date(dateÉchéance).toISOString(),
         importéLeValue: new Date().toISOString(),
       },
     });

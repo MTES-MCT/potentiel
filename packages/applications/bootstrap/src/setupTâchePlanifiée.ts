@@ -54,7 +54,6 @@ async function registerTâchePlanifiéeGarantiesFinancièresSaga() {
     streamCategory: 'garanties-financieres',
     eventType: ['GarantiesFinancièresModifiées-V1', 'DépôtGarantiesFinancièresEnCoursValidé-V2'],
     eventHandler: async (event) => {
-      console.log({ event });
       await mediator.publish<TâchePlanifiéeGarantiesFinancièresSaga.Execute>({
         type: 'System.Saga.TâchePlanifiéeGarantiesFinancières',
         data: event,
