@@ -117,36 +117,19 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
     {user ? (
       <>
         <li className="flex items-center">
-          {['admin', 'dgec-validateur'].includes(user.role) ? (
-            <Link
-              className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
-              href={user.accountUrl}
+          {user.role === 'porteur-projet' && <CentreDesTâches />}
+          <span
+            className="cursor-not-allowed lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+            style={{ color: 'var(--text-default-grey)' }}
+          >
+            <UserIcon aria-hidden />
+            <span
+              className="max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
+              title={user.fullName ? user.fullName : user.email}
             >
-              <UserIcon aria-hidden />
-              <span
-                className="hidden lg:block max-w-xs truncate pt-0.5 mx-1"
-                title={user.fullName ? user.fullName : user.email}
-              >
-                {user.fullName ? user.fullName : user.email}
-              </span>
-            </Link>
-          ) : (
-            <>
-              {user.role === 'porteur-projet' && <CentreDesTâches />}
-              <span
-                className="cursor-not-allowed lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
-                style={{ color: 'var(--text-default-grey)' }}
-              >
-                <UserIcon aria-hidden />
-                <span
-                  className="max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
-                  title={user.fullName ? user.fullName : user.email}
-                >
-                  {user.fullName ? user.fullName : user.email}
-                </span>
-              </span>
-            </>
-          )}
+              {user.fullName ? user.fullName : user.email}
+            </span>
+          </span>
         </li>
         <li className="flex items-center">
           <Link

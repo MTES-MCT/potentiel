@@ -13,33 +13,19 @@ import {
 export async function UserHeaderQuickAccessItem() {
   const utilisateur = await getOptionalAuthenticatedUser();
 
-  const accountUrl = `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`;
-
   if (utilisateur) {
     return (
       <>
         {await getTâcheHeaderQuickAccessItem(utilisateur)}
-        {utilisateur.role.estÉgaleÀ(Role.porteur) ? (
-          <HeaderQuickAccessItem
-            quickAccessItem={{
-              iconId: 'ri-user-line',
-              buttonProps: {
-                disabled: true,
-              },
-              text: utilisateur.nom,
-            }}
-          />
-        ) : (
-          <HeaderQuickAccessItem
-            quickAccessItem={{
-              iconId: 'ri-user-line',
-              linkProps: {
-                href: accountUrl,
-              },
-              text: utilisateur.nom,
-            }}
-          />
-        )}
+        <HeaderQuickAccessItem
+          quickAccessItem={{
+            iconId: 'ri-user-line',
+            buttonProps: {
+              disabled: true,
+            },
+            text: utilisateur.nom,
+          }}
+        />
 
         <HeaderQuickAccessItem
           quickAccessItem={{
@@ -52,30 +38,30 @@ export async function UserHeaderQuickAccessItem() {
         />
       </>
     );
-  } else {
-    return (
-      <>
-        <HeaderQuickAccessItem
-          quickAccessItem={{
-            iconId: 'ri-account-circle-line',
-            linkProps: {
-              href: '/signup.html',
-            },
-            text: "M'inscrire",
-          }}
-        />
-        <HeaderQuickAccessItem
-          quickAccessItem={{
-            iconId: 'ri-lock-line',
-            linkProps: {
-              href: '/auth/signIn',
-            },
-            text: "M'identifier",
-          }}
-        />
-      </>
-    );
   }
+
+  return (
+    <>
+      <HeaderQuickAccessItem
+        quickAccessItem={{
+          iconId: 'ri-account-circle-line',
+          linkProps: {
+            href: '/signup.html',
+          },
+          text: "M'inscrire",
+        }}
+      />
+      <HeaderQuickAccessItem
+        quickAccessItem={{
+          iconId: 'ri-lock-line',
+          linkProps: {
+            href: '/auth/signIn',
+          },
+          text: "M'identifier",
+        }}
+      />
+    </>
+  );
 }
 
 async function getTâcheHeaderQuickAccessItem(utilisateur: AuthenticatedUserReadModel) {
