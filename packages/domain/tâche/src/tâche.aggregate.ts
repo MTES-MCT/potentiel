@@ -1,5 +1,5 @@
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import * as TypeTâche from './typeTâche.valueType';
 import {
@@ -22,7 +22,6 @@ export type TâcheEvent =
 export type TâcheAggregate = Aggregate<TâcheEvent> & {
   typeTâche: TypeTâche.ValueType;
   achevée: boolean;
-  àExecuterLe?: DateTime.ValueType;
   ajouter: typeof ajouter;
   achever: typeof achever;
 };
