@@ -31,10 +31,10 @@ export const register = () => {
       switch (type) {
         case 'TâchePlanifiéeAjoutée-V1':
           await upsertProjection<TâchePlanifiéeEntity>(
-            `tâche-planifiée|${payload.typeTâchePlanifiée}#${identifiantProjet}`,
+            `tâche-planifiée|${typeTâchePlanifiée}#${identifiantProjet}`,
             {
               ...tâche,
-              typeTâche: payload.typeTâchePlanifiée,
+              typeTâche: typeTâchePlanifiée,
               misÀJourLe: payload.ajoutéeLe,
               àExécuterLe: payload.àExécuterLe,
             },
@@ -42,9 +42,13 @@ export const register = () => {
           break;
         case 'TâchePlanifiéeAnnulée-V1':
           await removeProjection<TâchePlanifiéeEntity>(
-            `tâche-planifiée|${payload.typeTâchePlanifiée}#${identifiantProjet}`,
+            `tâche-planifiée|${typeTâchePlanifiée}#${identifiantProjet}`,
           );
           break;
+        case 'TâchePlanifiéeExecutée-V1':
+          await removeProjection<TâchePlanifiéeEntity>(
+            `tâche-planifiée|${typeTâchePlanifiée}#${identifiantProjet}`,
+          );
       }
     }
   };

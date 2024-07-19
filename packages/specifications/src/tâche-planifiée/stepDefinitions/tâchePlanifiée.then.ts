@@ -37,7 +37,7 @@ Alors(
 );
 
 Alors(
-  `une tâche {string} n'est plus est planifiée pour le projet {string}`,
+  `une tâche {string} n'est plus planifiée pour le projet {string}`,
   async function (
     this: PotentielWorld,
     typeTâche: RechercherTypeTâchePlanifiée,
