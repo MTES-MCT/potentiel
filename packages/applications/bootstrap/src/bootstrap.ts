@@ -1,6 +1,7 @@
 import { Middleware, mediator } from 'mediateur';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Notification } from '@potentiel-applications/notifications';
 
 import { setupLauréat } from './setupLauréat';
 import { setupCandidature } from './setupCandidature';
@@ -33,6 +34,8 @@ export const bootstrap = async ({
     mediator.use({
       middlewares: [logMiddleware, delayMiddleware, ...middlewares],
     });
+
+    Notification.register();
 
     setupAppelOffre();
     setupCandidature();

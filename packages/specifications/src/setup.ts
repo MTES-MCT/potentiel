@@ -11,7 +11,7 @@ import {
   AfterStep,
 } from '@cucumber/cucumber';
 import { expect, should } from 'chai';
-import { clear } from 'mediateur';
+import { Message, MessageResult, clear } from 'mediateur';
 import {
   CreateBucketCommand,
   DeleteBucketCommand,
@@ -22,6 +22,8 @@ import {
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { getClient } from '@potentiel-libraries/file-storage';
 import { bootstrap } from '@potentiel-applications/bootstrap';
+// eslint-disable-next-line no-restricted-imports
+import { SendEmailCommand } from '@potentiel-applications/notifications/src/register';
 
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
@@ -86,7 +88,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 
   clear();
 
-  unsetup = await bootstrap({ middlewares: [] });
+  unsetup = await bootstrap({ middlewares: [testEmailMiddleware.bind(this)] });
 });
 
 After(async () => {
@@ -115,3 +117,19 @@ After(async () => {
 AfterAll(async () => {
   await killPool();
 });
+
+const isSendEmailCommand = (message: Message): message is SendEmailCommand => {
+  return (message as SendEmailCommand).type === 'System.Notification.Email.Send';
+};
+
+async function testEmailMiddleware(
+  this: PotentielWorld,
+  message: Message,
+  next: () => Promise<MessageResult<Message>>,
+): Promise<MessageResult<Message>> {
+  if (isSendEmailCommand(message)) {
+    this.notificationWorld.ajouterNotification(message.data);
+    return;
+  }
+  return next();
+}

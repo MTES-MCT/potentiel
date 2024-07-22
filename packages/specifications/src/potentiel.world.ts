@@ -7,6 +7,7 @@ import { RaccordementWorld } from './raccordement/raccordement.world';
 import { TâcheWorld } from './tâche/tâche.world';
 import { UtilisateurWorld } from './utilisateur/utilisateur.world';
 import { TâchePlanifiéeWorld } from './tâche-planifiée/tâchePlanifiée.world';
+import { NotificationWorld } from './notification/notification.world';
 
 export class PotentielWorld extends World {
   #gestionnaireRéseauWorld!: GestionnaireRéseauWorld;
@@ -51,6 +52,12 @@ export class PotentielWorld extends World {
     return this.#utilisateurWorld;
   }
 
+  #notificationWorld!: NotificationWorld;
+
+  get notificationWorld() {
+    return this.#notificationWorld;
+  }
+
   #error!: Error;
 
   get hasNoError() {
@@ -81,5 +88,6 @@ export class PotentielWorld extends World {
     this.#tâcheWorld = new TâcheWorld();
     this.#tâchePlanifiéeWorld = new TâchePlanifiéeWorld();
     this.#utilisateurWorld = new UtilisateurWorld();
+    this.#notificationWorld = new NotificationWorld();
   }
 }
