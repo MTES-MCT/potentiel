@@ -11,7 +11,10 @@ import { TâchePlanifiéeAnnuléeEvent } from '@potentiel-domain/tache-planifiee
 
 import { PotentielWorld } from '../../potentiel.world';
 import { sleep } from '../../helpers/sleep';
-import { RechercherTypeTâchePlanifiée } from '../tâchePlanifiée.world';
+import {
+  RechercherStatutTâchePlanifiée,
+  RechercherTypeTâchePlanifiée,
+} from '../tâchePlanifiée.world';
 
 async function ajouterTâche(
   identifiantProjet: IdentifiantProjet.ValueType,
@@ -70,31 +73,28 @@ async function annulerTâche(
 }
 
 EtantDonné(
-  'une tâche executée pour le projet {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  'une tâche {string} pour le projet {string} avec :',
+  async function (
+    this: PotentielWorld,
+    statutTâche: RechercherStatutTâchePlanifiée,
+    nomProjet: string,
+    dataTable: DataTable,
+  ) {
     const exemple = dataTable.rowsHash();
     const projet = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     const typeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
       exemple['type'] as RechercherTypeTâchePlanifiée,
     );
+    const actualStatutTâche = this.tâchePlanifiéeWorld.rechercherStatutTâchePlanifiée(statutTâche);
     await ajouterTâche(projet.identifiantProjet, typeTâche, new Date(exemple["date d'exécution"]));
     await sleep(100);
-    await exécuterTâche(projet.identifiantProjet, typeTâche);
-    await sleep(100);
-  },
-);
-
-EtantDonné(
-  'une tâche annulée pour le projet {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
-    const projet = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-    const typeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
-      exemple['type'] as RechercherTypeTâchePlanifiée,
-    );
-    await ajouterTâche(projet.identifiantProjet, typeTâche, new Date(exemple["date d'exécution"]));
-    await sleep(100);
-    await annulerTâche(projet.identifiantProjet, typeTâche);
-    await sleep(100);
+    if (actualStatutTâche.estAnnulé()) {
+      await annulerTâche(projet.identifiantProjet, typeTâche);
+      await sleep(100);
+    }
+    if (actualStatutTâche.estExécuté()) {
+      await exécuterTâche(projet.identifiantProjet, typeTâche);
+      await sleep(100);
+    }
   },
 );

@@ -33,6 +33,7 @@ export * from './register';
 
 // ValueTypes
 export * as TypeTâchePlanifiée from './typeTâchePlanifiée.valueType';
+export * as StatutTâchePlanifiée from './statutTâchePlanifiée.valueType';
 
 // Entities
 export * from './tâchePlanifiée.entity';
