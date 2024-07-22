@@ -8,7 +8,7 @@ import { sleep } from '../../../../helpers/sleep';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 Quand(
-  'le porteur soumet des garanties financières pour le projet {string} avec :',
+  'un porteur soumet des garanties financières pour le projet {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
