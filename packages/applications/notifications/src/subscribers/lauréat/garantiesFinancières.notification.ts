@@ -29,6 +29,8 @@ const templateId = {
   GFActuellesModifiéesPourDreal: 5765536,
   mainlevéeGFDemandéePourDreal: 6025932,
   mainlevéeGFStatutModifiéPourPorteur: 6051452,
+  GFÉchuesPourPorteur: 6154951,
+  GFÉchuesPourDreal: 6155012,
 };
 
 const sendEmailGarantiesFinancières = async ({
@@ -48,7 +50,7 @@ const sendEmailGarantiesFinancières = async ({
   nomProjet: string;
   départementProjet: string;
   régionProjet: string;
-  statut?: 'validées' | 'en attente de validation';
+  statut?: 'validées' | 'en attente de validation' | 'échues';
 }) => {
   const { BASE_URL } = process.env;
 
@@ -116,6 +118,7 @@ export const register = () => {
         break;
 
       case 'DépôtGarantiesFinancièresEnCoursValidé-V1':
+      case 'DépôtGarantiesFinancièresEnCoursValidé-V2':
         await sendEmailGarantiesFinancières({
           statut: 'validées',
           subject: `Potentiel - Des garanties financières sont validées pour le projet ${nomProjet} dans le département ${départementProjet}`,
@@ -182,6 +185,31 @@ export const register = () => {
           subject: `Potentiel - Le statut de la demande de mainlevée des garanties financières a été modifié ${nomProjet}`,
           templateId: templateId.mainlevéeGFStatutModifiéPourPorteur,
           recipients: porteurs,
+          identifiantProjet,
+          nomProjet,
+          départementProjet,
+          régionProjet,
+        });
+        break;
+
+      // 6154951
+      case 'GarantiesFinancièresÉchues-V1':
+        await sendEmailGarantiesFinancières({
+          statut: 'échues',
+          subject: `Potentiel - Date d'échéance dépassée pour les garanties financières du projet ${nomProjet} dans le département ${départementProjet}`,
+          templateId: templateId.GFÉchuesPourPorteur,
+          recipients: porteurs,
+          identifiantProjet,
+          nomProjet,
+          départementProjet,
+          régionProjet,
+        });
+
+        await sendEmailGarantiesFinancières({
+          statut: 'échues',
+          subject: `Potentiel - Date d'échéance dépassée pour les garanties financières du projet ${nomProjet} dans le département ${départementProjet}`,
+          templateId: templateId.GFÉchuesPourDreal,
+          recipients: dreals,
           identifiantProjet,
           nomProjet,
           départementProjet,
