@@ -18,8 +18,6 @@ export type ValueType = ReadonlyValueType<{
   formatterDate(): string;
 }>;
 
-// Intl.DateTimeFormat('fr').format(new Date(date)
-
 export const bind = ({ date }: PlainType<ValueType>): ValueType => {
   return convertirEnValueType(date);
 };
