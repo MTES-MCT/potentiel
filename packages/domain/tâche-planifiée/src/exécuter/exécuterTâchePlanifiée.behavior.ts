@@ -1,7 +1,7 @@
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 
-import * as TâchePlanifiéeType from '../typeTâchePlanifiée.valueType';
+import * as TypeTâchePlanifiée from '../typeTâchePlanifiée.valueType';
 import { TâchePlanifiéeAggregate } from '../tâchePlanifiée.aggregate';
 import * as StatutTâchePlanifiée from '../statutTâchePlanifiée.valueType';
 
@@ -10,13 +10,13 @@ export type TâchePlanifiéeExecutéeEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     exécutéeLe: DateTime.RawType;
-    typeTâchePlanifiée: TâchePlanifiéeType.RawType;
+    typeTâchePlanifiée: TypeTâchePlanifiée.RawType;
   }
 >;
 
 export type ExécuterOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  typeTâchePlanifiée: TâchePlanifiéeType.ValueType;
+  typeTâchePlanifiée: TypeTâchePlanifiée.ValueType;
 };
 
 export async function exécuter(
@@ -50,7 +50,7 @@ export function applyTâchePlanifiéeExecutée(
 class TâcheDéjàExécutéeError extends InvalidOperationError {
   constructor(
     identifiantProjet: IdentifiantProjet.ValueType,
-    typeTâchePlanifiée: TâchePlanifiéeType.ValueType,
+    typeTâchePlanifiée: TypeTâchePlanifiée.ValueType,
   ) {
     super('La tâche planifiée est déjà executée', {
       identifiantProjet,
@@ -62,7 +62,7 @@ class TâcheDéjàExécutéeError extends InvalidOperationError {
 class TâcheAnnuléeError extends InvalidOperationError {
   constructor(
     identifiantProjet: IdentifiantProjet.ValueType,
-    typeTâchePlanifiée: TâchePlanifiéeType.ValueType,
+    typeTâchePlanifiée: TypeTâchePlanifiée.ValueType,
   ) {
     super('La tâche planifiée est annulée', {
       identifiantProjet,
