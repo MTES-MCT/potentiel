@@ -6,6 +6,8 @@ import {
   ListerTâchesPlanifiéesQueryDependencies,
 } from './lister/listerTâchesPlanifiées.query';
 import { registerAnnulerTâchePlanifiéeCommand } from './annuler/annulerTâchePlanifiée.command';
+import { registerExécuterTâchePlanifiéeCommand } from './exécuter/exécuterTâchePlanifiée.command';
+import { registerExécuterTâchePlanifiéeUseCase } from './exécuter/exécuterTâchePlanifiée.usecase';
 
 export type TâchePlanifiéeQueryDependencies = ListerTâchesPlanifiéesQueryDependencies;
 
@@ -17,9 +19,12 @@ export const registerTâchePlanifiéeQuery = (dependencies: TâchePlanifiéeQuer
   registerListerTâchesPlanifiéesQuery(dependencies);
 };
 
-export const registerTâchePlanifiéeCommand = ({
+export const registerTâchePlanifiéeUseCases = ({
   loadAggregate,
 }: TâchePlanifiéeCommandDependencies) => {
   registerAjouterTâchePlanifiéeCommand(loadAggregate);
   registerAnnulerTâchePlanifiéeCommand(loadAggregate);
+  registerExécuterTâchePlanifiéeCommand(loadAggregate);
+
+  registerExécuterTâchePlanifiéeUseCase();
 };

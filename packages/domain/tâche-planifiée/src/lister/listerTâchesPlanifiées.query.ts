@@ -3,7 +3,6 @@ import { match, Pattern } from 'ts-pattern';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { List, RangeOptions } from '@potentiel-domain/core';
-import { Option } from '@potentiel-libraries/monads';
 
 import { TâchePlanifiéeEntity } from '../tâchePlanifiée.entity';
 import * as TypeTâchePlanifiée from '../typeTâchePlanifiée.valueType';
@@ -13,7 +12,7 @@ type TâchePlanifiéeListItem = {
 
   typeTâchePlanifiée: TypeTâchePlanifiée.ValueType;
   misÀJourLe: DateTime.ValueType;
-  àExécuterLe: Option.Type<DateTime.ValueType>;
+  àExécuterLe: DateTime.ValueType;
 };
 
 export type ListerTâchesPlanifiéesReadModel = {

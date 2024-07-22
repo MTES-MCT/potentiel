@@ -6,7 +6,7 @@ import { listProjection } from '@potentiel-infrastructure/pg-projections';
 import {
   TâchePlanifiéeAchévementSaga,
   TâchePlanifiéeGarantiesFinancièresSaga,
-  registerTâchePlanifiéeCommand,
+  registerTâchePlanifiéeUseCases,
   registerTâchePlanifiéeQuery,
 } from '@potentiel-domain/tache-planifiee';
 
@@ -25,7 +25,7 @@ export const setupTâchePlanifiée = async () => {
 };
 
 const registerTâchePlanifiéeProjector = async () => {
-  registerTâchePlanifiéeCommand({
+  registerTâchePlanifiéeUseCases({
     loadAggregate,
   });
 
@@ -36,7 +36,12 @@ const registerTâchePlanifiéeProjector = async () => {
 
   const unsubscribeTâcheProjector = await subscribe<TâchePlanifiéeProjector.SubscriptionEvent>({
     name: 'projector',
-    eventType: ['RebuildTriggered', 'TâchePlanifiéeAjoutée-V1', 'TâchePlanifiéeAnnulée-V1'],
+    eventType: [
+      'RebuildTriggered',
+      'TâchePlanifiéeAjoutée-V1',
+      'TâchePlanifiéeAnnulée-V1',
+      'TâchePlanifiéeExecutée-V1',
+    ],
     eventHandler: async (event) => {
       await mediator.send<TâchePlanifiéeProjector.Execute>({
         type: 'System.Projector.TâchePlanifiée',

@@ -14,8 +14,16 @@ import {
   annuler,
   applyTâchePlanifiéeAnnulée,
 } from './annuler/annulerTâchePlanifiée.behavior';
+import {
+  TâchePlanifiéeExecutéeEvent,
+  applyTâchePlanifiéeExecutée,
+  exécuter,
+} from './exécuter/exécuterTâchePlanifiée.behavior';
 
-export type TâchePlanifiéeEvent = TâchePlanifiéeAjoutéeEvent | TâchePlanifiéeAnnuléeEvent;
+export type TâchePlanifiéeEvent =
+  | TâchePlanifiéeAjoutéeEvent
+  | TâchePlanifiéeAnnuléeEvent
+  | TâchePlanifiéeExecutéeEvent;
 
 export type TâchePlanifiéeAggregate = Aggregate<TâchePlanifiéeEvent> & {
   statut: StatutTâchePlanifiée.ValueType;
@@ -24,6 +32,7 @@ export type TâchePlanifiéeAggregate = Aggregate<TâchePlanifiéeEvent> & {
   annuléeLe?: DateTime.ValueType;
   ajouter: typeof ajouter;
   annuler: typeof annuler;
+  exécuter: typeof exécuter;
 };
 
 export const getDefaultTâchePlanifiéeAggregate: GetDefaultAggregateState<
@@ -36,6 +45,7 @@ export const getDefaultTâchePlanifiéeAggregate: GetDefaultAggregateState<
   àExécuterLe: DateTime.now(),
   ajouter,
   annuler,
+  exécuter,
 });
 
 function apply(this: TâchePlanifiéeAggregate, event: TâchePlanifiéeEvent) {
@@ -45,6 +55,9 @@ function apply(this: TâchePlanifiéeAggregate, event: TâchePlanifiéeEvent) {
       break;
     case 'TâchePlanifiéeAnnulée-V1':
       applyTâchePlanifiéeAnnulée.bind(this)(event);
+      break;
+    case 'TâchePlanifiéeExecutée-V1':
+      applyTâchePlanifiéeExecutée.bind(this)(event);
       break;
   }
 }
