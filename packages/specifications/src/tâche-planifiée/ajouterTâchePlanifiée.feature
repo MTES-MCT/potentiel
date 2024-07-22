@@ -32,3 +32,10 @@ Fonctionnalité: Planifier une tâche
             | date d'échéance  | 2024-12-02         |
             | date mise à jour | 2024-11-02         |
         Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-03" pour le projet "Du boulodrome de Marseille"
+
+    Scénario: Une tâche est planifiée quand l'administration importe le type d'une garanties financières pour un projet
+        Quand un admin importe le type des garanties financières pour le projet "Centrale PV" avec :
+            | type            | <type>            |
+            | date d'échéance | <date d'échéance> |
+            | date d'import   | <date import>     |
+        Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-03" pour le projet "Du boulodrome de Marseille"

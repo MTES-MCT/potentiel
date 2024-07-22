@@ -122,7 +122,7 @@ Quand(
 );
 
 Quand(
-  `l'admin importe le type des garanties financières pour le projet {string} avec :`,
+  `un admin importe le type des garanties financières pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 

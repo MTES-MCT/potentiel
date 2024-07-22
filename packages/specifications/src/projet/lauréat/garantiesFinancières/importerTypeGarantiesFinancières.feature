@@ -5,7 +5,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
         Etant donné le projet lauréat "Centrale PV"
 
     Plan du Scénario: Un admin importe le type des garanties financières d'un projet
-        Quand l'admin importe le type des garanties financières pour le projet "Centrale PV" avec :
+        Quand un admin importe le type des garanties financières pour le projet "Centrale PV" avec :
             | type            | <type>            |
             | date d'échéance | <date d'échéance> |
             | date d'import   | <date import>     |
@@ -21,13 +21,13 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | six-mois-après-achèvement |                 | 2024-01-01  |
 
     Scénario: Impossible d'importer le type (et la date d'échéance selon le cas) des garanties financières d'un projet si date d'échéance manquante
-        Quand l'admin importe le type des garanties financières pour le projet "Centrale PV" avec :
+        Quand un admin importe le type des garanties financières pour le projet "Centrale PV" avec :
             | type            | avec-date-échéance |
             | date d'échéance |                    |
         Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières"
 
     Plan du Scénario: Impossible d'importer le type (et la date d'échéance selon le cas) des garanties financières d'un projet si date d'échéance non compatible avec le type
-        Quand l'admin importe le type des garanties financières pour le projet "Centrale PV" avec :
+        Quand un admin importe le type des garanties financières pour le projet "Centrale PV" avec :
             | type            | <type>     |
             | date d'échéance | 2028-01-01 |
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas renseigner de date d'échéance pour ce type de garanties financières"
