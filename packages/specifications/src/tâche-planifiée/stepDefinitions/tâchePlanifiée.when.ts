@@ -18,15 +18,18 @@ Quand(
         àExécuterLe: new Date(àExécuterLe).toISOString(),
       },
     });
-
-    for (const tâche of tâches.items) {
-      await mediator.send<ExécuterTâchePlanifiéeUseCase>({
-        type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
-        data: {
-          identifiantProjetValue: tâche.identifiantProjet.formatter(),
-          typeTâchePlanifiéeValue: tâche.typeTâchePlanifiée.type,
-        },
-      });
+    try {
+      for (const tâche of tâches.items) {
+        await mediator.send<ExécuterTâchePlanifiéeUseCase>({
+          type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
+          data: {
+            identifiantProjetValue: tâche.identifiantProjet.formatter(),
+            typeTâchePlanifiéeValue: tâche.typeTâchePlanifiée.type,
+          },
+        });
+      }
+    } catch (error) {
+      this.error = error as Error;
     }
   },
 );
