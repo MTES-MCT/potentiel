@@ -59,6 +59,7 @@ async function registerTâchePlanifiéeGarantiesFinancièresSaga() {
       'GarantiesFinancièresModifiées-V1',
       'GarantiesFinancièresEnregistrées-V1',
       'DépôtGarantiesFinancièresEnCoursValidé-V2',
+      'TypeGarantiesFinancièresImporté-V1',
     ],
     eventHandler: async (event) => {
       await mediator.publish<TâchePlanifiéeGarantiesFinancièresSaga.Execute>({
