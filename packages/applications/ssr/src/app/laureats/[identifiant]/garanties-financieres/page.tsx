@@ -184,7 +184,7 @@ const mapToProps: MapToProps = ({
     !garantiesFinancièresActuelles.garantiesFinancières.statut.estLevé();
   const aGarantiesFinancièresÉchues =
     Option.isSome(garantiesFinancièresActuelles) &&
-    !garantiesFinancièresActuelles.garantiesFinancières.statut.estÉchu();
+    garantiesFinancièresActuelles.garantiesFinancières.statut.estÉchu();
   const aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée =
     Option.isSome(garantiesFinancièresActuelles) &&
     garantiesFinancièresActuelles.garantiesFinancières.attestation &&
