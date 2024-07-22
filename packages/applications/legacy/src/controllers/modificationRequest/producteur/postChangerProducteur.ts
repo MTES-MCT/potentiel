@@ -2,6 +2,7 @@ import fs from 'fs';
 import omit from 'lodash/omit';
 import * as yup from 'yup';
 
+import { Option } from '@potentiel-libraries/monads';
 import { ensureRole, changerProducteur } from '../../../config';
 import { logger } from '../../../core/utils';
 import { UnauthorizedError } from '../../../modules/shared';
@@ -91,7 +92,7 @@ v1Router.post(
                   identifiantProjetValue,
                 },
               });
-            if (garantiesFinancières) {
+            if (Option.isSome(garantiesFinancières)) {
               await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresUseCase>(
                 {
                   type: 'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',

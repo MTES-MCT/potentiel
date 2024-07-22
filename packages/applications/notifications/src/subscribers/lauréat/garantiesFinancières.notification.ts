@@ -12,6 +12,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 
 import { sendEmail } from '../../infrastructure/sendEmail';
+import { formatDateForEmail } from '../../helper/formatDateForEmail';
 
 export type SubscriptionEvent = GarantiesFinancières.GarantiesFinancièresEvent & Event;
 
@@ -42,6 +43,7 @@ const sendEmailGarantiesFinancières = async ({
   régionProjet,
   subject,
   statut,
+  dateÉchéance,
 }: {
   identifiantProjet: IdentifiantProjet.ValueType;
   subject: string;
@@ -50,7 +52,8 @@ const sendEmailGarantiesFinancières = async ({
   nomProjet: string;
   départementProjet: string;
   régionProjet: string;
-  statut?: 'validées' | 'en attente de validation' | 'échues';
+  statut?: 'validées' | 'en attente de validation';
+  dateÉchéance?: string;
 }) => {
   const { BASE_URL } = process.env;
 
@@ -67,6 +70,7 @@ const sendEmailGarantiesFinancières = async ({
       departement_projet: départementProjet,
       region_projet: régionProjet,
       nouveau_statut: statut ?? '',
+      date_echeance: dateÉchéance ?? '',
       url: `${BASE_URL}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
     },
   });
@@ -193,8 +197,19 @@ export const register = () => {
         break;
 
       case 'GarantiesFinancièresÉchues-V1':
+        const garantiesFinancières =
+          await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
+          });
+
+        if (Option.isNone(garantiesFinancières)) {
+          return;
+        }
+
         await sendEmailGarantiesFinancières({
-          statut: 'échues',
           subject: `Potentiel - Date d'échéance dépassée pour les garanties financières du projet ${nomProjet} dans le département ${départementProjet}`,
           templateId: templateId.GFÉchuesPourPorteur,
           recipients: porteurs,
@@ -202,10 +217,12 @@ export const register = () => {
           nomProjet,
           départementProjet,
           régionProjet,
+          dateÉchéance: formatDateForEmail(
+            garantiesFinancières.garantiesFinancières.dateÉchéance?.date,
+          ),
         });
 
         await sendEmailGarantiesFinancières({
-          statut: 'échues',
           subject: `Potentiel - Date d'échéance dépassée pour les garanties financières du projet ${nomProjet} dans le département ${départementProjet}`,
           templateId: templateId.GFÉchuesPourDreal,
           recipients: dreals,
@@ -213,6 +230,9 @@ export const register = () => {
           nomProjet,
           départementProjet,
           régionProjet,
+          dateÉchéance: formatDateForEmail(
+            garantiesFinancières.garantiesFinancières.dateÉchéance?.date,
+          ),
         });
         break;
     }
