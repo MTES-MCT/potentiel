@@ -7,8 +7,10 @@ Fonctionnalité: Échoir les garanties financières d'un projet
             | email | porteur@test.test   |
             | nom   | Porteur Projet Test |
             | role  | porteur-projet      |
+        Et la dreal associée au projet lauréat "Centrale PV"
+            | email | dreal@test.test |
+            | nom   | Dreal Test      |
 
-    @select
     Scénario: Échoir les garanties financières d'un projet à J+1 après la date d'échéance
         Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
             | type            | avec-date-échéance |
