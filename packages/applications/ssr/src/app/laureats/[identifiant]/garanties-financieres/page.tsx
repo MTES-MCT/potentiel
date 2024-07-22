@@ -2,7 +2,10 @@ import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import {
+  ConsulterCandidatureQuery,
+  ConsulterCandidatureReadModel,
+} from '@potentiel-domain/candidature';
 import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 import { AppelOffre, ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
@@ -102,6 +105,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         appelOffreDetails,
         historiqueMainlevée,
         statut: candidature.statut,
+        contactPorteur: candidature.candidat.contact,
       });
 
       return <DétailsGarantiesFinancièresPage {...props} />;
@@ -119,6 +123,7 @@ type MapToProps = (args: {
   appelOffreDetails: AppelOffre;
   historiqueMainlevée: Option.Type<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel>;
   statut: StatutProjet.RawType;
+  contactPorteur: ConsulterCandidatureReadModel['candidat']['contact'];
 }) => DétailsGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({
@@ -131,6 +136,7 @@ const mapToProps: MapToProps = ({
   appelOffreDetails,
   historiqueMainlevée,
   statut,
+  contactPorteur,
 }) => {
   if (
     Option.isNone(garantiesFinancièresActuelles) &&
@@ -176,6 +182,9 @@ const mapToProps: MapToProps = ({
   const aGarantiesFinancièresNonLevées =
     Option.isSome(garantiesFinancièresActuelles) &&
     !garantiesFinancièresActuelles.garantiesFinancières.statut.estLevé();
+  const aGarantiesFinancièresÉchues =
+    Option.isSome(garantiesFinancièresActuelles) &&
+    garantiesFinancièresActuelles.garantiesFinancières.statut.estÉchu();
   const aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée =
     Option.isSome(garantiesFinancièresActuelles) &&
     garantiesFinancièresActuelles.garantiesFinancières.attestation &&
@@ -207,6 +216,9 @@ const mapToProps: MapToProps = ({
   }
 
   if (estDreal) {
+    if (aGarantiesFinancièresÉchues) {
+      garantiesFinancièresActuellesActions.push('contacter-porteur-pour-gf-échues');
+    }
     mainlevéeActions.push('voir-appel-offre-info');
     if (mainlevéeDemandée) {
       mainlevéeActions.push('instruire-demande-mainlevée-gf');
@@ -226,6 +238,7 @@ const mapToProps: MapToProps = ({
 
   return {
     identifiantProjet,
+    contactPorteur,
     actuelles: Option.isSome(garantiesFinancièresActuelles)
       ? {
           type: getGarantiesFinancièresTypeLabel(

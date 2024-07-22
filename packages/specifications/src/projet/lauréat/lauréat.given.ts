@@ -180,7 +180,7 @@ EtantDonné(
       'codePostalProjet',
       'communeProjet',
       'departementProjet',
-      'régionProjet',
+      'regionProjet',
       'Classé',
       false,
       false,

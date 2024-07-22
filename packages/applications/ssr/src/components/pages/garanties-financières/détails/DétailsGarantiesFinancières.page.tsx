@@ -21,6 +21,7 @@ import { Mainlevée } from './components/Mainlevée';
 
 export type DétailsGarantiesFinancièresPageProps = {
   identifiantProjet: string;
+  contactPorteur?: string;
   actuelles?: GarantiesFinancièresActuelles;
   dépôtEnCours?: DépôtGarantiesFinancières;
   dateLimiteSoummission?: Iso8601DateTime;
@@ -38,6 +39,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   mainlevée,
   historiqueMainlevée,
   afficherInfoConditionsMainlevée,
+  contactPorteur,
 }) => (
   <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
     <TitrePageGarantiesFinancières title="Détail des garanties financières" />
@@ -47,6 +49,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           <GarantiesFinancières
             garantiesFinancières={actuelles}
             identifiantProjet={identifiantProjet}
+            contactPorteur={contactPorteur}
           />
         )}
         {dépôtEnCours && (

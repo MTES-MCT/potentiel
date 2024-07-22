@@ -22,6 +22,7 @@ export type GarantiesFinancièresActuelles = CommonGarantiesFinancières & {
     | 'demander-mainlevée-gf-pour-projet-abandonné'
     | 'demander-mainlevée-gf-pour-projet-achevé'
     | 'modifier'
+    | 'contacter-porteur-pour-gf-échues'
   >;
 };
 

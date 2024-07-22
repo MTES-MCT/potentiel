@@ -134,6 +134,7 @@ export const setupLauréat = async () => {
       eventType: [
         'DépôtGarantiesFinancièresSoumis-V1',
         'DépôtGarantiesFinancièresEnCoursValidé-V1',
+        'DépôtGarantiesFinancièresEnCoursValidé-V2',
         'AttestationGarantiesFinancièresEnregistrée-V1',
         'GarantiesFinancièresModifiées-V1',
         'GarantiesFinancièresEnregistrées-V1',
