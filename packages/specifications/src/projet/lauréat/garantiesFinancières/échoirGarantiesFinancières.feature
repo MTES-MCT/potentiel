@@ -3,7 +3,12 @@ Fonctionnalité: Échoir les garanties financières d'un projet
 
     Contexte:
         Etant donné le projet lauréat "Centrale PV"
+        Et le porteur pour le projet lauréat "Centrale PV"
+            | email | porteur@test.test   |
+            | nom   | Porteur Projet Test |
+            | role  | porteur-projet      |
 
+    @select
     Scénario: Échoir les garanties financières d'un projet à J+1 après la date d'échéance
         Etant donné des garanties financières validées pour le projet "Centrale PV" avec :
             | type            | avec-date-échéance |

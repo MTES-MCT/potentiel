@@ -197,18 +197,6 @@ export const register = () => {
         break;
 
       case 'GarantiesFinancièresÉchues-V1':
-        const garantiesFinancières =
-          await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-            data: {
-              identifiantProjetValue: identifiantProjet.formatter(),
-            },
-          });
-
-        if (Option.isNone(garantiesFinancières)) {
-          return;
-        }
-
         await sendEmailGarantiesFinancières({
           subject: `Potentiel - Date d'échéance dépassée pour les garanties financières du projet ${nomProjet} dans le département ${départementProjet}`,
           templateId: templateId.GFÉchuesPourPorteur,
@@ -217,9 +205,7 @@ export const register = () => {
           nomProjet,
           départementProjet,
           régionProjet,
-          dateÉchéance: formatDateForEmail(
-            garantiesFinancières.garantiesFinancières.dateÉchéance?.date,
-          ),
+          dateÉchéance: formatDateForEmail(new Date(event.payload.dateÉchéance)),
         });
 
         await sendEmailGarantiesFinancières({
@@ -230,9 +216,7 @@ export const register = () => {
           nomProjet,
           départementProjet,
           régionProjet,
-          dateÉchéance: formatDateForEmail(
-            garantiesFinancières.garantiesFinancières.dateÉchéance?.date,
-          ),
+          dateÉchéance: formatDateForEmail(new Date(event.payload.dateÉchéance)),
         });
         break;
     }
