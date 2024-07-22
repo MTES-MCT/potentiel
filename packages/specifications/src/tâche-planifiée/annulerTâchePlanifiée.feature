@@ -8,8 +8,7 @@ Fonctionnalité: Annuler une tâche planifiée
             | nom   | Porteur Projet Test |
             | role  | porteur-projet      |
 
-    @select
-    Scénario: Une tâche est annulée quand une attestation de confirmité est transimise
+    Scénario: Une tâche est annulée quand une attestation de conformité est transmise
         Etant donné des garanties financières validées pour le projet "Du boulodrome de Marseille" avec :
             | type               | avec-date-échéance |
             | date d'échéance    | 2024-12-01         |

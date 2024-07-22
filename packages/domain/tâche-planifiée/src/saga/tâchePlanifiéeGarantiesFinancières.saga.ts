@@ -8,7 +8,8 @@ import { AjouterTâchePlanifiéeCommand } from '../ajouter/ajouterTâchePlanifi�
 
 export type SubscriptionEvent =
   | GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent
-  | GarantiesFinancières.GarantiesFinancièresModifiéesEvent;
+  | GarantiesFinancières.GarantiesFinancièresModifiéesEvent
+  | GarantiesFinancières.GarantiesFinancièresEnregistréesEvent;
 
 export type Execute = Message<'System.Saga.TâchePlanifiéeGarantiesFinancières', SubscriptionEvent>;
 
@@ -20,6 +21,7 @@ export const register = () => {
     switch (event.type) {
       case 'DépôtGarantiesFinancièresEnCoursValidé-V2':
       case 'GarantiesFinancièresModifiées-V1':
+      case 'GarantiesFinancièresEnregistrées-V1':
         if (event.payload.type === 'avec-date-échéance' && event.payload.dateÉchéance) {
           await mediator.send<AjouterTâchePlanifiéeCommand>({
             type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',

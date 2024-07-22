@@ -25,3 +25,10 @@ Fonctionnalité: Planifier une tâche
             | type            | avec-date-échéance |
             | date d'échéance | 2024-12-02         |
         Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-03" pour le projet "Du boulodrome de Marseille"
+
+    Scénario: Une tâche est planifiée quand des garanties financières sont enregisrées par l'administration
+        Quand un admin enregistre les garanties financières validées pour le projet "Du boulodrome de Marseille" avec :
+            | type             | avec-date-échéance |
+            | date d'échéance  | 2024-12-02         |
+            | date mise à jour | 2024-11-02         |
+        Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-03" pour le projet "Du boulodrome de Marseille"
