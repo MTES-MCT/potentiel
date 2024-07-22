@@ -12,7 +12,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 
 import { sendEmail } from '../../infrastructure/sendEmail';
-import { formatDateForEmail } from '../../helper/formatDateForEmail';
+import { formatDateForEmail } from '../../helpers/formatDateForEmail';
 
 export type SubscriptionEvent = GarantiesFinancières.GarantiesFinancièresEvent & Event;
 
