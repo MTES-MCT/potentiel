@@ -9,7 +9,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | date limite de soumission | 2023-11-01    |
             | date de notification      | 2023-09-01    |
             | motif                     | motif-inconnu |
-        Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+        Quand un porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type                 | <type>                 |
             | date d'échéance      | <date d'échéance>      |
             | format               | <format du fichier>    |
@@ -35,18 +35,18 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-01         |
 
     Scénario: Impossible de soumettre de nouvelles garanties financières si date de constitution dans le futur
-        Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+        Quand un porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | date de constitution | 2055-01-01 |
         Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future"
 
     Scénario: Impossible de soumettre de nouvelles garanties financières si date d'échéance manquante
-        Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+        Quand un porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type         | avec-date-échéance |
             | dateÉchéance |                    |
         Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières"
 
     Plan du Scénario: Impossible de soumettre de nouvelles garanties financières si date d'échéance non compatible avec le type
-        Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+        Quand un porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type            | <type>     |
             | date d'échéance | 2028-01-01 |
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas renseigner de date d'échéance pour ce type de garanties financières"
@@ -60,7 +60,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Etant donné des garanties financières à traiter pour le projet "Centrale PV" avec :
             | type            | avec-date-échéance |
             | date d'échéance | 2027-12-01         |
-        Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+        Quand un porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type | consignation |
         Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières en attente de validation pour ce projet"
 
@@ -69,7 +69,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières pour le projet "Centrale PV" avec :
             | motif | projet-achevé |
-        Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+        Quand un porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type | consignation |
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une demande de mainlevée de garanties financières en cours"
 
@@ -77,7 +77,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Etant donné une attestation de conformité transmise pour le projet "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières en instruction pour le projet "Centrale PV"
-        Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+        Quand un porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type | consignation |
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une mainlevée de garanties financières en cours d'instruction"
 
@@ -85,6 +85,6 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Etant donné une attestation de conformité transmise pour le projet "Centrale PV"
         Et des garanties financières validées pour le projet "Centrale PV"
         Et une demande de mainlevée de garanties financières accordée pour le projet "Centrale PV" achevé
-        Quand le porteur soumet des garanties financières pour le projet "Centrale PV" avec :
+        Quand un porteur soumet des garanties financières pour le projet "Centrale PV" avec :
             | type | consignation |
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer ou modifier des garanties financières car elles ont déjà été levées pour ce projet"

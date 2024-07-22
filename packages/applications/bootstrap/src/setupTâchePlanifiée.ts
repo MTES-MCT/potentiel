@@ -55,12 +55,17 @@ const registerTâchePlanifiéeProjector = async () => {
 
 async function registerTâchePlanifiéeGarantiesFinancièresSaga() {
   TâchePlanifiéeGarantiesFinancièresSaga.register();
-  const unsubscribeTâcheAbandonSaga = await subscribe<
+  const unsubscribeTâchePlanifiéeGarantiesFinancièresSaga = await subscribe<
     TâchePlanifiéeGarantiesFinancièresSaga.SubscriptionEvent & Event
   >({
     name: 'tache-planifiee-saga',
     streamCategory: 'garanties-financieres',
-    eventType: ['GarantiesFinancièresModifiées-V1', 'DépôtGarantiesFinancièresEnCoursValidé-V2'],
+    eventType: [
+      'GarantiesFinancièresModifiées-V1',
+      'GarantiesFinancièresEnregistrées-V1',
+      'DépôtGarantiesFinancièresEnCoursValidé-V2',
+      'TypeGarantiesFinancièresImporté-V1',
+    ],
     eventHandler: async (event) => {
       await mediator.publish<TâchePlanifiéeGarantiesFinancièresSaga.Execute>({
         type: 'System.Saga.TâchePlanifiéeGarantiesFinancières',
@@ -68,12 +73,12 @@ async function registerTâchePlanifiéeGarantiesFinancièresSaga() {
       });
     },
   });
-  return unsubscribeTâcheAbandonSaga;
+  return unsubscribeTâchePlanifiéeGarantiesFinancièresSaga;
 }
 
 async function registerTâchePlanifiéeAchévementSaga() {
   TâchePlanifiéeAchévementSaga.register();
-  const unsubscribeTâcheAbandonSaga = await subscribe<
+  const unsubscribeTâchePlanifiéeAchèvementSaga = await subscribe<
     TâchePlanifiéeAchévementSaga.SubscriptionEvent & Event
   >({
     name: 'tache-planifiee-saga',
@@ -86,5 +91,5 @@ async function registerTâchePlanifiéeAchévementSaga() {
       });
     },
   });
-  return unsubscribeTâcheAbandonSaga;
+  return unsubscribeTâchePlanifiéeAchèvementSaga;
 }
