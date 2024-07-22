@@ -1,6 +1,5 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
@@ -44,24 +43,20 @@ export async function transmettreDateMiseEnService(
     throw new DossierRaccordementNonRéférencéError();
   }
 
-  if (this.dateModifiée(référenceDossier, dateMiseEnService)) {
-    const dateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
-      type: 'DateMiseEnServiceTransmise-V1',
-      payload: {
-        dateMiseEnService: dateMiseEnService.formatter(),
-        identifiantProjet: identifiantProjet.formatter(),
-        référenceDossierRaccordement: référenceDossier.formatter(),
-      },
-    };
+  if (!this.dateModifiée(référenceDossier, dateMiseEnService)) {
+    throw new DateMiseEnServiceDéjàTransmiseError();
+  }
 
-    await this.publish(dateMiseEnServiceTransmise);
-  } else {
-    getLogger().info('Mise à jour de dateMiseEnService ignorée, les valeurs sont identiques', {
+  const dateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
+    type: 'DateMiseEnServiceTransmise-V1',
+    payload: {
       dateMiseEnService: dateMiseEnService.formatter(),
       identifiantProjet: identifiantProjet.formatter(),
       référenceDossierRaccordement: référenceDossier.formatter(),
-    });
-  }
+    },
+  };
+
+  await this.publish(dateMiseEnServiceTransmise);
 }
 
 export function applyDateMiseEnServiceTransmiseEventV1(
@@ -77,5 +72,11 @@ export class DateMiseEnServiceAntérieureDateDésignationProjetError extends Inv
     super(
       `La date de mise en service ne peut pas être antérieure à la date de désignation du projet`,
     );
+  }
+}
+
+class DateMiseEnServiceDéjàTransmiseError extends InvalidOperationError {
+  constructor() {
+    super(`La date de mise en service est déjà transmise pour ce dossier de raccordement`);
   }
 }
