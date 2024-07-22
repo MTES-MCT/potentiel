@@ -18,16 +18,28 @@ type ActionsProps = (
       isActuelle: true;
       actions: GarantiesFinancièresActuelles['actions'];
     }
-) & { identifiantProjet: GarantiesFinancièresProps['identifiantProjet'] };
+) & { identifiantProjet: GarantiesFinancièresProps['identifiantProjet']; contactPorteur?: string };
 
 export const GarantiesFinancièresActions = ({
   identifiantProjet,
   actions,
   isActuelle,
+  contactPorteur,
 }: ActionsProps) => (
   <div className="flex flex-col md:flex-row gap-4">
     {isActuelle ? (
       <>
+        {actions.includes('contacter-porteur-pour-gf-échues') && (
+          <div className="flex flex-col gap-1">
+            <p className="italic">
+              Les garanties financières sont échues, vous pouvez contacter le porteur
+              <a href={`mailto:${contactPorteur}`} target="_blank">
+                {contactPorteur}
+              </a>{' '}
+              pour l'inciter à en déposer de nouvelles.
+            </p>
+          </div>
+        )}
         {actions.includes('modifier') && (
           <Button
             linkProps={{

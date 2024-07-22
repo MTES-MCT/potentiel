@@ -192,7 +192,6 @@ export const register = () => {
         });
         break;
 
-      // 6154951
       case 'GarantiesFinancièresÉchues-V1':
         await sendEmailGarantiesFinancières({
           statut: 'échues',
