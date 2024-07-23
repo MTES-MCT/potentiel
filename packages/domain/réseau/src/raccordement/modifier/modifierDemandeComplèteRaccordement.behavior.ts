@@ -1,6 +1,7 @@
 import { DateTime, ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
@@ -50,6 +51,7 @@ type ModifierDemandeOptions = {
   référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
   référenceDossierExpressionRegulière: ExpressionRegulière.ValueType;
   formatAccuséRéception: string;
+  rôle: Role.ValueType;
 };
 
 export async function modifierDemandeComplèteRaccordement(
@@ -60,6 +62,7 @@ export async function modifierDemandeComplèteRaccordement(
     identifiantProjet,
     référenceDossierRaccordement,
     référenceDossierExpressionRegulière,
+    rôle,
   }: ModifierDemandeOptions,
 ) {
   if (dateQualification.estDansLeFutur()) {
@@ -72,8 +75,10 @@ export async function modifierDemandeComplèteRaccordement(
 
   const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
 
-  if (Option.isSome(dossier.miseEnService.dateMiseEnService)) {
-    throw new ImpossibleDeModifierDemandeComplèteRaccordementCarDateMiseEnServiceError();
+  if (rôle.estÉgaleÀ(Role.porteur) && Option.isSome(dossier.miseEnService.dateMiseEnService)) {
+    throw new DemandeComplèteRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError(
+      référenceDossierRaccordement.formatter(),
+    );
   }
 
   const demandeComplèteRaccordementModifiée: DemandeComplèteRaccordementModifiéeEvent = {
@@ -136,10 +141,10 @@ export function applyDemandeComplèteRaccordementModifiéeEventV3(
   dossier.demandeComplèteRaccordement.format = format;
 }
 
-class ImpossibleDeModifierDemandeComplèteRaccordementCarDateMiseEnServiceError extends InvalidOperationError {
-  constructor() {
+class DemandeComplèteRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError extends InvalidOperationError {
+  constructor(référenceDossier: string) {
     super(
-      `Impossible de modifier la demande complète de raccordement car le dossier dispose d'une mise en service`,
+      `La demande complète de raccordement du dossier ${référenceDossier} ne peut pas être modifiée celui-ci dispose déjà d'une date de mise en service`,
     );
   }
 }
