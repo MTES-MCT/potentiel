@@ -49,7 +49,7 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
             | Le format de l'accusé de réception      | application/pdf                                                                                         |
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence <Référence actuelle> et la date de qualification au 2022-10-28 |
         Quand l'utilisateur avec le rôle "porteur-projet" modifie la demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" ayant pour référence "<Référence actuelle>" avec la référence "OUE-RP-2022-000034"
-        Et le porteur modifie la demande complète de raccordement pour le dossier de raccordement du projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000034" auprès du gestionnaire de réseau "Enedis" avec :
+        Et l'utilisateur avec le rôle "porteur-projet" modifie la demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000034" auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification            | 2022-10-29                                                                                                      |
             | Le format de l'accusé de réception  | text/plain                                                                                                      |
             | Le contenu de l'accusé de réception | Une autre accusé de réception ayant pour référence OUE-RP-2022-000034 et la date de qualification au 2022-10-29 |
@@ -119,4 +119,4 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
         Et une date de mise en service "2022-01-12" pour le dossier de raccordement pour le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033"
         Quand l'utilisateur avec le rôle "porteur-projet" modifie la demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033" avec la référence "OUE-RP-2022-000034"
-        Alors le porteur devrait être informé que "La référence du dossier de raccordement ne peut pas être modifiée car le dossier dispose déjà d'une date de mise en service"
+        Alors le porteur devrait être informé que "La référence du dossier de raccordement OUE-RP-2022-000033 ne peut pas être modifiée car le dossier dispose déjà d'une date de mise en service"

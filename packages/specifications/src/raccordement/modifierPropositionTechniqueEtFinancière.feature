@@ -55,3 +55,8 @@ Fonctionnalité: Modifier une proposition technique et financière
             | Le format de la proposition technique et financière | text/plain                                                                                                                  |
             | Le contenu de proposition technique et financière   | Une autre proposition technique et financière pour la référence OUE-RP-2022-000033 avec une date de signature au 2023-02-12 |
         Alors le porteur devrait être informé que "La date ne peut pas être une date future"
+
+    # À vérifier côté métier
+    @NotImplemented
+    Scénario: Impossible de modifier une proposition technique et financière si la date de mise en service est déjà renseignée
+

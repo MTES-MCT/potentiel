@@ -143,9 +143,10 @@ Quand(
 );
 
 Quand(
-  `le porteur modifie la demande complète de raccordement pour le dossier de raccordement du projet lauréat {string} ayant pour référence {string} auprès du gestionnaire de réseau {string} avec :`,
+  `l'utilisateur avec le rôle {string} modifie la demande complète de raccordement pour le projet lauréat {string} ayant pour référence {string} auprès du gestionnaire de réseau {string} avec :`,
   async function (
     this: PotentielWorld,
+    rôleUtilisateur: string,
     nomProjet: string,
     référenceDossierRaccordement: string,
     raisonSocialeGestionnaire: string,
@@ -182,6 +183,7 @@ Quand(
           référenceDossierRaccordementValue: référenceDossierRaccordement,
           dateQualificationValue: dateQualification,
           accuséRéceptionValue: accuséRéception,
+          rôleValue: rôleUtilisateur,
         },
       });
     } catch (e) {
