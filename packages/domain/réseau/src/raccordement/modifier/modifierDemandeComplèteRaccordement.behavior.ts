@@ -1,11 +1,11 @@
 import { DateTime, ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
 import { FormatRéférenceDossierRaccordementInvalideError } from '../transmettre/transmettreDemandeComplèteRaccordement.behavior';
 import { RaccordementAggregate } from '../raccordement.aggregate';
-import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
 
 /**
  * @deprecated Utilisez DemandeComplèteRaccordementModifiéeEvent et RéférenceDossierRacordementModifiéeEvent à la place. Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
@@ -70,8 +70,10 @@ export async function modifierDemandeComplèteRaccordement(
     throw new FormatRéférenceDossierRaccordementInvalideError();
   }
 
-  if (!this.contientLeDossier(référenceDossierRaccordement)) {
-    throw new DossierRaccordementNonRéférencéError();
+  const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
+
+  if (Option.isSome(dossier.miseEnService.dateMiseEnService)) {
+    throw new ImpossibleDeModifierDemandeComplèteRaccordementCarDateMiseEnServiceError();
   }
 
   const demandeComplèteRaccordementModifiée: DemandeComplèteRaccordementModifiéeEvent = {
@@ -132,4 +134,12 @@ export function applyDemandeComplèteRaccordementModifiéeEventV3(
   dossier.demandeComplèteRaccordement.dateQualification =
     DateTime.convertirEnValueType(dateQualification);
   dossier.demandeComplèteRaccordement.format = format;
+}
+
+class ImpossibleDeModifierDemandeComplèteRaccordementCarDateMiseEnServiceError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Impossible de modifier la demande complète de raccordement car le dossier dispose d'une mise en service`,
+    );
+  }
 }

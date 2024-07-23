@@ -48,3 +48,16 @@ Fonctionnalité: Modifier une demande complète de raccordement
             | Le format de l'accusé de réception  | text/plain                                                                                                      |
             | Le contenu de l'accusé de réception | Une autre accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-29 |
         Alors le porteur devrait être informé que "La date ne peut pas être une date future"
+
+    Scénario: Impossible de modifier une demande complète de raccordement si la date de mise en service est déjà renseignée
+        Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
+            | La date de qualification                | 2022-10-28                                                                                            |
+            | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
+            | Le format de l'accusé de réception      | application/pdf                                                                                       |
+            | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
+        Et une date de mise en service "2023-01-01" pour le dossier de raccordement pour le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033"
+        Quand le porteur modifie la demande complète de raccordement pour le dossier de raccordement du projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033" auprès du gestionnaire de réseau "Enedis" avec :
+            | La date de qualification            | 2023-12-31                                                                                                      |
+            | Le format de l'accusé de réception  | text/plain                                                                                                      |
+            | Le contenu de l'accusé de réception | Une autre accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-29 |
+        Alors le porteur devrait être informé que "Impossible de modifier la demande complète de raccordement car le dossier dispose d'une mise en service"
