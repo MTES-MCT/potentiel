@@ -144,7 +144,7 @@ export function applyDemandeComplèteRaccordementModifiéeEventV3(
 class DemandeComplèteRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError extends InvalidOperationError {
   constructor(référenceDossier: string) {
     super(
-      `La demande complète de raccordement du dossier ${référenceDossier} ne peut pas être modifiée celui-ci dispose déjà d'une date de mise en service`,
+      `La demande complète de raccordement du dossier ${référenceDossier} ne peut pas être modifiée car celui-ci dispose déjà d'une date de mise en service`,
     );
   }
 }

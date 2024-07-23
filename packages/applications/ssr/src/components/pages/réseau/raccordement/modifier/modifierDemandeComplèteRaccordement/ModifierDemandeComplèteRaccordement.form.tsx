@@ -18,12 +18,15 @@ import { modifierDemandeComplèteRaccordementAction } from './modifierDemandeCom
 export type ModifierDemandeComplèteRaccordementFormProps = {
   identifiantProjet: string;
   raccordement: {
-    référence: string;
+    référence: {
+      value: string;
+      canEdit: boolean;
+    };
     demandeComplèteRaccordement: {
+      canEdit: boolean;
       dateQualification?: Iso8601DateTime;
       accuséRéception?: string;
     };
-    canEditRéférence: boolean;
   };
   gestionnaireRéseauActuel: {
     identifiantGestionnaireRéseau: string;
@@ -44,7 +47,6 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
   raccordement: {
     référence,
     demandeComplèteRaccordement: { accuséRéception, dateQualification },
-    canEditRéférence,
   },
 }) => {
   const router = useRouter();
@@ -64,7 +66,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
-      <input name="referenceDossierRaccordementActuelle" type="hidden" value={référence} />
+      <input name="referenceDossierRaccordementActuelle" type="hidden" value={référence.value} />
       <input
         name="identifiantGestionnaireReseau"
         type="hidden"
@@ -79,7 +81,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
         </strong>
       </div>
 
-      {canEditRéférence ? (
+      {référence.canEdit ? (
         <Input
           id="referenceDossierRaccordement"
           label="Référence du dossier de raccordement du projet *"
@@ -107,15 +109,15 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
               ? `Exemple: ${aideSaisieRéférenceDossierRaccordement?.format}`
               : `Renseigner l'identifiant`,
             required: true,
-            defaultValue: référence ?? '',
+            defaultValue: référence.value ?? '',
             pattern: aideSaisieRéférenceDossierRaccordement?.expressionReguliere || undefined,
           }}
         />
       ) : (
         <>
-          <input name="referenceDossierRaccordement" type="hidden" value={référence} />
+          <input name="referenceDossierRaccordement" type="hidden" value={référence.value} />
           <div>
-            Référence du dossier de raccordement du projet : <strong>{référence}</strong>
+            Référence du dossier de raccordement du projet : <strong>{référence.value}</strong>
           </div>
         </>
       )}
