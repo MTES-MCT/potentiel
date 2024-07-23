@@ -5,6 +5,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { DemanderMainlevéeGarantiesFinancières } from '../../pages/garanties-financières/mainlevée/demander/DemanderMainlevéeGarantiesFinancières';
 import { SupprimerDépôtEnCoursGarantiesFinancières } from '../../pages/garanties-financières/dépôt/supprimer/SupprimerDépôtEnCoursGarantiesFinancières';
 import { ValiderDépôtEnCoursGarantiesFinancières } from '../../pages/garanties-financières/dépôt/valider/validerDépôtEnCoursGarantiesFinancières';
+import { InfoBoxDrealGarantiesFinancièreséÉchues } from '../../pages/garanties-financières/détails/components/InfoBoxDrealGarantiesFinancièresÉchues';
 
 import { GarantiesFinancièresProps } from './GarantiesFinancières';
 import { DépôtGarantiesFinancières, GarantiesFinancièresActuelles } from './types';
@@ -18,27 +19,25 @@ type ActionsProps = (
       isActuelle: true;
       actions: GarantiesFinancièresActuelles['actions'];
     }
-) & { identifiantProjet: GarantiesFinancièresProps['identifiantProjet']; contactPorteur?: string };
+) & {
+  identifiantProjet: GarantiesFinancièresProps['identifiantProjet'];
+  contactPorteurs?: GarantiesFinancièresProps['contactPorteurs'];
+};
 
 export const GarantiesFinancièresActions = ({
   identifiantProjet,
   actions,
   isActuelle,
-  contactPorteur,
+  contactPorteurs,
 }: ActionsProps) => (
   <div className="flex flex-col md:flex-row gap-4">
     {isActuelle ? (
       <div className="flex flex-col gap-4">
-        {actions.includes('contacter-porteur-pour-gf-échues') && (
-          <p className="italic">
-            La date d'échéance de ces garanties financières est dépassée, vous pouvez contacter le
-            porteur{' '}
-            <a href={`mailto:${contactPorteur}`} target="_blank">
-              {contactPorteur}
-            </a>{' '}
-            pour l'inciter à en déposer de nouvelles.
-          </p>
-        )}
+        {actions.includes('contacter-porteur-pour-gf-échues') &&
+          contactPorteurs &&
+          contactPorteurs.length && (
+            <InfoBoxDrealGarantiesFinancièreséÉchues contactPorteurs={contactPorteurs} />
+          )}
         <>
           {actions.includes('modifier') && (
             <Button

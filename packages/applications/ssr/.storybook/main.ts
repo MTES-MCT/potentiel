@@ -13,7 +13,7 @@ function getAbsolutePath(value: string): any {
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   features: {
-    experimentalRSC: true
+    experimentalRSC: true,
   },
   addons: [
     getAbsolutePath('@storybook/addon-links'),
@@ -44,6 +44,7 @@ const config: StorybookConfig = {
         child_process: false,
         net: false,
         tls: false,
+        dns: false,
       },
     };
 

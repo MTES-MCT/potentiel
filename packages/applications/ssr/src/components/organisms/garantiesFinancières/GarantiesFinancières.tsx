@@ -14,13 +14,13 @@ import { GarantiesFinancièresActuelles, DépôtGarantiesFinancières } from './
 
 export type GarantiesFinancièresProps = {
   identifiantProjet: string;
-  contactPorteur?: string;
+  contactPorteurs?: string[];
   garantiesFinancières: DépôtGarantiesFinancières | GarantiesFinancièresActuelles;
 };
 
 export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
   identifiantProjet,
-  contactPorteur,
+  contactPorteurs,
   garantiesFinancières,
 }) => (
   <CallOut
@@ -120,7 +120,7 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
           </div>
           <GarantiesFinancièresActions
             identifiantProjet={identifiantProjet}
-            contactPorteur={contactPorteur}
+            contactPorteurs={contactPorteurs}
             {...garantiesFinancières}
           />
         </div>
