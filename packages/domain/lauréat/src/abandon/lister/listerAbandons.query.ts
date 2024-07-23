@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { List, RangeOptions } from '@potentiel-domain/core';
-import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
+import { List, ListOptions, RangeOptions } from '@potentiel-domain/core';
+import { Role, RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
 import { StatutAbandon, StatutPreuveRecandidature } from '..';
 import { AbandonEntity } from '../abandon.entity';
@@ -80,73 +80,22 @@ export const registerListerAbandonQuery = ({
     utilisateur: { email, régionDreal, rôle },
     range,
   }) => {
-    if (['admin', 'dgec-validateur', 'cre'].includes(rôle)) {
-      const abandons = await list<AbandonEntity>('abandon', {
-        range,
-        orderBy: {
-          misÀJourLe: 'descending',
-        },
-        where: {
-          statut: mapToWhereEqual(statut),
-          projet: {
-            appelOffre: mapToWhereEqual(appelOffre),
-            nom: mapToWhereLike(nomProjet),
-          },
-          demande: {
-            estUneRecandidature: mapToWhereEqual(recandidature),
-            recandidature: {
-              statut: mapToWhereEqual(preuveRecandidatureStatut),
-            },
-          },
-        },
-      });
-      return {
-        ...abandons,
-        items: abandons.items.map((abandon) => mapToReadModel(abandon)),
-      };
-    }
-
-    if (rôle === 'dreal') {
-      const abandons = await list<AbandonEntity>('abandon', {
-        range,
-        orderBy: {
-          misÀJourLe: 'descending',
-        },
-        where: {
-          statut: mapToWhereEqual(statut),
-          projet: {
-            appelOffre: mapToWhereEqual(appelOffre),
-            région: mapToWhereEqual(régionDreal),
-          },
-          demande: {
-            estUneRecandidature: mapToWhereEqual(recandidature),
-            recandidature: {
-              statut: mapToWhereEqual(preuveRecandidatureStatut),
-            },
-          },
-        },
-      });
-      return {
-        ...abandons,
-        items: abandons.items.map((abandon) => mapToReadModel(abandon)),
-      };
-    }
-
-    const identifiantProjets = await récupérerIdentifiantsProjetParEmailPorteur(email);
-
-    const abandons = await list<AbandonEntity>('abandon', {
+    const options: ListOptions<AbandonEntity> = {
       range,
       orderBy: {
         misÀJourLe: 'descending',
       },
       where: {
-        identifiantProjet: {
-          operator: 'include',
-          value: identifiantProjets,
-        },
+        identifiantProjet: await getIdentifiantProjetWhereCondition(
+          rôle,
+          email,
+          récupérerIdentifiantsProjetParEmailPorteur,
+        ),
         statut: mapToWhereEqual(statut),
         projet: {
           appelOffre: mapToWhereEqual(appelOffre),
+          nom: mapToWhereLike(nomProjet),
+          région: mapToWhereEqual(régionDreal),
         },
         demande: {
           estUneRecandidature: mapToWhereEqual(recandidature),
@@ -155,7 +104,9 @@ export const registerListerAbandonQuery = ({
           },
         },
       },
-    });
+    };
+
+    const abandons = await list<AbandonEntity>('abandon', options);
     return {
       ...abandons,
       items: abandons.items.map((abandon) => mapToReadModel(abandon)),
@@ -179,4 +130,21 @@ const mapToReadModel = (entity: AbandonEntity): AbandonListItemReadModel => {
       ? StatutPreuveRecandidature.convertirEnValueType(entity.demande.recandidature.statut)
       : StatutPreuveRecandidature.nonApplicable,
   };
+};
+
+const getIdentifiantProjetWhereCondition = async (
+  rôle: string,
+  email: string,
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur,
+) => {
+  if (Role.convertirEnValueType(rôle).estÉgaleÀ(Role.porteur)) {
+    const identifiantProjets = await récupérerIdentifiantsProjetParEmailPorteur(email);
+
+    return {
+      operator: 'include',
+      value: identifiantProjets,
+    } as const;
+  }
+
+  return undefined;
 };
