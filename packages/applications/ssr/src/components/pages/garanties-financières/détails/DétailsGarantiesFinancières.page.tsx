@@ -4,7 +4,10 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import { GarantiesFinancières } from '@/components/organisms/garantiesFinancières/GarantiesFinancières';
+import {
+  GarantiesFinancières,
+  GarantiesFinancièresProps,
+} from '@/components/organisms/garantiesFinancières/GarantiesFinancières';
 import {
   DépôtGarantiesFinancières,
   GarantiesFinancièresActuelles,
@@ -21,7 +24,7 @@ import { Mainlevée } from './components/Mainlevée';
 
 export type DétailsGarantiesFinancièresPageProps = {
   identifiantProjet: string;
-  contactPorteur?: string;
+  contactPorteurs?: GarantiesFinancièresProps['contactPorteurs'];
   actuelles?: GarantiesFinancièresActuelles;
   dépôtEnCours?: DépôtGarantiesFinancières;
   dateLimiteSoummission?: Iso8601DateTime;
@@ -39,7 +42,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   mainlevée,
   historiqueMainlevée,
   afficherInfoConditionsMainlevée,
-  contactPorteur,
+  contactPorteurs,
 }) => (
   <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
     <TitrePageGarantiesFinancières title="Détail des garanties financières" />
@@ -49,7 +52,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           <GarantiesFinancières
             garantiesFinancières={actuelles}
             identifiantProjet={identifiantProjet}
-            contactPorteur={contactPorteur}
+            contactPorteurs={contactPorteurs}
           />
         )}
         {dépôtEnCours && (

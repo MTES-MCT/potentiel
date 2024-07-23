@@ -2,14 +2,12 @@ import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import {
-  ConsulterCandidatureQuery,
-  ConsulterCandidatureReadModel,
-} from '@potentiel-domain/candidature';
+import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 import { AppelOffre, ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { StatutProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { récupérerPorteursParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -95,6 +93,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           },
         );
 
+      const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(
+        IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      );
+
       const props = mapToProps({
         identifiantProjet,
         utilisateur,
@@ -105,7 +107,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         appelOffreDetails,
         historiqueMainlevée,
         statut: candidature.statut,
-        contactPorteur: candidature.candidat.contact,
+        contactPorteurs: porteurs.map((porteur) => porteur.email),
       });
 
       return <DétailsGarantiesFinancièresPage {...props} />;
@@ -115,6 +117,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
 type MapToProps = (args: {
   identifiantProjet: string;
+  contactPorteurs: string[];
   utilisateur: AuthenticatedUserReadModel;
   garantiesFinancièresActuelles: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
@@ -123,11 +126,11 @@ type MapToProps = (args: {
   appelOffreDetails: AppelOffre;
   historiqueMainlevée: Option.Type<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel>;
   statut: StatutProjet.RawType;
-  contactPorteur: ConsulterCandidatureReadModel['candidat']['contact'];
 }) => DétailsGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({
   identifiantProjet,
+  contactPorteurs,
   utilisateur,
   garantiesFinancièresActuelles,
   dépôtEnCoursGarantiesFinancières,
@@ -136,7 +139,6 @@ const mapToProps: MapToProps = ({
   appelOffreDetails,
   historiqueMainlevée,
   statut,
-  contactPorteur,
 }) => {
   if (
     Option.isNone(garantiesFinancièresActuelles) &&
@@ -238,7 +240,7 @@ const mapToProps: MapToProps = ({
 
   return {
     identifiantProjet,
-    contactPorteur,
+    contactPorteurs,
     actuelles: Option.isSome(garantiesFinancièresActuelles)
       ? {
           type: getGarantiesFinancièresTypeLabel(
