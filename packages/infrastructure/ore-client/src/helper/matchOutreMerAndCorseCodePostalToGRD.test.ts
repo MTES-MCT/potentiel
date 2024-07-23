@@ -22,9 +22,9 @@ describe(matchOutreMerAndCorseCodePostalToGRD.name, () => {
     for (const [input, expected] of codePostauxAndExpected) {
       test(`${input} should be matched to raison sociale ${expected}`, () => {
         expect(
-          Option.match(matchOutreMerAndCorseCodePostalToGRD(input)).some(
-            (gestionnaire) => gestionnaire.raisonSociale,
-          ),
+          Option.match(matchOutreMerAndCorseCodePostalToGRD(input))
+            .some((gestionnaire) => gestionnaire.raisonSociale)
+            .none(() => ''),
         ).to.eq(expected);
       });
     }

@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "test": "tsx --test src/**/*.spec.ts"
+    "test": "tsx --test ./**/*.spec.ts"
   },
   "dependencies": {
     "@sentry/node": "^7.112.2",
