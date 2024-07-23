@@ -53,7 +53,7 @@
     "specs": "npm run test -w @potentiel/specifications",
     "prespecs:select": "npm run pretest",
     "specs:select": "npm run test:select -w @potentiel/specifications",
-    "version": "tsx .github/getPatchVersion.ts"
+    "version": "npx tsx .github/getPatchVersion.ts"
   },
   "repository": {
     "type": "git",
