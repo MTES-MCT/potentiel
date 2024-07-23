@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { CopyAndPaste } from '../../../../molecules/CopyAndPaste';
+import { CopyButton } from '@/components/molecules/CopyButton';
 
 type Props = {
   contactPorteurs: string[];
@@ -14,7 +14,7 @@ export const InfoBoxDrealGarantiesFinancièreséÉchues: FC<Props> = ({ contactP
       La date d'échéance de ces garanties financières est dépassée. Vous pouvez contacter le ou les
       porteurs dont voici la ou les adresses emails :
       <br />
-      <CopyAndPaste textToCopy={emails} />
+      <CopyButton textToCopy={emails} />
     </p>
   );
 };

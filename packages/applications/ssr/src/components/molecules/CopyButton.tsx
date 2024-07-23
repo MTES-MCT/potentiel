@@ -3,11 +3,12 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 
-type Props = {
+export type CopyButtonProps = {
   textToCopy: string;
   timeoutInMs?: number;
 };
-export const CopyAndPaste = ({ textToCopy, timeoutInMs = 2000 }: Props) => {
+
+export const CopyButton = ({ textToCopy, timeoutInMs = 2000 }: CopyButtonProps) => {
   const [hasCopied, setHasCopied] = useState<boolean>(false);
 
   const copyLink = () => {
