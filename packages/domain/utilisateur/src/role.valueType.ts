@@ -25,7 +25,7 @@ export type ValueType = ReadonlyValueType<{
   nom: RawType;
   libellé(): string;
   peutExécuterMessage(typeMessage: string): void;
-  aLaPermission(value: Permission): boolean;
+  aLaPermission(value: Policy): boolean;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -302,7 +302,7 @@ const référencielPermissions = {
 } as const;
 
 /**
- * Liste des droits fonctionnels, par policy
+ * Liste des droits fonctionnels, par domaine
  */
 const policies = {
   réseau: {
@@ -665,10 +665,9 @@ type Leaves<O extends Record<string, unknown>> = {
       : K;
 }[Extract<keyof O, string>];
 
-type Policy = typeof policies;
-type Permission = Leaves<Policy>;
+type Policy = Leaves<typeof policies>;
 
-const permissionAdmin: Permission[] = [
+const permissionAdmin: Policy[] = [
   // Abandon
   'abandon.consulter.liste',
   'abandon.consulter.détail',
@@ -716,7 +715,7 @@ const permissionAdmin: Permission[] = [
   'achèvement.transmettre',
   'achèvement.modifier',
 ];
-const permissionCRE: Permission[] = [
+const permissionCRE: Policy[] = [
   // Abandon
   'abandon.consulter.liste',
   'abandon.consulter.détail',
@@ -736,7 +735,7 @@ const permissionCRE: Permission[] = [
   'garantiesFinancières.mainlevée.consulter',
 ];
 
-const permissionDreal: Permission[] = [
+const permissionDreal: Policy[] = [
   // Abandon
   'abandon.consulter.liste',
   'abandon.consulter.détail',
@@ -775,7 +774,7 @@ const permissionDreal: Permission[] = [
   'achèvement.modifier',
 ];
 
-const permissionDgecValidateur: Permission[] = [
+const permissionDgecValidateur: Policy[] = [
   // Abandon
   'abandon.consulter.liste',
   'abandon.consulter.détail',
@@ -824,7 +823,7 @@ const permissionDgecValidateur: Permission[] = [
   'achèvement.modifier',
 ];
 
-const permissionPorteurProjet: Permission[] = [
+const permissionPorteurProjet: Policy[] = [
   // Abandon
   'abandon.consulter.liste',
   'abandon.consulter.détail',
@@ -865,7 +864,7 @@ const permissionPorteurProjet: Permission[] = [
   'achèvement.transmettre',
 ];
 
-const permissionAcheteurObligé: Permission[] = [
+const permissionAcheteurObligé: Policy[] = [
   'réseau.raccordement.consulter',
 
   // Garanties financières
@@ -877,7 +876,7 @@ const permissionAcheteurObligé: Permission[] = [
   'achèvement.transmettre',
 ];
 
-const permissionCaisseDesDépôts: Permission[] = [
+const permissionCaisseDesDépôts: Policy[] = [
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.dépôt.consulter',
@@ -890,7 +889,7 @@ const permissionCaisseDesDépôts: Permission[] = [
   'achèvement.consulter',
 ];
 
-const policyParRole: Record<RawType, Permission[]> = {
+const policyParRole: Record<RawType, Policy[]> = {
   admin: permissionAdmin,
   'acheteur-obligé': permissionAcheteurObligé,
   ademe: [],
@@ -906,7 +905,7 @@ const droitsMessagesMediator: Record<RawType, Set<string>> = Object.entries(poli
   (prev, [roleStr, policiesOfRole]) => {
     const role = roleStr as RawType;
     if (!prev[role]) {
-      prev[role] = new Set<Permission>();
+      prev[role] = new Set<Policy>();
     }
     for (const policy of policiesOfRole) {
       const props = policy.split('.');
