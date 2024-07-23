@@ -111,7 +111,6 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Quand l'utilisateur avec le rôle "porteur-projet" modifie la demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000034" avec la référence "OUE-RP-2022-000035"
         Alors le porteur devrait être informé que "Le dossier de raccordement n'est pas référencé"
 
-    @select
     Scénario: Impossible pour un porteur de modifier la référence pour un dossier de raccordement ayant déjà une date de mise en service
         Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
