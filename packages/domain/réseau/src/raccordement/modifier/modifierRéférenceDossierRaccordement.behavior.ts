@@ -5,7 +5,6 @@ import { Option } from '@potentiel-libraries/monads';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
-import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
 import { FormatRéférenceDossierRaccordementInvalideError } from '../transmettre/transmettreDemandeComplèteRaccordement.behavior';
 
 export type RéférenceDossierRacordementModifiéeEvent = DomainEvent<
@@ -38,10 +37,7 @@ export async function modifierRéférenceDossierRacordement(
   if (nouvelleRéférenceDossierRaccordement.estÉgaleÀ(référenceDossierRaccordementActuelle)) {
     throw new RéférencesDossierRaccordementIdentiquesError();
   }
-
-  if (!this.contientLeDossier(référenceDossierRaccordementActuelle)) {
-    throw new DossierRaccordementNonRéférencéError();
-  }
+  const dossier = this.récupérerDossier(référenceDossierRaccordementActuelle.formatter());
 
   if (
     !référenceDossierExpressionRegulière.valider(nouvelleRéférenceDossierRaccordement.référence)
@@ -49,11 +45,10 @@ export async function modifierRéférenceDossierRacordement(
     throw new FormatRéférenceDossierRaccordementInvalideError();
   }
 
-  if (rôle.estÉgaleÀ(Role.porteur)) {
-    const dossier = this.dossiers.get(référenceDossierRaccordementActuelle.formatter());
-    if (Option.isSome(dossier?.miseEnService.dateMiseEnService)) {
-      throw new RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError();
-    }
+  if (rôle.estÉgaleÀ(Role.porteur) && Option.isSome(dossier.miseEnService.dateMiseEnService)) {
+    throw new RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError(
+      référenceDossierRaccordementActuelle.formatter(),
+    );
   }
 
   const référenceDossierRacordementModifiée: RéférenceDossierRacordementModifiéeEvent = {
@@ -83,15 +78,13 @@ export function applyRéférenceDossierRacordementModifiéeEventV1(
   this.dossiers.delete(référenceDossierRaccordementActuelle);
   this.dossiers.set(nouvelleRéférenceDossierRaccordement, dossier);
 }
-
 export class RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError extends InvalidOperationError {
-  constructor() {
+  constructor(référenceDossier: string) {
     super(
-      `La référence du dossier de raccordement ne peut pas être modifiée car le dossier dispose déjà d'une date de mise en service`,
+      `La référence du dossier de raccordement ${référenceDossier} ne peut pas être modifiée car le dossier dispose déjà d'une date de mise en service`,
     );
   }
 }
-
 export class RéférencesDossierRaccordementIdentiquesError extends InvalidOperationError {
   constructor() {
     super(`Les références du dossier de raccordement sont identiques`);
