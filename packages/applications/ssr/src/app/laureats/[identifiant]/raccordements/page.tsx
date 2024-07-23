@@ -74,52 +74,77 @@ const mapToProps: MapToProps = ({
   identifiantProjet,
   gestionnaireRéseau,
   raccordement,
-}) => ({
-  identifiantProjet,
-  gestionnaireRéseau: Option.isNone(gestionnaireRéseau)
-    ? undefined
-    : {
-        ...gestionnaireRéseau,
-        identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
-        aideSaisieRéférenceDossierRaccordement: {
-          ...gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement,
-          expressionReguliere:
-            gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere.formatter(),
+}) => {
+  const canEditGestionnaireRéseau =
+    rôleUtilisateur.estÉgaleÀ(Role.admin) ||
+    rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
+    rôleUtilisateur.estÉgaleÀ(Role.porteur);
+
+  return {
+    identifiantProjet,
+    gestionnaireRéseau: Option.isNone(gestionnaireRéseau)
+      ? undefined
+      : {
+          ...gestionnaireRéseau,
+          identifiantGestionnaireRéseau:
+            gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
+          aideSaisieRéférenceDossierRaccordement: {
+            ...gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement,
+            expressionReguliere:
+              gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere.formatter(),
+          },
+          contactEmail: Option.isNone(gestionnaireRéseau.contactEmail)
+            ? undefined
+            : gestionnaireRéseau.contactEmail.email,
+          canEdit: canEditGestionnaireRéseau,
         },
-        contactEmail: Option.isNone(gestionnaireRéseau.contactEmail)
-          ? undefined
-          : gestionnaireRéseau.contactEmail.email,
-        canEdit:
-          rôleUtilisateur.estÉgaleÀ(Role.admin) ||
-          rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
-          rôleUtilisateur.estÉgaleÀ(Role.porteur),
-      },
-  dossiers: raccordement.dossiers.map((dossier) => {
+    dossiers: mapToPropsDossiers({ raccordement, rôleUtilisateur, identifiantProjet }),
+  };
+};
+
+type MapToPropsDossiers = {
+  raccordement: Raccordement.ConsulterRaccordementReadModel;
+  rôleUtilisateur: Role.ValueType;
+  identifiantProjet: string;
+};
+const mapToPropsDossiers = ({
+  raccordement,
+  identifiantProjet,
+  rôleUtilisateur,
+}: MapToPropsDossiers) =>
+  raccordement.dossiers.map((dossier) => {
+    const canEditDemandeComplèteRaccordement =
+      rôleUtilisateur.estÉgaleÀ(Role.admin) ||
+      rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
+      rôleUtilisateur.estÉgaleÀ(Role.dreal) ||
+      (rôleUtilisateur.estÉgaleÀ(Role.porteur) && !dossier.miseEnService?.dateMiseEnService);
+
+    const canEditPropositionTechniqueEtFinancière =
+      rôleUtilisateur.estÉgaleÀ(Role.admin) ||
+      rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
+      rôleUtilisateur.estÉgaleÀ(Role.dreal) ||
+      rôleUtilisateur.estÉgaleÀ(Role.porteur);
+
+    const canEditMiseEnService =
+      rôleUtilisateur.estÉgaleÀ(Role.admin) || rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur);
+
     return {
       identifiantProjet,
       référence: dossier.référence.formatter(),
       demandeComplèteRaccordement: {
-        canEdit:
-          rôleUtilisateur.estÉgaleÀ(Role.admin) ||
-          rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
-          rôleUtilisateur.estÉgaleÀ(Role.porteur),
+        canEdit: canEditDemandeComplèteRaccordement,
         accuséRéception: dossier.demandeComplèteRaccordement.accuséRéception?.formatter(),
         dateQualification: dossier.demandeComplèteRaccordement.dateQualification?.formatter(),
       },
       propositionTechniqueEtFinancière: {
-        canEdit:
-          rôleUtilisateur.estÉgaleÀ(Role.admin) ||
-          rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
-          rôleUtilisateur.estÉgaleÀ(Role.porteur),
+        canEdit: canEditPropositionTechniqueEtFinancière,
         dateSignature: dossier.propositionTechniqueEtFinancière?.dateSignature.formatter(),
         propositionTechniqueEtFinancièreSignée:
           dossier.propositionTechniqueEtFinancière?.propositionTechniqueEtFinancièreSignée.formatter(),
       },
       miseEnService: {
-        canEdit:
-          rôleUtilisateur.estÉgaleÀ(Role.admin) || rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur),
+        canEdit: canEditMiseEnService,
         dateMiseEnService: dossier.miseEnService?.dateMiseEnService?.formatter(),
       },
     };
-  }),
-});
+  });

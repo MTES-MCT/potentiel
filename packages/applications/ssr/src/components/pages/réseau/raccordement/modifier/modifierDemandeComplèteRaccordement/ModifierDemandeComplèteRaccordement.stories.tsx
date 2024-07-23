@@ -32,9 +32,12 @@ export const Default: Story = {
       raisonSociale: 'Raison sociale',
     },
     raccordement: {
-      référence: 'référence#1',
-      canEditRéférence: true,
+      référence: {
+        value: 'référence#1',
+        canEdit: true,
+      },
       demandeComplèteRaccordement: {
+        canEdit: true,
         accuséRéception: 'référence#1/accuséRéception',
         dateQualification: new Date('2024-01-18').toISOString() as Iso8601DateTime,
       },

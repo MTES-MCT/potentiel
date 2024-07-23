@@ -19,7 +19,6 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
 
 export const metadata: Metadata = {
   title: 'Modifier un dossier de raccordement - Potentiel',
@@ -65,12 +64,17 @@ export default async function Page({ params: { identifiant, reference } }: PageP
           },
         });
 
+      const canEdit =
+        utilisateur.role.estÉgaleÀ(Role.admin) ||
+        utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
+        (utilisateur.role.estÉgaleÀ(Role.porteur) && !dossierRaccordement.miseEnService);
+
       const props = mapToProps({
         appelOffre,
         gestionnaireRéseau,
         identifiantProjet,
         dossierRaccordement,
-        utilisateur,
+        canEdit,
       });
 
       return <ModifierDemandeComplèteRaccordementPage {...props} />;
@@ -82,8 +86,8 @@ type MapToProps = (args: {
   appelOffre: ConsulterAppelOffreReadModel;
   gestionnaireRéseau: Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel;
   dossierRaccordement: Raccordement.ConsulterDossierRaccordementReadModel;
-  utilisateur: AuthenticatedUserReadModel;
   identifiantProjet: IdentifiantProjet.ValueType;
+  canEdit: boolean;
 }) => ModifierDemandeComplèteRaccordementPageProps;
 
 const mapToProps: MapToProps = ({
@@ -95,23 +99,22 @@ const mapToProps: MapToProps = ({
   },
   dossierRaccordement,
   identifiantProjet,
-  utilisateur,
+  canEdit,
 }) => {
-  const roleCanEditRéférence =
-    utilisateur.role.estÉgaleÀ(Role.admin) || utilisateur.role.estÉgaleÀ(Role.dgecValidateur);
-  const porteurCanEditRéférence =
-    utilisateur.role.estÉgaleÀ(Role.porteur) && !dossierRaccordement.miseEnService;
   return {
     identifiantProjet: identifiantProjet.formatter(),
     raccordement: {
-      référence: dossierRaccordement.référence.référence,
+      référence: {
+        value: dossierRaccordement.référence.référence,
+        canEdit,
+      },
       demandeComplèteRaccordement: {
+        canEdit,
         dateQualification:
           dossierRaccordement.demandeComplèteRaccordement.dateQualification?.formatter(),
         accuséRéception:
           dossierRaccordement.demandeComplèteRaccordement.accuséRéception?.formatter(),
       },
-      canEditRéférence: roleCanEditRéférence || porteurCanEditRéférence,
     },
     delaiDemandeDeRaccordementEnMois: appelOffre.periodes.find(
       (periode) => periode.id === identifiantProjet.période,
