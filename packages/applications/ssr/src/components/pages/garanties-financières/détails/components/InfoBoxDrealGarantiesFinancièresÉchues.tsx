@@ -10,13 +10,11 @@ export const InfoBoxDrealGarantiesFinancièreséÉchues: FC<Props> = ({ contactP
   const emails = contactPorteurs.join(', ');
 
   return (
-    <>
-      <p>
-        La date d'échéance de ces garanties financières est dépassée. Vous pouvez contacter le ou
-        les porteurs dont voici la ou les adresses emails :
-        <br />
-        <CopyAndPaste textToCopy={emails} />
-      </p>
-    </>
+    <p>
+      La date d'échéance de ces garanties financières est dépassée. Vous pouvez contacter le ou les
+      porteurs dont voici la ou les adresses emails :
+      <br />
+      <CopyAndPaste textToCopy={emails} />
+    </p>
   );
 };
