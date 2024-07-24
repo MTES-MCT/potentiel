@@ -6,12 +6,15 @@ import { PotentielWorld } from '../../potentiel.world';
 Alors(
   'un email a été envoyé à {string} avec :',
   function (this: PotentielWorld, email: string, data: DataTable) {
-    const notif = this.notificationWorld.notifications.find((notif) =>
-      notif.recipients.find((r) => r.email === email),
+    const example = data.rowsHash();
+    const notif = this.notificationWorld.notifications.find(
+      (notif) =>
+        notif.recipients.find((r) => r.email === email) &&
+        (!example.sujet || notif.messageSubject === example.sujet),
     );
     assert(notif, 'Pas de notification');
 
-    for (const [key, value] of Object.entries(data.rowsHash())) {
+    for (const [key, value] of Object.entries(example)) {
       if (key === 'sujet') {
         expect(notif.messageSubject).to.equal(value);
       } else {
