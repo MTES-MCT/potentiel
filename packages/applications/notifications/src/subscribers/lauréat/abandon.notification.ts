@@ -10,7 +10,7 @@ import {
 import { Abandon } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 
-import { sendEmail } from '../../infrastructure/sendEmail';
+import { EmailPayload, SendEmail } from '../../sendEmail';
 
 export type SubscriptionEvent = Abandon.AbandonEvent & Event;
 
@@ -28,7 +28,7 @@ const templateId = {
   demanderPreuveRecandidature: 5308275,
 };
 
-const sendEmailAbandonChangementDeStatut = async ({
+const sendEmailAbandonChangementDeStatut = ({
   identifiantProjet,
   statut,
   templateId,
@@ -55,7 +55,7 @@ const sendEmailAbandonChangementDeStatut = async ({
 }) => {
   const { BASE_URL } = process.env;
 
-  await sendEmail({
+  return {
     templateId,
     messageSubject: `Potentiel - Demande d'abandon ${statut} pour le projet ${nomProjet} (${appelOffre} période ${période})`,
     recipients,
@@ -65,127 +65,129 @@ const sendEmailAbandonChangementDeStatut = async ({
       nouveau_statut: statut,
       abandon_url: `${BASE_URL}${Routes.Abandon.détail(identifiantProjet.formatter())}`,
     },
-  });
+  };
+};
+
+async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload | undefined> {
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
+  const projet = await CandidatureAdapter.récupérerCandidatureAdapter(
+    identifiantProjet.formatter(),
+  );
+  const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
+
+  if (Option.isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {
+    return;
+  }
+
+  const nomProjet = projet.nom;
+  const départementProjet = projet.localité.département;
+  const appelOffre = projet.appelOffre;
+  const période = projet.période;
+
+  const admins = [
+    {
+      email: process.env.DGEC_EMAIL,
+      fullName: 'DGEC',
+    },
+  ];
+
+  const { BASE_URL } = process.env;
+
+  switch (event.type) {
+    case 'AbandonDemandé-V1':
+      return sendEmailAbandonChangementDeStatut({
+        statut: 'envoyée',
+        templateId: templateId.demander,
+        recipients: [...porteurs, ...admins],
+        identifiantProjet,
+        nomProjet,
+        départementProjet,
+        appelOffre,
+        période,
+      });
+    case 'AbandonAnnulé-V1':
+      return sendEmailAbandonChangementDeStatut({
+        statut: 'annulée',
+        templateId: templateId.annuler,
+        recipients: [...porteurs, ...admins],
+        identifiantProjet,
+        nomProjet,
+        départementProjet,
+        appelOffre,
+        période,
+      });
+    case 'ConfirmationAbandonDemandée-V1':
+      return sendEmailAbandonChangementDeStatut({
+        statut: 'en attente de confirmation',
+        templateId: templateId.demanderConfirmation,
+        recipients: porteurs,
+        identifiantProjet,
+        nomProjet,
+        départementProjet,
+        appelOffre,
+        période,
+      });
+    case 'AbandonConfirmé-V1':
+      return sendEmailAbandonChangementDeStatut({
+        statut: 'confirmée',
+        templateId: templateId.demanderConfirmation,
+        recipients: [...porteurs, ...admins],
+        identifiantProjet,
+        nomProjet,
+        départementProjet,
+        appelOffre,
+        période,
+      });
+    case 'AbandonAccordé-V1':
+      return sendEmailAbandonChangementDeStatut({
+        statut: 'accordée',
+        templateId: templateId.accorder,
+        recipients: porteurs,
+        identifiantProjet,
+        nomProjet,
+        départementProjet,
+        appelOffre,
+        période,
+      });
+    case 'AbandonRejeté-V1':
+      return sendEmailAbandonChangementDeStatut({
+        statut: 'rejetée',
+        templateId: templateId.rejeter,
+        recipients: porteurs,
+        identifiantProjet,
+        nomProjet,
+        départementProjet,
+        appelOffre,
+        période,
+      });
+    case 'PreuveRecandidatureDemandée-V1':
+      return {
+        templateId: templateId.demanderPreuveRecandidature,
+        messageSubject: `Potentiel - Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
+        recipients: porteurs,
+        variables: {
+          nom_projet: projet.nom,
+          lien_transmettre_preuve_recandidature: `${BASE_URL}${Routes.Abandon.transmettrePreuveRecandidature(
+            identifiantProjet.formatter(),
+          )}/`,
+        },
+      };
+  }
+}
+
+export type RegisterAbandonNotificationDependencies = {
+  sendEmail: SendEmail;
 };
 
 /**
  *
  * @todo vérifier les urls de redirection des mails vers les différentes pages abandons
  */
-export const register = () => {
+export const register = ({ sendEmail }: RegisterAbandonNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      event.payload.identifiantProjet,
-    );
-    const projet = await CandidatureAdapter.récupérerCandidatureAdapter(
-      identifiantProjet.formatter(),
-    );
-    const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
-
-    if (Option.isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {
-      return;
-    }
-
-    const nomProjet = projet.nom;
-    const départementProjet = projet.localité.département;
-    const appelOffre = projet.appelOffre;
-    const période = projet.période;
-
-    const admins = [
-      {
-        email: process.env.DGEC_EMAIL,
-        fullName: 'DGEC',
-      },
-    ];
-
-    const { BASE_URL } = process.env;
-
-    switch (event.type) {
-      case 'AbandonDemandé-V1':
-        await sendEmailAbandonChangementDeStatut({
-          statut: 'envoyée',
-          templateId: templateId.demander,
-          recipients: [...porteurs, ...admins],
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          appelOffre,
-          période,
-        });
-        break;
-      case 'AbandonAnnulé-V1':
-        await sendEmailAbandonChangementDeStatut({
-          statut: 'annulée',
-          templateId: templateId.annuler,
-          recipients: [...porteurs, ...admins],
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          appelOffre,
-          période,
-        });
-        break;
-      case 'ConfirmationAbandonDemandée-V1':
-        await sendEmailAbandonChangementDeStatut({
-          statut: 'en attente de confirmation',
-          templateId: templateId.demanderConfirmation,
-          recipients: porteurs,
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          appelOffre,
-          période,
-        });
-        break;
-      case 'AbandonConfirmé-V1':
-        await sendEmailAbandonChangementDeStatut({
-          statut: 'confirmée',
-          templateId: templateId.demanderConfirmation,
-          recipients: [...porteurs, ...admins],
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          appelOffre,
-          période,
-        });
-        break;
-      case 'AbandonAccordé-V1':
-        await sendEmailAbandonChangementDeStatut({
-          statut: 'accordée',
-          templateId: templateId.accorder,
-          recipients: porteurs,
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          appelOffre,
-          période,
-        });
-        break;
-      case 'AbandonRejeté-V1':
-        await sendEmailAbandonChangementDeStatut({
-          statut: 'rejetée',
-          templateId: templateId.rejeter,
-          recipients: porteurs,
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          appelOffre,
-          période,
-        });
-        break;
-      case 'PreuveRecandidatureDemandée-V1':
-        await sendEmail({
-          templateId: templateId.demanderPreuveRecandidature,
-          messageSubject: `Potentiel - Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
-          recipients: porteurs,
-          variables: {
-            nom_projet: projet.nom,
-            lien_transmettre_preuve_recandidature: `${BASE_URL}${Routes.Abandon.transmettrePreuveRecandidature(
-              identifiantProjet.formatter(),
-            )}/`,
-          },
-        });
-        break;
+    const payload = await getEmailPayload(event);
+    if (payload) {
+      await sendEmail(payload);
     }
   };
 

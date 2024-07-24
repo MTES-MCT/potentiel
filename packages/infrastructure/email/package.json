@@ -1,0 +1,19 @@
+{
+  "name": "@potentiel-infrastructure/email",
+  "version": "0.0.0",
+  "description": "Email sending with mailjet",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@potentiel-libraries/monitoring": "^0.0.0",
+    "node-mailjet": "^6.0.4"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*",
+    "@types/node-mailjet": "^3.3.9"
+  }
+}

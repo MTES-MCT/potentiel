@@ -19,6 +19,12 @@ Fonctionnalité: Échoir les garanties financières d'un projet
             | date d'échéance | 2024-07-17 |
             | date à vérifier | 2024-07-18 |
         Alors les garanties financières du projet "Centrale PV" sont échues
+        Et un email a été envoyé à "porteur@test.test" avec :
+            | sujet              | Potentiel - Date d'échéance dépassée pour les garanties financières du projet Centrale PV dans le département departementProjet |
+            | nom_projet         | Centrale PV                                                                                                                     |
+            | departement_projet | departementProjet                                                                                                               |
+            | region_projet      | regionProjet                                                                                                                    |
+            | date_echeance      | 17/07/2024                                                                                                                      |
 
     Scénario: Impossible d'échoir les garanties financières d'un projet si il n'y a pas de garanties financières validées pour ce projet
         Quand un admin échoie les garanties financières pour le projet "Centrale PV" avec :

@@ -10,7 +10,7 @@ import {
 import { Achèvement } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 
-import { sendEmail } from '../../infrastructure/sendEmail';
+import { EmailPayload, SendEmail } from '../../sendEmail';
 
 export type SubscriptionEvent = Achèvement.AchèvementEvent & Event;
 
@@ -23,7 +23,7 @@ const templateId = {
   attestationConformitéTransmise: 5945568,
 };
 
-const sendEmailAchèvement = async ({
+const formatAchèvementEmailPayload = ({
   identifiantProjet,
   templateId,
   recipients,
@@ -39,10 +39,10 @@ const sendEmailAchèvement = async ({
   nomProjet: string;
   départementProjet: string;
   régionProjet: string;
-}) => {
+}): EmailPayload => {
   const { BASE_URL } = process.env;
 
-  await sendEmail({
+  return {
     templateId,
     messageSubject: subject,
     recipients,
@@ -52,40 +52,48 @@ const sendEmailAchèvement = async ({
       region_projet: régionProjet,
       url: `${BASE_URL}${Routes.Projet.details(identifiantProjet.formatter())}`,
     },
-  });
+  };
 };
 
-export const register = () => {
+async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload | undefined> {
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
+  const projet = await CandidatureAdapter.récupérerCandidatureAdapter(
+    identifiantProjet.formatter(),
+  );
+
+  if (Option.isNone(projet)) {
+    return;
+  }
+
+  const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
+
+  const nomProjet = projet.nom;
+  const départementProjet = projet.localité.département;
+  const régionProjet = projet.localité.région;
+
+  switch (event.type) {
+    case 'AttestationConformitéTransmise-V1':
+      return formatAchèvementEmailPayload({
+        subject: `Potentiel - Une attestation de conformité a été transmise pour le projet ${nomProjet} dans le département ${départementProjet}`,
+        templateId: templateId.attestationConformitéTransmise,
+        recipients: dreals,
+        identifiantProjet,
+        nomProjet,
+        départementProjet,
+        régionProjet,
+      });
+  }
+}
+
+export type RegisterAchèvementNotificationDependencies = {
+  sendEmail: SendEmail;
+};
+
+export const register = ({ sendEmail }: RegisterAchèvementNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      event.payload.identifiantProjet,
-    );
-    const projet = await CandidatureAdapter.récupérerCandidatureAdapter(
-      identifiantProjet.formatter(),
-    );
-
-    if (Option.isNone(projet)) {
-      return;
-    }
-
-    const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
-
-    const nomProjet = projet.nom;
-    const départementProjet = projet.localité.département;
-    const régionProjet = projet.localité.région;
-
-    switch (event.type) {
-      case 'AttestationConformitéTransmise-V1':
-        await sendEmailAchèvement({
-          subject: `Potentiel - Une attestation de conformité a été transmise pour le projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.attestationConformitéTransmise,
-          recipients: dreals,
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          régionProjet,
-        });
-        break;
+    const payload = await getEmailPayload(event);
+    if (payload) {
+      await sendEmail(payload);
     }
   };
 

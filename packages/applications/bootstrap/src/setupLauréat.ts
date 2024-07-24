@@ -17,8 +17,12 @@ import {
   consulterCahierDesChargesChoisiAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
+import { SendEmail } from '@potentiel-applications/notifications';
 
-export const setupLauréat = async () => {
+type SetupLauréatDependenices = {
+  sendEmail: SendEmail;
+};
+export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) => {
   registerLauréatUseCases({
     loadAggregate,
   });
@@ -31,11 +35,11 @@ export const setupLauréat = async () => {
   });
 
   AbandonProjector.register();
-  AbandonNotification.register();
+  AbandonNotification.register({ sendEmail });
   GarantiesFinancièreProjector.register();
-  GarantiesFinancièresNotification.register();
+  GarantiesFinancièresNotification.register({ sendEmail });
   AchèvementProjector.register();
-  AchèvementNotification.register();
+  AchèvementNotification.register({ sendEmail });
 
   const unsubscribeAbandonNotification = await subscribe<AbandonNotification.SubscriptionEvent>({
     name: 'notifications',

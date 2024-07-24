@@ -1,6 +1,8 @@
 import { Middleware, mediator } from 'mediateur';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { SendEmail } from '@potentiel-applications/notifications';
+import { sendEmail as sendEmailMailjet } from '@potentiel-infrastructure/email';
 
 import { setupLauréat } from './setupLauréat';
 import { setupCandidature } from './setupCandidature';
@@ -19,8 +21,10 @@ let mutex: Promise<void> | undefined;
 
 export const bootstrap = async ({
   middlewares,
+  sendEmail,
 }: {
   middlewares: Array<Middleware>;
+  sendEmail?: SendEmail;
 }): Promise<() => Promise<void>> => {
   // if there's already a bootstrap operation in progress, wait for it to finish
   if (mutex) {
@@ -33,6 +37,9 @@ export const bootstrap = async ({
     mediator.use({
       middlewares: [logMiddleware, delayMiddleware, ...middlewares],
     });
+    if (!sendEmail) {
+      sendEmail = sendEmailMailjet;
+    }
 
     setupAppelOffre();
     setupCandidature();
@@ -42,7 +49,9 @@ export const bootstrap = async ({
     setupUtilisateur();
 
     const unsetupEliminé = await setupEliminé();
-    const unsetupLauréat = await setupLauréat();
+    const unsetupLauréat = await setupLauréat({
+      sendEmail,
+    });
     const unsetupGestionnaireRéseau = await setupRéseau();
 
     getLogger().info('Application bootstrapped');

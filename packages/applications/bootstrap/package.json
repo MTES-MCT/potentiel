@@ -18,6 +18,7 @@
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/tache": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
+    "@potentiel-infrastructure/email": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projections": "*",
     "@potentiel-libraries/pg-helpers": "*",
