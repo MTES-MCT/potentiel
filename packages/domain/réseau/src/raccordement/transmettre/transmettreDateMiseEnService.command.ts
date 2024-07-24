@@ -12,6 +12,7 @@ export type TransmettreDateMiseEnServiceCommand = Message<
     dateMiseEnService: DateTime.ValueType;
     référenceDossier: RéférenceDossierRaccordement.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
+    // TODO après la migration Candidature, la date de désignation devrait être chargée par Aggregate
     dateDésignation: DateTime.ValueType;
   }
 >;

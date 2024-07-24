@@ -9,6 +9,9 @@
       "path": "../../libraries/monads"
     },
     {
+      "path": "../../libraries/monitoring"
+    },
+    {
       "path": "../core"
     },
     {

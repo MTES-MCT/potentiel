@@ -43,6 +43,10 @@ export async function transmettreDateMiseEnService(
     throw new DossierRaccordementNonRéférencéError();
   }
 
+  if (!this.dateModifiée(référenceDossier, dateMiseEnService)) {
+    throw new DateIdentiqueDeMiseEnServiceDéjàTransmiseError();
+  }
+
   const dateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
     type: 'DateMiseEnServiceTransmise-V1',
     payload: {
@@ -68,5 +72,11 @@ export class DateMiseEnServiceAntérieureDateDésignationProjetError extends Inv
     super(
       `La date de mise en service ne peut pas être antérieure à la date de désignation du projet`,
     );
+  }
+}
+
+class DateIdentiqueDeMiseEnServiceDéjàTransmiseError extends InvalidOperationError {
+  constructor() {
+    super(`La date de mise en service est déjà transmise pour ce dossier de raccordement`);
   }
 }
