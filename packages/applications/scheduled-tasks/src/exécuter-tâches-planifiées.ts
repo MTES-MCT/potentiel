@@ -3,11 +3,19 @@ import { mediator } from 'mediateur';
 import {
   ExécuterTâchePlanifiéeUseCase,
   ListerTâchesPlanifiéesQuery,
+  TypeTâchePlanifiée,
 } from '@potentiel-domain/tache-planifiee';
 import { DateTime } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { InvalidOperationError } from '@potentiel-domain/core';
+import { sendEmail } from '@potentiel-infrastructure/email';
+import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import {
+  récupérerDrealsParIdentifiantProjetAdapter,
+  récupérerPorteursParIdentifiantProjetAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
+import { Routes } from '@potentiel-applications/routes';
 
 (async () => {
   const logger = getLogger();
@@ -29,16 +37,66 @@ import { InvalidOperationError } from '@potentiel-domain/core';
     );
 
     try {
-      switch (tâche.typeTâchePlanifiée.type) {
+      const { identifiantProjet, typeTâchePlanifiée } = tâche;
+      switch (typeTâchePlanifiée.type) {
         case 'garanties-financières.échoir':
-          mediator.send<GarantiesFinancières.ÉchoirGarantiesFinancièresUseCase>({
+          await mediator.send<GarantiesFinancières.ÉchoirGarantiesFinancièresUseCase>({
             type: 'Lauréat.GarantiesFinancières.UseCase.ÉchoirGarantiesFinancières',
             data: {
-              identifiantProjetValue: tâche.identifiantProjet.formatter(),
+              identifiantProjetValue: identifiantProjet.formatter(),
               échuLeValue: DateTime.now().formatter(),
               dateÉchéanceValue: tâche.àExécuterLe.ajouterNombreDeJours(-1).formatter(),
             },
           });
+          break;
+        case 'garanties-financières.rappel-échéance-un-mois':
+        case 'garanties-financières.rappel-échéance-deux-mois':
+          const {
+            nom,
+            localité: { département },
+          } = await mediator.send<ConsulterCandidatureQuery>({
+            type: 'Candidature.Query.ConsulterCandidature',
+            data: {
+              identifiantProjet: identifiantProjet.formatter(),
+            },
+          });
+
+          const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(
+            tâche.identifiantProjet,
+          );
+          const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
+          const nombreDeMois = tâche.typeTâchePlanifiée.estÉgaleÀ(
+            TypeTâchePlanifiée.garantiesFinancieresRappelÉchéanceUnMois,
+          )
+            ? '1'
+            : '2';
+
+          const { BASE_URL } = process.env;
+
+          await sendEmail({
+            messageSubject: `Les garanties financières pour le projet ${nom} arrivent à échéance dans ${nombreDeMois} mois`,
+            recipients: dreals,
+            templateId: 6164034,
+            variables: {
+              nom_projet: nom,
+              departement_projet: département,
+              nombre_mois: nombreDeMois,
+              url: `${BASE_URL}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
+            },
+          });
+
+          await sendEmail({
+            messageSubject: `Vos garanties financières pour le projet ${nom} arrivent à échéance dans ${nombreDeMois} mois`,
+            recipients: porteurs,
+            templateId: 6164049,
+            variables: {
+              nom_projet: nom,
+              departement_projet: département,
+              nombre_mois: nombreDeMois,
+              url: `${BASE_URL}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
+            },
+          });
+
           break;
         default:
           throw new TypeNonGéréError();
@@ -47,7 +105,7 @@ import { InvalidOperationError } from '@potentiel-domain/core';
       await mediator.send<ExécuterTâchePlanifiéeUseCase>({
         type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
         data: {
-          identifiantProjetValue: tâche.identifiantProjet.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
           typeTâchePlanifiéeValue: tâche.typeTâchePlanifiée.type,
         },
       });

@@ -19,7 +19,9 @@
     "@potentiel-domain/laureat": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/pg-projections": "*",
-    "@potentiel-infrastructure/pg-event-sourcing": "*"
+    "@potentiel-infrastructure/pg-event-sourcing": "*",
+    "@potentiel-infrastructure/email": "*",
+    "@potentiel-applications/routes": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"
