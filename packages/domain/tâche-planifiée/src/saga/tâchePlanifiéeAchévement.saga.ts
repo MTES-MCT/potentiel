@@ -25,6 +25,22 @@ export const register = () => {
           },
         });
 
+        await mediator.send<AnnulerTâchePlanifiéeCommand>({
+          type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresRappelÉchéanceUnMois,
+          },
+        });
+
+        await mediator.send<AnnulerTâchePlanifiéeCommand>({
+          type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresRappelÉchéanceDeuxMois,
+          },
+        });
+
         break;
     }
   };
