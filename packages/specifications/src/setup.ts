@@ -87,7 +87,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 
   clear();
 
-  unsetup = await bootstrap({ middlewares: [], sendEmail: testEmailMiddleware.bind(this) });
+  unsetup = await bootstrap({ middlewares: [], sendEmail: testEmailAdapter.bind(this) });
 });
 
 After(async () => {
@@ -117,7 +117,7 @@ AfterAll(async () => {
   await killPool();
 });
 
-async function testEmailMiddleware(
+async function testEmailAdapter(
   this: PotentielWorld,
   emailPayload: EmailPayload,
 ): Promise<MessageResult<Message>> {
