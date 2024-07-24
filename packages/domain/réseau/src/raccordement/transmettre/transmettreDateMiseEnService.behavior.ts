@@ -44,7 +44,7 @@ export async function transmettreDateMiseEnService(
   }
 
   if (!this.dateModifiée(référenceDossier, dateMiseEnService)) {
-    throw new DateMiseEnServiceDéjàTransmiseError();
+    throw new DateIdentiqueDeMiseEnServiceDéjàTransmiseError();
   }
 
   const dateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
@@ -75,7 +75,7 @@ export class DateMiseEnServiceAntérieureDateDésignationProjetError extends Inv
   }
 }
 
-class DateMiseEnServiceDéjàTransmiseError extends InvalidOperationError {
+class DateIdentiqueDeMiseEnServiceDéjàTransmiseError extends InvalidOperationError {
   constructor() {
     super(`La date de mise en service est déjà transmise pour ce dossier de raccordement`);
   }
