@@ -3,13 +3,12 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { getMailjetClient } from './getMailjetClient';
 import { mapToSendEmailMode } from './sendEmailMode';
 
-type EmailPayload = {
+type SendEmail = (email: {
   templateId: number;
   messageSubject: string;
   recipients: { email: string; fullName: string }[];
   variables: Record<string, string>;
-};
-type SendEmail = (email: EmailPayload) => Promise<void>;
+}) => Promise<void>;
 
 export const sendEmail: SendEmail = async (sendEmailArgs) => {
   const { templateId, messageSubject, recipients, variables } = sendEmailArgs;

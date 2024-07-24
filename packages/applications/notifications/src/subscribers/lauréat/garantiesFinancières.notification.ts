@@ -223,8 +223,9 @@ async function getEmailPayloads(event: SubscriptionEvent): Promise<(EmailPayload
           dateÉchéance: formatDateForEmail(new Date(event.payload.dateÉchéance)),
         }),
       ];
+    default:
+      return [];
   }
-  return [];
 }
 
 export type RegisterGarantiesFinancièresNotificationDependencies = {

@@ -6,31 +6,7 @@
   },
   "references": [
     {
-      "path": "../../libraries/monads"
-    },
-    {
-      "path": "../../libraries/file-storage"
-    },
-    {
       "path": "../../libraries/monitoring"
-    },
-    {
-      "path": "../../libraries/pg-helpers"
-    },
-    {
-      "path": "../../domain/document"
-    },
-    {
-      "path": "../../domain/candidature"
-    },
-    {
-      "path": "../../domain/lauréat"
-    },
-    {
-      "path": "../../domain/tâche"
-    },
-    {
-      "path": "../../domain/utilisateur"
     }
   ]
 }
