@@ -11,14 +11,16 @@ import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../../../potentiel.world';
 
+import { defaultMainlevéeData } from './helper';
+
 Alors(
   `une demande de mainlevée de garanties financières devrait être consultable pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const motif = exemple['motif'] || 'projet-abandonné';
-    const utilisateur = exemple['utilisateur'] || 'user@test.test';
-    const dateDemande = exemple['date demande'] || '2024-01-01';
+    const motif = exemple['motif'] || defaultMainlevéeData.demande.motif;
+    const utilisateur = exemple['utilisateur'] || defaultMainlevéeData.demande.utilisateur;
+    const dateDemande = exemple['date demande'] || defaultMainlevéeData.demande.date;
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -82,10 +84,13 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const instructionDémarréeLe = exemple['instruction démarrée le'] || '2024-01-01';
-    const instructionDémarréePar = exemple['instruction démarrée par'] || 'user@test.test';
+    const instructionDémarréeLe =
+      exemple['instruction démarrée le'] || defaultMainlevéeData.instruction.date;
+    const instructionDémarréePar =
+      exemple['instruction démarrée par'] || defaultMainlevéeData.instruction.utilisateur;
     const dernièreMiseÀJourLe = exemple['mise à jour le'] || '2024-01-01';
-    const dernièreMiseÀJourPar = exemple['mise à jour par'] || 'user@test.test';
+    const dernièreMiseÀJourPar =
+      exemple['mise à jour par'] || defaultMainlevéeData.instruction.utilisateur;
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -134,12 +139,12 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const accordéLe = exemple['accordé le'] || '2024-01-01';
-    const accordéPar = exemple['accordé par'] || 'user@test.test';
-    const dernièreMiseÀJourLe = exemple['mise à jour le'] || '2024-01-01';
-    const dernièreMiseÀJourPar = exemple['mise à jour par'] || 'user@test.test';
-    const format = exemple['format fichier réponse'] || 'application/pdf';
-    const content = exemple['contenu fichier réponse'] || 'contenu du fichier';
+    const accordéLe = exemple['accordé le'];
+    const accordéPar = exemple['accordé par'];
+    const dernièreMiseÀJourLe = exemple['mise à jour le'];
+    const dernièreMiseÀJourPar = exemple['mise à jour par'];
+    const format = exemple['format fichier réponse'];
+    const content = exemple['contenu fichier réponse'];
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
