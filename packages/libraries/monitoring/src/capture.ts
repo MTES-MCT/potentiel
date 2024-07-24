@@ -13,11 +13,12 @@ let captureInstance: Capture | undefined;
 
 export const getCapture: GetCapture = (): Capture | undefined => {
   if (!captureInstance) {
-    const shouldInitSentry = process.env.SENTRY_DSN && process.env.APPLICATION_STAGE !== 'local';
+    const shouldInitSentry =
+      process.env.NEXT_PUBLIC_SENTRY_DSN && process.env.APPLICATION_STAGE !== 'local';
 
     if (shouldInitSentry) {
       Sentry.init({
-        dsn: process.env.SENTRY_DSN,
+        dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
         environment: process.env.APPLICATION_STAGE,
         tracesSampleRate: 1.0,
       });

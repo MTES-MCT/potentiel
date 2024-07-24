@@ -3,6 +3,8 @@ import { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
 
+import { DefaultError } from './DefaultError';
+
 type ErrorType =
   | 'NotFoundError'
   | 'InvalidOperationError'
@@ -54,7 +56,7 @@ function getDescription(type: ErrorType) {
       return (
         <>
           <p className="fr-text--lead fr-mb-3w">
-            La page que vous cherchez est introuvable. Excusez-nous pour la gène occasionnée.
+            La page que vous cherchez est introuvable. Excusez-nous pour la gêne occasionnée.
           </p>
           <p className="fr-text--sm fr-mb-5w">
             Si vous avez tapé l'adresse web dans le navigateur, vérifiez qu'elle est correcte. La
@@ -62,8 +64,7 @@ function getDescription(type: ErrorType) {
             Dans ce cas, pour continuer votre visite vous pouvez consulter notre page d’accueil, ou
             effectuer une recherche avec notre moteur de recherche en haut de page.
             <br />
-            Sinon contactez-nous via notre outil crisp (bouton en bas à droite de l'écran) pour que
-            l’on puisse vous rediriger vers la bonne information.
+            Sinon contactez notre support via notre outil crisp (bouton en bas à droite de l'écran).
           </p>
         </>
       );
@@ -72,11 +73,10 @@ function getDescription(type: ErrorType) {
         <>
           <p className="fr-text--lead fr-mb-3w">Vous n'êtes pas autorisé à accéder à cette page.</p>
           <p className="fr-text--sm fr-mb-5w">
-            S'il s'agit d'un projet, veuillez contacter le responsable pour qu'il vous octroie les
+            Si il s'agit d'un projet, veuillez contacter le responsable pour qu'il vous octroie les
             droits nécessaires.
             <br />
-            Sinon contactez-nous via notre outil crisp (bouton en bas à droite de l'écran) pour que
-            l’on puisse vous rediriger vers la bonne information.
+            Sinon contactez notre support via notre outil crisp (bouton en bas à droite de l'écran).
           </p>
         </>
       );
@@ -84,17 +84,6 @@ function getDescription(type: ErrorType) {
     case 'InvalidOperationError':
     case 'ServerError':
     default:
-      return (
-        <>
-          <p className="fr-text--lead fr-mb-3w">
-            Désolé, le service rencontre un problème, nous travaillons pour le résoudre le plus
-            rapidement possible.
-          </p>
-          <p className="fr-text--sm fr-mb-5w">
-            Essayez de rafraîchir la page ou bien ressayez plus tard. <br />
-            Si vous avez besoin d’une aide immédiate, merci de nous contacter.
-          </p>
-        </>
-      );
+      return <DefaultError />;
   }
 }
