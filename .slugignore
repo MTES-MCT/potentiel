@@ -1,0 +1,9 @@
+spec
+docs
+./node_modules/.cache
+.turbo
+.next
+.git
+
+packages/**/src/
+!packages/applications/legacy/dist/src/

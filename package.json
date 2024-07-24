@@ -36,6 +36,7 @@
     "build": "turbo run build",
     "build:dev": "turbo run build --filter=@potentiel-applications/ssr... --filter=!@potentiel-applications/ssr",
     "build:test": "turbo run build --filter=@potentiel/specifications --filter=@potentiel-domain/inmemory-referential",
+    "postbuild": "[ -n \"$SOURCE_VERSION\" ] && echo 'remove build dependencies on scalingo' && npm run prune",
     "predev": "npm run up && npm run build:dev",
     "dev": "npm run dev --workspaces --if-present",
     "lint": "eslint .",
