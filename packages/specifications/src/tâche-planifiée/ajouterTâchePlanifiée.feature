@@ -39,7 +39,6 @@ Fonctionnalité: Planifier une tâche
             | date d'échéance | 2024-12-02         |
         Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-03" pour le projet "Du boulodrome de Marseille"
 
-    @select
     Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de dépôt validé
         Etant donné des garanties financières à traiter pour le projet "Du boulodrome de Marseille" avec :
             | type            | avec-date-échéance |
@@ -49,14 +48,20 @@ Fonctionnalité: Planifier une tâche
         Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet "Du boulodrome de Marseille"
         Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet "Du boulodrome de Marseille"
 
+    Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de garanties financières actuelles modifiées
+        Etant donné des garanties financières validées pour le projet "Du boulodrome de Marseille" avec :
+            | type            | avec-date-échéance |
+            | date d'échéance | 2024-08-01         |
+        Quand un admin modifie les garanties financières validées pour le projet "Du boulodrome de Marseille" avec :
+            | type            | avec-date-échéance |
+            | date d'échéance | 2024-10-01         |
+        Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet "Du boulodrome de Marseille"
+        Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet "Du boulodrome de Marseille"
+
     @NotImplemented
-    Scénario: Programmer un rappel de l'échéance des garanties financières à M-1 et M-2 de la date d'échéance en cas de garanties financières actuelles modifiées
+    Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de garanties financières enregistrées
 
 
     @NotImplemented
-    Scénario: Programmer un rappel de l'échéance des garanties financières à M-1 et M-2 de la date d'échéance en cas de garanties financières enregistrées
-
-
-    @NotImplemented
-    Scénario: Programmer un rappel de l'échéance des garanties financières à M-1 et M-2 de la date d'échéance en cas de type de garanties financières importé
+    Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de type de garanties financières importé
 

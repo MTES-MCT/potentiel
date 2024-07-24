@@ -21,7 +21,7 @@ export const register = () => {
     } = event;
     switch (event.type) {
       case 'DépôtGarantiesFinancièresEnCoursValidé-V2':
-        // case 'GarantiesFinancièresModifiées-V1':
+      case 'GarantiesFinancièresModifiées-V1':
         // case 'GarantiesFinancièresEnregistrées-V1':
         // case 'TypeGarantiesFinancièresImporté-V1':
         if (event.payload.type === 'avec-date-échéance' && event.payload.dateÉchéance) {
