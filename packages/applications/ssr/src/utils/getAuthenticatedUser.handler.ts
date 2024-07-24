@@ -1,6 +1,7 @@
 import { Message, MessageHandler } from 'mediateur';
 import { cookies } from 'next/headers';
 import { decode } from 'next-auth/jwt';
+import * as Sentry from '@sentry/nextjs';
 
 import { IdentifiantUtilisateur, Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
@@ -64,9 +65,17 @@ export const getOptionalAuthenticatedUser = async (): Promise<
 
 export const getAuthenticatedUser: MessageHandler<GetAuthenticatedUserMessage> = async () => {
   const user = await getOptionalAuthenticatedUser();
+
   if (!user) {
+    Sentry.setUser(null);
     throw new NoAuthenticatedUserError();
   }
+
+  // Sentry user set up for server side errors
+  Sentry.setUser({
+    email: user.identifiantUtilisateur.email,
+  });
+
   return user;
 };
 

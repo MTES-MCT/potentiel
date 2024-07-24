@@ -27,6 +27,7 @@ import { ProjectListItem } from '../../modules/project';
 import { userIs, userIsNot } from '../../modules/users';
 import routes from '../../routes';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { Button } from '../components/UI/atoms/Button';
 
 type ListeProjetsProps = {
   request: Request;
@@ -292,6 +293,13 @@ export const ListeProjets = ({
         </Accordeon>
       </PageListeTemplate.SideBar>
       <PageListeTemplate.List sideBarOpen={filtersOpen}>
+        <Button
+          onClick={() => {
+            throw new Error('test sentry front');
+          }}
+        >
+          ERREUR
+        </Button>
         {projects.items.length === 0 ? (
           <ListeVide titre="Aucun projet à lister" />
         ) : (

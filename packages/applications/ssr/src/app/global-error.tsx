@@ -8,8 +8,6 @@ import { DefaultError } from '../components/pages/custom-error/DefaultError';
 
 export default function GlobalError({ error }: { error: Error & { digest?: string } }) {
   useEffect(() => {
-    console.log(error);
-    console.error(error);
     Sentry.captureException(error);
   }, [error]);
 
