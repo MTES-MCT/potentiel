@@ -38,4 +38,4 @@ public/dsfr
 /storybook-static
 /.storybook/static/dsfr/
 
-.env.*
+.env
