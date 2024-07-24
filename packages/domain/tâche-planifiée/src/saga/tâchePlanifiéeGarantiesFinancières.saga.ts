@@ -21,9 +21,9 @@ export const register = () => {
     } = event;
     switch (event.type) {
       case 'DépôtGarantiesFinancièresEnCoursValidé-V2':
-      case 'GarantiesFinancièresModifiées-V1':
-      case 'GarantiesFinancièresEnregistrées-V1':
-      case 'TypeGarantiesFinancièresImporté-V1':
+        // case 'GarantiesFinancièresModifiées-V1':
+        // case 'GarantiesFinancièresEnregistrées-V1':
+        // case 'TypeGarantiesFinancièresImporté-V1':
         if (event.payload.type === 'avec-date-échéance' && event.payload.dateÉchéance) {
           await mediator.send<AjouterTâchePlanifiéeCommand>({
             type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
@@ -33,6 +33,31 @@ export const register = () => {
               àExécuterLe: DateTime.convertirEnValueType(
                 event.payload.dateÉchéance,
               ).ajouterNombreDeJours(1),
+            },
+          });
+
+          const dateRelanceMoinsUnMois = DateTime.convertirEnValueType(
+            event.payload.dateÉchéance,
+          ).retirerNombreDeMois(1);
+
+          const dateRelanceMoinsDeuxMois = DateTime.convertirEnValueType(
+            event.payload.dateÉchéance,
+          ).retirerNombreDeMois(2);
+
+          await mediator.send<AjouterTâchePlanifiéeCommand>({
+            type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
+            data: {
+              identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+              typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresRappelÉchéanceUnMois,
+              àExécuterLe: dateRelanceMoinsUnMois,
+            },
+          });
+          await mediator.send<AjouterTâchePlanifiéeCommand>({
+            type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
+            data: {
+              identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+              typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresRappelÉchéanceDeuxMois,
+              àExécuterLe: dateRelanceMoinsDeuxMois,
             },
           });
         }

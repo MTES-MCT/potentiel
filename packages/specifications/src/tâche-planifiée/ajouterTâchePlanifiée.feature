@@ -40,14 +40,14 @@ Fonctionnalité: Planifier une tâche
         Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-03" pour le projet "Du boulodrome de Marseille"
 
     @select
-    Scénario: Une tâche du type "rappel échéance garanties financières" est planifiée à M-1 et M-2 de la date d'échéance en cas de dépôt validé
+    Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de dépôt validé
         Etant donné des garanties financières à traiter pour le projet "Du boulodrome de Marseille" avec :
             | type            | avec-date-échéance |
             | date d'échéance | 2024-10-01         |
         Quand l'utilisateur dreal valide les garanties financières à traiter pour le projet "Du boulodrome de Marseille" avec :
             | date de validation | 2023-10-10 |
-        Alors une tâche "rappel échéance garanties financières" est planifiée à la date du "2024-08-01" pour le projet "Du boulodrome de Marseille"
-        Et une tâche "rappel échéance garanties financières" est planifiée à la date du "2024-09-01" pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet "Du boulodrome de Marseille"
+        Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet "Du boulodrome de Marseille"
 
     @NotImplemented
     Scénario: Programmer un rappel de l'échéance des garanties financières à M-1 et M-2 de la date d'échéance en cas de garanties financières actuelles modifiées
