@@ -1,9 +1,5 @@
-spec
 docs
-./node_modules/.cache
-.turbo
-.next
-.git
-
-packages/**/src/
-!packages/applications/legacy/dist/src/
+node_modules/.cache
+packages/applications/specifications
+keycloak/
+.demo
