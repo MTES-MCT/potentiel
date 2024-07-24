@@ -14,7 +14,7 @@ export type Logger = {
   error(error: Error, meta?: Record<string, unknown>): void;
 };
 
-type GetLogger = () => Logger;
+type GetLogger = (serviceName?: string) => Logger;
 
 const getLevel = (): Level => {
   const level = process.env.LOGGER_LEVEL;
@@ -41,19 +41,19 @@ let logger: Logger | undefined;
  */
 const customFormat = winston.format((info) => {
   const meta = Object.keys(info.meta)
-    .map((k) => `{${k}=${info.meta[k]}}`)
+    .map((k) => `{${k}=${JSON.stringify(info.meta[k])}}`)
     .join(' ');
   info.message = `${info.message} | Service(${info.service}) | Metadata(${meta})`;
   return info;
 });
 
-export const getLogger: GetLogger = (): Logger => {
+export const getLogger: GetLogger = (serviceName?: string): Logger => {
   if (!logger) {
     const winstonLogger = winston.createLogger({
       format: winston.format.combine(customFormat(), winston.format.cli()),
       transports: [new winston.transports.Console()],
       defaultMeta: {
-        service: getApplicationName() || 'unknown',
+        service: getApplicationName() || serviceName || 'unknown',
       },
       level: getLevel(),
     });
