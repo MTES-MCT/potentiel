@@ -5,8 +5,10 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import * as TâchePlanifiée from '../typeTâchePlanifiée.valueType';
 import { AjouterTâchePlanifiéeCommand } from '../ajouter/ajouterTâchePlanifiée.command';
+import { AnnulerTâchePlanifiéeCommand } from '../annuler/annulerTâchePlanifiée.command';
 
 export type SubscriptionEvent =
+  | GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent
   | GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent
   | GarantiesFinancières.GarantiesFinancièresModifiéesEvent
   | GarantiesFinancières.GarantiesFinancièresEnregistréesEvent
@@ -20,6 +22,31 @@ export const register = () => {
       payload: { identifiantProjet },
     } = event;
     switch (event.type) {
+      case 'DépôtGarantiesFinancièresSoumis-V1':
+        await mediator.send<AnnulerTâchePlanifiéeCommand>({
+          type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresÉchoir,
+          },
+        });
+
+        await mediator.send<AnnulerTâchePlanifiéeCommand>({
+          type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresRappelÉchéanceUnMois,
+          },
+        });
+
+        await mediator.send<AnnulerTâchePlanifiéeCommand>({
+          type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresRappelÉchéanceDeuxMois,
+          },
+        });
+        break;
       case 'DépôtGarantiesFinancièresEnCoursValidé-V2':
       case 'GarantiesFinancièresModifiées-V1':
       case 'GarantiesFinancièresEnregistrées-V1':
