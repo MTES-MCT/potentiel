@@ -37,7 +37,7 @@ export const permissionMiddleware: Middleware = async (message, next) => {
     throw new AuthenticationError(error as Error);
   }
 
-  utilisateur.role.vérifierLaPermission(message.type);
+  utilisateur.role.peutExécuterMessage(message.type);
 
   if (mustCheckProjetAccess(message)) {
     const identifiantProjetValue = getIdentifiantProjetValue(message);

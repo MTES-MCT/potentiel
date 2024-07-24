@@ -24,7 +24,8 @@ const roles: Array<RawType> = [
 export type ValueType = ReadonlyValueType<{
   nom: RawType;
   libellé(): string;
-  vérifierLaPermission(value: string): void;
+  peutExécuterMessage(typeMessage: string): void;
+  aLaPermission(value: Policy): boolean;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -37,11 +38,15 @@ export const convertirEnValueType = (value: string): ValueType => {
     libellé() {
       return this.nom.replace('-', ' ').toLocaleUpperCase();
     },
-    vérifierLaPermission(permission) {
-      const aLaPermission = permissions[this.nom].includes(permission);
+    aLaPermission(permission) {
+      const aLaPermission = policyParRole[this.nom].includes(permission);
+      return aLaPermission;
+    },
+    peutExécuterMessage(typeMessage) {
+      const aLaPermission = droitsMessagesMediator[this.nom].has(typeMessage);
 
       if (!aLaPermission) {
-        throw new AccèsFonctionnalitéRefuséError(permission, this.nom);
+        throw new AccèsFonctionnalitéRefuséError(typeMessage, this.nom);
       }
     },
   };
@@ -84,6 +89,9 @@ class AccèsFonctionnalitéRefuséError extends OperationRejectedError {
 }
 
 // MATRICE en mémoire en attendant de pouvoir gérer les permissions depuis une interface d'administration
+/**
+ * Mapping entre les droits fonctionnels et le type de message mediator
+ */
 const référencielPermissions = {
   lauréat: {
     abandon: {
@@ -293,6 +301,9 @@ const référencielPermissions = {
   },
 } as const;
 
+/**
+ * Liste des droits fonctionnels, par domaine
+ */
 const policies = {
   réseau: {
     raccordement: {
@@ -639,238 +650,275 @@ const policies = {
       référencielPermissions.document.command.enregister,
     ],
   },
-};
+} as const;
 
-const permissionAdmin = [
+/**
+ * A utility type which returns a type union representing the paths to deepest properties of O
+ * This is inspired from @see https://dev.to/pffigueiredo/typescript-utility-keyof-nested-object-2pa3
+ * and @see https://stackoverflow.com/questions/58434389/typescript-deep-keyof-of-a-nested-object
+ */
+type Leaves<O extends Record<string, unknown>> = {
+  [K in Extract<keyof O, string>]: O[K] extends Array<unknown>
+    ? K
+    : O[K] extends Record<string, unknown>
+      ? `${K}${Leaves<O[K]> extends never ? '' : `.${Leaves<O[K]>}`}`
+      : K;
+}[Extract<keyof O, string>];
+
+type Policy = Leaves<typeof policies>;
+
+const permissionAdmin: Policy[] = [
   // Abandon
-  ...policies.abandon.consulter.liste,
-  ...policies.abandon.consulter.détail,
-  ...policies.abandon.accorder,
-  ...policies.abandon.rejeter,
-  ...policies.abandon['demander-confirmation'],
-  ...policies.abandon['annuler-rejet'],
+  'abandon.consulter.liste',
+  'abandon.consulter.détail',
+  'abandon.accorder',
+  'abandon.rejeter',
+  'abandon.demander-confirmation',
+  'abandon.annuler-rejet',
 
   // Gestionnaire réseau
-  ...policies.réseau.gestionnaire.lister,
-  ...policies.réseau.gestionnaire.ajouter,
-  ...policies.réseau.gestionnaire.modifier,
+  'réseau.gestionnaire.lister',
+  'réseau.gestionnaire.ajouter',
+  'réseau.gestionnaire.modifier',
 
   // Raccordement
-  ...policies.réseau.raccordement.consulter,
-  ...policies.réseau.raccordement.gestionnaire.modifier,
-  ...policies.réseau.raccordement['demande-complète-raccordement'].transmettre,
-  ...policies.réseau.raccordement['demande-complète-raccordement'].modifier,
-  ...policies.réseau.raccordement['proposition-technique-et-financière'].transmettre,
-  ...policies.réseau.raccordement['proposition-technique-et-financière'].modifier,
-  ...policies.réseau.raccordement['date-mise-en-service'].transmettre,
-  ...policies.réseau.raccordement['date-mise-en-service'].importer,
-  ...policies.réseau.raccordement['référence-dossier'].modifier,
+  'réseau.raccordement.consulter',
+  'réseau.raccordement.gestionnaire.modifier',
+  'réseau.raccordement.demande-complète-raccordement.transmettre',
+  'réseau.raccordement.demande-complète-raccordement.modifier',
+  'réseau.raccordement.proposition-technique-et-financière.transmettre',
+  'réseau.raccordement.proposition-technique-et-financière.modifier',
+  'réseau.raccordement.date-mise-en-service.transmettre',
+  'réseau.raccordement.date-mise-en-service.importer',
+  'réseau.raccordement.référence-dossier.modifier',
 
   // Garanties financières
-  ...policies.garantiesFinancières.actuelles.consulter,
-  ...policies.garantiesFinancières.dépôt.consulter,
-  ...policies.garantiesFinancières.dépôt.lister,
-  ...policies.garantiesFinancières.dépôt.demander,
-  ...policies.garantiesFinancières.dépôt.valider,
-  ...policies.garantiesFinancières.dépôt.modifier,
-  ...policies.garantiesFinancières.actuelles.importer,
-  ...policies.garantiesFinancières.actuelles.modifier,
-  ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
-  ...policies.garantiesFinancières.actuelles.enregistrer,
-  ...policies.garantiesFinancières.effacerHistorique,
-  ...policies.garantiesFinancières.enAttente.lister,
-  ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
-  ...policies.garantiesFinancières.mainlevée.consulter,
-  ...policies.garantiesFinancières.mainlevée.lister,
-  ...policies.garantiesFinancières.mainlevée.consulterHistorique,
+  'garantiesFinancières.actuelles.consulter',
+  'garantiesFinancières.dépôt.consulter',
+  'garantiesFinancières.dépôt.lister',
+  'garantiesFinancières.dépôt.demander',
+  'garantiesFinancières.dépôt.valider',
+  'garantiesFinancières.dépôt.modifier',
+  'garantiesFinancières.actuelles.importer',
+  'garantiesFinancières.actuelles.modifier',
+  'garantiesFinancières.actuelles.enregistrerAttestation',
+  'garantiesFinancières.actuelles.enregistrer',
+  'garantiesFinancières.effacerHistorique',
+  'garantiesFinancières.enAttente.lister',
+  'garantiesFinancières.enAttente.générerModèleMiseEnDemeure',
+  'garantiesFinancières.mainlevée.consulter',
+  'garantiesFinancières.mainlevée.lister',
+  'garantiesFinancières.mainlevée.consulterHistorique',
 
   // Achèvement
-  ...policies.achèvement.consulter,
-  ...policies.achèvement.transmettre,
-  ...policies.achèvement.modifier,
+  'achèvement.consulter',
+  'achèvement.transmettre',
+  'achèvement.modifier',
 ];
-
-const permissionCRE = [
+const permissionCRE: Policy[] = [
   // Abandon
-  ...policies.abandon.consulter.liste,
-  ...policies.abandon.consulter.détail,
+  'abandon.consulter.liste',
+  'abandon.consulter.détail',
 
   // Achèvement
-  ...policies.achèvement.consulter,
+  'achèvement.consulter',
 
   // Raccordement
-  ...policies.réseau.raccordement.consulter,
+  'réseau.raccordement.consulter',
 
   // Garanties financières
-  ...policies.garantiesFinancières.actuelles.consulter,
-  ...policies.garantiesFinancières.dépôt.consulter,
-  ...policies.garantiesFinancières.actuelles.modifier,
-  ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
-  ...policies.garantiesFinancières.actuelles.enregistrer,
-  ...policies.garantiesFinancières.mainlevée.consulter,
+  'garantiesFinancières.actuelles.consulter',
+  'garantiesFinancières.dépôt.consulter',
+  'garantiesFinancières.actuelles.modifier',
+  'garantiesFinancières.actuelles.enregistrerAttestation',
+  'garantiesFinancières.actuelles.enregistrer',
+  'garantiesFinancières.mainlevée.consulter',
 ];
 
-const permissionDreal = [
+const permissionDreal: Policy[] = [
   // Abandon
-  ...policies.abandon.consulter.liste,
-  ...policies.abandon.consulter.détail,
+  'abandon.consulter.liste',
+  'abandon.consulter.détail',
 
   // Raccordement
-  ...policies.réseau.raccordement.consulter,
-  ...policies.réseau.raccordement['demande-complète-raccordement'].transmettre,
-  ...policies.réseau.raccordement['demande-complète-raccordement'].modifier,
-  ...policies.réseau.raccordement['proposition-technique-et-financière'].transmettre,
-  ...policies.réseau.raccordement['proposition-technique-et-financière'].modifier,
-  ...policies.réseau.raccordement.gestionnaire.modifier,
+  'réseau.raccordement.consulter',
+  'réseau.raccordement.demande-complète-raccordement.transmettre',
+  'réseau.raccordement.demande-complète-raccordement.modifier',
+  'réseau.raccordement.proposition-technique-et-financière.transmettre',
+  'réseau.raccordement.proposition-technique-et-financière.modifier',
+  'réseau.raccordement.gestionnaire.modifier',
 
   // Garanties financières
-  ...policies.garantiesFinancières.actuelles.consulter,
-  ...policies.garantiesFinancières.dépôt.consulter,
-  ...policies.garantiesFinancières.dépôt.lister,
-  ...policies.garantiesFinancières.dépôt.demander,
-  ...policies.garantiesFinancières.dépôt.valider,
-  ...policies.garantiesFinancières.dépôt.modifier,
-  ...policies.garantiesFinancières.actuelles.modifier,
-  ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
-  ...policies.garantiesFinancières.actuelles.enregistrer,
-  ...policies.garantiesFinancières.effacerHistorique,
-  ...policies.garantiesFinancières.enAttente.lister,
-  ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
-  ...policies.garantiesFinancières.mainlevée.consulter,
-  ...policies.garantiesFinancières.mainlevée.démarrerInstruction,
-  ...policies.garantiesFinancières.mainlevée.accorder,
-  ...policies.garantiesFinancières.mainlevée.lister,
-  ...policies.garantiesFinancières.mainlevée.consulterHistorique,
-  ...policies.garantiesFinancières.mainlevée.rejeter,
+  'garantiesFinancières.actuelles.consulter',
+  'garantiesFinancières.dépôt.consulter',
+  'garantiesFinancières.dépôt.lister',
+  'garantiesFinancières.dépôt.demander',
+  'garantiesFinancières.dépôt.valider',
+  'garantiesFinancières.dépôt.modifier',
+  'garantiesFinancières.actuelles.modifier',
+  'garantiesFinancières.actuelles.enregistrerAttestation',
+  'garantiesFinancières.actuelles.enregistrer',
+  'garantiesFinancières.effacerHistorique',
+  'garantiesFinancières.enAttente.lister',
+  'garantiesFinancières.enAttente.générerModèleMiseEnDemeure',
+  'garantiesFinancières.mainlevée.consulter',
+  'garantiesFinancières.mainlevée.démarrerInstruction',
+  'garantiesFinancières.mainlevée.accorder',
+  'garantiesFinancières.mainlevée.lister',
+  'garantiesFinancières.mainlevée.consulterHistorique',
+  'garantiesFinancières.mainlevée.rejeter',
 
   // Achèvement
-  ...policies.achèvement.consulter,
-  ...policies.achèvement.transmettre,
-  ...policies.achèvement.modifier,
+  'achèvement.consulter',
+  'achèvement.transmettre',
+  'achèvement.modifier',
 ];
 
-const permissionDgecValidateur = [
+const permissionDgecValidateur: Policy[] = [
   // Abandon
-  ...policies.abandon.consulter.liste,
-  ...policies.abandon.consulter.détail,
-  ...policies.abandon.accorder,
-  ...policies.abandon.rejeter,
-  ...policies.abandon['preuve-recandidature'].accorder,
-  ...policies.abandon['demander-confirmation'],
-  ...policies.abandon['annuler-rejet'],
+  'abandon.consulter.liste',
+  'abandon.consulter.détail',
+  'abandon.accorder',
+  'abandon.rejeter',
+  'abandon.preuve-recandidature.accorder',
+  'abandon.demander-confirmation',
+  'abandon.annuler-rejet',
 
   // Gestionnaire réseau
-  ...policies.réseau.gestionnaire.lister,
-  ...policies.réseau.gestionnaire.ajouter,
-  ...policies.réseau.gestionnaire.modifier,
+  'réseau.gestionnaire.lister',
+  'réseau.gestionnaire.ajouter',
+  'réseau.gestionnaire.modifier',
 
   // Raccordement
-  ...policies.réseau.raccordement.consulter,
-  ...policies.réseau.raccordement.gestionnaire.modifier,
-  ...policies.réseau.raccordement['demande-complète-raccordement'].transmettre,
-  ...policies.réseau.raccordement['demande-complète-raccordement'].modifier,
-  ...policies.réseau.raccordement['proposition-technique-et-financière'].transmettre,
-  ...policies.réseau.raccordement['proposition-technique-et-financière'].modifier,
-  ...policies.réseau.raccordement['date-mise-en-service'].transmettre,
-  ...policies.réseau.raccordement['date-mise-en-service'].importer,
-  ...policies.réseau.raccordement['référence-dossier'].modifier,
+  'réseau.raccordement.consulter',
+  'réseau.raccordement.gestionnaire.modifier',
+  'réseau.raccordement.demande-complète-raccordement.transmettre',
+  'réseau.raccordement.demande-complète-raccordement.modifier',
+  'réseau.raccordement.proposition-technique-et-financière.transmettre',
+  'réseau.raccordement.proposition-technique-et-financière.modifier',
+  'réseau.raccordement.date-mise-en-service.transmettre',
+  'réseau.raccordement.date-mise-en-service.importer',
+  'réseau.raccordement.référence-dossier.modifier',
 
   // Garanties financières
-  ...policies.garantiesFinancières.actuelles.consulter,
-  ...policies.garantiesFinancières.dépôt.consulter,
-  ...policies.garantiesFinancières.dépôt.lister,
-  ...policies.garantiesFinancières.dépôt.demander,
-  ...policies.garantiesFinancières.dépôt.valider,
-  ...policies.garantiesFinancières.actuelles.importer,
-  ...policies.garantiesFinancières.actuelles.modifier,
-  ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
-  ...policies.garantiesFinancières.actuelles.enregistrer,
-  ...policies.garantiesFinancières.effacerHistorique,
-  ...policies.garantiesFinancières.enAttente.lister,
-  ...policies.garantiesFinancières.enAttente.générerModèleMiseEnDemeure,
-  ...policies.garantiesFinancières.mainlevée.consulter,
-  ...policies.garantiesFinancières.mainlevée.lister,
-  ...policies.garantiesFinancières.mainlevée.consulterHistorique,
+  'garantiesFinancières.actuelles.consulter',
+  'garantiesFinancières.dépôt.consulter',
+  'garantiesFinancières.dépôt.lister',
+  'garantiesFinancières.dépôt.demander',
+  'garantiesFinancières.dépôt.valider',
+  'garantiesFinancières.actuelles.importer',
+  'garantiesFinancières.actuelles.modifier',
+  'garantiesFinancières.actuelles.enregistrerAttestation',
+  'garantiesFinancières.actuelles.enregistrer',
+  'garantiesFinancières.effacerHistorique',
+  'garantiesFinancières.enAttente.lister',
+  'garantiesFinancières.enAttente.générerModèleMiseEnDemeure',
+  'garantiesFinancières.mainlevée.consulter',
+  'garantiesFinancières.mainlevée.lister',
+  'garantiesFinancières.mainlevée.consulterHistorique',
 
   // Achèvement
-  ...policies.achèvement.consulter,
-  ...policies.achèvement.transmettre,
-  ...policies.achèvement.modifier,
+  'achèvement.consulter',
+  'achèvement.transmettre',
+  'achèvement.modifier',
 ];
 
-const permissionPorteurProjet = [
+const permissionPorteurProjet: Policy[] = [
   // Abandon
-  ...policies.abandon.consulter.liste,
-  ...policies.abandon.consulter.détail,
-  ...policies.abandon.demander,
-  ...policies.abandon.annuler,
-  ...policies.abandon.confirmer,
-  ...policies.abandon['preuve-recandidature'].transmettre,
+  'abandon.consulter.liste',
+  'abandon.consulter.détail',
+  'abandon.demander',
+  'abandon.annuler',
+  'abandon.confirmer',
+  'abandon.preuve-recandidature.transmettre',
 
   // Raccordement
-  ...policies.réseau.raccordement.consulter,
-  ...policies.réseau.raccordement.gestionnaire.modifier,
-  ...policies.réseau.raccordement['demande-complète-raccordement'].transmettre,
-  ...policies.réseau.raccordement['demande-complète-raccordement'].modifier,
-  ...policies.réseau.raccordement['proposition-technique-et-financière'].transmettre,
-  ...policies.réseau.raccordement['proposition-technique-et-financière'].modifier,
-  ...policies.réseau.raccordement['référence-dossier'].modifier,
+  'réseau.raccordement.consulter',
+  'réseau.raccordement.gestionnaire.modifier',
+  'réseau.raccordement.demande-complète-raccordement.transmettre',
+  'réseau.raccordement.demande-complète-raccordement.modifier',
+  'réseau.raccordement.proposition-technique-et-financière.transmettre',
+  'réseau.raccordement.proposition-technique-et-financière.modifier',
+  'réseau.raccordement.référence-dossier.modifier',
 
   // Tâche
-  ...policies.tâche.consulter,
+  'tâche.consulter',
 
   // Garanties financières
-  ...policies.garantiesFinancières.actuelles.consulter,
-  ...policies.garantiesFinancières.dépôt.consulter,
-  ...policies.garantiesFinancières.dépôt.demander,
-  ...policies.garantiesFinancières.dépôt.valider,
-  ...policies.garantiesFinancières.dépôt.soumettre,
-  ...policies.garantiesFinancières.dépôt.supprimer,
-  ...policies.garantiesFinancières.dépôt.modifier,
-  ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
-  ...policies.garantiesFinancières.effacerHistorique,
-  ...policies.garantiesFinancières.mainlevée.consulter,
-  ...policies.garantiesFinancières.mainlevée.demander,
-  ...policies.garantiesFinancières.mainlevée.annuler,
-  ...policies.garantiesFinancières.mainlevée.consulterHistorique,
+  'garantiesFinancières.actuelles.consulter',
+  'garantiesFinancières.dépôt.consulter',
+  'garantiesFinancières.dépôt.demander',
+  'garantiesFinancières.dépôt.valider',
+  'garantiesFinancières.dépôt.soumettre',
+  'garantiesFinancières.dépôt.supprimer',
+  'garantiesFinancières.dépôt.modifier',
+  'garantiesFinancières.actuelles.enregistrerAttestation',
+  'garantiesFinancières.effacerHistorique',
+  'garantiesFinancières.mainlevée.consulter',
+  'garantiesFinancières.mainlevée.demander',
+  'garantiesFinancières.mainlevée.annuler',
+  'garantiesFinancières.mainlevée.consulterHistorique',
 
   // Achèvement
-  ...policies.achèvement.consulter,
-  ...policies.achèvement.transmettre,
+  'achèvement.consulter',
+  'achèvement.transmettre',
 ];
 
-const permissionAcheteurObligé = [
-  ...policies.réseau.raccordement.consulter,
+const permissionAcheteurObligé: Policy[] = [
+  'réseau.raccordement.consulter',
 
   // Garanties financières
-  ...policies.garantiesFinancières.actuelles.consulter,
-  ...policies.garantiesFinancières.dépôt.consulter,
-  ...policies.garantiesFinancières.mainlevée.consulter,
+  'garantiesFinancières.actuelles.consulter',
+  'garantiesFinancières.dépôt.consulter',
+  'garantiesFinancières.mainlevée.consulter',
 
   // Achèvement
-  ...policies.achèvement.transmettre,
+  'achèvement.transmettre',
 ];
 
-const permissionCaisseDesDépôts = [
+const permissionCaisseDesDépôts: Policy[] = [
   // Garanties financières
-  ...policies.garantiesFinancières.actuelles.consulter,
-  ...policies.garantiesFinancières.dépôt.consulter,
-  ...policies.garantiesFinancières.actuelles.modifier,
-  ...policies.garantiesFinancières.actuelles.enregistrerAttestation,
-  ...policies.garantiesFinancières.actuelles.enregistrer,
-  ...policies.garantiesFinancières.mainlevée.consulter,
+  'garantiesFinancières.actuelles.consulter',
+  'garantiesFinancières.dépôt.consulter',
+  'garantiesFinancières.actuelles.modifier',
+  'garantiesFinancières.actuelles.enregistrerAttestation',
+  'garantiesFinancières.actuelles.enregistrer',
+  'garantiesFinancières.mainlevée.consulter',
 
   // Achèvement
-  ...policies.achèvement.consulter,
+  'achèvement.consulter',
 ];
 
-const permissions: Record<RawType, string[]> = {
-  admin: [...new Set(permissionAdmin)],
-  'acheteur-obligé': [...new Set(permissionAcheteurObligé)],
+const policyParRole: Record<RawType, Policy[]> = {
+  admin: permissionAdmin,
+  'acheteur-obligé': permissionAcheteurObligé,
   ademe: [],
-  'caisse-des-dépôts': [...new Set(permissionCaisseDesDépôts)],
-  cre: [...new Set(permissionCRE)],
-  dreal: [...new Set(permissionDreal)],
-  'dgec-validateur': [...new Set(permissionDgecValidateur)],
-  'porteur-projet': [...new Set(permissionPorteurProjet)],
+  'caisse-des-dépôts': permissionCaisseDesDépôts,
+  cre: permissionCRE,
+  dreal: permissionDreal,
+  'dgec-validateur': permissionDgecValidateur,
+  'porteur-projet': permissionPorteurProjet,
 };
+
+/** La liste par projet des permissions techniques (message Mediator) */
+const droitsMessagesMediator: Record<RawType, Set<string>> = Object.entries(policyParRole).reduce(
+  (prev, [roleStr, policiesOfRole]) => {
+    const role = roleStr as RawType;
+    if (!prev[role]) {
+      prev[role] = new Set<Policy>();
+    }
+    for (const policy of policiesOfRole) {
+      const props = policy.split('.');
+      const permissionsForPolicy = props.reduce(
+        (result, prop) => (typeof result === 'object' && result[prop] ? result[prop] : undefined),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        policies as any,
+      ) as unknown as string[];
+
+      permissionsForPolicy.forEach((p) => prev[role].add(p));
+    }
+
+    return prev;
+  },
+  {} as Record<RawType, Set<string>>,
+);
