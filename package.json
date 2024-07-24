@@ -35,7 +35,7 @@
     "start:legacy": "npm run start:dev --workspaces --if-present ",
     "build": "turbo run build",
     "build:dev": "turbo run build --filter=@potentiel-applications/ssr... --filter=!@potentiel-applications/ssr",
-    "build:test": "turbo run build --filter=@potentiel/specifications",
+    "build:test": "turbo run build --filter=@potentiel/specifications --filter=@potentiel-domain/inmemory-referential",
     "predev": "npm run up && npm run build:dev",
     "dev": "npm run dev --workspaces --if-present",
     "lint": "eslint .",
