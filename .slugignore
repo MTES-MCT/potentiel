@@ -1,6 +1,26 @@
 docs
 node_modules/.cache
-packages/specifications
 keycloak/
 .demo
+node_modules/@types
+
+# we cannot ignore applications/**/src due to legacy, which contains dist/src
+packages/applications/notifications/src
+packages/applications/cli/src
+packages/applications/bootstrap/src
+packages/applications/routes/src
+packages/applications/projectors/src
+packages/applications/scheduled-tasks/src
+packages/applications/document-builder/src
+
+packages/applications/ssr/src
+packages/applications/ssr/node_modules/@types
+
 packages/applications/legacy/src
+packages/applications/legacy/node_modules/@types
+
+packages/config
+packages/domain/**/src
+packages/infrastructure/**/src
+packages/libraries/**/src
+packages/specifications
