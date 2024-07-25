@@ -61,9 +61,7 @@ import { Routes } from '@potentiel-applications/routes';
             },
           });
 
-          const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(
-            tâche.identifiantProjet,
-          );
+          const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
           const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
           const nombreDeMois = tâche.typeTâchePlanifiée.estÉgaleÀ(
             TypeTâchePlanifiée.garantiesFinancieresRappelÉchéanceUnMois,
@@ -86,7 +84,7 @@ import { Routes } from '@potentiel-applications/routes';
           });
 
           await sendEmail({
-            messageSubject: `Vos garanties financières pour le projet ${nom} arrivent à échéance dans ${nombreDeMois} mois`,
+            messageSubject: `Potentiel - Arrivée à échéance de vos garanties financières pour le projet ${nom} arrivent à échéance dans ${nombreDeMois} mois`,
             recipients: porteurs,
             templateId: 6164049,
             variables: {
