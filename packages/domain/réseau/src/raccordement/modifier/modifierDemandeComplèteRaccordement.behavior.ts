@@ -75,7 +75,10 @@ export async function modifierDemandeComplèteRaccordement(
 
   const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
 
-  if (rôle.estÉgaleÀ(Role.porteur) && Option.isSome(dossier.miseEnService.dateMiseEnService)) {
+  if (
+    (rôle.estÉgaleÀ(Role.porteur) || rôle.estÉgaleÀ(Role.dreal)) &&
+    Option.isSome(dossier.miseEnService.dateMiseEnService)
+  ) {
     throw new DemandeComplèteRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError(
       référenceDossierRaccordement.formatter(),
     );
