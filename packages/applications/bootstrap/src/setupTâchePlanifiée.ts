@@ -65,6 +65,7 @@ async function registerTâchePlanifiéeGarantiesFinancièresSaga() {
       'GarantiesFinancièresModifiées-V1',
       'GarantiesFinancièresEnregistrées-V1',
       'DépôtGarantiesFinancièresEnCoursValidé-V2',
+      'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
       'TypeGarantiesFinancièresImporté-V1',
     ],
     eventHandler: async (event) => {

@@ -25,7 +25,7 @@ export async function ajouter(
   this: TâchePlanifiéeAggregate,
   { identifiantProjet, typeTâchePlanifiée, àExécuterLe }: AjouterOptions,
 ) {
-  if (!this.àExécuterLe.estÉgaleÀ(àExécuterLe)) {
+  if (!this.àExécuterLe.estÉgaleÀ(àExécuterLe) || this.statut.estAnnulé()) {
     const event: TâchePlanifiéeAjoutéeEvent = {
       type: 'TâchePlanifiéeAjoutée-V1',
       payload: {

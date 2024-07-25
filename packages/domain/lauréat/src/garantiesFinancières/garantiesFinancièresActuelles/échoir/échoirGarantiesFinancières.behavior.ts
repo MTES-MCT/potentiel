@@ -57,7 +57,10 @@ export async function échoir(
   await this.publish(event);
 }
 
-export function applyGarantiesFinancièresÉchues(this: GarantiesFinancièresAggregate) {
+export function applyGarantiesFinancièresÉchues(
+  this: GarantiesFinancièresAggregate,
+  _: GarantiesFinancièresÉchuesEvent,
+) {
   if (this.actuelles) {
     this.actuelles.statut = StatutGarantiesFinancières.échu;
   }

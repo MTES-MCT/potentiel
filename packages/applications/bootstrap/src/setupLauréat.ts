@@ -90,6 +90,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
         'GarantiesFinancièresDemandées-V1',
         'DépôtGarantiesFinancièresSoumis-V1',
         'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
+        'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
         'DépôtGarantiesFinancièresEnCoursModifié-V1',
         'DépôtGarantiesFinancièresEnCoursValidé-V1',
         'DépôtGarantiesFinancièresEnCoursValidé-V2',

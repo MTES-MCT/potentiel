@@ -10,6 +10,7 @@ import { AnnulerTâchePlanifiéeCommand } from '../annuler/annulerTâchePlanifi�
 export type SubscriptionEvent =
   | GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent
   | GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent
+  | GarantiesFinancières.DépôtGarantiesFinancièresEnCoursSuppriméEvent
   | GarantiesFinancières.GarantiesFinancièresModifiéesEvent
   | GarantiesFinancières.GarantiesFinancièresEnregistréesEvent
   | GarantiesFinancières.TypeGarantiesFinancièresImportéEvent;
@@ -47,46 +48,29 @@ export const register = () => {
           },
         });
         break;
+
+      case 'DépôtGarantiesFinancièresEnCoursSupprimé-V2':
+        if (
+          event.payload.garantiesFinancièresActuelles &&
+          event.payload.garantiesFinancièresActuelles.type === 'avec-date-échéance' &&
+          event.payload.garantiesFinancièresActuelles.dateÉchéance
+        ) {
+          await ajouterTâchesPlanifiéesGarantiesFinancièresÉchoir(
+            identifiantProjet,
+            event.payload.garantiesFinancièresActuelles.dateÉchéance,
+          );
+        }
+        break;
+
       case 'DépôtGarantiesFinancièresEnCoursValidé-V2':
       case 'GarantiesFinancièresModifiées-V1':
       case 'GarantiesFinancièresEnregistrées-V1':
       case 'TypeGarantiesFinancièresImporté-V1':
         if (event.payload.type === 'avec-date-échéance' && event.payload.dateÉchéance) {
-          await mediator.send<AjouterTâchePlanifiéeCommand>({
-            type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
-            data: {
-              identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-              typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresÉchoir,
-              àExécuterLe: DateTime.convertirEnValueType(
-                event.payload.dateÉchéance,
-              ).ajouterNombreDeJours(1),
-            },
-          });
-
-          const dateRelanceMoinsUnMois = DateTime.convertirEnValueType(
+          await ajouterTâchesPlanifiéesGarantiesFinancièresÉchoir(
+            identifiantProjet,
             event.payload.dateÉchéance,
-          ).retirerNombreDeMois(1);
-
-          const dateRelanceMoinsDeuxMois = DateTime.convertirEnValueType(
-            event.payload.dateÉchéance,
-          ).retirerNombreDeMois(2);
-
-          await mediator.send<AjouterTâchePlanifiéeCommand>({
-            type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
-            data: {
-              identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-              typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresRappelÉchéanceUnMois,
-              àExécuterLe: dateRelanceMoinsUnMois,
-            },
-          });
-          await mediator.send<AjouterTâchePlanifiéeCommand>({
-            type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
-            data: {
-              identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-              typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresRappelÉchéanceDeuxMois,
-              àExécuterLe: dateRelanceMoinsDeuxMois,
-            },
-          });
+          );
         }
 
         break;
@@ -94,4 +78,40 @@ export const register = () => {
   };
 
   mediator.register('System.Saga.TâchePlanifiéeGarantiesFinancières', handler);
+};
+
+const ajouterTâchesPlanifiéesGarantiesFinancièresÉchoir = async (
+  identifiantProjet: IdentifiantProjet.RawType,
+  dateÉchéance: DateTime.RawType,
+) => {
+  await mediator.send<AjouterTâchePlanifiéeCommand>({
+    type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
+    data: {
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresÉchoir,
+      àExécuterLe: DateTime.convertirEnValueType(dateÉchéance).ajouterNombreDeJours(1),
+    },
+  });
+
+  const dateRelanceMoinsUnMois = DateTime.convertirEnValueType(dateÉchéance).retirerNombreDeMois(1);
+
+  const dateRelanceMoinsDeuxMois =
+    DateTime.convertirEnValueType(dateÉchéance).retirerNombreDeMois(2);
+
+  await mediator.send<AjouterTâchePlanifiéeCommand>({
+    type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
+    data: {
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresRappelÉchéanceUnMois,
+      àExécuterLe: dateRelanceMoinsUnMois,
+    },
+  });
+  await mediator.send<AjouterTâchePlanifiéeCommand>({
+    type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
+    data: {
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresRappelÉchéanceDeuxMois,
+      àExécuterLe: dateRelanceMoinsDeuxMois,
+    },
+  });
 };

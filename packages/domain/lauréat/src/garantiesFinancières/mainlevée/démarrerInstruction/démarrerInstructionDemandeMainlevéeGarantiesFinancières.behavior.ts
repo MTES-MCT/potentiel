@@ -46,6 +46,7 @@ export async function démarrerInstructionDemandeMainlevée(
 
 export function applyInstructionDemandeMainlevéeGarantiesFinancièresDémarrée(
   this: GarantiesFinancièresAggregate,
+  _: InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent,
 ) {
   if (this.demandeMainlevéeEnCours) {
     this.demandeMainlevéeEnCours.statut = StatutMainlevéeGarantiesFinancières.enInstruction;

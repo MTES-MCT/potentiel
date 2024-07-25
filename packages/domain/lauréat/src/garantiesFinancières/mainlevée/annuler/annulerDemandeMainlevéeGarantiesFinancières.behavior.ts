@@ -56,6 +56,7 @@ export async function annulerDemandeMainlevée(
 
 export function applyDemandeMainlevéeGarantiesFinancièresAnnulée(
   this: GarantiesFinancièresAggregate,
+  _: DemandeMainlevéeGarantiesFinancièresAnnuléeEvent,
 ) {
   this.demandeMainlevéeEnCours = undefined;
 }
