@@ -3,6 +3,8 @@ import { mediator } from 'mediateur';
 import {
   ExécuterTâchePlanifiéeUseCase,
   ListerTâchesPlanifiéesQuery,
+  registerTâchePlanifiéeQuery,
+  registerTâchePlanifiéeUseCases,
   TypeTâchePlanifiée,
 } from '@potentiel-domain/tache-planifiee';
 import { DateTime } from '@potentiel-domain/common';
@@ -10,17 +12,44 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { InvalidOperationError } from '@potentiel-domain/core';
 import { sendEmail } from '@potentiel-infrastructure/email';
-import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import {
+  ConsulterCandidatureQuery,
+  registerCandidatureQueries,
+} from '@potentiel-domain/candidature';
+import {
+  CandidatureAdapter,
   récupérerDrealsParIdentifiantProjetAdapter,
   récupérerPorteursParIdentifiantProjetAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { Routes } from '@potentiel-applications/routes';
+import { listProjection } from '@potentiel-infrastructure/pg-projections';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+
+registerCandidatureQueries({
+  récupérerCandidature: CandidatureAdapter.récupérerCandidatureAdapter,
+  récupérerCandidatures: CandidatureAdapter.récupérerCandidaturesAdapter,
+  récupérerCandidaturesEligiblesPreuveRecanditure:
+    CandidatureAdapter.récupérerCandidaturesEligiblesPreuveRecanditureAdapter,
+});
+
+registerTâchePlanifiéeQuery({
+  list: listProjection,
+});
+
+registerTâchePlanifiéeUseCases({
+  loadAggregate,
+});
+
+GarantiesFinancières.registerGarantiesFinancièresUseCases({
+  loadAggregate,
+});
 
 (async () => {
   const logger = getLogger();
   logger.info('Lancement du script...');
-  const today = DateTime.now().formatterDate();
+  const today = DateTime.now().formatter();
+
+  console.log(today);
 
   const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
     type: 'Tâche.Query.ListerTâchesPlanifiées',
