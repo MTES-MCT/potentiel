@@ -18,7 +18,14 @@
     "baseUrl": "."
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules"],
+  "exclude": [
+    "node_modules",
+    // remove all tests & stories, for NCC to compile successfully
+    "**/*.spec.ts",
+    "**/*.integration.ts",
+    "**/__tests__/*",
+    "**/*.stories.ts"
+  ],
   "references": [
     {
       "path": "../../domain/inmemory-referential"

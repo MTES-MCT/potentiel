@@ -102,7 +102,7 @@ export async function makeServer(port: number, sessionSecret: string) {
     registerAuth({ app, sessionSecret, router: v1Router });
 
     app.use(v1Router);
-    app.use(express.static(path.join(__dirname, 'public')));
+    app.use(express.static(process.env.LEGACY_PUBLIC_PATH ?? path.join(__dirname, 'public')));
 
     app.use(Sentry.Handlers.errorHandler());
 
@@ -117,10 +117,11 @@ export async function makeServer(port: number, sessionSecret: string) {
     });
 
     /////// Custom server next
-    const isDebug = !__dirname.includes('dist');
+    // const isDebug = !__dirname.includes('dist');
     const nextApp = next({
       dev: false,
-      dir: join(__dirname, isDebug ? join('..', '..') : join('..', '..', '..'), 'ssr'),
+      // dir: join(__dirname, isDebug ? join('..', '..') : join('..', '..', '..'), 'ssr'),
+      dir: process.env.SSR_APP_PATH,
     });
 
     const nextHandler = nextApp.getRequestHandler();

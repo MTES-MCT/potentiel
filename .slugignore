@@ -17,7 +17,6 @@ packages/applications/ssr/src
 packages/applications/ssr/node_modules/@types
 
 packages/applications/legacy/src
-packages/applications/legacy/node_modules/@types
 
 packages/config
 packages/domain/**/src
