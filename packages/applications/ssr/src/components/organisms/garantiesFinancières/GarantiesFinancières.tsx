@@ -1,7 +1,4 @@
-'use client';
-
 import { FC } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -32,13 +29,6 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
     content={
       <>
         <div className="flex flex-col h-full">
-          <Button
-            onClick={() => {
-              throw new Error('test sentry front');
-            }}
-          >
-            ERREUR
-          </Button>
           <div>
             <div className="flex gap-2">
               <Heading2>
