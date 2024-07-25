@@ -74,7 +74,7 @@ import { Routes } from '@potentiel-applications/routes';
           const { BASE_URL } = process.env;
 
           await sendEmail({
-            messageSubject: `Les garanties financières pour le projet ${nom} arrivent à échéance dans ${nombreDeMois} mois`,
+            messageSubject: `Potentiel - Arrivée à échéance des garanties financières pour le projet ${nom} dans ${nombreDeMois} mois`,
             recipients: dreals,
             templateId: 6164034,
             variables: {
