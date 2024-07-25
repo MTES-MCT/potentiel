@@ -3,7 +3,7 @@ import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 
 import { StatutGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
-import { AucunesGarantiesFinancièresValidéesError } from '../aucunesGarantiesFinancièresValidéesError';
+import { AucunesGarantiesFinancièresActuellesError } from '../aucunesGarantiesFinancièresActuelles.error';
 
 export type GarantiesFinancièresÉchuesEvent = DomainEvent<
   'GarantiesFinancièresÉchues-V1',
@@ -26,7 +26,7 @@ export async function échoir(
   { identifiantProjet, dateÉchéance, échuLe, aUneAttestationDeConformité }: Options,
 ) {
   if (!this.actuelles) {
-    throw new AucunesGarantiesFinancièresValidéesError();
+    throw new AucunesGarantiesFinancièresActuellesError();
   }
 
   if (échuLe.estAntérieurÀ(dateÉchéance) || échuLe.estÉgaleÀ(dateÉchéance)) {
