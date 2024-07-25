@@ -23,3 +23,5 @@ packages/domain/**/src
 packages/infrastructure/**/src
 packages/libraries/**/src
 packages/specifications
+**/*.map
+**/*.ts
