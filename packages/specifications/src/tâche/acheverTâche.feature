@@ -25,7 +25,7 @@ Fonctionnalité: Achever une tâche
             | date limite de soumission | 2023-11-01    |
             | date de notification      | 2023-09-01    |
             | motif                     | motif-inconnu |
-        Quand un porteur soumet des garanties financières pour le projet "Du boulodrome de Marseille" avec :
+        Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | type                 | consignation          |
             | format               | application/pdf       |
             | contenu fichier      | le contenu du fichier |
@@ -39,7 +39,7 @@ Fonctionnalité: Achever une tâche
             | date limite de soumission | 2023-11-01    |
             | date de notification      | 2023-09-01    |
             | motif                     | motif-inconnu |
-        Quand un admin enregistre les garanties financières validées pour le projet "Du boulodrome de Marseille" avec :
+        Quand un admin enregistre les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type                 | consignation    |
             | format               | application/pdf |
             | contenu fichier      | contenu fichier |
