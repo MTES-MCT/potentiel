@@ -269,6 +269,7 @@ export const register = () => {
           break;
 
         case 'DépôtGarantiesFinancièresEnCoursSupprimé-V1':
+        case 'DépôtGarantiesFinancièresEnCoursSupprimé-V2':
           await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
             `depot-en-cours-garanties-financieres|${identifiantProjet}`,
           );

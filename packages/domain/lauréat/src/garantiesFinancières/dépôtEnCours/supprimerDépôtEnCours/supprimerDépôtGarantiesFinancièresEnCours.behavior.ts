@@ -5,13 +5,33 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError } from '../aucunDépôtEnCoursGarantiesFinancièresPourLeProjet.error';
 import { GarantiesFinancièresDemandéesEvent } from '../../demander/demanderGarantiesFinancières.behavior';
+import { TypeGarantiesFinancières } from '../..';
 
-export type DépôtGarantiesFinancièresEnCoursSuppriméEvent = DomainEvent<
+/**
+ * @deprecated Utilisez DépôtGarantiesFinancièresEnCoursSuppriméEvent à la place.
+ * Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ */
+export type DépôtGarantiesFinancièresEnCoursSuppriméEventV1 = DomainEvent<
   'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     suppriméLe: DateTime.RawType;
     suppriméPar: IdentifiantUtilisateur.RawType;
+  }
+>;
+
+export type DépôtGarantiesFinancièresEnCoursSuppriméEvent = DomainEvent<
+  'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    suppriméLe: DateTime.RawType;
+    suppriméPar: IdentifiantUtilisateur.RawType;
+    garantiesFinancièresActuelles?: {
+      type: TypeGarantiesFinancières.RawType;
+      dateÉchéance?: DateTime.RawType;
+      dateConstitution?: DateTime.RawType;
+      attestation?: { format: string };
+    };
   }
 >;
 
@@ -28,12 +48,21 @@ export async function supprimerDépôtGarantiesFinancièresEnCours(
   if (!this.dépôtsEnCours) {
     throw new AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError();
   }
+
   const event: DépôtGarantiesFinancièresEnCoursSuppriméEvent = {
-    type: 'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
+    type: 'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       suppriméLe: suppriméLe.formatter(),
       suppriméPar: suppriméPar.formatter(),
+      garantiesFinancièresActuelles: this.actuelles
+        ? {
+            type: this.actuelles.type.type,
+            dateÉchéance: this.actuelles.dateÉchéance?.formatter(),
+            dateConstitution: this.actuelles.dateConstitution?.formatter(),
+            attestation: this.actuelles.attestation,
+          }
+        : undefined,
     },
   };
   await this.publish(event);
@@ -52,6 +81,11 @@ export async function supprimerDépôtGarantiesFinancièresEnCours(
   }
 }
 
-export function applyDépôtGarantiesFinancièresEnCoursSupprimé(this: GarantiesFinancièresAggregate) {
+export function applyDépôtGarantiesFinancièresEnCoursSupprimé(
+  this: GarantiesFinancièresAggregate,
+  _:
+    | DépôtGarantiesFinancièresEnCoursSuppriméEventV1
+    | DépôtGarantiesFinancièresEnCoursSuppriméEvent,
+) {
   this.dépôtsEnCours = undefined;
 }

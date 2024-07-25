@@ -54,6 +54,7 @@ export async function accorderDemandeMainlevéeGarantiesFinancières(
 
 export function applyDemandeMainlevéeGarantiesFinancièresAccordée(
   this: GarantiesFinancièresAggregate,
+  _: DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
 ) {
   if (this.demandeMainlevéeEnCours) {
     this.demandeMainlevéeEnCours.statut = StatutMainlevéeGarantiesFinancières.accordé;

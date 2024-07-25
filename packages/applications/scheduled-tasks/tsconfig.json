@@ -22,6 +22,12 @@
     },
     {
       "path": "../../infrastructure/domain-adapters"
+    },
+    {
+      "path": "../../infrastructure/email"
+    },
+    {
+      "path": "../routes"
     }
   ]
 }

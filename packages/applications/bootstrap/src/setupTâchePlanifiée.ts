@@ -61,9 +61,11 @@ async function registerTâchePlanifiéeGarantiesFinancièresSaga() {
     name: 'tache-planifiee-saga',
     streamCategory: 'garanties-financieres',
     eventType: [
+      'DépôtGarantiesFinancièresSoumis-V1',
       'GarantiesFinancièresModifiées-V1',
       'GarantiesFinancièresEnregistrées-V1',
       'DépôtGarantiesFinancièresEnCoursValidé-V2',
+      'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
       'TypeGarantiesFinancièresImporté-V1',
     ],
     eventHandler: async (event) => {

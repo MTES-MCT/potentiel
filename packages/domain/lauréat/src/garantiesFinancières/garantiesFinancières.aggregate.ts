@@ -29,6 +29,7 @@ import {
 } from './demander/demanderGarantiesFinancières.behavior';
 import {
   DépôtGarantiesFinancièresEnCoursSuppriméEvent,
+  DépôtGarantiesFinancièresEnCoursSuppriméEventV1,
   applyDépôtGarantiesFinancièresEnCoursSupprimé,
   supprimerDépôtGarantiesFinancièresEnCours,
 } from './dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
@@ -99,6 +100,7 @@ import {
 export type GarantiesFinancièresEvent =
   | DépôtGarantiesFinancièresSoumisEvent
   | GarantiesFinancièresDemandéesEvent
+  | DépôtGarantiesFinancièresEnCoursSuppriméEventV1
   | DépôtGarantiesFinancièresEnCoursSuppriméEvent
   | DépôtGarantiesFinancièresEnCoursValidéEventV1
   | DépôtGarantiesFinancièresEnCoursValidéEvent
@@ -188,7 +190,8 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       applyDépôtGarantiesFinancièresSoumis.bind(this)(event);
       break;
     case 'DépôtGarantiesFinancièresEnCoursSupprimé-V1':
-      applyDépôtGarantiesFinancièresEnCoursSupprimé.bind(this)();
+    case 'DépôtGarantiesFinancièresEnCoursSupprimé-V2':
+      applyDépôtGarantiesFinancièresEnCoursSupprimé.bind(this)(event);
       break;
     case 'DépôtGarantiesFinancièresEnCoursValidé-V1':
       applyDépôtGarantiesFinancièresEnCoursValidéV1.bind(this)(event);
@@ -212,25 +215,25 @@ function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancière
       applyEnregistrerGarantiesFinancières.bind(this)(event);
       break;
     case 'HistoriqueGarantiesFinancièresEffacé-V1':
-      applyEffacerHistoriqueGarantiesFinancières.bind(this)();
+      applyEffacerHistoriqueGarantiesFinancières.bind(this)(event);
       break;
     case 'MainlevéeGarantiesFinancièresDemandée-V1':
-      applyMainlevéeGarantiesFinancièresDemandée.bind(this)();
+      applyMainlevéeGarantiesFinancièresDemandée.bind(this)(event);
       break;
     case 'DemandeMainlevéeGarantiesFinancièresAnnulée-V1':
-      applyDemandeMainlevéeGarantiesFinancièresAnnulée.bind(this)();
+      applyDemandeMainlevéeGarantiesFinancièresAnnulée.bind(this)(event);
       break;
     case 'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1':
-      applyInstructionDemandeMainlevéeGarantiesFinancièresDémarrée.bind(this)();
+      applyInstructionDemandeMainlevéeGarantiesFinancièresDémarrée.bind(this)(event);
       break;
     case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
-      applyDemandeMainlevéeGarantiesFinancièresRejetée.bind(this)();
+      applyDemandeMainlevéeGarantiesFinancièresRejetée.bind(this)(event);
       break;
     case 'DemandeMainlevéeGarantiesFinancièresAccordée-V1':
-      applyDemandeMainlevéeGarantiesFinancièresAccordée.bind(this)();
+      applyDemandeMainlevéeGarantiesFinancièresAccordée.bind(this)(event);
       break;
     case 'GarantiesFinancièresÉchues-V1':
-      applyGarantiesFinancièresÉchues.bind(this)();
+      applyGarantiesFinancièresÉchues.bind(this)(event);
       break;
   }
 }

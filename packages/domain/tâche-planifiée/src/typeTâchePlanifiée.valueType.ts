@@ -1,6 +1,11 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const types = ['inconnue', 'garanties-financières.échoir'] as const;
+export const types = [
+  'inconnue',
+  'garanties-financières.échoir',
+  'garanties-financières.rappel-échéance-un-mois',
+  'garanties-financières.rappel-échéance-deux-mois',
+] as const;
 
 export type RawType = (typeof types)[number];
 
@@ -34,6 +39,12 @@ function estValide(value: string): asserts value is RawType {
 
 export const inconnue = convertirEnValueType('inconnue');
 export const garantiesFinancieresÉchoir = convertirEnValueType('garanties-financières.échoir');
+export const garantiesFinancieresRappelÉchéanceUnMois = convertirEnValueType(
+  'garanties-financières.rappel-échéance-un-mois',
+);
+export const garantiesFinancieresRappelÉchéanceDeuxMois = convertirEnValueType(
+  'garanties-financières.rappel-échéance-deux-mois',
+);
 
 class TypeTâchePlanifiéeInvalideError extends InvalidOperationError {
   constructor(value: string) {

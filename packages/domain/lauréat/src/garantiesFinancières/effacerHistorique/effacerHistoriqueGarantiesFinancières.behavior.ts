@@ -39,7 +39,10 @@ export async function effacerHistorique(
   await this.publish(event);
 }
 
-export function applyEffacerHistoriqueGarantiesFinancières(this: GarantiesFinancièresAggregate) {
+export function applyEffacerHistoriqueGarantiesFinancières(
+  this: GarantiesFinancièresAggregate,
+  _: HistoriqueGarantiesFinancièresEffacéEvent,
+) {
   this.actuelles = undefined;
   this.dépôtsEnCours = undefined;
 }

@@ -13,6 +13,7 @@ export type ValueType = ReadonlyValueType<{
   nombreJoursÉcartAvec(dateTime: ValueType): number;
   ajouterNombreDeJours(nombreDeJours: number): ValueType;
   ajouterNombreDeMois(nombreDeMois: number): ValueType;
+  retirerNombreDeMois(nombreDeMois: number): ValueType;
   formatter(): RawType;
   /** Retourne la date au format YYYY-MM-DD */
   formatterDate(): string;
@@ -62,6 +63,10 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
     },
     ajouterNombreDeMois(nombreDeMois) {
       const nouvelleDate = new Date(this.date.setMonth(this.date.getMonth() + nombreDeMois));
+      return convertirEnValueType(nouvelleDate);
+    },
+    retirerNombreDeMois(nombreDeMois) {
+      const nouvelleDate = new Date(this.date.setMonth(this.date.getMonth() - nombreDeMois));
       return convertirEnValueType(nouvelleDate);
     },
   };

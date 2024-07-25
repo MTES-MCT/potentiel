@@ -3,16 +3,51 @@ import { mediator } from 'mediateur';
 import {
   ExécuterTâchePlanifiéeUseCase,
   ListerTâchesPlanifiéesQuery,
+  registerTâchePlanifiéeQuery,
+  registerTâchePlanifiéeUseCases,
+  TypeTâchePlanifiée,
 } from '@potentiel-domain/tache-planifiee';
 import { DateTime } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { InvalidOperationError } from '@potentiel-domain/core';
+import { sendEmail } from '@potentiel-infrastructure/email';
+import {
+  ConsulterCandidatureQuery,
+  registerCandidatureQueries,
+} from '@potentiel-domain/candidature';
+import {
+  CandidatureAdapter,
+  récupérerDrealsParIdentifiantProjetAdapter,
+  récupérerPorteursParIdentifiantProjetAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
+import { Routes } from '@potentiel-applications/routes';
+import { listProjection } from '@potentiel-infrastructure/pg-projections';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+
+registerCandidatureQueries({
+  récupérerCandidature: CandidatureAdapter.récupérerCandidatureAdapter,
+  récupérerCandidatures: CandidatureAdapter.récupérerCandidaturesAdapter,
+  récupérerCandidaturesEligiblesPreuveRecanditure:
+    CandidatureAdapter.récupérerCandidaturesEligiblesPreuveRecanditureAdapter,
+});
+
+registerTâchePlanifiéeQuery({
+  list: listProjection,
+});
+
+registerTâchePlanifiéeUseCases({
+  loadAggregate,
+});
+
+GarantiesFinancières.registerGarantiesFinancièresUseCases({
+  loadAggregate,
+});
 
 (async () => {
   const logger = getLogger();
   logger.info('Lancement du script...');
-  const today = DateTime.now().formatterDate();
+  const today = DateTime.now().formatter();
 
   const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
     type: 'Tâche.Query.ListerTâchesPlanifiées',
@@ -29,16 +64,64 @@ import { InvalidOperationError } from '@potentiel-domain/core';
     );
 
     try {
-      switch (tâche.typeTâchePlanifiée.type) {
+      const { identifiantProjet, typeTâchePlanifiée } = tâche;
+      switch (typeTâchePlanifiée.type) {
         case 'garanties-financières.échoir':
-          mediator.send<GarantiesFinancières.ÉchoirGarantiesFinancièresUseCase>({
+          await mediator.send<GarantiesFinancières.ÉchoirGarantiesFinancièresUseCase>({
             type: 'Lauréat.GarantiesFinancières.UseCase.ÉchoirGarantiesFinancières',
             data: {
-              identifiantProjetValue: tâche.identifiantProjet.formatter(),
+              identifiantProjetValue: identifiantProjet.formatter(),
               échuLeValue: DateTime.now().formatter(),
               dateÉchéanceValue: tâche.àExécuterLe.ajouterNombreDeJours(-1).formatter(),
             },
           });
+          break;
+        case 'garanties-financières.rappel-échéance-un-mois':
+        case 'garanties-financières.rappel-échéance-deux-mois':
+          const {
+            nom,
+            localité: { département },
+          } = await mediator.send<ConsulterCandidatureQuery>({
+            type: 'Candidature.Query.ConsulterCandidature',
+            data: {
+              identifiantProjet: identifiantProjet.formatter(),
+            },
+          });
+
+          const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
+          const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
+          const nombreDeMois = tâche.typeTâchePlanifiée.estÉgaleÀ(
+            TypeTâchePlanifiée.garantiesFinancieresRappelÉchéanceUnMois,
+          )
+            ? '1'
+            : '2';
+
+          const { BASE_URL } = process.env;
+
+          await sendEmail({
+            messageSubject: `Potentiel - Arrivée à échéance des garanties financières pour le projet ${nom} dans ${nombreDeMois} mois`,
+            recipients: dreals,
+            templateId: 6164034,
+            variables: {
+              nom_projet: nom,
+              departement_projet: département,
+              nombre_mois: nombreDeMois,
+              url: `${BASE_URL}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
+            },
+          });
+
+          await sendEmail({
+            messageSubject: `Potentiel - Arrivée à échéance de vos garanties financières pour le projet ${nom} arrivent à échéance dans ${nombreDeMois} mois`,
+            recipients: porteurs,
+            templateId: 6164049,
+            variables: {
+              nom_projet: nom,
+              departement_projet: département,
+              nombre_mois: nombreDeMois,
+              url: `${BASE_URL}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
+            },
+          });
+
           break;
         default:
           throw new TypeNonGéréError();
@@ -47,7 +130,7 @@ import { InvalidOperationError } from '@potentiel-domain/core';
       await mediator.send<ExécuterTâchePlanifiéeUseCase>({
         type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
         data: {
-          identifiantProjetValue: tâche.identifiantProjet.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
           typeTâchePlanifiéeValue: tâche.typeTâchePlanifiée.type,
         },
       });

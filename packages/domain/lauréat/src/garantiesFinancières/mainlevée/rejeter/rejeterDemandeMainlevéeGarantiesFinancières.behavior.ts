@@ -54,6 +54,7 @@ export async function rejeterDemandeMainlevéeGarantiesFinancières(
 
 export function applyDemandeMainlevéeGarantiesFinancièresRejetée(
   this: GarantiesFinancièresAggregate,
+  _: DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
 ) {
   if (this.demandeMainlevéeEnCours) {
     this.demandeMainlevéeEnCours.statut = StatutMainlevéeGarantiesFinancières.rejeté;

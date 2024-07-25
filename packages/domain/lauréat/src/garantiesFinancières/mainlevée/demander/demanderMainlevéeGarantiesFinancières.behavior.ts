@@ -69,7 +69,10 @@ export async function demanderMainlevée(
   await this.publish(event);
 }
 
-export function applyMainlevéeGarantiesFinancièresDemandée(this: GarantiesFinancièresAggregate) {
+export function applyMainlevéeGarantiesFinancièresDemandée(
+  this: GarantiesFinancièresAggregate,
+  _: MainlevéeGarantiesFinancièresDemandéeEvent,
+) {
   this.demandeMainlevéeEnCours = {
     statut: StatutMainlevéeGarantiesFinancières.demandé,
   };
