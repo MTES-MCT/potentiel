@@ -75,10 +75,12 @@ const mapToProps: MapToProps = ({
   gestionnaireRéseau,
   raccordement,
 }) => {
+  const aUneDateDeMiseEnService = raccordement.dossiers.some((dossier) => dossier.miseEnService);
   const canEditGestionnaireRéseau =
     rôleUtilisateur.estÉgaleÀ(Role.admin) ||
     rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
-    rôleUtilisateur.estÉgaleÀ(Role.porteur);
+    (!aUneDateDeMiseEnService &&
+      (rôleUtilisateur.estÉgaleÀ(Role.porteur) || rôleUtilisateur.estÉgaleÀ(Role.dreal)));
 
   return {
     identifiantProjet,

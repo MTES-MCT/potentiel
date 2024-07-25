@@ -6,6 +6,7 @@ import * as zod from 'zod';
 import { Raccordement } from '@potentiel-domain/reseau';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export type ModifierGestionnaireRéseauRaccordementState = FormState;
 
@@ -17,18 +18,20 @@ const schema = zod.object({
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
   { identifiantProjet, identifiantGestionnaireReseau },
-) => {
-  await mediator.send<Raccordement.RaccordementUseCase>({
-    type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
-    data: {
-      identifiantProjetValue: identifiantProjet,
-      identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
-    },
-  });
+) =>
+  withUtilisateur(async (utilisateur) => {
+    await mediator.send<Raccordement.RaccordementUseCase>({
+      type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
+        rôleValue: utilisateur.nom,
+      },
+    });
 
-  return {
-    status: 'success',
-  };
-};
+    return {
+      status: 'success',
+    };
+  });
 
 export const modifierGestionnaireRéseauRaccordementAction = formAction(action, schema);

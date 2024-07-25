@@ -117,6 +117,7 @@ export type RaccordementAggregate = Aggregate<RaccordementEvent> & {
   readonly modifierGestionnaireRéseau: typeof modifierGestionnaireRéseau;
   readonly contientLeDossier: (référence: RéférenceDossierRaccordement.ValueType) => boolean;
   readonly récupérerDossier: (référence: string) => DossierRaccordement;
+  readonly aUneDateDeMiseEnService: () => boolean;
   readonly attribuerGestionnaireRéseau: typeof attribuerGestionnaireRéseau;
   readonly dateModifiée: (
     référence: RéférenceDossierRaccordement.ValueType,
@@ -151,6 +152,14 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
     }
 
     return dossier;
+  },
+  aUneDateDeMiseEnService(): boolean {
+    for (const [, dossier] of this.dossiers.entries()) {
+      if (Option.isSome(dossier.miseEnService.dateMiseEnService)) {
+        return true;
+      }
+    }
+    return false;
   },
   dateModifiée({ référence }, date) {
     const dossier = this.récupérerDossier(référence);
