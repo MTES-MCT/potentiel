@@ -49,8 +49,6 @@ GarantiesFinancières.registerGarantiesFinancièresUseCases({
   logger.info('Lancement du script...');
   const today = DateTime.now().formatter();
 
-  console.log(today);
-
   const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
     type: 'Tâche.Query.ListerTâchesPlanifiées',
     data: {
