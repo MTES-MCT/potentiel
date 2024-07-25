@@ -37,7 +37,6 @@ export async function modifierRéférenceDossierRacordement(
   if (nouvelleRéférenceDossierRaccordement.estÉgaleÀ(référenceDossierRaccordementActuelle)) {
     throw new RéférencesDossierRaccordementIdentiquesError();
   }
-  const dossier = this.récupérerDossier(référenceDossierRaccordementActuelle.formatter());
 
   if (
     !référenceDossierExpressionRegulière.valider(nouvelleRéférenceDossierRaccordement.référence)
@@ -45,7 +44,12 @@ export async function modifierRéférenceDossierRacordement(
     throw new FormatRéférenceDossierRaccordementInvalideError();
   }
 
-  if (rôle.estÉgaleÀ(Role.porteur) && Option.isSome(dossier.miseEnService.dateMiseEnService)) {
+  const dossier = this.récupérerDossier(référenceDossierRaccordementActuelle.formatter());
+
+  if (
+    (rôle.estÉgaleÀ(Role.porteur) || rôle.estÉgaleÀ(Role.dreal)) &&
+    Option.isSome(dossier.miseEnService.dateMiseEnService)
+  ) {
     throw new RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError(
       référenceDossierRaccordementActuelle.formatter(),
     );
