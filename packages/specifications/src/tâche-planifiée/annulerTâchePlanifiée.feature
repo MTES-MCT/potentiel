@@ -54,7 +54,6 @@ Fonctionnalité: Annuler une tâche planifiée
             | date d'échéance | 2024-12-01         |
         Alors une tâche "rappel échéance garanties financières à un mois" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
 
-    @select
     Scénario: Une tâche du type "rappel échéance garanties financières à deux mois" est annulée quand une attestation de conformité est transmise
         Etant donné des garanties financières validées pour le projet "Du boulodrome de Marseille" avec :
             | type            | avec-date-échéance |
