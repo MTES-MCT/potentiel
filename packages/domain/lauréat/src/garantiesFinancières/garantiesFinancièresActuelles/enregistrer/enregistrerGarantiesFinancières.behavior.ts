@@ -1,5 +1,5 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, NotFoundError } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '../..';
@@ -87,7 +87,7 @@ export function applyEnregistrerGarantiesFinancières(
   };
 }
 
-class GarantiesFinancièresDéjàEnregistréesError extends NotFoundError {
+class GarantiesFinancièresDéjàEnregistréesError extends InvalidOperationError {
   constructor() {
     super(`Il y a déjà des garanties financières pour ce projet`);
   }

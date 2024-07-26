@@ -1,4 +1,9 @@
-import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
+import {
+  Aggregate,
+  AggregateNotFoundError,
+  GetDefaultAggregateState,
+  LoadAggregate,
+} from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
@@ -26,7 +31,6 @@ import {
   applyAbandonConfirmé,
   confirmer,
 } from './confirmer/confirmerAbandon.behavior';
-import { AucunAbandonEnCours } from './aucunAbandonEnCours.error';
 import { annulerRejet } from './annulerRejet/annulerRejetAbandon.behavior';
 import {
   transmettrePreuveRecandidature,
@@ -158,3 +162,9 @@ export const loadAbandonFactory =
         : undefined,
     });
   };
+
+class AucunAbandonEnCours extends AggregateNotFoundError {
+  constructor() {
+    super(`Aucun abandon n'est en cours`);
+  }
+}

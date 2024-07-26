@@ -1,5 +1,5 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, NotFoundError } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -63,13 +63,13 @@ export function applyEnregistrerAttestationGarantiesFinancières(
   }
 }
 
-class AucunesGarantiesFinancièresValidées extends NotFoundError {
+class AucunesGarantiesFinancièresValidées extends InvalidOperationError {
   constructor() {
     super(`Il n'y a aucunes garanties financières validées pour ce projet`);
   }
 }
 
-class AttestationGarantiesFinancièresDéjàExistante extends NotFoundError {
+class AttestationGarantiesFinancièresDéjàExistante extends InvalidOperationError {
   constructor() {
     super(`Il y a déjà une attestation pour ces garanties financières`);
   }
