@@ -6,10 +6,9 @@ import {
   récupérerPorteursParIdentifiantProjetAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { Routes } from '@potentiel-applications/routes';
-import { TypeTâchePlanifiée, TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
+import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { SendEmail } from '../../sendEmail';
 
@@ -29,7 +28,6 @@ export type RegisterTâchePlanifiéeNotificationDependencies = {
 export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async ({ payload }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(payload.identifiantProjet);
-    const typeTâchePlanifiée = TypeTâchePlanifiée.convertirEnValueType(payload.typeTâchePlanifiée);
 
     switch (payload.typeTâchePlanifiée) {
       case 'garanties-financières.rappel-échéance-un-mois':
@@ -47,8 +45,7 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
         const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
         const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
         const nombreDeMois =
-          typeTâchePlanifiée.type ===
-          GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceUnMois.type
+          payload.typeTâchePlanifiée === 'garanties-financières.rappel-échéance-un-mois'
             ? '1'
             : '2';
 

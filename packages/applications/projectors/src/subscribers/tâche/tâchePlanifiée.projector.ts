@@ -1,10 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import {
-  TâchePlanifiéeEvent,
-  TâchePlanifiéeEntity,
-  TypeTâchePlanifiée,
-} from '@potentiel-domain/tache-planifiee';
+import { TâchePlanifiéeEvent, TâchePlanifiéeEntity } from '@potentiel-domain/tache-planifiee';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
@@ -56,17 +52,14 @@ export const register = () => {
   mediator.register('System.Projector.TâchePlanifiée', handler);
 };
 
-const récupérerTâchePlanifiée = async (
-  typeTâchePlanifiée: TypeTâchePlanifiée.RawType,
-  identifiantProjet: string,
-) => {
+const récupérerTâchePlanifiée = async (typeTâchePlanifiée: string, identifiantProjet: string) => {
   const tâcheEntity = await findProjection<TâchePlanifiéeEntity>(
     `tâche-planifiée|${typeTâchePlanifiée}#${identifiantProjet}`,
   );
 
   const tâcheDefaultEntity: TâchePlanifiéeEntity = {
     identifiantProjet,
-    typeTâche: TypeTâchePlanifiée.inconnue.type,
+    typeTâche: '',
     misÀJourLe: DateTime.now().formatter(),
     àExécuterLe: DateTime.now().formatter(),
     type: 'tâche-planifiée',

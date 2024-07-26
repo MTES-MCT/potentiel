@@ -2,21 +2,20 @@ import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import * as StatutTâchePlanifiée from '../statutTâchePlanifiée.valueType';
-import * as TypePlanifiéeTâche from '../typeTâchePlanifiée.valueType';
 import { TâchePlanifiéeAggregate } from '../tâchePlanifiée.aggregate';
 
 export type TâchePlanifiéeAnnuléeEvent = DomainEvent<
   'TâchePlanifiéeAnnulée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    typeTâchePlanifiée: TypePlanifiéeTâche.RawType;
+    typeTâchePlanifiée: string;
     annuléeLe: DateTime.RawType;
   }
 >;
 
 export type AnnulerOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  typeTâchePlanifiée: TypePlanifiéeTâche.ValueType;
+  typeTâchePlanifiée: string;
 };
 
 export async function annuler(
@@ -29,7 +28,7 @@ export async function annuler(
       payload: {
         annuléeLe: DateTime.now().formatter(),
         identifiantProjet: identifiantProjet.formatter(),
-        typeTâchePlanifiée: typeTâchePlanifiée.type,
+        typeTâchePlanifiée,
       },
     };
     await this.publish(event);
@@ -40,7 +39,7 @@ export function applyTâchePlanifiéeAnnulée(
   this: TâchePlanifiéeAggregate,
   { payload: { typeTâchePlanifiée, annuléeLe } }: TâchePlanifiéeAnnuléeEvent,
 ) {
-  this.typeTâche = TypePlanifiéeTâche.convertirEnValueType(typeTâchePlanifiée);
+  this.typeTâchePlanifiée = typeTâchePlanifiée;
   this.annuléeLe = DateTime.convertirEnValueType(annuléeLe);
   this.statut = StatutTâchePlanifiée.annulée;
 }

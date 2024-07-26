@@ -2,14 +2,13 @@ import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import * as StatutTâchePlanifiée from '../statutTâchePlanifiée.valueType';
-import * as TypeTâchePlanifiée from '../typeTâchePlanifiée.valueType';
 import { TâchePlanifiéeAggregate } from '../tâchePlanifiée.aggregate';
 
 export type TâchePlanifiéeAjoutéeEvent = DomainEvent<
   'TâchePlanifiéeAjoutée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    typeTâchePlanifiée: TypeTâchePlanifiée.RawType;
+    typeTâchePlanifiée: string;
     ajoutéeLe: DateTime.RawType;
     àExécuterLe: DateTime.RawType;
   }
@@ -17,7 +16,7 @@ export type TâchePlanifiéeAjoutéeEvent = DomainEvent<
 
 export type AjouterOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  typeTâchePlanifiée: TypeTâchePlanifiée.ValueType;
+  typeTâchePlanifiée: string;
   àExécuterLe: DateTime.ValueType;
 };
 
@@ -31,7 +30,7 @@ export async function ajouter(
       payload: {
         ajoutéeLe: DateTime.now().formatter(),
         identifiantProjet: identifiantProjet.formatter(),
-        typeTâchePlanifiée: typeTâchePlanifiée.type,
+        typeTâchePlanifiée,
         àExécuterLe: àExécuterLe.formatter(),
       },
     };
@@ -41,9 +40,9 @@ export async function ajouter(
 
 export function applyTâchePlanifiéeAjoutée(
   this: TâchePlanifiéeAggregate,
-  { payload: { typeTâchePlanifiée: type, àExécuterLe } }: TâchePlanifiéeAjoutéeEvent,
+  { payload: { typeTâchePlanifiée, àExécuterLe } }: TâchePlanifiéeAjoutéeEvent,
 ) {
-  this.typeTâche = TypeTâchePlanifiée.convertirEnValueType(type);
+  this.typeTâchePlanifiée = typeTâchePlanifiée;
   this.àExécuterLe = DateTime.convertirEnValueType(àExécuterLe);
   this.statut = StatutTâchePlanifiée.enAttenteExécution;
 }

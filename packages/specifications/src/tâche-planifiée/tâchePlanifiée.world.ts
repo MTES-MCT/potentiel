@@ -1,4 +1,5 @@
-import { TypeTâchePlanifiée, StatutTâchePlanifiée } from '@potentiel-domain/tache-planifiee';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { StatutTâchePlanifiée } from '@potentiel-domain/tache-planifiee';
 
 export type RechercherTypeTâchePlanifiée =
   | 'échoir les garanties financières'
@@ -8,16 +9,18 @@ export type RechercherTypeTâchePlanifiée =
 export type RechercherStatutTâchePlanifiée = 'planifiée' | 'annulée' | 'executée';
 
 export class TâchePlanifiéeWorld {
-  rechercherTypeTâchePlanifiée(value: RechercherTypeTâchePlanifiée): TypeTâchePlanifiée.ValueType {
+  rechercherTypeTâchePlanifiée(
+    value: RechercherTypeTâchePlanifiée,
+  ): GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.ValueType {
     switch (value) {
       case 'échoir les garanties financières':
-        return TypeTâchePlanifiée.garantiesFinancieresÉchoir;
+        return GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir;
       case 'rappel échéance garanties financières à un mois':
-        return TypeTâchePlanifiée.garantiesFinancieresRappelÉchéanceUnMois;
+        return GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceUnMois;
       case 'rappel échéance garanties financières à deux mois':
-        return TypeTâchePlanifiée.garantiesFinancieresRappelÉchéanceDeuxMois;
+        return GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceDeuxMois;
       default:
-        return TypeTâchePlanifiée.inconnue;
+        return GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.inconnue;
     }
   }
   rechercherStatutTâchePlanifiée(value: RechercherStatutTâchePlanifiée) {

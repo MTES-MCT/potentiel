@@ -16,7 +16,7 @@ Alors(
     dateTâche: string,
     nomProjet: string,
   ) {
-    const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche);
+    const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
     const projet = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
@@ -28,7 +28,7 @@ Alors(
       });
       const tâche = tâches.items.find(
         (t) =>
-          t.typeTâchePlanifiée.estÉgaleÀ(actualTypeTâche) &&
+          t.typeTâchePlanifiée === actualTypeTâche &&
           t.identifiantProjet.estÉgaleÀ(projet.identifiantProjet),
       );
       expect(tâche).not.to.be.undefined;
@@ -43,7 +43,7 @@ Alors(
     typeTâche: RechercherTypeTâchePlanifiée,
     nomProjet: string,
   ) {
-    const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche);
+    const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
     const projet = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
@@ -54,7 +54,7 @@ Alors(
 
       const tâche = tâches.items.find(
         (t) =>
-          t.typeTâchePlanifiée.estÉgaleÀ(actualTypeTâche) &&
+          t.typeTâchePlanifiée === actualTypeTâche &&
           t.identifiantProjet.estÉgaleÀ(projet.identifiantProjet),
       );
       expect(tâche).to.be.undefined;

@@ -24,7 +24,7 @@ Quand(
           type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
           data: {
             identifiantProjetValue: tâche.identifiantProjet.formatter(),
-            typeTâchePlanifiéeValue: tâche.typeTâchePlanifiée.type,
+            typeTâchePlanifiéeValue: tâche.typeTâchePlanifiée,
           },
         });
       }

@@ -3,14 +3,13 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 
-import * as TâchePlanifiée from '../typeTâchePlanifiée.valueType';
 import { loadTâchePlanifiéeAggregateFactory } from '../tâchePlanifiée.aggregate';
 
 export type AjouterTâchePlanifiéeCommand = Message<
   'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    typeTâchePlanifiée: TâchePlanifiée.ValueType;
+    typeTâchePlanifiée: string;
     àExécuterLe: DateTime.ValueType;
   }
 >;
