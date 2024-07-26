@@ -1,7 +1,11 @@
 import { mediator } from 'mediateur';
 
-import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
-import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import {
+  registerLauréatQueries,
+  registerLauréatUseCases,
+  GarantiesFinancières,
+} from '@potentiel-domain/laureat';
+import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import {
   AbandonNotification,
@@ -38,6 +42,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
   AbandonNotification.register({ sendEmail });
   GarantiesFinancièreProjector.register();
   GarantiesFinancièresNotification.register({ sendEmail });
+  GarantiesFinancières.GarantiesFinancièresSaga.register();
   AchèvementProjector.register();
   AchèvementNotification.register({ sendEmail });
 
@@ -170,6 +175,20 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
       },
     });
 
+  const unsubscribeGarantiesFinancièresSaga = await subscribe<
+    GarantiesFinancières.GarantiesFinancièresSaga.SubscriptionEvent & Event
+  >({
+    name: 'garanties-financieres-saga',
+    streamCategory: 'tache-planifiee',
+    eventType: ['TâchePlanifiéeExecutée-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<GarantiesFinancières.GarantiesFinancièresSaga.Execute>({
+        type: 'Lauréat.GarantiesFinancières.Saga.Execute',
+        data: event,
+      });
+    },
+  });
+
   return async () => {
     await unsubscribeAbandonNotification();
     await unsubscribeAbandonProjector();
@@ -177,5 +196,6 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
     await unsubscribeGarantiesFinancièresNotification();
     await unsubscribeAchèvementProjector();
     await unsubscribeAchèvementNotification();
+    await unsubscribeGarantiesFinancièresSaga();
   };
 };

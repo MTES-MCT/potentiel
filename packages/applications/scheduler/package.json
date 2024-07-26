@@ -1,0 +1,18 @@
+{
+  "name": "@potentiel-applications/scheduled-tasks",
+  "version": "0.0.0",
+  "description": "Potentiel Scheduled Tasks",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/index"
+  },
+  "dependencies": {
+    "@potentiel-libraries/monitoring": "*",
+    "@potentiel-domain/common": "*",
+    "@potentiel-domain/tache-planifiee": "*"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*"
+  }
+}

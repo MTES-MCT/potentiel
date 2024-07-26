@@ -6,16 +6,13 @@
   },
   "references": [
     {
-      "path": "../../libraries/monads"
+      "path": "../../libraries/monitoring"
     },
     {
-      "path": "../common"
+      "path": "../../domain/common"
     },
     {
-      "path": "../core"
-    },
-    {
-      "path": "../tâche-planifiée"
+      "path": "../../domain/tâche-planifiée"
     }
   ]
 }
