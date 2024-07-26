@@ -1,9 +1,9 @@
 'use server';
 
 import {
+  AggregateNotFoundError,
   DomainError,
   InvalidOperationError,
-  NotFoundError,
   OperationRejectedError,
 } from '@potentiel-domain/core';
 
@@ -16,7 +16,7 @@ export const PageWithErrorHandling = async (
 ): Promise<JSX.Element> => withErrorHandling(render, renderDomainError, renderUnknownError);
 
 const renderDomainError = (e: DomainError) => {
-  if (e instanceof NotFoundError) {
+  if (e instanceof AggregateNotFoundError) {
     return <CustomErrorPage statusCode="404" type="NotFoundError" />;
   }
   if (e instanceof InvalidOperationError) {

@@ -10,8 +10,6 @@ import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { PotentielWorld } from '../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
 
-// violette
-
 Alors(
   `le recours du projet éliminé {string} devrait être consultable dans la liste des recours`,
   async function (this: PotentielWorld, nomProjet: string) {
