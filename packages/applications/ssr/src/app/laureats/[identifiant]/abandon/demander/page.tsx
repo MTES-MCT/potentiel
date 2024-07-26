@@ -8,6 +8,7 @@ import { CahierDesCharges } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { StatutProjet } from '@potentiel-domain/common';
 import { InvalidOperationError } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
 
 import {
   DemanderAbandonPage,
@@ -43,6 +44,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: { identifiantAppelOffre: candidature.appelOffre },
     });
+
+    if (Option.isNone(appelOffre)) {
+      return notFound();
+    }
 
     const { cahierDesChargesChoisi } =
       await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({

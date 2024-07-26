@@ -74,6 +74,10 @@ const buildReponseSignee = async (
     },
   });
 
+  if (Option.isNone(appelOffre)) {
+    return notFound();
+  }
+
   const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
     type: 'Utilisateur.Query.ConsulterUtilisateur',
     data: {

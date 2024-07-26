@@ -48,6 +48,10 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       data: { identifiantAppelOffre: candidature.appelOffre },
     });
 
+    if (Option.isNone(appelOffres)) {
+      return notFound();
+    }
+
     const { cahierDesChargesChoisi } =
       await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
         type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',

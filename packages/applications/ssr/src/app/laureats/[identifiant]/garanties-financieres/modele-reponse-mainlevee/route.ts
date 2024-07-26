@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 import { NextRequest, NextResponse } from 'next/server';
+import { notFound } from 'next/navigation';
 
 import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
@@ -33,6 +34,9 @@ export const GET = async (
       data: { identifiantAppelOffre: candidature.appelOffre },
     });
 
+    if (Option.isNone(appelOffres)) {
+      return notFound();
+    }
     const détailPériode = appelOffres.periodes.find(
       (période) => période.id === candidature.période,
     );

@@ -13,10 +13,7 @@ import asyncHandler from '../../helpers/asyncHandler';
 import { v1Router } from '../../v1Router';
 import { validateUniqueId } from '../../../helpers/validateUniqueId';
 import { ModificationRequest, Project } from '../../../infra/sequelize/projectionsNext';
-import {
-  ConsulterAppelOffreQuery,
-  ConsulterAppelOffreReadModel,
-} from '@potentiel-domain/appel-offre';
+import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
@@ -25,6 +22,7 @@ import { mediator } from 'mediateur';
 import { getDelaiDeRealisation } from '../../../modules/projectAppelOffre';
 import { add, sub } from 'date-fns';
 import { addQueryParams } from '../../../helpers/addQueryParams';
+import { Option } from '@potentiel-libraries/monads';
 
 v1Router.get(
   routes.GET_CORRIGER_DELAI_ACCORDE_PAGE(),
@@ -87,13 +85,12 @@ v1Router.get(
       );
     }
 
-    let appelOffre: ConsulterAppelOffreReadModel;
-    try {
-      appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
-        type: 'AppelOffre.Query.ConsulterAppelOffre',
-        data: { identifiantAppelOffre: résuméProjet.appelOffre },
-      });
-    } catch {
+    const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
+      type: 'AppelOffre.Query.ConsulterAppelOffre',
+      data: { identifiantAppelOffre: résuméProjet.appelOffre },
+    });
+
+    if (Option.isNone(appelOffre)) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 

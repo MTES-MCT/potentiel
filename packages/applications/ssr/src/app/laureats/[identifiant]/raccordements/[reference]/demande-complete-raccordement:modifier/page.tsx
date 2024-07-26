@@ -45,6 +45,10 @@ export default async function Page({ params: { identifiant, reference } }: PageP
         data: { identifiantAppelOffre: identifiantProjet.appelOffre },
       });
 
+      if (Option.isNone(appelOffre)) {
+        return notFound();
+      }
+
       const gestionnaireRéseau =
         await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
           type: 'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',

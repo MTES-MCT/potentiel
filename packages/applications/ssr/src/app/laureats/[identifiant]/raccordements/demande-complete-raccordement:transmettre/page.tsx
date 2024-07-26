@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import {
   ConsulterAppelOffreQuery,
@@ -30,6 +31,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: { identifiantAppelOffre: identifiantProjet.appelOffre },
     });
+
+    if (Option.isNone(appelOffre)) {
+      return notFound();
+    }
 
     const gestionnairesRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
