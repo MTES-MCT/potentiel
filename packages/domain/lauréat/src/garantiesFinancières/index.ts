@@ -33,7 +33,6 @@ import { AnnulerMainlevéeGarantiesFinancièresUseCase } from './mainlevée/annu
 import { DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/démarrerInstruction/démarrerInstructionDemandeMainlevéeGarantiesFinancières.usecase';
 import { RejeterDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/rejeter/rejeterDemandeMainlevéeGarantiesFinancières.usecase';
 import { AccorderDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.usecase';
-import { ÉchoirGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.usecase';
 import {
   ListerDemandeMainlevéeQuery,
   ListerDemandeMainlevéeReadModel,
@@ -98,8 +97,7 @@ export type GarantiesFinancièresUseCase =
   | AnnulerMainlevéeGarantiesFinancièresUseCase
   | DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase
   | RejeterDemandeMainlevéeGarantiesFinancièresUseCase
-  | AccorderDemandeMainlevéeGarantiesFinancièresUseCase
-  | ÉchoirGarantiesFinancièresUseCase;
+  | AccorderDemandeMainlevéeGarantiesFinancièresUseCase;
 
 export type {
   SoumettreDépôtGarantiesFinancièresUseCase,
@@ -117,7 +115,6 @@ export type {
   DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase,
   RejeterDemandeMainlevéeGarantiesFinancièresUseCase,
   AccorderDemandeMainlevéeGarantiesFinancièresUseCase,
-  ÉchoirGarantiesFinancièresUseCase,
 };
 
 // Event

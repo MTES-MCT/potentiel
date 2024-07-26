@@ -25,6 +25,9 @@
     },
     {
       "path": "../utilisateur"
+    },
+    {
+      "path": "../tâche-planifiée"
     }
   ]
 }

@@ -7,6 +7,8 @@ import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlani
 import { TâchePlanifiéeEvent } from './tâchePlanifiée.aggregate';
 import { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.behavior';
 import { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.behavior';
+import { AjouterTâchePlanifiéeCommand } from './ajouter/ajouterTâchePlanifiée.command';
+import { AnnulerTâchePlanifiéeCommand } from './annuler/annulerTâchePlanifiée.command';
 
 // Query
 export type TâchePlanifiéeQuery = ListerTâchesPlanifiéesQuery;
@@ -23,6 +25,9 @@ export {
   TâchePlanifiéeAnnuléeEvent,
   TâchePlanifiéeExecutéeEvent,
 };
+
+// Command
+export { AjouterTâchePlanifiéeCommand, AnnulerTâchePlanifiéeCommand };
 
 // Saga
 // export * as TâchePlanifiéeAchévementSaga from './saga/tâchePlanifiéeAchévement.saga';

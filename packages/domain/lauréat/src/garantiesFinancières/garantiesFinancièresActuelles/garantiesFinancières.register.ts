@@ -15,7 +15,6 @@ import { registerImporterTypeGarantiesFinancièresUseCase } from './importer/imp
 import { registerModifierGarantiesFinancièresCommand } from './modifier/modifierGarantiesFinancières.command';
 import { registerModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase';
 import { registerÉchoirGarantiesFinancièresCommand } from './échoir/échoirGarantiesFinancières.command';
-import { registerÉchoirGarantiesFinancièresUseCase } from './échoir/échoirGarantiesFinancières.usecase';
 
 export const registerGarantiesFinancières = (loadAggregate: LoadAggregate) => {
   // commands
@@ -35,5 +34,4 @@ export const registerGarantiesFinancières = (loadAggregate: LoadAggregate) => {
   registerEnregistrerAttestationGarantiesFinancièresUseCase();
   registerEnregistrerGarantiesFinancièresUseCase();
   registerEffacerHistoriqueGarantiesFinancièresUseCase();
-  registerÉchoirGarantiesFinancièresUseCase();
 };
