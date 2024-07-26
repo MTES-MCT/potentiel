@@ -67,12 +67,9 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
                     : `Type à compléter par l'autorité instructrice compétente`}
                 </span>
               )}
-              {!garantiesFinancières.attestation && garantiesFinancières.isActuelle && (
+              {!garantiesFinancières.attestation && (
                 <span className="font-semibold italic">
-                  {garantiesFinancières.actions.includes('enregister-attestation')
-                    ? 'Attestation de constitution des garanties financières manquante'
-                    : `Attestation de constitution des garanties financières à transmettre par l'autorité
-                  instructrice compétente`}
+                  Attestation de constitution des garanties financières manquante
                 </span>
               )}
             </div>
