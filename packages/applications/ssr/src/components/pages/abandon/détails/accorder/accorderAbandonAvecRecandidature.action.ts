@@ -2,6 +2,7 @@
 
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
+import { notFound } from 'next/navigation';
 
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
@@ -9,6 +10,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { buildDocument, DonnéesDocument } from '@potentiel-applications/document-builder';
+import { Option } from '@potentiel-libraries/monads';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -28,6 +30,10 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantProjetValue: identifiantProjet,
       },
     });
+
+    if (Option.isNone(abandon)) {
+      return notFound();
+    }
 
     const réponseSignéeValue = await buildReponseSignee(
       abandon,

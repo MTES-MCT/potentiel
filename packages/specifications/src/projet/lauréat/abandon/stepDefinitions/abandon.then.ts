@@ -5,7 +5,7 @@ import { expect } from 'chai';
 
 import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { NotFoundError } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
@@ -16,48 +16,54 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const {
-        statut: actualStatut,
-        identifiantProjet: actualIdentifiantProjet,
-        demande: {
-          demandéLe: actualDateDemande,
-          demandéPar: actualUtilisateur,
-          raison: actualRaison,
-          recandidature: actualRecandidature,
-          piéceJustificative: actualPiéceJustificative,
-        },
-      } = await mediator.send<Abandon.ConsulterAbandonQuery>({
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'Lauréat.Abandon.Query.ConsulterAbandon',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
-      const {
-        dateDemande,
-        utilisateur,
-        raison,
-        recandidature,
-        pièceJustificative: { content },
-      } = this.lauréatWorld.abandonWorld;
+      abandon.should.not.equal(Option.none);
 
-      actualStatut.estÉgaleÀ(Abandon.StatutAbandon.demandé).should.be.true;
-      actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
-      actualDateDemande.estÉgaleÀ(dateDemande).should.be.true;
-      actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
-      actualRaison.should.be.equal(raison);
-      actualRecandidature.should.be.equal(recandidature);
-
-      if (actualPiéceJustificative) {
-        const result = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: actualPiéceJustificative.formatter(),
+      if (Option.isSome(abandon)) {
+        const {
+          statut: actualStatut,
+          identifiantProjet: actualIdentifiantProjet,
+          demande: {
+            demandéLe: actualDateDemande,
+            demandéPar: actualUtilisateur,
+            raison: actualRaison,
+            recandidature: actualRecandidature,
+            piéceJustificative: actualPiéceJustificative,
           },
-        });
+        } = abandon;
 
-        const actualContent = await convertReadableStreamToString(result.content);
-        actualContent.should.be.equal(content);
+        const {
+          dateDemande,
+          utilisateur,
+          raison,
+          recandidature,
+          pièceJustificative: { content },
+        } = this.lauréatWorld.abandonWorld;
+
+        actualStatut.estÉgaleÀ(Abandon.StatutAbandon.demandé).should.be.true;
+        actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
+        actualDateDemande.estÉgaleÀ(dateDemande).should.be.true;
+        actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
+        actualRaison.should.be.equal(raison);
+        actualRecandidature.should.be.equal(recandidature);
+
+        if (actualPiéceJustificative) {
+          const result = await mediator.send<ConsulterDocumentProjetQuery>({
+            type: 'Document.Query.ConsulterDocumentProjet',
+            data: {
+              documentKey: actualPiéceJustificative.formatter(),
+            },
+          });
+
+          const actualContent = await convertReadableStreamToString(result.content);
+          actualContent.should.be.equal(content);
+        }
       }
     });
   },
@@ -69,17 +75,13 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      try {
-        const result = await mediator.send<Abandon.ConsulterAbandonQuery>({
-          type: 'Lauréat.Abandon.Query.ConsulterAbandon',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-          },
-        });
-        result.should.be.undefined;
-      } catch (e) {
-        (e as Error).should.be.instanceOf(NotFoundError);
-      }
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        type: 'Lauréat.Abandon.Query.ConsulterAbandon',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
+      expect(Option.isNone(abandon)).to.be.true;
     });
   },
 );
@@ -90,43 +92,45 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const {
-        statut: actualStatut,
-        identifiantProjet: actualIdentifiantProjet,
-        rejet,
-      } = await mediator.send<Abandon.ConsulterAbandonQuery>({
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'Lauréat.Abandon.Query.ConsulterAbandon',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
-      const {
-        dateRejet,
-        utilisateur,
-        réponseSignée: { content },
-      } = this.lauréatWorld.abandonWorld;
+      abandon.should.not.equal(Option.none);
 
-      actualStatut.estÉgaleÀ(Abandon.StatutAbandon.rejeté).should.be.true;
-      actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
-      expect(rejet).to.be.not.undefined;
+      if (Option.isSome(abandon)) {
+        const { statut: actualStatut, identifiantProjet: actualIdentifiantProjet, rejet } = abandon;
 
-      const actualDateRejet = rejet!.rejetéLe;
-      const actualUtilisateur = rejet!.rejetéPar;
-      const actualRéponseSignée = rejet!.réponseSignée;
+        const {
+          dateRejet,
+          utilisateur,
+          réponseSignée: { content },
+        } = this.lauréatWorld.abandonWorld;
 
-      actualDateRejet.estÉgaleÀ(dateRejet).should.be.true;
-      actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
+        actualStatut.estÉgaleÀ(Abandon.StatutAbandon.rejeté).should.be.true;
+        actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
+        expect(rejet).to.be.not.undefined;
 
-      const result = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: actualRéponseSignée.formatter(),
-        },
-      });
+        const actualDateRejet = rejet!.rejetéLe;
+        const actualUtilisateur = rejet!.rejetéPar;
+        const actualRéponseSignée = rejet!.réponseSignée;
 
-      const actualContent = await convertReadableStreamToString(result.content);
-      actualContent.should.be.equal(content);
+        actualDateRejet.estÉgaleÀ(dateRejet).should.be.true;
+        actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
+
+        const result = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: actualRéponseSignée.formatter(),
+          },
+        });
+
+        const actualContent = await convertReadableStreamToString(result.content);
+        actualContent.should.be.equal(content);
+      }
     });
   },
 );
@@ -137,43 +141,49 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const {
-        statut: actualStatut,
-        identifiantProjet: actualIdentifiantProjet,
-        accord,
-      } = await mediator.send<Abandon.ConsulterAbandonQuery>({
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'Lauréat.Abandon.Query.ConsulterAbandon',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
-      const {
-        dateAccord,
-        utilisateur,
-        réponseSignée: { content },
-      } = this.lauréatWorld.abandonWorld;
+      abandon.should.not.equal(Option.none);
 
-      actualStatut.estÉgaleÀ(Abandon.StatutAbandon.accordé).should.be.true;
-      actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
-      expect(accord).to.be.not.undefined;
+      if (Option.isSome(abandon)) {
+        const {
+          statut: actualStatut,
+          identifiantProjet: actualIdentifiantProjet,
+          accord,
+        } = abandon;
 
-      const actualDateRejet = accord!.accordéLe;
-      const actualUtilisateur = accord!.accordéPar;
-      const actualRéponseSignée = accord!.réponseSignée;
+        const {
+          dateAccord,
+          utilisateur,
+          réponseSignée: { content },
+        } = this.lauréatWorld.abandonWorld;
 
-      actualDateRejet.estÉgaleÀ(dateAccord).should.be.true;
-      actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
+        actualStatut.estÉgaleÀ(Abandon.StatutAbandon.accordé).should.be.true;
+        actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
+        expect(accord).to.be.not.undefined;
 
-      const result = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: actualRéponseSignée.formatter(),
-        },
-      });
+        const actualDateRejet = accord!.accordéLe;
+        const actualUtilisateur = accord!.accordéPar;
+        const actualRéponseSignée = accord!.réponseSignée;
 
-      const actualContent = await convertReadableStreamToString(result.content);
-      actualContent.should.be.equal(content);
+        actualDateRejet.estÉgaleÀ(dateAccord).should.be.true;
+        actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
+
+        const result = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: actualRéponseSignée.formatter(),
+          },
+        });
+
+        const actualContent = await convertReadableStreamToString(result.content);
+        actualContent.should.be.equal(content);
+      }
     });
   },
 );
@@ -184,20 +194,22 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const {
-        statut: actualStatut,
-        identifiantProjet: actualIdentifiantProjet,
-        rejet,
-      } = await mediator.send<Abandon.ConsulterAbandonQuery>({
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'Lauréat.Abandon.Query.ConsulterAbandon',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
-      actualStatut.estÉgaleÀ(Abandon.StatutAbandon.demandé).should.be.true;
-      actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
-      expect(rejet).to.be.undefined;
+      abandon.should.not.equal(Option.none);
+
+      if (Option.isSome(abandon)) {
+        const { statut: actualStatut, identifiantProjet: actualIdentifiantProjet, rejet } = abandon;
+
+        actualStatut.estÉgaleÀ(Abandon.StatutAbandon.demandé).should.be.true;
+        actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
+        expect(rejet).to.be.undefined;
+      }
     });
   },
 );
@@ -208,42 +220,48 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const {
-        statut: actualStatut,
-        identifiantProjet: actualIdentifiantProjet,
-        demande,
-      } = await mediator.send<Abandon.ConsulterAbandonQuery>({
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'Lauréat.Abandon.Query.ConsulterAbandon',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
-      const {
-        dateDemandeConfirmation,
-        utilisateur,
-        réponseSignée: { content },
-      } = this.lauréatWorld.abandonWorld;
+      abandon.should.not.equal(Option.none);
 
-      actualStatut.estÉgaleÀ(Abandon.StatutAbandon.confirmationDemandée).should.be.true;
-      actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
+      if (Option.isSome(abandon)) {
+        const {
+          statut: actualStatut,
+          identifiantProjet: actualIdentifiantProjet,
+          demande,
+        } = abandon;
 
-      expect(demande.confirmation).to.be.not.undefined;
+        const {
+          dateDemandeConfirmation,
+          utilisateur,
+          réponseSignée: { content },
+        } = this.lauréatWorld.abandonWorld;
 
-      const actualRéponseSignée = demande.confirmation!.réponseSignée;
+        actualStatut.estÉgaleÀ(Abandon.StatutAbandon.confirmationDemandée).should.be.true;
+        actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
 
-      demande.confirmation!.demandéLe.estÉgaleÀ(dateDemandeConfirmation).should.be.true;
-      demande.confirmation!.demandéPar.estÉgaleÀ(utilisateur).should.be.true;
+        expect(demande.confirmation).to.be.not.undefined;
 
-      const result = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: actualRéponseSignée.formatter(),
-        },
-      });
+        const actualRéponseSignée = demande.confirmation!.réponseSignée;
 
-      const actualContent = await convertReadableStreamToString(result.content);
-      actualContent.should.be.equal(content);
+        demande.confirmation!.demandéLe.estÉgaleÀ(dateDemandeConfirmation).should.be.true;
+        demande.confirmation!.demandéPar.estÉgaleÀ(utilisateur).should.be.true;
+
+        const result = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: actualRéponseSignée.formatter(),
+          },
+        });
+
+        const actualContent = await convertReadableStreamToString(result.content);
+        actualContent.should.be.equal(content);
+      }
     });
   },
 );
@@ -254,27 +272,33 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const {
-        statut: actualStatut,
-        identifiantProjet: actualIdentifiantProjet,
-        demande,
-      } = await mediator.send<Abandon.ConsulterAbandonQuery>({
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'Lauréat.Abandon.Query.ConsulterAbandon',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
-      const { dateConfirmation, utilisateur } = this.lauréatWorld.abandonWorld;
+      abandon.should.not.equal(Option.none);
 
-      actualStatut.estÉgaleÀ(Abandon.StatutAbandon.confirmé).should.be.true;
-      actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
+      if (Option.isSome(abandon)) {
+        const {
+          statut: actualStatut,
+          identifiantProjet: actualIdentifiantProjet,
+          demande,
+        } = abandon;
 
-      expect(demande.confirmation?.confirméLe).to.be.not.undefined;
-      demande.confirmation!.confirméLe!.estÉgaleÀ(dateConfirmation).should.be.true;
+        const { dateConfirmation, utilisateur } = this.lauréatWorld.abandonWorld;
 
-      expect(demande.confirmation?.confirméPar).to.be.not.undefined;
-      demande.confirmation!.confirméPar!.estÉgaleÀ(utilisateur).should.be.true;
+        actualStatut.estÉgaleÀ(Abandon.StatutAbandon.confirmé).should.be.true;
+        actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
+
+        expect(demande.confirmation?.confirméLe).to.be.not.undefined;
+        demande.confirmation!.confirméLe!.estÉgaleÀ(dateConfirmation).should.be.true;
+
+        expect(demande.confirmation?.confirméPar).to.be.not.undefined;
+        demande.confirmation!.confirméPar!.estÉgaleÀ(utilisateur).should.be.true;
+      }
     });
   },
 );
@@ -303,17 +327,21 @@ Alors(
         },
       });
 
-      expect(abandon.demande.preuveRecandidature).to.be.not.undefined;
-      expect(abandon.demande.preuveRecandidatureTransmiseLe).to.be.not.undefined;
-      expect(abandon.demande.preuveRecandidatureTransmisePar).to.be.not.undefined;
+      abandon.should.not.equal(Option.none);
 
-      abandon.demande.preuveRecandidature!.estÉgaleÀ(preuveRecandidatureValueType).should.be.true;
-      abandon.demande.preuveRecandidatureTransmiseLe!.estÉgaleÀ(
-        this.lauréatWorld.abandonWorld.dateTransmissionPreuveRecandidature,
-      ).should.be.true;
-      abandon.demande.preuveRecandidatureTransmisePar!.estÉgaleÀ(
-        this.lauréatWorld.abandonWorld.utilisateur,
-      );
+      if (Option.isSome(abandon)) {
+        expect(abandon.demande.preuveRecandidature).to.be.not.undefined;
+        expect(abandon.demande.preuveRecandidatureTransmiseLe).to.be.not.undefined;
+        expect(abandon.demande.preuveRecandidatureTransmisePar).to.be.not.undefined;
+
+        abandon.demande.preuveRecandidature!.estÉgaleÀ(preuveRecandidatureValueType).should.be.true;
+        abandon.demande.preuveRecandidatureTransmiseLe!.estÉgaleÀ(
+          this.lauréatWorld.abandonWorld.dateTransmissionPreuveRecandidature,
+        ).should.be.true;
+        abandon.demande.preuveRecandidatureTransmisePar!.estÉgaleÀ(
+          this.lauréatWorld.abandonWorld.utilisateur,
+        );
+      }
     });
   },
 );
@@ -334,9 +362,13 @@ Alors(
         },
       });
 
-      abandon.demande.preuveRecandidatureDemandéeLe!.estÉgaleÀ(
-        this.lauréatWorld.abandonWorld.dateDemandePreuveRecandidature,
-      ).should.to.be.true;
+      abandon.should.not.equal(Option.none);
+
+      if (Option.isSome(abandon)) {
+        abandon.demande.preuveRecandidatureDemandéeLe!.estÉgaleÀ(
+          this.lauréatWorld.abandonWorld.dateDemandePreuveRecandidature,
+        ).should.to.be.true;
+      }
     });
   },
 );

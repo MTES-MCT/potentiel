@@ -6,7 +6,6 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/core';
 
-import { AucunAbandonEnCours } from '../aucunAbandonEnCours.error';
 import * as StatutAbandon from '../statutAbandon.valueType';
 import { AbandonEntity } from '../abandon.entity';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
@@ -51,7 +50,7 @@ export type ConsulterAbandonQuery = Message<
   {
     identifiantProjetValue: string;
   },
-  ConsulterAbandonReadModel
+  Option.Type<ConsulterAbandonReadModel>
 >;
 
 export type ConsulterAbandonDependencies = {
@@ -64,7 +63,7 @@ export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependen
     const result = await find<AbandonEntity>(`abandon|${identifiantProjet.formatter()}`);
 
     if (Option.isNone(result)) {
-      throw new AucunAbandonEnCours();
+      return result;
     }
 
     const demande: ConsulterAbandonReadModel['demande'] = {

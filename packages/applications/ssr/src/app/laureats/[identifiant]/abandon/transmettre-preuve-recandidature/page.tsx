@@ -1,10 +1,11 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import { ListerCandidaturesEligiblesPreuveRecanditureQuery } from '@potentiel-domain/candidature';
 import { Abandon } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { Option } from '@potentiel-libraries/monads';
 
 import {
   TransmettrePreuveRecandidaturePage,
@@ -31,6 +32,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           identifiantProjetValue: identifiantProjet,
         },
       });
+
+      if (Option.isNone(abandon)) {
+        return notFound();
+      }
 
       const preuveDéjàTransmise = !!abandon.demande.preuveRecandidature;
 

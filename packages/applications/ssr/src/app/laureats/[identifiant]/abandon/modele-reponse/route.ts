@@ -1,4 +1,5 @@
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { Abandon, CahierDesCharges } from '@potentiel-domain/laureat';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
@@ -6,6 +7,7 @@ import { ConsulterAppelOffreQuery, AppelOffre } from '@potentiel-domain/appel-of
 import { DateTime } from '@potentiel-domain/common';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { buildDocxDocument } from '@potentiel-applications/document-builder';
+import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -36,6 +38,10 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         identifiantProjetValue: identifiantProjet,
       },
     });
+
+    if (Option.isNone(abandon)) {
+      return notFound();
+    }
 
     const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
