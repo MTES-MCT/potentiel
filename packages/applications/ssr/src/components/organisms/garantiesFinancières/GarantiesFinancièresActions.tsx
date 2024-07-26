@@ -50,10 +50,6 @@ export const GarantiesFinancièresActions = ({
           )}
           {actions.includes('enregister-attestation') && (
             <div className="flex flex-col gap-1">
-              <p className="italic">
-                Les garanties financières sont incomplètes, merci de les compléter en enregistrant
-                l'attestation de constitution
-              </p>
               <Button
                 linkProps={{
                   href: Routes.GarantiesFinancières.actuelles.enregistrerAttestation(
