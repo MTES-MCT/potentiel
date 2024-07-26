@@ -85,6 +85,10 @@ const buildReponseSignee = async (
     },
   });
 
+  if (Option.isNone(utilisateur)) {
+    return notFound();
+  }
+
   const période = appelOffre.periodes.find((p) => p.id === projet.période);
 
   const props: DonnéesDocument = {

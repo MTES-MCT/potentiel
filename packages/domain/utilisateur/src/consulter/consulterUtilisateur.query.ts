@@ -3,7 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { UtilisateurEntity } from '../utilisateur.entity';
-import { UtilisateurInconnuErreur } from '../utilisateurInconnu.error';
 import * as IdentifiantUtilisateur from '../identifiantUtilisateur.valueType';
 
 export type ConsulterUtilisateurReadModel = {
@@ -19,7 +18,7 @@ export type ConsulterUtilisateurQuery = Message<
   {
     identifiantUtilisateur: string;
   },
-  ConsulterUtilisateurReadModel
+  Option.Type<ConsulterUtilisateurReadModel>
 >;
 
 export type RécupérerUtilisateurPort = (
@@ -37,7 +36,7 @@ export const registerConsulterUtilisateurQuery = ({
     const result = await récupérerUtilisateur(identifiantUtilisateur);
 
     if (Option.isNone(result)) {
-      throw new UtilisateurInconnuErreur();
+      return result;
     }
 
     return mapToReadModel(result);

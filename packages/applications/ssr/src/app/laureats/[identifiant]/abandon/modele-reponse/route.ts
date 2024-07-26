@@ -18,12 +18,18 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
   withUtilisateur(async (utilisateur) => {
     const identifiantProjet = decodeParameter(identifiant);
 
-    const { nomComplet } = await mediator.send<ConsulterUtilisateurQuery>({
+    const utilisateurDétails = await mediator.send<ConsulterUtilisateurQuery>({
       type: 'Utilisateur.Query.ConsulterUtilisateur',
       data: {
         identifiantUtilisateur: utilisateur.identifiantUtilisateur.formatter(),
       },
     });
+
+    if (Option.isNone(utilisateurDétails)) {
+      return notFound();
+    }
+
+    const { nomComplet } = utilisateurDétails;
 
     const candidature = await mediator.send<ConsulterCandidatureQuery>({
       type: 'Candidature.Query.ConsulterCandidature',
