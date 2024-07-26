@@ -1,8 +1,10 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { Raccordement } from '@potentiel-domain/reseau';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -38,6 +40,10 @@ export default async function Page({ params: { identifiant, reference } }: PageP
         },
       },
     );
+
+    if (Option.isNone(dossierRaccordement)) {
+      return notFound();
+    }
 
     const props: ModifierPropositionTechniqueEtFinancièrePageProps = {
       identifiantProjet: identifiantProjet.formatter(),

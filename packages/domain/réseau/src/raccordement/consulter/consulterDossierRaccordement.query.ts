@@ -8,7 +8,6 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 import { DossierRaccordementEntity } from '../raccordement.entity';
-import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
 
 export type ConsulterDossierRaccordementReadModel = {
   référence: RéférenceDossierRaccordement.ValueType;
@@ -31,7 +30,7 @@ export type ConsulterDossierRaccordementQuery = Message<
     identifiantProjetValue: string;
     référenceDossierRaccordementValue: string;
   },
-  ConsulterDossierRaccordementReadModel
+  Option.Type<ConsulterDossierRaccordementReadModel>
 >;
 
 export type ConsulterDossierRaccordementDependencies = {
@@ -55,7 +54,7 @@ export const registerConsulterDossierRaccordementQuery = ({
     );
 
     if (Option.isNone(result)) {
-      throw new DossierRaccordementNonRéférencéError();
+      return result;
     }
 
     return mapToResult(identifiantProjet, référence, result);

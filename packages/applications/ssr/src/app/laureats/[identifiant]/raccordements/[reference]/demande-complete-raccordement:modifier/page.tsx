@@ -68,6 +68,10 @@ export default async function Page({ params: { identifiant, reference } }: PageP
           },
         });
 
+      if (Option.isNone(dossierRaccordement)) {
+        return notFound();
+      }
+
       const canEdit =
         utilisateur.role.estÉgaleÀ(Role.admin) ||
         utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||

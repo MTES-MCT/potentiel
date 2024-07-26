@@ -50,6 +50,10 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       },
     );
 
+    if (Option.isNone(dossierRaccordement)) {
+      return notFound();
+    }
+
     const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: {
