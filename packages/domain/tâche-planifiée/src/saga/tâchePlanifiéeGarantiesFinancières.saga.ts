@@ -24,29 +24,7 @@
 //     } = event;
 //     switch (event.type) {
 //       case 'DépôtGarantiesFinancièresSoumis-V1':
-//         await mediator.send<AnnulerTâchePlanifiéeCommand>({
-//           type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
-//           data: {
-//             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-//             typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresÉchoir,
-//           },
-//         });
-
-//         await mediator.send<AnnulerTâchePlanifiéeCommand>({
-//           type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
-//           data: {
-//             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-//             typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresRappelÉchéanceUnMois,
-//           },
-//         });
-
-//         await mediator.send<AnnulerTâchePlanifiéeCommand>({
-//           type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
-//           data: {
-//             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-//             typeTâchePlanifiée: TâchePlanifiée.garantiesFinancieresRappelÉchéanceDeuxMois,
-//           },
-//         });
+//
 //         break;
 
 //       case 'DépôtGarantiesFinancièresEnCoursSupprimé-V2':

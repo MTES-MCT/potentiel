@@ -2,6 +2,11 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import {
+  AjouterTâchePlanifiéeCommand,
+  ExécuterTâchePlanifiéeUseCase,
+} from '@potentiel-domain/tache-planifiee';
+import { DateTime } from '@potentiel-domain/common';
 
 import { sleep } from '../../../../../helpers/sleep';
 import { PotentielWorld } from '../../../../../potentiel.world';
@@ -178,12 +183,22 @@ EtantDonné(
     const echuLeDate = new Date(dateÉchéance.getTime());
     const echuLeValue = new Date(echuLeDate.setDate(echuLeDate.getDate() + 1));
 
-    await mediator.send<GarantiesFinancières.ÉchoirGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.ÉchoirGarantiesFinancières',
+    await mediator.send<AjouterTâchePlanifiéeCommand>({
+      type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
+      data: {
+        identifiantProjet,
+        typeTâchePlanifiée: GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
+        àExécuterLe: DateTime.convertirEnValueType(echuLeValue),
+      },
+    });
+    await sleep(100);
+
+    await mediator.send<ExécuterTâchePlanifiéeUseCase>({
+      type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-        dateÉchéanceValue: dateÉchéance.toISOString(),
-        échuLeValue: echuLeValue.toISOString(),
+        typeTâchePlanifiéeValue:
+          GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
       },
     });
   },

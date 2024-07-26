@@ -34,19 +34,19 @@ registerTâchePlanifiéeUseCases({
   logger.info(`Il y a ${tâches.items.length} tâches à exécuter le ${today}`);
 
   await Promise.all(
-    tâches.items.map(async ({ identifiantProjet, typeTâchePlanifiée: { type } }) => {
+    tâches.items.map(async ({ identifiantProjet, typeTâchePlanifiée }) => {
       try {
-        logger.info(`Exécution de ${type} pour ${identifiantProjet.formatter()}`);
+        logger.info(`Exécution de ${typeTâchePlanifiée} pour ${identifiantProjet.formatter()}`);
         await mediator.send<ExécuterTâchePlanifiéeUseCase>({
           type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
-            typeTâchePlanifiéeValue: type,
+            typeTâchePlanifiéeValue: typeTâchePlanifiée,
           },
         });
       } catch (e) {
         logger.warn(`Error lors de l'execution de la tâche planifiée`, {
-          typeTâchePlanifiée: type,
+          typeTâchePlanifiée: typeTâchePlanifiée,
           identifiantProjet: identifiantProjet.formatter(),
           error: (e as Error).message,
         });
