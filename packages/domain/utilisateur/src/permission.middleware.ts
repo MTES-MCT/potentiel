@@ -17,6 +17,7 @@ export const permissionMiddleware: Middleware = async (message, next) => {
   }
 
   let utilisateur: Utilisateur.ValueType | undefined;
+
   try {
     utilisateur = await mediator.send<GetAuthenticatedUserMessage>({
       type: 'System.Authorization.RécupérerUtilisateur',

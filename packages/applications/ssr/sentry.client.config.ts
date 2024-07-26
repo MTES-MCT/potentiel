@@ -4,17 +4,12 @@
 
 import * as Sentry from '@sentry/nextjs';
 
+// TODO: initialize user in client
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-  environment: 'local',
-
-  // Adjust this value in production, or use tracesSampler for greater control
+  environment: process.env.NEXT_PUBLIC_APPLICATION_STAGE,
   tracesSampleRate: 1,
-
-  // Setting this option to true will print useful information to the console while you're setting up Sentry.
-  debug: false,
-
+  debug: process.env.NEXT_PUBLIC_APPLICATION_STAGE === 'local',
   replaysOnErrorSampleRate: 1.0,
-
   replaysSessionSampleRate: 0.1,
 });

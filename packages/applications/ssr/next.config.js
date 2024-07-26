@@ -51,5 +51,5 @@ module.exports = withSentryConfig(module.exports, {
   hideSourceMaps: true,
 
   // Automatically tree-shake Sentry logger statements to reduce bundle size
-  disableLogger: true,
+  disableLogger: process.env.NEXT_PUBLIC_APPLICATION_STAGE !== 'local',
 });
