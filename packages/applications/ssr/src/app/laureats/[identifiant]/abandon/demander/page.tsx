@@ -49,13 +49,17 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
-    const { cahierDesChargesChoisi } =
+    const cahierDesChargesChoisi =
       await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
         type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
         data: {
           identifiantProjet,
         },
       });
+
+    if (Option.isNone(cahierDesChargesChoisi)) {
+      return notFound();
+    }
 
     if (
       appelOffre.periodes.find(({ id }) => id === candidature.période)

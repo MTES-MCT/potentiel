@@ -52,11 +52,15 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       return notFound();
     }
 
-    const { cahierDesChargesChoisi } =
+    const cahierDesChargesChoisi =
       await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
         type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
         data: { identifiantProjet },
       });
+
+    if (Option.isNone(cahierDesChargesChoisi)) {
+      return notFound();
+    }
 
     const dispositionCDC = getCDCAbandonRefs({
       appelOffres,

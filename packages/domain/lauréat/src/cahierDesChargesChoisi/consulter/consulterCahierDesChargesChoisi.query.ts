@@ -3,16 +3,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { AucunCahierDesChargesChoisiTrouvéError } from '../aucunCahierDesChargesChoisiTrouvéError';
-
-export type ConsulterCahierDesChargesChoisiReadmodel = { cahierDesChargesChoisi: string };
+export type ConsulterCahierDesChargesChoisiReadmodel = string;
 
 export type ConsulterCahierDesChargesChoisiQuery = Message<
   'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
   {
     identifiantProjet: string;
   },
-  ConsulterCahierDesChargesChoisiReadmodel
+  Option.Type<ConsulterCahierDesChargesChoisiReadmodel>
 >;
 
 export type ConsulterCahierDesChargesChoisiPort = (
@@ -34,11 +32,7 @@ export const registerConsulterCahierDesChargesChoisiQuery = ({
       identifiantProjetValueType,
     );
 
-    if (Option.isNone(cahierDesChargesChoisi)) {
-      throw new AucunCahierDesChargesChoisiTrouvéError();
-    }
-
-    return { cahierDesChargesChoisi };
+    return cahierDesChargesChoisi;
   };
   mediator.register('Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi', handler);
 };
