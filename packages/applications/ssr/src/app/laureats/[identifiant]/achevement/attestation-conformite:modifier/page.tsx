@@ -29,6 +29,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       data: { identifiantProjet },
     });
 
+    if (Option.isNone(candidature)) {
+      return notFound();
+    }
+
     if (candidature.statut !== 'classé') {
       throw new InvalidOperationError(
         `Vous ne pouvez pas transmettre une attestation de conformité pour un projet éliminé ou abandonné`,

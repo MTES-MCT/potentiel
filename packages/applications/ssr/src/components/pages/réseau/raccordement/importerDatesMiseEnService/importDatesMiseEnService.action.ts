@@ -2,14 +2,15 @@
 
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { Raccordement } from '@potentiel-domain/reseau';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { DomainError } from '@potentiel-domain/core';
 import { parseCsv } from '@potentiel-libraries/csv';
+import { Option } from '@potentiel-libraries/monads';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
-
 export type ImporterDatesMiseEnServiceState = FormState;
 
 const schema = zod.object({
@@ -68,6 +69,10 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
             identifiantProjet: identifiantProjet.formatter(),
           },
         });
+
+        if (Option.isNone(candidature)) {
+          return notFound();
+        }
 
         await mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
           type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',

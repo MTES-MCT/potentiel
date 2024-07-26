@@ -29,6 +29,10 @@ export const GET = async (
       },
     });
 
+    if (Option.isNone(candidature)) {
+      return notFound();
+    }
+
     const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: { identifiantAppelOffre: candidature.appelOffre },

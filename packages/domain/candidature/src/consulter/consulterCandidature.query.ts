@@ -5,7 +5,6 @@ import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { CandidatureEntity } from '../candidature.entity';
-import { CandidatureInconnueErreur } from '../candidatureInconnue.error';
 import * as Technologie from '../technologie.valueType';
 
 export type ConsulterCandidatureReadModel = {
@@ -38,7 +37,7 @@ export type ConsulterCandidatureQuery = Message<
   {
     identifiantProjet: string;
   },
-  ConsulterCandidatureReadModel
+  Option.Type<ConsulterCandidatureReadModel>
 >;
 
 export type RécupérerCandidaturePort = (
@@ -56,7 +55,7 @@ export const registerConsulterCandidatureQuery = ({
     const result = await récupérerCandidature(identifiantProjet);
 
     if (Option.isNone(result)) {
-      throw new CandidatureInconnueErreur();
+      return result;
     }
 
     return mapToReadModel(result);

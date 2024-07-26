@@ -34,6 +34,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       },
     });
 
+    if (Option.isNone(candidature)) {
+      return notFound();
+    }
+
     if (!StatutProjet.convertirEnValueType(candidature.statut).estClassé()) {
       throw new InvalidOperationError(
         `Vous ne pouvez pas demander l'abandon d'un projet non lauréat`,

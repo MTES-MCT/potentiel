@@ -40,6 +40,10 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       },
     });
 
+    if (Option.isNone(candidature)) {
+      return notFound();
+    }
+
     const dossierRaccordement = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>(
       {
         type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',

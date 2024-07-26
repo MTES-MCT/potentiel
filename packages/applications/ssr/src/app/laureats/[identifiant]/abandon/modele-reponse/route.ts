@@ -38,6 +38,10 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       },
     });
 
+    if (Option.isNone(candidature)) {
+      return notFound();
+    }
+
     const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
       type: 'Lauréat.Abandon.Query.ConsulterAbandon',
       data: {

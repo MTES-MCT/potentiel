@@ -44,6 +44,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjet },
       });
 
+      if (Option.isNone(candidature)) {
+        return notFound();
+      }
+
       const appelOffreDetails = await mediator.send<ConsulterAppelOffreQuery>({
         type: 'AppelOffre.Query.ConsulterAppelOffre',
         data: { identifiantAppelOffre: candidature.appelOffre },
