@@ -26,8 +26,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | contenu fichier      | <contenu du fichier>   |
             | date de constitution | <date de constitution> |
             | date de validation   | <date de validation>   |
-        Alors il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
-        Et la liste des dépôts de garanties financières devrait être vide
+        Et il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
 
         Exemples:
             | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution | date de validation |

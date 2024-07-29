@@ -66,10 +66,21 @@ Alors(
 );
 
 Alors(
-  `la liste des dépôts de garanties financières devrait être vide`,
-  async function (this: PotentielWorld) {
+  'il ne devrait pas y avoir de dépôt de garanties financières pour le projet {string}',
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
     await waitForExpect(async () => {
-      const actualReadModel =
+      const détailDépôt =
+        await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
+      expect(Option.isNone(détailDépôt)).to.be.true;
+
+      const listeDépôts =
         await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
           data: {
@@ -79,25 +90,7 @@ Alors(
           },
         });
 
-      expect(actualReadModel.items).to.be.empty;
-    });
-  },
-);
-
-Alors(
-  'il ne devrait pas y avoir de dépôt de garanties financières pour le projet {string}',
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-    await waitForExpect(async () => {
-      const actualReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-          },
-        });
-      expect(Option.isNone(actualReadModel)).to.be.true;
+      expect(listeDépôts.items).to.be.empty;
     });
   },
 );
