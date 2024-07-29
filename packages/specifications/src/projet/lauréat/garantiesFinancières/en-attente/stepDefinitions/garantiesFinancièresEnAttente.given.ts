@@ -5,10 +5,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { sleep } from '../../../../../helpers/sleep';
 import { PotentielWorld } from '../../../../../potentiel.world';
-import {
-  getCommonGarantiesFinancièresData,
-  getGarantiesFinancièresActuellesEnAttenteData,
-} from '../../helpers';
+import { getGarantiesFinancièresActuellesEnAttenteData } from '../../helpers';
 
 EtantDonné(
   `des garanties financières en attente pour le projet {string} avec :`,
@@ -17,13 +14,8 @@ EtantDonné(
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    const { identifiantProjetValue } = getCommonGarantiesFinancièresData(
-      identifiantProjet,
-      exemple,
-    );
-
-    const { demandéLeValue, dateLimiteSoumissionValue, motifValue } =
-      getGarantiesFinancièresActuellesEnAttenteData(exemple);
+    const { identifiantProjetValue, demandéLeValue, dateLimiteSoumissionValue, motifValue } =
+      getGarantiesFinancièresActuellesEnAttenteData(identifiantProjet, exemple);
 
     await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',

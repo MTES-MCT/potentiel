@@ -5,10 +5,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { sleep } from '../../../../../helpers/sleep';
-import {
-  getCommonGarantiesFinancièresData,
-  getGarantiesFinancièresActuellesData,
-} from '../../helpers';
+import { getGarantiesFinancièresActuellesData } from '../../helpers';
 
 Quand(
   `un admin importe le type des garanties financières actuelles pour le projet {string} avec :`,
@@ -18,9 +15,8 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      const { identifiantProjetValue, typeValue, dateÉchéanceValue } =
-        getCommonGarantiesFinancièresData(identifiantProjet, exemple);
-      const { importéLeValue } = getGarantiesFinancièresActuellesData(exemple);
+      const { identifiantProjetValue, typeValue, dateÉchéanceValue, importéLeValue } =
+        getGarantiesFinancièresActuellesData(identifiantProjet, exemple);
 
       await mediator.send<GarantiesFinancières.ImporterTypeGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
@@ -52,9 +48,9 @@ Quand(
         dateÉchéanceValue,
         attestationValue,
         dateConstitutionValue,
-      } = getCommonGarantiesFinancièresData(identifiantProjet, exemple);
-
-      const { modifiéLeValue, modifiéParValue } = getGarantiesFinancièresActuellesData(exemple);
+        modifiéLeValue,
+        modifiéParValue,
+      } = getGarantiesFinancièresActuellesData(identifiantProjet, exemple);
 
       await mediator.send<GarantiesFinancières.ModifierGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
@@ -83,11 +79,13 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      const { identifiantProjetValue, attestationValue, dateConstitutionValue } =
-        getCommonGarantiesFinancièresData(identifiantProjet, exemple);
-
-      const { enregistréLeValue, enregistréParValue } =
-        getGarantiesFinancièresActuellesData(exemple);
+      const {
+        identifiantProjetValue,
+        attestationValue,
+        dateConstitutionValue,
+        enregistréLeValue,
+        enregistréParValue,
+      } = getGarantiesFinancièresActuellesData(identifiantProjet, exemple);
 
       await mediator.send<GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
@@ -120,10 +118,9 @@ Quand(
         dateÉchéanceValue,
         dateConstitutionValue,
         attestationValue,
-      } = await getCommonGarantiesFinancièresData(identifiantProjet, exemple);
-
-      const { enregistréLeValue, enregistréParValue } =
-        getGarantiesFinancièresActuellesData(exemple);
+        enregistréLeValue,
+        enregistréParValue,
+      } = getGarantiesFinancièresActuellesData(identifiantProjet, exemple);
 
       await mediator.send<GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
@@ -151,12 +148,8 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      const { identifiantProjetValue, dateÉchéanceValue } = await getCommonGarantiesFinancièresData(
-        identifiantProjet,
-        exemple,
-      );
-
-      const { échuLeValue } = getGarantiesFinancièresActuellesData(exemple);
+      const { identifiantProjetValue, dateÉchéanceValue, échuLeValue } =
+        getGarantiesFinancièresActuellesData(identifiantProjet, exemple);
 
       await mediator.send<GarantiesFinancières.ÉchoirGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.ÉchoirGarantiesFinancières',

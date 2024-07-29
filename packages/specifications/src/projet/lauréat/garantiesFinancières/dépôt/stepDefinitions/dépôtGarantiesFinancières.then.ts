@@ -10,7 +10,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../../../../potentiel.world';
-import { getCommonGarantiesFinancièresData, getDépôtGarantiesFinancièresData } from '../../helpers';
+import { getDépôtGarantiesFinancièresData } from '../../helpers';
 import { sleep } from '../../../../../helpers/sleep';
 
 Alors(
@@ -19,10 +19,14 @@ Alors(
     const exemple = dataTable.rowsHash();
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    const { typeValue, dateÉchéanceValue, dateConstitutionValue, attestationValue } =
-      getCommonGarantiesFinancièresData(identifiantProjet, exemple);
-
-    const { soumisLeValue, dernièreMiseÀJour } = getDépôtGarantiesFinancièresData(exemple);
+    const {
+      typeValue,
+      dateÉchéanceValue,
+      dateConstitutionValue,
+      attestationValue,
+      soumisLeValue,
+      dernièreMiseÀJour,
+    } = getDépôtGarantiesFinancièresData(identifiantProjet, exemple);
 
     // ASSERT ON READ MODEL
     await waitForExpect(async () => {

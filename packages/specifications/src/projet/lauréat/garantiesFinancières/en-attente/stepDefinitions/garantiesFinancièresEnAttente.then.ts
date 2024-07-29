@@ -8,10 +8,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
-import {
-  getCommonGarantiesFinancièresData,
-  getGarantiesFinancièresActuellesEnAttenteData,
-} from '../../helpers';
+import { getGarantiesFinancièresActuellesEnAttenteData } from '../../helpers';
 
 Alors(
   `des garanties financières devraient être attendues pour le projet {string} avec :`,
@@ -20,8 +17,10 @@ Alors(
 
     const exemple = dataTable.rowsHash();
 
-    const { dateLimiteSoumissionValue, motifValue } =
-      getGarantiesFinancièresActuellesEnAttenteData(exemple);
+    const { dateLimiteSoumissionValue, motifValue } = getGarantiesFinancièresActuellesEnAttenteData(
+      identifiantProjet,
+      exemple,
+    );
 
     await waitForExpect(async () => {
       const actualReadModel = await getProjetAvecGarantiesFinancièresEnAttente(identifiantProjet);
@@ -49,14 +48,12 @@ Alors(
 const getProjetAvecGarantiesFinancièresEnAttente = async (
   identifiantProjet: IdentifiantProjet.ValueType,
 ) => {
-  const { identifiantProjetValue } = getCommonGarantiesFinancièresData(identifiantProjet, {});
-
   const actualReadModel =
     await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
       {
         type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
         data: {
-          identifiantProjetValue,
+          identifiantProjetValue: identifiantProjet.formatter(),
         },
       },
     );

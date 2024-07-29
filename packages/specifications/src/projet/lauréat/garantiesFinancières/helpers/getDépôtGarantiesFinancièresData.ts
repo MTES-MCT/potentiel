@@ -1,4 +1,13 @@
+import { IdentifiantProjet } from '@potentiel-domain/common';
+
+import {
+  CommonGarantiesFinancièresExempleData,
+  defaultCommonGarantiesFinancièresData,
+  getCommonGarantiesFinancièresData,
+} from './getCommonGarantiesFinancièresData';
+
 export const defaultDépôtGarantiesFinancièresData = {
+  ...defaultCommonGarantiesFinancièresData,
   dateSoumission: '2024-01-02',
   soumisPar: 'porteur@test.test',
   dateModification: '2024-01-03',
@@ -13,7 +22,7 @@ export const defaultDépôtGarantiesFinancièresData = {
   },
 };
 
-export type DépôtGarantiesFinancièresExempleData = {
+export type DépôtGarantiesFinancièresExempleData = CommonGarantiesFinancièresExempleData & {
   'date de soumission'?: string;
   'soumis par'?: string;
   'date de modification'?: string;
@@ -27,8 +36,10 @@ export type DépôtGarantiesFinancièresExempleData = {
 };
 
 export const getDépôtGarantiesFinancièresData = (
+  identifiantProjet: IdentifiantProjet.ValueType,
   exemple: DépôtGarantiesFinancièresExempleData,
 ) => ({
+  ...getCommonGarantiesFinancièresData(identifiantProjet, exemple),
   soumisParValue: exemple['soumis par'] ?? defaultDépôtGarantiesFinancièresData.soumisPar,
   soumisLeValue: new Date(
     exemple['date de soumission'] ?? defaultDépôtGarantiesFinancièresData.dateSoumission,
