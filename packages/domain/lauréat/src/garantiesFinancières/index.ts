@@ -15,6 +15,7 @@ import { EffacerHistoriqueGarantiesFinancièresUseCase } from './effacerHistoriq
 import {
   ConsulterGarantiesFinancièresQuery,
   ConsulterGarantiesFinancièresReadModel,
+  GarantiesFinancièresReadModel,
 } from './garantiesFinancièresActuelles/consulter/consulterGarantiesFinancières.query';
 import {
   ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
@@ -45,7 +46,10 @@ import {
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery,
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel,
 } from './mainlevée/consulter/consulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancières.query';
-import { ConsulterArchivesGarantiesFinancièresQuery } from './garantiesFinancièresActuelles/consulterArchives/consulterArchivesGarantiesFinancières.query';
+import {
+  ConsulterArchivesGarantiesFinancièresQuery,
+  ConsulterArchivesGarantiesFinancièresReadModel,
+} from './garantiesFinancièresActuelles/consulterArchives/consulterArchivesGarantiesFinancières.query';
 
 // Query
 export type GarantiesFinancièresQuery =
@@ -74,7 +78,9 @@ export type {
 
 // ReadModel
 export type {
+  GarantiesFinancièresReadModel,
   ConsulterGarantiesFinancièresReadModel,
+  ConsulterArchivesGarantiesFinancièresReadModel,
   ConsulterDépôtEnCoursGarantiesFinancièresReadModel,
   ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel,
   ListerDépôtsEnCoursGarantiesFinancièresReadModel,

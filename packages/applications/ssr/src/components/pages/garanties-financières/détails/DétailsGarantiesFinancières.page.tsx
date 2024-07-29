@@ -11,6 +11,7 @@ import {
 import {
   DépôtGarantiesFinancières,
   GarantiesFinancièresActuelles,
+  GarantiesFinancièresArchivées,
 } from '@/components/organisms/garantiesFinancières/types';
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
@@ -21,12 +22,14 @@ import { GarantiesFinancièresManquantes } from './components/GarantiesFinanciè
 import { HistoriqueMainlevéeRejetéeProps } from './components/HistoriqueMainlevéeRejetée';
 import { MainlevéeEnCoursProps } from './components/MainlevéeEnCours';
 import { Mainlevée } from './components/Mainlevée';
+import { ArchivesGarantiesFinancières } from './components/ArchivesGarantiesFinancières';
 
 export type DétailsGarantiesFinancièresPageProps = {
   identifiantProjet: string;
   contactPorteurs?: GarantiesFinancièresProps['contactPorteurs'];
   actuelles?: GarantiesFinancièresActuelles;
   dépôtEnCours?: DépôtGarantiesFinancières;
+  archivesGarantiesFinancières?: Array<GarantiesFinancièresArchivées>;
   dateLimiteSoummission?: Iso8601DateTime;
   mainlevée?: MainlevéeEnCoursProps['mainlevéeEnCours'];
   historiqueMainlevée?: HistoriqueMainlevéeRejetéeProps['historiqueMainlevée'];
@@ -43,6 +46,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   historiqueMainlevée,
   afficherInfoConditionsMainlevée,
   contactPorteurs,
+  archivesGarantiesFinancières,
 }) => (
   <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
     <TitrePageGarantiesFinancières title="Détail des garanties financières" />
@@ -77,6 +81,9 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
       )}
       {action === 'soumettre' && (
         <InfoBoxSoumettreGarantiesFinancières identifiantProjet={identifiantProjet} />
+      )}
+      {archivesGarantiesFinancières?.length && (
+        <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
       )}
     </>
   </PageTemplate>

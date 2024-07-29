@@ -32,3 +32,11 @@ export type DépôtGarantiesFinancières = CommonGarantiesFinancières & {
   attestation: string;
   actions: Array<'instruire' | 'supprimer' | 'modifier'>;
 };
+
+export type GarantiesFinancièresArchivées = CommonGarantiesFinancières & {
+  statut: GarantiesFinancières.StatutGarantiesFinancières.RawType;
+  dateConstitution?: Iso8601DateTime;
+  attestation?: string;
+  validéLe?: Iso8601DateTime;
+  soumisLe?: Iso8601DateTime;
+};
