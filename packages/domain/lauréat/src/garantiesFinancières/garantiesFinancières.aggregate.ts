@@ -127,6 +127,8 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     validéLe?: DateTime.ValueType;
     importéLe?: DateTime.ValueType;
   };
+  // violette
+  // ajouter l'historique dans l'aggréagat ?
   dépôtsEnCours?: {
     type: TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
