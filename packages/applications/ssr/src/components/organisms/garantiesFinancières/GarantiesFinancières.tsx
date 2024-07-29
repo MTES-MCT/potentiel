@@ -69,10 +69,7 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
               )}
               {!garantiesFinancières.attestation && (
                 <span className="font-semibold italic">
-                  {garantiesFinancières.actions.includes('modifier')
-                    ? 'Attestation de constitution des garanties financières manquante'
-                    : `Attestation de constitution des garanties financières à transmettre par l'autorité
-                  instructrice compétente`}
+                  Attestation de constitution des garanties financières manquante
                 </span>
               )}
             </div>

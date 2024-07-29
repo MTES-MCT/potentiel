@@ -35,40 +35,47 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     await waitForExpect(async () => {
-      const {
-        référence: actualRéférence,
-        demandeComplèteRaccordement: {
-          accuséRéception: actualAccuséRéception,
-          dateQualification: actualDateQualification,
-        },
-      } = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          référenceDossierRaccordementValue:
-            this.raccordementWorld.référenceDossierRaccordement.formatter(),
-        },
-      });
-
-      const {
-        dateQualification: expectedDateQualification,
-        accuséRéceptionDemandeComplèteRaccordement: { content: expectedContent },
-        référenceDossierRaccordement: expectedRéférence,
-      } = this.raccordementWorld;
-
-      expect(actualDateQualification?.estÉgaleÀ(expectedDateQualification)).to.be.true;
-      expect(actualRéférence.estÉgaleÀ(expectedRéférence)).to.be.true;
-
-      if (actualAccuséRéception) {
-        const result = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
+      const dossierRaccordement =
+        await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+          type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
-            documentKey: actualAccuséRéception.formatter(),
+            identifiantProjetValue: identifiantProjet.formatter(),
+            référenceDossierRaccordementValue:
+              this.raccordementWorld.référenceDossierRaccordement.formatter(),
           },
         });
 
-        const actualContent = await convertReadableStreamToString(result.content);
-        actualContent.should.be.equal(expectedContent);
+      expect(Option.isSome(dossierRaccordement)).to.be.true;
+
+      if (Option.isSome(dossierRaccordement)) {
+        const {
+          référence: actualRéférence,
+          demandeComplèteRaccordement: {
+            accuséRéception: actualAccuséRéception,
+            dateQualification: actualDateQualification,
+          },
+        } = dossierRaccordement;
+
+        const {
+          dateQualification: expectedDateQualification,
+          accuséRéceptionDemandeComplèteRaccordement: { content: expectedContent },
+          référenceDossierRaccordement: expectedRéférence,
+        } = this.raccordementWorld;
+
+        expect(actualDateQualification?.estÉgaleÀ(expectedDateQualification)).to.be.true;
+        expect(actualRéférence.estÉgaleÀ(expectedRéférence)).to.be.true;
+
+        if (actualAccuséRéception) {
+          const result = await mediator.send<ConsulterDocumentProjetQuery>({
+            type: 'Document.Query.ConsulterDocumentProjet',
+            data: {
+              documentKey: actualAccuséRéception.formatter(),
+            },
+          });
+
+          const actualContent = await convertReadableStreamToString(result.content);
+          actualContent.should.be.equal(expectedContent);
+        }
       }
     });
   },
@@ -181,7 +188,7 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string, référenceDossierRaccordement: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     await waitForExpect(async () => {
-      const { propositionTechniqueEtFinancière } =
+      const dossierRaccordement =
         await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
           type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
@@ -190,27 +197,33 @@ Alors(
           },
         });
 
-      const {
-        dateSignature: expectedDateSignature,
-        propositionTechniqueEtFinancièreSignée: { content: expectedContent },
-      } = this.raccordementWorld;
+      expect(Option.isSome(dossierRaccordement)).to.be.true;
 
-      expect(propositionTechniqueEtFinancière).to.be.not.undefined;
+      if (Option.isSome(dossierRaccordement)) {
+        const { propositionTechniqueEtFinancière } = dossierRaccordement;
 
-      expect(propositionTechniqueEtFinancière?.dateSignature?.estÉgaleÀ(expectedDateSignature)).to
-        .be.true;
+        const {
+          dateSignature: expectedDateSignature,
+          propositionTechniqueEtFinancièreSignée: { content: expectedContent },
+        } = this.raccordementWorld;
 
-      if (propositionTechniqueEtFinancière) {
-        const result = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey:
-              propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.formatter(),
-          },
-        });
+        expect(propositionTechniqueEtFinancière).to.be.not.undefined;
 
-        const actualContent = await convertReadableStreamToString(result.content);
-        actualContent.should.be.equal(expectedContent);
+        expect(propositionTechniqueEtFinancière?.dateSignature?.estÉgaleÀ(expectedDateSignature)).to
+          .be.true;
+
+        if (propositionTechniqueEtFinancière) {
+          const result = await mediator.send<ConsulterDocumentProjetQuery>({
+            type: 'Document.Query.ConsulterDocumentProjet',
+            data: {
+              documentKey:
+                propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.formatter(),
+            },
+          });
+
+          const actualContent = await convertReadableStreamToString(result.content);
+          actualContent.should.be.equal(expectedContent);
+        }
       }
     });
   },

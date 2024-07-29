@@ -187,10 +187,16 @@ const getAbandon = async (
       return;
     }
 
-    const { statut } = await mediator.send<Abandon.ConsulterAbandonQuery>({
+    const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
       type: 'Lauréat.Abandon.Query.ConsulterAbandon',
       data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
+
+    if (Option.isNone(abandon)) {
+      return;
+    }
+
+    const { statut } = abandon;
 
     switch (statut.statut) {
       case 'demandé':

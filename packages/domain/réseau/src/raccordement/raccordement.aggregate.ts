@@ -1,4 +1,9 @@
-import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
+import {
+  Aggregate,
+  AggregateNotFoundError,
+  GetDefaultAggregateState,
+  LoadAggregate,
+} from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
@@ -14,7 +19,6 @@ import {
   transmettreDemande,
 } from './transmettre/transmettreDemandeComplèteRaccordement.behavior';
 import * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';
-import { RaccordementInconnuError } from './raccordementInconnu.error';
 import {
   DateMiseEnServiceTransmiseEvent,
   transmettreDateMiseEnService,
@@ -226,3 +230,11 @@ export const loadRaccordementAggregateFactory =
         : undefined,
     });
   };
+
+class RaccordementInconnuError extends AggregateNotFoundError {
+  constructor(identifiantProjet: IdentifiantProjet.ValueType) {
+    super(`Raccordement inconnu`, {
+      identifiantProjet: identifiantProjet.formatter(),
+    });
+  }
+}

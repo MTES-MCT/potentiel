@@ -31,6 +31,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       data: { identifiantProjet },
     });
 
+    if (Option.isNone(candidature)) {
+      return notFound();
+    }
+
     const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
       appelOffre: candidature.appelOffre,
       famille: candidature.famille,

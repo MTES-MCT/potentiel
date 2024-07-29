@@ -188,7 +188,7 @@ export function applyDemandeComplèteDeRaccordementTransmiseEventV2(
 export class RéférenceDossierRaccordementDéjàExistantePourLeProjetError extends InvalidOperationError {
   constructor() {
     super(
-      `Il impossible d'avoir plusieurs dossiers de raccordement avec la même référence pour un projet`,
+      `Il est impossible d'avoir plusieurs dossiers de raccordement avec la même référence pour un projet`,
     );
   }
 }

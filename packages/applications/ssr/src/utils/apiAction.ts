@@ -1,7 +1,7 @@
 import {
+  AggregateNotFoundError,
   DomainError,
   InvalidOperationError,
-  NotFoundError,
   OperationRejectedError,
 } from '@potentiel-domain/core';
 
@@ -17,7 +17,7 @@ const mapDomainError = (e: DomainError) => {
   if (e instanceof OperationRejectedError) {
     return mapTo401();
   }
-  if (e instanceof NotFoundError) {
+  if (e instanceof AggregateNotFoundError) {
     return mapTo404(e);
   }
 

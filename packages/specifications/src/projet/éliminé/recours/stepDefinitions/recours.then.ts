@@ -3,9 +3,9 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 
+import { Option } from '@potentiel-libraries/monads';
 import { Recours } from '@potentiel-domain/elimine';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { NotFoundError } from '@potentiel-domain/core';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
@@ -16,45 +16,51 @@ Alors(
     const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const {
-        statut: actualStatut,
-        identifiantProjet: actualIdentifiantProjet,
-        demande: {
-          demandéLe: actualDateDemande,
-          demandéPar: actualUtilisateur,
-          raison: actualRaison,
-          piéceJustificative: actualPiéceJustificative,
-        },
-      } = await mediator.send<Recours.ConsulterRecoursQuery>({
+      const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
         type: 'Eliminé.Recours.Query.ConsulterRecours',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
-      const {
-        dateDemande,
-        utilisateur,
-        raison,
-        pièceJustificative: { content },
-      } = this.eliminéWorld.recoursWorld;
+      expect(Option.isSome(recours)).to.be.true;
 
-      actualStatut.estÉgaleÀ(Recours.StatutRecours.demandé).should.be.true;
-      actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
-      actualDateDemande.estÉgaleÀ(dateDemande).should.be.true;
-      actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
-      actualRaison.should.be.equal(raison);
-
-      if (actualPiéceJustificative) {
-        const result = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: actualPiéceJustificative.formatter(),
+      if (Option.isSome(recours)) {
+        const {
+          statut: actualStatut,
+          identifiantProjet: actualIdentifiantProjet,
+          demande: {
+            demandéLe: actualDateDemande,
+            demandéPar: actualUtilisateur,
+            raison: actualRaison,
+            piéceJustificative: actualPiéceJustificative,
           },
-        });
+        } = recours;
 
-        const actualContent = await convertReadableStreamToString(result.content);
-        actualContent.should.be.equal(content);
+        const {
+          dateDemande,
+          utilisateur,
+          raison,
+          pièceJustificative: { content },
+        } = this.eliminéWorld.recoursWorld;
+
+        actualStatut.estÉgaleÀ(Recours.StatutRecours.demandé).should.be.true;
+        actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
+        actualDateDemande.estÉgaleÀ(dateDemande).should.be.true;
+        actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
+        actualRaison.should.be.equal(raison);
+
+        if (actualPiéceJustificative) {
+          const result = await mediator.send<ConsulterDocumentProjetQuery>({
+            type: 'Document.Query.ConsulterDocumentProjet',
+            data: {
+              documentKey: actualPiéceJustificative.formatter(),
+            },
+          });
+
+          const actualContent = await convertReadableStreamToString(result.content);
+          actualContent.should.be.equal(content);
+        }
       }
     });
   },
@@ -66,17 +72,13 @@ Alors(
     const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
     await waitForExpect(async () => {
-      try {
-        const result = await mediator.send<Recours.ConsulterRecoursQuery>({
-          type: 'Eliminé.Recours.Query.ConsulterRecours',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-          },
-        });
-        result.should.be.undefined;
-      } catch (e) {
-        (e as Error).should.be.instanceOf(NotFoundError);
-      }
+      const result = await mediator.send<Recours.ConsulterRecoursQuery>({
+        type: 'Eliminé.Recours.Query.ConsulterRecours',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
+      expect(Option.isNone(result)).to.be.true;
     });
   },
 );
@@ -87,43 +89,45 @@ Alors(
     const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const {
-        statut: actualStatut,
-        identifiantProjet: actualIdentifiantProjet,
-        rejet,
-      } = await mediator.send<Recours.ConsulterRecoursQuery>({
+      const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
         type: 'Eliminé.Recours.Query.ConsulterRecours',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
-      const {
-        dateRejet,
-        utilisateur,
-        réponseSignée: { content },
-      } = this.eliminéWorld.recoursWorld;
+      expect(Option.isSome(recours)).to.be.true;
 
-      actualStatut.estÉgaleÀ(Recours.StatutRecours.rejeté).should.be.true;
-      actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
-      expect(rejet).to.be.not.undefined;
+      if (Option.isSome(recours)) {
+        const { statut: actualStatut, identifiantProjet: actualIdentifiantProjet, rejet } = recours;
 
-      const actualDateRejet = rejet!.rejetéLe;
-      const actualUtilisateur = rejet!.rejetéPar;
-      const actualRéponseSignée = rejet!.réponseSignée;
+        const {
+          dateRejet,
+          utilisateur,
+          réponseSignée: { content },
+        } = this.eliminéWorld.recoursWorld;
 
-      actualDateRejet.estÉgaleÀ(dateRejet).should.be.true;
-      actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
+        actualStatut.estÉgaleÀ(Recours.StatutRecours.rejeté).should.be.true;
+        actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
+        expect(rejet).to.be.not.undefined;
 
-      const result = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: actualRéponseSignée.formatter(),
-        },
-      });
+        const actualDateRejet = rejet!.rejetéLe;
+        const actualUtilisateur = rejet!.rejetéPar;
+        const actualRéponseSignée = rejet!.réponseSignée;
 
-      const actualContent = await convertReadableStreamToString(result.content);
-      actualContent.should.be.equal(content);
+        actualDateRejet.estÉgaleÀ(dateRejet).should.be.true;
+        actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
+
+        const result = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: actualRéponseSignée.formatter(),
+          },
+        });
+
+        const actualContent = await convertReadableStreamToString(result.content);
+        actualContent.should.be.equal(content);
+      }
     });
   },
 );
@@ -134,43 +138,49 @@ Alors(
     const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const {
-        statut: actualStatut,
-        identifiantProjet: actualIdentifiantProjet,
-        accord,
-      } = await mediator.send<Recours.ConsulterRecoursQuery>({
+      const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
         type: 'Eliminé.Recours.Query.ConsulterRecours',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
-      const {
-        dateAccord,
-        utilisateur,
-        réponseSignée: { content },
-      } = this.eliminéWorld.recoursWorld;
+      expect(Option.isSome(recours)).to.be.true;
 
-      actualStatut.estÉgaleÀ(Recours.StatutRecours.accordé).should.be.true;
-      actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
-      expect(accord).to.be.not.undefined;
+      if (Option.isSome(recours)) {
+        const {
+          statut: actualStatut,
+          identifiantProjet: actualIdentifiantProjet,
+          accord,
+        } = recours;
 
-      const actualDateRejet = accord!.accordéLe;
-      const actualUtilisateur = accord!.accordéPar;
-      const actualRéponseSignée = accord!.réponseSignée;
+        const {
+          dateAccord,
+          utilisateur,
+          réponseSignée: { content },
+        } = this.eliminéWorld.recoursWorld;
 
-      actualDateRejet.estÉgaleÀ(dateAccord).should.be.true;
-      actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
+        actualStatut.estÉgaleÀ(Recours.StatutRecours.accordé).should.be.true;
+        actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
+        expect(accord).to.be.not.undefined;
 
-      const result = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: actualRéponseSignée.formatter(),
-        },
-      });
+        const actualDateRejet = accord!.accordéLe;
+        const actualUtilisateur = accord!.accordéPar;
+        const actualRéponseSignée = accord!.réponseSignée;
 
-      const actualContent = await convertReadableStreamToString(result.content);
-      actualContent.should.be.equal(content);
+        actualDateRejet.estÉgaleÀ(dateAccord).should.be.true;
+        actualUtilisateur.estÉgaleÀ(utilisateur).should.be.true;
+
+        const result = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: actualRéponseSignée.formatter(),
+          },
+        });
+
+        const actualContent = await convertReadableStreamToString(result.content);
+        actualContent.should.be.equal(content);
+      }
     });
   },
 );
@@ -181,20 +191,22 @@ Alors(
     const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const {
-        statut: actualStatut,
-        identifiantProjet: actualIdentifiantProjet,
-        rejet,
-      } = await mediator.send<Recours.ConsulterRecoursQuery>({
+      const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
         type: 'Eliminé.Recours.Query.ConsulterRecours',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
-      actualStatut.estÉgaleÀ(Recours.StatutRecours.demandé).should.be.true;
-      actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
-      expect(rejet).to.be.undefined;
+      expect(Option.isSome(recours)).to.be.true;
+
+      if (Option.isSome(recours)) {
+        const { statut: actualStatut, identifiantProjet: actualIdentifiantProjet, rejet } = recours;
+
+        actualStatut.estÉgaleÀ(Recours.StatutRecours.demandé).should.be.true;
+        actualIdentifiantProjet.estÉgaleÀ(identifiantProjet).should.be.true;
+        expect(rejet).to.be.undefined;
+      }
     });
   },
 );

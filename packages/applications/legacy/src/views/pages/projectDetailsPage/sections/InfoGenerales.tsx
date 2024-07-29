@@ -172,13 +172,11 @@ const GarantiesFinancièresProjet = ({
               )}
             .
           </p>
-
           {!garantiesFinancières.actuelles?.dateConstitution && (
             <AlertMessage>
               L'attestation de constitution des garanties financières reste à transmettre.
             </AlertMessage>
           )}
-
           {garantiesFinancières.actuelles.type === 'type-inconnu' && (
             <AlertMessage>Le type de garanties financières reste à préciser.</AlertMessage>
           )}

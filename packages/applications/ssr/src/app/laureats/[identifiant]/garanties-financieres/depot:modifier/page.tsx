@@ -35,6 +35,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjet },
       });
 
+      if (Option.isNone(candidature)) {
+        return notFound();
+      }
+
       if (
         !projetSoumisAuxGarantiesFinancières({
           appelOffre: candidature.appelOffre,

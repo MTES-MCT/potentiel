@@ -8,6 +8,7 @@ import { CahierDesCharges } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { StatutProjet } from '@potentiel-domain/common';
 import { InvalidOperationError } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
 
 import {
   DemanderAbandonPage,
@@ -33,6 +34,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       },
     });
 
+    if (Option.isNone(candidature)) {
+      return notFound();
+    }
+
     if (!StatutProjet.convertirEnValueType(candidature.statut).estClassé()) {
       throw new InvalidOperationError(
         `Vous ne pouvez pas demander l'abandon d'un projet non lauréat`,
@@ -44,13 +49,21 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       data: { identifiantAppelOffre: candidature.appelOffre },
     });
 
-    const { cahierDesChargesChoisi } =
+    if (Option.isNone(appelOffre)) {
+      return notFound();
+    }
+
+    const cahierDesChargesChoisi =
       await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
         type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
         data: {
           identifiantProjet,
         },
       });
+
+    if (Option.isNone(cahierDesChargesChoisi)) {
+      return notFound();
+    }
 
     if (
       appelOffre.periodes.find(({ id }) => id === candidature.période)

@@ -45,6 +45,10 @@ export default async function Page({ params: { identifiant, reference } }: PageP
         data: { identifiantAppelOffre: identifiantProjet.appelOffre },
       });
 
+      if (Option.isNone(appelOffre)) {
+        return notFound();
+      }
+
       const gestionnaireRéseau =
         await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
           type: 'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
@@ -64,10 +68,15 @@ export default async function Page({ params: { identifiant, reference } }: PageP
           },
         });
 
+      if (Option.isNone(dossierRaccordement)) {
+        return notFound();
+      }
+
       const canEdit =
         utilisateur.role.estÉgaleÀ(Role.admin) ||
         utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
-        (utilisateur.role.estÉgaleÀ(Role.porteur) && !dossierRaccordement.miseEnService);
+        ((utilisateur.role.estÉgaleÀ(Role.porteur) || utilisateur.role.estÉgaleÀ(Role.dreal)) &&
+          !dossierRaccordement.miseEnService);
 
       const props = mapToProps({
         appelOffre,

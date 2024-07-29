@@ -1,4 +1,4 @@
-import { DomainEvent, NotFoundError } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
@@ -34,10 +34,7 @@ export async function modifierGestionnaireRéseau(
   { identifiantGestionnaireRéseau, identifiantProjet }: ModifierGestionnaireRéseauOptions,
 ) {
   if (this.identifiantGestionnaireRéseau.estÉgaleÀ(identifiantGestionnaireRéseau)) {
-    throw new MêmeGestionnaireRéseauUtiliséPourModifierLeRaccordementError(
-      identifiantProjet,
-      identifiantGestionnaireRéseau,
-    );
+    throw new GestionnaireRéseauIdentiqueError(identifiantProjet, identifiantGestionnaireRéseau);
   }
 
   if (identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu)) {
@@ -78,7 +75,7 @@ export function applyGestionnaireRéseauRaccordemenInconnuEventV1(
   this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.inconnu;
 }
 
-export class MêmeGestionnaireRéseauUtiliséPourModifierLeRaccordementError extends NotFoundError {
+export class GestionnaireRéseauIdentiqueError extends InvalidOperationError {
   constructor(
     identifiantProjet: IdentifiantProjet.ValueType,
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType,

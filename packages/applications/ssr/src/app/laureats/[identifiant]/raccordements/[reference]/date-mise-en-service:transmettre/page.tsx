@@ -1,10 +1,12 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -38,6 +40,10 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       },
     });
 
+    if (Option.isNone(candidature)) {
+      return notFound();
+    }
+
     const dossierRaccordement = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>(
       {
         type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
@@ -48,12 +54,20 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       },
     );
 
+    if (Option.isNone(dossierRaccordement)) {
+      return notFound();
+    }
+
     const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: {
         identifiantAppelOffre: candidature.appelOffre,
       },
     });
+
+    if (Option.isNone(appelOffre)) {
+      return notFound();
+    }
 
     const intervalleDatesMeSDélaiCDC2022 = appelOffre.periodes
       .find((p) => p.id === candidature.période)

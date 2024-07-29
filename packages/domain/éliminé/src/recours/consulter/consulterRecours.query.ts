@@ -6,7 +6,6 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/core';
 
-import { AucunRecoursEnCours } from '../aucunRecoursEnCours.error';
 import * as StatutRecours from '../statutRecours.valueType';
 import { RecoursEntity } from '../recours.entity';
 import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
@@ -37,7 +36,7 @@ export type ConsulterRecoursQuery = Message<
   {
     identifiantProjetValue: string;
   },
-  ConsulterRecoursReadModel
+  Option.Type<ConsulterRecoursReadModel>
 >;
 
 export type ConsulterRecoursDependencies = {
@@ -50,7 +49,7 @@ export const registerConsulterRecoursQuery = ({ find }: ConsulterRecoursDependen
     const result = await find<RecoursEntity>(`recours|${identifiantProjet.formatter()}`);
 
     if (Option.isNone(result)) {
-      throw new AucunRecoursEnCours();
+      return result;
     }
 
     const demande: ConsulterRecoursReadModel['demande'] = {

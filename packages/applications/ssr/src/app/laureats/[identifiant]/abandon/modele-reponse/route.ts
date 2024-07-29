@@ -1,4 +1,5 @@
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { Abandon, CahierDesCharges } from '@potentiel-domain/laureat';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
@@ -6,6 +7,7 @@ import { ConsulterAppelOffreQuery, AppelOffre } from '@potentiel-domain/appel-of
 import { DateTime } from '@potentiel-domain/common';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { buildDocxDocument } from '@potentiel-applications/document-builder';
+import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -16,12 +18,18 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
   withUtilisateur(async (utilisateur) => {
     const identifiantProjet = decodeParameter(identifiant);
 
-    const { nomComplet } = await mediator.send<ConsulterUtilisateurQuery>({
+    const utilisateurDétails = await mediator.send<ConsulterUtilisateurQuery>({
       type: 'Utilisateur.Query.ConsulterUtilisateur',
       data: {
         identifiantUtilisateur: utilisateur.identifiantUtilisateur.formatter(),
       },
     });
+
+    if (Option.isNone(utilisateurDétails)) {
+      return notFound();
+    }
+
+    const { nomComplet } = utilisateurDétails;
 
     const candidature = await mediator.send<ConsulterCandidatureQuery>({
       type: 'Candidature.Query.ConsulterCandidature',
@@ -30,6 +38,10 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       },
     });
 
+    if (Option.isNone(candidature)) {
+      return notFound();
+    }
+
     const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
       type: 'Lauréat.Abandon.Query.ConsulterAbandon',
       data: {
@@ -37,16 +49,28 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       },
     });
 
+    if (Option.isNone(abandon)) {
+      return notFound();
+    }
+
     const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: { identifiantAppelOffre: candidature.appelOffre },
     });
 
-    const { cahierDesChargesChoisi } =
+    if (Option.isNone(appelOffres)) {
+      return notFound();
+    }
+
+    const cahierDesChargesChoisi =
       await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
         type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
         data: { identifiantProjet },
       });
+
+    if (Option.isNone(cahierDesChargesChoisi)) {
+      return notFound();
+    }
 
     const dispositionCDC = getCDCAbandonRefs({
       appelOffres,
