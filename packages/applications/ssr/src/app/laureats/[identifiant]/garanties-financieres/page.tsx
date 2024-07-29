@@ -200,12 +200,13 @@ const mapToProps: MapToProps = ({
     (Option.isSome(mainlevée) && mainlevée.statut.estAccordé()) ||
     Option.isSome(historiqueMainlevée);
 
+  if (aGarantiesFinancièresSansAttestation) {
+    garantiesFinancièresActuellesActions.push('enregister-attestation');
+  }
+
   if ((estAdminOuDGEC || estDreal) && aGarantiesFinancièresNonLevées) {
     garantiesFinancièresActuellesActions.push('modifier');
   } else if (estPorteur) {
-    if (aGarantiesFinancièresSansAttestation) {
-      garantiesFinancièresActuellesActions.push('enregister-attestation');
-    }
     if (aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée && projetAbandonne) {
       garantiesFinancièresActuellesActions.push('demander-mainlevée-gf-pour-projet-abandonné');
     }
