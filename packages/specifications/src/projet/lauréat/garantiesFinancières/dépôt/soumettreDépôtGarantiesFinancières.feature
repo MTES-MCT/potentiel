@@ -4,6 +4,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
 
+    @select
     Plan du Scénario: Un porteur soumet un dépôt de garanties financières
         Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
             | date limite de soumission | 2023-11-01    |
@@ -12,9 +13,9 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | type                 | <type>                 |
             | date d'échéance      | <date d'échéance>      |
+            | date de constitution | <date de constitution> |
             | format               | <format du fichier>    |
             | contenu fichier      | <contenu du fichier>   |
-            | date de constitution | <date de constitution> |
             | date de soumission   | <date de soumission>   |
             | soumis par           | porteur@test.test      |
         Alors le dépôt de garanties financières devrait être consultable pour le projet "Du boulodrome de Marseille" avec :

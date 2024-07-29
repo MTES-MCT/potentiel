@@ -1,38 +1,44 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+import { assert } from 'chai';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { sleep } from '../../../../../helpers/sleep';
 import { PotentielWorld } from '../../../../../potentiel.world';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
+import {
+  getCommonGarantiesFinancièresData,
+  getDépôtGarantiesFinancièresData,
+  getGarantiesFinancièresActuellesData,
+} from '../../helpers';
 
 EtantDonné(
   'des garanties financières actuelles pour le projet {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const typeGarantiesFinancières = exemple['type'] || 'consignation';
-    const dateÉchéance = exemple[`date d'échéance`] || undefined;
-    const format = exemple['format'] || 'application/pdf';
-    const dateConstitution = exemple[`date de constitution`] || '2024-01-01';
-    const contenuFichier = exemple['contenu fichier'] || 'contenu fichier';
-    const dateSoumission = exemple['date de soumission'] || '2024-01-02';
-    const soumisPar = exemple['soumis par'] || 'user@test.test';
-    const validéLe = exemple['date de validation'] || '2024-01-03';
-
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    const {
+      identifiantProjetValue,
+      typeValue,
+      dateÉchéanceValue,
+      dateConstitutionValue,
+      attestationValue,
+    } = getCommonGarantiesFinancièresData(identifiantProjet, exemple);
+    const { soumisLeValue, soumisParValue, validéLeValue, validéParValue } =
+      getDépôtGarantiesFinancièresData(exemple);
 
     await mediator.send<GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
       data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        typeValue: typeGarantiesFinancières,
-        dateConstitutionValue: new Date(dateConstitution).toISOString(),
-        soumisLeValue: new Date(dateSoumission).toISOString(),
-        soumisParValue: soumisPar,
-        attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
-        dateÉchéanceValue: dateÉchéance && new Date(dateÉchéance).toISOString(),
+        identifiantProjetValue,
+        typeValue,
+        dateÉchéanceValue,
+        dateConstitutionValue,
+        soumisLeValue,
+        soumisParValue,
+        attestationValue,
       },
     });
 
@@ -41,9 +47,9 @@ EtantDonné(
     await mediator.send<GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
       data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        validéLeValue: new Date(validéLe).toISOString(),
-        validéParValue: 'dreal@test.test',
+        identifiantProjetValue,
+        validéLeValue,
+        validéParValue,
       },
     });
 
@@ -54,25 +60,22 @@ EtantDonné(
 EtantDonné(
   'des garanties financières actuelles pour le projet {string}',
   async function (this: PotentielWorld, nomProjet: string) {
-    const typeGarantiesFinancières = 'consignation';
-    const format = 'application/pdf';
-    const dateConstitution = '2024-01-01';
-    const contenuFichier = 'contenu fichier';
-    const dateSoumission = '2024-01-02';
-    const soumisPar = 'user@test.test';
-    const validéLe = '2024-01-03';
-
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { attestationValue, dateConstitutionValue, identifiantProjetValue, typeValue } =
+      getCommonGarantiesFinancièresData(identifiantProjet, {});
+
+    const { soumisLeValue, soumisParValue, validéLeValue, validéParValue } =
+      getDépôtGarantiesFinancièresData({});
 
     await mediator.send<GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
       data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        typeValue: typeGarantiesFinancières,
-        dateConstitutionValue: new Date(dateConstitution).toISOString(),
-        soumisLeValue: new Date(dateSoumission).toISOString(),
-        soumisParValue: soumisPar,
-        attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
+        identifiantProjetValue,
+        typeValue,
+        dateConstitutionValue,
+        soumisLeValue,
+        soumisParValue,
+        attestationValue,
       },
     });
 
@@ -81,9 +84,9 @@ EtantDonné(
     await mediator.send<GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
       data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        validéLeValue: new Date(validéLe).toISOString(),
-        validéParValue: 'dreal@test.test',
+        identifiantProjetValue,
+        validéLeValue,
+        validéParValue,
       },
     });
 
@@ -95,19 +98,20 @@ EtantDonné(
   `des garanties financières actuelles importées avec l'attestation manquante pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
-
-    const typeGarantiesFinancières = exemple['type'] || 'consignation';
-    const dateÉchéance = exemple[`date d'échéance`] || undefined;
-
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    const { identifiantProjetValue, typeValue, dateÉchéanceValue } =
+      getCommonGarantiesFinancièresData(identifiantProjet, exemple);
+
+    const { importéLeValue } = getGarantiesFinancièresActuellesData({});
 
     await mediator.send<GarantiesFinancières.ImporterTypeGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
       data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        typeValue: typeGarantiesFinancières,
-        dateÉchéanceValue: dateÉchéance && new Date(dateÉchéance).toISOString(),
-        importéLeValue: new Date().toISOString(),
+        identifiantProjetValue,
+        typeValue,
+        dateÉchéanceValue,
+        importéLeValue,
       },
     });
 
@@ -120,12 +124,19 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
+    const { identifiantProjetValue, typeValue } = getCommonGarantiesFinancièresData(
+      identifiantProjet,
+      {},
+    );
+
+    const { importéLeValue } = getGarantiesFinancièresActuellesData({});
+
     await mediator.send<GarantiesFinancières.ImporterTypeGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
       data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        typeValue: 'consignation',
-        importéLeValue: new Date().toISOString(),
+        identifiantProjetValue,
+        typeValue,
+        importéLeValue,
       },
     });
 
@@ -138,27 +149,29 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const dateÉchéance = new Date(exemple[`date d'échéance`]);
-    const typeGarantiesFinancières = 'avec-date-échéance';
-    const format = 'application/pdf';
-    const dateConstitution = '2024-01-01';
-    const contenuFichier = 'contenu fichier';
-    const dateSoumission = '2024-01-02';
-    const soumisPar = 'user@test.test';
-    const validéLe = '2024-01-03';
-
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    const {
+      identifiantProjetValue,
+      typeValue,
+      dateÉchéanceValue,
+      dateConstitutionValue,
+      attestationValue,
+    } = getCommonGarantiesFinancièresData(identifiantProjet, exemple);
+
+    const { soumisLeValue, soumisParValue, validéLeValue, validéParValue } =
+      getDépôtGarantiesFinancièresData(exemple);
 
     await mediator.send<GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
       data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        typeValue: typeGarantiesFinancières,
-        dateConstitutionValue: new Date(dateConstitution).toISOString(),
-        soumisLeValue: new Date(dateSoumission).toISOString(),
-        soumisParValue: soumisPar,
-        attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
-        dateÉchéanceValue: dateÉchéance.toISOString(),
+        identifiantProjetValue,
+        typeValue,
+        dateÉchéanceValue,
+        dateConstitutionValue,
+        soumisLeValue,
+        soumisParValue,
+        attestationValue,
       },
     });
 
@@ -167,22 +180,24 @@ EtantDonné(
     await mediator.send<GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
       data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        validéLeValue: new Date(validéLe).toISOString(),
-        validéParValue: 'dreal@test.test',
+        identifiantProjetValue,
+        validéLeValue,
+        validéParValue,
       },
     });
 
     await sleep(100);
 
-    const echuLeDate = new Date(dateÉchéance.getTime());
+    assert(dateÉchéanceValue, "La date d'échéance est requise");
+
+    const echuLeDate = new Date(new Date(dateÉchéanceValue).getTime());
     const echuLeValue = new Date(echuLeDate.setDate(echuLeDate.getDate() + 1));
 
     await mediator.send<GarantiesFinancières.ÉchoirGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ÉchoirGarantiesFinancières',
       data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        dateÉchéanceValue: dateÉchéance.toISOString(),
+        identifiantProjetValue,
+        dateÉchéanceValue: dateÉchéanceValue!,
         échuLeValue: echuLeValue.toISOString(),
       },
     });

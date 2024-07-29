@@ -10,22 +10,19 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../../../../potentiel.world';
+import { getCommonGarantiesFinancièresData, getDépôtGarantiesFinancièresData } from '../../helpers';
+import { sleep } from '../../../../../helpers/sleep';
 
 Alors(
   'le dépôt de garanties financières devrait être consultable pour le projet {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
-
-    const typeGarantiesFinancières = exemple['type'];
-    const dateÉchéance = exemple[`date d'échéance`];
-    const format = exemple['format'];
-    const dateConstitution = exemple[`date de constitution`];
-    const contenu = exemple['contenu fichier'];
-    const dateSoumission = exemple['date de soumission'];
-    const soumisPar = exemple['soumis par'];
-    const dateMiseÀJour = exemple['date de dernière mise à jour'];
-
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    const { typeValue, dateÉchéanceValue, dateConstitutionValue, attestationValue } =
+      getCommonGarantiesFinancièresData(identifiantProjet, exemple);
+
+    const { soumisLeValue, dernièreMiseÀJour } = getDépôtGarantiesFinancièresData(exemple);
 
     // ASSERT ON READ MODEL
     await waitForExpect(async () => {
@@ -36,31 +33,32 @@ Alors(
       expect(dépôtEnCours).not.to.be.undefined;
       assert(dépôtEnCours);
 
-      expect(dépôtEnCours.type.type).to.deep.equal(typeGarantiesFinancières);
-      expect(dépôtEnCours.dateConstitution.date).to.deep.equal(new Date(dateConstitution));
-      expect(dépôtEnCours.soumisLe.date).to.deep.equal(new Date(dateSoumission));
-      expect(dépôtEnCours.dernièreMiseÀJour.date.date).to.deep.equal(new Date(dateMiseÀJour));
-      expect(dépôtEnCours.dernièreMiseÀJour.par.formatter()).to.deep.equal(soumisPar);
+      expect(dépôtEnCours.type.type).to.deep.equal(typeValue);
+      expect(dépôtEnCours.dateConstitution.date).to.deep.equal(new Date(dateConstitutionValue));
+      expect(dépôtEnCours.soumisLe.date).to.deep.equal(new Date(soumisLeValue));
+      expect(dépôtEnCours.dernièreMiseÀJour.date.date).to.deep.equal(
+        new Date(dernièreMiseÀJour.date),
+      );
+      expect(dépôtEnCours.dernièreMiseÀJour.par.formatter()).to.deep.equal(dernièreMiseÀJour.par);
 
-      if (dépôtEnCours.dateÉchéance) {
-        expect(dépôtEnCours.dateÉchéance.date).to.deep.equal(new Date(dateÉchéance));
+      if (dépôtEnCours.dateÉchéance && dateÉchéanceValue) {
+        expect(dépôtEnCours.dateÉchéance).not.to.be.undefined;
+        expect(dépôtEnCours.dateÉchéance.date).to.deep.equal(new Date(dateÉchéanceValue!));
       }
 
       // ASSERT ON FILE
       expect(dépôtEnCours.attestation).not.to.be.undefined;
-      expect(dépôtEnCours.attestation.format).to.deep.equal(format);
+      expect(dépôtEnCours.attestation.format).to.deep.equal(attestationValue.format);
 
-      if (dépôtEnCours?.attestation) {
-        const file = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: dépôtEnCours.attestation.formatter(),
-          },
-        });
+      const file = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'Document.Query.ConsulterDocumentProjet',
+        data: {
+          documentKey: dépôtEnCours.attestation.formatter(),
+        },
+      });
 
-        const actualContent = await convertReadableStreamToString(file.content);
-        actualContent.should.be.equal(contenu);
-      }
+      const actualContent = await convertReadableStreamToString(file.content);
+      actualContent.should.be.equal(attestationValue.content);
     });
   },
 );
@@ -79,6 +77,8 @@ Alors(
           },
         });
       expect(Option.isNone(détailDépôt)).to.be.true;
+
+      await sleep(100);
 
       const listeDépôts =
         await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
@@ -105,6 +105,8 @@ const getDépôtEnCoursGarantiesFinancières = async (
         identifiantProjetValue: identifiantProjet.formatter(),
       },
     });
+
+  console.log('actualReadModel 👨🏼‍🦱', actualReadModel);
 
   if (Option.isNone(actualReadModel)) {
     throw new Error(

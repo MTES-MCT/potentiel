@@ -10,6 +10,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../../../../potentiel.world';
+import { getCommonGarantiesFinancièresData } from '../../helpers';
 
 Alors(
   `les garanties financières actuelles devraient être consultables pour le projet {string} avec :`,
@@ -86,12 +87,14 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
+    const { identifiantProjetValue } = getCommonGarantiesFinancièresData(identifiantProjet, {});
+
     await waitForExpect(async () => {
       const garantiesFinancièresActuelles =
         await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
           data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+            identifiantProjetValue,
           },
         });
       expect(Option.isNone(garantiesFinancièresActuelles)).to.be.true;
@@ -104,12 +107,14 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
+    const { identifiantProjetValue } = getCommonGarantiesFinancièresData(identifiantProjet, {});
+
     await waitForExpect(async () => {
       const actualReadModel =
         await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
           data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+            identifiantProjetValue,
           },
         });
 
@@ -121,11 +126,13 @@ Alors(
 );
 
 const getGarantiesFinancières = async (identifiantProjet: IdentifiantProjet.ValueType) => {
+  const { identifiantProjetValue } = getCommonGarantiesFinancièresData(identifiantProjet, {});
+
   const actualReadModel =
     await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
       type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
       data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
+        identifiantProjetValue,
       },
     });
 
