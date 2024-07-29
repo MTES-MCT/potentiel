@@ -4,12 +4,12 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/core';
 
-import { GarantiesFinancièresEntity } from '../garantiesFinancièresActuelles.entity';
 import { GarantiesFinancièresDetailsEntity } from '../..';
 import {
   GarantiesFinancièresReadModel,
   mapGarantiesFinancièresToReadModel,
 } from '../consulter/consulterGarantiesFinancières.query';
+import { ArchivesGarantiesFinancièresEntity } from '../archivesGarantiesFinancières.entity';
 
 export type ConsulterArchivesGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -36,15 +36,11 @@ export const registerConsulterArchivesGarantiesFinancièresQuery = ({
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const result = await find<GarantiesFinancièresEntity>(
-      `garanties-financieres|${identifiantProjet.formatter()}`,
+    const result = await find<ArchivesGarantiesFinancièresEntity>(
+      `archives-garanties-financieres|${identifiantProjet.formatter()}`,
     );
 
     if (Option.isNone(result)) {
-      return Option.none;
-    }
-
-    if (result.archives.length === 0) {
       return Option.none;
     }
 
@@ -53,6 +49,7 @@ export const registerConsulterArchivesGarantiesFinancièresQuery = ({
       identifiantProjetValueType: identifiantProjet,
     });
   };
+
   mediator.register(
     'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
     handler,
