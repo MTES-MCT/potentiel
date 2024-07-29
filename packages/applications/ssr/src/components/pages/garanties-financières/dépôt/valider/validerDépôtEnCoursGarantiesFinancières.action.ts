@@ -4,6 +4,7 @@ import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Option } from '@potentiel-libraries/monads';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -14,12 +15,23 @@ const schema = zod.object({
 
 const action: FormAction<FormState, typeof schema> = async (_, props) =>
   withUtilisateur(async (utilisateur) => {
+    const gf =
+      await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
+        data: {
+          identifiantProjetValue: props.identifiantProjet,
+        },
+      });
+
     await mediator.send<GarantiesFinancières.GarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
       data: {
         identifiantProjetValue: props.identifiantProjet,
         validéLeValue: new Date().toISOString(),
         validéParValue: utilisateur.identifiantUtilisateur.formatter(),
+        dateÉchéanceValue: Option.match(gf)
+          .some((value) => value.dépôt.dateÉchéance?.formatter())
+          .none(() => undefined),
       },
     });
 
