@@ -116,8 +116,8 @@ const mapToPropsDossiers = ({
     const canEditDemandeComplèteRaccordement =
       rôleUtilisateur.estÉgaleÀ(Role.admin) ||
       rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
-      rôleUtilisateur.estÉgaleÀ(Role.dreal) ||
-      (rôleUtilisateur.estÉgaleÀ(Role.porteur) && !dossier.miseEnService?.dateMiseEnService);
+      ((rôleUtilisateur.estÉgaleÀ(Role.porteur) || rôleUtilisateur.estÉgaleÀ(Role.dreal)) &&
+        !dossier.miseEnService?.dateMiseEnService);
 
     const canEditPropositionTechniqueEtFinancière =
       rôleUtilisateur.estÉgaleÀ(Role.admin) ||

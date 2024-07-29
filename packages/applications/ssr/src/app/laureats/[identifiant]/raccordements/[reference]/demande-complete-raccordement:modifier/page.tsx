@@ -67,7 +67,8 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       const canEdit =
         utilisateur.role.estÉgaleÀ(Role.admin) ||
         utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
-        (utilisateur.role.estÉgaleÀ(Role.porteur) && !dossierRaccordement.miseEnService);
+        ((utilisateur.role.estÉgaleÀ(Role.porteur) || utilisateur.role.estÉgaleÀ(Role.dreal)) &&
+          !dossierRaccordement.miseEnService);
 
       const props = mapToProps({
         appelOffre,
