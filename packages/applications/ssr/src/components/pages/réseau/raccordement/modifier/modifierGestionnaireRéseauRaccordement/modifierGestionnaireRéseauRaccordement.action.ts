@@ -25,7 +25,7 @@ const action: FormAction<FormState, typeof schema> = async (
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
-        rôleValue: utilisateur.nom,
+        rôleValue: utilisateur.role.nom,
       },
     });
 
