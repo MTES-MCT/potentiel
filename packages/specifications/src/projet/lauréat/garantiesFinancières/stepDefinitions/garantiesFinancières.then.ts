@@ -179,7 +179,7 @@ Alors(
 );
 
 Alors(
-  `un historique des garanties financières devrait être consultable pour le projet "Centrale PV"`,
+  `un historique des garanties financières devrait être consultable pour le projet {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
