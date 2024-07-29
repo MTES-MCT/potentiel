@@ -92,31 +92,27 @@ v1Router.post(
             période: projet.periodeId,
           })
         ) {
-          // supprimer les éventuelles garanties financières du projet
           const dateActuelle = new Date();
-          try {
-            const garantiesFinancières =
-              await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-                type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-                data: {
-                  identifiantProjetValue,
-                },
-              });
-            if (Option.isSome(garantiesFinancières)) {
-              await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresUseCase>(
-                {
-                  type: 'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
-                  data: {
-                    identifiantProjetValue,
-                    effacéLeValue: dateActuelle.toISOString(),
-                    effacéParValue: user.email,
-                  },
-                },
-              );
-            }
-          } catch (error) {}
 
-          // demander de nouvelles garanties financières
+          const garantiesFinancières =
+            await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+              type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+              data: {
+                identifiantProjetValue,
+              },
+            });
+
+          if (Option.isSome(garantiesFinancières)) {
+            await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresUseCase>({
+              type: 'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
+              data: {
+                identifiantProjetValue,
+                effacéLeValue: dateActuelle.toISOString(),
+                effacéParValue: user.email,
+              },
+            });
+          }
+
           await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
             type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
             data: {
