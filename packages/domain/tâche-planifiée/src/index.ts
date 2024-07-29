@@ -29,10 +29,6 @@ export {
 // Command
 export { AjouterTâchePlanifiéeCommand, AnnulerTâchePlanifiéeCommand };
 
-// Saga
-// export * as TâchePlanifiéeAchévementSaga from './saga/tâchePlanifiéeAchévement.saga';
-// export * as TâchePlanifiéeGarantiesFinancièresSaga from './saga/tâchePlanifiéeGarantiesFinancières.saga';
-
 // Register
 export * from './register';
 

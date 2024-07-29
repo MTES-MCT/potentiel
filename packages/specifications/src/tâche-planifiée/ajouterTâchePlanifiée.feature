@@ -8,6 +8,7 @@ Fonctionnalité: Planifier une tâche
             | nom   | Porteur Projet Test |
             | role  | porteur-projet      |
 
+    @select
     Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand des garanties financières avec date d'échéance sont créées
         Etant donné un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | type            | avec-date-échéance |

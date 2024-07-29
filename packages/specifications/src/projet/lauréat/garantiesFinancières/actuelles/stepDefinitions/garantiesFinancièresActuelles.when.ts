@@ -151,9 +151,13 @@ Quand(
         type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
         data: {
           identifiantProjet,
-          typeTâchePlanifiée:
-            GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
-          àExécuterLe: DateTime.convertirEnValueType(échuLeValue),
+          tâches: [
+            {
+              typeTâchePlanifiée:
+                GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
+              àExécuterLe: DateTime.convertirEnValueType(échuLeValue),
+            },
+          ],
         },
       });
       await sleep(100);

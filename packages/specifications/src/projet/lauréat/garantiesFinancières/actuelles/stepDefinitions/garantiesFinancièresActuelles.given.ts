@@ -187,8 +187,13 @@ EtantDonné(
       type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
       data: {
         identifiantProjet,
-        typeTâchePlanifiée: GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
-        àExécuterLe: DateTime.convertirEnValueType(echuLeValue),
+        tâches: [
+          {
+            typeTâchePlanifiée:
+              GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
+            àExécuterLe: DateTime.convertirEnValueType(echuLeValue),
+          },
+        ],
       },
     });
     await sleep(100);

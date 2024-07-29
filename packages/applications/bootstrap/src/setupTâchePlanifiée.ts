@@ -11,14 +11,6 @@ import { sendEmail } from '@potentiel-infrastructure/email';
 import { TâchePlanifiéeNotification } from '@potentiel-applications/notifications';
 
 export const setupTâchePlanifiée = async () => {
-  const unsubscribeTâchePlanifiéeProjector = await registerTâchePlanifiéeProjector();
-
-  return async () => {
-    await unsubscribeTâchePlanifiéeProjector();
-  };
-};
-
-const registerTâchePlanifiéeProjector = async () => {
   registerTâchePlanifiéeUseCases({
     loadAggregate,
   });
@@ -46,10 +38,9 @@ const registerTâchePlanifiéeProjector = async () => {
     streamCategory: 'tâche-planifiée',
   });
 
-  const unsubscribeAbandonNotification =
+  const unsubscribeTâcheNotification =
     await subscribe<TâchePlanifiéeNotification.SubscriptionEvent>({
       name: 'notifications',
-      streamCategory: 'abandon',
       eventType: ['TâchePlanifiéeExecutée-V1'],
       eventHandler: async (event) => {
         await mediator.publish<TâchePlanifiéeNotification.Execute>({
@@ -57,10 +48,11 @@ const registerTâchePlanifiéeProjector = async () => {
           data: event,
         });
       },
+      streamCategory: 'tâche-planifiée',
     });
 
   return async () => {
     await unsubscribeTâcheProjector();
-    await unsubscribeAbandonNotification();
+    await unsubscribeTâcheNotification();
   };
 };
