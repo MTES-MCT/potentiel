@@ -142,15 +142,21 @@ v1Router.post(
         }
 
         const { appelOffreId, periodeId, familleId, numeroCRE } = project;
-        const détailAppelOffre = await mediator.send<ConsulterAppelOffreQuery>({
+
+        const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
           type: 'AppelOffre.Query.ConsulterAppelOffre',
           data: { identifiantAppelOffre: appelOffreId },
         });
-        const détailPériode = détailAppelOffre.periodes.find((p) => p.id === project.periodeId);
+
+        if (Option.isNone(appelOffre)) {
+          return notFoundResponse({ request, response });
+        }
+
+        const détailPériode = appelOffre.periodes.find((p) => p.id === project.periodeId);
 
         const soumisAuxGarantiesFinancières = familleId
           ? détailPériode?.familles.find((f) => f.id === familleId)?.soumisAuxGarantiesFinancieres
-          : détailAppelOffre.soumisAuxGarantiesFinancieres;
+          : appelOffre.soumisAuxGarantiesFinancieres;
 
         if (soumisAuxGarantiesFinancières === 'après candidature') {
           try {

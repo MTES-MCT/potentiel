@@ -178,9 +178,16 @@ v1Router.post(
                 type: 'AppelOffre.Query.ConsulterAppelOffre',
                 data: { identifiantAppelOffre: projet.appelOffreId },
               });
+              if (Option.isNone(appelOffres)) {
+                return notFoundResponse({ request, response });
+              }
 
               if (
-                isSoumisAuxGF({ appelOffres, famille: projet.familleId, période: projet.periodeId })
+                isSoumisAuxGF({
+                  appelOffres,
+                  famille: projet.familleId,
+                  période: projet.periodeId,
+                })
               ) {
                 const dateActuelle = new Date();
                 if (type === 'producteur') {

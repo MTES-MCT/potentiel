@@ -1,9 +1,11 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { Abandon } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
+import { Option } from '@potentiel-libraries/monads';
 
 import {
   DétailsAbandonPage,
@@ -31,14 +33,18 @@ export default async function Page({ params: { identifiant } }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
 
-      const { statut, demande, accord, rejet } = await mediator.send<Abandon.ConsulterAbandonQuery>(
-        {
-          type: 'Lauréat.Abandon.Query.ConsulterAbandon',
-          data: {
-            identifiantProjetValue: identifiantProjet,
-          },
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        type: 'Lauréat.Abandon.Query.ConsulterAbandon',
+        data: {
+          identifiantProjetValue: identifiantProjet,
         },
-      );
+      });
+
+      if (Option.isNone(abandon)) {
+        return notFound();
+      }
+
+      const { statut, demande, accord, rejet } = abandon;
 
       // TODO: extract the logic in a dedicated function mapToProps
       // identifiantProjet must come from the readmodel as a value type

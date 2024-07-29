@@ -24,6 +24,7 @@ import {
 import { Routes } from '@potentiel-applications/routes';
 import { listProjection } from '@potentiel-infrastructure/pg-projections';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Option } from '@potentiel-libraries/monads';
 
 registerCandidatureQueries({
   récupérerCandidature: CandidatureAdapter.récupérerCandidatureAdapter,
@@ -78,15 +79,24 @@ GarantiesFinancières.registerGarantiesFinancièresUseCases({
           break;
         case 'garanties-financières.rappel-échéance-un-mois':
         case 'garanties-financières.rappel-échéance-deux-mois':
-          const {
-            nom,
-            localité: { département },
-          } = await mediator.send<ConsulterCandidatureQuery>({
+          const candidature = await mediator.send<ConsulterCandidatureQuery>({
             type: 'Candidature.Query.ConsulterCandidature',
             data: {
               identifiantProjet: identifiantProjet.formatter(),
             },
           });
+
+          if (Option.isNone(candidature)) {
+            logger.error(
+              new Error(`Pas de candidature lié au projet ${identifiantProjet.formatter()}`),
+            );
+            return;
+          }
+
+          const {
+            nom,
+            localité: { département },
+          } = candidature;
 
           const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
           const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);

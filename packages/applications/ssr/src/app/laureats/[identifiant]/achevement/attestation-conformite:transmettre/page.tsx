@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
 import { InvalidOperationError } from '@potentiel-domain/core';
@@ -27,6 +28,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       type: 'Candidature.Query.ConsulterCandidature',
       data: { identifiantProjet },
     });
+
+    if (Option.isNone(candidature)) {
+      return notFound();
+    }
 
     if (candidature.statut !== 'classé') {
       throw new InvalidOperationError(

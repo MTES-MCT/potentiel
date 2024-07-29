@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
@@ -30,6 +31,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       type: 'Candidature.Query.ConsulterCandidature',
       data: { identifiantProjet },
     });
+
+    if (Option.isNone(candidature)) {
+      return notFound();
+    }
 
     const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
       appelOffre: candidature.appelOffre,

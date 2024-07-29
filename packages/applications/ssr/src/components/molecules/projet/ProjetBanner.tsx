@@ -1,25 +1,32 @@
 'use server';
+
 import { FC } from 'react';
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import { Option } from '@potentiel-libraries/monads';
 
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-
 export type ProjetBannerProps = {
   identifiantProjet: string;
 };
 
 export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet }) => {
-  const { nom, statut, localité, dateDésignation, appelOffre, famille, période } =
-    await mediator.send<ConsulterCandidatureQuery>({
-      type: 'Candidature.Query.ConsulterCandidature',
-      data: {
-        identifiantProjet,
-      },
-    });
+  const candidature = await mediator.send<ConsulterCandidatureQuery>({
+    type: 'Candidature.Query.ConsulterCandidature',
+    data: {
+      identifiantProjet,
+    },
+  });
+
+  if (Option.isNone(candidature)) {
+    return notFound();
+  }
+
+  const { nom, statut, localité, dateDésignation, appelOffre, famille, période } = candidature;
 
   return (
     <aside className="mb-3">

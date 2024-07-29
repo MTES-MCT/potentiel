@@ -1,5 +1,5 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, NotFoundError } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
@@ -47,7 +47,7 @@ export function applyEffacerHistoriqueGarantiesFinancières(
   this.dépôtsEnCours = undefined;
 }
 
-class AucunHistoriqueÀEffacerError extends NotFoundError {
+class AucunHistoriqueÀEffacerError extends InvalidOperationError {
   constructor() {
     super(`Il n'y a aucunes garanties financières sur ce projet`);
   }

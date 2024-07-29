@@ -1,4 +1,9 @@
-import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
+import {
+  Aggregate,
+  AggregateNotFoundError,
+  GetDefaultAggregateState,
+  LoadAggregate,
+} from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
@@ -16,7 +21,6 @@ import {
   applyRecoursAccordé,
 } from './accorder/accorderRecours.behavior';
 import { RecoursAnnuléEvent, annuler, applyRecoursAnnulé } from './annuler/annulerRecours.behavior';
-import { AucunRecoursEnCours } from './aucunRecoursEnCours.error';
 
 export type RecoursEvent =
   | RecoursDemandéEvent
@@ -99,3 +103,9 @@ export const loadRecoursFactory =
         : undefined,
     });
   };
+
+class AucunRecoursEnCours extends AggregateNotFoundError {
+  constructor() {
+    super(`Aucun recours n'est en cours`);
+  }
+}

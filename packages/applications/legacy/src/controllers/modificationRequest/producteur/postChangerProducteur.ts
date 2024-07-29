@@ -76,12 +76,22 @@ v1Router.post(
           `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
         ).formatter();
 
-        // récupérer appel offres
-        const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
+        const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
           type: 'AppelOffre.Query.ConsulterAppelOffre',
           data: { identifiantAppelOffre: projet.appelOffreId },
         });
-        if (isSoumisAuxGF({ appelOffres, famille: projet.familleId, période: projet.periodeId })) {
+
+        if (Option.isNone(appelOffre)) {
+          return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
+        }
+
+        if (
+          isSoumisAuxGF({
+            appelOffres: appelOffre,
+            famille: projet.familleId,
+            période: projet.periodeId,
+          })
+        ) {
           // supprimer les éventuelles garanties financières du projet
           const dateActuelle = new Date();
           try {

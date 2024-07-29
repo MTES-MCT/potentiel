@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
@@ -43,10 +44,18 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjet },
       });
 
+      if (Option.isNone(candidature)) {
+        return notFound();
+      }
+
       const appelOffreDetails = await mediator.send<ConsulterAppelOffreQuery>({
         type: 'AppelOffre.Query.ConsulterAppelOffre',
         data: { identifiantAppelOffre: candidature.appelOffre },
       });
+
+      if (Option.isNone(appelOffreDetails)) {
+        return notFound();
+      }
 
       const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
         appelOffre: candidature.appelOffre,

@@ -2,6 +2,7 @@
 
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
+import { notFound } from 'next/navigation';
 
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
@@ -9,6 +10,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { buildDocument, DonnéesDocument } from '@potentiel-applications/document-builder';
+import { Option } from '@potentiel-libraries/monads';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -28,6 +30,10 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantProjetValue: identifiantProjet,
       },
     });
+
+    if (Option.isNone(abandon)) {
+      return notFound();
+    }
 
     const réponseSignéeValue = await buildReponseSignee(
       abandon,
@@ -56,17 +62,25 @@ const buildReponseSignee = async (
   abandon: Abandon.ConsulterAbandonReadModel,
   identifiantUtilisateur: string,
 ): Promise<Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue']> => {
-  const projet = await mediator.send<ConsulterCandidatureQuery>({
+  const candidature = await mediator.send<ConsulterCandidatureQuery>({
     data: { identifiantProjet: abandon.identifiantProjet.formatter() },
     type: 'Candidature.Query.ConsulterCandidature',
   });
 
+  if (Option.isNone(candidature)) {
+    return notFound();
+  }
+
   const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
     type: 'AppelOffre.Query.ConsulterAppelOffre',
     data: {
-      identifiantAppelOffre: projet.appelOffre,
+      identifiantAppelOffre: candidature.appelOffre,
     },
   });
+
+  if (Option.isNone(appelOffre)) {
+    return notFound();
+  }
 
   const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
     type: 'Utilisateur.Query.ConsulterUtilisateur',
@@ -75,25 +89,29 @@ const buildReponseSignee = async (
     },
   });
 
-  const période = appelOffre.periodes.find((p) => p.id === projet.période);
+  if (Option.isNone(utilisateur)) {
+    return notFound();
+  }
+
+  const période = appelOffre.periodes.find((p) => p.id === candidature.période);
 
   const props: DonnéesDocument = {
     dateCourrier: new Date().toISOString(),
     projet: {
       identifiantProjet: formatIdentifiantProjetForDocument(abandon.identifiantProjet),
-      nomReprésentantLégal: projet.candidat.représentantLégal,
-      nomCandidat: projet.candidat.nom,
-      email: projet.candidat.contact,
-      nom: projet.nom,
-      commune: projet.localité.commune,
-      codePostal: projet.localité.codePostal,
-      dateDésignation: projet.dateDésignation,
-      puissance: projet.puissance,
+      nomReprésentantLégal: candidature.candidat.représentantLégal,
+      nomCandidat: candidature.candidat.nom,
+      email: candidature.candidat.contact,
+      nom: candidature.nom,
+      commune: candidature.localité.commune,
+      codePostal: candidature.localité.codePostal,
+      dateDésignation: candidature.dateDésignation,
+      puissance: candidature.puissance,
     },
     appelOffre: {
       nom: appelOffre.shortTitle,
       description: appelOffre.title,
-      période: période?.title ?? projet.période,
+      période: période?.title ?? candidature.période,
       unitéPuissance: appelOffre.unitePuissance,
       texteEngagementRéalisationEtModalitésAbandon: appelOffre.donnéesCourriersRéponse
         .texteEngagementRéalisationEtModalitésAbandon ?? {

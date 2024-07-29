@@ -4,7 +4,6 @@ import { Find } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
 import { AppelOffre, AppelOffreEntity } from '../appelOffre.entity';
-import { AppelOffreInconnuErreur } from '../appelOffreInconnu.error';
 
 export type ConsulterAppelOffreReadModel = AppelOffre;
 
@@ -13,7 +12,7 @@ export type ConsulterAppelOffreQuery = Message<
   {
     identifiantAppelOffre: string;
   },
-  ConsulterAppelOffreReadModel
+  Option.Type<ConsulterAppelOffreReadModel>
 >;
 
 export type ConsulterAppelOffreDependencies = {
@@ -23,10 +22,6 @@ export type ConsulterAppelOffreDependencies = {
 export const registerConsulterAppelOffreQuery = ({ find }: ConsulterAppelOffreDependencies) => {
   const handler: MessageHandler<ConsulterAppelOffreQuery> = async ({ identifiantAppelOffre }) => {
     const result = await find<AppelOffreEntity>(`appel-offre|${identifiantAppelOffre}`);
-
-    if (Option.isNone(result)) {
-      throw new AppelOffreInconnuErreur();
-    }
 
     return result;
   };
