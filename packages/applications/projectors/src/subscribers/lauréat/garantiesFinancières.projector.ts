@@ -79,6 +79,7 @@ export const register = () => {
           type: '',
           dernièreMiseÀJour: { date: '', par: '' },
         },
+        archives: [],
       };
 
       const dépôtEnCoursGarantiesFinancièresDefaultValue: Omit<
