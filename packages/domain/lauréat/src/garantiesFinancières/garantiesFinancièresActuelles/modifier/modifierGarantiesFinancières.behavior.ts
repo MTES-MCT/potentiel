@@ -8,7 +8,7 @@ import { DateÉchéanceManquanteError } from '../../dateÉchéanceManquante.erro
 import { DateÉchéanceNonAttendueError } from '../../dateÉchéanceNonAttendue.error';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { GarantiesFinancièresDéjàLevéesError } from '../../garantiesFinancièresDéjàLevées.error';
-import { AucunesGarantiesFinancièresValidéesError } from '../aucunesGarantiesFinancièresValidéesError';
+import { AucunesGarantiesFinancièresActuellesError } from '../aucunesGarantiesFinancièresActuelles.error';
 
 export type GarantiesFinancièresModifiéesEvent = DomainEvent<
   'GarantiesFinancièresModifiées-V1',
@@ -46,7 +46,7 @@ export async function modifier(
   }: Options,
 ) {
   if (!this.actuelles) {
-    throw new AucunesGarantiesFinancièresValidéesError();
+    throw new AucunesGarantiesFinancièresActuellesError();
   }
   if (this.actuelles.statut.estLevé()) {
     throw new GarantiesFinancièresDéjàLevéesError();
