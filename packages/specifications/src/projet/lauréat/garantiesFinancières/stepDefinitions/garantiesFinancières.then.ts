@@ -151,7 +151,7 @@ Alors(
 );
 
 Alors(
-  `il ne devrait plus y avoir de garanties financières actuelles mais un historique pour le projet {string}`,
+  `il ne devrait plus y avoir de garanties financières actuelles ou de dépôt en cours pour le projet {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -159,14 +159,6 @@ Alors(
       const actualGarantiesFinancièresReadModel =
         await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-          },
-        });
-
-      const actualArchivesGarantiesFinancièresReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
           },
@@ -181,8 +173,30 @@ Alors(
         });
 
       expect(actualGarantiesFinancièresReadModel).to.deep.equal(Option.none);
-      expect(actualArchivesGarantiesFinancièresReadModel).to.be.true;
       expect(actualDépôtGarantiesFinancièresReadModel).to.deep.equal(Option.none);
+    });
+  },
+);
+
+Alors(
+  `un historique des garanties financières devrait être consultable pour le projet "Centrale PV"`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      const actualArchivesGarantiesFinancièresReadModel =
+        await mediator.send<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
+
+      expect(Option.isSome(actualArchivesGarantiesFinancièresReadModel)).to.be.true;
+
+      if (Option.isSome(actualArchivesGarantiesFinancièresReadModel)) {
+        actualArchivesGarantiesFinancièresReadModel.archives.should.length(1);
+      }
     });
   },
 );

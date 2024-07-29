@@ -158,6 +158,7 @@ export * as TypeTâchePlanifiéeGarantiesFinancières from './typeTâchePlanifi�
 
 // Entities
 export * from './garantiesFinancièresActuelles/garantiesFinancièresActuelles.entity';
+export * from './garantiesFinancièresActuelles/archivesGarantiesFinancières.entity';
 export * from './dépôtEnCours/dépôtEnCoursGarantiesFinancières.entity';
 export * from './projetEnAttenteDeGarantiesFinancières/projetAvecGarantiesFinancièresEnAttente.entity';
 export * from './mainlevée/mainlevéeGarantiesFinancières.entity';

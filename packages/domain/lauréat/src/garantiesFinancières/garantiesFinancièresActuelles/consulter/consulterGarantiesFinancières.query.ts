@@ -61,10 +61,6 @@ export const registerConsulterGarantiesFinancièresQuery = ({
       return Option.none;
     }
 
-    if (!result.garantiesFinancières) {
-      return Option.none;
-    }
-
     return mapToReadModel({
       garantiesFinancières: result.garantiesFinancières,
       identifiantProjetValueType: identifiantProjet,

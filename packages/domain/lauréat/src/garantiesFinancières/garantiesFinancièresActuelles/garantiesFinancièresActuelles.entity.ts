@@ -26,7 +26,6 @@ export type GarantiesFinancièresEntity = Entity<
     appelOffre: string;
     période: string;
     famille?: string;
-    garantiesFinancières: Array<GarantiesFinancièresDetailsEntity>;
-    archives: Array<GarantiesFinancièresDetailsEntity>;
+    garantiesFinancières: GarantiesFinancièresDetailsEntity;
   }
 >;
