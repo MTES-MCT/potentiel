@@ -13,7 +13,7 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
             | contenu fichier      | contenu fichier |
             | date de constitution | 2023-06-12      |
             | date mise à jour     | 2024-03-01      |
-        Alors les garanties financières actuelles devraient consultables pour le projet "Du boulodrome de Marseille" avec :
+        Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
             | type                 | consignation      |
             | date d'échéance      |                   |
             | format               | application/pdf   |

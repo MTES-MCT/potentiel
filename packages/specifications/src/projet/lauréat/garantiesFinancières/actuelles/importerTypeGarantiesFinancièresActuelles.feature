@@ -9,7 +9,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | type            | <type>            |
             | date d'échéance | <date d'échéance> |
             | date d'import   | <date import>     |
-        Alors les garanties financières actuelles devraient consultables pour le projet "Du boulodrome de Marseille" avec :
+        Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
             | type                      | <type>            |
             | date d'échéance           | <date d'échéance> |
             | date dernière mise à jour | <date import>     |
@@ -26,7 +26,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | date d'échéance |                    |
         Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières"
 
-    Plan du Scénario: Impossible d'importer le type (et la date d'échéance selon le cas) des garanties financières actuelles d'un projet si date d'échéance non compatible avec le type
+    Plan du Scénario: Impossible d'importer le type (et la date d'échéance selon le cas) des garanties financières actuelles d'un projet si la date d'échéance est non compatible avec le type
         Quand un admin importe le type des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type            | <type>     |
             | date d'échéance | 2028-01-01 |
