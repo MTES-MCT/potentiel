@@ -1,5 +1,6 @@
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { RaccordementAggregate } from '../raccordement.aggregate';
@@ -27,14 +28,22 @@ export type GestionnaireRéseauRaccordementModifiéEvent = DomainEvent<
 type ModifierGestionnaireRéseauOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
+  rôle: Role.ValueType;
 };
 
 export async function modifierGestionnaireRéseau(
   this: RaccordementAggregate,
-  { identifiantGestionnaireRéseau, identifiantProjet }: ModifierGestionnaireRéseauOptions,
+  { identifiantGestionnaireRéseau, identifiantProjet, rôle }: ModifierGestionnaireRéseauOptions,
 ) {
   if (this.identifiantGestionnaireRéseau.estÉgaleÀ(identifiantGestionnaireRéseau)) {
     throw new GestionnaireRéseauIdentiqueError(identifiantProjet, identifiantGestionnaireRéseau);
+  }
+
+  if (
+    this.aUneDateDeMiseEnService() &&
+    (rôle.estÉgaleÀ(Role.porteur) || rôle.estÉgaleÀ(Role.dreal))
+  ) {
+    throw new GestionnaireRéseauNonModifiableCarRaccordementAvecDateDeMiseEnServiceError();
   }
 
   if (identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu)) {
@@ -84,5 +93,13 @@ export class GestionnaireRéseauIdentiqueError extends InvalidOperationError {
       identifiantProjet: identifiantProjet.formatter(),
       identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
     });
+  }
+}
+
+export class GestionnaireRéseauNonModifiableCarRaccordementAvecDateDeMiseEnServiceError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Le gestionnaire de réseau ne peut être modifié car le raccordement a une date de mise en service`,
+    );
   }
 }

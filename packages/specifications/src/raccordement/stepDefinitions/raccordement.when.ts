@@ -3,6 +3,7 @@ import { mediator } from 'mediateur';
 
 import { Raccordement } from '@potentiel-domain/reseau';
 import { DateTime } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
 import { PotentielWorld } from '../../potentiel.world';
@@ -247,6 +248,7 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           identifiantGestionnaireRéseauValue: 'GESTIONNAIRE NON RÉFÉRENCÉ',
+          rôleValue: Role.porteur.nom,
         },
       });
     } catch (e) {
@@ -266,6 +268,7 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           identifiantGestionnaireRéseauValue: 'inconnu',
+          rôleValue: Role.admin.nom,
         },
       });
     } catch (e) {
@@ -288,6 +291,30 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           identifiantGestionnaireRéseauValue: codeEIC,
+          rôleValue: Role.porteur.nom,
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
+  `une dreal modifie le gestionnaire de réseau du projet {string} avec le gestionnaire {string}`,
+  async function (this: PotentielWorld, nomProjet: string, raisonSocialGestionnaireRéseau: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
+      raisonSocialGestionnaireRéseau,
+    );
+
+    try {
+      await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
+        type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantGestionnaireRéseauValue: codeEIC,
+          rôleValue: Role.dreal.nom,
         },
       });
     } catch (e) {

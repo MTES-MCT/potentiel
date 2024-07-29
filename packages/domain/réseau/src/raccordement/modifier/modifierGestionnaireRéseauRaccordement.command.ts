@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
@@ -12,6 +13,7 @@ export type ModifierGestionnaireRéseauRaccordementCommand = Message<
   {
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
+    rôle: Role.ValueType;
   }
 >;
 
@@ -22,6 +24,7 @@ export const registerModifierGestionnaireRéseauProjetCommand = (loadAggregate: 
   const handler: MessageHandler<ModifierGestionnaireRéseauRaccordementCommand> = async ({
     identifiantProjet,
     identifiantGestionnaireRéseau,
+    rôle,
   }) => {
     const gestionnaireRéseau = await loadGestionnaireRéseau(identifiantGestionnaireRéseau);
     const raccordement = await loadRaccordement(identifiantProjet);
@@ -29,6 +32,7 @@ export const registerModifierGestionnaireRéseauProjetCommand = (loadAggregate: 
     await raccordement.modifierGestionnaireRéseau({
       identifiantProjet,
       identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau,
+      rôle,
     });
   };
 
