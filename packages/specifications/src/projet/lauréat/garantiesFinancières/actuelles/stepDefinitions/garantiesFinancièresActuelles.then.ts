@@ -12,7 +12,7 @@ import { convertReadableStreamToString } from '../../../../../helpers/convertRea
 import { PotentielWorld } from '../../../../../potentiel.world';
 
 Alors(
-  `les garanties financières actuelles devraient consultables pour le projet {string} avec :`,
+  `les garanties financières actuelles devraient être consultables pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
