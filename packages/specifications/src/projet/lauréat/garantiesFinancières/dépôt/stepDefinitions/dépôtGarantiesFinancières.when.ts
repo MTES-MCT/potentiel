@@ -5,7 +5,8 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../.././../potentiel.world';
 import { sleep } from '../../../.././../helpers/sleep';
-import { convertStringToReadableStream } from '../../../.././../helpers/convertStringToReadable';
+
+import { getDépôtData } from './helper';
 
 Quand(
   'un porteur soumet un dépôt de garanties financières pour le projet {string} avec :',
@@ -13,26 +14,28 @@ Quand(
     const exemple = dataTable.rowsHash();
 
     try {
-      const typeGarantiesFinancières = exemple['type'] || 'consignation';
-      const dateÉchéance = exemple[`date d'échéance`] || undefined;
-      const format = exemple['format'] || 'application/pdf';
-      const dateConstitution = exemple[`date de constitution`] || '2024-01-01';
-      const contenuFichier = exemple['contenu fichier'] || 'contenu fichier';
-      const dateSoumission = exemple['date de soumission'] || '2024-01-02';
-      const soumisPar = exemple['soumis par'] || 'user@test.test';
-
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      const {
+        identifiantProjetValue,
+        typeValue,
+        dateÉchéanceValue,
+        dateConstitutionValue,
+        attestationValue,
+        soumisLeValue,
+        soumisParValue,
+      } = getDépôtData(identifiantProjet, exemple);
 
       await mediator.send<GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
         data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          typeValue: typeGarantiesFinancières,
-          dateConstitutionValue: new Date(dateConstitution).toISOString(),
-          soumisLeValue: new Date(dateSoumission).toISOString(),
-          soumisParValue: soumisPar,
-          attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
-          ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
+          identifiantProjetValue,
+          typeValue,
+          dateÉchéanceValue,
+          dateConstitutionValue,
+          attestationValue,
+          soumisLeValue,
+          soumisParValue,
         },
       });
       await sleep(500);
@@ -48,26 +51,28 @@ Quand(
     const exemple = dataTable.rowsHash();
 
     try {
-      const typeGarantiesFinancières = exemple['type'] || 'consignation';
-      const dateÉchéance = exemple[`date d'échéance`] || undefined;
-      const format = exemple['format'] || 'application/pdf';
-      const dateConstitution = exemple[`date de constitution`] || '2024-01-01';
-      const contenuFichier = exemple['contenu fichier'] || 'contenu fichier';
-      const dateModification = exemple['date de modification'] || '2024-01-02';
-      const modifiéPar = exemple['modifié par'] || 'user@test.test';
-
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      const {
+        identifiantProjetValue,
+        typeValue,
+        dateÉchéanceValue,
+        dateConstitutionValue,
+        modifiéLeValue,
+        modifiéParValue,
+        attestationValue,
+      } = getDépôtData(identifiantProjet, exemple);
 
       await mediator.send<GarantiesFinancières.ModifierDépôtGarantiesFinancièresEnCoursUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
         data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          typeValue: typeGarantiesFinancières,
-          dateConstitutionValue: new Date(dateConstitution).toISOString(),
-          modifiéLeValue: new Date(dateModification).toISOString(),
-          modifiéParValue: modifiéPar,
-          attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
-          ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
+          identifiantProjetValue,
+          typeValue,
+          dateÉchéanceValue,
+          dateConstitutionValue,
+          modifiéLeValue,
+          modifiéParValue,
+          attestationValue,
         },
       });
       await sleep(500);
@@ -82,13 +87,13 @@ Quand(
   async function (this: PotentielWorld, nomProjet: string) {
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
+      const { suppriméLeValue, suppriméParValue } = getDépôtData(identifiantProjet, {});
       await mediator.send<GarantiesFinancières.SupprimerGarantiesFinancièresÀTraiterUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          suppriméLeValue: new Date().toISOString(),
-          suppriméParValue: 'porteur@test.test',
+          suppriméLeValue,
+          suppriméParValue,
         },
       });
       await sleep(500);
@@ -102,16 +107,17 @@ Quand(
   `l'utilisateur dreal valide un dépôt de garanties financières pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
-    const dateValidation = exemple['date de validation'];
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      const { validéLeValue, validéParValue } = getDépôtData(identifiantProjet, exemple);
 
       await mediator.send<GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          validéLeValue: new Date(dateValidation).toISOString(),
-          validéParValue: 'dreal@test.test',
+          validéLeValue,
+          validéParValue,
         },
       });
       await sleep(500);
