@@ -1,9 +1,6 @@
-import { DeleteObjectCommand, GetObjectCommand, S3 } from '@aws-sdk/client-s3';
-import { Upload } from '@aws-sdk/lib-storage';
-
-import { wrapInfra, ok, okAsync, Result, errAsync } from '../../core/utils';
-import { FileAccessDeniedError, FileNotFoundError, FileStorageService } from '../../modules/file';
-import { Readable } from 'stream';
+import AWS from 'aws-sdk';
+import { wrapInfra, ok, okAsync, Result } from '../../core/utils';
+import { FileStorageService } from '../../modules/file';
 
 class WrongIdentifierFormat extends Error {
   constructor() {
@@ -28,91 +25,47 @@ export const makeS3FileStorageService = (args: {
   bucket: string;
 }): FileStorageService => {
   const { accessKeyId, secretAccessKey, endpoint, bucket } = args;
-  const _client = new S3({
-    endpoint,
-    credentials: {
-      accessKeyId,
-      secretAccessKey,
-    },
-    forcePathStyle: true,
-  });
+  const _client = new AWS.S3({ endpoint, accessKeyId, secretAccessKey, s3ForcePathStyle: true });
 
   return {
     upload({ contents, path: filePath }) {
       return wrapInfra(
-        new Promise(async () => {
-          return new Upload({
-            client: _client,
-            params: {
-              Bucket: bucket,
-              Key: filePath,
-              Body: await mapToReadableStream(contents),
-            },
-          }).done();
-        }),
+        _client
+          .upload({
+            Bucket: bucket,
+            Key: filePath,
+            Body: contents,
+          })
+          .promise(),
       ).map(() => makeIdentifier(filePath, bucket));
     },
 
     download(storedAt) {
-      return parseIdentifier(storedAt, bucket).asyncAndThen((remote: string) =>
-        wrapInfra(
-          new Promise(async () => {
-            try {
-              const result = await _client.send(
-                new GetObjectCommand({ Bucket: bucket, Key: remote }),
-              );
-
-              if (!result.Body) {
-                return errAsync(new FileNotFoundError());
-              }
-
-              const newLocal = Readable.from(await result.Body.transformToString());
-              return okAsync(newLocal);
-            } catch (e) {
-              return errAsync(new FileAccessDeniedError());
-            }
-          }),
-        ),
-      );
+      return parseIdentifier(storedAt, bucket)
+        .map((remote: string) =>
+          _client
+            .getObject({
+              Bucket: bucket,
+              Key: remote,
+            })
+            .createReadStream(),
+        )
+        .asyncAndThen((stream) => okAsync(stream));
     },
 
     remove(storedAt) {
-      return parseIdentifier(storedAt, bucket).asyncAndThen((remote: string) =>
-        wrapInfra(
-          new Promise(async () => {
-            try {
-              const result = await _client.send(
-                new DeleteObjectCommand({ Bucket: bucket, Key: remote }),
-              );
-
-              return okAsync(null);
-            } catch (e) {
-              return okAsync(null);
-            }
-          }),
-        ),
-      );
+      return parseIdentifier(storedAt, bucket)
+        .asyncAndThen((remote) =>
+          wrapInfra(
+            _client
+              .deleteObject({
+                Bucket: bucket,
+                Key: remote,
+              })
+              .promise(),
+          ),
+        )
+        .map(() => null);
     },
   };
-};
-
-const mapToReadableStream = async (
-  oldReadableStream: NodeJS.ReadableStream,
-): Promise<ReadableStream> => {
-  return new ReadableStream({
-    start: async (controller) => {
-      controller.enqueue(await mapToBuffer(oldReadableStream));
-      controller.close();
-    },
-  });
-};
-
-const mapToBuffer = async (oldReadableStream: NodeJS.ReadableStream): Promise<Buffer> => {
-  return new Promise<Buffer>((resolve, reject) => {
-    const buffer = Array<Uint8Array>();
-
-    oldReadableStream.on('data', (chunk) => buffer.push(chunk));
-    oldReadableStream.on('end', () => resolve(Buffer.concat(buffer)));
-    oldReadableStream.on('error', (err) => reject(`error converting stream - ${err}`));
-  });
 };
