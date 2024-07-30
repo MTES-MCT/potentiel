@@ -100,6 +100,29 @@ Alors(
 );
 
 Alors(
+  `un historique des garanties financières devrait être consultable pour le projet {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      const actualArchivesGarantiesFinancièresReadModel =
+        await mediator.send<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
+
+      expect(Option.isSome(actualArchivesGarantiesFinancièresReadModel)).to.be.true;
+
+      if (Option.isSome(actualArchivesGarantiesFinancièresReadModel)) {
+        actualArchivesGarantiesFinancièresReadModel.archives.should.length(1);
+      }
+    });
+  },
+);
+
+Alors(
   `les garanties financières actuelles du projet {string} sont échues`,
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
