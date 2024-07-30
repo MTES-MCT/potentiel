@@ -41,8 +41,8 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
         textArea
         label="Raison"
         id="raison"
-        hintText="Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
-                conduit à ce besoin de modification (contexte, facteurs extérieurs, etc.)."
+        hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant
+                conduit à cette modification (contexte, facteurs extérieurs, etc.)."
         nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
         state={validationErrors.includes('raison') ? 'error' : 'default'}
         stateRelatedMessage="Raison à préciser"
