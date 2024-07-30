@@ -8,13 +8,13 @@ Fonctionnalité: Planifier une tâche
             | nom   | Porteur Projet Test |
             | role  | porteur-projet      |
 
-    @select
     Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand des garanties financières avec date d'échéance sont créées
         Etant donné un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | type            | avec-date-échéance |
             | date d'échéance | 2024-12-01         |
         Quand l'utilisateur dreal valide un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | date de validation | 2024-11-02 |
+            | date d'échéance    | 2024-12-01 |
         Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-02" pour le projet "Du boulodrome de Marseille"
 
     Scénario: Une tâche du type "échoir les garanties financières" est replanifiée quand la date d'échéance des garanties financières est modifiée
@@ -70,6 +70,7 @@ Fonctionnalité: Planifier une tâche
             | date d'échéance | 2024-10-01         |
         Quand l'utilisateur dreal valide un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | date de validation | 2023-10-10 |
+            | date d'échéance    | 2024-10-01 |
         Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet "Du boulodrome de Marseille"
         Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet "Du boulodrome de Marseille"
 
