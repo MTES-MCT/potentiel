@@ -14,7 +14,7 @@ export const GarantiesFinancièresManquantes: React.FC<Props> = ({
   action,
 }: Props) => (
   <p className="p-3">
-    Aucune garanties financières pour ce projet.
+    Aucunes garanties financières pour ce projet.
     {action === 'soumettre' && (
       <>
         {' '}
