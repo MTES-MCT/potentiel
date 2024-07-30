@@ -2,16 +2,13 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import * as TâchePlanifiée from '../typeTâchePlanifiée.valueType';
-import * as TypeTâchePlanifiée from '../typeTâchePlanifiée.valueType';
-
 import { ExécuterTâchePlanifiéeCommand } from './exécuterTâchePlanifiée.command';
 
 export type ExécuterTâchePlanifiéeUseCase = Message<
   'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
   {
     identifiantProjetValue: IdentifiantProjet.RawType;
-    typeTâchePlanifiéeValue: TâchePlanifiée.RawType;
+    typeTâchePlanifiéeValue: string;
   }
 >;
 
@@ -23,7 +20,7 @@ export const registerExécuterTâchePlanifiéeUseCase = () => {
     await mediator.send<ExécuterTâchePlanifiéeCommand>({
       type: 'System.TâchePlanifiée.Command.ExécuterTâchePlanifiée',
       data: {
-        typeTâchePlanifiée: TypeTâchePlanifiée.convertirEnValueType(typeTâchePlanifiéeValue),
+        typeTâchePlanifiée: typeTâchePlanifiéeValue,
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
       },
     });

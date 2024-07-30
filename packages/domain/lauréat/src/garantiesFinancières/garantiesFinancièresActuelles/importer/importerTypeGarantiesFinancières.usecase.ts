@@ -1,8 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { AjouterTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
 
 import { TypeGarantiesFinancières } from '../..';
+import * as TypeTâchePlanifiéeGarantiesFinancières from '../../typeTâchePlanifiéeGarantiesFinancières.valueType';
 
 import { ImporterTypeGarantiesFinancièresCommand } from './importerTypeGarantiesFinancières.command';
 
@@ -34,6 +36,30 @@ export const registerImporterTypeGarantiesFinancièresUseCase = () => {
       type: 'Lauréat.GarantiesFinancières.Command.ImporterTypeGarantiesFinancières',
       data: { identifiantProjet, importéLe, type, dateÉchéance },
     });
+
+    if (dateÉchéanceValue) {
+      await mediator.send<AjouterTâchePlanifiéeCommand>({
+        type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
+        data: {
+          identifiantProjet,
+          tâches: [
+            {
+              typeTâchePlanifiée: TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
+              àExécuterLe: DateTime.convertirEnValueType(dateÉchéanceValue).ajouterNombreDeJours(1),
+            },
+            {
+              typeTâchePlanifiée: TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceUnMois.type,
+              àExécuterLe: DateTime.convertirEnValueType(dateÉchéanceValue).retirerNombreDeMois(1),
+            },
+            {
+              typeTâchePlanifiée:
+                TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceDeuxMois.type,
+              àExécuterLe: DateTime.convertirEnValueType(dateÉchéanceValue).retirerNombreDeMois(2),
+            },
+          ],
+        },
+      });
+    }
   };
 
   mediator.register(

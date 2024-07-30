@@ -7,6 +7,8 @@ import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlani
 import { TâchePlanifiéeEvent } from './tâchePlanifiée.aggregate';
 import { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.behavior';
 import { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.behavior';
+import { AjouterTâchePlanifiéeCommand } from './ajouter/ajouterTâchePlanifiée.command';
+import { AnnulerTâchePlanifiéeCommand } from './annuler/annulerTâchePlanifiée.command';
 
 // Query
 export type TâchePlanifiéeQuery = ListerTâchesPlanifiéesQuery;
@@ -24,15 +26,13 @@ export {
   TâchePlanifiéeExecutéeEvent,
 };
 
-// Saga
-export * as TâchePlanifiéeAchévementSaga from './saga/tâchePlanifiéeAchévement.saga';
-export * as TâchePlanifiéeGarantiesFinancièresSaga from './saga/tâchePlanifiéeGarantiesFinancières.saga';
+// Command
+export { AjouterTâchePlanifiéeCommand, AnnulerTâchePlanifiéeCommand };
 
 // Register
 export * from './register';
 
 // ValueTypes
-export * as TypeTâchePlanifiée from './typeTâchePlanifiée.valueType';
 export * as StatutTâchePlanifiée from './statutTâchePlanifiée.valueType';
 
 // Entities

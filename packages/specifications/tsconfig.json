@@ -18,6 +18,9 @@
       "path": "../domain/utilisateur"
     },
     {
+      "path": "../domain/tâche-planifiée"
+    },
+    {
       "path": "../infrastructure/pg-event-sourcing"
     },
     {
