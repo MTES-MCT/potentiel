@@ -66,6 +66,9 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           />
         )}
       </div>
+      {archivesGarantiesFinancières?.length && (
+        <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
+      )}
       {(mainlevée || (historiqueMainlevée && historiqueMainlevée.historique.length)) && (
         <Mainlevée
           mainlevéeEnCours={mainlevée}
@@ -81,9 +84,6 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
       )}
       {action === 'soumettre' && (
         <InfoBoxSoumettreGarantiesFinancières identifiantProjet={identifiantProjet} />
-      )}
-      {archivesGarantiesFinancières?.length && (
-        <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
       )}
     </>
   </PageTemplate>
