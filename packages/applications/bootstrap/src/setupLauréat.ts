@@ -179,11 +179,11 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
     GarantiesFinancières.GarantiesFinancièresSaga.SubscriptionEvent & Event
   >({
     name: 'garanties-financieres-saga',
-    streamCategory: 'tache-planifiee',
+    streamCategory: 'tâche-planifiée',
     eventType: ['TâchePlanifiéeExecutée-V1'],
     eventHandler: async (event) => {
       await mediator.publish<GarantiesFinancières.GarantiesFinancièresSaga.Execute>({
-        type: 'Lauréat.GarantiesFinancières.Saga.Execute',
+        type: 'System.Lauréat.GarantiesFinancières.Saga.Execute',
         data: event,
       });
     },

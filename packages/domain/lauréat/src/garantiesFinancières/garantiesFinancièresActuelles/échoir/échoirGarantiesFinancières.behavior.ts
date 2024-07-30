@@ -16,20 +16,23 @@ export type GarantiesFinancièresÉchuesEvent = DomainEvent<
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  dateÉchéance: DateTime.ValueType;
-  échuLe: DateTime.ValueType;
   aUneAttestationDeConformité: boolean;
 };
 
 export async function échoir(
   this: GarantiesFinancièresAggregate,
-  { identifiantProjet, dateÉchéance, échuLe, aUneAttestationDeConformité }: Options,
+  { identifiantProjet, aUneAttestationDeConformité }: Options,
 ) {
   if (!this.actuelles) {
     throw new AucunesGarantiesFinancièresActuellesError();
   }
 
-  if (échuLe.estAntérieurÀ(dateÉchéance) || échuLe.estÉgaleÀ(dateÉchéance)) {
+  if (!this.actuelles.dateÉchéance) {
+    throw new GarantiesFinancièresSansÉchéanceError(identifiantProjet.formatter());
+  }
+
+  const now = DateTime.now();
+  if (!now.estUltérieureÀ(this.actuelles.dateÉchéance)) {
     throw new DateÉchéanceNonPasséeError();
   }
 
@@ -49,8 +52,8 @@ export async function échoir(
     type: 'GarantiesFinancièresÉchues-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      dateÉchéance: dateÉchéance?.formatter(),
-      échuLe: échuLe.formatter(),
+      dateÉchéance: this.actuelles.dateÉchéance.formatter(),
+      échuLe: now.formatter(),
     },
   };
 
@@ -91,5 +94,12 @@ class AttestationDeConformitéError extends InvalidOperationError {
     super(
       `Le projet dispose d'une attestation de conformité, ce qui empêche de pouvoir échoir ses garanties financières`,
     );
+  }
+}
+class GarantiesFinancièresSansÉchéanceError extends InvalidOperationError {
+  constructor(identifiantProjet: IdentifiantProjet.RawType) {
+    super(`Impossible d'échoir des garanties financières sans date d'échéance`, {
+      identifiantProjet,
+    });
   }
 }

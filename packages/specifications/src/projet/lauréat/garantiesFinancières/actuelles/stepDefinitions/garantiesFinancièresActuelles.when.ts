@@ -145,7 +145,7 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      const échuLeValue = new Date(exemple['date à vérifier']).toISOString();
+      const échuLeValue = new Date(exemple['à échoir le']).toISOString();
 
       await mediator.send<AjouterTâchePlanifiéeCommand>({
         type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',

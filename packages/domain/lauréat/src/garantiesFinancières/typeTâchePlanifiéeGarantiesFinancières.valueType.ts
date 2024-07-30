@@ -1,10 +1,10 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const types = [
-  'inconnue',
-  'échoir',
-  'rappel-échéance-un-mois',
-  'rappel-échéance-deux-mois',
+  'garanties-financières.inconnue',
+  'garanties-financières.échoir',
+  'garanties-financières.rappel-échéance-un-mois',
+  'garanties-financières.rappel-échéance-deux-mois',
 ] as const;
 
 export type RawType = (typeof types)[number];
@@ -37,10 +37,14 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const inconnue = convertirEnValueType('inconnue');
-export const échoir = convertirEnValueType('échoir');
-export const rappelÉchéanceUnMois = convertirEnValueType('rappel-échéance-un-mois');
-export const rappelÉchéanceDeuxMois = convertirEnValueType('rappel-échéance-deux-mois');
+export const inconnue = convertirEnValueType('garanties-financières.inconnue');
+export const échoir = convertirEnValueType('garanties-financières.échoir');
+export const rappelÉchéanceUnMois = convertirEnValueType(
+  'garanties-financières.rappel-échéance-un-mois',
+);
+export const rappelÉchéanceDeuxMois = convertirEnValueType(
+  'garanties-financières.rappel-échéance-deux-mois',
+);
 
 class TypeTâchePlanifiéeInvalideError extends InvalidOperationError {
   constructor(value: string) {
