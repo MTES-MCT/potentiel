@@ -10,7 +10,7 @@ export type ArchivesGarantiesFinancièresEntity = Entity<
     régionProjet: string;
     appelOffre: string;
     période: string;
-    famille?: string;
+    famille: string;
     archives: Array<GarantiesFinancièresDetailsEntity>;
   }
 >;

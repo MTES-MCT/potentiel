@@ -554,9 +554,10 @@ const policies = {
       ],
     },
     archives: {
-      consulter:
+      consulter: [
         référencielPermissions.lauréat.garantiesFinancières.query
           .consulterArchivesGarantiesFinancières,
+      ],
     },
     actuelles: {
       consulter: [
@@ -915,7 +916,7 @@ const droitsMessagesMediator: Record<RawType, Set<string>> = Object.entries(poli
   (prev, [roleStr, policiesOfRole]) => {
     const role = roleStr as RawType;
     if (!prev[role]) {
-      prev[role] = new Set<Policy>();
+      prev[role] = new Set<string>();
     }
     for (const policy of policiesOfRole) {
       const props = policy.split('.');

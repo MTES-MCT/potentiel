@@ -94,7 +94,7 @@ export const register = () => {
         nomProjet: '',
         appelOffre: '',
         période: '',
-        famille: undefined,
+        famille: '',
         régionProjet: '',
         archives: [],
       };

@@ -73,11 +73,19 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           data: { identifiantProjetValue: identifiantProjet },
         });
 
-      const archivesGarantiesFinancières =
-        await mediator.send<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
-          data: { identifiantProjetValue: identifiantProjet },
-        });
+      const peutAccéderAuxArchivesDesGfs =
+        utilisateur.role.estÉgaleÀ(Role.admin) ||
+        utilisateur.role.estÉgaleÀ(Role.dreal) ||
+        utilisateur.role.estÉgaleÀ(Role.dgecValidateur);
+
+      // les archives ne sont visibles que pour les DREAL et DGEC
+      // on limite donc la query à ces utilisateurs pour gagner en perf
+      const archivesGarantiesFinancières = peutAccéderAuxArchivesDesGfs
+        ? await mediator.send<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>({
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+            data: { identifiantProjetValue: identifiantProjet },
+          })
+        : Option.none;
 
       const dépôtEnCoursGarantiesFinancières =
         await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
