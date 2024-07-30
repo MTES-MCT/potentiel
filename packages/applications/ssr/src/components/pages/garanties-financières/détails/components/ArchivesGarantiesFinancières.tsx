@@ -23,30 +23,23 @@ export const ArchivesGarantiesFinancières = ({ archives }: Props) => {
     ),
     content: (
       <div>
-        <div className="mt-5 mb-5 gap-2 text-base flex flex-col">
-          {garantiesFinancières.type ? (
-            <div>
-              Type : <span className="font-semibold">{garantiesFinancières.type}</span>
-            </div>
-          ) : (
-            <span className="font-semibold italic">Type de garanties financières manquant</span>
-          )}
-          {!garantiesFinancières.attestation && (
-            <span className="font-semibold italic">
-              Attestation de constitution des garanties financières manquante
-            </span>
-          )}
-        </div>
-        {garantiesFinancières.dateÉchéance && (
+        {garantiesFinancières.type ? (
           <div>
-            Date d'échéance :{' '}
-            <FormattedDate className="font-semibold" date={garantiesFinancières.dateÉchéance} />
+            Type : <span className="font-semibold">{garantiesFinancières.type}</span>
           </div>
+        ) : (
+          <span className="font-semibold italic">Type de garanties financières manquant</span>
         )}
         {garantiesFinancières.dateConstitution && (
           <div>
             Date de constitution :{' '}
             <FormattedDate className="font-semibold" date={garantiesFinancières.dateConstitution} />
+          </div>
+        )}
+        {garantiesFinancières.dateÉchéance && (
+          <div>
+            Date d'échéance :{' '}
+            <FormattedDate className="font-semibold" date={garantiesFinancières.dateÉchéance} />
           </div>
         )}
         <>
@@ -64,12 +57,16 @@ export const ArchivesGarantiesFinancières = ({ archives }: Props) => {
           )}
         </>
         <div>
-          {garantiesFinancières.attestation && (
+          {garantiesFinancières.attestation ? (
             <DownloadDocument
               format="pdf"
               label="Télécharger l'attestation de constitution"
               url={Routes.Document.télécharger(garantiesFinancières.attestation)}
             />
+          ) : (
+            <span className="font-semibold italic">
+              Attestation de constitution des garanties financières manquante
+            </span>
           )}
         </div>
       </div>
