@@ -456,14 +456,22 @@ export const register = () => {
           break;
 
         case 'HistoriqueGarantiesFinancièresEffacé-V1':
+          détailProjet = await getProjectData(identifiantProjet);
           await upsertProjection<GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
             `archives-garanties-financieres|${identifiantProjet}`,
             {
               ...archivesGarantiesFinancièresToUpsert,
+              ...détailProjet,
               identifiantProjet: payload.identifiantProjet,
               archives: [
                 ...archivesGarantiesFinancièresToUpsert.archives,
-                garantiesFinancièresToUpsert.garantiesFinancières,
+                {
+                  ...garantiesFinancièresToUpsert.garantiesFinancières,
+                  dernièreMiseÀJour: {
+                    date: payload.effacéLe,
+                    par: payload.effacéPar,
+                  },
+                },
               ],
             },
           );
