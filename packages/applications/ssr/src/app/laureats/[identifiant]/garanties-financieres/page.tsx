@@ -166,6 +166,14 @@ const mapToProps: MapToProps = ({
   statut,
   archivesGarantiesFinancières,
 }) => {
+  const archives = Option.isSome(archivesGarantiesFinancières)
+    ? archivesGarantiesFinancières.archives.map((garantiesFinancières) =>
+        mapGarantiesFinancièrestoProps({
+          garantiesFinancières,
+        }),
+      )
+    : undefined;
+
   if (
     Option.isNone(garantiesFinancièresActuelles) &&
     Option.isNone(dépôtEnCoursGarantiesFinancières)
@@ -183,6 +191,7 @@ const mapToProps: MapToProps = ({
           : undefined,
       afficherInfoConditionsMainlevée:
         utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainlevée),
+      archivesGarantiesFinancières: archives,
     };
   }
 
@@ -278,13 +287,7 @@ const mapToProps: MapToProps = ({
           isActuelle: true,
         }
       : undefined,
-    archivesGarantiesFinancières: Option.isSome(archivesGarantiesFinancières)
-      ? archivesGarantiesFinancières.archives.map((garantiesFinancières) =>
-          mapGarantiesFinancièrestoProps({
-            garantiesFinancières,
-          }),
-        )
-      : undefined,
+    archivesGarantiesFinancières: archives,
     dépôtEnCours: Option.isSome(dépôtEnCoursGarantiesFinancières)
       ? {
           type: getGarantiesFinancièresTypeLabel(dépôtEnCoursGarantiesFinancières.dépôt.type.type),

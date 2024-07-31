@@ -66,9 +66,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           />
         )}
       </div>
-      {archivesGarantiesFinancières?.length && (
-        <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
-      )}
+
       {(mainlevée || (historiqueMainlevée && historiqueMainlevée.historique.length)) && (
         <Mainlevée
           mainlevéeEnCours={mainlevée}
@@ -76,12 +74,18 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           identifiantProjet={identifiantProjet}
         />
       )}
+
       {!dépôtEnCours && !actuelles && (
         <GarantiesFinancièresManquantes identifiantProjet={identifiantProjet} action={action} />
       )}
+      {archivesGarantiesFinancières?.length && (
+        <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
+      )}
+
       {afficherInfoConditionsMainlevée && (
         <InfoBoxMainlevée identifiantProjet={identifiantProjet} />
       )}
+
       {action === 'soumettre' && (
         <InfoBoxSoumettreGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}
