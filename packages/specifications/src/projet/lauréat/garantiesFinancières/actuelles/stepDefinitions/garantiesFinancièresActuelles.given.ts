@@ -10,46 +10,42 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { sleep } from '../../../../../helpers/sleep';
 import { PotentielWorld } from '../../../../../potentiel.world';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
+import { setDépôtData } from '../../dépôt/stepDefinitions/helper';
+
+import { setGarantiesFinancièresData } from './helper';
 
 EtantDonné(
   'des garanties financières actuelles pour le projet {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const typeGarantiesFinancières = exemple['type'] || 'consignation';
-    const dateÉchéance = exemple[`date d'échéance`] || undefined;
-    const format = exemple['format'] || 'application/pdf';
-    const dateConstitution = exemple[`date de constitution`] || '2024-01-01';
-    const contenuFichier = exemple['contenu fichier'] || 'contenu fichier';
-    const dateSoumission = exemple['date de soumission'] || '2024-01-02';
-    const soumisPar = exemple['soumis par'] || 'user@test.test';
-    const validéLe = exemple['date de validation'] || '2024-01-03';
-
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        typeValue: typeGarantiesFinancières,
-        dateConstitutionValue: new Date(dateConstitution).toISOString(),
-        soumisLeValue: new Date(dateSoumission).toISOString(),
-        soumisParValue: soumisPar,
-        attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
-        dateÉchéanceValue: dateÉchéance && new Date(dateÉchéance).toISOString(),
-      },
+      data: setDépôtData({
+        identifiantProjet,
+        typeGarantiesFinancières: exemple[
+          'type'
+        ] as GarantiesFinancières.TypeGarantiesFinancières.RawType,
+        dateÉchéance: exemple[`date d'échéance`],
+        format: exemple['format'],
+        dateConstitution: exemple[`date de constitution`],
+        contenuFichier: exemple['contenu fichier'],
+        dateSoumission: exemple['date de soumission'],
+        soumisPar: exemple['soumis par'],
+      }),
     });
 
     await sleep(100);
 
     await mediator.send<GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        validéLeValue: new Date(validéLe).toISOString(),
-        validéParValue: 'dreal@test.test',
-      },
+      data: setGarantiesFinancièresData({
+        identifiantProjet,
+        validéLe: exemple['date de validation'],
+        validéPar: exemple['validé par'],
+      }),
     });
 
     await sleep(100);
@@ -59,37 +55,22 @@ EtantDonné(
 EtantDonné(
   'des garanties financières actuelles pour le projet {string}',
   async function (this: PotentielWorld, nomProjet: string) {
-    const typeGarantiesFinancières = 'consignation';
-    const format = 'application/pdf';
-    const dateConstitution = '2024-01-01';
-    const contenuFichier = 'contenu fichier';
-    const dateSoumission = '2024-01-02';
-    const soumisPar = 'user@test.test';
-    const validéLe = '2024-01-03';
-
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        typeValue: typeGarantiesFinancières,
-        dateConstitutionValue: new Date(dateConstitution).toISOString(),
-        soumisLeValue: new Date(dateSoumission).toISOString(),
-        soumisParValue: soumisPar,
-        attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
-      },
+      data: setDépôtData({
+        identifiantProjet,
+      }),
     });
 
     await sleep(100);
 
     await mediator.send<GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        validéLeValue: new Date(validéLe).toISOString(),
-        validéParValue: 'dreal@test.test',
-      },
+      data: setGarantiesFinancièresData({
+        identifiantProjet,
+      }),
     });
 
     await sleep(100);
@@ -101,19 +82,15 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const typeGarantiesFinancières = exemple['type'] || 'consignation';
-    const dateÉchéance = exemple[`date d'échéance`] || undefined;
-
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<GarantiesFinancières.ImporterTypeGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        typeValue: typeGarantiesFinancières,
-        dateÉchéanceValue: dateÉchéance && new Date(dateÉchéance).toISOString(),
-        importéLeValue: new Date().toISOString(),
-      },
+      data: setGarantiesFinancièresData({
+        identifiantProjet,
+        typeGarantiesFinancières: exemple['type'],
+        dateÉchéance: exemple[`date d'échéance`],
+      }),
     });
 
     await sleep(100);
@@ -127,11 +104,9 @@ EtantDonné(
 
     await mediator.send<GarantiesFinancières.ImporterTypeGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        typeValue: 'consignation',
-        importéLeValue: new Date().toISOString(),
-      },
+      data: setGarantiesFinancièresData({
+        identifiantProjet,
+      }),
     });
 
     await sleep(100);
@@ -145,37 +120,25 @@ EtantDonné(
 
     const dateÉchéance = new Date(exemple[`date d'échéance`]);
     const typeGarantiesFinancières = 'avec-date-échéance';
-    const format = 'application/pdf';
-    const dateConstitution = '2024-01-01';
-    const contenuFichier = 'contenu fichier';
-    const dateSoumission = '2024-01-02';
-    const soumisPar = 'user@test.test';
-    const validéLe = '2024-01-03';
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        typeValue: typeGarantiesFinancières,
-        dateConstitutionValue: new Date(dateConstitution).toISOString(),
-        soumisLeValue: new Date(dateSoumission).toISOString(),
-        soumisParValue: soumisPar,
-        attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
-        dateÉchéanceValue: dateÉchéance.toISOString(),
-      },
+      data: setDépôtData({
+        identifiantProjet,
+        typeGarantiesFinancières,
+        dateÉchéance: dateÉchéance.toISOString(),
+      }),
     });
 
     await sleep(100);
 
     await mediator.send<GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        validéLeValue: new Date(validéLe).toISOString(),
-        validéParValue: 'dreal@test.test',
-      },
+      data: setGarantiesFinancièresData({
+        identifiantProjet,
+      }),
     });
 
     await sleep(100);
