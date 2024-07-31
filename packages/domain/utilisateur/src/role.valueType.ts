@@ -916,7 +916,7 @@ const droitsMessagesMediator: Record<RawType, Set<string>> = Object.entries(poli
   (prev, [roleStr, policiesOfRole]) => {
     const role = roleStr as RawType;
     if (!prev[role]) {
-      prev[role] = new Set<string>();
+      prev[role] = new Set<Policy>();
     }
     for (const policy of policiesOfRole) {
       const props = policy.split('.');
