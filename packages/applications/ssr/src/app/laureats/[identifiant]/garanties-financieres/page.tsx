@@ -22,12 +22,10 @@ import {
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
-import { MainlevéeEnCoursProps } from '@/components/pages/garanties-financières/détails/components/MainlevéeEnCours';
-import { HistoriqueMainlevéeRejetéeProps } from '@/components/pages/garanties-financières/détails/components/HistoriqueMainlevéeRejetée';
-import {
-  DépôtGarantiesFinancières,
-  GarantiesFinancièresActuelles,
-} from '@/components/organisms/garantiesFinancières/types';
+
+import { setMainlevéeActions } from './utils/setMainlevéeActions';
+import { setDépôtEnCoursActions } from './utils/setDépôtEnCoursActions';
+import { setGarantiesFinancièresActuellesActions } from './utils/setGarantiesFinancièresActuellesActions';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
@@ -195,81 +193,38 @@ const mapToProps: MapToProps = ({
     };
   }
 
-  const dépôtEnCoursActions: DépôtGarantiesFinancières['actions'] = [];
-  if (utilisateur.role.estÉgaleÀ(Role.admin)) {
-    dépôtEnCoursActions.push('modifier');
-  } else if (utilisateur.role.estÉgaleÀ(Role.dreal)) {
-    dépôtEnCoursActions.push('instruire', 'modifier');
-  } else if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
-    dépôtEnCoursActions.push('modifier', 'supprimer');
-  }
-
-  const garantiesFinancièresActuellesActions: GarantiesFinancièresActuelles['actions'] = [];
-  const mainlevéeActions: MainlevéeEnCoursProps['mainlevéeEnCours']['actions'] = [];
-  const historiqueMainlevéeActions: HistoriqueMainlevéeRejetéeProps['historiqueMainlevée']['actions'] =
-    [];
-
   const estAdminOuDGEC =
     utilisateur.role.estÉgaleÀ(Role.admin) || utilisateur.role.estÉgaleÀ(Role.dgecValidateur);
   const estDreal = utilisateur.role.estÉgaleÀ(Role.dreal);
   const estPorteur = utilisateur.role.estÉgaleÀ(Role.porteur);
 
-  const aGarantiesFinancièresSansAttestation =
-    Option.isSome(garantiesFinancièresActuelles) &&
-    !garantiesFinancièresActuelles.garantiesFinancières.attestation;
-  const aGarantiesFinancièresNonLevées =
-    Option.isSome(garantiesFinancièresActuelles) &&
-    !garantiesFinancièresActuelles.garantiesFinancières.statut.estLevé();
-  const aGarantiesFinancièresÉchues =
-    Option.isSome(garantiesFinancièresActuelles) &&
-    garantiesFinancièresActuelles.garantiesFinancières.statut.estÉchu();
-  const aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée =
-    Option.isSome(garantiesFinancièresActuelles) &&
-    garantiesFinancièresActuelles.garantiesFinancières.attestation &&
-    Option.isNone(dépôtEnCoursGarantiesFinancières) &&
-    Option.isNone(mainlevée);
-  const projetAbandonne = statut === 'abandonné';
-  const projetAcheve = Option.isSome(achèvement);
-  const mainlevéeDemandée = Option.isSome(mainlevée) && mainlevée.statut.estDemandé();
-  const mainlevéeEnInstruction = Option.isSome(mainlevée) && mainlevée.statut.estEnInstruction();
-  const mainlevéeAccordéeOuRefusée =
-    (Option.isSome(mainlevée) && mainlevée.statut.estAccordé()) ||
-    Option.isSome(historiqueMainlevée);
+  const garantiesFinancièresActuellesActions = setGarantiesFinancièresActuellesActions({
+    estDreal,
+    estPorteur,
+    estAdminOuDGEC,
+    hasGarantiesFinancièresActuelles: Option.isSome(garantiesFinancièresActuelles),
+    garantiesFinancièresStatut: Option.isSome(garantiesFinancièresActuelles)
+      ? garantiesFinancièresActuelles.garantiesFinancières.statut
+      : undefined,
+    hasAttestation: !!(
+      Option.isSome(garantiesFinancièresActuelles) &&
+      garantiesFinancièresActuelles.garantiesFinancières.attestation
+    ),
+    isProjetAbandonné: statut === 'abandonné',
+    isProjetAchevé: Option.isSome(achèvement),
+    hasNotDépôtOrMainlevée:
+      Option.isNone(mainlevée) && Option.isNone(dépôtEnCoursGarantiesFinancières),
+  });
 
-  if (aGarantiesFinancièresSansAttestation) {
-    garantiesFinancièresActuellesActions.push('enregister-attestation');
-  }
+  const dépôtEnCoursActions = setDépôtEnCoursActions({ estAdminOuDGEC, estDreal, estPorteur });
 
-  if ((estAdminOuDGEC || estDreal) && aGarantiesFinancièresNonLevées) {
-    garantiesFinancièresActuellesActions.push('modifier');
-  } else if (estPorteur) {
-    if (aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée && projetAbandonne) {
-      garantiesFinancièresActuellesActions.push('demander-mainlevée-gf-pour-projet-abandonné');
-    }
-    if (aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée && projetAcheve) {
-      garantiesFinancièresActuellesActions.push('demander-mainlevée-gf-pour-projet-achevé');
-    }
-    if (mainlevéeDemandée) {
-      mainlevéeActions.push('annuler-demande-mainlevée-gf');
-    }
-  }
-
-  if (estDreal) {
-    if (aGarantiesFinancièresÉchues) {
-      garantiesFinancièresActuellesActions.push('contacter-porteur-pour-gf-échues');
-    }
-    mainlevéeActions.push('voir-appel-offre-info');
-    if (mainlevéeDemandée) {
-      mainlevéeActions.push('instruire-demande-mainlevée-gf');
-    }
-    if (mainlevéeEnInstruction || mainlevéeDemandée) {
-      mainlevéeActions.push('accorder-ou-rejeter-demande-mainlevée-gf');
-    }
-    if (mainlevéeAccordéeOuRefusée) {
-      historiqueMainlevéeActions.push('modifier-courrier-réponse-mainlevée-gf');
-      mainlevéeActions.push('modifier-courrier-réponse-mainlevée-gf');
-    }
-  }
+  const { mainlevéeActions, historiqueMainlevéeActions } = setMainlevéeActions({
+    estDreal,
+    estPorteur,
+    hasMainlevée: Option.isSome(mainlevée),
+    mainlevéeStatut: Option.isSome(mainlevée) ? mainlevée.statut : undefined,
+    hasHistorique: Option.isSome(historiqueMainlevée),
+  });
 
   const peutDemanderMainlevée =
     garantiesFinancièresActuellesActions.includes('demander-mainlevée-gf-pour-projet-abandonné') ||
