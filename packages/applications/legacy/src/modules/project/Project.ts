@@ -480,6 +480,10 @@ export const makeProject = (args: {
             // remains éliminé
           }
         }
+
+        if (changes.technologie) {
+          _updateCompletionDate(appelOffre);
+        }
       }
 
       return ok(null);
