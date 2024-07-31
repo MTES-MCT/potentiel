@@ -45,6 +45,7 @@ Fonctionnalité: Achever une tâche
             | contenu fichier      | contenu fichier |
             | date de constitution | 2023-06-12      |
             | date mise à jour     | 2024-03-01      |
+            | enregistré par       | admin@test.test |
         Alors une tâche indiquant de "transmettre les garanties financières" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Une tâche est achevée lorsqu'un raccordement est modifié avec un gestionnaire réseau valide

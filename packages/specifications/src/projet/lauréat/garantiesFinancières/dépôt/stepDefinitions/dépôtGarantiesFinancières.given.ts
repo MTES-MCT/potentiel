@@ -18,14 +18,8 @@ EtantDonné(
     await mediator.send<GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
       data: setDépôtData({
+        exemple,
         identifiantProjet,
-        typeGarantiesFinancières: exemple['type'],
-        dateÉchéance: exemple[`date d'échéance`],
-        format: exemple['format'],
-        dateConstitution: exemple[`date de constitution`],
-        contenuFichier: exemple['contenu fichier'],
-        dateSoumission: exemple['date de soumission'],
-        soumisPar: exemple['soumis par'],
       }),
     });
 

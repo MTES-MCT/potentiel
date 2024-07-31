@@ -25,15 +25,7 @@ EtantDonné(
       type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
       data: setDépôtData({
         identifiantProjet,
-        typeGarantiesFinancières: exemple[
-          'type'
-        ] as GarantiesFinancières.TypeGarantiesFinancières.RawType,
-        dateÉchéance: exemple[`date d'échéance`],
-        format: exemple['format'],
-        dateConstitution: exemple[`date de constitution`],
-        contenuFichier: exemple['contenu fichier'],
-        dateSoumission: exemple['date de soumission'],
-        soumisPar: exemple['soumis par'],
+        exemple,
       }),
     });
 
@@ -43,8 +35,7 @@ EtantDonné(
       type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
       data: setGarantiesFinancièresData({
         identifiantProjet,
-        validéLe: exemple['date de validation'],
-        validéPar: exemple['validé par'],
+        exemple,
       }),
     });
 
@@ -88,8 +79,7 @@ EtantDonné(
       type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
       data: setGarantiesFinancièresData({
         identifiantProjet,
-        typeGarantiesFinancières: exemple['type'],
-        dateÉchéance: exemple[`date d'échéance`],
+        exemple,
       }),
     });
 
@@ -119,7 +109,6 @@ EtantDonné(
     const exemple = dataTable.rowsHash();
 
     const dateÉchéance = new Date(exemple[`date d'échéance`]);
-    const typeGarantiesFinancières = 'avec-date-échéance';
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -127,8 +116,6 @@ EtantDonné(
       type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
       data: setDépôtData({
         identifiantProjet,
-        typeGarantiesFinancières,
-        dateÉchéance: dateÉchéance.toISOString(),
       }),
     });
 

@@ -10,7 +10,8 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { sleep } from '../../../../../helpers/sleep';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
+
+import { setGarantiesFinancièresData } from './helper';
 
 Quand(
   `un admin importe le type des garanties financières actuelles pour le projet {string} avec :`,
@@ -18,20 +19,11 @@ Quand(
     const exemple = dataTable.rowsHash();
 
     try {
-      const typeGarantiesFinancières = exemple['type'] || 'consignation';
-      const dateÉchéance = exemple[`date d'échéance`] || undefined;
-      const importéLe = exemple[`date d'import `] || '2024-01-01';
-
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<GarantiesFinancières.ImporterTypeGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          typeValue: typeGarantiesFinancières,
-          importéLeValue: new Date(importéLe).toISOString(),
-          ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
-        },
+        data: setGarantiesFinancièresData({ identifiantProjet, exemple }),
       });
       await sleep(500);
     } catch (error) {
@@ -46,26 +38,11 @@ Quand(
     const exemple = dataTable.rowsHash();
 
     try {
-      const typeGarantiesFinancières = exemple['type'] || 'consignation';
-      const dateÉchéance = exemple[`date d'échéance`] || undefined;
-      const format = exemple['format'] || 'application/pdf';
-      const dateConstitution = exemple[`date de constitution`] || '2024-01-01';
-      const contenuFichier = exemple['contenu fichier'] || 'contenu fichier';
-      const modifiéLe = exemple['date mise à jour'] || '2024-01-01';
-
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<GarantiesFinancières.ModifierGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          typeValue: typeGarantiesFinancières,
-          ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
-          attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
-          dateConstitutionValue: new Date(dateConstitution).toISOString(),
-          modifiéLeValue: new Date(modifiéLe).toISOString(),
-          modifiéParValue: 'admin@test.test',
-        },
+        data: setGarantiesFinancièresData({ identifiantProjet, exemple }),
       });
       await sleep(300);
     } catch (error) {
@@ -80,22 +57,14 @@ Quand(
     const exemple = dataTable.rowsHash();
 
     try {
-      const format = exemple['format'] || 'application/pdf';
-      const dateConstitution = exemple[`date de constitution`] || '2024-01-01';
-      const contenuFichier = exemple['contenu fichier'] || 'contenu fichier';
-      const enregistréLe = exemple['date mise à jour'] || '2024-01-01';
-
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
-          dateConstitutionValue: new Date(dateConstitution).toISOString(),
-          enregistréLeValue: new Date(enregistréLe).toISOString(),
-          enregistréParValue: 'porteur@test.test',
-        },
+        data: setGarantiesFinancièresData({
+          identifiantProjet,
+          exemple,
+        }),
       });
       await sleep(300);
     } catch (error) {
@@ -110,26 +79,11 @@ Quand(
     const exemple = dataTable.rowsHash();
 
     try {
-      const typeGarantiesFinancières = exemple['type'] || 'consignation';
-      const dateÉchéance = exemple[`date d'échéance`] || undefined;
-      const format = exemple['format'] || 'application/pdf';
-      const dateConstitution = exemple[`date de constitution`] || '2024-01-01';
-      const contenuFichier = exemple['contenu fichier'] || 'contenu fichier';
-      const enregistréLe = exemple['date mise à jour'] || '2024-01-01';
-
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
       await mediator.send<GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          typeValue: typeGarantiesFinancières,
-          ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
-          attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
-          dateConstitutionValue: new Date(dateConstitution).toISOString(),
-          enregistréLeValue: new Date(enregistréLe).toISOString(),
-          enregistréParValue: 'admin@test.test',
-        },
+        data: setGarantiesFinancièresData({ identifiantProjet, exemple }),
       });
       await sleep(300);
     } catch (error) {

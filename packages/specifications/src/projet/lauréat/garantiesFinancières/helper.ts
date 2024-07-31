@@ -2,40 +2,23 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable';
 
-export type CommonGarantiesFinancières = typeof defaultCommonGarantiesFinancièresData & {
-  dateÉchéance?: string;
-};
-
-export const defaultCommonGarantiesFinancièresData = {
-  typeGarantiesFinancières: 'consignation',
-  format: 'application/pdf',
-  dateConstitution: '2024-01-01',
-  contenuFichier: 'contenu fichier',
-};
-
-type SetCommonGarantiesFinancièresDataProps = Partial<CommonGarantiesFinancières> & {
+export type SetCommonGarantiesFinancièresDataProps = {
   identifiantProjet: IdentifiantProjet.ValueType;
+  exemple?: Record<string, string>;
 };
 
 export const setCommonGarantiesFinancières = ({
   identifiantProjet,
-  typeGarantiesFinancières,
-  dateÉchéance,
-  format,
-  dateConstitution,
-  contenuFichier,
+  exemple,
 }: SetCommonGarantiesFinancièresDataProps) => ({
   identifiantProjetValue: identifiantProjet.formatter(),
-  typeValue:
-    typeGarantiesFinancières ?? defaultCommonGarantiesFinancièresData.typeGarantiesFinancières,
-  dateÉchéanceValue: dateÉchéance ? new Date(dateÉchéance).toISOString() : undefined,
-  dateConstitutionValue: new Date(
-    dateConstitution ?? defaultCommonGarantiesFinancièresData.dateConstitution,
-  ).toISOString(),
+  typeValue: exemple?.type ?? 'consignation',
+  dateÉchéanceValue: exemple?.["date d'échéance"]
+    ? new Date(exemple?.["date d'échéance"]).toISOString()
+    : undefined,
+  dateConstitutionValue: new Date(exemple?.['date de constitution'] ?? '2024-01-01').toISOString(),
   attestationValue: {
-    format: format ?? defaultCommonGarantiesFinancièresData.format,
-    content: convertStringToReadableStream(
-      contenuFichier ?? defaultCommonGarantiesFinancièresData.contenuFichier,
-    ),
+    format: exemple?.format ?? 'application/pdf',
+    content: convertStringToReadableStream(exemple?.['contenu fichier'] ?? 'contenu fichier'),
   },
 });

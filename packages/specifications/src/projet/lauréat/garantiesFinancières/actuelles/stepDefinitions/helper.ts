@@ -1,49 +1,21 @@
-import { IdentifiantProjet } from '@potentiel-domain/common';
-
 import {
-  CommonGarantiesFinancières,
-  defaultCommonGarantiesFinancièresData,
   setCommonGarantiesFinancières,
+  SetCommonGarantiesFinancièresDataProps,
 } from '../../helper';
-
-type GarantiesFinancièresActuelles = CommonGarantiesFinancières & {
-  validéLe: string;
-  validéPar: string;
-  importéLe: string;
-};
-
-export const defaultGarantiesFinancièresActuellesData: GarantiesFinancièresActuelles = {
-  ...defaultCommonGarantiesFinancièresData,
-  validéLe: '2024-01-03',
-  validéPar: 'dreal@test.test',
-  importéLe: new Date().toISOString(),
-};
-
-type SetGarantiesFinancièresActuellesDataProps = Partial<GarantiesFinancièresActuelles> & {
-  identifiantProjet: IdentifiantProjet.ValueType;
-};
 
 export const setGarantiesFinancièresData = ({
   identifiantProjet,
-  typeGarantiesFinancières,
-  dateÉchéance,
-  format,
-  dateConstitution,
-  contenuFichier,
-  validéLe,
-  validéPar,
-}: SetGarantiesFinancièresActuellesDataProps) => ({
+  exemple,
+}: SetCommonGarantiesFinancièresDataProps) => ({
   ...setCommonGarantiesFinancières({
     identifiantProjet,
-    typeGarantiesFinancières,
-    dateÉchéance,
-    format,
-    dateConstitution,
-    contenuFichier,
+    exemple,
   }),
-  validéLeValue: new Date(
-    validéLe ?? defaultGarantiesFinancièresActuellesData.validéLe,
-  ).toISOString(),
-  validéParValue: validéPar ?? defaultGarantiesFinancièresActuellesData.validéPar,
-  importéLeValue: new Date().toISOString(),
+  validéLeValue: new Date(exemple?.['date de validation'] ?? '2024-01-03').toISOString(),
+  validéParValue: exemple?.['validé par'] ?? 'dreal@test.test',
+  enregistréLeValue: new Date(exemple?.['date demise à jour'] ?? '2024-01-01').toISOString(),
+  enregistréParValue: exemple?.['enregistré par'] ?? 'porteur@test.test',
+  modifiéLeValue: new Date(exemple?.['date mise à jour'] ?? '2024-01-01').toISOString(),
+  modifiéParValue: exemple?.['modifié par'] ?? 'admin@test.test',
+  importéLeValue: new Date(exemple?.["date d'import"] ?? '2024-01-01').toISOString(),
 });
