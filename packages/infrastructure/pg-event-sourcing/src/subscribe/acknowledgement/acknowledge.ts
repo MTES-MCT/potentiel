@@ -13,7 +13,7 @@ const deletePendingAcknowledgementQuery = `
 
 const upateAcknowledgementErrorQuery = `
   update 
-  from event_store.pending_acknowledgement 
+  event_store.pending_acknowledgement 
   set error = $1
   where stream_category = $2 and
         subscriber_name = $3 and
@@ -39,11 +39,11 @@ export const acknowledge = async ({
 
 export const acknowledgeError = async (
   { subscriber_name, stream_category, stream_id, created_at, version }: Acknowledgement,
-  { message, name }: Error,
+  { message }: Error,
 ) => {
   executeQuery(
     upateAcknowledgementErrorQuery,
-    `${name}-${message}`,
+    message,
     stream_category,
     subscriber_name,
     stream_id,

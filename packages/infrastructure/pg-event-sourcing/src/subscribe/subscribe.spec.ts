@@ -142,7 +142,7 @@ describe(`subscribe`, () => {
       name: subscriberName,
       eventType: eventType,
       eventHandler: () => {
-        throw new Error();
+        throw new Error('An error');
       },
       streamCategory: category,
     });
@@ -162,6 +162,13 @@ describe(`subscribe`, () => {
 
       const events = [expect.objectContaining(event)];
       expect(actuals).toEqual(events);
+
+      const actualAcknowledgements = await getPendingAcknowledgements('category', 'event-handler');
+      expect(actualAcknowledgements.length).toBe(1);
+
+      const expected = 'An error';
+
+      expect(actualAcknowledgements[0].error).toEqual(expected);
     });
   });
 

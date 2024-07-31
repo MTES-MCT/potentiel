@@ -72,9 +72,7 @@ describe('acknowledgement', () => {
       payload: { test1: '1' },
     };
 
-    class CustomError extends Error {}
-
-    const error = new CustomError('An error');
+    const error = new Error('An error');
 
     await registerSubscriber({
       eventType: 'event-1',
@@ -93,7 +91,7 @@ describe('acknowledgement', () => {
     // Assert
     expect(actuals.length).toBe(1);
 
-    const expected = 'CustomError-Test';
+    const expected = 'An error';
 
     expect(actuals[0].error).toEqual(expected);
   });
