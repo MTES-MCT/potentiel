@@ -115,7 +115,7 @@ Lorsque la comande `start:dev` est lancée, elle va automatiquement démarrer le
 
 > ✨ Si vous avez besoin de compléter le dump qui est seed par défaut, vous pouvez effectuer les modifications sur la base de donnée avec votre éditeur de base de donnés.  
 > 
-> Une fois les modifications effectives, vous n'avez plus qu'à faire un dump de votre base de donnée. Pour se faire il faudra se connecter au container, et exécuter la commande `docker exec -it potentiel_db pg_dump -U potadmindb -Fc -b -v -f "potentiel-dev.dump" potentiel` pour générer le fichier, puis le copier dans `.database` 
+> Une fois les modifications effectives, vous n'avez plus qu'à faire un dump de votre base de donnée. Pour se faire il lancer le script npm 'update:dump'
 > 
 > Il ne vous reste qu'à remplacer votre fichier à jour avec celui existant
 
