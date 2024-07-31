@@ -54,7 +54,8 @@
     "specs": "npm run test -w @potentiel/specifications",
     "prespecs:select": "npm run pretest",
     "specs:select": "npm run test:select -w @potentiel/specifications",
-    "version": "npx tsx .github/getPatchVersion.ts"
+    "version": "npx tsx .github/getPatchVersion.ts",
+    "update:dump": "docker exec -it potentiel_db pg_dump -U potadmindb -Fc -b -v -f \"potentiel-dev.dump\" potentiel && docker cp potentiel_db:/potentiel-dev.dump ./.database/potentiel-dev.dump"
   },
   "repository": {
     "type": "git",
