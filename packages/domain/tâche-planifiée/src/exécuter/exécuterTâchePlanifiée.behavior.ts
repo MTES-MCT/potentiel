@@ -1,7 +1,6 @@
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 
-import * as TypeTâchePlanifiée from '../typeTâchePlanifiée.valueType';
 import { TâchePlanifiéeAggregate } from '../tâchePlanifiée.aggregate';
 import * as StatutTâchePlanifiée from '../statutTâchePlanifiée.valueType';
 
@@ -10,13 +9,13 @@ export type TâchePlanifiéeExecutéeEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     exécutéeLe: DateTime.RawType;
-    typeTâchePlanifiée: TypeTâchePlanifiée.RawType;
+    typeTâchePlanifiée: string;
   }
 >;
 
 export type ExécuterOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  typeTâchePlanifiée: TypeTâchePlanifiée.ValueType;
+  typeTâchePlanifiée: string;
 };
 
 export async function exécuter(
@@ -34,7 +33,7 @@ export async function exécuter(
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       exécutéeLe: DateTime.now().formatter(),
-      typeTâchePlanifiée: typeTâchePlanifiée.type,
+      typeTâchePlanifiée,
     },
   };
   await this.publish(event);
@@ -48,10 +47,7 @@ export function applyTâchePlanifiéeExecutée(
 }
 
 class TâcheDéjàExécutéeError extends InvalidOperationError {
-  constructor(
-    identifiantProjet: IdentifiantProjet.ValueType,
-    typeTâchePlanifiée: TypeTâchePlanifiée.ValueType,
-  ) {
+  constructor(identifiantProjet: IdentifiantProjet.ValueType, typeTâchePlanifiée: string) {
     super('La tâche planifiée est déjà executée', {
       identifiantProjet,
       typeTâchePlanifiée,
@@ -60,10 +56,7 @@ class TâcheDéjàExécutéeError extends InvalidOperationError {
 }
 
 class TâcheAnnuléeError extends InvalidOperationError {
-  constructor(
-    identifiantProjet: IdentifiantProjet.ValueType,
-    typeTâchePlanifiée: TypeTâchePlanifiée.ValueType,
-  ) {
+  constructor(identifiantProjet: IdentifiantProjet.ValueType, typeTâchePlanifiée: string) {
     super('La tâche planifiée est annulée', {
       identifiantProjet,
       typeTâchePlanifiée,

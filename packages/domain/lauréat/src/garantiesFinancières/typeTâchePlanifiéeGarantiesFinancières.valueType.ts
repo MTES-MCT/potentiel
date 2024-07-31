@@ -1,7 +1,7 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const types = [
-  'inconnue',
+  'garanties-financières.inconnue',
   'garanties-financières.échoir',
   'garanties-financières.rappel-échéance-un-mois',
   'garanties-financières.rappel-échéance-deux-mois',
@@ -37,12 +37,12 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const inconnue = convertirEnValueType('inconnue');
-export const garantiesFinancieresÉchoir = convertirEnValueType('garanties-financières.échoir');
-export const garantiesFinancieresRappelÉchéanceUnMois = convertirEnValueType(
+export const inconnue = convertirEnValueType('garanties-financières.inconnue');
+export const échoir = convertirEnValueType('garanties-financières.échoir');
+export const rappelÉchéanceUnMois = convertirEnValueType(
   'garanties-financières.rappel-échéance-un-mois',
 );
-export const garantiesFinancieresRappelÉchéanceDeuxMois = convertirEnValueType(
+export const rappelÉchéanceDeuxMois = convertirEnValueType(
   'garanties-financières.rappel-échéance-deux-mois',
 );
 

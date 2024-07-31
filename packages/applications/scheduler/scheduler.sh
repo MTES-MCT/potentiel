@@ -12,8 +12,8 @@ then
     exit 1
 fi
 
-echo "Launching job [EXECUTER TACHES PLANIFIEES]"
+echo "Launching job [SCHEDULER]"
 
-npm run start:exécuter-tâches-planifiées -w @potentiel-applications/scheduled-tasks
+npm run start -w @potentiel-applications/scheduler
 
 exit 0

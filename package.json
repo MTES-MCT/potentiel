@@ -12,6 +12,7 @@
     "./packages/domain/candidature",
     "./packages/domain/appel-offre",
     "./packages/domain/inmemory-referential/",
+    "./packages/domain/tâche-planifiée",
     "./packages/domain/*",
     "./packages/infrastructure/*",
     "./packages/applications/routes",

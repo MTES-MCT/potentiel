@@ -11,6 +11,7 @@
   "dependencies": {
     "@potentiel-domain/laureat": "*",
     "@potentiel-domain/elimine": "*",
+    "@potentiel-domain/tache-planifiee": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-applications/routes": "*",

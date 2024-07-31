@@ -1,7 +1,6 @@
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
-import * as TypeTâchePlanifiée from './typeTâchePlanifiée.valueType';
 import * as StatutTâchePlanifiée from './statutTâchePlanifiée.valueType';
 import {
   TâchePlanifiéeAjoutéeEvent,
@@ -27,7 +26,7 @@ export type TâchePlanifiéeEvent =
 
 export type TâchePlanifiéeAggregate = Aggregate<TâchePlanifiéeEvent> & {
   statut: StatutTâchePlanifiée.ValueType;
-  typeTâche: TypeTâchePlanifiée.ValueType;
+  typeTâchePlanifiée: string;
   àExécuterLe: DateTime.ValueType;
   annuléeLe?: DateTime.ValueType;
   ajouter: typeof ajouter;
@@ -41,7 +40,7 @@ export const getDefaultTâchePlanifiéeAggregate: GetDefaultAggregateState<
 > = () => ({
   statut: StatutTâchePlanifiée.inconnu,
   apply,
-  typeTâche: TypeTâchePlanifiée.convertirEnValueType('inconnue'),
+  typeTâchePlanifiée: 'inconnue',
   àExécuterLe: DateTime.now(),
   ajouter,
   annuler,
@@ -64,11 +63,7 @@ function apply(this: TâchePlanifiéeAggregate, event: TâchePlanifiéeEvent) {
 
 export const loadTâchePlanifiéeAggregateFactory =
   (loadAggregate: LoadAggregate) =>
-  (
-    { type }: TypeTâchePlanifiée.ValueType,
-    identifiantProjet: IdentifiantProjet.ValueType,
-    throwOnNone = true,
-  ) => {
+  (type: string, identifiantProjet: IdentifiantProjet.ValueType, throwOnNone = true) => {
     return loadAggregate({
       aggregateId: `tâche-planifiée|${type}#${identifiantProjet.formatter()}`,
       getDefaultAggregate: getDefaultTâchePlanifiéeAggregate,

@@ -2,7 +2,6 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
-  TypeTâchePlanifiée,
   TâchePlanifiéeAjoutéeEvent,
   TâchePlanifiéeExecutéeEvent,
 } from '@potentiel-domain/tache-planifiee';
@@ -18,7 +17,7 @@ import {
 
 async function ajouterTâche(
   identifiantProjet: IdentifiantProjet.ValueType,
-  typeTâchePlanifiée: TypeTâchePlanifiée.ValueType,
+  typeTâchePlanifiée: string,
   àExécuterLe: Date,
 ) {
   const event: TâchePlanifiéeAjoutéeEvent = {
@@ -27,49 +26,40 @@ async function ajouterTâche(
       identifiantProjet: identifiantProjet.formatter(),
       ajoutéeLe: DateTime.now().formatter(),
       àExécuterLe: DateTime.convertirEnValueType(àExécuterLe).formatter(),
-      typeTâchePlanifiée: typeTâchePlanifiée.type,
+      typeTâchePlanifiée,
     },
   };
-  await publish(
-    `tâche-planifiée|${typeTâchePlanifiée.type}#${event.payload.identifiantProjet}`,
-    event,
-  );
+  await publish(`tâche-planifiée|${typeTâchePlanifiée}#${event.payload.identifiantProjet}`, event);
 }
 
 async function exécuterTâche(
   identifiantProjet: IdentifiantProjet.ValueType,
-  typeTâchePlanifiée: TypeTâchePlanifiée.ValueType,
+  typeTâchePlanifiée: string,
 ) {
   const event: TâchePlanifiéeExecutéeEvent = {
     type: 'TâchePlanifiéeExecutée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      typeTâchePlanifiée: typeTâchePlanifiée.type,
+      typeTâchePlanifiée,
       exécutéeLe: DateTime.now().formatter(),
     },
   };
-  await publish(
-    `tâche-planifiée|${typeTâchePlanifiée.type}#${event.payload.identifiantProjet}`,
-    event,
-  );
+  await publish(`tâche-planifiée|${typeTâchePlanifiée}#${event.payload.identifiantProjet}`, event);
 }
 
 async function annulerTâche(
   identifiantProjet: IdentifiantProjet.ValueType,
-  typeTâchePlanifiée: TypeTâchePlanifiée.ValueType,
+  typeTâchePlanifiée: string,
 ) {
   const event: TâchePlanifiéeAnnuléeEvent = {
     type: 'TâchePlanifiéeAnnulée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      typeTâchePlanifiée: typeTâchePlanifiée.type,
+      typeTâchePlanifiée,
       annuléeLe: DateTime.now().formatter(),
     },
   };
-  await publish(
-    `tâche-planifiée|${typeTâchePlanifiée.type}#${event.payload.identifiantProjet}`,
-    event,
-  );
+  await publish(`tâche-planifiée|${typeTâchePlanifiée}#${event.payload.identifiantProjet}`, event);
 }
 
 EtantDonné(
@@ -84,7 +74,7 @@ EtantDonné(
     const projet = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     const typeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
       exemple['type'] as RechercherTypeTâchePlanifiée,
-    );
+    ).type;
     const actualStatutTâche = this.tâchePlanifiéeWorld.rechercherStatutTâchePlanifiée(statutTâche);
     await ajouterTâche(projet.identifiantProjet, typeTâche, new Date(exemple["date d'exécution"]));
     await sleep(100);

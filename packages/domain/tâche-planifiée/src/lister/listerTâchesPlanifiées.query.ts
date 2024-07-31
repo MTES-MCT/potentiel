@@ -5,12 +5,11 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { List, RangeOptions } from '@potentiel-domain/core';
 
 import { TâchePlanifiéeEntity } from '../tâchePlanifiée.entity';
-import * as TypeTâchePlanifiée from '../typeTâchePlanifiée.valueType';
 
 type TâchePlanifiéeListItem = {
   identifiantProjet: IdentifiantProjet.ValueType;
 
-  typeTâchePlanifiée: TypeTâchePlanifiée.ValueType;
+  typeTâchePlanifiée: string;
   misÀJourLe: DateTime.ValueType;
   àExécuterLe: DateTime.ValueType;
 };
@@ -88,6 +87,6 @@ const mapToReadModel = ({
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
     àExécuterLe: DateTime.convertirEnValueType(àExécuterLe),
-    typeTâchePlanifiée: TypeTâchePlanifiée.convertirEnValueType(typeTâche),
+    typeTâchePlanifiée: typeTâche,
   };
 };

@@ -34,7 +34,6 @@ import { AnnulerMainlevéeGarantiesFinancièresUseCase } from './mainlevée/annu
 import { DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/démarrerInstruction/démarrerInstructionDemandeMainlevéeGarantiesFinancières.usecase';
 import { RejeterDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/rejeter/rejeterDemandeMainlevéeGarantiesFinancières.usecase';
 import { AccorderDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.usecase';
-import { ÉchoirGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.usecase';
 import {
   ListerDemandeMainlevéeQuery,
   ListerDemandeMainlevéeReadModel,
@@ -107,8 +106,7 @@ export type GarantiesFinancièresUseCase =
   | AnnulerMainlevéeGarantiesFinancièresUseCase
   | DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase
   | RejeterDemandeMainlevéeGarantiesFinancièresUseCase
-  | AccorderDemandeMainlevéeGarantiesFinancièresUseCase
-  | ÉchoirGarantiesFinancièresUseCase;
+  | AccorderDemandeMainlevéeGarantiesFinancièresUseCase;
 
 export type {
   SoumettreDépôtGarantiesFinancièresUseCase,
@@ -126,7 +124,6 @@ export type {
   DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase,
   RejeterDemandeMainlevéeGarantiesFinancièresUseCase,
   AccorderDemandeMainlevéeGarantiesFinancièresUseCase,
-  ÉchoirGarantiesFinancièresUseCase,
 };
 
 // Event
@@ -163,6 +160,7 @@ export * as StatutMainlevéeGarantiesFinancières from './mainlevée/statutMainl
 export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motifDemandeMainlevéeGarantiesFinancières.valueType';
 export * as TypeDocumentRéponseDemandeMainlevée from './mainlevée/typeDocumentRéponseDemandeMainlevée.valueType';
 export * as StatutGarantiesFinancières from './garantiesFinancièresActuelles/statutGarantiesFinancières.valueType';
+export * as TypeTâchePlanifiéeGarantiesFinancières from './typeTâchePlanifiéeGarantiesFinancières.valueType';
 
 // Entities
 export * from './garantiesFinancièresActuelles/garantiesFinancièresActuelles.entity';
@@ -171,3 +169,6 @@ export * from './dépôtEnCours/dépôtEnCoursGarantiesFinancières.entity';
 export * from './projetEnAttenteDeGarantiesFinancières/projetAvecGarantiesFinancièresEnAttente.entity';
 export * from './mainlevée/mainlevéeGarantiesFinancières.entity';
 export * from './mainlevée/historiqueMainlevéeRejetéeGarantiesFinancières.entity';
+
+// Saga
+export * as GarantiesFinancièresSaga from './garantiesFinancières.saga';
