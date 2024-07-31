@@ -3,6 +3,10 @@ Fonctionnalité: Valider un dépôt de garanties financières
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Et le porteur pour le projet lauréat "Du boulodrome de Marseille"
+            | email | porteur@test.test   |
+            | nom   | Porteur Projet Test |
+            | role  | porteur-projet      |
 
     Plan du Scénario: Un utilisateur dreal valide un dépôt de garanties financières
         Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
@@ -33,6 +37,25 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
             | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
             | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
+
+    Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand des garanties financières avec date d'échéance sont créées
+        Etant donné un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
+            | type            | avec-date-échéance |
+            | date d'échéance | 2024-12-01         |
+        Quand l'utilisateur dreal valide un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
+            | date de validation | 2024-11-02 |
+            | date d'échéance    | 2024-12-01 |
+        Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-02" pour le projet "Du boulodrome de Marseille"
+
+    Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de dépôt validé
+        Etant donné un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
+            | type            | avec-date-échéance |
+            | date d'échéance | 2024-10-01         |
+        Quand l'utilisateur dreal valide un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
+            | date de validation | 2023-10-10 |
+            | date d'échéance    | 2024-10-01 |
+        Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet "Du boulodrome de Marseille"
+        Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet "Du boulodrome de Marseille"
 
     Scénario: Impossible de valider un dépôt de garanties financières si aucune dépôt n'est trouvé
         Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :

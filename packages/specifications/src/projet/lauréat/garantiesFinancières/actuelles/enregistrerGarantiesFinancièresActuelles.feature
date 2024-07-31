@@ -3,6 +3,10 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Et le porteur pour le projet lauréat "Du boulodrome de Marseille"
+            | email | porteur@test.test   |
+            | nom   | Porteur Projet Test |
+            | role  | porteur-projet      |
 
     Plan du Scénario: Un admin enregistre des garanties financières actuelles pour un projet ayant des garanties financières en attente
         Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
@@ -74,6 +78,20 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | date de constitution | 2023-06-12        |
             | date de soumission   | 2023-11-01        |
             | soumis par           | porteur@test.test |
+
+    Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand des garanties financières sont enregisrées par l'administration
+        Quand un admin enregistre les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+            | type             | avec-date-échéance |
+            | date d'échéance  | 2024-12-02         |
+            | date mise à jour | 2024-11-02         |
+        Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-03" pour le projet "Du boulodrome de Marseille"
+
+    Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de garanties financières enregistrées
+        Quand un admin enregistre les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+            | type            | avec-date-échéance |
+            | date d'échéance | 2024-10-01         |
+        Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet "Du boulodrome de Marseille"
+        Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet "Du boulodrome de Marseille"
 
     Plan du Scénario: Impossible d'enregister des garanties financières actuelles si le type renseigné n'est pas compatible avec une date d'échéance
         Quand un admin enregistre les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
