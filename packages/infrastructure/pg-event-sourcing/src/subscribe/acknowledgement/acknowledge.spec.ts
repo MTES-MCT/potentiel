@@ -6,7 +6,7 @@ import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { publish } from '../../publish/publish';
 import { registerSubscriber } from '../subscriber/registerSubscriber';
 
-import { acknowledge } from './acknowledge';
+import { acknowledge, acknowledgeError } from './acknowledge';
 import { getPendingAcknowledgements } from './getPendingAcknowledgements';
 
 describe('acknowledgement', () => {
@@ -55,5 +55,44 @@ describe('acknowledgement', () => {
 
     // Assert
     expect(actuals.length).toBe(0);
+  });
+
+  it(`
+    Étant donnée un acknowledgement en attente correspondant à un événement
+    Quand un event est acknowledge en erreur
+    Alors l'acknowledgement est en erreur
+  `, async () => {
+    // Arrange
+    const subscriberName = 'subscriber';
+    const streamCategory = 'category';
+    const id = 'id';
+
+    const event1: DomainEvent = {
+      type: 'event-1',
+      payload: { test1: '1' },
+    };
+
+    const error = new Error('An error');
+
+    await registerSubscriber({
+      eventType: 'event-1',
+      name: 'subscriber',
+      streamCategory,
+    });
+
+    await publish(`${streamCategory}|${id}`, event1);
+
+    const acknowledgements = await getPendingAcknowledgements(streamCategory, subscriberName);
+
+    // Act
+    await acknowledgeError(acknowledgements[0], error);
+    const actuals = await getPendingAcknowledgements(streamCategory, subscriberName);
+
+    // Assert
+    expect(actuals.length).toBe(1);
+
+    const expected = 'An error';
+
+    expect(actuals[0].error).toEqual(expected);
   });
 });

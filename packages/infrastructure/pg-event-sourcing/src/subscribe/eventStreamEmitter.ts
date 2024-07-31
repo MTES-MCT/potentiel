@@ -7,7 +7,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { isEvent, Event } from '../event';
 
-import { acknowledge } from './acknowledgement/acknowledge';
+import { acknowledge, acknowledgeError } from './acknowledgement/acknowledge';
 import { rebuild } from './rebuild/rebuild';
 import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error';
 import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error';
@@ -141,6 +141,16 @@ export class EventStreamEmitter extends EventEmitter {
           event,
           subscriber: this.#subscriber,
         });
+        await acknowledgeError(
+          {
+            stream_category: this.#subscriber.streamCategory,
+            subscriber_name: this.#subscriber.name,
+            created_at: event.created_at,
+            stream_id: event.stream_id,
+            version: event.version,
+          },
+          error as Error,
+        );
       }
     });
   }
