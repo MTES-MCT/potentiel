@@ -26,6 +26,7 @@ import {
 import { registerMainlevée } from './mainlevée/mainlevée.register';
 import { registerDépôt } from './dépôtEnCours/dépôt.register';
 import { registerGarantiesFinancières } from './garantiesFinancièresActuelles/garantiesFinancières.register';
+import { registerConsulterArchivesGarantiesFinancièresQuery } from './garantiesFinancièresActuelles/consulterArchives/consulterArchivesGarantiesFinancières.query';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerDépôtsEnCoursGarantiesFinancièresDependencies &
@@ -49,6 +50,7 @@ export const registerGarantiesFinancièresQueries = (
   dependencies: GarantiesFinancièresQueryDependencies,
 ) => {
   registerConsulterGarantiesFinancièresQuery(dependencies);
+  registerConsulterArchivesGarantiesFinancièresQuery(dependencies);
   registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery(dependencies);
   registerListerDépôtsEnCoursGarantiesFinancièresQuery(dependencies);
   registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery(dependencies);

@@ -22,7 +22,7 @@ import { NouveauCahierDesChargesNonChoisiError } from '../../../modules/demandeM
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { Project } from '../../../infra/sequelize';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { mediator } from 'mediateur';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
@@ -92,31 +92,27 @@ v1Router.post(
             période: projet.periodeId,
           })
         ) {
-          // supprimer les éventuelles garanties financières du projet
-          const dateActuelle = new Date();
-          try {
-            const garantiesFinancières =
-              await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-                type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-                data: {
-                  identifiantProjetValue,
-                },
-              });
-            if (Option.isSome(garantiesFinancières)) {
-              await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresUseCase>(
-                {
-                  type: 'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
-                  data: {
-                    identifiantProjetValue,
-                    effacéLeValue: dateActuelle.toISOString(),
-                    effacéParValue: user.email,
-                  },
-                },
-              );
-            }
-          } catch (error) {}
+          const dateActuelle = DateTime.now().date;
 
-          // demander de nouvelles garanties financières
+          const garantiesFinancières =
+            await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+              type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+              data: {
+                identifiantProjetValue,
+              },
+            });
+
+          if (Option.isSome(garantiesFinancières)) {
+            await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresUseCase>({
+              type: 'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
+              data: {
+                identifiantProjetValue,
+                effacéLeValue: dateActuelle.toISOString(),
+                effacéParValue: user.email,
+              },
+            });
+          }
+
           await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
             type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
             data: {

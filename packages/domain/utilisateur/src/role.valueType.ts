@@ -127,6 +127,8 @@ const référencielPermissions = {
       query: {
         consulterGarantiesFinancièresActuelles:
           'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+        consulterArchivesGarantiesFinancières:
+          'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
         consulterDépôtEnCoursGarantiesFinancières:
           'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
         listerDépôtsEnCours:
@@ -551,6 +553,12 @@ const policies = {
         référencielPermissions.appelOffre.query.lister,
       ],
     },
+    archives: {
+      consulter: [
+        référencielPermissions.lauréat.garantiesFinancières.query
+          .consulterArchivesGarantiesFinancières,
+      ],
+    },
     actuelles: {
       consulter: [
         référencielPermissions.appelOffre.query.consulter,
@@ -694,6 +702,7 @@ const permissionAdmin: Policy[] = [
 
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
+  'garantiesFinancières.archives.consulter',
   'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.dépôt.lister',
   'garantiesFinancières.dépôt.demander',
@@ -750,6 +759,7 @@ const permissionDreal: Policy[] = [
 
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
+  'garantiesFinancières.archives.consulter',
   'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.dépôt.lister',
   'garantiesFinancières.dépôt.demander',
@@ -802,6 +812,7 @@ const permissionDgecValidateur: Policy[] = [
 
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
+  'garantiesFinancières.archives.consulter',
   'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.dépôt.lister',
   'garantiesFinancières.dépôt.demander',

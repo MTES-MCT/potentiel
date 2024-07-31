@@ -100,6 +100,83 @@ Alors(
 );
 
 Alors(
+  `un historique des garanties financières devrait être consultable pour le projet {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
+    const typeGarantiesFinancières = exemple['type'];
+    const dateÉchéance = exemple[`date d'échéance`];
+    const format = exemple['format'];
+    const dateConstitution = exemple[`date de constitution`];
+    const contenu = exemple['contenu fichier'];
+    const dateValidation = exemple['date de validation'];
+
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      const actualArchivesGarantiesFinancièresReadModel =
+        await mediator.send<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
+
+      expect(Option.isSome(actualArchivesGarantiesFinancièresReadModel)).to.be.true;
+
+      if (Option.isSome(actualArchivesGarantiesFinancièresReadModel)) {
+        actualArchivesGarantiesFinancièresReadModel.archives.should.length(1);
+
+        expect(actualArchivesGarantiesFinancièresReadModel.archives[0].type.type).to.deep.equal(
+          typeGarantiesFinancières,
+        );
+
+        if (dateÉchéance) {
+          expect(
+            actualArchivesGarantiesFinancièresReadModel.archives[0].dateÉchéance?.date,
+          ).to.deep.equal(new Date(dateÉchéance));
+        }
+
+        if (dateConstitution) {
+          expect(
+            actualArchivesGarantiesFinancièresReadModel.archives[0].dateConstitution?.date,
+          ).to.deep.equal(new Date(dateConstitution));
+        }
+
+        if (dateValidation) {
+          expect(
+            actualArchivesGarantiesFinancièresReadModel.archives[0].validéLe?.date,
+          ).to.deep.equal(new Date(dateValidation));
+        }
+
+        expect(actualArchivesGarantiesFinancièresReadModel.archives[0].statut.estValidé()).to.be
+          .true;
+
+        if (format && contenu) {
+          expect(actualArchivesGarantiesFinancièresReadModel.archives[0].attestation).not.to.be
+            .undefined;
+          assert(actualArchivesGarantiesFinancièresReadModel.archives[0].attestation);
+
+          const file = await mediator.send<ConsulterDocumentProjetQuery>({
+            type: 'Document.Query.ConsulterDocumentProjet',
+            data: {
+              documentKey:
+                actualArchivesGarantiesFinancièresReadModel.archives[0].attestation.formatter(),
+            },
+          });
+
+          expect(
+            actualArchivesGarantiesFinancièresReadModel.archives[0].attestation.format,
+          ).to.be.equal(format);
+          const actualContent = await convertReadableStreamToString(file.content);
+          actualContent.should.be.equal(contenu);
+        }
+      }
+    });
+  },
+);
+
+Alors(
   `les garanties financières actuelles du projet {string} sont échues`,
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);

@@ -44,6 +44,11 @@ export const register = () => {
           `garanties-financieres|${identifiantProjet}`,
         );
 
+      const archivesGarantiesFinancières =
+        await findProjection<GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
+          `archives-garanties-financieres|${identifiantProjet}`,
+        );
+
       const dépôtEnCoursGarantiesFinancières =
         await findProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
           `depot-en-cours-garanties-financieres|${identifiantProjet}`,
@@ -79,6 +84,19 @@ export const register = () => {
           type: '',
           dernièreMiseÀJour: { date: '', par: '' },
         },
+      };
+
+      const archivesGarantiesFinancièresDefaultValue: Omit<
+        GarantiesFinancières.ArchivesGarantiesFinancièresEntity,
+        'type'
+      > = {
+        identifiantProjet,
+        nomProjet: '',
+        appelOffre: '',
+        période: '',
+        famille: '',
+        régionProjet: '',
+        archives: [],
       };
 
       const dépôtEnCoursGarantiesFinancièresDefaultValue: Omit<
@@ -158,6 +176,13 @@ export const register = () => {
       > = Option.isSome(garantiesFinancières)
         ? garantiesFinancières
         : garantiesFinancièresDefaultValue;
+
+      const archivesGarantiesFinancièresToUpsert: Omit<
+        GarantiesFinancières.ArchivesGarantiesFinancièresEntity,
+        'type'
+      > = Option.isSome(archivesGarantiesFinancières)
+        ? archivesGarantiesFinancières
+        : archivesGarantiesFinancièresDefaultValue;
 
       const dépôtEnCoursGarantiesFinancièresToUpsert: Omit<
         GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity,
@@ -431,6 +456,26 @@ export const register = () => {
           break;
 
         case 'HistoriqueGarantiesFinancièresEffacé-V1':
+          détailProjet = await getProjectData(identifiantProjet);
+          await upsertProjection<GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
+            `archives-garanties-financieres|${identifiantProjet}`,
+            {
+              ...archivesGarantiesFinancièresToUpsert,
+              ...détailProjet,
+              identifiantProjet: payload.identifiantProjet,
+              archives: [
+                ...archivesGarantiesFinancièresToUpsert.archives,
+                {
+                  ...garantiesFinancièresToUpsert.garantiesFinancières,
+                  dernièreMiseÀJour: {
+                    date: payload.effacéLe,
+                    par: payload.effacéPar,
+                  },
+                },
+              ],
+            },
+          );
+
           await removeProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
           );
@@ -520,7 +565,6 @@ export const register = () => {
 
           await upsertProjection<GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
             `historique-mainlevee-rejetee-garanties-financieres|${identifiantProjet}`,
-
             {
               ...historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert,
               ...détailProjet,

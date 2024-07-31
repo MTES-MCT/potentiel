@@ -76,6 +76,55 @@ export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = 
   },
 };
 
+export const GarantiesFinancieresActuellesComplètesAvecArchives: Story = {
+  args: {
+    identifiantProjet: 'identifiantProjet#1',
+    afficherInfoConditionsMainlevée: true,
+    actuelles: {
+      type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
+      statut: 'validé',
+      dateÉchéance: new Date('2023-07-01').toISOString() as Iso8601DateTime,
+      dateConstitution: new Date('2022-10-01').toISOString() as Iso8601DateTime,
+      soumisLe: new Date('2021-09-23').toISOString() as Iso8601DateTime,
+      validéLe: new Date('2021-10-23').toISOString() as Iso8601DateTime,
+      attestation: 'path/to/attestation.pdf',
+      actions: [],
+      dernièreMiseÀJour: {
+        date: new Date('2021-10-23').toISOString() as Iso8601DateTime,
+        par: 'DREAL#1',
+      },
+      isActuelle: true,
+    },
+    archivesGarantiesFinancières: [
+      {
+        type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
+        statut: 'validé',
+        dateÉchéance: new Date('2023-07-01').toISOString() as Iso8601DateTime,
+        dateConstitution: new Date('2022-10-01').toISOString() as Iso8601DateTime,
+        soumisLe: new Date('2021-09-23').toISOString() as Iso8601DateTime,
+        validéLe: new Date('2021-10-23').toISOString() as Iso8601DateTime,
+        dernièreMiseÀJour: {
+          date: new Date('2021-1-23').toISOString() as Iso8601DateTime,
+          par: 'DREAL#1',
+        },
+      },
+      {
+        type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
+        statut: 'échu',
+        dateÉchéance: new Date('2023-07-01').toISOString() as Iso8601DateTime,
+        dateConstitution: new Date('2022-10-01').toISOString() as Iso8601DateTime,
+        soumisLe: new Date('2021-09-23').toISOString() as Iso8601DateTime,
+        validéLe: new Date('2021-10-23').toISOString() as Iso8601DateTime,
+        attestation: 'path/to/attestation.pdf',
+        dernièreMiseÀJour: {
+          date: new Date('2021-1-23').toISOString() as Iso8601DateTime,
+          par: 'DREAL#1',
+        },
+      },
+    ],
+  },
+};
+
 export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
   args: {
     identifiantProjet: 'identifiantProjet#1',

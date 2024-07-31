@@ -73,6 +73,20 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           data: { identifiantProjetValue: identifiantProjet },
         });
 
+      const peutAccéderAuxArchivesDesGfs =
+        utilisateur.role.estÉgaleÀ(Role.admin) ||
+        utilisateur.role.estÉgaleÀ(Role.dreal) ||
+        utilisateur.role.estÉgaleÀ(Role.dgecValidateur);
+
+      // les archives ne sont visibles que pour les DREAL et DGEC
+      // on limite donc la query à ces utilisateurs pour gagner en perf
+      const archivesGarantiesFinancières = peutAccéderAuxArchivesDesGfs
+        ? await mediator.send<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>({
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+            data: { identifiantProjetValue: identifiantProjet },
+          })
+        : Option.none;
+
       const dépôtEnCoursGarantiesFinancières =
         await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
@@ -117,6 +131,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         historiqueMainlevée,
         statut: candidature.statut,
         contactPorteurs: porteurs.map((porteur) => porteur.email),
+        archivesGarantiesFinancières,
       });
 
       return <DétailsGarantiesFinancièresPage {...props} />;
@@ -135,6 +150,7 @@ type MapToProps = (args: {
   appelOffreDetails: AppelOffre;
   historiqueMainlevée: Option.Type<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel>;
   statut: StatutProjet.RawType;
+  archivesGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresReadModel>;
 }) => DétailsGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({
@@ -148,7 +164,16 @@ const mapToProps: MapToProps = ({
   appelOffreDetails,
   historiqueMainlevée,
   statut,
+  archivesGarantiesFinancières,
 }) => {
+  const archives = Option.isSome(archivesGarantiesFinancières)
+    ? archivesGarantiesFinancières.archives.map((garantiesFinancières) =>
+        mapGarantiesFinancièrestoProps({
+          garantiesFinancières,
+        }),
+      )
+    : undefined;
+
   if (
     Option.isNone(garantiesFinancièresActuelles) &&
     Option.isNone(dépôtEnCoursGarantiesFinancières)
@@ -166,6 +191,7 @@ const mapToProps: MapToProps = ({
           : undefined,
       afficherInfoConditionsMainlevée:
         utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainlevée),
+      archivesGarantiesFinancières: archives,
     };
   }
 
@@ -187,6 +213,7 @@ const mapToProps: MapToProps = ({
     utilisateur.role.estÉgaleÀ(Role.admin) || utilisateur.role.estÉgaleÀ(Role.dgecValidateur);
   const estDreal = utilisateur.role.estÉgaleÀ(Role.dreal);
   const estPorteur = utilisateur.role.estÉgaleÀ(Role.porteur);
+
   const aGarantiesFinancièresSansAttestation =
     Option.isSome(garantiesFinancièresActuelles) &&
     !garantiesFinancièresActuelles.garantiesFinancières.attestation;
@@ -253,25 +280,14 @@ const mapToProps: MapToProps = ({
     contactPorteurs,
     actuelles: Option.isSome(garantiesFinancièresActuelles)
       ? {
-          type: getGarantiesFinancièresTypeLabel(
-            garantiesFinancièresActuelles.garantiesFinancières.type.type,
-          ),
-          statut: garantiesFinancièresActuelles.garantiesFinancières.statut.statut,
-          dateÉchéance:
-            garantiesFinancièresActuelles.garantiesFinancières.dateÉchéance?.formatter(),
-          dateConstitution:
-            garantiesFinancièresActuelles.garantiesFinancières.dateConstitution?.formatter(),
-          soumisLe: garantiesFinancièresActuelles.garantiesFinancières.soumisLe?.formatter(),
-          validéLe: garantiesFinancièresActuelles.garantiesFinancières.validéLe?.formatter(),
-          attestation: garantiesFinancièresActuelles.garantiesFinancières.attestation?.formatter(),
-          dernièreMiseÀJour: {
-            date: garantiesFinancièresActuelles.garantiesFinancières.dernièreMiseÀJour.date.formatter(),
-            par: garantiesFinancièresActuelles.garantiesFinancières.dernièreMiseÀJour.par?.formatter(),
-          },
+          ...mapGarantiesFinancièrestoProps({
+            garantiesFinancières: garantiesFinancièresActuelles.garantiesFinancières,
+          }),
           actions: garantiesFinancièresActuellesActions,
           isActuelle: true,
         }
       : undefined,
+    archivesGarantiesFinancières: archives,
     dépôtEnCours: Option.isSome(dépôtEnCoursGarantiesFinancières)
       ? {
           type: getGarantiesFinancièresTypeLabel(dépôtEnCoursGarantiesFinancières.dépôt.type.type),
@@ -331,3 +347,23 @@ const mapToProps: MapToProps = ({
       !peutDemanderMainlevée,
   };
 };
+
+type MapGarantiesFinancièrestoProps = {
+  garantiesFinancières: GarantiesFinancières.GarantiesFinancièresReadModel;
+};
+
+const mapGarantiesFinancièrestoProps = ({
+  garantiesFinancières,
+}: MapGarantiesFinancièrestoProps) => ({
+  type: getGarantiesFinancièresTypeLabel(garantiesFinancières.type.type),
+  statut: garantiesFinancières.statut.statut,
+  dateÉchéance: garantiesFinancières.dateÉchéance?.formatter(),
+  dateConstitution: garantiesFinancières.dateConstitution?.formatter(),
+  soumisLe: garantiesFinancières.soumisLe?.formatter(),
+  validéLe: garantiesFinancières.validéLe?.formatter(),
+  attestation: garantiesFinancières.attestation?.formatter(),
+  dernièreMiseÀJour: {
+    date: garantiesFinancières.dernièreMiseÀJour.date.formatter(),
+    par: garantiesFinancières.dernièreMiseÀJour.par?.formatter(),
+  },
+});
