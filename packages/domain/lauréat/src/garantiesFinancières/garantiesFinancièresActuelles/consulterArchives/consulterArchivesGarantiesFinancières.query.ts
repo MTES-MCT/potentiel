@@ -4,12 +4,12 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/core';
 
-import { GarantiesFinancièresDetailsEntity } from '../..';
 import {
   GarantiesFinancièresReadModel,
   mapGarantiesFinancièresToReadModel,
 } from '../consulter/consulterGarantiesFinancières.query';
 import { ArchivesGarantiesFinancièresEntity } from '../archivesGarantiesFinancières.entity';
+import { GarantiesFinancièresDetails } from '../types';
 
 export type ConsulterArchivesGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -56,13 +56,15 @@ export const registerConsulterArchivesGarantiesFinancièresQuery = ({
   );
 };
 
+type MapToReadModel = {
+  archives: Array<GarantiesFinancièresDetails>;
+  identifiantProjetValueType: IdentifiantProjet.ValueType;
+};
+
 const mapToReadModel = ({
   archives,
   identifiantProjetValueType,
-}: {
-  archives: Array<GarantiesFinancièresDetailsEntity>;
-  identifiantProjetValueType: IdentifiantProjet.ValueType;
-}): ConsulterArchivesGarantiesFinancièresReadModel => ({
+}: MapToReadModel): ConsulterArchivesGarantiesFinancièresReadModel => ({
   identifiantProjet: identifiantProjetValueType,
   archives: archives.map((garantiesFinancières) =>
     mapGarantiesFinancièresToReadModel({

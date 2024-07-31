@@ -1,21 +1,6 @@
 import { Entity } from '@potentiel-domain/core';
 
-import { StatutGarantiesFinancières } from '..';
-
-export type GarantiesFinancièresDetailsEntity = {
-  statut: StatutGarantiesFinancières.RawType;
-  type: string;
-  dateÉchéance?: string;
-  attestation?: { format: string };
-  dateConstitution?: string;
-  soumisLe?: string;
-  validéLe?: string;
-  typeImportéLe?: string;
-  dernièreMiseÀJour: {
-    date: string;
-    par?: string;
-  };
-};
+import { GarantiesFinancièresDetails } from './types';
 
 export type GarantiesFinancièresEntity = Entity<
   'garanties-financieres',
@@ -26,6 +11,6 @@ export type GarantiesFinancièresEntity = Entity<
     appelOffre: string;
     période: string;
     famille?: string;
-    garantiesFinancières: GarantiesFinancièresDetailsEntity;
+    garantiesFinancières: GarantiesFinancièresDetails;
   }
 >;

@@ -1,6 +1,6 @@
 import { Entity } from '@potentiel-domain/core';
 
-import { GarantiesFinancièresDetailsEntity } from '..';
+import { GarantiesFinancièresDetails } from './types';
 
 export type ArchivesGarantiesFinancièresEntity = Entity<
   'archives-garanties-financieres',
@@ -11,6 +11,6 @@ export type ArchivesGarantiesFinancièresEntity = Entity<
     appelOffre: string;
     période: string;
     famille: string;
-    archives: Array<GarantiesFinancièresDetailsEntity>;
+    archives: Array<GarantiesFinancièresDetails>;
   }
 >;

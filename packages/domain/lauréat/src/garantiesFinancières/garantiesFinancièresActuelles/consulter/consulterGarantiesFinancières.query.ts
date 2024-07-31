@@ -8,11 +8,11 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { GarantiesFinancièresEntity } from '../garantiesFinancièresActuelles.entity';
 import {
-  GarantiesFinancièresDetailsEntity,
   StatutGarantiesFinancières,
   TypeDocumentGarantiesFinancières,
   TypeGarantiesFinancières,
 } from '../..';
+import { GarantiesFinancièresDetails } from '../types';
 
 export type GarantiesFinancièresReadModel = {
   type: TypeGarantiesFinancières.ValueType;
@@ -73,7 +73,7 @@ const mapToReadModel = ({
   garantiesFinancières,
   identifiantProjetValueType,
 }: {
-  garantiesFinancières: GarantiesFinancièresDetailsEntity;
+  garantiesFinancières: GarantiesFinancièresDetails;
   identifiantProjetValueType: IdentifiantProjet.ValueType;
 }): ConsulterGarantiesFinancièresReadModel => ({
   identifiantProjet: identifiantProjetValueType,
@@ -96,7 +96,7 @@ export const mapGarantiesFinancièresToReadModel = ({
   },
   identifiantProjetValueType,
 }: {
-  garantiesFinancières: GarantiesFinancièresDetailsEntity;
+  garantiesFinancières: GarantiesFinancièresDetails;
   identifiantProjetValueType: IdentifiantProjet.ValueType;
 }) => ({
   statut: StatutGarantiesFinancières.convertirEnValueType(statut),
