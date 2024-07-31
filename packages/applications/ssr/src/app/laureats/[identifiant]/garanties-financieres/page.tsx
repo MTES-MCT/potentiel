@@ -345,11 +345,13 @@ const mapToProps: MapToProps = ({
   };
 };
 
+type MapGarantiesFinancièrestoProps = {
+  garantiesFinancières: GarantiesFinancières.GarantiesFinancièresReadModel;
+};
+
 const mapGarantiesFinancièrestoProps = ({
   garantiesFinancières,
-}: {
-  garantiesFinancières: GarantiesFinancières.GarantiesFinancièresReadModel;
-}) => ({
+}: MapGarantiesFinancièrestoProps) => ({
   type: getGarantiesFinancièresTypeLabel(garantiesFinancières.type.type),
   statut: garantiesFinancières.statut.statut,
   dateÉchéance: garantiesFinancières.dateÉchéance?.formatter(),
