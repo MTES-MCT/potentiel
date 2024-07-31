@@ -471,11 +471,8 @@ export const makeProject = (args: {
             }
           } else {
             if (props.isClasse) {
-              if (hasNotificationDateChanged) {
-                // remains classé
-                _updateDCRDate(appelOffre);
-                _updateCompletionDate(appelOffre);
-              }
+              _updateDCRDate(appelOffre);
+              _updateCompletionDate(appelOffre);
             }
             // remains éliminé
           }
