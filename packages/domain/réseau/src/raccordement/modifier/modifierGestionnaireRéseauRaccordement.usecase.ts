@@ -2,8 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
+import { AjouterTâcheCommand } from '@potentiel-domain/tache';
 
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
+import * as TypeTâcheRaccordement from '../typeTâcheRaccordement.valueType';
 
 import { ModifierGestionnaireRéseauRaccordementCommand } from './modifierGestionnaireRéseauRaccordement.command';
 
@@ -35,6 +37,16 @@ export const registerModifierGestionnaireRéseauRaccordementUseCase = () => {
         rôle,
       },
     });
+
+    if (!identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu)) {
+      await mediator.send<AjouterTâcheCommand>({
+        type: 'System.Tâche.Command.AjouterTâche',
+        data: {
+          identifiantProjet,
+          typeTâche: TypeTâcheRaccordement.raccordementGestionnaireRéseauInconnuAttribué,
+        },
+      });
+    }
   };
   mediator.register('Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement', runner);
 };

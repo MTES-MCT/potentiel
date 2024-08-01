@@ -3,9 +3,11 @@ import { mediator, MessageHandler, Message } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 import { DossierProjet, DéplacerDocumentProjetCommand } from '@potentiel-domain/document';
+import { AcheverTâcheCommand } from '@potentiel-domain/tache';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
+import * as TypeTâcheRaccordement from '../typeTâcheRaccordement.valueType';
 
 import { ModifierRéférenceDossierRaccordementCommand } from './modifierRéférenceDossierRaccordement.command';
 
@@ -87,6 +89,14 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
         nouvelleRéférenceDossierRaccordement,
         référenceDossierRaccordementActuelle,
         rôle,
+      },
+    });
+
+    await mediator.send<AcheverTâcheCommand>({
+      type: 'System.Tâche.Command.AcheverTâche',
+      data: {
+        identifiantProjet,
+        typeTâche: TypeTâcheRaccordement.raccordementRéférenceNonTransmise,
       },
     });
   };
