@@ -4,9 +4,11 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { AjouterTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
+import { AcheverTâcheCommand } from '@potentiel-domain/tache';
 
 import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '../..';
 import * as TypeTâchePlanifiéeGarantiesFinancières from '../../typeTâchePlanifiéeGarantiesFinancières.valueType';
+import * as TypeTâcheGarantiesFinancières from '../../typeTâcheGarantiesFinancières.valueType';
 
 import { EnregistrerGarantiesFinancièresCommand } from './enregistrerGarantiesFinancières.command';
 
@@ -69,6 +71,14 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
         dateÉchéance,
         enregistréLe: enregistréLe,
         enregistréPar: enregistréPar,
+      },
+    });
+
+    await mediator.send<AcheverTâcheCommand>({
+      type: 'System.Tâche.Command.AcheverTâche',
+      data: {
+        identifiantProjet,
+        typeTâche: TypeTâcheGarantiesFinancières.garantiesFinancieresDemander,
       },
     });
 
