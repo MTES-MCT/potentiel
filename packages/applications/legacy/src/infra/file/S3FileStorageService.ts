@@ -1,6 +1,9 @@
-import AWS from 'aws-sdk';
-import { wrapInfra, ok, okAsync, Result } from '../../core/utils';
-import { FileStorageService } from '../../modules/file';
+import { S3 } from '@aws-sdk/client-s3';
+import { Upload } from '@aws-sdk/lib-storage';
+import { Readable } from 'node:stream';
+
+import { wrapInfra, ok, okAsync, Result, errAsync } from '../../core/utils';
+import { FileNotFoundError, FileStorageService } from '../../modules/file';
 
 class WrongIdentifierFormat extends Error {
   constructor() {
@@ -25,47 +28,66 @@ export const makeS3FileStorageService = (args: {
   bucket: string;
 }): FileStorageService => {
   const { accessKeyId, secretAccessKey, endpoint, bucket } = args;
-  const _client = new AWS.S3({ endpoint, accessKeyId, secretAccessKey, s3ForcePathStyle: true });
+  const _client = new S3({
+    endpoint,
+    credentials: { accessKeyId, secretAccessKey },
+    forcePathStyle: true,
+  });
 
   return {
     upload({ contents, path: filePath }) {
-      return wrapInfra(
-        _client
-          .upload({
-            Bucket: bucket,
-            Key: filePath,
-            Body: contents,
-          })
-          .promise(),
-      ).map(() => makeIdentifier(filePath, bucket));
+      return wrapInfra(mapToReadableStream(contents))
+        .andThen((fileContent) =>
+          wrapInfra(
+            new Upload({
+              client: _client,
+              params: {
+                Bucket: bucket,
+                Key: filePath,
+                Body: fileContent,
+              },
+            }).done(),
+          ),
+        )
+        .map(() => makeIdentifier(filePath, bucket));
     },
 
     download(storedAt) {
       return parseIdentifier(storedAt, bucket)
         .map((remote: string) =>
-          _client
-            .getObject({
-              Bucket: bucket,
-              Key: remote,
-            })
-            .createReadStream(),
+          _client.getObject({
+            Bucket: bucket,
+            Key: remote,
+          }),
         )
-        .asyncAndThen((stream) => okAsync(stream));
-    },
-
-    remove(storedAt) {
-      return parseIdentifier(storedAt, bucket)
-        .asyncAndThen((remote) =>
-          wrapInfra(
-            _client
-              .deleteObject({
-                Bucket: bucket,
-                Key: remote,
-              })
-              .promise(),
-          ),
-        )
-        .map(() => null);
+        .asyncAndThen((stream) => wrapInfra(stream))
+        .andThen((output) => {
+          return output.Body
+            ? // @ts-ignore
+              okAsync(Readable.fromWeb(output.Body.transformToWebStream()))
+            : errAsync(new FileNotFoundError());
+        });
     },
   };
+};
+
+const mapToReadableStream = async (
+  oldReadableStream: NodeJS.ReadableStream,
+): Promise<ReadableStream> => {
+  return new ReadableStream({
+    start: async (controller) => {
+      controller.enqueue(await mapToBuffer(oldReadableStream));
+      controller.close();
+    },
+  });
+};
+
+const mapToBuffer = async (oldReadableStream: NodeJS.ReadableStream): Promise<Buffer> => {
+  return new Promise<Buffer>((resolve, reject) => {
+    const buffer = Array<Uint8Array>();
+
+    oldReadableStream.on('data', (chunk) => buffer.push(chunk));
+    oldReadableStream.on('end', () => resolve(Buffer.concat(buffer)));
+    oldReadableStream.on('error', (err) => reject(`error converting stream - ${err}`));
+  });
 };
