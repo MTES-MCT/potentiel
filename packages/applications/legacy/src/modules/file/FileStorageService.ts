@@ -14,7 +14,4 @@ export interface FileStorageService {
     FileContents,
     FileNotFoundError | FileAccessDeniedError | InfraNotAvailableError
   >;
-  remove: (
-    storedAt: string,
-  ) => ResultAsync<null, FileNotFoundError | FileAccessDeniedError | InfraNotAvailableError>;
 }

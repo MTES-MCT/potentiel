@@ -68,19 +68,6 @@ export const makeS3FileStorageService = (args: {
             : errAsync(new FileNotFoundError());
         });
     },
-
-    remove(storedAt) {
-      return parseIdentifier(storedAt, bucket)
-        .asyncAndThen((remote) =>
-          wrapInfra(
-            _client.deleteObject({
-              Bucket: bucket,
-              Key: remote,
-            }),
-          ),
-        )
-        .map(() => null);
-    },
   };
 };
 
