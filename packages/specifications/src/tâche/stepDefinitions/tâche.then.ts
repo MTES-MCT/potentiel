@@ -21,7 +21,7 @@ Alors(
         },
       });
 
-      const tâche = tâches.items.find((t) => t.typeTâche.estÉgaleÀ(actualTypeTâche));
+      const tâche = tâches.items.find((t) => t.typeTâche === actualTypeTâche);
       expect(tâche).to.be.not.undefined;
     });
   },
@@ -40,7 +40,7 @@ Alors(
         },
       });
 
-      const tâche = tâches.items.find((t) => t.typeTâche.estÉgaleÀ(actualTypeTâche));
+      const tâche = tâches.items.find((t) => t.typeTâche === actualTypeTâche);
       expect(tâche).to.be.undefined;
     });
   },

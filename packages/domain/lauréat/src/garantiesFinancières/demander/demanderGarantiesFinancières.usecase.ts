@@ -44,7 +44,7 @@ export const registerDemanderGarantiesFinancièresUseCase = () => {
       type: 'System.Tâche.Command.AjouterTâche',
       data: {
         identifiantProjet,
-        typeTâche: TypeTâcheGarantiesFinancières.garantiesFinancieresDemander,
+        typeTâche: TypeTâcheGarantiesFinancières.demander.type,
       },
     });
   };

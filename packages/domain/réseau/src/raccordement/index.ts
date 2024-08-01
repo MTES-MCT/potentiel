@@ -116,6 +116,7 @@ export type {
 // ValueTypes
 export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';
 export * as TypeDocumentRaccordement from './typeDocumentRaccordement.valueType';
+export * as TypeTâcheRaccordement from './typeTâcheRaccordement.valueType';
 
 // Entities
 export * from './raccordement.entity';

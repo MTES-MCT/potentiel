@@ -1,4 +1,5 @@
-import { TypeTâche } from '@potentiel-domain/tache';
+import { Abandon, GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Raccordement } from '@potentiel-domain/reseau';
 
 export type RechercherTypeTâche =
   | 'transmettre la preuve de recandidature'
@@ -7,18 +8,18 @@ export type RechercherTypeTâche =
   | 'mettre à jour le gestionnaire de réseau';
 
 export class TâcheWorld {
-  rechercherTypeTâche(value: RechercherTypeTâche): TypeTâche.ValueType {
+  rechercherTypeTâche(value: RechercherTypeTâche): string {
     switch (value) {
       case 'transmettre la preuve de recandidature':
-        return TypeTâche.abandonTransmettrePreuveRecandidature;
+        return Abandon.TypeTâcheAbandon.transmettrePreuveRecandidature.type;
       case 'confirmer un abandon':
-        return TypeTâche.abandonConfirmer;
+        return Abandon.TypeTâcheAbandon.confirmer.type;
       case 'transmettre les garanties financières':
-        return TypeTâche.garantiesFinancieresDemander;
+        return GarantiesFinancières.TypeTâcheGarantiesFinancières.demander.type;
       case 'mettre à jour le gestionnaire de réseau':
-        return TypeTâche.raccordementGestionnaireRéseauInconnuAttribué;
+        return Raccordement.TypeTâcheRaccordement.gestionnaireRéseauInconnuAttribué.type;
       default:
-        return TypeTâche.inconnue;
+        return 'inconnue';
     }
   }
 }

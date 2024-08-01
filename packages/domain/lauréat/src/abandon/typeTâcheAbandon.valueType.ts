@@ -37,8 +37,8 @@ function estValide(value: string): asserts value is RawType {
 }
 
 export const inconnue = convertirEnValueType('inconnue');
-export const abandonConfirmer = convertirEnValueType('abandon.confirmer');
-export const abandonTransmettrePreuveRecandidature = convertirEnValueType(
+export const confirmer = convertirEnValueType('abandon.confirmer');
+export const transmettrePreuveRecandidature = convertirEnValueType(
   'abandon.transmettre-preuve-recandidature',
 );
 

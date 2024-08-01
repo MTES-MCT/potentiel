@@ -71,6 +71,7 @@ export * as StatutAbandon from './statutAbandon.valueType';
 export * as StatutPreuveRecandidature from './statutPreuveRecandidature.valueType';
 export * as Abandon from './abandon.valueType';
 export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
+export * as TypeTâcheAbandon from './typeTâcheAbandon.valueType';
 
 // Entities
 export * from './abandon.entity';

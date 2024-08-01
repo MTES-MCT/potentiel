@@ -79,7 +79,7 @@ export const registerSoumettreDépôtGarantiesFinancièresUseCase = () => {
       type: 'System.Tâche.Command.AcheverTâche',
       data: {
         identifiantProjet,
-        typeTâche: TypeTâcheGarantiesFinancières.garantiesFinancieresDemander,
+        typeTâche: TypeTâcheGarantiesFinancières.demander.type,
       },
     });
 

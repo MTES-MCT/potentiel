@@ -1,7 +1,6 @@
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import * as TypeTâche from './typeTâche.valueType';
 import {
   TâcheRenouvelléeEvent,
   TâcheAjoutéeEvent,
@@ -20,7 +19,7 @@ export type TâcheEvent =
   | TâcheAchevéeEvent;
 
 export type TâcheAggregate = Aggregate<TâcheEvent> & {
-  typeTâche: TypeTâche.ValueType;
+  typeTâche: string;
   achevée: boolean;
   ajouter: typeof ajouter;
   achever: typeof achever;
@@ -31,7 +30,7 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   TâcheEvent
 > = () => ({
   apply,
-  typeTâche: TypeTâche.convertirEnValueType('inconnue'),
+  typeTâche: 'inconnue',
   achevée: false,
   ajouter,
   achever,
@@ -53,17 +52,13 @@ function apply(this: TâcheAggregate, event: TâcheEvent) {
 
 export const loadTâcheAggregateFactory =
   (loadAggregate: LoadAggregate) =>
-  (
-    { type }: TypeTâche.ValueType,
-    identifiantProjet: IdentifiantProjet.ValueType,
-    throwOnNone = true,
-  ) => {
+  (typeTâche: string, identifiantProjet: IdentifiantProjet.ValueType, throwOnNone = true) => {
     return loadAggregate({
-      aggregateId: `tâche|${type}#${identifiantProjet.formatter()}`,
+      aggregateId: `tâche|${typeTâche}#${identifiantProjet.formatter()}`,
       getDefaultAggregate: getDefaultAbandonAggregate,
       onNone: throwOnNone
         ? () => {
-            throw new TâcheInconnueError(type, identifiantProjet.formatter());
+            throw new TâcheInconnueError(typeTâche, identifiantProjet.formatter());
           }
         : undefined,
     });

@@ -36,9 +36,7 @@ const commonItem: TâcheListPageProps['list']['items'][number] = {
   misÀJourLe: {
     date: new Date().toISOString(),
   },
-  typeTâche: {
-    type: 'inconnue',
-  },
+  typeTâche: 'inconnue',
 };
 
 export const Default: Story = {
@@ -58,21 +56,15 @@ export const Default: Story = {
       items: [
         {
           ...commonItem,
-          typeTâche: {
-            type: 'abandon.transmettre-preuve-recandidature',
-          },
+          typeTâche: 'abandon.transmettre-preuve-recandidature',
         },
         {
           ...commonItem,
-          typeTâche: {
-            type: 'abandon.confirmer',
-          },
+          typeTâche: 'abandon.confirmer',
         },
         {
           ...commonItem,
-          typeTâche: {
-            type: 'raccordement.référence-non-transmise',
-          },
+          typeTâche: 'raccordement.référence-non-transmise',
         },
       ],
       range: {

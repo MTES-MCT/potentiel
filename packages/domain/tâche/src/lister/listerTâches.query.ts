@@ -7,7 +7,6 @@ import { List, RangeOptions, WhereCondition } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
 import { TâcheEntity } from '../tâche.entity';
-import * as TypeTâche from '../typeTâche.valueType';
 
 type TâcheListItem = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -20,7 +19,7 @@ type TâcheListItem = {
     numéroCRE: string;
   }>;
 
-  typeTâche: TypeTâche.ValueType;
+  typeTâche: string;
   misÀJourLe: DateTime.ValueType;
 };
 
@@ -119,7 +118,7 @@ const mapToReadModel = ({
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
-    typeTâche: TypeTâche.convertirEnValueType(typeTâche),
+    typeTâche,
     projet: match(projet)
       .returnType<Option.Type<TâcheListItem['projet']>>()
       .with(Pattern.nullish, () => Option.none)

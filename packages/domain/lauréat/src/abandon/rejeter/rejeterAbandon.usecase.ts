@@ -65,7 +65,7 @@ export const registerRejeterAbandonUseCase = () => {
       type: 'System.Tâche.Command.AcheverTâche',
       data: {
         identifiantProjet,
-        typeTâche: TypeTâcheAbandon.abandonConfirmer,
+        typeTâche: TypeTâcheAbandon.confirmer.type,
       },
     });
   };

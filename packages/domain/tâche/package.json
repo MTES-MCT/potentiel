@@ -12,8 +12,6 @@
     "@potentiel-libraries/monads": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/common": "*",
-    "@potentiel-domain/laureat": "*",
-    "@potentiel-domain/reseau": "*",
     "@potentiel-domain/utilisateur": "*"
   },
   "devDependencies": {

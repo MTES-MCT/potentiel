@@ -43,7 +43,7 @@ export const registerModifierGestionnaireRéseauRaccordementUseCase = () => {
         type: 'System.Tâche.Command.AjouterTâche',
         data: {
           identifiantProjet,
-          typeTâche: TypeTâcheRaccordement.raccordementGestionnaireRéseauInconnuAttribué,
+          typeTâche: TypeTâcheRaccordement.gestionnaireRéseauInconnuAttribué.type,
         },
       });
     }

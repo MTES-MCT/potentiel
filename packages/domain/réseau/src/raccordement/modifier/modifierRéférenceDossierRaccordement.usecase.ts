@@ -96,7 +96,7 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
       type: 'System.Tâche.Command.AcheverTâche',
       data: {
         identifiantProjet,
-        typeTâche: TypeTâcheRaccordement.raccordementRéférenceNonTransmise,
+        typeTâche: TypeTâcheRaccordement.référenceNonTransmise.type,
       },
     });
   };

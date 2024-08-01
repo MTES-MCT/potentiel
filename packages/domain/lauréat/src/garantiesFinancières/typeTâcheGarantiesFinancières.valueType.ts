@@ -33,7 +33,7 @@ function estValide(value: string): asserts value is RawType {
 }
 
 export const inconnue = convertirEnValueType('inconnue');
-export const garantiesFinancieresDemander = convertirEnValueType('garanties-financières.demander');
+export const demander = convertirEnValueType('garanties-financières.demander');
 
 class TypeTâcheInvalideError extends InvalidOperationError {
   constructor(value: string) {

@@ -6,13 +6,12 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 // Package
 import { TâcheAggregate } from '../tâche.aggregate';
-import * as TypeTâche from '../typeTâche.valueType';
 
 export type TâcheAjoutéeEvent = DomainEvent<
   'TâcheAjoutée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    typeTâche: TypeTâche.RawType;
+    typeTâche: string;
     ajoutéeLe: DateTime.RawType;
   }
 >;
@@ -21,7 +20,7 @@ export type TâcheRelancéeEvent = DomainEvent<
   'TâcheRelancée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    typeTâche: TypeTâche.RawType;
+    typeTâche: string;
     relancéeLe: DateTime.RawType;
   }
 >;
@@ -30,14 +29,14 @@ export type TâcheRenouvelléeEvent = DomainEvent<
   'TâcheRenouvellée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    typeTâche: TypeTâche.RawType;
+    typeTâche: string;
     ajoutéeLe: DateTime.RawType;
   }
 >;
 
 export type AjouterOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  typeTâche: TypeTâche.ValueType;
+  typeTâche: string;
 };
 
 export async function ajouter(
@@ -45,13 +44,13 @@ export async function ajouter(
   { identifiantProjet, typeTâche }: AjouterOptions,
 ) {
   const event: TâcheAjoutéeEvent | TâcheRelancéeEvent | TâcheRenouvelléeEvent =
-    this.typeTâche.estÉgaleÀ(TypeTâche.inconnue)
+    this.typeTâche === 'inconnue'
       ? {
           type: 'TâcheAjoutée-V1',
           payload: {
             ajoutéeLe: DateTime.now().formatter(),
             identifiantProjet: identifiantProjet.formatter(),
-            typeTâche: typeTâche.type,
+            typeTâche: typeTâche,
           },
         }
       : this.achevée
@@ -60,7 +59,7 @@ export async function ajouter(
             payload: {
               ajoutéeLe: DateTime.now().formatter(),
               identifiantProjet: identifiantProjet.formatter(),
-              typeTâche: typeTâche.type,
+              typeTâche: typeTâche,
             },
           }
         : {
@@ -68,7 +67,7 @@ export async function ajouter(
             payload: {
               relancéeLe: DateTime.now().formatter(),
               identifiantProjet: identifiantProjet.formatter(),
-              typeTâche: typeTâche.type,
+              typeTâche: typeTâche,
             },
           };
 
@@ -77,9 +76,9 @@ export async function ajouter(
 
 export function applyTâcheAjoutée(
   this: TâcheAggregate,
-  { payload: { typeTâche: type } }: TâcheAjoutéeEvent,
+  { payload: { typeTâche } }: TâcheAjoutéeEvent,
 ) {
-  this.typeTâche = TypeTâche.convertirEnValueType(type);
+  this.typeTâche = typeTâche;
   this.achevée = false;
 }
 

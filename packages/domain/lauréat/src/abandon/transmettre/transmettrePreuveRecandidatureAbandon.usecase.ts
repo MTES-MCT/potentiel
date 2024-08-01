@@ -54,7 +54,7 @@ export const registerTransmettrePreuveRecandidatureAbandonUseCase = () => {
       type: 'System.Tâche.Command.AcheverTâche',
       data: {
         identifiantProjet,
-        typeTâche: TypeTâcheAbandon.abandonTransmettrePreuveRecandidature,
+        typeTâche: TypeTâcheAbandon.transmettrePreuveRecandidature.type,
       },
     });
   };

@@ -37,10 +37,8 @@ function estValide(value: string): asserts value is RawType {
 }
 
 export const inconnue = convertirEnValueType('inconnue');
-export const raccordementRéférenceNonTransmise = convertirEnValueType(
-  'raccordement.référence-non-transmise',
-);
-export const raccordementGestionnaireRéseauInconnuAttribué = convertirEnValueType(
+export const référenceNonTransmise = convertirEnValueType('raccordement.référence-non-transmise');
+export const gestionnaireRéseauInconnuAttribué = convertirEnValueType(
   'raccordement.gestionnaire-réseau-inconnu-attribué',
 );
 

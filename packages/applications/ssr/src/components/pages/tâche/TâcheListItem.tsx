@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
-import { ListerTâchesReadModel, TypeTâche } from '@potentiel-domain/tache';
+import { ListerTâchesReadModel } from '@potentiel-domain/tache';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -73,9 +73,8 @@ const getDescriptionTâche = (
   identifiantProjet: TâcheListItemProps['identifiantProjet'],
   nomProjet: string,
 ) => {
-  const type = TypeTâche.bind(typeTâche).type;
   const identifiant = IdentifiantProjet.bind(identifiantProjet).formatter();
-  switch (type) {
+  switch (typeTâche) {
     case 'abandon.confirmer':
       return {
         titre: `Confirmer votre demande d'abandon`,

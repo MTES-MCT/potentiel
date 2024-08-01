@@ -78,7 +78,7 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
       type: 'System.Tâche.Command.AcheverTâche',
       data: {
         identifiantProjet,
-        typeTâche: TypeTâcheGarantiesFinancières.garantiesFinancieresDemander,
+        typeTâche: TypeTâcheGarantiesFinancières.demander.type,
       },
     });
 

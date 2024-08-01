@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { TâcheEvent, TâcheEntity, TypeTâche } from '@potentiel-domain/tache';
+import { TâcheEvent, TâcheEntity } from '@potentiel-domain/tache';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
@@ -65,7 +65,7 @@ const récupérerTâche = async (typeTâche: string, identifiantProjet: string) 
 
   const tâcheDefaultEntity: TâcheEntity = {
     identifiantProjet,
-    typeTâche: TypeTâche.inconnue.type,
+    typeTâche: 'inconnue',
     misÀJourLe: DateTime.now().formatter(),
     type: 'tâche',
   };

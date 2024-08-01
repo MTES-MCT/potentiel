@@ -176,7 +176,7 @@ EtantDonné(
         },
       });
 
-      const tâche = tâches.items.find((t) => t.typeTâche.estÉgaleÀ(actualTypeTâche));
+      const tâche = tâches.items.find((t) => t.typeTâche === actualTypeTâche);
       expect(tâche).not.to.be.undefined;
     });
   },

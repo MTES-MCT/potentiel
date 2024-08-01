@@ -4,13 +4,12 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 
 import { loadTâcheAggregateFactory } from '../tâche.aggregate';
-import * as Tâche from '../typeTâche.valueType';
 
 export type AjouterTâcheCommand = Message<
   'System.Tâche.Command.AjouterTâche',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    typeTâche: Tâche.ValueType;
+    typeTâche: string;
   }
 >;
 
