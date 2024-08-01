@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - master # will be removed
 
 jobs:
   call-shared-workflow:
@@ -19,4 +18,4 @@ jobs:
         run: |
           curl -O https://cli-dl.scalingo.com/install && bash install
           scalingo login --api-token ${{ secrets.SCALINGO_TOKEN }}
-          scalingo --app ${{ secrets.SCALINGO_APP }} --region ${{ secrets.SCALINGO_REGION }} integration-link-manual-deploy master
+          scalingo --app ${{ secrets.SCALINGO_APP }} --region ${{ secrets.SCALINGO_REGION }} integration-link-manual-deploy main
