@@ -2,11 +2,8 @@ import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-
 
 export const types = [
   'inconnue',
-  'abandon.confirmer',
-  'abandon.transmettre-preuve-recandidature',
   'raccordement.référence-non-transmise',
   'raccordement.gestionnaire-réseau-inconnu-attribué',
-  'garanties-financières.demander',
 ] as const;
 
 export type RawType = (typeof types)[number];
@@ -40,18 +37,12 @@ function estValide(value: string): asserts value is RawType {
 }
 
 export const inconnue = convertirEnValueType('inconnue');
-export const abandonConfirmer = convertirEnValueType('abandon.confirmer');
-export const abandonTransmettrePreuveRecandidature = convertirEnValueType(
-  'abandon.transmettre-preuve-recandidature',
-);
 export const raccordementRéférenceNonTransmise = convertirEnValueType(
   'raccordement.référence-non-transmise',
 );
 export const raccordementGestionnaireRéseauInconnuAttribué = convertirEnValueType(
   'raccordement.gestionnaire-réseau-inconnu-attribué',
 );
-
-export const garantiesFinancieresDemander = convertirEnValueType('garanties-financières.demander');
 
 class TypeTâcheInvalideError extends InvalidOperationError {
   constructor(value: string) {

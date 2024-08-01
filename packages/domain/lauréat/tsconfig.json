@@ -28,6 +28,9 @@
     },
     {
       "path": "../tâche-planifiée"
+    },
+    {
+      "path": "../tâche"
     }
   ]
 }

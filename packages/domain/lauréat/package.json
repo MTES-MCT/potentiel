@@ -16,6 +16,7 @@
     "@potentiel-domain/candidature": "*",
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/tache-planifiee": "*",
+    "@potentiel-domain/tache": "*",
     "@potentiel-domain/utilisateur": "*"
   },
   "devDependencies": {
