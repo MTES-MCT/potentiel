@@ -57,7 +57,7 @@ export const formAction =
 
       const result = await action(previousState, data);
 
-      await waitToAvoidConsistencyProblemsInApp(TWO_SECONDS);
+      await waitFor(TWO_SECONDS);
 
       return result;
     } catch (e) {
@@ -88,5 +88,4 @@ export const formAction =
     }
   };
 
-const waitToAvoidConsistencyProblemsInApp = (timeInMs: number) =>
-  new Promise((resolve) => setTimeout(resolve, timeInMs));
+const waitFor = (timeInMs: number) => new Promise((resolve) => setTimeout(resolve, timeInMs));

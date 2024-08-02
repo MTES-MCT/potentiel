@@ -12,7 +12,6 @@ import { setupTâche } from './setupTâche';
 import { setupUtilisateur } from './setupUtilisateur';
 import { setupRéseau } from './setupRéseau';
 import { logMiddleware } from './middlewares/log.middleware';
-import { delayMiddleware } from './middlewares/delay.middleware';
 import { setupEliminé } from './setupEliminé';
 import { setupTâchePlanifiée } from './setupTâchePlanifiée';
 
@@ -35,7 +34,7 @@ export const bootstrap = async ({
 
   if (!unsubscribe) {
     mediator.use({
-      middlewares: [logMiddleware, delayMiddleware, ...middlewares],
+      middlewares: [logMiddleware, ...middlewares],
     });
     if (!sendEmail) {
       sendEmail = sendEmailMailjet;
