@@ -73,7 +73,7 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
 
       <Button
         priority="secondary"
-        linkProps={{ href: Routes.Projet.details(identifiantProjet) }}
+        linkProps={{ href: Routes.Projet.details(identifiantProjet), prefetch: false }}
         className="mt-4"
         iconId="fr-icon-arrow-left-line"
       >

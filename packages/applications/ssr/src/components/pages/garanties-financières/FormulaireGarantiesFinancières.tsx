@@ -93,6 +93,7 @@ export const FormulaireGarantiesFinancières: FC<FormulaireGarantiesFinancières
           priority="secondary"
           linkProps={{
             href: Routes.GarantiesFinancières.détail(identifiantProjet),
+            prefetch: false,
           }}
           iconId="fr-icon-arrow-left-line"
         >
