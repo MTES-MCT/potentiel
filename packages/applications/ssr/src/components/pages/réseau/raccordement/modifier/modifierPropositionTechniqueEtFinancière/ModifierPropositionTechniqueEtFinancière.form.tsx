@@ -80,6 +80,7 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
           priority="secondary"
           linkProps={{
             href: Routes.Raccordement.détail(identifiantProjet),
+            prefetch: false,
           }}
           iconId="fr-icon-arrow-left-line"
         >

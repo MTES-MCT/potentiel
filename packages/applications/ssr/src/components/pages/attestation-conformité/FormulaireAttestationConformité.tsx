@@ -150,6 +150,7 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
           priority="secondary"
           linkProps={{
             href: Routes.Projet.details(identifiantProjet),
+            prefetch: false,
           }}
           iconId="fr-icon-arrow-left-line"
         >

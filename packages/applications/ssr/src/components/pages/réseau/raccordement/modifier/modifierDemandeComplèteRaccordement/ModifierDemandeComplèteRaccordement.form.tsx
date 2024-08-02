@@ -148,6 +148,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
           priority="secondary"
           linkProps={{
             href: Routes.Raccordement.détail(identifiantProjet),
+            prefetch: false,
           }}
           iconId="fr-icon-arrow-left-line"
         >
