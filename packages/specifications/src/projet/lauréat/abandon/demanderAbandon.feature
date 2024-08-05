@@ -32,18 +32,22 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Alors l'abandon du projet lauréat "Du boulodrome de Marseille" devrait être consultable dans la liste des projets lauréat abandonnés
         Et l'abandon du projet lauréat "Du boulodrome de Marseille" devrait être de nouveau demandé
 
-    Scénario: Impossible d'abandonner un projet si l'abandon est déjà en cours
+    Scénario: Impossible de demander l'abandon d'un projet si l'abandon est déjà en cours
         Etant donné une demande d'abandon en cours pour le projet lauréat "Du boulodrome de Marseille"
         Quand le porteur demande l'abandon pour le projet lauréat "Du boulodrome de Marseille"
         Alors le porteur devrait être informé que "Une demande d'abandon est déjà en cours"
 
-    Scénario: Impossible d'abandonner un projet si l'abandon est accordé
+    Scénario: Impossible de demander l'abandon d'un projet si l'abandon est accordé
         Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
         Quand le porteur demande l'abandon pour le projet lauréat "Du boulodrome de Marseille"
         Alors le porteur devrait être informé que "L'abandon a déjà été accordé"
 
-    Scénario: Impossible d'abandonner un projet sans recandidature sans pièce justificative
+    Scénario: Impossible de demander l'abandon d'un projet sans recandidature sans pièce justificative
         Quand le porteur demande l'abandon pour le projet lauréat "Du boulodrome de Marseille" avec :
             | La raison de l'abandon | Une raison donnée par le porteur concernant l'abandon du projet lauréat |
             | Recandidature          | non                                                                     |
         Alors le porteur devrait être informé que "La pièce justificative est obligatoire"
+
+    @NotImplemented
+    Scénario: Impossible de demander l'abandon d'un projet si celui-ci est achevé (car l'attestation de conformité et la preuve de transmission au co-contractant ont été transmise)
+
