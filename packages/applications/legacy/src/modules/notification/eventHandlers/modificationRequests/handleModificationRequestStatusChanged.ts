@@ -84,7 +84,7 @@ export const handleModificationRequestStatusChanged =
 
           if (result.isOk()) {
             await Promise.all(
-              result.value.map(({ email, fullName }) => {
+              result.value.map(({ email, fullName }) =>
                 deps.sendNotification({
                   type: 'cre-recours-accepté',
                   message: {
@@ -97,8 +97,8 @@ export const handleModificationRequestStatusChanged =
                     nom_projet: nomProjet,
                     modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
                   },
-                });
-              }),
+                }),
+              ),
             );
           }
         }
