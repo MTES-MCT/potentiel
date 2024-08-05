@@ -1,6 +1,6 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { IdentifiantUtilisateur, Role } from '@potentiel-domain/utilisateur';
 
 import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '../..';
 import { DateConstitutionDansLeFuturError } from '../../dateConstitutionDansLeFutur.error';
@@ -31,6 +31,7 @@ export type Options = {
   dateConstitution: DateTime.ValueType;
   modifiéLe: DateTime.ValueType;
   modifiéPar: IdentifiantUtilisateur.ValueType;
+  rôle: Role.ValueType;
 };
 
 export async function modifier(
@@ -43,8 +44,13 @@ export async function modifier(
     dateÉchéance,
     modifiéLe,
     modifiéPar,
+    rôle,
   }: Options,
 ) {
+  if (rôle.estÉgaleÀ(Role.cre) || rôle.estÉgaleÀ(Role.caisseDesDépôts)) {
+    throw new RôleNonAutoriséError();
+  }
+
   if (!this.actuelles) {
     throw new AucunesGarantiesFinancièresActuellesError();
   }
@@ -91,4 +97,10 @@ export function applyModifierGarantiesFinancières(
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),
     attestation,
   };
+}
+
+class RôleNonAutoriséError extends InvalidOperationError {
+  constructor() {
+    super("L'accés à cette fonctionnalité n'est pas autorisé");
+  }
 }

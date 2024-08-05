@@ -41,8 +41,8 @@ Quand(
 );
 
 Quand(
-  `un admin modifie les garanties financières actuelles pour le projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  `l'utilisateur avec le rôle {string} modifie les garanties financières actuelles pour le projet {string} avec :`,
+  async function (this: PotentielWorld, rôle: string, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     try {
@@ -65,6 +65,7 @@ Quand(
           dateConstitutionValue: new Date(dateConstitution).toISOString(),
           modifiéLeValue: new Date(modifiéLe).toISOString(),
           modifiéParValue: 'admin@test.test',
+          rôleValue: rôle,
         },
       });
       await sleep(300);

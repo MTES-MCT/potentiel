@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { IdentifiantUtilisateur, Role } from '@potentiel-domain/utilisateur';
 
 import { TypeGarantiesFinancières } from '../..';
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
@@ -18,6 +18,7 @@ export type ModifierGarantiesFinancièresCommand = Message<
     dateConstitution: DateTime.ValueType;
     modifiéPar: IdentifiantUtilisateur.ValueType;
     modifiéLe: DateTime.ValueType;
+    rôle: Role.ValueType;
   }
 >;
 
@@ -31,6 +32,7 @@ export const registerModifierGarantiesFinancièresCommand = (loadAggregate: Load
     dateÉchéance,
     modifiéLe,
     modifiéPar,
+    rôle,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
     await garantiesFinancières.modifier({
@@ -41,6 +43,7 @@ export const registerModifierGarantiesFinancièresCommand = (loadAggregate: Load
       dateÉchéance,
       modifiéLe,
       modifiéPar,
+      rôle,
     });
   };
   mediator.register('Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières', handler);

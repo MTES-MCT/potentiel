@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { IdentifiantUtilisateur, Role } from '@potentiel-domain/utilisateur';
 import { AjouterTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
 
 import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '../..';
@@ -23,6 +23,7 @@ export type ModifierGarantiesFinancièresUseCase = Message<
     dateConstitutionValue: string;
     modifiéLeValue: string;
     modifiéParValue: string;
+    rôleValue: string;
   }
 >;
 
@@ -35,6 +36,7 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
     typeValue,
     dateÉchéanceValue,
     modifiéParValue,
+    rôleValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const type = TypeGarantiesFinancières.convertirEnValueType(typeValue);
@@ -50,6 +52,7 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
       attestationValue.format,
     );
     const modifiéPar = IdentifiantUtilisateur.convertirEnValueType(modifiéParValue);
+    const rôle = Role.convertirEnValueType(rôleValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
@@ -69,6 +72,7 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
         dateÉchéance,
         modifiéLe,
         modifiéPar,
+        rôle,
       },
     });
 

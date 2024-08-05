@@ -44,6 +44,7 @@ const action: FormAction<FormState, typeof schema> = async (_, data) =>
         attestationValue: data.attestation,
         modifiéLeValue: new Date().toISOString(),
         modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
+        rôleValue: utilisateur.role.nom,
       },
     });
 
