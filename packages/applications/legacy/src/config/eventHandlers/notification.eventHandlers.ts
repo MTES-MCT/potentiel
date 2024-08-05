@@ -36,6 +36,7 @@ import {
   getProjectInfoForModificationRequestedNotification,
   getRecipientsForPeriodeNotifiedNotification,
   récupérerDonnéesPorteursParProjetQueryHandler,
+  getUsersByRole,
 } from '../queries.config';
 import { getProjectAppelOffre } from '../queryProjectAO.config';
 import { oldProjectRepo, oldUserRepo, projectRepo } from '../repos.config';
@@ -52,6 +53,7 @@ eventStore.subscribe(ProjectCertificateRegenerated.type, projectCertificateChang
 const modificationRequestStatusChangeHandler = handleModificationRequestStatusChanged({
   sendNotification,
   getModificationRequestInfoForStatusNotification,
+  getUsersByRole,
 });
 eventStore.subscribe(
   ModificationRequestInstructionStarted.type,

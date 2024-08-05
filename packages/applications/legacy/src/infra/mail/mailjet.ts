@@ -34,6 +34,7 @@ const TEMPLATE_ID_BY_TYPE: Record<NotificationProps['type'], number> = {
   'date-mise-en-service-transmise-annule-delai-cdc-2022': 5169667,
   'demande-complete-raccordement-transmise-annule-delai-Cdc-2022': 5219626,
   'dreal-modification-puissance-cdc-2022': 5446765,
+  'cre-recours-accepté': 6189222,
 };
 
 interface SendEmailFromMailjetDeps {

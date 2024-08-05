@@ -171,6 +171,15 @@ type DrealModificationPuissanceCDC2022 = {
   };
 };
 
+type CreRecoursAccepté = {
+  type: 'cre-recours-accepté';
+  context: {};
+  variables: {
+    nom_projet: string;
+    modification_request_url: string;
+  };
+};
+
 type AdminModificationRequested = {
   type: 'admin-modification-requested';
   context: {
@@ -350,7 +359,8 @@ type NotificationVariants =
   | DateMiseEnServiceTransmiseAnnuleDélaiCDC2022
   | DemandeComplèteRaccordementTransmiseAnnuleDélaiCDC2022
   | PP_DélaiAccordéCorrigé
-  | DrealModificationPuissanceCDC2022;
+  | DrealModificationPuissanceCDC2022
+  | CreRecoursAccepté;
 
 export type NotificationProps = BaseNotification & NotificationVariants;
 
