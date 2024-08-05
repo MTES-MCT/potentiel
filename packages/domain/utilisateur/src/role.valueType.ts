@@ -70,6 +70,7 @@ export const dgecValidateur = convertirEnValueType('dgec-validateur');
 export const dreal = convertirEnValueType('dreal');
 export const cre = convertirEnValueType('cre');
 export const acheteurObligé = convertirEnValueType('acheteur-obligé');
+export const caisseDesDépôts = convertirEnValueType('caisse-des-dépôts');
 
 class RoleRefuséError extends OperationRejectedError {
   constructor(value: string) {
@@ -742,6 +743,7 @@ const permissionCRE: Policy[] = [
   'garantiesFinancières.actuelles.enregistrerAttestation',
   'garantiesFinancières.actuelles.enregistrer',
   'garantiesFinancières.mainlevée.consulter',
+  'garantiesFinancières.mainlevée.consulterHistorique',
 ];
 
 const permissionDreal: Policy[] = [
@@ -895,6 +897,7 @@ const permissionCaisseDesDépôts: Policy[] = [
   'garantiesFinancières.actuelles.enregistrerAttestation',
   'garantiesFinancières.actuelles.enregistrer',
   'garantiesFinancières.mainlevée.consulter',
+  'garantiesFinancières.mainlevée.consulterHistorique',
 
   // Achèvement
   'achèvement.consulter',
