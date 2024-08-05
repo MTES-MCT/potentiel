@@ -14,7 +14,7 @@ import {
 } from './helper';
 
 Quand(
-  'le porteur demande la levée des garanties financières pour le projet {string} avec :',
+  'le porteur demande la mainlevée des garanties financières pour le projet {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 

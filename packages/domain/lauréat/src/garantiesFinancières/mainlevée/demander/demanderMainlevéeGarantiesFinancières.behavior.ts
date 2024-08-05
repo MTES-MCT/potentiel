@@ -40,6 +40,10 @@ export async function demanderMainlevée(
     throw new ProjetNonAchevéError();
   }
 
+  if (this.actuelles?.statut.estÉchu()) {
+    throw new ProjetAveGarantiesFinancièresÉchuesError();
+  }
+
   if (!this.actuelles) {
     throw new GarantiesFinancièresNonTrouvéesError();
   }
@@ -112,6 +116,14 @@ class DépôtDeGarantiesFinancièresÀSupprimerError extends InvalidOperationErr
   constructor() {
     super(
       "Vous avez de nouvelles garanties financières à traiter pour ce projet. Pour demander la levée des garanties financières déjà validées vous devez d'abord annuler le dernier dépôt en attente de validation.",
+    );
+  }
+}
+
+class ProjetAveGarantiesFinancièresÉchuesError extends InvalidOperationError {
+  constructor() {
+    super(
+      'Votre demande de mainlevée de garanties financières est invalide car les garanties financières du projet sont échues',
     );
   }
 }
