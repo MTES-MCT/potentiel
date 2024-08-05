@@ -37,7 +37,7 @@ export default async function Page({ searchParams }: PageProps) {
         },
       });
 
-    const gestionnairesRéseauWithRaccordements: GestionnaireAvecNombreDeRaccordement[] = [];
+    const nombreRaccordementParGestionnaire: Record<string, number> = {};
 
     await Promise.all(
       gestionnairesRéseau.items.map(async (gestionnaire) => {
@@ -50,12 +50,18 @@ export default async function Page({ searchParams }: PageProps) {
             },
           });
 
-        gestionnairesRéseauWithRaccordements.push({
-          ...gestionnaire,
-          nombreRaccordements: nombreDeRaccordements.nombreRaccordements,
-        });
+        nombreRaccordementParGestionnaire[gestionnaire.identifiantGestionnaireRéseau.codeEIC] =
+          nombreDeRaccordements.nombreRaccordements;
       }),
     );
+
+    const gestionnairesRéseauWithRaccordements: GestionnaireAvecNombreDeRaccordement[] =
+      gestionnairesRéseau.items.map((gestionnaire) => ({
+        ...gestionnaire,
+        nombreRaccordements:
+          nombreRaccordementParGestionnaire[gestionnaire.identifiantGestionnaireRéseau.codeEIC] ??
+          0,
+      }));
 
     return (
       <GestionnaireRéseauListPage
