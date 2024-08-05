@@ -17,7 +17,7 @@
       "size": "M"
     },
     {
-      "command": "0 2 * * * ./packages/applications/scheduled-tasks/exécuter-tâches-planifiées.sh",
+      "command": "0 2 * * * ./packages/applications/scheduler/scheduler.sh",
       "size": "M"
     }
   ]

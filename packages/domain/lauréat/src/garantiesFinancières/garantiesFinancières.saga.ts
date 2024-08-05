@@ -18,13 +18,17 @@ export const register = () => {
     const {
       payload: { identifiantProjet, typeTâchePlanifiée },
     } = event;
-    if (TypeTâchePlanifiéeGarantiesFinancières.échoir.type === typeTâchePlanifiée) {
-      await mediator.send<ÉchoirGarantiesFinancièresCommand>({
-        type: 'Lauréat.GarantiesFinancières.Command.ÉchoirGarantiesFinancières',
-        data: {
-          identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-        },
-      });
+    switch (event.type) {
+      case 'TâchePlanifiéeExecutée-V1':
+        if (TypeTâchePlanifiéeGarantiesFinancières.échoir.type === typeTâchePlanifiée) {
+          await mediator.send<ÉchoirGarantiesFinancièresCommand>({
+            type: 'Lauréat.GarantiesFinancières.Command.ÉchoirGarantiesFinancières',
+            data: {
+              identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            },
+          });
+        }
+        break;
     }
   };
   mediator.register('System.Lauréat.GarantiesFinancières.Saga.Execute', handler);
