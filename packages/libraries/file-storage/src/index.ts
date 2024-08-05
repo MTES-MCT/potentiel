@@ -5,3 +5,4 @@ export * from './getFiles';
 export * from './copyFolder';
 export * from './copyFile';
 export * from './renameFile';
+export * from './renameFolder';
