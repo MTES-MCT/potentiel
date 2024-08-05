@@ -53,8 +53,3 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | type                      |
             | consignation              |
             | six-mois-après-achèvement |
-
-    # À vérifier côté métier
-    @NotImplemented
-    Scénario: Impossible d'importer le type (et la date d'échéance selon le cas) des garanties financières actuelles si le projet dispose déjà de garanties financières échues
-

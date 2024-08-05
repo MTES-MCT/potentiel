@@ -42,8 +42,3 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
         Quand un porteur enregistre l'attestation des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | date de constitution | 2020-01-01 |
         Alors l'utilisateur devrait être informé que "Il n'y a aucunes garanties financières actuelles pour ce projet"
-
-    # À vérifier côté métier
-    @NotImplemented
-    Scénario: Impossible d'enregistrer l'attestation des garanties financières actuelles si celles-ci sont échues
-
