@@ -739,8 +739,6 @@ const permissionCRE: Policy[] = [
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.dépôt.consulter',
-  'garantiesFinancières.actuelles.enregistrerAttestation',
-  'garantiesFinancières.actuelles.enregistrer',
   'garantiesFinancières.mainlevée.consulter',
   'garantiesFinancières.mainlevée.consulterHistorique',
 ];
@@ -892,8 +890,6 @@ const permissionCaisseDesDépôts: Policy[] = [
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.dépôt.consulter',
-  'garantiesFinancières.actuelles.enregistrerAttestation',
-  'garantiesFinancières.actuelles.enregistrer',
   'garantiesFinancières.mainlevée.consulter',
   'garantiesFinancières.mainlevée.consulterHistorique',
 
