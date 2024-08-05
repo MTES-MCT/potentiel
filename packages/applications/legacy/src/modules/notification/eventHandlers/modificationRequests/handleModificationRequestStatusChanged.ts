@@ -10,11 +10,13 @@ import {
   ModificationRequestRejected,
 } from '../../../modificationRequest';
 import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification';
+import { GetUsersByRole } from '../../../../modules/users';
 
 export const handleModificationRequestStatusChanged =
   (deps: {
     sendNotification: NotificationService['sendNotification'];
     getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification;
+    getUsersByRole: GetUsersByRole;
   }) =>
   async (
     event:
@@ -76,6 +78,30 @@ export const handleModificationRequestStatusChanged =
             }),
           ),
         );
+
+        if (type === 'recours') {
+          const result = await deps.getUsersByRole('cre');
+
+          if (result.isOk()) {
+            await Promise.all(
+              result.value.map(({ email, fullName }) =>
+                deps.sendNotification({
+                  type: 'cre-recours-accepté',
+                  message: {
+                    email,
+                    name: fullName,
+                    subject: `Un recours a été accepté par la DGEC`,
+                  },
+                  context: {},
+                  variables: {
+                    nom_projet: nomProjet,
+                    modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+                  },
+                }),
+              ),
+            );
+          }
+        }
       },
       (e: Error) => {
         logger.error(e);

@@ -44,6 +44,7 @@ describe('notification.handleModificationRequestStatusChanged', () => {
       await handleModificationRequestStatusChanged({
         sendNotification,
         getModificationRequestInfoForStatusNotification,
+        getUsersByRole: () => okAsync([]),
       })(
         new ModificationRequestAccepted({
           payload: { modificationRequestId, acceptedBy: '', responseFileId: '' },
@@ -78,6 +79,7 @@ describe('notification.handleModificationRequestStatusChanged', () => {
       await handleModificationRequestStatusChanged({
         sendNotification,
         getModificationRequestInfoForStatusNotification,
+        getUsersByRole: () => okAsync([]),
       })(
         new ModificationRequestAccepted({
           payload: { modificationRequestId, acceptedBy: '', responseFileId: '' },
@@ -103,6 +105,7 @@ describe('notification.handleModificationRequestStatusChanged', () => {
       await handleModificationRequestStatusChanged({
         sendNotification,
         getModificationRequestInfoForStatusNotification,
+        getUsersByRole: () => okAsync([]),
       })(
         new ModificationRequestRejected({
           payload: { modificationRequestId, rejectedBy: '', responseFileId: '' },
@@ -128,6 +131,7 @@ describe('notification.handleModificationRequestStatusChanged', () => {
       await handleModificationRequestStatusChanged({
         sendNotification,
         getModificationRequestInfoForStatusNotification,
+        getUsersByRole: () => okAsync([]),
       })(
         new ModificationRequestInstructionStarted({
           payload: { modificationRequestId },
@@ -153,6 +157,7 @@ describe('notification.handleModificationRequestStatusChanged', () => {
       await handleModificationRequestStatusChanged({
         sendNotification,
         getModificationRequestInfoForStatusNotification,
+        getUsersByRole: () => okAsync([]),
       })(
         new ConfirmationRequested({
           payload: { modificationRequestId, confirmationRequestedBy: '', responseFileId: '' },
@@ -179,6 +184,7 @@ describe('notification.handleModificationRequestStatusChanged', () => {
       await handleModificationRequestStatusChanged({
         sendNotification,
         getModificationRequestInfoForStatusNotification,
+        getUsersByRole: () => okAsync([]),
       })(
         new ModificationRequestCancelled({
           payload: { modificationRequestId, cancelledBy: '' },
