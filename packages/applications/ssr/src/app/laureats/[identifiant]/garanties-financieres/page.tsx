@@ -184,9 +184,7 @@ const mapToProps: MapToProps = ({
         ? 'soumettre'
         : utilisateur.role.estÉgaleÀ(Role.admin) ||
             utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
-            utilisateur.role.estÉgaleÀ(Role.dreal) ||
-            utilisateur.role.estÉgaleÀ(Role.cre) ||
-            utilisateur.role.estÉgaleÀ(Role.acheteurObligé)
+            utilisateur.role.estÉgaleÀ(Role.dreal)
           ? 'enregistrer'
           : undefined,
       afficherInfoConditionsMainlevée:
@@ -236,7 +234,7 @@ const mapToProps: MapToProps = ({
     (Option.isSome(mainlevée) && mainlevée.statut.estAccordé()) ||
     Option.isSome(historiqueMainlevée);
 
-  if (aGarantiesFinancièresSansAttestation) {
+  if (aGarantiesFinancièresSansAttestation && (estAdminOuDGEC || estDreal || estPorteur)) {
     garantiesFinancièresActuellesActions.push('enregister-attestation');
   }
 
