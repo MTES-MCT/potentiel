@@ -100,8 +100,3 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Quand un admin modifie les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | date de constitution | 2020-01-01 |
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer ou modifier des garanties financières car elles ont déjà été levées pour ce projet"
-
-    # À vérifier côté métier
-    @NotImplemented
-    Scénario: Impossible de modifier des garanties financières actuelles si celles-ci sont échues
-
