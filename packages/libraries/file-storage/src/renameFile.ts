@@ -1,12 +1,11 @@
-import path from 'node:path';
-
-import { CopyObjectCommand, DeleteObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getBucketName } from './getBucketName';
 import { getClient } from './getClient';
 import { FichierInexistant } from './fichierInexistant.error';
+import { copyFile } from './copyFile';
 
 class CopyFailedError extends Error {
   constructor() {
@@ -29,19 +28,12 @@ const assertFileExists = async (filePath: string) => {
 
 /**
  * Renames a file in the same bucket
- * Do not use in domain, this is intended for CLI utility
  **/
 export const renameFile = async (fromName: string, toName: string) => {
   await assertFileExists(fromName);
 
   try {
-    const response = await getClient().send(
-      new CopyObjectCommand({
-        Bucket: getBucketName(),
-        Key: toName,
-        CopySource: path.join(getBucketName(), encodeURIComponent(fromName)),
-      }),
-    );
+    const response = await copyFile(fromName, toName);
     if (!response.CopyObjectResult) {
       throw new Error();
     }
