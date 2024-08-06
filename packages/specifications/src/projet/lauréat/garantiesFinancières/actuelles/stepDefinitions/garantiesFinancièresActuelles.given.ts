@@ -116,6 +116,7 @@ EtantDonné(
       type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
       data: setDépôtData({
         identifiantProjet,
+        exemple,
       }),
     });
 
@@ -125,6 +126,7 @@ EtantDonné(
       type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
       data: setGarantiesFinancièresData({
         identifiantProjet,
+        exemple,
       }),
     });
 

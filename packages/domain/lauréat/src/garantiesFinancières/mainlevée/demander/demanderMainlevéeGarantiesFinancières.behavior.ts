@@ -40,12 +40,12 @@ export async function demanderMainlevée(
     throw new ProjetNonAchevéError();
   }
 
-  if (this.actuelles?.statut.estÉchu()) {
-    throw new ProjetAveGarantiesFinancièresÉchuesError();
-  }
-
   if (!this.actuelles) {
     throw new GarantiesFinancièresNonTrouvéesError();
+  }
+
+  if (this.actuelles.statut.estÉchu()) {
+    throw new ProjetAveGarantiesFinancièresÉchuesError();
   }
 
   this.demandeMainlevéeEnCours?.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
