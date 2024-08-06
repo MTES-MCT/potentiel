@@ -1,4 +1,6 @@
-import { describe, it, expect, afterAll, beforeEach, beforeAll } from '@jest/globals';
+import { describe, it, after, before, beforeEach } from 'node:test';
+
+import { assert, expect, should } from 'chai';
 
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
@@ -7,16 +9,21 @@ import { getSubscriber } from './getSubscriber';
 import { SubscriberConfiguration } from './subscriberConfiguration';
 import { WrongSubscriberNameError } from './checkSubscriberName';
 
+should();
+
 describe('register-subscription', () => {
-  afterAll(async () => {
+  const streamCategory = 'category';
+  const subscriberName = 'subscriber';
+
+  after(async () => {
     await killPool();
   });
 
   beforeEach(async () => {
-    await executeQuery(`delete from event_store.subscriber`);
+    await executeQuery('delete from event_store.subscriber');
   });
 
-  beforeAll(() => {
+  before(() => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   });
 
@@ -26,27 +33,25 @@ describe('register-subscription', () => {
     Alors la configuration du subscriber est disponible dans le registre
   `, async () => {
     // Arrange
-    const name = 'subscriber';
-    const streamCategory = 'category';
-
     const subscriberConfiguration: SubscriberConfiguration = {
       eventType: 'event-1',
-      name,
+      name: subscriberName,
       streamCategory,
     };
 
     // Act
     await registerSubscriber(subscriberConfiguration);
 
-    const actual = await getSubscriber(streamCategory, name);
+    const actual = await getSubscriber(streamCategory, subscriberName);
 
     // Assert
     const expected: SubscriberConfiguration = {
       eventType: 'event-1',
-      name,
+      name: subscriberName,
       streamCategory,
     };
-    expect(actual).toEqual(expected);
+
+    actual.should.be.deep.equal(expected);
   });
 
   it(`
@@ -55,27 +60,24 @@ describe('register-subscription', () => {
     Alors la configuration du subscriber est disponible dans le registre
   `, async () => {
     // Arrange
-    const name = 'subscriber';
-    const streamCategory = 'category';
-
     const subscriberConfiguration: SubscriberConfiguration = {
       eventType: 'all',
-      name,
+      name: subscriberName,
       streamCategory,
     };
 
     // Act
     await registerSubscriber(subscriberConfiguration);
 
-    const actual = await getSubscriber(streamCategory, name);
+    const actual = await getSubscriber(streamCategory, subscriberName);
 
     // Assert
     const expected: SubscriberConfiguration = {
       eventType: 'all',
-      name,
+      name: subscriberName,
       streamCategory,
     };
-    expect(actual).toEqual(expected);
+    actual.should.be.deep.equal(expected);
   });
 
   it(`
@@ -84,27 +86,24 @@ describe('register-subscription', () => {
     Alors la configuration du subscriber est disponible dans le registre
   `, async () => {
     // Arrange
-    const name = 'subscriber';
-    const streamCategory = 'category';
-
     const subscriberConfiguration: SubscriberConfiguration = {
       eventType: ['event-1', 'event-2'],
-      name,
+      name: subscriberName,
       streamCategory,
     };
 
     // Act
     await registerSubscriber(subscriberConfiguration);
 
-    const actual = await getSubscriber(streamCategory, name);
+    const actual = await getSubscriber(streamCategory, subscriberName);
 
     // Assert
     const expected: SubscriberConfiguration = {
       eventType: ['event-1', 'event-2'],
-      name,
+      name: subscriberName,
       streamCategory,
     };
-    expect(actual).toEqual(expected);
+    actual.should.be.deep.equal(expected);
   });
 
   it(`
@@ -119,8 +118,11 @@ describe('register-subscription', () => {
       streamCategory: 'category',
     };
 
-    const promise = registerSubscriber(subscriberConfiguration);
-
-    await expect(promise).rejects.toBeInstanceOf(WrongSubscriberNameError);
+    try {
+      await registerSubscriber(subscriberConfiguration);
+      assert.fail('should throw');
+    } catch (e) {
+      expect(e).to.be.instanceOf(WrongSubscriberNameError);
+    }
   });
 });

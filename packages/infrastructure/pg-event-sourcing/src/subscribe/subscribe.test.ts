@@ -1,17 +1,11 @@
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  beforeEach,
-  describe,
-  it,
-  jest,
-  expect,
-} from '@jest/globals';
+import { describe, it, after, afterEach, before, beforeEach, mock } from 'node:test';
+
+import { expect, should } from 'chai';
 import waitForExpect from 'wait-for-expect';
 
 import { executeQuery, executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
 import * as monitoring from '@potentiel-libraries/monitoring';
+import { DomainEvent } from '@potentiel-domain/core';
 
 import { Event } from '../event';
 import { publish } from '../publish/publish';
@@ -21,14 +15,19 @@ import { registerSubscriber } from './subscriber/registerSubscriber';
 import { getPendingAcknowledgements } from './acknowledgement/getPendingAcknowledgements';
 import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEventsWithPendingAcknowledgement';
 import { executeRebuild } from './rebuild/executeRebuild';
-import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error';
-import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error';
 import { Unsubscribe } from './subscriber/subscriber';
 
+should();
+
 describe(`subscribe`, () => {
+  const logMock = mock.fn();
+  const streamCategory = 'category';
+  const id = 'id';
+  const subscriberName = 'subscriber';
+  const subscriberName1 = 'subscriber-one';
+  const subscriberName2 = 'subscriber-two';
+
   let unsubscribes: Array<Unsubscribe> = [];
-  const error = jest.fn();
-  const warn = jest.fn();
 
   afterEach(async () => {
     for (const unsubscribe of unsubscribes) {
@@ -37,28 +36,24 @@ describe(`subscribe`, () => {
 
     unsubscribes = [];
 
-    error.mockClear();
-    warn.mockClear();
+    logMock.mock.resetCalls();
   });
 
-  afterAll(async () => {
+  after(async () => {
     await killPool();
   });
 
   beforeEach(async () => {
-    await executeQuery(`delete from event_store.event_stream`);
-    await executeQuery(`delete from event_store.subscriber`);
-    await executeQuery(`delete from event_store.pending_acknowledgement`);
+    monitoring.resetLogger();
+    global.console = { log: logMock } as unknown as Console;
 
-    jest.spyOn(monitoring, 'getLogger').mockReturnValue({
-      debug: jest.fn(),
-      error,
-      info: jest.fn(),
-      warn,
-    });
+    await executeQuery('delete from event_store.event_stream');
+    await executeQuery('delete from event_store.subscriber');
+    await executeQuery('delete from event_store.subscriber');
+    await executeQuery('delete from event_store.pending_acknowledgement');
   });
 
-  beforeAll(() => {
+  before(() => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
     process.env.LOGGER_LEVEL = 'warn';
   });
@@ -72,23 +67,26 @@ describe(`subscribe`, () => {
   `, async () => {
     // Arrange
     const eventType = 'event-1';
-    const category = 'category';
-    const id = 'id';
     const payload = {
       propriété: 'propriété',
     };
 
-    const subscriberName1 = 'event-handler';
-    const subscriberName2 = 'other-event-handler';
-
-    const eventHandler1 = jest.fn(() => Promise.resolve());
-    const eventHandler2 = jest.fn(() => Promise.resolve());
+    let eventHandler1HasBeenCalled = false;
+    let eventHandler2HasBeenCalled = false;
+    const eventHandler1 = async () => {
+      eventHandler1HasBeenCalled = true;
+      return Promise.resolve();
+    };
+    const eventHandler2 = async () => {
+      eventHandler2HasBeenCalled = true;
+      return Promise.resolve();
+    };
 
     const unsubscribe1 = await subscribe({
       name: subscriberName1,
       eventType: eventType,
       eventHandler: eventHandler1,
-      streamCategory: category,
+      streamCategory,
     });
     unsubscribes.push(unsubscribe1);
 
@@ -96,7 +94,7 @@ describe(`subscribe`, () => {
       name: subscriberName2,
       eventType: eventType,
       eventHandler: eventHandler2,
-      streamCategory: category,
+      streamCategory,
     });
     unsubscribes.push(unsubscribe2);
 
@@ -106,19 +104,19 @@ describe(`subscribe`, () => {
     };
 
     // Act
-    await publish(`${category}|${id}`, event1);
+    await publish(`${streamCategory}|${id}`, event1);
 
     await waitForExpect(async () => {
       // Assert
-      expect(eventHandler1).toHaveBeenCalledWith(expect.objectContaining(event1));
-      expect(eventHandler2).toHaveBeenCalledWith(expect.objectContaining(event1));
+      eventHandler1HasBeenCalled.should.be.true;
+      eventHandler2HasBeenCalled.should.be.true;
 
       const actuals = [
-        ...(await getPendingAcknowledgements(category, subscriberName1)),
-        ...(await getPendingAcknowledgements(category, subscriberName2)),
+        ...(await getPendingAcknowledgements(streamCategory, subscriberName1)),
+        ...(await getPendingAcknowledgements(streamCategory, subscriberName2)),
       ];
 
-      expect(actuals.length).toBe(0);
+      actuals.length.should.be.equal(0);
     });
   });
 
@@ -130,13 +128,9 @@ describe(`subscribe`, () => {
   `, async () => {
     // Arrange
     const eventType = 'event-1';
-    const category = 'category';
-    const id = 'id';
     const payload = {
       propriété: 'propriété',
     };
-
-    const subscriberName = 'event-handler';
 
     const unsubscribe = await subscribe({
       name: subscriberName,
@@ -144,7 +138,7 @@ describe(`subscribe`, () => {
       eventHandler: () => {
         throw new Error('An error');
       },
-      streamCategory: category,
+      streamCategory,
     });
     unsubscribes.push(unsubscribe);
 
@@ -154,21 +148,24 @@ describe(`subscribe`, () => {
     };
 
     // Act
-    await publish(`${category}|${id}`, event);
+    await publish(`${streamCategory}|${id}`, event);
 
     await waitForExpect(async () => {
       // Assert
-      const actuals = await getEventsWithPendingAcknowledgement(category, subscriberName);
+      const actual = await getEventsWithPendingAcknowledgement(streamCategory, subscriberName);
+      actual.length.should.be.equal(1);
 
-      const events = [expect.objectContaining(event)];
-      expect(actuals).toEqual(events);
+      const [actual1] = actual;
 
-      const actualAcknowledgements = await getPendingAcknowledgements('category', 'event-handler');
-      expect(actualAcknowledgements.length).toBe(1);
+      actual1.type.should.be.equal(event.type);
+      actual1.payload.should.be.deep.equal(event.payload);
+
+      const actualAcknowledgements = await getPendingAcknowledgements('category', subscriberName);
+      actualAcknowledgements.length.should.be.equal(1);
 
       const expected = 'An error';
 
-      expect(actualAcknowledgements[0].error).toEqual(expected);
+      expect(actualAcknowledgements[0].error).to.equal(expected);
     });
   });
 
@@ -182,19 +179,20 @@ describe(`subscribe`, () => {
   `, async () => {
     // Arrange
     const eventType = 'event-1';
-    const category = 'category';
-    const id = 'id';
     const payload = {
       propriété: 'propriété',
     };
 
-    const subscriberName = 'event-handler';
-    const eventHandler = jest.fn(() => Promise.resolve());
+    let eventHandlerHasBeenCalled = false;
+    const eventHandler = async () => {
+      eventHandlerHasBeenCalled = true;
+      return Promise.resolve();
+    };
 
     await registerSubscriber({
       eventType,
       name: subscriberName,
-      streamCategory: category,
+      streamCategory,
     });
 
     const event = {
@@ -202,22 +200,21 @@ describe(`subscribe`, () => {
       payload,
     };
 
-    await publish(`${category}|${id}`, event);
+    await publish(`${streamCategory}|${id}`, event);
 
     // Act
     const unsubscribe = await subscribe({
       name: subscriberName,
       eventType,
       eventHandler,
-      streamCategory: category,
+      streamCategory,
     });
     unsubscribes.push(unsubscribe);
 
-    expect(eventHandler).toHaveBeenCalledWith(expect.objectContaining(event));
+    eventHandlerHasBeenCalled.should.be.true;
 
-    const actuals = await getPendingAcknowledgements(category, subscriberName);
-
-    expect(actuals.length).toBe(0);
+    const actuals = await getPendingAcknowledgements(streamCategory, subscriberName);
+    actuals.length.should.be.equal(0);
   });
 
   it(`
@@ -229,9 +226,6 @@ describe(`subscribe`, () => {
     Et il n'y a pas d'acknowledgement en attente pour l'événement RebuildTriggered
   `, async () => {
     // Arrange
-    const category = 'category';
-    const id = 'id';
-
     const event1 = {
       type: 'event-1',
       payload: {
@@ -246,42 +240,47 @@ describe(`subscribe`, () => {
       },
     };
 
-    await publish(`${category}|${id}`, event1, event2);
+    await publish(`${streamCategory}|${id}`, event1, event2);
 
-    const eventHandler = jest.fn(() => Promise.resolve());
+    const eventCalls: Array<DomainEvent> = [];
+    const eventHandler = async (event: DomainEvent) => {
+      eventCalls.push(event);
+      return Promise.resolve();
+    };
 
     const unsubscribe1 = await subscribe({
-      name: 'event-handler',
+      name: subscriberName,
       eventType: ['event-1', 'event-2', 'RebuildTriggered'],
       eventHandler: eventHandler,
-      streamCategory: category,
+      streamCategory,
     });
     unsubscribes.push(unsubscribe1);
 
     // Act
-    await executeRebuild(category, id);
+    await executeRebuild(streamCategory, id);
 
     await waitForExpect(async () => {
       // Assert
       const rebuildTriggered = {
         type: 'RebuildTriggered',
         payload: {
-          category,
+          category: streamCategory,
           id,
         },
       };
 
-      const expected = [
-        [expect.objectContaining(rebuildTriggered)],
-        [expect.objectContaining(event1)],
-        [expect.objectContaining(event2)],
-      ];
+      const [actual1, actual2, actual3] = eventCalls;
 
-      expect(eventHandler.mock.calls).toEqual(expected);
+      actual1.type.should.be.equal(rebuildTriggered.type);
+      actual1.payload.should.be.deep.equal(rebuildTriggered.payload);
+      actual2.type.should.be.equal(event1.type);
+      actual2.payload.should.be.deep.equal(event1.payload);
+      actual3.type.should.be.equal(event2.type);
+      actual3.payload.should.be.deep.equal(event2.payload);
 
-      const actuals = await getPendingAcknowledgements(category, 'event-handler');
+      const actuals = await getPendingAcknowledgements(streamCategory, 'event-handler');
 
-      expect(actuals.length).toBe(0);
+      actuals.length.should.be.equal(0);
     });
   });
 
@@ -294,9 +293,6 @@ describe(`subscribe`, () => {
     Et il n'y a pas d'acknowledgement en attente pour l'événement RebuildTriggered
   `, async () => {
     // Arrange
-    const category = 'category';
-    const id = 'id';
-
     const event1 = {
       type: 'event-1',
       payload: {
@@ -311,42 +307,47 @@ describe(`subscribe`, () => {
       },
     };
 
-    await publish(`${category}|${id}`, event1, event2);
+    await publish(`${streamCategory}|${id}`, event1, event2);
 
-    const eventHandler = jest.fn(() => Promise.resolve());
+    const eventCalls: Array<DomainEvent> = [];
+    const eventHandler = async (event: DomainEvent) => {
+      eventCalls.push(event);
+      return Promise.resolve();
+    };
 
     const unsubscribe1 = await subscribe({
-      name: 'event-handler',
+      name: subscriberName,
       eventType: ['event-1', 'event-2', 'RebuildTriggered'],
       eventHandler: eventHandler,
-      streamCategory: category,
+      streamCategory,
     });
     unsubscribes.push(unsubscribe1);
 
     // Act
-    await executeRebuild(category);
+    await executeRebuild(streamCategory);
 
     await waitForExpect(async () => {
       // Assert
       const rebuildTriggered = {
         type: 'RebuildTriggered',
         payload: {
-          category,
+          category: streamCategory,
           id,
         },
       };
 
-      const expected = [
-        [expect.objectContaining(rebuildTriggered)],
-        [expect.objectContaining(event1)],
-        [expect.objectContaining(event2)],
-      ];
+      const [actual1, actual2, actual3] = eventCalls;
 
-      expect(eventHandler.mock.calls).toEqual(expected);
+      actual1.type.should.be.equal(rebuildTriggered.type);
+      actual1.payload.should.be.deep.equal(rebuildTriggered.payload);
+      actual2.type.should.be.equal(event1.type);
+      actual2.payload.should.be.deep.equal(event1.payload);
+      actual3.type.should.be.equal(event2.type);
+      actual3.payload.should.be.deep.equal(event2.payload);
 
-      const actuals = await getPendingAcknowledgements(category, 'event-handler');
+      const actuals = await getPendingAcknowledgements(streamCategory, 'event-handler');
 
-      expect(actuals.length).toBe(0);
+      actuals.length.should.be.equal(0);
     });
   });
 
@@ -382,11 +383,8 @@ describe(`subscribe`, () => {
 
     await waitForExpect(async () => {
       // Assert
-      expect(error).toHaveBeenCalledTimes(1);
-      const param = error.mock.calls[0][0];
-
-      expect(param).toBeInstanceOf(NotificationPayloadParseError);
-      expect((param as Error).message).toBe('Notification payload parse error');
+      expect(logMock.mock.callCount()).to.eq(1);
+      expect(logMock.mock.calls[0].arguments[0]).to.contain('Notification payload parse error');
     });
   });
 
@@ -417,12 +415,8 @@ describe(`subscribe`, () => {
     await executeSelect('select pg_notify($1, $2)', `${category}|${subscriberName}`, {});
 
     await waitForExpect(async () => {
-      // Assert
-      expect(error).toHaveBeenCalledTimes(1);
-      const param = error.mock.calls[0][0];
-
-      expect(param).toBeInstanceOf(NotificationPayloadNotAnEventError);
-      expect((param as Error).message).toBe('Notification payload is not an event');
+      expect(logMock.mock.callCount()).to.eq(1);
+      expect(logMock.mock.calls[0].arguments[0]).to.contain('Notification payload is not an event');
     });
   });
 
@@ -463,10 +457,8 @@ describe(`subscribe`, () => {
 
     await waitForExpect(async () => {
       // Assert
-      expect(warn).toHaveBeenCalledTimes(1);
-      const param = warn.mock.calls[0][0];
-
-      expect(param).toBe('Unknown event');
+      expect(logMock.mock.callCount()).to.eq(1);
+      expect(logMock.mock.calls[0].arguments[0]).to.contain('Unknown event');
     });
   });
 
@@ -476,8 +468,6 @@ describe(`subscribe`, () => {
     Et il a acknowledgement en attente pour cet événement dans la dead letter queue
   `, async () => {
     // Arrange
-    const category = 'category';
-    const id = 'id';
     const payload = {
       propriété: 'propriété',
     };
@@ -488,14 +478,21 @@ describe(`subscribe`, () => {
     };
 
     // Act
-    await publish(`${category}|${id}`, event);
+    await publish(`${streamCategory}|${id}`, event);
 
     await waitForExpect(async () => {
       // Assert
-      const expected = [expect.objectContaining(event)];
-      const actuals = await getEventsWithPendingAcknowledgement(category, 'dead-letter-queue');
+      const actuals = await getEventsWithPendingAcknowledgement(
+        streamCategory,
+        'dead-letter-queue',
+      );
 
-      expect(actuals).toEqual(expect.arrayContaining(expected));
+      actuals.length.should.be.equal(1);
+
+      const [actual1] = actuals;
+
+      actual1.type.should.be.equal(event.type);
+      actual1.payload.should.be.deep.equal(event.payload);
     });
   });
 });
