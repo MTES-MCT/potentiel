@@ -1,7 +1,7 @@
 {
-  "name": "@potentiel-applications/scheduled-tasks",
+  "name": "@potentiel-applications/scheduler",
   "version": "0.0.0",
-  "description": "Potentiel Scheduled Tasks",
+  "description": "Potentiel Scheduler",
   "private": true,
   "scripts": {
     "build": "tsc",

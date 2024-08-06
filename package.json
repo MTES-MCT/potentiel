@@ -25,6 +25,7 @@
     "./packages/applications/ssr",
     "./packages/applications/legacy",
     "./packages/applications/cli",
+    "./packages/applications/scheduler",
     "./packages/specifications"
   ],
   "scripts": {
