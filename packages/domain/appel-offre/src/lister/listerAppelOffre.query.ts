@@ -4,9 +4,7 @@ import { List } from '@potentiel-domain/core';
 
 import { AppelOffreEntity } from '../appelOffre.entity';
 
-type AppelOffreListItemReadModel = {
-  id: string;
-};
+export type AppelOffreListItemReadModel = AppelOffreEntity;
 
 export type ListerAppelOffreReadModel = {
   items: ReadonlyArray<AppelOffreListItemReadModel>;
