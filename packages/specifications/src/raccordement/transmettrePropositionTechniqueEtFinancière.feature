@@ -47,3 +47,13 @@ Fonctionnalité: Transmettre une proposition technique et financière
             | Le format de la proposition technique et financière | application/pdf                                                                                                   |
             | Le contenu de proposition technique et financière   | Proposition technique et financière pour la référence OUE-RP-2022-000033 avec une date de signature au 2023-01-10 |
         Alors le porteur devrait être informé que "La date ne peut pas être une date future"
+
+    # Ce cas ne peut pas être implémenté à date car nous n'avons pas accès à l'aggréagat candidature (projet)
+    @NotImplemented
+    Scénario: Impossible de transmettre une proposition technique et financière si le projet est abandonné
+
+
+    # Ce cas ne peut pas être implémenté à date car nous n'avons pas accès à l'aggréagat candidature (projet)
+    @NotImplemented
+    Scénario: Impossible de transmettre une proposition technique et financière si le projet est éliminé
+
