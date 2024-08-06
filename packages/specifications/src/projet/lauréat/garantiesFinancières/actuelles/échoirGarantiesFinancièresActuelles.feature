@@ -83,7 +83,12 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
             | date à vérifier | 2024-07-18 |
         Alors l'utilisateur devrait être informé que "Le projet dispose d'une attestation de conformité, ce qui empêche de pouvoir échoir ses garanties financières"
 
-    #À vérifier côté métier
+    # Ce cas ne peut pas être implémenté à date car nous n'avons pas accès à l'aggréagat candidature (projet)
     @NotImplemented
     Scénario: Impossible d'échoir les garanties financières actuelles d'un projet abandonné
+
+
+    # Ce cas ne peut pas être implémenté à date car nous n'avons pas accès à l'aggréagat candidature (projet)
+    @NotImplemented
+    Scénario: Impossible d'échoir les garanties financières actuelles d'un projet éliminé
 

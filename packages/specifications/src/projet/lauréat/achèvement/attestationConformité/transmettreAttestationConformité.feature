@@ -66,10 +66,12 @@ Fonctionnalité: Transmettre une attestation de conformité
             | utilisateur                                   | porteur@test.test           |
         Alors le porteur devrait être informé que "le projet a déjà une attestation de conformité"
 
+    # Ce cas ne peut pas être implémenté à date car nous n'avons pas accès à l'aggréagat candidature (projet)
     @NotImplemented
     Scénario: Impossible de transmettre une attestation de conformité si le projet est éliminé
 
 
+    # Ce cas ne peut pas être implémenté à date car nous n'avons pas accès à l'aggréagat candidature (projet)
     @NotImplemented
     Scénario: Impossible de transmettre une attestation de conformité si le projet est abandonné
 
