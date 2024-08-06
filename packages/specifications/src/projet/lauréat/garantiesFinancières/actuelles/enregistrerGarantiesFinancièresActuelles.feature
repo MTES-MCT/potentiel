@@ -20,6 +20,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | contenu fichier      | contenu fichier   |
             | date de constitution | 2023-06-12        |
             | date mise à jour     | 2024-03-01        |
+            | enregistré par       | admin@test.test   |
         Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
             | type                 | <type>            |
             | date d'échéance      | <date d'échéance> |
@@ -45,6 +46,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | contenu fichier      | contenu fichier   |
             | date de constitution | 2023-06-12        |
             | date mise à jour     | 2024-03-01        |
+            | enregistré par       | admin@test.test   |
         Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
             | type                 | <type>            |
             | date d'échéance      | <date d'échéance> |
@@ -71,6 +73,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | contenu fichier      | contenu fichier |
             | date de constitution | 2023-06-12      |
             | date mise à jour     | 2024-03-01      |
+            | enregistré par       | admin@test.test |
         Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
             | type                 | consignation      |
             | format               | application/pdf   |
@@ -97,6 +100,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Quand un admin enregistre les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type            | <type>            |
             | date d'échéance | <date d'échéance> |
+            | enregistré par  | admin@test.test   |
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas renseigner de date d'échéance pour ce type de garanties financières"
 
         Exemples:
@@ -108,11 +112,13 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Quand un admin enregistre les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type            | avec-date-échéance |
             | date d'échéance |                    |
+            | enregistré par  | admin@test.test    |
         Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières"
 
     Scénario: Impossible d'enregister des garanties financières actuelles si la date de constitution est dans le futur
         Quand un admin enregistre les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
-            | date de constitution | 2050-01-01 |
+            | date de constitution | 2050-01-01      |
+            | enregistré par       | admin@test.test |
         Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future"
 
     Scénario: Impossible d'enregister des garanties financières s'il y a déjà des garanties financières actuelles
@@ -126,5 +132,6 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | soumis par           | porteur@test.test |
             | date de validation   | 2023-11-03        |
         Quand un admin enregistre les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
-            | date de constitution | 2020-01-01 |
+            | date de constitution | 2020-01-01      |
+            | enregistré par       | admin@test.test |
         Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières pour ce projet"
