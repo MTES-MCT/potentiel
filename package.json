@@ -50,8 +50,6 @@
     "pretest:legacy": "npm run pretest",
     "test:legacy": "turbo run test --filter=@potentiel-applications/legacy",
     "pretest:libraries": "npm run pretest",
-    "pretest:lib": "npm run pretest",
-    "test:lib": "turbo run test --filter=@potentiel-infrastructure/pg-event-sourcing",
     "test:libraries": "turbo run test --filter=!@potentiel-applications/legacy --filter=!@potentiel-applications/ssr --filter=!@potentiel/specifications",
     "prespecs": "npm run pretest",
     "specs": "npm run test -w @potentiel/specifications",
