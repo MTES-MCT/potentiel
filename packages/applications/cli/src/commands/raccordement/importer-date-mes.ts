@@ -77,7 +77,6 @@ export default class ImporterDateMiseEnService extends Command {
     const { args, flags } = await this.parse(ImporterDateMiseEnService);
     await bootstrap({ middlewares: [] });
 
-    console.info('Lancement du script...');
     const data = await parseCsvFile(args.path, schema, { delimiter: flags.delimiter });
     console.info(`${data.length} raccordements à mettre à jour`);
 

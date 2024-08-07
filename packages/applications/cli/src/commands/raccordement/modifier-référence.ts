@@ -63,7 +63,6 @@ export default class ModifierRéférence extends Command {
     const { args, flags } = await this.parse(ModifierRéférence);
     await bootstrap({ middlewares: [] });
 
-    console.info('Lancement du script...');
     const data = await parseCsvFile(args.path, schema, {
       delimiter: flags.delimiter,
       ltrim: false,
