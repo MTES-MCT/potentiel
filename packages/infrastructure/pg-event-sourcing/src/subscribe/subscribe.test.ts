@@ -49,7 +49,6 @@ describe(`subscribe`, () => {
 
     await executeQuery('delete from event_store.event_stream');
     await executeQuery('delete from event_store.subscriber');
-    await executeQuery('delete from event_store.subscriber');
     await executeQuery('delete from event_store.pending_acknowledgement');
   });
 
