@@ -10,7 +10,6 @@ Quand(
   async function (this: PotentielWorld, nomCandidature: string, table: DataTable) {
     const exemple = table.rowsHash();
 
-    // Write code here that turns the phrase above into concrete actions
     await mediator.send<InstruireCandidatureUseCase>({
       type: 'Candidature.UseCase.InstruireCandidature',
       data: {
