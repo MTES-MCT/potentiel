@@ -4,8 +4,10 @@ import { z } from 'zod';
 
 import { bootstrap } from '@potentiel-applications/bootstrap';
 import { Raccordement } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 
 import { parseCsvFile } from '../../helpers/parse-file';
+import { parseIdentifiantProjet } from '../../helpers/parse-identifiant-projet';
 
 const schema = z.object({
   identifiantProjet: z.string(),
@@ -14,7 +16,7 @@ const schema = z.object({
 });
 
 const isUpToDate = async (row: z.infer<typeof schema>) => {
-  try {
+  const raccordementRefOrigine =
     await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
       type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
       data: {
@@ -22,9 +24,8 @@ const isUpToDate = async (row: z.infer<typeof schema>) => {
         référenceDossierRaccordementValue: row.referenceDossier,
       },
     });
-    return 'pas à jour';
-  } catch (e) {
-    if (e instanceof Error && e.message === `Le dossier de raccordement n'est pas référencé`) {
+  if (Option.isNone(raccordementRefOrigine)) {
+    const raccordementRefCorrigée =
       await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
         data: {
@@ -32,10 +33,13 @@ const isUpToDate = async (row: z.infer<typeof schema>) => {
           référenceDossierRaccordementValue: row['referenceDossier corrigé GRD'],
         },
       });
+    if (Option.isSome(raccordementRefCorrigée)) {
       return 'à jour';
+    } else {
+      return 'non trouvé';
     }
-    return 'non trouvé';
   }
+  return 'pas à jour';
 };
 
 export default class ModifierRéférence extends Command {
@@ -47,9 +51,10 @@ export default class ModifierRéférence extends Command {
 
   static override flags = {
     delimiter: Flags.string({ default: ';', options: [',', ';'] }),
-    rerun: Flags.boolean({
+
+    dryRun: Flags.boolean({
       default: false,
-      description: 'Ré-executer le même fichier, avec des vérifications supplémentaires',
+      description: 'Exécution test, sans mise à jour',
     }),
   };
 
@@ -58,7 +63,6 @@ export default class ModifierRéférence extends Command {
     const { args, flags } = await this.parse(ModifierRéférence);
     await bootstrap({ middlewares: [] });
 
-    console.info('Lancement du script...');
     const data = await parseCsvFile(args.path, schema, {
       delimiter: flags.delimiter,
       ltrim: false,
@@ -70,37 +74,35 @@ export default class ModifierRéférence extends Command {
     let upToDate = 0;
 
     for (const row of data) {
-      // l'identifiant dans le fichier est au format "lisible" et pas au format technique
-      // on remplace les séparateurs de segments de "-" en "#"
-      // Ex: CRE4 - Bâtiment-1-2-3 => CRE4 - Bâtiment#1#2#3
-      const identifiantProjet = row.identifiantProjet.replace(
-        /(.*)-(\d*)-(.*)-(\d*)/,
-        '$1#$2#$3#$4',
-      );
+      const identifiantProjet = parseIdentifiantProjet(row.identifiantProjet);
 
-      if (flags.rerun) {
-        switch (await isUpToDate({ ...row, identifiantProjet })) {
-          case 'pas à jour':
-            break;
-          case 'non trouvé':
-            console.warn(`Non trouvé ${row.identifiantProjet}`);
-            continue;
-          case 'à jour':
-            console.info(`Déjà à jour ${row.identifiantProjet}`);
-            upToDate++;
-            continue;
-        }
+      switch (await isUpToDate({ ...row, identifiantProjet })) {
+        case 'pas à jour':
+          break;
+        case 'non trouvé':
+          console.warn(`Non trouvé ${row.identifiantProjet}`);
+          continue;
+        case 'à jour':
+          console.info(`Déjà à jour ${row.identifiantProjet}`);
+          upToDate++;
+          continue;
       }
       try {
-        await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
-          type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
-          data: {
-            identifiantProjetValue: identifiantProjet,
-            référenceDossierRaccordementActuelleValue: row.referenceDossier,
-            nouvelleRéférenceDossierRaccordementValue: row['referenceDossier corrigé GRD'],
-            rôleValue: 'admin',
-          },
-        });
+        if (flags.dryRun) {
+          console.log(
+            `[DRY-RUN] Mise à jour de la référence du projet ${identifiantProjet}: ${row.referenceDossier}=>${row['referenceDossier corrigé GRD']}`,
+          );
+        } else {
+          await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
+            type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+            data: {
+              identifiantProjetValue: identifiantProjet,
+              référenceDossierRaccordementActuelleValue: row.referenceDossier,
+              nouvelleRéférenceDossierRaccordementValue: row['referenceDossier corrigé GRD'],
+              rôleValue: 'admin',
+            },
+          });
+        }
         success++;
       } catch (e) {
         console.warn(`Erreur mise à jour ${row.identifiantProjet}`, e);
