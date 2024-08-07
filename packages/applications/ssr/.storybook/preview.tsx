@@ -11,7 +11,6 @@ import { registerCandidatureQueries } from '@potentiel-domain/candidature';
 import './static/dsfr/dsfr.min.css';
 import './static/dsfr/utility/icons/icons.min.css';
 import '../src/app/global.css';
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 registerCandidatureQueries({
   récupérerCandidature: async () => {
@@ -26,7 +25,7 @@ registerCandidatureQueries({
         codePostal: 'XXXXX',
         département: 'Département',
         région: 'Région',
-        adresse: '',
+        adresse: ''
       },
       dateDésignation: new Date('2021-10-22').toISOString() as Iso8601DateTime,
       adressePostaleCandidat: '',
@@ -37,14 +36,10 @@ registerCandidatureQueries({
       numéroCRE: '',
       potentielIdentifier: '',
       puissance: 0,
-      type: '',
-    };
+      type: ''
+    }
   },
-  récupérerCandidaturesEligiblesPreuveRecanditure: async () => [],
-  récupérerCandidatures: async () => ({
-    items: [],
-    total: 0,
-  }),
+  récupérerCandidaturesEligiblesPreuveRecanditure: async () => []
 });
 
 export const decorators = [

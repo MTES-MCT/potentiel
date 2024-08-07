@@ -12,22 +12,21 @@ function getAbsolutePath(value: string): any {
 }
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-
   features: {
     experimentalRSC: true,
   },
-
   addons: [
     getAbsolutePath('@storybook/addon-links'),
     getAbsolutePath('@storybook/addon-essentials'),
     getAbsolutePath('@storybook/addon-themes'),
   ],
-
   framework: {
     name: getAbsolutePath('@storybook/nextjs'),
     options: {},
   },
-
+  docs: {
+    autodocs: 'tag',
+  },
   webpackFinal: async (config) => {
     if (config.resolve) {
       config.resolve.alias = {
@@ -66,11 +65,6 @@ const config: StorybookConfig = {
 
     return config;
   },
-
   staticDirs: ['../public'],
-
-  typescript: {
-    reactDocgen: 'react-docgen-typescript',
-  },
 };
 export default config;
