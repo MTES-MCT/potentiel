@@ -8,7 +8,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | nom   | Porteur Projet Test |
             | role  | porteur-projet      |
 
-    Plan du Scénario: Un utilisateur dreal valide un dépôt de garanties financières
+    Plan du Scénario: Valide un dépôt de garanties financières
         Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
             | date limite de soumission | 2023-11-01    |
             | date de notification      | 2023-09-01    |
@@ -37,6 +37,30 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
             | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
             | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
+
+    @select
+    Scénario: Valider un dépôt de garanties financières pour un projet ayant déjà des garanties financières actuelles avec un statut validé
+        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+
+        Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
+        Quand l'utilisateur dreal valide un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
+            | date de validation | 2023-10-10 |
+        Et un historique des garanties financières devrait être consultable pour le projet "Du boulodrome de Marseille" avec :
+            | raison | modification des garanties financières |
+
+    @select
+    Scénario: Valider un dépôt de garanties financières pour un projet ayant déjà des garanties financières actuelles avec un statut échu
+        Etant donné des garanties financières actuelles échues pour le projet "Du boulodrome de Marseille" avec :
+            | type            | avec-date-échéance |
+            | date d'échéance | 2024-07-17         |
+        Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
+        Quand l'utilisateur dreal valide un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
+            | date de validation | 2023-10-10 |
+        Et un historique des garanties financières devrait être consultable pour le projet "Du boulodrome de Marseille" avec :
+            | type            | avec-date-échéance                              |
+            | date d'échéance | 2024-07-17                                      |
+            | statut          | échu                                            |
+            | raison          | renouvellement des garanties financières échues |
 
     Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand des garanties financières avec date d'échéance sont créées
         Etant donné un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :

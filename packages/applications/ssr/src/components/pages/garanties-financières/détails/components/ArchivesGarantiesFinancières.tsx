@@ -6,6 +6,7 @@ import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
 import { StatutGarantiesFinancièresBadge } from '@/components/molecules/garantiesFinancières/StatutGarantiesFinancièresBadge';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter';
 
 type Props = {
   archives: Array<GarantiesFinancièresArchivées>;
@@ -68,6 +69,12 @@ export const ArchivesGarantiesFinancières = ({ archives }: Props) => {
               Attestation de constitution des garanties financières manquante
             </span>
           )}
+          <div>
+            Motif d'archivage :{' '}
+            <span className="font-semibold">
+              {capitalizeFirstLetter(garantiesFinancières.motif)}
+            </span>
+          </div>
         </div>
       </div>
     ),

@@ -167,11 +167,12 @@ const mapToProps: MapToProps = ({
   archivesGarantiesFinancières,
 }) => {
   const archives = Option.isSome(archivesGarantiesFinancières)
-    ? archivesGarantiesFinancières.archives.map((garantiesFinancières) =>
-        mapGarantiesFinancièrestoProps({
+    ? archivesGarantiesFinancières.archives.map((garantiesFinancières) => ({
+        ...mapGarantiesFinancièrestoProps({
           garantiesFinancières,
         }),
-      )
+        motif: garantiesFinancières.motif.motif,
+      }))
     : undefined;
 
   if (

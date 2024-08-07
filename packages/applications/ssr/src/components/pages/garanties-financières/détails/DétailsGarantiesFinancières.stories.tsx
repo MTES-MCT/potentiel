@@ -98,7 +98,8 @@ export const GarantiesFinancieresActuellesComplètesAvecArchives: Story = {
     archivesGarantiesFinancières: [
       {
         type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
-        statut: 'validé',
+        motif: 'renouvellement des garanties financières échues',
+        statut: 'échu',
         dateÉchéance: new Date('2023-07-01').toISOString() as Iso8601DateTime,
         dateConstitution: new Date('2022-10-01').toISOString() as Iso8601DateTime,
         soumisLe: new Date('2021-09-23').toISOString() as Iso8601DateTime,
@@ -110,7 +111,8 @@ export const GarantiesFinancieresActuellesComplètesAvecArchives: Story = {
       },
       {
         type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
-        statut: 'échu',
+        motif: 'changement de producteur',
+        statut: 'validé',
         dateÉchéance: new Date('2023-07-01').toISOString() as Iso8601DateTime,
         dateConstitution: new Date('2022-10-01').toISOString() as Iso8601DateTime,
         soumisLe: new Date('2021-09-23').toISOString() as Iso8601DateTime,
