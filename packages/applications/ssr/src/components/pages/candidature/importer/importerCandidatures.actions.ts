@@ -4,7 +4,7 @@ import * as zod from 'zod';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 
-export type AjouterGestionnaireRéseauState = FormState;
+export type ImporterCandidaturesState = FormState;
 
 const schema = zod.object({
   appelOffre: zod.string().min(1),
@@ -18,4 +18,4 @@ const action: FormAction<FormState, typeof schema> = async (_, props) => {
   };
 };
 
-export const importCandidaturesAction = formAction(action, schema);
+export const importerCandidaturesAction = formAction(action, schema);

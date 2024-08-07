@@ -5,11 +5,14 @@ import { PlainType } from '@potentiel-domain/core';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1 } from '@/components/atoms/headings';
 
-import { ImporterCandidaturesForm, ImporterCandidaturesFormProps } from './ImportCandidatures.form';
+import {
+  ImporterCandidaturesForm,
+  ImporterCandidaturesFormProps,
+} from './ImporterCandidatures.form';
 
-export type CandidaturesImportPageProps = PlainType<ImporterCandidaturesFormProps>;
+export type ImporterCandidaturesPageProps = PlainType<ImporterCandidaturesFormProps>;
 
-export const CandidaturesImportPage: FC<CandidaturesImportPageProps> = ({ appelOffres }) => (
+export const ImporterCandidaturesPage: FC<ImporterCandidaturesPageProps> = ({ appelOffres }) => (
   <ColumnPageTemplate
     banner={<Heading1 className="text-theme-white">Importer des candidats</Heading1>}
     leftColumn={{

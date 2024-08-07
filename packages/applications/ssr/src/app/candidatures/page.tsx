@@ -5,7 +5,7 @@ import { ListerProjetsQuery } from '@potentiel-domain/candidature';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { CandidaturesListPage } from '@/components/pages/candidatures/CandidaturesList.page';
+import { CandidaturesListPage } from '@/components/pages/candidature/CandidaturesList.page';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions } from '@/utils/pagination';
 
