@@ -100,6 +100,14 @@ const historiqueAbandon = [
   'lauréat_ao',
 ] as const;
 
+const statut = { Eliminé: 'éliminé', Classé: 'classé' } as const;
+const technologie = {
+  Eolien: 'eolien',
+  Hydraulique: 'hydraulique',
+  PV: 'pv',
+  'N/A': 'N/A',
+} as const;
+
 const candidatureCsvRowSchema = z
   .object({
     [colonnes.appel_offre]: requiredStringSchema,
@@ -165,6 +173,8 @@ export const candidatureSchema = candidatureCsvRowSchema
       ...val,
       type_gf: val.type_gf ? typeGf[Number(val.type_gf) - 1] : undefined,
       historique_abandon: historiqueAbandon[Number(val.historique_abandon) - 1],
+      statut: statut[val.statut],
+      technologie: technologie[val.technologie],
     };
   });
 

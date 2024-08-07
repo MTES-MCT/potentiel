@@ -73,7 +73,7 @@ describe('Schema candidature', () => {
       adresse2: undefined,
       code_postal: '12345',
       commune: 'MARSEILLE',
-      statut: 'Eliminé',
+      statut: 'éliminé',
       motif_élimination: 'motif',
       puissance_a_la_pointe: undefined,
       evaluation_carbone_simplifiée: 'N/A',
@@ -90,6 +90,9 @@ describe('Schema candidature', () => {
   test('Cas nominal, classé', () => {
     const result = candidatureSchema.safeParse({
       ...minimumValuesClassé,
+      'Technologie\n(dispositif de production)': 'Eolien',
+      'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)': '2',
+      'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': 'Oui',
     });
     assertNoError(result);
     expect(result.data).to.deep.equal({
@@ -109,12 +112,12 @@ describe('Schema candidature', () => {
       adresse2: undefined,
       code_postal: '12345',
       commune: 'MARSEILLE',
-      statut: 'Classé',
+      statut: 'classé',
       motif_élimination: undefined,
       puissance_a_la_pointe: undefined,
       evaluation_carbone_simplifiée: 'N/A',
-      valeur_évaluation_carbone: undefined,
-      technologie: 'N/A',
+      valeur_évaluation_carbone: 2,
+      technologie: 'eolien',
       type_gf: 'avec-date-échéance',
       financement_collectif: 'non',
       gouvernance_partagée: 'oui',
