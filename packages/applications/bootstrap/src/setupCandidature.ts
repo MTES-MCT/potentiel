@@ -1,5 +1,9 @@
-import { registerCandidatureQueries } from '@potentiel-domain/candidature';
+import {
+  registerCandidatureQueries,
+  registerCandidaturesUseCases,
+} from '@potentiel-domain/candidature';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 
 export const setupCandidature = () => {
   registerCandidatureQueries({
@@ -8,4 +12,6 @@ export const setupCandidature = () => {
       CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
     récupérerProjets: CandidatureAdapter.récupérerProjetsAdapter,
   });
+
+  registerCandidaturesUseCases({ loadAggregate });
 };

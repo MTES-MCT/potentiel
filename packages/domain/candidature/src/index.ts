@@ -14,6 +14,7 @@ import {
   ListerProjetsReadModel,
   ListerProjetsListItemReadModel,
 } from './lister/listerProjets.query';
+import { InstruireCandidatureUseCase } from './instruire/instruireCandidature.usecase';
 
 // Query
 export type CandidatureQuery =
@@ -30,6 +31,10 @@ export {
   ListerProjetsListItemReadModel,
   ListerProjetsReadModel,
 };
+
+// UseCases
+export type CandidatureUseCase = InstruireCandidatureUseCase;
+export { InstruireCandidatureUseCase };
 
 // Register
 export * from './register';

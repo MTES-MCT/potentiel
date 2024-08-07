@@ -53,7 +53,7 @@
       "path": "../../domain/utilisateur"
     },
     {
-      "path": "../../infrastructure/document-builder"
+      "path": "../../applications/document-builder"
     },
     {
       "path": "../../libraries/csv"
