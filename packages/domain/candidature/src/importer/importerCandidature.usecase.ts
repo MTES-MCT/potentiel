@@ -37,6 +37,7 @@ export type ImporterCandidatureUseCase = Message<
     financementCollectifValue: boolean;
     gouvernancePartagéeValue: boolean;
     dateÉchéanceGfValue?: string;
+    détailsValue?: Record<string, string>;
   }
 >;
 
@@ -81,6 +82,7 @@ export const registerImporterCandidatureUseCase = () => {
         sociétéMère: payload.sociétéMèreValue,
         typeGarantiesFinancières: payload.typeGarantiesFinancièresValue,
         valeurÉvaluationCarbone: payload.valeurÉvaluationCarboneValue,
+        détails: payload.détailsValue,
       },
     });
   };

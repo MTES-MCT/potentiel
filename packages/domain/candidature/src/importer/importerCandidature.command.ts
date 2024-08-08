@@ -38,6 +38,8 @@ export type ImporterCandidatureCommand = Message<
     financementCollectif: boolean;
     gouvernancePartagée: boolean;
     dateÉchéanceGf?: DateTime.ValueType;
+
+    détails?: Record<string, string>;
   }
 >;
 

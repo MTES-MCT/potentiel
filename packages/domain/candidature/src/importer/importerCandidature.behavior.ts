@@ -36,6 +36,7 @@ export type CandidatureImportéeEvent = DomainEvent<
     financementCollectif: boolean;
     gouvernancePartagée: boolean;
     dateÉchéanceGf?: DateTime.RawType;
+    détails?: Record<string, string>;
   }
 >;
 
@@ -68,6 +69,7 @@ type ImporterCandidatureOptions = {
   financementCollectif: boolean;
   gouvernancePartagée: boolean;
   dateÉchéanceGf?: DateTime.ValueType;
+  détails?: Record<string, string>;
 };
 
 export async function importer(
@@ -106,6 +108,7 @@ export async function importer(
       valeurÉvaluationCarbone: candidature.valeurÉvaluationCarbone,
       financementCollectif: candidature.financementCollectif,
       gouvernancePartagée: candidature.gouvernancePartagée,
+      détails: candidature.détails,
     },
   };
   await this.publish(event);
