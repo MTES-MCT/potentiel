@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import { ConsulterProjetQuery } from '@potentiel-domain/candidature';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { buildDocxDocument } from '@potentiel-applications/document-builder';
@@ -21,8 +21,8 @@ export const GET = async (
   withUtilisateur(async (utilisateur) => {
     const identifiantProjetValue = decodeParameter(identifiant);
 
-    const candidature = await mediator.send<ConsulterCandidatureQuery>({
-      type: 'Candidature.Query.ConsulterCandidature',
+    const candidature = await mediator.send<ConsulterProjetQuery>({
+      type: 'Candidature.Query.ConsulterProjet',
       data: {
         identifiantProjet: identifiantProjetValue,
       },

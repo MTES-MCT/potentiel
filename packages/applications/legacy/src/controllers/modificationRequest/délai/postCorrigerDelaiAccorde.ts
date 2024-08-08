@@ -20,7 +20,7 @@ import { logger } from '../../../core/utils';
 import { DomainError } from '../../../core/domain';
 import { mediator } from 'mediateur';
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import { ConsulterProjetQuery } from '@potentiel-domain/candidature';
 import { getDelaiDeRealisation } from '../../../modules/projectAppelOffre';
 import { add, sub } from 'date-fns';
 import { ModificationRequest } from '../../../infra/sequelize/projectionsNext';
@@ -93,8 +93,8 @@ v1Router.post(
         return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
       }
 
-      const résuméProjet = await mediator.send<ConsulterCandidatureQuery>({
-        type: 'Candidature.Query.ConsulterCandidature',
+      const résuméProjet = await mediator.send<ConsulterProjetQuery>({
+        type: 'Candidature.Query.ConsulterProjet',
         data: { identifiantProjet: identifiantProjet.identifiantProjetValue },
       });
 

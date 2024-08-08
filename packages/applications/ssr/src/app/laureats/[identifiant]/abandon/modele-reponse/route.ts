@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { Abandon, CahierDesCharges } from '@potentiel-domain/laureat';
-import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import { ConsulterProjetQuery } from '@potentiel-domain/candidature';
 import { ConsulterAppelOffreQuery, AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
@@ -31,8 +31,8 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
 
     const { nomComplet } = utilisateurDétails;
 
-    const candidature = await mediator.send<ConsulterCandidatureQuery>({
-      type: 'Candidature.Query.ConsulterCandidature',
+    const candidature = await mediator.send<ConsulterProjetQuery>({
+      type: 'Candidature.Query.ConsulterProjet',
       data: {
         identifiantProjet,
       },

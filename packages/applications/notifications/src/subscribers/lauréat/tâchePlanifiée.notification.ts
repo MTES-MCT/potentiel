@@ -7,7 +7,7 @@ import {
 } from '@potentiel-infrastructure/domain-adapters';
 import { Routes } from '@potentiel-applications/routes';
 import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
-import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import { ConsulterProjetQuery } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
@@ -34,8 +34,8 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
     switch (payload.typeTâchePlanifiée) {
       case 'garanties-financières.rappel-échéance-un-mois':
       case 'garanties-financières.rappel-échéance-deux-mois':
-        const candidature = await mediator.send<ConsulterCandidatureQuery>({
-          type: 'Candidature.Query.ConsulterCandidature',
+        const candidature = await mediator.send<ConsulterProjetQuery>({
+          type: 'Candidature.Query.ConsulterProjet',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
           },

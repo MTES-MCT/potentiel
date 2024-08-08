@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { ConsulterCandidatureQuery } from '@potentiel-domain/candidature';
+import { ConsulterProjetQuery } from '@potentiel-domain/candidature';
 import { CahierDesCharges } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { StatutProjet } from '@potentiel-domain/common';
@@ -27,8 +27,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
-    const candidature = await mediator.send<ConsulterCandidatureQuery>({
-      type: 'Candidature.Query.ConsulterCandidature',
+    const candidature = await mediator.send<ConsulterProjetQuery>({
+      type: 'Candidature.Query.ConsulterProjet',
       data: {
         identifiantProjet,
       },
