@@ -16,6 +16,10 @@ import {
 } from './lister/listerProjets.query';
 import { ImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
 import type { CandidatureImportéeEvent } from './importer/importerCandidature.behavior';
+import {
+  ConsulterCandidatureQuery,
+  ConsulterCandidatureReadModel,
+} from './consulter/consulterCandidature.query';
 
 // Query
 export type CandidatureQuery =
@@ -28,9 +32,11 @@ export {
   ListerProjetsEligiblesPreuveRecanditureQuery,
   ConsulterProjetReadModel,
   ListerProjetsEligiblesPreuveRecanditureReadModel,
-  ListerProjetsQuery as ListerProjetsQuery,
+  ListerProjetsQuery,
   ListerProjetsListItemReadModel,
   ListerProjetsReadModel,
+  ConsulterCandidatureQuery,
+  ConsulterCandidatureReadModel,
 };
 
 // UseCases
@@ -51,3 +57,4 @@ export {
 
 // Entity
 export * from './projet.entity';
+export * from './candidature.entity';

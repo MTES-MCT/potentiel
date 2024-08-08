@@ -1,5 +1,4 @@
-import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
-import { Entity } from '@potentiel-domain/core';
+import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 export type ProjetEntity = {

@@ -9,8 +9,8 @@ import { Option } from '@potentiel-libraries/monads';
 import { PotentielWorld } from '../../potentiel.world';
 
 Alors(
-  'la candidature {string} devrait être consultable dans la liste des candidatures',
-  async function (this: PotentielWorld, nomProjet: string) {
+  'la candidature {string} devrait être consultable dans la liste des candidatures avec le statut {string}',
+  async function (this: PotentielWorld, nomProjet: string, statut: string) {
     const { identifiantProjet } = this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
 
     await waitForExpect(async () => {
@@ -20,6 +20,7 @@ Alors(
       });
       assert(Option.isSome(candidature), 'Candidature non trouvée');
       expect(candidature.nom).to.eq(nomProjet);
+      expect(candidature.statut).to.eq(statut);
     });
   },
 );

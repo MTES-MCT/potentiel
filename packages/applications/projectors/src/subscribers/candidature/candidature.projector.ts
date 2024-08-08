@@ -24,7 +24,7 @@ export const register = () => {
         identifiantProjet,
         statut: StatutProjet.convertirEnValueType(statut).statut,
         nom: nomProjet,
-      } as CandidatureEntity; // TODO remove
+      };
 
       switch (type) {
         case 'CandidatureImportée-V1':

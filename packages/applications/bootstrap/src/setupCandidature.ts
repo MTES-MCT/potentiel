@@ -11,6 +11,7 @@ import { findProjection } from '@potentiel-infrastructure/pg-projections';
 
 export const setupCandidature = async () => {
   registerCandidatureQueries({
+    find: findProjection,
     récupérerProjet: CandidatureAdapter.récupérerProjetAdapter,
     récupérerProjetsEligiblesPreuveRecanditure:
       CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
