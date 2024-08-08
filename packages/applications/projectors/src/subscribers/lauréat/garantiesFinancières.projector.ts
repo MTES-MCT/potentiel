@@ -216,7 +216,7 @@ export const register = () => {
         : historiqueMainlevéeRejetéeGarantiesFinancièresDefaultValue;
 
       const getProjectData = async (identifiantProjet: IdentifiantProjet.RawType) => {
-        const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
+        const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
         if (Option.isNone(projet)) {
           getLogger().warn(`Projet inconnu !`),
             {

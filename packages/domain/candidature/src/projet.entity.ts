@@ -1,7 +1,7 @@
 import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-export type CandidatureEntity = {
+export type ProjetEntity = {
   appelOffre: string;
   période: string;
   famille: string;

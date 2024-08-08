@@ -4,7 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-import { CandidatureEntity } from '../candidature.entity';
+import { ProjetEntity } from '../projet.entity';
 import * as Technologie from '../technologie.valueType';
 
 export type ConsulterProjetReadModel = {
@@ -40,19 +40,15 @@ export type ConsulterProjetQuery = Message<
   Option.Type<ConsulterProjetReadModel>
 >;
 
-export type RécupérerCandidaturePort = (
-  identifiantProjet: string,
-) => Promise<Option.Type<CandidatureEntity>>;
+export type RécupérerProjetPort = (identifiantProjet: string) => Promise<Option.Type<ProjetEntity>>;
 
 export type ConsulterProjetDependencies = {
-  récupérerCandidature: RécupérerCandidaturePort;
+  récupérerProjet: RécupérerProjetPort;
 };
 
-export const registerConsulterProjetQuery = ({
-  récupérerCandidature,
-}: ConsulterProjetDependencies) => {
+export const registerConsulterProjetQuery = ({ récupérerProjet }: ConsulterProjetDependencies) => {
   const handler: MessageHandler<ConsulterProjetQuery> = async ({ identifiantProjet }) => {
-    const result = await récupérerCandidature(identifiantProjet);
+    const result = await récupérerProjet(identifiantProjet);
 
     if (Option.isNone(result)) {
       return result;
@@ -79,7 +75,7 @@ const mapToReadModel = ({
   statut,
   adressePostaleCandidat,
   technologie,
-}: CandidatureEntity): ConsulterProjetReadModel => {
+}: ProjetEntity): ConsulterProjetReadModel => {
   return {
     appelOffre,
     candidat: {

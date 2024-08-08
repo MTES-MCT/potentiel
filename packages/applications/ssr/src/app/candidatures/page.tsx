@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { ListerCandidaturesQuery } from '@potentiel-domain/candidature';
+import { ListerProjetsQuery } from '@potentiel-domain/candidature';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -23,8 +23,8 @@ export default async function Page({ searchParams }: PageProps) {
       const identifiantProjet = searchParams?.identifiantProjet;
       const page = searchParams?.page ? parseInt(searchParams.page) : 1;
 
-      const data = await mediator.send<ListerCandidaturesQuery>({
-        type: 'Candidature.Query.ListerCandidatures',
+      const data = await mediator.send<ListerProjetsQuery>({
+        type: 'Candidature.Query.ListerProjets',
         data: {
           identifiantUtilisateur: utilisateur.identifiantUtilisateur.formatter(),
           role: utilisateur.role.nom,

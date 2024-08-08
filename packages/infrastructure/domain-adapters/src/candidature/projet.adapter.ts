@@ -1,19 +1,19 @@
 import format from 'pg-format';
 
 import {
-  CandidatureEntity,
-  RécupérerCandidaturePort,
-  RécupérerCandidaturesEligiblesPreuveRecanditurePort,
+  ProjetEntity,
+  RécupérerProjetsPort,
+  RécupérerProjetsEligiblesPreuveRecanditurePort,
 } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { Option } from '@potentiel-libraries/monads';
-import { RécupérerCandidaturesPort } from '@potentiel-domain/candidature';
+import { RécupérerProjetPort } from '@potentiel-domain/candidature';
 import { Role } from '@potentiel-domain/utilisateur';
 import { RangeOptions } from '@potentiel-domain/core';
 
 // MERCI DE NE PAS TOUCHER CETTE QUERY
-const selectCandidatureQuery = `
+const selectProjetQuery = `
   select json_build_object(
     'nom', "nomProjet",
     'appelOffre', "appelOffreId",
@@ -45,11 +45,11 @@ const selectCandidatureQuery = `
   where "appelOffreId" = $1 and "periodeId" = $2 and "numeroCRE" = $3 and "familleId" = $4
 `;
 
-export const récupérerCandidatureAdapter: RécupérerCandidaturePort = async (identifiant) => {
+export const récupérerProjetAdapter: RécupérerProjetPort = async (identifiant) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiant);
-  const result = await executeSelect<{ value: CandidatureEntity }>(
-    selectCandidatureQuery,
+  const result = await executeSelect<{ value: ProjetEntity }>(
+    selectProjetQuery,
     appelOffre,
     période,
     numéroCRE,
@@ -63,7 +63,7 @@ export const récupérerCandidatureAdapter: RécupérerCandidaturePort = async (
   return result[0].value;
 };
 
-const selectCandidaturesQuerySelect = `
+const selectProjetsQuerySelect = `
   json_build_object(
     'nom', p."nomProjet",
     'appelOffre', p."appelOffreId",
@@ -93,7 +93,7 @@ const selectCandidaturesQuerySelect = `
 `;
 
 // MERCI DE NE PAS TOUCHER CETTE QUERY
-const selectCandidaturesEligiblesPreuveRecanditureQuery = `
+const selectProjetsEligiblesPreuveRecanditureQuery = `
    select json_build_object(
     'nom', p."nomProjet",
     'appelOffre', p."appelOffreId",
@@ -131,10 +131,10 @@ const selectPreuveRecandidature = `
   select value->>'preuveRecandidature'::text as "identifiantProjet" 
   from domain_views.projection where value->>'preuveRecandidature' = any ($1) group by value->>'preuveRecandidature'`;
 
-export const récupérerCandidaturesEligiblesPreuveRecanditureAdapter: RécupérerCandidaturesEligiblesPreuveRecanditurePort =
+export const récupérerProjetsEligiblesPreuveRecanditureAdapter: RécupérerProjetsEligiblesPreuveRecanditurePort =
   async (identifiantUtilisateur) => {
-    const results = await executeSelect<{ value: CandidatureEntity }>(
-      selectCandidaturesEligiblesPreuveRecanditureQuery,
+    const results = await executeSelect<{ value: ProjetEntity }>(
+      selectProjetsEligiblesPreuveRecanditureQuery,
       identifiantUtilisateur,
     );
 
@@ -206,7 +206,7 @@ const addSearch = (sqlQuery: string, search: string | undefined) => {
   ].join('\n');
 };
 
-export const récupérerCandidaturesAdapter: RécupérerCandidaturesPort = async (
+export const récupérerProjetsAdapter: RécupérerProjetsPort = async (
   identifiantUtilisateur,
   role,
   range,
@@ -214,12 +214,9 @@ export const récupérerCandidaturesAdapter: RécupérerCandidaturesPort = async
 ) => {
   const values = [identifiantUtilisateur, search];
 
-  const results = await executeSelect<{ value: CandidatureEntity }>(
+  const results = await executeSelect<{ value: ProjetEntity }>(
     format(
-      addPagination(
-        addSearch(buildQueryByRole(role, selectCandidaturesQuerySelect), search),
-        range,
-      ),
+      addPagination(addSearch(buildQueryByRole(role, selectProjetsQuerySelect), search), range),
       ...values,
     ),
   );

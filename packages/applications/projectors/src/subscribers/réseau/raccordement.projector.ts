@@ -295,7 +295,7 @@ const getRaccordementToUpsert = async (
     `raccordement|${identifiantProjet}`,
   );
 
-  const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
+  const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
 
   if (Option.isNone(projet)) {
     getLogger().warn(`Projet inconnu !`, { identifiantProjet });

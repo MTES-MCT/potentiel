@@ -1,34 +1,34 @@
 import {
   ConsulterProjetQuery,
-  RécupérerCandidaturePort,
+  RécupérerProjetPort,
   ConsulterProjetReadModel,
 } from './consulter/consulterProjet.query';
 import {
-  ListerCandidaturesEligiblesPreuveRecanditureQuery,
-  RécupérerCandidaturesEligiblesPreuveRecanditurePort,
-  ListerCandidaturesEligiblesPreuveRecanditureReadModel,
-} from './lister/listerCandidaturesEligiblesPreuveRecanditure.query';
+  ListerProjetsEligiblesPreuveRecanditureQuery,
+  RécupérerProjetsEligiblesPreuveRecanditurePort,
+  ListerProjetsEligiblesPreuveRecanditureReadModel,
+} from './lister/listerProjetsEligiblesPreuveRecanditure.query';
 import {
-  RécupérerCandidaturesPort,
-  ListerCandidaturesQuery,
-  ListerCandidaturesReadModel,
-  ListerCandidaturesListItemReadModel,
-} from './lister/listerCandidatures.query';
+  RécupérerProjetsPort,
+  ListerProjetsQuery,
+  ListerProjetsReadModel,
+  ListerProjetsListItemReadModel,
+} from './lister/listerProjets.query';
 
 // Query
 export type CandidatureQuery =
   | ConsulterProjetQuery
-  | ListerCandidaturesEligiblesPreuveRecanditureQuery
-  | ListerCandidaturesQuery;
+  | ListerProjetsEligiblesPreuveRecanditureQuery
+  | ListerProjetsQuery;
 
 export {
   ConsulterProjetQuery,
-  ListerCandidaturesEligiblesPreuveRecanditureQuery,
+  ListerProjetsEligiblesPreuveRecanditureQuery,
   ConsulterProjetReadModel,
-  ListerCandidaturesEligiblesPreuveRecanditureReadModel,
-  ListerCandidaturesQuery,
-  ListerCandidaturesListItemReadModel,
-  ListerCandidaturesReadModel,
+  ListerProjetsEligiblesPreuveRecanditureReadModel,
+  ListerProjetsQuery as ListerProjetsQuery,
+  ListerProjetsListItemReadModel,
+  ListerProjetsReadModel,
 };
 
 // Register
@@ -36,10 +36,10 @@ export * from './register';
 
 // Port
 export {
-  RécupérerCandidaturePort,
-  RécupérerCandidaturesEligiblesPreuveRecanditurePort,
-  RécupérerCandidaturesPort,
+  RécupérerProjetPort,
+  RécupérerProjetsEligiblesPreuveRecanditurePort,
+  RécupérerProjetsPort,
 };
 
 // Entity
-export * from './candidature.entity';
+export * from './projet.entity';
