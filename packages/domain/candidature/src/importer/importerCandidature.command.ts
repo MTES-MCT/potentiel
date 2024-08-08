@@ -11,8 +11,8 @@ export type ImporterCandidatureCommand = Message<
   'Candidature.Command.ImporterCandidature',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    typeGarantiesFinancières?: string; // TODO GF
-    historiqueAbandon: string; // TODO value type ?
+    typeGarantiesFinancières?: string;
+    historiqueAbandon: string;
     appelOffre: string;
     période: string;
     famille?: string;
