@@ -1,7 +1,7 @@
 import {
-  ConsulterCandidatureDependencies,
-  registerConsulterCandidatureQuery,
-} from './consulter/consulterCandidature.query';
+  ConsulterProjetDependencies,
+  registerConsulterProjetQuery,
+} from './consulter/consulterProjet.query';
 import {
   ListerCandidaturesDependencies,
   registerCandidaturesQuery,
@@ -11,12 +11,12 @@ import {
   registerCandidaturesEligiblesPreuveRecanditureQuery,
 } from './lister/listerCandidaturesEligiblesPreuveRecanditure.query';
 
-type CandidatureQueryDependencies = ConsulterCandidatureDependencies &
+type CandidatureQueryDependencies = ConsulterProjetDependencies &
   ListerCandidaturesEligiblesPreuveRecanditureDependencies &
   ListerCandidaturesDependencies;
 
 export const registerCandidatureQueries = (dependencies: CandidatureQueryDependencies) => {
-  registerConsulterCandidatureQuery(dependencies);
+  registerConsulterProjetQuery(dependencies);
   registerCandidaturesQuery(dependencies);
   registerCandidaturesEligiblesPreuveRecanditureQuery(dependencies);
 };

@@ -7,7 +7,7 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { CandidatureEntity } from '../candidature.entity';
 import * as Technologie from '../technologie.valueType';
 
-export type ConsulterCandidatureReadModel = {
+export type ConsulterProjetReadModel = {
   appelOffre: string;
   période: string;
   famille: string;
@@ -32,26 +32,26 @@ export type ConsulterCandidatureReadModel = {
   technologie: Technologie.TypeTechnologie;
 };
 
-export type ConsulterCandidatureQuery = Message<
-  'Candidature.Query.ConsulterCandidature',
+export type ConsulterProjetQuery = Message<
+  'Candidature.Query.ConsulterProjet',
   {
     identifiantProjet: string;
   },
-  Option.Type<ConsulterCandidatureReadModel>
+  Option.Type<ConsulterProjetReadModel>
 >;
 
 export type RécupérerCandidaturePort = (
   identifiantProjet: string,
 ) => Promise<Option.Type<CandidatureEntity>>;
 
-export type ConsulterCandidatureDependencies = {
+export type ConsulterProjetDependencies = {
   récupérerCandidature: RécupérerCandidaturePort;
 };
 
-export const registerConsulterCandidatureQuery = ({
+export const registerConsulterProjetQuery = ({
   récupérerCandidature,
-}: ConsulterCandidatureDependencies) => {
-  const handler: MessageHandler<ConsulterCandidatureQuery> = async ({ identifiantProjet }) => {
+}: ConsulterProjetDependencies) => {
+  const handler: MessageHandler<ConsulterProjetQuery> = async ({ identifiantProjet }) => {
     const result = await récupérerCandidature(identifiantProjet);
 
     if (Option.isNone(result)) {
@@ -61,7 +61,7 @@ export const registerConsulterCandidatureQuery = ({
     return mapToReadModel(result);
   };
 
-  mediator.register('Candidature.Query.ConsulterCandidature', handler);
+  mediator.register('Candidature.Query.ConsulterProjet', handler);
 };
 
 const mapToReadModel = ({
@@ -79,7 +79,7 @@ const mapToReadModel = ({
   statut,
   adressePostaleCandidat,
   technologie,
-}: CandidatureEntity): ConsulterCandidatureReadModel => {
+}: CandidatureEntity): ConsulterProjetReadModel => {
   return {
     appelOffre,
     candidat: {

@@ -1,8 +1,8 @@
 import {
-  ConsulterCandidatureQuery,
+  ConsulterProjetQuery,
   RécupérerCandidaturePort,
-  ConsulterCandidatureReadModel,
-} from './consulter/consulterCandidature.query';
+  ConsulterProjetReadModel,
+} from './consulter/consulterProjet.query';
 import {
   ListerCandidaturesEligiblesPreuveRecanditureQuery,
   RécupérerCandidaturesEligiblesPreuveRecanditurePort,
@@ -17,14 +17,14 @@ import {
 
 // Query
 export type CandidatureQuery =
-  | ConsulterCandidatureQuery
+  | ConsulterProjetQuery
   | ListerCandidaturesEligiblesPreuveRecanditureQuery
   | ListerCandidaturesQuery;
 
 export {
-  ConsulterCandidatureQuery,
+  ConsulterProjetQuery,
   ListerCandidaturesEligiblesPreuveRecanditureQuery,
-  ConsulterCandidatureReadModel,
+  ConsulterProjetReadModel,
   ListerCandidaturesEligiblesPreuveRecanditureReadModel,
   ListerCandidaturesQuery,
   ListerCandidaturesListItemReadModel,
