@@ -106,7 +106,7 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({ ap
         stateRelatedMessage="Fichier CSV obligatoire"
       />
 
-      <div className="flex flex-col md:flex-row mx-auto">
+      <div className="flex flex-col md:flex-row">
         <SubmitButton>Importer</SubmitButton>
       </div>
     </Form>
