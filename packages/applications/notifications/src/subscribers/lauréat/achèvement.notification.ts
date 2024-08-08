@@ -57,9 +57,7 @@ const formatAchèvementEmailPayload = ({
 
 async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload | undefined> {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const projet = await CandidatureAdapter.récupérerCandidatureAdapter(
-    identifiantProjet.formatter(),
-  );
+  const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet.formatter());
 
   if (Option.isNone(projet)) {
     return;

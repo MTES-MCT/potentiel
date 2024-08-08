@@ -77,7 +77,7 @@ const récupérerTâche = async (typeTâche: string, identifiantProjet: string) 
 };
 
 const récupérerProjet = async (identifiantProjet: string) => {
-  const projetEntity = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
+  const projetEntity = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
 
   const projet = Option.match(projetEntity)
     .some<TâcheEntity['projet']>(({ nom, appelOffre, période, numéroCRE, famille }) => ({

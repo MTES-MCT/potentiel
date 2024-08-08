@@ -70,9 +70,7 @@ const sendEmailAbandonChangementDeStatut = ({
 
 async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload | undefined> {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const projet = await CandidatureAdapter.récupérerCandidatureAdapter(
-    identifiantProjet.formatter(),
-  );
+  const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet.formatter());
   const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
 
   if (Option.isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {

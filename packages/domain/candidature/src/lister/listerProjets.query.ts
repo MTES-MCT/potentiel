@@ -4,9 +4,9 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { RangeOptions } from '@potentiel-domain/core';
 
-import { CandidatureEntity } from '../candidature.entity';
+import { ProjetEntity } from '../projet.entity';
 
-export type ListerCandidaturesListItemReadModel = {
+export type ListerProjetsListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   appelOffre: string;
   période: string;
@@ -15,57 +15,50 @@ export type ListerCandidaturesListItemReadModel = {
   statut: StatutProjet.ValueType;
   nom: string;
   dateDésignation: DateTime.RawType;
-  localité: CandidatureEntity['localité'];
+  localité: ProjetEntity['localité'];
 };
 
-export type ListerCandidaturesReadModel = {
-  items: Array<ListerCandidaturesListItemReadModel>;
+export type ListerProjetsReadModel = {
+  items: Array<ListerProjetsListItemReadModel>;
   range: RangeOptions;
   total: number;
 };
 
-export type RécupérerCandidaturesPort = (
+export type RécupérerProjetsPort = (
   identifiantUtilisateur: string,
   role: Role.RawType,
   range: RangeOptions,
   query: string | undefined,
-) => Promise<{ items: ReadonlyArray<CandidatureEntity>; total: number }>;
+) => Promise<{ items: ReadonlyArray<ProjetEntity>; total: number }>;
 
-export type ListerCandidaturesDependencies = {
-  récupérerCandidatures: RécupérerCandidaturesPort;
+export type ListerProjetsDependencies = {
+  récupérerProjets: RécupérerProjetsPort;
 };
 
-export type ListerCandidaturesQuery = Message<
-  'Candidature.Query.ListerCandidatures',
+export type ListerProjetsQuery = Message<
+  'Candidature.Query.ListerProjets',
   {
     identifiantUtilisateur: string;
     role: Role.RawType;
     range: RangeOptions;
     query?: string;
   },
-  ListerCandidaturesReadModel
+  ListerProjetsReadModel
 >;
 
-export const registerCandidaturesQuery = ({
-  récupérerCandidatures,
-}: ListerCandidaturesDependencies) => {
-  const handler: MessageHandler<ListerCandidaturesQuery> = async ({
+export const registerProjetsQuery = ({ récupérerProjets }: ListerProjetsDependencies) => {
+  const handler: MessageHandler<ListerProjetsQuery> = async ({
     identifiantUtilisateur,
     role,
     range,
     query,
   }) => {
-    const { items, total } = await récupérerCandidatures(
-      identifiantUtilisateur,
-      role,
-      range,
-      query,
-    );
+    const { items, total } = await récupérerProjets(identifiantUtilisateur, role, range, query);
 
     return { items: items.map(mapToReadModel), total, range };
   };
 
-  mediator.register('Candidature.Query.ListerCandidatures', handler);
+  mediator.register('Candidature.Query.ListerProjets', handler);
 };
 
 const mapToReadModel = ({
@@ -77,7 +70,7 @@ const mapToReadModel = ({
   statut,
   dateDésignation,
   localité,
-}: CandidatureEntity): ListerCandidaturesListItemReadModel => ({
+}: ProjetEntity): ListerProjetsListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(
     `${appelOffre}#${période}#${famille}#${numéroCRE}`,
   ),

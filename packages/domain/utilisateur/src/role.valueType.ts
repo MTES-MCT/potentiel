@@ -222,8 +222,8 @@ const référencielPermissions = {
   candidature: {
     query: {
       consulter: 'Candidature.Query.ConsulterProjet',
-      listerCandidaturesPreuveRecandidature:
-        'Candidature.Query.ListerCandidaturesEligiblesPreuveRecandidature',
+      listerProjetsPreuveRecandidature:
+        'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
     },
   },
   document: {
@@ -478,7 +478,7 @@ const policies = {
       transmettre: [
         référencielPermissions.lauréat.abandon.query.consulter,
         référencielPermissions.candidature.query.consulter,
-        référencielPermissions.candidature.query.listerCandidaturesPreuveRecandidature,
+        référencielPermissions.candidature.query.listerProjetsPreuveRecandidature,
         référencielPermissions.lauréat.abandon.usecase.transmettrePreuveRecandidature,
         référencielPermissions.lauréat.abandon.command.transmettrePreuveRecandidature,
       ],

@@ -47,7 +47,7 @@ export const register = () => {
 
       switch (type) {
         case 'RecoursDemandé-V1':
-          const projet = await CandidatureAdapter.récupérerCandidatureAdapter(identifiantProjet);
+          const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
 
           if (Option.isNone(projet)) {
             getLogger().warn(`Projet inconnu !`, { identifiantProjet, message: event });
