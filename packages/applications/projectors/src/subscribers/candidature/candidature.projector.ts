@@ -22,19 +22,17 @@ export const register = () => {
 
       const candidatureDefaultValue: Omit<CandidatureEntity, 'type'> = {
         identifiantProjet,
-        statut: statut as StatutProjet.RawType, // TODO remove StatutCandidature?
+        statut: StatutProjet.convertirEnValueType(statut).statut,
         nom: nomProjet,
       } as CandidatureEntity; // TODO remove
 
       switch (type) {
         case 'CandidatureImportée-V1':
           await upsertProjection<CandidatureEntity>(`candidature|${identifiantProjet}`, {
-            // ...candidature,
             ...candidatureDefaultValue,
           });
           break;
       }
-      console.log('ok');
     }
   };
 
