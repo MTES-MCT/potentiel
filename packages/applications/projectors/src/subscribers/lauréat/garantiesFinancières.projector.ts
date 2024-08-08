@@ -36,6 +36,9 @@ export const register = () => {
       await removeProjection<GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
         `historique-mainlevee-rejetee-garanties-financieres|${payload.id}`,
       );
+      await removeProjection<GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
+        `archives-garanties-financieres|${payload.id}`,
+      );
     } else {
       const { identifiantProjet } = payload;
 
@@ -514,6 +517,7 @@ export const register = () => {
           await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
             `depot-en-cours-garanties-financieres|${identifiantProjet}`,
           );
+
           break;
 
         case 'MainlevéeGarantiesFinancièresDemandée-V1':
