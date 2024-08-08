@@ -186,6 +186,10 @@ const mapToProps: MapToProps = ({
 
   const achèvementExistant = Option.isSome(achèvement) ? achèvement : undefined;
 
+  const historiqueMainlevéeExistant = Option.isSome(historiqueMainlevée)
+    ? historiqueMainlevée
+    : undefined;
+
   if (!gfActuellesExistante && !dépôtExistant) {
     return {
       identifiantProjet,
@@ -223,10 +227,6 @@ const mapToProps: MapToProps = ({
       historiqueMainlevéeRejetée: historiqueMainlevée,
     }),
   };
-
-  const peutDemanderMainlevée =
-    actions.garantiesFinancièresActuelles.includes('demander-mainlevée-gf-pour-projet-abandonné') ||
-    actions.garantiesFinancièresActuelles.includes('demander-mainlevée-gf-pour-projet-achevé');
 
   return {
     identifiantProjet,
@@ -278,9 +278,9 @@ const mapToProps: MapToProps = ({
           urlAppelOffre: appelOffreDetails.cahiersDesChargesUrl,
         }
       : undefined,
-    historiqueMainlevée: Option.isSome(historiqueMainlevée)
+    historiqueMainlevée: historiqueMainlevéeExistant
       ? {
-          historique: historiqueMainlevée.historique.map((mainlevée) => ({
+          historique: historiqueMainlevéeExistant.historique.map((mainlevée) => ({
             motif: mainlevée.motif.motif,
             demandéeLe: mainlevée.demande.demandéeLe.formatter(),
             rejet: {
@@ -294,7 +294,9 @@ const mapToProps: MapToProps = ({
       : undefined,
     infoBoxMainlevée: {
       afficherConditions:
-        utilisateur.role.estÉgaleÀ(Role.porteur) && !mainlevéeExistante && !peutDemanderMainlevée,
+        utilisateur.role.estÉgaleÀ(Role.porteur) &&
+        !mainlevéeExistante &&
+        !gfActuellesExistante?.garantiesFinancières.statut.estÉchu(),
       afficherLienTransmettreAttestationConformité:
         statut !== 'abandonné' && !achèvementExistant?.attestation,
     },

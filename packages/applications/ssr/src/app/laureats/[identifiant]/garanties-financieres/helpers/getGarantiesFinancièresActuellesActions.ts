@@ -48,7 +48,11 @@ export const getGarantiesFinancièresActuellesActions = ({
     actions.push('modifier');
   }
 
-  if (estPorteur && aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée) {
+  if (
+    estPorteur &&
+    aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée &&
+    !garantiesFinancièresÉchues
+  ) {
     if (projetAbandonné) {
       actions.push('demander-mainlevée-gf-pour-projet-abandonné');
     }
