@@ -4,7 +4,6 @@ Fonctionnalité: Effacer tout l'historique de garanties financières d'un projet
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
 
-    @select
     Scénario: Un admin supprime l'historique de garanties financières d'un projet
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type            | avec-date-échéance |

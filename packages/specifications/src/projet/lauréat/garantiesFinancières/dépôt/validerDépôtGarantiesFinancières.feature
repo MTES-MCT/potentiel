@@ -38,7 +38,6 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
             | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
 
-    @select
     Scénario: Valider un dépôt de garanties financières pour un projet ayant déjà des garanties financières actuelles avec un statut validé
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
 
@@ -48,7 +47,6 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Et un historique des garanties financières devrait être consultable pour le projet "Du boulodrome de Marseille" avec :
             | raison | modification des garanties financières |
 
-    @select
     Scénario: Valider un dépôt de garanties financières pour un projet ayant déjà des garanties financières actuelles avec un statut échu
         Etant donné des garanties financières actuelles échues pour le projet "Du boulodrome de Marseille" avec :
             | type            | avec-date-échéance |
