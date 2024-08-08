@@ -5,11 +5,12 @@ import {
   registerConsulterProjetQuery,
 } from './consulter/consulterProjet.query';
 import { ListerProjetsDependencies, registerProjetsQuery } from './lister/listerProjets.query';
-import { registerInstruireCandidatureUseCase } from './instruire/instruireCandidature.usecase';
 import {
   ListerProjetsEligiblesPreuveRecanditureDependencies,
   registerProjetsEligiblesPreuveRecanditureQuery,
 } from './lister/listerProjetsEligiblesPreuveRecanditure.query';
+import { registerImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
+import { registerImporterCandidatureCommand } from './importer/importerCandidature.command';
 
 type CandidatureQueryDependencies = ConsulterProjetDependencies &
   ListerProjetsEligiblesPreuveRecanditureDependencies &
@@ -25,6 +26,8 @@ export const registerCandidatureQueries = (dependencies: CandidatureQueryDepende
   registerProjetsEligiblesPreuveRecanditureQuery(dependencies);
 };
 
-export const registerCandidaturesUseCases = (_: CandiatureUseCasesDependencies) => {
-  registerInstruireCandidatureUseCase();
+export const registerCandidaturesUseCases = ({ loadAggregate }: CandiatureUseCasesDependencies) => {
+  registerImporterCandidatureCommand(loadAggregate);
+
+  registerImporterCandidatureUseCase();
 };

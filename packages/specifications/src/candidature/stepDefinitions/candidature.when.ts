@@ -1,24 +1,31 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { InstruireCandidatureUseCase } from '@potentiel-domain/candidature';
+import { ImporterCandidatureUseCase } from '@potentiel-domain/candidature';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 
 Quand(
-  `la candidature {string} est instruite avec:`,
-  async function (this: PotentielWorld, nomCandidature: string, table: DataTable) {
+  `la candidature {string} est importée avec:`,
+  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
 
-    await mediator.send<InstruireCandidatureUseCase>({
-      type: 'Candidature.UseCase.InstruireCandidature',
+    const appelOffre = exemple["appel d'offre"] ?? 'PPE2 - Eolien';
+    const période = exemple['période'] ?? '1';
+    const famille = exemple['famille'] ?? '';
+    const numéroCRE = exemple['numéro CRE'] ?? '23';
+    const statut = exemple['statut'] ?? 'classé';
+
+    await mediator.send<ImporterCandidatureUseCase>({
+      type: 'Candidature.UseCase.ImporterCandidature',
       data: {
-        appelOffreValue: exemple["appel d'offre"] ?? 'PPE2 - Eolien',
-        périodeValue: exemple['période'] ?? '1',
-        familleValue: exemple['famille'],
-        numéroCREValue: exemple['numéro CRE'] ?? '23',
-        statutValue: exemple['statut'] ?? 'classé',
-        nomProjetValue: nomCandidature,
+        appelOffreValue: appelOffre,
+        périodeValue: période,
+        familleValue: famille,
+        numéroCREValue: numéroCRE,
+        statutValue: statut,
+        nomProjetValue: nomProjet,
 
         nomCandidatValue: 'Candidat',
         emailContactValue: 'porteur@test.test',
@@ -35,6 +42,13 @@ Quand(
         gouvernancePartagéeValue: false,
         typeGarantiesFinancièresValue: 'consignation',
       },
+    });
+
+    this.candidatureWorld.candidatureFixtures.set(nomProjet, {
+      nom: nomProjet,
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(
+        `${appelOffre}#${période}#${famille}#${numéroCRE}`,
+      ),
     });
   },
 );

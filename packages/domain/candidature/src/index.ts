@@ -14,7 +14,8 @@ import {
   ListerProjetsReadModel,
   ListerProjetsListItemReadModel,
 } from './lister/listerProjets.query';
-import { InstruireCandidatureUseCase } from './instruire/instruireCandidature.usecase';
+import { ImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
+import type { CandidatureImportéeEvent } from './importer/importerCandidature.behavior';
 
 // Query
 export type CandidatureQuery =
@@ -33,8 +34,10 @@ export {
 };
 
 // UseCases
-export type CandidatureUseCase = InstruireCandidatureUseCase;
-export { InstruireCandidatureUseCase };
+export type CandidatureUseCase = ImporterCandidatureUseCase;
+export { ImporterCandidatureUseCase };
+
+export { CandidatureImportéeEvent };
 
 // Register
 export * from './register';

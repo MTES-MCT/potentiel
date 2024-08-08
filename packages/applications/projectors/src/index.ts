@@ -7,3 +7,4 @@ export * as TâchePlanifiéeProjector from './subscribers/tâche/tâchePlanifié
 export * as GarantiesFinancièreProjector from './subscribers/lauréat/garantiesFinancières.projector';
 export * as RecoursProjector from './subscribers/éliminé/recours.projector';
 export * as AchèvementProjector from './subscribers/lauréat/achèvement.projector';
+export * as CandidatureProjector from './subscribers/candidature/candidature.projector';
