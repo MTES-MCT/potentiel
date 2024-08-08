@@ -35,6 +35,7 @@ export type DépôtGarantiesFinancières = CommonGarantiesFinancières & {
 
 export type GarantiesFinancièresArchivées = CommonGarantiesFinancières & {
   statut: GarantiesFinancières.StatutGarantiesFinancières.RawType;
+  motif: GarantiesFinancières.MotifArchivageGarantiesFinancières.RawType;
   dateConstitution?: Iso8601DateTime;
   attestation?: string;
   validéLe?: Iso8601DateTime;

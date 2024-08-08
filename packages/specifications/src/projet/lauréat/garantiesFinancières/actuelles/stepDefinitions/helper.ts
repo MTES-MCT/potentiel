@@ -18,4 +18,5 @@ export const setGarantiesFinancièresData = ({
   modifiéLeValue: new Date(exemple?.['date mise à jour'] ?? '2024-01-01').toISOString(),
   modifiéParValue: exemple?.['modifié par'] ?? 'admin@test.test',
   importéLeValue: new Date(exemple?.["date d'import"] ?? '2024-01-01').toISOString(),
+  statutValue: exemple?.statut ?? 'validé',
 });

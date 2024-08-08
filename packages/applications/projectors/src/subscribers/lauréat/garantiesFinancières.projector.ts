@@ -36,6 +36,9 @@ export const register = () => {
       await removeProjection<GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
         `historique-mainlevee-rejetee-garanties-financieres|${payload.id}`,
       );
+      await removeProjection<GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
+        `archives-garanties-financieres|${payload.id}`,
+      );
     } else {
       const { identifiantProjet } = payload;
 
@@ -319,6 +322,36 @@ export const register = () => {
             return;
           }
 
+          const garantiesFinancièresActuellesExistante =
+            garantiesFinancièresToUpsert.garantiesFinancières.dernièreMiseÀJour.date;
+
+          if (garantiesFinancièresActuellesExistante) {
+            const motif: GarantiesFinancières.ArchiveGarantiesFinancières['motif'] =
+              garantiesFinancièresToUpsert.garantiesFinancières.statut === 'échu'
+                ? 'renouvellement des garanties financières échues'
+                : 'modification des garanties financières';
+
+            await upsertProjection<GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
+              `archives-garanties-financieres|${identifiantProjet}`,
+              {
+                ...archivesGarantiesFinancièresToUpsert,
+                ...détailProjet,
+                identifiantProjet: payload.identifiantProjet,
+                archives: [
+                  ...archivesGarantiesFinancièresToUpsert.archives,
+                  {
+                    ...garantiesFinancièresToUpsert.garantiesFinancières,
+                    dernièreMiseÀJour: {
+                      date: payload.validéLe,
+                      par: payload.validéPar,
+                    },
+                    motif,
+                  },
+                ],
+              },
+            );
+          }
+
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
@@ -471,6 +504,7 @@ export const register = () => {
                     date: payload.effacéLe,
                     par: payload.effacéPar,
                   },
+                  motif: 'changement de producteur',
                 },
               ],
             },
@@ -483,6 +517,7 @@ export const register = () => {
           await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
             `depot-en-cours-garanties-financieres|${identifiantProjet}`,
           );
+
           break;
 
         case 'MainlevéeGarantiesFinancièresDemandée-V1':

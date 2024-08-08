@@ -69,6 +69,12 @@ export const ArchivesGarantiesFinancières = ({ archives }: Props) => {
             </span>
           )}
         </div>
+        <div>
+          Motif d'archivage :{' '}
+          <span className="font-semibold first-letter:capitalize">
+            {garantiesFinancières.motif}
+          </span>
+        </div>
       </div>
     ),
   }));
@@ -77,9 +83,7 @@ export const ArchivesGarantiesFinancières = ({ archives }: Props) => {
     <div className="p-3 flex-1 flex flex-col items-start">
       <Heading3>Garanties financières archivées</Heading3>
       <div className="text-xs italic">{archives.length} garanties financières archivées</div>
-      <div className="mt-3">
-        <Timeline items={items} />
-      </div>
+      <Timeline items={items} className="mt-3" />
     </div>
   );
 };

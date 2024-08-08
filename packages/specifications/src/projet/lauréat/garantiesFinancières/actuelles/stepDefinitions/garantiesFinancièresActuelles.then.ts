@@ -11,6 +11,8 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../../../../potentiel.world';
 
+import { setGarantiesFinancièresData } from './helper';
+
 Alors(
   `les garanties financières actuelles devraient être consultables pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
@@ -104,14 +106,20 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const typeGarantiesFinancières = exemple['type'];
-    const dateÉchéance = exemple[`date d'échéance`];
-    const format = exemple['format'];
-    const dateConstitution = exemple[`date de constitution`];
-    const contenu = exemple['contenu fichier'];
-    const dateValidation = exemple['date de validation'];
-
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const {
+      typeValue,
+      dateÉchéanceValue,
+      attestationValue: { format, content },
+      dateConstitutionValue,
+      validéLeValue,
+      statutValue,
+    } = setGarantiesFinancièresData({
+      identifiantProjet,
+      exemple,
+    });
+
+    const raisonValue = exemple['raison'];
 
     await waitForExpect(async () => {
       const actualArchivesGarantiesFinancièresReadModel =
@@ -128,31 +136,40 @@ Alors(
         actualArchivesGarantiesFinancièresReadModel.archives.should.length(1);
 
         expect(actualArchivesGarantiesFinancièresReadModel.archives[0].type.type).to.deep.equal(
-          typeGarantiesFinancières,
+          typeValue,
         );
 
-        if (dateÉchéance) {
+        if (dateÉchéanceValue) {
           expect(
             actualArchivesGarantiesFinancièresReadModel.archives[0].dateÉchéance?.date,
-          ).to.deep.equal(new Date(dateÉchéance));
+          ).to.deep.equal(new Date(dateÉchéanceValue));
         }
 
-        if (dateConstitution) {
+        if (dateConstitutionValue) {
           expect(
             actualArchivesGarantiesFinancièresReadModel.archives[0].dateConstitution?.date,
-          ).to.deep.equal(new Date(dateConstitution));
+          ).to.deep.equal(new Date(dateConstitutionValue));
         }
 
-        if (dateValidation) {
+        if (validéLeValue) {
           expect(
             actualArchivesGarantiesFinancièresReadModel.archives[0].validéLe?.date,
-          ).to.deep.equal(new Date(dateValidation));
+          ).to.deep.equal(new Date(validéLeValue));
         }
 
-        expect(actualArchivesGarantiesFinancièresReadModel.archives[0].statut.estValidé()).to.be
-          .true;
+        expect(actualArchivesGarantiesFinancièresReadModel.archives[0].statut.statut).to.be.equal(
+          statutValue,
+        );
 
-        if (format && contenu) {
+        expect(
+          actualArchivesGarantiesFinancièresReadModel.archives[0].motif.estÉgaleÀ(
+            GarantiesFinancières.MotifArchivageGarantiesFinancières.convertirEnValueType(
+              raisonValue,
+            ),
+          ),
+        ).to.be.true;
+
+        if (format && content) {
           expect(actualArchivesGarantiesFinancièresReadModel.archives[0].attestation).not.to.be
             .undefined;
           assert(actualArchivesGarantiesFinancièresReadModel.archives[0].attestation);
@@ -169,7 +186,8 @@ Alors(
             actualArchivesGarantiesFinancièresReadModel.archives[0].attestation.format,
           ).to.be.equal(format);
           const actualContent = await convertReadableStreamToString(file.content);
-          actualContent.should.be.equal(contenu);
+          const expectedContent = await convertReadableStreamToString(content);
+          actualContent.should.be.equal(expectedContent);
         }
       }
     });

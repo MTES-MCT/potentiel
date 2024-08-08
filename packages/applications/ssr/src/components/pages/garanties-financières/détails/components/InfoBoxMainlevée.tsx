@@ -8,9 +8,13 @@ import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFina
 
 type InfoBoxMainlevéeProps = {
   identifiantProjet: DétailsGarantiesFinancièresPageProps['identifiantProjet'];
+  afficherLien: boolean;
 };
 
-export const InfoBoxMainlevée: FC<InfoBoxMainlevéeProps> = ({ identifiantProjet }) => (
+export const InfoBoxMainlevée: FC<InfoBoxMainlevéeProps> = ({
+  identifiantProjet,
+  afficherLien,
+}) => (
   <Alert
     severity="info"
     small
@@ -18,7 +22,7 @@ export const InfoBoxMainlevée: FC<InfoBoxMainlevéeProps> = ({ identifiantProje
       <div className="p-3">
         Vous pouvez accéder à la demande de levée de vos garanties bancaires sur Potentiel si votre
         projet remplit <span className="font-semibold">toutes</span> les conditions suivantes :
-        <ul className="list-disc list-inside">
+        <ul className="list-disc list-inside mb-2">
           <li>
             Le projet a des garanties financières validées (l'attestation de constitution doit être
             transmise dans Potentiel)
@@ -29,12 +33,14 @@ export const InfoBoxMainlevée: FC<InfoBoxMainlevéeProps> = ({ identifiantProje
           </li>
           <li>
             L'attestation de conformité a été transmise dans Potentiel ou le projet est abandonné
-            (abandon accordé par la DGEC). Vous pouvez la transmettre{' '}
-            <Link href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}>
-              ici
-            </Link>
+            (abandon accordé par la DGEC).
           </li>
         </ul>
+        {afficherLien && (
+          <Link href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}>
+            Transmettre l'attestation de conformité
+          </Link>
+        )}
       </div>
     }
   />
