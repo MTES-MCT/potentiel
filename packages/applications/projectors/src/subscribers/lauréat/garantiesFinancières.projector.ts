@@ -323,12 +323,10 @@ export const register = () => {
             garantiesFinancièresToUpsert.garantiesFinancières.dernièreMiseÀJour.date;
 
           if (garantiesFinancièresActuellesExistante) {
-            let motif: GarantiesFinancières.ArchiveGarantiesFinancières['motif'] =
-              'modification des garanties financières';
-
-            if (garantiesFinancièresToUpsert.garantiesFinancières.statut === 'échu') {
-              motif = 'renouvellement des garanties financières échues';
-            }
+            const motif: GarantiesFinancières.ArchiveGarantiesFinancières['motif'] =
+              garantiesFinancièresToUpsert.garantiesFinancières.statut === 'échu'
+                ? 'renouvellement des garanties financières échues'
+                : 'modification des garanties financières';
 
             await upsertProjection<GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
               `archives-garanties-financieres|${identifiantProjet}`,
