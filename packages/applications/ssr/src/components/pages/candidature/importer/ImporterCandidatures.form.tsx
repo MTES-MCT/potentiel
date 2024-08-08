@@ -7,7 +7,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
-import { importerCandidaturesAction } from './importerCandidatures.actions';
+import { importerCandidaturesAction } from './importerCandidatures.action';
 
 type Période = {
   id: string;
@@ -98,11 +98,11 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({ ap
 
       <UploadDocument
         label="Fichier CSV"
-        id="importFile"
-        name="importFile"
+        id="fichierImport"
+        name="fichierImport"
         required
         format="csv"
-        state={validationErrors.includes('importFile') ? 'error' : 'default'}
+        state={validationErrors.includes('fichierImport') ? 'error' : 'default'}
         stateRelatedMessage="Fichier CSV obligatoire"
       />
 

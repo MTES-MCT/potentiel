@@ -6,7 +6,7 @@ import { CsvError, CsvValidationError } from '@potentiel-libraries/csv';
 export type ActionResult = {
   successCount: number;
   errors: Array<{
-    referenceDossier: string;
+    key: string;
     reason: string;
   }>;
 };
