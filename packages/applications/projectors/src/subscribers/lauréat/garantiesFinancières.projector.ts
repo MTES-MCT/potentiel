@@ -319,6 +319,36 @@ export const register = () => {
             return;
           }
 
+          const garantiesFinancièresActuellesExistante =
+            garantiesFinancièresToUpsert.garantiesFinancières.dernièreMiseÀJour.date;
+
+          if (garantiesFinancièresActuellesExistante) {
+            const motif: GarantiesFinancières.ArchiveGarantiesFinancières['motif'] =
+              garantiesFinancièresToUpsert.garantiesFinancières.statut === 'échu'
+                ? 'renouvellement des garanties financières échues'
+                : 'modification des garanties financières';
+
+            await upsertProjection<GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
+              `archives-garanties-financieres|${identifiantProjet}`,
+              {
+                ...archivesGarantiesFinancièresToUpsert,
+                ...détailProjet,
+                identifiantProjet: payload.identifiantProjet,
+                archives: [
+                  ...archivesGarantiesFinancièresToUpsert.archives,
+                  {
+                    ...garantiesFinancièresToUpsert.garantiesFinancières,
+                    dernièreMiseÀJour: {
+                      date: payload.validéLe,
+                      par: payload.validéPar,
+                    },
+                    motif,
+                  },
+                ],
+              },
+            );
+          }
+
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
@@ -471,6 +501,7 @@ export const register = () => {
                     date: payload.effacéLe,
                     par: payload.effacéPar,
                   },
+                  motif: 'changement de producteur',
                 },
               ],
             },

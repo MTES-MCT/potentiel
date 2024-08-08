@@ -24,7 +24,10 @@ type Story = StoryObj<typeof meta>;
 export const GarantiesFinancieresActuellesComplètes: Story = {
   args: {
     identifiantProjet: 'identifiantProjet#1',
-    afficherInfoConditionsMainlevée: true,
+    infoBoxMainlevée: {
+      afficherConditions: true,
+      afficherLienTransmettreAttestationConformité: true,
+    },
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
       statut: 'levé',
@@ -46,7 +49,10 @@ export const GarantiesFinancieresActuellesComplètes: Story = {
 export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = {
   args: {
     identifiantProjet: 'identifiantProjet#1',
-    afficherInfoConditionsMainlevée: true,
+    infoBoxMainlevée: {
+      afficherConditions: true,
+      afficherLienTransmettreAttestationConformité: true,
+    },
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
       statut: 'validé',
@@ -79,7 +85,10 @@ export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = 
 export const GarantiesFinancieresActuellesComplètesAvecArchives: Story = {
   args: {
     identifiantProjet: 'identifiantProjet#1',
-    afficherInfoConditionsMainlevée: true,
+    infoBoxMainlevée: {
+      afficherConditions: true,
+      afficherLienTransmettreAttestationConformité: true,
+    },
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
       statut: 'validé',
@@ -98,7 +107,8 @@ export const GarantiesFinancieresActuellesComplètesAvecArchives: Story = {
     archivesGarantiesFinancières: [
       {
         type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
-        statut: 'validé',
+        motif: 'renouvellement des garanties financières échues',
+        statut: 'échu',
         dateÉchéance: new Date('2023-07-01').toISOString() as Iso8601DateTime,
         dateConstitution: new Date('2022-10-01').toISOString() as Iso8601DateTime,
         soumisLe: new Date('2021-09-23').toISOString() as Iso8601DateTime,
@@ -110,7 +120,8 @@ export const GarantiesFinancieresActuellesComplètesAvecArchives: Story = {
       },
       {
         type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
-        statut: 'échu',
+        motif: 'changement de producteur',
+        statut: 'validé',
         dateÉchéance: new Date('2023-07-01').toISOString() as Iso8601DateTime,
         dateConstitution: new Date('2022-10-01').toISOString() as Iso8601DateTime,
         soumisLe: new Date('2021-09-23').toISOString() as Iso8601DateTime,
@@ -128,7 +139,10 @@ export const GarantiesFinancieresActuellesComplètesAvecArchives: Story = {
 export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
   args: {
     identifiantProjet: 'identifiantProjet#1',
-    afficherInfoConditionsMainlevée: true,
+    infoBoxMainlevée: {
+      afficherConditions: true,
+      afficherLienTransmettreAttestationConformité: true,
+    },
     action: 'soumettre',
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('six-mois-après-achèvement'),
@@ -149,7 +163,10 @@ export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
 export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
   args: {
     identifiantProjet: 'identifiantProjet#1',
-    afficherInfoConditionsMainlevée: true,
+    infoBoxMainlevée: {
+      afficherConditions: true,
+      afficherLienTransmettreAttestationConformité: true,
+    },
     dépôtEnCours: {
       type: getGarantiesFinancièresTypeLabel('consignation'),
       dateConstitution: new Date('2024-01-01').toISOString() as Iso8601DateTime,
@@ -167,7 +184,10 @@ export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
 export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
   args: {
     identifiantProjet: 'identifiantProjet#1',
-    afficherInfoConditionsMainlevée: true,
+    infoBoxMainlevée: {
+      afficherConditions: true,
+      afficherLienTransmettreAttestationConformité: true,
+    },
     action: 'soumettre',
   },
 };
@@ -175,7 +195,10 @@ export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
 export const GarantiesFinancieresVideAvecActionEnregistrer: Story = {
   args: {
     identifiantProjet: 'identifiantProjet#1',
-    afficherInfoConditionsMainlevée: true,
+    infoBoxMainlevée: {
+      afficherConditions: true,
+      afficherLienTransmettreAttestationConformité: true,
+    },
     action: 'enregistrer',
   },
 };

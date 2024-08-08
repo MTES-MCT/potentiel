@@ -1,19 +1,29 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/core';
+import { DocumentProjet } from '@potentiel-domain/document';
 
+import { GarantiesFinancièresReadModel } from '../consulter/consulterGarantiesFinancières.query';
 import {
-  GarantiesFinancièresReadModel,
-  mapGarantiesFinancièresToReadModel,
-} from '../consulter/consulterGarantiesFinancières.query';
-import { ArchivesGarantiesFinancièresEntity } from '../archivesGarantiesFinancières.entity';
-import { GarantiesFinancièresDetails } from '../types';
+  ArchiveGarantiesFinancières,
+  ArchivesGarantiesFinancièresEntity,
+} from '../archivesGarantiesFinancières.entity';
+import {
+  MotifArchivageGarantiesFinancières,
+  StatutGarantiesFinancières,
+  TypeDocumentGarantiesFinancières,
+  TypeGarantiesFinancières,
+} from '../..';
 
 export type ConsulterArchivesGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  archives: Array<GarantiesFinancièresReadModel>;
+  archives: Array<
+    GarantiesFinancièresReadModel & {
+      motif: MotifArchivageGarantiesFinancières.ValueType;
+    }
+  >;
 };
 
 export type ConsulterArchivesGarantiesFinancièresQuery = Message<
@@ -57,7 +67,7 @@ export const registerConsulterArchivesGarantiesFinancièresQuery = ({
 };
 
 type MapToReadModel = {
-  archives: Array<GarantiesFinancièresDetails>;
+  archives: ReadonlyArray<ArchiveGarantiesFinancières>;
   identifiantProjetValueType: IdentifiantProjet.ValueType;
 };
 
@@ -66,10 +76,43 @@ const mapToReadModel = ({
   identifiantProjetValueType,
 }: MapToReadModel): ConsulterArchivesGarantiesFinancièresReadModel => ({
   identifiantProjet: identifiantProjetValueType,
-  archives: archives.map((garantiesFinancières) =>
-    mapGarantiesFinancièresToReadModel({
-      garantiesFinancières,
-      identifiantProjetValueType,
-    }),
+  archives: archives.map((archiveGf) =>
+    mapToArchiveGarantiesFinancièresReadModel(identifiantProjetValueType, archiveGf),
   ),
+});
+
+const mapToArchiveGarantiesFinancièresReadModel = (
+  identifiantProjetValueType: IdentifiantProjet.ValueType,
+  garantiesFinancières: ArchiveGarantiesFinancières,
+) => ({
+  motif: MotifArchivageGarantiesFinancières.convertirEnValueType(garantiesFinancières.motif),
+  statut: StatutGarantiesFinancières.convertirEnValueType(garantiesFinancières.statut),
+  type: TypeGarantiesFinancières.convertirEnValueType(garantiesFinancières.type),
+  ...(garantiesFinancières.dateÉchéance && {
+    dateÉchéance: DateTime.convertirEnValueType(garantiesFinancières.dateÉchéance),
+  }),
+  dateConstitution: garantiesFinancières.dateConstitution
+    ? DateTime.convertirEnValueType(garantiesFinancières.dateConstitution)
+    : undefined,
+  soumisLe: garantiesFinancières.soumisLe
+    ? DateTime.convertirEnValueType(garantiesFinancières.soumisLe)
+    : undefined,
+  validéLe: garantiesFinancières.validéLe
+    ? DateTime.convertirEnValueType(garantiesFinancières.validéLe)
+    : undefined,
+  attestation:
+    garantiesFinancières.dateConstitution && garantiesFinancières.attestation
+      ? DocumentProjet.convertirEnValueType(
+          identifiantProjetValueType.formatter(),
+          TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
+          DateTime.convertirEnValueType(garantiesFinancières.dateConstitution).formatter(),
+          garantiesFinancières.attestation.format,
+        )
+      : undefined,
+  dernièreMiseÀJour: {
+    date: DateTime.convertirEnValueType(garantiesFinancières.dernièreMiseÀJour.date),
+    par: garantiesFinancières.dernièreMiseÀJour.par
+      ? Email.convertirEnValueType(garantiesFinancières.dernièreMiseÀJour.par)
+      : undefined,
+  },
 });

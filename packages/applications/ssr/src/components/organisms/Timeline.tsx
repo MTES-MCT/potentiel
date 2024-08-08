@@ -25,7 +25,7 @@ export const Timeline: FC<TimelineProps> = ({ items, className }) => (
         paddingLeft: 0,
       },
       '& .MuiTimelineItem-root:before': {
-        flex: 0,
+        display: 'none',
       },
       paddingLeft: 0,
     }}
