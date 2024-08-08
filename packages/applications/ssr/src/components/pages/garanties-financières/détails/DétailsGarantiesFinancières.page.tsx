@@ -33,7 +33,10 @@ export type DétailsGarantiesFinancièresPageProps = {
   dateLimiteSoummission?: Iso8601DateTime;
   mainlevée?: MainlevéeEnCoursProps['mainlevéeEnCours'];
   historiqueMainlevée?: HistoriqueMainlevéeRejetéeProps['historiqueMainlevée'];
-  afficherInfoConditionsMainlevée: boolean;
+  infoBoxMainlevée: {
+    afficherConditions: boolean;
+    afficherLienTransmettreAttestationConformité: boolean;
+  };
   action?: 'soumettre' | 'enregistrer';
 };
 
@@ -44,7 +47,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   action,
   mainlevée,
   historiqueMainlevée,
-  afficherInfoConditionsMainlevée,
+  infoBoxMainlevée,
   contactPorteurs,
   archivesGarantiesFinancières,
 }) => (
@@ -82,8 +85,11 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
         <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
       )}
 
-      {afficherInfoConditionsMainlevée && (
-        <InfoBoxMainlevée identifiantProjet={identifiantProjet} />
+      {infoBoxMainlevée.afficherConditions && (
+        <InfoBoxMainlevée
+          identifiantProjet={identifiantProjet}
+          afficherLien={infoBoxMainlevée.afficherLienTransmettreAttestationConformité}
+        />
       )}
 
       {action === 'soumettre' && (
