@@ -4,7 +4,7 @@ import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { DomainError } from '@potentiel-domain/core';
-import { ImporterCandidatureUseCase } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 import { parseCsv } from '@potentiel-libraries/csv';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
@@ -20,7 +20,7 @@ const schema = zod.object({
 });
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }) => {
-  const lines = await parseCsv(fichierImport.stream(), candidatureSchema);
+  const lines = await parseCsv(fichierImport.stream(), candidatureSchema, { delimiter: ';' });
 
   if (lines.length === 0) {
     return {
@@ -34,7 +34,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }
 
   for (const line of lines) {
     try {
-      await mediator.send<ImporterCandidatureUseCase>({
+      await mediator.send<Candidature.ImporterCandidatureUseCase>({
         type: 'Candidature.UseCase.ImporterCandidature',
         data: mapLineToUseCaseData(line),
       });
@@ -64,7 +64,9 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }
   };
 };
 
-const mapLineToUseCaseData = (line: CandidatureShape): ImporterCandidatureUseCase['data'] => ({
+const mapLineToUseCaseData = (
+  line: CandidatureShape,
+): Candidature.ImporterCandidatureUseCase['data'] => ({
   typeGarantiesFinancièresValue: line.type_gf,
   historiqueAbandonValue: line.historique_abandon,
   appelOffreValue: line.appel_offre,

@@ -1,9 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
+import { HistoriqueAbandon } from '../candidature';
 
 import { ImporterCandidatureCommand } from './importerCandidature.command';
 
@@ -31,7 +33,7 @@ export type ImporterCandidatureUseCase = Message<
     statutValue: string;
     motifÉliminationValue?: string;
     puissanceALaPointeValue?: boolean;
-    evaluationCarboneSimplifiéeValue: number | 'N/A';
+    evaluationCarboneSimplifiéeValue: number;
     valeurÉvaluationCarboneValue?: number;
     technologieValue?: string;
     financementCollectifValue: boolean;
@@ -44,7 +46,13 @@ export type ImporterCandidatureUseCase = Message<
 export const registerImporterCandidatureUseCase = () => {
   const handler: MessageHandler<ImporterCandidatureUseCase> = async (payload) => {
     const { appelOffreValue, périodeValue, familleValue, numéroCREValue } = payload;
-    const { statutValue, dateÉchéanceGfValue, technologieValue } = payload;
+    const {
+      statutValue,
+      dateÉchéanceGfValue,
+      technologieValue,
+      historiqueAbandonValue,
+      typeGarantiesFinancièresValue,
+    } = payload;
     await mediator.send<ImporterCandidatureCommand>({
       type: 'Candidature.Command.ImporterCandidature',
       data: {
@@ -53,7 +61,7 @@ export const registerImporterCandidatureUseCase = () => {
         ),
         appelOffre: appelOffreValue,
         période: périodeValue,
-        famille: familleValue,
+        famille: familleValue || '',
         numéroCRE: numéroCREValue,
         statut: StatutCandidature.convertirEnValueType(statutValue),
         dateÉchéanceGf: dateÉchéanceGfValue
@@ -62,6 +70,12 @@ export const registerImporterCandidatureUseCase = () => {
         technologie: technologieValue
           ? Technologie.convertirEnValueType(technologieValue)
           : undefined,
+        typeGarantiesFinancières: typeGarantiesFinancièresValue
+          ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
+              typeGarantiesFinancièresValue,
+            )
+          : undefined,
+        historiqueAbandon: HistoriqueAbandon.convertirEnValueType(historiqueAbandonValue),
         nomProjet: payload.nomProjetValue,
         adresse1: payload.adresse1Value,
         adresse2: payload.adresse2Value,
@@ -71,7 +85,6 @@ export const registerImporterCandidatureUseCase = () => {
         evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiéeValue,
         financementCollectif: payload.financementCollectifValue,
         gouvernancePartagée: payload.financementCollectifValue,
-        historiqueAbandon: payload.historiqueAbandonValue,
         nomCandidat: payload.nomCandidatValue,
         nomReprésentantLégal: payload.nomReprésentantLégalValue,
         noteTotale: payload.noteTotaleValue,
@@ -80,7 +93,6 @@ export const registerImporterCandidatureUseCase = () => {
         motifÉlimination: payload.motifÉliminationValue,
         puissanceALaPointe: payload.puissanceALaPointeValue,
         sociétéMère: payload.sociétéMèreValue,
-        typeGarantiesFinancières: payload.typeGarantiesFinancièresValue,
         valeurÉvaluationCarbone: payload.valeurÉvaluationCarboneValue,
         détails: payload.détailsValue,
       },
