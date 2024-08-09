@@ -1,6 +1,7 @@
 import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import * as RaccordementSaga from './raccordement.saga';
 import * as AbandonSaga from './abandon.saga';
+import * as CandidatureSaga from './candidature.saga';
 import { mediator } from 'mediateur';
 
 /**
@@ -9,6 +10,7 @@ import { mediator } from 'mediateur';
 export const registerSagas = async () => {
   RaccordementSaga.register();
   AbandonSaga.register();
+  CandidatureSaga.register();
 
   const unsubscribeRaccordement = await subscribe<RaccordementSaga.SubscriptionEvent>({
     name: 'legacy-saga',
@@ -34,8 +36,21 @@ export const registerSagas = async () => {
     streamCategory: 'abandon',
   });
 
+  const unsubscribeCandidature = await subscribe<CandidatureSaga.SubscriptionEvent>({
+    name: 'legacy-saga',
+    eventType: ['CandidatureImportée-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<CandidatureSaga.Execute>({
+        type: 'System.Saga.Candidature',
+        data: event,
+      });
+    },
+    streamCategory: 'candidature',
+  });
+
   return async () => {
     await unsubscribeRaccordement();
     await unsubscribeAbandon();
+    await unsubscribeCandidature();
   };
 };

@@ -19,6 +19,7 @@ export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action' | 'me
   pendingModal?: FormPendingModalProps;
   onSuccess?: () => void;
   onValidationError?: (validationErrors: Array<string>) => void;
+  successMessage?: string;
 };
 
 export const Form: FC<FormProps> = ({
@@ -30,6 +31,7 @@ export const Form: FC<FormProps> = ({
   heading,
   pendingModal,
   className,
+  successMessage,
   ...props
 }) => {
   const [state, formAction] = useFormState(action, {
@@ -47,7 +49,7 @@ export const Form: FC<FormProps> = ({
     <form action={formAction} {...props}>
       {heading && <Heading2 className="mb-4">{heading}</Heading2>}
 
-      <FormFeedback formState={state} />
+      <FormFeedback formState={state} successMessage={successMessage} />
       {pendingModal && <FormPendingModal {...pendingModal} />}
 
       {!omitMandatoryFieldsLegend && (

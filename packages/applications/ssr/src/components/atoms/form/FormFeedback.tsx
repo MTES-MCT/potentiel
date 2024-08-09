@@ -7,9 +7,10 @@ import { FormState } from '@/utils/formAction';
 
 export type FormFeedbackProps = {
   formState: FormState;
+  successMessage?: string;
 };
 
-export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
+export const FormFeedback: FC<FormFeedbackProps> = ({ formState, successMessage }) => {
   switch (formState.status) {
     case 'success':
       if (formState.result) {
@@ -19,13 +20,13 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
 
         return (
           <>
-            {successCount > 0 && (
+            {successCount > 0 && successMessage && (
               <Alert
                 small
                 severity="success"
                 description={
                   <p>
-                    {successCount} date{successCount > 1 ? 's' : ''} de mise en service transmise
+                    {successCount} {successMessage}
                   </p>
                 }
               />
@@ -58,6 +59,7 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
       return <AlertError description={formState.message} />;
 
     case 'form-error':
+      console.log(formState.errors);
       return <AlertError description="Erreur lors de la validation des données du formulaire" />;
 
     case 'csv-error':

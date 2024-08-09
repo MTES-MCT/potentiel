@@ -44,6 +44,7 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({ ap
         children: 'Import des candidats en cours ...',
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+      successMessage={'candidats importés'}
     >
       <Select
         id="appelOffre"

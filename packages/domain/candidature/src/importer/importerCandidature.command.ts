@@ -2,17 +2,19 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
 import { loadCandidatureAggregateFactory } from '../candidature.aggregate';
+import { HistoriqueAbandon } from '../candidature';
 
 export type ImporterCandidatureCommand = Message<
   'Candidature.Command.ImporterCandidature',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    typeGarantiesFinancières?: string;
-    historiqueAbandon: string;
+    typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
+    historiqueAbandon: HistoriqueAbandon.ValueType;
     appelOffre: string;
     période: string;
     famille?: string;
@@ -32,7 +34,7 @@ export type ImporterCandidatureCommand = Message<
     statut: StatutCandidature.ValueType;
     motifÉlimination?: string;
     puissanceALaPointe?: boolean;
-    evaluationCarboneSimplifiée: number | 'N/A';
+    evaluationCarboneSimplifiée: number;
     valeurÉvaluationCarbone?: number;
     technologie?: Technologie.ValueType;
     financementCollectif: boolean;

@@ -29,7 +29,7 @@ export type ConsulterProjetReadModel = {
   };
   dateDésignation: DateTime.RawType;
   puissance: number;
-  technologie: Technologie.TypeTechnologie;
+  technologie: Technologie.RawType;
 };
 
 export type ConsulterProjetQuery = Message<

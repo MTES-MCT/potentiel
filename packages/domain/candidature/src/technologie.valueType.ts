@@ -1,13 +1,10 @@
 import { InvalidOperationError } from '@potentiel-domain/core';
 
-export type TypeTechnologie = 'pv' | 'eolien' | 'hydraulique' | 'N/A';
-
-export type RawType = string;
-
-const typeDocument: Array<TypeTechnologie> = ['pv', 'eolien', 'hydraulique', 'N/A'];
+const types = ['pv', 'eolien', 'hydraulique', 'N/A'] as const;
+export type RawType = (typeof types)[number];
 
 export type ValueType = Readonly<{
-  type: TypeTechnologie;
+  type: RawType;
   formatter(): RawType;
 }>;
 
@@ -21,8 +18,8 @@ export const convertirEnValueType = (type: string) => {
   };
 };
 
-function estValide(value: string): asserts value is TypeTechnologie {
-  const isValid = (typeDocument as Array<string>).includes(value);
+function estValide(value: string): asserts value is RawType {
+  const isValid = (types as readonly string[]).includes(value);
 
   if (!isValid) {
     throw new TypeTechnologieInvalideError(value);

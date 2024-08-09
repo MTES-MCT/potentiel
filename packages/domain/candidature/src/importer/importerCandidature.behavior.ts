@@ -1,17 +1,19 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
+import { HistoriqueAbandon } from '../candidature';
 
 export type CandidatureImportéeEvent = DomainEvent<
   'CandidatureImportée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     statut: StatutCandidature.RawType;
-    typeGarantiesFinancières?: string;
-    historiqueAbandon: string;
+    typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+    historiqueAbandon?: HistoriqueAbandon.RawType;
     appelOffre: string;
     période: string;
     famille?: string;
@@ -30,7 +32,7 @@ export type CandidatureImportéeEvent = DomainEvent<
     commune: string;
     motifÉlimination?: string;
     puissanceALaPointe?: boolean;
-    evaluationCarboneSimplifiée: number | 'N/A';
+    evaluationCarboneSimplifiée: number;
     valeurÉvaluationCarbone?: number;
     technologie?: Technologie.RawType;
     financementCollectif: boolean;
@@ -43,8 +45,8 @@ export type CandidatureImportéeEvent = DomainEvent<
 type ImporterCandidatureOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutCandidature.ValueType;
-  typeGarantiesFinancières?: string;
-  historiqueAbandon: string;
+  typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
+  historiqueAbandon?: HistoriqueAbandon.ValueType;
   appelOffre: string;
   période: string;
   famille?: string;
@@ -63,7 +65,7 @@ type ImporterCandidatureOptions = {
   commune: string;
   motifÉlimination?: string;
   puissanceALaPointe?: boolean;
-  evaluationCarboneSimplifiée: number | 'N/A';
+  evaluationCarboneSimplifiée: number;
   valeurÉvaluationCarbone?: number;
   technologie?: Technologie.ValueType;
   financementCollectif: boolean;
@@ -81,11 +83,10 @@ export async function importer(
     payload: {
       identifiantProjet: candidature.identifiantProjet.formatter(),
       statut: candidature.statut.statut,
-      technologie: candidature.technologie?.type,
+      technologie: candidature.technologie?.type ?? 'N/A',
       dateÉchéanceGf: candidature.dateÉchéanceGf?.formatter(),
-
-      typeGarantiesFinancières: candidature.typeGarantiesFinancières,
-      historiqueAbandon: candidature.historiqueAbandon,
+      historiqueAbandon: candidature.historiqueAbandon?.formatter(),
+      typeGarantiesFinancières: candidature.typeGarantiesFinancières?.type,
       appelOffre: candidature.appelOffre,
       période: candidature.période,
       famille: candidature.famille,

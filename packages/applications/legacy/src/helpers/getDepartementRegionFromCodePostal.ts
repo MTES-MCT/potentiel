@@ -120,7 +120,7 @@ const corse = {
   '2B': { departement: 'Haute-Corse', region: 'Corse' },
 };
 
-type DepartementRegion = {
+export type DepartementRegion = {
   codePostal: string;
   departement: string;
   region: string;

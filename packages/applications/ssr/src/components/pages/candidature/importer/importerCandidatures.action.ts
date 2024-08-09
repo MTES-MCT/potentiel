@@ -20,7 +20,7 @@ const schema = zod.object({
 });
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }) => {
-  const lines = await parseCsv(fichierImport.stream(), candidatureSchema);
+  const lines = await parseCsv(fichierImport.stream(), candidatureSchema, { delimiter: ';' });
 
   if (lines.length === 0) {
     return {
