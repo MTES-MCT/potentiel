@@ -1,16 +1,13 @@
 import { mediator } from 'mediateur';
 
-import {
-  registerCandidatureQueries,
-  registerCandidaturesUseCases,
-} from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { CandidatureProjector } from '@potentiel-applications/projectors';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 
 export const setupCandidature = async () => {
-  registerCandidatureQueries({
+  Candidature.registerCandidatureQueries({
     find: findProjection,
     récupérerProjet: CandidatureAdapter.récupérerProjetAdapter,
     récupérerProjetsEligiblesPreuveRecanditure:
@@ -18,7 +15,7 @@ export const setupCandidature = async () => {
     récupérerProjets: CandidatureAdapter.récupérerProjetsAdapter,
   });
 
-  registerCandidaturesUseCases({ loadAggregate });
+  Candidature.registerCandidaturesUseCases({ loadAggregate });
 
   CandidatureProjector.register();
 

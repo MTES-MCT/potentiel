@@ -5,7 +5,7 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { Raccordement } from '@potentiel-domain/reseau';
-import { ConsulterProjetQuery } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 import { DomainError } from '@potentiel-domain/core';
 import { parseCsv } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
@@ -63,7 +63,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
 
     for (const { identifiantProjet, référenceDossierRaccordement } of dossiers) {
       try {
-        const candidature = await mediator.send<ConsulterProjetQuery>({
+        const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
           type: 'Candidature.Query.ConsulterProjet',
           data: {
             identifiantProjet: identifiantProjet.formatter(),

@@ -1,13 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { CandidatureEntity, CandidatureImportéeEvent } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { StatutProjet } from '@potentiel-domain/common';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
 
-export type SubscriptionEvent = (CandidatureImportéeEvent & Event) | RebuildTriggered;
+export type SubscriptionEvent = (Candidature.CandidatureImportéeEvent & Event) | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Candidature', SubscriptionEvent>;
 
@@ -16,11 +16,11 @@ export const register = () => {
     const { type, payload } = event;
 
     if (type === 'RebuildTriggered') {
-      await removeProjection<CandidatureEntity>(`candidature|${payload.id}`);
+      await removeProjection<Candidature.CandidatureEntity>(`candidature|${payload.id}`);
     } else {
       const { statut, identifiantProjet, nomProjet } = payload;
 
-      const candidatureDefaultValue: Omit<CandidatureEntity, 'type'> = {
+      const candidatureDefaultValue: Omit<Candidature.CandidatureEntity, 'type'> = {
         identifiantProjet,
         statut: StatutProjet.convertirEnValueType(statut).statut,
         nom: nomProjet,
@@ -28,7 +28,7 @@ export const register = () => {
 
       switch (type) {
         case 'CandidatureImportée-V1':
-          await upsertProjection<CandidatureEntity>(
+          await upsertProjection<Candidature.CandidatureEntity>(
             `candidature|${identifiantProjet}`,
             candidatureDefaultValue,
           );

@@ -6,14 +6,14 @@ import { DsfrProvider } from '@codegouvfr/react-dsfr/next-appdir/DsfrProvider';
 import { createMuiDsfrThemeProvider } from '@codegouvfr/react-dsfr/mui';
 
 import { StartDsfr } from '../src/app/StartDsfr';
-import { registerCandidatureQueries } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import './static/dsfr/dsfr.min.css';
 import './static/dsfr/utility/icons/icons.min.css';
 import '../src/app/global.css';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-registerCandidatureQueries({
+Candidature.registerCandidatureQueries({
   récupérerCandidature: async () => {
     return {
       appelOffre: 'Appel offre',

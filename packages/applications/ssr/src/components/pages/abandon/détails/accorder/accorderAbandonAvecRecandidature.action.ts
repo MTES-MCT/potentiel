@@ -5,7 +5,7 @@ import * as zod from 'zod';
 import { notFound } from 'next/navigation';
 
 import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
-import { ConsulterProjetQuery } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
@@ -62,7 +62,7 @@ const buildReponseSignee = async (
   abandon: Abandon.ConsulterAbandonReadModel,
   identifiantUtilisateur: string,
 ): Promise<Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue']> => {
-  const candidature = await mediator.send<ConsulterProjetQuery>({
+  const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
     data: { identifiantProjet: abandon.identifiantProjet.formatter() },
     type: 'Candidature.Query.ConsulterProjet',
   });

@@ -1,14 +1,9 @@
 import format from 'pg-format';
 
-import {
-  ProjetEntity,
-  RécupérerProjetsPort,
-  RécupérerProjetsEligiblesPreuveRecanditurePort,
-} from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { Option } from '@potentiel-libraries/monads';
-import { RécupérerProjetPort } from '@potentiel-domain/candidature';
 import { Role } from '@potentiel-domain/utilisateur';
 import { RangeOptions } from '@potentiel-domain/core';
 
@@ -45,10 +40,10 @@ const selectProjetQuery = `
   where "appelOffreId" = $1 and "periodeId" = $2 and "numeroCRE" = $3 and "familleId" = $4
 `;
 
-export const récupérerProjetAdapter: RécupérerProjetPort = async (identifiant) => {
+export const récupérerProjetAdapter: Candidature.RécupérerProjetPort = async (identifiant) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiant);
-  const result = await executeSelect<{ value: ProjetEntity }>(
+  const result = await executeSelect<{ value: Candidature.ProjetEntity }>(
     selectProjetQuery,
     appelOffre,
     période,
@@ -131,9 +126,9 @@ const selectPreuveRecandidature = `
   select value->>'preuveRecandidature'::text as "identifiantProjet" 
   from domain_views.projection where value->>'preuveRecandidature' = any ($1) group by value->>'preuveRecandidature'`;
 
-export const récupérerProjetsEligiblesPreuveRecanditureAdapter: RécupérerProjetsEligiblesPreuveRecanditurePort =
+export const récupérerProjetsEligiblesPreuveRecanditureAdapter: Candidature.RécupérerProjetsEligiblesPreuveRecanditurePort =
   async (identifiantUtilisateur) => {
-    const results = await executeSelect<{ value: ProjetEntity }>(
+    const results = await executeSelect<{ value: Candidature.ProjetEntity }>(
       selectProjetsEligiblesPreuveRecanditureQuery,
       identifiantUtilisateur,
     );
@@ -206,7 +201,7 @@ const addSearch = (sqlQuery: string, search: string | undefined) => {
   ].join('\n');
 };
 
-export const récupérerProjetsAdapter: RécupérerProjetsPort = async (
+export const récupérerProjetsAdapter: Candidature.RécupérerProjetsPort = async (
   identifiantUtilisateur,
   role,
   range,
@@ -214,7 +209,7 @@ export const récupérerProjetsAdapter: RécupérerProjetsPort = async (
 ) => {
   const values = [identifiantUtilisateur, search];
 
-  const results = await executeSelect<{ value: ProjetEntity }>(
+  const results = await executeSelect<{ value: Candidature.ProjetEntity }>(
     format(
       addPagination(addSearch(buildQueryByRole(role, selectProjetsQuerySelect), search), range),
       ...values,

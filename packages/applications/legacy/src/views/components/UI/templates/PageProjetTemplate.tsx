@@ -3,12 +3,12 @@ import React, { FC, ReactNode } from 'react';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Badge, BadgeType, Heading1, KeyIcon, Link, MapPinIcon, PageTemplate } from '../..';
 import routes from '../../../../routes';
-import { ConsulterProjetReadModel } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 
 export const PageProjetTemplate: FC<{
   user: UtilisateurReadModel;
-  résuméProjet: ConsulterProjetReadModel;
+  résuméProjet: Candidature.ConsulterProjetReadModel;
   titre: ReactNode;
   children: ReactNode;
 }> = ({ user, résuméProjet, titre, children }) => (
@@ -18,7 +18,7 @@ export const PageProjetTemplate: FC<{
   </PageTemplate>
 );
 
-const EntêteProjet: FC<ConsulterProjetReadModel> = ({
+const EntêteProjet: FC<Candidature.ConsulterProjetReadModel> = ({
   appelOffre,
   période,
   famille,
@@ -59,7 +59,7 @@ const EntêteProjet: FC<ConsulterProjetReadModel> = ({
   </div>
 );
 
-const getBadgeType = (statut: ConsulterProjetReadModel['statut']): BadgeType => {
+const getBadgeType = (statut: Candidature.ConsulterProjetReadModel['statut']): BadgeType => {
   switch (statut) {
     case 'abandonné':
       return 'warning';
@@ -73,7 +73,7 @@ const getBadgeType = (statut: ConsulterProjetReadModel['statut']): BadgeType => 
 };
 
 const StatutProjet: FC<{
-  statut: ConsulterProjetReadModel['statut'];
+  statut: Candidature.ConsulterProjetReadModel['statut'];
 }> = ({ statut }) => (
   <Badge type={getBadgeType(statut)} className="ml-2 self-center">
     {statut}
