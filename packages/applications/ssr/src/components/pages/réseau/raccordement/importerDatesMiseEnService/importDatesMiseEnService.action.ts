@@ -54,7 +54,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
 
     if (dossiers.length === 0) {
       errors.push({
-        referenceDossier,
+        key: referenceDossier,
         reason: 'Aucun dossier correspondant',
       });
 
@@ -90,13 +90,13 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
       } catch (error) {
         if (error instanceof DomainError) {
           errors.push({
-            referenceDossier: référenceDossierRaccordement.formatter(),
+            key: référenceDossierRaccordement.formatter(),
             reason: error.message,
           });
           continue;
         }
         errors.push({
-          referenceDossier: référenceDossierRaccordement.formatter(),
+          key: référenceDossierRaccordement.formatter(),
           reason: 'Une erreur inconnue empêche la transmission de la date de mise en service',
         });
       }

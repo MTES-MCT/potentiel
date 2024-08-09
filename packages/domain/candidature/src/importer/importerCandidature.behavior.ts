@@ -30,7 +30,7 @@ export type CandidatureImportéeEvent = DomainEvent<
     commune: string;
     motifÉlimination?: string;
     puissanceALaPointe?: boolean;
-    evaluationCarboneSimplifiée: number;
+    evaluationCarboneSimplifiée: number | 'N/A';
     valeurÉvaluationCarbone?: number;
     technologie?: Technologie.RawType;
     financementCollectif: boolean;
@@ -63,7 +63,7 @@ type ImporterCandidatureOptions = {
   commune: string;
   motifÉlimination?: string;
   puissanceALaPointe?: boolean;
-  evaluationCarboneSimplifiée: number;
+  evaluationCarboneSimplifiée: number | 'N/A';
   valeurÉvaluationCarbone?: number;
   technologie?: Technologie.ValueType;
   financementCollectif: boolean;

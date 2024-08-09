@@ -36,14 +36,11 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
                 severity="warning"
                 description={
                   <>
-                    <p>
-                      Certaines dates n'ont pas pu être transmise, les erreurs rencontrées sont les
-                      suivantes :
-                    </p>
+                    <p>Certaines opérations ont rencontrées les erreurs suivantes :</p>
                     <ul className="list-disc pl-3">
-                      {errors.map(({ reason, referenceDossier }, index) => (
+                      {errors.map(({ reason, key }, index) => (
                         <li key={index}>
-                          <span className="font-bold">{referenceDossier}</span> : {reason}
+                          <span className="font-bold">{key}</span> : {reason}
                         </li>
                       ))}
                     </ul>

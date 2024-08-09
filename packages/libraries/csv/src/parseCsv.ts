@@ -27,7 +27,7 @@ const defaultParseOptions = {
 
 export type ParseOptions = typeof defaultParseOptions;
 
-type ParseCsv = <TSchema extends zod.AnyZodObject>(
+type ParseCsv = <TSchema extends zod.ZodTypeAny>(
   fileStream: ReadableStream,
   lineSchema: TSchema,
   parseOptions?: Partial<ParseOptions>,
