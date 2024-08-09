@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
-import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime } from '@potentiel-domain/common';
@@ -56,7 +56,7 @@ export default async function Page({ searchParams }: PageProps) {
           },
         );
 
-      const appelOffres = await mediator.send<ListerAppelOffreQuery>({
+      const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
         type: 'AppelOffre.Query.ListerAppelOffre',
         data: {},
       });

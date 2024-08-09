@@ -1,8 +1,8 @@
-import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { validateurParDéfaut } from '../../validateurParDéfaut';
 
-const CDCModifié30072021: CahierDesChargesModifié = {
+const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/07/2021',
   donnéesCourriersRéponse: {
@@ -15,7 +15,7 @@ const CDCModifié30072021: CahierDesChargesModifié = {
   },
 };
 
-export const autoconsommationMetropole: AppelOffre = {
+export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
   id: 'CRE4 - Autoconsommation métropole',
   typeAppelOffre: 'autoconso',
   title:

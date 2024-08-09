@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
-import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { CahierDesCharges } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
@@ -44,7 +44,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       );
     }
 
-    const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
+    const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: { identifiantAppelOffre: candidature.appelOffre },
     });

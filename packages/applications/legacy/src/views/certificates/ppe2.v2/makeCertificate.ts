@@ -7,7 +7,7 @@ import { OtherError } from '../../../modules/shared';
 import { Certificate } from './Certificate';
 import { Laureat } from './components/Laureat';
 import { Elimine } from './components/elimine';
-import { Validateur } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 dotenv.config();
 
@@ -32,7 +32,7 @@ const queue = new Queue();
 
 const makeCertificate = (
   project: ProjectDataForCertificate,
-  validateur: Validateur,
+  validateur: AppelOffre.Validateur,
 ): ResultAsync<NodeJS.ReadableStream, IllegalProjectStateError | OtherError> => {
   const { appelOffre } = project;
   const { periode } = appelOffre || {};

@@ -1,11 +1,11 @@
-import { ConsulterAppelOffreReadModel } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export const isSoumisAuxGF = ({
   appelOffres,
   période,
   famille,
 }: {
-  appelOffres: ConsulterAppelOffreReadModel;
+  appelOffres: AppelOffre.ConsulterAppelOffreReadModel;
   période: string;
   famille?: string;
 }) => {

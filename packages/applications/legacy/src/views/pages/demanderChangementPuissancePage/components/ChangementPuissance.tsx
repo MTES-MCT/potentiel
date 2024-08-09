@@ -19,7 +19,7 @@ import {
 import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee';
 import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios';
 import { ProjectAppelOffre, parseCahierDesChargesRéférence } from '../../../../entities';
-import { Technologie } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { AlertePuissanceFourchetteRatioInitialEtCDC2022 } from './AlertePuissanceFourchetteRatioInitialEtCDC2022';
 
 export type ChangementPuissanceProps = {
@@ -29,7 +29,7 @@ export type ChangementPuissanceProps = {
   justification: string;
   cahierDesChargesActuel: string;
   appelOffre: ProjectAppelOffre;
-  technologie: Technologie;
+  technologie: AppelOffre.Technologie;
   puissanceSaisie?: number;
   désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
   familleId: string | undefined;

@@ -1,7 +1,7 @@
 import { ResultAsync } from '../../core/utils';
 import { ProjectDataForCertificate, IllegalProjectStateError } from '../../modules/project';
 import { OtherError } from '../../modules/shared';
-import { CertificateTemplate, Validateur } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { makeCertificate as makeCre4V0Certificate } from './cre4.v0';
 import { makeCertificate as makeCre4V1Certificate } from './cre4.v1';
 import { makeCertificate as makePpe2V1Certificate } from './ppe2.v1';
@@ -12,9 +12,9 @@ export const buildCertificate = ({
   data,
   validateur,
 }: {
-  template: CertificateTemplate;
+  template: AppelOffre.CertificateTemplate;
   data: ProjectDataForCertificate;
-  validateur: Validateur;
+  validateur: AppelOffre.Validateur;
 }): ResultAsync<NodeJS.ReadableStream, IllegalProjectStateError | OtherError> => {
   switch (template) {
     case 'cre4.v0':

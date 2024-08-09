@@ -1,8 +1,8 @@
-import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { validateurParDéfaut } from '../../validateurParDéfaut';
 
-const CDCModifié30082022: CahierDesChargesModifié = {
+const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
   numéroGestionnaireRequis: true,
@@ -31,7 +31,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
   },
 };
 
-export const solPPE2: AppelOffre = {
+export const solPPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - Sol',
   typeAppelOffre: 'sol',
   title:

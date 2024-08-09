@@ -5,7 +5,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export const getAppelOffre: (
   appelOffreId: string,
-) => ResultAsync<AppelOffre, EntityNotFoundError> = (appelOffreId) => {
+) => ResultAsync<AppelOffre.AppelOffreReadModel, EntityNotFoundError> = (appelOffreId) => {
   const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId);
 
   return appelOffre ? okAsync(appelOffre) : errAsync(new EntityNotFoundError());

@@ -7,7 +7,7 @@ import {
 import { EntityNotFoundError } from '../../../../../modules/shared';
 import { Project, User as UserModel, UserProjects, File } from '../../../projectionsNext';
 import { parseCahierDesChargesRéférence, ProjectAppelOffre, User } from '../../../../../entities';
-import { CahierDesCharges } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { userIs, userIsNot } from '../../../../../modules/users';
 
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
@@ -71,7 +71,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
       // TODO: retirer le any ici et résoudre les problèmes de typage pour cahierDesChargesActuel
       project: any;
       cahierDesCharges:
-        | CahierDesCharges
+        | AppelOffre.CahierDesCharges
         | { type: string; url: string; paruLe?: undefined; alternatif?: undefined }
         | {
             type: string;

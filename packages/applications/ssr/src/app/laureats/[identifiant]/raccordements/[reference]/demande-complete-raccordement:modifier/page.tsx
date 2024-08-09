@@ -2,10 +2,7 @@ import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import {
-  ConsulterAppelOffreQuery,
-  ConsulterAppelOffreReadModel,
-} from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
@@ -40,7 +37,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       );
       const referenceDossierRaccordement = decodeParameter(reference);
 
-      const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
+      const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
         type: 'AppelOffre.Query.ConsulterAppelOffre',
         data: { identifiantAppelOffre: identifiantProjet.appelOffre },
       });
@@ -92,7 +89,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 }
 
 type MapToProps = (args: {
-  appelOffre: ConsulterAppelOffreReadModel;
+  appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
   gestionnaireRéseau: Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel;
   dossierRaccordement: Raccordement.ConsulterDossierRaccordementReadModel;
   identifiantProjet: IdentifiantProjet.ValueType;

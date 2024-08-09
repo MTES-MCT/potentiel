@@ -1,10 +1,10 @@
 import { ResultAsync } from '../../../core/utils';
-import { AppelOffre, Periode } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { InfraNotAvailableError, EntityNotFoundError } from '../../shared';
 
 export type GetPeriodeTitle = (
-  appelOffreId: AppelOffre['id'],
-  periodeId: Periode['id'],
+  appelOffreId: AppelOffre.AppelOffreReadModel['id'],
+  periodeId: AppelOffre.Periode['id'],
 ) => ResultAsync<
   {
     appelOffreTitle: string;

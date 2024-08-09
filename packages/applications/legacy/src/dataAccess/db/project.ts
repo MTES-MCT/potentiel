@@ -2,7 +2,7 @@ import { literal, Op } from 'sequelize';
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '..';
 import { logger } from '../../core/utils';
 import { Project, User } from '../../entities';
-import { AppelOffre, Famille, Periode } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { makePaginatedList, mapToOffsetAndLimit } from '../../infra/sequelize/queries/pagination';
 import { mapExceptError } from '../../helpers/results';
 import { Err, Ok, ResultAsync } from '../../types';
@@ -422,7 +422,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
 
   async function findExistingAppelsOffres(
     options?: ContextSpecificProjectListFilter,
-  ): Promise<Array<AppelOffre['id']>> {
+  ): Promise<Array<AppelOffre.AppelOffreReadModel['id']>> {
     await _isDbReady;
 
     try {
@@ -453,9 +453,9 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
   }
 
   async function findExistingPeriodesForAppelOffre(
-    appelOffreId: AppelOffre['id'],
+    appelOffreId: AppelOffre.AppelOffreReadModel['id'],
     options?: ContextSpecificProjectListFilter,
-  ): Promise<Array<Periode['id']>> {
+  ): Promise<Array<AppelOffre.Periode['id']>> {
     await _isDbReady;
 
     try {
@@ -486,9 +486,9 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
   }
 
   async function findExistingFamillesForAppelOffre(
-    appelOffreId: AppelOffre['id'],
+    appelOffreId: AppelOffre.AppelOffreReadModel['id'],
     options?: ContextSpecificProjectListFilter,
-  ): Promise<Array<Famille['id']>> {
+  ): Promise<Array<AppelOffre.Famille['id']>> {
     await _isDbReady;
 
     try {

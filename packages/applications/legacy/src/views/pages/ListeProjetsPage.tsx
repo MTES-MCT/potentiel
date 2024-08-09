@@ -2,7 +2,7 @@ import { Request } from 'express';
 import querystring from 'querystring';
 import React, { useState } from 'react';
 import { PaginatedList } from '../../modules/pagination';
-import { AppelOffre, Famille, Periode } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import {
   ProjectList,
@@ -31,10 +31,10 @@ import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/Util
 type ListeProjetsProps = {
   request: Request;
   projects: PaginatedList<ProjectListItem>;
-  appelsOffre: Array<AppelOffre>;
-  existingAppelsOffres: Array<AppelOffre['id']>;
-  existingPeriodes?: Array<Periode['id']>;
-  existingFamilles?: Array<Famille['id']>;
+  appelsOffre: Array<AppelOffre.AppelOffreReadModel>;
+  existingAppelsOffres: Array<AppelOffre.AppelOffreReadModel['id']>;
+  existingPeriodes?: Array<AppelOffre.Periode['id']>;
+  existingFamilles?: Array<AppelOffre.Famille['id']>;
   currentUrl: string;
 };
 

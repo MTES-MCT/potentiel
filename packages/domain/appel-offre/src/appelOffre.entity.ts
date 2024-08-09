@@ -203,7 +203,7 @@ export const territoires = [
 export type Territoire = (typeof territoires)[number];
 
 // Appel Offre Read Model
-export type AppelOffre = {
+export type AppelOffreReadModel = {
   id: string;
   typeAppelOffre: AppelOffreTypes;
   title: string;
@@ -238,4 +238,4 @@ export type AppelOffre = {
 } & DelaiRealisation &
   GarantiesFinancièresAppelOffre;
 
-export type AppelOffreEntity = Entity<'appel-offre', AppelOffre>;
+export type AppelOffreEntity = Entity<'appel-offre', AppelOffreReadModel>;

@@ -5,7 +5,7 @@ import {
   Model,
   NonAttribute,
 } from 'sequelize';
-import { Technologie } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { User } from '../users/users.model';
 import { File } from '../file/file.model';
 
@@ -46,7 +46,7 @@ export class Project extends Model<InferAttributes<Project>, InferCreationAttrib
   certificateFileId?: string | null;
   cahierDesChargesActuel: string;
   potentielIdentifier: string;
-  technologie?: Technologie;
+  technologie?: AppelOffre.Technologie;
   actionnariat: 'financement-collectif' | 'gouvernance-partagee' | '';
   dateMiseEnService?: Date;
   dateFileAttente?: Date;

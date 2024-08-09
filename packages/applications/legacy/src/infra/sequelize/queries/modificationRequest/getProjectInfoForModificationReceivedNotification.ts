@@ -2,7 +2,7 @@ import { errAsync, wrapInfra } from '../../../../core/utils';
 import { UserProjects, User, Project } from '../..';
 import { GetProjectInfoForModificationReceivedNotification } from '../../../../modules/modificationRequest';
 import { EntityNotFoundError } from '../../../../modules/shared';
-import { Technologie, technologies } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export const getProjectInfoForModificationReceivedNotification: GetProjectInfoForModificationReceivedNotification =
   (projectId: string) => {
@@ -71,6 +71,6 @@ export const getProjectInfoForModificationReceivedNotification: GetProjectInfoFo
     });
   };
 
-function isTechnologie(technologie: string): technologie is Technologie {
-  return technologies.includes(technologie as Technologie);
+function isTechnologie(technologie: string): technologie is AppelOffre.Technologie {
+  return AppelOffre.technologies.includes(technologie as AppelOffre.Technologie);
 }

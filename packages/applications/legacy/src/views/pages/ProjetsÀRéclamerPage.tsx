@@ -2,7 +2,7 @@ import { Request } from 'express';
 import React, { useState } from 'react';
 import { Project } from '../../entities';
 import { PaginatedList } from '../../modules/pagination';
-import { AppelOffre, Famille, Periode } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import {
   BarreDeRecherche,
   Dropdown,
@@ -26,10 +26,10 @@ import routes from '../../routes';
 interface ProjetsÀRéclamerProps {
   request: Request;
   projects?: PaginatedList<Project>;
-  appelsOffre: Array<AppelOffre>;
-  existingAppelsOffres: Array<AppelOffre['id']>;
-  existingPeriodes?: Array<Periode['id']>;
-  existingFamilles?: Array<Famille['id']>;
+  appelsOffre: Array<AppelOffre.AppelOffreReadModel>;
+  existingAppelsOffres: Array<AppelOffre.AppelOffreReadModel['id']>;
+  existingPeriodes?: Array<AppelOffre.Periode['id']>;
+  existingFamilles?: Array<AppelOffre.Famille['id']>;
   currentUrl: string;
 }
 

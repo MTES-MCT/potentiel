@@ -1,5 +1,5 @@
 import { CahierDesChargesRéférenceParsed, ProjectAppelOffre } from '../../../../../entities';
-import { Technologie } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { getRatiosChangementPuissance } from './getRatiosChangementPuissance';
 
 type AutoritéCompétenteInstructionPuissance = 'dgec' | 'dreal';
@@ -8,7 +8,7 @@ export type GetAutoritéCompétenteInstructionPuissance = (arg: {
   project: {
     puissanceInitiale: number;
     appelOffre?: ProjectAppelOffre;
-    technologie: Technologie;
+    technologie: AppelOffre.Technologie;
     cahierDesCharges: CahierDesChargesRéférenceParsed;
   };
   nouvellePuissance: number;

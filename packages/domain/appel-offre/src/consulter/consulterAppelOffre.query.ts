@@ -3,9 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Find } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
-import { AppelOffre, AppelOffreEntity } from '../appelOffre.entity';
+import { AppelOffreReadModel, AppelOffreEntity } from '../appelOffre.entity';
 
-export type ConsulterAppelOffreReadModel = AppelOffre;
+export type ConsulterAppelOffreReadModel = AppelOffreReadModel;
 
 export type ConsulterAppelOffreQuery = Message<
   'AppelOffre.Query.ConsulterAppelOffre',

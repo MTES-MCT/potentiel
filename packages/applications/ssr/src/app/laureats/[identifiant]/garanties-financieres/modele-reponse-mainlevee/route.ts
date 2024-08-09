@@ -4,8 +4,8 @@ import { notFound } from 'next/navigation';
 
 import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
-import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { buildDocxDocument } from '@potentiel-applications/document-builder';
 
@@ -33,7 +33,7 @@ export const GET = async (
       return notFound();
     }
 
-    const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
+    const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: { identifiantAppelOffre: candidature.appelOffre },
     });

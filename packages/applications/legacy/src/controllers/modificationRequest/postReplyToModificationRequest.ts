@@ -29,8 +29,7 @@ import asyncHandler from '../helpers/asyncHandler';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
 
-/* eslint-disable import/no-duplicates */
-import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { format, parseISO } from 'date-fns';
@@ -174,7 +173,7 @@ v1Router.post(
                 `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
               ).formatter();
 
-              const appelOffres = await mediator.send<ConsulterAppelOffreQuery>({
+              const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
                 type: 'AppelOffre.Query.ConsulterAppelOffre',
                 data: { identifiantAppelOffre: projet.appelOffreId },
               });

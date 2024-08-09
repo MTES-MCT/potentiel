@@ -1,7 +1,7 @@
 import { ResultAsync } from '../../../core/utils';
 import { User } from '../../../entities';
 import { PaginatedList, Pagination } from '../../pagination';
-import { AppelOffre, Famille, Periode } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { InfraNotAvailableError } from '../../shared';
 import {
   ModificationRequestListItemDTO,
@@ -16,9 +16,9 @@ export const PermissionListerDemandesAdmin = {
 
 type GetModificationRequestListForAdminFilter = {
   user: User & { role: 'dreal' | 'dgec-validateur' | 'admin' };
-  appelOffreId?: AppelOffre['id'];
-  periodeId?: Periode['id'];
-  familleId?: Famille['id'];
+  appelOffreId?: AppelOffre.AppelOffreReadModel['id'];
+  periodeId?: AppelOffre.Periode['id'];
+  familleId?: AppelOffre.Famille['id'];
   pagination: Pagination;
   recherche?: string;
   modificationRequestStatus?: ModificationRequestStatusDTO;

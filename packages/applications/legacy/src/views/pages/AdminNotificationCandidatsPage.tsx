@@ -20,7 +20,7 @@ import {
 } from '../components';
 import { ProjectListItem } from '../../modules/project/queries';
 import ROUTES from '../../routes';
-import { AppelOffre, Periode } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Request } from 'express';
 import querystring from 'querystring';
 import React, { useState } from 'react';
@@ -32,10 +32,10 @@ type AdminNotificationCandidatsProps = {
   request: Request;
   données?: {
     projetsPériodeSélectionnée: PaginatedList<ProjectListItem>;
-    AOSélectionné: AppelOffre['id'];
-    périodeSélectionnée: Periode['id'];
-    listeAOs: Array<AppelOffre['id']>;
-    listePériodes?: Array<Periode['id']>;
+    AOSélectionné: AppelOffre.AppelOffreReadModel['id'];
+    périodeSélectionnée: AppelOffre.Periode['id'];
+    listeAOs: Array<AppelOffre.AppelOffreReadModel['id']>;
+    listePériodes?: Array<AppelOffre.Periode['id']>;
   };
   currentUrl: string;
 };
@@ -241,12 +241,12 @@ export const AdminNotificationCandidats = ({
                       title: ' Télécharger la liste des lauréats (document csv)',
                       url: `
                 ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
-                        ...request.query,
-                        appelOffreId: données.AOSélectionné,
-                        periodeId: données.périodeSélectionnée,
-                        beforeNotification: true,
-                        pageSize: 10000,
-                      })}`,
+                  ...request.query,
+                  appelOffreId: données.AOSélectionné,
+                  periodeId: données.périodeSélectionnée,
+                  beforeNotification: true,
+                  pageSize: 10000,
+                })}`,
                     }
                   : undefined
               }

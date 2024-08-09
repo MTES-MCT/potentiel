@@ -1,11 +1,11 @@
 import { CahierDesChargesRéférenceParsed, ProjectAppelOffre } from '../../../../../entities';
-import { Technologie } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 const defaultRatios = { min: 0.9, max: 1.1 };
 
 export const getRatiosChangementPuissance = (project: {
   appelOffre?: ProjectAppelOffre;
-  technologie: Technologie;
+  technologie: AppelOffre.Technologie;
   cahierDesCharges: CahierDesChargesRéférenceParsed;
 }): { min: number; max: number } => {
   const { appelOffre, technologie, cahierDesCharges } = project;

@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { Candidature } from '@potentiel-domain/candidature';
 import { Raccordement } from '@potentiel-domain/reseau';
-import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -58,7 +58,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       return notFound();
     }
 
-    const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
+    const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: {
         identifiantAppelOffre: candidature.appelOffre,

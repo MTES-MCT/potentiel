@@ -2,7 +2,6 @@ import { DomainEvent, UniqueEntityID } from '../../../core/domain';
 import { ok } from '../../../core/utils';
 import { ProjectAppelOffre, User } from '../../../entities';
 import { jest } from '@jest/globals';
-import { CertificateTemplate } from '@potentiel-domain/appel-offre';
 import {
   Fournisseur,
   ProjectDataForCertificate,
@@ -14,6 +13,7 @@ import {
   ProjectDataProps,
 } from '../../../modules/project';
 import { ProjectNotQualifiedForCovidDelay } from '../../../modules/shared';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   notify: jest.fn(() => ok<null, ProjectAlreadyNotifiedError>(null)),
@@ -81,7 +81,7 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   ),
   modifierAppelOffre: jest.fn((appelOffre: { id: string }) => ok<null, null>(null)),
   certificateData: ok({
-    template: 'v1' as CertificateTemplate,
+    template: 'v1' as AppelOffre.CertificateTemplate,
     data: {} as ProjectDataForCertificate,
   }),
   certificateFilename: '',

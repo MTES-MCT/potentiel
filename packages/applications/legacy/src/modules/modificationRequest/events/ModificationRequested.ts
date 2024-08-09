@@ -1,5 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
-import { CahierDesChargesRéférence } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type ModificationRequestedPayload = {
   modificationRequestId: string;
@@ -8,7 +8,7 @@ export type ModificationRequestedPayload = {
   authority: 'dgec' | 'dreal';
   fileId?: string;
   justification?: string;
-  cahierDesCharges?: CahierDesChargesRéférence;
+  cahierDesCharges?: AppelOffre.CahierDesChargesRéférence;
 } & (
   | {
       type: 'puissance';

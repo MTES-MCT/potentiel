@@ -26,7 +26,7 @@ import routes from '../../../routes';
 type ModificationRequestListProps = {
   request: Request;
   modificationRequests: PaginatedList<ModificationRequestListItemDTO>;
-  appelsOffre: Array<AppelOffre>;
+  appelsOffre: Array<AppelOffre.AppelOffreReadModel>;
   currentUrl: string;
 };
 

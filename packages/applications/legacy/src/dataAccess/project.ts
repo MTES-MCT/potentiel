@@ -1,6 +1,6 @@
 import { Project, User } from '../entities';
 import { Région } from '../modules/dreal/région';
-import { AppelOffre, Famille, Periode } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { ResultAsync } from '../types';
 import { PaginatedList, Pagination } from '../modules/pagination';
 
@@ -10,9 +10,9 @@ export interface ProjectFilters {
   isClaimed?: boolean;
   isAbandoned?: boolean;
   nomProjet?: string;
-  appelOffreId?: AppelOffre['id'] | AppelOffre['id'][];
-  periodeId?: Periode['id'] | Periode['id'][];
-  familleId?: Famille['id'] | Famille['id'][];
+  appelOffreId?: AppelOffre.AppelOffreReadModel['id'] | AppelOffre.AppelOffreReadModel['id'][];
+  periodeId?: AppelOffre.Periode['id'] | AppelOffre.Periode['id'][];
+  familleId?: AppelOffre.Famille['id'] | AppelOffre.Famille['id'][];
   email?: Project['email'] | Project['email'][];
 }
 
@@ -82,21 +82,21 @@ export type ProjectRepo = {
    */
   findExistingAppelsOffres(
     options?: ContextSpecificProjectListFilter,
-  ): Promise<Array<AppelOffre['id']>>;
+  ): Promise<Array<AppelOffre.AppelOffreReadModel['id']>>;
   /**
    * @deprecated
    */
   findExistingPeriodesForAppelOffre(
-    appelOffreId: AppelOffre['id'],
+    appelOffreId: AppelOffre.AppelOffreReadModel['id'],
     options?: ContextSpecificProjectListFilter,
-  ): Promise<Array<Periode['id']>>;
+  ): Promise<Array<AppelOffre.Periode['id']>>;
   /**
    * @deprecated
    */
   findExistingFamillesForAppelOffre(
-    appelOffreId: AppelOffre['id'],
+    appelOffreId: AppelOffre.AppelOffreReadModel['id'],
     options?: ContextSpecificProjectListFilter,
-  ): Promise<Array<Famille['id']>>;
+  ): Promise<Array<AppelOffre.Famille['id']>>;
   /**
    * @deprecated
    */
