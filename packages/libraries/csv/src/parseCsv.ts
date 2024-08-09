@@ -23,7 +23,7 @@ const defaultParseOptions = {
   rtrim: true,
   skip_empty_lines: true,
   skip_records_with_empty_values: true,
-  encoding: 'utf16le' as 'utf8' | 'utf16le',
+  encoding: 'win1252' as 'utf8' | 'win1252',
 };
 
 export type ParseOptions = typeof defaultParseOptions;
@@ -63,11 +63,12 @@ export const parseCsv: ParseCsv = async (
 const loadCsv = (fileStream: ReadableStream, parseOptions: Partial<typeof defaultParseOptions>) => {
   return new Promise<Array<Record<string, string>>>((resolve, reject) => {
     const data: Array<Record<string, string>> = [];
-    const decode = iconv.decodeStream('utf8');
+    const { encoding, ...options } = { ...defaultParseOptions, ...parseOptions };
+    const decode = iconv.decodeStream(encoding);
 
     webRSToNodeRS(fileStream)
       .pipe(decode)
-      .pipe(parse({ ...defaultParseOptions, ...parseOptions }))
+      .pipe(parse(options))
       .on('data', (row: Record<string, string>) => {
         data.push(row);
       })

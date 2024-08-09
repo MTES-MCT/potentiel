@@ -17,14 +17,18 @@ const strictlyPositiveNumberSchema = z
 const ouiNonSchema = z
   .string()
   .transform((str) => str.toLowerCase())
-  .pipe(z.enum(['oui', 'non']));
+  .pipe(z.enum(['oui', 'non', '']))
+  .transform((str) => str || undefined);
 
 const dateSchema = z
   .string()
   .regex(/^\d{2}\/\d{2}\/\d{4}$/, {
     message: "Le format de la date n'est pas respecté (format attendu : JJ/MM/AAAA)",
   })
+  .or(z.literal(''))
+  .optional()
   .transform((val) => {
+    if (!val) return undefined;
     const [day, month, year] = val.split('/');
     return new Date(`${year}-${month}-${day}`);
   });
@@ -87,17 +91,18 @@ const colonnes = {
   financement_collectif: 'Financement collectif (Oui/Non)',
   gouvernance_partagée: 'Gouvernance partagée (Oui/Non)',
   date_échéance_gf: "Date d'échéance au format JJ/MM/AAAA",
+  // TODO quel est le bon nom pour cette colonne?
   historique_abandon:
-    "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO",
+    "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période",
 } as const;
 
 // Order matters! the CSV uses "1"/"2"/"3"
 const typeGf = ['six-mois-après-achèvement', 'avec-date-échéance', 'consignation'] as const;
 const historiqueAbandon = [
-  'lauréat_aucun_ao',
-  'abandon_classique',
-  'abandon_avec_Recandidature',
-  'lauréat_ao',
+  'première-candidature',
+  'abandon-classique',
+  'abandon-avec-recandidature',
+  'lauréat-autre-période',
 ] as const;
 
 const statut = { Eliminé: 'éliminé', Classé: 'classé' } as const;
@@ -121,7 +126,7 @@ const candidatureCsvRowSchema = z
     [colonnes.prix_reference]: strictlyPositiveNumberSchema,
     [colonnes.note_totale]: numberSchema,
     [colonnes.nom_représentant_légal]: requiredStringSchema,
-    [colonnes.email_contact]: requiredStringSchema.email(), // TODO
+    [colonnes.email_contact]: requiredStringSchema.email(),
     [colonnes.adresse1]: requiredStringSchema,
     [colonnes.adresse2]: z.string().optional(),
     [colonnes.code_postal]: requiredStringSchema,
@@ -133,7 +138,10 @@ const candidatureCsvRowSchema = z
       .union([z.enum(['N/A']), strictlyPositiveNumberSchema])
       .transform((val) => (val === 'N/A' ? 0 : val)),
     [colonnes.valeur_évaluation_carbone]: strictlyPositiveNumberSchema.optional(),
-    [colonnes.technologie]: z.enum(['N/A', 'Eolien', 'Hydraulique', 'PV']),
+    [colonnes.technologie]: z
+      .enum(['N/A', 'Eolien', 'Hydraulique', 'PV'])
+      .optional()
+      .default('N/A'),
     [colonnes.financement_collectif]: ouiNonSchema,
     [colonnes.gouvernance_partagée]: ouiNonSchema,
     [colonnes.type_gf]: z.enum(['1', '2', '3']).optional(), // see refine below
