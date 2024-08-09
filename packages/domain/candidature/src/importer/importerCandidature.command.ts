@@ -32,7 +32,7 @@ export type ImporterCandidatureCommand = Message<
     statut: StatutCandidature.ValueType;
     motifÉlimination?: string;
     puissanceALaPointe?: boolean;
-    evaluationCarboneSimplifiée: number;
+    evaluationCarboneSimplifiée: number | 'N/A';
     valeurÉvaluationCarbone?: number;
     technologie?: Technologie.ValueType;
     financementCollectif: boolean;

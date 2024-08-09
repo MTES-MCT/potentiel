@@ -31,7 +31,7 @@ export type ImporterCandidatureUseCase = Message<
     statutValue: string;
     motifÉliminationValue?: string;
     puissanceALaPointeValue?: boolean;
-    evaluationCarboneSimplifiéeValue: number;
+    evaluationCarboneSimplifiéeValue: number | 'N/A';
     valeurÉvaluationCarboneValue?: number;
     technologieValue?: string;
     financementCollectifValue: boolean;

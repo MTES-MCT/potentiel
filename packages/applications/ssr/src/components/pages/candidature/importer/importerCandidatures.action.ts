@@ -4,11 +4,12 @@ import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { DomainError } from '@potentiel-domain/core';
+import { ImporterCandidatureUseCase } from '@potentiel-domain/candidature';
 import { parseCsv } from '@potentiel-libraries/csv';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 
-import { candidatureSchema } from './candidature.schema';
+import { candidatureSchema, CandidatureShape } from './candidature.schema';
 
 export type ImporterCandidaturesState = FormState;
 
@@ -18,10 +19,7 @@ const schema = zod.object({
   fichierImport: zod.instanceof(Blob).refine((data) => data.size > 0),
 });
 
-const action: FormAction<FormState, typeof schema> = async (
-  _,
-  { fichierImport, appelOffre, periode: période },
-) => {
+const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }) => {
   const lines = await parseCsv(fichierImport.stream(), candidatureSchema);
 
   if (lines.length === 0) {
@@ -36,12 +34,9 @@ const action: FormAction<FormState, typeof schema> = async (
 
   for (const line of lines) {
     try {
-      await mediator.send<Candidature.InstruireCandidature>({
-        type: 'Candidature.UseCase.InstruireCandidature',
-        data: {
-          appelOffre,
-          période,
-        },
+      await mediator.send<ImporterCandidatureUseCase>({
+        type: 'Candidature.UseCase.ImporterCandidature',
+        data: mapLineToUseCaseData(line),
       });
 
       success++;
@@ -68,5 +63,36 @@ const action: FormAction<FormState, typeof schema> = async (
     },
   };
 };
+
+const mapLineToUseCaseData = (line: CandidatureShape): ImporterCandidatureUseCase['data'] => ({
+  typeGarantiesFinancièresValue: line.type_gf,
+  historiqueAbandonValue: line.historique_abandon,
+  appelOffreValue: line.appel_offre,
+  périodeValue: line.période,
+  familleValue: line.famille,
+  numéroCREValue: line.num_cre,
+  nomProjetValue: line.nom_projet,
+  sociétéMèreValue: line.société_mère,
+  nomCandidatValue: line.nom_candidat,
+  puissanceProductionAnnuelleValue: line.puissance_production_annuelle,
+  prixReferenceValue: line.prix_reference,
+  noteTotaleValue: line.note_totale,
+  nomReprésentantLégalValue: line.nom_représentant_légal,
+  emailContactValue: line.email_contact,
+  adresse1Value: line.adresse1,
+  adresse2Value: line.adresse2,
+  codePostalValue: line.code_postal,
+  communeValue: line.commune,
+  statutValue: line.statut,
+  motifÉliminationValue: line.motif_élimination,
+  puissanceALaPointeValue: line.puissance_a_la_pointe === 'oui' ? true : false,
+  evaluationCarboneSimplifiéeValue: line.evaluation_carbone_simplifiée,
+  valeurÉvaluationCarboneValue: line.valeur_évaluation_carbone,
+  technologieValue: line.technologie,
+  financementCollectifValue: line.financement_collectif === 'oui' ? true : false,
+  gouvernancePartagéeValue: line.gouvernance_partagée === 'oui' ? true : false,
+  dateÉchéanceGfValue: line.date_échéance_gf?.toISOString(),
+  détailsValue: {},
+});
 
 export const importerCandidaturesAction = formAction(action, schema);
