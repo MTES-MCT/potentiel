@@ -9,6 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@potentiel-domain/inmemory-referential": "*",
     "@potentiel-domain/laureat": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/tache": "*",

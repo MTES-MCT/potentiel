@@ -41,7 +41,7 @@ export const bootstrap = async ({
     }
 
     setupAppelOffre();
-    setupCandidature();
+    const unsetupCandidature = await setupCandidature();
     setupDocumentProjet();
     const unsetupTâche = await setupTâche();
     const unsetupTâchePlanifiée = await setupTâchePlanifiée();
@@ -61,6 +61,7 @@ export const bootstrap = async ({
       await unsetupGestionnaireRéseau();
       await unsetupTâche();
       await unsetupTâchePlanifiée();
+      await unsetupCandidature();
       unsubscribe = undefined;
     };
   }

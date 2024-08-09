@@ -8,8 +8,15 @@ import { TâcheWorld } from './tâche/tâche.world';
 import { UtilisateurWorld } from './utilisateur/utilisateur.world';
 import { TâchePlanifiéeWorld } from './tâche-planifiée/tâchePlanifiée.world';
 import { NotificationWorld } from './notification/notification.world';
+import { CandidatureWorld } from './candidature/candidature.world';
 
 export class PotentielWorld extends World {
+  #candidatureWorld!: CandidatureWorld;
+
+  get candidatureWorld() {
+    return this.#candidatureWorld;
+  }
+
   #gestionnaireRéseauWorld!: GestionnaireRéseauWorld;
 
   get gestionnaireRéseauWorld() {
@@ -81,6 +88,7 @@ export class PotentielWorld extends World {
   constructor(options: IWorldOptions) {
     super(options);
 
+    this.#candidatureWorld = new CandidatureWorld();
     this.#gestionnaireRéseauWorld = new GestionnaireRéseauWorld();
     this.#lauréatWorld = new LauréatWorld();
     this.#eliminéWorld = new EliminéWorld();
