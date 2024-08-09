@@ -2,9 +2,10 @@ import { getProjectAppelOffre } from '../../../../../../config/queryProjectAO.co
 import { ListerProjets } from '../../../../../../modules/project';
 import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
-import { Op } from 'sequelize';
+import { InferAttributes, Op, WhereOptions } from 'sequelize';
 import { UserDreal, Project } from '../../../../projectionsNext';
 import { logger } from '../../../../../../core/utils';
+import { isLocalEnv } from '../../../../../../config/env.config';
 
 const attributes = [
   'id',
@@ -43,14 +44,21 @@ export const listerProjetsPourDreal: ListerProjets = async ({
     return makePaginatedList([], 0, pagination);
   }
 
-  const résultat = await Project.findAndCountAll({
-    where: {
-      ...findOptions?.where,
-      notifiedOn: { [Op.gt]: 0 },
+  const where: WhereOptions<InferAttributes<Project>> = {
+    ...findOptions?.where,
+    notifiedOn: { [Op.gt]: 0 },
+    /**
+     * Si l'environnement est local, on ne filtre pas par région
+     */
+    ...(!isLocalEnv && {
       regionProjet: {
         [Op.substring]: utilisateur.dreal,
       },
-    },
+    }),
+  };
+
+  const résultat = await Project.findAndCountAll({
+    where,
     ...mapToOffsetAndLimit(pagination),
     attributes,
   });
