@@ -76,9 +76,11 @@ const mapToReadModel = ({
   identifiantProjetValueType,
 }: MapToReadModel): ConsulterArchivesGarantiesFinancièresReadModel => ({
   identifiantProjet: identifiantProjetValueType,
-  archives: archives.map((archiveGf) =>
-    mapToArchiveGarantiesFinancièresReadModel(identifiantProjetValueType, archiveGf),
-  ),
+  archives: archives
+    .map((archiveGf) =>
+      mapToArchiveGarantiesFinancièresReadModel(identifiantProjetValueType, archiveGf),
+    )
+    .sort((a, b) => (a.dernièreMiseÀJour.date.estAntérieurÀ(b.dernièreMiseÀJour.date) ? 1 : -1)),
 });
 
 const mapToArchiveGarantiesFinancièresReadModel = (
