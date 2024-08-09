@@ -38,9 +38,9 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
                   <>
                     <p>Certaines opérations ont rencontrées les erreurs suivantes :</p>
                     <ul className="list-disc pl-3">
-                      {errors.map(({ reason, key: referenceDossier }, index) => (
+                      {errors.map(({ reason, key }, index) => (
                         <li key={index}>
-                          <span className="font-bold">{referenceDossier}</span> : {reason}
+                          <span className="font-bold">{key}</span> : {reason}
                         </li>
                       ))}
                     </ul>
