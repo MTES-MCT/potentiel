@@ -23,6 +23,7 @@ const defaultParseOptions = {
   rtrim: true,
   skip_empty_lines: true,
   skip_records_with_empty_values: true,
+  encoding: 'utf16le' as 'utf8' | 'utf16le',
 };
 
 export type ParseOptions = typeof defaultParseOptions;

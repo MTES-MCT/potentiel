@@ -129,10 +129,9 @@ const candidatureCsvRowSchema = z
     [colonnes.statut]: z.string().pipe(z.enum(['Eliminé', 'Classé'])),
     [colonnes.motif_élimination]: z.string().optional(), // see refine below
     [colonnes.puissance_a_la_pointe]: ouiNonSchema.optional(),
-    [colonnes.evaluation_carbone_simplifiée]: z.union([
-      z.enum(['N/A']),
-      strictlyPositiveNumberSchema,
-    ]),
+    [colonnes.evaluation_carbone_simplifiée]: z
+      .union([z.enum(['N/A']), strictlyPositiveNumberSchema])
+      .transform((val) => (val === 'N/A' ? 0 : val)),
     [colonnes.valeur_évaluation_carbone]: strictlyPositiveNumberSchema.optional(),
     [colonnes.technologie]: z.enum(['N/A', 'Eolien', 'Hydraulique', 'PV']),
     [colonnes.financement_collectif]: ouiNonSchema,
