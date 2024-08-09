@@ -1,5 +1,5 @@
 # language: fr
-Fonctionnalité: Importée une candidature
+Fonctionnalité: Importer une candidature
 
     Scénario: Une candidature est importée en statut "classé"
         Quand la candidature "Du boulodrome de Marseille" est importée avec:

@@ -28,9 +28,10 @@ export const register = () => {
 
       switch (type) {
         case 'CandidatureImportée-V1':
-          await upsertProjection<CandidatureEntity>(`candidature|${identifiantProjet}`, {
-            ...candidatureDefaultValue,
-          });
+          await upsertProjection<CandidatureEntity>(
+            `candidature|${identifiantProjet}`,
+            candidatureDefaultValue,
+          );
           break;
       }
     }
