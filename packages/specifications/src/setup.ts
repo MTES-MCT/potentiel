@@ -43,7 +43,7 @@ BeforeStep(async ({ pickleStep }) => {
   // As read data are inconsistant, we wait 100ms before each step.
   if (pickleStep.type !== 'Context') {
     // As read data are inconsistant, we wait 100ms before each step.
-    await sleep(200);
+    await sleep(100);
   }
 });
 

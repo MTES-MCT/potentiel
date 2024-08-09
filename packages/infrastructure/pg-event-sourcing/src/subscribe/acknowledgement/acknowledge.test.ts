@@ -1,4 +1,6 @@
-import { describe, it, expect, afterAll, beforeEach, beforeAll } from '@jest/globals';
+import { describe, it, after, before, beforeEach } from 'node:test';
+
+import { expect, should } from 'chai';
 
 import { DomainEvent } from '@potentiel-domain/core';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
@@ -9,19 +11,29 @@ import { registerSubscriber } from '../subscriber/registerSubscriber';
 import { acknowledge, acknowledgeError } from './acknowledge';
 import { getPendingAcknowledgements } from './getPendingAcknowledgements';
 
+should();
+
 describe('acknowledgement', () => {
-  afterAll(async () => {
+  const streamCategory = 'category';
+  const id = 'id';
+  const subscriberName = 'subscriber';
+
+  after(async () => {
     await killPool();
   });
 
   beforeEach(async () => {
-    await executeQuery(`delete from event_store.event_stream`);
-    await executeQuery(`delete from event_store.subscriber`);
-    await executeQuery(`delete from event_store.pending_acknowledgement`);
+    await executeQuery('delete from event_store.event_stream');
+    await executeQuery('delete from event_store.subscriber');
+    await executeQuery('delete from event_store.pending_acknowledgement');
   });
 
-  beforeAll(() => {
+  before(async () => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
+
+    await executeQuery(
+      'DROP RULE IF EXISTS prevent_delete_on_event_stream on event_store.event_stream',
+    );
   });
 
   it(`
@@ -30,10 +42,6 @@ describe('acknowledgement', () => {
     Alors l'acknowledgement n'est plus en attente
   `, async () => {
     // Arrange
-    const subscriberName = 'subscriber';
-    const streamCategory = 'category';
-    const id = 'id';
-
     const event1: DomainEvent = {
       type: 'event-1',
       payload: { test1: '1' },
@@ -41,7 +49,7 @@ describe('acknowledgement', () => {
 
     await registerSubscriber({
       eventType: 'event-1',
-      name: 'subscriber',
+      name: subscriberName,
       streamCategory,
     });
 
@@ -54,7 +62,7 @@ describe('acknowledgement', () => {
     const actuals = await getPendingAcknowledgements(streamCategory, subscriberName);
 
     // Assert
-    expect(actuals.length).toBe(0);
+    actuals.length.should.be.equal(0);
   });
 
   it(`
@@ -63,10 +71,6 @@ describe('acknowledgement', () => {
     Alors l'acknowledgement est en erreur
   `, async () => {
     // Arrange
-    const subscriberName = 'subscriber';
-    const streamCategory = 'category';
-    const id = 'id';
-
     const event1: DomainEvent = {
       type: 'event-1',
       payload: { test1: '1' },
@@ -76,7 +80,7 @@ describe('acknowledgement', () => {
 
     await registerSubscriber({
       eventType: 'event-1',
-      name: 'subscriber',
+      name: subscriberName,
       streamCategory,
     });
 
@@ -89,10 +93,10 @@ describe('acknowledgement', () => {
     const actuals = await getPendingAcknowledgements(streamCategory, subscriberName);
 
     // Assert
-    expect(actuals.length).toBe(1);
+    actuals.length.should.be.equal(1);
 
     const expected = 'An error';
 
-    expect(actuals[0].error).toEqual(expected);
+    expect(actuals[0].error).to.be.equal(expected);
   });
 });

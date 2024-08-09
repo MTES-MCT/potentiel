@@ -1,4 +1,6 @@
-import { describe, it, expect, afterAll, beforeEach, beforeAll } from '@jest/globals';
+import { describe, it, after, before, beforeEach } from 'node:test';
+
+import { expect, should } from 'chai';
 
 import { DomainEvent } from '@potentiel-domain/core';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
@@ -9,19 +11,29 @@ import { publish } from '../../publish/publish';
 import { retryPendingAcknowledgement } from './retryPendingAcknowledgement';
 import { getEventsWithPendingAcknowledgement } from './getEventsWithPendingAcknowledgement';
 
+should();
+
 describe('acknowledgement', () => {
-  afterAll(async () => {
+  const streamCategory = 'category';
+  const id = 'id';
+  const subscriberName = 'subscriber';
+
+  after(async () => {
     await killPool();
   });
 
   beforeEach(async () => {
-    await executeQuery(`delete from event_store.event_stream`);
-    await executeQuery(`delete from event_store.subscriber`);
-    await executeQuery(`delete from event_store.pending_acknowledgement`);
+    await executeQuery('delete from event_store.event_stream');
+    await executeQuery('delete from event_store.subscriber');
+    await executeQuery('delete from event_store.pending_acknowledgement');
   });
 
-  beforeAll(() => {
+  before(async () => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
+
+    await executeQuery(
+      'DROP RULE IF EXISTS prevent_delete_on_event_stream on event_store.event_stream',
+    );
   });
 
   it(`
@@ -30,10 +42,6 @@ describe('acknowledgement', () => {
     Alors aucuns acknowledgements correspondant à ces événements n'est en attente
   `, async () => {
     // Arrange
-    const subscriberName = 'subscriber';
-    const streamCategory = 'category';
-    const id = 'id';
-
     const event1: DomainEvent = {
       type: 'event-1',
       payload: { test1: '1' },
@@ -51,7 +59,7 @@ describe('acknowledgement', () => {
 
     await registerSubscriber({
       eventType: ['event-1', 'event-2'],
-      name: 'subscriber',
+      name: subscriberName,
       streamCategory,
     });
 
@@ -70,7 +78,7 @@ describe('acknowledgement', () => {
     const actuals = await getEventsWithPendingAcknowledgement(streamCategory, subscriberName);
 
     // Assert
-    expect(actuals.length).toBe(0);
+    expect(actuals.length).to.equal(0);
   });
 
   it(`
@@ -79,9 +87,6 @@ describe('acknowledgement', () => {
     Alors les acknowledgements sont en attente pour les événements à partir de celui n'ayant pas pu être traité
   `, async () => {
     // Arrange
-    const subscriberName = 'subscriber';
-    const streamCategory = 'category';
-    const id = 'id';
 
     const event1: DomainEvent = {
       type: 'event-1',
@@ -105,7 +110,7 @@ describe('acknowledgement', () => {
 
     await registerSubscriber({
       eventType: ['event-1', 'event-2', 'event-4'],
-      name: 'subscriber',
+      name: subscriberName,
       streamCategory,
     });
 
@@ -122,10 +127,14 @@ describe('acknowledgement', () => {
     });
 
     // Act
-    const actuals = await getEventsWithPendingAcknowledgement(streamCategory, subscriberName);
+    const actual = await getEventsWithPendingAcknowledgement(streamCategory, subscriberName);
+    actual.length.should.be.equal(2);
+    const [actual1, actual2] = actual;
 
     // Assert
-    const events = [expect.objectContaining(event2), expect.objectContaining(event4)];
-    expect(actuals).toEqual(events);
+    actual1.type.should.be.equal(event2.type);
+    actual2.type.should.be.equal(event4.type);
+    actual1.payload.should.be.deep.equal(event2.payload);
+    actual2.payload.should.be.deep.equal(event4.payload);
   });
 });
