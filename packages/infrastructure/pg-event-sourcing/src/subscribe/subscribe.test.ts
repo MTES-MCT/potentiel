@@ -52,9 +52,13 @@ describe(`subscribe`, () => {
     await executeQuery('delete from event_store.pending_acknowledgement');
   });
 
-  before(() => {
+  before(async () => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
     process.env.LOGGER_LEVEL = 'warn';
+
+    await executeQuery(
+      'DROP RULE IF EXISTS prevent_delete_on_event_stream on event_store.event_stream',
+    );
   });
 
   it(`
