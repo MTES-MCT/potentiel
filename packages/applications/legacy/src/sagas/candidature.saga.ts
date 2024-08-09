@@ -1,10 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Candidature, Technologie } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 import { publishToEventBus } from '../config/eventBus.config';
 import { DésignationCatégorie, ProjectRawDataImported } from '../modules/project';
-import { getLegacyIdByIdentifiantProjet } from '../infra/sequelize/queries/project/getLegacyIdByIdentifiantProjet';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { logger } from '../core/utils';
 import { v4 } from 'uuid';
 import { ConsulterAppelOffreQuery, Periode } from '@potentiel-domain/appel-offre';
@@ -22,10 +20,6 @@ export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     switch (event.type) {
       case 'CandidatureImportée-V1':
-        const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-          event.payload.identifiantProjet,
-        );
-        const projectId = await getLegacyIdByIdentifiantProjet(identifiantProjet);
         const { payload } = event;
 
         const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
@@ -43,59 +37,57 @@ export const register = () => {
           throw new Error(`Période ${payload.période} non trouvée pour l'AO ${payload.appelOffre}`);
         }
 
-        if (projectId) {
-          await publishToEventBus(
-            new ProjectRawDataImported({
-              payload: {
-                importId: v4(), // TODO check
-                data: {
-                  appelOffreId: payload.appelOffre,
-                  periodeId: payload.période,
-                  familleId: payload.famille || '',
-                  numeroCRE: payload.numéroCRE,
-                  classe: payload.statut,
-                  nomProjet: payload.nomProjet,
-                  nomCandidat: payload.nomCandidat,
-                  nomRepresentantLegal: payload.nomReprésentantLégal,
-                  email: payload.emailContact,
-                  motifsElimination: payload.motifÉlimination || '',
-                  garantiesFinancièresDateEchéance: payload.dateÉchéanceGf,
-                  technologie: payload.technologie || 'N/A',
-                  historiqueAbandon: payload.historiqueAbandon,
+        await publishToEventBus(
+          new ProjectRawDataImported({
+            payload: {
+              importId: v4(), // TODO check
+              data: {
+                appelOffreId: payload.appelOffre,
+                periodeId: payload.période,
+                familleId: payload.famille || '',
+                numeroCRE: payload.numéroCRE,
+                classe: payload.statut === 'classé' ? 'Classé' : 'Eliminé', // TODO check
+                nomProjet: payload.nomProjet,
+                nomCandidat: payload.nomCandidat,
+                nomRepresentantLegal: payload.nomReprésentantLégal,
+                email: payload.emailContact,
+                motifsElimination: payload.motifÉlimination || '',
+                garantiesFinancièresDateEchéance: payload.dateÉchéanceGf,
+                technologie: payload.technologie || 'N/A',
+                historiqueAbandon: payload.historiqueAbandon,
+                puissance: payload.puissanceProductionAnnuelle,
+                garantiesFinancièresType: payload.typeGarantiesFinancières,
+                details: payload.détails,
+                engagementFournitureDePuissanceAlaPointe: payload.puissanceALaPointe ?? false,
+                actionnaire: payload.sociétéMère || '', // TODO check
+                prixReference: payload.prixReference,
+                note: payload.noteTotale,
+                isFinancementParticipatif: payload.financementCollectif,
+                evaluationCarbone: payload.evaluationCarboneSimplifiée,
+
+                actionnariat: payload.financementCollectif
+                  ? 'financement-collectif'
+                  : payload.gouvernancePartagée
+                    ? 'gouvernance-partagee'
+                    : undefined,
+                désignationCatégorie: getDésignationCatégorie({
                   puissance: payload.puissanceProductionAnnuelle,
-                  garantiesFinancièresType: payload.typeGarantiesFinancières,
-                  details: payload.détails,
-                  engagementFournitureDePuissanceAlaPointe: payload.puissanceALaPointe ?? false,
-                  actionnaire: payload.sociétéMère || '', // TODO check
-                  prixReference: payload.prixReference,
                   note: payload.noteTotale,
-                  isFinancementParticipatif: payload.financementCollectif,
-                  evaluationCarbone: payload.evaluationCarboneSimplifiée,
+                  periodeDetails: période,
+                }),
 
-                  actionnariat: payload.financementCollectif
-                    ? 'financement-collectif'
-                    : payload.gouvernancePartagée
-                      ? 'gouvernance-partagee'
-                      : undefined,
-                  désignationCatégorie: getDésignationCatégorie({
-                    puissance: payload.puissanceProductionAnnuelle,
-                    note: payload.noteTotale,
-                    periodeDetails: période,
-                  }),
-
-                  isInvestissementParticipatif: false, // TODO
-                  notifiedOn: 0,
-                  territoireProjet: '', // TODO
-                  ...getLocalilitéInfo(payload),
-                },
+                isInvestissementParticipatif: false, // TODO
+                notifiedOn: 0,
+                territoireProjet: '', // TODO
+                ...getLocalilitéInfo(payload),
               },
-            }),
-          );
-          logger.warning('Identifiant projet inconnu', {
-            saga: 'System.Saga.Candidature',
-            event,
-          });
-        }
+            },
+          }),
+        );
+        logger.warning('Identifiant projet inconnu', {
+          saga: 'System.Saga.Candidature',
+          event,
+        });
         return;
     }
     return Promise.reject();

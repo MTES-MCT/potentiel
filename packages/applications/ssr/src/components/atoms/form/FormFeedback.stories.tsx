@@ -15,19 +15,22 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const WithSuccess: Story = {
-  args: { formState: { status: 'success' } },
+  args: { formState: { status: 'success' }, successMessage: 'éléments importés' },
 };
 
 export const WithUnknownError: Story = {
-  args: { formState: { status: 'unknown-error' } },
+  args: { formState: { status: 'unknown-error' }, successMessage: 'éléments importés' },
 };
 
 export const WithDomainError: Story = {
-  args: { formState: { status: 'domain-error', message: 'This is a domain error' } },
+  args: {
+    formState: { status: 'domain-error', message: 'This is a domain error' },
+    successMessage: 'éléments importés',
+  },
 };
 
 export const WithFormError: Story = {
-  args: { formState: { status: 'form-error', errors: [] } },
+  args: { formState: { status: 'form-error', errors: [] }, successMessage: 'éléments importés' },
 };
 
 export const WithCsvError: Story = {
@@ -40,5 +43,6 @@ export const WithCsvError: Story = {
         { line: '3', field: 'field-4', message: 'Error message' },
       ],
     },
+    successMessage: 'éléments importés',
   },
 };
