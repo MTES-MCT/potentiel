@@ -3,10 +3,7 @@
 import { FC } from 'react';
 
 import { PlainType } from '@potentiel-domain/core';
-import {
-  ListerProjetsListItemReadModel,
-  ListerProjetsReadModel,
-} from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ProjetListItem } from '@/components/molecules/projet/ProjetListItem';
@@ -14,8 +11,8 @@ import { ListPageTemplate } from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
 
 export type CandidaturesListPageProps = PlainType<
-  Omit<ListerProjetsReadModel, 'items'> & {
-    items: ReadonlyArray<ListerProjetsListItemReadModel>;
+  Omit<Candidature.ListerProjetsReadModel, 'items'> & {
+    items: ReadonlyArray<Candidature.ListerProjetsListItemReadModel>;
   }
 >;
 

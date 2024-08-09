@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { bootstrap } from '@potentiel-applications/bootstrap';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
-import { ConsulterProjetQuery } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime } from '@potentiel-domain/common';
 
 import { parseCsvFile } from '../../helpers/parse-file';
@@ -104,7 +104,7 @@ export default class ImporterDateMiseEnService extends Command {
       }
 
       try {
-        const candidature = await mediator.send<ConsulterProjetQuery>({
+        const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
           type: 'Candidature.Query.ConsulterProjet',
           data: {
             identifiantProjet: identifiantProjet,

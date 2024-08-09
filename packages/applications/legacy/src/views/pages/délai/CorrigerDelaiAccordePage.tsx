@@ -13,7 +13,7 @@ import {
   SecondaryLinkButton,
 } from '../../components';
 import { DetailDemandeDelaiPageDTO } from '../../../modules/modificationRequest/dtos';
-import { ConsulterProjetReadModel } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { afficherDate, formatDateForInput, hydrateOnClient } from '../../helpers';
 import routes from '../../../routes';
@@ -21,7 +21,7 @@ import { DownloadResponseTemplate } from '../modificationRequestPage/components'
 
 type CorrigerDelaiAccordeProps = {
   demandeDélai: DetailDemandeDelaiPageDTO;
-  résuméProjet: ConsulterProjetReadModel;
+  résuméProjet: Candidature.ConsulterProjetReadModel;
   dateAchèvementInitiale: string;
   dateAchèvementActuelle: string;
   utilisateur: UtilisateurReadModel;

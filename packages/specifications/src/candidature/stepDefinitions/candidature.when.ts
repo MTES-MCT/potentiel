@@ -1,7 +1,7 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { ImporterCandidatureUseCase } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
@@ -17,7 +17,7 @@ Quand(
     const numéroCRE = exemple['numéro CRE'] ?? '23';
     const statut = exemple['statut'] ?? 'classé';
 
-    await mediator.send<ImporterCandidatureUseCase>({
+    await mediator.send<Candidature.ImporterCandidatureUseCase>({
       type: 'Candidature.UseCase.ImporterCandidature',
       data: {
         appelOffreValue: appelOffre,

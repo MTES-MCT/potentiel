@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
-import { ListerProjetsEligiblesPreuveRecanditureQuery } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 import { Abandon } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
@@ -44,7 +44,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       }
 
       const projetsÀSélectionner =
-        await mediator.send<ListerProjetsEligiblesPreuveRecanditureQuery>({
+        await mediator.send<Candidature.ListerProjetsEligiblesPreuveRecanditureQuery>({
           type: 'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
           data: {
             identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,

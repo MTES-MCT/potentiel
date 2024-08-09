@@ -5,7 +5,7 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
-import { ConsulterProjetQuery } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 import { Option } from '@potentiel-libraries/monads';
 
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
@@ -15,7 +15,7 @@ export type ProjetBannerProps = {
 };
 
 export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet }) => {
-  const candidature = await mediator.send<ConsulterProjetQuery>({
+  const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
     type: 'Candidature.Query.ConsulterProjet',
     data: {
       identifiantProjet,

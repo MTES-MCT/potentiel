@@ -1,13 +1,13 @@
 import { FC } from 'react';
 
 import { PlainType } from '@potentiel-domain/core';
-import { ListerProjetsListItemReadModel } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { StatutProjetBadge } from './StatutProjetBadge';
 import { ProjetLinks } from './TempProjetLinks';
 
-type ProjetListItemProps = PlainType<ListerProjetsListItemReadModel>;
+type ProjetListItemProps = PlainType<Candidature.ListerProjetsListItemReadModel>;
 
 export const ProjetListItem: FC<ProjetListItemProps> = (projet) => {
   const identifiantProjetValue = IdentifiantProjet.bind(projet.identifiantProjet);
