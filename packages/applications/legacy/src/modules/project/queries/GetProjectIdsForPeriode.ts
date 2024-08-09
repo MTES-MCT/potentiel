@@ -1,9 +1,9 @@
-import { AppelOffre, Periode } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { ResultAsync } from '../../../core/utils';
 import { InfraNotAvailableError } from '../../shared';
 
 export type GetProjectIdsForPeriode = (args: {
-  appelOffreId: AppelOffre['id'];
-  periodeId: Periode['id'];
+  appelOffreId: AppelOffre.AppelOffreReadModel['id'];
+  periodeId: AppelOffre.Periode['id'];
   familleId?: string;
 }) => ResultAsync<string[], InfraNotAvailableError>;

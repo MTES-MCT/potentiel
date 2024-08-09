@@ -1,5 +1,5 @@
 import { ProjectAppelOffre } from '../../../entities';
-import { Technologie } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DésignationCatégorie } from '../types/désignationCatégorie';
 
 export type ProjectDataForCertificate = {
@@ -24,7 +24,7 @@ export type ProjectDataForCertificate = {
   puissance: number;
   potentielId: string;
   territoireProjet: string;
-  technologie: Technologie;
+  technologie: AppelOffre.Technologie;
   actionnariat?: 'financement-collectif' | 'gouvernance-partagee';
   désignationCatégorie?: DésignationCatégorie;
 };

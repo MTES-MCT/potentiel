@@ -3,7 +3,7 @@ import { EntityNotFoundError } from '../../../../modules/shared';
 import { GetProjectDataForChoisirCDCPage } from '../../../../modules/project';
 import { Project, ProjectEvent } from '../../projectionsNext';
 import { getProjectAppelOffre } from '../../../../config/queryProjectAO.config';
-import { CahierDesChargesRéférence } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = (projectId) =>
   wrapInfra(
@@ -28,7 +28,8 @@ export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = 
 
       const projetProps = {
         id: projet.id,
-        cahierDesChargesActuel: projet.cahierDesChargesActuel as CahierDesChargesRéférence,
+        cahierDesChargesActuel:
+          projet.cahierDesChargesActuel as AppelOffre.CahierDesChargesRéférence,
         appelOffre,
       };
 

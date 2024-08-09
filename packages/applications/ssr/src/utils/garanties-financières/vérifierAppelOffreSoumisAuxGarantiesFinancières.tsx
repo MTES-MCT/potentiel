@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
 
 export const projetSoumisAuxGarantiesFinancières = async ({
@@ -13,7 +13,7 @@ export const projetSoumisAuxGarantiesFinancières = async ({
   periode: string;
   famille?: string;
 }) => {
-  const détailsAppelOffre = await mediator.send<ConsulterAppelOffreQuery>({
+  const détailsAppelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
     type: 'AppelOffre.Query.ConsulterAppelOffre',
     data: { identifiantAppelOffre: appelOffre },
   });

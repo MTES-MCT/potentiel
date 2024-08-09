@@ -1,4 +1,4 @@
-import { AppelOffre, Periode } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import cloneDeep from 'lodash/cloneDeep';
 
 import { errAsync, okAsync } from '../../core/utils';
@@ -10,10 +10,13 @@ const appelOffreRepo: AppelOffreRepo = {
   findAll: async () => {
     return appelsOffreStatic;
   },
-  findById: async (id: AppelOffre['id']) => {
+  findById: async (id: AppelOffre.AppelOffreReadModel['id']) => {
     return cloneDeep(appelsOffreStatic.find((ao) => ao.id === id));
   },
-  getPeriodeTitle: (appelOffreId: AppelOffre['id'], periodeId: Periode['id']) => {
+  getPeriodeTitle: (
+    appelOffreId: AppelOffre.AppelOffreReadModel['id'],
+    periodeId: AppelOffre.Periode['id'],
+  ) => {
     const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId);
 
     if (!appelOffre) return errAsync(new EntityNotFoundError());

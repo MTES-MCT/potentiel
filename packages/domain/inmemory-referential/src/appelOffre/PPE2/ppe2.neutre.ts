@@ -2,7 +2,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { validateurParDéfaut } from '../../validateurParDéfaut';
 
-export const neutrePPE2: AppelOffre = {
+export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - Neutre',
   typeAppelOffre: 'neutre',
   title:

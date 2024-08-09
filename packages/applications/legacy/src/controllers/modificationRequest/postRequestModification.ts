@@ -20,7 +20,7 @@ import { upload } from '../upload';
 import { v1Router } from '../v1Router';
 import { Project } from '../../infra/sequelize/projectionsNext';
 import { mediator } from 'mediateur';
-import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -143,7 +143,7 @@ v1Router.post(
 
         const { appelOffreId, periodeId, familleId, numeroCRE } = project;
 
-        const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
+        const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
           type: 'AppelOffre.Query.ConsulterAppelOffre',
           data: { identifiantAppelOffre: appelOffreId },
         });

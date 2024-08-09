@@ -1,5 +1,5 @@
 import { ProjectAppelOffre } from '../../../entities';
-import { Technologie, CahierDesChargesRéférence } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Fournisseur } from '../../project';
 import { ModificationRequestStatusDTO } from './ModificationRequestListItemDTO';
 
@@ -60,9 +60,9 @@ export type ModificationRequestPageDTO = {
     identifiantGestionnaire: string | undefined;
     actionnaire: string;
     potentielIdentifier: string;
-    technologie: Technologie;
+    technologie: AppelOffre.Technologie;
     appelOffre?: ProjectAppelOffre;
-    cahierDesChargesActuel: CahierDesChargesRéférence;
+    cahierDesChargesActuel: AppelOffre.CahierDesChargesRéférence;
     cahiersDesChargesUrl?: string;
     note: number;
   };

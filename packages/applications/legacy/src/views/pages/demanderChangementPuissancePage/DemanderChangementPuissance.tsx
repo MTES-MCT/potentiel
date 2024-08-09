@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ProjectAppelOffre } from '../../../entities';
-import { Technologie } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Request } from 'express';
 
 import {
@@ -23,7 +23,7 @@ type DemanderChangementPuissanceProps = {
   request: Request;
   project: ProjectProps & {
     cahierDesChargesActuel: string;
-    technologie: Technologie;
+    technologie: AppelOffre.Technologie;
     puissanceInitiale: number;
     puissance: number;
     unitePuissance: string;

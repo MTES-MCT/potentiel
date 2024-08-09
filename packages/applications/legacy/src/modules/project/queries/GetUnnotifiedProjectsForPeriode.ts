@@ -1,6 +1,6 @@
 import { ResultAsync } from '../../../core/utils';
 import { Project } from '../../../entities';
-import { AppelOffre, Periode } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { InfraNotAvailableError } from '../../shared';
 
 export interface UnnotifiedProjectDTO {
@@ -11,6 +11,6 @@ export interface UnnotifiedProjectDTO {
 }
 
 export type GetUnnotifiedProjectsForPeriode = (
-  appelOffreId: AppelOffre['id'],
-  periodeId: Periode['id'],
+  appelOffreId: AppelOffre.AppelOffreReadModel['id'],
+  periodeId: AppelOffre.Periode['id'],
 ) => ResultAsync<UnnotifiedProjectDTO[], InfraNotAvailableError>;

@@ -1,6 +1,6 @@
-import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-const CDCModifié30072021: CahierDesChargesModifié = {
+const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/07/2021',
   donnéesCourriersRéponse: {
@@ -13,7 +13,7 @@ const CDCModifié30072021: CahierDesChargesModifié = {
   },
 };
 
-const CDCModifié30082022: CahierDesChargesModifié = {
+const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
   numéroGestionnaireRequis: true,
@@ -35,7 +35,7 @@ const CDCModifié30082022: CahierDesChargesModifié = {
   },
 };
 
-export const autoconsommationZNI2017: AppelOffre = {
+export const autoconsommationZNI2017: AppelOffre.AppelOffreReadModel = {
   id: 'CRE4 - Autoconsommation ZNI 2017',
   typeAppelOffre: 'autoconso',
   title:

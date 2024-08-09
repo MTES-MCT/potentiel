@@ -2,7 +2,7 @@ import { or } from '../../../core/utils';
 import { Project } from '../../../entities';
 import { LegacyModificationStatus } from '../../modificationRequest';
 import { Fournisseur } from '../../project';
-import { DateParutionCahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type ProjectEventDTO =
   | ProjectNotifiedDTO
@@ -430,7 +430,7 @@ export type CahierDesChargesChoisiDTO = {
     }
   | {
       cahierDesCharges: 'modifié';
-      paruLe: DateParutionCahierDesChargesModifié;
+      paruLe: AppelOffre.DateParutionCahierDesChargesModifié;
       alternatif?: true;
     }
 );

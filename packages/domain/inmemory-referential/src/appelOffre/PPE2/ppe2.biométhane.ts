@@ -2,7 +2,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { validateurParDéfaut } from '../../validateurParDéfaut';
 
-export const biométhanePPE2: AppelOffre = {
+export const biométhanePPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - Biométhane',
   typeAppelOffre: 'biométhane',
   title:

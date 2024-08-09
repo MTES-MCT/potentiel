@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { RedirectType, redirect } from 'next/navigation';
 
-import { ListerAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { ListerTâchesQuery } from '@potentiel-domain/tache';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
@@ -40,7 +40,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
       const cycle = searchParams?.cycle;
       const nomProjet = searchParams?.nomProjet;
 
-      const appelOffres = await mediator.send<ListerAppelOffreQuery>({
+      const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
         type: 'AppelOffre.Query.ListerAppelOffre',
         data: {},
       });

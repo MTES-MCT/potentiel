@@ -1,10 +1,10 @@
 import React from 'react';
 import { Radio } from '../../..';
-import { CahierDesChargesRéférence } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 type CahierDesChargesSelectionnableProps = {
-  id: CahierDesChargesRéférence;
-  onCahierDesChargesChoisi?: (cahierDesChargesChoisi: CahierDesChargesRéférence) => void;
+  id: AppelOffre.CahierDesChargesRéférence;
+  onCahierDesChargesChoisi?: (cahierDesChargesChoisi: AppelOffre.CahierDesChargesRéférence) => void;
   sélectionné: boolean;
   désactivé?: true;
   children: React.ReactNode;

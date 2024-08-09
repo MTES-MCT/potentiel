@@ -1,13 +1,13 @@
-import { CahierDesChargesRéférence, DonnéesCourriersRéponse } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { ProjectAppelOffre } from './appelOffre';
 import { parseCahierDesChargesRéférence } from './cahierDesCharges';
 
 export type GetDonnéesCourriersRéponse = (
-  cahierDesChargesActuel: CahierDesChargesRéférence,
+  cahierDesChargesActuel: AppelOffre.CahierDesChargesRéférence,
   projectAppelOffre: ProjectAppelOffre,
-) => DonnéesCourriersRéponse;
+) => AppelOffre.DonnéesCourriersRéponse;
 
-const donnéesCourriersRéponseParDéfaut: DonnéesCourriersRéponse = {
+const donnéesCourriersRéponseParDéfaut: AppelOffre.DonnéesCourriersRéponse = {
   texteChangementDActionnariat: {
     référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',
     dispositions: '!!!CONTENU NON DISPONIBLE!!!',

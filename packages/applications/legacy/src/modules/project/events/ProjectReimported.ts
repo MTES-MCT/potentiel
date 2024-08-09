@@ -1,5 +1,5 @@
 import { DomainEvent, BaseDomainEvent } from '../../../core/domain';
-import { Technologie } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export interface ProjectReimportedPayload {
   projectId: string;
@@ -34,7 +34,7 @@ export interface ProjectReimportedPayload {
     motifsElimination: string;
     notifiedOn: number;
     details: any;
-    technologie: Technologie;
+    technologie: AppelOffre.Technologie;
     actionnariat: string;
   }>;
 }

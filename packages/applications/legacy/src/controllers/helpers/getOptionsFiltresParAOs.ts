@@ -7,15 +7,13 @@ export const getOptionsFiltresParAOs = async ({
   appelOffreId,
 }: {
   user: Request['user'];
-  appelOffreId?: AppelOffre['id'];
+  appelOffreId?: AppelOffre.AppelOffreReadModel['id'];
 }): Promise<{
   existingAppelsOffres: string[];
   existingPeriodes: string[] | undefined;
   existingFamilles: string[] | undefined;
 }> => {
-  const getUserSpecificProjectListFilter = async (
-    user: Request['user'],
-  ): Promise<ContextSpecificProjectListFilter> => {
+  const getUserSpecificProjectListFilter = async (user: Request['user']) => {
     switch (user.role) {
       case 'dreal':
         const regions = await userRepo.findDrealsForUser(user.id);

@@ -1,5 +1,5 @@
 import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '../../../core/domain';
-import { DateParutionCahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type CahierDesChargesChoisiPayload = {
   projetId: string;
@@ -10,7 +10,7 @@ export type CahierDesChargesChoisiPayload = {
     }
   | {
       type: 'modifié';
-      paruLe: DateParutionCahierDesChargesModifié;
+      paruLe: AppelOffre.DateParutionCahierDesChargesModifié;
       alternatif?: true;
     }
 );

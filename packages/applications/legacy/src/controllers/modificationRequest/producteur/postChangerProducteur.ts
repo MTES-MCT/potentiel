@@ -20,7 +20,7 @@ import { v1Router } from '../../v1Router';
 import { ChangementProducteurImpossiblePourEolienError } from '../../../modules/project/errors';
 import { NouveauCahierDesChargesNonChoisiError } from '../../../modules/demandeModification';
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
-import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Project } from '../../../infra/sequelize';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { mediator } from 'mediateur';
@@ -76,7 +76,7 @@ v1Router.post(
           `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
         ).formatter();
 
-        const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
+        const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
           type: 'AppelOffre.Query.ConsulterAppelOffre',
           data: { identifiantAppelOffre: projet.appelOffreId },
         });

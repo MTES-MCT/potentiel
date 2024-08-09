@@ -13,7 +13,7 @@ import asyncHandler from '../../helpers/asyncHandler';
 import { v1Router } from '../../v1Router';
 import { validateUniqueId } from '../../../helpers/validateUniqueId';
 import { ModificationRequest, Project } from '../../../infra/sequelize/projectionsNext';
-import { ConsulterAppelOffreQuery } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { mediator } from 'mediateur';
 import { getDelaiDeRealisation } from '../../../modules/projectAppelOffre';
@@ -82,7 +82,7 @@ v1Router.get(
       );
     }
 
-    const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
+    const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: { identifiantAppelOffre: résuméProjet.appelOffre },
     });

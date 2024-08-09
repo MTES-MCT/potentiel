@@ -7,7 +7,9 @@ export type GetProjectAppelOffre = (args: {
   familleId?: string;
 }) => ProjectAppelOffre | undefined;
 
-export const makeGetProjectAppelOffre: (appelsOffre: AppelOffre[]) => GetProjectAppelOffre =
+export const makeGetProjectAppelOffre: (
+  appelsOffre: AppelOffre.AppelOffreReadModel[],
+) => GetProjectAppelOffre =
   (appelsOffres) =>
   ({ appelOffreId, periodeId, familleId }) => {
     const appelOffre = appelsOffres.find((ao) => ao.id === appelOffreId);

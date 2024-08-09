@@ -6,7 +6,7 @@ import { User } from '../../../entities';
 import { parseProjectLine } from '../utils/parseProjectLine';
 import { LegacyModificationRawDataImported } from '../../modificationRequest';
 import { EventBus } from '../../../core/domain';
-import { AppelOffre, Periode } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DésignationCatégorie } from '../types';
 
 interface ImportProjectsDeps {
@@ -117,8 +117,8 @@ export const makeImportProjects =
 
 const checkFamille = (
   projectData: ReturnType<typeof parseProjectLine>,
-  projectAppelOffre: AppelOffre,
-  periodeDetails: Periode,
+  projectAppelOffre: AppelOffre.AppelOffreReadModel,
+  periodeDetails: AppelOffre.Periode,
 ) => {
   const { appelOffreId, familleId } = projectData;
   if (familleId) {
@@ -144,7 +144,7 @@ const checkFamille = (
 
 const checkGarantiesFinancières = (
   projectData: ReturnType<typeof parseProjectLine>,
-  projectAppelOffre: AppelOffre,
+  projectAppelOffre: AppelOffre.AppelOffreReadModel,
 ) => {
   const familleDetails = projectAppelOffre.periodes
     .find((p) => p.id === projectData.periodeId)
@@ -196,7 +196,7 @@ const getDésignationCatégorie = ({
   periodeDetails,
 }: {
   projectData: ProjectData;
-  periodeDetails: Periode;
+  periodeDetails: AppelOffre.Periode;
 }): DésignationCatégorie | undefined => {
   if (periodeDetails.noteThresholdBy !== 'category') {
     return;

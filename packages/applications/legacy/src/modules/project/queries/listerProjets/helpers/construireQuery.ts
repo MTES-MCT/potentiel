@@ -1,10 +1,10 @@
 import { ProjectFilters } from '../../../../../dataAccess';
-import { AppelOffre, Famille, Periode } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type FiltresConstruireQuery = {
-  appelOffreId?: AppelOffre['id'];
-  periodeId?: Periode['id'];
-  familleId?: Famille['id'];
+  appelOffreId?: AppelOffre.AppelOffreReadModel['id'];
+  periodeId?: AppelOffre.Periode['id'];
+  familleId?: AppelOffre.Famille['id'];
   classement?: 'classés' | 'éliminés' | 'abandons';
   reclames?: 'réclamés' | 'non-réclamés';
 };

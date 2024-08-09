@@ -1,8 +1,8 @@
-import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 const garantieFinanciereEnMois = 36;
 
-const CDCModifié30082022: CahierDesChargesModifié = {
+const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
   numéroGestionnaireRequis: true,
@@ -44,7 +44,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
   },
 };
 
-export const pvEolien: AppelOffre = {
+export const pvEolien: AppelOffre.AppelOffreReadModel = {
   id: 'PV - Eolien',
   typeAppelOffre: 'eolien',
   title: `portant sur la réalisation de l'exploitation d'installations de production d'électricité à partir d'énergie solaire photovoltaïque ou élolienne situées en métropole continentale`,

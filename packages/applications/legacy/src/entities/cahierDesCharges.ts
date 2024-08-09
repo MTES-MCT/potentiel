@@ -1,13 +1,10 @@
-import {
-  CahierDesChargesRéférence,
-  DateParutionCahierDesChargesModifié,
-} from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type CahierDesChargesRéférenceParsed =
   | { type: 'initial' }
   | {
       type: 'modifié';
-      paruLe: DateParutionCahierDesChargesModifié;
+      paruLe: AppelOffre.DateParutionCahierDesChargesModifié;
       alternatif?: true;
     };
 
@@ -20,14 +17,14 @@ export const parseCahierDesChargesRéférence = (
 
   return {
     type: 'modifié',
-    paruLe: référence.replace('-alternatif', '') as DateParutionCahierDesChargesModifié,
+    paruLe: référence.replace('-alternatif', '') as AppelOffre.DateParutionCahierDesChargesModifié,
     alternatif: référence.search('-alternatif') === -1 ? undefined : true,
   };
 };
 
 export const formatCahierDesChargesRéférence = (
   cdc: CahierDesChargesRéférenceParsed,
-): CahierDesChargesRéférence =>
+): AppelOffre.CahierDesChargesRéférence =>
   cdc.type === 'initial'
     ? 'initial'
-    : (`${cdc.paruLe}${cdc.alternatif ? '-alternatif' : ''}` as CahierDesChargesRéférence);
+    : (`${cdc.paruLe}${cdc.alternatif ? '-alternatif' : ''}` as AppelOffre.CahierDesChargesRéférence);

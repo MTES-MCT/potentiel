@@ -1,8 +1,8 @@
-import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { validateurParDéfaut } from '../../validateurParDéfaut';
 
-const CDCModifié30082022: CahierDesChargesModifié = {
+const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
   numéroGestionnaireRequis: true,
@@ -22,7 +22,7 @@ const CDCModifié30082022: CahierDesChargesModifié = {
   },
 };
 
-export const eolien: AppelOffre = {
+export const eolien: AppelOffre.AppelOffreReadModel = {
   autoritéCompétenteDemandesDélai: 'dgec',
   id: 'Eolien',
   typeAppelOffre: 'eolien',

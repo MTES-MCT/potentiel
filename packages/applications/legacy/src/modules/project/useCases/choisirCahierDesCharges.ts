@@ -1,7 +1,7 @@
 import { EventStore, Repository, UniqueEntityID } from '../../../core/domain';
 import { errAsync, okAsync, ResultAsync, wrapInfra } from '../../../core/utils';
 import { User, CahierDesChargesRéférenceParsed } from '../../../entities';
-import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { CahierDesChargesChoisi } from '../events';
 import { Project } from '../Project';
@@ -65,7 +65,7 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
   const chargerCahierDesChargesChoisi = (arg: {
     commande: Commande;
     projet: Project;
-    appelOffre: AppelOffre;
+    appelOffre: AppelOffre.AppelOffreReadModel;
   }) => {
     const {
       commande: { cahierDesCharges },
@@ -98,8 +98,8 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
   const vérifierSiPasDéjàSouscrit = (arg: {
     commande: Commande;
     projet: Project;
-    appelOffre: AppelOffre;
-    cahierDesChargesChoisi: CahierDesChargesModifié | { type: 'initial' };
+    appelOffre: AppelOffre.AppelOffreReadModel;
+    cahierDesChargesChoisi: AppelOffre.CahierDesChargesModifié | { type: 'initial' };
   }) => {
     const { commande, projet } = arg;
     const { cahierDesCharges } = commande;
@@ -116,8 +116,8 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
   const vérifierSiLInitialPeutÊtreChoisi = (arg: {
     commande: Commande;
     projet: Project;
-    appelOffre: AppelOffre;
-    cahierDesChargesChoisi: CahierDesChargesModifié | { type: 'initial' };
+    appelOffre: AppelOffre.AppelOffreReadModel;
+    cahierDesChargesChoisi: AppelOffre.CahierDesChargesModifié | { type: 'initial' };
   }) => {
     const { commande, appelOffre } = arg;
     const { cahierDesCharges } = commande;

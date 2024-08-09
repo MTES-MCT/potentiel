@@ -6,12 +6,12 @@ import { Objet } from './components/Objet';
 import { Introduction } from './components/Introduction';
 import { Signature } from './components/Signature';
 import { PageFooter } from './components/PageFooter';
-import { Validateur } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type CertificateProps = {
   project: ProjectDataForCertificate;
   content: React.ReactNode;
-  validateur: Validateur;
+  validateur: AppelOffre.Validateur;
 };
 
 export const Certificate = (props: CertificateProps) => {

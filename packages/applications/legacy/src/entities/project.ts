@@ -15,15 +15,7 @@ import {
 import { ModificationRequest } from './modificationRequest';
 import { User } from './user';
 import { ProjectAppelOffre } from './appelOffre';
-import {
-  Famille,
-  CahierDesChargesRéférence,
-  CertificateTemplate,
-  Technologie,
-  technologies,
-  Territoire,
-  territoires,
-} from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { isNotifiedPeriode } from './periode';
 import { logger } from '../core/utils';
 
@@ -72,18 +64,18 @@ const baseProjectSchema = SchemaRecord({
     Literal('30/08/2022-alternatif'),
   ),
   potentielIdentifier: String,
-  technologie: String.withGuard((value: string): value is Technologie =>
-    technologies.includes(value as Technologie),
+  technologie: String.withGuard((value: string): value is AppelOffre.Technologie =>
+    AppelOffre.technologies.includes(value as AppelOffre.Technologie),
   ),
 });
 const projectSchema = baseProjectSchema.And(
   SchemaPartial({
     actionnaire: String,
-    territoireProjet: String.withGuard((value: string): value is Territoire =>
-      territoires.includes(value as Territoire),
+    territoireProjet: String.withGuard((value: string): value is AppelOffre.Territoire =>
+      AppelOffre.territoires.includes(value as AppelOffre.Territoire),
     ),
     appelOffre: Unknown.withGuard((obj: any): obj is ProjectAppelOffre => true), // This would be type ProjectAppelOffre
-    famille: Unknown.withGuard((obj: any): obj is Famille => true),
+    famille: Unknown.withGuard((obj: any): obj is AppelOffre.Famille => true),
     createdAt: Unknown.withGuard((obj: any): obj is Date => true),
     updatedAt: Unknown.withGuard((obj: any): obj is Date => true),
   }),
@@ -116,7 +108,7 @@ type BaseProject = Static<typeof projectSchema> & {
     id: string;
     filename: string;
   };
-  cahierDesChargesActuel: CahierDesChargesRéférence;
+  cahierDesChargesActuel: AppelOffre.CahierDesChargesRéférence;
   readonly potentielIdentifier: string;
   actionnariat?: '' | 'financement-collectif' | 'gouvernance-partagee';
 };
@@ -222,7 +214,7 @@ const buildApplyProjectUpdate = (makeId: () => string) => {
 const getCertificateIfProjectEligible = (
   project: Project,
   ignoreNotifiedOn?: boolean,
-): CertificateTemplate | null => {
+): AppelOffre.CertificateTemplate | null => {
   if (!ignoreNotifiedOn && !project.notifiedOn) {
     logger.error('getCertificateIfProjectEligible failed on project notifiedOn');
     return null;
@@ -270,7 +262,6 @@ export {
   Project,
   ProjectEvent,
   projectSchema,
-  territoires,
   buildApplyProjectUpdate,
   getCertificateIfProjectEligible,
 };

@@ -14,10 +14,7 @@ import {
 import { ModificationRequestType } from '../../modules/modificationRequest';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { parseCahierDesChargesRéférence } from '../../entities';
-import {
-  CahierDesChargesRéférence,
-  cahiersDesChargesRéférences,
-} from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type TypeDeModification = ModificationRequestType | 'delai';
 
@@ -30,8 +27,8 @@ const schema = yup.object({
       .oneOf(['actionnaire', 'fournisseur', 'producteur', 'puissance', 'recours', 'delai'])
       .optional(),
     choixCDC: yup
-      .mixed<CahierDesChargesRéférence>()
-      .oneOf(cahiersDesChargesRéférences.slice())
+      .mixed<AppelOffre.CahierDesChargesRéférence>()
+      .oneOf(AppelOffre.cahiersDesChargesRéférences.slice())
       .required(),
     identifiantGestionnaireRéseau: yup.string().optional(),
     codeEICGestionnaireRéseau: yup.string().optional(),

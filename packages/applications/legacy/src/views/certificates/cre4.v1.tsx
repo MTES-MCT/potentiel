@@ -8,7 +8,7 @@ import { ProjectDataForCertificate } from '../../modules/project/dtos';
 import { IllegalProjectStateError } from '../../modules/project/errors';
 import { OtherError } from '../../modules/shared';
 import { formatNumber } from './helpers';
-import { Validateur } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 dotenv.config();
 
@@ -320,7 +320,7 @@ interface CertificateProps {
   objet: string;
   body: JSX.Element;
   footnotes?: JSX.Element;
-  validateur: Validateur;
+  validateur: AppelOffre.Validateur;
 }
 const Certificate = ({ project, objet, body, footnotes, validateur }: CertificateProps) => {
   const { appelOffre } = project;
@@ -488,7 +488,7 @@ const queue = new Queue();
 /* global NodeJS */
 const makeCertificate = (
   project: ProjectDataForCertificate,
-  validateur: Validateur,
+  validateur: AppelOffre.Validateur,
 ): ResultAsync<NodeJS.ReadableStream, IllegalProjectStateError | OtherError> => {
   const { appelOffre } = project;
   const { periode } = appelOffre || {};

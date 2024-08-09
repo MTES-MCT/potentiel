@@ -1,4 +1,4 @@
-import { DateParutionCahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { ProjectEvent } from '../projectEvent.model';
 
 export type CahierDesChargesEvent = ProjectEvent & {
@@ -11,7 +11,7 @@ export type CahierDesChargesEvent = ProjectEvent & {
       }
     | {
         type: 'modifié';
-        paruLe: DateParutionCahierDesChargesModifié;
+        paruLe: AppelOffre.DateParutionCahierDesChargesModifié;
         alternatif?: true;
       }
   );

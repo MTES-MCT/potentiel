@@ -2,7 +2,7 @@ import { Optional } from 'utility-types';
 import { AggregateRoot, DomainError, DomainEvent, UniqueEntityID } from '../../core/domain';
 import { ok, Result } from '../../core/utils';
 import { Région } from '../dreal/région';
-import { DateParutionCahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 type BaseNotification = {
   message: {
@@ -222,7 +222,7 @@ type PPCDCModifiéChoisi = {
   };
   variables: {
     nom_projet: string;
-    cdc_date: DateParutionCahierDesChargesModifié;
+    cdc_date: AppelOffre.DateParutionCahierDesChargesModifié;
     cdc_alternatif: 'alternatif' | '';
     projet_url: string;
   };

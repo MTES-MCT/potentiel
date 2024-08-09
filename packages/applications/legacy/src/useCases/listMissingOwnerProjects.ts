@@ -1,7 +1,7 @@
 import { Project, User } from '../entities';
 import { ProjectRepo, ProjectFilters } from '../dataAccess';
 import { PaginatedList, Pagination } from '../modules/pagination';
-import { AppelOffre, Periode, Famille } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 interface MakeUseCaseProps {
   searchAllMissingOwner: ProjectRepo['searchAllMissingOwner'];
@@ -12,9 +12,9 @@ interface MakeUseCaseProps {
 
 interface ListMissingOwnerProjectsDeps {
   user: User;
-  appelOffreId?: AppelOffre['id'];
-  periodeId?: Periode['id'];
-  familleId?: Famille['id'];
+  appelOffreId?: AppelOffre.AppelOffreReadModel['id'];
+  periodeId?: AppelOffre.Periode['id'];
+  familleId?: AppelOffre.Famille['id'];
   pagination?: Pagination;
   recherche?: string;
   classement?: 'classés' | 'éliminés' | 'abandons';
@@ -23,9 +23,9 @@ interface ListMissingOwnerProjectsDeps {
 
 interface ListMissingOwnerProjectsResult {
   projects: PaginatedList<Project>;
-  existingAppelsOffres: Array<AppelOffre['id']>;
-  existingPeriodes?: Array<Periode['id']>;
-  existingFamilles?: Array<Famille['id']>;
+  existingAppelsOffres: Array<AppelOffre.AppelOffreReadModel['id']>;
+  existingPeriodes?: Array<AppelOffre.Periode['id']>;
+  existingFamilles?: Array<AppelOffre.Famille['id']>;
 }
 
 export default function makeListMissingOwnerProjects({

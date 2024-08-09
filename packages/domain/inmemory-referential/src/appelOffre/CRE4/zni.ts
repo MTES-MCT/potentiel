@@ -1,10 +1,10 @@
-import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { validateurParDéfaut } from '../../validateurParDéfaut';
 
 const garantieFinanciereEnMois = 36;
 
-const CDCModifié30072021: CahierDesChargesModifié = {
+const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/07/2021',
   donnéesCourriersRéponse: {
@@ -17,7 +17,7 @@ const CDCModifié30072021: CahierDesChargesModifié = {
   },
 };
 
-const CDCModifié30082022: CahierDesChargesModifié = {
+const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
   numéroGestionnaireRequis: true,
@@ -39,7 +39,7 @@ const CDCModifié30082022: CahierDesChargesModifié = {
   },
 };
 
-const CDCModifié30082022Alternatif: CahierDesChargesModifié = {
+const CDCModifié30082022Alternatif: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
   alternatif: true,
@@ -59,14 +59,14 @@ const CDCModifié30082022Alternatif: CahierDesChargesModifié = {
   },
 };
 
-const CDCModifié07022023: CahierDesChargesModifié = {
+const CDCModifié07022023: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '07/02/2023',
   numéroGestionnaireRequis: true,
   délaiAnnulationAbandon: new Date('2023-02-23'),
 };
 
-const CDCModifié07022023Alternatif: CahierDesChargesModifié = {
+const CDCModifié07022023Alternatif: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '07/02/2023',
   alternatif: true,
@@ -74,7 +74,7 @@ const CDCModifié07022023Alternatif: CahierDesChargesModifié = {
   délaiAnnulationAbandon: new Date('2023-02-23'),
 };
 
-export const zni: AppelOffre = {
+export const zni: AppelOffre.AppelOffreReadModel = {
   id: 'CRE4 - ZNI',
   typeAppelOffre: 'zni',
   title:

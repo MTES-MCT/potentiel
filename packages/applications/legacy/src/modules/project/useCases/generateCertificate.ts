@@ -12,7 +12,7 @@ import { IllegalProjectDataError, ProjectNotEligibleForCertificateError } from '
 import { Project } from '../Project';
 import { GetUserById } from '../../../infra/sequelize/queries/users';
 import { ProjectDataForCertificate } from '..';
-import { CertificateTemplate, Validateur } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { AppelOffreRepo } from '../../../dataAccess/inMemory';
 
 export type GenerateCertificate = (args: {
@@ -36,9 +36,9 @@ interface GenerateCertificateDeps {
   getUserById: GetUserById;
   findAppelOffreById: AppelOffreRepo['findById'];
   buildCertificate: (options: {
-    template: CertificateTemplate;
+    template: AppelOffre.CertificateTemplate;
     data: ProjectDataForCertificate;
-    validateur?: Validateur;
+    validateur?: AppelOffre.Validateur;
   }) => ResultAsync<
     NodeJS.ReadableStream,
     | IllegalProjectDataError
@@ -74,7 +74,7 @@ export const makeGenerateCertificate =
             return okAsync({
               fullName: validateur.fullName,
               fonction: validateur.fonction,
-            } satisfies Validateur);
+            } satisfies AppelOffre.Validateur);
           }
 
           return wrapInfra(findAppelOffreById(project.appelOffreId)).andThen((appelOffre) => {
@@ -104,7 +104,7 @@ export const makeGenerateCertificate =
       validateur,
     }: {
       project: Project;
-      validateur: Validateur;
+      validateur: AppelOffre.Validateur;
     }) {
       return project.certificateData
         .asyncAndThen((certificateData) =>

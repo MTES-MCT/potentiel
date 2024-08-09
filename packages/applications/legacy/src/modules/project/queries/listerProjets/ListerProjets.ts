@@ -1,7 +1,7 @@
 import { UtilisateurReadModel } from '../../../utilisateur/récupérer/UtilisateurReadModel';
 import { ProjectAppelOffre } from '../../../../entities';
 import { PaginatedList, Pagination } from '../../../pagination';
-import { AppelOffre, Periode, Famille } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export const PermissionListerProjets = {
   nom: 'lister-projets',
@@ -39,9 +39,9 @@ export type ProjectListItem = {
 export type FiltreListeProjets = {
   recherche?: string;
   appelOffre?: {
-    appelOffreId?: AppelOffre['id'];
-    periodeId?: Periode['id'];
-    familleId?: Famille['id'];
+    appelOffreId?: AppelOffre.AppelOffreReadModel['id'];
+    periodeId?: AppelOffre.Periode['id'];
+    familleId?: AppelOffre.Famille['id'];
   };
   classement?: 'classés' | 'éliminés' | 'abandons';
   reclames?: 'réclamés' | 'non-réclamés';

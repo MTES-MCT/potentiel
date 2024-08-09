@@ -1,5 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '../../../../core/domain';
-import { CahierDesChargesRéférence } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type DélaiDemandéPayload = {
   demandeDélaiId: string;
@@ -9,7 +9,7 @@ export type DélaiDemandéPayload = {
   justification?: string;
   dateAchèvementDemandée: Date;
   porteurId: string;
-  cahierDesCharges?: CahierDesChargesRéférence;
+  cahierDesCharges?: AppelOffre.CahierDesChargesRéférence;
 };
 
 export class DélaiDemandé extends BaseDomainEvent<DélaiDemandéPayload> implements DomainEvent {

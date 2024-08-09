@@ -1,7 +1,7 @@
 import React from 'react';
-import { CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-type CahierDesChargesModifiéDisponibleProps = CahierDesChargesModifié;
+type CahierDesChargesModifiéDisponibleProps = AppelOffre.CahierDesChargesModifié;
 
 export const CahierDesChargesModifiéDisponible: React.FC<
   CahierDesChargesModifiéDisponibleProps

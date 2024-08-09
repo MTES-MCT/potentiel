@@ -6,7 +6,7 @@ import {
 } from '../../../../modules/modificationRequest';
 import { EntityNotFoundError } from '../../../../modules/shared';
 import { parseCahierDesChargesRéférence, ProjectAppelOffre } from '../../../../entities';
-import { CahierDesChargesRéférence } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { ModificationRequest, Project, User, File } from '../..';
 
 export const getModificationRequestDetails: GetModificationRequestDetails = (
@@ -158,7 +158,7 @@ const formatCahierDesCharges = ({
   cahierDesChargesRéférence,
   appelOffre,
 }: {
-  cahierDesChargesRéférence: CahierDesChargesRéférence;
+  cahierDesChargesRéférence: AppelOffre.CahierDesChargesRéférence;
   appelOffre: ProjectAppelOffre;
 }): ModificationRequestPageDTO['cahierDesCharges'] => {
   const cahierDesChargesRéférenceParsed = parseCahierDesChargesRéférence(cahierDesChargesRéférence);
