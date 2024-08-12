@@ -5,7 +5,7 @@ import { publishToEventBus } from '../config/eventBus.config';
 import { DésignationCatégorie, ProjectRawDataImported } from '../modules/project';
 import { logger } from '../core/utils';
 import { v4 } from 'uuid';
-import { ConsulterAppelOffreQuery, Periode } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
 import { CandidatureImportéeEvent } from '@potentiel-domain/candidature/dist/candidature';
 import getDepartementRegionFromCodePostal, {
@@ -22,7 +22,7 @@ export const register = () => {
       case 'CandidatureImportée-V1':
         const { payload } = event;
 
-        const appelOffre = await mediator.send<ConsulterAppelOffreQuery>({
+        const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
           type: 'AppelOffre.Query.ConsulterAppelOffre',
           data: {
             identifiantAppelOffre: payload.appelOffre,
@@ -126,7 +126,7 @@ const getDésignationCatégorie = ({
 }: {
   puissance: number;
   note: number;
-  periodeDetails: Periode;
+  periodeDetails: AppelOffre.Periode;
 }): DésignationCatégorie | undefined => {
   if (periodeDetails.noteThresholdBy !== 'category') {
     return;
