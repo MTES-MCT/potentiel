@@ -96,6 +96,7 @@ const mapLineToUseCaseData = (
   financementParticipatifValue: line.financement_participatif === 'oui',
   gouvernancePartagéeValue: line.gouvernance_partagée === 'oui',
   dateÉchéanceGfValue: line.date_échéance_gf?.toISOString(),
+  territoireProjetValue: line.territoire_projet,
   détailsValue: rawLine,
 });
 

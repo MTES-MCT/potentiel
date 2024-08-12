@@ -1,12 +1,14 @@
 import { z } from 'zod';
 
 const requiredStringSchema = z.string().trim().min(1);
+
 const numberSchema = z
   .string()
   // replace french commas to "."
   .transform((str) => str.replace(/,/g, '.'))
   // transform to number
   .pipe(z.coerce.number());
+
 const strictlyPositiveNumberSchema = z
   .string()
   // replace french commas to "."
@@ -34,9 +36,9 @@ const dateSchema = z
   });
 
 /**
- * @field field le champs validé
- * @field referenceField le champs dont dépend la validation de `field`
- * @field expectedValue la valeur de `referenceField` pour laquelle `field` est requis
+ * @param field Le champ validé
+ * @param referenceField Le champs dont dépend la validation de `field`
+ * @param expectedValue la valeur de `referenceField` pour laquelle `field` est requis
  */
 const requiredFieldIfReferenceFieldEquals = <
   T,
@@ -95,6 +97,7 @@ const colonnes = {
   // TODO quel est le bon nom pour cette colonne?
   historique_abandon:
     "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période",
+  territoire_projet: 'Territoire\n(AO ZNI)',
 } as const;
 
 // Order matters! the CSV uses "1"/"2"/"3"
@@ -143,12 +146,13 @@ const candidatureCsvRowSchema = z
       .enum(['N/A', 'Eolien', 'Hydraulique', 'PV'])
       .optional()
       .default('N/A'),
-    [colonnes.financement_collectif]: ouiNonSchema,
-    [colonnes.financement_participatif]: ouiNonSchema,
+    [colonnes.financement_collectif]: ouiNonSchema.optional().transform((val) => val ?? false),
+    [colonnes.financement_participatif]: ouiNonSchema.optional().transform((val) => val ?? false),
     [colonnes.gouvernance_partagée]: ouiNonSchema,
     [colonnes.type_gf]: z.enum(['1', '2', '3']).optional(), // see refine below
     [colonnes.date_échéance_gf]: dateSchema.optional(), // see refine below
     [colonnes.historique_abandon]: z.enum(['1', '2', '3', '4']),
+    [colonnes.territoire_projet]: z.string().optional(), // see refines below
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine(
@@ -162,6 +166,20 @@ const candidatureCsvRowSchema = z
       "Date d'échéance au format JJ/MM/AAAA",
       colonnes.type_gf,
       '2',
+    ),
+  )
+  .superRefine(
+    requiredFieldIfReferenceFieldEquals(
+      colonnes.territoire_projet,
+      colonnes.appel_offre,
+      'CRE4 - ZNI',
+    ),
+  )
+  .superRefine(
+    requiredFieldIfReferenceFieldEquals(
+      colonnes.territoire_projet,
+      colonnes.appel_offre,
+      'CRE4 - ZNI 2017',
     ),
   );
 

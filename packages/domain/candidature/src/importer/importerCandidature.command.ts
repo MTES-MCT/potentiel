@@ -41,7 +41,7 @@ export type ImporterCandidatureCommand = Message<
     financementParticipatif: boolean;
     gouvernancePartagée: boolean;
     dateÉchéanceGf?: DateTime.ValueType;
-
+    territoireProjet?: string;
     détails?: Record<string, string>;
   }
 >;

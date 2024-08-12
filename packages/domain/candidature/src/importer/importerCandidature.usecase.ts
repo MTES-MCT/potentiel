@@ -40,6 +40,7 @@ export type ImporterCandidatureUseCase = Message<
     financementParticipatifValue: boolean;
     gouvernancePartagéeValue: boolean;
     dateÉchéanceGfValue?: string;
+    territoireProjetValue?: string;
     détailsValue?: Record<string, string>;
   }
 >;
@@ -96,6 +97,7 @@ export const registerImporterCandidatureUseCase = () => {
         puissanceALaPointe: payload.puissanceALaPointeValue,
         sociétéMère: payload.sociétéMèreValue,
         valeurÉvaluationCarbone: payload.valeurÉvaluationCarboneValue,
+        territoireProjet: payload.territoireProjetValue,
         détails: payload.détailsValue,
       },
     });
