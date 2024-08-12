@@ -14,13 +14,11 @@ import { candidatureSchema, CandidatureShape } from './candidature.schema';
 export type ImporterCandidaturesState = FormState;
 
 const schema = zod.object({
-  appelOffre: zod.string().min(1),
-  periode: zod.string().min(1),
   fichierImport: zod.instanceof(Blob).refine((data) => data.size > 0),
 });
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }) => {
-  const lines = await parseCsv(fichierImport.stream(), candidatureSchema, { delimiter: ';' });
+  const lines = await parseCsv(fichierImport.stream(), candidatureSchema);
 
   if (lines.length === 0) {
     return {
