@@ -35,13 +35,15 @@
     "@potentiel-libraries/csv": "*",
     "@potentiel-libraries/iso8601-datetime": "*",
     "@potentiel-libraries/monitoring": "*",
+    "i18next": "^23.12.2",
     "mediateur": "^0.1.0",
     "next": "^14.1.1",
     "next-auth": "^4.24.5",
     "react": "^18",
     "react-dom": "^18",
     "sharp": "^0.33.4",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zod-i18n-map": "^2.27.0"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.2.7",

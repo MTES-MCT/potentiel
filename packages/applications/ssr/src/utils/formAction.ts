@@ -1,7 +1,18 @@
 import * as zod from 'zod';
+import i18next from 'i18next';
+import { zodI18nMap } from 'zod-i18n-map';
+import translation from 'zod-i18n-map/locales/fr/zod.json';
 
 import { DomainError } from '@potentiel-domain/core';
 import { CsvError, CsvValidationError } from '@potentiel-libraries/csv';
+
+i18next.init({
+  lng: 'fr',
+  resources: {
+    fr: { zod: translation },
+  },
+});
+zod.setErrorMap(zodI18nMap);
 
 export type ActionResult = {
   successCount: number;
