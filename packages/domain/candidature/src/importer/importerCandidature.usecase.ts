@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { DateTime, IdentifiantProjet, TypeGarantiesFinancières } from '@potentiel-domain/common';
 
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
@@ -71,9 +70,7 @@ export const registerImporterCandidatureUseCase = () => {
           ? Technologie.convertirEnValueType(technologieValue)
           : undefined,
         typeGarantiesFinancières: typeGarantiesFinancièresValue
-          ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
-              typeGarantiesFinancièresValue,
-            )
+          ? TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancièresValue)
           : undefined,
         historiqueAbandon: HistoriqueAbandon.convertirEnValueType(historiqueAbandonValue),
         nomProjet: payload.nomProjetValue,

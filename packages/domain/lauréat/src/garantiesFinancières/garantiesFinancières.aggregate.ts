@@ -4,7 +4,7 @@ import {
   GetDefaultAggregateState,
   LoadAggregate,
 } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet, TypeGarantiesFinancières } from '@potentiel-domain/common';
 
 import {
   AttestationGarantiesFinancièresEnregistréeEvent,
@@ -13,7 +13,6 @@ import {
   MotifDemandeGarantiesFinancières,
   StatutGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
-  TypeGarantiesFinancières,
   TypeGarantiesFinancièresImportéEvent,
 } from '.';
 

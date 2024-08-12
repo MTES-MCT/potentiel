@@ -1,6 +1,5 @@
 import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { DateTime, IdentifiantProjet, TypeGarantiesFinancières } from '@potentiel-domain/common';
 
 import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
@@ -12,7 +11,7 @@ export type CandidatureImportéeEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     statut: StatutCandidature.RawType;
-    typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+    typeGarantiesFinancières?: TypeGarantiesFinancières.RawType;
     historiqueAbandon?: HistoriqueAbandon.RawType;
     appelOffre: string;
     période: string;
@@ -45,7 +44,7 @@ export type CandidatureImportéeEvent = DomainEvent<
 type ImporterCandidatureOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutCandidature.ValueType;
-  typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
+  typeGarantiesFinancières?: TypeGarantiesFinancières.ValueType;
   historiqueAbandon?: HistoriqueAbandon.ValueType;
   appelOffre: string;
   période: string;

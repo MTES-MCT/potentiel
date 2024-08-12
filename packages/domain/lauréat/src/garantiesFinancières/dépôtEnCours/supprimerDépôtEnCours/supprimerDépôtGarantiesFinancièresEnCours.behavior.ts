@@ -1,11 +1,10 @@
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet, TypeGarantiesFinancières } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError } from '../aucunDépôtEnCoursGarantiesFinancièresPourLeProjet.error';
 import { GarantiesFinancièresDemandéesEvent } from '../../demander/demanderGarantiesFinancières.behavior';
-import { TypeGarantiesFinancières } from '../..';
 
 /**
  * @deprecated Utilisez DépôtGarantiesFinancièresEnCoursSuppriméEvent à la place.

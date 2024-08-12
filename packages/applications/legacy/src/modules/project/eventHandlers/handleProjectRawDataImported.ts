@@ -4,7 +4,7 @@ import { err, logger } from '../../../core/utils';
 import { FindProjectByIdentifiers } from '..';
 import { ProjectRawDataImported } from '../events';
 import { Project } from '../Project';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet, TypeGarantiesFinancières } from '@potentiel-domain/common';
 import { mediator } from 'mediateur';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
@@ -68,7 +68,7 @@ export const handleProjectRawDataImported =
               importéLeValue: new Date(event.occurredAt).toISOString(),
               typeValue: typeGarantiesFinancières,
               ...(data.garantiesFinancièresDateEchéance &&
-                GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
+                TypeGarantiesFinancières.convertirEnValueType(
                   typeGarantiesFinancières,
                 ).estAvecDateÉchéance() && {
                   dateÉchéanceValue: new Date(data.garantiesFinancièresDateEchéance).toISOString(),
@@ -87,10 +87,10 @@ export const handleProjectRawDataImported =
 const convertirGarantiesFinancièresType = (typeImporté: string) => {
   switch (typeImporté) {
     case "Garantie financière jusqu'à 6 mois après la date d'achèvement":
-      return GarantiesFinancières.TypeGarantiesFinancières.sixMoisAprèsAchèvement.type;
+      return TypeGarantiesFinancières.sixMoisAprèsAchèvement.type;
     case "Garantie financière avec date d'échéance et à renouveler":
-      return GarantiesFinancières.TypeGarantiesFinancières.avecDateÉchéance.type;
+      return TypeGarantiesFinancières.avecDateÉchéance.type;
     case 'Consignation':
-      return GarantiesFinancières.TypeGarantiesFinancières.consignation.type;
+      return TypeGarantiesFinancières.consignation.type;
   }
 };

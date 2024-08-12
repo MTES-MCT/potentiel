@@ -9,6 +9,7 @@ import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpe
 import { afficherDate } from '../../../helpers';
 import { Routes } from '@potentiel-applications/routes';
 
+import { TypeGarantiesFinancières } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 type InfoGeneralesProps = {
@@ -228,7 +229,7 @@ const GarantiesFinancièresProjet = ({
   );
 };
 
-const getGFLabel = (type?: GarantiesFinancières.TypeGarantiesFinancières.RawType) => {
+const getGFLabel = (type?: TypeGarantiesFinancières.RawType) => {
   switch (type) {
     case 'consignation':
       return 'de type consignation';

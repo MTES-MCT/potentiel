@@ -1,17 +1,18 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
+import {
+  IdentifiantProjet,
+  DateTime,
+  Email,
+  TypeGarantiesFinancières,
+} from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { GarantiesFinancièresEntity } from '../garantiesFinancièresActuelles.entity';
-import {
-  StatutGarantiesFinancières,
-  TypeDocumentGarantiesFinancières,
-  TypeGarantiesFinancières,
-} from '../..';
+import { StatutGarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
 import { GarantiesFinancièresDetails } from '../types';
 
 export type GarantiesFinancièresReadModel = {

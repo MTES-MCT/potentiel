@@ -1,8 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet, TypeGarantiesFinancières } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
@@ -13,7 +12,7 @@ export type ImporterCandidatureCommand = Message<
   'Candidature.Command.ImporterCandidature',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
+    typeGarantiesFinancières?: TypeGarantiesFinancières.ValueType;
     historiqueAbandon: HistoriqueAbandon.ValueType;
     appelOffre: string;
     période: string;

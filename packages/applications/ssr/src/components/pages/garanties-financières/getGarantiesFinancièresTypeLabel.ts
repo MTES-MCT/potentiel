@@ -1,8 +1,6 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { TypeGarantiesFinancières } from '@potentiel-domain/common';
 
-export const getGarantiesFinancièresTypeLabel = (
-  type: GarantiesFinancières.TypeGarantiesFinancières.RawType,
-) => {
+export const getGarantiesFinancièresTypeLabel = (type: TypeGarantiesFinancières.RawType) => {
   switch (type) {
     case 'consignation':
       return 'Consignation';

@@ -1,8 +1,8 @@
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet, TypeGarantiesFinancières } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '../..';
+import { StatutGarantiesFinancières } from '../..';
 import { DateConstitutionDansLeFuturError } from '../../dateConstitutionDansLeFutur.error';
 import { DateÉchéanceManquanteError } from '../../dateÉchéanceManquante.error';
 import { DateÉchéanceNonAttendueError } from '../../dateÉchéanceNonAttendue.error';

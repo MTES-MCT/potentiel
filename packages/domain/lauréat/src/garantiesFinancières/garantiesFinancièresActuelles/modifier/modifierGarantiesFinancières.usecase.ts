@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet, TypeGarantiesFinancières } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { AjouterTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
 
-import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '../..';
+import { TypeDocumentGarantiesFinancières } from '../..';
 import * as TypeTâchePlanifiéeGarantiesFinancières from '../../typeTâchePlanifiéeGarantiesFinancières.valueType';
 
 import { ModifierGarantiesFinancièresCommand } from './modifierGarantiesFinancières.command';

@@ -2,8 +2,8 @@ import React, { FC, useState } from 'react';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import Input from '@codegouvfr/react-dsfr/Input';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import { TypeGarantiesFinancières } from '@potentiel-domain/common';
 
 export type TypeGarantiesFinancièresSelectProps = {
   id: string;
@@ -11,11 +11,11 @@ export type TypeGarantiesFinancièresSelectProps = {
   label?: string;
   disabled?: true;
   validationErrors: Array<string>;
-  typeGarantiesFinancièresActuel?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+  typeGarantiesFinancièresActuel?: TypeGarantiesFinancières.RawType;
   dateÉchéanceActuelle?: Iso8601DateTime;
   typesGarantiesFinancières: Array<{
     label: string;
-    value: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+    value: TypeGarantiesFinancières.RawType;
   }>;
 };
 
