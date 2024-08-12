@@ -18,9 +18,9 @@ const schema = zod.object({
 });
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }) => {
-  const lines = await parseCsv(fichierImport.stream(), candidatureSchema);
+  const { parsedData, rawData } = await parseCsv(fichierImport.stream(), candidatureSchema);
 
-  if (lines.length === 0) {
+  if (parsedData.length === 0) {
     return {
       status: 'form-error',
       errors: ['fichierImport'],
@@ -30,11 +30,13 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }
   let success: number = 0;
   const errors: ActionResult['errors'] = [];
 
-  for (const line of lines) {
+  for (const line of parsedData) {
     try {
+      const rawLine = rawData.find((s) => s.nom_projet === line.nom_projet);
+
       await mediator.send<Candidature.ImporterCandidatureUseCase>({
         type: 'Candidature.UseCase.ImporterCandidature',
-        data: mapLineToUseCaseData(line),
+        data: mapLineToUseCaseData(line, rawLine ?? {}),
       });
 
       success++;
@@ -64,6 +66,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }
 
 const mapLineToUseCaseData = (
   line: CandidatureShape,
+  rawLine: Record<string, string>,
 ): Candidature.ImporterCandidatureUseCase['data'] => ({
   typeGarantiesFinancièresValue: line.type_gf,
   historiqueAbandonValue: line.historique_abandon,
@@ -93,7 +96,7 @@ const mapLineToUseCaseData = (
   financementParticipatifValue: line.financement_participatif === 'oui',
   gouvernancePartagéeValue: line.gouvernance_partagée === 'oui',
   dateÉchéanceGfValue: line.date_échéance_gf?.toISOString(),
-  détailsValue: {},
+  détailsValue: rawLine,
 });
 
 export const importerCandidaturesAction = formAction(action, schema);

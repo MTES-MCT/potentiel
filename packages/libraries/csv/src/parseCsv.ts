@@ -32,17 +32,20 @@ type ParseCsv = <TSchema extends zod.ZodTypeAny>(
   fileStream: ReadableStream,
   lineSchema: TSchema,
   parseOptions?: Partial<ParseOptions>,
-) => Promise<ReadonlyArray<zod.infer<TSchema>>>;
+) => Promise<{
+  parsedData: ReadonlyArray<zod.infer<TSchema>>;
+  rawData: ReadonlyArray<Record<string, string>>;
+}>;
 
 export const parseCsv: ParseCsv = async (
   fileStream,
   lineSchema,
   parseOptions: Partial<ParseOptions> = {},
 ) => {
-  const data = await loadCsv(fileStream, parseOptions);
+  const rawData = await loadCsv(fileStream, parseOptions);
 
   try {
-    return zod.array(lineSchema).parse(data);
+    return { parsedData: zod.array(lineSchema).parse(rawData), rawData };
   } catch (error) {
     if (error instanceof zod.ZodError) {
       const csvErrors = error.errors.map(({ path: [ligne, key], message }) => {

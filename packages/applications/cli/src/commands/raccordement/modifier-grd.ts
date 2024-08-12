@@ -49,7 +49,7 @@ export default class ModifierGRD extends Command {
     const { args, flags } = await this.parse(ModifierGRD);
     await bootstrap({ middlewares: [] });
 
-    const data = await parseCsvFile(args.path, schema, {
+    const { parsedData: data } = await parseCsvFile(args.path, schema, {
       delimiter: flags.delimiter,
       ltrim: false,
       rtrim: false,

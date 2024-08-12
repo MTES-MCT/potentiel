@@ -26,7 +26,7 @@ export default class FilesRename extends Command {
 
   public async run(): Promise<void> {
     const { flags } = await this.parse(FilesRename);
-    const files = await parseCsvFile(flags.path, schema);
+    const { parsedData: files } = await parseCsvFile(flags.path, schema);
 
     for (const file of files) {
       try {
