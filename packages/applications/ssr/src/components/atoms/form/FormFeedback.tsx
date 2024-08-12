@@ -59,7 +59,6 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState, successMessage 
       return <AlertError description={formState.message} />;
 
     case 'form-error':
-      console.log(formState.errors);
       return <AlertError description="Erreur lors de la validation des données du formulaire" />;
 
     case 'csv-error':
