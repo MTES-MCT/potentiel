@@ -44,27 +44,26 @@ export const register = () => {
               data: {
                 appelOffreId: payload.appelOffre,
                 periodeId: payload.période,
-                familleId: payload.famille || '',
+                familleId: payload.famille,
                 numeroCRE: payload.numéroCRE,
                 classe: payload.statut === 'classé' ? 'Classé' : 'Eliminé', // TODO check
                 nomProjet: payload.nomProjet,
                 nomCandidat: payload.nomCandidat,
                 nomRepresentantLegal: payload.nomReprésentantLégal,
                 email: payload.emailContact,
-                motifsElimination: payload.motifÉlimination || '',
+                motifsElimination: payload.motifÉlimination,
                 garantiesFinancièresDateEchéance: payload.dateÉchéanceGf,
-                technologie: payload.technologie || 'N/A',
+                technologie: payload.technologie,
                 historiqueAbandon: payload.historiqueAbandon,
                 puissance: payload.puissanceProductionAnnuelle,
                 garantiesFinancièresType: payload.typeGarantiesFinancières,
                 details: payload.détails,
-                engagementFournitureDePuissanceAlaPointe: payload.puissanceALaPointe ?? false,
-                actionnaire: payload.sociétéMère || '', // TODO check
+                engagementFournitureDePuissanceAlaPointe: payload.puissanceALaPointe,
+                actionnaire: payload.sociétéMère,
                 prixReference: payload.prixReference,
                 note: payload.noteTotale,
                 isFinancementParticipatif: payload.financementCollectif,
                 evaluationCarbone: payload.evaluationCarboneSimplifiée,
-
                 actionnariat: payload.financementCollectif
                   ? 'financement-collectif'
                   : payload.gouvernancePartagée
@@ -75,10 +74,9 @@ export const register = () => {
                   note: payload.noteTotale,
                   periodeDetails: période,
                 }),
-
                 isInvestissementParticipatif: payload.financementParticipatif,
                 notifiedOn: 0,
-                territoireProjet: '', // TODO
+                territoireProjet: payload.teritoireProjet,
                 ...getLocalilitéInfo(payload),
               },
             },

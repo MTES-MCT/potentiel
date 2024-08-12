@@ -16,10 +16,10 @@ export type ImporterCandidatureUseCase = Message<
     historiqueAbandonValue: string;
     appelOffreValue: string;
     périodeValue: string;
-    familleValue?: string;
+    familleValue: string;
     numéroCREValue: string;
     nomProjetValue: string;
-    sociétéMèreValue?: string;
+    sociétéMèreValue: string;
     nomCandidatValue: string;
     puissanceProductionAnnuelleValue: number;
     prixReferenceValue: number;
@@ -27,20 +27,20 @@ export type ImporterCandidatureUseCase = Message<
     nomReprésentantLégalValue: string;
     emailContactValue: string;
     adresse1Value: string;
-    adresse2Value?: string;
+    adresse2Value: string;
     codePostalValue: string;
     communeValue: string;
     statutValue: string;
-    motifÉliminationValue?: string;
-    puissanceALaPointeValue?: boolean;
+    motifÉliminationValue: string;
+    puissanceALaPointeValue: boolean;
     evaluationCarboneSimplifiéeValue: number;
     valeurÉvaluationCarboneValue?: number;
-    technologieValue?: string;
+    technologieValue: string;
     financementCollectifValue: boolean;
     financementParticipatifValue: boolean;
     gouvernancePartagéeValue: boolean;
     dateÉchéanceGfValue?: string;
-    territoireProjetValue?: string;
+    territoireProjetValue: string;
     détailsValue?: Record<string, string>;
   }
 >;
@@ -63,15 +63,13 @@ export const registerImporterCandidatureUseCase = () => {
         ),
         appelOffre: appelOffreValue,
         période: périodeValue,
-        famille: familleValue || '',
+        famille: familleValue,
         numéroCRE: numéroCREValue,
         statut: StatutCandidature.convertirEnValueType(statutValue),
         dateÉchéanceGf: dateÉchéanceGfValue
           ? DateTime.convertirEnValueType(dateÉchéanceGfValue)
           : undefined,
-        technologie: technologieValue
-          ? Technologie.convertirEnValueType(technologieValue)
-          : undefined,
+        technologie: Technologie.convertirEnValueType(technologieValue),
         typeGarantiesFinancières: typeGarantiesFinancièresValue
           ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
               typeGarantiesFinancièresValue,

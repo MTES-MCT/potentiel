@@ -16,10 +16,10 @@ export type CandidatureImportéeEvent = DomainEvent<
     historiqueAbandon?: HistoriqueAbandon.RawType;
     appelOffre: string;
     période: string;
-    famille?: string;
+    famille: string;
     numéroCRE: string;
     nomProjet: string;
-    sociétéMère?: string;
+    sociétéMère: string;
     nomCandidat: string;
     puissanceProductionAnnuelle: number;
     prixReference: number;
@@ -27,19 +27,19 @@ export type CandidatureImportéeEvent = DomainEvent<
     nomReprésentantLégal: string;
     emailContact: string;
     adresse1: string;
-    adresse2?: string;
+    adresse2: string;
     codePostal: string;
     commune: string;
-    motifÉlimination?: string;
-    puissanceALaPointe?: boolean;
+    motifÉlimination: string;
+    puissanceALaPointe: boolean;
     evaluationCarboneSimplifiée: number;
     valeurÉvaluationCarbone?: number;
-    technologie?: Technologie.RawType;
+    technologie: Technologie.RawType;
     financementCollectif: boolean;
     financementParticipatif: boolean;
     gouvernancePartagée: boolean;
     dateÉchéanceGf?: DateTime.RawType;
-    teritoireProjet?: string;
+    teritoireProjet: string;
     détails?: Record<string, string>;
   }
 >;
@@ -51,10 +51,10 @@ type ImporterCandidatureOptions = {
   historiqueAbandon?: HistoriqueAbandon.ValueType;
   appelOffre: string;
   période: string;
-  famille?: string;
+  famille: string;
   numéroCRE: string;
   nomProjet: string;
-  sociétéMère?: string;
+  sociétéMère: string;
   nomCandidat: string;
   puissanceProductionAnnuelle: number;
   prixReference: number;
@@ -62,19 +62,19 @@ type ImporterCandidatureOptions = {
   nomReprésentantLégal: string;
   emailContact: string;
   adresse1: string;
-  adresse2?: string;
+  adresse2: string;
   codePostal: string;
   commune: string;
-  motifÉlimination?: string;
-  puissanceALaPointe?: boolean;
+  motifÉlimination: string;
+  puissanceALaPointe: boolean;
   evaluationCarboneSimplifiée: number;
   valeurÉvaluationCarbone?: number;
-  technologie?: Technologie.ValueType;
+  technologie: Technologie.ValueType;
   financementCollectif: boolean;
   financementParticipatif: boolean;
   gouvernancePartagée: boolean;
   dateÉchéanceGf?: DateTime.ValueType;
-  teritoireProjet?: string;
+  territoireProjet: string;
   détails?: Record<string, string>;
 };
 
@@ -87,7 +87,7 @@ export async function importer(
     payload: {
       identifiantProjet: candidature.identifiantProjet.formatter(),
       statut: candidature.statut.statut,
-      technologie: candidature.technologie?.type ?? 'N/A',
+      technologie: candidature.technologie.type,
       dateÉchéanceGf: candidature.dateÉchéanceGf?.formatter(),
       historiqueAbandon: candidature.historiqueAbandon?.formatter(),
       typeGarantiesFinancières: candidature.typeGarantiesFinancières?.type,
@@ -114,7 +114,7 @@ export async function importer(
       financementCollectif: candidature.financementCollectif,
       financementParticipatif: candidature.financementParticipatif,
       gouvernancePartagée: candidature.gouvernancePartagée,
-      teritoireProjet: candidature.teritoireProjet,
+      teritoireProjet: candidature.territoireProjet,
       détails: candidature.détails,
     },
   };

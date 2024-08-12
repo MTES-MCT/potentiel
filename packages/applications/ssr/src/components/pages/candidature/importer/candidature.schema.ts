@@ -2,6 +2,12 @@ import { z } from 'zod';
 
 const requiredStringSchema = z.string().trim().min(1);
 
+const optionalStringSchema = z
+  .string()
+  .trim()
+  .optional()
+  .transform((val) => val ?? '');
+
 const numberSchema = z
   .string()
   // replace french commas to "."
@@ -21,6 +27,8 @@ const ouiNonSchema = z
   .transform((str) => str.toLowerCase())
   .pipe(z.enum(['oui', 'non', '']))
   .transform((str) => str || undefined);
+
+const optionalOuiNonSchema = ouiNonSchema.optional().transform((val) => val ?? false);
 
 const dateSchema = z
   .string()
@@ -121,10 +129,10 @@ const candidatureCsvRowSchema = z
   .object({
     [colonnes.appel_offre]: requiredStringSchema,
     [colonnes.période]: requiredStringSchema,
-    [colonnes.famille]: z.string().optional(),
+    [colonnes.famille]: optionalStringSchema,
     [colonnes.num_cre]: requiredStringSchema,
     [colonnes.nom_projet]: requiredStringSchema,
-    [colonnes.société_mère]: z.string().optional(),
+    [colonnes.société_mère]: optionalStringSchema,
     [colonnes.nom_candidat]: requiredStringSchema,
     [colonnes.puissance_production_annuelle]: strictlyPositiveNumberSchema,
     [colonnes.prix_reference]: strictlyPositiveNumberSchema,
@@ -132,12 +140,11 @@ const candidatureCsvRowSchema = z
     [colonnes.nom_représentant_légal]: requiredStringSchema,
     [colonnes.email_contact]: requiredStringSchema.email(),
     [colonnes.adresse1]: requiredStringSchema,
-    [colonnes.adresse2]: z.string().optional(),
+    [colonnes.adresse2]: optionalStringSchema,
     [colonnes.code_postal]: requiredStringSchema,
     [colonnes.commune]: requiredStringSchema,
     [colonnes.statut]: z.string().pipe(z.enum(['Eliminé', 'Classé'])),
-    [colonnes.motif_élimination]: z.string().optional(), // see refine below
-    [colonnes.puissance_a_la_pointe]: ouiNonSchema.optional(),
+    [colonnes.puissance_a_la_pointe]: optionalOuiNonSchema,
     [colonnes.evaluation_carbone_simplifiée]: z
       .union([z.enum(['N/A']), strictlyPositiveNumberSchema])
       .transform((val) => (val === 'N/A' ? 0 : val)),
@@ -145,14 +152,16 @@ const candidatureCsvRowSchema = z
     [colonnes.technologie]: z
       .enum(['N/A', 'Eolien', 'Hydraulique', 'PV'])
       .optional()
-      .default('N/A'),
-    [colonnes.financement_collectif]: ouiNonSchema.optional().transform((val) => val ?? false),
-    [colonnes.financement_participatif]: ouiNonSchema.optional().transform((val) => val ?? false),
+      .transform((val) => val ?? 'N/A'),
+    [colonnes.financement_collectif]: optionalOuiNonSchema,
+    [colonnes.financement_participatif]: optionalOuiNonSchema,
     [colonnes.gouvernance_partagée]: ouiNonSchema,
+    [colonnes.historique_abandon]: z.enum(['1', '2', '3', '4']),
+    // columns with refines
+    [colonnes.motif_élimination]: optionalStringSchema, // see refine below
     [colonnes.type_gf]: z.enum(['1', '2', '3']).optional(), // see refine below
     [colonnes.date_échéance_gf]: dateSchema.optional(), // see refine below
-    [colonnes.historique_abandon]: z.enum(['1', '2', '3', '4']),
-    [colonnes.territoire_projet]: z.string().optional(), // see refines below
+    [colonnes.territoire_projet]: optionalStringSchema, // see refines below
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine(

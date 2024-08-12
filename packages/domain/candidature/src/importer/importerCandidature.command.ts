@@ -17,10 +17,10 @@ export type ImporterCandidatureCommand = Message<
     historiqueAbandon: HistoriqueAbandon.ValueType;
     appelOffre: string;
     période: string;
-    famille?: string;
+    famille: string;
     numéroCRE: string;
     nomProjet: string;
-    sociétéMère?: string;
+    sociétéMère: string;
     nomCandidat: string;
     puissanceProductionAnnuelle: number;
     prixReference: number;
@@ -28,20 +28,20 @@ export type ImporterCandidatureCommand = Message<
     nomReprésentantLégal: string;
     emailContact: string;
     adresse1: string;
-    adresse2?: string;
+    adresse2: string;
     codePostal: string;
     commune: string;
     statut: StatutCandidature.ValueType;
-    motifÉlimination?: string;
-    puissanceALaPointe?: boolean;
+    motifÉlimination: string;
+    puissanceALaPointe: boolean;
     evaluationCarboneSimplifiée: number;
     valeurÉvaluationCarbone?: number;
-    technologie?: Technologie.ValueType;
+    technologie: Technologie.ValueType;
     financementCollectif: boolean;
     financementParticipatif: boolean;
     gouvernancePartagée: boolean;
     dateÉchéanceGf?: DateTime.ValueType;
-    territoireProjet?: string;
+    territoireProjet: string;
     détails?: Record<string, string>;
   }
 >;
