@@ -26,7 +26,6 @@ Quand(
         numéroCREValue: numéroCRE,
         statutValue: statut,
         nomProjetValue: nomProjet,
-
         nomCandidatValue: 'Candidat',
         emailContactValue: 'porteur@test.test',
         codePostalValue: '13000',
@@ -41,6 +40,7 @@ Quand(
         financementCollectifValue: false,
         gouvernancePartagéeValue: false,
         typeGarantiesFinancièresValue: 'consignation',
+        financementParticipatifValue: false,
       },
     });
 
