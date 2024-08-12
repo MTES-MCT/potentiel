@@ -79,7 +79,7 @@ export const handleModificationRequestStatusChanged =
           ),
         );
 
-        if (type === 'recours') {
+        if (type === 'recours' && status === 'acceptée') {
           const result = await deps.getUsersByRole('cre');
 
           if (result.isOk()) {
