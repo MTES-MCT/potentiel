@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "test": "jest --config=jest.config.js --detectOpenHandles"
+    "test": "node --test --test-concurrency=1"
   },
   "dependencies": {
     "@potentiel-libraries/monitoring": "*",
@@ -17,10 +17,7 @@
     "pg": "^8.11.3"
   },
   "devDependencies": {
-    "@jest/globals": "^29.6.4",
     "@types/pg": "^8.10.2",
-    "@potentiel-config/tsconfig": "*",
-    "jest": "^29.6.4",
-    "ts-jest": "^29.1.1"
+    "@potentiel-config/tsconfig": "*"
   }
 }

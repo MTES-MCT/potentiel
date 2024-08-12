@@ -1,1 +1,1 @@
-export { Level, getLogger, Logger } from './logger';
+export { Level, getLogger, Logger, resetLogger } from './logger';
