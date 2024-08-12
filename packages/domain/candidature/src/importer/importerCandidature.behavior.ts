@@ -36,6 +36,7 @@ export type CandidatureImportéeEvent = DomainEvent<
     valeurÉvaluationCarbone?: number;
     technologie?: Technologie.RawType;
     financementCollectif: boolean;
+    financementParticipatif: boolean;
     gouvernancePartagée: boolean;
     dateÉchéanceGf?: DateTime.RawType;
     détails?: Record<string, string>;
@@ -69,6 +70,7 @@ type ImporterCandidatureOptions = {
   valeurÉvaluationCarbone?: number;
   technologie?: Technologie.ValueType;
   financementCollectif: boolean;
+  financementParticipatif: boolean;
   gouvernancePartagée: boolean;
   dateÉchéanceGf?: DateTime.ValueType;
   détails?: Record<string, string>;
@@ -108,6 +110,7 @@ export async function importer(
       evaluationCarboneSimplifiée: candidature.evaluationCarboneSimplifiée,
       valeurÉvaluationCarbone: candidature.valeurÉvaluationCarbone,
       financementCollectif: candidature.financementCollectif,
+      financementParticipatif: candidature.financementParticipatif,
       gouvernancePartagée: candidature.gouvernancePartagée,
       détails: candidature.détails,
     },

@@ -38,6 +38,7 @@ export type ImporterCandidatureCommand = Message<
     valeurÉvaluationCarbone?: number;
     technologie?: Technologie.ValueType;
     financementCollectif: boolean;
+    financementParticipatif: boolean;
     gouvernancePartagée: boolean;
     dateÉchéanceGf?: DateTime.ValueType;
 

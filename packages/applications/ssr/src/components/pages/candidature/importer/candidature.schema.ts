@@ -89,6 +89,7 @@ const colonnes = {
   type_gf:
     "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation",
   financement_collectif: 'Financement collectif (Oui/Non)',
+  financement_participatif: 'Investissement ou financement participatif ?',
   gouvernance_partagée: 'Gouvernance partagée (Oui/Non)',
   date_échéance_gf: "Date d'échéance au format JJ/MM/AAAA",
   // TODO quel est le bon nom pour cette colonne?
@@ -143,6 +144,7 @@ const candidatureCsvRowSchema = z
       .optional()
       .default('N/A'),
     [colonnes.financement_collectif]: ouiNonSchema,
+    [colonnes.financement_participatif]: ouiNonSchema,
     [colonnes.gouvernance_partagée]: ouiNonSchema,
     [colonnes.type_gf]: z.enum(['1', '2', '3']).optional(), // see refine below
     [colonnes.date_échéance_gf]: dateSchema.optional(), // see refine below

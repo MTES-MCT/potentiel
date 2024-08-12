@@ -37,6 +37,7 @@ export type ImporterCandidatureUseCase = Message<
     valeurÉvaluationCarboneValue?: number;
     technologieValue?: string;
     financementCollectifValue: boolean;
+    financementParticipatifValue: boolean;
     gouvernancePartagéeValue: boolean;
     dateÉchéanceGfValue?: string;
     détailsValue?: Record<string, string>;
@@ -84,6 +85,7 @@ export const registerImporterCandidatureUseCase = () => {
         emailContact: payload.emailContactValue,
         evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiéeValue,
         financementCollectif: payload.financementCollectifValue,
+        financementParticipatif: payload.financementParticipatifValue,
         gouvernancePartagée: payload.financementCollectifValue,
         nomCandidat: payload.nomCandidatValue,
         nomReprésentantLégal: payload.nomReprésentantLégalValue,

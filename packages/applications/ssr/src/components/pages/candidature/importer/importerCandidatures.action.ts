@@ -90,6 +90,7 @@ const mapLineToUseCaseData = (
   valeurÉvaluationCarboneValue: line.valeur_évaluation_carbone,
   technologieValue: line.technologie,
   financementCollectifValue: line.financement_collectif === 'oui',
+  financementParticipatifValue: line.financement_participatif === 'oui',
   gouvernancePartagéeValue: line.gouvernance_partagée === 'oui',
   dateÉchéanceGfValue: line.date_échéance_gf?.toISOString(),
   détailsValue: {},

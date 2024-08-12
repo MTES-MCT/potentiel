@@ -40,7 +40,7 @@ export const register = () => {
         await publishToEventBus(
           new ProjectRawDataImported({
             payload: {
-              importId: v4(), // TODO check
+              importId: v4(),
               data: {
                 appelOffreId: payload.appelOffre,
                 periodeId: payload.période,
@@ -76,7 +76,7 @@ export const register = () => {
                   periodeDetails: période,
                 }),
 
-                isInvestissementParticipatif: false, // TODO
+                isInvestissementParticipatif: payload.financementParticipatif,
                 notifiedOn: 0,
                 territoireProjet: '', // TODO
                 ...getLocalilitéInfo(payload),
