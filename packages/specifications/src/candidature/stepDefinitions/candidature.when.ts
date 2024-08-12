@@ -31,7 +31,7 @@ Quand(
         codePostalValue: '13000',
         communeValue: 'MARSEILLE',
         adresse1Value: '5 avenue laeticia',
-        historiqueAbandonValue: 'lauréat_ao',
+        historiqueAbandonValue: Candidature.HistoriqueAbandon.types[3],
         puissanceProductionAnnuelleValue: 1,
         prixReferenceValue: 1,
         noteTotaleValue: 1,
