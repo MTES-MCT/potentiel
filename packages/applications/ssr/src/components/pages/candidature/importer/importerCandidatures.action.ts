@@ -14,15 +14,13 @@ import { candidatureSchema, CandidatureShape } from './candidature.schema';
 export type ImporterCandidaturesState = FormState;
 
 const schema = zod.object({
-  appelOffre: zod.string().min(1),
-  periode: zod.string().min(1),
   fichierImport: zod.instanceof(Blob).refine((data) => data.size > 0),
 });
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }) => {
-  const lines = await parseCsv(fichierImport.stream(), candidatureSchema);
+  const { parsedData, rawData } = await parseCsv(fichierImport.stream(), candidatureSchema);
 
-  if (lines.length === 0) {
+  if (parsedData.length === 0) {
     return {
       status: 'form-error',
       errors: ['fichierImport'],
@@ -32,11 +30,13 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }
   let success: number = 0;
   const errors: ActionResult['errors'] = [];
 
-  for (const line of lines) {
+  for (const line of parsedData) {
     try {
+      const projectRawLine = rawData.find((data) => data['Nom projet'] === line.nom_projet) ?? {};
+
       await mediator.send<Candidature.ImporterCandidatureUseCase>({
         type: 'Candidature.UseCase.ImporterCandidature',
-        data: mapLineToUseCaseData(line),
+        data: mapLineToUseCaseData(line, removeEmptyValues(projectRawLine)),
       });
 
       success++;
@@ -66,6 +66,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }
 
 const mapLineToUseCaseData = (
   line: CandidatureShape,
+  rawLine: Record<string, string>,
 ): Candidature.ImporterCandidatureUseCase['data'] => ({
   typeGarantiesFinancièresValue: line.type_gf,
   historiqueAbandonValue: line.historique_abandon,
@@ -92,9 +93,15 @@ const mapLineToUseCaseData = (
   valeurÉvaluationCarboneValue: line.valeur_évaluation_carbone,
   technologieValue: line.technologie,
   financementCollectifValue: line.financement_collectif === 'oui',
-  gouvernancePartagéeValue: line.gouvernance_partagée === 'oui',
+  financementParticipatifValue: line.financement_participatif === 'oui',
+  gouvernancePartagéeValue: line.gouvernance_partagée,
   dateÉchéanceGfValue: line.date_échéance_gf?.toISOString(),
-  détailsValue: {},
+  territoireProjetValue: line.territoire_projet,
+  détailsValue: rawLine,
 });
 
 export const importerCandidaturesAction = formAction(action, schema);
+
+const removeEmptyValues = (projectRawLine: Record<string, string>) => {
+  return Object.fromEntries(Object.entries(projectRawLine).filter(([, value]) => value !== ''));
+};

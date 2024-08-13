@@ -63,7 +63,7 @@ export default class ModifierRéférence extends Command {
     const { args, flags } = await this.parse(ModifierRéférence);
     await bootstrap({ middlewares: [] });
 
-    const data = await parseCsvFile(args.path, schema, {
+    const { parsedData: data } = await parseCsvFile(args.path, schema, {
       delimiter: flags.delimiter,
       ltrim: false,
       rtrim: false,

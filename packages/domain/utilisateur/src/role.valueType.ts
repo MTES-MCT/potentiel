@@ -225,6 +225,12 @@ const référencielPermissions = {
       listerProjetsPreuveRecandidature:
         'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
     },
+    usecase: {
+      importer: 'Candidature.UseCase.ImporterCandidature',
+    },
+    command: {
+      importer: 'Candidature.Command.ImporterCandidature',
+    },
   },
   document: {
     query: {
@@ -659,6 +665,12 @@ const policies = {
       référencielPermissions.document.command.enregister,
     ],
   },
+  candidature: {
+    importer: [
+      référencielPermissions.candidature.usecase.importer,
+      référencielPermissions.candidature.command.importer,
+    ],
+  },
 } as const;
 
 /**
@@ -724,6 +736,9 @@ const permissionAdmin: Policy[] = [
   'achèvement.consulter',
   'achèvement.transmettre',
   'achèvement.modifier',
+
+  // Candidature
+  'candidature.importer',
 ];
 const permissionCRE: Policy[] = [
   // Abandon
@@ -831,6 +846,9 @@ const permissionDgecValidateur: Policy[] = [
   'achèvement.consulter',
   'achèvement.transmettre',
   'achèvement.modifier',
+
+  // Candidature
+  'candidature.importer',
 ];
 
 const permissionPorteurProjet: Policy[] = [

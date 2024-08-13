@@ -1,9 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
+import { HistoriqueAbandon } from '../candidature';
 
 import { ImporterCandidatureCommand } from './importerCandidature.command';
 
@@ -14,10 +16,10 @@ export type ImporterCandidatureUseCase = Message<
     historiqueAbandonValue: string;
     appelOffreValue: string;
     périodeValue: string;
-    familleValue?: string;
+    familleValue: string;
     numéroCREValue: string;
     nomProjetValue: string;
-    sociétéMèreValue?: string;
+    sociétéMèreValue: string;
     nomCandidatValue: string;
     puissanceProductionAnnuelleValue: number;
     prixReferenceValue: number;
@@ -25,18 +27,20 @@ export type ImporterCandidatureUseCase = Message<
     nomReprésentantLégalValue: string;
     emailContactValue: string;
     adresse1Value: string;
-    adresse2Value?: string;
+    adresse2Value: string;
     codePostalValue: string;
     communeValue: string;
     statutValue: string;
-    motifÉliminationValue?: string;
-    puissanceALaPointeValue?: boolean;
-    evaluationCarboneSimplifiéeValue: number | 'N/A';
+    motifÉliminationValue: string;
+    puissanceALaPointeValue: boolean;
+    evaluationCarboneSimplifiéeValue: number;
     valeurÉvaluationCarboneValue?: number;
-    technologieValue?: string;
+    technologieValue: string;
     financementCollectifValue: boolean;
+    financementParticipatifValue: boolean;
     gouvernancePartagéeValue: boolean;
     dateÉchéanceGfValue?: string;
+    territoireProjetValue: string;
     détailsValue?: Record<string, string>;
   }
 >;
@@ -44,7 +48,13 @@ export type ImporterCandidatureUseCase = Message<
 export const registerImporterCandidatureUseCase = () => {
   const handler: MessageHandler<ImporterCandidatureUseCase> = async (payload) => {
     const { appelOffreValue, périodeValue, familleValue, numéroCREValue } = payload;
-    const { statutValue, dateÉchéanceGfValue, technologieValue } = payload;
+    const {
+      statutValue,
+      dateÉchéanceGfValue,
+      technologieValue,
+      historiqueAbandonValue,
+      typeGarantiesFinancièresValue,
+    } = payload;
     await mediator.send<ImporterCandidatureCommand>({
       type: 'Candidature.Command.ImporterCandidature',
       data: {
@@ -59,9 +69,13 @@ export const registerImporterCandidatureUseCase = () => {
         dateÉchéanceGf: dateÉchéanceGfValue
           ? DateTime.convertirEnValueType(dateÉchéanceGfValue)
           : undefined,
-        technologie: technologieValue
-          ? Technologie.convertirEnValueType(technologieValue)
+        technologie: Technologie.convertirEnValueType(technologieValue),
+        typeGarantiesFinancières: typeGarantiesFinancièresValue
+          ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
+              typeGarantiesFinancièresValue,
+            )
           : undefined,
+        historiqueAbandon: HistoriqueAbandon.convertirEnValueType(historiqueAbandonValue),
         nomProjet: payload.nomProjetValue,
         adresse1: payload.adresse1Value,
         adresse2: payload.adresse2Value,
@@ -70,8 +84,8 @@ export const registerImporterCandidatureUseCase = () => {
         emailContact: payload.emailContactValue,
         evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiéeValue,
         financementCollectif: payload.financementCollectifValue,
+        financementParticipatif: payload.financementParticipatifValue,
         gouvernancePartagée: payload.financementCollectifValue,
-        historiqueAbandon: payload.historiqueAbandonValue,
         nomCandidat: payload.nomCandidatValue,
         nomReprésentantLégal: payload.nomReprésentantLégalValue,
         noteTotale: payload.noteTotaleValue,
@@ -80,8 +94,8 @@ export const registerImporterCandidatureUseCase = () => {
         motifÉlimination: payload.motifÉliminationValue,
         puissanceALaPointe: payload.puissanceALaPointeValue,
         sociétéMère: payload.sociétéMèreValue,
-        typeGarantiesFinancières: payload.typeGarantiesFinancièresValue,
         valeurÉvaluationCarbone: payload.valeurÉvaluationCarboneValue,
+        territoireProjet: payload.territoireProjetValue,
         détails: payload.détailsValue,
       },
     });

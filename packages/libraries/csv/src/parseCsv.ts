@@ -23,6 +23,7 @@ const defaultParseOptions = {
   rtrim: true,
   skip_empty_lines: true,
   skip_records_with_empty_values: true,
+  encoding: 'win1252' as 'utf8' | 'win1252',
 };
 
 export type ParseOptions = typeof defaultParseOptions;
@@ -31,17 +32,20 @@ type ParseCsv = <TSchema extends zod.ZodTypeAny>(
   fileStream: ReadableStream,
   lineSchema: TSchema,
   parseOptions?: Partial<ParseOptions>,
-) => Promise<ReadonlyArray<zod.infer<TSchema>>>;
+) => Promise<{
+  parsedData: ReadonlyArray<zod.infer<TSchema>>;
+  rawData: ReadonlyArray<Record<string, string>>;
+}>;
 
 export const parseCsv: ParseCsv = async (
   fileStream,
   lineSchema,
   parseOptions: Partial<ParseOptions> = {},
 ) => {
-  const data = await loadCsv(fileStream, parseOptions);
+  const rawData = await loadCsv(fileStream, parseOptions);
 
   try {
-    return zod.array(lineSchema).parse(data);
+    return { parsedData: zod.array(lineSchema).parse(rawData), rawData };
   } catch (error) {
     if (error instanceof zod.ZodError) {
       const csvErrors = error.errors.map(({ path: [ligne, key], message }) => {
@@ -62,11 +66,12 @@ export const parseCsv: ParseCsv = async (
 const loadCsv = (fileStream: ReadableStream, parseOptions: Partial<typeof defaultParseOptions>) => {
   return new Promise<Array<Record<string, string>>>((resolve, reject) => {
     const data: Array<Record<string, string>> = [];
-    const decode = iconv.decodeStream('utf8');
+    const { encoding, ...options } = { ...defaultParseOptions, ...parseOptions };
+    const decode = iconv.decodeStream(encoding);
 
     webRSToNodeRS(fileStream)
       .pipe(decode)
-      .pipe(parse({ ...defaultParseOptions, ...parseOptions }))
+      .pipe(parse(options))
       .on('data', (row: Record<string, string>) => {
         data.push(row);
       })
