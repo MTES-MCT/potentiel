@@ -65,7 +65,6 @@ export const register = () => {
                 actionnaire: payload.sociétéMère,
                 prixReference: payload.prixReference,
                 note: payload.noteTotale,
-                isFinancementParticipatif: payload.financementCollectif,
                 evaluationCarbone: payload.evaluationCarboneSimplifiée,
                 actionnariat: payload.financementCollectif
                   ? 'financement-collectif'
@@ -77,6 +76,7 @@ export const register = () => {
                   note: payload.noteTotale,
                   periodeDetails: période,
                 }),
+                isFinancementParticipatif: payload.financementCollectif,
                 isInvestissementParticipatif: payload.financementParticipatif,
                 notifiedOn: 0,
                 territoireProjet: payload.teritoireProjet,

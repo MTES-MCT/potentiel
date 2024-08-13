@@ -15,7 +15,6 @@ export const onProjectImported = ProjectProjector.on(
       await Project.create(
         {
           id: projectId,
-          // TODO check
           puissanceInitiale: data.puissance,
           ...data,
           evaluationCarboneDeRéférence: data.evaluationCarbone,
