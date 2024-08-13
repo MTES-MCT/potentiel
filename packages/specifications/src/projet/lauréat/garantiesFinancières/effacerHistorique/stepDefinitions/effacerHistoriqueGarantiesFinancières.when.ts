@@ -4,7 +4,6 @@ import { mediator } from 'mediateur';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
-import { sleep } from '../../../../../helpers/sleep';
 
 Quand(
   `un admin efface l'historique des garanties financières pour le projet {string}`,
@@ -20,7 +19,6 @@ Quand(
           effacéParValue: 'admin@test.test',
         },
       });
-      await sleep(500);
     } catch (error) {
       this.error = error as Error;
     }

@@ -9,7 +9,6 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { TâchePlanifiéeAnnuléeEvent } from '@potentiel-domain/tache-planifiee';
 
 import { PotentielWorld } from '../../potentiel.world';
-import { sleep } from '../../helpers/sleep';
 import {
   RechercherStatutTâchePlanifiée,
   RechercherTypeTâchePlanifiée,
@@ -77,14 +76,12 @@ EtantDonné(
     ).type;
     const actualStatutTâche = this.tâchePlanifiéeWorld.rechercherStatutTâchePlanifiée(statutTâche);
     await ajouterTâche(projet.identifiantProjet, typeTâche, new Date(exemple["date d'exécution"]));
-    await sleep(100);
+
     if (actualStatutTâche.estAnnulé()) {
       await annulerTâche(projet.identifiantProjet, typeTâche);
-      await sleep(100);
     }
     if (actualStatutTâche.estExécuté()) {
       await exécuterTâche(projet.identifiantProjet, typeTâche);
-      await sleep(100);
     }
   },
 );

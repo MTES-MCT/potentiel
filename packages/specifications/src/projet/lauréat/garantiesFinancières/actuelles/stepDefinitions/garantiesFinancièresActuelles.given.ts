@@ -8,7 +8,6 @@ import {
 } from '@potentiel-domain/tache-planifiee';
 import { DateTime } from '@potentiel-domain/common';
 
-import { sleep } from '../../../../../helpers/sleep';
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { setDépôtData } from '../../dépôt/stepDefinitions/helper';
 
@@ -29,8 +28,6 @@ EtantDonné(
       }),
     });
 
-    await sleep(100);
-
     await mediator.send<GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
       data: setGarantiesFinancièresData({
@@ -38,8 +35,6 @@ EtantDonné(
         exemple,
       }),
     });
-
-    await sleep(100);
   },
 );
 
@@ -55,16 +50,12 @@ EtantDonné(
       }),
     });
 
-    await sleep(100);
-
     await mediator.send<GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
       data: setGarantiesFinancièresData({
         identifiantProjet,
       }),
     });
-
-    await sleep(100);
   },
 );
 
@@ -82,8 +73,6 @@ EtantDonné(
         exemple,
       }),
     });
-
-    await sleep(100);
   },
 );
 
@@ -98,8 +87,6 @@ EtantDonné(
         identifiantProjet,
       }),
     });
-
-    await sleep(100);
   },
 );
 
@@ -120,8 +107,6 @@ EtantDonné(
       }),
     });
 
-    await sleep(100);
-
     await mediator.send<GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
       data: setGarantiesFinancièresData({
@@ -129,8 +114,6 @@ EtantDonné(
         exemple,
       }),
     });
-
-    await sleep(100);
 
     const echuLeDate = new Date(dateÉchéance.getTime());
     const echuLeValue = new Date(echuLeDate.setDate(echuLeDate.getDate() + 1));
@@ -148,7 +131,6 @@ EtantDonné(
         ],
       },
     });
-    await sleep(100);
 
     await mediator.send<ExécuterTâchePlanifiéeUseCase>({
       type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',

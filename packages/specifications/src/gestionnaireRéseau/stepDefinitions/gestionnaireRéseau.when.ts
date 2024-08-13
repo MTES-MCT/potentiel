@@ -4,7 +4,6 @@ import { mediator } from 'mediateur';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 
-import { sleep } from '../../helpers/sleep';
 import { PotentielWorld } from '../../potentiel.world';
 
 Quand(
@@ -42,7 +41,6 @@ Quand(
         aideSaisieRéférenceDossierRaccordement,
         contactEmail,
       });
-      await sleep(100);
     } catch (error) {
       this.error = error as Error;
     }
@@ -83,7 +81,6 @@ Quand(
         aideSaisieRéférenceDossierRaccordement,
         contactEmail,
       });
-      await sleep(100);
     } catch (error) {
       this.error = error as Error;
     }

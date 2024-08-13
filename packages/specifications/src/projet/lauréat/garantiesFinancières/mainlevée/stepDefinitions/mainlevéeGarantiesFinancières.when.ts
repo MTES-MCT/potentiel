@@ -4,7 +4,6 @@ import { mediator } from 'mediateur';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
-import { sleep } from '../../../../../helpers/sleep';
 
 import {
   setAccordMainlevéeData,
@@ -29,7 +28,6 @@ Quand(
         type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.Demander',
         data: setDemandeMainlevéeData({ motif, utilisateur, date, identifiantProjet }),
       });
-      await sleep(500);
     } catch (error) {
       this.error = error as Error;
     }
@@ -54,7 +52,6 @@ Quand(
           annuléParValue: utilisateur,
         },
       });
-      await sleep(500);
     } catch (error) {
       this.error = error as Error;
     }
@@ -78,7 +75,6 @@ Quand(
           data: setInstructionDemandeMainlevéeData({ identifiantProjet, utilisateur, date }),
         },
       );
-      await sleep(500);
     } catch (error) {
       this.error = error as Error;
     }
@@ -97,7 +93,6 @@ Quand(
           data: setInstructionDemandeMainlevéeData({ identifiantProjet }),
         },
       );
-      await sleep(500);
     } catch (error) {
       this.error = error as Error;
     }
@@ -129,7 +124,6 @@ Quand(
           }),
         },
       );
-      await sleep(500);
     } catch (error) {
       this.error = error as Error;
     }
@@ -150,7 +144,6 @@ Quand(
           }),
         },
       );
-      await sleep(500);
     } catch (error) {
       this.error = error as Error;
     }
