@@ -6,6 +6,7 @@ import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
 import { HistoriqueAbandon } from '../candidature';
+import { CandidatureDéjàImporterError } from '../candidatureDéjàImporter.error';
 
 export type CandidatureImportéeEvent = DomainEvent<
   'CandidatureImportée-V1',
@@ -83,7 +84,7 @@ export async function importer(
   candidature: ImporterCandidatureOptions,
 ) {
   if (this.importé) {
-    throw new Error(`Il est impossible d'importer 2 fois la même candidature`);
+    throw new CandidatureDéjàImporterError();
   }
 
   const event: CandidatureImportéeEvent = {
