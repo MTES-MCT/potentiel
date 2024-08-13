@@ -6,7 +6,6 @@ import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
-import { sleep } from '../../helpers/sleep';
 
 EtantDonné(
   'le porteur pour le projet lauréat {string}',
@@ -27,8 +26,6 @@ EtantDonné(
     await associerProjetAuPorteur(userId, projets);
 
     this.utilisateurWorld.porteur = email;
-
-    await sleep(100);
   },
 );
 
@@ -45,8 +42,6 @@ EtantDonné(
     await insérerUtilisateur(userId, fullName, email, role);
 
     await associerUtilisateurÀSaDreal(userId);
-
-    await sleep(100);
   },
 );
 

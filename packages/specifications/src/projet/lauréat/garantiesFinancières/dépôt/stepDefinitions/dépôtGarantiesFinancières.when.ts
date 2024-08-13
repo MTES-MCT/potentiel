@@ -4,7 +4,6 @@ import { mediator } from 'mediateur';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../.././../potentiel.world';
-import { sleep } from '../../../.././../helpers/sleep';
 import { convertStringToReadableStream } from '../../../.././../helpers/convertStringToReadable';
 
 Quand(
@@ -35,7 +34,6 @@ Quand(
           ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
         },
       });
-      await sleep(500);
     } catch (error) {
       this.error = error as Error;
     }
@@ -70,7 +68,6 @@ Quand(
           ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
         },
       });
-      await sleep(500);
     } catch (error) {
       this.error = error as Error;
     }
@@ -91,7 +88,6 @@ Quand(
           suppriméParValue: 'porteur@test.test',
         },
       });
-      await sleep(500);
     } catch (error) {
       this.error = error as Error;
     }
@@ -115,7 +111,6 @@ Quand(
           ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
         },
       });
-      await sleep(500);
     } catch (error) {
       this.error = error as Error;
     }
@@ -140,7 +135,6 @@ Quand(
           ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
         },
       });
-      await sleep(500);
     } catch (error) {
       this.error = error as Error;
     }

@@ -5,7 +5,6 @@ import { Achèvement } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
-import { sleep } from '../../../../../helpers/sleep';
 
 EtantDonné(
   'une attestation de conformité transmise pour le projet {string}',
@@ -39,6 +38,5 @@ EtantDonné(
         utilisateurValue,
       },
     });
-    await sleep(100);
   },
 );

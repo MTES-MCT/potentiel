@@ -3,7 +3,6 @@ import { mediator } from 'mediateur';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { sleep } from '../../helpers/sleep';
 import { PotentielWorld } from '../../potentiel.world';
 
 EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
@@ -38,7 +37,6 @@ EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, 
     aideSaisieRéférenceDossierRaccordement,
     contactEmail,
   });
-  await sleep(100);
 });
 
 EtantDonné(
@@ -60,7 +58,5 @@ EtantDonné(
       raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {},
     });
-
-    await sleep(100);
   },
 );

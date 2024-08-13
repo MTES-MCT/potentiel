@@ -3,7 +3,6 @@ import { mediator } from 'mediateur';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { sleep } from '../../../../../helpers/sleep';
 import { PotentielWorld } from '../../../../../potentiel.world';
 
 import { setDépôtData } from './helper';
@@ -22,8 +21,6 @@ EtantDonné(
         identifiantProjet,
       }),
     });
-
-    await sleep(500);
   },
 );
 
@@ -38,7 +35,5 @@ EtantDonné(
         identifiantProjet,
       }),
     });
-
-    await sleep(500);
   },
 );

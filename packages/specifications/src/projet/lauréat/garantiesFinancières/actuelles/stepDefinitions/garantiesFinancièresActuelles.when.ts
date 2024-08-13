@@ -9,7 +9,6 @@ import {
 import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
-import { sleep } from '../../../../../helpers/sleep';
 
 import { setGarantiesFinancièresData } from './helper';
 
@@ -25,7 +24,6 @@ Quand(
         type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
         data: setGarantiesFinancièresData({ identifiantProjet, exemple }),
       });
-      await sleep(500);
     } catch (error) {
       this.error = error as Error;
     }
@@ -44,7 +42,6 @@ Quand(
         type: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
         data: setGarantiesFinancièresData({ identifiantProjet, exemple }),
       });
-      await sleep(300);
     } catch (error) {
       this.error = error as Error;
     }
@@ -66,7 +63,6 @@ Quand(
           exemple,
         }),
       });
-      await sleep(300);
     } catch (error) {
       this.error = error as Error;
     }
@@ -85,7 +81,6 @@ Quand(
         type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
         data: setGarantiesFinancièresData({ identifiantProjet, exemple }),
       });
-      await sleep(300);
     } catch (error) {
       this.error = error as Error;
     }
@@ -114,7 +109,6 @@ Quand(
           ],
         },
       });
-      await sleep(100);
 
       await mediator.send<ExécuterTâchePlanifiéeUseCase>({
         type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
@@ -124,7 +118,6 @@ Quand(
             GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
         },
       });
-      await sleep(100);
     } catch (error) {
       this.error = error as Error;
     }

@@ -5,7 +5,6 @@ import { Achèvement } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
-import { sleep } from '../../../../../helpers/sleep';
 
 Quand(
   'un porteur transmet une attestation de conformité pour le projet {string} avec :',
@@ -49,7 +48,6 @@ Quand(
           utilisateurValue,
         },
       });
-      await sleep(100);
     } catch (error) {
       this.error = error as Error;
     }
@@ -98,7 +96,6 @@ Quand(
           utilisateurValue,
         },
       });
-      await sleep(100);
     } catch (error) {
       this.error = error as Error;
     }
