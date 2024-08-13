@@ -6,6 +6,7 @@ import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
 import { HistoriqueAbandon } from '../candidature';
+import { CandidatureDéjàImporterError } from '../candidatureDéjàImporter.error';
 
 export type CandidatureImportéeEvent = DomainEvent<
   'CandidatureImportée-V1',
@@ -82,6 +83,10 @@ export async function importer(
   this: CandidatureAggregate,
   candidature: ImporterCandidatureOptions,
 ) {
+  if (this.importé) {
+    throw new CandidatureDéjàImporterError();
+  }
+
   const event: CandidatureImportéeEvent = {
     type: 'CandidatureImportée-V1',
     payload: {
@@ -125,5 +130,6 @@ export function applyCandidatureImportée(
   this: CandidatureAggregate,
   { payload: { statut } }: CandidatureImportéeEvent,
 ) {
+  this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(statut);
 }
