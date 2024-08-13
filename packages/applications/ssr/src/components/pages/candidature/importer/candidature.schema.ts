@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+
 const requiredStringSchema = z.string().trim().min(1);
 
 const optionalStringSchema = z
@@ -115,7 +117,12 @@ const colonnes = {
 } as const;
 
 // Order matters! the CSV uses "1"/"2"/"3"
-const typeGf = ['six-mois-après-achèvement', 'avec-date-échéance', 'consignation'] as const;
+const typeGf = [
+  GarantiesFinancières.TypeGarantiesFinancières.sixMoisAprèsAchèvement.type,
+  GarantiesFinancières.TypeGarantiesFinancières.avecDateÉchéance.type,
+  GarantiesFinancières.TypeGarantiesFinancières.consignation.type,
+] as const;
+
 const historiqueAbandon = [
   'première-candidature',
   'abandon-classique',

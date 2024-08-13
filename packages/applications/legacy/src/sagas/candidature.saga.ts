@@ -11,6 +11,7 @@ import { CandidatureImportéeEvent } from '@potentiel-domain/candidature/dist/ca
 import getDepartementRegionFromCodePostal, {
   DepartementRegion,
 } from '../helpers/getDepartementRegionFromCodePostal';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 export type SubscriptionEvent = Candidature.CandidatureImportéeEvent & Event;
 
@@ -56,7 +57,9 @@ export const register = () => {
                 technologie: payload.technologie,
                 historiqueAbandon: payload.historiqueAbandon,
                 puissance: payload.puissanceProductionAnnuelle,
-                garantiesFinancièresType: payload.typeGarantiesFinancières,
+                garantiesFinancièresType: getTypeGarantiesFinancieresLabel(
+                  payload.typeGarantiesFinancières,
+                ),
                 details: payload.détails,
                 engagementFournitureDePuissanceAlaPointe: payload.puissanceALaPointe,
                 actionnaire: payload.sociétéMère,
@@ -133,4 +136,23 @@ const getDésignationCatégorie = ({
     note >= periodeDetails.noteThreshold.volumeReserve.noteThreshold
     ? 'volume-réservé'
     : 'hors-volume-réservé';
+};
+
+const getTypeGarantiesFinancieresLabel = (
+  typeGf?: GarantiesFinancières.TypeGarantiesFinancières.RawType,
+) => {
+  if (!typeGf) {
+    return undefined;
+  }
+
+  switch (typeGf) {
+    case 'six-mois-après-achèvement':
+      return "Garantie financière jusqu'à 6 mois après la date d'achèvement";
+    case 'avec-date-échéance':
+      return 'Garantie financière avec date d’échéance et à renouveler';
+    case 'consignation':
+      return 'Consignation';
+    case 'type-inconnu':
+      return undefined;
+  }
 };
