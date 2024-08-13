@@ -94,7 +94,7 @@ const mapLineToUseCaseData = (
   technologieValue: line.technologie,
   financementCollectifValue: line.financement_collectif === 'oui',
   financementParticipatifValue: line.financement_participatif === 'oui',
-  gouvernancePartagéeValue: line.gouvernance_partagée === 'oui',
+  gouvernancePartagéeValue: line.gouvernance_partagée,
   dateÉchéanceGfValue: line.date_échéance_gf?.toISOString(),
   territoireProjetValue: line.territoire_projet,
   détailsValue: rawLine,

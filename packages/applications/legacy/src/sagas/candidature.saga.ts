@@ -88,7 +88,6 @@ export const register = () => {
         });
         return;
     }
-    return Promise.reject();
   };
 
   mediator.register('System.Saga.Candidature', handler);

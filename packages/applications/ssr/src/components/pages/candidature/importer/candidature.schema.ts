@@ -25,10 +25,16 @@ const strictlyPositiveNumberSchema = z
 const ouiNonSchema = z
   .string()
   .transform((str) => str.toLowerCase())
-  .pipe(z.enum(['oui', 'non', '']))
-  .transform((str) => str || undefined);
+  .pipe(z.enum(['oui', 'non']))
+  .transform((val) => val === 'oui');
 
-const optionalOuiNonSchema = ouiNonSchema.optional().transform((val) => val ?? false);
+const optionalOuiNonSchema = z
+  .string()
+  .transform((str) => str.toLowerCase())
+  .pipe(z.enum(['oui', 'non', '']))
+  .transform((val) => val ?? undefined)
+  .optional()
+  .transform((val) => val ?? false);
 
 const dateSchema = z
   .string()
