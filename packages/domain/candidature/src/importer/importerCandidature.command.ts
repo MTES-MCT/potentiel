@@ -50,7 +50,7 @@ export const registerImporterCandidatureCommand = (loadAggregate: LoadAggregate)
   const loadCandidatureAggregate = loadCandidatureAggregateFactory(loadAggregate);
   const handler: MessageHandler<ImporterCandidatureCommand> = async (payload) => {
     const candidature = await loadCandidatureAggregate(payload.identifiantProjet);
-    await candidature.instruire(payload);
+    await candidature.importer(payload);
   };
 
   mediator.register('Candidature.Command.ImporterCandidature', handler);
