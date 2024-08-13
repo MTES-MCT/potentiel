@@ -82,7 +82,7 @@ export async function importer(
   this: CandidatureAggregate,
   candidature: ImporterCandidatureOptions,
 ) {
-  if (!this.statut.estÉgaleÀ(StatutCandidature.inconnu)) {
+  if (this.importé) {
     throw new Error(`Il est impossible d'importer 2 fois la même candidature`);
   }
 
@@ -129,5 +129,6 @@ export function applyCandidatureImportée(
   this: CandidatureAggregate,
   { payload: { statut } }: CandidatureImportéeEvent,
 ) {
+  this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(statut);
 }

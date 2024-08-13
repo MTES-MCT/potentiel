@@ -11,7 +11,8 @@ import {
 export type CandidatureEvent = CandidatureImportéeEvent;
 
 export type CandidatureAggregate = Aggregate<CandidatureEvent> & {
-  statut: StatutCandidature.ValueType;
+  statut?: StatutCandidature.ValueType;
+  importé?: true;
   importer: typeof importer;
 };
 
@@ -20,7 +21,6 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
   CandidatureEvent
 > = () => ({
   identifiantProjet: IdentifiantProjet.inconnu,
-  statut: StatutCandidature.inconnu,
   apply,
   importer,
 });

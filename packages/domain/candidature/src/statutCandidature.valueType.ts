@@ -1,6 +1,6 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-const statuts = ['éliminé', 'classé', 'inconnu'] as const;
+const statuts = ['éliminé', 'classé'] as const;
 
 export type RawType = (typeof statuts)[number];
 
@@ -37,7 +37,6 @@ function estValide(value: string): asserts value is RawType {
 
 export const éliminé = convertirEnValueType('éliminé');
 export const classé = convertirEnValueType('classé');
-export const inconnu = convertirEnValueType('inconnu');
 
 class StatutCandidatureInvalideError extends InvalidOperationError {
   constructor(value: string) {
