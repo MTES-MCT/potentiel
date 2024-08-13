@@ -32,11 +32,11 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }
 
   for (const line of parsedData) {
     try {
-      const rawLine = rawData.find((s) => s.nom_projet === line.nom_projet);
+      const projectRawLine = rawData.find((data) => data['Nom projet'] === line.nom_projet) ?? {};
 
       await mediator.send<Candidature.ImporterCandidatureUseCase>({
         type: 'Candidature.UseCase.ImporterCandidature',
-        data: mapLineToUseCaseData(line, rawLine ?? {}),
+        data: mapLineToUseCaseData(line, removeEmptyValues(projectRawLine)),
       });
 
       success++;
@@ -101,3 +101,7 @@ const mapLineToUseCaseData = (
 });
 
 export const importerCandidaturesAction = formAction(action, schema);
+
+const removeEmptyValues = (projectRawLine: Record<string, string>) => {
+  return Object.fromEntries(Object.entries(projectRawLine).filter(([, value]) => value !== ''));
+};
