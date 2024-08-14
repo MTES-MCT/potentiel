@@ -152,6 +152,7 @@ export const AdminNotificationCandidats = ({
               }
               onChange={(event) =>
                 updateUrlParams({
+                  appelOffreId: données?.AOSélectionné ?? null,
                   periodeId: event.target.value,
                 })
               }
@@ -241,12 +242,12 @@ export const AdminNotificationCandidats = ({
                       title: ' Télécharger la liste des lauréats (document csv)',
                       url: `
                 ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
-                        ...request.query,
-                        appelOffreId: données.AOSélectionné,
-                        periodeId: données.périodeSélectionnée,
-                        beforeNotification: true,
-                        pageSize: 10000,
-                      })}`,
+                  ...request.query,
+                  appelOffreId: données.AOSélectionné,
+                  periodeId: données.périodeSélectionnée,
+                  beforeNotification: true,
+                  pageSize: 10000,
+                })}`,
                     }
                   : undefined
               }
