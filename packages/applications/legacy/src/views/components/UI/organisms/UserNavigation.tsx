@@ -115,7 +115,7 @@ const MenuAdmin = (currentPage?: string) => (
     <MenuGarantiesFinancières currentPage={currentPage} />
     <DropdownMenu buttonChildren={'Imports'}>
       <DropdownMenu.DropdownItem
-        href={routes.IMPORT_PROJECTS}
+        href={routes.LEGACY_IMPORT_PROJECTS}
         {...(currentPage === 'import-projects' && { isCurrent: true })}
       >
         Nouveaux candidats

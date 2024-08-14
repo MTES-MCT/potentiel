@@ -78,7 +78,7 @@ const getNavigationItemsBasedOnRole = (
             {
               text: 'Nouveaux candidats',
               linkProps: {
-                href: '/admin/importer-candidats.html',
+                href: '/admin/importer-candidats-legacy.html',
               },
             },
             {
