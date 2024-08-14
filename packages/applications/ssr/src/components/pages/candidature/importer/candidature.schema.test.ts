@@ -24,7 +24,7 @@ const minimumValues: Partial<Record<keyof CandidatureCsvRowShape, string>> = {
   'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
     'N/A',
   'Technologie\n(dispositif de production)': 'N/A',
-  "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO":
+  "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période":
     '1',
 };
 
@@ -59,10 +59,10 @@ describe('Schema candidature', () => {
     expect(result.data).to.deep.equal({
       appel_offre: "appel d'offre",
       période: 'période',
-      famille: undefined,
+      famille: '',
       num_cre: 'numéro cre',
       nom_projet: 'nom projet',
-      société_mère: undefined,
+      société_mère: '',
       nom_candidat: 'candidat',
       puissance_production_annuelle: 1,
       prix_reference: 1,
@@ -70,20 +70,22 @@ describe('Schema candidature', () => {
       nom_représentant_légal: 'valentin cognito',
       email_contact: 'porteur@test.com',
       adresse1: 'adresse',
-      adresse2: undefined,
+      adresse2: '',
       code_postal: '12345',
       commune: 'MARSEILLE',
       statut: 'éliminé',
       motif_élimination: 'motif',
-      puissance_a_la_pointe: undefined,
-      evaluation_carbone_simplifiée: 'N/A',
+      puissance_a_la_pointe: false,
+      evaluation_carbone_simplifiée: 0,
       valeur_évaluation_carbone: undefined,
       technologie: 'N/A',
       type_gf: undefined,
       financement_collectif: 'non',
-      gouvernance_partagée: 'oui',
+      financement_participatif: false,
+      gouvernance_partagée: true,
       date_échéance_gf: undefined,
-      historique_abandon: 'lauréat_aucun_ao',
+      historique_abandon: 'première-candidature',
+      territoire_projet: '',
     });
   });
 
@@ -98,10 +100,10 @@ describe('Schema candidature', () => {
     expect(result.data).to.deep.equal({
       appel_offre: "appel d'offre",
       période: 'période',
-      famille: undefined,
+      famille: '',
       num_cre: 'numéro cre',
       nom_projet: 'nom projet',
-      société_mère: undefined,
+      société_mère: '',
       nom_candidat: 'candidat',
       puissance_production_annuelle: 1,
       prix_reference: 1,
@@ -109,20 +111,22 @@ describe('Schema candidature', () => {
       nom_représentant_légal: 'valentin cognito',
       email_contact: 'porteur@test.com',
       adresse1: 'adresse',
-      adresse2: undefined,
+      adresse2: '',
       code_postal: '12345',
       commune: 'MARSEILLE',
       statut: 'classé',
-      motif_élimination: undefined,
-      puissance_a_la_pointe: undefined,
-      evaluation_carbone_simplifiée: 'N/A',
+      motif_élimination: '',
+      puissance_a_la_pointe: 'oui',
+      evaluation_carbone_simplifiée: 0,
       valeur_évaluation_carbone: 2,
       technologie: 'eolien',
       type_gf: 'avec-date-échéance',
       financement_collectif: 'non',
-      gouvernance_partagée: 'oui',
-      date_échéance_gf: new Date('2024-12-01'),
-      historique_abandon: 'lauréat_aucun_ao',
+      financement_participatif: false,
+      gouvernance_partagée: true,
+      date_échéance_gf: new Date('2024-12-01T00:00:00.000Z'),
+      historique_abandon: 'première-candidature',
+      territoire_projet: '',
     });
   });
 
@@ -221,14 +225,14 @@ describe('Schema candidature', () => {
     test('oui/non valeur manquante', () => {
       const result = candidatureSchema.safeParse({
         ...minimumValuesEliminé,
-        'Financement collectif (Oui/Non)': '',
+        'Gouvernance partagée (Oui/Non)': '',
       });
       assert(!result.success);
       expect(result.error.errors[0]).to.deep.eq({
         received: '',
         code: 'invalid_enum_value',
         options: ['oui', 'non'],
-        path: ['Financement collectif (Oui/Non)'],
+        path: ['Gouvernance partagée (Oui/Non)'],
         message: "Invalid enum value. Expected 'oui' | 'non', received ''",
       });
     });
@@ -236,14 +240,14 @@ describe('Schema candidature', () => {
     test('oui/non avec valeur invalide', () => {
       const result = candidatureSchema.safeParse({
         ...minimumValuesEliminé,
-        'Financement collectif (Oui/Non)': 'peut-être',
+        'Gouvernance partagée (Oui/Non)': 'peut-être',
       });
       assert(!result.success);
       expect(result.error.errors[0]).to.deep.eq({
         received: 'peut-être',
         code: 'invalid_enum_value',
         options: ['oui', 'non'],
-        path: ['Financement collectif (Oui/Non)'],
+        path: ['Gouvernance partagée (Oui/Non)'],
         message: "Invalid enum value. Expected 'oui' | 'non', received 'peut-être'",
       });
     });
@@ -320,6 +324,21 @@ describe('Schema candidature', () => {
         received: 'undefined',
         path: ["Date d'échéance au format JJ/MM/AAAA"],
         message: `"Date d'échéance au format JJ/MM/AAAA" est requis lorsque "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" a la valeur "2"`,
+      });
+    });
+
+    test('notifiedOn est interdit', () => {
+      const result = candidatureSchema.safeParse({
+        ...minimumValuesEliminé,
+        notifiedOn: 'foo',
+      });
+      assert(!result.success, 'should be error');
+      expect(result.error.errors[0]).to.deep.eq({
+        received: 'string',
+        expected: 'undefined',
+        code: 'invalid_type',
+        path: ['notifiedOn'],
+        message: 'Le champs notifiedOn ne peut pas être présent',
       });
     });
   });
