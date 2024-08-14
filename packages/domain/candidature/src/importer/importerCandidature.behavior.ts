@@ -1,12 +1,21 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Option } from '@potentiel-libraries/monads';
 
 import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
 import { HistoriqueAbandon } from '../candidature';
-import { CandidatureDéjàImporterError } from '../candidatureDéjàImporter.error';
+import { PériodeAppelOffreLegacyError } from '../périodeAppelOffreLegacy.error';
+import { CandidatureDéjàImportéeError } from '../candidatureDéjàImportée.error';
+import {
+  AppelOffreInexistantError,
+  FamillePériodeAppelOffreInexistanteError,
+  PériodeAppelOffreInexistanteError,
+} from '../appelOffreInexistant.error';
+import { GarantiesFinancièresRequisesPourAppelOffreError } from '../garantiesFinancièresRequises.error';
 
 export type CandidatureImportéeEvent = DomainEvent<
   'CandidatureImportée-V1',
@@ -82,9 +91,44 @@ type ImporterCandidatureOptions = {
 export async function importer(
   this: CandidatureAggregate,
   candidature: ImporterCandidatureOptions,
+  appelOffre: Option.Type<AppelOffre.AppelOffreReadModel>,
 ) {
   if (this.importé) {
-    throw new CandidatureDéjàImporterError();
+    throw new CandidatureDéjàImportéeError();
+  }
+
+  if (Option.isNone(appelOffre)) {
+    throw new AppelOffreInexistantError(candidature.appelOffre);
+  }
+  const période = appelOffre.periodes.find((x) => x.id === candidature.période);
+  if (!période) {
+    throw new PériodeAppelOffreInexistanteError(candidature.appelOffre, candidature.période);
+  }
+
+  let famille: AppelOffre.Famille | undefined;
+  if (candidature.famille) {
+    famille = période.familles.find((x) => x.id === candidature.famille);
+    if (!famille) {
+      throw new FamillePériodeAppelOffreInexistanteError(
+        candidature.appelOffre,
+        candidature.période,
+        candidature.famille,
+      );
+    }
+  }
+
+  if (période.type === 'legacy') {
+    throw new PériodeAppelOffreLegacyError(candidature.appelOffre, candidature.période);
+  }
+
+  const soumisAuxGF =
+    famille?.soumisAuxGarantiesFinancieres ?? appelOffre.soumisAuxGarantiesFinancieres;
+  if (
+    soumisAuxGF === 'à la candidature' &&
+    candidature.statut.estClassé() &&
+    !candidature.typeGarantiesFinancières
+  ) {
+    throw new GarantiesFinancièresRequisesPourAppelOffreError();
   }
 
   const event: CandidatureImportéeEvent = {

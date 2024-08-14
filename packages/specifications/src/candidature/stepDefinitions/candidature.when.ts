@@ -16,6 +16,7 @@ Quand(
     const famille = exemple['famille'] ?? '';
     const numéroCRE = exemple['numéro CRE'] ?? '23';
     const statut = exemple['statut'] ?? 'classé';
+    const typeGarantiesFinancières = exemple['type GF'] ?? 'consignation';
 
     try {
       await mediator.send<Candidature.ImporterCandidatureUseCase>({
@@ -47,7 +48,7 @@ Quand(
           evaluationCarboneSimplifiéeValue: 1,
           financementCollectifValue: false,
           gouvernancePartagéeValue: false,
-          typeGarantiesFinancièresValue: 'consignation',
+          typeGarantiesFinancièresValue: typeGarantiesFinancières,
           financementParticipatifValue: false,
           détailsValue: {},
         },

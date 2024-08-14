@@ -7,6 +7,8 @@ export type RawType = (typeof statuts)[number];
 export type ValueType = ReadonlyValueType<{
   statut: RawType;
   formatter(): RawType;
+  estClassé(): boolean;
+  estÉliminé(): boolean;
 }>;
 
 export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
@@ -18,6 +20,12 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
     },
     formatter() {
       return this.statut;
+    },
+    estClassé: function () {
+      return this.estÉgaleÀ(classé);
+    },
+    estÉliminé: function () {
+      return this.estÉgaleÀ(éliminé);
     },
   };
 };
