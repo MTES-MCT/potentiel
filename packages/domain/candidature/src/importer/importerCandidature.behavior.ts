@@ -41,7 +41,7 @@ export type CandidatureImportéeEvent = DomainEvent<
     gouvernancePartagée: boolean;
     dateÉchéanceGf?: DateTime.RawType;
     teritoireProjet: string;
-    détails?: Record<string, string>;
+    détails: Record<string, string>;
   }
 >;
 
@@ -76,7 +76,7 @@ type ImporterCandidatureOptions = {
   gouvernancePartagée: boolean;
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
-  détails?: Record<string, string>;
+  détails: Record<string, string>;
 };
 
 export async function importer(

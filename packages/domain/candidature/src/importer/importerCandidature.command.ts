@@ -42,7 +42,7 @@ export type ImporterCandidatureCommand = Message<
     gouvernancePartagée: boolean;
     dateÉchéanceGf?: DateTime.ValueType;
     territoireProjet: string;
-    détails?: Record<string, string>;
+    détails: Record<string, string>;
   }
 >;
 
