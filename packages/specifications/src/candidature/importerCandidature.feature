@@ -34,3 +34,10 @@ Fonctionnalité: Importer une candidature
             | statut  | classé |
             | famille | 812    |
         Alors l'administrateur devrait être informé que "La famille de période d'appel d'offre spécifiée n'existe pas"
+
+    Scénario: Impossible d'importer une candidature sans GF, pour un AO soumis aux GF
+        Quand un administrateur importe la candidature "Du boulodrome de Marseille" avec:
+            | statut        | classé          |
+            | appel d'offre | PPE2 - Bâtiment |
+            | type GF       |                 |
+        Alors l'administrateur devrait être informé que "Les garanties financières sont requises pour cet appel d'offre ou famille"

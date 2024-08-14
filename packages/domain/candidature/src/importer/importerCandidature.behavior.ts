@@ -1,5 +1,3 @@
-import { mediator } from 'mediateur';
-
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
@@ -16,6 +14,7 @@ import {
   FamillePériodeAppelOffreInexistanteError,
   PériodeAppelOffreInexistanteError,
 } from '../appelOffreInexistant.error';
+import { GarantiesFinancièresRequisesPourAppelOffreError } from '../garantiesFinancièresRequises.error';
 
 export type CandidatureImportéeEvent = DomainEvent<
   'CandidatureImportée-V1',
@@ -91,17 +90,11 @@ type ImporterCandidatureOptions = {
 export async function importer(
   this: CandidatureAggregate,
   candidature: ImporterCandidatureOptions,
+  appelOffre: Option.Type<AppelOffre.AppelOffreReadModel>,
 ) {
   if (this.importé) {
     throw new CandidatureDéjàImportéeError();
   }
-
-  const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-    type: 'AppelOffre.Query.ConsulterAppelOffre',
-    data: {
-      identifiantAppelOffre: candidature.appelOffre,
-    },
-  });
 
   if (Option.isNone(appelOffre)) {
     throw new AppelOffreInexistantError(candidature.appelOffre);
@@ -111,8 +104,9 @@ export async function importer(
     throw new PériodeAppelOffreInexistanteError(candidature.appelOffre, candidature.période);
   }
 
+  let famille: AppelOffre.Famille | undefined;
   if (candidature.famille) {
-    const famille = période.familles.find((x) => x.id === candidature.famille);
+    famille = période.familles.find((x) => x.id === candidature.famille);
     if (!famille) {
       throw new FamillePériodeAppelOffreInexistanteError(
         candidature.appelOffre,
@@ -120,6 +114,16 @@ export async function importer(
         candidature.famille,
       );
     }
+  }
+
+  const soumisAuxGF =
+    famille?.soumisAuxGarantiesFinancieres ?? appelOffre.soumisAuxGarantiesFinancieres;
+  if (
+    soumisAuxGF === 'à la candidature' &&
+    candidature.statut.estClassé() &&
+    !candidature.typeGarantiesFinancières
+  ) {
+    throw new GarantiesFinancièresRequisesPourAppelOffreError();
   }
 
   const event: CandidatureImportéeEvent = {

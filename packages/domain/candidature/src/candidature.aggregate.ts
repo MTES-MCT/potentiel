@@ -33,7 +33,7 @@ function apply(this: CandidatureAggregate, event: CandidatureEvent) {
   }
 }
 
-export function loadCandidatureAggregateFactory(loadAggregate: LoadAggregate) {
+export function loadCandidatureFactory(loadAggregate: LoadAggregate) {
   return (identifiantProjet: IdentifiantProjet.ValueType) => {
     return loadAggregate({
       aggregateId: `candidature|${identifiantProjet.formatter()}`,

@@ -3,10 +3,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
-import { loadCandidatureAggregateFactory } from '../candidature.aggregate';
+import { loadCandidatureFactory } from '../candidature.aggregate';
 import { HistoriqueAbandon } from '../candidature';
 
 export type ImporterCandidatureCommand = Message<
@@ -47,10 +48,19 @@ export type ImporterCandidatureCommand = Message<
 >;
 
 export const registerImporterCandidatureCommand = (loadAggregate: LoadAggregate) => {
-  const loadCandidatureAggregate = loadCandidatureAggregateFactory(loadAggregate);
+  const loadCandidatureAggregate = loadCandidatureFactory(loadAggregate);
   const handler: MessageHandler<ImporterCandidatureCommand> = async (payload) => {
     const candidature = await loadCandidatureAggregate(payload.identifiantProjet);
-    await candidature.importer(payload);
+
+    // NB: on devrait charger l'aggregate appel d'offre au lieu de faire une query,
+    // mais cela est impossible en l'absence d'évènements.
+    const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+      type: 'AppelOffre.Query.ConsulterAppelOffre',
+      data: {
+        identifiantAppelOffre: payload.appelOffre,
+      },
+    });
+    await candidature.importer(payload, appelOffre);
   };
 
   mediator.register('Candidature.Command.ImporterCandidature', handler);
