@@ -175,6 +175,9 @@ const candidatureCsvRowSchema = z
     [colonnes.type_gf]: z.enum(['1', '2', '3']).optional(), // see refine below
     [colonnes.date_échéance_gf]: dateSchema.optional(), // see refine below
     [colonnes.territoire_projet]: optionalStringSchema, // see refines below
+    notifiedOn: z.undefined({
+      invalid_type_error: 'Le champs notifiedOn ne peut pas être présent',
+    }),
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine(
