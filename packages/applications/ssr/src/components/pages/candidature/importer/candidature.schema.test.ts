@@ -78,7 +78,7 @@ describe('Schema candidature', () => {
       puissance_a_la_pointe: false,
       evaluation_carbone_simplifiée: 0,
       valeur_évaluation_carbone: undefined,
-      technologie: undefined,
+      technologie: 'N/A',
       type_gf: undefined,
       financement_collectif: 'non',
       financement_participatif: false,
@@ -295,19 +295,21 @@ describe('Schema candidature', () => {
     test('Enum avec valeur vide', () => {
       const result = candidatureSchema.safeParse({
         ...minimumValuesEliminé,
-        'Technologie\n(dispositif de production)': '',
+        "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+          '',
       });
       assert(result.success);
-      expect(result.data.technologie).to.be.undefined;
+      expect(result.data.type_gf).to.be.undefined;
     });
 
     test('Enum avec N/A', () => {
       const result = candidatureSchema.safeParse({
         ...minimumValuesEliminé,
-        'Technologie\n(dispositif de production)': 'N/A',
+        "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+          'N/A',
       });
       assert(result.success);
-      expect(result.data.technologie).to.be.undefined;
+      expect(result.data.type_gf).to.be.undefined;
     });
 
     test('Email non valide', () => {
