@@ -8,6 +8,7 @@ import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
 import { HistoriqueAbandon } from '../candidature';
+import { PériodeAppelOffreLegacyError } from '../périodeAppelOffreLegacy.error';
 import { CandidatureDéjàImportéeError } from '../candidatureDéjàImportée.error';
 import {
   AppelOffreInexistantError,
@@ -114,6 +115,10 @@ export async function importer(
         candidature.famille,
       );
     }
+  }
+
+  if (période.type === 'legacy') {
+    throw new PériodeAppelOffreLegacyError(candidature.appelOffre, candidature.période);
   }
 
   const soumisAuxGF =
