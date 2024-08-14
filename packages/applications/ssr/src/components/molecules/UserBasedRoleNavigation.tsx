@@ -78,7 +78,7 @@ const getNavigationItemsBasedOnRole = (
             {
               text: 'Nouveaux candidats',
               linkProps: {
-                href: '/admin/importer-candidats-legacy.html',
+                href: Routes.Candidature.importer,
               },
             },
             {
@@ -90,7 +90,7 @@ const getNavigationItemsBasedOnRole = (
             {
               text: 'Dates de mise en service',
               linkProps: {
-                href: Routes.Raccordement.importer(),
+                href: Routes.Raccordement.importer,
               },
             },
           ],

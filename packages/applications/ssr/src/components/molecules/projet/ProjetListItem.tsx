@@ -57,7 +57,6 @@ export const ProjetListItem: FC<ProjetListItemProps> = (projet) => {
             'transmettreDemandeComplèteRaccordement',
             'détail',
             'modifierGestionnaireDeRéseau',
-            'importer',
           ]}
         />
       </div>
