@@ -41,7 +41,7 @@ export type ImporterCandidatureUseCase = Message<
     gouvernancePartagéeValue: boolean;
     dateÉchéanceGfValue?: string;
     territoireProjetValue: string;
-    détailsValue?: Record<string, string>;
+    détailsValue: Record<string, string>;
   }
 >;
 
