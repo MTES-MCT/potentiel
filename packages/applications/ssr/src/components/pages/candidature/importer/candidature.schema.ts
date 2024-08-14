@@ -238,7 +238,7 @@ export const candidatureSchema = candidatureCsvRowSchema
       type_gf: val.type_gf ? typeGf[Number(val.type_gf) - 1] : undefined,
       historique_abandon: historiqueAbandon[Number(val.historique_abandon) - 1],
       statut: statut[val.statut],
-      technologie: val.technologie ? technologie[val.technologie] : undefined,
+      technologie: technologie[val.technologie],
     };
   });
 
