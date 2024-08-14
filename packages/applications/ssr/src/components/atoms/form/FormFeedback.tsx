@@ -2,10 +2,6 @@
 
 import { FC } from 'react';
 import Alert, { AlertProps } from '@codegouvfr/react-dsfr/Alert';
-import { fr } from '@codegouvfr/react-dsfr';
-import { Accordion } from '@codegouvfr/react-dsfr/Accordion';
-
-import { CsvError } from '@potentiel-libraries/csv';
 
 import { FormState } from '@/utils/formAction';
 
@@ -64,41 +60,6 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState, successMessage 
 
     case 'form-error':
       return <AlertError description="Erreur lors de la validation des données du formulaire" />;
-
-    case 'csv-error':
-      const regroupedErrors = formState.errors.reduce(
-        (acc, error) => {
-          if (!acc[error.line]) {
-            acc[error.line] = [];
-          }
-          acc[error.line].push(error);
-          return acc;
-        },
-        {} as Record<string, CsvError[]>,
-      );
-
-      return (
-        <AlertError
-          title={`Le fichier contient les erreurs suivantes :`}
-          description={
-            <div className={`list-disc pl-3 my-6 ${fr.cx('fr-accordions-group')}`}>
-              {Object.entries(regroupedErrors).map(([ligne, erreurs]) => (
-                <Accordion label={`Ligne ${Number(ligne) + 1}`} defaultExpanded>
-                  <ul className="list-disc pl-3">
-                    {erreurs.map((erreur) => (
-                      <li key={`${ligne}-${erreur.field}`}>
-                        Champ : <span className="font-semibold">{erreur.field}</span>
-                        <br />
-                        Erreur : <span className="font-semibold">{erreur.message}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </Accordion>
-              ))}
-            </div>
-          }
-        />
-      );
 
     case 'unknown-error':
       return <AlertError description="Une erreur est survenue" />;
