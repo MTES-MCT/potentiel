@@ -32,17 +32,3 @@ export const WithDomainError: Story = {
 export const WithFormError: Story = {
   args: { formState: { status: 'form-error', errors: [] }, successMessage: 'éléments importés' },
 };
-
-export const WithCsvError: Story = {
-  args: {
-    formState: {
-      status: 'csv-error',
-      errors: [
-        { line: '1', field: 'field-1', message: 'Error message' },
-        { line: '1', field: 'field-2', message: 'Error message' },
-        { line: '3', field: 'field-4', message: 'Error message' },
-      ],
-    },
-    successMessage: 'éléments importés',
-  },
-};

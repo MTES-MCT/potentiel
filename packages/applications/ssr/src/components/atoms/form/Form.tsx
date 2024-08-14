@@ -9,6 +9,7 @@ import { Heading2 } from '../headings';
 
 import { FormFeedback } from './FormFeedback';
 import { FormPendingModal, FormPendingModalProps } from './FormPendingModal';
+import { FormFeedbackCsvError } from './FormFeedbackCsvErrors';
 
 export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action' | 'method'> & {
   method?: 'POST';
@@ -59,6 +60,8 @@ export const Form: FC<FormProps> = ({
       )}
 
       <div className={`flex flex-col gap-5 ${className || ''}`}>{children}</div>
+
+      <FormFeedbackCsvError formState={state} />
     </form>
   );
 };
