@@ -174,7 +174,10 @@ const candidatureCsvRowSchema = z
       .union([z.enum(['N/A']), strictlyPositiveNumberSchema])
       .transform((val) => (val === 'N/A' ? 0 : val)),
     [colonnes.valeur_évaluation_carbone]: optionalStrictlyPositiveNumberSchema,
-    [colonnes.technologie]: optionalEnum(z.enum(['Eolien', 'Hydraulique', 'PV'])),
+    [colonnes.technologie]: z
+      .enum(['N/A', 'Eolien', 'Hydraulique', 'PV'])
+      .optional()
+      .transform((val) => val ?? 'N/A'),
     [colonnes.financement_collectif]: optionalOuiNonSchema,
     [colonnes.financement_participatif]: optionalOuiNonSchema,
     [colonnes.gouvernance_partagée]: ouiNonSchema,
