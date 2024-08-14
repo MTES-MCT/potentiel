@@ -10,19 +10,23 @@ const optionalStringSchema = z
   .optional()
   .transform((val) => val ?? '');
 
-const numberSchema = z
+const _numberSchemaBase = z
   .string()
   // replace french commas to "."
-  .transform((str) => str.replace(/,/g, '.'))
-  // transform to number
-  .pipe(z.coerce.number());
+  .transform((str) => (str ? Number(str.replace(/,/g, '.')) : undefined));
 
-const strictlyPositiveNumberSchema = z
-  .string()
-  // replace french commas to "."
-  .transform((str) => str.replace(/,/g, '.'))
+const numberSchema = _numberSchemaBase
+  // transform to number
+  .pipe(z.number());
+
+const optionalStrictlyPositiveNumberSchema = _numberSchemaBase
+  // transform to number and validate, accept none
+  .pipe(z.number().gt(0).optional())
+  .optional();
+
+const strictlyPositiveNumberSchema = _numberSchemaBase
   // transform to number and validate
-  .pipe(z.coerce.number().gt(0));
+  .pipe(z.number().gt(0));
 
 const ouiNonSchema = z
   .string()
@@ -50,6 +54,14 @@ const dateSchema = z
     const [day, month, year] = val.split('/');
     return new Date(`${year}-${month}-${day}`);
   });
+
+const optionalEnum = <TEnumSchema extends [string, ...string[]]>(
+  enumSchema: z.ZodEnum<TEnumSchema>,
+) =>
+  z
+    .union([enumSchema, z.literal(''), z.literal('N/A')])
+    .transform((v) => (v === '' || v === 'N/A' ? undefined : v))
+    .optional();
 
 /**
  * @param field Le champ validé
@@ -161,18 +173,15 @@ const candidatureCsvRowSchema = z
     [colonnes.evaluation_carbone_simplifiée]: z
       .union([z.enum(['N/A']), strictlyPositiveNumberSchema])
       .transform((val) => (val === 'N/A' ? 0 : val)),
-    [colonnes.valeur_évaluation_carbone]: strictlyPositiveNumberSchema.optional(),
-    [colonnes.technologie]: z
-      .enum(['N/A', 'Eolien', 'Hydraulique', 'PV'])
-      .optional()
-      .transform((val) => val ?? 'N/A'),
+    [colonnes.valeur_évaluation_carbone]: optionalStrictlyPositiveNumberSchema,
+    [colonnes.technologie]: optionalEnum(z.enum(['Eolien', 'Hydraulique', 'PV'])),
     [colonnes.financement_collectif]: optionalOuiNonSchema,
     [colonnes.financement_participatif]: optionalOuiNonSchema,
     [colonnes.gouvernance_partagée]: ouiNonSchema,
     [colonnes.historique_abandon]: z.enum(['1', '2', '3', '4']),
     // columns with refines
     [colonnes.motif_élimination]: optionalStringSchema, // see refine below
-    [colonnes.type_gf]: z.enum(['1', '2', '3']).optional(), // see refine below
+    [colonnes.type_gf]: optionalEnum(z.enum(['1', '2', '3'])), // see refine below
     [colonnes.date_échéance_gf]: dateSchema.optional(), // see refine below
     [colonnes.territoire_projet]: optionalStringSchema, // see refines below
     notifiedOn: z.undefined({
@@ -226,7 +235,7 @@ export const candidatureSchema = candidatureCsvRowSchema
       type_gf: val.type_gf ? typeGf[Number(val.type_gf) - 1] : undefined,
       historique_abandon: historiqueAbandon[Number(val.historique_abandon) - 1],
       statut: statut[val.statut],
-      technologie: technologie[val.technologie],
+      technologie: val.technologie ? technologie[val.technologie] : undefined,
     };
   });
 

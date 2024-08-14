@@ -78,7 +78,7 @@ describe('Schema candidature', () => {
       puissance_a_la_pointe: false,
       evaluation_carbone_simplifiée: 0,
       valeur_évaluation_carbone: undefined,
-      technologie: 'N/A',
+      technologie: undefined,
       type_gf: undefined,
       financement_collectif: 'non',
       financement_participatif: false,
@@ -190,6 +190,31 @@ describe('Schema candidature', () => {
       });
     });
 
+    test('nombre strictement positif optionnel vide', () => {
+      const result = candidatureSchema.safeParse({
+        ...minimumValuesEliminé,
+        'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)': '',
+      });
+
+      assertNoError(result);
+    });
+
+    test('nombre strictement positif requis vide', () => {
+      const result = candidatureSchema.safeParse({
+        ...minimumValuesEliminé,
+        puissance_production_annuelle: '',
+      });
+
+      assert(!result.success);
+      expect(result.error.errors[0]).to.deep.eq({
+        code: 'invalid_type',
+        expected: 'number',
+        received: 'undefined',
+        path: ['puissance_production_annuelle'],
+        message: 'Required',
+      });
+    });
+
     test('nombre strictement positif vaut 0', () => {
       const result = candidatureSchema.safeParse({
         ...minimumValuesEliminé,
@@ -265,6 +290,24 @@ describe('Schema candidature', () => {
         path: ['Classé ?'],
         message: "Invalid enum value. Expected 'Eliminé' | 'Classé', received 'wrong'",
       });
+    });
+
+    test('Enum avec valeur vide', () => {
+      const result = candidatureSchema.safeParse({
+        ...minimumValuesEliminé,
+        'Technologie\n(dispositif de production)': '',
+      });
+      assert(result.success);
+      expect(result.data.technologie).to.be.undefined;
+    });
+
+    test('Enum avec N/A', () => {
+      const result = candidatureSchema.safeParse({
+        ...minimumValuesEliminé,
+        'Technologie\n(dispositif de production)': 'N/A',
+      });
+      assert(result.success);
+      expect(result.data.technologie).to.be.undefined;
     });
 
     test('Email non valide', () => {
