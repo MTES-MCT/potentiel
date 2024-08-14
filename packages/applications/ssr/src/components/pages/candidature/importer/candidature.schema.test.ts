@@ -190,6 +190,31 @@ describe('Schema candidature', () => {
       });
     });
 
+    test('nombre strictement positif optionnel vide', () => {
+      const result = candidatureSchema.safeParse({
+        ...minimumValuesEliminé,
+        'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)': '',
+      });
+
+      assertNoError(result);
+    });
+
+    test('nombre strictement positif requis vide', () => {
+      const result = candidatureSchema.safeParse({
+        ...minimumValuesEliminé,
+        puissance_production_annuelle: '',
+      });
+
+      assert(!result.success);
+      expect(result.error.errors[0]).to.deep.eq({
+        code: 'invalid_type',
+        expected: 'number',
+        received: 'undefined',
+        path: ['puissance_production_annuelle'],
+        message: 'Required',
+      });
+    });
+
     test('nombre strictement positif vaut 0', () => {
       const result = candidatureSchema.safeParse({
         ...minimumValuesEliminé,
@@ -265,6 +290,26 @@ describe('Schema candidature', () => {
         path: ['Classé ?'],
         message: "Invalid enum value. Expected 'Eliminé' | 'Classé', received 'wrong'",
       });
+    });
+
+    test('Enum avec valeur vide', () => {
+      const result = candidatureSchema.safeParse({
+        ...minimumValuesEliminé,
+        "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+          '',
+      });
+      assert(result.success);
+      expect(result.data.type_gf).to.be.undefined;
+    });
+
+    test('Enum avec N/A', () => {
+      const result = candidatureSchema.safeParse({
+        ...minimumValuesEliminé,
+        "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+          'N/A',
+      });
+      assert(result.success);
+      expect(result.data.type_gf).to.be.undefined;
     });
 
     test('Email non valide', () => {
