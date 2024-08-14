@@ -13,6 +13,15 @@
     },
     {
       "path": "../core"
+    },
+    {
+      "path": "../lauréat"
+    },
+    {
+      "path": "../utilisateur"
+    },
+    {
+      "path": "../appel-offre"
     }
   ]
 }

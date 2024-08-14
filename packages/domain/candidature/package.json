@@ -13,7 +13,9 @@
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/laureat": "*",
-    "@potentiel-domain/utilisateur": "*"
+    "@potentiel-domain/utilisateur": "*",
+    "@potentiel-domain/appel-offre": "*",
+    "mediateur": "^0.1.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

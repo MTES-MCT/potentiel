@@ -1,12 +1,21 @@
+import { mediator } from 'mediateur';
+
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Option } from '@potentiel-libraries/monads';
 
 import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
 import { HistoriqueAbandon } from '../candidature';
-import { CandidatureDéjàImporterError } from '../candidatureDéjàImporter.error';
+import { CandidatureDéjàImportéeError } from '../candidatureDéjàImportée.error';
+import {
+  AppelOffreInexistantError,
+  FamillePériodeAppelOffreInexistanteError,
+  PériodeAppelOffreInexistanteError,
+} from '../appelOffreInexistant.error';
 
 export type CandidatureImportéeEvent = DomainEvent<
   'CandidatureImportée-V1',
@@ -84,7 +93,33 @@ export async function importer(
   candidature: ImporterCandidatureOptions,
 ) {
   if (this.importé) {
-    throw new CandidatureDéjàImporterError();
+    throw new CandidatureDéjàImportéeError();
+  }
+
+  const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+    type: 'AppelOffre.Query.ConsulterAppelOffre',
+    data: {
+      identifiantAppelOffre: candidature.appelOffre,
+    },
+  });
+
+  if (Option.isNone(appelOffre)) {
+    throw new AppelOffreInexistantError(candidature.appelOffre);
+  }
+  const période = appelOffre.periodes.find((x) => x.id === candidature.période);
+  if (!période) {
+    throw new PériodeAppelOffreInexistanteError(candidature.appelOffre, candidature.période);
+  }
+
+  if (candidature.famille) {
+    const famille = période.familles.find((x) => x.id === candidature.famille);
+    if (!famille) {
+      throw new FamillePériodeAppelOffreInexistanteError(
+        candidature.appelOffre,
+        candidature.période,
+        candidature.famille,
+      );
+    }
   }
 
   const event: CandidatureImportéeEvent = {

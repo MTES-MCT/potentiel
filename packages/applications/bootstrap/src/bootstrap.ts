@@ -40,7 +40,7 @@ export const bootstrap = async ({
       sendEmail = sendEmailMailjet;
     }
 
-    setupAppelOffre();
+    await setupAppelOffre();
     const unsetupCandidature = await setupCandidature();
     setupDocumentProjet();
     const unsetupTâche = await setupTâche();
