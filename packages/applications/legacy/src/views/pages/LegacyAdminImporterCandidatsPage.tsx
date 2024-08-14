@@ -10,30 +10,39 @@ import {
   LegacyPageTemplate,
   SuccessBox,
   Form,
+  InfoBox,
+  Link,
 } from '../components';
 import { hydrateOnClient } from '../helpers';
+import { Routes } from '@potentiel-applications/routes';
 
-type AdminImporterCandidatsProps = {
+type LegacyAdminImporterCandidatsProps = {
   request: Request;
   importErrors?: Record<number, string>;
   otherError?: string;
   isSuccess?: boolean;
 };
 
-export const AdminImporterCandidats = ({
+export const LegacyAdminImporterCandidats = ({
   request,
   importErrors,
   isSuccess,
   otherError,
-}: AdminImporterCandidatsProps) => {
+}: LegacyAdminImporterCandidatsProps) => {
   return (
     <LegacyPageTemplate user={request.user} currentPage="import-projects">
       <Heading1>Importer des candidats</Heading1>
+      <InfoBox title="Cette page est obsolète" className="mb-8">
+        <div>
+          Cette page n'est plus utilisée. Pour importer des candidats, rendez-vous sur la{' '}
+          <Link href={Routes.Candidature.importer}>nouvelle page d'import de candidats.</Link>
+        </div>
+      </InfoBox>
       <Form
-        action={ROUTES.IMPORT_PROJECTS_ACTION}
+        action={ROUTES.LEGACY_IMPORT_PROJECTS_ACTION}
         method="post"
         encType="multipart/form-data"
-        className="mx-auto"
+        // className="mx-auto"
       >
         {isSuccess && <SuccessBox title="Les projets ont bien été importés." />}
         {!!importErrors && (
@@ -62,4 +71,4 @@ export const AdminImporterCandidats = ({
   );
 };
 
-hydrateOnClient(AdminImporterCandidats);
+hydrateOnClient(LegacyAdminImporterCandidats);

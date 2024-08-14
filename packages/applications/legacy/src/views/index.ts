@@ -23,7 +23,7 @@ import {
   ChangerFournisseur,
   AdminNotificationCandidats,
   AdminRegénérerPeriodeAttestations,
-  AdminImporterCandidats,
+  LegacyAdminImporterCandidats,
   ListeProjets,
   SuccèsOuErreur,
   InvitationsCandidatsEnAttente,
@@ -243,9 +243,11 @@ export const AdminRegénérerPeriodeAttestationsPage = (
     title: 'Regénérer période attestations',
   });
 
-export const AdminImporterCandidatsPage = (props: Parameters<typeof AdminImporterCandidats>[0]) =>
+export const LegacyAdminImporterCandidatsPage = (
+  props: Parameters<typeof LegacyAdminImporterCandidats>[0],
+) =>
   makeHtml({
-    Component: AdminImporterCandidats,
+    Component: LegacyAdminImporterCandidats,
     props,
     title: 'Importer des candidats',
   });

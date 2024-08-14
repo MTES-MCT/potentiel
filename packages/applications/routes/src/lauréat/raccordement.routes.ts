@@ -3,7 +3,7 @@ import { encodeParameter } from '../encodeParameter';
 export const détail = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements`;
 
-export const importer = () => `/reseaux/raccordements/importer`;
+export const importer = `/reseaux/raccordements/importer`;
 
 export const modifierGestionnaireDeRéseau = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements/gestionnaire:modifier`;

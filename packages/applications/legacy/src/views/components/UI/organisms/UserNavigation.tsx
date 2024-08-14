@@ -115,7 +115,7 @@ const MenuAdmin = (currentPage?: string) => (
     <MenuGarantiesFinancières currentPage={currentPage} />
     <DropdownMenu buttonChildren={'Imports'}>
       <DropdownMenu.DropdownItem
-        href={routes.IMPORT_PROJECTS}
+        href={Routes.Candidature.importer}
         {...(currentPage === 'import-projects' && { isCurrent: true })}
       >
         Nouveaux candidats
@@ -127,7 +127,7 @@ const MenuAdmin = (currentPage?: string) => (
         Courriers historiques
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={Routes.Raccordement.importer()}
+        href={Routes.Raccordement.importer}
         {...(currentPage === 'importer-dates-mise-en-service' && { isCurrent: true })}
       >
         Dates de mise en service

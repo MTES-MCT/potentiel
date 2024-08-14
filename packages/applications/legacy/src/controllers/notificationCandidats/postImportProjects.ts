@@ -7,16 +7,20 @@ import { IllegalProjectDataError } from '../../modules/project';
 import routes from '../../routes';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
-import { AdminImporterCandidatsPage } from '../../views';
+import { LegacyAdminImporterCandidatsPage } from '../../views';
 
+/**
+ * @deprecated
+ * @description Route legacy pour importer des candidats
+ */
 v1Router.post(
-  routes.IMPORT_PROJECTS_ACTION,
+  routes.LEGACY_IMPORT_PROJECTS_ACTION,
   ensureRole(['admin', 'dgec-validateur']),
   upload.single('candidats'),
   asyncHandler(async (request, response) => {
     if (!request.file || !request.file.path) {
       return response.redirect(
-        addQueryParams(routes.IMPORT_PROJECTS, {
+        addQueryParams(routes.LEGACY_IMPORT_PROJECTS, {
           error: 'Le fichier candidat est manquant.',
         }),
       );
@@ -27,7 +31,7 @@ v1Router.post(
     if (linesResult.isErr()) {
       const csvError = linesResult.error;
       return response.send(
-        AdminImporterCandidatsPage({
+        LegacyAdminImporterCandidatsPage({
           request,
           otherError: `Le fichier csv n'a pas pu être importé: ${csvError.message}`,
         }),
@@ -43,13 +47,13 @@ v1Router.post(
         importId,
       });
 
-      return response.send(AdminImporterCandidatsPage({ request, isSuccess: true }));
+      return response.send(LegacyAdminImporterCandidatsPage({ request, isSuccess: true }));
     } catch (e) {
       if (e instanceof IllegalProjectDataError) {
-        return response.send(AdminImporterCandidatsPage({ request, importErrors: e.errors }));
+        return response.send(LegacyAdminImporterCandidatsPage({ request, importErrors: e.errors }));
       }
 
-      return response.send(AdminImporterCandidatsPage({ request, otherError: e.message }));
+      return response.send(LegacyAdminImporterCandidatsPage({ request, otherError: e.message }));
     }
   }),
 );
