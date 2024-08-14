@@ -152,6 +152,7 @@ export const AdminNotificationCandidats = ({
               }
               onChange={(event) =>
                 updateUrlParams({
+                  appelOffreId: données?.AOSélectionné ?? null,
                   periodeId: event.target.value,
                 })
               }
