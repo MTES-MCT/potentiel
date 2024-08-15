@@ -1,5 +1,10 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
+import {
+  Aggregate,
+  AggregateNotFoundError,
+  GetDefaultAggregateState,
+  LoadAggregate,
+} from '@potentiel-domain/core';
 
 import * as StatutCandidature from './statutCandidature.valueType';
 import {
@@ -43,11 +48,22 @@ function apply(this: CandidatureAggregate, event: CandidatureEvent) {
   }
 }
 
-export function loadCandidatureFactory(loadAggregate: LoadAggregate) {
-  return (identifiantProjet: IdentifiantProjet.ValueType) => {
+export const loadCandidatureFactory =
+  (loadAggregate: LoadAggregate) =>
+  (identifiantProjet: IdentifiantProjet.ValueType, throwOnNone = true) => {
     return loadAggregate({
       aggregateId: `candidature|${identifiantProjet.formatter()}`,
       getDefaultAggregate: getDefaultCandidatureAggregate,
+      onNone: throwOnNone
+        ? () => {
+            throw new CandidatureNonTrouvéeError();
+          }
+        : undefined,
     });
   };
+
+class CandidatureNonTrouvéeError extends AggregateNotFoundError {
+  constructor() {
+    super(`La candidature n'existe pas`);
+  }
 }

@@ -50,7 +50,7 @@ export type ImporterCandidatureCommand = Message<
 export const registerImporterCandidatureCommand = (loadAggregate: LoadAggregate) => {
   const loadCandidatureAggregate = loadCandidatureFactory(loadAggregate);
   const handler: MessageHandler<ImporterCandidatureCommand> = async (payload) => {
-    const candidature = await loadCandidatureAggregate(payload.identifiantProjet);
+    const candidature = await loadCandidatureAggregate(payload.identifiantProjet, false);
 
     // NB: on devrait charger l'aggregate appel d'offre au lieu de faire une query,
     // mais cela est impossible en l'absence d'évènements.

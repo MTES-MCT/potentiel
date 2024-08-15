@@ -47,9 +47,11 @@ export type CorrigerCandidatureCommand = Message<
 >;
 
 export const registerCorrigerCandidatureCommand = (loadAggregate: LoadAggregate) => {
-  const loadCandidatureAggregate = loadCandidatureFactory(loadAggregate);
+  const load = loadCandidatureFactory(loadAggregate);
   const handler: MessageHandler<CorrigerCandidatureCommand> = async (payload) => {
-    const candidature = await loadCandidatureAggregate(payload.identifiantProjet);
+    const candidature = await load(payload.identifiantProjet);
+
+    console.log('ICI', candidature);
 
     // // NB: on devrait charger l'aggregate appel d'offre au lieu de faire une query,
     // // mais cela est impossible en l'absence d'évènements.

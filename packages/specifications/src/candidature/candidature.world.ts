@@ -19,6 +19,6 @@ export class CandidatureWorld {
       throw new Error(`Aucune candidature correspondant à ${nom} dans les jeux de données`);
     }
 
-    return candidature;
+    return candidature as CandidatureFixture;
   }
 }

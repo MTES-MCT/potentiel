@@ -35,23 +35,15 @@ Quand(
   'un administrateur corrige la candidature {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
-    const { values: defaultValues } = mapExampleToUseCaseDefaultValues(nomProjet, exemple);
+    const { values: data } = mapExampleToUseCaseDefaultValues(nomProjet, exemple);
 
-    const { identifiantProjet, values } =
-      this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
     try {
-      const valuesCorrigées = { ...values, ...defaultValues };
       await mediator.send<Candidature.CorrigerCandidatureUseCase>({
         type: 'Candidature.UseCase.CorrigerCandidature',
-        data: valuesCorrigées,
-      });
-
-      this.candidatureWorld.candidatureFixtures.set(nomProjet, {
-        nom: nomProjet,
-        identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet.formatter()),
-        values: valuesCorrigées,
+        data,
       });
     } catch (error) {
+      console.log(error);
       this.error = error as Error;
     }
   },

@@ -4,16 +4,15 @@ Fonctionnalité: Corriger une candidature
     Contexte:
         Etant donné la candidature "Du boulodrome de Marseille"
 
-    @select
     Scénario: Corriger une candidature
         Quand un administrateur corrige la candidature "Du boulodrome de Marseille" avec :
             | technologie | pv |
         Alors la candidature "Du boulodrome de Marseille" devrait être consultable dans la liste des candidatures
 
-    @NotImplemented
-    Scénario: Impossible de corriger une candidature inexistante
-        Quand un administrateur corrige la candidature "Du boulodrome de Marseille 2" avec :
-            | statut | éliminé |
+    @select
+    Scénario: Impossible de corriger une candidature inconnue
+        Quand un administrateur corrige la candidature "D'une candidature non importée" avec :
+            | technologie | eolien |
         Alors l'administrateur devrait être informé que "La candidature n'existe pas"
 
     @NotImplemented

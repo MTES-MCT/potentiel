@@ -47,8 +47,11 @@ export type CorrigerCandidatureUseCase = Message<
 
 export const registerCorrigerCandidatureUseCase = () => {
   const handler: MessageHandler<CorrigerCandidatureUseCase> = async (payload) => {
-    const { appelOffreValue, périodeValue, familleValue, numéroCREValue } = payload;
     const {
+      appelOffreValue,
+      périodeValue,
+      familleValue,
+      numéroCREValue,
       statutValue,
       dateÉchéanceGfValue,
       technologieValue,
