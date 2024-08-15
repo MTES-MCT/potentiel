@@ -6,7 +6,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
-import { importerCandidaturesAction } from './corrigerCandidatures.action';
+import { corrigerCandidaturesAction } from './corrigerCandidatures.action';
 
 export const CorrigerCandidaturesForm: FC = () => {
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
@@ -15,7 +15,7 @@ export const CorrigerCandidaturesForm: FC = () => {
     <Form
       method="POST"
       encType="multipart/form-data"
-      action={importerCandidaturesAction}
+      action={corrigerCandidaturesAction}
       heading="Corriger un import de candidatures"
       pendingModal={{
         id: 'form-import-candidatures',

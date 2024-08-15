@@ -66,7 +66,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }
   };
 };
 
-export const importerCandidaturesAction = formAction(action, schema);
+export const corrigerCandidaturesAction = formAction(action, schema);
 
 const removeEmptyValues = (projectRawLine: Record<string, string>) => {
   return Object.fromEntries(Object.entries(projectRawLine).filter(([, value]) => value !== ''));
