@@ -120,6 +120,9 @@ const MenuAdmin = (currentPage?: string) => (
       >
         Nouveaux candidats
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Candidature.importer}>
+        Corriger candidats
+      </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
         href={routes.UPLOAD_LEGACY_MODIFICATION_FILES}
         {...(currentPage === 'admin-upload-legacy-modification-files' && { isCurrent: true })}
