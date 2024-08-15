@@ -124,7 +124,7 @@ const colonnes = {
   date_échéance_gf: "Date d'échéance au format JJ/MM/AAAA",
   // TODO quel est le bon nom pour cette colonne?
   historique_abandon:
-    "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période",
+    "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO",
   territoire_projet: 'Territoire\n(AO ZNI)',
 } as const;
 

@@ -39,7 +39,7 @@ const validLine = {
   'Gouvernance partagée (Oui/Non)': 'Non',
   'Financement collectif (Oui/Non)': 'Non',
   Autre: 'valeur',
-  "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période":
+  "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO":
     '1',
 } as Record<string, string>;
 

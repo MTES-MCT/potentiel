@@ -39,7 +39,7 @@ const mappedColumns = [
   'Gouvernance partagée (Oui/Non)',
   "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation",
   "Date d'échéance au format JJ/MM/AAAA",
-  "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période",
+  "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO",
 ];
 
 const prepareNumber = (str) => str && str.replace(/,/g, '.');
@@ -161,22 +161,22 @@ const columnMapper = {
       return typeGF === '1'
         ? "Garantie financière jusqu'à 6 mois après la date d'achèvement"
         : typeGF === '2'
-        ? "Garantie financière avec date d'échéance et à renouveler"
-        : typeGF === '3'
-        ? 'Consignation'
-        : 'valeur incorrecte';
+          ? "Garantie financière avec date d'échéance et à renouveler"
+          : typeGF === '3'
+            ? 'Consignation'
+            : 'valeur incorrecte';
     }
 
     if (statutProjet === 'Eliminé') {
       return typeGF === '1'
         ? "Garantie financière jusqu'à 6 mois après la date d'achèvement"
         : typeGF === '2'
-        ? "Garantie financière avec date d'échéance et à renouveler"
-        : typeGF === '3'
-        ? 'Consignation'
-        : typeGF === 'N/A'
-        ? undefined
-        : 'valeur incorrecte';
+          ? "Garantie financière avec date d'échéance et à renouveler"
+          : typeGF === '3'
+            ? 'Consignation'
+            : typeGF === 'N/A'
+              ? undefined
+              : 'valeur incorrecte';
     }
   },
   garantiesFinancièresDateEchéance: (line: any) => {
@@ -192,7 +192,7 @@ const columnMapper = {
   historiqueAbandon: (line: any) => {
     if (
       !line.hasOwnProperty(
-        "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période",
+        "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO",
       )
     ) {
       return 'N/A';
@@ -200,18 +200,18 @@ const columnMapper = {
 
     const value =
       line[
-        "1. 1ère candidature\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'une autre période"
+        "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO"
       ];
 
     return value === '1'
       ? 'première-candidature'
       : value === '2'
-      ? 'abandon-classique'
-      : value === '3'
-      ? 'abandon-avec-recandidature'
-      : value === '4'
-      ? 'lauréat-autre-période'
-      : 'N/A';
+        ? 'abandon-classique'
+        : value === '3'
+          ? 'abandon-avec-recandidature'
+          : value === '4'
+            ? 'lauréat-autre-période'
+            : 'N/A';
   },
 } as const;
 
@@ -398,7 +398,7 @@ const projectSchema = yup.object().shape({
         'lauréat-autre-période',
         'N/A',
       ],
-      `La colonne "1. 1ère candidature 2. Abandon classique 3. Abandon avec recandidature 4. Lauréat d'une autre période" est obligatoire et doit être complétée par 1, 2, 3 ou 4.`,
+      `La colonne "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO" est obligatoire et doit être complétée par 1, 2, 3 ou 4.`,
     ),
 });
 
@@ -487,8 +487,8 @@ export const parseProjectLine = (line) => {
         rawProjectData.financementCollectif === 'Oui'
           ? 'financement-collectif'
           : rawProjectData.gouvernancePartagee === 'Oui'
-          ? 'gouvernance-partagee'
-          : undefined,
+            ? 'gouvernance-partagee'
+            : undefined,
       garantiesFinancièresType: rawProjectData.garantiesFinancièresType,
       garantiesFinancièresDateEchéance: rawProjectData.garantiesFinancièresDateEchéance,
       motifsElimination: rawProjectData.motifsElimination || '',
