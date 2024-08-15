@@ -12,7 +12,7 @@ Fonctionnalité: Importer une candidature
             | éliminé |
 
     Scénario: Impossible d'importer 2 fois la même candidature
-        Étant donné la candidature "Du boulodrome de Marseille"
+        Etant donné la candidature "Du boulodrome de Marseille"
         Quand un administrateur importe la candidature "Du boulodrome de Marseille" avec:
             | statut | éliminé |
         Alors l'administrateur devrait être informé que "Il est impossible d'importer 2 fois la même candidature"
