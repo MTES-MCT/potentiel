@@ -8,7 +8,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
 
-export type SubscriptionEvent = (Candidature.CandidatureImportéeEvent & Event) | RebuildTriggered;
+export type SubscriptionEvent = (Candidature.CandidatureEvent & Event) | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Candidature', SubscriptionEvent>;
 
@@ -47,6 +47,7 @@ export const register = () => {
 
       switch (type) {
         case 'CandidatureImportée-V1':
+        case 'CandidatureCorrigée-V1':
           await upsertProjection<Candidature.CandidatureEntity>(
             `candidature|${identifiantProjet}`,
             candidatureDefaultValue,

@@ -41,8 +41,8 @@ Quand(
       this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
     try {
       const valuesCorrigées = { ...values, ...defaultValues };
-      await mediator.send<Candidature.ImporterCandidatureUseCase>({
-        type: 'Candidature.UseCase.ImporterCandidature',
+      await mediator.send<Candidature.CorrigerCandidatureUseCase>({
+        type: 'Candidature.UseCase.CorrigerCandidature',
         data: valuesCorrigées,
       });
 

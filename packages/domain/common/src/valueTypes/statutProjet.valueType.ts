@@ -10,6 +10,7 @@ export type ValueType = Readonly<{
   estNonNotifié: () => boolean;
   estClassé: () => boolean;
   estÉliminé: () => boolean;
+  estÉgaleÀ: (statut: ValueType) => boolean;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -29,6 +30,9 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
     estÉliminé() {
       return this.statut === 'éliminé';
+    },
+    estÉgaleÀ(statut: ValueType) {
+      return this.statut === statut.statut;
     },
   };
 };

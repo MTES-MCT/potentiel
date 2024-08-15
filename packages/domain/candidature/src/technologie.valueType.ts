@@ -6,6 +6,7 @@ export type RawType = (typeof types)[number];
 export type ValueType = Readonly<{
   type: RawType;
   formatter(): RawType;
+  estÉgaleÀ: (type: ValueType) => boolean;
 }>;
 
 export const convertirEnValueType = (type: string) => {
@@ -14,6 +15,9 @@ export const convertirEnValueType = (type: string) => {
     type,
     formatter() {
       return this.type;
+    },
+    estÉgaleÀ(type: ValueType) {
+      return this.type === type.type;
     },
   };
 };

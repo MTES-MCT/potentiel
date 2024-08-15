@@ -20,6 +20,8 @@ import {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
 } from './consulter/consulterCandidature.query';
+import { CorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
+import type { CandidatureCorrigéeEvent } from './corriger/corrigerCandidature.behavior';
 
 // Query
 export type CandidatureQuery =
@@ -40,10 +42,13 @@ export {
 };
 
 // UseCases
-export type CandidatureUseCase = ImporterCandidatureUseCase;
-export { ImporterCandidatureUseCase };
+export type CandidatureUseCase = ImporterCandidatureUseCase | CorrigerCandidatureUseCase;
+export { ImporterCandidatureUseCase, CorrigerCandidatureUseCase };
 
-export { CandidatureImportéeEvent };
+// Events
+export type CandidatureEvent = CandidatureImportéeEvent | CandidatureCorrigéeEvent;
+
+export { CandidatureImportéeEvent, CandidatureCorrigéeEvent };
 
 // Register
 export * from './register';

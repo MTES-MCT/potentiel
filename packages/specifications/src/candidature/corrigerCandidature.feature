@@ -7,11 +7,8 @@ Fonctionnalité: Corriger une candidature
     @select
     Scénario: Corriger une candidature
         Quand un administrateur corrige la candidature "Du boulodrome de Marseille" avec :
-            | technologie | PV |
-        Et un administrateur corrige la candidature "Du boulodrome de Marseille" avec :
-            | noteTotale | 4 |
-        Alors la candidature "Du boulodrome de Marseille" devrait être consultable dans la liste des candidatures avec le statut "<Statut>" avec :
-            | technologie | PV |
+            | technologie | pv |
+        Alors la candidature "Du boulodrome de Marseille" devrait être consultable dans la liste des candidatures
 
     @NotImplemented
     Scénario: Impossible de corriger une candidature inexistante

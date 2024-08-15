@@ -1,24 +1,14 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Option } from '@potentiel-libraries/monads';
 
 import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
 import { HistoriqueAbandon } from '../candidature';
-import { PériodeAppelOffreLegacyError } from '../périodeAppelOffreLegacy.error';
-import { CandidatureDéjàImportéeError } from '../candidatureDéjàImportée.error';
-import {
-  AppelOffreInexistantError,
-  FamillePériodeAppelOffreInexistanteError,
-  PériodeAppelOffreInexistanteError,
-} from '../appelOffreInexistant.error';
-import { GarantiesFinancièresRequisesPourAppelOffreError } from '../garantiesFinancièresRequises.error';
 
-export type CandidatureImportéeEvent = DomainEvent<
-  'CandidatureImportée-V1',
+export type CandidatureCorrigéeEvent = DomainEvent<
+  'CandidatureCorrigée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     statut: StatutCandidature.RawType;
@@ -54,7 +44,7 @@ export type CandidatureImportéeEvent = DomainEvent<
   }
 >;
 
-type ImporterCandidatureOptions = {
+type CorrigerCandidatureOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutCandidature.ValueType;
   typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
@@ -88,51 +78,51 @@ type ImporterCandidatureOptions = {
   détails: Record<string, string>;
 };
 
-export async function importer(
+export async function corriger(
   this: CandidatureAggregate,
-  candidature: ImporterCandidatureOptions,
-  appelOffre: Option.Type<AppelOffre.AppelOffreReadModel>,
+  candidature: CorrigerCandidatureOptions,
+  // appelOffre: Option.Type<AppelOffre.AppelOffreReadModel>,
 ) {
-  if (this.importé) {
-    throw new CandidatureDéjàImportéeError();
-  }
+  // if (this.importé) {
+  //   throw new CandidatureDéjàImportéeError();
+  // }
 
-  if (Option.isNone(appelOffre)) {
-    throw new AppelOffreInexistantError(candidature.appelOffre);
-  }
-  const période = appelOffre.periodes.find((x) => x.id === candidature.période);
-  if (!période) {
-    throw new PériodeAppelOffreInexistanteError(candidature.appelOffre, candidature.période);
-  }
+  // if (Option.isNone(appelOffre)) {
+  //   throw new AppelOffreInexistantError(candidature.appelOffre);
+  // }
+  // const période = appelOffre.periodes.find((x) => x.id === candidature.période);
+  // if (!période) {
+  //   throw new PériodeAppelOffreInexistanteError(candidature.appelOffre, candidature.période);
+  // }
 
-  let famille: AppelOffre.Famille | undefined;
-  if (candidature.famille) {
-    famille = période.familles.find((x) => x.id === candidature.famille);
-    if (!famille) {
-      throw new FamillePériodeAppelOffreInexistanteError(
-        candidature.appelOffre,
-        candidature.période,
-        candidature.famille,
-      );
-    }
-  }
+  // let famille: AppelOffre.Famille | undefined;
+  // if (candidature.famille) {
+  //   famille = période.familles.find((x) => x.id === candidature.famille);
+  //   if (!famille) {
+  //     throw new FamillePériodeAppelOffreInexistanteError(
+  //       candidature.appelOffre,
+  //       candidature.période,
+  //       candidature.famille,
+  //     );
+  //   }
+  // }
 
-  if (période.type === 'legacy') {
-    throw new PériodeAppelOffreLegacyError(candidature.appelOffre, candidature.période);
-  }
+  // if (période.type === 'legacy') {
+  //   throw new PériodeAppelOffreLegacyError(candidature.appelOffre, candidature.période);
+  // }
 
-  const soumisAuxGF =
-    famille?.soumisAuxGarantiesFinancieres ?? appelOffre.soumisAuxGarantiesFinancieres;
-  if (
-    soumisAuxGF === 'à la candidature' &&
-    candidature.statut.estClassé() &&
-    !candidature.typeGarantiesFinancières
-  ) {
-    throw new GarantiesFinancièresRequisesPourAppelOffreError();
-  }
+  // const soumisAuxGF =
+  //   famille?.soumisAuxGarantiesFinancieres ?? appelOffre.soumisAuxGarantiesFinancieres;
+  // if (
+  //   soumisAuxGF === 'à la candidature' &&
+  //   candidature.statut.estClassé() &&
+  //   !candidature.typeGarantiesFinancières
+  // ) {
+  //   throw new GarantiesFinancièresRequisesPourAppelOffreError();
+  // }
 
-  const event: CandidatureImportéeEvent = {
-    type: 'CandidatureImportée-V1',
+  const event: CandidatureCorrigéeEvent = {
+    type: 'CandidatureCorrigée-V1',
     payload: {
       identifiantProjet: candidature.identifiantProjet.formatter(),
       statut: candidature.statut.statut,
@@ -170,9 +160,9 @@ export async function importer(
   await this.publish(event);
 }
 
-export function applyCandidatureImportée(
+export function applyCandidatureCorrigée(
   this: CandidatureAggregate,
-  { payload: { statut } }: CandidatureImportéeEvent,
+  { payload: { statut } }: CandidatureCorrigéeEvent,
 ) {
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(statut);
