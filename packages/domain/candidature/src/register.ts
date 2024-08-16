@@ -17,11 +17,16 @@ import {
 } from './consulter/consulterCandidature.query';
 import { registerCorrigerCandidatureCommand } from './corriger/corrigerCandidature.command';
 import { registerCorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
+import {
+  ListerCandidaturesQueryDependencies,
+  registerListerCandidaturesQuery,
+} from './lister/listerCandidatures.query';
 
 type CandidatureQueryDependencies = ConsulterProjetDependencies &
   ListerProjetsEligiblesPreuveRecanditureDependencies &
   ListerProjetsDependencies &
-  ConsulterCandidatureDependencies;
+  ConsulterCandidatureDependencies &
+  ListerCandidaturesQueryDependencies;
 
 type CandiatureUseCasesDependencies = {
   loadAggregate: LoadAggregate;
@@ -32,6 +37,7 @@ export const registerCandidatureQueries = (dependencies: CandidatureQueryDepende
   registerProjetsQuery(dependencies);
   registerProjetsEligiblesPreuveRecanditureQuery(dependencies);
   registerConsulterCandidatureQuery(dependencies);
+  registerListerCandidaturesQuery(dependencies);
 };
 
 export const registerCandidaturesUseCases = ({ loadAggregate }: CandiatureUseCasesDependencies) => {

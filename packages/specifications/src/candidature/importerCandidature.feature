@@ -1,7 +1,6 @@
 # language: fr
 Fonctionnalité: Importer une candidature
 
-    @select
     Plan du scénario: Importer une candidature
         Quand un administrateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut | <Statut> |

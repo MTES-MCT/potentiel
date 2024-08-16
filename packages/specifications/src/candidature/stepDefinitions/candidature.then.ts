@@ -1,10 +1,9 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import { assert, expect } from 'chai';
+import { expect } from 'chai';
 import waitForExpect from 'wait-for-expect';
 
 import { Candidature } from '@potentiel-domain/candidature';
-import { Option } from '@potentiel-libraries/monads';
 import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -21,12 +20,15 @@ Alors(
     const { identifiantProjet } = this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-        type: 'Candidature.Query.ConsulterCandidature',
-        data: { identifiantProjet: identifiantProjet.formatter() },
+      const { items: candidatures } = await mediator.send<Candidature.ListerCandidaturesQuery>({
+        type: 'Candidature.Query.ListerCandidatures',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
       });
+      expect(candidatures).to.have.lengthOf(1);
 
-      assert(Option.isSome(candidature), 'Candidature non trouvée');
+      const [candidature] = candidatures;
 
       // Comparaison des clés retournées, afin de vérifier qu'il n'en manque pas, ou qu'il n'y en a pas trop.
       // Cette étape est dûe à la manipulation avec mapToPlainObject ci-dessous, qui retire les champs avec valeur undefined.

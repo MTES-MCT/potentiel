@@ -63,7 +63,7 @@ export const registerConsulterCandidatureQuery = ({ find }: ConsulterCandidature
   mediator.register('Candidature.Query.ConsulterCandidature', handler);
 };
 
-const mapToReadModel = ({
+export const mapToReadModel = ({
   identifiantProjet,
   statut,
   typeGarantiesFinancières,
