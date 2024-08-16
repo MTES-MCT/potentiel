@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ProjectListItemHeading, ProjectListItemHeadingProps } from './ProjectListItemHeading';
 
@@ -24,5 +24,6 @@ export const Default: Story = {
     ),
     nomProjet: 'Boulodrome de Marseille',
     prefix: 'Abandon du projet',
+    misÀJourLe: DateTime.now().formatter(),
   },
 };
