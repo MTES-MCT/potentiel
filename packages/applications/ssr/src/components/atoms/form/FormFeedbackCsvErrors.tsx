@@ -2,6 +2,7 @@ import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Accordion from '@codegouvfr/react-dsfr/Accordion';
 import { fr } from '@codegouvfr/react-dsfr';
+import { useFormStatus } from 'react-dom';
 
 import { CsvError } from '@potentiel-libraries/csv';
 
@@ -12,7 +13,8 @@ type FormFeedbackCsvErrorProps = {
 };
 
 export const FormFeedbackCsvError: FC<FormFeedbackCsvErrorProps> = ({ formState }) => {
-  if (formState.status !== 'csv-error') {
+  const { pending } = useFormStatus();
+  if (pending || formState.status !== 'csv-error') {
     return undefined;
   }
   const regroupedErrors = formState.errors.reduce(
