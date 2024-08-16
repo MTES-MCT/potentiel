@@ -36,11 +36,3 @@ Fonctionnalité: Corriger une candidature
             | appel d'offre | PPE2 - Bâtiment |
             | type GF       |                 |
         Alors l'administrateur devrait être informé que "Les garanties financières sont requises pour cet appel d'offre ou famille"
-
-    @NotImplemented
-    Scénario: Impossible de corriger une candidature d'une période d'AO "legacy"
-        Quand un administrateur corrige la candidature "Du boulodrome de Marseille" avec :
-            | statut        | classé                      |
-            | appel d'offre | CRE4 - Autoconsommation ZNI |
-            | période       | 1                           |
-        Alors l'administrateur devrait être informé que "Cette période est obsolète et ne peut être corrigée"
