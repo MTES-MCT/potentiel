@@ -1,11 +1,19 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Option } from '@potentiel-libraries/monads';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
 import { HistoriqueAbandon } from '../candidature';
+import { GarantiesFinancièresRequisesPourAppelOffreError } from '../garantiesFinancièresRequises.error';
+import {
+  AppelOffreInexistantError,
+  FamillePériodeAppelOffreInexistanteError,
+  PériodeAppelOffreInexistanteError,
+} from '../appelOffreInexistant.error';
 
 export type CandidatureCorrigéeEvent = DomainEvent<
   'CandidatureCorrigée-V1',
@@ -81,20 +89,38 @@ type CorrigerCandidatureOptions = {
 export async function corriger(
   this: CandidatureAggregate,
   candidature: CorrigerCandidatureOptions,
+  appelOffre: Option.Type<AppelOffre.AppelOffreReadModel>,
 ) {
-  // if (période.type === 'legacy') {
-  //   throw new PériodeAppelOffreLegacyError(candidature.appelOffre, candidature.période);
-  // }
+  if (Option.isNone(appelOffre)) {
+    throw new AppelOffreInexistantError(candidature.appelOffre);
+  }
 
-  // const soumisAuxGF =
-  //   famille?.soumisAuxGarantiesFinancieres ?? appelOffre.soumisAuxGarantiesFinancieres;
-  // if (
-  //   soumisAuxGF === 'à la candidature' &&
-  //   candidature.statut.estClassé() &&
-  //   !candidature.typeGarantiesFinancières
-  // ) {
-  //   throw new GarantiesFinancièresRequisesPourAppelOffreError();
-  // }
+  const période = appelOffre.periodes.find((x) => x.id === candidature.période);
+  if (!période) {
+    throw new PériodeAppelOffreInexistanteError(candidature.appelOffre, candidature.période);
+  }
+
+  let famille: AppelOffre.Famille | undefined;
+  if (candidature.famille) {
+    famille = période.familles.find((x) => x.id === candidature.famille);
+    if (!famille) {
+      throw new FamillePériodeAppelOffreInexistanteError(
+        candidature.appelOffre,
+        candidature.période,
+        candidature.famille,
+      );
+    }
+  }
+
+  const soumisAuxGF =
+    famille?.soumisAuxGarantiesFinancieres ?? appelOffre.soumisAuxGarantiesFinancieres;
+  if (
+    soumisAuxGF === 'à la candidature' &&
+    candidature.statut.estClassé() &&
+    !candidature.typeGarantiesFinancières
+  ) {
+    throw new GarantiesFinancièresRequisesPourAppelOffreError();
+  }
 
   const event: CandidatureCorrigéeEvent = {
     type: 'CandidatureCorrigée-V1',

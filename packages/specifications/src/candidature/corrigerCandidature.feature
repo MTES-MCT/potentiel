@@ -29,10 +29,10 @@ Fonctionnalité: Corriger une candidature
             | numéro CRE | 24 |
         Alors l'administrateur devrait être informé que "La candidature n'existe pas"
 
-    @NotImplemented
     Scénario: Impossible de corriger une candidature sans GF, pour un AO soumis aux GF
-        Quand un administrateur corrige la candidature "Du boulodrome de Marseille" avec :
-            | statut        | classé          |
+        Etant donné la candidature "Centrale PV" avec :
+            | appel d'offre | PPE2 - Bâtiment |
+        Quand un administrateur corrige la candidature "Centrale PV" avec :
             | appel d'offre | PPE2 - Bâtiment |
             | type GF       |                 |
         Alors l'administrateur devrait être informé que "Les garanties financières sont requises pour cet appel d'offre ou famille"

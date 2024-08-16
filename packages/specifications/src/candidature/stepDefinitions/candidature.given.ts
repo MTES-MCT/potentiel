@@ -1,4 +1,4 @@
-import { Given as EtantDonné } from '@cucumber/cucumber';
+import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/candidature';
@@ -21,3 +21,21 @@ EtantDonné(`la candidature {string}`, async function (this: PotentielWorld, nom
     values,
   });
 });
+
+EtantDonné(
+  `la candidature {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
+    const exemple = datatable.rowsHash();
+    const { values, identifiantProjet } = mapExampleToUseCaseDefaultValues(nomProjet, exemple);
+    await mediator.send<Candidature.ImporterCandidatureUseCase>({
+      type: 'Candidature.UseCase.ImporterCandidature',
+      data: values,
+    });
+
+    this.candidatureWorld.candidatureFixtures.set(nomProjet, {
+      nom: nomProjet,
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      values,
+    });
+  },
+);

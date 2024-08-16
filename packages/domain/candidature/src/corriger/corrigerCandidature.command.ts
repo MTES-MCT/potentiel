@@ -3,6 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
@@ -51,7 +52,16 @@ export const registerCorrigerCandidatureCommand = (loadAggregate: LoadAggregate)
   const handler: MessageHandler<CorrigerCandidatureCommand> = async (payload) => {
     const candidature = await load(payload.identifiantProjet);
 
-    await candidature.corriger(payload);
+    // NB: on devrait charger l'aggregate appel d'offre au lieu de faire une query,
+    // mais cela est impossible en l'absence d'évènements.
+    const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+      type: 'AppelOffre.Query.ConsulterAppelOffre',
+      data: {
+        identifiantAppelOffre: payload.appelOffre,
+      },
+    });
+
+    await candidature.corriger(payload, appelOffre);
   };
 
   mediator.register('Candidature.Command.CorrigerCandidature', handler);
