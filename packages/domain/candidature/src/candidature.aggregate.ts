@@ -7,7 +7,6 @@ import {
   GetDefaultAggregateState,
   LoadAggregate,
 } from '@potentiel-domain/core';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import * as StatutCandidature from './statutCandidature.valueType';
 import {
@@ -65,11 +64,7 @@ function apply(this: CandidatureAggregate, event: CandidatureEvent) {
 
 export const loadCandidatureFactory =
   (loadAggregate: LoadAggregate) =>
-  (
-    identifiantProjet: IdentifiantProjet.ValueType,
-    appelOffre: AppelOffre.AppelOffreReadModel,
-    throwOnNone = true,
-  ) => {
+  (identifiantProjet: IdentifiantProjet.ValueType, throwOnNone = true) => {
     return loadAggregate({
       aggregateId: `candidature|${identifiantProjet.formatter()}`,
       getDefaultAggregate: () => getDefaultCandidatureAggregate(),

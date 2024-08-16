@@ -1,6 +1,4 @@
-import { createHash } from 'node:crypto';
-
-import { DomainEvent, PlainType } from '@potentiel-domain/core';
+import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -180,10 +178,5 @@ export function applyCandidatureImportée(
 ) {
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
-  this.payloadHash = computePayloadHash(payload);
+  this.payloadHash = this.calculerHash(payload);
 }
-
-const computePayloadHash = (payload: PlainType<unknown>) =>
-  createHash('md5')
-    .update(JSON.stringify(payload, Object.keys(payload).sort()))
-    .digest('hex');
