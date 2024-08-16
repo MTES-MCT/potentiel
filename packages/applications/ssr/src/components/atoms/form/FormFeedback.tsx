@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 import Alert, { AlertProps } from '@codegouvfr/react-dsfr/Alert';
+import { useFormStatus } from 'react-dom';
 
 import { FormState } from '@/utils/formAction';
 
@@ -11,6 +12,12 @@ export type FormFeedbackProps = {
 };
 
 export const FormFeedback: FC<FormFeedbackProps> = ({ formState, successMessage }) => {
+  const { pending } = useFormStatus();
+
+  if (pending) {
+    return undefined;
+  }
+
   switch (formState.status) {
     case 'success':
       if (formState.result) {
