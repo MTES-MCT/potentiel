@@ -10,11 +10,7 @@ import * as Technologie from '../technologie.valueType';
 import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import { PériodeAppelOffreLegacyError } from '../périodeAppelOffreLegacy.error';
 import { CandidatureDéjàImportéeError } from '../candidatureDéjàImportée.error';
-import {
-  AppelOffreInexistantError,
-  FamillePériodeAppelOffreInexistanteError,
-  PériodeAppelOffreInexistanteError,
-} from '../appelOffreInexistant.error';
+import { AppelOffreInexistantError } from '../appelOffreInexistant.error';
 import {
   DateÉchéanceGarantiesFinancièresRequiseError,
   GarantiesFinancièresRequisesPourAppelOffreError,
@@ -105,22 +101,8 @@ export async function importer(
   if (Option.isNone(appelOffre)) {
     throw new AppelOffreInexistantError(candidature.appelOffre);
   }
-  const période = appelOffre.periodes.find((x) => x.id === candidature.période);
-  if (!période) {
-    throw new PériodeAppelOffreInexistanteError(candidature.appelOffre, candidature.période);
-  }
-
-  let famille: AppelOffre.Famille | undefined;
-  if (candidature.famille) {
-    famille = période.familles.find((x) => x.id === candidature.famille);
-    if (!famille) {
-      throw new FamillePériodeAppelOffreInexistanteError(
-        candidature.appelOffre,
-        candidature.période,
-        candidature.famille,
-      );
-    }
-  }
+  const période = this.récupererPériodeAO(appelOffre, candidature.période);
+  const famille = this.récupererFamilleAO(appelOffre, candidature.période, candidature.famille);
 
   if (période.type === 'legacy') {
     throw new PériodeAppelOffreLegacyError(candidature.appelOffre, candidature.période);

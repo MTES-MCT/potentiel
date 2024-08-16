@@ -7,6 +7,7 @@ import {
   GetDefaultAggregateState,
   LoadAggregate,
 } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import * as StatutCandidature from './statutCandidature.valueType';
 import {
@@ -19,6 +20,10 @@ import {
   applyCandidatureCorrigée,
   corriger,
 } from './corriger/corrigerCandidature.behavior';
+import {
+  FamillePériodeAppelOffreInexistanteError,
+  PériodeAppelOffreInexistanteError,
+} from './appelOffreInexistant.error';
 
 export type CandidatureEvent = CandidatureImportéeEvent | CandidatureCorrigéeEvent;
 
@@ -30,6 +35,16 @@ export type CandidatureAggregate = Aggregate<CandidatureEvent> & {
   corriger: typeof corriger;
   calculerHash(payload: CandidatureEvent['payload']): string;
   estIdentiqueÀ(payload: CandidatureEvent['payload']): boolean;
+
+  récupererPériodeAO(
+    appelOffre: AppelOffre.AppelOffreReadModel,
+    idPériode: string,
+  ): AppelOffre.Periode;
+  récupererFamilleAO(
+    appelOffre: AppelOffre.AppelOffreReadModel,
+    idPériode: string,
+    idFamille?: string,
+  ): AppelOffre.Famille | undefined;
 };
 
 export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
@@ -48,6 +63,23 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
   },
   estIdentiqueÀ(payload) {
     return this.calculerHash(payload) === this.payloadHash;
+  },
+  récupererPériodeAO(appelOffre, idPériode) {
+    const période = appelOffre.periodes.find((x) => x.id === idPériode);
+    if (!période) {
+      throw new PériodeAppelOffreInexistanteError(appelOffre.id, idPériode);
+    }
+    return période;
+  },
+  récupererFamilleAO(appelOffre, idPériode, idFamille) {
+    if (!idFamille) {
+      return undefined;
+    }
+    const période = this.récupererPériodeAO(appelOffre, idPériode);
+    const famille = période.familles.find((x) => x.id === idFamille);
+    if (!famille) {
+      throw new FamillePériodeAppelOffreInexistanteError(appelOffre.id, idPériode, idFamille);
+    }
   },
 });
 

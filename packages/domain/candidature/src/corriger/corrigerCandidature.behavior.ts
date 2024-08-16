@@ -8,11 +8,7 @@ import {
   DateÉchéanceGarantiesFinancièresRequiseError,
   GarantiesFinancièresRequisesPourAppelOffreError,
 } from '../garantiesFinancièresRequises.error';
-import {
-  AppelOffreInexistantError,
-  FamillePériodeAppelOffreInexistanteError,
-  PériodeAppelOffreInexistanteError,
-} from '../appelOffreInexistant.error';
+import { AppelOffreInexistantError } from '../appelOffreInexistant.error';
 import { CandidatureNonModifiéeError } from '../candidatureNonModifiée.error';
 import {
   CandidatureImportéeBehaviorPayload,
@@ -38,22 +34,7 @@ export async function corriger(
     throw new AppelOffreInexistantError(candidature.appelOffre);
   }
 
-  const période = appelOffre.periodes.find((x) => x.id === candidature.période);
-  if (!période) {
-    throw new PériodeAppelOffreInexistanteError(candidature.appelOffre, candidature.période);
-  }
-
-  let famille: AppelOffre.Famille | undefined;
-  if (candidature.famille) {
-    famille = période.familles.find((x) => x.id === candidature.famille);
-    if (!famille) {
-      throw new FamillePériodeAppelOffreInexistanteError(
-        candidature.appelOffre,
-        candidature.période,
-        candidature.famille,
-      );
-    }
-  }
+  const famille = this.récupererFamilleAO(appelOffre, candidature.période, candidature.famille);
 
   const soumisAuxGF =
     famille?.soumisAuxGarantiesFinancieres ?? appelOffre.soumisAuxGarantiesFinancieres;
