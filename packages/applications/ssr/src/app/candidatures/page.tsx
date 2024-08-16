@@ -5,7 +5,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { CandidaturesListPage } from '@/components/pages/candidature/CandidaturesList.page';
+import { ProjetsListPage } from '@/components/pages/candidature/ProjetsList.page';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions } from '@/utils/pagination';
 
@@ -36,7 +36,7 @@ export default async function Page({ searchParams }: PageProps) {
         },
       });
 
-      return <CandidaturesListPage {...mapToPlainObject(data)} />;
+      return <ProjetsListPage {...mapToPlainObject(data)} />;
     }),
   );
 }
