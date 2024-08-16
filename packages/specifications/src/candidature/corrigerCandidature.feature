@@ -12,6 +12,7 @@ Fonctionnalité: Corriger une candidature
     @select
     Scénario: Impossible de corriger une candidature inconnue
         Quand un administrateur corrige la candidature "D'une candidature non importée" avec :
+            | numéro CRE  | 24     |
             | technologie | eolien |
         Alors l'administrateur devrait être informé que "La candidature n'existe pas"
 

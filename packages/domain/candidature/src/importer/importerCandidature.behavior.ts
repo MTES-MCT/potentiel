@@ -138,7 +138,7 @@ export async function importer(
       statut: candidature.statut.statut,
       technologie: candidature.technologie.type,
       dateÉchéanceGf: candidature.dateÉchéanceGf?.formatter(),
-      historiqueAbandon: candidature.historiqueAbandon?.formatter(),
+      historiqueAbandon: candidature.historiqueAbandon.formatter(),
       typeGarantiesFinancières: candidature.typeGarantiesFinancières?.type,
       appelOffre: candidature.appelOffre,
       période: candidature.période,

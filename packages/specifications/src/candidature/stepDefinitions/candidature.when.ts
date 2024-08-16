@@ -43,7 +43,6 @@ Quand(
         data,
       });
     } catch (error) {
-      console.log(error);
       this.error = error as Error;
     }
   },
