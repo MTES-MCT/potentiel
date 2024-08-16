@@ -227,9 +227,11 @@ const référencielPermissions = {
     },
     usecase: {
       importer: 'Candidature.UseCase.ImporterCandidature',
+      corriger: 'Candidature.UseCase.CorrigerCandidature',
     },
     command: {
       importer: 'Candidature.Command.ImporterCandidature',
+      corriger: 'Candidature.Command.CorrigerCandidature',
     },
   },
   document: {
@@ -667,8 +669,14 @@ const policies = {
   },
   candidature: {
     importer: [
+      référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.candidature.usecase.importer,
       référencielPermissions.candidature.command.importer,
+    ],
+    corriger: [
+      référencielPermissions.appelOffre.query.consulter,
+      référencielPermissions.candidature.usecase.corriger,
+      référencielPermissions.candidature.command.corriger,
     ],
   },
 } as const;
@@ -739,6 +747,7 @@ const permissionAdmin: Policy[] = [
 
   // Candidature
   'candidature.importer',
+  'candidature.corriger',
 ];
 const permissionCRE: Policy[] = [
   // Abandon
@@ -849,6 +858,7 @@ const permissionDgecValidateur: Policy[] = [
 
   // Candidature
   'candidature.importer',
+  'candidature.corriger',
 ];
 
 const permissionPorteurProjet: Policy[] = [

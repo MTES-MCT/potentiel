@@ -10,6 +10,7 @@ import { corrigerCandidaturesAction } from './corrigerCandidatures.action';
 
 export const CorrigerCandidaturesForm: FC = () => {
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [success, setSuccess] = useState(false);
 
   return (
     <Form
@@ -23,7 +24,8 @@ export const CorrigerCandidaturesForm: FC = () => {
         children: 'Import des candidats en cours ...',
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      successMessage={'candidats importés'}
+      successMessage={'candidats corrigés'}
+      onSuccess={() => setSuccess(true)}
     >
       <UploadDocument
         label="Fichier CSV"
@@ -36,7 +38,7 @@ export const CorrigerCandidaturesForm: FC = () => {
       />
 
       <div className="flex flex-col md:flex-row">
-        <SubmitButton>Corriger</SubmitButton>
+        <SubmitButton disabledCondition={() => success}>Corriger</SubmitButton>
       </div>
     </Form>
   );

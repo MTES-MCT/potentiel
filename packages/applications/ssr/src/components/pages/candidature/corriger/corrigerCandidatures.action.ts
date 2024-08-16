@@ -34,9 +34,8 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }
     try {
       const projectRawLine = rawData.find((data) => data['Nom projet'] === line.nom_projet) ?? {};
 
-      // TODO Corriger
-      await mediator.send<Candidature.ImporterCandidatureUseCase>({
-        type: 'Candidature.UseCase.ImporterCandidature',
+      await mediator.send<Candidature.CorrigerCandidatureUseCase>({
+        type: 'Candidature.UseCase.CorrigerCandidature',
         data: mapLineToUseCaseData(line, removeEmptyValues(projectRawLine)),
       });
 

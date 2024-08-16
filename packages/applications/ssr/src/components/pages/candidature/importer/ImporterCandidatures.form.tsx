@@ -10,7 +10,7 @@ import { importerCandidaturesAction } from './importerCandidatures.action';
 
 export const ImporterCandidaturesForm: FC = () => {
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
-
+  const [success, setSuccess] = useState(false);
   return (
     <Form
       method="POST"
@@ -24,6 +24,7 @@ export const ImporterCandidaturesForm: FC = () => {
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       successMessage={'candidats importés'}
+      onSuccess={() => setSuccess(true)}
     >
       <UploadDocument
         label="Fichier CSV"
@@ -36,7 +37,7 @@ export const ImporterCandidaturesForm: FC = () => {
       />
 
       <div className="flex flex-col md:flex-row">
-        <SubmitButton>Importer</SubmitButton>
+        <SubmitButton disabledCondition={() => success}>Importer</SubmitButton>
       </div>
     </Form>
   );
