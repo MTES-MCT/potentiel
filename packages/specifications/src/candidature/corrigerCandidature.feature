@@ -36,3 +36,8 @@ Fonctionnalité: Corriger une candidature
             | appel d'offre | PPE2 - Bâtiment |
             | type GF       |                 |
         Alors l'administrateur devrait être informé que "Les garanties financières sont requises pour cet appel d'offre ou famille"
+
+    Scénario: Impossible de corriger une candidature sans modifications
+        Quand un administrateur corrige la candidature "Du boulodrome de Marseille" avec :
+            | nom candidat | Candidat |
+        Alors l'administrateur devrait être informé que "La candidature ne contient aucune modification"

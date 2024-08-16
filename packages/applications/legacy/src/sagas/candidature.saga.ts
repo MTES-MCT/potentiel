@@ -93,7 +93,7 @@ const mapToLegacyEventPayload = (
     isFinancementParticipatif: payload.financementCollectif,
     isInvestissementParticipatif: payload.financementParticipatif,
     notifiedOn: 0,
-    territoireProjet: payload.teritoireProjet,
+    territoireProjet: payload.territoireProjet,
     ...getLocalilitéInfo(payload),
   };
 };

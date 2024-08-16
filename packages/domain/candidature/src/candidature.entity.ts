@@ -32,6 +32,6 @@ export type CandidatureEntity = Entity<
     financementParticipatif: boolean;
     gouvernancePartagée: boolean;
     dateÉchéanceGf?: DateTime.RawType;
-    teritoireProjet: string;
+    territoireProjet: string;
   }
 >;

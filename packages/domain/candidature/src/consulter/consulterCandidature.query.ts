@@ -34,7 +34,7 @@ export type ConsulterCandidatureReadModel = {
   financementParticipatif: boolean;
   gouvernancePartagée: boolean;
   dateÉchéanceGf?: DateTime.ValueType;
-  teritoireProjet: string;
+  territoireProjet: string;
 };
 
 export type ConsulterCandidatureQuery = Message<

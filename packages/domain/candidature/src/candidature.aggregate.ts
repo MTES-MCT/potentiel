@@ -23,6 +23,7 @@ export type CandidatureEvent = CandidatureImportéeEvent | CandidatureCorrigéeE
 export type CandidatureAggregate = Aggregate<CandidatureEvent> & {
   statut?: StatutCandidature.ValueType;
   importé?: true;
+  payloadHash: string;
   importer: typeof importer;
   corriger: typeof corriger;
 };
@@ -32,6 +33,7 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
   CandidatureEvent
 > = () => ({
   identifiantProjet: IdentifiantProjet.inconnu,
+  payloadHash: '',
   apply,
   importer,
   corriger,

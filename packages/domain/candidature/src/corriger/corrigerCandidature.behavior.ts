@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
@@ -14,6 +16,7 @@ import {
   FamillePériodeAppelOffreInexistanteError,
   PériodeAppelOffreInexistanteError,
 } from '../appelOffreInexistant.error';
+import { CandidatureNonModifiéeError } from '../candidatureNonModifiée.error';
 
 export type CandidatureCorrigéeEvent = DomainEvent<
   'CandidatureCorrigée-V1',
@@ -47,7 +50,7 @@ export type CandidatureCorrigéeEvent = DomainEvent<
     financementParticipatif: boolean;
     gouvernancePartagée: boolean;
     dateÉchéanceGf?: DateTime.RawType;
-    teritoireProjet: string;
+    territoireProjet: string;
     détails: Record<string, string>;
   }
 >;
@@ -154,17 +157,26 @@ export async function corriger(
       financementCollectif: candidature.financementCollectif,
       financementParticipatif: candidature.financementParticipatif,
       gouvernancePartagée: candidature.gouvernancePartagée,
-      teritoireProjet: candidature.territoireProjet,
+      territoireProjet: candidature.territoireProjet,
       détails: candidature.détails,
     },
   };
+  if (this.payloadHash === computePayloadHash(event.payload)) {
+    throw new CandidatureNonModifiéeError(candidature.nomProjet);
+  }
   await this.publish(event);
 }
 
 export function applyCandidatureCorrigée(
   this: CandidatureAggregate,
-  { payload: { statut } }: CandidatureCorrigéeEvent,
+  { payload }: CandidatureCorrigéeEvent,
 ) {
   this.importé = true;
-  this.statut = StatutCandidature.convertirEnValueType(statut);
+  this.statut = StatutCandidature.convertirEnValueType(payload.statut);
+  this.payloadHash = computePayloadHash(payload);
 }
+
+const computePayloadHash = (payload: CandidatureCorrigéeEvent['payload']) =>
+  createHash('md5')
+    .update(JSON.stringify(payload, Object.keys(payload).sort()))
+    .digest('hex');

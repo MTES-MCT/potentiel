@@ -1,4 +1,6 @@
-import { DomainEvent } from '@potentiel-domain/core';
+import { createHash } from 'node:crypto';
+
+import { DomainEvent, PlainType } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -49,7 +51,7 @@ export type CandidatureImportéeEvent = DomainEvent<
     financementParticipatif: boolean;
     gouvernancePartagée: boolean;
     dateÉchéanceGf?: DateTime.RawType;
-    teritoireProjet: string;
+    territoireProjet: string;
     détails: Record<string, string>;
   }
 >;
@@ -163,7 +165,7 @@ export async function importer(
       financementCollectif: candidature.financementCollectif,
       financementParticipatif: candidature.financementParticipatif,
       gouvernancePartagée: candidature.gouvernancePartagée,
-      teritoireProjet: candidature.territoireProjet,
+      territoireProjet: candidature.territoireProjet,
       détails: candidature.détails,
     },
   };
@@ -172,8 +174,14 @@ export async function importer(
 
 export function applyCandidatureImportée(
   this: CandidatureAggregate,
-  { payload: { statut } }: CandidatureImportéeEvent,
+  { payload }: CandidatureImportéeEvent,
 ) {
   this.importé = true;
-  this.statut = StatutCandidature.convertirEnValueType(statut);
+  this.statut = StatutCandidature.convertirEnValueType(payload.statut);
+  this.payloadHash = computePayloadHash(payload);
 }
+
+const computePayloadHash = (payload: PlainType<unknown>) =>
+  createHash('md5')
+    .update(JSON.stringify(payload, Object.keys(payload).sort()))
+    .digest('hex');
