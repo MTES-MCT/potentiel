@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { CandidatureListPage, CandidatureListPageProps } from './CandidatureList.page';
 
@@ -23,7 +24,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const commonItem: CandidatureListPageProps['list']['items'][number] = {
+type CommonItem = CandidatureListPageProps['list']['items'][number] &
+  Pick<AppelOffre.AppelOffreReadModel, 'unitePuissance'>;
+
+const commonItem: CommonItem = {
   identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
   statut: StatutProjet.classé,
   motifÉlimination: '',
@@ -42,9 +46,10 @@ const commonItem: CandidatureListPageProps['list']['items'][number] = {
   dateÉchéanceGf: undefined,
   historiqueAbandon: Candidature.HistoriqueAbandon.premièreCandidature,
   puissanceProductionAnnuelle: 1,
+  unitePuissance: 'MWc',
   prixReference: 1,
   noteTotale: 1,
-  nomReprésentantLégal: '',
+  nomReprésentantLégal: 'Frodon Sacquet',
   evaluationCarboneSimplifiée: 1,
   valeurÉvaluationCarbone: 1,
   financementCollectif: true,
