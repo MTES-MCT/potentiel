@@ -4,22 +4,13 @@ import { match, Pattern } from 'ts-pattern';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 import { List, RangeOptions, WhereCondition } from '@potentiel-domain/core';
-import { Option } from '@potentiel-libraries/monads';
 
 import { TâcheEntity } from '../tâche.entity';
 import * as TypeTâche from '../typeTâche.valueType';
 
 type TâcheListItem = {
   identifiantProjet: IdentifiantProjet.ValueType;
-
-  projet: Option.Type<{
-    nom: string;
-    appelOffre: string;
-    période: string;
-    famille: Option.Type<string>;
-    numéroCRE: string;
-  }>;
-
+  nomProjet: string;
   typeTâche: TypeTâche.ValueType;
   misÀJourLe: DateTime.ValueType;
 };
@@ -120,18 +111,8 @@ const mapToReadModel = ({
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
     typeTâche: TypeTâche.convertirEnValueType(typeTâche),
-    projet: match(projet)
-      .returnType<Option.Type<TâcheListItem['projet']>>()
-      .with(Pattern.nullish, () => Option.none)
-      .otherwise(({ appelOffre, nom, numéroCRE, période, famille }) => ({
-        appelOffre,
-        nom,
-        numéroCRE,
-        période,
-        famille: match(famille)
-          .returnType<Option.Type<string>>()
-          .with(Pattern.nullish, () => Option.none)
-          .otherwise((value) => value),
-      })),
+    nomProjet: match(projet)
+      .with(Pattern.nullish, () => '')
+      .otherwise(({ nom }) => nom),
   };
 };

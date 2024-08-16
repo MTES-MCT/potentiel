@@ -128,9 +128,6 @@ const mapToListProps = (
   const items = readModel.items.map(
     ({
       identifiantProjet,
-      appelOffre,
-      période,
-      famille,
       nomProjet,
       statut: { statut },
       misÀJourLe,
@@ -139,9 +136,6 @@ const mapToListProps = (
     }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,
-      appelOffre,
-      période,
-      famille,
       statut,
       misÀJourLe: misÀJourLe.formatter(),
       recandidature,

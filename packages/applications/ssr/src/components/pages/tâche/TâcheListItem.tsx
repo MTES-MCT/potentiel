@@ -5,51 +5,28 @@ import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { ListerTâchesReadModel, TypeTâche } from '@potentiel-domain/tache';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { ProjectListItemHeading } from '@/components/molecules/ProjectListItemHeading';
 
 export type TâcheListItemProps = PlainType<ListerTâchesReadModel['items'][number]>;
 
 export const TâcheListItem: FC<TâcheListItemProps> = ({
   identifiantProjet,
-  projet,
+  nomProjet,
   misÀJourLe,
   typeTâche,
 }) => {
-  const { nom, appelOffre, période, famille } = Option.match(projet)
-    .some((some) => some)
-    .none(() => ({
-      appelOffre: 'N/A',
-      famille: Option.none,
-      nom: 'Projet inconnu',
-      numéroCRE: 'N/A',
-      période: 'N/A',
-    }));
-
-  const descriptionTâche = getDescriptionTâche(typeTâche, identifiantProjet, nom);
+  const descriptionTâche = getDescriptionTâche(typeTâche, identifiantProjet, nomProjet);
   const dateMiseÀJourLe = DateTime.bind(misÀJourLe);
 
   return (
-    <div className="flex flex-col gap-3 w-full">
-      <div className="flex flex-col gap-1">
-        <h2 className="leading-4">
-          À faire pour le projet : <span className="font-bold">{nom}</span>
-        </h2>
-        <div className="flex flex-col md:flex-row gap-2 md:gap-0 italic text-xs">
-          <div>
-            Appel d'offres : {appelOffre}
-            <span className="hidden md:inline-block mr-2">,</span>
-          </div>
-          <div>Période : {période}</div>
-          {Option.isSome(famille) && (
-            <div>
-              <span className="hidden md:inline-block mr-2">,</span>
-              Famille :{famille}
-            </div>
-          )}
-        </div>
-      </div>
+    <div className="w-full">
+      <ProjectListItemHeading
+        prefix="À faire pour le projet"
+        identifiantProjet={IdentifiantProjet.bind(identifiantProjet)}
+        nomProjet={nomProjet}
+      />
       <div className="flex flex-col gap-1">
         <h3 className="font-bold">{descriptionTâche.titre}</h3>
         <p className="m-0 text-sm">{descriptionTâche.description}</p>

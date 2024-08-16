@@ -20,13 +20,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const commonItem: TâcheListPageProps['list']['items'][number] = {
-  projet: {
-    appelOffre: 'Appel offre 1',
-    période: 'Période 1',
-    famille: 'Famille 1',
-    numéroCRE: 'Numéro CRE 1',
-    nom: 'Nom projet 1',
-  },
+  nomProjet: 'Nom projet 1',
   identifiantProjet: {
     appelOffre: 'Appel offre 1',
     période: 'Période 1',

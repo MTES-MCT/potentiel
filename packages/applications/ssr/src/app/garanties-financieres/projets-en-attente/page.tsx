@@ -111,23 +111,9 @@ const mapToListProps = (
   utilisateur: AuthenticatedUserReadModel,
 ): ListProjetsAvecGarantiesFinancièresEnAttenteProps['list'] => {
   const mappedItems = items.map(
-    ({
-      identifiantProjet,
-      nomProjet,
-      appelOffre,
-      période,
-      famille,
-      motif,
-      régionProjet,
-      dernièreMiseÀJour,
-      dateLimiteSoumission,
-    }) => ({
+    ({ identifiantProjet, nomProjet, motif, dernièreMiseÀJour, dateLimiteSoumission }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,
-      appelOffre,
-      période,
-      famille,
-      régionProjet,
       motif: getGarantiesFinancièresMotifLabel(motif.motif),
       misÀJourLe: dernièreMiseÀJour.date.formatter(),
       dateLimiteSoumission: dateLimiteSoumission.formatter(),

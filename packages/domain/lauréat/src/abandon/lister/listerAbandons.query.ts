@@ -28,9 +28,6 @@ const mapToWhereLike = (value: string | undefined) =>
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  appelOffre: string;
-  période: string;
-  famille?: string;
   nomProjet: string;
   statut: StatutAbandon.ValueType;
   recandidature: boolean;
@@ -118,10 +115,7 @@ export const registerListerAbandonQuery = ({
 
 const mapToReadModel = (entity: AbandonEntity): AbandonListItemReadModel => {
   return {
-    appelOffre: entity.projet?.appelOffre || 'N/A',
     nomProjet: entity.projet?.nom || 'Projet inconnu',
-    période: entity.projet?.période || 'N/A',
-    famille: entity.projet?.famille,
     statut: StatutAbandon.convertirEnValueType(entity.statut),
     recandidature: !!entity.demande.recandidature,
     misÀJourLe: DateTime.convertirEnValueType(entity.misÀJourLe),

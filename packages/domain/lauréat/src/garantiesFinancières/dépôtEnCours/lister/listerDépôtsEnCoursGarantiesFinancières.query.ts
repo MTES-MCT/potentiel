@@ -14,10 +14,6 @@ import {
 type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
-  régionProjet: string;
-  appelOffre: string;
-  période: string;
-  famille?: string;
   dépôt: {
     type: TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
@@ -103,19 +99,11 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
 
 const mapToReadModel = ({
   nomProjet,
-  appelOffre,
   identifiantProjet,
-  période,
-  régionProjet,
-  famille,
   dépôt,
 }: DépôtEnCoursGarantiesFinancièresEntity): DépôtEnCoursGarantiesFinancièresListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
-  appelOffre,
-  période,
-  famille,
-  régionProjet,
   dépôt: {
     type: TypeGarantiesFinancières.convertirEnValueType(dépôt.type),
     dateÉchéance: dépôt.dateÉchéance
