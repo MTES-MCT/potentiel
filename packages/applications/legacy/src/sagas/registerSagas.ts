@@ -38,7 +38,7 @@ export const registerSagas = async () => {
 
   const unsubscribeCandidature = await subscribe<CandidatureSaga.SubscriptionEvent>({
     name: 'legacy-saga',
-    eventType: ['CandidatureImportée-V1'],
+    eventType: ['CandidatureImportée-V1', 'CandidatureCorrigée-V1'],
     eventHandler: async (event) => {
       await mediator.send<CandidatureSaga.Execute>({
         type: 'System.Saga.Candidature',

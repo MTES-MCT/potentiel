@@ -2,12 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Candidature } from '@potentiel-domain/candidature';
 import { publishToEventBus } from '../config/eventBus.config';
-import {
-  DésignationCatégorie,
-  ProjectRawDataImported,
-  ProjectReimported,
-} from '../modules/project';
-import { logger } from '../core/utils';
+import { DésignationCatégorie, ProjectRawDataImported } from '../modules/project';
 import { v4 } from 'uuid';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
