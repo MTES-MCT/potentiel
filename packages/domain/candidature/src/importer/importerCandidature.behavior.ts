@@ -15,7 +15,10 @@ import {
   FamillePériodeAppelOffreInexistanteError,
   PériodeAppelOffreInexistanteError,
 } from '../appelOffreInexistant.error';
-import { GarantiesFinancièresRequisesPourAppelOffreError } from '../garantiesFinancièresRequises.error';
+import {
+  DateÉchéanceGarantiesFinancièresRequiseError,
+  GarantiesFinancièresRequisesPourAppelOffreError,
+} from '../garantiesFinancièresRequises.error';
 
 export type CandidatureImportéeBehaviorPayload = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -131,6 +134,14 @@ export async function importer(
     !candidature.typeGarantiesFinancières
   ) {
     throw new GarantiesFinancièresRequisesPourAppelOffreError();
+  }
+
+  if (
+    candidature.typeGarantiesFinancières &&
+    candidature.typeGarantiesFinancières.estAvecDateÉchéance() &&
+    !candidature.dateÉchéanceGf
+  ) {
+    throw new DateÉchéanceGarantiesFinancièresRequiseError();
   }
 
   const event: CandidatureImportéeEvent = {

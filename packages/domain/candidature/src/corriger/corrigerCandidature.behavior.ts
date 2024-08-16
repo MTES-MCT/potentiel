@@ -4,7 +4,10 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
-import { GarantiesFinancièresRequisesPourAppelOffreError } from '../garantiesFinancièresRequises.error';
+import {
+  DateÉchéanceGarantiesFinancièresRequiseError,
+  GarantiesFinancièresRequisesPourAppelOffreError,
+} from '../garantiesFinancièresRequises.error';
 import {
   AppelOffreInexistantError,
   FamillePériodeAppelOffreInexistanteError,
@@ -60,6 +63,13 @@ export async function corriger(
     !candidature.typeGarantiesFinancières
   ) {
     throw new GarantiesFinancièresRequisesPourAppelOffreError();
+  }
+  if (
+    candidature.typeGarantiesFinancières &&
+    candidature.typeGarantiesFinancières.estAvecDateÉchéance() &&
+    !candidature.dateÉchéanceGf
+  ) {
+    throw new DateÉchéanceGarantiesFinancièresRequiseError();
   }
 
   const event: CandidatureCorrigéeEvent = {

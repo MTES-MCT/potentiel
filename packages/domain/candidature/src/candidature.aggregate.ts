@@ -41,12 +41,12 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
   apply,
   importer,
   corriger,
-  calculerHash(payload: CandidatureEvent['payload']) {
+  calculerHash(payload) {
     return createHash('md5')
       .update(JSON.stringify(payload, Object.keys(payload).sort()))
       .digest('hex');
   },
-  estIdentiqueÀ(payload: CandidatureEvent['payload']) {
+  estIdentiqueÀ(payload) {
     return this.calculerHash(payload) === this.payloadHash;
   },
 });
@@ -67,7 +67,7 @@ export const loadCandidatureFactory =
   (identifiantProjet: IdentifiantProjet.ValueType, throwOnNone = true) => {
     return loadAggregate({
       aggregateId: `candidature|${identifiantProjet.formatter()}`,
-      getDefaultAggregate: () => getDefaultCandidatureAggregate(),
+      getDefaultAggregate: getDefaultCandidatureAggregate,
       onNone: throwOnNone
         ? () => {
             throw new CandidatureNonTrouvéeError();
