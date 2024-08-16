@@ -40,6 +40,11 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
+export const premièreCandidature = convertirEnValueType('première-candidature');
+export const abandonClassique = convertirEnValueType('abandon-classique');
+export const abandonAvecRecandidature = convertirEnValueType('abandon-avec-recandidature');
+export const lauréatAutrePériode = convertirEnValueType('lauréat-autre-période');
+
 class HistoriqueAbandonInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(`Le type d'historique d'abandon ne correspond à aucune valeur connue`, {

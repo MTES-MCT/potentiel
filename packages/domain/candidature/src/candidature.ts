@@ -22,7 +22,10 @@ import {
 } from './consulter/consulterCandidature.query';
 import { CorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
 import type { CandidatureCorrigéeEvent } from './corriger/corrigerCandidature.behavior';
-import { ListerCandidaturesQuery } from './lister/listerCandidatures.query';
+import {
+  ListerCandidaturesQuery,
+  ListerCandidaturesReadModel,
+} from './lister/listerCandidatures.query';
 
 // Query
 export type CandidatureQuery =
@@ -40,6 +43,7 @@ export {
   ListerProjetsListItemReadModel,
   ListerProjetsReadModel,
   ListerCandidaturesQuery,
+  ListerCandidaturesReadModel,
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
 };
