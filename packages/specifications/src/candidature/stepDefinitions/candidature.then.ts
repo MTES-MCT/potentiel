@@ -14,42 +14,6 @@ import { PotentielWorld } from '../../potentiel.world';
 import { mapExampleToUseCaseDefaultValues } from './helper';
 
 Alors(
-  'la candidature {string} devrait être consultable dans la liste des candidatures avec le statut {string}',
-  async function (this: PotentielWorld, nomProjet: string, statut: string) {
-    const { identifiantProjet } = this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
-
-    await waitForExpect(async () => {
-      const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-        type: 'Candidature.Query.ConsulterCandidature',
-        data: { identifiantProjet: identifiantProjet.formatter() },
-      });
-      assert(Option.isSome(candidature), 'Candidature non trouvée');
-      expect(candidature.nomProjet).to.eq(nomProjet);
-      expect(candidature.statut.estÉgaleÀ(StatutProjet.convertirEnValueType(statut))).to.be.true;
-    });
-  },
-);
-
-Alors(
-  'la candidature {string} devrait être consultable dans la liste des candidatures',
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet, values } =
-      this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
-
-    await waitForExpect(async () => {
-      const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-        type: 'Candidature.Query.ConsulterCandidature',
-        data: { identifiantProjet: identifiantProjet.formatter() },
-      });
-      assert(Option.isSome(candidature), 'Candidature non trouvée');
-      expect(candidature.nomProjet).to.eq(nomProjet);
-      expect(candidature.statut.estÉgaleÀ(StatutProjet.convertirEnValueType(values.statutValue))).to
-        .be.true;
-    });
-  },
-);
-
-Alors(
   'la candidature {string} devrait être consultable dans la liste des candidatures avec :',
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
