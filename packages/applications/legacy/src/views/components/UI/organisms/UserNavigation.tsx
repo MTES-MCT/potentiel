@@ -120,7 +120,7 @@ const MenuAdmin = (currentPage?: string) => (
       >
         Nouveaux candidats
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Candidature.importer}>
+      <DropdownMenu.DropdownItem href={Routes.Candidature.corriger}>
         Corriger candidats
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
