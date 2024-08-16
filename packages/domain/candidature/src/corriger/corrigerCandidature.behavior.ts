@@ -14,6 +14,7 @@ import { CandidatureNonModifiéeError } from '../candidatureNonModifiée.error';
 import {
   CandidatureImportéeBehaviorPayload,
   ImporterCandidatureBehaviorOptions,
+  mapToEventPayload,
 } from '../importer/importerCandidature.behavior';
 
 type CandidatureCorrigéePayload = CandidatureImportéeBehaviorPayload;
@@ -63,39 +64,7 @@ export async function corriger(
 
   const event: CandidatureCorrigéeEvent = {
     type: 'CandidatureCorrigée-V1',
-    payload: {
-      identifiantProjet: candidature.identifiantProjet.formatter(),
-      statut: candidature.statut.statut,
-      technologie: candidature.technologie.type,
-      dateÉchéanceGf: candidature.dateÉchéanceGf?.formatter(),
-      historiqueAbandon: candidature.historiqueAbandon?.formatter(),
-      typeGarantiesFinancières: candidature.typeGarantiesFinancières?.type,
-      appelOffre: candidature.appelOffre,
-      période: candidature.période,
-      famille: candidature.famille,
-      numéroCRE: candidature.numéroCRE,
-      nomProjet: candidature.nomProjet,
-      sociétéMère: candidature.sociétéMère,
-      nomCandidat: candidature.nomCandidat,
-      puissanceProductionAnnuelle: candidature.puissanceProductionAnnuelle,
-      prixReference: candidature.prixReference,
-      noteTotale: candidature.noteTotale,
-      nomReprésentantLégal: candidature.nomReprésentantLégal,
-      emailContact: candidature.emailContact,
-      adresse1: candidature.adresse1,
-      adresse2: candidature.adresse2,
-      codePostal: candidature.codePostal,
-      commune: candidature.commune,
-      motifÉlimination: candidature.motifÉlimination,
-      puissanceALaPointe: candidature.puissanceALaPointe,
-      evaluationCarboneSimplifiée: candidature.evaluationCarboneSimplifiée,
-      valeurÉvaluationCarbone: candidature.valeurÉvaluationCarbone,
-      financementCollectif: candidature.financementCollectif,
-      financementParticipatif: candidature.financementParticipatif,
-      gouvernancePartagée: candidature.gouvernancePartagée,
-      territoireProjet: candidature.territoireProjet,
-      détails: candidature.détails,
-    },
+    payload: mapToEventPayload(candidature),
   };
   if (this.estIdentiqueÀ(event.payload)) {
     throw new CandidatureNonModifiéeError(candidature.nomProjet);
