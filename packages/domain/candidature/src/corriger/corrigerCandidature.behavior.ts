@@ -81,32 +81,7 @@ type CorrigerCandidatureOptions = {
 export async function corriger(
   this: CandidatureAggregate,
   candidature: CorrigerCandidatureOptions,
-  // appelOffre: Option.Type<AppelOffre.AppelOffreReadModel>,
 ) {
-  // if (this.importé) {
-  //   throw new CandidatureDéjàImportéeError();
-  // }
-
-  // if (Option.isNone(appelOffre)) {
-  //   throw new AppelOffreInexistantError(candidature.appelOffre);
-  // }
-  // const période = appelOffre.periodes.find((x) => x.id === candidature.période);
-  // if (!période) {
-  //   throw new PériodeAppelOffreInexistanteError(candidature.appelOffre, candidature.période);
-  // }
-
-  // let famille: AppelOffre.Famille | undefined;
-  // if (candidature.famille) {
-  //   famille = période.familles.find((x) => x.id === candidature.famille);
-  //   if (!famille) {
-  //     throw new FamillePériodeAppelOffreInexistanteError(
-  //       candidature.appelOffre,
-  //       candidature.période,
-  //       candidature.famille,
-  //     );
-  //   }
-  // }
-
   // if (période.type === 'legacy') {
   //   throw new PériodeAppelOffreLegacyError(candidature.appelOffre, candidature.période);
   // }

@@ -51,14 +51,6 @@ export const registerCorrigerCandidatureCommand = (loadAggregate: LoadAggregate)
   const handler: MessageHandler<CorrigerCandidatureCommand> = async (payload) => {
     const candidature = await load(payload.identifiantProjet);
 
-    // // NB: on devrait charger l'aggregate appel d'offre au lieu de faire une query,
-    // // mais cela est impossible en l'absence d'évènements.
-    // const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-    //   type: 'AppelOffre.Query.ConsulterAppelOffre',
-    //   data: {
-    //     identifiantAppelOffre: payload.appelOffre,
-    //   },
-    // });
     await candidature.corriger(payload);
   };
 

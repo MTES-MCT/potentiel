@@ -9,7 +9,7 @@ import { PotentielWorld } from '../../potentiel.world';
 import { mapExampleToUseCaseDefaultValues } from './helper';
 
 Quand(
-  `un administrateur importe la candidature {string} avec:`,
+  `un administrateur importe la candidature {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
     const { identifiantProjet, values } = mapExampleToUseCaseDefaultValues(nomProjet, exemple);
