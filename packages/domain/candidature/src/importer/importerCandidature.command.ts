@@ -10,41 +10,43 @@ import * as Technologie from '../technologie.valueType';
 import { loadCandidatureFactory } from '../candidature.aggregate';
 import { HistoriqueAbandon } from '../candidature';
 
+export type ImporterCandidatureCommandOptions = {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
+  historiqueAbandon: HistoriqueAbandon.ValueType;
+  appelOffre: string;
+  période: string;
+  famille: string;
+  numéroCRE: string;
+  nomProjet: string;
+  sociétéMère: string;
+  nomCandidat: string;
+  puissanceProductionAnnuelle: number;
+  prixReference: number;
+  noteTotale: number;
+  nomReprésentantLégal: string;
+  emailContact: string;
+  adresse1: string;
+  adresse2: string;
+  codePostal: string;
+  commune: string;
+  statut: StatutCandidature.ValueType;
+  motifÉlimination: string;
+  puissanceALaPointe: boolean;
+  evaluationCarboneSimplifiée: number;
+  valeurÉvaluationCarbone?: number;
+  technologie: Technologie.ValueType;
+  financementCollectif: boolean;
+  financementParticipatif: boolean;
+  gouvernancePartagée: boolean;
+  dateÉchéanceGf?: DateTime.ValueType;
+  territoireProjet: string;
+  détails: Record<string, string>;
+};
+
 export type ImporterCandidatureCommand = Message<
   'Candidature.Command.ImporterCandidature',
-  {
-    identifiantProjet: IdentifiantProjet.ValueType;
-    typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
-    historiqueAbandon: HistoriqueAbandon.ValueType;
-    appelOffre: string;
-    période: string;
-    famille: string;
-    numéroCRE: string;
-    nomProjet: string;
-    sociétéMère: string;
-    nomCandidat: string;
-    puissanceProductionAnnuelle: number;
-    prixReference: number;
-    noteTotale: number;
-    nomReprésentantLégal: string;
-    emailContact: string;
-    adresse1: string;
-    adresse2: string;
-    codePostal: string;
-    commune: string;
-    statut: StatutCandidature.ValueType;
-    motifÉlimination: string;
-    puissanceALaPointe: boolean;
-    evaluationCarboneSimplifiée: number;
-    valeurÉvaluationCarbone?: number;
-    technologie: Technologie.ValueType;
-    financementCollectif: boolean;
-    financementParticipatif: boolean;
-    gouvernancePartagée: boolean;
-    dateÉchéanceGf?: DateTime.ValueType;
-    territoireProjet: string;
-    détails: Record<string, string>;
-  }
+  ImporterCandidatureCommandOptions
 >;
 
 export const registerImporterCandidatureCommand = (loadAggregate: LoadAggregate) => {

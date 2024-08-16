@@ -19,7 +19,7 @@ import {
 } from '../appelOffreInexistant.error';
 import { GarantiesFinancièresRequisesPourAppelOffreError } from '../garantiesFinancièresRequises.error';
 
-export type CandidatureImportéePayload = {
+export type CandidatureImportéeBehaviorPayload = {
   identifiantProjet: IdentifiantProjet.RawType;
   statut: StatutCandidature.RawType;
   typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
@@ -55,10 +55,10 @@ export type CandidatureImportéePayload = {
 
 export type CandidatureImportéeEvent = DomainEvent<
   'CandidatureImportée-V1',
-  CandidatureImportéePayload
+  CandidatureImportéeBehaviorPayload
 >;
 
-export type ImporterCandidatureOptions = {
+export type ImporterCandidatureBehaviorOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutCandidature.ValueType;
   typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
@@ -94,7 +94,7 @@ export type ImporterCandidatureOptions = {
 
 export async function importer(
   this: CandidatureAggregate,
-  candidature: ImporterCandidatureOptions,
+  candidature: ImporterCandidatureBehaviorOptions,
   appelOffre: Option.Type<AppelOffre.AppelOffreReadModel>,
 ) {
   if (this.importé) {

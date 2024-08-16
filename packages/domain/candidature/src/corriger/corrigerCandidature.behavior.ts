@@ -14,18 +14,18 @@ import {
 } from '../appelOffreInexistant.error';
 import { CandidatureNonModifiéeError } from '../candidatureNonModifiée.error';
 import {
-  CandidatureImportéePayload,
-  ImporterCandidatureOptions,
+  CandidatureImportéeBehaviorPayload,
+  ImporterCandidatureBehaviorOptions,
 } from '../importer/importerCandidature.behavior';
 
-type CandidatureCorrigéePayload = CandidatureImportéePayload;
+type CandidatureCorrigéePayload = CandidatureImportéeBehaviorPayload;
 
 export type CandidatureCorrigéeEvent = DomainEvent<
   'CandidatureCorrigée-V1',
   CandidatureCorrigéePayload
 >;
 
-type CorrigerCandidatureOptions = ImporterCandidatureOptions;
+type CorrigerCandidatureOptions = ImporterCandidatureBehaviorOptions;
 
 export async function corriger(
   this: CandidatureAggregate,
