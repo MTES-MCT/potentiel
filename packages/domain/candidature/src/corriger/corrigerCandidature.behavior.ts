@@ -1,5 +1,3 @@
-import { createHash } from 'node:crypto';
-
 import { DomainEvent } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -99,7 +97,7 @@ export async function corriger(
       détails: candidature.détails,
     },
   };
-  if (this.payloadHash === computePayloadHash(event.payload)) {
+  if (this.estIdentiqueÀ(event.payload)) {
     throw new CandidatureNonModifiéeError(candidature.nomProjet);
   }
   await this.publish(event);
@@ -111,10 +109,5 @@ export function applyCandidatureCorrigée(
 ) {
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
-  this.payloadHash = computePayloadHash(payload);
+  this.payloadHash = this.calculerHash(payload);
 }
-
-const computePayloadHash = (payload: CandidatureCorrigéeEvent['payload']) =>
-  createHash('md5')
-    .update(JSON.stringify(payload, Object.keys(payload).sort()))
-    .digest('hex');

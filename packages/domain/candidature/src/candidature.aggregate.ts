@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import {
   Aggregate,
@@ -5,6 +7,7 @@ import {
   GetDefaultAggregateState,
   LoadAggregate,
 } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import * as StatutCandidature from './statutCandidature.valueType';
 import {
@@ -26,6 +29,8 @@ export type CandidatureAggregate = Aggregate<CandidatureEvent> & {
   payloadHash: string;
   importer: typeof importer;
   corriger: typeof corriger;
+  calculerHash(payload: CandidatureEvent['payload']): string;
+  estIdentiqueÀ(payload: CandidatureEvent['payload']): boolean;
 };
 
 export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
@@ -37,6 +42,14 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
   apply,
   importer,
   corriger,
+  calculerHash(payload: CandidatureEvent['payload']) {
+    return createHash('md5')
+      .update(JSON.stringify(payload, Object.keys(payload).sort()))
+      .digest('hex');
+  },
+  estIdentiqueÀ(payload: CandidatureEvent['payload']) {
+    return this.calculerHash(payload) === this.payloadHash;
+  },
 });
 
 function apply(this: CandidatureAggregate, event: CandidatureEvent) {
@@ -52,10 +65,14 @@ function apply(this: CandidatureAggregate, event: CandidatureEvent) {
 
 export const loadCandidatureFactory =
   (loadAggregate: LoadAggregate) =>
-  (identifiantProjet: IdentifiantProjet.ValueType, throwOnNone = true) => {
+  (
+    identifiantProjet: IdentifiantProjet.ValueType,
+    appelOffre: AppelOffre.AppelOffreReadModel,
+    throwOnNone = true,
+  ) => {
     return loadAggregate({
       aggregateId: `candidature|${identifiantProjet.formatter()}`,
-      getDefaultAggregate: getDefaultCandidatureAggregate,
+      getDefaultAggregate: () => getDefaultCandidatureAggregate(),
       onNone: throwOnNone
         ? () => {
             throw new CandidatureNonTrouvéeError();
