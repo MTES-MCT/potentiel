@@ -16,7 +16,7 @@ import {
   GarantiesFinancièresRequisesPourAppelOffreError,
 } from '../garantiesFinancièresRequises.error';
 
-export type CandidatureImportéeBehaviorPayload = {
+export type CandidatureImportéeEventPayload = {
   identifiantProjet: IdentifiantProjet.RawType;
   statut: StatutCandidature.RawType;
   typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
@@ -52,7 +52,7 @@ export type CandidatureImportéeBehaviorPayload = {
 
 export type CandidatureImportéeEvent = DomainEvent<
   'CandidatureImportée-V1',
-  CandidatureImportéeBehaviorPayload
+  CandidatureImportéeEventPayload
 >;
 
 export type ImporterCandidatureBehaviorOptions = {

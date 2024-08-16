@@ -11,12 +11,12 @@ import {
 import { AppelOffreInexistantError } from '../appelOffreInexistant.error';
 import { CandidatureNonModifiéeError } from '../candidatureNonModifiée.error';
 import {
-  CandidatureImportéeBehaviorPayload,
+  CandidatureImportéeEventPayload,
   ImporterCandidatureBehaviorOptions,
   mapToEventPayload,
 } from '../importer/importerCandidature.behavior';
 
-type CandidatureCorrigéePayload = CandidatureImportéeBehaviorPayload;
+type CandidatureCorrigéePayload = CandidatureImportéeEventPayload;
 
 export type CandidatureCorrigéeEvent = DomainEvent<
   'CandidatureCorrigée-V1',

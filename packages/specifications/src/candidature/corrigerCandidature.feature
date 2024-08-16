@@ -7,7 +7,8 @@ Fonctionnalité: Corriger une candidature
     Scénario: Corriger une candidature
         Quand un administrateur corrige la candidature "Du boulodrome de Marseille" avec :
             | technologie | pv |
-        Alors la candidature "Du boulodrome de Marseille" devrait être consultable dans la liste des candidatures
+        Alors la candidature "Du boulodrome de Marseille" devrait être consultable dans la liste des candidatures avec :
+            | technologie | pv |
 
     Scénario: Impossible de changer l'AO d'une candidature
         Quand un administrateur corrige la candidature "Du boulodrome de Marseille" avec :

@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Candidature, HistoriqueAbandon } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/candidature';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
@@ -38,7 +38,8 @@ export const register = () => {
               typeGarantiesFinancières,
             ).type
           : undefined,
-        historiqueAbandon: HistoriqueAbandon.convertirEnValueType(historiqueAbandon).type,
+        historiqueAbandon:
+          Candidature.HistoriqueAbandon.convertirEnValueType(historiqueAbandon).type,
         dateÉchéanceGf: dateÉchéanceGf
           ? DateTime.convertirEnValueType(dateÉchéanceGf).formatter()
           : undefined,
