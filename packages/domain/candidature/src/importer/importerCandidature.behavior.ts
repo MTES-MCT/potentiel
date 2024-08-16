@@ -9,7 +9,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
-import { HistoriqueAbandon } from '../candidature';
+import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import { PériodeAppelOffreLegacyError } from '../périodeAppelOffreLegacy.error';
 import { CandidatureDéjàImportéeError } from '../candidatureDéjàImportée.error';
 import {
@@ -19,44 +19,46 @@ import {
 } from '../appelOffreInexistant.error';
 import { GarantiesFinancièresRequisesPourAppelOffreError } from '../garantiesFinancièresRequises.error';
 
+export type CandidatureImportéePayload = {
+  identifiantProjet: IdentifiantProjet.RawType;
+  statut: StatutCandidature.RawType;
+  typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+  historiqueAbandon: HistoriqueAbandon.RawType;
+  appelOffre: string;
+  période: string;
+  famille: string;
+  numéroCRE: string;
+  nomProjet: string;
+  sociétéMère: string;
+  nomCandidat: string;
+  puissanceProductionAnnuelle: number;
+  prixReference: number;
+  noteTotale: number;
+  nomReprésentantLégal: string;
+  emailContact: string;
+  adresse1: string;
+  adresse2: string;
+  codePostal: string;
+  commune: string;
+  motifÉlimination: string;
+  puissanceALaPointe: boolean;
+  evaluationCarboneSimplifiée: number;
+  valeurÉvaluationCarbone?: number;
+  technologie: Technologie.RawType;
+  financementCollectif: boolean;
+  financementParticipatif: boolean;
+  gouvernancePartagée: boolean;
+  dateÉchéanceGf?: DateTime.RawType;
+  territoireProjet: string;
+  détails: Record<string, string>;
+};
+
 export type CandidatureImportéeEvent = DomainEvent<
   'CandidatureImportée-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    statut: StatutCandidature.RawType;
-    typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
-    historiqueAbandon: HistoriqueAbandon.RawType;
-    appelOffre: string;
-    période: string;
-    famille: string;
-    numéroCRE: string;
-    nomProjet: string;
-    sociétéMère: string;
-    nomCandidat: string;
-    puissanceProductionAnnuelle: number;
-    prixReference: number;
-    noteTotale: number;
-    nomReprésentantLégal: string;
-    emailContact: string;
-    adresse1: string;
-    adresse2: string;
-    codePostal: string;
-    commune: string;
-    motifÉlimination: string;
-    puissanceALaPointe: boolean;
-    evaluationCarboneSimplifiée: number;
-    valeurÉvaluationCarbone?: number;
-    technologie: Technologie.RawType;
-    financementCollectif: boolean;
-    financementParticipatif: boolean;
-    gouvernancePartagée: boolean;
-    dateÉchéanceGf?: DateTime.RawType;
-    territoireProjet: string;
-    détails: Record<string, string>;
-  }
+  CandidatureImportéePayload
 >;
 
-type ImporterCandidatureOptions = {
+export type ImporterCandidatureOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutCandidature.ValueType;
   typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;

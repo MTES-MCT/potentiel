@@ -1,15 +1,11 @@
 import { createHash } from 'node:crypto';
 
 import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
-import * as Technologie from '../technologie.valueType';
-import { HistoriqueAbandon } from '../candidature';
 import { GarantiesFinancièresRequisesPourAppelOffreError } from '../garantiesFinancièresRequises.error';
 import {
   AppelOffreInexistantError,
@@ -17,77 +13,19 @@ import {
   PériodeAppelOffreInexistanteError,
 } from '../appelOffreInexistant.error';
 import { CandidatureNonModifiéeError } from '../candidatureNonModifiée.error';
+import {
+  CandidatureImportéePayload,
+  ImporterCandidatureOptions,
+} from '../importer/importerCandidature.behavior';
+
+type CandidatureCorrigéePayload = CandidatureImportéePayload;
 
 export type CandidatureCorrigéeEvent = DomainEvent<
   'CandidatureCorrigée-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    statut: StatutCandidature.RawType;
-    typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
-    historiqueAbandon: HistoriqueAbandon.RawType;
-    appelOffre: string;
-    période: string;
-    famille: string;
-    numéroCRE: string;
-    nomProjet: string;
-    sociétéMère: string;
-    nomCandidat: string;
-    puissanceProductionAnnuelle: number;
-    prixReference: number;
-    noteTotale: number;
-    nomReprésentantLégal: string;
-    emailContact: string;
-    adresse1: string;
-    adresse2: string;
-    codePostal: string;
-    commune: string;
-    motifÉlimination: string;
-    puissanceALaPointe: boolean;
-    evaluationCarboneSimplifiée: number;
-    valeurÉvaluationCarbone?: number;
-    technologie: Technologie.RawType;
-    financementCollectif: boolean;
-    financementParticipatif: boolean;
-    gouvernancePartagée: boolean;
-    dateÉchéanceGf?: DateTime.RawType;
-    territoireProjet: string;
-    détails: Record<string, string>;
-  }
+  CandidatureCorrigéePayload
 >;
 
-type CorrigerCandidatureOptions = {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  statut: StatutCandidature.ValueType;
-  typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
-  historiqueAbandon: HistoriqueAbandon.ValueType;
-  appelOffre: string;
-  période: string;
-  famille: string;
-  numéroCRE: string;
-  nomProjet: string;
-  sociétéMère: string;
-  nomCandidat: string;
-  puissanceProductionAnnuelle: number;
-  prixReference: number;
-  noteTotale: number;
-  nomReprésentantLégal: string;
-  emailContact: string;
-  adresse1: string;
-  adresse2: string;
-  codePostal: string;
-  commune: string;
-  motifÉlimination: string;
-  puissanceALaPointe: boolean;
-  evaluationCarboneSimplifiée: number;
-  valeurÉvaluationCarbone?: number;
-  technologie: Technologie.ValueType;
-  financementCollectif: boolean;
-  financementParticipatif: boolean;
-  gouvernancePartagée: boolean;
-  dateÉchéanceGf?: DateTime.ValueType;
-  territoireProjet: string;
-  détails: Record<string, string>;
-};
+type CorrigerCandidatureOptions = ImporterCandidatureOptions;
 
 export async function corriger(
   this: CandidatureAggregate,
