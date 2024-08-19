@@ -42,7 +42,6 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
     actions={
       <Link
         href={Routes.Projet.details(identifiantProjet)}
-        className="self-end mt-2"
         aria-label={`voir le détail du projet ${nomProjet}`}
       >
         voir le projet

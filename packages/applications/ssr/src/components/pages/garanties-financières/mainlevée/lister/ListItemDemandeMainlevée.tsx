@@ -43,11 +43,7 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
     }
     actions={
       showInstruction && (
-        <Link
-          href={Routes.GarantiesFinancières.détail(identifiantProjet)}
-          className="self-end mt-2"
-          aria-label={`instruire`}
-        >
+        <Link href={Routes.GarantiesFinancières.détail(identifiantProjet)} aria-label={`instruire`}>
           Instruire
         </Link>
       )

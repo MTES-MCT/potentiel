@@ -31,7 +31,6 @@ export const ListItemDépôtEnCoursGarantiesFinancières: FC<
     actions={
       <a
         href={Routes.GarantiesFinancières.détail(identifiantProjet)}
-        className="self-end mt-2"
         aria-label={`voir le détail des garanties financières à traiter pour le projet ${nomProjet}`}
       >
         voir le détail
