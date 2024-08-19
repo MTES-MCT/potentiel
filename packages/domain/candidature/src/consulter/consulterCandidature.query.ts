@@ -63,60 +63,76 @@ export const registerConsulterCandidatureQuery = ({ find }: ConsulterCandidature
   mediator.register('Candidature.Query.ConsulterCandidature', handler);
 };
 
-export const mapToReadModel = ({
-  identifiantProjet,
-  statut,
-  typeGarantiesFinancières,
-  historiqueAbandon,
-  technologie,
-  dateÉchéanceGf,
-  nomProjet,
-  adresse1,
-  adresse2,
-  nomCandidat,
-  nomReprésentantLégal,
-  emailContact,
-  puissanceProductionAnnuelle,
-  prixReference,
-  valeurÉvaluationCarbone,
-  codePostal,
-  commune,
-  sociétéMère,
-  noteTotale,
-  motifÉlimination,
-  puissanceALaPointe,
-  evaluationCarboneSimplifiée,
-  financementCollectif,
-  financementParticipatif,
-  gouvernancePartagée,
-  territoireProjet,
-}: CandidatureEntity): ConsulterCandidatureReadModel => ({
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  statut: StatutProjet.convertirEnValueType(statut),
-  historiqueAbandon: HistoriqueAbandon.convertirEnValueType(historiqueAbandon),
-  technologie: Technologie.convertirEnValueType(technologie),
-  dateÉchéanceGf: dateÉchéanceGf ? DateTime.convertirEnValueType(dateÉchéanceGf) : undefined,
-  typeGarantiesFinancières: typeGarantiesFinancières
-    ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières)
-    : undefined,
-  nomProjet,
-  adresse1,
-  adresse2,
-  nomCandidat,
-  nomReprésentantLégal,
-  emailContact,
-  puissanceProductionAnnuelle,
-  prixReference,
-  valeurÉvaluationCarbone,
-  codePostal,
-  commune,
-  sociétéMère,
-  noteTotale,
-  motifÉlimination,
-  puissanceALaPointe,
-  evaluationCarboneSimplifiée,
-  financementCollectif,
-  financementParticipatif,
-  gouvernancePartagée,
-  territoireProjet,
-});
+export const mapToReadModel = (entity: CandidatureEntity): ConsulterCandidatureReadModel => {
+  const {
+    identifiantProjet,
+    statut,
+    historiqueAbandon,
+    technologie,
+    nomProjet,
+    adresse1,
+    adresse2,
+    nomCandidat,
+    nomReprésentantLégal,
+    emailContact,
+    puissanceProductionAnnuelle,
+    prixReference,
+    valeurÉvaluationCarbone,
+    codePostal,
+    commune,
+    sociétéMère,
+    noteTotale,
+    motifÉlimination,
+    puissanceALaPointe,
+    evaluationCarboneSimplifiée,
+    financementCollectif,
+    financementParticipatif,
+    gouvernancePartagée,
+    territoireProjet,
+  } = entity;
+  const base = {
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+    statut: StatutProjet.convertirEnValueType(statut),
+    historiqueAbandon: HistoriqueAbandon.convertirEnValueType(historiqueAbandon),
+    technologie: Technologie.convertirEnValueType(technologie),
+    nomProjet,
+    adresse1,
+    adresse2,
+    nomCandidat,
+    nomReprésentantLégal,
+    emailContact,
+    puissanceProductionAnnuelle,
+    prixReference,
+    valeurÉvaluationCarbone,
+    codePostal,
+    commune,
+    sociétéMère,
+    noteTotale,
+    motifÉlimination,
+    puissanceALaPointe,
+    evaluationCarboneSimplifiée,
+    financementCollectif,
+    financementParticipatif,
+    gouvernancePartagée,
+    territoireProjet,
+  };
+  if (statut === 'classé') {
+    if (entity.typeGarantiesFinancières === 'avec-date-échéance') {
+      return {
+        ...base,
+        dateÉchéanceGf: DateTime.convertirEnValueType(entity.dateÉchéanceGf),
+        typeGarantiesFinancières:
+          GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
+            entity.typeGarantiesFinancières,
+          ),
+      };
+    }
+    return {
+      ...base,
+      typeGarantiesFinancières: GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
+        entity.typeGarantiesFinancières,
+      ),
+    };
+  }
+  return base;
+};

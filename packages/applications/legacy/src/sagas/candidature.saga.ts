@@ -6,7 +6,6 @@ import { DésignationCatégorie, ProjectRawDataImported } from '../modules/proje
 import { v4 } from 'uuid';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
-import { CandidatureImportéeEvent } from '@potentiel-domain/candidature/dist/candidature';
 import getDepartementRegionFromCodePostal, {
   DepartementRegion,
 } from '../helpers/getDepartementRegionFromCodePostal';
@@ -58,7 +57,7 @@ const mapToLegacyEventPayload = (
   if (!période) {
     throw new Error(`Période ${payload.période} non trouvée pour l'AO ${payload.appelOffre}`);
   }
-  return {
+  const base = {
     appelOffreId: payload.appelOffre,
     periodeId: payload.période,
     familleId: payload.famille,
@@ -69,11 +68,9 @@ const mapToLegacyEventPayload = (
     nomRepresentantLegal: payload.nomReprésentantLégal,
     email: payload.emailContact,
     motifsElimination: payload.motifÉlimination,
-    garantiesFinancièresDateEchéance: payload.dateÉchéanceGf,
     technologie: payload.technologie,
     historiqueAbandon: payload.historiqueAbandon,
     puissance: payload.puissanceProductionAnnuelle,
-    garantiesFinancièresType: getTypeGarantiesFinancieresLabel(payload.typeGarantiesFinancières),
     details: payload.détails,
     engagementFournitureDePuissanceAlaPointe: payload.puissanceALaPointe,
     actionnaire: payload.sociétéMère,
@@ -96,6 +93,17 @@ const mapToLegacyEventPayload = (
     territoireProjet: payload.territoireProjet,
     ...getLocalilitéInfo(payload),
   };
+  if (payload.statut === 'classé') {
+    return {
+      ...base,
+      garantiesFinancièresDateEchéance:
+        payload.typeGarantiesFinancières === 'avec-date-échéance'
+          ? payload.dateÉchéanceGf
+          : undefined,
+      garantiesFinancièresType: getTypeGarantiesFinancieresLabel(payload.typeGarantiesFinancières),
+    };
+  }
+  return base;
 };
 
 const getLocalilitéInfo = ({
@@ -103,7 +111,7 @@ const getLocalilitéInfo = ({
   adresse1,
   adresse2,
   commune,
-}: CandidatureImportéeEvent['payload']) => {
+}: Candidature.CandidatureImportéeEvent['payload']) => {
   const departementsRegions = codePostal
     .split('/')
     .map((str) => str.trim())

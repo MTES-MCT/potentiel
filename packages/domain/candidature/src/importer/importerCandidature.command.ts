@@ -34,7 +34,7 @@ export type ImporterCandidatureCommandOptions = {
   motifÉlimination: string;
   puissanceALaPointe: boolean;
   evaluationCarboneSimplifiée: number;
-  valeurÉvaluationCarbone?: number;
+  valeurÉvaluationCarbone: number;
   technologie: Technologie.ValueType;
   financementCollectif: boolean;
   financementParticipatif: boolean;

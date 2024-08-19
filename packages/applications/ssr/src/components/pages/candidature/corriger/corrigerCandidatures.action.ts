@@ -90,7 +90,7 @@ const mapLineToUseCaseData = (
   motifÉliminationValue: line.motif_élimination,
   puissanceALaPointeValue: line.puissance_a_la_pointe === 'oui',
   evaluationCarboneSimplifiéeValue: line.evaluation_carbone_simplifiée,
-  valeurÉvaluationCarboneValue: line.valeur_évaluation_carbone,
+  valeurÉvaluationCarboneValue: line.valeur_évaluation_carbone ?? 0,
   technologieValue: line.technologie,
   financementCollectifValue: line.financement_collectif === 'oui',
   financementParticipatifValue: line.financement_participatif === 'oui',

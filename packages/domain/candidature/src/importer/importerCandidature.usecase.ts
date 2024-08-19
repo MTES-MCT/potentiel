@@ -32,7 +32,7 @@ export type ImporterCandidatureUseCasePayload = {
   motifÉliminationValue: string;
   puissanceALaPointeValue: boolean;
   evaluationCarboneSimplifiéeValue: number;
-  valeurÉvaluationCarboneValue?: number;
+  valeurÉvaluationCarboneValue: number;
   technologieValue: string;
   financementCollectifValue: boolean;
   financementParticipatifValue: boolean;

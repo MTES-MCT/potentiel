@@ -16,10 +16,24 @@ import {
   GarantiesFinancièresRequisesPourAppelOffreError,
 } from '../garantiesFinancièresRequises.error';
 
+type GarantiesFinancièresAvecDateÉchéance = {
+  typeGarantiesFinancières: 'avec-date-échéance';
+  dateÉchéanceGf: DateTime.RawType;
+};
+
+type GarantiesFinancièresSansDateÉchéance = {
+  typeGarantiesFinancières: 'consignation' | 'six-mois-après-achèvement' | 'type-inconnu';
+};
+
+type CandidatureÉliminée = {
+  statut: 'éliminé';
+};
+type CandidatureClassée = {
+  statut: 'classé';
+} & (GarantiesFinancièresSansDateÉchéance | GarantiesFinancièresAvecDateÉchéance);
+
 export type CandidatureImportéeEventPayload = {
   identifiantProjet: IdentifiantProjet.RawType;
-  statut: StatutCandidature.RawType;
-  typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
   historiqueAbandon: HistoriqueAbandon.RawType;
   appelOffre: string;
   période: string;
@@ -40,15 +54,14 @@ export type CandidatureImportéeEventPayload = {
   motifÉlimination: string;
   puissanceALaPointe: boolean;
   evaluationCarboneSimplifiée: number;
-  valeurÉvaluationCarbone?: number;
+  valeurÉvaluationCarbone: number;
   technologie: Technologie.RawType;
   financementCollectif: boolean;
   financementParticipatif: boolean;
   gouvernancePartagée: boolean;
-  dateÉchéanceGf?: DateTime.RawType;
   territoireProjet: string;
   détails: Record<string, string>;
-};
+} & (CandidatureÉliminée | CandidatureClassée);
 
 export type CandidatureImportéeEvent = DomainEvent<
   'CandidatureImportée-V1',
@@ -79,7 +92,7 @@ export type ImporterCandidatureBehaviorOptions = {
   motifÉlimination: string;
   puissanceALaPointe: boolean;
   evaluationCarboneSimplifiée: number;
-  valeurÉvaluationCarbone?: number;
+  valeurÉvaluationCarbone: number;
   technologie: Technologie.ValueType;
   financementCollectif: boolean;
   financementParticipatif: boolean;
@@ -144,36 +157,57 @@ export function applyCandidatureImportée(
 
 export const mapToEventPayload = (
   candidature: ImporterCandidatureBehaviorOptions,
-): CandidatureImportéeEvent['payload'] => ({
-  identifiantProjet: candidature.identifiantProjet.formatter(),
-  statut: candidature.statut.statut,
-  technologie: candidature.technologie.type,
-  dateÉchéanceGf: candidature.dateÉchéanceGf?.formatter(),
-  historiqueAbandon: candidature.historiqueAbandon.formatter(),
-  typeGarantiesFinancières: candidature.typeGarantiesFinancières?.type,
-  appelOffre: candidature.appelOffre,
-  période: candidature.période,
-  famille: candidature.famille,
-  numéroCRE: candidature.numéroCRE,
-  nomProjet: candidature.nomProjet,
-  sociétéMère: candidature.sociétéMère,
-  nomCandidat: candidature.nomCandidat,
-  puissanceProductionAnnuelle: candidature.puissanceProductionAnnuelle,
-  prixReference: candidature.prixReference,
-  noteTotale: candidature.noteTotale,
-  nomReprésentantLégal: candidature.nomReprésentantLégal,
-  emailContact: candidature.emailContact,
-  adresse1: candidature.adresse1,
-  adresse2: candidature.adresse2,
-  codePostal: candidature.codePostal,
-  commune: candidature.commune,
-  motifÉlimination: candidature.motifÉlimination,
-  puissanceALaPointe: candidature.puissanceALaPointe,
-  evaluationCarboneSimplifiée: candidature.evaluationCarboneSimplifiée,
-  valeurÉvaluationCarbone: candidature.valeurÉvaluationCarbone,
-  financementCollectif: candidature.financementCollectif,
-  financementParticipatif: candidature.financementParticipatif,
-  gouvernancePartagée: candidature.gouvernancePartagée,
-  territoireProjet: candidature.territoireProjet,
-  détails: candidature.détails,
-});
+): CandidatureImportéeEvent['payload'] => {
+  const base = {
+    identifiantProjet: candidature.identifiantProjet.formatter(),
+    technologie: candidature.technologie.type,
+    historiqueAbandon: candidature.historiqueAbandon.formatter(),
+    appelOffre: candidature.appelOffre,
+    période: candidature.période,
+    famille: candidature.famille,
+    numéroCRE: candidature.numéroCRE,
+    nomProjet: candidature.nomProjet,
+    sociétéMère: candidature.sociétéMère,
+    nomCandidat: candidature.nomCandidat,
+    puissanceProductionAnnuelle: candidature.puissanceProductionAnnuelle,
+    prixReference: candidature.prixReference,
+    noteTotale: candidature.noteTotale,
+    nomReprésentantLégal: candidature.nomReprésentantLégal,
+    emailContact: candidature.emailContact,
+    adresse1: candidature.adresse1,
+    adresse2: candidature.adresse2,
+    codePostal: candidature.codePostal,
+    commune: candidature.commune,
+    motifÉlimination: candidature.motifÉlimination,
+    puissanceALaPointe: candidature.puissanceALaPointe,
+    evaluationCarboneSimplifiée: candidature.evaluationCarboneSimplifiée,
+    valeurÉvaluationCarbone: candidature.valeurÉvaluationCarbone,
+    financementCollectif: candidature.financementCollectif,
+    financementParticipatif: candidature.financementParticipatif,
+    gouvernancePartagée: candidature.gouvernancePartagée,
+    territoireProjet: candidature.territoireProjet,
+    détails: candidature.détails,
+  };
+
+  if (candidature.statut.estClassé()) {
+    if (candidature.typeGarantiesFinancières?.type !== 'avec-date-échéance') {
+      return {
+        ...base,
+        statut: 'classé',
+        typeGarantiesFinancières: candidature.typeGarantiesFinancières?.type || 'type-inconnu',
+      };
+    }
+    if (candidature.typeGarantiesFinancières?.estAvecDateÉchéance()) {
+      return {
+        ...base,
+        statut: 'classé',
+        typeGarantiesFinancières: candidature.typeGarantiesFinancières.type,
+        dateÉchéanceGf: candidature.dateÉchéanceGf!.formatter(),
+      };
+    }
+  }
+  return {
+    ...base,
+    statut: 'éliminé',
+  };
+};
