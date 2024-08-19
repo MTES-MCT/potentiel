@@ -6,6 +6,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+import { ListItem } from '@/components/molecules/ListItem';
 
 export type ListItemDépôtEnCoursGarantiesFinancièresProps = {
   identifiantProjet: string;
@@ -18,13 +19,25 @@ export type ListItemDépôtEnCoursGarantiesFinancièresProps = {
 export const ListItemDépôtEnCoursGarantiesFinancières: FC<
   ListItemDépôtEnCoursGarantiesFinancièresProps
 > = ({ identifiantProjet, nomProjet, misÀJourLe, type, dateÉchéance }) => (
-  <div className="w-full">
-    <ProjectListItemHeading
-      identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
-      nomProjet={nomProjet}
-      prefix="Garanties financières du projet"
-      misÀJourLe={misÀJourLe}
-    />
+  <ListItem
+    heading={
+      <ProjectListItemHeading
+        identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
+        nomProjet={nomProjet}
+        prefix="Garanties financières du projet"
+        misÀJourLe={misÀJourLe}
+      />
+    }
+    actions={
+      <a
+        href={Routes.GarantiesFinancières.détail(identifiantProjet)}
+        className="self-end mt-2"
+        aria-label={`voir le détail des garanties financières à traiter pour le projet ${nomProjet}`}
+      >
+        voir le détail
+      </a>
+    }
+  >
     <ul className="mt-3 text-sm">
       <li>
         {type ? (
@@ -41,13 +54,5 @@ export const ListItemDépôtEnCoursGarantiesFinancières: FC<
         </li>
       )}
     </ul>
-
-    <a
-      href={Routes.GarantiesFinancières.détail(identifiantProjet)}
-      className="self-end mt-2"
-      aria-label={`voir le détail des garanties financières à traiter pour le projet ${nomProjet}`}
-    >
-      voir le détail
-    </a>
-  </div>
+  </ListItem>
 );
