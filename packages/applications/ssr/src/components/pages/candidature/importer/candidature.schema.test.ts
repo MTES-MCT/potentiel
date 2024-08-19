@@ -426,5 +426,33 @@ describe('Schema candidature', () => {
         assert(!result.success);
       });
     });
+
+    describe('Code postal', () => {
+      test('accepte un code postal valide', () => {
+        const result = candidatureSchema.safeParse({
+          ...minimumValuesClassé,
+          CP: '33100',
+        });
+        assertNoError(result);
+
+        assert(result.success);
+      });
+
+      test("n'accepte pas un code postal invalide", () => {
+        const result = candidatureSchema.safeParse({
+          ...minimumValuesClassé,
+          CP: 'invalide',
+        });
+
+        assert(!result.success, 'should be error');
+        expect(result.error.errors[0]).to.deep.eq({
+          received: 'string',
+          expected: 'undefined',
+          code: 'invalid_type',
+          path: ['notifiedOn'],
+          message: 'Le champs notifiedOn ne peut pas être présent',
+        });
+      });
+    });
   });
 });

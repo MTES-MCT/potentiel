@@ -57,3 +57,10 @@ Fonctionnalité: Importer une candidature
             | appel d'offre | CRE4 - Autoconsommation ZNI |
             | période       | 1                           |
         Alors l'administrateur devrait être informé que "Cette période est obsolète et ne peut être importée"
+
+    @NotImplemented
+    Scénario: Impossible d'importer une candidature si la région ou le département n'existe pas
+        Quand un administrateur importe la candidature "Du boulodrome de Marseille" avec :
+            | statut      | classé  |
+            | code postal | inconnu |
+        Alors l'administrateur devrait être informé que "Le code postal renseigné ne correspond à aucun département ou région connu"

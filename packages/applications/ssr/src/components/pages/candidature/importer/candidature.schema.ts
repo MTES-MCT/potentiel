@@ -2,6 +2,8 @@ import { z } from 'zod';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
+import { getRégionAndDépartementFromCodePostal } from './getRégionAndDépartementFromCodePostal';
+
 const requiredStringSchema = z.string().trim().min(1);
 
 const optionalStringSchema = z
@@ -143,6 +145,7 @@ const historiqueAbandon = [
 ] as const;
 
 const statut = { Eliminé: 'éliminé', Classé: 'classé' } as const;
+
 const technologie = {
   Eolien: 'eolien',
   Hydraulique: 'hydraulique',
@@ -166,7 +169,10 @@ const candidatureCsvRowSchema = z
     [colonnes.email_contact]: requiredStringSchema.email(),
     [colonnes.adresse1]: requiredStringSchema,
     [colonnes.adresse2]: optionalStringSchema,
-    [colonnes.code_postal]: requiredStringSchema,
+    [colonnes.code_postal]: requiredStringSchema.refine((val) => {
+      const geoResponse = getRégionAndDépartementFromCodePostal(val);
+      return geoResponse !== undefined;
+    }, 'Le code postal ne correspond à aucune région / département'),
     [colonnes.commune]: requiredStringSchema,
     [colonnes.statut]: z.string().pipe(z.enum(['Eliminé', 'Classé'])),
     [colonnes.puissance_a_la_pointe]: optionalOuiNonSchema,

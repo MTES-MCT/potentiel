@@ -9,7 +9,8 @@ import { parseCsv } from '@potentiel-libraries/csv';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 
-import { candidatureSchema } from './candidature.schema';
+import { candidatureSchema, CandidatureShape } from './candidature.schema';
+import { getRégionAndDépartementFromCodePostal } from './getRégionAndDépartementFromCodePostal';
 
 export type ImporterCandidaturesState = FormState;
 
@@ -36,38 +37,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }
 
       await mediator.send<Candidature.ImporterCandidatureUseCase>({
         type: 'Candidature.UseCase.ImporterCandidature',
-        data: {
-          typeGarantiesFinancièresValue: line.type_gf,
-          historiqueAbandonValue: line.historique_abandon,
-          appelOffreValue: line.appel_offre,
-          périodeValue: line.période,
-          familleValue: line.famille,
-          numéroCREValue: line.num_cre,
-          nomProjetValue: line.nom_projet,
-          sociétéMèreValue: line.société_mère,
-          nomCandidatValue: line.nom_candidat,
-          puissanceProductionAnnuelleValue: line.puissance_production_annuelle,
-          prixReferenceValue: line.prix_reference,
-          noteTotaleValue: line.note_totale,
-          nomReprésentantLégalValue: line.nom_représentant_légal,
-          emailContactValue: line.email_contact,
-          adresse1Value: line.adresse1,
-          adresse2Value: line.adresse2,
-          codePostalValue: line.code_postal,
-          communeValue: line.commune,
-          statutValue: line.statut,
-          motifÉliminationValue: line.motif_élimination,
-          puissanceALaPointeValue: line.puissance_a_la_pointe === 'oui',
-          evaluationCarboneSimplifiéeValue: line.evaluation_carbone_simplifiée,
-          valeurÉvaluationCarboneValue: line.valeur_évaluation_carbone,
-          technologieValue: line.technologie,
-          financementCollectifValue: line.financement_collectif === 'oui',
-          financementParticipatifValue: line.financement_participatif === 'oui',
-          gouvernancePartagéeValue: line.gouvernance_partagée,
-          dateÉchéanceGfValue: line.date_échéance_gf?.toISOString(),
-          territoireProjetValue: line.territoire_projet,
-          détailsValue: removeEmptyValues(projectRawLine),
-        },
+        data: mapLineToUseCaseData(line, projectRawLine),
       });
 
       success++;
@@ -99,4 +69,47 @@ export const importerCandidaturesAction = formAction(action, schema);
 
 const removeEmptyValues = (projectRawLine: Record<string, string>) => {
   return Object.fromEntries(Object.entries(projectRawLine).filter(([, value]) => value !== ''));
+};
+
+const mapLineToUseCaseData = (
+  line: CandidatureShape,
+  rawLine: Record<string, string>,
+): Candidature.ImporterCandidatureUseCase['data'] => ({
+  typeGarantiesFinancièresValue: line.type_gf,
+  historiqueAbandonValue: line.historique_abandon,
+  appelOffreValue: line.appel_offre,
+  périodeValue: line.période,
+  familleValue: line.famille,
+  numéroCREValue: line.num_cre,
+  nomProjetValue: line.nom_projet,
+  sociétéMèreValue: line.société_mère,
+  nomCandidatValue: line.nom_candidat,
+  puissanceProductionAnnuelleValue: line.puissance_production_annuelle,
+  prixReferenceValue: line.prix_reference,
+  noteTotaleValue: line.note_totale,
+  nomReprésentantLégalValue: line.nom_représentant_légal,
+  emailContactValue: line.email_contact,
+  localitéValue: getLocalité(line),
+  statutValue: line.statut,
+  motifÉliminationValue: line.motif_élimination,
+  puissanceALaPointeValue: line.puissance_a_la_pointe === 'oui',
+  evaluationCarboneSimplifiéeValue: line.evaluation_carbone_simplifiée,
+  valeurÉvaluationCarboneValue: line.valeur_évaluation_carbone,
+  technologieValue: line.technologie,
+  financementCollectifValue: line.financement_collectif === 'oui',
+  financementParticipatifValue: line.financement_participatif === 'oui',
+  gouvernancePartagéeValue: line.gouvernance_partagée,
+  dateÉchéanceGfValue: line.date_échéance_gf?.toISOString(),
+  territoireProjetValue: line.territoire_projet,
+  détailsValue: removeEmptyValues(rawLine),
+});
+
+const getLocalité = (line: CandidatureShape) => {
+  return {
+    adresse1Value: line.adresse1,
+    adresse2Value: line.adresse2,
+    codePostalValue: line.code_postal,
+    communeValue: line.commune,
+    ...getRégionAndDépartementFromCodePostal(line.code_postal),
+  };
 };

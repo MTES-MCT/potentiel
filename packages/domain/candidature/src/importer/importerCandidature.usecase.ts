@@ -24,10 +24,14 @@ export type ImporterCandidatureUseCasePayload = {
   noteTotaleValue: number;
   nomReprésentantLégalValue: string;
   emailContactValue: string;
-  adresse1Value: string;
-  adresse2Value: string;
-  codePostalValue: string;
-  communeValue: string;
+  localitéValue: {
+    adresse1: string;
+    adresse2: string;
+    codePostal: string;
+    commune: string;
+    région: string;
+    département: string;
+  };
   statutValue: string;
   motifÉliminationValue: string;
   puissanceALaPointeValue: boolean;
@@ -57,7 +61,7 @@ export const registerImporterCandidatureUseCase = () => {
   mediator.register('Candidature.UseCase.ImporterCandidature', handler);
 };
 
-export const mapPayloadForCommand = (payload: ImporterCandidatureUseCase['data']) => ({
+export const mapPayloadForCommand = (payload: ImporterCandidatureUseCasePayload) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(
     `${payload.appelOffreValue}#${payload.périodeValue}#${payload.familleValue}#${payload.numéroCREValue}`,
   ),
@@ -77,10 +81,14 @@ export const mapPayloadForCommand = (payload: ImporterCandidatureUseCase['data']
     : undefined,
   historiqueAbandon: HistoriqueAbandon.convertirEnValueType(payload.historiqueAbandonValue),
   nomProjet: payload.nomProjetValue,
-  adresse1: payload.adresse1Value,
-  adresse2: payload.adresse2Value,
-  codePostal: payload.codePostalValue,
-  commune: payload.communeValue,
+  localité: {
+    adresse1: payload.localitéValue.adresse1,
+    adresse2: payload.localitéValue.adresse2,
+    codePostal: payload.localitéValue.codePostal,
+    commune: payload.localitéValue.commune,
+    région: payload.localitéValue.région,
+    département: payload.localitéValue.département,
+  },
   emailContact: payload.emailContactValue,
   evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiéeValue,
   financementCollectif: payload.financementCollectifValue,
