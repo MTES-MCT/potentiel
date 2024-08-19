@@ -12,8 +12,14 @@ export type CandidatureEntity = Entity<
     nomProjet: string;
     typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
     historiqueAbandon: HistoriqueAbandon.RawType;
-    adresse1: string;
-    adresse2: string;
+    localité: {
+      adresse1: string;
+      adresse2: string;
+      codePostal: string;
+      commune: string;
+      département: string;
+      région: string;
+    };
     nomCandidat: string;
     nomReprésentantLégal: string;
     emailContact: string;
@@ -21,8 +27,6 @@ export type CandidatureEntity = Entity<
     prixReference: number;
     valeurÉvaluationCarbone?: number;
     technologie: Technologie.RawType;
-    codePostal: string;
-    commune: string;
     sociétéMère: string;
     noteTotale: number;
     motifÉlimination: string;

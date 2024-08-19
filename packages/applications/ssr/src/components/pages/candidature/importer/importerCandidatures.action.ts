@@ -119,11 +119,11 @@ export const getLocalité = ({
   const departements = départementsRégions.map((x) => x.département);
   const régions = départementsRégions.map((x) => x.région);
   return {
-    département: departements.join(' / '),
-    région: régions.join(' / '),
-    codePostal: code_postaux.join(' / '),
-    commune,
     adresse1,
     adresse2,
+    codePostal: code_postaux.join(' / '),
+    commune,
+    région: régions.join(' / '),
+    département: departements.join(' / '),
   };
 };
