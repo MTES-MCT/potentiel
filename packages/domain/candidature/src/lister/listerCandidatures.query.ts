@@ -21,6 +21,9 @@ export type CandidaturesListItemReadModel = {
   evaluationCarboneSimplifiée: ConsulterCandidatureReadModel['evaluationCarboneSimplifiée'];
   commune: ConsulterCandidatureReadModel['commune'];
   codePostal: ConsulterCandidatureReadModel['codePostal'];
+  /**
+   * @todo ajouter une unité pour la puissance venant de l'AO
+   */
 };
 
 export type ListerCandidaturesReadModel = Readonly<{
