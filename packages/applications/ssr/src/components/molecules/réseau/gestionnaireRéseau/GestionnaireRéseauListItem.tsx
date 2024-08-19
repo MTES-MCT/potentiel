@@ -1,8 +1,11 @@
 import { FC } from 'react';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+
+import { ListItem } from '@/components/molecules/ListItem';
 
 import { GestionnaireAvecNombreDeRaccordement } from '../../../pages/réseau/gestionnaire/lister/GestionnaireRéseauList.page';
 
@@ -18,27 +21,24 @@ export const GestionnaireRéseauListItem: FC<GestionnaireRéseauListItemProps> =
   );
 
   return (
-    <>
-      <div>
-        <div className="flex flex-col gap-1">
-          <h2 className="leading-4">
-            <span className="font-bold">{raisonSociale}</span>
-          </h2>
-          <p>
-            {nombreRaccordements} raccordement{nombreRaccordements > 1 ? 's' : ''}
-          </p>
-        </div>
-      </div>
-
-      <div className="flex flex-col justify-between mt-4 md:mt-2">
-        <a
+    <ListItem
+      heading={
+        <h2 className="leading-4">
+          <span className="font-bold">{raisonSociale}</span>
+        </h2>
+      }
+      actions={
+        <Link
           href={Routes.Gestionnaire.détail(identifiantGestionnaireReseauValue.formatter())}
-          className="self-end mt-2"
           aria-label={`voir le détails du gestionnaire de réseau ${raisonSociale}`}
         >
           voir
-        </a>
-      </div>
-    </>
+        </Link>
+      }
+    >
+      <p>
+        {nombreRaccordements} raccordement{nombreRaccordements > 1 ? 's' : ''}
+      </p>
+    </ListItem>
   );
 };
