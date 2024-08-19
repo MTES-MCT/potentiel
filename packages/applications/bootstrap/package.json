@@ -21,6 +21,7 @@
     "@potentiel-infrastructure/email": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projections": "*",
+    "@potentiel-libraries/file-storage": "*",
     "@potentiel-libraries/pg-helpers": "*",
     "mediateur": "^0.1.0"
   },

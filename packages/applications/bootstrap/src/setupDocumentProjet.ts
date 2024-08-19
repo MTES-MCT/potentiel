@@ -2,15 +2,15 @@ import {
   registerDocumentProjetCommand,
   registerDocumentProjetQueries,
 } from '@potentiel-domain/document';
-import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { copyFolder, upload, download } from '@potentiel-libraries/file-storage';
 
 export const setupDocumentProjet = () => {
   registerDocumentProjetQueries({
-    récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
+    récupérerDocumentProjet: download,
   });
 
   registerDocumentProjetCommand({
-    enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
-    déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
+    enregistrerDocumentProjet: upload,
+    déplacerDossierProjet: copyFolder,
   });
 };
