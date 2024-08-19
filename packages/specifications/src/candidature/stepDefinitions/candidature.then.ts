@@ -202,3 +202,24 @@ Alors(
     });
   },
 );
+
+Alors(
+  'la candidature {string} ne devrait plus être consultable dans la liste des candidatures',
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+        type: 'Candidature.Query.ConsulterCandidature',
+        data: { identifiantProjet: identifiantProjet.formatter() },
+      });
+
+      assert(Option.isNone(candidature));
+    });
+  },
+);
+
+Alors(
+  'le projet {string} devrait être consultable dans la liste des projets lauréats',
+  function (this: PotentielWorld, _nomProjet: string) {},
+);

@@ -55,3 +55,8 @@ Quand(
     }
   },
 );
+
+Quand(
+  'un administrateur notifie la période de la candidature {string}',
+  async function (this: PotentielWorld, _nomProjet: string) {},
+);
