@@ -81,10 +81,7 @@ export const Default: Story = {
       currentPage: 1,
       items: [
         {
-          identifiantProjet: '#identifiantProjet-1',
-          appelOffre: 'Appel offre',
-          période: 'Période',
-          famille: 'Famille',
+          identifiantProjet: 'CRE4 - Autoconsommation métropole 2016#2##200-2',
           nomProjet: 'Le projet',
           statut: 'accordé',
           recandidature: false,
@@ -92,10 +89,7 @@ export const Default: Story = {
           misÀJourLe: new Date('2023-02-12').toISOString() as Iso8601DateTime,
         },
         {
-          identifiantProjet: '#identifiantProjet-2',
-          appelOffre: 'Appel offre',
-          période: 'Période',
-          famille: 'Famille',
+          identifiantProjet: 'Appel offre#1#2#id-2',
           nomProjet: 'Le projet',
           statut: 'demandé',
           recandidature: true,
@@ -103,10 +97,7 @@ export const Default: Story = {
           misÀJourLe: new Date('2023-02-12').toISOString() as Iso8601DateTime,
         },
         {
-          identifiantProjet: '#identifiantProjet-3',
-          appelOffre: 'Appel offre',
-          période: 'Période',
-          famille: 'Famille',
+          identifiantProjet: 'Appel offre#1#2#id-3',
           nomProjet: 'Le projet',
           statut: 'rejeté',
           recandidature: false,

@@ -12,10 +12,6 @@ import {
 type ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
-  régionProjet: string;
-  appelOffre: string;
-  période: string;
-  famille?: string;
   motif: MotifDemandeGarantiesFinancières.ValueType;
   dateLimiteSoumission: DateTime.ValueType;
   dernièreMiseÀJour: {
@@ -104,21 +100,13 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
 
 const mapToReadModel = ({
   nomProjet,
-  appelOffre,
   identifiantProjet,
-  période,
-  régionProjet,
-  famille,
   motif,
   dateLimiteSoumission,
   dernièreMiseÀJour: { date },
 }: ProjetAvecGarantiesFinancièresEnAttenteEntity): ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
-  appelOffre,
-  période,
-  famille,
-  régionProjet,
   motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
   dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
   dernièreMiseÀJour: {

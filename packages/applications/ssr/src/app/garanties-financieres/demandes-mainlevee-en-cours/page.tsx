@@ -98,7 +98,7 @@ export default async function Page({ searchParams }: PageProps) {
           })),
         },
         {
-          label: `Appel d'offre`,
+          label: `Appel d'offres`,
           searchParamKey: 'appelOffre',
           defaultValue: appelOffre,
           options: appelOffres.items.map((appelOffre) => ({
