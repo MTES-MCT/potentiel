@@ -7,58 +7,59 @@ import { Option } from '@potentiel-libraries/monads';
 import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
-import { HistoriqueAbandon } from '../candidature';
+import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import { PériodeAppelOffreLegacyError } from '../périodeAppelOffreLegacy.error';
 import { CandidatureDéjàImportéeError } from '../candidatureDéjàImportée.error';
+import { AppelOffreInexistantError } from '../appelOffreInexistant.error';
 import {
-  AppelOffreInexistantError,
-  FamillePériodeAppelOffreInexistanteError,
-  PériodeAppelOffreInexistanteError,
-} from '../appelOffreInexistant.error';
-import { GarantiesFinancièresRequisesPourAppelOffreError } from '../garantiesFinancièresRequises.error';
+  DateÉchéanceGarantiesFinancièresRequiseError,
+  GarantiesFinancièresRequisesPourAppelOffreError,
+} from '../garantiesFinancièresRequises.error';
+
+export type CandidatureImportéeEventPayload = {
+  identifiantProjet: IdentifiantProjet.RawType;
+  statut: StatutCandidature.RawType;
+  typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+  historiqueAbandon: HistoriqueAbandon.RawType;
+  appelOffre: string;
+  période: string;
+  famille: string;
+  numéroCRE: string;
+  nomProjet: string;
+  sociétéMère: string;
+  nomCandidat: string;
+  puissanceProductionAnnuelle: number;
+  prixReference: number;
+  noteTotale: number;
+  nomReprésentantLégal: string;
+  emailContact: string;
+  adresse1: string;
+  adresse2: string;
+  codePostal: string;
+  commune: string;
+  motifÉlimination: string;
+  puissanceALaPointe: boolean;
+  evaluationCarboneSimplifiée: number;
+  valeurÉvaluationCarbone?: number;
+  technologie: Technologie.RawType;
+  financementCollectif: boolean;
+  financementParticipatif: boolean;
+  gouvernancePartagée: boolean;
+  dateÉchéanceGf?: DateTime.RawType;
+  territoireProjet: string;
+  détails: Record<string, string>;
+};
 
 export type CandidatureImportéeEvent = DomainEvent<
   'CandidatureImportée-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    statut: StatutCandidature.RawType;
-    typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
-    historiqueAbandon?: HistoriqueAbandon.RawType;
-    appelOffre: string;
-    période: string;
-    famille: string;
-    numéroCRE: string;
-    nomProjet: string;
-    sociétéMère: string;
-    nomCandidat: string;
-    puissanceProductionAnnuelle: number;
-    prixReference: number;
-    noteTotale: number;
-    nomReprésentantLégal: string;
-    emailContact: string;
-    adresse1: string;
-    adresse2: string;
-    codePostal: string;
-    commune: string;
-    motifÉlimination: string;
-    puissanceALaPointe: boolean;
-    evaluationCarboneSimplifiée: number;
-    valeurÉvaluationCarbone?: number;
-    technologie: Technologie.RawType;
-    financementCollectif: boolean;
-    financementParticipatif: boolean;
-    gouvernancePartagée: boolean;
-    dateÉchéanceGf?: DateTime.RawType;
-    teritoireProjet: string;
-    détails: Record<string, string>;
-  }
+  CandidatureImportéeEventPayload
 >;
 
-type ImporterCandidatureOptions = {
+export type ImporterCandidatureBehaviorOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutCandidature.ValueType;
   typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
-  historiqueAbandon?: HistoriqueAbandon.ValueType;
+  historiqueAbandon: HistoriqueAbandon.ValueType;
   appelOffre: string;
   période: string;
   famille: string;
@@ -90,7 +91,7 @@ type ImporterCandidatureOptions = {
 
 export async function importer(
   this: CandidatureAggregate,
-  candidature: ImporterCandidatureOptions,
+  candidature: ImporterCandidatureBehaviorOptions,
   appelOffre: Option.Type<AppelOffre.AppelOffreReadModel>,
 ) {
   if (this.importé) {
@@ -100,22 +101,8 @@ export async function importer(
   if (Option.isNone(appelOffre)) {
     throw new AppelOffreInexistantError(candidature.appelOffre);
   }
-  const période = appelOffre.periodes.find((x) => x.id === candidature.période);
-  if (!période) {
-    throw new PériodeAppelOffreInexistanteError(candidature.appelOffre, candidature.période);
-  }
-
-  let famille: AppelOffre.Famille | undefined;
-  if (candidature.famille) {
-    famille = période.familles.find((x) => x.id === candidature.famille);
-    if (!famille) {
-      throw new FamillePériodeAppelOffreInexistanteError(
-        candidature.appelOffre,
-        candidature.période,
-        candidature.famille,
-      );
-    }
-  }
+  const période = this.récupererPériodeAO(appelOffre, candidature.période);
+  const famille = this.récupererFamilleAO(appelOffre, candidature.période, candidature.famille);
 
   if (période.type === 'legacy') {
     throw new PériodeAppelOffreLegacyError(candidature.appelOffre, candidature.période);
@@ -131,49 +118,62 @@ export async function importer(
     throw new GarantiesFinancièresRequisesPourAppelOffreError();
   }
 
+  if (
+    candidature.typeGarantiesFinancières &&
+    candidature.typeGarantiesFinancières.estAvecDateÉchéance() &&
+    !candidature.dateÉchéanceGf
+  ) {
+    throw new DateÉchéanceGarantiesFinancièresRequiseError();
+  }
+
   const event: CandidatureImportéeEvent = {
     type: 'CandidatureImportée-V1',
-    payload: {
-      identifiantProjet: candidature.identifiantProjet.formatter(),
-      statut: candidature.statut.statut,
-      technologie: candidature.technologie.type,
-      dateÉchéanceGf: candidature.dateÉchéanceGf?.formatter(),
-      historiqueAbandon: candidature.historiqueAbandon?.formatter(),
-      typeGarantiesFinancières: candidature.typeGarantiesFinancières?.type,
-      appelOffre: candidature.appelOffre,
-      période: candidature.période,
-      famille: candidature.famille,
-      numéroCRE: candidature.numéroCRE,
-      nomProjet: candidature.nomProjet,
-      sociétéMère: candidature.sociétéMère,
-      nomCandidat: candidature.nomCandidat,
-      puissanceProductionAnnuelle: candidature.puissanceProductionAnnuelle,
-      prixReference: candidature.prixReference,
-      noteTotale: candidature.noteTotale,
-      nomReprésentantLégal: candidature.nomReprésentantLégal,
-      emailContact: candidature.emailContact,
-      adresse1: candidature.adresse1,
-      adresse2: candidature.adresse2,
-      codePostal: candidature.codePostal,
-      commune: candidature.commune,
-      motifÉlimination: candidature.motifÉlimination,
-      puissanceALaPointe: candidature.puissanceALaPointe,
-      evaluationCarboneSimplifiée: candidature.evaluationCarboneSimplifiée,
-      valeurÉvaluationCarbone: candidature.valeurÉvaluationCarbone,
-      financementCollectif: candidature.financementCollectif,
-      financementParticipatif: candidature.financementParticipatif,
-      gouvernancePartagée: candidature.gouvernancePartagée,
-      teritoireProjet: candidature.territoireProjet,
-      détails: candidature.détails,
-    },
+    payload: mapToEventPayload(candidature),
   };
   await this.publish(event);
 }
 
 export function applyCandidatureImportée(
   this: CandidatureAggregate,
-  { payload: { statut } }: CandidatureImportéeEvent,
+  { payload }: CandidatureImportéeEvent,
 ) {
   this.importé = true;
-  this.statut = StatutCandidature.convertirEnValueType(statut);
+  this.statut = StatutCandidature.convertirEnValueType(payload.statut);
+  this.payloadHash = this.calculerHash(payload);
 }
+
+export const mapToEventPayload = (
+  candidature: ImporterCandidatureBehaviorOptions,
+): CandidatureImportéeEvent['payload'] => ({
+  identifiantProjet: candidature.identifiantProjet.formatter(),
+  statut: candidature.statut.statut,
+  technologie: candidature.technologie.type,
+  dateÉchéanceGf: candidature.dateÉchéanceGf?.formatter(),
+  historiqueAbandon: candidature.historiqueAbandon.formatter(),
+  typeGarantiesFinancières: candidature.typeGarantiesFinancières?.type,
+  appelOffre: candidature.appelOffre,
+  période: candidature.période,
+  famille: candidature.famille,
+  numéroCRE: candidature.numéroCRE,
+  nomProjet: candidature.nomProjet,
+  sociétéMère: candidature.sociétéMère,
+  nomCandidat: candidature.nomCandidat,
+  puissanceProductionAnnuelle: candidature.puissanceProductionAnnuelle,
+  prixReference: candidature.prixReference,
+  noteTotale: candidature.noteTotale,
+  nomReprésentantLégal: candidature.nomReprésentantLégal,
+  emailContact: candidature.emailContact,
+  adresse1: candidature.adresse1,
+  adresse2: candidature.adresse2,
+  codePostal: candidature.codePostal,
+  commune: candidature.commune,
+  motifÉlimination: candidature.motifÉlimination,
+  puissanceALaPointe: candidature.puissanceALaPointe,
+  evaluationCarboneSimplifiée: candidature.evaluationCarboneSimplifiée,
+  valeurÉvaluationCarbone: candidature.valeurÉvaluationCarbone,
+  financementCollectif: candidature.financementCollectif,
+  financementParticipatif: candidature.financementParticipatif,
+  gouvernancePartagée: candidature.gouvernancePartagée,
+  territoireProjet: candidature.territoireProjet,
+  détails: candidature.détails,
+});

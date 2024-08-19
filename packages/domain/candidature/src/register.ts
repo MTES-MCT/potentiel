@@ -15,6 +15,8 @@ import {
   ConsulterCandidatureDependencies,
   registerConsulterCandidatureQuery,
 } from './consulter/consulterCandidature.query';
+import { registerCorrigerCandidatureCommand } from './corriger/corrigerCandidature.command';
+import { registerCorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
 
 type CandidatureQueryDependencies = ConsulterProjetDependencies &
   ListerProjetsEligiblesPreuveRecanditureDependencies &
@@ -34,6 +36,8 @@ export const registerCandidatureQueries = (dependencies: CandidatureQueryDepende
 
 export const registerCandidaturesUseCases = ({ loadAggregate }: CandiatureUseCasesDependencies) => {
   registerImporterCandidatureCommand(loadAggregate);
+  registerCorrigerCandidatureCommand(loadAggregate);
 
   registerImporterCandidatureUseCase();
+  registerCorrigerCandidatureUseCase();
 };

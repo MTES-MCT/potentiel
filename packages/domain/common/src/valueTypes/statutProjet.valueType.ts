@@ -1,10 +1,10 @@
-import { InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
 export type RawType = 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
 
 const statuts: Array<RawType> = ['non-notifié', 'abandonné', 'classé', 'éliminé'];
 
-export type ValueType = Readonly<{
+export type ValueType = ReadonlyValueType<{
   statut: RawType;
   estAbandonné: () => boolean;
   estNonNotifié: () => boolean;
@@ -29,6 +29,9 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
     estÉliminé() {
       return this.statut === 'éliminé';
+    },
+    estÉgaleÀ(statut: ValueType) {
+      return this.statut === statut.statut;
     },
   };
 };

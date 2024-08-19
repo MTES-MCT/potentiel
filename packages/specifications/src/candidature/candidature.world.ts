@@ -1,8 +1,10 @@
+import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 type CandidatureFixture = {
   nom: string;
   identifiantProjet: IdentifiantProjet.ValueType;
+  values: Candidature.CandidatureUseCase['data'];
 };
 
 export class CandidatureWorld {
@@ -17,6 +19,6 @@ export class CandidatureWorld {
       throw new Error(`Aucune candidature correspondant à ${nom} dans les jeux de données`);
     }
 
-    return candidature;
+    return candidature as CandidatureFixture;
   }
 }

@@ -5,3 +5,9 @@ export class GarantiesFinancièresRequisesPourAppelOffreError extends InvalidOpe
     super(`Les garanties financières sont requises pour cet appel d'offre ou famille`);
   }
 }
+
+export class DateÉchéanceGarantiesFinancièresRequiseError extends InvalidOperationError {
+  constructor() {
+    super(`La date d'échéance des garanties financières est requise`);
+  }
+}

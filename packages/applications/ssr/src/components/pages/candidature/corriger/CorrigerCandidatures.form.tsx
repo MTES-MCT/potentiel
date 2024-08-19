@@ -6,23 +6,24 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
-import { importerCandidaturesAction } from './importerCandidatures.action';
+import { corrigerCandidaturesAction } from './corrigerCandidatures.action';
 
-export const ImporterCandidaturesForm: FC = () => {
+export const CorrigerCandidaturesForm: FC = () => {
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+
   return (
     <Form
       method="POST"
       encType="multipart/form-data"
-      action={importerCandidaturesAction}
-      heading="Importer les candidats de la période d'un appel d'offres"
+      action={corrigerCandidaturesAction}
+      heading="Corriger un import de candidatures"
       pendingModal={{
         id: 'form-import-candidatures',
-        title: 'Importer des candidats',
+        title: 'Corriger un import de candidat',
         children: 'Import des candidats en cours ...',
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      successMessage={'candidats importés'}
+      successMessage={'candidats corrigés'}
     >
       <UploadDocument
         label="Fichier CSV"
@@ -34,8 +35,8 @@ export const ImporterCandidaturesForm: FC = () => {
         stateRelatedMessage="Fichier CSV obligatoire"
       />
 
-      <div className="flex flex-col md:flex-row">
-        <SubmitButton>Importer</SubmitButton>
+      <div className="flex flex-col md:flex-row gap-2">
+        <SubmitButton>Corriger</SubmitButton>
       </div>
     </Form>
   );

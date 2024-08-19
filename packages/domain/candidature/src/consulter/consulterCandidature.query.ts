@@ -1,14 +1,40 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { StatutProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/core';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { CandidatureEntity } from '../candidature.entity';
+import { HistoriqueAbandon, Technologie } from '../candidature';
 
 export type ConsulterCandidatureReadModel = {
-  statut: StatutProjet.RawType;
-  nom: string;
+  identifiantProjet: IdentifiantProjet.ValueType;
+  statut: StatutProjet.ValueType;
+  nomProjet: string;
+  typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
+  historiqueAbandon: HistoriqueAbandon.ValueType;
+  adresse1: string;
+  adresse2: string;
+  nomCandidat: string;
+  nomReprésentantLégal: string;
+  emailContact: string;
+  puissanceProductionAnnuelle: number;
+  prixReference: number;
+  valeurÉvaluationCarbone?: number;
+  technologie: Technologie.ValueType;
+  codePostal: string;
+  commune: string;
+  sociétéMère: string;
+  noteTotale: number;
+  motifÉlimination: string;
+  puissanceALaPointe: boolean;
+  evaluationCarboneSimplifiée: number;
+  financementCollectif: boolean;
+  financementParticipatif: boolean;
+  gouvernancePartagée: boolean;
+  dateÉchéanceGf?: DateTime.ValueType;
+  territoireProjet: string;
 };
 
 export type ConsulterCandidatureQuery = Message<
@@ -37,9 +63,60 @@ export const registerConsulterCandidatureQuery = ({ find }: ConsulterCandidature
   mediator.register('Candidature.Query.ConsulterCandidature', handler);
 };
 
-const mapToReadModel = ({ nom, statut }: CandidatureEntity): ConsulterCandidatureReadModel => {
-  return {
-    nom,
-    statut,
-  };
-};
+const mapToReadModel = ({
+  identifiantProjet,
+  statut,
+  typeGarantiesFinancières,
+  historiqueAbandon,
+  technologie,
+  dateÉchéanceGf,
+  nomProjet,
+  adresse1,
+  adresse2,
+  nomCandidat,
+  nomReprésentantLégal,
+  emailContact,
+  puissanceProductionAnnuelle,
+  prixReference,
+  valeurÉvaluationCarbone,
+  codePostal,
+  commune,
+  sociétéMère,
+  noteTotale,
+  motifÉlimination,
+  puissanceALaPointe,
+  evaluationCarboneSimplifiée,
+  financementCollectif,
+  financementParticipatif,
+  gouvernancePartagée,
+  territoireProjet,
+}: CandidatureEntity): ConsulterCandidatureReadModel => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  statut: StatutProjet.convertirEnValueType(statut),
+  historiqueAbandon: HistoriqueAbandon.convertirEnValueType(historiqueAbandon),
+  technologie: Technologie.convertirEnValueType(technologie),
+  dateÉchéanceGf: dateÉchéanceGf ? DateTime.convertirEnValueType(dateÉchéanceGf) : undefined,
+  typeGarantiesFinancières: typeGarantiesFinancières
+    ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières)
+    : undefined,
+  nomProjet,
+  adresse1,
+  adresse2,
+  nomCandidat,
+  nomReprésentantLégal,
+  emailContact,
+  puissanceProductionAnnuelle,
+  prixReference,
+  valeurÉvaluationCarbone,
+  codePostal,
+  commune,
+  sociétéMère,
+  noteTotale,
+  motifÉlimination,
+  puissanceALaPointe,
+  evaluationCarboneSimplifiée,
+  financementCollectif,
+  financementParticipatif,
+  gouvernancePartagée,
+  territoireProjet,
+});

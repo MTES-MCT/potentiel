@@ -82,6 +82,12 @@ const getNavigationItemsBasedOnRole = (
               },
             },
             {
+              text: 'Corriger candidats',
+              linkProps: {
+                href: Routes.Candidature.corriger,
+              },
+            },
+            {
               text: 'Courriers historiques',
               linkProps: {
                 href: '/admin/importer-documents-historiques',
