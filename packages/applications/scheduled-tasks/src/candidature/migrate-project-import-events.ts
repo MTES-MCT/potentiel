@@ -11,43 +11,178 @@ import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-type ProjectRawDataImportedPayload = {
-  periodeId: string;
-  appelOffreId: string;
-  familleId: string;
-  territoireProjet: string;
-  numeroCRE: string;
-  nomCandidat: string;
-  actionnaire: string;
-  nomProjet: string;
-  puissance: number;
-  prixReference: number;
-  evaluationCarbone: number;
-  note: number;
-  nomRepresentantLegal: string;
-  isFinancementParticipatif: boolean;
-  isInvestissementParticipatif: boolean;
-  engagementFournitureDePuissanceAlaPointe: boolean;
-  email: string;
-  adresseProjet: string;
-  codePostalProjet: string;
-  communeProjet: string;
-  departementProjet: string;
-  regionProjet: string;
-  classe: string;
-  motifsElimination: string;
-  notifiedOn: number;
-  details: Record<string, string>;
-  technologie: string;
-  actionnariat?: string;
-  garantiesFinancièresType?: string;
-  garantiesFinancièresDateEchéance?: string;
-  désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
-  historiqueAbandon?:
-    | 'première-candidature'
-    | 'abandon-classique'
-    | 'abandon-avec-recandidature'
-    | 'lauréat-autre-période';
+type ProjectRawDataImported = {
+  type: 'ProjectRawDataImported';
+  payload: {
+    periodeId: string;
+    appelOffreId: string;
+    familleId: string;
+    territoireProjet: string;
+    numeroCRE: string;
+    nomCandidat: string;
+    actionnaire: string;
+    nomProjet: string;
+    puissance: number;
+    prixReference: number;
+    evaluationCarbone: number;
+    note: number;
+    nomRepresentantLegal: string;
+    isFinancementParticipatif: boolean;
+    isInvestissementParticipatif: boolean;
+    engagementFournitureDePuissanceAlaPointe: boolean;
+    email: string;
+    adresseProjet: string;
+    codePostalProjet: string;
+    communeProjet: string;
+    departementProjet: string;
+    regionProjet: string;
+    classe: string;
+    motifsElimination: string;
+    notifiedOn: number;
+    details: Record<string, string>;
+    technologie: string;
+    actionnariat?: string;
+    garantiesFinancièresType?: string;
+    garantiesFinancièresDateEchéance?: string;
+    désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
+    historiqueAbandon?:
+      | 'première-candidature'
+      | 'abandon-classique'
+      | 'abandon-avec-recandidature'
+      | 'lauréat-autre-période';
+  };
+};
+
+type LegacyProjectSourced = {
+  type: 'LegacyProjectSourced';
+  payload: {
+    projectId: string;
+    appelOffreId: string;
+    periodeId: string;
+    familleId: string;
+    numeroCRE: string;
+    potentielIdentifier: string;
+    content: {
+      periodeId: string;
+      appelOffreId: string;
+      familleId: string;
+      territoireProjet: string;
+      numeroCRE: string;
+      nomCandidat: string;
+      nomProjet: string;
+      puissance: number;
+      prixReference: number;
+      evaluationCarbone: number;
+      note: number;
+      nomRepresentantLegal: string;
+      isFinancementParticipatif: boolean;
+      isInvestissementParticipatif: boolean;
+      engagementFournitureDePuissanceAlaPointe: boolean;
+      email: string;
+      adresseProjet: string;
+      codePostalProjet: string;
+      communeProjet: string;
+      departementProjet: string;
+      regionProjet: string;
+      fournisseur: string;
+      actionnaire: string;
+      classe: string;
+      motifsElimination: string;
+      notifiedOn: number;
+      details: Record<string, string>;
+    };
+  };
+};
+
+type ProjectImported = {
+  type: 'ProjectImported';
+  payload: {
+    projectId: string;
+    appelOffreId: string;
+    periodeId: string;
+    familleId: string;
+    numeroCRE: string;
+    potentielIdentifier: string;
+    importId: string; // added later
+    data: {
+      periodeId: string;
+      appelOffreId: string;
+      familleId: string;
+      territoireProjet: string;
+      numeroCRE: string;
+      nomCandidat: string;
+      actionnaire: string;
+      nomProjet: string;
+      puissance: number;
+      prixReference: number;
+      evaluationCarbone: number;
+      note: number;
+      nomRepresentantLegal: string;
+      isFinancementParticipatif: boolean;
+      isInvestissementParticipatif: boolean;
+      engagementFournitureDePuissanceAlaPointe: boolean;
+      email: string;
+      adresseProjet: string;
+      codePostalProjet: string;
+      communeProjet: string;
+      departementProjet: string;
+      regionProjet: string;
+      classe: string;
+      motifsElimination: string;
+      notifiedOn: number;
+      details: Record<string, string>;
+      technologie: string;
+      actionnariat?: string;
+      soumisAuxGF?: true;
+      désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
+      historiqueAbandon?:
+        | 'première-candidature'
+        | 'abandon-classique'
+        | 'abandon-avec-recandidature'
+        | 'lauréat-autre-période';
+    };
+  };
+};
+
+type ProjectReimported = {
+  type: 'ProjectReimported';
+  payload: {
+    projectId: string;
+    periodeId: string;
+    appelOffreId: string;
+    familleId?: string;
+    importId: string; // This field was added later
+    data: Partial<{
+      periodeId: string;
+      appelOffreId: string;
+      familleId: string;
+      territoireProjet: string;
+      numeroCRE: string;
+      nomCandidat: string;
+      nomProjet: string;
+      puissance: number;
+      prixReference: number;
+      evaluationCarbone: number;
+      note: number;
+      nomRepresentantLegal: string;
+      isFinancementParticipatif: boolean;
+      isInvestissementParticipatif: boolean;
+      engagementFournitureDePuissanceAlaPointe: boolean;
+      email: string;
+      adresseProjet: string;
+      codePostalProjet: string;
+      communeProjet: string;
+      departementProjet: string;
+      regionProjet: string;
+      actionnaire: string;
+      classe: string;
+      motifsElimination: string;
+      notifiedOn: number;
+      details: Record<string, string>;
+      technologie: string;
+      actionnariat: string;
+    }>;
+  };
 };
 
 (async () => {
@@ -151,77 +286,86 @@ type ProjectRawDataImportedPayload = {
 
     console.info(`🧐 ${allEventsPerProject.size} projects found to migrate`);
 
-    // let current = 0;
-    // allEventsPerProject.forEach(async (eventIds, identifiantProjet) => {
-    //   current++;
+    let current = 0;
+    allEventsPerProject.forEach(async (eventIds, identifiantProjet) => {
+      current++;
 
-    //   const query = `
-    //         select payload->'data' as data
-    //         from "eventStores" es
-    //         where id = any($1)
-    //         order by "createdAt" asc;
-    //       `;
+      const query = `
+            select type, payload
+            from "eventStores" es
+            where id = any($1)
+            order by "createdAt" asc;
+          `;
 
-    //   const events = await executeSelect<{
-    //     data: ProjectRawDataImportedPayload;
-    //   }>(query, eventIds);
+      type Events =
+        | ProjectRawDataImported
+        | LegacyProjectSourced
+        | ProjectImported
+        | ProjectReimported;
 
-    //   const payload = events.reduce(
-    //     (acc, { data }) => {
-    //       const result: Candidature.CandidatureImportéeEvent['payload'] = {
-    //         ...acc,
-    //         identifiantProjet:
-    //           IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-    //         statut: data.classe === 'Classé' ? 'classé' : 'éliminé',
-    //         typeGarantiesFinancières: (data.garantiesFinancièresType ??
-    //           'type-inconnu') as GarantiesFinancières.TypeGarantiesFinancières.RawType,
-    //         historiqueAbandon: data.historiqueAbandon,
-    //         appelOffre: data.appelOffreId,
-    //         période: data.periodeId,
-    //         famille: data.familleId,
-    //         numéroCRE: data.numeroCRE,
-    //         nomProjet: data.nomProjet,
-    //         sociétéMère: data.actionnaire,
-    //         nomCandidat: data.nomCandidat,
-    //         puissanceProductionAnnuelle: data.puissance,
-    //         prixReference: data.prixReference,
-    //         noteTotale: data.note,
-    //         nomReprésentantLégal: data.nomRepresentantLegal,
-    //         emailContact: data.email,
-    //         adresse1: data.adresseProjet,
-    //         adresse2: '',
-    //         codePostal: data.codePostalProjet,
-    //         commune: data.communeProjet,
-    //         motifÉlimination: data.motifsElimination,
-    //         puissanceALaPointe: data.engagementFournitureDePuissanceAlaPointe,
-    //         evaluationCarboneSimplifiée: data.evaluationCarbone,
-    //         valeurÉvaluationCarbone: data.evaluationCarbone,
-    //         technologie:
-    //           data.technologie as Candidature.CandidatureImportéeEvent['payload']['technologie'],
-    //         financementCollectif: data.actionnariat === 'financement-collectif',
-    //         financementParticipatif: data.isInvestissementParticipatif,
-    //         gouvernancePartagée: data.actionnariat === 'gouvernance-partagée',
-    //         dateÉchéanceGf: data.garantiesFinancièresDateEchéance
-    //           ? DateTime.convertirEnValueType(
-    //               new Date(data.garantiesFinancièresDateEchéance),
-    //             ).formatter()
-    //           : undefined,
-    //         teritoireProjet: data.territoireProjet,
-    //         détails: data.details,
-    //       };
+      const events = await executeSelect<Events>(query, eventIds);
 
-    //       return result;
-    //     },
-    //     {} as Candidature.CandidatureImportéeEvent['payload'],
-    //   );
+      const payload = events.reduce(
+        (acc, { type, payload }) => {
+          switch (type) {
+            case 'ProjectRawDataImported':
+              const result: Candidature.CandidatureImportéeEvent['payload'] = {
+                ...acc,
+                identifiantProjet:
+                  IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+                statut: payload.classe === 'Classé' ? 'classé' : 'éliminé',
+                typeGarantiesFinancières: (payload.garantiesFinancièresType ??
+                  'type-inconnu') as GarantiesFinancières.TypeGarantiesFinancières.RawType,
+                historiqueAbandon: payload.historiqueAbandon,
+                appelOffre: payload.appelOffreId,
+                période: payload.periodeId,
+                famille: payload.familleId,
+                numéroCRE: payload.numeroCRE,
+                nomProjet: payload.nomProjet,
+                sociétéMère: payload.actionnaire,
+                nomCandidat: payload.nomCandidat,
+                puissanceProductionAnnuelle: payload.puissance,
+                prixReference: payload.prixReference,
+                noteTotale: payload.note,
+                nomReprésentantLégal: payload.nomRepresentantLegal,
+                emailContact: payload.email,
+                adresse1: payload.adresseProjet,
+                adresse2: '',
+                codePostal: payload.codePostalProjet,
+                commune: payload.communeProjet,
+                motifÉlimination: payload.motifsElimination,
+                puissanceALaPointe: payload.engagementFournitureDePuissanceAlaPointe,
+                evaluationCarboneSimplifiée: payload.evaluationCarbone,
+                valeurÉvaluationCarbone: payload.evaluationCarbone,
+                technologie:
+                  payload.technologie as Candidature.CandidatureImportéeEvent['payload']['technologie'],
+                financementCollectif: payload.actionnariat === 'financement-collectif',
+                financementParticipatif: payload.isInvestissementParticipatif,
+                gouvernancePartagée: payload.actionnariat === 'gouvernance-partagée',
+                dateÉchéanceGf: payload.garantiesFinancièresDateEchéance
+                  ? DateTime.convertirEnValueType(
+                      new Date(payload.garantiesFinancièresDateEchéance),
+                    ).formatter()
+                  : undefined,
+                teritoireProjet: payload.territoireProjet,
+                détails: payload.details,
+              };
 
-    //   await publish(`candidature|${identifiantProjet}`, {
-    //     type: 'CandidatureImportée-V1',
-    //     payload,
-    //   });
+              return result;
+          }
 
-    //   printProgress(`${current}/${projectRawDataImportedEventsPerProjects.length}`);
-    // });
+          return acc;
+        },
+        {} as Candidature.CandidatureImportéeEvent['payload'],
+      );
+
+      await publish(`candidature|${identifiantProjet}`, {
+        type: 'CandidatureImportée-V1',
+        payload,
+      });
+
+      printProgress(`${current}/${projectRawDataImportedEventsPerProjects.length}`);
+    });
 
     const getAllProjects = `
       select count(id) as "total_projects"
