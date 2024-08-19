@@ -1,13 +1,27 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { List, RangeOptions } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 
 import { CandidatureEntity } from '../candidature.entity';
 import { ConsulterCandidatureReadModel } from '../candidature';
-import { mapToReadModel } from '../consulter/consulterCandidature.query';
 
-export type CandidaturesListItemReadModel = ConsulterCandidatureReadModel;
+/**
+ * @todo Ajouter département et région. Pour l'instant, on affiche uniquement la commune.
+ */
+export type CandidaturesListItemReadModel = {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  statut: StatutProjet.ValueType;
+  nomProjet: ConsulterCandidatureReadModel['nomProjet'];
+  nomCandidat: ConsulterCandidatureReadModel['nomCandidat'];
+  nomReprésentantLégal: ConsulterCandidatureReadModel['nomReprésentantLégal'];
+  emailContact: ConsulterCandidatureReadModel['emailContact'];
+  puissanceProductionAnnuelle: number;
+  prixReference: ConsulterCandidatureReadModel['prixReference'];
+  evaluationCarboneSimplifiée: ConsulterCandidatureReadModel['evaluationCarboneSimplifiée'];
+  commune: ConsulterCandidatureReadModel['commune'];
+  codePostal: ConsulterCandidatureReadModel['codePostal'];
+};
 
 export type ListerCandidaturesReadModel = Readonly<{
   items: ReadonlyArray<CandidaturesListItemReadModel>;
@@ -63,3 +77,29 @@ const mapToWhereEqual = <T>(value: T | undefined) =>
         value,
       }
     : undefined;
+
+export const mapToReadModel = ({
+  identifiantProjet,
+  statut,
+  nomProjet,
+  nomCandidat,
+  nomReprésentantLégal,
+  emailContact,
+  puissanceProductionAnnuelle,
+  prixReference,
+  commune,
+  codePostal,
+  evaluationCarboneSimplifiée,
+}: CandidatureEntity): CandidaturesListItemReadModel => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  statut: StatutProjet.convertirEnValueType(statut),
+  nomProjet,
+  nomCandidat,
+  nomReprésentantLégal,
+  emailContact,
+  puissanceProductionAnnuelle,
+  prixReference,
+  codePostal,
+  commune,
+  evaluationCarboneSimplifiée,
+});

@@ -35,7 +35,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
   unitePuissance,
   evaluationCarboneSimplifiée,
 }) => (
-  <div className="flex  itemgap-1 w-full">
+  <div className="flex justify-between gap-1 w-full">
     <div className="flex flex-col gap-1">
       <h2 className="leading-4 font-bold">{nomProjet}</h2>
       <div className="flex flex-col md:flex-row gap-2 md:gap-0 italic text-xs">
