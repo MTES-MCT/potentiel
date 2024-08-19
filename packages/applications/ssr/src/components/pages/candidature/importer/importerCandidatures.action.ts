@@ -107,14 +107,13 @@ const mapLineToUseCaseData = (
   détailsValue: removeEmptyValues(rawLine),
 });
 
-const getLocalité = ({
-  code_postal,
+export const getLocalité = ({
+  code_postaux,
   adresse1,
   adresse2,
   commune,
 }: CandidatureShape): Candidature.ImporterCandidatureUseCase['data']['localitéValue'] => {
-  const codePostaux = code_postal.split('/').map((str) => str.trim());
-  const départementsRégions = codePostaux
+  const départementsRégions = code_postaux
     .map(getRégionAndDépartementFromCodePostal)
     .filter((dptRegion): dptRegion is DépartementRégion => !!dptRegion);
   const departements = départementsRégions.map((x) => x.département);
@@ -122,7 +121,7 @@ const getLocalité = ({
   return {
     département: departements.join(' / '),
     région: régions.join(' / '),
-    codePostal: codePostaux.join(' / '),
+    codePostal: code_postaux.join(' / '),
     commune,
     adresse1,
     adresse2,

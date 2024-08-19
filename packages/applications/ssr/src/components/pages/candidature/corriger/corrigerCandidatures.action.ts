@@ -10,6 +10,7 @@ import { parseCsv } from '@potentiel-libraries/csv';
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 
 import { candidatureSchema, CandidatureShape } from '../importer/candidature.schema';
+import { getLocalité } from '../importer/importerCandidatures.action';
 
 export type CorrigerCandidaturesState = FormState;
 
@@ -82,10 +83,7 @@ const mapLineToUseCaseData = (
   noteTotaleValue: line.note_totale,
   nomReprésentantLégalValue: line.nom_représentant_légal,
   emailContactValue: line.email_contact,
-  adresse1Value: line.adresse1,
-  adresse2Value: line.adresse2,
-  codePostalValue: line.code_postal,
-  communeValue: line.commune,
+  localitéValue: getLocalité(line),
   statutValue: line.statut,
   motifÉliminationValue: line.motif_élimination,
   puissanceALaPointeValue: line.puissance_a_la_pointe === 'oui',

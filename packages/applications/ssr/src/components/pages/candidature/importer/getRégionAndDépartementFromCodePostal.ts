@@ -6,6 +6,10 @@ export type DépartementRégion = {
 export const getRégionAndDépartementFromCodePostal = (
   codePostal: string,
 ): DépartementRégion | undefined => {
+  if (codePostal.length > 5) {
+    return undefined;
+  }
+
   const régionDépartement =
     référentiel[codePostal] ?? // traiter les exceptions
     référentiel[codePostal.slice(0, 3)] ?? // traiter les outre-mer
