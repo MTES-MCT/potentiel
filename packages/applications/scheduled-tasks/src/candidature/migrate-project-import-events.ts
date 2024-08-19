@@ -1,16 +1,9 @@
-import * as readline from 'readline';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Candidature } from '@potentiel-domain/candidature';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type ProjectRawDataImported = {
   type: 'ProjectRawDataImported';
   payload: {
@@ -103,7 +96,7 @@ type ProjectImported = {
     familleId: string;
     numeroCRE: string;
     potentielIdentifier: string;
-    importId: string; // added later
+    importId: string;
     data: {
       periodeId: string;
       appelOffreId: string;
@@ -141,47 +134,6 @@ type ProjectImported = {
         | 'abandon-avec-recandidature'
         | 'lauréat-autre-période';
     };
-  };
-};
-
-type ProjectReimported = {
-  type: 'ProjectReimported';
-  payload: {
-    projectId: string;
-    periodeId: string;
-    appelOffreId: string;
-    familleId?: string;
-    importId: string; // This field was added later
-    data: Partial<{
-      periodeId: string;
-      appelOffreId: string;
-      familleId: string;
-      territoireProjet: string;
-      numeroCRE: string;
-      nomCandidat: string;
-      nomProjet: string;
-      puissance: number;
-      prixReference: number;
-      evaluationCarbone: number;
-      note: number;
-      nomRepresentantLegal: string;
-      isFinancementParticipatif: boolean;
-      isInvestissementParticipatif: boolean;
-      engagementFournitureDePuissanceAlaPointe: boolean;
-      email: string;
-      adresseProjet: string;
-      codePostalProjet: string;
-      communeProjet: string;
-      departementProjet: string;
-      regionProjet: string;
-      actionnaire: string;
-      classe: string;
-      motifsElimination: string;
-      notifiedOn: number;
-      details: Record<string, string>;
-      technologie: string;
-      actionnariat: string;
-    }>;
   };
 };
 
@@ -233,21 +185,6 @@ type ProjectReimported = {
              payload->>'numeroCRE';
   `;
 
-  const getProjectReimportedEventsQuery = `
-    select payload->'data'->>'appelOffreId' as "appel_offre", 
-           payload->'data'->>'periodeId' as "periode", 
-           payload->'data'->>'familleId' as "famille", 
-           payload->'data'->>'numeroCRE' as "numero_cre", 
-           count(id) as "total_import",
-           array_agg(id) as "event_ids" 
-    from "eventStores" es 
-    where type = 'ProjectReimported'
-    group by payload->'data'->>'appelOffreId', 
-             payload->'data'->>'periodeId', 
-             payload->'data'->>'familleId', 
-             payload->'data'->>'numeroCRE';
-  `;
-
   try {
     type EventIdsPerProject = {
       appel_offre: string;
@@ -267,14 +204,10 @@ type ProjectReimported = {
     const projectImportedEventsPerProjects = await executeSelect<EventIdsPerProject>(
       getProjectImportedEventsQuery,
     );
-    const projectReimportedEventsPerProjects = await executeSelect<EventIdsPerProject>(
-      getProjectReimportedEventsQuery,
-    );
 
     const allEventsPerProject = projectRawDataImportedEventsPerProjects
       .concat(legacyProjectSourcedEventsPerProjects)
       .concat(projectImportedEventsPerProjects)
-      .concat(projectReimportedEventsPerProjects)
       .reduce((acc, { appel_offre, periode, famille, numero_cre, event_ids }) => {
         const identifiantProjet: IdentifiantProjet.RawType = `${appel_offre}#${periode}#${famille}#${numero_cre}`;
 
@@ -287,36 +220,33 @@ type ProjectReimported = {
     console.info(`🧐 ${allEventsPerProject.size} projects found to migrate`);
 
     let current = 0;
-    allEventsPerProject.forEach(async (eventIds, identifiantProjet) => {
+    for (const [identifiantProjet, eventIds] of allEventsPerProject.entries()) {
+      console.info(`Processing project ${identifiantProjet}`);
       current++;
 
       const query = `
-            select type, payload
-            from "eventStores" es
-            where id = any($1)
-            order by "createdAt" asc;
-          `;
+        select type, payload
+        from "eventStores" es
+        where id = any($1)
+        order by "createdAt" asc;
+      `;
 
-      type Events =
-        | ProjectRawDataImported
-        | LegacyProjectSourced
-        | ProjectImported
-        | ProjectReimported;
+      type Events = ProjectRawDataImported | LegacyProjectSourced | ProjectImported;
 
       const events = await executeSelect<Events>(query, eventIds);
 
-      const payload = events.reduce(
+      const payload: Candidature.CandidatureImportéeEvent['payload'] = events.reduce(
         (acc, { type, payload }) => {
           switch (type) {
             case 'ProjectRawDataImported':
-              const result: Candidature.CandidatureImportéeEvent['payload'] = {
+              const result1: Candidature.CandidatureImportéeEvent['payload'] = {
                 ...acc,
                 identifiantProjet:
                   IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
                 statut: payload.classe === 'Classé' ? 'classé' : 'éliminé',
                 typeGarantiesFinancières: (payload.garantiesFinancièresType ??
                   'type-inconnu') as GarantiesFinancières.TypeGarantiesFinancières.RawType,
-                historiqueAbandon: payload.historiqueAbandon,
+                historiqueAbandon: payload.historiqueAbandon ?? 'première-candidature',
                 appelOffre: payload.appelOffreId,
                 période: payload.periodeId,
                 famille: payload.familleId,
@@ -347,25 +277,95 @@ type ProjectReimported = {
                       new Date(payload.garantiesFinancièresDateEchéance),
                     ).formatter()
                   : undefined,
-                teritoireProjet: payload.territoireProjet,
+                territoireProjet: payload.territoireProjet,
                 détails: payload.details,
               };
 
-              return result;
-          }
+              return result1;
 
-          return acc;
+            case 'LegacyProjectSourced':
+              const result2: Candidature.CandidatureImportéeEvent['payload'] = {
+                ...acc,
+                identifiantProjet:
+                  IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+                statut: payload.content.classe === 'Classé' ? 'classé' : 'éliminé',
+                appelOffre: payload.appelOffreId,
+                période: payload.periodeId,
+                famille: payload.familleId,
+                numéroCRE: payload.numeroCRE,
+                nomProjet: payload.content.nomProjet,
+                sociétéMère: payload.content.actionnaire,
+                nomCandidat: payload.content.nomCandidat,
+                puissanceProductionAnnuelle: payload.content.puissance,
+                prixReference: payload.content.prixReference,
+                noteTotale: payload.content.note,
+                nomReprésentantLégal: payload.content.nomRepresentantLegal,
+                emailContact: payload.content.email,
+                adresse1: payload.content.adresseProjet,
+                adresse2: '',
+                codePostal: payload.content.codePostalProjet,
+                commune: payload.content.communeProjet,
+                motifÉlimination: payload.content.motifsElimination,
+                puissanceALaPointe: payload.content.engagementFournitureDePuissanceAlaPointe,
+                evaluationCarboneSimplifiée: payload.content.evaluationCarbone,
+                valeurÉvaluationCarbone: payload.content.evaluationCarbone,
+                financementParticipatif: payload.content.isInvestissementParticipatif,
+                territoireProjet: payload.content.territoireProjet,
+                détails: {
+                  ...acc.détails,
+                  ...payload.content.details,
+                },
+              };
+
+              return result2;
+
+            case 'ProjectImported':
+              const result3: Candidature.CandidatureImportéeEvent['payload'] = {
+                ...acc,
+                identifiantProjet:
+                  IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+                statut: payload.data.classe === 'Classé' ? 'classé' : 'éliminé',
+                appelOffre: payload.appelOffreId,
+                période: payload.periodeId,
+                famille: payload.familleId,
+                numéroCRE: payload.numeroCRE,
+                nomProjet: payload.data.nomProjet,
+                sociétéMère: payload.data.actionnaire,
+                nomCandidat: payload.data.nomCandidat,
+                puissanceProductionAnnuelle: payload.data.puissance,
+                prixReference: payload.data.prixReference,
+                noteTotale: payload.data.note,
+                nomReprésentantLégal: payload.data.nomRepresentantLegal,
+                emailContact: payload.data.email,
+                adresse1: payload.data.adresseProjet,
+                adresse2: '',
+                codePostal: payload.data.codePostalProjet,
+                commune: payload.data.communeProjet,
+                motifÉlimination: payload.data.motifsElimination,
+                puissanceALaPointe: payload.data.engagementFournitureDePuissanceAlaPointe,
+                evaluationCarboneSimplifiée: payload.data.evaluationCarbone,
+                valeurÉvaluationCarbone: payload.data.evaluationCarbone,
+                financementParticipatif: payload.data.isInvestissementParticipatif,
+                territoireProjet: payload.data.territoireProjet,
+                détails: {
+                  ...acc.détails,
+                  ...payload.data.details,
+                },
+              };
+
+              return result3;
+          }
         },
         {} as Candidature.CandidatureImportéeEvent['payload'],
       );
+
+      console.info(`Publishing event for project ${identifiantProjet}...`);
 
       await publish(`candidature|${identifiantProjet}`, {
         type: 'CandidatureImportée-V1',
         payload,
       });
-
-      printProgress(`${current}/${projectRawDataImportedEventsPerProjects.length}`);
-    });
+    }
 
     const getAllProjects = `
       select count(id) as "total_projects"
@@ -373,10 +373,7 @@ type ProjectReimported = {
     `;
 
     const [{ total_projects }] = await executeSelect<{ total_projects: number }>(getAllProjects);
-    console.info(
-      `${allEventsPerProject.size} events were created for ${total_projects} existant projects`,
-    );
-
+    console.info(`${current} events were published for ${total_projects} existant projects`);
     console.info('\nFin du script ✨');
   } catch (error) {
     console.error(error as Error);
@@ -384,9 +381,3 @@ type ProjectReimported = {
 
   process.exit(0);
 })();
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function printProgress(progress: string) {
-  readline.cursorTo(process.stdout, 0);
-  process.stdout.write(progress);
-}
