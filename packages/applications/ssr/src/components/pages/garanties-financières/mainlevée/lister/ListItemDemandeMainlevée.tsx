@@ -7,7 +7,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { StatutMainlevéeBadge } from '@/components/molecules/mainlevée/StatutMainlevéeBadge';
-import { ProjectListItemHeading } from '@/components/molecules/ProjectListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 
 import { convertMotifMainlevéeForView } from '../convertForView';
 

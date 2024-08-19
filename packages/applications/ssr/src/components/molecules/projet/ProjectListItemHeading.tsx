@@ -1,11 +1,12 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import { PlainType } from '@potentiel-domain/core';
 
-import { FormattedDate } from '../atoms/FormattedDate';
+import { FormattedDate } from '../../atoms/FormattedDate';
 
 export type ProjectListItemHeadingProps = {
   nomProjet: string;
-  identifiantProjet: IdentifiantProjet.ValueType;
+  identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   prefix: string;
   misÀJourLe?: Iso8601DateTime;
 };

@@ -7,7 +7,7 @@ import { ListerTâchesReadModel, TypeTâche } from '@potentiel-domain/tache';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { ProjectListItemHeading } from '@/components/molecules/ProjectListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 
 export type TâcheListItemProps = PlainType<ListerTâchesReadModel['items'][number]>;
 

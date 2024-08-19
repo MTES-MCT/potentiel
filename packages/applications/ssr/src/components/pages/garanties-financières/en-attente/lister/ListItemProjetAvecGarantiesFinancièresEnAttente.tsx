@@ -7,7 +7,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
-import { ProjectListItemHeading } from '@/components/molecules/ProjectListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 
 export type ListItemProjetAvecGarantiesFinancièresEnAttenteProps = {
   identifiantProjet: string;
