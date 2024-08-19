@@ -22,7 +22,13 @@ export const setupCandidature = async () => {
 
   const unsubscribeCandidatureProjector = await subscribe<CandidatureProjector.SubscriptionEvent>({
     name: 'projector',
-    eventType: ['RebuildTriggered', 'CandidatureImportée-V1', 'CandidatureCorrigée-V1'],
+    eventType: [
+      'RebuildTriggered',
+      'CandidatureImportée-V1',
+      'CandidatureCorrigée-V1',
+      'LauréatNotifié-V1',
+      'ÉliminéNotifié-V1',
+    ],
     eventHandler: async (event) => {
       await mediator.send<CandidatureProjector.Execute>({
         type: 'System.Projector.Candidature',

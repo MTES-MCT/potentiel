@@ -214,7 +214,7 @@ Alors(
         data: { identifiantProjet: identifiantProjet.formatter() },
       });
 
-      assert(Option.isNone(candidature));
+      assert(Option.isNone(candidature), 'La candidature ne devrait plus exister');
     });
   },
 );

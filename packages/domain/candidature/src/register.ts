@@ -21,6 +21,8 @@ import {
   ListerCandidaturesQueryDependencies,
   registerListerCandidaturesQuery,
 } from './lister/listerCandidatures.query';
+import { registerNotifierCandidatureCommand } from './notifier/notifierCandidature.command';
+import { registerNotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase';
 
 type CandidatureQueryDependencies = ConsulterProjetDependencies &
   ListerProjetsEligiblesPreuveRecanditureDependencies &
@@ -43,7 +45,9 @@ export const registerCandidatureQueries = (dependencies: CandidatureQueryDepende
 export const registerCandidaturesUseCases = ({ loadAggregate }: CandiatureUseCasesDependencies) => {
   registerImporterCandidatureCommand(loadAggregate);
   registerCorrigerCandidatureCommand(loadAggregate);
+  registerNotifierCandidatureCommand(loadAggregate);
 
   registerImporterCandidatureUseCase();
   registerCorrigerCandidatureUseCase();
+  registerNotifierCandidatureUseCase();
 };

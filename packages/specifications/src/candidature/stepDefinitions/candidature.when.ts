@@ -58,5 +58,13 @@ Quand(
 
 Quand(
   'un administrateur notifie la période de la candidature {string}',
-  async function (this: PotentielWorld, _nomProjet: string) {},
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
+    await mediator.send<Candidature.NotifierCandidatureUseCase>({
+      type: 'Candidature.UseCase.NotifierCandidature',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+      },
+    });
+  },
 );
