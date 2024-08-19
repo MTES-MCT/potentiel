@@ -10,7 +10,10 @@ import { parseCsv } from '@potentiel-libraries/csv';
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 
 import { candidatureSchema, CandidatureShape } from './candidature.schema';
-import { getRégionAndDépartementFromCodePostal } from './getRégionAndDépartementFromCodePostal';
+import {
+  DépartementRégion,
+  getRégionAndDépartementFromCodePostal,
+} from './getRégionAndDépartementFromCodePostal';
 
 export type ImporterCandidaturesState = FormState;
 
@@ -104,12 +107,24 @@ const mapLineToUseCaseData = (
   détailsValue: removeEmptyValues(rawLine),
 });
 
-const getLocalité = (line: CandidatureShape) => {
+const getLocalité = ({
+  code_postal,
+  adresse1,
+  adresse2,
+  commune,
+}: CandidatureShape): Candidature.ImporterCandidatureUseCase['data']['localitéValue'] => {
+  const codePostaux = code_postal.split('/').map((str) => str.trim());
+  const départementsRégions = codePostaux
+    .map(getRégionAndDépartementFromCodePostal)
+    .filter((dptRegion): dptRegion is DépartementRégion => !!dptRegion);
+  const departements = départementsRégions.map((x) => x.département);
+  const régions = départementsRégions.map((x) => x.région);
   return {
-    adresse1Value: line.adresse1,
-    adresse2Value: line.adresse2,
-    codePostalValue: line.code_postal,
-    communeValue: line.commune,
-    ...getRégionAndDépartementFromCodePostal(line.code_postal),
+    département: departements.join(' / '),
+    région: régions.join(' / '),
+    codePostal: codePostaux.join(' / '),
+    commune,
+    adresse1,
+    adresse2,
   };
 };
