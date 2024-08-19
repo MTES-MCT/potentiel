@@ -51,9 +51,9 @@ export const ProjectListItemHeading = ({
       <div className="flex flex-row gap-2 md:gap-0 italic text-xs">
         {fields.map(({ title, value }, index) =>
           value ? (
-            <div key={title}>
-              {index > 0 ? <span className="hidden md:inline-block mr-2">,</span> : null}
-              {title} : {value}
+            <div key={title} title={title}>
+              {index > 0 ? <span className="hidden md:inline-block mx-1"> - </span> : null}
+              {value}
             </div>
           ) : null,
         )}
