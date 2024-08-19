@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Accorder l'abandon d'un projet lauréat
 
     Contexte:
