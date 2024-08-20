@@ -1,10 +1,14 @@
 import { Candidature } from '@potentiel-domain/candidature';
-import { StatutProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 
+type MapExampleToUseCaseDefaultValues = {
+  values: Candidature.ImporterCandidatureUseCase['data'];
+  identifiantProjet: IdentifiantProjet.RawType;
+};
 export const mapExampleToUseCaseDefaultValues = (
   nomProjet: string,
   exemple: Record<string, string>,
-) => {
+): MapExampleToUseCaseDefaultValues => {
   const appelOffre = exemple["appel d'offre"] ?? 'PPE2 - Eolien';
   const période = exemple['période'] ?? '1';
   const famille = exemple['famille'] ?? '';
@@ -24,10 +28,14 @@ export const mapExampleToUseCaseDefaultValues = (
       nomCandidatValue: exemple['nom candidat'] ?? 'Candidat',
       technologieValue: exemple['technologie'] ?? 'N/A',
       emailContactValue: exemple['email contact'] ?? 'porteur@test.test',
-      codePostalValue: exemple['code postal'] ?? '13000',
-      communeValue: exemple['commune'] ?? 'MARSEILLE',
-      adresse1Value: exemple['adresse 1'] ?? '5 avenue laeticia',
-      adresse2Value: exemple['adresse 2'] ?? '',
+      localitéValue: {
+        adresse1: exemple['adresse 1'] ?? '5 avenue laeticia',
+        adresse2: exemple['adresse 2'] ?? '',
+        codePostal: exemple['code postal'] ?? '75000',
+        commune: exemple['commune'] ?? 'Marseille',
+        région: exemple['région'] ?? "Provence-Alpes-Côte d'Azur",
+        département: exemple['département'] ?? '13',
+      },
       puissanceALaPointeValue: exemple['puissance à la Pointe'] === 'oui',
       sociétéMèreValue: exemple['société mère'] ?? '',
       territoireProjetValue: exemple['territoire projet'] ?? '',

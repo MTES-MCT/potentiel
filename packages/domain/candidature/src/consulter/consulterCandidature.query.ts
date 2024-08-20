@@ -14,8 +14,14 @@ export type ConsulterCandidatureReadModel = {
   nomProjet: string;
   typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
   historiqueAbandon: HistoriqueAbandon.ValueType;
-  adresse1: string;
-  adresse2: string;
+  localité: {
+    adresse1: string;
+    adresse2: string;
+    codePostal: string;
+    commune: string;
+    région: string;
+    département: string;
+  };
   nomCandidat: string;
   nomReprésentantLégal: string;
   emailContact: string;
@@ -23,8 +29,6 @@ export type ConsulterCandidatureReadModel = {
   prixReference: number;
   valeurÉvaluationCarbone?: number;
   technologie: Technologie.ValueType;
-  codePostal: string;
-  commune: string;
   sociétéMère: string;
   noteTotale: number;
   motifÉlimination: string;
@@ -71,16 +75,13 @@ const mapToReadModel = ({
   technologie,
   dateÉchéanceGf,
   nomProjet,
-  adresse1,
-  adresse2,
+  localité,
   nomCandidat,
   nomReprésentantLégal,
   emailContact,
   puissanceProductionAnnuelle,
   prixReference,
   valeurÉvaluationCarbone,
-  codePostal,
-  commune,
   sociétéMère,
   noteTotale,
   motifÉlimination,
@@ -100,16 +101,13 @@ const mapToReadModel = ({
     ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières)
     : undefined,
   nomProjet,
-  adresse1,
-  adresse2,
+  localité,
   nomCandidat,
   nomReprésentantLégal,
   emailContact,
   puissanceProductionAnnuelle,
   prixReference,
   valeurÉvaluationCarbone,
-  codePostal,
-  commune,
   sociétéMère,
   noteTotale,
   motifÉlimination,

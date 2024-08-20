@@ -33,10 +33,14 @@ export type CandidatureImportéeEventPayload = {
   noteTotale: number;
   nomReprésentantLégal: string;
   emailContact: string;
-  adresse1: string;
-  adresse2: string;
-  codePostal: string;
-  commune: string;
+  localité: {
+    adresse1: string;
+    adresse2: string;
+    codePostal: string;
+    commune: string;
+    département: string;
+    région: string;
+  };
   motifÉlimination: string;
   puissanceALaPointe: boolean;
   evaluationCarboneSimplifiée: number;
@@ -72,10 +76,14 @@ export type ImporterCandidatureBehaviorOptions = {
   noteTotale: number;
   nomReprésentantLégal: string;
   emailContact: string;
-  adresse1: string;
-  adresse2: string;
-  codePostal: string;
-  commune: string;
+  localité: {
+    adresse1: string;
+    adresse2: string;
+    codePostal: string;
+    commune: string;
+    département: string;
+    région: string;
+  };
   motifÉlimination: string;
   puissanceALaPointe: boolean;
   evaluationCarboneSimplifiée: number;
@@ -163,10 +171,7 @@ export const mapToEventPayload = (
   noteTotale: candidature.noteTotale,
   nomReprésentantLégal: candidature.nomReprésentantLégal,
   emailContact: candidature.emailContact,
-  adresse1: candidature.adresse1,
-  adresse2: candidature.adresse2,
-  codePostal: candidature.codePostal,
-  commune: candidature.commune,
+  localité: candidature.localité,
   motifÉlimination: candidature.motifÉlimination,
   puissanceALaPointe: candidature.puissanceALaPointe,
   evaluationCarboneSimplifiée: candidature.evaluationCarboneSimplifiée,

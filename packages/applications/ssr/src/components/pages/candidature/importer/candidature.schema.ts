@@ -2,6 +2,8 @@ import { z } from 'zod';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
+import { getRégionAndDépartementFromCodePostal } from '../helpers';
+
 const requiredStringSchema = z.string().trim().min(1);
 
 const optionalStringSchema = z
@@ -107,7 +109,7 @@ const colonnes = {
   email_contact: 'Adresse électronique du contact',
   adresse1: 'N°, voie, lieu-dit 1',
   adresse2: 'N°, voie, lieu-dit 2',
-  code_postal: 'CP',
+  code_postaux: 'CP',
   commune: 'Commune',
   statut: 'Classé ?',
   motif_élimination: "Motif d'élimination",
@@ -143,6 +145,7 @@ const historiqueAbandon = [
 ] as const;
 
 const statut = { Eliminé: 'éliminé', Classé: 'classé' } as const;
+
 const technologie = {
   Eolien: 'eolien',
   Hydraulique: 'hydraulique',
@@ -166,7 +169,12 @@ const candidatureCsvRowSchema = z
     [colonnes.email_contact]: requiredStringSchema.email(),
     [colonnes.adresse1]: requiredStringSchema,
     [colonnes.adresse2]: optionalStringSchema,
-    [colonnes.code_postal]: requiredStringSchema,
+    [colonnes.code_postaux]: requiredStringSchema
+      .transform((val) => val.split('/').map((str) => str.trim()))
+      .refine(
+        (val) => val.every(getRégionAndDépartementFromCodePostal),
+        'Le code postal ne correspond à aucune région / département',
+      ),
     [colonnes.commune]: requiredStringSchema,
     [colonnes.statut]: z.string().pipe(z.enum(['Eliminé', 'Classé'])),
     [colonnes.puissance_a_la_pointe]: optionalOuiNonSchema,

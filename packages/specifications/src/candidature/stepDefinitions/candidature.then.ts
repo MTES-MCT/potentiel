@@ -46,10 +46,7 @@ Alors(
       // mapToPlainObject est utilisé afin de comparer les value type, mais cela retire les champs avec valeur undefined.
       expect(mapToPlainObject(candidature)).to.deep.eq(
         mapToPlainObject({
-          adresse1: expectedValues.adresse1Value,
-          adresse2: expectedValues.adresse2Value,
-          codePostal: expectedValues.codePostalValue,
-          commune: expectedValues.communeValue,
+          localité: expectedValues.localitéValue,
           dateÉchéanceGf: expectedValues.dateÉchéanceGfValue
             ? DateTime.convertirEnValueType(expectedValues.dateÉchéanceGfValue)
             : undefined,
@@ -76,10 +73,11 @@ Alors(
             expectedValues.technologieValue,
           ),
           territoireProjet: expectedValues.territoireProjetValue,
-          typeGarantiesFinancières:
-            GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
-              expectedValues.typeGarantiesFinancièresValue,
-            ),
+          typeGarantiesFinancières: expectedValues.typeGarantiesFinancièresValue
+            ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
+                expectedValues.typeGarantiesFinancièresValue,
+              )
+            : undefined,
           valeurÉvaluationCarbone: expectedValues.evaluationCarboneSimplifiéeValue,
         } satisfies Candidature.ConsulterCandidatureReadModel),
       );

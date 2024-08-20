@@ -26,10 +26,14 @@ export type ImporterCandidatureCommandOptions = {
   noteTotale: number;
   nomReprésentantLégal: string;
   emailContact: string;
-  adresse1: string;
-  adresse2: string;
-  codePostal: string;
-  commune: string;
+  localité: {
+    adresse1: string;
+    adresse2: string;
+    codePostal: string;
+    commune: string;
+    département: string;
+    région: string;
+  };
   statut: StatutCandidature.ValueType;
   motifÉlimination: string;
   puissanceALaPointe: boolean;
