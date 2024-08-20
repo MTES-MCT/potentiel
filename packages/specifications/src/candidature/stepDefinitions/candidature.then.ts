@@ -7,28 +7,28 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PotentielWorld } from '../../potentiel.world';
 
 import { mapExampleToUseCaseDefaultValues } from './helper';
 
 Alors(
-  'la candidature {string} devrait être consultable dans la liste des candidatures avec :',
+  `la candidature {string} devrait être consultable avec :`,
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
     const { values: expectedValues } = mapExampleToUseCaseDefaultValues(nomProjet, exemple);
     const { identifiantProjet } = this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const { items: candidatures } = await mediator.send<Candidature.ListerCandidaturesQuery>({
-        type: 'Candidature.Query.ListerCandidatures',
+      const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+        type: 'Candidature.Query.ConsulterCandidature',
         data: {
-          nomProjet,
+          identifiantProjet: identifiantProjet.formatter(),
         },
       });
-      expect(candidatures).to.have.lengthOf(1);
 
-      const [candidature] = candidatures;
+      expect(Option.isSome(candidature)).to.be.true;
 
       // Comparaison des clés retournées, afin de vérifier qu'il n'en manque pas, ou qu'il n'y en a pas trop.
       // Cette étape est dûe à la manipulation avec mapToPlainObject ci-dessous, qui retire les champs avec valeur undefined.
@@ -84,6 +84,84 @@ Alors(
 
           misÀJourLe: DateTime.convertirEnValueType(new Date('2024-08-20')),
         } satisfies Candidature.ConsulterCandidatureReadModel),
+      );
+    });
+  },
+);
+
+Alors(
+  'la candidature {string} devrait être consultable dans la liste des candidatures avec :',
+  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
+    const exemple = table.rowsHash();
+    const { values: expectedValues } = mapExampleToUseCaseDefaultValues(nomProjet, exemple);
+    const { identifiantProjet } = this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
+
+    await waitForExpect(async () => {
+      const { items: candidatures } = await mediator.send<Candidature.ListerCandidaturesQuery>({
+        type: 'Candidature.Query.ListerCandidatures',
+        data: {
+          nomProjet,
+        },
+      });
+      expect(candidatures).to.have.lengthOf(1);
+
+      const [candidature] = candidatures;
+
+      const {
+        statutValue,
+        nomProjetValue,
+        nomCandidatValue,
+        nomReprésentantLégalValue,
+        emailContactValue,
+        puissanceProductionAnnuelleValue,
+        prixReferenceValue,
+        evaluationCarboneSimplifiéeValue,
+        localitéValue: { commune, département, région },
+      } = mapExampleToUseCaseDefaultValues(nomProjet, exemple).values;
+
+      // Comparaison des clés retournées, afin de vérifier qu'il n'en manque pas, ou qu'il n'y en a pas trop.
+      // Cette étape est dûe à la manipulation avec mapToPlainObject ci-dessous, qui retire les champs avec valeur undefined.
+      // on ajoute les champs manquants attendus d'un coté ou de l'autre.
+      expect(Object.keys(candidature).sort()).to.deep.eq(
+        Object.keys({
+          statutValue,
+          nomProjetValue,
+          nomCandidatValue,
+          nomReprésentantLégalValue,
+          emailContactValue,
+          puissanceProductionAnnuelleValue,
+          prixReferenceValue,
+          evaluationCarboneSimplifiéeValue,
+          localitéValue: {
+            commune,
+            département,
+            région,
+          },
+        })
+          .concat('identifiantProjet')
+          .map((key) => key.replace(/Value$/, ''))
+          .sort(),
+      );
+
+      // Comparaion de l'objet retourné
+      // mapToPlainObject est utilisé afin de comparer les value type, mais cela retire les champs avec valeur undefined.
+      expect(mapToPlainObject(candidature)).to.deep.eq(
+        mapToPlainObject({
+          statut: StatutProjet.convertirEnValueType(expectedValues.statutValue),
+          nomProjet: expectedValues.nomProjetValue,
+          nomCandidat: expectedValues.nomCandidatValue,
+          nomReprésentantLégal: expectedValues.nomReprésentantLégalValue,
+          emailContact: expectedValues.emailContactValue,
+          puissanceProductionAnnuelle: expectedValues.puissanceProductionAnnuelleValue,
+          prixReference: expectedValues.prixReferenceValue,
+          evaluationCarboneSimplifiée: expectedValues.evaluationCarboneSimplifiéeValue,
+          localité: {
+            commune: expectedValues.localitéValue.commune,
+            département: expectedValues.localitéValue.département,
+            région: expectedValues.localitéValue.région,
+          },
+          identifiantProjet,
+        } satisfies Candidature.ListerCandidaturesReadModel['items'][number]),
       );
     });
   },
