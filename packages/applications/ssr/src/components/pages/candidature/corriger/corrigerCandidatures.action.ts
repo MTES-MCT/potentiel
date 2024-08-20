@@ -42,8 +42,8 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }
           type: 'Candidature.UseCase.CorrigerCandidature',
           data: {
             ...mapLineToUseCaseData(line, removeEmptyValues(projectRawLine)),
-            importéLe: DateTime.now().formatter(),
-            importéPar: utilisateur.identifiantUtilisateur.formatter(),
+            corrigéLe: DateTime.now().formatter(),
+            corrigéPar: utilisateur.identifiantUtilisateur.formatter(),
           },
         });
 

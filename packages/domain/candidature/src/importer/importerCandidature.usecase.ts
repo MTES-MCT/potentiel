@@ -9,7 +9,7 @@ import { HistoriqueAbandon } from '../candidature';
 
 import { ImporterCandidatureCommand } from './importerCandidature.command';
 
-export type ImporterCandidatureUseCasePayload = {
+export type ImporterCandidatureUseCaseCommonPayload = {
   typeGarantiesFinancièresValue?: string;
   historiqueAbandonValue: string;
   appelOffreValue: string;
@@ -44,7 +44,9 @@ export type ImporterCandidatureUseCasePayload = {
   dateÉchéanceGfValue?: string;
   territoireProjetValue: string;
   détailsValue: Record<string, string>;
+};
 
+type ImporterCandidatureUseCasePayload = ImporterCandidatureUseCaseCommonPayload & {
   importéLe: string;
   importéPar: string;
 };
@@ -58,13 +60,17 @@ export const registerImporterCandidatureUseCase = () => {
   const handler: MessageHandler<ImporterCandidatureUseCase> = async (payload) =>
     mediator.send<ImporterCandidatureCommand>({
       type: 'Candidature.Command.ImporterCandidature',
-      data: mapPayloadForCommand(payload),
+      data: {
+        ...mapPayloadForCommand(payload),
+        importéLe: DateTime.convertirEnValueType(payload.importéLe),
+        importéPar: Email.convertirEnValueType(payload.importéPar),
+      },
     });
 
   mediator.register('Candidature.UseCase.ImporterCandidature', handler);
 };
 
-export const mapPayloadForCommand = (payload: ImporterCandidatureUseCasePayload) => ({
+export const mapPayloadForCommand = (payload: ImporterCandidatureUseCaseCommonPayload) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(
     `${payload.appelOffreValue}#${payload.périodeValue}#${payload.familleValue}#${payload.numéroCREValue}`,
   ),
@@ -101,7 +107,4 @@ export const mapPayloadForCommand = (payload: ImporterCandidatureUseCasePayload)
   valeurÉvaluationCarbone: payload.valeurÉvaluationCarboneValue,
   territoireProjet: payload.territoireProjetValue,
   détails: payload.détailsValue,
-
-  importéLe: DateTime.convertirEnValueType(payload.importéLe),
-  importéPar: Email.convertirEnValueType(payload.importéPar),
 });

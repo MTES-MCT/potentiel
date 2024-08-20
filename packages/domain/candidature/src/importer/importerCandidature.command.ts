@@ -10,7 +10,7 @@ import * as Technologie from '../technologie.valueType';
 import { loadCandidatureFactory } from '../candidature.aggregate';
 import { HistoriqueAbandon } from '../candidature';
 
-export type ImporterCandidatureCommandOptions = {
+export type ImporterCandidatureCommandCommonOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
   historiqueAbandon: HistoriqueAbandon.ValueType;
@@ -46,7 +46,9 @@ export type ImporterCandidatureCommandOptions = {
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
   détails: Record<string, string>;
+};
 
+type ImporterCandidatureCommandOptions = ImporterCandidatureCommandCommonOptions & {
   importéLe: DateTime.ValueType;
   importéPar: Email.ValueType;
 };

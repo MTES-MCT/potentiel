@@ -1,8 +1,8 @@
 import { Candidature } from '@potentiel-domain/candidature';
-import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 
 type MapExampleToUseCaseDefaultValues = {
-  values: Candidature.ImporterCandidatureUseCase['data'];
+  values: Omit<Candidature.ImporterCandidatureUseCase['data'], 'importéLe' | 'importéPar'>;
   identifiantProjet: IdentifiantProjet.RawType;
 };
 export const mapExampleToUseCaseDefaultValues = (
@@ -51,9 +51,6 @@ export const mapExampleToUseCaseDefaultValues = (
       financementCollectifValue: exemple['financement collectif'] === 'oui',
       gouvernancePartagéeValue: exemple['gouvernance partagée'] === 'oui',
       financementParticipatifValue: exemple['financement participatif'] === 'oui',
-      // date hard-codée pour pouvoir comparer les valeurs plus tard
-      importéLe: DateTime.convertirEnValueType(new Date('2024-08-20')).formatter(),
-      importéPar: 'admin@test.test',
       détailsValue: {},
     },
     identifiantProjet: `${appelOffre}#${période}#${famille}#${numéroCRE}`,

@@ -26,12 +26,26 @@ export const register = () => {
         historiqueAbandon,
         dateÉchéanceGf,
         technologie,
-        importéLe,
-        ...restPayload
       } = payload;
 
       const candidatureDefaultValue: Omit<Candidature.CandidatureEntity, 'type'> = {
-        ...restPayload,
+        nomProjet: payload.nomProjet,
+        sociétéMère: payload.sociétéMère,
+        nomCandidat: payload.nomCandidat,
+        puissanceProductionAnnuelle: payload.puissanceProductionAnnuelle,
+        prixReference: payload.prixReference,
+        noteTotale: payload.noteTotale,
+        nomReprésentantLégal: payload.nomReprésentantLégal,
+        emailContact: payload.emailContact,
+        localité: payload.localité,
+        motifÉlimination: payload.motifÉlimination,
+        puissanceALaPointe: payload.puissanceALaPointe,
+        evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiée,
+        valeurÉvaluationCarbone: payload.valeurÉvaluationCarbone,
+        financementCollectif: payload.financementCollectif,
+        financementParticipatif: payload.financementParticipatif,
+        gouvernancePartagée: payload.gouvernancePartagée,
+        territoireProjet: payload.territoireProjet,
         identifiantProjet,
         statut: StatutProjet.convertirEnValueType(statut).statut,
         typeGarantiesFinancières: typeGarantiesFinancières
@@ -45,7 +59,7 @@ export const register = () => {
           ? DateTime.convertirEnValueType(dateÉchéanceGf).formatter()
           : undefined,
         technologie: Candidature.Technologie.convertirEnValueType(technologie).type,
-        misÀJourLe: importéLe,
+        misÀJourLe: type === 'CandidatureCorrigée-V1' ? payload.corrigéLe : payload.importéLe,
       };
 
       switch (type) {

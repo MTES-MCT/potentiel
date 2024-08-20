@@ -2,7 +2,7 @@ import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/candidature';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 
@@ -17,7 +17,11 @@ Quand(
     try {
       await mediator.send<Candidature.ImporterCandidatureUseCase>({
         type: 'Candidature.UseCase.ImporterCandidature',
-        data: values,
+        data: {
+          ...values,
+          importéLe: DateTime.convertirEnValueType(new Date('2024-08-20')).formatter(),
+          importéPar: 'admin@test.test',
+        },
       });
 
       this.candidatureWorld.candidatureFixtures.set(nomProjet, {
@@ -40,7 +44,11 @@ Quand(
     try {
       await mediator.send<Candidature.CorrigerCandidatureUseCase>({
         type: 'Candidature.UseCase.CorrigerCandidature',
-        data,
+        data: {
+          ...data,
+          corrigéLe: DateTime.convertirEnValueType(new Date('2024-08-20')).formatter(),
+          corrigéPar: 'admin@test.test',
+        },
       });
     } catch (error) {
       this.error = error as Error;

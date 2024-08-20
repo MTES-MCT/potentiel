@@ -16,7 +16,7 @@ import {
   GarantiesFinancièresRequisesPourAppelOffreError,
 } from '../garantiesFinancièresRequises.error';
 
-export type CandidatureImportéeEventPayload = {
+export type CandidatureImportéeEventCommonPayload = {
   identifiantProjet: IdentifiantProjet.RawType;
   statut: StatutCandidature.RawType;
   typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
@@ -52,7 +52,9 @@ export type CandidatureImportéeEventPayload = {
   dateÉchéanceGf?: DateTime.RawType;
   territoireProjet: string;
   détails: Record<string, string>;
+};
 
+type CandidatureImportéeEventPayload = CandidatureImportéeEventCommonPayload & {
   importéLe: DateTime.RawType;
   importéPar: Email.RawType;
 };
@@ -62,7 +64,7 @@ export type CandidatureImportéeEvent = DomainEvent<
   CandidatureImportéeEventPayload
 >;
 
-export type ImporterCandidatureBehaviorOptions = {
+export type ImporterCandidatureBehaviorCommonOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutCandidature.ValueType;
   typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
@@ -98,7 +100,9 @@ export type ImporterCandidatureBehaviorOptions = {
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
   détails: Record<string, string>;
+};
 
+type ImporterCandidatureBehaviorOptions = ImporterCandidatureBehaviorCommonOptions & {
   importéLe: DateTime.ValueType;
   importéPar: Email.ValueType;
 };
@@ -142,7 +146,11 @@ export async function importer(
 
   const event: CandidatureImportéeEvent = {
     type: 'CandidatureImportée-V1',
-    payload: mapToEventPayload(candidature),
+    payload: {
+      ...mapToEventPayload(candidature),
+      importéLe: candidature.importéLe.formatter(),
+      importéPar: candidature.importéPar.formatter(),
+    },
   };
   await this.publish(event);
 }
@@ -156,9 +164,7 @@ export function applyCandidatureImportée(
   this.payloadHash = this.calculerHash(payload);
 }
 
-export const mapToEventPayload = (
-  candidature: ImporterCandidatureBehaviorOptions,
-): CandidatureImportéeEvent['payload'] => ({
+export const mapToEventPayload = (candidature: ImporterCandidatureBehaviorCommonOptions) => ({
   identifiantProjet: candidature.identifiantProjet.formatter(),
   statut: candidature.statut.statut,
   technologie: candidature.technologie.type,
@@ -187,7 +193,4 @@ export const mapToEventPayload = (
   gouvernancePartagée: candidature.gouvernancePartagée,
   territoireProjet: candidature.territoireProjet,
   détails: candidature.détails,
-
-  importéLe: candidature.importéLe.formatter(),
-  importéPar: candidature.importéPar.formatter(),
 });

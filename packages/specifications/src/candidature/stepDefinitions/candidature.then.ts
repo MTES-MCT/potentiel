@@ -33,15 +33,7 @@ Alors(
       // on ajoute les champs manquants attendus d'un coté ou de l'autre.
       expect(
         Object.keys(candidature)
-          .concat(
-            'appelOffre',
-            'période',
-            'famille',
-            'numéroCRE',
-            'détails',
-            'importéPar',
-            'importéLe',
-          )
+          .concat('appelOffre', 'période', 'famille', 'numéroCRE', 'détails')
           .sort(),
       ).to.deep.eq(
         Object.keys(expectedValues)
@@ -88,7 +80,7 @@ Alors(
             : undefined,
           valeurÉvaluationCarbone: expectedValues.evaluationCarboneSimplifiéeValue,
 
-          misÀJourLe: DateTime.convertirEnValueType(expectedValues.importéLe),
+          misÀJourLe: DateTime.convertirEnValueType(new Date('2024-08-20')),
         } satisfies Candidature.ConsulterCandidatureReadModel),
       );
     });
