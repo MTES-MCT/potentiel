@@ -137,6 +137,47 @@ type ProjectImported = {
   };
 };
 
+type ProjectReimported = {
+  type: 'ProjectReimported';
+  payload: {
+    projectId: string;
+    periodeId: string;
+    appelOffreId: string;
+    familleId?: string;
+    importId: string; // This field was added later
+    data: Partial<{
+      periodeId: string;
+      appelOffreId: string;
+      familleId: string;
+      territoireProjet: string;
+      numeroCRE: string;
+      nomCandidat: string;
+      nomProjet: string;
+      puissance: number;
+      prixReference: number;
+      evaluationCarbone: number;
+      note: number;
+      nomRepresentantLegal: string;
+      isFinancementParticipatif: boolean;
+      isInvestissementParticipatif: boolean;
+      engagementFournitureDePuissanceAlaPointe: boolean;
+      email: string;
+      adresseProjet: string;
+      codePostalProjet: string;
+      communeProjet: string;
+      departementProjet: string;
+      regionProjet: string;
+      actionnaire: string;
+      classe: string;
+      motifsElimination: string;
+      notifiedOn: number;
+      details: Record<string, string>;
+      technologie: string;
+      actionnariat: string;
+    }>;
+  };
+};
+
 (async () => {
   console.info(`ℹ️ Lancement du script [migrate-project-import-events] ...`);
 
@@ -185,6 +226,21 @@ type ProjectImported = {
              payload->>'numeroCRE';
   `;
 
+  const getProjectReimportedEventsQuery = `
+    select payload->>'appelOffreId' as "appel_offre", 
+          payload->>'periodeId' as "periode", 
+          payload->>'familleId' as "famille",
+          payload->>'numeroCRE' as "numero_cre", 
+          count(id) as "total_import",
+          array_agg(id) as "event_ids" 
+    from "eventStores" es 
+    where type = 'ProjectReimported'
+    group by payload->>'appelOffreId', 
+            payload->>'periodeId', 
+            payload->>'familleId', 
+            payload->>'numeroCRE';
+  `;
+
   try {
     type EventIdsPerProject = {
       appel_offre: string;
@@ -204,10 +260,14 @@ type ProjectImported = {
     const projectImportedEventsPerProjects = await executeSelect<EventIdsPerProject>(
       getProjectImportedEventsQuery,
     );
+    const projectReimportedEventsPerProjects = await executeSelect<EventIdsPerProject>(
+      getProjectReimportedEventsQuery,
+    );
 
     const allEventsPerProject = projectRawDataImportedEventsPerProjects
       .concat(legacyProjectSourcedEventsPerProjects)
       .concat(projectImportedEventsPerProjects)
+      .concat(projectReimportedEventsPerProjects)
       .reduce((acc, { appel_offre, periode, famille, numero_cre, event_ids }) => {
         const identifiantProjet: IdentifiantProjet.RawType = `${appel_offre}#${periode}#${famille}#${numero_cre}`;
 
@@ -231,7 +291,11 @@ type ProjectImported = {
         order by "createdAt" asc;
       `;
 
-      type Events = ProjectRawDataImported | LegacyProjectSourced | ProjectImported;
+      type Events =
+        | ProjectRawDataImported
+        | LegacyProjectSourced
+        | ProjectImported
+        | ProjectReimported;
 
       const events = await executeSelect<Events>(query, eventIds);
 
@@ -354,6 +418,57 @@ type ProjectImported = {
               };
 
               return result3;
+
+            case 'ProjectReimported':
+              const result4: Candidature.CandidatureImportéeEvent['payload'] = {
+                ...acc,
+                identifiantProjet:
+                  IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+                statut: payload.data.classe === 'Classé' ? 'classé' : 'éliminé',
+                appelOffre: payload.appelOffreId,
+                période: payload.periodeId,
+                ...(payload.familleId && { famille: payload.familleId }),
+                ...(payload.data.numeroCRE && { numéroCRE: payload.data.numeroCRE }),
+                ...(payload.data.nomProjet && { nomProjet: payload.data.nomProjet }),
+                ...(payload.data.actionnaire && { sociétéMère: payload.data.actionnaire }),
+                ...(payload.data.nomCandidat && { nomCandidat: payload.data.nomCandidat }),
+                ...(payload.data.puissance && {
+                  puissanceProductionAnnuelle: payload.data.puissance,
+                }),
+                ...(payload.data.prixReference && { prixReference: payload.data.prixReference }),
+                ...(payload.data.note && { noteTotale: payload.data.note }),
+                ...(payload.data.nomRepresentantLegal && {
+                  nomReprésentantLégal: payload.data.nomRepresentantLegal,
+                }),
+                ...(payload.data.email && { emailContact: payload.data.email }),
+                ...(payload.data.adresseProjet && { adresse1: payload.data.adresseProjet }),
+                ...(payload.data.codePostalProjet && { codePostal: payload.data.codePostalProjet }),
+                ...(payload.data.communeProjet && { commune: payload.data.communeProjet }),
+                ...(payload.data.motifsElimination && {
+                  motifÉlimination: payload.data.motifsElimination,
+                }),
+                ...(payload.data.engagementFournitureDePuissanceAlaPointe && {
+                  puissanceALaPointe: payload.data.engagementFournitureDePuissanceAlaPointe,
+                }),
+                ...(payload.data.evaluationCarbone && {
+                  evaluationCarboneSimplifiée: payload.data.evaluationCarbone,
+                }),
+                ...(payload.data.evaluationCarbone && {
+                  valeurÉvaluationCarbone: payload.data.evaluationCarbone,
+                }),
+                ...(payload.data.isInvestissementParticipatif && {
+                  financementParticipatif: payload.data.isInvestissementParticipatif,
+                }),
+                ...(payload.data.territoireProjet && {
+                  territoireProjet: payload.data.territoireProjet,
+                }),
+                détails: {
+                  ...acc.détails,
+                  ...payload.data.details,
+                },
+              };
+
+              return result4;
           }
         },
         {} as Candidature.CandidatureImportéeEvent['payload'],
