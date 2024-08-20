@@ -9,42 +9,44 @@ import { getLocalité } from './helpers';
 type ProjectRawDataImported = {
   type: 'ProjectRawDataImported';
   payload: {
-    periodeId: string;
-    appelOffreId: string;
-    familleId: string;
-    territoireProjet: string;
-    numeroCRE: string;
-    nomCandidat: string;
-    actionnaire: string;
-    nomProjet: string;
-    puissance: number;
-    prixReference: number;
-    evaluationCarbone: number;
-    note: number;
-    nomRepresentantLegal: string;
-    isFinancementParticipatif: boolean;
-    isInvestissementParticipatif: boolean;
-    engagementFournitureDePuissanceAlaPointe: boolean;
-    email: string;
-    adresseProjet: string;
-    codePostalProjet: string;
-    communeProjet: string;
-    departementProjet: string;
-    regionProjet: string;
-    classe: string;
-    motifsElimination: string;
-    notifiedOn: number;
-    details: Record<string, string>;
-    technologie: string;
-    actionnariat?: string;
-    garantiesFinancièresType?: string;
-    garantiesFinancièresDateEchéance?: string;
-    désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
-    historiqueAbandon?:
-      | 'première-candidature'
-      | 'abandon-classique'
-      | 'abandon-avec-recandidature'
-      | 'lauréat-autre-période';
+    data: {
+      periodeId: string;
+      appelOffreId: string;
+      familleId: string;
+      territoireProjet: string;
+      numeroCRE: string;
+      nomCandidat: string;
+      actionnaire: string;
+      nomProjet: string;
+      puissance: number;
+      prixReference: number;
+      evaluationCarbone: number;
+      note: number;
+      nomRepresentantLegal: string;
+      isFinancementParticipatif: boolean;
+      isInvestissementParticipatif: boolean;
+      engagementFournitureDePuissanceAlaPointe: boolean;
+      email: string;
+      adresseProjet: string;
+      codePostalProjet: string;
+      communeProjet: string;
+      departementProjet: string;
+      regionProjet: string;
+      classe: string;
+      motifsElimination: string;
+      notifiedOn: number;
+      details: Record<string, string>;
+      technologie: string;
+      actionnariat?: string;
+      garantiesFinancièresType?: string;
+      garantiesFinancièresDateEchéance?: string;
+      désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
+      historiqueAbandon?:
+        | 'première-candidature'
+        | 'abandon-classique'
+        | 'abandon-avec-recandidature'
+        | 'lauréat-autre-période';
+    };
   };
 };
 
@@ -309,44 +311,44 @@ type ProjectReimported = {
                 ...acc,
                 identifiantProjet:
                   IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-                statut: payload.classe === 'Classé' ? 'classé' : 'éliminé',
-                typeGarantiesFinancières: (payload.garantiesFinancièresType ??
+                statut: payload.data.classe === 'Classé' ? 'classé' : 'éliminé',
+                typeGarantiesFinancières: (payload.data.garantiesFinancièresType ??
                   'type-inconnu') as GarantiesFinancières.TypeGarantiesFinancières.RawType,
-                historiqueAbandon: payload.historiqueAbandon ?? 'première-candidature',
-                appelOffre: payload.appelOffreId,
-                période: payload.periodeId,
-                famille: payload.familleId,
-                numéroCRE: payload.numeroCRE,
-                nomProjet: payload.nomProjet,
-                sociétéMère: payload.actionnaire,
-                nomCandidat: payload.nomCandidat,
-                puissanceProductionAnnuelle: payload.puissance,
-                prixReference: payload.prixReference,
-                noteTotale: payload.note,
-                nomReprésentantLégal: payload.nomRepresentantLegal,
-                emailContact: payload.email,
+                historiqueAbandon: payload.data.historiqueAbandon ?? 'première-candidature',
+                appelOffre: payload.data.appelOffreId,
+                période: payload.data.periodeId,
+                famille: payload.data.familleId,
+                numéroCRE: payload.data.numeroCRE,
+                nomProjet: payload.data.nomProjet,
+                sociétéMère: payload.data.actionnaire,
+                nomCandidat: payload.data.nomCandidat,
+                puissanceProductionAnnuelle: payload.data.puissance,
+                prixReference: payload.data.prixReference,
+                noteTotale: payload.data.note,
+                nomReprésentantLégal: payload.data.nomRepresentantLegal,
+                emailContact: payload.data.email,
                 localité: getLocalité({
-                  code_postaux: [payload.codePostalProjet],
-                  adresse1: payload.adresseProjet,
+                  code_postaux: [payload.data.codePostalProjet],
+                  adresse1: payload.data.adresseProjet,
                   adresse2: '',
-                  commune: payload.communeProjet,
+                  commune: payload.data.communeProjet,
                 }),
-                motifÉlimination: payload.motifsElimination,
-                puissanceALaPointe: payload.engagementFournitureDePuissanceAlaPointe,
-                evaluationCarboneSimplifiée: payload.evaluationCarbone,
-                valeurÉvaluationCarbone: payload.evaluationCarbone,
-                technologie:
-                  payload.technologie as Candidature.CandidatureImportéeEvent['payload']['technologie'],
-                financementCollectif: payload.actionnariat === 'financement-collectif',
-                financementParticipatif: payload.isInvestissementParticipatif,
-                gouvernancePartagée: payload.actionnariat === 'gouvernance-partagée',
-                dateÉchéanceGf: payload.garantiesFinancièresDateEchéance
+                motifÉlimination: payload.data.motifsElimination,
+                puissanceALaPointe: payload.data.engagementFournitureDePuissanceAlaPointe,
+                evaluationCarboneSimplifiée: payload.data.evaluationCarbone,
+                valeurÉvaluationCarbone: payload.data.evaluationCarbone,
+                technologie: payload.data
+                  .technologie as Candidature.CandidatureImportéeEvent['payload']['technologie'],
+                financementCollectif: payload.data.actionnariat === 'financement-collectif',
+                financementParticipatif: payload.data.isInvestissementParticipatif,
+                gouvernancePartagée: payload.data.actionnariat === 'gouvernance-partagée',
+                dateÉchéanceGf: payload.data.garantiesFinancièresDateEchéance
                   ? DateTime.convertirEnValueType(
-                      new Date(payload.garantiesFinancièresDateEchéance),
+                      new Date(payload.data.garantiesFinancièresDateEchéance),
                     ).formatter()
                   : undefined,
-                territoireProjet: payload.territoireProjet,
-                détails: payload.details,
+                territoireProjet: payload.data.territoireProjet,
+                détails: payload.data.details,
               };
 
               return result1;
@@ -474,10 +476,10 @@ type ProjectReimported = {
                 localité: getLocalité({
                   code_postaux: payload.data.codePostalProjet
                     ? [payload.data.codePostalProjet]
-                    : [acc.localité.codePostal],
-                  adresse1: payload.data.adresseProjet ?? acc.localité.adresse1,
+                    : [acc.localité?.codePostal ?? ''],
+                  adresse1: payload.data.adresseProjet ?? acc.localité?.adresse1 ?? '',
                   adresse2: '',
-                  commune: payload.data.communeProjet ?? acc.localité.commune,
+                  commune: payload.data.communeProjet ?? acc.localité?.commune ?? '',
                 }),
               };
 
