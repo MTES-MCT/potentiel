@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -46,6 +46,9 @@ export type ImporterCandidatureCommandOptions = {
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
   détails: Record<string, string>;
+
+  importéLe: DateTime.ValueType;
+  importéPar: Email.ValueType;
 };
 
 export type ImporterCandidatureCommand = Message<

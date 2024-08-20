@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import * as StatutCandidature from '../statutCandidature.valueType';
@@ -44,6 +44,9 @@ export type ImporterCandidatureUseCasePayload = {
   dateÉchéanceGfValue?: string;
   territoireProjetValue: string;
   détailsValue: Record<string, string>;
+
+  importéLe: string;
+  importéPar: string;
 };
 
 export type ImporterCandidatureUseCase = Message<
@@ -98,4 +101,7 @@ export const mapPayloadForCommand = (payload: ImporterCandidatureUseCasePayload)
   valeurÉvaluationCarbone: payload.valeurÉvaluationCarboneValue,
   territoireProjet: payload.territoireProjetValue,
   détails: payload.détailsValue,
+
+  importéLe: DateTime.convertirEnValueType(payload.importéLe),
+  importéPar: Email.convertirEnValueType(payload.importéPar),
 });

@@ -103,7 +103,7 @@ const getLocalitéInfo = ({
   adresse1,
   adresse2,
   commune,
-}: CandidatureImportéeEvent['payload']['localité']) => {
+}: Candidature.CandidatureImportéeEvent['payload']['localité']) => {
   const départementsRégions = codePostal
     .split('/')
     .map((str) => str.trim())

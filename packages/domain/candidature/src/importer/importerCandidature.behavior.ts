@@ -1,5 +1,5 @@
 import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
@@ -52,6 +52,9 @@ export type CandidatureImportéeEventPayload = {
   dateÉchéanceGf?: DateTime.RawType;
   territoireProjet: string;
   détails: Record<string, string>;
+
+  importéLe: DateTime.RawType;
+  importéPar: Email.RawType;
 };
 
 export type CandidatureImportéeEvent = DomainEvent<
@@ -95,6 +98,9 @@ export type ImporterCandidatureBehaviorOptions = {
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
   détails: Record<string, string>;
+
+  importéLe: DateTime.ValueType;
+  importéPar: Email.ValueType;
 };
 
 export async function importer(
@@ -181,4 +187,7 @@ export const mapToEventPayload = (
   gouvernancePartagée: candidature.gouvernancePartagée,
   territoireProjet: candidature.territoireProjet,
   détails: candidature.détails,
+
+  importéLe: candidature.importéLe.formatter(),
+  importéPar: candidature.importéPar.formatter(),
 });

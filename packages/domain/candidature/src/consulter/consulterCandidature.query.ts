@@ -39,6 +39,7 @@ export type ConsulterCandidatureReadModel = {
   gouvernancePartagée: boolean;
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
+  misÀJourLe: DateTime.ValueType;
 };
 
 export type ConsulterCandidatureQuery = Message<
@@ -91,6 +92,7 @@ const mapToReadModel = ({
   financementParticipatif,
   gouvernancePartagée,
   territoireProjet,
+  misÀJourLe,
 }: CandidatureEntity): ConsulterCandidatureReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutProjet.convertirEnValueType(statut),
@@ -100,6 +102,7 @@ const mapToReadModel = ({
   typeGarantiesFinancières: typeGarantiesFinancières
     ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières)
     : undefined,
+  misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
   nomProjet,
   localité,
   nomCandidat,

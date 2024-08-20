@@ -26,6 +26,7 @@ export const register = () => {
         historiqueAbandon,
         dateÉchéanceGf,
         technologie,
+        importéLe,
         ...restPayload
       } = payload;
 
@@ -44,6 +45,7 @@ export const register = () => {
           ? DateTime.convertirEnValueType(dateÉchéanceGf).formatter()
           : undefined,
         technologie: Candidature.Technologie.convertirEnValueType(technologie).type,
+        misÀJourLe: importéLe,
       };
 
       switch (type) {
