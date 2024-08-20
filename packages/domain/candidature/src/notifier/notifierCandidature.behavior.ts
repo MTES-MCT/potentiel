@@ -1,20 +1,25 @@
 import { DomainEvent } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { CandidatureAggregate } from '../candidature.aggregate';
 
 export type NotifierOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
+  dateNotification: DateTime.ValueType;
 };
 
 type CommonPayload = {
   identifiantProjet: IdentifiantProjet.RawType;
+  dateNotification: DateTime.RawType;
 };
 export type LauréatNotifié = DomainEvent<'LauréatNotifié-V1', CommonPayload & {}>;
 export type ÉliminéNotifié = DomainEvent<'ÉliminéNotifié-V1', CommonPayload & {}>;
 export type CandidatureNotifiée = LauréatNotifié | ÉliminéNotifié;
 
-export async function notifier(this: CandidatureAggregate, { identifiantProjet }: NotifierOptions) {
+export async function notifier(
+  this: CandidatureAggregate,
+  { identifiantProjet, dateNotification }: NotifierOptions,
+) {
   if (!this.importé) {
     throw new Error('TODO');
   }
@@ -24,7 +29,10 @@ export async function notifier(this: CandidatureAggregate, { identifiantProjet }
   }
   const commonPayload: CommonPayload = {
     identifiantProjet: identifiantProjet.formatter(),
+    dateNotification: dateNotification.formatter(),
   };
+
+  await générerAttestation();
 
   const event: CandidatureNotifiée = this.statut.estClassé()
     ? {
@@ -50,3 +58,5 @@ export function applyLauréatNotifié(this: CandidatureAggregate, _event: Lauré
 export function applyÉliminéNotifié(this: CandidatureAggregate, _event: ÉliminéNotifié) {
   this.notifié = true;
 }
+
+async function générerAttestation() {}

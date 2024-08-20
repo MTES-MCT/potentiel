@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { LoadAggregate } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { loadCandidatureFactory } from '../candidature.aggregate';
 
@@ -9,6 +9,7 @@ export type NotifierCandidatureCommand = Message<
   'Candidature.Command.NotifierCandidature',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
+    dateNotification: DateTime.ValueType;
   }
 >;
 

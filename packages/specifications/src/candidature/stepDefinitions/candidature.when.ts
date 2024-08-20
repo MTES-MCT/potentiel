@@ -57,13 +57,15 @@ Quand(
 );
 
 Quand(
-  'un administrateur notifie la période de la candidature {string}',
-  async function (this: PotentielWorld, nomProjet: string) {
+  'un administrateur notifie la période de la candidature {string} avec :',
+  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
+    const exemple = table.rowsHash();
     const { identifiantProjet } = this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
     await mediator.send<Candidature.NotifierCandidatureUseCase>({
       type: 'Candidature.UseCase.NotifierCandidature',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
+        dateNotificationValue: new Date(exemple['date notification']).toISOString(),
       },
     });
   },
