@@ -8,6 +8,7 @@ export type CandidatureEntity = Entity<
   'candidature',
   {
     identifiantProjet: IdentifiantProjet.RawType;
+    appelOffre: string;
     statut: StatutProjet.RawType;
     nomProjet: string;
     typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.RawType;

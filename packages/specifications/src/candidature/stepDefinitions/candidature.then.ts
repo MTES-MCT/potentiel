@@ -23,7 +23,7 @@ Alors(
       const { items: candidatures } = await mediator.send<Candidature.ListerCandidaturesQuery>({
         type: 'Candidature.Query.ListerCandidatures',
         data: {
-          identifiantProjet: identifiantProjet.formatter(),
+          nomProjet,
         },
       });
       expect(candidatures).to.have.lengthOf(1);

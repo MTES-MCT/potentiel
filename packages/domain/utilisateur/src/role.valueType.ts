@@ -224,6 +224,7 @@ const référencielPermissions = {
       consulter: 'Candidature.Query.ConsulterProjet',
       listerProjetsPreuveRecandidature:
         'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
+      listerCandidatures: 'Candidature.Query.ListerCandidatures',
     },
     usecase: {
       importer: 'Candidature.UseCase.ImporterCandidature',
@@ -678,6 +679,10 @@ const policies = {
       référencielPermissions.candidature.usecase.corriger,
       référencielPermissions.candidature.command.corriger,
     ],
+    lister: [
+      référencielPermissions.candidature.query.listerCandidatures,
+      référencielPermissions.appelOffre.query.lister,
+    ],
   },
 } as const;
 
@@ -748,7 +753,15 @@ const permissionAdmin: Policy[] = [
   // Candidature
   'candidature.importer',
   'candidature.corriger',
+  'candidature.lister',
 ];
+
+const permissionDgecValidateur: Policy[] = [
+  ...permissionAdmin,
+  // Abandon
+  'abandon.preuve-recandidature.accorder',
+];
+
 const permissionCRE: Policy[] = [
   // Abandon
   'abandon.consulter.liste',
@@ -805,60 +818,6 @@ const permissionDreal: Policy[] = [
   'achèvement.consulter',
   'achèvement.transmettre',
   'achèvement.modifier',
-];
-
-const permissionDgecValidateur: Policy[] = [
-  // Abandon
-  'abandon.consulter.liste',
-  'abandon.consulter.détail',
-  'abandon.accorder',
-  'abandon.rejeter',
-  'abandon.preuve-recandidature.accorder',
-  'abandon.demander-confirmation',
-  'abandon.annuler-rejet',
-
-  // Gestionnaire réseau
-  'réseau.gestionnaire.lister',
-  'réseau.gestionnaire.ajouter',
-  'réseau.gestionnaire.modifier',
-
-  // Raccordement
-  'réseau.raccordement.consulter',
-  'réseau.raccordement.gestionnaire.modifier',
-  'réseau.raccordement.demande-complète-raccordement.transmettre',
-  'réseau.raccordement.demande-complète-raccordement.modifier',
-  'réseau.raccordement.proposition-technique-et-financière.transmettre',
-  'réseau.raccordement.proposition-technique-et-financière.modifier',
-  'réseau.raccordement.date-mise-en-service.transmettre',
-  'réseau.raccordement.date-mise-en-service.importer',
-  'réseau.raccordement.référence-dossier.modifier',
-
-  // Garanties financières
-  'garantiesFinancières.actuelles.consulter',
-  'garantiesFinancières.archives.consulter',
-  'garantiesFinancières.dépôt.consulter',
-  'garantiesFinancières.dépôt.lister',
-  'garantiesFinancières.dépôt.demander',
-  'garantiesFinancières.dépôt.valider',
-  'garantiesFinancières.actuelles.importer',
-  'garantiesFinancières.actuelles.modifier',
-  'garantiesFinancières.actuelles.enregistrerAttestation',
-  'garantiesFinancières.actuelles.enregistrer',
-  'garantiesFinancières.effacerHistorique',
-  'garantiesFinancières.enAttente.lister',
-  'garantiesFinancières.enAttente.générerModèleMiseEnDemeure',
-  'garantiesFinancières.mainlevée.consulter',
-  'garantiesFinancières.mainlevée.lister',
-  'garantiesFinancières.mainlevée.consulterHistorique',
-
-  // Achèvement
-  'achèvement.consulter',
-  'achèvement.transmettre',
-  'achèvement.modifier',
-
-  // Candidature
-  'candidature.importer',
-  'candidature.corriger',
 ];
 
 const permissionPorteurProjet: Policy[] = [

@@ -1,4 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { match, Pattern } from 'ts-pattern';
 
 import { List, RangeOptions } from '@potentiel-domain/core';
 import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
@@ -24,7 +25,7 @@ export type CandidaturesListItemReadModel = {
 };
 
 export type ListerCandidaturesReadModel = Readonly<{
-  items: ReadonlyArray<CandidaturesListItemReadModel>;
+  items: Array<CandidaturesListItemReadModel>;
   range: RangeOptions;
   total: number;
 }>;
@@ -33,7 +34,9 @@ export type ListerCandidaturesQuery = Message<
   'Candidature.Query.ListerCandidatures',
   {
     range?: RangeOptions;
-    identifiantProjet?: IdentifiantProjet.RawType;
+    appelOffre?: string;
+    nomProjet?: string;
+    statut?: StatutProjet.RawType;
   },
   ListerCandidaturesReadModel
 >;
@@ -43,14 +46,30 @@ export type ListerCandidaturesQueryDependencies = {
 };
 
 export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQueryDependencies) => {
-  const handler: MessageHandler<ListerCandidaturesQuery> = async ({ range, identifiantProjet }) => {
+  const handler: MessageHandler<ListerCandidaturesQuery> = async ({
+    range,
+    nomProjet,
+    appelOffre,
+    statut,
+  }) => {
     const {
       items,
       range: { endPosition, startPosition },
       total,
     } = await list<CandidatureEntity>('candidature', {
       where: {
-        identifiantProjet: mapToWhereEqual(identifiantProjet),
+        appelOffre: match(appelOffre)
+          .with(Pattern.nullish, () => undefined)
+          .otherwise((value) => ({ operator: 'equal', value })),
+        nomProjet: match(nomProjet)
+          .with(Pattern.nullish, () => undefined)
+          .otherwise((value) => ({
+            operator: 'like',
+            value: `%${value}%`,
+          })),
+        statut: match(statut)
+          .with(Pattern.nullish, () => undefined)
+          .otherwise((value) => ({ operator: 'equal', value })),
       },
       range,
     });
@@ -66,17 +85,6 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
   };
   mediator.register('Candidature.Query.ListerCandidatures', handler);
 };
-
-/**
- * @todo A voir si on généralise cette pratique et si on déplace ça dans le package core ou un nouveau package entity
- */
-const mapToWhereEqual = <T>(value: T | undefined) =>
-  value !== undefined
-    ? {
-        operator: 'equal' as const,
-        value,
-      }
-    : undefined;
 
 export const mapToReadModel = ({
   identifiantProjet,
