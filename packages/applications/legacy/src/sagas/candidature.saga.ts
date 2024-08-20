@@ -94,7 +94,7 @@ const mapToLegacyEventPayload = (
     isInvestissementParticipatif: payload.financementParticipatif,
     notifiedOn: 0,
     territoireProjet: payload.territoireProjet,
-    ...getLocalilitéInfo(payload),
+    ...getLocalilitéInfo(payload.localité),
   };
 };
 
@@ -103,7 +103,7 @@ const getLocalilitéInfo = ({
   adresse1,
   adresse2,
   commune,
-}: CandidatureImportéeEvent['payload']) => {
+}: CandidatureImportéeEvent['payload']['localité']) => {
   const departementsRegions = codePostal
     .split('/')
     .map((str) => str.trim())
