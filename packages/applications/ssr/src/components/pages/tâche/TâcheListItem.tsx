@@ -6,8 +6,8 @@ import { PlainType } from '@potentiel-domain/core';
 import { ListerTâchesReadModel, TypeTâche } from '@potentiel-domain/tache';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+import { ListItem } from '@/components/molecules/ListItem';
 
 export type TâcheListItemProps = PlainType<ListerTâchesReadModel['items'][number]>;
 
@@ -18,30 +18,26 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
   typeTâche,
 }) => {
   const descriptionTâche = getDescriptionTâche(typeTâche, identifiantProjet, nomProjet);
-  const dateMiseÀJourLe = DateTime.bind(misÀJourLe);
 
   return (
-    <div className="w-full">
-      <ProjectListItemHeading
-        prefix="À faire pour le projet"
-        identifiantProjet={IdentifiantProjet.bind(identifiantProjet)}
-        nomProjet={nomProjet}
-      />
-      <div className="flex flex-col gap-1">
-        <h3 className="font-bold">{descriptionTâche.titre}</h3>
-        <p className="m-0 text-sm">{descriptionTâche.description}</p>
-      </div>
-      <p className="italic text-xs">
-        dernière mise à jour le <FormattedDate date={dateMiseÀJourLe.formatter()} />
-      </p>
-      <Link
-        href={descriptionTâche.lien}
-        className="self-center mt-4 md:self-end md:mt-0"
-        aria-label={descriptionTâche.ariaLabel}
-      >
-        {descriptionTâche.action}
-      </Link>
-    </div>
+    <ListItem
+      heading={
+        <ProjectListItemHeading
+          prefix="À faire pour le projet"
+          identifiantProjet={IdentifiantProjet.bind(identifiantProjet)}
+          nomProjet={nomProjet}
+          misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
+        />
+      }
+      actions={
+        <Link href={descriptionTâche.lien} aria-label={descriptionTâche.ariaLabel}>
+          {descriptionTâche.action}
+        </Link>
+      }
+    >
+      <h3 className="font-bold">{descriptionTâche.titre}</h3>
+      <p className="m-0 text-sm">{descriptionTâche.description}</p>
+    </ListItem>
   );
 };
 
