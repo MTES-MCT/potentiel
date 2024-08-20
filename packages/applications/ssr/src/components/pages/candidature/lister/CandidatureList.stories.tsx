@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { CandidatureListPage, CandidatureListPageProps } from './CandidatureList.page';
 
@@ -22,8 +21,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-type CommonItem = CandidatureListPageProps['list']['items'][number] &
-  Pick<AppelOffre.AppelOffreReadModel, 'unitePuissance'>;
+type CommonItem = CandidatureListPageProps['items'][number];
 
 const commonItem: CommonItem = {
   identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
@@ -31,8 +29,11 @@ const commonItem: CommonItem = {
   nomProjet: 'Nom projet',
   nomCandidat: 'Candidat',
   emailContact: 'porteur@test.test',
-  codePostal: '13000',
-  commune: 'MARSEILLE',
+  localité: {
+    commune: 'Commune',
+    département: 'Département',
+    région: 'Région',
+  },
   puissanceProductionAnnuelle: 1,
   unitePuissance: 'MWc',
   prixReference: 1,
@@ -53,24 +54,22 @@ export const Default: Story = {
         ],
       },
     ],
-    list: {
-      items: [
-        {
-          ...commonItem,
-        },
-        {
-          ...commonItem,
-          statut: StatutProjet.éliminé,
-        },
-        {
-          ...commonItem,
-        },
-      ],
-      range: {
-        startPosition: 0,
-        endPosition: 9,
+    items: [
+      {
+        ...commonItem,
       },
-      total: 3,
+      {
+        ...commonItem,
+        statut: StatutProjet.éliminé,
+      },
+      {
+        ...commonItem,
+      },
+    ],
+    range: {
+      startPosition: 0,
+      endPosition: 9,
     },
+    total: 3,
   },
 };

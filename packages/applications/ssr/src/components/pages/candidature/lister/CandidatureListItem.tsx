@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { PlainType } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { Candidature } from '@potentiel-domain/candidature';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { Icon } from '@/components/atoms/Icon';
@@ -12,23 +14,27 @@ import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectLis
 
 export type CandidatureListItemProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-  nomProjet: string;
   statut: PlainType<StatutProjet.ValueType>;
-  commune: string;
-  nomCandidat: string;
-  nomReprésentantLégal: string;
-  emailContact: string;
-  puissanceProductionAnnuelle: number;
-  prixReference: number;
-  unitePuissance: string;
-  evaluationCarboneSimplifiée: number;
+  nomProjet: Candidature.ConsulterCandidatureReadModel['nomProjet'];
+  nomCandidat: Candidature.ConsulterCandidatureReadModel['nomCandidat'];
+  nomReprésentantLégal: Candidature.ConsulterCandidatureReadModel['nomReprésentantLégal'];
+  emailContact: Candidature.ConsulterCandidatureReadModel['emailContact'];
+  puissanceProductionAnnuelle: Candidature.ConsulterCandidatureReadModel['puissanceProductionAnnuelle'];
+  prixReference: Candidature.ConsulterCandidatureReadModel['prixReference'];
+  evaluationCarboneSimplifiée: Candidature.ConsulterCandidatureReadModel['evaluationCarboneSimplifiée'];
+  localité: {
+    commune: Candidature.ConsulterCandidatureReadModel['localité']['commune'];
+    département: Candidature.ConsulterCandidatureReadModel['localité']['département'];
+    région: Candidature.ConsulterCandidatureReadModel['localité']['région'];
+  };
+  unitePuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
 };
 
 export const CandidatureListItem: FC<CandidatureListItemProps> = ({
   identifiantProjet,
   nomProjet,
   statut,
-  commune,
+  localité: { commune, département, région },
   nomCandidat,
   nomReprésentantLégal,
   emailContact,
@@ -59,8 +65,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
       <div className="flex gap-1 items-center" title="Localité du candidat">
         <Icon id="fr-icon-map-pin-2-line" size="xs" />
         <div className="text-sm">
-          {commune}
-          {/* @todo Afficher département + région */}
+          {commune}, {département}, {région}
         </div>
       </div>
       <div className="flex gap-1 items-center" title="Nom du candidat">

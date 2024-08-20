@@ -6,9 +6,6 @@ import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { CandidatureEntity } from '../candidature.entity';
 import { ConsulterCandidatureReadModel } from '../candidature';
 
-/**
- * @todo Ajouter département et région. Pour l'instant, on affiche uniquement la commune.
- */
 export type CandidaturesListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutProjet.ValueType;
@@ -19,11 +16,11 @@ export type CandidaturesListItemReadModel = {
   puissanceProductionAnnuelle: number;
   prixReference: ConsulterCandidatureReadModel['prixReference'];
   evaluationCarboneSimplifiée: ConsulterCandidatureReadModel['evaluationCarboneSimplifiée'];
-  commune: ConsulterCandidatureReadModel['commune'];
-  codePostal: ConsulterCandidatureReadModel['codePostal'];
-  /**
-   * @todo ajouter une unité pour la puissance venant de l'AO
-   */
+  localité: {
+    commune: ConsulterCandidatureReadModel['localité']['commune'];
+    département: ConsulterCandidatureReadModel['localité']['département'];
+    région: ConsulterCandidatureReadModel['localité']['région'];
+  };
 };
 
 export type ListerCandidaturesReadModel = Readonly<{
@@ -90,8 +87,7 @@ export const mapToReadModel = ({
   emailContact,
   puissanceProductionAnnuelle,
   prixReference,
-  commune,
-  codePostal,
+  localité: { commune, département, région },
   evaluationCarboneSimplifiée,
 }: CandidatureEntity): CandidaturesListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
@@ -102,7 +98,10 @@ export const mapToReadModel = ({
   emailContact,
   puissanceProductionAnnuelle,
   prixReference,
-  codePostal,
-  commune,
   evaluationCarboneSimplifiée,
+  localité: {
+    commune,
+    département,
+    région,
+  },
 });

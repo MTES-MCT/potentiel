@@ -7,15 +7,19 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
 
-import { CandidatureListItem } from './CandidatureListItem';
+import { CandidatureListItem, CandidatureListItemProps } from './CandidatureListItem';
 
-export type CandidatureListPageProps = {
-  list: PlainType<Candidature.ListerCandidaturesReadModel>;
-  filters: ListPageTemplateProps<typeof CandidatureListItem>['filters'];
-};
+export type CandidatureListPageProps = PlainType<
+  Omit<Candidature.ListerCandidaturesReadModel, 'items'> & {
+    items: ReadonlyArray<CandidatureListItemProps>;
+    filters: ListPageTemplateProps<typeof CandidatureListItem>['filters'];
+  }
+>;
 
 export const CandidatureListPage: FC<CandidatureListPageProps> = ({
-  list: { items: candidatures, range, total },
+  items: candidatures,
+  range,
+  total,
   filters,
 }) => {
   const { currentPage, itemsPerPage } = mapToPagination(range);
