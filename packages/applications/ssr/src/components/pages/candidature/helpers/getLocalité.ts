@@ -16,15 +16,15 @@ export const getLocalité = ({
   const départementsRégions = code_postaux
     .map(getRégionAndDépartementFromCodePostal)
     .filter((dptRegion): dptRegion is DépartementRégion => !!dptRegion);
-  const departements = départementsRégions.map((x) => x.département);
-  const régions = départementsRégions.map((x) => x.région);
+  const departements = Array.from(new Set(départementsRégions.map((x) => x.département)));
+  const régions = Array.from(new Set(départementsRégions.map((x) => x.région)));
 
   return {
     adresse1,
     adresse2,
     commune,
     codePostal: code_postaux.join(' / '),
-    région: régions.join(' / '),
     département: departements.join(' / '),
+    région: régions.join(' / '),
   };
 };
