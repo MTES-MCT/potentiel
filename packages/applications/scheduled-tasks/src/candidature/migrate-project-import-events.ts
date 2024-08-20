@@ -4,6 +4,8 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
+import { getLocalité } from './helpers';
+
 type ProjectRawDataImported = {
   type: 'ProjectRawDataImported';
   payload: {
@@ -323,10 +325,12 @@ type ProjectReimported = {
                 noteTotale: payload.note,
                 nomReprésentantLégal: payload.nomRepresentantLegal,
                 emailContact: payload.email,
-                adresse1: payload.adresseProjet,
-                adresse2: '',
-                codePostal: payload.codePostalProjet,
-                commune: payload.communeProjet,
+                localité: getLocalité({
+                  code_postaux: [payload.codePostalProjet],
+                  adresse1: payload.adresseProjet,
+                  adresse2: '',
+                  commune: payload.communeProjet,
+                }),
                 motifÉlimination: payload.motifsElimination,
                 puissanceALaPointe: payload.engagementFournitureDePuissanceAlaPointe,
                 evaluationCarboneSimplifiée: payload.evaluationCarbone,
@@ -365,10 +369,12 @@ type ProjectReimported = {
                 noteTotale: payload.content.note,
                 nomReprésentantLégal: payload.content.nomRepresentantLegal,
                 emailContact: payload.content.email,
-                adresse1: payload.content.adresseProjet,
-                adresse2: '',
-                codePostal: payload.content.codePostalProjet,
-                commune: payload.content.communeProjet,
+                localité: getLocalité({
+                  code_postaux: [payload.content.codePostalProjet],
+                  adresse1: payload.content.adresseProjet,
+                  adresse2: '',
+                  commune: payload.content.communeProjet,
+                }),
                 motifÉlimination: payload.content.motifsElimination,
                 puissanceALaPointe: payload.content.engagementFournitureDePuissanceAlaPointe,
                 evaluationCarboneSimplifiée: payload.content.evaluationCarbone,
@@ -401,10 +407,12 @@ type ProjectReimported = {
                 noteTotale: payload.data.note,
                 nomReprésentantLégal: payload.data.nomRepresentantLegal,
                 emailContact: payload.data.email,
-                adresse1: payload.data.adresseProjet,
-                adresse2: '',
-                codePostal: payload.data.codePostalProjet,
-                commune: payload.data.communeProjet,
+                localité: getLocalité({
+                  code_postaux: [payload.data.codePostalProjet],
+                  adresse1: payload.data.adresseProjet,
+                  adresse2: '',
+                  commune: payload.data.communeProjet,
+                }),
                 motifÉlimination: payload.data.motifsElimination,
                 puissanceALaPointe: payload.data.engagementFournitureDePuissanceAlaPointe,
                 evaluationCarboneSimplifiée: payload.data.evaluationCarbone,
@@ -441,9 +449,6 @@ type ProjectReimported = {
                   nomReprésentantLégal: payload.data.nomRepresentantLegal,
                 }),
                 ...(payload.data.email && { emailContact: payload.data.email }),
-                ...(payload.data.adresseProjet && { adresse1: payload.data.adresseProjet }),
-                ...(payload.data.codePostalProjet && { codePostal: payload.data.codePostalProjet }),
-                ...(payload.data.communeProjet && { commune: payload.data.communeProjet }),
                 ...(payload.data.motifsElimination && {
                   motifÉlimination: payload.data.motifsElimination,
                 }),
@@ -466,6 +471,14 @@ type ProjectReimported = {
                   ...acc.détails,
                   ...payload.data.details,
                 },
+                localité: getLocalité({
+                  code_postaux: payload.data.codePostalProjet
+                    ? [payload.data.codePostalProjet]
+                    : [acc.localité.codePostal],
+                  adresse1: payload.data.adresseProjet ?? acc.localité.adresse1,
+                  adresse2: '',
+                  commune: payload.data.communeProjet ?? acc.localité.commune,
+                }),
               };
 
               return result4;
