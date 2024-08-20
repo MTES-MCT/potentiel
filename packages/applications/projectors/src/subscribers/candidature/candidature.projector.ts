@@ -60,9 +60,13 @@ export const register = () => {
           };
 
           await upsertProjection<Candidature.CandidatureEntity>(
-            `candidature|${payload.identifiantProjet}`,
+            `candidature|${identifiantProjet}`,
             candidature,
           );
+          break;
+        case 'LauréatNotifié-V1':
+        case 'ÉliminéNotifié-V1':
+          await removeProjection(`candidature|${identifiantProjet}`);
           break;
       }
     }
