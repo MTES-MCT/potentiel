@@ -5,6 +5,7 @@ import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { CandidatureProjector } from '@potentiel-applications/projectors';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
+import { CandidatureNotification, SendEmail } from '@potentiel-applications/notifications';
 
 export const setupCandidature = async () => {
   Candidature.registerCandidaturesUseCases({ loadAggregate });
@@ -19,6 +20,7 @@ export const setupCandidature = async () => {
   });
 
   CandidatureProjector.register();
+  CandidatureNotification.register({ sendEmail });
 
   const unsubscribeCandidatureProjector = await subscribe<CandidatureProjector.SubscriptionEvent>({
     name: 'projector',
@@ -37,6 +39,19 @@ export const setupCandidature = async () => {
     },
     streamCategory: 'candidature',
   });
+
+  const unsubscribeCandidatureNotification =
+    await subscribe<CandidatureNotification.SubscriptionEvent>({
+      name: 'notifications',
+      streamCategory: 'candidature',
+      eventType: ['LauréatNotifié-V1', 'ÉliminéNotifié-V1'],
+      eventHandler: async (event) => {
+        await mediator.publish<CandidatureNotification.Execute>({
+          type: 'System.Notification.Candidature',
+          data: event,
+        });
+      },
+    });
 
   return async () => {
     await unsubscribeCandidatureProjector();

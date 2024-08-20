@@ -41,10 +41,10 @@ export const bootstrap = async ({
     }
 
     await setupAppelOffre();
-    const unsetupCandidature = await setupCandidature();
+    const unsetupCandidature = await setupCandidature({ sendEmail });
     setupDocumentProjet();
     const unsetupTâche = await setupTâche();
-    const unsetupTâchePlanifiée = await setupTâchePlanifiée();
+    const unsetupTâchePlanifiée = await setupTâchePlanifiée({ sendEmail });
     setupUtilisateur();
 
     const unsetupEliminé = await setupEliminé();
