@@ -73,7 +73,7 @@ const getNavigationItemsBasedOnRole = (
           menuLinks: menuLinks.listerGarantiesFinancières,
         },
         {
-          text: 'Imports',
+          text: 'Candidatures',
           menuLinks: [
             {
               text: 'Nouveaux candidats',
@@ -82,11 +82,28 @@ const getNavigationItemsBasedOnRole = (
               },
             },
             {
-              text: 'Corriger candidats',
+              text: 'Corriger des candidats',
               linkProps: {
                 href: Routes.Candidature.corriger,
               },
             },
+            {
+              text: 'Notifier des candidats',
+              linkProps: {
+                href: '/admin/notifier-candidats.html',
+              },
+            },
+            {
+              text: 'Tous les candidats',
+              linkProps: {
+                href: Routes.Candidature.lister,
+              },
+            },
+          ],
+        },
+        {
+          text: 'Imports',
+          menuLinks: [
             {
               text: 'Courriers historiques',
               linkProps: {
@@ -97,23 +114,6 @@ const getNavigationItemsBasedOnRole = (
               text: 'Dates de mise en service',
               linkProps: {
                 href: Routes.Raccordement.importer,
-              },
-            },
-          ],
-        },
-        {
-          text: 'Désignation',
-          menuLinks: [
-            {
-              text: 'Notifier des candidats',
-              linkProps: {
-                href: '/admin/notifier-candidats.html',
-              },
-            },
-            {
-              text: 'Régénérer des attestations',
-              linkProps: {
-                href: '/admin/regenerer-attestations.html',
               },
             },
           ],
@@ -172,6 +172,12 @@ const getNavigationItemsBasedOnRole = (
               text: 'Gérer les gestionnaires de réseau',
               linkProps: {
                 href: Routes.Gestionnaire.lister,
+              },
+            },
+            {
+              text: 'Régénérer des attestations',
+              linkProps: {
+                href: '/admin/regenerer-attestations.html',
               },
             },
           ],

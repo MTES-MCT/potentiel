@@ -113,16 +113,25 @@ const MenuAdmin = (currentPage?: string) => (
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />
-    <DropdownMenu buttonChildren={'Imports'}>
-      <DropdownMenu.DropdownItem
-        href={Routes.Candidature.importer}
-        {...(currentPage === 'import-projects' && { isCurrent: true })}
-      >
+    <DropdownMenu buttonChildren={'Candidatures'}>
+      <DropdownMenu.DropdownItem href={Routes.Candidature.importer}>
         Nouveaux candidats
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Candidature.corriger}>
-        Corriger candidats
+        Corriger des candidats
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={routes.GET_NOTIFIER_CANDIDATS()}
+        {...(currentPage === 'notify-candidates' && { isCurrent: true })}
+      >
+        Notifier des candidats
+      </DropdownMenu.DropdownItem>
+
+      <DropdownMenu.DropdownItem href={Routes.Candidature.lister}>
+        Tous les candidats
+      </DropdownMenu.DropdownItem>
+    </DropdownMenu>
+    <DropdownMenu buttonChildren={'Imports'}>
       <DropdownMenu.DropdownItem
         href={routes.UPLOAD_LEGACY_MODIFICATION_FILES}
         {...(currentPage === 'admin-upload-legacy-modification-files' && { isCurrent: true })}
@@ -134,20 +143,6 @@ const MenuAdmin = (currentPage?: string) => (
         {...(currentPage === 'importer-dates-mise-en-service' && { isCurrent: true })}
       >
         Dates de mise en service
-      </DropdownMenu.DropdownItem>
-    </DropdownMenu>
-    <DropdownMenu buttonChildren={'Désignation'}>
-      <DropdownMenu.DropdownItem
-        href={routes.GET_NOTIFIER_CANDIDATS()}
-        {...(currentPage === 'notify-candidates' && { isCurrent: true })}
-      >
-        Notifier des candidats
-      </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={routes.ADMIN_REGENERATE_CERTIFICATES}
-        {...(currentPage === 'regenerate-certificates' && { isCurrent: true })}
-      >
-        Régénérer des attestations
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Gestion des accès'}>
@@ -202,6 +197,12 @@ const MenuAdmin = (currentPage?: string) => (
         {...(currentPage === 'liste-gestionnaires-réseau' && { isCurrent: true })}
       >
         Gérer les gestionnaires de réseau
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={routes.ADMIN_REGENERATE_CERTIFICATES}
+        {...(currentPage === 'regenerate-certificates' && { isCurrent: true })}
+      >
+        Régénérer des attestations
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
   </>

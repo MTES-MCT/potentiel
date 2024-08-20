@@ -26,7 +26,7 @@ export const CandidatureListPage: FC<CandidatureListPageProps> = ({
 
   return (
     <ListPageTemplate
-      heading="Candidatures"
+      heading="Tous les candidats"
       actions={[]}
       items={candidatures.map((candidature) => ({
         ...candidature,
