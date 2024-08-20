@@ -9,11 +9,9 @@ import { parseCsv } from '@potentiel-libraries/csv';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 
+import { getLocalité } from '../helpers';
+
 import { candidatureSchema, CandidatureShape } from './candidature.schema';
-import {
-  DépartementRégion,
-  getRégionAndDépartementFromCodePostal,
-} from './getRégionAndDépartementFromCodePostal';
 
 export type ImporterCandidaturesState = FormState;
 
@@ -37,7 +35,6 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }
   for (const line of parsedData) {
     try {
       const projectRawLine = rawData.find((data) => data['Nom projet'] === line.nom_projet) ?? {};
-
       await mediator.send<Candidature.ImporterCandidatureUseCase>({
         type: 'Candidature.UseCase.ImporterCandidature',
         data: mapLineToUseCaseData(line, projectRawLine),
@@ -106,24 +103,3 @@ const mapLineToUseCaseData = (
   territoireProjetValue: line.territoire_projet,
   détailsValue: removeEmptyValues(rawLine),
 });
-
-export const getLocalité = ({
-  code_postaux,
-  adresse1,
-  adresse2,
-  commune,
-}: CandidatureShape): Candidature.ImporterCandidatureUseCase['data']['localitéValue'] => {
-  const départementsRégions = code_postaux
-    .map(getRégionAndDépartementFromCodePostal)
-    .filter((dptRegion): dptRegion is DépartementRégion => !!dptRegion);
-  const departements = départementsRégions.map((x) => x.département);
-  const régions = départementsRégions.map((x) => x.région);
-  return {
-    adresse1,
-    adresse2,
-    codePostal: code_postaux.join(' / '),
-    commune,
-    région: régions.join(' / '),
-    département: departements.join(' / '),
-  };
-};

@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { getRégionAndDépartementFromCodePostal } from './getRégionAndDépartementFromCodePostal';
+import { getRégionAndDépartementFromCodePostal } from '../helpers';
 
 const requiredStringSchema = z.string().trim().min(1);
 

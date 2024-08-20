@@ -10,7 +10,7 @@ import { parseCsv } from '@potentiel-libraries/csv';
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 
 import { candidatureSchema, CandidatureShape } from '../importer/candidature.schema';
-import { getLocalité } from '../importer/importerCandidatures.action';
+import { getLocalité } from '../helpers';
 
 export type CorrigerCandidaturesState = FormState;
 
