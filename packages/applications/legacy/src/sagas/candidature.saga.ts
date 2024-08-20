@@ -94,24 +94,26 @@ const mapToLegacyEventPayload = (
     isInvestissementParticipatif: payload.financementParticipatif,
     notifiedOn: 0,
     territoireProjet: payload.territoireProjet,
-    ...getLocalilitéInfo(payload.localité),
+    ...getLocalitéInfo(payload.localité),
   };
 };
 
-const getLocalilitéInfo = ({
+const getLocalitéInfo = ({
   codePostal,
   adresse1,
   adresse2,
   commune,
 }: CandidatureImportéeEvent['payload']['localité']) => {
-  const departementsRegions = codePostal
+  const départementsRégions = codePostal
     .split('/')
     .map((str) => str.trim())
     .map(getDepartementRegionFromCodePostal)
     .filter((dptRegion): dptRegion is DepartementRegion => !!dptRegion);
-  const departements = departementsRegions.map((x) => x.departement);
-  const régions = departementsRegions.map((x) => x.region);
-  const codePostaux = departementsRegions.map((x) => x.codePostal);
+
+  const departements = Array.from(new Set(départementsRégions.map((x) => x.departement)));
+  const régions = Array.from(new Set(départementsRégions.map((x) => x.region)));
+  const codePostaux = départementsRégions.map((x) => x.codePostal);
+
   return {
     departementProjet: departements.join(' / '),
     regionProjet: régions.join(' / '),

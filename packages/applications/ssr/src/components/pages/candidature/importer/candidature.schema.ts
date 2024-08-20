@@ -4,8 +4,6 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { getRégionAndDépartementFromCodePostal } from '../helpers';
 
-const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-
 const requiredStringSchema = z.string().trim().min(1);
 
 const optionalStringSchema = z
@@ -177,7 +175,7 @@ const candidatureCsvRowSchema = z
         (val) => val.every(getRégionAndDépartementFromCodePostal),
         'Le code postal ne correspond à aucune région / département',
       ),
-    [colonnes.commune]: requiredStringSchema.transform(capitalize),
+    [colonnes.commune]: requiredStringSchema,
     [colonnes.statut]: z.string().pipe(z.enum(['Eliminé', 'Classé'])),
     [colonnes.puissance_a_la_pointe]: optionalOuiNonSchema,
     [colonnes.evaluation_carbone_simplifiée]: z
