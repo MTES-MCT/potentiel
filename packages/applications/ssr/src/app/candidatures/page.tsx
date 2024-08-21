@@ -91,17 +91,10 @@ export default async function Page({ searchParams }: PageProps) {
     for (const candidature of candidaturesData.items) {
       const ao = appelOffres.items.find((ao) => ao.id === candidature.identifiantProjet.appelOffre);
 
-      if (!ao) {
-        /**
-         * @todo Log error ?
-         */
-        continue;
-      }
-
       items.push(
         mapToPlainObject({
           ...candidature,
-          unitePuissance: ao.unitePuissance,
+          unitePuissance: ao?.unitePuissance ?? 'inconnue',
         }),
       );
     }

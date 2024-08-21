@@ -64,6 +64,7 @@ export const Default: Story = {
       },
       {
         ...commonItem,
+        unitePuissance: 'inconnue',
       },
     ],
     range: {

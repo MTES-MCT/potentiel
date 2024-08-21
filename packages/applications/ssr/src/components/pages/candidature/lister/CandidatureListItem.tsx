@@ -61,7 +61,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
       </Link>
     }
   >
-    <div className="flex flex-col gap-2 md:gap-0 mt-2">
+    <div className="flex flex-col gap-2 md:gap-0">
       <div className="flex gap-1 items-center" title="Localité du candidat">
         <Icon id="fr-icon-map-pin-2-line" size="xs" />
         <div className="text-sm">
@@ -81,7 +81,8 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
       <div className="flex gap-1 items-center" title="Puissance">
         <Icon id="fr-icon-lightbulb-line" size="xs" />
         <div className="text-sm">
-          {puissanceProductionAnnuelle} {unitePuissance}
+          {puissanceProductionAnnuelle}{' '}
+          {unitePuissance === 'inconnue' ? ' (unité de puissance inconnue)' : unitePuissance}
         </div>
       </div>
       <div className="flex gap-1 items-center" title="Prix de référence">
