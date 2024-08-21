@@ -36,6 +36,7 @@
     "@potentiel-libraries/csv": "*",
     "@potentiel-libraries/iso8601-datetime": "*",
     "@potentiel-libraries/monitoring": "*",
+    "copy-webpack-plugin": "^12.0.2",
     "i18next": "^23.12.2",
     "mediateur": "^0.1.0",
     "next": "^14.1.1",

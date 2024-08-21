@@ -1,4 +1,4 @@
-import { Document, Font, Image, Page, Text, View } from '@react-pdf/renderer';
+import { Document, Image, Page, Text, View } from '@react-pdf/renderer';
 import React from 'react';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -7,23 +7,6 @@ import { formatDateForPdf } from './helpers/formatDateForPdf';
 import { formatNumber } from './helpers';
 import { AttestationCandidatureOptions } from './AttestationCandidatureOptions';
 import { Footnote, makeAddFootnote } from './helpers/makeAddFootnotes';
-
-Font.register({
-  family: 'Arimo',
-  fonts: [
-    {
-      src: process.env.BASE_URL + '/fonts/arimo/Arimo-Regular.ttf',
-    },
-    {
-      src: process.env.BASE_URL + '/fonts/arimo/Arimo-Bold.ttf',
-      fontWeight: 'bold',
-    },
-    {
-      src: process.env.BASE_URL + '/fonts/arimo/Arimo-Italic.ttf',
-      fontStyle: 'italic',
-    },
-  ],
-});
 
 const Laureat = (project: AttestationCandidatureOptions) => {
   const { appelOffre, période, famille } = project;

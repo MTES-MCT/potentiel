@@ -1,5 +1,5 @@
 import React from 'react';
-import { Font, PDFViewer } from '@react-pdf/renderer';
+import { PDFViewer } from '@react-pdf/renderer';
 
 // eslint-disable-next-line no-restricted-imports
 import {
@@ -14,23 +14,6 @@ import { Certificate } from '../Certificate';
 import { Elimine } from './Elimine';
 
 export default { title: 'Attestations PDF/PPE2/v1' };
-
-Font.register({
-  family: 'Arimo',
-  fonts: [
-    {
-      src: '/fonts/arimo/Arimo-Regular.ttf',
-    },
-    {
-      src: '/fonts/arimo/Arimo-Bold.ttf',
-      fontWeight: 'bold',
-    },
-    {
-      src: '/fonts/arimo/Arimo-Italic.ttf',
-      fontStyle: 'italic',
-    },
-  ],
-});
 
 const fakeProject: AttestationCandidatureOptions = {
   appelOffre: eolienPPE2,

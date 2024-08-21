@@ -27,7 +27,7 @@ export const Certificate = (props: CertificateProps) => {
         size="A4"
         style={{
           backgroundColor: '#FFF',
-          // fontFamily: 'Arimo', TODO
+          fontFamily: 'Arimo',
           fontSize: 10,
           padding: 40,
           paddingBottom: 70,
