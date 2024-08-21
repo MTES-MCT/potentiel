@@ -29,6 +29,7 @@ export const Contact = ({ project, user }: ContactProps) => (
     <div>
       <Heading3 className="mb-1">Représentant légal</Heading3>
       <div>{project.nomRepresentantLegal}</div>
+      <Heading3 className="mb-1">Adresse email de candidature</Heading3>
       <div>{project.email}</div>
     </div>
 
