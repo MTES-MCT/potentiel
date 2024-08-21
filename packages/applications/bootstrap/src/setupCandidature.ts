@@ -4,7 +4,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { CandidatureProjector } from '@potentiel-applications/projectors';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 
 export const setupCandidature = async () => {
   Candidature.registerCandidatureQueries({
@@ -13,6 +13,7 @@ export const setupCandidature = async () => {
     récupérerProjetsEligiblesPreuveRecanditure:
       CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
     récupérerProjets: CandidatureAdapter.récupérerProjetsAdapter,
+    list: listProjection,
   });
 
   Candidature.registerCandidaturesUseCases({ loadAggregate });

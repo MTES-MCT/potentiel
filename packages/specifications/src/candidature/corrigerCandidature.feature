@@ -4,10 +4,11 @@ Fonctionnalité: Corriger une candidature
     Contexte:
         Etant donné la candidature "Du boulodrome de Marseille"
 
+    @select
     Scénario: Corriger une candidature
         Quand un administrateur corrige la candidature "Du boulodrome de Marseille" avec :
             | technologie | pv |
-        Alors la candidature "Du boulodrome de Marseille" devrait être consultable dans la liste des candidatures avec :
+        Alors la candidature "Du boulodrome de Marseille" devrait être consultable avec :
             | technologie | pv |
 
     Scénario: Impossible de changer l'AO d'une candidature

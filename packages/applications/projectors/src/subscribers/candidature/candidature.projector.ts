@@ -19,16 +19,9 @@ export const register = () => {
     if (type === 'RebuildTriggered') {
       await removeProjection<Candidature.CandidatureEntity>(`candidature|${payload.id}`);
     } else {
-      const {
-        identifiantProjet,
-        statut,
-        typeGarantiesFinancières,
-        historiqueAbandon,
-        dateÉchéanceGf,
-        technologie,
-      } = payload;
-
-      const candidatureDefaultValue: Omit<Candidature.CandidatureEntity, 'type'> = {
+      const candidature: Omit<Candidature.CandidatureEntity, 'type'> = {
+        identifiantProjet: payload.identifiantProjet,
+        appelOffre: payload.appelOffre,
         nomProjet: payload.nomProjet,
         sociétéMère: payload.sociétéMère,
         nomCandidat: payload.nomCandidat,
@@ -46,19 +39,19 @@ export const register = () => {
         financementParticipatif: payload.financementParticipatif,
         gouvernancePartagée: payload.gouvernancePartagée,
         territoireProjet: payload.territoireProjet,
-        identifiantProjet,
-        statut: StatutProjet.convertirEnValueType(statut).statut,
-        typeGarantiesFinancières: typeGarantiesFinancières
+        statut: StatutProjet.convertirEnValueType(payload.statut).statut,
+        typeGarantiesFinancières: payload.typeGarantiesFinancières
           ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
-              typeGarantiesFinancières,
+              payload.typeGarantiesFinancières,
             ).type
           : undefined,
-        historiqueAbandon:
-          Candidature.HistoriqueAbandon.convertirEnValueType(historiqueAbandon).type,
-        dateÉchéanceGf: dateÉchéanceGf
-          ? DateTime.convertirEnValueType(dateÉchéanceGf).formatter()
+        historiqueAbandon: Candidature.HistoriqueAbandon.convertirEnValueType(
+          payload.historiqueAbandon,
+        ).type,
+        dateÉchéanceGf: payload.dateÉchéanceGf
+          ? DateTime.convertirEnValueType(payload.dateÉchéanceGf).formatter()
           : undefined,
-        technologie: Candidature.Technologie.convertirEnValueType(technologie).type,
+        technologie: Candidature.Technologie.convertirEnValueType(payload.technologie).type,
         misÀJourLe: type === 'CandidatureCorrigée-V1' ? payload.corrigéLe : payload.importéLe,
       };
 
@@ -66,8 +59,8 @@ export const register = () => {
         case 'CandidatureImportée-V1':
         case 'CandidatureCorrigée-V1':
           await upsertProjection<Candidature.CandidatureEntity>(
-            `candidature|${identifiantProjet}`,
-            candidatureDefaultValue,
+            `candidature|${payload.identifiantProjet}`,
+            candidature,
           );
           break;
       }

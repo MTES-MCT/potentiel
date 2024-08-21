@@ -10,13 +10,13 @@ import { ProjetListItem } from '@/components/molecules/projet/ProjetListItem';
 import { ListPageTemplate } from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
 
-export type CandidaturesListPageProps = PlainType<
+export type ProjetsListPageProps = PlainType<
   Omit<Candidature.ListerProjetsReadModel, 'items'> & {
     items: ReadonlyArray<Candidature.ListerProjetsListItemReadModel>;
   }
 >;
 
-export const CandidaturesListPage: FC<CandidaturesListPageProps> = ({
+export const ProjetsListPage: FC<ProjetsListPageProps> = ({
   items: candidatures,
   range,
   total,
