@@ -16,6 +16,7 @@ import {
   AbandonProjector,
   AchèvementProjector,
   GarantiesFinancièreProjector,
+  LauréatProjector,
 } from '@potentiel-applications/projectors';
 import {
   consulterCahierDesChargesChoisiAdapter,
@@ -45,6 +46,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
   GarantiesFinancières.GarantiesFinancièresSaga.register();
   AchèvementProjector.register();
   AchèvementNotification.register({ sendEmail });
+  LauréatProjector.register();
 
   const unsubscribeAbandonNotification = await subscribe<AbandonNotification.SubscriptionEvent>({
     name: 'notifications',
@@ -189,6 +191,18 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
     },
   });
 
+  // const unsubscribeLauréatProjector = await subscribe<LauréatProjector.SubscriptionEvent>({
+  //   name: 'projector',
+  //   eventType: ['LauréatNotifié-V1', 'RebuildTriggered'],
+  //   eventHandler: async (event) => {
+  //     await mediator.send<LauréatProjector.Execute>({
+  //       type: 'System.Projector.Lauréat',
+  //       data: event,
+  //     });
+  //   },
+  //   streamCategory: 'candidature',
+  // });
+
   return async () => {
     await unsubscribeAbandonNotification();
     await unsubscribeAbandonProjector();
@@ -197,5 +211,6 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
     await unsubscribeAchèvementProjector();
     await unsubscribeAchèvementNotification();
     await unsubscribeGarantiesFinancièresSaga();
+    // await unsubscribeLauréatProjector();
   };
 };

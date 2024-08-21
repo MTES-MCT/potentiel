@@ -14,6 +14,7 @@ import {
   CahierDesChargesChoisiQueryDependencies,
   registerCahierDesChargesChoisiQueries,
 } from './cahierDesChargesChoisi/cahierDesChargesChoisi.register';
+import { registerConsulterLauréatQuery } from './consulter/consulterLauréat.query';
 import {
   GarantiesFinancièresCommandDependencies,
   GarantiesFinancièresQueryDependencies,
@@ -40,4 +41,5 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerCahierDesChargesChoisiQueries(dependencies);
   registerGarantiesFinancièresQueries(dependencies);
   registerAchèvementQueries(dependencies);
+  registerConsulterLauréatQuery(dependencies);
 };

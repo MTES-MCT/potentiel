@@ -40,5 +40,9 @@ export type CandidatureEntity = Entity<
     dateÉchéanceGf?: DateTime.RawType;
     territoireProjet: string;
     misÀJourLe: DateTime.RawType;
+
+    notification?: {
+      notifiéLe: DateTime.RawType;
+    };
   }
 >;

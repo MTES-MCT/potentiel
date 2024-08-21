@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 import { Candidature } from '@potentiel-domain/candidature';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { CandidatureProjector } from '@potentiel-applications/projectors';
+import { CandidatureProjector, LauréatProjector } from '@potentiel-applications/projectors';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { CandidatureNotification, SendEmail } from '@potentiel-applications/notifications';
 
@@ -36,6 +36,13 @@ export const setupCandidature = async () => {
         type: 'System.Projector.Candidature',
         data: event,
       });
+      // TODO ATTENTION QUICK WIN, ne pas garder... Comment faire un pont entre deux domaines ?
+      if (event.type === 'LauréatNotifié-V1') {
+        await mediator.send<LauréatProjector.Execute>({
+          type: 'System.Projector.Lauréat',
+          data: event,
+        });
+      }
     },
     streamCategory: 'candidature',
   });

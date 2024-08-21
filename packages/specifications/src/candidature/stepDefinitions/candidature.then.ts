@@ -1,6 +1,6 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 import waitForExpect from 'wait-for-expect';
 
 import { Candidature } from '@potentiel-domain/candidature';
@@ -39,7 +39,7 @@ Alors(
         Object.keys(candidature).concat('appelOffre', 'période', 'famille', 'numéroCRE').sort(),
       ).to.deep.eq(
         Object.keys(expectedValues)
-          .concat('identifiantProjet', 'misÀJourLe')
+          .concat('identifiantProjet', 'misÀJourLe', 'notification')
           .map((key) => key.replace(/Value$/, ''))
           .sort(),
       );
@@ -204,7 +204,7 @@ Alors(
 );
 
 Alors(
-  'la candidature {string} ne devrait plus être consultable dans la liste des candidatures',
+  'la candidature {string} devrait être notifiée',
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
 
@@ -214,12 +214,8 @@ Alors(
         data: { identifiantProjet: identifiantProjet.formatter() },
       });
 
-      assert(Option.isNone(candidature), 'La candidature ne devrait plus exister');
+      assert(Option.isSome(candidature), 'la candidature devrait exister');
+      expect(candidature.notification?.notifiéLe).not.to.be.undefined;
     });
   },
-);
-
-Alors(
-  'le projet {string} devrait être consultable dans la liste des projets lauréats',
-  function (this: PotentielWorld, _nomProjet: string) {},
 );

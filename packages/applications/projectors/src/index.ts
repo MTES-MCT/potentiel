@@ -8,3 +8,4 @@ export * as GarantiesFinancièreProjector from './subscribers/lauréat/garanties
 export * as RecoursProjector from './subscribers/éliminé/recours.projector';
 export * as AchèvementProjector from './subscribers/lauréat/achèvement.projector';
 export * as CandidatureProjector from './subscribers/candidature/candidature.projector';
+export * as LauréatProjector from './subscribers/lauréat/lauréat.projector';

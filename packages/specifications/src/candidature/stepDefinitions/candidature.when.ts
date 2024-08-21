@@ -60,13 +60,31 @@ Quand(
   'un administrateur notifie la période de la candidature {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
-    const { identifiantProjet } = this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
+    const { identifiantProjet, values } =
+      this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
+    const dateNotification = new Date(exemple['date notification']).toISOString();
     await mediator.send<Candidature.NotifierCandidatureUseCase>({
       type: 'Candidature.UseCase.NotifierCandidature',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-        dateNotificationValue: new Date(exemple['date notification']).toISOString(),
+        dateNotificationValue: dateNotification,
       },
     });
+    // TODO à challenger
+    if (values.statutValue === 'éliminé') {
+      this.eliminéWorld.eliminéFixtures.set(nomProjet, {
+        dateDésignation: dateNotification,
+        identifiantProjet,
+        nom: nomProjet,
+      });
+    } else {
+      this.lauréatWorld.lauréatFixtures.set(nomProjet, {
+        appelOffre: values.appelOffreValue,
+        dateDésignation: dateNotification,
+        identifiantProjet,
+        nom: nomProjet,
+        période: values.périodeValue,
+      });
+    }
   },
 );

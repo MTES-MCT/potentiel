@@ -64,7 +64,7 @@ export type CandidatureEvent =
   | LauréatNotifié
   | ÉliminéNotifié;
 
-export { CandidatureImportéeEvent, CandidatureCorrigéeEvent };
+export { CandidatureImportéeEvent, CandidatureCorrigéeEvent, LauréatNotifié, ÉliminéNotifié };
 
 // Register
 export * from './register';
