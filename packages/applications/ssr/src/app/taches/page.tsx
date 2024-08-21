@@ -11,7 +11,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions } from '@/utils/pagination';
-import { ListFilterItem } from '@/components/organisms/ListFilters';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 type SearchParams = 'page' | 'appelOffre' | 'catégorieTâche' | 'cycle' | 'nomProjet';
 

@@ -17,23 +17,17 @@ export const List = <TItem,>({
   totalItems,
   itemsPerPage,
   ItemComponent,
-}: ListProps<TItem>) => {
-  return (
-    <>
-      <ul>
-        {items.map((item) => (
-          <li className="mb-6" key={`abandon-projet-${item.key}`}>
-            <Tile className="flex flex-col md:flex-row md:justify-between">
-              <ItemComponent {...item} />
-            </Tile>
-          </li>
-        ))}
-      </ul>
-      <ListPagination
-        currentPage={currentPage}
-        totalItems={totalItems}
-        itemsPerPage={itemsPerPage}
-      />
-    </>
-  );
-};
+}: ListProps<TItem>) => (
+  <>
+    <ul>
+      {items.map((item) => (
+        <li className="mb-6" key={`abandon-projet-${item.key}`}>
+          <Tile className="flex flex-col md:flex-row md:justify-between">
+            <ItemComponent {...item} />
+          </Tile>
+        </li>
+      ))}
+    </ul>
+    <ListPagination currentPage={currentPage} totalItems={totalItems} itemsPerPage={itemsPerPage} />
+  </>
+);

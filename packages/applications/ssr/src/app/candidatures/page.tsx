@@ -10,7 +10,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
 import { CandidatureListPage } from '@/components/pages/candidature/lister/CandidatureList.page';
 import { CandidatureListItemProps } from '@/components/pages/candidature/lister/CandidatureListItem';
-import { ListFilterItem } from '@/components/organisms/ListFilters';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 type SearchParams = 'page' | 'appelOffre' | 'statut' | 'nomProjet';
 

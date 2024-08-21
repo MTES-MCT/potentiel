@@ -12,7 +12,7 @@ import { CandidatureListItem, CandidatureListItemProps } from './CandidatureList
 export type CandidatureListPageProps = PlainType<
   Omit<Candidature.ListerCandidaturesReadModel, 'items'> & {
     items: ReadonlyArray<CandidatureListItemProps>;
-    filters: ListPageTemplateProps<typeof CandidatureListItem>['filters'];
+    filters: ListPageTemplateProps<CandidatureListItemProps>['filters'];
   }
 >;
 
@@ -23,6 +23,33 @@ export const CandidatureListPage: FC<CandidatureListPageProps> = ({
   filters,
 }) => {
   const { currentPage, itemsPerPage } = mapToPagination(range);
+
+  const legend: ListPageTemplateProps<CandidatureListItemProps>['legend'] = [
+    {
+      iconId: 'fr-icon-map-pin-2-line',
+      description: 'Localité',
+    },
+    {
+      iconId: 'fr-icon-community-line',
+      description: 'Nom du candidat',
+    },
+    {
+      iconId: 'fr-icon-user-line',
+      description: 'Représentant légal',
+    },
+    {
+      iconId: 'fr-icon-lightbulb-line',
+      description: 'Puissance',
+    },
+    {
+      iconId: 'fr-icon-money-euro-circle-line',
+      description: 'Prix de référence',
+    },
+    {
+      iconId: 'fr-icon-cloudy-2-line',
+      description: 'Évaluation carbone',
+    },
+  ];
 
   return (
     <ListPageTemplate
@@ -36,6 +63,7 @@ export const CandidatureListPage: FC<CandidatureListPageProps> = ({
       totalItems={total}
       itemsPerPage={itemsPerPage}
       ItemComponent={CandidatureListItem}
+      legend={legend}
       filters={filters}
       search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
     />

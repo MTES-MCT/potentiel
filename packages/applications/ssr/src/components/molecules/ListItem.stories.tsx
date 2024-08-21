@@ -6,7 +6,7 @@ import { ListItem, ListItemProps } from './ListItem';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Molecules/ListItem',
+  title: 'Molecules/List/Item',
   component: ListItem,
   parameters: {},
   tags: ['autodocs'],

@@ -2,7 +2,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { Filter } from '../molecules/Filter';
+import { Filter } from './Filter';
 
 export type ListFilterItem<TSearchParamKey = string> = {
   label: string;
