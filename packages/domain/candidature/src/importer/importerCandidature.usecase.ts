@@ -8,6 +8,7 @@ import * as Technologie from '../technologie.valueType';
 import { HistoriqueAbandon } from '../candidature';
 
 import { ImporterCandidatureCommand } from './importerCandidature.command';
+import { EnregistrerDétailsCandidatureCommand } from './enregistrerDétails.command';
 
 export type ImporterCandidatureUseCaseCommonPayload = {
   typeGarantiesFinancièresValue?: string;
@@ -57,23 +58,36 @@ export type ImporterCandidatureUseCase = Message<
 >;
 
 export const registerImporterCandidatureUseCase = () => {
-  const handler: MessageHandler<ImporterCandidatureUseCase> = async (payload) =>
-    mediator.send<ImporterCandidatureCommand>({
+  const handler: MessageHandler<ImporterCandidatureUseCase> = async (payload) => {
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+      `${payload.appelOffreValue}#${payload.périodeValue}#${payload.familleValue}#${payload.numéroCREValue}`,
+    );
+    const importéLe = DateTime.convertirEnValueType(payload.importéLe);
+
+    await mediator.send<ImporterCandidatureCommand>({
       type: 'Candidature.Command.ImporterCandidature',
       data: {
+        identifiantProjet,
         ...mapPayloadForCommand(payload),
-        importéLe: DateTime.convertirEnValueType(payload.importéLe),
+        importéLe,
         importéPar: Email.convertirEnValueType(payload.importéPar),
       },
     });
+
+    await mediator.send<EnregistrerDétailsCandidatureCommand>({
+      type: 'Candidature.Command.EnregistrerDétailsCandidature',
+      data: {
+        identifiantProjet,
+        détails: payload.détailsValue,
+        date: importéLe,
+      },
+    });
+  };
 
   mediator.register('Candidature.UseCase.ImporterCandidature', handler);
 };
 
 export const mapPayloadForCommand = (payload: ImporterCandidatureUseCaseCommonPayload) => ({
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(
-    `${payload.appelOffreValue}#${payload.périodeValue}#${payload.familleValue}#${payload.numéroCREValue}`,
-  ),
   appelOffre: payload.appelOffreValue,
   période: payload.périodeValue,
   famille: payload.familleValue,
@@ -106,5 +120,4 @@ export const mapPayloadForCommand = (payload: ImporterCandidatureUseCaseCommonPa
   sociétéMère: payload.sociétéMèreValue,
   valeurÉvaluationCarbone: payload.valeurÉvaluationCarboneValue,
   territoireProjet: payload.territoireProjetValue,
-  détails: payload.détailsValue,
 });

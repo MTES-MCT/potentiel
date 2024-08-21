@@ -21,6 +21,10 @@ import {
   ListerCandidaturesQueryDependencies,
   registerListerCandidaturesQuery,
 } from './lister/listerCandidatures.query';
+import {
+  EnregistrerDétailsCandidatureCommandDependencies,
+  registerEnregistrerDétailsCandidatureCommand,
+} from './importer/enregistrerDétails.command';
 
 type CandidatureQueryDependencies = ConsulterProjetDependencies &
   ListerProjetsEligiblesPreuveRecanditureDependencies &
@@ -30,7 +34,7 @@ type CandidatureQueryDependencies = ConsulterProjetDependencies &
 
 type CandiatureUseCasesDependencies = {
   loadAggregate: LoadAggregate;
-};
+} & EnregistrerDétailsCandidatureCommandDependencies;
 
 export const registerCandidatureQueries = (dependencies: CandidatureQueryDependencies) => {
   registerConsulterProjetQuery(dependencies);
@@ -40,10 +44,14 @@ export const registerCandidatureQueries = (dependencies: CandidatureQueryDepende
   registerListerCandidaturesQuery(dependencies);
 };
 
-export const registerCandidaturesUseCases = ({ loadAggregate }: CandiatureUseCasesDependencies) => {
+export const registerCandidaturesUseCases = ({
+  loadAggregate,
+  enregistrerDocumentProjet,
+}: CandiatureUseCasesDependencies) => {
   registerImporterCandidatureCommand(loadAggregate);
   registerCorrigerCandidatureCommand(loadAggregate);
 
+  registerEnregistrerDétailsCandidatureCommand({ enregistrerDocumentProjet });
   registerImporterCandidatureUseCase();
   registerCorrigerCandidatureUseCase();
 };
