@@ -9,7 +9,8 @@
     "start:relancer-abandon-sans-preuve": "node ./dist/abandon/relancer-abandon-sans-preuve",
     "start:déplacer-fichiers-vers-bucket-secnum": "node ./dist/déplacer-fichiers-vers-bucket-secnum",
     "start:créer-backup": "node ./dist/backup/créer-backup",
-    "start:mettre-à-jour-gestionnaire-réseau": "node ./dist/gestionnaireRéseau"
+    "start:mettre-à-jour-gestionnaire-réseau": "node ./dist/gestionnaireRéseau",
+    "start:migrate-project-import-events": "node ./dist/candidature/migrate-project-import-events"
   },
   "dependencies": {
     "@potentiel-libraries/file-storage": "*",
