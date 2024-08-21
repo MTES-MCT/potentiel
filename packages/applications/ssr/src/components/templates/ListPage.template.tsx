@@ -4,9 +4,9 @@ import { LinkAction } from '../atoms/LinkAction';
 import { Heading1 } from '../atoms/headings';
 import { Search, SearchProps } from '../molecules/Search';
 import { List } from '../organisms/List';
-import { ListFilters, ListFiltersProps } from '../organisms/ListFilters';
+import { ListFilters, ListFiltersProps } from '../molecules/ListFilters';
 import { ListHeader } from '../organisms/ListHeader';
-import { ListLegend, ListLegendProps } from '../organisms/ListLegend';
+import { ListLegend, ListLegendProps } from '../molecules/ListLegend';
 
 import { PageTemplate } from './Page.template';
 

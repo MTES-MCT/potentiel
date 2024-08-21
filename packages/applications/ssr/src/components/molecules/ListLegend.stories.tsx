@@ -4,7 +4,7 @@ import { ListLegend, ListLegendProps } from './ListLegend';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Molecules/ListLegend',
+  title: 'Molecules/List/Legend',
   component: ListLegend,
   parameters: {},
   tags: ['autodocs'],

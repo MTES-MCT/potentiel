@@ -3,7 +3,7 @@ import Tag from '@codegouvfr/react-dsfr/Tag';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { ListFiltersProps } from './ListFilters';
+import { ListFiltersProps } from '../molecules/ListFilters';
 
 export type ListHeaderProps = {
   filters: ListFiltersProps['filters'];
