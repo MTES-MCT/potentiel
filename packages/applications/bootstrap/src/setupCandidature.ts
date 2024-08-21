@@ -7,9 +7,7 @@ import { CandidatureProjector } from '@potentiel-applications/projectors';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 
 export const setupCandidature = async () => {
-  Candidature.registerCandidaturesUseCases({
-    loadAggregate,
-  });
+  Candidature.registerCandidaturesUseCases({ loadAggregate });
 
   Candidature.registerCandidatureQueries({
     find: findProjection,

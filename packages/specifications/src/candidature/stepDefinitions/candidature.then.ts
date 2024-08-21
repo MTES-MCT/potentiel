@@ -8,8 +8,10 @@ import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
+import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
 import { PotentielWorld } from '../../potentiel.world';
+import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
 
 import { mapExampleToUseCaseDefaultValues } from './helper';
 
@@ -85,6 +87,18 @@ Alors(
           misÀJourLe: DateTime.convertirEnValueType(new Date('2024-08-20')),
         } satisfies Candidature.ConsulterCandidatureReadModel),
       );
+
+      if (Option.isSome(candidature)) {
+        const result = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: `${candidature.identifiantProjet.formatter()}/candidature/import/2024-08-20T00:00:00.000Z.json`,
+          },
+        });
+
+        const actualContent = await convertReadableStreamToString(result.content);
+        expect(actualContent).to.equal(JSON.stringify(expectedValues.détailsValue));
+      }
     });
   },
 );
@@ -163,6 +177,15 @@ Alors(
           identifiantProjet,
         } satisfies Candidature.ListerCandidaturesReadModel['items'][number]),
       );
+      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'Document.Query.ConsulterDocumentProjet',
+        data: {
+          documentKey: `${candidature.identifiantProjet.formatter()}/candidature/import/2024-08-20T00:00:00.000Z.json`,
+        },
+      });
+
+      const actualContent = await convertReadableStreamToString(result.content);
+      expect(actualContent).to.equal(JSON.stringify(expectedValues.détailsValue));
     });
   },
 );
