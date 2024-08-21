@@ -57,8 +57,16 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
   importer,
   corriger,
   calculerHash(payload) {
+    const copy = { ...payload } as Partial<
+      CandidatureImportéeEvent['payload'] & CandidatureCorrigéeEvent['payload']
+    >;
+    delete copy.corrigéLe;
+    delete copy.corrigéPar;
+    delete copy.importéLe;
+    delete copy.importéPar;
+
     return createHash('md5')
-      .update(JSON.stringify(payload, Object.keys(payload).sort()))
+      .update(JSON.stringify(copy, Object.keys(copy).sort()))
       .digest('hex');
   },
   estIdentiqueÀ(payload) {

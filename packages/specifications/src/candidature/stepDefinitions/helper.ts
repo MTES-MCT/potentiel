@@ -2,7 +2,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 
 type MapExampleToUseCaseDefaultValues = {
-  values: Candidature.ImporterCandidatureUseCase['data'];
+  values: Omit<Candidature.ImporterCandidatureUseCase['data'], 'importéLe' | 'importéPar'>;
   identifiantProjet: IdentifiantProjet.RawType;
 };
 export const mapExampleToUseCaseDefaultValues = (

@@ -1,6 +1,7 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
@@ -11,19 +12,25 @@ import {
 import { AppelOffreInexistantError } from '../appelOffreInexistant.error';
 import { CandidatureNonModifiéeError } from '../candidatureNonModifiée.error';
 import {
-  CandidatureImportéeEventPayload,
-  ImporterCandidatureBehaviorOptions,
+  CandidatureImportéeEventCommonPayload,
+  ImporterCandidatureBehaviorCommonOptions,
   mapToEventPayload,
 } from '../importer/importerCandidature.behavior';
 
-type CandidatureCorrigéePayload = CandidatureImportéeEventPayload;
+type CandidatureCorrigéePayload = CandidatureImportéeEventCommonPayload & {
+  corrigéLe: DateTime.RawType;
+  corrigéPar: Email.RawType;
+};
 
 export type CandidatureCorrigéeEvent = DomainEvent<
   'CandidatureCorrigée-V1',
   CandidatureCorrigéePayload
 >;
 
-type CorrigerCandidatureOptions = ImporterCandidatureBehaviorOptions;
+type CorrigerCandidatureOptions = ImporterCandidatureBehaviorCommonOptions & {
+  corrigéLe: DateTime.ValueType;
+  corrigéPar: Email.ValueType;
+};
 
 export async function corriger(
   this: CandidatureAggregate,
@@ -55,7 +62,11 @@ export async function corriger(
 
   const event: CandidatureCorrigéeEvent = {
     type: 'CandidatureCorrigée-V1',
-    payload: mapToEventPayload(candidature),
+    payload: {
+      ...mapToEventPayload(candidature),
+      corrigéLe: candidature.corrigéLe.formatter(),
+      corrigéPar: candidature.corrigéPar.formatter(),
+    },
   };
   if (this.estIdentiqueÀ(event.payload)) {
     throw new CandidatureNonModifiéeError(candidature.nomProjet);

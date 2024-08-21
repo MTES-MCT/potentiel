@@ -6,7 +6,6 @@ import { DésignationCatégorie, ProjectRawDataImported } from '../modules/proje
 import { v4 } from 'uuid';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
-import { CandidatureImportéeEvent } from '@potentiel-domain/candidature/dist/candidature';
 import getDepartementRegionFromCodePostal, {
   DepartementRegion,
 } from '../helpers/getDepartementRegionFromCodePostal';
@@ -103,7 +102,7 @@ const getLocalitéInfo = ({
   adresse1,
   adresse2,
   commune,
-}: CandidatureImportéeEvent['payload']['localité']) => {
+}: Candidature.CandidatureImportéeEvent['payload']['localité']) => {
   const départementsRégions = codePostal
     .split('/')
     .map((str) => str.trim())

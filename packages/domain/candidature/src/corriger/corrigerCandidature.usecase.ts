@@ -1,13 +1,18 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
+import { DateTime, Email } from '@potentiel-domain/common';
+
 import {
-  ImporterCandidatureUseCasePayload,
+  ImporterCandidatureUseCaseCommonPayload,
   mapPayloadForCommand,
 } from '../importer/importerCandidature.usecase';
 
 import { CorrigerCandidatureCommand } from './corrigerCandidature.command';
 
-type CorrigerCandidatureUseCasePayload = ImporterCandidatureUseCasePayload;
+type CorrigerCandidatureUseCasePayload = ImporterCandidatureUseCaseCommonPayload & {
+  corrigéLe: string;
+  corrigéPar: string;
+};
 
 export type CorrigerCandidatureUseCase = Message<
   'Candidature.UseCase.CorrigerCandidature',
@@ -18,7 +23,11 @@ export const registerCorrigerCandidatureUseCase = () => {
   const handler: MessageHandler<CorrigerCandidatureUseCase> = async (payload) =>
     mediator.send<CorrigerCandidatureCommand>({
       type: 'Candidature.Command.CorrigerCandidature',
-      data: mapPayloadForCommand(payload),
+      data: {
+        ...mapPayloadForCommand(payload),
+        corrigéLe: DateTime.convertirEnValueType(payload.corrigéLe),
+        corrigéPar: Email.convertirEnValueType(payload.corrigéPar),
+      },
     });
 
   mediator.register('Candidature.UseCase.CorrigerCandidature', handler);

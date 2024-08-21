@@ -33,11 +33,11 @@ Alors(
       // on ajoute les champs manquants attendus d'un coté ou de l'autre.
       expect(
         Object.keys(candidature)
-          .concat(['appelOffre', 'période', 'famille', 'numéroCRE', 'détails'])
+          .concat('appelOffre', 'période', 'famille', 'numéroCRE', 'détails')
           .sort(),
       ).to.deep.eq(
         Object.keys(expectedValues)
-          .concat('identifiantProjet')
+          .concat('identifiantProjet', 'misÀJourLe')
           .map((key) => key.replace(/Value$/, ''))
           .sort(),
       );
@@ -79,6 +79,8 @@ Alors(
               )
             : undefined,
           valeurÉvaluationCarbone: expectedValues.evaluationCarboneSimplifiéeValue,
+
+          misÀJourLe: DateTime.convertirEnValueType(new Date('2024-08-20')),
         } satisfies Candidature.ConsulterCandidatureReadModel),
       );
     });

@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import * as StatutCandidature from '../statutCandidature.valueType';
@@ -9,7 +9,7 @@ import { HistoriqueAbandon } from '../candidature';
 
 import { ImporterCandidatureCommand } from './importerCandidature.command';
 
-export type ImporterCandidatureUseCasePayload = {
+export type ImporterCandidatureUseCaseCommonPayload = {
   typeGarantiesFinancièresValue?: string;
   historiqueAbandonValue: string;
   appelOffreValue: string;
@@ -46,6 +46,11 @@ export type ImporterCandidatureUseCasePayload = {
   détailsValue: Record<string, string>;
 };
 
+type ImporterCandidatureUseCasePayload = ImporterCandidatureUseCaseCommonPayload & {
+  importéLe: string;
+  importéPar: string;
+};
+
 export type ImporterCandidatureUseCase = Message<
   'Candidature.UseCase.ImporterCandidature',
   ImporterCandidatureUseCasePayload
@@ -55,13 +60,17 @@ export const registerImporterCandidatureUseCase = () => {
   const handler: MessageHandler<ImporterCandidatureUseCase> = async (payload) =>
     mediator.send<ImporterCandidatureCommand>({
       type: 'Candidature.Command.ImporterCandidature',
-      data: mapPayloadForCommand(payload),
+      data: {
+        ...mapPayloadForCommand(payload),
+        importéLe: DateTime.convertirEnValueType(payload.importéLe),
+        importéPar: Email.convertirEnValueType(payload.importéPar),
+      },
     });
 
   mediator.register('Candidature.UseCase.ImporterCandidature', handler);
 };
 
-export const mapPayloadForCommand = (payload: ImporterCandidatureUseCasePayload) => ({
+export const mapPayloadForCommand = (payload: ImporterCandidatureUseCaseCommonPayload) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(
     `${payload.appelOffreValue}#${payload.périodeValue}#${payload.familleValue}#${payload.numéroCREValue}`,
   ),

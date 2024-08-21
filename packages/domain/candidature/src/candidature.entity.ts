@@ -37,5 +37,6 @@ export type CandidatureEntity = Entity<
     gouvernancePartagée: boolean;
     dateÉchéanceGf?: DateTime.RawType;
     territoireProjet: string;
+    misÀJourLe: DateTime.RawType;
   }
 >;

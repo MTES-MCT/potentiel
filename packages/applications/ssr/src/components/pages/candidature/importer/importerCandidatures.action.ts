@@ -6,8 +6,10 @@ import { mediator } from 'mediateur';
 import { DomainError } from '@potentiel-domain/core';
 import { Candidature } from '@potentiel-domain/candidature';
 import { parseCsv } from '@potentiel-libraries/csv';
+import { DateTime } from '@potentiel-domain/common';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getLocalité } from '../helpers';
 
@@ -20,49 +22,55 @@ const schema = zod.object({
 });
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }) => {
-  const { parsedData, rawData } = await parseCsv(fichierImport.stream(), candidatureSchema);
+  return withUtilisateur(async (utilisateur) => {
+    const { parsedData, rawData } = await parseCsv(fichierImport.stream(), candidatureSchema);
 
-  if (parsedData.length === 0) {
-    return {
-      status: 'form-error',
-      errors: ['fichierImport'],
-    };
-  }
+    if (parsedData.length === 0) {
+      return {
+        status: 'form-error',
+        errors: ['fichierImport'],
+      };
+    }
 
-  let success: number = 0;
-  const errors: ActionResult['errors'] = [];
+    let success: number = 0;
+    const errors: ActionResult['errors'] = [];
 
-  for (const line of parsedData) {
-    try {
-      const projectRawLine = rawData.find((data) => data['Nom projet'] === line.nom_projet) ?? {};
-      await mediator.send<Candidature.ImporterCandidatureUseCase>({
-        type: 'Candidature.UseCase.ImporterCandidature',
-        data: mapLineToUseCaseData(line, projectRawLine),
-      });
+    for (const line of parsedData) {
+      try {
+        const projectRawLine = rawData.find((data) => data['Nom projet'] === line.nom_projet) ?? {};
+        await mediator.send<Candidature.ImporterCandidatureUseCase>({
+          type: 'Candidature.UseCase.ImporterCandidature',
+          data: {
+            ...mapLineToUseCaseData(line, projectRawLine),
+            importéLe: DateTime.now().formatter(),
+            importéPar: utilisateur.identifiantUtilisateur.formatter(),
+          },
+        });
 
-      success++;
-    } catch (error) {
-      if (error instanceof DomainError) {
+        success++;
+      } catch (error) {
+        if (error instanceof DomainError) {
+          errors.push({
+            key: line.nom_projet,
+            reason: error.message,
+          });
+          continue;
+        }
         errors.push({
           key: line.nom_projet,
-          reason: error.message,
+          reason: `Une erreur inconnue empêche l'import des candidatures`,
         });
-        continue;
       }
-      errors.push({
-        key: line.nom_projet,
-        reason: `Une erreur inconnue empêche l'import des candidatures`,
-      });
     }
-  }
 
-  return {
-    status: 'success',
-    result: {
-      successCount: success,
-      errors,
-    },
-  };
+    return {
+      status: 'success',
+      result: {
+        successCount: success,
+        errors,
+      },
+    };
+  });
 };
 
 export const importerCandidaturesAction = formAction(action, schema);
@@ -74,7 +82,7 @@ const removeEmptyValues = (projectRawLine: Record<string, string>) => {
 const mapLineToUseCaseData = (
   line: CandidatureShape,
   rawLine: Record<string, string>,
-): Candidature.ImporterCandidatureUseCase['data'] => ({
+): Omit<Candidature.ImporterCandidatureUseCase['data'], 'importéLe' | 'importéPar'> => ({
   typeGarantiesFinancièresValue: line.type_gf,
   historiqueAbandonValue: line.historique_abandon,
   appelOffreValue: line.appel_offre,

@@ -1,5 +1,5 @@
 import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
@@ -16,7 +16,7 @@ import {
   GarantiesFinancièresRequisesPourAppelOffreError,
 } from '../garantiesFinancièresRequises.error';
 
-export type CandidatureImportéeEventPayload = {
+export type CandidatureImportéeEventCommonPayload = {
   identifiantProjet: IdentifiantProjet.RawType;
   statut: StatutCandidature.RawType;
   typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
@@ -54,12 +54,17 @@ export type CandidatureImportéeEventPayload = {
   détails: Record<string, string>;
 };
 
+type CandidatureImportéeEventPayload = CandidatureImportéeEventCommonPayload & {
+  importéLe: DateTime.RawType;
+  importéPar: Email.RawType;
+};
+
 export type CandidatureImportéeEvent = DomainEvent<
   'CandidatureImportée-V1',
   CandidatureImportéeEventPayload
 >;
 
-export type ImporterCandidatureBehaviorOptions = {
+export type ImporterCandidatureBehaviorCommonOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutCandidature.ValueType;
   typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
@@ -95,6 +100,11 @@ export type ImporterCandidatureBehaviorOptions = {
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
   détails: Record<string, string>;
+};
+
+type ImporterCandidatureBehaviorOptions = ImporterCandidatureBehaviorCommonOptions & {
+  importéLe: DateTime.ValueType;
+  importéPar: Email.ValueType;
 };
 
 export async function importer(
@@ -136,7 +146,11 @@ export async function importer(
 
   const event: CandidatureImportéeEvent = {
     type: 'CandidatureImportée-V1',
-    payload: mapToEventPayload(candidature),
+    payload: {
+      ...mapToEventPayload(candidature),
+      importéLe: candidature.importéLe.formatter(),
+      importéPar: candidature.importéPar.formatter(),
+    },
   };
   await this.publish(event);
 }
@@ -150,9 +164,7 @@ export function applyCandidatureImportée(
   this.payloadHash = this.calculerHash(payload);
 }
 
-export const mapToEventPayload = (
-  candidature: ImporterCandidatureBehaviorOptions,
-): CandidatureImportéeEvent['payload'] => ({
+export const mapToEventPayload = (candidature: ImporterCandidatureBehaviorCommonOptions) => ({
   identifiantProjet: candidature.identifiantProjet.formatter(),
   statut: candidature.statut.statut,
   technologie: candidature.technologie.type,

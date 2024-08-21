@@ -2,11 +2,15 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { LoadAggregate } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { loadCandidatureFactory } from '../candidature.aggregate';
-import { ImporterCandidatureCommandOptions } from '../importer/importerCandidature.command';
+import { ImporterCandidatureCommandCommonOptions } from '../importer/importerCandidature.command';
 
-type CorrigerCandidatureCommandOptions = ImporterCandidatureCommandOptions;
+type CorrigerCandidatureCommandOptions = ImporterCandidatureCommandCommonOptions & {
+  corrigéLe: DateTime.ValueType;
+  corrigéPar: Email.ValueType;
+};
 
 export type CorrigerCandidatureCommand = Message<
   'Candidature.Command.CorrigerCandidature',
