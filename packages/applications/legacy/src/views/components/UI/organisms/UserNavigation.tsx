@@ -126,7 +126,12 @@ const MenuAdmin = (currentPage?: string) => (
       >
         Notifier des candidats
       </DropdownMenu.DropdownItem>
-
+      <DropdownMenu.DropdownItem
+        href={routes.ADMIN_REGENERATE_CERTIFICATES}
+        {...(currentPage === 'regenerate-certificates' && { isCurrent: true })}
+      >
+        Régénérer des attestations
+      </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Candidature.lister}>
         Tous les candidats
       </DropdownMenu.DropdownItem>
@@ -197,12 +202,6 @@ const MenuAdmin = (currentPage?: string) => (
         {...(currentPage === 'liste-gestionnaires-réseau' && { isCurrent: true })}
       >
         Gérer les gestionnaires de réseau
-      </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={routes.ADMIN_REGENERATE_CERTIFICATES}
-        {...(currentPage === 'regenerate-certificates' && { isCurrent: true })}
-      >
-        Régénérer des attestations
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
   </>
