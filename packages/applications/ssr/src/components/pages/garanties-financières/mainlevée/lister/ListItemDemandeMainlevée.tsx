@@ -42,11 +42,9 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
       />
     }
     actions={
-      showInstruction && (
-        <Link href={Routes.GarantiesFinancières.détail(identifiantProjet)} aria-label={`instruire`}>
-          Instruire
-        </Link>
-      )
+      <Link href={Routes.GarantiesFinancières.détail(identifiantProjet)} aria-label={`instruire`}>
+        {showInstruction ? 'Instruire' : 'Voir'}
+      </Link>
     }
   >
     <StatutMainlevéeBadge statut={statut} />
