@@ -8,6 +8,7 @@ import { getLocalité } from './helpers';
 
 type ProjectRawDataImported = {
   type: 'ProjectRawDataImported';
+  occurredAt: number;
   payload: {
     data: {
       periodeId: string;
@@ -52,6 +53,7 @@ type ProjectRawDataImported = {
 
 type LegacyProjectSourced = {
   type: 'LegacyProjectSourced';
+  occurredAt: number;
   payload: {
     projectId: string;
     appelOffreId: string;
@@ -93,6 +95,7 @@ type LegacyProjectSourced = {
 
 type ProjectImported = {
   type: 'ProjectImported';
+  occurredAt: number;
   payload: {
     projectId: string;
     appelOffreId: string;
@@ -143,6 +146,7 @@ type ProjectImported = {
 
 type ProjectReimported = {
   type: 'ProjectReimported';
+  occurredAt: number;
   payload: {
     projectId: string;
     periodeId: string;
@@ -289,7 +293,7 @@ type ProjectReimported = {
       current++;
 
       const query = `
-        select type, payload
+        select type, payload, "occurredAt"
         from "eventStores" es
         where id = any($1)
         order by "createdAt" asc;
@@ -304,7 +308,7 @@ type ProjectReimported = {
       const events = await executeSelect<Events>(query, eventIds);
 
       const payload: Candidature.CandidatureImportéeEvent['payload'] = events.reduce(
-        (acc, { type, payload }) => {
+        (acc, { type, payload, occurredAt }) => {
           switch (type) {
             case 'ProjectRawDataImported':
               const result1: Candidature.CandidatureImportéeEvent['payload'] = {
@@ -349,6 +353,8 @@ type ProjectReimported = {
                   : undefined,
                 territoireProjet: payload.data.territoireProjet,
                 détails: payload.data.details,
+                importéPar: 'team@potentiel.beta.gouv.fr',
+                importéLe: DateTime.convertirEnValueType(new Date(occurredAt)).formatter(),
               };
 
               return result1;
@@ -387,6 +393,8 @@ type ProjectReimported = {
                   ...acc.détails,
                   ...payload.content.details,
                 },
+                importéPar: 'team@potentiel.beta.gouv.fr',
+                importéLe: DateTime.convertirEnValueType(new Date(occurredAt)).formatter(),
               };
 
               return result2;
@@ -425,6 +433,8 @@ type ProjectReimported = {
                   ...acc.détails,
                   ...payload.data.details,
                 },
+                importéPar: 'team@potentiel.beta.gouv.fr',
+                importéLe: DateTime.convertirEnValueType(new Date(occurredAt)).formatter(),
               };
 
               return result3;
@@ -481,6 +491,8 @@ type ProjectReimported = {
                   adresse2: '',
                   commune: payload.data.communeProjet ?? acc.localité?.commune ?? '',
                 }),
+                importéPar: 'team@potentiel.beta.gouv.fr',
+                importéLe: DateTime.convertirEnValueType(new Date(occurredAt)).formatter(),
               };
 
               return result4;
