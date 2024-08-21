@@ -23,7 +23,7 @@ export type ListPageTemplateProps<TItem> = {
   items: Array<TItem & { key: string }>;
   ItemComponent: FC<TItem>;
   search?: SearchProps;
-  legend: ListLegendProps['legend'];
+  legend?: ListLegendProps['legend'];
 };
 
 export const ListPageTemplate = <TItem,>({
@@ -36,7 +36,7 @@ export const ListPageTemplate = <TItem,>({
   itemsPerPage,
   totalItems,
   search,
-  legend,
+  legend = [],
 }: ListPageTemplateProps<TItem>) => (
   <PageTemplate banner={<Heading1 className="text-theme-white">{heading}</Heading1>}>
     <div className="flex flex-col md:flex-row gap-5 md:gap-10">
