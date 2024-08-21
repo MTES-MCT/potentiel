@@ -19,45 +19,45 @@ export const register = () => {
     if (type === 'RebuildTriggered') {
       await removeProjection<Candidature.CandidatureEntity>(`candidature|${payload.id}`);
     } else {
-      const candidature: Omit<Candidature.CandidatureEntity, 'type'> = {
-        identifiantProjet: payload.identifiantProjet,
-        appelOffre: payload.appelOffre,
-        nomProjet: payload.nomProjet,
-        sociétéMère: payload.sociétéMère,
-        nomCandidat: payload.nomCandidat,
-        puissanceProductionAnnuelle: payload.puissanceProductionAnnuelle,
-        prixReference: payload.prixReference,
-        noteTotale: payload.noteTotale,
-        nomReprésentantLégal: payload.nomReprésentantLégal,
-        emailContact: payload.emailContact,
-        localité: payload.localité,
-        motifÉlimination: payload.motifÉlimination,
-        puissanceALaPointe: payload.puissanceALaPointe,
-        evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiée,
-        valeurÉvaluationCarbone: payload.valeurÉvaluationCarbone,
-        financementCollectif: payload.financementCollectif,
-        financementParticipatif: payload.financementParticipatif,
-        gouvernancePartagée: payload.gouvernancePartagée,
-        territoireProjet: payload.territoireProjet,
-        statut: StatutProjet.convertirEnValueType(payload.statut).statut,
-        typeGarantiesFinancières: payload.typeGarantiesFinancières
-          ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
-              payload.typeGarantiesFinancières,
-            ).type
-          : undefined,
-        historiqueAbandon: Candidature.HistoriqueAbandon.convertirEnValueType(
-          payload.historiqueAbandon,
-        ).type,
-        dateÉchéanceGf: payload.dateÉchéanceGf
-          ? DateTime.convertirEnValueType(payload.dateÉchéanceGf).formatter()
-          : undefined,
-        technologie: Candidature.Technologie.convertirEnValueType(payload.technologie).type,
-        misÀJourLe: type === 'CandidatureCorrigée-V1' ? payload.corrigéLe : payload.importéLe,
-      };
-
       switch (type) {
         case 'CandidatureImportée-V1':
         case 'CandidatureCorrigée-V1':
+          const candidature: Omit<Candidature.CandidatureEntity, 'type'> = {
+            identifiantProjet: payload.identifiantProjet,
+            appelOffre: payload.appelOffre,
+            nomProjet: payload.nomProjet,
+            sociétéMère: payload.sociétéMère,
+            nomCandidat: payload.nomCandidat,
+            puissanceProductionAnnuelle: payload.puissanceProductionAnnuelle,
+            prixReference: payload.prixReference,
+            noteTotale: payload.noteTotale,
+            nomReprésentantLégal: payload.nomReprésentantLégal,
+            emailContact: payload.emailContact,
+            localité: payload.localité,
+            motifÉlimination: payload.motifÉlimination,
+            puissanceALaPointe: payload.puissanceALaPointe,
+            evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiée,
+            valeurÉvaluationCarbone: payload.valeurÉvaluationCarbone,
+            financementCollectif: payload.financementCollectif,
+            financementParticipatif: payload.financementParticipatif,
+            gouvernancePartagée: payload.gouvernancePartagée,
+            territoireProjet: payload.territoireProjet,
+            statut: StatutProjet.convertirEnValueType(payload.statut).statut,
+            typeGarantiesFinancières: payload.typeGarantiesFinancières
+              ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
+                  payload.typeGarantiesFinancières,
+                ).type
+              : undefined,
+            historiqueAbandon: Candidature.HistoriqueAbandon.convertirEnValueType(
+              payload.historiqueAbandon,
+            ).type,
+            dateÉchéanceGf: payload.dateÉchéanceGf
+              ? DateTime.convertirEnValueType(payload.dateÉchéanceGf).formatter()
+              : undefined,
+            technologie: Candidature.Technologie.convertirEnValueType(payload.technologie).type,
+            misÀJourLe: type === 'CandidatureCorrigée-V1' ? payload.corrigéLe : payload.importéLe,
+          };
+
           await upsertProjection<Candidature.CandidatureEntity>(
             `candidature|${payload.identifiantProjet}`,
             candidature,
