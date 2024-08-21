@@ -94,6 +94,12 @@ const getNavigationItemsBasedOnRole = (
               },
             },
             {
+              text: 'Régénérer des attestations',
+              linkProps: {
+                href: '/admin/regenerer-attestations.html',
+              },
+            },
+            {
               text: 'Tous les candidats',
               linkProps: {
                 href: Routes.Candidature.lister,
@@ -172,12 +178,6 @@ const getNavigationItemsBasedOnRole = (
               text: 'Gérer les gestionnaires de réseau',
               linkProps: {
                 href: Routes.Gestionnaire.lister,
-              },
-            },
-            {
-              text: 'Régénérer des attestations',
-              linkProps: {
-                href: '/admin/regenerer-attestations.html',
               },
             },
           ],
