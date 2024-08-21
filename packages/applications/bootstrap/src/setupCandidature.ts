@@ -7,6 +7,8 @@ import { CandidatureProjector } from '@potentiel-applications/projectors';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 
 export const setupCandidature = async () => {
+  Candidature.registerCandidaturesUseCases({ loadAggregate });
+
   Candidature.registerCandidatureQueries({
     find: findProjection,
     récupérerProjet: CandidatureAdapter.récupérerProjetAdapter,
@@ -16,11 +18,9 @@ export const setupCandidature = async () => {
     list: listProjection,
   });
 
-  Candidature.registerCandidaturesUseCases({ loadAggregate });
-
   CandidatureProjector.register();
 
-  const unsubscribeRecoursProjector = await subscribe<CandidatureProjector.SubscriptionEvent>({
+  const unsubscribeCandidatureProjector = await subscribe<CandidatureProjector.SubscriptionEvent>({
     name: 'projector',
     eventType: ['RebuildTriggered', 'CandidatureImportée-V1', 'CandidatureCorrigée-V1'],
     eventHandler: async (event) => {
@@ -33,6 +33,6 @@ export const setupCandidature = async () => {
   });
 
   return async () => {
-    await unsubscribeRecoursProjector();
+    await unsubscribeCandidatureProjector();
   };
 };
