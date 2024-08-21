@@ -1,12 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import {
   ImporterCandidatureUseCaseCommonPayload,
   mapPayloadForCommand,
 } from '../importer/importerCandidature.usecase';
-import { EnregistrerDétailsCandidatureCommand } from '../importer/enregistrerDétails.command';
 
 import { CorrigerCandidatureCommand } from './corrigerCandidature.command';
 
@@ -36,12 +36,18 @@ export const registerCorrigerCandidatureUseCase = () => {
       },
     });
 
-    await mediator.send<EnregistrerDétailsCandidatureCommand>({
-      type: 'Candidature.Command.EnregistrerDétailsCandidature',
+    const buf = Buffer.from(JSON.stringify(payload.détailsValue));
+    const blob = new Blob([buf]);
+    await mediator.send<EnregistrerDocumentProjetCommand>({
+      type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
-        identifiantProjet,
-        détails: payload.détailsValue,
-        date: corrigéLe,
+        content: blob.stream(),
+        documentProjet: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          'candidature/import',
+          corrigéLe.formatter(),
+          'application/json',
+        ),
       },
     });
   };

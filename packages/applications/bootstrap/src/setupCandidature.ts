@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/candidature';
-import { CandidatureAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { CandidatureProjector } from '@potentiel-applications/projectors';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
@@ -9,7 +9,6 @@ import { findProjection, listProjection } from '@potentiel-infrastructure/pg-pro
 export const setupCandidature = async () => {
   Candidature.registerCandidaturesUseCases({
     loadAggregate,
-    enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
   });
 
   Candidature.registerCandidatureQueries({

@@ -2,13 +2,13 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as Technologie from '../technologie.valueType';
 import { HistoriqueAbandon } from '../candidature';
 
 import { ImporterCandidatureCommand } from './importerCandidature.command';
-import { EnregistrerDétailsCandidatureCommand } from './enregistrerDétails.command';
 
 export type ImporterCandidatureUseCaseCommonPayload = {
   typeGarantiesFinancièresValue?: string;
@@ -74,12 +74,18 @@ export const registerImporterCandidatureUseCase = () => {
       },
     });
 
-    await mediator.send<EnregistrerDétailsCandidatureCommand>({
-      type: 'Candidature.Command.EnregistrerDétailsCandidature',
+    const buf = Buffer.from(JSON.stringify(payload.détailsValue));
+    const blob = new Blob([buf]);
+    await mediator.send<EnregistrerDocumentProjetCommand>({
+      type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
-        identifiantProjet,
-        détails: payload.détailsValue,
-        date: importéLe,
+        content: blob.stream(),
+        documentProjet: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          'candidature/import',
+          importéLe.formatter(),
+          'application/json',
+        ),
       },
     });
   };
