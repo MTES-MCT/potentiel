@@ -64,16 +64,6 @@ export const registerImporterCandidatureUseCase = () => {
     );
     const importéLe = DateTime.convertirEnValueType(payload.importéLe);
 
-    await mediator.send<ImporterCandidatureCommand>({
-      type: 'Candidature.Command.ImporterCandidature',
-      data: {
-        identifiantProjet,
-        ...mapPayloadForCommand(payload),
-        importéLe,
-        importéPar: Email.convertirEnValueType(payload.importéPar),
-      },
-    });
-
     const buf = Buffer.from(JSON.stringify(payload.détailsValue));
     const blob = new Blob([buf]);
     await mediator.send<EnregistrerDocumentProjetCommand>({
@@ -86,6 +76,15 @@ export const registerImporterCandidatureUseCase = () => {
           importéLe.formatter(),
           'application/json',
         ),
+      },
+    });
+    await mediator.send<ImporterCandidatureCommand>({
+      type: 'Candidature.Command.ImporterCandidature',
+      data: {
+        identifiantProjet,
+        ...mapPayloadForCommand(payload),
+        importéLe,
+        importéPar: Email.convertirEnValueType(payload.importéPar),
       },
     });
   };
