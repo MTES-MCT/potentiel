@@ -3,6 +3,8 @@ import { mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/laureat';
+import { Éliminé } from '@potentiel-domain/elimine';
 
 import { PotentielWorld } from '../../potentiel.world';
 
@@ -63,21 +65,28 @@ Quand(
     const { identifiantProjet, values } =
       this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
     const dateNotification = new Date(exemple['date notification']).toISOString();
-    await mediator.send<Candidature.NotifierCandidatureUseCase>({
-      type: 'Candidature.UseCase.NotifierCandidature',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        dateNotificationValue: dateNotification,
-      },
-    });
     // TODO à challenger
     if (values.statutValue === 'éliminé') {
+      await mediator.send<Éliminé.NotifierÉliminéUseCase>({
+        type: 'Éliminé.UseCase.NotifierÉliminé',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          dateNotificationValue: dateNotification,
+        },
+      });
       this.eliminéWorld.eliminéFixtures.set(nomProjet, {
         dateDésignation: dateNotification,
         identifiantProjet,
         nom: nomProjet,
       });
     } else {
+      await mediator.send<Lauréat.NotifierLauréatUseCase>({
+        type: 'Lauréat.UseCase.NotifierLauréat',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          dateNotificationValue: dateNotification,
+        },
+      });
       this.lauréatWorld.lauréatFixtures.set(nomProjet, {
         appelOffre: values.appelOffreValue,
         dateDésignation: dateNotification,
