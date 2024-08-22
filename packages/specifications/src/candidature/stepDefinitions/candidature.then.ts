@@ -135,6 +135,7 @@ Alors(
         prixReferenceValue,
         evaluationCarboneSimplifiéeValue,
         localitéValue: { commune, département, région },
+        détailsValue,
       } = mapExampleToUseCaseDefaultValues(nomProjet, exemple).values;
 
       // Comparaison des clés retournées, afin de vérifier qu'il n'en manque pas, ou qu'il n'y en a pas trop.
@@ -155,6 +156,7 @@ Alors(
             département,
             région,
           },
+          détailsValue,
         })
           .concat('identifiantProjet')
           .map((key) => key.replace(/Value$/, ''))
