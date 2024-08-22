@@ -172,7 +172,7 @@ EtantDonné(
       const tâches = await mediator.send<ListerTâchesQuery>({
         type: 'Tâche.Query.ListerTâches',
         data: {
-          email: this.utilisateurWorld.porteur,
+          email: this.utilisateurWorld.porteurFixture.email,
         },
       });
 

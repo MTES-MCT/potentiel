@@ -131,7 +131,7 @@ const mapToReadModel = (result: AbandonEntity) => {
               ? DateTime.convertirEnValueType(result.demande.confirmation.confirméLe)
               : undefined,
             confirméPar: result.demande.confirmation.confirméPar
-              ? Email.convertirEnValueType(result.demande.confirmation.demandéePar)
+              ? Email.convertirEnValueType(result.demande.confirmation.confirméPar)
               : undefined,
           }
         : undefined,

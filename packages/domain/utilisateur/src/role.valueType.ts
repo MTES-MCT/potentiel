@@ -1,4 +1,4 @@
-import { OperationRejectedError, ReadonlyValueType } from '@potentiel-domain/core';
+import { OperationRejectedError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export type RawType =
   | 'admin'
@@ -50,6 +50,10 @@ export const convertirEnValueType = (value: string): ValueType => {
       }
     },
   };
+};
+
+export const bind = ({ nom }: PlainType<ValueType>) => {
+  return convertirEnValueType(nom);
 };
 
 export const estUnRoleValide = (value: string) => {

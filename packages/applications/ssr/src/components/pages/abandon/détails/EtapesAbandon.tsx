@@ -5,95 +5,96 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import { PlainType } from '@potentiel-domain/core';
+import { Role } from '@potentiel-domain/utilisateur';
+import { Abandon } from '@potentiel-domain/laureat';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
 
-import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
 import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
-
-import { StatutPreuveRecandidatureBadgeProps } from './PreuveRecandidatureStatutBadge';
+import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
 
 export type EtapesAbandonProps = {
-  demande: {
-    demandéPar: string;
-    demandéLe: Iso8601DateTime;
-    lienRecandidature?: string;
-    recandidature: boolean;
-    preuveRecandidatureStatut: StatutPreuveRecandidatureBadgeProps['statut'];
-    preuveRecandidature?: string;
-    preuveRecandidatureTransmiseLe?: Iso8601DateTime;
-    preuveRecandidatureTransmisePar?: string;
-    raison: string;
-    pièceJustificative?: string;
-  };
-  confirmation?: {
-    demandéLe: Iso8601DateTime;
-    demandéPar: string;
-    réponseSignée: string;
-    confirméLe?: Iso8601DateTime;
-    confirméPar?: string;
-  };
-  accord?: { accordéPar: string; accordéLe: Iso8601DateTime; réponseSignée: string };
-  rejet?: { rejetéPar: string; rejetéLe: Iso8601DateTime; réponseSignée: string };
+  abandon: PlainType<Abandon.ConsulterAbandonReadModel>;
+  role: PlainType<Role.ValueType>;
 };
 
 export const EtapesAbandon: FC<EtapesAbandonProps> = ({
-  demande: {
-    demandéLe,
-    demandéPar,
-    lienRecandidature,
-    recandidature,
-    raison,
-    pièceJustificative: justificatifDemande,
-    preuveRecandidatureStatut,
-    preuveRecandidature,
-    preuveRecandidatureTransmiseLe,
-    preuveRecandidatureTransmisePar,
+  abandon: {
+    demande: {
+      demandéLe,
+      demandéPar,
+      raison,
+      accord,
+      confirmation,
+      pièceJustificative,
+      recandidature,
+      rejet,
+    },
+    identifiantProjet,
   },
-  confirmation,
-  accord,
-  rejet,
+  role,
 }) => {
   const items: TimelineProps['items'] = [];
 
-  if (preuveRecandidatureStatut === 'en-attente' && accord) {
+  const identifiantProjetAbandonné = IdentifiantProjet.bind(identifiantProjet);
+  const roleUtilisateur = Role.bind(role);
+
+  if (recandidature?.statut?.statut === 'en-attente' && accord) {
     items.push({
       status: 'warning',
       date: 'En attente',
-      title: lienRecandidature ? (
-        <Link href={lienRecandidature}>Transmettre un projet comme preuve de recandidature</Link>
+      title: Role.porteur.estÉgaleÀ(roleUtilisateur) ? (
+        <Link
+          href={Routes.Abandon.transmettrePreuveRecandidature(
+            identifiantProjetAbandonné.formatter(),
+          )}
+        >
+          Transmettre un projet comme preuve de recandidature
+        </Link>
       ) : (
         "Le porteur n'a pas encore transmis de projet comme preuve de recandidature."
       ),
     });
   }
 
-  if (preuveRecandidature && preuveRecandidatureTransmiseLe && preuveRecandidatureTransmisePar) {
+  if (
+    recandidature?.preuve?.transmiseLe &&
+    recandidature?.preuve?.transmisePar &&
+    recandidature?.preuve?.identifiantProjet
+  ) {
+    const identifiantProjetPreuve = IdentifiantProjet.bind(
+      recandidature.preuve.identifiantProjet,
+    ).formatter();
+    const transmiseLe = DateTime.bind(recandidature.preuve.transmiseLe).formatter();
+    const transmisePar = Email.bind(recandidature.preuve.transmisePar).formatter();
     items.push({
       status: 'success',
-      date: preuveRecandidatureTransmiseLe,
+      date: transmiseLe,
       title: (
         <div>
           Le{' '}
           <Link
-            href={Routes.Projet.details(preuveRecandidature)}
+            href={Routes.Projet.details(identifiantProjetPreuve)}
             aria-label={`voir le projet faisant office de preuve de recandidature`}
           >
             projet faisant preuve de recandidature
           </Link>{' '}
-          a été transmis par{' '}
-          {<span className="font-semibold">{preuveRecandidatureTransmisePar}</span>}
+          a été transmis par {<span className="font-semibold">{transmisePar}</span>}
         </div>
       ),
     });
   }
 
   if (accord) {
+    const accordéLe = DateTime.bind(accord.accordéLe).formatter();
+    const accordéPar = Email.bind(accord.accordéPar).formatter();
+    const réponseSignée = DocumentProjet.bind(accord.réponseSignée).formatter();
+
     items.push({
       status: 'success',
-      date: accord.accordéLe,
-      title: (
-        <div>Abandon accordé par {<span className="font-semibold">{accord.accordéPar}</span>}</div>
-      ),
+      date: accordéLe,
+      title: <div>Abandon accordé par {<span className="font-semibold">{accordéPar}</span>}</div>,
       content: (
         <>
           {accord.réponseSignée && (
@@ -101,7 +102,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
               className="mb-0"
               label="Télécharger la pièce justificative"
               format="pdf"
-              url={Routes.Document.télécharger(accord.réponseSignée)}
+              url={Routes.Document.télécharger(réponseSignée)}
             />
           )}
         </>
@@ -110,12 +111,14 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
   }
 
   if (rejet) {
+    const rejetéLe = DateTime.bind(rejet.rejetéLe).formatter();
+    const rejetéPar = Email.bind(rejet.rejetéPar).formatter();
+    const réponseSignée = DocumentProjet.bind(rejet.réponseSignée).formatter();
+
     items.push({
       status: 'error',
-      date: rejet.rejetéLe,
-      title: (
-        <div>Abandon rejeté par {<span className="font-semibold">{rejet.rejetéPar}</span>}</div>
-      ),
+      date: rejetéLe,
+      title: <div>Abandon rejeté par {<span className="font-semibold">{rejetéPar}</span>}</div>,
       content: (
         <>
           {rejet.réponseSignée && (
@@ -123,7 +126,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
               className="mb-0"
               label="Télécharger la pièce justificative"
               format="pdf"
-              url={Routes.Document.télécharger(rejet.réponseSignée)}
+              url={Routes.Document.télécharger(réponseSignée)}
             />
           )}
         </>
@@ -131,25 +134,25 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
     });
   }
 
-  if (confirmation?.confirméLe) {
+  if (confirmation?.confirméLe && confirmation?.confirméPar) {
+    const confirméLe = DateTime.bind(confirmation.confirméLe).formatter();
+    const confirméPar = Email.bind(confirmation.confirméPar).formatter();
     items.push({
-      date: confirmation.confirméLe,
+      date: confirméLe,
       title: (
-        <div>
-          Demande confirmée par {<span className="font-semibold">{confirmation.confirméPar}</span>}
-        </div>
+        <div>Demande confirmée par {<span className="font-semibold">{confirméPar}</span>}</div>
       ),
     });
   }
 
   if (confirmation) {
+    const demandéeLe = DateTime.bind(confirmation.demandéeLe).formatter();
+    const demandéePar = Email.bind(confirmation.demandéePar).formatter();
+    const réponseSignée = DocumentProjet.bind(confirmation.réponseSignée).formatter();
     items.push({
-      date: confirmation.demandéLe,
+      date: demandéeLe,
       title: (
-        <div>
-          Confirmation demandée par{' '}
-          {<span className="font-semibold">{confirmation.demandéPar}</span>}
-        </div>
+        <div>Confirmation demandée par {<span className="font-semibold">{demandéePar}</span>}</div>
       ),
       content: (
         <>
@@ -158,7 +161,7 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
               className="mb-0"
               label="Télécharger la pièce justificative"
               format="pdf"
-              url={Routes.Document.télécharger(confirmation.réponseSignée)}
+              url={Routes.Document.télécharger(réponseSignée)}
             />
           )}
         </>
@@ -166,9 +169,16 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
     });
   }
 
+  const abandonDemandéLe = DateTime.bind(demandéLe).formatter();
+  const abandonDemandéPar = Email.bind(demandéPar).formatter();
+  const abandonPièceJustificative = pièceJustificative
+    ? DocumentProjet.bind(pièceJustificative).formatter()
+    : undefined;
   items.push({
-    date: demandéLe,
-    title: <div>Demande déposée par {<span className="font-semibold">{demandéPar}</span>}</div>,
+    date: abandonDemandéLe,
+    title: (
+      <div>Demande déposée par {<span className="font-semibold">{abandonDemandéPar}</span>}</div>
+    ),
     content: (
       <>
         {recandidature && (
@@ -183,12 +193,12 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
             <p className="mt-2">"{raison}"</p>
           </blockquote>
         </div>
-        {justificatifDemande && (
+        {abandonPièceJustificative && (
           <DownloadDocument
             className="mb-0"
             label="Télécharger la pièce justificative"
             format="pdf"
-            url={Routes.Document.télécharger(justificatifDemande)}
+            url={Routes.Document.télécharger(abandonPièceJustificative)}
           />
         )}
       </>

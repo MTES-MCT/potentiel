@@ -90,7 +90,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
           abandon.demande.confirmation?.confirméLe?.date.toLocaleDateString('fr-FR') || '',
         dateDemande: abandon.demande.demandéLe.date.toLocaleDateString('fr-FR'),
         dateDemandeConfirmation:
-          abandon.demande.confirmation?.demandéLe.date.toLocaleDateString('fr-FR') || '',
+          abandon.demande.confirmation?.demandéeLe.date.toLocaleDateString('fr-FR') || '',
         dateNotification: DateTime.convertirEnValueType(
           candidature.dateDésignation,
         ).date.toLocaleDateString('fr-FR'),

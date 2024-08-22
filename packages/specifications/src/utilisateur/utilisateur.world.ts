@@ -1,14 +1,37 @@
-export class UtilisateurWorld {
-  #porteur!: string;
+import { PorteurFixture } from './fixtures/porteur.fixture';
+import { ValidateurFixture } from './fixtures/validateur.fixture';
+import { DGECFixture } from './fixtures/dgec.fixture';
+import { DREALFixture } from './fixtures/dreal.fixture';
 
-  get porteur(): string {
-    if (!this.#porteur) {
-      throw new Error('porteur not initialized');
-    }
-    return this.#porteur;
+export class UtilisateurWorld {
+  #porteurFixture: PorteurFixture;
+
+  get porteurFixture() {
+    return this.#porteurFixture;
   }
 
-  set porteur(value: string) {
-    this.#porteur = value;
+  #validateurFixture: ValidateurFixture;
+
+  get validateurFixture() {
+    return this.#validateurFixture;
+  }
+
+  #dgecFixture: DGECFixture;
+
+  get dgecFixture() {
+    return this.#dgecFixture;
+  }
+
+  #drealFixture: DREALFixture;
+
+  get drealFixture() {
+    return this.#drealFixture;
+  }
+
+  constructor() {
+    this.#porteurFixture = new PorteurFixture();
+    this.#validateurFixture = new ValidateurFixture();
+    this.#dgecFixture = new DGECFixture();
+    this.#drealFixture = new DREALFixture();
   }
 }

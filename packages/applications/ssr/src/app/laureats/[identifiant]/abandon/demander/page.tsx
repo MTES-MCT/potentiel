@@ -10,10 +10,7 @@ import { StatutProjet } from '@potentiel-domain/common';
 import { InvalidOperationError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
-import {
-  DemanderAbandonPage,
-  DemanderAbandonPageProps,
-} from '@/components/pages/abandon/demander/DemanderAbandon.page';
+import { DemanderAbandonPage } from '@/components/pages/abandon/demander/DemanderAbandon.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -74,17 +71,16 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     }
 
     const période = appelOffre.periodes.find((p) => p.id === candidature.période);
+
     if (!période) {
       return notFound();
     }
 
-    // TODO: extract the logic in a dedicated function mapToProps
-    // identifiantProjet must come from the readmodel as a value type
-    const demanderAbandonPageProps: DemanderAbandonPageProps = {
-      identifiantProjet,
-      showRecandidatureCheckBox: période.abandonAvecRecandidature ? true : false,
-    };
-
-    return <DemanderAbandonPage {...{ ...demanderAbandonPageProps }} />;
+    return (
+      <DemanderAbandonPage
+        identifiantProjet={identifiantProjet}
+        showRecandidatureCheckBox={période.abandonAvecRecandidature ? true : false}
+      />
+    );
   });
 }

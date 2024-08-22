@@ -3,9 +3,9 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Abandon } from '@potentiel-domain/laureat';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { Routes } from '@potentiel-applications/routes';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import {
   DétailsAbandonPage,
@@ -43,71 +43,18 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         return notFound();
       }
 
-      const { statut, demande, accord, rejet } = abandon;
-
-      // TODO: extract the logic in a dedicated function mapToProps
-      // identifiantProjet must come from the readmodel as a value type
-      const detailAbandonPageProps: DétailsAbandonPageProps = {
-        identifiantProjet,
-        statut: statut.statut,
-        abandon: {
-          demande: {
-            demandéPar: demande.demandéPar.formatter(),
-            demandéLe: demande.demandéLe.formatter(),
-            recandidature: demande.recandidature,
-            lienRecandidature:
-              utilisateur.role.estÉgaleÀ(Role.porteur) && demande.recandidature
-                ? Routes.Abandon.transmettrePreuveRecandidature(identifiantProjet)
-                : undefined,
-            raison: demande.raison,
-            ...(demande.piéceJustificative && {
-              pièceJustificative: demande.piéceJustificative.formatter(),
-            }),
-            ...(demande.preuveRecandidature && {
-              preuveRecandidature: demande.preuveRecandidature.formatter(),
-              ...(demande.preuveRecandidatureTransmiseLe && {
-                preuveRecandidatureTransmiseLe: demande.preuveRecandidatureTransmiseLe.formatter(),
-              }),
-              ...(demande.preuveRecandidatureTransmisePar && {
-                preuveRecandidatureTransmisePar:
-                  demande.preuveRecandidatureTransmisePar.formatter(),
-              }),
-            }),
-            preuveRecandidatureStatut: demande.preuveRecandidatureStatut.statut,
-          },
-          ...(demande.confirmation && {
-            confirmation: {
-              demandéLe: demande.confirmation.demandéLe.formatter(),
-              demandéPar: demande.confirmation.demandéPar.formatter(),
-              réponseSignée: demande.confirmation.réponseSignée.formatter(),
-              confirméLe: demande.confirmation.confirméLe?.formatter(),
-              confirméPar: demande.confirmation.confirméPar?.formatter(),
-            },
-          }),
-          ...(accord && {
-            accord: {
-              accordéPar: accord.accordéPar.formatter(),
-              accordéLe: accord.accordéLe.formatter(),
-              réponseSignée: accord.réponseSignée.formatter(),
-            },
-          }),
-          ...(rejet && {
-            rejet: {
-              rejetéLe: rejet.rejetéLe.formatter(),
-              rejetéPar: rejet.rejetéPar.formatter(),
-              réponseSignée: rejet.réponseSignée.formatter(),
-            },
-          }),
-        },
-
-        actions: mapToActions({
-          utilisateur,
-          recandidature: demande.recandidature,
-          statut,
-        }),
-      };
-
-      return <DétailsAbandonPage {...{ ...detailAbandonPageProps }} />;
+      return (
+        <DétailsAbandonPage
+          abandon={mapToPlainObject(abandon)}
+          identifiantProjet={identifiantProjet}
+          role={mapToPlainObject(utilisateur.role)}
+          actions={mapToActions({
+            utilisateur,
+            recandidature: abandon.demande.estUneRecandidature,
+            statut: abandon.statut,
+          })}
+        />
+      );
     }),
   );
 }

@@ -2,7 +2,7 @@ import { join } from 'path';
 
 import { extension } from 'mime-types';
 
-import { InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { DossierProjet } from '.';
@@ -11,37 +11,54 @@ type Extension = string;
 export type RawType = `${DossierProjet.RawType}/${DateTime.RawType}.${Extension}`;
 
 export type ValueType = Readonly<{
+  identifiantProjet: string;
+  typeDocument: string;
+  dateCréation: string;
   format: string;
   formatter(): RawType;
 }>;
 
-export const convertirEnValueType = (
-  identifiantProjetValue: string,
-  typeDocumentValue: string,
-  dateCréationValue: string,
-  formatValue: string,
-): ValueType => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-  const dateCréation = DateTime.convertirEnValueType(dateCréationValue);
-
-  const extensionFichier = extension(formatValue);
+export const bind = ({
+  dateCréation,
+  format,
+  identifiantProjet,
+  typeDocument,
+}: PlainType<ValueType>): ValueType => {
+  const extensionFichier = extension(format);
   estUneExtensionFichierValide(extensionFichier);
-  estUnTypeDeDocumentValide(typeDocumentValue);
+  estUnTypeDeDocumentValide(typeDocument);
 
   return {
-    format: formatValue,
+    format,
+    dateCréation: DateTime.convertirEnValueType(dateCréation).formatter(),
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+    typeDocument,
     formatter() {
       /**
        * @todo Ici le valueType ne devrait pas savoir que l'enregistrement du document doit se faire dans un file system qui demande de créer un chemin de fichier (à l'aide du join)
        * cf upload.ts
        */
       return join(
-        identifiantProjet.formatter(),
-        typeDocumentValue,
-        `${dateCréation.formatter()}.${extensionFichier}`,
+        identifiantProjet,
+        typeDocument,
+        `${dateCréation}.${extensionFichier}`,
       ) as RawType;
     },
   };
+};
+
+export const convertirEnValueType = (
+  identifiantProjet: string,
+  typeDocument: string,
+  dateCréation: string,
+  format: string,
+): ValueType => {
+  return bind({
+    identifiantProjet,
+    typeDocument,
+    dateCréation,
+    format,
+  });
 };
 
 function estUneExtensionFichierValide(value: string | false): asserts value is string {

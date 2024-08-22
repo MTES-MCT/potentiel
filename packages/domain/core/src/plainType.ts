@@ -7,7 +7,7 @@ export type PlainType<T> = {
         ? PlainType<T[K]>
         : T[K] extends Date
           ? string
-          : T[K];
+          : PlainType<T[K]>;
 };
 
 export const mapToPlainObject = <T>(obj: T) => JSON.parse(JSON.stringify(obj)) as PlainType<T>;

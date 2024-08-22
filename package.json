@@ -70,6 +70,7 @@
   "devDependencies": {
     "@eslint/compat": "^1.1.0",
     "@eslint/js": "^8.57.0",
+    "@faker-js/faker": "^8.4.1",
     "@next/eslint-plugin-next": "^14.2.4",
     "@types/chai": "^4.3.5",
     "chai": "^4.3.8",
