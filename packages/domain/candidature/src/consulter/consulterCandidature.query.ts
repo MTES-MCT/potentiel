@@ -4,6 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/core';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { CandidatureEntity } from '../candidature.entity';
 import { HistoriqueAbandon, Technologie } from '../candidature';
@@ -40,6 +41,8 @@ export type ConsulterCandidatureReadModel = {
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
   misÀJourLe: DateTime.ValueType;
+
+  détails: DocumentProjet.ValueType;
 };
 
 export type ConsulterCandidatureQuery = Message<
@@ -120,4 +123,10 @@ export const mapToReadModel = ({
   financementParticipatif,
   gouvernancePartagée,
   territoireProjet,
+  détails: DocumentProjet.convertirEnValueType(
+    identifiantProjet,
+    'candidature/import',
+    misÀJourLe,
+    'application/json',
+  ),
 });

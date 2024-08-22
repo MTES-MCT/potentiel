@@ -1,6 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import {
   ImporterCandidatureUseCaseCommonPayload,
@@ -20,15 +21,35 @@ export type CorrigerCandidatureUseCase = Message<
 >;
 
 export const registerCorrigerCandidatureUseCase = () => {
-  const handler: MessageHandler<CorrigerCandidatureUseCase> = async (payload) =>
-    mediator.send<CorrigerCandidatureCommand>({
+  const handler: MessageHandler<CorrigerCandidatureUseCase> = async (payload) => {
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+      `${payload.appelOffreValue}#${payload.périodeValue}#${payload.familleValue}#${payload.numéroCREValue}`,
+    );
+    const corrigéLe = DateTime.convertirEnValueType(payload.corrigéLe);
+    await mediator.send<CorrigerCandidatureCommand>({
       type: 'Candidature.Command.CorrigerCandidature',
       data: {
+        identifiantProjet,
         ...mapPayloadForCommand(payload),
         corrigéLe: DateTime.convertirEnValueType(payload.corrigéLe),
         corrigéPar: Email.convertirEnValueType(payload.corrigéPar),
       },
     });
 
+    const buf = Buffer.from(JSON.stringify(payload.détailsValue));
+    const blob = new Blob([buf]);
+    await mediator.send<EnregistrerDocumentProjetCommand>({
+      type: 'Document.Command.EnregistrerDocumentProjet',
+      data: {
+        content: blob.stream(),
+        documentProjet: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          'candidature/import',
+          corrigéLe.formatter(),
+          'application/json',
+        ),
+      },
+    });
+  };
   mediator.register('Candidature.UseCase.CorrigerCandidature', handler);
 };

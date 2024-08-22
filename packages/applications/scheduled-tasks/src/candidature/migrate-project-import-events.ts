@@ -352,7 +352,6 @@ type ProjectReimported = {
                     ).formatter()
                   : undefined,
                 territoireProjet: payload.data.territoireProjet,
-                détails: payload.data.details,
                 importéPar: 'team@potentiel.beta.gouv.fr',
                 importéLe: DateTime.convertirEnValueType(new Date(occurredAt)).formatter(),
               };
@@ -389,10 +388,6 @@ type ProjectReimported = {
                 valeurÉvaluationCarbone: payload.content.evaluationCarbone,
                 financementParticipatif: payload.content.isInvestissementParticipatif,
                 territoireProjet: payload.content.territoireProjet,
-                détails: {
-                  ...acc.détails,
-                  ...payload.content.details,
-                },
                 importéPar: 'team@potentiel.beta.gouv.fr',
                 importéLe: DateTime.convertirEnValueType(new Date(occurredAt)).formatter(),
               };
@@ -429,10 +424,6 @@ type ProjectReimported = {
                 valeurÉvaluationCarbone: payload.data.evaluationCarbone,
                 financementParticipatif: payload.data.isInvestissementParticipatif,
                 territoireProjet: payload.data.territoireProjet,
-                détails: {
-                  ...acc.détails,
-                  ...payload.data.details,
-                },
                 importéPar: 'team@potentiel.beta.gouv.fr',
                 importéLe: DateTime.convertirEnValueType(new Date(occurredAt)).formatter(),
               };
@@ -479,10 +470,6 @@ type ProjectReimported = {
                 ...(payload.data.territoireProjet && {
                   territoireProjet: payload.data.territoireProjet,
                 }),
-                détails: {
-                  ...acc.détails,
-                  ...payload.data.details,
-                },
                 localité: getLocalité({
                   code_postaux: payload.data.codePostalProjet
                     ? [payload.data.codePostalProjet]

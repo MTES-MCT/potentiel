@@ -51,7 +51,6 @@ export type CandidatureImportéeEventCommonPayload = {
   gouvernancePartagée: boolean;
   dateÉchéanceGf?: DateTime.RawType;
   territoireProjet: string;
-  détails: Record<string, string>;
 };
 
 type CandidatureImportéeEventPayload = CandidatureImportéeEventCommonPayload & {
@@ -99,7 +98,6 @@ export type ImporterCandidatureBehaviorCommonOptions = {
   gouvernancePartagée: boolean;
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
-  détails: Record<string, string>;
 };
 
 type ImporterCandidatureBehaviorOptions = ImporterCandidatureBehaviorCommonOptions & {
@@ -192,5 +190,4 @@ export const mapToEventPayload = (candidature: ImporterCandidatureBehaviorCommon
   financementParticipatif: candidature.financementParticipatif,
   gouvernancePartagée: candidature.gouvernancePartagée,
   territoireProjet: candidature.territoireProjet,
-  détails: candidature.détails,
 });

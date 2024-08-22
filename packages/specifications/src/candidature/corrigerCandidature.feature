@@ -4,7 +4,6 @@ Fonctionnalité: Corriger une candidature
     Contexte:
         Etant donné la candidature "Du boulodrome de Marseille"
 
-    @select
     Scénario: Corriger une candidature
         Quand un administrateur corrige la candidature "Du boulodrome de Marseille" avec :
             | technologie | pv |

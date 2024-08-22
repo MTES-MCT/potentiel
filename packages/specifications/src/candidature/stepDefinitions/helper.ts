@@ -51,7 +51,9 @@ export const mapExampleToUseCaseDefaultValues = (
       financementCollectifValue: exemple['financement collectif'] === 'oui',
       gouvernancePartagéeValue: exemple['gouvernance partagée'] === 'oui',
       financementParticipatifValue: exemple['financement participatif'] === 'oui',
-      détailsValue: {},
+      détailsValue: {
+        'Rendement nominal': '1234',
+      },
     },
     identifiantProjet: `${appelOffre}#${période}#${famille}#${numéroCRE}`,
   };

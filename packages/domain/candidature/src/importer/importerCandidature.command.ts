@@ -45,7 +45,6 @@ export type ImporterCandidatureCommandCommonOptions = {
   gouvernancePartagée: boolean;
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
-  détails: Record<string, string>;
 };
 
 type ImporterCandidatureCommandOptions = ImporterCandidatureCommandCommonOptions & {

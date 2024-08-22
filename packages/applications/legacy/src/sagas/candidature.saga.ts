@@ -10,6 +10,8 @@ import getDepartementRegionFromCodePostal, {
   DepartementRegion,
 } from '../helpers/getDepartementRegionFromCodePostal';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { ConsulterDocumentProjetQuery, DocumentProjet } from '@potentiel-domain/document';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 export type SubscriptionEvent = (
   | Candidature.CandidatureImportéeEvent
@@ -21,13 +23,18 @@ export type Execute = Message<'System.Saga.Candidature', SubscriptionEvent>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
-    const { payload } = event;
+    const { payload, type } = event;
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: {
         identifiantAppelOffre: payload.appelOffre,
       },
     });
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(payload.identifiantProjet);
+    const date = DateTime.convertirEnValueType(
+      type === 'CandidatureCorrigée-V1' ? payload.corrigéLe : payload.importéLe,
+    );
+    const details = await fetchDétails(identifiantProjet, date);
     switch (event.type) {
       case 'CandidatureImportée-V1':
       case 'CandidatureCorrigée-V1':
@@ -35,7 +42,7 @@ export const register = () => {
           new ProjectRawDataImported({
             payload: {
               importId: v4(),
-              data: mapToLegacyEventPayload(payload, appelOffre),
+              data: { ...mapToLegacyEventPayload(payload, appelOffre), details },
             },
           }),
         );
@@ -57,6 +64,7 @@ const mapToLegacyEventPayload = (
   if (!période) {
     throw new Error(`Période ${payload.période} non trouvée pour l'AO ${payload.appelOffre}`);
   }
+
   return {
     appelOffreId: payload.appelOffre,
     periodeId: payload.période,
@@ -73,7 +81,6 @@ const mapToLegacyEventPayload = (
     historiqueAbandon: payload.historiqueAbandon,
     puissance: payload.puissanceProductionAnnuelle,
     garantiesFinancièresType: getTypeGarantiesFinancieresLabel(payload.typeGarantiesFinancières),
-    details: payload.détails,
     engagementFournitureDePuissanceAlaPointe: payload.puissanceALaPointe,
     actionnaire: payload.sociétéMère,
     prixReference: payload.prixReference,
@@ -158,4 +165,43 @@ const getTypeGarantiesFinancieresLabel = (
     case 'type-inconnu':
       return undefined;
   }
+};
+
+const fetchDétails = async (
+  identifiantProjet: IdentifiantProjet.ValueType,
+  date: DateTime.ValueType,
+) => {
+  const { content } = await mediator.send<ConsulterDocumentProjetQuery>({
+    type: 'Document.Query.ConsulterDocumentProjet',
+    data: {
+      documentKey: DocumentProjet.convertirEnValueType(
+        identifiantProjet.formatter(),
+        'candidature/import',
+        date.formatter(),
+        'application/json',
+      ).formatter(),
+    },
+  });
+
+  const result = await convertReadableStreamToString(content);
+  return JSON.parse(result) as Record<string, string>;
+};
+
+const convertReadableStreamToString = async (readable: ReadableStream) => {
+  const reader = readable.getReader();
+
+  const chunks: Buffer[] = [];
+
+  const readFile = async (): Promise<void> => {
+    const result = await reader.read();
+    if (result.done) {
+      reader.releaseLock();
+    } else {
+      chunks.push(Buffer.from(result.value));
+      return await readFile();
+    }
+  };
+  await readFile();
+
+  return Buffer.concat(chunks).toString('utf-8');
 };

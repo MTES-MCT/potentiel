@@ -8,8 +8,10 @@ import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
+import { ConsulterDocumentProjetQuery, DocumentProjet } from '@potentiel-domain/document';
 
 import { PotentielWorld } from '../../potentiel.world';
+import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
 
 import { mapExampleToUseCaseDefaultValues } from './helper';
 
@@ -34,9 +36,7 @@ Alors(
       // Cette étape est dûe à la manipulation avec mapToPlainObject ci-dessous, qui retire les champs avec valeur undefined.
       // on ajoute les champs manquants attendus d'un coté ou de l'autre.
       expect(
-        Object.keys(candidature)
-          .concat('appelOffre', 'période', 'famille', 'numéroCRE', 'détails')
-          .sort(),
+        Object.keys(candidature).concat('appelOffre', 'période', 'famille', 'numéroCRE').sort(),
       ).to.deep.eq(
         Object.keys(expectedValues)
           .concat('identifiantProjet', 'misÀJourLe')
@@ -83,8 +83,26 @@ Alors(
           valeurÉvaluationCarbone: expectedValues.evaluationCarboneSimplifiéeValue,
 
           misÀJourLe: DateTime.convertirEnValueType(new Date('2024-08-20')),
+          détails: DocumentProjet.convertirEnValueType(
+            identifiantProjet.formatter(),
+            'candidature/import',
+            new Date('2024-08-20').toISOString(),
+            'application/json',
+          ),
         } satisfies Candidature.ConsulterCandidatureReadModel),
       );
+
+      if (Option.isSome(candidature)) {
+        const result = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: candidature.détails.formatter(),
+          },
+        });
+
+        const actualContent = await convertReadableStreamToString(result.content);
+        expect(actualContent).to.equal(JSON.stringify(expectedValues.détailsValue));
+      }
     });
   },
 );
@@ -117,6 +135,7 @@ Alors(
         prixReferenceValue,
         evaluationCarboneSimplifiéeValue,
         localitéValue: { commune, département, région },
+        détailsValue,
       } = mapExampleToUseCaseDefaultValues(nomProjet, exemple).values;
 
       // Comparaison des clés retournées, afin de vérifier qu'il n'en manque pas, ou qu'il n'y en a pas trop.
@@ -137,6 +156,7 @@ Alors(
             département,
             région,
           },
+          détailsValue,
         })
           .concat('identifiantProjet')
           .map((key) => key.replace(/Value$/, ''))
@@ -161,8 +181,24 @@ Alors(
             région: expectedValues.localitéValue.région,
           },
           identifiantProjet,
+          détails: DocumentProjet.convertirEnValueType(
+            identifiantProjet.formatter(),
+            'candidature/import',
+            new Date('2024-08-20').toISOString(),
+            'application/json',
+          ),
         } satisfies Candidature.ListerCandidaturesReadModel['items'][number]),
       );
+
+      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'Document.Query.ConsulterDocumentProjet',
+        data: {
+          documentKey: candidature.détails.formatter(),
+        },
+      });
+
+      const actualContent = await convertReadableStreamToString(result.content);
+      expect(actualContent).to.equal(JSON.stringify(expectedValues.détailsValue));
     });
   },
 );
