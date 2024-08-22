@@ -1,5 +1,4 @@
 import React from 'react';
-import { PDFViewer } from '@react-pdf/renderer';
 
 // eslint-disable-next-line no-restricted-imports
 import {
@@ -11,7 +10,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
 import { Certificate } from '../Certificate';
 
-import { Elimine } from './Elimine';
+import { buildElimine } from './Elimine';
 
 export default { title: 'Attestations PDF/PPE2/v1' };
 
@@ -52,12 +51,11 @@ export const EliminePPE2AuDessusDePcible = () => {
     isClasse: false,
     motifsElimination: 'Au-dessus de Pcible',
   };
+  const { content } = buildElimine({ project });
   return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Elimine project={project} />
-      </Certificate>
-    </PDFViewer>
+    <Certificate project={project} validateur={validateur}>
+      {content}
+    </Certificate>
   );
 };
 
@@ -67,12 +65,11 @@ export const EliminePPE2DéjàLauréatNonInstruit = () => {
     isClasse: false,
     motifsElimination: 'Déjà lauréat - Non instruit',
   };
+  const { content } = buildElimine({ project });
   return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Elimine project={project} />
-      </Certificate>
-    </PDFViewer>
+    <Certificate project={project} validateur={validateur}>
+      {content}
+    </Certificate>
   );
 };
 
@@ -96,12 +93,11 @@ export const EliminePPE2CompetitiviteBatimentPuissanceInferieureVolumeReserves =
       },
     } as AppelOffre.Periode,
   };
+  const { content } = buildElimine({ project });
   return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Elimine project={project} />
-      </Certificate>
-    </PDFViewer>
+    <Certificate project={project} validateur={validateur}>
+      {content}
+    </Certificate>
   );
 };
 
@@ -125,12 +121,11 @@ export const EliminePPE2CompetitiviteBatimentPuissanceSuperieureVolumeReserves =
       },
     } as AppelOffre.Periode,
   };
+  const { content } = buildElimine({ project });
   return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Elimine project={project} />
-      </Certificate>
-    </PDFViewer>
+    <Certificate project={project} validateur={validateur}>
+      {content}
+    </Certificate>
   );
 };
 
@@ -140,12 +135,11 @@ export const EliminePPE2AutreMotif = () => {
     isClasse: false,
     motifsElimination: 'Autre motif',
   };
+  const { content } = buildElimine({ project });
   return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Elimine project={project} />
-      </Certificate>
-    </PDFViewer>
+    <Certificate project={project} validateur={validateur}>
+      {content}
+    </Certificate>
   );
 };
 
@@ -159,11 +153,10 @@ export const EliminePPE2AutreMotifNonSoumisAuxGF = () => {
       soumisAuxGarantiesFinancieres: 'non soumis',
     },
   };
+  const { content } = buildElimine({ project });
   return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Elimine project={project} />
-      </Certificate>
-    </PDFViewer>
+    <Certificate project={project} validateur={validateur}>
+      {content}
+    </Certificate>
   );
 };

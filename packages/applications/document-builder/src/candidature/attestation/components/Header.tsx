@@ -3,6 +3,7 @@ import React from 'react';
 
 import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
 import { formatDateForPdf } from '../helpers/formatDateForPdf';
+import { imagesFolderPath } from '../../../assets';
 
 type HeaderProps = {
   project: AttestationCandidatureOptions;
@@ -21,7 +22,7 @@ export const Header = ({ project }: HeaderProps) => {
         >
           <Image
             style={{ width: 151, height: 85, marginBottom: 40 }}
-            src={`${process.env.BASE_URL}/images/logo_MEFSIN.png`}
+            src={`${imagesFolderPath}/logo_MEFSIN.png`}
           />
 
           <View style={{ width: 165, paddingBottom: 10, fontStyle: 'italic' }}>

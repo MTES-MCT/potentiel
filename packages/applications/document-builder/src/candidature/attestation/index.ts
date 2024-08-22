@@ -4,6 +4,8 @@ import ReactPDF, { Font } from '@react-pdf/renderer';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+import { fontsFolderPath } from '../../assets';
+
 import { makeCertificate as makeCre4V0Certificate } from './cre4.v0';
 import { makeCertificate as makeCre4V1Certificate } from './cre4.v1';
 import { makeCertificate as makePpe2V1Certificate } from './ppe2.v1';
@@ -14,15 +16,14 @@ Font.register({
   family: 'Arimo',
   fonts: [
     {
-      // src: '/fonts/',
-      src: path.resolve('.next/server/fonts/arimo/Arimo-Regular.ttf'),
+      src: path.join(fontsFolderPath, '/arimo/Arimo-Regular.ttf'),
     },
     {
-      src: path.resolve('.next/server/fonts/arimo/Arimo-Bold.ttf'),
+      src: path.join(fontsFolderPath, '/arimo/Arimo-Bold.ttf'),
       fontWeight: 'bold',
     },
     {
-      src: path.resolve('.next/server/fonts/arimo/Arimo-Italic.ttf'),
+      src: path.join(fontsFolderPath, '/arimo/Arimo-Italic.ttf'),
       fontStyle: 'italic',
     },
   ],

@@ -4,12 +4,12 @@ import React from 'react';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { AttestationCandidatureOptions } from './AttestationCandidatureOptions';
-import { Header } from './components/Header';
 import { Objet } from './components/Objet';
 import { Introduction } from './components/Introduction';
 import { Signature } from './components/Signature';
 import { PageFooter } from './components/PageFooter';
 import { Footnote, FootnoteProps } from './components/Footnote';
+import { Header } from './components/Header';
 
 export type CertificateProps = {
   project: AttestationCandidatureOptions;
@@ -19,7 +19,7 @@ export type CertificateProps = {
 };
 
 export const Certificate = (props: CertificateProps) => {
-  const { project, children, validateur, footnotes } = props;
+  const { project: projet, children, validateur, footnotes } = props;
 
   return (
     <Document>
@@ -33,16 +33,16 @@ export const Certificate = (props: CertificateProps) => {
           paddingBottom: 70,
         }}
       >
-        <Header {...{ project }} />
+        <Header project={projet} />
 
         <View style={{ paddingLeft: 15 }}>
           <View style={{ textAlign: 'justify' }}>
             <Objet
-              période={project.période}
-              appelOffre={project.appelOffre}
-              isClasse={project.isClasse}
+              période={projet.période}
+              appelOffre={projet.appelOffre}
+              isClasse={projet.isClasse}
             />
-            <Introduction {...{ project }} />
+            <Introduction project={projet} />
 
             {children}
 

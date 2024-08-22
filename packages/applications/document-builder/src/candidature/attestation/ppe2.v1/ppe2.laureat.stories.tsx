@@ -14,9 +14,8 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
 import { Certificate } from '../Certificate';
-import { Footnote, makeAddFootnote } from '../helpers/makeAddFootnotes';
 
-import { Lauréat } from './Laureat';
+import { buildLauréat } from './Laureat';
 
 export default { title: 'Attestations PDF/PPE2/v1' };
 
@@ -75,13 +74,11 @@ export const LaureatPPE2AutoconsommationMétropoleFinancementCollectif = () => {
     appelOffre: autoconsommationMetropolePPE2,
     période: autoconsommationMetropolePPE2.periodes[0],
   };
-  const footnotes: Array<Footnote> = [];
-  const addFootNote = makeAddFootnote(footnotes);
-
+  const { content } = buildLauréat({ project });
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate project={project} validateur={validateur}>
-        <Lauréat project={project} addFootNote={addFootNote} />
+        {content}
       </Certificate>
     </PDFViewer>
   );
@@ -94,13 +91,11 @@ export const LaureatPPE2BatimentGouvernancePartagee = () => {
     appelOffre: batimentPPE2,
     période: batimentPPE2.periodes[0],
   };
-  const footnotes: Array<Footnote> = [];
-  const addFootNote = makeAddFootnote(footnotes);
-
+  const { content } = buildLauréat({ project });
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate project={project} validateur={validateur}>
-        <Lauréat project={project} addFootNote={addFootNote} />
+        {content}
       </Certificate>
     </PDFViewer>
   );
@@ -112,13 +107,11 @@ export const LaureatPPE2Eolien = () => {
     appelOffre: eolienPPE2,
     période: eolienPPE2.periodes[0],
   };
-  const footnotes: Array<Footnote> = [];
-  const addFootNote = makeAddFootnote(footnotes);
-
+  const { content } = buildLauréat({ project });
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate project={project} validateur={validateur}>
-        <Lauréat project={project} addFootNote={addFootNote} />
+        {content}
       </Certificate>
     </PDFViewer>
   );
@@ -130,13 +123,11 @@ export const LaureatPPE2Innovation = () => {
     appelOffre: innovationPPE2,
     période: innovationPPE2.periodes[0],
   };
-  const footnotes: Array<Footnote> = [];
-  const addFootNote = makeAddFootnote(footnotes);
-
+  const { content } = buildLauréat({ project });
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate project={project} validateur={validateur}>
-        <Lauréat project={project} addFootNote={addFootNote} />
+        {content}
       </Certificate>
     </PDFViewer>
   );
@@ -148,13 +139,11 @@ export const LaureatPPE2Neutre = () => {
     appelOffre: neutrePPE2,
     période: neutrePPE2.periodes[0],
   };
-  const footnotes: Array<Footnote> = [];
-  const addFootNote = makeAddFootnote(footnotes);
-
+  const { content } = buildLauréat({ project });
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate project={project} validateur={validateur}>
-        <Lauréat project={project} addFootNote={addFootNote} />
+        {content}
       </Certificate>
     </PDFViewer>
   );
@@ -166,13 +155,11 @@ export const LaureatPPE2Sol = () => {
     appelOffre: solPPE2,
     période: solPPE2.periodes[0],
   };
-  const footnotes: Array<Footnote> = [];
-  const addFootNote = makeAddFootnote(footnotes);
-
+  const { content } = buildLauréat({ project });
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate project={project} validateur={validateur}>
-        <Lauréat project={project} addFootNote={addFootNote} />
+        {content}
       </Certificate>
     </PDFViewer>
   );

@@ -1,4 +1,3 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('node:path');
 
 /** @type {import('next').NextConfig} */
@@ -12,16 +11,6 @@ const nextConfig = {
 
     if (isServer) {
       config.externals.push(/^@potentiel-/, 'mediateur');
-      config.plugins.push(
-        new CopyWebpackPlugin({
-          patterns: [
-            {
-              from: path.resolve(__dirname, 'assets/fonts'),
-              to: path.resolve(__dirname, '.next/server/fonts'),
-            },
-          ],
-        }),
-      );
     } else {
       // This resolves an issue with sentry in the logger.
       // Without this, the logger cannot be used in domain packages for instance
