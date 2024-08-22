@@ -1,8 +1,14 @@
+import { LauréatNotifié } from './notifier/notifierLauréat.behavior';
+import { NotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
 export { LauréatEntity } from './lauréat.entity';
 
 export {
   ConsulterLauréatQuery,
-  ConsulterLauréatReadModel as ConsulterLauréatReadmodel,
+  ConsulterLauréatReadModel,
 } from './consulter/consulterLauréat.query';
 
-export type LauréatEvent = {};
+export type LauréatEvent = LauréatNotifié;
+export { LauréatNotifié };
+
+export type LauréatUseCases = NotifierLauréatUseCase;
+export { NotifierLauréatUseCase };

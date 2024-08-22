@@ -2,23 +2,23 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { NotifierCandidatureCommand } from './notifierCandidature.command';
+import { NotifierÉliminéCommand } from './notifierÉliminé.command';
 
-export type NotifierCandidatureUseCase = Message<
-  'Candidature.UseCase.NotifierCandidature',
+export type NotifierÉliminéUseCase = Message<
+  'Éliminé.UseCase.NotifierÉliminé',
   {
     identifiantProjetValue: string;
     dateNotificationValue: string;
   }
 >;
 
-export const registerNotifierCandidatureUseCase = () => {
-  const handler: MessageHandler<NotifierCandidatureUseCase> = async ({
+export const registerNotifierÉliminéUseCase = () => {
+  const handler: MessageHandler<NotifierÉliminéUseCase> = async ({
     identifiantProjetValue,
     dateNotificationValue,
   }) => {
-    await mediator.send<NotifierCandidatureCommand>({
-      type: 'Candidature.Command.NotifierCandidature',
+    await mediator.send<NotifierÉliminéCommand>({
+      type: 'Éliminé.Command.NotifierÉliminé',
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
         dateNotification: DateTime.convertirEnValueType(dateNotificationValue),
@@ -26,5 +26,5 @@ export const registerNotifierCandidatureUseCase = () => {
     });
   };
 
-  mediator.register('Candidature.UseCase.NotifierCandidature', handler);
+  mediator.register('Éliminé.UseCase.NotifierÉliminé', handler);
 };

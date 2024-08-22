@@ -4,8 +4,6 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
-import { Option } from '@potentiel-libraries/monads';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
@@ -65,24 +63,6 @@ export const register = () => {
           `candidature|${identifiantProjet}`,
           candidature,
         );
-        break;
-      case 'LauréatNotifié-V1':
-      case 'ÉliminéNotifié-V1':
-        const existingCandidature = await findProjection<Candidature.CandidatureEntity>(
-          `candidature|${identifiantProjet}`,
-        );
-        if (Option.isSome(existingCandidature)) {
-          await upsertProjection<Candidature.CandidatureEntity>(
-            `candidature|${identifiantProjet}`,
-            {
-              ...existingCandidature,
-              notification: {
-                notifiéLe: payload.dateNotification,
-              },
-              misÀJourLe: payload.dateNotification,
-            },
-          );
-        }
         break;
     }
   };

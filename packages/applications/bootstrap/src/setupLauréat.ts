@@ -11,6 +11,7 @@ import {
   AbandonNotification,
   AchèvementNotification,
   GarantiesFinancièresNotification,
+  LauréatNotification,
 } from '@potentiel-applications/notifications';
 import {
   AbandonProjector,
@@ -39,6 +40,8 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
   });
 
+  LauréatProjector.register();
+  LauréatNotification.register({ sendEmail });
   AbandonProjector.register();
   AbandonNotification.register({ sendEmail });
   GarantiesFinancièreProjector.register();
@@ -46,7 +49,30 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
   GarantiesFinancières.GarantiesFinancièresSaga.register();
   AchèvementProjector.register();
   AchèvementNotification.register({ sendEmail });
-  LauréatProjector.register();
+
+  const unsubscribeLauréatProjector = await subscribe<LauréatProjector.SubscriptionEvent>({
+    name: 'projector',
+    eventType: ['LauréatNotifié-V1', 'RebuildTriggered'],
+    eventHandler: async (event) => {
+      await mediator.send<LauréatProjector.Execute>({
+        type: 'System.Projector.Lauréat',
+        data: event,
+      });
+    },
+    streamCategory: 'candidature',
+  });
+
+  const unsubscribeLauréatNotification = await subscribe<LauréatNotification.SubscriptionEvent>({
+    name: 'notifications',
+    streamCategory: 'lauréat',
+    eventType: ['LauréatNotifié-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<LauréatNotification.Execute>({
+        type: 'System.Notification.Lauréat',
+        data: event,
+      });
+    },
+  });
 
   const unsubscribeAbandonNotification = await subscribe<AbandonNotification.SubscriptionEvent>({
     name: 'notifications',
@@ -191,19 +217,9 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
     },
   });
 
-  // const unsubscribeLauréatProjector = await subscribe<LauréatProjector.SubscriptionEvent>({
-  //   name: 'projector',
-  //   eventType: ['LauréatNotifié-V1', 'RebuildTriggered'],
-  //   eventHandler: async (event) => {
-  //     await mediator.send<LauréatProjector.Execute>({
-  //       type: 'System.Projector.Lauréat',
-  //       data: event,
-  //     });
-  //   },
-  //   streamCategory: 'candidature',
-  // });
-
   return async () => {
+    await unsubscribeLauréatProjector();
+    await unsubscribeLauréatNotification();
     await unsubscribeAbandonNotification();
     await unsubscribeAbandonProjector();
     await unsubscribeGarantiesFinancièresProjector();
@@ -211,6 +227,5 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
     await unsubscribeAchèvementProjector();
     await unsubscribeAchèvementNotification();
     await unsubscribeGarantiesFinancièresSaga();
-    // await unsubscribeLauréatProjector();
   };
 };

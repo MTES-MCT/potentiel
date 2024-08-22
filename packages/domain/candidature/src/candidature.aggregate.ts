@@ -24,17 +24,8 @@ import {
   FamillePériodeAppelOffreInexistanteError,
   PériodeAppelOffreInexistanteError,
 } from './appelOffreInexistant.error';
-import {
-  CandidatureNotifiée,
-  applyLauréatNotifié,
-  applyÉliminéNotifié,
-  notifier,
-} from './notifier/notifierCandidature.behavior';
 
-export type CandidatureEvent =
-  | CandidatureImportéeEvent
-  | CandidatureCorrigéeEvent
-  | CandidatureNotifiée;
+export type CandidatureEvent = CandidatureImportéeEvent | CandidatureCorrigéeEvent;
 
 export type CandidatureAggregate = Aggregate<CandidatureEvent> & {
   statut?: StatutCandidature.ValueType;
@@ -43,7 +34,6 @@ export type CandidatureAggregate = Aggregate<CandidatureEvent> & {
   payloadHash: string;
   importer: typeof importer;
   corriger: typeof corriger;
-  notifier: typeof notifier;
   calculerHash(payload: CandidatureEvent['payload']): string;
   estIdentiqueÀ(payload: CandidatureEvent['payload']): boolean;
 
@@ -67,7 +57,6 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
   apply,
   importer,
   corriger,
-  notifier,
   calculerHash(payload) {
     const copy = { ...payload } as Partial<
       CandidatureImportéeEvent['payload'] & CandidatureCorrigéeEvent['payload']
@@ -110,12 +99,6 @@ function apply(this: CandidatureAggregate, event: CandidatureEvent) {
       break;
     case 'CandidatureCorrigée-V1':
       applyCandidatureCorrigée.bind(this)(event);
-      break;
-    case 'LauréatNotifié-V1':
-      applyLauréatNotifié.bind(this)(event);
-      break;
-    case 'ÉliminéNotifié-V1':
-      applyÉliminéNotifié.bind(this)(event);
       break;
   }
 }

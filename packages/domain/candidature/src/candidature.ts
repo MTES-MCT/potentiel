@@ -20,14 +20,12 @@ import {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
 } from './consulter/consulterCandidature.query';
-import { NotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase';
 import { CorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
 import type { CandidatureCorrigéeEvent } from './corriger/corrigerCandidature.behavior';
 import {
   ListerCandidaturesQuery,
   ListerCandidaturesReadModel,
 } from './lister/listerCandidatures.query';
-import { LauréatNotifié, ÉliminéNotifié } from './notifier/notifierCandidature.behavior';
 
 // Query
 export type CandidatureQuery =
@@ -51,20 +49,13 @@ export {
 };
 
 // UseCases
-export type CandidatureUseCase =
-  | ImporterCandidatureUseCase
-  | CorrigerCandidatureUseCase
-  | NotifierCandidatureUseCase;
-export { ImporterCandidatureUseCase, CorrigerCandidatureUseCase, NotifierCandidatureUseCase };
+export type CandidatureUseCase = ImporterCandidatureUseCase | CorrigerCandidatureUseCase;
+export { ImporterCandidatureUseCase, CorrigerCandidatureUseCase };
 
 // Events
-export type CandidatureEvent =
-  | CandidatureImportéeEvent
-  | CandidatureCorrigéeEvent
-  | LauréatNotifié
-  | ÉliminéNotifié;
+export type CandidatureEvent = CandidatureImportéeEvent | CandidatureCorrigéeEvent;
 
-export { CandidatureImportéeEvent, CandidatureCorrigéeEvent, LauréatNotifié, ÉliminéNotifié };
+export { CandidatureImportéeEvent, CandidatureCorrigéeEvent };
 
 // Register
 export * from './register';

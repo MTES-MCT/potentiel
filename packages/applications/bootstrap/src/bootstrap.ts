@@ -41,16 +41,14 @@ export const bootstrap = async ({
     }
 
     await setupAppelOffre();
-    const unsetupCandidature = await setupCandidature({ sendEmail });
+    const unsetupCandidature = await setupCandidature();
     setupDocumentProjet();
     const unsetupTâche = await setupTâche();
     const unsetupTâchePlanifiée = await setupTâchePlanifiée({ sendEmail });
     setupUtilisateur();
 
-    const unsetupEliminé = await setupEliminé();
-    const unsetupLauréat = await setupLauréat({
-      sendEmail,
-    });
+    const unsetupEliminé = await setupEliminé({ sendEmail });
+    const unsetupLauréat = await setupLauréat({ sendEmail });
     const unsetupGestionnaireRéseau = await setupRéseau();
 
     getLogger().info('Application bootstrapped');

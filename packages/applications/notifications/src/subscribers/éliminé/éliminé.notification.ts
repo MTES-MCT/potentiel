@@ -3,14 +3,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Candidature } from '@potentiel-domain/candidature';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Éliminé } from '@potentiel-domain/elimine';
 
-import { EmailPayload, SendEmail } from '../sendEmail';
+import { EmailPayload, SendEmail } from '../../sendEmail';
 
-export type SubscriptionEvent = Candidature.CandidatureEvent & Event;
+export type SubscriptionEvent = Éliminé.ÉliminéEvent & Event;
 
-export type Execute = Message<'System.Notification.Candidature', SubscriptionEvent>;
+export type Execute = Message<'System.Notification.Éliminé', SubscriptionEvent>;
 
 const templateId = {
   notifierRolesSaufPorteurEtDgec: 3849728,
@@ -23,7 +23,6 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
   const { BASE_URL } = process.env;
 
   switch (event.type) {
-    case 'LauréatNotifié-V1':
     case 'ÉliminéNotifié-V1':
       const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
         type: 'AppelOffre.Query.ConsulterAppelOffre',
@@ -52,11 +51,11 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
   }
 }
 
-export type RegisterCandidatureNotificationDependencies = {
+export type RegisterÉliminéNotificationDependencies = {
   sendEmail: SendEmail;
 };
 
-export const register = ({ sendEmail }: RegisterCandidatureNotificationDependencies) => {
+export const register = ({ sendEmail }: RegisterÉliminéNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
     const payload = await getEmailPayload(event);
     if (payload) {
@@ -64,5 +63,5 @@ export const register = ({ sendEmail }: RegisterCandidatureNotificationDependenc
     }
   };
 
-  mediator.register('System.Notification.Candidature', handler);
+  mediator.register('System.Notification.Éliminé', handler);
 };

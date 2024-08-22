@@ -1,27 +1,27 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/laureat';
+import { Éliminé } from '@potentiel-domain/elimine';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
 
-export type SubscriptionEvent = (Lauréat.LauréatEvent & Event) | RebuildTriggered;
+export type SubscriptionEvent = (Éliminé.ÉliminéEvent & Event) | RebuildTriggered;
 
-export type Execute = Message<'System.Projector.Lauréat', SubscriptionEvent>;
+export type Execute = Message<'System.Projector.Éliminé', SubscriptionEvent>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     const { type, payload } = event;
 
     if (type === 'RebuildTriggered') {
-      await removeProjection<Lauréat.LauréatEntity>(`lauréat|${payload.id}`);
+      await removeProjection<Éliminé.ÉliminéEntity>(`éliminé|${payload.id}`);
     } else {
       const { identifiantProjet, dateNotification } = payload;
 
       switch (type) {
-        case 'LauréatNotifié-V1':
-          await upsertProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
+        case 'ÉliminéNotifié-V1':
+          await upsertProjection<Éliminé.ÉliminéEntity>(`éliminé|${identifiantProjet}`, {
             identifiantProjet,
             dateDésignation: dateNotification,
           });
@@ -30,5 +30,5 @@ export const register = () => {
     }
   };
 
-  mediator.register('System.Projector.Lauréat', handler);
+  mediator.register('System.Projector.Éliminé', handler);
 };

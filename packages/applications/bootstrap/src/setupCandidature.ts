@@ -3,9 +3,8 @@ import { mediator } from 'mediateur';
 import { Candidature } from '@potentiel-domain/candidature';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { CandidatureProjector, LauréatProjector } from '@potentiel-applications/projectors';
+import { CandidatureProjector } from '@potentiel-applications/projectors';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
-import { CandidatureNotification, SendEmail } from '@potentiel-applications/notifications';
 
 export const setupCandidature = async () => {
   Candidature.registerCandidaturesUseCases({ loadAggregate });
@@ -20,45 +19,18 @@ export const setupCandidature = async () => {
   });
 
   CandidatureProjector.register();
-  CandidatureNotification.register({ sendEmail });
 
   const unsubscribeCandidatureProjector = await subscribe<CandidatureProjector.SubscriptionEvent>({
     name: 'projector',
-    eventType: [
-      'RebuildTriggered',
-      'CandidatureImportée-V1',
-      'CandidatureCorrigée-V1',
-      'LauréatNotifié-V1',
-      'ÉliminéNotifié-V1',
-    ],
+    eventType: ['RebuildTriggered', 'CandidatureImportée-V1', 'CandidatureCorrigée-V1'],
     eventHandler: async (event) => {
       await mediator.send<CandidatureProjector.Execute>({
         type: 'System.Projector.Candidature',
         data: event,
       });
-      // TODO ATTENTION QUICK WIN, ne pas garder... Comment faire un pont entre deux domaines ?
-      if (event.type === 'LauréatNotifié-V1') {
-        await mediator.send<LauréatProjector.Execute>({
-          type: 'System.Projector.Lauréat',
-          data: event,
-        });
-      }
     },
     streamCategory: 'candidature',
   });
-
-  const unsubscribeCandidatureNotification =
-    await subscribe<CandidatureNotification.SubscriptionEvent>({
-      name: 'notifications',
-      streamCategory: 'candidature',
-      eventType: ['LauréatNotifié-V1', 'ÉliminéNotifié-V1'],
-      eventHandler: async (event) => {
-        await mediator.publish<CandidatureNotification.Execute>({
-          type: 'System.Notification.Candidature',
-          data: event,
-        });
-      },
-    });
 
   return async () => {
     await unsubscribeCandidatureProjector();

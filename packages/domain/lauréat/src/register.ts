@@ -21,6 +21,8 @@ import {
   registerGarantiesFinancièresQueries,
   registerGarantiesFinancièresUseCases,
 } from './garantiesFinancières/garantiesFinancières.register';
+import { registerNotifierLauréatCommand } from './notifier/notifierLauréat.command';
+import { registerNotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
 
 export type LauréatQueryDependencies = AbandonQueryDependencies &
   CahierDesChargesChoisiQueryDependencies &
@@ -34,6 +36,9 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerAbandonUseCases(dependencies);
   registerGarantiesFinancièresUseCases(dependencies);
   registerAchèvementUseCases(dependencies);
+
+  registerNotifierLauréatCommand(dependencies.loadAggregate);
+  registerNotifierLauréatUseCase();
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {

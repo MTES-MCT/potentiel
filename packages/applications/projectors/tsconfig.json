@@ -2,7 +2,8 @@
   "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "noErrorTruncation": true
   },
   "references": [
     {
@@ -10,6 +11,9 @@
     },
     {
       "path": "../../domain/lauréat"
+    },
+    {
+      "path": "../../domain/éliminé"
     },
     {
       "path": "../../domain/tâche"
