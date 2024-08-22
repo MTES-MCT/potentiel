@@ -26,15 +26,6 @@ export const registerCorrigerCandidatureUseCase = () => {
       `${payload.appelOffreValue}#${payload.périodeValue}#${payload.familleValue}#${payload.numéroCREValue}`,
     );
     const corrigéLe = DateTime.convertirEnValueType(payload.corrigéLe);
-    await mediator.send<CorrigerCandidatureCommand>({
-      type: 'Candidature.Command.CorrigerCandidature',
-      data: {
-        identifiantProjet,
-        ...mapPayloadForCommand(payload),
-        corrigéLe: DateTime.convertirEnValueType(payload.corrigéLe),
-        corrigéPar: Email.convertirEnValueType(payload.corrigéPar),
-      },
-    });
 
     const buf = Buffer.from(JSON.stringify(payload.détailsValue));
     const blob = new Blob([buf]);
@@ -48,6 +39,16 @@ export const registerCorrigerCandidatureUseCase = () => {
           corrigéLe.formatter(),
           'application/json',
         ),
+      },
+    });
+
+    await mediator.send<CorrigerCandidatureCommand>({
+      type: 'Candidature.Command.CorrigerCandidature',
+      data: {
+        identifiantProjet,
+        ...mapPayloadForCommand(payload),
+        corrigéLe: DateTime.convertirEnValueType(payload.corrigéLe),
+        corrigéPar: Email.convertirEnValueType(payload.corrigéPar),
       },
     });
   };
