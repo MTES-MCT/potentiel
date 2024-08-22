@@ -34,7 +34,7 @@ export const register = () => {
     const date = DateTime.convertirEnValueType(
       type === 'CandidatureCorrigée-V1' ? payload.corrigéLe : payload.importéLe,
     );
-    const details = fetchDétails(identifiantProjet, date);
+    const details = await fetchDétails(identifiantProjet, date);
     switch (event.type) {
       case 'CandidatureImportée-V1':
       case 'CandidatureCorrigée-V1':
