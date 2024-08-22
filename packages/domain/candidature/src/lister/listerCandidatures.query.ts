@@ -3,6 +3,7 @@ import { match, Pattern } from 'ts-pattern';
 
 import { List, RangeOptions } from '@potentiel-domain/core';
 import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { CandidatureEntity } from '../candidature.entity';
 import { ConsulterCandidatureReadModel } from '../candidature';
@@ -22,6 +23,7 @@ export type CandidaturesListItemReadModel = {
     département: ConsulterCandidatureReadModel['localité']['département'];
     région: ConsulterCandidatureReadModel['localité']['région'];
   };
+  détails: ConsulterCandidatureReadModel['détails'];
 };
 
 export type ListerCandidaturesReadModel = Readonly<{
@@ -97,6 +99,7 @@ export const mapToReadModel = ({
   prixReference,
   localité: { commune, département, région },
   evaluationCarboneSimplifiée,
+  misÀJourLe,
 }: CandidatureEntity): CandidaturesListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutProjet.convertirEnValueType(statut),
@@ -112,4 +115,10 @@ export const mapToReadModel = ({
     département,
     région,
   },
+  détails: DocumentProjet.convertirEnValueType(
+    identifiantProjet,
+    'candidature/import',
+    misÀJourLe,
+    'application/json',
+  ),
 });
