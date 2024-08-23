@@ -21,7 +21,7 @@ export type ListPageTemplateProps<TItem> = {
   totalItems: number;
   itemsPerPage: number;
   items: Array<TItem & { key: string }>;
-  ItemComponent: FC<TItem>;
+  ItemComponent: FC<Omit<TItem, 'key'>>;
   search?: SearchProps;
   legend?: ListLegendProps['legend'];
 };
