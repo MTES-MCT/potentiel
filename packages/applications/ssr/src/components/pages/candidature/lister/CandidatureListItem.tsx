@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import Link from 'next/link';
 
 import { PlainType } from '@potentiel-domain/core';
@@ -48,7 +48,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
       <ProjectListItemHeading
         identifiantProjet={identifiantProjet}
         nomProjet={nomProjet}
-        prefix=""
+        prefix="Candidature du projet"
       />
     }
     actions={
@@ -61,45 +61,80 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
       </Link>
     }
   >
-    <div className="flex flex-col gap-2 md:gap-0">
-      <div className="flex gap-1 items-center" title="Localité du candidat">
-        <Icon id="fr-icon-map-pin-2-line" size="xs" />
-        <div className="text-sm">
-          {commune}, {département}, {région}
+    <div className="flex flex-col gap-2 mb-4">
+      <div className="flex flex-col md:flex-row gap-2">
+        <StatutProjetBadge statut={statut.statut} />
+      </div>
+
+      <div className="flex flex-col md:flex-row gap-4 md:items-center md:mr-4">
+        <div className="flex md:flex-1 flex-col gap-1 text-sm">
+          <div className="flex items-center gap-2">
+            <Icon id="fr-icon-map-pin-2-line" title="Localisation du projet" size="sm" />
+            <span className="italic">
+              {commune}, {département}, {région}
+            </span>
+          </div>
+
+          <div className="flex  items-center gap-2">
+            <Icon id="fr-icon-building-line" title="Nom du candidat" size="sm" />
+            {nomCandidat}
+          </div>
+          <div className="flex items-center gap-2">
+            <Icon id="fr-icon-user-line" title="Représentant légal" size="sm" />
+            <div className="flex flex-col overflow-hidden">
+              <div>{nomReprésentantLégal}</div>
+              <div className="truncate" title={emailContact}>
+                {emailContact}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4">
+          <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
+            <Icon
+              id="fr-icon-flashlight-fill"
+              className="text-dsfr-yellowTournesol-_850_200-default"
+              title="Puissance"
+            />
+            <div className="lg:flex lg:flex-col items-center">
+              {puissanceProductionAnnuelle} <Unit>{unitePuissance}</Unit>
+            </div>
+          </div>
+          <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
+            <Icon
+              id="fr-icon-money-euro-circle-line"
+              className="text-dsfr-orangeTerreBattue-main645-default"
+              title="Prix de référence"
+            />
+            <div className="lg:flex lg:flex-col items-center">
+              {prixReference} <Unit>€/MWh</Unit>
+            </div>
+          </div>
+
+          <div className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow">
+            <Icon
+              id="fr-icon-cloud-fill"
+              className="text-dsfr-grey-_625_425-default"
+              title="Évaluation carbone"
+            />
+            <div>
+              {evaluationCarboneSimplifiée > 0 ? (
+                <div className="lg:flex lg:flex-col items-center text-center">
+                  {evaluationCarboneSimplifiée}
+                  <Unit> kg eq CO2/kWc</Unit>
+                </div>
+              ) : (
+                '- - -'
+              )}
+            </div>
+          </div>
         </div>
       </div>
-      <div className="flex gap-1 items-center" title="Nom du candidat">
-        <Icon id="fr-icon-community-line" size="xs" />
-        <div className="text-sm">{nomCandidat}</div>
-      </div>
-      <div className="flex gap-1 items-center" title="Nom du représentant légal">
-        <Icon id="fr-icon-user-line" size="xs" />
-        <div className="text-sm">
-          {nomReprésentantLégal} ({emailContact})
-        </div>
-      </div>
-      <div className="flex gap-1 items-center" title="Puissance">
-        <Icon id="fr-icon-lightbulb-line" size="xs" />
-        <div className="text-sm">
-          {puissanceProductionAnnuelle}{' '}
-          {unitePuissance === 'inconnue' ? ' (unité de puissance inconnue)' : unitePuissance}
-        </div>
-      </div>
-      <div className="flex gap-1 items-center" title="Prix de référence">
-        <Icon id="fr-icon-money-euro-circle-line" size="xs" />
-        <div className="text-sm">{prixReference} €/MWh</div>
-      </div>
-      <div className="flex gap-1 items-center" title="Évaluation carbone">
-        <Icon id="fr-icon-cloudy-2-line" size="xs" />
-        <div className="text-sm">
-          {evaluationCarboneSimplifiée === 0
-            ? '--'
-            : `${evaluationCarboneSimplifiée} kg eq CO2/kWc`}
-        </div>
-      </div>
-    </div>
-    <div className="flex flex-col md:flex-row gap-2 mt-3">
-      <StatutProjetBadge statut={statut.statut} />
     </div>
   </ListItem>
+);
+
+const Unit = ({ children }: { children: ReactNode }) => (
+  <span className="italic text-sm">{children}</span>
 );

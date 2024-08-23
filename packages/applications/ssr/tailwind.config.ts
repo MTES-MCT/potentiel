@@ -23,6 +23,7 @@ const config: Config = {
     colors: {
       dsfr: {
         ...decisionsColors,
+        ...fr.colors.options,
       },
       theme: {
         info: decisionsColors.text.default.info.default,
