@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 
+import { bootstrap } from '@potentiel-applications/bootstrap';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
@@ -185,7 +186,10 @@ type ProjectReimported = {
 };
 
 (async () => {
-  console.info(`ℹ️ Lancement du script [migrate-project-import-events] ...`);
+  console.info(`ℹ️ Lancement du script [migrate-project-import-details] ...`);
+
+  console.info(`ℹ️ Bootstrapping the app ...`);
+  await bootstrap({ middlewares: [], sendEmail: () => Promise.resolve() });
 
   const getProjectRawDataImportedEventsQuery = `
     select payload->'data'->>'appelOffreId' as "appel_offre", 
@@ -233,18 +237,19 @@ type ProjectReimported = {
   `;
 
   const getProjectReimportedEventsQuery = `
-    select payload->>'appelOffreId' as "appel_offre", 
-          payload->>'periodeId' as "periode", 
-          payload->>'familleId' as "famille",
-          payload->>'numeroCRE' as "numero_cre", 
-          count(id) as "total_import",
-          array_agg(id) as "event_ids" 
+    select p."appelOffreId" as "appel_offre", 
+       p."periodeId" as "periode", 
+       p."familleId" as "famille",
+       p."numeroCRE" as "numero_cre", 
+       count(es.id) as "total_import",
+       array_agg(es.id) as "event_ids" 
     from "eventStores" es 
+    inner join projects p on es.payload->>'projectId' = p.id::text
     where type = 'ProjectReimported'
-    group by payload->>'appelOffreId', 
-            payload->>'periodeId', 
-            payload->>'familleId', 
-            payload->>'numeroCRE';
+    group by p."appelOffreId", 
+            p."periodeId", 
+            p."familleId",
+            p."numeroCRE";
   `;
 
   try {
@@ -372,7 +377,7 @@ type ProjectReimported = {
     `;
 
     const [{ total_projects }] = await executeSelect<{ total_projects: number }>(getAllProjects);
-    console.info(`${current} events were published for ${total_projects} existant projects`);
+    console.info(`${current} details files were saved for ${total_projects} existant projects`);
     console.info('\nFin du script ✨');
   } catch (error) {
     console.error(error as Error);
