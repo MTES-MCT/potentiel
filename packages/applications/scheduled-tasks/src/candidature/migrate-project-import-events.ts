@@ -349,7 +349,7 @@ type ProjectReimported = {
                 technologie: normaliserTechnologie(payload.data.technologie ?? acc.technologie),
                 financementCollectif: payload.data.actionnariat === 'financement-collectif',
                 financementParticipatif: payload.data.isInvestissementParticipatif,
-                gouvernancePartagée: payload.data.actionnariat === 'gouvernance-partagée',
+                gouvernancePartagée: payload.data.actionnariat === 'gouvernance-partagee',
                 dateÉchéanceGf: payload.data.garantiesFinancièresDateEchéance
                   ? DateTime.convertirEnValueType(
                       new Date(payload.data.garantiesFinancièresDateEchéance),
@@ -493,6 +493,8 @@ type ProjectReimported = {
           technologie: 'N/A',
           historiqueAbandon: 'première-candidature',
           typeGarantiesFinancières: 'type-inconnu',
+          financementCollectif: false,
+          gouvernancePartagée: false,
         } as Candidature.CandidatureImportéeEvent['payload'],
       );
 
