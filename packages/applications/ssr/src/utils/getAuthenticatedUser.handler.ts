@@ -7,6 +7,8 @@ import { IdentifiantUtilisateur, Role, Utilisateur } from '@potentiel-domain/uti
 import { Option } from '@potentiel-libraries/monads';
 import { récupérerUtilisateurAdapter } from '@potentiel-infrastructure/domain-adapters';
 
+import { NoAuthenticatedUserError } from './NoAuthenticatedUser.error';
+
 export type AuthenticatedUserReadModel = {
   nom: string;
   identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
@@ -78,9 +80,3 @@ export const getAuthenticatedUser: MessageHandler<GetAuthenticatedUserMessage> =
 
   return user;
 };
-
-export class NoAuthenticatedUserError extends Error {
-  constructor(cause?: Error) {
-    super(`Authentification obligatoire`, { cause });
-  }
-}
