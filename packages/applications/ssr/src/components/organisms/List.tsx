@@ -8,7 +8,7 @@ type ListProps<TItem> = {
   currentPage: number;
   totalItems: number;
   itemsPerPage: number;
-  ItemComponent: FC<TItem>;
+  ItemComponent: FC<Omit<TItem, 'key'>>;
 };
 
 export const List = <TItem,>({
@@ -20,8 +20,8 @@ export const List = <TItem,>({
 }: ListProps<TItem>) => (
   <>
     <ul>
-      {items.map((item) => (
-        <li className="mb-6" key={`abandon-projet-${item.key}`}>
+      {items.map(({ key, ...item }) => (
+        <li className="mb-6" key={key}>
           <Tile className="flex flex-col md:flex-row md:justify-between">
             <ItemComponent {...item} />
           </Tile>
