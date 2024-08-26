@@ -41,6 +41,7 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
   const identifiantGestionnaireReseauValue = GestionnaireRéseau.IdentifiantGestionnaireRéseau.bind(
     identifiantGestionnaireRéseau,
   ).formatter();
+
   return (
     <Form
       action={modifierGestionnaireRéseauAction}
@@ -48,6 +49,7 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
       encType="multipart/form-data"
       onSuccess={() => router.push(Routes.Gestionnaire.lister)}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+      actions={<SubmitButton>Modifier</SubmitButton>}
     >
       <div className="mb-6">
         <label>Code EIC ou Gestionnaire: {identifiantGestionnaireReseauValue}</label>
@@ -118,8 +120,6 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
         stateRelatedMessage="Expression régulière à préciser"
         hintText="Exemple : [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}"
       />
-
-      <SubmitButton>Envoyer</SubmitButton>
     </Form>
   );
 };

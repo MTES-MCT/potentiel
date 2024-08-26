@@ -11,7 +11,7 @@ import { SubmitButton } from '../atoms/form/SubmitButton';
 
 export type ModalWithFormProps = {
   acceptButtonLabel: string;
-  form: FormProps;
+  form: Omit<FormProps, 'actions'>;
   isOpen: boolean;
   rejectButtonLabel: string;
   onClose: () => void;
@@ -61,14 +61,20 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
 
   return (
     <modal.Component title={title}>
-      <Form {...form} onSuccess={onFormSuccess} key={id}>
+      <Form
+        {...form}
+        onSuccess={onFormSuccess}
+        key={id}
+        actions={
+          <>
+            <Button priority="secondary" onClick={handleRejectClick} type="button">
+              {rejectButtonLabel}
+            </Button>
+            <SubmitButton>{acceptButtonLabel}</SubmitButton>
+          </>
+        }
+      >
         {form.children}
-        <div className="flex flex-col md:flex-row gap-4 mt-1">
-          <Button priority="secondary" onClick={handleRejectClick} type="button">
-            {rejectButtonLabel}
-          </Button>
-          <SubmitButton>{acceptButtonLabel}</SubmitButton>
-        </div>
       </Form>
     </modal.Component>
   );

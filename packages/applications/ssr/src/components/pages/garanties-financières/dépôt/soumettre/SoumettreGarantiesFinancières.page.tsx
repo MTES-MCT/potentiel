@@ -6,7 +6,7 @@ import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 import { TypeGarantiesFinancièresSelectProps } from '../../TypeGarantiesFinancièresSelect';
-import { FormulaireGarantiesFinancières } from '../../FormulaireGarantiesFinancières';
+import { GarantiesFinancièresForm } from '../../GarantiesFinancières.form';
 
 import { soumettreGarantiesFinancièresAction } from './soumettreGarantiesFinancières.action';
 
@@ -24,7 +24,7 @@ export const SoumettreGarantiesFinancièresPage: FC<SoumettreGarantiesFinancièr
     heading={<TitrePageGarantiesFinancières title="Soumettre des garanties financières" />}
     leftColumn={{
       children: (
-        <FormulaireGarantiesFinancières
+        <GarantiesFinancièresForm
           identifiantProjet={identifiantProjet}
           action={soumettreGarantiesFinancièresAction}
           submitButtonLabel="Soumettre"

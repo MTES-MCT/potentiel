@@ -5,14 +5,14 @@ import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 import {
-  FormulaireGarantiesFinancières,
-  FormulaireGarantiesFinancièresProps,
-} from '../../FormulaireGarantiesFinancières';
+  GarantiesFinancièresForm,
+  type GarantiesFinancièresFormProps,
+} from '../../GarantiesFinancières.form';
 
 import { enregistrerGarantiesFinancièresAction } from './enregistrerGarantiesFinancières.action';
 
 export type EnregistrerGarantiesFinancièresPageProps = Pick<
-  FormulaireGarantiesFinancièresProps,
+  GarantiesFinancièresFormProps,
   'identifiantProjet' | 'typesGarantiesFinancières'
 >;
 
@@ -23,7 +23,7 @@ export const EnregistrerGarantiesFinancièresPage: FC<EnregistrerGarantiesFinanc
   <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
     <TitrePageGarantiesFinancières title="Enregistrer des garanties financières" />
 
-    <FormulaireGarantiesFinancières
+    <GarantiesFinancièresForm
       identifiantProjet={identifiantProjet}
       action={enregistrerGarantiesFinancièresAction}
       submitButtonLabel="Enregistrer"

@@ -25,7 +25,7 @@ type Action =
   | typeof modifierDépôtEnCoursGarantiesFinancièresAction
   | typeof enregistrerGarantiesFinancièresAction;
 
-export type FormulaireGarantiesFinancièresProps = {
+export type GarantiesFinancièresFormProps = {
   identifiantProjet: string;
   action: Action;
   submitButtonLabel: string;
@@ -38,7 +38,7 @@ export type FormulaireGarantiesFinancièresProps = {
   };
 };
 
-export const FormulaireGarantiesFinancières: FC<FormulaireGarantiesFinancièresProps> = ({
+export const GarantiesFinancièresForm: FC<GarantiesFinancièresFormProps> = ({
   identifiantProjet,
   action,
   submitButtonLabel,
@@ -54,6 +54,21 @@ export const FormulaireGarantiesFinancières: FC<FormulaireGarantiesFinancières
       action={action}
       onSuccess={() => router.push(Routes.GarantiesFinancières.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+      actions={
+        <>
+          <Button
+            priority="secondary"
+            linkProps={{
+              href: Routes.GarantiesFinancières.détail(identifiantProjet),
+              prefetch: false,
+            }}
+            iconId="fr-icon-arrow-left-line"
+          >
+            Retour au détail des garanties financières
+          </Button>
+          <SubmitButton>{submitButtonLabel}</SubmitButton>
+        </>
+      }
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
@@ -87,20 +102,6 @@ export const FormulaireGarantiesFinancières: FC<FormulaireGarantiesFinancières
         state={validationErrors.includes('attestation') ? 'error' : 'default'}
         documentKey={defaultValues?.attestation}
       />
-
-      <div className="flex flex-col md:flex-row gap-4 mt-5">
-        <Button
-          priority="secondary"
-          linkProps={{
-            href: Routes.GarantiesFinancières.détail(identifiantProjet),
-            prefetch: false,
-          }}
-          iconId="fr-icon-arrow-left-line"
-        >
-          Retour au détail des garanties financières
-        </Button>
-        <SubmitButton>{submitButtonLabel}</SubmitButton>
-      </div>
     </Form>
   );
 };

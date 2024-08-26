@@ -64,6 +64,21 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
       heading="Modifier une demande complète de raccordement"
       onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+      actions={
+        <>
+          <Button
+            priority="secondary"
+            linkProps={{
+              href: Routes.Raccordement.détail(identifiantProjet),
+              prefetch: false,
+            }}
+            iconId="fr-icon-arrow-left-line"
+          >
+            Retour aux dossiers de raccordement
+          </Button>
+          <SubmitButton>Modifier</SubmitButton>
+        </>
+      }
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
       <input name="referenceDossierRaccordementActuelle" type="hidden" value={référence.value} />
@@ -142,20 +157,6 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
           required: true,
         }}
       />
-
-      <div className="flex flex-col md:flex-row gap-4 m-auto">
-        <Button
-          priority="secondary"
-          linkProps={{
-            href: Routes.Raccordement.détail(identifiantProjet),
-            prefetch: false,
-          }}
-          iconId="fr-icon-arrow-left-line"
-        >
-          Retour aux dossiers de raccordement
-        </Button>
-        <SubmitButton>Modifier</SubmitButton>
-      </div>
     </Form>
   );
 };

@@ -21,7 +21,7 @@ type Action =
   | typeof transmettreAttestationConformitéAction
   | typeof modifierAttestationConformitéAction;
 
-export type FormulaireAttestationConformitéProps = {
+export type AttestationConformitéFormProps = {
   identifiantProjet: string;
   action: Action;
   submitButtonLabel: string;
@@ -33,7 +33,7 @@ export type FormulaireAttestationConformitéProps = {
   demanderMainlevée: { visible: boolean; canBeDone: boolean };
 };
 
-export const FormulaireAttestationConformité: FC<FormulaireAttestationConformitéProps> = ({
+export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = ({
   identifiantProjet,
   action,
   submitButtonLabel,
@@ -50,6 +50,21 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
       action={action}
       onSuccess={() => router.push(Routes.Projet.details(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+      actions={
+        <>
+          <Button
+            priority="secondary"
+            linkProps={{
+              href: Routes.Projet.details(identifiantProjet),
+              prefetch: false,
+            }}
+            iconId="fr-icon-arrow-left-line"
+          >
+            Retour sur le projet
+          </Button>
+          <SubmitButton>{submitButtonLabel}</SubmitButton>
+        </>
+      }
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
@@ -143,20 +158,6 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
             )}
           </>
         )}
-      </div>
-
-      <div className="flex flex-col md:flex-row gap-4 mt-5">
-        <Button
-          priority="secondary"
-          linkProps={{
-            href: Routes.Projet.details(identifiantProjet),
-            prefetch: false,
-          }}
-          iconId="fr-icon-arrow-left-line"
-        >
-          Retour sur le projet
-        </Button>
-        <SubmitButton>{submitButtonLabel}</SubmitButton>
       </div>
     </Form>
   );

@@ -6,17 +6,17 @@ import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 import {
-  FormulaireGarantiesFinancières,
-  FormulaireGarantiesFinancièresProps,
-} from '../../FormulaireGarantiesFinancières';
+  GarantiesFinancièresForm,
+  type GarantiesFinancièresFormProps,
+} from '../../GarantiesFinancières.form';
 
 import { modifierDépôtEnCoursGarantiesFinancièresAction } from './modifierDépôtEnCoursGarantiesFinancières.action';
 
 export type ModifierDépôtEnCoursGarantiesFinancièresPageProps = Pick<
-  FormulaireGarantiesFinancièresProps,
+  GarantiesFinancièresFormProps,
   'identifiantProjet' | 'typesGarantiesFinancières'
 > & {
-  dépôtEnCours: FormulaireGarantiesFinancièresProps['defaultValues'];
+  dépôtEnCours: GarantiesFinancièresFormProps['defaultValues'];
   showWarning?: true;
 };
 
@@ -31,7 +31,7 @@ export const ModifierDépôtEnCoursGarantiesFinancièresPage: FC<
     leftColumn={{
       children: (
         <>
-          <FormulaireGarantiesFinancières
+          <GarantiesFinancièresForm
             identifiantProjet={identifiantProjet}
             action={modifierDépôtEnCoursGarantiesFinancièresAction}
             submitButtonLabel="Modifier"
