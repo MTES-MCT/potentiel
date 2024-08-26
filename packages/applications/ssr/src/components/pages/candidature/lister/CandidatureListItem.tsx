@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Link from 'next/link';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
@@ -7,10 +7,10 @@ import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { Icon } from '@/components/atoms/Icon';
-import { ListItem } from '@/components/molecules/ListItem';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+
+import * as symbols from './candidatureListLegendSymbols';
 
 export type CandidatureListItemProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
@@ -43,63 +43,106 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
   unitePuissance,
   evaluationCarboneSimplifiée,
 }) => (
-  <ListItem
-    heading={
+  <div className="flex flex-1 flex-col gap-6">
+    <div className="flex items-center">
       <ProjectListItemHeading
         identifiantProjet={identifiantProjet}
         nomProjet={nomProjet}
-        prefix=""
+        prefix="Candidature du projet"
+        statut={statut.statut}
       />
-    }
-    actions={
-      <Link
-        href={Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter())}
-        className="self-center mt-4 md:self-end md:mt-0"
+      <Button
+        className="hidden md:flex ml-auto"
+        linkProps={{
+          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
+        }}
         aria-label={`Lien vers la page de la candidature ${nomProjet}`}
       >
         Consulter
-      </Link>
-    }
-  >
-    <div className="flex flex-col gap-2 md:gap-0">
-      <div className="flex gap-1 items-center" title="Localité du candidat">
-        <Icon id="fr-icon-map-pin-2-line" size="xs" />
-        <div className="text-sm">
-          {commune}, {département}, {région}
+      </Button>
+    </div>
+
+    <div className="flex flex-col gap-4 md:flex-row md:items-center">
+      <div className="flex md:flex-1 flex-col gap-1 text-sm">
+        <div className="flex items-center gap-2">
+          <Icon id={symbols.localité.iconId} title={symbols.localité.description} size="sm" />
+          <span className="italic">
+            {commune}, {département}, {région}
+          </span>
+        </div>
+
+        <div className="flex  items-center gap-2">
+          <Icon id={symbols.nomCandidat.iconId} title={symbols.nomCandidat.description} size="sm" />
+          {nomCandidat}
+        </div>
+        <div className="flex items-center gap-2">
+          <Icon
+            id={symbols.représentantLégal.iconId}
+            title={symbols.représentantLégal.description}
+            size="sm"
+          />
+          <div className="flex flex-col overflow-hidden">
+            <div>{nomReprésentantLégal}</div>
+            <div className="truncate" title={emailContact}>
+              {emailContact}
+            </div>
+          </div>
         </div>
       </div>
-      <div className="flex gap-1 items-center" title="Nom du candidat">
-        <Icon id="fr-icon-community-line" size="xs" />
-        <div className="text-sm">{nomCandidat}</div>
-      </div>
-      <div className="flex gap-1 items-center" title="Nom du représentant légal">
-        <Icon id="fr-icon-user-line" size="xs" />
-        <div className="text-sm">
-          {nomReprésentantLégal} ({emailContact})
+
+      <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4">
+        <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
+          <Icon
+            id={symbols.puissance.iconId}
+            className={symbols.puissance.iconColor}
+            title={symbols.puissance.description}
+          />
+          <div className="lg:flex lg:flex-col items-center">
+            {puissanceProductionAnnuelle}
+            <span className="italic text-sm"> {unitePuissance}</span>
+          </div>
         </div>
-      </div>
-      <div className="flex gap-1 items-center" title="Puissance">
-        <Icon id="fr-icon-lightbulb-line" size="xs" />
-        <div className="text-sm">
-          {puissanceProductionAnnuelle}{' '}
-          {unitePuissance === 'inconnue' ? ' (unité de puissance inconnue)' : unitePuissance}
+        <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
+          <Icon
+            id={symbols.prix.iconId}
+            className={symbols.prix.iconColor}
+            title={symbols.prix.description}
+          />
+          <div className="lg:flex lg:flex-col items-center">
+            {prixReference}
+            <span className="italic text-sm"> €/MWh</span>
+          </div>
         </div>
-      </div>
-      <div className="flex gap-1 items-center" title="Prix de référence">
-        <Icon id="fr-icon-money-euro-circle-line" size="xs" />
-        <div className="text-sm">{prixReference} €/MWh</div>
-      </div>
-      <div className="flex gap-1 items-center" title="Évaluation carbone">
-        <Icon id="fr-icon-cloudy-2-line" size="xs" />
-        <div className="text-sm">
-          {evaluationCarboneSimplifiée === 0
-            ? '--'
-            : `${evaluationCarboneSimplifiée} kg eq CO2/kWc`}
+
+        <div className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow">
+          <Icon
+            id={symbols.évaluationCarbone.iconId}
+            className={symbols.évaluationCarbone.iconColor}
+            title={symbols.évaluationCarbone.description}
+          />
+          <div>
+            {evaluationCarboneSimplifiée > 0 ? (
+              <div className="lg:flex lg:flex-col items-center text-center">
+                {evaluationCarboneSimplifiée}
+                <span className="italic text-sm"> kg eq CO2/kWc</span>
+              </div>
+            ) : (
+              '- - -'
+            )}
+          </div>
         </div>
       </div>
     </div>
-    <div className="flex flex-col md:flex-row gap-2 mt-3">
-      <StatutProjetBadge statut={statut.statut} />
+
+    <div className="flex md:hidden">
+      <Button
+        linkProps={{
+          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
+        }}
+        aria-label={`Lien vers la page de la candidature ${nomProjet}`}
+      >
+        Consulter
+      </Button>
     </div>
-  </ListItem>
+  </div>
 );

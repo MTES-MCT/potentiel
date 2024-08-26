@@ -57,6 +57,8 @@ export const Default: Story = {
     items: [
       {
         ...commonItem,
+        nomProjet:
+          'Nom de projet très très très très très très très très très très très très très très très très long',
       },
       {
         ...commonItem,
@@ -65,6 +67,7 @@ export const Default: Story = {
       {
         ...commonItem,
         unitePuissance: 'inconnue',
+        evaluationCarboneSimplifiée: 0,
       },
     ],
     range: {

@@ -16,7 +16,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    legend: [
+    symbols: [
       {
         iconId: 'fr-icon-map-pin-2-line',
         description: 'Ceci est un exemple de description',
