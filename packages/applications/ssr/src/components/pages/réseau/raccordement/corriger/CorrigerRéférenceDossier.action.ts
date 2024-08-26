@@ -43,7 +43,7 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
     // on remplace les séparateurs de segments de "-" en "#"
     // Ex: CRE4 - Bâtiment-1-2-3 => CRE4 - Bâtiment#1#2#3
     const parseIdentifiantProjet = (identifiant: string) =>
-      identifiant.replace(/(.*)-(\d*)-(.*)-(\d*)/, '$1#$2#$3#$4');
+      identifiant.replace(/(.*)-(\d*)-(.{0,3})-(.*)/, '$1#$2#$3#$4');
 
     for (const { identifiantProjet, referenceDossier, referenceDossierCorrigee } of lines) {
       try {
