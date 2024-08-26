@@ -10,7 +10,7 @@ export type RawType =
   | 'caisse-des-dépôts'
   | 'cre';
 
-const roles: Array<RawType> = [
+export const roles: Array<RawType> = [
   'admin',
   'porteur-projet',
   'dreal',
@@ -71,6 +71,7 @@ export const dreal = convertirEnValueType('dreal');
 export const cre = convertirEnValueType('cre');
 export const acheteurObligé = convertirEnValueType('acheteur-obligé');
 export const caisseDesDépôts = convertirEnValueType('caisse-des-dépôts');
+export const ademe = convertirEnValueType('ademe');
 
 class RoleRefuséError extends OperationRejectedError {
   constructor(value: string) {

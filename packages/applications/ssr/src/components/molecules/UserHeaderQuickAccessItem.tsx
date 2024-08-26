@@ -4,17 +4,21 @@ import { mediator } from 'mediateur';
 import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
+import { Option } from '@potentiel-libraries/monads';
 
 import {
   AuthenticatedUserReadModel,
-  getOptionalAuthenticatedUser,
+  GetAuthenticatedUserMessage,
 } from '@/utils/getAuthenticatedUser.handler';
 
 export async function UserHeaderQuickAccessItem() {
-  const utilisateur = await getOptionalAuthenticatedUser();
+  const utilisateur = await mediator.send<GetAuthenticatedUserMessage>({
+    type: 'System.Authorization.RécupérerUtilisateur',
+    data: {},
+  });
   const accountUrl = `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`;
 
-  if (utilisateur) {
+  if (Option.isSome(utilisateur)) {
     return (
       <>
         {await getTâcheHeaderQuickAccessItem(utilisateur)}

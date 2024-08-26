@@ -1,6 +1,7 @@
 import { Message, Middleware, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
 
 import * as Utilisateur from './utilisateur.valueType';
 import { VérifierAccèsProjetQuery } from './vérifierAccèsProjet/vérifierAccèsProjet.query';
@@ -8,7 +9,7 @@ import { VérifierAccèsProjetQuery } from './vérifierAccèsProjet/vérifierAcc
 type GetAuthenticatedUserMessage = Message<
   'System.Authorization.RécupérerUtilisateur',
   {},
-  Utilisateur.ValueType
+  Option.Type<Utilisateur.ValueType>
 >;
 
 export const permissionMiddleware: Middleware = async (message, next) => {
@@ -16,7 +17,7 @@ export const permissionMiddleware: Middleware = async (message, next) => {
     return await next();
   }
 
-  let utilisateur: Utilisateur.ValueType | undefined;
+  let utilisateur: Option.Type<Utilisateur.ValueType> | undefined;
 
   try {
     utilisateur = await mediator.send<GetAuthenticatedUserMessage>({
@@ -36,6 +37,10 @@ export const permissionMiddleware: Middleware = async (message, next) => {
     }
 
     throw new AuthenticationError(error as Error);
+  }
+
+  if (Option.isNone(utilisateur)) {
+    throw new AuthenticationError();
   }
 
   utilisateur.role.peutExécuterMessage(message.type);

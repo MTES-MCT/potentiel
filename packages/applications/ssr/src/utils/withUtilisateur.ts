@@ -5,6 +5,8 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
 
+import { NoAuthenticatedUserError } from './NoAuthenticatedUser.error';
+
 type GetAuthenticatedUserMessage = Message<
   'System.Authorization.RécupérerUtilisateur',
   {},
@@ -18,6 +20,10 @@ export async function withUtilisateur<TResult>(
     type: 'System.Authorization.RécupérerUtilisateur',
     data: {},
   });
+
+  if (Option.isNone(utilisateur)) {
+    throw new NoAuthenticatedUserError();
+  }
 
   return await action(utilisateur);
 }

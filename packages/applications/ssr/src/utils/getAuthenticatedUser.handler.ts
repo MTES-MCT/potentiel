@@ -1,13 +1,10 @@
 import { Message, MessageHandler } from 'mediateur';
 import { cookies } from 'next/headers';
 import { decode } from 'next-auth/jwt';
-// import * as Sentry from '@sentry/nextjs';
 
 import { IdentifiantUtilisateur, Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { récupérerUtilisateurAdapter } from '@potentiel-infrastructure/domain-adapters';
-
-import { NoAuthenticatedUserError } from './NoAuthenticatedUser.error';
 
 export type AuthenticatedUserReadModel = {
   nom: string;
@@ -19,14 +16,14 @@ export type AuthenticatedUserReadModel = {
 export type GetAuthenticatedUserMessage = Message<
   'System.Authorization.RécupérerUtilisateur',
   {},
-  AuthenticatedUserReadModel
+  Option.Type<AuthenticatedUserReadModel>
 >;
 
 const { NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME = 'next-auth.session-token' } = process.env;
 
-export const getOptionalAuthenticatedUser = async (): Promise<
-  AuthenticatedUserReadModel | undefined
-> => {
+export const getOptionalAuthenticatedUser: MessageHandler<
+  GetAuthenticatedUserMessage
+> = async (): Promise<Option.Type<AuthenticatedUserReadModel>> => {
   const cookiesContent = cookies();
   const sessionToken = cookiesContent.get(NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME)?.value || '';
 
@@ -36,7 +33,7 @@ export const getOptionalAuthenticatedUser = async (): Promise<
   });
 
   if (!decoded?.accessToken) {
-    return undefined;
+    return Option.none;
   }
 
   const user = Utilisateur.convertirEnValueType(decoded.accessToken);
@@ -57,26 +54,10 @@ export const getOptionalAuthenticatedUser = async (): Promise<
   const utilisateur = await récupérerUtilisateurAdapter(user.identifiantUtilisateur.email);
 
   if (Option.isNone(utilisateur)) {
-    return undefined;
+    return utilisateur;
   }
   return {
     ...userBase,
     régionDreal: utilisateur.régionDreal ?? 'non-trouvée',
   };
-};
-
-export const getAuthenticatedUser: MessageHandler<GetAuthenticatedUserMessage> = async () => {
-  const user = await getOptionalAuthenticatedUser();
-
-  if (!user) {
-    // Sentry.setUser(null);
-    throw new NoAuthenticatedUserError();
-  }
-
-  // Sentry user set up for server side errors
-  // Sentry.setUser({
-  //   email: user.identifiantUtilisateur.email,
-  // });
-
-  return user;
 };

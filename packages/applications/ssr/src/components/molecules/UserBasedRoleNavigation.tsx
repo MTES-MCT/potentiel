@@ -1,18 +1,23 @@
 import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
+import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
+import { Option } from '@potentiel-libraries/monads';
 
 import {
   AuthenticatedUserReadModel,
-  getOptionalAuthenticatedUser,
+  GetAuthenticatedUserMessage,
 } from '@/utils/getAuthenticatedUser.handler';
 
 export async function UserBasedRoleNavigation() {
-  const utilisateur = await getOptionalAuthenticatedUser();
-
-  const navigationItems = utilisateur ? getNavigationItemsBasedOnRole(utilisateur) : [];
-
-  return <MainNavigation items={navigationItems} />;
+  const utilisateur = await mediator.send<GetAuthenticatedUserMessage>({
+    type: 'System.Authorization.RécupérerUtilisateur',
+    data: {},
+  });
+  if (Option.isNone(utilisateur)) {
+    return <MainNavigation items={[]} />;
+  }
+  return <MainNavigation items={getNavigationItemsBasedOnRole(utilisateur)} />;
 }
 
 const menuLinks = {
@@ -38,8 +43,8 @@ const menuLinks = {
   ],
 };
 
-const getNavigationItemsBasedOnRole = (
-  utilisateur: AuthenticatedUserReadModel,
+export const getNavigationItemsBasedOnRole = (
+  utilisateur: Pick<AuthenticatedUserReadModel, 'role'>,
 ): MainNavigationProps['items'] => {
   switch (utilisateur.role.nom) {
     case 'admin':
