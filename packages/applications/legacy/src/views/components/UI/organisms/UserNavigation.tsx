@@ -143,11 +143,11 @@ const MenuAdmin = (currentPage?: string) => (
       >
         Courriers historiques
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={Routes.Raccordement.importer}
-        {...(currentPage === 'importer-dates-mise-en-service' && { isCurrent: true })}
-      >
+      <DropdownMenu.DropdownItem href={Routes.Raccordement.importer}>
         Dates de mise en service
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Raccordement.corrigerRéférencesDossier}>
+        Corrections de références dossier
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Gestion des accès'}>
