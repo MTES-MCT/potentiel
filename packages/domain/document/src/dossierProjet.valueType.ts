@@ -1,12 +1,12 @@
 import { join } from 'path';
 
-import { InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 type TypeDocument = string;
 export type RawType = `${IdentifiantProjet.RawType}/${TypeDocument}`;
 
-export type ValueType = Readonly<{
+export type ValueType = ReadonlyValueType<{
   formatter(): RawType;
 }>;
 
@@ -21,6 +21,9 @@ export const convertirEnValueType = (
   return {
     formatter() {
       return join(identifiantProjet.formatter(), typeDocumentValue) as RawType;
+    },
+    estÉgaleÀ(valueType: ValueType) {
+      return this.formatter() === valueType.formatter();
     },
   };
 };

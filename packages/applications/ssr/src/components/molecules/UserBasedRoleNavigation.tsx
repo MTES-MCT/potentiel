@@ -122,6 +122,12 @@ const getNavigationItemsBasedOnRole = (
                 href: Routes.Raccordement.importer,
               },
             },
+            {
+              text: 'Correction de références dossier',
+              linkProps: {
+                href: Routes.Raccordement.corrigerRéférencesDossier,
+              },
+            },
           ],
         },
         {
