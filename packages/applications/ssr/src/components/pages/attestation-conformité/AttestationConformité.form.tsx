@@ -21,7 +21,7 @@ type Action =
   | typeof transmettreAttestationConformitéAction
   | typeof modifierAttestationConformitéAction;
 
-export type FormulaireAttestationConformitéProps = {
+export type AttestationConformitéFormProps = {
   identifiantProjet: string;
   action: Action;
   submitButtonLabel: string;
@@ -33,7 +33,7 @@ export type FormulaireAttestationConformitéProps = {
   demanderMainlevée: { visible: boolean; canBeDone: boolean };
 };
 
-export const FormulaireAttestationConformité: FC<FormulaireAttestationConformitéProps> = ({
+export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = ({
   identifiantProjet,
   action,
   submitButtonLabel,

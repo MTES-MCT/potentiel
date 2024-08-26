@@ -4,7 +4,7 @@ import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageAttestationConformité } from '../TitrePageAttestationConformité';
-import { FormulaireAttestationConformité } from '../FormulaireAttestationConformité';
+import { AttestationConformitéForm } from '../AttestationConformité.form';
 
 import { transmettreAttestationConformitéAction } from './transmettreAttestationConformité.action';
 
@@ -20,7 +20,7 @@ export const TransmettreAttestationConformitéPage: FC<
   <PageTemplate banner={<ProjetBanner {...projet} />}>
     <TitrePageAttestationConformité title="Transmettre l'attestation de conformité du projet" />
 
-    <FormulaireAttestationConformité
+    <AttestationConformitéForm
       identifiantProjet={projet.identifiantProjet}
       action={transmettreAttestationConformitéAction}
       submitButtonLabel="Transmettre"

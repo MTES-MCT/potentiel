@@ -5,15 +5,15 @@ import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/P
 
 import { TitrePageAttestationConformité } from '../TitrePageAttestationConformité';
 import {
-  FormulaireAttestationConformité,
-  FormulaireAttestationConformitéProps,
-} from '../FormulaireAttestationConformité';
+  AttestationConformitéForm,
+  type AttestationConformitéFormProps,
+} from '../AttestationConformité.form';
 
 import { modifierAttestationConformitéAction } from './modifierAttestationConformité.action';
 
 export type ModifierAttestationConformitéPageProps = {
   projet: ProjetBannerProps;
-  attestationConformitéActuelle: FormulaireAttestationConformitéProps['donnéesActuelles'];
+  attestationConformitéActuelle: AttestationConformitéFormProps['donnéesActuelles'];
 };
 
 export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformitéPageProps> = ({
@@ -23,7 +23,7 @@ export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformit
   <PageTemplate banner={<ProjetBanner {...projet} />}>
     <TitrePageAttestationConformité title="Modifier l'attestation de conformité du projet" />
 
-    <FormulaireAttestationConformité
+    <AttestationConformitéForm
       identifiantProjet={projet.identifiantProjet}
       action={modifierAttestationConformitéAction}
       submitButtonLabel="Modifier"
