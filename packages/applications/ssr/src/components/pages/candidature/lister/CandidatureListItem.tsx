@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import Link from 'next/link';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
@@ -51,7 +51,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
     <div className="flex flex-col md:flex-row md:justify-between gap-2 mt-3 w-full">
       <div className="flex-1">
         <div className="flex flex-col gap-2 mb-4">
-          <div className="flex flex-col md:flex-row gap-4 md:items-center md:mr-4">
+          <div className="flex flex-col  gap-4 md:flex-row md:items-center md:mt-2 md:mr-4">
             <div className="flex md:flex-1 flex-col gap-1 text-sm">
               <div className="flex items-center gap-2">
                 <Icon id="fr-icon-map-pin-2-line" title="Localisation du projet" size="sm" />
@@ -117,13 +117,16 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
             </div>
 
             <div className="flex gap-2 md:absolute md:top-2 md:right-4">
-              <Link
-                href={Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter())}
-                className="self-center mt-4 md:self-end md:mt-0"
+              <Button
+                linkProps={{
+                  href: Routes.Projet.details(
+                    IdentifiantProjet.bind(identifiantProjet).formatter(),
+                  ),
+                }}
                 aria-label={`Lien vers la page de la candidature ${nomProjet}`}
               >
                 Consulter
-              </Link>
+              </Button>
             </div>
           </div>
         </div>
