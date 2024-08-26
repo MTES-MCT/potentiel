@@ -39,6 +39,12 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
     let success: number = 0;
     const errors: ActionResult['errors'] = [];
 
+    // l'identifiant dans le fichier est au format "lisible" et pas au format technique
+    // on remplace les séparateurs de segments de "-" en "#"
+    // Ex: CRE4 - Bâtiment-1-2-3 => CRE4 - Bâtiment#1#2#3
+    const parseIdentifiantProjet = (identifiant: string) =>
+      identifiant.replace(/(.*)-(\d*)-(.*)-(\d*)/, '$1#$2#$3#$4');
+
     for (const { identifiantProjet, referenceDossier, referenceDossierCorrigee } of lines) {
       try {
         await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
@@ -77,10 +83,3 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
   });
 
 export const corrigerRéférencesDossierAction = formAction(action, schema);
-
-// l'identifiant dans le fichier est au format "lisible" et pas au format technique
-// on remplace les séparateurs de segments de "-" en "#"
-// Ex: CRE4 - Bâtiment-1-2-3 => CRE4 - Bâtiment#1#2#3
-export function parseIdentifiantProjet(identifiant: string) {
-  return identifiant.replace(/(.*)-(\d*)-(.*)-(\d*)/, '$1#$2#$3#$4');
-}
