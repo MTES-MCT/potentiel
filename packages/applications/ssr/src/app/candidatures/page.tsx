@@ -94,7 +94,7 @@ export default async function Page({ searchParams }: PageProps) {
       items.push(
         mapToPlainObject({
           ...candidature,
-          unitePuissance: ao?.unitePuissance ?? 'inconnue',
+          unitePuissance: ao?.unitePuissance ?? 'MWc',
         }),
       );
     }
