@@ -4,11 +4,13 @@ import React from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { ImporterCandidaturesFormProps } from '@/components/pages/candidature/importer/ImporterCandidatures.form';
 
-import { ImporterDatesMiseEnServiceForm } from './importerDatesMiseEnService.form';
+import {
+  ImporterDatesMiseEnServiceForm,
+  ImporterDatesMiseEnServiceFormProps,
+} from './importerDatesMiseEnService.form';
 
-type ImporterDatesMiseEnServicePageProps = ImporterCandidaturesFormProps;
+type ImporterDatesMiseEnServicePageProps = ImporterDatesMiseEnServiceFormProps;
 
 export const ImporterDatesMiseEnServicePage: React.FC<ImporterDatesMiseEnServicePageProps> = ({
   action,
