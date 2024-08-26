@@ -50,7 +50,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
       action={action}
       onSuccess={() => router.push(Routes.Projet.details(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actionButtons={
+      actions={
         <>
           <Button
             priority="secondary"

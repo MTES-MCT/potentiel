@@ -39,7 +39,7 @@ export const ModifierGestionnaireRéseauRaccordementForm: FC<
       onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       heading="Modifier le gestionnaire de réseau du projet"
-      actionButtons={
+      actions={
         <>
           <Button
             priority="secondary"

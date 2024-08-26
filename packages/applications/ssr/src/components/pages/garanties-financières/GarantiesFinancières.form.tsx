@@ -54,7 +54,7 @@ export const GarantiesFinancièresForm: FC<GarantiesFinancièresFormProps> = ({
       action={action}
       onSuccess={() => router.push(Routes.GarantiesFinancières.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actionButtons={
+      actions={
         <>
           <Button
             priority="secondary"

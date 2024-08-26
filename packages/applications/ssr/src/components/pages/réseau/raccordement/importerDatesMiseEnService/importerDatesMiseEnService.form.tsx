@@ -23,7 +23,7 @@ export const ImporterDatesMiseEnServiceForm: FC = () => {
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       successMessage={'dates de mise en service transmises'}
-      actionButtons={<SubmitButton>Importer</SubmitButton>}
+      actions={<SubmitButton>Importer</SubmitButton>}
     >
       <UploadDocument
         label="Fichier des dates de mise en service"

@@ -34,7 +34,7 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
       encType="multipart/form-data"
       onSuccess={() => router.push(Routes.Abandon.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actionButtons={<SubmitButton>Demander l'abandon</SubmitButton>}
+      actions={<SubmitButton>Demander l'abandon</SubmitButton>}
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 

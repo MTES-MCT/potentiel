@@ -57,7 +57,7 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
       heading="Transmettre une demande complète de raccordement"
       onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actionButtons={
+      actions={
         <>
           <Button
             priority="secondary"

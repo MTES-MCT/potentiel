@@ -50,7 +50,7 @@ export const TransmettrePreuveRecandidatureForm: FC<TransmettrePreuveRecandidatu
       method="POST"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       onSuccess={() => router.push(Routes.Abandon.détail(identifiantProjet))}
-      actionButtons={
+      actions={
         <SubmitButton disabledCondition={() => !projetSélectionné}>
           Transmettre la preuve de recandidature
         </SubmitButton>

@@ -64,7 +64,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
       heading="Modifier une demande complète de raccordement"
       onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actionButtons={
+      actions={
         <>
           <Button
             priority="secondary"

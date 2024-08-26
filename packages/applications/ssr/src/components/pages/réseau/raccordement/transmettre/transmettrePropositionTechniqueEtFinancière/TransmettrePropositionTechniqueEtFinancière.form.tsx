@@ -32,7 +32,7 @@ export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
       action={transmettrePropositionTechniqueEtFinancièreAction}
       onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actionButtons={
+      actions={
         <>
           <Button
             priority="secondary"

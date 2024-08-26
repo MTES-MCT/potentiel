@@ -21,7 +21,7 @@ export const AjouterGestionnaireRéseauForm = () => {
       encType="multipart/form-data"
       onSuccess={() => router.push(Routes.Gestionnaire.lister)}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actionButtons={<SubmitButton>Ajouter</SubmitButton>}
+      actions={<SubmitButton>Ajouter</SubmitButton>}
     >
       <Input
         label="Code EIC ou gestionnaire"

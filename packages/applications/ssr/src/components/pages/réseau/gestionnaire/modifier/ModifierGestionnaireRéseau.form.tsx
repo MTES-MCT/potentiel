@@ -49,7 +49,7 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
       encType="multipart/form-data"
       onSuccess={() => router.push(Routes.Gestionnaire.lister)}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actionButtons={<SubmitButton>Modifier</SubmitButton>}
+      actions={<SubmitButton>Modifier</SubmitButton>}
     >
       <div className="mb-6">
         <label>Code EIC ou Gestionnaire: {identifiantGestionnaireReseauValue}</label>

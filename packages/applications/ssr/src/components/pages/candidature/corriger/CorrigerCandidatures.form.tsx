@@ -24,7 +24,7 @@ export const CorrigerCandidaturesForm: FC = () => {
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       successMessage={'candidats corrigés'}
-      actionButtons={<SubmitButton>Corriger</SubmitButton>}
+      actions={<SubmitButton>Corriger</SubmitButton>}
     >
       <UploadDocument
         label="Fichier CSV"

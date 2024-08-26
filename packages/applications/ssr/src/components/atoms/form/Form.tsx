@@ -18,7 +18,7 @@ export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action' | 'me
   heading?: ReactNode;
   omitMandatoryFieldsLegend?: true;
   pendingModal?: FormPendingModalProps;
-  actionButtons: ReactNode;
+  actions: ReactNode;
   onSuccess?: () => void;
   onValidationError?: (validationErrors: Array<string>) => void;
   successMessage?: string;
@@ -34,7 +34,7 @@ export const Form: FC<FormProps> = ({
   pendingModal,
   className,
   successMessage,
-  actionButtons,
+  actions,
   ...props
 }) => {
   const [state, formAction] = useFormState(action, {
@@ -64,7 +64,7 @@ export const Form: FC<FormProps> = ({
       <div className={`flex flex-col gap-5 ${className || ''}`}>
         {children}
 
-        <div className="flex flex-col md:flex-row gap-2">{actionButtons}</div>
+        <div className="flex flex-col md:flex-row gap-2">{actions}</div>
       </div>
 
       <FormFeedbackCsvError formState={state} />

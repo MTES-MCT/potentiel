@@ -35,7 +35,7 @@ export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFo
       heading="Transmettre la date de mise en service"
       action={transmettreDateMiseEnServiceAction}
       onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
-      actionButtons={
+      actions={
         <>
           <Button
             priority="secondary"

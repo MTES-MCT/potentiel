@@ -45,7 +45,7 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
       onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
       heading="Modifier la proposition technique et financière"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actionButtons={
+      actions={
         <>
           <Button
             priority="secondary"

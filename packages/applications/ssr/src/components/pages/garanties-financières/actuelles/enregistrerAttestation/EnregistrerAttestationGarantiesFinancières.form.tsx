@@ -30,7 +30,7 @@ export const EnregistrerAttestationGarantiesFinancièresForm: FC<
       action={enregistrerAttestationGarantiesFinancièresAction}
       onSuccess={() => router.push(Routes.GarantiesFinancières.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actionButtons={
+      actions={
         <>
           <Button
             priority="secondary"

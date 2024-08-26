@@ -23,7 +23,7 @@ export const ImporterCandidaturesForm: FC = () => {
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       successMessage={'candidats importés'}
-      actionButtons={<SubmitButton>Importer</SubmitButton>}
+      actions={<SubmitButton>Importer</SubmitButton>}
     >
       <UploadDocument
         label="Fichier CSV"
