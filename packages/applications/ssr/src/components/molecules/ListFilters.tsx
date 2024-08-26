@@ -30,7 +30,8 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
           key={`filter-${searchParamKey}`}
           label={label}
           options={options}
-          defaultValue={searchParams.get(searchParamKey) ?? defaultValue ?? ''}
+          defaultValue={defaultValue ?? ''}
+          value={searchParams.get(searchParamKey) ?? ''}
           onValueSelected={(value) => {
             const newSearchParams = new URLSearchParams(searchParams);
             if (value === '') {
