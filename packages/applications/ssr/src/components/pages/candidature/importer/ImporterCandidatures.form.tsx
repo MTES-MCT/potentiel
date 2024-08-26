@@ -23,6 +23,7 @@ export const ImporterCandidaturesForm: FC = () => {
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       successMessage={'candidats importés'}
+      actionButtons={<SubmitButton>Importer</SubmitButton>}
     >
       <UploadDocument
         label="Fichier CSV"
@@ -33,10 +34,6 @@ export const ImporterCandidaturesForm: FC = () => {
         state={validationErrors.includes('fichierImport') ? 'error' : 'default'}
         stateRelatedMessage="Fichier CSV obligatoire"
       />
-
-      <div className="flex flex-col md:flex-row">
-        <SubmitButton>Importer</SubmitButton>
-      </div>
     </Form>
   );
 };

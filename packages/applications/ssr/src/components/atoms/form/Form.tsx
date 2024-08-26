@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, FormHTMLAttributes } from 'react';
+import { FC, FormHTMLAttributes, ReactNode } from 'react';
 import { useFormState } from 'react-dom';
 
 import { formAction } from '@/utils/formAction';
@@ -14,10 +14,11 @@ import { FormFeedbackCsvError } from './FormFeedbackCsvErrors';
 export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action' | 'method'> & {
   method?: 'POST';
   action: ReturnType<typeof formAction>;
-  children: React.ReactNode;
-  heading?: React.ReactNode;
+  children: ReactNode;
+  heading?: ReactNode;
   omitMandatoryFieldsLegend?: true;
   pendingModal?: FormPendingModalProps;
+  actionButtons: ReactNode;
   onSuccess?: () => void;
   onValidationError?: (validationErrors: Array<string>) => void;
   successMessage?: string;
@@ -33,6 +34,7 @@ export const Form: FC<FormProps> = ({
   pendingModal,
   className,
   successMessage,
+  actionButtons,
   ...props
 }) => {
   const [state, formAction] = useFormState(action, {
@@ -59,7 +61,11 @@ export const Form: FC<FormProps> = ({
         </div>
       )}
 
-      <div className={`flex flex-col gap-5 ${className || ''}`}>{children}</div>
+      <div className={`flex flex-col gap-5 ${className || ''}`}>
+        {children}
+
+        <div className="flex flex-col md:flex-row gap-2">{actionButtons}</div>
+      </div>
 
       <FormFeedbackCsvError formState={state} />
     </form>

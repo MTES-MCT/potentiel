@@ -50,6 +50,21 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
       action={action}
       onSuccess={() => router.push(Routes.Projet.details(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+      actionButtons={
+        <>
+          <Button
+            priority="secondary"
+            linkProps={{
+              href: Routes.Projet.details(identifiantProjet),
+              prefetch: false,
+            }}
+            iconId="fr-icon-arrow-left-line"
+          >
+            Retour sur le projet
+          </Button>
+          <SubmitButton>{submitButtonLabel}</SubmitButton>
+        </>
+      }
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
@@ -143,20 +158,6 @@ export const FormulaireAttestationConformité: FC<FormulaireAttestationConformit
             )}
           </>
         )}
-      </div>
-
-      <div className="flex flex-col md:flex-row gap-4 mt-5">
-        <Button
-          priority="secondary"
-          linkProps={{
-            href: Routes.Projet.details(identifiantProjet),
-            prefetch: false,
-          }}
-          iconId="fr-icon-arrow-left-line"
-        >
-          Retour sur le projet
-        </Button>
-        <SubmitButton>{submitButtonLabel}</SubmitButton>
       </div>
     </Form>
   );

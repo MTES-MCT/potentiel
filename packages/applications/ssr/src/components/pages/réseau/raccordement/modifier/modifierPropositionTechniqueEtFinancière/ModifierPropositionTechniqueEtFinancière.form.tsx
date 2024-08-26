@@ -45,6 +45,21 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
       onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
       heading="Modifier la proposition technique et financière"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+      actionButtons={
+        <>
+          <Button
+            priority="secondary"
+            linkProps={{
+              href: Routes.Raccordement.détail(identifiantProjet),
+              prefetch: false,
+            }}
+            iconId="fr-icon-arrow-left-line"
+          >
+            Retour aux dossiers de raccordement
+          </Button>
+          <SubmitButton>Modifier</SubmitButton>
+        </>
+      }
     >
       <div>
         Référence du dossier de raccordement : <strong>{reference}</strong>
@@ -74,20 +89,6 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
         }
         documentKey={propositionTechniqueEtFinancièreSignée}
       />
-
-      <div className="flex flex-col md:flex-row gap-4 m-auto">
-        <Button
-          priority="secondary"
-          linkProps={{
-            href: Routes.Raccordement.détail(identifiantProjet),
-            prefetch: false,
-          }}
-          iconId="fr-icon-arrow-left-line"
-        >
-          Retour aux dossiers de raccordement
-        </Button>
-        <SubmitButton>Modifier</SubmitButton>
-      </div>
     </Form>
   );
 };

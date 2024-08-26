@@ -23,6 +23,7 @@ export const ImporterDatesMiseEnServiceForm: FC = () => {
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       successMessage={'dates de mise en service transmises'}
+      actionButtons={<SubmitButton>Importer</SubmitButton>}
     >
       <UploadDocument
         label="Fichier des dates de mise en service"
@@ -31,9 +32,6 @@ export const ImporterDatesMiseEnServiceForm: FC = () => {
         required
         state={validationErrors.includes('fichierDatesMiseEnService') ? 'error' : 'default'}
       />
-      <div className="flex flex-col md:flex-row mx-auto">
-        <SubmitButton>Importer</SubmitButton>
-      </div>
     </Form>
   );
 };

@@ -24,6 +24,7 @@ export const CorrigerCandidaturesForm: FC = () => {
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       successMessage={'candidats corrigés'}
+      actionButtons={<SubmitButton>Corriger</SubmitButton>}
     >
       <UploadDocument
         label="Fichier CSV"
@@ -34,10 +35,6 @@ export const CorrigerCandidaturesForm: FC = () => {
         state={validationErrors.includes('fichierImport') ? 'error' : 'default'}
         stateRelatedMessage="Fichier CSV obligatoire"
       />
-
-      <div className="flex flex-col md:flex-row gap-2">
-        <SubmitButton>Corriger</SubmitButton>
-      </div>
     </Form>
   );
 };

@@ -50,6 +50,11 @@ export const TransmettrePreuveRecandidatureForm: FC<TransmettrePreuveRecandidatu
       method="POST"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       onSuccess={() => router.push(Routes.Abandon.détail(identifiantProjet))}
+      actionButtons={
+        <SubmitButton disabledCondition={() => !projetSélectionné}>
+          Transmettre la preuve de recandidature
+        </SubmitButton>
+      }
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
@@ -88,10 +93,6 @@ export const TransmettrePreuveRecandidatureForm: FC<TransmettrePreuveRecandidatu
           <input type={'hidden'} value={projetSélectionné.dateDésignation} name="dateDesignation" />
         </>
       )}
-
-      <SubmitButton disabledCondition={() => !projetSélectionné}>
-        Transmettre la preuve de recandidature
-      </SubmitButton>
     </Form>
   );
 };

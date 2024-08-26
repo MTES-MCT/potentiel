@@ -21,6 +21,7 @@ export const AjouterGestionnaireRéseauForm = () => {
       encType="multipart/form-data"
       onSuccess={() => router.push(Routes.Gestionnaire.lister)}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+      actionButtons={<SubmitButton>Ajouter</SubmitButton>}
     >
       <Input
         label="Code EIC ou gestionnaire"
@@ -64,8 +65,6 @@ export const AjouterGestionnaireRéseauForm = () => {
         stateRelatedMessage="expression régulière à préciser"
         hintText="Exemple : [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}"
       />
-
-      <SubmitButton>Envoyer</SubmitButton>
     </Form>
   );
 };
