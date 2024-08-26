@@ -5,6 +5,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { StatutProjet } from '@potentiel-domain/common';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
@@ -90,6 +91,13 @@ export default async function Page({ searchParams }: PageProps) {
 
     for (const candidature of candidaturesData.items) {
       const ao = appelOffres.items.find((ao) => ao.id === candidature.identifiantProjet.appelOffre);
+
+      if (!ao) {
+        getLogger().warn(`Aucun appel d'offres trouvé pour la candidature`, {
+          identifiantProjet: candidature.identifiantProjet.formatter(),
+          appelOffre: candidature.identifiantProjet.appelOffre,
+        });
+      }
 
       items.push(
         mapToPlainObject({
