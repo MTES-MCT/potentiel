@@ -23,6 +23,7 @@ export const CorrigerRéférenceDossierForm: FC = () => {
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       successMessage={'références dossier modifiées'}
+      actions={<SubmitButton>Corriger</SubmitButton>}
     >
       <UploadDocument
         label="Fichier des corrections"
@@ -31,9 +32,6 @@ export const CorrigerRéférenceDossierForm: FC = () => {
         required
         state={validationErrors.includes('fichierCorrections') ? 'error' : 'default'}
       />
-      <div className="flex flex-col md:flex-row">
-        <SubmitButton>Corriger</SubmitButton>
-      </div>
     </Form>
   );
 };
