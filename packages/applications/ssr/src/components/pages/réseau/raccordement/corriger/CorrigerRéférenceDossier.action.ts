@@ -15,11 +15,20 @@ const schema = zod.object({
   fichierCorrections: zod.instanceof(Blob).refine((data) => data.size > 0),
 });
 
-const csvSchema = zod.object({
-  identifiantProjet: zod.string().min(1),
-  referenceDossier: zod.string().min(1),
-  referenceDossierCorrigee: zod.string().min(1),
-});
+const csvSchema = zod
+  .object({
+    identifiantProjet: zod.string().min(1),
+    referenceDossier: zod.string().min(1),
+    referenceDossierCorrigee: zod.string().min(1),
+  })
+  .refine(
+    ({ referenceDossier, referenceDossierCorrigee }) =>
+      referenceDossier !== referenceDossierCorrigee,
+    {
+      path: ['referenceDossierCorrigee'],
+      message: "La nouvelle référence de dossier doit être différente de l'ancienne",
+    },
+  );
 
 const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections }) =>
   withUtilisateur(async ({ role }) => {

@@ -1,5 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
+import { InvalidOperationError } from '@potentiel-domain/core';
+
 import * as DossierProjet from '../dossierProjet.valueType';
 
 export type DéplacerDossierProjetCommand = Message<
@@ -25,6 +27,18 @@ export const registerDéplacerDocumentCommand = ({
   const handler: MessageHandler<DéplacerDossierProjetCommand> = ({
     dossierProjetSource,
     dossierProjetTarget,
-  }) => déplacerDossierProjet(dossierProjetSource.formatter(), dossierProjetTarget.formatter());
+  }) => {
+    if (dossierProjetSource.estÉgaleÀ(dossierProjetTarget)) {
+      throw new DossiersProjetsIdentiquesError();
+    }
+
+    return déplacerDossierProjet(dossierProjetSource.formatter(), dossierProjetTarget.formatter());
+  };
   mediator.register('Document.Command.DéplacerDocumentProjet', handler);
 };
+
+class DossiersProjetsIdentiquesError extends InvalidOperationError {
+  constructor() {
+    super(`La source et la destination sont identiques`);
+  }
+}
