@@ -16,7 +16,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    csvErrors: [],
-    résultatImport: [],
+    action: () => Promise.resolve({ status: 'success', result: { successCount: 1, errors: [] } }),
   },
 };

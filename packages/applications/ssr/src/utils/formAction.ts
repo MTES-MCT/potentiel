@@ -100,3 +100,5 @@ export const formAction =
   };
 
 const waitFor = (timeInMs: number) => new Promise((resolve) => setTimeout(resolve, timeInMs));
+
+export type FormActionResult = ReturnType<typeof formAction>;

@@ -3,7 +3,7 @@
 import { FC, FormHTMLAttributes, ReactNode } from 'react';
 import { useFormState } from 'react-dom';
 
-import { formAction } from '@/utils/formAction';
+import { FormActionResult } from '@/utils/formAction';
 
 import { Heading2 } from '../headings';
 
@@ -13,7 +13,7 @@ import { FormFeedbackCsvError } from './FormFeedbackCsvErrors';
 
 export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action' | 'method'> & {
   method?: 'POST';
-  action: ReturnType<typeof formAction>;
+  action: FormActionResult;
   children: ReactNode;
   heading?: ReactNode;
   omitMandatoryFieldsLegend?: true;

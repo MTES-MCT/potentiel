@@ -1,16 +1,22 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Table } from '@codegouvfr/react-dsfr/Table';
+import React from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { ImporterCandidaturesFormProps } from '@/components/pages/candidature/importer/ImporterCandidatures.form';
 
 import { ImporterDatesMiseEnServiceForm } from './importerDatesMiseEnService.form';
 
-export const ImporterDatesMiseEnServicePage = () => (
+type ImporterDatesMiseEnServicePageProps = ImporterCandidaturesFormProps;
+
+export const ImporterDatesMiseEnServicePage: React.FC<ImporterDatesMiseEnServicePageProps> = ({
+  action,
+}) => (
   <ColumnPageTemplate
     banner={<Heading1 className="text-theme-white">Importer des dates de mise en service</Heading1>}
     leftColumn={{
-      children: <ImporterDatesMiseEnServiceForm />,
+      children: <ImporterDatesMiseEnServiceForm action={action} />,
     }}
     rightColumn={{
       children: (
