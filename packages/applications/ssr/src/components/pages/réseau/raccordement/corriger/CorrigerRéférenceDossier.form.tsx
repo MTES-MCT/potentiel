@@ -31,7 +31,7 @@ export const CorrigerRéférenceDossierForm: FC = () => {
         required
         state={validationErrors.includes('fichierCorrections') ? 'error' : 'default'}
       />
-      <div className="flex flex-col md:flex-row mx-auto">
+      <div className="flex flex-col md:flex-row">
         <SubmitButton>Corriger</SubmitButton>
       </div>
     </Form>

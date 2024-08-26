@@ -21,7 +21,7 @@ export const CorrigerRéférenceDossierPage = () => (
             <div className="py-4 text-justify">
               <Table
                 className="lg:mx-4 my-4 border-spacing-0"
-                caption="Résumé du tableau attendu pour la des références de raccordement"
+                caption="Résumé du tableau attendu pour la correction des références de raccordement"
                 headers={['Colonne', 'Format']}
                 data={[
                   ['identifiantProjet', 'chaîne de caractères'],
