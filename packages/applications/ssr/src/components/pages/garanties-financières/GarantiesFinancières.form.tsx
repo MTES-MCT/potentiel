@@ -25,7 +25,7 @@ type Action =
   | typeof modifierDépôtEnCoursGarantiesFinancièresAction
   | typeof enregistrerGarantiesFinancièresAction;
 
-export type FormulaireGarantiesFinancièresProps = {
+export type GarantiesFinancièresFormProps = {
   identifiantProjet: string;
   action: Action;
   submitButtonLabel: string;
@@ -38,7 +38,7 @@ export type FormulaireGarantiesFinancièresProps = {
   };
 };
 
-export const FormulaireGarantiesFinancières: FC<FormulaireGarantiesFinancièresProps> = ({
+export const GarantiesFinancièresForm: FC<GarantiesFinancièresFormProps> = ({
   identifiantProjet,
   action,
   submitButtonLabel,
