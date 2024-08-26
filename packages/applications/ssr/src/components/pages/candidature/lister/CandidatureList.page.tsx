@@ -8,6 +8,7 @@ import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/
 import { mapToPagination } from '@/utils/pagination';
 
 import { CandidatureListItem, CandidatureListItemProps } from './CandidatureListItem';
+import { candidatureListLegendSymbols } from './candidatureListLegendSymbols';
 
 export type CandidatureListPageProps = PlainType<
   Omit<Candidature.ListerCandidaturesReadModel, 'items'> & {
@@ -24,33 +25,6 @@ export const CandidatureListPage: FC<CandidatureListPageProps> = ({
 }) => {
   const { currentPage, itemsPerPage } = mapToPagination(range);
 
-  const legend: ListPageTemplateProps<CandidatureListItemProps>['legend'] = [
-    {
-      iconId: 'fr-icon-map-pin-2-line',
-      description: 'Localité',
-    },
-    {
-      iconId: 'fr-icon-community-line',
-      description: 'Nom du candidat',
-    },
-    {
-      iconId: 'fr-icon-user-line',
-      description: 'Représentant légal',
-    },
-    {
-      iconId: 'fr-icon-lightbulb-line',
-      description: 'Puissance',
-    },
-    {
-      iconId: 'fr-icon-money-euro-circle-line',
-      description: 'Prix de référence',
-    },
-    {
-      iconId: 'fr-icon-cloudy-2-line',
-      description: 'Évaluation carbone',
-    },
-  ];
-
   return (
     <ListPageTemplate
       heading="Tous les candidats"
@@ -63,7 +37,9 @@ export const CandidatureListPage: FC<CandidatureListPageProps> = ({
       totalItems={total}
       itemsPerPage={itemsPerPage}
       ItemComponent={CandidatureListItem}
-      legend={legend}
+      legend={{
+        symbols: candidatureListLegendSymbols,
+      }}
       filters={filters}
       search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
     />
