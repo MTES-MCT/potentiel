@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Option } from '@potentiel-libraries/monads';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -17,6 +17,7 @@ import {
   ListeDemandeMainlevéePage,
   ListeDemandeMainlevéeProps,
 } from '@/components/pages/garanties-financières/mainlevée/lister/ListeDemandeMainlevée.page';
+import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -35,14 +36,14 @@ export default async function Page({ searchParams }: PageProps) {
       const motif = searchParams?.motif;
       const statut = searchParams?.statut;
 
+      const régionDreal = await getRégionUtilisateur(utilisateur);
+
       const demandeMainlevéeDesGarantiesFinancières =
         await mediator.send<GarantiesFinancières.ListerDemandeMainlevéeQuery>({
           type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
           data: {
             utilisateur: {
-              régionDreal: Option.isSome(utilisateur.régionDreal)
-                ? utilisateur.régionDreal
-                : undefined,
+              régionDreal,
               rôle: utilisateur.role.nom,
             },
             ...(appelOffre && { appelOffre }),
@@ -112,7 +113,7 @@ export default async function Page({ searchParams }: PageProps) {
         <ListeDemandeMainlevéePage
           list={mapToListProps({
             ...demandeMainlevéeDesGarantiesFinancières,
-            showInstruction: utilisateur.role.nom === 'dreal',
+            showInstruction: utilisateur.role.estÉgaleÀ(Role.dreal),
           })}
           filters={filters}
         />

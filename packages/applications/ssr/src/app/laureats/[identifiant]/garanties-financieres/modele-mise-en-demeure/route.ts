@@ -13,6 +13,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
+import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 
 export const GET = async (
   request: NextRequest,
@@ -55,15 +56,13 @@ export const GET = async (
         },
       );
 
+    const régionDreal = await getRégionUtilisateur(utilisateur);
+
     const content = await buildDocxDocument({
       type: 'mise-en-demeure',
-      logo: Option.match(utilisateur.régionDreal)
-        .some((région) => région)
-        .none(() => 'none'),
+      logo: régionDreal ?? 'none',
       data: {
-        dreal: Option.match(utilisateur.régionDreal)
-          .some((région) => région)
-          .none(() => '!!! Région non disponible !!!'),
+        dreal: régionDreal ?? '!!! Région non disponible !!!',
         dateMiseEnDemeure: DateTime.now().date.toLocaleDateString('fr-FR'),
         contactDreal: utilisateur.identifiantUtilisateur.email,
         referenceProjet: formatIdentifiantProjetForDocument(identifiantProjetValue),

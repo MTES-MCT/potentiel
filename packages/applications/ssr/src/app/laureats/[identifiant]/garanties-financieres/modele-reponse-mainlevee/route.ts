@@ -13,6 +13,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 
 export const GET = async (
   request: NextRequest,
@@ -77,15 +78,13 @@ export const GET = async (
       });
     } catch {}
 
+    const régionDreal = await getRégionUtilisateur(utilisateur);
+
     const content = await buildDocxDocument({
       type: 'mainlevée',
-      logo: Option.match(utilisateur.régionDreal)
-        .some((région) => région)
-        .none(() => ''),
+      logo: régionDreal ?? '',
       data: {
-        dreal: Option.match(utilisateur.régionDreal)
-          .some((région) => région)
-          .none(() => '!!! Région non disponible !!!'),
+        dreal: régionDreal ?? '!!! Région non disponible !!!',
         contactDreal: utilisateur.identifiantUtilisateur.email,
 
         dateCourrier: DateTime.now().date.toLocaleDateString('fr-FR'),

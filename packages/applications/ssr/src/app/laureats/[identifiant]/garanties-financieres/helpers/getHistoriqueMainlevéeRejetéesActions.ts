@@ -2,11 +2,10 @@ import { Option } from '@potentiel-libraries/monads';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
 import { HistoriqueMainlevéeRejetéeProps } from '@/components/pages/garanties-financières/détails/components/HistoriqueMainlevéeRejetée';
 
 type GetHistoriqueMainlevéeRéjetéesActions = {
-  role: AuthenticatedUserReadModel['role'];
+  role: Role.ValueType;
   mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>;
   historiqueMainlevéeRejetée: Option.Type<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel>;
 };

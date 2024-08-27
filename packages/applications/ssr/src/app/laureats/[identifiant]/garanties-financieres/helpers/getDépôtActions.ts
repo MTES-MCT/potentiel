@@ -1,9 +1,8 @@
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { DépôtGarantiesFinancières } from '@/components/organisms/garantiesFinancières/types';
-import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
 
-export const getDépôtActions = (role: AuthenticatedUserReadModel['role']) => {
+export const getDépôtActions = (role: Role.ValueType) => {
   const actions: DépôtGarantiesFinancières['actions'] = [];
 
   if (role.estÉgaleÀ(Role.admin)) {

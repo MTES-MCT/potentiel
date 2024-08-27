@@ -5,7 +5,6 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -18,7 +17,7 @@ import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
 import { mapToPagination } from '@/utils/mapToPagination';
 import { ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { ListItemProjetAvecGarantiesFinancièresEnAttenteProps } from '@/components/pages/garanties-financières/en-attente/lister/ListItemProjetAvecGarantiesFinancièresEnAttente';
-import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
+import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -37,15 +36,15 @@ export default async function Page({ searchParams }: PageProps) {
       const motif = searchParams?.motif;
       const cycle = searchParams?.cycle;
 
+      const régionDreal = await getRégionUtilisateur(utilisateur);
+
       const projetsAvecGarantiesFinancièresEnAttente =
         await mediator.send<GarantiesFinancières.ListerProjetsAvecGarantiesFinancièresEnAttenteQuery>(
           {
             type: 'Lauréat.GarantiesFinancières.Query.ListerProjetsAvecGarantiesFinancièresEnAttente',
             data: {
               utilisateur: {
-                régionDreal: Option.isSome(utilisateur.régionDreal)
-                  ? utilisateur.régionDreal
-                  : undefined,
+                régionDreal,
                 rôle: utilisateur.role.nom,
               },
               appelOffre,
@@ -94,7 +93,7 @@ export default async function Page({ searchParams }: PageProps) {
 
       return (
         <ListProjetsAvecGarantiesFinancièresEnAttentePage
-          list={mapToListProps(projetsAvecGarantiesFinancièresEnAttente, utilisateur)}
+          list={mapToListProps(projetsAvecGarantiesFinancièresEnAttente, utilisateur.role)}
           filters={filters}
         />
       );
@@ -108,7 +107,7 @@ const mapToListProps = (
     range,
     total,
   }: GarantiesFinancières.ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
-  utilisateur: AuthenticatedUserReadModel,
+  role: Role.ValueType,
 ): ListProjetsAvecGarantiesFinancièresEnAttenteProps['list'] => {
   const mappedItems = items.map(
     ({ identifiantProjet, nomProjet, motif, dernièreMiseÀJour, dateLimiteSoumission }) => ({
@@ -118,8 +117,7 @@ const mapToListProps = (
       misÀJourLe: dernièreMiseÀJour.date.formatter(),
       dateLimiteSoumission: dateLimiteSoumission.formatter(),
       afficherModèleMiseEnDemeure:
-        dateLimiteSoumission.estAntérieurÀ(DateTime.now()) &&
-        utilisateur.role.estÉgaleÀ(Role.dreal),
+        dateLimiteSoumission.estAntérieurÀ(DateTime.now()) && role.estÉgaleÀ(Role.dreal),
     }),
   );
 

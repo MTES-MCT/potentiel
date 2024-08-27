@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Option } from '@potentiel-libraries/monads';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import {
@@ -14,6 +13,7 @@ import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
 import { mapToPagination } from '@/utils/mapToPagination';
+import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -31,14 +31,14 @@ export default async function Page({ searchParams }: PageProps) {
       const appelOffre = searchParams?.appelOffre;
       const cycle = searchParams?.cycle;
 
+      const régionDreal = await getRégionUtilisateur(utilisateur);
+
       const dépôtsEnCoursGarantiesFinancières =
         await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
           data: {
             utilisateur: {
-              régionDreal: Option.isSome(utilisateur.régionDreal)
-                ? utilisateur.régionDreal
-                : undefined,
+              régionDreal,
               rôle: utilisateur.role.nom,
             },
             ...(appelOffre && { appelOffre }),

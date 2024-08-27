@@ -3,11 +3,10 @@ import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 import { StatutProjet } from '@potentiel-domain/common';
 
-import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
 import { GarantiesFinancièresActuelles } from '@/components/organisms/garantiesFinancières/types';
 
 type GetGarantiesFinancièresActuellesActions = {
-  role: AuthenticatedUserReadModel['role'];
+  role: Role.ValueType;
   garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel['garantiesFinancières'];
   dépôt: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
   mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>;
