@@ -1,13 +1,12 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import Button from '@codegouvfr/react-dsfr/Button';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
 import { notifierCandidaturesAction } from './notifierCandidatures.action';
 
@@ -32,10 +31,33 @@ export const NotifierCandidaturesForm: FC<NotifierCandidaturesFormProps> = ({ ap
   );
   const [périodeSélectionnée, setPériodeSélectionnée] = useState<Période | undefined>(undefined);
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [nbCandidaturesPourPériode, setNbCandidaturesPourPériode] = useState(0);
 
   const [modal] = useState(
     createModal({ id: `confirmation-modal-notifier`, isOpenedByDefault: false }),
   );
+
+  useEffect(() => {
+    if (!périodeSélectionnée || !appelOffreSéléctionnée) {
+      return;
+    }
+    const abortController = new AbortController();
+
+    setNbCandidaturesPourPériode(0);
+    const params = new URLSearchParams({
+      appelOffre: appelOffreSéléctionnée.id,
+      periode: périodeSélectionnée.id,
+    });
+    fetch(`/candidatures/notifier/count?${params}`, { signal: abortController.signal })
+      .then((response) => response.json())
+      .then(({ count }: { count: number }) => {
+        setNbCandidaturesPourPériode(count);
+      });
+
+    return () => {
+      abortController.abort();
+    };
+  }, [périodeSélectionnée, appelOffreSéléctionnée]);
 
   return (
     <Form
@@ -51,6 +73,17 @@ export const NotifierCandidaturesForm: FC<NotifierCandidaturesFormProps> = ({ ap
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       onSubmit={() => modal.close()}
       successMessage={'candidats notifiés'}
+      actions={
+        <Button
+          priority="primary"
+          className="bg-dsfr-background-active-blueFrance-default"
+          disabled={!périodeSélectionnée}
+          onClick={() => modal.open()}
+          type="button"
+        >
+          Notifier
+        </Button>
+      }
     >
       <Select
         id="appelOffre"
@@ -94,26 +127,18 @@ export const NotifierCandidaturesForm: FC<NotifierCandidaturesFormProps> = ({ ap
         />
       )}
 
-      <div className="flex flex-col md:flex-row">
-        <Button
-          priority="primary"
-          className="bg-dsfr-background-active-blueFrance-default"
-          disabled={!périodeSélectionnée}
-          onClick={() => modal.open()}
-          type="button"
-        >
-          Notifier?
-        </Button>
-      </div>
       <modal.Component title="Confirmation" concealingBackdrop={false}>
         <div className="flex flex-col mt-2 gap-5">
           Êtes-vous sûr de vouloir notifier la {périodeSélectionnée?.nom} période de l'appel d'offre{' '}
-          {appelOffreSéléctionnée?.nom} ?
+          {appelOffreSéléctionnée?.nom} ?{' '}
+          {nbCandidaturesPourPériode ? (
+            <>{nbCandidaturesPourPériode} candidats seront notifiés</>
+          ) : null}
           <div className="flex flex-row justify-end gap-2">
             <Button type="button" priority="secondary" onClick={() => modal.close()}>
               Non
             </Button>
-            <SubmitButton>Oui</SubmitButton>
+            <SubmitButton disabledCondition={() => !nbCandidaturesPourPériode}>Oui</SubmitButton>
           </div>
         </div>
       </modal.Component>
