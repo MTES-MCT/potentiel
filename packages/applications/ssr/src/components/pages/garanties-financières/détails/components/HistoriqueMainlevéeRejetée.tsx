@@ -7,7 +7,7 @@ import { Heading3 } from '@/components/atoms/headings';
 import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
 
-import { CorrigerRéponseSignée } from '../../mainlevée/corrigerRéponseSignée/CorrigerRéponseSignée';
+import { CorrigerRéponseSignée } from '../../mainlevée/corrigerRéponseSignée/CorrigerRéponseSignée.form';
 
 export type HistoriqueMainlevéeRejetéeProps = {
   identifiantProjet: string;
@@ -47,7 +47,7 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
         historiqueMainlevée.actions.includes('modifier-courrier-réponse-mainlevée-gf') ? (
           <CorrigerRéponseSignée
             identifiantProjet={identifiantProjet}
-            courrierRéponse={mainlevéeRejetée.rejet.courrierRejet}
+            courrierRéponseÀCorriger={mainlevéeRejetée.rejet.courrierRejet}
             key={mainlevéeRejetée.rejet.rejetéLe}
           />
         ) : null}

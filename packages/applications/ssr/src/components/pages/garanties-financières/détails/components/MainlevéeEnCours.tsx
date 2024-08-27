@@ -14,7 +14,7 @@ import { RejeterDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/
 import { AnnulerDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/annuler/AnnulerDemandeMainlevéeGarantiesFinancières';
 import { StatutMainlevéeBadge } from '../../../../molecules/mainlevée/StatutMainlevéeBadge';
 import { DownloadDocument } from '../../../../atoms/form/DownloadDocument';
-import { CorrigerRéponseSignée } from '../../mainlevée/corrigerRéponseSignée/CorrigerRéponseSignée';
+import { CorrigerRéponseSignée } from '../../mainlevée/corrigerRéponseSignée/CorrigerRéponseSignée.form';
 
 export type MainlevéeEnCoursProps = {
   identifiantProjet: string;
@@ -96,7 +96,7 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
           mainlevéeEnCours.actions.includes('modifier-courrier-réponse-mainlevée-gf') && (
             <CorrigerRéponseSignée
               identifiantProjet={identifiantProjet}
-              courrierRéponse={mainlevéeEnCours.accord.courrierAccord}
+              courrierRéponseÀCorriger={mainlevéeEnCours.accord.courrierAccord}
             />
           )}
       </div>

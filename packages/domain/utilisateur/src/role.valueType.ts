@@ -243,6 +243,7 @@ const référencielPermissions = {
     command: {
       enregister: 'Document.Command.EnregistrerDocumentProjet',
       déplacer: 'Document.Command.DéplacerDocumentProjet',
+      corriger: 'Document.Command.CorrigerDocumentProjet',
     },
   },
   réseau: {
@@ -618,6 +619,7 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.usecase.accorderDemandeMainlevée,
         référencielPermissions.lauréat.garantiesFinancières.command.accorderDemandeMainlevée,
         référencielPermissions.document.command.enregister,
+        référencielPermissions.document.command.corriger,
       ],
       rejeter: [
         référencielPermissions.lauréat.garantiesFinancières.usecase.rejeterDemandeMainlevée,
