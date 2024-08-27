@@ -1,19 +1,17 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DocumentProjet } from '..';
+import { DateTime } from '@potentiel-domain/common';
 
 export type CorrigerDocumentProjetCommand = Message<
   'Document.Command.CorrigerDocumentProjet',
   {
-    documentProjet: DocumentProjet.ValueType;
+    documentProjetKey: string;
     content: ReadableStream;
   }
 >;
-/**
- * @todo Ici la key ne devrait pas être un string mais un IdentifiantDocumentProjet avec la propriété identifiantProjet, typeDocument et dateCréation
- */
+
 export type EnregistrerDocumentProjetPort = (key: string, content: ReadableStream) => Promise<void>;
-export type ArchiverDocumentProjetPort = (key: string) => Promise<void>;
+export type ArchiverDocumentProjetPort = (source: string, target: string) => Promise<void>;
 
 export type CorrigerDocumentProjetDependencies = {
   enregistrerDocumentProjet: EnregistrerDocumentProjetPort;
@@ -25,13 +23,15 @@ export const registerCorrigerDocumentProjetCommand = ({
   archiverDocumentProjet,
 }: CorrigerDocumentProjetDependencies) => {
   const handler: MessageHandler<CorrigerDocumentProjetCommand> = async ({
-    documentProjet,
+    documentProjetKey,
     content,
   }) => {
-    const documentKey = documentProjet.formatter();
-
-    await archiverDocumentProjet(documentKey);
-    return enregistrerDocumentProjet(documentProjet.formatter(), content);
+    // nous gardons l'ancien fichier stocké pour l'historique avec un timestamp
+    await archiverDocumentProjet(
+      documentProjetKey,
+      `${documentProjetKey}_snapshot-${DateTime.now().formatter()}`,
+    );
+    return enregistrerDocumentProjet(documentProjetKey, content);
   };
   mediator.register('Document.Command.CorrigerDocumentProjet', handler);
 };

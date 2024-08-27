@@ -5,7 +5,7 @@ import {
 import {
   ArchiverDocumentProjetPort,
   CorrigerDocumentProjetCommand,
-} from './corriger/corrigerDocument.command';
+} from './corriger/corrigerDocumentProjet.command';
 import {
   DéplacerDossierProjetCommand,
   DéplacerDossierProjetPort,

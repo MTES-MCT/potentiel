@@ -5,7 +5,7 @@ import {
 import {
   CorrigerDocumentProjetDependencies,
   registerCorrigerDocumentProjetCommand,
-} from './corriger/corrigerDocument.command';
+} from './corriger/corrigerDocumentProjet.command';
 import {
   DéplacerDossierProjetDependencies,
   registerDéplacerDocumentCommand,
