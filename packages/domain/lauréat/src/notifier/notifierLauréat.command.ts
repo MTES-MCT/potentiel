@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { LoadAggregate } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { loadLauréatFactory } from '../lauréat.aggregate';
 
@@ -10,6 +11,7 @@ export type NotifierLauréatCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     dateNotification: DateTime.ValueType;
+    attestationSignée: DocumentProjet.ValueType;
   }
 >;
 

@@ -1,21 +1,29 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 
 export type NotifierOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dateNotification: DateTime.ValueType;
+  attestationSignée: DocumentProjet.ValueType;
 };
 
 export type LauréatNotifié = DomainEvent<
   'LauréatNotifié-V1',
-  { identifiantProjet: IdentifiantProjet.RawType; dateNotification: DateTime.RawType }
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    dateNotification: DateTime.RawType;
+    attestationSignée: {
+      format: string;
+    };
+  }
 >;
 
 export async function notifier(
   this: LauréatAggregate,
-  { identifiantProjet, dateNotification }: NotifierOptions,
+  { identifiantProjet, dateNotification, attestationSignée }: NotifierOptions,
 ) {
   await générerAttestation();
 
@@ -24,6 +32,9 @@ export async function notifier(
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       dateNotification: dateNotification.formatter(),
+      attestationSignée: {
+        format: attestationSignée.format,
+      },
     },
   };
 

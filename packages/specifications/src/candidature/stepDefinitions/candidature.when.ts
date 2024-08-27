@@ -7,6 +7,7 @@ import { Lauréat } from '@potentiel-domain/laureat';
 import { Éliminé } from '@potentiel-domain/elimine';
 
 import { PotentielWorld } from '../../potentiel.world';
+import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
 
 import { mapExampleToUseCaseDefaultValues } from './helper';
 
@@ -72,6 +73,10 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           dateNotificationValue: dateNotification,
+          attestationSignéeValue: {
+            format: `text/plain`,
+            content: convertStringToReadableStream(`Le contenu de l'attestation`),
+          },
         },
       });
       this.eliminéWorld.eliminéFixtures.set(nomProjet, {
@@ -85,6 +90,10 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           dateNotificationValue: dateNotification,
+          attestationSignéeValue: {
+            format: `text/plain`,
+            content: convertStringToReadableStream(`Le contenu de l'attestation`),
+          },
         },
       });
       this.lauréatWorld.lauréatFixtures.set(nomProjet, {

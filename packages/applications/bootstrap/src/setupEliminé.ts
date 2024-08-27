@@ -58,7 +58,7 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependenices) =
 
   const unsubscribeÉliminéNotification = await subscribe<ÉliminéNotification.SubscriptionEvent>({
     name: 'notifications',
-    streamCategory: 'lauréat',
+    streamCategory: 'éliminé',
     eventType: ['ÉliminéNotifié-V1'],
     eventHandler: async (event) => {
       await mediator.publish<ÉliminéNotification.Execute>({
