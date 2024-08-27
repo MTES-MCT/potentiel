@@ -1,6 +1,7 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, OperationRejectedError } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError, OperationRejectedError } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../../raccordement.aggregate';
@@ -32,6 +33,12 @@ export async function supprimerDossier(
     throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
   }
 
+  const dossierActuel = this.récupérerDossier(référenceDossier.formatter());
+
+  if (Option.isSome(dossierActuel.miseEnService.dateMiseEnService)) {
+    throw new DossierAvecDateDeMiseEnServiceNonSupprimableError();
+  }
+
   const dossierDuRaccordementSupprimé: DossierDuRaccordementSuppriméEvent = {
     type: 'DossierDuRaccordementSupprimé-V1',
     payload: {
@@ -53,5 +60,11 @@ export function applyDossierDuRaccordementSuppriméEventV1(
 class RôleNePermetPasDeSupprimerUnDossierDuRaccordementError extends OperationRejectedError {
   constructor() {
     super(`Vous n'avez pas l'autorisation de supprimer un dossier du raccordement`);
+  }
+}
+
+class DossierAvecDateDeMiseEnServiceNonSupprimableError extends InvalidOperationError {
+  constructor() {
+    super(`Un dossier avec une date de mise en service ne peut pas être supprimé`);
   }
 }
