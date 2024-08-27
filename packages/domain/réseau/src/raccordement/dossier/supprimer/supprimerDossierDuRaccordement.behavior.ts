@@ -1,5 +1,5 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent, OperationRejectedError } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
@@ -21,12 +21,12 @@ type SupprimerDossierDuRaccordementOptions = {
 
 export async function supprimerDossier(
   this: RaccordementAggregate,
-  {
-    identifiantProjet,
-    référenceDossier,
-    // rôle
-  }: SupprimerDossierDuRaccordementOptions,
+  { identifiantProjet, référenceDossier, rôle }: SupprimerDossierDuRaccordementOptions,
 ) {
+  if (!rôle.estÉgaleÀ(Role.porteur) && !rôle.estÉgaleÀ(Role.admin)) {
+    throw new RôleNePermetPasDeSupprimerUnDossierDuRaccordementError();
+  }
+
   const dossierDuRaccordementSupprimé: DossierDuRaccordementSuppriméEvent = {
     type: 'DossierDuRaccordementSupprimé-V1',
     payload: {
@@ -43,4 +43,10 @@ export function applyDossierDuRaccordementSuppriméEventV1(
   event: DossierDuRaccordementSuppriméEvent,
 ) {
   this.dossiers.delete(event.payload.référenceDossier);
+}
+
+class RôleNePermetPasDeSupprimerUnDossierDuRaccordementError extends OperationRejectedError {
+  constructor() {
+    super(`Vous n'avez pas l'autorisation de supprimer un dossier du raccordement`);
+  }
 }
