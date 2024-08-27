@@ -11,7 +11,7 @@ Fonctionnalité: Modifier une proposition technique et financière
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
-        Et une propositon technique et financière pour le dossier de raccordement pour le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033" avec :
+        Et une proposition technique et financière pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille" avec :
             | La date de signature                                | 2023-01-10                                                                                                        |
             | Le format de la proposition technique et financière | application/pdf                                                                                                   |
             | Le contenu de proposition technique et financière   | Proposition technique et financière pour la référence OUE-RP-2022-000033 avec une date de signature au 2023-01-10 |
@@ -28,7 +28,7 @@ Fonctionnalité: Modifier une proposition technique et financière
             | Le contenu de proposition technique et financière   | Une autre proposition technique et financière pour la référence OUE-RP-2022-000033 avec une date de signature au 2023-02-12 |
         Alors le porteur devrait être informé que "Raccordement inconnu"
 
-    Scénario: Impossible de modifier une proposition technique et financière pour un dossier de raccordement non référencé
+    Scénario: Impossible de modifier une proposition technique et financière pour un dossier n'étant pas référencé dans le raccordement du projet
         Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
@@ -38,7 +38,7 @@ Fonctionnalité: Modifier une proposition technique et financière
             | La date de signature                                | 2023-02-12                                                                                                                  |
             | Le format de la proposition technique et financière | text/plain                                                                                                                  |
             | Le contenu de proposition technique et financière   | Une autre proposition technique et financière pour la référence OUE-RP-2022-000034 avec une date de signature au 2023-02-12 |
-        Alors le porteur devrait être informé que "Le dossier de raccordement n'est pas référencé"
+        Alors le porteur devrait être informé que "Le dossier du raccordement pour ce projet n'est pas référencé"
 
     Scénario: Impossible de modifier une proposition technique et financière avec une date de signature dans le futur
         Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
@@ -46,7 +46,7 @@ Fonctionnalité: Modifier une proposition technique et financière
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
-        Et une propositon technique et financière pour le dossier de raccordement pour le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033" avec :
+        Et une proposition technique et financière pour le dossier du raccordement pour le projet lauréat "Du boulodrome de Marseille" ayant pour référence "OUE-RP-2022-000033" avec :
             | La date de signature                                | 2023-01-10                                                                                                        |
             | Le format de la proposition technique et financière | application/pdf                                                                                                   |
             | Le contenu de proposition technique et financière   | Proposition technique et financière pour la référence OUE-RP-2022-000033 avec une date de signature au 2023-01-10 |

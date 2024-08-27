@@ -427,3 +427,19 @@ Quand(
     }
   },
 );
+
+Quand(
+  /l'utilisateur (porteur|admin) supprime un dossier ayant pour référence "(.*)" du raccordement pour le projet lauréat "(.*)"/,
+  async function (
+    this: PotentielWorld,
+    rôle: 'porteur' | 'admin',
+    référenceDossier: string,
+    nomProjet: string,
+  ) {
+    /**
+     * @todo Implementer la suppression d'un dossier de raccordement
+     */
+
+    console.log(rôle, référenceDossier, nomProjet);
+  },
+);

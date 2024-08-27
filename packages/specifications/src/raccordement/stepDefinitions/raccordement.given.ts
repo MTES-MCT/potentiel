@@ -57,11 +57,11 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une propositon technique et financière pour le dossier de raccordement pour le projet lauréat {string} ayant pour référence {string} avec :',
+  'une proposition technique et financière pour le dossier ayant comme référence {string} du raccordement pour le projet lauréat {string} avec :',
   async function (
     this: PotentielWorld,
+    référenceDossier: string,
     nomProjet: string,
-    référenceDossierRaccordement: string,
     table: DataTable,
   ) {
     const exemple = table.rowsHash();
@@ -86,7 +86,7 @@ EtantDonné(
       type: 'Réseau.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-        référenceDossierRaccordementValue: référenceDossierRaccordement,
+        référenceDossierRaccordementValue: référenceDossier,
         dateSignatureValue: dateSignature,
         propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinancièreSignée,
       },
@@ -95,12 +95,12 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une date de mise en service {string} pour le dossier de raccordement pour le projet lauréat {string} ayant pour référence {string}',
+  'une date de mise en service {string} pour le dossier ayant comme référence {string} du raccordement pour le projet lauréat {string}',
   async function (
     this: PotentielWorld,
     dateMiseEnService: string,
+    référenceDossier: string,
     nomProjet: string,
-    référenceDossierRaccordement: string,
   ) {
     const dateMiseEnServiceValueType = new Date(dateMiseEnService).toISOString();
 
@@ -110,14 +110,14 @@ EtantDonné(
       dateMiseEnServiceValueType,
     );
     this.raccordementWorld.référenceDossierRaccordement =
-      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement);
+      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossier);
 
     try {
       await mediator.send<Raccordement.RaccordementUseCase>({
         type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          référenceDossierValue: référenceDossierRaccordement,
+          référenceDossierValue: référenceDossier,
           dateMiseEnServiceValue: dateMiseEnServiceValueType,
           dateDésignationValue: new Date('2020-01-01').toISOString(),
         },
