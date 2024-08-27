@@ -4,8 +4,6 @@ import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Abandon } from '@potentiel-domain/laureat';
-import { Option } from '@potentiel-libraries/monads';
-import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 
 import {
   AbandonListPage,
@@ -14,6 +12,7 @@ import {
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -38,28 +37,18 @@ const paramsSchema = z.object({
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
-    withUtilisateur(async ({ identifiantUtilisateur, role }) => {
+    withUtilisateur(async (utilisateur) => {
       const { page, recandidature, nomProjet, appelOffre, statut, preuveRecandidatureStatut } =
         paramsSchema.parse(searchParams);
 
-      const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
-        type: 'Utilisateur.Query.ConsulterUtilisateur',
-        data: {
-          identifiantUtilisateur: identifiantUtilisateur.email,
-        },
-      });
-
-      const régionDreal =
-        Option.isSome(utilisateur) && Option.isSome(utilisateur.régionDreal)
-          ? utilisateur.régionDreal
-          : undefined;
+      const régionDreal = await getRégionUtilisateur(utilisateur);
 
       const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
         type: 'Lauréat.Abandon.Query.ListerAbandons',
         data: {
           utilisateur: {
-            email: identifiantUtilisateur.email,
-            rôle: role.nom,
+            email: utilisateur.identifiantUtilisateur.email,
+            rôle: utilisateur.role.nom,
             régionDreal,
           },
           range: mapToRangeOptions({

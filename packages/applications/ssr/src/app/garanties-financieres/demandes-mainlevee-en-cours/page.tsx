@@ -3,8 +3,7 @@ import type { Metadata } from 'next';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Option } from '@potentiel-libraries/monads';
-import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -18,6 +17,7 @@ import {
   ListeDemandeMainlevéePage,
   ListeDemandeMainlevéeProps,
 } from '@/components/pages/garanties-financières/mainlevée/lister/ListeDemandeMainlevée.page';
+import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -30,23 +30,13 @@ export const metadata: Metadata = {
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
-    withUtilisateur(async ({ identifiantUtilisateur, role }) => {
+    withUtilisateur(async (utilisateur) => {
       const page = searchParams?.page ? parseInt(searchParams.page) : 1;
       const appelOffre = searchParams?.appelOffre;
       const motif = searchParams?.motif;
       const statut = searchParams?.statut;
 
-      const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
-        type: 'Utilisateur.Query.ConsulterUtilisateur',
-        data: {
-          identifiantUtilisateur: identifiantUtilisateur.email,
-        },
-      });
-
-      const régionDreal =
-        Option.isSome(utilisateur) && Option.isSome(utilisateur.régionDreal)
-          ? utilisateur.régionDreal
-          : undefined;
+      const régionDreal = await getRégionUtilisateur(utilisateur);
 
       const demandeMainlevéeDesGarantiesFinancières =
         await mediator.send<GarantiesFinancières.ListerDemandeMainlevéeQuery>({
@@ -54,7 +44,7 @@ export default async function Page({ searchParams }: PageProps) {
           data: {
             utilisateur: {
               régionDreal,
-              rôle: role.nom,
+              rôle: utilisateur.role.nom,
             },
             ...(appelOffre && { appelOffre }),
             ...(motif && {
@@ -123,7 +113,7 @@ export default async function Page({ searchParams }: PageProps) {
         <ListeDemandeMainlevéePage
           list={mapToListProps({
             ...demandeMainlevéeDesGarantiesFinancières,
-            showInstruction: role.nom === 'dreal',
+            showInstruction: utilisateur.role.estÉgaleÀ(Role.dreal),
           })}
           filters={filters}
         />

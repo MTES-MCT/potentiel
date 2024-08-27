@@ -8,18 +8,18 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime } from '@potentiel-domain/common';
 import { buildDocxDocument } from '@potentiel-applications/document-builder';
-import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
+import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 
 export const GET = async (
   request: NextRequest,
   { params: { identifiant } }: IdentifiantParameter,
 ) =>
-  withUtilisateur(async ({ identifiantUtilisateur }) => {
+  withUtilisateur(async (utilisateur) => {
     const identifiantProjetValue = decodeParameter(identifiant);
 
     const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
@@ -56,17 +56,7 @@ export const GET = async (
         },
       );
 
-    const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
-      type: 'Utilisateur.Query.ConsulterUtilisateur',
-      data: {
-        identifiantUtilisateur: identifiantUtilisateur.email,
-      },
-    });
-
-    const régionDreal =
-      Option.isSome(utilisateur) && Option.isSome(utilisateur.régionDreal)
-        ? utilisateur.régionDreal
-        : undefined;
+    const régionDreal = await getRégionUtilisateur(utilisateur);
 
     const content = await buildDocxDocument({
       type: 'mise-en-demeure',
@@ -74,7 +64,7 @@ export const GET = async (
       data: {
         dreal: régionDreal ?? '!!! Région non disponible !!!',
         dateMiseEnDemeure: DateTime.now().date.toLocaleDateString('fr-FR'),
-        contactDreal: identifiantUtilisateur.email,
+        contactDreal: utilisateur.identifiantUtilisateur.email,
         referenceProjet: formatIdentifiantProjetForDocument(identifiantProjetValue),
         titreAppelOffre: `${détailPériode?.cahierDesCharges.référence ?? '!!! Cahier des charges non disponible !!!'} ${appelOffres.title}`,
         dateLancementAppelOffre: DateTime.convertirEnValueType(
