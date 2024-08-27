@@ -5,6 +5,7 @@ import ReactPDF, { Font } from '@react-pdf/renderer';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { fontsFolderPath } from '../../assets';
+import { mapToReadableStream } from '../../mapToReadableStream';
 
 import { makeCertificate as makeCre4V0Certificate } from './cre4.v0/makeCertificate';
 import { makeCertificate as makeCre4V1Certificate } from './cre4.v1/makeCertificate';
@@ -50,12 +51,6 @@ export const buildCertificate = async ({
         return makePpe2V2Certificate(data, validateur);
     }
   })();
-  const stream = await ReactPDF.renderToStream(content);
 
-  return new ReadableStream({
-    start: async (controller) => {
-      controller.enqueue(stream);
-      controller.close();
-    },
-  });
+  return await mapToReadableStream(await ReactPDF.renderToStream(content));
 };
