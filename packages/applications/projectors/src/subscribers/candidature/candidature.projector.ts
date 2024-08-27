@@ -25,6 +25,7 @@ export const register = () => {
           const candidature: Omit<Candidature.CandidatureEntity, 'type'> = {
             identifiantProjet: payload.identifiantProjet,
             appelOffre: payload.appelOffre,
+            période: payload.période,
             nomProjet: payload.nomProjet,
             sociétéMère: payload.sociétéMère,
             nomCandidat: payload.nomCandidat,

@@ -37,6 +37,7 @@ export type ListerCandidaturesQuery = Message<
   {
     range?: RangeOptions;
     appelOffre?: string;
+    période?: string;
     nomProjet?: string;
     statut?: StatutProjet.RawType;
   },
@@ -52,6 +53,7 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
     range,
     nomProjet,
     appelOffre,
+    période,
     statut,
   }) => {
     const {
@@ -61,6 +63,9 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
     } = await list<CandidatureEntity>('candidature', {
       where: {
         appelOffre: match(appelOffre)
+          .with(Pattern.nullish, () => undefined)
+          .otherwise((value) => ({ operator: 'equal', value })),
+        période: match(période)
           .with(Pattern.nullish, () => undefined)
           .otherwise((value) => ({ operator: 'equal', value })),
         nomProjet: match(nomProjet)
