@@ -1,6 +1,3 @@
-import React from 'react';
-import { Font, PDFViewer } from '@react-pdf/renderer';
-
 // eslint-disable-next-line no-restricted-imports
 import {
   autoconsommationMetropolePPE2,
@@ -13,33 +10,13 @@ import {
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
-import { Certificate } from '../Certificate';
 
-import { Lauréat } from './Laureat';
+import { makeCertificate } from './makeCertificate';
 
 export default { title: 'Attestations PDF/PPE2/v2' };
 
-Font.register({
-  family: 'Arimo',
-  fonts: [
-    {
-      src: '/fonts/arimo/Arimo-Regular.ttf',
-    },
-    {
-      src: '/fonts/arimo/Arimo-Bold.ttf',
-      fontWeight: 'bold',
-    },
-    {
-      src: '/fonts/arimo/Arimo-Italic.ttf',
-      fontStyle: 'italic',
-    },
-  ],
-});
-
-const fakeProject: AttestationCandidatureOptions = {
-  appelOffre: {} as AppelOffre.AppelOffreReadModel,
-  période: {} as AppelOffre.Periode,
-  famille: {} as AppelOffre.Famille,
+const fakeProject: Omit<AttestationCandidatureOptions, 'période' | 'appelOffre'> = {
+  famille: undefined,
   isClasse: true,
   prixReference: 42,
   evaluationCarbone: 42,
@@ -76,13 +53,7 @@ export const LaureatPPE2AutoconsommationMétropoleFinancementCollectif = () => {
     famille: autoconsommationMetropolePPE2.periodes[0].familles[0],
   };
 
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Lauréat project={project} />
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const LaureatPPE2BatimentGouvernancePartagee = () => {
@@ -94,101 +65,55 @@ export const LaureatPPE2BatimentGouvernancePartagee = () => {
     famille: batimentPPE2.periodes[0].familles[0],
   };
 
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Lauréat project={project} />
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const LaureatPPE2EolienP1 = () => {
   const project = {
     ...fakeProject,
-    appelOffre: {
-      ...eolienPPE2,
-      periode: eolienPPE2.periodes[0],
-    },
+    appelOffre: eolienPPE2,
+    période: eolienPPE2.periodes[0],
   };
 
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Lauréat project={project} />
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const LaureatPPE2EolienP2 = () => {
   const project = {
     ...fakeProject,
-    appelOffre: {
-      ...eolienPPE2,
-      periode: eolienPPE2.periodes[1],
-    },
+    appelOffre: eolienPPE2,
+    période: eolienPPE2.periodes[1],
   };
 
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Lauréat project={project} />
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const LaureatPPE2Innovation = () => {
   const project = {
     ...fakeProject,
-    appelOffre: {
-      ...innovationPPE2,
-      periode: innovationPPE2.periodes[0],
-    },
+    appelOffre: innovationPPE2,
+    période: innovationPPE2.periodes[0],
   };
 
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Lauréat project={project} />
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const LaureatPPE2Neutre = () => {
   const project = {
     ...fakeProject,
-    appelOffre: {
-      ...neutrePPE2,
-      periode: neutrePPE2.periodes[0],
-    },
+    appelOffre: neutrePPE2,
+    période: neutrePPE2.periodes[0],
   };
 
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Lauréat project={project} />
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const LaureatPPE2Sol = () => {
   const project = {
     ...fakeProject,
-    appelOffre: {
-      ...solPPE2,
-      periode: solPPE2.periodes[0],
-    },
+    appelOffre: solPPE2,
+    période: solPPE2.periodes[0],
   };
 
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Lauréat project={project} />
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };

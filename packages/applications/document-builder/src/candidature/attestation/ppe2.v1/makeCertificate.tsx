@@ -15,6 +15,7 @@ const makeCertificate = (
   const { content, footnotes } = project.isClasse
     ? buildLauréat({ project })
     : buildElimine({ project });
+
   return (
     <Certificate project={project} validateur={validateur} footnotes={footnotes}>
       {content}

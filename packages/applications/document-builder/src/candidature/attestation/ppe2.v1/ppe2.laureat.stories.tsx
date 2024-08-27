@@ -1,6 +1,3 @@
-import React from 'react';
-import { Font, PDFViewer } from '@react-pdf/renderer';
-
 // eslint-disable-next-line no-restricted-imports
 import {
   autoconsommationMetropolePPE2,
@@ -13,28 +10,10 @@ import {
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
-import { Certificate } from '../Certificate';
 
-import { buildLauréat } from './Laureat';
+import { makeCertificate } from './makeCertificate';
 
 export default { title: 'Attestations PDF/PPE2/v1' };
-
-Font.register({
-  family: 'Arimo',
-  fonts: [
-    {
-      src: '/fonts/arimo/Arimo-Regular.ttf',
-    },
-    {
-      src: '/fonts/arimo/Arimo-Bold.ttf',
-      fontWeight: 'bold',
-    },
-    {
-      src: '/fonts/arimo/Arimo-Italic.ttf',
-      fontStyle: 'italic',
-    },
-  ],
-});
 
 const fakeProject: AttestationCandidatureOptions = {
   appelOffre: {} as AppelOffre.AppelOffreReadModel,
@@ -74,14 +53,7 @@ export const LaureatPPE2AutoconsommationMétropoleFinancementCollectif = () => {
     appelOffre: autoconsommationMetropolePPE2,
     période: autoconsommationMetropolePPE2.periodes[0],
   };
-  const { content } = buildLauréat({ project });
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        {content}
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const LaureatPPE2BatimentGouvernancePartagee = () => {
@@ -91,14 +63,7 @@ export const LaureatPPE2BatimentGouvernancePartagee = () => {
     appelOffre: batimentPPE2,
     période: batimentPPE2.periodes[0],
   };
-  const { content } = buildLauréat({ project });
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        {content}
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const LaureatPPE2Eolien = () => {
@@ -107,14 +72,7 @@ export const LaureatPPE2Eolien = () => {
     appelOffre: eolienPPE2,
     période: eolienPPE2.periodes[0],
   };
-  const { content } = buildLauréat({ project });
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        {content}
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const LaureatPPE2Innovation = () => {
@@ -123,14 +81,7 @@ export const LaureatPPE2Innovation = () => {
     appelOffre: innovationPPE2,
     période: innovationPPE2.periodes[0],
   };
-  const { content } = buildLauréat({ project });
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        {content}
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const LaureatPPE2Neutre = () => {
@@ -139,14 +90,7 @@ export const LaureatPPE2Neutre = () => {
     appelOffre: neutrePPE2,
     période: neutrePPE2.periodes[0],
   };
-  const { content } = buildLauréat({ project });
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        {content}
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const LaureatPPE2Sol = () => {
@@ -155,12 +99,5 @@ export const LaureatPPE2Sol = () => {
     appelOffre: solPPE2,
     période: solPPE2.periodes[0],
   };
-  const { content } = buildLauréat({ project });
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        {content}
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };

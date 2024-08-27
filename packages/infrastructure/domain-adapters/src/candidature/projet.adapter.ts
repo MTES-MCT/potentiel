@@ -175,7 +175,7 @@ const buildQueryByRole = (role: Role.RawType, query: string) => {
         'select',
         query,
         'from projects p',
-        `inner join "UserDreal" ud on ud.dreal=up."regionProjet"`,
+        `inner join "userDreals" ud on ud.dreal=p."regionProjet"`,
         `inner join "users" u on ud."userId" = u.id`,
         `where u."email" = %1$L AND "notifiedOn">0`,
       ].join('\n');

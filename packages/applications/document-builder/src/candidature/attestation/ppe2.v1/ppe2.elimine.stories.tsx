@@ -1,5 +1,3 @@
-import React from 'react';
-
 // eslint-disable-next-line no-restricted-imports
 import {
   batimentPPE2,
@@ -8,9 +6,8 @@ import {
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
-import { Certificate } from '../Certificate';
 
-import { buildElimine } from './Elimine';
+import { makeCertificate } from './makeCertificate';
 
 export default { title: 'Attestations PDF/PPE2/v1' };
 
@@ -51,12 +48,7 @@ export const EliminePPE2AuDessusDePcible = () => {
     isClasse: false,
     motifsElimination: 'Au-dessus de Pcible',
   };
-  const { content } = buildElimine({ project });
-  return (
-    <Certificate project={project} validateur={validateur}>
-      {content}
-    </Certificate>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const EliminePPE2DéjàLauréatNonInstruit = () => {
@@ -65,12 +57,7 @@ export const EliminePPE2DéjàLauréatNonInstruit = () => {
     isClasse: false,
     motifsElimination: 'Déjà lauréat - Non instruit',
   };
-  const { content } = buildElimine({ project });
-  return (
-    <Certificate project={project} validateur={validateur}>
-      {content}
-    </Certificate>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const EliminePPE2CompetitiviteBatimentPuissanceInferieureVolumeReserves = () => {
@@ -93,12 +80,7 @@ export const EliminePPE2CompetitiviteBatimentPuissanceInferieureVolumeReserves =
       },
     } as AppelOffre.Periode,
   };
-  const { content } = buildElimine({ project });
-  return (
-    <Certificate project={project} validateur={validateur}>
-      {content}
-    </Certificate>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const EliminePPE2CompetitiviteBatimentPuissanceSuperieureVolumeReserves = () => {
@@ -121,12 +103,7 @@ export const EliminePPE2CompetitiviteBatimentPuissanceSuperieureVolumeReserves =
       },
     } as AppelOffre.Periode,
   };
-  const { content } = buildElimine({ project });
-  return (
-    <Certificate project={project} validateur={validateur}>
-      {content}
-    </Certificate>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const EliminePPE2AutreMotif = () => {
@@ -135,12 +112,7 @@ export const EliminePPE2AutreMotif = () => {
     isClasse: false,
     motifsElimination: 'Autre motif',
   };
-  const { content } = buildElimine({ project });
-  return (
-    <Certificate project={project} validateur={validateur}>
-      {content}
-    </Certificate>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const EliminePPE2AutreMotifNonSoumisAuxGF = () => {
@@ -153,10 +125,5 @@ export const EliminePPE2AutreMotifNonSoumisAuxGF = () => {
       soumisAuxGarantiesFinancieres: 'non soumis',
     },
   };
-  const { content } = buildElimine({ project });
-  return (
-    <Certificate project={project} validateur={validateur}>
-      {content}
-    </Certificate>
-  );
+  return makeCertificate(project, validateur);
 };

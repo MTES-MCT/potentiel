@@ -1,5 +1,3 @@
-const path = require('node:path');
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: { webpackBuildWorker: true },

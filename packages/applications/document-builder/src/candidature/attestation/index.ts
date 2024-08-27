@@ -6,8 +6,8 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { fontsFolderPath } from '../../assets';
 
-import { makeCertificate as makeCre4V0Certificate } from './cre4.v0';
-import { makeCertificate as makeCre4V1Certificate } from './cre4.v1';
+import { makeCertificate as makeCre4V0Certificate } from './cre4.v0/makeCertificate';
+import { makeCertificate as makeCre4V1Certificate } from './cre4.v1/makeCertificate';
 import { makeCertificate as makePpe2V1Certificate } from './ppe2.v1';
 import { makeCertificate as makePpe2V2Certificate } from './ppe2.v2';
 import { AttestationCandidatureOptions } from './AttestationCandidatureOptions';
@@ -37,7 +37,7 @@ export const buildCertificate = async ({
   template: AppelOffre.CertificateTemplate;
   data: AttestationCandidatureOptions;
   validateur: AppelOffre.Validateur;
-}): Promise<NodeJS.ReadableStream> => {
+}): Promise<ReadableStream> => {
   const content = (() => {
     switch (template) {
       case 'cre4.v0':
@@ -50,5 +50,12 @@ export const buildCertificate = async ({
         return makePpe2V2Certificate(data, validateur);
     }
   })();
-  return await ReactPDF.renderToStream(content);
+  const stream = await ReactPDF.renderToStream(content);
+
+  return new ReadableStream({
+    start: async (controller) => {
+      controller.enqueue(stream);
+      controller.close();
+    },
+  });
 };

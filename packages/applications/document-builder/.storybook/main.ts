@@ -9,6 +9,7 @@ const config: StorybookConfig = {
     '@storybook/addon-webpack5-compiler-swc',
   ],
   framework: '@storybook/react-webpack5',
+  staticDirs: ['../src/assets'],
   webpackFinal: (config) => {
     config.plugins?.push(
       new webpack.NormalModuleReplacementPlugin(/^node:/, (resource) => {

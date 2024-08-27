@@ -1,6 +1,3 @@
-import React from 'react';
-import { Font, PDFViewer } from '@react-pdf/renderer';
-
 // eslint-disable-next-line no-restricted-imports
 import {
   batimentPPE2,
@@ -9,28 +6,10 @@ import {
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
-import { Certificate } from '../Certificate';
 
-import { Elimine } from './Elimine';
+import { makeCertificate } from './makeCertificate';
 
 export default { title: 'Attestations PDF/PPE2/v2' };
-
-Font.register({
-  family: 'Arimo',
-  fonts: [
-    {
-      src: '/fonts/arimo/Arimo-Regular.ttf',
-    },
-    {
-      src: '/fonts/arimo/Arimo-Bold.ttf',
-      fontWeight: 'bold',
-    },
-    {
-      src: '/fonts/arimo/Arimo-Italic.ttf',
-      fontStyle: 'italic',
-    },
-  ],
-});
 
 const fakeProject: AttestationCandidatureOptions = {
   appelOffre: {
@@ -71,13 +50,7 @@ export const EliminePPE2AuDessusDePcible = () => {
     isClasse: false,
     motifsElimination: 'Au-dessus de Pcible',
   };
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Elimine project={project} />
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const EliminePPE2DéjàLauréatNonInstruit = () => {
@@ -86,13 +59,7 @@ export const EliminePPE2DéjàLauréatNonInstruit = () => {
     isClasse: false,
     motifsElimination: 'Déjà lauréat - Non instruit',
   };
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Elimine project={project} />
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const EliminePPE2CompetitiviteBatimentPuissanceInferieureVolumeReserves = () => {
@@ -115,13 +82,7 @@ export const EliminePPE2CompetitiviteBatimentPuissanceInferieureVolumeReserves =
       },
     } as AppelOffre.Periode,
   };
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Elimine project={project} />
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const EliminePPE2CompetitiviteBatimentPuissanceSuperieureVolumeReserves = () => {
@@ -144,13 +105,7 @@ export const EliminePPE2CompetitiviteBatimentPuissanceSuperieureVolumeReserves =
       },
     } as AppelOffre.Periode,
   };
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Elimine project={project} />
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const EliminePPE2AutreMotif = () => {
@@ -159,13 +114,7 @@ export const EliminePPE2AutreMotif = () => {
     isClasse: false,
     motifsElimination: 'Autre motif',
   };
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Elimine project={project} />
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };
 
 export const EliminePPE2AutreMotifNonSoumisAuxGF = () => {
@@ -178,11 +127,5 @@ export const EliminePPE2AutreMotifNonSoumisAuxGF = () => {
       soumisAuxGarantiesFinancieres: 'non soumis',
     },
   };
-  return (
-    <PDFViewer width="100%" height="900px">
-      <Certificate project={project} validateur={validateur}>
-        <Elimine project={project} />
-      </Certificate>
-    </PDFViewer>
-  );
+  return makeCertificate(project, validateur);
 };

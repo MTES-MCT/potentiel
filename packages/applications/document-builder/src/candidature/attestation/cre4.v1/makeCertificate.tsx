@@ -3,23 +3,18 @@ import React from 'react';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { formatDateForPdf } from './helpers/formatDateForPdf';
-import { formatNumber } from './helpers';
-import { AttestationCandidatureOptions } from './AttestationCandidatureOptions';
-import { Footnote, makeAddFootnote } from './helpers/makeAddFootnotes';
+import { formatDateForPdf } from '../helpers/formatDateForPdf';
+import { formatNumber } from '../helpers';
+import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
+import { Footnote, makeAddFootnote } from '../helpers/makeAddFootnotes';
 
 const Laureat = (project: AttestationCandidatureOptions) => {
   const { appelOffre, période, famille } = project;
   const { delaiDcrEnMois } = période;
-
   const objet = `Désignation des lauréats de la ${période.title} période de l'appel d'offres ${période.cahierDesCharges.référence} ${appelOffre.title}`;
 
-  const garantieFinanciereEnMois =
-    famille?.soumisAuxGarantiesFinancieres === 'après candidature'
-      ? famille.garantieFinanciereEnMois
-      : appelOffre.soumisAuxGarantiesFinancieres === 'après candidature'
-        ? appelOffre.garantieFinanciereEnMois
-        : undefined;
+  const soumisAuxGarantiesFinancieres =
+    famille?.soumisAuxGarantiesFinancieres || appelOffre?.soumisAuxGarantiesFinancieres;
 
   const footNotes: Array<Footnote> = [];
   const addFootNote = makeAddFootnote(footNotes);
@@ -34,8 +29,8 @@ const Laureat = (project: AttestationCandidatureOptions) => {
           fontWeight: 'bold',
         }}
       >
-        Suite à l’instruction de votre offre par la Commission de régulation de l’énergie (CRE),
-        j’ai le plaisir de vous annoncer que le projet susmentionné est désigné lauréat de la{' '}
+        À la suite de l’instruction de votre offre par la Commission de régulation de l’énergie
+        (CRE), j’ai le plaisir de vous annoncer que le projet susmentionné est désigné lauréat de la{' '}
         {période.title} tranche de l’appel d’offres visé en objet.
       </Text>
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
@@ -43,16 +38,16 @@ const Laureat = (project: AttestationCandidatureOptions) => {
         {appelOffre.tarifOuPrimeRetenue} en application des dispositions du point{' '}
         {appelOffre.paragraphePrixReference} du cahier des charges est de{' '}
         {formatNumber(project.prixReference)} €/MWh.
-        {appelOffre.afficherValeurEvaluationCarbone && project.evaluationCarbone > 0
+        {appelOffre.affichageParagrapheECS && project.evaluationCarbone > 0
           ? ' La valeur de l’évaluation carbone des modules est de ' +
             formatNumber(project.evaluationCarbone) +
             ' kg eq CO2/kWc. '
-          : ''}
+          : ' '}
         {project.isInvestissementParticipatif ? (
           <Text>
-            En raison de votre engagement à l’investissement participatif, la valeur de ce prix de
-            référence est majorée pendant toute la durée du contrat de 3 €/MWh sous réserve du
-            respect de cet engagement
+            En raison de votre engagement à l’investissement participatif, la valeur de{' '}
+            {appelOffre.tarifOuPrimeRetenueAlt} est majorée pendant toute la durée du contrat de 3
+            €/MWh sous réserve du respect de cet engagement
             {addFootNote(appelOffre.renvoiEngagementIPFPGPFC)}.
           </Text>
         ) : (
@@ -60,9 +55,9 @@ const Laureat = (project: AttestationCandidatureOptions) => {
         )}
         {project.isFinancementParticipatif ? (
           <Text>
-            En raison de votre engagement au financement participatif, la valeur de ce prix de
-            référence est majorée pendant toute la durée du contrat de 1 €/MWh sous réserve du
-            respect de cet engagement
+            En raison de votre engagement au financement participatif, la valeur de{' '}
+            {appelOffre.tarifOuPrimeRetenueAlt} est majorée pendant toute la durée du contrat de 1
+            €/MWh sous réserve du respect de cet engagement
             {addFootNote(appelOffre.renvoiEngagementIPFPGPFC)}.
           </Text>
         ) : (
@@ -91,7 +86,7 @@ const Laureat = (project: AttestationCandidatureOptions) => {
         }}
       >
         - respecter l’ensemble des obligations et prescriptions de toute nature figurant au cahier
-        des charges.
+        des charges;
       </Text>
       <Text
         style={{
@@ -103,9 +98,13 @@ const Laureat = (project: AttestationCandidatureOptions) => {
       >
         - si ce n’est déjà fait, déposer une demande complète de raccordement dans les{' '}
         {delaiDcrEnMois.texte} ({delaiDcrEnMois.valeur}) mois à compter de la présente notification
-        {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}.
+        {addFootNote(appelOffre.renvoiDemandeCompleteRaccordement)}
+        {appelOffre.typeAppelOffre === 'eolien'
+          ? ` ou dans les ${delaiDcrEnMois.texte} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`
+          : ''}
+        ;
       </Text>
-      {garantieFinanciereEnMois ? (
+      {soumisAuxGarantiesFinancieres && appelOffre.renvoiSoumisAuxGarantiesFinancieres ? (
         <Text
           style={{
             fontSize: 10,
@@ -114,15 +113,16 @@ const Laureat = (project: AttestationCandidatureOptions) => {
             marginLeft: 20,
           }}
         >
-          - constituer une garantie d’exécution dans un délai de deux (2) mois à compter de la
-          présente notification. Les candidats retenus n’ayant pas adressé au préfet de région du
-          site d’implantation l’attestation de constitution de garantie financière dans le délai
-          prévu feront l’objet d’une procédure de mise en demeure. En l’absence d’exécution dans un
-          délai d’un mois après réception de la mise en demeure, le candidat pourra faire l’objet
-          d’un retrait de la présente décision le désignant lauréat
+          - constituer une garantie {appelOffre.typeAppelOffre === 'eolien' ? 'bancaire ' : ''}
+          d’exécution dans un délai de deux (2) mois à compter de la présente notification. Les
+          candidats retenus n’ayant pas adressé au préfet de région du site d’implantation
+          l’attestation de constitution de garantie financière dans le délai prévu feront l’objet
+          d’une procédure de mise en demeure. En l’absence d’exécution dans un délai d’un mois après
+          réception de la mise en demeure, le candidat pourra faire l’objet d’un retrait de la
+          présente décision le désignant lauréat
           <Text>{addFootNote(appelOffre.renvoiRetraitDesignationGarantieFinancieres)}</Text>.{' '}
           <Text style={{ textDecoration: 'underline' }}>
-            La durée de la garantie doit être au minimum de {garantieFinanciereEnMois} mois.
+            La durée de la garantie {appelOffre.renvoiSoumisAuxGarantiesFinancieres};
           </Text>
         </Text>
       ) : (
@@ -139,7 +139,7 @@ const Laureat = (project: AttestationCandidatureOptions) => {
         >
           - mettre en oeuvre les éléments, dispositifs et systèmes innovants décrits dans le rapport
           de contribution à l’innovation et le cas échéant dans le mémoire technique sur la synergie
-          avec l’usage agricole, remis lors du dépôt de l’offre
+          avec l’usage agricole, remis lors du dépôt de l’offre;
           <Text>{addFootNote('3.2.4 et 3.2.5')}</Text>.
         </Text>
       ) : (
@@ -154,8 +154,8 @@ const Laureat = (project: AttestationCandidatureOptions) => {
         }}
       >
         - sauf délais dérogatoires prévus au {appelOffre.paragrapheDelaiDerogatoire} du cahier des
-        charges, achever l’installation dans un délai de {appelOffre.delaiRealisationTexte} mois à
-        compter de la présente notification.
+        charges, achever l’installation dans un délai de {appelOffre.delaiRealisationTexte} à
+        compter de la présente notification;
       </Text>
       <Text
         style={{
@@ -165,8 +165,9 @@ const Laureat = (project: AttestationCandidatureOptions) => {
           marginLeft: 20,
         }}
       >
-        - fournir à EDF l’attestation de conformité de l’installation prévue au paragraphe{' '}
-        {appelOffre.paragrapheAttestationConformite} du cahier des charges.
+        - fournir à EDF l’attestation de conformité de l’installation prévue au(x) paragraphe(s){' '}
+        {appelOffre.paragrapheAttestationConformite} du cahier des charges
+        {project.isInvestissementParticipatif || project.isFinancementParticipatif ? ';' : '.'}
       </Text>
       {project.isInvestissementParticipatif ? (
         <Text
@@ -177,7 +178,7 @@ const Laureat = (project: AttestationCandidatureOptions) => {
             marginLeft: 20,
           }}
         >
-          - respecter les engagements pris conformément aux paragraphes{' '}
+          - respecter les engagements pris conformément au(x) paragraphe(s){' '}
           {appelOffre.paragrapheEngagementIPFPGPFC} concernant l’investissement participatif.
         </Text>
       ) : (
@@ -192,7 +193,7 @@ const Laureat = (project: AttestationCandidatureOptions) => {
             marginLeft: 20,
           }}
         >
-          - respecter les engagements pris conformément aux paragraphes{' '}
+          - respecter les engagements pris conformément au(x) paragraphe(s){' '}
           {appelOffre.paragrapheEngagementIPFPGPFC} concernant le financement participatif.
         </Text>
       ) : (
@@ -212,9 +213,9 @@ const Laureat = (project: AttestationCandidatureOptions) => {
           >
             {appelOffre.affichageParagrapheECS ? (
               <Text>
-                Les changements conduisant à une diminution de la notation d’un ou plusieurs
-                critères d’évaluations de l’offre, notamment par un bilan carbone moins performant,
-                ne seront pas acceptés.{' '}
+                {appelOffre.typeAppelOffre === 'eolien'
+                  ? 'Les changements conduisant à une remise en cause de l’autorisation mentionnée au 3.3.3 ne seront pas acceptés'
+                  : 'Les changements conduisant à une diminution de la notation d’un ou plusieurs critères d’évaluations de l’offre, notamment par un bilan carbone moins performant, ne seront pas acceptés.'}{' '}
               </Text>
             ) : (
               <Text />
@@ -239,8 +240,8 @@ const Laureat = (project: AttestationCandidatureOptions) => {
   // Also we replace the spaces in the footnote text with non-breaking spaces because of a bug in React-PDF that wraps way too early
   const footnotes = footNotes.map(({ footnote, indice }, index) => (
     <Text key={'foot_note_' + index}>
-      {String.fromCharCode(indice)} Paragraphe {footnote.replace(/\s/gi, String.fromCharCode(160))}{' '}
-      du cahier des charges
+      {String.fromCharCode(indice)} Paragraphe(s){' '}
+      {footnote.replace(/\s/gi, String.fromCharCode(160))} du cahier des charges
     </Text>
   ));
   return { project, appelOffre, période, objet, body, footnotes };
@@ -248,7 +249,6 @@ const Laureat = (project: AttestationCandidatureOptions) => {
 
 const Elimine = (project: AttestationCandidatureOptions) => {
   const { appelOffre, période } = project;
-
   const objet = `Avis de rejet à l’issue de la ${période.title} période de l'appel d'offres ${période.cahierDesCharges.référence} ${appelOffre.title}`;
 
   const body = (
@@ -260,9 +260,9 @@ const Elimine = (project: AttestationCandidatureOptions) => {
           marginTop: 10,
         }}
       >
-        Suite à l’instruction par les services de la Commission de régulation de l’énergie, je suis
-        au regret de vous informer que votre offre a été éliminée pour le motif suivant : "
-        {project.motifsElimination}". Par conséquent, cette offre n’a pas été retenue.
+        À la suite de l'instruction par les services de la Commission de régulation de l’énergie, je
+        suis au regret de vous informer que votre offre a été éliminée pour le motif suivant : «
+        {project.motifsElimination}». Par conséquent, cette offre n’a pas été retenue.
       </Text>
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
         Vous avez la possibilité de contester la présente décision auprès du tribunal administratif
@@ -279,7 +279,7 @@ interface CertificateProps {
   project: AttestationCandidatureOptions;
   objet: string;
   body: JSX.Element;
-  footnotes?: JSX.Element[];
+  footnotes?: JSX.Element;
   validateur: AppelOffre.Validateur;
 }
 const Certificate = ({ project, objet, body, footnotes, validateur }: CertificateProps) => {
@@ -304,8 +304,8 @@ const Certificate = ({ project, objet, body, footnotes, validateur }: Certificat
           }}
         >
           <Image
-            style={{ width: 145, height: 118 }}
-            src={process.env.BASE_URL + '/images/Logo MTES.png'}
+            style={{ width: 165, height: 118 }}
+            src={process.env.BASE_URL + '/images/Logo MTE.png'}
           />
         </View>
         <View
@@ -354,7 +354,7 @@ const Certificate = ({ project, objet, body, footnotes, validateur }: Certificat
         >
           <Text style={{ fontSize: 8 }}>Code Potentiel: {project.potentielId}</Text>
           <Text style={{ fontSize: 8 }}>
-            Dossier suivi par : aopv.dgec@developpement-durable.gouv.fr
+            Dossier suivi par : {période.dossierSuiviPar || appelOffre.dossierSuiviPar}
           </Text>
         </View>
         <View style={{ marginTop: 350, paddingHorizontal: 65, marginBottom: 50 }}>
@@ -376,10 +376,13 @@ const Certificate = ({ project, objet, body, footnotes, validateur }: Certificat
             objet.
           </Text>
           <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
-            En réponse à la {période.title} tranche de cet appel d’offres, vous avez déposé dans la
-            famille {project.famille?.id} le projet « {project.nomProjet} », situé{' '}
-            {project.adresseProjet} {project.codePostalProjet} {project.communeProjet} d’une
-            puissance de {formatNumber(project.puissance, 1e6)} {appelOffre.unitePuissance}.
+            En réponse à la {période.title} tranche de cet appel d’offres, vous avez déposé{' '}
+            {période.familles.length && project.famille
+              ? `dans la famille ${project.famille.id} `
+              : ''}
+            le projet « {project.nomProjet} », situé {project.adresseProjet}{' '}
+            {project.codePostalProjet} {project.communeProjet} d’une puissance de{' '}
+            {formatNumber(project.puissance, 1e6)} {appelOffre.unitePuissance}.
           </Text>
           {body}
           <View wrap={false}>
@@ -431,10 +434,7 @@ const Certificate = ({ project, objet, body, footnotes, validateur }: Certificat
           }}
         >
           <Text style={{ fontSize: 7, lineHeight: 1.2 }} wrap={false}>
-            Hôtel de Roquelaure{'\n'}
-            246 boulevard Saint-Germain – 75007 Paris{'\n'}
-            Tél : 33(0)1 40 81 21 22{'\n'}
-            www.ecologique-solidaire.gouv.fr
+            92005 La Défense cedex – Tél : 33(0)1 40 81 98 21 – Fax : 33(0)1 40 81 93 97
           </Text>
         </View>
       </Page>

@@ -1,8 +1,6 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type AttestationCandidatureOptions = {
-  // TODO not optional
-  identifiantProjet?: string;
   appelOffre: AppelOffre.AppelOffreReadModel;
   période: AppelOffre.Periode;
   famille: AppelOffre.Famille | undefined;
