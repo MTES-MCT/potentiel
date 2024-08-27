@@ -24,7 +24,7 @@ import {
   transmettreDateMiseEnService,
   applyDateMiseEnServiceTransmiseEventV1,
 } from './transmettre/transmettreDateMiseEnService.behavior';
-import { DossierRaccordementNonRéférencéError } from './dossierRaccordementNonRéférencé.error';
+import { DossierNonRéférencéPourLeRaccordementDuProjetError } from './dossierNonRéférencéPourLeRaccordementDuProjet.error';
 import {
   PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
   PropositionTechniqueEtFinancièreTransmiseEvent,
@@ -156,7 +156,7 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
     const dossier = this.dossiers.get(référence);
 
     if (!dossier) {
-      throw new DossierRaccordementNonRéférencéError();
+      throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
     }
 
     return dossier;

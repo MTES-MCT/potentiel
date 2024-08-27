@@ -48,7 +48,7 @@ Fonctionnalité: Modifier une demande complète de raccordement
             | La date de qualification            | 2022-10-29                                                                                                      |
             | Le format de l'accusé de réception  | text/plain                                                                                                      |
             | Le contenu de l'accusé de réception | Une autre accusé de réception ayant pour référence OUE-RP-2022-000034 et la date de qualification au 2022-10-29 |
-        Alors le porteur devrait être informé que "Le dossier du raccordement pour ce projet n'est pas référencé"
+        Alors le porteur devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"
 
     Scénario: Impossible de modifier une demande complète de raccordement avec une date de qualification dans le futur
         Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :

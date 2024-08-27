@@ -4,6 +4,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../../raccordement.aggregate';
+import { DossierNonRéférencéPourLeRaccordementDuProjetError } from '../../dossierNonRéférencéPourLeRaccordementDuProjet.error';
 
 export type DossierDuRaccordementSuppriméEvent = DomainEvent<
   'DossierDuRaccordementSupprimé-V1',
@@ -25,6 +26,10 @@ export async function supprimerDossier(
 ) {
   if (!rôle.estÉgaleÀ(Role.porteur) && !rôle.estÉgaleÀ(Role.admin)) {
     throw new RôleNePermetPasDeSupprimerUnDossierDuRaccordementError();
+  }
+
+  if (!this.contientLeDossier(référenceDossier)) {
+    throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
   }
 
   const dossierDuRaccordementSupprimé: DossierDuRaccordementSuppriméEvent = {

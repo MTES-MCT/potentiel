@@ -4,7 +4,7 @@ import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
-import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
+import { DossierNonRéférencéPourLeRaccordementDuProjetError } from '../dossierNonRéférencéPourLeRaccordementDuProjet.error';
 
 export type DateMiseEnServiceTransmiseEvent = DomainEvent<
   'DateMiseEnServiceTransmise-V1',
@@ -40,7 +40,7 @@ export async function transmettreDateMiseEnService(
   }
 
   if (!this.contientLeDossier(référenceDossier)) {
-    throw new DossierRaccordementNonRéférencéError();
+    throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
   }
 
   if (!this.dateModifiée(référenceDossier, dateMiseEnService)) {

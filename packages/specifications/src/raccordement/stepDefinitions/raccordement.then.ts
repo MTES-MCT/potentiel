@@ -245,7 +245,5 @@ Alors(
 
       expect(Option.isNone(dossierRaccordement)).to.be.true;
     });
-
-    console.log(référenceDossier, nomProjet);
   },
 );
