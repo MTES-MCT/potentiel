@@ -3,6 +3,10 @@ import {
   RécupérerDocumentProjetPort,
 } from './consulter/consulterDocumentProjet.query';
 import {
+  ArchiverDocumentProjetPort,
+  CorrigerDocumentProjetCommand,
+} from './corriger/corrigerDocument.command';
+import {
   DéplacerDossierProjetCommand,
   DéplacerDossierProjetPort,
 } from './déplacer/déplacerDocument.command';
@@ -17,11 +21,15 @@ export type DocumentProjetQuery = ConsulterDocumentProjetQuery;
 export { ConsulterDocumentProjetQuery };
 
 // Command
-export type DocumentProjetCommand = EnregistrerDocumentProjetCommand | DéplacerDossierProjetCommand;
+export type DocumentProjetCommand =
+  | EnregistrerDocumentProjetCommand
+  | DéplacerDossierProjetCommand
+  | CorrigerDocumentProjetCommand;
 
 export {
   EnregistrerDocumentProjetCommand,
   DéplacerDossierProjetCommand as DéplacerDocumentProjetCommand,
+  CorrigerDocumentProjetCommand,
 };
 
 // Register
@@ -32,4 +40,9 @@ export * as DocumentProjet from './documentProjet.valueType';
 export * as DossierProjet from './dossierProjet.valueType';
 
 // Port
-export { RécupérerDocumentProjetPort, EnregistrerDocumentProjetPort, DéplacerDossierProjetPort };
+export {
+  RécupérerDocumentProjetPort,
+  EnregistrerDocumentProjetPort,
+  DéplacerDossierProjetPort,
+  ArchiverDocumentProjetPort,
+};
