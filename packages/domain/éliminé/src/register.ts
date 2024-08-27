@@ -1,3 +1,4 @@
+import { registerConsulterÉliminéQuery } from './consulter/consulterÉliminé.query';
 import { registerNotifierÉliminéCommand } from './notifier/notifierÉliminé.command';
 import { registerNotifierÉliminéUseCase } from './notifier/notifierÉliminé.usecase';
 import {
@@ -19,4 +20,5 @@ export const registerEliminéUseCases = (dependencies: EliminéCommandDependenci
 
 export const registerEliminéQueries = (dependencies: EliminéQueryDependencies) => {
   registerRecoursQueries(dependencies);
+  registerConsulterÉliminéQuery(dependencies);
 };

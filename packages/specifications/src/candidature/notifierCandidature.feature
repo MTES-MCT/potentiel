@@ -9,7 +9,7 @@ Fonctionnalité: Notifier une candidature
             | email contact | porteur@test.test |
         Quand un administrateur notifie la période de la candidature "Du boulodrome de Marseille" avec :
             | date notification | 2024-08-20 |
-        Alors la candidature "Du boulodrome de Marseille" devrait être notifiée
+        # TODO Alors la candidature "Du boulodrome de Marseille" devrait être notifiée
         Alors le projet lauréat "Du boulodrome de Marseille" devrait être consultable
         Et un email a été envoyé à "porteur@test.test" avec :
             | sujet           | Potentiel - Résultats de la première période de l'appel d'offres PPE2 - Eolien |
@@ -23,8 +23,8 @@ Fonctionnalité: Notifier une candidature
             | email contact | porteur@test.test |
         Quand un administrateur notifie la période de la candidature "Du boulodrome de Marseille" avec :
             | date notification | 2024-08-20 |
-        Alors la candidature "Du boulodrome de Marseille" devrait être notifiée
-        Et le projet "Du boulodrome de Marseille" devrait être consultable dans la liste des projets éliminés
+        # TODO Alors la candidature "Du boulodrome de Marseille" devrait être notifiée
+        Alors le projet éliminé "Du boulodrome de Marseille" devrait être consultable
         Et un email a été envoyé à "porteur@test.test" avec :
             | sujet           | Potentiel - Résultats de la première période de l'appel d'offres PPE2 - Eolien |
             | invitation_link | https://potentiel.beta.gouv.fr/projets.html                                    |

@@ -5,7 +5,7 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { PotentielWorld } from '../../potentiel.world';
+import { PotentielWorld } from '../../../potentiel.world';
 
 EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld, nomProjet: string) {
   await executeQuery(

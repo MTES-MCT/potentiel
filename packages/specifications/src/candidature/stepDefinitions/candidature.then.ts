@@ -215,6 +215,7 @@ Alors(
       });
 
       assert(Option.isSome(candidature), 'la candidature devrait exister');
+      // TODO comment mettre à jour cette donnée sachant que les évènements sont sur Lauréat et Eliminé ?
       expect(candidature.notification?.notifiéLe).not.to.be.undefined;
     });
   },
