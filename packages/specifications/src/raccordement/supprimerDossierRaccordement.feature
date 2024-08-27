@@ -16,8 +16,6 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
             | La date de signature                                | 2023-01-10                                                                                                        |
             | Le format de la proposition technique et financière | application/pdf                                                                                                   |
             | Le contenu de proposition technique et financière   | Proposition technique et financière pour la référence OUE-RP-2022-000033 avec une date de signature au 2023-01-10 |
-        Et une date de mise en service "2024-01-01" pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille"
-
         Quand l'utilisateur <Role autorisé> supprime le dossier ayant pour référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille"
         Alors le dossier ayant pour référence "OUE-RP-2022-000033" ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet "Du boulodrome de Marseille"
 
@@ -27,30 +25,24 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
             | admin         |
 
     @NotImplemented
-    Plan du scénario: Impossible de supprimer un dossier non référencé dans le raccordement du projet
-
-
-    Scénario:
-        Quand le <Role autorisé> supprime le dossier ayant pour référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille" avec :
-        Alors l'utilisateur <Role autorisé> devrait être informé que "Le dossier du raccordement pour ce projet n'est pas référencé"
-
-        Exemples:
-            | Role autorisé |
-            | porteur       |
-            | admin         |
+    Scénario: Impossible de supprimer un dossier non référencé dans le raccordement du projet
+        Quand l'utilisateur porteur supprime le dossier ayant pour référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille" avec :
+        Alors l'utilisateur porteur devrait être informé que "Le dossier du raccordement pour ce projet n'est pas référencé"
 
     @NotImplemented
-    Plan du scénario: Impossible de supprimer un dossier du raccordement d'un projet pour un dossier inexistant
-
-
-    Scénario:
-        Quand le <Role autorisé> supprime le dossier ayant pour référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille" avec :
-        Alors l'utilisateur <Role autorisé> devrait être informé que "Le dossier du raccordement pour ce projet n'est pas référencé"
-
-        Exemples:
-            | Role autorisé |
-            | porteur       |
-            | admin         |
+    Scénario: Impossible de supprimer un dossier ayant déjà une date de mise en service
+        Etant donné une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
+            | La date de qualification                | 2022-10-28                                                                                            |
+            | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
+            | Le format de l'accusé de réception      | application/pdf                                                                                       |
+            | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
+        Et une proposition technique et financière pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille" avec :
+            | La date de signature                                | 2023-01-10                                                                                                        |
+            | Le format de la proposition technique et financière | application/pdf                                                                                                   |
+            | Le contenu de proposition technique et financière   | Proposition technique et financière pour la référence OUE-RP-2022-000033 avec une date de signature au 2023-01-10 |
+        Et une date de mise en service "2024-01-01" pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille"
+        Quand l'utilisateur admin supprime le dossier ayant pour référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille" avec :
+        Alors l'utilisateur admin devrait être informé que "Le dispose disponible d'une date de mise en service, et ne peut donc pas être supprimé"
 
 
 # Scénario: Le porteur transmet une date de mise en service pour un dossier de raccordement
