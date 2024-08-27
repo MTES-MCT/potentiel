@@ -6,20 +6,22 @@ import { NotifierCandidaturesPage } from '@/components/pages/candidature/notifie
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 export default async function Page() {
-  const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
-    type: 'AppelOffre.Query.ListerAppelOffre',
-    data: {},
+  return PageWithErrorHandling(async () => {
+    const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
+      type: 'AppelOffre.Query.ListerAppelOffre',
+      data: {},
+    });
+    return (
+      <NotifierCandidaturesPage
+        appelOffres={appelOffres.items.map(({ id, periodes }) => ({
+          id: id,
+          nom: id,
+          périodes: periodes.map((p) => ({
+            id: p.id,
+            nom: p.title,
+          })),
+        }))}
+      />
+    );
   });
-  return PageWithErrorHandling(async () => (
-    <NotifierCandidaturesPage
-      appelOffres={appelOffres.items.map(({ id, periodes }) => ({
-        id: id,
-        nom: id,
-        périodes: periodes.map((p) => ({
-          id: p.id,
-          nom: p.title,
-        })),
-      }))}
-    />
-  ));
 }

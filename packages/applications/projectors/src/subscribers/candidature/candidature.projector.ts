@@ -59,11 +59,12 @@ export const register = () => {
             misÀJourLe: type === 'CandidatureCorrigée-V1' ? payload.corrigéLe : payload.importéLe,
           };
 
-        await upsertProjection<Candidature.CandidatureEntity>(
-          `candidature|${identifiantProjet}`,
-          candidature,
-        );
-        break;
+          await upsertProjection<Candidature.CandidatureEntity>(
+            `candidature|${payload.identifiantProjet}`,
+            candidature,
+          );
+          break;
+      }
     }
   };
 
