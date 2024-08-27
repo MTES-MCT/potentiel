@@ -16,18 +16,18 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
             | La date de signature                                | 2023-01-10                                                                                                        |
             | Le format de la proposition technique et financière | application/pdf                                                                                                   |
             | Le contenu de proposition technique et financière   | Proposition technique et financière pour la référence OUE-RP-2022-000033 avec une date de signature au 2023-01-10 |
-        Quand l'utilisateur <Role autorisé> supprime le dossier ayant pour référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille"
+        Quand l'utilisateur "<Role autorisé>" supprime le dossier ayant pour référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille"
         Alors le dossier ayant pour référence "OUE-RP-2022-000033" ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet "Du boulodrome de Marseille"
 
         Exemples:
-            | Role autorisé |
-            | porteur       |
-            | admin         |
+            | Role autorisé  |
+            | porteur-projet |
+            | admin          |
 
     @NotImplemented
     Scénario: Impossible de supprimer un dossier non référencé dans le raccordement du projet
-        Quand l'utilisateur porteur supprime le dossier ayant pour référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille" avec :
-        Alors l'utilisateur porteur devrait être informé que "Le dossier du raccordement pour ce projet n'est pas référencé"
+        Quand l'utilisateur porteur-projet supprime le dossier ayant pour référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille" avec :
+        Alors l'utilisateur porteur-projet devrait être informé que "Le dossier du raccordement pour ce projet n'est pas référencé"
 
     @NotImplemented
     Scénario: Impossible de supprimer un dossier ayant déjà une date de mise en service

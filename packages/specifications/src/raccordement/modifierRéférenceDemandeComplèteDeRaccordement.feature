@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Modifier la référence d'une demande complète de raccordement
 
     Contexte:

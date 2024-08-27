@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Modifier une demande complète de raccordement
 
     Contexte:

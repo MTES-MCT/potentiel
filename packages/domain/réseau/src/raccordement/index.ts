@@ -15,6 +15,7 @@ import {
   ConsulterRaccordementQuery,
   ConsulterRaccordementReadModel,
 } from './consulter/consulterRaccordement.query';
+import { SupprimerDossierDuRaccordementUseCase } from './dossier/supprimer/supprimerDossierDuRaccordement.usecase';
 import {
   ListerRaccordementQuery,
   ListerRaccordementReadModel,
@@ -68,7 +69,8 @@ export type RaccordementUseCase =
   | TransmettreDateMiseEnServiceUseCase
   | TransmettreDemandeComplèteRaccordementUseCase
   | TransmettrePropositionTechniqueEtFinancièreUseCase
-  | AttribuerGestionnaireRéseauUseCase;
+  | AttribuerGestionnaireRéseauUseCase
+  | SupprimerDossierDuRaccordementUseCase;
 
 export type {
   ModifierDemandeComplèteRaccordementUseCase,
@@ -79,6 +81,7 @@ export type {
   TransmettreDemandeComplèteRaccordementUseCase,
   TransmettrePropositionTechniqueEtFinancièreUseCase,
   AttribuerGestionnaireRéseauUseCase,
+  SupprimerDossierDuRaccordementUseCase,
 };
 
 // Event
@@ -112,6 +115,7 @@ export type {
   GestionnaireRéseauAttribuéEvent,
   GestionnaireRéseauInconnuAttribuéEvent,
 } from './attribuer/attribuerGestionnaireRéseau.behavior';
+export type { DossierDuRaccordementSuppriméEvent } from './dossier/supprimer/supprimerDossierDuRaccordement.behavior';
 
 // ValueTypes
 export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';

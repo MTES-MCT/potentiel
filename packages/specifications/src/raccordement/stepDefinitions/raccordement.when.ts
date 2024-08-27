@@ -429,17 +429,21 @@ Quand(
 );
 
 Quand(
-  /l'utilisateur (porteur|admin) supprime un dossier ayant pour référence "(.*)" du raccordement pour le projet lauréat "(.*)"/,
-  async function (
-    this: PotentielWorld,
-    rôle: 'porteur' | 'admin',
-    référenceDossier: string,
-    nomProjet: string,
-  ) {
-    /**
-     * @todo Implementer la suppression d'un dossier de raccordement
-     */
+  `l'utilisateur {string} supprime le dossier ayant pour référence {string} du raccordement pour le projet lauréat {string}`,
+  async function (this: PotentielWorld, rôle: string, référenceDossier: string, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    console.log(rôle, référenceDossier, nomProjet);
+    try {
+      await mediator.send<Raccordement.SupprimerDossierDuRaccordementUseCase>({
+        type: 'Réseau.Raccordement.UseCase.SupprimerDossierDuRaccordement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          référenceDossierValue: référenceDossier,
+          rôleValue: rôle,
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
   },
 );

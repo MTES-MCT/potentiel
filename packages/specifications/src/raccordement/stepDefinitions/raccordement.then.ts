@@ -232,9 +232,19 @@ Alors(
 Alors(
   `le dossier ayant pour référence {string} ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet {string}`,
   async function (this: PotentielWorld, référenceDossier: string, nomProjet: string) {
-    /**
-     * @todo Implémenter la vérification de la suppression du dossier de raccordement
-     */
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    await waitForExpect(async () => {
+      const dossierRaccordement =
+        await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+          type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+            référenceDossierRaccordementValue: référenceDossier,
+          },
+        });
+
+      expect(Option.isNone(dossierRaccordement)).to.be.true;
+    });
 
     console.log(référenceDossier, nomProjet);
   },

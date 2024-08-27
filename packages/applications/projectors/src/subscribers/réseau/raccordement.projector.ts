@@ -95,6 +95,18 @@ export const register = () => {
           ...raccordement,
           identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau,
         });
+      } else if (event.type === 'DossierDuRaccordementSupprimé-V1') {
+        const { identifiantProjet, référenceDossier } = event.payload;
+
+        const raccordement = await findProjection<Raccordement.RaccordementEntity>(
+          `raccordement|${identifiantProjet}`,
+        );
+
+        if (Option.isSome(raccordement)) {
+          await removeProjection<Raccordement.DossierRaccordementEntity>(
+            `dossier-raccordement|${identifiantProjet}#${référenceDossier}`,
+          );
+        }
       } else {
         const référence =
           event.type === 'DemandeComplèteRaccordementModifiée-V1'
