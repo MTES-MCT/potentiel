@@ -13,7 +13,7 @@ import { CandidatureListPage } from '@/components/pages/candidature/lister/Candi
 import { CandidatureListItemProps } from '@/components/pages/candidature/lister/CandidatureListItem';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
-type SearchParams = 'page' | 'appelOffre' | 'statut' | 'nomProjet';
+type SearchParams = 'page' | 'appelOffre' | 'periode' | 'statut' | 'nomProjet';
 
 type PageProps = {
   searchParams?: Record<SearchParams, string>;
@@ -27,6 +27,7 @@ export const metadata: Metadata = {
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
     const appelOffre = searchParams?.appelOffre;
+    const periode = searchParams?.periode;
     const nomProjet = searchParams?.nomProjet;
     const statut = searchParams?.statut;
     const page = searchParams?.page ? parseInt(searchParams.page) : 1;
@@ -40,6 +41,7 @@ export default async function Page({ searchParams }: PageProps) {
         }),
         nomProjet,
         appelOffre,
+        période: periode,
         statut: statut ? StatutProjet.convertirEnValueType(statut).statut : undefined,
       },
     });
@@ -48,6 +50,14 @@ export default async function Page({ searchParams }: PageProps) {
       type: 'AppelOffre.Query.ListerAppelOffre',
       data: {},
     });
+
+    const périodes =
+      appelOffres.items
+        .find((ao) => ao.id === appelOffre)
+        ?.periodes.map((p) => ({
+          label: p.title,
+          value: p.id,
+        })) ?? [];
 
     const filters: ListFilterItem<SearchParams>[] = [
       {
@@ -58,6 +68,12 @@ export default async function Page({ searchParams }: PageProps) {
           label: appelOffre.id,
           value: appelOffre.id,
         })),
+      },
+      {
+        label: `Période`,
+        searchParamKey: 'periode',
+        defaultValue: periode,
+        options: périodes,
       },
       {
         label: 'Statut',
