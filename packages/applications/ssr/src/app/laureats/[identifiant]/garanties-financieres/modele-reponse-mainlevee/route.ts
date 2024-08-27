@@ -8,6 +8,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime } from '@potentiel-domain/common';
 import { buildDocxDocument } from '@potentiel-applications/document-builder';
+import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -18,7 +19,7 @@ export const GET = async (
   request: NextRequest,
   { params: { identifiant } }: IdentifiantParameter,
 ) =>
-  withUtilisateur(async (utilisateur) => {
+  withUtilisateur(async ({ identifiantUtilisateur }) => {
     const identifiantProjetValue = decodeParameter(identifiant);
     const estAccordée = request.nextUrl.searchParams.get('estAccordée') === 'true';
 
@@ -77,16 +78,24 @@ export const GET = async (
       });
     } catch {}
 
+    const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
+      type: 'Utilisateur.Query.ConsulterUtilisateur',
+      data: {
+        identifiantUtilisateur: identifiantUtilisateur.email,
+      },
+    });
+
+    const régionDreal =
+      Option.isSome(utilisateur) && Option.isSome(utilisateur.régionDreal)
+        ? utilisateur.régionDreal
+        : undefined;
+
     const content = await buildDocxDocument({
       type: 'mainlevée',
-      logo: Option.match(utilisateur.régionDreal)
-        .some((région) => région)
-        .none(() => ''),
+      logo: régionDreal ?? '',
       data: {
-        dreal: Option.match(utilisateur.régionDreal)
-          .some((région) => région)
-          .none(() => '!!! Région non disponible !!!'),
-        contactDreal: utilisateur.identifiantUtilisateur.email,
+        dreal: régionDreal ?? '!!! Région non disponible !!!',
+        contactDreal: identifiantUtilisateur.email,
 
         dateCourrier: DateTime.now().date.toLocaleDateString('fr-FR'),
         referenceProjet: formatIdentifiantProjetForDocument(identifiantProjetValue),

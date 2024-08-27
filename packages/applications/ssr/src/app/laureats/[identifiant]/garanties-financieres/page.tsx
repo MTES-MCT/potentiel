@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { Option } from '@potentiel-libraries/monads';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Role } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { récupérerPorteursParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
@@ -21,7 +21,6 @@ import {
 } from '@/components/pages/garanties-financières/détails/DétailsGarantiesFinancières.page';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
-import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
 
 import { getHistoriqueMainlevéeRejetéesActions } from './helpers/getHistoriqueMainlevéeRejetéesActions';
 import { getMainlevéeActions } from './helpers/getMainlevéeActions';
@@ -141,7 +140,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 type MapToProps = (args: {
   identifiantProjet: string;
   contactPorteurs: string[];
-  utilisateur: AuthenticatedUserReadModel;
+  utilisateur: Utilisateur.ValueType;
   garantiesFinancièresActuelles: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
   achèvement: Option.Type<Achèvement.ConsulterAttestationConformitéReadModel>;

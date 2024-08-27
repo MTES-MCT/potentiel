@@ -2,13 +2,10 @@ import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
 import { mediator } from 'mediateur';
 
 import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
-import { Role } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 
-import {
-  AuthenticatedUserReadModel,
-  getOptionalAuthenticatedUser,
-} from '@/utils/getAuthenticatedUser.handler';
+import { getOptionalAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
 
 export async function UserHeaderQuickAccessItem() {
   const utilisateur = await getOptionalAuthenticatedUser();
@@ -77,7 +74,7 @@ export async function UserHeaderQuickAccessItem() {
   );
 }
 
-async function getTâcheHeaderQuickAccessItem(utilisateur: AuthenticatedUserReadModel) {
+async function getTâcheHeaderQuickAccessItem(utilisateur: Utilisateur.ValueType) {
   if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
     const { nombreTâches } = await mediator.send<ConsulterNombreTâchesQuery>({
       type: 'Tâche.Query.ConsulterNombreTâches',

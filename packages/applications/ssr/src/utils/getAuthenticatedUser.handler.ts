@@ -3,27 +3,18 @@ import { cookies } from 'next/headers';
 import { decode } from 'next-auth/jwt';
 // import * as Sentry from '@sentry/nextjs';
 
-import { IdentifiantUtilisateur, Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
-import { récupérerUtilisateurAdapter } from '@potentiel-infrastructure/domain-adapters';
-
-export type AuthenticatedUserReadModel = {
-  nom: string;
-  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
-  role: Role.ValueType;
-  régionDreal: Option.Type<string>;
-};
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 export type GetAuthenticatedUserMessage = Message<
   'System.Authorization.RécupérerUtilisateur',
   {},
-  AuthenticatedUserReadModel
+  Utilisateur.ValueType
 >;
 
 const { NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME = 'next-auth.session-token' } = process.env;
 
 export const getOptionalAuthenticatedUser = async (): Promise<
-  AuthenticatedUserReadModel | undefined
+  Utilisateur.ValueType | undefined
 > => {
   const cookiesContent = cookies();
   const sessionToken = cookiesContent.get(NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME)?.value || '';
@@ -37,30 +28,7 @@ export const getOptionalAuthenticatedUser = async (): Promise<
     return undefined;
   }
 
-  const user = Utilisateur.convertirEnValueType(decoded.accessToken);
-
-  const userBase = {
-    identifiantUtilisateur: user.identifiantUtilisateur,
-    nom: user.nom,
-    role: user.role,
-  };
-
-  if (!user.role.estÉgaleÀ(Role.dreal)) {
-    return {
-      ...userBase,
-      régionDreal: Option.none,
-    };
-  }
-
-  const utilisateur = await récupérerUtilisateurAdapter(user.identifiantUtilisateur.email);
-
-  if (Option.isNone(utilisateur)) {
-    return undefined;
-  }
-  return {
-    ...userBase,
-    régionDreal: utilisateur.régionDreal ?? 'non-trouvée',
-  };
+  return Utilisateur.convertirEnValueType(decoded.accessToken);
 };
 
 export const getAuthenticatedUser: MessageHandler<GetAuthenticatedUserMessage> = async () => {

@@ -2,11 +2,10 @@ import { Option } from '@potentiel-libraries/monads';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { AuthenticatedUserReadModel } from '@/utils/getAuthenticatedUser.handler';
 import { MainlevéeEnCoursProps } from '@/components/pages/garanties-financières/détails/components/MainlevéeEnCours';
 
 type GetMainlevéeActions = {
-  role: AuthenticatedUserReadModel['role'];
+  role: Role.ValueType;
   mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>;
 };
 export const getMainlevéeActions = ({ role, mainlevée }: GetMainlevéeActions) => {

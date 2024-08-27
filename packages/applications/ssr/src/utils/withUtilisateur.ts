@@ -1,10 +1,9 @@
-import {
-  AuthenticatedUserReadModel,
-  getAuthenticatedUser,
-} from '@/utils/getAuthenticatedUser.handler';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
+
+import { getAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
 
 export async function withUtilisateur<TResult>(
-  action: (Utilisateur: AuthenticatedUserReadModel) => Promise<TResult>,
+  action: (Utilisateur: Utilisateur.ValueType) => Promise<TResult>,
 ): Promise<TResult> {
   const utilisateur = await getAuthenticatedUser({});
 

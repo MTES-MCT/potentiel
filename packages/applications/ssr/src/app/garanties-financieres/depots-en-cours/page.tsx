@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
+import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import {
@@ -26,20 +27,30 @@ export const metadata: Metadata = {
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
-    withUtilisateur(async (utilisateur) => {
+    withUtilisateur(async ({ identifiantUtilisateur, role }) => {
       const page = searchParams?.page ? parseInt(searchParams.page) : 1;
       const appelOffre = searchParams?.appelOffre;
       const cycle = searchParams?.cycle;
+
+      const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
+        type: 'Utilisateur.Query.ConsulterUtilisateur',
+        data: {
+          identifiantUtilisateur: identifiantUtilisateur.email,
+        },
+      });
+
+      const régionDreal =
+        Option.isSome(utilisateur) && Option.isSome(utilisateur.régionDreal)
+          ? utilisateur.régionDreal
+          : undefined;
 
       const dépôtsEnCoursGarantiesFinancières =
         await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
           data: {
             utilisateur: {
-              régionDreal: Option.isSome(utilisateur.régionDreal)
-                ? utilisateur.régionDreal
-                : undefined,
-              rôle: utilisateur.role.nom,
+              régionDreal,
+              rôle: role.nom,
             },
             ...(appelOffre && { appelOffre }),
             cycle,
