@@ -429,8 +429,8 @@ Quand(
 );
 
 Quand(
-  `l'utilisateur {string} supprime le dossier ayant pour référence {string} du raccordement pour le projet lauréat {string}`,
-  async function (this: PotentielWorld, rôle: string, référenceDossier: string, nomProjet: string) {
+  `le porteur supprime le dossier ayant pour référence {string} du raccordement pour le projet lauréat {string}`,
+  async function (this: PotentielWorld, référenceDossier: string, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     try {
@@ -439,7 +439,6 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierValue: référenceDossier,
-          rôleValue: rôle,
         },
       });
     } catch (e) {

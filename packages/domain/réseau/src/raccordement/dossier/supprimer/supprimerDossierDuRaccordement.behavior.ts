@@ -1,11 +1,9 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError, OperationRejectedError } from '@potentiel-domain/core';
-import { Role } from '@potentiel-domain/utilisateur';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../../raccordement.aggregate';
-import { DossierNonRéférencéPourLeRaccordementDuProjetError } from '../../dossierNonRéférencéPourLeRaccordementDuProjet.error';
 
 export type DossierDuRaccordementSuppriméEvent = DomainEvent<
   'DossierDuRaccordementSupprimé-V1',
@@ -18,25 +16,12 @@ export type DossierDuRaccordementSuppriméEvent = DomainEvent<
 type SupprimerDossierDuRaccordementOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
-  rôle: Role.ValueType;
 };
 
 export async function supprimerDossier(
   this: RaccordementAggregate,
-  { identifiantProjet, référenceDossier, rôle }: SupprimerDossierDuRaccordementOptions,
+  { identifiantProjet, référenceDossier }: SupprimerDossierDuRaccordementOptions,
 ) {
-  if (
-    !rôle.estÉgaleÀ(Role.porteur) &&
-    !rôle.estÉgaleÀ(Role.admin) &&
-    !rôle.estÉgaleÀ(Role.dgecValidateur)
-  ) {
-    throw new RôleNePermetPasDeSupprimerUnDossierDuRaccordementError();
-  }
-
-  if (!this.contientLeDossier(référenceDossier)) {
-    throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
-  }
-
   const dossierActuel = this.récupérerDossier(référenceDossier.formatter());
 
   if (Option.isSome(dossierActuel.miseEnService.dateMiseEnService)) {
@@ -59,12 +44,6 @@ export function applyDossierDuRaccordementSuppriméEventV1(
   event: DossierDuRaccordementSuppriméEvent,
 ) {
   this.dossiers.delete(event.payload.référenceDossier);
-}
-
-class RôleNePermetPasDeSupprimerUnDossierDuRaccordementError extends OperationRejectedError {
-  constructor() {
-    super(`Vous n'avez pas l'autorisation de supprimer un dossier du raccordement`);
-  }
 }
 
 class DossierAvecDateDeMiseEnServiceNonSupprimableError extends InvalidOperationError {
