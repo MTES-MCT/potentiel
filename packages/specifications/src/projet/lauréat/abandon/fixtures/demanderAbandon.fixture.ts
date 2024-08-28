@@ -1,25 +1,22 @@
 import { faker } from '@faker-js/faker';
 
-import { Fixture } from '../../../../fixture';
+import { AbstractFixture } from '../../../../fixture';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 type PièceJustificative = { format: string; content: ReadableStream };
 
 interface DemanderAbandon {
-  pièceJustificative?: PièceJustificative;
-  demandéLe: string;
-  demandéPar: string;
-  raison: string;
-  recandidature: boolean;
+  readonly pièceJustificative?: PièceJustificative;
+  readonly demandéLe: string;
+  readonly demandéPar: string;
+  readonly raison: string;
+  readonly recandidature: boolean;
 }
 
-export class DemanderAbandonFixture implements DemanderAbandon, Fixture<DemanderAbandon> {
-  #aÉtéCréé: boolean = false;
-
-  get aÉtéCréé() {
-    return this.#aÉtéCréé;
-  }
-
+export class DemanderAbandonFixture
+  extends AbstractFixture<DemanderAbandon>
+  implements DemanderAbandon
+{
   #format?: string;
   #content?: string;
 
@@ -38,18 +35,10 @@ export class DemanderAbandonFixture implements DemanderAbandon, Fixture<Demander
     return this.#demandéLe;
   }
 
-  set demandéLe(value: string) {
-    this.#demandéLe = value;
-  }
-
   #demandéPar!: string;
 
   get demandéPar(): string {
     return this.#demandéPar;
-  }
-
-  set demandéPar(value: string) {
-    this.#demandéPar = value;
   }
 
   #raison!: string;
@@ -58,24 +47,16 @@ export class DemanderAbandonFixture implements DemanderAbandon, Fixture<Demander
     return this.#raison;
   }
 
-  set raison(value: string) {
-    this.#raison = value;
-  }
-
   #recandidature!: boolean;
 
   get recandidature(): boolean {
     return this.#recandidature;
   }
 
-  set recandidature(value: boolean) {
-    this.#recandidature = value;
-  }
-
   créer(partialFixture?: Partial<Readonly<DemanderAbandon>>): Readonly<DemanderAbandon> {
     const recandidature = faker.datatype.boolean();
 
-    const fixture: DemanderAbandon = {
+    const fixture = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.word.words(),
@@ -98,7 +79,7 @@ export class DemanderAbandonFixture implements DemanderAbandon, Fixture<Demander
       this.#content = content;
     }
 
-    this.#aÉtéCréé = true;
+    this.aÉtéCréé = true;
     return fixture;
   }
 }

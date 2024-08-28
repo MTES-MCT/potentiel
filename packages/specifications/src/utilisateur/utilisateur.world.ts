@@ -1,6 +1,5 @@
 import { PorteurFixture } from './fixtures/porteur.fixture';
 import { ValidateurFixture } from './fixtures/validateur.fixture';
-import { DGECFixture } from './fixtures/dgec.fixture';
 import { DREALFixture } from './fixtures/dreal.fixture';
 
 export class UtilisateurWorld {
@@ -16,12 +15,6 @@ export class UtilisateurWorld {
     return this.#validateurFixture;
   }
 
-  #dgecFixture: DGECFixture;
-
-  get dgecFixture() {
-    return this.#dgecFixture;
-  }
-
   #drealFixture: DREALFixture;
 
   get drealFixture() {
@@ -31,7 +24,6 @@ export class UtilisateurWorld {
   constructor() {
     this.#porteurFixture = new PorteurFixture();
     this.#validateurFixture = new ValidateurFixture();
-    this.#dgecFixture = new DGECFixture();
     this.#drealFixture = new DREALFixture();
   }
 }

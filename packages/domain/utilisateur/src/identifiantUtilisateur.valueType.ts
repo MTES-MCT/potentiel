@@ -61,7 +61,7 @@ export const unknownUser = convertirEnValueType('unknown-user@unknown-email.com'
  */
 class EmailInvalideError extends InvalidOperationError {
   constructor(value: string) {
-    super(`L'email ne correspond pas à un format valide ${value}`, {
+    super(`L'email ne correspond pas à un format valide`, {
       value,
     });
   }

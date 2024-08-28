@@ -1,37 +1,26 @@
 import { faker } from '@faker-js/faker';
 
-import { Fixture } from '../../../../fixture';
+import { AbstractFixture } from '../../../../fixture';
 
 interface ConfirmerAbandon {
-  confirméeLe: string;
-  confirméePar: string;
+  readonly confirméeLe: string;
+  readonly confirméePar: string;
 }
 
-export class ConfirmerAbandonFixture implements ConfirmerAbandon, Fixture<ConfirmerAbandon> {
-  #aÉtéCréé: boolean = false;
-
-  get aÉtéCréé() {
-    return this.#aÉtéCréé;
-  }
-
+export class ConfirmerAbandonFixture
+  extends AbstractFixture<ConfirmerAbandon>
+  implements ConfirmerAbandon
+{
   #confirméeLe!: string;
 
   get confirméeLe(): string {
     return this.#confirméeLe;
   }
 
-  set confirméeLe(value: string) {
-    this.#confirméeLe = value;
-  }
-
   #confirméePar!: string;
 
   get confirméePar(): string {
     return this.#confirméePar;
-  }
-
-  set confirméePar(value: string) {
-    this.#confirméePar = value;
   }
 
   créer(partialData?: Partial<Readonly<ConfirmerAbandon>>): Readonly<ConfirmerAbandon> {
@@ -44,7 +33,7 @@ export class ConfirmerAbandonFixture implements ConfirmerAbandon, Fixture<Confir
     this.#confirméeLe = fixture.confirméeLe;
     this.#confirméePar = fixture.confirméePar;
 
-    this.#aÉtéCréé = true;
+    this.aÉtéCréé = true;
     return fixture;
   }
 }

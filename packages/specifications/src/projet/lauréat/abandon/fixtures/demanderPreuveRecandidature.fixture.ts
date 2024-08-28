@@ -1,28 +1,19 @@
 import { faker } from '@faker-js/faker';
 
-import { Fixture } from '../../../../fixture';
+import { AbstractFixture } from '../../../../fixture';
 
 interface DemanderPreuveRecandidatureAbandon {
-  demandéeLe: string;
+  readonly demandéeLe: string;
 }
 
 export class DemanderPreuveRecandidatureAbandonFixture
-  implements DemanderPreuveRecandidatureAbandon, Fixture<DemanderPreuveRecandidatureAbandon>
+  extends AbstractFixture<DemanderPreuveRecandidatureAbandon>
+  implements DemanderPreuveRecandidatureAbandon
 {
-  #aÉtéCréé: boolean = false;
-
-  get aÉtéCréé() {
-    return this.#aÉtéCréé;
-  }
-
   #demandéeLe!: string;
 
   get demandéeLe(): string {
     return this.#demandéeLe;
-  }
-
-  set demandéeLe(value: string) {
-    this.#demandéeLe = value;
   }
 
   créer(
@@ -35,7 +26,7 @@ export class DemanderPreuveRecandidatureAbandonFixture
 
     this.#demandéeLe = fixture.demandéeLe;
 
-    this.#aÉtéCréé = true;
+    this.aÉtéCréé = true;
     return fixture;
   }
 }

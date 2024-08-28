@@ -1,30 +1,21 @@
 import { faker } from '@faker-js/faker';
 
-import { Fixture } from '../../../../fixture';
+import { AbstractFixture } from '../../../../fixture';
 
 interface TransmettrePreuveRecandidatureAbandon {
-  preuveRecandidature: string;
-  transmiseLe: string;
-  transmisePar: string;
+  readonly preuveRecandidature: string;
+  readonly transmiseLe: string;
+  readonly transmisePar: string;
 }
 
 export class TransmettrePreuveRecandidatureAbandonFixture
-  implements TransmettrePreuveRecandidatureAbandon, Fixture<TransmettrePreuveRecandidatureAbandon>
+  extends AbstractFixture<TransmettrePreuveRecandidatureAbandon>
+  implements TransmettrePreuveRecandidatureAbandon
 {
-  #aÉtéCréé: boolean = false;
-
-  get aÉtéCréé() {
-    return this.#aÉtéCréé;
-  }
-
   #preuveRecandidature!: string;
 
   get preuveRecandidature(): string {
     return this.#preuveRecandidature;
-  }
-
-  set preuveRecandidature(value: string) {
-    this.#preuveRecandidature = value;
   }
 
   #transmiseLe!: string;
@@ -33,18 +24,10 @@ export class TransmettrePreuveRecandidatureAbandonFixture
     return this.#transmiseLe;
   }
 
-  set transmiseLe(value: string) {
-    this.#transmiseLe = value;
-  }
-
   #transmisePar!: string;
 
   get transmisePar(): string {
     return this.#transmisePar;
-  }
-
-  set transmisePar(value: string) {
-    this.#transmisePar = value;
   }
 
   créer(
@@ -61,7 +44,7 @@ export class TransmettrePreuveRecandidatureAbandonFixture
     this.#transmisePar = fixture.transmisePar;
     this.#preuveRecandidature = fixture.preuveRecandidature;
 
-    this.#aÉtéCréé = true;
+    this.aÉtéCréé = true;
     return fixture;
   }
 }

@@ -135,4 +135,58 @@ async function vérifierAbandon(
     );
     expect(actualContent).to.be.equal(expectedContent);
   }
+
+  if (this.lauréatWorld.abandonWorld.accorderAbandonFixture.aÉtéCréé) {
+    const result = await mediator.send<ConsulterDocumentProjetQuery>({
+      type: 'Document.Query.ConsulterDocumentProjet',
+      data: {
+        documentKey: Option.match(abandon)
+          .some(({ demande: { accord } }) => accord?.réponseSignée?.formatter() ?? '')
+          .none(() => ''),
+      },
+    });
+
+    const actualContent = await convertReadableStreamToString(result.content);
+    const expectedContent = await convertReadableStreamToString(
+      this.lauréatWorld.abandonWorld.accorderAbandonFixture.réponseSignée?.content ??
+        new ReadableStream(),
+    );
+    expect(actualContent).to.be.equal(expectedContent);
+  }
+
+  if (this.lauréatWorld.abandonWorld.rejeterAbandonFixture.aÉtéCréé) {
+    const result = await mediator.send<ConsulterDocumentProjetQuery>({
+      type: 'Document.Query.ConsulterDocumentProjet',
+      data: {
+        documentKey: Option.match(abandon)
+          .some(({ demande: { rejet } }) => rejet?.réponseSignée?.formatter() ?? '')
+          .none(() => ''),
+      },
+    });
+
+    const actualContent = await convertReadableStreamToString(result.content);
+    const expectedContent = await convertReadableStreamToString(
+      this.lauréatWorld.abandonWorld.rejeterAbandonFixture.réponseSignée?.content ??
+        new ReadableStream(),
+    );
+    expect(actualContent).to.be.equal(expectedContent);
+  }
+
+  if (this.lauréatWorld.abandonWorld.demanderConfirmationAbandonFixture.aÉtéCréé) {
+    const result = await mediator.send<ConsulterDocumentProjetQuery>({
+      type: 'Document.Query.ConsulterDocumentProjet',
+      data: {
+        documentKey: Option.match(abandon)
+          .some(({ demande: { confirmation } }) => confirmation?.réponseSignée?.formatter() ?? '')
+          .none(() => ''),
+      },
+    });
+
+    const actualContent = await convertReadableStreamToString(result.content);
+    const expectedContent = await convertReadableStreamToString(
+      this.lauréatWorld.abandonWorld.demanderConfirmationAbandonFixture.réponseSignée?.content ??
+        new ReadableStream(),
+    );
+    expect(actualContent).to.be.equal(expectedContent);
+  }
 }

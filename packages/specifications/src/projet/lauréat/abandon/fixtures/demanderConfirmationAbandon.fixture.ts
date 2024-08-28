@@ -1,30 +1,22 @@
 import { faker } from '@faker-js/faker';
 
-import { Fixture } from '../../../../fixture';
+import { AbstractFixture } from '../../../../fixture';
+import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 interface DemanderConfirmationAbandon {
-  confirmationDemandéeLe: string;
-  confirmationDemandéePar: string;
-  réponseSignée: { format: string; content: ReadableStream };
+  readonly confirmationDemandéeLe: string;
+  readonly confirmationDemandéePar: string;
+  readonly réponseSignée: { format: string; content: ReadableStream };
 }
 
 export class DemanderConfirmationAbandonFixture
-  implements DemanderConfirmationAbandon, Fixture<DemanderConfirmationAbandon>
+  extends AbstractFixture<DemanderConfirmationAbandon>
+  implements DemanderConfirmationAbandon
 {
-  #aÉtéCréé: boolean = false;
-
-  get aÉtéCréé() {
-    return this.#aÉtéCréé;
-  }
-
   #confirmationDemandéeLe!: string;
 
   get confirmationDemandéeLe(): string {
     return this.#confirmationDemandéeLe;
-  }
-
-  set confirmationDemandéeLe(value: string) {
-    this.#confirmationDemandéeLe = value;
   }
 
   #confirmationDemandéePar!: string;
@@ -33,38 +25,37 @@ export class DemanderConfirmationAbandonFixture
     return this.#confirmationDemandéePar;
   }
 
-  set confirmationDemandéePar(value: string) {
-    this.#confirmationDemandéePar = value;
-  }
-
-  #réponseSignée!: DemanderConfirmationAbandon['réponseSignée'];
+  #format!: string;
+  #content!: string;
 
   get réponseSignée(): DemanderConfirmationAbandon['réponseSignée'] {
-    return this.#réponseSignée;
-  }
-
-  set réponseSignée(value: DemanderConfirmationAbandon['réponseSignée']) {
-    this.#réponseSignée = value;
+    return {
+      format: this.#format,
+      content: convertStringToReadableStream(this.#content),
+    };
   }
 
   créer(
     partialData?: Partial<Readonly<DemanderConfirmationAbandon>>,
   ): Readonly<DemanderConfirmationAbandon> {
+    const content = faker.word.words();
+
     const fixture: DemanderConfirmationAbandon = {
       confirmationDemandéeLe: faker.date.soon().toISOString(),
       confirmationDemandéePar: faker.internet.email(),
       réponseSignée: {
         format: faker.potentiel.fileFormat(),
-        content: faker.potentiel.fileContent(),
+        content: convertStringToReadableStream(content),
       },
       ...partialData,
     };
 
     this.#confirmationDemandéeLe = fixture.confirmationDemandéeLe;
     this.#confirmationDemandéePar = fixture.confirmationDemandéePar;
-    this.#réponseSignée = fixture.réponseSignée;
+    this.#format = fixture.réponseSignée.format;
+    this.#content = content;
 
-    this.#aÉtéCréé = true;
+    this.aÉtéCréé = true;
     return fixture;
   }
 }

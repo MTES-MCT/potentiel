@@ -1,28 +1,23 @@
 import { faker } from '@faker-js/faker';
 
-import { Fixture } from '../../../../fixture';
+import { AbstractFixture } from '../../../../fixture';
+import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 interface RejetAbandon {
-  réponseSignée: { format: string; content: ReadableStream };
-  rejetéeLe: string;
-  rejetéePar: string;
+  readonly réponseSignée: { format: string; content: ReadableStream };
+  readonly rejetéeLe: string;
+  readonly rejetéePar: string;
 }
 
-export class RejetAbandonFixture implements RejetAbandon, Fixture<RejetAbandon> {
-  #aÉtéCréé: boolean = false;
-
-  get aÉtéCréé() {
-    return this.#aÉtéCréé;
-  }
-
-  #réponseSignée!: RejetAbandon['réponseSignée'];
+export class RejetAbandonFixture extends AbstractFixture<RejetAbandon> implements RejetAbandon {
+  #format!: string;
+  #content!: string;
 
   get réponseSignée(): RejetAbandon['réponseSignée'] {
-    return this.#réponseSignée;
-  }
-
-  set réponseSignée(value: RejetAbandon['réponseSignée']) {
-    this.#réponseSignée = value;
+    return {
+      format: this.#format,
+      content: convertStringToReadableStream(this.#content),
+    };
   }
 
   #rejetéeLe!: string;
@@ -31,36 +26,31 @@ export class RejetAbandonFixture implements RejetAbandon, Fixture<RejetAbandon> 
     return this.#rejetéeLe;
   }
 
-  set rejetéeLe(value: string) {
-    this.#rejetéeLe = value;
-  }
-
   #rejetéePar!: string;
 
   get rejetéePar(): string {
     return this.#rejetéePar;
   }
 
-  set rejetéePar(value: string) {
-    this.#rejetéePar = value;
-  }
-
   créer(partialData?: Partial<Readonly<RejetAbandon>> | undefined): Readonly<RejetAbandon> {
+    const content = faker.word.words();
+
     const fixture: RejetAbandon = {
       rejetéeLe: faker.date.soon().toISOString(),
       rejetéePar: faker.internet.email(),
       réponseSignée: {
         format: faker.potentiel.fileFormat(),
-        content: faker.potentiel.fileContent(),
+        content: convertStringToReadableStream(content),
       },
       ...partialData,
     };
 
     this.#rejetéeLe = fixture.rejetéeLe;
     this.#rejetéePar = fixture.rejetéePar;
-    this.#réponseSignée = fixture.réponseSignée;
+    this.#format = fixture.réponseSignée.format;
+    this.#content = content;
 
-    this.#aÉtéCréé = true;
+    this.aÉtéCréé = true;
     return fixture;
   }
 }

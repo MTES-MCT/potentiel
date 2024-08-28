@@ -177,16 +177,12 @@ async function créerPreuveRecandidatureTransmise(this: PotentielWorld) {
 
   const { accordéePar } = this.lauréatWorld.abandonWorld.accorderAbandonFixture;
 
-  const dateMininum = DateTime.convertirEnValueType(new Date('2023-12-15'));
-
+  // TODO : la date de notification ne doit plus être passée en param. Il faudra charger l'aggregate Lauréat directement dans la commande.
   await mediator.send<Abandon.AbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,
-      dateNotificationValue: (DateTime.now().estAntérieurÀ(dateMininum)
-        ? dateMininum
-        : DateTime.now()
-      ).formatter(),
+      dateNotificationValue: DateTime.now().formatter(),
       dateTransmissionPreuveRecandidatureValue: dateTransmissionPreuveRecandidature,
       preuveRecandidatureValue: preuveRecandidature,
       identifiantUtilisateurValue: accordéePar,

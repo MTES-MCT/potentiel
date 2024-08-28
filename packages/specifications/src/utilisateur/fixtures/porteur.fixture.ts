@@ -1,6 +1,6 @@
 import { Fixture } from '../../fixture';
 
-import { Utilisateur, AbstractUtilisateur } from './utilisateur.fixture';
+import { Utilisateur, AbstractUtilisateur } from './utilisateur';
 
 interface Porteur extends Utilisateur {
   readonly role: 'porteur-projet';

@@ -1,28 +1,26 @@
 import { faker } from '@faker-js/faker';
 
-import { Fixture } from '../../../../fixture';
+import { AbstractFixture } from '../../../../fixture';
+import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 interface AccorderAbandon {
-  réponseSignée: { format: string; content: ReadableStream };
-  accordéeLe: string;
-  accordéePar: string;
+  readonly réponseSignée: { format: string; content: ReadableStream };
+  readonly accordéeLe: string;
+  readonly accordéePar: string;
 }
 
-export class AccorderAbandonFixture implements AccorderAbandon, Fixture<AccorderAbandon> {
-  #aÉtéCréé: boolean = false;
-
-  get aÉtéCréé() {
-    return this.#aÉtéCréé;
-  }
-
-  #réponseSignée!: AccorderAbandonFixture['réponseSignée'];
+export class AccorderAbandonFixture
+  extends AbstractFixture<AccorderAbandon>
+  implements AccorderAbandon
+{
+  #format!: string;
+  #content!: string;
 
   get réponseSignée(): AccorderAbandon['réponseSignée'] {
-    return this.#réponseSignée;
-  }
-
-  set réponseSignée(value: AccorderAbandonFixture['réponseSignée']) {
-    this.#réponseSignée = value;
+    return {
+      format: this.#format,
+      content: convertStringToReadableStream(this.#content),
+    };
   }
 
   #accordéLe!: string;
@@ -31,36 +29,31 @@ export class AccorderAbandonFixture implements AccorderAbandon, Fixture<Accorder
     return this.#accordéLe;
   }
 
-  set accordéeLe(value: string) {
-    this.#accordéLe = value;
-  }
-
   #accordéPar!: string;
 
   get accordéePar(): string {
     return this.#accordéPar;
   }
 
-  set accordéePar(value: string) {
-    this.#accordéPar = value;
-  }
+  créer(partialFixture?: Partial<AccorderAbandon>): AccorderAbandon {
+    const content = faker.word.words();
 
-  créer(partialFixture?: Partial<Readonly<AccorderAbandon>>): Readonly<AccorderAbandon> {
     const fixture: AccorderAbandon = {
       accordéeLe: faker.date.soon().toISOString(),
       accordéePar: faker.internet.email(),
       réponseSignée: {
         format: faker.potentiel.fileFormat(),
-        content: faker.potentiel.fileContent(),
+        content: convertStringToReadableStream(content),
       },
       ...partialFixture,
     };
 
     this.#accordéLe = fixture.accordéeLe;
     this.#accordéPar = fixture.accordéePar;
-    this.#réponseSignée = fixture.réponseSignée;
+    this.#format = fixture.réponseSignée.format;
+    this.#content = content;
 
-    this.#aÉtéCréé = true;
+    this.aÉtéCréé = true;
     return fixture;
   }
 }
