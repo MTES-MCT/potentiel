@@ -1,12 +1,12 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/core';
 
-import { Période } from '.';
+import * as IdentifiantPériode from './identifiantPériode.valueType';
 
 export type PériodeEntity = Entity<
   'période',
   {
-    identifiantPériode: Période.IdentifiantPériode.ValueType;
+    identifiantPériode: IdentifiantPériode.ValueType;
   } & (PériodeNotifiée | PériodeNonNotifiée)
 >;
 

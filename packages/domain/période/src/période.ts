@@ -15,4 +15,3 @@ export * from './register';
 
 // Entity
 export * from './période.entity';
-export * as IdentifiantPériode from './identifiantPériode.valueType';

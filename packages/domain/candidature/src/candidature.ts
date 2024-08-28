@@ -74,3 +74,6 @@ export * from './candidature.entity';
 // Value Types
 export * as Technologie from './technologie.valueType';
 export * as HistoriqueAbandon from './historiqueAbandon.valueType';
+
+// Aggregate
+export { CandidatureAggregate } from './candidature.aggregate';
