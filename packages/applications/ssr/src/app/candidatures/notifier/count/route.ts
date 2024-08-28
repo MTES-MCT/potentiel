@@ -15,7 +15,6 @@ export const GET = (req: Request) =>
   apiAction(() =>
     withUtilisateur(async () => {
       const parseResult = querySchema.safeParse(Object.fromEntries(new URL(req.url).searchParams));
-      console.log(parseResult);
       if (!parseResult.success) {
         return Response.json(
           {
@@ -27,12 +26,12 @@ export const GET = (req: Request) =>
           { status: 400 },
         );
       }
-      const { appelOffre } = parseResult.data;
+      const { appelOffre, periode } = parseResult.data;
       const result = await mediator.send<Candidature.ListerCandidaturesQuery>({
         type: 'Candidature.Query.ListerCandidatures',
         data: {
           appelOffre,
-          // TODO période
+          période: periode,
         },
       });
       return Response.json({ count: result.total });

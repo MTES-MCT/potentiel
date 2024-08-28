@@ -43,10 +43,6 @@ export type ConsulterCandidatureReadModel = {
   misÀJourLe: DateTime.ValueType;
 
   détails: DocumentProjet.ValueType;
-
-  notification?: {
-    notifiéLe: DateTime.ValueType;
-  };
 };
 
 export type ConsulterCandidatureQuery = Message<
@@ -100,7 +96,6 @@ export const mapToReadModel = ({
   gouvernancePartagée,
   territoireProjet,
   misÀJourLe,
-  notification,
 }: CandidatureEntity): ConsulterCandidatureReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutProjet.convertirEnValueType(statut),
@@ -134,7 +129,4 @@ export const mapToReadModel = ({
     misÀJourLe,
     'application/json',
   ),
-  notification: notification
-    ? { notifiéLe: DateTime.convertirEnValueType(notification.notifiéLe) }
-    : undefined,
 });

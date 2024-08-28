@@ -12,8 +12,8 @@ Fonctionnalité: Notifier une candidature
         # TODO Alors la candidature "Du boulodrome de Marseille" devrait être notifiée
         Alors le projet lauréat "Du boulodrome de Marseille" devrait être consultable
         Et un email a été envoyé à "porteur@test.test" avec :
-            | sujet           | Potentiel - Résultats de la première période de l'appel d'offres PPE2 - Eolien |
-            | invitation_link | https://potentiel.beta.gouv.fr/projets.html                                    |
+            | sujet           | Résultats de la première période de l'appel d'offres PPE2 - Eolien |
+            | invitation_link | https://potentiel.beta.gouv.fr/projets.html                        |
 
     Scénario: Notifier une candidature éliminée
         Etant donné la candidature "Du boulodrome de Marseille" avec :
@@ -26,8 +26,8 @@ Fonctionnalité: Notifier une candidature
         # TODO Alors la candidature "Du boulodrome de Marseille" devrait être notifiée
         Alors le projet éliminé "Du boulodrome de Marseille" devrait être consultable
         Et un email a été envoyé à "porteur@test.test" avec :
-            | sujet           | Potentiel - Résultats de la première période de l'appel d'offres PPE2 - Eolien |
-            | invitation_link | https://potentiel.beta.gouv.fr/projets.html                                    |
+            | sujet           | Résultats de la première période de l'appel d'offres PPE2 - Eolien |
+            | invitation_link | https://potentiel.beta.gouv.fr/projets.html                        |
 
     Scénario: Impossible de notifier une candidature inexistante
 

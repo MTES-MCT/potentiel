@@ -25,8 +25,6 @@ export async function notifier(
   this: LauréatAggregate,
   { identifiantProjet, dateNotification, attestationSignée }: NotifierOptions,
 ) {
-  await générerAttestation();
-
   const event: LauréatNotifié = {
     type: 'LauréatNotifié-V1',
     payload: {
@@ -44,5 +42,3 @@ export async function notifier(
 export function applyLauréatNotifié(this: LauréatAggregate, _event: LauréatNotifié) {
   this.notifié = true;
 }
-
-async function générerAttestation() {}

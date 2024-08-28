@@ -30,7 +30,6 @@ export type CandidatureEvent = CandidatureImportéeEvent | CandidatureCorrigéeE
 export type CandidatureAggregate = Aggregate<CandidatureEvent> & {
   statut?: StatutCandidature.ValueType;
   importé?: true;
-  notifié?: true;
   payloadHash: string;
   importer: typeof importer;
   corriger: typeof corriger;

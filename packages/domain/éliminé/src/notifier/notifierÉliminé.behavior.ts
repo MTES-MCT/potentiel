@@ -25,8 +25,6 @@ export async function notifier(
   this: ÉliminéAggregate,
   { identifiantProjet, dateNotification, attestationSignée }: NotifierOptions,
 ) {
-  await générerAttestation();
-
   const event: ÉliminéNotifié = {
     type: 'ÉliminéNotifié-V1',
     payload: {
@@ -44,5 +42,3 @@ export async function notifier(
 export function applyÉliminéNotifié(this: ÉliminéAggregate, _event: ÉliminéNotifié) {
   this.notifié = true;
 }
-
-async function générerAttestation() {}

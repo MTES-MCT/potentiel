@@ -43,7 +43,7 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
       return {
         templateId: templateId.notifierPorteur,
         recipients: [{ email: 'porteur@test.test', fullName: 'foo' }], // TODO
-        messageSubject: `Potentiel - Résultats de la ${période?.title} période de l'appel d'offres ${appelOffre.id}`,
+        messageSubject: `Résultats de la ${période?.title} période de l'appel d'offres ${appelOffre.id}`,
         variables: {
           invitation_link: `${BASE_URL}/projets.html`,
         },
