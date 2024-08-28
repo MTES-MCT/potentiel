@@ -103,6 +103,17 @@ export const register = () => {
         );
 
         if (Option.isSome(raccordement)) {
+          const dossiersMisÀJour = raccordement.dossiers.filter(
+            (dossier) => dossier.référence !== référenceDossier,
+          );
+
+          await upsertProjection<Raccordement.RaccordementEntity>(
+            `raccordement|${identifiantProjet}`,
+            {
+              ...raccordement,
+              dossiers: dossiersMisÀJour,
+            },
+          );
           await removeProjection<Raccordement.DossierRaccordementEntity>(
             `dossier-raccordement|${identifiantProjet}#${référenceDossier}`,
           );
