@@ -131,9 +131,7 @@ const mapToPropsDossiers = ({
       rôleUtilisateur.estÉgaleÀ(Role.admin) || rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur);
 
     const canDeleteDossier =
-      (rôleUtilisateur.estÉgaleÀ(Role.admin) ||
-        rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
-        rôleUtilisateur.estÉgaleÀ(Role.porteur)) &&
+      rôleUtilisateur.aLaPermission('réseau.raccordement.dossier.supprimer') &&
       !dossier.miseEnService;
 
     return {
