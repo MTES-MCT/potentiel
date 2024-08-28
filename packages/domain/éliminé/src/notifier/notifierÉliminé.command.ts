@@ -1,8 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { LoadAggregate } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { loadÉliminéFactory } from '../éliminé.aggregate';
 
@@ -10,8 +9,9 @@ export type NotifierÉliminéCommand = Message<
   'Éliminé.Command.NotifierÉliminé',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    dateNotification: DateTime.ValueType;
-    attestationSignée: DocumentProjet.ValueType;
+    notifiéLe: DateTime.ValueType;
+    notifiéPar: Email.ValueType;
+    attestation: { format: string };
   }
 >;
 

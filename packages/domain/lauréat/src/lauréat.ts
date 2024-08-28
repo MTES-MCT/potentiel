@@ -12,3 +12,5 @@ export { LauréatNotifié };
 
 export type LauréatUseCases = NotifierLauréatUseCase;
 export { NotifierLauréatUseCase };
+
+export * as LauréatSaga from './lauréat.saga';

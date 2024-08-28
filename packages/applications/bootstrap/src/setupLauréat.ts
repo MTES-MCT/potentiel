@@ -4,6 +4,7 @@ import {
   registerLauréatQueries,
   registerLauréatUseCases,
   GarantiesFinancières,
+  Lauréat,
 } from '@potentiel-domain/laureat';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
@@ -42,6 +43,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
 
   LauréatProjector.register();
   LauréatNotification.register({ sendEmail });
+  Lauréat.LauréatSaga.register();
   AbandonProjector.register();
   AbandonNotification.register({ sendEmail });
   GarantiesFinancièreProjector.register();
@@ -72,6 +74,18 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
       });
     },
     streamCategory: 'lauréat',
+  });
+
+  const unsubscribeLauréatSaga = await subscribe<Lauréat.LauréatSaga.SubscriptionEvent & Event>({
+    name: 'laureat-saga',
+    streamCategory: 'lauréat',
+    eventType: ['LauréatNotifié-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<Lauréat.LauréatSaga.Execute>({
+        type: 'System.Lauréat.Saga.Execute',
+        data: event,
+      });
+    },
   });
 
   const unsubscribeAbandonNotification = await subscribe<AbandonNotification.SubscriptionEvent>({
@@ -220,6 +234,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
   return async () => {
     await unsubscribeLauréatNotification();
     await unsubscribeLauréatProjector();
+    await unsubscribeLauréatSaga();
     await unsubscribeAbandonNotification();
     await unsubscribeAbandonProjector();
     await unsubscribeGarantiesFinancièresProjector();

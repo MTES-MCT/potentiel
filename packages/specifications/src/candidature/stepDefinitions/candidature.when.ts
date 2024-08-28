@@ -7,7 +7,6 @@ import { Lauréat } from '@potentiel-domain/laureat';
 import { Éliminé } from '@potentiel-domain/elimine';
 
 import { PotentielWorld } from '../../potentiel.world';
-import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
 
 import { mapExampleToUseCaseDefaultValues } from './helper';
 
@@ -60,7 +59,7 @@ Quand(
 );
 
 Quand(
-  'un administrateur notifie la période de la candidature {string} avec :',
+  'le DGEC validateur notifie la période de la candidature {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
     const { identifiantProjet, values } =
@@ -72,10 +71,10 @@ Quand(
         type: 'Éliminé.UseCase.NotifierÉliminé',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          dateNotificationValue: dateNotification,
-          attestationSignéeValue: {
+          notifiéLeValue: dateNotification,
+          notifiéParValue: 'dgec-validateur@test.test', // TODO use fixture
+          attestationValue: {
             format: `text/plain`,
-            content: convertStringToReadableStream(`Le contenu de l'attestation`),
           },
         },
       });
@@ -89,10 +88,10 @@ Quand(
         type: 'Lauréat.UseCase.NotifierLauréat',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          dateNotificationValue: dateNotification,
-          attestationSignéeValue: {
+          notifiéLeValue: dateNotification,
+          notifiéParValue: 'dgec-validateur@test.test', // TODO use fixture
+          attestationValue: {
             format: `text/plain`,
-            content: convertStringToReadableStream(`Le contenu de l'attestation`),
           },
         },
       });

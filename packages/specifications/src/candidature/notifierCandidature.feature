@@ -7,7 +7,7 @@ Fonctionnalité: Notifier une candidature
             | appel d'offre | PPE2 - Eolien     |
             | période       | 1                 |
             | email contact | porteur@test.test |
-        Quand un administrateur notifie la période de la candidature "Du boulodrome de Marseille" avec :
+        Quand le DGEC validateur notifie la période de la candidature "Du boulodrome de Marseille" avec :
             | date notification | 2024-08-20 |
         # TODO Alors la candidature "Du boulodrome de Marseille" devrait être notifiée
         Alors le projet lauréat "Du boulodrome de Marseille" devrait être consultable
@@ -21,7 +21,7 @@ Fonctionnalité: Notifier une candidature
             | appel d'offre | PPE2 - Eolien     |
             | période       | 1                 |
             | email contact | porteur@test.test |
-        Quand un administrateur notifie la période de la candidature "Du boulodrome de Marseille" avec :
+        Quand le DGEC validateur notifie la période de la candidature "Du boulodrome de Marseille" avec :
             | date notification | 2024-08-20 |
         # TODO Alors la candidature "Du boulodrome de Marseille" devrait être notifiée
         Alors le projet éliminé "Du boulodrome de Marseille" devrait être consultable

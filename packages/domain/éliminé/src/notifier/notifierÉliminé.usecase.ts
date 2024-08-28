@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { NotifierÉliminéCommand } from './notifierÉliminé.command';
 
@@ -9,9 +8,9 @@ export type NotifierÉliminéUseCase = Message<
   'Éliminé.UseCase.NotifierÉliminé',
   {
     identifiantProjetValue: string;
-    dateNotificationValue: string;
-    attestationSignéeValue: {
-      content: ReadableStream;
+    notifiéLeValue: string;
+    notifiéParValue: string;
+    attestationValue: {
       format: string;
     };
   }
@@ -20,29 +19,17 @@ export type NotifierÉliminéUseCase = Message<
 export const registerNotifierÉliminéUseCase = () => {
   const handler: MessageHandler<NotifierÉliminéUseCase> = async ({
     identifiantProjetValue,
-    dateNotificationValue,
-    attestationSignéeValue: { content, format },
+    notifiéLeValue,
+    notifiéParValue,
+    attestationValue: { format },
   }) => {
-    const attestationSignée = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      'attestation',
-      dateNotificationValue,
-      format,
-    );
-    await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'Document.Command.EnregistrerDocumentProjet',
-      data: {
-        content,
-        documentProjet: attestationSignée,
-      },
-    });
-
     await mediator.send<NotifierÉliminéCommand>({
       type: 'Éliminé.Command.NotifierÉliminé',
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
-        dateNotification: DateTime.convertirEnValueType(dateNotificationValue),
-        attestationSignée,
+        notifiéLe: DateTime.convertirEnValueType(notifiéLeValue),
+        notifiéPar: Email.convertirEnValueType(notifiéParValue),
+        attestation: { format },
       },
     });
   };

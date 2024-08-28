@@ -2,15 +2,16 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ÉliminéEntity } from '../éliminé.entity';
 
 export type ConsulterÉliminéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  dateDésignation: DateTime.ValueType;
-  attestationSignée: DocumentProjet.ValueType;
+  notifiéLe: DateTime.ValueType;
+  notifiéPar: Email.ValueType;
+  attestation: DocumentProjet.ValueType;
 };
 
 export type ConsulterÉliminéQuery = Message<
@@ -39,15 +40,17 @@ export const registerConsulterÉliminéQuery = ({ find }: ConsulterÉliminéDepe
 
 const mapToReadModel = ({
   identifiantProjet,
-  dateDésignation,
-  attestationSignée: { format },
+  notifiéLe,
+  notifiéPar,
+  attestation: { format },
 }: ÉliminéEntity): ConsulterÉliminéReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  dateDésignation: DateTime.convertirEnValueType(dateDésignation),
-  attestationSignée: DocumentProjet.convertirEnValueType(
+  notifiéLe: DateTime.convertirEnValueType(notifiéLe),
+  notifiéPar: Email.convertirEnValueType(notifiéPar),
+  attestation: DocumentProjet.convertirEnValueType(
     identifiantProjet,
     'attestation',
-    dateDésignation,
+    notifiéLe,
     format,
   ),
 });
