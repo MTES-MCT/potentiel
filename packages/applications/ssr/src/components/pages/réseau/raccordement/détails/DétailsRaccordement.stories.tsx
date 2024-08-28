@@ -28,31 +28,30 @@ const gestionnaireRéseau: DétailsRaccordementPageProps['gestionnaireRéseau'] 
   canEdit: true,
 };
 
+const dossier: DétailsRaccordementPageProps['dossiers'][number] = {
+  identifiantProjet: 'appelOffre#période#famille#numéroCRE',
+  référence: 'référence-dossier#',
+  demandeComplèteRaccordement: {
+    canEdit: true,
+    accuséRéception: 'accusé-reception#1',
+    dateQualification: new Date('2022-05-10').toISOString() as Iso8601DateTime,
+  },
+  propositionTechniqueEtFinancière: {
+    canEdit: true,
+    dateSignature: new Date('2022-09-30').toISOString() as Iso8601DateTime,
+    propositionTechniqueEtFinancièreSignée: 'propositionTechniqueEtFinancièreSignée#1',
+  },
+  miseEnService: {
+    canEdit: true,
+    dateMiseEnService: new Date('2023-12-25').toISOString() as Iso8601DateTime,
+  },
+  canDeleteDossier: false,
+};
 export const Complet: Story = {
   args: {
     identifiantProjet: 'appelOffre#période#famille#numéroCRE',
     gestionnaireRéseau,
-    dossiers: [
-      {
-        identifiantProjet: 'appelOffre#période#famille#numéroCRE',
-        référence: 'référence-dossier#1',
-        demandeComplèteRaccordement: {
-          canEdit: true,
-          accuséRéception: 'accusé-reception#1',
-          dateQualification: new Date('2022-05-10').toISOString() as Iso8601DateTime,
-        },
-        propositionTechniqueEtFinancière: {
-          canEdit: true,
-          dateSignature: new Date('2022-09-30').toISOString() as Iso8601DateTime,
-          propositionTechniqueEtFinancièreSignée: 'propositionTechniqueEtFinancièreSignée#1',
-        },
-        miseEnService: {
-          canEdit: true,
-          dateMiseEnService: new Date('2023-12-25').toISOString() as Iso8601DateTime,
-        },
-        canDeleteDossier: false,
-      },
-    ],
+    dossiers: [dossier, dossier],
   },
 };
 
@@ -62,20 +61,7 @@ export const Incomplet: Story = {
     gestionnaireRéseau,
     dossiers: [
       {
-        identifiantProjet: 'identifiantProjet#2',
-        référence: 'référence-dossier#2',
-        demandeComplèteRaccordement: {
-          canEdit: true,
-          accuséRéception: 'accusé-reception#1',
-        },
-        propositionTechniqueEtFinancière: {
-          canEdit: false,
-          dateSignature: new Date('2022-09-30').toISOString() as Iso8601DateTime,
-          propositionTechniqueEtFinancièreSignée: 'propositionTechniqueEtFinancièreSignée#2.bin',
-        },
-        miseEnService: {
-          canEdit: false,
-        },
+        ...dossier,
         canDeleteDossier: true,
       },
     ],
