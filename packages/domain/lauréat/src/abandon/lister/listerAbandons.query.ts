@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { List, ListOptions, RangeOptions } from '@potentiel-domain/core';
+import { List, ListOptions, RangeOptions } from '@potentiel-domain/entity';
 import { Role, RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
 import { StatutAbandon, StatutPreuveRecandidature } from '..';

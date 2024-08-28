@@ -1,4 +1,4 @@
-import { Entity, OrderByOptions } from '@potentiel-domain/core';
+import { Entity, OrderByOptions } from '@potentiel-domain/entity';
 import { flatten } from '@potentiel-libraries/flat';
 
 export const getOrderClause = <TEntity extends Entity>(

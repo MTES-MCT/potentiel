@@ -6,7 +6,7 @@
   },
   "references": [
     {
-      "path": "../../domain/core"
+      "path": "../../domain/entity"
     },
     {
       "path": "../../libraries/pg-helpers"

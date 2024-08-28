@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
-import { Find } from '@potentiel-domain/core';
+import { Find } from '@potentiel-domain/entity';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { DocumentProjet } from '@potentiel-domain/document';
 

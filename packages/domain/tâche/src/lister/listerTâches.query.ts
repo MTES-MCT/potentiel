@@ -3,7 +3,7 @@ import { match, Pattern } from 'ts-pattern';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
-import { List, RangeOptions, WhereCondition } from '@potentiel-domain/core';
+import { List, RangeOptions, WhereCondition } from '@potentiel-domain/entity';
 
 import { TâcheEntity } from '../tâche.entity';
 import * as TypeTâche from '../typeTâche.valueType';

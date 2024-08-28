@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { List } from '@potentiel-domain/core';
+import { List } from '@potentiel-domain/entity';
 
 import { AppelOffreEntity } from '../appelOffre.entity';
 

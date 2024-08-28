@@ -1,6 +1,6 @@
 import format from 'pg-format';
 
-import { Entity, ListOptions, ListResult } from '@potentiel-domain/core';
+import { Entity, ListOptions, ListResult } from '@potentiel-domain/entity';
 import { unflatten } from '@potentiel-libraries/flat';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 

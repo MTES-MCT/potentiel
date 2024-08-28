@@ -5,7 +5,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { Option } from '@potentiel-libraries/monads';
 import { Role } from '@potentiel-domain/utilisateur';
-import { RangeOptions } from '@potentiel-domain/core';
+import { RangeOptions } from '@potentiel-domain/entity';
 
 // MERCI DE NE PAS TOUCHER CETTE QUERY
 const selectProjetQuery = `

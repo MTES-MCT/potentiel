@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { List } from '@potentiel-domain/core';
+import { List } from '@potentiel-domain/entity';
 
 import { RaccordementEntity } from '..';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';

@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet, CommonPort } from '@potentiel-domain/common';
-import { IncludeWhereCondition, List, RangeOptions } from '@potentiel-domain/core';
+import { IncludeWhereCondition, List, RangeOptions } from '@potentiel-domain/entity';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { StatutRecours } from '..';

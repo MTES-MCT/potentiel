@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, Pattern } from 'ts-pattern';
 
-import { List, RangeOptions } from '@potentiel-domain/core';
+import { List, RangeOptions } from '@potentiel-domain/entity';
 import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 

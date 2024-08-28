@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Count } from '@potentiel-domain/core';
+import { Count } from '@potentiel-domain/entity';
 import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
 import { TâcheEntity } from '../tâche.entity';

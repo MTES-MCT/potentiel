@@ -1,4 +1,4 @@
-import { Entity } from '@potentiel-domain/core';
+import { Entity } from '@potentiel-domain/entity';
 
 export type TâchePlanifiéeEntity = Entity<
   'tâche-planifiée',

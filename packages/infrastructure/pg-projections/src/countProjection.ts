@@ -1,6 +1,6 @@
 import format from 'pg-format';
 
-import { Entity, CountOption } from '@potentiel-domain/core';
+import { Entity, CountOption } from '@potentiel-domain/entity';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { getWhereClause } from './getWhereClause';

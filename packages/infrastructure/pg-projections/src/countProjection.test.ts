@@ -3,7 +3,7 @@ import { randomUUID } from 'node:crypto';
 
 import { should } from 'chai';
 
-import { Entity } from '@potentiel-domain/core';
+import { Entity } from '@potentiel-domain/entity';
 import { flatten } from '@potentiel-libraries/flat';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 

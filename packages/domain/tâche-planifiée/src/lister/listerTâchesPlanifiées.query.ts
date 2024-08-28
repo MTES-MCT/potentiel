@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, Pattern } from 'ts-pattern';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { List, RangeOptions } from '@potentiel-domain/core';
+import { List, RangeOptions } from '@potentiel-domain/entity';
 
 import { TâchePlanifiéeEntity } from '../tâchePlanifiée.entity';
 

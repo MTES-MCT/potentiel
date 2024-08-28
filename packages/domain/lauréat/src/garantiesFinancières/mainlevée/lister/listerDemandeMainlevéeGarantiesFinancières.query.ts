@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { List, RangeOptions } from '@potentiel-domain/core';
+import { List, RangeOptions } from '@potentiel-domain/entity';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import {
