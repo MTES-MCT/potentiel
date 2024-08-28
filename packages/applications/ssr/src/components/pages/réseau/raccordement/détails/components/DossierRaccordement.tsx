@@ -110,7 +110,7 @@ const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementProps> = 
         form={{
           action: supprimerDossierDuRaccordementAction,
           method: 'POST',
-          id: 'supprimer-dossier-${-abandon-form',
+          id: `supprimer-dossier-${référenceDossier}-abandon-form`,
           omitMandatoryFieldsLegend: true,
           onSuccess: () => router.refresh(),
           children: (
