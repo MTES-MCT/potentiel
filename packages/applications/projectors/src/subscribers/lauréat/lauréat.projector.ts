@@ -17,13 +17,14 @@ export const register = () => {
     if (type === 'RebuildTriggered') {
       await removeProjection<Lauréat.LauréatEntity>(`lauréat|${payload.id}`);
     } else {
-      const { identifiantProjet, dateNotification } = payload;
+      const { identifiantProjet, dateNotification, attestationSignée } = payload;
 
       switch (type) {
         case 'LauréatNotifié-V1':
           await upsertProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
             identifiantProjet,
             dateDésignation: dateNotification,
+            attestationSignée,
           });
           break;
       }

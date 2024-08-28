@@ -6,5 +6,8 @@ export type ÉliminéEntity = Entity<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     dateDésignation: DateTime.RawType;
+    attestationSignée: {
+      format: string;
+    };
   }
 >;

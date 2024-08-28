@@ -39,7 +39,7 @@ Alors(
         Object.keys(candidature).concat('appelOffre', 'période', 'famille', 'numéroCRE').sort(),
       ).to.deep.eq(
         Object.keys(expectedValues)
-          .concat('identifiantProjet', 'misÀJourLe', 'notification')
+          .concat('identifiantProjet', 'misÀJourLe')
           .map((key) => key.replace(/Value$/, ''))
           .sort(),
       );

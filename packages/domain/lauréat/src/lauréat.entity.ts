@@ -6,5 +6,8 @@ export type LauréatEntity = Entity<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     dateDésignation: DateTime.RawType;
+    attestationSignée: {
+      format: string;
+    };
   }
 >;

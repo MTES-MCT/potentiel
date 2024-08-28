@@ -3,12 +3,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LauréatEntity } from '../lauréat.entity';
 
 export type ConsulterLauréatReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dateDésignation: DateTime.ValueType;
+  attestationSignée: DocumentProjet.ValueType;
 };
 
 export type ConsulterLauréatQuery = Message<
@@ -38,7 +40,14 @@ export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDepend
 const mapToReadModel = ({
   identifiantProjet,
   dateDésignation,
+  attestationSignée: { format },
 }: LauréatEntity): ConsulterLauréatReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   dateDésignation: DateTime.convertirEnValueType(dateDésignation),
+  attestationSignée: DocumentProjet.convertirEnValueType(
+    identifiantProjet,
+    'attestation',
+    dateDésignation,
+    format,
+  ),
 });
