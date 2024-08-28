@@ -25,7 +25,11 @@ export async function supprimerDossier(
   this: RaccordementAggregate,
   { identifiantProjet, référenceDossier, rôle }: SupprimerDossierDuRaccordementOptions,
 ) {
-  if (!rôle.estÉgaleÀ(Role.porteur) && !rôle.estÉgaleÀ(Role.admin)) {
+  if (
+    !rôle.estÉgaleÀ(Role.porteur) &&
+    !rôle.estÉgaleÀ(Role.admin) &&
+    !rôle.estÉgaleÀ(Role.dgecValidateur)
+  ) {
     throw new RôleNePermetPasDeSupprimerUnDossierDuRaccordementError();
   }
 

@@ -19,9 +19,10 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Alors le dossier ayant pour référence "OUE-RP-2022-000033" ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet "Du boulodrome de Marseille"
 
         Exemples:
-            | Role autorisé  |
-            | porteur-projet |
-            | admin          |
+            | Role autorisé   |
+            | porteur-projet  |
+            | admin           |
+            | dgec-validateur |
 
     Plan du scénario: Impossible de supprimer un dossier du raccordement d'un projet pour un rôle non autorisé
         Quand l'utilisateur "<Role non autorisé>" supprime le dossier ayant pour référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille"
@@ -32,7 +33,6 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
             | dreal             |
             | acheteur-obligé   |
             | ademe             |
-            | dgec-validateur   |
             | caisse-des-dépôts |
             | cre               |
 
