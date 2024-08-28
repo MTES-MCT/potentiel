@@ -1,6 +1,14 @@
-import { FC } from 'react';
+'use client';
+
+import { FC, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+
+import { ModalWithForm } from '@/components/molecules/ModalWithForm';
+
+import { supprimerDossierDuRaccordementAction } from '../supprimerDossierDuRaccordement.action';
 
 import { Separateur } from './Separateur';
 import { ÉtapeDemandeComplèteRaccordement } from './ÉtapeDemandeComplèteRaccordement';
@@ -25,6 +33,7 @@ export type DossierRaccordementProps = {
     canEdit: boolean;
   };
   isGestionnaireInconnu?: boolean;
+  canDeleteDossier: boolean;
 };
 
 export const DossierRaccordement: FC<DossierRaccordementProps> = ({
@@ -34,35 +43,87 @@ export const DossierRaccordement: FC<DossierRaccordementProps> = ({
   propositionTechniqueEtFinancière,
   miseEnService,
   isGestionnaireInconnu,
+  canDeleteDossier,
 }) => (
-  <div className="flex flex-col md:flex-row justify-items-stretch">
-    <ÉtapeDemandeComplèteRaccordement
-      identifiantProjet={identifiantProjet}
-      référence={référence}
-      dateQualification={demandeComplèteRaccordement.dateQualification}
-      accuséRéception={demandeComplèteRaccordement.accuséRéception}
-      canEdit={demandeComplèteRaccordement.canEdit && !isGestionnaireInconnu}
-    />
+  <>
+    <div className="flex flex-col md:flex-row justify-items-stretch">
+      <ÉtapeDemandeComplèteRaccordement
+        identifiantProjet={identifiantProjet}
+        référence={référence}
+        dateQualification={demandeComplèteRaccordement.dateQualification}
+        accuséRéception={demandeComplèteRaccordement.accuséRéception}
+        canEdit={demandeComplèteRaccordement.canEdit && !isGestionnaireInconnu}
+      />
 
-    <Separateur />
+      <Separateur />
 
-    <ÉtapePropositionTechniqueEtFinancière
-      identifiantProjet={identifiantProjet}
-      référence={référence}
-      dateSignature={propositionTechniqueEtFinancière.dateSignature}
-      propositionTechniqueEtFinancièreSignée={
-        propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée
-      }
-      canEdit={propositionTechniqueEtFinancière.canEdit && !isGestionnaireInconnu}
-    />
+      <ÉtapePropositionTechniqueEtFinancière
+        identifiantProjet={identifiantProjet}
+        référence={référence}
+        dateSignature={propositionTechniqueEtFinancière.dateSignature}
+        propositionTechniqueEtFinancièreSignée={
+          propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée
+        }
+        canEdit={propositionTechniqueEtFinancière.canEdit && !isGestionnaireInconnu}
+      />
 
-    <Separateur />
+      <Separateur />
 
-    <ÉtapeMiseEnService
-      identifiantProjet={identifiantProjet}
-      référence={référence}
-      dateMiseEnService={miseEnService.dateMiseEnService}
-      canEdit={miseEnService.canEdit && !isGestionnaireInconnu}
-    />
-  </div>
+      <ÉtapeMiseEnService
+        identifiantProjet={identifiantProjet}
+        référence={référence}
+        dateMiseEnService={miseEnService.dateMiseEnService}
+        canEdit={miseEnService.canEdit && !isGestionnaireInconnu}
+      />
+    </div>
+    {canDeleteDossier && (
+      <SupprimerDossierDuRaccordement
+        identifiantProjet={identifiantProjet}
+        référenceDossier={référence}
+      />
+    )}
+  </>
 );
+
+type SupprimerDossierDuRaccordementProps = {
+  identifiantProjet: string;
+  référenceDossier: string;
+};
+const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementProps> = ({
+  identifiantProjet,
+  référenceDossier,
+}) => {
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <Button priority="primary" onClick={() => setIsOpen(true)} className="mt-4">
+        Supprimer
+      </Button>
+
+      <ModalWithForm
+        title={`Supprimer le dossier ${référenceDossier} du raccordement`}
+        acceptButtonLabel="Oui"
+        rejectButtonLabel="Non"
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        form={{
+          action: supprimerDossierDuRaccordementAction,
+          method: 'POST',
+          id: 'supprimer-dossier-${-abandon-form',
+          omitMandatoryFieldsLegend: true,
+          onSuccess: () => router.refresh(),
+          children: (
+            <>
+              <p className="mt-3">
+                Êtes-vous sûr de vouloir supprimer le dossier {référenceDossier} du raccordement ?
+              </p>
+              <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              <input type={'hidden'} value={référenceDossier} name="referenceDossier" />
+            </>
+          ),
+        }}
+      />
+    </>
+  );
+};

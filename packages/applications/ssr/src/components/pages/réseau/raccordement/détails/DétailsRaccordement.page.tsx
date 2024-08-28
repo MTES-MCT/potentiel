@@ -1,13 +1,13 @@
-import Alert from '@codegouvfr/react-dsfr/Alert';
 import Button from '@codegouvfr/react-dsfr/Button';
-import Link from 'next/link';
 import { FC } from 'react';
+import { fr } from '@codegouvfr/react-dsfr';
+import Accordion from '@codegouvfr/react-dsfr/Accordion';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import { Tile } from '@/components/organisms/Tile';
 import { PageTemplate } from '@/components/templates/Page.template';
 
 import { TitrePageRaccordement } from '../TitrePageRaccordement';
@@ -32,44 +32,52 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
         gestionnaireRéseau.identifiantGestionnaireRéseau,
       ).estÉgaleÀ(GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu)
     : false;
+
   return (
     <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
       <TitrePageRaccordement />
       <div className="my-2 md:my-4">
-        {gestionnaireRéseau && (
-          <ModifierGestionnaireRéseauDuRaccordement
-            gestionnaireRéseau={gestionnaireRéseau}
-            identifiantProjet={identifiantProjet}
-            isGestionnaireInconnu={isGestionnaireInconnu}
-          />
-        )}
-        {dossiers.length === 1 ? (
-          <DossierRaccordement {...dossiers[0]} isGestionnaireInconnu={isGestionnaireInconnu} />
-        ) : (
-          dossiers.map((dossier) => (
-            <Tile key={dossier.référence} className="mb-3">
-              <DossierRaccordement {...dossier} isGestionnaireInconnu={isGestionnaireInconnu} />
-            </Tile>
-          ))
-        )}
-      </div>
+        <div className="flex flex-col md:flex-row items-start justify-between">
+          {gestionnaireRéseau && (
+            <ModifierGestionnaireRéseauDuRaccordement
+              gestionnaireRéseau={gestionnaireRéseau}
+              identifiantProjet={identifiantProjet}
+              isGestionnaireInconnu={isGestionnaireInconnu}
+            />
+          )}
+          <Button
+            priority="secondary"
+            iconId="fr-icon-add-circle-line"
+            linkProps={{
+              href: Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet),
+            }}
+          >
+            Ajouter un dossier de raccordement
+          </Button>
+        </div>
 
-      <Alert
-        severity="info"
-        small
-        description={
-          <div className="p-3">
-            Si le raccordement comporte plusieurs points d'injection, vous pouvez{' '}
-            <Link
-              href={Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet)}
-              className="font-semibold"
+        <Alert
+          severity="info"
+          small
+          description={
+            <div className="p-3">
+              Si le raccordement comporte plusieurs points d'injection, vous devez ajouter un
+              nouveau dossier de raccordement.
+            </div>
+          }
+        />
+
+        <div className={`my-8 flex flex-col gap-8 md:gap-3 ${fr.cx('fr-accordions-group')}`}>
+          {dossiers.map((dossier) => (
+            <Accordion
+              label={`Dossier avec la référence ${dossier.référence}`}
+              key={dossier.référence}
             >
-              transmettre une autre demande complète de raccordement
-            </Link>
-            .
-          </div>
-        }
-      />
+              <DossierRaccordement {...dossier} isGestionnaireInconnu={isGestionnaireInconnu} />
+            </Accordion>
+          ))}
+        </div>
+      </div>
 
       <Button
         priority="secondary"

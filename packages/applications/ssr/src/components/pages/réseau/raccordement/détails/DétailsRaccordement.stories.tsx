@@ -50,6 +50,7 @@ export const Complet: Story = {
           canEdit: true,
           dateMiseEnService: new Date('2023-12-25').toISOString() as Iso8601DateTime,
         },
+        canDeleteDossier: false,
       },
     ],
   },
@@ -75,6 +76,7 @@ export const Incomplet: Story = {
         miseEnService: {
           canEdit: false,
         },
+        canDeleteDossier: true,
       },
     ],
   },
