@@ -12,6 +12,7 @@
     "./packages/domain/document",
     "./packages/domain/candidature",
     "./packages/domain/appel-offre",
+    "./packages/domain/période",
     "./packages/domain/inmemory-referential/",
     "./packages/domain/tâche-planifiée",
     "./packages/domain/*",
