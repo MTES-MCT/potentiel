@@ -42,6 +42,7 @@ import {
 } from './consulter/consulterNombreRaccordement';
 import { registerSupprimerDossierDuRaccordementUseCase } from './dossier/supprimer/supprimerDossierDuRaccordement.usecase';
 import { registerSupprimerDossierDuRaccordementCommand } from './dossier/supprimer/supprimerDossierDuRaccordement.command';
+import { registerSupprimerRaccordementCommand } from './supprimer/supprimerRaccordement.command';
 
 export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
   ConsulterGestionnaireRéseauRaccordementDependencies &
@@ -75,6 +76,7 @@ export const registerRaccordementUseCases = ({
   registerTransmettrePropositionTechniqueEtFinancièreCommand(loadAggregate);
   registerAttribuerGestionnaireCommand(loadAggregate);
   registerSupprimerDossierDuRaccordementCommand(loadAggregate);
+  registerSupprimerRaccordementCommand(loadAggregate);
 
   registerModifierDemandeComplèteRaccordementUseCase();
   registerModifierGestionnaireRéseauRaccordementUseCase();

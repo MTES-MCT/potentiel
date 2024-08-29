@@ -262,7 +262,7 @@ Alors(
 );
 
 Alors(
-  `le dossier de raccordement {string} ne devrait plus être consultable dans le raccordement du projet lauréat {string}`,
+  `le dossier ayant comme référence {string} ne devrait plus être consultable dans le raccordement du projet lauréat {string}`,
   async function (this: PotentielWorld, référenceDossier: string, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     await waitForExpect(async () => {

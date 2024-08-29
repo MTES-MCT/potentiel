@@ -4,8 +4,12 @@ import {
   GestionnaireRéseauProjector,
   RaccordementProjector,
 } from '@potentiel-applications/projectors';
-import { registerRéseauQueries, registerRéseauUseCases } from '@potentiel-domain/reseau';
-import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import {
+  Raccordement,
+  registerRéseauQueries,
+  registerRéseauUseCases,
+} from '@potentiel-domain/reseau';
+import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   countProjection,
   findProjection,
@@ -23,8 +27,12 @@ export const setupRéseau = async () => {
     count: countProjection,
   });
 
+  // Projectors
   GestionnaireRéseauProjector.register();
   RaccordementProjector.register();
+
+  // Sagas
+  Raccordement.RaccordementSaga.register();
 
   const unsubscribeGestionnaireRéseauProjector =
     await subscribe<GestionnaireRéseauProjector.SubscriptionEvent>({
@@ -67,6 +75,7 @@ export const setupRéseau = async () => {
         'RéférenceDossierRacordementModifiée-V1',
         'GestionnaireRéseauAttribué-V1',
         'DossierDuRaccordementSupprimé-V1',
+        'RaccordementSupprimé-V1',
       ],
       eventHandler: async (event) => {
         await mediator.send<RaccordementProjector.Execute>({
@@ -78,8 +87,23 @@ export const setupRéseau = async () => {
     },
   );
 
+  const unsubscribeRaccordementSaga = await subscribe<
+    Raccordement.RaccordementSaga.SubscriptionEvent & Event
+  >({
+    name: 'raccordement-saga',
+    streamCategory: 'abandon',
+    eventType: ['AbandonAccordé-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<Raccordement.RaccordementSaga.Execute>({
+        type: 'System.Réseau.Raccordement.Saga.Execute',
+        data: event,
+      });
+    },
+  });
+
   return async () => {
     await unsubscribeGestionnaireRéseauProjector();
     await unsubscribeRaccordementProjector();
+    await unsubscribeRaccordementSaga();
   };
 };

@@ -1,7 +1,6 @@
 # language: fr
 Fonctionnalité: Supprimer le raccordement d'un projet
 
-    @select
     Scénario: Le système supprime le raccordement d'un projet si celui-ci a un abandon accordé
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Barbara Gordon" ayant accés au projet lauréat "Du boulodrome de Marseille"
@@ -21,4 +20,4 @@ Fonctionnalité: Supprimer le raccordement d'un projet
             | Le contenu de proposition technique et financière   | contenu         |
         Et une date de mise en service "2024-01-01" pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille"
         Et un abandon accordé pour le projet lauréat
-        Alors le dossier de raccordement "OUE-RP-2022-000033" ne devrait plus être consultable dans le raccordement du projet lauréat "Du boulodrome de Marseille"
+        Alors le dossier ayant comme référence "OUE-RP-2022-000033" ne devrait plus être consultable dans le raccordement du projet lauréat "Du boulodrome de Marseille"

@@ -123,3 +123,6 @@ export * as TypeDocumentRaccordement from './typeDocumentRaccordement.valueType'
 
 // Entities
 export * from './raccordement.entity';
+
+// Saga
+export * as RaccordementSaga from './raccordement.saga';
