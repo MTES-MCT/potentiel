@@ -39,14 +39,10 @@ export const register = () => {
       },
     });
     if (Option.isNone(appelOffre)) {
-      console.log(`Appel offre ${identifiantProjet.appelOffre} non trouvée`);
       throw new Error(`Appel offre ${identifiantProjet.appelOffre} non trouvée`);
     }
     const période = appelOffre.periodes.find((x) => x.id === identifiantProjet.période);
     if (!période) {
-      console.log(
-        `Période ${identifiantProjet.période} non trouvée pour l'AO ${identifiantProjet.appelOffre}`,
-      );
       throw new Error(
         `Période ${identifiantProjet.période} non trouvée pour l'AO ${identifiantProjet.appelOffre}`,
       );

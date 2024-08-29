@@ -5,6 +5,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/laureat';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { EmailPayload, SendEmail } from '../../sendEmail';
 
@@ -31,13 +32,17 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
         },
       });
       if (Option.isNone(appelOffre)) {
-        // TODO error
-        throw new Error('AO non trouvé');
+        getLogger().error(
+          new Error(`Pas d'appel d'offre trouvé pour ${identifiantProjet.formatter()}`),
+        );
+        return;
       }
       const période = appelOffre.periodes.find((x) => x.id === identifiantProjet.période);
 
       if (Option.isNone(appelOffre)) {
-        // TODO error
+        getLogger().error(
+          new Error(`Pas de période trouvée pour ${identifiantProjet.formatter()}`),
+        );
         throw new Error('Période non trouvée');
       }
       return {
