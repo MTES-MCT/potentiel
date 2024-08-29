@@ -1,8 +1,27 @@
 import { When as Quand } from '@cucumber/cucumber';
+import { mediator } from 'mediateur';
+
+import { Période } from '@potentiel-domain/periode';
 
 import { PotentielWorld } from '../../potentiel.world';
 
 Quand(
   `un DGEC validateur notifie la période d'un appel d'offres`,
-  async function (this: PotentielWorld) {},
+  async function (this: PotentielWorld) {
+    try {
+      const identifiantPériode = this.périodeWorld.identifiantPériode.formatter();
+
+      const { lauréats, éliminés } = this.périodeWorld.notifierPériodeFixture.créer();
+
+      await mediator.send<Période.NotifierPériodeUseCase>({
+        type: 'Période.UseCase.NotifierPériode',
+        data: {
+          identifiantPériodeValue: identifiantPériode,
+          candidats: [...lauréats, ...éliminés],
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
 );

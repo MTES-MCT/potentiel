@@ -6,7 +6,7 @@ import * as IdentifiantPériode from './identifiantPériode.valueType';
 export type PériodeEntity = Entity<
   'période',
   {
-    identifiantPériode: IdentifiantPériode.ValueType;
+    identifiantPériode: IdentifiantPériode.RawType;
   } & (PériodeNotifiée | PériodeNonNotifiée)
 >;
 
@@ -17,9 +17,9 @@ type PériodeNonNotifiée = {
 type PériodeNotifiée = {
   estNotifiée: true;
 
-  notifiéeLe: DateTime.ValueType;
-  notifiéePar: Email.ValueType;
+  notifiéeLe: DateTime.RawType;
+  notifiéePar: Email.RawType;
 
-  lauréats: ReadonlyArray<IdentifiantProjet.ValueType>;
-  éliminés: ReadonlyArray<IdentifiantProjet.ValueType>;
+  lauréats: ReadonlyArray<IdentifiantProjet.RawType>;
+  éliminés: ReadonlyArray<IdentifiantProjet.RawType>;
 };
