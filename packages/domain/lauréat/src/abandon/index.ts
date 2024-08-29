@@ -13,17 +13,14 @@ import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 import { DemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.usecase';
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
 import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonsAvecRecandidatureÀRelancer.query';
-import { DétecterAbandonQuery } from './détecter/détecterAbandon.query';
 
 // Query
 export type AbandonQuery =
-  | DétecterAbandonQuery
   | ConsulterAbandonQuery
   | ListerAbandonsQuery
   | ListerAbandonsAvecRecandidatureÀRelancerQuery;
 
 export type {
-  DétecterAbandonQuery,
   ConsulterAbandonQuery,
   ListerAbandonsQuery,
   ListerAbandonsAvecRecandidatureÀRelancerQuery,

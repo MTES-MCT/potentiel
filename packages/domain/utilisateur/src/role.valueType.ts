@@ -103,7 +103,6 @@ const référencielPermissions = {
       query: {
         consulter: 'Lauréat.Abandon.Query.ConsulterAbandon',
         lister: 'Lauréat.Abandon.Query.ListerAbandons',
-        détecter: 'Lauréat.Abandon.Query.DétecterAbandon',
       },
       usecase: {
         annuler: 'Lauréat.Abandon.UseCase.AnnulerAbandon',
@@ -441,8 +440,6 @@ const policies = {
         référencielPermissions.candidature.query.consulter,
         référencielPermissions.lauréat.abandon.query.consulter,
         référencielPermissions.document.query.consulter,
-        // permission for legacy detection (project page)
-        référencielPermissions.lauréat.abandon.query.détecter,
       ],
     },
     demander: [
