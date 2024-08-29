@@ -1,6 +1,6 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import { assert, expect } from 'chai';
+import { expect } from 'chai';
 import waitForExpect from 'wait-for-expect';
 
 import { Candidature } from '@potentiel-domain/candidature';
@@ -199,23 +199,6 @@ Alors(
 
       const actualContent = await convertReadableStreamToString(result.content);
       expect(actualContent).to.equal(JSON.stringify(expectedValues.détailsValue));
-    });
-  },
-);
-
-// TODO
-Alors(
-  'la candidature {string} devrait être notifiée',
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
-
-    await waitForExpect(async () => {
-      const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-        type: 'Candidature.Query.ConsulterCandidature',
-        data: { identifiantProjet: identifiantProjet.formatter() },
-      });
-
-      assert(Option.isSome(candidature), 'la candidature devrait exister');
     });
   },
 );

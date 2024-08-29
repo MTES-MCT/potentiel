@@ -9,7 +9,6 @@ Fonctionnalité: Notifier un projet éliminé
             | email contact | porteur@test.test |
         Quand le DGEC validateur notifie comme éliminée la candidature "Du boulodrome de Marseille" avec :
             | date notification | 2024-08-20 |
-        # TODO Alors la candidature "Du boulodrome de Marseille" devrait être notifiée
         Alors le projet éliminé "Du boulodrome de Marseille" devrait être consultable
         Et un email a été envoyé à "porteur@test.test" avec :
             | sujet           | Résultats de la première période de l'appel d'offres PPE2 - Eolien |

@@ -9,7 +9,6 @@ Fonctionnalité: Notifier un projet lauréat
             | email contact | porteur@test.test |
         Quand le DGEC validateur notifie comme lauréate la candidature "Du boulodrome de Marseille" avec :
             | date notification | 2024-08-20 |
-        # TODO Alors la candidature "Du boulodrome de Marseille" devrait être notifiée
         Alors le projet lauréat "Du boulodrome de Marseille" devrait être consultable
         Et un email a été envoyé à "porteur@test.test" avec :
             | sujet           | Résultats de la première période de l'appel d'offres PPE2 - Eolien |
