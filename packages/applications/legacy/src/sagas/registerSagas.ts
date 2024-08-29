@@ -2,6 +2,8 @@ import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import * as RaccordementSaga from './raccordement.saga';
 import * as AbandonSaga from './abandon.saga';
 import * as CandidatureSaga from './candidature.saga';
+import * as LauréatSaga from './lauréat.saga';
+import * as ÉliminéSaga from './éliminé.saga';
 import { mediator } from 'mediateur';
 
 /**
@@ -11,6 +13,8 @@ export const registerSagas = async () => {
   RaccordementSaga.register();
   AbandonSaga.register();
   CandidatureSaga.register();
+  LauréatSaga.register();
+  ÉliminéSaga.register();
 
   const unsubscribeRaccordement = await subscribe<RaccordementSaga.SubscriptionEvent>({
     name: 'legacy-saga',
@@ -48,9 +52,35 @@ export const registerSagas = async () => {
     streamCategory: 'candidature',
   });
 
+  const unsubscribeLauréat = await subscribe<LauréatSaga.SubscriptionEvent>({
+    name: 'legacy-saga',
+    eventType: ['LauréatNotifié-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<LauréatSaga.Execute>({
+        type: 'System.Saga.Lauréat',
+        data: event,
+      });
+    },
+    streamCategory: 'lauréat',
+  });
+
+  const unsubscribeÉliminé = await subscribe<ÉliminéSaga.SubscriptionEvent>({
+    name: 'legacy-saga',
+    eventType: ['ÉliminéNotifié-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<ÉliminéSaga.Execute>({
+        type: 'System.Saga.Éliminé',
+        data: event,
+      });
+    },
+    streamCategory: 'éliminé',
+  });
+
   return async () => {
     await unsubscribeRaccordement();
     await unsubscribeAbandon();
     await unsubscribeCandidature();
+    await unsubscribeLauréat();
+    await unsubscribeÉliminé();
   };
 };

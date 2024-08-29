@@ -3,10 +3,10 @@ import { UniqueEntityID } from '../../../../core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
 import { Project } from '../../projectionsNext';
-import { getLegacyIdByIdentifiantProjet } from './getLegacyIdByIdentifiantProjet';
+import { getLegacyProjetByIdentifiantProjet } from './getLegacyProjetByIdentifiantProjet';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-describe('Query getLegacyIdByIdentifiantProjet', () => {
+describe('Query getLegacyProjetByIdentifiantProjet', () => {
   beforeEach(async () => {
     await resetDatabase();
   });
@@ -38,9 +38,9 @@ describe('Query getLegacyIdByIdentifiantProjet', () => {
         numeroCRE: identifiantNaturel.numéroCRE,
       });
 
-      const résultat = await getLegacyIdByIdentifiantProjet(identifiantNaturel);
+      const résultat = await getLegacyProjetByIdentifiantProjet(identifiantNaturel);
 
-      expect(résultat).toEqual(projetLegacyId);
+      expect(résultat).toMatchObject({ id: projetLegacyId });
     });
   });
 
@@ -50,7 +50,7 @@ describe('Query getLegacyIdByIdentifiantProjet', () => {
       Lorsqu'on recherche l'identifiant technique d'un projet à partir de son identifiant naturel
       Alors aucun identifiant technique ne doit être retourné
       `, async () => {
-      const résultat = await getLegacyIdByIdentifiantProjet(identifiantNaturel);
+      const résultat = await getLegacyProjetByIdentifiantProjet(identifiantNaturel);
 
       expect(résultat).toBeNull();
     });
