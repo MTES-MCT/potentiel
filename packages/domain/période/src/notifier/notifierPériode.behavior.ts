@@ -8,7 +8,7 @@ export type PériodeNotifiéeEvent = DomainEvent<
   'PériodeNotifiée-V1',
   {
     identifiantPériode: IdentifiantPériode.RawType;
-    lauréats: ReadonlyArray<string>;
+    lauréats: ReadonlyArray<IdentifiantProjet.RawType>;
     éliminés: ReadonlyArray<IdentifiantProjet.RawType>;
   }
 >;

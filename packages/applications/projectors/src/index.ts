@@ -10,3 +10,4 @@ export * as AchèvementProjector from './subscribers/lauréat/achèvement.projec
 export * as CandidatureProjector from './subscribers/candidature/candidature.projector';
 export * as LauréatProjector from './subscribers/lauréat/lauréat.projector';
 export * as ÉliminéProjector from './subscribers/éliminé/éliminé.projector';
+export * as PériodeProjector from './subscribers/période/période.projector';
