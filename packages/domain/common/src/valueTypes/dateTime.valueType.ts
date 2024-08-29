@@ -70,7 +70,7 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
       return convertirEnValueType(nouvelleDate);
     },
     retirerNombreDeMois(nombreDeMois) {
-      return this.ajouterNombreDeMois(-this.ajouterNombreDeMois(nombreDeMois));
+      return this.ajouterNombreDeMois(-nombreDeMois);
     },
   };
 };
