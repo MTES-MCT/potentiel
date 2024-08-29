@@ -17,12 +17,7 @@ export const register = () => {
     if (type === 'RebuildTriggered') {
       await removeProjection<Éliminé.ÉliminéEntity>(`éliminé|${payload.id}`);
     } else {
-      const {
-        identifiantProjet,
-        attestation: { format },
-        notifiéLe,
-        notifiéPar,
-      } = payload;
+      const { identifiantProjet, notifiéLe, notifiéPar, attestation } = payload;
 
       switch (type) {
         case 'ÉliminéNotifié-V1':
@@ -30,7 +25,7 @@ export const register = () => {
             identifiantProjet,
             notifiéLe,
             notifiéPar,
-            attestation: { format },
+            attestation,
           });
           break;
       }

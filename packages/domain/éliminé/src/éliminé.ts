@@ -15,5 +15,3 @@ export { ÉliminéEntity } from './éliminé.entity';
 
 export type ÉliminéQuery = ConsulterÉliminéQuery;
 export { ConsulterÉliminéQuery, ConsulterÉliminéReadModel };
-
-export * as ÉliminéSaga from './éliminé.saga';

@@ -1,11 +1,7 @@
 import { mediator } from 'mediateur';
 
-import {
-  registerEliminéQueries,
-  registerEliminéUseCases,
-  Éliminé,
-} from '@potentiel-domain/elimine';
-import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { registerEliminéQueries, registerEliminéUseCases } from '@potentiel-domain/elimine';
+import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { listerIdentifiantsProjetsParPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { RecoursProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
@@ -28,7 +24,6 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependenices) =
 
   ÉliminéProjector.register();
   ÉliminéNotification.register({ sendEmail });
-  Éliminé.ÉliminéSaga.register();
 
   RecoursProjector.register();
 
@@ -73,22 +68,10 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependenices) =
       });
     },
   });
-  const unsubscribeÉliminéSaga = await subscribe<Éliminé.ÉliminéSaga.SubscriptionEvent & Event>({
-    name: 'elimine-saga',
-    streamCategory: 'éliminé',
-    eventType: ['ÉliminéNotifié-V1'],
-    eventHandler: async (event) => {
-      await mediator.publish<Éliminé.ÉliminéSaga.Execute>({
-        type: 'System.Éliminé.Saga.Execute',
-        data: event,
-      });
-    },
-  });
 
   return async () => {
     await unsubscribeRecoursProjector();
     await unsubscribeÉliminéProjector();
     await unsubscribeÉliminéNotification();
-    await unsubscribeÉliminéSaga();
   };
 };

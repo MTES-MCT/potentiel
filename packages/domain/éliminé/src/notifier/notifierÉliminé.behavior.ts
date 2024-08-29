@@ -44,5 +44,5 @@ export async function notifier(
 }
 
 export function applyÉliminéNotifié(this: ÉliminéAggregate, _event: ÉliminéNotifié) {
-  this.notifié = true;
+  this.estNotifié = true;
 }

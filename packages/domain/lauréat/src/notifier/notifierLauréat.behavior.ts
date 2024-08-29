@@ -45,5 +45,5 @@ export async function notifier(
 }
 
 export function applyLauréatNotifié(this: LauréatAggregate, _event: LauréatNotifié) {
-  this.notifié = true;
+  this.estNotifié = true;
 }

@@ -12,7 +12,7 @@ export type ÉliminéEvent = ÉliminéNotifié;
 
 export type ÉliminéAggregate = Aggregate<ÉliminéEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
-  notifié?: true;
+  estNotifié?: true;
   notifier: typeof notifier;
 };
 
