@@ -14,6 +14,7 @@ import { setupRéseau } from './setupRéseau';
 import { logMiddleware } from './middlewares/log.middleware';
 import { setupEliminé } from './setupEliminé';
 import { setupTâchePlanifiée } from './setupTâchePlanifiée';
+import { setupPériode } from './setupPériode';
 
 let unsubscribe: (() => Promise<void>) | undefined;
 let mutex: Promise<void> | undefined;
@@ -41,6 +42,7 @@ export const bootstrap = async ({
     }
 
     await setupAppelOffre();
+    await setupPériode();
     const unsetupCandidature = await setupCandidature();
     setupDocumentProjet();
     const unsetupTâche = await setupTâche();

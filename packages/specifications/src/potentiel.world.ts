@@ -95,6 +95,7 @@ export class PotentielWorld extends World {
   constructor(options: IWorldOptions) {
     super(options);
 
+    this.#périodeWorld = new PériodeWorld();
     this.#candidatureWorld = new CandidatureWorld();
     this.#gestionnaireRéseauWorld = new GestionnaireRéseauWorld();
     this.#lauréatWorld = new LauréatWorld();

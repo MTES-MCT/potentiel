@@ -20,7 +20,7 @@ export type { NotifierPériodeUseCase };
 export type { PériodeNotifiéeEvent };
 
 // Register
-export { registerPériodeQueries } from './register';
+export { registerPériodeQueries, registerPériodeUseCases } from './register';
 
 // Entity
 export * from './période.entity';
