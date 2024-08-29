@@ -3,8 +3,6 @@ import { mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/laureat';
-import { Éliminé } from '@potentiel-domain/elimine';
 
 import { PotentielWorld } from '../../potentiel.world';
 
@@ -54,54 +52,6 @@ Quand(
       });
     } catch (error) {
       this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  'le DGEC validateur notifie la période de la candidature {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
-    const exemple = table.rowsHash();
-    const { identifiantProjet, values } =
-      this.candidatureWorld.rechercherCandidatureFixture(nomProjet);
-    const dateNotification = new Date(exemple['date notification']).toISOString();
-    // TODO à challenger
-    if (values.statutValue === 'éliminé') {
-      await mediator.send<Éliminé.NotifierÉliminéUseCase>({
-        type: 'Éliminé.UseCase.NotifierÉliminé',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          notifiéLeValue: dateNotification,
-          notifiéParValue: 'dgec-validateur@test.test', // TODO use fixture
-          attestationValue: {
-            format: `text/plain`,
-          },
-        },
-      });
-      this.eliminéWorld.eliminéFixtures.set(nomProjet, {
-        dateDésignation: dateNotification,
-        identifiantProjet,
-        nom: nomProjet,
-      });
-    } else {
-      await mediator.send<Lauréat.NotifierLauréatUseCase>({
-        type: 'Lauréat.UseCase.NotifierLauréat',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          notifiéLeValue: dateNotification,
-          notifiéParValue: 'dgec-validateur@test.test', // TODO use fixture
-          attestationValue: {
-            format: `text/plain`,
-          },
-        },
-      });
-      this.lauréatWorld.lauréatFixtures.set(nomProjet, {
-        appelOffre: values.appelOffreValue,
-        dateDésignation: dateNotification,
-        identifiantProjet,
-        nom: nomProjet,
-        période: values.périodeValue,
-      });
     }
   },
 );
