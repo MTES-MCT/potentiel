@@ -30,10 +30,18 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
       const candidature = await loadCandidature(candidat);
 
       if (candidature.statut?.estClassé()) {
+        try {
+          // Call NotifierLauréat
+        } catch (error) {}
+
         lauréats.push(candidat);
       }
 
       if (candidature.statut?.estÉliminé()) {
+        try {
+          // Call NotifierÉliminé
+        } catch (error) {}
+
         éliminés.push(candidat);
       }
     }
