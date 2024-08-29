@@ -76,4 +76,4 @@ export * as Technologie from './technologie.valueType';
 export * as HistoriqueAbandon from './historiqueAbandon.valueType';
 
 // Aggregate
-export { CandidatureAggregate } from './candidature.aggregate';
+export * as Aggregate from './candidature.aggregate';
