@@ -12,6 +12,7 @@ export type ValueType = ReadonlyValueType<{
   estUltérieureÀ(dateTime: ValueType): boolean;
   nombreJoursÉcartAvec(dateTime: ValueType): number;
   ajouterNombreDeJours(nombreDeJours: number): ValueType;
+  retirerNombreDeJours(nombreDeMois: number): ValueType;
   ajouterNombreDeMois(nombreDeMois: number): ValueType;
   retirerNombreDeMois(nombreDeMois: number): ValueType;
   formatter(): RawType;
@@ -61,13 +62,15 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
       const nouvelleDate = new Date(this.date.setDate(this.date.getDate() + nombreDeJours));
       return convertirEnValueType(nouvelleDate);
     },
+    retirerNombreDeJours(nombreDeJours) {
+      return this.ajouterNombreDeJours(-nombreDeJours);
+    },
     ajouterNombreDeMois(nombreDeMois) {
       const nouvelleDate = new Date(this.date.setMonth(this.date.getMonth() + nombreDeMois));
       return convertirEnValueType(nouvelleDate);
     },
     retirerNombreDeMois(nombreDeMois) {
-      const nouvelleDate = new Date(this.date.setMonth(this.date.getMonth() - nombreDeMois));
-      return convertirEnValueType(nouvelleDate);
+      return this.ajouterNombreDeMois(-nombreDeMois);
     },
   };
 };

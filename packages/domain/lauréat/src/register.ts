@@ -14,12 +14,15 @@ import {
   CahierDesChargesChoisiQueryDependencies,
   registerCahierDesChargesChoisiQueries,
 } from './cahierDesChargesChoisi/cahierDesChargesChoisi.register';
+import { registerConsulterLauréatQuery } from './consulter/consulterLauréat.query';
 import {
   GarantiesFinancièresCommandDependencies,
   GarantiesFinancièresQueryDependencies,
   registerGarantiesFinancièresQueries,
   registerGarantiesFinancièresUseCases,
 } from './garantiesFinancières/garantiesFinancières.register';
+import { registerNotifierLauréatCommand } from './notifier/notifierLauréat.command';
+import { registerNotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
 
 export type LauréatQueryDependencies = AbandonQueryDependencies &
   CahierDesChargesChoisiQueryDependencies &
@@ -33,6 +36,9 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerAbandonUseCases(dependencies);
   registerGarantiesFinancièresUseCases(dependencies);
   registerAchèvementUseCases(dependencies);
+
+  registerNotifierLauréatCommand(dependencies.loadAggregate);
+  registerNotifierLauréatUseCase();
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
@@ -40,4 +46,5 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerCahierDesChargesChoisiQueries(dependencies);
   registerGarantiesFinancièresQueries(dependencies);
   registerAchèvementQueries(dependencies);
+  registerConsulterLauréatQuery(dependencies);
 };

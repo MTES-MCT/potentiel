@@ -3,7 +3,7 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Abandon } from '@potentiel-domain/laureat';
 import { publishToEventBus } from '../config/eventBus.config';
 import { ProjectAbandoned } from '../modules/project';
-import { getLegacyIdByIdentifiantProjet } from '../infra/sequelize/queries/project/getLegacyIdByIdentifiantProjet';
+import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { logger } from '../core/utils';
 
@@ -27,18 +27,18 @@ export const register = () => {
         const identifiantProjet = IdentifiantProjet.convertirEnValueType(
           event.payload.identifiantProjet,
         );
-        const projectId = await getLegacyIdByIdentifiantProjet(identifiantProjet);
+        const project = await getLegacyProjetByIdentifiantProjet(identifiantProjet);
         const {
           payload: { accordéPar },
         } = event;
 
-        if (projectId) {
+        if (project) {
           return new Promise<void>((resolve) => {
             publishToEventBus(
               new ProjectAbandoned({
                 payload: {
                   abandonAcceptedBy: accordéPar,
-                  projectId,
+                  projectId: project.id,
                 },
               }),
             ).map(() => {

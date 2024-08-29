@@ -7,10 +7,9 @@ import {
   registerTâchePlanifiéeUseCases,
   registerTâchePlanifiéeQuery,
 } from '@potentiel-domain/tache-planifiee';
-import { sendEmail } from '@potentiel-infrastructure/email';
-import { TâchePlanifiéeNotification } from '@potentiel-applications/notifications';
+import { SendEmail, TâchePlanifiéeNotification } from '@potentiel-applications/notifications';
 
-export const setupTâchePlanifiée = async () => {
+export const setupTâchePlanifiée = async ({ sendEmail }: { sendEmail: SendEmail }) => {
   registerTâchePlanifiéeUseCases({
     loadAggregate,
   });

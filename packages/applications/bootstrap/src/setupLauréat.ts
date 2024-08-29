@@ -11,11 +11,13 @@ import {
   AbandonNotification,
   AchèvementNotification,
   GarantiesFinancièresNotification,
+  LauréatNotification,
 } from '@potentiel-applications/notifications';
 import {
   AbandonProjector,
   AchèvementProjector,
   GarantiesFinancièreProjector,
+  LauréatProjector,
 } from '@potentiel-applications/projectors';
 import {
   consulterCahierDesChargesChoisiAdapter,
@@ -38,6 +40,8 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
   });
 
+  LauréatProjector.register();
+  LauréatNotification.register({ sendEmail });
   AbandonProjector.register();
   AbandonNotification.register({ sendEmail });
   GarantiesFinancièreProjector.register();
@@ -45,6 +49,30 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
   GarantiesFinancières.GarantiesFinancièresSaga.register();
   AchèvementProjector.register();
   AchèvementNotification.register({ sendEmail });
+
+  const unsubscribeLauréatNotification = await subscribe<LauréatNotification.SubscriptionEvent>({
+    name: 'notifications',
+    streamCategory: 'lauréat',
+    eventType: ['LauréatNotifié-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<LauréatNotification.Execute>({
+        type: 'System.Notification.Lauréat',
+        data: event,
+      });
+    },
+  });
+
+  const unsubscribeLauréatProjector = await subscribe<LauréatProjector.SubscriptionEvent>({
+    name: 'projector',
+    eventType: ['LauréatNotifié-V1', 'RebuildTriggered'],
+    eventHandler: async (event) => {
+      await mediator.send<LauréatProjector.Execute>({
+        type: 'System.Projector.Lauréat',
+        data: event,
+      });
+    },
+    streamCategory: 'lauréat',
+  });
 
   const unsubscribeAbandonNotification = await subscribe<AbandonNotification.SubscriptionEvent>({
     name: 'notifications',
@@ -190,6 +218,8 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
   });
 
   return async () => {
+    await unsubscribeLauréatNotification();
+    await unsubscribeLauréatProjector();
     await unsubscribeAbandonNotification();
     await unsubscribeAbandonProjector();
     await unsubscribeGarantiesFinancièresProjector();

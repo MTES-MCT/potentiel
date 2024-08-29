@@ -1,7 +1,7 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Project } from '../../projectionsNext';
 
-export const getLegacyIdByIdentifiantProjet = async ({
+export const getLegacyProjetByIdentifiantProjet = async ({
   appelOffre,
   période,
   famille,
@@ -15,11 +15,11 @@ export const getLegacyIdByIdentifiantProjet = async ({
         familleId: famille ? famille : '',
         numeroCRE: numéroCRE,
       },
-      attributes: ['id'],
       raw: true,
     });
 
-    return projet?.id || null;
+    if (!projet) return null;
+    return projet;
   } catch (error) {
     throw new Error(error);
   }

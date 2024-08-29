@@ -210,6 +210,12 @@ const référencielPermissions = {
         modifier: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
       },
     },
+    usecase: { notifier: 'Lauréat.UseCase.NotifierLauréat' },
+    command: { notifier: 'Lauréat.Command.NotifierLauréat' },
+  },
+  éliminé: {
+    usecase: { notifier: 'Éliminé.UseCase.NotifierÉliminé' },
+    command: { notifier: 'Éliminé.Command.NotifierÉliminé' },
   },
   appelOffre: {
     cahierDesCharges: {
@@ -696,6 +702,12 @@ const policies = {
       référencielPermissions.candidature.query.listerCandidatures,
       référencielPermissions.appelOffre.query.lister,
     ],
+    notifier: [
+      référencielPermissions.lauréat.usecase.notifier,
+      référencielPermissions.lauréat.command.notifier,
+      référencielPermissions.éliminé.usecase.notifier,
+      référencielPermissions.éliminé.command.notifier,
+    ],
   },
 } as const;
 
@@ -768,6 +780,7 @@ const permissionAdmin: Policy[] = [
   'candidature.importer',
   'candidature.corriger',
   'candidature.lister',
+  'candidature.notifier',
 ];
 
 const permissionDgecValidateur: Policy[] = [

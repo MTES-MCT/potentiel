@@ -4,7 +4,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 type CandidatureFixture = {
   nom: string;
   identifiantProjet: IdentifiantProjet.ValueType;
-  values: Omit<Candidature.CandidatureUseCase['data'], 'importéLe' | 'importéPar'>;
+  values: Omit<Candidature.ImporterCandidatureUseCase['data'], 'importéLe' | 'importéPar'>;
 };
 
 export class CandidatureWorld {
