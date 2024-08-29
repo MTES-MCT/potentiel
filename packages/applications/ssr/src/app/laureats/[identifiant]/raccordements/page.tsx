@@ -130,6 +130,10 @@ const mapToPropsDossiers = ({
     const canEditMiseEnService =
       rôleUtilisateur.estÉgaleÀ(Role.admin) || rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur);
 
+    const canDeleteDossier =
+      rôleUtilisateur.aLaPermission('réseau.raccordement.dossier.supprimer') &&
+      !dossier.miseEnService;
+
     return {
       identifiantProjet,
       référence: dossier.référence.formatter(),
@@ -148,5 +152,6 @@ const mapToPropsDossiers = ({
         canEdit: canEditMiseEnService,
         dateMiseEnService: dossier.miseEnService?.dateMiseEnService?.formatter(),
       },
+      canDeleteDossier,
     };
   });

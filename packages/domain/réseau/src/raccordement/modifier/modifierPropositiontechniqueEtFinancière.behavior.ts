@@ -4,7 +4,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
-import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
+import { DossierNonRéférencéPourLeRaccordementDuProjetError } from '../dossierNonRéférencéPourLeRaccordementDuProjet.error';
 
 /**
  * @deprecated Utilisez PropositionTechniqueEtFinancièreModifiéeEvent à la place. Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
@@ -51,7 +51,7 @@ export async function modifierPropositionTechniqueEtFinancière(
   }
 
   if (!this.contientLeDossier(référenceDossierRaccordement)) {
-    throw new DossierRaccordementNonRéférencéError();
+    throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
   }
 
   const event: PropositionTechniqueEtFinancièreModifiéeEvent = {

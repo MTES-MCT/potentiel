@@ -284,6 +284,8 @@ const référencielPermissions = {
           'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
         transmettrePropositionTechniqueEtFinancière:
           'Réseau.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
+        supprimerDossierDuRaccordement:
+          'Réseau.Raccordement.UseCase.SupprimerDossierDuRaccordement',
       },
       command: {
         modifierDemandeComplète: 'Réseau.Raccordement.Command.ModifierDemandeComplèteRaccordement',
@@ -298,6 +300,8 @@ const référencielPermissions = {
           'Réseau.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
         transmettrePropositionTechniqueEtFinancière:
           'Réseau.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière',
+        supprimerDossierDuRaccordement:
+          'Réseau.Raccordement.Command.SupprimerDossierDuRaccordement',
       },
     },
   },
@@ -392,6 +396,12 @@ const policies = {
           référencielPermissions.réseau.raccordement.query.consulterDossier,
           référencielPermissions.réseau.raccordement.usecase.modifierRéférenceDossier,
           référencielPermissions.réseau.raccordement.command.modifierRéférenceDossier,
+        ],
+      },
+      dossier: {
+        supprimer: [
+          référencielPermissions.réseau.raccordement.usecase.supprimerDossierDuRaccordement,
+          référencielPermissions.réseau.raccordement.command.supprimerDossierDuRaccordement,
         ],
       },
       gestionnaire: {
@@ -727,6 +737,7 @@ const permissionAdmin: Policy[] = [
   'réseau.raccordement.date-mise-en-service.transmettre',
   'réseau.raccordement.date-mise-en-service.importer',
   'réseau.raccordement.référence-dossier.modifier',
+  'réseau.raccordement.dossier.supprimer',
 
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
@@ -839,6 +850,7 @@ const permissionPorteurProjet: Policy[] = [
   'réseau.raccordement.proposition-technique-et-financière.transmettre',
   'réseau.raccordement.proposition-technique-et-financière.modifier',
   'réseau.raccordement.référence-dossier.modifier',
+  'réseau.raccordement.dossier.supprimer',
 
   // Tâche
   'tâche.consulter',

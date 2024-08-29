@@ -427,3 +427,22 @@ Quand(
     }
   },
 );
+
+Quand(
+  `le porteur supprime le dossier ayant pour référence {string} du raccordement pour le projet lauréat {string}`,
+  async function (this: PotentielWorld, référenceDossier: string, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    try {
+      await mediator.send<Raccordement.SupprimerDossierDuRaccordementUseCase>({
+        type: 'Réseau.Raccordement.UseCase.SupprimerDossierDuRaccordement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          référenceDossierValue: référenceDossier,
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);

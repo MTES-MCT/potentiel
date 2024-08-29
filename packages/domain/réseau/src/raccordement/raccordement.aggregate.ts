@@ -24,7 +24,7 @@ import {
   transmettreDateMiseEnService,
   applyDateMiseEnServiceTransmiseEventV1,
 } from './transmettre/transmettreDateMiseEnService.behavior';
-import { DossierRaccordementNonRéférencéError } from './dossierRaccordementNonRéférencé.error';
+import { DossierNonRéférencéPourLeRaccordementDuProjetError } from './dossierNonRéférencéPourLeRaccordementDuProjet.error';
 import {
   PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
   PropositionTechniqueEtFinancièreTransmiseEvent,
@@ -67,6 +67,11 @@ import {
   attribuerGestionnaireRéseau,
   GestionnaireRéseauInconnuAttribuéEvent,
 } from './attribuer/attribuerGestionnaireRéseau.behavior';
+import {
+  applyDossierDuRaccordementSuppriméEventV1,
+  DossierDuRaccordementSuppriméEvent,
+  supprimerDossier,
+} from './dossier/supprimer/supprimerDossierDuRaccordement.behavior';
 
 export type DeprecateEvent =
   | DemandeComplèteRaccordementTransmiseEventV1
@@ -87,7 +92,8 @@ export type RaccordementEvent =
   | PropositionTechniqueEtFinancièreModifiéeEvent
   | GestionnaireRéseauRaccordementModifiéEvent
   | GestionnaireRéseauInconnuAttribuéEvent
-  | GestionnaireRéseauAttribuéEvent;
+  | GestionnaireRéseauAttribuéEvent
+  | DossierDuRaccordementSuppriméEvent;
 
 type DossierRaccordement = {
   référence: RéférenceDossierRaccordement.ValueType;
@@ -119,6 +125,7 @@ export type RaccordementAggregate = Aggregate<RaccordementEvent> & {
   readonly récupérerDossier: (référence: string) => DossierRaccordement;
   readonly aUneDateDeMiseEnService: () => boolean;
   readonly attribuerGestionnaireRéseau: typeof attribuerGestionnaireRéseau;
+  readonly supprimerDossier: typeof supprimerDossier;
   readonly dateModifiée: (
     référence: RéférenceDossierRaccordement.ValueType,
     nouvelleDate: DateTime.ValueType,
@@ -141,6 +148,7 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
   modifierPropositionTechniqueEtFinancière,
   modifierGestionnaireRéseau,
   attribuerGestionnaireRéseau,
+  supprimerDossier,
   contientLeDossier({ référence }) {
     return this.dossiers.has(référence);
   },
@@ -148,7 +156,7 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
     const dossier = this.dossiers.get(référence);
 
     if (!dossier) {
-      throw new DossierRaccordementNonRéférencéError();
+      throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
     }
 
     return dossier;
@@ -222,6 +230,9 @@ function apply(this: RaccordementAggregate, event: RaccordementEvent) {
       break;
     case 'GestionnaireRéseauAttribué-V1':
       applyAttribuerGestionnaireRéseauEventV1.bind(this)(event);
+      break;
+    case 'DossierDuRaccordementSupprimé-V1':
+      applyDossierDuRaccordementSuppriméEventV1.bind(this)(event);
       break;
   }
 }

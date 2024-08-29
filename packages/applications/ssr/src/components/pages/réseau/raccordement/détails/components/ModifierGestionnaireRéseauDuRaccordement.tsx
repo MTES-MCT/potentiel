@@ -4,6 +4,7 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Routes } from '@potentiel-applications/routes';
 
 import { Icon } from '@/components/atoms/Icon';
+import { CopyButton } from '@/components/molecules/CopyButton';
 
 import { ProjetBannerProps } from '../../../../../molecules/projet/ProjetBanner';
 import { GestionnaireRéseau as GestionnaireRéseauProps } from '../type';
@@ -55,11 +56,8 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
         {lienModifier && <>({lienModifier})</>}
       </div>
       {gestionnaireRéseau.contactEmail && (
-        <div>
-          Contact :{' '}
-          <a href={`mailto:${gestionnaireRéseau.contactEmail}`} target="_blank">
-            {gestionnaireRéseau.contactEmail}
-          </a>
+        <div className="flex items-center gap-2">
+          Contact : <CopyButton textToCopy={gestionnaireRéseau.contactEmail} />
         </div>
       )}
     </div>

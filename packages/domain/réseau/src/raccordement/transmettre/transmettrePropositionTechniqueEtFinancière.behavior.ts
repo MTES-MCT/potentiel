@@ -4,7 +4,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
-import { DossierRaccordementNonRéférencéError } from '../dossierRaccordementNonRéférencé.error';
+import { DossierNonRéférencéPourLeRaccordementDuProjetError } from '../dossierNonRéférencéPourLeRaccordementDuProjet.error';
 
 /**
  * @deprecated Utilisez PropositionTechniqueEtFinancièreTransmiseEvent à la place.
@@ -65,7 +65,7 @@ export async function transmettrePropositionTechniqueEtFinancière(
   }
 
   if (!this.contientLeDossier(référenceDossierRaccordement)) {
-    throw new DossierRaccordementNonRéférencéError();
+    throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
   }
 
   const event: PropositionTechniqueEtFinancièreTransmiseEvent = {
