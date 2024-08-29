@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet, CommonPort } from '@potentiel-domain/common';
-import { IncludeWhereCondition, List, RangeOptions } from '@potentiel-domain/entity';
+import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { StatutRecours } from '..';
@@ -66,9 +66,9 @@ export const registerListerRecoursQuery = ({
       orderBy: { misÀJourLe: 'descending' },
       range,
       where: {
-        statut: mapToWhereEqual(statut),
-        appelOffre: mapToWhereEqual(appelOffre),
-        régionProjet: mapToWhereEqual(régionProjet),
+        statut: Where.equal(statut),
+        appelOffre: Where.equal(appelOffre),
+        régionProjet: Where.equal(régionProjet),
         identifiantProjet,
       },
     });
@@ -91,20 +91,16 @@ const mapToReadModel = (projection: RecoursEntity): RecoursListItemReadModel => 
   };
 };
 
-const mapToWhereEqual = <T>(value: T | undefined) =>
-  value !== undefined ? { operator: 'equal' as const, value } : undefined;
-
 const getIdentifiantProjetWhereCondition = async (
   listerIdentifiantsProjetsAccessiblesPort: CommonPort.ListerIdentifiantsProjetsAccessiblesPort,
   email: string,
-): Promise<IncludeWhereCondition<string> | undefined> => {
+) => {
   const projets = await listerIdentifiantsProjetsAccessiblesPort(email);
 
-  return {
-    operator: 'include',
-    value: projets.map(
+  return Where.include(
+    projets.map(
       ({ appelOffre, période, famille, numéroCRE }) =>
         `${appelOffre}#${période}#${famille}#${numéroCRE}`,
     ),
-  };
+  );
 };

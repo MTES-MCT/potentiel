@@ -1,5 +1,5 @@
 import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
-import { Entity } from '@potentiel-domain/core';
+import { Entity } from '@potentiel-domain/entity';
 
 export type ÉliminéEntity = Entity<
   'éliminé',

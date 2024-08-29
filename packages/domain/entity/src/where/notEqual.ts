@@ -1,6 +1,6 @@
-import { NotEqualWhereCondition, WhereCondition } from '../where';
+import { NotEqualWhereCondition, WhereCondition } from '../whereOptions';
 
-export const mapToWhereNotEqual = <T>(
+export const notEqual = <T>(
   value: NotEqualWhereCondition<T>['value'] | undefined,
 ): WhereCondition<T> | undefined => {
   if (!value) {

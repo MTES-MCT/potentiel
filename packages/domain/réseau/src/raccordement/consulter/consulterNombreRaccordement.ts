@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Count } from '@potentiel-domain/entity';
+import { Count, Where } from '@potentiel-domain/entity';
 
 import { RaccordementEntity } from '..';
 
@@ -28,10 +28,7 @@ export const registerConsulterNombreDeRaccordementQuery = ({
   }) => {
     const nombreRaccordements = await count<RaccordementEntity>('raccordement', {
       where: {
-        identifiantGestionnaireRéseau: {
-          operator: 'equal',
-          value: identifiantGestionnaireRéseauValue,
-        },
+        identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseauValue),
       },
     });
 

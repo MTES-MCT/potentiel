@@ -3,7 +3,7 @@ import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 
 import { should } from 'chai';
 
-import { Entity, ListResult, RangeOptions } from '@potentiel-domain/entity';
+import { Entity, ListResult, RangeOptions, Where } from '@potentiel-domain/entity';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { flatten, unflatten } from '@potentiel-libraries/flat';
 
@@ -217,10 +217,7 @@ describe('listProjection', () => {
     const actual = await listProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: {
-            operator: 'equal',
-            value: '1',
-          },
+          name: Where.equal('1'),
         },
       },
     });
@@ -236,10 +233,7 @@ describe('listProjection', () => {
     const actual = await listProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: {
-            operator: 'notEqual',
-            value: '1',
-          },
+          name: Where.notEqual('1'),
         },
       },
     });
@@ -272,10 +266,7 @@ describe('listProjection', () => {
     const actual = await listProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: {
-            operator: 'like',
-            value: 'a%',
-          },
+          name: Where.startWith('1'),
         },
       },
     });
@@ -310,10 +301,7 @@ describe('listProjection', () => {
     const actual = await listProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: {
-            operator: 'notLike',
-            value: 'a%',
-          },
+          name: Where.notStartWith('1'),
         },
       },
     });
@@ -333,10 +321,7 @@ describe('listProjection', () => {
     const actual = await listProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: {
-            operator: 'include',
-            value: valuesArray,
-          },
+          name: Where.include(valuesArray),
         },
       },
     });
@@ -356,10 +341,7 @@ describe('listProjection', () => {
     const actual = await listProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: {
-            operator: 'notInclude',
-            value: valuesArray,
-          },
+          name: Where.notInclude(valuesArray),
         },
       },
     });

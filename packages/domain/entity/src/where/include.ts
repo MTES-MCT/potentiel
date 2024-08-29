@@ -1,6 +1,6 @@
-import { IncludeWhereCondition, WhereCondition } from '../where';
+import { IncludeWhereCondition, WhereCondition } from '../whereOptions';
 
-export const mapToWhereInclude = <T>(
+export const include = <T>(
   value: IncludeWhereCondition<T>['value'] | undefined,
 ): WhereCondition<T> | undefined => {
   if (!value) {

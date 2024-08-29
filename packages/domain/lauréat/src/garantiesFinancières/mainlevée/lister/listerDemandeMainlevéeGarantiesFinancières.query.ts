@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { List, RangeOptions } from '@potentiel-domain/entity';
+import { Where, List, RangeOptions } from '@potentiel-domain/entity';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import {
@@ -41,14 +41,6 @@ type ListerDemandeMainlevéeQueryDependencies = {
   list: List;
 };
 
-const mapToWhereEqual = <T>(value: T | undefined) =>
-  value !== undefined
-    ? {
-        operator: 'equal' as const,
-        value,
-      }
-    : undefined;
-
 export const registerListerDemandeMainlevéeQuery = ({
   list,
 }: ListerDemandeMainlevéeQueryDependencies) => {
@@ -75,12 +67,12 @@ export const registerListerDemandeMainlevéeQuery = ({
       },
       range,
       where: {
-        appelOffre: mapToWhereEqual(appelOffre),
-        motif: mapToWhereEqual(motif),
+        appelOffre: Where.equal(appelOffre),
+        motif: Where.equal(motif),
         statut: statut
-          ? { operator: 'equal', value: statut }
-          : { operator: 'include', value: ['en-instruction', 'demandé', 'accepté'] },
-        régionProjet: mapToWhereEqual(région),
+          ? Where.equal(statut)
+          : Where.include(['en-instruction', 'demandé', 'accepté']),
+        régionProjet: Where.equal(région),
       },
     });
 

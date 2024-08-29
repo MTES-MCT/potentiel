@@ -6,6 +6,7 @@
     "./packages/config/*",
     "./packages/libraries/*",
     "./packages/domain/core",
+    "./packages/domain/entity",
     "./packages/domain/common",
     "./packages/domain/utilisateur",
     "./packages/domain/document",

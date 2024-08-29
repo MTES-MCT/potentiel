@@ -1,7 +1,7 @@
 import { Entity } from './entity';
-import { OrderByOptions } from './orderBy';
-import { RangeOptions } from './range';
-import { WhereOptions } from './where';
+import { OrderByOptions } from './orderByOptions';
+import { RangeOptions } from './rangeOptions';
+import { WhereOptions } from './whereOptions';
 
 export type ListOptions<TEntity extends Entity> = {
   orderBy?: OrderByOptions<Omit<TEntity, 'type'>>;

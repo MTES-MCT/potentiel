@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { match, Pattern } from 'ts-pattern';
 
-import { List, RangeOptions } from '@potentiel-domain/entity';
+import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -62,21 +61,10 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
       total,
     } = await list<CandidatureEntity>('candidature', {
       where: {
-        appelOffre: match(appelOffre)
-          .with(Pattern.nullish, () => undefined)
-          .otherwise((value) => ({ operator: 'equal', value })),
-        période: match(période)
-          .with(Pattern.nullish, () => undefined)
-          .otherwise((value) => ({ operator: 'equal', value })),
-        nomProjet: match(nomProjet)
-          .with(Pattern.nullish, () => undefined)
-          .otherwise((value) => ({
-            operator: 'like',
-            value: `%${value}%`,
-          })),
-        statut: match(statut)
-          .with(Pattern.nullish, () => undefined)
-          .otherwise((value) => ({ operator: 'equal', value })),
+        appelOffre: Where.equal(appelOffre),
+        période: Where.equal(période),
+        nomProjet: Where.contains(nomProjet),
+        statut: Where.equal(statut),
       },
       range,
     });

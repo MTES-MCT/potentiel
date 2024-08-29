@@ -1,6 +1,6 @@
-import { EqualWhereCondition, WhereCondition } from '../where';
+import { EqualWhereCondition, WhereCondition } from '../whereOptions';
 
-export const mapToWhereEqual = <T>(
+export const equal = <T>(
   value: EqualWhereCondition<T>['value'] | undefined,
 ): WhereCondition<T> | undefined => {
   if (!value) {

@@ -1,5 +1,5 @@
 import { Entity } from './entity';
-import { WhereOptions } from './where';
+import { WhereOptions } from './whereOptions';
 
 export type CountOption<TEntity extends Entity> = {
   where?: WhereOptions<Omit<TEntity, 'type'>>;
