@@ -5,6 +5,8 @@ import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Éliminé } from '@potentiel-domain/elimine';
+import { getLogger } from '@potentiel-libraries/monitoring';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { EmailPayload, SendEmail } from '../../sendEmail';
 
@@ -31,18 +33,41 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
         },
       });
       if (Option.isNone(appelOffre)) {
-        // TODO error
-        throw new Error('AO non trouvé');
+        getLogger().error(
+          new Error(`Pas d'appel d'offre trouvé pour ${identifiantProjet.formatter()}`),
+        );
+        return;
       }
       const période = appelOffre.periodes.find((x) => x.id === identifiantProjet.période);
 
-      if (Option.isNone(appelOffre)) {
-        // TODO error
-        throw new Error('Période non trouvée');
+      if (!période) {
+        getLogger().error(
+          new Error(`Pas de période trouvée pour ${identifiantProjet.formatter()}`),
+        );
+        return;
       }
+
+      const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+        type: 'Candidature.Query.ConsulterCandidature',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+      if (Option.isNone(candidature)) {
+        getLogger().error(
+          new Error(`Pas de candidature trouvée pour ${identifiantProjet.formatter()}`),
+        );
+        return;
+      }
+
       return {
         templateId: templateId.notifierPorteur,
-        recipients: [{ email: 'porteur@test.test', fullName: 'foo' }], // TODO
+        recipients: [
+          {
+            email: candidature.emailContact,
+            fullName: candidature.nomReprésentantLégal,
+          },
+        ],
         messageSubject: `Résultats de la ${période?.title} période de l'appel d'offres ${appelOffre.id}`,
         variables: {
           invitation_link: `${BASE_URL}/projets.html`,

@@ -34,7 +34,7 @@ export const register = () => {
               periodeId: identifiantProjet.période,
               familleId: identifiantProjet.famille || undefined,
               candidateEmail: projet.email,
-              candidateName: projet.nomCandidat,
+              candidateName: projet.nomRepresentantLegal,
               notifiedOn: new Date(payload.notifiéLe).getTime(),
               projectId: projet.id,
             },
