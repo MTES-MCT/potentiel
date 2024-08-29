@@ -2,46 +2,56 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/core';
 
 import * as StatutAbandon from '../statutAbandon.valueType';
-import { AbandonEntity } from '../abandon.entity';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
-import { StatutPreuveRecandidature } from '..';
+import * as StatutPreuveRecandidature from '../statutPreuveRecandidature.valueType';
+import { AbandonEntity } from '../abandon.entity';
 
 export type ConsulterAbandonReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutAbandon.ValueType;
   demande: {
-    raison: string;
-    recandidature: boolean;
-    preuveRecandidature?: IdentifiantProjet.ValueType;
-    preuveRecandidatureDemandéeLe?: DateTime.ValueType;
-    preuveRecandidatureStatut: StatutPreuveRecandidature.ValueType;
-    preuveRecandidatureTransmiseLe?: DateTime.ValueType;
-    preuveRecandidatureTransmisePar?: IdentifiantUtilisateur.ValueType;
-    piéceJustificative?: DocumentProjet.ValueType;
+    demandéPar: Email.ValueType;
     demandéLe: DateTime.ValueType;
-    demandéPar: IdentifiantUtilisateur.ValueType;
-    confirmation?: {
-      demandéLe: DateTime.ValueType;
-      demandéPar: IdentifiantUtilisateur.ValueType;
-      réponseSignée: DocumentProjet.ValueType;
-      confirméLe?: DateTime.ValueType;
-      confirméPar?: IdentifiantUtilisateur.ValueType;
+    raison: string;
+    pièceJustificative?: DocumentProjet.ValueType;
+
+    estUneRecandidature: boolean;
+
+    recandidature?: {
+      statut: StatutPreuveRecandidature.ValueType;
+      preuve?: {
+        demandéeLe: DateTime.ValueType;
+        identifiantProjet?: IdentifiantProjet.ValueType;
+        transmiseLe?: DateTime.ValueType;
+        transmisePar?: Email.ValueType;
+      };
     };
-  };
-  accord?: {
-    accordéLe: DateTime.ValueType;
-    accordéPar: IdentifiantUtilisateur.ValueType;
-    réponseSignée: DocumentProjet.ValueType;
-  };
-  rejet?: {
-    rejetéLe: DateTime.ValueType;
-    rejetéPar: IdentifiantUtilisateur.ValueType;
-    réponseSignée: DocumentProjet.ValueType;
+
+    confirmation?: {
+      demandéePar: Email.ValueType;
+      demandéeLe: DateTime.ValueType;
+
+      réponseSignée: DocumentProjet.ValueType;
+
+      confirméLe?: DateTime.ValueType;
+      confirméPar?: Email.ValueType;
+    };
+
+    accord?: {
+      réponseSignée: DocumentProjet.ValueType;
+      accordéPar: Email.ValueType;
+      accordéLe: DateTime.ValueType;
+    };
+
+    rejet?: {
+      réponseSignée: DocumentProjet.ValueType;
+      rejetéPar: Email.ValueType;
+      rejetéLe: DateTime.ValueType;
+    };
   };
 };
 
@@ -62,46 +72,57 @@ export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependen
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const result = await find<AbandonEntity>(`abandon|${identifiantProjet.formatter()}`);
 
-    if (Option.isNone(result)) {
-      return result;
-    }
+    return Option.match(result).some(mapToReadModel).none();
+  };
+  mediator.register('Lauréat.Abandon.Query.ConsulterAbandon', handler);
+};
 
-    const demande: ConsulterAbandonReadModel['demande'] = {
+const mapToReadModel = (result: AbandonEntity) => {
+  return {
+    demande: {
       demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe),
       demandéPar: Email.convertirEnValueType(result.demande.demandéPar),
       raison: result.demande.raison,
-      recandidature: !!result.demande.recandidature,
-      preuveRecandidature: result.demande.recandidature?.preuve?.identifiantProjet
-        ? IdentifiantProjet.convertirEnValueType(
-            result.demande.recandidature.preuve.identifiantProjet,
-          )
-        : undefined,
-      preuveRecandidatureTransmiseLe: result.demande.recandidature?.preuve?.transmiseLe
-        ? DateTime.convertirEnValueType(result.demande.recandidature?.preuve?.transmiseLe)
-        : undefined,
-      preuveRecandidatureTransmisePar: result.demande.recandidature?.preuve?.transmisePar
-        ? Email.convertirEnValueType(result.demande.recandidature?.preuve?.transmisePar)
-        : undefined,
-      preuveRecandidatureDemandéeLe: result.demande.recandidature?.preuve?.demandéeLe
-        ? DateTime.convertirEnValueType(result.demande.recandidature?.preuve?.demandéeLe)
-        : undefined,
-      preuveRecandidatureStatut: result.demande.recandidature?.statut
-        ? StatutPreuveRecandidature.convertirEnValueType(result.demande.recandidature.statut)
-        : StatutPreuveRecandidature.nonApplicable,
-      piéceJustificative: result.demande.pièceJustificative?.format
+      estUneRecandidature: !!result.demande.recandidature,
+      pièceJustificative: result.demande.pièceJustificative
         ? DocumentProjet.convertirEnValueType(
-            identifiantProjet.formatter(),
+            result.identifiantProjet,
             TypeDocumentAbandon.pièceJustificative.formatter(),
             DateTime.convertirEnValueType(result.demande.demandéLe).formatter(),
             result.demande.pièceJustificative?.format,
           )
         : undefined,
+      recandidature: result.demande.recandidature
+        ? {
+            statut: StatutPreuveRecandidature.convertirEnValueType(
+              result.demande.recandidature.statut,
+            ),
+            preuve: result.demande.recandidature.preuve
+              ? {
+                  demandéeLe: DateTime.convertirEnValueType(
+                    result.demande.recandidature.preuve.demandéeLe,
+                  ),
+                  transmiseLe: result.demande.recandidature.preuve.transmiseLe
+                    ? DateTime.convertirEnValueType(result.demande.recandidature.preuve.transmiseLe)
+                    : undefined,
+                  transmisePar: result.demande.recandidature.preuve.transmisePar
+                    ? Email.convertirEnValueType(result.demande.recandidature.preuve.transmisePar)
+                    : undefined,
+                  identifiantProjet: result.demande.recandidature.preuve.identifiantProjet
+                    ? IdentifiantProjet.convertirEnValueType(
+                        result.demande.recandidature.preuve.identifiantProjet,
+                      )
+                    : undefined,
+                }
+              : undefined,
+          }
+        : undefined,
       confirmation: result.demande.confirmation
         ? {
-            demandéLe: DateTime.convertirEnValueType(result.demande.confirmation.demandéeLe),
-            demandéPar: Email.convertirEnValueType(result.demande.confirmation.demandéePar),
+            demandéeLe: DateTime.convertirEnValueType(result.demande.confirmation.demandéeLe),
+            demandéePar: Email.convertirEnValueType(result.demande.confirmation.demandéePar),
             réponseSignée: DocumentProjet.convertirEnValueType(
-              identifiantProjet.formatter(),
+              result.identifiantProjet,
               TypeDocumentAbandon.abandonÀConfirmer.formatter(),
               DateTime.convertirEnValueType(result.demande.confirmation.demandéeLe).formatter(),
               result.demande.confirmation.réponseSignée.format,
@@ -114,41 +135,32 @@ export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependen
               : undefined,
           }
         : undefined,
-    };
-
-    const accord: ConsulterAbandonReadModel['accord'] = result.demande.accord
-      ? {
-          accordéLe: DateTime.convertirEnValueType(result.demande.accord.accordéLe),
-          accordéPar: Email.convertirEnValueType(result.demande.accord.accordéPar),
-          réponseSignée: DocumentProjet.convertirEnValueType(
-            identifiantProjet.formatter(),
-            TypeDocumentAbandon.abandonAccordé.formatter(),
-            DateTime.convertirEnValueType(result.demande.accord.accordéLe).formatter(),
-            result.demande.accord.réponseSignée.format,
-          ),
-        }
-      : undefined;
-
-    const rejet: ConsulterAbandonReadModel['rejet'] = result.demande.rejet
-      ? {
-          rejetéLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéLe),
-          rejetéPar: Email.convertirEnValueType(result.demande.rejet.rejetéPar),
-          réponseSignée: DocumentProjet.convertirEnValueType(
-            identifiantProjet.formatter(),
-            TypeDocumentAbandon.abandonRejeté.formatter(),
-            DateTime.convertirEnValueType(result.demande.rejet.rejetéLe).formatter(),
-            result.demande.rejet.réponseSignée.format,
-          ),
-        }
-      : undefined;
-
-    return {
-      demande,
-      identifiantProjet,
-      statut: StatutAbandon.convertirEnValueType(result.statut),
-      accord,
-      rejet,
-    };
-  };
-  mediator.register('Lauréat.Abandon.Query.ConsulterAbandon', handler);
+      accord: result.demande.accord
+        ? {
+            accordéLe: DateTime.convertirEnValueType(result.demande.accord.accordéLe),
+            accordéPar: Email.convertirEnValueType(result.demande.accord.accordéPar),
+            réponseSignée: DocumentProjet.convertirEnValueType(
+              result.identifiantProjet,
+              TypeDocumentAbandon.abandonAccordé.formatter(),
+              DateTime.convertirEnValueType(result.demande.accord.accordéLe).formatter(),
+              result.demande.accord.réponseSignée.format,
+            ),
+          }
+        : undefined,
+      rejet: result.demande.rejet
+        ? {
+            rejetéLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéLe),
+            rejetéPar: Email.convertirEnValueType(result.demande.rejet.rejetéPar),
+            réponseSignée: DocumentProjet.convertirEnValueType(
+              result.identifiantProjet,
+              TypeDocumentAbandon.abandonRejeté.formatter(),
+              DateTime.convertirEnValueType(result.demande.rejet.rejetéLe).formatter(),
+              result.demande.rejet.réponseSignée.format,
+            ),
+          }
+        : undefined,
+    },
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
+    statut: StatutAbandon.convertirEnValueType(result.statut),
+  } satisfies ConsulterAbandonReadModel;
 };

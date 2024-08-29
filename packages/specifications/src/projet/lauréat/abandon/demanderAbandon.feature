@@ -3,49 +3,34 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
+        Et le DGEC validateur "Robert Robichet"
 
     Scénario: Un porteur demande l'abandon d'un projet lauréat
-        Quand le porteur demande l'abandon pour le projet lauréat "Du boulodrome de Marseille" avec :
-            | La raison de l'abandon               | Une raison donnée par le porteur concernant l'abandon du projet lauréat                  |
-            | Le format de la pièce justificative  | application/pdf                                                                          |
-            | Le contenu de la pièce justificative | Le contenu de la pièce justificative expliquant la raison de l'abandon du projet lauréat |
-            | Recandidature                        | oui                                                                                      |
-        Alors l'abandon du projet lauréat "Du boulodrome de Marseille" devrait être consultable dans la liste des projets lauréat abandonnés
+        Quand le porteur demande l'abandon pour le projet lauréat
+        Alors l'abandon du projet lauréat devrait être demandé
 
-    Scénario: Un porteur demande l'abandon d'un projet lauréat
-        Quand le porteur demande l'abandon pour le projet lauréat "Du boulodrome de Marseille" avec :
-            | La raison de l'abandon | Une raison donnée par le porteur concernant l'abandon du projet lauréat |
-            | Recandidature          | oui                                                                     |
-        Alors l'abandon du projet lauréat "Du boulodrome de Marseille" devrait être consultable dans la liste des projets lauréat abandonnés
-
-    Scénario: Un porteur demande l'abandon d'un projet lauréat
-        Quand le porteur demande l'abandon pour le projet lauréat "Du boulodrome de Marseille" avec :
-            | La raison de l'abandon | Une raison donnée par le porteur concernant l'abandon du projet lauréat |
-            | Recandidature          | oui                                                                     |
-        Alors l'abandon du projet lauréat "Du boulodrome de Marseille" devrait être consultable dans la liste des projets lauréat abandonnés
+    Scénario: Un porteur demande l'abandon d'un projet lauréat avec recandidature
+        Quand le porteur demande l'abandon avec recandidature pour le projet lauréat
+        Alors l'abandon du projet lauréat devrait être demandé
 
     Scénario: Un porteur demande l'abandon d'un projet lauréat après un rejet
-        Etant donné un abandon rejeté pour le projet lauréat "Du boulodrome de Marseille"
-        Quand le porteur demande l'abandon pour le projet lauréat "Du boulodrome de Marseille" avec :
-            | La raison de l'abandon | Une raison donnée par le porteur concernant l'abandon du projet lauréat |
-            | Recandidature          | oui                                                                     |
-        Alors l'abandon du projet lauréat "Du boulodrome de Marseille" devrait être consultable dans la liste des projets lauréat abandonnés
-        Et l'abandon du projet lauréat "Du boulodrome de Marseille" devrait être de nouveau demandé
+        Etant donné un abandon rejeté pour le projet lauréat
+        Quand le porteur demande l'abandon pour le projet lauréat
+        Alors l'abandon du projet lauréat devrait être de nouveau demandé
 
     Scénario: Impossible de demander l'abandon d'un projet si l'abandon est déjà en cours
-        Etant donné une demande d'abandon en cours pour le projet lauréat "Du boulodrome de Marseille"
-        Quand le porteur demande l'abandon pour le projet lauréat "Du boulodrome de Marseille"
+        Etant donné une demande d'abandon en cours pour le projet lauréat
+        Quand le porteur demande l'abandon pour le projet lauréat
         Alors le porteur devrait être informé que "Une demande d'abandon est déjà en cours"
 
     Scénario: Impossible de demander l'abandon d'un projet si l'abandon est accordé
-        Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
-        Quand le porteur demande l'abandon pour le projet lauréat "Du boulodrome de Marseille"
+        Etant donné un abandon accordé pour le projet lauréat
+        Quand le porteur demande l'abandon pour le projet lauréat
         Alors le porteur devrait être informé que "L'abandon a déjà été accordé"
 
     Scénario: Impossible de demander l'abandon d'un projet sans recandidature sans pièce justificative
-        Quand le porteur demande l'abandon pour le projet lauréat "Du boulodrome de Marseille" avec :
-            | La raison de l'abandon | Une raison donnée par le porteur concernant l'abandon du projet lauréat |
-            | Recandidature          | non                                                                     |
+        Quand le porteur demande l'abandon sans recandidature et sans tramsettre de pièce justificative pour le projet lauréat
         Alors le porteur devrait être informé que "La pièce justificative est obligatoire"
 
     @NotImplemented

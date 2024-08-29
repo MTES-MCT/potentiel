@@ -1,15 +1,16 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
-import {
-  StatutAbandonBadge,
-  StatutAbandonBadgeProps,
-} from '@/components/pages/abandon/StatutAbandonBadge';
+import { PlainType } from '@potentiel-domain/core';
+import { Abandon } from '@potentiel-domain/laureat';
+import { Role } from '@potentiel-domain/utilisateur';
+
+import { StatutAbandonBadge } from '@/components/pages/abandon/StatutAbandonBadge';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1 } from '@/components/atoms/headings';
 
-import { EtapesAbandon, EtapesAbandonProps } from './EtapesAbandon';
+import { EtapesAbandon } from './EtapesAbandon';
 import { StatutPreuveRecandidatureBadge } from './PreuveRecandidatureStatutBadge';
 import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
 import { AccorderAbandonAvecRecandidature } from './accorder/AccorderAbandonAvecRecandidature';
@@ -31,15 +32,15 @@ type AvailableActions = Array<
 
 export type DétailsAbandonPageProps = {
   identifiantProjet: string;
-  abandon: EtapesAbandonProps;
-  statut: StatutAbandonBadgeProps['statut'];
+  abandon: PlainType<Abandon.ConsulterAbandonReadModel>;
+  role: PlainType<Role.ValueType>;
   actions: AvailableActions;
 };
 
 export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   identifiantProjet,
   abandon,
-  statut,
+  role,
   actions,
 }) => {
   return (
@@ -49,14 +50,14 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
         <>
           <Heading1>Détail de l'abandon</Heading1>
           <div className="flex flex-col md:flex-row gap-3 items-center">
-            <StatutAbandonBadge statut={statut} />
+            <StatutAbandonBadge statut={abandon.statut.statut} />
             {abandon.demande.recandidature && (
               <>
                 <Badge noIcon severity="info">
                   avec recandidature
                 </Badge>
                 <StatutPreuveRecandidatureBadge
-                  statut={abandon.demande.preuveRecandidatureStatut}
+                  statut={abandon.demande.recandidature.statut.statut}
                 />
               </>
             )}
@@ -65,7 +66,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
       }
       leftColumn={{
         className: 'flex-col gap-6',
-        children: <EtapesAbandon {...abandon} />,
+        children: <EtapesAbandon abandon={abandon} role={role} />,
       }}
       rightColumn={{
         className: 'flex flex-col w-full gap-4',

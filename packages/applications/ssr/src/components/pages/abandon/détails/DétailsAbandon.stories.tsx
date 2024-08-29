@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
+import { Abandon } from '@potentiel-domain/laureat';
 
 import { DétailsAbandonPage, DétailsAbandonPageProps } from './DétailsAbandon.page';
 
@@ -16,18 +19,30 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const identifiantProjet = 'identifiantProjet#1';
+const identifiantProjet = '1#1##1';
 
 export const Demandé: Story = {
   args: {
     identifiantProjet,
-    statut: 'demandé',
+    role: Role.porteur,
     abandon: {
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      statut: {
+        statut: 'demandé',
+      },
       demande: {
-        demandéPar: 'Porteur#1',
-        demandéLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
-        recandidature: false,
-        preuveRecandidatureStatut: 'non-applicable',
+        demandéPar: {
+          email: 'porteur@test.test',
+        },
+        demandéLe: {
+          date: new Date('2022-01-01').toISOString(),
+        },
+        estUneRecandidature: false,
+        recandidature: {
+          statut: {
+            statut: 'non-applicable',
+          },
+        },
         raison: "Justification de l'abandon",
       },
     },
@@ -38,21 +53,46 @@ export const Demandé: Story = {
 export const Confirmé: Story = {
   args: {
     identifiantProjet,
-    statut: 'confirmé',
+    role: Role.porteur,
     abandon: {
-      demande: {
-        demandéPar: 'Porteur#1',
-        demandéLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
-        recandidature: false,
-        preuveRecandidatureStatut: 'non-applicable',
-        raison: "Justification de l'abandon",
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      statut: {
+        statut: 'demandé',
       },
-      confirmation: {
-        demandéPar: 'Admin#1',
-        demandéLe: new Date('2022-02-01').toISOString() as Iso8601DateTime,
-        confirméLe: new Date('2022-03-01').toISOString() as Iso8601DateTime,
-        confirméPar: 'Porteur#1',
-        réponseSignée: 'Réponse signée',
+      demande: {
+        demandéPar: {
+          email: 'porteur@test.test',
+        },
+        demandéLe: {
+          date: new Date('2022-01-01').toISOString(),
+        },
+        estUneRecandidature: false,
+        recandidature: {
+          statut: {
+            statut: 'non-applicable',
+          },
+        },
+        raison: "Justification de l'abandon",
+        confirmation: {
+          demandéePar: {
+            email: 'validateur@test.test',
+          },
+          demandéeLe: {
+            date: new Date('2022-02-01').toISOString() as Iso8601DateTime,
+          },
+          confirméLe: {
+            date: new Date('2022-02-01').toISOString() as Iso8601DateTime,
+          },
+          confirméPar: {
+            email: 'porteur@test.test',
+          },
+          réponseSignée: {
+            dateCréation: new Date('2022-02-01').toISOString() as Iso8601DateTime,
+            format: 'application/png',
+            identifiantProjet,
+            typeDocument: Abandon.TypeDocumentAbandon.abandonÀConfirmer.formatter(),
+          },
+        },
       },
     },
     actions: [],
@@ -62,19 +102,40 @@ export const Confirmé: Story = {
 export const Rejeté: Story = {
   args: {
     identifiantProjet,
-    statut: 'rejeté',
+    role: Role.porteur,
     abandon: {
-      demande: {
-        demandéPar: 'Porteur#1',
-        demandéLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
-        recandidature: false,
-        preuveRecandidatureStatut: 'non-applicable',
-        raison: "Justification de l'abandon",
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      statut: {
+        statut: 'demandé',
       },
-      rejet: {
-        rejetéPar: 'Gestionnaire#1',
-        rejetéLe: new Date('2022-04-01').toISOString() as Iso8601DateTime,
-        réponseSignée: 'Réponse signée',
+      demande: {
+        demandéPar: {
+          email: 'porteur@test.test',
+        },
+        demandéLe: {
+          date: new Date('2022-01-01').toISOString(),
+        },
+        estUneRecandidature: false,
+        recandidature: {
+          statut: {
+            statut: 'non-applicable',
+          },
+        },
+        raison: "Justification de l'abandon",
+        rejet: {
+          rejetéPar: {
+            email: 'validateur@test.test',
+          },
+          rejetéLe: {
+            date: new Date('2022-02-01').toISOString() as Iso8601DateTime,
+          },
+          réponseSignée: {
+            dateCréation: new Date('2022-02-01').toISOString() as Iso8601DateTime,
+            format: 'application/png',
+            identifiantProjet,
+            typeDocument: Abandon.TypeDocumentAbandon.abandonRejeté.formatter(),
+          },
+        },
       },
     },
     actions: [],
@@ -84,19 +145,40 @@ export const Rejeté: Story = {
 export const Accordé: Story = {
   args: {
     identifiantProjet,
-    statut: 'accordé',
+    role: Role.porteur,
     abandon: {
-      demande: {
-        demandéPar: 'Porteur#1',
-        demandéLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
-        recandidature: false,
-        preuveRecandidatureStatut: 'non-applicable',
-        raison: "Justification de l'abandon",
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      statut: {
+        statut: 'demandé',
       },
-      accord: {
-        accordéPar: 'Gestionnaire#1',
-        accordéLe: new Date('2022-04-01').toISOString() as Iso8601DateTime,
-        réponseSignée: 'Réponse signée',
+      demande: {
+        demandéPar: {
+          email: 'porteur@test.test',
+        },
+        demandéLe: {
+          date: new Date('2022-01-01').toISOString(),
+        },
+        estUneRecandidature: false,
+        recandidature: {
+          statut: {
+            statut: 'non-applicable',
+          },
+        },
+        raison: "Justification de l'abandon",
+        accord: {
+          accordéPar: {
+            email: 'validateur@test.test',
+          },
+          accordéLe: {
+            date: new Date('2022-02-01').toISOString() as Iso8601DateTime,
+          },
+          réponseSignée: {
+            dateCréation: new Date('2022-02-01').toISOString() as Iso8601DateTime,
+            format: 'application/png',
+            identifiantProjet,
+            typeDocument: Abandon.TypeDocumentAbandon.abandonAccordé.formatter(),
+          },
+        },
       },
     },
     actions: [],
@@ -106,19 +188,40 @@ export const Accordé: Story = {
 export const AccordéAvecRecandidature: Story = {
   args: {
     identifiantProjet,
-    statut: 'accordé',
+    role: Role.porteur,
     abandon: {
-      demande: {
-        demandéPar: 'Porteur#1',
-        demandéLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
-        recandidature: false,
-        preuveRecandidatureStatut: 'en-attente',
-        raison: "Justification de l'abandon",
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      statut: {
+        statut: 'demandé',
       },
-      accord: {
-        accordéPar: 'Gestionnaire#1',
-        accordéLe: new Date('2022-04-01').toISOString() as Iso8601DateTime,
-        réponseSignée: 'Réponse signée',
+      demande: {
+        demandéPar: {
+          email: 'porteur@test.test',
+        },
+        demandéLe: {
+          date: new Date('2022-01-01').toISOString(),
+        },
+        estUneRecandidature: true,
+        recandidature: {
+          statut: {
+            statut: 'en-attente',
+          },
+        },
+        raison: "Justification de l'abandon",
+        accord: {
+          accordéPar: {
+            email: 'validateur@test.test',
+          },
+          accordéLe: {
+            date: new Date('2022-02-01').toISOString() as Iso8601DateTime,
+          },
+          réponseSignée: {
+            dateCréation: new Date('2022-02-01').toISOString() as Iso8601DateTime,
+            format: 'application/png',
+            identifiantProjet,
+            typeDocument: Abandon.TypeDocumentAbandon.abandonAccordé.formatter(),
+          },
+        },
       },
     },
     actions: [],
@@ -128,20 +231,40 @@ export const AccordéAvecRecandidature: Story = {
 export const AccordéAvecRecandidatureAvecLienPourTransmettre: Story = {
   args: {
     identifiantProjet,
-    statut: 'accordé',
+    role: Role.porteur,
     abandon: {
-      demande: {
-        demandéPar: 'Porteur#1',
-        demandéLe: new Date('2022-01-01').toISOString() as Iso8601DateTime,
-        recandidature: true,
-        lienRecandidature: 'path/to/page/recandidature',
-        preuveRecandidatureStatut: 'en-attente',
-        raison: "Justification de l'abandon",
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      statut: {
+        statut: 'demandé',
       },
-      accord: {
-        accordéPar: 'Gestionnaire#1',
-        accordéLe: new Date('2022-04-01').toISOString() as Iso8601DateTime,
-        réponseSignée: 'Réponse signée',
+      demande: {
+        demandéPar: {
+          email: 'porteur@test.test',
+        },
+        demandéLe: {
+          date: new Date('2022-01-01').toISOString(),
+        },
+        estUneRecandidature: true,
+        recandidature: {
+          statut: {
+            statut: 'en-attente',
+          },
+        },
+        raison: "Justification de l'abandon",
+        accord: {
+          accordéPar: {
+            email: 'validateur@test.test',
+          },
+          accordéLe: {
+            date: new Date('2022-02-01').toISOString() as Iso8601DateTime,
+          },
+          réponseSignée: {
+            dateCréation: new Date('2022-02-01').toISOString() as Iso8601DateTime,
+            format: 'application/png',
+            identifiantProjet,
+            typeDocument: Abandon.TypeDocumentAbandon.abandonAccordé.formatter(),
+          },
+        },
       },
     },
     actions: [],

@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events';
 
+import { faker } from '@faker-js/faker';
 import {
   Before,
   setWorldConstructor,
@@ -11,6 +12,7 @@ import {
   AfterStep,
 } from '@cucumber/cucumber';
 import { expect, should } from 'chai';
+import waitForExpect from 'wait-for-expect';
 import { Message, MessageResult, clear } from 'mediateur';
 import {
   CreateBucketCommand,
@@ -26,12 +28,30 @@ import { EmailPayload } from '@potentiel-applications/notifications';
 
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
+import { getFakeFormat } from './helpers/getFakeFormat';
+import { getFakeIdentifiantProjet } from './helpers/getFakeIdentifiantProjet';
+import { getFakeContent } from './helpers/getFakeContent';
 
 should();
-
 setWorldConstructor(PotentielWorld);
-
 setDefaultTimeout(5000);
+waitForExpect.defaults.timeout = 500;
+
+declare module '@faker-js/faker' {
+  interface Faker {
+    potentiel: {
+      identifiantProjet: () => string;
+      fileFormat: () => string;
+      fileContent: () => ReadableStream;
+    };
+  }
+}
+
+faker.potentiel = {
+  fileFormat: getFakeFormat,
+  identifiantProjet: getFakeIdentifiantProjet,
+  fileContent: getFakeContent,
+};
 
 const bucketName = 'potentiel';
 

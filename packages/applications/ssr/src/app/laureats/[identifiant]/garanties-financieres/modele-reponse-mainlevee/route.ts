@@ -121,7 +121,7 @@ export const GET = async (
           .some(({ motif }) => motif.estProjetAbandonné())
           .none(() => false),
         dateAbandonAccordé: Option.match(abandon)
-          .some(({ accord }) =>
+          .some(({ demande: { accord } }) =>
             accord ? accord.accordéLe.date.toLocaleDateString('fr-FR') : 'JJ/MM/AAAA',
           )
           .none(() => 'JJ/MM/AAAA'),
