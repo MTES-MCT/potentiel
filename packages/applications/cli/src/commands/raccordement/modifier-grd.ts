@@ -62,12 +62,13 @@ export default class ModifierGRD extends Command {
     const codeEICGestionnaireParNom: Record<string, string> = {};
     const getIdentifiantGestionnaireRéseau = async (gestionnaireRéseau: string) => {
       if (!codeEICGestionnaireParNom[gestionnaireRéseau]) {
-        const gestionnaire = await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
-          type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
-          data: {
-            where: { raisonSociale: { operator: 'equal', value: gestionnaireRéseau } },
-          },
-        });
+        const gestionnaire =
+          await mediator.send<GestionnaireRéseau.RechercherGestionnaireRéseauQuery>({
+            type: 'Réseau.Gestionnaire.Query.RechercherGestionnaireRéseau',
+            data: {
+              raisonSociale: gestionnaireRéseau,
+            },
+          });
         if (gestionnaire.items.length === 0) {
           throw new Error(`Aucun GRD trouvé avec le nom ${gestionnaireRéseau}`);
         }

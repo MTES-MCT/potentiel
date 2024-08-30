@@ -260,6 +260,7 @@ const référencielPermissions = {
       query: {
         consulter: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
         lister: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
+        rechercher: 'Réseau.Gestionnaire.Query.RechercherGestionnaireRéseau',
       },
       usecase: {
         ajouter: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
@@ -425,6 +426,7 @@ const policies = {
     },
     gestionnaire: {
       lister: [référencielPermissions.réseau.gestionnaire.query.lister],
+      rechercher: [référencielPermissions.réseau.gestionnaire.query.rechercher],
       ajouter: [
         référencielPermissions.réseau.gestionnaire.usecase.ajouter,
         référencielPermissions.réseau.gestionnaire.command.ajouter,
@@ -737,6 +739,7 @@ const permissionAdmin: Policy[] = [
 
   // Gestionnaire réseau
   'réseau.gestionnaire.lister',
+  'réseau.gestionnaire.rechercher',
   'réseau.gestionnaire.ajouter',
   'réseau.gestionnaire.modifier',
 

@@ -12,6 +12,7 @@ import {
   ConsulterGestionnaireRéseauQueryDependencies,
   registerConsulterGestionnaireRéseauQuery,
 } from './consulter/consulterGestionnaireRéseau.query';
+import { registerRechercherGestionnaireRéseauQuery } from './rechercher/rechercherGestionnaireRéseau.query';
 
 export type GestionnaireRéseauQueryDependencies = ListerGestionnaireRéseauQueryDependencies &
   ConsulterGestionnaireRéseauQueryDependencies;
@@ -35,4 +36,5 @@ export const registerGestionnaireRéseauQueries = (
 ) => {
   registerConsulterGestionnaireRéseauQuery(dependencies);
   registerListerGestionnaireRéseauQuery(dependencies);
+  registerRechercherGestionnaireRéseauQuery(dependencies);
 };

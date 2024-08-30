@@ -19,16 +19,18 @@ Alors(
       );
 
       // Assert read model
-      const listerGestionnaireRéseauReadModel =
-        await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
-          type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
-          data: {},
+      const rechercherGestionnaireRéseauReadModel =
+        await mediator.send<GestionnaireRéseau.RechercherGestionnaireRéseauQuery>({
+          type: 'Réseau.Gestionnaire.Query.RechercherGestionnaireRéseau',
+          data: {
+            raisonSociale: raisonSocialeGestionnaireRéseau,
+          },
         });
 
-      const actual = mapToPlainObject(listerGestionnaireRéseauReadModel);
+      const actual = mapToPlainObject(rechercherGestionnaireRéseauReadModel);
       actual.items[0];
 
-      const expected: PlainType<GestionnaireRéseau.ListerGestionnaireRéseauReadModel> = {
+      const expected: PlainType<GestionnaireRéseau.RechercherGestionnaireRéseauReadModel> = {
         items: [
           {
             aideSaisieRéférenceDossierRaccordement: {

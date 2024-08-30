@@ -11,16 +11,29 @@ import type { ModifierGestionnaireRéseauUseCase } from './modifier/modifierGest
 import type { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouterGestionnaireRéseau.behavior';
 import type { GestionnaireRéseauEvent } from './gestionnaireRéseau.aggregate';
 import type { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.behavior';
+import {
+  RechercherGestionnaireRéseauQuery,
+  RechercherGestionnaireRéseauReadModel,
+} from './rechercher/rechercherGestionnaireRéseau.query';
 
 // Query
 export type GestionnaireRéseauQuery =
   | ListerGestionnaireRéseauQuery
-  | ConsulterGestionnaireRéseauQuery;
+  | ConsulterGestionnaireRéseauQuery
+  | RechercherGestionnaireRéseauQuery;
 
-export { ListerGestionnaireRéseauQuery, ConsulterGestionnaireRéseauQuery };
+export {
+  ListerGestionnaireRéseauQuery,
+  ConsulterGestionnaireRéseauQuery,
+  RechercherGestionnaireRéseauQuery,
+};
 
 // ReadModel
-export { ListerGestionnaireRéseauReadModel, ConsulterGestionnaireRéseauReadModel };
+export {
+  ListerGestionnaireRéseauReadModel,
+  ConsulterGestionnaireRéseauReadModel,
+  RechercherGestionnaireRéseauReadModel,
+};
 
 // UseCases
 export type GestionnaireRéseauUseCase =

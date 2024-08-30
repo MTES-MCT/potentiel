@@ -17,31 +17,20 @@ type PageProps = {
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
     const page = searchParams?.page ? parseInt(searchParams.page) : 1;
-    const raisonSocialeSearch = searchParams ? searchParams['raisonSociale'] : '';
-
-    if (raisonSocialeSearch) {
-      // call rechercher
-    } else {
-    }
-    //
+    const raisonSociale = searchParams ? searchParams['raisonSociale'] : '';
 
     const gestionnairesRéseau =
-      await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
-        type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
+      await mediator.send<GestionnaireRéseau.RechercherGestionnaireRéseauQuery>({
+        type: 'Réseau.Gestionnaire.Query.RechercherGestionnaireRéseau',
         data: {
           range: mapToRangeOptions({
             currentPage: page,
           }),
-          ...(raisonSocialeSearch && {
-            where: {
-              raisonSociale: {
-                operator: 'like',
-                value: `%${raisonSocialeSearch}%`,
-              },
-            },
-          }),
+          raisonSociale,
         },
       });
+
+    console.log(gestionnairesRéseau.items);
 
     const nombreRaccordementParGestionnaire: Record<string, number> = {};
 

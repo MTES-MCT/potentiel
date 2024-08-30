@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { List, RangeOptions } from '@potentiel-domain/entity';
+import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import {
@@ -10,28 +10,32 @@ import {
 
 export type GestionnaireRéseauListItemReadModel = ConsulterGestionnaireRéseauReadModel;
 
-export type ListerGestionnaireRéseauReadModel = Readonly<{
+export type RechercherGestionnaireRéseauReadModel = Readonly<{
   items: ReadonlyArray<GestionnaireRéseauListItemReadModel>;
   range: RangeOptions;
   total: number;
 }>;
 
-export type ListerGestionnaireRéseauQuery = Message<
-  'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
+export type RechercherGestionnaireRéseauQuery = Message<
+  'Réseau.Gestionnaire.Query.RechercherGestionnaireRéseau',
   {
     range?: RangeOptions;
+    raisonSociale: string;
   },
-  ListerGestionnaireRéseauReadModel
+  RechercherGestionnaireRéseauReadModel
 >;
 
-export type ListerGestionnaireRéseauQueryDependencies = {
+export type RechercherGestionnaireRéseauQueryDependencies = {
   list: List;
 };
 
-export const registerListerGestionnaireRéseauQuery = ({
+export const registerRechercherGestionnaireRéseauQuery = ({
   list,
-}: ListerGestionnaireRéseauQueryDependencies) => {
-  const handler: MessageHandler<ListerGestionnaireRéseauQuery> = async ({ range }) => {
+}: RechercherGestionnaireRéseauQueryDependencies) => {
+  const handler: MessageHandler<RechercherGestionnaireRéseauQuery> = async ({
+    range,
+    raisonSociale,
+  }) => {
     const {
       items,
       range: { endPosition, startPosition },
@@ -39,6 +43,9 @@ export const registerListerGestionnaireRéseauQuery = ({
     } = await list<GestionnaireRéseauEntity>('gestionnaire-réseau', {
       orderBy: {
         raisonSociale: 'ascending',
+      },
+      where: {
+        raisonSociale: Where.contains(raisonSociale),
       },
       range,
     });
@@ -52,5 +59,5 @@ export const registerListerGestionnaireRéseauQuery = ({
       total,
     };
   };
-  mediator.register('Réseau.Gestionnaire.Query.ListerGestionnaireRéseau', handler);
+  mediator.register('Réseau.Gestionnaire.Query.RechercherGestionnaireRéseau', handler);
 };
