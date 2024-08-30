@@ -3,6 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { Candidature } from '@potentiel-domain/candidature';
+import { Lauréat } from '@potentiel-domain/laureat';
+import { Éliminé } from '@potentiel-domain/elimine';
 
 import { loadPériodeFactory } from '../période.aggregate';
 import * as IdentifiantPériode from '../identifiantPériode.valueType';
@@ -35,7 +37,17 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
 
       if (candidature.statut?.estClassé()) {
         try {
-          // Call NotifierLauréat
+          await mediator.send<Lauréat.NotifierLauréatUseCase>({
+            type: 'Lauréat.UseCase.NotifierLauréat',
+            data: {
+              identifiantProjetValue: candidat.formatter(),
+              notifiéLeValue: notifiéeLe.formatter(),
+              notifiéParValue: notifiéePar.formatter(),
+              attestationValue: {
+                format: 'application/pdf',
+              },
+            },
+          });
         } catch (error) {}
 
         lauréats.push(candidat);
@@ -43,7 +55,17 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
 
       if (candidature.statut?.estÉliminé()) {
         try {
-          // Call NotifierÉliminé
+          await mediator.send<Éliminé.NotifierÉliminéUseCase>({
+            type: 'Éliminé.UseCase.NotifierÉliminé',
+            data: {
+              identifiantProjetValue: candidat.formatter(),
+              notifiéLeValue: notifiéeLe.formatter(),
+              notifiéParValue: notifiéePar.formatter(),
+              attestationValue: {
+                format: 'application/pdf',
+              },
+            },
+          });
         } catch (error) {}
 
         éliminés.push(candidat);
