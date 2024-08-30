@@ -118,6 +118,25 @@ export const register = () => {
             `dossier-raccordement|${identifiantProjet}#${référenceDossier}`,
           );
         }
+      } else if (event.type === 'RaccordementSupprimé-V1') {
+        const { identifiantProjet } = event.payload;
+
+        const raccordement = await findProjection<Raccordement.RaccordementEntity>(
+          `raccordement|${identifiantProjet}`,
+        );
+
+        if (Option.isSome(raccordement)) {
+          const référencesDossiers = raccordement.dossiers.map((d) => d.référence);
+
+          for (const référence of référencesDossiers) {
+            await removeProjection<Raccordement.DossierRaccordementEntity>(
+              `dossier-raccordement|${identifiantProjet}#${référence}`,
+            );
+          }
+          await removeProjection<Raccordement.RaccordementEntity>(
+            `raccordement|${identifiantProjet}`,
+          );
+        }
       } else {
         const référence =
           event.type === 'DemandeComplèteRaccordementModifiée-V1'

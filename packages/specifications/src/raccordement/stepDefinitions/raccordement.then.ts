@@ -260,3 +260,32 @@ Alors(
     });
   },
 );
+
+Alors(
+  `le dossier ayant comme référence {string} ne devrait plus être consultable dans le raccordement du projet lauréat {string}`,
+  async function (this: PotentielWorld, référenceDossier: string, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    await waitForExpect(async () => {
+      const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+        type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
+
+      expect(raccordement.identifiantGestionnaireRéseau).to.be.undefined;
+      expect(raccordement.dossiers).to.be.empty;
+
+      const dossierRaccordement =
+        await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+          type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+            référenceDossierRaccordementValue: référenceDossier,
+          },
+        });
+
+      expect(Option.isNone(dossierRaccordement)).to.be.true;
+    });
+  },
+);

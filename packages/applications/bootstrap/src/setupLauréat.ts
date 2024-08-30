@@ -40,15 +40,20 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
   });
 
+  // Projectors
   LauréatProjector.register();
   LauréatNotification.register({ sendEmail });
   AbandonProjector.register();
-  AbandonNotification.register({ sendEmail });
   GarantiesFinancièreProjector.register();
-  GarantiesFinancièresNotification.register({ sendEmail });
-  GarantiesFinancières.GarantiesFinancièresSaga.register();
   AchèvementProjector.register();
   AchèvementNotification.register({ sendEmail });
+
+  // Notfications
+  AbandonNotification.register({ sendEmail });
+  GarantiesFinancièresNotification.register({ sendEmail });
+
+  // Sagas
+  GarantiesFinancières.GarantiesFinancièresSaga.register();
 
   const unsubscribeLauréatNotification = await subscribe<LauréatNotification.SubscriptionEvent>({
     name: 'notifications',

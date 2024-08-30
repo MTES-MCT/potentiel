@@ -36,6 +36,7 @@ export const listerProjetForOreAdapter = async ({ limit, offset }: Props) => {
   ) as value
   FROM "projects"
   WHERE "classe" = 'Classé'
+  AND "abandonedOn" = '0'
   ${limit !== undefined ? `LIMIT ${limit}` : ''}
   ${offset !== undefined ? `OFFSET ${limit}` : ''}
 `);

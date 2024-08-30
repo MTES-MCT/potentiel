@@ -57,6 +57,7 @@ export type { AbandonAnnuléEvent } from './annuler/annulerAbandon.behavior';
 export type { ConfirmationAbandonDemandéeEvent } from './demanderConfirmation/demanderConfirmationAbandon.behavior';
 export type { AbandonConfirméEvent } from './confirmer/confirmerAbandon.behavior';
 export type { AbandonRejetéEvent } from './rejeter/rejeterAbandon.behavior';
+export type { AbandonAccordéEvent } from './accorder/accorderAbandon.behavior';
 export type { PreuveRecandidatureDemandéeEvent } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.behavior';
 export type { PreuveRecandidatureTransmiseEvent } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
 
