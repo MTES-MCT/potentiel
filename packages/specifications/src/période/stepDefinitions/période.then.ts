@@ -6,6 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
 import { Lauréat } from '@potentiel-domain/laureat';
+import { Éliminé } from '@potentiel-domain/elimine';
 
 import { PotentielWorld } from '../../potentiel.world';
 
@@ -103,8 +104,8 @@ async function vérifierÉliminés(
 
     if (période.estNotifiée) {
       for (const identifiantÉliminé of période.éliminés) {
-        const éliminé = await mediator.send<Lauréat.ConsulterLauréatQuery>({
-          type: 'Lauréat.Query.ConsulterLauréat',
+        const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
+          type: 'Éliminé.Query.ConsulterÉliminé',
           data: {
             identifiantProjet: identifiantÉliminé.formatter(),
           },
