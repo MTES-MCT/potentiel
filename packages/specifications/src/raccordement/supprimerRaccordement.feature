@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Supprimer le raccordement d'un projet
 
     Scénario: Le système supprime le raccordement d'un projet si celui-ci a un abandon accordé
@@ -19,5 +20,6 @@ Fonctionnalité: Supprimer le raccordement d'un projet
             | Le format de la proposition technique et financière | application/pdf |
             | Le contenu de proposition technique et financière   | contenu         |
         Et une date de mise en service "2024-01-01" pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille"
-        Et un abandon accordé pour le projet lauréat
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand le DGEC validateur accorde l'abandon pour le projet lauréat
         Alors le dossier ayant comme référence "OUE-RP-2022-000033" ne devrait plus être consultable dans le raccordement du projet lauréat "Du boulodrome de Marseille"
