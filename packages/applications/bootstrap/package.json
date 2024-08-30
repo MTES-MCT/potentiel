@@ -12,6 +12,7 @@
     "@potentiel-applications/notifications": "*",
     "@potentiel-applications/projectors": "*",
     "@potentiel-domain/appel-offre": "*",
+    "@potentiel-domain/periode": "*",
     "@potentiel-domain/candidature": "*",
     "@potentiel-domain/document": "*",
     "@potentiel-domain/laureat": "*",

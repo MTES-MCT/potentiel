@@ -1,6 +1,7 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
+import { DateTime } from '@potentiel-domain/common';
 import { Période } from '@potentiel-domain/periode';
 
 import { PotentielWorld } from '../../potentiel.world';
@@ -17,6 +18,10 @@ Quand(
         type: 'Période.UseCase.NotifierPériode',
         data: {
           identifiantPériodeValue: identifiantPériode,
+          notifiéeLeValue: DateTime.convertirEnValueType(
+            this.périodeWorld.notifierPériodeFixture.notifiéeLe,
+          ).formatter(),
+          notifiéeParValue: this.périodeWorld.notifierPériodeFixture.notifiéePar,
           candidats: [...lauréats, ...éliminés],
         },
       });

@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import * as IdentifiantPériode from '../identifiantPériode.valueType';
 
@@ -10,6 +10,8 @@ export type NotifierPériodeUseCase = Message<
   'Période.UseCase.NotifierPériode',
   {
     identifiantPériodeValue: string;
+    notifiéeLeValue: DateTime.RawType;
+    notifiéeParValue: Email.RawType;
     candidats: ReadonlyArray<string>;
   }
 >;
@@ -17,6 +19,8 @@ export type NotifierPériodeUseCase = Message<
 export const registerNotifierPériodeUseCase = () => {
   const handler: MessageHandler<NotifierPériodeUseCase> = async ({
     identifiantPériodeValue,
+    notifiéeLeValue,
+    notifiéeParValue,
     candidats,
   }) => {
     const identifiantPériode = IdentifiantPériode.convertirEnValueType(identifiantPériodeValue);
@@ -25,6 +29,8 @@ export const registerNotifierPériodeUseCase = () => {
       type: 'Période.Command.NotifierPériode',
       data: {
         identifiantPériode,
+        notifiéeLe: DateTime.convertirEnValueType(notifiéeLeValue),
+        notifiéePar: Email.convertirEnValueType(notifiéeParValue),
         candidats: candidats.map((candidat) => IdentifiantProjet.convertirEnValueType(candidat)),
       },
     });

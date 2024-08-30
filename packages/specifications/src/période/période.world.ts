@@ -1,6 +1,9 @@
 import { Période } from '@potentiel-domain/periode';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantPériode } from '@potentiel-domain/periode/dist/période';
+import {
+  ConsulterPériodeReadModel,
+  IdentifiantPériode,
+} from '@potentiel-domain/periode/dist/période';
 
 import { NotifierPériodeFixture } from './fixtures/notifierPériode.fixture';
 
@@ -27,31 +30,24 @@ export class PériodeWorld {
 
   mapToExpected(
     identifiantPériode: Période.IdentifiantPériode.ValueType,
-  ): Période.ConsulterPériodeReadModel {
+  ): ConsulterPériodeReadModel {
     if (!this.#notifierPériodeFixture.aÉtéCréé) {
       throw new Error(`Aucune période notifiée n'a été créée dans PériodeWorld`);
     }
 
-    if (this.#notifierPériodeFixture.estNotifiée) {
-      const expected: Période.ConsulterPériodeReadModel = {
-        identifiantPériode,
-        estNotifiée: this.#notifierPériodeFixture.estNotifiée,
-        lauréats: this.#notifierPériodeFixture.lauréats.map((lauréat) =>
-          IdentifiantProjet.convertirEnValueType(lauréat),
-        ),
-        éliminés: this.#notifierPériodeFixture.éliminés.map((éliminé) =>
-          IdentifiantProjet.convertirEnValueType(éliminé),
-        ),
-        notifiéeLe: DateTime.convertirEnValueType(this.#notifierPériodeFixture.notifiéeLe),
-        notifiéePar: Email.convertirEnValueType(this.#notifierPériodeFixture.notifiéePar),
-      };
+    const expected: ConsulterPériodeReadModel = {
+      identifiantPériode,
+      estNotifiée: true,
+      lauréats: this.#notifierPériodeFixture.lauréats.map((lauréat) =>
+        IdentifiantProjet.convertirEnValueType(lauréat),
+      ),
+      éliminés: this.#notifierPériodeFixture.éliminés.map((éliminé) =>
+        IdentifiantProjet.convertirEnValueType(éliminé),
+      ),
+      notifiéeLe: DateTime.convertirEnValueType(this.#notifierPériodeFixture.notifiéeLe),
+      notifiéePar: Email.convertirEnValueType(this.#notifierPériodeFixture.notifiéePar),
+    };
 
-      return expected;
-    } else {
-      return {
-        identifiantPériode,
-        estNotifiée: this.#notifierPériodeFixture.estNotifiée,
-      };
-    }
+    return expected;
   }
 }

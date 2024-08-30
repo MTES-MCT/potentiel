@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { Candidature } from '@potentiel-domain/candidature';
 
@@ -11,6 +11,8 @@ export type NotifierPériodeCommand = Message<
   'Période.Command.NotifierPériode',
   {
     identifiantPériode: IdentifiantPériode.ValueType;
+    notifiéeLe: DateTime.ValueType;
+    notifiéePar: Email.ValueType;
     candidats: ReadonlyArray<IdentifiantProjet.ValueType>;
   }
 >;
@@ -21,6 +23,8 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
 
   const handler: MessageHandler<NotifierPériodeCommand> = async ({
     identifiantPériode,
+    notifiéeLe,
+    notifiéePar,
     candidats,
   }) => {
     const lauréats: Array<IdentifiantProjet.ValueType> = [];
@@ -47,7 +51,7 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
     }
 
     const période = await loadPériode(identifiantPériode, false);
-    await période.notifier({ identifiantPériode, lauréats, éliminés });
+    await période.notifier({ identifiantPériode, notifiéeLe, notifiéePar, lauréats, éliminés });
   };
 
   mediator.register('Période.Command.NotifierPériode', handler);
