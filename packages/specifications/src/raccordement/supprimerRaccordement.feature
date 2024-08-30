@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Supprimer le raccordement d'un projet
 
     Scénario: Le système supprime le raccordement d'un projet si celui-ci a un abandon accordé
