@@ -1,19 +1,19 @@
 import { mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
 import {
   Raccordement,
   registerRéseauQueries,
   registerRéseauUseCases,
 } from '@potentiel-domain/reseau';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate, publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   countProjection,
   findProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projections';
-import { Candidature } from '@potentiel-domain/candidature';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
 
 registerRéseauUseCases({
   loadAggregate,
@@ -25,40 +25,66 @@ registerRéseauQueries({
   count: countProjection,
 });
 
-Candidature.registerCandidatureQueries({
-  find: findProjection,
-  list: listProjection,
-  récupérerProjet: CandidatureAdapter.récupérerProjetAdapter,
-  récupérerProjets: CandidatureAdapter.récupérerProjetsAdapter,
-  récupérerProjetsEligiblesPreuveRecanditure:
-    CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
-});
+(async () => {
+  const projetsAbandonnés = await executeSelect<{
+    value: {
+      appelOffre: string;
+      période: string;
+      famille: string;
+      numéroCRE: string;
+    };
+  }>(`
+  SELECT json_build_object(
+    'appelOffre', "appelOffreId",
+    'période', "periodeId",
+    'famille', "familleId",
+    'numéroCRE', "numeroCRE"
+  ) as value
+  FROM "projects"
+  WHERE "classe" = 'Classé'
+  AND "abandonedOn" <> '0'
+`);
 
-async () => {
-  const projetsAbandonnés = await mediator.send<Candidature.ListerCandidaturesQuery>({
-    type: 'Candidature.Query.ListerCandidatures',
-    data: {
-      statut: 'abandonné',
-    },
-  });
+  let success = 0;
+  const projetsSansRaccordement = [];
+  const projetsEnErreurs = [];
 
-  for (const { identifiantProjet } of projetsAbandonnés.items) {
-    const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-      },
-    });
+  for (const { value } of projetsAbandonnés) {
+    try {
+      const identifiantProjet = IdentifiantProjet.bind(value).formatter();
 
-    if (Option.isSome(raccordement)) {
+      const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+        type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+        },
+      });
+
+      if (Option.isNone(raccordement)) {
+        projetsSansRaccordement.push(identifiantProjet);
+        continue;
+      }
+
       const event: Raccordement.RaccordementSuppriméEvent = {
         payload: {
-          identifiantProjet: identifiantProjet.formatter(),
+          identifiantProjet,
         },
         type: 'RaccordementSupprimé-V1',
       };
 
-      await publish(`raccordement|${identifiantProjet.formatter()}`, event);
+      await publish(`raccordement|${identifiantProjet}`, event);
+
+      success += 1;
+    } catch (error) {
+      projetsEnErreurs.push({
+        identifiantProjet: value,
+        message: error,
+      });
     }
   }
-};
+  console.log(`${success} raccordements supprimés`);
+  projetsSansRaccordement.forEach((projet) =>
+    console.log(`Projet sans raccordement existant : ${projet}`),
+  );
+  projetsEnErreurs.forEach((projet) => console.table(projet));
+})();
