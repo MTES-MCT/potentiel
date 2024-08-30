@@ -3,6 +3,7 @@ import { Middleware, mediator } from 'mediateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { SendEmail } from '@potentiel-applications/notifications';
 import { sendEmail as sendEmailMailjet } from '@potentiel-infrastructure/email';
+import { AttestationSaga } from '@potentiel-applications/document-builder';
 
 import { setupLauréat } from './setupLauréat';
 import { setupCandidature } from './setupCandidature';
@@ -45,6 +46,8 @@ export const bootstrap = async ({
     const unsetupPériode = await setupPériode();
     const unsetupCandidature = await setupCandidature();
     setupDocumentProjet();
+    AttestationSaga.register();
+
     const unsetupTâche = await setupTâche();
     const unsetupTâchePlanifiée = await setupTâchePlanifiée({ sendEmail });
     setupUtilisateur();

@@ -9,6 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@potentiel-applications/document-builder": "*",
     "@potentiel-applications/notifications": "*",
     "@potentiel-applications/projectors": "*",
     "@potentiel-domain/appel-offre": "*",

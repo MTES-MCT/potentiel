@@ -39,6 +39,9 @@
       "path": "../projectors"
     },
     {
+      "path": "../document-builder"
+    },
+    {
       "path": "../notifications"
     },
     {
