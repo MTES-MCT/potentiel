@@ -2,43 +2,55 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/candidature';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { StatutProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
-
-import { mapExampleToUseCaseDefaultValues } from './helper';
+import { DeepPartial } from '../../fixture';
 
 async function importerCandidature(
-  world: PotentielWorld,
+  this: PotentielWorld,
   nomProjet: string,
-  data: Record<string, string>,
+  statut: StatutProjet.RawType,
+  partialValues?: DeepPartial<Candidature.ImporterCandidatureUseCase['data']>,
 ) {
-  const { values, identifiantProjet } = mapExampleToUseCaseDefaultValues(nomProjet, data);
-  await mediator.send<Candidature.ImporterCandidatureUseCase>({
-    type: 'Candidature.UseCase.ImporterCandidature',
-    data: {
-      ...values,
-      importéLe: DateTime.convertirEnValueType(new Date('2024-08-20')).formatter(),
-      importéPar: 'admin@test.test',
+  const { values } = this.candidatureWorld.importerCandidature.créer({
+    values: {
+      ...partialValues,
+      statutValue: statut,
+      nomProjetValue: nomProjet,
+      importéPar: this.utilisateurWorld.validateurFixture.email,
     },
   });
-
-  world.candidatureWorld.candidatureFixtures.set(nomProjet, {
-    nom: nomProjet,
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    values,
+  await mediator.send<Candidature.ImporterCandidatureUseCase>({
+    type: 'Candidature.UseCase.ImporterCandidature',
+    data: values,
   });
 }
 
-EtantDonné(`la candidature {string}`, async function (this: PotentielWorld, nomProjet: string) {
-  await importerCandidature(this, nomProjet, {});
-});
-
 EtantDonné(
-  `la candidature {string} avec :`,
+  `la candidature lauréate {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
     const exemple = datatable.rowsHash();
-    await importerCandidature(this, nomProjet, exemple);
+    await importerCandidature.call(
+      this,
+      nomProjet,
+      'classé',
+      this.candidatureWorld.mapExempleToFixtureValues(exemple),
+    );
+  },
+);
+
+EtantDonné(
+  `la candidature éliminée {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    await importerCandidature.call(this, nomProjet, 'éliminé');
+  },
+);
+
+EtantDonné(
+  `la candidature lauréate {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    await importerCandidature.call(this, nomProjet, 'classé');
   },
 );
 

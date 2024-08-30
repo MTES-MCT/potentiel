@@ -1,6 +1,7 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { RecoursWord } from './recours/recours.world';
+import { NotifierÉliminéFixture } from './fixtures/notifierÉliminé.fixture';
 
 type EliminéFixture = {
   nom: string;
@@ -10,9 +11,11 @@ type EliminéFixture = {
 
 export class EliminéWorld {
   #eliminéFixtures: Map<string, EliminéFixture> = new Map();
+  /** @deprecated use notifierEliminéFixture */
   get eliminéFixtures() {
     return this.#eliminéFixtures;
   }
+  /** @deprecated use notifierEliminéFixture */
   rechercherEliminéFixture(nom: string): EliminéFixture {
     const eliminé = this.#eliminéFixtures.get(nom);
 
@@ -23,21 +26,19 @@ export class EliminéWorld {
     return eliminé;
   }
 
-  #identifiantProjet: IdentifiantProjet.ValueType;
-
-  get identifiantProjet() {
-    return this.#identifiantProjet;
-  }
-
   #recoursWorld!: RecoursWord;
 
   get recoursWorld() {
     return this.#recoursWorld;
   }
 
+  #notifierEliminéFixture: NotifierÉliminéFixture;
+  get notifierEliminéFixture() {
+    return this.#notifierEliminéFixture;
+  }
+
   constructor() {
     this.#recoursWorld = new RecoursWord();
-
-    this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
+    this.#notifierEliminéFixture = new NotifierÉliminéFixture();
   }
 }

@@ -1,6 +1,12 @@
+export type DeepPartial<T> = T extends object
+  ? {
+      [P in keyof T]?: DeepPartial<T[P]>;
+    }
+  : T;
+
 export interface Fixture<T> {
   readonly aÉtéCréé: boolean;
-  créer(partialData?: Partial<Readonly<T>>): Readonly<T>;
+  créer(partialData?: DeepPartial<Readonly<T>>): Readonly<T>;
 }
 
 export abstract class AbstractFixture<T> implements Fixture<T> {
@@ -14,5 +20,5 @@ export abstract class AbstractFixture<T> implements Fixture<T> {
     this.#aÉtéCréé = value;
   }
 
-  abstract créer(partialData?: Partial<Readonly<T>> | undefined): Readonly<T>;
+  abstract créer(partialData?: DeepPartial<Readonly<T>> | undefined): Readonly<T>;
 }

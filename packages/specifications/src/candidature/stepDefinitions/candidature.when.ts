@@ -2,32 +2,30 @@ import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/candidature';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
-
-import { mapExampleToUseCaseDefaultValues } from './helper';
 
 Quand(
   `un administrateur importe la candidature {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
-    const { identifiantProjet, values } = mapExampleToUseCaseDefaultValues(nomProjet, exemple);
+    if (!this.candidatureWorld.importerCandidature.aÉtéCréé) {
+      this.candidatureWorld.importerCandidature.créer({
+        values: {
+          ...this.candidatureWorld.mapExempleToFixtureValues(exemple),
+          statutValue: exemple['statut'] === 'classé' ? 'classé' : 'éliminé',
+          nomProjetValue: nomProjet,
+          importéPar: this.utilisateurWorld.validateurFixture.email,
+        },
+      });
+    }
+    const { values } = this.candidatureWorld.importerCandidature;
 
     try {
       await mediator.send<Candidature.ImporterCandidatureUseCase>({
         type: 'Candidature.UseCase.ImporterCandidature',
-        data: {
-          ...values,
-          importéLe: DateTime.convertirEnValueType(new Date('2024-08-20')).formatter(),
-          importéPar: 'admin@test.test',
-        },
-      });
-
-      this.candidatureWorld.candidatureFixtures.set(nomProjet, {
-        nom: nomProjet,
-        identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-        values,
+        data: values,
       });
     } catch (error) {
       this.error = error as Error;
@@ -36,18 +34,32 @@ Quand(
 );
 
 Quand(
-  'un administrateur corrige la candidature {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
+  'un administrateur corrige la candidature avec :',
+  async function (this: PotentielWorld, table: DataTable) {
     const exemple = table.rowsHash();
-    const { values: data } = mapExampleToUseCaseDefaultValues(nomProjet, exemple);
+    const { values } = this.candidatureWorld.importerCandidature.créer({
+      identifiantProjet: this.candidatureWorld.importerCandidature.identifiantProjet,
+      values: {
+        ...this.candidatureWorld.importerCandidature.values,
+        ...this.candidatureWorld.mapExempleToFixtureValues(exemple),
+        importéPar: this.utilisateurWorld.validateurFixture.email,
+        statutValue: this.candidatureWorld.importerCandidature.values.statutValue,
+        nomProjetValue: this.candidatureWorld.importerCandidature.values.nomProjetValue,
+      },
+    });
+
+    const { corrigéLe, corrigéPar } = this.candidatureWorld.corrigerCandidature.créer({
+      corrigéLe: DateTime.now().formatter(),
+      corrigéPar: this.utilisateurWorld.validateurFixture.email,
+    });
 
     try {
       await mediator.send<Candidature.CorrigerCandidatureUseCase>({
         type: 'Candidature.UseCase.CorrigerCandidature',
         data: {
-          ...data,
-          corrigéLe: DateTime.convertirEnValueType(new Date('2024-08-20')).formatter(),
-          corrigéPar: 'admin@test.test',
+          ...values,
+          corrigéLe,
+          corrigéPar,
         },
       });
     } catch (error) {

@@ -1,11 +1,13 @@
 # language: fr
 Fonctionnalité: Importer une candidature
 
+    Contexte:
+        Etant donné le DGEC validateur "Robert Robichet"
+
     Plan du scénario: Importer une candidature
         Quand un administrateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut | <Statut> |
-        Alors la candidature "Du boulodrome de Marseille" devrait être consultable dans la liste des candidatures avec :
-            | statut | <Statut> |
+        Alors la candidature devrait être consultable
 
         Exemples:
             | Statut  |
@@ -13,9 +15,9 @@ Fonctionnalité: Importer une candidature
             | éliminé |
 
     Scénario: Impossible d'importer 2 fois la même candidature
-        Etant donné la candidature "Du boulodrome de Marseille"
+        Etant donné la candidature lauréate "Du boulodrome de Marseille"
         Quand un administrateur importe la candidature "Du boulodrome de Marseille" avec :
-            | statut | éliminé |
+            | statut | classé |
         Alors l'administrateur devrait être informé que "Il est impossible d'importer 2 fois la même candidature"
 
     Scénario: Impossible d'importer une candidature avec un AO inexistant
@@ -40,6 +42,8 @@ Fonctionnalité: Importer une candidature
         Quand un administrateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut        | classé          |
             | appel d'offre | PPE2 - Bâtiment |
+            | période       | 1               |
+            | famille       |                 |
             | type GF       |                 |
         Alors l'administrateur devrait être informé que "Les garanties financières sont requises pour cet appel d'offre ou famille"
 
@@ -47,6 +51,8 @@ Fonctionnalité: Importer une candidature
         Quand un administrateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut        | classé             |
             | appel d'offre | PPE2 - Bâtiment    |
+            | période       | 1                  |
+            | famille       |                    |
             | type GF       | avec-date-échéance |
         Alors l'administrateur devrait être informé que "La date d'échéance des garanties financières est requise"
 
@@ -55,6 +61,7 @@ Fonctionnalité: Importer une candidature
             | statut        | classé                      |
             | appel d'offre | CRE4 - Autoconsommation ZNI |
             | période       | 1                           |
+            | famille       |                             |
         Alors l'administrateur devrait être informé que "Cette période est obsolète et ne peut être importée"
 
     @NotImplemented
