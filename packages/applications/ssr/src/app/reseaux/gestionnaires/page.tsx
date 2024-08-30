@@ -19,6 +19,12 @@ export default async function Page({ searchParams }: PageProps) {
     const page = searchParams?.page ? parseInt(searchParams.page) : 1;
     const raisonSocialeSearch = searchParams ? searchParams['raisonSociale'] : '';
 
+    if (raisonSocialeSearch) {
+      // call rechercher
+    } else {
+    }
+    //
+
     const gestionnairesRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
         type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
