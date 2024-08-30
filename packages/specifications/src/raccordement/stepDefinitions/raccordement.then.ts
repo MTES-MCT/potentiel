@@ -23,6 +23,10 @@ Alors(
         },
       });
 
+      if (Option.isNone(actual)) {
+        throw new Error('Raccordement inconnu');
+      }
+
       actual.dossiers
         .map((d) => d.référence.formatter())
         .should.contain(this.raccordementWorld.référenceDossierRaccordement.formatter());
@@ -96,6 +100,10 @@ Alors(
       },
     });
 
+    if (Option.isNone(résultat)) {
+      throw new Error('Raccordement inconnu');
+    }
+
     expect(
       résultat.identifiantGestionnaireRéseau?.estÉgaleÀ(
         GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
@@ -116,6 +124,10 @@ Alors(
         identifiantProjetValue: identifiantProjet.formatter(),
       },
     });
+
+    if (Option.isNone(résultat)) {
+      throw new Error('Raccordement inconnu');
+    }
 
     expect(
       résultat.identifiantGestionnaireRéseau?.estÉgaleÀ(
@@ -142,6 +154,10 @@ Alors(
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
+
+      if (Option.isNone(actual)) {
+        throw new Error('Raccordement inconnu');
+      }
 
       actual.dossiers.should.length(nombreDeDemandes);
     });
@@ -241,6 +257,10 @@ Alors(
         },
       });
 
+      if (Option.isNone(raccordementDuProjet)) {
+        throw new Error('Raccordement inconnu');
+      }
+
       const dossierCible = raccordementDuProjet.dossiers.find(
         (d) => d.référence.formatter() === référenceDossier,
       );
@@ -273,8 +293,7 @@ Alors(
         },
       });
 
-      expect(raccordement.identifiantGestionnaireRéseau).to.be.undefined;
-      expect(raccordement.dossiers).to.be.empty;
+      expect(Option.isNone(raccordement)).to.be.true;
 
       const dossierRaccordement =
         await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
