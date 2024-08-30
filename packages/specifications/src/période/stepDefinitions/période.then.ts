@@ -13,8 +13,8 @@ import { PotentielWorld } from '../../potentiel.world';
 Alors(
   `la période devrait être notifiée avec les lauréats et les éliminés`,
   async function (this: PotentielWorld) {
-    await waitForExpect(async () =>
-      vérifierPériode.call(this, this.périodeWorld.identifiantPériode),
+    await waitForExpect(
+      async () => await vérifierPériode.call(this, this.périodeWorld.identifiantPériode),
     );
   },
 );
@@ -23,8 +23,8 @@ Alors(
   `les lauréats et éliminés devraient être consultables`,
   async function (this: PotentielWorld) {
     await waitForExpect(async () => {
-      vérifierLauréats.call(this, this.périodeWorld.identifiantPériode);
-      vérifierÉliminés.call(this, this.périodeWorld.identifiantPériode);
+      await vérifierLauréats.call(this, this.périodeWorld.identifiantPériode);
+      await vérifierÉliminés.call(this, this.périodeWorld.identifiantPériode);
     });
   },
 );
