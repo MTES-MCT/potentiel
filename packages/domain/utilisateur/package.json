@@ -11,6 +11,7 @@
   "dependencies": {
     "@potentiel-libraries/monads": "*",
     "@potentiel-domain/core": "*",
+    "@potentiel-domain/entity": "*",
     "@potentiel-domain/common": "*"
   },
   "devDependencies": {

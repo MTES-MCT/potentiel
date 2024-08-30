@@ -1,6 +1,6 @@
 import format from 'pg-format';
 
-import { RangeOptions } from '@potentiel-domain/core';
+import { RangeOptions } from '@potentiel-domain/entity';
 
 export const getRangeClause = ({ endPosition, startPosition }: RangeOptions) => {
   if (startPosition < 0) {

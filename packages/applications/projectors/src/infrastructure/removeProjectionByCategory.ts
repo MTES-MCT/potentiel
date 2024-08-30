@@ -1,4 +1,4 @@
-import { Entity } from '@potentiel-domain/core';
+import { Entity } from '@potentiel-domain/entity';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 const deleteQuery = 'delete from domain_views.projection where key like $1';

@@ -9,6 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@potentiel-domain/entity": "*",
     "@potentiel-domain/inmemory-referential": "*",
     "@potentiel-domain/laureat": "*",
     "@potentiel-domain/elimine": "*",

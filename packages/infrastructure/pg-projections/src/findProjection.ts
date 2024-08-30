@@ -1,6 +1,6 @@
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { Option } from '@potentiel-libraries/monads';
-import { Entity } from '@potentiel-domain/core';
+import { Entity } from '@potentiel-domain/entity';
 import { unflatten } from '@potentiel-libraries/flat';
 
 import { KeyValuePair } from './keyValuePair';

@@ -1,8 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { match, Pattern } from 'ts-pattern';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { List, RangeOptions } from '@potentiel-domain/core';
+import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { TâchePlanifiéeEntity } from '../tâchePlanifiée.entity';
 
@@ -48,19 +47,12 @@ export const registerListerTâchesPlanifiéesQuery = ({
       total,
     } = await list<TâchePlanifiéeEntity>('tâche-planifiée', {
       where: {
-        typeTâche: match(catégorieTâche)
-          .with(Pattern.nullish, () => undefined)
-          .otherwise((value) => ({
-            operator: 'like',
-            value: `${value}.%`,
-          })),
-        àExécuterLe: àExécuterLe
-          ? {
-              operator: 'like',
-              // get only the date part, ignore the time
-              value: `${DateTime.convertirEnValueType(àExécuterLe).formatterDate()}T%`,
-            }
-          : undefined,
+        typeTâche: Where.startWith(catégorieTâche ? `${catégorieTâche}.` : undefined),
+        àExécuterLe: Where.startWith(
+          àExécuterLe
+            ? `${DateTime.convertirEnValueType(àExécuterLe).formatterDate()}T`
+            : undefined,
+        ),
       },
       range,
     });

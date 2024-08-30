@@ -1,30 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { List, ListOptions, RangeOptions } from '@potentiel-domain/core';
+import { List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Role, RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
 import { StatutAbandon, StatutPreuveRecandidature } from '..';
 import { AbandonEntity } from '../abandon.entity';
-
-/**
- * @todo A voir si on généralise cette pratique et si on déplace ça dans le package core ou un nouveau package entity
- */
-const mapToWhereEqual = <T>(value: T | undefined) =>
-  value !== undefined
-    ? {
-        operator: 'equal' as const,
-        value,
-      }
-    : undefined;
-
-const mapToWhereLike = (value: string | undefined) =>
-  value !== undefined
-    ? {
-        operator: 'like' as const,
-        value: `%${value}%` as `%${string}%`,
-      }
-    : undefined;
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -88,16 +69,16 @@ export const registerListerAbandonQuery = ({
           email,
           récupérerIdentifiantsProjetParEmailPorteur,
         ),
-        statut: mapToWhereEqual(statut),
+        statut: Where.equal(statut),
         projet: {
-          appelOffre: mapToWhereEqual(appelOffre),
-          nom: mapToWhereLike(nomProjet),
-          région: mapToWhereEqual(régionDreal),
+          appelOffre: Where.equal(appelOffre),
+          nom: Where.contains(nomProjet),
+          région: Where.equal(régionDreal),
         },
         demande: {
-          estUneRecandidature: mapToWhereEqual(recandidature),
+          estUneRecandidature: Where.equal(recandidature),
           recandidature: {
-            statut: mapToWhereEqual(preuveRecandidatureStatut),
+            statut: Where.equal(preuveRecandidatureStatut),
           },
         },
       },
@@ -134,10 +115,7 @@ const getIdentifiantProjetWhereCondition = async (
   if (Role.convertirEnValueType(rôle).estÉgaleÀ(Role.porteur)) {
     const identifiantProjets = await récupérerIdentifiantsProjetParEmailPorteur(email);
 
-    return {
-      operator: 'include',
-      value: identifiantProjets,
-    } as const;
+    return Where.include(identifiantProjets);
   }
 
   return undefined;

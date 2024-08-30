@@ -1,5 +1,5 @@
 import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
-import { Entity } from '@potentiel-domain/core';
+import { Entity } from '@potentiel-domain/entity';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { HistoriqueAbandon, Technologie } from './candidature';

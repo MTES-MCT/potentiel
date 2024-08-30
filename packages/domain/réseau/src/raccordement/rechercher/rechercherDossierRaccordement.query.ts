@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { List } from '@potentiel-domain/core';
+import { List, Where } from '@potentiel-domain/entity';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RéférenceRaccordementIdentifiantProjetEntity } from '../raccordement.entity';
@@ -33,10 +33,7 @@ export const registerRechercherDossierRaccordementQuery = ({
       'référence-raccordement-projet',
       {
         where: {
-          référence: {
-            operator: 'like',
-            value: `%${référenceDossierRaccordement}%`,
-          },
+          référence: Where.contains(référenceDossierRaccordement),
         },
       },
     );

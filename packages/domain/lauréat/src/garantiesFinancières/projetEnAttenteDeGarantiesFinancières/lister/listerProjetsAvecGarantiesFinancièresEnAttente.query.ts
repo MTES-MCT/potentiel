@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
-import { List, RangeOptions } from '@potentiel-domain/core';
+import { Where, List, RangeOptions } from '@potentiel-domain/entity';
 
 import {
   MotifDemandeGarantiesFinancières,
@@ -44,14 +44,6 @@ export type ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies = {
   list: List;
 };
 
-const mapToWhereEqual = <T>(value: T | undefined) =>
-  value !== undefined
-    ? {
-        operator: 'equal' as const,
-        value,
-      }
-    : undefined;
-
 export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
   list,
 }: ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies) => {
@@ -77,10 +69,12 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
         range,
         where: {
           appelOffre: cycle
-            ? { operator: cycle === 'PPE2' ? 'like' : 'notLike', value: '%PPE2%' }
-            : mapToWhereEqual(appelOffre),
-          motif: mapToWhereEqual(motif),
-          régionProjet: mapToWhereEqual(région),
+            ? cycle === 'PPE2'
+              ? Where.contains('PPE2')
+              : Where.notContains('PPE2')
+            : Where.equal(appelOffre),
+          motif: Where.equal(motif),
+          régionProjet: Where.equal(région),
         },
       },
     );

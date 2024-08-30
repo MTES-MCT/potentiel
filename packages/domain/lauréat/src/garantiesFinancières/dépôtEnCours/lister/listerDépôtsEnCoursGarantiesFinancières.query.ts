@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantUtilisateur, Role } from '@potentiel-domain/utilisateur';
-import { List, RangeOptions } from '@potentiel-domain/core';
+import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import {
   TypeGarantiesFinancières,
@@ -72,15 +72,12 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
       orderBy: { dépôt: { dernièreMiseÀJour: { date: 'descending' } } },
       range,
       where: {
-        ...(appelOffre && {
-          appelOffre: { operator: 'equal', value: appelOffre },
-        }),
-        ...(région && {
-          régionProjet: { operator: 'equal', value: région },
-        }),
-        ...(cycle && {
-          appelOffre: { operator: cycle === 'PPE2' ? 'like' : 'notLike', value: '%PPE2%' },
-        }),
+        appelOffre: cycle
+          ? cycle === 'PPE2'
+            ? Where.contains('PPE2')
+            : Where.notContains('PPE2')
+          : Where.equal(appelOffre),
+        régionProjet: Where.equal(région),
       },
     });
 

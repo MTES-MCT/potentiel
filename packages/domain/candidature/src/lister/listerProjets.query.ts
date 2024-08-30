@@ -2,7 +2,7 @@ import { mediator, Message, MessageHandler } from 'mediateur';
 
 import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
-import { RangeOptions } from '@potentiel-domain/core';
+import { RangeOptions } from '@potentiel-domain/entity';
 
 import { ProjetEntity } from '../projet.entity';
 

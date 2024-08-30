@@ -1,0 +1,14 @@
+import { NotEqualWhereCondition, WhereCondition } from '../whereOptions';
+
+export const notEqual = <T>(
+  value: NotEqualWhereCondition<T>['value'] | undefined,
+): WhereCondition<T> | undefined => {
+  if (!value) {
+    return undefined;
+  }
+
+  return {
+    operator: 'notEqual' as const,
+    value,
+  } satisfies NotEqualWhereCondition<T>;
+};

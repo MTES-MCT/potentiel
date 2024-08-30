@@ -3,7 +3,7 @@ import { match, Pattern } from 'ts-pattern';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
-import { List, RangeOptions, WhereCondition } from '@potentiel-domain/core';
+import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { TâcheEntity } from '../tâche.entity';
 import * as TypeTâche from '../typeTâche.valueType';
@@ -53,38 +53,22 @@ export const registerListerTâchesQuery = ({
   }) => {
     const identifiants = await récupérerIdentifiantsProjetParEmailPorteur(email);
 
-    // l'appel d'offre étant plus restrictif que le cycle d'AO, il a priorité
-    const appelOffreFilter: WhereCondition<string> | undefined = appelOffre
-      ? { operator: 'equal', value: appelOffre }
-      : cycle
-        ? { operator: cycle === 'PPE2' ? 'like' : 'notLike', value: '%PPE2%' }
-        : undefined;
-
     const {
       items,
       range: { endPosition, startPosition },
       total,
     } = await list<TâcheEntity>('tâche', {
       where: {
-        identifiantProjet: {
-          operator: 'include',
-          value: identifiants,
-        },
+        identifiantProjet: Where.include(identifiants),
         projet: {
-          appelOffre: appelOffreFilter,
-          nom: match(nomProjet)
-            .with(Pattern.nullish, () => undefined)
-            .otherwise((value) => ({
-              operator: 'like',
-              value: `%${value}%`,
-            })),
+          appelOffre: cycle
+            ? cycle === 'PPE2'
+              ? Where.contains('PPE2')
+              : Where.notContains('PPE2')
+            : Where.equal(appelOffre),
+          nom: Where.contains(nomProjet),
         },
-        typeTâche: match(catégorieTâche)
-          .with(Pattern.nullish, () => undefined)
-          .otherwise((value) => ({
-            operator: 'like',
-            value: `${value}.%`,
-          })),
+        typeTâche: Where.startWith(catégorieTâche ? `${catégorieTâche}.` : undefined),
       },
       range,
     });

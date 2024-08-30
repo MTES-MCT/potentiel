@@ -1,6 +1,6 @@
 import format from 'pg-format';
 
-import { Entity, WhereOperator, WhereOptions } from '@potentiel-domain/core';
+import { Entity, WhereOperator, WhereOptions } from '@potentiel-domain/entity';
 import { flatten } from '@potentiel-libraries/flat';
 
 export const getWhereClause = <TEntity extends Entity>(

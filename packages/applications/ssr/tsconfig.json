@@ -35,6 +35,9 @@
       "path": "../../domain/appel-offre"
     },
     {
+      "path": "../../domain/entity"
+    },
+    {
       "path": "../../domain/lauréat"
     },
     {

@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Find } from '@potentiel-domain/core';
+import { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
 import { AppelOffreReadModel, AppelOffreEntity } from '../appelOffre.entity';

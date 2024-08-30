@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { List } from '@potentiel-domain/core';
+import { List, Where } from '@potentiel-domain/entity';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { AbandonEntity } from '../abandon.entity';
@@ -30,15 +30,9 @@ export const registerListerAbandonsAvecRecandidatureÀRelancerQuery = ({
     const result = await list<AbandonEntity>('abandon', {
       where: {
         demande: {
-          estUneRecandidature: {
-            operator: 'equal',
-            value: true,
-          },
+          estUneRecandidature: Where.equal(true),
           recandidature: {
-            statut: {
-              operator: 'equal',
-              value: StatutPreuveRecandidature.enAttente.statut,
-            },
+            statut: Where.equal(StatutPreuveRecandidature.enAttente.statut),
           },
         },
       },

@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Count } from '@potentiel-domain/core';
+import { Count, Where } from '@potentiel-domain/entity';
 import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
 import { TâcheEntity } from '../tâche.entity';
@@ -31,10 +31,7 @@ export const registerConsulterNombreTâchesQuery = ({
 
     const nombreTâches = await count<TâcheEntity>('tâche', {
       where: {
-        identifiantProjet: {
-          operator: 'include',
-          value: identifiants,
-        },
+        identifiantProjet: Where.include(identifiants),
       },
     });
 

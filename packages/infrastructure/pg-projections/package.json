@@ -10,7 +10,7 @@
     "test": "node --test"
   },
   "dependencies": {
-    "@potentiel-domain/core": "*",
+    "@potentiel-domain/entity": "*",
     "@potentiel-libraries/pg-helpers": "*",
     "@potentiel-libraries/flat": "*",
     "pg-format": "^1.0.4"

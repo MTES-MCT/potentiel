@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Find } from '@potentiel-domain/core';
+import { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
 

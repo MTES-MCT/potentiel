@@ -4,7 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Find } from '@potentiel-domain/core';
+import { Find } from '@potentiel-domain/entity';
 
 import * as StatutRecours from '../statutRecours.valueType';
 import { RecoursEntity } from '../recours.entity';

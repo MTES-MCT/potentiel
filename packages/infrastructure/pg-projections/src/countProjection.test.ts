@@ -3,7 +3,7 @@ import { randomUUID } from 'node:crypto';
 
 import { should } from 'chai';
 
-import { Entity } from '@potentiel-domain/core';
+import { Entity, Where } from '@potentiel-domain/entity';
 import { flatten } from '@potentiel-libraries/flat';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
@@ -73,10 +73,7 @@ describe('countProjection', () => {
     const actual = await countProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: {
-            operator: 'equal',
-            value: '1',
-          },
+          name: Where.equal('1'),
         },
       },
     });
@@ -90,10 +87,7 @@ describe('countProjection', () => {
     const actual = await countProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: {
-            operator: 'notEqual',
-            value: '1',
-          },
+          name: Where.notEqual('1'),
         },
       },
     });
@@ -124,10 +118,7 @@ describe('countProjection', () => {
     const actual = await countProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: {
-            operator: 'like',
-            value: 'a%',
-          },
+          name: Where.startWith('a'),
         },
       },
     });
@@ -158,10 +149,7 @@ describe('countProjection', () => {
     const actual = await countProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: {
-            operator: 'notLike',
-            value: 'a%',
-          },
+          name: Where.notStartWith('a'),
         },
       },
     });
@@ -177,10 +165,7 @@ describe('countProjection', () => {
     const actual = await countProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: {
-            operator: 'include',
-            value: valuesArray,
-          },
+          name: Where.include(valuesArray),
         },
       },
     });
@@ -196,10 +181,7 @@ describe('countProjection', () => {
     const actual = await countProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: {
-            operator: 'notInclude',
-            value: valuesArray,
-          },
+          name: Where.notInclude(valuesArray),
         },
       },
     });
