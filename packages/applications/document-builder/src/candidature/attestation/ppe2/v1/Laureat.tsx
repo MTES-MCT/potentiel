@@ -1,10 +1,10 @@
 import { Text, View } from '@react-pdf/renderer';
 import React from 'react';
 
-import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
-import { getDelaiDeRealisation } from '../helpers/getDélaiDeRéalisation';
-import { formatNumber } from '../helpers';
-import { Footnote, makeAddFootnote } from '../helpers/makeAddFootnotes';
+import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
+import { getDelaiDeRealisation } from '../../helpers/getDélaiDeRéalisation';
+import { formatNumber } from '../../helpers';
+import { Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes';
 
 type MakeLaureatProps = {
   project: AttestationCandidatureOptions;

@@ -2,16 +2,21 @@
 import { eolien } from '@potentiel-domain/inmemory-referential/src/appelOffre/CRE4';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
+import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
 
-import { makeCertificate } from './makeCertificate';
+import { makeCertificate as _makeCertificate } from './makeCertificate';
 
 export default { title: 'Attestations PDF/CRE4/v0' };
+
+const makeCertificate = (
+  project: AttestationCandidatureOptions,
+  validateur: AppelOffre.Validateur,
+) => _makeCertificate(project, validateur, '/images');
 
 const fakeProject: AttestationCandidatureOptions = {
   appelOffre: eolien,
   période: eolien.periodes[0],
-  isClasse: true,
+  isClasse: false,
   famille: eolien.periodes[0].familles[0],
   prixReference: 42,
   evaluationCarbone: 42,
@@ -53,6 +58,13 @@ export const EliminePPE2DéjàLauréatNonInstruit = () => {
     ...fakeProject,
     isClasse: false,
     motifsElimination: 'Déjà lauréat - Non instruit',
+  };
+  return makeCertificate(project, validateur);
+};
+
+export const Lauréat = () => {
+  const project: AttestationCandidatureOptions = {
+    ...fakeProject,
   };
   return makeCertificate(project, validateur);
 };

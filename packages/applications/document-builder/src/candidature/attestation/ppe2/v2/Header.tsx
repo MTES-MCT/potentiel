@@ -1,15 +1,15 @@
 import { Image, Text, View } from '@react-pdf/renderer';
 import React from 'react';
 
-import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
-import { formatDateForPdf } from '../helpers/formatDateForPdf';
-import { imagesFolderPath } from '../../../assets';
+import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
+import { formatDateForPdf } from '../../helpers/formatDateForPdf';
 
 type HeaderProps = {
   project: AttestationCandidatureOptions;
+  imagesRootPath: string;
 };
-export const Header = ({ project }: HeaderProps) => {
-  const { appelOffre } = project;
+export const Header = ({ project, imagesRootPath }: HeaderProps) => {
+  const { appelOffre, notifiedOn, nomRepresentantLegal, nomCandidat, email, potentielId } = project;
   return (
     <View style={{ paddingLeft: 15 }}>
       <View style={{ display: 'flex', flexDirection: 'row' }}>
@@ -22,7 +22,7 @@ export const Header = ({ project }: HeaderProps) => {
         >
           <Image
             style={{ width: 151, height: 85, marginBottom: 40 }}
-            src={`${imagesFolderPath}/logo_MEFSIN.png`}
+            src={imagesRootPath + `/logo_MEFSIN.png`}
           />
 
           <View style={{ width: 165, paddingBottom: 10, fontStyle: 'italic' }}>
@@ -52,20 +52,20 @@ export const Header = ({ project }: HeaderProps) => {
           </Text>
 
           <Text style={{ fontSize: 10, marginBottom: 90 }}>
-            Paris, le {formatDateForPdf(project.notifiedOn)}
+            Paris, le {formatDateForPdf(notifiedOn)}
           </Text>
 
           <View style={{ fontSize: 10 }}>
-            <Text>{project.nomRepresentantLegal}</Text>
-            <Text>{project.nomCandidat}</Text>
-            <Text>{project.email}</Text>
+            <Text>{nomRepresentantLegal}</Text>
+            <Text>{nomCandidat}</Text>
+            <Text>{email}</Text>
           </View>
         </View>
       </View>
 
       <View style={{ marginTop: 10 }}>
         <View style={{ fontSize: 8 }}>
-          <Text>Code Potentiel: {project.potentielId}</Text>
+          <Text>Code Potentiel: {potentielId}</Text>
           <Text>Dossier suivi par : {appelOffre.dossierSuiviPar}</Text>
         </View>
       </View>

@@ -7,15 +7,22 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
 
-import { makeCertificate } from './makeCertificate';
+import { makeCertificate as _makeCertificate } from './makeCertificate';
 
-export default { title: 'Attestations PDF/PPE2/v1' };
+export default { title: 'Attestations PDF/PPE2/v2' };
+
+const makeCertificate = (
+  project: AttestationCandidatureOptions,
+  validateur: AppelOffre.Validateur,
+) => _makeCertificate(project, validateur, '/images');
 
 const fakeProject: AttestationCandidatureOptions = {
-  appelOffre: eolienPPE2,
+  appelOffre: {
+    ...eolienPPE2,
+  } as AppelOffre.AppelOffreReadModel,
   période: eolienPPE2.periodes[0],
-  isClasse: true,
   famille: eolienPPE2.periodes[0].familles[0],
+  isClasse: true,
   prixReference: 42,
   evaluationCarbone: 42,
   isFinancementParticipatif: true,

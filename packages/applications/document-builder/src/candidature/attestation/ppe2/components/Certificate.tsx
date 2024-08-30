@@ -3,23 +3,23 @@ import React from 'react';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { AttestationCandidatureOptions } from './AttestationCandidatureOptions';
-import { Objet } from './components/Objet';
-import { Introduction } from './components/Introduction';
-import { Signature } from './components/Signature';
-import { PageFooter } from './components/PageFooter';
-import { Footnote, FootnoteProps } from './components/Footnote';
-import { Header } from './components/Header';
+import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
+
+import { Objet } from './Objet';
+import { Signature } from './Signature';
+import { PageFooter } from './PageFooter';
 
 export type CertificateProps = {
   project: AttestationCandidatureOptions;
   children: React.ReactNode;
   validateur: AppelOffre.Validateur;
-  footnotes?: Array<FootnoteProps>;
+  footnotes?: React.ReactNode;
+  header: React.ReactNode;
+  introduction: React.ReactNode;
 };
 
 export const Certificate = (props: CertificateProps) => {
-  const { project: projet, children, validateur, footnotes } = props;
+  const { project: projet, children, validateur, header, footnotes } = props;
 
   return (
     <Document>
@@ -33,7 +33,7 @@ export const Certificate = (props: CertificateProps) => {
           paddingBottom: 70,
         }}
       >
-        <Header project={projet} />
+        {header}
 
         <View style={{ paddingLeft: 15 }}>
           <View style={{ textAlign: 'justify' }}>
@@ -42,7 +42,6 @@ export const Certificate = (props: CertificateProps) => {
               appelOffre={projet.appelOffre}
               isClasse={projet.isClasse}
             />
-            <Introduction project={projet} />
 
             {children}
 
@@ -56,18 +55,7 @@ export const Certificate = (props: CertificateProps) => {
             </View>
           </View>
 
-          {footnotes && footnotes.length && (
-            <View
-              style={{
-                marginTop: 100,
-                fontSize: 8,
-              }}
-            >
-              {footnotes.map((footnote, index) => (
-                <Footnote {...footnote} key={`foot_note_${index}`} />
-              ))}
-            </View>
-          )}
+          {footnotes}
         </View>
 
         <PageFooter />

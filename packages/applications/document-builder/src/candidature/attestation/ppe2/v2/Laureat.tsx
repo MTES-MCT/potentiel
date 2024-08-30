@@ -1,9 +1,9 @@
 import { Text, View } from '@react-pdf/renderer';
 import React from 'react';
 
-import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
-import { formatNumber } from '../helpers';
-import { getDelaiDeRealisation } from '../helpers/getDélaiDeRéalisation';
+import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
+import { formatNumber } from '../../helpers';
+import { getDelaiDeRealisation } from '../../helpers/getDélaiDeRéalisation';
 
 type LaureatProps = { project: AttestationCandidatureOptions };
 

@@ -3,10 +3,10 @@ import React from 'react';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { formatDateForPdf } from '../helpers/formatDateForPdf';
-import { formatNumber } from '../helpers';
-import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
-import { Footnote, makeAddFootnote } from '../helpers/makeAddFootnotes';
+import { formatDateForPdf } from '../../helpers/formatDateForPdf';
+import { formatNumber } from '../../helpers';
+import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
+import { Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes';
 
 const Laureat = (project: AttestationCandidatureOptions) => {
   const { appelOffre, période, famille } = project;
@@ -281,8 +281,16 @@ interface CertificateProps {
   body: JSX.Element;
   footnotes?: JSX.Element[];
   validateur: AppelOffre.Validateur;
+  imagesRootPath: string;
 }
-const Certificate = ({ project, objet, body, footnotes, validateur }: CertificateProps) => {
+const Certificate = ({
+  project,
+  objet,
+  body,
+  footnotes,
+  validateur,
+  imagesRootPath,
+}: CertificateProps) => {
   const { appelOffre, période } = project;
 
   return (
@@ -303,10 +311,7 @@ const Certificate = ({ project, objet, body, footnotes, validateur }: Certificat
             left: 63,
           }}
         >
-          <Image
-            style={{ width: 145, height: 118 }}
-            src={process.env.BASE_URL + '/images/Logo MTES.png'}
-          />
+          <Image style={{ width: 145, height: 118 }} src={imagesRootPath + '/logo_MTES.png'} />
         </View>
         <View
           style={{
@@ -445,11 +450,13 @@ const Certificate = ({ project, objet, body, footnotes, validateur }: Certificat
 const makeCertificate = (
   project: AttestationCandidatureOptions,
   validateur: AppelOffre.Validateur,
+  imagesRootPath: string,
 ): React.JSX.Element => {
   return (
     <Certificate
       {...(project.isClasse ? Laureat(project) : Elimine(project))}
       validateur={validateur}
+      imagesRootPath={imagesRootPath}
     />
   );
 };

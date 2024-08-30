@@ -11,9 +11,14 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
 
-import { makeCertificate } from './makeCertificate';
+import { makeCertificate as _makeCertificate } from './makeCertificate';
 
 export default { title: 'Attestations PDF/PPE2/v1' };
+
+const makeCertificate = (
+  project: AttestationCandidatureOptions,
+  validateur: AppelOffre.Validateur,
+) => _makeCertificate(project, validateur, '/images');
 
 const fakeProject: AttestationCandidatureOptions = {
   appelOffre: {} as AppelOffre.AppelOffreReadModel,

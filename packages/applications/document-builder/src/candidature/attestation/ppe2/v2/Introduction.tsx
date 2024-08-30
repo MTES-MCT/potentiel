@@ -1,8 +1,8 @@
 import { Text } from '@react-pdf/renderer';
 import React from 'react';
 
-import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
-import { formatNumber } from '../helpers';
+import { formatNumber } from '../../helpers/formatNumber';
+import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
 
 type IntroductionProps = {
   project: AttestationCandidatureOptions;
@@ -36,8 +36,9 @@ export const Introduction = ({ project }: IntroductionProps) => {
 
       <Text style={{ fontSize: 10, textAlign: 'justify', marginTop: 10 }}>
         En réponse à la {période.title} période de cet appel d’offres, vous avez déposé{' '}
-        {famille ? `dans la famille ${famille} ` : ''} le projet « {project.nomProjet} », situé{' '}
-        {project.adresseProjet} {project.codePostalProjet} {project.communeProjet} d’une{' '}
+        {période.familles.length > 0 && famille ? `dans la famille ${famille.id} ` : ''} le projet «{' '}
+        {project.nomProjet} », situé {project.adresseProjet} {project.codePostalProjet}{' '}
+        {project.communeProjet} d’une{' '}
         {appelOffre.typeAppelOffre === 'biométhane'
           ? 'production annuelle prévisionnelle'
           : 'puissance'}{' '}
