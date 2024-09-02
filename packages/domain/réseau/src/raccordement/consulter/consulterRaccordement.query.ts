@@ -35,7 +35,7 @@ export type ConsulterRaccordementQuery = Message<
   {
     identifiantProjetValue: string;
   },
-  ConsulterRaccordementReadModel
+  Option.Type<ConsulterRaccordementReadModel>
 >;
 
 export type ConsulterRaccordementDependencies = {
@@ -50,14 +50,7 @@ export const registerConsulterRaccordementQuery = ({ find }: ConsulterRaccordeme
 
     const result = await find<RaccordementEntity>(`raccordement|${identifiantProjet.formatter()}`);
 
-    if (Option.isNone(result)) {
-      return {
-        identifiantProjet,
-        dossiers: [],
-      };
-    }
-
-    return mapToReadModel(result);
+    return Option.match(result).some(mapToReadModel).none();
   };
 
   mediator.register('Réseau.Raccordement.Query.ConsulterRaccordement', handler);

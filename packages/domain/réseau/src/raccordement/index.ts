@@ -116,6 +116,7 @@ export type {
   GestionnaireRéseauInconnuAttribuéEvent,
 } from './attribuer/attribuerGestionnaireRéseau.behavior';
 export type { DossierDuRaccordementSuppriméEvent } from './dossier/supprimer/supprimerDossierDuRaccordement.behavior';
+export type { RaccordementSuppriméEvent } from './supprimer/supprimerRaccordement.behavior';
 
 // ValueTypes
 export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';

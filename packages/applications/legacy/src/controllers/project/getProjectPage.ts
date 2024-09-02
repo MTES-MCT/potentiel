@@ -247,18 +247,13 @@ const getAlertesRaccordement = async ({
     return;
   }
 
-  let alertes: Array<AlerteRaccordement> = [];
-  let dossiersRaccordement: Raccordement.ConsulterRaccordementReadModel;
+  const alertes: Array<AlerteRaccordement> = [];
+  const dossiersRaccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+    type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+    data: { identifiantProjetValue: identifiantProjet.formatter() },
+  });
 
-  try {
-    // @TODO : utilisation d'un try/catch temporaire
-    // mais il faudrait revoir le système de gestion des alertes sur le projet
-    // et à discuter avec le métier : qu'est-ce qui est une "alerte" ou une "tâche" en ce qui concerne les raccordements
-    dossiersRaccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
-      data: { identifiantProjetValue: identifiantProjet.formatter() },
-    });
-
+  if(Option.isSome(dossiersRaccordement)) {
     if (
       CDC2022Choisi &&
       dossiersRaccordement.dossiers[0].référence.estÉgaleÀ(
@@ -271,7 +266,7 @@ const getAlertesRaccordement = async ({
     if (!dossiersRaccordement.dossiers[0].demandeComplèteRaccordement.accuséRéception) {
       alertes.push('demandeComplèteRaccordementManquante');
     }
-  } catch (error) {
+  } else {
     alertes.push('demandeComplèteRaccordementManquante');
     if (CDC2022Choisi) {
       alertes.push('référenceDossierManquantePourDélaiCDC2022');
