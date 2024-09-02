@@ -25,7 +25,7 @@ export const register = () => {
       await removeRaccordementProjections(event.payload.id);
     } else {
       const identifiantProjet = payload.identifiantProjet;
-      const numeroCRE = IdentifiantProjet.convertirEnValueType(identifiantProjet).numéroCRE;
+      const numéroCRE = IdentifiantProjet.convertirEnValueType(identifiantProjet).numéroCRE;
 
       const raccordement = await getRaccordementToUpsert(identifiantProjet);
 
@@ -51,7 +51,7 @@ export const register = () => {
             case 'DemandeComplèteDeRaccordementTransmise-V1':
               return {
                 identifiantProjet,
-                numeroCRE,
+                numéroCRE,
                 référence,
                 demandeComplèteRaccordement: {
                   dateQualification: event.payload.dateQualification,
@@ -61,7 +61,7 @@ export const register = () => {
             case 'DemandeComplèteDeRaccordementTransmise-V2':
               return {
                 identifiantProjet,
-                numeroCRE,
+                numéroCRE,
                 référence,
                 demandeComplèteRaccordement: {
                   dateQualification: event.payload.dateQualification,
