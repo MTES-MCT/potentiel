@@ -36,11 +36,8 @@ export async function makeServer(port: number, sessionSecret: string) {
           // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
           // Only send refererer for same origin and transport (HTTPS->HTTPS)
           referrerPolicy: { policy: 'strict-origin' },
-          hsts: {
-            maxAge: 63072000,
-            includeSubDomains: false,
-            preload: true,
-          },
+          // This is already handled by Scalingo, and overriding it results in an invalid value
+          hsts: false,
           crossOriginEmbedderPolicy: false,
           contentSecurityPolicy: {
             useDefaults: false,
