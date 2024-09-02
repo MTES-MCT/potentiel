@@ -49,7 +49,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
     const dossiers = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
       type: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
       data: {
-        numeroCRE,
+        numéroCRE: numeroCRE,
         référenceDossierRaccordement: referenceDossier,
       },
     });
