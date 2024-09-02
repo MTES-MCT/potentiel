@@ -19,7 +19,7 @@ export type RechercherDossierRaccordementReadModel = ReadonlyArray<{
 export type RechercherDossierRaccordementQuery = Message<
   'Réseau.Raccordement.Query.RechercherDossierRaccordement',
   {
-    numeroCRE?: string;
+    numéroCRE?: string;
     référenceDossierRaccordement: string;
   },
   RechercherDossierRaccordementReadModel
