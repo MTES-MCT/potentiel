@@ -1,5 +1,6 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import waitForExpect from 'wait-for-expect';
+import { assert } from 'chai';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
@@ -62,24 +63,21 @@ async function vérifierLauréats(
     `La période ${identifiantPériode.période} notifiée pour l'appel d'offre ${identifiantPériode.appelOffre}`,
   );
 
-  if (Option.isSome(période)) {
-    période.estNotifiée.should.be.true;
+  assert(Option.isSome(période));
+  assert(période.estNotifiée);
 
-    if (période.estNotifiée) {
-      for (const identifiantLauréat of période.lauréats) {
-        const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
-          type: 'Lauréat.Query.ConsulterLauréat',
-          data: {
-            identifiantProjet: identifiantLauréat.formatter(),
-          },
-        });
+  for (const identifiantLauréat of période.lauréats) {
+    const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
+      type: 'Lauréat.Query.ConsulterLauréat',
+      data: {
+        identifiantProjet: identifiantLauréat.formatter(),
+      },
+    });
 
-        lauréat.should.not.be.equal(
-          Option.none,
-          `Aucun lauréat consultable pour ${identifiantLauréat.formatter()}`,
-        );
-      }
-    }
+    assert(
+      Option.isSome(lauréat),
+      `Aucun lauréat consultable pour ${identifiantLauréat.formatter()}`,
+    );
   }
 }
 
@@ -99,23 +97,20 @@ async function vérifierÉliminés(
     `La période ${identifiantPériode.période} notifiée pour l'appel d'offre ${identifiantPériode.appelOffre}`,
   );
 
-  if (Option.isSome(période)) {
-    période.estNotifiée.should.be.true;
+  assert(Option.isSome(période));
+  assert(période.estNotifiée);
 
-    if (période.estNotifiée) {
-      for (const identifiantÉliminé of période.éliminés) {
-        const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
-          type: 'Éliminé.Query.ConsulterÉliminé',
-          data: {
-            identifiantProjet: identifiantÉliminé.formatter(),
-          },
-        });
+  for (const identifiantÉliminé of période.éliminés) {
+    const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
+      type: 'Éliminé.Query.ConsulterÉliminé',
+      data: {
+        identifiantProjet: identifiantÉliminé.formatter(),
+      },
+    });
 
-        éliminé.should.not.be.equal(
-          Option.none,
-          `Aucun éliminé consultable pour ${identifiantÉliminé.formatter()}`,
-        );
-      }
-    }
+    assert(
+      Option.isSome(éliminé),
+      `Aucun éliminé consultable pour ${identifiantÉliminé.formatter()}`,
+    );
   }
 }
