@@ -36,7 +36,7 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
             small
             title="Concernant le dépôt"
             description={
-              <div className="py-4 text-justify">
+              <div className="py-4">
                 Le dépôt est informatif, il ne remplace pas la transmission à votre gestionnaire.
               </div>
             }

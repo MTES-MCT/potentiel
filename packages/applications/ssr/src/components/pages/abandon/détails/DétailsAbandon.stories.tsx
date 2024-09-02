@@ -47,6 +47,7 @@ export const Demandé: Story = {
       },
     },
     actions: [],
+    informations: [],
   },
 };
 
@@ -96,6 +97,7 @@ export const Confirmé: Story = {
       },
     },
     actions: [],
+    informations: [],
   },
 };
 
@@ -139,6 +141,7 @@ export const Rejeté: Story = {
       },
     },
     actions: [],
+    informations: [],
   },
 };
 
@@ -182,6 +185,7 @@ export const Accordé: Story = {
       },
     },
     actions: [],
+    informations: ['demande-de-mainlevée'],
   },
 };
 
@@ -225,6 +229,7 @@ export const AccordéAvecRecandidature: Story = {
       },
     },
     actions: [],
+    informations: ['demande-de-mainlevée', 'demande-abandon-pour-recandidature'],
   },
 };
 
@@ -268,5 +273,6 @@ export const AccordéAvecRecandidatureAvecLienPourTransmettre: Story = {
       },
     },
     actions: [],
+    informations: ['demande-de-mainlevée', 'demande-abandon-pour-recandidature'],
   },
 };

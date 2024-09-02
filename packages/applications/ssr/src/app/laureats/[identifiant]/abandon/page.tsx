@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Abandon } from '@potentiel-domain/laureat';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
@@ -49,6 +49,11 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           identifiantProjet={identifiantProjet}
           role={mapToPlainObject(utilisateur.role)}
           actions={mapToActions({
+            utilisateur,
+            recandidature: abandon.demande.estUneRecandidature,
+            statut: abandon.statut,
+          })}
+          informations={mapToInformations({
             utilisateur,
             recandidature: abandon.demande.estUneRecandidature,
             statut: abandon.statut,
@@ -104,11 +109,30 @@ const mapToActions = ({
       if (statut.estEnCours()) {
         actions.push('annuler');
       }
-      if (statut.estAccordé()) {
-        actions.push('demander-mainlevée');
-      }
       if (recandidature) break;
   }
 
   return actions;
+};
+
+type AvailableInformations = DétailsAbandonPageProps['informations'];
+
+type MapToInformationsProps = {
+  utilisateur: Utilisateur.ValueType;
+  recandidature: boolean;
+  statut: Abandon.StatutAbandon.ValueType;
+};
+
+const mapToInformations = ({ statut, utilisateur, recandidature }: MapToInformationsProps) => {
+  const informations: AvailableInformations = [];
+
+  if (utilisateur.role.estÉgaleÀ(Role.porteur) && statut.estAccordé()) {
+    informations.push('demande-de-mainlevée');
+  }
+
+  if (recandidature) {
+    informations.push('demande-abandon-pour-recandidature');
+  }
+
+  return informations;
 };
