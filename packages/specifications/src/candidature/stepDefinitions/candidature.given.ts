@@ -2,43 +2,35 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/candidature';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { StatutProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
-
-import { mapExampleToUseCaseDefaultValues } from './helper';
-
-async function importerCandidature(
-  world: PotentielWorld,
-  nomProjet: string,
-  data: Record<string, string>,
-) {
-  const { values, identifiantProjet } = mapExampleToUseCaseDefaultValues(nomProjet, data);
-  await mediator.send<Candidature.ImporterCandidatureUseCase>({
-    type: 'Candidature.UseCase.ImporterCandidature',
-    data: {
-      ...values,
-      importéLe: DateTime.convertirEnValueType(new Date('2024-08-20')).formatter(),
-      importéPar: 'admin@test.test',
-    },
-  });
-
-  world.candidatureWorld.candidatureFixtures.set(nomProjet, {
-    nom: nomProjet,
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    values,
-  });
-}
-
-EtantDonné(`la candidature {string}`, async function (this: PotentielWorld, nomProjet: string) {
-  await importerCandidature(this, nomProjet, {});
-});
+import { DeepPartial } from '../../fixture';
 
 EtantDonné(
-  `la candidature {string} avec :`,
+  `la candidature lauréate {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
     const exemple = datatable.rowsHash();
-    await importerCandidature(this, nomProjet, exemple);
+    await importerCandidature.call(
+      this,
+      nomProjet,
+      'classé',
+      this.candidatureWorld.mapExempleToFixtureValues(exemple),
+    );
+  },
+);
+
+EtantDonné(
+  `la candidature éliminée {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    await importerCandidature.call(this, nomProjet, 'éliminé');
+  },
+);
+
+EtantDonné(
+  `la candidature lauréate {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
+    await importerCandidature.call(this, nomProjet, 'classé');
   },
 );
 
@@ -47,73 +39,98 @@ EtantDonné(
   async function (this: PotentielWorld) {
     const candidats = [
       {
-        nomProjet: 'lauréat-1',
-        "appel d'offre": 'PPE2 - Eolien',
-        période: '1',
-        famille: '',
-        'numéro CRE': 'lauréat-1',
-        statut: 'classé',
+        nomProjetValue: 'lauréat-1',
+        appelOffreValue: 'PPE2 - Eolien',
+        périodeValue: '1',
+        familleValue: '',
+        numéroCREValue: 'lauréat-1',
+        statutValue: 'classé',
       },
       {
-        nomProjet: 'lauréat-2',
-        "appel d'offre": 'PPE2 - Eolien',
-        période: '1',
-        famille: '',
-        'numéro CRE': 'lauréat-2',
-        statut: 'classé',
+        nomProjetValue: 'lauréat-2',
+        appelOffreValue: 'PPE2 - Eolien',
+        périodeValue: '1',
+        familleValue: '',
+        numéroCREValue: 'lauréat-2',
+        statutValue: 'classé',
       },
       {
-        nomProjet: 'lauréat-3',
-        "appel d'offre": 'PPE2 - Eolien',
-        période: '1',
-        famille: '',
-        'numéro CRE': 'lauréat-3',
-        statut: 'classé',
+        nomProjetValue: 'lauréat-3',
+        appelOffreValue: 'PPE2 - Eolien',
+        périodeValue: '1',
+        familleValue: '',
+        numéroCREValue: 'lauréat-3',
+        statutValue: 'classé',
       },
       {
-        nomProjet: 'lauréat-4',
-        "appel d'offre": 'PPE2 - Eolien',
-        période: '1',
-        famille: '',
-        'numéro CRE': 'lauréat-4',
-        statut: 'classé',
+        nomProjetValue: 'lauréat-4',
+        appelOffreValue: 'PPE2 - Eolien',
+        périodeValue: '1',
+        familleValue: '',
+        numéroCREValue: 'lauréat-4',
+        statutValue: 'classé',
       },
       {
-        nomProjet: 'lauréat-5',
-        "appel d'offre": 'PPE2 - Eolien',
-        période: '1',
-        famille: '',
-        'numéro CRE': 'lauréat-5',
-        statut: 'classé',
+        nomProjetValue: 'lauréat-5',
+        appelOffreValue: 'PPE2 - Eolien',
+        périodeValue: '1',
+        familleValue: '',
+        numéroCREValue: 'lauréat-5',
+        statutValue: 'classé',
       },
       {
-        nomProjet: 'éliminé-1',
-        "appel d'offre": 'PPE2 - Eolien',
-        période: '1',
-        famille: '',
-        'numéro CRE': 'éliminé-1',
-        statut: 'éliminé',
+        nomProjetValue: 'éliminé-1',
+        appelOffreValue: 'PPE2 - Eolien',
+        périodeValue: '1',
+        familleValue: '',
+        numéroCREValue: 'éliminé-1',
+        statutValue: 'éliminé',
       },
       {
-        nomProjet: 'éliminé-2',
-        "appel d'offre": 'PPE2 - Eolien',
-        période: '1',
-        famille: '',
-        'numéro CRE': 'éliminé-2',
-        statut: 'éliminé',
+        nomProjetValue: 'éliminé-2',
+        appelOffreValue: 'PPE2 - Eolien',
+        périodeValue: '1',
+        familleValue: '',
+        numéroCREValue: 'éliminé-2',
+        statutValue: 'éliminé',
       },
       {
-        nomProjet: 'éliminé-3',
-        "appel d'offre": 'PPE2 - Eolien',
-        période: '1',
-        famille: '',
-        'numéro CRE': 'éliminé-3',
-        statut: 'éliminé',
+        nomProjetValue: 'éliminé-3',
+        appelOffreValue: 'PPE2 - Eolien',
+        périodeValue: '1',
+        familleValue: '',
+        numéroCREValue: 'éliminé-3',
+        statutValue: 'éliminé',
       },
-    ];
+    ] satisfies Partial<Candidature.ImporterCandidatureUseCase['data']>[];
 
-    for (const { nomProjet, ...data } of candidats) {
-      await importerCandidature(this, nomProjet, data);
+    for (const { nomProjetValue, statutValue, ...data } of candidats) {
+      await importerCandidature.call(
+        this,
+        nomProjetValue,
+        statutValue as StatutProjet.RawType,
+        data,
+      );
     }
   },
 );
+
+async function importerCandidature(
+  this: PotentielWorld,
+  nomProjet: string,
+  statut: StatutProjet.RawType,
+  partialValues?: DeepPartial<Candidature.ImporterCandidatureUseCase['data']>,
+) {
+  const { values } = this.candidatureWorld.importerCandidature.créer({
+    values: {
+      ...partialValues,
+      statutValue: statut,
+      nomProjetValue: nomProjet,
+      importéPar: this.utilisateurWorld.validateurFixture.email,
+    },
+  });
+  await mediator.send<Candidature.ImporterCandidatureUseCase>({
+    type: 'Candidature.UseCase.ImporterCandidature',
+    data: values,
+  });
+}

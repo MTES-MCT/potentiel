@@ -2,48 +2,48 @@
 Fonctionnalité: Corriger une candidature
 
     Contexte:
-        Etant donné la candidature "Du boulodrome de Marseille"
+        Etant donné le DGEC validateur "Robert Robichet"
+        Et la candidature lauréate "Du boulodrome de Marseille"
 
     Scénario: Corriger une candidature
-        Quand un administrateur corrige la candidature "Du boulodrome de Marseille" avec :
-            | technologie | pv |
-        Alors la candidature "Du boulodrome de Marseille" devrait être consultable avec :
-            | technologie | pv |
+        Quand un administrateur corrige la candidature avec :
+            | nom candidat | abcd |
+        Alors la candidature devrait être consultable
 
     Scénario: Impossible de changer l'AO d'une candidature
-        Quand un administrateur corrige la candidature "Du boulodrome de Marseille" avec :
+        Quand un administrateur corrige la candidature avec :
             | appel d'offre | PPE2 - Neutre |
         Alors l'administrateur devrait être informé que "La candidature n'existe pas"
 
     Scénario: Impossible de changer la période d'une candidature
-        Quand un administrateur corrige la candidature "Du boulodrome de Marseille" avec :
-            | période | 2 |
+        Quand un administrateur corrige la candidature avec :
+            | période | x |
         Alors l'administrateur devrait être informé que "La candidature n'existe pas"
 
     Scénario: Impossible de corriger une candidature avec une famille d'AO inexistante
-        Quand un administrateur corrige la candidature "Du boulodrome de Marseille" avec :
-            | famille | 1 |
+        Quand un administrateur corrige la candidature avec :
+            | famille | x |
         Alors l'administrateur devrait être informé que "La candidature n'existe pas"
 
     Scénario: Impossible de changer le numéro CRE d'une candidature
-        Quand un administrateur corrige la candidature "Du boulodrome de Marseille" avec :
-            | numéro CRE | 24 |
+        Quand un administrateur corrige la candidature avec :
+            | numéro CRE | x |
         Alors l'administrateur devrait être informé que "La candidature n'existe pas"
 
     Scénario: Impossible de corriger une candidature sans GF, pour un AO soumis aux GF
-        Etant donné la candidature "Centrale PV" avec :
+        Etant donné la candidature lauréate "Centrale PV" avec :
             | appel d'offre | PPE2 - Bâtiment |
-        Quand un administrateur corrige la candidature "Centrale PV" avec :
-            | appel d'offre | PPE2 - Bâtiment |
-            | type GF       |                 |
+            | période       | 1               |
+            | famille       |                 |
+        Quand un administrateur corrige la candidature avec :
+            | type GF |  |
         Alors l'administrateur devrait être informé que "Les garanties financières sont requises pour cet appel d'offre ou famille"
 
     Scénario: Impossible de corriger une candidature avec des GF "avec date d'échéance" si la date d'échéance est maquante
-        Quand un administrateur corrige la candidature "Du boulodrome de Marseille" avec :
+        Quand un administrateur corrige la candidature avec :
             | type GF | avec-date-échéance |
         Alors l'administrateur devrait être informé que "La date d'échéance des garanties financières est requise"
 
     Scénario: Impossible de corriger une candidature sans modifications
-        Quand un administrateur corrige la candidature "Du boulodrome de Marseille" avec :
-            | nom candidat | Candidat |
+        Quand un administrateur corrige la candidature sans modification
         Alors l'administrateur devrait être informé que "La candidature ne contient aucune modification"
