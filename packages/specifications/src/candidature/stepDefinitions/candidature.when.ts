@@ -6,12 +6,12 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 
-async function corrigerCandidature(this: PotentielWorld, exemple: Record<string, string>) {
+async function corrigerCandidature(this: PotentielWorld, exemple?: Record<string, string>) {
   const { values } = this.candidatureWorld.importerCandidature.créer({
     identifiantProjet: this.candidatureWorld.importerCandidature.identifiantProjet,
     values: {
       ...this.candidatureWorld.importerCandidature.values,
-      ...this.candidatureWorld.mapExempleToFixtureValues(exemple),
+      ...this.candidatureWorld.mapExempleToFixtureValues(exemple ?? {}),
       importéPar: this.utilisateurWorld.validateurFixture.email,
       statutValue: this.candidatureWorld.importerCandidature.values.statutValue,
       nomProjetValue: this.candidatureWorld.importerCandidature.values.nomProjetValue,
@@ -75,6 +75,6 @@ Quand(
 Quand(
   'un administrateur corrige la candidature sans modification',
   async function (this: PotentielWorld) {
-    await corrigerCandidature.call(this, {});
+    await corrigerCandidature.call(this);
   },
 );
