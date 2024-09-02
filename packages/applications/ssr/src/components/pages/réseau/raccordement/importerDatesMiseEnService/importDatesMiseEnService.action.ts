@@ -18,6 +18,7 @@ const schema = zod.object({
 });
 
 const csvSchema = zod.object({
+  numeroCRE: zod.string().optional(),
   referenceDossier: zod.string().min(1, {
     message: 'La référence du dossier ne peut pas être vide',
   }),
@@ -44,10 +45,11 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
   let success: number = 0;
   const errors: ActionResult['errors'] = [];
 
-  for (const { referenceDossier, dateMiseEnService } of lines) {
+  for (const { numeroCRE, referenceDossier, dateMiseEnService } of lines) {
     const dossiers = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
       type: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
       data: {
+        numeroCRE,
         référenceDossierRaccordement: referenceDossier,
       },
     });

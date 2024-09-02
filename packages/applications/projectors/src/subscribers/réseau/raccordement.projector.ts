@@ -25,6 +25,7 @@ export const register = () => {
       await removeRaccordementProjections(event.payload.id);
     } else {
       const identifiantProjet = payload.identifiantProjet;
+      const numeroCRE = IdentifiantProjet.convertirEnValueType(identifiantProjet).numéroCRE;
 
       const raccordement = await getRaccordementToUpsert(identifiantProjet);
 
@@ -49,6 +50,8 @@ export const register = () => {
           switch (event.type) {
             case 'DemandeComplèteDeRaccordementTransmise-V1':
               return {
+                identifiantProjet,
+                numeroCRE,
                 référence,
                 demandeComplèteRaccordement: {
                   dateQualification: event.payload.dateQualification,
@@ -57,6 +60,8 @@ export const register = () => {
               };
             case 'DemandeComplèteDeRaccordementTransmise-V2':
               return {
+                identifiantProjet,
+                numeroCRE,
                 référence,
                 demandeComplèteRaccordement: {
                   dateQualification: event.payload.dateQualification,
@@ -81,14 +86,6 @@ export const register = () => {
         await upsertProjection<Raccordement.DossierRaccordementEntity>(
           `dossier-raccordement|${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
           dossier,
-        );
-
-        await upsertProjection<Raccordement.RéférenceRaccordementIdentifiantProjetEntity>(
-          `référence-raccordement-projet|${event.payload.référenceDossierRaccordement}`,
-          {
-            identifiantProjet: event.payload.identifiantProjet,
-            référence: event.payload.référenceDossierRaccordement,
-          },
         );
       } else if (event.type === 'GestionnaireRéseauAttribué-V1') {
         await upsertProjection(`raccordement|${event.payload.identifiantProjet}`, {
@@ -291,14 +288,6 @@ export const register = () => {
             `dossier-raccordement|${event.payload.identifiantProjet}#${updatedDossier.référence}`,
             updatedDossier,
           );
-
-          await upsertProjection<Raccordement.RéférenceRaccordementIdentifiantProjetEntity>(
-            `référence-raccordement-projet|${updatedDossier.référence}`,
-            {
-              identifiantProjet: event.payload.identifiantProjet,
-              référence: updatedDossier.référence,
-            },
-          );
         } else {
           getLogger().warn('[PROJECTOR] - Event skipped: Dossier inconnu', {
             event,
@@ -320,9 +309,6 @@ const removeRaccordementProjections = async (identifiantProjet: string) => {
     for (const référence of raccordement.dossiers.map((d) => d.référence)) {
       await removeProjection<Raccordement.DossierRaccordementEntity>(
         `dossier-raccordement|${identifiantProjet}#${référence}`,
-      );
-      await removeProjection<Raccordement.RéférenceRaccordementIdentifiantProjetEntity>(
-        `référence-raccordement-projet|${référence}`,
       );
     }
 
