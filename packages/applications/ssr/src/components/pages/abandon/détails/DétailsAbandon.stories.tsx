@@ -88,7 +88,7 @@ export const Confirmé: Story = {
           },
           réponseSignée: {
             dateCréation: new Date('2022-02-01').toISOString() as Iso8601DateTime,
-            format: 'application/png',
+            format: 'image/png',
             identifiantProjet,
             typeDocument: Abandon.TypeDocumentAbandon.abandonÀConfirmer.formatter(),
           },
@@ -131,7 +131,7 @@ export const Rejeté: Story = {
           },
           réponseSignée: {
             dateCréation: new Date('2022-02-01').toISOString() as Iso8601DateTime,
-            format: 'application/png',
+            format: 'image/png',
             identifiantProjet,
             typeDocument: Abandon.TypeDocumentAbandon.abandonRejeté.formatter(),
           },
@@ -174,7 +174,7 @@ export const Accordé: Story = {
           },
           réponseSignée: {
             dateCréation: new Date('2022-02-01').toISOString() as Iso8601DateTime,
-            format: 'application/png',
+            format: 'image/png',
             identifiantProjet,
             typeDocument: Abandon.TypeDocumentAbandon.abandonAccordé.formatter(),
           },
@@ -217,7 +217,7 @@ export const AccordéAvecRecandidature: Story = {
           },
           réponseSignée: {
             dateCréation: new Date('2022-02-01').toISOString() as Iso8601DateTime,
-            format: 'application/png',
+            format: 'image/png',
             identifiantProjet,
             typeDocument: Abandon.TypeDocumentAbandon.abandonAccordé.formatter(),
           },
@@ -260,7 +260,7 @@ export const AccordéAvecRecandidatureAvecLienPourTransmettre: Story = {
           },
           réponseSignée: {
             dateCréation: new Date('2022-02-01').toISOString() as Iso8601DateTime,
-            format: 'application/png',
+            format: 'image/png',
             identifiantProjet,
             typeDocument: Abandon.TypeDocumentAbandon.abandonAccordé.formatter(),
           },
