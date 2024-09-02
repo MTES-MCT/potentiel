@@ -12,7 +12,7 @@ Fonctionnalité: Corriger une candidature
 
     Scénario: Impossible de changer l'AO d'une candidature
         Quand un administrateur corrige la candidature avec :
-            | appel d'offre | PPE2 - Neutre |
+            | appel d'offre | x |
         Alors l'administrateur devrait être informé que "La candidature n'existe pas"
 
     Scénario: Impossible de changer la période d'une candidature
