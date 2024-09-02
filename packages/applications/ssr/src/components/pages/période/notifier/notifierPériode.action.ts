@@ -7,6 +7,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Période } from '@potentiel-domain/periode';
 import { Option } from '@potentiel-libraries/monads';
+import { IdentifiantPériode } from '@potentiel-domain/periode/dist/période';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -20,7 +21,7 @@ const schema = zod.object({
 
 const action: FormAction<FormState, typeof schema> = async (_, { appelOffre, periode }) => {
   return withUtilisateur(async (utilisateur) => {
-    const identifiantPériodeValue = `${appelOffre}#${periode}`;
+    const identifiantPériodeValue: IdentifiantPériode.RawType = `${appelOffre}#${periode}`;
 
     const période = await mediator.send<Période.ConsulterPériodeQuery>({
       type: 'Période.Query.ConsulterPériode',
