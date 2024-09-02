@@ -244,6 +244,17 @@ const référencielPermissions = {
       corriger: 'Candidature.Command.CorrigerCandidature',
     },
   },
+  période: {
+    query: {
+      consulter: 'Période.Query.ConsulterPériode',
+    },
+    usecase: {
+      notifier: 'Période.UseCase.NotifierPériode',
+    },
+    command: {
+      notifier: 'Période.Command.NotifierPériode',
+    },
+  },
   document: {
     query: {
       consulter: 'Document.Query.ConsulterDocumentProjet',
@@ -710,6 +721,17 @@ const policies = {
       référencielPermissions.éliminé.command.notifier,
     ],
   },
+  période: {
+    consulter: [référencielPermissions.période.query.consulter],
+    notifier: [
+      référencielPermissions.période.usecase.notifier,
+      référencielPermissions.période.command.notifier,
+      référencielPermissions.lauréat.usecase.notifier,
+      référencielPermissions.lauréat.command.notifier,
+      référencielPermissions.éliminé.usecase.notifier,
+      référencielPermissions.éliminé.command.notifier,
+    ],
+  },
 } as const;
 
 /**
@@ -788,6 +810,9 @@ const permissionDgecValidateur: Policy[] = [
   ...permissionAdmin,
   // Abandon
   'abandon.preuve-recandidature.accorder',
+  // Période
+  'période.consulter',
+  'période.notifier',
 ];
 
 const permissionCRE: Policy[] = [
