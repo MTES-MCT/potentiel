@@ -29,45 +29,45 @@ const action: FormAction<FormState, typeof schema> = async (_, { appelOffre, per
       },
     });
 
-    if (Option.isSome(période)) {
-      const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
-        type: 'Candidature.Query.ListerCandidatures',
-        data: {
-          appelOffre,
-          période: periode,
-          excludedIdentifiantProjets: période.estNotifiée
-            ? [
-                ...période.identifiantLauréats.map((identifiantLauréat) =>
-                  identifiantLauréat.formatter(),
-                ),
-                ...période.identifiantÉliminés.map((identifiantÉliminé) =>
-                  identifiantÉliminé.formatter(),
-                ),
-              ]
-            : [],
-        },
-      });
-
-      await mediator.send<Période.NotifierPériodeUseCase>({
-        type: 'Période.UseCase.NotifierPériode',
-        data: {
-          identifiantPériodeValue,
-          notifiéeLeValue: DateTime.now().formatter(),
-          notifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
-          identifiantCandidatureValues: candidatures.items.map((candidatures) =>
-            candidatures.identifiantProjet.formatter(),
-          ),
-        },
-      });
-
+    if (Option.isNone(période)) {
       return {
-        status: 'success',
+        status: 'domain-error',
+        message: 'Période introuvable',
       };
     }
 
+    const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
+      type: 'Candidature.Query.ListerCandidatures',
+      data: {
+        appelOffre,
+        période: periode,
+        excludedIdentifiantProjets: période.estNotifiée
+          ? [
+              ...période.identifiantLauréats.map((identifiantLauréat) =>
+                identifiantLauréat.formatter(),
+              ),
+              ...période.identifiantÉliminés.map((identifiantÉliminé) =>
+                identifiantÉliminé.formatter(),
+              ),
+            ]
+          : [],
+      },
+    });
+
+    await mediator.send<Période.NotifierPériodeUseCase>({
+      type: 'Période.UseCase.NotifierPériode',
+      data: {
+        identifiantPériodeValue,
+        notifiéeLeValue: DateTime.now().formatter(),
+        notifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
+        identifiantCandidatureValues: candidatures.items.map((candidatures) =>
+          candidatures.identifiantProjet.formatter(),
+        ),
+      },
+    });
+
     return {
-      status: 'domain-error',
-      message: 'Période introuvable',
+      status: 'success',
     };
   });
 };
