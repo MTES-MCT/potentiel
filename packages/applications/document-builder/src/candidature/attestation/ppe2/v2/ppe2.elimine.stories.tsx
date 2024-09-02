@@ -1,3 +1,5 @@
+import type { Meta, StoryObj } from '@storybook/react';
+
 // eslint-disable-next-line no-restricted-imports
 import {
   batimentPPE2,
@@ -5,16 +7,27 @@ import {
 } from '@potentiel-domain/inmemory-referential/src/appelOffre/PPE2';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { AttestationCandidatureOptions } from '../AttestationCandidatureOptions';
+import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
 
-import { makeCertificate as _makeCertificate } from './makeCertificate';
+import { makeCertificate } from './makeCertificate';
 
-export default { title: 'Attestations PDF/PPE2/v2' };
+const meta = {
+  title: 'Attestations PDF/PPE2/v2',
+  component: ({ projet }: { projet: AttestationCandidatureOptions }) => {
+    return makeCertificate(
+      projet,
+      {
+        fullName: 'Nom du signataire',
+        fonction: 'fonction du signataire',
+      },
+      '/images',
+    );
+  },
+} satisfies Meta;
 
-const makeCertificate = (
-  project: AttestationCandidatureOptions,
-  validateur: AppelOffre.Validateur,
-) => _makeCertificate(project, validateur, '/images');
+export default meta;
+
+type Story = StoryObj<typeof meta>;
 
 const fakeProject: AttestationCandidatureOptions = {
   appelOffre: {
@@ -44,93 +57,94 @@ const fakeProject: AttestationCandidatureOptions = {
   technologie: 'N/A',
 };
 
-const validateur = {
-  fullName: 'Nom du signataire',
-  fonction: 'fonction du signataire',
-} as AppelOffre.Validateur;
-
-export const EliminePPE2AuDessusDePcible = () => {
-  const project: AttestationCandidatureOptions = {
-    ...fakeProject,
-    isClasse: false,
-    motifsElimination: 'Au-dessus de Pcible',
-  };
-  return makeCertificate(project, validateur);
-};
-
-export const EliminePPE2DéjàLauréatNonInstruit = () => {
-  const project: AttestationCandidatureOptions = {
-    ...fakeProject,
-    isClasse: false,
-    motifsElimination: 'Déjà lauréat - Non instruit',
-  };
-  return makeCertificate(project, validateur);
-};
-
-export const EliminePPE2CompetitiviteBatimentPuissanceInferieureVolumeReserves = () => {
-  const project: AttestationCandidatureOptions = {
-    ...fakeProject,
-    isClasse: false,
-    motifsElimination: '20% compétitivité',
-    puissance: 0.5,
-    appelOffre: batimentPPE2,
-    période: {
-      ...batimentPPE2.periodes[0],
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 99,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 89,
-        },
-      },
-    } as AppelOffre.Periode,
-  };
-  return makeCertificate(project, validateur);
-};
-
-export const EliminePPE2CompetitiviteBatimentPuissanceSuperieureVolumeReserves = () => {
-  const project: AttestationCandidatureOptions = {
-    ...fakeProject,
-    isClasse: false,
-    motifsElimination: '20% compétitivité',
-    puissance: 3,
-    appelOffre: batimentPPE2,
-    période: {
-      ...batimentPPE2.periodes[0],
-      noteThreshold: {
-        volumeReserve: {
-          noteThreshold: 99,
-          puissanceMax: 1,
-        },
-        autres: {
-          noteThreshold: 89,
-        },
-      },
-    } as AppelOffre.Periode,
-  };
-  return makeCertificate(project, validateur);
-};
-
-export const EliminePPE2AutreMotif = () => {
-  const project: AttestationCandidatureOptions = {
-    ...fakeProject,
-    isClasse: false,
-    motifsElimination: 'Autre motif',
-  };
-  return makeCertificate(project, validateur);
-};
-
-export const EliminePPE2AutreMotifNonSoumisAuxGF = () => {
-  const project: AttestationCandidatureOptions = {
-    ...fakeProject,
-    isClasse: false,
-    motifsElimination: 'Autre motif',
-    appelOffre: {
-      ...fakeProject.appelOffre,
-      soumisAuxGarantiesFinancieres: 'non soumis',
+export const EliminePPE2AuDessusDePcible: Story = {
+  args: {
+    projet: {
+      ...fakeProject,
+      isClasse: false,
+      motifsElimination: 'Au-dessus de Pcible',
     },
-  };
-  return makeCertificate(project, validateur);
+  },
+};
+
+export const EliminePPE2DéjàLauréatNonInstruit: Story = {
+  args: {
+    projet: {
+      ...fakeProject,
+      isClasse: false,
+      motifsElimination: 'Déjà lauréat - Non instruit',
+    },
+  },
+};
+
+export const EliminePPE2CompetitiviteBatimentPuissanceInferieureVolumeReserves: Story = {
+  args: {
+    projet: {
+      ...fakeProject,
+      isClasse: false,
+      motifsElimination: '20% compétitivité',
+      puissance: 0.5,
+      appelOffre: batimentPPE2,
+      période: {
+        ...batimentPPE2.periodes[0],
+        noteThreshold: {
+          volumeReserve: {
+            noteThreshold: 99,
+            puissanceMax: 1,
+          },
+          autres: {
+            noteThreshold: 89,
+          },
+        },
+      } as AppelOffre.Periode,
+    },
+  },
+};
+
+export const EliminePPE2CompetitiviteBatimentPuissanceSuperieureVolumeReserves: Story = {
+  args: {
+    projet: {
+      ...fakeProject,
+      isClasse: false,
+      motifsElimination: '20% compétitivité',
+      puissance: 3,
+      appelOffre: batimentPPE2,
+      période: {
+        ...batimentPPE2.periodes[0],
+        noteThreshold: {
+          volumeReserve: {
+            noteThreshold: 99,
+            puissanceMax: 1,
+          },
+          autres: {
+            noteThreshold: 89,
+          },
+        },
+      } as AppelOffre.Periode,
+    },
+  },
+};
+
+export const EliminePPE2AutreMotif: Story = {
+  args: {
+    projet: {
+      ...fakeProject,
+      isClasse: false,
+      motifsElimination: 'Autre motif',
+    },
+  },
+};
+
+export const EliminePPE2AutreMotifNonSoumisAuxGF: Story = {
+  args: {
+    projet: {
+      ...fakeProject,
+      isClasse: false,
+      motifsElimination: 'Autre motif',
+      appelOffre: {
+        ...fakeProject.appelOffre,
+        soumisAuxGarantiesFinancieres: 'non soumis',
+      },
+    },
+  },
 };
