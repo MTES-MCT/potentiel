@@ -22,13 +22,13 @@ export class NotifierPériodeFixture
     return this.#estNotifiée;
   }
 
-  #lauréats!: Array<string>;
+  #lauréats!: Array<IdentifiantProjet.RawType>;
 
   get lauréats(): NotifierPériode['lauréats'] {
     return this.#lauréats;
   }
 
-  #éliminés!: Array<string>;
+  #éliminés!: Array<IdentifiantProjet.RawType>;
   get éliminés(): NotifierPériode['éliminés'] {
     return this.#éliminés;
   }
