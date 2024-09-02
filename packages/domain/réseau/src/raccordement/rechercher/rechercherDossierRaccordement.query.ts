@@ -33,12 +33,12 @@ export const registerRechercherDossierRaccordementQuery = ({
   list,
 }: RechercherDossierRaccordementDependencies) => {
   const handler: MessageHandler<RechercherDossierRaccordementQuery> = async ({
-    numeroCRE,
+    numéroCRE,
     référenceDossierRaccordement,
   }) => {
     const results = await list<DossierRaccordementEntity>('dossier-raccordement', {
       where: {
-        identifiantProjet: Where.endWith(numeroCRE ? `#${numeroCRE}` : undefined),
+        identifiantProjet: Where.endWith(numéroCRE ? `#${numéroCRE}` : undefined),
         référence: Where.contains(référenceDossierRaccordement),
       },
     });
