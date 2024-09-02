@@ -55,7 +55,7 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
     appelOffre,
     période,
     statut,
-    identifiantProjets,
+    excludedIdentifiantProjets,
   }) => {
     const {
       items,
@@ -67,7 +67,7 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
         période: Where.equal(période),
         nomProjet: Where.contains(nomProjet),
         statut: Where.equal(statut),
-        identifiantProjet: Where.notInclude(identifiantProjets),
+        identifiantProjet: Where.notInclude(excludedIdentifiantProjets),
       },
       range,
     });

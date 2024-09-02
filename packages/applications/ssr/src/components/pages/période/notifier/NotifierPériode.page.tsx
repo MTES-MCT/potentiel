@@ -8,7 +8,7 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
 import { notifierPériodeAction } from './notifierPériode.action';
 
-type NotifierPériodePageProps = {
+export type NotifierPériodePageProps = {
   appelOffres: ReadonlyArray<{
     identifiantAppelOffre: string;
     libellé: string;
