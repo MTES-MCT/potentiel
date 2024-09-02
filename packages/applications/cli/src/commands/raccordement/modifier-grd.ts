@@ -65,7 +65,7 @@ export default class ModifierGRD extends Command {
         const gestionnaire = await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
           type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
           data: {
-            where: { raisonSociale: { operator: 'equal', value: gestionnaireRéseau } },
+            raisonSociale: gestionnaireRéseau,
           },
         });
         if (gestionnaire.items.length === 0) {
