@@ -1,5 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
+import { getLogger } from '@potentiel-libraries/monitoring';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { Candidature } from '@potentiel-domain/candidature';
@@ -35,8 +36,8 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
     for (const candidat of candidats) {
       const candidature = await loadCandidature(candidat);
 
-      if (candidature.statut?.estClassé()) {
-        try {
+      try {
+        if (candidature.statut?.estClassé()) {
           await mediator.send<Lauréat.NotifierLauréatUseCase>({
             type: 'Lauréat.UseCase.NotifierLauréat',
             data: {
@@ -48,13 +49,11 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
               },
             },
           });
-        } catch (error) {}
 
-        lauréats.push(candidat);
-      }
+          lauréats.push(candidat);
+        }
 
-      if (candidature.statut?.estÉliminé()) {
-        try {
+        if (candidature.statut?.estÉliminé()) {
           await mediator.send<Éliminé.NotifierÉliminéUseCase>({
             type: 'Éliminé.UseCase.NotifierÉliminé',
             data: {
@@ -66,9 +65,11 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
               },
             },
           });
-        } catch (error) {}
 
-        éliminés.push(candidat);
+          éliminés.push(candidat);
+        }
+      } catch (error) {
+        getLogger().error(error as Error, { candidat });
       }
     }
 
