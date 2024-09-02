@@ -22,10 +22,11 @@ export const ImporterDatesMiseEnServicePage = () => (
               <Table
                 className="lg:mx-4 my-4 border-spacing-0"
                 caption="Résumé du tableau attendu pour l'import des dates de mise en service"
-                headers={['Colonne', 'Format']}
+                headers={['Colonne', 'Format', 'Optionnel']}
                 data={[
-                  ['referenceDossier', 'chaîne de caractères'],
-                  ['dateMiseEnService', 'date au format JJ/MM/AAAA'],
+                  ['numeroCRE', 'chaîne de caractères', 'oui'],
+                  ['referenceDossier', 'chaîne de caractères', 'non'],
+                  ['dateMiseEnService', 'date au format JJ/MM/AAAA', 'non'],
                 ]}
               />
             </div>

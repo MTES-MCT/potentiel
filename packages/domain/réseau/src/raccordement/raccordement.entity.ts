@@ -1,6 +1,8 @@
 import { Entity } from '@potentiel-domain/entity';
 
 type DossierRaccordement = {
+  identifiantProjet: string;
+  numéroCRE: string;
   référence: string;
   demandeComplèteRaccordement?: {
     dateQualification?: string;
@@ -35,11 +37,3 @@ export type RaccordementEntity = Entity<
 >;
 
 export type DossierRaccordementEntity = Entity<'dossier-raccordement', DossierRaccordement>;
-
-export type RéférenceRaccordementIdentifiantProjetEntity = Entity<
-  'référence-raccordement-projet',
-  {
-    identifiantProjet: string;
-    référence: string;
-  }
->;
