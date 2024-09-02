@@ -16,6 +16,7 @@ import { StartDsfr } from './StartDsfr';
 
 export const metadata: Metadata = {
   title: 'Potentiel',
+  description: "Facilite le parcours des producteurs d'énergies renouvelables électriques",
 };
 
 export const dynamic = 'force-dynamic';
