@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { List, RangeOptions, WhereOptions } from '@potentiel-domain/entity';
+import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
 import {
@@ -20,10 +20,7 @@ export type ListerGestionnaireRéseauQuery = Message<
   'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
   {
     range?: RangeOptions;
-    /**
-     * @deprecated les conditions where ne devraient pas être au niveau de la liste. Le besoin ici est de faire une recherche sur une raison sociale de GRD, il faut une autre query pour ça
-     */
-    where?: WhereOptions<Pick<GestionnaireRéseauEntity, 'raisonSociale'>>;
+    raisonSociale?: string;
   },
   ListerGestionnaireRéseauReadModel
 >;
@@ -35,7 +32,10 @@ export type ListerGestionnaireRéseauQueryDependencies = {
 export const registerListerGestionnaireRéseauQuery = ({
   list,
 }: ListerGestionnaireRéseauQueryDependencies) => {
-  const handler: MessageHandler<ListerGestionnaireRéseauQuery> = async ({ range, where }) => {
+  const handler: MessageHandler<ListerGestionnaireRéseauQuery> = async ({
+    range,
+    raisonSociale,
+  }) => {
     const {
       items,
       range: { endPosition, startPosition },
@@ -44,7 +44,9 @@ export const registerListerGestionnaireRéseauQuery = ({
       orderBy: {
         raisonSociale: 'ascending',
       },
-      where,
+      where: {
+        raisonSociale: Where.contains(raisonSociale),
+      },
       range,
     });
 
