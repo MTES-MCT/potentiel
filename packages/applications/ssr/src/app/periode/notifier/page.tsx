@@ -23,7 +23,7 @@ const mapToProps = (
 ): NotifierPériodePageProps['appelOffres'] =>
   readModel.items.map((appelOffre) => ({
     identifiantAppelOffre: appelOffre.id,
-    libellé: appelOffre.title,
+    libellé: appelOffre.shortTitle,
     périodes: appelOffre.periodes.map((periode) => ({
       identifiantPériode: periode.id,
       libellé: periode.title,
