@@ -69,6 +69,7 @@ export class NotifierPériodeFixture
     this.#éliminés = fixture.éliminés;
 
     this.aÉtéCréé = true;
+
     return fixture;
   }
 }

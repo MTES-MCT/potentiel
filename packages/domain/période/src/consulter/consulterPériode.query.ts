@@ -21,8 +21,8 @@ type PériodeNotifiée = {
   notifiéeLe: DateTime.ValueType;
   notifiéePar: Email.ValueType;
 
-  lauréats: ReadonlyArray<IdentifiantProjet.ValueType>;
-  éliminés: ReadonlyArray<IdentifiantProjet.ValueType>;
+  identifiantLauréats: ReadonlyArray<IdentifiantProjet.ValueType>;
+  identifiantÉliminés: ReadonlyArray<IdentifiantProjet.ValueType>;
 };
 
 export type ConsulterPériodeQuery = Message<
@@ -58,8 +58,12 @@ const mapToReadModel = (période: PériodeEntity): ConsulterPériodeReadModel =>
       estNotifiée: true,
       notifiéeLe: DateTime.convertirEnValueType(période.notifiéeLe),
       notifiéePar: Email.convertirEnValueType(période.notifiéePar),
-      lauréats: période.lauréats.map((lauréat) => IdentifiantProjet.convertirEnValueType(lauréat)),
-      éliminés: période.éliminés.map((éliminé) => IdentifiantProjet.convertirEnValueType(éliminé)),
+      identifiantLauréats: période.identifiantLauréats.map((identifiantLauréat) =>
+        IdentifiantProjet.convertirEnValueType(identifiantLauréat),
+      ),
+      identifiantÉliminés: période.identifiantÉliminés.map((identifiantÉliminé) =>
+        IdentifiantProjet.convertirEnValueType(identifiantÉliminé),
+      ),
     };
   }
 

@@ -66,7 +66,7 @@ async function vérifierLauréats(
   assert(Option.isSome(période));
   assert(période.estNotifiée);
 
-  for (const identifiantLauréat of période.lauréats) {
+  for (const identifiantLauréat of période.identifiantLauréats) {
     const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
       type: 'Lauréat.Query.ConsulterLauréat',
       data: {
@@ -100,7 +100,7 @@ async function vérifierÉliminés(
   assert(Option.isSome(période));
   assert(période.estNotifiée);
 
-  for (const identifiantÉliminé of période.éliminés) {
+  for (const identifiantÉliminé of période.identifiantÉliminés) {
     const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
       type: 'Éliminé.Query.ConsulterÉliminé',
       data: {

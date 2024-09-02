@@ -18,8 +18,8 @@ export type PériodeEvent = PériodeNotifiéeEvent;
 
 export type PériodeAggregate = Aggregate<PériodeEvent> & {
   identifiantPériode: IdentifiantPériode.ValueType | Option.None;
-  lauréats: ReadonlyArray<IdentifiantProjet.ValueType>;
-  éliminés: ReadonlyArray<IdentifiantProjet.ValueType>;
+  identifiantLauréats: ReadonlyArray<IdentifiantProjet.ValueType>;
+  identifiantÉliminés: ReadonlyArray<IdentifiantProjet.ValueType>;
   readonly notifier: typeof notifier;
 };
 
@@ -28,8 +28,8 @@ export const getDefaultPériodeAggregate: GetDefaultAggregateState<
   PériodeEvent
 > = () => ({
   identifiantPériode: Option.none,
-  lauréats: [],
-  éliminés: [],
+  identifiantLauréats: [],
+  identifiantÉliminés: [],
   apply,
   notifier,
 });

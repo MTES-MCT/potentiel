@@ -12,8 +12,8 @@ export type PériodeNotifiéeEvent = DomainEvent<
     notifiéeLe: DateTime.RawType;
     notifiéePar: Email.RawType;
 
-    lauréats: ReadonlyArray<IdentifiantProjet.RawType>;
-    éliminés: ReadonlyArray<IdentifiantProjet.RawType>;
+    identifiantLauréats: ReadonlyArray<IdentifiantProjet.RawType>;
+    identifiantÉliminés: ReadonlyArray<IdentifiantProjet.RawType>;
   }
 >;
 
@@ -21,13 +21,19 @@ export type NotifierPériodeOptions = {
   identifiantPériode: IdentifiantPériode.ValueType;
   notifiéeLe: DateTime.ValueType;
   notifiéePar: Email.ValueType;
-  lauréats: ReadonlyArray<IdentifiantProjet.ValueType>;
-  éliminés: ReadonlyArray<IdentifiantProjet.ValueType>;
+  identifiantLauréats: ReadonlyArray<IdentifiantProjet.ValueType>;
+  identifiantÉliminés: ReadonlyArray<IdentifiantProjet.ValueType>;
 };
 
 export async function notifier(
   this: PériodeAggregate,
-  { identifiantPériode, lauréats, éliminés, notifiéeLe, notifiéePar }: NotifierPériodeOptions,
+  {
+    identifiantPériode,
+    identifiantLauréats,
+    identifiantÉliminés,
+    notifiéeLe,
+    notifiéePar,
+  }: NotifierPériodeOptions,
 ) {
   const event: PériodeNotifiéeEvent = {
     type: 'PériodeNotifiée-V1',
@@ -35,8 +41,12 @@ export async function notifier(
       identifiantPériode: identifiantPériode.formatter(),
       notifiéeLe: notifiéeLe.formatter(),
       notifiéePar: notifiéePar.formatter(),
-      lauréats: lauréats.map((lauréat) => lauréat.formatter()),
-      éliminés: éliminés.map((éliminé) => éliminé.formatter()),
+      identifiantLauréats: identifiantLauréats.map((identifiantLauréat) =>
+        identifiantLauréat.formatter(),
+      ),
+      identifiantÉliminés: identifiantÉliminés.map((identifiantÉliminé) =>
+        identifiantÉliminé.formatter(),
+      ),
     },
   };
 
@@ -45,9 +55,15 @@ export async function notifier(
 
 export function applyPériodeNotifiée(
   this: PériodeAggregate,
-  { payload: { identifiantPériode, lauréats, éliminés } }: PériodeNotifiéeEvent,
+  {
+    payload: { identifiantPériode, identifiantLauréats, identifiantÉliminés },
+  }: PériodeNotifiéeEvent,
 ) {
   this.identifiantPériode = IdentifiantPériode.convertirEnValueType(identifiantPériode);
-  this.lauréats = lauréats.map((lauréat) => IdentifiantProjet.convertirEnValueType(lauréat));
-  this.éliminés = éliminés.map((éliminé) => IdentifiantProjet.convertirEnValueType(éliminé));
+  this.identifiantLauréats = identifiantLauréats.map((identifiantLauréat) =>
+    IdentifiantProjet.convertirEnValueType(identifiantLauréat),
+  );
+  this.identifiantÉliminés = identifiantÉliminés.map((identifiantÉliminé) =>
+    IdentifiantProjet.convertirEnValueType(identifiantÉliminé),
+  );
 }

@@ -16,7 +16,7 @@ export type NotifierPériodeCommand = Message<
     identifiantPériode: IdentifiantPériode.ValueType;
     notifiéeLe: DateTime.ValueType;
     notifiéePar: Email.ValueType;
-    candidats: ReadonlyArray<IdentifiantProjet.ValueType>;
+    identifiantCandidatures: ReadonlyArray<IdentifiantProjet.ValueType>;
   }
 >;
 
@@ -28,20 +28,20 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
     identifiantPériode,
     notifiéeLe,
     notifiéePar,
-    candidats,
+    identifiantCandidatures,
   }) => {
-    const lauréats: Array<IdentifiantProjet.ValueType> = [];
-    const éliminés: Array<IdentifiantProjet.ValueType> = [];
+    const identifiantLauréats: Array<IdentifiantProjet.ValueType> = [];
+    const identifiantÉliminés: Array<IdentifiantProjet.ValueType> = [];
 
-    for (const candidat of candidats) {
-      const candidature = await loadCandidature(candidat);
+    for (const identifiantCandidature of identifiantCandidatures) {
+      const candidature = await loadCandidature(identifiantCandidature);
 
       try {
         if (candidature.statut?.estClassé()) {
           await mediator.send<Lauréat.NotifierLauréatUseCase>({
             type: 'Lauréat.UseCase.NotifierLauréat',
             data: {
-              identifiantProjetValue: candidat.formatter(),
+              identifiantProjetValue: identifiantCandidature.formatter(),
               notifiéLeValue: notifiéeLe.formatter(),
               notifiéParValue: notifiéePar.formatter(),
               attestationValue: {
@@ -50,14 +50,14 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
             },
           });
 
-          lauréats.push(candidat);
+          identifiantLauréats.push(identifiantCandidature);
         }
 
         if (candidature.statut?.estÉliminé()) {
           await mediator.send<Éliminé.NotifierÉliminéUseCase>({
             type: 'Éliminé.UseCase.NotifierÉliminé',
             data: {
-              identifiantProjetValue: candidat.formatter(),
+              identifiantProjetValue: identifiantCandidature.formatter(),
               notifiéLeValue: notifiéeLe.formatter(),
               notifiéParValue: notifiéePar.formatter(),
               attestationValue: {
@@ -66,15 +66,21 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
             },
           });
 
-          éliminés.push(candidat);
+          identifiantÉliminés.push(identifiantCandidature);
         }
       } catch (error) {
-        getLogger().error(error as Error, { candidat });
+        getLogger().error(error as Error, { identifiantCandidature });
       }
     }
 
     const période = await loadPériode(identifiantPériode, false);
-    await période.notifier({ identifiantPériode, notifiéeLe, notifiéePar, lauréats, éliminés });
+    await période.notifier({
+      identifiantPériode,
+      notifiéeLe,
+      notifiéePar,
+      identifiantLauréats,
+      identifiantÉliminés,
+    });
   };
 
   mediator.register('Période.Command.NotifierPériode', handler);

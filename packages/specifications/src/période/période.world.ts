@@ -38,11 +38,11 @@ export class PériodeWorld {
     const expected: ConsulterPériodeReadModel = {
       identifiantPériode,
       estNotifiée: true,
-      lauréats: this.#notifierPériodeFixture.lauréats.map((lauréat) =>
-        IdentifiantProjet.convertirEnValueType(lauréat),
+      identifiantLauréats: this.#notifierPériodeFixture.lauréats.map((identifiantLauréat) =>
+        IdentifiantProjet.convertirEnValueType(identifiantLauréat),
       ),
-      éliminés: this.#notifierPériodeFixture.éliminés.map((éliminé) =>
-        IdentifiantProjet.convertirEnValueType(éliminé),
+      identifiantÉliminés: this.#notifierPériodeFixture.éliminés.map((identifiantÉliminé) =>
+        IdentifiantProjet.convertirEnValueType(identifiantÉliminé),
       ),
       notifiéeLe: DateTime.convertirEnValueType(this.#notifierPériodeFixture.notifiéeLe),
       notifiéePar: Email.convertirEnValueType(this.#notifierPériodeFixture.notifiéePar),

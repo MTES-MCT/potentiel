@@ -20,6 +20,6 @@ type PériodeNotifiée = {
   notifiéeLe: DateTime.RawType;
   notifiéePar: Email.RawType;
 
-  lauréats: ReadonlyArray<IdentifiantProjet.RawType>;
-  éliminés: ReadonlyArray<IdentifiantProjet.RawType>;
+  identifiantLauréats: ReadonlyArray<IdentifiantProjet.RawType>;
+  identifiantÉliminés: ReadonlyArray<IdentifiantProjet.RawType>;
 };

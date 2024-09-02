@@ -22,7 +22,7 @@ Quand(
             this.périodeWorld.notifierPériodeFixture.notifiéeLe,
           ).formatter(),
           notifiéeParValue: this.périodeWorld.notifierPériodeFixture.notifiéePar,
-          candidats: [...lauréats, ...éliminés],
+          identifiantCandidatureValues: [...lauréats, ...éliminés],
         },
       });
     } catch (error) {
