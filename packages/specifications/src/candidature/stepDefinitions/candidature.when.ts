@@ -6,37 +6,6 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 
-async function corrigerCandidature(this: PotentielWorld, exemple?: Record<string, string>) {
-  const { values } = this.candidatureWorld.importerCandidature.créer({
-    identifiantProjet: this.candidatureWorld.importerCandidature.identifiantProjet,
-    values: {
-      ...this.candidatureWorld.importerCandidature.values,
-      ...this.candidatureWorld.mapExempleToFixtureValues(exemple ?? {}),
-      importéPar: this.utilisateurWorld.validateurFixture.email,
-      statutValue: this.candidatureWorld.importerCandidature.values.statutValue,
-      nomProjetValue: this.candidatureWorld.importerCandidature.values.nomProjetValue,
-    },
-  });
-
-  const { corrigéLe, corrigéPar } = this.candidatureWorld.corrigerCandidature.créer({
-    corrigéLe: DateTime.now().formatter(),
-    corrigéPar: this.utilisateurWorld.validateurFixture.email,
-  });
-
-  try {
-    await mediator.send<Candidature.CorrigerCandidatureUseCase>({
-      type: 'Candidature.UseCase.CorrigerCandidature',
-      data: {
-        ...values,
-        corrigéLe,
-        corrigéPar,
-      },
-    });
-  } catch (error) {
-    this.error = error as Error;
-  }
-}
-
 Quand(
   `un administrateur importe la candidature {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
@@ -78,3 +47,34 @@ Quand(
     await corrigerCandidature.call(this);
   },
 );
+
+async function corrigerCandidature(this: PotentielWorld, exemple?: Record<string, string>) {
+  const { values } = this.candidatureWorld.importerCandidature.créer({
+    identifiantProjet: this.candidatureWorld.importerCandidature.identifiantProjet,
+    values: {
+      ...this.candidatureWorld.importerCandidature.values,
+      ...this.candidatureWorld.mapExempleToFixtureValues(exemple ?? {}),
+      importéPar: this.utilisateurWorld.validateurFixture.email,
+      statutValue: this.candidatureWorld.importerCandidature.values.statutValue,
+      nomProjetValue: this.candidatureWorld.importerCandidature.values.nomProjetValue,
+    },
+  });
+
+  const { corrigéLe, corrigéPar } = this.candidatureWorld.corrigerCandidature.créer({
+    corrigéLe: DateTime.now().formatter(),
+    corrigéPar: this.utilisateurWorld.validateurFixture.email,
+  });
+
+  try {
+    await mediator.send<Candidature.CorrigerCandidatureUseCase>({
+      type: 'Candidature.UseCase.CorrigerCandidature',
+      data: {
+        ...values,
+        corrigéLe,
+        corrigéPar,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
