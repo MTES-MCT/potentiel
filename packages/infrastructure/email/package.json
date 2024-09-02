@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@potentiel-libraries/monitoring": "^0.0.0",
-    "node-mailjet": "^6.0.5"
+    "node-mailjet": "^6.0.6"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
