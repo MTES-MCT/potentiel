@@ -87,7 +87,10 @@ export class ImporterCandidatureFixture
 
     this.aÉtéCréé = true;
 
-    return this;
+    return {
+      identifiantProjet: this.identifiantProjet,
+      values: this.values,
+    };
   }
 }
 

@@ -18,6 +18,8 @@ export class NotifierLauréatFixture
   créer(partialData?: NotifierLauréat | undefined): Readonly<NotifierLauréat> {
     this.#identifiantProjet = partialData?.identifiantProjet ?? faker.potentiel.identifiantProjet();
 
-    return this;
+    return {
+      identifiantProjet: this.identifiantProjet,
+    };
   }
 }

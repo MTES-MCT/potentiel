@@ -45,6 +45,5 @@ Fonctionnalité: Corriger une candidature
         Alors l'administrateur devrait être informé que "La date d'échéance des garanties financières est requise"
 
     Scénario: Impossible de corriger une candidature sans modifications
-        Quand un administrateur corrige la candidature avec :
-            |  |  |
+        Quand un administrateur corrige la candidature sans modification
         Alors l'administrateur devrait être informé que "La candidature ne contient aucune modification"

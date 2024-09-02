@@ -1,6 +1,6 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 import waitForExpect from 'wait-for-expect';
 
 import { Candidature } from '@potentiel-domain/candidature';
@@ -21,24 +21,22 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
       },
     });
 
-    expect(Option.isSome(candidature), 'Candidature non trouvée').to.be.true;
+    assert(Option.isSome(candidature), 'Candidature non trouvée');
 
     const actual = mapToPlainObject(candidature);
     const expected = mapToPlainObject(this.candidatureWorld.mapToExpected());
 
     actual.should.be.deep.equal(expected);
 
-    if (Option.isSome(candidature)) {
-      const result = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: candidature.détails.formatter(),
-        },
-      });
+    const result = await mediator.send<ConsulterDocumentProjetQuery>({
+      type: 'Document.Query.ConsulterDocumentProjet',
+      data: {
+        documentKey: candidature.détails.formatter(),
+      },
+    });
 
-      const actualContent = await convertReadableStreamToString(result.content);
-      expect(actualContent).to.equal(JSON.stringify(expectedValues.détailsValue));
-    }
+    const actualContent = await convertReadableStreamToString(result.content);
+    expect(actualContent).to.equal(JSON.stringify(expectedValues.détailsValue));
   });
 });
 

@@ -21,6 +21,9 @@ export class CorrigerCandidatureFixture
     this.#corrigéLe = data.corrigéLe;
     this.#corrigéPar = data.corrigéPar;
     this.aÉtéCréé = true;
-    return this;
+    return {
+      corrigéLe: this.corrigéLe,
+      corrigéPar: this.corrigéPar,
+    };
   }
 }

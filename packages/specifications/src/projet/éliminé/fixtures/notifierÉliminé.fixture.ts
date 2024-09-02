@@ -18,6 +18,8 @@ export class NotifierÉliminéFixture
   créer(partialData?: NotifierÉliminé | undefined): Readonly<NotifierÉliminé> {
     this.#identifiantProjet = partialData?.identifiantProjet ?? faker.potentiel.identifiantProjet();
 
-    return this;
+    return {
+      identifiantProjet: this.identifiantProjet,
+    };
   }
 }
