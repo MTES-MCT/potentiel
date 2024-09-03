@@ -86,8 +86,8 @@ export const ProjectDetails = ({
       <div className="flex flex-col gap-3 mt-5">
         <div className="print:hidden flex flex-col gap-3">
           {abandon && (
-            <AlertBox title="Abandon">
-              <a href={Routes.Abandon.détail(identifiantProjet)}>Voir l'abandon {abandon.statut}</a>
+            <AlertBox title={`Abandon ${abandon.statut}`}>
+              <a href={Routes.Abandon.détail(identifiantProjet)}>Voir les détails de l'abandon</a>
             </AlertBox>
           )}
           {user.role === 'porteur-projet' && modificationsNonPermisesParLeCDCActuel && (

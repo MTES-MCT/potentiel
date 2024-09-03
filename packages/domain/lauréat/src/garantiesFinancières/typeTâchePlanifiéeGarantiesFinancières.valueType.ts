@@ -1,6 +1,6 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const types = [
+const types = [
   'garanties-financières.inconnue',
   'garanties-financières.échoir',
   'garanties-financières.rappel-échéance-un-mois',

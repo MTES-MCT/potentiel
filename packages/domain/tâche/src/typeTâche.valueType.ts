@@ -7,6 +7,7 @@ export const types = [
   'raccordement.référence-non-transmise',
   'raccordement.gestionnaire-réseau-inconnu-attribué',
   'garanties-financières.demander',
+  'garanties-financières.échoir',
 ] as const;
 
 export type RawType = (typeof types)[number];
@@ -51,7 +52,8 @@ export const raccordementGestionnaireRéseauInconnuAttribué = convertirEnValueT
   'raccordement.gestionnaire-réseau-inconnu-attribué',
 );
 
-export const garantiesFinancieresDemander = convertirEnValueType('garanties-financières.demander');
+export const garantiesFinancièresDemander = convertirEnValueType('garanties-financières.demander');
+export const garantiesFinancieresEchoir = convertirEnValueType('garanties-financières.échoir');
 
 class TypeTâcheInvalideError extends InvalidOperationError {
   constructor(value: string) {

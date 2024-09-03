@@ -1,8 +1,9 @@
 import React from 'react';
 import { User } from '../../../../entities';
 import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
-import { Badge, Heading1 } from '../../../components';
+import { Heading1 } from '../../../components';
 import { ProjectActions } from './ProjectActions';
+import { ProjectHeaderBadge } from './ProjectHeaderBadge';
 
 type ProjectHeaderProps = {
   project: ProjectDataForProjectPage;
@@ -21,21 +22,12 @@ export const ProjectHeader = ({
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 print:pl-0 mb-3 text-sm">
-      <div
-        className="flex justify-start items-center
-      "
-      >
+      <div className="flex justify-start items-center">
         <Heading1 className="mb-0 pb-0 flex justify-start gap-4">
-          <span className="inline-block leading-10">{project.nomProjet}</span>
-          {!project.notifiedOn ? (
-            <Badge type="info">Non-notifié</Badge>
-          ) : project.isAbandoned ? (
-            <Badge type="warning">Abandonné</Badge>
-          ) : project.isClasse ? (
-            <Badge type="success">Classé</Badge>
-          ) : (
-            <Badge type="error">Éliminé</Badge>
-          )}
+          <div className="inline-block leading-10">{project.nomProjet}</div>
+          <div>
+            <ProjectHeaderBadge project={project} />
+          </div>
         </Heading1>
       </div>
       <div className="font-medium mt-3">

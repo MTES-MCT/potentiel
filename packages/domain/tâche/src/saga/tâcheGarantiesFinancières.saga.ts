@@ -25,7 +25,7 @@ export const register = () => {
           type: 'System.Tâche.Command.AjouterTâche',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-            typeTâche: Tâche.garantiesFinancieresDemander,
+            typeTâche: Tâche.garantiesFinancièresDemander,
           },
         });
         break;
@@ -35,7 +35,7 @@ export const register = () => {
           type: 'System.Tâche.Command.AcheverTâche',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-            typeTâche: Tâche.garantiesFinancieresDemander,
+            typeTâche: Tâche.garantiesFinancièresDemander,
           },
         });
         break;
