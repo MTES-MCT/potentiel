@@ -23,6 +23,5 @@ export type AttestationCandidatureOptions = {
   potentielId: string;
   technologie: AppelOffre.Technologie;
   actionnariat?: 'financement-collectif' | 'gouvernance-partagee';
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  désignationCatégorie?: any; // DésignationCatégorie; TODO
+  désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
 };

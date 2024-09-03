@@ -8,6 +8,7 @@ import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Éliminé } from '@potentiel-domain/elimine';
 import { Lauréat } from '@potentiel-domain/laureat';
+import { DateTime } from '@potentiel-domain/common';
 
 import { buildCertificate } from './buildCertificate';
 
@@ -29,7 +30,7 @@ export const register = () => {
     switch (event.type) {
       case 'ÉliminéNotifié-V1':
       case 'LauréatNotifié-V1':
-        const content = await generateCertificate(identifiantProjet, notifiéPar);
+        const content = await generateCertificate(identifiantProjet, notifiéLe, notifiéPar);
         if (!content) {
           logger.warn(`Impossible de générer l'attestation du projet ${identifiantProjet}`);
           return;
@@ -55,7 +56,11 @@ export const register = () => {
   mediator.register('System.Candidature.Attestation.Saga.Execute', handler);
 };
 
-const generateCertificate = async (identifiantProjet: string, identifiantUtilisateur: string) => {
+const generateCertificate = async (
+  identifiantProjet: string,
+  notifiéLe: DateTime.RawType,
+  identifiantUtilisateur: string,
+) => {
   const logger = getLogger('System.Candidature.Attestation.Saga.Execute');
   const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
     type: 'Candidature.Query.ConsulterCandidature',
@@ -111,6 +116,7 @@ const generateCertificate = async (identifiantProjet: string, identifiantUtilisa
       période,
       famille,
 
+      notifiedOn: new Date(notifiéLe).getTime(),
       isClasse: candidature.statut.estClassé(),
       potentielId: candidature.identifiantProjet.formatter().replaceAll('#', '-'),
 
@@ -130,15 +136,42 @@ const generateCertificate = async (identifiantProjet: string, identifiantUtilisa
       puissance: candidature.puissanceProductionAnnuelle,
       technologie: candidature.technologie.type,
       engagementFournitureDePuissanceAlaPointe: candidature.puissanceALaPointe,
-      isFinancementParticipatif: candidature.financementParticipatif,
-
       motifsElimination: candidature.motifÉlimination,
 
-      notifiedOn: 0, // TODO
-      isInvestissementParticipatif: false, // TODO
-      // actionnariat:
-      // désignationCatégorie
+      // TODO vérifier !
+      // dans le legacy, c'est le même champs à l'import mais peut être modifié à posteriori
+      isFinancementParticipatif: candidature.financementParticipatif,
+      isInvestissementParticipatif: candidature.financementParticipatif,
+      actionnariat: candidature.financementCollectif
+        ? 'financement-collectif'
+        : candidature.gouvernancePartagée
+          ? 'gouvernance-partagee'
+          : undefined,
+      désignationCatégorie: getDésignationCatégorie({
+        puissance: candidature.puissanceProductionAnnuelle,
+        note: candidature.noteTotale,
+        periodeDetails: période,
+      }),
     },
   });
   return content;
+};
+
+const getDésignationCatégorie = ({
+  puissance,
+  note,
+  periodeDetails,
+}: {
+  puissance: number;
+  note: number;
+  periodeDetails: AppelOffre.Periode;
+}) => {
+  if (periodeDetails.noteThresholdBy !== 'category') {
+    return;
+  }
+
+  return puissance <= periodeDetails.noteThreshold.volumeReserve.puissanceMax &&
+    note >= periodeDetails.noteThreshold.volumeReserve.noteThreshold
+    ? 'volume-réservé'
+    : 'hors-volume-réservé';
 };
