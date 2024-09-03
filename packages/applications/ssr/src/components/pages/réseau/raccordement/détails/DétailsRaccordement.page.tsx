@@ -68,14 +68,18 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
         />
 
         <div className={`my-8 flex flex-col gap-8 md:gap-3 ${fr.cx('fr-accordions-group')}`}>
-          {dossiers.map((dossier) => (
-            <Accordion
-              label={`Dossier avec la référence ${dossier.référence}`}
-              key={dossier.référence}
-            >
-              <DossierRaccordement {...dossier} isGestionnaireInconnu={isGestionnaireInconnu} />
-            </Accordion>
-          ))}
+          {dossiers.length === 1 ? (
+            <DossierRaccordement {...dossiers[0]} isGestionnaireInconnu={isGestionnaireInconnu} />
+          ) : (
+            dossiers.map((dossier) => (
+              <Accordion
+                label={`Dossier avec la référence ${dossier.référence}`}
+                key={dossier.référence}
+              >
+                <DossierRaccordement {...dossier} isGestionnaireInconnu={isGestionnaireInconnu} />
+              </Accordion>
+            ))
+          )}
         </div>
       </div>
 
