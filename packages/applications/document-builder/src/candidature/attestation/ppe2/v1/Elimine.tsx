@@ -8,10 +8,11 @@ type ElimineProps = {
 };
 
 export const buildElimine = ({ project }: ElimineProps) => {
-  const { appelOffre } = project;
+  const { appelOffre, période } = project;
   const { renvoiRetraitDesignationGarantieFinancieres, soumisAuxGarantiesFinancieres } = appelOffre;
 
   return {
+    objet: `Avis de rejet à l’issue de la ${période.title} période de l'appel d'offres ${période.cahierDesCharges.référence} ${appelOffre.title}`,
     content: (
       <>
         <Text style={{ marginTop: 10 }}>

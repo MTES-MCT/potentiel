@@ -18,6 +18,7 @@ export const buildLauréat = ({ project }: MakeLaureatProps) => {
   const addFootNote = makeAddFootnote(footnotes);
 
   return {
+    objet: `Désignation des lauréats de la ${période.title} période de l'appel d'offres ${période.cahierDesCharges.référence} ${appelOffre.title}`,
     content: (
       <>
         <Text

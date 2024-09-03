@@ -1,25 +1,19 @@
-import { Document, Page, Text, View } from '@react-pdf/renderer';
+import { Document, Page, View } from '@react-pdf/renderer';
 import React from 'react';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-
-import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
-
-import { Objet } from './Objet';
-import { Signature } from './Signature';
 import { PageFooter } from './PageFooter';
 
 export type CertificateProps = {
-  project: AttestationCandidatureOptions;
-  children: React.ReactNode;
-  validateur: AppelOffre.Validateur;
-  footnotes?: React.ReactNode;
   header: React.ReactNode;
+  objet: React.ReactNode;
   introduction: React.ReactNode;
+  content: React.ReactNode;
+  signature: React.ReactNode;
+  footnotes?: React.ReactNode;
 };
 
 export const Certificate = (props: CertificateProps) => {
-  const { project: projet, children, validateur, header, footnotes } = props;
+  const { header, objet, introduction, content, signature, footnotes } = props;
 
   return (
     <Document>
@@ -37,22 +31,13 @@ export const Certificate = (props: CertificateProps) => {
 
         <View style={{ paddingLeft: 15 }}>
           <View style={{ textAlign: 'justify' }}>
-            <Objet
-              période={projet.période}
-              appelOffre={projet.appelOffre}
-              isClasse={projet.isClasse}
-            />
+            {objet}
 
-            {children}
+            {introduction}
 
-            <View wrap={false}>
-              <Text style={{ marginTop: 30 }}>
-                Je vous prie d’agréer, Madame, Monsieur, l’expression de mes salutations
-                distinguées.
-              </Text>
+            {content}
 
-              <Signature validateur={validateur} />
-            </View>
+            {signature}
           </View>
 
           {footnotes}

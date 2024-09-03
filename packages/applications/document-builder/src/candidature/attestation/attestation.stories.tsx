@@ -56,7 +56,7 @@ const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCand
     engagementFournitureDePuissanceAlaPointe: true,
     motifsElimination: 'motifsElimination',
     note: 42,
-    notifiedOn: 42,
+    notifiedOn: Date.now(),
     nomRepresentantLegal: 'nomRepresentantLegal',
     nomCandidat: 'nomCandidat',
     email: 'email',

@@ -4,10 +4,12 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Certificate } from '../components/Certificate';
 import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
+import { Objet } from '../components/Objet';
+import { Signature } from '../components/Signature';
 
 import { Header } from './Header';
-import { Lauréat } from './Laureat';
-import { Elimine } from './Elimine';
+import { buildLauréat } from './Laureat';
+import { buildElimine } from './Elimine';
 import { Introduction } from './Introduction';
 
 const makeCertificate = (
@@ -15,15 +17,18 @@ const makeCertificate = (
   validateur: AppelOffre.Validateur,
   imagesRootPath: string,
 ): React.JSX.Element => {
+  const { content, objet } = project.isClasse
+    ? buildLauréat({ project })
+    : buildElimine({ project });
+
   return (
     <Certificate
-      project={project}
-      validateur={validateur}
       header={<Header project={project} imagesRootPath={imagesRootPath} />}
+      objet={<Objet text={objet} />}
       introduction={<Introduction project={project} />}
-    >
-      {project.isClasse ? <Lauréat project={project} /> : <Elimine project={project} />}
-    </Certificate>
+      content={content}
+      signature={<Signature validateur={validateur} />}
+    />
   );
 };
 

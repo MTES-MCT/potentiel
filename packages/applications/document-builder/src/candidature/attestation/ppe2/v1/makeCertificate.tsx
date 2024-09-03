@@ -5,6 +5,8 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Certificate } from '../components/Certificate';
 import { Footnotes } from '../components/Footnotes';
 import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
+import { Objet } from '../components/Objet';
+import { Signature } from '../components/Signature';
 
 import { Header } from './Header';
 import { buildLauréat } from './Laureat';
@@ -16,20 +18,19 @@ const makeCertificate = (
   validateur: AppelOffre.Validateur,
   imagesRootPath: string,
 ): React.JSX.Element => {
-  const { content, footnotes } = project.isClasse
+  const { content, footnotes, objet } = project.isClasse
     ? buildLauréat({ project })
     : buildElimine({ project });
 
   return (
     <Certificate
-      project={project}
-      validateur={validateur}
-      footnotes={footnotes?.length ? <Footnotes footnotes={footnotes} /> : undefined}
       header={<Header project={project} imagesRootPath={imagesRootPath} />}
+      objet={<Objet text={objet} />}
       introduction={<Introduction project={project} />}
-    >
-      {content}
-    </Certificate>
+      content={content}
+      signature={<Signature validateur={validateur} />}
+      footnotes={footnotes?.length ? <Footnotes footnotes={footnotes} /> : undefined}
+    />
   );
 };
 
