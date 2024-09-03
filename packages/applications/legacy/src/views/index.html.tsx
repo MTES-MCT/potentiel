@@ -44,6 +44,10 @@ export const makeHtml = <T extends {}>(args: PageProps<T>) => {
         <meta charset="utf-8" />
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta
+          name="description"
+          content="Facilite le parcours des producteurs d'énergies renouvelables électriques"
+        />
 
         <title>${`${title} - Potentiel`}</title>
 
