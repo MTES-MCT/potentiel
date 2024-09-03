@@ -67,9 +67,8 @@ export const GET = async (
         contactDreal: utilisateur.identifiantUtilisateur.email,
         referenceProjet: formatIdentifiantProjetForDocument(identifiantProjetValue),
         titreAppelOffre: `${détailPériode?.cahierDesCharges.référence ?? '!!! Cahier des charges non disponible !!!'} ${appelOffres.title}`,
-        dateLancementAppelOffre: DateTime.convertirEnValueType(
-          appelOffres.launchDate,
-        ).date.toLocaleDateString('fr-FR'),
+        // Attention, launchDate est au format "Avril 2017"
+        dateLancementAppelOffre: new Date(appelOffres.launchDate).toLocaleDateString('fr-FR'),
         nomProjet: candidature.nom,
         adresseCompleteProjet: `${candidature.localité.adresse} ${candidature.localité.codePostal} ${candidature.localité.commune}`,
         puissanceProjet: candidature.puissance.toString(),
