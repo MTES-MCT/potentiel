@@ -29,7 +29,7 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
       aria-label={`Modifier le gestionnaire (actuel : ${gestionnaireRéseau.raisonSociale})`}
     >
       <Icon id="fr-icon-pencil-fill" size="xs" className="mr-1" />
-      Modifier
+      {isGestionnaireInconnu ? 'Spécifier un gestionnaire de réseau' : 'Modifier'}
     </a>
   ) : undefined;
 
@@ -40,10 +40,7 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
         title="Gestionnaire de réseau inconnu"
         className="mb-6"
         description={
-          <div className="flex flex-col">
-            Vous devez spécifier un gestionnaire de réseau
-            {lienModifier && <div>{lienModifier}</div>}
-          </div>
+          <div className="flex flex-row">{lienModifier && <div>{lienModifier}</div>}</div>
         }
       />
     );

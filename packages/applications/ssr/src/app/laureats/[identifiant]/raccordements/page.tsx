@@ -51,6 +51,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           },
           canEdit: canEditGestionnaireRéseau,
         };
+
         return (
           <AucunDossierDeRaccordementPage
             identifiantProjet={identifiantProjet}
