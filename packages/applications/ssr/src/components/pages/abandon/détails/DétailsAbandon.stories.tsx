@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Abandon } from '@potentiel-domain/laureat';
 
@@ -20,6 +20,22 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const identifiantProjet = '1#1##1';
+
+const getProjetsÀSélectionner = () => {
+  const projetsÀSélectionner: DétailsAbandonPageProps['projetsÀSélectionner'] = [];
+  for (let i = 0; i < 10; i += 1) {
+    projetsÀSélectionner.push({
+      appelOffre: `Appel d'offre ${i}`,
+      période: `${i}`,
+      famille: `${i}`,
+      numéroCRE: `${i}`,
+      nom: `Projet ${i}`,
+      identifiantProjet: `${i}#${i}##${i}`,
+      dateDésignation: DateTime.convertirEnValueType('2022-01-01').formatter(),
+    });
+  }
+  return projetsÀSélectionner;
+};
 
 export const Demandé: Story = {
   args: {
@@ -48,6 +64,7 @@ export const Demandé: Story = {
     },
     actions: [],
     informations: [],
+    projetsÀSélectionner: [],
   },
 };
 
@@ -98,6 +115,7 @@ export const Confirmé: Story = {
     },
     actions: [],
     informations: [],
+    projetsÀSélectionner: [],
   },
 };
 
@@ -142,6 +160,7 @@ export const Rejeté: Story = {
     },
     actions: [],
     informations: [],
+    projetsÀSélectionner: [],
   },
 };
 
@@ -186,6 +205,7 @@ export const Accordé: Story = {
     },
     actions: [],
     informations: ['demande-de-mainlevée'],
+    projetsÀSélectionner: [],
   },
 };
 
@@ -230,6 +250,7 @@ export const AccordéAvecRecandidature: Story = {
     },
     actions: [],
     informations: ['demande-de-mainlevée', 'demande-abandon-pour-recandidature'],
+    projetsÀSélectionner: [],
   },
 };
 
@@ -274,5 +295,6 @@ export const AccordéAvecRecandidatureAvecLienPourTransmettre: Story = {
     },
     actions: [],
     informations: ['demande-de-mainlevée', 'demande-abandon-pour-recandidature'],
+    projetsÀSélectionner: getProjetsÀSélectionner(),
   },
 };

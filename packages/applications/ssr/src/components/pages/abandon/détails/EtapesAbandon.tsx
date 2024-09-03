@@ -29,32 +29,9 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
       recandidature,
       rejet,
     },
-    identifiantProjet,
   },
-  role,
 }) => {
   const items: TimelineProps['items'] = [];
-
-  const identifiantProjetAbandonné = IdentifiantProjet.bind(identifiantProjet);
-  const roleUtilisateur = Role.bind(role);
-
-  if (recandidature?.statut?.statut === 'en-attente' && accord) {
-    items.push({
-      status: 'warning',
-      date: 'En attente',
-      title: Role.porteur.estÉgaleÀ(roleUtilisateur) ? (
-        <Link
-          href={Routes.Abandon.transmettrePreuveRecandidature(
-            identifiantProjetAbandonné.formatter(),
-          )}
-        >
-          Transmettre un projet comme preuve de recandidature
-        </Link>
-      ) : (
-        "Le porteur n'a pas encore transmis de projet comme preuve de recandidature."
-      ),
-    });
-  }
 
   if (
     recandidature?.preuve?.transmiseLe &&

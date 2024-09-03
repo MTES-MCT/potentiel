@@ -21,6 +21,10 @@ import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
 import { RejeterAbandon } from './rejeter/RejeterAbandon';
 import { InfoBoxMainlevéeSiAbandonAccordé } from './InfoBoxMainlevéeSiAbandonAccordé';
+import {
+  TransmettrePreuveRecandidature,
+  TransmettrePreuveRecandidatureFormProps,
+} from './transmettrePreuveRecandidature/TransmettrePreuveRecandidature';
 
 type AvailableActions = Array<
   | 'demander-confirmation'
@@ -29,6 +33,7 @@ type AvailableActions = Array<
   | 'accorder-avec-recandidature'
   | 'accorder-sans-recandidature'
   | 'rejeter'
+  | 'transmettre-preuve-recandidature'
 >;
 
 type AvailableInformations = Array<'demande-de-mainlevée' | 'demande-abandon-pour-recandidature'>;
@@ -36,6 +41,7 @@ type AvailableInformations = Array<'demande-de-mainlevée' | 'demande-abandon-po
 export type DétailsAbandonPageProps = {
   identifiantProjet: string;
   abandon: PlainType<Abandon.ConsulterAbandonReadModel>;
+  projetsÀSélectionner: TransmettrePreuveRecandidatureFormProps['projetsÀSélectionner'];
   role: PlainType<Role.ValueType>;
   actions: AvailableActions;
   informations: AvailableInformations;
@@ -47,6 +53,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   role,
   actions,
   informations,
+  projetsÀSélectionner,
 }) => {
   const demandéLe = DateTime.bind(abandon.demande.demandéLe).formatter();
   return (
@@ -62,7 +69,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
                 <div>
                   Statut : <StatutAbandonBadge statut={abandon.statut.statut} />
                 </div>
-                {abandon.demande.recandidature && (
+                {abandon.demande.accord?.accordéLe && abandon.demande.recandidature && (
                   <div>
                     Abandon avec recandidature :{' '}
                     <StatutPreuveRecandidatureBadge
@@ -99,6 +106,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
             {mapToActionComponents({
               actions,
               identifiantProjet,
+              projetsÀSélectionner,
             })}
             {mapToInformationsComponents({
               informations,
@@ -114,12 +122,18 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
 type MapToActionsComponentsProps = {
   actions: AvailableActions;
   identifiantProjet: string;
+  projetsÀSélectionner: DétailsAbandonPageProps['projetsÀSélectionner'];
 };
 
-const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) =>
+const mapToActionComponents = ({
+  actions,
+  identifiantProjet,
+  projetsÀSélectionner,
+}: MapToActionsComponentsProps) =>
   actions.length ? (
     <div className="flex flex-col gap-4">
       <Heading2>Actions</Heading2>
+
       {actions.includes('demander-confirmation') && (
         <DemanderConfirmationAbandon identifiantProjet={identifiantProjet} />
       )}
@@ -132,6 +146,12 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
       {actions.includes('rejeter') && <RejeterAbandon identifiantProjet={identifiantProjet} />}
       {actions.includes('confirmer') && <ConfirmerAbandon identifiantProjet={identifiantProjet} />}
       {actions.includes('annuler') && <AnnulerAbandon identifiantProjet={identifiantProjet} />}
+      {actions.includes('transmettre-preuve-recandidature') && (
+        <TransmettrePreuveRecandidature
+          identifiantProjet={identifiantProjet}
+          projetsÀSélectionner={projetsÀSélectionner}
+        />
+      )}
     </div>
   ) : null;
 
