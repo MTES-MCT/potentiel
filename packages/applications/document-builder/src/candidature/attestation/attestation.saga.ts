@@ -105,8 +105,15 @@ const generateCertificate = async (
     return null;
   }
   const famille = période.familles.find((x) => x.id === candidature.identifiantProjet.famille);
+  const financementEtTemplate = await getFinancementEtTemplate({
+    période,
+    candidature,
+  });
+  if (!financementEtTemplate) {
+    return null;
+  }
+
   const content = await buildCertificate({
-    template: période.certificateTemplate,
     validateur: {
       fullName: utilisateur.nomComplet,
       fonction: utilisateur.fonction,
@@ -138,20 +145,13 @@ const generateCertificate = async (
       engagementFournitureDePuissanceAlaPointe: candidature.puissanceALaPointe,
       motifsElimination: candidature.motifÉlimination,
 
-      // TODO vérifier !
-      // dans le legacy, c'est le même champs à l'import mais peut être modifié à posteriori
-      isFinancementParticipatif: candidature.financementParticipatif,
-      isInvestissementParticipatif: candidature.financementParticipatif,
-      actionnariat: candidature.financementCollectif
-        ? 'financement-collectif'
-        : candidature.gouvernancePartagée
-          ? 'gouvernance-partagee'
-          : undefined,
       désignationCatégorie: getDésignationCatégorie({
         puissance: candidature.puissanceProductionAnnuelle,
         note: candidature.noteTotale,
         periodeDetails: période,
       }),
+
+      ...financementEtTemplate,
     },
   });
   return content;
@@ -174,4 +174,39 @@ const getDésignationCatégorie = ({
     note >= periodeDetails.noteThreshold.volumeReserve.noteThreshold
     ? 'volume-réservé'
     : 'hors-volume-réservé';
+};
+
+const getFinancementEtTemplate = async ({
+  période,
+  candidature,
+}: {
+  période: AppelOffre.Periode;
+  candidature: Candidature.ConsulterCandidatureReadModel;
+}) => {
+  switch (période.certificateTemplate) {
+    case 'cre4.v0':
+    case 'cre4.v1':
+      // TODO
+      getLogger('System.Candidature.Attestation.Saga.Execute').warn(
+        `La génération CRE4 d'attestations n'est pas encore supporté dû à un manque de donnée sur isFinancementParticipatif/isInvestissementParticipatif`,
+        {
+          identifiantProjet: candidature.identifiantProjet.formatter(),
+        },
+      );
+      return;
+    // return {
+    //   template: période.certificateTemplate,
+    //   isFinancementParticipatif: false,
+    //   isInvestissementParticipatif: false,
+    // };
+    default:
+      return {
+        template: période.certificateTemplate ?? 'ppe2.v2',
+        actionnariat: candidature.financementCollectif
+          ? ('financement-collectif' as const)
+          : candidature.gouvernancePartagée
+            ? ('gouvernance-partagee' as const)
+            : undefined,
+      };
+  }
 };

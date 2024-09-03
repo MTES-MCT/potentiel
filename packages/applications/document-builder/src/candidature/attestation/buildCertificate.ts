@@ -28,17 +28,14 @@ Font.register({
 });
 
 export const buildCertificate = async ({
-  template,
   data,
   validateur,
 }: {
-  template: AppelOffre.CertificateTemplate;
   data: AttestationCandidatureOptions;
   validateur: AppelOffre.Validateur;
 }): Promise<ReadableStream> => {
   const content = makeCertificate({
     data,
-    template,
     validateur,
     imagesFolderPath,
   });
