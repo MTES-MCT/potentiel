@@ -55,7 +55,6 @@ const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCand
     isInvestissementParticipatif: true,
     engagementFournitureDePuissanceAlaPointe: true,
     motifsElimination: 'motifsElimination',
-    note: 42,
     notifiedOn: Date.now(),
     nomRepresentantLegal: 'nomRepresentantLegal',
     nomCandidat: 'nomCandidat',
@@ -66,7 +65,6 @@ const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCand
     communeProjet: 'communeProjet',
     puissance: 42,
     potentielId: 'potentielId',
-    territoireProjet: 'territoireProjet',
     technologie: 'N/A',
   };
 };

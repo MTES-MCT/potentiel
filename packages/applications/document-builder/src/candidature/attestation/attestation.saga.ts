@@ -133,11 +133,9 @@ const generateCertificate = async (identifiantProjet: string, identifiantUtilisa
       isFinancementParticipatif: candidature.financementParticipatif,
 
       motifsElimination: candidature.motifÉlimination,
-      note: candidature.noteTotale,
 
       notifiedOn: 0, // TODO
       isInvestissementParticipatif: false, // TODO
-      territoireProjet: 'N/A', // TODO
       // actionnariat:
       // désignationCatégorie
     },

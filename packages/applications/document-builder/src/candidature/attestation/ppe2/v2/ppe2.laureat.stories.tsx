@@ -41,7 +41,6 @@ const fakeProject: Omit<AttestationCandidatureOptions, 'période' | 'appelOffre'
   isInvestissementParticipatif: false,
   engagementFournitureDePuissanceAlaPointe: true,
   motifsElimination: 'motifsElimination',
-  note: 42,
   notifiedOn: Date.now(),
   nomRepresentantLegal: 'nomRepresentantLegal',
   nomCandidat: 'nomCandidat',
@@ -52,7 +51,6 @@ const fakeProject: Omit<AttestationCandidatureOptions, 'période' | 'appelOffre'
   communeProjet: 'communeProjet',
   puissance: 42,
   potentielId: 'potentielId',
-  territoireProjet: 'territoireProjet',
   technologie: 'pv',
 };
 

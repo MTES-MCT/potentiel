@@ -11,7 +11,6 @@ export type AttestationCandidatureOptions = {
   isInvestissementParticipatif: boolean;
   engagementFournitureDePuissanceAlaPointe: boolean;
   motifsElimination: string;
-  note: number;
   notifiedOn: number;
   nomRepresentantLegal: string;
   nomCandidat: string;
@@ -22,7 +21,6 @@ export type AttestationCandidatureOptions = {
   communeProjet: string;
   puissance: number;
   potentielId: string;
-  territoireProjet: string;
   technologie: AppelOffre.Technologie;
   actionnariat?: 'financement-collectif' | 'gouvernance-partagee';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
