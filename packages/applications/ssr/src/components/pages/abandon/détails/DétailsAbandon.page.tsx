@@ -36,7 +36,7 @@ type AvailableActions = Array<
   | 'transmettre-preuve-recandidature'
 >;
 
-type AvailableInformations = Array<'demande-de-mainlevée' | 'demande-abandon-pour-recandidature'>;
+type AvailableInformation = 'demande-de-mainlevée' | 'demande-abandon-pour-recandidature';
 
 export type DétailsAbandonPageProps = {
   identifiantProjet: string;
@@ -44,7 +44,7 @@ export type DétailsAbandonPageProps = {
   projetsÀSélectionner: TransmettrePreuveRecandidatureFormProps['projetsÀSélectionner'];
   role: PlainType<Role.ValueType>;
   actions: AvailableActions;
-  informations: AvailableInformations;
+  informations: Array<AvailableInformation>;
 };
 
 export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
@@ -156,7 +156,7 @@ const mapToActionComponents = ({
   ) : null;
 
 type MapToInformationsComponentsProps = {
-  informations: AvailableInformations;
+  informations: Array<AvailableInformation>;
   identifiantProjet: string;
 };
 
@@ -175,7 +175,7 @@ const mapToInformationsComponents = ({
             <div>
               <div className="font-semibold mb-2">Demande d'abandon pour recandidature</div>
               Le porteur s'engage sur l'honneur à ne pas avoir débuté ses travaux au sens du cahier
-              des charges de l'AO associé et a abandonné son statut de lauréat au profit d'une
+              des charges de l'AO associé et à abandonner son statut de lauréat au profit d'une
               recandidature réalisée au plus tard le 31/12/2024. <br />
               Il s'engage sur l'honneur à ce que cette recandidature respecte les conditions
               suivantes :
@@ -187,7 +187,7 @@ const mapToInformationsComponents = ({
                 <li>Le même lieu d'implantation que le projet abandonné</li>
                 <li>
                   La même autorisation préfectorale (numéro ICPE identifique) que le projet
-                  abandonné, nonobstant des porter à connaissance ultérieurs
+                  abandonné, nonobstant des "porter à connaissance" ultérieurs
                 </li>
                 <li>
                   Le tarif proposé ne doit pas être supérieur au prix plafond de la période dont le

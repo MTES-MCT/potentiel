@@ -38,7 +38,6 @@ export const TransmettrePreuveRecandidature = ({
   const id = uuid();
   const title = 'Transmettre la preuve de recandidature';
 
-  const [isOpen, setIsOpen] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
   const [projetSélectionné, setProjetSélectionné] = useState<{
     identifiantProjet: ProjetÀSélectionner['identifiantProjet'];
@@ -53,12 +52,11 @@ export const TransmettrePreuveRecandidature = ({
   const [modal] = useState(
     createModal({
       id: `form-modal-${title}`,
-      isOpenedByDefault: isOpen,
+      isOpenedByDefault: false,
     }),
   );
 
   const closeModal = () => {
-    setIsOpen(false);
     modal.close();
   };
 
@@ -67,19 +65,11 @@ export const TransmettrePreuveRecandidature = ({
     onConceal: () => closeModal(),
   });
 
-  if (isOpen) {
-    modal.open();
-  }
-
   const router = useRouter();
 
   return (
     <>
-      <Button
-        priority="secondary"
-        onClick={() => setIsOpen(true)}
-        className="block w-1/2 text-center"
-      >
+      <Button priority="secondary" onClick={() => modal.open()} className="block w-1/2 text-center">
         Transmettre la preuve
       </Button>
 
@@ -101,8 +91,6 @@ export const TransmettrePreuveRecandidature = ({
             </>
           }
         >
-          <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-
           <SelectNext
             label="Choisir un projet comme preuve de recandidature"
             placeholder={`Sélectionner un projet`}
@@ -128,6 +116,7 @@ export const TransmettrePreuveRecandidature = ({
             }))}
           />
 
+          <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
           {projetSélectionné && (
             <>
               <input

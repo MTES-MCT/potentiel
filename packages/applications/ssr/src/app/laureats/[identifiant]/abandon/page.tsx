@@ -44,14 +44,13 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         return notFound();
       }
 
-      const projetsÀSélectionner: DétailsAbandonPageProps['projetsÀSélectionner'] = [];
-      const transmissionPreuveRecandidaturePossible =
+      let projetsÀSélectionner: DétailsAbandonPageProps['projetsÀSélectionner'] = [];
+      const transmissionPreuveRecandidaturePossible = !!(
         utilisateur.role.estÉgaleÀ(Role.porteur) &&
         abandon.demande.accord &&
         abandon.demande.estUneRecandidature &&
         abandon.demande.recandidature?.statut.estÉgaleÀ(Abandon.StatutPreuveRecandidature.enAttente)
-          ? true
-          : false;
+      );
 
       if (transmissionPreuveRecandidaturePossible) {
         const projetsEligiblesPreuveRecandidature =
@@ -62,14 +61,13 @@ export default async function Page({ params: { identifiant } }: PageProps) {
             },
           });
 
-        projetsEligiblesPreuveRecandidature
+        projetsÀSélectionner = projetsEligiblesPreuveRecandidature
           .filter((p) => p.identifiantProjet.formatter() !== identifiantProjet)
           .map((projet) => ({
             ...projet,
             statut: projet.statut.statut,
             identifiantProjet: projet.identifiantProjet.formatter(),
-          }))
-          .forEach((projet) => projetsÀSélectionner.push(projet));
+          }));
       }
 
       return (
