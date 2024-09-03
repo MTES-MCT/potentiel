@@ -70,11 +70,18 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
                     />
                   </div>
                 )}
-                <div>Demandé par : {abandon.demande.demandéPar.email}</div>
-                <div>Demandé le : {<FormattedDate date={demandéLe} />}</div>
+                <div>
+                  Demandé par :{' '}
+                  <span className="font-semibold">{abandon.demande.demandéPar.email}</span>
+                </div>
+                <div>
+                  Demandé le : {<FormattedDate className="font-semibold" date={demandéLe} />}
+                </div>
                 <div className="flex gap-2">
                   <div className="whitespace-nowrap">Explications :</div>
-                  <blockquote className="italic">"{abandon.demande.raison}"</blockquote>
+                  <blockquote className="font-semibold italic">
+                    "{abandon.demande.raison}"
+                  </blockquote>
                 </div>
               </div>
             </div>
@@ -140,9 +147,6 @@ const mapToInformationsComponents = ({
   informations.length ? (
     <div className="flex flex-col gap-4">
       <Heading2>Informations</Heading2>
-      {informations.includes('demande-de-mainlevée') && (
-        <InfoBoxMainlevéeSiAbandonAccordé identifiantProjet={identifiantProjet} />
-      )}
       {informations.includes('demande-abandon-pour-recandidature') && (
         <Alert
           severity="warning"
@@ -175,6 +179,9 @@ const mapToInformationsComponents = ({
             </div>
           }
         />
+      )}
+      {informations.includes('demande-de-mainlevée') && (
+        <InfoBoxMainlevéeSiAbandonAccordé identifiantProjet={identifiantProjet} />
       )}
     </div>
   ) : null;
