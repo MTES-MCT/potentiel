@@ -27,19 +27,21 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
       }}
       rightColumn={{
         children: (
-          <Alert
-            severity="info"
-            small
-            description={
-              <div className="py-4 text-justify">
-                Une fois votre demande d'abandon envoyée, la DGEC pourra vous demander une
-                confirmation avant de vous apporter une réponse définitive.
-                <br />
-                Toute réponse vous sera mise à disposition dans Potentiel et donnera lieu à une
-                notification par courriel.
-              </div>
-            }
-          />
+          <div>
+            <Alert
+              severity="info"
+              small
+              description={
+                <div className="py-4 text-justify">
+                  Une fois votre demande d'abandon envoyée, la DGEC pourra vous demander une
+                  confirmation avant de vous apporter une réponse définitive.
+                  <br />
+                  Toute réponse vous sera mise à disposition dans Potentiel et donnera lieu à une
+                  notification par courriel.
+                </div>
+              }
+            />
+          </div>
         ),
       }}
     />
