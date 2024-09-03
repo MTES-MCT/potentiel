@@ -19,8 +19,8 @@ const schema = zod.object({
 const action: FormAction<FormState, typeof schema> = async (
   _,
   { identifiantProjet, preuveRecandidature, dateDesignation },
-) => {
-  return withUtilisateur(async (utilisateur) => {
+) =>
+  withUtilisateur(async (utilisateur) => {
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
       data: {
@@ -36,6 +36,5 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
     };
   });
-};
 
 export const transmettrePreuveRecandidatureAction = formAction(action, schema);

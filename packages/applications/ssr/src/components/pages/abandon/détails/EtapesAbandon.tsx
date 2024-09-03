@@ -1,6 +1,5 @@
 'use client';
 
-import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -24,39 +23,15 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
     demande: {
       demandéLe,
       demandéPar,
-      raison,
       accord,
       confirmation,
       pièceJustificative,
       recandidature,
       rejet,
     },
-    identifiantProjet,
   },
-  role,
 }) => {
   const items: TimelineProps['items'] = [];
-
-  const identifiantProjetAbandonné = IdentifiantProjet.bind(identifiantProjet);
-  const roleUtilisateur = Role.bind(role);
-
-  if (recandidature?.statut?.statut === 'en-attente' && accord) {
-    items.push({
-      status: 'warning',
-      date: 'En attente',
-      title: Role.porteur.estÉgaleÀ(roleUtilisateur) ? (
-        <Link
-          href={Routes.Abandon.transmettrePreuveRecandidature(
-            identifiantProjetAbandonné.formatter(),
-          )}
-        >
-          Transmettre un projet comme preuve de recandidature
-        </Link>
-      ) : (
-        "Le porteur n'a pas encore transmis de projet comme preuve de recandidature."
-      ),
-    });
-  }
 
   if (
     recandidature?.preuve?.transmiseLe &&
@@ -182,17 +157,11 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
     content: (
       <>
         {recandidature && (
-          <div>
+          <div className="mb-4">
             Le projet s'inscrit dans un{' '}
             <span className="font-semibold">contexte de recandidature</span>
           </div>
         )}
-        <div>
-          Explications du porteur de projet :
-          <blockquote className="italic">
-            <p className="mt-2">"{raison}"</p>
-          </blockquote>
-        </div>
         {abandonPièceJustificative && (
           <DownloadDocument
             className="mb-0"
@@ -205,43 +174,5 @@ export const EtapesAbandon: FC<EtapesAbandonProps> = ({
     ),
   });
 
-  return (
-    <div className="flex flex-col">
-      {recandidature && (
-        <Alert
-          className="mb-6"
-          severity="warning"
-          small
-          description={
-            <div>
-              <div className="font-semibold mb-2">Demande d'abandon pour recandidature</div>
-              Le porteur s'engage sur l'honneur à ne pas avoir débuté ses travaux au sens du cahier
-              des charges de l'AO associé et a abandonné son statut de lauréat au profit d'une
-              recandidature réalisée au plus tard le 31/12/2024. <br />
-              Il s'engage sur l'honneur à ce que cette recandidature respecte les conditions
-              suivantes :
-              <ul className="mb-0 list-disc indent-8 list-inside">
-                <li>
-                  Que le dossier soit complet et respecte les conditions d'éligibilité du cahier des
-                  charges concerné
-                </li>
-                <li>Le même lieu d'implantation que le projet abandonné</li>
-                <li>
-                  La même autorisation préfectorale (numéro ICPE identifique) que le projet
-                  abandonné, nonobstant des porter à connaissance ultérieurs
-                </li>
-                <li>
-                  Le tarif proposé ne doit pas être supérieur au prix plafond de la période dont le
-                  projet était initialement lauréat, indexé jusqu’à septembre 2023 selon la formule
-                  d’indexation du prix de référence indiquée dans le cahier des charges concerné par
-                  la recandidature.
-                </li>
-              </ul>
-            </div>
-          }
-        />
-      )}
-      <Timeline items={items} />
-    </div>
-  );
+  return <Timeline items={items} />;
 };

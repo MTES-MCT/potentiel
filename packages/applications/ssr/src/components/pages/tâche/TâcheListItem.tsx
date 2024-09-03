@@ -61,7 +61,7 @@ const getDescriptionTâche = (
       return {
         titre: 'Transmettre votre preuve de recandidature',
         description: `Suite à l'accord de votre demande d'abandon avec recandidature convernant ce projet, vous devez sélectionner un de vos projet comme preuve avant l'échéance du 31 mars 2025.`,
-        lien: Routes.Abandon.transmettrePreuveRecandidature(identifiant),
+        lien: Routes.Abandon.détail(identifiant),
         action: 'Transmettre',
         ariaLabel: `Transmettre votre preuve de recandidature pour le projet ${nomProjet}`,
       };

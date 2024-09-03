@@ -444,6 +444,7 @@ const policies = {
       ],
       détail: [
         référencielPermissions.candidature.query.consulter,
+        référencielPermissions.candidature.query.listerProjetsPreuveRecandidature,
         référencielPermissions.lauréat.abandon.query.consulter,
         référencielPermissions.document.query.consulter,
       ],

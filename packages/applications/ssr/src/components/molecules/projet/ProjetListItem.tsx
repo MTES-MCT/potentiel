@@ -33,12 +33,7 @@ export const ProjetListItem: FC<ProjetListItemProps> = (projet) => {
         <ProjetLinks
           identifiantProjet={identifiantProjetValue.formatter()}
           title="Abandon"
-          links={[
-            'demander',
-            'détail',
-            'transmettrePreuveRecandidature',
-            'téléchargerModèleRéponse',
-          ]}
+          links={['demander', 'détail', 'téléchargerModèleRéponse']}
         />
         <ProjetLinks
           identifiantProjet={identifiantProjetValue.formatter()}
