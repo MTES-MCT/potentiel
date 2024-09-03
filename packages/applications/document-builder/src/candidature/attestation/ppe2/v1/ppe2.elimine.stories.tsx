@@ -7,13 +7,13 @@ import {
 } from '@potentiel-domain/inmemory-referential/src/appelOffre/PPE2';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
+import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
 
 import { makeCertificate } from './makeCertificate';
 
 const meta = {
   title: 'Attestations PDF/PPE2/v1',
-  component: ({ projet }: { projet: AttestationCandidatureOptions }) => {
+  component: ({ projet }: { projet: AttestationPPE2Options }) => {
     return makeCertificate(
       projet,
       {
@@ -29,15 +29,14 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const fakeProject: AttestationCandidatureOptions = {
+const fakeProject: AttestationPPE2Options = {
+  template: 'ppe2.v1',
   appelOffre: eolienPPE2,
   période: eolienPPE2.periodes[0],
   isClasse: true,
   famille: eolienPPE2.periodes[0].familles[0],
   prixReference: 42,
   evaluationCarbone: 42,
-  isFinancementParticipatif: true,
-  isInvestissementParticipatif: true,
   engagementFournitureDePuissanceAlaPointe: true,
   motifsElimination: 'motifsElimination',
   notifiedOn: Date.now(),

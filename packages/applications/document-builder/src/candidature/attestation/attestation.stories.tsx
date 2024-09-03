@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-restricted-imports
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
@@ -15,7 +14,6 @@ const meta = {
       isClasse,
     };
     return makeCertificate({
-      template: data.période.certificateTemplate ?? 'cre4.v0',
       data,
       validateur,
       imagesFolderPath: '/images',
@@ -45,6 +43,7 @@ const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCand
   const appelOffre = appelsOffreData.find((x) => x.id === appelOffreId)!;
   const période = appelOffre.periodes.find((x) => x.id === périodeId) ?? appelOffre.periodes[0];
   return {
+    template: période.certificateTemplate ?? 'cre4.v0',
     appelOffre,
     période,
     famille: période.familles[0],

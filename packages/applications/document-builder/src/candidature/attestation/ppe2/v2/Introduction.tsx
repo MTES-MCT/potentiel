@@ -2,10 +2,10 @@ import { Text } from '@react-pdf/renderer';
 import React from 'react';
 
 import { formatNumber } from '../../helpers/formatNumber';
-import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
+import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
 
 type IntroductionProps = {
-  project: AttestationCandidatureOptions;
+  project: AttestationPPE2Options;
 };
 
 export const Introduction = ({ project }: IntroductionProps) => {

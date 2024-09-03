@@ -4,7 +4,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Certificate } from '../components/Certificate';
 import { Footnotes } from '../components/Footnotes';
-import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
+import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
 import { Objet } from '../components/Objet';
 import { Signature } from '../components/Signature';
 
@@ -14,7 +14,7 @@ import { buildElimine } from './Elimine';
 import { Introduction } from './Introduction';
 
 const makeCertificate = (
-  project: AttestationCandidatureOptions,
+  project: AttestationPPE2Options,
   validateur: AppelOffre.Validateur,
   imagesRootPath: string,
 ): React.JSX.Element => {

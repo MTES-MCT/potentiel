@@ -9,15 +9,13 @@ import { AttestationCandidatureOptions } from './AttestationCandidatureOptions';
 export const makeCertificate = ({
   data,
   imagesFolderPath,
-  template,
   validateur,
 }: {
-  template: AppelOffre.CertificateTemplate;
   data: AttestationCandidatureOptions;
   validateur: AppelOffre.Validateur;
   imagesFolderPath: string;
 }) => {
-  switch (template) {
+  switch (data.template) {
     case 'cre4.v0':
       return makeCre4V0Certificate(data, validateur, imagesFolderPath);
     case 'cre4.v1':

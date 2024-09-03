@@ -1,19 +1,32 @@
+import type { Meta, StoryObj } from '@storybook/react';
+
 // eslint-disable-next-line no-restricted-imports
 import { eolien } from '@potentiel-domain/inmemory-referential/src/appelOffre/CRE4';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
+import { AttestationCRE4Options } from '../../AttestationCandidatureOptions';
 
-import { makeCertificate as _makeCertificate } from './makeCertificate';
+import { makeCertificate } from './makeCertificate';
 
-export default { title: 'Attestations PDF/CRE4/v0' };
+const meta = {
+  title: 'Attestations PDF/CRE4/v0',
+  component: ({ projet }) => {
+    return makeCertificate(
+      projet,
+      {
+        fullName: 'Nom du signataire',
+        fonction: 'fonction du signataire',
+      },
+      '/images',
+    );
+  },
+} satisfies Meta<{ projet: AttestationCRE4Options }>;
 
-const makeCertificate = (
-  project: AttestationCandidatureOptions,
-  validateur: AppelOffre.Validateur,
-) => _makeCertificate(project, validateur, '/images');
+export default meta;
 
-const fakeProject: AttestationCandidatureOptions = {
+type Story = StoryObj<typeof meta>;
+
+const fakeProject: AttestationCRE4Options = {
+  template: 'cre4.v0',
   appelOffre: eolien,
   période: eolien.periodes[0],
   isClasse: false,
@@ -37,32 +50,28 @@ const fakeProject: AttestationCandidatureOptions = {
   technologie: 'N/A',
 };
 
-const validateur = {
-  fullName: 'Nom du signataire',
-  fonction: 'fonction du signataire',
-} as AppelOffre.Validateur;
-
-export const EliminePPE2AuDessusDePcible = () => {
-  const project: AttestationCandidatureOptions = {
-    ...fakeProject,
-    isClasse: false,
-    motifsElimination: 'Au-dessus de Pcible',
-  };
-  return makeCertificate(project, validateur);
+export const EliminePPE2AuDessusDePcible: Story = {
+  args: {
+    projet: {
+      ...fakeProject,
+      isClasse: false,
+      motifsElimination: 'Au-dessus de Pcible',
+    },
+  },
 };
 
-export const EliminePPE2DéjàLauréatNonInstruit = () => {
-  const project: AttestationCandidatureOptions = {
-    ...fakeProject,
-    isClasse: false,
-    motifsElimination: 'Déjà lauréat - Non instruit',
-  };
-  return makeCertificate(project, validateur);
+export const EliminePPE2DéjàLauréatNonInstruit: Story = {
+  args: {
+    projet: {
+      ...fakeProject,
+      isClasse: false,
+      motifsElimination: 'Déjà lauréat - Non instruit',
+    },
+  },
 };
 
-export const Lauréat = () => {
-  const project: AttestationCandidatureOptions = {
-    ...fakeProject,
-  };
-  return makeCertificate(project, validateur);
+export const Lauréat: Story = {
+  args: {
+    projet: fakeProject,
+  },
 };

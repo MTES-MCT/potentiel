@@ -1,14 +1,13 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-export type AttestationCandidatureOptions = {
+export type Common = {
   appelOffre: AppelOffre.AppelOffreReadModel;
   période: AppelOffre.Periode;
   famille: AppelOffre.Famille | undefined;
   isClasse: boolean;
   prixReference: number;
   evaluationCarbone: number;
-  isFinancementParticipatif: boolean;
-  isInvestissementParticipatif: boolean;
+
   engagementFournitureDePuissanceAlaPointe: boolean;
   motifsElimination: string;
   notifiedOn: number;
@@ -22,6 +21,18 @@ export type AttestationCandidatureOptions = {
   puissance: number;
   potentielId: string;
   technologie: AppelOffre.Technologie;
-  actionnariat?: 'financement-collectif' | 'gouvernance-partagee';
   désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
 };
+
+export type AttestationCRE4Options = Common & {
+  template: 'cre4.v0' | 'cre4.v1';
+  isFinancementParticipatif: boolean;
+  isInvestissementParticipatif: boolean;
+};
+
+export type AttestationPPE2Options = Common & {
+  template: 'ppe2.v1' | 'ppe2.v2';
+  actionnariat?: 'financement-collectif' | 'gouvernance-partagee';
+};
+
+export type AttestationCandidatureOptions = AttestationCRE4Options | AttestationPPE2Options;

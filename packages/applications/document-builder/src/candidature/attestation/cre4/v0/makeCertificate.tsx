@@ -5,10 +5,10 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { formatDateForPdf } from '../../helpers/formatDateForPdf';
 import { formatNumber } from '../../helpers';
-import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
+import { AttestationCRE4Options } from '../../AttestationCandidatureOptions';
 import { Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes';
 
-const Laureat = (project: AttestationCandidatureOptions) => {
+const Laureat = (project: AttestationCRE4Options) => {
   const { appelOffre, période, famille } = project;
   const { delaiDcrEnMois } = période;
 
@@ -246,7 +246,7 @@ const Laureat = (project: AttestationCandidatureOptions) => {
   return { project, appelOffre, période, objet, body, footnotes };
 };
 
-const Elimine = (project: AttestationCandidatureOptions) => {
+const Elimine = (project: AttestationCRE4Options) => {
   const { appelOffre, période } = project;
 
   const objet = `Avis de rejet à l’issue de la ${période.title} période de l'appel d'offres ${période.cahierDesCharges.référence} ${appelOffre.title}`;
@@ -276,7 +276,7 @@ const Elimine = (project: AttestationCandidatureOptions) => {
 
 // Create Document Component
 interface CertificateProps {
-  project: AttestationCandidatureOptions;
+  project: AttestationCRE4Options;
   objet: string;
   body: JSX.Element;
   footnotes?: JSX.Element[];
@@ -448,7 +448,7 @@ const Certificate = ({
 };
 
 const makeCertificate = (
-  project: AttestationCandidatureOptions,
+  project: AttestationCRE4Options,
   validateur: AppelOffre.Validateur,
   imagesRootPath: string,
 ): React.JSX.Element => {

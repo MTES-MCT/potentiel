@@ -1,10 +1,10 @@
 import { Text } from '@react-pdf/renderer';
 import React from 'react';
 
-import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
+import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
 
 type ElimineProps = {
-  project: AttestationCandidatureOptions;
+  project: AttestationPPE2Options;
 };
 
 export const buildElimine = ({ project }: ElimineProps) => {

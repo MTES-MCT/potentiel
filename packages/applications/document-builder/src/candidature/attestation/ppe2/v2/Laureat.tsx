@@ -1,11 +1,11 @@
 import { Text, View } from '@react-pdf/renderer';
 import React from 'react';
 
-import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
+import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
 import { formatNumber } from '../../helpers';
 import { getDelaiDeRealisation } from '../../helpers/getDélaiDeRéalisation';
 
-type LaureatProps = { project: AttestationCandidatureOptions };
+type LaureatProps = { project: AttestationPPE2Options };
 
 export const buildLauréat = ({ project }: LaureatProps) => {
   const { appelOffre, technologie, période } = project;

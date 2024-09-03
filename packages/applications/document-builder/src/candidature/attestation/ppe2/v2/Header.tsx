@@ -1,11 +1,11 @@
 import { Image, Text, View } from '@react-pdf/renderer';
 import React from 'react';
 
-import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
+import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
 import { formatDateForPdf } from '../../helpers/formatDateForPdf';
 
 type HeaderProps = {
-  project: AttestationCandidatureOptions;
+  project: AttestationPPE2Options;
   imagesRootPath: string;
 };
 export const Header = ({ project, imagesRootPath }: HeaderProps) => {

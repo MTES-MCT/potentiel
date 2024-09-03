@@ -10,13 +10,13 @@ import {
   solPPE2,
 } from '@potentiel-domain/inmemory-referential/src/appelOffre/PPE2';
 
-import { AttestationCandidatureOptions } from '../../AttestationCandidatureOptions';
+import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
 
 import { makeCertificate } from './makeCertificate';
 
 const meta = {
   title: 'Attestations PDF/PPE2/v2',
-  component: ({ projet }: { projet: AttestationCandidatureOptions }) => {
+  component: ({ projet }: { projet: AttestationPPE2Options }) => {
     return makeCertificate(
       projet,
       {
@@ -32,13 +32,12 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const fakeProject: Omit<AttestationCandidatureOptions, 'période' | 'appelOffre'> = {
+const fakeProject: Omit<AttestationPPE2Options, 'période' | 'appelOffre'> = {
+  template: 'ppe2.v2',
   famille: undefined,
   isClasse: true,
   prixReference: 42,
   evaluationCarbone: 42,
-  isFinancementParticipatif: false,
-  isInvestissementParticipatif: false,
   engagementFournitureDePuissanceAlaPointe: true,
   motifsElimination: 'motifsElimination',
   notifiedOn: Date.now(),
