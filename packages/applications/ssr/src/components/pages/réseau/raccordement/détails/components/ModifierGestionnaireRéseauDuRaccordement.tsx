@@ -56,7 +56,7 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
         {lienModifier && <>({lienModifier})</>}
       </div>
       {gestionnaireRéseau.contactEmail && (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mt-2">
           Contact : <CopyButton textToCopy={gestionnaireRéseau.contactEmail} />
         </div>
       )}
