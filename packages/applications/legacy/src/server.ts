@@ -45,7 +45,6 @@ export async function makeServer(port: number, sessionSecret: string) {
               'default-src': ["'self'", 'blob:', 'metabase.potentiel.beta.gouv.fr'],
               'connect-src': [
                 "'self'",
-                "'unsafe-inline'",
                 'analytics.potentiel.beta.gouv.fr',
                 'client.crisp.chat',
                 'wss://client.relay.crisp.chat',
@@ -54,7 +53,6 @@ export async function makeServer(port: number, sessionSecret: string) {
               'font-src': ["'self'", 'data:', 'client.crisp.chat'],
               'style-src': ["'self'", 'data:', "'unsafe-inline'", 'client.crisp.chat'],
               'script-src': [
-                "'unsafe-inline'",
                 "'self'",
                 'metabase.potentiel.beta.gouv.fr',
                 'analytics.potentiel.beta.gouv.fr',
