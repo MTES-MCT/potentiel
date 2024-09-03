@@ -30,7 +30,7 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Alors le porteur devrait être informé que "L'abandon a déjà été accordé"
 
     Scénario: Impossible de demander l'abandon d'un projet sans recandidature sans pièce justificative
-        Quand le porteur demande l'abandon sans recandidature et sans tramsettre de pièce justificative pour le projet lauréat
+        Quand le porteur demande l'abandon sans recandidature et sans transmettre de pièce justificative pour le projet lauréat
         Alors le porteur devrait être informé que "La pièce justificative est obligatoire"
 
     @NotImplemented

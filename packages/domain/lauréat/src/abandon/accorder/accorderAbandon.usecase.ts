@@ -4,10 +4,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 // Workspaces
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+// eslint-disable-next-line import/order
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 // Package
+import { AnnulerTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
+
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
+import { TypeTâchePlanifiéeGarantiesFinancières } from '../../garantiesFinancières';
 
 import { AccorderAbandonCommand } from './accorderAbandon.command';
 
@@ -59,6 +63,30 @@ export const registerAccorderAbandonUseCase = () => {
         identifiantUtilisateur,
         identifiantProjet,
         réponseSignée,
+      },
+    });
+
+    await mediator.send<AnnulerTâchePlanifiéeCommand>({
+      type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
+      data: {
+        identifiantProjet,
+        typeTâchePlanifiée: TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
+      },
+    });
+
+    await mediator.send<AnnulerTâchePlanifiéeCommand>({
+      type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
+      data: {
+        identifiantProjet,
+        typeTâchePlanifiée: TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceUnMois.type,
+      },
+    });
+
+    await mediator.send<AnnulerTâchePlanifiéeCommand>({
+      type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
+      data: {
+        identifiantProjet,
+        typeTâchePlanifiée: TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceDeuxMois.type,
       },
     });
   };

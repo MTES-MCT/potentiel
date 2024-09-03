@@ -22,7 +22,7 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet,
           raisonValue: raison,
-          pièceJustificativeValue: etat.includes('sans tramsettre de pièce justificative')
+          pièceJustificativeValue: etat.includes('sans transmettre de pièce justificative')
             ? undefined
             : pièceJustificative,
           recandidatureValue: recandidature,

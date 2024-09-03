@@ -4,7 +4,8 @@ export type RechercherTypeTâche =
   | 'transmettre la preuve de recandidature'
   | 'confirmer un abandon'
   | 'transmettre les garanties financières'
-  | 'mettre à jour le gestionnaire de réseau';
+  | 'mettre à jour le gestionnaire de réseau'
+  | 'échoir les garanties financières';
 
 export class TâcheWorld {
   rechercherTypeTâche(value: RechercherTypeTâche): TypeTâche.ValueType {
@@ -13,8 +14,10 @@ export class TâcheWorld {
         return TypeTâche.abandonTransmettrePreuveRecandidature;
       case 'confirmer un abandon':
         return TypeTâche.abandonConfirmer;
+      case 'échoir les garanties financières':
+        return TypeTâche.garantiesFinancieresEchoir;
       case 'transmettre les garanties financières':
-        return TypeTâche.garantiesFinancieresDemander;
+        return TypeTâche.garantiesFinancièresDemander;
       case 'mettre à jour le gestionnaire de réseau':
         return TypeTâche.raccordementGestionnaireRéseauInconnuAttribué;
       default:

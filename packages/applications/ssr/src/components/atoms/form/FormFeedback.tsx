@@ -44,7 +44,7 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState, successMessage 
                 severity="warning"
                 description={
                   <>
-                    <p>Certaines opérations ont rencontrées les erreurs suivantes :</p>
+                    <p>Certaines opérations ont rencontré les erreurs suivantes :</p>
                     <ul className="list-disc pl-3">
                       {errors.map(({ reason, key }, index) => (
                         <li key={index}>
