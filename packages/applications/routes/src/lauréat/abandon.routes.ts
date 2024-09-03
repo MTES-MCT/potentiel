@@ -10,6 +10,3 @@ export const demander = (identifiantProjet: string) =>
 
 export const téléchargerModèleRéponse = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`;
-
-export const transmettrePreuveRecandidature = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/abandon/transmettre-preuve-recandidature`;

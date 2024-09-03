@@ -165,7 +165,7 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
         recipients: porteurs,
         variables: {
           nom_projet: projet.nom,
-          lien_transmettre_preuve_recandidature: `${BASE_URL}${Routes.Abandon.transmettrePreuveRecandidature(
+          lien_transmettre_preuve_recandidature: `${BASE_URL}${Routes.Abandon.détail(
             identifiantProjet.formatter(),
           )}/`,
         },
