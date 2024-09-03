@@ -16,7 +16,7 @@ export const registerSupprimerRaccordementCommand = (loadAggregate: LoadAggregat
   const loadRaccordement = loadRaccordementAggregateFactory(loadAggregate);
 
   const handler: MessageHandler<SupprimerRaccordementCommand> = async ({ identifiantProjet }) => {
-    const raccordement = await loadRaccordement(identifiantProjet);
+    const raccordement = await loadRaccordement(identifiantProjet, false);
     await raccordement.supprimerRaccordement({
       identifiantProjet,
     });
