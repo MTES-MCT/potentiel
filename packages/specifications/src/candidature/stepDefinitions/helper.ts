@@ -47,10 +47,6 @@ export const mapExampleToUseCaseDefaultValues = (
       noteTotaleValue: Number(exemple['note totale']) || 1,
       nomReprésentantLégalValue: exemple['nomReprésentant légal'] ?? '',
       evaluationCarboneSimplifiéeValue: Number(exemple['evaluation carbone simplifiée']) || 1,
-      valeurÉvaluationCarboneValue: Number(exemple['valeur évalutation carbone']) || 1,
-      financementCollectifValue: exemple['financement collectif'] === 'oui',
-      gouvernancePartagéeValue: exemple['gouvernance partagée'] === 'oui',
-      financementParticipatifValue: exemple['financement participatif'] === 'oui',
       détailsValue: {
         'Rendement nominal': '1234',
       },
