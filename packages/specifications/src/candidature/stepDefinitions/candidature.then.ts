@@ -57,6 +57,9 @@ Alors(
           historiqueAbandon: Candidature.HistoriqueAbandon.convertirEnValueType(
             expectedValues.historiqueAbandonValue,
           ),
+          actionnariat: expectedValues.actionnariatValue
+            ? Candidature.TypeActionnariat.convertirEnValueType(expectedValues.actionnariatValue)
+            : undefined,
           identifiantProjet,
           motifÉlimination: expectedValues.motifÉliminationValue,
           nomCandidat: expectedValues.nomCandidatValue,

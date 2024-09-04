@@ -50,6 +50,8 @@ export const mapExampleToUseCaseDefaultValues = (
       détailsValue: {
         'Rendement nominal': '1234',
       },
+      actionnariatValue:
+        exemple['actionnariat'] ?? Candidature.TypeActionnariat.financementCollectif.type,
     },
     identifiantProjet: `${appelOffre}#${période}#${famille}#${numéroCRE}`,
   };
