@@ -1,11 +1,17 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
-import { Role } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
+import { Candidature } from '@potentiel-domain/candidature';
+import { StatutProjet } from '@potentiel-domain/common';
 
-import { AucunDossierDeRaccordementPage } from '@/components/pages/réseau/raccordement/détails/AucunDossierDeRaccordement.page';
+import {
+  AucunDossierDeRaccordementPage,
+  AucunDossierDeRaccordementProps,
+} from '@/components/pages/réseau/raccordement/détails/AucunDossierDeRaccordement.page';
 import {
   DétailsRaccordementPage,
   DétailsRaccordementPageProps,
@@ -26,6 +32,17 @@ export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
+
+      const projet = await mediator.send<Candidature.ConsulterProjetQuery>({
+        type: 'Candidature.Query.ConsulterProjet',
+        data: {
+          identifiantProjet,
+        },
+      });
+
+      if (Option.isNone(projet)) {
+        return notFound();
+      }
 
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
@@ -55,6 +72,10 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           <AucunDossierDeRaccordementPage
             identifiantProjet={identifiantProjet}
             gestionnaireRéseau={grd}
+            actions={mapToAucunDossierActions({
+              utilisateur,
+              statutProjet: projet.statut,
+            })}
           />
         );
       }
@@ -79,6 +100,10 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         <AucunDossierDeRaccordementPage
           identifiantProjet={identifiantProjet}
           gestionnaireRéseau={props.gestionnaireRéseau}
+          actions={mapToAucunDossierActions({
+            utilisateur,
+            statutProjet: projet.statut,
+          })}
         />
       ) : (
         <DétailsRaccordementPage {...props} />
@@ -152,7 +177,7 @@ const mapToPropsDossiers = ({
       rôleUtilisateur.estÉgaleÀ(Role.dreal) ||
       rôleUtilisateur.estÉgaleÀ(Role.porteur);
 
-    const canEditMiseEnService =
+    const canTransmettreDateMiseEnService =
       rôleUtilisateur.estÉgaleÀ(Role.admin) || rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur);
 
     const canDeleteDossier =
@@ -174,9 +199,28 @@ const mapToPropsDossiers = ({
           dossier.propositionTechniqueEtFinancière?.propositionTechniqueEtFinancièreSignée.formatter(),
       },
       miseEnService: {
-        canEdit: canEditMiseEnService,
+        canEdit: canTransmettreDateMiseEnService,
         dateMiseEnService: dossier.miseEnService?.dateMiseEnService?.formatter(),
       },
       canDeleteDossier,
     };
   });
+
+type MapToAucunDossierActionsProps = {
+  utilisateur: Utilisateur.ValueType;
+  statutProjet: StatutProjet.RawType;
+};
+const mapToAucunDossierActions = ({ utilisateur, statutProjet }: MapToAucunDossierActionsProps) => {
+  const actions: AucunDossierDeRaccordementProps['actions'] = [];
+
+  if (
+    utilisateur.role.aLaPermission(
+      'réseau.raccordement.proposition-technique-et-financière.transmettre',
+    ) &&
+    !StatutProjet.convertirEnValueType(statutProjet).estÉgaleÀ(StatutProjet.abandonné)
+  ) {
+    actions.push('transmettre-demande-complete-raccordement');
+  }
+
+  return [];
+};

@@ -12,9 +12,12 @@ import { TitrePageRaccordement } from '../TitrePageRaccordement';
 import { ModifierGestionnaireRéseauDuRaccordement } from './components/ModifierGestionnaireRéseauDuRaccordement';
 import { GestionnaireRéseau } from './type';
 
+type AvailableAction = 'transmettre-demande-complete-raccordement';
+
 export type AucunDossierDeRaccordementProps = {
   identifiantProjet: string;
   gestionnaireRéseau?: GestionnaireRéseau;
+  actions: Array<AvailableAction>;
 };
 
 export const AucunDossierDeRaccordementPage: FC<AucunDossierDeRaccordementProps> = ({
