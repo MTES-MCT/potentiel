@@ -14,7 +14,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { récupérerProjetSiNonAbandonné } from '@/app/helpers/récupérerProjetSiNonAbandonné';
+import { récupérerProjetSiNonAbandonné } from '@/app/_helpers/récupérerProjetSiNonAbandonné';
 
 type PageProps = IdentifiantParameter;
 

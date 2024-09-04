@@ -14,7 +14,7 @@ import {
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { récupérerProjetSiNonAbandonné } from '@/app/helpers/récupérerProjetSiNonAbandonné';
+import { récupérerProjetSiNonAbandonné } from '@/app/_helpers/récupérerProjetSiNonAbandonné';
 
 export const metadata: Metadata = {
   title: 'Ajouter un dossier de raccordement - Potentiel',

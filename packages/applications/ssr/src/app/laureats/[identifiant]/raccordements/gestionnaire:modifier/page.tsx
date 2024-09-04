@@ -11,7 +11,7 @@ import {
   ModifierGestionnaireRéseauRaccordementPage,
   ModifierGestionnaireRéseauRaccordementPageProps,
 } from '@/components/pages/réseau/raccordement/modifier/modifierGestionnaireRéseauRaccordement/ModifierGestionnaireRéseauRaccordement.page';
-import { récupérerProjetSiNonAbandonné } from '@/app/helpers/récupérerProjetSiNonAbandonné';
+import { récupérerProjetSiNonAbandonné } from '@/app/_helpers/récupérerProjetSiNonAbandonné';
 
 export const metadata: Metadata = {
   title: 'Modifier gestionnaire réseau - Potentiel',
