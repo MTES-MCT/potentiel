@@ -14,7 +14,7 @@ export type SubscriptionEvent = Période.PériodeEvent & Event;
 export type Execute = Message<'System.Notification.Période', SubscriptionEvent>;
 
 const templateId = {
-  notifierDreals: ,
+  notifierDrealAcheteurObligéAdemeCaisseDesDépôtsCRE: 3849728,
 };
 
 async function getEmailPayloads(
@@ -23,8 +23,6 @@ async function getEmailPayloads(
   const identifiantPériode = Période.IdentifiantPériode.convertirEnValueType(
     event.payload.identifiantPériode,
   );
-
-  const { BASE_URL } = process.env;
 
   switch (event.type) {
     case 'PériodeNotifiée-V1':
@@ -55,7 +53,7 @@ async function getEmailPayloads(
       });
 
       return users.items.map(({ email, nomComplet }) => ({
-        templateId: templateId.notifierDreals,
+        templateId: templateId.notifierDrealAcheteurObligéAdemeCaisseDesDépôtsCRE,
         recipients: [
           {
             email,
@@ -64,7 +62,9 @@ async function getEmailPayloads(
         ],
         messageSubject: `Potentiel - Notification de la ${période.title} période de l'appel d'offres ${appelOffre.shortTitle}`,
         variables: {
-          periode_link: `${BASE_URL}`,
+          appel_offre: appelOffre.id,
+          periode: période.id,
+          date_notification: new Date(event.payload.notifiéeLe).toLocaleDateString(),
         },
       }));
   }
