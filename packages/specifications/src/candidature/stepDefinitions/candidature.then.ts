@@ -54,12 +54,12 @@ Alors(
             : undefined,
           emailContact: expectedValues.emailContactValue,
           evaluationCarboneSimplifiée: expectedValues.evaluationCarboneSimplifiéeValue,
-          financementCollectif: expectedValues.financementCollectifValue,
-          financementParticipatif: expectedValues.financementParticipatifValue,
-          gouvernancePartagée: expectedValues.gouvernancePartagéeValue,
           historiqueAbandon: Candidature.HistoriqueAbandon.convertirEnValueType(
             expectedValues.historiqueAbandonValue,
           ),
+          actionnariat: expectedValues.actionnariatValue
+            ? Candidature.TypeActionnariat.convertirEnValueType(expectedValues.actionnariatValue)
+            : undefined,
           identifiantProjet,
           motifÉlimination: expectedValues.motifÉliminationValue,
           nomCandidat: expectedValues.nomCandidatValue,
@@ -71,7 +71,7 @@ Alors(
           puissanceProductionAnnuelle: expectedValues.puissanceProductionAnnuelleValue,
           sociétéMère: expectedValues.sociétéMèreValue,
           statut: StatutProjet.convertirEnValueType(expectedValues.statutValue),
-          technologie: Candidature.Technologie.convertirEnValueType(
+          technologie: Candidature.TypeTechnologie.convertirEnValueType(
             expectedValues.technologieValue,
           ),
           territoireProjet: expectedValues.territoireProjetValue,
@@ -80,7 +80,6 @@ Alors(
                 expectedValues.typeGarantiesFinancièresValue,
               )
             : undefined,
-          valeurÉvaluationCarbone: expectedValues.evaluationCarboneSimplifiéeValue,
 
           misÀJourLe: DateTime.convertirEnValueType(new Date('2024-08-20')),
           détails: DocumentProjet.convertirEnValueType(

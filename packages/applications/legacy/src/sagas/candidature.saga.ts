@@ -75,7 +75,7 @@ const mapToLegacyEventPayload = (
     nomCandidat: payload.nomCandidat,
     nomRepresentantLegal: payload.nomReprésentantLégal,
     email: payload.emailContact,
-    motifsElimination: payload.motifÉlimination,
+    motifsElimination: payload.motifÉlimination ?? '',
     garantiesFinancièresDateEchéance: payload.dateÉchéanceGf,
     technologie: payload.technologie,
     historiqueAbandon: payload.historiqueAbandon,
@@ -86,18 +86,20 @@ const mapToLegacyEventPayload = (
     prixReference: payload.prixReference,
     note: payload.noteTotale,
     evaluationCarbone: payload.evaluationCarboneSimplifiée,
-    actionnariat: payload.financementCollectif
-      ? 'financement-collectif'
-      : payload.gouvernancePartagée
-        ? 'gouvernance-partagee'
-        : undefined,
     désignationCatégorie: getDésignationCatégorie({
       puissance: payload.puissanceProductionAnnuelle,
       note: payload.noteTotale,
       periodeDetails: période,
     }),
-    isFinancementParticipatif: payload.financementCollectif,
-    isInvestissementParticipatif: payload.financementParticipatif,
+
+    actionnariat:
+      payload.actionnariat === 'financement-collectif' ||
+      payload.actionnariat === 'gouvernance-partagée'
+        ? payload.actionnariat
+        : undefined,
+    isFinancementParticipatif: payload.actionnariat === 'financement-participatif',
+    isInvestissementParticipatif: payload.actionnariat === 'investissement-participatif',
+
     notifiedOn: 0,
     territoireProjet: payload.territoireProjet,
     ...getLocalitéInfo(payload.localité),
