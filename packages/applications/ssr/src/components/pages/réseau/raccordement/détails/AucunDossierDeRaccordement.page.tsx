@@ -32,7 +32,7 @@ export const AucunDossierDeRaccordementPage: FC<AucunDossierDeRaccordementPagePr
         />
       )}
       <p>
-        Aucun dossier de raccordement trouvé pour ce projet,{' '}
+        Aucun dossier de raccordement trouvé pour ce projet, vous devez transmettre un{' '}
         <Link
           href={Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet)}
           className="font-semibold"
