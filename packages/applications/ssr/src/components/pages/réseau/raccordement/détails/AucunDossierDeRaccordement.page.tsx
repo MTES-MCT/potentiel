@@ -3,7 +3,6 @@ import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
@@ -22,12 +21,6 @@ export const AucunDossierDeRaccordementPage: FC<AucunDossierDeRaccordementProps>
   identifiantProjet,
   gestionnaireRéseau,
 }) => {
-  const isGestionnaireInconnu = gestionnaireRéseau
-    ? GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
-        gestionnaireRéseau.identifiantGestionnaireRéseau,
-      ).estÉgaleÀ(GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu)
-    : false;
-
   return (
     <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
       <TitrePageRaccordement />
@@ -37,7 +30,6 @@ export const AucunDossierDeRaccordementPage: FC<AucunDossierDeRaccordementProps>
           <ModifierGestionnaireRéseauDuRaccordement
             gestionnaireRéseau={gestionnaireRéseau}
             identifiantProjet={identifiantProjet}
-            isGestionnaireInconnu={isGestionnaireInconnu}
           />
         )}
         <p>

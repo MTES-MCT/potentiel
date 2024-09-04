@@ -5,10 +5,12 @@ import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
 import { supprimerDossierDuRaccordementAction } from '../supprimerDossierDuRaccordement.action';
+import { GestionnaireRéseau as GestionnaireRéseauProps } from '../type';
 
 import { Separateur } from './Separateur';
 import { ÉtapeDemandeComplèteRaccordement } from './ÉtapeDemandeComplèteRaccordement';
@@ -32,7 +34,7 @@ export type DossierRaccordementProps = {
     dateMiseEnService?: Iso8601DateTime;
     canEdit: boolean;
   };
-  isGestionnaireInconnu?: boolean;
+  gestionnaireRéseau?: GestionnaireRéseauProps;
   canDeleteDossier: boolean;
 };
 
@@ -42,48 +44,56 @@ export const DossierRaccordement: FC<DossierRaccordementProps> = ({
   demandeComplèteRaccordement,
   propositionTechniqueEtFinancière,
   miseEnService,
-  isGestionnaireInconnu,
+  gestionnaireRéseau,
   canDeleteDossier,
-}) => (
-  <>
-    <div className="flex flex-col md:flex-row justify-items-stretch">
-      <ÉtapeDemandeComplèteRaccordement
-        identifiantProjet={identifiantProjet}
-        référence={référence}
-        dateQualification={demandeComplèteRaccordement.dateQualification}
-        accuséRéception={demandeComplèteRaccordement.accuséRéception}
-        canEdit={demandeComplèteRaccordement.canEdit && !isGestionnaireInconnu}
-      />
+}) => {
+  const isGestionnaireInconnu = gestionnaireRéseau
+    ? GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+        gestionnaireRéseau.identifiantGestionnaireRéseau,
+      ).estÉgaleÀ(GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu)
+    : false;
 
-      <Separateur />
+  return (
+    <>
+      <div className="flex flex-col md:flex-row justify-items-stretch">
+        <ÉtapeDemandeComplèteRaccordement
+          identifiantProjet={identifiantProjet}
+          référence={référence}
+          dateQualification={demandeComplèteRaccordement.dateQualification}
+          accuséRéception={demandeComplèteRaccordement.accuséRéception}
+          canEdit={demandeComplèteRaccordement.canEdit && !isGestionnaireInconnu}
+        />
 
-      <ÉtapePropositionTechniqueEtFinancière
-        identifiantProjet={identifiantProjet}
-        référence={référence}
-        dateSignature={propositionTechniqueEtFinancière.dateSignature}
-        propositionTechniqueEtFinancièreSignée={
-          propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée
-        }
-        canEdit={propositionTechniqueEtFinancière.canEdit && !isGestionnaireInconnu}
-      />
+        <Separateur />
 
-      <Separateur />
+        <ÉtapePropositionTechniqueEtFinancière
+          identifiantProjet={identifiantProjet}
+          référence={référence}
+          dateSignature={propositionTechniqueEtFinancière.dateSignature}
+          propositionTechniqueEtFinancièreSignée={
+            propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée
+          }
+          canEdit={propositionTechniqueEtFinancière.canEdit && !isGestionnaireInconnu}
+        />
 
-      <ÉtapeMiseEnService
-        identifiantProjet={identifiantProjet}
-        référence={référence}
-        dateMiseEnService={miseEnService.dateMiseEnService}
-        canEdit={miseEnService.canEdit && !isGestionnaireInconnu}
-      />
-    </div>
-    {canDeleteDossier && (
-      <SupprimerDossierDuRaccordement
-        identifiantProjet={identifiantProjet}
-        référenceDossier={référence}
-      />
-    )}
-  </>
-);
+        <Separateur />
+
+        <ÉtapeMiseEnService
+          identifiantProjet={identifiantProjet}
+          référence={référence}
+          dateMiseEnService={miseEnService.dateMiseEnService}
+          canEdit={miseEnService.canEdit && !isGestionnaireInconnu}
+        />
+      </div>
+      {canDeleteDossier && (
+        <SupprimerDossierDuRaccordement
+          identifiantProjet={identifiantProjet}
+          référenceDossier={référence}
+        />
+      )}
+    </>
+  );
+};
 
 type SupprimerDossierDuRaccordementProps = {
   identifiantProjet: string;

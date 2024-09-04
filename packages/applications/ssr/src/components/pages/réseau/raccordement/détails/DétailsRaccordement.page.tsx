@@ -5,7 +5,6 @@ import Accordion from '@codegouvfr/react-dsfr/Accordion';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
@@ -27,12 +26,6 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
   gestionnaireRéseau,
   dossiers,
 }) => {
-  const isGestionnaireInconnu = gestionnaireRéseau
-    ? GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
-        gestionnaireRéseau.identifiantGestionnaireRéseau,
-      ).estÉgaleÀ(GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu)
-    : false;
-
   return (
     <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
       <TitrePageRaccordement />
@@ -42,7 +35,6 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
             <ModifierGestionnaireRéseauDuRaccordement
               gestionnaireRéseau={gestionnaireRéseau}
               identifiantProjet={identifiantProjet}
-              isGestionnaireInconnu={isGestionnaireInconnu}
             />
           )}
           <Button
@@ -69,14 +61,14 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
 
         <div className={`my-8 flex flex-col gap-8 md:gap-3 ${fr.cx('fr-accordions-group')}`}>
           {dossiers.length === 1 ? (
-            <DossierRaccordement {...dossiers[0]} isGestionnaireInconnu={isGestionnaireInconnu} />
+            <DossierRaccordement {...dossiers[0]} gestionnaireRéseau={gestionnaireRéseau} />
           ) : (
             dossiers.map((dossier) => (
               <Accordion
                 label={`Dossier avec la référence ${dossier.référence}`}
                 key={dossier.référence}
               >
-                <DossierRaccordement {...dossier} isGestionnaireInconnu={isGestionnaireInconnu} />
+                <DossierRaccordement {...dossier} gestionnaireRéseau={gestionnaireRéseau} />
               </Accordion>
             ))
           )}
