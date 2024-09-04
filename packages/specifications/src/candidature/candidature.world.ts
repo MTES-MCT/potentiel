@@ -75,9 +75,6 @@ export class CandidatureWorld {
         : undefined,
       emailContact: expectedValues.emailContactValue,
       evaluationCarboneSimplifiée: expectedValues.evaluationCarboneSimplifiéeValue,
-      financementCollectif: expectedValues.financementCollectifValue,
-      financementParticipatif: expectedValues.financementParticipatifValue,
-      gouvernancePartagée: expectedValues.gouvernancePartagéeValue,
       historiqueAbandon: Candidature.HistoriqueAbandon.convertirEnValueType(
         expectedValues.historiqueAbandonValue,
       ),
@@ -94,15 +91,18 @@ export class CandidatureWorld {
       puissanceProductionAnnuelle: expectedValues.puissanceProductionAnnuelleValue,
       sociétéMère: expectedValues.sociétéMèreValue,
       statut: StatutProjet.convertirEnValueType(expectedValues.statutValue),
-      technologie: Candidature.Technologie.convertirEnValueType(expectedValues.technologieValue),
+      technologie: Candidature.TypeTechnologie.convertirEnValueType(
+        expectedValues.technologieValue,
+      ),
       territoireProjet: expectedValues.territoireProjetValue,
       typeGarantiesFinancières: expectedValues.typeGarantiesFinancièresValue
         ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
             expectedValues.typeGarantiesFinancièresValue,
           )
         : undefined,
-      valeurÉvaluationCarbone: expectedValues.valeurÉvaluationCarboneValue,
-
+      actionnariat: expectedValues.actionnariatValue
+        ? Candidature.TypeActionnariat.convertirEnValueType(expectedValues.actionnariatValue)
+        : undefined,
       détails: DocumentProjet.convertirEnValueType(
         this.importerCandidature.identifiantProjet,
         'candidature/import',

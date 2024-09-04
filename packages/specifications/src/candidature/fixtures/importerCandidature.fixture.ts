@@ -71,7 +71,9 @@ export class ImporterCandidatureFixture
       noteTotaleValue: faker.number.int({ min: 0, max: 5 }),
       nomReprésentantLégalValue: faker.person.fullName(),
       evaluationCarboneSimplifiéeValue: faker.number.float({ min: 0.1, max: 3 }),
-      valeurÉvaluationCarboneValue: faker.number.float({ min: 0.1, max: 3 }),
+      actionnariat: faker.helpers.maybe(() =>
+        faker.helpers.arrayElement(Candidature.TypeActionnariat.types),
+      ),
       financementCollectifValue: false,
       gouvernancePartagéeValue: false,
       financementParticipatifValue: false,
