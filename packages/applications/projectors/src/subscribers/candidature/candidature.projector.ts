@@ -37,10 +37,7 @@ export const register = () => {
             motifÉlimination: payload.motifÉlimination,
             puissanceALaPointe: payload.puissanceALaPointe,
             evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiée,
-            valeurÉvaluationCarbone: payload.valeurÉvaluationCarbone,
-            financementCollectif: payload.financementCollectif,
-            financementParticipatif: payload.financementParticipatif,
-            gouvernancePartagée: payload.gouvernancePartagée,
+            actionnariat: payload.actionnariat,
             territoireProjet: payload.territoireProjet,
             statut: StatutProjet.convertirEnValueType(payload.statut).statut,
             typeGarantiesFinancières: payload.typeGarantiesFinancières
@@ -54,7 +51,7 @@ export const register = () => {
             dateÉchéanceGf: payload.dateÉchéanceGf
               ? DateTime.convertirEnValueType(payload.dateÉchéanceGf).formatter()
               : undefined,
-            technologie: Candidature.Technologie.convertirEnValueType(payload.technologie).type,
+            technologie: Candidature.TypeTechnologie.convertirEnValueType(payload.technologie).type,
             misÀJourLe: type === 'CandidatureCorrigée-V1' ? payload.corrigéLe : payload.importéLe,
           };
 

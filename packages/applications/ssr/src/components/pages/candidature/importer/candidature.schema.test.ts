@@ -71,17 +71,15 @@ describe('Schema candidature', () => {
       email_contact: 'porteur@test.com',
       adresse1: 'adresse',
       adresse2: '',
-      code_postal: '12345',
+      code_postaux: ['12345'],
       commune: 'MARSEILLE',
       statut: 'éliminé',
       motif_élimination: 'motif',
       puissance_a_la_pointe: false,
       evaluation_carbone_simplifiée: 0,
-      valeur_évaluation_carbone: undefined,
       technologie: 'N/A',
       type_gf: undefined,
-      financement_collectif: 'non',
-      financement_participatif: false,
+      financement_collectif: false,
       gouvernance_partagée: true,
       date_échéance_gf: undefined,
       historique_abandon: 'première-candidature',
@@ -93,7 +91,6 @@ describe('Schema candidature', () => {
     const result = candidatureSchema.safeParse({
       ...minimumValuesClassé,
       'Technologie\n(dispositif de production)': 'Eolien',
-      'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)': '2',
       'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': 'Oui',
     });
     assertNoError(result);
@@ -112,17 +109,15 @@ describe('Schema candidature', () => {
       email_contact: 'porteur@test.com',
       adresse1: 'adresse',
       adresse2: '',
-      code_postal: '12345',
+      code_postaux: ['12345'],
       commune: 'MARSEILLE',
       statut: 'classé',
-      motif_élimination: '',
-      puissance_a_la_pointe: 'oui',
+      motif_élimination: undefined,
+      puissance_a_la_pointe: true,
       evaluation_carbone_simplifiée: 0,
-      valeur_évaluation_carbone: 2,
       technologie: 'eolien',
       type_gf: 'avec-date-échéance',
-      financement_collectif: 'non',
-      financement_participatif: false,
+      financement_collectif: false,
       gouvernance_partagée: true,
       date_échéance_gf: new Date('2024-12-01T00:00:00.000Z'),
       historique_abandon: 'première-candidature',
@@ -386,6 +381,20 @@ describe('Schema candidature', () => {
         message: 'Le champs notifiedOn ne peut pas être présent',
       });
     });
+
+    test('financement collectif et gouvernance partagée sont exclusifs', () => {
+      const result = candidatureSchema.safeParse({
+        ...minimumValuesEliminé,
+        'Financement collectif (Oui/Non)': 'Oui',
+        'Gouvernance partagée (Oui/Non)': 'Oui',
+      });
+      assert(!result.success);
+      expect(result.error.errors[0]).to.deep.eq({
+        code: 'custom',
+        message: `Seule l'une des deux colonnes "Financement collectif (Oui/Non)" et "Gouvernance partagée (Oui/Non)" peut avoir la valeur "Oui"`,
+        path: ['Financement collectif (Oui/Non)', 'Gouvernance partagée (Oui/Non)'],
+      });
+    });
   });
 
   describe('Cas particuliers', () => {
@@ -446,11 +455,9 @@ describe('Schema candidature', () => {
 
         assert(!result.success, 'should be error');
         expect(result.error.errors[0]).to.deep.eq({
-          received: 'string',
-          expected: 'undefined',
-          code: 'invalid_type',
-          path: ['notifiedOn'],
-          message: 'Le champs notifiedOn ne peut pas être présent',
+          code: 'custom',
+          path: ['CP'],
+          message: 'Le code postal ne correspond à aucune région / département',
         });
       });
     });

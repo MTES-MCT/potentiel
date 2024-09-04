@@ -6,7 +6,8 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import * as StatutCandidature from '../statutCandidature.valueType';
-import * as Technologie from '../technologie.valueType';
+import * as TypeTechnologie from '../typeTechnologie.valueType';
+import * as TypeActionnariat from '../typeActionnariat.valueType';
 import { loadCandidatureFactory } from '../candidature.aggregate';
 import { HistoriqueAbandon } from '../candidature';
 
@@ -35,14 +36,11 @@ export type ImporterCandidatureCommandCommonOptions = {
     région: string;
   };
   statut: StatutCandidature.ValueType;
-  motifÉlimination: string;
+  motifÉlimination?: string;
   puissanceALaPointe: boolean;
   evaluationCarboneSimplifiée: number;
-  valeurÉvaluationCarbone?: number;
-  technologie: Technologie.ValueType;
-  financementCollectif: boolean;
-  financementParticipatif: boolean;
-  gouvernancePartagée: boolean;
+  technologie: TypeTechnologie.ValueType;
+  actionnariat?: TypeActionnariat.ValueType;
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
 };

@@ -21,11 +21,6 @@ const numberSchema = _numberSchemaBase
   // transform to number
   .pipe(z.number());
 
-const optionalStrictlyPositiveNumberSchema = _numberSchemaBase
-  // transform to number and validate, accept none
-  .pipe(z.number().gt(0).optional())
-  .optional();
-
 const strictlyPositiveNumberSchema = _numberSchemaBase
   // transform to number and validate
   .pipe(z.number().gt(0));
@@ -42,7 +37,7 @@ const optionalOuiNonSchema = z
   .pipe(z.enum(['oui', 'non', '']))
   .transform((val) => val ?? undefined)
   .optional()
-  .transform((val) => val ?? false);
+  .transform((val) => val === 'oui');
 
 const dateSchema = z
   .string()
@@ -116,12 +111,10 @@ const colonnes = {
   puissance_a_la_pointe: 'Engagement de fourniture de puissance à la pointe\n(AO ZNI)',
   evaluation_carbone_simplifiée:
     'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
-  valeur_évaluation_carbone: 'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)',
   technologie: 'Technologie\n(dispositif de production)',
   type_gf:
     "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation",
   financement_collectif: 'Financement collectif (Oui/Non)',
-  financement_participatif: 'Investissement ou financement participatif ?',
   gouvernance_partagée: 'Gouvernance partagée (Oui/Non)',
   date_échéance_gf: "Date d'échéance au format JJ/MM/AAAA",
   // TODO quel est le bon nom pour cette colonne?
@@ -181,17 +174,15 @@ const candidatureCsvRowSchema = z
     [colonnes.evaluation_carbone_simplifiée]: z
       .union([z.enum(['N/A']), strictlyPositiveNumberSchema])
       .transform((val) => (val === 'N/A' ? 0 : val)),
-    [colonnes.valeur_évaluation_carbone]: optionalStrictlyPositiveNumberSchema,
     [colonnes.technologie]: z
       .enum(['N/A', 'Eolien', 'Hydraulique', 'PV'])
       .optional()
       .transform((val) => val ?? 'N/A'),
-    [colonnes.financement_collectif]: optionalOuiNonSchema,
-    [colonnes.financement_participatif]: optionalOuiNonSchema,
+    [colonnes.financement_collectif]: ouiNonSchema,
     [colonnes.gouvernance_partagée]: ouiNonSchema,
     [colonnes.historique_abandon]: z.enum(['1', '2', '3', '4']),
     // columns with refines
-    [colonnes.motif_élimination]: optionalStringSchema, // see refine below
+    [colonnes.motif_élimination]: optionalStringSchema.transform((val) => val || undefined), // see refine below
     [colonnes.type_gf]: optionalEnum(z.enum(['1', '2', '3'])), // see refine below
     [colonnes.date_échéance_gf]: dateSchema.optional(), // see refine below
     [colonnes.territoire_projet]: optionalStringSchema, // see refines below
@@ -226,7 +217,11 @@ const candidatureCsvRowSchema = z
       colonnes.appel_offre,
       'CRE4 - ZNI 2017',
     ),
-  );
+  )
+  .refine((val) => !(val[colonnes.financement_collectif] && val[colonnes.gouvernance_partagée]), {
+    message: `Seule l'une des deux colonnes "${colonnes.financement_collectif}" et "${colonnes.gouvernance_partagée}" peut avoir la valeur "Oui"`,
+    path: [colonnes.financement_collectif, colonnes.gouvernance_partagée],
+  });
 
 export const candidatureSchema = candidatureCsvRowSchema
   // Transforme les noms des clés de la ligne en valeurs plus simples à manipuler

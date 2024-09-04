@@ -75,7 +75,7 @@ const mapToLegacyEventPayload = (
     nomCandidat: payload.nomCandidat,
     nomRepresentantLegal: payload.nomReprésentantLégal,
     email: payload.emailContact,
-    motifsElimination: payload.motifÉlimination,
+    motifsElimination: payload.motifÉlimination ?? '',
     garantiesFinancièresDateEchéance: payload.dateÉchéanceGf,
     technologie: payload.technologie,
     historiqueAbandon: payload.historiqueAbandon,
@@ -86,18 +86,17 @@ const mapToLegacyEventPayload = (
     prixReference: payload.prixReference,
     note: payload.noteTotale,
     evaluationCarbone: payload.evaluationCarboneSimplifiée,
-    actionnariat: payload.financementCollectif
-      ? 'financement-collectif'
-      : payload.gouvernancePartagée
-        ? 'gouvernance-partagee'
-        : undefined,
     désignationCatégorie: getDésignationCatégorie({
       puissance: payload.puissanceProductionAnnuelle,
       note: payload.noteTotale,
       periodeDetails: période,
     }),
-    isFinancementParticipatif: payload.financementCollectif,
-    isInvestissementParticipatif: payload.financementParticipatif,
+
+    // la saga ne supporte pas un import CRE4, donc on peut mettre à false les champs financement/investissement
+    actionnariat: payload.actionnariat,
+    isFinancementParticipatif: false,
+    isInvestissementParticipatif: false,
+
     notifiedOn: 0,
     territoireProjet: payload.territoireProjet,
     ...getLocalitéInfo(payload.localité),
