@@ -340,12 +340,8 @@ type ProjectReimported = {
                 motifÉlimination: payload.data.motifsElimination,
                 puissanceALaPointe: payload.data.engagementFournitureDePuissanceAlaPointe,
                 evaluationCarboneSimplifiée: payload.data.evaluationCarbone,
-                valeurÉvaluationCarbone: payload.data.evaluationCarbone,
                 technologie: payload.data
                   .technologie as Candidature.CandidatureImportéeEvent['payload']['technologie'],
-                financementCollectif: payload.data.actionnariat === 'financement-collectif',
-                financementParticipatif: payload.data.isInvestissementParticipatif,
-                gouvernancePartagée: payload.data.actionnariat === 'gouvernance-partagée',
                 dateÉchéanceGf: payload.data.garantiesFinancièresDateEchéance
                   ? DateTime.convertirEnValueType(
                       new Date(payload.data.garantiesFinancièresDateEchéance),
@@ -385,8 +381,6 @@ type ProjectReimported = {
                 motifÉlimination: payload.content.motifsElimination,
                 puissanceALaPointe: payload.content.engagementFournitureDePuissanceAlaPointe,
                 evaluationCarboneSimplifiée: payload.content.evaluationCarbone,
-                valeurÉvaluationCarbone: payload.content.evaluationCarbone,
-                financementParticipatif: payload.content.isInvestissementParticipatif,
                 territoireProjet: payload.content.territoireProjet,
                 importéPar: 'team@potentiel.beta.gouv.fr',
                 importéLe: DateTime.convertirEnValueType(new Date(occurredAt)).formatter(),
@@ -421,8 +415,6 @@ type ProjectReimported = {
                 motifÉlimination: payload.data.motifsElimination,
                 puissanceALaPointe: payload.data.engagementFournitureDePuissanceAlaPointe,
                 evaluationCarboneSimplifiée: payload.data.evaluationCarbone,
-                valeurÉvaluationCarbone: payload.data.evaluationCarbone,
-                financementParticipatif: payload.data.isInvestissementParticipatif,
                 territoireProjet: payload.data.territoireProjet,
                 importéPar: 'team@potentiel.beta.gouv.fr',
                 importéLe: DateTime.convertirEnValueType(new Date(occurredAt)).formatter(),
@@ -460,9 +452,6 @@ type ProjectReimported = {
                 }),
                 ...(payload.data.evaluationCarbone && {
                   evaluationCarboneSimplifiée: payload.data.evaluationCarbone,
-                }),
-                ...(payload.data.evaluationCarbone && {
-                  valeurÉvaluationCarbone: payload.data.evaluationCarbone,
                 }),
                 ...(payload.data.isInvestissementParticipatif && {
                   financementParticipatif: payload.data.isInvestissementParticipatif,
