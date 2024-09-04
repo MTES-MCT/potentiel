@@ -20,8 +20,8 @@ export type NotifierPériodeFormProps = {
 };
 export const NotifierPériodeForm: FC<NotifierPériodeFormProps> = ({ appelOffres }) => {
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
-  const [appelOffreSélectionné, selectionnerAppelOffre] = useState('');
-  const [périodeSélectionnée, selectionnerPériode] = useState('');
+  const [appelOffreSélectionné, sélectionnerAppelOffre] = useState('');
+  const [périodeSélectionnée, sélectionnerPériode] = useState('');
 
   const appelOffreOptions = appelOffres.map((appelOffre) => ({
     label: appelOffre.libellé,
@@ -65,7 +65,7 @@ export const NotifierPériodeForm: FC<NotifierPériodeFormProps> = ({ appelOffre
         nativeSelectProps={{
           name: 'appelOffre',
           required: true,
-          onChange: ({ currentTarget: { value } }) => selectionnerAppelOffre(value),
+          onChange: ({ currentTarget: { value } }) => sélectionnerAppelOffre(value),
         }}
         options={appelOffreOptions}
         placeholder="Sélectionner un appel d'offres"
@@ -77,7 +77,7 @@ export const NotifierPériodeForm: FC<NotifierPériodeFormProps> = ({ appelOffre
         nativeSelectProps={{
           name: 'periode',
           required: true,
-          onChange: ({ currentTarget: { value } }) => selectionnerPériode(value),
+          onChange: ({ currentTarget: { value } }) => sélectionnerPériode(value),
         }}
         options={périodeOptions}
         placeholder="Sélectionner une période"
