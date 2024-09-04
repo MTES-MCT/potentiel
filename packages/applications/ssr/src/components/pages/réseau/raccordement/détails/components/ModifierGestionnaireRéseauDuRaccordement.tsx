@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
@@ -26,14 +27,14 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
 
   if (isGestionnaireInconnu) {
     const lienAjout = (
-      <a
+      <Link
         className="ml-1"
         href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
         aria-label="Ajouter un gestionnaire"
       >
         <Icon id="fr-icon-add-circle-line" size="xs" className="mr-1" />
         Spécifier un gestionnaire de réseau
-      </a>
+      </Link>
     );
 
     return (
@@ -53,14 +54,14 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
   }
 
   const lienModifier = (
-    <a
+    <Link
       className="ml-1"
       href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
       aria-label={`Modifier le gestionnaire actuel (${gestionnaireRéseau.raisonSociale})`}
     >
       <Icon id="fr-icon-pencil-fill" size="xs" className="mr-1" />
       Modifier
-    </a>
+    </Link>
   );
 
   return (
