@@ -1,6 +1,13 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const types = ['financement-collectif', 'gouvernance-partagée'] as const;
+export const types = [
+  // PPE2
+  'financement-collectif',
+  'gouvernance-partagée',
+  // CRE4
+  'financement-participatif',
+  'investissement-participatif',
+] as const;
 export type RawType = (typeof types)[number];
 
 export type ValueType = ReadonlyValueType<{

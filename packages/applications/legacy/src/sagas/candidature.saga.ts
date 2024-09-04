@@ -92,10 +92,13 @@ const mapToLegacyEventPayload = (
       periodeDetails: période,
     }),
 
-    // la saga ne supporte pas un import CRE4, donc on peut mettre à false les champs financement/investissement
-    actionnariat: payload.actionnariat,
-    isFinancementParticipatif: false,
-    isInvestissementParticipatif: false,
+    actionnariat:
+      payload.actionnariat === 'financement-collectif' ||
+      payload.actionnariat === 'gouvernance-partagée'
+        ? payload.actionnariat
+        : undefined,
+    isFinancementParticipatif: payload.actionnariat === 'financement-participatif',
+    isInvestissementParticipatif: payload.actionnariat === 'investissement-participatif',
 
     notifiedOn: 0,
     territoireProjet: payload.territoireProjet,
