@@ -1,6 +1,5 @@
 import ReactDOMServer from 'react-dom/server';
 import type { Request } from 'express';
-import { getTrackerScript } from '../infra/umami';
 import React from 'react';
 
 type HasRequest = {
@@ -29,7 +28,6 @@ function stripRequest(props: HasRequest) {
   };
 }
 
-const trackerWebsiteId = process.env.TRACKER_WEBSITE_ID;
 const crispWebsiteId = process.env.CRISP_WEBSITE_ID;
 
 const formatJsName = (name) => name.charAt(0).toLowerCase() + name.slice(1);
@@ -38,7 +36,7 @@ export const makeHtml = <T extends {}>(args: PageProps<T>) => {
   const { Component, props, title = `Suivi des Projets d'Energies Renouvelables` } = args;
 
   return html`
-    <!DOCTYPE html>
+    <!doctype html>
     <html itemscope itemtype="http://schema.org/WebPage" lang="fr">
       <head>
         <meta charset="utf-8" />
@@ -71,7 +69,6 @@ export const makeHtml = <T extends {}>(args: PageProps<T>) => {
           <script src="/js/${formatJsName(Component.name)}.js?${process.env
               .start_datetime}"></script>
         `}
-        ${trackerWebsiteId ? getTrackerScript(trackerWebsiteId) : ''}
         ${crispWebsiteId
           ? `
         <script type="text/javascript">

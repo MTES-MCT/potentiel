@@ -131,7 +131,7 @@ export const ProjectList = ({
         </div>
         {exportListe && (
           <SecondaryLinkButton
-            className="inline-flex order-1 md:order-2 items-center w-fit mt-0 umami--click--telecharger-un-export-projets"
+            className="inline-flex order-1 md:order-2 items-center w-fit mt-0"
             href={exportListe.url}
             download
           >
