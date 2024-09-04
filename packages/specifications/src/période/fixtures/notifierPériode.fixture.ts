@@ -1,13 +1,15 @@
 import { faker } from '@faker-js/faker';
 
+import { IdentifiantProjet } from '@potentiel-domain/common';
+
 import { AbstractFixture } from '../../fixture';
 
 interface NotifierPériode {
   readonly estNotifiée: boolean;
   readonly notifiéeLe: string;
   readonly notifiéePar: string;
-  readonly lauréats: Array<string>;
-  readonly éliminés: Array<string>;
+  readonly lauréats: Array<IdentifiantProjet.RawType>;
+  readonly éliminés: Array<IdentifiantProjet.RawType>;
 }
 
 export class NotifierPériodeFixture
@@ -20,13 +22,13 @@ export class NotifierPériodeFixture
     return this.#estNotifiée;
   }
 
-  #lauréats!: Array<string>;
+  #lauréats!: Array<IdentifiantProjet.RawType>;
 
   get lauréats(): NotifierPériode['lauréats'] {
     return this.#lauréats;
   }
 
-  #éliminés!: Array<string>;
+  #éliminés!: Array<IdentifiantProjet.RawType>;
   get éliminés(): NotifierPériode['éliminés'] {
     return this.#éliminés;
   }
@@ -49,16 +51,16 @@ export class NotifierPériodeFixture
       notifiéeLe: faker.date.soon().toISOString(),
       notifiéePar: faker.internet.email(),
       lauréats: [
-        'PPE2 - Eolien#1##lauréat-1',
-        'PPE2 - Eolien#1##lauréat-2',
-        'PPE2 - Eolien#1##lauréat-3',
-        'PPE2 - Eolien#1##lauréat-4',
-        'PPE2 - Eolien#1##lauréat-5',
+        'PPE2 - Eolien#1##lauréat-1' as IdentifiantProjet.RawType,
+        'PPE2 - Eolien#1##lauréat-2' as IdentifiantProjet.RawType,
+        'PPE2 - Eolien#1##lauréat-3' as IdentifiantProjet.RawType,
+        'PPE2 - Eolien#1##lauréat-4' as IdentifiantProjet.RawType,
+        'PPE2 - Eolien#1##lauréat-5' as IdentifiantProjet.RawType,
       ],
       éliminés: [
-        'PPE2 - Eolien#1##éliminé-1',
-        'PPE2 - Eolien#1##éliminé-2',
-        'PPE2 - Eolien#1##éliminé-3',
+        'PPE2 - Eolien#1##éliminé-1' as IdentifiantProjet.RawType,
+        'PPE2 - Eolien#1##éliminé-2' as IdentifiantProjet.RawType,
+        'PPE2 - Eolien#1##éliminé-3' as IdentifiantProjet.RawType,
       ],
       ...partialFixture,
     };

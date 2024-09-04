@@ -9,10 +9,10 @@ import { NotifierPériodeCommand } from './notifierPériode.command';
 export type NotifierPériodeUseCase = Message<
   'Période.UseCase.NotifierPériode',
   {
-    identifiantPériodeValue: string;
+    identifiantPériodeValue: IdentifiantPériode.RawType;
     notifiéeLeValue: DateTime.RawType;
     notifiéeParValue: Email.RawType;
-    identifiantCandidatureValues: ReadonlyArray<string>;
+    identifiantCandidatureValues: ReadonlyArray<IdentifiantProjet.RawType>;
   }
 >;
 
