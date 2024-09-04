@@ -6,7 +6,8 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
-import * as Technologie from '../technologie.valueType';
+import * as TypeTechnologie from '../typeTechnologie.valueType';
+import * as TypeActionnariat from '../typeActionnariat.valueType';
 import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import { PériodeAppelOffreLegacyError } from '../périodeAppelOffreLegacy.error';
 import { CandidatureDéjàImportéeError } from '../candidatureDéjàImportée.error';
@@ -41,14 +42,11 @@ export type CandidatureImportéeEventCommonPayload = {
     département: string;
     région: string;
   };
-  motifÉlimination: string;
+  motifÉlimination?: string;
   puissanceALaPointe: boolean;
   evaluationCarboneSimplifiée: number;
-  valeurÉvaluationCarbone?: number;
-  technologie: Technologie.RawType;
-  financementCollectif: boolean;
-  financementParticipatif: boolean;
-  gouvernancePartagée: boolean;
+  technologie: TypeTechnologie.RawType;
+  actionnariat?: TypeActionnariat.RawType;
   dateÉchéanceGf?: DateTime.RawType;
   territoireProjet: string;
 };
@@ -88,14 +86,11 @@ export type ImporterCandidatureBehaviorCommonOptions = {
     département: string;
     région: string;
   };
-  motifÉlimination: string;
+  motifÉlimination?: string;
   puissanceALaPointe: boolean;
   evaluationCarboneSimplifiée: number;
-  valeurÉvaluationCarbone?: number;
-  technologie: Technologie.ValueType;
-  financementCollectif: boolean;
-  financementParticipatif: boolean;
-  gouvernancePartagée: boolean;
+  technologie: TypeTechnologie.ValueType;
+  actionnariat?: TypeActionnariat.ValueType;
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
 };
@@ -185,9 +180,6 @@ export const mapToEventPayload = (candidature: ImporterCandidatureBehaviorCommon
   motifÉlimination: candidature.motifÉlimination,
   puissanceALaPointe: candidature.puissanceALaPointe,
   evaluationCarboneSimplifiée: candidature.evaluationCarboneSimplifiée,
-  valeurÉvaluationCarbone: candidature.valeurÉvaluationCarbone,
-  financementCollectif: candidature.financementCollectif,
-  financementParticipatif: candidature.financementParticipatif,
-  gouvernancePartagée: candidature.gouvernancePartagée,
+  actionnariat: candidature.actionnariat?.formatter(),
   territoireProjet: candidature.territoireProjet,
 });

@@ -2,7 +2,7 @@ import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/com
 import { Entity } from '@potentiel-domain/entity';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { HistoriqueAbandon, Technologie } from './candidature';
+import { HistoriqueAbandon, TypeTechnologie, TypeActionnariat } from './candidature';
 
 export type CandidatureEntity = Entity<
   'candidature',
@@ -27,16 +27,13 @@ export type CandidatureEntity = Entity<
     emailContact: string;
     puissanceProductionAnnuelle: number;
     prixReference: number;
-    valeurÉvaluationCarbone?: number;
-    technologie: Technologie.RawType;
+    technologie: TypeTechnologie.RawType;
     sociétéMère: string;
     noteTotale: number;
-    motifÉlimination: string;
+    motifÉlimination?: string;
     puissanceALaPointe: boolean;
     evaluationCarboneSimplifiée: number;
-    financementCollectif: boolean;
-    financementParticipatif: boolean;
-    gouvernancePartagée: boolean;
+    actionnariat?: TypeActionnariat.RawType;
     dateÉchéanceGf?: DateTime.RawType;
     territoireProjet: string;
     misÀJourLe: DateTime.RawType;

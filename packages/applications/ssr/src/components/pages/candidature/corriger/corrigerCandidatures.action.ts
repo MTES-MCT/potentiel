@@ -93,13 +93,14 @@ const mapLineToUseCaseData = (
   localitéValue: getLocalité(line),
   statutValue: line.statut,
   motifÉliminationValue: line.motif_élimination,
-  puissanceALaPointeValue: line.puissance_a_la_pointe === 'oui',
+  puissanceALaPointeValue: line.puissance_a_la_pointe,
   evaluationCarboneSimplifiéeValue: line.evaluation_carbone_simplifiée,
-  valeurÉvaluationCarboneValue: line.valeur_évaluation_carbone,
   technologieValue: line.technologie,
-  financementCollectifValue: line.financement_collectif === 'oui',
-  financementParticipatifValue: line.financement_participatif === 'oui',
-  gouvernancePartagéeValue: line.gouvernance_partagée,
+  actionnariatValue: line.financement_collectif
+    ? Candidature.TypeActionnariat.financementCollectif.formatter()
+    : line.gouvernance_partagée
+      ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
+      : undefined,
   dateÉchéanceGfValue: line.date_échéance_gf?.toISOString(),
   territoireProjetValue: line.territoire_projet,
   détailsValue: rawLine,
