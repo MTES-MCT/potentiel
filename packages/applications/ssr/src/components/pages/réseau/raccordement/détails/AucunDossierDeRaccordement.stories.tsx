@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import {
   AucunDossierDeRaccordementPage,
-  AucunDossierDeRaccordementProps,
+  AucunDossierDeRaccordementPageProps,
 } from './AucunDossierDeRaccordement.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -12,7 +12,7 @@ const meta = {
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<AucunDossierDeRaccordementProps>;
+} satisfies Meta<AucunDossierDeRaccordementPageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

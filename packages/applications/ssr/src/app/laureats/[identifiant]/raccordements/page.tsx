@@ -1,11 +1,9 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature } from '@potentiel-domain/candidature';
 
 import { AucunDossierDeRaccordementPage } from '@/components/pages/réseau/raccordement/détails/AucunDossierDeRaccordement.page';
 import {
@@ -16,6 +14,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { récupérerProjetSiNonAbandonné } from '@/app/helpers/récupérerProjetSiNonAbandonné';
 
 type PageProps = IdentifiantParameter;
 
@@ -29,16 +28,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
 
-      const projet = await mediator.send<Candidature.ConsulterProjetQuery>({
-        type: 'Candidature.Query.ConsulterProjet',
-        data: {
-          identifiantProjet,
-        },
-      });
-
-      if (Option.isNone(projet)) {
-        return notFound();
-      }
+      await récupérerProjetSiNonAbandonné(identifiantProjet);
 
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
