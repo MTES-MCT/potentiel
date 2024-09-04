@@ -35,28 +35,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       });
 
       if (Option.isNone(raccordement)) {
-        const canEditGestionnaireRéseau =
-          utilisateur.role.estÉgaleÀ(Role.admin) ||
-          utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
-          utilisateur.role.estÉgaleÀ(Role.porteur);
-
-        const grd = {
-          identifiantGestionnaireRéseau:
-            GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter(),
-          raisonSociale: '',
-          aideSaisieRéférenceDossierRaccordement: {
-            format: '',
-            légende: '',
-            expressionReguliere: '',
-          },
-          canEdit: canEditGestionnaireRéseau,
-        };
-        return (
-          <AucunDossierDeRaccordementPage
-            identifiantProjet={identifiantProjet}
-            gestionnaireRéseau={grd}
-          />
-        );
+        return <AucunDossierDeRaccordementPage identifiantProjet={identifiantProjet} />;
       }
 
       const gestionnaireRéseau =
