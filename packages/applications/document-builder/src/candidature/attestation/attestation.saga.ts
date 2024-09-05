@@ -143,7 +143,7 @@ const generateCertificate = async (
       puissance: candidature.puissanceProductionAnnuelle,
       technologie: candidature.technologie.type,
       engagementFournitureDePuissanceAlaPointe: candidature.puissanceALaPointe,
-      motifsElimination: candidature.motifÉlimination,
+      motifsElimination: candidature.motifÉlimination ?? '',
 
       désignationCatégorie: getDésignationCatégorie({
         puissance: candidature.puissanceProductionAnnuelle,
@@ -186,25 +186,20 @@ const getFinancementEtTemplate = async ({
   switch (période.certificateTemplate) {
     case 'cre4.v0':
     case 'cre4.v1':
-      // TODO
-      getLogger('System.Candidature.Attestation.Saga.Execute').warn(
-        `La génération CRE4 d'attestations n'est pas encore supporté dû à un manque de donnée sur isFinancementParticipatif/isInvestissementParticipatif`,
-        {
-          identifiantProjet: candidature.identifiantProjet.formatter(),
-        },
-      );
-      return;
-    // return {
-    //   template: période.certificateTemplate,
-    //   isFinancementParticipatif: false,
-    //   isInvestissementParticipatif: false,
-    // };
+      return {
+        template: période.certificateTemplate,
+        isFinancementParticipatif: candidature.actionnariat?.type === 'financement-participatif',
+        isInvestissementParticipatif:
+          candidature.actionnariat?.type === 'investissement-participatif',
+      };
     default:
       return {
         template: période.certificateTemplate ?? 'ppe2.v2',
-        actionnariat: candidature.financementCollectif
+        actionnariat: candidature.actionnariat?.estÉgaleÀ(
+          Candidature.TypeActionnariat.financementCollectif,
+        )
           ? ('financement-collectif' as const)
-          : candidature.gouvernancePartagée
+          : candidature.actionnariat?.estÉgaleÀ(Candidature.TypeActionnariat.gouvernancePartagée)
             ? ('gouvernance-partagee' as const)
             : undefined,
       };
