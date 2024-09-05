@@ -28,14 +28,14 @@ export type ListerUtilisateursPort = (
 ) => Promise<ReadonlyArray<UtilisateurEntity>>;
 
 export type ListerUtilisateursDependencies = {
-  listerUtilisateur: ListerUtilisateursPort;
+  listerUtilisateurs: ListerUtilisateursPort;
 };
 
 export const registerListerUtilisateursQuery = ({
-  listerUtilisateur,
+  listerUtilisateurs,
 }: ListerUtilisateursDependencies) => {
   const handler: MessageHandler<ListerUtilisateursQuery> = async ({ roles }) => {
-    const items = await listerUtilisateur(roles);
+    const items = await listerUtilisateurs(roles);
 
     return {
       items: items.map(mapToReadModel),

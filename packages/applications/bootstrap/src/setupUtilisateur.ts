@@ -9,6 +9,6 @@ export const setupUtilisateur = () => {
   registerUtilisateurQueries({
     récupérerUtilisateur: récupérerUtilisateurAdapter,
     vérifierAccèsProjet: vérifierAccèsProjetAdapter,
-    listerUtilisateur: listerUtilisateursAdapter,
+    listerUtilisateurs: listerUtilisateursAdapter,
   });
 };
