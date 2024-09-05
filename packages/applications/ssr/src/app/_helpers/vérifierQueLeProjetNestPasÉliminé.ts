@@ -5,13 +5,13 @@ import { Candidature } from '@potentiel-domain/candidature';
 
 import { récupérerProjet } from './récupérerProjet';
 
-export const vérifierQueLeProjetNestPasAbandonné = async (
+export const vérifierQueLeProjetNestPasÉliminé = async (
   identifiantProjet: string,
   projetStatut?: Candidature.ConsulterProjetReadModel['statut'],
 ) => {
   const statut = projetStatut ?? (await récupérerProjet(identifiantProjet)).statut;
 
-  if (StatutProjet.convertirEnValueType(statut).estAbandonné()) {
+  if (StatutProjet.convertirEnValueType(statut).estÉliminé()) {
     return notFound();
   }
 };

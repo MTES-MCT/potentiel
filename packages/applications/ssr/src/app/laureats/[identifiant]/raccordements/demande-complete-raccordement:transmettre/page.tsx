@@ -14,7 +14,11 @@ import {
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { vérifierQueLeProjetNestPasAbandonné } from '@/app/_helpers/vérifierQueLeProjetNestPasAbandonné';
+import {
+  récupérerProjet,
+  vérifierQueLeProjetNestPasAbandonné,
+  vérifierQueLeProjetNestPasÉliminé,
+} from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: 'Ajouter un dossier de raccordement - Potentiel',
@@ -27,7 +31,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodedIdentifiant);
 
-    await vérifierQueLeProjetNestPasAbandonné(decodedIdentifiant);
+    const projet = await récupérerProjet(identifiantProjet.formatter());
+
+    Promise.all([
+      vérifierQueLeProjetNestPasAbandonné(identifiantProjet.formatter(), projet.statut),
+      vérifierQueLeProjetNestPasÉliminé(identifiantProjet.formatter(), projet.statut),
+    ]);
 
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',

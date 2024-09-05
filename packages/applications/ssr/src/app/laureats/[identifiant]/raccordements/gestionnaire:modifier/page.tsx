@@ -11,7 +11,11 @@ import {
   ModifierGestionnaireRéseauRaccordementPage,
   ModifierGestionnaireRéseauRaccordementPageProps,
 } from '@/components/pages/réseau/raccordement/modifier/modifierGestionnaireRéseauRaccordement/ModifierGestionnaireRéseauRaccordement.page';
-import { vérifierQueLeProjetNestPasAbandonné } from '@/app/_helpers/vérifierQueLeProjetNestPasAbandonné';
+import {
+  récupérerProjet,
+  vérifierQueLeProjetNestPasAbandonné,
+  vérifierQueLeProjetNestPasÉliminé,
+} from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: 'Modifier gestionnaire réseau - Potentiel',
@@ -22,7 +26,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
-    await vérifierQueLeProjetNestPasAbandonné(identifiantProjet);
+    const projet = await récupérerProjet(identifiantProjet);
+
+    Promise.all([
+      vérifierQueLeProjetNestPasAbandonné(identifiantProjet, projet.statut),
+      vérifierQueLeProjetNestPasÉliminé(identifiantProjet, projet.statut),
+    ]);
 
     const gestionnairesRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({

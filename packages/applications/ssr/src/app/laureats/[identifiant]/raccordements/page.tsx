@@ -14,7 +14,11 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { vérifierQueLeProjetNestPasAbandonné } from '@/app/_helpers/vérifierQueLeProjetNestPasAbandonné';
+import {
+  récupérerProjet,
+  vérifierQueLeProjetNestPasAbandonné,
+  vérifierQueLeProjetNestPasÉliminé,
+} from '@/app/_helpers';
 
 type PageProps = IdentifiantParameter;
 
@@ -28,7 +32,12 @@ export default async function Page({ params: { identifiant } }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
 
-      await vérifierQueLeProjetNestPasAbandonné(identifiantProjet);
+      const projet = await récupérerProjet(identifiantProjet);
+
+      Promise.all([
+        vérifierQueLeProjetNestPasAbandonné(identifiantProjet, projet.statut),
+        vérifierQueLeProjetNestPasÉliminé(identifiantProjet, projet.statut),
+      ]);
 
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
