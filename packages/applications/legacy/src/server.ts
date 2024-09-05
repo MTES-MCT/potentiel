@@ -15,6 +15,7 @@ import { registerSagas } from './sagas/registerSagas';
 import { readFile } from 'node:fs/promises';
 import { permissionMiddleware } from '@potentiel-domain/utilisateur';
 import { bootstrap } from '@potentiel-applications/bootstrap';
+import crypto from 'node:crypto';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -31,6 +32,10 @@ export async function makeServer(port: number, sessionSecret: string) {
     app.use(Sentry.Handlers.requestHandler());
 
     if (!isLocalEnv) {
+      app.use((req, res, next) => {
+        req.headers['csp-nonce'] = crypto.randomBytes(32).toString('hex');
+        next();
+      });
       app.use(
         helmet({
           // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
@@ -54,6 +59,14 @@ export async function makeServer(port: number, sessionSecret: string) {
               'font-src': ["'self'", 'client.crisp.chat'],
               'frame-src': ['metabase.potentiel.beta.gouv.fr'],
               'img-src': ["'self'", 'data:', 'image.crisp.chat'],
+              'style-src': ["'self'", 'client.crisp.chat'],
+              'script-src': [
+                "'self'",
+                (req) => `'nonce-${req.headers['csp-nonce']}'`,
+                'metabase.potentiel.beta.gouv.fr',
+                'analytics.potentiel.beta.gouv.fr',
+                'client.crisp.chat',
+              ],
             },
           },
         }),
