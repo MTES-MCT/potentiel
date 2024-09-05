@@ -1,3 +1,4 @@
+import { Routes } from '@potentiel-applications/routes';
 import ROUTES from '../../../routes';
 
 const adminActions = (project: {
@@ -30,7 +31,7 @@ const adminActions = (project: {
   } else if (!project.isLegacy) {
     actions.push({
       title: 'Aperçu attestation',
-      link: ROUTES.PREVIEW_CANDIDATE_CERTIFICATE(project),
+      link: Routes.Candidature.prévisualiserAttestation(project.id),
       isDownload: true,
     });
   }
