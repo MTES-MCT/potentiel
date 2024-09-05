@@ -45,7 +45,7 @@ export const registerConsulterUtilisateurQuery = ({
   mediator.register('Utilisateur.Query.ConsulterUtilisateur', handler);
 };
 
-const mapToReadModel = ({
+export const mapToReadModel = ({
   identifiantUtilisateur,
   email,
   nomComplet,

@@ -15,7 +15,6 @@ export type SubscriptionEvent = Éliminé.ÉliminéEvent & Event;
 export type Execute = Message<'System.Notification.Éliminé', SubscriptionEvent>;
 
 const templateId = {
-  notifierRolesSaufPorteurEtDgec: 3849728,
   notifierPorteur: 1350523,
 };
 

@@ -17,6 +17,7 @@ export type PériodeUseCase = NotifierPériodeUseCase;
 export type { NotifierPériodeUseCase };
 
 // Events
+export type PériodeEvent = PériodeNotifiéeEvent;
 export type { PériodeNotifiéeEvent };
 
 // Register

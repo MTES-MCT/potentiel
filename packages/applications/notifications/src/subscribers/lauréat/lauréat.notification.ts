@@ -15,7 +15,6 @@ export type SubscriptionEvent = Lauréat.LauréatEvent & Event;
 export type Execute = Message<'System.Notification.Lauréat', SubscriptionEvent>;
 
 const templateId = {
-  notifierRolesSaufPorteurEtDgec: 3849728,
   notifierPorteur: 1350523,
 };
 

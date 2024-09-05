@@ -2,6 +2,7 @@ import {
   ConsulterUtilisateurQuery,
   RécupérerUtilisateurPort,
 } from './consulter/consulterUtilisateur.query';
+import { ListerUtilisateursQuery, ListerUtilisateursPort } from './lister/listerUtilisateurs.query';
 import {
   VérifierAccèsProjetQuery,
   VérifierAccèsProjetPort,
@@ -12,15 +13,18 @@ export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';
 
 // Query
-export type UtilisateurQuery = ConsulterUtilisateurQuery | VérifierAccèsProjetQuery;
+export type UtilisateurQuery =
+  | ConsulterUtilisateurQuery
+  | ListerUtilisateursQuery
+  | VérifierAccèsProjetQuery;
 
-export { ConsulterUtilisateurQuery, VérifierAccèsProjetQuery };
+export { ConsulterUtilisateurQuery, ListerUtilisateursQuery, VérifierAccèsProjetQuery };
 
 // Register
 export * from './register';
 
 // Port
-export { RécupérerUtilisateurPort, VérifierAccèsProjetPort };
+export { ListerUtilisateursPort, RécupérerUtilisateurPort, VérifierAccèsProjetPort };
 export * from './utilisateur.port';
 
 // Entity

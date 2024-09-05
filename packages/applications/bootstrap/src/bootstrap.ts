@@ -41,13 +41,13 @@ export const bootstrap = async ({
       sendEmail = sendEmailMailjet;
     }
 
+    setupUtilisateur();
     await setupAppelOffre();
-    const unsetupPériode = await setupPériode();
+    const unsetupPériode = await setupPériode({ sendEmail });
     const unsetupCandidature = await setupCandidature();
     setupDocumentProjet();
     const unsetupTâche = await setupTâche();
     const unsetupTâchePlanifiée = await setupTâchePlanifiée({ sendEmail });
-    setupUtilisateur();
 
     const unsetupEliminé = await setupEliminé({ sendEmail });
     const unsetupLauréat = await setupLauréat({ sendEmail });

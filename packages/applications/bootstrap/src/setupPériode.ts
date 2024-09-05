@@ -4,14 +4,20 @@ import { PériodeProjector } from '@potentiel-applications/projectors';
 import { Période } from '@potentiel-domain/periode';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { PériodeNotification, SendEmail } from '@potentiel-applications/notifications';
 
-export const setupPériode = async () => {
+type SetupPériodeDependenices = {
+  sendEmail: SendEmail;
+};
+
+export const setupPériode = async ({ sendEmail }: SetupPériodeDependenices) => {
   Période.registerPériodeQueries({
     find: findProjection,
   });
   Période.registerPériodeUseCases({ loadAggregate });
 
   PériodeProjector.register();
+  PériodeNotification.register({ sendEmail });
 
   const unsubscribePériodeProjector = await subscribe<PériodeProjector.SubscriptionEvent>({
     name: 'projector',
@@ -25,7 +31,20 @@ export const setupPériode = async () => {
     streamCategory: 'période',
   });
 
+  const unsubscribePériodeNotification = await subscribe<PériodeNotification.SubscriptionEvent>({
+    name: 'notifications',
+    streamCategory: 'période',
+    eventType: ['PériodeNotifiée-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<PériodeNotification.Execute>({
+        type: 'System.Notification.Période',
+        data: event,
+      });
+    },
+  });
+
   return async () => {
     await unsubscribePériodeProjector();
+    await unsubscribePériodeNotification();
   };
 };
