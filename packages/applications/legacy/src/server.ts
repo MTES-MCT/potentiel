@@ -15,6 +15,7 @@ import { registerSagas } from './sagas/registerSagas';
 import { readFile } from 'node:fs/promises';
 import { permissionMiddleware } from '@potentiel-domain/utilisateur';
 import { bootstrap } from '@potentiel-applications/bootstrap';
+import crypto from 'node:crypto';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -30,35 +31,50 @@ export async function makeServer(port: number, sessionSecret: string) {
     // Always first middleware
     app.use(Sentry.Handlers.requestHandler());
 
-    if (!isLocalEnv) {
-      app.use(
-        helmet({
-          // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
-          // Only send refererer for same origin and transport (HTTPS->HTTPS)
-          referrerPolicy: { policy: 'strict-origin' },
-          // This is already handled by Scalingo, and overriding it results in an invalid value
-          hsts: false,
-          crossOriginEmbedderPolicy: false,
-          contentSecurityPolicy: {
-            useDefaults: false,
-            directives: {
-              'default-src': ["'none'"],
-              'connect-src': [
-                "'self'",
-                'analytics.potentiel.beta.gouv.fr',
-                'potentiel.beta.gouv.fr',
+    // if (!isLocalEnv) {
+    app.use((req, res, next) => {
+      const cspNonce = crypto.randomBytes(32).toString('hex');
+      req.headers['x-nonce'] = cspNonce;
+      next();
+    });
+    app.use(
+      helmet({
+        // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
+        // Only send refererer for same origin and transport (HTTPS->HTTPS)
+        referrerPolicy: { policy: 'strict-origin' },
+        // This is already handled by Scalingo, and overriding it results in an invalid value
+        hsts: false,
+        crossOriginEmbedderPolicy: false,
+        contentSecurityPolicy: {
+          useDefaults: false,
+          directives: {
+            'default-src': ["'self'", 'blob:', 'metabase.potentiel.beta.gouv.fr'],
+            'connect-src': [
+              "'self'",
+              'potentiel.beta.gouv.fr',
 
-                'client.crisp.chat',
-                'wss://client.relay.crisp.chat',
-              ],
-              'font-src': ["'self'", 'client.crisp.chat'],
-              'frame-src': ['metabase.potentiel.beta.gouv.fr'],
-              'img-src': ["'self'", 'data:', 'image.crisp.chat'],
-            },
+              'client.crisp.chat',
+              'wss://client.relay.crisp.chat',
+            ],
+            'font-src': ["'self'", 'client.crisp.chat'],
+            'frame-src': ['metabase.potentiel.beta.gouv.fr'],
+            'img-src': ["'self'", 'data:', 'image.crisp.chat'],
+            'style-src': ["'self'", "'unsafe-inline'", 'data:', 'client.crisp.chat'],
+            'script-src': [
+              "'self'",
+              (req) => `'nonce-${req.headers['x-nonce']}'`,
+              'metabase.potentiel.beta.gouv.fr',
+              'client.crisp.chat',
+            ],
+            'object-src': ["'none'"],
+            'base-uri': ["'self'"],
+            'require-trusted-types-for': ["'script'"],
+            'trusted-types': ['react-dsfr', 'react-dsfr-asap', 'nextjs#bundler'],
           },
-        }),
-      );
-    }
+        },
+      }),
+    );
+    // }
 
     app.use(
       morgan('tiny', {

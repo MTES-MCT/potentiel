@@ -5,6 +5,7 @@ import { getHtmlAttributes } from '@codegouvfr/react-dsfr/next-appdir/getHtmlAtt
 import { SkipLinks } from '@codegouvfr/react-dsfr/SkipLinks';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { headers } from 'next/headers';
 
 import { Footer } from '@/components/organisms/Footer';
 import { Header } from '@/components/organisms/Header';
@@ -27,14 +28,14 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   //NOTE: The lang parameter is optional and defaults to "fr"
-
+  const cspNonce = headers().get('x-nonce') ?? undefined;
   return (
     <html {...getHtmlAttributes({ defaultColorScheme })} lang="fr">
       <BootstrapApp />
 
       <head>
         <StartDsfr />
-        <DsfrHead Link={Link} />
+        <DsfrHead Link={Link} nonce={cspNonce} />
       </head>
 
       <body className="flex flex-col min-h-screen">
