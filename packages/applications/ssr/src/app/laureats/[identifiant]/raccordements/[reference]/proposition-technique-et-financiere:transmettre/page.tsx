@@ -13,6 +13,7 @@ import {
   TransmettrePropositionTechniqueEtFinancièrePage,
   TransmettrePropositionTechniqueEtFinancièrePageProps,
 } from '@/components/pages/réseau/raccordement/transmettre/transmettrePropositionTechniqueEtFinancière/TransmettrePropositionTechniqueEtFinancière.page';
+import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
 
 type PageProps = {
   params: {
@@ -29,6 +30,14 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+
+    const projet = await récupérerProjet(identifiantProjet.formatter());
+    await vérifierQueLeProjetEstClassé({
+      statut: projet.statut,
+      message:
+        "Vous ne pouvez pas transmettre la proposition technique et financière d'un dossier de raccordement pour un projet non classé",
+    });
+
     const referenceDossierRaccordement = decodeParameter(reference);
 
     const dossierRaccordement = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>(

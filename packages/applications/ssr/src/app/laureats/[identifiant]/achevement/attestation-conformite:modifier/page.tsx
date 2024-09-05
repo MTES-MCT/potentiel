@@ -2,8 +2,6 @@ import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { Candidature } from '@potentiel-domain/candidature';
-import { InvalidOperationError } from '@potentiel-domain/core';
 import { Achèvement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -14,6 +12,7 @@ import {
   ModifierAttestationConformitéPage,
   ModifierAttestationConformitéPageProps,
 } from '@/components/pages/attestation-conformité/modifier/modifierAttestationConformité.page';
+import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: `Modifier l'attestation de conformité - Potentiel`,
@@ -24,20 +23,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
-    const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
-      type: 'Candidature.Query.ConsulterProjet',
-      data: { identifiantProjet },
+    const projet = await récupérerProjet(identifiantProjet);
+    await vérifierQueLeProjetEstClassé({
+      statut: projet.statut,
+      message:
+        'Vous ne pouvez pas modifier une attestation de conformité pour un projet non classé',
     });
-
-    if (Option.isNone(candidature)) {
-      return notFound();
-    }
-
-    if (candidature.statut !== 'classé') {
-      throw new InvalidOperationError(
-        `Vous ne pouvez pas transmettre une attestation de conformité pour un projet éliminé ou abandonné`,
-      );
-    }
 
     const attestationConformitéActuelle =
       await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({
@@ -49,10 +40,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
-    const projet = { ...candidature, identifiantProjet };
-
     const props: ModifierAttestationConformitéPageProps = {
-      projet,
+      projet: {
+        ...projet,
+        identifiantProjet,
+      },
       attestationConformitéActuelle: {
         attestation: attestationConformitéActuelle.attestation.formatter(),
         preuveTransmissionAuCocontractant:
