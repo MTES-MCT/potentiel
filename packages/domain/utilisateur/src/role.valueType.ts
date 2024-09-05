@@ -1,4 +1,6 @@
-import { OperationRejectedError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+
+import { AccèsFonctionnalitéRefuséError, RoleRefuséError } from './errors';
 
 export type RawType =
   | 'admin'
@@ -75,23 +77,6 @@ export const dreal = convertirEnValueType('dreal');
 export const cre = convertirEnValueType('cre');
 export const acheteurObligé = convertirEnValueType('acheteur-obligé');
 export const caisseDesDépôts = convertirEnValueType('caisse-des-dépôts');
-
-class RoleRefuséError extends OperationRejectedError {
-  constructor(value: string) {
-    super(`Le rôle ne correspond à aucune valeur connue`, {
-      value,
-    });
-  }
-}
-
-class AccèsFonctionnalitéRefuséError extends OperationRejectedError {
-  constructor(fonctionnalité: string, role: string) {
-    super(`Accès à la fonctionnalité refusé`, {
-      fonctionnalité,
-      role,
-    });
-  }
-}
 
 // MATRICE en mémoire en attendant de pouvoir gérer les permissions depuis une interface d'administration
 /**
@@ -711,6 +696,7 @@ const policies = {
       référencielPermissions.éliminé.usecase.notifier,
       référencielPermissions.éliminé.command.notifier,
     ],
+    prévisualiserAttestation: [],
   },
   période: {
     consulter: [référencielPermissions.période.query.consulter],
@@ -795,10 +781,12 @@ const permissionAdmin: Policy[] = [
   'candidature.corriger',
   'candidature.lister',
   'candidature.notifier',
+  'candidature.prévisualiserAttestation',
 ];
 
 const permissionDgecValidateur: Policy[] = [
   ...permissionAdmin,
+
   // Abandon
   'abandon.preuve-recandidature.accorder',
   // Période
