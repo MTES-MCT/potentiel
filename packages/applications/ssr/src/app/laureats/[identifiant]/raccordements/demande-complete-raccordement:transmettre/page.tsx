@@ -14,7 +14,7 @@ import {
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { récupérerProjet, vérifierQueLeProjetNestPasAbandonnéOuÉliminé } from '@/app/_helpers';
+import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: 'Ajouter un dossier de raccordement - Potentiel',
@@ -27,7 +27,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const projet = await récupérerProjet(identifiantProjet);
 
-    await vérifierQueLeProjetNestPasAbandonnéOuÉliminé(projet.statut);
+    await vérifierQueLeProjetEstClassé({
+      statut: projet.statut,
+      message:
+        'Vous ne pouvez pas transmettre une demande complète de raccordement pour un projet non classé',
+    });
 
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
