@@ -141,8 +141,6 @@ const référencielPermissions = {
           'Lauréat.GarantiesFinancières.Query.ListerProjetsAvecGarantiesFinancièresEnAttente',
         consulterProjetAvecGarantiesFinancièresEnAttente:
           'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
-        générerModèleMiseEnDemeureGarantiesFinancières:
-          'Document.Query.GénérerModèleMideEnDemeureGarantiesFinancières',
         consulterDemandeMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
         listerMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
         consulterHistoriqueMainlevée:
@@ -258,7 +256,6 @@ const référencielPermissions = {
   document: {
     query: {
       consulter: 'Document.Query.ConsulterDocumentProjet',
-      générerModèleRéponse: 'Document.Query.GénérerModèleRéponseAbandon',
     },
     command: {
       enregister: 'Document.Command.EnregistrerDocumentProjet',
@@ -483,7 +480,6 @@ const policies = {
     accorder: [
       référencielPermissions.candidature.query.consulter,
       référencielPermissions.appelOffre.query.consulter,
-      référencielPermissions.document.query.générerModèleRéponse,
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
       référencielPermissions.document.command.enregister,
@@ -495,7 +491,6 @@ const policies = {
       référencielPermissions.candidature.query.consulter,
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.lauréat.abandon.query.consulter,
-      référencielPermissions.document.query.générerModèleRéponse,
       référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
       référencielPermissions.document.command.enregister,
       référencielPermissions.utilisateur.query.consulter,
@@ -507,7 +502,6 @@ const policies = {
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.lauréat.abandon.query.consulter,
-      référencielPermissions.document.query.générerModèleRéponse,
       référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
       référencielPermissions.document.command.enregister,
       référencielPermissions.lauréat.abandon.usecase.demanderConfirmation,
@@ -527,7 +521,6 @@ const policies = {
         référencielPermissions.utilisateur.query.consulter,
         référencielPermissions.utilisateur.query.consulter,
         référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
-        référencielPermissions.document.query.générerModèleRéponse,
         référencielPermissions.document.command.enregister,
         référencielPermissions.lauréat.abandon.query.consulter,
         référencielPermissions.lauréat.abandon.usecase.accorder,
@@ -675,8 +668,6 @@ const policies = {
         référencielPermissions.appelOffre.query.consulter,
         référencielPermissions.lauréat.garantiesFinancières.query
           .consulterProjetAvecGarantiesFinancièresEnAttente,
-        référencielPermissions.lauréat.garantiesFinancières.query
-          .générerModèleMiseEnDemeureGarantiesFinancières,
       ],
     },
   },

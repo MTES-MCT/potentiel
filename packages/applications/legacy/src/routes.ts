@@ -108,6 +108,17 @@ class routes {
     } else return route;
   };
 
+  static PREVIEW_CANDIDATE_CERTIFICATE_V2 = (project?: {
+    id: string;
+    email: string;
+    potentielIdentifier: string;
+  }) => {
+    const route = '/candidatures/:projectId/notification/aperçu-attestation';
+    if (project) {
+      return route.replace(':projectId', project.id);
+    } else return route;
+  };
+
   static DOWNLOAD_CERTIFICATE_FILE = (projectId?: string, fileId?: string, filename?: string) => {
     const route = '/attestation/:projectId/:fileId/:filename';
     if (projectId && fileId && filename) {

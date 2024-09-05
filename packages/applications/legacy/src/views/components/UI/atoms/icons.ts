@@ -53,7 +53,7 @@ export { FiChevronUp as ChevronUpIcon, FiChevronDown as ChevronDownIcon } from '
 export { IoIosWarning as WarningIcon } from 'react-icons/io';
 export { BsInfoSquareFill as InfoIcon } from 'react-icons/bs';
 export { ImPower as PowerIcon } from 'react-icons/im';
-export { MdEuroSymbol as EuroIcon } from 'react-icons/md';
+export { MdEuroSymbol as EuroIcon, MdOutlinePreview as FilePreviewIcon } from 'react-icons/md';
 export { AiFillCloud as CloudIcon } from 'react-icons/ai';
 export { BiBuildingHouse as BuildingHouseIcon } from 'react-icons/bi';
 export { CgPlug as PlugIcon } from 'react-icons/cg';
