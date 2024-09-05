@@ -10,7 +10,7 @@ type VérifierQueLeProjetEstClasséProps = {
 /**
  * @param statut Le statut du projet
  * @param message Surcharge du message d'erreur
- * @default message `Vous ne pouvez pas accèder à cette page car le projet n'est pas classé`
+ * @default message Vous ne pouvez pas accèder à cette page car le projet n'est pas classé`
  */
 export const vérifierQueLeProjetEstClassé = async ({
   statut,

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { FC } from 'react';
+import { fr } from '@codegouvfr/react-dsfr';
 
 import { Heading1 } from '@/components/atoms/headings';
 
@@ -14,28 +15,48 @@ type ErrorType =
 export type CustomErrorProps = {
   type: ErrorType;
   statusCode: '400' | '403' | '404' | '500';
+  message?: string;
 };
 
-export const CustomErrorPage: FC<CustomErrorProps> = ({ type, statusCode }) => {
+export const CustomErrorPage: FC<CustomErrorProps> = ({ type, statusCode, message }) => {
   const title = type === 'NotFoundError' ? 'Page non trouvée' : 'Une erreur est survenue';
-  const description = getDescription(type);
+  const description = getDescription(type, message);
 
   return (
-    <div className="fr-container">
-      <div className="fr-my-7w fr-mt-md-12w fr-mb-md-10w fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-grid-row--center">
-        <div className="fr-py-0 fr-col-12 fr-col-md-6">
+    <div className={fr.cx('fr-container')}>
+      <div
+        className={fr.cx(
+          'fr-my-7w',
+          'fr-mt-md-12w',
+          'fr-mb-md-10w',
+          'fr-grid-row',
+          'fr-grid-row--gutters',
+          'fr-grid-row--middle',
+          'fr-grid-row--center',
+        )}
+      >
+        <div className={fr.cx('fr-py-0', 'fr-col-12', 'fr-col-md-6')}>
           <Heading1>{title}</Heading1>
-          <p className="fr-text--sm fr-mb-3w">Erreur {statusCode}</p>
+          <p className={fr.cx('fr-text--sm', 'fr-mb-3w')}>Erreur {statusCode}</p>
           {description}
-          <ul className="fr-btns-group fr-btns-group--inline-md">
+          <ul className={fr.cx('fr-btns-group', 'fr-btns-group--inline-md')}>
             <li>
-              <a className="fr-btn" href="/">
+              <a className={fr.cx('fr-btn')} href="/">
                 Page d'accueil
               </a>
             </li>
           </ul>
         </div>
-        <div className="fr-col-12 fr-col-md-3 fr-col-offset-md-1 fr-px-6w fr-px-md-0 fr-py-0">
+        <div
+          className={fr.cx(
+            'fr-col-12',
+            'fr-col-md-3',
+            'fr-col-offset-md-1',
+            'fr-px-6w',
+            'fr-px-md-0',
+            'fr-py-0',
+          )}
+        >
           <Image
             src="/illustrations/error.svg"
             width={282}
@@ -50,15 +71,15 @@ export const CustomErrorPage: FC<CustomErrorProps> = ({ type, statusCode }) => {
   );
 };
 
-function getDescription(type: ErrorType) {
+function getDescription(type: ErrorType, message?: CustomErrorProps['message']) {
   switch (type) {
     case 'NotFoundError':
       return (
         <>
-          <p className="fr-text--lead fr-mb-3w">
+          <p className={fr.cx('fr-text--lead', 'fr-mb-3w')}>
             La page que vous cherchez est introuvable. Excusez-nous pour la gêne occasionnée.
           </p>
-          <p className="fr-text--sm fr-mb-5w">
+          <p className={fr.cx('fr-text--sm', 'fr-mb-5w')}>
             Si vous avez tapé l'adresse web dans le navigateur, vérifiez qu'elle est correcte. La
             page n’est peut-être plus disponible. <br />
             Dans ce cas, pour continuer votre visite vous pouvez consulter notre page d’accueil, ou
@@ -71,8 +92,10 @@ function getDescription(type: ErrorType) {
     case 'OperationRejectedError':
       return (
         <>
-          <p className="fr-text--lead fr-mb-3w">Vous n'êtes pas autorisé à accéder à cette page.</p>
-          <p className="fr-text--sm fr-mb-5w">
+          <p className={fr.cx('fr-text--lead', 'fr-mb-3w')}>
+            Vous n'êtes pas autorisé à accéder à cette page.
+          </p>
+          <p className={fr.cx('fr-text--sm', 'fr-mb-5w')}>
             Si il s'agit d'un projet, veuillez contacter le responsable pour qu'il vous octroie les
             droits nécessaires.
             <br />
@@ -82,6 +105,8 @@ function getDescription(type: ErrorType) {
       );
 
     case 'InvalidOperationError':
+      return message ? <p className={fr.cx('fr-text--lead')}>{message}</p> : <DefaultError />;
+
     case 'ServerError':
     default:
       return <DefaultError />;

@@ -19,11 +19,11 @@ const renderDomainError = (e: DomainError) => {
   if (e instanceof AggregateNotFoundError) {
     return <CustomErrorPage statusCode="404" type="NotFoundError" />;
   }
-  if (e instanceof InvalidOperationError) {
-    return <CustomErrorPage statusCode="400" type="InvalidOperationError" />;
-  }
   if (e instanceof OperationRejectedError) {
     return <CustomErrorPage statusCode="403" type="OperationRejectedError" />;
+  }
+  if (e instanceof InvalidOperationError) {
+    return <CustomErrorPage statusCode="400" type="InvalidOperationError" message={e.message} />;
   }
 
   return <></>;
