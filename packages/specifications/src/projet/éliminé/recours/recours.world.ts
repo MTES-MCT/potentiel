@@ -1,108 +1,29 @@
-import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { AccorderRecoursFixture } from './fixtures/accorderRecours.fixture';
+import { AnnulerRecoursFixture } from './fixtures/annulerRecours.fixture';
+import { RejeterRecoursFixture } from './fixtures/rejeterRecours.fixture';
 
 export class RecoursWord {
-  #pièceJustificative!: { format: string; content: string };
+  #accorderRecoursFixture: AccorderRecoursFixture;
 
-  get pièceJustificative(): { format: string; content: string } {
-    if (!this.#pièceJustificative) {
-      throw new Error('pièceJustificative not initialized');
-    }
-    return this.#pièceJustificative;
+  get accorderRecoursFixture() {
+    return this.#accorderRecoursFixture;
   }
 
-  set pièceJustificative(value: { format: string; content: string }) {
-    this.#pièceJustificative = value;
+  #annulerRecoursFixture: AnnulerRecoursFixture;
+
+  get annulerRecoursFixture() {
+    return this.#annulerRecoursFixture;
   }
 
-  #réponseSignée!: { format: string; content: string };
+  #rejeterRecoursFixture: RejeterRecoursFixture;
 
-  get réponseSignée(): { format: string; content: string } {
-    if (!this.#réponseSignée) {
-      throw new Error('réponseSignée not initialized');
-    }
-    return this.#réponseSignée;
+  get rejeterRecoursFixture() {
+    return this.#rejeterRecoursFixture;
   }
 
-  set réponseSignée(value: { format: string; content: string }) {
-    this.#réponseSignée = value;
-  }
-
-  #dateDemande!: DateTime.ValueType;
-
-  get dateDemande(): DateTime.ValueType {
-    if (!this.#dateDemande) {
-      throw new Error('dateDemandeExpected not initialized');
-    }
-    return this.#dateDemande;
-  }
-
-  set dateDemande(value: DateTime.ValueType) {
-    this.#dateDemande = value;
-  }
-
-  #dateAnnulation!: DateTime.ValueType;
-
-  get dateAnnulation(): DateTime.ValueType {
-    if (!this.#dateAnnulation) {
-      throw new Error('dateDemandeExpected not initialized');
-    }
-    return this.#dateAnnulation;
-  }
-
-  set dateAnnulation(value: DateTime.ValueType) {
-    this.#dateAnnulation = value;
-  }
-
-  #dateRejet!: DateTime.ValueType;
-
-  get dateRejet(): DateTime.ValueType {
-    if (!this.#dateRejet) {
-      throw new Error('dateRejet not initialized');
-    }
-    return this.#dateRejet;
-  }
-
-  set dateRejet(value: DateTime.ValueType) {
-    this.#dateRejet = value;
-  }
-
-  #dateAccord!: DateTime.ValueType;
-
-  get dateAccord(): DateTime.ValueType {
-    if (!this.#dateAccord) {
-      throw new Error('dateAccord not initialized');
-    }
-    return this.#dateAccord;
-  }
-
-  set dateAccord(value: DateTime.ValueType) {
-    this.#dateAccord = value;
-  }
-
-  #raison!: string;
-
-  get raison(): string {
-    if (!this.#raison) {
-      throw new Error('raison not initialized');
-    }
-    return this.#raison;
-  }
-
-  set raison(value: string) {
-    this.#raison = value;
-  }
-
-  #utilisateur!: IdentifiantUtilisateur.ValueType;
-
-  get utilisateur(): IdentifiantUtilisateur.ValueType {
-    if (!this.#utilisateur) {
-      throw new Error('utilisateur not initialized');
-    }
-    return this.#utilisateur;
-  }
-
-  set utilisateur(value: IdentifiantUtilisateur.ValueType) {
-    this.#utilisateur = value;
+  constructor() {
+    this.#accorderRecoursFixture = new AccorderRecoursFixture();
+    this.#annulerRecoursFixture = new AnnulerRecoursFixture();
+    this.#rejeterRecoursFixture = new RejeterRecoursFixture();
   }
 }
