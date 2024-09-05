@@ -2,7 +2,6 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Candidature } from '@potentiel-domain/candidature';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
@@ -15,6 +14,7 @@ import {
   TransmettreDateMiseEnServicePage,
   TransmettreDateMiseEnServicePageProps,
 } from '@/components/pages/réseau/raccordement/transmettre/transmettreDateMiseEnService/TransmettreDateMiseEnService.page';
+import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
 
 type PageProps = {
   params: {
@@ -31,18 +31,16 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
-    const referenceDossierRaccordement = decodeParameter(reference);
 
-    const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
-      type: 'Candidature.Query.ConsulterProjet',
-      data: {
-        identifiantProjet,
-      },
+    const projet = await récupérerProjet(identifiantProjet);
+
+    await vérifierQueLeProjetEstClassé({
+      statut: projet.statut,
+      message:
+        "Vous ne pouvez pas transmettre la date de mise en service d'un raccordement pour un projet éliminé ou abandonné",
     });
 
-    if (Option.isNone(candidature)) {
-      return notFound();
-    }
+    const referenceDossierRaccordement = decodeParameter(reference);
 
     const dossierRaccordement = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>(
       {
@@ -61,7 +59,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: {
-        identifiantAppelOffre: candidature.appelOffre,
+        identifiantAppelOffre: projet.appelOffre,
       },
     });
 
@@ -70,7 +68,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
     }
 
     const intervalleDatesMeSDélaiCDC2022 = appelOffre.periodes
-      .find((p) => p.id === candidature.période)
+      .find((p) => p.id === projet.période)
       ?.cahiersDesChargesModifiésDisponibles.find(
         (cdc) => cdc.type === 'modifié' && cdc.paruLe === '30/08/2022',
       )?.délaiApplicable?.intervaleDateMiseEnService;
@@ -78,7 +76,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
     const props: TransmettreDateMiseEnServicePageProps = {
       projet: {
         identifiantProjet,
-        ...candidature,
+        ...projet,
       },
       dossierRaccordement: {
         référence: referenceDossierRaccordement,

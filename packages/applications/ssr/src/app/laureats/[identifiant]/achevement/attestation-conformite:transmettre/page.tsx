@@ -1,9 +1,6 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
-import { Candidature } from '@potentiel-domain/candidature';
-import { InvalidOperationError } from '@potentiel-domain/core';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -14,6 +11,7 @@ import {
   TransmettreAttestationConformitéPage,
   TransmettreAttestationConformitéPageProps,
 } from '@/components/pages/attestation-conformité/transmettre/transmettreAttestationConformité.page';
+import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: `Transmettre l'attestation de conformité - Potentiel`,
@@ -24,20 +22,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
-    const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
-      type: 'Candidature.Query.ConsulterProjet',
-      data: { identifiantProjet },
+    const projet = await récupérerProjet(identifiantProjet);
+    await vérifierQueLeProjetEstClassé({
+      statut: projet.statut,
+      message:
+        'Vous ne pouvez pas transmettre une attestation de conformité pour un projet éliminé ou abandonné',
     });
-
-    if (Option.isNone(candidature)) {
-      return notFound();
-    }
-
-    if (candidature.statut !== 'classé') {
-      throw new InvalidOperationError(
-        `Vous ne pouvez pas transmettre une attestation de conformité pour un projet éliminé ou abandonné`,
-      );
-    }
 
     const garantiesFinancières =
       await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
@@ -52,10 +42,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const peutDemanderMainlevée =
       peutVoirMainlevée && garantiesFinancières.garantiesFinancières.attestation !== undefined;
 
-    const projet = { ...candidature, identifiantProjet };
-
     const props: TransmettreAttestationConformitéPageProps = {
-      projet,
+      projet: {
+        ...projet,
+        identifiantProjet,
+      },
       peutDemanderMainlevée,
       peutVoirMainlevée,
     };
