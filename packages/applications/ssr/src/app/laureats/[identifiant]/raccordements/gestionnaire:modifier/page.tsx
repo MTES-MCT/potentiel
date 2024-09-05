@@ -28,10 +28,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const projet = await récupérerProjet(identifiantProjet);
 
-    Promise.all([
-      vérifierQueLeProjetNestPasAbandonné(identifiantProjet, projet.statut),
-      vérifierQueLeProjetNestPasÉliminé(identifiantProjet, projet.statut),
-    ]);
+    await vérifierQueLeProjetNestPasAbandonné(identifiantProjet, projet.statut);
+    await vérifierQueLeProjetNestPasÉliminé(identifiantProjet, projet.statut);
 
     const gestionnairesRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({

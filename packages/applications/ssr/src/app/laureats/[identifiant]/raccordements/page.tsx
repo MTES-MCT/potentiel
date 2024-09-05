@@ -34,10 +34,8 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       const projet = await récupérerProjet(identifiantProjet);
 
-      Promise.all([
-        vérifierQueLeProjetNestPasAbandonné(identifiantProjet, projet.statut),
-        vérifierQueLeProjetNestPasÉliminé(identifiantProjet, projet.statut),
-      ]);
+      await vérifierQueLeProjetNestPasAbandonné(identifiantProjet, projet.statut);
+      await vérifierQueLeProjetNestPasÉliminé(identifiantProjet, projet.statut);
 
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterRaccordement',

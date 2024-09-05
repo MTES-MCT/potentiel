@@ -33,10 +33,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const projet = await récupérerProjet(identifiantProjet.formatter());
 
-    Promise.all([
-      vérifierQueLeProjetNestPasAbandonné(identifiantProjet.formatter(), projet.statut),
-      vérifierQueLeProjetNestPasÉliminé(identifiantProjet.formatter(), projet.statut),
-    ]);
+    await vérifierQueLeProjetNestPasAbandonné(identifiantProjet.formatter(), projet.statut);
+    await vérifierQueLeProjetNestPasÉliminé(identifiantProjet.formatter(), projet.statut);
 
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
