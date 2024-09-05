@@ -3,7 +3,7 @@ import {
   registerConsulterUtilisateurQuery,
 } from './consulter/consulterUtilisateur.query';
 import {
-  ListerUtilisateurDependencies,
+  ListerUtilisateursDependencies,
   registerListerUtilisateursQuery,
 } from './lister/listerUtilisateurs.query';
 import {
@@ -12,7 +12,7 @@ import {
 } from './vérifierAccèsProjet/vérifierAccèsProjet.query';
 
 type UtilisateurQueryDependencies = ConsulterUtilisateurDependencies &
-  ListerUtilisateurDependencies &
+  ListerUtilisateursDependencies &
   VérifierAccèsProjetDependencies;
 
 export const registerUtilisateurQueries = (dependencies: UtilisateurQueryDependencies) => {

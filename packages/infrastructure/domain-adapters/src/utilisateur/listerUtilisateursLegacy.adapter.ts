@@ -1,4 +1,4 @@
-import { ListerUtilisateurPort, UtilisateurEntity } from '@potentiel-domain/utilisateur';
+import { ListerUtilisateursPort, UtilisateurEntity } from '@potentiel-domain/utilisateur';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 const selectUtilisateursQuery = `
@@ -11,10 +11,10 @@ const selectUtilisateursQuery = `
   ) as value
   from "users" u
   left join "userDreals" ud on ud."userId" = u."id" 
-  where role in ($1)
+  where role = any ($1)
 `;
 
-export const listerUtilisateursAdapter: ListerUtilisateurPort = async (roles) => {
+export const listerUtilisateursAdapter: ListerUtilisateursPort = async (roles) => {
   const utilisateurs = await executeSelect<{
     value: UtilisateurEntity;
   }>(selectUtilisateursQuery, roles);

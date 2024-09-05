@@ -9,6 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@potentiel-domain/utilisateur": "*",
     "@potentiel-domain/periode": "*",
     "@potentiel-domain/laureat": "*",
     "@potentiel-domain/elimine": "*",

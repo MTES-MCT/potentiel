@@ -9,32 +9,32 @@ import {
 } from '../consulter/consulterUtilisateur.query';
 import { Role } from '..';
 
-export type ListerUtilisateurReadModel = {
+export type ListerUtilisateursReadModel = {
   items: Array<ConsulterUtilisateurReadModel>;
   range: RangeOptions;
   total: number;
 };
 
-export type ListerUtilisateurQuery = Message<
-  'Utilisateur.Query.ListerUtilisateur',
+export type ListerUtilisateursQuery = Message<
+  'Utilisateur.Query.ListerUtilisateurs',
   {
     roles?: Array<Role.RawType>;
   },
-  ListerUtilisateurReadModel
+  ListerUtilisateursReadModel
 >;
 
-export type ListerUtilisateurPort = (
+export type ListerUtilisateursPort = (
   roles?: Array<Role.RawType>,
 ) => Promise<ReadonlyArray<UtilisateurEntity>>;
 
-export type ListerUtilisateurDependencies = {
-  listerUtilisateur: ListerUtilisateurPort;
+export type ListerUtilisateursDependencies = {
+  listerUtilisateur: ListerUtilisateursPort;
 };
 
 export const registerListerUtilisateursQuery = ({
   listerUtilisateur,
-}: ListerUtilisateurDependencies) => {
-  const handler: MessageHandler<ListerUtilisateurQuery> = async ({ roles }) => {
+}: ListerUtilisateursDependencies) => {
+  const handler: MessageHandler<ListerUtilisateursQuery> = async ({ roles }) => {
     const items = await listerUtilisateur(roles);
 
     return {
@@ -47,5 +47,5 @@ export const registerListerUtilisateursQuery = ({
     };
   };
 
-  mediator.register('Utilisateur.Query.ListerUtilisateur', handler);
+  mediator.register('Utilisateur.Query.ListerUtilisateurs', handler);
 };

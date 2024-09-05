@@ -5,7 +5,7 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Période } from '@potentiel-domain/periode';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { ListerUtilisateurQuery } from '@potentiel-domain/utilisateur';
+import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 
 import { EmailPayload, SendEmail } from '../../sendEmail';
 
@@ -47,8 +47,8 @@ async function getEmailPayloads(
         return;
       }
 
-      const users = await mediator.send<ListerUtilisateurQuery>({
-        type: 'Utilisateur.Query.ListerUtilisateur',
+      const users = await mediator.send<ListerUtilisateursQuery>({
+        type: 'Utilisateur.Query.ListerUtilisateurs',
         data: { roles: ['acheteur-obligé', 'ademe', 'caisse-des-dépôts', 'cre', 'dreal'] },
       });
 
