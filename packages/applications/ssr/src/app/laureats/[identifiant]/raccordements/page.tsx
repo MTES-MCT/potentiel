@@ -14,6 +14,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { récupérerProjet, vérifierQueLeProjetNestPasAbandonnéOuÉliminé } from '@/app/_helpers';
 
 type PageProps = IdentifiantParameter;
 
@@ -26,6 +27,10 @@ export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
+
+      const projet = await récupérerProjet(identifiantProjet);
+
+      await vérifierQueLeProjetNestPasAbandonnéOuÉliminé(projet.statut);
 
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
@@ -131,7 +136,7 @@ const mapToPropsDossiers = ({
       rôleUtilisateur.estÉgaleÀ(Role.dreal) ||
       rôleUtilisateur.estÉgaleÀ(Role.porteur);
 
-    const canEditMiseEnService =
+    const canTransmettreDateMiseEnService =
       rôleUtilisateur.estÉgaleÀ(Role.admin) || rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur);
 
     const canDeleteDossier =
@@ -153,7 +158,7 @@ const mapToPropsDossiers = ({
           dossier.propositionTechniqueEtFinancière?.propositionTechniqueEtFinancièreSignée.formatter(),
       },
       miseEnService: {
-        canEdit: canEditMiseEnService,
+        canEdit: canTransmettreDateMiseEnService,
         dateMiseEnService: dossier.miseEnService?.dateMiseEnService?.formatter(),
       },
       canDeleteDossier,

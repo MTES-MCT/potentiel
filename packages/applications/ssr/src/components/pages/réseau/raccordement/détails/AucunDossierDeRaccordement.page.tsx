@@ -12,44 +12,42 @@ import { TitrePageRaccordement } from '../TitrePageRaccordement';
 import { GestionnaireRéseau as GestionnaireRéseauProps } from './type';
 import { ModifierGestionnaireRéseauDuRaccordement } from './components/ModifierGestionnaireRéseauDuRaccordement';
 
-export type AucunDossierDeRaccordementProps = {
+export type AucunDossierDeRaccordementPageProps = {
   identifiantProjet: string;
   gestionnaireRéseau?: GestionnaireRéseauProps;
 };
 
-export const AucunDossierDeRaccordementPage: FC<AucunDossierDeRaccordementProps> = ({
+export const AucunDossierDeRaccordementPage: FC<AucunDossierDeRaccordementPageProps> = ({
   identifiantProjet,
   gestionnaireRéseau,
-}) => {
-  return (
-    <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
-      <TitrePageRaccordement />
+}) => (
+  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
+    <TitrePageRaccordement />
 
-      <div className="flex flex-col gap-8">
-        {gestionnaireRéseau && (
-          <ModifierGestionnaireRéseauDuRaccordement
-            gestionnaireRéseau={gestionnaireRéseau}
-            identifiantProjet={identifiantProjet}
-          />
-        )}
-        <p>
-          Aucun dossier de raccordement trouvé pour ce projet, vous devez transmettre un{' '}
-          <Link
-            href={Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet)}
-            className="font-semibold"
-          >
-            nouveau dossier de raccordement
-          </Link>
-        </p>
-        <Button
-          priority="secondary"
-          linkProps={{ href: Routes.Projet.details(identifiantProjet), prefetch: false }}
-          className="mt-4"
-          iconId="fr-icon-arrow-left-line"
+    <div className="flex flex-col gap-8">
+      {gestionnaireRéseau && (
+        <ModifierGestionnaireRéseauDuRaccordement
+          gestionnaireRéseau={gestionnaireRéseau}
+          identifiantProjet={identifiantProjet}
+        />
+      )}
+      <p>
+        Aucun dossier de raccordement trouvé pour ce projet, vous devez transmettre un{' '}
+        <Link
+          href={Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet)}
+          className="font-semibold"
         >
-          Retour vers le projet
-        </Button>
-      </div>
-    </PageTemplate>
-  );
-};
+          nouveau dossier de raccordement
+        </Link>
+      </p>
+      <Button
+        priority="secondary"
+        linkProps={{ href: Routes.Projet.details(identifiantProjet), prefetch: false }}
+        className="mt-4"
+        iconId="fr-icon-arrow-left-line"
+      >
+        Retour vers le projet
+      </Button>
+    </div>
+  </PageTemplate>
+);

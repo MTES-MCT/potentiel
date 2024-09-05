@@ -14,6 +14,7 @@ import {
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { récupérerProjet, vérifierQueLeProjetNestPasAbandonnéOuÉliminé } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: 'Ajouter un dossier de raccordement - Potentiel',
@@ -22,11 +23,15 @@ export const metadata: Metadata = {
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+    const identifiantProjet = decodeParameter(identifiant);
+
+    const projet = await récupérerProjet(identifiantProjet);
+
+    await vérifierQueLeProjetNestPasAbandonnéOuÉliminé(projet.statut);
 
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
-      data: { identifiantAppelOffre: identifiantProjet.appelOffre },
+      data: { identifiantAppelOffre: projet.appelOffre },
     });
 
     if (Option.isNone(appelOffre)) {
@@ -42,14 +47,14 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const gestionnaire =
       await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
-        data: { identifiantProjetValue: identifiantProjet.formatter() },
+        data: { identifiantProjetValue: identifiantProjet },
       });
 
     const props: TransmettreDemandeComplèteRaccordementPageProps = mapToProps({
       gestionnairesRéseau,
       appelOffre,
       gestionnaireRéseau: gestionnaire,
-      identifiantProjet,
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     });
 
     return <TransmettreDemandeComplèteRaccordementPage {...props} />;
