@@ -42,25 +42,18 @@ export async function makeServer(port: number, sessionSecret: string) {
           contentSecurityPolicy: {
             useDefaults: false,
             directives: {
-              'default-src': ["'self'", 'blob:', 'metabase.potentiel.beta.gouv.fr'],
+              'default-src': ["'none'"],
               'connect-src': [
                 "'self'",
-                "'unsafe-inline'",
                 'analytics.potentiel.beta.gouv.fr',
+                'potentiel.beta.gouv.fr',
+
                 'client.crisp.chat',
                 'wss://client.relay.crisp.chat',
               ],
-              'img-src': ["'self'", 'data:', 'client.crisp.chat', 'image.crisp.chat'],
-              'font-src': ["'self'", 'data:', 'client.crisp.chat'],
-              'style-src': ["'self'", 'data:', "'unsafe-inline'", 'client.crisp.chat'],
-              'script-src': [
-                "'unsafe-inline'",
-                "'self'",
-                'metabase.potentiel.beta.gouv.fr',
-                'analytics.potentiel.beta.gouv.fr',
-                'client.crisp.chat',
-              ],
-              'object-src': ["'none'"],
+              'font-src': ["'self'", 'client.crisp.chat'],
+              'frame-src': ['metabase.potentiel.beta.gouv.fr'],
+              'img-src': ["'self'", 'data:', 'image.crisp.chat'],
             },
           },
         }),
