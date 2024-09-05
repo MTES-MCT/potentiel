@@ -28,6 +28,12 @@ function stripRequest(props: HasRequest) {
   };
 }
 
+const getCspNonce = (props) => {
+  if (hasRequest(props)) {
+    return props.request.header('csp-nonce');
+  }
+};
+
 const crispWebsiteId = process.env.CRISP_WEBSITE_ID;
 
 const formatJsName = (name) => name.charAt(0).toLowerCase() + name.slice(1);
@@ -65,13 +71,15 @@ export const makeHtml = <T extends {}>(args: PageProps<T>) => {
         />
 
         ${html`
-          <script src="/js/shared.js"></script>
-          <script src="/js/${formatJsName(Component.name)}.js?${process.env
-              .start_datetime}"></script>
+          <script src="/js/shared.js" nonce="${getCspNonce(props)}"></script>
+          <script
+            src="/js/${formatJsName(Component.name)}.js?${process.env.start_datetime}"
+            nonce="${getCspNonce(props)}"
+          ></script>
         `}
         ${crispWebsiteId
           ? `
-        <script type="text/javascript">
+        <script type="text/javascript" nonce="${getCspNonce(props)}">
           window.$crisp = [];
           CRISP_COOKIE_EXPIRE = 3600;
           window.CRISP_WEBSITE_ID = '${crispWebsiteId}'
@@ -112,7 +120,7 @@ export const makeHtml = <T extends {}>(args: PageProps<T>) => {
           </defs>
         </svg>
         <div id="root">${ReactDOMServer.renderToString(<Component {...props} />)}</div>
-        ${html`<script>
+        ${html`<script nonce="${getCspNonce(props)}">
           window.__INITIAL_PROPS__ = ${escapeHtml(
             JSON.stringify(hasRequest(props) ? stripRequest(props) : props),
           )};
