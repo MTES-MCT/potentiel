@@ -60,7 +60,7 @@ async function getEmailPayloads(
             fullName: nomComplet,
           },
         ],
-        messageSubject: `Potentiel - Notification de la ${période.title} période de l'appel d'offres ${appelOffre.shortTitle}`,
+        messageSubject: `Potentiel - Notification de la période ${période.id} de l'appel d'offres ${appelOffre.id}`,
         variables: {
           appel_offre: appelOffre.id,
           periode: période.id,
