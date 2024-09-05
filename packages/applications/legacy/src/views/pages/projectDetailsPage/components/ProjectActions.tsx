@@ -175,9 +175,8 @@ const AdminActions = ({
       </DownloadLinkButton>
     ) : (
       !project.isLegacy && (
-        // violette
         <PreviewLinkButton
-          fileUrl={routes.PREVIEW_CANDIDATE_CERTIFICATE_V2(project)}
+          fileUrl={routes.PREVIEW_CANDIDATE_CERTIFICATE(project)}
           className="m-auto"
         >
           Aperçu attestation
