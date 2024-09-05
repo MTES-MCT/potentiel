@@ -27,7 +27,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     await vérifierQueLeProjetEstClassé({
       statut: projet.statut,
       message:
-        "Vous ne pouvez pas modifier le gestionnaire de réseau du raccordement d'un projet non classé",
+        "Vous ne pouvez pas modifier le gestionnaire de réseau du raccordement d'un projet éliminé ou abandonné",
     });
 
     const gestionnairesRéseau =

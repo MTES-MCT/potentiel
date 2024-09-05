@@ -32,7 +32,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       await vérifierQueLeProjetEstClassé({
         statut: projet.statut,
-        message: "Vous ne pouvez pas consulter le raccordement d'un projet non classé",
+        message: "Vous ne pouvez pas consulter le raccordement d'un projet éliminé ou abandonné",
       });
 
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({

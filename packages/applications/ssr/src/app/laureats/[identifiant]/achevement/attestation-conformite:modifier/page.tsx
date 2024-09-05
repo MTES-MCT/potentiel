@@ -27,7 +27,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     await vérifierQueLeProjetEstClassé({
       statut: projet.statut,
       message:
-        'Vous ne pouvez pas modifier une attestation de conformité pour un projet non classé',
+        'Vous ne pouvez pas modifier une attestation de conformité pour un projet éliminé ou abandonné',
     });
 
     const attestationConformitéActuelle =

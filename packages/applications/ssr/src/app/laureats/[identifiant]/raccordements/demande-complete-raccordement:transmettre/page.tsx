@@ -30,7 +30,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     await vérifierQueLeProjetEstClassé({
       statut: projet.statut,
       message:
-        'Vous ne pouvez pas transmettre une demande complète de raccordement pour un projet non classé',
+        'Vous ne pouvez pas transmettre une demande complète de raccordement pour un projet éliminé ou abandonné',
     });
 
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({

@@ -35,7 +35,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
     await vérifierQueLeProjetEstClassé({
       statut: projet.statut,
       message:
-        "Vous ne pouvez pas transmettre la proposition technique et financière d'un dossier de raccordement pour un projet non classé",
+        "Vous ne pouvez pas transmettre la proposition technique et financière d'un dossier de raccordement pour un projet éliminé ou abandonné",
     });
 
     const referenceDossierRaccordement = decodeParameter(reference);
