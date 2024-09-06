@@ -231,6 +231,7 @@ const référencielPermissions = {
   période: {
     query: {
       consulter: 'Période.Query.ConsulterPériode',
+      lister: 'Période.Query.ListerPériodes',
     },
     usecase: {
       notifier: 'Période.UseCase.NotifierPériode',
@@ -708,6 +709,7 @@ const policies = {
   },
   période: {
     consulter: [référencielPermissions.période.query.consulter],
+    lister: [référencielPermissions.période.query.lister],
     notifier: [
       référencielPermissions.période.usecase.notifier,
       référencielPermissions.période.command.notifier,
@@ -798,6 +800,7 @@ const permissionDgecValidateur: Policy[] = [
   // Abandon
   'abandon.preuve-recandidature.accorder',
   // Période
+  'période.lister',
   'période.consulter',
   'période.notifier',
 ];

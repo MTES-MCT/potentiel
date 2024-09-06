@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Période } from '@potentiel-domain/periode';
 
 import {
   NotifierPériodePage,
@@ -14,7 +15,26 @@ export default async function Page() {
       type: 'AppelOffre.Query.ListerAppelOffre',
       data: {},
     });
-    return <NotifierPériodePage appelOffres={mapToProps(appelOffres)} />;
+
+    const périodesNotifiées = await mediator.send<Période.ListerPériodesQuery>({
+      type: 'Période.Query.ListerPériodes',
+      data: {},
+    });
+
+    const appelOffresProps = mapToProps(appelOffres);
+
+    for (const prop of appelOffresProps) {
+      prop.périodes = prop.périodes.filter(
+        (période) =>
+          périodesNotifiées.items.find(
+            (périodeNotifiée) =>
+              périodeNotifiée.identifiantPériode.appelOffre === prop.identifiantAppelOffre &&
+              périodeNotifiée.identifiantPériode.période === période.identifiantPériode,
+          ) === undefined,
+      );
+    }
+
+    return <NotifierPériodePage appelOffres={appelOffresProps} />;
   });
 }
 
