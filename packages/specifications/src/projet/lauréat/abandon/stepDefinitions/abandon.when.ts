@@ -201,7 +201,7 @@ Quand(
       } =
         statutProjet === 'lauréat'
           ? this.lauréatWorld.rechercherLauréatFixture(nomPreuveRecandidature)
-          : this.eliminéWorld.rechercherEliminéFixture(nomPreuveRecandidature);
+          : this.eliminéWorld.rechercherÉliminéFixture(nomPreuveRecandidature);
 
       const { transmiseLe, transmisePar, preuveRecandidature } =
         this.lauréatWorld.abandonWorld.transmettrePreuveRecandidatureAbandonFixture.créer({

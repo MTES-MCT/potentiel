@@ -2,7 +2,7 @@ import { IWorldOptions, World } from '@cucumber/cucumber';
 
 import { GestionnaireRéseauWorld } from './gestionnaireRéseau/gestionnaireRéseau.world';
 import { LauréatWorld } from './projet/lauréat/lauréat.world';
-import { EliminéWorld } from './projet/éliminé/eliminé.world';
+import { ÉliminéWorld } from './projet/éliminé/éliminé.world';
 import { RaccordementWorld } from './raccordement/raccordement.world';
 import { TâcheWorld } from './tâche/tâche.world';
 import { UtilisateurWorld } from './utilisateur/utilisateur.world';
@@ -36,7 +36,7 @@ export class PotentielWorld extends World {
     return this.#lauréatWorld;
   }
 
-  #eliminéWorld!: EliminéWorld;
+  #eliminéWorld!: ÉliminéWorld;
 
   get eliminéWorld() {
     return this.#eliminéWorld;
@@ -99,7 +99,7 @@ export class PotentielWorld extends World {
     this.#candidatureWorld = new CandidatureWorld();
     this.#gestionnaireRéseauWorld = new GestionnaireRéseauWorld();
     this.#lauréatWorld = new LauréatWorld();
-    this.#eliminéWorld = new EliminéWorld();
+    this.#eliminéWorld = new ÉliminéWorld();
     this.#raccordementWorld = new RaccordementWorld();
     this.#tâcheWorld = new TâcheWorld();
     this.#tâchePlanifiéeWorld = new TâchePlanifiéeWorld();
