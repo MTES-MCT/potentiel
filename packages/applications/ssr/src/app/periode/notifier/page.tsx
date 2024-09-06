@@ -34,7 +34,11 @@ export default async function Page() {
       );
     }
 
-    return <NotifierPériodePage appelOffres={appelOffresProps} />;
+    return (
+      <NotifierPériodePage
+        appelOffres={appelOffresProps.filter((prop) => prop.périodes.length > 0)}
+      />
+    );
   });
 }
 
