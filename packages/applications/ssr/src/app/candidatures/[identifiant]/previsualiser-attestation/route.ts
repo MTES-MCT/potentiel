@@ -8,12 +8,12 @@ export const GET = async () =>
     const rôleUtilisateur = utilisateur.role;
 
     const canPreviewAttestation = rôleUtilisateur.aLaPermission(
-      'candidature.prévisualiserAttestation',
+      'candidature.attestation.prévisualiser',
     );
 
     if (!canPreviewAttestation) {
       throw new AccèsFonctionnalitéRefuséError(
-        'candidature.prévisualiserAttestation',
+        'candidature.attestation.prévisualiser',
         rôleUtilisateur.nom,
       );
     }

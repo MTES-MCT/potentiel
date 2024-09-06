@@ -696,7 +696,10 @@ const policies = {
       référencielPermissions.éliminé.usecase.notifier,
       référencielPermissions.éliminé.command.notifier,
     ],
-    prévisualiserAttestation: [],
+    attestation: {
+      prévisualiser: [],
+      télécharger: [],
+    },
   },
   période: {
     consulter: [référencielPermissions.période.query.consulter],
@@ -781,7 +784,7 @@ const permissionAdmin: Policy[] = [
   'candidature.corriger',
   'candidature.lister',
   'candidature.notifier',
-  'candidature.prévisualiserAttestation',
+  'candidature.attestation.prévisualiser',
 ];
 
 const permissionDgecValidateur: Policy[] = [
