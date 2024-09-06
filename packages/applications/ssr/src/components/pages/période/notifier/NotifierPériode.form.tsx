@@ -1,21 +1,27 @@
 'use client';
 
-import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { FC, useState } from 'react';
+import Link from 'next/link';
+import Select from '@codegouvfr/react-dsfr/SelectNext';
+import Alert from '@codegouvfr/react-dsfr/Alert';
+
+import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
 import { notifierPériodeAction } from './notifierPériode.action';
 
+type Période = {
+  identifiantPériode: string;
+  libellé: string;
+};
+
 export type NotifierPériodeFormProps = {
   appelOffres: ReadonlyArray<{
     identifiantAppelOffre: string;
     libellé: string;
-    périodes: ReadonlyArray<{
-      identifiantPériode: string;
-      libellé: string;
-    }>;
+    périodes: ReadonlyArray<Période>;
   }>;
 };
 export const NotifierPériodeForm: FC<NotifierPériodeFormProps> = ({ appelOffres }) => {
@@ -38,6 +44,7 @@ export const NotifierPériodeForm: FC<NotifierPériodeFormProps> = ({ appelOffre
 
   return (
     <Form
+      className=""
       method="POST"
       encType="multipart/form-data"
       action={notifierPériodeAction}
@@ -60,30 +67,47 @@ export const NotifierPériodeForm: FC<NotifierPériodeFormProps> = ({ appelOffre
         </SubmitButton>
       }
     >
-      <Select
-        label="Appel d'offres"
-        nativeSelectProps={{
-          name: 'appelOffre',
-          required: true,
-          onChange: ({ currentTarget: { value } }) => sélectionnerAppelOffre(value),
-        }}
-        options={appelOffreOptions}
-        placeholder="Sélectionner un appel d'offres"
-        state={validationErrors.includes('appelOffre') ? 'error' : 'default'}
-        stateRelatedMessage="Appel d'offres obligatoire"
-      />
-      <Select
-        label="Période"
-        nativeSelectProps={{
-          name: 'periode',
-          required: true,
-          onChange: ({ currentTarget: { value } }) => sélectionnerPériode(value),
-        }}
-        options={périodeOptions}
-        placeholder="Sélectionner une période"
-        state={validationErrors.includes('periode') ? 'error' : 'default'}
-        stateRelatedMessage="Période obligatoire"
-      />
+      <div className="flex flex-row gap-8 items-center">
+        <div className="flex-1">
+          <Select
+            label="Appel d'offres"
+            nativeSelectProps={{
+              name: 'appelOffre',
+              required: true,
+              onChange: ({ currentTarget: { value } }) => sélectionnerAppelOffre(value),
+            }}
+            options={appelOffreOptions}
+            placeholder="Sélectionner un appel d'offres"
+            state={validationErrors.includes('appelOffre') ? 'error' : 'default'}
+            stateRelatedMessage="Appel d'offres obligatoire"
+          />
+          <Select
+            label="Période"
+            nativeSelectProps={{
+              name: 'periode',
+              required: true,
+              onChange: ({ currentTarget: { value } }) => sélectionnerPériode(value),
+            }}
+            options={périodeOptions}
+            placeholder="Sélectionner une période"
+            state={validationErrors.includes('periode') ? 'error' : 'default'}
+            stateRelatedMessage="Période obligatoire"
+          />
+        </div>
+
+        <Alert
+          className="flex-1"
+          severity="info"
+          title="Informations sur la période"
+          description={
+            <div>
+              <Link href={Routes.Candidature.lister(appelOffreSélectionné, périodeSélectionnée)}>
+                Accéder aux candidatures de la période sélectionnée
+              </Link>
+            </div>
+          }
+        />
+      </div>
     </Form>
   );
 };

@@ -132,7 +132,7 @@ const MenuAdmin = (currentPage?: string) => (
       >
         Régénérer des attestations
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Candidature.lister}>
+      <DropdownMenu.DropdownItem href={Routes.Candidature.lister()}>
         Tous les candidats
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
