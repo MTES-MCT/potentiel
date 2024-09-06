@@ -36,9 +36,10 @@ Quand(`le porteur annule le recours pour le projet éliminé`, async function (t
   try {
     const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
 
-    const { annuléeLe, annuléePar } = this.eliminéWorld.recoursWorld.annulerRecoursFixture.créer({
-      annuléePar: this.utilisateurWorld.porteurFixture.email,
-    });
+    const { annuléLe: annuléeLe, annuléPar: annuléePar } =
+      this.eliminéWorld.recoursWorld.annulerRecoursFixture.créer({
+        annuléPar: this.utilisateurWorld.porteurFixture.email,
+      });
 
     await mediator.send<Recours.RecoursUseCase>({
       type: 'Eliminé.Recours.UseCase.AnnulerRecours',
@@ -59,10 +60,13 @@ Quand(
     try {
       const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
 
-      const { rejetéeLe, rejetéePar, réponseSignée } =
-        this.eliminéWorld.recoursWorld.rejeterRecoursFixture.créer({
-          rejetéePar: this.utilisateurWorld.validateurFixture.email,
-        });
+      const {
+        rejetéLe: rejetéeLe,
+        rejetéPar: rejetéePar,
+        réponseSignée,
+      } = this.eliminéWorld.recoursWorld.rejeterRecoursFixture.créer({
+        rejetéPar: this.utilisateurWorld.validateurFixture.email,
+      });
 
       await mediator.send<Recours.RecoursUseCase>({
         type: 'Eliminé.Recours.UseCase.RejeterRecours',
@@ -85,10 +89,13 @@ Quand(
     try {
       const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
 
-      const { accordéeLe, accordéePar, réponseSignée } =
-        this.eliminéWorld.recoursWorld.accorderRecoursFixture.créer({
-          accordéePar: this.utilisateurWorld.validateurFixture.email,
-        });
+      const {
+        accordéLe: accordéeLe,
+        accordéPar: accordéePar,
+        réponseSignée,
+      } = this.eliminéWorld.recoursWorld.accorderRecoursFixture.créer({
+        accordéPar: this.utilisateurWorld.validateurFixture.email,
+      });
 
       await mediator.send<Recours.RecoursUseCase>({
         type: 'Eliminé.Recours.UseCase.AccorderRecours',

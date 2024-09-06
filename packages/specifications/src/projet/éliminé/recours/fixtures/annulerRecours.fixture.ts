@@ -3,35 +3,35 @@ import { faker } from '@faker-js/faker';
 import { AbstractFixture } from '../../../../fixture';
 
 interface AnnulerRecours {
-  readonly annuléeLe: string;
-  readonly annuléePar: string;
+  readonly annuléLe: string;
+  readonly annuléPar: string;
 }
 
 export class AnnulerRecoursFixture
   extends AbstractFixture<AnnulerRecours>
   implements AnnulerRecours
 {
-  #annuléeLe!: string;
+  #annuléLe!: string;
 
-  get annuléeLe(): string {
-    return this.#annuléeLe;
+  get annuléLe(): string {
+    return this.#annuléLe;
   }
 
-  #annuléePar!: string;
+  #annuléPar!: string;
 
-  get annuléePar(): string {
-    return this.#annuléePar;
+  get annuléPar(): string {
+    return this.#annuléPar;
   }
 
   créer(partialFixture?: Partial<Readonly<AnnulerRecours>>): Readonly<AnnulerRecours> {
     const fixture: AnnulerRecours = {
-      annuléeLe: faker.date.soon().toISOString(),
-      annuléePar: faker.internet.email(),
+      annuléLe: faker.date.soon().toISOString(),
+      annuléPar: faker.internet.email(),
       ...partialFixture,
     };
 
-    this.#annuléeLe = fixture.annuléeLe;
-    this.#annuléePar = fixture.annuléePar;
+    this.#annuléLe = fixture.annuléLe;
+    this.#annuléPar = fixture.annuléPar;
 
     this.aÉtéCréé = true;
     return fixture;

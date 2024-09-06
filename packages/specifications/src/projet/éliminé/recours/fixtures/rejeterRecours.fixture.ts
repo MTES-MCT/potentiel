@@ -5,8 +5,8 @@ import { convertStringToReadableStream } from '../../../../helpers/convertString
 
 interface RejeterRecours {
   readonly réponseSignée: { format: string; content: ReadableStream };
-  readonly rejetéeLe: string;
-  readonly rejetéePar: string;
+  readonly rejetéLe: string;
+  readonly rejetéPar: string;
 }
 
 export class RejeterRecoursFixture
@@ -23,24 +23,24 @@ export class RejeterRecoursFixture
     };
   }
 
-  #rejetéeLe!: string;
+  #rejetéLe!: string;
 
-  get rejetéeLe(): string {
-    return this.#rejetéeLe;
+  get rejetéLe(): string {
+    return this.#rejetéLe;
   }
 
-  #rejetéePar!: string;
+  #rejetéPar!: string;
 
-  get rejetéePar(): string {
-    return this.#rejetéePar;
+  get rejetéPar(): string {
+    return this.#rejetéPar;
   }
 
   créer(partialData?: Partial<RejeterRecours>): Readonly<RejeterRecours> {
     const content = faker.word.words();
 
     const fixture: RejeterRecours = {
-      rejetéeLe: faker.date.soon().toISOString(),
-      rejetéePar: faker.internet.email(),
+      rejetéLe: faker.date.soon().toISOString(),
+      rejetéPar: faker.internet.email(),
       réponseSignée: {
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
@@ -48,8 +48,8 @@ export class RejeterRecoursFixture
       ...partialData,
     };
 
-    this.#rejetéeLe = fixture.rejetéeLe;
-    this.#rejetéePar = fixture.rejetéePar;
+    this.#rejetéLe = fixture.rejetéLe;
+    this.#rejetéPar = fixture.rejetéPar;
     this.#format = fixture.réponseSignée.format;
     this.#content = content;
 

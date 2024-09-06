@@ -72,12 +72,12 @@ export class RecoursWord {
     // Accord
     if (this.#accorderRecoursFixture.aÉtéCréé) {
       expected.demande.accord = {
-        accordéLe: DateTime.convertirEnValueType(this.#accorderRecoursFixture.accordéeLe),
-        accordéPar: Email.convertirEnValueType(this.#accorderRecoursFixture.accordéePar),
+        accordéLe: DateTime.convertirEnValueType(this.#accorderRecoursFixture.accordéLe),
+        accordéPar: Email.convertirEnValueType(this.#accorderRecoursFixture.accordéPar),
         réponseSignée: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
           Recours.TypeDocumentRecours.recoursAccordé.formatter(),
-          this.#accorderRecoursFixture.accordéeLe,
+          this.#accorderRecoursFixture.accordéLe,
           this.#accorderRecoursFixture.réponseSignée.format,
         ),
       };
@@ -86,12 +86,12 @@ export class RecoursWord {
     // Rejet ->
     if (this.#rejeterRecoursFixture.aÉtéCréé) {
       expected.demande.rejet = {
-        rejetéLe: DateTime.convertirEnValueType(this.#rejeterRecoursFixture.rejetéeLe),
-        rejetéPar: Email.convertirEnValueType(this.#rejeterRecoursFixture.rejetéePar),
+        rejetéLe: DateTime.convertirEnValueType(this.#rejeterRecoursFixture.rejetéLe),
+        rejetéPar: Email.convertirEnValueType(this.#rejeterRecoursFixture.rejetéPar),
         réponseSignée: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
           Recours.TypeDocumentRecours.recoursRejeté.formatter(),
-          this.#rejeterRecoursFixture.rejetéeLe,
+          this.#rejeterRecoursFixture.rejetéLe,
           this.#rejeterRecoursFixture.réponseSignée.format,
         ),
       };

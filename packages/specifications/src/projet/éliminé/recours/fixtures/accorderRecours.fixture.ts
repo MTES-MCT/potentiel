@@ -5,8 +5,8 @@ import { convertStringToReadableStream } from '../../../../helpers/convertString
 
 interface AccorderRecours {
   readonly réponseSignée: { format: string; content: ReadableStream };
-  readonly accordéeLe: string;
-  readonly accordéePar: string;
+  readonly accordéLe: string;
+  readonly accordéPar: string;
 }
 
 export class AccorderRecoursFixture
@@ -23,24 +23,24 @@ export class AccorderRecoursFixture
     };
   }
 
-  #accordéeLe!: string;
+  #accordéLe!: string;
 
-  get accordéeLe(): string {
-    return this.#accordéeLe;
+  get accordéLe(): string {
+    return this.#accordéLe;
   }
 
-  #accordéePar!: string;
+  #accordéPar!: string;
 
-  get accordéePar(): string {
-    return this.#accordéePar;
+  get accordéPar(): string {
+    return this.#accordéPar;
   }
 
   créer(partialData?: Partial<AccorderRecours>): Readonly<AccorderRecours> {
     const content = faker.word.words();
 
     const fixture: AccorderRecours = {
-      accordéeLe: faker.date.soon().toISOString(),
-      accordéePar: faker.internet.email(),
+      accordéLe: faker.date.soon().toISOString(),
+      accordéPar: faker.internet.email(),
       réponseSignée: {
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
@@ -48,8 +48,8 @@ export class AccorderRecoursFixture
       ...partialData,
     };
 
-    this.#accordéeLe = fixture.accordéeLe;
-    this.#accordéePar = fixture.accordéePar;
+    this.#accordéLe = fixture.accordéLe;
+    this.#accordéPar = fixture.accordéPar;
     this.#format = fixture.réponseSignée.format;
     this.#content = content;
 

@@ -42,10 +42,13 @@ async function créerDemandeRecours(this: PotentielWorld) {
 async function créerAccordRecours(this: PotentielWorld) {
   const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
 
-  const { accordéeLe, accordéePar, réponseSignée } =
-    this.eliminéWorld.recoursWorld.accorderRecoursFixture.créer({
-      accordéePar: this.utilisateurWorld.validateurFixture.email,
-    });
+  const {
+    accordéLe: accordéeLe,
+    accordéPar: accordéePar,
+    réponseSignée,
+  } = this.eliminéWorld.recoursWorld.accorderRecoursFixture.créer({
+    accordéPar: this.utilisateurWorld.validateurFixture.email,
+  });
 
   await mediator.send<Recours.RecoursUseCase>({
     type: 'Eliminé.Recours.UseCase.AccorderRecours',
@@ -60,10 +63,13 @@ async function créerAccordRecours(this: PotentielWorld) {
 
 async function créerRejetRecours(this: PotentielWorld) {
   const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
-  const { rejetéeLe, rejetéePar, réponseSignée } =
-    this.eliminéWorld.recoursWorld.rejeterRecoursFixture.créer({
-      rejetéePar: this.utilisateurWorld.validateurFixture.email,
-    });
+  const {
+    rejetéLe: rejetéeLe,
+    rejetéPar: rejetéePar,
+    réponseSignée,
+  } = this.eliminéWorld.recoursWorld.rejeterRecoursFixture.créer({
+    rejetéPar: this.utilisateurWorld.validateurFixture.email,
+  });
 
   await mediator.send<Recours.RecoursUseCase>({
     type: 'Eliminé.Recours.UseCase.RejeterRecours',
