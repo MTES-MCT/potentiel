@@ -16,56 +16,38 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    appelOffres: [
+    périodes: [
       {
-        identifiantAppelOffre: 'identifiantAppelOffre1',
-        libellé: "Appel d'offres 1",
-        périodes: [
-          {
-            identifiantPériode: 'identifiantPériode1',
-            libellé: `Appel d'offres 1 - Période 1`,
-          },
-          {
-            identifiantPériode: 'identifiantPériode1',
-            libellé: `Appel d'offres 1 - Période 2`,
-          },
-          {
-            identifiantPériode: 'identifiantPériode1',
-            libellé: `Appel d'offres 1 - Période 3`,
-          },
-        ],
+        appelOffre: 'identifiantAppelOffre1',
+        période: 'identifiantPériode1',
       },
       {
-        identifiantAppelOffre: 'identifiantAppelOffre2',
-        libellé: "Appel d'offres 2",
-        périodes: [
-          {
-            identifiantPériode: 'identifiantPériode1',
-            libellé: `Appel d'offres 2 - Période 1`,
-          },
-          {
-            identifiantPériode: 'identifiantPériode1',
-            libellé: `Appel d'offres 2 - Période 2`,
-          },
-          {
-            identifiantPériode: 'identifiantPériode1',
-            libellé: `Appel d'offres 2 - Période 3`,
-          },
-          {
-            identifiantPériode: 'identifiantPériode1',
-            libellé: `Appel d'offres 2 - Période 4`,
-          },
-        ],
+        appelOffre: 'identifiantAppelOffre1',
+        période: 'identifiantPériode1',
       },
       {
-        identifiantAppelOffre: 'identifiantAppelOffre3',
-        libellé: "Appel d'offres 3",
-        périodes: [
-          {
-            identifiantPériode: 'identifiantPériode1',
-            libellé: `Appel d'offres 3 - Période 1`,
-          },
-        ],
+        appelOffre: 'identifiantAppelOffre1',
+        période: 'identifiantPériode1',
+      },
+      {
+        appelOffre: 'identifiantAppelOffre2',
+        période: 'identifiantPériode1',
+      },
+      {
+        appelOffre: 'identifiantAppelOffre2',
+        période: 'identifiantPériode1',
+      },
+      {
+        appelOffre: 'identifiantAppelOffre2',
+        période: 'identifiantPériode1',
+      },
+      {
+        appelOffre: 'identifiantAppelOffre2',
+        période: 'identifiantPériode1',
+      },
+      {
+        appelOffre: 'identifiantAppelOffre3',
+        période: 'identifiantPériode1',
       },
     ],
   },

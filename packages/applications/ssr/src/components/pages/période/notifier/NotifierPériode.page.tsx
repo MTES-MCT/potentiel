@@ -7,10 +7,10 @@ import { NotifierPériodeFormProps, NotifierPériodeForm } from './NotifierPéri
 
 export type NotifierPériodePageProps = NotifierPériodeFormProps;
 
-export const NotifierPériodePage: FC<NotifierPériodePageProps> = ({ appelOffres }) => {
+export const NotifierPériodePage: FC<NotifierPériodePageProps> = ({ périodes }) => {
   return (
     <PageTemplate banner={<Heading1 className="text-theme-white">Notifier une période</Heading1>}>
-      <NotifierPériodeForm appelOffres={appelOffres} />
+      <NotifierPériodeForm périodes={périodes} />
     </PageTemplate>
   );
 };

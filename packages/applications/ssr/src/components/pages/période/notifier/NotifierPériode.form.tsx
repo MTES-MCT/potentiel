@@ -12,34 +12,40 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
 import { notifierPériodeAction } from './notifierPériode.action';
 
-type Période = {
-  identifiantPériode: string;
-  libellé: string;
-};
-
 export type NotifierPériodeFormProps = {
-  appelOffres: ReadonlyArray<{
-    identifiantAppelOffre: string;
-    libellé: string;
-    périodes: ReadonlyArray<Période>;
+  périodes: ReadonlyArray<{
+    appelOffre: string;
+    période: string;
   }>;
 };
-export const NotifierPériodeForm: FC<NotifierPériodeFormProps> = ({ appelOffres }) => {
+export const NotifierPériodeForm: FC<NotifierPériodeFormProps> = ({ périodes }) => {
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
   const [appelOffreSélectionné, sélectionnerAppelOffre] = useState('');
   const [périodeSélectionnée, sélectionnerPériode] = useState('');
 
-  const appelOffreOptions = appelOffres.map((appelOffre) => ({
-    label: appelOffre.libellé,
-    value: appelOffre.identifiantAppelOffre,
-  }));
+  const appelOffreOptions = périodes.reduce(
+    (acc, current) => {
+      if (!acc.find((p) => p.value === current.appelOffre)) {
+        acc.push({
+          label: current.appelOffre,
+          value: current.appelOffre,
+        });
+      }
+
+      return acc;
+    },
+    [] as Array<{
+      label: string;
+      value: string;
+    }>,
+  );
 
   const périodeOptions =
-    appelOffres
-      .find((appelOffre) => appelOffre.identifiantAppelOffre === appelOffreSélectionné)
-      ?.périodes.map((période) => ({
-        label: période.libellé,
-        value: période.identifiantPériode,
+    périodes
+      .filter((période) => période.appelOffre === appelOffreSélectionné)
+      ?.map((période) => ({
+        label: période.période,
+        value: période.période,
       })) ?? [];
 
   return (
