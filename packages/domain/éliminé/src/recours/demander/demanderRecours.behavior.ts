@@ -1,4 +1,4 @@
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
@@ -11,10 +11,10 @@ export type RecoursDemandéEvent = DomainEvent<
   'RecoursDemandé-V1',
   {
     demandéLe: DateTime.RawType;
-    demandéPar: IdentifiantUtilisateur.RawType;
+    demandéPar: Email.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
     raison: string;
-    pièceJustificative?: {
+    pièceJustificative: {
       format: string;
     };
   }
@@ -22,9 +22,9 @@ export type RecoursDemandéEvent = DomainEvent<
 
 export type DemanderOptions = {
   dateDemande: DateTime.ValueType;
-  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+  identifiantUtilisateur: Email.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
-  pièceJustificative?: DocumentProjet.ValueType;
+  pièceJustificative: DocumentProjet.ValueType;
   raison: string;
 };
 
@@ -44,7 +44,7 @@ export async function demander(
     type: 'RecoursDemandé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      pièceJustificative: pièceJustificative && {
+      pièceJustificative: {
         format: pièceJustificative.format,
       },
       raison,

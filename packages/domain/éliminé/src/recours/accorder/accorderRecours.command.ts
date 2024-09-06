@@ -2,8 +2,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 // Workspaces
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -14,7 +13,7 @@ export type AccorderRecoursCommand = Message<
   'Eliminé.Recours.Command.AccorderRecours',
   {
     dateAccord: DateTime.ValueType;
-    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: Email.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
     réponseSignée: DocumentProjet.ValueType;
   }

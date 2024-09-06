@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Annuler le recours d'un projet éliminé
 
     Contexte:

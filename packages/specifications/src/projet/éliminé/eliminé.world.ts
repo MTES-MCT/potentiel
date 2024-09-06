@@ -37,8 +37,16 @@ export class EliminéWorld {
     return this.#notifierEliminéFixture;
   }
 
+  #identifiantProjet: IdentifiantProjet.ValueType;
+
+  get identifiantProjet() {
+    return this.#identifiantProjet;
+  }
+
   constructor() {
     this.#recoursWorld = new RecoursWord();
     this.#notifierEliminéFixture = new NotifierÉliminéFixture();
+
+    this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
   }
 }

@@ -14,7 +14,7 @@ export type DemanderRecoursUseCase = Message<
     dateDemandeValue: string;
     identifiantUtilisateurValue: string;
     identifiantProjetValue: string;
-    pièceJustificativeValue?: {
+    pièceJustificativeValue: {
       content: ReadableStream;
       format: string;
     };
@@ -36,24 +36,20 @@ export const registerDemanderRecoursUseCase = () => {
       identifiantUtilisateurValue,
     );
 
-    const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentRecours.pièceJustificative.formatter(),
-          dateDemandeValue,
-          pièceJustificativeValue.format,
-        )
-      : undefined;
+    const pièceJustificative = DocumentProjet.convertirEnValueType(
+      identifiantProjetValue,
+      TypeDocumentRecours.pièceJustificative.formatter(),
+      dateDemandeValue,
+      pièceJustificativeValue.format,
+    );
 
-    if (pièceJustificative) {
-      await mediator.send<EnregistrerDocumentProjetCommand>({
-        type: 'Document.Command.EnregistrerDocumentProjet',
-        data: {
-          content: pièceJustificativeValue!.content,
-          documentProjet: pièceJustificative,
-        },
-      });
-    }
+    await mediator.send<EnregistrerDocumentProjetCommand>({
+      type: 'Document.Command.EnregistrerDocumentProjet',
+      data: {
+        content: pièceJustificativeValue!.content,
+        documentProjet: pièceJustificative,
+      },
+    });
 
     await mediator.send<DemanderRecoursCommand>({
       type: 'Eliminé.Recours.Command.DemanderRecours',

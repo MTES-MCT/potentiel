@@ -35,7 +35,7 @@ export class RejeterRecoursFixture
     return this.#rejetéePar;
   }
 
-  créer(partialData?: RejeterRecours | undefined): Readonly<RejeterRecours> {
+  créer(partialData?: Partial<RejeterRecours>): Readonly<RejeterRecours> {
     const content = faker.word.words();
 
     const fixture: RejeterRecours = {

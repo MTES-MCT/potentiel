@@ -35,7 +35,7 @@ export class AccorderRecoursFixture
     return this.#accordéePar;
   }
 
-  créer(partialData?: AccorderRecours | undefined): Readonly<AccorderRecours> {
+  créer(partialData?: Partial<AccorderRecours>): Readonly<AccorderRecours> {
     const content = faker.word.words();
 
     const fixture: AccorderRecours = {
@@ -48,7 +48,7 @@ export class AccorderRecoursFixture
       ...partialData,
     };
 
-    this.#accordéePar = fixture.accordéeLe;
+    this.#accordéeLe = fixture.accordéeLe;
     this.#accordéePar = fixture.accordéePar;
     this.#format = fixture.réponseSignée.format;
     this.#content = content;

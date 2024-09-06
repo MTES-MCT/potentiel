@@ -2,8 +2,7 @@
 
 // Workspaces
 import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 // Package
@@ -14,8 +13,8 @@ export type RecoursAccordéEvent = DomainEvent<
   'RecoursAccordé-V1',
   {
     accordéLe: DateTime.RawType;
-    accordéPar: IdentifiantUtilisateur.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
+    accordéPar: Email.RawType;
+    identifiantProjet: Email.RawType;
     réponseSignée: {
       format: string;
     };
@@ -24,7 +23,7 @@ export type RecoursAccordéEvent = DomainEvent<
 
 export type AccorderOptions = {
   dateAccord: DateTime.ValueType;
-  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+  identifiantUtilisateur: Email.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
   réponseSignée: DocumentProjet.ValueType;
 };

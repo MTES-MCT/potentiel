@@ -4,7 +4,7 @@ import { AbstractFixture } from '../../../../fixture';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 interface DemanderRecours {
-  readonly pièceJustificative?: { format: string; content: ReadableStream };
+  readonly pièceJustificative: { format: string; content: ReadableStream };
   readonly demandéLe: string;
   readonly demandéPar: string;
   readonly raison: string;
@@ -14,16 +14,14 @@ export class DemanderRecoursFixture
   extends AbstractFixture<DemanderRecours>
   implements DemanderRecours
 {
-  #format?: string;
-  #content?: string;
+  #format!: string;
+  #content!: string;
 
-  get pièceJustificative(): DemanderRecours['pièceJustificative'] | undefined {
-    return this.#format && this.#content
-      ? {
-          format: this.#format,
-          content: convertStringToReadableStream(this.#content),
-        }
-      : undefined;
+  get pièceJustificative(): DemanderRecours['pièceJustificative'] {
+    return {
+      format: this.#format,
+      content: convertStringToReadableStream(this.#content),
+    };
   }
 
   #demandéLe!: string;
@@ -44,23 +42,23 @@ export class DemanderRecoursFixture
     return this.#raison;
   }
 
-  créer(partialData?: DemanderRecours | undefined): Readonly<DemanderRecours> {
+  créer(partialData?: Partial<DemanderRecours>): Readonly<DemanderRecours> {
+    const content = faker.word.words();
+
     const fixture = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.word.words(),
+      pièceJustificative: {
+        format: faker.potentiel.fileFormat(),
+        content: convertStringToReadableStream(content),
+      },
       ...partialData,
     };
 
     this.#demandéLe = fixture.demandéLe;
     this.#demandéPar = fixture.demandéPar;
     this.#raison = fixture.raison;
-
-    const content = faker.word.words();
-    fixture.pièceJustificative = {
-      format: faker.potentiel.fileFormat(),
-      content: convertStringToReadableStream(content),
-    };
     this.#format = fixture.pièceJustificative.format;
     this.#content = content;
 
