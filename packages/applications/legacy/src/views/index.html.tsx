@@ -30,7 +30,7 @@ function stripRequest(props: HasRequest) {
 
 const getCspNonce = (props) => {
   if (hasRequest(props)) {
-    return props.request.header('csp-nonce');
+    return props.request.header('x-nonce');
   }
 };
 
