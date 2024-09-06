@@ -72,8 +72,6 @@ export async function makeServer(port: number, sessionSecret: string) {
                 'metabase.potentiel.beta.gouv.fr',
                 'client.crisp.chat',
               ],
-              'object-src': ["'none'"],
-              'base-uri': ["'self'"],
             },
           },
         }),
