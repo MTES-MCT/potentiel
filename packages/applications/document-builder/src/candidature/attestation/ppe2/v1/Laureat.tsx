@@ -42,7 +42,7 @@ export const buildLauréat = ({ project }: MakeLaureatProps) => {
               formatNumber(project.evaluationCarbone) +
               ' kg eq CO2/kWc. '
             : ' '}
-          {project.actionnariat === 'gouvernance-partagee' && (
+          {project.actionnariat === 'gouvernance-partagée' && (
             <Text>
               Vous vous êtes engagés{addFootNote(appelOffre.renvoiEngagementIPFPGPFC)} à la
               gouvernance partagée jusqu’à dix ans minimum après la Date d’Achèvement de
@@ -142,7 +142,7 @@ export const buildLauréat = ({ project }: MakeLaureatProps) => {
             {appelOffre.paragrapheAttestationConformite} du cahier des charges;
           </Text>
 
-          {project.actionnariat === 'gouvernance-partagee' && (
+          {project.actionnariat === 'gouvernance-partagée' && (
             <Text
               style={{
                 marginTop: 10,

@@ -80,7 +80,7 @@ const generateCertificate = async (
   });
 
   if (Option.isNone(appelOffres)) {
-    logger.warn(`Appel d'offres non trouvée`, { identifiantProjet });
+    logger.warn(`Appel d'offres non trouvé`, { identifiantProjet });
     return null;
   }
 
@@ -200,7 +200,7 @@ const getFinancementEtTemplate = async ({
         )
           ? ('financement-collectif' as const)
           : candidature.actionnariat?.estÉgaleÀ(Candidature.TypeActionnariat.gouvernancePartagée)
-            ? ('gouvernance-partagee' as const)
+            ? ('gouvernance-partagée' as const)
             : undefined,
       };
   }

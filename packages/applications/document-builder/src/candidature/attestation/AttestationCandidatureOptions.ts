@@ -32,7 +32,7 @@ export type AttestationCRE4Options = Common & {
 
 export type AttestationPPE2Options = Common & {
   template: 'ppe2.v1' | 'ppe2.v2';
-  actionnariat?: 'financement-collectif' | 'gouvernance-partagee';
+  actionnariat?: 'financement-collectif' | 'gouvernance-partagée';
 };
 
 export type AttestationCandidatureOptions = AttestationCRE4Options | AttestationPPE2Options;

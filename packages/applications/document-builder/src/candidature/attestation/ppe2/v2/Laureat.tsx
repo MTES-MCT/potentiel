@@ -48,7 +48,7 @@ export const buildLauréat = ({ project }: LaureatProps) => {
               formatNumber(project.evaluationCarbone) +
               ' kg eq CO2/kWc. '
             : ' '}
-          {project.actionnariat === 'gouvernance-partagee' && (
+          {project.actionnariat === 'gouvernance-partagée' && (
             <Text>
               Vous vous êtes engagés à la gouvernance partagée jusqu’à dix ans minimum après la Date
               d’Achèvement de l’Installation.
@@ -146,7 +146,7 @@ export const buildLauréat = ({ project }: LaureatProps) => {
                 {appelOffre.paragrapheAttestationConformite} du cahier des charges;
               </Text>
 
-              {project.actionnariat === 'gouvernance-partagee' && (
+              {project.actionnariat === 'gouvernance-partagée' && (
                 <Text
                   style={{
                     marginTop: 10,
@@ -178,7 +178,7 @@ export const buildLauréat = ({ project }: LaureatProps) => {
                 - fournir au cocontractant l’attestation de conformité de l’installation prévue au
                 paragraphe 6.5 du cahier des charges;
               </Text>
-              {project.actionnariat === 'gouvernance-partagee' && (
+              {project.actionnariat === 'gouvernance-partagée' && (
                 <Text
                   style={{
                     marginTop: 10,
