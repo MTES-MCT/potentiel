@@ -30,7 +30,7 @@ function stripRequest(props: HasRequest) {
 
 const getCspNonce = (props) => {
   if (hasRequest(props)) {
-    return props.request.header('csp-nonce');
+    return props.request.header('x-nonce');
   }
 };
 
@@ -96,29 +96,6 @@ export const makeHtml = <T extends {}>(args: PageProps<T>) => {
       </head>
 
       <body class="m-0">
-        <svg aria-hidden="true" focusable="false" style="display:none">
-          <defs>
-            <symbol
-              viewBox="0 0 32 32"
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              stroke-linejoin="round"
-              stroke-miterlimit="1.414"
-              id="expand"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                style="
-                stroke: none;
-                fill-rule: nonzero;
-                fill: rgb(0%, 0%, 0%);
-                fill-opacity: 1;
-              "
-                d="M 28.265625 6.132812 L 16 18.398438 L 3.734375 6.132812 L 0 9.867188 L 16 25.867188 L 32 9.867188 Z M 28.265625 6.132812 "
-              />
-            </symbol>
-          </defs>
-        </svg>
         <div id="root">${ReactDOMServer.renderToString(<Component {...props} />)}</div>
         ${html`<script nonce="${getCspNonce(props)}">
           window.__INITIAL_PROPS__ = ${escapeHtml(

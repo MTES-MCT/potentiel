@@ -32,8 +32,12 @@ export async function makeServer(port: number, sessionSecret: string) {
     app.use(Sentry.Handlers.requestHandler());
 
     if (!isLocalEnv) {
-      app.use((req, res, next) => {
-        req.headers['csp-nonce'] = crypto.randomBytes(32).toString('hex');
+      // generate a unique nonce per request, to use in the CSP header and in every <script> in the markup
+      app.use((req, _, next) => {
+        const nonce = crypto.randomBytes(32).toString('hex');
+        req.headers['x-nonce'] = nonce;
+        // This is a hack to make the nonce available NextJS, which checks the request header to get the nonce
+        req.headers['content-security-policy'] = `script-src: 'nonce-${nonce}'`;
         next();
       });
       app.use(
@@ -47,24 +51,25 @@ export async function makeServer(port: number, sessionSecret: string) {
           contentSecurityPolicy: {
             useDefaults: false,
             directives: {
-              'default-src': ["'none'"],
+              'default-src': ["'self'", 'blob:', 'metabase.potentiel.beta.gouv.fr'],
               'connect-src': [
                 "'self'",
-                'analytics.potentiel.beta.gouv.fr',
                 'potentiel.beta.gouv.fr',
-
                 'client.crisp.chat',
                 'wss://client.relay.crisp.chat',
               ],
               'font-src': ["'self'", 'client.crisp.chat'],
               'frame-src': ['metabase.potentiel.beta.gouv.fr'],
               'img-src': ["'self'", 'data:', 'image.crisp.chat'],
-              'style-src': ["'self'", 'client.crisp.chat'],
+              'style-src': ["'self'", "'unsafe-inline'", 'data:', 'client.crisp.chat'],
               'script-src': [
                 "'self'",
-                (req) => `'nonce-${req.headers['csp-nonce']}'`,
+                // every inline <script> must have this nonce, or will be forbidden to run
+                (req) => `'nonce-${req.headers['x-nonce']}'`,
+                // whitelist the react-dsfr script. This may change in future versions of react-dsfr.
+                // an alternative solution can be found here: https://react-dsfr.codegouv.studio/content-security-policy
+                "'sha256-UEZfoO3SfsYbnIIAoHHUiIGOhT+nhTDv2gd4I5588HQ='",
                 'metabase.potentiel.beta.gouv.fr',
-                'analytics.potentiel.beta.gouv.fr',
                 'client.crisp.chat',
               ],
             },
