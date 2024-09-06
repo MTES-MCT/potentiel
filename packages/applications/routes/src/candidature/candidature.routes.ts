@@ -14,7 +14,7 @@ export const lister = (appelOffre?: string, periode?: string) => {
     searchParams.set('periode', periode);
   }
 
-  return `candidatures${searchParams.toString()}`;
+  return `/candidatures${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
 };
 
 export const regénérerAttestations = '/admin/regenerer-attestations.html';
