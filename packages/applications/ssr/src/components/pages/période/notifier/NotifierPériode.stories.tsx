@@ -18,36 +18,36 @@ export const Default: Story = {
   args: {
     périodes: [
       {
-        appelOffre: 'identifiantAppelOffre1',
-        période: 'identifiantPériode1',
+        appelOffre: 'PPE2 - Fusion',
+        période: '1',
       },
       {
-        appelOffre: 'identifiantAppelOffre1',
-        période: 'identifiantPériode1',
+        appelOffre: 'PPE2 - Fusion',
+        période: '2',
       },
       {
-        appelOffre: 'identifiantAppelOffre1',
-        période: 'identifiantPériode1',
+        appelOffre: 'PPE2 - Fusion',
+        période: '3',
       },
       {
-        appelOffre: 'identifiantAppelOffre2',
-        période: 'identifiantPériode1',
+        appelOffre: 'PPE2 - Vapeur',
+        période: '1',
       },
       {
-        appelOffre: 'identifiantAppelOffre2',
-        période: 'identifiantPériode1',
+        appelOffre: 'PPE2 - Vapeur',
+        période: '2',
       },
       {
-        appelOffre: 'identifiantAppelOffre2',
-        période: 'identifiantPériode1',
+        appelOffre: 'PPE2 - Vapeur',
+        période: '3',
       },
       {
-        appelOffre: 'identifiantAppelOffre2',
-        période: 'identifiantPériode1',
+        appelOffre: 'PPE2 - Vapeur',
+        période: '4',
       },
       {
-        appelOffre: 'identifiantAppelOffre3',
-        période: 'identifiantPériode1',
+        appelOffre: 'CRE4 - Charbon',
+        période: '1',
       },
     ],
   },
