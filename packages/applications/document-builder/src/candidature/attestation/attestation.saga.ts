@@ -5,7 +5,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { Éliminé } from '@potentiel-domain/elimine';
 import { Lauréat } from '@potentiel-domain/laureat';
 
-import { generateCertificate } from './generateCertificate';
+import { buildCertificate } from './buildCertificate';
 
 export type SubscriptionEvent = Éliminé.ÉliminéNotifié | Lauréat.LauréatNotifié;
 
@@ -25,7 +25,7 @@ export const register = () => {
     switch (event.type) {
       case 'ÉliminéNotifié-V1':
       case 'LauréatNotifié-V1':
-        const content = await generateCertificate(identifiantProjet, notifiéLe, notifiéPar);
+        const content = await buildCertificate({ identifiantProjet, notifiéLe, notifiéPar });
         if (!content) {
           logger.warn(`Impossible de générer l'attestation du projet ${identifiantProjet}`);
           return;

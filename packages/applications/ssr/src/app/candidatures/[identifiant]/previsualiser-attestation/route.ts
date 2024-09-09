@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 
 import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
-import { generateCertificate } from '@potentiel-applications/document-builder';
 import { DateTime } from '@potentiel-domain/common';
+import { buildCertificate } from '@potentiel-applications/document-builder';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -25,11 +25,11 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       );
     }
 
-    const certificate = await generateCertificate(
+    const certificate = await buildCertificate({
       identifiantProjet,
-      DateTime.now().formatter(),
-      utilisateur.identifiantUtilisateur.email,
-    );
+      notifiéLe: DateTime.now().formatter(),
+      notifiéPar: utilisateur.identifiantUtilisateur.email,
+    });
 
     if (!certificate) {
       return notFound();
