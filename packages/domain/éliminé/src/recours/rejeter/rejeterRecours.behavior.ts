@@ -1,7 +1,6 @@
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { RecoursAggregate } from '../recours.aggregate';
 import * as StatutRecours from '../statutRecours.valueType';
@@ -10,7 +9,7 @@ export type RecoursRejetéEvent = DomainEvent<
   'RecoursRejeté-V1',
   {
     rejetéLe: DateTime.RawType;
-    rejetéPar: IdentifiantUtilisateur.RawType;
+    rejetéPar: Email.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
     réponseSignée: {
       format: string;
@@ -20,7 +19,7 @@ export type RecoursRejetéEvent = DomainEvent<
 
 export type RejeterOptions = {
   dateRejet: DateTime.ValueType;
-  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+  identifiantUtilisateur: Email.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
   réponseSignée: DocumentProjet.ValueType;
 };

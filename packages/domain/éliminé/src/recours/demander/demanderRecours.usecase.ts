@@ -1,8 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
 
@@ -14,7 +13,7 @@ export type DemanderRecoursUseCase = Message<
     dateDemandeValue: string;
     identifiantUtilisateurValue: string;
     identifiantProjetValue: string;
-    pièceJustificativeValue?: {
+    pièceJustificativeValue: {
       content: ReadableStream;
       format: string;
     };
@@ -32,28 +31,22 @@ export const registerDemanderRecoursUseCase = () => {
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
-    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
-      identifiantUtilisateurValue,
+    const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
+
+    const pièceJustificative = DocumentProjet.convertirEnValueType(
+      identifiantProjetValue,
+      TypeDocumentRecours.pièceJustificative.formatter(),
+      dateDemandeValue,
+      pièceJustificativeValue.format,
     );
 
-    const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentRecours.pièceJustificative.formatter(),
-          dateDemandeValue,
-          pièceJustificativeValue.format,
-        )
-      : undefined;
-
-    if (pièceJustificative) {
-      await mediator.send<EnregistrerDocumentProjetCommand>({
-        type: 'Document.Command.EnregistrerDocumentProjet',
-        data: {
-          content: pièceJustificativeValue!.content,
-          documentProjet: pièceJustificative,
-        },
-      });
-    }
+    await mediator.send<EnregistrerDocumentProjetCommand>({
+      type: 'Document.Command.EnregistrerDocumentProjet',
+      data: {
+        content: pièceJustificativeValue.content,
+        documentProjet: pièceJustificative,
+      },
+    });
 
     await mediator.send<DemanderRecoursCommand>({
       type: 'Eliminé.Recours.Command.DemanderRecours',

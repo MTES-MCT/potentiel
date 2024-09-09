@@ -80,7 +80,7 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
     false,
   );
 
-  this.eliminéWorld.eliminéFixtures.set(nomProjet, {
+  this.eliminéWorld.éliminéFixtures.set(nomProjet, {
     nom: nomProjet,
     identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
     dateDésignation: new Date('2022-10-27').toISOString(),
@@ -162,7 +162,7 @@ EtantDonné(
       false,
     );
 
-    this.eliminéWorld.eliminéFixtures.set(nomProjet, {
+    this.eliminéWorld.éliminéFixtures.set(nomProjet, {
       nom: nomProjet,
       identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
       dateDésignation: new Date(dateNotification).toISOString(),
@@ -249,7 +249,7 @@ EtantDonné(
       false,
     );
 
-    this.eliminéWorld.eliminéFixtures.set(nomProjet, {
+    this.eliminéWorld.éliminéFixtures.set(nomProjet, {
       nom: nomProjet,
       identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
       dateDésignation,

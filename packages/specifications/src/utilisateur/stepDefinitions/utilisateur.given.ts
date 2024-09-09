@@ -1,6 +1,7 @@
 import { randomUUID } from 'crypto';
 
 import { Given as EtantDonné, DataTable } from '@cucumber/cucumber';
+import { match } from 'ts-pattern';
 
 import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 import { IdentifiantProjet } from '@potentiel-domain/common';
@@ -8,9 +9,19 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { PotentielWorld } from '../../potentiel.world';
 
 EtantDonné(
-  'le porteur {string} ayant accés au projet lauréat {string}',
-  async function (this: PotentielWorld, porteurNom: string, nomProjet) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  'le porteur {string} ayant accés au projet {lauréat-éliminé} {string}',
+  async function (
+    this: PotentielWorld,
+    porteurNom: string,
+    typeProjet: 'lauréat' | 'éliminé',
+    nomProjet: string,
+  ) {
+    const identifiantProjet = match(typeProjet)
+      .with(
+        'lauréat',
+        () => this.lauréatWorld.rechercherLauréatFixture(nomProjet).identifiantProjet,
+      )
+      .otherwise(() => this.eliminéWorld.rechercherÉliminéFixture(nomProjet).identifiantProjet);
 
     const { email, id, nom, role } = this.utilisateurWorld.porteurFixture.créer({
       nom: porteurNom,

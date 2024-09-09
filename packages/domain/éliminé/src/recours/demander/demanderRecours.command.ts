@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
 
@@ -12,8 +11,8 @@ export type DemanderRecoursCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     raison: string;
-    pièceJustificative?: DocumentProjet.ValueType;
-    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+    pièceJustificative: DocumentProjet.ValueType;
+    identifiantUtilisateur: Email.ValueType;
     dateDemande: DateTime.ValueType;
   }
 >;

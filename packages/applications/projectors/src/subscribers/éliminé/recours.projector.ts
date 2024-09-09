@@ -28,17 +28,24 @@ export const register = () => {
 
       const recoursDefaultValue: Omit<Recours.RecoursEntity, 'type'> = {
         identifiantProjet,
-        nomProjet: '',
-        appelOffre: '',
-        période: '',
-        famille: undefined,
-        demandeDemandéLe: '',
-        demandeDemandéPar: '',
-        demandePièceJustificativeFormat: '',
-        demandeRaison: '',
+        projet: {
+          nom: '',
+          appelOffre: '',
+          numéroCRE: '',
+          période: '',
+          famille: undefined,
+          région: '',
+        },
+        demande: {
+          demandéLe: '',
+          demandéPar: '',
+          pièceJustificative: {
+            format: '',
+          },
+          raison: '',
+        },
         statut: 'demandé',
         misÀJourLe: DateTime.now().formatter(),
-        régionProjet: '',
       };
 
       const recoursToUpsert: Omit<Recours.RecoursEntity, 'type'> = Option.isSome(recours)
@@ -55,26 +62,39 @@ export const register = () => {
 
           await upsertProjection<Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
             ...recoursDefaultValue,
-            nomProjet: Option.isSome(projet) ? projet.nom : 'Projet inconnu',
-            appelOffre: Option.isSome(projet) ? projet.appelOffre : `N/A`,
-            période: Option.isSome(projet) ? projet.période : `N/A`,
-            famille: Option.isSome(projet) ? projet.famille : undefined,
-            demandePièceJustificativeFormat:
-              payload.pièceJustificative && payload.pièceJustificative.format,
-            demandeDemandéLe: payload.demandéLe,
-            demandeDemandéPar: payload.demandéPar,
-            demandeRaison: payload.raison,
+            projet: {
+              nom: Option.isSome(projet) ? projet.nom : 'Projet inconnu',
+              appelOffre: Option.isSome(projet) ? projet.appelOffre : `N/A`,
+              période: Option.isSome(projet) ? projet.période : `N/A`,
+              famille: Option.isSome(projet) ? projet.famille : undefined,
+              région: Option.isSome(projet) ? projet.localité.région : '',
+              numéroCRE: Option.isSome(projet) ? projet.numéroCRE : '',
+            },
+            demande: {
+              demandéLe: payload.demandéLe,
+              demandéPar: payload.demandéPar,
+              raison: payload.raison,
+              pièceJustificative: {
+                format: payload.pièceJustificative.format,
+              },
+            },
             statut: 'demandé',
             misÀJourLe: payload.demandéLe,
-            régionProjet: Option.isSome(projet) ? projet.localité.région : '',
           });
           break;
         case 'RecoursAccordé-V1':
           await upsertProjection<Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
             ...recoursToUpsert,
-            accordAccordéLe: payload.accordéLe,
-            accordAccordéPar: payload.accordéPar,
-            accordRéponseSignéeFormat: payload.réponseSignée.format,
+            demande: {
+              ...recoursToUpsert.demande,
+              accord: {
+                accordéLe: payload.accordéLe,
+                accordéPar: payload.accordéPar,
+                réponseSignée: {
+                  format: payload.réponseSignée.format,
+                },
+              },
+            },
             statut: 'accordé',
             misÀJourLe: payload.accordéLe,
           });
@@ -82,9 +102,16 @@ export const register = () => {
         case 'RecoursRejeté-V1':
           await upsertProjection<Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
             ...recoursToUpsert,
-            rejetRejetéLe: payload.rejetéLe,
-            rejetRejetéPar: payload.rejetéPar,
-            rejetRéponseSignéeFormat: payload.réponseSignée.format,
+            demande: {
+              ...recoursToUpsert.demande,
+              rejet: {
+                rejetéLe: payload.rejetéLe,
+                rejetéPar: payload.rejetéPar,
+                réponseSignée: {
+                  format: payload.réponseSignée.format,
+                },
+              },
+            },
             statut: 'rejeté',
             misÀJourLe: payload.rejetéLe,
           });

@@ -1,108 +1,102 @@
-import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Recours } from '@potentiel-domain/elimine';
+import { DocumentProjet } from '@potentiel-domain/document';
+
+import { AccorderRecoursFixture } from './fixtures/accorderRecours.fixture';
+import { AnnulerRecoursFixture } from './fixtures/annulerRecours.fixture';
+import { DemanderRecoursFixture } from './fixtures/demanderRecours.fixture';
+import { RejeterRecoursFixture } from './fixtures/rejeterRecours.fixture';
 
 export class RecoursWord {
-  #pièceJustificative!: { format: string; content: string };
+  #accorderRecoursFixture: AccorderRecoursFixture;
 
-  get pièceJustificative(): { format: string; content: string } {
-    if (!this.#pièceJustificative) {
-      throw new Error('pièceJustificative not initialized');
+  get accorderRecoursFixture() {
+    return this.#accorderRecoursFixture;
+  }
+
+  #annulerRecoursFixture: AnnulerRecoursFixture;
+
+  get annulerRecoursFixture() {
+    return this.#annulerRecoursFixture;
+  }
+
+  #rejeterRecoursFixture: RejeterRecoursFixture;
+
+  get rejeterRecoursFixture() {
+    return this.#rejeterRecoursFixture;
+  }
+
+  #demanderRecoursFixture: DemanderRecoursFixture;
+
+  get demanderRecoursFixture() {
+    return this.#demanderRecoursFixture;
+  }
+
+  reinitialiserEnDemande() {
+    this.#accorderRecoursFixture = new AccorderRecoursFixture();
+    this.#annulerRecoursFixture = new AnnulerRecoursFixture();
+    this.#rejeterRecoursFixture = new RejeterRecoursFixture();
+  }
+
+  constructor() {
+    this.#accorderRecoursFixture = new AccorderRecoursFixture();
+    this.#annulerRecoursFixture = new AnnulerRecoursFixture();
+    this.#rejeterRecoursFixture = new RejeterRecoursFixture();
+    this.#demanderRecoursFixture = new DemanderRecoursFixture();
+  }
+
+  mapToExpected(
+    identifiantProjet: IdentifiantProjet.ValueType,
+    statut: Recours.StatutRecours.ValueType,
+  ): Recours.ConsulterRecoursReadModel {
+    if (!this.#demanderRecoursFixture.aÉtéCréé) {
+      throw new Error(`Aucune demande de recours n'a été créée dans RecoursWorld`);
     }
-    return this.#pièceJustificative;
-  }
 
-  set pièceJustificative(value: { format: string; content: string }) {
-    this.#pièceJustificative = value;
-  }
+    const expected: Recours.ConsulterRecoursReadModel = {
+      statut,
+      identifiantProjet,
+      demande: {
+        demandéLe: DateTime.convertirEnValueType(this.#demanderRecoursFixture.demandéLe),
+        demandéPar: Email.convertirEnValueType(this.#demanderRecoursFixture.demandéPar),
+        raison: this.#demanderRecoursFixture.raison,
+        pièceJustificative: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          Recours.TypeDocumentRecours.pièceJustificative.formatter(),
+          this.#demanderRecoursFixture.demandéLe,
+          this.#demanderRecoursFixture.pièceJustificative.format,
+        ),
+      },
+    };
 
-  #réponseSignée!: { format: string; content: string };
-
-  get réponseSignée(): { format: string; content: string } {
-    if (!this.#réponseSignée) {
-      throw new Error('réponseSignée not initialized');
+    // Accord
+    if (this.#accorderRecoursFixture.aÉtéCréé) {
+      expected.demande.accord = {
+        accordéLe: DateTime.convertirEnValueType(this.#accorderRecoursFixture.accordéLe),
+        accordéPar: Email.convertirEnValueType(this.#accorderRecoursFixture.accordéPar),
+        réponseSignée: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          Recours.TypeDocumentRecours.recoursAccordé.formatter(),
+          this.#accorderRecoursFixture.accordéLe,
+          this.#accorderRecoursFixture.réponseSignée.format,
+        ),
+      };
     }
-    return this.#réponseSignée;
-  }
 
-  set réponseSignée(value: { format: string; content: string }) {
-    this.#réponseSignée = value;
-  }
-
-  #dateDemande!: DateTime.ValueType;
-
-  get dateDemande(): DateTime.ValueType {
-    if (!this.#dateDemande) {
-      throw new Error('dateDemandeExpected not initialized');
+    // Rejet ->
+    if (this.#rejeterRecoursFixture.aÉtéCréé) {
+      expected.demande.rejet = {
+        rejetéLe: DateTime.convertirEnValueType(this.#rejeterRecoursFixture.rejetéLe),
+        rejetéPar: Email.convertirEnValueType(this.#rejeterRecoursFixture.rejetéPar),
+        réponseSignée: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          Recours.TypeDocumentRecours.recoursRejeté.formatter(),
+          this.#rejeterRecoursFixture.rejetéLe,
+          this.#rejeterRecoursFixture.réponseSignée.format,
+        ),
+      };
     }
-    return this.#dateDemande;
-  }
 
-  set dateDemande(value: DateTime.ValueType) {
-    this.#dateDemande = value;
-  }
-
-  #dateAnnulation!: DateTime.ValueType;
-
-  get dateAnnulation(): DateTime.ValueType {
-    if (!this.#dateAnnulation) {
-      throw new Error('dateDemandeExpected not initialized');
-    }
-    return this.#dateAnnulation;
-  }
-
-  set dateAnnulation(value: DateTime.ValueType) {
-    this.#dateAnnulation = value;
-  }
-
-  #dateRejet!: DateTime.ValueType;
-
-  get dateRejet(): DateTime.ValueType {
-    if (!this.#dateRejet) {
-      throw new Error('dateRejet not initialized');
-    }
-    return this.#dateRejet;
-  }
-
-  set dateRejet(value: DateTime.ValueType) {
-    this.#dateRejet = value;
-  }
-
-  #dateAccord!: DateTime.ValueType;
-
-  get dateAccord(): DateTime.ValueType {
-    if (!this.#dateAccord) {
-      throw new Error('dateAccord not initialized');
-    }
-    return this.#dateAccord;
-  }
-
-  set dateAccord(value: DateTime.ValueType) {
-    this.#dateAccord = value;
-  }
-
-  #raison!: string;
-
-  get raison(): string {
-    if (!this.#raison) {
-      throw new Error('raison not initialized');
-    }
-    return this.#raison;
-  }
-
-  set raison(value: string) {
-    this.#raison = value;
-  }
-
-  #utilisateur!: IdentifiantUtilisateur.ValueType;
-
-  get utilisateur(): IdentifiantUtilisateur.ValueType {
-    if (!this.#utilisateur) {
-      throw new Error('utilisateur not initialized');
-    }
-    return this.#utilisateur;
-  }
-
-  set utilisateur(value: IdentifiantUtilisateur.ValueType) {
-    this.#utilisateur = value;
+    return expected;
   }
 }

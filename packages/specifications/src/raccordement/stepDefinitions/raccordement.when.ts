@@ -365,7 +365,7 @@ Quand(
     const { identifiantProjet } =
       statutProjet === 'lauréat'
         ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
-        : this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+        : this.eliminéWorld.rechercherÉliminéFixture(nomProjet);
 
     const { codeEIC } =
       this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(nomGestionnaireRéseau);
@@ -390,7 +390,7 @@ Quand(
     const { identifiantProjet } =
       statutProjet === 'lauréat'
         ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
-        : this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+        : this.eliminéWorld.rechercherÉliminéFixture(nomProjet);
 
     try {
       await mediator.send<Raccordement.RaccordementUseCase>({
@@ -412,7 +412,7 @@ Quand(
     const { identifiantProjet } =
       statutProjet === 'lauréat'
         ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
-        : this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+        : this.eliminéWorld.rechercherÉliminéFixture(nomProjet);
 
     try {
       await mediator.send<Raccordement.RaccordementUseCase>({

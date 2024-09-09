@@ -1,99 +1,83 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { DateTime } from '@potentiel-domain/common';
 import { Recours } from '@potentiel-domain/elimine';
 
 import { PotentielWorld } from '../../../../potentiel.world';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
-EtantDonné(
-  /un recours en cours(.*)pour le projet éliminé "(.*)"/,
-  async function (this: PotentielWorld, avecRecandidature: string, nomProjet: string) {
-    const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+EtantDonné(/un recours en cours pour le projet éliminé/, async function (this: PotentielWorld) {
+  await créerDemandeRecours.call(this);
+});
 
-    await mediator.send<Recours.RecoursUseCase>({
-      type: 'Eliminé.Recours.UseCase.DemanderRecours',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        pièceJustificativeValue: {
-          format: `text/plain`,
-          content: convertStringToReadableStream(`Le contenu de l'accusé de réception`),
-        },
-        raisonValue: `La raison du recours`,
-        dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        identifiantUtilisateurValue: 'porteur@test.test',
-      },
-    });
-  },
-);
+EtantDonné(/un recours accordé pour le projet éliminé/, async function (this: PotentielWorld) {
+  await créerDemandeRecours.call(this);
+  await créerAccordRecours.call(this);
+});
 
-EtantDonné(
-  /un recours accordé pour le projet éliminé "(.*)"/,
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+EtantDonné(/un recours rejeté pour le projet éliminé/, async function (this: PotentielWorld) {
+  await créerDemandeRecours.call(this);
+  await créerRejetRecours.call(this);
+});
 
-    const identifiantProjetValue = identifiantProjet.formatter();
+async function créerDemandeRecours(this: PotentielWorld) {
+  const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
 
-    await mediator.send<Recours.RecoursUseCase>({
-      type: 'Eliminé.Recours.UseCase.DemanderRecours',
-      data: {
-        identifiantProjetValue,
-        pièceJustificativeValue: {
-          format: `text/plain`,
-          content: convertStringToReadableStream(`Le contenu de la pièce justificative`),
-        },
-        raisonValue: `La raison du recours`,
-        dateDemandeValue: DateTime.now().formatter(),
-        identifiantUtilisateurValue: 'porteur@test.test',
-      },
+  const { raison, demandéLe, demandéPar, pièceJustificative } =
+    this.eliminéWorld.recoursWorld.demanderRecoursFixture.créer({
+      demandéPar: this.utilisateurWorld.porteurFixture.email,
     });
 
-    await mediator.send<Recours.RecoursUseCase>({
-      type: 'Eliminé.Recours.UseCase.AccorderRecours',
-      data: {
-        identifiantProjetValue,
-        réponseSignéeValue: {
-          format: `text/plain`,
-          content: convertStringToReadableStream(`Le contenu de la réponse signée`),
-        },
-        dateAccordValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        identifiantUtilisateurValue: 'validateur@test.test',
-      },
-    });
-  },
-);
+  await mediator.send<Recours.RecoursUseCase>({
+    type: 'Eliminé.Recours.UseCase.DemanderRecours',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+      pièceJustificativeValue: pièceJustificative,
+      raisonValue: raison,
+      dateDemandeValue: demandéLe,
+      identifiantUtilisateurValue: demandéPar,
+    },
+  });
+}
 
-EtantDonné(
-  /un recours rejeté pour le projet éliminé "(.*)"/,
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.eliminéWorld.rechercherEliminéFixture(nomProjet);
+async function créerAccordRecours(this: PotentielWorld) {
+  const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
 
-    await mediator.send<Recours.RecoursUseCase>({
-      type: 'Eliminé.Recours.UseCase.DemanderRecours',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        pièceJustificativeValue: {
-          format: `text/plain`,
-          content: convertStringToReadableStream(`Le contenu de la pièce justificative`),
-        },
-        raisonValue: `La raison du recours`,
-        dateDemandeValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        identifiantUtilisateurValue: 'porteur@test.test',
-      },
-    });
+  const {
+    accordéLe: accordéeLe,
+    accordéPar: accordéePar,
+    réponseSignée,
+  } = this.eliminéWorld.recoursWorld.accorderRecoursFixture.créer({
+    accordéPar: this.utilisateurWorld.validateurFixture.email,
+  });
 
-    await mediator.send<Recours.RecoursUseCase>({
-      type: 'Eliminé.Recours.UseCase.RejeterRecours',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        réponseSignéeValue: {
-          format: `text/plain`,
-          content: convertStringToReadableStream(`Le contenu de la réponse signée`),
-        },
-        dateRejetValue: DateTime.convertirEnValueType(new Date()).formatter(),
-        identifiantUtilisateurValue: 'validateur@test.test',
-      },
-    });
-  },
-);
+  await mediator.send<Recours.RecoursUseCase>({
+    type: 'Eliminé.Recours.UseCase.AccorderRecours',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+      réponseSignéeValue: réponseSignée,
+      dateAccordValue: accordéeLe,
+      identifiantUtilisateurValue: accordéePar,
+    },
+  });
+}
+
+async function créerRejetRecours(this: PotentielWorld) {
+  const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
+  const {
+    rejetéLe: rejetéeLe,
+    rejetéPar: rejetéePar,
+    réponseSignée,
+  } = this.eliminéWorld.recoursWorld.rejeterRecoursFixture.créer({
+    rejetéPar: this.utilisateurWorld.validateurFixture.email,
+  });
+
+  await mediator.send<Recours.RecoursUseCase>({
+    type: 'Eliminé.Recours.UseCase.RejeterRecours',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+      réponseSignéeValue: réponseSignée,
+      dateRejetValue: rejetéeLe,
+      identifiantUtilisateurValue: rejetéePar,
+    },
+  });
+}

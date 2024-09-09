@@ -2,8 +2,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 // Workspaces
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 // Package
@@ -40,9 +39,7 @@ export const registerAccorderRecoursUseCase = () => {
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateAccord = DateTime.convertirEnValueType(dateAccordValue);
-    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
-      identifiantUtilisateurValue,
-    );
+    const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',

@@ -67,8 +67,10 @@ export const registerListerRecoursQuery = ({
       range,
       where: {
         statut: Where.equal(statut),
-        appelOffre: Where.equal(appelOffre),
-        régionProjet: Where.equal(régionProjet),
+        projet: {
+          appelOffre: Where.equal(appelOffre),
+          région: Where.equal(régionProjet),
+        },
         identifiantProjet,
       },
     });
@@ -82,12 +84,15 @@ export const registerListerRecoursQuery = ({
   mediator.register('Eliminé.Recours.Query.ListerRecours', handler);
 };
 
-const mapToReadModel = (projection: RecoursEntity): RecoursListItemReadModel => {
+const mapToReadModel = (entity: RecoursEntity): RecoursListItemReadModel => {
   return {
-    ...projection,
-    statut: StatutRecours.convertirEnValueType(projection.statut),
-    misÀJourLe: DateTime.convertirEnValueType(projection.misÀJourLe),
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(projection.identifiantProjet),
+    appelOffre: entity.projet?.appelOffre ?? 'N/A',
+    nomProjet: entity.projet?.nom ?? 'N/A',
+    période: entity.projet?.période ?? 'N/A',
+    famille: entity.projet?.famille,
+    statut: StatutRecours.convertirEnValueType(entity.statut),
+    misÀJourLe: DateTime.convertirEnValueType(entity.misÀJourLe),
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
   };
 };
 

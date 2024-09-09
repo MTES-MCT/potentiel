@@ -1,8 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/entity';
 
@@ -15,19 +14,19 @@ export type ConsulterRecoursReadModel = {
   statut: StatutRecours.ValueType;
   demande: {
     raison: string;
-    piéceJustificative?: DocumentProjet.ValueType;
+    pièceJustificative: DocumentProjet.ValueType;
     demandéLe: DateTime.ValueType;
-    demandéPar: IdentifiantUtilisateur.ValueType;
-  };
-  accord?: {
-    accordéLe: DateTime.ValueType;
-    accordéPar: IdentifiantUtilisateur.ValueType;
-    réponseSignée: DocumentProjet.ValueType;
-  };
-  rejet?: {
-    rejetéLe: DateTime.ValueType;
-    rejetéPar: IdentifiantUtilisateur.ValueType;
-    réponseSignée: DocumentProjet.ValueType;
+    demandéPar: Email.ValueType;
+    accord?: {
+      accordéLe: DateTime.ValueType;
+      accordéPar: Email.ValueType;
+      réponseSignée: DocumentProjet.ValueType;
+    };
+    rejet?: {
+      rejetéLe: DateTime.ValueType;
+      rejetéPar: Email.ValueType;
+      réponseSignée: DocumentProjet.ValueType;
+    };
   };
 };
 
@@ -48,57 +47,49 @@ export const registerConsulterRecoursQuery = ({ find }: ConsulterRecoursDependen
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const result = await find<RecoursEntity>(`recours|${identifiantProjet.formatter()}`);
 
-    if (Option.isNone(result)) {
-      return result;
-    }
-
-    const demande: ConsulterRecoursReadModel['demande'] = {
-      demandéLe: DateTime.convertirEnValueType(result.demandeDemandéLe),
-      demandéPar: IdentifiantUtilisateur.convertirEnValueType(result.demandeDemandéPar),
-      raison: result.demandeRaison,
-      piéceJustificative: result.demandePièceJustificativeFormat
-        ? DocumentProjet.convertirEnValueType(
-            identifiantProjet.formatter(),
-            TypeDocumentRecours.pièceJustificative.formatter(),
-            DateTime.convertirEnValueType(result.demandeDemandéLe).formatter(),
-            result.demandePièceJustificativeFormat,
-          )
-        : undefined,
-    };
-
-    const accord: ConsulterRecoursReadModel['accord'] = result.accordAccordéLe
-      ? {
-          accordéLe: DateTime.convertirEnValueType(result.accordAccordéLe!),
-          accordéPar: IdentifiantUtilisateur.convertirEnValueType(result.accordAccordéPar!),
-          réponseSignée: DocumentProjet.convertirEnValueType(
-            identifiantProjet.formatter(),
-            TypeDocumentRecours.recoursAccordé.formatter(),
-            DateTime.convertirEnValueType(result.accordAccordéLe!).formatter(),
-            result.accordRéponseSignéeFormat!,
-          ),
-        }
-      : undefined;
-
-    const rejet: ConsulterRecoursReadModel['rejet'] = result.rejetRejetéLe
-      ? {
-          rejetéLe: DateTime.convertirEnValueType(result.rejetRejetéLe!),
-          rejetéPar: IdentifiantUtilisateur.convertirEnValueType(result.rejetRejetéPar!),
-          réponseSignée: DocumentProjet.convertirEnValueType(
-            identifiantProjet.formatter(),
-            TypeDocumentRecours.recoursRejeté.formatter(),
-            DateTime.convertirEnValueType(result.rejetRejetéLe!).formatter(),
-            result.rejetRéponseSignéeFormat!,
-          ),
-        }
-      : undefined;
-
-    return {
-      demande,
-      identifiantProjet,
-      statut: StatutRecours.convertirEnValueType(result.statut),
-      accord,
-      rejet,
-    };
+    return Option.match(result).some(mapToReadModel).none();
   };
   mediator.register('Eliminé.Recours.Query.ConsulterRecours', handler);
+};
+
+const mapToReadModel = (result: RecoursEntity) => {
+  return {
+    demande: {
+      demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe),
+      demandéPar: Email.convertirEnValueType(result.demande.demandéPar),
+      raison: result.demande.raison,
+      pièceJustificative: DocumentProjet.convertirEnValueType(
+        result.identifiantProjet,
+        TypeDocumentRecours.pièceJustificative.formatter(),
+        DateTime.convertirEnValueType(result.demande.demandéLe).formatter(),
+        result.demande.pièceJustificative?.format,
+      ),
+      accord: result.demande.accord
+        ? {
+            accordéLe: DateTime.convertirEnValueType(result.demande.accord.accordéLe),
+            accordéPar: Email.convertirEnValueType(result.demande.accord.accordéPar),
+            réponseSignée: DocumentProjet.convertirEnValueType(
+              result.identifiantProjet,
+              TypeDocumentRecours.recoursAccordé.formatter(),
+              DateTime.convertirEnValueType(result.demande.accord.accordéLe).formatter(),
+              result.demande.accord.réponseSignée.format,
+            ),
+          }
+        : undefined,
+      rejet: result.demande.rejet
+        ? {
+            rejetéLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéLe),
+            rejetéPar: Email.convertirEnValueType(result.demande.rejet.rejetéPar),
+            réponseSignée: DocumentProjet.convertirEnValueType(
+              result.identifiantProjet,
+              TypeDocumentRecours.recoursRejeté.formatter(),
+              DateTime.convertirEnValueType(result.demande.rejet.rejetéLe).formatter(),
+              result.demande.rejet.réponseSignée.format,
+            ),
+          }
+        : undefined,
+    },
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
+    statut: StatutRecours.convertirEnValueType(result.statut),
+  } satisfies ConsulterRecoursReadModel;
 };

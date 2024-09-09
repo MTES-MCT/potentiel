@@ -4,27 +4,42 @@ export type RecoursEntity = Entity<
   'recours',
   {
     identifiantProjet: string;
-    nomProjet: string;
-    régionProjet: string;
 
-    appelOffre: string;
-    période: string;
-    famille?: string;
+    projet?: {
+      nom: string;
+      appelOffre: string;
+      période: string;
+      famille?: string;
+      numéroCRE: string;
+      région: string;
+    };
 
     statut: string;
     misÀJourLe: string;
 
-    demandeDemandéPar: string;
-    demandeDemandéLe: string;
-    demandeRaison: string;
-    demandePièceJustificativeFormat?: string;
+    demande: {
+      demandéPar: string;
+      demandéLe: string;
+      raison: string;
+      pièceJustificative: {
+        format: string;
+      };
 
-    accordRéponseSignéeFormat?: string;
-    accordAccordéPar?: string;
-    accordAccordéLe?: string;
+      accord?: {
+        réponseSignée: {
+          format: string;
+        };
+        accordéPar: string;
+        accordéLe: string;
+      };
 
-    rejetRéponseSignéeFormat?: string;
-    rejetRejetéPar?: string;
-    rejetRejetéLe?: string;
+      rejet?: {
+        réponseSignée: {
+          format: string;
+        };
+        rejetéPar: string;
+        rejetéLe: string;
+      };
+    };
   }
 >;

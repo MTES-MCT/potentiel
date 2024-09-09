@@ -3,27 +3,27 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { RecoursWord } from './recours/recours.world';
 import { NotifierÉliminéFixture } from './fixtures/notifierÉliminé.fixture';
 
-type EliminéFixture = {
+type ÉliminéFixture = {
   nom: string;
   identifiantProjet: IdentifiantProjet.ValueType;
   dateDésignation: string;
 };
 
-export class EliminéWorld {
-  #eliminéFixtures: Map<string, EliminéFixture> = new Map();
+export class ÉliminéWorld {
+  #éliminéFixtures: Map<string, ÉliminéFixture> = new Map();
   /** @deprecated use notifierEliminéFixture */
-  get eliminéFixtures() {
-    return this.#eliminéFixtures;
+  get éliminéFixtures() {
+    return this.#éliminéFixtures;
   }
   /** @deprecated use notifierEliminéFixture */
-  rechercherEliminéFixture(nom: string): EliminéFixture {
-    const eliminé = this.#eliminéFixtures.get(nom);
+  rechercherÉliminéFixture(nom: string): ÉliminéFixture {
+    const éliminé = this.#éliminéFixtures.get(nom);
 
-    if (!eliminé) {
+    if (!éliminé) {
       throw new Error(`Aucun projet éliminé correspondant à ${nom} dans les jeux de données`);
     }
 
-    return eliminé;
+    return éliminé;
   }
 
   #recoursWorld!: RecoursWord;
@@ -37,8 +37,16 @@ export class EliminéWorld {
     return this.#notifierEliminéFixture;
   }
 
+  #identifiantProjet: IdentifiantProjet.ValueType;
+
+  get identifiantProjet() {
+    return this.#identifiantProjet;
+  }
+
   constructor() {
     this.#recoursWorld = new RecoursWord();
     this.#notifierEliminéFixture = new NotifierÉliminéFixture();
+
+    this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
   }
 }
