@@ -7,8 +7,10 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantPériode, PériodeEntity } from '../période';
 import { ConsulterPériodeReadModel, mapToReadModel } from '../consulter/consulterPériode.query';
 
+export type ListerPériodeItemReadModel = ConsulterPériodeReadModel;
+
 export type ListerPériodesReadModel = {
-  items: ReadonlyArray<ConsulterPériodeReadModel>;
+  items: ReadonlyArray<ListerPériodeItemReadModel>;
   range: RangeOptions;
   total: number;
 };
@@ -16,6 +18,7 @@ export type ListerPériodesReadModel = {
 export type ListerPériodesQuery = Message<
   'Période.Query.ListerPériodes',
   {
+    appelOffre?: string;
     estNotifiée?: boolean;
     range?: RangeOptions;
   },

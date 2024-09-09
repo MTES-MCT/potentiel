@@ -3,15 +3,25 @@ import { encodeParameter } from '../encodeParameter';
 export const importer = '/candidatures/importer';
 export const corriger = '/candidatures/corriger';
 
-export const lister = (appelOffre?: string, periode?: string) => {
+type ListerFilters = {
+  appelOffre?: string;
+  période?: string;
+  statut?: 'classés' | 'éliminé';
+};
+
+export const lister = (filters?: ListerFilters) => {
   const searchParams = new URLSearchParams();
 
-  if (appelOffre) {
-    searchParams.set('appelOffre', appelOffre);
+  if (filters?.appelOffre) {
+    searchParams.set('appelOffre', filters.appelOffre);
   }
 
-  if (periode) {
-    searchParams.set('periode', periode);
+  if (filters?.période) {
+    searchParams.set('periode', filters.période);
+  }
+
+  if (filters?.statut) {
+    searchParams.set('statut', filters.statut);
   }
 
   return `/candidatures${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
