@@ -11,7 +11,8 @@
     "start:créer-backup": "node ./dist/backup/créer-backup",
     "start:mettre-à-jour-gestionnaire-réseau": "node ./dist/gestionnaireRéseau",
     "start:migrate-project-import-events": "node ./dist/candidature/migrate-project-import-events",
-    "start:supprimer-raccordement": "node ./dist/raccordement/supprimer-raccordement"
+    "start:supprimer-raccordement": "node ./dist/raccordement/supprimer-raccordement",
+    "start:annuler-echoir-gf-abandonnés-ou-éliminés": "node ./dist/annuler-echoir-gf-abandonnés-ou-éliminés"
   },
   "dependencies": {
     "@potentiel-libraries/monads": "*",

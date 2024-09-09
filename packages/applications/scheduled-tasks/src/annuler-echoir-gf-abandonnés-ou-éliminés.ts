@@ -12,6 +12,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Option } from '@potentiel-libraries/monads';
 import { Abandon } from '@potentiel-domain/laureat';
+import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 
 registerTâchePlanifiéeUseCases({
   loadAggregate,
@@ -43,9 +44,9 @@ Abandon.registerAbandonQueries({
       data: { catégorieTâche: 'garanties-financières' },
     });
 
-    console.info(`🧐 ${tâchesPlanifiées.total} tâches found`);
-
     let tâchesAnnulées = 0;
+
+    const projetIds = new Set<IdentifiantProjet.RawType>();
 
     for (const { identifiantProjet, typeTâchePlanifiée } of tâchesPlanifiées.items) {
       const projet = await mediator.send<Candidature.ConsulterProjetQuery>({
@@ -53,23 +54,17 @@ Abandon.registerAbandonQueries({
         data: { identifiantProjet: identifiantProjet.formatter() },
       });
       if (Option.isNone(projet)) {
-        console.warn(`❌ Projet ${identifiantProjet.formatter()} non trouvé`);
+        console.warn(`❌ Projet ${identifiantProjet} non trouvé`);
         continue;
       }
-      if (projet.statut === 'classé') {
-        const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
-          type: 'Lauréat.Abandon.Query.ConsulterAbandon',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-          },
-        });
-        if (Option.isNone(abandon) || !abandon.statut.estConfirmé()) {
-          console.info(`🤫 Skipping project ${identifiantProjet.formatter()}...`);
 
-          continue;
-        }
+      const statutProjet = StatutProjet.convertirEnValueType(projet.statut);
+
+      if (statutProjet.estClassé()) {
+        continue;
       }
-      console.info(`📨 Publishing event for project ${identifiantProjet.formatter()}...`);
+
+      projetIds.add(identifiantProjet.formatter());
 
       await mediator.send<AnnulerTâchePlanifiéeCommand>({
         type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
@@ -78,10 +73,14 @@ Abandon.registerAbandonQueries({
           typeTâchePlanifiée,
         },
       });
+      console.log(`📨 Tâche échoir annulée pour le projet ${identifiantProjet.formatter()}`);
       tâchesAnnulées++;
     }
 
-    console.log(`🚀 ${tâchesAnnulées} tâches annulées`);
+    console.log(`\n📊 Statistiques`);
+    console.log(`\n${projetIds.size} projets concernés`);
+    console.log(`\n${tâchesPlanifiées.items.length} tâches échoir trouvées pour : `);
+    console.log(`\n🥁 ${tâchesAnnulées} tâches annulées`);
 
     console.info('\nFin du script ✨');
   } catch (error) {
