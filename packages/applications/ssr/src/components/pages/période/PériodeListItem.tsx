@@ -24,9 +24,9 @@ export type PériodeListItemProps = {
   notifiéLe?: Iso8601DateTime;
   notifiéPar?: string;
 
-  totalÉliminés?: number;
-  totalLauréats?: number;
-  totalCandidatures?: number;
+  totalÉliminés: number;
+  totalLauréats: number;
+  totalCandidatures: number;
 };
 
 export const PériodeListItem: FC<PériodeListItemProps> = ({
@@ -78,20 +78,12 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
         <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
           <Icon
             id="fr-icon-close-circle-fill"
-            className={
-              totalÉliminés
-                ? 'text-dsfr-redMarianne-main472-default'
-                : 'text-dsfr-grey-_625_425-default'
-            }
+            className="text-dsfr-redMarianne-main472-default"
             title="Total des éliminés"
           />
-          {totalÉliminés ? (
-            <Link href={Routes.Candidature.lister({ appelOffre, période, statut: 'éliminé' })}>
-              {totalÉliminés} éliminés
-            </Link>
-          ) : (
-            '- - éliminés'
-          )}
+          <Link href={Routes.Candidature.lister({ appelOffre, période, statut: 'éliminé' })}>
+            {totalÉliminés} éliminés
+          </Link>
         </div>
       </div>
 
@@ -99,37 +91,21 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
         <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
           <Icon
             id="fr-icon-checkbox-circle-fill"
-            className={
-              totalLauréats
-                ? 'text-dsfr-greenEmeraude-main632-default'
-                : 'text-dsfr-grey-_625_425-default'
-            }
+            className="text-dsfr-greenEmeraude-main632-default"
             title="Total des classés"
           />
-          {totalLauréats ? (
-            <Link href={Routes.Candidature.lister({ appelOffre, période, statut: 'classés' })}>
-              {totalLauréats} lauréats
-            </Link>
-          ) : (
-            '- - lauréats'
-          )}
+          <Link href={Routes.Candidature.lister({ appelOffre, période, statut: 'classé' })}>
+            {totalLauréats} lauréats
+          </Link>
         </div>
       </div>
       <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4 text-sm">
         <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
-          <Icon
-            id="fr-icon-file-text-fill"
-            title="Total des candidatures"
-            className={totalCandidatures ? '' : 'text-dsfr-grey-_625_425-default'}
-          />
+          <Icon id="fr-icon-file-text-fill" title="Total des candidatures" />
           <div className="lg:flex lg:flex-col items-center">
-            {totalCandidatures ? (
-              <Link href={Routes.Candidature.lister({ appelOffre, période })}>
-                {totalCandidatures} candidatures
-              </Link>
-            ) : (
-              '- - candidatures'
-            )}
+            <Link href={Routes.Candidature.lister({ appelOffre, période })}>
+              {totalCandidatures} candidatures
+            </Link>
           </div>
         </div>
       </div>

@@ -792,6 +792,10 @@ const permissionAdmin: Policy[] = [
   'candidature.lister',
   'candidature.notifier',
   'candidature.attestation.prévisualiser',
+
+  // Période
+  'période.lister',
+  'période.consulter',
 ];
 
 const permissionDgecValidateur: Policy[] = [
@@ -800,8 +804,6 @@ const permissionDgecValidateur: Policy[] = [
   // Abandon
   'abandon.preuve-recandidature.accorder',
   // Période
-  'période.lister',
-  'période.consulter',
   'période.notifier',
 ];
 

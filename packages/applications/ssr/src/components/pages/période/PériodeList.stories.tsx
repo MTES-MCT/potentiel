@@ -43,6 +43,10 @@ export const Default: Story = {
         appelOffre: 'PPE2 - Fusion',
         période: '1',
         peutÊtreNotifiée: true,
+
+        totalÉliminés: 10,
+        totalLauréats: 5,
+        totalCandidatures: 20,
       },
       {
         identifiantPériode: 'PPE2 - Fusion#2',

@@ -6,7 +6,7 @@ export const corriger = '/candidatures/corriger';
 type ListerFilters = {
   appelOffre?: string;
   période?: string;
-  statut?: 'classés' | 'éliminé';
+  statut?: 'classé' | 'éliminé';
 };
 
 export const lister = (filters?: ListerFilters) => {
