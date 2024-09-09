@@ -42,10 +42,6 @@ import {
   LegacyProjectSourced,
   ProjectAbandoned,
   ProjectActionnaireUpdated,
-  ProjectCertificateGenerated,
-  ProjectCertificateObsolete,
-  ProjectCertificateRegenerated,
-  ProjectCertificateUpdated,
   ProjectClasseGranted,
   ProjectCompletionDueDateCancelled,
   ProjectCompletionDueDateSet,
@@ -68,9 +64,6 @@ import {
 import { toProjectDataForCertificate } from './mappers';
 
 export interface Project extends EventStoreAggregate {
-  notify: (args: {
-    notifiedOn: number;
-  }) => Result<null, IllegalProjectStateError | ProjectAlreadyNotifiedError>;
   abandon: (user: User) => Result<null, EliminatedProjectCannotBeAbandonnedError>;
   abandonLegacy: (abandonnedOn: number) => Result<null, never>;
   import: (args: {
@@ -94,10 +87,6 @@ export interface Project extends EventStoreAggregate {
     appelOffre: ProjectAppelOffre;
     completionDueOn: number;
   }) => Result<null, never>;
-  updateCertificate: (
-    user: User,
-    certificateFileId: string,
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
   updatePuissance: (
     user: User,
     newPuissance: number,
@@ -116,11 +105,6 @@ export interface Project extends EventStoreAggregate {
     newEvaluationCarbone?: number,
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
   grantClasse: (user: User) => Result<null, ProjetDéjàClasséError>;
-  addGeneratedCertificate: (args: {
-    projectVersionDate: Date;
-    certificateFileId: string;
-    reason?: string;
-  }) => Result<null, IllegalInitialStateForAggregateError>;
   signalerDemandeDelai: (
     args: {
       decidedOn: Date;
@@ -145,7 +129,6 @@ export interface Project extends EventStoreAggregate {
     status: 'acceptée' | 'rejetée';
     attachment?: { id: string; name: string };
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
-  readonly shouldCertificateBeGenerated: boolean;
   readonly isClasse?: boolean;
   readonly isLegacy?: boolean;
   readonly abandonedOn: number;
@@ -161,7 +144,6 @@ export interface Project extends EventStoreAggregate {
   >;
   readonly certificateFilename: string;
   readonly data: ProjectDataProps | undefined;
-  readonly lastCertificateUpdate: Date | undefined;
   readonly cahierDesCharges: CahierDesChargesRéférenceParsed;
   readonly appelOffreId: string;
   readonly periodeId: string;
@@ -211,7 +193,6 @@ export interface ProjectProps {
   completionDueOn: number;
   hasCompletionDueDateMoved: boolean;
   lastUpdatedOn?: Date;
-  lastCertificateUpdate: Date | undefined;
   hasError: boolean;
   isClasse?: boolean;
   puissanceInitiale: number;
@@ -258,7 +239,6 @@ export const makeProject = (args: {
     puissanceInitiale: 0,
     data: undefined,
     hasError: false,
-    lastCertificateUpdate: undefined,
     cahierDesCharges: { type: 'initial' },
     fieldsUpdatedAfterImport: new Set<string>(),
     potentielIdentifier: '',
@@ -296,41 +276,6 @@ export const makeProject = (args: {
 
   // public methods
   return ok({
-    notify: function ({ notifiedOn }) {
-      const { data, projectId } = props;
-
-      if (props.notifiedOn) {
-        return err(new ProjectAlreadyNotifiedError());
-      }
-
-      const projectAppelOffre = getProjectAppelOffre({
-        appelOffreId: props.appelOffreId,
-        periodeId: props.periodeId,
-        familleId: props.familleId,
-      });
-
-      if (!projectAppelOffre) {
-        return err(new Error(`L'appel offre ${props.appelOffreId} n'existe pas`));
-      }
-
-      _publishEvent(
-        new ProjectNotified({
-          payload: {
-            projectId: projectId.toString(),
-            appelOffreId: props.appelOffreId,
-            periodeId: props.periodeId,
-            familleId: props.familleId,
-            candidateEmail: data?.email || '',
-            candidateName: data?.nomRepresentantLegal || '',
-            notifiedOn,
-          },
-        }),
-      );
-
-      _updateDCRDate(projectAppelOffre);
-      _updateCompletionDate(projectAppelOffre);
-      return ok(null);
-    },
     abandon: function (user) {
       if (!props.isClasse) {
         return err(new EliminatedProjectCannotBeAbandonnedError());
@@ -422,7 +367,6 @@ export const makeProject = (args: {
         }
         delete changes['notifiedOn'];
 
-        const previouslyNotified = !!props.notifiedOn;
         const hasNotificationDateChanged = data.notifiedOn && data.notifiedOn !== props.notifiedOn;
 
         if (Object.keys(changes).length) {
@@ -458,16 +402,6 @@ export const makeProject = (args: {
               // classé -> eliminé
               _cancelDCRDate();
               _cancelCompletionDate();
-            }
-
-            if (previouslyNotified) {
-              _publishEvent(
-                new ProjectCertificateObsolete({
-                  payload: {
-                    projectId: id,
-                  },
-                }),
-              );
             }
           } else {
             if (props.isClasse) {
@@ -573,23 +507,7 @@ export const makeProject = (args: {
 
       return ok(null);
     },
-    updateCertificate: function (user, certificateFileId) {
-      if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
 
-      _publishEvent(
-        new ProjectCertificateUpdated({
-          payload: {
-            projectId: props.projectId.toString(),
-            certificateFileId,
-            uploadedBy: user.id,
-          },
-        }),
-      );
-
-      return ok(null);
-    },
     updatePuissance: function (user, newPuissance) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
@@ -677,40 +595,6 @@ export const makeProject = (args: {
 
       return ok(null);
     },
-    addGeneratedCertificate: function ({ projectVersionDate, certificateFileId, reason }) {
-      if (!props.appelOffre) {
-        const errorMessage = `Appel d'offre inaccessible dans project.addGeneratedCertificate pour le project ${projectId}`;
-        return err(new IllegalInitialStateForAggregateError({ projectId, errorMessage }));
-      }
-
-      if (props.lastCertificateUpdate) {
-        _publishEvent(
-          new ProjectCertificateRegenerated({
-            payload: {
-              projectId: props.projectId.toString(),
-              projectVersionDate,
-              certificateFileId,
-              reason,
-            },
-          }),
-        );
-      } else {
-        _publishEvent(
-          new ProjectCertificateGenerated({
-            payload: {
-              projectId: props.projectId.toString(),
-              projectVersionDate,
-              certificateFileId,
-              appelOffreId: props.appelOffre.id,
-              periodeId: props.appelOffre.periode.id,
-              candidateEmail: props.data?.email || '',
-            },
-          }),
-        );
-      }
-
-      return ok(null);
-    },
     signalerDemandeDelai: function (args) {
       const { decidedOn, status, notes, attachment, signaledBy } = args;
       if (!_isNotified()) {
@@ -788,15 +672,6 @@ export const makeProject = (args: {
     get pendingEvents() {
       return pendingEvents;
     },
-    get shouldCertificateBeGenerated() {
-      return (
-        _isNotified() &&
-        _periodeHasCertificate() &&
-        !_hasPendingEventOfType(ProjectCertificateUpdated.type) &&
-        (!props.lastCertificateUpdate ||
-          (!!props.lastUpdatedOn && props.lastCertificateUpdate < props.lastUpdatedOn))
-      );
-    },
     get lastUpdatedOn() {
       return props.lastUpdatedOn;
     },
@@ -841,9 +716,6 @@ export const makeProject = (args: {
     },
     get data() {
       return props.data;
-    },
-    get lastCertificateUpdate() {
-      return props.lastCertificateUpdate;
     },
     get cahierDesCharges() {
       return props.cahierDesCharges;
@@ -991,13 +863,6 @@ export const makeProject = (args: {
         for (const updatedField of Object.keys(event.payload.correctedData)) {
           props.fieldsUpdatedAfterImport.add(updatedField);
         }
-        break;
-      case ProjectCertificateUpdated.type:
-        props.lastCertificateUpdate = event.occurredAt;
-        break;
-      case ProjectCertificateGenerated.type:
-      case ProjectCertificateRegenerated.type:
-        props.lastCertificateUpdate = event.payload.projectVersionDate || event.occurredAt;
         break;
       case ProjectClasseGranted.type:
         props.isClasse = true;

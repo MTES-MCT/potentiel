@@ -12,7 +12,7 @@ import { Project } from '../../../project';
 import { InfraNotAvailableError, UnauthorizedError } from '../../../shared';
 import { ModificationReceived, ModificationRequested } from '../../../modificationRequest/events';
 import { makeDemanderChangementDePuissance } from './demanderChangementDePuissance';
-import { CahierDesChargesModifié, Periode } from '@potentiel-domain/appel-offre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { NouvellePuissanceAuDessusPuissanceMaxVolumeReserveError } from './NouvellePuissanceAuDessusPuissanceMaxVolumeReserveError';
 import { NouvellePuissanceAuDessusPuissanceFamilleError } from './NouvellePuissanceAuDessusPuissanceFamilleError';
 
@@ -46,10 +46,10 @@ describe('Commande requestPuissanceModification', () => {
             {
               type: 'modifié',
               paruLe: '30/08/2022',
-            } as CahierDesChargesModifié,
-          ] as ReadonlyArray<CahierDesChargesModifié>,
+            } as AppelOffre.CahierDesChargesModifié,
+          ] as ReadonlyArray<AppelOffre.CahierDesChargesModifié>,
         },
-      } as ProjectAppelOffre),
+      }) as ProjectAppelOffre,
   );
 
   beforeEach(async () => {
@@ -242,10 +242,10 @@ describe('Commande requestPuissanceModification', () => {
                     type: 'modifié',
                     paruLe: '30/08/2022',
                     seuilSupplémentaireChangementPuissance: { ratios: { min: 0.8, max: 1.4 } },
-                  } as CahierDesChargesModifié,
-                ] as ReadonlyArray<CahierDesChargesModifié>,
+                  } as AppelOffre.CahierDesChargesModifié,
+                ] as ReadonlyArray<AppelOffre.CahierDesChargesModifié>,
               },
-            } as ProjectAppelOffre),
+            }) as ProjectAppelOffre,
         );
         const requestPuissanceModification = makeDemanderChangementDePuissance({
           projectRepo,
@@ -322,10 +322,10 @@ describe('Commande requestPuissanceModification', () => {
                     seuilSupplémentaireChangementPuissance: {
                       ratios: { min: 0.8, max: 1.4 },
                     },
-                  } as CahierDesChargesModifié,
-                ] as ReadonlyArray<CahierDesChargesModifié>,
+                  } as AppelOffre.CahierDesChargesModifié,
+                ] as ReadonlyArray<AppelOffre.CahierDesChargesModifié>,
               },
-            } as ProjectAppelOffre),
+            }) as ProjectAppelOffre,
         );
         const requestPuissanceModification = makeDemanderChangementDePuissance({
           projectRepo,
@@ -459,10 +459,10 @@ describe('Commande requestPuissanceModification', () => {
                         max: 1.4,
                       },
                     },
-                  } as CahierDesChargesModifié,
-                ] as ReadonlyArray<CahierDesChargesModifié>,
+                  } as AppelOffre.CahierDesChargesModifié,
+                ] as ReadonlyArray<AppelOffre.CahierDesChargesModifié>,
               },
-            } as ProjectAppelOffre),
+            }) as ProjectAppelOffre,
         );
 
         const requestPuissanceModification = makeDemanderChangementDePuissance({
@@ -559,10 +559,10 @@ describe('Commande requestPuissanceModification', () => {
                   {
                     type: 'modifié',
                     paruLe: '30/08/2022',
-                  } as CahierDesChargesModifié,
-                ] as ReadonlyArray<CahierDesChargesModifié>,
-              } as Periode,
-            } as ProjectAppelOffre),
+                  } as AppelOffre.CahierDesChargesModifié,
+                ] as ReadonlyArray<AppelOffre.CahierDesChargesModifié>,
+              } as AppelOffre.Periode,
+            }) as ProjectAppelOffre,
         );
         const requestPuissanceModification = makeDemanderChangementDePuissance({
           projectRepo,

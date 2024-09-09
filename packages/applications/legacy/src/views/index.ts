@@ -21,9 +21,6 @@ import {
   DemanderChangementPuissance,
   ChoisirCahierDesCharges,
   ChangerFournisseur,
-  AdminNotificationCandidats,
-  AdminRegénérerPeriodeAttestations,
-  LegacyAdminImporterCandidats,
   ListeProjets,
   SuccèsOuErreur,
   InvitationsCandidatsEnAttente,
@@ -223,33 +220,6 @@ export const AbonnementLettreInformationPage = (
     Component: AbonnementLettreInformation,
     props,
     title: 'Abdonnement lettre information',
-  });
-
-export const AdminNotificationCandidatsPage = (
-  props: Parameters<typeof AdminNotificationCandidats>[0],
-) =>
-  makeHtml({
-    Component: AdminNotificationCandidats,
-    props,
-    title: 'Notifier des candidats',
-  });
-
-export const AdminRegénérerPeriodeAttestationsPage = (
-  props: Parameters<typeof AdminRegénérerPeriodeAttestations>[0],
-) =>
-  makeHtml({
-    Component: AdminRegénérerPeriodeAttestations,
-    props,
-    title: 'Regénérer période attestations',
-  });
-
-export const LegacyAdminImporterCandidatsPage = (
-  props: Parameters<typeof LegacyAdminImporterCandidats>[0],
-) =>
-  makeHtml({
-    Component: LegacyAdminImporterCandidats,
-    props,
-    title: 'Importer des candidats',
   });
 
 export const ListeProjetsPage = (props: Parameters<typeof ListeProjets>[0]) =>

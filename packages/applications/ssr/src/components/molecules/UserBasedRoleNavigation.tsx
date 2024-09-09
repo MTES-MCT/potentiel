@@ -88,7 +88,7 @@ const getNavigationItemsBasedOnRole = (
             {
               text: 'Notifier des candidats',
               linkProps: {
-                href: '/admin/notifier-candidats.html',
+                href: Routes.Période.notifier,
               },
             },
             {

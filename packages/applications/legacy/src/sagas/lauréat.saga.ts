@@ -13,6 +13,7 @@ import { logger } from '../core/utils';
 import { getDelaiDeRealisation } from '../modules/projectAppelOffre';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
+import { CandidateNotifiedForPeriode } from '../modules/notificationCandidats';
 
 export type SubscriptionEvent = Lauréat.LauréatNotifié & Event;
 
@@ -50,17 +51,27 @@ export const register = () => {
 
     switch (type) {
       case 'LauréatNotifié-V1':
+        const basePayload = {
+          appelOffreId: identifiantProjet.appelOffre,
+          periodeId: identifiantProjet.période,
+          candidateEmail: projet.email,
+          candidateName: projet.nomRepresentantLegal,
+        };
         await publishToEventBus(
           new ProjectNotified({
             payload: {
-              appelOffreId: identifiantProjet.appelOffre,
-              periodeId: identifiantProjet.période,
+              ...basePayload,
               familleId: identifiantProjet.famille || undefined,
-              candidateEmail: projet.email,
-              candidateName: projet.nomRepresentantLegal,
+
               notifiedOn: new Date(payload.notifiéLe).getTime(),
               projectId: projet.id,
             },
+          }),
+        );
+
+        await publishToEventBus(
+          new CandidateNotifiedForPeriode({
+            payload: basePayload,
           }),
         );
 

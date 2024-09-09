@@ -3,13 +3,9 @@ import { DélaiAccordé, DélaiAccordéCorrigé } from '../../modules/demandeMod
 import { LegacyModificationImported } from '../../modules/modificationRequest';
 import {
   handleLegacyModificationImported,
-  handlePeriodeNotified,
-  handleProjectCertificateObsolete,
   handleProjectRawDataImported,
   makeOnDélaiAccordé,
   makeOnDélaiAccordéCorrigé,
-  PeriodeNotified,
-  ProjectCertificateObsolete,
   ProjectRawDataImported,
   DateMiseEnServiceTransmise,
   makeOnCahierDesChargesChoisi,
@@ -20,31 +16,9 @@ import {
 } from '../../modules/project';
 import { subscribeToRedis } from '../eventBus.config';
 import { eventStore } from '../eventStore.config';
-import {
-  findProjectByIdentifiers,
-  getUnnotifiedProjectsForPeriode,
-  récupérerDétailDossiersRaccordements,
-} from '../queries.config';
+import { findProjectByIdentifiers, récupérerDétailDossiersRaccordements } from '../queries.config';
 import { getProjectAppelOffre } from '../queryProjectAO.config';
 import { projectRepo } from '../repos.config';
-import { generateCertificate } from '../useCases.config';
-
-eventStore.subscribe(
-  PeriodeNotified.type,
-  handlePeriodeNotified({
-    projectRepo,
-    generateCertificate,
-    getUnnotifiedProjectsForPeriode,
-    getProjectAppelOffre,
-  }),
-);
-
-eventStore.subscribe(
-  ProjectCertificateObsolete.type,
-  handleProjectCertificateObsolete({
-    generateCertificate,
-  }),
-);
 
 eventStore.subscribe(
   ProjectRawDataImported.type,

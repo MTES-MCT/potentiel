@@ -28,7 +28,7 @@ describe('Commande demanderDélai', () => {
       id: 'appelOffreId',
       periodes: [{ id: 'periodeId', type: 'notified', choisirNouveauCahierDesCharges: true }],
       familles: [{ id: 'familleId' }],
-    } as AppelOffre);
+    }) as any;
 
   const fakeProject = makeFakeProject();
 
@@ -224,7 +224,7 @@ describe('Commande demanderDélai', () => {
                 },
               ],
               familles: [{ id: 'familleId' }],
-            } as AppelOffre);
+            }) as any;
 
           const demandeDelai = makeDemanderDélai({
             fileRepo: fileRepo as Repository<FileObject>,
@@ -264,7 +264,7 @@ describe('Commande demanderDélai', () => {
                 { id: 'periodeId', type: 'notified', choisirNouveauCahierDesCharges: true },
               ],
               familles: [{ id: 'familleId' }],
-            } as AppelOffre);
+            }) as any;
 
           const demandeDelai = makeDemanderDélai({
             fileRepo: fileRepo as Repository<FileObject>,
@@ -307,7 +307,7 @@ describe('Commande demanderDélai', () => {
                 { id: 'periodeId', type: 'notified', choisirNouveauCahierDesCharges: true },
               ],
               familles: [{ id: 'familleId' }],
-            } as AppelOffre);
+            }) as any;
 
           const demandeDelai = makeDemanderDélai({
             fileRepo: fileRepo as Repository<FileObject>,

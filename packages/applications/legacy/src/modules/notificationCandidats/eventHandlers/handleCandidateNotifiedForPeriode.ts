@@ -1,19 +1,11 @@
-import { logger, wrapInfra } from '../../../core/utils';
-import routes from '../../../routes';
-import { GetPeriodeTitle } from '../../appelOffre';
-import { NotificationService } from '../../notification';
+import { logger, okAsync } from '../../../core/utils';
 import { GetUserByEmail, CreateUser } from '../../users';
 import { CandidateNotifiedForPeriode } from '../events/CandidateNotifiedForPeriode';
 
 export const handleCandidateNotifiedForPeriode =
-  (deps: {
-    sendNotification: NotificationService['sendNotification'];
-    createUser: CreateUser;
-    getUserByEmail: GetUserByEmail;
-    getPeriodeTitle: GetPeriodeTitle;
-  }) =>
+  (deps: { createUser: CreateUser; getUserByEmail: GetUserByEmail }) =>
   async (event: CandidateNotifiedForPeriode) => {
-    const { sendNotification, createUser, getPeriodeTitle, getUserByEmail } = deps;
+    const { createUser, getUserByEmail } = deps;
     const {
       payload: { periodeId, appelOffreId, candidateEmail, candidateName },
     } = event;
@@ -28,7 +20,7 @@ export const handleCandidateNotifiedForPeriode =
           });
         }
 
-        return _sendCandidateNotification();
+        return okAsync(null);
       })
       .match(
         () => {},
@@ -37,30 +29,4 @@ export const handleCandidateNotifiedForPeriode =
           logger.error(e);
         },
       );
-
-    function _sendCandidateNotification() {
-      return getPeriodeTitle(appelOffreId, periodeId).andThen(
-        ({ periodeTitle, appelOffreTitle }) => {
-          const subject = `Résultats de la ${periodeTitle} période de l'appel d'offres ${appelOffreTitle}`;
-
-          return wrapInfra(
-            sendNotification({
-              type: 'designation',
-              context: {
-                appelOffreId,
-                periodeId,
-              },
-              variables: {
-                invitation_link: routes.LISTE_PROJETS,
-              },
-              message: {
-                subject,
-                email: candidateEmail,
-                name: candidateName,
-              },
-            }),
-          );
-        },
-      );
-    }
   };

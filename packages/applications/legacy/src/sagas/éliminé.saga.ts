@@ -6,6 +6,7 @@ import { ProjectNotified } from '../modules/project';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
 import { logger } from '../core/utils';
+import { CandidateNotifiedForPeriode } from '../modules/notificationCandidats';
 
 export type SubscriptionEvent = Éliminé.ÉliminéNotifié & Event;
 
@@ -27,17 +28,26 @@ export const register = () => {
 
     switch (type) {
       case 'ÉliminéNotifié-V1':
+        const basePayload = {
+          appelOffreId: identifiantProjet.appelOffre,
+          periodeId: identifiantProjet.période,
+          candidateEmail: projet.email,
+          candidateName: projet.nomRepresentantLegal,
+        };
         await publishToEventBus(
           new ProjectNotified({
             payload: {
-              appelOffreId: identifiantProjet.appelOffre,
-              periodeId: identifiantProjet.période,
+              ...basePayload,
               familleId: identifiantProjet.famille || undefined,
-              candidateEmail: projet.email,
-              candidateName: projet.nomRepresentantLegal,
+
               notifiedOn: new Date(payload.notifiéLe).getTime(),
               projectId: projet.id,
             },
+          }),
+        );
+        await publishToEventBus(
+          new CandidateNotifiedForPeriode({
+            payload: basePayload,
           }),
         );
 

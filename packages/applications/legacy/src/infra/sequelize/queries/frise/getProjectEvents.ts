@@ -114,30 +114,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   });
                 }
                 break;
-              case 'ProjectCertificateGenerated':
-              case 'ProjectCertificateRegenerated':
-              case 'ProjectCertificateUpdated':
-                if (
-                  userIs([
-                    'admin',
-                    'porteur-projet',
-                    'dreal',
-                    'acheteur-obligé',
-                    'dgec-validateur',
-                    'cre',
-                  ])(user)
-                ) {
-                  events.push({
-                    type,
-                    potentielIdentifier,
-                    email: userIs(['admin', 'dgec-validateur'])(user) ? email : undefined,
-                    nomProjet,
-                    date: valueDate,
-                    variant: user.role,
-                    certificateFileId: payload.certificateFileId,
-                  });
-                }
-                break;
+
               case 'ProjectCompletionDueDateSet':
                 if (
                   userIs([

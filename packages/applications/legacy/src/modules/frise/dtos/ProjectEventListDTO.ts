@@ -1,4 +1,3 @@
-import { or } from '../../../core/utils';
 import { Project } from '../../../entities';
 import { LegacyModificationStatus } from '../../modificationRequest';
 import { Fournisseur } from '../../project';
@@ -7,9 +6,6 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 export type ProjectEventDTO =
   | ProjectNotifiedDTO
   | ProjectImportedDTO
-  | ProjectCertificateGeneratedDTO
-  | ProjectCertificateRegeneratedDTO
-  | ProjectCertificateUpdatedDTO
   | ProjectClaimedDTO
   | ProjectNotificationDateSetDTO
   | ProjectCompletionDueDateSetDTO
@@ -90,35 +86,12 @@ type ProjectCertificateBase = {
     }
 );
 
-export type ProjectCertificateGeneratedDTO = ProjectCertificateBase & {
-  type: 'ProjectCertificateGenerated';
-};
-
-export type ProjectCertificateRegeneratedDTO = ProjectCertificateBase & {
-  type: 'ProjectCertificateRegenerated';
-};
-
-export type ProjectCertificateUpdatedDTO = ProjectCertificateBase & {
-  type: 'ProjectCertificateUpdated';
-};
-
 export type ProjectClaimedDTO = ProjectCertificateBase & {
   type: 'ProjectClaimed';
   claimedBy: string;
 };
 
-export type ProjectCertificateDTO =
-  | ProjectCertificateGeneratedDTO
-  | ProjectCertificateRegeneratedDTO
-  | ProjectCertificateUpdatedDTO
-  | ProjectClaimedDTO;
-
-export const isCertificateDTO = or(
-  is('ProjectCertificateGenerated'),
-  is('ProjectCertificateRegenerated'),
-  is('ProjectCertificateUpdated'),
-  is('ProjectClaimed'),
-);
+export type ProjectCertificateDTO = ProjectClaimedDTO;
 
 export type ProjectCompletionDueDateSetDTO = {
   type: 'ProjectCompletionDueDateSet';

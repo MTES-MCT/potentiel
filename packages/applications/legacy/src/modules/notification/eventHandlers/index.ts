@@ -4,8 +4,6 @@ export * from './demandeRecours';
 export * from './modificationRequests';
 export * from './révocationAccèsPorteurs';
 export * from './handleLegacyCandidateNotified';
-export * from './handleProjectCertificateUpdatedOrRegenerated';
 export * from './handleUserInvitedToProject';
 export * from './onCahierDesChargesChoisi';
 export * from './onProjectCompletionDueDateSet';
-export * from './onPeriodeNotified';

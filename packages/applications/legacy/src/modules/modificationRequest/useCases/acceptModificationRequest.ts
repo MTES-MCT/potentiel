@@ -121,17 +121,18 @@ export const makeAcceptModificationRequest =
 
         switch (modificationRequest.type) {
           case 'recours':
-            // responseFileId will never be undefined here
-            if (acceptanceParams?.type === 'recours' && responseFileId !== undefined)
-              action = project
-                .grantClasse(submittedBy)
-                .andThen(() => project.updateCertificate(submittedBy, responseFileId))
-                .andThen(() =>
-                  project.setNotificationDate(
-                    submittedBy,
-                    acceptanceParams.newNotificationDate.getTime(),
-                  ),
-                );
+            // TODO moved to SSR?
+            // // responseFileId will never be undefined here
+            // if (acceptanceParams?.type === 'recours' && responseFileId !== undefined)
+            //   action = project
+            //     .grantClasse(submittedBy)
+            //     .andThen(() => project.updateCertificate(submittedBy, responseFileId))
+            //     .andThen(() =>
+            //       project.setNotificationDate(
+            //         submittedBy,
+            //         acceptanceParams.newNotificationDate.getTime(),
+            //       ),
+            //     );
             break;
           case 'puissance':
             if (acceptanceParams?.type === 'puissance')

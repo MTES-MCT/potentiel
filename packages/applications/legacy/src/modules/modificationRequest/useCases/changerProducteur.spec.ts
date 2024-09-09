@@ -32,7 +32,7 @@ describe('Commande changerProducteur', () => {
       id: 'appelOffreId',
       periodes: [{ id: 'periodeId', type: 'notified' }],
       familles: [{ id: 'familleId' }],
-    } as AppelOffre);
+    }) as any;
 
   const fileRepo = {
     save: jest.fn((file: FileObject) => okAsync(null)),
@@ -94,7 +94,7 @@ describe('Commande changerProducteur', () => {
             { id: fakeProject.periodeId, type: 'notified', choisirNouveauCahierDesCharges: true },
           ],
           familles: [{ id: 'familleId' }],
-        } as AppelOffre);
+        }) as any;
 
       const changerProducteur = makeChangerProducteur({
         projectRepo,

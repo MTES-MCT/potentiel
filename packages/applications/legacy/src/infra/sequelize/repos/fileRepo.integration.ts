@@ -18,7 +18,6 @@ describe('Sequelize FileRepo', () => {
   const fileStorageService: FileStorageService = {
     upload: jest.fn((args: { contents: FileContents; path: string }) => okAsync('storageLocation')),
     download: jest.fn((storedAt: string) => okAsync(fakeFileStream)),
-    remove: jest.fn<FileStorageService['remove']>(),
   };
 
   const fileRepo = makeFileRepo({ fileStorageService });

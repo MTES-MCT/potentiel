@@ -25,15 +25,6 @@ describe('getProjectEvents en général', () => {
     await ProjectEvent.create({
       id: new UniqueEntityID().toString(),
       projectId,
-      type: 'ProjectCertificateGenerated',
-      valueDate: eventTimestamp,
-      eventPublishedAt: new Date('2022-01-01').getTime(),
-      payload: { certificateFileId: 'fileId' },
-    });
-
-    await ProjectEvent.create({
-      id: new UniqueEntityID().toString(),
-      projectId,
       type: 'ProjectCertificateRegenerated',
       valueDate: eventTimestamp,
       eventPublishedAt: new Date('2022-01-03').getTime(),
@@ -65,9 +56,6 @@ describe('getProjectEvents en général', () => {
 
     expect(res._unsafeUnwrap()).toMatchObject({
       events: [
-        {
-          type: 'ProjectCertificateGenerated',
-        },
         {
           type: 'ProjectClaimed',
         },

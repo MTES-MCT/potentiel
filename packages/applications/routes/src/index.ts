@@ -6,6 +6,7 @@ import { Gestionnaire } from './réseau';
 import { Projet } from './projet';
 import { Recours } from './éliminé';
 import { Tache } from './tâche';
+import { Période } from './période';
 
 export const Routes = {
   Abandon,
@@ -18,4 +19,5 @@ export const Routes = {
   Raccordement,
   Recours,
   Tache,
+  Période,
 };

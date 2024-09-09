@@ -26,12 +26,6 @@ export type DesignationItemProps = {
     | undefined;
 };
 
-export const isCertificateGeneratedDTO = or(
-  is('ProjectCertificateGenerated'),
-  is('ProjectCertificateRegenerated'),
-  is('ProjectCertificateUpdated'),
-);
-
 export const extractDesignationItemProps = (
   events: ProjectEventDTO[],
   status: ProjectStatus,
@@ -43,8 +37,7 @@ export const extractDesignationItemProps = (
   if (!lastProjectDesignationEvent) return null;
   const { variant: role, date } = lastProjectDesignationEvent;
 
-  const certificateEvent =
-    events.filter(isCertificateGeneratedDTO).pop() ?? events.filter(is('ProjectClaimed')).pop();
+  const certificateEvent = events.filter(is('ProjectClaimed')).pop();
 
   if (certificateEvent) {
     return {

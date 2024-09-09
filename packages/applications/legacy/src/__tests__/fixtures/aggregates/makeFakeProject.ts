@@ -30,9 +30,6 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   moveCompletionDueDate: jest.fn((user: User, delayInMonths: number) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>(null),
   ),
-  updateCertificate: jest.fn((user: User, certificateFileId: string) =>
-    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null),
-  ),
   updatePuissance: jest.fn((user: User, newPuissance: number) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null),
   ),
@@ -47,9 +44,6 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
       ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null),
   ),
   grantClasse: jest.fn((user: User) => ok<null, never>(null)),
-  addGeneratedCertificate: jest.fn(
-    (args: { projectVersionDate: Date; certificateFileId: string }) => ok<null, never>(null),
-  ),
   applyCovidDelay: jest.fn(() => ok<null, ProjectNotQualifiedForCovidDelay>(null)),
   signalerDemandeDelai: jest.fn(
     (args: {
@@ -92,7 +86,6 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   isLegacy: false,
   puissanceInitiale: 0,
   lastUpdatedOn: new Date(0),
-  lastCertificateUpdate: undefined,
   cahierDesCharges: { type: 'initial' },
   appelOffreId: 'fake-appel-offre-id',
   periodeId: '1',

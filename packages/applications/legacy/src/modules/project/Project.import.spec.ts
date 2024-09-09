@@ -6,7 +6,6 @@ import makeFakeProject from '../../__tests__/fixtures/project';
 import {
   LegacyProjectSourced,
   ProjectActionnaireUpdated,
-  ProjectCertificateObsolete,
   ProjectCompletionDueDateSet,
   ProjectDataCorrected,
   ProjectDCRDueDateSet,
@@ -564,14 +563,6 @@ describe('Project.import({ data, importId })', () => {
           expect(pendingEventTypes).toContain('ProjectDCRDueDateSet');
           expect(pendingEventTypes).toContain('ProjectCompletionDueDateSet');
         });
-
-        it('should emit ProjectCertificateObsolete', () => {
-          const targetEvent = findEventOfType(ProjectCertificateObsolete, project.pendingEvents);
-          expect(targetEvent).toBeDefined();
-          if (!targetEvent) return;
-
-          expect(targetEvent.payload.projectId).toEqual(projectId.toString());
-        });
       });
 
       describe('when the project remains classé', () => {
@@ -728,14 +719,6 @@ describe('Project.import({ data, importId })', () => {
           const pendingEventTypes = project.pendingEvents.map((item) => item.type);
           expect(pendingEventTypes).toContain('ProjectDCRDueDateCancelled');
           expect(pendingEventTypes).toContain('ProjectCompletionDueDateCancelled');
-        });
-
-        it('should emit ProjectCertificateObsolete', () => {
-          const targetEvent = findEventOfType(ProjectCertificateObsolete, project.pendingEvents);
-          expect(targetEvent).toBeDefined();
-          if (!targetEvent) return;
-
-          expect(targetEvent.payload.projectId).toEqual(projectId.toString());
         });
       });
 

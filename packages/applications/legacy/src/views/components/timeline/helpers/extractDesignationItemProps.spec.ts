@@ -1,9 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 import { UniqueEntityID } from '../../../../core/domain';
 import {
-  ProjectCertificateGeneratedDTO,
-  ProjectCertificateRegeneratedDTO,
-  ProjectCertificateUpdatedDTO,
   ProjectClaimedDTO,
   ProjectEventDTO,
   ProjectImportedDTO,
@@ -26,21 +23,6 @@ describe('extractDesignationItemProps', () => {
           variant: 'admin',
           date: 11,
         } as ProjectImportedDTO,
-        {
-          type: 'ProjectCertificateGenerated',
-          variant: 'admin',
-          date: 13,
-        } as ProjectCertificateGeneratedDTO,
-        {
-          type: 'ProjectCertificateRegenerated',
-          variant: 'admin',
-          date: 13,
-        } as ProjectCertificateRegeneratedDTO,
-        {
-          type: 'ProjectCertificateUpdated',
-          variant: 'admin',
-          date: 13,
-        } as ProjectCertificateUpdatedDTO,
         {
           type: 'ProjectClaimed',
           variant: 'admin',
