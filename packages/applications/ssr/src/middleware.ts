@@ -1,8 +1,7 @@
-import { withAuth } from 'next-auth/middleware';
+import { chain } from '@/middlewares/chain';
+import { withAuthMiddleware } from '@/middlewares/withAuthMiddleware';
 
-export default withAuth({
-  pages: { signIn: '/auth/signIn' },
-});
+export default chain([withAuthMiddleware]);
 
 export const config = {
   // do not run middleware for paths matching one of following
