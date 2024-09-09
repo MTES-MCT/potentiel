@@ -1,18 +1,16 @@
 import { mediator } from 'mediateur';
 
 import {
-  // AnnulerTâchePlanifiéeCommand,
   ListerTâchesPlanifiéesReadModel,
   ListerTâchesPlanifiéesQuery,
   registerTâchePlanifiéeQuery,
   registerTâchePlanifiéeUseCases,
+  AjouterTâchePlanifiéeCommand,
 } from '@potentiel-domain/tache-planifiee';
 import { listProjection } from '@potentiel-infrastructure/pg-projections';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat/';
-// import { Option } from '@potentiel-libraries/monads';
-// import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 
 registerTâchePlanifiéeUseCases({
   loadAggregate,
@@ -43,39 +41,87 @@ registerTâchePlanifiéeQuery({
       {} as Record<IdentifiantProjet.RawType, Array<TâchePlanifiéeListItem>>,
     );
 
-    for (const [, tâches] of Object.entries(tâchesParProjet)) {
-      const tâcheÉchoirGarantiesFinancières = tâches.find((t) =>
+    type Statistics = Array<{
+      identifiantProjet: IdentifiantProjet.RawType;
+      tâchesAjoutées: Array<GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.RawType>;
+    }>;
+    const statistics: Statistics = [];
+
+    for (const [identifiantProjet, tâches] of Object.entries(tâchesParProjet)) {
+      const tâcheÉchoir = tâches.find((t) =>
         GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.convertirEnValueType(
           t.typeTâchePlanifiée,
-        ).estÉgaleÀ(GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir),
+        ).estÉchoir(),
       );
 
-      const tâcheRappelUnMoisGarantiesFinancières = tâches.find((t) =>
-        GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.convertirEnValueType(
-          t.typeTâchePlanifiée,
-        ).estÉgaleÀ(
-          GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceUnMois,
-        ),
-      );
-
-      const tâcheRappelDeuxMoisGarantiesFinancières = tâches.find((t) =>
-        GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.convertirEnValueType(
-          t.typeTâchePlanifiée,
-        ).estÉgaleÀ(
-          GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceDeuxMois,
-        ),
-      );
-
-      if (
-        tâcheÉchoirGarantiesFinancières &&
-        !tâcheRappelUnMoisGarantiesFinancières &&
-        !tâcheRappelDeuxMoisGarantiesFinancières
-      ) {
-        /**
-         * @todo Ajouter une tâche de rappel un / deux mois  avant l'échéance
-         */
+      if (!tâcheÉchoir) {
+        continue;
       }
+
+      const tâcheRappelUnMois = tâches.find((t) =>
+        GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.convertirEnValueType(
+          t.typeTâchePlanifiée,
+        ).estRappelÉchéanceUnMois(),
+      );
+
+      const tâcheRappelDeuxMois = tâches.find((t) =>
+        GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.convertirEnValueType(
+          t.typeTâchePlanifiée,
+        ).estRappelÉchéanceDeuxMois(),
+      );
+
+      if (tâcheRappelUnMois && tâcheRappelDeuxMois) {
+        continue;
+      }
+
+      const tâchesÀAjouter: AjouterTâchePlanifiéeCommand['data']['tâches'] = [];
+
+      if (!tâcheRappelUnMois) {
+        console.log(
+          `Projet ${identifiantProjet} - Ajout de la tâche de rappel un mois avant échéance`,
+        );
+        tâchesÀAjouter.push({
+          typeTâchePlanifiée:
+            GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceUnMois.type,
+          àExécuterLe: tâcheÉchoir.àExécuterLe.retirerNombreDeMois(1),
+        });
+      }
+
+      if (!tâcheRappelDeuxMois) {
+        console.log(
+          `Projet ${identifiantProjet} - Ajout de la tâche de rappel deux mois avant échéance`,
+        );
+        tâchesÀAjouter.push({
+          typeTâchePlanifiée:
+            GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceDeuxMois.type,
+          àExécuterLe: tâcheÉchoir.àExécuterLe.retirerNombreDeMois(2),
+        });
+      }
+
+      await mediator.send<AjouterTâchePlanifiéeCommand>({
+        type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
+        data: {
+          identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+          tâches: tâchesÀAjouter,
+        },
+      });
+
+      statistics.push({
+        identifiantProjet: identifiantProjet as IdentifiantProjet.RawType,
+        tâchesAjoutées: tâchesÀAjouter.map(
+          (t) =>
+            GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.convertirEnValueType(
+              t.typeTâchePlanifiée,
+            ).type,
+        ),
+      });
     }
+
+    console.info('\nStatistiques:');
+    console.info(`\nNombre de projets concernés: ${statistics.length}`);
+    console.info(
+      `\nNombre de tâches ajoutées: ${statistics.reduce((acc, s) => acc + s.tâchesAjoutées.length, 0)}`,
+    );
 
     console.info('\nFin du script ✨');
   } catch (error) {
