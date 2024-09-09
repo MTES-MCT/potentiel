@@ -213,6 +213,7 @@ const référencielPermissions = {
   },
   candidature: {
     query: {
+      consulterCandidature: 'Candidature.Query.ConsulterCandidature',
       consulter: 'Candidature.Query.ConsulterProjet',
       listerProjetsPreuveRecandidature:
         'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
@@ -697,7 +698,11 @@ const policies = {
       référencielPermissions.éliminé.command.notifier,
     ],
     attestation: {
-      prévisualiser: [],
+      prévisualiser: [
+        référencielPermissions.utilisateur.query.consulter,
+        référencielPermissions.candidature.query.consulterCandidature,
+        référencielPermissions.appelOffre.query.consulter,
+      ],
       télécharger: [],
     },
   },
