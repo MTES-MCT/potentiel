@@ -7,6 +7,8 @@ export type PériodeEntity = Entity<
   'période',
   {
     identifiantPériode: IdentifiantPériode.RawType;
+    appelOffre: string;
+    période: string;
   } & (PériodeNotifiée | PériodeNonNotifiée)
 >;
 

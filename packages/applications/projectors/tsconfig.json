@@ -12,6 +12,9 @@
       "path": "../../domain/inmemory-referential"
     },
     {
+      "path": "../../domain/période"
+    },
+    {
       "path": "../../domain/lauréat"
     },
     {

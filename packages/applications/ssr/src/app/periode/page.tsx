@@ -15,15 +15,15 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Périodes - Notifier',
-  description: 'Notifier une période',
+  title: 'Périodes',
+  description: 'Périodes',
 };
 
 export default async function Page({ searchParams }: PageProps) {
   const appelOffre = searchParams?.appelOffre ?? undefined;
 
   const estNotifiée =
-    searchParams?.statut === undefined ? undefined : searchParams.statut === 'true';
+    searchParams?.statut === undefined ? undefined : searchParams.statut === 'notifiee';
 
   return PageWithErrorHandling(async () => {
     const périodes = await mediator.send<Période.ListerPériodesQuery>({

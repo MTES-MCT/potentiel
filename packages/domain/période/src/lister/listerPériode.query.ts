@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { List, RangeOptions } from '@potentiel-domain/entity';
+import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
@@ -30,8 +30,17 @@ export type ListerPériodesDependencies = {
 };
 
 export const registerListerPériodesQuery = ({ list }: ListerPériodesDependencies) => {
-  const handler: MessageHandler<ListerPériodesQuery> = async ({ range, estNotifiée }) => {
-    const notifiées = await list<PériodeEntity>(`période`, { range });
+  const handler: MessageHandler<ListerPériodesQuery> = async ({
+    range,
+    estNotifiée,
+    appelOffre,
+  }) => {
+    const notifiées = await list<PériodeEntity>(`période`, {
+      range,
+      where: {
+        appelOffre: Where.equal(appelOffre),
+      },
+    });
 
     if (estNotifiée === true) {
       return {
@@ -42,7 +51,9 @@ export const registerListerPériodesQuery = ({ list }: ListerPériodesDependenci
     }
 
     if (estNotifiée === false) {
-      const appelOffres = await list<AppelOffre.AppelOffreEntity>(`appel-offre`);
+      const appelOffres = await list<AppelOffre.AppelOffreEntity>(`appel-offre`, {
+        where: { id: Where.equal(appelOffre) },
+      });
 
       const all = appelOffres.items.reduce((acc, current) => {
         const periodes: Array<ConsulterPériodeReadModel> = current.periodes.map((periode) => ({
@@ -55,19 +66,27 @@ export const registerListerPériodesQuery = ({ list }: ListerPériodesDependenci
         return [...acc, ...periodes];
       }, [] as Array<ConsulterPériodeReadModel>);
 
+      const allWithoutNotifiées = all.filter(
+        (période) =>
+          notifiées.items.find(
+            (notifiée) => notifiée.identifiantPériode === période.identifiantPériode.formatter(),
+          ) === undefined,
+      );
+
+      const itemsRanged = range
+        ? allWithoutNotifiées.slice(range.startPosition, range.endPosition)
+        : allWithoutNotifiées;
+
       return {
-        items: all.filter(
-          (période) =>
-            notifiées.items.find(
-              (notifiée) => notifiée.identifiantPériode === période.identifiantPériode.formatter(),
-            ) === undefined,
-        ),
-        range: notifiées.range,
-        total: notifiées.total,
+        items: itemsRanged,
+        range: range ?? { startPosition: 0, endPosition: itemsRanged.length - 1 },
+        total: itemsRanged.length,
       };
     }
 
-    const appelOffres = await list<AppelOffre.AppelOffreEntity>(`appel-offre`);
+    const appelOffres = await list<AppelOffre.AppelOffreEntity>(`appel-offre`, {
+      where: { id: Where.equal(appelOffre) },
+    });
 
     const items = appelOffres.items.reduce((acc, current) => {
       const periodes: Array<ConsulterPériodeReadModel> = current.periodes.map((periode) => {
@@ -100,10 +119,12 @@ export const registerListerPériodesQuery = ({ list }: ListerPériodesDependenci
       return [...acc, ...periodes];
     }, [] as Array<ConsulterPériodeReadModel>);
 
+    const itemsRanged = range ? items.slice(range.startPosition, range.endPosition) : items;
+
     return {
-      items,
-      range: notifiées.range,
-      total: notifiées.total,
+      items: itemsRanged,
+      range: range ?? { startPosition: 0, endPosition: itemsRanged.length - 1 },
+      total: itemsRanged.length,
     };
   };
 

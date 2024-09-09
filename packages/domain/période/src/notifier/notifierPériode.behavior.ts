@@ -9,6 +9,9 @@ export type PériodeNotifiéeEvent = DomainEvent<
   {
     identifiantPériode: IdentifiantPériode.RawType;
 
+    appelOffre: string;
+    période: string;
+
     notifiéeLe: DateTime.RawType;
     notifiéePar: Email.RawType;
 
@@ -39,6 +42,8 @@ export async function notifier(
     type: 'PériodeNotifiée-V1',
     payload: {
       identifiantPériode: identifiantPériode.formatter(),
+      appelOffre: identifiantPériode.appelOffre,
+      période: identifiantPériode.période,
       notifiéeLe: notifiéeLe.formatter(),
       notifiéePar: notifiéePar.formatter(),
       identifiantLauréats: identifiantLauréats.map((identifiantLauréat) =>
