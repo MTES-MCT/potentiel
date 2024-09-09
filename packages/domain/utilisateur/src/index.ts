@@ -1,6 +1,7 @@
 import {
   ConsulterUtilisateurQuery,
   RécupérerUtilisateurPort,
+  ConsulterUtilisateurReadModel,
 } from './consulter/consulterUtilisateur.query';
 import { ListerUtilisateursQuery, ListerUtilisateursPort } from './lister/listerUtilisateurs.query';
 import {
@@ -32,3 +33,6 @@ export * from './utilisateur.port';
 export * from './utilisateur.entity';
 
 export * from './permission.middleware';
+
+// readmodel
+export { ConsulterUtilisateurReadModel };

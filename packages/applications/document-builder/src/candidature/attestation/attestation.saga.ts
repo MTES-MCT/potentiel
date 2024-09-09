@@ -4,6 +4,10 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Éliminé } from '@potentiel-domain/elimine';
 import { Lauréat } from '@potentiel-domain/laureat';
+import { Candidature } from '@potentiel-domain/candidature';
+import { Option } from '@potentiel-libraries/monads';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 
 import { buildCertificate } from './buildCertificate';
 
@@ -25,8 +29,66 @@ export const register = () => {
     switch (event.type) {
       case 'ÉliminéNotifié-V1':
       case 'LauréatNotifié-V1':
-        const content = await buildCertificate({ identifiantProjet, notifiéLe, notifiéPar });
-        if (!content) {
+        const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+          type: 'Candidature.Query.ConsulterCandidature',
+          data: {
+            identifiantProjet,
+          },
+        });
+
+        if (Option.isNone(candidature)) {
+          logger.warn(`Candidature non trouvée`, { identifiantProjet });
+          return;
+        }
+
+        const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+          type: 'AppelOffre.Query.ConsulterAppelOffre',
+          data: { identifiantAppelOffre: candidature.identifiantProjet.appelOffre },
+        });
+
+        if (Option.isNone(appelOffres)) {
+          logger.warn(`Appel d'offres non trouvé`, { identifiantProjet });
+          return;
+        }
+
+        const période = appelOffres.periodes.find(
+          (x) => x.id === candidature.identifiantProjet.période,
+        );
+
+        if (!période) {
+          logger.warn(`Période non trouvée`, { identifiantProjet });
+          return;
+        }
+
+        if (période.type && période.type !== 'notified') {
+          logger.warn(`Période non notifiée`, { identifiantProjet, période });
+          return;
+        }
+
+        const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
+          type: 'Utilisateur.Query.ConsulterUtilisateur',
+          data: {
+            identifiantUtilisateur: notifiéPar,
+          },
+        });
+
+        if (Option.isNone(utilisateur)) {
+          logger.warn(`Utilisateur non trouvé`, {
+            identifiantProjet,
+            identifiantUtilisateur: notifiéPar,
+          });
+          return;
+        }
+
+        const certificate = await buildCertificate({
+          appelOffre: appelOffres,
+          période,
+          utilisateur,
+          candidature,
+          notifiéLe,
+        });
+
+        if (!certificate) {
           logger.warn(`Impossible de générer l'attestation du projet ${identifiantProjet}`);
           return;
         }
@@ -40,7 +102,7 @@ export const register = () => {
         await mediator.send<EnregistrerDocumentProjetCommand>({
           type: 'Document.Command.EnregistrerDocumentProjet',
           data: {
-            content,
+            content: certificate,
             documentProjet: attestation,
           },
         });

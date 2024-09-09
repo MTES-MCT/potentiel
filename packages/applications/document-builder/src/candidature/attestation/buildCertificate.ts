@@ -1,14 +1,11 @@
 import path from 'node:path';
 
-import { mediator } from 'mediateur';
 import ReactPDF, { Font } from '@react-pdf/renderer';
 
-import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
-import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
-import { getLogger } from '@potentiel-libraries/monitoring';
+import { ConsulterUtilisateurReadModel } from '@potentiel-domain/utilisateur';
 
 import { fontsFolderPath, imagesFolderPath } from '../../assets';
 import { mapToReadableStream } from '../../mapToReadableStream';
@@ -36,20 +33,26 @@ Font.register({
 });
 
 type BuildCertificate = {
-  identifiantProjet: string;
+  appelOffre: AppelOffre.AppelOffreReadModel;
+  période: AppelOffre.Periode;
+  utilisateur: ConsulterUtilisateurReadModel;
+  candidature: Candidature.ConsulterCandidatureReadModel;
   notifiéLe: DateTime.RawType;
-  notifiéPar: string;
 };
 
 export const buildCertificate = async ({
-  identifiantProjet,
+  appelOffre,
+  période,
+  utilisateur,
+  candidature,
   notifiéLe,
-  notifiéPar,
 }: BuildCertificate): Promise<ReadableStream | void> => {
   const { data, validateur } = await mapToCertificateData({
-    identifiantProjet,
+    appelOffre,
+    période,
+    utilisateur,
+    candidature,
     notifiéLe,
-    notifiéPar,
   });
 
   if (!data || !validateur) {
@@ -71,60 +74,12 @@ type MapToCertificateData = {
 };
 
 const mapToCertificateData = async ({
-  identifiantProjet,
+  appelOffre,
+  période,
+  utilisateur,
+  candidature,
   notifiéLe,
-  notifiéPar,
 }: BuildCertificate): Promise<MapToCertificateData> => {
-  const logger = getLogger('System.Candidature.Attestation.Saga.Execute');
-
-  const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-    type: 'Candidature.Query.ConsulterCandidature',
-    data: {
-      identifiantProjet,
-    },
-  });
-
-  if (Option.isNone(candidature)) {
-    logger.warn(`Candidature non trouvée`, { identifiantProjet });
-    return {};
-  }
-
-  const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-    type: 'AppelOffre.Query.ConsulterAppelOffre',
-    data: { identifiantAppelOffre: candidature.identifiantProjet.appelOffre },
-  });
-
-  if (Option.isNone(appelOffres)) {
-    logger.warn(`Appel d'offres non trouvé`, { identifiantProjet });
-    return {};
-  }
-
-  const période = appelOffres.periodes.find((x) => x.id === candidature.identifiantProjet.période);
-
-  if (!période) {
-    logger.warn(`Période non trouvée`, { identifiantProjet });
-    return {};
-  }
-  if (période.type && période.type !== 'notified') {
-    logger.warn(`Période non notifiée`, { identifiantProjet, période });
-    return {};
-  }
-
-  const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
-    type: 'Utilisateur.Query.ConsulterUtilisateur',
-    data: {
-      identifiantUtilisateur: notifiéPar,
-    },
-  });
-
-  if (Option.isNone(utilisateur)) {
-    logger.warn(`Utilisateur non trouvé`, {
-      identifiantProjet,
-      identifiantUtilisateur: notifiéPar,
-    });
-    return {};
-  }
-
   const famille = période.familles.find((x) => x.id === candidature.identifiantProjet.famille);
 
   const financementEtTemplate = getFinancementEtTemplate({
@@ -142,7 +97,7 @@ const mapToCertificateData = async ({
       fonction: utilisateur.fonction,
     },
     data: {
-      appelOffre: appelOffres,
+      appelOffre,
       période,
       famille,
 
