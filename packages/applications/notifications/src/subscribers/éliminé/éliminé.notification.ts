@@ -19,6 +19,7 @@ const templateId = {
 };
 
 async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload | undefined> {
+  const logger = getLogger('System.Notification.Éliminé');
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
 
   const { BASE_URL } = process.env;
@@ -32,17 +33,13 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
         },
       });
       if (Option.isNone(appelOffre)) {
-        getLogger().error(
-          new Error(`Pas d'appel d'offre trouvé pour ${identifiantProjet.formatter()}`),
-        );
+        logger.error(new Error(`Pas d'appel d'offre trouvé pour ${identifiantProjet.formatter()}`));
         return;
       }
       const période = appelOffre.periodes.find((x) => x.id === identifiantProjet.période);
 
       if (!période) {
-        getLogger().error(
-          new Error(`Pas de période trouvée pour ${identifiantProjet.formatter()}`),
-        );
+        logger.error(new Error(`Pas de période trouvée pour ${identifiantProjet.formatter()}`));
         return;
       }
 
@@ -53,9 +50,7 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
         },
       });
       if (Option.isNone(candidature)) {
-        getLogger().error(
-          new Error(`Pas de candidature trouvée pour ${identifiantProjet.formatter()}`),
-        );
+        logger.error(new Error(`Pas de candidature trouvée pour ${identifiantProjet.formatter()}`));
         return;
       }
 

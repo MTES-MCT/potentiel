@@ -10,7 +10,13 @@
       "path": "../../domain/document"
     },
     {
+      "path": "../../domain/appel-offre"
+    },
+    {
       "path": "../../domain/lauréat"
+    },
+    {
+      "path": "../../domain/éliminé"
     },
     {
       "path": "../../libraries/monitoring"

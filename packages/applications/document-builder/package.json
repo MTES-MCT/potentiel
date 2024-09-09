@@ -6,15 +6,21 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "build": "tsc && copyfiles -f src/assets/docx/* dist/assets/docx && copyfiles -f src/assets/images/* dist/assets/images"
+    "build": "tsc && copyfiles -f src/assets/docx/* dist/assets/docx && copyfiles -f src/assets/images/* dist/assets/images && copyfiles -f src/assets/fonts/arimo/* dist/assets/fonts/arimo",
+    "storybook": "storybook dev -p 6006"
   },
   "dependencies": {
+    "@potentiel-domain/appel-offre": "*",
+    "@potentiel-domain/laureat": "*",
+    "@potentiel-domain/elimine": "*",
     "@react-pdf/renderer": "^3.1.14",
     "docxtemplater": "^3.42.3",
     "pizzip": "^3.1.4"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
+    "@storybook/addon-webpack5-compiler-swc": "^1.0.5",
+    "@storybook/react-webpack5": "^8.2.9",
     "copyfiles": "^2.4.1"
   }
 }

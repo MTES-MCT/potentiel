@@ -2,6 +2,8 @@ import React, { FC } from 'react';
 import { Image, Text, View } from '@react-pdf/renderer';
 import { format } from 'date-fns';
 
+import { imagesFolderPath } from '../../assets';
+
 type HeaderProps = {
   dateCourrier: string;
   projet: {
@@ -28,7 +30,7 @@ export const Header: FC<HeaderProps> = ({
         >
           <Image
             style={{ width: 151, height: 85, marginBottom: 40 }}
-            src={`${process.env.BASE_URL}/images/logo_MEFSIN.png`}
+            src={`${imagesFolderPath}/logo_MEFSIN.png`}
           />
 
           <View style={{ width: 165, paddingBottom: 10, fontStyle: 'italic' }}>
