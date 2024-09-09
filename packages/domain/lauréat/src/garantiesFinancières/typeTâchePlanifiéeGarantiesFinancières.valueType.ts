@@ -11,13 +11,29 @@ export type RawType = (typeof types)[number];
 
 export type ValueType = ReadonlyValueType<{
   type: RawType;
+  estInconnu: () => boolean;
+  estÉchoir: () => boolean;
+  estRappelÉchéanceUnMois: () => boolean;
+  estRappelÉchéanceDeuxMois: () => boolean;
 }>;
 
 export const bind = ({ type }: PlainType<ValueType>): ValueType => {
   return {
     type,
-    estÉgaleÀ: function ({ type }) {
+    estÉgaleÀ({ type }) {
       return this.type === type;
+    },
+    estInconnu() {
+      return this.type === 'garanties-financières.inconnue';
+    },
+    estÉchoir() {
+      return this.type === 'garanties-financières.échoir';
+    },
+    estRappelÉchéanceUnMois() {
+      return this.type === 'garanties-financières.rappel-échéance-un-mois';
+    },
+    estRappelÉchéanceDeuxMois() {
+      return this.type === 'garanties-financières.rappel-échéance-deux-mois';
     },
   };
 };

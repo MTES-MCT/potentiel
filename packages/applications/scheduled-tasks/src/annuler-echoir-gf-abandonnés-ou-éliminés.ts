@@ -11,7 +11,7 @@ import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Candidature } from '@potentiel-domain/candidature';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Option } from '@potentiel-libraries/monads';
-import { Abandon } from '@potentiel-domain/laureat';
+import { Abandon, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 
 registerTâchePlanifiéeUseCases({
@@ -44,11 +44,19 @@ Abandon.registerAbandonQueries({
       data: { catégorieTâche: 'garanties-financières' },
     });
 
-    let tâchesAnnulées = 0;
+    let nombreDeTâchesAnnulées = 0;
 
     const projetIds = new Set<IdentifiantProjet.RawType>();
 
     for (const { identifiantProjet, typeTâchePlanifiée } of tâchesPlanifiées.items) {
+      if (
+        GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.convertirEnValueType(
+          typeTâchePlanifiée,
+        ).estInconnu()
+      ) {
+        continue;
+      }
+
       const projet = await mediator.send<Candidature.ConsulterProjetQuery>({
         type: 'Candidature.Query.ConsulterProjet',
         data: { identifiantProjet: identifiantProjet.formatter() },
@@ -73,14 +81,16 @@ Abandon.registerAbandonQueries({
           typeTâchePlanifiée,
         },
       });
-      console.log(`📨 Tâche échoir annulée pour le projet ${identifiantProjet.formatter()}`);
-      tâchesAnnulées++;
+      console.log(
+        `📨 Tâche ${typeTâchePlanifiée} annulée pour le projet ${identifiantProjet.formatter()}`,
+      );
+      nombreDeTâchesAnnulées++;
     }
 
     console.log(`\n📊 Statistiques`);
     console.log(`\n${projetIds.size} projets concernés`);
     console.log(`\n${tâchesPlanifiées.items.length} tâches échoir trouvées pour : `);
-    console.log(`\n🥁 ${tâchesAnnulées} tâches annulées`);
+    console.log(`\n🥁 ${nombreDeTâchesAnnulées} tâches annulées`);
 
     console.info('\nFin du script ✨');
   } catch (error) {
