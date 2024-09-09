@@ -15,17 +15,17 @@ import { convertReadableStreamToString } from '../../../../helpers/convertReadab
 Alors(
   /le recours du projet éliminé devrait être(.*)demandé/,
   async function (this: PotentielWorld, etat: string) {
-    await waitForExpect(async () => {
-      if (etat.includes('de nouveau')) {
-        this.eliminéWorld.recoursWorld.reinitialiserEnDemande();
-      }
+    if (etat.includes('de nouveau')) {
+      this.eliminéWorld.recoursWorld.reinitialiserEnDemande();
+    }
 
+    await waitForExpect(async () =>
       vérifierRecours.call(
         this,
         this.eliminéWorld.identifiantProjet,
         Recours.StatutRecours.demandé,
-      );
-    });
+      ),
+    );
   },
 );
 
