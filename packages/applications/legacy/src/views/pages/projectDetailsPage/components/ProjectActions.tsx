@@ -176,7 +176,12 @@ const AdminActions = ({
     ) : (
       !project.isLegacy && (
         <PreviewLinkButton
-          fileUrl={Routes.Candidature.prévisualiserAttestation(project.id)}
+          fileUrl={Routes.Candidature.prévisualiserAttestation(                  formatProjectDataToIdentifiantProjetValueType({
+                    appelOffreId: project.appelOffreId,
+                    periodeId: project.periodeId,
+                    familleId: project.familleId,
+                    numeroCRE: project.numeroCRE,
+                  }).formatter())}
           className="m-auto"
         >
           Aperçu attestation
