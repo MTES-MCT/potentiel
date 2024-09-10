@@ -30,6 +30,7 @@ export const AccorderDemandeMainlevéeGarantiesFinancières = ({
       </Button>
 
       <ModalWithForm
+        id="accorder-demande-gf"
         title="Accorder la demande"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Annuler"

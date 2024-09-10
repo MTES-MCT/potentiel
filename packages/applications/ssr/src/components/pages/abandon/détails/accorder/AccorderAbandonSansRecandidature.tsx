@@ -34,6 +34,7 @@ export const AccorderAbandonSansRecandidature = ({
       </Button>
 
       <ModalWithForm
+        id="accorder-abandon-sans-recandidature"
         title="Accorder l'abandon"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"

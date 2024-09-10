@@ -27,6 +27,7 @@ export const AnnulerAbandon = ({ identifiantProjet }: AnnulerAbandonFormProps) =
       </Button>
 
       <ModalWithForm
+        id="annuler-abandon"
         title="Annuler l'abandon"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"

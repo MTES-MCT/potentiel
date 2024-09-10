@@ -31,6 +31,7 @@ export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) =
       </Button>
 
       <ModalWithForm
+        id="rejeter-abandon"
         title="Rejeter l'abandon"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"

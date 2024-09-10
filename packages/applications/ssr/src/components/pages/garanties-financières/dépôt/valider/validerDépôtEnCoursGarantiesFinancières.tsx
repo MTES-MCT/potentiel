@@ -27,6 +27,7 @@ export const ValiderDépôtEnCoursGarantiesFinancières = ({
       </Button>
 
       <ModalWithForm
+        id="valider-gf"
         title="Valider les garanties financières"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"

@@ -2,6 +2,7 @@
 
 import { FC, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -30,6 +31,7 @@ export type PériodeListItemProps = {
 };
 
 export const PériodeListItem: FC<PériodeListItemProps> = ({
+  identifiantPériode,
   appelOffre,
   période,
   peutÊtreNotifiée,
@@ -48,7 +50,11 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
 
       {peutÊtreNotifiée && (
         <div className="hidden md:flex ml-auto">
-          <NotifyButton appelOffre={appelOffre} période={période} />
+          <NotifyButton
+            identifiantPériode={identifiantPériode}
+            appelOffre={appelOffre}
+            période={période}
+          />
         </div>
       )}
     </div>
@@ -113,19 +119,25 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
 
     {peutÊtreNotifiée && (
       <div className="flex md:hidden">
-        <NotifyButton appelOffre={appelOffre} période={période} />
+        <NotifyButton
+          identifiantPériode={identifiantPériode}
+          appelOffre={appelOffre}
+          période={période}
+        />
       </div>
     )}
   </div>
 );
 
 type NotifyButtonProps = {
+  identifiantPériode: string;
   appelOffre: string;
   période: string;
 };
 
-const NotifyButton: FC<NotifyButtonProps> = ({ appelOffre, période }) => {
+const NotifyButton: FC<NotifyButtonProps> = ({ identifiantPériode, appelOffre, période }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <>
@@ -134,6 +146,7 @@ const NotifyButton: FC<NotifyButtonProps> = ({ appelOffre, période }) => {
       </Button>
 
       <ModalWithForm
+        id={`notifier-période-${identifiantPériode}`}
         title="Notifier la période"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Annuler"
@@ -145,12 +158,12 @@ const NotifyButton: FC<NotifyButtonProps> = ({ appelOffre, période }) => {
           method: 'POST',
           encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
-          // onSuccess: () => router.push(Routes.Abandon.détail(identifiantProjet)),
+          onSuccess: () => router.refresh(),
           children: (
             <>
               <p className="mt-3">
                 Êtes-vous sûr de vouloir notifier la période {période} de l'appel d'offres{' '}
-                {appelOffre}?
+                {appelOffre} ?
               </p>
               <input type={'hidden'} value={appelOffre} name="appelOffre" />
               <input type={'hidden'} value={période} name="periode" />

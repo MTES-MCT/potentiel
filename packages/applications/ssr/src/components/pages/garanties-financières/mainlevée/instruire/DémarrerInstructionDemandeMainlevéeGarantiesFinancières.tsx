@@ -30,6 +30,7 @@ export const DémarrerInstructionDemandeMainlevéeGarantiesFinancières = ({
       </Button>
 
       <ModalWithForm
+        id="démarrer-instruction-demande-mainlevée"
         title="Démarrer l'instruction de la demande de mainlevée"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Annuler"

@@ -30,7 +30,8 @@ export const CorrigerRéponseSignée = ({
       </Button>
 
       <ModalWithForm
-        title="Télécharger une nouvelle réponse signée"
+        id="corriger-réponse-signée-mainlevée-gf"
+        title="Corriger la réponse signée"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}

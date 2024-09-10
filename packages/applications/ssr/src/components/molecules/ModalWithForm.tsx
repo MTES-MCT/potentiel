@@ -4,12 +4,12 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import { useIsModalOpen } from '@codegouvfr/react-dsfr/Modal/useIsModalOpen';
 import { FC, useState } from 'react';
-import { v4 as uuid } from 'uuid';
 
 import { Form, FormProps } from '../atoms/form/Form';
 import { SubmitButton } from '../atoms/form/SubmitButton';
 
 export type ModalWithFormProps = {
+  id: string;
   acceptButtonLabel: string;
   form: Omit<FormProps, 'actions'>;
   isOpen: boolean;
@@ -19,6 +19,7 @@ export type ModalWithFormProps = {
 };
 
 export const ModalWithForm: FC<ModalWithFormProps> = ({
+  id,
   acceptButtonLabel,
   form,
   isOpen,
@@ -27,11 +28,9 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
   title,
 }) => {
   // trick to reset the form when re-opening the modal
-  const id = uuid();
-
   const [modal] = useState(
     createModal({
-      id: `form-modal-${title}`,
+      id: `form-modal-${id}`,
       isOpenedByDefault: isOpen,
     }),
   );
@@ -64,7 +63,7 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
       <Form
         {...form}
         onSuccess={onFormSuccess}
-        key={id}
+        key={`form-${id}`}
         actions={
           <>
             <Button priority="secondary" onClick={handleRejectClick} type="button">
