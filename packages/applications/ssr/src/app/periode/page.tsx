@@ -133,7 +133,5 @@ const getCandidaturesStatsForPeriode = async (
     totalCandidatures: candidatures.items.length,
   };
 
-  console.info(`get stats for ${appelOffre} on ${periode} : ${JSON.stringify(stats)}`);
-
   return stats;
 };
