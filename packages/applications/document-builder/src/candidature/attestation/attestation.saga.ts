@@ -100,6 +100,8 @@ export const register = () => {
           format,
         );
 
+        console.log('violette build', attestation);
+
         await mediator.send<EnregistrerDocumentProjetCommand>({
           type: 'Document.Command.EnregistrerDocumentProjet',
           data: {

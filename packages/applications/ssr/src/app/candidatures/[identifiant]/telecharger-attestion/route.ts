@@ -25,12 +25,14 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
 
     // à voir si on garde ça
     const canPreviewAttestation = rôleUtilisateur.aLaPermission(
-      'candidature.attestation.prévisualiser',
+      'candidature.attestation.télécharger',
     );
+
+    console.log('violette', canPreviewAttestation);
 
     if (!canPreviewAttestation) {
       throw new AccèsFonctionnalitéRefuséError(
-        'candidature.attestation.prévisualiser',
+        'candidature.attestation.télécharger',
         rôleUtilisateur.nom,
       );
     }
@@ -42,10 +44,14 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       },
     });
 
+    console.log('violette', candidature);
+
     const attestationPasDisponible =
       Option.isNone(candidature) ||
       (Option.isSome(candidature) &&
         (candidature.statut.estNonNotifié() || candidature.statut.estAbandonné()));
+
+    console.log('violette', attestationPasDisponible);
 
     if (attestationPasDisponible) {
       logger.warn(`Candidature non trouvée, non notifiée ou abandonnée`, { identifiantProjet });
@@ -73,12 +79,16 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
 
     const documentKey = projetLauréatOuEliminé.attestation.formatter();
 
+    console.log('violette', documentKey);
+
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
         documentKey,
       },
     });
+
+    console.log('violette', result);
 
     if (!result) {
       logger.warn(`Attestation pas disponible`, { identifiantProjet });

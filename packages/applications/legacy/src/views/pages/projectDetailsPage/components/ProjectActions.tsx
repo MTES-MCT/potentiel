@@ -52,94 +52,92 @@ const PorteurProjetActions = ({
   abandonEnCours,
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
-}: PorteurProjetActionsProps) => (
-  <div className="flex flex-col gap-3">
-    <div className="flex flex-col xl:flex-row gap-2">
-      {!project.isClasse && (
-        <SecondaryLinkButton href={routes.DEPOSER_RECOURS(project.id)}>
-          Faire une demande de recours
-        </SecondaryLinkButton>
-      )}
+}: PorteurProjetActionsProps) => {
+  const formattedProjectDataToIdentifiantProjet = formatProjectDataToIdentifiantProjetValueType({
+    appelOffreId: project.appelOffreId,
+    periodeId: project.periodeId,
+    familleId: project.familleId,
+    numeroCRE: project.numeroCRE,
+  }).formatter();
 
-      {project.isClasse && (
-        <DropdownMenuSecondaryButton buttonChildren="Actions" className="w-fit">
-          {project.appelOffre.typeAppelOffre !== 'biométhane' && (
-            <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
-              <span>Demander un délai</span>
-            </DropdownMenuSecondaryButton.DropdownItem>
-          )}
-          {project.appelOffre.changementProducteurPossibleAvantAchèvement && (
-            <DropdownMenuSecondaryButton.DropdownItem
-              href={routes.GET_CHANGER_PRODUCTEUR(project.id)}
-            >
-              <span>Changer de producteur</span>
-            </DropdownMenuSecondaryButton.DropdownItem>
-          )}
-          <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_FOURNISSEUR(project.id)}>
-            <span>Changer de fournisseur</span>
-          </DropdownMenuSecondaryButton.DropdownItem>
-          <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_ACTIONNAIRE(project.id)}>
-            <span>Changer d'actionnaire</span>
-          </DropdownMenuSecondaryButton.DropdownItem>
-          <DropdownMenuSecondaryButton.DropdownItem
-            href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
-          >
-            <span>
-              Changer de{' '}
-              {project.appelOffre.typeAppelOffre === 'biométhane'
-                ? `production annuelle prévisionnelle`
-                : `puissance`}
-            </span>
-          </DropdownMenuSecondaryButton.DropdownItem>
-          {!abandonEnCours && (
-            <>
-              <DropdownMenuSecondaryButton.DropdownItem
-                href={Routes.Abandon.demander(
-                  formatProjectDataToIdentifiantProjetValueType({
-                    appelOffreId: project.appelOffreId,
-                    periodeId: project.periodeId,
-                    familleId: project.familleId,
-                    numeroCRE: project.numeroCRE,
-                  }).formatter(),
-                )}
-                disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
-              >
-                <span>Demander un abandon</span>
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-col xl:flex-row gap-2">
+        {!project.isClasse && (
+          <SecondaryLinkButton href={routes.DEPOSER_RECOURS(project.id)}>
+            Faire une demande de recours
+          </SecondaryLinkButton>
+        )}
+
+        {project.isClasse && (
+          <DropdownMenuSecondaryButton buttonChildren="Actions" className="w-fit">
+            {project.appelOffre.typeAppelOffre !== 'biométhane' && (
+              <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
+                <span>Demander un délai</span>
               </DropdownMenuSecondaryButton.DropdownItem>
-              {!hasAttestationConformité && getProjectStatus(project) === 'lauréat' && (
+            )}
+            {project.appelOffre.changementProducteurPossibleAvantAchèvement && (
+              <DropdownMenuSecondaryButton.DropdownItem
+                href={routes.GET_CHANGER_PRODUCTEUR(project.id)}
+              >
+                <span>Changer de producteur</span>
+              </DropdownMenuSecondaryButton.DropdownItem>
+            )}
+            <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_FOURNISSEUR(project.id)}>
+              <span>Changer de fournisseur</span>
+            </DropdownMenuSecondaryButton.DropdownItem>
+            <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_ACTIONNAIRE(project.id)}>
+              <span>Changer d'actionnaire</span>
+            </DropdownMenuSecondaryButton.DropdownItem>
+            <DropdownMenuSecondaryButton.DropdownItem
+              href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
+            >
+              <span>
+                Changer de{' '}
+                {project.appelOffre.typeAppelOffre === 'biométhane'
+                  ? `production annuelle prévisionnelle`
+                  : `puissance`}
+              </span>
+            </DropdownMenuSecondaryButton.DropdownItem>
+            {!abandonEnCours && (
+              <>
                 <DropdownMenuSecondaryButton.DropdownItem
-                  href={Routes.Achèvement.transmettreAttestationConformité(
-                    formatProjectDataToIdentifiantProjetValueType({
-                      appelOffreId: project.appelOffreId,
-                      periodeId: project.periodeId,
-                      familleId: project.familleId,
-                      numeroCRE: project.numeroCRE,
-                    }).formatter(),
-                  )}
+                  href={Routes.Abandon.demander(formattedProjectDataToIdentifiantProjet)}
+                  disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
                 >
-                  <span>Transmettre l'attestation de conformité</span>
+                  <span>Demander un abandon</span>
                 </DropdownMenuSecondaryButton.DropdownItem>
-              )}
-            </>
-          )}
-        </DropdownMenuSecondaryButton>
-      )}
+                {!hasAttestationConformité && getProjectStatus(project) === 'lauréat' && (
+                  <DropdownMenuSecondaryButton.DropdownItem
+                    href={Routes.Achèvement.transmettreAttestationConformité(
+                      formattedProjectDataToIdentifiantProjet,
+                    )}
+                  >
+                    <span>Transmettre l'attestation de conformité</span>
+                  </DropdownMenuSecondaryButton.DropdownItem>
+                )}
+              </>
+            )}
+          </DropdownMenuSecondaryButton>
+        )}
 
-      {project.notifiedOn && project.certificateFile && (
-        <DownloadLinkButton
-          className="w-fit"
-          fileUrl={Routes.Document.télécharger(project.certificateFile.filename)}
-        >
-          Télécharger mon attestation
-        </DownloadLinkButton>
-      )}
-      <PrimaryButton onClick={() => window.print()}>
-        <PrintIcon className="text-white mr-2" aria-hidden />
-        Imprimer la page
-      </PrimaryButton>
+        {project.notifiedOn && project.certificateFile && (
+          <DownloadLinkButton
+            className="w-fit"
+            fileUrl={Routes.Candidature.téléchargerAttestation(
+              formattedProjectDataToIdentifiantProjet,
+            )}          >
+            Télécharger mon attestation
+          </DownloadLinkButton>
+        )}
+        <PrimaryButton onClick={() => window.print()}>
+          <PrintIcon className="text-white mr-2" aria-hidden />
+          Imprimer la page
+        </PrimaryButton>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 type AdminActionsProps = {
   project: ProjectDataForProjectPage;
@@ -150,45 +148,45 @@ const AdminActions = ({
   project,
   signalementAbandonAutorisé,
   signalementRecoursAutorisé,
-}: AdminActionsProps) => 
-  
-  {
-    if(project.notifiedOn){
-    console.log("violette", project.certificateFile)
-    }
-    return (
-  <div className="flex flex-col md:flex-row gap-2">
-    <EnregistrerUneModification
-      {...{ project, signalementAbandonAutorisé, signalementRecoursAutorisé }}
-    />
-    {project.notifiedOn && project.certificateFile ? (
-      <>
-      <DownloadLinkButton
-          fileUrl={Routes.Candidature.prévisualiserAttestation(project.id)}    
-        className="m-auto"
-      >
-        Voir attestation
-      </DownloadLinkButton>
-      </>
-    ) : (
-      !project.isLegacy && (
-        <PreviewLinkButton
-          fileUrl={Routes.Candidature.prévisualiserAttestation(
-            formatProjectDataToIdentifiantProjetValueType({
-              appelOffreId: project.appelOffreId,
-              periodeId: project.periodeId,
-              familleId: project.familleId,
-              numeroCRE: project.numeroCRE,
-            }).formatter(),
-          )}
-          className="m-auto"
-        >
-          Aperçu attestation
-        </PreviewLinkButton>
-      )
-    )}
-  </div>
-)};
+}: AdminActionsProps) => {
+  const formattedProjectDataToIdentifiantProjet = formatProjectDataToIdentifiantProjetValueType({
+    appelOffreId: project.appelOffreId,
+    periodeId: project.periodeId,
+    familleId: project.familleId,
+    numeroCRE: project.numeroCRE,
+  }).formatter();
+
+  return (
+    <div className="flex flex-col md:flex-row gap-2">
+      <EnregistrerUneModification
+        {...{ project, signalementAbandonAutorisé, signalementRecoursAutorisé }}
+      />
+      {project.notifiedOn && project.certificateFile ? (
+        <>
+          <DownloadLinkButton
+            fileUrl={Routes.Candidature.téléchargerAttestation(
+              formattedProjectDataToIdentifiantProjet,
+            )}
+            className="m-auto"
+          >
+            Voir attestation
+          </DownloadLinkButton>
+        </>
+      ) : (
+        !project.isLegacy && (
+          <PreviewLinkButton
+            fileUrl={Routes.Candidature.prévisualiserAttestation(
+              formattedProjectDataToIdentifiantProjet,
+            )}
+            className="m-auto"
+          >
+            Aperçu attestation
+          </PreviewLinkButton>
+        )
+      )}
+    </div>
+  );
+};
 
 type ProjectActionsProps = {
   project: ProjectDataForProjectPage;
