@@ -4,6 +4,8 @@ Fonctionnalité: Transmettre une demande complète de raccordement
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
+        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
+        Et le DGEC validateur "Robert Robichet"
 
     Scénario: Un porteur de projet transmet une demande complète de raccordement pour son projet
         Quand le porteur transmet une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" auprès du gestionnaire de réseau "Enedis" avec :
@@ -85,10 +87,14 @@ Fonctionnalité: Transmettre une demande complète de raccordement
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
         Alors le porteur devrait être informé que "La date ne peut pas être une date future"
 
-    # Ce cas ne peut pas être implémenté à date car nous n'avons pas accès à l'aggréagat candidature (projet)
-    @NotImplemented
     Scénario: Impossible de transmettre une demande complète de raccordement  si le projet est abandonné
-
+        Etant donné un abandon accordé pour le projet lauréat
+        Quand le porteur transmet une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" auprès du gestionnaire de réseau "Enedis" avec :
+            | La date de qualification                | 2999-12-31                                                                                            |
+            | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
+            | Le format de l'accusé de réception      | application/pdf                                                                                       |
+            | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
+        Alors le porteur devrait être informé que "Il est impossible de transmettre une demande complète de raccordement pour un projet abandonné"
 
     # Ce cas ne peut pas être implémenté à date car nous n'avons pas accès à l'aggréagat candidature (projet)
     @NotImplemented

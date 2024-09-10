@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
+import { Abandon } from '@potentiel-domain/laureat';
 
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
@@ -22,6 +23,7 @@ export type TransmettreDemandeComplèteRaccordementCommand = Message<
 export const registerTransmettreDemandeComplèteRaccordementCommand = (
   loadAggregate: LoadAggregate,
 ) => {
+  const loadAbandon = Abandon.loadAbandonFactory(loadAggregate);
   const loadRaccordement = loadRaccordementAggregateFactory(loadAggregate);
   const loadGestionnaireRéseau = loadGestionnaireRéseauFactory(loadAggregate);
 
@@ -32,6 +34,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
     référenceDossier,
     formatAccuséRéception,
   }) => {
+    const abandon = await loadAbandon(identifiantProjet, false);
     const gestionnaireRéseau = await loadGestionnaireRéseau(identifiantGestionnaireRéseau, true);
     const raccordement = await loadRaccordement(identifiantProjet, false);
 
@@ -40,6 +43,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
       identifiantGestionnaireRéseau,
       identifiantProjet,
       référenceDossier,
+      aUnAbandonAccordé: !!abandon.accord?.accordéLe,
       référenceDossierExpressionRegulière:
         gestionnaireRéseau.référenceDossierRaccordementExpressionRegulière,
       formatAccuséRéception,

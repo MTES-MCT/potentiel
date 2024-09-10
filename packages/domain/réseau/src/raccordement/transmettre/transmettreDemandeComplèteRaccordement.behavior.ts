@@ -1,6 +1,7 @@
 import { DateTime, ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError, OperationRejectedError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
+import { Abandon } from '@potentiel-domain/laureat';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
@@ -54,6 +55,7 @@ type TransmettreDemandeOptions = {
   référenceDossier: RéférenceDossierRaccordement.ValueType;
   référenceDossierExpressionRegulière: ExpressionRegulière.ValueType;
   formatAccuséRéception: string;
+  aUnAbandonAccordé: boolean;
 };
 
 export async function transmettreDemande(
@@ -65,8 +67,15 @@ export async function transmettreDemande(
     référenceDossier,
     référenceDossierExpressionRegulière,
     formatAccuséRéception,
+    aUnAbandonAccordé,
   }: TransmettreDemandeOptions,
 ) {
+  if (aUnAbandonAccordé) {
+    throw new Abandon.ProjetAbandonnéError(
+      `Il est impossible de transmettre une demande complète de raccordement pour un projet abandonné`,
+    );
+  }
+
   if (
     !this.identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu) &&
     !this.identifiantGestionnaireRéseau.estÉgaleÀ(identifiantGestionnaireRéseau)
