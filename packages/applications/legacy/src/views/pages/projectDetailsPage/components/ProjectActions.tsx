@@ -164,7 +164,7 @@ const AdminActions = ({
     {project.notifiedOn && project.certificateFile ? (
       <>
       <DownloadLinkButton
-        fileUrl={Routes.Document.télécharger(`projects/${project.certificateFile.id}/${project.certificateFile.filename}`)}       
+          fileUrl={Routes.Candidature.prévisualiserAttestation(project.id)}    
         className="m-auto"
       >
         Voir attestation
