@@ -3,4 +3,4 @@ export {
   DonnéesDocument,
 } from './abandon/accordAbandonAvecRecandidature/buildDocument';
 export { buildDocxDocument } from './buildDocxDocument/buildDocxDocument';
-export { AttestationSaga } from './candidature/attestation';
+export { AttestationSaga, buildCertificate } from './candidature/attestation';

@@ -1,4 +1,6 @@
-import { OperationRejectedError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+
+import { AccèsFonctionnalitéRefuséError, RoleRefuséError } from './errors';
 
 export type RawType =
   | 'admin'
@@ -76,23 +78,6 @@ export const cre = convertirEnValueType('cre');
 export const acheteurObligé = convertirEnValueType('acheteur-obligé');
 export const caisseDesDépôts = convertirEnValueType('caisse-des-dépôts');
 
-class RoleRefuséError extends OperationRejectedError {
-  constructor(value: string) {
-    super(`Le rôle ne correspond à aucune valeur connue`, {
-      value,
-    });
-  }
-}
-
-class AccèsFonctionnalitéRefuséError extends OperationRejectedError {
-  constructor(fonctionnalité: string, role: string) {
-    super(`Accès à la fonctionnalité refusé`, {
-      fonctionnalité,
-      role,
-    });
-  }
-}
-
 // MATRICE en mémoire en attendant de pouvoir gérer les permissions depuis une interface d'administration
 /**
  * Mapping entre les droits fonctionnels et le type de message mediator
@@ -141,8 +126,6 @@ const référencielPermissions = {
           'Lauréat.GarantiesFinancières.Query.ListerProjetsAvecGarantiesFinancièresEnAttente',
         consulterProjetAvecGarantiesFinancièresEnAttente:
           'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
-        générerModèleMiseEnDemeureGarantiesFinancières:
-          'Document.Query.GénérerModèleMideEnDemeureGarantiesFinancières',
         consulterDemandeMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
         listerMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
         consulterHistoriqueMainlevée:
@@ -230,6 +213,7 @@ const référencielPermissions = {
   },
   candidature: {
     query: {
+      consulterCandidature: 'Candidature.Query.ConsulterCandidature',
       consulter: 'Candidature.Query.ConsulterProjet',
       listerProjetsPreuveRecandidature:
         'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
@@ -258,7 +242,6 @@ const référencielPermissions = {
   document: {
     query: {
       consulter: 'Document.Query.ConsulterDocumentProjet',
-      générerModèleRéponse: 'Document.Query.GénérerModèleRéponseAbandon',
     },
     command: {
       enregister: 'Document.Command.EnregistrerDocumentProjet',
@@ -483,7 +466,6 @@ const policies = {
     accorder: [
       référencielPermissions.candidature.query.consulter,
       référencielPermissions.appelOffre.query.consulter,
-      référencielPermissions.document.query.générerModèleRéponse,
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
       référencielPermissions.document.command.enregister,
@@ -495,7 +477,6 @@ const policies = {
       référencielPermissions.candidature.query.consulter,
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.lauréat.abandon.query.consulter,
-      référencielPermissions.document.query.générerModèleRéponse,
       référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
       référencielPermissions.document.command.enregister,
       référencielPermissions.utilisateur.query.consulter,
@@ -507,7 +488,6 @@ const policies = {
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.lauréat.abandon.query.consulter,
-      référencielPermissions.document.query.générerModèleRéponse,
       référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
       référencielPermissions.document.command.enregister,
       référencielPermissions.lauréat.abandon.usecase.demanderConfirmation,
@@ -527,7 +507,6 @@ const policies = {
         référencielPermissions.utilisateur.query.consulter,
         référencielPermissions.utilisateur.query.consulter,
         référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
-        référencielPermissions.document.query.générerModèleRéponse,
         référencielPermissions.document.command.enregister,
         référencielPermissions.lauréat.abandon.query.consulter,
         référencielPermissions.lauréat.abandon.usecase.accorder,
@@ -675,8 +654,6 @@ const policies = {
         référencielPermissions.appelOffre.query.consulter,
         référencielPermissions.lauréat.garantiesFinancières.query
           .consulterProjetAvecGarantiesFinancièresEnAttente,
-        référencielPermissions.lauréat.garantiesFinancières.query
-          .générerModèleMiseEnDemeureGarantiesFinancières,
       ],
     },
   },
@@ -720,6 +697,14 @@ const policies = {
       référencielPermissions.éliminé.usecase.notifier,
       référencielPermissions.éliminé.command.notifier,
     ],
+    attestation: {
+      prévisualiser: [
+        référencielPermissions.utilisateur.query.consulter,
+        référencielPermissions.candidature.query.consulterCandidature,
+        référencielPermissions.appelOffre.query.consulter,
+      ],
+      télécharger: [],
+    },
   },
   période: {
     consulter: [référencielPermissions.période.query.consulter],
@@ -804,10 +789,12 @@ const permissionAdmin: Policy[] = [
   'candidature.corriger',
   'candidature.lister',
   'candidature.notifier',
+  'candidature.attestation.prévisualiser',
 ];
 
 const permissionDgecValidateur: Policy[] = [
   ...permissionAdmin,
+
   // Abandon
   'abandon.preuve-recandidature.accorder',
   // Période

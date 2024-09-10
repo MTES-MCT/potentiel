@@ -95,19 +95,6 @@ class routes {
     periodeId: string;
   }>('/admin/notifier-candidats.html');
 
-  static PREVIEW_CANDIDATE_CERTIFICATE = (project?: {
-    id: string;
-    email: string;
-    potentielIdentifier: string;
-  }) => {
-    const route = '/previsualiser-attestation/:projectId/:document';
-    if (project) {
-      return route
-        .replace(':projectId', project.id)
-        .replace(':document', 'aperçu-' + makeCertificateFilename({ ...project, forAdmin: true }));
-    } else return route;
-  };
-
   static DOWNLOAD_CERTIFICATE_FILE = (projectId?: string, fileId?: string, filename?: string) => {
     const route = '/attestation/:projectId/:fileId/:filename';
     if (projectId && fileId && filename) {

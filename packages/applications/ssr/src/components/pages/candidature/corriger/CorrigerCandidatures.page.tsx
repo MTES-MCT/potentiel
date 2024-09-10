@@ -12,7 +12,16 @@ import { CorrigerCandidaturesForm } from './CorrigerCandidatures.form';
 export const CorrigerCandidaturesPage: FC = () => (
   <ColumnPageTemplate
     banner={<Heading1 className="text-theme-white">Corriger des candidats</Heading1>}
-    leftColumn={{ children: <CorrigerCandidaturesForm /> }}
+    leftColumn={{
+      children: (
+        <>
+          <CorrigerCandidaturesForm />
+          <div className="mt-4">
+            <Link href={Routes.Candidature.lister}>Voir tous les candidats</Link>
+          </div>
+        </>
+      ),
+    }}
     rightColumn={{
       children: (
         <Alert
@@ -20,7 +29,7 @@ export const CorrigerCandidaturesPage: FC = () => (
           small
           description={
             <div className="py-4 text-justify">
-              Aucune notification se sera envoyée suite à cet import. <br />
+              Aucune notification ne sera envoyée suite à cet import. <br />
               <br />
               Pour regénérerer les attestations pour des candidats déjà notifiés, rendez-vous sur la
               page{' '}

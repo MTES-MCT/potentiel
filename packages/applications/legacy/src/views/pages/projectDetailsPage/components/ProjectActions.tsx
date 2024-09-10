@@ -6,11 +6,12 @@ import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { userIs } from '../../../../modules/users';
 import routes from '../../../../routes';
 import {
-  DownloadLinkButton,
+  PreviewLinkButton,
   DropdownMenuSecondaryButton,
   PrimaryButton,
   PrintIcon,
   SecondaryLinkButton,
+  DownloadLinkButton,
 } from '../../../components';
 
 type EnregistrerUneModificationProps = {
@@ -174,12 +175,12 @@ const AdminActions = ({
       </DownloadLinkButton>
     ) : (
       !project.isLegacy && (
-        <DownloadLinkButton
-          fileUrl={routes.PREVIEW_CANDIDATE_CERTIFICATE(project)}
+        <PreviewLinkButton
+          fileUrl={Routes.Candidature.prévisualiserAttestation(project.id)}
           className="m-auto"
         >
           Aperçu attestation
-        </DownloadLinkButton>
+        </PreviewLinkButton>
       )
     )}
   </div>
@@ -222,7 +223,7 @@ const getProjectStatus = (project: ProjectDataForProjectPage): ProjectStatus =>
   !project.notifiedOn
     ? 'non-notifié'
     : project.isAbandoned
-    ? 'abandonné'
-    : project.isClasse
-    ? 'lauréat'
-    : 'éliminé';
+      ? 'abandonné'
+      : project.isClasse
+        ? 'lauréat'
+        : 'éliminé';

@@ -2,6 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 import { adminActions } from '.';
 import makeFakeProject from '../../../__tests__/fixtures/project';
 import ROUTES from '../../../routes';
+import { Routes } from '@potentiel-applications/routes';
 
 describe('adminActions', () => {
   describe('when project is notified and has a certificate file', () => {
@@ -31,7 +32,7 @@ describe('adminActions', () => {
       expect(result).toHaveLength(1);
       expect(result[0]).toMatchObject({
         title: 'Aperçu attestation',
-        link: ROUTES.PREVIEW_CANDIDATE_CERTIFICATE(fakeProject),
+        link: Routes.Candidature.prévisualiserAttestation(fakeProject.id),
         isDownload: true,
       });
     });

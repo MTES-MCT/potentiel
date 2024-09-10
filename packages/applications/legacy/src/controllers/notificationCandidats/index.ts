@@ -1,4 +1,3 @@
-export * from './getCandidateCertificatePreview';
 export * from './legacyGetAdminImporterCandidatsPage';
 export * from './getAdminNotificationCandidatsPage';
 export * from './getProjectCertificateFile';
