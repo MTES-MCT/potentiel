@@ -709,7 +709,6 @@ const policies = {
       télécharger: [
         référencielPermissions.lauréat.query.consulter,
         référencielPermissions.éliminé.query.consulter,
-        référencielPermissions.candidature.query.consulterCandidature,
         référencielPermissions.document.query.consulter,
       ],
     },
@@ -831,6 +830,9 @@ const permissionCRE: Policy[] = [
   'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.mainlevée.consulter',
   'garantiesFinancières.mainlevée.consulterHistorique',
+
+  // Candidature
+  'candidature.attestation.télécharger',
 ];
 
 const permissionDreal: Policy[] = [
@@ -871,6 +873,9 @@ const permissionDreal: Policy[] = [
   'achèvement.consulter',
   'achèvement.transmettre',
   'achèvement.modifier',
+
+  // Candidature
+  'candidature.attestation.télécharger',
 ];
 
 const permissionPorteurProjet: Policy[] = [
@@ -928,6 +933,9 @@ const permissionAcheteurObligé: Policy[] = [
 
   // Achèvement
   'achèvement.transmettre',
+
+  // Candidature
+  'candidature.attestation.télécharger',
 ];
 
 const permissionCaisseDesDépôts: Policy[] = [

@@ -1,5 +1,4 @@
 import { Project } from '../../../../entities';
-import ROUTES from '../../../../routes';
 import {
   is,
   ProjectCertificateDTO,
@@ -8,6 +7,7 @@ import {
 } from '../../../../modules/frise';
 import { UserRole } from '../../../../modules/users';
 import { or } from '../../../../core/utils';
+import { Routes } from '@potentiel-applications/routes';
 
 export type DesignationItemProps = {
   type: 'designation';
@@ -74,22 +74,11 @@ const makeCertificateLink = (
   latestCertificateEvent: ProjectCertificateDTO,
   projectId: Project['id'],
 ) => {
+  // récupérer le projet
   const { certificateFileId, nomProjet, potentielIdentifier, variant } = latestCertificateEvent;
-  if (variant === 'admin' || variant === 'dgec-validateur') {
-    return ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS({
-      id: projectId,
-      certificateFileId,
-      email: latestCertificateEvent.email,
-      potentielIdentifier,
-    });
-  }
-
-  return ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
-    id: projectId,
-    certificateFileId,
-    nomProjet,
-    potentielIdentifier,
-  });
+console.log("violette",potentielIdentifier)
+    return Routes.Candidature.téléchargerAttestation(potentielIdentifier)
+  
 };
 
 const makeCertificateProps = (
