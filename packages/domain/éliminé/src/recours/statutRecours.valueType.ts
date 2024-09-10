@@ -5,7 +5,7 @@ export const statuts = ['accordé', 'annulé', 'demandé', 'rejeté', 'inconnu']
 export type RawType = (typeof statuts)[number];
 
 export type ValueType = ReadonlyValueType<{
-  statut: RawType;
+  value: RawType;
   estAccordé: () => boolean;
   estRejeté: () => boolean;
   estAnnulé: () => boolean;
@@ -16,23 +16,23 @@ export type ValueType = ReadonlyValueType<{
 export const convertirEnValueType = (value: string): ValueType => {
   estValide(value);
   return {
-    get statut() {
+    get value() {
       return value;
     },
     estAccordé() {
-      return this.statut === 'accordé';
+      return this.value === 'accordé';
     },
     estRejeté() {
-      return this.statut === 'rejeté';
+      return this.value === 'rejeté';
     },
     estAnnulé() {
-      return this.statut === 'annulé';
+      return this.value === 'annulé';
     },
     estDemandé() {
-      return this.statut === 'demandé';
+      return this.value === 'demandé';
     },
     estÉgaleÀ(valueType) {
-      return this.statut === valueType.statut;
+      return this.value === valueType.value;
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
       if (nouveauStatut.estAccordé()) {

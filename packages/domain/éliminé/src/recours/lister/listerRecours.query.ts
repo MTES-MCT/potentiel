@@ -18,7 +18,7 @@ type RecoursListItemReadModel = {
 };
 
 export type ListerRecoursReadModel = {
-  items: ReadonlyArray<RecoursListItemReadModel>;
+  items: Array<RecoursListItemReadModel>;
   range: RangeOptions;
   total: number;
 };
@@ -28,11 +28,12 @@ export type ListerRecoursQuery = Message<
   {
     utilisateur: {
       rôle: string;
-      régionDreal: string;
+      région?: string;
       email: string;
     };
     statut?: StatutRecours.RawType;
     appelOffre?: string;
+    nomProjet?: string;
     range?: RangeOptions;
   },
   ListerRecoursReadModel
@@ -50,11 +51,12 @@ export const registerListerRecoursQuery = ({
   const handler: MessageHandler<ListerRecoursQuery> = async ({
     statut,
     appelOffre,
-    utilisateur: { régionDreal, rôle, email },
+    nomProjet,
+    utilisateur: { région, rôle, email },
     range,
   }) => {
     const régionProjet = Role.convertirEnValueType(rôle).estÉgaleÀ(Role.dreal)
-      ? régionDreal ?? 'non-trouvée'
+      ? région ?? 'non-trouvée'
       : undefined;
 
     const canSeeAllProjects = ['admin', 'dgec-validateur', 'dreal'].includes(rôle);
@@ -69,6 +71,7 @@ export const registerListerRecoursQuery = ({
         statut: Where.equal(statut),
         projet: {
           appelOffre: Where.equal(appelOffre),
+          nom: Where.contains(nomProjet),
           région: Where.equal(régionProjet),
         },
         identifiantProjet,
