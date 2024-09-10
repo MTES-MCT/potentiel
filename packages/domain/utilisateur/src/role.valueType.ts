@@ -195,8 +195,10 @@ const référencielPermissions = {
     },
     usecase: { notifier: 'Lauréat.UseCase.NotifierLauréat' },
     command: { notifier: 'Lauréat.Command.NotifierLauréat' },
+    query: { consulter: 'Lauréat.Query.ConsulterLauréat' },
   },
   éliminé: {
+    query: { consulter: 'Éliminé.Query.ConsulterÉliminé' },
     usecase: { notifier: 'Éliminé.UseCase.NotifierÉliminé' },
     command: { notifier: 'Éliminé.Command.NotifierÉliminé' },
   },
@@ -704,7 +706,12 @@ const policies = {
         référencielPermissions.candidature.query.consulterCandidature,
         référencielPermissions.appelOffre.query.consulter,
       ],
-      télécharger: [référencielPermissions.document.query.consulter],
+      télécharger: [
+        référencielPermissions.lauréat.query.consulter,
+        référencielPermissions.éliminé.query.consulter,
+        référencielPermissions.candidature.query.consulterCandidature,
+        référencielPermissions.document.query.consulter,
+      ],
     },
   },
   période: {
