@@ -93,7 +93,7 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
             title="Total des éliminés"
           />
           <Link href={Routes.Candidature.lister({ appelOffre, période, statut: 'éliminé' })}>
-            {totalÉliminés} éliminés
+            {totalÉliminés} éliminé{totalÉliminés > 1 ? 's' : ''}
           </Link>
         </div>
       </div>
@@ -106,7 +106,7 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
             title="Total des classés"
           />
           <Link href={Routes.Candidature.lister({ appelOffre, période, statut: 'classé' })}>
-            {totalLauréats} lauréats
+            {totalLauréats} lauréat{totalLauréats > 1 ? 's' : ''}
           </Link>
         </div>
       </div>
@@ -115,7 +115,7 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
           <Icon id="fr-icon-file-text-fill" title="Total des candidatures" />
           <div className="lg:flex lg:flex-col items-center">
             <Link href={Routes.Candidature.lister({ appelOffre, période })}>
-              {totalCandidatures} candidatures
+              {totalCandidatures} candidature{totalCandidatures > 1 ? 's' : ''}
             </Link>
           </div>
         </div>
