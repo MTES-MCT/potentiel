@@ -75,6 +75,3 @@ export * from './abandon.entity';
 
 // Aggregate
 export { loadAbandonFactory } from './abandon.aggregate';
-
-// Errors
-export { ProjetAbandonnéError } from './projetAbandonné.error';

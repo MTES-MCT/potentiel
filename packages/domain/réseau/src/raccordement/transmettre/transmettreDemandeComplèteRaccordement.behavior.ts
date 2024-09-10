@@ -1,7 +1,6 @@
 import { DateTime, ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError, OperationRejectedError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { Abandon } from '@potentiel-domain/laureat';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
@@ -71,9 +70,7 @@ export async function transmettreDemande(
   }: TransmettreDemandeOptions,
 ) {
   if (aUnAbandonAccordé) {
-    throw new Abandon.ProjetAbandonnéError(
-      `Il est impossible de transmettre une demande complète de raccordement pour un projet abandonné`,
-    );
+    throw new ImpossibleTransmetttreDCRProjetAbandonnéError();
   }
 
   if (
@@ -194,7 +191,7 @@ export function applyDemandeComplèteDeRaccordementTransmiseEventV2(
   });
 }
 
-export class RéférenceDossierRaccordementDéjàExistantePourLeProjetError extends InvalidOperationError {
+class RéférenceDossierRaccordementDéjàExistantePourLeProjetError extends InvalidOperationError {
   constructor() {
     super(
       `Il est impossible d'avoir plusieurs dossiers de raccordement avec la même référence pour un projet`,
@@ -202,7 +199,7 @@ export class RéférenceDossierRaccordementDéjàExistantePourLeProjetError exte
   }
 }
 
-export class FormatRéférenceDossierRaccordementInvalideError extends InvalidOperationError {
+class FormatRéférenceDossierRaccordementInvalideError extends InvalidOperationError {
   constructor() {
     super(`Le format de la référence du dossier de raccordement est invalide`);
   }
@@ -212,6 +209,14 @@ export class PlusieursGestionnairesRéseauPourUnProjetError extends OperationRej
   constructor() {
     super(
       `Il est impossible de transmettre une demande complète de raccordement auprès de plusieurs gestionnaires de réseau`,
+    );
+  }
+}
+
+export class ImpossibleTransmetttreDCRProjetAbandonnéError extends OperationRejectedError {
+  constructor() {
+    super(
+      `Il est impossible de transmettre une demande complète de raccordement pour un projet abandonné`,
     );
   }
 }
