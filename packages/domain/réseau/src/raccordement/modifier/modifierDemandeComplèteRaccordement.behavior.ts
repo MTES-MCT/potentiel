@@ -5,8 +5,8 @@ import { Role } from '@potentiel-domain/utilisateur';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
-import { FormatRéférenceDossierRaccordementInvalideError } from '../transmettre/transmettreDemandeComplèteRaccordement.behavior';
 import { RaccordementAggregate } from '../raccordement.aggregate';
+import { FormatRéférenceDossierRaccordementInvalideError } from '../formatRéférenceDossierRaccordementInvalide.error';
 
 /**
  * @deprecated Utilisez DemandeComplèteRaccordementModifiéeEvent et RéférenceDossierRacordementModifiéeEvent à la place. Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections

@@ -1,11 +1,12 @@
 import { DateTime, ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError, OperationRejectedError } from '@potentiel-domain/core';
+import { DomainEvent, OperationRejectedError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
+import { FormatRéférenceDossierRaccordementInvalideError } from '../formatRéférenceDossierRaccordementInvalide.error';
 
 /**
  * @deprecated Utilisez DemandeComplèteRaccordementTransmiseEvent à la place.
@@ -70,7 +71,7 @@ export async function transmettreDemande(
   }: TransmettreDemandeOptions,
 ) {
   if (aUnAbandonAccordé) {
-    throw new ImpossibleTransmetttreDCRProjetAbandonnéError();
+    throw new ImpossibleTransmettreDCRProjetAbandonnéError();
   }
 
   if (
@@ -191,7 +192,7 @@ export function applyDemandeComplèteDeRaccordementTransmiseEventV2(
   });
 }
 
-class RéférenceDossierRaccordementDéjàExistantePourLeProjetError extends InvalidOperationError {
+class RéférenceDossierRaccordementDéjàExistantePourLeProjetError extends OperationRejectedError {
   constructor() {
     super(
       `Il est impossible d'avoir plusieurs dossiers de raccordement avec la même référence pour un projet`,
@@ -199,24 +200,18 @@ class RéférenceDossierRaccordementDéjàExistantePourLeProjetError extends Inv
   }
 }
 
-class FormatRéférenceDossierRaccordementInvalideError extends InvalidOperationError {
-  constructor() {
-    super(`Le format de la référence du dossier de raccordement est invalide`);
-  }
-}
-
-export class PlusieursGestionnairesRéseauPourUnProjetError extends OperationRejectedError {
+class ImpossibleTransmettreDCRProjetAbandonnéError extends OperationRejectedError {
   constructor() {
     super(
-      `Il est impossible de transmettre une demande complète de raccordement auprès de plusieurs gestionnaires de réseau`,
+      `Il est impossible de transmettre une demande complète de raccordement pour un projet abandonné`,
     );
   }
 }
 
-export class ImpossibleTransmetttreDCRProjetAbandonnéError extends OperationRejectedError {
+class PlusieursGestionnairesRéseauPourUnProjetError extends OperationRejectedError {
   constructor() {
     super(
-      `Il est impossible de transmettre une demande complète de raccordement pour un projet abandonné`,
+      `Il est impossible de transmettre une demande complète de raccordement auprès de plusieurs gestionnaires de réseau`,
     );
   }
 }
