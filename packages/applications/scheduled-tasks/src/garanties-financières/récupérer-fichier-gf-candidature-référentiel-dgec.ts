@@ -12,7 +12,11 @@ import {
   registerDocumentProjetCommand,
   registerDocumentProjetQueries,
 } from '@potentiel-domain/document';
-import { CandidatureAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import {
+  CandidatureAdapter,
+  DocumentAdapter,
+  récupérerIdentifiantsProjetParEmailPorteurAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 import { Candidature } from '@potentiel-domain/candidature';
 
 [
@@ -45,6 +49,7 @@ GarantiesFinancières.registerGarantiesFinancièresUseCases({
 GarantiesFinancières.registerGarantiesFinancièresQueries({
   find: findProjection,
   list: listProjection,
+  récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
 });
 
 registerDocumentProjetCommand({
