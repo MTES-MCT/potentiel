@@ -32,7 +32,7 @@ Font.register({
   ],
 });
 
-type BuildCertificate = {
+type BuildCertificateProps = {
   appelOffre: AppelOffre.AppelOffreReadModel;
   période: AppelOffre.Periode;
   utilisateur: ConsulterUtilisateurReadModel;
@@ -46,8 +46,8 @@ export const buildCertificate = async ({
   utilisateur,
   candidature,
   notifiéLe,
-}: BuildCertificate): Promise<ReadableStream | void> => {
-  const { data, validateur } = await mapToCertificateData({
+}: BuildCertificateProps): Promise<ReadableStream | void> => {
+  const { data, validateur } = mapToCertificateData({
     appelOffre,
     période,
     utilisateur,
@@ -68,18 +68,18 @@ export const buildCertificate = async ({
   return await mapToReadableStream(await ReactPDF.renderToStream(content));
 };
 
-type MapToCertificateData = {
+type CertificateData = {
   data?: AttestationCandidatureOptions;
   validateur?: AppelOffre.Validateur;
 };
 
-const mapToCertificateData = async ({
+const mapToCertificateData = ({
   appelOffre,
   période,
   utilisateur,
   candidature,
   notifiéLe,
-}: BuildCertificate): Promise<MapToCertificateData> => {
+}: BuildCertificateProps): CertificateData => {
   const famille = période.familles.find((x) => x.id === candidature.identifiantProjet.famille);
 
   const financementEtTemplate = getFinancementEtTemplate({
