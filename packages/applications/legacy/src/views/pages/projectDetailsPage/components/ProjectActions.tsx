@@ -161,6 +161,8 @@ const AdminActions = ({
       {...{ project, signalementAbandonAutorisé, signalementRecoursAutorisé }}
     />
 
+// violette routes
+// juste construire la file URL ici
     {project.notifiedOn && project.certificateFile ? (
       <DownloadLinkButton
         fileUrl={routes.CANDIDATE_CERTIFICATE_FOR_ADMINS({

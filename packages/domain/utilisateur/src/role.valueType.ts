@@ -704,7 +704,7 @@ const policies = {
         référencielPermissions.candidature.query.consulterCandidature,
         référencielPermissions.appelOffre.query.consulter,
       ],
-      télécharger: [],
+      télécharger: [référencielPermissions.document.query.consulter],
     },
   },
   période: {
