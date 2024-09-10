@@ -63,7 +63,7 @@ export default async function Page({ searchParams }: PageProps) {
               value: 'notifiee',
             },
             {
-              label: 'À notifiée',
+              label: 'À notifier',
               value: 'a-notifier',
             },
           ],
