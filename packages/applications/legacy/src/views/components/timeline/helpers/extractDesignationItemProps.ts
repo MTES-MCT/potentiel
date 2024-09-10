@@ -1,4 +1,3 @@
-import { Project } from '../../../../entities';
 import {
   is,
   ProjectCertificateDTO,
@@ -8,6 +7,7 @@ import {
 import { UserRole } from '../../../../modules/users';
 import { or } from '../../../../core/utils';
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 export type DesignationItemProps = {
   type: 'designation';
@@ -34,8 +34,8 @@ export const isCertificateGeneratedDTO = or(
 
 export const extractDesignationItemProps = (
   events: ProjectEventDTO[],
-  projectId: Project['id'],
   status: ProjectStatus,
+  identifiantProjet: IdentifiantProjet.RawType,
 ): DesignationItemProps | null => {
   const projetDesignationEvents = events.filter(isProjectDesignation);
   const lastProjectDesignationEvent = projetDesignationEvents.pop();
@@ -50,7 +50,7 @@ export const extractDesignationItemProps = (
     return {
       type: 'designation',
       date,
-      certificate: makeCertificateProps(certificateEvent, projectId),
+      certificate: makeCertificateProps(certificateEvent, identifiantProjet),
       role: certificateEvent.variant,
       projectStatus: status,
     };
@@ -71,25 +71,20 @@ export const extractDesignationItemProps = (
 const isProjectDesignation = or(is('ProjectNotificationDateSet'), is('ProjectNotified'));
 
 const makeCertificateLink = (
-  latestCertificateEvent: ProjectCertificateDTO,
-  projectId: Project['id'],
+  identifiantProjet: IdentifiantProjet.RawType,
 ) => {
-  // récupérer le projet
-  const { certificateFileId, nomProjet, potentielIdentifier, variant } = latestCertificateEvent;
-console.log("violette",potentielIdentifier)
-    return Routes.Candidature.téléchargerAttestation(potentielIdentifier)
-  
+    return Routes.Candidature.téléchargerAttestation(identifiantProjet)
 };
 
 const makeCertificateProps = (
   certificateEvent: ProjectCertificateDTO,
-  projectId: Project['id'],
+  identifiantProjet: IdentifiantProjet.RawType,
 ): DesignationItemProps['certificate'] => {
   return {
     date: certificateEvent.date,
     status: ['ProjectClaimed', 'ProjectCertificateUpdated'].includes(certificateEvent.type)
       ? 'uploaded'
       : 'generated',
-    url: makeCertificateLink(certificateEvent, projectId),
+    url: makeCertificateLink(identifiantProjet),
   };
 };

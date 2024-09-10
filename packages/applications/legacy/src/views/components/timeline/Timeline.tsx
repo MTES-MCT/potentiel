@@ -40,9 +40,11 @@ import {
   extractModificationReceivedItemProps,
   extractModificationRequestsItemProps,
 } from './helpers';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO;
+  identifiantProjet: IdentifiantProjet.RawType
 };
 
 type ItemProps =
@@ -63,11 +65,12 @@ type ItemProps =
 export const Timeline = ({
   projectEventList: {
     events,
-    project: { id: projectId, status },
+    project: { status },
   },
+  identifiantProjet
 }: TimelineProps) => {
   const itemProps: ItemProps[] = [
-    extractDesignationItemProps(events, projectId, status),
+    extractDesignationItemProps(events, status, identifiantProjet),
     extractImportItemProps(events),
     extractAchèvementPrévisionnelItemProps(events, { status }),
     ...extractModificationRequestsItemProps(events),
