@@ -146,3 +146,7 @@ test-results/
 
 # Turbo repo
 .turbo
+
+# Référentiel GF DGEC
+packages/applications/scheduled-tasks/src/garanties-financières/référentiel-gf-dgec
+packages/applications/scheduled-tasks/src/garanties-financières/garanties-financieres.zip
