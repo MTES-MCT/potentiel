@@ -12,7 +12,7 @@ export const ImporterCandidaturesPage: FC = () => (
   <PageTemplate banner={<Heading1 className="text-theme-white">Importer des candidats</Heading1>}>
     <ImporterCandidaturesForm />
     <div className="mt-4">
-      <Link href={Routes.Candidature.lister}>Voir tous les candidats</Link>
+      <Link href={Routes.Candidature.lister()}>Voir tous les candidats</Link>
     </div>
   </PageTemplate>
 );
