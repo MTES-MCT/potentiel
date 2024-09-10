@@ -4,6 +4,7 @@ import { FC, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Badge from '@codegouvfr/react-dsfr/Badge';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
@@ -42,21 +43,27 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
   totalCandidatures,
 }) => (
   <div className={`relative ${peutÊtreNotifiée ? 'pb-16' : ''} md:pb-0 flex flex-1 flex-col gap-6`}>
-    <div className="flex items-center">
-      <h2 className="leading-5">
-        Période <span className="font-bold">{période}</span> de l'appel d'offres{' '}
-        <span className="font-bold">{appelOffre}</span>
-      </h2>
+    <div className={`flex flex-col ${peutÊtreNotifiée ? '' : 'gap-2'}`}>
+      <div className="flex items-center">
+        <h2 className="leading-5">
+          Période <span className="font-bold">{période}</span> de l'appel d'offres{' '}
+          <span className="font-bold">{appelOffre}</span>
+        </h2>
 
-      {peutÊtreNotifiée && (
-        <div className="absolute bottom-0 md:relative md:flex ml-auto">
-          <NotifyButton
-            identifiantPériode={identifiantPériode}
-            appelOffre={appelOffre}
-            période={période}
-          />
-        </div>
-      )}
+        {peutÊtreNotifiée && (
+          <div className="absolute bottom-0 md:relative md:flex ml-auto">
+            <NotifyButton
+              identifiantPériode={identifiantPériode}
+              appelOffre={appelOffre}
+              période={période}
+            />
+          </div>
+        )}
+      </div>
+
+      <Badge severity={notifiéLe ? 'success' : 'info'}>
+        {notifiéLe ? 'Notifiée' : 'À notifier'}
+      </Badge>
     </div>
 
     <div className="flex flex-col gap-4 md:flex-row md:items-center">
