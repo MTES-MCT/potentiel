@@ -83,7 +83,7 @@ export const registerRaccordementUseCases = ({
   registerModifierPropositiontechniqueEtFinancièreUseCase();
   registerModifierRéférenceDossierRaccordementUseCase();
   registerTransmettreDateMiseEnServiceUseCase();
-  registerTransmettreDemandeComplèteRaccordementUseCase();
+  registerTransmettreDemandeComplèteRaccordementUseCase(loadAggregate);
   registerTransmettrePropositionTechniqueEtFinancièreUseCase();
   registerAttribuerGestionnaireRéseauUseCase();
   registerSupprimerDossierDuRaccordementUseCase();

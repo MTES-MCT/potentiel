@@ -72,3 +72,6 @@ export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
 
 // Entities
 export * from './abandon.entity';
+
+// Aggregates
+export { loadAbandonFactory } from './abandon.aggregate';

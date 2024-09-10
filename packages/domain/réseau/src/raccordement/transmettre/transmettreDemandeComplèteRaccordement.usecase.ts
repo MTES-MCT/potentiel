@@ -2,6 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { InvalidOperationError, LoadAggregate } from '@potentiel-domain/core';
+import { Abandon } from '@potentiel-domain/laureat';
 
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
@@ -23,7 +25,9 @@ export type TransmettreDemandeComplèteRaccordementUseCase = Message<
   }
 >;
 
-export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
+export const registerTransmettreDemandeComplèteRaccordementUseCase = (
+  loadAggregate: LoadAggregate,
+) => {
   const runner: MessageHandler<TransmettreDemandeComplèteRaccordementUseCase> = async ({
     dateQualificationValue,
     identifiantGestionnaireRéseauValue,
@@ -31,6 +35,15 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
     référenceDossierValue,
     accuséRéceptionValue: { format, content },
   }) => {
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+
+    const loadAbandon = await Abandon.loadAbandonFactory(loadAggregate);
+    const abandon = await loadAbandon(identifiantProjet);
+
+    if (abandon.accord?.accordéLe) {
+      throw new ProjetAbandonnéError();
+    }
+
     const accuséRéception = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
       TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
@@ -40,7 +53,6 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
       format,
     );
 
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateQualification = DateTime.convertirEnValueType(dateQualificationValue);
     const identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
       identifiantGestionnaireRéseauValue,
@@ -68,3 +80,11 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
 
   mediator.register('Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement', runner);
 };
+
+class ProjetAbandonnéError extends InvalidOperationError {
+  constructor() {
+    super(
+      'Impossible de transmettre une demande complète de raccordement pour un projet abandonné',
+    );
+  }
+}
