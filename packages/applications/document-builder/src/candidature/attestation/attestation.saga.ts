@@ -92,6 +92,7 @@ export const register = () => {
           logger.warn(`Impossible de générer l'attestation du projet ${identifiantProjet}`);
           return;
         }
+
         const attestation = DocumentProjet.convertirEnValueType(
           identifiantProjet,
           'attestation',

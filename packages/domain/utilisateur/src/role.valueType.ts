@@ -792,6 +792,7 @@ const permissionAdmin: Policy[] = [
   'candidature.lister',
   'candidature.notifier',
   'candidature.attestation.prévisualiser',
+  'candidature.attestation.télécharger',
 
   // Période
   'période.lister',
@@ -905,6 +906,9 @@ const permissionPorteurProjet: Policy[] = [
   // Achèvement
   'achèvement.consulter',
   'achèvement.transmettre',
+
+  // Candidature
+  'candidature.attestation.télécharger',
 ];
 
 const permissionAcheteurObligé: Policy[] = [

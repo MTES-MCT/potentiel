@@ -128,12 +128,7 @@ const PorteurProjetActions = ({
       {project.notifiedOn && project.certificateFile && (
         <DownloadLinkButton
           className="w-fit"
-          fileUrl={routes.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
-            id: project.id,
-            certificateFileId: project.certificateFile.id,
-            nomProjet: project.nomProjet,
-            potentielIdentifier: project.potentielIdentifier,
-          })}
+          fileUrl={Routes.Document.télécharger(project.certificateFile.filename)}
         >
           Télécharger mon attestation
         </DownloadLinkButton>
@@ -155,26 +150,26 @@ const AdminActions = ({
   project,
   signalementAbandonAutorisé,
   signalementRecoursAutorisé,
-}: AdminActionsProps) => (
+}: AdminActionsProps) => 
+  
+  {
+    if(project.notifiedOn){
+    console.log("violette", project.certificateFile)
+    }
+    return (
   <div className="flex flex-col md:flex-row gap-2">
     <EnregistrerUneModification
       {...{ project, signalementAbandonAutorisé, signalementRecoursAutorisé }}
     />
-
-// violette routes
-// juste construire la file URL ici
     {project.notifiedOn && project.certificateFile ? (
+      <>
       <DownloadLinkButton
-        fileUrl={routes.CANDIDATE_CERTIFICATE_FOR_ADMINS({
-          id: project.id,
-          certificateFileId: project.certificateFile.id,
-          email: project.email,
-          potentielIdentifier: project.potentielIdentifier,
-        })}
+        fileUrl={Routes.Document.télécharger(`projects/${project.certificateFile.id}/${project.certificateFile.filename}`)}       
         className="m-auto"
       >
         Voir attestation
       </DownloadLinkButton>
+      </>
     ) : (
       !project.isLegacy && (
         <PreviewLinkButton
@@ -193,7 +188,7 @@ const AdminActions = ({
       )
     )}
   </div>
-);
+)};
 
 type ProjectActionsProps = {
   project: ProjectDataForProjectPage;
