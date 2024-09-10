@@ -68,23 +68,21 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
 
     <div className="flex flex-col gap-4 md:flex-row md:items-center">
       <div className="flex md:flex-1 flex-col gap-1 text-sm">
-        <div className="flex items-center gap-2">
-          <Icon id="fr-icon-calendar-line" title="Notifié le" size="sm" />
-          <span className="italic">
-            {notifiéLe ? (
-              <>
-                Notifiée le <FormattedDate date={notifiéLe} />
-              </>
-            ) : (
-              '- - -'
-            )}
-          </span>
-        </div>
+        {notifiéLe && (
+          <div className="flex items-center gap-2">
+            <Icon id="fr-icon-calendar-line" title="Notifié le" size="sm" />
+            <span className="italic">
+              Notifiée le <FormattedDate date={notifiéLe} />
+            </span>
+          </div>
+        )}
 
-        <div className="flex  items-center gap-2">
-          <Icon id="fr-icon-account-line" title="Notifié par" size="sm" />
-          {notifiéPar ?? '- - -'}
-        </div>
+        {notifiéPar && (
+          <div className="flex  items-center gap-2">
+            <Icon id="fr-icon-account-line" title="Notifié par" size="sm" />
+            {notifiéPar}
+          </div>
+        )}
       </div>
 
       <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4 text-sm">
