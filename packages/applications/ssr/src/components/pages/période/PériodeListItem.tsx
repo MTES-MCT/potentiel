@@ -41,7 +41,7 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
   totalLauréats,
   totalCandidatures,
 }) => (
-  <div className="flex flex-1 flex-col gap-6">
+  <div className={`relative ${peutÊtreNotifiée ? 'pb-16' : ''} md:pb-0 flex flex-1 flex-col gap-6`}>
     <div className="flex items-center">
       <h2 className="leading-5">
         Période <span className="font-bold">{période}</span> de l'appel d'offres{' '}
@@ -49,7 +49,7 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
       </h2>
 
       {peutÊtreNotifiée && (
-        <div className="hidden md:flex ml-auto">
+        <div className="absolute bottom-0 md:relative md:flex ml-auto">
           <NotifyButton
             identifiantPériode={identifiantPériode}
             appelOffre={appelOffre}
@@ -116,16 +116,6 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
         </div>
       </div>
     </div>
-
-    {peutÊtreNotifiée && (
-      <div className="flex md:hidden">
-        <NotifyButton
-          identifiantPériode={identifiantPériode}
-          appelOffre={appelOffre}
-          période={période}
-        />
-      </div>
-    )}
   </div>
 );
 
