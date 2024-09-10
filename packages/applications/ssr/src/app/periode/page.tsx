@@ -9,6 +9,7 @@ import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { PériodeListPage, PériodeListPageProps } from '@/components/pages/période/PériodeList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { PériodeListItemProps } from '@/components/pages/période/PériodeListItem';
 
 type SearchParams = 'appelOffre' | 'statut';
 
@@ -89,7 +90,7 @@ const mapToProps = async ({
 }: {
   périodes: Période.ListerPériodesReadModel;
   utilisateur: Utilisateur.ValueType;
-}): Promise<PériodeListPageProps['périodes']> => {
+}): Promise<ReadonlyArray<PériodeListItemProps>> => {
   return await Promise.all(
     périodes.items.map(async (période) => {
       const { totalÉliminés, totalLauréats, totalCandidatures } = période.estNotifiée
@@ -104,19 +105,21 @@ const mapToProps = async ({
             période.identifiantPériode.période,
           );
 
-      return {
+      const props: PériodeListItemProps = {
         appelOffre: période.identifiantPériode.appelOffre,
         période: période.identifiantPériode.période,
         identifiantPériode: période.identifiantPériode.formatter(),
         peutÊtreNotifiée: période.estNotifiée
           ? false
           : utilisateur.role.aLaPermission('période.notifier'),
-        notifiéeLe: période.estNotifiée ? période.notifiéeLe.formatter() : undefined,
+        notifiéLe: période.estNotifiée ? période.notifiéeLe.formatter() : undefined,
         notifiéPar: période.estNotifiée ? période.notifiéePar.formatter() : undefined,
         totalÉliminés,
         totalLauréats,
         totalCandidatures,
       };
+
+      return props;
     }),
   );
 };

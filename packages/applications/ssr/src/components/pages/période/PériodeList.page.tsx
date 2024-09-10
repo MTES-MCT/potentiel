@@ -9,7 +9,7 @@ import { PériodeListItem, PériodeListItemProps } from './PériodeListItem';
 
 export type PériodeListPageProps = {
   filters: ListPageTemplateProps<PériodeListItemProps>['filters'];
-  périodes: Array<PériodeListItemProps>;
+  périodes: ReadonlyArray<PériodeListItemProps>;
   range: RangeOptions;
   total: number;
 };
