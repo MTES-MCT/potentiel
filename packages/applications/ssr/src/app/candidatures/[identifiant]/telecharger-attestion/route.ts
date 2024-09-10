@@ -6,6 +6,8 @@ import { Option } from '@potentiel-libraries/monads';
 import { Candidature } from '@potentiel-domain/candidature';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/laureat';
+import { Éliminé } from '@potentiel-domain/elimine';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -39,23 +41,36 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       },
     });
 
-    if (
+    const attestationPasDisponible =
       Option.isNone(candidature) ||
-      (Option.isSome(candidature) && candidature.statut.estNonNotifié())
-    ) {
-      logger.warn(`Candidature non trouvée ou candidature non notifiée`, { identifiantProjet });
+      (Option.isSome(candidature) &&
+        (candidature.statut.estNonNotifié() || candidature.statut.estAbandonné()));
+
+    if (attestationPasDisponible) {
+      logger.warn(`Candidature non trouvée, non notifiée ou abandonnée`, { identifiantProjet });
       return notFound();
     }
 
-    // chercher lauréat ou éliminé
-    if (candidature.statut.estClassé()) {
-      // on load le lauréat
+    const projetLauréatOuEliminé = candidature.statut.estClassé()
+      ? await mediator.send<Lauréat.ConsulterLauréatQuery>({
+          type: 'Lauréat.Query.ConsulterLauréat',
+          data: {
+            identifiantProjet: candidature.identifiantProjet.formatter(),
+          },
+        })
+      : await mediator.send<Éliminé.ConsulterÉliminéQuery>({
+          type: 'Éliminé.Query.ConsulterÉliminé',
+          data: {
+            identifiantProjet: candidature.identifiantProjet.formatter(),
+          },
+        });
+
+    if (Option.isNone(projetLauréatOuEliminé)) {
+      logger.warn(`Candidature éliminé ou classée non trouvée`, { identifiantProjet });
+      return notFound();
     }
 
-    // chercher éliminé
-    if (candidature.statut.estÉliminé()) {
-      // on load l'éliminé
-    }
+    const documentKey = projetLauréatOuEliminé.attestation.formatter();
 
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
@@ -63,6 +78,11 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         documentKey,
       },
     });
+
+    if (!result) {
+      logger.warn(`Attestation pas disponible`, { identifiantProjet });
+      return notFound();
+    }
 
     return new Response(result.content, {
       headers: {
