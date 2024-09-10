@@ -112,6 +112,7 @@ const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementProps> = 
       </Button>
 
       <ModalWithForm
+        id={`supprimer-dossier-raccordement-${référenceDossier}`}
         title={`Supprimer le dossier ${référenceDossier} du raccordement`}
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"

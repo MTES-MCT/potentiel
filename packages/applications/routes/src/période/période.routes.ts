@@ -1,1 +1,1 @@
-export const notifier = '/periode/notifier';
+export const lister = '/periode';

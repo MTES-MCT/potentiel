@@ -30,6 +30,7 @@ export const RejeterDemandeMainlevéeGarantiesFinancières = ({
       </Button>
 
       <ModalWithForm
+        id="rejeter-demande"
         title="Rejeter la demande"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Annuler"

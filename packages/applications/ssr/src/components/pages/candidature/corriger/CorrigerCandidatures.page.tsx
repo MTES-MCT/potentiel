@@ -17,7 +17,7 @@ export const CorrigerCandidaturesPage: FC = () => (
         <>
           <CorrigerCandidaturesForm />
           <div className="mt-4">
-            <Link href={Routes.Candidature.lister}>Voir tous les candidats</Link>
+            <Link href={Routes.Candidature.lister()}>Voir tous les candidats</Link>
           </div>
         </>
       ),

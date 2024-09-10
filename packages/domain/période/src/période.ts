@@ -2,15 +2,20 @@ import type {
   ConsulterPériodeQuery,
   ConsulterPériodeReadModel,
 } from './consulter/consulterPériode.query';
+import type {
+  ListerPériodeItemReadModel,
+  ListerPériodesQuery,
+  ListerPériodesReadModel,
+} from './lister/listerPériode.query';
 import { PériodeNotifiéeEvent } from './notifier/notifierPériode.behavior';
 import type { NotifierPériodeUseCase } from './notifier/notifierPériode.usecase';
 
 // Query
-export type PériodeQuery = ConsulterPériodeQuery;
-export type { ConsulterPériodeQuery };
+export type PériodeQuery = ConsulterPériodeQuery | ListerPériodesQuery;
+export type { ConsulterPériodeQuery, ListerPériodesQuery };
 
 // Read Models
-export type { ConsulterPériodeReadModel };
+export type { ConsulterPériodeReadModel, ListerPériodesReadModel, ListerPériodeItemReadModel };
 
 // UseCases
 export type PériodeUseCase = NotifierPériodeUseCase;

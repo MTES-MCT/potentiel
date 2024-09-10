@@ -34,6 +34,7 @@ export const DemanderConfirmationAbandon = ({
       </Button>
 
       <ModalWithForm
+        id="demander-confirmation-abandon"
         title="Demander la confirmation de l'abandon"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"

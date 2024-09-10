@@ -47,7 +47,7 @@ export const registerConsulterPériodeQuery = ({ find }: ConsulterPériodeDepend
   mediator.register('Période.Query.ConsulterPériode', handler);
 };
 
-const mapToReadModel = (période: PériodeEntity): ConsulterPériodeReadModel => {
+export const mapToReadModel = (période: PériodeEntity): ConsulterPériodeReadModel => {
   const identifiantPériode = Période.IdentifiantPériode.convertirEnValueType(
     période.identifiantPériode,
   );

@@ -27,6 +27,7 @@ export const AnnulerDemandeMainlevéeGarantiesFinancières = ({
       </Button>
 
       <ModalWithForm
+        id="annuler-demande-mainlevée-gf"
         title="Annuler la demande de mainlevée des garanties financières"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Retour"
