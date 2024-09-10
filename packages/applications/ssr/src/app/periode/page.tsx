@@ -4,9 +4,11 @@ import { Metadata } from 'next';
 import { Période } from '@potentiel-domain/periode';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { PériodeListPage, PériodeListPageProps } from '@/components/pages/période/PériodeList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type SearchParams = 'appelOffre' | 'statut';
 
@@ -25,65 +27,71 @@ export default async function Page({ searchParams }: PageProps) {
   const estNotifiée =
     searchParams?.statut === undefined ? undefined : searchParams.statut === 'notifiee';
 
-  return PageWithErrorHandling(async () => {
-    const périodes = await mediator.send<Période.ListerPériodesQuery>({
-      type: 'Période.Query.ListerPériodes',
-      data: {
-        appelOffre,
-        estNotifiée,
-      },
-    });
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      const périodes = await mediator.send<Période.ListerPériodesQuery>({
+        type: 'Période.Query.ListerPériodes',
+        data: {
+          appelOffre,
+          estNotifiée,
+        },
+      });
 
-    const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
-      type: 'AppelOffre.Query.ListerAppelOffre',
-      data: {},
-    });
+      const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
+        type: 'AppelOffre.Query.ListerAppelOffre',
+        data: {},
+      });
 
-    const filters: PériodeListPageProps['filters'] = [
-      {
-        label: `Appel d'offres`,
-        searchParamKey: 'appelOffre',
-        defaultValue: '',
-        options: appelOffres.items.map((item) => ({
-          label: item.id,
-          value: item.id,
-        })),
-      },
-      {
-        label: `Statut`,
-        searchParamKey: 'statut',
-        defaultValue: '',
-        options: [
-          {
-            label: 'Notifiée',
-            value: 'notifiee',
-          },
-          {
-            label: 'À notifiée',
-            value: 'a-notifier',
-          },
-        ],
-      },
-    ];
+      const filters: PériodeListPageProps['filters'] = [
+        {
+          label: `Appel d'offres`,
+          searchParamKey: 'appelOffre',
+          defaultValue: '',
+          options: appelOffres.items.map((item) => ({
+            label: item.id,
+            value: item.id,
+          })),
+        },
+        {
+          label: `Statut`,
+          searchParamKey: 'statut',
+          defaultValue: '',
+          options: [
+            {
+              label: 'Notifiée',
+              value: 'notifiee',
+            },
+            {
+              label: 'À notifiée',
+              value: 'a-notifier',
+            },
+          ],
+        },
+      ];
 
-    const props = await mapToProps(périodes);
+      const props = await mapToProps({ utilisateur, périodes });
 
-    return (
-      <PériodeListPage
-        filters={filters}
-        périodes={props}
-        range={périodes.range}
-        total={périodes.total}
-      />
-    );
-  });
+      return (
+        <PériodeListPage
+          filters={filters}
+          périodes={props}
+          range={périodes.range}
+          total={périodes.total}
+        />
+      );
+    }),
+  );
 }
 
-const mapToProps = async (
-  readModel: Période.ListerPériodesReadModel,
-): Promise<PériodeListPageProps['périodes']> => {
+const mapToProps = async ({
+  périodes,
+  utilisateur,
+}: {
+  périodes: Période.ListerPériodesReadModel;
+  utilisateur: Utilisateur.ValueType;
+}): Promise<PériodeListPageProps['périodes']> => {
   return await Promise.all(
-    readModel.items.map(async (période) => {
+    périodes.items.map(async (période) => {
       const { totalÉliminés, totalLauréats, totalCandidatures } = période.estNotifiée
         ? {
             totalÉliminés: période.identifiantÉliminés.length,
@@ -100,7 +108,9 @@ const mapToProps = async (
         appelOffre: période.identifiantPériode.appelOffre,
         période: période.identifiantPériode.période,
         identifiantPériode: période.identifiantPériode.formatter(),
-        peutÊtreNotifiée: période.estNotifiée ? false : true,
+        peutÊtreNotifiée: période.estNotifiée
+          ? false
+          : utilisateur.role.aLaPermission('période.notifier'),
         notifiéeLe: période.estNotifiée ? période.notifiéeLe.formatter() : undefined,
         notifiéPar: période.estNotifiée ? période.notifiéePar.formatter() : undefined,
         totalÉliminés,
