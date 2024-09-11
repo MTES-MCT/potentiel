@@ -5,7 +5,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { ConsulterDocumentProjetQuery, DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/laureat';
-import { Éliminé } from '@potentiel-domain/elimine';
+import { Recours, Éliminé } from '@potentiel-domain/elimine';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -55,17 +55,28 @@ const getDocumentKey = async (
 
   if (Option.isSome(lauréat)) {
     return lauréat.attestation;
-  } else {
-    const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
-      type: 'Éliminé.Query.ConsulterÉliminé',
-      data: {
-        identifiantProjet,
-      },
-    });
+  }
 
-    if (Option.isSome(éliminé)) {
-      return éliminé.attestation;
-    }
+  const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
+    type: 'Eliminé.Recours.Query.ConsulterRecours',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+    },
+  });
+
+  if (Option.isSome(recours) && recours.demande.accord) {
+    return recours.demande.accord.réponseSignée;
+  }
+
+  const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
+    type: 'Éliminé.Query.ConsulterÉliminé',
+    data: {
+      identifiantProjet,
+    },
+  });
+
+  if (Option.isSome(éliminé)) {
+    return éliminé.attestation;
   }
 
   return null;
