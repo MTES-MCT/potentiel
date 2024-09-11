@@ -119,7 +119,7 @@ const PorteurProjetActions = ({
           </DropdownMenuSecondaryButton>
         )}
 
-        {project.notifiedOn && project.certificateFile && (
+        {project.notifiedOn && (
           <DownloadLinkButton
             className="w-fit"
             fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
@@ -158,7 +158,7 @@ const AdminActions = ({
       <EnregistrerUneModification
         {...{ project, signalementAbandonAutorisé, signalementRecoursAutorisé }}
       />
-      {project.notifiedOn && project.certificateFile ? (
+      {project.notifiedOn ? (
         <>
           <DownloadLinkButton
             fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { ConsulterDocumentProjetQuery, DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { Éliminé } from '@potentiel-domain/elimine';
 
@@ -29,7 +29,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
   const result = await mediator.send<ConsulterDocumentProjetQuery>({
     type: 'Document.Query.ConsulterDocumentProjet',
     data: {
-      documentKey,
+      documentKey: documentKey.formatter(),
     },
   });
 
@@ -43,9 +43,9 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
   });
 };
 
-const getDocumentKey = async (identifiantProjet: string): Promise<string> => {
-  let documentKey = '';
-
+const getDocumentKey = async (
+  identifiantProjet: string,
+): Promise<DocumentProjet.ValueType | null> => {
   const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
     type: 'Lauréat.Query.ConsulterLauréat',
     data: {
@@ -54,7 +54,7 @@ const getDocumentKey = async (identifiantProjet: string): Promise<string> => {
   });
 
   if (Option.isSome(lauréat)) {
-    documentKey = lauréat.attestation.formatter();
+    return lauréat.attestation;
   } else {
     const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
       type: 'Éliminé.Query.ConsulterÉliminé',
@@ -64,9 +64,9 @@ const getDocumentKey = async (identifiantProjet: string): Promise<string> => {
     });
 
     if (Option.isSome(éliminé)) {
-      documentKey = éliminé.attestation.formatter();
+      return éliminé.attestation;
     }
   }
 
-  return documentKey;
+  return null;
 };
