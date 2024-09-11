@@ -14,8 +14,9 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { EtapesRecours } from './EtapesRecours';
 import { AccorderRecours } from './accorder/AccorderRecours.form';
 import { RejeterRecours } from './rejeter/RejeterRecours.form';
+import { AnnulerRecours } from './annuler/AnnulerRecours.form';
 
-export type AvailableRecoursAction = 'accorder' | 'rejeter';
+export type AvailableRecoursAction = 'accorder' | 'rejeter' | 'annuler';
 
 export type DétailsRecoursPageProps = {
   identifiantProjet: string;
@@ -93,5 +94,6 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
 
       {actions.includes('accorder') && <AccorderRecours identifiantProjet={identifiantProjet} />}
       {actions.includes('rejeter') && <RejeterRecours identifiantProjet={identifiantProjet} />}
+      {actions.includes('annuler') && <AnnulerRecours identifiantProjet={identifiantProjet} />}
     </div>
   ) : null;

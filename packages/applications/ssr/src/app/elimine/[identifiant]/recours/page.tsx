@@ -81,4 +81,11 @@ const mapToActions = (props: MapToActionsProps) =>
       },
       () => ['accorder', 'rejeter'],
     )
+    .with(
+      {
+        role: 'porteur-projet',
+        statut: 'demandé',
+      },
+      () => ['annuler'],
+    )
     .otherwise(() => []);
