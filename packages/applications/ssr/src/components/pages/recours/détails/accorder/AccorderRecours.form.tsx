@@ -32,6 +32,7 @@ export const AccorderRecours = ({ identifiantProjet }: AccorderRecoursFormProps)
       </Button>
 
       <ModalWithForm
+        id="accorder-recours-modal"
         title="Accorder le recours"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"

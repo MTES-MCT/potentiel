@@ -17,8 +17,8 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Abandons - Potentiel',
-  description: 'Liste des abandons de projet',
+  title: 'Recours - Potentiel',
+  description: 'Liste des recours de projet',
 };
 
 const paramsSchema = z.object({

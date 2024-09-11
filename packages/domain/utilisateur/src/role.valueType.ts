@@ -550,14 +550,14 @@ const policies = {
         référencielPermissions.appelOffre.query.lister,
       ],
       détail: [
-        référencielPermissions.candidature.query.consulter,
+        référencielPermissions.candidature.query.consulterProjet,
         référencielPermissions.candidature.query.listerProjetsPreuveRecandidature,
         référencielPermissions.éliminé.recours.query.consulter,
         référencielPermissions.document.query.consulter,
       ],
     },
     demander: [
-      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
       référencielPermissions.document.command.enregister,
@@ -565,13 +565,13 @@ const policies = {
       référencielPermissions.éliminé.recours.command.demander,
     ],
     annuler: [
-      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.abandon.query.consulter,
       référencielPermissions.éliminé.recours.usecase.annuler,
       référencielPermissions.éliminé.recours.command.annuler,
     ],
     accorder: [
-      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
@@ -581,7 +581,7 @@ const policies = {
       référencielPermissions.éliminé.recours.command.accorder,
     ],
     rejeter: [
-      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.éliminé.recours.query.consulter,
       référencielPermissions.appelOffre.cahierDesCharges.query.consulter,

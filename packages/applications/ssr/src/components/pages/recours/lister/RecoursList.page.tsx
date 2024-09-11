@@ -23,7 +23,7 @@ export const RecoursListPage: FC<RecoursListPageProps> = ({
 }) => {
   return (
     <ListPageTemplate
-      heading="Abandons"
+      heading="Recours"
       actions={[]}
       items={items.map((item) => ({
         ...item,

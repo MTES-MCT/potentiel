@@ -27,6 +27,7 @@ export const AnnulerRecours = ({ identifiantProjet }: AnnulerRecoursFormProps) =
       </Button>
 
       <ModalWithForm
+        id="annuler-recours-modal"
         title="Annuler le recours"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
