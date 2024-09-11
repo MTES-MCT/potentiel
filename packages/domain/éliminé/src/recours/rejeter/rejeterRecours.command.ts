@@ -7,7 +7,7 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { loadRecoursFactory } from '../recours.aggregate';
 
 export type RejeterRecoursCommand = Message<
-  'Eliminé.Recours.Command.RejeterRecours',
+  'Éliminé.Recours.Command.RejeterRecours',
   {
     dateRejet: DateTime.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
@@ -33,5 +33,5 @@ export const registerRejeterRecoursCommand = (loadAggregate: LoadAggregate) => {
       réponseSignée,
     });
   };
-  mediator.register('Eliminé.Recours.Command.RejeterRecours', handler);
+  mediator.register('Éliminé.Recours.Command.RejeterRecours', handler);
 };

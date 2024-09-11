@@ -5,7 +5,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { AnnulerRecoursCommand } from './annulerRecours.command';
 
 export type AnnulerRecoursUseCase = Message<
-  'Eliminé.Recours.UseCase.AnnulerRecours',
+  'Éliminé.Recours.UseCase.AnnulerRecours',
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
@@ -24,7 +24,7 @@ export const registerAnnulerRecoursUseCase = () => {
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
     await mediator.send<AnnulerRecoursCommand>({
-      type: 'Eliminé.Recours.Command.AnnulerRecours',
+      type: 'Éliminé.Recours.Command.AnnulerRecours',
       data: {
         dateAnnulation,
         identifiantUtilisateur,
@@ -33,5 +33,5 @@ export const registerAnnulerRecoursUseCase = () => {
     });
   };
 
-  mediator.register('Eliminé.Recours.UseCase.AnnulerRecours', runner);
+  mediator.register('Éliminé.Recours.UseCase.AnnulerRecours', runner);
 };

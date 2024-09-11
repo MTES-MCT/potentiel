@@ -202,7 +202,23 @@ const référencielPermissions = {
     usecase: { notifier: 'Éliminé.UseCase.NotifierÉliminé' },
     command: { notifier: 'Éliminé.Command.NotifierÉliminé' },
     recours: {
-      query: { consulterLegacy: 'Éliminé.Recours.Query.ConsulterDemandeRecoursLegacy' },
+      query: {
+        consulterLegacy: 'Éliminé.Recours.Query.ConsulterDemandeRecoursLegacy',
+        consulter: 'Éliminé.Recours.Query.ConsulterRecours',
+        lister: 'Éliminé.Recours.Query.ListerRecours',
+      },
+      usecase: {
+        annuler: 'Éliminé.Recours.UseCase.AnnulerRecours',
+        demander: 'Éliminé.Recours.UseCase.DemanderRecours',
+        accorder: 'Éliminé.Recours.UseCase.AccorderRecours',
+        rejeter: 'Éliminé.Recours.UseCase.RejeterRecours',
+      },
+      command: {
+        annuler: 'Éliminé.Recours.Command.AnnulerRecours',
+        demander: 'Éliminé.Recours.Command.DemanderRecours',
+        accorder: 'Éliminé.Recours.Command.AccorderRecours',
+        rejeter: 'Éliminé.Recours.Command.RejeterRecours',
+      },
     },
   },
   appelOffre: {
@@ -223,6 +239,7 @@ const référencielPermissions = {
       listerProjetsPreuveRecandidature:
         'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
       listerCandidatures: 'Candidature.Query.ListerCandidatures',
+      listerProjets: 'Candidature.Query.ListerProjets',
     },
     usecase: {
       importer: 'Candidature.UseCase.ImporterCandidature',
@@ -526,6 +543,54 @@ const policies = {
       référencielPermissions.lauréat.abandon.command.annulerRejet,
     ],
   },
+  recours: {
+    consulter: {
+      liste: [
+        référencielPermissions.éliminé.recours.query.lister,
+        référencielPermissions.appelOffre.query.lister,
+      ],
+      détail: [
+        référencielPermissions.candidature.query.consulter,
+        référencielPermissions.candidature.query.listerProjetsPreuveRecandidature,
+        référencielPermissions.éliminé.recours.query.consulter,
+        référencielPermissions.document.query.consulter,
+      ],
+    },
+    demander: [
+      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.appelOffre.query.consulter,
+      référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+      référencielPermissions.document.command.enregister,
+      référencielPermissions.éliminé.recours.usecase.demander,
+      référencielPermissions.éliminé.recours.command.demander,
+    ],
+    annuler: [
+      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.lauréat.abandon.query.consulter,
+      référencielPermissions.éliminé.recours.usecase.annuler,
+      référencielPermissions.éliminé.recours.command.annuler,
+    ],
+    accorder: [
+      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.appelOffre.query.consulter,
+      référencielPermissions.utilisateur.query.consulter,
+      référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+      référencielPermissions.document.command.enregister,
+      référencielPermissions.éliminé.recours.query.consulter,
+      référencielPermissions.éliminé.recours.usecase.accorder,
+      référencielPermissions.éliminé.recours.command.accorder,
+    ],
+    rejeter: [
+      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.appelOffre.query.consulter,
+      référencielPermissions.éliminé.recours.query.consulter,
+      référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+      référencielPermissions.document.command.enregister,
+      référencielPermissions.utilisateur.query.consulter,
+      référencielPermissions.éliminé.recours.usecase.rejeter,
+      référencielPermissions.éliminé.recours.command.rejeter,
+    ],
+  },
   tâche: {
     consulter: [
       référencielPermissions.tâche.query.consulterNombre,
@@ -695,6 +760,7 @@ const policies = {
     ],
     lister: [
       référencielPermissions.candidature.query.listerCandidatures,
+      référencielPermissions.candidature.query.listerProjets,
       référencielPermissions.appelOffre.query.lister,
     ],
     attestation: {
@@ -749,6 +815,12 @@ const permissionAdmin: Policy[] = [
   'abandon.rejeter',
   'abandon.demander-confirmation',
   'abandon.annuler-rejet',
+
+  // Recours
+  'recours.consulter.liste',
+  'recours.consulter.détail',
+  'recours.accorder',
+  'recours.rejeter',
 
   // Gestionnaire réseau
   'réseau.gestionnaire.lister',
@@ -817,6 +889,10 @@ const permissionCRE: Policy[] = [
   'abandon.consulter.liste',
   'abandon.consulter.détail',
 
+  // Recours
+  'recours.consulter.liste',
+  'recours.consulter.détail',
+
   // Achèvement
   'achèvement.consulter',
 
@@ -837,6 +913,10 @@ const permissionDreal: Policy[] = [
   // Abandon
   'abandon.consulter.liste',
   'abandon.consulter.détail',
+
+  // Recours
+  'recours.consulter.liste',
+  'recours.consulter.détail',
 
   // Raccordement
   'réseau.raccordement.consulter',
@@ -884,6 +964,12 @@ const permissionPorteurProjet: Policy[] = [
   'abandon.annuler',
   'abandon.confirmer',
   'abandon.preuve-recandidature.transmettre',
+
+  // Recours
+  'recours.consulter.liste',
+  'recours.consulter.détail',
+  'recours.demander',
+  'recours.annuler',
 
   // Raccordement
   'réseau.raccordement.consulter',

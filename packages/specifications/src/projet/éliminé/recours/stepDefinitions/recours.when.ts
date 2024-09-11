@@ -17,7 +17,7 @@ Quand(
         });
 
       await mediator.send<Recours.RecoursUseCase>({
-        type: 'Eliminé.Recours.UseCase.DemanderRecours',
+        type: 'Éliminé.Recours.UseCase.DemanderRecours',
         data: {
           identifiantProjetValue: identifiantProjet,
           raisonValue: raison,
@@ -42,7 +42,7 @@ Quand(`le porteur annule le recours pour le projet éliminé`, async function (t
       });
 
     await mediator.send<Recours.RecoursUseCase>({
-      type: 'Eliminé.Recours.UseCase.AnnulerRecours',
+      type: 'Éliminé.Recours.UseCase.AnnulerRecours',
       data: {
         identifiantProjetValue: identifiantProjet,
         dateAnnulationValue: annuléeLe,
@@ -69,7 +69,7 @@ Quand(
       });
 
       await mediator.send<Recours.RecoursUseCase>({
-        type: 'Eliminé.Recours.UseCase.RejeterRecours',
+        type: 'Éliminé.Recours.UseCase.RejeterRecours',
         data: {
           identifiantProjetValue: identifiantProjet,
           dateRejetValue: rejetéeLe,
@@ -98,7 +98,7 @@ Quand(
       });
 
       await mediator.send<Recours.RecoursUseCase>({
-        type: 'Eliminé.Recours.UseCase.AccorderRecours',
+        type: 'Éliminé.Recours.UseCase.AccorderRecours',
         data: {
           identifiantProjetValue: identifiantProjet,
           dateAccordValue: accordéeLe,

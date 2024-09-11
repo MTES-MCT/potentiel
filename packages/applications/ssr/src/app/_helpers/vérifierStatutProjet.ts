@@ -20,3 +20,12 @@ export const vérifierQueLeProjetEstClassé = async ({
     throw new InvalidOperationError(message);
   }
 };
+
+export const vérifierQueLeProjetEstÉliminé = ({
+  statut,
+  message = `Vous ne pouvez pas accèder à cette page car le projet n'est pas éliminé`,
+}: VérifierQueLeProjetEstClasséProps) => {
+  if (!StatutProjet.convertirEnValueType(statut).estÉliminé()) {
+    throw new InvalidOperationError(message);
+  }
+};

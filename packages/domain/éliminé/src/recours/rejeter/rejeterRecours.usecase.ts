@@ -8,7 +8,7 @@ import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
 import { RejeterRecoursCommand } from './rejeterRecours.command';
 
 export type RejeterRecoursUseCase = Message<
-  'Eliminé.Recours.UseCase.RejeterRecours',
+  'Éliminé.Recours.UseCase.RejeterRecours',
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
@@ -47,7 +47,7 @@ export const registerRejeterRecoursUseCase = () => {
     });
 
     await mediator.send<RejeterRecoursCommand>({
-      type: 'Eliminé.Recours.Command.RejeterRecours',
+      type: 'Éliminé.Recours.Command.RejeterRecours',
       data: {
         dateRejet,
         identifiantProjet,
@@ -56,5 +56,5 @@ export const registerRejeterRecoursUseCase = () => {
       },
     });
   };
-  mediator.register('Eliminé.Recours.UseCase.RejeterRecours', runner);
+  mediator.register('Éliminé.Recours.UseCase.RejeterRecours', runner);
 };

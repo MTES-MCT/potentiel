@@ -28,7 +28,7 @@ async function créerDemandeRecours(this: PotentielWorld) {
     });
 
   await mediator.send<Recours.RecoursUseCase>({
-    type: 'Eliminé.Recours.UseCase.DemanderRecours',
+    type: 'Éliminé.Recours.UseCase.DemanderRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
       pièceJustificativeValue: pièceJustificative,
@@ -51,7 +51,7 @@ async function créerAccordRecours(this: PotentielWorld) {
   });
 
   await mediator.send<Recours.RecoursUseCase>({
-    type: 'Eliminé.Recours.UseCase.AccorderRecours',
+    type: 'Éliminé.Recours.UseCase.AccorderRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
       réponseSignéeValue: réponseSignée,
@@ -72,7 +72,7 @@ async function créerRejetRecours(this: PotentielWorld) {
   });
 
   await mediator.send<Recours.RecoursUseCase>({
-    type: 'Eliminé.Recours.UseCase.RejeterRecours',
+    type: 'Éliminé.Recours.UseCase.RejeterRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
       réponseSignéeValue: réponseSignée,

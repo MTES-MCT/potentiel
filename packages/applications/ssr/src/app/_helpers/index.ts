@@ -1,2 +1,5 @@
 export { récupérerProjet } from './récupérerProjet';
-export { vérifierQueLeProjetEstClassé } from './vérifierQueLeProjetEstClassé';
+export {
+  vérifierQueLeProjetEstClassé,
+  vérifierQueLeProjetEstÉliminé,
+} from './vérifierStatutProjet';

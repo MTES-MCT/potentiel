@@ -31,7 +31,7 @@ export type ConsulterRecoursReadModel = {
 };
 
 export type ConsulterRecoursQuery = Message<
-  'Eliminé.Recours.Query.ConsulterRecours',
+  'Éliminé.Recours.Query.ConsulterRecours',
   {
     identifiantProjetValue: string;
   },
@@ -49,7 +49,7 @@ export const registerConsulterRecoursQuery = ({ find }: ConsulterRecoursDependen
 
     return Option.match(result).some(mapToReadModel).none();
   };
-  mediator.register('Eliminé.Recours.Query.ConsulterRecours', handler);
+  mediator.register('Éliminé.Recours.Query.ConsulterRecours', handler);
 };
 
 const mapToReadModel = (result: RecoursEntity) => {

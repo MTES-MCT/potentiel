@@ -36,7 +36,7 @@ export default async function Page({ searchParams }: PageProps) {
       const région = await getRégionUtilisateur(utilisateur);
 
       const { items, range, total } = await mediator.send<Recours.ListerRecoursQuery>({
-        type: 'Eliminé.Recours.Query.ListerRecours',
+        type: 'Éliminé.Recours.Query.ListerRecours',
         data: {
           utilisateur: {
             email: utilisateur.identifiantUtilisateur.email,

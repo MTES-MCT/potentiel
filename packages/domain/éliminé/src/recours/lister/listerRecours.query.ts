@@ -24,7 +24,7 @@ export type ListerRecoursReadModel = {
 };
 
 export type ListerRecoursQuery = Message<
-  'Eliminé.Recours.Query.ListerRecours',
+  'Éliminé.Recours.Query.ListerRecours',
   {
     utilisateur: {
       rôle: string;
@@ -84,7 +84,7 @@ export const registerListerRecoursQuery = ({
     };
   };
 
-  mediator.register('Eliminé.Recours.Query.ListerRecours', handler);
+  mediator.register('Éliminé.Recours.Query.ListerRecours', handler);
 };
 
 const mapToReadModel = (entity: RecoursEntity): RecoursListItemReadModel => {
