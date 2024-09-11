@@ -53,7 +53,7 @@ const PorteurProjetActions = ({
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
 }: PorteurProjetActionsProps) => {
-  const formattedProjectDataToIdentifiantProjet = formatProjectDataToIdentifiantProjetValueType({
+  const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
     periodeId: project.periodeId,
     familleId: project.familleId,
@@ -102,16 +102,14 @@ const PorteurProjetActions = ({
             {!abandonEnCours && (
               <>
                 <DropdownMenuSecondaryButton.DropdownItem
-                  href={Routes.Abandon.demander(formattedProjectDataToIdentifiantProjet)}
+                  href={Routes.Abandon.demander(identifiantProjet)}
                   disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
                 >
                   <span>Demander un abandon</span>
                 </DropdownMenuSecondaryButton.DropdownItem>
                 {!hasAttestationConformité && getProjectStatus(project) === 'lauréat' && (
                   <DropdownMenuSecondaryButton.DropdownItem
-                    href={Routes.Achèvement.transmettreAttestationConformité(
-                      formattedProjectDataToIdentifiantProjet,
-                    )}
+                    href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}
                   >
                     <span>Transmettre l'attestation de conformité</span>
                   </DropdownMenuSecondaryButton.DropdownItem>
@@ -124,9 +122,8 @@ const PorteurProjetActions = ({
         {project.notifiedOn && project.certificateFile && (
           <DownloadLinkButton
             className="w-fit"
-            fileUrl={Routes.Candidature.téléchargerAttestation(
-              formattedProjectDataToIdentifiantProjet,
-            )}          >
+            fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
+          >
             Télécharger mon attestation
           </DownloadLinkButton>
         )}
@@ -149,7 +146,7 @@ const AdminActions = ({
   signalementAbandonAutorisé,
   signalementRecoursAutorisé,
 }: AdminActionsProps) => {
-  const formattedProjectDataToIdentifiantProjet = formatProjectDataToIdentifiantProjetValueType({
+  const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
     periodeId: project.periodeId,
     familleId: project.familleId,
@@ -164,9 +161,7 @@ const AdminActions = ({
       {project.notifiedOn && project.certificateFile ? (
         <>
           <DownloadLinkButton
-            fileUrl={Routes.Candidature.téléchargerAttestation(
-              formattedProjectDataToIdentifiantProjet,
-            )}
+            fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
             className="m-auto"
           >
             Voir attestation
@@ -175,9 +170,7 @@ const AdminActions = ({
       ) : (
         !project.isLegacy && (
           <PreviewLinkButton
-            fileUrl={Routes.Candidature.prévisualiserAttestation(
-              formattedProjectDataToIdentifiantProjet,
-            )}
+            fileUrl={Routes.Candidature.prévisualiserAttestation(identifiantProjet)}
             className="m-auto"
           >
             Aperçu attestation

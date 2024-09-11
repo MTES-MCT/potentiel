@@ -70,10 +70,8 @@ export const extractDesignationItemProps = (
 
 const isProjectDesignation = or(is('ProjectNotificationDateSet'), is('ProjectNotified'));
 
-const makeCertificateLink = (
-  identifiantProjet: IdentifiantProjet.RawType,
-) => {
-    return Routes.Candidature.téléchargerAttestation(identifiantProjet)
+const makeCertificateLink = (identifiantProjet: IdentifiantProjet.RawType) => {
+  return Routes.Candidature.téléchargerAttestation(identifiantProjet);
 };
 
 const makeCertificateProps = (

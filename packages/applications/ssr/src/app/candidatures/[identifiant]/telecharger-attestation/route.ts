@@ -10,6 +10,8 @@ import { Éliminé } from '@potentiel-domain/elimine';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 
+import { récupérerProjet } from '../../../_helpers';
+
 // TODO: à supprimer pour utiliser directement Routes.Document.télécharger dans le front
 // une fois qu'on aura migré la page Projet
 const logger = getLogger();
@@ -31,10 +33,12 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     },
   });
 
+  const { nom: nomProjet } = await récupérerProjet(identifiantProjet);
+
   return new Response(result.content, {
     headers: {
       'content-type': result.format,
-      'content-disposition': `attachment; filename="attestation-${identifiantProjet}.pdf"`,
+      'content-disposition': `attachment; filename="attestation-${nomProjet}.pdf"`,
     },
   });
 };

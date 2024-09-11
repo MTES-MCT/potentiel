@@ -15,7 +15,7 @@ import { USER_ROLES } from '../../../../modules/users';
 import { extractDesignationItemProps } from './extractDesignationItemProps';
 
 describe('extractDesignationItemProps', () => {
-  const fakeIdentifiantProjet = "test#test#$test#$test"
+  const fakeIdentifiantProjet = 'test#test#$test#$test';
   const status = 'Classé' as ProjectStatus;
 
   describe(`when there is neither a ProjectImported with a notification date nor a ProjectNotified`, () => {
@@ -60,7 +60,11 @@ describe('extractDesignationItemProps', () => {
     } as ProjectNotifiedDTO;
 
     it('should return the notification date and a certificate undefined', () => {
-      const result = extractDesignationItemProps([projectNotifiedEvent], status, fakeIdentifiantProjet);
+      const result = extractDesignationItemProps(
+        [projectNotifiedEvent],
+        status,
+        fakeIdentifiantProjet,
+      );
       expect(result).toEqual({
         type: 'designation',
         date: 12,
@@ -81,7 +85,7 @@ describe('extractDesignationItemProps', () => {
         const result = extractDesignationItemProps(
           [projectNotifiedEvent, projectNotificationDateSetEvent],
           status,
-          fakeIdentifiantProjet
+          fakeIdentifiantProjet,
         );
         expect(result).toEqual({
           type: 'designation',
@@ -106,7 +110,11 @@ describe('extractDesignationItemProps', () => {
               } as ProjectNotifiedDTO,
             ];
 
-            const result = extractDesignationItemProps(projectEventList, status, fakeIdentifiantProjet);
+            const result = extractDesignationItemProps(
+              projectEventList,
+              status,
+              fakeIdentifiantProjet,
+            );
             expect(result).toMatchObject({
               certificate: { status: 'not-applicable' },
             });
