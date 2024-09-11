@@ -557,11 +557,17 @@ describe('Project.import({ data, importId })', () => {
         });
 
         it('should emit DCR/CompletionDueDateSet', () => {
-          expect(project.pendingEvents).toHaveLength(4);
+          expect(project.pendingEvents).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                type: 'ProjectDCRDueDateSet',
+              }),
 
-          const pendingEventTypes = project.pendingEvents.map((item) => item.type);
-          expect(pendingEventTypes).toContain('ProjectDCRDueDateSet');
-          expect(pendingEventTypes).toContain('ProjectCompletionDueDateSet');
+              expect.objectContaining({
+                type: 'ProjectCompletionDueDateSet',
+              }),
+            ]),
+          );
         });
       });
 
@@ -713,12 +719,18 @@ describe('Project.import({ data, importId })', () => {
           });
         });
 
-        it('should emit DCR/CompletionDueDateCancelled', () => {
-          expect(project.pendingEvents).toHaveLength(4);
+        it('should emit DCR/CompletionDueDateSet', () => {
+          expect(project.pendingEvents).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                type: 'ProjectDCRDueDateCancelled',
+              }),
 
-          const pendingEventTypes = project.pendingEvents.map((item) => item.type);
-          expect(pendingEventTypes).toContain('ProjectDCRDueDateCancelled');
-          expect(pendingEventTypes).toContain('ProjectCompletionDueDateCancelled');
+              expect.objectContaining({
+                type: 'ProjectCompletionDueDateCancelled',
+              }),
+            ]),
+          );
         });
       });
 

@@ -121,18 +121,18 @@ export const makeAcceptModificationRequest =
 
         switch (modificationRequest.type) {
           case 'recours':
-            // TODO moved to SSR?
-            // // responseFileId will never be undefined here
-            // if (acceptanceParams?.type === 'recours' && responseFileId !== undefined)
-            //   action = project
-            //     .grantClasse(submittedBy)
-            //     .andThen(() => project.updateCertificate(submittedBy, responseFileId))
-            //     .andThen(() =>
-            //       project.setNotificationDate(
-            //         submittedBy,
-            //         acceptanceParams.newNotificationDate.getTime(),
-            //       ),
-            //     );
+            // responseFileId will never be undefined here
+            if (acceptanceParams?.type === 'recours' && responseFileId !== undefined)
+              action = project
+                .grantClasse(submittedBy)
+                // TODO this whole block should be removed, Recours is managed on the new stack
+                // .andThen(() => project.updateCertificate(submittedBy, responseFileId))
+                .andThen(() =>
+                  project.setNotificationDate(
+                    submittedBy,
+                    acceptanceParams.newNotificationDate.getTime(),
+                  ),
+                );
             break;
           case 'puissance':
             if (acceptanceParams?.type === 'puissance')

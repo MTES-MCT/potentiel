@@ -662,9 +662,9 @@ export const makeProject = (args: {
       );
 
       if (status === 'acceptée' && !props.isClasse) {
-        this.grantClasse(signaledBy)
-          .andThen(() => attachment && this.updateCertificate(signaledBy, attachment.id))
-          .andThen(() => this.setNotificationDate(signaledBy, decidedOn.getTime()));
+        this.grantClasse(signaledBy).andThen(() =>
+          this.setNotificationDate(signaledBy, decidedOn.getTime()),
+        );
       }
 
       return ok(null);
