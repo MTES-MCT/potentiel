@@ -12,17 +12,22 @@ import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 import { EtapesRecours } from './EtapesRecours';
+import { AccorderRecours } from './accorder/AccorderRecours.form';
+
+export type AvailableRecoursAction = 'accorder';
 
 export type DétailsRecoursPageProps = {
   identifiantProjet: string;
   recours: PlainType<Recours.ConsulterRecoursReadModel>;
   role: PlainType<Role.ValueType>;
+  actions: ReadonlyArray<AvailableRecoursAction>;
 };
 
 export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
   identifiantProjet,
   role,
   recours,
+  actions,
 }) => {
   const demandéLe = DateTime.bind(recours.demande.demandéLe).formatter();
   const demandéPar = Email.bind(recours.demande.demandéPar).formatter();
@@ -62,8 +67,29 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
       }}
       rightColumn={{
         className: 'flex flex-col gap-8',
-        children: <></>,
+        children: (
+          <>
+            {mapToActionComponents({
+              actions,
+              identifiantProjet,
+            })}
+          </>
+        ),
       }}
     />
   );
 };
+
+type MapToActionsComponentsProps = {
+  actions: ReadonlyArray<AvailableRecoursAction>;
+  identifiantProjet: string;
+};
+
+const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) =>
+  actions.length ? (
+    <div className="flex flex-col gap-4">
+      <Heading2>Actions</Heading2>
+
+      {actions.includes('accorder') && <AccorderRecours identifiantProjet={identifiantProjet} />}
+    </div>
+  ) : null;

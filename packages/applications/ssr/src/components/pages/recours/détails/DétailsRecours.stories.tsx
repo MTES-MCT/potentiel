@@ -47,6 +47,7 @@ export const Demandé: Story = {
         },
       },
     },
+    actions: [],
   },
 };
 
@@ -89,6 +90,7 @@ export const Rejeté: Story = {
         },
       },
     },
+    actions: [],
   },
 };
 
@@ -131,5 +133,6 @@ export const Accordé: Story = {
         },
       },
     },
+    actions: [],
   },
 };

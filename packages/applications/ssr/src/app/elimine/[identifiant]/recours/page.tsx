@@ -1,16 +1,21 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { match } from 'ts-pattern';
 
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Recours } from '@potentiel-domain/elimine';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { DétailsRecoursPage } from '@/components/pages/recours/détails/DétailsRecours.page';
+import {
+  AvailableRecoursAction,
+  DétailsRecoursPage,
+} from '@/components/pages/recours/détails/DétailsRecours.page';
 
 type PageProps = IdentifiantParameter;
 
@@ -44,8 +49,36 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           recours={mapToPlainObject(recours)}
           identifiantProjet={identifiantProjet}
           role={mapToPlainObject(utilisateur.role)}
+          actions={mapToActions({
+            role: utilisateur.role.nom,
+            statut: recours.statut.value,
+          })}
         />
       );
     }),
   );
 }
+
+type MapToActionsProps = {
+  role: Role.RawType;
+  statut: Recours.StatutRecours.RawType;
+};
+
+const mapToActions = (props: MapToActionsProps) =>
+  match(props)
+    .returnType<ReadonlyArray<AvailableRecoursAction>>()
+    .with(
+      {
+        role: 'admin',
+        statut: 'demandé',
+      },
+      () => ['accorder'],
+    )
+    .with(
+      {
+        role: 'dgec-validateur',
+        statut: 'demandé',
+      },
+      () => ['accorder'],
+    )
+    .otherwise(() => []);
