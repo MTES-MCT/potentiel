@@ -135,7 +135,7 @@ export const AdminRegénérerPeriodeAttestations = ({
         )}
         <div>
           <Label htmlFor="notificationDate" optionnel>
-            Nouvelle date de désignation (facultatif, format JJ/MM/AAAA)
+            Nouvelle date de désignation (format JJ/MM/AAAA)
           </Label>
           <Input
             type="text"
@@ -150,7 +150,7 @@ export const AdminRegénérerPeriodeAttestations = ({
         </div>
         <div>
           <Label htmlFor="reason" optionnel>
-            Message justificatif du changement (facultatif, sera inclus dans le mail aux porteurs de
+            Message justificatif du changement (sera inclus dans le mail aux porteurs de
             projet)
           </Label>
           <TextArea name="reason" id="reason" defaultValue={reason} />

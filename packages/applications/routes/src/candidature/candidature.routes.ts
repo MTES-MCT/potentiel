@@ -30,3 +30,7 @@ export const lister = (filters?: ListerFilters) => {
 export const regénérerAttestations = '/admin/regenerer-attestations.html';
 export const prévisualiserAttestation = (identifiantProjet: string) =>
   `/candidatures/${encodeParameter(identifiantProjet)}/previsualiser-attestation`;
+// TODO: à supprimer pour utiliser directement Routes.Document.télécharger dans le front
+// une fois qu'on aura migré la page Projet
+export const téléchargerAttestation = (identifiantProjet: string) =>
+  `/candidatures/${encodeParameter(identifiantProjet)}/telecharger-attestation`;

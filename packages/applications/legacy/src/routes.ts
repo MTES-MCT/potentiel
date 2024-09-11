@@ -1,4 +1,3 @@
-import { makeCertificateFilename } from './modules/project';
 import querystring from 'querystring';
 import type { Project } from './entities';
 
@@ -94,40 +93,6 @@ class routes {
     appelOffreId: string;
     periodeId: string;
   }>('/admin/notifier-candidats.html');
-
-  static DOWNLOAD_CERTIFICATE_FILE = (projectId?: string, fileId?: string, filename?: string) => {
-    const route = '/attestation/:projectId/:fileId/:filename';
-    if (projectId && fileId && filename) {
-      return route
-        .replace(':projectId', projectId)
-        .replace(':fileId', fileId)
-        .replace(':filename', filename);
-    } else return route;
-  };
-
-  static CANDIDATE_CERTIFICATE_FOR_ADMINS = (project: {
-    id: string;
-    certificateFileId: string;
-    email: string;
-    potentielIdentifier: string;
-  }) =>
-    routes.DOWNLOAD_CERTIFICATE_FILE(
-      project.id,
-      project.certificateFileId,
-      makeCertificateFilename({ ...project, forAdmin: true }),
-    );
-
-  static CANDIDATE_CERTIFICATE_FOR_CANDIDATES = (project: {
-    id: string;
-    certificateFileId: string;
-    nomProjet: string;
-    potentielIdentifier: string;
-  }) =>
-    routes.DOWNLOAD_CERTIFICATE_FILE(
-      project.id,
-      project.certificateFileId,
-      makeCertificateFilename({ ...project, forAdmin: false }),
-    );
 
   static POST_NOTIFIER_CANDIDATS = '/admin/envoyer-les-notifications-aux-candidats';
   static ADMIN_CORRECT_PROJECT_DATA_ACTION = '/admin/correctProjectData';

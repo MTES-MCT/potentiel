@@ -15,7 +15,7 @@ import { USER_ROLES } from '../../../../modules/users';
 import { extractDesignationItemProps } from './extractDesignationItemProps';
 
 describe('extractDesignationItemProps', () => {
-  const projectId = new UniqueEntityID().toString();
+  const fakeIdentifiantProjet = 'test#test#$test#$test';
   const status = 'Classé' as ProjectStatus;
 
   describe(`when there is neither a ProjectImported with a notification date nor a ProjectNotified`, () => {
@@ -47,7 +47,7 @@ describe('extractDesignationItemProps', () => {
           date: 13,
         } as ProjectClaimedDTO,
       ];
-      const result = extractDesignationItemProps(projectEventList, projectId, status);
+      const result = extractDesignationItemProps(projectEventList, status, fakeIdentifiantProjet);
       expect(result).toBeNull();
     });
   });
@@ -60,7 +60,11 @@ describe('extractDesignationItemProps', () => {
     } as ProjectNotifiedDTO;
 
     it('should return the notification date and a certificate undefined', () => {
-      const result = extractDesignationItemProps([projectNotifiedEvent], projectId, status);
+      const result = extractDesignationItemProps(
+        [projectNotifiedEvent],
+        status,
+        fakeIdentifiantProjet,
+      );
       expect(result).toEqual({
         type: 'designation',
         date: 12,
@@ -76,11 +80,12 @@ describe('extractDesignationItemProps', () => {
         variant: 'admin',
         date: 34,
       } as ProjectNotificationDateSetDTO;
+
       it('should return the latest notification date that was set', () => {
         const result = extractDesignationItemProps(
           [projectNotifiedEvent, projectNotificationDateSetEvent],
-          projectId,
           status,
+          fakeIdentifiantProjet,
         );
         expect(result).toEqual({
           type: 'designation',
@@ -105,7 +110,11 @@ describe('extractDesignationItemProps', () => {
               } as ProjectNotifiedDTO,
             ];
 
-            const result = extractDesignationItemProps(projectEventList, projectId, status);
+            const result = extractDesignationItemProps(
+              projectEventList,
+              status,
+              fakeIdentifiantProjet,
+            );
             expect(result).toMatchObject({
               certificate: { status: 'not-applicable' },
             });
@@ -125,7 +134,7 @@ describe('extractDesignationItemProps', () => {
           } as ProjectCertificateGeneratedDTO,
         ];
 
-        const result = extractDesignationItemProps(projectEventList, projectId, status);
+        const result = extractDesignationItemProps(projectEventList, status, fakeIdentifiantProjet);
         expect(result).toMatchObject({
           certificate: { date: 13, status: 'generated', url: expect.anything() },
           projectStatus: 'Classé',
@@ -149,7 +158,7 @@ describe('extractDesignationItemProps', () => {
           } as ProjectCertificateRegeneratedDTO,
         ];
 
-        const result = extractDesignationItemProps(projectEventList, projectId, status);
+        const result = extractDesignationItemProps(projectEventList, status, fakeIdentifiantProjet);
         expect(result).toMatchObject({
           certificate: { date: 14, status: 'generated', url: expect.anything() },
         });
@@ -167,7 +176,7 @@ describe('extractDesignationItemProps', () => {
           } as ProjectClaimedDTO,
         ];
 
-        const result = extractDesignationItemProps(projectEventList, projectId, status);
+        const result = extractDesignationItemProps(projectEventList, status, fakeIdentifiantProjet);
         expect(result).toMatchObject({
           certificate: { date: 13, status: 'uploaded', url: expect.anything() },
         });
@@ -185,7 +194,7 @@ describe('extractDesignationItemProps', () => {
           } as ProjectCertificateUpdatedDTO,
         ];
 
-        const result = extractDesignationItemProps(projectEventList, projectId, status);
+        const result = extractDesignationItemProps(projectEventList, status, fakeIdentifiantProjet);
         expect(result).toMatchObject({
           certificate: { date: 13, status: 'uploaded', url: expect.anything() },
         });
@@ -208,7 +217,7 @@ describe('extractDesignationItemProps', () => {
           } as ProjectCertificateUpdatedDTO,
         ];
 
-        const result = extractDesignationItemProps(projectEventList, projectId, status);
+        const result = extractDesignationItemProps(projectEventList, status, fakeIdentifiantProjet);
         expect(result).toMatchObject({
           certificate: { date: 14, status: 'uploaded', url: expect.anything() },
         });

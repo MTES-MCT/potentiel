@@ -195,8 +195,10 @@ const référencielPermissions = {
     },
     usecase: { notifier: 'Lauréat.UseCase.NotifierLauréat' },
     command: { notifier: 'Lauréat.Command.NotifierLauréat' },
+    query: { consulter: 'Lauréat.Query.ConsulterLauréat' },
   },
   éliminé: {
+    query: { consulter: 'Éliminé.Query.ConsulterÉliminé' },
     usecase: { notifier: 'Éliminé.UseCase.NotifierÉliminé' },
     command: { notifier: 'Éliminé.Command.NotifierÉliminé' },
   },
@@ -214,7 +216,7 @@ const référencielPermissions = {
   candidature: {
     query: {
       consulterCandidature: 'Candidature.Query.ConsulterCandidature',
-      consulter: 'Candidature.Query.ConsulterProjet',
+      consulterProjet: 'Candidature.Query.ConsulterProjet',
       listerProjetsPreuveRecandidature:
         'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
       listerCandidatures: 'Candidature.Query.ListerCandidatures',
@@ -329,7 +331,7 @@ const policies = {
   réseau: {
     raccordement: {
       consulter: [
-        référencielPermissions.candidature.query.consulter,
+        référencielPermissions.candidature.query.consulterProjet,
         référencielPermissions.réseau.raccordement.query.consulter,
         référencielPermissions.réseau.raccordement.query.consulterNombre,
         référencielPermissions.réseau.raccordement.query.consulterDossier,
@@ -338,7 +340,7 @@ const policies = {
       ],
       'demande-complète-raccordement': {
         transmettre: [
-          référencielPermissions.candidature.query.consulter,
+          référencielPermissions.candidature.query.consulterProjet,
           référencielPermissions.appelOffre.query.consulter,
           référencielPermissions.document.command.enregister,
           référencielPermissions.réseau.gestionnaire.query.lister,
@@ -347,7 +349,7 @@ const policies = {
           référencielPermissions.réseau.raccordement.command.transmettreDemandeComplète,
         ],
         modifier: [
-          référencielPermissions.candidature.query.consulter,
+          référencielPermissions.candidature.query.consulterProjet,
           référencielPermissions.appelOffre.query.consulter,
           référencielPermissions.document.command.enregister,
           référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
@@ -358,7 +360,7 @@ const policies = {
       },
       'proposition-technique-et-financière': {
         transmettre: [
-          référencielPermissions.candidature.query.consulter,
+          référencielPermissions.candidature.query.consulterProjet,
           référencielPermissions.document.command.enregister,
           référencielPermissions.réseau.raccordement.query.consulterDossier,
           référencielPermissions.réseau.raccordement.usecase
@@ -367,7 +369,7 @@ const policies = {
             .transmettrePropositionTechniqueEtFinancière,
         ],
         modifier: [
-          référencielPermissions.candidature.query.consulter,
+          référencielPermissions.candidature.query.consulterProjet,
           référencielPermissions.document.command.enregister,
           référencielPermissions.réseau.raccordement.query.consulterDossier,
           référencielPermissions.réseau.raccordement.usecase
@@ -378,7 +380,7 @@ const policies = {
       },
       'date-mise-en-service': {
         transmettre: [
-          référencielPermissions.candidature.query.consulter,
+          référencielPermissions.candidature.query.consulterProjet,
           référencielPermissions.appelOffre.query.consulter,
           référencielPermissions.réseau.raccordement.query.consulterDossier,
           référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
@@ -386,14 +388,14 @@ const policies = {
         ],
         importer: [
           référencielPermissions.réseau.raccordement.query.rechercher,
-          référencielPermissions.candidature.query.consulter,
+          référencielPermissions.candidature.query.consulterProjet,
           référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
           référencielPermissions.réseau.raccordement.command.transmettreDateMiseEnService,
         ],
       },
       'référence-dossier': {
         modifier: [
-          référencielPermissions.candidature.query.consulter,
+          référencielPermissions.candidature.query.consulterProjet,
           référencielPermissions.appelOffre.query.consulter,
           référencielPermissions.document.command.déplacer,
           référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
@@ -410,7 +412,7 @@ const policies = {
       },
       gestionnaire: {
         modifier: [
-          référencielPermissions.candidature.query.consulter,
+          référencielPermissions.candidature.query.consulterProjet,
           référencielPermissions.réseau.gestionnaire.query.lister,
           référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
           référencielPermissions.réseau.raccordement.usecase.modifierGestionnaireRéseau,
@@ -438,14 +440,14 @@ const policies = {
         référencielPermissions.appelOffre.query.lister,
       ],
       détail: [
-        référencielPermissions.candidature.query.consulter,
+        référencielPermissions.candidature.query.consulterProjet,
         référencielPermissions.candidature.query.listerProjetsPreuveRecandidature,
         référencielPermissions.lauréat.abandon.query.consulter,
         référencielPermissions.document.query.consulter,
       ],
     },
     demander: [
-      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
       référencielPermissions.document.command.enregister,
@@ -453,19 +455,19 @@ const policies = {
       référencielPermissions.lauréat.abandon.command.demander,
     ],
     annuler: [
-      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.abandon.query.consulter,
       référencielPermissions.lauréat.abandon.usecase.annuler,
       référencielPermissions.lauréat.abandon.command.annuler,
     ],
     confirmer: [
-      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.abandon.query.consulter,
       référencielPermissions.lauréat.abandon.usecase.confirmer,
       référencielPermissions.lauréat.abandon.command.confirmer,
     ],
     accorder: [
-      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
@@ -475,7 +477,7 @@ const policies = {
       référencielPermissions.lauréat.abandon.command.accorder,
     ],
     rejeter: [
-      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.lauréat.abandon.query.consulter,
       référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
@@ -485,7 +487,7 @@ const policies = {
       référencielPermissions.lauréat.abandon.command.rejeter,
     ],
     'demander-confirmation': [
-      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.lauréat.abandon.query.consulter,
@@ -497,13 +499,13 @@ const policies = {
     'preuve-recandidature': {
       transmettre: [
         référencielPermissions.lauréat.abandon.query.consulter,
-        référencielPermissions.candidature.query.consulter,
+        référencielPermissions.candidature.query.consulterProjet,
         référencielPermissions.candidature.query.listerProjetsPreuveRecandidature,
         référencielPermissions.lauréat.abandon.usecase.transmettrePreuveRecandidature,
         référencielPermissions.lauréat.abandon.command.transmettrePreuveRecandidature,
       ],
       accorder: [
-        référencielPermissions.candidature.query.consulter,
+        référencielPermissions.candidature.query.consulterProjet,
         référencielPermissions.appelOffre.query.consulter,
         référencielPermissions.utilisateur.query.consulter,
         référencielPermissions.utilisateur.query.consulter,
@@ -515,7 +517,7 @@ const policies = {
       ],
     },
     'annuler-rejet': [
-      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.abandon.query.consulter,
       référencielPermissions.lauréat.abandon.usecase.annulerRejet,
       référencielPermissions.lauréat.abandon.command.annulerRejet,
@@ -543,7 +545,7 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.command.demander,
       ],
       soumettre: [
-        référencielPermissions.candidature.query.consulter,
+        référencielPermissions.candidature.query.consulterProjet,
         référencielPermissions.appelOffre.query.consulter,
         référencielPermissions.lauréat.garantiesFinancières.usecase.soumettre,
         référencielPermissions.lauréat.garantiesFinancières.command.soumettre,
@@ -651,7 +653,7 @@ const policies = {
       ],
       générerModèleMiseEnDemeure: [
         référencielPermissions.utilisateur.query.consulter,
-        référencielPermissions.candidature.query.consulter,
+        référencielPermissions.candidature.query.consulterProjet,
         référencielPermissions.appelOffre.query.consulter,
         référencielPermissions.lauréat.garantiesFinancières.query
           .consulterProjetAvecGarantiesFinancièresEnAttente,
@@ -660,7 +662,7 @@ const policies = {
   },
   achèvement: {
     consulter: [
-      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.achèvement.query.consulter,
       référencielPermissions.document.query.consulter,
     ],
@@ -670,7 +672,7 @@ const policies = {
       référencielPermissions.document.command.enregister,
     ],
     modifier: [
-      référencielPermissions.candidature.query.consulter,
+      référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.achèvement.query.consulter,
       référencielPermissions.lauréat.achèvement.useCase.modifier,
       référencielPermissions.lauréat.achèvement.command.modifier,
@@ -704,7 +706,12 @@ const policies = {
         référencielPermissions.candidature.query.consulterCandidature,
         référencielPermissions.appelOffre.query.consulter,
       ],
-      télécharger: [],
+      télécharger: [
+        référencielPermissions.lauréat.query.consulter,
+        référencielPermissions.éliminé.query.consulter,
+        référencielPermissions.document.query.consulter,
+        référencielPermissions.candidature.query.consulterProjet,
+      ],
     },
   },
   période: {
@@ -792,6 +799,7 @@ const permissionAdmin: Policy[] = [
   'candidature.lister',
   'candidature.notifier',
   'candidature.attestation.prévisualiser',
+  'candidature.attestation.télécharger',
 
   // Période
   'période.lister',
@@ -823,6 +831,9 @@ const permissionCRE: Policy[] = [
   'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.mainlevée.consulter',
   'garantiesFinancières.mainlevée.consulterHistorique',
+
+  // Candidature
+  'candidature.attestation.télécharger',
 ];
 
 const permissionDreal: Policy[] = [
@@ -863,6 +874,9 @@ const permissionDreal: Policy[] = [
   'achèvement.consulter',
   'achèvement.transmettre',
   'achèvement.modifier',
+
+  // Candidature
+  'candidature.attestation.télécharger',
 ];
 
 const permissionPorteurProjet: Policy[] = [
@@ -905,6 +919,9 @@ const permissionPorteurProjet: Policy[] = [
   // Achèvement
   'achèvement.consulter',
   'achèvement.transmettre',
+
+  // Candidature
+  'candidature.attestation.télécharger',
 ];
 
 const permissionAcheteurObligé: Policy[] = [
@@ -917,6 +934,9 @@ const permissionAcheteurObligé: Policy[] = [
 
   // Achèvement
   'achèvement.transmettre',
+
+  // Candidature
+  'candidature.attestation.télécharger',
 ];
 
 const permissionCaisseDesDépôts: Policy[] = [
