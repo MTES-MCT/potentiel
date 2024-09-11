@@ -6,6 +6,8 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { StatutCandidature } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Période } from '@potentiel-domain/periode';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
@@ -27,7 +29,7 @@ export const metadata: Metadata = {
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
     const appelOffre = searchParams?.appelOffre;
-    const periode = searchParams?.periode;
+    const périodeParams = searchParams?.periode;
     const nomProjet = searchParams?.nomProjet;
     const statut = searchParams?.statut;
     const page = searchParams?.page ? parseInt(searchParams.page) : 1;
@@ -41,21 +43,19 @@ export default async function Page({ searchParams }: PageProps) {
         }),
         nomProjet,
         appelOffre,
-        période: periode,
+        période: périodeParams,
         statut: statut ? StatutCandidature.convertirEnValueType(statut).statut : undefined,
       },
     });
-
-    // utilisateur
 
     const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
       type: 'AppelOffre.Query.ListerAppelOffre',
       data: {},
     });
 
-    const périodes =
+    const périodesOption =
       appelOffres.items
-        .find((ao) => ao.id === appelOffre)
+        .find((appelOffresItem) => appelOffresItem.id === appelOffre)
         ?.periodes.map((p) => ({
           label: p.title,
           value: p.id,
@@ -74,8 +74,8 @@ export default async function Page({ searchParams }: PageProps) {
       {
         label: `Période`,
         searchParamKey: 'periode',
-        defaultValue: periode,
-        options: périodes,
+        defaultValue: périodeParams,
+        options: périodesOption,
       },
       {
         label: 'Statut',
@@ -107,10 +107,38 @@ export default async function Page({ searchParams }: PageProps) {
 
     const items: Array<CandidatureListItemProps> = [];
 
-    for (const candidature of candidaturesData.items) {
-      const ao = appelOffres.items.find((ao) => ao.id === candidature.identifiantProjet.appelOffre);
+    const identifiantsPériode = périodeParams
+      ? [`${appelOffre}#${périodeParams}`]
+      : Array.from(
+          new Set(
+            candidaturesData.items.map(
+              (candidature) =>
+                `${candidature.identifiantProjet.appelOffre}#${candidature.identifiantProjet.période}`,
+            ),
+          ),
+        );
 
-      if (!ao) {
+    for (const identifiantPériode of identifiantsPériode) {
+      const période = await mediator.send<Période.ConsulterPériodeQuery>({
+        type: 'Période.Query.ConsulterPériode',
+        data: {
+          identifiantPériodeValue: identifiantPériode,
+        },
+      });
+
+      console.log('viovio', période);
+
+      if (Option.isSome(période)) {
+        console.log('viovio', période.estNotifiée);
+      }
+    }
+
+    for (const candidature of candidaturesData.items) {
+      const appelOffresItem = appelOffres.items.find(
+        (appelOffresItem) => appelOffresItem.id === candidature.identifiantProjet.appelOffre,
+      );
+
+      if (!appelOffresItem) {
         getLogger().warn(`Aucun appel d'offres trouvé pour la candidature`, {
           identifiantProjet: candidature.identifiantProjet.formatter(),
           appelOffre: candidature.identifiantProjet.appelOffre,
@@ -120,7 +148,27 @@ export default async function Page({ searchParams }: PageProps) {
       items.push(
         mapToPlainObject({
           ...candidature,
-          unitePuissance: ao?.unitePuissance ?? 'MWc',
+          unitePuissance: appelOffresItem?.unitePuissance ?? 'MWc',
+        }),
+      );
+    }
+
+    for (const candidature of candidaturesData.items) {
+      const appelOffresItem = appelOffres.items.find(
+        (appelOffresItem) => appelOffresItem.id === candidature.identifiantProjet.appelOffre,
+      );
+
+      if (!appelOffresItem) {
+        getLogger().warn(`Aucun appel d'offres trouvé pour la candidature`, {
+          identifiantProjet: candidature.identifiantProjet.formatter(),
+          appelOffre: candidature.identifiantProjet.appelOffre,
+        });
+      }
+
+      items.push(
+        mapToPlainObject({
+          ...candidature,
+          unitePuissance: appelOffresItem?.unitePuissance ?? 'MWc',
         }),
       );
     }
