@@ -9,7 +9,8 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { registerDocumentProjetCommand } from '@potentiel-domain/document';
-import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { CandidatureAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { Candidature } from '@potentiel-domain/candidature';
 
 if (!process.env.DIRECTORY_PATH) {
   console.error(`La variable d'environnement DIRECTORY_PATH n'est pas définie.`);
@@ -20,6 +21,15 @@ if (!process.env.EVENT_STORE_CONNECTION_STRING) {
   console.error(`La variable d'environnement EVENT_STORE_CONNECTION_STRING n'est pas définie.`);
   process.exit(1);
 }
+
+Candidature.registerCandidatureQueries({
+  find: findProjection,
+  list: listProjection,
+  récupérerProjet: CandidatureAdapter.récupérerProjetAdapter,
+  récupérerProjets: CandidatureAdapter.récupérerProjetsAdapter,
+  récupérerProjetsEligiblesPreuveRecanditure:
+    CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
+});
 
 GarantiesFinancières.registerGarantiesFinancièresUseCases({
   loadAggregate,
@@ -44,11 +54,13 @@ registerDocumentProjetCommand({
     });
 
     type Statistics = {
+      projetInconnu: number;
       attestationAjoutée: number;
       gfCréeEtAttestationAjoutée: number;
       attestationExistante: number;
     };
     const statistics: Statistics = {
+      projetInconnu: 0,
       attestationAjoutée: 0,
       gfCréeEtAttestationAjoutée: 0,
       attestationExistante: 0,
@@ -65,17 +77,30 @@ registerDocumentProjetCommand({
 
       const fileName = path.basename(file.name, '.pdf');
 
-      const identifiantProjet = IdentifiantProjet.convertirEnValueType(fileName);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(fileName).formatter();
+
+      const projet = await mediator.send<Candidature.ConsulterProjetQuery>({
+        type: 'Candidature.Query.ConsulterProjet',
+        data: {
+          identifiantProjet,
+        },
+      });
+
+      if (Option.isNone(projet)) {
+        console.log(`Projet ${identifiantProjet} inconnu`);
+        statistics.projetInconnu++;
+        continue;
+      }
 
       const gf = await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
         type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
         data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantProjetValue: identifiantProjet,
         },
       });
 
       if (Option.isSome(gf) && gf.garantiesFinancières.attestation) {
-        console.log(`Le projet ${identifiantProjet.formatter()} a déjà une attestation`);
+        console.log(`Le projet ${identifiantProjet} a déjà une attestation`);
         statistics.attestationExistante++;
         continue;
       }
@@ -97,7 +122,7 @@ registerDocumentProjetCommand({
         await mediator.send<GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
           type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
           data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+            identifiantProjetValue: identifiantProjet,
             typeValue: GarantiesFinancières.TypeGarantiesFinancières.typeInconnu.type,
             dateConstitutionValue: DateTime.now().formatter(), // Quelle date mettre ici ?
             attestationValue: {
@@ -109,16 +134,14 @@ registerDocumentProjetCommand({
           },
         });
         statistics.gfCréeEtAttestationAjoutée++;
-        console.log(
-          `Garanties financières du projet ${identifiantProjet.formatter()} crée avec l'attestation`,
-        );
+        console.log(`Garanties financières du projet ${identifiantProjet} crée avec l'attestation`);
         continue;
       }
 
       await mediator.send<GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
         data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantProjetValue: identifiantProjet,
           dateConstitutionValue:
             gf.garantiesFinancières.dateConstitution?.formatter() ?? DateTime.now().formatter(),
           attestationValue: {
@@ -130,10 +153,11 @@ registerDocumentProjetCommand({
         },
       });
       statistics.attestationAjoutée++;
-      console.log(`Attestation du projet ${identifiantProjet.formatter()} enregistrée`);
+      console.log(`Attestation du projet ${identifiantProjet} enregistrée`);
     }
 
     console.log('\n\nStatistiques :');
+    console.log(`Nombre de projets inconnu : ${statistics.projetInconnu}`);
     console.log(
       `Nombre d'attestation ajoutées à des gfs existante : ${statistics.attestationAjoutée}`,
     );
