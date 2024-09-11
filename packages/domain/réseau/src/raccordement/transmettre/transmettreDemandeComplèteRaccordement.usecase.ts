@@ -45,15 +45,9 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
     const identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
       identifiantGestionnaireRéseauValue,
     );
-
-    await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'Document.Command.EnregistrerDocumentProjet',
-      data: {
-        content,
-        documentProjet: accuséRéception,
-      },
-    });
-
+    /**
+     * Merci de laisser la commande transmettre en première puisqu'elle fait des vérifications (notamment sur l'abandon du projet)
+     */
     await mediator.send<TransmettreDemandeComplèteRaccordementCommand>({
       type: 'Réseau.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
       data: {
@@ -62,6 +56,14 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
         dateQualification,
         référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référenceDossierValue),
         formatAccuséRéception: format,
+      },
+    });
+
+    await mediator.send<EnregistrerDocumentProjetCommand>({
+      type: 'Document.Command.EnregistrerDocumentProjet',
+      data: {
+        content,
+        documentProjet: accuséRéception,
       },
     });
   };

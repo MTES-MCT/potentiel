@@ -5,7 +5,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
-import { FormatRéférenceDossierRaccordementInvalideError } from '../transmettre/transmettreDemandeComplèteRaccordement.behavior';
+import { FormatRéférenceDossierRaccordementInvalideError } from '../formatRéférenceDossierRaccordementInvalide.error';
 
 export type RéférenceDossierRacordementModifiéeEvent = DomainEvent<
   'RéférenceDossierRacordementModifiée-V1',
@@ -82,14 +82,14 @@ export function applyRéférenceDossierRacordementModifiéeEventV1(
   this.dossiers.delete(référenceDossierRaccordementActuelle);
   this.dossiers.set(nouvelleRéférenceDossierRaccordement, dossier);
 }
-export class RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError extends InvalidOperationError {
+class RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError extends InvalidOperationError {
   constructor(référenceDossier: string) {
     super(
       `La référence du dossier de raccordement ${référenceDossier} ne peut pas être modifiée car le dossier dispose déjà d'une date de mise en service`,
     );
   }
 }
-export class RéférencesDossierRaccordementIdentiquesError extends InvalidOperationError {
+class RéférencesDossierRaccordementIdentiquesError extends InvalidOperationError {
   constructor() {
     super(`Les références du dossier de raccordement sont identiques`);
   }
