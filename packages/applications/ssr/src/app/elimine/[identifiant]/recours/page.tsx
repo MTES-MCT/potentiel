@@ -72,13 +72,13 @@ const mapToActions = (props: MapToActionsProps) =>
         role: 'admin',
         statut: 'demandé',
       },
-      () => ['accorder'],
+      () => ['accorder', 'rejeter'],
     )
     .with(
       {
         role: 'dgec-validateur',
         statut: 'demandé',
       },
-      () => ['accorder'],
+      () => ['accorder', 'rejeter'],
     )
     .otherwise(() => []);
