@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet, StatutCandidature } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -11,7 +11,7 @@ import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueTy
 
 export type ConsulterCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  statut: StatutProjet.ValueType;
+  statut: StatutCandidature.ValueType;
   nomProjet: string;
   typeGarantiesFinancières?: TypeGarantiesFinancières.ValueType;
   historiqueAbandon: HistoriqueAbandon.ValueType;
@@ -92,7 +92,7 @@ export const mapToReadModel = ({
   misÀJourLe,
 }: CandidatureEntity): ConsulterCandidatureReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  statut: StatutProjet.convertirEnValueType(statut),
+  statut: StatutCandidature.convertirEnValueType(statut),
   historiqueAbandon: HistoriqueAbandon.convertirEnValueType(historiqueAbandon),
   technologie: TypeTechnologie.convertirEnValueType(technologie),
   dateÉchéanceGf: dateÉchéanceGf ? DateTime.convertirEnValueType(dateÉchéanceGf) : undefined,

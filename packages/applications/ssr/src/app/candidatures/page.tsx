@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import { Candidature } from '@potentiel-domain/candidature';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { StatutProjet } from '@potentiel-domain/common';
+import { StatutCandidature } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -42,9 +42,11 @@ export default async function Page({ searchParams }: PageProps) {
         nomProjet,
         appelOffre,
         période: periode,
-        statut: statut ? StatutProjet.convertirEnValueType(statut).statut : undefined,
+        statut: statut ? StatutCandidature.convertirEnValueType(statut).statut : undefined,
       },
     });
+
+    // utilisateur
 
     const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
       type: 'AppelOffre.Query.ListerAppelOffre',
@@ -82,11 +84,11 @@ export default async function Page({ searchParams }: PageProps) {
         options: [
           {
             label: 'Classé',
-            value: StatutProjet.classé.statut,
+            value: StatutCandidature.classé.statut,
           },
           {
             label: 'Éliminé',
-            value: StatutProjet.éliminé.statut,
+            value: StatutCandidature.éliminé.statut,
           },
         ],
       },

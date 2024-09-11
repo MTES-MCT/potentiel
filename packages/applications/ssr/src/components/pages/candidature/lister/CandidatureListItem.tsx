@@ -3,7 +3,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet, StatutCandidature } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -14,7 +14,7 @@ import * as symbols from './candidatureListLegendSymbols';
 
 export type CandidatureListItemProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-  statut: PlainType<StatutProjet.ValueType>;
+  statut: PlainType<StatutCandidature.ValueType>;
   nomProjet: Candidature.ConsulterCandidatureReadModel['nomProjet'];
   nomCandidat: Candidature.ConsulterCandidatureReadModel['nomCandidat'];
   nomReprésentantLégal: Candidature.ConsulterCandidatureReadModel['nomReprésentantLégal'];
@@ -29,6 +29,8 @@ export type CandidatureListItemProps = {
   };
   unitePuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
 };
+
+// ajouter une condition pour checker si c'est notifié
 
 export const CandidatureListItem: FC<CandidatureListItemProps> = ({
   identifiantProjet,
@@ -142,6 +144,17 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
         aria-label={`Lien vers la page de la candidature ${nomProjet}`}
       >
         Consulter
+      </Button>
+      <Button
+        className="hidden md:flex ml-auto"
+        linkProps={{
+          href: Routes.Candidature.prévisualiserAttestation(
+            IdentifiantProjet.bind(identifiantProjet).formatter(),
+          ),
+        }}
+        aria-label={`Lien vers l'attestation de désignation de ${nomProjet}`}
+      >
+        Voir l'attestation
       </Button>
     </div>
   </div>

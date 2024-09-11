@@ -2,7 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/candidature';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { StatutCandidature } from '@potentiel-domain/common';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
@@ -43,7 +44,7 @@ export const register = () => {
             evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiée,
             actionnariat: payload.actionnariat,
             territoireProjet: payload.territoireProjet,
-            statut: StatutProjet.convertirEnValueType(payload.statut).statut,
+            statut: StatutCandidature.convertirEnValueType(payload.statut).statut,
             typeGarantiesFinancières: payload.typeGarantiesFinancières
               ? Candidature.TypeGarantiesFinancières.convertirEnValueType(
                   payload.typeGarantiesFinancières,

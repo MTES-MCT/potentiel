@@ -2,7 +2,7 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/candidature';
-import { StatutProjet } from '@potentiel-domain/common';
+import { StatutCandidature } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { DeepPartial } from '../../fixture';
@@ -108,7 +108,7 @@ EtantDonné(
       await importerCandidature.call(
         this,
         nomProjetValue,
-        statutValue as StatutProjet.RawType,
+        statutValue as StatutCandidature.RawType,
         data,
       );
     }
@@ -118,7 +118,7 @@ EtantDonné(
 async function importerCandidature(
   this: PotentielWorld,
   nomProjet: string,
-  statut: StatutProjet.RawType,
+  statut: StatutCandidature.RawType,
   partialValues?: DeepPartial<Candidature.ImporterCandidatureUseCase['data']>,
 ) {
   const { values } = this.candidatureWorld.importerCandidature.créer({
