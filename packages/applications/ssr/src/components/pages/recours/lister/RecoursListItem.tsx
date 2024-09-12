@@ -32,7 +32,7 @@ export const RecoursListItem: FC<RecoursListItemProps> = ({
       actions={
         <Link
           href={Routes.Recours.détail(IdentifiantProjet.bind(identifiantProjet).formatter())}
-          aria-label={`voir le détail de l'abandon en statut ${statut} pour le projet ${nomProjet}`}
+          aria-label={`voir le détail du recours en statut ${statut} pour le projet ${nomProjet}`}
         >
           voir le détail
         </Link>

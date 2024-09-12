@@ -5,11 +5,12 @@ import { Recours } from '@potentiel-domain/elimine';
 import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { StatutAbandonBadge } from '@/components/pages/abandon/StatutAbandonBadge';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+
+import { StatutRecoursBadge } from '../StatutRecoursBadge';
 
 import { EtapesRecours } from './EtapesRecours';
 import { AccorderRecours } from './accorder/AccorderRecours.form';
@@ -44,7 +45,7 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
               <Heading2 className="mb-4">Contexte</Heading2>
               <div className="flex flex-col gap-2">
                 <div>
-                  Statut : <StatutAbandonBadge statut={recours.statut.value} />
+                  Statut : <StatutRecoursBadge statut={recours.statut.value} />
                 </div>
                 <div>
                   Demandé par : <span className="font-semibold">{demandéPar}</span>
