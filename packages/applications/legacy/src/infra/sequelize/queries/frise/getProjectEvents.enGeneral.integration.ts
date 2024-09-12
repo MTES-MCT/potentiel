@@ -59,12 +59,6 @@ describe('getProjectEvents en général', () => {
         {
           type: 'ProjectClaimed',
         },
-        {
-          type: 'ProjectCertificateRegenerated',
-        },
-        {
-          type: 'ProjectCertificateUpdated',
-        },
       ],
     });
   });
