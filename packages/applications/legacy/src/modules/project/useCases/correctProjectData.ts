@@ -25,16 +25,9 @@ interface CorrectProjectDataDeps {
 
 interface CorrectProjectDataArgs {
   projectId: string;
-  certificateFile?: {
-    contents: FileContents;
-    filename: string;
-  };
   projectVersionDate: Date;
-  newNotifiedOn: number;
   user: User;
   shouldGrantClasse: boolean;
-  attestation: 'regenerate' | 'donotregenerate' | 'custom';
-  reason?: string;
   correctedData: Partial<{
     nomProjet: string;
     territoireProjet: string;
@@ -73,21 +66,7 @@ export type CorrectProjectData = (
 
 export const makeCorrectProjectData =
   (deps: CorrectProjectDataDeps): CorrectProjectData =>
-  ({
-    projectId,
-    // TODO remove
-
-    certificateFile,
-    projectVersionDate,
-    newNotifiedOn,
-    user,
-    correctedData,
-    shouldGrantClasse,
-    // TODO remove
-    reason,
-    // TODO remove
-    attestation,
-  }) => {
+  ({ projectId, projectVersionDate, user, correctedData, shouldGrantClasse }) => {
     if (!['admin', 'dgec-validateur'].includes(user.role)) {
       return errAsync(new UnauthorizedError());
     }
@@ -106,17 +85,9 @@ export const makeCorrectProjectData =
           return err(new ProjectHasBeenUpdatedSinceError());
         }
 
-        if (newNotifiedOn && project.isLegacy) {
-          return err(new UnauthorizedError());
-        }
-
-        return _grantClasseIfNecessary(project)
-          .andThen(() => project.correctData(user, correctedData))
-          .andThen(() =>
-            newNotifiedOn
-              ? project.setNotificationDate(user, newNotifiedOn)
-              : ok<null, never>(null),
-          );
+        return _grantClasseIfNecessary(project).andThen(() =>
+          project.correctData(user, correctedData),
+        );
       },
     );
 

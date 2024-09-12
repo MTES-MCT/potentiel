@@ -34,13 +34,11 @@ describe('correctProjectData', () => {
       const res = await correctProjectData({
         projectId,
         projectVersionDate: new Date(),
-        newNotifiedOn: 123,
         user,
         shouldGrantClasse: false,
         correctedData: {
           nomProjet: 'test',
         },
-        attestation: 'regenerate',
       });
 
       expect(res.isErr()).toEqual(true);
@@ -73,52 +71,14 @@ describe('correctProjectData', () => {
         const res = await correctProjectData({
           projectId: projectId,
           projectVersionDate: new Date(0), // before new Date(1)
-          newNotifiedOn: 1,
           user,
           shouldGrantClasse: true,
           correctedData: {},
-          attestation: 'regenerate',
         });
 
         expect(res.isErr()).toEqual(true);
         if (res.isOk()) return;
         expect(res.error).toBeInstanceOf(ProjectHasBeenUpdatedSinceError);
-      });
-    });
-
-    describe('when project has not been updated since', () => {
-      describe('when project is legacy and newNotifiedOn is defined', () => {
-        const fakeProject = { ...makeFakeProject(), isLegacy: true };
-
-        const projectRepo = fakeTransactionalRepo(fakeProject as Project);
-
-        const fileRepo = {
-          save: jest.fn<Repository<FileObject>['save']>(),
-          load: jest.fn<Repository<FileObject>['load']>(),
-        };
-
-        const correctProjectData = makeCorrectProjectData({
-          projectRepo,
-          fileRepo,
-        });
-
-        it('should return an UnauthorizedError', async () => {
-          const res = await correctProjectData({
-            projectId,
-            projectVersionDate: new Date(),
-            newNotifiedOn: 123,
-            user,
-            shouldGrantClasse: false,
-            correctedData: {
-              nomProjet: 'test',
-            },
-            attestation: 'regenerate',
-          });
-
-          expect(res.isErr()).toEqual(true);
-          if (res.isOk()) return;
-          expect(res.error).toBeInstanceOf(UnauthorizedError);
-        });
       });
     });
   });

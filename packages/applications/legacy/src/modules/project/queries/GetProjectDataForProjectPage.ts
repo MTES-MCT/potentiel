@@ -82,10 +82,6 @@ type IsNotNotified = {
 
 type IsNotified = {
   notifiedOn: number;
-  certificateFile?: {
-    id: string;
-    filename: string;
-  };
 } & Users;
 
 type IsClasse = {
