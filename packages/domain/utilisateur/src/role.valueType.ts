@@ -697,12 +697,6 @@ const policies = {
       référencielPermissions.candidature.query.listerCandidatures,
       référencielPermissions.appelOffre.query.lister,
     ],
-    notifier: [
-      référencielPermissions.lauréat.usecase.notifier,
-      référencielPermissions.lauréat.command.notifier,
-      référencielPermissions.éliminé.usecase.notifier,
-      référencielPermissions.éliminé.command.notifier,
-    ],
     attestation: {
       prévisualiser: [
         référencielPermissions.utilisateur.query.consulter,
@@ -805,7 +799,6 @@ const permissionAdmin: Policy[] = [
   'candidature.importer',
   'candidature.corriger',
   'candidature.lister',
-  'candidature.notifier',
   'candidature.attestation.prévisualiser',
   'candidature.attestation.télécharger',
 
