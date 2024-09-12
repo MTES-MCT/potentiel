@@ -4,10 +4,10 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
 
 import { CandidatureAggregate } from '../candidature.aggregate';
-import * as StatutCandidature from '../statutCandidature.valueType';
-import * as TypeTechnologie from '../typeTechnologie.valueType';
-import * as TypeActionnariat from '../typeActionnariat.valueType';
-import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
+import * as StatutCandidature from '../valueType/statutCandidature.valueType';
+import * as TypeTechnologie from '../valueType/typeTechnologie.valueType';
+import * as TypeActionnariat from '../valueType/typeActionnariat.valueType';
+import * as HistoriqueAbandon from '../valueType/historiqueAbandon.valueType';
 import { PériodeAppelOffreLegacyError } from '../périodeAppelOffreLegacy.error';
 import { CandidatureDéjàImportéeError } from '../candidatureDéjàImportée.error';
 import { AppelOffreInexistantError } from '../appelOffreInexistant.error';

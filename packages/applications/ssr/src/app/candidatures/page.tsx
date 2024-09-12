@@ -4,7 +4,6 @@ import { Metadata } from 'next';
 import { Candidature } from '@potentiel-domain/candidature';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { StatutCandidature } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Période } from '@potentiel-domain/periode';
 import { Option } from '@potentiel-libraries/monads';
@@ -44,7 +43,9 @@ export default async function Page({ searchParams }: PageProps) {
         nomProjet,
         appelOffre,
         période: périodeParams,
-        statut: statut ? StatutCandidature.convertirEnValueType(statut).statut : undefined,
+        statut: statut
+          ? Candidature.StatutCandidature.convertirEnValueType(statut).statut
+          : undefined,
       },
     });
 
@@ -84,11 +85,11 @@ export default async function Page({ searchParams }: PageProps) {
         options: [
           {
             label: 'Classé',
-            value: StatutCandidature.classé.statut,
+            value: Candidature.StatutCandidature.classé.statut,
           },
           {
             label: 'Éliminé',
-            value: StatutCandidature.éliminé.statut,
+            value: Candidature.StatutCandidature.éliminé.statut,
           },
         ],
       },

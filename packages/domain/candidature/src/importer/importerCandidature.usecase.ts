@@ -4,9 +4,9 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
-import * as StatutCandidature from '../statutCandidature.valueType';
-import * as TypeTechnologie from '../typeTechnologie.valueType';
-import * as TypeActionnariat from '../typeActionnariat.valueType';
+import * as StatutCandidature from '../valueType/statutCandidature.valueType';
+import * as TypeTechnologie from '../valueType/typeTechnologie.valueType';
+import * as TypeActionnariat from '../valueType/typeActionnariat.valueType';
 import { HistoriqueAbandon } from '../candidature';
 
 import { ImporterCandidatureCommand } from './importerCandidature.command';

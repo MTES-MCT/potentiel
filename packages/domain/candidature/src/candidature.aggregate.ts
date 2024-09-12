@@ -10,7 +10,7 @@ import {
 } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import * as StatutCandidature from './statutCandidature.valueType';
+import * as StatutCandidature from './valueType/statutCandidature.valueType';
 import {
   CandidatureImportéeEvent,
   applyCandidatureImportée,

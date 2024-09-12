@@ -1,9 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { IdentifiantProjet, StatutCandidature } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
+import * as StatutCandidature from '../valueType/statutCandidature.valueType';
 import { CandidatureEntity } from '../candidature.entity';
 import { ConsulterCandidatureReadModel } from '../candidature';
 

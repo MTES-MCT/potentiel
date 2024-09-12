@@ -5,7 +5,7 @@ import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { ProjetEntity } from '../projet.entity';
-import * as Technologie from '../typeTechnologie.valueType';
+import * as Technologie from '../valueType/typeTechnologie.valueType';
 
 export type ConsulterProjetReadModel = {
   appelOffre: string;

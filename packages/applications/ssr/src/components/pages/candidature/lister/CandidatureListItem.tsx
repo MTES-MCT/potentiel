@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet, StatutCandidature } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -13,7 +13,7 @@ import { CandidatureListItemActions } from './CandidatureListItemActions';
 
 export type CandidatureListItemProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-  statut: PlainType<StatutCandidature.ValueType>;
+  statut: PlainType<Candidature.StatutCandidature.ValueType>;
   nomProjet: Candidature.ConsulterCandidatureReadModel['nomProjet'];
   nomCandidat: Candidature.ConsulterCandidatureReadModel['nomCandidat'];
   nomReprésentantLégal: Candidature.ConsulterCandidatureReadModel['nomReprésentantLégal'];

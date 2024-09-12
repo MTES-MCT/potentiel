@@ -4,9 +4,9 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import * as StatutCandidature from '../statutCandidature.valueType';
-import * as TypeTechnologie from '../typeTechnologie.valueType';
-import * as TypeActionnariat from '../typeActionnariat.valueType';
+import * as StatutCandidature from '../valueType/statutCandidature.valueType';
+import * as TypeTechnologie from '../valueType/typeTechnologie.valueType';
+import * as TypeActionnariat from '../valueType/typeActionnariat.valueType';
 import { loadCandidatureFactory } from '../candidature.aggregate';
 import { HistoriqueAbandon } from '../candidature';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';

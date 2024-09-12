@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { IdentifiantProjet, StatutCandidature } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { CandidatureListPage, CandidatureListPageProps } from './CandidatureList.page';
 
@@ -25,7 +26,7 @@ type CommonItem = CandidatureListPageProps['items'][number];
 
 const commonItem: CommonItem = {
   identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
-  statut: StatutCandidature.classé,
+  statut: Candidature.StatutCandidature.classé,
   nomProjet: 'Nom projet',
   nomCandidat: 'Candidat',
   emailContact: 'porteur@test.test',
@@ -64,7 +65,7 @@ export const Default: Story = {
       },
       {
         ...commonItem,
-        statut: StatutCandidature.éliminé,
+        statut: Candidature.StatutCandidature.éliminé,
       },
       {
         ...commonItem,
