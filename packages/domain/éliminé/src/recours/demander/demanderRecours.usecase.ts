@@ -8,7 +8,7 @@ import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
 import { DemanderRecoursCommand } from './demanderRecours.command';
 
 export type DemanderRecoursUseCase = Message<
-  'Eliminé.Recours.UseCase.DemanderRecours',
+  'Éliminé.Recours.UseCase.DemanderRecours',
   {
     dateDemandeValue: string;
     identifiantUtilisateurValue: string;
@@ -49,7 +49,7 @@ export const registerDemanderRecoursUseCase = () => {
     });
 
     await mediator.send<DemanderRecoursCommand>({
-      type: 'Eliminé.Recours.Command.DemanderRecours',
+      type: 'Éliminé.Recours.Command.DemanderRecours',
       data: {
         dateDemande,
         raison: raisonValue,
@@ -59,5 +59,5 @@ export const registerDemanderRecoursUseCase = () => {
       },
     });
   };
-  mediator.register('Eliminé.Recours.UseCase.DemanderRecours', runner);
+  mediator.register('Éliminé.Recours.UseCase.DemanderRecours', runner);
 };

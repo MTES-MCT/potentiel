@@ -7,7 +7,7 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { loadRecoursFactory } from '../recours.aggregate';
 
 export type DemanderRecoursCommand = Message<
-  'Eliminé.Recours.Command.DemanderRecours',
+  'Éliminé.Recours.Command.DemanderRecours',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     raison: string;
@@ -36,5 +36,5 @@ export const registerDemanderRecoursCommand = (loadAggregate: LoadAggregate) => 
       dateDemande,
     });
   };
-  mediator.register('Eliminé.Recours.Command.DemanderRecours', handler);
+  mediator.register('Éliminé.Recours.Command.DemanderRecours', handler);
 };

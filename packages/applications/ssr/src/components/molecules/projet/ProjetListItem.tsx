@@ -37,6 +37,11 @@ export const ProjetListItem: FC<ProjetListItemProps> = (projet) => {
         />
         <ProjetLinks
           identifiantProjet={identifiantProjetValue.formatter()}
+          title="Recours"
+          links={['demander', 'détail']}
+        />
+        <ProjetLinks
+          identifiantProjet={identifiantProjetValue.formatter()}
           title="GarantiesFinancières"
           links={['détail', 'téléchargerModèleMiseEnDemeure']}
         />

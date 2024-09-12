@@ -10,7 +10,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { loadRecoursFactory } from '../recours.aggregate';
 
 export type AccorderRecoursCommand = Message<
-  'Eliminé.Recours.Command.AccorderRecours',
+  'Éliminé.Recours.Command.AccorderRecours',
   {
     dateAccord: DateTime.ValueType;
     identifiantUtilisateur: Email.ValueType;
@@ -36,5 +36,5 @@ export const registerAccorderRecoursCommand = (loadAggregate: LoadAggregate) => 
       réponseSignée,
     });
   };
-  mediator.register('Eliminé.Recours.Command.AccorderRecours', handler);
+  mediator.register('Éliminé.Recours.Command.AccorderRecours', handler);
 };

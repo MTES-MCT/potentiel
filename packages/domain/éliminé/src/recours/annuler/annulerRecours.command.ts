@@ -7,7 +7,7 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { loadRecoursFactory } from '../recours.aggregate';
 
 export type AnnulerRecoursCommand = Message<
-  'Eliminé.Recours.Command.AnnulerRecours',
+  'Éliminé.Recours.Command.AnnulerRecours',
   {
     dateAnnulation: DateTime.ValueType;
     identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
@@ -30,5 +30,5 @@ export const registerAnnulerRecoursCommand = (loadAggregate: LoadAggregate) => {
       identifiantUtilisateur,
     });
   };
-  mediator.register('Eliminé.Recours.Command.AnnulerRecours', handler);
+  mediator.register('Éliminé.Recours.Command.AnnulerRecours', handler);
 };
