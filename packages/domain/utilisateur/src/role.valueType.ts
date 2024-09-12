@@ -697,7 +697,6 @@ const policies = {
       référencielPermissions.candidature.query.listerCandidatures,
       référencielPermissions.appelOffre.query.lister,
     ],
-    // TODO remove
     notifier: [
       référencielPermissions.lauréat.usecase.notifier,
       référencielPermissions.lauréat.command.notifier,
