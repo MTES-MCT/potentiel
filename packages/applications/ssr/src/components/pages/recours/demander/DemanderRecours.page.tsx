@@ -13,7 +13,7 @@ export const DemanderRecoursPage: FC<DemanderRecoursPageProps> = ({ identifiantP
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
-      heading={<Heading1>Demander le recours du projet</Heading1>}
+      heading={<Heading1>Demander un recours pour le projet</Heading1>}
       leftColumn={{
         children: <DemanderRecoursForm identifiantProjet={identifiantProjet} />,
       }}
