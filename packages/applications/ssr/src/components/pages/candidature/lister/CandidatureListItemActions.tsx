@@ -19,7 +19,7 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
 }) => (
   <div className="flex gap-2">
     <Button
-      className="hidden md:flex ml-auto"
+      className="md:flex ml-auto"
       linkProps={{
         href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
       }}
@@ -29,7 +29,7 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
     </Button>
     {estNotifiée ? (
       <Button
-        className="hidden md:flex ml-auto"
+        className="md:flex ml-auto"
         linkProps={{
           href: Routes.Candidature.téléchargerAttestation(
             IdentifiantProjet.bind(identifiantProjet).formatter(),
@@ -42,7 +42,7 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
       </Button>
     ) : (
       <Button
-        className="hidden md:flex ml-auto"
+        className="md:flex ml-auto"
         linkProps={{
           href: Routes.Candidature.prévisualiserAttestation(
             IdentifiantProjet.bind(identifiantProjet).formatter(),

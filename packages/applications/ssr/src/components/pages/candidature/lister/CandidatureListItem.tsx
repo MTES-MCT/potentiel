@@ -45,7 +45,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
   estNotifiée,
 }) => (
   <div className="flex flex-1 flex-col gap-6">
-    <div className="flex items-center">
+    <div className="flex gap-4 items-center justify-between">
       <ProjectListItemHeading
         identifiantProjet={identifiantProjet}
         nomProjet={nomProjet}
