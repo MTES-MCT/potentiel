@@ -3,9 +3,9 @@ import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { ConsulterDocumentProjetQuery, DocumentProjet } from '@potentiel-domain/document';
+import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/laureat';
-import { Éliminé } from '@potentiel-domain/elimine';
+import { Recours, Éliminé } from '@potentiel-domain/elimine';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -29,7 +29,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
   const result = await mediator.send<ConsulterDocumentProjetQuery>({
     type: 'Document.Query.ConsulterDocumentProjet',
     data: {
-      documentKey: documentKey.formatter(),
+      documentKey,
     },
   });
 
@@ -43,9 +43,8 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
   });
 };
 
-const getDocumentKey = async (
-  identifiantProjet: string,
-): Promise<DocumentProjet.ValueType | null> => {
+// TODO: devrait retourner un DocumentProject.ValutType, mais pas possible tant qu'on utilise recours legacy
+const getDocumentKey = async (identifiantProjet: string): Promise<string | null> => {
   const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
     type: 'Lauréat.Query.ConsulterLauréat',
     data: {
@@ -54,18 +53,40 @@ const getDocumentKey = async (
   });
 
   if (Option.isSome(lauréat)) {
-    return lauréat.attestation;
-  } else {
-    const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
-      type: 'Éliminé.Query.ConsulterÉliminé',
-      data: {
-        identifiantProjet,
-      },
-    });
+    return lauréat.attestation.formatter();
+  }
 
-    if (Option.isSome(éliminé)) {
-      return éliminé.attestation;
-    }
+  const recours = await mediator.send<Recours.ConsulterDemandeRecoursLegacyQuery>({
+    type: 'Éliminé.Recours.Query.ConsulterDemandeRecoursLegacy',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+    },
+  });
+  if (Option.isSome(recours)) {
+    return recours.filename;
+  }
+
+  // TODO utiliser cette solution lorsque recours sera migré
+  // const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
+  //   type: 'Eliminé.Recours.Query.ConsulterRecours',
+  //   data: {
+  //     identifiantProjetValue: identifiantProjet,
+  //   },
+  // });
+
+  // if (Option.isSome(recours) && recours.demande.accord) {
+  //   return recours.demande.accord.réponseSignée;
+  // }
+
+  const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
+    type: 'Éliminé.Query.ConsulterÉliminé',
+    data: {
+      identifiantProjet,
+    },
+  });
+
+  if (Option.isSome(éliminé)) {
+    return éliminé.attestation.formatter();
   }
 
   return null;
