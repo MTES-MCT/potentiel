@@ -708,6 +708,7 @@ const policies = {
         référencielPermissions.éliminé.query.consulter,
         référencielPermissions.document.query.consulter,
         référencielPermissions.candidature.query.consulterProjet,
+        référencielPermissions.éliminé.recours.query.consulterLegacy,
       ],
     },
   },
@@ -722,11 +723,6 @@ const policies = {
       référencielPermissions.éliminé.usecase.notifier,
       référencielPermissions.éliminé.command.notifier,
     ],
-  },
-  éliminé: {
-    recours: {
-      consulter: [référencielPermissions.éliminé.recours.query.consulterLegacy],
-    },
   },
 } as const;
 
@@ -805,9 +801,6 @@ const permissionAdmin: Policy[] = [
   // Période
   'période.lister',
   'période.consulter',
-
-  // Recours
-  'éliminé.recours.consulter',
 ];
 
 const permissionDgecValidateur: Policy[] = [
