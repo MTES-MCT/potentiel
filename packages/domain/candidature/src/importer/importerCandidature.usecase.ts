@@ -1,9 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
+import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as TypeTechnologie from '../typeTechnologie.valueType';
 import * as TypeActionnariat from '../typeActionnariat.valueType';
@@ -101,9 +101,7 @@ export const mapPayloadForCommand = (payload: ImporterCandidatureUseCaseCommonPa
     : undefined,
   technologie: TypeTechnologie.convertirEnValueType(payload.technologieValue),
   typeGarantiesFinancières: payload.typeGarantiesFinancièresValue
-    ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
-        payload.typeGarantiesFinancièresValue,
-      )
+    ? TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancièresValue)
     : undefined,
   actionnariat: payload.actionnariatValue
     ? TypeActionnariat.convertirEnValueType(payload.actionnariatValue)

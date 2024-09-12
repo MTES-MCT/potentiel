@@ -3,17 +3,17 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { CandidatureEntity } from '../candidature.entity';
 import { HistoriqueAbandon, TypeActionnariat, TypeTechnologie } from '../candidature';
+import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
 
 export type ConsulterCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutProjet.ValueType;
   nomProjet: string;
-  typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
+  typeGarantiesFinancières?: TypeGarantiesFinancières.ValueType;
   historiqueAbandon: HistoriqueAbandon.ValueType;
   localité: {
     adresse1: string;
@@ -97,7 +97,7 @@ export const mapToReadModel = ({
   technologie: TypeTechnologie.convertirEnValueType(technologie),
   dateÉchéanceGf: dateÉchéanceGf ? DateTime.convertirEnValueType(dateÉchéanceGf) : undefined,
   typeGarantiesFinancières: typeGarantiesFinancières
-    ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières)
+    ? TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières)
     : undefined,
   misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
   nomProjet,

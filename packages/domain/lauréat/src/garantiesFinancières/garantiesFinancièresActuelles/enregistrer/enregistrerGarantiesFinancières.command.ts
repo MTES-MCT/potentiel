@@ -4,15 +4,15 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Candidature } from '@potentiel-domain/candidature';
 
-import { TypeGarantiesFinancières } from '../..';
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 
 export type EnregistrerGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.EnregistrerGarantiesFinancières',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    type: TypeGarantiesFinancières.ValueType;
+    type: Candidature.TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
     attestation: DocumentProjet.ValueType;
     dateConstitution: DateTime.ValueType;

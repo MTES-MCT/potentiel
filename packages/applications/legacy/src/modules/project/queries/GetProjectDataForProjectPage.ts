@@ -4,6 +4,7 @@ import { ProjectAppelOffre, User } from '../../../entities';
 import { Permission } from '../../authN';
 import { InfraNotAvailableError, EntityNotFoundError } from '../../shared';
 import { Actionnariat, DésignationCatégorie } from '../types';
+import { Candidature } from '@potentiel-domain/candidature';
 
 export const PermissionConsulterProjet: Permission = {
   nom: 'consulter-projet',
@@ -127,12 +128,12 @@ export type GarantiesFinancièresForProjectPage = {
     motif: GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType;
   };
   actuelles?: {
-    type?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+    type?: Candidature.TypeGarantiesFinancières.RawType;
     dateConstitution?: string;
     dateÉchéance?: string;
   };
   dépôtÀTraiter?: {
-    type?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+    type?: Candidature.TypeGarantiesFinancières.RawType;
     dateConstitution: string;
     dateÉchéance?: string;
   };

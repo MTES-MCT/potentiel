@@ -5,17 +5,14 @@ import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/entity';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { GarantiesFinancièresEntity } from '../garantiesFinancièresActuelles.entity';
-import {
-  StatutGarantiesFinancières,
-  TypeDocumentGarantiesFinancières,
-  TypeGarantiesFinancières,
-} from '../..';
+import { StatutGarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
 import { GarantiesFinancièresDetails } from '../types';
 
 export type GarantiesFinancièresReadModel = {
-  type: TypeGarantiesFinancières.ValueType;
+  type: Candidature.TypeGarantiesFinancières.ValueType;
   statut: StatutGarantiesFinancières.ValueType;
   dateÉchéance?: DateTime.ValueType;
   attestation?: DocumentProjet.ValueType;
@@ -100,7 +97,7 @@ export const mapGarantiesFinancièresToReadModel = ({
   identifiantProjetValueType: IdentifiantProjet.ValueType;
 }) => ({
   statut: StatutGarantiesFinancières.convertirEnValueType(statut),
-  type: TypeGarantiesFinancières.convertirEnValueType(type),
+  type: Candidature.TypeGarantiesFinancières.convertirEnValueType(type),
   ...(dateÉchéance && {
     dateÉchéance: DateTime.convertirEnValueType(dateÉchéance),
   }),

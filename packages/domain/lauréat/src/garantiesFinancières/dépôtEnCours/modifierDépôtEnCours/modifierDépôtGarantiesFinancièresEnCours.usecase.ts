@@ -3,8 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Candidature } from '@potentiel-domain/candidature';
 
-import { TypeDocumentGarantiesFinancières, TypeGarantiesFinancières } from '../..';
+import { TypeDocumentGarantiesFinancières } from '../..';
 
 import { ModifierDépôtGarantiesFinancièresEnCoursCommand } from './modifierDépôtGarantiesFinancièresEnCours.command';
 
@@ -35,7 +36,7 @@ export const registerModifierDépôtGarantiesFinancièresEnCoursUseCase = () => 
     modifiéLeValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const type = TypeGarantiesFinancières.convertirEnValueType(typeValue);
+    const type = Candidature.TypeGarantiesFinancières.convertirEnValueType(typeValue);
     const dateÉchéance = dateÉchéanceValue
       ? DateTime.convertirEnValueType(dateÉchéanceValue)
       : undefined;

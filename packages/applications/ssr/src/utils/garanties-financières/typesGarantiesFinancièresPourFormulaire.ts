@@ -1,9 +1,9 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
 
 export const typesGarantiesFinancièresSansInconnuPourFormulaire =
-  GarantiesFinancières.TypeGarantiesFinancières.types
+  Candidature.TypeGarantiesFinancières.types
     .filter((type) => type !== 'type-inconnu')
     .map((type) => ({
       label: getGarantiesFinancièresTypeLabel(type),

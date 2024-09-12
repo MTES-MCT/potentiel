@@ -9,7 +9,6 @@ import { Option } from '@potentiel-libraries/monads';
 import getDepartementRegionFromCodePostal, {
   DepartementRegion,
 } from '../helpers/getDepartementRegionFromCodePostal';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { ConsulterDocumentProjetQuery, DocumentProjet } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
@@ -151,7 +150,7 @@ const getDésignationCatégorie = ({
 };
 
 const getTypeGarantiesFinancieresLabel = (
-  typeGf?: GarantiesFinancières.TypeGarantiesFinancières.RawType,
+  typeGf?: Candidature.TypeGarantiesFinancières.RawType,
 ) => {
   if (!typeGf) {
     return undefined;

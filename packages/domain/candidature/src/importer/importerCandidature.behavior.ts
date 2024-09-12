@@ -1,6 +1,5 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -16,11 +15,12 @@ import {
   DateÉchéanceGarantiesFinancièresRequiseError,
   GarantiesFinancièresRequisesPourAppelOffreError,
 } from '../garantiesFinancièresRequises.error';
+import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
 
 export type CandidatureImportéeEventCommonPayload = {
   identifiantProjet: IdentifiantProjet.RawType;
   statut: StatutCandidature.RawType;
-  typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+  typeGarantiesFinancières?: TypeGarantiesFinancières.RawType;
   historiqueAbandon: HistoriqueAbandon.RawType;
   appelOffre: string;
   période: string;
@@ -64,7 +64,7 @@ export type CandidatureImportéeEvent = DomainEvent<
 export type ImporterCandidatureBehaviorCommonOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutCandidature.ValueType;
-  typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.ValueType;
+  typeGarantiesFinancières?: TypeGarantiesFinancières.ValueType;
   historiqueAbandon: HistoriqueAbandon.ValueType;
   appelOffre: string;
   période: string;

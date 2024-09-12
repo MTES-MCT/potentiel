@@ -4,6 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { GarantiesFinancièresReadModel } from '../consulter/consulterGarantiesFinancières.query';
 import {
@@ -14,7 +15,6 @@ import {
   MotifArchivageGarantiesFinancières,
   StatutGarantiesFinancières,
   TypeDocumentGarantiesFinancières,
-  TypeGarantiesFinancières,
 } from '../..';
 
 export type ConsulterArchivesGarantiesFinancièresReadModel = {
@@ -89,7 +89,7 @@ const mapToArchiveGarantiesFinancièresReadModel = (
 ) => ({
   motif: MotifArchivageGarantiesFinancières.convertirEnValueType(garantiesFinancières.motif),
   statut: StatutGarantiesFinancières.convertirEnValueType(garantiesFinancières.statut),
-  type: TypeGarantiesFinancières.convertirEnValueType(garantiesFinancières.type),
+  type: Candidature.TypeGarantiesFinancières.convertirEnValueType(garantiesFinancières.type),
   ...(garantiesFinancières.dateÉchéance && {
     dateÉchéance: DateTime.convertirEnValueType(garantiesFinancières.dateÉchéance),
   }),

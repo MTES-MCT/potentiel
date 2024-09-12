@@ -1,8 +1,9 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Candidature } from '@potentiel-domain/candidature';
 
-import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '../..';
+import { StatutGarantiesFinancières } from '../..';
 import { DateConstitutionDansLeFuturError } from '../../dateConstitutionDansLeFutur.error';
 import { DateÉchéanceManquanteError } from '../../dateÉchéanceManquante.error';
 import { DateÉchéanceNonAttendueError } from '../../dateÉchéanceNonAttendue.error';
@@ -14,7 +15,7 @@ export type GarantiesFinancièresModifiéesEvent = DomainEvent<
   'GarantiesFinancièresModifiées-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    type: TypeGarantiesFinancières.RawType;
+    type: Candidature.TypeGarantiesFinancières.RawType;
     dateÉchéance?: DateTime.RawType;
     attestation: { format: string };
     dateConstitution: DateTime.RawType;
@@ -25,7 +26,7 @@ export type GarantiesFinancièresModifiéesEvent = DomainEvent<
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  type: TypeGarantiesFinancières.ValueType;
+  type: Candidature.TypeGarantiesFinancières.ValueType;
   dateÉchéance?: DateTime.ValueType;
   attestation: { format: string };
   dateConstitution: DateTime.ValueType;
@@ -86,7 +87,7 @@ export function applyModifierGarantiesFinancières(
   this.actuelles = {
     statut: StatutGarantiesFinancières.validé,
     ...this.actuelles,
-    type: TypeGarantiesFinancières.convertirEnValueType(type),
+    type: Candidature.TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),
     attestation,
