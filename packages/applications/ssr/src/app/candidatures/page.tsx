@@ -108,29 +108,30 @@ export default async function Page({ searchParams }: PageProps) {
     const items: Array<CandidatureListItemProps> = [];
 
     const identifiantsPériode = périodeParams
-      ? [`${appelOffre}#${périodeParams}`]
+      ? [Période.IdentifiantPériode.convertirEnValueType(`${appelOffre}#${périodeParams}`)]
       : Array.from(
           new Set(
-            candidaturesData.items.map(
-              (candidature) =>
+            candidaturesData.items.map((candidature) =>
+              Période.IdentifiantPériode.convertirEnValueType(
                 `${candidature.identifiantProjet.appelOffre}#${candidature.identifiantProjet.période}`,
+              ),
             ),
           ),
         );
+
+    const estNotifiéMap: Record<Période.IdentifiantPériode.RawType, boolean> = {};
 
     for (const identifiantPériode of identifiantsPériode) {
       const période = await mediator.send<Période.ConsulterPériodeQuery>({
         type: 'Période.Query.ConsulterPériode',
         data: {
-          identifiantPériodeValue: identifiantPériode,
+          identifiantPériodeValue: identifiantPériode.formatter(),
         },
       });
 
-      console.log('viovio', période);
-
-      if (Option.isSome(période)) {
-        console.log('viovio', période.estNotifiée);
-      }
+      estNotifiéMap[identifiantPériode.formatter()] = Option.isSome(période)
+        ? période.estNotifiée
+        : false;
     }
 
     for (const candidature of candidaturesData.items) {
@@ -145,29 +146,16 @@ export default async function Page({ searchParams }: PageProps) {
         });
       }
 
-      items.push(
-        mapToPlainObject({
-          ...candidature,
-          unitePuissance: appelOffresItem?.unitePuissance ?? 'MWc',
-        }),
-      );
-    }
-
-    for (const candidature of candidaturesData.items) {
-      const appelOffresItem = appelOffres.items.find(
-        (appelOffresItem) => appelOffresItem.id === candidature.identifiantProjet.appelOffre,
+      const identifiantPériodeDeLaCandidature = Période.IdentifiantPériode.convertirEnValueType(
+        `${candidature.identifiantProjet.appelOffre}#${candidature.identifiantProjet.période}`,
       );
 
-      if (!appelOffresItem) {
-        getLogger().warn(`Aucun appel d'offres trouvé pour la candidature`, {
-          identifiantProjet: candidature.identifiantProjet.formatter(),
-          appelOffre: candidature.identifiantProjet.appelOffre,
-        });
-      }
+      const estNotifiée = estNotifiéMap[identifiantPériodeDeLaCandidature.formatter()] ?? false;
 
       items.push(
         mapToPlainObject({
           ...candidature,
+          estNotifiée,
           unitePuissance: appelOffresItem?.unitePuissance ?? 'MWc',
         }),
       );

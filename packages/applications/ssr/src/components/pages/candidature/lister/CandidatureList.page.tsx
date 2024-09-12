@@ -12,7 +12,7 @@ import { candidatureListLegendSymbols } from './candidatureListLegendSymbols';
 
 export type CandidatureListPageProps = PlainType<
   Omit<Candidature.ListerCandidaturesReadModel, 'items'> & {
-    items: ReadonlyArray<CandidatureListItemProps>;
+    items: ReadonlyArray<CandidatureListItemProps & { estNotifiée: boolean }>;
     filters: ListPageTemplateProps<CandidatureListItemProps>['filters'];
   }
 >;

@@ -18,9 +18,9 @@ export const CorrigerCandidaturesForm: FC = () => {
       action={corrigerCandidaturesAction}
       heading="Corriger un import de candidatures"
       pendingModal={{
-        id: 'form-import-candidatures',
-        title: 'Corriger un import de candidat',
-        children: 'Import des candidats en cours ...',
+        id: 'form-corriger-candidatures',
+        title: 'Corriger un import de candidat(s)',
+        children: 'Correction des candidats en cours...',
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       successMessage={'candidats corrigés'}

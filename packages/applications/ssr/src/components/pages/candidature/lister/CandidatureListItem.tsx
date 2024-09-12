@@ -28,9 +28,8 @@ export type CandidatureListItemProps = {
     région: Candidature.ConsulterCandidatureReadModel['localité']['région'];
   };
   unitePuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
+  estNotifiée: boolean;
 };
-
-// ajouter une condition pour checker si c'est notifié
 
 export const CandidatureListItem: FC<CandidatureListItemProps> = ({
   identifiantProjet,
@@ -44,6 +43,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
   prixReference,
   unitePuissance,
   evaluationCarboneSimplifiée,
+  estNotifiée,
 }) => (
   <div className="flex flex-1 flex-col gap-6">
     <div className="flex items-center">
@@ -62,6 +62,34 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
       >
         Consulter
       </Button>
+      {estNotifiée ? (
+        <Button
+          className="hidden md:flex ml-auto"
+          linkProps={{
+            href: Routes.Candidature.téléchargerAttestation(
+              IdentifiantProjet.bind(identifiantProjet).formatter(),
+            ),
+          }}
+          aria-label={`Télécharger l'attestation de désignation de ${nomProjet}`}
+          priority="secondary"
+        >
+          Télécharger l'attestation
+        </Button>
+      ) : (
+        <Button
+          className="hidden md:flex ml-auto"
+          linkProps={{
+            href: Routes.Candidature.prévisualiserAttestation(
+              IdentifiantProjet.bind(identifiantProjet).formatter(),
+            ),
+            target: '_blank',
+          }}
+          aria-label={`Prévisualiser l'attestation de désignation de ${nomProjet}`}
+          priority="secondary"
+        >
+          Voir l'attestation
+        </Button>
+      )}
     </div>
 
     <div className="flex flex-col gap-4 md:flex-row md:items-center">
@@ -144,17 +172,6 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
         aria-label={`Lien vers la page de la candidature ${nomProjet}`}
       >
         Consulter
-      </Button>
-      <Button
-        className="hidden md:flex ml-auto"
-        linkProps={{
-          href: Routes.Candidature.prévisualiserAttestation(
-            IdentifiantProjet.bind(identifiantProjet).formatter(),
-          ),
-        }}
-        aria-label={`Lien vers l'attestation de désignation de ${nomProjet}`}
-      >
-        Voir l'attestation
       </Button>
     </div>
   </div>
