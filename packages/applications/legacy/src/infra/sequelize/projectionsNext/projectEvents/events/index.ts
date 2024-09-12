@@ -8,7 +8,6 @@ export * from './DemandeRecoursSignaledEvent';
 export * from './FileAttachedToProjectEvent';
 export * from './LegacyModificationFileAttachedEvent';
 export * from './ModificationRequestEvents';
-export * from './ProjectCertificateEvents';
 export * from './ProjectClaimedEvent';
 export * from './ProjectCompletionDueDateSetEvent';
 export * from './ProjectImportedEvent';

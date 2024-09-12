@@ -5,7 +5,6 @@ import { appelsOffreStatic } from '../../dataAccess/inMemory';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import {
   DemandeRecoursSignaled,
-  ProjectCertificateUpdated,
   ProjectClasseGranted,
   ProjectCompletionDueDateSet,
   ProjectDCRDueDateSet,
@@ -290,18 +289,21 @@ describe('Project.signalerDemandeRecours()', () => {
             signaledBy: fakeUser,
           });
 
-          expect(project.pendingEvents).toHaveLength(6);
-
-          const targetEvent = project.pendingEvents[0];
-
-          expect(targetEvent).toBeDefined();
-          expect(targetEvent.type).toEqual(DemandeRecoursSignaled.type);
-          expect(targetEvent.payload.projectId).toEqual(projectId.toString());
-          expect(targetEvent.payload.decidedOn).toEqual(new Date('2022-04-12').getTime());
-          expect(targetEvent.payload.status).toEqual('acceptée');
-          expect(targetEvent.payload.notes).toEqual('notes');
-          expect(targetEvent.payload.attachments).toEqual([{ id: 'file-id', name: 'file-name' }]);
-          expect(targetEvent.payload.signaledBy).toEqual(fakeUser.id);
+          expect(project.pendingEvents).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                type: DemandeRecoursSignaled.type,
+                payload: expect.objectContaining({
+                  projectId: projectId.toString(),
+                  decidedOn: new Date('2022-04-12').getTime(),
+                  status: 'acceptée',
+                  notes: 'notes',
+                  attachments: [{ id: 'file-id', name: 'file-name' }],
+                  signaledBy: fakeUser.id,
+                }),
+              }),
+            ]),
+          );
         });
 
         it('should emit a ProjectClasseGranted event', () => {
@@ -330,33 +332,6 @@ describe('Project.signalerDemandeRecours()', () => {
           expect(targetEvent.payload.grantedBy).toEqual(fakeUser.id);
         });
 
-        it('should emit a ProjectCertificateUpdated event', () => {
-          const project = UnwrapForTest(
-            makeProject({
-              projectId,
-              history: fakeHistory,
-              getProjectAppelOffre,
-              buildProjectIdentifier: () => '',
-            }),
-          );
-
-          project.signalerDemandeRecours({
-            decidedOn: new Date('2022-04-12'),
-            status: 'acceptée',
-            notes: 'notes',
-            attachment: { id: 'file-id', name: 'file-name' },
-            signaledBy: fakeUser,
-          });
-
-          const targetEvent = project.pendingEvents[2];
-
-          expect(targetEvent).toBeDefined();
-          expect(targetEvent.type).toEqual(ProjectCertificateUpdated.type);
-          expect(targetEvent.payload.projectId).toEqual(projectId.toString());
-          expect(targetEvent.payload.certificateFileId).toEqual('file-id');
-          expect(targetEvent.payload.uploadedBy).toEqual(fakeUser.id);
-        });
-
         it('should emit a ProjectNotificationDateSet event', () => {
           const project = UnwrapForTest(
             makeProject({
@@ -377,13 +352,18 @@ describe('Project.signalerDemandeRecours()', () => {
             signaledBy: fakeUser,
           });
 
-          const targetEvent = project.pendingEvents[3];
-
-          expect(targetEvent).toBeDefined();
-          expect(targetEvent.type).toEqual(ProjectNotificationDateSet.type);
-          expect(targetEvent.payload.projectId).toEqual(projectId.toString());
-          expect(targetEvent.payload.notifiedOn).toEqual(decidedOn.getTime());
-          expect(targetEvent.payload.setBy).toEqual(fakeUser.id);
+          expect(project.pendingEvents).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                type: ProjectNotificationDateSet.type,
+                payload: expect.objectContaining({
+                  projectId: projectId.toString(),
+                  notifiedOn: decidedOn.getTime(),
+                  setBy: fakeUser.id,
+                }),
+              }),
+            ]),
+          );
         });
 
         it('should emit a ProjectDCRDueDateSet event', () => {
@@ -406,13 +386,16 @@ describe('Project.signalerDemandeRecours()', () => {
             signaledBy: fakeUser,
           });
 
-          const targetEvent = project.pendingEvents[4];
-
-          expect(targetEvent).toBeDefined();
-          expect(targetEvent.type).toEqual(ProjectDCRDueDateSet.type);
-          expect(targetEvent.payload.projectId).toEqual(projectId.toString());
-          expect(targetEvent.payload.dcrDueOn).toEqual(
-            new Date(decidedOn.setMonth(decidedOn.getMonth() + 2)).getTime(),
+          expect(project.pendingEvents).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                type: ProjectDCRDueDateSet.type,
+                payload: expect.objectContaining({
+                  projectId: projectId.toString(),
+                  dcrDueOn: new Date(decidedOn.setMonth(decidedOn.getMonth() + 2)).getTime(),
+                }),
+              }),
+            ]),
           );
         });
 
@@ -436,13 +419,16 @@ describe('Project.signalerDemandeRecours()', () => {
             signaledBy: fakeUser,
           });
 
-          const targetEvent = project.pendingEvents[5];
-
-          expect(targetEvent).toBeDefined();
-          expect(targetEvent.type).toEqual(ProjectCompletionDueDateSet.type);
-          expect(targetEvent.payload.projectId).toEqual(projectId.toString());
-          expect(targetEvent.payload.completionDueOn).toEqual(
-            add(decidedOn, { days: -1, months: 24 }).getTime(),
+          expect(project.pendingEvents).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                type: ProjectCompletionDueDateSet.type,
+                payload: expect.objectContaining({
+                  projectId: projectId.toString(),
+                  completionDueOn: add(decidedOn, { days: -1, months: 24 }).getTime(),
+                }),
+              }),
+            ]),
           );
         });
       });

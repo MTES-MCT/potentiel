@@ -16,39 +16,21 @@ import {
   handleModificationRequested,
   handleModificationRequestStatusChanged,
   onCahierDesChargesChoisi,
-  handleProjectCertificateUpdatedOrRegenerated,
   handleUserInvitedToProject,
   makeOnProjectCompletionDueDateSet,
-  makeOnPeriodeNotified,
 } from '../../modules/notification';
-import {
-  ProjectCertificateRegenerated,
-  ProjectCertificateUpdated,
-  CahierDesChargesChoisi,
-  ProjectCompletionDueDateSet,
-  PeriodeNotified,
-} from '../../modules/project';
+import { CahierDesChargesChoisi, ProjectCompletionDueDateSet } from '../../modules/project';
 import { sendNotification } from '../emails.config';
 import { eventStore } from '../eventStore.config';
 import {
   getModificationRequestInfoForStatusNotification,
   getProjectInfoForModificationReceivedNotification,
   getProjectInfoForModificationRequestedNotification,
-  getRecipientsForPeriodeNotifiedNotification,
   récupérerDonnéesPorteursParProjetQueryHandler,
   getUsersByRole,
 } from '../queries.config';
 import { getProjectAppelOffre } from '../queryProjectAO.config';
-import { oldProjectRepo, oldUserRepo, projectRepo } from '../repos.config';
-
-const projectCertificateChangeHandler = handleProjectCertificateUpdatedOrRegenerated({
-  sendNotification,
-  projectRepo,
-  getUsersForProject: récupérerDonnéesPorteursParProjetQueryHandler,
-});
-
-eventStore.subscribe(ProjectCertificateUpdated.type, projectCertificateChangeHandler);
-eventStore.subscribe(ProjectCertificateRegenerated.type, projectCertificateChangeHandler);
+import { oldProjectRepo, oldUserRepo } from '../repos.config';
 
 const modificationRequestStatusChangeHandler = handleModificationRequestStatusChanged({
   sendNotification,
@@ -133,11 +115,6 @@ eventStore.subscribe(
     findUsersForDreal: oldUserRepo.findUsersForDreal,
     dgecEmail: process.env.DGEC_EMAIL,
   }),
-);
-
-eventStore.subscribe(
-  PeriodeNotified.type,
-  makeOnPeriodeNotified({ sendNotification, getRecipientsForPeriodeNotifiedNotification }),
 );
 
 console.log('Notification Event Handlers Initialized');

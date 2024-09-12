@@ -3,7 +3,6 @@ export * from './helpers';
 export * from './home';
 export * from './lettreInformation';
 export * from './modificationRequest';
-export * from './notificationCandidats';
 export * from './project';
 export * from './tableauxDeBord';
 export * from './userAccount';

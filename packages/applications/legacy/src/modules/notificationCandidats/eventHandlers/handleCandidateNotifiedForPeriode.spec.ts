@@ -4,8 +4,6 @@ import { okAsync } from '../../../core/utils';
 import { User } from '../../../entities';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { makeFakeCreateUser } from '../../../__tests__/fakes';
-import { GetPeriodeTitle } from '../../appelOffre';
-import { NotificationArgs, NotificationService } from '../../notification';
 import { InfraNotAvailableError } from '../../shared';
 import { CandidateNotifiedForPeriode } from '../events';
 import { handleCandidateNotifiedForPeriode } from './handleCandidateNotifiedForPeriode';
@@ -19,14 +17,6 @@ const fakePayload = {
 
 describe('handleCandidateNotifiedForPeriode', () => {
   describe('if user exists', () => {
-    const sendNotification = jest.fn(async (args: NotificationArgs) => null);
-    const getPeriodeTitle = jest.fn((appelOffreId, periodeId) =>
-      okAsync({
-        periodeTitle: 'periode1title',
-        appelOffreTitle: 'appelOffre1title',
-      }),
-    ) as unknown as GetPeriodeTitle;
-
     const userWithEmail: User = makeFakeUser({ id: new UniqueEntityID().toString() });
     const getUserByEmail = jest.fn((email: string) =>
       okAsync<User | null, InfraNotAvailableError>(userWithEmail),
@@ -36,10 +26,8 @@ describe('handleCandidateNotifiedForPeriode', () => {
 
     beforeAll(async () => {
       await handleCandidateNotifiedForPeriode({
-        sendNotification,
         getUserByEmail,
         createUser,
-        getPeriodeTitle,
       })(
         new CandidateNotifiedForPeriode({
           payload: { ...fakePayload },
@@ -49,23 +37,11 @@ describe('handleCandidateNotifiedForPeriode', () => {
     });
 
     it('should send a designation notification to the candidate', () => {
-      expect(sendNotification).toHaveBeenCalledTimes(1);
-      const notificationArgs = sendNotification.mock.calls[0][0];
-
-      expect(notificationArgs.type).toEqual('designation');
-      expect(notificationArgs.message.email).toEqual(fakePayload.candidateEmail);
-      expect(notificationArgs.message.name).toEqual(fakePayload.candidateName);
-      expect(notificationArgs.message.subject).toContain('periode1title');
-      expect(notificationArgs.message.subject).toContain('appelOffre1title');
-
       expect(createUser).not.toHaveBeenCalled();
     });
   });
 
   describe('if user does not exist', () => {
-    const sendNotification = jest.fn<NotificationService['sendNotification']>();
-    const getPeriodeTitle = jest.fn<GetPeriodeTitle>();
-
     const getUserByEmail = jest.fn((email: string) =>
       okAsync<User | null, InfraNotAvailableError>(null),
     );
@@ -74,10 +50,8 @@ describe('handleCandidateNotifiedForPeriode', () => {
 
     beforeAll(async () => {
       await handleCandidateNotifiedForPeriode({
-        sendNotification,
         getUserByEmail,
         createUser,
-        getPeriodeTitle,
       })(
         new CandidateNotifiedForPeriode({
           payload: { ...fakePayload },
@@ -92,8 +66,6 @@ describe('handleCandidateNotifiedForPeriode', () => {
         email: fakePayload.candidateEmail,
         fullName: fakePayload.candidateName,
       });
-
-      expect(sendNotification).not.toHaveBeenCalled();
     });
   });
 });

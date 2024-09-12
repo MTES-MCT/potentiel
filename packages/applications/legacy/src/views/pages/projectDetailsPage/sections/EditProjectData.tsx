@@ -251,8 +251,8 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
               (project.isFinancementParticipatif
                 ? 'financement'
                 : project.isInvestissementParticipatif
-                ? 'investissement'
-                : '')
+                  ? 'investissement'
+                  : '')
             }
           >
             <option value={''}>Non</option>
@@ -299,80 +299,6 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           </div>
         )}
 
-        {!project.isLegacy && (
-          <div>
-            <Label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</Label>
-            <Input
-              type="text"
-              name="notificationDate"
-              id="notificationDate"
-              defaultValue={
-                query.notificationDate ||
-                (project.notifiedOn && afficherDate(new Date(project.notifiedOn)))
-              }
-              placeholder="Renseigner une date de désignation"
-            />
-            <ErrorBox className="hidden">
-              Le format de la date saisie n’est pas conforme. Elle doit être de la forme JJ/MM/AAAA
-              soit par exemple 25/05/2022 pour 25 Mai 2022.
-            </ErrorBox>
-          </div>
-        )}
-
-        {!project.isLegacy && (
-          <div>
-            <legend>Attestation de désignation</legend>
-            <ul className="flex flex-col gap-3 p-0 list-none">
-              <li>
-                <Radio
-                  name="attestation"
-                  id="regenerate"
-                  value="regenerate"
-                  defaultChecked
-                  onChange={handleCertificateTypeChange}
-                >
-                  Regénérer l'attestation (si les données du projet ont changé)
-                </Radio>
-              </li>
-              <li>
-                <Radio
-                  name="attestation"
-                  id="donotregenerate"
-                  value="donotregenerate"
-                  onChange={handleCertificateTypeChange}
-                >
-                  Ne pas regénérer l'attestation
-                </Radio>
-              </li>
-              <li>
-                <Radio
-                  name="attestation"
-                  id="custom"
-                  value="custom"
-                  onChange={handleCertificateTypeChange}
-                >
-                  Uploader une attestation
-                  <Input
-                    type="file"
-                    name="file"
-                    id="file"
-                    disabled={uploadIsDisabled}
-                    accept="application/pdf"
-                  />
-                </Radio>
-              </li>
-            </ul>
-          </div>
-        )}
-        <div>
-          <Label htmlFor="reason">Message justificatif du changement (facultatif)</Label>
-          <TextArea
-            name="reason"
-            id="reason"
-            defaultValue={query.reason}
-            placeholder="Renseigner un message justificatif du changement"
-          />
-        </div>
         <PrimaryButton className="mt-2 mx-auto" type="submit" name="submit">
           Modifier
         </PrimaryButton>

@@ -125,7 +125,8 @@ export const makeAcceptModificationRequest =
             if (acceptanceParams?.type === 'recours' && responseFileId !== undefined)
               action = project
                 .grantClasse(submittedBy)
-                .andThen(() => project.updateCertificate(submittedBy, responseFileId))
+                // TODO this whole block should be removed, Recours is managed on the new stack
+                // .andThen(() => project.updateCertificate(submittedBy, responseFileId))
                 .andThen(() =>
                   project.setNotificationDate(
                     submittedBy,

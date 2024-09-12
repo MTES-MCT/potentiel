@@ -3,7 +3,6 @@ import { UniqueEntityID } from '../../../core/domain';
 import { okAsync } from '../../../core/utils';
 import { UnwrapForTest } from '../../../types';
 import { CahierDesChargesRéférenceParsed, makeUser } from '../../../entities';
-import { AppelOffre, CahierDesChargesModifié } from '@potentiel-domain/appel-offre';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import { makeChoisirCahierDesCharges } from './choisirCahierDesCharges';
@@ -17,6 +16,7 @@ import {
   PasDeChangementDeCDCPourLaPériodeDeCetAOError,
 } from '../errors';
 import { AppelOffreRepo } from '../../../dataAccess';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 describe('Choisir un cahier des charges', () => {
   const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })));
@@ -44,11 +44,11 @@ describe('Choisir un cahier des charges', () => {
             { type: 'modifié', paruLe: '30/07/2021' },
             { type: 'modifié', paruLe: '30/08/2022' },
             { type: 'modifié', paruLe: '30/08/2022', alternatif: true },
-          ] as ReadonlyArray<CahierDesChargesModifié>,
+          ] as ReadonlyArray<AppelOffre.CahierDesChargesModifié>,
         },
       ],
       familles: [{ id: 'familleId' }],
-    } as AppelOffre);
+    }) as any;
 
   beforeEach(() => {
     publishToEventStore.mockClear();
@@ -175,12 +175,13 @@ describe('Choisir un cahier des charges', () => {
             {
               id: periodeId,
               type: 'notified',
-              cahiersDesChargesModifiésDisponibles: [] as ReadonlyArray<CahierDesChargesModifié>,
+              cahiersDesChargesModifiésDisponibles:
+                [] as ReadonlyArray<AppelOffre.CahierDesChargesModifié>,
               choisirNouveauCahierDesCharges: true,
             },
           ],
           familles: [{ id: 'familleId' }],
-        } as AppelOffre);
+        }) as any;
 
       const choisirCahierDesCharges = makeChoisirCahierDesCharges({
         publishToEventStore,
@@ -220,11 +221,11 @@ describe('Choisir un cahier des charges', () => {
               choisirNouveauCahierDesCharges: true,
               cahiersDesChargesModifiésDisponibles: [
                 { type: 'modifié', paruLe: '30/08/2022' },
-              ] as ReadonlyArray<CahierDesChargesModifié>,
+              ] as ReadonlyArray<AppelOffre.CahierDesChargesModifié>,
             },
           ],
           familles: [{ id: 'familleId' }],
-        } as AppelOffre);
+        }) as any;
 
       const choisirCahierDesCharges = makeChoisirCahierDesCharges({
         publishToEventStore,
@@ -278,11 +279,11 @@ describe('Choisir un cahier des charges', () => {
                   paruLe: '30/08/2022',
                   numéroGestionnaireRequis: true,
                 },
-              ] as ReadonlyArray<CahierDesChargesModifié>,
+              ] as ReadonlyArray<AppelOffre.CahierDesChargesModifié>,
             },
           ],
           familles: [{ id: 'familleId' }],
-        } as AppelOffre);
+        }) as any;
 
       const choisirCahierDesCharges = makeChoisirCahierDesCharges({
         publishToEventStore,
@@ -405,12 +406,12 @@ describe('Choisir un cahier des charges', () => {
                   paruLe: '30/08/2022',
                   numéroGestionnaireRequis: true,
                 },
-              ] as ReadonlyArray<CahierDesChargesModifié>,
+              ] as ReadonlyArray<AppelOffre.CahierDesChargesModifié>,
             },
           ],
           familles: [{ id: 'familleId' }],
           doitPouvoirChoisirCDCInitial: true,
-        } as AppelOffre);
+        }) as any;
 
       const choisirCahierDesCharges = makeChoisirCahierDesCharges({
         publishToEventStore,

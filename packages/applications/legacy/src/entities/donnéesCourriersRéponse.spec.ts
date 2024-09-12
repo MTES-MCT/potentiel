@@ -1,5 +1,4 @@
 import { describe, expect, it } from '@jest/globals';
-import { CahierDesChargesModifié, Periode } from '@potentiel-domain/appel-offre';
 import { ProjectAppelOffre } from './appelOffre';
 import { getDonnéesCourriersRéponse } from './donnéesCourriersRéponse';
 
@@ -11,8 +10,8 @@ describe(`Récupération des données des courriers de réponse`, () => {
 
       const projectAppelOffre = {
         periode: {
-          cahiersDesChargesModifiésDisponibles: [] as ReadonlyArray<CahierDesChargesModifié>,
-        } as Periode,
+          cahiersDesChargesModifiésDisponibles: [] as ReadonlyArray<any>,
+        } as any,
         donnéesCourriersRéponse: {
           texteEngagementRéalisationEtModalitésAbandon: {
             référenceParagraphe: 'AO-1',
@@ -56,8 +55,8 @@ describe(`Récupération des données des courriers de réponse`, () => {
             },
             texteChangementDActionnariat: { référenceParagraphe: 'PE-2', dispositions: 'PE-deux' },
           },
-          cahiersDesChargesModifiésDisponibles: [] as ReadonlyArray<CahierDesChargesModifié>,
-        } as Periode,
+          cahiersDesChargesModifiésDisponibles: [] as ReadonlyArray<any>,
+        } as any,
         donnéesCourriersRéponse: {
           texteEngagementRéalisationEtModalitésAbandon: {
             référenceParagraphe: 'AO-1',
@@ -92,7 +91,7 @@ describe(`Récupération des données des courriers de réponse`, () => {
         Alors les données de l'AO devraient être retournées surchargées par celles de la période puis celles du CDC`, () => {
       const cahierDesChargesActuel = '30/08/2022-alternatif';
 
-      const cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié> = [
+      const cahiersDesChargesModifiésDisponibles: ReadonlyArray<any> = [
         {
           type: 'modifié',
           paruLe: '30/07/2021',
@@ -126,7 +125,7 @@ describe(`Récupération des données des courriers de réponse`, () => {
             texteChangementDActionnariat: { référenceParagraphe: 'PE-2', dispositions: 'PE-deux' },
           },
           cahiersDesChargesModifiésDisponibles,
-        } as Periode,
+        } as any,
         donnéesCourriersRéponse: {
           texteEngagementRéalisationEtModalitésAbandon: {
             référenceParagraphe: 'AO-1',
@@ -161,7 +160,7 @@ describe(`Récupération des données des courriers de réponse`, () => {
         Alors les données de l'AO devraient être retournées surchargées par celles de la période puis celles du CDC`, () => {
       const cahierDesChargesActuel = '30/08/2022';
 
-      const cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié> = [
+      const cahiersDesChargesModifiésDisponibles: ReadonlyArray<any> = [
         {
           type: 'modifié',
           paruLe: '30/08/2022',
@@ -187,7 +186,7 @@ describe(`Récupération des données des courriers de réponse`, () => {
             },
           },
           cahiersDesChargesModifiésDisponibles,
-        } as Periode,
+        } as any,
         donnéesCourriersRéponse: {
           texteEngagementRéalisationEtModalitésAbandon: {
             référenceParagraphe: 'AO-1',

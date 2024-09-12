@@ -30,16 +30,13 @@ import {
 } from '../modules/modificationRequest';
 import {
   makeCorrectProjectData,
-  makeGenerateCertificate,
   makeImportProjects,
-  makeRegenerateCertificatesForPeriode,
   makeSignalerDemandeDelai,
   makeSignalerDemandeRecours,
   makeChoisirCahierDesCharges,
 } from '../modules/project';
 import { makeClaimProject } from '../modules/projectClaim';
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '../modules/users';
-import { buildCertificate } from '../views/certificates';
 import { resendInvitationEmail } from './credentials.config';
 import { eventStore } from './eventStore.config';
 import {
@@ -47,10 +44,8 @@ import {
   getLegacyModificationByFilename,
   getProjectAppelOffreId,
   getProjectDataForProjectClaim,
-  getProjectIdsForPeriode,
   getPuissanceProjet,
   getUserByEmail,
-  getUserById,
   hasDemandeDeMêmeTypeOuverte,
 } from './queries.config';
 import {
@@ -81,18 +76,9 @@ export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldProjectRepo.findById,
 );
 
-export const generateCertificate = makeGenerateCertificate({
-  fileRepo,
-  projectRepo,
-  findAppelOffreById: oldAppelOffreRepo.findById,
-  buildCertificate,
-  getUserById,
-});
-
 export const correctProjectData = makeCorrectProjectData({
   fileRepo,
   projectRepo,
-  generateCertificate,
 });
 
 export const loadFileForUser = makeLoadFileForUser({
@@ -157,13 +143,6 @@ export const requestFournisseurModification = makeRequestFournisseursModificatio
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
   fileRepo,
-});
-
-export const regenerateCertificatesForPeriode = makeRegenerateCertificatesForPeriode({
-  eventBus: eventStore,
-  generateCertificate,
-  projectRepo,
-  getProjectIdsForPeriode,
 });
 
 export const createUser = makeCreateUser({

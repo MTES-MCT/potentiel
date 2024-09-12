@@ -33,7 +33,6 @@ v1Router.post(
     const {
       projectId,
       projectVersionDate,
-      notificationDate,
       nomProjet,
       territoireProjet,
       puissance,
@@ -50,8 +49,6 @@ v1Router.post(
       participatif,
       isClasse,
       motifsElimination,
-      reason,
-      attestation,
       actionnariat,
     } = request.body;
 
@@ -68,20 +65,8 @@ v1Router.post(
       participatif === 'investissement'
         ? { isFinancementParticipatif: false, isInvestissementParticipatif: true }
         : participatif === 'financement'
-        ? { isFinancementParticipatif: true, isInvestissementParticipatif: false }
-        : { isFinancementParticipatif: false, isInvestissementParticipatif: false };
-
-    if (
-      notificationDate &&
-      moment(notificationDate, FORMAT_DATE).format(FORMAT_DATE) !== notificationDate
-    ) {
-      return response.redirect(
-        addQueryParams(routes.PROJECT_DETAILS(projectId), {
-          error: 'La date de notification est au mauvais format.',
-          ...request.body,
-        }),
-      );
-    }
+          ? { isFinancementParticipatif: true, isInvestissementParticipatif: false }
+          : { isFinancementParticipatif: false, isInvestissementParticipatif: false };
 
     const correctedData = {
       territoireProjet: territoireProjet.length ? territoireProjet : undefined,
@@ -102,27 +87,12 @@ v1Router.post(
       motifsElimination,
       actionnariat,
     };
-
-    const certificateFile =
-      request.file && attestation === 'custom'
-        ? {
-            contents: fs.createReadStream(request.file.path),
-            filename: sanitize(`${Date.now()}-${request.file.originalname}`),
-          }
-        : undefined;
-
     const result = await correctProjectData({
       projectId,
       projectVersionDate: new Date(Number(projectVersionDate)),
       correctedData,
-      certificateFile,
-      newNotifiedOn:
-        notificationDate &&
-        moment(notificationDate, FORMAT_DATE).tz('Europe/London').toDate().getTime(),
       user: request.user,
       shouldGrantClasse: Number(isClasse) === 1,
-      reason,
-      attestation,
     });
 
     return result.match(

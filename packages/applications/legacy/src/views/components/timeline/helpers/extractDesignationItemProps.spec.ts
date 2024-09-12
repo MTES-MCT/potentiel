@@ -1,9 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { UniqueEntityID } from '../../../../core/domain';
 import {
-  ProjectCertificateGeneratedDTO,
-  ProjectCertificateRegeneratedDTO,
-  ProjectCertificateUpdatedDTO,
   ProjectClaimedDTO,
   ProjectEventDTO,
   ProjectImportedDTO,
@@ -26,21 +22,6 @@ describe('extractDesignationItemProps', () => {
           variant: 'admin',
           date: 11,
         } as ProjectImportedDTO,
-        {
-          type: 'ProjectCertificateGenerated',
-          variant: 'admin',
-          date: 13,
-        } as ProjectCertificateGeneratedDTO,
-        {
-          type: 'ProjectCertificateRegenerated',
-          variant: 'admin',
-          date: 13,
-        } as ProjectCertificateRegeneratedDTO,
-        {
-          type: 'ProjectCertificateUpdated',
-          variant: 'admin',
-          date: 13,
-        } as ProjectCertificateUpdatedDTO,
         {
           type: 'ProjectClaimed',
           variant: 'admin',
@@ -123,48 +104,6 @@ describe('extractDesignationItemProps', () => {
       });
     });
 
-    describe('when there is a ProjectCertificateGenerated event', () => {
-      it('should return a certificate', () => {
-        const projectEventList = [
-          projectNotifiedEvent,
-          {
-            type: 'ProjectCertificateGenerated',
-            variant: 'admin',
-            date: 13,
-          } as ProjectCertificateGeneratedDTO,
-        ];
-
-        const result = extractDesignationItemProps(projectEventList, status, fakeIdentifiantProjet);
-        expect(result).toMatchObject({
-          certificate: { date: 13, status: 'generated', url: expect.anything() },
-          projectStatus: 'Classé',
-        });
-      });
-    });
-
-    describe('when there is both a ProjectCertificateGenerated event and a ProjectCertificateRegenerated event', () => {
-      it('should return the regenerated certificate', () => {
-        const projectEventList = [
-          projectNotifiedEvent,
-          {
-            type: 'ProjectCertificateGenerated',
-            variant: 'admin',
-            date: 13,
-          } as ProjectCertificateGeneratedDTO,
-          {
-            type: 'ProjectCertificateRegenerated',
-            variant: 'admin',
-            date: 14,
-          } as ProjectCertificateRegeneratedDTO,
-        ];
-
-        const result = extractDesignationItemProps(projectEventList, status, fakeIdentifiantProjet);
-        expect(result).toMatchObject({
-          certificate: { date: 14, status: 'generated', url: expect.anything() },
-        });
-      });
-    });
-
     describe('when there is a ProjectClaimed event', () => {
       it('should return the certificate from the claim', () => {
         const projectEventList = [
@@ -179,47 +118,6 @@ describe('extractDesignationItemProps', () => {
         const result = extractDesignationItemProps(projectEventList, status, fakeIdentifiantProjet);
         expect(result).toMatchObject({
           certificate: { date: 13, status: 'uploaded', url: expect.anything() },
-        });
-      });
-    });
-
-    describe('when there is a ProjectCertificateUpdated event', () => {
-      it('should return the certificate from the update', () => {
-        const projectEventList = [
-          projectNotifiedEvent,
-          {
-            type: 'ProjectCertificateUpdated',
-            variant: 'admin',
-            date: 13,
-          } as ProjectCertificateUpdatedDTO,
-        ];
-
-        const result = extractDesignationItemProps(projectEventList, status, fakeIdentifiantProjet);
-        expect(result).toMatchObject({
-          certificate: { date: 13, status: 'uploaded', url: expect.anything() },
-        });
-      });
-    });
-
-    describe('when there is both a ProjectCertificateGenerated event and then a ProjectCertificateUpdated event', () => {
-      it('should return the updated certificate', () => {
-        const projectEventList = [
-          projectNotifiedEvent,
-          {
-            type: 'ProjectCertificateGenerated',
-            variant: 'admin',
-            date: 13,
-          } as ProjectCertificateGeneratedDTO,
-          {
-            type: 'ProjectCertificateUpdated',
-            variant: 'admin',
-            date: 14,
-          } as ProjectCertificateUpdatedDTO,
-        ];
-
-        const result = extractDesignationItemProps(projectEventList, status, fakeIdentifiantProjet);
-        expect(result).toMatchObject({
-          certificate: { date: 14, status: 'uploaded', url: expect.anything() },
         });
       });
     });

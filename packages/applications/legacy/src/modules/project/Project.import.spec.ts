@@ -6,7 +6,6 @@ import makeFakeProject from '../../__tests__/fixtures/project';
 import {
   LegacyProjectSourced,
   ProjectActionnaireUpdated,
-  ProjectCertificateObsolete,
   ProjectCompletionDueDateSet,
   ProjectDataCorrected,
   ProjectDCRDueDateSet,
@@ -558,19 +557,17 @@ describe('Project.import({ data, importId })', () => {
         });
 
         it('should emit DCR/CompletionDueDateSet', () => {
-          expect(project.pendingEvents).toHaveLength(4);
+          expect(project.pendingEvents).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                type: 'ProjectDCRDueDateSet',
+              }),
 
-          const pendingEventTypes = project.pendingEvents.map((item) => item.type);
-          expect(pendingEventTypes).toContain('ProjectDCRDueDateSet');
-          expect(pendingEventTypes).toContain('ProjectCompletionDueDateSet');
-        });
-
-        it('should emit ProjectCertificateObsolete', () => {
-          const targetEvent = findEventOfType(ProjectCertificateObsolete, project.pendingEvents);
-          expect(targetEvent).toBeDefined();
-          if (!targetEvent) return;
-
-          expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+              expect.objectContaining({
+                type: 'ProjectCompletionDueDateSet',
+              }),
+            ]),
+          );
         });
       });
 
@@ -722,20 +719,18 @@ describe('Project.import({ data, importId })', () => {
           });
         });
 
-        it('should emit DCR/CompletionDueDateCancelled', () => {
-          expect(project.pendingEvents).toHaveLength(4);
+        it('should emit DCR/CompletionDueDateSet', () => {
+          expect(project.pendingEvents).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                type: 'ProjectDCRDueDateCancelled',
+              }),
 
-          const pendingEventTypes = project.pendingEvents.map((item) => item.type);
-          expect(pendingEventTypes).toContain('ProjectDCRDueDateCancelled');
-          expect(pendingEventTypes).toContain('ProjectCompletionDueDateCancelled');
-        });
-
-        it('should emit ProjectCertificateObsolete', () => {
-          const targetEvent = findEventOfType(ProjectCertificateObsolete, project.pendingEvents);
-          expect(targetEvent).toBeDefined();
-          if (!targetEvent) return;
-
-          expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+              expect.objectContaining({
+                type: 'ProjectCompletionDueDateCancelled',
+              }),
+            ]),
+          );
         });
       });
 

@@ -120,17 +120,8 @@ const MenuAdmin = (currentPage?: string) => (
       <DropdownMenu.DropdownItem href={Routes.Candidature.corriger}>
         Corriger des candidats
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={routes.GET_NOTIFIER_CANDIDATS()}
-        {...(currentPage === 'notify-candidates' && { isCurrent: true })}
-      >
+      <DropdownMenu.DropdownItem href={Routes.Période.lister}>
         Notifier des candidats
-      </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={routes.ADMIN_REGENERATE_CERTIFICATES}
-        {...(currentPage === 'regenerate-certificates' && { isCurrent: true })}
-      >
-        Régénérer des attestations
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Candidature.lister()}>
         Tous les candidats

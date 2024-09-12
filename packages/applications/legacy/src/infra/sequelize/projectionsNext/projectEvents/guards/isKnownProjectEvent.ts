@@ -2,7 +2,6 @@ import { or } from '../../../../../core/utils';
 import { ProjectEvent } from '../../..';
 import {
   CovidDelayGrantedEvent,
-  ProjectCertificateEvents,
   ProjectClaimedEvent,
   ProjectImportedEvent,
   ProjectNotificationDateSetEvent,
@@ -26,7 +25,6 @@ export type KnownProjectEvents =
   | ProjectCompletionDueDateSetEvent
   | ProjectNotificationDateSetEvent
   | CovidDelayGrantedEvent
-  | ProjectCertificateEvents
   | ModificationRequestEvents
   | FileAttachedToProjectEvent
   | LegacyModificationFileAttachedEvent
@@ -57,9 +55,6 @@ export const isKnownProjectEvent = or(
   is('ProjectNotificationDateSet'),
   is('ProjectCompletionDueDateSet'),
   is('CovidDelayGranted'),
-  is('ProjectCertificateGenerated'),
-  is('ProjectCertificateRegenerated'),
-  is('ProjectCertificateUpdated'),
   is('ModificationRequested'),
   is('ModificationRequestAccepted'),
   is('ModificationRequestRejected'),
