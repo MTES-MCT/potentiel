@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { Candidature } from '@potentiel-domain/candidature';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -7,6 +8,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Période } from '@potentiel-domain/periode';
 import { Option } from '@potentiel-libraries/monads';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
@@ -27,7 +29,7 @@ export const metadata: Metadata = {
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
-    const appelOffre = searchParams?.appelOffre;
+    const appelOffreParams = searchParams?.appelOffre;
     const périodeParams = searchParams?.periode;
     const nomProjet = searchParams?.nomProjet;
     const statut = searchParams?.statut;
@@ -41,7 +43,7 @@ export default async function Page({ searchParams }: PageProps) {
           itemsPerPage: 10,
         }),
         nomProjet,
-        appelOffre,
+        appelOffre: appelOffreParams,
         période: périodeParams,
         statut: statut
           ? Candidature.StatutCandidature.convertirEnValueType(statut).statut
@@ -56,7 +58,7 @@ export default async function Page({ searchParams }: PageProps) {
 
     const périodesOption =
       appelOffres.items
-        .find((appelOffresItem) => appelOffresItem.id === appelOffre)
+        .find((appelOffresItem) => appelOffresItem.id === appelOffreParams)
         ?.periodes.map((p) => ({
           label: p.title,
           value: p.id,
@@ -66,7 +68,7 @@ export default async function Page({ searchParams }: PageProps) {
       {
         label: `Appel d'offres`,
         searchParamKey: 'appelOffre',
-        defaultValue: appelOffre,
+        defaultValue: appelOffreParams,
         options: appelOffres.items.map((appelOffre) => ({
           label: appelOffre.id,
           value: appelOffre.id,
@@ -106,34 +108,16 @@ export default async function Page({ searchParams }: PageProps) {
       );
     }
 
+    const notificationMap = await récupérerNotificationMap({
+      appelOffreParams,
+      périodeParams,
+      identifiantProjet:
+        candidaturesData.items.length === 1
+          ? candidaturesData.items[0].identifiantProjet
+          : undefined,
+    });
+
     const items: Array<CandidatureListItemProps> = [];
-
-    const identifiantsPériode = périodeParams
-      ? [Période.IdentifiantPériode.convertirEnValueType(`${appelOffre}#${périodeParams}`)]
-      : Array.from(
-          new Set(
-            candidaturesData.items.map((candidature) =>
-              Période.IdentifiantPériode.convertirEnValueType(
-                `${candidature.identifiantProjet.appelOffre}#${candidature.identifiantProjet.période}`,
-              ),
-            ),
-          ),
-        );
-
-    const estNotifiéMap: Record<Période.IdentifiantPériode.RawType, boolean> = {};
-
-    for (const identifiantPériode of identifiantsPériode) {
-      const période = await mediator.send<Période.ConsulterPériodeQuery>({
-        type: 'Période.Query.ConsulterPériode',
-        data: {
-          identifiantPériodeValue: identifiantPériode.formatter(),
-        },
-      });
-
-      estNotifiéMap[identifiantPériode.formatter()] = Option.isSome(période)
-        ? période.estNotifiée
-        : false;
-    }
 
     for (const candidature of candidaturesData.items) {
       const appelOffresItem = appelOffres.items.find(
@@ -151,7 +135,7 @@ export default async function Page({ searchParams }: PageProps) {
         `${candidature.identifiantProjet.appelOffre}#${candidature.identifiantProjet.période}`,
       );
 
-      const estNotifiée = estNotifiéMap[identifiantPériodeDeLaCandidature.formatter()] ?? false;
+      const estNotifiée = notificationMap[identifiantPériodeDeLaCandidature.formatter()] ?? false;
 
       items.push(
         mapToPlainObject({
@@ -172,3 +156,67 @@ export default async function Page({ searchParams }: PageProps) {
     );
   });
 }
+
+type NotificationMap = Record<Période.IdentifiantPériode.RawType, boolean>;
+
+const récupérerPériode = async ({
+  identifiantProjet,
+}: {
+  identifiantProjet?: IdentifiantProjet.ValueType;
+}) => {
+  if (!identifiantProjet) {
+    return notFound();
+  }
+
+  const identifiantPériodeDeLaCandidature = Période.IdentifiantPériode.convertirEnValueType(
+    `${identifiantProjet.appelOffre}#${identifiantProjet.période}`,
+  );
+
+  const période = await mediator.send<Période.ConsulterPériodeQuery>({
+    type: 'Période.Query.ConsulterPériode',
+    data: {
+      identifiantPériodeValue: identifiantPériodeDeLaCandidature.formatter(),
+    },
+  });
+
+  if (Option.isNone(période)) {
+    return notFound();
+  }
+
+  return [période];
+};
+
+const récupérerPériodes = async ({ appelOffreParams }: { appelOffreParams?: string }) => {
+  const périodes = await mediator.send<Période.ListerPériodesQuery>({
+    type: 'Période.Query.ListerPériodes',
+    data: {
+      appelOffre: appelOffreParams,
+    },
+  });
+
+  return périodes.items;
+};
+
+const récupérerNotificationMap = async ({
+  appelOffreParams,
+  périodeParams,
+  identifiantProjet,
+}: {
+  appelOffreParams?: string;
+  périodeParams?: string;
+  identifiantProjet?: IdentifiantProjet.ValueType;
+}): Promise<NotificationMap> => {
+  const notificationMap: NotificationMap = {};
+
+  const périodes = périodeParams
+    ? await récupérerPériode({ identifiantProjet })
+    : await récupérerPériodes({ appelOffreParams });
+
+  for (const période of périodes) {
+    notificationMap[période.identifiantPériode.formatter()] = Option.isSome(période)
+      ? période.estNotifiée
+      : false;
+  }
+
+  return notificationMap;
+};
