@@ -201,6 +201,9 @@ const référencielPermissions = {
     query: { consulter: 'Éliminé.Query.ConsulterÉliminé' },
     usecase: { notifier: 'Éliminé.UseCase.NotifierÉliminé' },
     command: { notifier: 'Éliminé.Command.NotifierÉliminé' },
+    recours: {
+      query: { consulterLegacy: 'Éliminé.Recours.Query.ConsulterDemandeRecoursLegacy' },
+    },
   },
   appelOffre: {
     cahierDesCharges: {
@@ -694,6 +697,7 @@ const policies = {
       référencielPermissions.candidature.query.listerCandidatures,
       référencielPermissions.appelOffre.query.lister,
     ],
+    // TODO remove
     notifier: [
       référencielPermissions.lauréat.usecase.notifier,
       référencielPermissions.lauréat.command.notifier,
@@ -725,6 +729,11 @@ const policies = {
       référencielPermissions.éliminé.usecase.notifier,
       référencielPermissions.éliminé.command.notifier,
     ],
+  },
+  éliminé: {
+    recours: {
+      consulter: [référencielPermissions.éliminé.recours.query.consulterLegacy],
+    },
   },
 } as const;
 
@@ -804,6 +813,9 @@ const permissionAdmin: Policy[] = [
   // Période
   'période.lister',
   'période.consulter',
+
+  // Recours
+  'éliminé.recours.consulter',
 ];
 
 const permissionDgecValidateur: Policy[] = [

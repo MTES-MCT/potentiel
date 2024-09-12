@@ -7,7 +7,10 @@ import {
 } from '@potentiel-domain/elimine';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
-import { listerIdentifiantsProjetsParPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
+import {
+  listerIdentifiantsProjetsParPorteurAdapter,
+  RecoursAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 import { RecoursProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
 import { SendEmail, ÉliminéNotification } from '@potentiel-applications/notifications';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
@@ -25,6 +28,7 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependenices) =
     find: findProjection,
     list: listProjection,
     listerProjetsAccessibles: listerIdentifiantsProjetsParPorteurAdapter,
+    consulterRecoursAdapter: RecoursAdapter.consulterRecoursAdapter,
   });
 
   ÉliminéProjector.register();

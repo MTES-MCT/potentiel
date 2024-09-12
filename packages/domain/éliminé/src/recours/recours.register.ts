@@ -16,8 +16,14 @@ import {
 } from './lister/listerRecours.query';
 import { registerRejeterRecoursCommand } from './rejeter/rejeterRecours.command';
 import { registerRejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase';
+import {
+  ConsulterDemandeRecoursLegacyDependencies,
+  registerConsulterDemandeRecoursLegacyQuery,
+} from './consulter/consulterDemandeRecoursLegacy.query';
 
-export type RecoursQueryDependencies = ConsulterRecoursDependencies & ListerRecoursDependencies;
+export type RecoursQueryDependencies = ConsulterRecoursDependencies &
+  ListerRecoursDependencies &
+  ConsulterDemandeRecoursLegacyDependencies;
 export type RecoursCommandDependencies = {
   loadAggregate: LoadAggregate;
 };
@@ -36,5 +42,6 @@ export const registerRecoursUseCases = ({ loadAggregate }: RecoursCommandDepende
 
 export const registerRecoursQueries = (dependencies: RecoursQueryDependencies) => {
   registerConsulterRecoursQuery(dependencies);
+  registerConsulterDemandeRecoursLegacyQuery(dependencies);
   registerListerRecoursQuery(dependencies);
 };

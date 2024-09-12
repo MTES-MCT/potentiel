@@ -1,5 +1,6 @@
 import { AccorderRecoursUseCase } from './accorder/accorderRecours.usecase';
 import { AnnulerRecoursUseCase } from './annuler/annulerRecours.usecase';
+import { ConsulterDemandeRecoursLegacyQuery } from './consulter/consulterDemandeRecoursLegacy.query';
 import {
   ConsulterRecoursQuery,
   ConsulterRecoursReadModel,
@@ -9,9 +10,12 @@ import { ListerRecoursQuery, ListerRecoursReadModel } from './lister/listerRecou
 import { RejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase';
 
 // Query
-export type RecoursQuery = ConsulterRecoursQuery | ListerRecoursQuery;
+export type RecoursQuery =
+  | ConsulterRecoursQuery
+  | ListerRecoursQuery
+  | ConsulterDemandeRecoursLegacyQuery;
 
-export { ConsulterRecoursQuery, ListerRecoursQuery };
+export { ConsulterRecoursQuery, ListerRecoursQuery, ConsulterDemandeRecoursLegacyQuery };
 
 // ReadModel
 export { ConsulterRecoursReadModel, ListerRecoursReadModel };
