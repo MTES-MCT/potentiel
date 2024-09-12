@@ -39,6 +39,7 @@ const commonItem: CommonItem = {
   prixReference: 1,
   nomReprésentantLégal: 'Frodon Sacquet',
   evaluationCarboneSimplifiée: 1,
+  estNotifiée: true,
 };
 
 export const Default: Story = {
@@ -57,8 +58,9 @@ export const Default: Story = {
     items: [
       {
         ...commonItem,
+        estNotifiée: false,
         nomProjet:
-          'Nom de projet très très très très très très très très très très très très très très très très long',
+          'Nom de projet très très très très très très très très très très très très très très très très long (et non notifié de surcroît)',
       },
       {
         ...commonItem,

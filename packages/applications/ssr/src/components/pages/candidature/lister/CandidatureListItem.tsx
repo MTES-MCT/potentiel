@@ -1,8 +1,6 @@
 import { FC } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { PlainType } from '@potentiel-domain/core';
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, StatutCandidature } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -11,6 +9,7 @@ import { Icon } from '@/components/atoms/Icon';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 
 import * as symbols from './candidatureListLegendSymbols';
+import { CandidatureListItemActions } from './CandidatureListItemActions';
 
 export type CandidatureListItemProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
@@ -53,43 +52,13 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
         prefix="Candidature du projet"
         statut={statut.statut}
       />
-      <Button
-        className="hidden md:flex ml-auto"
-        linkProps={{
-          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
-        }}
-        aria-label={`Lien vers la page de la candidature ${nomProjet}`}
-      >
-        Consulter
-      </Button>
-      {estNotifiée ? (
-        <Button
-          className="hidden md:flex ml-auto"
-          linkProps={{
-            href: Routes.Candidature.téléchargerAttestation(
-              IdentifiantProjet.bind(identifiantProjet).formatter(),
-            ),
-          }}
-          aria-label={`Télécharger l'attestation de désignation de ${nomProjet}`}
-          priority="secondary"
-        >
-          Télécharger l'attestation
-        </Button>
-      ) : (
-        <Button
-          className="hidden md:flex ml-auto"
-          linkProps={{
-            href: Routes.Candidature.prévisualiserAttestation(
-              IdentifiantProjet.bind(identifiantProjet).formatter(),
-            ),
-            target: '_blank',
-          }}
-          aria-label={`Prévisualiser l'attestation de désignation de ${nomProjet}`}
-          priority="secondary"
-        >
-          Voir l'attestation
-        </Button>
-      )}
+      <div className="max-md:hidden">
+        <CandidatureListItemActions
+          identifiantProjet={identifiantProjet}
+          nomProjet={nomProjet}
+          estNotifiée={estNotifiée}
+        />
+      </div>
     </div>
 
     <div className="flex flex-col gap-4 md:flex-row md:items-center">
@@ -164,15 +133,12 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
       </div>
     </div>
 
-    <div className="flex md:hidden">
-      <Button
-        linkProps={{
-          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
-        }}
-        aria-label={`Lien vers la page de la candidature ${nomProjet}`}
-      >
-        Consulter
-      </Button>
+    <div className="md:hidden">
+      <CandidatureListItemActions
+        identifiantProjet={identifiantProjet}
+        nomProjet={nomProjet}
+        estNotifiée={estNotifiée}
+      />
     </div>
   </div>
 );
