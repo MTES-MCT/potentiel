@@ -213,9 +213,7 @@ const récupérerNotificationMap = async ({
     : await récupérerPériodes({ appelOffreParams });
 
   for (const période of périodes) {
-    notificationMap[période.identifiantPériode.formatter()] = Option.isSome(période)
-      ? période.estNotifiée
-      : false;
+    notificationMap[période.identifiantPériode.formatter()] = période.estNotifiée;
   }
 
   return notificationMap;
