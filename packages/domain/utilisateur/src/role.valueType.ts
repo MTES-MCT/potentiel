@@ -566,7 +566,7 @@ const policies = {
     ],
     annuler: [
       référencielPermissions.candidature.query.consulterProjet,
-      référencielPermissions.lauréat.abandon.query.consulter,
+      référencielPermissions.éliminé.recours.query.consulter,
       référencielPermissions.éliminé.recours.usecase.annuler,
       référencielPermissions.éliminé.recours.command.annuler,
     ],
