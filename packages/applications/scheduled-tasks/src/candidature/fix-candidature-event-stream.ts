@@ -1,64 +1,43 @@
-import { IdentifiantProjet } from '@potentiel-domain/common';
-import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
+import { Candidature } from '@potentiel-domain/candidature';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 (async () => {
-  const candidatures = await executeSelect<{
-    value: {
-      stream_id: string;
-      payload: Record<string, string>;
-    };
+  const eventsToFix = await executeSelect<{
+    stream_id: string;
+    payload: Candidature.CandidatureImportéeEvent['payload'];
   }>(`
-    select json_build_object(
-      'stream_id', es."stream_id",
-      'payload', es."payload"
-    ) as value
+    select es."stream_id", es."payload"
     from event_store.event_stream es
-    where stream_id ilike 'candidature|%' and (
-          payload->>'appelOffre' is null
-       or payload->>'période' is null
-       or payload->>'famille' is null
-       or payload->>'numéroCRE' is null
-    );
+    where type = 'CandidatureImportée-V1' 
+    and (payload->>'appelOffre' is null or payload->>'période' is null);
   `);
 
-  console.info(`${candidatures.length} candidatures to fix...`);
+  console.info(`${eventsToFix.length} candidatures to fix...`);
 
-  console.info(`Drop rule to prevent update on event_stream`);
-  await executeQuery(`DROP RULE prevent_update_on_event_stream ON event_store.event_stream;`);
-
-  for (const candidature of candidatures) {
+  for (const candidature of eventsToFix) {
     try {
-      const { stream_id, payload } = candidature.value;
+      const { stream_id, payload } = candidature;
 
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(payload.identifiantProjet);
 
-      const newPayload = {
-        ...payload,
-        appelOffre: identifiantProjet.appelOffre,
-        période: identifiantProjet.période,
-        famille: identifiantProjet.famille,
-        numéroCRE: identifiantProjet.numéroCRE,
+      const candidatureCorrigéeEvent: Candidature.CandidatureCorrigéeEvent = {
+        type: 'CandidatureCorrigée-V1',
+        payload: {
+          ...payload,
+          appelOffre: identifiantProjet.appelOffre,
+          période: identifiantProjet.période,
+          corrigéLe: DateTime.now().formatter(),
+          corrigéPar: 'team@potentiel.beta.gouv.fr',
+        },
       };
 
-      await executeQuery(
-        `
-        update event_store.event_stream es
-        set payload = $1
-        where stream_id = $2
-        `,
-        newPayload,
-        stream_id,
-      );
+      await publish(stream_id, candidatureCorrigéeEvent);
     } catch (error) {
       console.error(error);
     }
   }
-
-  console.info(`Create rule to prevent update on event_stream`);
-  await executeQuery(`
-    CREATE RULE prevent_update_on_event_stream AS
-    ON UPDATE TO event_store.event_stream DO INSTEAD  SELECT event_store.throw_when_trying_to_update_event() AS throw_when_trying_to_update_event;
-  `);
 
   process.exit(0);
 })();
