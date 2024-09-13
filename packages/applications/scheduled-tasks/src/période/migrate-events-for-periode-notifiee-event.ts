@@ -1,7 +1,21 @@
+import { mediator } from 'mediateur';
+
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
+import { Candidature } from '@potentiel-domain/candidature';
 import { Période } from '@potentiel-domain/periode';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
+import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
+
+Candidature.registerCandidatureQueries({
+  find: findProjection,
+  récupérerProjet: CandidatureAdapter.récupérerProjetAdapter,
+  récupérerProjetsEligiblesPreuveRecanditure:
+    CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
+  récupérerProjets: CandidatureAdapter.récupérerProjetsAdapter,
+  list: listProjection,
+});
 
 (async () => {
   try {
@@ -42,33 +56,15 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
         requestedBy,
       );
 
-      const projects = await executeSelect<{
-        value: {
-          appelOffre: string;
-          période: string;
-          famille: string;
-          numéroCRE: string;
-          statut: 'Classé' | 'Eliminé';
-        };
-      }>(
-        `
-        select json_build_object(
-            'appelOffre', es.payload->>'appelOffreId',
-            'période', es.payload->>'periodeId',
-            'famille', es.payload->>'familleId',
-            'numéroCRE', es.payload->>'numeroCRE',
-            'statut', es.payload->'data'->>'classe'
-        ) as value
-        from "eventStores" es 
-        where es."type" = 'ProjectImported'
-        and es.payload->>'appelOffreId' = $1
-        and es.payload->>'periodeId' = $2;
-        `,
-        appelOffreId,
-        periodeId,
-      );
-
       const identifiantPériode = `${appelOffreId}#${periodeId}` as const;
+
+      const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
+        type: 'Candidature.Query.ListerCandidatures',
+        data: {
+          appelOffre: appelOffreId,
+          période: periodeId,
+        },
+      });
 
       const event: Période.PériodeNotifiéeEvent = {
         type: 'PériodeNotifiée-V1',
@@ -78,19 +74,12 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
           période: periodeId,
           notifiéeLe: DateTime.convertirEnValueType(new Date(notifiedOn)).formatter(),
           notifiéePar: users[0]?.value.email ?? 'unknown@unknown.unknowm',
-          identifiantLauréats: projects
-            .filter((p) => p.value.statut === 'Classé')
-            .map(
-              ({ value: { appelOffre, période, famille, numéroCRE } }) =>
-                `${appelOffre}#${période}#${famille}#${numéroCRE}` as const,
-            ),
-          identifiantÉliminés: projects
-            .filter((p) => p.value.statut === 'Eliminé')
-            .map(({ value: { appelOffre, période, famille, numéroCRE } }) =>
-              IdentifiantProjet.convertirEnValueType(
-                `${appelOffre}#${période}#${famille}#${numéroCRE}`,
-              ).formatter(),
-            ),
+          identifiantLauréats: candidatures.items
+            .filter((item) => item.statut.estClassé())
+            .map(({ identifiantProjet }) => identifiantProjet.formatter()),
+          identifiantÉliminés: candidatures.items
+            .filter((item) => item.statut.estÉliminé())
+            .map(({ identifiantProjet }) => identifiantProjet.formatter()),
         },
       };
 
