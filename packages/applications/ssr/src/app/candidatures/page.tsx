@@ -8,7 +8,6 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Période } from '@potentiel-domain/periode';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
@@ -111,10 +110,6 @@ export default async function Page({ searchParams }: PageProps) {
     const notificationMap = await récupérerNotificationMap({
       appelOffreParams,
       périodeParams,
-      identifiantProjet:
-        candidaturesData.items.length === 1
-          ? candidaturesData.items[0].identifiantProjet
-          : undefined,
     });
 
     const items: Array<CandidatureListItemProps> = [];
@@ -125,11 +120,15 @@ export default async function Page({ searchParams }: PageProps) {
       );
 
       if (!appelOffresItem) {
-        getLogger().warn(`Aucun appel d'offres trouvé pour la candidature`, {
+        getLogger().warn(`Aucun appel d'offres existant trouvé pour la candidature`, {
           identifiantProjet: candidature.identifiantProjet.formatter(),
           appelOffre: candidature.identifiantProjet.appelOffre,
         });
       }
+
+      const estPériodeLegacy =
+        appelOffresItem?.periodes.find((x) => x.id === candidature.identifiantProjet.période)
+          ?.type === 'legacy';
 
       const identifiantPériodeDeLaCandidature = Période.IdentifiantPériode.convertirEnValueType(
         `${candidature.identifiantProjet.appelOffre}#${candidature.identifiantProjet.période}`,
@@ -141,6 +140,7 @@ export default async function Page({ searchParams }: PageProps) {
         mapToPlainObject({
           ...candidature,
           estNotifiée,
+          estPériodeLegacy,
           unitePuissance: appelOffresItem?.unitePuissance ?? 'MWc',
         }),
       );
@@ -160,22 +160,14 @@ export default async function Page({ searchParams }: PageProps) {
 type NotificationMap = Record<Période.IdentifiantPériode.RawType, boolean>;
 
 const récupérerPériode = async ({
-  identifiantProjet,
+  identifiantPériode,
 }: {
-  identifiantProjet?: IdentifiantProjet.ValueType;
+  identifiantPériode: Période.IdentifiantPériode.RawType;
 }) => {
-  if (!identifiantProjet) {
-    return notFound();
-  }
-
-  const identifiantPériodeDeLaCandidature = Période.IdentifiantPériode.convertirEnValueType(
-    `${identifiantProjet.appelOffre}#${identifiantProjet.période}`,
-  );
-
   const période = await mediator.send<Période.ConsulterPériodeQuery>({
     type: 'Période.Query.ConsulterPériode',
     data: {
-      identifiantPériodeValue: identifiantPériodeDeLaCandidature.formatter(),
+      identifiantPériodeValue: identifiantPériode,
     },
   });
 
@@ -200,16 +192,18 @@ const récupérerPériodes = async ({ appelOffreParams }: { appelOffreParams?: s
 const récupérerNotificationMap = async ({
   appelOffreParams,
   périodeParams,
-  identifiantProjet,
 }: {
   appelOffreParams?: string;
   périodeParams?: string;
-  identifiantProjet?: IdentifiantProjet.ValueType;
 }): Promise<NotificationMap> => {
   const notificationMap: NotificationMap = {};
 
-  const périodes = périodeParams
-    ? await récupérerPériode({ identifiantProjet })
+  const hasSetASpecificPériode = périodeParams && appelOffreParams;
+
+  const périodes = hasSetASpecificPériode
+    ? await récupérerPériode({
+        identifiantPériode: `${appelOffreParams}#${périodeParams}`,
+      })
     : await récupérerPériodes({ appelOffreParams });
 
   for (const période of périodes) {

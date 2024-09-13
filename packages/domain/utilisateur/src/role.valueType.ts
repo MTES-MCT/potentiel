@@ -880,6 +880,7 @@ const permissionDgecValidateur: Policy[] = [
 
   // Abandon
   'abandon.preuve-recandidature.accorder',
+
   // Période
   'période.notifier',
 ];

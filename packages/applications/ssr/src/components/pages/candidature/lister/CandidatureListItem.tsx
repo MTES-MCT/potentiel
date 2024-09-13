@@ -28,6 +28,7 @@ export type CandidatureListItemProps = {
   };
   unitePuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
   estNotifiée: boolean;
+  estPériodeLegacy: boolean;
 };
 
 export const CandidatureListItem: FC<CandidatureListItemProps> = ({
@@ -43,6 +44,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
   unitePuissance,
   evaluationCarboneSimplifiée,
   estNotifiée,
+  estPériodeLegacy,
 }) => (
   <div className="flex flex-1 flex-col gap-6">
     <div className="flex gap-4 items-center justify-between">
@@ -57,6 +59,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
           identifiantProjet={identifiantProjet}
           nomProjet={nomProjet}
           estNotifiée={estNotifiée}
+          estPériodeLegacy={estPériodeLegacy}
         />
       </div>
     </div>
@@ -138,6 +141,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
         identifiantProjet={identifiantProjet}
         nomProjet={nomProjet}
         estNotifiée={estNotifiée}
+        estPériodeLegacy={estPériodeLegacy}
       />
     </div>
   </div>

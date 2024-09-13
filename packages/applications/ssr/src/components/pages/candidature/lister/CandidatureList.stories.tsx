@@ -41,6 +41,7 @@ const commonItem: CommonItem = {
   nomReprésentantLégal: 'Frodon Sacquet',
   evaluationCarboneSimplifiée: 1,
   estNotifiée: true,
+  estPériodeLegacy: false,
 };
 
 export const Default: Story = {
@@ -62,6 +63,12 @@ export const Default: Story = {
         estNotifiée: false,
         nomProjet:
           'Nom de projet très très très très très très très très très très très très très très très très long (et non notifié de surcroît)',
+      },
+      {
+        ...commonItem,
+        estNotifiée: false,
+        estPériodeLegacy: true,
+        nomProjet: 'Un projet de période legacy sans modèle',
       },
       {
         ...commonItem,

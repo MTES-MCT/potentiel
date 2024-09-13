@@ -60,8 +60,13 @@ export const register = () => {
           return;
         }
 
-        if (période.type && période.type !== 'notified') {
-          logger.warn(`Période non notifiée`, { identifiantProjet, période });
+        const modèleAttestationNonDisponible = période.type === 'legacy';
+
+        if (modèleAttestationNonDisponible) {
+          logger.warn(`Le modèle d'attestation n'est pas disponible`, {
+            identifiantProjet,
+            période,
+          });
           return;
         }
 
