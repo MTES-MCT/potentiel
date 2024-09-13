@@ -10,8 +10,9 @@ import { PériodeListPage, PériodeListPageProps } from '@/components/pages/pér
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { PériodeListItemProps } from '@/components/pages/période/PériodeListItem';
+import { mapToRangeOptions } from '@/utils/pagination';
 
-type SearchParams = 'appelOffre' | 'statut';
+type SearchParams = 'page' | 'appelOffre' | 'statut';
 
 type PageProps = {
   searchParams?: Partial<Record<SearchParams, string>>;
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ searchParams }: PageProps) {
+  const page = searchParams?.page ? parseInt(searchParams.page) : 1;
   const appelOffre = searchParams?.appelOffre ?? undefined;
 
   const estNotifiée =
@@ -35,6 +37,10 @@ export default async function Page({ searchParams }: PageProps) {
         data: {
           appelOffre,
           estNotifiée,
+          range: mapToRangeOptions({
+            currentPage: page,
+            itemsPerPage: 10,
+          }),
         },
       });
 

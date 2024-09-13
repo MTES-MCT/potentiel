@@ -21,7 +21,7 @@ export const listerToutesLesPériodes = async (
     where: { id: Where.equal(appelOffre) },
   });
 
-  const items = appelOffres.items.reduce((acc, current) => {
+  const all = appelOffres.items.reduce((acc, current) => {
     const periodes: Array<ConsulterPériodeReadModel> = current.periodes.map((periode) => {
       const identifiantPériode = IdentifiantPériode.convertirEnValueType(
         `${current.id}#${periode.id}`,
@@ -52,11 +52,9 @@ export const listerToutesLesPériodes = async (
     return [...acc, ...periodes];
   }, [] as Array<ConsulterPériodeReadModel>);
 
-  const itemsRanged = range ? items.slice(range.startPosition, range.endPosition) : items;
-
   return {
-    items: itemsRanged,
-    range: range ?? { startPosition: 0, endPosition: itemsRanged.length - 1 },
-    total: itemsRanged.length,
+    items: range ? all.slice(range.startPosition, range.endPosition) : all,
+    range: range ?? { startPosition: 0, endPosition: all.length },
+    total: all.length,
   };
 };
