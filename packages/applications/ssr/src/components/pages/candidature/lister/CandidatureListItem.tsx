@@ -27,8 +27,8 @@ export type CandidatureListItemProps = {
     région: Candidature.ConsulterCandidatureReadModel['localité']['région'];
   };
   unitePuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
-  estNotifiée: boolean;
-  estPériodeLegacy: boolean;
+  showDownloadAttestation: boolean;
+  showPreviewAttestation: boolean;
 };
 
 export const CandidatureListItem: FC<CandidatureListItemProps> = ({
@@ -43,8 +43,8 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
   prixReference,
   unitePuissance,
   evaluationCarboneSimplifiée,
-  estNotifiée,
-  estPériodeLegacy,
+  showDownloadAttestation,
+  showPreviewAttestation,
 }) => (
   <div className="flex flex-1 flex-col gap-6">
     <div className="flex gap-4 items-center justify-between">
@@ -58,8 +58,8 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
         <CandidatureListItemActions
           identifiantProjet={identifiantProjet}
           nomProjet={nomProjet}
-          estNotifiée={estNotifiée}
-          estPériodeLegacy={estPériodeLegacy}
+          showDownloadAttestation={showDownloadAttestation}
+          showPreviewAttestation={showPreviewAttestation}
         />
       </div>
     </div>
@@ -140,8 +140,8 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
       <CandidatureListItemActions
         identifiantProjet={identifiantProjet}
         nomProjet={nomProjet}
-        estNotifiée={estNotifiée}
-        estPériodeLegacy={estPériodeLegacy}
+        showDownloadAttestation={showDownloadAttestation}
+        showPreviewAttestation={showPreviewAttestation}
       />
     </div>
   </div>

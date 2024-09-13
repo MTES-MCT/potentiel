@@ -166,7 +166,7 @@ const AdminActions = ({
           Voir attestation
         </DownloadLinkButton>
       )}
-      {!project.isLegacy && (
+      {!project.notifiedOn && !project.isLegacy && (
         <PreviewLinkButton
           fileUrl={Routes.Candidature.prévisualiserAttestation(identifiantProjet)}
           className="m-auto"

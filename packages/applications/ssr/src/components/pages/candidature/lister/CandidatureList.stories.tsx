@@ -40,8 +40,8 @@ const commonItem: CommonItem = {
   prixReference: 1,
   nomReprésentantLégal: 'Frodon Sacquet',
   evaluationCarboneSimplifiée: 1,
-  estNotifiée: true,
-  estPériodeLegacy: false,
+  showDownloadAttestation: false,
+  showPreviewAttestation: true,
 };
 
 export const Default: Story = {
@@ -60,18 +60,17 @@ export const Default: Story = {
     items: [
       {
         ...commonItem,
-        estNotifiée: false,
         nomProjet:
           'Nom de projet très très très très très très très très très très très très très très très très long (et non notifié de surcroît)',
       },
       {
         ...commonItem,
-        estNotifiée: false,
-        estPériodeLegacy: true,
         nomProjet: 'Un projet de période legacy sans modèle',
       },
       {
         ...commonItem,
+        showDownloadAttestation: true,
+        showPreviewAttestation: false,
         statut: Candidature.StatutCandidature.éliminé,
       },
       {

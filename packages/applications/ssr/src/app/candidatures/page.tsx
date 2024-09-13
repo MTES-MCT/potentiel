@@ -139,8 +139,8 @@ export default async function Page({ searchParams }: PageProps) {
       items.push(
         mapToPlainObject({
           ...candidature,
-          estNotifiée,
-          estPériodeLegacy,
+          showDownloadAttestation: estNotifiée,
+          showPreviewAttestation: !estNotifiée && !estPériodeLegacy,
           unitePuissance: appelOffresItem?.unitePuissance ?? 'MWc',
         }),
       );
