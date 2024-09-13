@@ -23,13 +23,15 @@ export type Execute = Message<'System.Saga.Candidature', SubscriptionEvent>;
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     const { payload, type } = event;
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(payload.identifiantProjet);
+
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: {
-        identifiantAppelOffre: payload.appelOffre,
+        identifiantAppelOffre: identifiantProjet.appelOffre,
       },
     });
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(payload.identifiantProjet);
+
     const date = DateTime.convertirEnValueType(
       type === 'CandidatureCorrigée-V1' ? payload.corrigéLe : payload.importéLe,
     );
@@ -41,7 +43,7 @@ export const register = () => {
           new ProjectRawDataImported({
             payload: {
               importId: v4(),
-              data: { ...mapToLegacyEventPayload(payload, appelOffre), details },
+              data: { ...mapToLegacyEventPayload(identifiantProjet, payload, appelOffre), details },
             },
           }),
         );
@@ -53,22 +55,25 @@ export const register = () => {
 };
 
 const mapToLegacyEventPayload = (
+  identifiantProjet: IdentifiantProjet.ValueType,
   payload: SubscriptionEvent['payload'],
   appelOffre: Option.Type<AppelOffre.AppelOffreReadModel>,
 ) => {
   if (Option.isNone(appelOffre)) {
-    throw new Error(`Appel offre ${payload.appelOffre} non trouvée`);
+    throw new Error(`Appel offre ${identifiantProjet.appelOffre} non trouvée`);
   }
-  const période = appelOffre.periodes.find((x) => x.id === payload.période);
+  const période = appelOffre.periodes.find((x) => x.id === identifiantProjet.période);
   if (!période) {
-    throw new Error(`Période ${payload.période} non trouvée pour l'AO ${payload.appelOffre}`);
+    throw new Error(
+      `Période ${identifiantProjet.période} non trouvée pour l'AO ${identifiantProjet.appelOffre}`,
+    );
   }
 
   return {
-    appelOffreId: payload.appelOffre,
-    periodeId: payload.période,
-    familleId: payload.famille,
-    numeroCRE: payload.numéroCRE,
+    appelOffreId: identifiantProjet.appelOffre,
+    periodeId: identifiantProjet.période,
+    familleId: identifiantProjet.famille,
+    numeroCRE: identifiantProjet.numéroCRE,
     classe: payload.statut === 'classé' ? 'Classé' : 'Eliminé',
     nomProjet: payload.nomProjet,
     nomCandidat: payload.nomCandidat,

@@ -38,10 +38,14 @@ export async function corriger(
   appelOffre: Option.Type<AppelOffre.AppelOffreReadModel>,
 ) {
   if (Option.isNone(appelOffre)) {
-    throw new AppelOffreInexistantError(candidature.appelOffre);
+    throw new AppelOffreInexistantError(candidature.identifiantProjet.appelOffre);
   }
 
-  const famille = this.récupererFamilleAO(appelOffre, candidature.période, candidature.famille);
+  const famille = this.récupererFamilleAO(
+    appelOffre,
+    candidature.identifiantProjet.période,
+    candidature.identifiantProjet.famille,
+  );
 
   const soumisAuxGF =
     famille?.soumisAuxGarantiesFinancieres ?? appelOffre.soumisAuxGarantiesFinancieres;
