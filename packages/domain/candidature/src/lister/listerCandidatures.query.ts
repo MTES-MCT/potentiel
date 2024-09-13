@@ -4,7 +4,7 @@ import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import * as StatutCandidature from '../valueType/statutCandidature.valueType';
+import * as StatutCandidature from '../statutCandidature.valueType';
 import { CandidatureEntity } from '../candidature.entity';
 import { ConsulterCandidatureReadModel } from '../candidature';
 

@@ -72,10 +72,10 @@ export * from './projet.entity';
 export * from './candidature.entity';
 
 // Value Types
-export * as TypeTechnologie from './valueType/typeTechnologie.valueType';
-export * as TypeActionnariat from './valueType/typeActionnariat.valueType';
-export * as HistoriqueAbandon from './valueType/historiqueAbandon.valueType';
-export * as StatutCandidature from './valueType/statutCandidature.valueType';
+export * as TypeTechnologie from './typeTechnologie.valueType';
+export * as TypeActionnariat from './typeActionnariat.valueType';
+export * as HistoriqueAbandon from './historiqueAbandon.valueType';
+export * as StatutCandidature from './statutCandidature.valueType';
 
 // Aggregate
 export * as Aggregate from './candidature.aggregate';

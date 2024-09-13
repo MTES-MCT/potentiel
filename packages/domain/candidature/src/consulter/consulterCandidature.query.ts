@@ -5,7 +5,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import * as StatutCandidature from '../valueType/statutCandidature.valueType';
+import * as StatutCandidature from '../statutCandidature.valueType';
 import { CandidatureEntity } from '../candidature.entity';
 import { HistoriqueAbandon, TypeActionnariat, TypeTechnologie } from '../candidature';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';

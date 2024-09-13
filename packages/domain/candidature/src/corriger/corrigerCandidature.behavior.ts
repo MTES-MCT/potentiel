@@ -4,7 +4,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { CandidatureAggregate } from '../candidature.aggregate';
-import * as StatutCandidature from '../valueType/statutCandidature.valueType';
+import * as StatutCandidature from '../statutCandidature.valueType';
 import {
   DateÉchéanceGarantiesFinancièresRequiseError,
   GarantiesFinancièresRequisesPourAppelOffreError,
