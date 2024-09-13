@@ -1,1 +1,1 @@
-export const lister = '/periode';
+export const lister = '/periodes';
