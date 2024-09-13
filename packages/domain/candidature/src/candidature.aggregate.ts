@@ -1,4 +1,5 @@
-import { createHash } from 'node:crypto';
+// FIXME the import should be node:crypto but this breaks NextJS
+import { createHash } from 'crypto';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import {

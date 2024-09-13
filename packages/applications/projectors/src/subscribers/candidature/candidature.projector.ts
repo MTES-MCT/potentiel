@@ -3,7 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Candidature } from '@potentiel-domain/candidature';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime, StatutProjet } from '@potentiel-domain/common';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
@@ -42,7 +41,7 @@ export const register = () => {
             territoireProjet: payload.territoireProjet,
             statut: StatutProjet.convertirEnValueType(payload.statut).statut,
             typeGarantiesFinancières: payload.typeGarantiesFinancières
-              ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
+              ? Candidature.TypeGarantiesFinancières.convertirEnValueType(
                   payload.typeGarantiesFinancières,
                 ).type
               : undefined,

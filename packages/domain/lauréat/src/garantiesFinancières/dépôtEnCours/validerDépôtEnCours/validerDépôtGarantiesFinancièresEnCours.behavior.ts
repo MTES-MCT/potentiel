@@ -1,10 +1,11 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError } from '../aucunDépôtEnCoursGarantiesFinancièresPourLeProjet.error';
-import { StatutGarantiesFinancières, TypeGarantiesFinancières } from '../..';
+import { StatutGarantiesFinancières } from '../..';
 
 /**
  * @deprecated Utilisez DépôtGarantiesFinancièresEnCoursValidéEvent à la place.
@@ -24,7 +25,7 @@ export type DépôtGarantiesFinancièresEnCoursValidéEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
 
-    type: TypeGarantiesFinancières.RawType;
+    type: Candidature.TypeGarantiesFinancières.RawType;
     dateÉchéance?: DateTime.RawType;
     dateConstitution: DateTime.RawType;
     soumisLe: DateTime.RawType;
@@ -82,7 +83,7 @@ export function applyDépôtGarantiesFinancièresEnCoursValidéV1(
 
   this.actuelles = {
     statut: StatutGarantiesFinancières.validé,
-    type: dépôtValidé ? dépôtValidé.type : TypeGarantiesFinancières.typeInconnu,
+    type: dépôtValidé ? dépôtValidé.type : Candidature.TypeGarantiesFinancières.typeInconnu,
     dateÉchéance: dépôtValidé && dépôtValidé.dateÉchéance,
     dateConstitution: dépôtValidé && dépôtValidé.dateConstitution,
     attestation: dépôtValidé && dépôtValidé.attestation,
@@ -100,7 +101,7 @@ export function applyDépôtGarantiesFinancièresEnCoursValidé(
 ) {
   this.actuelles = {
     statut: StatutGarantiesFinancières.validé,
-    type: TypeGarantiesFinancières.convertirEnValueType(type),
+    type: Candidature.TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance ? DateTime.convertirEnValueType(dateÉchéance) : undefined,
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),
     attestation: attestation,

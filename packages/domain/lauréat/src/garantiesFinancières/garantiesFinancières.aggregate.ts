@@ -5,6 +5,7 @@ import {
   LoadAggregate,
 } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import {
   AttestationGarantiesFinancièresEnregistréeEvent,
@@ -13,7 +14,6 @@ import {
   MotifDemandeGarantiesFinancières,
   StatutGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
-  TypeGarantiesFinancières,
   TypeGarantiesFinancièresImportéEvent,
 } from '.';
 
@@ -120,7 +120,7 @@ export type GarantiesFinancièresEvent =
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   actuelles?: {
     statut: StatutGarantiesFinancières.ValueType;
-    type: TypeGarantiesFinancières.ValueType;
+    type: Candidature.TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
     dateConstitution?: DateTime.ValueType;
     attestation?: { format: string };
@@ -128,7 +128,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     importéLe?: DateTime.ValueType;
   };
   dépôtsEnCours?: {
-    type: TypeGarantiesFinancières.ValueType;
+    type: Candidature.TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
     dateConstitution: DateTime.ValueType;
     soumisLe: DateTime.ValueType;

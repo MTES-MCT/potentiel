@@ -1,7 +1,6 @@
 import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixture';
 import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixture';
@@ -96,7 +95,7 @@ export class CandidatureWorld {
       ),
       territoireProjet: expectedValues.territoireProjetValue,
       typeGarantiesFinancières: expectedValues.typeGarantiesFinancièresValue
-        ? GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(
+        ? Candidature.TypeGarantiesFinancières.convertirEnValueType(
             expectedValues.typeGarantiesFinancièresValue,
           )
         : undefined,

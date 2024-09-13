@@ -1,7 +1,7 @@
 import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
+import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 import { HistoriqueAbandon, TypeTechnologie, TypeActionnariat } from './candidature';
 
 export type CandidatureEntity = Entity<
@@ -12,7 +12,7 @@ export type CandidatureEntity = Entity<
     période: string;
     statut: StatutProjet.RawType;
     nomProjet: string;
-    typeGarantiesFinancières?: GarantiesFinancières.TypeGarantiesFinancières.RawType;
+    typeGarantiesFinancières?: TypeGarantiesFinancières.RawType;
     historiqueAbandon: HistoriqueAbandon.RawType;
     localité: {
       adresse1: string;

@@ -1,7 +1,7 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Candidature } from '@potentiel-domain/candidature';
 
 export const getGarantiesFinancièresTypeLabel = (
-  type: GarantiesFinancières.TypeGarantiesFinancières.RawType,
+  type: Candidature.TypeGarantiesFinancières.RawType,
 ) => {
   switch (type) {
     case 'consignation':
