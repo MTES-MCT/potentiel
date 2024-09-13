@@ -27,7 +27,7 @@ export const registerCorrigerCandidatureCommand = (loadAggregate: LoadAggregate)
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: {
-        identifiantAppelOffre: payload.appelOffre,
+        identifiantAppelOffre: payload.identifiantProjet.appelOffre,
       },
     });
 

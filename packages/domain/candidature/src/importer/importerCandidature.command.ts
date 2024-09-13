@@ -15,10 +15,6 @@ export type ImporterCandidatureCommandCommonOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   typeGarantiesFinancières?: TypeGarantiesFinancières.ValueType;
   historiqueAbandon: HistoriqueAbandon.ValueType;
-  appelOffre: string;
-  période: string;
-  famille: string;
-  numéroCRE: string;
   nomProjet: string;
   sociétéMère: string;
   nomCandidat: string;
@@ -65,7 +61,7 @@ export const registerImporterCandidatureCommand = (loadAggregate: LoadAggregate)
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: {
-        identifiantAppelOffre: payload.appelOffre,
+        identifiantAppelOffre: payload.identifiantProjet.appelOffre,
       },
     });
     await candidature.importer(payload, appelOffre);
