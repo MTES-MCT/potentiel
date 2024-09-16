@@ -21,37 +21,59 @@ Candidature.registerCandidatureQueries({
   try {
     // TODO
     const périodes = await executeSelect<{
-      value: {
-        appelOffreId: string;
-        periodeId: string;
-        notifiedOn: number;
-        requestedBy: string;
-      };
+      appelOffreId: string;
+      periodeId: string;
+      notifiedOn: number;
+      requestedBy: string;
     }>(`
-        select json_build_object(
-          'appelOffreId', es.payload->>'appelOffreId',
-          'periodeId', es.payload->>'periodeId',
-          'notifiedOn', es.payload->'notifiedOn',
-          'requestedBy', es.payload->>'requestedBy'
-          ) as value
+        select es.payload->>'appelOffreId' as "appelOffreId",
+              es.payload->>'periodeId' as "periodeId",
+              es.payload->'notifiedOn' as "notifiedOn",
+              es.payload->>'requestedBy' as "requestedBy"
         from "eventStores" es 
-        where es."type" = 'PeriodeNotified';
+        where es."type" = 'PeriodeNotified'
+        order by es.payload->>'notifiedOn' asc;
     `);
 
-    for (const {
-      value: { appelOffreId, periodeId, notifiedOn, requestedBy },
-    } of périodes) {
+    const legacyPeriodes = await executeSelect<{
+      appelOffreId: string;
+      periodeId: string;
+      notifiedOn: number;
+      requestedBy: string;
+    }>(`
+        select distinct on (p."appelOffreId", p."periodeId") 
+            case 
+              when p."appelOffreId" = 'PPE2 - Bâtiment 2' then 'PPE2 - Bâtiment'
+              else p."appelOffreId"
+            end as "appelOffreId",
+            p."periodeId", 
+            p."notifiedOn", 
+              'c520e2c5-74ad-47e6-a417-5a8020999a14' as "requestedBy"
+        from projects p 
+        left join "eventStores" es on es."type" = 'PeriodeNotified'
+                      and p."appelOffreId" = es.payload->>'appelOffreId'  
+                      and p."periodeId" = es.payload->>'periodeId'
+        where es.id is null
+        group by p."appelOffreId", 
+            p."periodeId", 
+            p."notifiedOn" 
+        order by p."appelOffreId", 
+            p."periodeId", 
+            p."notifiedOn";
+    `);
+
+    const allPériodes = périodes.concat(legacyPeriodes);
+
+    console.info(`Migrating ${allPériodes.length} periodes`);
+
+    for (const { appelOffreId, periodeId, notifiedOn, requestedBy } of allPériodes) {
       const users = await executeSelect<{
-        value: {
-          email: string;
-        };
+        email: string;
       }>(
         `
-        select json_build_object(
-            'email', u."email"
-        ) as value
-        from "users" u 
-        where u."id" = $1;
+        select email
+        from "users"
+        where id = $1;
         `,
         requestedBy,
       );
@@ -66,14 +88,17 @@ Candidature.registerCandidatureQueries({
         },
       });
 
+      const notifiéePar = users[0]?.email.trim() ?? 'ghislain.ferran@developpement-durable.gouv.fr';
+      const notifiéeLe = DateTime.convertirEnValueType(new Date(notifiedOn)).formatter();
+
       const event: Période.PériodeNotifiéeEvent = {
         type: 'PériodeNotifiée-V1',
         payload: {
           identifiantPériode,
           appelOffre: appelOffreId,
           période: periodeId,
-          notifiéeLe: DateTime.convertirEnValueType(new Date(notifiedOn)).formatter(),
-          notifiéePar: users[0]?.value.email ?? 'unknown@unknown.unknowm',
+          notifiéeLe: notifiéeLe,
+          notifiéePar,
           identifiantLauréats: candidatures.items
             .filter((item) => item.statut.estClassé())
             .map(({ identifiantProjet }) => identifiantProjet.formatter()),
@@ -82,6 +107,10 @@ Candidature.registerCandidatureQueries({
             .map(({ identifiantProjet }) => identifiantProjet.formatter()),
         },
       };
+
+      console.info(
+        `Publishing event for periode ${appelOffreId}, ${periodeId}, ${notifiéeLe}, [${notifiéePar}]`,
+      );
 
       await publish(`période|${identifiantPériode}`, event);
     }
