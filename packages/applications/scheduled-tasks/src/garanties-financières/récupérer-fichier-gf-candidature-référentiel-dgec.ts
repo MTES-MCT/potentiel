@@ -1,4 +1,4 @@
-import { readdir, readFile } from 'node:fs/promises';
+import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'path';
 
 import { mediator } from 'mediateur';
@@ -46,6 +46,12 @@ registerDocumentProjetCommand({
   archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
 });
 
+const formatProjetId = (id: string) =>
+  id
+    .replace('PPE2 - Autoconsommation métrople', 'PPE2 - Autoconsommation métropole')
+    .replace('PPE2 - Innovant', 'PPE2 - Innovation')
+    .replace('PPE2 - Bâtiment', 'PPE2 - Bâtiment');
+
 (async () => {
   try {
     const directoryPath = process.env.DIRECTORY_PATH!;
@@ -54,19 +60,23 @@ registerDocumentProjetCommand({
     });
 
     type Statistics = {
-      projetInconnu: number;
+      projetInconnu: {
+        count: number;
+        ids: Array<string>;
+      };
       attestationAjoutée: number;
       gfCréeEtAttestationAjoutée: number;
       attestationExistante: number;
     };
     const statistics: Statistics = {
-      projetInconnu: 0,
+      projetInconnu: {
+        count: 0,
+        ids: [],
+      },
       attestationAjoutée: 0,
       gfCréeEtAttestationAjoutée: 0,
       attestationExistante: 0,
     };
-
-    console.log('Contenu du dossier :');
 
     for (const file of dirrents) {
       if (!file.isFile() || path.extname(file.name).toLowerCase() !== '.pdf') {
@@ -77,7 +87,9 @@ registerDocumentProjetCommand({
 
       const fileName = path.basename(file.name, '.pdf');
 
-      const identifiantProjet = IdentifiantProjet.convertirEnValueType(fileName).formatter();
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        formatProjetId(fileName),
+      ).formatter();
 
       const projet = await mediator.send<Candidature.ConsulterProjetQuery>({
         type: 'Candidature.Query.ConsulterProjet',
@@ -88,7 +100,8 @@ registerDocumentProjetCommand({
 
       if (Option.isNone(projet)) {
         console.log(`Projet ${identifiantProjet} inconnu`);
-        statistics.projetInconnu++;
+        statistics.projetInconnu.count++;
+        statistics.projetInconnu.ids.push(identifiantProjet);
         continue;
       }
 
@@ -123,7 +136,7 @@ registerDocumentProjetCommand({
           type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
           data: {
             identifiantProjetValue: identifiantProjet,
-            typeValue: GarantiesFinancières.TypeGarantiesFinancières.typeInconnu.type,
+            typeValue: Candidature.TypeGarantiesFinancières.typeInconnu.type,
             dateConstitutionValue: DateTime.now().formatter(), // Quelle date mettre ici ?
             attestationValue: {
               content,
@@ -157,12 +170,16 @@ registerDocumentProjetCommand({
     }
 
     console.log('\n\nStatistiques :');
-    console.log(`Nombre de projets inconnu : ${statistics.projetInconnu}`);
+    console.log(`Nombre de projets inconnu : ${statistics.projetInconnu.count}`);
     console.log(
       `Nombre d'attestation ajoutées à des gfs existante : ${statistics.attestationAjoutée}`,
     );
     console.log(`Nombre de gf crées avec attestation : ${statistics.gfCréeEtAttestationAjoutée}`);
     console.log(`Nombre d'attestation déjà existante : ${statistics.attestationExistante}`);
+
+    if (statistics.projetInconnu.ids.length) {
+      await writeFile('projets-non-trouvés.txt', statistics.projetInconnu.ids.join('\n'));
+    }
   } catch (error) {
     console.error(error as Error);
   }
