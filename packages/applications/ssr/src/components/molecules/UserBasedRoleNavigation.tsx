@@ -92,12 +92,6 @@ const getNavigationItemsBasedOnRole = (
               },
             },
             {
-              text: 'Régénérer des attestations',
-              linkProps: {
-                href: '/admin/regenerer-attestations.html',
-              },
-            },
-            {
               text: 'Tous les candidats',
               linkProps: {
                 href: Routes.Candidature.lister(),
