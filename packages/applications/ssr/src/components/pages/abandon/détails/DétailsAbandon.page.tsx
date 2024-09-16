@@ -4,7 +4,7 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import { PlainType } from '@potentiel-domain/core';
 import { Abandon } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { StatutAbandonBadge } from '@/components/pages/abandon/StatutAbandonBadge';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
@@ -56,40 +56,34 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   projetsÀSélectionner,
 }) => {
   const demandéLe = DateTime.bind(abandon.demande.demandéLe).formatter();
+  const demandéPar = Email.bind(abandon.demande.demandéPar).formatter();
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
-      heading={<Heading1>Détail de la demande d'abandon</Heading1>}
+      heading={<Heading1>Détail de l'abandon</Heading1>}
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">
-            <div>
-              <Heading2 className="mb-4">Contexte</Heading2>
-              <div className="flex flex-col gap-2">
+            <div className="text-xs italic gap-2">
+              Demandé le <FormattedDate className="font-semibold" date={demandéLe} /> par{' '}
+              <span className="font-semibold">{demandéPar}</span>
+            </div>
+            <Heading2 className="mb-4">Contexte</Heading2>
+            <div className="flex flex-col gap-2">
+              <div>
+                Statut : <StatutAbandonBadge statut={abandon.statut.statut} />
+              </div>
+              {abandon.demande.accord?.accordéLe && abandon.demande.recandidature && (
                 <div>
-                  Statut : <StatutAbandonBadge statut={abandon.statut.statut} />
+                  Abandon avec recandidature :{' '}
+                  <StatutPreuveRecandidatureBadge
+                    statut={abandon.demande.recandidature.statut.statut}
+                  />
                 </div>
-                {abandon.demande.accord?.accordéLe && abandon.demande.recandidature && (
-                  <div>
-                    Abandon avec recandidature :{' '}
-                    <StatutPreuveRecandidatureBadge
-                      statut={abandon.demande.recandidature.statut.statut}
-                    />
-                  </div>
-                )}
-                <div>
-                  Demandé par :{' '}
-                  <span className="font-semibold">{abandon.demande.demandéPar.email}</span>
-                </div>
-                <div>
-                  Demandé le : {<FormattedDate className="font-semibold" date={demandéLe} />}
-                </div>
-                <div className="flex gap-2">
-                  <div className="whitespace-nowrap">Explications :</div>
-                  <blockquote className="font-semibold italic">
-                    "{abandon.demande.raison}"
-                  </blockquote>
-                </div>
+              )}
+              <div className="flex gap-2">
+                <div className="whitespace-nowrap">Explications :</div>
+                <blockquote className="font-semibold italic">"{abandon.demande.raison}"</blockquote>
               </div>
             </div>
             <div className="mb-4">

@@ -36,7 +36,7 @@ export const DemanderRecoursForm: FC<DemanderRecoursFormProps> = ({ identifiantP
         label="Raison"
         id="raison"
         hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant
-                conduit à cette modification (contexte, facteurs extérieurs, etc.)."
+                conduit au recours."
         nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
         state={validationErrors.includes('raison') ? 'error' : 'default'}
         stateRelatedMessage="Raison à préciser"
