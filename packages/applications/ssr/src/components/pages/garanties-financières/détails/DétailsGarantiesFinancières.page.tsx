@@ -16,7 +16,7 @@ import {
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
 
-import { InfoBoxMainlevée } from './components/InfoBoxMainlevée';
+import { InfoBoxMainlevée, InfoBoxMainlevéeProps } from './components/InfoBoxMainlevée';
 import { InfoBoxSoumettreGarantiesFinancières } from './components/InfoBoxSoummettreGarantiesFinancières';
 import { GarantiesFinancièresManquantes } from './components/GarantiesFinancièresManquantes';
 import { HistoriqueMainlevéeRejetéeProps } from './components/HistoriqueMainlevéeRejetée';
@@ -34,8 +34,11 @@ export type DétailsGarantiesFinancièresPageProps = {
   mainlevée?: MainlevéeEnCoursProps['mainlevéeEnCours'];
   historiqueMainlevée?: HistoriqueMainlevéeRejetéeProps['historiqueMainlevée'];
   infoBoxMainlevée: {
-    afficherConditions: boolean;
-    afficherLienTransmettreAttestationConformité: boolean;
+    afficher: boolean;
+    actions?: InfoBoxMainlevéeProps['actions'];
+  };
+  infoBoxGarantiesFinancières: {
+    afficher: boolean;
   };
   action?: 'soumettre' | 'enregistrer';
 };
@@ -48,6 +51,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   mainlevée,
   historiqueMainlevée,
   infoBoxMainlevée,
+  infoBoxGarantiesFinancières,
   contactPorteurs,
   archivesGarantiesFinancières,
 }) => (
@@ -85,14 +89,14 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
         <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
       )}
 
-      {infoBoxMainlevée.afficherConditions && (
+      {infoBoxMainlevée.afficher && (
         <InfoBoxMainlevée
           identifiantProjet={identifiantProjet}
-          afficherLien={infoBoxMainlevée.afficherLienTransmettreAttestationConformité}
+          actions={infoBoxMainlevée.actions}
         />
       )}
 
-      {action === 'soumettre' && (
+      {infoBoxGarantiesFinancières.afficher && (
         <InfoBoxSoumettreGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}
     </>

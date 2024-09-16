@@ -4,17 +4,12 @@ import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
-
-type InfoBoxMainlevéeProps = {
-  identifiantProjet: DétailsGarantiesFinancièresPageProps['identifiantProjet'];
-  afficherLien: boolean;
+export type InfoBoxMainlevéeProps = {
+  identifiantProjet: string;
+  actions?: 'transmettre-attestation-conformité';
 };
 
-export const InfoBoxMainlevée: FC<InfoBoxMainlevéeProps> = ({
-  identifiantProjet,
-  afficherLien,
-}) => (
+export const InfoBoxMainlevée: FC<InfoBoxMainlevéeProps> = ({ identifiantProjet, actions }) => (
   <Alert
     severity="info"
     small
@@ -36,7 +31,7 @@ export const InfoBoxMainlevée: FC<InfoBoxMainlevéeProps> = ({
             (abandon accordé par la DGEC).
           </li>
         </ul>
-        {afficherLien && (
+        {actions === 'transmettre-attestation-conformité' && (
           <Link href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}>
             Transmettre l'attestation de conformité
           </Link>

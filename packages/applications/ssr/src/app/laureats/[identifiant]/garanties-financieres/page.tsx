@@ -200,8 +200,11 @@ const mapToProps: MapToProps = ({
           ? 'enregistrer'
           : undefined,
       infoBoxMainlevée: {
-        afficherConditions: utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainlevée),
-        afficherLienTransmettreAttestationConformité: false,
+        afficher: !!(utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainlevée)),
+        actions: undefined,
+      },
+      infoBoxGarantiesFinancières: {
+        afficher: false,
       },
       archivesGarantiesFinancières: archives,
     };
@@ -259,6 +262,11 @@ const mapToProps: MapToProps = ({
       !dépôtExistant && !mainlevéeExistante && utilisateur.role.estÉgaleÀ(Role.porteur)
         ? 'soumettre'
         : undefined,
+    infoBoxGarantiesFinancières: {
+      afficher: Boolean(
+        !mainlevéeExistante && utilisateur.role.estÉgaleÀ(Role.porteur) && gfActuellesExistante,
+      ),
+    },
     mainlevée: mainlevéeExistante
       ? {
           motif: mainlevéeExistante.motif.motif,
@@ -292,12 +300,15 @@ const mapToProps: MapToProps = ({
         }
       : undefined,
     infoBoxMainlevée: {
-      afficherConditions:
+      afficher: Boolean(
         utilisateur.role.estÉgaleÀ(Role.porteur) &&
-        !mainlevéeExistante &&
-        !gfActuellesExistante?.garantiesFinancières.statut.estÉchu(),
-      afficherLienTransmettreAttestationConformité:
-        statut !== 'abandonné' && !achèvementExistant?.attestation,
+          !mainlevéeExistante &&
+          !gfActuellesExistante?.garantiesFinancières.statut.estÉchu(),
+      ),
+      actions:
+        statut !== 'abandonné' && !achèvementExistant?.attestation
+          ? 'transmettre-attestation-conformité'
+          : undefined,
     },
   };
 };
