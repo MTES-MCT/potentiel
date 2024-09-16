@@ -8,7 +8,7 @@ import { CorrigerDocumentProjetCommand } from '@potentiel-domain/document';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 
 const schema = zod.object({
-  documentCorrige: zod.instanceof(Blob),
+  documentCorrige: zod.instanceof(Blob).refine((file) => file.size > 0),
   courrierReponseACorriger: zod.string().min(1),
 });
 
