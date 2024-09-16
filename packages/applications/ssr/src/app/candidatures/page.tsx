@@ -1,6 +1,5 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 
 import { Candidature } from '@potentiel-domain/candidature';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -107,7 +106,7 @@ export default async function Page({ searchParams }: PageProps) {
       );
     }
 
-    const notificationMap = await récupérerNotificationMap({
+    const périodesNotifiées = await récupérerPériodesNotifiées({
       appelOffreParams,
       périodeParams,
     });
@@ -130,11 +129,9 @@ export default async function Page({ searchParams }: PageProps) {
         appelOffresItem?.periodes.find((x) => x.id === candidature.identifiantProjet.période)
           ?.type === 'legacy';
 
-      const identifiantPériodeDeLaCandidature = Période.IdentifiantPériode.convertirEnValueType(
+      const estNotifiée = périodesNotifiées.includes(
         `${candidature.identifiantProjet.appelOffre}#${candidature.identifiantProjet.période}`,
       );
-
-      const estNotifiée = notificationMap[identifiantPériodeDeLaCandidature.formatter()] ?? false;
 
       items.push(
         mapToPlainObject({
@@ -157,28 +154,26 @@ export default async function Page({ searchParams }: PageProps) {
   });
 }
 
-type NotificationMap = Record<Période.IdentifiantPériode.RawType, boolean>;
-
-const récupérerPériode = async ({
-  identifiantPériode,
+const récupérerPériodesNotifiées = async ({
+  appelOffreParams,
+  périodeParams,
 }: {
-  identifiantPériode: Période.IdentifiantPériode.RawType;
-}) => {
-  const période = await mediator.send<Période.ConsulterPériodeQuery>({
-    type: 'Période.Query.ConsulterPériode',
-    data: {
-      identifiantPériodeValue: identifiantPériode,
-    },
-  });
+  appelOffreParams?: string;
+  périodeParams?: string;
+}): Promise<Période.IdentifiantPériode.RawType[]> => {
+  const hasSetASpecificPériode = périodeParams && appelOffreParams;
 
-  if (Option.isNone(période)) {
-    return notFound();
+  if (hasSetASpecificPériode) {
+    const période = await mediator.send<Période.ConsulterPériodeQuery>({
+      type: 'Période.Query.ConsulterPériode',
+      data: {
+        identifiantPériodeValue: `${appelOffreParams}#${périodeParams}`,
+      },
+    });
+    if (Option.isNone(période)) {
+      return [];
+    }
   }
-
-  return [période];
-};
-
-const récupérerPériodes = async ({ appelOffreParams }: { appelOffreParams?: string }) => {
   const périodes = await mediator.send<Période.ListerPériodesQuery>({
     type: 'Période.Query.ListerPériodes',
     data: {
@@ -186,29 +181,7 @@ const récupérerPériodes = async ({ appelOffreParams }: { appelOffreParams?: s
     },
   });
 
-  return périodes.items;
-};
-
-const récupérerNotificationMap = async ({
-  appelOffreParams,
-  périodeParams,
-}: {
-  appelOffreParams?: string;
-  périodeParams?: string;
-}): Promise<NotificationMap> => {
-  const notificationMap: NotificationMap = {};
-
-  const hasSetASpecificPériode = périodeParams && appelOffreParams;
-
-  const périodes = hasSetASpecificPériode
-    ? await récupérerPériode({
-        identifiantPériode: `${appelOffreParams}#${périodeParams}`,
-      })
-    : await récupérerPériodes({ appelOffreParams });
-
-  for (const période of périodes) {
-    notificationMap[période.identifiantPériode.formatter()] = période.estNotifiée;
-  }
-
-  return notificationMap;
+  return périodes.items
+    .filter((période) => période.estNotifiée)
+    .map((période) => période.identifiantPériode.formatter());
 };
