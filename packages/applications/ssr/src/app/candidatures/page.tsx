@@ -13,6 +13,7 @@ import { mapToRangeOptions } from '@/utils/pagination';
 import { CandidatureListPage } from '@/components/pages/candidature/lister/CandidatureList.page';
 import { CandidatureListItemProps } from '@/components/pages/candidature/lister/CandidatureListItem';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
+import { CandidatureListItemActionsProps } from '@/components/pages/candidature/lister/CandidatureListItemActions';
 
 type SearchParams = 'page' | 'appelOffre' | 'periode' | 'statut' | 'nomProjet';
 
@@ -143,7 +144,7 @@ export default async function Page({ searchParams }: PageProps) {
         mapToPlainObject({
           ...candidature,
           // ts forces us to do that
-          actions: actions as 'télécharger-attestation' | undefined | 'prévisualiser-attestation',
+          actions: actions as CandidatureListItemActionsProps['actions'],
           unitePuissance: appelOffresItem?.unitePuissance ?? 'MWc',
         }),
       );

@@ -200,8 +200,7 @@ const mapToProps: MapToProps = ({
           ? 'enregistrer'
           : undefined,
       infoBoxMainlevée: {
-        afficher: !!(utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainlevée)),
-        actions: undefined,
+        afficher: utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainlevée),
       },
       infoBoxGarantiesFinancières: {
         afficher: false,
