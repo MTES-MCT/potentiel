@@ -66,8 +66,13 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       return notFound();
     }
 
-    if (période.type && période.type !== 'notified') {
-      logger.warn(`Période non notifiée`, { identifiantProjet, période });
+    const modèleAttestationNonDisponible = période.type === 'legacy';
+
+    if (modèleAttestationNonDisponible) {
+      logger.warn(`Le modèle d'attestation n'est pas disponible`, {
+        identifiantProjet,
+        période,
+      });
       return notFound();
     }
 
@@ -95,6 +100,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     });
 
     if (!certificate) {
+      logger.warn(`L'attestation n'a pu être générée`, { identifiantProjet });
       return notFound();
     }
 

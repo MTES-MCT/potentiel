@@ -158,24 +158,21 @@ const AdminActions = ({
       <EnregistrerUneModification
         {...{ project, signalementAbandonAutorisé, signalementRecoursAutorisé }}
       />
-      {project.notifiedOn ? (
-        <>
-          <DownloadLinkButton
-            fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
-            className="m-auto"
-          >
-            Voir attestation
-          </DownloadLinkButton>
-        </>
-      ) : (
-        !project.isLegacy && (
-          <PreviewLinkButton
-            fileUrl={Routes.Candidature.prévisualiserAttestation(identifiantProjet)}
-            className="m-auto"
-          >
-            Aperçu attestation
-          </PreviewLinkButton>
-        )
+      {project.notifiedOn && (
+        <DownloadLinkButton
+          fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
+          className="m-auto"
+        >
+          Voir attestation
+        </DownloadLinkButton>
+      )}
+      {!project.notifiedOn && !project.isLegacy && (
+        <PreviewLinkButton
+          fileUrl={Routes.Candidature.prévisualiserAttestation(identifiantProjet)}
+          className="m-auto"
+        >
+          Aperçu attestation
+        </PreviewLinkButton>
       )}
     </div>
   );

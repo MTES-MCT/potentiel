@@ -1,5 +1,5 @@
 import { Candidature } from '@potentiel-domain/candidature';
-import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixture';
@@ -89,7 +89,7 @@ export class CandidatureWorld {
       puissanceALaPointe: expectedValues.puissanceALaPointeValue,
       puissanceProductionAnnuelle: expectedValues.puissanceProductionAnnuelleValue,
       sociétéMère: expectedValues.sociétéMèreValue,
-      statut: StatutProjet.convertirEnValueType(expectedValues.statutValue),
+      statut: Candidature.StatutCandidature.convertirEnValueType(expectedValues.statutValue),
       technologie: Candidature.TypeTechnologie.convertirEnValueType(
         expectedValues.technologieValue,
       ),
