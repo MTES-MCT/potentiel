@@ -1,15 +1,7 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import Link from 'next/link';
 import { FC } from 'react';
 
-import { Routes } from '@potentiel-applications/routes';
-
-export type InfoBoxMainlevéeProps = {
-  identifiantProjet: string;
-  actions?: 'transmettre-attestation-conformité';
-};
-
-export const InfoBoxMainlevée: FC<InfoBoxMainlevéeProps> = ({ identifiantProjet, actions }) => (
+export const InfoBoxMainlevée: FC = () => (
   <Alert
     severity="info"
     small
@@ -31,11 +23,6 @@ export const InfoBoxMainlevée: FC<InfoBoxMainlevéeProps> = ({ identifiantProje
             (abandon accordé par la DGEC).
           </li>
         </ul>
-        {actions === 'transmettre-attestation-conformité' && (
-          <Link href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}>
-            Transmettre l'attestation de conformité
-          </Link>
-        )}
       </div>
     }
   />

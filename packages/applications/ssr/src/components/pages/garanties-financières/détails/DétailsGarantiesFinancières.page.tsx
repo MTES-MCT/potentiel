@@ -16,13 +16,14 @@ import {
 
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
 
-import { InfoBoxMainlevée, InfoBoxMainlevéeProps } from './components/InfoBoxMainlevée';
-import { InfoBoxSoumettreGarantiesFinancières } from './components/InfoBoxSoummettreGarantiesFinancières';
+import { InfoBoxMainlevée } from './components/InfoBoxMainlevée';
+import { InfoBoxSoumettreGarantiesFinancières } from './components/InfoBoxSoumettreGarantiesFinancières';
 import { GarantiesFinancièresManquantes } from './components/GarantiesFinancièresManquantes';
 import { HistoriqueMainlevéeRejetéeProps } from './components/HistoriqueMainlevéeRejetée';
 import { MainlevéeEnCoursProps } from './components/MainlevéeEnCours';
 import { Mainlevée } from './components/Mainlevée';
 import { ArchivesGarantiesFinancières } from './components/ArchivesGarantiesFinancières';
+import { TransmettreAttestationConformité } from './components/TransmettreAttestationConformité';
 
 export type DétailsGarantiesFinancièresPageProps = {
   identifiantProjet: string;
@@ -35,7 +36,7 @@ export type DétailsGarantiesFinancièresPageProps = {
   historiqueMainlevée?: HistoriqueMainlevéeRejetéeProps['historiqueMainlevée'];
   infoBoxMainlevée: {
     afficher: boolean;
-    actions?: InfoBoxMainlevéeProps['actions'];
+    actions?: 'transmettre-attestation-conformité';
   };
   infoBoxGarantiesFinancières: {
     afficher: boolean;
@@ -85,15 +86,15 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
       {!dépôtEnCours && !actuelles && (
         <GarantiesFinancièresManquantes identifiantProjet={identifiantProjet} action={action} />
       )}
+
       {archivesGarantiesFinancières?.length && (
         <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
       )}
 
-      {infoBoxMainlevée.afficher && (
-        <InfoBoxMainlevée
-          identifiantProjet={identifiantProjet}
-          actions={infoBoxMainlevée.actions}
-        />
+      {infoBoxMainlevée.afficher && <InfoBoxMainlevée />}
+
+      {infoBoxMainlevée.actions === 'transmettre-attestation-conformité' && (
+        <TransmettreAttestationConformité identifiantProjet={identifiantProjet} />
       )}
 
       {infoBoxGarantiesFinancières.afficher && (

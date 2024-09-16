@@ -134,7 +134,7 @@ export default async function Page({ searchParams }: PageProps) {
         `${candidature.identifiantProjet.appelOffre}#${candidature.identifiantProjet.période}`,
       );
 
-      const actions = estNotifiée
+      const actions: CandidatureListItemActionsProps['actions'] = estNotifiée
         ? 'télécharger-attestation'
         : !estPériodeLegacy
           ? 'prévisualiser-attestation'
@@ -143,8 +143,7 @@ export default async function Page({ searchParams }: PageProps) {
       items.push(
         mapToPlainObject({
           ...candidature,
-          // ts forces us to do that
-          actions: actions as CandidatureListItemActionsProps['actions'],
+          actions,
           unitePuissance: appelOffresItem?.unitePuissance ?? 'MWc',
         }),
       );
