@@ -41,13 +41,13 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">
-            <div className="text-xs italic gap-2">
-              Demandé le <FormattedDate className="font-semibold" date={demandéLe} /> par{' '}
-              <span className="font-semibold">{demandéPar}</span>
-            </div>
             <div>
               <Heading2 className="mb-4">Contexte</Heading2>
               <div className="flex flex-col gap-2">
+                <div className="text-xs italic">
+                  Demandé le <FormattedDate className="font-semibold" date={demandéLe} /> par{' '}
+                  <span className="font-semibold">{demandéPar}</span>
+                </div>
                 <div>
                   Statut : <StatutRecoursBadge statut={recours.statut.value} />
                 </div>

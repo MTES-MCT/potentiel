@@ -64,23 +64,25 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">
-            <div className="text-xs italic gap-2">
-              Demandé le <FormattedDate className="font-semibold" date={demandéLe} /> par{' '}
-              <span className="font-semibold">{demandéPar}</span>
-            </div>
-            <Heading2 className="mb-4">Contexte</Heading2>
-            <div className="flex flex-col gap-2">
-              <div>
-                Statut : <StatutAbandonBadge statut={abandon.statut.statut} />
-              </div>
-              {abandon.demande.accord?.accordéLe && abandon.demande.recandidature && (
-                <div>
-                  Abandon avec recandidature :{' '}
-                  <StatutPreuveRecandidatureBadge
-                    statut={abandon.demande.recandidature.statut.statut}
-                  />
+            <div>
+              <Heading2 className="mb-4">Contexte</Heading2>
+              <div className="flex flex-col gap-2">
+                <div className="text-xs italic gap-2">
+                  Demandé le <FormattedDate className="font-semibold" date={demandéLe} /> par{' '}
+                  <span className="font-semibold">{demandéPar}</span>
                 </div>
-              )}
+                <div>
+                  Statut : <StatutAbandonBadge statut={abandon.statut.statut} />
+                </div>
+                {abandon.demande.accord?.accordéLe && abandon.demande.recandidature && (
+                  <div>
+                    Abandon avec recandidature :{' '}
+                    <StatutPreuveRecandidatureBadge
+                      statut={abandon.demande.recandidature.statut.statut}
+                    />
+                  </div>
+                )}
+              </div>
               <div className="flex gap-2">
                 <div className="whitespace-nowrap">Explications :</div>
                 <blockquote className="font-semibold italic">"{abandon.demande.raison}"</blockquote>
