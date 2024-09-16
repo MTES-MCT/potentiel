@@ -37,21 +37,19 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
-      heading={<Heading1>Détail de la demande de recours</Heading1>}
+      heading={<Heading1>Détail du recours</Heading1>}
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">
             <div>
               <Heading2 className="mb-4">Contexte</Heading2>
               <div className="flex flex-col gap-2">
+                <div className="text-xs italic">
+                  Demandé le <FormattedDate className="font-semibold" date={demandéLe} /> par{' '}
+                  <span className="font-semibold">{demandéPar}</span>
+                </div>
                 <div>
                   Statut : <StatutRecoursBadge statut={recours.statut.value} />
-                </div>
-                <div>
-                  Demandé par : <span className="font-semibold">{demandéPar}</span>
-                </div>
-                <div>
-                  Demandé le : {<FormattedDate className="font-semibold" date={demandéLe} />}
                 </div>
                 <div className="flex gap-2">
                   <div className="whitespace-nowrap">Explications :</div>
