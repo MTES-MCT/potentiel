@@ -133,11 +133,17 @@ export default async function Page({ searchParams }: PageProps) {
         `${candidature.identifiantProjet.appelOffre}#${candidature.identifiantProjet.période}`,
       );
 
+      const actions = estNotifiée
+        ? 'télécharger-attestation'
+        : !estPériodeLegacy
+          ? 'prévisualiser-attestation'
+          : undefined;
+
       items.push(
         mapToPlainObject({
           ...candidature,
-          showDownloadAttestation: estNotifiée,
-          showPreviewAttestation: !estNotifiée && !estPériodeLegacy,
+          // ts forces us to do that
+          actions: actions as 'télécharger-attestation' | undefined | 'prévisualiser-attestation',
           unitePuissance: appelOffresItem?.unitePuissance ?? 'MWc',
         }),
       );
