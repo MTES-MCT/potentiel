@@ -15,7 +15,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
 import { CandidateNotifiedForPeriode } from '../modules/notificationCandidats';
 
-export type SubscriptionEvent = Lauréat.LauréatNotifié & Event;
+export type SubscriptionEvent = Lauréat.LauréatNotifiéEvent & Event;
 
 export type Execute = Message<'System.Saga.Lauréat', SubscriptionEvent>;
 

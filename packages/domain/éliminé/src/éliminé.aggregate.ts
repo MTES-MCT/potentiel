@@ -6,9 +6,13 @@ import {
   LoadAggregate,
 } from '@potentiel-domain/core';
 
-import { ÉliminéNotifié, applyÉliminéNotifié, notifier } from './notifier/notifierÉliminé.behavior';
+import {
+  ÉliminéNotifiéEvent,
+  applyÉliminéNotifié,
+  notifier,
+} from './notifier/notifierÉliminé.behavior';
 
-export type ÉliminéEvent = ÉliminéNotifié;
+export type ÉliminéEvent = ÉliminéNotifiéEvent;
 
 export type ÉliminéAggregate = Aggregate<ÉliminéEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;

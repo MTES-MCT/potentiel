@@ -4,7 +4,6 @@ import {
   registerLauréatQueries,
   registerLauréatUseCases,
   GarantiesFinancières,
-  Lauréat,
 } from '@potentiel-domain/laureat';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
@@ -81,7 +80,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
     streamCategory: 'lauréat',
   });
 
-  const unsubscribeLauréatSaga = await subscribe<Lauréat.LauréatNotifié & Event>({
+  const unsubscribeLauréatSaga = await subscribe<AttestationSaga.SubscriptionEvent & Event>({
     name: 'laureat-saga',
     streamCategory: 'lauréat',
     eventType: ['LauréatNotifié-V1'],

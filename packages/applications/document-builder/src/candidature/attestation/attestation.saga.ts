@@ -11,7 +11,7 @@ import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 
 import { buildCertificate } from './buildCertificate';
 
-export type SubscriptionEvent = Éliminé.ÉliminéNotifié | Lauréat.LauréatNotifié;
+export type SubscriptionEvent = Éliminé.ÉliminéNotifiéEvent | Lauréat.LauréatNotifiéEvent;
 
 export type Execute = Message<'System.Candidature.Attestation.Saga.Execute', SubscriptionEvent>;
 

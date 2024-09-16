@@ -8,7 +8,7 @@ import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/p
 import { logger } from '../core/utils';
 import { CandidateNotifiedForPeriode } from '../modules/notificationCandidats';
 
-export type SubscriptionEvent = Éliminé.ÉliminéNotifié & Event;
+export type SubscriptionEvent = Éliminé.ÉliminéNotifiéEvent & Event;
 
 export type Execute = Message<'System.Saga.Éliminé', SubscriptionEvent>;
 
