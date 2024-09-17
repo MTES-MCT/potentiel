@@ -28,13 +28,8 @@ export const MainlevéeEnCoursAccord: FC<MainlevéeEnCoursAccordProps> = ({
 }) => (
   <div>
     <div>
-      Mainlevée accordée le : <FormattedDate className="font-semibold" date={accord.date} />
-      {accord.par && (
-        <>
-          {' '}
-          par <span className="font-semibold">{accord.par}</span>
-        </>
-      )}
+      Mainlevée accordée le : <FormattedDate className="font-semibold" date={accord.date} /> par{' '}
+      <span className="font-semibold">{accord.par}</span>
     </div>
     <div className="flex flex-col gap-1 justify-center">
       <DownloadDocument

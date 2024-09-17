@@ -16,12 +16,7 @@ export const MainlevéeEnCoursInstruction: FC<MainlevéeEnCoursInstructionProps>
   instruction,
 }) => (
   <div>
-    Instruction démarrée le : <FormattedDate className="font-semibold" date={instruction.date} />
-    {instruction.par && (
-      <>
-        {' '}
-        par <span className="font-semibold">{instruction.par}</span>
-      </>
-    )}
+    Instruction démarrée le : <FormattedDate className="font-semibold" date={instruction.date} />{' '}
+    par <span className="font-semibold">{instruction.par}</span>
   </div>
 );

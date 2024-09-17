@@ -20,7 +20,7 @@ export type HistoriqueMainlevéeRejetéeProps = {
         date: Iso8601DateTime;
         par: Email.RawType;
       };
-      rejet: { date: Iso8601DateTime; par?: Email.RawType; courrierRejet: string };
+      rejet: { date: Iso8601DateTime; par: Email.RawType; courrierRejet: string };
     }>;
     actions: Array<'modifier-courrier-réponse-mainlevée-gf'>;
   };
@@ -37,13 +37,7 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
     date: mainlevéeRejetée.rejet.date,
     title: (
       <div>
-        Mainlevée rejetée
-        {mainlevéeRejetée.rejet.par && (
-          <>
-            {' '}
-            par <span className="font-semibold">{mainlevéeRejetée.rejet.par}</span>
-          </>
-        )}
+        Mainlevée rejetée par <span className="font-semibold">{mainlevéeRejetée.rejet.par}</span>
       </div>
     ),
     content: (

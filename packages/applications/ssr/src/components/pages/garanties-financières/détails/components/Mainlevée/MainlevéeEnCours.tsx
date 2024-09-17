@@ -32,11 +32,11 @@ export type MainlevéeEnCoursProps = {
     };
     instruction?: {
       date: Iso8601DateTime;
-      par?: Email.RawType;
+      par: Email.RawType;
     };
     accord?: {
       date: Iso8601DateTime;
-      par?: Email.RawType;
+      par: Email.RawType;
       courrierAccord: string;
     };
     urlAppelOffre: string;
