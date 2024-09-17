@@ -6,11 +6,16 @@ import { addQueryParams } from '../../helpers/addQueryParams';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { EmailAlreadyUsedError } from '../../modules/shared';
-
 const schema = yup.object({
   body: yup.object({
-    firstname: yup.string().required('Ce champ est obligatoire'),
-    lastname: yup.string().required('Ce champ est obligatoire'),
+    firstname: yup
+      .string()
+      .matches(/^[A-Za-z]+$/, 'Ce champ ne doit contenir que des lettres')
+      .required('Ce champ est obligatoire'),
+    lastname: yup
+      .string()
+      .matches(/^[A-Za-z]+$/, 'Ce champ ne doit contenir que des lettres')
+      .required('Ce champ est obligatoire'),
     email: yup
       .string()
       .required('Ce champ est obligatoire')

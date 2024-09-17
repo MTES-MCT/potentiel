@@ -84,10 +84,13 @@ const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: Sign
 
         <div>
           <label htmlFor="firstname">Prénom</label>
+          <div className="text-sm italic">Ce champ ne peut contenir que des lettres</div>
           <Input
             type="text"
             id="firstname"
             name="firstname"
+            pattern="^[A-Za-z]*"
+            title="Ce champ ne peut contenir que des lettres"
             required
             {...(validationErrors && {
               error: validationErrors['firstname']?.toString(),
@@ -97,10 +100,13 @@ const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: Sign
 
         <div>
           <label htmlFor="lastname">Nom</label>
+          <div className="text-sm italic">Ce champ ne peut contenir que des lettres</div>
           <Input
             type="text"
             id="lastname"
             name="lastname"
+            pattern="^[a-zA-Z]*"
+            title="Ce champ ne peut contenir que des lettres"
             required
             {...(validationErrors && { error: validationErrors['lastname']?.toString() })}
           />
