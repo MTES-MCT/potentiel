@@ -2,7 +2,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { MainlevéeEnCoursProps } from '../../../../../components/pages/garanties-financières/détails/components/Mainlevée/MainlevéeEnCours';
+import { MainlevéeEnCoursProps } from '@/components/pages/garanties-financières/détails/components/Mainlevée/MainlevéeEnCours';
 
 type GetMainlevéeActions = {
   role: Role.ValueType;
