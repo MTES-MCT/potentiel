@@ -23,7 +23,6 @@ import { HistoriqueMainlevéeRejetéeProps } from './components/HistoriqueMainle
 import { MainlevéeEnCoursProps } from './components/MainlevéeEnCours';
 import { Mainlevée } from './components/Mainlevée';
 import { ArchivesGarantiesFinancières } from './components/ArchivesGarantiesFinancières';
-import { TransmettreAttestationConformité } from './components/TransmettreAttestationConformité';
 
 export type DétailsGarantiesFinancièresPageProps = {
   identifiantProjet: string;
@@ -91,10 +90,11 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
         <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
       )}
 
-      {infoBoxMainlevée.afficher && <InfoBoxMainlevée />}
-
-      {infoBoxMainlevée.actions === 'transmettre-attestation-conformité' && (
-        <TransmettreAttestationConformité identifiantProjet={identifiantProjet} />
+      {infoBoxMainlevée.afficher && (
+        <InfoBoxMainlevée
+          actions={infoBoxMainlevée.actions}
+          identifiantProjet={identifiantProjet}
+        />
       )}
 
       {infoBoxGarantiesFinancières.afficher && (

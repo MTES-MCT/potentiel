@@ -40,7 +40,7 @@ const commonItem: CommonItem = {
   prixReference: 1,
   nomReprésentantLégal: 'Frodon Sacquet',
   evaluationCarboneSimplifiée: 1,
-  actions: 'prévisualiser',
+  actions: { prévisualiser: true, télécharger: false },
 };
 
 export const Default: Story = {
@@ -68,7 +68,7 @@ export const Default: Story = {
       },
       {
         ...commonItem,
-        actions: 'télécharger',
+        actions: { prévisualiser: false, télécharger: true },
         statut: Candidature.StatutCandidature.éliminé,
       },
       {

@@ -30,7 +30,7 @@ export type CandidatureListItemProps = {
     région: Candidature.ConsulterCandidatureReadModel['localité']['région'];
   };
   unitePuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
-  actions?: CandidatureListItemActionsProps['actions'];
+  actions: CandidatureListItemActionsProps['actions'];
 };
 
 export const CandidatureListItem: FC<CandidatureListItemProps> = ({

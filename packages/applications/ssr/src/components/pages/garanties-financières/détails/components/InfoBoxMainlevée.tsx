@@ -1,7 +1,16 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { FC } from 'react';
 
-export const InfoBoxMainlevée: FC = () => (
+import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
+
+import { TransmettreAttestationConformité } from './TransmettreAttestationConformité';
+
+type Props = {
+  actions: DétailsGarantiesFinancièresPageProps['infoBoxMainlevée']['actions'];
+  identifiantProjet: string;
+};
+
+export const InfoBoxMainlevée: FC<Props> = ({ actions, identifiantProjet }: Props) => (
   <Alert
     severity="info"
     small
@@ -23,6 +32,9 @@ export const InfoBoxMainlevée: FC = () => (
             (abandon accordé par la DGEC).
           </li>
         </ul>
+        {actions === 'transmettre-attestation-conformité' && (
+          <TransmettreAttestationConformité identifiantProjet={identifiantProjet} />
+        )}
       </div>
     }
   />
