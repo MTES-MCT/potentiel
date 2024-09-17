@@ -33,7 +33,7 @@ const paramsSchema = z.object({
 
 export default async function Page({ searchParams }: PageProps) {
   if (!featureFlags.isRecoursEnabled) {
-    getLogger().warn('Feature flags "Recours" enabled');
+    getLogger().warn('Feature flags "Recours" disabled');
     return notFound();
   }
   return PageWithErrorHandling(async () =>
