@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 
 export default async function Page({ params: { identifiant } }: PageProps) {
   if (!featureFlags.isRecoursEnabled) {
-    getLogger().warn('Feature flags "Recours" enabled');
+    getLogger().warn('Feature flags "Recours" disabled');
     return notFound();
   }
 
