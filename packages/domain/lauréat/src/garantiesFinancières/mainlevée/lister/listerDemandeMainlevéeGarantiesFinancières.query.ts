@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Where, List, RangeOptions, WhereOptions } from '@potentiel-domain/entity';
-import { Role, RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
+import { Where, List, RangeOptions } from '@potentiel-domain/entity';
+import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
 import {
   MotifDemandeMainlevéeGarantiesFinancières,
@@ -12,6 +12,7 @@ import {
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
   consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel,
 } from '../consulter/consulterDemandeMainlevéeGarantiesFinancières.query';
+import { getRoleBasedWhereCondition, Utilisateur } from '../../getRoleBasedWhereCondition';
 
 export type ListerDemandeMainlevéeItemReadModel =
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel;
@@ -21,12 +22,6 @@ export type ListerDemandeMainlevéeReadModel = Readonly<{
   range: RangeOptions;
   total: number;
 }>;
-
-type Utilisateur = {
-  rôle: string;
-  régionDreal?: string;
-  identifiantUtilisateur: string;
-};
 
 export type ListerDemandeMainlevéeQuery = Message<
   'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
@@ -90,23 +85,4 @@ export const registerListerDemandeMainlevéeQuery = ({
     };
   };
   mediator.register('Lauréat.GarantiesFinancières.Mainlevée.Query.Lister', handler);
-};
-
-const getRoleBasedWhereCondition = async (
-  utilisateur: Utilisateur,
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur,
-): Promise<WhereOptions<MainlevéeGarantiesFinancièresEntity>> => {
-  const rôleValueType = Role.convertirEnValueType(utilisateur.rôle);
-  if (rôleValueType.estÉgaleÀ(Role.porteur)) {
-    const identifiantProjets = await récupérerIdentifiantsProjetParEmailPorteur(
-      utilisateur.identifiantUtilisateur,
-    );
-
-    return { identifiantProjet: Where.include(identifiantProjets) };
-  }
-  if (rôleValueType.estÉgaleÀ(Role.dreal)) {
-    return { régionProjet: Where.equal(utilisateur.régionDreal ?? 'non-trouvée') };
-  }
-
-  return {};
 };

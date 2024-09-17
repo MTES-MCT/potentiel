@@ -4,13 +4,13 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import {
   IdentifiantUtilisateur,
-  Role,
   RécupérerIdentifiantsProjetParEmailPorteur,
 } from '@potentiel-domain/utilisateur';
-import { List, RangeOptions, Where, WhereOptions } from '@potentiel-domain/entity';
+import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Candidature } from '@potentiel-domain/candidature';
 
 import { DépôtEnCoursGarantiesFinancièresEntity, TypeDocumentGarantiesFinancières } from '../..';
+import { getRoleBasedWhereCondition, Utilisateur } from '../../getRoleBasedWhereCondition';
 
 type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -32,12 +32,6 @@ export type ListerDépôtsEnCoursGarantiesFinancièresReadModel = {
   items: ReadonlyArray<DépôtEnCoursGarantiesFinancièresListItemReadModel>;
   range: RangeOptions;
   total: number;
-};
-
-type Utilisateur = {
-  rôle: string;
-  régionDreal?: string;
-  identifiantUtilisateur: string;
 };
 
 export type ListerDépôtsEnCoursGarantiesFinancièresQuery = Message<
@@ -125,22 +119,3 @@ const mapToReadModel = ({
     },
   },
 });
-
-const getRoleBasedWhereCondition = async (
-  utilisateur: Utilisateur,
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur,
-): Promise<WhereOptions<DépôtEnCoursGarantiesFinancièresEntity>> => {
-  const rôleValueType = Role.convertirEnValueType(utilisateur.rôle);
-  if (rôleValueType.estÉgaleÀ(Role.porteur)) {
-    const identifiantProjets = await récupérerIdentifiantsProjetParEmailPorteur(
-      utilisateur.identifiantUtilisateur,
-    );
-
-    return { identifiantProjet: Where.include(identifiantProjets) };
-  }
-  if (rôleValueType.estÉgaleÀ(Role.dreal)) {
-    return { régionProjet: Where.equal(utilisateur.régionDreal ?? 'non-trouvée') };
-  }
-
-  return {};
-};

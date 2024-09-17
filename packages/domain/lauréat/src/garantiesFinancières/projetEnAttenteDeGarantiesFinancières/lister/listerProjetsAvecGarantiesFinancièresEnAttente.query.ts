@@ -1,13 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Role, RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
-import { Where, List, RangeOptions, WhereOptions } from '@potentiel-domain/entity';
+import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
+import { Where, List, RangeOptions } from '@potentiel-domain/entity';
 
 import {
   MotifDemandeGarantiesFinancières,
   ProjetAvecGarantiesFinancièresEnAttenteEntity,
 } from '../..';
+import { getRoleBasedWhereCondition, Utilisateur } from '../../getRoleBasedWhereCondition';
 
 type ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -23,12 +24,6 @@ export type ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel = {
   items: ReadonlyArray<ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel>;
   range: RangeOptions;
   total: number;
-};
-
-type Utilisateur = {
-  rôle: string;
-  régionDreal?: string;
-  identifiantUtilisateur: string;
 };
 
 export type ListerProjetsAvecGarantiesFinancièresEnAttenteQuery = Message<
@@ -111,22 +106,3 @@ const mapToReadModel = ({
     date: DateTime.convertirEnValueType(date),
   },
 });
-
-const getRoleBasedWhereCondition = async (
-  utilisateur: Utilisateur,
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur,
-): Promise<WhereOptions<ProjetAvecGarantiesFinancièresEnAttenteEntity>> => {
-  const rôleValueType = Role.convertirEnValueType(utilisateur.rôle);
-  if (rôleValueType.estÉgaleÀ(Role.porteur)) {
-    const identifiantProjets = await récupérerIdentifiantsProjetParEmailPorteur(
-      utilisateur.identifiantUtilisateur,
-    );
-
-    return { identifiantProjet: Where.include(identifiantProjets) };
-  }
-  if (rôleValueType.estÉgaleÀ(Role.dreal)) {
-    return { régionProjet: Where.equal(utilisateur.régionDreal ?? 'non-trouvée') };
-  }
-
-  return {};
-};
