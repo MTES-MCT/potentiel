@@ -2,7 +2,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { HistoriqueMainlevéeRejetéeProps } from '@/components/pages/garanties-financières/détails/components/HistoriqueMainlevéeRejetée';
+import { HistoriqueMainlevéeRejetéeProps } from '@/components/pages/garanties-financières/détails/components/Mainlevée/HistoriqueMainlevéeRejetée';
 
 type GetHistoriqueMainlevéeRéjetéesActions = {
   role: Role.ValueType;

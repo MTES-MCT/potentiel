@@ -3,19 +3,19 @@ import Link from 'next/link';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Routes } from '@potentiel-applications/routes';
 import { Email } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading3 } from '@/components/atoms/headings';
 
-import { DémarrerInstructionDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/instruire/DémarrerInstructionDemandeMainlevéeGarantiesFinancières';
-import { AccorderDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/accorder/AccorderDemandeMainlevéeGarantiesFinancières';
-import { RejeterDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/rejeter/RejeterDemandeMainleveGarantiesFinancières';
-import { AnnulerDemandeMainlevéeGarantiesFinancières } from '../../mainlevée/annuler/AnnulerDemandeMainlevéeGarantiesFinancières';
-import { StatutMainlevéeBadge } from '../../../../molecules/mainlevée/StatutMainlevéeBadge';
-import { DownloadDocument } from '../../../../atoms/form/DownloadDocument';
-import { CorrigerRéponseSignée } from '../../mainlevée/corrigerRéponseSignée/CorrigerRéponseSignée.form';
+import { DémarrerInstructionDemandeMainlevéeGarantiesFinancières } from '../../../mainlevée/instruire/DémarrerInstructionDemandeMainlevéeGarantiesFinancières';
+import { AccorderDemandeMainlevéeGarantiesFinancières } from '../../../mainlevée/accorder/AccorderDemandeMainlevéeGarantiesFinancières';
+import { RejeterDemandeMainlevéeGarantiesFinancières } from '../../../mainlevée/rejeter/RejeterDemandeMainleveGarantiesFinancières';
+import { AnnulerDemandeMainlevéeGarantiesFinancières } from '../../../mainlevée/annuler/AnnulerDemandeMainlevéeGarantiesFinancières';
+import { StatutMainlevéeBadge } from '../../../../../molecules/mainlevée/StatutMainlevéeBadge';
+
+import { MainlevéeEnCoursAccord } from './MainlevéeEnCoursAccord';
+import { MainlevéeEnCoursInstruction } from './MainlevéeEnCoursInstruction';
 
 export type MainlevéeEnCoursProps = {
   identifiantProjet: string;
@@ -32,11 +32,11 @@ export type MainlevéeEnCoursProps = {
     };
     instruction?: {
       date: Iso8601DateTime;
-      par: Email.RawType;
+      par?: Email.RawType;
     };
     accord?: {
       date: Iso8601DateTime;
-      par: Email.RawType;
+      par?: Email.RawType;
       courrierAccord: string;
     };
     urlAppelOffre: string;
@@ -76,33 +76,14 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
         </span>
       </div>
       {mainlevéeEnCours.instruction && (
-        <div>
-          Instruction démarrée le :{' '}
-          <FormattedDate className="font-semibold" date={mainlevéeEnCours.instruction.date} /> par{' '}
-          <span className="font-semibold">{mainlevéeEnCours.instruction.par}</span>
-        </div>
+        <MainlevéeEnCoursInstruction instruction={mainlevéeEnCours.instruction} />
       )}
       {mainlevéeEnCours.accord && (
-        <>
-          <div>
-            Mainlevée accordée le :{' '}
-            <FormattedDate className="font-semibold" date={mainlevéeEnCours.accord.date} /> par{' '}
-            <span className="font-semibold">{mainlevéeEnCours.dernièreMiseÀJour.par}</span>
-          </div>
-          <div className="flex flex-col gap-1 justify-center">
-            <DownloadDocument
-              format="pdf"
-              label="Télécharger la réponse signée"
-              url={Routes.Document.télécharger(mainlevéeEnCours.accord.courrierAccord)}
-            />
-            {mainlevéeEnCours.actions.includes('modifier-courrier-réponse-mainlevée-gf') && (
-              <CorrigerRéponseSignée
-                identifiantProjet={identifiantProjet}
-                courrierRéponseÀCorriger={mainlevéeEnCours.accord.courrierAccord}
-              />
-            )}
-          </div>
-        </>
+        <MainlevéeEnCoursAccord
+          identifiantProjet={identifiantProjet}
+          actions={mainlevéeEnCours.actions}
+          accord={mainlevéeEnCours.accord}
+        />
       )}
     </div>
     <Actions

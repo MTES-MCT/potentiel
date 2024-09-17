@@ -189,6 +189,10 @@ const mapToProps: MapToProps = ({
     ? historiqueMainlevée
     : undefined;
 
+  const aLaPermissionDeSavoirQuiAInstruitAccordéOuRejetéUneMainlevée = utilisateur.role.estÉgaleÀ(
+    Role.dreal,
+  );
+
   if (!gfActuellesExistante && !dépôtExistant) {
     return {
       identifiantProjet,
@@ -270,13 +274,17 @@ const mapToProps: MapToProps = ({
           ...(mainlevéeExistante.instruction && {
             instruction: {
               date: mainlevéeExistante.instruction?.démarréeLe.formatter(),
-              par: mainlevéeExistante.instruction?.démarréePar.formatter(),
+              par: aLaPermissionDeSavoirQuiAInstruitAccordéOuRejetéUneMainlevée
+                ? mainlevéeExistante.instruction?.démarréePar.formatter()
+                : undefined,
             },
           }),
           ...(mainlevéeExistante.accord && {
             accord: {
               date: mainlevéeExistante.accord?.accordéeLe.formatter(),
-              par: mainlevéeExistante.accord?.accordéePar.formatter(),
+              par: aLaPermissionDeSavoirQuiAInstruitAccordéOuRejetéUneMainlevée
+                ? mainlevéeExistante.accord?.accordéePar.formatter()
+                : undefined,
               courrierAccord: mainlevéeExistante.accord?.courrierAccord.formatter(),
             },
           }),
@@ -298,7 +306,9 @@ const mapToProps: MapToProps = ({
             },
             rejet: {
               date: mainlevée.rejet.rejetéLe.formatter(),
-              par: mainlevée.rejet.rejetéPar.email,
+              par: aLaPermissionDeSavoirQuiAInstruitAccordéOuRejetéUneMainlevée
+                ? mainlevée.rejet.rejetéPar.formatter()
+                : undefined,
               courrierRejet: mainlevée.rejet.courrierRejet.formatter(),
             },
           })),

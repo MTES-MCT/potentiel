@@ -8,8 +8,8 @@ import { Heading3 } from '@/components/atoms/headings';
 import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
 
-import { CorrigerRéponseSignée } from '../../mainlevée/corrigerRéponseSignée/CorrigerRéponseSignée.form';
-import { FormattedDate } from '../../../../atoms/FormattedDate';
+import { CorrigerRéponseSignée } from '../../../mainlevée/corrigerRéponseSignée/CorrigerRéponseSignée.form';
+import { FormattedDate } from '../../../../../atoms/FormattedDate';
 
 export type HistoriqueMainlevéeRejetéeProps = {
   identifiantProjet: string;
@@ -20,7 +20,7 @@ export type HistoriqueMainlevéeRejetéeProps = {
         date: Iso8601DateTime;
         par: Email.RawType;
       };
-      rejet: { date: Iso8601DateTime; par: Email.RawType; courrierRejet: string };
+      rejet: { date: Iso8601DateTime; par?: Email.RawType; courrierRejet: string };
     }>;
     actions: Array<'modifier-courrier-réponse-mainlevée-gf'>;
   };
@@ -37,7 +37,13 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
     date: mainlevéeRejetée.rejet.date,
     title: (
       <div>
-        Mainlevée rejetée par {<span className="font-semibold">{mainlevéeRejetée.rejet.par}</span>}
+        Mainlevée rejetée
+        {mainlevéeRejetée.rejet.par && (
+          <>
+            {' '}
+            par <span className="font-semibold">{mainlevéeRejetée.rejet.par}</span>
+          </>
+        )}
       </div>
     ),
     content: (
