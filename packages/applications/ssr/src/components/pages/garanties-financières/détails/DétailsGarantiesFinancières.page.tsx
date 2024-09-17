@@ -19,8 +19,8 @@ import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancière
 import { InfoBoxMainlevée } from './components/InfoBoxMainlevée';
 import { InfoBoxSoumettreGarantiesFinancières } from './components/InfoBoxSoumettreGarantiesFinancières';
 import { GarantiesFinancièresManquantes } from './components/GarantiesFinancièresManquantes';
-import { HistoriqueMainlevéeRejetéeProps } from './components/HistoriqueMainlevéeRejetée';
-import { MainlevéeEnCoursProps } from './components/MainlevéeEnCours';
+import { HistoriqueMainlevéeRejetéeProps } from './components/Mainlevée/HistoriqueMainlevéeRejetée';
+import { MainlevéeEnCoursProps } from './components/Mainlevée/MainlevéeEnCours';
 import { Mainlevée } from './components/Mainlevée';
 import { ArchivesGarantiesFinancières } from './components/ArchivesGarantiesFinancières';
 
