@@ -5,25 +5,24 @@ type Props = {
   estPériodeLegacy: boolean;
 };
 
-export const getCandidatureActions = ({ estNotifiée, estPériodeLegacy }: Props) => {
-  let actions: CandidatureListItemActionsProps['actions'];
-
+export const getCandidatureActions = ({
+  estNotifiée,
+  estPériodeLegacy,
+}: Props): CandidatureListItemActionsProps['actions'] => {
   if (estNotifiée) {
-    actions = {
+    return {
       télécharger: true,
       prévisualiser: false,
     };
-  } else if (!estNotifiée && !estPériodeLegacy) {
-    actions = {
+  }
+  if (!estNotifiée && !estPériodeLegacy) {
+    return {
       télécharger: false,
       prévisualiser: true,
     };
-  } else {
-    actions = {
-      télécharger: false,
-      prévisualiser: false,
-    };
   }
-
-  return actions;
+  return {
+    télécharger: false,
+    prévisualiser: false,
+  };
 };
