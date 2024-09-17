@@ -122,7 +122,7 @@ Candidature.registerCandidatureQueries({
 
       await Promise.all(
         identifiantLauréats.map(async (identifiantLauréat) => {
-          const event: Lauréat.LauréatNotifié = {
+          const event: Lauréat.LauréatNotifiéEvent = {
             type: 'LauréatNotifié-V1',
             payload: {
               identifiantProjet: identifiantLauréat,
