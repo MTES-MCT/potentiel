@@ -11,7 +11,6 @@ export const listerToutesLesPériodes = async (
   appelOffre: string | undefined,
 ) => {
   const notifiées = await list<PériodeEntity>(`période`, {
-    range,
     where: {
       appelOffre: Where.equal(appelOffre),
     },
