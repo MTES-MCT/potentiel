@@ -1,20 +1,16 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import Link from 'next/link';
 import { FC } from 'react';
-
-import { Routes } from '@potentiel-applications/routes';
 
 import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
 
-type InfoBoxMainlevéeProps = {
-  identifiantProjet: DétailsGarantiesFinancièresPageProps['identifiantProjet'];
-  afficherLien: boolean;
+import { TransmettreAttestationConformité } from './TransmettreAttestationConformité';
+
+type Props = {
+  actions: DétailsGarantiesFinancièresPageProps['infoBoxMainlevée']['actions'];
+  identifiantProjet: string;
 };
 
-export const InfoBoxMainlevée: FC<InfoBoxMainlevéeProps> = ({
-  identifiantProjet,
-  afficherLien,
-}) => (
+export const InfoBoxMainlevée: FC<Props> = ({ actions, identifiantProjet }: Props) => (
   <Alert
     severity="info"
     small
@@ -36,10 +32,8 @@ export const InfoBoxMainlevée: FC<InfoBoxMainlevéeProps> = ({
             (abandon accordé par la DGEC).
           </li>
         </ul>
-        {afficherLien && (
-          <Link href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}>
-            Transmettre l'attestation de conformité
-          </Link>
+        {actions === 'transmettre-attestation-conformité' && (
+          <TransmettreAttestationConformité identifiantProjet={identifiantProjet} />
         )}
       </div>
     }

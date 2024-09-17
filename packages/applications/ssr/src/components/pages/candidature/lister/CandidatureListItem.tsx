@@ -9,7 +9,10 @@ import { Icon } from '@/components/atoms/Icon';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 
 import * as symbols from './candidatureListLegendSymbols';
-import { CandidatureListItemActions } from './CandidatureListItemActions';
+import {
+  CandidatureListItemActions,
+  CandidatureListItemActionsProps,
+} from './CandidatureListItemActions';
 
 export type CandidatureListItemProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
@@ -27,8 +30,7 @@ export type CandidatureListItemProps = {
     région: Candidature.ConsulterCandidatureReadModel['localité']['région'];
   };
   unitePuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
-  showDownloadAttestation: boolean;
-  showPreviewAttestation: boolean;
+  actions: CandidatureListItemActionsProps['actions'];
 };
 
 export const CandidatureListItem: FC<CandidatureListItemProps> = ({
@@ -43,8 +45,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
   prixReference,
   unitePuissance,
   evaluationCarboneSimplifiée,
-  showDownloadAttestation,
-  showPreviewAttestation,
+  actions,
 }) => (
   <div className="flex flex-1 flex-col gap-6">
     <div className="flex gap-4 items-center justify-between">
@@ -58,8 +59,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
         <CandidatureListItemActions
           identifiantProjet={identifiantProjet}
           nomProjet={nomProjet}
-          showDownloadAttestation={showDownloadAttestation}
-          showPreviewAttestation={showPreviewAttestation}
+          actions={actions}
         />
       </div>
     </div>
@@ -140,8 +140,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
       <CandidatureListItemActions
         identifiantProjet={identifiantProjet}
         nomProjet={nomProjet}
-        showDownloadAttestation={showDownloadAttestation}
-        showPreviewAttestation={showPreviewAttestation}
+        actions={actions}
       />
     </div>
   </div>

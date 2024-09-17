@@ -9,15 +9,16 @@ import { Candidature } from '@potentiel-domain/candidature';
 export type CandidatureListItemActionsProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   nomProjet: Candidature.ConsulterCandidatureReadModel['nomProjet'];
-  showDownloadAttestation: boolean;
-  showPreviewAttestation: boolean;
+  actions:
+    | { télécharger: true; prévisualiser: false }
+    | { télécharger: false; prévisualiser: false }
+    | { télécharger: false; prévisualiser: true };
 };
 
 export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = ({
   identifiantProjet,
   nomProjet,
-  showDownloadAttestation,
-  showPreviewAttestation,
+  actions,
 }) => {
   return (
     <div className="flex gap-2">
@@ -30,7 +31,7 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
       >
         Consulter
       </Button>
-      {showDownloadAttestation && (
+      {actions.télécharger && (
         <Button
           className="md:flex ml-auto"
           linkProps={{
@@ -44,7 +45,7 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
           Télécharger l'attestation
         </Button>
       )}
-      {showPreviewAttestation && (
+      {actions.prévisualiser && (
         <Button
           className="md:flex ml-auto"
           linkProps={{
