@@ -152,8 +152,15 @@ export function applyCandidatureImportée(
   { payload }: CandidatureImportéeEvent,
 ) {
   this.importé = true;
+  this.importéLe = DateTime.convertirEnValueType(payload.importéLe);
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
   this.payloadHash = this.calculerHash(payload);
+  if (payload.typeGarantiesFinancières) {
+    this.garantiesFinancières = {
+      type: TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières),
+      dateÉchéance: payload.dateÉchéanceGf && DateTime.convertirEnValueType(payload.dateÉchéanceGf),
+    };
+  }
 }
 
 export const mapToEventPayload = (candidature: ImporterCandidatureBehaviorCommonOptions) => ({

@@ -221,19 +221,38 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
       },
     });
 
-  const unsubscribeGarantiesFinancièresSaga = await subscribe<
-    GarantiesFinancières.GarantiesFinancièresSaga.SubscriptionEvent & Event
-  >({
-    name: 'garanties-financieres-saga',
-    streamCategory: 'tâche-planifiée',
-    eventType: ['TâchePlanifiéeExecutée-V1'],
-    eventHandler: async (event) => {
+  const unsubscribeGarantiesFinancièresSaga = await (async () => {
+    type SagaEvent = GarantiesFinancières.GarantiesFinancièresSaga.SubscriptionEvent & Event;
+    const eventHandler = async (event: SagaEvent) => {
       await mediator.publish<GarantiesFinancières.GarantiesFinancièresSaga.Execute>({
         type: 'System.Lauréat.GarantiesFinancières.Saga.Execute',
         data: event,
       });
-    },
-  });
+    };
+    const unsubscribeTâchePanifiée = await subscribe<SagaEvent>({
+      name: 'garanties-financieres-saga-tacheplanifiee',
+      streamCategory: 'tâche-planifiée',
+      eventType: ['TâchePlanifiéeExecutée-V1'],
+      eventHandler,
+    });
+    const unsubscribeGf = await subscribe<SagaEvent>({
+      name: 'garanties-financieres-saga-gf',
+      streamCategory: 'garanties-financieres',
+      eventType: ['TypeGarantiesFinancièresImporté-V1'],
+      eventHandler,
+    });
+    const unsubscribeLauréat = await subscribe<SagaEvent>({
+      name: 'garanties-financieres-saga-laureat',
+      streamCategory: 'lauréat',
+      eventType: ['LauréatNotifié-V1'],
+      eventHandler,
+    });
+    return async () => {
+      await unsubscribeTâchePanifiée();
+      await unsubscribeGf();
+      await unsubscribeLauréat();
+    };
+  })();
 
   return async () => {
     await unsubscribeLauréatNotification();

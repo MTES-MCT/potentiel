@@ -13,7 +13,7 @@ export const setCommonGarantiesFinancières = ({
 }: SetCommonGarantiesFinancièresDataProps) => ({
   identifiantProjetValue: identifiantProjet.formatter(),
   typeValue: exemple?.type ?? 'consignation',
-  dateÉchéanceValue: exemple?.["date d'échéance"]
+  dateÉchéanceValue: exemple?.["date d'échéance GF"]
     ? new Date(exemple?.["date d'échéance"]).toISOString()
     : undefined,
   dateConstitutionValue: new Date(exemple?.['date de constitution'] ?? '2024-01-01').toISOString(),

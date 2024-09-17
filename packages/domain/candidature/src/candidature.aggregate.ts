@@ -1,7 +1,7 @@
 // FIXME the import should be node:crypto but this breaks NextJS
 import { createHash } from 'crypto';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import {
   Aggregate,
   AggregateNotFoundError,
@@ -25,28 +25,42 @@ import {
   FamillePériodeAppelOffreInexistanteError,
   PériodeAppelOffreInexistanteError,
 } from './appelOffreInexistant.error';
+import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 
 export type CandidatureEvent = CandidatureImportéeEvent | CandidatureCorrigéeEvent;
 
-export type CandidatureAggregate = Aggregate<CandidatureEvent> & {
-  statut?: StatutCandidature.ValueType;
-  importé?: true;
-  payloadHash: string;
-  importer: typeof importer;
-  corriger: typeof corriger;
-  calculerHash(payload: CandidatureEvent['payload']): string;
-  estIdentiqueÀ(payload: CandidatureEvent['payload']): boolean;
-
-  récupererPériodeAO(
-    appelOffre: AppelOffre.AppelOffreReadModel,
-    idPériode: string,
-  ): AppelOffre.Periode;
-  récupererFamilleAO(
-    appelOffre: AppelOffre.AppelOffreReadModel,
-    idPériode: string,
-    idFamille?: string,
-  ): AppelOffre.Famille | undefined;
+type CandidatureImportéeAggregate = {
+  importé: true;
+  importéLe: DateTime.ValueType;
+  statut: StatutCandidature.ValueType;
+  garantiesFinancières?: {
+    type: TypeGarantiesFinancières.ValueType;
+    dateÉchéance?: DateTime.ValueType;
+  };
 };
+type CandidatureNonImportéeAggregate = {
+  [P in keyof CandidatureImportéeAggregate]?: undefined;
+};
+
+export type CandidatureAggregate = Aggregate<CandidatureEvent> &
+  (CandidatureNonImportéeAggregate | CandidatureImportéeAggregate) & {
+    payloadHash: string;
+
+    importer: typeof importer;
+    corriger: typeof corriger;
+    calculerHash(payload: CandidatureEvent['payload']): string;
+    estIdentiqueÀ(payload: CandidatureEvent['payload']): boolean;
+
+    récupererPériodeAO(
+      appelOffre: AppelOffre.AppelOffreReadModel,
+      idPériode: string,
+    ): AppelOffre.Periode;
+    récupererFamilleAO(
+      appelOffre: AppelOffre.AppelOffreReadModel,
+      idPériode: string,
+      idFamille?: string,
+    ): AppelOffre.Famille | undefined;
+  };
 
 export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
   CandidatureAggregate,

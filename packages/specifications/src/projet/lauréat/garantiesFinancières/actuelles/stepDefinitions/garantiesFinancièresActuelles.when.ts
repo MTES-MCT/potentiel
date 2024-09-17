@@ -13,24 +13,6 @@ import { PotentielWorld } from '../../../../../potentiel.world';
 import { setGarantiesFinancièresData } from './helper';
 
 Quand(
-  `un admin importe le type des garanties financières actuelles pour le projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
-
-    try {
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-      await mediator.send<GarantiesFinancières.ImporterTypeGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
-        data: setGarantiesFinancièresData({ identifiantProjet, exemple }),
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
   `un admin modifie les garanties financières actuelles pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
