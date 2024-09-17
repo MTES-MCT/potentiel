@@ -11,8 +11,7 @@ import {
 } from '@/components/pages/garanties-financières/dépôt/lister/ListerDépôtsEnCoursGarantiesFinancières.page';
 import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
-import { mapToPagination } from '@/utils/mapToPagination';
+import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 
 type PageProps = {
@@ -39,13 +38,13 @@ export default async function Page({ searchParams }: PageProps) {
           data: {
             utilisateur: {
               régionDreal,
+              identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
               rôle: utilisateur.role.nom,
             },
             ...(appelOffre && { appelOffre }),
             cycle,
             range: mapToRangeOptions({
               currentPage: page,
-              itemsPerPage: 10,
             }),
           },
         });

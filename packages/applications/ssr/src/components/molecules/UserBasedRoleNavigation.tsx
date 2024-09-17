@@ -237,6 +237,10 @@ const getNavigationItemsBasedOnRole = (
           ],
         },
         {
+          text: 'Garanties Financières',
+          menuLinks: menuLinks.listerGarantiesFinancières,
+        },
+        {
           text: 'Projets à réclamer',
           linkProps: {
             href: '/projets-a-reclamer.html',

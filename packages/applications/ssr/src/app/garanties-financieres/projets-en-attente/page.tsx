@@ -13,8 +13,7 @@ import {
   ListProjetsAvecGarantiesFinancièresEnAttenteProps,
 } from '@/components/pages/garanties-financières/en-attente/lister/ListerProjetsAvecGarantiesFinancièresEnAttente.page';
 import { getGarantiesFinancièresMotifLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresMotifLabel';
-import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
-import { mapToPagination } from '@/utils/mapToPagination';
+import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
 import { ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { ListItemProjetAvecGarantiesFinancièresEnAttenteProps } from '@/components/pages/garanties-financières/en-attente/lister/ListItemProjetAvecGarantiesFinancièresEnAttente';
 import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
@@ -45,6 +44,7 @@ export default async function Page({ searchParams }: PageProps) {
             data: {
               utilisateur: {
                 régionDreal,
+                identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
                 rôle: utilisateur.role.nom,
               },
               appelOffre,

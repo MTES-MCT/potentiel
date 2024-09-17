@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Where, List, RangeOptions } from '@potentiel-domain/entity';
-import { Role } from '@potentiel-domain/utilisateur';
+import { Where, List, RangeOptions, WhereOptions } from '@potentiel-domain/entity';
+import { Role, RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
 import {
   MotifDemandeMainlevéeGarantiesFinancières,
@@ -22,6 +22,12 @@ export type ListerDemandeMainlevéeReadModel = Readonly<{
   total: number;
 }>;
 
+type Utilisateur = {
+  rôle: string;
+  régionDreal?: string;
+  identifiantUtilisateur: string;
+};
+
 export type ListerDemandeMainlevéeQuery = Message<
   'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
   {
@@ -29,32 +35,27 @@ export type ListerDemandeMainlevéeQuery = Message<
     appelOffre?: string;
     motif?: MotifDemandeMainlevéeGarantiesFinancières.RawType;
     statut?: StatutMainlevéeGarantiesFinancières.RawType;
-    utilisateur: {
-      rôle: string;
-      régionDreal?: string;
-    };
+    utilisateur: Utilisateur;
   },
   ListerDemandeMainlevéeReadModel
 >;
 
 type ListerDemandeMainlevéeQueryDependencies = {
   list: List;
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
 };
 
 export const registerListerDemandeMainlevéeQuery = ({
   list,
+  récupérerIdentifiantsProjetParEmailPorteur,
 }: ListerDemandeMainlevéeQueryDependencies) => {
   const handler: MessageHandler<ListerDemandeMainlevéeQuery> = async ({
     range,
     appelOffre,
     motif,
     statut,
-    utilisateur: { régionDreal, rôle },
+    utilisateur,
   }) => {
-    const région = Role.convertirEnValueType(rôle).estÉgaleÀ(Role.dreal)
-      ? régionDreal ?? 'non-trouvée'
-      : undefined;
-
     const {
       items,
       range: { endPosition, startPosition },
@@ -72,7 +73,10 @@ export const registerListerDemandeMainlevéeQuery = ({
         statut: statut
           ? Where.equal(statut)
           : Where.include(['en-instruction', 'demandé', 'accepté']),
-        régionProjet: Where.equal(région),
+        ...(await getRoleBasedWhereCondition(
+          utilisateur,
+          récupérerIdentifiantsProjetParEmailPorteur,
+        )),
       },
     });
 
@@ -86,4 +90,23 @@ export const registerListerDemandeMainlevéeQuery = ({
     };
   };
   mediator.register('Lauréat.GarantiesFinancières.Mainlevée.Query.Lister', handler);
+};
+
+const getRoleBasedWhereCondition = async (
+  utilisateur: Utilisateur,
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur,
+): Promise<WhereOptions<MainlevéeGarantiesFinancièresEntity>> => {
+  const rôleValueType = Role.convertirEnValueType(utilisateur.rôle);
+  if (rôleValueType.estÉgaleÀ(Role.porteur)) {
+    const identifiantProjets = await récupérerIdentifiantsProjetParEmailPorteur(
+      utilisateur.identifiantUtilisateur,
+    );
+
+    return { identifiantProjet: Where.include(identifiantProjets) };
+  }
+  if (rôleValueType.estÉgaleÀ(Role.dreal)) {
+    return { régionProjet: Where.equal(utilisateur.régionDreal ?? 'non-trouvée') };
+  }
+
+  return {};
 };
