@@ -86,6 +86,7 @@ Alors(
           data: {
             utilisateur: {
               rôle: 'admin',
+              identifiantUtilisateur: 'admin@test.test',
             },
           },
         });
