@@ -48,7 +48,7 @@ Candidature.registerCandidatureQueries({
             end as "appelOffreId",
             p."periodeId", 
             p."notifiedOn", 
-              'c520e2c5-74ad-47e6-a417-5a8020999a14' as "requestedBy"
+            'missing-user' as "requestedBy"
         from projects p 
         left join "eventStores" es on es."type" = 'PeriodeNotified'
                       and p."appelOffreId" = es.payload->>'appelOffreId'  
@@ -88,7 +88,7 @@ Candidature.registerCandidatureQueries({
         },
       });
 
-      const notifiéePar = users[0]?.email.trim() ?? 'ghislain.ferran@developpement-durable.gouv.fr';
+      const notifiéePar = users[0]?.email.trim() ?? 'aopv.dgec@developpement-durable.gouv.fr';
       const notifiéeLe = DateTime.convertirEnValueType(new Date(notifiedOn)).formatter();
 
       const event: Période.PériodeNotifiéeEvent = {
