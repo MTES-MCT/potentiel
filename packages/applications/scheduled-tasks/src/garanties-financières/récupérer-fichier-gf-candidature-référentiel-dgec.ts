@@ -8,7 +8,10 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
-import { registerDocumentProjetCommand } from '@potentiel-domain/document';
+import {
+  registerDocumentProjetCommand,
+  registerDocumentProjetQueries,
+} from '@potentiel-domain/document';
 import { CandidatureAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Candidature } from '@potentiel-domain/candidature';
 
@@ -46,44 +49,53 @@ registerDocumentProjetCommand({
   archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
 });
 
+registerDocumentProjetQueries({
+  récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
+});
+
 const formatProjetId = (id: string) =>
   id
     .replace('PPE2 - Autoconsommation métrople', 'PPE2 - Autoconsommation métropole')
     .replace('PPE2 - Innovant', 'PPE2 - Innovation')
     .replace('PPE2 - Bâtiment', 'PPE2 - Bâtiment');
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 (async () => {
-  try {
-    const directoryPath = process.env.DIRECTORY_PATH!;
-    const dirrents = await readdir(directoryPath, {
-      withFileTypes: true,
-    });
+  const directoryPath = process.env.DIRECTORY_PATH!;
+  const dirrents = await readdir(directoryPath, {
+    withFileTypes: true,
+  });
 
-    type Statistics = {
-      projetInconnu: {
-        count: number;
-        ids: Array<string>;
-      };
-      attestationAjoutée: number;
-      gfCréeEtAttestationAjoutée: number;
-      attestationExistante: number;
+  type Statistics = {
+    projetInconnu: {
+      count: number;
+      ids: Array<string>;
     };
-    const statistics: Statistics = {
-      projetInconnu: {
-        count: 0,
-        ids: [],
-      },
-      attestationAjoutée: 0,
-      gfCréeEtAttestationAjoutée: 0,
-      attestationExistante: 0,
-    };
+    attestationAjoutée: number;
+    gfCréeEtAttestationAjoutée: number;
+    attestationExistante: number;
+  };
+  const statistics: Statistics = {
+    projetInconnu: {
+      count: 0,
+      ids: [],
+    },
+    attestationAjoutée: 0,
+    gfCréeEtAttestationAjoutée: 0,
+    attestationExistante: 0,
+  };
 
-    for (const file of dirrents) {
+  const format = 'application/pdf';
+
+  for (const file of dirrents) {
+    try {
+      await delay(100);
+
       if (!file.isFile() || path.extname(file.name).toLowerCase() !== '.pdf') {
+        console.log(`❌ Fichier ${file.name} non pris en charge`);
         continue;
       }
-
-      console.log('📝 File', file.name);
 
       const fileName = path.basename(file.name, '.pdf');
 
@@ -99,7 +111,7 @@ const formatProjetId = (id: string) =>
       });
 
       if (Option.isNone(projet)) {
-        console.log(`Projet ${identifiantProjet} inconnu`);
+        console.log(`❌ ${identifiantProjet} : Projet inconnu`);
         statistics.projetInconnu.count++;
         statistics.projetInconnu.ids.push(identifiantProjet);
         continue;
@@ -112,12 +124,6 @@ const formatProjetId = (id: string) =>
         },
       });
 
-      if (Option.isSome(gf) && gf.garantiesFinancières.attestation) {
-        console.log(`Le projet ${identifiantProjet} a déjà une attestation`);
-        statistics.attestationExistante++;
-        continue;
-      }
-
       const filePath = path.join(directoryPath, file.name);
       const fileBuffer = await readFile(filePath);
       const content = new ReadableStream({
@@ -126,37 +132,49 @@ const formatProjetId = (id: string) =>
           controller.close();
         },
       });
-
       const enregistréParValue = Email.convertirEnValueType(
         'contact@potentiel.beta.gouv.fr',
       ).formatter();
 
-      if (Option.isNone(gf)) {
-        await mediator.send<GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
-          type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
-          data: {
-            identifiantProjetValue: identifiantProjet,
-            typeValue: Candidature.TypeGarantiesFinancières.typeInconnu.type,
-            dateConstitutionValue: DateTime.now().formatter(), // Quelle date mettre ici ?
-            attestationValue: {
-              content,
-              format: 'application/pdf',
+      if (Option.isSome(gf)) {
+        if (gf.garantiesFinancières.attestation) {
+          console.log(`ℹ️ ${identifiantProjet} (${projet.nom}) : Le projet a déjà une attestation`);
+          statistics.attestationExistante++;
+          continue;
+        }
+
+        const dateConstitutionValue = DateTime.convertirEnValueType(
+          gf.garantiesFinancières.dateConstitution?.formatter() ?? DateTime.now().formatter(),
+        ).formatter();
+
+        await mediator.send<GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>(
+          {
+            type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
+            data: {
+              identifiantProjetValue: identifiantProjet,
+              dateConstitutionValue,
+              attestationValue: {
+                content,
+                format,
+              },
+              enregistréLeValue: DateTime.now().formatter(),
+              enregistréParValue,
             },
-            enregistréLeValue: DateTime.now().formatter(),
-            enregistréParValue,
           },
-        });
-        statistics.gfCréeEtAttestationAjoutée++;
-        console.log(`Garanties financières du projet ${identifiantProjet} crée avec l'attestation`);
+        );
+        statistics.attestationAjoutée++;
+        console.log(
+          `📝 ${identifiantProjet} (${projet.nom}) : Attestation ajoutée aux garanties financières existante`,
+        );
         continue;
       }
 
-      await mediator.send<GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
+      await mediator.send<GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
         data: {
           identifiantProjetValue: identifiantProjet,
-          dateConstitutionValue:
-            gf.garantiesFinancières.dateConstitution?.formatter() ?? DateTime.now().formatter(),
+          typeValue: Candidature.TypeGarantiesFinancières.typeInconnu.type,
+          dateConstitutionValue: DateTime.now().formatter(), // Quelle date mettre ici ?
           attestationValue: {
             content,
             format: 'application/pdf',
@@ -165,23 +183,34 @@ const formatProjetId = (id: string) =>
           enregistréParValue,
         },
       });
-      statistics.attestationAjoutée++;
-      console.log(`Attestation du projet ${identifiantProjet} enregistrée`);
-    }
 
-    console.log('\n\nStatistiques :');
-    console.log(`Nombre de projets inconnu : ${statistics.projetInconnu.count}`);
-    console.log(
-      `Nombre d'attestation ajoutées à des gfs existante : ${statistics.attestationAjoutée}`,
-    );
-    console.log(`Nombre de gf crées avec attestation : ${statistics.gfCréeEtAttestationAjoutée}`);
-    console.log(`Nombre d'attestation déjà existante : ${statistics.attestationExistante}`);
-
-    if (statistics.projetInconnu.ids.length) {
-      await writeFile('projets-non-trouvés.txt', statistics.projetInconnu.ids.join('\n'));
+      statistics.gfCréeEtAttestationAjoutée++;
+      console.log(
+        `📝 ${identifiantProjet} (${projet.nom}) : Garanties financières créée avec l'attestation`,
+      );
+    } catch (e) {
+      console.error(e);
+      process.exit(1);
     }
-  } catch (error) {
-    console.error(error as Error);
+  }
+
+  console.log('\n\nStatistiques :');
+  console.log(`Nombre de projets concernés : ${dirrents.length}`);
+  console.log(
+    `Nombre de projets inconnu dans potentiel : ${statistics.projetInconnu.count} / ${dirrents.length}`,
+  );
+  console.log(
+    `Nombre d'attestation ajoutées à des gfs existante : ${statistics.attestationAjoutée} / ${dirrents.length}`,
+  );
+  console.log(
+    `Nombre de gf crées avec attestation : ${statistics.gfCréeEtAttestationAjoutée} / ${dirrents.length}`,
+  );
+  console.log(
+    `Nombre d'attestation déjà existante : ${statistics.attestationExistante} / ${dirrents.length}`,
+  );
+
+  if (statistics.projetInconnu.ids.length) {
+    await writeFile('projets-non-trouvés.txt', statistics.projetInconnu.ids.join('\n'));
   }
 
   process.exit(0);
