@@ -24,6 +24,7 @@
     "@mui/material": "*",
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-applications/document-builder": "*",
+    "@potentiel-applications/feature-flags": "*",
     "@potentiel-applications/routes": "*",
     "@potentiel-domain/entity": "*",
     "@potentiel-domain/appel-offre": "*",
