@@ -7,6 +7,8 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { Période } from '@potentiel-domain/periode';
 import { DateTime } from '@potentiel-domain/common';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { Lauréat } from '@potentiel-domain/laureat';
+import { Éliminé } from '@potentiel-domain/elimine';
 
 Candidature.registerCandidatureQueries({
   find: findProjection,
@@ -48,7 +50,7 @@ Candidature.registerCandidatureQueries({
             end as "appelOffreId",
             p."periodeId", 
             p."notifiedOn", 
-            'missing-user' as "requestedBy"
+            null as "requestedBy"
         from projects p 
         left join "eventStores" es on es."type" = 'PeriodeNotified'
                       and p."appelOffreId" = es.payload->>'appelOffreId'  
@@ -91,6 +93,14 @@ Candidature.registerCandidatureQueries({
       const notifiéePar = users[0]?.email.trim() ?? 'aopv.dgec@developpement-durable.gouv.fr';
       const notifiéeLe = DateTime.convertirEnValueType(new Date(notifiedOn)).formatter();
 
+      const identifiantLauréats = candidatures.items
+        .filter((item) => item.statut.estClassé())
+        .map(({ identifiantProjet }) => identifiantProjet.formatter());
+
+      const identifiantÉliminés = candidatures.items
+        .filter((item) => item.statut.estÉliminé())
+        .map(({ identifiantProjet }) => identifiantProjet.formatter());
+
       const event: Période.PériodeNotifiéeEvent = {
         type: 'PériodeNotifiée-V1',
         payload: {
@@ -99,12 +109,8 @@ Candidature.registerCandidatureQueries({
           période: periodeId,
           notifiéeLe: notifiéeLe,
           notifiéePar,
-          identifiantLauréats: candidatures.items
-            .filter((item) => item.statut.estClassé())
-            .map(({ identifiantProjet }) => identifiantProjet.formatter()),
-          identifiantÉliminés: candidatures.items
-            .filter((item) => item.statut.estÉliminé())
-            .map(({ identifiantProjet }) => identifiantProjet.formatter()),
+          identifiantLauréats,
+          identifiantÉliminés,
         },
       };
 
@@ -113,6 +119,41 @@ Candidature.registerCandidatureQueries({
       );
 
       await publish(`période|${identifiantPériode}`, event);
+
+      await Promise.all(
+        identifiantLauréats.map(async (identifiantLauréat) => {
+          const event: Lauréat.LauréatNotifié = {
+            type: 'LauréatNotifié-V1',
+            payload: {
+              identifiantProjet: identifiantLauréat,
+              notifiéLe: notifiéeLe,
+              notifiéPar: notifiéePar,
+              attestation: {
+                format: 'application/pdf',
+              },
+            },
+          };
+
+          await publish(`lauréat|${identifiantLauréat}`, event);
+        }),
+      );
+      await Promise.all(
+        identifiantÉliminés.map(async (identifiantÉliminé) => {
+          const event: Éliminé.ÉliminéNotifiéEvent = {
+            type: 'ÉliminéNotifié-V1',
+            payload: {
+              identifiantProjet: identifiantÉliminé,
+              notifiéLe: notifiéeLe,
+              notifiéPar: notifiéePar,
+              attestation: {
+                format: 'application/pdf',
+              },
+            },
+          };
+
+          await publish(`lauréat|${identifiantÉliminé}`, event);
+        }),
+      );
     }
   } catch (error) {
     console.error(error as Error);
