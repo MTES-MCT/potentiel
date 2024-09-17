@@ -1,6 +1,6 @@
 'use client';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import { Filter } from './Filter';
 
@@ -23,14 +23,28 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  // this aims at using defaultValue
+  // when it is defined
+  useEffect(() => {
+    if (searchParams.size === 0) {
+      const newSearchParams = new URLSearchParams(searchParams);
+      for (const filter of filters) {
+        const currentValue = searchParams.get(filter.searchParamKey);
+        if (!currentValue && filter.defaultValue) {
+          newSearchParams.set(filter.searchParamKey, filter.defaultValue);
+        }
+      }
+      router.push(buildUrl(pathname, newSearchParams));
+    }
+  }, []);
+
   return (
     <div className="flex flex-col gap">
-      {filters.map(({ label, searchParamKey, options, defaultValue }) => (
+      {filters.map(({ label, searchParamKey, options }) => (
         <Filter
           key={`filter-${searchParamKey}`}
           label={label}
           options={options}
-          defaultValue={defaultValue ?? ''}
           value={searchParams.get(searchParamKey) ?? ''}
           onValueSelected={(value) => {
             const newSearchParams = new URLSearchParams(searchParams);

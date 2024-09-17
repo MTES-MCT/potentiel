@@ -83,7 +83,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: `Statut de mainlevée`,
           searchParamKey: 'statut',
-          defaultValue: statut,
+          defaultValue: undefined,
           options: statutsMainlevéeEnCours.map((statut) => ({
             label: convertStatutMainlevéeForView(statut),
             value: statut,
@@ -92,7 +92,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Motif de mainlevée',
           searchParamKey: 'motif',
-          defaultValue: motif,
+          defaultValue: undefined,
           options: motifMainlevéeEnCours.map((motif) => ({
             label: convertMotifMainlevéeForView(motif),
             value: motif,
@@ -101,7 +101,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: `Appel d'offres`,
           searchParamKey: 'appelOffre',
-          defaultValue: appelOffre,
+          defaultValue: undefined,
           options: appelOffres.items.map((appelOffre) => ({
             label: appelOffre.id,
             value: appelOffre.id,
