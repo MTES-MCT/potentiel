@@ -13,7 +13,8 @@ import { mapToRangeOptions } from '@/utils/pagination';
 import { CandidatureListPage } from '@/components/pages/candidature/lister/CandidatureList.page';
 import { CandidatureListItemProps } from '@/components/pages/candidature/lister/CandidatureListItem';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-import { CandidatureListItemActionsProps } from '@/components/pages/candidature/lister/CandidatureListItemActions';
+
+import { getCandidatureActions } from './helpers/getCandidatureActions';
 
 type SearchParams = 'page' | 'appelOffre' | 'periode' | 'statut' | 'nomProjet';
 
@@ -134,11 +135,7 @@ export default async function Page({ searchParams }: PageProps) {
         `${candidature.identifiantProjet.appelOffre}#${candidature.identifiantProjet.période}`,
       );
 
-      const actions: CandidatureListItemActionsProps['actions'] = estNotifiée
-        ? 'télécharger-attestation'
-        : !estPériodeLegacy
-          ? 'prévisualiser-attestation'
-          : undefined;
+      const actions = getCandidatureActions({ estNotifiée, estPériodeLegacy });
 
       items.push(
         mapToPlainObject({

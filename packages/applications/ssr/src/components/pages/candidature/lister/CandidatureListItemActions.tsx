@@ -9,7 +9,10 @@ import { Candidature } from '@potentiel-domain/candidature';
 export type CandidatureListItemActionsProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   nomProjet: Candidature.ConsulterCandidatureReadModel['nomProjet'];
-  actions?: 'télécharger-attestation' | 'prévisualiser-attestation';
+  actions:
+    | { télécharger: true; prévisualiser: false }
+    | { télécharger: false; prévisualiser: false }
+    | { télécharger: false; prévisualiser: true };
 };
 
 export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = ({
@@ -28,7 +31,7 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
       >
         Consulter
       </Button>
-      {actions === 'télécharger-attestation' && (
+      {actions.télécharger && (
         <Button
           className="md:flex ml-auto"
           linkProps={{
@@ -42,7 +45,7 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
           Télécharger l'attestation
         </Button>
       )}
-      {actions === 'prévisualiser-attestation' && (
+      {actions.prévisualiser && (
         <Button
           className="md:flex ml-auto"
           linkProps={{
