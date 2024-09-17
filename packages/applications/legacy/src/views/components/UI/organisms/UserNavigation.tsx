@@ -220,6 +220,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
         Abandons
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
+    <MenuGarantiesFinancières currentPage={currentPage} />
     <Header.MenuItem
       href={routes.USER_LIST_MISSING_OWNER_PROJECTS}
       {...(currentPage === 'list-missing-owner-projects' && { isCurrent: true })}

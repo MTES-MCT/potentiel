@@ -993,12 +993,16 @@ const permissionPorteurProjet: Policy[] = [
   'garantiesFinancières.dépôt.soumettre',
   'garantiesFinancières.dépôt.supprimer',
   'garantiesFinancières.dépôt.modifier',
+  'garantiesFinancières.dépôt.lister',
   'garantiesFinancières.actuelles.enregistrerAttestation',
   'garantiesFinancières.effacerHistorique',
   'garantiesFinancières.mainlevée.consulter',
   'garantiesFinancières.mainlevée.demander',
   'garantiesFinancières.mainlevée.annuler',
   'garantiesFinancières.mainlevée.consulterHistorique',
+  'garantiesFinancières.mainlevée.lister',
+  'garantiesFinancières.enAttente.lister',
+  'garantiesFinancières.enAttente.consulter',
 
   // Achèvement
   'achèvement.consulter',

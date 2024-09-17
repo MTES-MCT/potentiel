@@ -7,8 +7,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToRangeOptions } from '@/utils/mapToRangeOptions';
-import { mapToPagination } from '@/utils/mapToPagination';
+import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
 import {
   convertMotifMainlevéeForView,
   convertStatutMainlevéeForView,
@@ -44,6 +43,7 @@ export default async function Page({ searchParams }: PageProps) {
           data: {
             utilisateur: {
               régionDreal,
+              identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
               rôle: utilisateur.role.nom,
             },
             ...(appelOffre && { appelOffre }),

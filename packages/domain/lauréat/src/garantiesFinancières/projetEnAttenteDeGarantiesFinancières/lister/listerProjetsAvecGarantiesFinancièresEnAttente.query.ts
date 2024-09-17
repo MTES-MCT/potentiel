@@ -1,13 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Role } from '@potentiel-domain/utilisateur';
+import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 import { Where, List, RangeOptions } from '@potentiel-domain/entity';
 
 import {
   MotifDemandeGarantiesFinancières,
   ProjetAvecGarantiesFinancièresEnAttenteEntity,
 } from '../..';
+import { getRoleBasedWhereCondition, Utilisateur } from '../../getRoleBasedWhereCondition';
 
 type ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -31,10 +32,7 @@ export type ListerProjetsAvecGarantiesFinancièresEnAttenteQuery = Message<
     appelOffre?: string;
     motif?: string;
     cycle?: string;
-    utilisateur: {
-      rôle: string;
-      régionDreal?: string;
-    };
+    utilisateur: Utilisateur;
     range?: RangeOptions;
   },
   ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel
@@ -42,22 +40,20 @@ export type ListerProjetsAvecGarantiesFinancièresEnAttenteQuery = Message<
 
 export type ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies = {
   list: List;
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
 };
 
 export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
   list,
+  récupérerIdentifiantsProjetParEmailPorteur,
 }: ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies) => {
   const handler: MessageHandler<ListerProjetsAvecGarantiesFinancièresEnAttenteQuery> = async ({
     appelOffre,
     motif,
-    utilisateur: { régionDreal, rôle },
+    utilisateur,
     range,
     cycle,
   }) => {
-    const région = Role.convertirEnValueType(rôle).estÉgaleÀ(Role.dreal)
-      ? régionDreal ?? 'non-trouvée'
-      : undefined;
-
     const {
       items,
       range: { endPosition, startPosition },
@@ -74,7 +70,10 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
               : Where.notContains('PPE2')
             : Where.equal(appelOffre),
           motif: Where.equal(motif),
-          régionProjet: Where.equal(région),
+          ...(await getRoleBasedWhereCondition(
+            utilisateur,
+            récupérerIdentifiantsProjetParEmailPorteur,
+          )),
         },
       },
     );
