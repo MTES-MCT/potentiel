@@ -10,6 +10,29 @@ import { Recours } from '@potentiel-domain/elimine';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { Candidature } from '@potentiel-domain/candidature';
 import { download } from '@potentiel-libraries/file-storage';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
+import { CandidatureAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+import { registerDocumentProjetCommand } from '@potentiel-domain/document';
+
+Candidature.registerCandidatureQueries({
+  find: findProjection,
+  list: listProjection,
+  récupérerProjet: CandidatureAdapter.récupérerProjetAdapter,
+  récupérerProjets: CandidatureAdapter.récupérerProjetsAdapter,
+  récupérerProjetsEligiblesPreuveRecanditure:
+    CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
+});
+
+Recours.registerRecoursUseCases({
+  loadAggregate: loadAggregate,
+});
+
+registerDocumentProjetCommand({
+  archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
+  déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
+  enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
+});
 
 export const mapToReadableStream = async (buffer: Buffer): Promise<ReadableStream> => {
   return new ReadableStream({
@@ -20,30 +43,23 @@ export const mapToReadableStream = async (buffer: Buffer): Promise<ReadableStrea
   });
 };
 
-const getPièceJustificative = async (
+const getFile = async (
   fileId: string | undefined,
 ): Promise<{
   format: string;
   content: ReadableStream;
 }> => {
   if (!fileId) {
-    const content = await mapToReadableStream(await readFile(join('..', '..', 'blank.pdf')));
+    const content = await mapToReadableStream(
+      await readFile(join(__dirname, '..', '..', 'blank.pdf')),
+    );
 
     return {
       format: 'application/pdf',
       content,
     };
-  } else {
-    return await getFile(fileId);
   }
-};
 
-const getFile = async (
-  fileId: string,
-): Promise<{
-  format: string;
-  content: ReadableStream;
-}> => {
   const result = await executeSelect<{
     storedAt: string;
   }>(
@@ -61,11 +77,9 @@ const getFile = async (
     throw new Error('Format inconnu');
   }
 
-  const content = await download(storedAt.replace('S3:potentiel-production:projects/', ''));
-
   return {
     format,
-    content,
+    content: await download(storedAt.replace('S3:potentiel-production:', '')),
   };
 };
 
@@ -82,54 +96,76 @@ const getUtilisateur = async (utilisateurId: string): Promise<string> => {
 };
 
 (async () => {
-  try {
-    console.log('Start Recours migrations');
-    console.log('-----------------------------------------');
-    console.log('Retrieve Recours ModificationRequests');
+  console.log('Recours migrations');
+  console.log('Retrieve Recours ModificationRequests');
 
-    const modificationRequests = await executeSelect<{
-      appelOffreId: string;
-      periodeId: string;
-      familleId?: string;
-      numeroCRE: string;
-      status: 'acceptée' | 'envoyée' | 'rejetée' | 'annulée' | 'en instruction';
-      justification: string;
-      createdAt: string;
-      fileId?: string;
-      updatedAt: string;
-      respondedBy: string;
-      responseFileId?: string;
-    }>(`
+  const modificationRequests = await executeSelect<{
+    id: string;
+    appelOffreId: string;
+    periodeId: string;
+    familleId?: string;
+    numeroCRE: string;
+    status: 'acceptée' | 'envoyée' | 'rejetée' | 'annulée' | 'en instruction';
+    justification: string;
+    createdAt: string;
+    fileId?: string;
+    updatedAt: string;
+    respondedBy?: string;
+    responseFileId?: string;
+    nomProjet: string;
+  }>(`
       select 
+        p.id,
         p."appelOffreId", 
         p."periodeId", 
         p."familleId", 
-        p."numeroCRE", 
-        "status", 
-        "justification", 
+        p."numeroCRE",
+        p."nomProjet",
+        m."status", 
+        m."justification", 
         m."createdAt", 
         m."fileId", 
         m."updatedAt", 
-        "respondedBy", 
-        m."responseFileId"
+        m."respondedBy", 
+        m."responseFileId",
+        m."isLegacy"
       from "modificationRequests" as m
       inner join "projects" as p on p.id = m."projectId"
-      where type = 'recours';
+      where m.type = 'recours'
     `);
 
-    for (const {
-      appelOffreId,
-      periodeId,
-      familleId,
-      numeroCRE,
-      status,
-      createdAt,
-      updatedAt,
-      justification,
-      respondedBy,
-      fileId,
-      responseFileId,
-    } of modificationRequests) {
+  console.log(`${modificationRequests.length} Recours ModificationRequests`);
+  const errors: Array<{
+    identifiantProjet: string;
+    legacyId: string;
+    error: Error;
+    nomProjet: string;
+  }> = [];
+
+  for (const {
+    id,
+    appelOffreId,
+    periodeId,
+    familleId,
+    numeroCRE,
+    status,
+    createdAt,
+    updatedAt,
+    justification,
+    respondedBy,
+    fileId,
+    responseFileId,
+    nomProjet,
+  } of modificationRequests) {
+    if (
+      id === '694f1be2-0eb2-44e3-836f-681eea24b25b' ||
+      (id === 'c58214c3-8697-4a84-9e29-4e8e8eda1466' && status === 'envoyée')
+    ) {
+      console.log('-----------------------------------------');
+      console.log('Skip projets avec incohérence de données');
+      console.log(`Legacy ID          : ${id}`);
+      console.log('-----------------------------------------');
+    } else {
       const identifiantProjet = IdentifiantProjet.bind({
         appelOffre: appelOffreId,
         période: periodeId,
@@ -137,65 +173,162 @@ const getUtilisateur = async (utilisateurId: string): Promise<string> => {
         numéroCRE: numeroCRE,
       });
 
-      const projet = await mediator.send<Candidature.ConsulterProjetQuery>({
-        type: 'Candidature.Query.ConsulterProjet',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
+      try {
+        console.log('-----------------------------------------');
+        console.log(`Legacy ID          : ${id}`);
+        console.log(`Identifiant Projet : ${identifiantProjet.formatter()}`);
 
-      if (Option.isNone(projet)) {
-        console.log('Error: Unknown project');
-      } else {
+        const projet = await mediator.send<Candidature.ConsulterProjetQuery>({
+          type: 'Candidature.Query.ConsulterProjet',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
+
+        if (Option.isNone(projet)) {
+          throw new Error('Unknown project');
+        }
+
+        console.log(`Création demande recours`);
         await mediator.send<Recours.RecoursUseCase>({
           type: 'Éliminé.Recours.UseCase.DemanderRecours',
           data: {
-            dateDemandeValue: createdAt,
+            dateDemandeValue: new Date(createdAt).toISOString(),
             identifiantProjetValue: identifiantProjet.formatter(),
             identifiantUtilisateurValue: projet.candidat.contact,
-            pièceJustificativeValue: await getPièceJustificative(fileId),
+            pièceJustificativeValue: await getFile(fileId),
             raisonValue: justification,
           },
         });
 
         switch (status) {
           case 'annulée':
+            console.log(`Création annulation recours`);
             await mediator.send<Recours.RecoursUseCase>({
               type: 'Éliminé.Recours.UseCase.AnnulerRecours',
               data: {
-                dateAnnulationValue: updatedAt,
+                dateAnnulationValue: new Date(updatedAt).toISOString(),
                 identifiantProjetValue: identifiantProjet.formatter(),
                 identifiantUtilisateurValue: projet.candidat.contact,
               },
             });
             break;
           case 'acceptée':
+            console.log(`Création accord recours`);
             await mediator.send<Recours.RecoursUseCase>({
               type: 'Éliminé.Recours.UseCase.AccorderRecours',
               data: {
-                dateAccordValue: updatedAt,
+                dateAccordValue: new Date(updatedAt).toISOString(),
                 identifiantProjetValue: identifiantProjet.formatter(),
-                identifiantUtilisateurValue: await getUtilisateur(respondedBy),
-                réponseSignéeValue: await getFile(responseFileId ?? ''),
+                identifiantUtilisateurValue: respondedBy
+                  ? await getUtilisateur(respondedBy)
+                  : 'aopv.dgec@developpement-durable.gouv.fr',
+                réponseSignéeValue: await getFile(responseFileId),
               },
             });
             break;
           case 'rejetée':
+            console.log(`Création rejet recours`);
             await mediator.send<Recours.RecoursUseCase>({
               type: 'Éliminé.Recours.UseCase.RejeterRecours',
               data: {
-                dateRejetValue: updatedAt,
+                dateRejetValue: new Date(updatedAt).toISOString(),
                 identifiantProjetValue: identifiantProjet.formatter(),
-                identifiantUtilisateurValue: await getUtilisateur(respondedBy),
+                identifiantUtilisateurValue: respondedBy
+                  ? await getUtilisateur(respondedBy)
+                  : 'aopv.dgec@developpement-durable.gouv.fr',
                 réponseSignéeValue: await getFile(responseFileId ?? ''),
               },
             });
             break;
         }
+      } catch (e) {
+        console.error(e);
+        errors.push({
+          nomProjet,
+          error: e as Error,
+          legacyId: id,
+          identifiantProjet: identifiantProjet.formatter(),
+        });
+      } finally {
+        console.log('-----------------------------------------');
       }
     }
+  }
+
+  try {
+    console.log('-----------------------------------------');
+    console.log('Ajout recours avec données incohérente : ?');
+    await mediator.send<Recours.RecoursUseCase>({
+      type: 'Éliminé.Recours.UseCase.DemanderRecours',
+      data: {
+        dateDemandeValue: '?',
+        identifiantProjetValue: '?',
+        identifiantUtilisateurValue: '?',
+        pièceJustificativeValue: await getFile('b2fc66a7-50de-4d78-a67f-dc79f02873b6'),
+        raisonValue: `?`,
+      },
+    });
+    await mediator.send<Recours.RecoursUseCase>({
+      type: 'Éliminé.Recours.UseCase.AccorderRecours',
+      data: {
+        dateAccordValue: '?',
+        identifiantProjetValue: '?',
+        identifiantUtilisateurValue: '?',
+        réponseSignéeValue: await getFile('01582ed9-b06b-4821-9aaf-d9cc6282778d'),
+      },
+    });
   } catch (e) {
     console.error(e);
+    errors.push({
+      nomProjet: '?',
+      error: e as Error,
+      legacyId: '694f1be2-0eb2-44e3-836f-681eea24b25b',
+      identifiantProjet: '?',
+    });
+  } finally {
+    console.log('-----------------------------------------');
+  }
+
+  if (errors.length) {
+    const errorSet = new Set(errors.map((e) => e.error.message));
+
+    for (const message of errorSet) {
+      console.log(
+        `${errors.filter((e) => e.error.message === message && !['ea576960-a026-11ea-b05c-11293d839ea9', '829b11dd-048f-47ae-9260-a89452ff6f85', '166e22d3-c74d-49f7-af85-45e54c8f3d4a'].includes(e.legacyId)).length} erreur(s) -> ${message}`,
+      );
+    }
+
+    console.log(`Rapport d'erreur`);
+    for (const error of errors) {
+      if (
+        ![
+          'ea576960-a026-11ea-b05c-11293d839ea9',
+          '829b11dd-048f-47ae-9260-a89452ff6f85',
+          '166e22d3-c74d-49f7-af85-45e54c8f3d4a',
+        ].includes(error.legacyId)
+      ) {
+        console.log('******************************************');
+        console.log(`Nom                : ${error.nomProjet}`);
+        console.log(`Legacy ID          : ${error.legacyId}`);
+        console.log(`Identifiant Projet : ${error.identifiantProjet}`);
+        console.error(error.error);
+        console.log('******************************************');
+      }
+    }
+
+    if (
+      errors.filter(
+        (e) =>
+          ![
+            'ea576960-a026-11ea-b05c-11293d839ea9',
+            '829b11dd-048f-47ae-9260-a89452ff6f85',
+            '166e22d3-c74d-49f7-af85-45e54c8f3d4a',
+          ].includes(e.legacyId),
+      ).length
+    ) {
+      process.exit(1);
+    }
   }
 
   process.exit(0);
