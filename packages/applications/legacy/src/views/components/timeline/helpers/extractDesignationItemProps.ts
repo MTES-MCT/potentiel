@@ -26,6 +26,7 @@ export type DesignationItemProps = {
         status: 'not-applicable';
       }
     | undefined;
+  identifiantProjet: string;
 };
 
 export const extractDesignationItemProps = (
@@ -48,6 +49,7 @@ export const extractDesignationItemProps = (
       certificate: makeCertificateProps(certificateEvent, identifiantProjet),
       role: certificateEvent.variant,
       projectStatus: status,
+      identifiantProjet,
     };
   }
 
@@ -60,6 +62,7 @@ export const extractDesignationItemProps = (
         : undefined,
     role,
     projectStatus: status,
+    identifiantProjet,
   };
 };
 
