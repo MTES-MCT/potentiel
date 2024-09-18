@@ -79,7 +79,9 @@ const getFile = async (
 
   return {
     format,
-    content: await download(storedAt.replace('S3:potentiel-production:', '').replace('S3:production-potentiel:', '')),
+    content: await download(
+      storedAt.replace('S3:potentiel-production:', '').replace('S3:production-potentiel:', ''),
+    ),
   };
 };
 
