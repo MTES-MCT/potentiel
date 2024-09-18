@@ -151,7 +151,7 @@ Candidature.registerCandidatureQueries({
             },
           };
 
-          await publish(`lauréat|${identifiantÉliminé}`, event);
+          await publish(`éliminé|${identifiantÉliminé}`, event);
         }),
       );
     }
