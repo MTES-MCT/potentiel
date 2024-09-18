@@ -7,7 +7,6 @@ import { Filter } from './Filter';
 export type ListFilterItem<TSearchParamKey = string> = {
   label: string;
   searchParamKey: TSearchParamKey;
-  defaultValue?: string;
   options: Array<{
     label: string;
     value: string;
@@ -27,13 +26,12 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
 
   return (
     <div className="flex flex-col gap">
-      {filters.map(({ label, searchParamKey, options, defaultValue, dependsOn, affects }) =>
+      {filters.map(({ label, searchParamKey, options, dependsOn, affects }) =>
         dependsOn && !searchParams.get(dependsOn) ? null : (
           <Filter
             key={`filter-${searchParamKey}`}
             label={label}
             options={options}
-            defaultValue={defaultValue}
             value={searchParams.get(searchParamKey) ?? ''}
             onValueSelected={(value) => {
               const newSearchParams = new URLSearchParams(searchParams);
