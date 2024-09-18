@@ -79,7 +79,7 @@ const getFile = async (
 
   return {
     format,
-    content: await download(storedAt.replace('S3:potentiel-production:', '')),
+    content: await download(storedAt.replace('S3:potentiel-production:', '').replace('S3:production-potentiel:', '')),
   };
 };
 
@@ -237,7 +237,7 @@ const getUtilisateur = async (utilisateurId: string): Promise<string> => {
                 identifiantUtilisateurValue: respondedBy
                   ? await getUtilisateur(respondedBy)
                   : 'aopv.dgec@developpement-durable.gouv.fr',
-                réponseSignéeValue: await getFile(responseFileId ?? ''),
+                réponseSignéeValue: await getFile(responseFileId),
               },
             });
             break;

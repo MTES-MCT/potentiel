@@ -30,16 +30,16 @@ export const registerAccorderRecoursUseCase = () => {
     réponseSignéeValue: { content, format },
     identifiantProjetValue,
   }) => {
-    const réponseSignée = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentRecours.recoursAccordé.formatter(),
-      dateAccordValue,
-      format,
-    );
-
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateAccord = DateTime.convertirEnValueType(dateAccordValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
+
+    const réponseSignée = DocumentProjet.convertirEnValueType(
+      identifiantProjet.formatter(),
+      TypeDocumentRecours.recoursAccordé.formatter(),
+      dateAccord.formatter(),
+      format,
+    );
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
