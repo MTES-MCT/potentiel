@@ -41,7 +41,6 @@ export const Default: Story = {
       {
         label: `Appel d'offres`,
         searchParamKey: 'appelOffre',
-        defaultValue: undefined,
         options: [
           { label: 'Appel offre 1', value: 'appel-offre-1' },
           { label: 'Appel offre 2', value: 'appel-offre-2' },

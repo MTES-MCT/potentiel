@@ -25,7 +25,6 @@ const filters = [
   {
     label: `Appel d'offres`,
     searchParamKey: 'appelOffre',
-    defaultValue: undefined,
     options: [
       {
         label: 'Appel offre 1',
@@ -40,7 +39,6 @@ const filters = [
   {
     label: `Motif`,
     searchParamKey: 'motif',
-    defaultValue: undefined,
     options: [
       {
         label: 'Projet abandonnée',

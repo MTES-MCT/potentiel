@@ -5,7 +5,7 @@ import { FC } from 'react';
 type FilterProps = {
   label: string;
   options: Array<{ label: string; value: string }>;
-  defaultValue: string;
+  defaultValue?: string;
   value: string;
   onValueSelected?: (value: string | undefined) => void;
 };
