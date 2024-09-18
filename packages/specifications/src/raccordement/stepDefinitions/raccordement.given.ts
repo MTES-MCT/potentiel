@@ -135,18 +135,17 @@ EtantDonné(
     raisonSocialeGestionnaireRéseau: string,
     nomProjet: string,
   ) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
       raisonSocialeGestionnaireRéseau,
     );
+    await attribuerGestionnaireRéseau.call(this, nomProjet, codeEIC);
+  },
+);
 
-    await mediator.send<Raccordement.RaccordementUseCase>({
-      type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        identifiantGestionnaireRéseauValue: codeEIC,
-      },
-    });
+EtantDonné(
+  'le gestionnaire de réseau inconnu attribué au raccordement du projet lauréat {string}',
+  async function (this: PotentielWorld, nomProjet: string) {
+    await attribuerGestionnaireRéseau.call(this, nomProjet, 'inconnu');
   },
 );
 
@@ -181,3 +180,19 @@ EtantDonné(
     });
   },
 );
+
+async function attribuerGestionnaireRéseau(
+  this: PotentielWorld,
+  nomProjet: string,
+  codeEIC: string,
+) {
+  const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+  await mediator.send<Raccordement.RaccordementUseCase>({
+    type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',
+    data: {
+      identifiantProjetValue: identifiantProjet.formatter(),
+      identifiantGestionnaireRéseauValue: codeEIC,
+    },
+  });
+}
