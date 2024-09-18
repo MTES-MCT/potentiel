@@ -11,11 +11,11 @@ export type ListFilterItem<TSearchParamKey = string> = {
     label: string;
     value: string;
   }>;
-  /** 
-    * The key of another filter affected by the value of the current filter.
-    *  - the affected filter will be disabled unless current has a value
-    *  - the affected filter will be removed when current changes
-    **/
+  /**
+   * The key of another filter affected by the value of the current filter.
+   *  - the affected filter will be disabled unless current has a value
+   *  - the affected filter will be removed when current changes
+   **/
   affects?: string;
 };
 
