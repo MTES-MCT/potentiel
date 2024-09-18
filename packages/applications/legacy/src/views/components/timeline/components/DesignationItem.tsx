@@ -8,7 +8,7 @@ import { DesignationItemProps } from '../helpers';
 // en trouvant la date de génération (date de notification) ?
 
 export const DesignationItem = ({
-  // date,
+  date,
   projectStatus,
   identifiantProjet,
 }: DesignationItemProps) => {
@@ -16,7 +16,7 @@ export const DesignationItem = ({
     <>
       <PastIcon />
       <ContentArea>
-        {/* <ItemDate date={date} /> */}
+        <ItemDate date={date} />
         <ItemTitle title="Notification des résultats" />
         <Attestation projectStatus={projectStatus} identifiantProjet={identifiantProjet} />
       </ContentArea>
@@ -55,7 +55,7 @@ const Attestation = ({ projectStatus, identifiantProjet }: CertificateProps) => 
       fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
       className="m-auto"
     >
-      {urlTitle}
+      Télécharger {urlTitle}
       {/* {`Télécharger l'${urlTitle}})  le ${afficherDate(date)})`} */}
     </DownloadLink>
   );
