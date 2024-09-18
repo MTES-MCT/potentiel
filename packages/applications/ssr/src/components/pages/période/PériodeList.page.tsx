@@ -30,6 +30,6 @@ export const PériodeListPage: FC<PériodeListPageProps> = ({ filters, périodes
         ...période,
         key: `${période.appelOffre}#${période.période}`,
       }))}
-    ></ListPageTemplate>
+    />
   );
 };

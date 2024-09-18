@@ -1,10 +1,6 @@
 import { mediator } from 'mediateur';
 
-import {
-  registerEliminéQueries,
-  registerEliminéUseCases,
-  Éliminé,
-} from '@potentiel-domain/elimine';
+import { registerEliminéQueries, registerEliminéUseCases } from '@potentiel-domain/elimine';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import {
@@ -78,7 +74,7 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependenices) =
     },
   });
 
-  const unsubscribeÉliminéSaga = await subscribe<Éliminé.ÉliminéNotifié & Event>({
+  const unsubscribeÉliminéSaga = await subscribe<AttestationSaga.SubscriptionEvent & Event>({
     name: 'elimine-saga',
     streamCategory: 'éliminé',
     eventType: ['ÉliminéNotifié-V1'],

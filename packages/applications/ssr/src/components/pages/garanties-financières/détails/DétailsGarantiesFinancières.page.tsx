@@ -17,10 +17,10 @@ import {
 import { TitrePageGarantiesFinancières } from '../TitrePageGarantiesFinancières';
 
 import { InfoBoxMainlevée } from './components/InfoBoxMainlevée';
-import { InfoBoxSoumettreGarantiesFinancières } from './components/InfoBoxSoummettreGarantiesFinancières';
+import { InfoBoxSoumettreGarantiesFinancières } from './components/InfoBoxSoumettreGarantiesFinancières';
 import { GarantiesFinancièresManquantes } from './components/GarantiesFinancièresManquantes';
-import { HistoriqueMainlevéeRejetéeProps } from './components/HistoriqueMainlevéeRejetée';
-import { MainlevéeEnCoursProps } from './components/MainlevéeEnCours';
+import { HistoriqueMainlevéeRejetéeProps } from './components/Mainlevée/HistoriqueMainlevéeRejetée';
+import { MainlevéeEnCoursProps } from './components/Mainlevée/MainlevéeEnCours';
 import { Mainlevée } from './components/Mainlevée';
 import { ArchivesGarantiesFinancières } from './components/ArchivesGarantiesFinancières';
 
@@ -34,8 +34,11 @@ export type DétailsGarantiesFinancièresPageProps = {
   mainlevée?: MainlevéeEnCoursProps['mainlevéeEnCours'];
   historiqueMainlevée?: HistoriqueMainlevéeRejetéeProps['historiqueMainlevée'];
   infoBoxMainlevée: {
-    afficherConditions: boolean;
-    afficherLienTransmettreAttestationConformité: boolean;
+    afficher: boolean;
+    actions?: 'transmettre-attestation-conformité';
+  };
+  infoBoxGarantiesFinancières: {
+    afficher: boolean;
   };
   action?: 'soumettre' | 'enregistrer';
 };
@@ -48,6 +51,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   mainlevée,
   historiqueMainlevée,
   infoBoxMainlevée,
+  infoBoxGarantiesFinancières,
   contactPorteurs,
   archivesGarantiesFinancières,
 }) => (
@@ -81,18 +85,19 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
       {!dépôtEnCours && !actuelles && (
         <GarantiesFinancièresManquantes identifiantProjet={identifiantProjet} action={action} />
       )}
+
       {archivesGarantiesFinancières?.length && (
         <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
       )}
 
-      {infoBoxMainlevée.afficherConditions && (
+      {infoBoxMainlevée.afficher && (
         <InfoBoxMainlevée
+          actions={infoBoxMainlevée.actions}
           identifiantProjet={identifiantProjet}
-          afficherLien={infoBoxMainlevée.afficherLienTransmettreAttestationConformité}
         />
       )}
 
-      {action === 'soumettre' && (
+      {infoBoxGarantiesFinancières.afficher && (
         <InfoBoxSoumettreGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}
     </>

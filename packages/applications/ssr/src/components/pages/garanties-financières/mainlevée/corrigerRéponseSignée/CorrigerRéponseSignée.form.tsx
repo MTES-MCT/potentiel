@@ -48,6 +48,7 @@ export const CorrigerRéponseSignée = ({
               <UploadDocument
                 name="documentCorrige"
                 id="documentCorrige"
+                required
                 label="Nouvelle réponse signée"
               />
 

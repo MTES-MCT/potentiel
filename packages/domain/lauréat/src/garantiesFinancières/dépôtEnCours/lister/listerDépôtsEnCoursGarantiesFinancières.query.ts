@@ -2,11 +2,15 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { IdentifiantUtilisateur, Role } from '@potentiel-domain/utilisateur';
+import {
+  IdentifiantUtilisateur,
+  RécupérerIdentifiantsProjetParEmailPorteur,
+} from '@potentiel-domain/utilisateur';
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Candidature } from '@potentiel-domain/candidature';
 
 import { DépôtEnCoursGarantiesFinancièresEntity, TypeDocumentGarantiesFinancières } from '../..';
+import { getRoleBasedWhereCondition, Utilisateur } from '../../getRoleBasedWhereCondition';
 
 type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -35,10 +39,7 @@ export type ListerDépôtsEnCoursGarantiesFinancièresQuery = Message<
   {
     appelOffre?: string;
     cycle?: string;
-    utilisateur: {
-      rôle: string;
-      régionDreal?: string;
-    };
+    utilisateur: Utilisateur;
     range?: RangeOptions;
   },
   ListerDépôtsEnCoursGarantiesFinancièresReadModel
@@ -46,21 +47,19 @@ export type ListerDépôtsEnCoursGarantiesFinancièresQuery = Message<
 
 export type ListerDépôtsEnCoursGarantiesFinancièresDependencies = {
   list: List;
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
 };
 
 export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
   list,
+  récupérerIdentifiantsProjetParEmailPorteur,
 }: ListerDépôtsEnCoursGarantiesFinancièresDependencies) => {
   const handler: MessageHandler<ListerDépôtsEnCoursGarantiesFinancièresQuery> = async ({
     appelOffre,
-    utilisateur: { régionDreal, rôle },
+    utilisateur,
     range,
     cycle,
   }) => {
-    const région = Role.convertirEnValueType(rôle).estÉgaleÀ(Role.dreal)
-      ? régionDreal ?? 'non-trouvée'
-      : undefined;
-
     const {
       items,
       range: { startPosition, endPosition },
@@ -74,7 +73,10 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
             ? Where.contains('PPE2')
             : Where.notContains('PPE2')
           : Where.equal(appelOffre),
-        régionProjet: Where.equal(région),
+        ...(await getRoleBasedWhereCondition(
+          utilisateur,
+          récupérerIdentifiantsProjetParEmailPorteur,
+        )),
       },
     });
 

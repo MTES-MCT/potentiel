@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { CandidatureListPage, CandidatureListPageProps } from './CandidatureList.page';
 
@@ -25,7 +26,7 @@ type CommonItem = CandidatureListPageProps['items'][number];
 
 const commonItem: CommonItem = {
   identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
-  statut: StatutProjet.classé,
+  statut: Candidature.StatutCandidature.classé,
   nomProjet: 'Nom projet',
   nomCandidat: 'Candidat',
   emailContact: 'porteur@test.test',
@@ -39,6 +40,7 @@ const commonItem: CommonItem = {
   prixReference: 1,
   nomReprésentantLégal: 'Frodon Sacquet',
   evaluationCarboneSimplifiée: 1,
+  actions: { prévisualiser: true, télécharger: false },
 };
 
 export const Default: Story = {
@@ -58,11 +60,16 @@ export const Default: Story = {
       {
         ...commonItem,
         nomProjet:
-          'Nom de projet très très très très très très très très très très très très très très très très long',
+          'Nom de projet très très très très très très très très très très très très très très très très long (et non notifié de surcroît)',
       },
       {
         ...commonItem,
-        statut: StatutProjet.éliminé,
+        nomProjet: 'Un projet de période legacy sans modèle',
+      },
+      {
+        ...commonItem,
+        actions: { prévisualiser: false, télécharger: true },
+        statut: Candidature.StatutCandidature.éliminé,
       },
       {
         ...commonItem,

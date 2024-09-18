@@ -12,7 +12,7 @@ export type NotifierOptions = {
   };
 };
 
-export type LauréatNotifié = DomainEvent<
+export type LauréatNotifiéEvent = DomainEvent<
   'LauréatNotifié-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
@@ -29,7 +29,7 @@ export async function notifier(
   this: LauréatAggregate,
   { identifiantProjet, notifiéLe, notifiéPar, attestation: { format } }: NotifierOptions,
 ) {
-  const event: LauréatNotifié = {
+  const event: LauréatNotifiéEvent = {
     type: 'LauréatNotifié-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -44,6 +44,6 @@ export async function notifier(
   await this.publish(event);
 }
 
-export function applyLauréatNotifié(this: LauréatAggregate, _event: LauréatNotifié) {
+export function applyLauréatNotifié(this: LauréatAggregate, _event: LauréatNotifiéEvent) {
   this.estNotifié = true;
 }

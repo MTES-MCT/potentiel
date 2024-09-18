@@ -12,7 +12,7 @@ export type NotifierOptions = {
   };
 };
 
-export type ÉliminéNotifié = DomainEvent<
+export type ÉliminéNotifiéEvent = DomainEvent<
   'ÉliminéNotifié-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
@@ -28,7 +28,7 @@ export async function notifier(
   this: ÉliminéAggregate,
   { identifiantProjet, notifiéLe, notifiéPar, attestation }: NotifierOptions,
 ) {
-  const event: ÉliminéNotifié = {
+  const event: ÉliminéNotifiéEvent = {
     type: 'ÉliminéNotifié-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -43,6 +43,6 @@ export async function notifier(
   await this.publish(event);
 }
 
-export function applyÉliminéNotifié(this: ÉliminéAggregate, _event: ÉliminéNotifié) {
+export function applyÉliminéNotifié(this: ÉliminéAggregate, _event: ÉliminéNotifiéEvent) {
   this.estNotifié = true;
 }

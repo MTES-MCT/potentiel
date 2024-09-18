@@ -91,10 +91,6 @@ export const registerImporterCandidatureUseCase = () => {
 };
 
 export const mapPayloadForCommand = (payload: ImporterCandidatureUseCaseCommonPayload) => ({
-  appelOffre: payload.appelOffreValue,
-  période: payload.périodeValue,
-  famille: payload.familleValue,
-  numéroCRE: payload.numéroCREValue,
   statut: StatutCandidature.convertirEnValueType(payload.statutValue),
   dateÉchéanceGf: payload.dateÉchéanceGfValue
     ? DateTime.convertirEnValueType(payload.dateÉchéanceGfValue)

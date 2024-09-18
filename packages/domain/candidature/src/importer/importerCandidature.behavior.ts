@@ -22,10 +22,6 @@ export type CandidatureImportéeEventCommonPayload = {
   statut: StatutCandidature.RawType;
   typeGarantiesFinancières?: TypeGarantiesFinancières.RawType;
   historiqueAbandon: HistoriqueAbandon.RawType;
-  appelOffre: string;
-  période: string;
-  famille: string;
-  numéroCRE: string;
   nomProjet: string;
   sociétéMère: string;
   nomCandidat: string;
@@ -66,10 +62,6 @@ export type ImporterCandidatureBehaviorCommonOptions = {
   statut: StatutCandidature.ValueType;
   typeGarantiesFinancières?: TypeGarantiesFinancières.ValueType;
   historiqueAbandon: HistoriqueAbandon.ValueType;
-  appelOffre: string;
-  période: string;
-  famille: string;
-  numéroCRE: string;
   nomProjet: string;
   sociétéMère: string;
   nomCandidat: string;
@@ -110,13 +102,20 @@ export async function importer(
   }
 
   if (Option.isNone(appelOffre)) {
-    throw new AppelOffreInexistantError(candidature.appelOffre);
+    throw new AppelOffreInexistantError(candidature.identifiantProjet.appelOffre);
   }
-  const période = this.récupererPériodeAO(appelOffre, candidature.période);
-  const famille = this.récupererFamilleAO(appelOffre, candidature.période, candidature.famille);
+  const période = this.récupererPériodeAO(appelOffre, candidature.identifiantProjet.période);
+  const famille = this.récupererFamilleAO(
+    appelOffre,
+    candidature.identifiantProjet.période,
+    candidature.identifiantProjet.famille,
+  );
 
   if (période.type === 'legacy') {
-    throw new PériodeAppelOffreLegacyError(candidature.appelOffre, candidature.période);
+    throw new PériodeAppelOffreLegacyError(
+      candidature.identifiantProjet.appelOffre,
+      candidature.identifiantProjet.période,
+    );
   }
 
   const soumisAuxGF =
@@ -164,10 +163,6 @@ export const mapToEventPayload = (candidature: ImporterCandidatureBehaviorCommon
   dateÉchéanceGf: candidature.dateÉchéanceGf?.formatter(),
   historiqueAbandon: candidature.historiqueAbandon.formatter(),
   typeGarantiesFinancières: candidature.typeGarantiesFinancières?.type,
-  appelOffre: candidature.appelOffre,
-  période: candidature.période,
-  famille: candidature.famille,
-  numéroCRE: candidature.numéroCRE,
   nomProjet: candidature.nomProjet,
   sociétéMère: candidature.sociétéMère,
   nomCandidat: candidature.nomCandidat,

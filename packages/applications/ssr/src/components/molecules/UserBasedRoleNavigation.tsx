@@ -88,13 +88,9 @@ const getNavigationItemsBasedOnRole = (
             {
               text: 'Notifier des candidats',
               linkProps: {
-                href: Routes.Période.lister,
-              },
-            },
-            {
-              text: 'Régénérer des attestations',
-              linkProps: {
-                href: '/admin/regenerer-attestations.html',
+                href: Routes.Période.lister({
+                  statut: Routes.Période.defaultStatutValueForPériodeList,
+                }),
               },
             },
             {
@@ -241,6 +237,10 @@ const getNavigationItemsBasedOnRole = (
               },
             },
           ],
+        },
+        {
+          text: 'Garanties Financières',
+          menuLinks: menuLinks.listerGarantiesFinancières,
         },
         {
           text: 'Projets à réclamer',

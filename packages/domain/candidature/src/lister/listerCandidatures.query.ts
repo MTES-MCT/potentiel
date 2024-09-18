@@ -1,15 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
+import * as StatutCandidature from '../statutCandidature.valueType';
 import { CandidatureEntity } from '../candidature.entity';
 import { ConsulterCandidatureReadModel } from '../candidature';
 
 export type CandidaturesListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  statut: StatutProjet.ValueType;
+  statut: StatutCandidature.ValueType;
   nomProjet: ConsulterCandidatureReadModel['nomProjet'];
   nomCandidat: ConsulterCandidatureReadModel['nomCandidat'];
   nomReprésentantLégal: ConsulterCandidatureReadModel['nomReprésentantLégal'];
@@ -38,7 +39,7 @@ export type ListerCandidaturesQuery = Message<
     appelOffre?: string;
     période?: string;
     nomProjet?: string;
-    statut?: StatutProjet.RawType;
+    statut?: StatutCandidature.RawType;
     excludedIdentifiantProjets?: Array<IdentifiantProjet.RawType>;
   },
   ListerCandidaturesReadModel
@@ -98,7 +99,7 @@ export const mapToReadModel = ({
   misÀJourLe,
 }: CandidatureEntity): CandidaturesListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  statut: StatutProjet.convertirEnValueType(statut),
+  statut: StatutCandidature.convertirEnValueType(statut),
   nomProjet,
   nomCandidat,
   nomReprésentantLégal,

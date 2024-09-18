@@ -25,8 +25,11 @@ export const GarantiesFinancieresActuellesComplètes: Story = {
   args: {
     identifiantProjet: 'identifiantProjet#1',
     infoBoxMainlevée: {
-      afficherConditions: true,
-      afficherLienTransmettreAttestationConformité: true,
+      afficher: true,
+      actions: 'transmettre-attestation-conformité',
+    },
+    infoBoxGarantiesFinancières: {
+      afficher: false,
     },
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
@@ -50,8 +53,11 @@ export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = 
   args: {
     identifiantProjet: 'identifiantProjet#1',
     infoBoxMainlevée: {
-      afficherConditions: true,
-      afficherLienTransmettreAttestationConformité: true,
+      afficher: true,
+      actions: 'transmettre-attestation-conformité',
+    },
+    infoBoxGarantiesFinancières: {
+      afficher: false,
     },
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
@@ -86,8 +92,11 @@ export const GarantiesFinancieresActuellesComplètesAvecArchives: Story = {
   args: {
     identifiantProjet: 'identifiantProjet#1',
     infoBoxMainlevée: {
-      afficherConditions: true,
-      afficherLienTransmettreAttestationConformité: true,
+      afficher: true,
+      actions: 'transmettre-attestation-conformité',
+    },
+    infoBoxGarantiesFinancières: {
+      afficher: false,
     },
     actuelles: {
       type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
@@ -140,8 +149,11 @@ export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
   args: {
     identifiantProjet: 'identifiantProjet#1',
     infoBoxMainlevée: {
-      afficherConditions: true,
-      afficherLienTransmettreAttestationConformité: true,
+      afficher: true,
+      actions: 'transmettre-attestation-conformité',
+    },
+    infoBoxGarantiesFinancières: {
+      afficher: true,
     },
     action: 'soumettre',
     actuelles: {
@@ -164,8 +176,11 @@ export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
   args: {
     identifiantProjet: 'identifiantProjet#1',
     infoBoxMainlevée: {
-      afficherConditions: true,
-      afficherLienTransmettreAttestationConformité: true,
+      afficher: true,
+      actions: 'transmettre-attestation-conformité',
+    },
+    infoBoxGarantiesFinancières: {
+      afficher: false,
     },
     dépôtEnCours: {
       type: getGarantiesFinancièresTypeLabel('consignation'),
@@ -185,8 +200,11 @@ export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
   args: {
     identifiantProjet: 'identifiantProjet#1',
     infoBoxMainlevée: {
-      afficherConditions: true,
-      afficherLienTransmettreAttestationConformité: true,
+      afficher: true,
+      actions: 'transmettre-attestation-conformité',
+    },
+    infoBoxGarantiesFinancières: {
+      afficher: true,
     },
     action: 'soumettre',
   },
@@ -196,8 +214,11 @@ export const GarantiesFinancieresVideAvecActionEnregistrer: Story = {
   args: {
     identifiantProjet: 'identifiantProjet#1',
     infoBoxMainlevée: {
-      afficherConditions: true,
-      afficherLienTransmettreAttestationConformité: true,
+      afficher: true,
+      actions: 'transmettre-attestation-conformité',
+    },
+    infoBoxGarantiesFinancières: {
+      afficher: false,
     },
     action: 'enregistrer',
   },

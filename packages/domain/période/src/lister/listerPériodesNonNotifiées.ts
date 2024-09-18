@@ -10,7 +10,6 @@ export const listerPériodesNonNotifiées = async (
   appelOffre: string | undefined,
 ) => {
   const notifiées = await list<PériodeEntity>(`période`, {
-    range,
     where: {
       appelOffre: Where.equal(appelOffre),
     },
@@ -36,13 +35,11 @@ export const listerPériodesNonNotifiées = async (
       ) === undefined,
   );
 
-  const itemsRanged = range
-    ? allWithoutNotifiées.slice(range.startPosition, range.endPosition)
-    : allWithoutNotifiées;
-
   return {
-    items: itemsRanged,
-    range: range ?? { startPosition: 0, endPosition: itemsRanged.length - 1 },
-    total: itemsRanged.length,
+    items: range
+      ? allWithoutNotifiées.slice(range.startPosition, range.endPosition)
+      : allWithoutNotifiées,
+    range: range ?? { startPosition: 0, endPosition: allWithoutNotifiées.length },
+    total: allWithoutNotifiées.length,
   };
 };

@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/candidature';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { DateTime, StatutProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
@@ -21,10 +21,14 @@ export const register = () => {
       switch (type) {
         case 'CandidatureImportée-V1':
         case 'CandidatureCorrigée-V1':
+          const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+            payload.identifiantProjet,
+          );
+
           const candidature: Omit<Candidature.CandidatureEntity, 'type'> = {
             identifiantProjet: payload.identifiantProjet,
-            appelOffre: payload.appelOffre,
-            période: payload.période,
+            appelOffre: identifiantProjet.appelOffre,
+            période: identifiantProjet.période,
             nomProjet: payload.nomProjet,
             sociétéMère: payload.sociétéMère,
             nomCandidat: payload.nomCandidat,
@@ -39,7 +43,7 @@ export const register = () => {
             evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiée,
             actionnariat: payload.actionnariat,
             territoireProjet: payload.territoireProjet,
-            statut: StatutProjet.convertirEnValueType(payload.statut).statut,
+            statut: Candidature.StatutCandidature.convertirEnValueType(payload.statut).statut,
             typeGarantiesFinancières: payload.typeGarantiesFinancières
               ? Candidature.TypeGarantiesFinancières.convertirEnValueType(
                   payload.typeGarantiesFinancières,

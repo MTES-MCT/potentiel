@@ -6,9 +6,13 @@ import {
   LoadAggregate,
 } from '@potentiel-domain/core';
 
-import { LauréatNotifié, applyLauréatNotifié, notifier } from './notifier/notifierLauréat.behavior';
+import {
+  LauréatNotifiéEvent,
+  applyLauréatNotifié,
+  notifier,
+} from './notifier/notifierLauréat.behavior';
 
-export type LauréatEvent = LauréatNotifié;
+export type LauréatEvent = LauréatNotifiéEvent;
 
 export type LauréatAggregate = Aggregate<LauréatEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;

@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Where, List, RangeOptions } from '@potentiel-domain/entity';
-import { Role } from '@potentiel-domain/utilisateur';
+import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
 import {
   MotifDemandeMainlevéeGarantiesFinancières,
@@ -12,6 +12,7 @@ import {
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
   consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel,
 } from '../consulter/consulterDemandeMainlevéeGarantiesFinancières.query';
+import { getRoleBasedWhereCondition, Utilisateur } from '../../getRoleBasedWhereCondition';
 
 export type ListerDemandeMainlevéeItemReadModel =
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel;
@@ -29,32 +30,27 @@ export type ListerDemandeMainlevéeQuery = Message<
     appelOffre?: string;
     motif?: MotifDemandeMainlevéeGarantiesFinancières.RawType;
     statut?: StatutMainlevéeGarantiesFinancières.RawType;
-    utilisateur: {
-      rôle: string;
-      régionDreal?: string;
-    };
+    utilisateur: Utilisateur;
   },
   ListerDemandeMainlevéeReadModel
 >;
 
 type ListerDemandeMainlevéeQueryDependencies = {
   list: List;
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
 };
 
 export const registerListerDemandeMainlevéeQuery = ({
   list,
+  récupérerIdentifiantsProjetParEmailPorteur,
 }: ListerDemandeMainlevéeQueryDependencies) => {
   const handler: MessageHandler<ListerDemandeMainlevéeQuery> = async ({
     range,
     appelOffre,
     motif,
     statut,
-    utilisateur: { régionDreal, rôle },
+    utilisateur,
   }) => {
-    const région = Role.convertirEnValueType(rôle).estÉgaleÀ(Role.dreal)
-      ? régionDreal ?? 'non-trouvée'
-      : undefined;
-
     const {
       items,
       range: { endPosition, startPosition },
@@ -72,7 +68,10 @@ export const registerListerDemandeMainlevéeQuery = ({
         statut: statut
           ? Where.equal(statut)
           : Where.include(['en-instruction', 'demandé', 'accepté']),
-        régionProjet: Where.equal(région),
+        ...(await getRoleBasedWhereCondition(
+          utilisateur,
+          récupérerIdentifiantsProjetParEmailPorteur,
+        )),
       },
     });
 

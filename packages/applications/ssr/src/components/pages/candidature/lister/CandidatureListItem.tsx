@@ -1,9 +1,7 @@
 import { FC } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { PlainType } from '@potentiel-domain/core';
-import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -11,10 +9,14 @@ import { Icon } from '@/components/atoms/Icon';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 
 import * as symbols from './candidatureListLegendSymbols';
+import {
+  CandidatureListItemActions,
+  CandidatureListItemActionsProps,
+} from './CandidatureListItemActions';
 
 export type CandidatureListItemProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-  statut: PlainType<StatutProjet.ValueType>;
+  statut: PlainType<Candidature.StatutCandidature.ValueType>;
   nomProjet: Candidature.ConsulterCandidatureReadModel['nomProjet'];
   nomCandidat: Candidature.ConsulterCandidatureReadModel['nomCandidat'];
   nomReprésentantLégal: Candidature.ConsulterCandidatureReadModel['nomReprésentantLégal'];
@@ -28,6 +30,7 @@ export type CandidatureListItemProps = {
     région: Candidature.ConsulterCandidatureReadModel['localité']['région'];
   };
   unitePuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
+  actions: CandidatureListItemActionsProps['actions'];
 };
 
 export const CandidatureListItem: FC<CandidatureListItemProps> = ({
@@ -42,24 +45,23 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
   prixReference,
   unitePuissance,
   evaluationCarboneSimplifiée,
+  actions,
 }) => (
   <div className="flex flex-1 flex-col gap-6">
-    <div className="flex items-center">
+    <div className="flex gap-4 items-center justify-between">
       <ProjectListItemHeading
         identifiantProjet={identifiantProjet}
         nomProjet={nomProjet}
         prefix="Candidature du projet"
         statut={statut.statut}
       />
-      <Button
-        className="hidden md:flex ml-auto"
-        linkProps={{
-          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
-        }}
-        aria-label={`Lien vers la page de la candidature ${nomProjet}`}
-      >
-        Consulter
-      </Button>
+      <div className="max-md:hidden">
+        <CandidatureListItemActions
+          identifiantProjet={identifiantProjet}
+          nomProjet={nomProjet}
+          actions={actions}
+        />
+      </div>
     </div>
 
     <div className="flex flex-col gap-4 md:flex-row md:items-center">
@@ -134,15 +136,12 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
       </div>
     </div>
 
-    <div className="flex md:hidden">
-      <Button
-        linkProps={{
-          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
-        }}
-        aria-label={`Lien vers la page de la candidature ${nomProjet}`}
-      >
-        Consulter
-      </Button>
+    <div className="md:hidden">
+      <CandidatureListItemActions
+        identifiantProjet={identifiantProjet}
+        nomProjet={nomProjet}
+        actions={actions}
+      />
     </div>
   </div>
 );

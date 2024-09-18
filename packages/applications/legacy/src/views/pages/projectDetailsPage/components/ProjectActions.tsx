@@ -159,24 +159,24 @@ const AdminActions = ({
         {...{ project, signalementAbandonAutorisé, signalementRecoursAutorisé }}
       />
       {project.notifiedOn ? (
-        <>
-          <DownloadLinkButton
-            fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
-            className="m-auto"
-          >
-            Voir attestation
-          </DownloadLinkButton>
-        </>
-      ) : (
-        !project.isLegacy && (
-          <PreviewLinkButton
-            fileUrl={Routes.Candidature.prévisualiserAttestation(identifiantProjet)}
-            className="m-auto"
-          >
-            Aperçu attestation
-          </PreviewLinkButton>
-        )
-      )}
+        <DownloadLinkButton
+          fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
+          className="m-auto"
+        >
+          Voir attestation
+        </DownloadLinkButton>
+      ) : !project.isLegacy ? (
+        <PreviewLinkButton
+          fileUrl={Routes.Candidature.prévisualiserAttestation(identifiantProjet)}
+          className="m-auto"
+        >
+          Aperçu attestation
+        </PreviewLinkButton>
+      ) : null}
+      <PrimaryButton onClick={() => window.print()}>
+        <PrintIcon className="text-white mr-2" aria-hidden />
+        Imprimer la page
+      </PrimaryButton>
     </div>
   );
 };

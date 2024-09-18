@@ -2,20 +2,25 @@ import { FC } from 'react';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { Routes } from '@potentiel-applications/routes';
+import { Email } from '@potentiel-domain/common';
 
 import { Heading3 } from '@/components/atoms/headings';
 import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
 
-import { CorrigerRéponseSignée } from '../../mainlevée/corrigerRéponseSignée/CorrigerRéponseSignée.form';
+import { CorrigerRéponseSignée } from '../../../mainlevée/corrigerRéponseSignée/CorrigerRéponseSignée.form';
+import { FormattedDate } from '../../../../../atoms/FormattedDate';
 
 export type HistoriqueMainlevéeRejetéeProps = {
   identifiantProjet: string;
   historiqueMainlevée: {
     historique: Array<{
       motif: string;
-      demandéeLe: Iso8601DateTime;
-      rejet: { rejetéLe: Iso8601DateTime; rejetéPar: string; courrierRejet: string };
+      demande: {
+        date: Iso8601DateTime;
+        par: Email.RawType;
+      };
+      rejet: { date: Iso8601DateTime; par: Email.RawType; courrierRejet: string };
     }>;
     actions: Array<'modifier-courrier-réponse-mainlevée-gf'>;
   };
@@ -29,15 +34,19 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
 
   const items: TimelineProps['items'] = historiqueMainlevée.historique.map((mainlevéeRejetée) => ({
     status: 'warning',
-    date: mainlevéeRejetée.rejet.rejetéLe,
+    date: mainlevéeRejetée.rejet.date,
     title: (
       <div>
-        Mainlevée rejetée par{' '}
-        {<span className="font-semibold">{mainlevéeRejetée.rejet.rejetéPar}</span>}
+        Mainlevée rejetée par <span className="font-semibold">{mainlevéeRejetée.rejet.par}</span>
       </div>
     ),
     content: (
       <div className="flex flex-col gap-1 justify-center">
+        <div>
+          Mainlevée demandée le :{' '}
+          <FormattedDate className="font-semibold" date={mainlevéeRejetée.demande.date} /> par{' '}
+          <span className="font-semibold">{mainlevéeRejetée.demande.par}</span>
+        </div>
         <DownloadDocument
           format="pdf"
           label="Télécharger la réponse signée"
@@ -48,7 +57,7 @@ export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps>
           <CorrigerRéponseSignée
             identifiantProjet={identifiantProjet}
             courrierRéponseÀCorriger={mainlevéeRejetée.rejet.courrierRejet}
-            key={mainlevéeRejetée.rejet.rejetéLe}
+            key={mainlevéeRejetée.rejet.date}
           />
         ) : null}
       </div>

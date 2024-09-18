@@ -59,14 +59,16 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
       return Math.abs(écart); // Peu importe si la date est avant ou aprés, on veut l'écart positif.
     },
     ajouterNombreDeJours(nombreDeJours) {
-      const nouvelleDate = new Date(this.date.setDate(this.date.getDate() + nombreDeJours));
+      const nouvelleDate = new Date(this.date);
+      nouvelleDate.setDate(nouvelleDate.getDate() + nombreDeJours);
       return convertirEnValueType(nouvelleDate);
     },
     retirerNombreDeJours(nombreDeJours) {
       return this.ajouterNombreDeJours(-nombreDeJours);
     },
     ajouterNombreDeMois(nombreDeMois) {
-      const nouvelleDate = new Date(this.date.setMonth(this.date.getMonth() + nombreDeMois));
+      const nouvelleDate = new Date(this.date);
+      nouvelleDate.setMonth(nouvelleDate.getMonth() + nombreDeMois);
       return convertirEnValueType(nouvelleDate);
     },
     retirerNombreDeMois(nombreDeMois) {

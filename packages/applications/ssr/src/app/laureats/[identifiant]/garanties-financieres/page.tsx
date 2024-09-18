@@ -200,8 +200,10 @@ const mapToProps: MapToProps = ({
           ? 'enregistrer'
           : undefined,
       infoBoxMainlevée: {
-        afficherConditions: utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainlevée),
-        afficherLienTransmettreAttestationConformité: false,
+        afficher: utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainlevée),
+      },
+      infoBoxGarantiesFinancières: {
+        afficher: false,
       },
       archivesGarantiesFinancières: archives,
     };
@@ -259,16 +261,32 @@ const mapToProps: MapToProps = ({
       !dépôtExistant && !mainlevéeExistante && utilisateur.role.estÉgaleÀ(Role.porteur)
         ? 'soumettre'
         : undefined,
+    infoBoxGarantiesFinancières: {
+      afficher: Boolean(
+        !mainlevéeExistante && utilisateur.role.estÉgaleÀ(Role.porteur) && gfActuellesExistante,
+      ),
+    },
     mainlevée: mainlevéeExistante
       ? {
           motif: mainlevéeExistante.motif.motif,
           statut: mainlevéeExistante.statut.statut,
-          demandéLe: mainlevéeExistante.demande.demandéeLe.formatter(),
-          instructionDémarréeLe: mainlevéeExistante.instruction?.démarréeLe.formatter(),
-          accord: {
-            accordéeLe: mainlevéeExistante.accord?.accordéeLe.formatter(),
-            courrierAccord: mainlevéeExistante.accord?.courrierAccord.formatter(),
+          demande: {
+            date: mainlevéeExistante.demande.demandéeLe.formatter(),
+            par: mainlevéeExistante.demande.demandéePar.formatter(),
           },
+          ...(mainlevéeExistante.instruction && {
+            instruction: {
+              date: mainlevéeExistante.instruction?.démarréeLe.formatter(),
+              par: mainlevéeExistante.instruction?.démarréePar.formatter(),
+            },
+          }),
+          ...(mainlevéeExistante.accord && {
+            accord: {
+              date: mainlevéeExistante.accord?.accordéeLe.formatter(),
+              par: mainlevéeExistante.accord?.accordéePar.formatter(),
+              courrierAccord: mainlevéeExistante.accord?.courrierAccord.formatter(),
+            },
+          }),
           dernièreMiseÀJour: {
             date: mainlevéeExistante.dernièreMiseÀJour.date.formatter(),
             par: mainlevéeExistante.dernièreMiseÀJour.par.formatter(),
@@ -281,10 +299,13 @@ const mapToProps: MapToProps = ({
       ? {
           historique: historiqueMainlevéeExistant.historique.map((mainlevée) => ({
             motif: mainlevée.motif.motif,
-            demandéeLe: mainlevée.demande.demandéeLe.formatter(),
+            demande: {
+              date: mainlevée.demande.demandéeLe.formatter(),
+              par: mainlevée.demande.demandéePar.formatter(),
+            },
             rejet: {
-              rejetéLe: mainlevée.rejet.rejetéLe.formatter(),
-              rejetéPar: mainlevée.rejet.rejetéPar.email,
+              date: mainlevée.rejet.rejetéLe.formatter(),
+              par: mainlevée.rejet.rejetéPar.formatter(),
               courrierRejet: mainlevée.rejet.courrierRejet.formatter(),
             },
           })),
@@ -292,12 +313,15 @@ const mapToProps: MapToProps = ({
         }
       : undefined,
     infoBoxMainlevée: {
-      afficherConditions:
+      afficher: Boolean(
         utilisateur.role.estÉgaleÀ(Role.porteur) &&
-        !mainlevéeExistante &&
-        !gfActuellesExistante?.garantiesFinancières.statut.estÉchu(),
-      afficherLienTransmettreAttestationConformité:
-        statut !== 'abandonné' && !achèvementExistant?.attestation,
+          !mainlevéeExistante &&
+          !gfActuellesExistante?.garantiesFinancières.statut.estÉchu(),
+      ),
+      actions:
+        statut !== 'abandonné' && !achèvementExistant?.attestation
+          ? 'transmettre-attestation-conformité'
+          : undefined,
     },
   };
 };
