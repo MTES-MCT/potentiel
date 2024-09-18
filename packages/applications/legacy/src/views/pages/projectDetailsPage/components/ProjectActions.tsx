@@ -181,6 +181,21 @@ const AdminActions = ({
   );
 };
 
+type DrealActionsProps = {
+  project: ProjectDataForProjectPage;
+};
+const DrealActions = ({ project }: DrealActionsProps) => {
+  return (
+    <div className="flex flex-col md:flex-row gap-2">
+      <EnregistrerUneModification project={project} />
+      <PrimaryButton onClick={() => window.print()}>
+        <PrintIcon className="text-white mr-2" aria-hidden />
+        Imprimer la page
+      </PrimaryButton>
+    </div>
+  );
+};
+
 type ProjectActionsProps = {
   project: ProjectDataForProjectPage;
   user: User;
@@ -209,7 +224,7 @@ export const ProjectActions = ({
         hasAttestationConformité={hasAttestationConformité}
       />
     )}
-    {userIs(['dreal'])(user) && <EnregistrerUneModification project={project} />}
+    {userIs(['dreal'])(user) && <DrealActions project={project} />}
   </div>
 );
 
