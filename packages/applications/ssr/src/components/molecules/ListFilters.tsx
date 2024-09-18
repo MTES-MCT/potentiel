@@ -11,7 +11,6 @@ export type ListFilterItem<TSearchParamKey = string> = {
     label: string;
     value: string;
   }>;
-  dependsOn?: string;
   affects?: string;
 };
 
@@ -24,10 +23,27 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  const dependencyFiltersMap = filters
+    .filter((f) => f.affects)
+    .reduce(
+      (acc, f) => {
+        if (!acc[f.affects!]) {
+          acc[f.affects!] = [];
+        }
+        acc[f.affects!].push(f.searchParamKey);
+        return acc;
+      },
+      {} as Record<string, string[]>,
+    );
+
   return (
     <div className="flex flex-col gap">
-      {filters.map(({ label, searchParamKey, options, dependsOn, affects }) =>
-        dependsOn && !searchParams.get(dependsOn) ? null : (
+      {filters.map(({ label, searchParamKey, options, affects }) => {
+        const shouldNotAppear = dependencyFiltersMap[searchParamKey]?.some(
+          (dependentKey) => !searchParams.get(dependentKey),
+        );
+
+        return shouldNotAppear ? null : (
           <Filter
             key={`filter-${searchParamKey}`}
             label={label}
@@ -49,8 +65,8 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
               router.push(buildUrl(pathname, newSearchParams));
             }}
           />
-        ),
-      )}
+        );
+      })}
     </div>
   );
 };

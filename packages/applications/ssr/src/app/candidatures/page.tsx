@@ -78,7 +78,6 @@ export default async function Page({ searchParams }: PageProps) {
         label: `Période`,
         searchParamKey: 'periode',
         options: périodesOption,
-        dependsOn: 'appelOffre',
       },
       {
         label: 'Statut',
