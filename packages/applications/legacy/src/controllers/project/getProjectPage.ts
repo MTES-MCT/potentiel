@@ -270,7 +270,7 @@ const getAlertesRaccordement = async ({
     data: { identifiantProjetValue: identifiantProjet.formatter() },
   });
 
-  if (Option.isSome(dossiersRaccordement)) {
+  if (Option.isSome(dossiersRaccordement) && !!dossiersRaccordement.dossiers[0]) {
     if (
       CDC2022Choisi &&
       dossiersRaccordement.dossiers[0].référence.estÉgaleÀ(
