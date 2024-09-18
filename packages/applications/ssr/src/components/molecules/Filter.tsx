@@ -7,8 +7,9 @@ type FilterProps = {
   options: Array<{ label: string; value: string }>;
   value: string;
   onValueSelected?: (value: string | undefined) => void;
+  disabled?: boolean;
 };
-export const Filter: FC<FilterProps> = ({ label, options, value, onValueSelected }) => (
+export const Filter: FC<FilterProps> = ({ label, options, value, disabled, onValueSelected }) => (
   <SelectNext
     label={label}
     placeholder={`Filtrer par ${label.toLocaleLowerCase()}`}
@@ -22,5 +23,6 @@ export const Filter: FC<FilterProps> = ({ label, options, value, onValueSelected
       },
     }}
     options={options}
+    disabled={disabled}
   />
 );

@@ -23,28 +23,16 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const dependencyFiltersMap = filters
-    .filter((f) => f.affects)
-    .reduce(
-      (acc, f) => {
-        if (!acc[f.affects!]) {
-          acc[f.affects!] = [];
-        }
-        acc[f.affects!].push(f.searchParamKey);
-        return acc;
-      },
-      {} as Record<string, string[]>,
-    );
-
   return (
     <div className="flex flex-col gap">
       {filters.map(({ label, searchParamKey, options, affects }) => {
-        const shouldNotAppear = dependencyFiltersMap[searchParamKey]?.some(
-          (dependentKey) => !searchParams.get(dependentKey),
+        const disabled = filters.some(
+          (f) => f.affects === searchParamKey && !searchParams.get(f.searchParamKey),
         );
 
-        return shouldNotAppear ? null : (
+        return (
           <Filter
+            disabled={disabled}
             key={`filter-${searchParamKey}`}
             label={label}
             options={options}
