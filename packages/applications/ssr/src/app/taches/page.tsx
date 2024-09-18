@@ -68,7 +68,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
         {
           label: "Cycle d'appels d'offres",
           searchParamKey: 'cycle',
-          defaultValue: undefined,
+          defaultValue: cycle,
           options: [
             { label: 'PPE2', value: 'PPE2' },
             { label: 'CRE4', value: 'CRE4' },
@@ -77,7 +77,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
         {
           label: `Appel d'offres`,
           searchParamKey: 'appelOffre',
-          defaultValue: undefined,
+          defaultValue: appelOffre,
           options: appelOffresPourCycle.map((appelOffre) => ({
             label: appelOffre.id,
             value: appelOffre.id,
@@ -86,7 +86,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
         {
           label: `Catégorie`,
           searchParamKey: 'catégorieTâche',
-          defaultValue: undefined,
+          defaultValue: catégorieTâche,
           options: Object.entries(catégoriesTâchesFilters).map(([value, label]) => ({
             value,
             label,

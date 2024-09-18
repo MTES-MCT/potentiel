@@ -20,7 +20,7 @@ export const Default: Story = {
       {
         label: `Appel d'offres`,
         searchParamKey: 'appelOffre',
-        defaultValue: undefined,
+        defaultValue: '',
         options: [
           { label: 'PPE2 - Fusion', value: 'PPE2 - Fusion' },
           { label: 'PPE2 - Vapeur', value: 'PPE2 - Vapeur' },
@@ -30,7 +30,7 @@ export const Default: Story = {
       {
         label: `Statut`,
         searchParamKey: 'statut',
-        defaultValue: undefined,
+        defaultValue: '',
         options: [
           { label: 'Notifiée', value: 'notifiée' },
           { label: 'Non notifiée', value: 'non-notifiée' },

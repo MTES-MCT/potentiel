@@ -19,8 +19,8 @@ export const Default: Story = {
   args: {
     filters: [
       {
-        defaultValue: undefined,
-        label: 'label',
+        defaultValue: 'option value 1',
+        label: 'filter label 1',
         options: [
           {
             label: 'option label 1',
@@ -38,8 +38,8 @@ export const Default: Story = {
         searchParamKey: 'searchParamKey',
       },
       {
-        defaultValue: 'option value 1',
-        label: 'label',
+        defaultValue: 'option value 2',
+        label: 'filter label 2',
         options: [
           {
             label: 'option label 1',

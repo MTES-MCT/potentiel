@@ -72,7 +72,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: `Appel d'offres`,
           searchParamKey: 'appelOffre',
-          defaultValue: undefined,
+          defaultValue: appelOffre,
           options: appelOffres.items.map((appelOffre) => ({
             label: appelOffre.id,
             value: appelOffre.id,
@@ -81,7 +81,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Recandidature',
           searchParamKey: 'recandidature',
-          defaultValue: undefined,
+          defaultValue: searchParams?.recandidature,
           options: [
             {
               label: 'Avec recandidature',
@@ -96,7 +96,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Preuve de recandidature',
           searchParamKey: 'preuveRecandidatureStatut',
-          defaultValue: undefined,
+          defaultValue: searchParams?.preuveRecandidatureStatut,
           options: Abandon.StatutPreuveRecandidature.statuts
             .filter((s) => s !== 'non-applicable')
             .map((statut) => ({
@@ -107,7 +107,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Statut',
           searchParamKey: 'statut',
-          defaultValue: undefined,
+          defaultValue: statut,
           options: Abandon.StatutAbandon.statuts
             .filter((s) => s !== 'inconnu' && s !== 'annulé')
             .map((statut) => ({

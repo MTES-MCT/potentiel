@@ -53,7 +53,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: `Appel d'offres`,
           searchParamKey: 'appelOffre',
-          defaultValue: undefined,
+          defaultValue: '',
           options: appelOffres.items.map((item) => ({
             label: item.id,
             value: item.id,
@@ -62,7 +62,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: `Statut`,
           searchParamKey: 'statut',
-          defaultValue: 'a-notifier',
+          defaultValue: '',
           options: [
             {
               label: 'Notifiée',
