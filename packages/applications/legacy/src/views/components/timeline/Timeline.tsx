@@ -44,7 +44,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO;
-  identifiantProjet: IdentifiantProjet.RawType
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 type ItemProps =
@@ -67,7 +67,7 @@ export const Timeline = ({
     events,
     project: { status },
   },
-  identifiantProjet
+  identifiantProjet,
 }: TimelineProps) => {
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, status, identifiantProjet),
