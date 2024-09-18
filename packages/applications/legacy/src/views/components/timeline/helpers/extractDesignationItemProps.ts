@@ -9,6 +9,8 @@ import { or } from '../../../../core/utils';
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
+// TODO: reprendre cette partie
+
 export type DesignationItemProps = {
   type: 'designation';
   date: number;
