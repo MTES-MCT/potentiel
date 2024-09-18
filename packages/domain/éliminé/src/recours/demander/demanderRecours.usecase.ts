@@ -34,9 +34,9 @@ export const registerDemanderRecoursUseCase = () => {
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
     const pièceJustificative = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
+      identifiantProjet.formatter(),
       TypeDocumentRecours.pièceJustificative.formatter(),
-      dateDemandeValue,
+      dateDemande.formatter(),
       pièceJustificativeValue.format,
     );
 

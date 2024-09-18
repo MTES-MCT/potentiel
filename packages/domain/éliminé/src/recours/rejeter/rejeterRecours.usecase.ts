@@ -27,16 +27,16 @@ export const registerRejeterRecoursUseCase = () => {
     réponseSignéeValue: { content, format },
     identifiantUtilisateurValue,
   }) => {
-    const réponseSignée = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentRecours.recoursRejeté.formatter(),
-      dateRejetValue,
-      format,
-    );
-
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateRejet = DateTime.convertirEnValueType(dateRejetValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
+
+    const réponseSignée = DocumentProjet.convertirEnValueType(
+      identifiantProjet.formatter(),
+      TypeDocumentRecours.recoursRejeté.formatter(),
+      dateRejet.formatter(),
+      format,
+    );
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
