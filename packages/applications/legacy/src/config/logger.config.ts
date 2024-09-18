@@ -9,8 +9,8 @@ logger.on('infoLog', (message: string) => {
   getLogger().info(message);
 });
 
-logger.on('warningLog', (message: string) => {
-  getLogger().warn(message);
+logger.on('warningLog', (message: string, context: Record<string, string>) => {
+  getLogger().warn(message, context);
 });
 
 logger.on('errorLog', (exception: Error | string) => {
