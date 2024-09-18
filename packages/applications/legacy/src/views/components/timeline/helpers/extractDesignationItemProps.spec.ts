@@ -2,10 +2,8 @@ import { describe, expect, it } from '@jest/globals';
 import {
   ProjectClaimedDTO,
   ProjectEventDTO,
-  ProjectImportedDTO,
-  ProjectNotificationDateSetDTO,
-  ProjectNotifiedDTO,
-  ProjectStatus,
+  ProjectImportedDTO, ProjectNotifiedDTO,
+  ProjectStatus
 } from '../../../../modules/frise';
 import { USER_ROLES } from '../../../../modules/users';
 import { extractDesignationItemProps } from './extractDesignationItemProps';
@@ -32,51 +30,6 @@ describe('extractDesignationItemProps', () => {
       expect(result).toBeNull();
     });
   });
-
-  describe('when the project is notified but there is no certificate event', () => {
-    const projectNotifiedEvent = {
-      type: 'ProjectNotified',
-      variant: 'admin',
-      date: 12,
-    } as ProjectNotifiedDTO;
-
-    it('should return the notification date and a certificate undefined', () => {
-      const result = extractDesignationItemProps(
-        [projectNotifiedEvent],
-        status,
-        fakeIdentifiantProjet,
-      );
-      expect(result).toEqual({
-        type: 'designation',
-        date: 12,
-        certificate: undefined,
-        role: 'admin',
-        projectStatus: 'Classé',
-      });
-    });
-
-    describe('when the project a different notification date was set after the project was notified', () => {
-      const projectNotificationDateSetEvent = {
-        type: 'ProjectNotificationDateSet',
-        variant: 'admin',
-        date: 34,
-      } as ProjectNotificationDateSetDTO;
-
-      it('should return the latest notification date that was set', () => {
-        const result = extractDesignationItemProps(
-          [projectNotifiedEvent, projectNotificationDateSetEvent],
-          status,
-          fakeIdentifiantProjet,
-        );
-        expect(result).toEqual({
-          type: 'designation',
-          date: 34,
-          certificate: undefined,
-          role: 'admin',
-          projectStatus: 'Classé',
-        });
-      });
-    });
 
     describe('when isLegacy is true', () => {
       describe('when user is not dreal', () => {

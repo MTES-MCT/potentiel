@@ -1,7 +1,7 @@
 import React from 'react';
 import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.';
 import { Routes } from '@potentiel-applications/routes';
-import { DownloadLinkButton } from '../../UI';
+import { DownloadLink, DownloadLinkButton } from '../../UI';
 import { DesignationItemProps } from '../helpers';
 
 // TODO: revoir cette partie
@@ -51,12 +51,12 @@ const Attestation = ({ projectStatus, identifiantProjet }: CertificateProps) => 
   const urlTitle = projectStatus === 'Eliminé' ? "l'avis de rejet" : "l'attestation de désignation";
 
   return (
-    <DownloadLinkButton
+    <DownloadLink
       fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
       className="m-auto"
     >
       {urlTitle}
       {/* {`Télécharger l'${urlTitle}})  le ${afficherDate(date)})`} */}
-    </DownloadLinkButton>
+    </DownloadLink>
   );
 };
