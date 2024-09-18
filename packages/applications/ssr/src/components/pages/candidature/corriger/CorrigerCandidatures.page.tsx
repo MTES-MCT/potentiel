@@ -29,13 +29,7 @@ export const CorrigerCandidaturesPage: FC = () => (
           small
           description={
             <div className="py-4 text-justify">
-              Aucune notification ne sera envoyée suite à cet import. <br />
-              <br />
-              Pour regénérerer les attestations pour des candidats déjà notifiés, rendez-vous sur la
-              page{' '}
-              <Link href={Routes.Candidature.regénérerAttestations}>
-                Regénérer des attestations
-              </Link>
+              Aucune notification ne sera envoyée suite à cet import.
             </div>
           }
         />

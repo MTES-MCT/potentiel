@@ -27,7 +27,6 @@ export const lister = (filters?: ListerFilters) => {
   return `/candidatures${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
 };
 
-export const regénérerAttestations = '/admin/regenerer-attestations.html';
 export const prévisualiserAttestation = (identifiantProjet: string) =>
   `/candidatures/${encodeParameter(identifiantProjet)}/previsualiser-attestation`;
 // TODO: à supprimer pour utiliser directement Routes.Document.télécharger dans le front

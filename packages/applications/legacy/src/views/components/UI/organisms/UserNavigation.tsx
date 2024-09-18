@@ -120,7 +120,11 @@ const MenuAdmin = (currentPage?: string) => (
       <DropdownMenu.DropdownItem href={Routes.Candidature.corriger}>
         Corriger des candidats
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Période.lister}>
+      <DropdownMenu.DropdownItem
+        href={Routes.Période.lister({
+          statut: Routes.Période.defaultStatutValueForPériodeList,
+        })}
+      >
         Notifier des candidats
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Candidature.lister()}>
