@@ -30,6 +30,14 @@ export type ConsulterProjetReadModel = {
   dateDésignation: DateTime.RawType;
   puissance: number;
   technologie: Technologie.RawType;
+
+  isInvestissementParticipatif: boolean;
+  isFinancementParticipatif: boolean;
+  actionnariat?: string;
+  evaluationCarbone: number;
+  engagementFournitureDePuissanceAlaPointe: boolean;
+  motifsElimination: string;
+  prixReference: number;
 };
 
 export type ConsulterProjetQuery = Message<
@@ -75,6 +83,13 @@ const mapToReadModel = ({
   statut,
   adressePostaleCandidat,
   technologie,
+  engagementFournitureDePuissanceAlaPointe,
+  evaluationCarbone,
+  isInvestissementParticipatif,
+  isFinancementParticipatif,
+  motifsElimination,
+  prixReference,
+  actionnariat,
 }: ProjetEntity): ConsulterProjetReadModel => {
   return {
     appelOffre,
@@ -93,5 +108,12 @@ const mapToReadModel = ({
     période,
     statut,
     technologie: Technologie.convertirEnValueType(technologie ?? 'N/A').formatter(),
+    engagementFournitureDePuissanceAlaPointe,
+    evaluationCarbone,
+    isInvestissementParticipatif,
+    isFinancementParticipatif,
+    motifsElimination,
+    prixReference,
+    actionnariat,
   };
 };

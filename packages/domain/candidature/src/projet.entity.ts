@@ -24,4 +24,12 @@ export type ProjetEntity = {
   cahierDesCharges: string;
   adressePostaleCandidat: string;
   technologie?: string;
+
+  isInvestissementParticipatif: boolean;
+  isFinancementParticipatif: boolean;
+  actionnariat?: string;
+  evaluationCarbone: number;
+  engagementFournitureDePuissanceAlaPointe: boolean;
+  motifsElimination: string;
+  prixReference: number;
 };

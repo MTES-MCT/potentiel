@@ -1,6 +1,6 @@
 import { ModèleRéponse } from '../modèleRéponseSignée';
 
-export const modèleRéponseAbandonFileName = 'garanties-financières-modèle-mise-en-demeure.docx';
+export const modèleRéponseAbandonFileName = 'abandon-modèle-réponse.docx';
 
 export type ModèleRéponseAbandon = ModèleRéponse & {
   type: 'abandon';

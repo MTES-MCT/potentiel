@@ -53,12 +53,12 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       return notFound();
     }
 
-    const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+    const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: { identifiantAppelOffre: candidature.appelOffre },
     });
 
-    if (Option.isNone(appelOffres)) {
+    if (Option.isNone(appelOffre)) {
       return notFound();
     }
 
@@ -82,13 +82,49 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         puissance: candidature.puissance.toString(),
         refPotentiel: formatIdentifiantProjetForDocument(identifiantProjet),
         status: recours.statut.value,
-        suiviPar: nomComplet || '',
-        suiviParEmail: appelOffres.dossierSuiviPar,
-        titreAppelOffre: appelOffres.title,
+        suiviPar: nomComplet,
+        suiviParEmail: appelOffre.dossierSuiviPar,
+        titreAppelOffre: appelOffre.title,
         titreFamille: candidature.famille || '',
         titrePeriode:
-          appelOffres.periodes.find((période) => période.id === candidature.période)?.title || '',
-        unitePuissance: appelOffres.unitePuissance,
+          appelOffre.periodes.find((période) => période.id === candidature.période)?.title || '',
+        unitePuissance: appelOffre.unitePuissance,
+
+        affichageParagrapheECS: appelOffre.affichageParagrapheECS ? 'yes' : '',
+        AOInnovation: appelOffre.typeAppelOffre === 'innovation' ? 'yes' : '',
+        delaiRealisationTexte: appelOffre.delaiRealisationTexte,
+        eolien: appelOffre.typeAppelOffre === 'eolien' ? 'yes' : '',
+        isInvestissementParticipatif: candidature.isInvestissementParticipatif ? 'yes' : '',
+        isEngagementParticipatif:
+          candidature.isFinancementParticipatif || candidature.isInvestissementParticipatif
+            ? 'yes'
+            : '',
+        isFinancementCollectif: candidature.actionnariat === 'financement-collectif' ? 'yes' : '',
+        isFinancementParticipatif: candidature.isFinancementParticipatif ? 'yes' : '',
+        isGouvernancePartagée: candidature.actionnariat === 'gouvernance-partagee' ? 'yes' : '',
+        evaluationCarbone: candidature.evaluationCarbone.toString(),
+        engagementFournitureDePuissanceAlaPointe:
+          candidature.engagementFournitureDePuissanceAlaPointe ? 'yes' : '',
+        motifsElimination: candidature.motifsElimination,
+        nonInstruit: candidature.motifsElimination.toLowerCase().includes('non instruit')
+          ? 'yes'
+          : '',
+        paragrapheAttestationConformite: appelOffre.paragrapheAttestationConformite,
+        paragrapheDelaiDerogatoire: appelOffre.paragrapheDelaiDerogatoire,
+        paragrapheEngagementIPFPGPFC: appelOffre.paragrapheEngagementIPFPGPFC,
+        paragraphePrixReference: appelOffre.paragraphePrixReference,
+        prixReference: candidature.prixReference.toString(),
+        renvoiDemandeCompleteRaccordement: appelOffre.renvoiDemandeCompleteRaccordement,
+        renvoiModification: appelOffre.renvoiModification,
+        renvoiRetraitDesignationGarantieFinancieres:
+          appelOffre.renvoiRetraitDesignationGarantieFinancieres,
+        renvoiSoumisAuxGarantiesFinancieres: appelOffre.renvoiSoumisAuxGarantiesFinancieres ?? '',
+        soumisGF:
+          appelOffre.soumisAuxGarantiesFinancieres === 'à la candidature' ||
+          appelOffre.soumisAuxGarantiesFinancieres === 'après candidature'
+            ? 'yes'
+            : '',
+        tarifOuPrimeRetenue: appelOffre.tarifOuPrimeRetenue,
       },
     });
 
