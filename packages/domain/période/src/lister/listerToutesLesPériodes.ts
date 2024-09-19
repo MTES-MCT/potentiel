@@ -52,7 +52,7 @@ export const listerToutesLesPériodes = async (
   }, [] as Array<ConsulterPériodeReadModel>);
 
   return {
-    items: range ? all.slice(range.startPosition, range.endPosition) : all,
+    items: range ? all.slice(range.startPosition, range.endPosition + 1) : all,
     range: range ?? { startPosition: 0, endPosition: all.length },
     total: all.length,
   };
