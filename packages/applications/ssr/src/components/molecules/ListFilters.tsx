@@ -7,11 +7,16 @@ import { Filter } from './Filter';
 export type ListFilterItem<TSearchParamKey = string> = {
   label: string;
   searchParamKey: TSearchParamKey;
-  defaultValue: string | undefined;
   options: Array<{
     label: string;
     value: string;
   }>;
+  /**
+   * The key of another filter affected by the value of the current filter.
+   *  - the affected filter will be disabled unless current has a value
+   *  - the affected filter will be removed when current changes
+   **/
+  affects?: TSearchParamKey;
 };
 
 export type ListFiltersProps = {
@@ -25,27 +30,36 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
 
   return (
     <div className="flex flex-col gap">
-      {filters.map(({ label, searchParamKey, options, defaultValue }) => (
-        <Filter
-          key={`filter-${searchParamKey}`}
-          label={label}
-          options={options}
-          defaultValue={defaultValue ?? ''}
-          value={searchParams.get(searchParamKey) ?? ''}
-          onValueSelected={(value) => {
-            const newSearchParams = new URLSearchParams(searchParams);
-            if (value === '') {
-              newSearchParams.delete(searchParamKey);
-            } else {
-              const option = options.find((option) => option.value === value);
-              if (option) {
-                newSearchParams.set(searchParamKey, option.value);
+      {filters.map(({ label, searchParamKey, options, affects }) => {
+        const disabled = filters.some(
+          (f) => f.affects === searchParamKey && !searchParams.get(f.searchParamKey),
+        );
+
+        return (
+          <Filter
+            disabled={disabled}
+            key={`filter-${searchParamKey}`}
+            label={label}
+            options={options}
+            value={searchParams.get(searchParamKey) ?? ''}
+            onValueSelected={(value) => {
+              const newSearchParams = new URLSearchParams(searchParams);
+              if (value === '') {
+                newSearchParams.delete(searchParamKey);
+                if (affects && searchParams.get(affects)) {
+                  newSearchParams.delete(affects);
+                }
+              } else {
+                const option = options.find((option) => option.value === value);
+                if (option) {
+                  newSearchParams.set(searchParamKey, option.value);
+                }
               }
-            }
-            router.push(buildUrl(pathname, newSearchParams));
-          }}
-        />
-      ))}
+              router.push(buildUrl(pathname, newSearchParams));
+            }}
+          />
+        );
+      })}
     </div>
   );
 };

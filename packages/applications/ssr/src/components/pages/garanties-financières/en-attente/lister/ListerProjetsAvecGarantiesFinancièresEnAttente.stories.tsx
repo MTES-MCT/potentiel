@@ -28,14 +28,13 @@ const filters: ListProjetsAvecGarantiesFinancièresEnAttenteProps['filters'] = [
   {
     label: `Appel d'offres`,
     searchParamKey: 'appelOffre',
-    defaultValue: undefined,
     options: [
       {
         label: 'Appel offre 1',
         value: 'appel-offre-1',
       },
       {
-        label: 'App`el offre 2',
+        label: 'Appel offre 2',
         value: 'appel-offre-2',
       },
     ],
@@ -43,7 +42,6 @@ const filters: ListProjetsAvecGarantiesFinancièresEnAttenteProps['filters'] = [
   {
     label: 'Motifs',
     searchParamKey: 'motif',
-    defaultValue: undefined,
     options: GarantiesFinancières.MotifDemandeGarantiesFinancières.motifs.map((motif) => ({
       label: getGarantiesFinancièresMotifLabel(motif),
       value: motif,

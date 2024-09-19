@@ -19,8 +19,7 @@ export const Default: Story = {
   args: {
     filters: [
       {
-        defaultValue: 'option value 1',
-        label: 'filter label 1',
+        label: 'filter label',
         options: [
           {
             label: 'option label 1',
@@ -36,25 +35,21 @@ export const Default: Story = {
           },
         ],
         searchParamKey: 'searchParamKey',
+        affects: 'dependantSearchParamKey',
       },
       {
-        defaultValue: 'option value 2',
-        label: 'filter label 2',
+        label: 'Filtre dépendant du label',
         options: [
           {
-            label: 'option label 1',
-            value: 'option value 1',
+            label: 'dépendant label 1',
+            value: 'dépendant value 1',
           },
           {
-            label: 'option label 2',
-            value: 'option value 2',
-          },
-          {
-            label: 'option label 3',
-            value: 'option value 3',
+            label: 'dépendant label 2',
+            value: 'dépendant value 2',
           },
         ],
-        searchParamKey: 'searchParamKey',
+        searchParamKey: 'dependantSearchParamKey',
       },
     ],
   },

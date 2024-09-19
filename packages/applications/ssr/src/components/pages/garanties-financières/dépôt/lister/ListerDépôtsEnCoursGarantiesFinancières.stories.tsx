@@ -27,7 +27,6 @@ const filters = [
   {
     label: `Appel d'offres`,
     searchParamKey: 'appelOffre',
-    defaultValue: undefined,
     options: [
       {
         label: 'Appel offre 1',

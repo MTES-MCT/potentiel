@@ -22,7 +22,6 @@ export const Default: Story = {
       {
         label: `Appel d'offres`,
         searchParamKey: 'appelOffre',
-        defaultValue: undefined,
         options: [
           {
             label: 'Appel offre 1',
@@ -37,7 +36,6 @@ export const Default: Story = {
       {
         label: 'Statut',
         searchParamKey: 'statut',
-        defaultValue: 'statut-1',
         options: [
           { label: 'Statut 1', value: 'statut-1' },
           { label: 'Statut 2', value: 'statut-2' },

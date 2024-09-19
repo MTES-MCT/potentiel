@@ -5,22 +5,15 @@ import { FC } from 'react';
 type FilterProps = {
   label: string;
   options: Array<{ label: string; value: string }>;
-  defaultValue: string;
   value: string;
   onValueSelected?: (value: string | undefined) => void;
+  disabled?: boolean;
 };
-export const Filter: FC<FilterProps> = ({
-  label,
-  options,
-  defaultValue,
-  value,
-  onValueSelected,
-}) => (
+export const Filter: FC<FilterProps> = ({ label, options, value, disabled, onValueSelected }) => (
   <SelectNext
     label={label}
     placeholder={`Filtrer par ${label.toLocaleLowerCase()}`}
     nativeSelectProps={{
-      defaultValue,
       value,
       onChange: (e) => {
         const value = e.currentTarget.value;
@@ -30,5 +23,6 @@ export const Filter: FC<FilterProps> = ({
       },
     }}
     options={options}
+    disabled={disabled}
   />
 );

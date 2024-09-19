@@ -70,7 +70,6 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
         {
           label: `Un filtre`,
           searchParamKey: 'filtre',
-          defaultValue: 'Valeur par défaut',
           options: [...],
         },
       ];

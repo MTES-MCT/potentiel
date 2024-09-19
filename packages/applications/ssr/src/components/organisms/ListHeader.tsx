@@ -10,29 +10,29 @@ export type ListHeaderProps = {
   totalCount: number;
 };
 
+type TagFilter = { label: string; searchParamKey: string; affects?: string };
+
 export const ListHeader: FC<ListHeaderProps> = ({ filters, totalCount }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
 
-  const tagFilters = filters.reduce(
-    (allFilters, { searchParamKey, label, options }) => {
-      const currentFilterValue = searchParams.get(searchParamKey);
-      if (!currentFilterValue) {
-        return allFilters;
-      }
-      return [
-        ...allFilters,
-        {
-          label: `${label}: ${options.find((x) => x.value === currentFilterValue)?.label}`,
-          searchParamKey,
-        },
-      ];
-    },
-    [] as { label: string; searchParamKey: string }[],
-  );
+  const tagFilters = filters.reduce((allFilters, { searchParamKey, label, options, affects }) => {
+    const currentFilterValue = searchParams.get(searchParamKey);
+    if (!currentFilterValue) {
+      return allFilters;
+    }
+    return [
+      ...allFilters,
+      {
+        label: `${label}: ${options.find((x) => x.value === currentFilterValue)?.label}`,
+        searchParamKey,
+        affects,
+      },
+    ];
+  }, [] as TagFilter[]);
 
-  const onClick = (tagName: string) => {
+  const onClick = (tagName: string, affects?: string) => {
     const newSearchParams = tagFilters.reduce((urlSearchParams, { searchParamKey }) => {
       if (searchParams.has(searchParamKey)) {
         urlSearchParams.set(searchParamKey, searchParams.get(searchParamKey) ?? '');
@@ -40,6 +40,9 @@ export const ListHeader: FC<ListHeaderProps> = ({ filters, totalCount }) => {
       return urlSearchParams;
     }, new URLSearchParams());
     newSearchParams.delete(tagName);
+    if (affects) {
+      newSearchParams.delete(affects);
+    }
     const url = `${pathname}${newSearchParams.size > 0 ? `?${newSearchParams.toString()}` : ''}`;
     router.push(url);
   };
@@ -48,12 +51,12 @@ export const ListHeader: FC<ListHeaderProps> = ({ filters, totalCount }) => {
     <>
       {tagFilters?.length > 0 && (
         <ul className="flex flex-row gap-1">
-          {tagFilters.map(({ label, searchParamKey }) => (
+          {tagFilters.map(({ label, searchParamKey, affects }) => (
             <li key={`tagFilter-${searchParamKey}`}>
               <Tag
                 dismissible
                 nativeButtonProps={{
-                  onClick: () => onClick(searchParamKey),
+                  onClick: () => onClick(searchParamKey, affects),
                 }}
               >
                 {label}
