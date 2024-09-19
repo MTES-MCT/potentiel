@@ -12,6 +12,7 @@ import {
   Label,
   LabelDescription,
   Input,
+  InputFile,
 } from '../../components';
 import { ProjectDataForSignalerDemandeDelaiPage } from '../../../modules/project';
 import routes from '../../../routes';
@@ -142,7 +143,7 @@ export const SignalerDemandeDelai = ({
           <Label htmlFor="file" optionnel>
             Courrier de la réponse (fichier joint)
           </Label>
-          <Input name="file" type="file" className="rounded-none" id="file" />
+          <InputFile className="rounded-none" required={false} />
         </div>
 
         <div>

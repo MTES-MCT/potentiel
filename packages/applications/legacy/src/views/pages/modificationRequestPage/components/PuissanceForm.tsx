@@ -48,7 +48,6 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
         optionnel={true}
         reasonForOptionnel={`en cas de refus ou de décision favorable de l'État`}
       />
-
       <div>
         <div>
           Nouvelle {textPuissance.toLowerCase()} demandée :{' '}

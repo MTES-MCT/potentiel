@@ -12,7 +12,7 @@ type InputFileProps = {
 export const InputFile = ({
   id = 'file',
   name = 'file',
-  required,
+  required = true,
   disabled,
   className,
 }: InputFileProps) => {
@@ -23,11 +23,11 @@ export const InputFile = ({
         name={name}
         id={id}
         required={required}
-        aria-required
+        aria-required={required}
         disabled={disabled}
         className={className}
       />
-      <LabelDescription>Taille maximale du fichier : 50 MB</LabelDescription>
+      <LabelDescription className="italic">Taille maximale du fichier : 50 Mo</LabelDescription>
     </div>
   );
 };

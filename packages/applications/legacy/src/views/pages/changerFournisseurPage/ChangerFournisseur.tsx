@@ -21,6 +21,7 @@ import {
   Form,
   ChampsObligatoiresLégende,
   LabelDescription,
+  InputFile,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
 import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '../../../modules/project';
@@ -142,7 +143,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
           )}
           <div>
             <Label htmlFor="file">Pièce-jointe</Label>
-            <Input type="file" name="file" id="file" required aria-required="true" />
+            <InputFile />
           </div>
           <div>
             <Label htmlFor="justification">

@@ -12,6 +12,7 @@ import {
   Form,
   Heading1,
   Input,
+  InputFile,
   Label,
   LabelDescription,
   LegacyPageTemplate,
@@ -101,14 +102,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
           </div>
           <div>
             <Label htmlFor="file">Joindre les statuts mis à jour</Label>
-            <Input
-              type="file"
-              name="file"
-              id="file"
-              required
-              aria-required
-              {...(!appelOffre?.changementProducteurPossibleAvantAchèvement && { disabled: true })}
-            />
+            <InputFile disabled={!appelOffre?.changementProducteurPossibleAvantAchèvement} />
           </div>
           <div>
             <Label htmlFor="justification" optionnel>

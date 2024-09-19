@@ -68,7 +68,7 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
             setUploadFileName(fileName);
           }}
         />
-        <div className="fr-hint-text">Taille maximale acceptée : XX MB</div>
+        <div className="fr-hint-text">Taille maximale acceptée : 5 MB</div>
 
         <Button className="!mt-0" type="button" priority="secondary" onClick={browseForFile}>
           <Icon id="fr-icon-folder-2-fill" className="md:mr-1" />

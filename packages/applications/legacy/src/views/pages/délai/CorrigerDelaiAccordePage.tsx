@@ -7,6 +7,7 @@ import {
   Form,
   InfoBox,
   Input,
+  InputFile,
   Label,
   PageProjetTemplate,
   PrimaryButton,
@@ -85,7 +86,7 @@ export const CorrigerDelaiAccorde = ({
               </li>
               <li>
                 <span>Téléversez le courrier signé : </span>
-                <Input type="file" name="file" id="file" required aria-required />
+                <InputFile />
               </li>
             </ol>
           </div>

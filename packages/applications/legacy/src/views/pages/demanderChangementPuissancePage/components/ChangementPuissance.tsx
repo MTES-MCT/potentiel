@@ -15,6 +15,7 @@ import {
   LabelDescription,
   Callout,
   AlertBox,
+  InputFile,
 } from '../../../components';
 import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee';
 import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios';
@@ -214,13 +215,7 @@ export const ChangementPuissance = ({
         >
           Courrier explicatif ou décision administrative
         </Label>
-        <Input
-          type="file"
-          name="file"
-          id="file"
-          required={fichierEtJustificationRequis}
-          aria-required={fichierEtJustificationRequis}
-        />
+        <InputFile required={fichierEtJustificationRequis} />
       </div>
     </>
   );
