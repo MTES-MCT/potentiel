@@ -1,3 +1,5 @@
+import { sanitize } from 'isomorphic-dompurify';
+
 import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import { createUser, créerProfilUtilisateur } from '../../config';
@@ -11,12 +13,12 @@ const schema = yup.object({
   body: yup.object({
     firstname: yup
       .string()
-      .matches(/^(?!.*<.*?>).*$/, 'Ce champ ne doit pas contenir de balises HTML')
-      .required('Ce champ est obligatoire'),
+      .required('Ce champ est obligatoire')
+      .transform((value) => sanitize(value)),
     lastname: yup
       .string()
-      .matches(/^(?!.*<.*?>).*$/, 'Ce champ ne doit pas contenir de balises HTML')
-      .required('Ce champ est obligatoire'),
+      .required('Ce champ est obligatoire')
+      .transform((value) => sanitize(value)),
     email: yup
       .string()
       .required('Ce champ est obligatoire')
