@@ -13,6 +13,9 @@ export const listerPériodesNotifiées = async (
     where: {
       appelOffre: Where.equal(appelOffre),
     },
+    orderBy: {
+      notifiéeLe: 'descending',
+    },
   });
 
   return {

@@ -26,25 +26,28 @@ export const listerToutesLesPériodes = async (
         `${current.id}#${periode.id}`,
       );
 
-      const notifiée = notifiées.items.find(
+      const périodeNotifiée = notifiées.items.find(
         (notifiée) => notifiée.identifiantPériode === identifiantPériode.formatter(),
       );
 
+      if (périodeNotifiée?.estNotifiée) {
+        return {
+          identifiantPériode,
+          estNotifiée: true,
+          identifiantLauréats: périodeNotifiée.identifiantLauréats.map(
+            IdentifiantProjet.convertirEnValueType,
+          ),
+          identifiantÉliminés: périodeNotifiée.identifiantÉliminés.map(
+            IdentifiantProjet.convertirEnValueType,
+          ),
+          notifiéeLe: DateTime.convertirEnValueType(périodeNotifiée.notifiéeLe),
+          notifiéePar: Email.convertirEnValueType(périodeNotifiée.notifiéePar),
+        };
+      }
+
       return {
         identifiantPériode,
-        ...(notifiée?.estNotifiée
-          ? {
-              estNotifiée: true,
-              identifiantLauréats: notifiée.identifiantLauréats.map(
-                IdentifiantProjet.convertirEnValueType,
-              ),
-              identifiantÉliminés: notifiée.identifiantÉliminés.map(
-                IdentifiantProjet.convertirEnValueType,
-              ),
-              notifiéeLe: DateTime.convertirEnValueType(notifiée.notifiéeLe),
-              notifiéePar: Email.convertirEnValueType(notifiée.notifiéePar),
-            }
-          : { estNotifiée: false }),
+        estNotifiée: false,
       };
     });
 

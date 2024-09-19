@@ -52,7 +52,7 @@ export const mapToReadModel = (période: PériodeEntity): ConsulterPériodeReadM
     période.identifiantPériode,
   );
 
-  if (période.estNotifiée) {
+  if (période.estNotifiée && période.notifiéeLe && période.notifiéePar) {
     return {
       identifiantPériode,
       estNotifiée: true,
