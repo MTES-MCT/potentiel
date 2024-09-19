@@ -34,7 +34,7 @@ const filters: ListProjetsAvecGarantiesFinancièresEnAttenteProps['filters'] = [
         value: 'appel-offre-1',
       },
       {
-        label: 'App`el offre 2',
+        label: 'Appel offre 2',
         value: 'appel-offre-2',
       },
     ],

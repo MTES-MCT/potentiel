@@ -16,7 +16,7 @@ export type ListFilterItem<TSearchParamKey = string> = {
    *  - the affected filter will be disabled unless current has a value
    *  - the affected filter will be removed when current changes
    **/
-  affects?: string;
+  affects?: TSearchParamKey;
 };
 
 export type ListFiltersProps = {
