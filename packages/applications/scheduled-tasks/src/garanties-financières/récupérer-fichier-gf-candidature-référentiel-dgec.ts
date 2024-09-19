@@ -15,15 +15,20 @@ import {
 import { CandidatureAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Candidature } from '@potentiel-domain/candidature';
 
-if (!process.env.DIRECTORY_PATH) {
-  console.error(`La variable d'environnement DIRECTORY_PATH n'est pas définie.`);
-  process.exit(1);
-}
+[
+  'DIRECTORY_PATH',
+  'EVENT_STORE_CONNECTION_STRING',
 
-if (!process.env.EVENT_STORE_CONNECTION_STRING) {
-  console.error(`La variable d'environnement EVENT_STORE_CONNECTION_STRING n'est pas définie.`);
-  process.exit(1);
-}
+  'AWS_ACCESS_KEY_ID',
+  'AWS_SECRET_ACCESS_KEY',
+  'S3_ENDPOINT',
+  'S3_BUCKET',
+].forEach((varName) => {
+  if (!process.env[varName]) {
+    console.error(`La variable d'environnement ${varName} n'est pas définie.`);
+    process.exit(1);
+  }
+});
 
 Candidature.registerCandidatureQueries({
   find: findProjection,
