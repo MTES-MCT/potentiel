@@ -24,6 +24,8 @@ export type UploadDocumentProps = {
   format?: 'pdf' | 'csv';
 };
 
+const DEFAULT_FILE_SIZE_LIMIT_IN_MB = 5;
+
 export const UploadDocument: FC<UploadDocumentProps> = (props) => {
   return !props.documentKey ? (
     <UploadNewDocument {...props} />
@@ -34,8 +36,6 @@ export const UploadDocument: FC<UploadDocumentProps> = (props) => {
 
 const extractFileName = (path: string) => path.replace(/^.*[\\/]/, '');
 
-// violette
-// ajouter la limit ici pour ssr
 const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
   label,
   format = 'pdf',
@@ -52,7 +52,9 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
     <div className={`fr-input-group ${className}`}>
       <label className="fr-label">
         {label}
-        <div className="fr-hint-text">Format accepté : {format}</div>
+        <div className="fr-hint-text">
+          Format accepté : {format}, taille maximale acceptée : {DEFAULT_FILE_SIZE_LIMIT_IN_MB} MB
+        </div>
       </label>
 
       <div className="flex items-center relative mt-3 gap-3">
@@ -68,7 +70,6 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
             setUploadFileName(fileName);
           }}
         />
-        <div className="fr-hint-text">Taille maximale acceptée : 5 MB</div>
 
         <Button className="!mt-0" type="button" priority="secondary" onClick={browseForFile}>
           <Icon id="fr-icon-folder-2-fill" className="md:mr-1" />
