@@ -20,7 +20,7 @@ import crypto from 'node:crypto';
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
 
-const FILE_SIZE_LIMIT_MB = 50;
+export const FILE_SIZE_LIMIT_IN_MB = 50;
 
 export async function makeServer(port: number, sessionSecret: string) {
   try {
@@ -101,11 +101,11 @@ export async function makeServer(port: number, sessionSecret: string) {
       } else {
         express.urlencoded({
           extended: false,
-          limit: FILE_SIZE_LIMIT_MB + 'mb',
+          limit: FILE_SIZE_LIMIT_IN_MB + 'mb',
         })(req, res, next);
       }
     });
-    app.use(express.json({ limit: FILE_SIZE_LIMIT_MB + 'mb' }));
+    app.use(express.json({ limit: FILE_SIZE_LIMIT_IN_MB + 'mb' }));
 
     registerAuth({ app, sessionSecret, router: v1Router });
 

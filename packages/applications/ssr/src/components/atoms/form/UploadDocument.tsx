@@ -34,6 +34,8 @@ export const UploadDocument: FC<UploadDocumentProps> = (props) => {
 
 const extractFileName = (path: string) => path.replace(/^.*[\\/]/, '');
 
+// violette
+// ajouter la limit ici pour ssr
 const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
   label,
   format = 'pdf',
@@ -66,6 +68,7 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
             setUploadFileName(fileName);
           }}
         />
+        <div className="fr-hint-text">Taille maximale acceptée : XX MB</div>
 
         <Button className="!mt-0" type="button" priority="secondary" onClick={browseForFile}>
           <Icon id="fr-icon-folder-2-fill" className="md:mr-1" />

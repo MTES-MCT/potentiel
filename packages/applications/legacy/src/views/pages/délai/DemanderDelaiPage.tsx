@@ -15,6 +15,7 @@ import {
   Callout,
   ChampsObligatoiresLégende,
   LabelDescription,
+  InputFile,
 } from '../../components';
 import routes from '../../../routes';
 import { ProjectAppelOffre } from '../../../entities';
@@ -118,7 +119,7 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
             <LabelDescription>
               Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
             </LabelDescription>
-            <Input type="file" name="file" id="file" required aria-required="true" />
+            <InputFile required aria-required />
           </div>
 
           <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
