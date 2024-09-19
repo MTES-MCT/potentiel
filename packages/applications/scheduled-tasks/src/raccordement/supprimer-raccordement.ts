@@ -87,4 +87,9 @@ registerRéseauQueries({
     console.log(`Projet sans raccordement existant : ${projet}`),
   );
   projetsEnErreurs.forEach((projet) => console.table(projet));
+
+  if (projetsEnErreurs.length > 0) {
+    process.exit(1);
+  }
+  process.exit(0);
 })();

@@ -10,7 +10,8 @@ import * as Tâche from '../typeTâche.valueType';
 export type SubscriptionEvent =
   | Raccordement.RéférenceDossierRacordementModifiéeEvent
   | Raccordement.GestionnaireRéseauRaccordementModifiéEvent
-  | Raccordement.GestionnaireRéseauInconnuAttribuéEvent;
+  | Raccordement.GestionnaireRéseauInconnuAttribuéEvent
+  | Raccordement.RaccordementSuppriméEvent;
 
 export type Execute = Message<'System.Saga.TâcheRaccordement', SubscriptionEvent>;
 
@@ -39,6 +40,22 @@ export const register = () => {
         });
         break;
       case 'GestionnaireRéseauRaccordementModifié-V1':
+        await mediator.send<AcheverTâcheCommand>({
+          type: 'System.Tâche.Command.AcheverTâche',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            typeTâche: Tâche.raccordementGestionnaireRéseauInconnuAttribué,
+          },
+        });
+        break;
+      case 'RaccordementSupprimé-V1':
+        await mediator.send<AcheverTâcheCommand>({
+          type: 'System.Tâche.Command.AcheverTâche',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            typeTâche: Tâche.raccordementRéférenceNonTransmise,
+          },
+        });
         await mediator.send<AcheverTâcheCommand>({
           type: 'System.Tâche.Command.AcheverTâche',
           data: {

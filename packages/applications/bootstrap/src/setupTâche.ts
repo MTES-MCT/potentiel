@@ -92,6 +92,7 @@ const registerTâcheRaccordementSaga = async () => {
       'RéférenceDossierRacordementModifiée-V1',
       'GestionnaireRéseauRaccordementModifié-V1',
       'GestionnaireRéseauInconnuAttribué-V1',
+      'RaccordementSupprimé-V1',
     ],
     eventHandler: async (event) => {
       await mediator.publish<TâcheRaccordementSaga.Execute>({
