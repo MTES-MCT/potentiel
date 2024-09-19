@@ -88,8 +88,8 @@ const SignupForm = ({ utilisateurInvité, email, error }: SignupFormProps) => (
             type="text"
             id="firstname"
             name="firstname"
-            pattern="^[A-Za-z]*"
-            title="Ce champ ne peut contenir que des lettres"
+            pattern="^(?!.*<.*?>).+$"
+            title="Ce champ ne doit pas contenir de balises HTML"
             required
           />
         </div>
@@ -101,8 +101,8 @@ const SignupForm = ({ utilisateurInvité, email, error }: SignupFormProps) => (
             type="text"
             id="lastname"
             name="lastname"
-            pattern="^[a-zA-Z]*"
-            title="Ce champ ne peut contenir que des lettres"
+            pattern="^(?!.*<.*?>).+$"
+            title="Ce champ ne doit pas contenir de balises HTML"
             required
           />
         </div>
