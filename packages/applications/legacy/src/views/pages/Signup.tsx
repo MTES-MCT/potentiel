@@ -83,7 +83,6 @@ const SignupForm = ({ utilisateurInvité, email, error }: SignupFormProps) => (
 
         <div>
           <label htmlFor="firstname">Prénom</label>
-          <div className="text-sm italic">Ce champ ne peut contenir que des lettres</div>
           <Input
             type="text"
             id="firstname"
@@ -96,7 +95,6 @@ const SignupForm = ({ utilisateurInvité, email, error }: SignupFormProps) => (
 
         <div>
           <label htmlFor="lastname">Nom</label>
-          <div className="text-sm italic">Ce champ ne peut contenir que des lettres</div>
           <Input
             type="text"
             id="lastname"
