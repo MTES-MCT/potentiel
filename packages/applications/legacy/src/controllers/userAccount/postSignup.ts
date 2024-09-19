@@ -9,8 +9,14 @@ import { EmailAlreadyUsedError } from '../../modules/shared';
 
 const schema = yup.object({
   body: yup.object({
-    firstname: yup.string().required('Ce champ est obligatoire'),
-    lastname: yup.string().required('Ce champ est obligatoire'),
+    firstname: yup
+      .string()
+      .matches(/^(?!.*<.*?>).*$/, 'Ce champ ne doit pas contenir de balises HTML')
+      .required('Ce champ est obligatoire'),
+    lastname: yup
+      .string()
+      .matches(/^(?!.*<.*?>).*$/, 'Ce champ ne doit pas contenir de balises HTML')
+      .required('Ce champ est obligatoire'),
     email: yup
       .string()
       .required('Ce champ est obligatoire')
