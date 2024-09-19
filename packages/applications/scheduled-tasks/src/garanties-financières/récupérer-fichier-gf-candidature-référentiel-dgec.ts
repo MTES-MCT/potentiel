@@ -55,9 +55,9 @@ registerDocumentProjetQueries({
 
 const formatProjetId = (id: string) =>
   id
-    .replace('PPE2 - Autoconsommation métrople', 'PPE2 - Autoconsommation métropole')
+    .replace(/^PPE2 - Autoconsommation m.trople#/, 'PPE2 - Autoconsommation métropole#')
     .replace('PPE2 - Innovant', 'PPE2 - Innovation')
-    .replace('PPE2 - Bâtiment', 'PPE2 - Bâtiment');
+    .replace(/^PPE2 - B.timent#/, 'PPE2 - Bâtiment#');
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
