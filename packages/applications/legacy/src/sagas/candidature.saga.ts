@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Candidature } from '@potentiel-domain/candidature';
-import { publishToEventBus } from '../config/eventBus.config';
+import { eventStore } from '../config/eventStore.config';
 import { DésignationCatégorie, ProjectRawDataImported } from '../modules/project';
 import { v4 } from 'uuid';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -39,7 +39,7 @@ export const register = () => {
     switch (event.type) {
       case 'CandidatureImportée-V1':
       case 'CandidatureCorrigée-V1':
-        await publishToEventBus(
+        await eventStore.publish(
           new ProjectRawDataImported({
             payload: {
               importId: v4(),
