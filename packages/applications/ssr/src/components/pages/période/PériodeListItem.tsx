@@ -2,7 +2,6 @@
 
 import { FC, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 
@@ -132,7 +131,6 @@ type NotifyButtonProps = {
 
 const NotifyButton: FC<NotifyButtonProps> = ({ identifiantPériode, appelOffre, période }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
 
   return (
     <>
@@ -153,7 +151,6 @@ const NotifyButton: FC<NotifyButtonProps> = ({ identifiantPériode, appelOffre, 
           method: 'POST',
           encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
-          onSuccess: () => router.refresh(),
           children: (
             <>
               <p className="mt-3">

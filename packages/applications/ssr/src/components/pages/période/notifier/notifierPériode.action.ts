@@ -8,6 +8,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { Période } from '@potentiel-domain/periode';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantPériode } from '@potentiel-domain/periode/dist/période';
+import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -63,6 +64,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { appelOffre, per
 
     return {
       status: 'success',
+      redirectUrl: Routes.Période.lister({}),
     };
   });
 };
