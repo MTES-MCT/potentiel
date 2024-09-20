@@ -20,39 +20,41 @@ export const listerToutesLesPériodes = async (
     where: { id: Where.equal(appelOffre) },
   });
 
-  const all = appelOffres.items.reduce((acc, current) => {
-    const periodes: Array<ConsulterPériodeReadModel> = current.periodes.map((periode) => {
-      const identifiantPériode = IdentifiantPériode.convertirEnValueType(
-        `${current.id}#${periode.id}`,
-      );
+  const all = appelOffres.items
+    .reduce((acc, current) => {
+      const periodes: Array<ConsulterPériodeReadModel> = current.periodes.map((periode) => {
+        const identifiantPériode = IdentifiantPériode.convertirEnValueType(
+          `${current.id}#${periode.id}`,
+        );
 
-      const périodeNotifiée = notifiées.items.find(
-        (notifiée) => notifiée.identifiantPériode === identifiantPériode.formatter(),
-      );
+        const périodeNotifiée = notifiées.items.find(
+          (notifiée) => notifiée.identifiantPériode === identifiantPériode.formatter(),
+        );
 
-      if (périodeNotifiée?.estNotifiée) {
+        if (périodeNotifiée?.estNotifiée) {
+          return {
+            identifiantPériode,
+            estNotifiée: true,
+            identifiantLauréats: périodeNotifiée.identifiantLauréats.map(
+              IdentifiantProjet.convertirEnValueType,
+            ),
+            identifiantÉliminés: périodeNotifiée.identifiantÉliminés.map(
+              IdentifiantProjet.convertirEnValueType,
+            ),
+            notifiéeLe: DateTime.convertirEnValueType(périodeNotifiée.notifiéeLe),
+            notifiéePar: Email.convertirEnValueType(périodeNotifiée.notifiéePar),
+          };
+        }
+
         return {
           identifiantPériode,
-          estNotifiée: true,
-          identifiantLauréats: périodeNotifiée.identifiantLauréats.map(
-            IdentifiantProjet.convertirEnValueType,
-          ),
-          identifiantÉliminés: périodeNotifiée.identifiantÉliminés.map(
-            IdentifiantProjet.convertirEnValueType,
-          ),
-          notifiéeLe: DateTime.convertirEnValueType(périodeNotifiée.notifiéeLe),
-          notifiéePar: Email.convertirEnValueType(périodeNotifiée.notifiéePar),
+          estNotifiée: false,
         };
-      }
+      });
 
-      return {
-        identifiantPériode,
-        estNotifiée: false,
-      };
-    });
-
-    return [...acc, ...periodes];
-  }, [] as Array<ConsulterPériodeReadModel>);
+      return [...acc, ...periodes];
+    }, [] as Array<ConsulterPériodeReadModel>)
+    .sort((a, b) => a.identifiantPériode.appelOffre.localeCompare(b.identifiantPériode.appelOffre));
 
   return {
     items: range ? all.slice(range.startPosition, range.endPosition + 1) : all,

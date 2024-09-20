@@ -28,12 +28,14 @@ export const listerPériodesNonNotifiées = async (
     return [...acc, ...periodes];
   }, [] as Array<ConsulterPériodeReadModel>);
 
-  const allWithoutNotifiées = all.filter(
-    (période) =>
-      notifiées.items.find(
-        (notifiée) => notifiée.identifiantPériode === période.identifiantPériode.formatter(),
-      ) === undefined,
-  );
+  const allWithoutNotifiées = all
+    .filter(
+      (période) =>
+        notifiées.items.find(
+          (notifiée) => notifiée.identifiantPériode === période.identifiantPériode.formatter(),
+        ) === undefined,
+    )
+    .sort((a, b) => a.identifiantPériode.appelOffre.localeCompare(b.identifiantPériode.appelOffre));
 
   return {
     items: range
