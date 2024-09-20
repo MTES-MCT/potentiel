@@ -91,6 +91,15 @@ const mapToCertificateData = ({
     return {};
   }
 
+  const potentielId = [
+    candidature.identifiantProjet.appelOffre,
+    candidature.identifiantProjet.période,
+    candidature.identifiantProjet.famille,
+    candidature.identifiantProjet.numéroCRE,
+  ]
+    .filter(Boolean)
+    .join('-');
+
   return {
     validateur: {
       fullName: utilisateur.nomComplet,
@@ -103,7 +112,7 @@ const mapToCertificateData = ({
 
       notifiedOn: new Date(notifiéLe).getTime(),
       isClasse: candidature.statut.estClassé(),
-      potentielId: candidature.identifiantProjet.formatter().replaceAll('#', '-'),
+      potentielId,
 
       nomProjet: candidature.nomProjet,
       adresseProjet: [candidature.localité.adresse1, candidature.localité.adresse2]
