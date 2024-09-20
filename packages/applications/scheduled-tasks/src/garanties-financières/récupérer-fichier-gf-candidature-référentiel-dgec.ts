@@ -18,7 +18,6 @@ import { Candidature } from '@potentiel-domain/candidature';
 [
   'DIRECTORY_PATH',
   'EVENT_STORE_CONNECTION_STRING',
-
   'AWS_ACCESS_KEY_ID',
   'AWS_SECRET_ACCESS_KEY',
   'S3_ENDPOINT',
@@ -138,7 +137,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
         },
       });
       const enregistréParValue = Email.convertirEnValueType(
-        'contact@potentiel.beta.gouv.fr',
+        'aopv.dgec@developpement-durable.gouv.fr',
       ).formatter();
 
       if (Option.isSome(gf)) {
