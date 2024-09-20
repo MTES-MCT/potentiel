@@ -1,11 +1,11 @@
 import React from 'react';
 
 import {
-  Input,
   Label,
   TextArea,
   ChampsObligatoiresLégende,
   LabelDescription,
+  InputFile,
 } from '../../../../components';
 
 type DemandeRecoursProps = {
@@ -36,7 +36,7 @@ export const DemandeRecours = ({ justification }: DemandeRecoursProps) => (
       <LabelDescription>
         Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
       </LabelDescription>
-      <Input type="file" name="file" id="file" required aria-required="true" />
+      <InputFile />
     </div>
   </>
 );

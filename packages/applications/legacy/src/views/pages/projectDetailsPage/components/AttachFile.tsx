@@ -10,6 +10,7 @@ import {
   Label,
   Form,
   ChampsObligatoiresLégende,
+  InputFile,
 } from '../../../components';
 
 type AttachFileProps = {
@@ -56,14 +57,7 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
           <div>
             <Label htmlFor="file">Fichier(s) à attacher</Label>
             {Array.from({ length: fileCount }, (v, i) => i).map((i) => (
-              <Input
-                key={`file_${i}`}
-                type="file"
-                name="file"
-                id="file"
-                required
-                aria-required="true"
-              />
+              <InputFile key={`file_${i}`} />
             ))}
             <Link onClick={() => setFileCount(fileCount + 1)}>+ Ajouter un autre fichier</Link>
           </div>

@@ -13,6 +13,7 @@ import {
   Radio,
   Form,
   ChampsObligatoiresLégende,
+  InputFile,
 } from '../../components';
 import routes from '../../../routes';
 import { ProjectDataForSignalerDemandeRecoursPage } from '../../../modules/project';
@@ -98,14 +99,7 @@ export const SignalerDemandeRecours = ({
 
         <div>
           <Label htmlFor="file">Courrier de la réponse (fichier joint)</Label>
-          <Input
-            name="file"
-            type="file"
-            className="rounded-none"
-            id="file"
-            required
-            aria-required="true"
-          />
+          <InputFile className="rounded-none" />
         </div>
 
         <div>

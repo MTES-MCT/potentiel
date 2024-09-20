@@ -10,6 +10,7 @@ import {
   Th,
   Form,
   Pagination,
+  InputFile,
 } from '.';
 import { logger } from '../../core/utils';
 import { Project, User } from '../../entities';
@@ -106,11 +107,10 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
         <Label htmlFor={`attestation-designation|${project.id}`} className="mb-1">
           Ajouter l'attestation de désignation
         </Label>
-        <Input
-          type="file"
+        <InputFile
           id={`attestation-designation|${project.id}`}
           name={`attestation-designation|${project.id}`}
-          className="min-w-[110px]"
+          className={'min-w-[110px]'}
         />
       </Td>
     ) : (
@@ -160,9 +160,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user, curren
           <thead>
             <tr>
               <Th></Th>
-              {displayColumns?.map((column) => (
-                <Th key={column}>{column}</Th>
-              ))}
+              {displayColumns?.map((column) => <Th key={column}>{column}</Th>)}
             </tr>
           </thead>
           <tbody>

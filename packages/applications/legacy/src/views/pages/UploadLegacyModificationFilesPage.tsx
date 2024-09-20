@@ -13,10 +13,9 @@ import {
 } from '../components';
 import { hydrateOnClient } from '../helpers/hydrateOnClient';
 
-export type UploadLegacyModificationFileResult =
-  | {
-      filename: string;
-    } & ({ error: false } | { error: true; message: string });
+export type UploadLegacyModificationFileResult = {
+  filename: string;
+} & ({ error: false } | { error: true; message: string });
 
 type UploadLegacyModificationFilesProps = {
   request: Request;
@@ -78,7 +77,7 @@ export const UploadLegacyModificationFiles = ({
           </div>
           <Input type="file" multiple name="files" id="files" />
           <div className="text-sm mt-2">
-            Vous pouvez attacher jusqu'à 50Mo de fichiers à la fois
+            Vous pouvez attacher des fichiers de 50Mo max à la fois
           </div>
         </div>
         <PrimaryButton type="submit" name="submit" id="submit">

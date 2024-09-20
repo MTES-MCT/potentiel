@@ -3,6 +3,7 @@ import {
   Callout,
   ChampsObligatoiresLégende,
   Input,
+  InputFile,
   Label,
   LabelDescription,
   TextArea,
@@ -44,7 +45,7 @@ export const ChangementActionnaire = ({
       <LabelDescription>
         Vous pouvez transmettre un fichier compressé si il y a plusieurs documents
       </LabelDescription>
-      <Input type="file" name="file" id="file" required aria-required="true" />
+      <InputFile />
     </div>
     <div>
       <Label htmlFor="justification" optionnel={true}>

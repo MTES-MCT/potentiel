@@ -24,6 +24,8 @@ export type UploadDocumentProps = {
   format?: 'pdf' | 'csv';
 };
 
+const DEFAULT_FILE_SIZE_LIMIT_IN_MB = 5;
+
 export const UploadDocument: FC<UploadDocumentProps> = (props) => {
   return !props.documentKey ? (
     <UploadNewDocument {...props} />
@@ -50,7 +52,9 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
     <div className={`fr-input-group ${className}`}>
       <label className="fr-label">
         {label}
-        <div className="fr-hint-text">Format accepté : {format}</div>
+        <div className="fr-hint-text">
+          Format accepté : {format}, taille maximale acceptée : {DEFAULT_FILE_SIZE_LIMIT_IN_MB} Mo
+        </div>
       </label>
 
       <div className="flex items-center relative mt-3 gap-3">
@@ -151,7 +155,10 @@ const KeepOrEditDocument: FC<UploadDocumentProps & { documentKey: string }> = ({
 
               <div className="flex flex-col">
                 <div>Modifier le document existant</div>
-                <div className="fr-hint-text">Format accepté : {format}</div>
+                <div className="fr-hint-text">
+                  Format accepté : {format}, taille maximale acceptée :{' '}
+                  {DEFAULT_FILE_SIZE_LIMIT_IN_MB} Mo
+                </div>
 
                 <div className="flex items-center flex-row gap-2 mt-2">
                   <Button
