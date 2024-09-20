@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/laureat';
-import { publishToEventBus } from '../config/eventBus.config';
 import {
   ProjectCompletionDueDateSet,
   ProjectDCRDueDateSet,
@@ -14,6 +13,7 @@ import { getDelaiDeRealisation } from '../modules/projectAppelOffre';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
 import { CandidateNotifiedForPeriode } from '../modules/notificationCandidats';
+import { eventStore } from '../config/eventStore.config';
 
 export type SubscriptionEvent = Lauréat.LauréatNotifiéEvent & Event;
 
@@ -57,7 +57,7 @@ export const register = () => {
           candidateEmail: projet.email,
           candidateName: projet.nomRepresentantLegal,
         };
-        await publishToEventBus(
+        await eventStore.publish(
           new ProjectNotified({
             payload: {
               ...basePayload,
@@ -69,7 +69,7 @@ export const register = () => {
           }),
         );
 
-        await publishToEventBus(
+        await eventStore.publish(
           new CandidateNotifiedForPeriode({
             payload: basePayload,
           }),
@@ -81,7 +81,7 @@ export const register = () => {
           appelOffre,
           projet.technologie ?? 'N/A',
         );
-        await publishToEventBus(
+        await eventStore.publish(
           new ProjectCompletionDueDateSet({
             payload: {
               projectId: projet.id,
@@ -91,7 +91,7 @@ export const register = () => {
           }),
         );
 
-        await publishToEventBus(
+        await eventStore.publish(
           new ProjectDCRDueDateSet({
             payload: {
               projectId: projet.id,
