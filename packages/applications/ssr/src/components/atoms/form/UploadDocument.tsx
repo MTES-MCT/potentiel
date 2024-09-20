@@ -5,6 +5,8 @@ import RadioButtons, { RadioButtonsProps } from '@codegouvfr/react-dsfr/RadioBut
 
 import { Routes } from '@potentiel-applications/routes';
 
+import { DEFAULT_FILE_SIZE_LIMIT_IN_MB } from '@/utils/zod/documentError';
+
 import { Icon } from '../Icon';
 
 export type UploadDocumentProps = {
@@ -23,8 +25,6 @@ export type UploadDocumentProps = {
   stateRelatedMessage?: React.ReactNode;
   format?: 'pdf' | 'csv';
 };
-
-const DEFAULT_FILE_SIZE_LIMIT_IN_MB = 5;
 
 export const UploadDocument: FC<UploadDocumentProps> = (props) => {
   return !props.documentKey ? (

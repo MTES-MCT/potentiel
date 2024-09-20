@@ -9,7 +9,7 @@ import { Heading2 } from '../headings';
 
 import { FormFeedback } from './FormFeedback';
 import { FormPendingModal, FormPendingModalProps } from './FormPendingModal';
-import { FormFeedbackCsvError } from './FormFeedbackCsvErrors';
+import { FormFeedbackCsvErrors } from './FormFeedbackCsvErrors';
 
 export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action' | 'method'> & {
   method?: 'POST';
@@ -48,6 +48,7 @@ export const Form: FC<FormProps> = ({
       {heading && <Heading2 className="mb-4">{heading}</Heading2>}
 
       <FormFeedback formState={state} successMessage={successMessage} />
+
       {pendingModal && <FormPendingModal {...pendingModal} />}
 
       {!omitMandatoryFieldsLegend && (
@@ -62,7 +63,7 @@ export const Form: FC<FormProps> = ({
         <div className="flex flex-col md:flex-row gap-2">{actions}</div>
       </div>
 
-      <FormFeedbackCsvError formState={state} />
+      <FormFeedbackCsvErrors formState={state} />
     </form>
   );
 };

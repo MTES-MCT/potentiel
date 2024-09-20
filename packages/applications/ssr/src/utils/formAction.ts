@@ -95,7 +95,7 @@ export const formAction =
       if (e instanceof zod.ZodError) {
         return {
           status: 'form-error' as const,
-          errors: e.issues.map((issue) => (issue.path.pop() || '').toString()),
+          errors: e.issues.map((issue) => issue.message || ''),
         };
       }
 

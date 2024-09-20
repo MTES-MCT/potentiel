@@ -11,7 +11,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  reponseSignee: zod.instanceof(Blob).refine((data) => data.size > 0),
+  reponseSignee: zod.instanceof(Blob).refine((data) => data.size > 0 && data.size < 1000),
 });
 
 const action: FormAction<FormState, typeof schema> = async (

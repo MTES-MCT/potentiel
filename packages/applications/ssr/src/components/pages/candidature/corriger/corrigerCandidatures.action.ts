@@ -10,6 +10,7 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { validateDocumentSize } from '@/utils/zod/documentError';
 
 import { candidatureSchema, CandidatureShape } from '../importer/candidature.schema';
 import { getLocalité } from '../helpers';
@@ -17,7 +18,9 @@ import { getLocalité } from '../helpers';
 export type CorrigerCandidaturesState = FormState;
 
 const schema = zod.object({
-  fichierImport: zod.instanceof(Blob).refine((data) => data.size > 0),
+  fichierImport: zod.instanceof(Blob).superRefine((file, ctx) => {
+    validateDocumentSize(file, ctx);
+  }),
 });
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }) =>
