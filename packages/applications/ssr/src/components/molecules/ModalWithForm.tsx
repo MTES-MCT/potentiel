@@ -44,11 +44,6 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
     closeModal();
   };
 
-  const onFormSuccess = () => {
-    form.onSuccess && form.onSuccess();
-    closeModal();
-  };
-
   // close modal if inside "fermer" button is triggered
   useIsModalOpen(modal, {
     onConceal: () => closeModal(),
@@ -62,7 +57,6 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
     <modal.Component title={title}>
       <Form
         {...form}
-        onSuccess={onFormSuccess}
         key={`form-${id}`}
         actions={
           <>

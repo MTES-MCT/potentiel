@@ -19,7 +19,6 @@ export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action' | 'me
   omitMandatoryFieldsLegend?: true;
   pendingModal?: FormPendingModalProps;
   actions: ReactNode;
-  onSuccess?: () => void;
   onValidationError?: (validationErrors: Array<string>) => void;
   successMessage?: string;
 };
@@ -27,7 +26,6 @@ export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action' | 'me
 export const Form: FC<FormProps> = ({
   action,
   omitMandatoryFieldsLegend,
-  onSuccess,
   onValidationError,
   children,
   heading,
@@ -41,9 +39,6 @@ export const Form: FC<FormProps> = ({
     status: undefined,
   });
 
-  if (state.status === 'success' && onSuccess) {
-    onSuccess();
-  }
   if (state.status === 'form-error' && onValidationError) {
     onValidationError(state.errors);
   }
