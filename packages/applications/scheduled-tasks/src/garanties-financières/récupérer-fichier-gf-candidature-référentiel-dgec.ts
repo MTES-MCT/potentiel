@@ -18,6 +18,7 @@ import {
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { Candidature } from '@potentiel-domain/candidature';
+import { Période } from '@potentiel-domain/periode';
 
 [
   'DIRECTORY_PATH',
@@ -31,6 +32,11 @@ import { Candidature } from '@potentiel-domain/candidature';
     console.error(`La variable d'environnement ${varName} n'est pas définie.`);
     process.exit(1);
   }
+});
+
+Période.registerPériodeQueries({
+  find: findProjection,
+  list: listProjection,
 });
 
 Candidature.registerCandidatureQueries({
@@ -64,9 +70,9 @@ registerDocumentProjetQueries({
 
 const formatProjetId = (id: string) =>
   id
-    .replace(/^PPE2 - Autoconsommation m.trople#/, 'PPE2 - Autoconsommation métropole#')
-    .replace('PPE2 - Innovant', 'PPE2 - Innovation')
-    .replace(/^PPE2 - B.timent#/, 'PPE2 - Bâtiment#');
+    .replace(/PPE2 - Autoconsommation métrople/, 'PPE2 - Autoconsommation métropole')
+    .replace(/PPE2 - Innovant/, 'PPE2 - Innovation')
+    .replace(/PPE2 - Bâtiment/, 'PPE2 - Bâtiment');
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -96,6 +102,10 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
   };
 
   const format = 'application/pdf';
+  const { items: périodes } = await mediator.send<Période.ListerPériodesQuery>({
+    type: 'Période.Query.ListerPériodes',
+    data: {},
+  });
 
   for (const file of dirrents) {
     try {
@@ -106,30 +116,27 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
         continue;
       }
 
-      const fileName = path.basename(file.name, '.pdf');
-
-      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-        formatProjetId(fileName),
-      ).formatter();
+      const fileName = formatProjetId(path.basename(file.name, '.pdf'));
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(formatProjetId(fileName));
 
       const projet = await mediator.send<Candidature.ConsulterProjetQuery>({
         type: 'Candidature.Query.ConsulterProjet',
         data: {
-          identifiantProjet,
+          identifiantProjet: identifiantProjet.formatter(),
         },
       });
 
       if (Option.isNone(projet)) {
-        console.log(`❌ ${identifiantProjet} : Projet inconnu`);
+        console.log(`❌ ${identifiantProjet.formatter()} : Projet inconnu`);
         statistics.projetInconnu.count++;
-        statistics.projetInconnu.ids.push(identifiantProjet);
+        statistics.projetInconnu.ids.push(identifiantProjet.formatter());
         continue;
       }
 
       const gf = await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
         type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
         data: {
-          identifiantProjetValue: identifiantProjet,
+          identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
@@ -147,7 +154,9 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
       if (Option.isSome(gf)) {
         if (gf.garantiesFinancières.attestation) {
-          console.log(`ℹ️ ${identifiantProjet} (${projet.nom}) : Le projet a déjà une attestation`);
+          console.log(
+            `ℹ️ ${identifiantProjet.formatter()} (${projet.nom}) : Le projet a déjà une attestation`,
+          );
           statistics.attestationExistante++;
           continue;
         }
@@ -160,7 +169,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
           {
             type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
             data: {
-              identifiantProjetValue: identifiantProjet,
+              identifiantProjetValue: identifiantProjet.formatter(),
               dateConstitutionValue,
               attestationValue: {
                 content,
@@ -173,17 +182,33 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
         );
         statistics.attestationAjoutée++;
         console.log(
-          `📝 ${identifiantProjet} (${projet.nom}) : Attestation ajoutée aux garanties financières existante`,
+          `📝 ${identifiantProjet.formatter()} (${projet.nom}) : Attestation ajoutée aux garanties financières existante`,
         );
+        continue;
+      }
+
+      const période = périodes.find(
+        (période) =>
+          période.identifiantPériode.appelOffre === identifiantProjet.appelOffre &&
+          période.identifiantPériode.période === identifiantProjet.période,
+      );
+
+      if (!période) {
+        console.log(`❌ ${identifiantProjet.formatter()} (${projet.nom}) : Période non trouvée`);
+        continue;
+      }
+
+      if (!période.estNotifiée) {
+        console.log(`❌ ${identifiantProjet.formatter()} (${projet.nom}) : Période non notifiée`);
         continue;
       }
 
       await mediator.send<GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
         data: {
-          identifiantProjetValue: identifiantProjet,
+          identifiantProjetValue: identifiantProjet.formatter(),
           typeValue: Candidature.TypeGarantiesFinancières.typeInconnu.type,
-          dateConstitutionValue: DateTime.now().formatter(), // Quelle date mettre ici ?
+          dateConstitutionValue: période.notifiéeLe.formatter(),
           attestationValue: {
             content,
             format: 'application/pdf',
@@ -195,7 +220,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
       statistics.gfCréeEtAttestationAjoutée++;
       console.log(
-        `📝 ${identifiantProjet} (${projet.nom}) : Garanties financières créée avec l'attestation`,
+        `🍀 ${identifiantProjet.formatter()} (${projet.nom}) : Garanties financières créée avec l'attestation`,
       );
     } catch (e) {
       console.error(e);
