@@ -83,6 +83,7 @@ BeforeAll(async () => {
   process.env.AWS_ACCESS_KEY_ID = 'minioadmin';
   process.env.AWS_SECRET_ACCESS_KEY = 'minioadmin';
   process.env.BASE_URL = 'https://potentiel.beta.gouv.fr';
+  process.env.POTENTIEL_IDENTIFIER_SECRET = 'abcd';
 
   disableNodeMaxListenerWarning();
 

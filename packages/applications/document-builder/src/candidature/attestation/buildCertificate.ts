@@ -6,6 +6,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
 import { ConsulterUtilisateurReadModel } from '@potentiel-domain/utilisateur';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { fontsFolderPath, imagesFolderPath } from '../../assets';
 import { mapToReadableStream } from '../../mapToReadableStream';
@@ -14,6 +15,7 @@ import { makeCertificate } from './makeCertificate';
 import { getDésignationCatégorie } from './helpers/getDésignationCatégorie';
 import { getFinancementEtTemplate } from './helpers/getFinancementEtTemplate';
 import { AttestationCandidatureOptions } from './AttestationCandidatureOptions';
+import { buildProjectIdentifier } from './buildProjectIdentifier';
 
 Font.register({
   family: 'Arimo',
@@ -73,6 +75,12 @@ type CertificateData = {
   validateur?: AppelOffre.Validateur;
 };
 
+const potentielIdentifierSecret = process.env.POTENTIEL_IDENTIFIER_SECRET;
+if (!potentielIdentifierSecret) {
+  getLogger().error(new Error('POTENTIEL_IDENTIFIER_SECRET not specified'));
+  process.exit(1);
+}
+
 const mapToCertificateData = ({
   appelOffre,
   période,
@@ -91,15 +99,6 @@ const mapToCertificateData = ({
     return {};
   }
 
-  const potentielId = [
-    candidature.identifiantProjet.appelOffre,
-    candidature.identifiantProjet.période,
-    candidature.identifiantProjet.famille,
-    candidature.identifiantProjet.numéroCRE,
-  ]
-    .filter(Boolean)
-    .join('-');
-
   return {
     validateur: {
       fullName: utilisateur.nomComplet,
@@ -112,7 +111,7 @@ const mapToCertificateData = ({
 
       notifiedOn: new Date(notifiéLe).getTime(),
       isClasse: candidature.statut.estClassé(),
-      potentielId,
+      potentielId: buildProjectIdentifier(candidature.identifiantProjet, potentielIdentifierSecret),
 
       nomProjet: candidature.nomProjet,
       adresseProjet: [candidature.localité.adresse1, candidature.localité.adresse2]

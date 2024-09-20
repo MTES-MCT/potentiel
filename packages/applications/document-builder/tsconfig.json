@@ -7,6 +7,9 @@
   },
   "references": [
     {
+      "path": "../../domain/common"
+    },
+    {
       "path": "../../domain/document"
     },
     {
