@@ -155,7 +155,11 @@ const KeepOrEditDocument: FC<UploadDocumentProps & { documentKey: string }> = ({
 
               <div className="flex flex-col">
                 <div>Modifier le document existant</div>
-                <div className="fr-hint-text">Format accepté : {format}</div>
+                <div className="fr-hint-text">
+                  {' '}
+                  Format accepté : {format}, taille maximale acceptée :{' '}
+                  {DEFAULT_FILE_SIZE_LIMIT_IN_MB} Mo
+                </div>
 
                 <div className="flex items-center flex-row gap-2 mt-2">
                   <Button
