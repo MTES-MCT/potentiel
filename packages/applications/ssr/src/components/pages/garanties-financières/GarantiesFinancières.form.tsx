@@ -2,7 +2,6 @@
 
 import { FC, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
-import { useRouter } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
@@ -46,13 +45,11 @@ export const GarantiesFinancièresForm: FC<GarantiesFinancièresFormProps> = ({
   defaultValues,
 }) => {
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
-  const router = useRouter();
   return (
     <Form
       method="POST"
       encType="multipart/form-data"
       action={action}
-      onSuccess={() => router.push(Routes.GarantiesFinancières.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={
         <>

@@ -1,10 +1,7 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
-import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
@@ -17,7 +14,6 @@ type AnnulerMainlevéeGarantiesFinancièresFormProps = {
 export const AnnulerDemandeMainlevéeGarantiesFinancières = ({
   identifiantProjet,
 }: AnnulerMainlevéeGarantiesFinancièresFormProps) => {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
@@ -38,7 +34,6 @@ export const AnnulerDemandeMainlevéeGarantiesFinancières = ({
           method: 'POST',
           encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
-          onSuccess: () => router.push(Routes.GarantiesFinancières.détail(identifiantProjet)),
           children: (
             <>
               <p className="mt-3">

@@ -1,7 +1,6 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -19,7 +18,6 @@ type rejeterDemandeMainlevéeGarantiesFinancièresFormProps = {
 export const RejeterDemandeMainlevéeGarantiesFinancières = ({
   identifiantProjet,
 }: rejeterDemandeMainlevéeGarantiesFinancièresFormProps) => {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
@@ -40,7 +38,6 @@ export const RejeterDemandeMainlevéeGarantiesFinancières = ({
           action: rejeterDemandeMainlevéeGarantiesFinancièresAction,
           method: 'POST',
           encType: 'multipart/form-data',
-          onSuccess: () => router.push(Routes.GarantiesFinancières.détail(identifiantProjet)),
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
 
           children: (
