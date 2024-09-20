@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
@@ -49,8 +48,6 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
     demandeComplèteRaccordement: { accuséRéception, dateQualification },
   },
 }) => {
-  const router = useRouter();
-
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   const { aideSaisieRéférenceDossierRaccordement, identifiantGestionnaireRéseau } =
@@ -62,7 +59,6 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
       encType="multipart/form-data"
       action={modifierDemandeComplèteRaccordementAction}
       heading="Modifier une demande complète de raccordement"
-      onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={
         <>

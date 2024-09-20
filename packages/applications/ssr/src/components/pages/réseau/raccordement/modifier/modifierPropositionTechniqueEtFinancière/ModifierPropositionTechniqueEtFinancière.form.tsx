@@ -1,7 +1,6 @@
 'use client';
 
 import { FC, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -34,7 +33,6 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
     propositionTechniqueEtFinancière: { dateSignature, propositionTechniqueEtFinancièreSignée },
   },
 }) => {
-  const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   return (
@@ -42,7 +40,6 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
       method="POST"
       encType="multipart/form-data"
       action={modifierPropositionTechniqueEtFinancièreAction}
-      onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
       heading="Modifier la proposition technique et financière"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={

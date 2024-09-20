@@ -1,7 +1,6 @@
 'use client';
 
 import { FC, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
 
@@ -21,7 +20,6 @@ export type TransmettrePropositionTechniqueEtFinancièreFormProps = {
 export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
   TransmettrePropositionTechniqueEtFinancièreFormProps
 > = ({ identifiantProjet, referenceDossierRaccordement }) => {
-  const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   return (
@@ -30,7 +28,6 @@ export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
       encType="multipart/form-data"
       heading="Transmettre la proposition technique et financière"
       action={transmettrePropositionTechniqueEtFinancièreAction}
-      onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={
         <>

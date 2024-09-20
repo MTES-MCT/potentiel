@@ -1,7 +1,6 @@
 'use client';
 
 import { FC, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
@@ -103,7 +102,6 @@ const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementProps> = 
   identifiantProjet,
   référenceDossier,
 }) => {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
@@ -123,7 +121,6 @@ const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementProps> = 
           method: 'POST',
           id: `supprimer-dossier-${référenceDossier}-abandon-form`,
           omitMandatoryFieldsLegend: true,
-          onSuccess: () => router.refresh(),
           children: (
             <>
               <p className="mt-3">

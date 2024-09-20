@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
@@ -29,8 +28,6 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
   identifiantGestionnaireRéseauActuel,
   listeGestionnairesRéseau,
 }: TransmettreDemandeComplèteRaccordementFormProps) => {
-  const router = useRouter();
-
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
   const [selectedIdentifiantGestionnaireRéseau, setSelectedIdentifiantGestionnaireRéseau] =
     useState<string | undefined>(identifiantGestionnaireRéseauActuel);
@@ -55,7 +52,6 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
       encType="multipart/form-data"
       action={transmettreDemandeComplèteRaccordementAction}
       heading="Transmettre une demande complète de raccordement"
-      onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={
         <>
