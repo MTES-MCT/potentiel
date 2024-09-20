@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Éliminé } from '@potentiel-domain/elimine';
-import { publishToEventBus } from '../config/eventBus.config';
+import { eventStore } from '../config/eventStore.config';
 import { ProjectNotified } from '../modules/project';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
@@ -34,7 +34,7 @@ export const register = () => {
           candidateEmail: projet.email,
           candidateName: projet.nomRepresentantLegal,
         };
-        await publishToEventBus(
+        await eventStore.publish(
           new ProjectNotified({
             payload: {
               ...basePayload,
@@ -45,7 +45,7 @@ export const register = () => {
             },
           }),
         );
-        await publishToEventBus(
+        await eventStore.publish(
           new CandidateNotifiedForPeriode({
             payload: basePayload,
           }),
