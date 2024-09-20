@@ -1,6 +1,5 @@
 'use client';
 import { FC, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
@@ -41,14 +40,12 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
   demanderMainlevée,
 }) => {
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
-  const router = useRouter();
 
   return (
     <Form
       method="POST"
       encType="multipart/form-data"
       action={action}
-      onSuccess={() => router.push(Routes.Projet.details(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={
         <>

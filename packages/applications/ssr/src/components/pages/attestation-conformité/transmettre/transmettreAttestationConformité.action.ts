@@ -5,6 +5,7 @@ import { mediator } from 'mediateur';
 
 import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
+import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -20,7 +21,7 @@ const schema = zod.object({
 });
 
 const action: FormAction<FormState, typeof schema> = async (
-  previousState,
+  _,
   {
     identifiantProjet,
     attestation,
@@ -64,6 +65,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
     return {
       status: 'success',
+      redirectUrl: Routes.Projet.details(identifiantProjet),
     };
   });
 
