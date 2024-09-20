@@ -9,6 +9,9 @@
       "path": "../../libraries/monads"
     },
     {
+      "path": "../../domain/entity"
+    },
+    {
       "path": "../common"
     },
     {

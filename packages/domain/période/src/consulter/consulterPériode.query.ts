@@ -18,8 +18,8 @@ type PériodeNotifiée = {
   identifiantPériode: IdentifiantPériode.ValueType;
   estNotifiée: true;
 
-  notifiéeLe: DateTime.ValueType;
-  notifiéePar: Email.ValueType;
+  notifiéeLe?: DateTime.ValueType;
+  notifiéePar?: Email.ValueType;
 
   identifiantLauréats: ReadonlyArray<IdentifiantProjet.ValueType>;
   identifiantÉliminés: ReadonlyArray<IdentifiantProjet.ValueType>;

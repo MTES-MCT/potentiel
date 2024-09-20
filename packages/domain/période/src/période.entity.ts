@@ -11,8 +11,8 @@ export type PériodeEntity = Entity<
     période: string;
     estNotifiée: boolean;
 
-    notifiéeLe: DateTime.RawType;
-    notifiéePar: Email.RawType;
+    notifiéeLe?: DateTime.RawType;
+    notifiéePar?: Email.RawType;
 
     identifiantLauréats: ReadonlyArray<IdentifiantProjet.RawType>;
     identifiantÉliminés: ReadonlyArray<IdentifiantProjet.RawType>;

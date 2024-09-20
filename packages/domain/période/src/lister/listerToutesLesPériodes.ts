@@ -41,8 +41,12 @@ export const listerToutesLesPériodes = async (
             identifiantÉliminés: périodeNotifiée.identifiantÉliminés.map(
               IdentifiantProjet.convertirEnValueType,
             ),
-            notifiéeLe: DateTime.convertirEnValueType(périodeNotifiée.notifiéeLe),
-            notifiéePar: Email.convertirEnValueType(périodeNotifiée.notifiéePar),
+            notifiéeLe: périodeNotifiée.notifiéeLe
+              ? DateTime.convertirEnValueType(périodeNotifiée.notifiéeLe)
+              : undefined,
+            notifiéePar: périodeNotifiée.notifiéePar
+              ? Email.convertirEnValueType(périodeNotifiée.notifiéePar)
+              : undefined,
           };
         }
 
