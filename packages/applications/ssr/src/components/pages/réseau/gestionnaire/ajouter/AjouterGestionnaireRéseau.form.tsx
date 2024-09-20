@@ -1,9 +1,6 @@
 'use client';
-import { useRouter } from 'next/navigation';
 import { Input } from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
-
-import { Routes } from '@potentiel-applications/routes';
 
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { Form } from '@/components/atoms/form/Form';
@@ -11,15 +8,12 @@ import { Form } from '@/components/atoms/form/Form';
 import { ajouterGestionnaireRéseauAction } from './ajouterGestionnaireRéseau.action';
 
 export const AjouterGestionnaireRéseauForm = () => {
-  const router = useRouter();
-
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
   return (
     <Form
       action={ajouterGestionnaireRéseauAction}
       method="POST"
       encType="multipart/form-data"
-      onSuccess={() => router.push(Routes.Gestionnaire.lister)}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={<SubmitButton>Ajouter</SubmitButton>}
     >

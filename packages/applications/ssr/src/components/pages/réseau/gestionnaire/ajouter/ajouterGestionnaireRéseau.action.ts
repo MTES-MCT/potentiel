@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { toUndefinedIfEmpty } from '@/utils/zod/stringTransform';
@@ -19,7 +20,7 @@ const schema = zod.object({
 });
 
 const action: FormAction<FormState, typeof schema> = async (
-  previousState,
+  _,
   { identifiantGestionnaireReseau, raisonSociale, expressionReguliere, format, legende },
 ) => {
   await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
@@ -37,6 +38,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
   return {
     status: 'success',
+    redirectUrl: Routes.Gestionnaire.lister,
   };
 };
 
