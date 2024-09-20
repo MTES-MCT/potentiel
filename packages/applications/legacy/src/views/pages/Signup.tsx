@@ -83,12 +83,26 @@ const SignupForm = ({ utilisateurInvité, email, error }: SignupFormProps) => (
 
         <div>
           <label htmlFor="firstname">Prénom</label>
-          <Input type="text" id="firstname" name="firstname" required />
+          <Input
+            type="text"
+            id="firstname"
+            name="firstname"
+            required
+            pattern="^(?!.*<.*?>).+$"
+            title="Ce champ ne doit pas contenir de balises HTML"
+          />
         </div>
 
         <div>
           <label htmlFor="lastname">Nom</label>
-          <Input type="text" id="lastname" name="lastname" required />
+          <Input
+            type="text"
+            id="lastname"
+            name="lastname"
+            required
+            pattern="^(?!.*<.*?>).+$"
+            title="Ce champ ne doit pas contenir de balises HTML"
+          />
         </div>
 
         <div>
