@@ -24,6 +24,7 @@ import { Raccordement } from '@potentiel-domain/reseau';
 import { AchèvementRéelDTO } from '../../modules/frise';
 import { Option } from '@potentiel-libraries/monads';
 import { User } from '../../entities';
+import { logger } from '../../core/utils';
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
 });
@@ -60,8 +61,14 @@ v1Router.get(
   safeAsyncHandler(
     {
       schema,
-      onError: ({ request, response }) =>
-        notFoundResponse({ request, response, ressourceTitle: 'Projet' }),
+      onError: ({ request, response, error }) => {
+        logger.warning(`Error in project details handler`, {
+          errorName: error?.name,
+          errorMessage: error?.message,
+          errorStackTrace: error?.stack,
+        });
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      },
     },
     async (request, response) => {
       const { user } = request;
@@ -98,6 +105,11 @@ v1Router.get(
       const rawProjet = await getProjectDataForProjectPage({ projectId, user });
 
       if (rawProjet.isErr()) {
+        logger.warning(`Error in getProjectDataForProjectPage`, {
+          errorName: rawProjet.error?.name,
+          errorMessage: rawProjet.error?.message,
+          errorStackTrace: rawProjet.error?.stack,
+        });
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
@@ -126,6 +138,11 @@ v1Router.get(
       const rawProjectEventList = await getProjectEvents({ projectId: projet.id, user });
 
       if (rawProjectEventList.isErr()) {
+        logger.warning(`Error fetching project events`, {
+          errorName: rawProjectEventList.error?.name,
+          errorMessage: rawProjectEventList.error?.message,
+          errorStackTrace: rawProjectEventList.error?.stack,
+        });
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
@@ -253,7 +270,7 @@ const getAlertesRaccordement = async ({
     data: { identifiantProjetValue: identifiantProjet.formatter() },
   });
 
-  if(Option.isSome(dossiersRaccordement)) {
+  if (Option.isSome(dossiersRaccordement) && !!dossiersRaccordement.dossiers[0]) {
     if (
       CDC2022Choisi &&
       dossiersRaccordement.dossiers[0].référence.estÉgaleÀ(

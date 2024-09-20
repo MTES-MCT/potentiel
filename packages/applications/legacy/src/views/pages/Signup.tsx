@@ -47,10 +47,9 @@ export const Signup = (props: SignupProps) => (
 type SignupFormProps = {
   utilisateurInvité: boolean;
   email?: string;
-  validationErrors?: Array<{ [fieldName: string]: string }>;
   error?: string;
 };
-const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: SignupFormProps) => (
+const SignupForm = ({ utilisateurInvité, email, error }: SignupFormProps) => (
   <Container className="flex flex-col md:flex-row">
     <h1 className="flex items-center w-full md:w-1/2 lg:w-3/5 m-0 p-4 text-white text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold">
       {utilisateurInvité
@@ -84,26 +83,12 @@ const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: Sign
 
         <div>
           <label htmlFor="firstname">Prénom</label>
-          <Input
-            type="text"
-            id="firstname"
-            name="firstname"
-            required
-            {...(validationErrors && {
-              error: validationErrors['firstname']?.toString(),
-            })}
-          />
+          <Input type="text" id="firstname" name="firstname" required />
         </div>
 
         <div>
           <label htmlFor="lastname">Nom</label>
-          <Input
-            type="text"
-            id="lastname"
-            name="lastname"
-            required
-            {...(validationErrors && { error: validationErrors['lastname']?.toString() })}
-          />
+          <Input type="text" id="lastname" name="lastname" required />
         </div>
 
         <div>
@@ -115,7 +100,6 @@ const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: Sign
             required
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
             {...(email && { value: email, readOnly: true })}
-            {...(validationErrors && { error: validationErrors['email']?.toString() })}
           />
         </div>
 

@@ -37,7 +37,7 @@ export const listerPériodesNonNotifiées = async (
 
   return {
     items: range
-      ? allWithoutNotifiées.slice(range.startPosition, range.endPosition)
+      ? allWithoutNotifiées.slice(range.startPosition, range.endPosition + 1)
       : allWithoutNotifiées,
     range: range ?? { startPosition: 0, endPosition: allWithoutNotifiées.length },
     total: allWithoutNotifiées.length,

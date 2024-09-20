@@ -1,3 +1,5 @@
+import { sanitize } from 'isomorphic-dompurify';
+
 import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import { createUser, créerProfilUtilisateur } from '../../config';
@@ -9,8 +11,14 @@ import { EmailAlreadyUsedError } from '../../modules/shared';
 
 const schema = yup.object({
   body: yup.object({
-    firstname: yup.string().required('Ce champ est obligatoire'),
-    lastname: yup.string().required('Ce champ est obligatoire'),
+    firstname: yup
+      .string()
+      .required('Ce champ est obligatoire')
+      .transform((value) => sanitize(value)),
+    lastname: yup
+      .string()
+      .required('Ce champ est obligatoire')
+      .transform((value) => sanitize(value)),
     email: yup
       .string()
       .required('Ce champ est obligatoire')

@@ -1,54 +1,62 @@
 import React from 'react';
 import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.';
-import { DesignationItemProps } from '../helpers/extractDesignationItemProps';
-import { DownloadLink } from '../..';
-import { afficherDate } from '../../../helpers';
+import { Routes } from '@potentiel-applications/routes';
+import { DownloadLink, DownloadLinkButton } from '../../UI';
+import { DesignationItemProps } from '../helpers';
+
+// TODO: revoir cette partie
+// en trouvant la date de génération (date de notification) ?
 
 export const DesignationItem = ({
-  certificate,
-  role,
   date,
   projectStatus,
-}: DesignationItemProps) => (
-  <>
-    <PastIcon />
-    <ContentArea>
-      <ItemDate date={date} />
-      <ItemTitle title="Notification des résultats" />
-      {certificate ? (
-        <Certificate {...{ certificate, role, projectStatus }} />
-      ) : (
-        role === 'porteur-projet' && <span>Votre attestation sera disponible sous 24h</span>
-      )}
-    </ContentArea>
-  </>
-);
-
-type CertificateProps = {
-  certificate: Exclude<DesignationItemProps['certificate'], undefined>;
-  projectStatus: DesignationItemProps['projectStatus'];
+  identifiantProjet,
+}: DesignationItemProps) => {
+  return (
+    <>
+      <PastIcon />
+      <ContentArea>
+        <ItemDate date={date} />
+        <ItemTitle title="Notification des résultats" />
+        <Attestation projectStatus={projectStatus} identifiantProjet={identifiantProjet} />
+      </ContentArea>
+    </>
+  );
 };
 
-const Certificate = ({ certificate, projectStatus }: CertificateProps) => {
-  const { status } = certificate;
+type CertificateProps = {
+  // certificate?: Exclude<DesignationItemProps['certificate'], undefined>;
+  projectStatus: DesignationItemProps['projectStatus'];
+  identifiantProjet: DesignationItemProps['identifiantProjet'];
+};
 
-  if (status === 'not-applicable') {
-    return <span>Attestation non disponible pour cette période</span>;
-  }
+const Attestation = ({ projectStatus, identifiantProjet }: CertificateProps) => {
+  // const { status } = certificate;
 
-  const { url: fileUrl, date } = certificate;
+  // if (status === 'not-applicable') {
+  //   return <span>Attestation non disponible pour cette période</span>;
+  // }
 
-  const urlTitle =
-    projectStatus === 'Eliminé'
-      ? status === 'generated'
-        ? `avis de rejet (édité`
-        : `avis de rejet (transmis`
-      : status === 'generated'
-      ? `attestation de désignation (éditée`
-      : `attestation de désignation (transmise`;
+  // const { url: fileUrl, date } = certificate;
+
+  // const urlTitle =
+  //   projectStatus === 'Eliminé'
+  //     ? status === 'generated'
+  //       ? `avis de rejet (édité`
+  //       : `avis de rejet (transmis`
+  //     : status === 'generated'
+  //       ? `attestation de désignation (éditée`
+  //       : `attestation de désignation (transmise`;
+
+  const urlTitle = projectStatus === 'Eliminé' ? "l'avis de rejet" : "l'attestation de désignation";
+
   return (
-    <DownloadLink {...{ fileUrl }}>{`Télécharger l'${urlTitle} le ${afficherDate(
-      date,
-    )})`}</DownloadLink>
+    <DownloadLink
+      fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
+      className="m-auto"
+    >
+      Télécharger {urlTitle}
+      {/* {`Télécharger l'${urlTitle}})  le ${afficherDate(date)})`} */}
+    </DownloadLink>
   );
 };
