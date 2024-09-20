@@ -1,7 +1,6 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
@@ -13,7 +12,6 @@ type AnnulerAbandonFormProps = {
 };
 
 export const AnnulerAbandon = ({ identifiantProjet }: AnnulerAbandonFormProps) => {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -38,7 +36,6 @@ export const AnnulerAbandon = ({ identifiantProjet }: AnnulerAbandonFormProps) =
           method: 'POST',
           id: 'annuler-abandon-form',
           omitMandatoryFieldsLegend: true,
-          onSuccess: () => router.back(),
           children: (
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir annuler cet abandon ?</p>

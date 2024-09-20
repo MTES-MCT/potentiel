@@ -4,9 +4,6 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { FC, useState } from 'react';
-import { useRouter } from 'next/navigation';
-
-import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -23,7 +20,6 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
   identifiantProjet,
   showRecandidatureCheckBox,
 }) => {
-  const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
   const [recandidature, setRecandidature] = useState(false);
 
@@ -32,7 +28,6 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
       action={demanderAbandonAction}
       method="POST"
       encType="multipart/form-data"
-      onSuccess={() => router.push(Routes.Abandon.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={<SubmitButton>Demander l'abandon</SubmitButton>}
     >

@@ -1,7 +1,6 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -19,7 +18,6 @@ type DemanderConfirmationAbandonFormProps = {
 export const DemanderConfirmationAbandon = ({
   identifiantProjet,
 }: DemanderConfirmationAbandonFormProps) => {
-  const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -45,7 +43,6 @@ export const DemanderConfirmationAbandon = ({
           action: demanderConfirmationAbandonAction,
           method: 'POST',
           encType: 'multipart/form-data',
-          onSuccess: () => router.refresh(),
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (
             <>

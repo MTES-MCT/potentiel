@@ -1,10 +1,7 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
-import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
@@ -17,7 +14,6 @@ type AccorderAbandonAvecRecandidatureFormProps = {
 export const AccorderAbandonAvecRecandidature = ({
   identifiantProjet,
 }: AccorderAbandonAvecRecandidatureFormProps) => {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -43,7 +39,6 @@ export const AccorderAbandonAvecRecandidature = ({
           method: 'POST',
           encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
-          onSuccess: () => router.push(Routes.Abandon.détail(identifiantProjet)),
           children: (
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir accorder cet abandon ?</p>

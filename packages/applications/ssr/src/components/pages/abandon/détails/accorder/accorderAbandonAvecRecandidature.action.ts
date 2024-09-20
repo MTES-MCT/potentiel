@@ -11,6 +11,7 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { buildDocument, DonnéesDocument } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
+import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -52,6 +53,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
     return {
       status: 'success',
+      redirectUrl: Routes.Abandon.détail(identifiantProjet),
     };
   });
 };
