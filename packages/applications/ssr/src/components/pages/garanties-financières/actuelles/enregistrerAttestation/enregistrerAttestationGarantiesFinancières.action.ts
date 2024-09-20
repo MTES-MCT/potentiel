@@ -21,6 +21,7 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, dateConstitution, attestation },
 ) =>
   withUtilisateur(async (utilisateur) => {
+    console.log('coucou', attestation.size);
     await mediator.send<GarantiesFinancières.GarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
       data: {

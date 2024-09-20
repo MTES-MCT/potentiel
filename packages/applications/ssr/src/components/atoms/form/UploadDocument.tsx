@@ -53,7 +53,7 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
       <label className="fr-label">
         {label}
         <div className="fr-hint-text">
-          Format accepté : {format}, taille maximale acceptée : {DEFAULT_FILE_SIZE_LIMIT_IN_MB} MB
+          Format accepté : {format}, taille maximale acceptée : {DEFAULT_FILE_SIZE_LIMIT_IN_MB} Mo
         </div>
       </label>
 

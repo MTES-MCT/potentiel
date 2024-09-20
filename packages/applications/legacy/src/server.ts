@@ -8,7 +8,7 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import * as Sentry from '@sentry/node';
 import { isLocalEnv, registerAuth } from './config';
-import { v1Router } from './controllers';
+import { FILE_SIZE_LIMIT_IN_MB, v1Router } from './controllers';
 import { logger } from './core/utils';
 import next from 'next';
 import { registerSagas } from './sagas/registerSagas';
@@ -19,8 +19,6 @@ import crypto from 'node:crypto';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
-
-export const FILE_SIZE_LIMIT_IN_MB = 50;
 
 export async function makeServer(port: number, sessionSecret: string) {
   try {
@@ -105,6 +103,7 @@ export async function makeServer(port: number, sessionSecret: string) {
         })(req, res, next);
       }
     });
+
     app.use(express.json({ limit: FILE_SIZE_LIMIT_IN_MB + 'mb' }));
 
     registerAuth({ app, sessionSecret, router: v1Router });

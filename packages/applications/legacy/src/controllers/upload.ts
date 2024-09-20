@@ -1,7 +1,8 @@
 import multer from 'multer';
 import { promises as fs } from 'fs';
 import { logger } from '../core/utils';
-import { FILE_SIZE_LIMIT_IN_MB } from '../server';
+
+export const FILE_SIZE_LIMIT_IN_MB = 50;
 
 const uploadWithMulter = multer({
   dest: 'temp',
