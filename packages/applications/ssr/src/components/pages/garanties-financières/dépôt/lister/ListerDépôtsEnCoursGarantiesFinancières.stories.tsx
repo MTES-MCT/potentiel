@@ -41,10 +41,25 @@ const filters = [
   },
 ];
 
+const items = [
+  {
+    identifiantProjet: 'AO#1#1#identifiantProjet-1',
+    nomProjet: 'Le projet',
+    misÀJourLe: new Date('2023-02-12').toISOString() as Iso8601DateTime,
+    type: getGarantiesFinancièresTypeLabel('consignation'),
+  },
+  {
+    identifiantProjet: 'AO#1#1#identifiantProjet-2',
+    nomProjet: 'Le projet',
+    misÀJourLe: new Date('2023-02-12').toISOString() as Iso8601DateTime,
+    type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
+    dateÉchéance: new Date('2023-02-12').toISOString() as Iso8601DateTime,
+  },
+];
 const list = {
   currentPage: 1,
   itemsPerPage: 10,
-  totalItems: 10,
+  totalItems: items.length,
 };
 
 export const Default: Story = {
@@ -52,21 +67,19 @@ export const Default: Story = {
     filters,
     list: {
       ...list,
-      items: [
-        {
-          identifiantProjet: 'AO#1#1#identifiantProjet-1',
-          nomProjet: 'Le projet',
-          misÀJourLe: new Date('2023-02-12').toISOString() as Iso8601DateTime,
-          type: getGarantiesFinancièresTypeLabel('consignation'),
-        },
-        {
-          identifiantProjet: 'AO#1#1#identifiantProjet-2',
-          nomProjet: 'Le projet',
-          misÀJourLe: new Date('2023-02-12').toISOString() as Iso8601DateTime,
-          type: getGarantiesFinancièresTypeLabel('avec-date-échéance'),
-          dateÉchéance: new Date('2023-02-12').toISOString() as Iso8601DateTime,
-        },
-      ],
+      items,
     },
+    role: { nom: 'dreal' },
+  },
+};
+
+export const Porteur: Story = {
+  args: {
+    filters,
+    list: {
+      ...list,
+      items,
+    },
+    role: { nom: 'porteur-projet' },
   },
 };
