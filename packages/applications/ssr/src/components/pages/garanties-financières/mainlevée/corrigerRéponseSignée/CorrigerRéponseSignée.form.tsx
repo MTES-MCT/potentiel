@@ -1,10 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
-
-import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
@@ -20,7 +17,6 @@ export const CorrigerRéponseSignée = ({
   identifiantProjet,
   courrierRéponseÀCorriger,
 }: CorrigerRéponseSignéeProps) => {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -40,7 +36,6 @@ export const CorrigerRéponseSignée = ({
           id: 'corriger-document-form',
           encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
-          onSuccess: () => router.push(Routes.GarantiesFinancières.détail(identifiantProjet)),
           action: corrigerRéponseSignéeAction,
           children: (
             <>
@@ -51,6 +46,8 @@ export const CorrigerRéponseSignée = ({
                 required
                 label="Nouvelle réponse signée"
               />
+
+              <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
               <input
                 type={'hidden'}

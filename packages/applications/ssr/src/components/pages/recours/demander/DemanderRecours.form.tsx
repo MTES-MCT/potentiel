@@ -2,9 +2,6 @@
 
 import Input from '@codegouvfr/react-dsfr/Input';
 import { FC, useState } from 'react';
-import { useRouter } from 'next/navigation';
-
-import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -17,7 +14,6 @@ export type DemanderRecoursFormProps = {
 };
 
 export const DemanderRecoursForm: FC<DemanderRecoursFormProps> = ({ identifiantProjet }) => {
-  const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   return (
@@ -25,7 +21,6 @@ export const DemanderRecoursForm: FC<DemanderRecoursFormProps> = ({ identifiantP
       action={demanderRecoursAction}
       method="POST"
       encType="multipart/form-data"
-      onSuccess={() => router.push(Routes.Recours.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={<SubmitButton>Demander le recours</SubmitButton>}
     >

@@ -1,7 +1,6 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -17,7 +16,6 @@ type AccorderRecoursFormProps = {
 };
 
 export const AccorderRecours = ({ identifiantProjet }: AccorderRecoursFormProps) => {
-  const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -43,7 +41,6 @@ export const AccorderRecours = ({ identifiantProjet }: AccorderRecoursFormProps)
           method: 'POST',
           encType: 'multipart/form-data',
           id: 'accorder-recours-form',
-          onSuccess: () => router.push(Routes.Recours.détail(identifiantProjet)),
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (
             <>

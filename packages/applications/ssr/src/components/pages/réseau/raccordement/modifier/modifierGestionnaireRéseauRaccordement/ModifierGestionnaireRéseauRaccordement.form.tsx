@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
@@ -24,7 +23,6 @@ export type ModifierGestionnaireRéseauRaccordementFormProps = {
 export const ModifierGestionnaireRéseauRaccordementForm: FC<
   ModifierGestionnaireRéseauRaccordementFormProps
 > = ({ listeGestionnairesRéseau, identifiantGestionnaireRéseauActuel, identifiantProjet }) => {
-  const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   const gestionnaireActuel = listeGestionnairesRéseau.find(
@@ -36,7 +34,6 @@ export const ModifierGestionnaireRéseauRaccordementForm: FC<
     <Form
       action={modifierGestionnaireRéseauRaccordementAction}
       method="POST"
-      onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       heading="Modifier le gestionnaire de réseau du projet"
       actions={

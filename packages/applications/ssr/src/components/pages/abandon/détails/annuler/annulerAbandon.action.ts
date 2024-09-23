@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
 import { Abandon } from '@potentiel-domain/laureat';
+import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -12,10 +13,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
 });
 
-const action: FormAction<FormState, typeof schema> = async (
-  previousState,
-  { identifiantProjet },
-) => {
+const action: FormAction<FormState, typeof schema> = async (_, { identifiantProjet }) => {
   return withUtilisateur(async (utilisateur) => {
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'Lauréat.Abandon.UseCase.AnnulerAbandon',
@@ -28,6 +26,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
     return {
       status: 'success',
+      redirectUrl: Routes.Projet.details(identifiantProjet),
     };
   });
 };

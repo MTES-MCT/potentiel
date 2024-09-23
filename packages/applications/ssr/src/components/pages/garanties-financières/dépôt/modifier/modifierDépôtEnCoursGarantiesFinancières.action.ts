@@ -4,6 +4,7 @@ import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -49,6 +50,7 @@ const action: FormAction<FormState, typeof schema> = async (_, data) =>
 
     return {
       status: 'success',
+      redirectUrl: Routes.GarantiesFinancières.détail(data.identifiantProjet),
     };
   });
 

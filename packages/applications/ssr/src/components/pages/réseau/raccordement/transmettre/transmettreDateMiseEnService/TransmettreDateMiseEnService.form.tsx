@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 import { Button } from '@codegouvfr/react-dsfr/Button';
 
@@ -28,13 +27,11 @@ export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFo
   projet: { identifiantProjet, dateDésignation },
   dossierRaccordement: { référence, miseEnService },
 }) => {
-  const router = useRouter();
   return (
     <Form
       method="POST"
       heading="Transmettre la date de mise en service"
       action={transmettreDateMiseEnServiceAction}
-      onSuccess={() => router.push(Routes.Raccordement.détail(identifiantProjet))}
       actions={
         <>
           <Button

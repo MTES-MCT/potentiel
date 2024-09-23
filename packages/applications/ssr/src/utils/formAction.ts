@@ -2,6 +2,10 @@ import * as zod from 'zod';
 import i18next from 'i18next';
 import { zodI18nMap } from 'zod-i18n-map';
 import translation from 'zod-i18n-map/locales/fr/zod.json';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+import { isRedirectError } from 'next/dist/client/components/redirect';
+import { isNotFoundError } from 'next/dist/client/components/not-found';
 
 import { DomainError } from '@potentiel-domain/core';
 import { CsvError, CsvValidationError } from '@potentiel-libraries/csv';
@@ -26,6 +30,7 @@ export type FormState =
   | {
       status: 'success' | undefined;
       result?: ActionResult;
+      redirectUrl?: string;
     }
   | {
       status: 'form-error';
@@ -70,8 +75,16 @@ export const formAction =
 
       await waitFor(TWO_SECONDS);
 
+      if (result.status === 'success' && result.redirectUrl) {
+        revalidatePath(result.redirectUrl);
+        redirect(result.redirectUrl);
+      }
+
       return result;
     } catch (e) {
+      if (isRedirectError(e) || isNotFoundError(e)) {
+        throw e;
+      }
       if (e instanceof CsvValidationError) {
         return {
           status: 'csv-error' as const,

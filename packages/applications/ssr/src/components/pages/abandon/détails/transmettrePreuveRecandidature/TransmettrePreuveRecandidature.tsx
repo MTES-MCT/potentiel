@@ -1,7 +1,6 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import { v4 as uuid } from 'uuid';
@@ -65,8 +64,6 @@ export const TransmettrePreuveRecandidature = ({
     onConceal: () => closeModal(),
   });
 
-  const router = useRouter();
-
   return (
     <>
       <Button priority="secondary" onClick={() => modal.open()} className="block w-1/2 text-center">
@@ -79,7 +76,6 @@ export const TransmettrePreuveRecandidature = ({
           action={transmettrePreuveRecandidatureAction}
           method="POST"
           onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-          onSuccess={() => router.refresh()}
           actions={
             <>
               <Button priority="secondary" onClick={closeModal} type="button">

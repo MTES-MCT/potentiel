@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { toUndefinedIfEmpty } from '@/utils/zod/stringTransform';
@@ -46,6 +47,7 @@ const action: FormAction<ModifierGestionnaireRéseauState, typeof schema> = asyn
 
   return {
     status: 'success',
+    redirectUrl: Routes.Gestionnaire.lister,
   };
 };
 

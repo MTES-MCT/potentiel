@@ -1,6 +1,5 @@
 'use client';
 import { FC, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -20,7 +19,6 @@ export type EnregistrerAttestationGarantiesFinancièresFormProps = {
 export const EnregistrerAttestationGarantiesFinancièresForm: FC<
   EnregistrerAttestationGarantiesFinancièresFormProps
 > = ({ identifiantProjet }) => {
-  const router = useRouter();
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
 
   return (
@@ -28,7 +26,6 @@ export const EnregistrerAttestationGarantiesFinancièresForm: FC<
       method="POST"
       encType="multipart/form-data"
       action={enregistrerAttestationGarantiesFinancièresAction}
-      onSuccess={() => router.push(Routes.GarantiesFinancières.détail(identifiantProjet))}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={
         <>

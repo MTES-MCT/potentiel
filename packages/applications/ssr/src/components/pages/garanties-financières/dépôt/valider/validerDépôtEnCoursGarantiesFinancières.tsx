@@ -1,10 +1,7 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
-import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
@@ -17,7 +14,6 @@ type ValiderDépôtEnCoursGarantiesFinancièresProps = {
 export const ValiderDépôtEnCoursGarantiesFinancières = ({
   identifiantProjet,
 }: ValiderDépôtEnCoursGarantiesFinancièresProps) => {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -39,7 +35,6 @@ export const ValiderDépôtEnCoursGarantiesFinancières = ({
           method: 'POST',
           encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
-          onSuccess: () => router.push(Routes.GarantiesFinancières.détail(identifiantProjet)),
           children: (
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir valider ces garanties financières ?</p>
