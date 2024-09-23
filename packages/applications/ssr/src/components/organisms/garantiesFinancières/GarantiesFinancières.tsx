@@ -32,7 +32,10 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
           <div>
             <div className="flex gap-2">
               <Heading2>
-                Garanties financières {garantiesFinancières.isActuelle ? 'actuelles' : 'à traiter'}
+                Garanties financières{' '}
+                {garantiesFinancières.isActuelle
+                  ? 'actuelles'
+                  : "à traiter par l'autorité compétente"}
               </Heading2>
               {garantiesFinancières.isActuelle ? (
                 <StatutGarantiesFinancièresBadge statut={garantiesFinancières.statut} />
