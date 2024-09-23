@@ -5,8 +5,6 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Période } from '@potentiel-domain/periode';
-import { Option } from '@potentiel-libraries/monads';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
@@ -16,7 +14,7 @@ import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 import { getCandidatureActions } from './helpers/getCandidatureActions';
 
-type SearchParams = 'page' | 'appelOffre' | 'periode' | 'statut' | 'nomProjet';
+type SearchParams = 'page' | 'appelOffre' | 'periode' | 'statut' | 'nomProjet' | 'notifie';
 
 type PageProps = {
   searchParams?: Record<SearchParams, string>;
@@ -33,6 +31,7 @@ export default async function Page({ searchParams }: PageProps) {
     const périodeParams = searchParams?.periode;
     const nomProjet = searchParams?.nomProjet;
     const statut = searchParams?.statut;
+    const estNotifiée = searchParams?.notifie ? searchParams?.notifie === 'notifiee' : undefined;
     const page = searchParams?.page ? parseInt(searchParams.page) : 1;
 
     const candidaturesData = await mediator.send<Candidature.ListerCandidaturesQuery>({
@@ -48,6 +47,7 @@ export default async function Page({ searchParams }: PageProps) {
         statut: statut
           ? Candidature.StatutCandidature.convertirEnValueType(statut).statut
           : undefined,
+        estNotifiée,
       },
     });
 
@@ -93,6 +93,14 @@ export default async function Page({ searchParams }: PageProps) {
           },
         ],
       },
+      {
+        label: 'Notifiée',
+        searchParamKey: 'notifie',
+        options: [
+          { label: 'Notifiée', value: 'notifiee' },
+          { label: 'À notifier', value: 'a-notifier' },
+        ],
+      },
     ];
 
     if (candidaturesData.items.length === 0) {
@@ -105,11 +113,6 @@ export default async function Page({ searchParams }: PageProps) {
         />
       );
     }
-
-    const périodesNotifiées = await récupérerPériodesNotifiées({
-      appelOffreParams,
-      périodeParams,
-    });
 
     const items: Array<CandidatureListItemProps> = [];
 
@@ -129,11 +132,10 @@ export default async function Page({ searchParams }: PageProps) {
         appelOffresItem?.periodes.find((x) => x.id === candidature.identifiantProjet.période)
           ?.type === 'legacy';
 
-      const estNotifiée = périodesNotifiées.includes(
-        `${candidature.identifiantProjet.appelOffre}#${candidature.identifiantProjet.période}`,
-      );
-
-      const actions = getCandidatureActions({ estNotifiée, estPériodeLegacy });
+      const actions = getCandidatureActions({
+        estNotifiée: candidature.estNotifiée,
+        estPériodeLegacy,
+      });
 
       items.push(
         mapToPlainObject({
@@ -154,35 +156,3 @@ export default async function Page({ searchParams }: PageProps) {
     );
   });
 }
-
-const récupérerPériodesNotifiées = async ({
-  appelOffreParams,
-  périodeParams,
-}: {
-  appelOffreParams?: string;
-  périodeParams?: string;
-}): Promise<Période.IdentifiantPériode.RawType[]> => {
-  const hasSetASpecificPériode = périodeParams && appelOffreParams;
-
-  if (hasSetASpecificPériode) {
-    const période = await mediator.send<Période.ConsulterPériodeQuery>({
-      type: 'Période.Query.ConsulterPériode',
-      data: {
-        identifiantPériodeValue: `${appelOffreParams}#${périodeParams}`,
-      },
-    });
-    if (Option.isNone(période)) {
-      return [];
-    }
-  }
-  const périodes = await mediator.send<Période.ListerPériodesQuery>({
-    type: 'Période.Query.ListerPériodes',
-    data: {
-      appelOffre: appelOffreParams,
-    },
-  });
-
-  return périodes.items
-    .filter((période) => période.estNotifiée)
-    .map((période) => période.identifiantPériode.formatter());
-};

@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Badge from '@codegouvfr/react-dsfr/Badge';
 
 import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
@@ -14,6 +15,7 @@ export type ProjectListItemHeadingProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   prefix: string;
   misÀJourLe?: Iso8601DateTime;
+  estNotifié?: boolean;
 };
 
 export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
@@ -22,6 +24,7 @@ export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
   prefix,
   misÀJourLe,
   statut,
+  estNotifié,
 }) => (
   <div className="flex flex-col gap-2">
     <div className="flex flex-row justify-between gap-2 w-full">
@@ -37,6 +40,7 @@ export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
 
     <div className="flex gap-1 md:items-center">
       {statut && <StatutProjetBadge statut={statut} />}
+      {estNotifié !== undefined && <NotiféeBadge estNotifié={estNotifié} />}
 
       <FormattedIdentifiantProjet identifiantProjet={identifiantProjet} />
     </div>
@@ -55,3 +59,11 @@ const FormattedIdentifiantProjet: FC<{
     {famille ? `-F${famille}` : ''}-{numéroCRE}
   </div>
 );
+
+const NotiféeBadge = ({ estNotifié }: Pick<ProjectListItemHeadingProps, 'estNotifié'>) => {
+  return (
+    <Badge small noIcon severity="info">
+      {estNotifié ? 'Notifié' : 'Non-notifié'}
+    </Badge>
+  );
+};
