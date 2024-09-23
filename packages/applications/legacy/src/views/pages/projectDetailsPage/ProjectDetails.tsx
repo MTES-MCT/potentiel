@@ -187,9 +187,10 @@ const AlerteBoxRaccordement: FC<{
         Vous devez déposer une demande de raccordement avant le {afficherDate(dcrDueOn)} auprès de
         votre gestionnaire de réseau.
         <br />
-        L'accusé de réception de cette demande transmis sur Potentiel facilitera vos démarches
-        administratives avec les différents acteurs connectés à Potentiel (DGEC, DREAL,
-        Cocontractant, etc.).
+        L'accusé de réception de cette demande ainsi que les documents complémentaires (proposition
+        technique et financière ou convention de raccordement directe, convention de raccordement…)
+        transmis sur Potentiel faciliteront vos démarches administratives avec les différents
+        acteurs connectés à Potentiel (DGEC, DREAL, Cocontractant, etc.).
       </p>
     )}
     <Link href={Routes.Raccordement.détail(identifiantProjet)}>
