@@ -1,12 +1,21 @@
 import { Entity } from '@potentiel-domain/entity';
-import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { flatten } from '@potentiel-libraries/flat';
+import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-const updateQuery = 'update domain_views.projection set value=$2 where key = $1';
+const updateQuery =
+  'update domain_views.projection set value=jsonb_set(value,$2,$3) where key = $1';
 
 export const updateProjection = async <TProjection extends Entity>(
   id: `${TProjection['type']}|${string}`,
-  readModel: Omit<TProjection, 'type'>,
+  readModel: Partial<Omit<TProjection, 'type'>>,
 ): Promise<void> => {
-  await executeQuery(updateQuery, id, flatten(readModel));
+  const flatReadModel = Object.entries(flatten(readModel) as Record<string, unknown>);
+  for (const [key, value] of flatReadModel) {
+    await executeQuery(
+      updateQuery,
+      id,
+      `{"${key}"}`,
+      typeof value === 'string' ? `"${value}"` : value,
+    );
+  }
 };
