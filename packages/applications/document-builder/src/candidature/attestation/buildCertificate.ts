@@ -75,12 +75,6 @@ type CertificateData = {
   validateur?: AppelOffre.Validateur;
 };
 
-const potentielIdentifierSecret = process.env.POTENTIEL_IDENTIFIER_SECRET;
-if (!potentielIdentifierSecret) {
-  getLogger().error(new Error('POTENTIEL_IDENTIFIER_SECRET not specified'));
-  process.exit(1);
-}
-
 const mapToCertificateData = ({
   appelOffre,
   période,
@@ -88,6 +82,12 @@ const mapToCertificateData = ({
   candidature,
   notifiéLe,
 }: BuildCertificateProps): CertificateData => {
+  const potentielIdentifierSecret = process.env.POTENTIEL_IDENTIFIER_SECRET;
+  if (!potentielIdentifierSecret) {
+    getLogger().error(new Error('POTENTIEL_IDENTIFIER_SECRET not specified'));
+    process.exit(1);
+  }
+
   const famille = période.familles.find((x) => x.id === candidature.identifiantProjet.famille);
 
   const financementEtTemplate = getFinancementEtTemplate({
