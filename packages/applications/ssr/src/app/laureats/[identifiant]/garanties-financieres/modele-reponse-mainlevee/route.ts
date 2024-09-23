@@ -7,7 +7,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime } from '@potentiel-domain/common';
-import { buildDocxDocument } from '@potentiel-applications/document-builder';
+import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -80,7 +80,7 @@ export const GET = async (
 
     const régionDreal = await getRégionUtilisateur(utilisateur);
 
-    const content = await buildDocxDocument({
+    const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
       type: 'mainlevée',
       logo: régionDreal ?? '',
       data: {

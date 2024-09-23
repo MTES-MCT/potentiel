@@ -2,5 +2,5 @@ export {
   buildDocument,
   DonnéesDocument,
 } from './abandon/accordAbandonAvecRecandidature/buildDocument';
-export { buildDocxDocument } from './buildDocxDocument/buildDocxDocument';
+export * as ModèleRéponseSignée from './modèleRéponseSignée';
 export { AttestationSaga, buildCertificate } from './candidature/attestation';

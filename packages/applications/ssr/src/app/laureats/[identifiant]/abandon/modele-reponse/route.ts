@@ -6,7 +6,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime } from '@potentiel-domain/common';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
-import { buildDocxDocument } from '@potentiel-applications/document-builder';
+import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -78,7 +78,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       cahierDesChargesChoisi,
     });
 
-    const content = await buildDocxDocument({
+    const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
       type: 'abandon',
       data: {
         aprèsConfirmation: abandon.demande.confirmation?.confirméLe ? true : false,
