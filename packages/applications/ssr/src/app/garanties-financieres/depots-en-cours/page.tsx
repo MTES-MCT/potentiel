@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import {
@@ -77,6 +78,7 @@ export default async function Page({ searchParams }: PageProps) {
         <ListDépôtsEnCoursGarantiesFinancièresPage
           list={mapToListProps(dépôtsEnCoursGarantiesFinancières)}
           filters={filters}
+          role={mapToPlainObject(utilisateur.role)}
         />
       );
     }),
