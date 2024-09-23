@@ -19,6 +19,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    errors: ['Error message', 'Error message'],
+    formState: {
+      status: 'validation-error',
+      errors: ["le champs n'est pas entretenu"],
+    },
   },
 };

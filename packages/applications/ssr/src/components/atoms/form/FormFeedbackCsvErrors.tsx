@@ -18,6 +18,7 @@ export const FormFeedbackCsvErrors: FC<FormFeedbackCsvErrorsProps> = ({ formStat
   if (pending || formState.status !== 'csv-error') {
     return undefined;
   }
+
   const regroupedErrors = formState.errors.reduce(
     (acc, error) => {
       if (!acc[error.line]) {

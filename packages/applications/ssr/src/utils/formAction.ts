@@ -33,7 +33,7 @@ export type FormState =
       redirectUrl?: string;
     }
   | {
-      status: 'form-error';
+      status: 'validation-error';
       errors: string[];
     }
   | {
@@ -94,7 +94,7 @@ export const formAction =
 
       if (e instanceof zod.ZodError) {
         return {
-          status: 'form-error' as const,
+          status: 'validation-error' as const,
           errors: e.issues
             .map((issue) => issue.message || '')
             .filter((message) => message.trim() !== ''),

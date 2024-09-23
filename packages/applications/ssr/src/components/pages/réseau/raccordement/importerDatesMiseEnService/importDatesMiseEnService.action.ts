@@ -40,7 +40,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
 
   if (lines.length === 0) {
     return {
-      status: 'form-error',
+      status: 'validation-error',
       errors: ['Erreur lors du traitement du fichier CSV'],
     };
   }

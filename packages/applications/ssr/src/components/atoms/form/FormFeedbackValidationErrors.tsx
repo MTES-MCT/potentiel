@@ -1,20 +1,34 @@
 import { FC } from 'react';
+import { useFormStatus } from 'react-dom';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
-import { AlertError } from './AlertError';
+import { FormState } from '@/utils/formAction';
 
 export type FormFeedbackValidationProps = {
-  errors: string[];
+  formState: FormState;
 };
 
-export const FormFeedbackValidationErrors: FC<FormFeedbackValidationProps> = ({ errors }) => {
+export const FormFeedbackValidationErrors: FC<FormFeedbackValidationProps> = ({ formState }) => {
+  const { pending } = useFormStatus();
+
+  if (pending || formState.status !== 'validation-error') {
+    return undefined;
+  }
+
   return (
-    <AlertError
+    <Alert
+      small
+      severity="error"
+      className="mt-6"
       description={
-        errors.length > 0 ? (
+        formState.errors.length > 0 ? (
           <>
-            <p>Le formulaire n'a pu être validé à cause des erreurs suivantes :</p>
+            <p>
+              Le formulaire n'a pu être validé à cause $
+              {formState.errors.length > 1 ? 'des erreurs suivantes' : "de l'erreur suivante"} :
+            </p>
             <ul className="list-disc pl-3">
-              {errors.map((e, index) => (
+              {formState.errors.map((e, index) => (
                 <li key={index}>
                   <span className="font-bold"></span>
                   {e}
