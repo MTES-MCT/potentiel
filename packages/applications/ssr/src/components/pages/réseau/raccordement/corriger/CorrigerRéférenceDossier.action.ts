@@ -41,7 +41,7 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
     if (lines.length === 0) {
       return {
         status: 'form-error',
-        errors: ['fichierCorrections'],
+        errors: ['Erreur lors du traitement du fichier CSV'],
       };
     }
 

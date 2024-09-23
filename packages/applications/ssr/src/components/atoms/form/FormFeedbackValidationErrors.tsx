@@ -2,11 +2,11 @@ import { FC } from 'react';
 
 import { AlertError } from './AlertError';
 
-type Props = {
+export type FormFeedbackValidationProps = {
   errors: string[];
 };
 
-export const FormFeedbackValidationErrors: FC<Props> = ({ errors }) => {
+export const FormFeedbackValidationErrors: FC<FormFeedbackValidationProps> = ({ errors }) => {
   return (
     <AlertError
       description={
