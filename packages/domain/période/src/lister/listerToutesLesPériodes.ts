@@ -20,36 +20,45 @@ export const listerToutesLesPériodes = async (
     where: { id: Where.equal(appelOffre) },
   });
 
-  const all = appelOffres.items.reduce((acc, current) => {
-    const periodes: Array<ConsulterPériodeReadModel> = current.periodes.map((periode) => {
-      const identifiantPériode = IdentifiantPériode.convertirEnValueType(
-        `${current.id}#${periode.id}`,
-      );
+  const all = appelOffres.items
+    .reduce((acc, current) => {
+      const periodes: Array<ConsulterPériodeReadModel> = current.periodes.map((periode) => {
+        const identifiantPériode = IdentifiantPériode.convertirEnValueType(
+          `${current.id}#${periode.id}`,
+        );
 
-      const notifiée = notifiées.items.find(
-        (notifiée) => notifiée.identifiantPériode === identifiantPériode.formatter(),
-      );
+        const périodeNotifiée = notifiées.items.find(
+          (notifiée) => notifiée.identifiantPériode === identifiantPériode.formatter(),
+        );
 
-      return {
-        identifiantPériode,
-        ...(notifiée?.estNotifiée
-          ? {
-              estNotifiée: true,
-              identifiantLauréats: notifiée.identifiantLauréats.map(
-                IdentifiantProjet.convertirEnValueType,
-              ),
-              identifiantÉliminés: notifiée.identifiantÉliminés.map(
-                IdentifiantProjet.convertirEnValueType,
-              ),
-              notifiéeLe: DateTime.convertirEnValueType(notifiée.notifiéeLe),
-              notifiéePar: Email.convertirEnValueType(notifiée.notifiéePar),
-            }
-          : { estNotifiée: false }),
-      };
-    });
+        if (périodeNotifiée?.estNotifiée) {
+          return {
+            identifiantPériode,
+            estNotifiée: true,
+            identifiantLauréats: périodeNotifiée.identifiantLauréats.map(
+              IdentifiantProjet.convertirEnValueType,
+            ),
+            identifiantÉliminés: périodeNotifiée.identifiantÉliminés.map(
+              IdentifiantProjet.convertirEnValueType,
+            ),
+            notifiéeLe: périodeNotifiée.notifiéeLe
+              ? DateTime.convertirEnValueType(périodeNotifiée.notifiéeLe)
+              : undefined,
+            notifiéePar: périodeNotifiée.notifiéePar
+              ? Email.convertirEnValueType(périodeNotifiée.notifiéePar)
+              : undefined,
+          };
+        }
 
-    return [...acc, ...periodes];
-  }, [] as Array<ConsulterPériodeReadModel>);
+        return {
+          identifiantPériode,
+          estNotifiée: false,
+        };
+      });
+
+      return [...acc, ...periodes];
+    }, [] as Array<ConsulterPériodeReadModel>)
+    .sort((a, b) => a.identifiantPériode.appelOffre.localeCompare(b.identifiantPériode.appelOffre));
 
   return {
     items: range ? all.slice(range.startPosition, range.endPosition + 1) : all,

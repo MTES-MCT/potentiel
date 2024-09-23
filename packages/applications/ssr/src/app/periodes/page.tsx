@@ -116,8 +116,8 @@ const mapToProps = async ({
         peutÊtreNotifiée: période.estNotifiée
           ? false
           : utilisateur.role.aLaPermission('période.notifier'),
-        notifiéLe: période.estNotifiée ? période.notifiéeLe.formatter() : undefined,
-        notifiéPar: période.estNotifiée ? période.notifiéePar.formatter() : undefined,
+        notifiéLe: période.estNotifiée ? période.notifiéeLe?.formatter() : undefined,
+        notifiéPar: période.estNotifiée ? période.notifiéePar?.formatter() : undefined,
         totalÉliminés,
         totalLauréats,
         totalCandidatures,

@@ -9,19 +9,12 @@ export type PériodeEntity = Entity<
     identifiantPériode: IdentifiantPériode.RawType;
     appelOffre: string;
     période: string;
-  } & (PériodeNotifiée | PériodeNonNotifiée)
+    estNotifiée: boolean;
+
+    notifiéeLe?: DateTime.RawType;
+    notifiéePar?: Email.RawType;
+
+    identifiantLauréats: ReadonlyArray<IdentifiantProjet.RawType>;
+    identifiantÉliminés: ReadonlyArray<IdentifiantProjet.RawType>;
+  }
 >;
-
-type PériodeNonNotifiée = {
-  estNotifiée: false;
-};
-
-type PériodeNotifiée = {
-  estNotifiée: true;
-
-  notifiéeLe: DateTime.RawType;
-  notifiéePar: Email.RawType;
-
-  identifiantLauréats: ReadonlyArray<IdentifiantProjet.RawType>;
-  identifiantÉliminés: ReadonlyArray<IdentifiantProjet.RawType>;
-};
