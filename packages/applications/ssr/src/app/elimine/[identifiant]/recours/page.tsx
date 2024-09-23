@@ -7,8 +7,6 @@ import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Recours } from '@potentiel-domain/elimine';
 import { Role } from '@potentiel-domain/utilisateur';
-import { featureFlags } from '@potentiel-applications/feature-flags';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -31,11 +29,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: PageProps) {
-  if (!featureFlags.isRecoursEnabled) {
-    getLogger().warn('Feature flags "Recours" disabled');
-    return notFound();
-  }
-
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);

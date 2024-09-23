@@ -70,10 +70,6 @@ const getAcceptanceParams = (
     return {
       producteurPrecedent: modification.producteurPrecedent,
     };
-  } else if (modification.type === 'recours') {
-    return {
-      motifElimination: modification.motifElimination,
-    };
   }
 
   return {};

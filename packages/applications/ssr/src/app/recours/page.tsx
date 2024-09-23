@@ -1,13 +1,10 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Recours } from '@potentiel-domain/elimine';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { featureFlags } from '@potentiel-applications/feature-flags';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -32,10 +29,6 @@ const paramsSchema = z.object({
 });
 
 export default async function Page({ searchParams }: PageProps) {
-  if (!featureFlags.isRecoursEnabled) {
-    getLogger().warn('Feature flags "Recours" disabled');
-    return notFound();
-  }
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const { page, nomProjet, appelOffre, statut } = paramsSchema.parse(searchParams);

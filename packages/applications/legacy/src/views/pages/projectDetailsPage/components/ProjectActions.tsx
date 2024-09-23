@@ -16,12 +16,10 @@ import {
 
 type EnregistrerUneModificationProps = {
   project: ProjectDataForProjectPage;
-  signalementRecoursAutorisé?: true;
 };
 
 const EnregistrerUneModification = ({
   project,
-  signalementRecoursAutorisé,
 }: EnregistrerUneModificationProps) => (
   <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
     <DropdownMenuSecondaryButton.DropdownItem
@@ -29,15 +27,7 @@ const EnregistrerUneModification = ({
     >
       <span>Demande de délai</span>
     </DropdownMenuSecondaryButton.DropdownItem>
-    {signalementRecoursAutorisé && getProjectStatus(project) === 'éliminé' ? (
-      <DropdownMenuSecondaryButton.DropdownItem
-        href={routes.ADMIN_SIGNALER_DEMANDE_RECOURS_GET(project.id)}
-      >
-        <span>Demande de recours</span>
-      </DropdownMenuSecondaryButton.DropdownItem>
-    ) : (
-      <></>
-    )}
+    <></>
   </DropdownMenuSecondaryButton>
 );
 
@@ -65,7 +55,7 @@ const PorteurProjetActions = ({
       <div className="flex flex-col xl:flex-row gap-2">
         {!project.isClasse && (
           <SecondaryLinkButton
-            href={routes.DEPOSER_RECOURS(project.id)}
+            href={Routes.Recours.demander(identifiantProjet)}
             disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
           >
             Faire une demande de recours
@@ -141,13 +131,9 @@ const PorteurProjetActions = ({
 
 type AdminActionsProps = {
   project: ProjectDataForProjectPage;
-  signalementAbandonAutorisé: true;
-  signalementRecoursAutorisé: true;
 };
 const AdminActions = ({
   project,
-  signalementAbandonAutorisé,
-  signalementRecoursAutorisé,
 }: AdminActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -159,7 +145,7 @@ const AdminActions = ({
   return (
     <div className="flex flex-col md:flex-row gap-2">
       <EnregistrerUneModification
-        {...{ project, signalementAbandonAutorisé, signalementRecoursAutorisé }}
+        {...{ project }}
       />
       {project.notifiedOn ? (
         <DownloadLinkButton
@@ -216,7 +202,7 @@ export const ProjectActions = ({
   <div className="print:hidden whitespace-nowrap">
     {userIs(['admin', 'dgec-validateur'])(user) && (
       <AdminActions
-        {...{ project, signalementAbandonAutorisé: true, signalementRecoursAutorisé: true }}
+        {...{ project }}
       />
     )}
     {userIs(['porteur-projet'])(user) && (

@@ -28,80 +28,6 @@ describe('parseProjectModifications', () => {
     });
   });
 
-  describe('when line has a single Recours modification that was rejected', () => {
-    const phonyLine = {
-      'Type de modification 1': 'Recours gracieux',
-      'Date de modification 1': '25/04/2019',
-      'Colonne concernée 1': 'Classé ?',
-      'Ancienne valeur 1': 'Eliminé',
-      'Statut demande 1': 'Refusée',
-      'Nom courrier 1': 'filename',
-    };
-
-    it('should return a modification of type recours and rejected', async () => {
-      const modifications = parseProjectModifications(phonyLine);
-
-      expect(modifications).toHaveLength(1);
-      expect(modifications[0]).toMatchObject({
-        type: 'recours',
-        status: 'rejetée',
-        modifiedOn: 1556143200000,
-        filename: 'filename',
-      });
-    });
-  });
-
-  describe('when line has a single Recours modification that was accepted', () => {
-    const phonyLine = {
-      'Type de modification 1': 'Recours gracieux',
-      'Date de modification 1': '25/04/2019',
-      'Colonne concernée 1': 'Classé ?',
-      'Ancienne valeur 1': 'Classé',
-      'Statut demande 1': 'Acceptée',
-      'Nom courrier 1': 'filename',
-    };
-
-    it('should return a modification of type recours and accepted', async () => {
-      const modifications = parseProjectModifications(phonyLine);
-
-      expect(modifications).toHaveLength(1);
-      expect(modifications[0]).toMatchObject({
-        type: 'recours',
-        status: 'acceptée',
-        modifiedOn: 1556143200000,
-        filename: 'filename',
-      });
-    });
-  });
-  describe('when line has a single Recours modification that was accepted and contains the previous motifElimination', () => {
-    const phonyLine = {
-      'Type de modification 1': 'Recours gracieux',
-      'Date de modification 1': '25/04/2019',
-      'Colonne concernée 1': 'Classé ?',
-      'Ancienne valeur 1': 'Classé',
-      'Statut demande 1': 'Acceptée',
-      'Type de modification 2': 'Recours gracieux',
-      'Date de modification 2': '25/04/2019',
-      'Colonne concernée 2': "Motif d'élimination",
-      'Ancienne valeur 2': 'Ancien motif',
-      'Statut demande 2': 'Acceptée',
-      'Nom courrier 2': 'filename',
-    };
-
-    it('should return a modification of type recours, accepted and contain the previous motifs', async () => {
-      const modifications = parseProjectModifications(phonyLine);
-
-      expect(modifications).toHaveLength(1);
-      expect(modifications[0]).toMatchObject({
-        type: 'recours',
-        status: 'acceptée',
-        modifiedOn: 1556143200000,
-        motifElimination: 'Ancien motif',
-        filename: 'filename',
-      });
-    });
-  });
-
   describe('when line has a single Prolongation de délai modification accepted', () => {
     const phonyLine = {
       'Type de modification 1': 'Prolongation de délai',
@@ -208,10 +134,6 @@ describe('parseProjectModifications', () => {
       'Date de modification 2': '26/04/2019',
       'Colonne concernée 2': '22/12/2024',
       'Ancienne valeur 2': '01/01/2024',
-      'Type de modification 3': 'Recours gracieux',
-      'Date de modification 3': '27/04/2019',
-      'Colonne concernée 3': 'Classé ?',
-      'Ancienne valeur 3': 'Eliminé',
       'Statut demande 1': 'Acceptée',
       'Statut demande 2': 'Acceptée',
       'Statut demande 3': 'Acceptée',
@@ -221,7 +143,7 @@ describe('parseProjectModifications', () => {
     it('should return all the corresponding modifications', async () => {
       const modifications = parseProjectModifications(phonyLine);
 
-      expect(modifications).toHaveLength(3);
+      expect(modifications).toHaveLength(2);
       expect(modifications[0]).toMatchObject({
         type: 'producteur',
         producteurPrecedent: 'ancien producteur',
@@ -233,12 +155,6 @@ describe('parseProjectModifications', () => {
         nouvelleDateLimiteAchevement: 1734822000000,
         ancienneDateLimiteAchevement: 1704063600000,
         modifiedOn: 1556229600000,
-        status: 'acceptée',
-      });
-      expect(modifications[2]).toMatchObject({
-        type: 'recours',
-        modifiedOn: 1556316000000,
-        filename: 'filename',
         status: 'acceptée',
       });
     });

@@ -22,20 +22,6 @@ export default ProjectEventProjector.on(
       const filename = modification.filename;
       const status = modification.status;
       switch (modification.type) {
-        case 'recours':
-          await ProjectEvent.create(
-            {
-              ...common,
-              payload: {
-                modificationType: 'recours',
-                status,
-                ...(filename && { filename }),
-                motifElimination: modification.motifElimination,
-              },
-            },
-            { transaction },
-          );
-          break;
         case 'delai':
           if (status === 'acceptée') {
             await ProjectEvent.create(

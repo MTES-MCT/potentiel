@@ -66,6 +66,12 @@ const getNavigationItemsBasedOnRole = (
                 href: Routes.Abandon.lister,
               },
             },
+            {
+              text: 'Recours',
+              linkProps: {
+                href: Routes.Recours.lister,
+              },
+            },
           ],
         },
         {
@@ -208,6 +214,12 @@ const getNavigationItemsBasedOnRole = (
                 href: Routes.Abandon.lister,
               },
             },
+            {
+              text: 'Recours',
+              linkProps: {
+                href: Routes.Recours.lister,
+              },
+            },
           ],
         },
         {
@@ -236,6 +248,12 @@ const getNavigationItemsBasedOnRole = (
               text: 'Abandons',
               linkProps: {
                 href: Routes.Abandon.lister,
+              },
+            },
+            {
+              text: 'Recours',
+              linkProps: {
+                href: Routes.Recours.lister,
               },
             },
           ],
@@ -272,6 +290,12 @@ const getNavigationItemsBasedOnRole = (
           text: 'Abandons',
           linkProps: {
             href: Routes.Abandon.lister,
+          },
+        },
+        {
+          text: 'Recours',
+          linkProps: {
+            href: Routes.Recours.lister,
           },
         },
         {

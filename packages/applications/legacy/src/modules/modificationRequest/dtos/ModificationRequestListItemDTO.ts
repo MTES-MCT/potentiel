@@ -3,7 +3,6 @@ export const MODIFICATION_REQUEST_TYPES = [
   'fournisseur',
   'producteur',
   'puissance',
-  'recours',
   'delai',
   'autre',
 ] as const;

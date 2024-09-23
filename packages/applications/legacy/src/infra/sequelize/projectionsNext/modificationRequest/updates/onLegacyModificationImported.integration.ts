@@ -17,26 +17,6 @@ describe('modificationRequest.onLegacyModificationImported', () => {
     beforeAll(async () => {
       await resetDatabase();
 
-      await ModificationRequest.bulkCreate([
-        {
-          id: nonLegacyModificationId,
-          projectId,
-          userId,
-          type: 'recours',
-          status: 'envoyée',
-          requestedOn: 1,
-        },
-        {
-          id: legacyModificationId,
-          projectId,
-          userId,
-          type: 'recours',
-          status: 'acceptée',
-          requestedOn: 1,
-          isLegacy: true,
-        },
-      ]);
-
       await onLegacyModificationImported(
         new LegacyModificationImported({
           payload: {
@@ -57,9 +37,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
     it('should not remove the non-legacy modifications', async () => {
       const projectModifications = await ModificationRequest.findAll({ where: { projectId } });
 
-      expect(projectModifications).toHaveLength(1);
-
-      expect(projectModifications.map((item) => item.id)).toContain(nonLegacyModificationId);
+      expect(projectModifications).toHaveLength(0);
     });
   });
 
@@ -209,82 +187,6 @@ describe('modificationRequest.onLegacyModificationImported', () => {
           producteurPrecedent: 'producteurPrecedent',
         },
         status: 'acceptée',
-        isLegacy: true,
-        filename: 'filename',
-      });
-    });
-  });
-
-  describe('when given a legacy modification of type recours and acceptée', () => {
-    it('should add a modificationRequest of type recours and acceptée', async () => {
-      const modificationId = new UniqueEntityID().toString();
-
-      await resetDatabase();
-      await onLegacyModificationImported(
-        new LegacyModificationImported({
-          payload: {
-            projectId,
-            importId,
-            modifications: [
-              {
-                type: 'recours',
-                status: 'acceptée',
-                motifElimination: 'motifElimination',
-                modifiedOn: 123,
-                modificationId,
-                filename: 'filename',
-              },
-            ],
-          },
-        }),
-      );
-
-      const newLegacyModification = await ModificationRequest.findByPk(modificationId);
-      expect(newLegacyModification).not.toEqual(null);
-      expect(newLegacyModification).toMatchObject({
-        type: 'recours',
-        acceptanceParams: {
-          motifElimination: 'motifElimination',
-        },
-        status: 'acceptée',
-        isLegacy: true,
-        filename: 'filename',
-      });
-    });
-  });
-
-  describe('when given a legacy modification of type recours and rejected', () => {
-    it('should add a modificationRequest of type recours and rejected', async () => {
-      const modificationId = new UniqueEntityID().toString();
-
-      await resetDatabase();
-      await onLegacyModificationImported(
-        new LegacyModificationImported({
-          payload: {
-            projectId,
-            importId,
-            modifications: [
-              {
-                type: 'recours',
-                status: 'rejetée',
-                motifElimination: 'motifElimination',
-                modifiedOn: 123,
-                modificationId,
-                filename: 'filename',
-              },
-            ],
-          },
-        }),
-      );
-
-      const newLegacyModification = await ModificationRequest.findByPk(modificationId);
-      expect(newLegacyModification).not.toEqual(null);
-      expect(newLegacyModification).toMatchObject({
-        type: 'recours',
-        acceptanceParams: {
-          motifElimination: 'motifElimination',
-        },
-        status: 'rejetée',
         isLegacy: true,
         filename: 'filename',
       });

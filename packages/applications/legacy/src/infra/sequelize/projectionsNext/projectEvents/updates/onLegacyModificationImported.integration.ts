@@ -16,28 +16,6 @@ describe('onLegacyModificationImported', () => {
       const legacyTargetProject2 = new UniqueEntityID().toString();
       const nonLegacyTargetProject = new UniqueEntityID().toString();
       const importId = new UniqueEntityID().toString();
-      const otherProjectId = new UniqueEntityID().toString();
-      const legacyOtherProject = new UniqueEntityID().toString();
-
-      await ProjectEvent.create({
-        // legacy event, same project
-        id: legacyTargetProject1,
-        projectId: targetProjectId,
-        eventPublishedAt: new Date('2022-03-03').getTime(),
-        valueDate: new Date('2022-03-03').getTime(),
-        type: 'LegacyModificationImported',
-        payload: { modificationType: 'recours' },
-      });
-
-      await ProjectEvent.create({
-        // legacy event, same project
-        id: legacyTargetProject2,
-        projectId: targetProjectId,
-        eventPublishedAt: new Date('2022-03-03').getTime(),
-        valueDate: new Date('2022-03-03').getTime(),
-        type: 'LegacyModificationImported',
-        payload: { modificationType: 'recours' },
-      });
 
       await ProjectEvent.create({
         // non legacy event, same project
@@ -49,18 +27,8 @@ describe('onLegacyModificationImported', () => {
         payload: { notifiedOn: 123 },
       });
 
-      await ProjectEvent.create({
-        // legacy event, different project
-        id: legacyOtherProject,
-        projectId: otherProjectId,
-        eventPublishedAt: new Date('2022-03-03').getTime(),
-        valueDate: new Date('2022-03-03').getTime(),
-        type: 'LegacyModificationImported',
-        payload: { modificationType: 'recours' },
-      });
-
       const projectEvents = await ProjectEvent.findAll();
-      expect(projectEvents).toHaveLength(4);
+      expect(projectEvents).toHaveLength(1);
 
       await onLegacyModificationImported(
         new LegacyModificationImported({
@@ -77,13 +45,12 @@ describe('onLegacyModificationImported', () => {
       );
 
       const res = await ProjectEvent.findAll();
-      expect(res).toHaveLength(2);
+      expect(res).toHaveLength(1);
 
       expect(res).not.toContainEqual(expect.objectContaining({ id: legacyTargetProject1 }));
       expect(res).not.toContainEqual(expect.objectContaining({ id: legacyTargetProject2 }));
 
       expect(res).toContainEqual(expect.objectContaining({ id: nonLegacyTargetProject }));
-      expect(res).toContainEqual(expect.objectContaining({ id: legacyOtherProject }));
     });
   });
 
@@ -99,13 +66,6 @@ describe('onLegacyModificationImported', () => {
             projectId: projectId.toString(),
             importId: importId.toString(),
             modifications: [
-              {
-                modifiedOn: new Date('2019-01-01').getTime(),
-                modificationId: new UniqueEntityID().toString(),
-                type: 'recours',
-                status: 'acceptée',
-                motifElimination: 'motif',
-              },
               {
                 modifiedOn: new Date('2020-01-01').getTime(),
                 modificationId: new UniqueEntityID().toString(),
@@ -150,12 +110,8 @@ describe('onLegacyModificationImported', () => {
         where: { projectId: projectId.toString() },
       });
 
-      expect(projectEvent).toHaveLength(5);
+      expect(projectEvent).toHaveLength(4);
       expect(projectEvent[0]).toMatchObject({
-        type: 'LegacyModificationImported',
-        payload: { modificationType: 'recours', status: 'acceptée', motifElimination: 'motif' },
-      });
-      expect(projectEvent[1]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: {
           modificationType: 'delai',
@@ -164,7 +120,7 @@ describe('onLegacyModificationImported', () => {
           status: 'acceptée',
         },
       });
-      expect(projectEvent[2]).toMatchObject({
+      expect(projectEvent[1]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: {
           modificationType: 'actionnaire',
@@ -172,7 +128,7 @@ describe('onLegacyModificationImported', () => {
           status: 'acceptée',
         },
       });
-      expect(projectEvent[3]).toMatchObject({
+      expect(projectEvent[2]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: {
           modificationType: 'producteur',
@@ -180,7 +136,7 @@ describe('onLegacyModificationImported', () => {
           status: 'acceptée',
         },
       });
-      expect(projectEvent[4]).toMatchObject({
+      expect(projectEvent[3]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: { modificationType: 'autre', column: 'col', value: 'val', status: 'acceptée' },
       });

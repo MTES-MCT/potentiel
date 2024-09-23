@@ -116,7 +116,6 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
           }) => {
             const getDescription = (): string => {
               switch (type) {
-                case 'recours':
                 case 'fournisseur':
                 case 'delai':
                   return justification || '';
