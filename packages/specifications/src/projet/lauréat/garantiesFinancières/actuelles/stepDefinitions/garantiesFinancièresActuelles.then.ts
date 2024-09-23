@@ -18,7 +18,7 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const typeGarantiesFinancières = exemple['type'];
+    const typeGarantiesFinancières = exemple['type GF'];
     const dateÉchéance = exemple[`date d'échéance`];
     const format = exemple['format'];
     const dateConstitution = exemple[`date de constitution`];

@@ -47,7 +47,9 @@ export class CandidatureWorld {
       puissanceALaPointeValue: mapBoolean(exemple['puissance à la pointe']),
       sociétéMèreValue: exemple['société mère'],
       territoireProjetValue: exemple['territoire projet'],
-      dateÉchéanceGfValue: exemple['date échéance GF'],
+      dateÉchéanceGfValue: exemple['date échéance GF']
+        ? new Date(exemple['date échéance GF']).toISOString()
+        : undefined,
       historiqueAbandonValue: exemple['historique abandon'],
       puissanceProductionAnnuelleValue: mapNumber(exemple['puissance production annuelle']),
       prixReferenceValue: mapNumber(exemple['prix reference']),

@@ -16,6 +16,7 @@ import {
   ImporterCandidatureBehaviorCommonOptions,
   mapToEventPayload,
 } from '../importer/importerCandidature.behavior';
+import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
 
 type CandidatureCorrigéePayload = CandidatureImportéeEventCommonPayload & {
   corrigéLe: DateTime.RawType;
@@ -85,4 +86,10 @@ export function applyCandidatureCorrigée(
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
   this.payloadHash = this.calculerHash(payload);
+  if (payload.typeGarantiesFinancières) {
+    this.garantiesFinancières = {
+      type: TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières),
+      dateÉchéance: payload.dateÉchéanceGf && DateTime.convertirEnValueType(payload.dateÉchéanceGf),
+    };
+  }
 }

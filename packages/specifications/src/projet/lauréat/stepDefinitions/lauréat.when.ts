@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { When as Quand } from '@cucumber/cucumber';
 
 import { Lauréat } from '@potentiel-domain/laureat';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
@@ -26,6 +26,14 @@ Quand(
           format: `text/plain`,
         },
       },
+    });
+    const nomProjet = this.candidatureWorld.importerCandidature.values.nomProjetValue;
+    this.lauréatWorld.lauréatFixtures.set(nomProjet, {
+      appelOffre: this.périodeWorld.identifiantPériode.appelOffre,
+      dateDésignation: new Date().toISOString(),
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      nom: nomProjet,
+      période: this.périodeWorld.identifiantPériode.période,
     });
   },
 );
