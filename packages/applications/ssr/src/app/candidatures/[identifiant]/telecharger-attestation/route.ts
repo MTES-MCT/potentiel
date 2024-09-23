@@ -38,7 +38,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
   return new Response(result.content, {
     headers: {
       'content-type': result.format,
-      'content-disposition': `attachment; filename="attestation-${nomProjet}.pdf"`,
+      'content-disposition': `attachment; filename="attestation-${encodeURIComponent(nomProjet)}.pdf"`,
     },
   });
 };
