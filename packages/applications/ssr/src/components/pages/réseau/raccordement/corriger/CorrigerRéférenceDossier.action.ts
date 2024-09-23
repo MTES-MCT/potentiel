@@ -9,7 +9,7 @@ import { parseCsv } from '@potentiel-libraries/csv';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { validateDocumentSize } from '@/utils/zod/documentError';
+import { validateDocumentSize } from '@/utils/zod/documentValidation';
 export type CorrigerRéférencesDossierState = FormState;
 
 const schema = zod.object({

@@ -7,7 +7,7 @@ import { CorrigerDocumentProjetCommand } from '@potentiel-domain/document';
 import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
-import { validateDocumentSize } from '@/utils/zod/documentError';
+import { validateDocumentSize } from '@/utils/zod/documentValidation';
 
 const schema = zod.object({
   documentCorrige: zod.instanceof(Blob).superRefine((file, ctx) => validateDocumentSize(file, ctx)),

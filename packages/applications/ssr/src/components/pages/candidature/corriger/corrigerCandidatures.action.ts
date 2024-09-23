@@ -10,7 +10,7 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { validateDocumentSize } from '@/utils/zod/documentError';
+import { validateDocumentSize } from '@/utils/zod/documentValidation';
 
 import { candidatureSchema, CandidatureShape } from '../importer/candidature.schema';
 import { getLocalité } from '../helpers';

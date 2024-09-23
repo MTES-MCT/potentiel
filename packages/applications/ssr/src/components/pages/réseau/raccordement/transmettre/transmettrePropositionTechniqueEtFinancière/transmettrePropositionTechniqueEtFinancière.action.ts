@@ -7,7 +7,7 @@ import { Raccordement } from '@potentiel-domain/reseau';
 import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
-import { validateDocumentSize } from '@/utils/zod/documentError';
+import { validateDocumentSize } from '@/utils/zod/documentValidation';
 
 export type transmettrePropositionTechniqueEtFinancièreState = FormState;
 

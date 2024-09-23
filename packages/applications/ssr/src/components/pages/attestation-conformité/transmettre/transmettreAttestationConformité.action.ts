@@ -11,7 +11,7 @@ import { Raccordement } from '@potentiel-domain/reseau';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { validateDocumentSize } from '@/utils/zod/documentError';
+import { validateDocumentSize } from '@/utils/zod/documentValidation';
 
 export type TransmettreAttestationConformitéState = FormState;
 
