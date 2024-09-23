@@ -8,7 +8,11 @@ import {
   RecoursAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { RecoursProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
-import { SendEmail, ÉliminéNotification } from '@potentiel-applications/notifications';
+import {
+  RecoursNotification,
+  SendEmail,
+  ÉliminéNotification,
+} from '@potentiel-applications/notifications';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
 
 type SetupÉliminéDependenices = {
@@ -31,6 +35,7 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependenices) =
   ÉliminéNotification.register({ sendEmail });
 
   RecoursProjector.register();
+  RecoursNotification.register({ sendEmail });
 
   const unsubscribeRecoursProjector = await subscribe<RecoursProjector.SubscriptionEvent>({
     name: 'projector',
@@ -44,6 +49,18 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependenices) =
     eventHandler: async (event) => {
       await mediator.send<RecoursProjector.Execute>({
         type: 'System.Projector.Eliminé.Recours',
+        data: event,
+      });
+    },
+    streamCategory: 'recours',
+  });
+
+  const unsubscribeRecoursNotification = await subscribe<RecoursNotification.SubscriptionEvent>({
+    name: 'notifications',
+    eventType: ['RecoursDemandé-V1', 'RecoursAnnulé-V1', 'RecoursAccordé-V1', 'RecoursRejeté-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<RecoursNotification.Execute>({
+        type: 'System.Notification.Éliminé.Recours',
         data: event,
       });
     },
@@ -88,6 +105,8 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependenices) =
 
   return async () => {
     await unsubscribeRecoursProjector();
+    await unsubscribeRecoursNotification();
+
     await unsubscribeÉliminéProjector();
     await unsubscribeÉliminéNotification();
     await unsubscribeÉliminéSaga();
