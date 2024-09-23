@@ -10,11 +10,11 @@ import {
   récupérerPorteursParIdentifiantProjetAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 
-import { EmailPayload, SendEmail } from '../../sendEmail';
+import { SendEmail } from '../../sendEmail';
 
 export type SubscriptionEvent = Recours.RecoursEvent & Event;
 
-export type Execute = Message<'System.Notification.Recours', SubscriptionEvent>;
+export type Execute = Message<'System.Notification.Éliminé.Recours', SubscriptionEvent>;
 
 const templateId = 6310637;
 
@@ -31,54 +31,51 @@ const getStatutByEventType = (type: SubscriptionEvent['type']) => {
   }
 };
 
-async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload | undefined> {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-
-  const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet.formatter());
-  const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
-
-  if (Option.isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {
-    return;
-  }
-
-  const nomProjet = projet.nom;
-  const départementProjet = projet.localité.département;
-  const appelOffre = projet.appelOffre;
-  const période = projet.période;
-
-  const admins = [
-    {
-      email: process.env.DGEC_EMAIL,
-      fullName: 'DGEC',
-    },
-  ];
-
-  const { BASE_URL } = process.env;
-
-  return {
-    templateId,
-    messageSubject: `Potentiel - Demande de recours ${getStatutByEventType(event.type)} pour le projet ${nomProjet} (${appelOffre} période ${période})`,
-    recipients: [...porteurs, ...admins],
-    variables: {
-      nom_projet: nomProjet,
-      departement_projet: départementProjet,
-      statut: getStatutByEventType(event.type),
-      demande_recours_url: `${BASE_URL}${Routes.Recours.détail(identifiantProjet.formatter())}`,
-    },
-  };
-}
-
 export type RegisterRecoursNotificationDependencies = {
   sendEmail: SendEmail;
 };
 
 export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
-    const payload = await getEmailPayload(event);
-    if (payload) {
-      await sendEmail(payload);
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+      event.payload.identifiantProjet,
+    );
+
+    const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet.formatter());
+    const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
+
+    if (Option.isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {
+      return;
     }
+    const { BASE_URL } = process.env;
+
+    const admins = [
+      {
+        email: process.env.DGEC_EMAIL,
+        fullName: 'DGEC',
+      },
+    ];
+    const nomProjet = projet.nom;
+    const départementProjet = projet.localité.département;
+    const appelOffre = projet.appelOffre;
+    const période = projet.période;
+    const statut = getStatutByEventType(event.type);
+
+    await sendEmail({
+      templateId,
+      messageSubject: `Potentiel - Demande de recours ${statut} pour le projet ${nomProjet} (${appelOffre} période ${période})`,
+      recipients: [...porteurs, ...admins],
+      variables: {
+        nom_projet: nomProjet,
+        departement_projet: départementProjet,
+        statut,
+        redirect_url:
+          statut === 'annulée'
+            ? `${BASE_URL}${Routes.Projet.details(identifiantProjet.formatter())}`
+            : `${BASE_URL}${Routes.Recours.détail(identifiantProjet.formatter())}`,
+      },
+    });
   };
 
-  mediator.register('System.Notification.Recours', handler);
+  mediator.register('System.Notification.Éliminé.Recours', handler);
 };

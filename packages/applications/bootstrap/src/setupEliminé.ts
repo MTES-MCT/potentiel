@@ -57,14 +57,14 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependenices) =
 
   const unsubscribeRecoursNotification = await subscribe<RecoursNotification.SubscriptionEvent>({
     name: 'notifications',
-    streamCategory: 'éliminé',
     eventType: ['RecoursDemandé-V1', 'RecoursAnnulé-V1', 'RecoursAccordé-V1', 'RecoursRejeté-V1'],
     eventHandler: async (event) => {
       await mediator.publish<RecoursNotification.Execute>({
-        type: 'System.Notification.Recours',
+        type: 'System.Notification.Éliminé.Recours',
         data: event,
       });
     },
+    streamCategory: 'recours',
   });
 
   const unsubscribeÉliminéProjector = await subscribe<ÉliminéProjector.SubscriptionEvent>({
