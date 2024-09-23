@@ -3,21 +3,41 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { getMailjetClient } from './getMailjetClient';
 import { mapToSendEmailMode } from './sendEmailMode';
 
+type Receipt = {
+  email: string;
+  fullName: string;
+};
+
 type SendEmail = (email: {
   templateId: number;
   messageSubject: string;
-  recipients: { email: string; fullName: string }[];
+  recipients: Array<Receipt>;
+  copyRecipients: Array<Receipt>;
+  hiddenCopyRecipients: Array<Receipt>;
   variables: Record<string, string>;
 }) => Promise<void>;
 
-export const sendEmail: SendEmail = async (sendEmailArgs) => {
-  const { templateId, messageSubject, recipients, variables } = sendEmailArgs;
+const formatRecipients = (recipients: Array<Receipt>) =>
+  recipients.map(({ email, fullName }) => ({
+    Email: email,
+    Name: fullName,
+  }));
 
+export const sendEmail: SendEmail = async (sendEmailArgs) => {
   const { SEND_EMAILS_FROM, SEND_EMAILS_FROM_NAME, SEND_EMAIL_MODE = 'logging-only' } = process.env;
 
   const mode = mapToSendEmailMode(SEND_EMAIL_MODE);
 
   if (mode !== 'logging-only') {
+    const {
+      templateId,
+      messageSubject,
+      recipients,
+      copyRecipients,
+      hiddenCopyRecipients,
+      variables,
+    } = sendEmailArgs;
+
     await getMailjetClient()
       .post('send', {
         version: 'v3.1',
@@ -29,10 +49,9 @@ export const sendEmail: SendEmail = async (sendEmailArgs) => {
               Email: SEND_EMAILS_FROM,
               Name: SEND_EMAILS_FROM_NAME,
             },
-            To: recipients.map(({ email, fullName }) => ({
-              Email: email,
-              Name: fullName,
-            })),
+            To: formatRecipients(recipients),
+            Cc: formatRecipients(copyRecipients),
+            Bcc: formatRecipients(hiddenCopyRecipients),
             TemplateID: templateId,
             TemplateLanguage: true,
             Subject: messageSubject,

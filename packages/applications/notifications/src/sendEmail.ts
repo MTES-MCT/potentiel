@@ -1,7 +1,14 @@
+export type Recipient = {
+  email: string;
+  fullName: string;
+};
+
 export type EmailPayload = {
   templateId: number;
   messageSubject: string;
-  recipients: { email: string; fullName: string }[];
+  recipients: Array<Recipient>;
+  copyRecipients: Array<Recipient>;
+  hiddenCopyRecipients: Array<Recipient>;
   variables: Record<string, string>;
 };
 export type SendEmail = (email: EmailPayload) => Promise<void>;

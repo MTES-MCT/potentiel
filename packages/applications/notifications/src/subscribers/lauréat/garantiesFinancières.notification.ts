@@ -34,6 +34,19 @@ const templateId = {
   GFÉchuesPourDreal: 6155012,
 };
 
+type FormatGarantiesFinancièresEmailPayload = {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  subject: string;
+  templateId: number;
+  recipients: EmailPayload['recipients'];
+
+  nomProjet: string;
+  départementProjet: string;
+  régionProjet: string;
+  statut?: 'validées' | 'en attente de validation';
+  dateÉchéance?: string;
+};
+
 const formatGarantiesFinancièresEmailPayload = ({
   identifiantProjet,
   templateId,
@@ -44,17 +57,7 @@ const formatGarantiesFinancièresEmailPayload = ({
   subject,
   statut,
   dateÉchéance,
-}: {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  subject: string;
-  templateId: number;
-  recipients: Array<{ email: string; fullName: string }>;
-  nomProjet: string;
-  départementProjet: string;
-  régionProjet: string;
-  statut?: 'validées' | 'en attente de validation';
-  dateÉchéance?: string;
-}): EmailPayload | undefined => {
+}: FormatGarantiesFinancièresEmailPayload): EmailPayload | undefined => {
   const { BASE_URL } = process.env;
 
   if (recipients.length === 0) {
@@ -65,6 +68,8 @@ const formatGarantiesFinancièresEmailPayload = ({
     templateId,
     messageSubject: subject,
     recipients,
+    copyRecipients: [],
+    hiddenCopyRecipients: [],
     variables: {
       nom_projet: nomProjet,
       departement_projet: départementProjet,

@@ -70,6 +70,8 @@ async function getEmailPayload({
             fullName: candidature.nomReprésentantLégal,
           },
         ],
+        copyRecipients: [],
+        hiddenCopyRecipients: [],
         messageSubject: `Résultats de la ${période.title} période de l'appel d'offres ${appelOffre.id}`,
         variables: {
           invitation_link: `${BASE_URL}/projets.html`,

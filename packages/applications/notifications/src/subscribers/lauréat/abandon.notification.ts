@@ -28,16 +28,7 @@ const templateId = {
   demanderPreuveRecandidature: 5308275,
 };
 
-const sendEmailAbandonChangementDeStatut = ({
-  identifiantProjet,
-  statut,
-  templateId,
-  recipients,
-  nomProjet,
-  départementProjet,
-  appelOffre,
-  période,
-}: {
+type SendEmailAbandonChangementDeStatut = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut:
     | 'envoyée'
@@ -46,19 +37,36 @@ const sendEmailAbandonChangementDeStatut = ({
     | 'confirmée'
     | 'accordée'
     | 'rejetée';
-  templateId: number;
-  recipients: Array<{ email: string; fullName: string }>;
+  templateId: EmailPayload['templateId'];
+  recipients: EmailPayload['recipients'];
+  hiddenCopyRecipients: EmailPayload['hiddenCopyRecipients'];
+  copyRecipients: EmailPayload['copyRecipients'];
   nomProjet: string;
   départementProjet: string;
   appelOffre: string;
   période: string;
-}) => {
+};
+
+const sendEmailAbandonChangementDeStatut = ({
+  identifiantProjet,
+  statut,
+  templateId,
+  recipients,
+  copyRecipients,
+  hiddenCopyRecipients,
+  nomProjet,
+  départementProjet,
+  appelOffre,
+  période,
+}: SendEmailAbandonChangementDeStatut) => {
   const { BASE_URL } = process.env;
 
   return {
     templateId,
     messageSubject: `Potentiel - Demande d'abandon ${statut} pour le projet ${nomProjet} (${appelOffre} période ${période})`,
     recipients,
+    copyRecipients,
+    hiddenCopyRecipients,
     variables: {
       nom_projet: nomProjet,
       departement_projet: départementProjet,
@@ -96,7 +104,9 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
       return sendEmailAbandonChangementDeStatut({
         statut: 'envoyée',
         templateId: templateId.demander,
-        recipients: [...porteurs, ...admins],
+        recipients: porteurs,
+        hiddenCopyRecipients: admins,
+        copyRecipients: [],
         identifiantProjet,
         nomProjet,
         départementProjet,
@@ -107,7 +117,9 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
       return sendEmailAbandonChangementDeStatut({
         statut: 'annulée',
         templateId: templateId.annuler,
-        recipients: [...porteurs, ...admins],
+        recipients: porteurs,
+        hiddenCopyRecipients: admins,
+        copyRecipients: [],
         identifiantProjet,
         nomProjet,
         départementProjet,
@@ -119,6 +131,8 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
         statut: 'en attente de confirmation',
         templateId: templateId.demanderConfirmation,
         recipients: porteurs,
+        copyRecipients: [],
+        hiddenCopyRecipients: [],
         identifiantProjet,
         nomProjet,
         départementProjet,
@@ -129,7 +143,9 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
       return sendEmailAbandonChangementDeStatut({
         statut: 'confirmée',
         templateId: templateId.demanderConfirmation,
-        recipients: [...porteurs, ...admins],
+        recipients: porteurs,
+        copyRecipients: [],
+        hiddenCopyRecipients: admins,
         identifiantProjet,
         nomProjet,
         départementProjet,
@@ -141,6 +157,8 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
         statut: 'accordée',
         templateId: templateId.accorder,
         recipients: porteurs,
+        copyRecipients: [],
+        hiddenCopyRecipients: [],
         identifiantProjet,
         nomProjet,
         départementProjet,
@@ -152,6 +170,8 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
         statut: 'rejetée',
         templateId: templateId.rejeter,
         recipients: porteurs,
+        copyRecipients: [],
+        hiddenCopyRecipients: [],
         identifiantProjet,
         nomProjet,
         départementProjet,
@@ -163,6 +183,8 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
         templateId: templateId.demanderPreuveRecandidature,
         messageSubject: `Potentiel - Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
         recipients: porteurs,
+        copyRecipients: [],
+        hiddenCopyRecipients: [],
         variables: {
           nom_projet: projet.nom,
           lien_transmettre_preuve_recandidature: `${BASE_URL}${Routes.Abandon.détail(

@@ -23,38 +23,6 @@ const templateId = {
   attestationConformitéTransmise: 5945568,
 };
 
-const formatAchèvementEmailPayload = ({
-  identifiantProjet,
-  templateId,
-  recipients,
-  nomProjet,
-  départementProjet,
-  régionProjet,
-  subject,
-}: {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  subject: string;
-  templateId: number;
-  recipients: Array<{ email: string; fullName: string }>;
-  nomProjet: string;
-  départementProjet: string;
-  régionProjet: string;
-}): EmailPayload => {
-  const { BASE_URL } = process.env;
-
-  return {
-    templateId,
-    messageSubject: subject,
-    recipients,
-    variables: {
-      nom_projet: nomProjet,
-      departement_projet: départementProjet,
-      region_projet: régionProjet,
-      url: `${BASE_URL}${Routes.Projet.details(identifiantProjet.formatter())}`,
-    },
-  };
-};
-
 async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload | undefined> {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet.formatter());
@@ -64,22 +32,26 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
   }
 
   const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
-
   const nomProjet = projet.nom;
   const départementProjet = projet.localité.département;
   const régionProjet = projet.localité.région;
+  const { BASE_URL } = process.env;
 
   switch (event.type) {
     case 'AttestationConformitéTransmise-V1':
-      return formatAchèvementEmailPayload({
-        subject: `Potentiel - Une attestation de conformité a été transmise pour le projet ${nomProjet} dans le département ${départementProjet}`,
+      return {
         templateId: templateId.attestationConformitéTransmise,
+        messageSubject: `Potentiel - Une attestation de conformité a été transmise pour le projet ${nomProjet} dans le département ${départementProjet}`,
         recipients: dreals,
-        identifiantProjet,
-        nomProjet,
-        départementProjet,
-        régionProjet,
-      });
+        copyRecipients: [],
+        hiddenCopyRecipients: [],
+        variables: {
+          nom_projet: nomProjet,
+          departement_projet: départementProjet,
+          region_projet: régionProjet,
+          url: `${BASE_URL}${Routes.Projet.details(identifiantProjet.formatter())}`,
+        },
+      };
   }
 }
 
