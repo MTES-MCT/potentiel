@@ -3,7 +3,7 @@ import { EqualWhereCondition, WhereCondition } from '../whereOptions';
 export const equal = <T>(
   value: EqualWhereCondition<T>['value'] | undefined,
 ): WhereCondition<T> | undefined => {
-  if (!value) {
+  if (value === undefined) {
     return undefined;
   }
 
