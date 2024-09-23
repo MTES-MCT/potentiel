@@ -1,7 +1,7 @@
 import { NotLikeWhereCondition, WhereCondition } from '../whereOptions';
 
 export const notStartWith = (value: string | undefined): WhereCondition<string> | undefined => {
-  if (!value) {
+  if (value === undefined) {
     return undefined;
   }
 
@@ -12,7 +12,7 @@ export const notStartWith = (value: string | undefined): WhereCondition<string> 
 };
 
 export const notEndWith = (value: string | undefined): WhereCondition<string> | undefined => {
-  if (!value) {
+  if (value === undefined) {
     return undefined;
   }
 
@@ -23,7 +23,7 @@ export const notEndWith = (value: string | undefined): WhereCondition<string> | 
 };
 
 export const notContains = (value: string | undefined): WhereCondition<string> | undefined => {
-  if (!value) {
+  if (value === undefined) {
     return undefined;
   }
 

@@ -3,7 +3,7 @@ import { NotEqualWhereCondition, WhereCondition } from '../whereOptions';
 export const notEqual = <T>(
   value: NotEqualWhereCondition<T>['value'] | undefined,
 ): WhereCondition<T> | undefined => {
-  if (!value) {
+  if (value === undefined) {
     return undefined;
   }
 
