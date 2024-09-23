@@ -9,10 +9,13 @@ import { parseCsv } from '@potentiel-libraries/csv';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { validateDocumentSize } from '@/utils/zod/documentError';
 export type CorrigerRéférencesDossierState = FormState;
 
 const schema = zod.object({
-  fichierCorrections: zod.instanceof(Blob).refine((data) => data.size > 0),
+  fichierCorrections: zod
+    .instanceof(Blob)
+    .superRefine((file, ctx) => validateDocumentSize(file, ctx)),
 });
 
 const csvSchema = zod

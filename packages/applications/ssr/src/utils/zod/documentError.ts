@@ -1,17 +1,18 @@
 import * as zod from 'zod';
 
-export const DEFAULT_FILE_SIZE_LIMIT_IN_MB = 5;
+export const DEFAULT_FILE_SIZE_LIMIT_IN_MB = 0;
 
 export const DEFAULT_FILE_SIZE_LIMIT_FOR_ZOD = DEFAULT_FILE_SIZE_LIMIT_IN_MB * 1024 * 1024;
 
-export const validateDocumentSize = (file: Blob, ctx: zod.RefinementCtx) => {
+export const validateDocumentSize = (file: Blob, ctx: zod.RefinementCtx, fileName?: string) => {
+  const nameToDisplay = fileName ?? 'Le fichier';
   if (file.size <= 0) {
     ctx.addIssue({
       code: zod.ZodIssueCode.too_small,
       minimum: 0,
       type: 'number',
       inclusive: true,
-      message: 'Votre fichier est vide',
+      message: `${nameToDisplay} est vide`,
     });
   }
   if (file.size > DEFAULT_FILE_SIZE_LIMIT_FOR_ZOD) {
@@ -20,7 +21,7 @@ export const validateDocumentSize = (file: Blob, ctx: zod.RefinementCtx) => {
       maximum: DEFAULT_FILE_SIZE_LIMIT_FOR_ZOD,
       type: 'number',
       inclusive: true,
-      message: 'Votre fichier dépasse la taille autorisée (5Mo)',
+      message: `${nameToDisplay} dépasse la taille autorisée (5Mo)`,
     });
   }
 };

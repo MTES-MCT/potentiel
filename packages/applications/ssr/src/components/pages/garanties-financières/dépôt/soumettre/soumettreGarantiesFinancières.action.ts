@@ -8,13 +8,14 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { validateDocumentSize } from '@/utils/zod/documentError';
 
 export type SoumettreGarantiesFinancièresState = FormState;
 
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
   dateConstitution: zod.string().min(1),
-  attestation: zod.instanceof(Blob).refine((data) => data.size > 0),
+  attestation: zod.instanceof(Blob).superRefine((file, ctx) => validateDocumentSize(file, ctx)),
 };
 const schema = zod.discriminatedUnion('type', [
   zod.object({

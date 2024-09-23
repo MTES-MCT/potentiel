@@ -11,10 +11,13 @@ import { parseCsv } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
+import { validateDocumentSize } from '@/utils/zod/documentError';
 export type ImporterDatesMiseEnServiceState = FormState;
 
 const schema = zod.object({
-  fichierDatesMiseEnService: zod.instanceof(Blob).refine((data) => data.size > 0),
+  fichierDatesMiseEnService: zod
+    .instanceof(Blob)
+    .superRefine((file, ctx) => validateDocumentSize(file, ctx, "l'attestation de conformité")),
 });
 
 const csvSchema = zod.object({

@@ -8,6 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { validateDocumentSize } from '@/utils/zod/documentError';
 
 export type DemanderAbandonState = FormState;
 
@@ -15,7 +16,9 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   recandidature: zod.string().optional(),
   raison: zod.string().min(1),
-  pieceJustificative: zod.instanceof(Blob),
+  pieceJustificative: zod
+    .instanceof(Blob)
+    .superRefine((file, ctx) => validateDocumentSize(file, ctx)),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
