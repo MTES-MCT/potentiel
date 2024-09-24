@@ -6,6 +6,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Période } from '@potentiel-domain/periode';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { EmailPayload, SendEmail } from '../../sendEmail';
 
@@ -61,12 +62,25 @@ async function getEmailPayloads(
         },
       });
 
-      const porteurs = await mediator.send<ListerUtilisateursQuery>({
+      const allPorteurs = await mediator.send<ListerUtilisateursQuery>({
         type: 'Utilisateur.Query.ListerUtilisateurs',
         data: {
           roles: ['porteur-projet'],
         },
       });
+
+      const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
+        type: 'Candidature.Query.ListerCandidatures',
+        data: {
+          période: période.id,
+        },
+      });
+
+      const porteursEmail = candidatures.items.map((candidature) => candidature.emailContact);
+
+      const porteursToNotify = allPorteurs.items.filter((porteur) =>
+        porteursEmail.includes(porteur.email),
+      );
 
       const { BASE_URL } = process.env;
 
@@ -87,7 +101,7 @@ async function getEmailPayloads(
             modification_request_url: `${BASE_URL}/projets.html`,
           },
         })),
-        ...porteurs.items.map(({ email, nomComplet }) => ({
+        ...porteursToNotify.map(({ email, nomComplet }) => ({
           templateId: templateId.notifierPorteur,
           recipients: [
             {
