@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
@@ -11,6 +10,7 @@ import { TitrePageRaccordement } from '../TitrePageRaccordement';
 
 import { GestionnaireRéseau as GestionnaireRéseauProps } from './type';
 import { ModifierGestionnaireRéseauDuRaccordement } from './components/ModifierGestionnaireRéseauDuRaccordement';
+import { AucunDossierDeRaccordementAlert } from './AucunDossierDeRaccordementAlert';
 
 export type AucunDossierDeRaccordementPageProps = {
   identifiantProjet: string;
@@ -23,7 +23,6 @@ export const AucunDossierDeRaccordementPage: FC<AucunDossierDeRaccordementPagePr
 }) => (
   <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
     <TitrePageRaccordement />
-
     <div className="flex flex-col gap-8">
       {gestionnaireRéseau && (
         <ModifierGestionnaireRéseauDuRaccordement
@@ -31,15 +30,7 @@ export const AucunDossierDeRaccordementPage: FC<AucunDossierDeRaccordementPagePr
           identifiantProjet={identifiantProjet}
         />
       )}
-      <p>
-        Aucun dossier de raccordement trouvé pour ce projet, vous devez transmettre un{' '}
-        <Link
-          href={Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet)}
-          className="font-semibold"
-        >
-          nouveau dossier de raccordement
-        </Link>
-      </p>
+      <AucunDossierDeRaccordementAlert identifiantProjet={identifiantProjet} />
       <Button
         priority="secondary"
         linkProps={{ href: Routes.Projet.details(identifiantProjet), prefetch: false }}
