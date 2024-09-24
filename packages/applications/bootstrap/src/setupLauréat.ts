@@ -11,7 +11,6 @@ import {
   AbandonNotification,
   AchèvementNotification,
   GarantiesFinancièresNotification,
-  LauréatNotification,
 } from '@potentiel-applications/notifications';
 import {
   AbandonProjector,
@@ -43,7 +42,6 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
 
   // Projectors
   LauréatProjector.register();
-  LauréatNotification.register({ sendEmail });
   AbandonProjector.register();
   GarantiesFinancièreProjector.register();
   AchèvementProjector.register();

@@ -15,6 +15,7 @@ export type Execute = Message<'System.Notification.Période', SubscriptionEvent>
 
 const templateId = {
   notifierDrealAcheteurObligéAdemeCaisseDesDépôtsCRE: 3849728,
+  notifierPorteur: 1350523,
 };
 
 async function getEmailPayloads(
@@ -35,7 +36,9 @@ async function getEmailPayloads(
 
       if (Option.isNone(appelOffre)) {
         getLogger().error(
-          new Error(`Pas d'appel d'offre trouvé pour ${identifiantPériode.formatter()}`),
+          new Error(
+            `Pas d'appel d'offre trouvé pour l'identifiant période ${identifiantPériode.formatter()}`,
+          ),
         );
         return;
       }
@@ -44,39 +47,72 @@ async function getEmailPayloads(
 
       if (!période) {
         getLogger().error(
-          new Error(`Pas de période trouvée pour ${identifiantPériode.formatter()}`),
+          new Error(
+            `Pas de période trouvée pour l'identifiant période ${identifiantPériode.formatter()}`,
+          ),
         );
         return;
       }
 
-      const users = await mediator.send<ListerUtilisateursQuery>({
+      const usersOthersThanDGECOrPorteur = await mediator.send<ListerUtilisateursQuery>({
         type: 'Utilisateur.Query.ListerUtilisateurs',
-        data: { roles: ['acheteur-obligé', 'ademe', 'caisse-des-dépôts', 'cre', 'dreal'] },
+        data: {
+          roles: ['acheteur-obligé', 'ademe', 'caisse-des-dépôts', 'cre', 'dreal'],
+        },
       });
 
-      return users.items.map(({ email, nomComplet }) => ({
-        templateId: templateId.notifierDrealAcheteurObligéAdemeCaisseDesDépôtsCRE,
-        recipients: [
-          {
-            email,
-            fullName: nomComplet,
-          },
-        ],
-        messageSubject: `Potentiel - Notification de la période ${période.id} de l'appel d'offres ${appelOffre.id}`,
-        variables: {
-          appel_offre: appelOffre.id,
-          periode: période.id,
-          date_notification: new Date(event.payload.notifiéeLe).toLocaleDateString(),
+      const porteurs = await mediator.send<ListerUtilisateursQuery>({
+        type: 'Utilisateur.Query.ListerUtilisateurs',
+        data: {
+          roles: ['porteur-projet'],
         },
-      }));
+      });
+
+      const { BASE_URL } = process.env;
+
+      console.log('violette');
+      console.log(porteurs);
+      console.log(usersOthersThanDGECOrPorteur);
+
+      return [
+        ...usersOthersThanDGECOrPorteur.items.map(({ email, nomComplet }) => ({
+          templateId: templateId.notifierDrealAcheteurObligéAdemeCaisseDesDépôtsCRE,
+          recipients: [
+            {
+              email,
+              fullName: nomComplet,
+            },
+          ],
+          messageSubject: `Potentiel - Notification de la période ${période.id} de l'appel d'offres ${appelOffre.id}`,
+          variables: {
+            appel_offre: appelOffre.id,
+            periode: période.id,
+            date_notification: new Date(event.payload.notifiéeLe).toLocaleDateString(),
+            modification_request_url: `${BASE_URL}/projets.html`,
+          },
+        })),
+        ...porteurs.items.map(({ email, nomComplet }) => ({
+          templateId: templateId.notifierPorteur,
+          recipients: [
+            {
+              email,
+              fullName: nomComplet,
+            },
+          ],
+          messageSubject: `Potentiel - Notification de la période ${période.id} de l'appel d'offres ${appelOffre.id}`,
+          variables: {
+            invitation_link: `${BASE_URL}/projets.html`,
+          },
+        })),
+      ];
   }
 }
 
-export type RegisterÉliminéNotificationDependencies = {
+type RegisterPériodeNotificationDependencies = {
   sendEmail: SendEmail;
 };
 
-export const register = ({ sendEmail }: RegisterÉliminéNotificationDependencies) => {
+export const register = ({ sendEmail }: RegisterPériodeNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
     const payloads = await getEmailPayloads(event);
     if (payloads) {

@@ -44,6 +44,9 @@ export const sendEmail: SendEmail = async (sendEmailArgs) => {
 
     getLogger().info('Email sent', sendEmailArgs);
   } else {
-    getLogger().info('📨 Emailing mode set to logging-only so no email was sent', sendEmailArgs);
+    getLogger().info(
+      '📨 Emailing mode set to logging-only so no email was sent, but here are the args: ',
+      sendEmailArgs,
+    );
   }
 };

@@ -8,11 +8,7 @@ import {
   RecoursAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { RecoursProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
-import {
-  RecoursNotification,
-  SendEmail,
-  ÉliminéNotification,
-} from '@potentiel-applications/notifications';
+import { RecoursNotification, SendEmail } from '@potentiel-applications/notifications';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
 
 type SetupÉliminéDependenices = {
@@ -32,7 +28,6 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependenices) =
   });
 
   ÉliminéProjector.register();
-  ÉliminéNotification.register({ sendEmail });
 
   RecoursProjector.register();
   RecoursNotification.register({ sendEmail });
