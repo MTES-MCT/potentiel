@@ -62,13 +62,6 @@ async function getEmailPayloads(
         },
       });
 
-      const allPorteurs = await mediator.send<ListerUtilisateursQuery>({
-        type: 'Utilisateur.Query.ListerUtilisateurs',
-        data: {
-          roles: ['porteur-projet'],
-        },
-      });
-
       const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
         type: 'Candidature.Query.ListerCandidatures',
         data: {
@@ -76,11 +69,10 @@ async function getEmailPayloads(
         },
       });
 
-      const porteursEmail = candidatures.items.map((candidature) => candidature.emailContact);
-
-      const porteursToNotify = allPorteurs.items.filter((porteur) =>
-        porteursEmail.includes(porteur.email),
-      );
+      const porteursEmail = candidatures.items.map((candidature) => ({
+        email: candidature.emailContact,
+        nomComplet: candidature.nomReprésentantLégal,
+      }));
 
       const { BASE_URL } = process.env;
 
@@ -101,7 +93,7 @@ async function getEmailPayloads(
             modification_request_url: `${BASE_URL}/projets.html`,
           },
         })),
-        ...porteursToNotify.map(({ email, nomComplet }) => ({
+        ...porteursEmail.map(({ email, nomComplet }) => ({
           templateId: templateId.notifierPorteur,
           recipients: [
             {
