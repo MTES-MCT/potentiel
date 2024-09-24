@@ -32,12 +32,14 @@ async function getEmailPayloads(
           identifiantAppelOffre: identifiantPériode.appelOffre,
         },
       });
+
       if (Option.isNone(appelOffre)) {
         getLogger().error(
           new Error(`Pas d'appel d'offre trouvé pour ${identifiantPériode.formatter()}`),
         );
         return;
       }
+
       const période = appelOffre.periodes.find((x) => x.id === identifiantPériode.période);
 
       if (!période) {

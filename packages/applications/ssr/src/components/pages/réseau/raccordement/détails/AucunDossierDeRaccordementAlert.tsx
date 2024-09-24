@@ -19,7 +19,7 @@ export const AucunDossierDeRaccordementAlert = ({ identifiantProjet }: Props) =>
           différents acteurs connectés à Potentiel (DGEC, DREAL, Cocontractant, etc.).
         </p>
         <span>
-          Vous devez transmettre un{' '}
+          Mettre à jour votre{' '}
           <Link
             href={Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet)}
             className="font-semibold"

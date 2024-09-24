@@ -192,7 +192,7 @@ const AlerteBoxRaccordement: FC<{
         Cocontractant, etc.).
       </p>
     )}
-    <Link href={Routes.Raccordement.détail(identifiantProjet)}>
+    <Link href={Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet)}>
       Mettre à jour les données de raccordement de mon projet
     </Link>
   </AlertBox>
