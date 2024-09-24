@@ -1,7 +1,7 @@
 import { LikeWhereCondition, WhereCondition } from '../whereOptions';
 
 export const startWith = (value: string | undefined): WhereCondition<string> | undefined => {
-  if (!value) {
+  if (value === undefined) {
     return undefined;
   }
 
@@ -12,7 +12,7 @@ export const startWith = (value: string | undefined): WhereCondition<string> | u
 };
 
 export const endWith = (value: string | undefined): WhereCondition<string> | undefined => {
-  if (!value) {
+  if (value === undefined) {
     return undefined;
   }
 
@@ -23,7 +23,7 @@ export const endWith = (value: string | undefined): WhereCondition<string> | und
 };
 
 export const contains = (value: string | undefined): WhereCondition<string> | undefined => {
-  if (!value) {
+  if (value === undefined) {
     return undefined;
   }
 
