@@ -3,7 +3,7 @@ import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { listProjection } from '@potentiel-infrastructure/pg-projections';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Période } from '@potentiel-domain/periode';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { Éliminé } from '@potentiel-domain/elimine';
 import { Where } from '@potentiel-domain/entity';
@@ -15,55 +15,81 @@ import { Where } from '@potentiel-domain/entity';
       periodeId: string;
       notifiedOn: number;
       notifiedBy: string | null;
-      identifiants: IdentifiantProjet.RawType[];
+      projets: string[];
     }>(`
         select
-          case
-            when p."appelOffreId" = 'PPE2 - Bâtiment 2' then 'PPE2 - Bâtiment'
-            else p."appelOffreId"
-          end as "appelOffreId",
-          p."periodeId",
-          p."notifiedOn",
-          u."email" as "notifiedBy",
-          array_agg(format('%s#%s#%s#%s',	REPLACE(p."appelOffreId",'PPE2 - Bâtiment 2', 'PPE2 - Bâtiment'),p."periodeId",p."familleId",p."numeroCRE")) as identifiants
+          "appelOffreId",
+          "periodeId",
+          MIN("notifiedBy") as "notifiedBy",
+          min("notifiedOn") as "notifiedOn",
+        	array_agg(distinct concat("identifiantProjet", ',',"notifiedOn")) as projets
         from
-          projects p
-        left join "eventStores" es on
-          es."type" = 'PeriodeNotified'
-          and p."appelOffreId" = es.payload->>'appelOffreId'
-          and p."periodeId" = es.payload->>'periodeId'
-        left join users u on
-          u.id::text = es.payload->>'requestedBy'
+          (
+          select
+            format('%s#%s#%s#%s',p."appelOffreId",p."periodeId",	p."familleId",p."numeroCRE") as "identifiantProjet",
+            p."appelOffreId",
+            p."periodeId",
+            -- en cas de recours, on se base sur la date originale, présente dans NotifiedOn (si elle existe)
+            to_timestamp(case
+              when mr.id is not null
+              and es.payload is not null then (es.payload ->>'notifiedOn'::text)::decimal
+              else p."notifiedOn"::decimal
+            end/1000)::date||'T12:00:00.000Z' as "notifiedOn",
+            u."email" as "notifiedBy"
+          from
+              projects p
+          left join "eventStores" es on
+              es."type" = 'PeriodeNotified'
+            and p."appelOffreId" = REPLACE(es.payload->>'appelOffreId','PPE2 - Bâtiment 2','PPE2 - Bâtiment')
+            and p."periodeId" = es.payload->>'periodeId'
+          left join "modificationRequests" mr on
+              mr."type" = 'recours'
+            and mr."projectId" = p.id
+            and status = 'acceptée'
+          left join users u on
+            u.id::text = es.payload->>'requestedBy' ) a
         group by
-          p."appelOffreId",
-          p."periodeId",
-          p."notifiedOn",
-          u."email" ;
+          "appelOffreId",
+          "periodeId"
+        order by
+          "appelOffreId",
+          "periodeId"
     `);
 
     console.info(`Migrating ${allPériodes.length} periodes`);
-
-    for (const { appelOffreId, periodeId, notifiedOn, notifiedBy, identifiants } of allPériodes) {
+    for (const { appelOffreId, periodeId, notifiedOn, notifiedBy, projets } of allPériodes) {
+      const tousProjets = projets.map((str) => ({
+        identifiantProjet: str.split(',')[0] as IdentifiantProjet.RawType,
+        notifiéLe: DateTime.convertirEnValueType(new Date(str.split(',')[1])).formatter(),
+        statut: undefined as StatutProjet.RawType | undefined,
+      }));
       const identifiantPériode = `${appelOffreId}#${periodeId}` as const;
-
       const candidatures = await listProjection<Candidature.CandidatureEntity>('candidature', {
         where: {
-          identifiantProjet: Where.include(identifiants),
-          appelOffre: Where.equal(appelOffreId),
+          appelOffre:
+            appelOffreId === 'PPE2 - Bâtiment' && periodeId === '2'
+              ? Where.include([appelOffreId, 'PPE2 - Bâtiment 2'])
+              : Where.equal(appelOffreId),
           période: Where.equal(periodeId),
         },
+      });
+      tousProjets.forEach((p) => {
+        const candidature = candidatures.items.find(
+          (x) =>
+            x.identifiantProjet.replace('PPE2 - Bâtiment 2', 'PPE2 - Bâtiment') ===
+            p.identifiantProjet,
+        );
+        if (!candidature) {
+          throw new Error(`Statut inconnu! ${p.identifiantProjet}. rebuild candidature?`);
+        }
+        p.statut = candidature.statut;
       });
 
       const notifiéePar = notifiedBy ?? 'aopv.dgec@developpement-durable.gouv.fr';
       const notifiéeLe = DateTime.convertirEnValueType(new Date(notifiedOn)).formatter();
 
-      const identifiantLauréats = candidatures.items
-        .filter((item) => item.statut === 'classé')
-        .map(({ identifiantProjet }) => identifiantProjet);
-
-      const identifiantÉliminés = candidatures.items
-        .filter((item) => item.statut === 'éliminé')
-        .map(({ identifiantProjet }) => identifiantProjet);
+      const lauréats = tousProjets.filter((item) => item.statut === 'classé');
+      const éliminés = tousProjets.filter((item) => item.statut === 'éliminé');
 
       const event: Période.PériodeNotifiéeEvent = {
         type: 'PériodeNotifiée-V1',
@@ -73,8 +99,8 @@ import { Where } from '@potentiel-domain/entity';
           période: periodeId,
           notifiéeLe: notifiéeLe,
           notifiéePar,
-          identifiantLauréats,
-          identifiantÉliminés,
+          identifiantLauréats: lauréats.map(({ identifiantProjet }) => identifiantProjet),
+          identifiantÉliminés: éliminés.map(({ identifiantProjet }) => identifiantProjet),
         },
       };
 
@@ -85,12 +111,12 @@ import { Where } from '@potentiel-domain/entity';
       await publish(`période|${identifiantPériode}`, event);
 
       await Promise.all(
-        identifiantLauréats.map(async (identifiantLauréat) => {
+        lauréats.map(async ({ identifiantProjet, notifiéLe }) => {
           const event: Lauréat.LauréatNotifiéEvent = {
             type: 'LauréatNotifié-V1',
             payload: {
-              identifiantProjet: identifiantLauréat,
-              notifiéLe: notifiéeLe,
+              identifiantProjet,
+              notifiéLe,
               notifiéPar: notifiéePar,
               attestation: {
                 format: 'application/pdf',
@@ -98,16 +124,16 @@ import { Where } from '@potentiel-domain/entity';
             },
           };
 
-          await publish(`lauréat|${identifiantLauréat}`, event);
+          await publish(`lauréat|${identifiantProjet}`, event);
         }),
       );
       await Promise.all(
-        identifiantÉliminés.map(async (identifiantÉliminé) => {
+        éliminés.map(async ({ identifiantProjet, notifiéLe }) => {
           const event: Éliminé.ÉliminéNotifiéEvent = {
             type: 'ÉliminéNotifié-V1',
             payload: {
-              identifiantProjet: identifiantÉliminé,
-              notifiéLe: notifiéeLe,
+              identifiantProjet,
+              notifiéLe,
               notifiéPar: notifiéePar,
               attestation: {
                 format: 'application/pdf',
@@ -115,7 +141,7 @@ import { Where } from '@potentiel-domain/entity';
             },
           };
 
-          await publish(`éliminé|${identifiantÉliminé}`, event);
+          await publish(`éliminé|${identifiantProjet}`, event);
         }),
       );
     }
