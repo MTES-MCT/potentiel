@@ -79,18 +79,6 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependenices) =
     streamCategory: 'éliminé',
   });
 
-  const unsubscribeÉliminéNotification = await subscribe<ÉliminéNotification.SubscriptionEvent>({
-    name: 'notifications',
-    streamCategory: 'éliminé',
-    eventType: ['ÉliminéNotifié-V1'],
-    eventHandler: async (event) => {
-      await mediator.publish<ÉliminéNotification.Execute>({
-        type: 'System.Notification.Éliminé',
-        data: event,
-      });
-    },
-  });
-
   const unsubscribeÉliminéSaga = await subscribe<AttestationSaga.SubscriptionEvent & Event>({
     name: 'elimine-saga',
     streamCategory: 'éliminé',
@@ -108,7 +96,6 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependenices) =
     await unsubscribeRecoursNotification();
 
     await unsubscribeÉliminéProjector();
-    await unsubscribeÉliminéNotification();
     await unsubscribeÉliminéSaga();
   };
 };
