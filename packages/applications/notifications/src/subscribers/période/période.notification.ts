@@ -70,10 +70,6 @@ async function getEmailPayloads(
 
       const { BASE_URL } = process.env;
 
-      console.log('violette');
-      console.log(porteurs);
-      console.log(usersOthersThanDGECOrPorteur);
-
       return [
         ...usersOthersThanDGECOrPorteur.items.map(({ email, nomComplet }) => ({
           templateId: templateId.notifierDrealAcheteurObligéAdemeCaisseDesDépôtsCRE,
