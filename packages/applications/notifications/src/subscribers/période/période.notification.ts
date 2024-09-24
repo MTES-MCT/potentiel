@@ -62,17 +62,30 @@ async function getEmailPayloads(
         },
       });
 
+      const identifiantProjetToInclude = [
+        ...event.payload.identifiantLauréats,
+        ...event.payload.identifiantÉliminés,
+      ];
+
       const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
         type: 'Candidature.Query.ListerCandidatures',
         data: {
           période: période.id,
+          identifiantProjets: identifiantProjetToInclude,
         },
       });
 
-      const porteursEmail = candidatures.items.map((candidature) => ({
-        email: candidature.emailContact,
-        nomComplet: candidature.nomReprésentantLégal,
-      }));
+      const uniquePorteursEmail = candidatures.items.reduce<
+        { email: string; nomComplet: string }[]
+      >((acc, candidature) => {
+        const { emailContact: email, nomReprésentantLégal: nomComplet } = candidature;
+
+        if (!acc.some((porteur) => porteur.email === email)) {
+          acc.push({ email, nomComplet });
+        }
+
+        return acc;
+      }, []);
 
       const { BASE_URL } = process.env;
 
@@ -93,7 +106,7 @@ async function getEmailPayloads(
             modification_request_url: `${BASE_URL}/projets.html`,
           },
         })),
-        ...porteursEmail.map(({ email, nomComplet }) => ({
+        ...uniquePorteursEmail.map(({ email, nomComplet }) => ({
           templateId: templateId.notifierPorteur,
           recipients: [
             {
