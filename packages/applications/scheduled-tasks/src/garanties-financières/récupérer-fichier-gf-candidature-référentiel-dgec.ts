@@ -1,6 +1,8 @@
-import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { readdir, writeFile, readFile } from 'node:fs/promises';
 import path from 'path';
 
+import { encode, decode } from 'iconv-lite';
+import chardet from 'chardet';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
@@ -68,11 +70,26 @@ registerDocumentProjetQueries({
   récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
 });
 
-const formatProjetId = (id: string) =>
+const formatFileName = (id: string) =>
   id
     .replace(/PPE2 - Autoconsommation métrople/, 'PPE2 - Autoconsommation métropole')
     .replace(/PPE2 - Innovant/, 'PPE2 - Innovation')
-    .replace(/PPE2 - Bâtiment/, 'PPE2 - Bâtiment');
+    .replace(/PPE2 - Bâtiment/, 'PPE2 - Bâtiment'); // Je comprends pas pourquoi je suis obligé de faire ça
+
+const detectAndConvertEncoding = (fileName: string) => {
+  // Détecter l'encodage de la chaîne
+  const detectedEncoding = chardet.detect(Buffer.from(fileName));
+
+  if (!detectedEncoding) {
+    throw new Error("Impossible de détecter l'encodage");
+  }
+
+  // Convertir la chaîne en utf-8
+  const buffer = encode(fileName, detectedEncoding);
+  const decodedStr = decode(buffer, 'utf-8');
+
+  return decodedStr;
+};
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -109,15 +126,20 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   for (const file of dirrents) {
     try {
-      await delay(100);
+      await delay(50);
 
       if (!file.isFile() || path.extname(file.name).toLowerCase() !== '.pdf') {
         console.log(`❌ Fichier ${file.name} non pris en charge`);
         continue;
       }
 
-      const fileName = formatProjetId(path.basename(file.name, '.pdf'));
-      const identifiantProjet = IdentifiantProjet.convertirEnValueType(formatProjetId(fileName));
+      const formattedFileName = formatFileName(
+        path.basename(detectAndConvertEncoding(file.name), '.pdf'),
+      );
+
+      console.log(`\n\n📂 ${formattedFileName}`);
+
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(formattedFileName);
 
       const projet = await mediator.send<Candidature.ConsulterProjetQuery>({
         type: 'Candidature.Query.ConsulterProjet',
@@ -198,7 +220,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
         continue;
       }
 
-      if (!période.estNotifiée) {
+      if (!période.estNotifiée || !période.notifiéeLe) {
         console.log(`❌ ${identifiantProjet.formatter()} (${projet.nom}) : Période non notifiée`);
         continue;
       }

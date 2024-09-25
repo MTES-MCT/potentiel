@@ -18,17 +18,19 @@
     "start:récupérer-fichier-gf-candidature-référentiel-dgec": "node ./dist/garanties-financières/récupérer-fichier-gf-candidature-référentiel-dgec"
   },
   "dependencies": {
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-libraries/file-storage": "*",
-    "@potentiel-libraries/monitoring": "*",
+    "@potentiel-applications/routes": "*",
     "@potentiel-domain/common": "*",
-    "@potentiel-domain/laureat": "*",
     "@potentiel-domain/elimine": "*",
+    "@potentiel-domain/laureat": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-infrastructure/pg-projections": "*",
-    "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/email": "*",
-    "@potentiel-applications/routes": "*"
+    "@potentiel-infrastructure/pg-event-sourcing": "*",
+    "@potentiel-infrastructure/pg-projections": "*",
+    "@potentiel-libraries/file-storage": "*",
+    "@potentiel-libraries/monads": "*",
+    "@potentiel-libraries/monitoring": "*",
+    "chardet": "^2.0.0",
+    "iconv-lite": "^0.6.3"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"
