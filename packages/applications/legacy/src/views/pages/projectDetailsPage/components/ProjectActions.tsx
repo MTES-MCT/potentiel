@@ -65,7 +65,7 @@ const PorteurProjetActions = ({
       <div className="flex flex-col xl:flex-row gap-2">
         {!project.isClasse && (
           <SecondaryLinkButton
-            href={Routes.Recours.demander(identifiantProjet)}
+            href={routes.DEPOSER_RECOURS(project.id)}
             disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
           >
             Faire une demande de recours
