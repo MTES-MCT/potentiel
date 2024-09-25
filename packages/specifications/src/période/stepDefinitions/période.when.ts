@@ -14,6 +14,10 @@ Quand(
 
       const { lauréats, éliminés } = this.périodeWorld.notifierPériodeFixture.créer();
 
+      this.utilisateurWorld.porteurFixture.créer({
+        email: this.candidatureWorld.importerCandidature.values.emailContactValue,
+      });
+
       await mediator.send<Période.NotifierPériodeUseCase>({
         type: 'Période.UseCase.NotifierPériode',
         data: {

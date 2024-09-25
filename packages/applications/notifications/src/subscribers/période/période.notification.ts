@@ -115,7 +115,7 @@ async function getEmailPayloads(
               fullName: nomComplet,
             },
           ],
-          messageSubject: `Potentiel - Notification de la période ${période.id} de l'appel d'offres ${appelOffre.id}`,
+          messageSubject: `Résultats de la ${période.title} période de l'appel d'offres ${appelOffre.id}`,
           variables: {
             invitation_link: `${BASE_URL}/projets.html`,
           },

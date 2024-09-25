@@ -5,7 +5,6 @@ Fonctionnalité: Notifier une période d'un appel d'offres
         Etant donné le DGEC validateur "Robert Robichet"
         Et des candidats d'une période d'un appel d'offres
 
-    @select
     Scénario: Notifier les candidats d'une période d'un appel d'offres
         Quand un DGEC validateur notifie la période d'un appel d'offres
         Alors la période devrait être notifiée avec les lauréats et les éliminés
