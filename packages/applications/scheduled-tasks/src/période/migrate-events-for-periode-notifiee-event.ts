@@ -1,12 +1,9 @@
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import { listProjection } from '@potentiel-infrastructure/pg-projections';
-import { Candidature } from '@potentiel-domain/candidature';
 import { Période } from '@potentiel-domain/periode';
-import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { Éliminé } from '@potentiel-domain/elimine';
-import { Where } from '@potentiel-domain/entity';
 
 (async () => {
   try {
@@ -14,40 +11,23 @@ import { Where } from '@potentiel-domain/entity';
       appelOffreId: string;
       periodeId: string;
       notifiedOn: number;
-      notifiedBy: string | null;
-      projets: string[];
+      projets: {
+        identifiantProjet: IdentifiantProjet.RawType;
+        notifiedOn: string;
+        statut: string;
+      }[];
     }>(`
         select
-          "appelOffreId",
-          "periodeId",
-          MIN("notifiedBy") as "notifiedBy",
-          min("notifiedOn") as "notifiedOn",
-        	array_agg(distinct concat("identifiantProjet", ',',"notifiedOn")) as projets
-        from
-          (
-          select
-            format('%s#%s#%s#%s',p."appelOffreId",p."periodeId",	p."familleId",p."numeroCRE") as "identifiantProjet",
-            p."appelOffreId",
-            p."periodeId",
-            -- en cas de recours, on se base sur la date originale, présente dans NotifiedOn (si elle existe)
-            to_timestamp(case
-              when mr.id is not null
-              and es.payload is not null then (es.payload ->>'notifiedOn'::text)::decimal
-              else p."notifiedOn"::decimal
-            end/1000)::date||'T12:00:00.000Z' as "notifiedOn",
-            u."email" as "notifiedBy"
-          from
-              projects p
-          left join "eventStores" es on
-              es."type" = 'PeriodeNotified'
-            and p."appelOffreId" = REPLACE(es.payload->>'appelOffreId','PPE2 - Bâtiment 2','PPE2 - Bâtiment')
-            and p."periodeId" = es.payload->>'periodeId'
-          left join "modificationRequests" mr on
-              mr."type" = 'recours'
-            and mr."projectId" = p.id
-            and status = 'acceptée'
-          left join users u on
-            u.id::text = es.payload->>'requestedBy' ) a
+          REPLACE(p."appelOffreId",'PPE2 - Bâtiment 2','PPE2 - Bâtiment') as "appelOffreId",
+          p."periodeId",		
+          to_timestamp(min("notifiedOn")/1000)::date||'T12:00:00.000Z' as "notifiedOn",
+          array_agg(
+            json_build_object(
+              'identifiantProjet',format('%s#%s#%s#%s',REPLACE(p."appelOffreId",'PPE2 - Bâtiment 2','PPE2 - Bâtiment'), p."periodeId", p."familleId",p."numeroCRE"),
+              'notifiedOn',to_timestamp("notifiedOn"/1000)::date||'T12:00:00.000Z',
+              'statut', "classe"
+          )) as projets
+        from projects p 
         group by
           "appelOffreId",
           "periodeId"
@@ -56,36 +36,31 @@ import { Where } from '@potentiel-domain/entity';
           "periodeId"
     `);
 
-    console.info(`Migrating ${allPériodes.length} periodes`);
-    for (const { appelOffreId, periodeId, notifiedOn, notifiedBy, projets } of allPériodes) {
-      const tousProjets = projets.map((str) => ({
-        identifiantProjet: str.split(',')[0] as IdentifiantProjet.RawType,
-        notifiéLe: DateTime.convertirEnValueType(new Date(str.split(',')[1])).formatter(),
-        statut: undefined as StatutProjet.RawType | undefined,
-      }));
-      const identifiantPériode = `${appelOffreId}#${periodeId}` as const;
-      const candidatures = await listProjection<Candidature.CandidatureEntity>('candidature', {
-        where: {
-          appelOffre:
-            appelOffreId === 'PPE2 - Bâtiment' && periodeId === '2'
-              ? Where.include([appelOffreId, 'PPE2 - Bâtiment 2'])
-              : Where.equal(appelOffreId),
-          période: Where.equal(periodeId),
-        },
-      });
-      tousProjets.forEach((p) => {
-        const candidature = candidatures.items.find(
-          (x) =>
-            x.identifiantProjet.replace('PPE2 - Bâtiment 2', 'PPE2 - Bâtiment') ===
-            p.identifiantProjet,
-        );
-        if (!candidature) {
-          throw new Error(`Statut inconnu! ${p.identifiantProjet}. rebuild candidature?`);
-        }
-        p.statut = candidature.statut;
-      });
+    const notifiersList = await executeSelect<{
+      appelOffreId: string;
+      periodeId: string;
+      notifiedBy: string;
+    }>(`
+      select payload->>'appelOffreId' as "appelOffreId",payload->>'periodeId' as "periodeId", min(u.email) as "notifiedBy" 
+      from "eventStores" es 
+      inner join users u on u.id::text=payload->>'requestedBy'
+      where es."type" ='PeriodeNotified'
+      group  by payload->>'appelOffreId',payload->>'periodeId';
+    `);
 
-      const notifiéePar = notifiedBy ?? 'aopv.dgec@developpement-durable.gouv.fr';
+    console.info(`Migrating ${allPériodes.length} periodes`);
+    for (const { appelOffreId, periodeId, notifiedOn, projets } of allPériodes) {
+      const tousProjets = projets.map(({ identifiantProjet, statut, notifiedOn }) => ({
+        identifiantProjet,
+        notifiéLe: DateTime.convertirEnValueType(notifiedOn).formatter(),
+        statut: statut === 'Classé' ? 'classé' : 'éliminé',
+      }));
+
+      const identifiantPériode = `${appelOffreId}#${periodeId}` as const;
+      const notifiéePar =
+        notifiersList.find((n) => n.appelOffreId === appelOffreId && n.periodeId === periodeId)
+          ?.notifiedBy ?? 'aopv.dgec@developpement-durable.gouv.fr';
+
       const notifiéeLe = DateTime.convertirEnValueType(new Date(notifiedOn)).formatter();
 
       const lauréats = tousProjets.filter((item) => item.statut === 'classé');
