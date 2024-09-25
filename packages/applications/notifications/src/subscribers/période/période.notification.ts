@@ -76,17 +76,15 @@ async function getEmailPayloads(
         },
       });
 
-      const uniquePorteursEmail = candidatures.items.reduce<
-        { email: string; nomComplet: string }[]
-      >((acc, candidature) => {
-        const { emailContact: email, nomReprésentantLégal: nomComplet } = candidature;
-
-        if (!acc.some((porteur) => porteur.email === email)) {
-          acc.push({ email, nomComplet });
-        }
-
-        return acc;
-      }, []);
+      const porteurs = candidatures.items
+        .filter(
+          (candidature, i, self) =>
+            self.findIndex((x) => x.emailContact === candidature.emailContact) === i,
+        )
+        .map((porteur) => ({
+          email: porteur.emailContact,
+          fullName: porteur.nomReprésentantLégal,
+        }));
 
       const { BASE_URL } = process.env;
 
@@ -107,12 +105,12 @@ async function getEmailPayloads(
             modification_request_url: `${BASE_URL}/projets.html`,
           },
         })),
-        ...uniquePorteursEmail.map(({ email, nomComplet }) => ({
+        ...porteurs.map(({ email, fullName }) => ({
           templateId: templateId.notifierPorteur,
           recipients: [
             {
               email,
-              fullName: nomComplet,
+              fullName,
             },
           ],
           messageSubject: `Résultats de la ${période.title} période de l'appel d'offres ${appelOffre.id}`,
