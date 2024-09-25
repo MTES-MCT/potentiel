@@ -3,9 +3,11 @@
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
+import { Option } from '@potentiel-libraries/monads';
 import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
+import { Raccordement } from '@potentiel-domain/reseau';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -63,9 +65,20 @@ const action: FormAction<FormState, typeof schema> = async (
       });
     }
 
+    const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+      },
+    });
+
+    const redirectUrl = Option.isSome(raccordement)
+      ? Routes.Projet.details(identifiantProjet)
+      : Routes.Raccordement.détail(identifiantProjet);
+
     return {
       status: 'success',
-      redirectUrl: Routes.Projet.details(identifiantProjet),
+      redirectUrl,
     };
   });
 
