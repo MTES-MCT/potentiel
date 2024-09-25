@@ -71,6 +71,7 @@ async function getEmailPayloads(
         type: 'Candidature.Query.ListerCandidatures',
         data: {
           période: période.id,
+          appelOffre: appelOffre.id,
           identifiantProjets: identifiantProjetToInclude,
         },
       });
