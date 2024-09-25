@@ -7,26 +7,13 @@ import { Routes } from '@potentiel-applications/routes';
 
 const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) => (
   <DropdownMenu buttonChildren={'Garanties financières'}>
-    <DropdownMenu.DropdownItem
-      href={Routes.GarantiesFinancières.dépôt.lister}
-      {...(currentPage === 'list-garanties-financieres' && { isCurrent: true })}
-    >
+    <DropdownMenu.DropdownItem href={Routes.GarantiesFinancières.dépôt.lister}>
       Garanties financières à traiter
     </DropdownMenu.DropdownItem>
-    <DropdownMenu.DropdownItem
-      href={Routes.GarantiesFinancières.enAttente.lister}
-      {...(currentPage === 'list-projet-garanties-financieres-en-attente' && {
-        isCurrent: true,
-      })}
-    >
+    <DropdownMenu.DropdownItem href={Routes.GarantiesFinancières.enAttente.lister}>
       Projets avec garanties financières en attente
     </DropdownMenu.DropdownItem>
-    <DropdownMenu.DropdownItem
-      href={Routes.GarantiesFinancières.demandeMainlevée.lister}
-      {...(currentPage === 'demandes-mainlevee-en-cours' && {
-        isCurrent: true,
-      })}
-    >
+    <DropdownMenu.DropdownItem href={Routes.GarantiesFinancières.demandeMainlevée.lister}>
       Demandes de mainlevée
     </DropdownMenu.DropdownItem>
   </DropdownMenu>
@@ -75,12 +62,7 @@ const MenuCre = (currentPage?: string) => (
     >
       Projets
     </Header.MenuItem>
-    <Header.MenuItem
-      href={Routes.Abandon.lister}
-      {...(currentPage === 'liste-abandons' && { isCurrent: true })}
-    >
-      Abandons
-    </Header.MenuItem>
+    <Header.MenuItem href={Routes.Abandon.lister}>Abandons</Header.MenuItem>
     <Header.MenuItem
       href={routes.GET_CRE_STATISTIQUES}
       {...(currentPage === 'cre-statistiques' && { isCurrent: true })}
@@ -105,12 +87,7 @@ const MenuAdmin = (currentPage?: string) => (
       >
         Toutes les demandes
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={Routes.Abandon.lister}
-        {...(currentPage === 'liste-abandons' && { isCurrent: true })}
-      >
-        Abandons
-      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Abandon.lister}>Abandons</DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />
     <DropdownMenu buttonChildren={'Candidatures'}>
@@ -192,10 +169,7 @@ const MenuAdmin = (currentPage?: string) => (
       >
         Tableau de bord
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={Routes.Gestionnaire.lister}
-        {...(currentPage === 'liste-gestionnaires-réseau' && { isCurrent: true })}
-      >
+      <DropdownMenu.DropdownItem href={Routes.Gestionnaire.lister}>
         Gérer les gestionnaires de réseau
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
@@ -217,12 +191,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
       >
         Mes demandes
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={Routes.Abandon.lister}
-        {...(currentPage === 'liste-abandons' && { isCurrent: true })}
-      >
-        Abandons
-      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Abandon.lister}>Abandons</DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />
     <Header.MenuItem
@@ -283,12 +252,7 @@ const MenuDreal = (currentPage?: string) => (
       >
         Toutes les demandes
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={Routes.Abandon.lister}
-        {...(currentPage === 'liste-abandons' && { isCurrent: true })}
-      >
-        Abandons
-      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Abandon.lister}>Abandons</DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />
   </>
