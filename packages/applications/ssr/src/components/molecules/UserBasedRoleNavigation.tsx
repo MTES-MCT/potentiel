@@ -1,16 +1,18 @@
-import { MainNavigation, MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
+import { MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { getOptionalAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
 
+import { NavLinks } from './NavLinks';
+
 export async function UserBasedRoleNavigation() {
   const utilisateur = await getOptionalAuthenticatedUser();
 
   const navigationItems = utilisateur ? getNavigationItemsBasedOnRole(utilisateur) : [];
 
-  return <MainNavigation items={navigationItems} />;
+  return <NavLinks items={navigationItems} />;
 }
 
 const menuLinks = {
