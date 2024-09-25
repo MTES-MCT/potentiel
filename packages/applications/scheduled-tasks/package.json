@@ -14,8 +14,7 @@
     "start:supprimer-raccordement": "node ./dist/raccordement/supprimer-raccordement",
     "start:annuler-echoir-gf-abandonnés-ou-éliminés": "node ./dist/annuler-echoir-gf-abandonnés-ou-éliminés",
     "start:ajouter-rappel-gf-avec-date-echeance": "node ./dist/ajouter-rappel-gf-avec-date-echeance",
-    "start:migrate-event-for-revours": "node ./dist/recours/migrate-events-for-recours",
-    "start:migrate-events-for-periode-notifiee-event": "node ./dist/période/migrate-events-for-periode-notifiee-event"
+    "start:migrate-event-for-revours": "node ./dist/recours/migrate-events-for-recours"
   },
   "dependencies": {
     "@potentiel-libraries/monads": "*",
