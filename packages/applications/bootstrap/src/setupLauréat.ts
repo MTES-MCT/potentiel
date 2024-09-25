@@ -4,6 +4,7 @@ import {
   registerLauréatQueries,
   registerLauréatUseCases,
   GarantiesFinancières,
+  Lauréat,
 } from '@potentiel-domain/laureat';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
@@ -55,6 +56,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
 
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();
+  Lauréat.LauréatSaga.register();
 
   const unsubscribeLauréatNotification = await subscribe<LauréatNotification.SubscriptionEvent>({
     name: 'notifications',
@@ -80,13 +82,25 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
     streamCategory: 'lauréat',
   });
 
-  const unsubscribeLauréatSaga = await subscribe<AttestationSaga.SubscriptionEvent & Event>({
-    name: 'laureat-saga',
+  const unsubscribeAttestationSaga = await subscribe<AttestationSaga.SubscriptionEvent & Event>({
+    name: 'attestation-saga',
     streamCategory: 'lauréat',
     eventType: ['LauréatNotifié-V1'],
     eventHandler: async (event) => {
       await mediator.publish<AttestationSaga.Execute>({
         type: 'System.Candidature.Attestation.Saga.Execute',
+        data: event,
+      });
+    },
+  });
+
+  const unsubscribeLauréatSaga = await subscribe<Lauréat.LauréatSaga.SubscriptionEvent & Event>({
+    name: 'laureat-saga',
+    streamCategory: 'recours',
+    eventType: ['RecoursAccordé-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<Lauréat.LauréatSaga.Execute>({
+        type: 'System.Lauréat.Saga.Execute',
         data: event,
       });
     },
@@ -238,7 +252,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
   return async () => {
     await unsubscribeLauréatNotification();
     await unsubscribeLauréatProjector();
-    await unsubscribeLauréatSaga();
+    await unsubscribeAttestationSaga();
     await unsubscribeAbandonNotification();
     await unsubscribeAbandonProjector();
     await unsubscribeGarantiesFinancièresProjector();
@@ -246,5 +260,6 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
     await unsubscribeAchèvementProjector();
     await unsubscribeAchèvementNotification();
     await unsubscribeGarantiesFinancièresSaga();
+    await unsubscribeLauréatSaga();
   };
 };

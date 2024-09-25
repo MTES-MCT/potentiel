@@ -10,7 +10,9 @@ export const logMiddleware: Middleware = async (message, next) => {
   getLogger().info('Executing message', { message: JSON.stringify(message), correlationId });
   try {
     const result = await next();
-    getLogger().info('Message executed', { result: JSON.stringify(result), correlationId });
+    if (message.type !== 'AppelOffre.Query.ConsulterAppelOffre') {
+      getLogger().info('Message executed', { result: JSON.stringify(result), correlationId });
+    }
     return result;
   } catch (e) {
     if (e instanceof DomainError) {

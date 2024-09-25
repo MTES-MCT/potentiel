@@ -13,6 +13,7 @@
     "@potentiel-domain/core": "*",
     "@potentiel-domain/entity": "*",
     "@potentiel-domain/candidature": "*",
+    "@potentiel-domain/elimine": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/document": "*",
     "@potentiel-domain/appel-offre": "*",
