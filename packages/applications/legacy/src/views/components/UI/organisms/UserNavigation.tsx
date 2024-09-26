@@ -94,15 +94,15 @@ const MenuAdmin = (currentPage?: string) => (
       <DropdownMenu.DropdownItem href={Routes.Candidature.importer}>
         Nouveaux candidats
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Candidature.corriger}>
-        Corriger des candidats
-      </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
         href={Routes.Période.lister({
           statut: Routes.Période.defaultStatutValueForPériodeList,
         })}
       >
         Notifier des candidats
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Candidature.corriger}>
+        Corriger des candidats
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Candidature.lister()}>
         Tous les candidats
