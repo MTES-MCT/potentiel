@@ -25,16 +25,17 @@ EtantDonné(
 );
 
 EtantDonné(
-  `la candidature éliminée {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
-    await importerCandidature.call(this, nomProjet, 'éliminé');
-  },
-);
-
-EtantDonné(
-  `la candidature lauréate {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
-    await importerCandidature.call(this, nomProjet, 'classé');
+  `la candidature {lauréate-éliminée} {string}`,
+  async function (
+    this: PotentielWorld,
+    statutCandidature: 'lauréate' | 'éliminée',
+    nomProjet: string,
+  ) {
+    await importerCandidature.call(
+      this,
+      nomProjet,
+      statutCandidature === 'lauréate' ? 'classé' : 'éliminé',
+    );
   },
 );
 

@@ -10,6 +10,10 @@ import { Éliminé } from '@potentiel-domain/elimine';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
+// un projet éliminé
+// est une candidature
+// notifiée
+
 EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld, nomProjet: string) {
   await executeQuery(
     `
