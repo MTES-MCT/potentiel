@@ -2,8 +2,6 @@ export * as AbandonNotification from './subscribers/lauréat/abandon.notificatio
 export * as GarantiesFinancièresNotification from './subscribers/lauréat/garantiesFinancières.notification';
 export * as AchèvementNotification from './subscribers/lauréat/achèvement.notification';
 export * as TâchePlanifiéeNotification from './subscribers/lauréat/tâchePlanifiée.notification';
-export * as LauréatNotification from './subscribers/lauréat/lauréat.notification';
-export * as ÉliminéNotification from './subscribers/éliminé/éliminé.notification';
 export * as PériodeNotification from './subscribers/période/période.notification';
 export * as RecoursNotification from './subscribers/éliminé/recours.notification';
 

@@ -11,7 +11,6 @@ import {
   AbandonNotification,
   AchèvementNotification,
   GarantiesFinancièresNotification,
-  LauréatNotification,
 } from '@potentiel-applications/notifications';
 import {
   AbandonProjector,
@@ -43,7 +42,6 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
 
   // Projectors
   LauréatProjector.register();
-  LauréatNotification.register({ sendEmail });
   AbandonProjector.register();
   GarantiesFinancièreProjector.register();
   AchèvementProjector.register();
@@ -55,18 +53,6 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
 
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();
-
-  const unsubscribeLauréatNotification = await subscribe<LauréatNotification.SubscriptionEvent>({
-    name: 'notifications',
-    streamCategory: 'lauréat',
-    eventType: ['LauréatNotifié-V1'],
-    eventHandler: async (event) => {
-      await mediator.publish<LauréatNotification.Execute>({
-        type: 'System.Notification.Lauréat',
-        data: event,
-      });
-    },
-  });
 
   const unsubscribeLauréatProjector = await subscribe<LauréatProjector.SubscriptionEvent>({
     name: 'projector',
@@ -236,7 +222,6 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
   });
 
   return async () => {
-    await unsubscribeLauréatNotification();
     await unsubscribeLauréatProjector();
     await unsubscribeLauréatSaga();
     await unsubscribeAbandonNotification();
