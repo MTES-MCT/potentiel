@@ -96,7 +96,6 @@ Fonctionnalité: Transmettre une demande complète de raccordement
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
         Alors le porteur devrait être informé que "Il est impossible de transmettre une demande complète de raccordement pour un projet abandonné"
 
-    @select
     Scénario: Impossible de transmettre une demande complète de raccordement si le projet est éliminé
         Etant donné le projet éliminé "Du boulodrome de Marseille"
         Quand le porteur transmet une demande complète de raccordement pour le projet éliminé "Du boulodrome de Marseille" auprès du gestionnaire de réseau "Enedis" avec :
