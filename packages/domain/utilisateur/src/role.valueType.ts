@@ -247,10 +247,12 @@ const référencielPermissions = {
     usecase: {
       importer: 'Candidature.UseCase.ImporterCandidature',
       corriger: 'Candidature.UseCase.CorrigerCandidature',
+      notifier: 'Candidature.UseCase.NotifierCandidature',
     },
     command: {
       importer: 'Candidature.Command.ImporterCandidature',
       corriger: 'Candidature.Command.CorrigerCandidature',
+      notifier: 'Candidature.Command.NotifierCandidature',
     },
   },
   période: {

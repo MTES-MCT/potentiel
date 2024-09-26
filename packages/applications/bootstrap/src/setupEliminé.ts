@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 
 import { registerEliminéQueries, registerEliminéUseCases } from '@potentiel-domain/elimine';
-import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import {
   listerIdentifiantsProjetsParPorteurAdapter,
@@ -9,7 +9,6 @@ import {
 } from '@potentiel-infrastructure/domain-adapters';
 import { RecoursProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
 import { RecoursNotification, SendEmail } from '@potentiel-applications/notifications';
-import { AttestationSaga } from '@potentiel-applications/document-builder';
 
 type SetupÉliminéDependenices = {
   sendEmail: SendEmail;
@@ -74,23 +73,10 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependenices) =
     streamCategory: 'éliminé',
   });
 
-  const unsubscribeÉliminéSaga = await subscribe<AttestationSaga.SubscriptionEvent & Event>({
-    name: 'elimine-saga',
-    streamCategory: 'éliminé',
-    eventType: ['ÉliminéNotifié-V1'],
-    eventHandler: async (event) => {
-      await mediator.publish<AttestationSaga.Execute>({
-        type: 'System.Candidature.Attestation.Saga.Execute',
-        data: event,
-      });
-    },
-  });
-
   return async () => {
     await unsubscribeRecoursProjector();
     await unsubscribeRecoursNotification();
 
     await unsubscribeÉliminéProjector();
-    await unsubscribeÉliminéSaga();
   };
 };
