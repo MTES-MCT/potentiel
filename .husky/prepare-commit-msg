@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # gitmoji as a commit hook
-if npx -v > /dev/null 2>&1
+if gitmoji -v > /dev/null 2>&1
 then
   exec < /dev/tty
-  npx -c "gitmoji --hook $1 $2"
+  gitmoji --hook $1 $2
 else
   exec < /dev/tty
-  gitmoji --hook $1 $2
+  npx -c "gitmoji --hook $1 $2"
 fi
