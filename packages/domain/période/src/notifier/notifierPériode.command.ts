@@ -37,6 +37,18 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
       const candidature = await loadCandidature(identifiantCandidature);
 
       try {
+        await mediator.send<Candidature.NotifierCandidatureUseCase>({
+          type: 'Candidature.UseCase.NotifierCandidature',
+          data: {
+            identifiantProjetValue: identifiantCandidature.formatter(),
+            notifiéLeValue: notifiéeLe.formatter(),
+            notifiéParValue: notifiéePar.formatter(),
+            attestationValue: {
+              format: 'application/pdf',
+            },
+          },
+        });
+
         if (candidature.statut?.estClassé()) {
           await mediator.send<Lauréat.NotifierLauréatUseCase>({
             type: 'Lauréat.UseCase.NotifierLauréat',

@@ -2,8 +2,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Éliminé } from '@potentiel-domain/elimine';
-import { Lauréat } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -11,7 +9,7 @@ import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 
 import { buildCertificate } from './buildCertificate';
 
-export type SubscriptionEvent = Éliminé.ÉliminéNotifiéEvent | Lauréat.LauréatNotifiéEvent;
+export type SubscriptionEvent = Candidature.CandidatureNotifiéeEvent;
 
 export type Execute = Message<'System.Candidature.Attestation.Saga.Execute', SubscriptionEvent>;
 
@@ -22,13 +20,12 @@ export const register = () => {
       payload: {
         identifiantProjet,
         attestation: { format },
-        notifiéLe,
-        notifiéPar,
+        notifiéeLe,
+        notifiéePar,
       },
     } = event;
     switch (event.type) {
-      case 'ÉliminéNotifié-V1':
-      case 'LauréatNotifié-V1':
+      case 'CandidatureNotifiée-V1':
         const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
           type: 'Candidature.Query.ConsulterCandidature',
           data: {
@@ -73,14 +70,14 @@ export const register = () => {
         const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
           type: 'Utilisateur.Query.ConsulterUtilisateur',
           data: {
-            identifiantUtilisateur: notifiéPar,
+            identifiantUtilisateur: notifiéePar,
           },
         });
 
         if (Option.isNone(utilisateur)) {
           logger.warn(`Utilisateur non trouvé`, {
             identifiantProjet,
-            identifiantUtilisateur: notifiéPar,
+            identifiantUtilisateur: notifiéePar,
           });
           return;
         }
@@ -90,7 +87,7 @@ export const register = () => {
           période,
           utilisateur,
           candidature,
-          notifiéLe,
+          notifiéLe: notifiéeLe,
         });
 
         if (!certificate) {
@@ -101,7 +98,7 @@ export const register = () => {
         const attestation = DocumentProjet.convertirEnValueType(
           identifiantProjet,
           'attestation',
-          notifiéLe,
+          notifiéeLe,
           format,
         );
 

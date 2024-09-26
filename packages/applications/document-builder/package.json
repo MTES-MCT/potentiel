@@ -11,8 +11,7 @@
   },
   "dependencies": {
     "@potentiel-domain/appel-offre": "*",
-    "@potentiel-domain/laureat": "*",
-    "@potentiel-domain/elimine": "*",
+    "@potentiel-domain/candidature": "*",
     "@react-pdf/renderer": "^3.1.14",
     "docxtemplater": "^3.42.3",
     "pizzip": "^3.1.4"
