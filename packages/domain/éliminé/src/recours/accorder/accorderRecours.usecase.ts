@@ -7,6 +7,7 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 
 // Package
 import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
+import { ArchiverÉliminéCommand } from '../../archiver/archiverÉliminé.command';
 
 import { AccorderRecoursCommand } from './accorderRecours.command';
 
@@ -56,6 +57,15 @@ export const registerAccorderRecoursUseCase = () => {
         identifiantUtilisateur,
         identifiantProjet,
         réponseSignée,
+      },
+    });
+
+    await mediator.send<ArchiverÉliminéCommand>({
+      type: 'Éliminé.Recours.Command.ArchiverÉliminé',
+      data: {
+        dateArchive: dateAccord,
+        identifiantUtilisateur,
+        identifiantProjet,
       },
     });
   };

@@ -11,12 +11,19 @@ import {
   applyÉliminéNotifié,
   notifier,
 } from './notifier/notifierÉliminé.behavior';
+import {
+  archiver,
+  ÉliminéArchivéEvent,
+  applyÉliminéArchivé,
+} from './archiver/archiverÉliminé.behavior';
 
-export type ÉliminéEvent = ÉliminéNotifiéEvent;
+export type ÉliminéEvent = ÉliminéNotifiéEvent | ÉliminéArchivéEvent;
 
 export type ÉliminéAggregate = Aggregate<ÉliminéEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
   estNotifié?: true;
+  estArchivé: boolean;
+  archiver: typeof archiver;
   notifier: typeof notifier;
 };
 
@@ -25,14 +32,19 @@ export const getDefaultÉliminéAggregate: GetDefaultAggregateState<
   ÉliminéEvent
 > = () => ({
   identifiantProjet: IdentifiantProjet.inconnu,
+  estArchivé: false,
   apply,
   notifier,
+  archiver,
 });
 
 function apply(this: ÉliminéAggregate, event: ÉliminéEvent) {
   switch (event.type) {
     case 'ÉliminéNotifié-V1':
       applyÉliminéNotifié.bind(this)(event);
+      break;
+    case 'ÉliminéArchivé-V1':
+      applyÉliminéArchivé.bind(this)(event);
       break;
   }
 }

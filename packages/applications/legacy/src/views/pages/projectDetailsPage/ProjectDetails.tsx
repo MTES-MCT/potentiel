@@ -93,9 +93,9 @@ export const ProjectDetails = ({
           {user.role === 'porteur-projet' && modificationsNonPermisesParLeCDCActuel && (
             <InfoBox>
               Votre cahier des charges actuel ne vous permet pas d'accéder aux fonctionnalités
-              dématérialisées d'information au Préfet et de modification de votre projet, vous devez
-              d'abord choisir un cahier des charges modificatif (encart "Cahier des charges"
-              ci-dessous).
+              dématérialisées d'information au Préfet et de modification de votre projet (abandon,
+              recours...), vous devez d'abord choisir un cahier des charges modificatif (encart
+              "Cahier des charges" ci-dessous).
             </InfoBox>
           )}
 

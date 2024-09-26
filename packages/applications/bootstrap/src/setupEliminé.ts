@@ -64,7 +64,7 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependenices) =
 
   const unsubscribeÉliminéProjector = await subscribe<ÉliminéProjector.SubscriptionEvent>({
     name: 'projector',
-    eventType: ['ÉliminéNotifié-V1', 'RebuildTriggered'],
+    eventType: ['ÉliminéNotifié-V1', 'ÉliminéArchivé-V1', 'RebuildTriggered'],
     eventHandler: async (event) => {
       await mediator.send<ÉliminéProjector.Execute>({
         type: 'System.Projector.Éliminé',

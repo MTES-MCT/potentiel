@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/laureat';
 import {
+  ProjectClasseGranted,
   ProjectCompletionDueDateSet,
   ProjectDCRDueDateSet,
   ProjectNotified,
@@ -101,6 +102,13 @@ export const register = () => {
             },
           }),
         );
+
+        await eventStore.publish(new ProjectClasseGranted({
+          payload: {
+            grantedBy: payload.notifiéPar,
+            projectId: projet.id
+          }
+        }));
         return;
     }
   };

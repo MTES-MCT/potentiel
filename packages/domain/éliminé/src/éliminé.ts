@@ -1,12 +1,12 @@
 import { ÉliminéNotifiéEvent } from './notifier/notifierÉliminé.behavior';
+import { ÉliminéEvent } from './éliminé.aggregate';
 import { NotifierÉliminéUseCase } from './notifier/notifierÉliminé.usecase';
 import {
   ConsulterÉliminéQuery,
   ConsulterÉliminéReadModel,
 } from './consulter/consulterÉliminé.query';
 
-export type ÉliminéEvent = ÉliminéNotifiéEvent;
-export { ÉliminéNotifiéEvent };
+export { ÉliminéEvent, ÉliminéNotifiéEvent };
 
 export type ÉliminéUseCase = NotifierÉliminéUseCase;
 export { NotifierÉliminéUseCase };

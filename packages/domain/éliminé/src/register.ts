@@ -1,3 +1,4 @@
+import { registerArchiverÉliminéCommand } from './archiver/archiverÉliminé.command';
 import { registerConsulterÉliminéQuery } from './consulter/consulterÉliminé.query';
 import { registerNotifierÉliminéCommand } from './notifier/notifierÉliminé.command';
 import { registerNotifierÉliminéUseCase } from './notifier/notifierÉliminé.usecase';
@@ -12,6 +13,7 @@ export type EliminéQueryDependencies = RecoursQueryDependencies;
 export type EliminéCommandDependencies = RecoursCommandDependencies;
 
 export const registerEliminéUseCases = (dependencies: EliminéCommandDependencies) => {
+  registerArchiverÉliminéCommand(dependencies.loadAggregate);
   registerNotifierÉliminéCommand(dependencies.loadAggregate);
   registerNotifierÉliminéUseCase();
 

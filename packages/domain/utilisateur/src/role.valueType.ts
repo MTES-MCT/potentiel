@@ -200,7 +200,10 @@ const référencielPermissions = {
   éliminé: {
     query: { consulter: 'Éliminé.Query.ConsulterÉliminé' },
     usecase: { notifier: 'Éliminé.UseCase.NotifierÉliminé' },
-    command: { notifier: 'Éliminé.Command.NotifierÉliminé' },
+    command: {
+      notifier: 'Éliminé.Command.NotifierÉliminé',
+      archiver: 'Éliminé.Recours.Command.ArchiverÉliminé',
+    },
     recours: {
       query: {
         consulterLegacy: 'Éliminé.Recours.Query.ConsulterDemandeRecoursLegacy',
@@ -579,6 +582,7 @@ const policies = {
       référencielPermissions.éliminé.recours.query.consulter,
       référencielPermissions.éliminé.recours.usecase.accorder,
       référencielPermissions.éliminé.recours.command.accorder,
+      référencielPermissions.éliminé.command.archiver,
     ],
     rejeter: [
       référencielPermissions.candidature.query.consulterProjet,
