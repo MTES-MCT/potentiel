@@ -421,7 +421,9 @@ type ProjectReimported = {
                 ...acc,
                 identifiantProjet:
                   IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-                statut: payload.data.classe === 'Classé' ? 'classé' : 'éliminé',
+                ...(payload.data.classe && {
+                  statut: payload.data.classe === 'Classé' ? 'classé' : 'éliminé',
+                }),
                 ...(payload.data.nomProjet && { nomProjet: payload.data.nomProjet }),
                 ...(payload.data.actionnaire && { sociétéMère: payload.data.actionnaire }),
                 ...(payload.data.nomCandidat && { nomCandidat: payload.data.nomCandidat }),
