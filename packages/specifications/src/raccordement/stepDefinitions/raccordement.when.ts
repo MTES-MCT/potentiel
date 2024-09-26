@@ -65,6 +65,60 @@ Quand(
 );
 
 Quand(
+  `le porteur transmet une demande complète de raccordement pour le projet éliminé {string} auprès du gestionnaire de réseau {string} avec :`,
+  async function (
+    this: PotentielWorld,
+    nomProjet: string,
+    raisonSocialeGestionnaire: string,
+    table: DataTable,
+  ) {
+    const exemple = table.rowsHash();
+    const dateQualification = new Date(exemple['La date de qualification']).toISOString();
+    const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
+    const format = exemple[`Le format de l'accusé de réception`];
+    const content = exemple[`Le contenu de l'accusé de réception`];
+
+    const accuséRéception = {
+      format,
+      content: convertStringToReadableStream(content),
+    };
+
+    const identifiantProjet = this.eliminéWorld
+      .rechercherÉliminéFixture(nomProjet)
+      .identifiantProjet.formatter();
+
+    const identifiantGestionnaireRéseau =
+      this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
+        raisonSocialeGestionnaire,
+      ).codeEIC;
+
+    try {
+      this.raccordementWorld.dateQualification = DateTime.convertirEnValueType(dateQualification);
+      this.raccordementWorld.référenceDossierRaccordement =
+        Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+          référenceDossierRaccordement,
+        );
+      this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
+        format,
+        content,
+      };
+      await mediator.send<Raccordement.RaccordementUseCase>({
+        type: 'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
+        data: {
+          accuséRéceptionValue: accuséRéception,
+          dateQualificationValue: dateQualification,
+          identifiantGestionnaireRéseauValue: identifiantGestionnaireRéseau,
+          identifiantProjetValue: identifiantProjet,
+          référenceDossierValue: référenceDossierRaccordement,
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
   `le porteur transmet la date de mise en service {string} pour le dossier de raccordement du le projet lauréat {string} ayant pour référence {string}`,
   async function (
     this: PotentielWorld,
