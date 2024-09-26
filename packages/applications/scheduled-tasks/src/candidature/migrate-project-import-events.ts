@@ -278,7 +278,8 @@ type ProjectReimported = {
       .concat(projectImportedEventsPerProjects)
       .concat(projectReimportedEventsPerProjects)
       .reduce((acc, { appel_offre, periode, famille, numero_cre, event_ids }) => {
-        const identifiantProjet: IdentifiantProjet.RawType = `${appel_offre}#${periode}#${famille}#${numero_cre}`;
+        const appelOffre = appel_offre.replace('PPE2 - Bâtiment 2', 'PPE2 - Bâtiment');
+        const identifiantProjet: IdentifiantProjet.RawType = `${appelOffre}#${periode}#${famille}#${numero_cre}`;
 
         const alreadyAddedEventIds = acc.get(identifiantProjet);
         acc.set(identifiantProjet, [...(alreadyAddedEventIds ?? []), ...event_ids]);
