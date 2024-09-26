@@ -18,9 +18,7 @@ type EnregistrerUneModificationProps = {
   project: ProjectDataForProjectPage;
 };
 
-const EnregistrerUneModification = ({
-  project,
-}: EnregistrerUneModificationProps) => (
+const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps) => (
   <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
     <DropdownMenuSecondaryButton.DropdownItem
       href={routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(project.id)}
@@ -34,12 +32,14 @@ const EnregistrerUneModification = ({
 type PorteurProjetActionsProps = {
   project: ProjectDataForProjectPage;
   abandonEnCours: boolean;
+  hasRecours: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
 };
 const PorteurProjetActions = ({
   project,
   abandonEnCours,
+  hasRecours,
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
 }: PorteurProjetActionsProps) => {
@@ -53,7 +53,7 @@ const PorteurProjetActions = ({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col xl:flex-row gap-2">
-        {!project.isClasse && (
+        {!hasRecours && (
           <SecondaryLinkButton
             href={Routes.Recours.demander(identifiantProjet)}
             disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
@@ -132,9 +132,7 @@ const PorteurProjetActions = ({
 type AdminActionsProps = {
   project: ProjectDataForProjectPage;
 };
-const AdminActions = ({
-  project,
-}: AdminActionsProps) => {
+const AdminActions = ({ project }: AdminActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
     periodeId: project.periodeId,
@@ -144,9 +142,7 @@ const AdminActions = ({
 
   return (
     <div className="flex flex-col md:flex-row gap-2">
-      <EnregistrerUneModification
-        {...{ project }}
-      />
+      <EnregistrerUneModification {...{ project }} />
       {project.notifiedOn ? (
         <DownloadLinkButton
           fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
@@ -189,6 +185,7 @@ type ProjectActionsProps = {
   project: ProjectDataForProjectPage;
   user: User;
   abandonEnCours: boolean;
+  hasRecours: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
 };
@@ -196,19 +193,17 @@ export const ProjectActions = ({
   project,
   user,
   abandonEnCours,
+  hasRecours,
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
 }: ProjectActionsProps) => (
   <div className="print:hidden whitespace-nowrap">
-    {userIs(['admin', 'dgec-validateur'])(user) && (
-      <AdminActions
-        {...{ project }}
-      />
-    )}
+    {userIs(['admin', 'dgec-validateur'])(user) && <AdminActions {...{ project }} />}
     {userIs(['porteur-projet'])(user) && (
       <PorteurProjetActions
         project={project}
         abandonEnCours={abandonEnCours}
+        hasRecours={hasRecours}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}
       />

@@ -25,6 +25,7 @@ import { AchèvementRéelDTO } from '../../modules/frise';
 import { Option } from '@potentiel-libraries/monads';
 import { User } from '../../entities';
 import { logger } from '../../core/utils';
+import { Recours } from '@potentiel-domain/elimine';
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
 });
@@ -183,6 +184,7 @@ v1Router.get(
           },
           alertesRaccordement,
           abandon,
+          hasRecours: await hasDemandeDeRecours(identifiantProjetValueType),
           hasAttestationConformité: !!attestationConformité,
         }),
       );
@@ -347,4 +349,17 @@ const getGarantiesFinancières = async (
     dépôtÀTraiter,
     garantiesFinancièresEnAttente,
   };
+};
+
+const hasDemandeDeRecours = async (
+  identifiantProjet: IdentifiantProjet.ValueType,
+): Promise<ProjectDataForProjectPage['hasRecours']> => {
+  const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
+    type: 'Éliminé.Recours.Query.ConsulterRecours',
+    data: { identifiantProjetValue: identifiantProjet.formatter() },
+  });
+
+  return Option.match(recours)
+    .some((value) => value.statut.estDemandé())
+    .none(() => false);
 };
