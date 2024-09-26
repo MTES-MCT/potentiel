@@ -1,11 +1,16 @@
 import { Candidature } from '@potentiel-domain/candidature';
 
-import { CandidatureShape } from '../importer/candidature.schema';
-
 import {
   DépartementRégion,
   getRégionAndDépartementFromCodePostal,
 } from './getRégionAndDépartementFromCodePostal';
+
+type CandidatureShape = {
+  code_postaux: string[];
+  adresse1: string;
+  adresse2: string;
+  commune: string;
+};
 
 export const getLocalité = ({
   code_postaux,
