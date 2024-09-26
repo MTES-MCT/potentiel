@@ -28,16 +28,7 @@ const templateId = {
   demanderPreuveRecandidature: 5308275,
 };
 
-const sendEmailAbandonChangementDeStatut = ({
-  identifiantProjet,
-  statut,
-  templateId,
-  recipients,
-  nomProjet,
-  départementProjet,
-  appelOffre,
-  période,
-}: {
+type SendEmailAbandonChangementDeStatut = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut:
     | 'envoyée'
@@ -46,19 +37,35 @@ const sendEmailAbandonChangementDeStatut = ({
     | 'confirmée'
     | 'accordée'
     | 'rejetée';
-  templateId: number;
-  recipients: Array<{ email: string; fullName: string }>;
+  templateId: EmailPayload['templateId'];
+  recipients: EmailPayload['recipients'];
+  cc?: EmailPayload['cc'];
+  bcc?: EmailPayload['cc'];
   nomProjet: string;
   départementProjet: string;
   appelOffre: string;
   période: string;
-}) => {
+};
+const sendEmailAbandonChangementDeStatut = ({
+  identifiantProjet,
+  statut,
+  templateId,
+  recipients,
+  cc,
+  bcc,
+  nomProjet,
+  départementProjet,
+  appelOffre,
+  période,
+}: SendEmailAbandonChangementDeStatut) => {
   const { BASE_URL } = process.env;
 
   return {
     templateId,
     messageSubject: `Potentiel - Demande d'abandon ${statut} pour le projet ${nomProjet} (${appelOffre} période ${période})`,
     recipients,
+    ...(cc && { cc }),
+    ...(bcc && { bcc }),
     variables: {
       nom_projet: nomProjet,
       departement_projet: départementProjet,
@@ -96,7 +103,8 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
       return sendEmailAbandonChangementDeStatut({
         statut: 'envoyée',
         templateId: templateId.demander,
-        recipients: [...porteurs, ...admins],
+        recipients: porteurs,
+        bcc: admins,
         identifiantProjet,
         nomProjet,
         départementProjet,
@@ -107,7 +115,8 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
       return sendEmailAbandonChangementDeStatut({
         statut: 'annulée',
         templateId: templateId.annuler,
-        recipients: [...porteurs, ...admins],
+        recipients: porteurs,
+        bcc: admins,
         identifiantProjet,
         nomProjet,
         départementProjet,
@@ -129,7 +138,8 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
       return sendEmailAbandonChangementDeStatut({
         statut: 'confirmée',
         templateId: templateId.demanderConfirmation,
-        recipients: [...porteurs, ...admins],
+        recipients: porteurs,
+        bcc: admins,
         identifiantProjet,
         nomProjet,
         départementProjet,

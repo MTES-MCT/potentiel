@@ -62,7 +62,8 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
     await sendEmail({
       templateId: templateId.changementStatutRecours,
       messageSubject: `Potentiel - Demande de recours ${statut} pour le projet ${nomProjet} (${appelOffre} période ${période})`,
-      recipients: [...porteurs, ...admins],
+      recipients: porteurs,
+      bcc: admins,
       variables: {
         nom_projet: nomProjet,
         departement_projet: départementProjet,
