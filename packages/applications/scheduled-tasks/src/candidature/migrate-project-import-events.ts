@@ -1,6 +1,5 @@
 import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
@@ -324,10 +323,6 @@ type ProjectReimported = {
                 historiqueAbandon: normaliserHistoriqueAbandon(
                   payload.data.historiqueAbandon ?? acc.historiqueAbandon,
                 ),
-                appelOffre: payload.data.appelOffreId,
-                période: payload.data.periodeId,
-                famille: payload.data.familleId,
-                numéroCRE: payload.data.numeroCRE,
                 nomProjet: payload.data.nomProjet,
                 sociétéMère: payload.data.actionnaire,
                 nomCandidat: payload.data.nomCandidat,
@@ -365,10 +360,6 @@ type ProjectReimported = {
                 identifiantProjet:
                   IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
                 statut: payload.content.classe === 'Classé' ? 'classé' : 'éliminé',
-                appelOffre: payload.appelOffreId,
-                période: payload.periodeId,
-                famille: payload.familleId,
-                numéroCRE: payload.numeroCRE,
                 nomProjet: payload.content.nomProjet,
                 sociétéMère: payload.content.actionnaire,
                 nomCandidat: payload.content.nomCandidat,
@@ -400,10 +391,6 @@ type ProjectReimported = {
                 identifiantProjet:
                   IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
                 statut: payload.data.classe === 'Classé' ? 'classé' : 'éliminé',
-                appelOffre: payload.appelOffreId,
-                période: payload.periodeId,
-                famille: payload.familleId,
-                numéroCRE: payload.numeroCRE,
                 nomProjet: payload.data.nomProjet,
                 sociétéMère: payload.data.actionnaire,
                 nomCandidat: payload.data.nomCandidat,
@@ -435,10 +422,6 @@ type ProjectReimported = {
                 identifiantProjet:
                   IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
                 statut: payload.data.classe === 'Classé' ? 'classé' : 'éliminé',
-                appelOffre: payload.appelOffreId,
-                période: payload.periodeId,
-                ...(payload.familleId && { famille: payload.familleId }),
-                ...(payload.data.numeroCRE && { numéroCRE: payload.data.numeroCRE }),
                 ...(payload.data.nomProjet && { nomProjet: payload.data.nomProjet }),
                 ...(payload.data.actionnaire && { sociétéMère: payload.data.actionnaire }),
                 ...(payload.data.nomCandidat && { nomCandidat: payload.data.nomCandidat }),
@@ -521,7 +504,7 @@ const normaliserHistoriqueAbandon = (val: string | undefined) =>
 
 const normaliserTypeGarantiesFinancières = (
   val: string | undefined,
-): GarantiesFinancières.TypeGarantiesFinancières.RawType | undefined => {
+): Candidature.TypeGarantiesFinancières.RawType | undefined => {
   if (!val) return 'type-inconnu';
   switch (val) {
     case `Garantie financière jusqu'à 6 mois après la date d'achèvement`:
@@ -532,7 +515,7 @@ const normaliserTypeGarantiesFinancières = (
       return 'avec-date-échéance';
     default:
       try {
-        return GarantiesFinancières.TypeGarantiesFinancières.convertirEnValueType(val).type;
+        return Candidature.TypeGarantiesFinancières.convertirEnValueType(val).type;
       } catch {}
       return 'type-inconnu';
   }
