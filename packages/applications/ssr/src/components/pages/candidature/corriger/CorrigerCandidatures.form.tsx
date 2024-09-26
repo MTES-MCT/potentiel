@@ -9,8 +9,10 @@ import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { corrigerCandidaturesAction } from './corrigerCandidatures.action';
 
 export const CorrigerCandidaturesForm: FC = () => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  // const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<Array<string>>(['fichierImport']);
 
+  console.log(validationErrors);
   return (
     <Form
       method="POST"

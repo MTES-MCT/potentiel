@@ -49,7 +49,9 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
   const [uploadedFileName, setUploadFileName] = useState('');
 
   return (
-    <div className={`fr-input-group ${className}`}>
+    <div
+      className={`fr-input-group ${className} ${props.state === 'error' ? 'border-dsfr-redMarianne-_975_75-default border-2' : ''}`}
+    >
       <label className="fr-label">
         {label}
         <div className="fr-hint-text">
@@ -64,7 +66,7 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
           ref={hiddenFileInput}
           type="file"
           accept={`.${format}`}
-          className="-z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0"
+          className={`-z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0`}
           onChange={(e) => {
             const fileName = extractFileName(e.currentTarget.value);
             setUploadFileName(fileName);
