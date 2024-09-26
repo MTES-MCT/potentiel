@@ -22,6 +22,8 @@ import {
 import { Candidature } from '@potentiel-domain/candidature';
 import { Période } from '@potentiel-domain/periode';
 
+import { dgecEmail } from '../_utils/constant';
+
 [
   'DIRECTORY_PATH',
   'EVENT_STORE_CONNECTION_STRING',
@@ -77,14 +79,10 @@ const formatFileName = (id: string) =>
     .replace(/PPE2 - Bâtiment/, 'PPE2 - Bâtiment'); // Je comprends pas pourquoi je suis obligé de faire ça
 
 const detectAndConvertEncoding = (fileName: string) => {
-  // Détecter l'encodage de la chaîne
   const detectedEncoding = chardet.detect(Buffer.from(fileName));
-
   if (!detectedEncoding) {
     throw new Error("Impossible de détecter l'encodage");
   }
-
-  // Convertir la chaîne en utf-8
   const buffer = encode(fileName, detectedEncoding);
   const decodedStr = decode(buffer, 'utf-8');
 
@@ -126,8 +124,6 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   for (const file of dirrents) {
     try {
-      await delay(50);
-
       if (!file.isFile() || path.extname(file.name).toLowerCase() !== '.pdf') {
         console.log(`❌ Fichier ${file.name} non pris en charge`);
         continue;
@@ -170,9 +166,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
           controller.close();
         },
       });
-      const enregistréParValue = Email.convertirEnValueType(
-        'aopv.dgec@developpement-durable.gouv.fr',
-      ).formatter();
+      const enregistréParValue = Email.convertirEnValueType(dgecEmail).formatter();
 
       if (Option.isSome(gf)) {
         if (gf.garantiesFinancières.attestation) {
@@ -242,8 +236,10 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
       statistics.gfCréeEtAttestationAjoutée++;
       console.log(
-        `🍀 ${identifiantProjet.formatter()} (${projet.nom}) : Garanties financières créée avec l'attestation`,
+        `🍀 ${identifiantProjet.formatter()} (${projet.nom}) : Garanties financières créées avec l'attestation`,
       );
+
+      await delay(50);
     } catch (e) {
       console.error(e);
       process.exit(1);
@@ -256,13 +252,13 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
     `Nombre de projets inconnu dans potentiel : ${statistics.projetInconnu.count} / ${dirrents.length}`,
   );
   console.log(
-    `Nombre d'attestation ajoutées à des gfs existante : ${statistics.attestationAjoutée} / ${dirrents.length}`,
+    `Nombre d'attestations ajoutées à des gfs existantes : ${statistics.attestationAjoutée} / ${dirrents.length}`,
   );
   console.log(
-    `Nombre de gf crées avec attestation : ${statistics.gfCréeEtAttestationAjoutée} / ${dirrents.length}`,
+    `Nombre de gf créées avec attestation : ${statistics.gfCréeEtAttestationAjoutée} / ${dirrents.length}`,
   );
   console.log(
-    `Nombre d'attestation déjà existante : ${statistics.attestationExistante} / ${dirrents.length}`,
+    `Nombre d'attestations déjà existantes : ${statistics.attestationExistante} / ${dirrents.length}`,
   );
 
   if (statistics.projetInconnu.ids.length) {

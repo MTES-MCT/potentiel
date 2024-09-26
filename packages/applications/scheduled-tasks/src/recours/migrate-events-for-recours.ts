@@ -15,6 +15,8 @@ import { CandidatureAdapter, DocumentAdapter } from '@potentiel-infrastructure/d
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { registerDocumentProjetCommand } from '@potentiel-domain/document';
 
+import { dgecEmail } from '../_utils/constant';
+
 Candidature.registerCandidatureQueries({
   find: findProjection,
   list: listProjection,
@@ -224,7 +226,7 @@ const getUtilisateur = async (utilisateurId: string): Promise<string> => {
                 identifiantProjetValue: identifiantProjet.formatter(),
                 identifiantUtilisateurValue: respondedBy
                   ? await getUtilisateur(respondedBy)
-                  : 'aopv.dgec@developpement-durable.gouv.fr',
+                  : dgecEmail,
                 réponseSignéeValue: await getFile(responseFileId),
               },
             });
@@ -238,7 +240,7 @@ const getUtilisateur = async (utilisateurId: string): Promise<string> => {
                 identifiantProjetValue: identifiantProjet.formatter(),
                 identifiantUtilisateurValue: respondedBy
                   ? await getUtilisateur(respondedBy)
-                  : 'aopv.dgec@developpement-durable.gouv.fr',
+                  : dgecEmail,
                 réponseSignéeValue: await getFile(responseFileId),
               },
             });
