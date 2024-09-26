@@ -65,8 +65,6 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
         await sendEmail({
           messageSubject: `Potentiel - Arrivée à échéance des garanties financières pour le projet ${nom} dans ${nombreDeMois} mois`,
           recipients: dreals,
-          copyRecipients: [],
-          hiddenCopyRecipients: [],
           templateId: templateId.garantiesFinancièreÉchéanceDreal,
           variables: {
             nom_projet: nom,
@@ -79,8 +77,6 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
         await sendEmail({
           messageSubject: `Potentiel - Arrivée à échéance de vos garanties financières pour le projet ${nom} arrivent à échéance dans ${nombreDeMois} mois`,
           recipients: porteurs,
-          copyRecipients: [],
-          hiddenCopyRecipients: [],
           templateId: templateId.garantiesFinancièreÉchéancePorteur,
           variables: {
             nom_projet: nom,

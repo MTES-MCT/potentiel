@@ -43,8 +43,6 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
         templateId: templateId.attestationConformitéTransmise,
         messageSubject: `Potentiel - Une attestation de conformité a été transmise pour le projet ${nomProjet} dans le département ${départementProjet}`,
         recipients: dreals,
-        copyRecipients: [],
-        hiddenCopyRecipients: [],
         variables: {
           nom_projet: nomProjet,
           departement_projet: départementProjet,

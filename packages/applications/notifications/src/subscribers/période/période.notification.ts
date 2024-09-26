@@ -62,8 +62,6 @@ async function getEmailPayloads(
             fullName: nomComplet,
           },
         ],
-        copyRecipients: [],
-        hiddenCopyRecipients: [],
         messageSubject: `Potentiel - Notification de la période ${période.id} de l'appel d'offres ${appelOffre.id}`,
         variables: {
           appel_offre: appelOffre.id,

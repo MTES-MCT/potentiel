@@ -63,8 +63,7 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
       templateId: templateId.changementStatutRecours,
       messageSubject: `Potentiel - Demande de recours ${statut} pour le projet ${nomProjet} (${appelOffre} période ${période})`,
       recipients: porteurs,
-      copyRecipients: [],
-      hiddenCopyRecipients: admins,
+      bcc: admins,
       variables: {
         nom_projet: nomProjet,
         departement_projet: départementProjet,
@@ -88,8 +87,6 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
           templateId: templateId.recoursAccordéCRE,
           messageSubject: `Potentiel - Un recours a été accepté pour le projet ${nomProjet} (${appelOffre} période ${période})`,
           recipients,
-          copyRecipients: [],
-          hiddenCopyRecipients: [],
           variables: {
             nom_projet: nomProjet,
             modification_request_url: `${BASE_URL}${Routes.Recours.détail(identifiantProjet.formatter())}`,

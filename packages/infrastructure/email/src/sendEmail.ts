@@ -12,8 +12,8 @@ type SendEmail = (email: {
   templateId: number;
   messageSubject: string;
   recipients: Array<Receipt>;
-  copyRecipients: Array<Receipt>;
-  hiddenCopyRecipients: Array<Receipt>;
+  cc?: Array<Receipt>;
+  bcc?: Array<Receipt>;
   variables: Record<string, string>;
 }) => Promise<void>;
 
@@ -29,14 +29,7 @@ export const sendEmail: SendEmail = async (sendEmailArgs) => {
   const mode = mapToSendEmailMode(SEND_EMAIL_MODE);
 
   if (mode !== 'logging-only') {
-    const {
-      templateId,
-      messageSubject,
-      recipients,
-      copyRecipients,
-      hiddenCopyRecipients,
-      variables,
-    } = sendEmailArgs;
+    const { templateId, messageSubject, recipients, cc, bcc, variables } = sendEmailArgs;
 
     await getMailjetClient()
       .post('send', {
@@ -50,8 +43,8 @@ export const sendEmail: SendEmail = async (sendEmailArgs) => {
               Name: SEND_EMAILS_FROM_NAME,
             },
             To: formatRecipients(recipients),
-            Cc: formatRecipients(copyRecipients),
-            Bcc: formatRecipients(hiddenCopyRecipients),
+            ...(cc && { Cc: formatRecipients(cc) }),
+            ...(bcc && { Bcc: formatRecipients(bcc) }),
             TemplateID: templateId,
             TemplateLanguage: true,
             Subject: messageSubject,

@@ -68,8 +68,6 @@ const formatGarantiesFinancièresEmailPayload = ({
     templateId,
     messageSubject: subject,
     recipients,
-    copyRecipients: [],
-    hiddenCopyRecipients: [],
     variables: {
       nom_projet: nomProjet,
       departement_projet: départementProjet,
