@@ -11,97 +11,6 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
   const projectId = new UniqueEntityID().toString();
   const fileId = new UniqueEntityID().toString();
 
-  describe('generally', () => {
-    const modificationRequestId = new UniqueEntityID().toString();
-
-    const projectInfo = {
-      id: projectId,
-      nomProjet: 'nomProjet',
-      communeProjet: 'communeProjet',
-      departementProjet: 'departementProjet',
-      regionProjet: 'regionProjet',
-      appelOffreId: 'Fessenheim',
-      periodeId: '1',
-      familleId: 'familleId',
-    };
-
-    const fakePorteur = _creerPorteurProjet();
-    const fakeAdmin = _creerAdmin();
-
-    beforeAll(async () => {
-      // Create the tables and remove all data
-      await resetDatabase();
-
-      await Project.create(makeFakeProject(projectInfo));
-
-      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }));
-
-      await User.create(fakePorteur);
-      await User.create(fakeAdmin);
-
-      await ModificationRequest.create({
-        id: modificationRequestId,
-        projectId,
-        userId: fakePorteur.id,
-        fileId,
-        type: 'recours',
-        requestedOn: 123,
-        status: 'envoyée',
-        justification: 'justification',
-        authority: 'dgec',
-      });
-
-      await ModificationRequest.create({
-        id: new UniqueEntityID().toString(),
-        projectId,
-        userId: fakePorteur.id,
-        fileId,
-        type: 'producteur',
-        requestedOn: 123,
-        status: 'envoyée',
-        justification: 'justification',
-        authority: 'dgec',
-        isLegacy: true, // should be ignored because of this
-      });
-    });
-
-    it('should return a paginated list of all non-legacy modification requests', async () => {
-      const res = await getModificationRequestListForAdmin({
-        user: fakeAdmin,
-        pagination: { page: 0, pageSize: 1 },
-      });
-
-      expect(res.isOk()).toBe(true);
-
-      expect(res._unsafeUnwrap().itemCount).toEqual(1);
-      expect(res._unsafeUnwrap().items[0]).toMatchObject({
-        id: modificationRequestId,
-        status: 'envoyée',
-        requestedOn: 123,
-        requestedBy: {
-          email: fakePorteur.email,
-          fullName: fakePorteur.fullName,
-        },
-        attachmentFile: {
-          filename: 'filename',
-          id: fileId,
-        },
-        project: {
-          nomProjet: 'nomProjet',
-          communeProjet: 'communeProjet',
-          departementProjet: 'departementProjet',
-          regionProjet: 'regionProjet',
-          appelOffreId: 'Fessenheim',
-          periodeId: '1',
-          familleId: 'familleId',
-          unitePuissance: 'MWc', // see fessenheim.ts
-        },
-        type: 'recours',
-        description: 'justification',
-      });
-    });
-  });
-
   describe('when user is admin', () => {
     const fakePorteur = _creerPorteurProjet();
     const fakeAdmin = _creerAdmin();
@@ -217,12 +126,6 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
           authority: 'dgec',
         },
         {
-          ...baseRequest,
-          id: new UniqueEntityID().toString(),
-          type: 'recours',
-          authority: 'dgec',
-        },
-        {
           // outside of scope because of project region
           ...baseRequest,
           projectId: outsideRegionProjectId,
@@ -241,9 +144,9 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
 
       expect(res.isOk()).toBe(true);
 
-      expect(res._unsafeUnwrap().itemCount).toEqual(3);
+      expect(res._unsafeUnwrap().itemCount).toEqual(2);
 
-      expect(res._unsafeUnwrap().items.length).toEqual(3);
+      expect(res._unsafeUnwrap().items.length).toEqual(2);
 
       expect(res._unsafeUnwrap().items).toContainEqual(
         expect.objectContaining({

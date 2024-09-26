@@ -15,56 +15,6 @@ export const parseProjectModifications = (line: Record<string, string>) => {
   return Object.values(modificationsByDate);
 };
 
-function extractRecoursType(args: {
-  modifiedOn: number;
-  colonneConcernee: string;
-  ancienneValeur: string;
-  index: number;
-  sameDateModification: LegacyModificationDTO | undefined;
-  nomCourrier: string;
-  status: LegacyModificationStatus;
-}): LegacyModificationDTO {
-  const {
-    colonneConcernee,
-    modifiedOn,
-    ancienneValeur,
-    index,
-    sameDateModification,
-    nomCourrier,
-    status,
-  } = args;
-  if (!['Classé ?', "Motif d'élimination"].includes(colonneConcernee)) {
-    throw new Error(
-      `Colonne concernée ${index} doit être soit "Classé ?" soit "Motif d'élimination" pour un Recours gracieux`,
-    );
-  }
-
-  if (colonneConcernee === 'Classé ?') {
-    if (!['Classé', 'Eliminé'].includes(ancienneValeur)) {
-      throw new Error(
-        `Ancienne valeur ${index} doit être soit Classé soit Eliminé pour un Recours gracieux`,
-      );
-    }
-
-    return {
-      type: 'recours',
-      projectId: '',
-      modifiedOn,
-      motifElimination: '',
-      modificationId: new UniqueEntityID().toString(),
-      filename: nomCourrier,
-      status,
-    } as LegacyModificationDTO;
-  } else {
-    return {
-      ...sameDateModification,
-      motifElimination: ancienneValeur,
-      filename: nomCourrier,
-      status,
-    } as LegacyModificationDTO;
-  }
-}
-
 function extractDelaiType(args: {
   modifiedOn: number;
   colonneConcernee: string;
@@ -214,16 +164,6 @@ function extractModificationType(
         filename: nomCourrier,
         status,
       };
-    case 'Recours gracieux':
-      return extractRecoursType({
-        modifiedOn,
-        sameDateModification,
-        colonneConcernee,
-        ancienneValeur,
-        index,
-        nomCourrier,
-        status,
-      });
     case 'Prolongation de délai':
       return extractDelaiType({
         modifiedOn,

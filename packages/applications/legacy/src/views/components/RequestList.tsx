@@ -44,8 +44,6 @@ export const RequestList = ({ modificationRequests, requestActions, currentUrl, 
         return `la demande de changement de producteur`;
       case 'puissance':
         return `la demande de changement de puissance`;
-      case 'recours':
-        return `la demande de recours`;
       case 'autre':
         return `la demande`;
       default:

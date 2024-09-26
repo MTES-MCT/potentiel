@@ -4,8 +4,6 @@ import { notFound } from 'next/navigation';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
-import { featureFlags } from '@potentiel-applications/feature-flags';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { DemanderRecoursPage } from '@/components/pages/recours/demander/DemanderRecours.page';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -19,10 +17,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  if (!featureFlags.isRecoursEnabled) {
-    getLogger().warn('Feature flags "Recours" disabled');
-    return notFound();
-  }
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 

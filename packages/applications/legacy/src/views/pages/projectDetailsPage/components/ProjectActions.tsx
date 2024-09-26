@@ -16,40 +16,30 @@ import {
 
 type EnregistrerUneModificationProps = {
   project: ProjectDataForProjectPage;
-  signalementRecoursAutorisé?: true;
 };
 
-const EnregistrerUneModification = ({
-  project,
-  signalementRecoursAutorisé,
-}: EnregistrerUneModificationProps) => (
+const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps) => (
   <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
     <DropdownMenuSecondaryButton.DropdownItem
       href={routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(project.id)}
     >
       <span>Demande de délai</span>
     </DropdownMenuSecondaryButton.DropdownItem>
-    {signalementRecoursAutorisé && getProjectStatus(project) === 'éliminé' ? (
-      <DropdownMenuSecondaryButton.DropdownItem
-        href={routes.ADMIN_SIGNALER_DEMANDE_RECOURS_GET(project.id)}
-      >
-        <span>Demande de recours</span>
-      </DropdownMenuSecondaryButton.DropdownItem>
-    ) : (
-      <></>
-    )}
+    <></>
   </DropdownMenuSecondaryButton>
 );
 
 type PorteurProjetActionsProps = {
   project: ProjectDataForProjectPage;
   abandonEnCours: boolean;
+  hasRecours: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
 };
 const PorteurProjetActions = ({
   project,
   abandonEnCours,
+  hasRecours,
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
 }: PorteurProjetActionsProps) => {
@@ -63,9 +53,9 @@ const PorteurProjetActions = ({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col xl:flex-row gap-2">
-        {!project.isClasse && (
+        {!hasRecours && (
           <SecondaryLinkButton
-            href={routes.DEPOSER_RECOURS(project.id)}
+            href={Routes.Recours.demander(identifiantProjet)}
             disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
           >
             Faire une demande de recours
@@ -141,14 +131,8 @@ const PorteurProjetActions = ({
 
 type AdminActionsProps = {
   project: ProjectDataForProjectPage;
-  signalementAbandonAutorisé: true;
-  signalementRecoursAutorisé: true;
 };
-const AdminActions = ({
-  project,
-  signalementAbandonAutorisé,
-  signalementRecoursAutorisé,
-}: AdminActionsProps) => {
+const AdminActions = ({ project }: AdminActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
     periodeId: project.periodeId,
@@ -158,9 +142,7 @@ const AdminActions = ({
 
   return (
     <div className="flex flex-col md:flex-row gap-2">
-      <EnregistrerUneModification
-        {...{ project, signalementAbandonAutorisé, signalementRecoursAutorisé }}
-      />
+      <EnregistrerUneModification {...{ project }} />
       {project.notifiedOn ? (
         <DownloadLinkButton
           fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
@@ -203,6 +185,7 @@ type ProjectActionsProps = {
   project: ProjectDataForProjectPage;
   user: User;
   abandonEnCours: boolean;
+  hasRecours: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
 };
@@ -210,19 +193,17 @@ export const ProjectActions = ({
   project,
   user,
   abandonEnCours,
+  hasRecours,
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
 }: ProjectActionsProps) => (
   <div className="print:hidden whitespace-nowrap">
-    {userIs(['admin', 'dgec-validateur'])(user) && (
-      <AdminActions
-        {...{ project, signalementAbandonAutorisé: true, signalementRecoursAutorisé: true }}
-      />
-    )}
+    {userIs(['admin', 'dgec-validateur'])(user) && <AdminActions {...{ project }} />}
     {userIs(['porteur-projet'])(user) && (
       <PorteurProjetActions
         project={project}
         abandonEnCours={abandonEnCours}
+        hasRecours={hasRecours}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}
       />

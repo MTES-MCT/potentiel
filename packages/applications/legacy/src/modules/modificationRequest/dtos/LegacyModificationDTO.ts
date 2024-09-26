@@ -1,10 +1,5 @@
 export type LegacyModificationStatus = 'acceptée' | 'rejetée' | 'accord-de-principe';
 
-export type LegacyRecours = {
-  type: 'recours';
-  motifElimination: string;
-};
-
 export type LegacyDelai = {
   type: 'delai';
 } & (
@@ -33,7 +28,6 @@ export type LegacyAutre = {
 };
 
 export type LegacyVariant =
-  | LegacyRecours
   | LegacyDelai
   | LegacyActionnaire
   | LegacyProducteur

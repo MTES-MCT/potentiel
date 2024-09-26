@@ -72,6 +72,7 @@ export type ProjectDataForProjectPage = {
   details: Record<string, any>;
 
   updatedAt?: Date;
+  hasRecours: boolean;
 
   garantiesFinancières?: GarantiesFinancièresForProjectPage;
 } & (IsNotified | IsNotNotified) &
@@ -100,6 +101,7 @@ type IsElimine = {
 type IsAbandoned = {
   isAbandoned: true;
   isClasse: false;
+  recoursEnCours: false;
 };
 
 type Users = {

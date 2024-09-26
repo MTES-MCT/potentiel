@@ -63,6 +63,7 @@ const MenuCre = (currentPage?: string) => (
       Projets
     </Header.MenuItem>
     <Header.MenuItem href={Routes.Abandon.lister}>Abandons</Header.MenuItem>
+    <Header.MenuItem href={Routes.Recours.lister}>Recours</Header.MenuItem>
     <Header.MenuItem
       href={routes.GET_CRE_STATISTIQUES}
       {...(currentPage === 'cre-statistiques' && { isCurrent: true })}
@@ -88,6 +89,7 @@ const MenuAdmin = (currentPage?: string) => (
         Toutes les demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Abandon.lister}>Abandons</DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Recours.lister}>Recours</DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />
     <DropdownMenu buttonChildren={'Candidatures'}>
@@ -192,6 +194,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
         Mes demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Abandon.lister}>Abandons</DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Recours.lister}>Recours</DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />
     <Header.MenuItem
@@ -253,6 +256,7 @@ const MenuDreal = (currentPage?: string) => (
         Toutes les demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Abandon.lister}>Abandons</DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Recours.lister}>Recours</DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />
   </>

@@ -7,7 +7,7 @@ import {
   UnauthorizedError,
 } from '../../modules/shared';
 import routes from '../../routes';
-import { requestModification, shouldUserAccessProject } from '../../useCases';
+import { shouldUserAccessProject } from '../../useCases';
 import fs from 'fs';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
@@ -230,13 +230,6 @@ v1Router.post(
           soumisAuxGarantiesFinancières: soumisAuxGarantiesFinancières ?? 'non soumis',
         }).match(handleSuccess, handleError);
 
-        break;
-      default:
-        await requestModification({
-          ...data,
-          file,
-          user: request.user,
-        }).match(handleSuccess, handleError);
         break;
     }
   }),

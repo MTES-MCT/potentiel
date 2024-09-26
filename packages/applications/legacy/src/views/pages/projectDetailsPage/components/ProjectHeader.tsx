@@ -9,6 +9,7 @@ type ProjectHeaderProps = {
   project: ProjectDataForProjectPage;
   user: User;
   abandonEnCours: boolean;
+  hasRecours: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
 };
@@ -17,6 +18,7 @@ export const ProjectHeader = ({
   project,
   user,
   abandonEnCours,
+  hasRecours,
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
 }: ProjectHeaderProps) => (
@@ -49,6 +51,7 @@ export const ProjectHeader = ({
         project={project}
         user={user}
         abandonEnCours={abandonEnCours}
+        hasRecours={hasRecours}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}
       />
