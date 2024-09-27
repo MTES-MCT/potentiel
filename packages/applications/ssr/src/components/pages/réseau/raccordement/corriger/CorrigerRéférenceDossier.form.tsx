@@ -8,6 +8,8 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
 import { corrigerRéférencesDossierAction } from './CorrigerRéférenceDossier.action';
 
+export const fileKey = 'fichierCorrectionRéférence';
+
 export const CorrigerRéférenceDossierForm: FC = () => {
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
   return (
@@ -28,9 +30,10 @@ export const CorrigerRéférenceDossierForm: FC = () => {
       <UploadDocument
         label="Fichier des corrections"
         format="csv"
-        name="fichierCorrections"
+        name={fileKey}
+        id={fileKey}
         required
-        state={validationErrors.includes('fichierCorrections') ? 'error' : 'default'}
+        state={validationErrors.includes(fileKey) ? 'error' : 'default'}
       />
     </Form>
   );

@@ -10,6 +10,8 @@ import { parseCsv } from '@potentiel-libraries/csv';
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { validateDocumentSize } from '@/utils/zod/documentValidation';
+
+import { fileKey } from './CorrigerRéférenceDossier.form';
 export type CorrigerRéférencesDossierState = FormState;
 
 const schema = zod.object({
@@ -44,7 +46,7 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
     if (lines.length === 0) {
       return {
         status: 'validation-error',
-        errors: ['Erreur lors du traitement du fichier CSV'],
+        errors: [fileKey],
       };
     }
 

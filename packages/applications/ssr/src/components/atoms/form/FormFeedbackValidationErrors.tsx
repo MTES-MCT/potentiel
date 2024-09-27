@@ -21,14 +21,14 @@ export const FormFeedbackValidationErrors: FC<FormFeedbackValidationProps> = ({ 
       severity="error"
       className="mt-6"
       description={
-        formState.errors.length > 0 ? (
+        formState.message && formState.message.length > 0 ? (
           <>
             <p>
               Le formulaire n'a pu être validé à cause $
-              {formState.errors.length > 1 ? 'des erreurs suivantes' : "de l'erreur suivante"} :
+              {formState.message.length > 1 ? 'des erreurs suivantes' : "de l'erreur suivante"} :
             </p>
             <ul className="list-disc pl-3">
-              {formState.errors.map((e, index) => (
+              {formState.message.map((e, index) => (
                 <li key={index}>
                   <span className="font-bold"></span>
                   {e}

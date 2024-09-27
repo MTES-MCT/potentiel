@@ -35,6 +35,7 @@ export type FormState =
   | {
       status: 'validation-error';
       errors: string[];
+      message?: string[];
     }
   | {
       status: 'domain-error';
@@ -93,11 +94,15 @@ export const formAction =
       }
 
       if (e instanceof zod.ZodError) {
+        const errors = e.issues.map((issue) => issue.path);
+        const message = e.issues
+          .map((issue) => issue.message || '')
+          .filter((message) => message.trim() !== '');
+
         return {
           status: 'validation-error' as const,
-          errors: e.issues
-            .map((issue) => issue.message || '')
-            .filter((message) => message.trim() !== ''),
+          errors,
+          message,
         };
       }
 

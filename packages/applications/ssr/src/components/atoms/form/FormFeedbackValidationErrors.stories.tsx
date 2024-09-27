@@ -22,6 +22,7 @@ export const Default: Story = {
     formState: {
       status: 'validation-error',
       errors: ["le champs n'est pas entretenu"],
+      message: ["le champs n'est pas entretenu"],
     },
   },
 };

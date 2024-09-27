@@ -12,6 +12,8 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { validateDocumentSize } from '@/utils/zod/documentValidation';
+
+import { fileKey } from './importerDatesMiseEnService.form';
 export type ImporterDatesMiseEnServiceState = FormState;
 
 const schema = zod.object({
@@ -41,7 +43,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
   if (lines.length === 0) {
     return {
       status: 'validation-error',
-      errors: ['Erreur lors du traitement du fichier CSV'],
+      errors: [fileKey],
     };
   }
 

@@ -8,6 +8,8 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 
 import { importerDatesMiseEnServiceAction } from './importDatesMiseEnService.action';
 
+export const fileKey = 'fichierDatesMiseEnService';
+
 export const ImporterDatesMiseEnServiceForm: FC = () => {
   const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
   return (
@@ -28,9 +30,10 @@ export const ImporterDatesMiseEnServiceForm: FC = () => {
       <UploadDocument
         label="Fichier des dates de mise en service"
         format="csv"
-        name="fichierDatesMiseEnService"
+        name={fileKey}
+        id={fileKey}
         required
-        state={validationErrors.includes('fichierDatesMiseEnService') ? 'error' : 'default'}
+        state={validationErrors.includes(fileKey) ? 'error' : 'default'}
       />
     </Form>
   );

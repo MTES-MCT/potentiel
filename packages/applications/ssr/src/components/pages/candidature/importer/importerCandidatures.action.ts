@@ -15,6 +15,7 @@ import { validateDocumentSize } from '@/utils/zod/documentValidation';
 import { getLocalité } from '../helpers';
 
 import { candidatureSchema, CandidatureShape } from './candidature.schema';
+import { fileKey } from './ImporterCandidatures.form';
 
 export type ImporterCandidaturesState = FormState;
 
@@ -29,7 +30,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }
     if (parsedData.length === 0) {
       return {
         status: 'validation-error',
-        errors: ['Erreur lors du traitement du fichier CSV'],
+        errors: [fileKey],
       };
     }
 

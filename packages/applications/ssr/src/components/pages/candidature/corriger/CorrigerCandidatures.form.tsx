@@ -8,11 +8,11 @@ import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
 import { corrigerCandidaturesAction } from './corrigerCandidatures.action';
 
-export const CorrigerCandidaturesForm: FC = () => {
-  // const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
-  const [validationErrors, setValidationErrors] = useState<Array<string>>(['fichierImport']);
+export const fileKey = 'fichierCorrectionCandidatures';
 
-  console.log(validationErrors);
+export const CorrigerCandidaturesForm: FC = () => {
+  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+
   return (
     <Form
       method="POST"
@@ -30,11 +30,11 @@ export const CorrigerCandidaturesForm: FC = () => {
     >
       <UploadDocument
         label="Fichier CSV"
-        id="fichierImport"
-        name="fichierImport"
+        id={fileKey}
+        name={fileKey}
         required
         format="csv"
-        state={validationErrors.includes('fichierImport') ? 'error' : 'default'}
+        state={validationErrors.includes(fileKey) ? 'error' : 'default'}
         stateRelatedMessage="Fichier CSV obligatoire"
       />
     </Form>

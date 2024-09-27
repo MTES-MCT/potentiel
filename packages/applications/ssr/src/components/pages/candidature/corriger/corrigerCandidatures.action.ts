@@ -10,27 +10,32 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { validateDocumentSize } from '@/utils/zod/documentValidation';
 
 import { candidatureSchema, CandidatureShape } from '../importer/candidature.schema';
 import { getLocalité } from '../helpers';
+import { validateDocumentSize } from '../../../../utils/zod/documentValidation';
+
+import { fileKey } from './CorrigerCandidatures.form';
 
 export type CorrigerCandidaturesState = FormState;
 
 const schema = zod.object({
-  fichierImport: zod.instanceof(Blob).superRefine((file, ctx) => {
-    validateDocumentSize(file, ctx);
+  fichierCorrectionCandidatures: zod.instanceof(Blob).superRefine((file, ctx) => {
+    validateDocumentSize(file, ctx, fileKey);
   }),
 });
 
-const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }) =>
+const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrectionCandidatures }) =>
   withUtilisateur(async (utilisateur) => {
-    const { parsedData, rawData } = await parseCsv(fichierImport.stream(), candidatureSchema);
+    const { parsedData, rawData } = await parseCsv(
+      fichierCorrectionCandidatures.stream(),
+      candidatureSchema,
+    );
 
     if (parsedData.length === 0) {
       return {
         status: 'validation-error',
-        errors: ['Erreur lors du traitement du fichier CSV'],
+        errors: [fileKey],
       };
     }
 
