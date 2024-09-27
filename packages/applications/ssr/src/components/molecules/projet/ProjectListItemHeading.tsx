@@ -63,7 +63,7 @@ const FormattedIdentifiantProjet: FC<{
 const NotiféeBadge = ({ estNotifié }: Pick<ProjectListItemHeadingProps, 'estNotifié'>) => {
   return (
     <Badge small noIcon severity="info">
-      {estNotifié ? 'Notifié' : 'Non-notifié'}
+      {estNotifié ? 'Notifié' : 'À Notifier'}
     </Badge>
   );
 };
