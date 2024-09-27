@@ -53,7 +53,7 @@ const PorteurProjetActions = ({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col xl:flex-row gap-2">
-        {!hasRecours && (
+        {!project.isClasse && !hasRecours && (
           <SecondaryLinkButton
             href={Routes.Recours.demander(identifiantProjet)}
             disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
