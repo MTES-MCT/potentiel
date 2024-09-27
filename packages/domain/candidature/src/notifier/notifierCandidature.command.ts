@@ -9,8 +9,8 @@ export type NotifierCandidatureCommand = Message<
   'Candidature.Command.NotifierCandidature',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    notifiéLe: DateTime.ValueType;
-    notifiéPar: Email.ValueType;
+    notifiéeLe: DateTime.ValueType;
+    notifiéePar: Email.ValueType;
     attestation: { format: string };
   }
 >;

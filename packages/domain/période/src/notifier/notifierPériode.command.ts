@@ -41,8 +41,8 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
           type: 'Candidature.UseCase.NotifierCandidature',
           data: {
             identifiantProjetValue: identifiantCandidature.formatter(),
-            notifiéLeValue: notifiéeLe.formatter(),
-            notifiéParValue: notifiéePar.formatter(),
+            notifiéeLeValue: notifiéeLe.formatter(),
+            notifiéeParValue: notifiéePar.formatter(),
             attestationValue: {
               format: 'application/pdf',
             },

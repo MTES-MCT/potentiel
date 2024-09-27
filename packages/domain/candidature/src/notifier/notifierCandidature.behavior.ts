@@ -5,8 +5,8 @@ import { CandidatureAggregate } from '../candidature.aggregate';
 
 export type NotifierOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  notifiéLe: DateTime.ValueType;
-  notifiéPar: Email.ValueType;
+  notifiéeLe: DateTime.ValueType;
+  notifiéePar: Email.ValueType;
   attestation: {
     format: string;
   };
@@ -27,7 +27,7 @@ export type CandidatureNotifiéeEvent = DomainEvent<
 
 export async function notifier(
   this: CandidatureAggregate,
-  { identifiantProjet, notifiéLe, notifiéPar, attestation: { format } }: NotifierOptions,
+  { identifiantProjet, notifiéeLe, notifiéePar, attestation: { format } }: NotifierOptions,
 ) {
   if (this.estNotifiée) {
     throw new CandidatureDéjàNotifiéeError(identifiantProjet);
@@ -36,8 +36,8 @@ export async function notifier(
     type: 'CandidatureNotifiée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      notifiéeLe: notifiéLe.formatter(),
-      notifiéePar: notifiéPar.formatter(),
+      notifiéeLe: notifiéeLe.formatter(),
+      notifiéePar: notifiéePar.formatter(),
       attestation: {
         format,
       },
