@@ -18,7 +18,6 @@
     "./packages/infrastructure/*",
     "./packages/applications/routes",
     "./packages/applications/bootstrap",
-    "./packages/applications/feature-flags/",
     "./packages/applications/scheduled-tasks",
     "./packages/applications/notifications",
     "./packages/applications/projectors",
