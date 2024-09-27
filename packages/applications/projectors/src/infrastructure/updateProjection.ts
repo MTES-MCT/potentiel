@@ -1,3 +1,5 @@
+import format from 'pg-format';
+
 import { Entity } from '@potentiel-domain/entity';
 import { flatten } from '@potentiel-libraries/flat';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
@@ -10,7 +12,6 @@ export const updateProjection = async <TProjection extends Entity>(
   readModel: AtLeastOne<Omit<TProjection, 'type'>>,
 ): Promise<void> => {
   const [updateQuery, values] = prepareUpdateProjectionQuery(readModel);
-  console.log(updateQuery, values);
   await executeQuery(updateQuery, id, ...values);
 };
 
@@ -26,7 +27,7 @@ export const prepareUpdateProjectionQuery = <TProjection extends Entity>(
     the `i+2` operation is due to `i` starting at 0, and $1 being the key
    */
   const jsonb_set = Object.keys(flatReadModel).reduce(
-    (acc, curr, i) => `jsonb_set(${acc},'{${curr}}',$${i + 2})`,
+    (acc, curr, i) => `jsonb_set(${acc},'{${format('%I', curr)}}',$${i + 2})`,
     'value',
   );
   const values = Object.values(flatReadModel).map((value) =>
