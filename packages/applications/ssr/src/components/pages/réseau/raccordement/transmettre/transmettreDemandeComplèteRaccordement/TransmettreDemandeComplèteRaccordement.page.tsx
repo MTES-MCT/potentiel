@@ -9,6 +9,7 @@ import {
   InformationDemandeComplèteRaccordementProps,
 } from '../../InformationDemandeComplèteRaccordement';
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
+import { AucunDossierDeRaccordementAlert } from '../../détails/AucunDossierDeRaccordementAlert';
 
 import {
   TransmettreDemandeComplèteRaccordementForm,
@@ -20,6 +21,7 @@ export type TransmettreDemandeComplèteRaccordementPageProps = {
   identifiantGestionnaireRéseauActuel?: TransmettreDemandeComplèteRaccordementFormProps['identifiantGestionnaireRéseauActuel'];
   identifiantProjet: TransmettreDemandeComplèteRaccordementFormProps['identifiantProjet'];
   delaiDemandeDeRaccordementEnMois: InformationDemandeComplèteRaccordementProps['delaiDemandeDeRaccordementEnMois'];
+  aDéjàTransmisUneDemandeComplèteDeRaccordement: boolean;
 };
 
 export const TransmettreDemandeComplèteRaccordementPage: FC<
@@ -29,17 +31,23 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
   identifiantGestionnaireRéseauActuel,
   identifiantProjet,
   delaiDemandeDeRaccordementEnMois,
+  aDéjàTransmisUneDemandeComplèteDeRaccordement,
 }) => (
   <ColumnPageTemplate
     banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
     heading={<TitrePageRaccordement />}
     leftColumn={{
       children: (
-        <TransmettreDemandeComplèteRaccordementForm
-          identifiantProjet={identifiantProjet}
-          listeGestionnairesRéseau={listeGestionnairesRéseau}
-          identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
-        />
+        <>
+          {!aDéjàTransmisUneDemandeComplèteDeRaccordement && (
+            <AucunDossierDeRaccordementAlert identifiantProjet={identifiantProjet} />
+          )}
+          <TransmettreDemandeComplèteRaccordementForm
+            identifiantProjet={identifiantProjet}
+            listeGestionnairesRéseau={listeGestionnairesRéseau}
+            identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
+          />
+        </>
       ),
     }}
     rightColumn={{
