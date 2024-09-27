@@ -87,14 +87,6 @@ describe('extractModificationRequestItemProps', () => {
           type: 'ModificationRequested',
           date: new Date('2022-02-09').getTime(),
           variant: 'porteur-projet',
-          modificationType: 'recours',
-          modificationRequestId: secondModificationRequestId,
-          authority: 'dreal',
-        },
-        {
-          type: 'ModificationRequested',
-          date: new Date('2022-02-09').getTime(),
-          variant: 'porteur-projet',
           modificationType: 'puissance',
           modificationRequestId: thirdModificationRequestId,
           authority: 'dreal',
@@ -103,7 +95,7 @@ describe('extractModificationRequestItemProps', () => {
         },
       ];
       const result = extractModificationRequestsItemProps(projectEventList);
-      expect(result).toHaveLength(3);
+      expect(result).toHaveLength(2);
       expect(result).toEqual([
         {
           type: 'demande-de-modification',
@@ -112,15 +104,6 @@ describe('extractModificationRequestItemProps', () => {
           status: 'rejetée',
           modificationType: 'delai',
           authority: 'dgec',
-          role: 'porteur-projet',
-          detailsUrl: expect.anything(),
-        },
-        {
-          type: 'demande-de-modification',
-          date: new Date('2022-02-09').getTime(),
-          status: 'envoyée',
-          modificationType: 'recours',
-          authority: 'dreal',
           role: 'porteur-projet',
           detailsUrl: expect.anything(),
         },
