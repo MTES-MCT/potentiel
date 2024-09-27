@@ -22,6 +22,15 @@ export const WithoutExistingDocument: Story = {
   },
 };
 
+export const WithoutExistingDocumentWithAnError: Story = {
+  args: {
+    name: 'test_1',
+    label: 'Without an existing document with an error',
+    state: 'error',
+    stateRelatedMessage: 'This is a state related message',
+  },
+};
+
 export const WithExistingDocument: Story = {
   args: {
     name: 'test_2',
