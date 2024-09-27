@@ -8,8 +8,8 @@ export type NotifierCandidatureUseCase = Message<
   'Candidature.UseCase.NotifierCandidature',
   {
     identifiantProjetValue: string;
-    notifiéLeValue: string;
-    notifiéParValue: string;
+    notifiéeLeValue: string;
+    notifiéeParValue: string;
     attestationValue: {
       format: string;
     };
@@ -19,16 +19,16 @@ export type NotifierCandidatureUseCase = Message<
 export const registerNotifierCandidatureUseCase = () => {
   const handler: MessageHandler<NotifierCandidatureUseCase> = async ({
     identifiantProjetValue,
-    notifiéParValue,
-    notifiéLeValue,
+    notifiéeParValue,
+    notifiéeLeValue,
     attestationValue: { format },
   }) => {
     await mediator.send<NotifierCandidatureCommand>({
       type: 'Candidature.Command.NotifierCandidature',
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
-        notifiéLe: DateTime.convertirEnValueType(notifiéLeValue),
-        notifiéPar: Email.convertirEnValueType(notifiéParValue),
+        notifiéeLe: DateTime.convertirEnValueType(notifiéeLeValue),
+        notifiéePar: Email.convertirEnValueType(notifiéeParValue),
         attestation: { format },
       },
     });
