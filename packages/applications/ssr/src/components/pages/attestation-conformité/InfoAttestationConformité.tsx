@@ -1,6 +1,6 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
-export const InfoBoxAttestationConformitéForm = () => (
+export const InfoBoxAttestationConformité = () => (
   <Alert
     severity="info"
     small
