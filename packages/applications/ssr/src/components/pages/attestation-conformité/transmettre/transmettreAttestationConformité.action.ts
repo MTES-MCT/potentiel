@@ -72,9 +72,12 @@ const action: FormAction<FormState, typeof schema> = async (
       },
     });
 
-    const redirectUrl = Option.isSome(raccordement)
+    const aDéjàTransmisUnDossierDeRaccordement =
+      Option.isSome(raccordement) && raccordement.dossiers.length > 1;
+
+    const redirectUrl = aDéjàTransmisUnDossierDeRaccordement
       ? Routes.Projet.details(identifiantProjet)
-      : Routes.Raccordement.détail(identifiantProjet);
+      : Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet);
 
     return {
       status: 'success',
