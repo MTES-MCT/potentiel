@@ -4,7 +4,6 @@ import {
   DemandeAbandonSignaledDTO,
   DemandeDelaiSignaledDTO,
   DemandeDélaiDTO,
-  DemandeRecoursSignaledDTO,
   ProjectEventListDTO,
   AchèvementRéelDTO,
   is,
@@ -57,7 +56,6 @@ type ItemProps =
   | AttachedFileItemProps
   | DemandeDelaiSignaledDTO
   | DemandeAbandonSignaledDTO
-  | DemandeRecoursSignaledDTO
   | DemandeDélaiDTO
   | CahierDesChargesChoisiDTO
   | AchèvementRéelDTO;
@@ -76,7 +74,6 @@ export const Timeline = ({
     ...extractModificationRequestsItemProps(events),
     ...events.filter(is('DemandeDelaiSignaled')),
     ...events.filter(is('DemandeAbandonSignaled')),
-    ...events.filter(is('DemandeRecoursSignaled')),
     ...extractModificationReceivedItemProps(events),
     ...extractLegacyModificationsItemProps(events),
     ...extractAttachedFileItemProps(events),
@@ -114,9 +111,6 @@ export const Timeline = ({
 
       case 'DemandeDelaiSignaled':
         return <DemandeDelaiSignaledItem {...props} />;
-
-      case 'DemandeRecoursSignaled':
-        return <DemandeRecoursSignaledItem {...props} />;
 
       case 'DemandeDélai':
         return <DemandeDélaiItem {...props} />;

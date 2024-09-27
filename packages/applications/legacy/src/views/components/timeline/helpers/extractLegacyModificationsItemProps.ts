@@ -60,23 +60,6 @@ export const extractLegacyModificationsItemProps = (events: ProjectEventDTO[]) =
   for (const event of legacyModificationEvents) {
     const courrier = getCourrier(event.filename);
     switch (event.modificationType) {
-      case 'recours':
-        const projectNotifiedAtSameDate = events
-          .filter(is('ProjectNotified'))
-          .filter((e) => format(e.date, 'yyyy-MM-dd') === format(event.date, 'yyyy-MM-dd'))
-          .pop();
-
-        event.status !== 'acceptée' &&
-          !projectNotifiedAtSameDate &&
-          propsArray.push({
-            type: 'modification-historique',
-            date: event.date,
-            status: event.status,
-            modificationType: 'recours',
-            motifElimination: event.motifElimination,
-            courrier,
-          });
-        break;
       case 'delai':
         if (event.status === 'acceptée') {
           propsArray.push({
