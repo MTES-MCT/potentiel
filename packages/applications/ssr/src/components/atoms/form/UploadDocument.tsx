@@ -49,15 +49,15 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
   const [uploadedFileName, setUploadFileName] = useState('');
 
   return (
-    <div
-      className={`fr-input-group ${className} ${props.state === 'error' ? 'border-dsfr-redMarianne-_975_75-default border-2' : ''}`}
-    >
-      <label className="fr-label">
+    <div className={`fr-input-group ${className}`}>
+      <label
+        className={`fr-label ${props.state === 'error' ? 'text-dsfr-error-_425_625-default' : ''}`}
+      >
         {label}
-        <div className="fr-hint-text">
-          Format accepté : {format}, taille maximale acceptée : {DEFAULT_FILE_SIZE_LIMIT_IN_MB} Mo
-        </div>
       </label>
+      <div className="fr-hint-text">
+        Format accepté : {format}, taille maximale acceptée : {DEFAULT_FILE_SIZE_LIMIT_IN_MB} Mo
+      </div>
 
       <div className="flex items-center relative mt-3 gap-3">
         <input
@@ -72,13 +72,13 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
             setUploadFileName(fileName);
           }}
         />
-
         <Button className="!mt-0" type="button" priority="secondary" onClick={browseForFile}>
           <Icon id="fr-icon-folder-2-fill" className="md:mr-1" />
           <span className="hidden md:inline-block text-sm">Parcourir</span>
         </Button>
-
-        <p className="text-sm truncate m-0 p-0">
+        <p
+          className={`text-sm truncate m-0 p-0 ${props.state === 'error' ? 'text-dsfr-error-_425_625-default' : ''}`}
+        >
           {uploadedFileName ? uploadedFileName : 'Aucun document sélectionné'}
         </p>
       </div>
