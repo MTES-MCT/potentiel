@@ -54,11 +54,20 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjetValue: identifiantProjet },
       });
 
+    const raccordements = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+      data: { identifiantProjetValue: identifiantProjet },
+    });
+
+    const aDéjàTransmisUneDemandeComplèteDeRaccordement =
+      Option.isSome(raccordements) && raccordements.dossiers.length > 0;
+
     const props: TransmettreDemandeComplèteRaccordementPageProps = mapToProps({
       gestionnairesRéseau,
       appelOffre,
       gestionnaireRéseau: gestionnaire,
       identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      aDéjàTransmisUneDemandeComplèteDeRaccordement,
     });
 
     return <TransmettreDemandeComplèteRaccordementPage {...props} />;
@@ -70,6 +79,7 @@ type MapToProps = (args: {
   appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
   gestionnaireRéseau: Option.Type<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>;
   identifiantProjet: IdentifiantProjet.ValueType;
+  aDéjàTransmisUneDemandeComplèteDeRaccordement: boolean;
 }) => TransmettreDemandeComplèteRaccordementPageProps;
 
 const mapToProps: MapToProps = ({
@@ -77,6 +87,7 @@ const mapToProps: MapToProps = ({
   appelOffre,
   gestionnaireRéseau,
   identifiantProjet,
+  aDéjàTransmisUneDemandeComplèteDeRaccordement,
 }) => {
   return {
     delaiDemandeDeRaccordementEnMois: appelOffre.periodes.find(
@@ -97,5 +108,6 @@ const mapToProps: MapToProps = ({
       },
     })),
     identifiantProjet: identifiantProjet.formatter(),
+    aDéjàTransmisUneDemandeComplèteDeRaccordement,
   };
 };
