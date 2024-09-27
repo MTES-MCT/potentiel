@@ -21,7 +21,7 @@ export const AucunDossierDeRaccordementAlert = ({ identifiantProjet, showLink = 
         {showLink && (
           <Link
             href={Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet)}
-            className="font-semibold"
+            className="font-semibold w-fit"
           >
             Mettre à jour votre dossier de raccordement
           </Link>
