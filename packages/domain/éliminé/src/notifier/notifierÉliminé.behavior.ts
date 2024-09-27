@@ -43,6 +43,4 @@ export async function notifier(
   await this.publish(event);
 }
 
-export function applyÉliminéNotifié(this: ÉliminéAggregate, _event: ÉliminéNotifiéEvent) {
-  this.estNotifié = true;
-}
+export function applyÉliminéNotifié(this: ÉliminéAggregate, _event: ÉliminéNotifiéEvent) {}

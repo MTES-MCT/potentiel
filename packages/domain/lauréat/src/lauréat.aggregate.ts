@@ -16,7 +16,6 @@ export type LauréatEvent = LauréatNotifiéEvent;
 
 export type LauréatAggregate = Aggregate<LauréatEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
-  estNotifié?: true;
   notifier: typeof notifier;
 };
 

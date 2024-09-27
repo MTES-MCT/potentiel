@@ -21,7 +21,6 @@ export type ÉliminéEvent = ÉliminéNotifiéEvent | ÉliminéArchivéEvent;
 
 export type ÉliminéAggregate = Aggregate<ÉliminéEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
-  estNotifié?: true;
   estArchivé: boolean;
   archiver: typeof archiver;
   notifier: typeof notifier;
