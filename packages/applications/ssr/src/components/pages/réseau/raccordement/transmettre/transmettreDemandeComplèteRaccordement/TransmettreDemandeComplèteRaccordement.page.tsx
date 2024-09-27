@@ -35,19 +35,21 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
 }) => (
   <ColumnPageTemplate
     banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
-    heading={<TitrePageRaccordement />}
+    heading={
+      <>
+        <TitrePageRaccordement />
+        {!aDéjàTransmisUneDemandeComplèteDeRaccordement && (
+          <AucunDossierDeRaccordementAlert identifiantProjet={identifiantProjet} showLink={false} />
+        )}
+      </>
+    }
     leftColumn={{
       children: (
-        <>
-          {!aDéjàTransmisUneDemandeComplèteDeRaccordement && (
-            <AucunDossierDeRaccordementAlert identifiantProjet={identifiantProjet} />
-          )}
-          <TransmettreDemandeComplèteRaccordementForm
-            identifiantProjet={identifiantProjet}
-            listeGestionnairesRéseau={listeGestionnairesRéseau}
-            identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
-          />
-        </>
+        <TransmettreDemandeComplèteRaccordementForm
+          identifiantProjet={identifiantProjet}
+          listeGestionnairesRéseau={listeGestionnairesRéseau}
+          identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
+        />
       ),
     }}
     rightColumn={{
