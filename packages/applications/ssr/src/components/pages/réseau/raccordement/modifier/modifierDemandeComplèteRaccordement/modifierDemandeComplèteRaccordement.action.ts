@@ -15,7 +15,7 @@ export type ModifierDemandeComplèteRaccordementState = FormState;
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   identifiantGestionnaireReseau: zod.string().min(1),
-  dateQualification: zod.string().min(1),
+  dateQualification: zod.string().min(1, { message: 'Date de qualification à transmettre' }),
   referenceDossierRaccordement: zod.string().min(1),
   referenceDossierRaccordementActuelle: zod.string().min(1),
   accuseReception: document,

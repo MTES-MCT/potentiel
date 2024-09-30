@@ -13,7 +13,7 @@ export type transmettrePropositionTechniqueEtFinancièreState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  referenceDossier: zod.string().min(1),
+  referenceDossier: zod.string().min(1, { message: 'Référence dossier à préciser' }),
   dateSignature: zod.string().min(1, { message: 'Date de signature à préciser' }),
   propositionTechniqueEtFinanciereSignee: document,
 });

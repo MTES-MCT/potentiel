@@ -14,7 +14,7 @@ export type ModifierPropositionTechniqueEtFinancièreState = FormState;
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossierRaccordement: zod.string().min(1),
-  dateSignature: zod.string().min(1),
+  dateSignature: zod.string().min(1, { message: 'Date de signature à préciser' }),
   propositionTechniqueEtFinanciereSignee: documentThatCanBeUpdated,
 });
 

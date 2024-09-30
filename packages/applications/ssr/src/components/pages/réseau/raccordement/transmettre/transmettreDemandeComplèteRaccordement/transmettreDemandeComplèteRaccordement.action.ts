@@ -13,9 +13,9 @@ export type TransmettreDemandeComplèteRaccordementState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  dateQualification: zod.string().min(1),
+  dateQualification: zod.string().min(1, { message: 'Date à préciser' }),
   identifiantGestionnaireReseau: zod.string().min(1),
-  referenceDossier: zod.string().min(1),
+  referenceDossier: zod.string().min(1, { message: 'Référence dossier à préciser' }),
   accuseReception: document,
 });
 

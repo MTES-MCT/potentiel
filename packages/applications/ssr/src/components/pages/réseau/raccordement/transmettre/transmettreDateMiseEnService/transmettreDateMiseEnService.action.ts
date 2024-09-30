@@ -14,7 +14,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossier: zod.string().min(1),
   dateDesignation: zod.string().min(1),
-  dateMiseEnService: zod.string().min(1),
+  dateMiseEnService: zod.string().min(1, { message: 'Date de mise en service à préciser' }),
 });
 
 const action: FormAction<FormState, typeof schema> = async (

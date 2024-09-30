@@ -14,7 +14,7 @@ export type DemanderRecoursState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  raison: zod.string().min(1),
+  raison: zod.string().min(1, { message: 'Raison à préciser' }),
   pieceJustificative: document,
 });
 

@@ -42,7 +42,7 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
                 conduit à cet abandon (contexte, facteurs extérieurs, etc.)."
         nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
         state={validationErrors['raison'] ? 'error' : 'default'}
-        stateRelatedMessage="Raison à préciser"
+        stateRelatedMessage={validationErrors['raison']}
       />
 
       <UploadDocument
