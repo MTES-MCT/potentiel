@@ -10,7 +10,7 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { validateDocumentSize } from '@/utils/zod/documentValidation';
+import { document } from '@/utils/zod/documentTypes';
 
 import { getLocalité } from '../helpers';
 
@@ -20,9 +20,7 @@ import { fileKey } from './ImporterCandidatures.form';
 export type ImporterCandidaturesState = FormState;
 
 const schema = zod.object({
-  fichierImport: validateDocumentSize({
-    filePath: 'fichierImport',
-  }),
+  fichierImport: document,
 });
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }) => {

@@ -8,7 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { document } from '@/utils/zod/documentType';
+import { document } from '@/utils/zod/documentTypes';
 
 export type ModifierDemandeComplèteRaccordementState = FormState;
 
@@ -50,7 +50,10 @@ const action: FormAction<FormState, typeof schema> = async (
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
-        accuséRéceptionValue: accuseReception,
+        accuséRéceptionValue: {
+          content: accuseReception.stream(),
+          format: accuseReception.type,
+        },
         dateQualificationValue: new Date(dateQualification).toISOString(),
         référenceDossierRaccordementValue: referenceDossierRaccordement,
         rôleValue: utilisateur.role.nom,

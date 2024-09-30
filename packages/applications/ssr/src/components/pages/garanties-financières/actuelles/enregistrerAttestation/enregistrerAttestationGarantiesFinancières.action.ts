@@ -8,16 +8,14 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { validateDocumentSize } from '@/utils/zod/documentValidation';
+import { document } from '@/utils/zod/documentTypes';
 
 export type enregistrerAttestationGarantiesFinancièresState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateConstitution: zod.string().min(1),
-  attestation: validateDocumentSize({
-    filePath: 'attestation',
-  }),
+  attestation: document,
 });
 
 const action: FormAction<FormState, typeof schema> = async (

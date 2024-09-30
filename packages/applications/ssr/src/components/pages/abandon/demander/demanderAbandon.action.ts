@@ -8,7 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { validateDocumentSize } from '@/utils/zod/documentValidation';
+import { document } from '@/utils/zod/documentTypes';
 
 export type DemanderAbandonState = FormState;
 
@@ -16,7 +16,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   recandidature: zod.string().optional(),
   raison: zod.string().min(1),
-  pieceJustificative: validateDocumentSize({ filePath: 'pieceJustificative' }),
+  pieceJustificative: document,
 });
 
 const action: FormAction<FormState, typeof schema> = async (

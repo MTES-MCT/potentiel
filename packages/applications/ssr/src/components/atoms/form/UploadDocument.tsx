@@ -5,7 +5,7 @@ import RadioButtons, { RadioButtonsProps } from '@codegouvfr/react-dsfr/RadioBut
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { DEFAULT_FILE_SIZE_LIMIT_IN_MB } from '@/utils/zod/documentValidation';
+import { DEFAULT_FILE_SIZE_LIMIT_IN_MB } from '@/utils/zod/documentTypes';
 
 import { Icon } from '../Icon';
 

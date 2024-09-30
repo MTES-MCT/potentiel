@@ -9,9 +9,11 @@ import { Routes } from '@potentiel-applications/routes';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
+import { document } from '../../../../../utils/zod/documentTypes';
+
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  reponseSignee: pieceJustificative,
+  reponseSignee: document,
 });
 
 const action: FormAction<FormState, typeof schema> = async (

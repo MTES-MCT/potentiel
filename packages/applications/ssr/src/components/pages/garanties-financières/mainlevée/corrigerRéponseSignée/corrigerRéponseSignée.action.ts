@@ -6,12 +6,13 @@ import { mediator } from 'mediateur';
 import { CorrigerDocumentProjetCommand } from '@potentiel-domain/document';
 import { Routes } from '@potentiel-applications/routes';
 
+import { document } from '@/utils/zod/documentTypes';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 
 const schema = zod.object({
-  documentCorrige: reponseSignee,
+  documentCorrige: document,
   courrierReponseACorriger: zod.string().min(1),
-  identifiantProjet: zod.string(),
+  identifiantProjet: zod.string().min(1),
 });
 
 const action: FormAction<FormState, typeof schema> = async (

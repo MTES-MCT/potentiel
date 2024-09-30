@@ -11,20 +11,14 @@ import { Raccordement } from '@potentiel-domain/reseau';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { validateDocumentSize } from '@/utils/zod/documentValidation';
+import { document } from '@/utils/zod/documentTypes';
 
 export type TransmettreAttestationConformitéState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: validateDocumentSize({
-    filePath: 'reponseSignee',
-    fileName: "l'attestation de conformité",
-  }),
-  preuveTransmissionAuCocontractant: validateDocumentSize({
-    filePath: 'reponseSignee',
-    fileName: 'la preuve de transmission au cocontractant',
-  }),
+  attestation: document,
+  preuveTransmissionAuCocontractant: document,
   dateTransmissionAuCocontractant: zod.string().min(1),
   demanderMainlevee: zod.string().optional(),
 });

@@ -7,7 +7,7 @@ import { Raccordement } from '@potentiel-domain/reseau';
 import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
-import { validateDocumentSize } from '@/utils/zod/documentValidation';
+import { document } from '@/utils/zod/documentTypes';
 
 export type transmettrePropositionTechniqueEtFinancièreState = FormState;
 
@@ -15,10 +15,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossier: zod.string().min(1),
   dateSignature: zod.string().min(1),
-  propositionTechniqueEtFinanciereSignee: validateDocumentSize({
-    filePath: 'propositionTechniqueEtFinanciereSignee',
-    fileName: 'la proposition technique et financière signée',
-  }),
+  propositionTechniqueEtFinanciereSignee: document,
 });
 
 const action: FormAction<FormState, typeof schema> = async (

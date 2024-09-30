@@ -11,15 +11,13 @@ import { parseCsv } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
-import { validateDocumentSize } from '@/utils/zod/documentValidation';
+import { document } from '@/utils/zod/documentTypes';
 
 import { fileKey } from './importerDatesMiseEnService.form';
 export type ImporterDatesMiseEnServiceState = FormState;
 
 const schema = zod.object({
-  fichierDatesMiseEnService: validateDocumentSize({
-    filePath: 'fichierDatesMiseEnService',
-  }),
+  fichierDatesMiseEnService: document,
 });
 
 const csvSchema = zod.object({

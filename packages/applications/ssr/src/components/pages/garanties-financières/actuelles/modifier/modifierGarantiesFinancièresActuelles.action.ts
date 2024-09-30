@@ -8,14 +8,14 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { document } from '@/utils/zod/documentType';
+import { documentThatCanBeUpdated } from '@/utils/zod/documentTypes';
 
 export type ModifierGarantiesFinancièresState = FormState;
 
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
   dateConstitution: zod.string().min(1),
-  attestation: document,
+  attestation: documentThatCanBeUpdated,
 };
 
 const schema = zod.discriminatedUnion('type', [
