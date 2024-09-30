@@ -14,7 +14,8 @@
     "@potentiel-domain/core": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-domain/laureat": "*",
-    "@potentiel-domain/elimine": "*"
+    "@potentiel-domain/elimine": "*",
+    "@potentiel-domain/candidature": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

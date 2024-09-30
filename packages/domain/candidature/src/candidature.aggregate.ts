@@ -25,15 +25,21 @@ import {
   FamillePériodeAppelOffreInexistanteError,
   PériodeAppelOffreInexistanteError,
 } from './appelOffreInexistant.error';
+import { CandidatureNotifiéeEvent, notifier } from './notifier/notifierCandidature.behavior';
 
-export type CandidatureEvent = CandidatureImportéeEvent | CandidatureCorrigéeEvent;
+export type CandidatureEvent =
+  | CandidatureImportéeEvent
+  | CandidatureCorrigéeEvent
+  | CandidatureNotifiéeEvent;
 
 export type CandidatureAggregate = Aggregate<CandidatureEvent> & {
   statut?: StatutCandidature.ValueType;
   importé?: true;
+  estNotifiée: boolean;
   payloadHash: string;
   importer: typeof importer;
   corriger: typeof corriger;
+  notifier: typeof notifier;
   calculerHash(payload: CandidatureEvent['payload']): string;
   estIdentiqueÀ(payload: CandidatureEvent['payload']): boolean;
 
@@ -54,9 +60,11 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
 > = () => ({
   identifiantProjet: IdentifiantProjet.inconnu,
   payloadHash: '',
+  estNotifiée: false,
   apply,
   importer,
   corriger,
+  notifier,
   calculerHash(payload) {
     const copy = { ...payload } as Partial<
       CandidatureImportéeEvent['payload'] & CandidatureCorrigéeEvent['payload']

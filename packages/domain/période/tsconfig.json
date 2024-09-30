@@ -16,6 +16,15 @@
     },
     {
       "path": "../core"
+    },
+    {
+      "path": "../lauréat"
+    },
+    {
+      "path": "../éliminé"
+    },
+    {
+      "path": "../candidature"
     }
   ]
 }

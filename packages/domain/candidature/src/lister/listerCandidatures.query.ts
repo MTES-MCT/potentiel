@@ -24,6 +24,7 @@ export type CandidaturesListItemReadModel = {
     région: ConsulterCandidatureReadModel['localité']['région'];
   };
   détails: ConsulterCandidatureReadModel['détails'];
+  estNotifiée: boolean;
 };
 
 export type ListerCandidaturesReadModel = Readonly<{
@@ -42,6 +43,7 @@ export type ListerCandidaturesQuery = Message<
     statut?: StatutCandidature.RawType;
     identifiantProjets?: Array<IdentifiantProjet.RawType>;
     excludedIdentifiantProjets?: Array<IdentifiantProjet.RawType>;
+    estNotifiée?: boolean;
   },
   ListerCandidaturesReadModel
 >;
@@ -59,6 +61,7 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
     statut,
     excludedIdentifiantProjets,
     identifiantProjets,
+    estNotifiée,
   }) => {
     const {
       items,
@@ -70,6 +73,7 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
         période: Where.equal(période),
         nomProjet: Where.contains(nomProjet),
         statut: Where.equal(statut),
+        estNotifiée: Where.equal(estNotifiée),
         identifiantProjet: identifiantProjets?.length
           ? Where.include(identifiantProjets)
           : Where.notInclude(excludedIdentifiantProjets),
@@ -101,6 +105,7 @@ export const mapToReadModel = ({
   localité: { commune, département, région },
   evaluationCarboneSimplifiée,
   misÀJourLe,
+  estNotifiée,
 }: CandidatureEntity): CandidaturesListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),
@@ -122,4 +127,5 @@ export const mapToReadModel = ({
     misÀJourLe,
     'application/json',
   ),
+  estNotifiée,
 });

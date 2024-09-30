@@ -110,6 +110,7 @@ export class CandidatureWorld {
       ),
 
       misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
+      estNotifiée: false,
     };
   }
 }

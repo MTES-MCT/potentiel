@@ -44,6 +44,4 @@ export async function notifier(
   await this.publish(event);
 }
 
-export function applyLauréatNotifié(this: LauréatAggregate, _event: LauréatNotifiéEvent) {
-  this.estNotifié = true;
-}
+export function applyLauréatNotifié(this: LauréatAggregate, _event: LauréatNotifiéEvent) {}
