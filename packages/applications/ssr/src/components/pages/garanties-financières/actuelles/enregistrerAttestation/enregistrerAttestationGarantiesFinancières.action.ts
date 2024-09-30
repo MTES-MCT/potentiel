@@ -15,7 +15,9 @@ export type enregistrerAttestationGarantiesFinancièresState = FormState;
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateConstitution: zod.string().min(1),
-  attestation: zod.instanceof(Blob).superRefine((file, ctx) => validateDocumentSize(file, ctx)),
+  attestation: validateDocumentSize({
+    filePath: 'attestation',
+  }),
 });
 
 const action: FormAction<FormState, typeof schema> = async (

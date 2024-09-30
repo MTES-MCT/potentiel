@@ -20,7 +20,9 @@ import { fileKey } from './ImporterCandidatures.form';
 export type ImporterCandidaturesState = FormState;
 
 const schema = zod.object({
-  fichierImport: zod.instanceof(Blob).superRefine((file, ctx) => validateDocumentSize(file, ctx)),
+  fichierImport: validateDocumentSize({
+    filePath: 'fichierImport',
+  }),
 });
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }) => {

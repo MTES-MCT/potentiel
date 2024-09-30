@@ -16,7 +16,9 @@ const schema = zod.object({
   dateQualification: zod.string().min(1),
   identifiantGestionnaireReseau: zod.string().min(1),
   referenceDossier: zod.string().min(1),
-  accuseReception: zod.instanceof(Blob).superRefine((file, ctx) => validateDocumentSize(file, ctx)),
+  accuseReception: validateDocumentSize({
+    filePath: 'accuseReception',
+  }),
 });
 
 const action: FormAction<FormState, typeof schema> = async (

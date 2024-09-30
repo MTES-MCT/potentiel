@@ -15,11 +15,10 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossier: zod.string().min(1),
   dateSignature: zod.string().min(1),
-  propositionTechniqueEtFinanciereSignee: zod
-    .instanceof(Blob)
-    .superRefine((file, ctx) =>
-      validateDocumentSize(file, ctx, 'la proposition technique et financière'),
-    ),
+  propositionTechniqueEtFinanciereSignee: validateDocumentSize({
+    filePath: 'propositionTechniqueEtFinanciereSignee',
+    fileName: 'la proposition technique et financière signée',
+  }),
 });
 
 const action: FormAction<FormState, typeof schema> = async (

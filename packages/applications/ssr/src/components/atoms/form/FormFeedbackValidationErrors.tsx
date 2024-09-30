@@ -24,7 +24,7 @@ export const FormFeedbackValidationErrors: FC<FormFeedbackValidationProps> = ({ 
         formState.message && formState.message.length > 0 ? (
           <>
             <p>
-              Le formulaire n'a pu être validé à cause $
+              Le formulaire n'a pu être validé à cause{' '}
               {formState.message.length > 1 ? 'des erreurs suivantes' : "de l'erreur suivante"} :
             </p>
             <ul className="list-disc pl-3">

@@ -17,14 +17,14 @@ export type TransmettreAttestationConformitéState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: zod
-    .instanceof(Blob)
-    .superRefine((file, ctx) => validateDocumentSize(file, ctx, "l'attestation de conformité")),
-  preuveTransmissionAuCocontractant: zod
-    .instanceof(Blob)
-    .superRefine((file, ctx) =>
-      validateDocumentSize(file, ctx, 'la preuve de transmission au cocontractant'),
-    ),
+  attestation: validateDocumentSize({
+    filePath: 'reponseSignee',
+    fileName: "l'attestation de conformité",
+  }),
+  preuveTransmissionAuCocontractant: validateDocumentSize({
+    filePath: 'reponseSignee',
+    fileName: 'la preuve de transmission au cocontractant',
+  }),
   dateTransmissionAuCocontractant: zod.string().min(1),
   demanderMainlevee: zod.string().optional(),
 });

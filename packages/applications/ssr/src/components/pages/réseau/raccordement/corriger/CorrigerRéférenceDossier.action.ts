@@ -15,9 +15,7 @@ import { fileKey } from './CorrigerRéférenceDossier.form';
 export type CorrigerRéférencesDossierState = FormState;
 
 const schema = zod.object({
-  fichierCorrections: zod
-    .instanceof(Blob)
-    .superRefine((file, ctx) => validateDocumentSize(file, ctx)),
+  fichierCorrections: validateDocumentSize({ filePath: 'fichierCorrections' }),
 });
 
 const csvSchema = zod

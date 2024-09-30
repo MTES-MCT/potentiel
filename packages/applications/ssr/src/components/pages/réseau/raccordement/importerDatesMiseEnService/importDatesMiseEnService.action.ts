@@ -17,9 +17,9 @@ import { fileKey } from './importerDatesMiseEnService.form';
 export type ImporterDatesMiseEnServiceState = FormState;
 
 const schema = zod.object({
-  fichierDatesMiseEnService: zod
-    .instanceof(Blob)
-    .superRefine((file, ctx) => validateDocumentSize(file, ctx, "l'attestation de conformité")),
+  fichierDatesMiseEnService: validateDocumentSize({
+    filePath: 'fichierDatesMiseEnService',
+  }),
 });
 
 const csvSchema = zod.object({

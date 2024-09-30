@@ -15,7 +15,9 @@ export type EnregistrerGarantiesFinancièresState = FormState;
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
   dateConstitution: zod.string().min(1),
-  attestation: zod.instanceof(Blob).superRefine((file, ctx) => validateDocumentSize(file, ctx)),
+  attestation: validateDocumentSize({
+    filePath: 'attestation',
+  }),
 };
 const schema = zod.discriminatedUnion('type', [
   zod.object({

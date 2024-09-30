@@ -94,7 +94,7 @@ export const formAction =
       }
 
       if (e instanceof zod.ZodError) {
-        const errors = e.issues.map((issue) => issue.path);
+        const errors = e.issues.map((issue) => (issue.path.pop() || '').toString());
         const message = e.issues
           .map((issue) => issue.message || '')
           .filter((message) => message.trim() !== '');

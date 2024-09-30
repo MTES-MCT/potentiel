@@ -16,9 +16,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   recandidature: zod.string().optional(),
   raison: zod.string().min(1),
-  pieceJustificative: zod
-    .instanceof(Blob)
-    .superRefine((file, ctx) => validateDocumentSize(file, ctx)),
+  pieceJustificative: validateDocumentSize({ filePath: 'pieceJustificative' }),
 });
 
 const action: FormAction<FormState, typeof schema> = async (

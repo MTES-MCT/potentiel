@@ -12,7 +12,10 @@ import { validateDocumentSize } from '@/utils/zod/documentValidation';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  reponseSignee: zod.instanceof(Blob).superRefine((file, ctx) => validateDocumentSize(file, ctx)),
+  reponseSignee: validateDocumentSize({
+    filePath: 'reponseSignee',
+    fileName: 'la réponse signée',
+  }),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
