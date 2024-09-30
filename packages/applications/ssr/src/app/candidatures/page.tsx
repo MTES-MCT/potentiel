@@ -94,10 +94,10 @@ export default async function Page({ searchParams }: PageProps) {
         ],
       },
       {
-        label: 'Notifiée',
+        label: 'Notifié',
         searchParamKey: 'notifie',
         options: [
-          { label: 'Notifiée', value: 'notifiee' },
+          { label: 'Notifié', value: 'notifiee' },
           { label: 'À notifier', value: 'a-notifier' },
         ],
       },
