@@ -10,8 +10,6 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { keepOrUpdateDocument } from '@/utils/zod/documentTypes';
 
-export type ModifierGarantiesFinancièresState = FormState;
-
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
   dateConstitution: zod
@@ -31,6 +29,8 @@ const schema = zod.discriminatedUnion('type', [
     type: zod.enum(['six-mois-après-achèvement', 'consignation']),
   }),
 ]);
+
+export type ModifierGarantiesFinancièresFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, data) =>
   withUtilisateur(async (utilisateur) => {

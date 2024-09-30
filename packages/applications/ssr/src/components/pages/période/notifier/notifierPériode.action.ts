@@ -13,8 +13,6 @@ import { Routes } from '@potentiel-applications/routes';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-export type NotifierPériodeState = FormState;
-
 const schema = zod.object({
   appelOffre: zod.string(),
   periode: zod.string(),

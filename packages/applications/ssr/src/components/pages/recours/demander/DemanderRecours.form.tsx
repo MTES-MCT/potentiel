@@ -8,7 +8,7 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { demanderRecoursAction, DemanderRecoursFormValues } from './demanderRecours.action';
+import { demanderRecoursAction, DemanderRecoursFormKeys } from './demanderRecours.action';
 
 export type DemanderRecoursFormProps = {
   identifiantProjet: string;
@@ -16,7 +16,7 @@ export type DemanderRecoursFormProps = {
 
 export const DemanderRecoursForm: FC<DemanderRecoursFormProps> = ({ identifiantProjet }) => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<DemanderRecoursFormValues>
+    ValidationErrors<DemanderRecoursFormKeys>
   >({});
 
   return (

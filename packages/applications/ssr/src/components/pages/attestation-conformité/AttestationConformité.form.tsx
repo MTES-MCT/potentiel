@@ -14,8 +14,14 @@ import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { transmettreAttestationConformitéAction } from './transmettre/transmettreAttestationConformité.action';
-import { modifierAttestationConformitéAction } from './modifier/modifierAttestationConformité.action';
+import {
+  transmettreAttestationConformitéAction,
+  TransmettreAttestationConformitéFormKeys,
+} from './transmettre/transmettreAttestationConformité.action';
+import {
+  modifierAttestationConformitéAction,
+  ModifierAttestationConformitéFormKeys,
+} from './modifier/modifierAttestationConformité.action';
 
 type Action =
   | typeof transmettreAttestationConformitéAction
@@ -40,7 +46,11 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
   donnéesActuelles,
   demanderMainlevée,
 }) => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<
+      ModifierAttestationConformitéFormKeys | TransmettreAttestationConformitéFormKeys
+    >
+  >({});
 
   return (
     <Form

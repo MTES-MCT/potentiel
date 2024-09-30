@@ -7,10 +7,15 @@ import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { corrigerRéférencesDossierAction } from './CorrigerRéférenceDossier.action';
+import {
+  corrigerRéférencesDossierAction,
+  CorrigerRéférencesDossierFormKeys,
+} from './CorrigerRéférenceDossier.action';
 
 export const CorrigerRéférenceDossierForm: FC = () => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<CorrigerRéférencesDossierFormKeys>
+  >({});
 
   return (
     <Form
@@ -33,8 +38,8 @@ export const CorrigerRéférenceDossierForm: FC = () => {
         name={'fichierCorrectionRéférence'}
         id={'fichierCorrectionRéférence'}
         required
-        state={validationErrors['fichierCorrectionRéférence'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['fichierCorrectionRéférence']}
+        state={validationErrors['fichierCorrections'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['fichierCorrections']}
       />
     </Form>
   );

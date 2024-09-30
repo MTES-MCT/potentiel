@@ -11,7 +11,10 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { modifierGestionnaireRéseauAction } from './modifierGestionnaireRéseau.action';
+import {
+  modifierGestionnaireRéseauAction,
+  ModifierGestionnaireRéseauFormKeys,
+} from './modifierGestionnaireRéseau.action';
 
 export type ModifierGestionnaireRéseauFormProps =
   PlainType<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;
@@ -22,7 +25,9 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
   aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
   contactEmail,
 }) => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<ModifierGestionnaireRéseauFormKeys>
+  >({});
 
   // Ici on match bind pour montrer un cas d'utilisation simple vu que c'est
   // la première mise en place de Option et ValueType en mode Isomorphique.

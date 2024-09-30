@@ -11,7 +11,10 @@ import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { enregistrerAttestationGarantiesFinancièresAction } from './enregistrerAttestationGarantiesFinancières.action';
+import {
+  enregistrerAttestationGarantiesFinancièresAction,
+  EnregistrerAttestationGarantiesFinancièresFormKeys,
+} from './enregistrerAttestationGarantiesFinancières.action';
 
 export type EnregistrerAttestationGarantiesFinancièresFormProps = {
   identifiantProjet: string;
@@ -20,7 +23,9 @@ export type EnregistrerAttestationGarantiesFinancièresFormProps = {
 export const EnregistrerAttestationGarantiesFinancièresForm: FC<
   EnregistrerAttestationGarantiesFinancièresFormProps
 > = ({ identifiantProjet }) => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<EnregistrerAttestationGarantiesFinancièresFormKeys>
+  >({});
 
   return (
     <Form

@@ -13,7 +13,10 @@ import {
   GestionnaireRéseauSelect,
   GestionnaireRéseauSelectProps,
 } from './GestionnaireRéseauSelect';
-import { modifierGestionnaireRéseauRaccordementAction } from './modifierGestionnaireRéseauRaccordement.action';
+import {
+  modifierGestionnaireRéseauRaccordementAction,
+  ModifierGestionnaireRéseauRaccordementFormKeys,
+} from './modifierGestionnaireRéseauRaccordement.action';
 
 export type ModifierGestionnaireRéseauRaccordementFormProps = {
   identifiantProjet: string;
@@ -24,7 +27,9 @@ export type ModifierGestionnaireRéseauRaccordementFormProps = {
 export const ModifierGestionnaireRéseauRaccordementForm: FC<
   ModifierGestionnaireRéseauRaccordementFormProps
 > = ({ listeGestionnairesRéseau, identifiantGestionnaireRéseauActuel, identifiantProjet }) => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<ModifierGestionnaireRéseauRaccordementFormKeys>
+  >({});
 
   const gestionnaireActuel = listeGestionnairesRéseau.find(
     (gestionnaire) =>

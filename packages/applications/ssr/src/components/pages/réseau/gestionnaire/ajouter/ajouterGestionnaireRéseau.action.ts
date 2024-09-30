@@ -9,8 +9,6 @@ import { Routes } from '@potentiel-applications/routes';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { toUndefinedIfEmpty } from '@/utils/zod/stringTransform';
 
-export type AjouterGestionnaireRéseauState = FormState;
-
 const schema = zod.object({
   identifiantGestionnaireReseau: zod
     .string()
@@ -20,6 +18,8 @@ const schema = zod.object({
   format: zod.string().transform(toUndefinedIfEmpty).optional(),
   legende: zod.string().transform(toUndefinedIfEmpty).optional(),
 });
+
+export type AjouterGestionnaireRéseauFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,

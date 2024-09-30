@@ -11,7 +11,10 @@ import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { transmettrePropositionTechniqueEtFinancièreAction } from './transmettrePropositionTechniqueEtFinancière.action';
+import {
+  transmettrePropositionTechniqueEtFinancièreAction,
+  TransmettrePropositionTechniqueEtFinancièreFormKeys,
+} from './transmettrePropositionTechniqueEtFinancière.action';
 
 export type TransmettrePropositionTechniqueEtFinancièreFormProps = {
   identifiantProjet: string;
@@ -21,7 +24,9 @@ export type TransmettrePropositionTechniqueEtFinancièreFormProps = {
 export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
   TransmettrePropositionTechniqueEtFinancièreFormProps
 > = ({ identifiantProjet, referenceDossierRaccordement }) => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<TransmettrePropositionTechniqueEtFinancièreFormKeys>
+  >({});
 
   return (
     <Form

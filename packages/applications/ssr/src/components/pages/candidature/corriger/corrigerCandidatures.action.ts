@@ -15,11 +15,11 @@ import { document } from '@/utils/zod/documentTypes';
 import { candidatureSchema, CandidatureShape } from '../importer/candidature.schema';
 import { getLocalité } from '../helpers';
 
-export type CorrigerCandidaturesState = FormState;
-
 const schema = zod.object({
   fichierCorrectionCandidatures: document,
 });
+
+export type CorrigerCandidaturesFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrectionCandidatures }) =>
   withUtilisateur(async (utilisateur) => {

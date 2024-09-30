@@ -10,15 +10,13 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { document } from '@/utils/zod/documentTypes';
 
-export type enregistrerAttestationGarantiesFinancièresState = FormState;
-
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  dateConstitution: zod
-    .string()
-    .min(1, { message: 'Date de constitution des garanties financières obligatoire' }),
+  dateConstitution: zod.string().min(1, { message: 'Date à préciser' }),
   attestation: document,
 });
+
+export type EnregistrerAttestationGarantiesFinancièresFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,

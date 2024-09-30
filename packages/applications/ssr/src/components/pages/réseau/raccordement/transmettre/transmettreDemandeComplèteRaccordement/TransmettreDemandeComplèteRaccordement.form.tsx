@@ -16,7 +16,10 @@ import {
   GestionnaireRéseauSelectProps,
 } from '../../modifier/modifierGestionnaireRéseauRaccordement/GestionnaireRéseauSelect';
 
-import { transmettreDemandeComplèteRaccordementAction } from './transmettreDemandeComplèteRaccordement.action';
+import {
+  transmettreDemandeComplèteRaccordementAction,
+  TransmettreDemandeComplèteRaccordementFormKeys,
+} from './transmettreDemandeComplèteRaccordement.action';
 
 export type TransmettreDemandeComplèteRaccordementFormProps = {
   identifiantProjet: string;
@@ -29,7 +32,10 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
   identifiantGestionnaireRéseauActuel,
   listeGestionnairesRéseau,
 }: TransmettreDemandeComplèteRaccordementFormProps) => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<TransmettreDemandeComplèteRaccordementFormKeys>
+  >({});
+
   const [selectedIdentifiantGestionnaireRéseau, setSelectedIdentifiantGestionnaireRéseau] =
     useState<string | undefined>(identifiantGestionnaireRéseauActuel);
 
@@ -79,8 +85,8 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
         disabled={alreadyHasAGestionnaireRéseau ? true : undefined}
         identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
         gestionnairesRéseau={listeGestionnairesRéseau}
-        state={validationErrors['identifiantGestionnaireRéseau'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['identifiantGestionnaireRéseau']}
+        state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
         onGestionnaireRéseauSelected={({ identifiantGestionnaireRéseau }) =>
           setSelectedIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau)
         }

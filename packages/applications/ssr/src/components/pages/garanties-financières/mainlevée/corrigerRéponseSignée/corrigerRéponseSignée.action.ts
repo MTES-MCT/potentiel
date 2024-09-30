@@ -15,6 +15,8 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
 });
 
+export type CorrigerRéponseSignéeFormKeys = keyof zod.infer<typeof schema>;
+
 const action: FormAction<FormState, typeof schema> = async (
   _,
   { identifiantProjet, courrierReponseACorriger, documentCorrige },

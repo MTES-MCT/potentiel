@@ -10,16 +10,14 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { keepOrUpdateDocument } from '@/utils/zod/documentTypes';
 
-export type ModifierAttestationConformitéState = FormState;
-
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   attestation: keepOrUpdateDocument,
   preuveTransmissionAuCocontractant: keepOrUpdateDocument,
-  dateTransmissionAuCocontractant: zod
-    .string()
-    .min(1, { message: 'Date de transmission au co-contractant obligatoire' }),
+  dateTransmissionAuCocontractant: zod.string().min(1, { message: 'Date à préciser' }),
 });
+
+export type ModifierAttestationConformitéFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,

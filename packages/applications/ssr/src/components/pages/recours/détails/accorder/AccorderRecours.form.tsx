@@ -10,14 +10,16 @@ import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { accorderRecoursAction } from './accorderRecours.action';
+import { accorderRecoursAction, AccorderRecoursFormKeys } from './accorderRecours.action';
 
 type AccorderRecoursFormProps = {
   identifiantProjet: string;
 };
 
 export const AccorderRecours = ({ identifiantProjet }: AccorderRecoursFormProps) => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<AccorderRecoursFormKeys>
+  >({});
   const [isOpen, setIsOpen] = useState(false);
 
   return (

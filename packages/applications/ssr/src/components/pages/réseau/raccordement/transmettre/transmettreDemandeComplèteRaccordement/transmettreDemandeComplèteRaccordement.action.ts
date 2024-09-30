@@ -9,8 +9,6 @@ import { Routes } from '@potentiel-applications/routes';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { document } from '@/utils/zod/documentTypes';
 
-export type TransmettreDemandeComplèteRaccordementState = FormState;
-
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateQualification: zod.string().min(1, { message: 'Date à préciser' }),
@@ -18,6 +16,8 @@ const schema = zod.object({
   referenceDossier: zod.string().min(1, { message: 'Référence dossier à préciser' }),
   accuseReception: document,
 });
+
+export type TransmettreDemandeComplèteRaccordementFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,

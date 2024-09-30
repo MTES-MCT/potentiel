@@ -9,12 +9,12 @@ import { Routes } from '@potentiel-applications/routes';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-export type ModifierGestionnaireRéseauRaccordementState = FormState;
-
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  identifiantGestionnaireReseau: zod.string().min(1),
+  identifiantGestionnaireReseau: zod.string().min(1, { message: 'Identifiant à préciser' }),
 });
+
+export type ModifierGestionnaireRéseauRaccordementFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,

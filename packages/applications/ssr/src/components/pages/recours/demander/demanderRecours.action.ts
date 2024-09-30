@@ -10,15 +10,13 @@ import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { document } from '@/utils/zod/documentTypes';
 
-export type DemanderRecoursState = FormState;
-
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   raison: zod.string().min(1, { message: 'Raison à préciser' }),
   pieceJustificative: document,
 });
 
-export type DemanderRecoursFormValues = keyof zod.infer<typeof schema>;
+export type DemanderRecoursFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,

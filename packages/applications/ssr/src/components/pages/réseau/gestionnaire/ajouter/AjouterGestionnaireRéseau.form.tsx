@@ -6,10 +6,16 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { ajouterGestionnaireRéseauAction } from './ajouterGestionnaireRéseau.action';
+import {
+  ajouterGestionnaireRéseauAction,
+  AjouterGestionnaireRéseauFormKeys,
+} from './ajouterGestionnaireRéseau.action';
 
 export const AjouterGestionnaireRéseauForm = () => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<AjouterGestionnaireRéseauFormKeys>
+  >({});
+
   return (
     <Form
       action={ajouterGestionnaireRéseauAction}

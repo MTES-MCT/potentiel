@@ -12,13 +12,22 @@ import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { soumettreGarantiesFinancièresAction } from './dépôt/soumettre/soumettreGarantiesFinancières.action';
-import { modifierDépôtEnCoursGarantiesFinancièresAction } from './dépôt/modifier/modifierDépôtEnCoursGarantiesFinancières.action';
+import {
+  soumettreGarantiesFinancièresAction,
+  SoumettreGarantiesFinancièresFormKeys,
+} from './dépôt/soumettre/soumettreGarantiesFinancières.action';
+import {
+  modifierDépôtEnCoursGarantiesFinancièresAction,
+  ModifierGarantiesFinancièresFormKeys,
+} from './dépôt/modifier/modifierDépôtEnCoursGarantiesFinancières.action';
 import {
   TypeGarantiesFinancièresSelect,
   TypeGarantiesFinancièresSelectProps,
 } from './TypeGarantiesFinancièresSelect';
-import { enregistrerGarantiesFinancièresAction } from './actuelles/enregistrer/enregistrerGarantiesFinancières.action';
+import {
+  enregistrerGarantiesFinancièresAction,
+  EnregistrerGarantiesFinancièresFormKeys,
+} from './actuelles/enregistrer/enregistrerGarantiesFinancières.action';
 
 type Action =
   | typeof soumettreGarantiesFinancièresAction
@@ -45,7 +54,14 @@ export const GarantiesFinancièresForm: FC<GarantiesFinancièresFormProps> = ({
   typesGarantiesFinancières,
   defaultValues,
 }) => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<
+      | ModifierGarantiesFinancièresFormKeys
+      | SoumettreGarantiesFinancièresFormKeys
+      | EnregistrerGarantiesFinancièresFormKeys
+    >
+  >({});
+
   return (
     <Form
       method="POST"

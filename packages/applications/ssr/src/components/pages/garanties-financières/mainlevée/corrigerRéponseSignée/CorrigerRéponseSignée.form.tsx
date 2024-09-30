@@ -5,8 +5,12 @@ import Button from '@codegouvfr/react-dsfr/Button';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { corrigerRéponseSignéeAction } from './corrigerRéponseSignée.action';
+import {
+  corrigerRéponseSignéeAction,
+  CorrigerRéponseSignéeFormKeys,
+} from './corrigerRéponseSignée.action';
 
 type CorrigerRéponseSignéeProps = {
   courrierRéponseÀCorriger: string;
@@ -18,6 +22,9 @@ export const CorrigerRéponseSignée = ({
   courrierRéponseÀCorriger,
 }: CorrigerRéponseSignéeProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<CorrigerRéponseSignéeFormKeys>
+  >({});
 
   return (
     <>
@@ -37,6 +44,7 @@ export const CorrigerRéponseSignée = ({
           encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
           action: corrigerRéponseSignéeAction,
+          onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir corriger le document ?</p>
@@ -45,6 +53,8 @@ export const CorrigerRéponseSignée = ({
                 id="documentCorrige"
                 required
                 label="Nouvelle réponse signée"
+                state={validationErrors['documentCorrige'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['documentCorrige']}
               />
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />

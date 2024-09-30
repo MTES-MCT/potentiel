@@ -10,7 +10,10 @@ import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { demanderConfirmationAbandonAction } from './demanderConfirmation.action';
+import {
+  demanderConfirmationAbandonAction,
+  DemanderConfirmationAbandonFormKeys,
+} from './demanderConfirmationAbandon.action';
 
 type DemanderConfirmationAbandonFormProps = {
   identifiantProjet: string;
@@ -19,7 +22,9 @@ type DemanderConfirmationAbandonFormProps = {
 export const DemanderConfirmationAbandon = ({
   identifiantProjet,
 }: DemanderConfirmationAbandonFormProps) => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<DemanderConfirmationAbandonFormKeys>
+  >({});
   const [isOpen, setIsOpen] = useState(false);
 
   return (

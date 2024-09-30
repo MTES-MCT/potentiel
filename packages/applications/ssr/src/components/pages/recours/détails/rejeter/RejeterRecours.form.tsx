@@ -10,14 +10,16 @@ import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { rejeterRecoursAction } from './rejeterRecours.action';
+import { rejeterRecoursAction, RejeterRecoursFormKeys } from './rejeterRecours.action';
 
 type RejeterRecoursFormProps = {
   identifiantProjet: string;
 };
 
 export const RejeterRecours = ({ identifiantProjet }: RejeterRecoursFormProps) => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<RejeterRecoursFormKeys>
+  >({});
   const [isOpen, setIsOpen] = useState(false);
 
   return (

@@ -18,7 +18,10 @@ import {
   TypeGarantiesFinancièresSelectProps,
 } from '../../TypeGarantiesFinancièresSelect';
 
-import { modifierGarantiesFinancièresActuellesAction } from './modifierGarantiesFinancièresActuelles.action';
+import {
+  modifierGarantiesFinancièresActuellesAction,
+  ModifierGarantiesFinancièresFormKeys,
+} from './modifierGarantiesFinancièresActuelles.action';
 
 export type ModifierGarantiesFinancièresActuellesFormProps = {
   identifiantProjet: string;
@@ -29,7 +32,9 @@ export type ModifierGarantiesFinancièresActuellesFormProps = {
 export const ModifierGarantiesFinancièresActuellesForm: FC<
   ModifierGarantiesFinancièresActuellesFormProps
 > = ({ typesGarantiesFinancières, actuelles, identifiantProjet }) => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<ModifierGarantiesFinancièresFormKeys>
+  >({});
 
   return (
     <Form
@@ -47,7 +52,7 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
             }}
             iconId="fr-icon-arrow-left-line"
           >
-            Retour au détail des garanties financières
+            Retour aux détails des garanties financières
           </Button>
           <SubmitButton>Modifier</SubmitButton>
         </>

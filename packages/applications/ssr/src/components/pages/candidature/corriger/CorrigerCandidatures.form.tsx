@@ -7,10 +7,15 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { corrigerCandidaturesAction } from './corrigerCandidatures.action';
+import {
+  corrigerCandidaturesAction,
+  CorrigerCandidaturesFormKeys,
+} from './corrigerCandidatures.action';
 
 export const CorrigerCandidaturesForm: FC = () => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<CorrigerCandidaturesFormKeys>
+  >({});
 
   return (
     <Form

@@ -16,11 +16,11 @@ import { getLocalité } from '../helpers';
 
 import { candidatureSchema, CandidatureShape } from './candidature.schema';
 
-export type ImporterCandidaturesState = FormState;
-
 const schema = zod.object({
   fichierImportCandidature: document,
 });
+
+export type ImporterCandidaturesFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCandidature }) => {
   return withUtilisateur(async (utilisateur) => {

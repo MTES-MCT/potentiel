@@ -12,7 +12,10 @@ import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { modifierPropositionTechniqueEtFinancièreAction } from './modifierPropositionTechniqueEtFinancière.action';
+import {
+  modifierPropositionTechniqueEtFinancièreAction,
+  ModifierPropositionTechniqueEtFinancièreFormKeys,
+} from './modifierPropositionTechniqueEtFinancière.action';
 
 export type ModifierPropositionTechniqueEtFinancièreFormProps = {
   identifiantProjet: string;
@@ -34,7 +37,9 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
     propositionTechniqueEtFinancière: { dateSignature, propositionTechniqueEtFinancièreSignée },
   },
 }) => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<ModifierPropositionTechniqueEtFinancièreFormKeys>
+  >({});
 
   return (
     <Form

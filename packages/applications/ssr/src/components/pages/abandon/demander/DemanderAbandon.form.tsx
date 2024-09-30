@@ -10,7 +10,7 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { demanderAbandonAction } from './demanderAbandon.action';
+import { demanderAbandonAction, DemanderAbandonFormKeys } from './demanderAbandon.action';
 
 export type DemanderAbandonFormProps = {
   identifiantProjet: string;
@@ -21,7 +21,9 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
   identifiantProjet,
   showRecandidatureCheckBox,
 }) => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<DemanderAbandonFormKeys>
+  >({});
   const [recandidature, setRecandidature] = useState(false);
 
   return (

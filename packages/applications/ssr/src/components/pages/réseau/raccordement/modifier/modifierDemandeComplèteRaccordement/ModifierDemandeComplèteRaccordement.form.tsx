@@ -13,7 +13,10 @@ import { InputDate } from '@/components/atoms/form/InputDate';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { modifierDemandeComplèteRaccordementAction } from './modifierDemandeComplèteRaccordement.action';
+import {
+  modifierDemandeComplèteRaccordementAction,
+  ModifierDemandeComplèteRaccordementFormKeys,
+} from './modifierDemandeComplèteRaccordement.action';
 
 export type ModifierDemandeComplèteRaccordementFormProps = {
   identifiantProjet: string;
@@ -49,7 +52,9 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
     demandeComplèteRaccordement: { accuséRéception, dateQualification },
   },
 }) => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<ModifierDemandeComplèteRaccordementFormKeys>
+  >({});
 
   const { aideSaisieRéférenceDossierRaccordement, identifiantGestionnaireRéseau } =
     gestionnaireRéseauActuel;

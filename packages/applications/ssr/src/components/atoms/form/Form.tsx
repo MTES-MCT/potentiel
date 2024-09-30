@@ -3,7 +3,7 @@
 import { FC, FormHTMLAttributes, ReactNode } from 'react';
 import { useFormState } from 'react-dom';
 
-import { formAction } from '@/utils/formAction';
+import { formAction, ValidationErrors } from '@/utils/formAction';
 
 import { Heading2 } from '../headings';
 
@@ -19,7 +19,7 @@ export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action' | 'me
   omitMandatoryFieldsLegend?: true;
   pendingModal?: FormPendingModalProps;
   actions: ReactNode;
-  onValidationError?: (validationErrors: Record<string, string>) => void;
+  onValidationError?: (validationErrors: ValidationErrors) => void;
   successMessage?: string;
 };
 

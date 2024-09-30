@@ -13,11 +13,11 @@ import { Option } from '@potentiel-libraries/monads';
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { document } from '@/utils/zod/documentTypes';
 
-export type ImporterDatesMiseEnServiceState = FormState;
-
 const schema = zod.object({
   fichierDatesMiseEnService: document,
 });
+
+export type ImporterDatesMiseEnServiceFormKeys = keyof zod.infer<typeof schema>;
 
 const csvSchema = zod.object({
   numeroCRE: zod.string().optional(),

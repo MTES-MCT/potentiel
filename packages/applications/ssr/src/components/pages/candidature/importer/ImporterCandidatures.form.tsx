@@ -7,10 +7,16 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { importerCandidaturesAction } from './importerCandidatures.action';
+import {
+  importerCandidaturesAction,
+  ImporterCandidaturesFormKeys,
+} from './importerCandidatures.action';
 
 export const ImporterCandidaturesForm: FC = () => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<ImporterCandidaturesFormKeys>
+  >({});
+
   return (
     <Form
       method="POST"

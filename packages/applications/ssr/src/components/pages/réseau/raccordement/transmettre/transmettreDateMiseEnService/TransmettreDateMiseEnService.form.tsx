@@ -11,7 +11,10 @@ import { InputDate } from '@/components/atoms/form/InputDate';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { transmettreDateMiseEnServiceAction } from './transmettreDateMiseEnService.action';
+import {
+  transmettreDateMiseEnServiceAction,
+  TransmettreDateMiseEnServiceStateFormKeys,
+} from './transmettreDateMiseEnService.action';
 
 export type TransmettreDateMiseEnServiceFormProps = {
   projet: {
@@ -28,7 +31,9 @@ export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFo
   projet: { identifiantProjet, dateDésignation },
   dossierRaccordement: { référence, miseEnService },
 }) => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<TransmettreDateMiseEnServiceStateFormKeys>
+  >({});
 
   return (
     <Form

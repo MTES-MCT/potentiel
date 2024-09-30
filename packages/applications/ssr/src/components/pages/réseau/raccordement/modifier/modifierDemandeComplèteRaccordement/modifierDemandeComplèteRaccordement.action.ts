@@ -10,16 +10,16 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { document } from '@/utils/zod/documentTypes';
 
-export type ModifierDemandeComplèteRaccordementState = FormState;
-
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   identifiantGestionnaireReseau: zod.string().min(1),
-  dateQualification: zod.string().min(1, { message: 'Date de qualification à transmettre' }),
+  dateQualification: zod.string().min(1, { message: 'Date à préciser' }),
   referenceDossierRaccordement: zod.string().min(1),
   referenceDossierRaccordementActuelle: zod.string().min(1),
   accuseReception: document,
 });
+
+export type ModifierDemandeComplèteRaccordementFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,

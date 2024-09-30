@@ -10,14 +10,16 @@ import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { rejeterAbandonAction } from './rejeterAbandon.action';
+import { rejeterAbandonAction, RejeterAbandonFormKeys } from './rejeterAbandon.action';
 
 type RejeterAbandonFormProps = {
   identifiantProjet: string;
 };
 
 export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<RejeterAbandonFormKeys>
+  >({});
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>

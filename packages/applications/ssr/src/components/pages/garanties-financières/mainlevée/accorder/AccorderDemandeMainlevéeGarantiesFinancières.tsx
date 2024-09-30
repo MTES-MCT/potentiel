@@ -10,7 +10,10 @@ import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { accorderDemandeMainlevéeGarantiesFinancièresAction } from './accorderDemandeMainlevéeGarantiesFinancières.action';
+import {
+  AccorderDemandeMainlevéeFormKeys,
+  accorderDemandeMainlevéeGarantiesFinancièresAction,
+} from './accorderDemandeMainlevéeGarantiesFinancières.action';
 
 type AccorderDemandeMainlevéeGarantiesFinancièresFormProps = {
   identifiantProjet: string;
@@ -20,7 +23,9 @@ export const AccorderDemandeMainlevéeGarantiesFinancières = ({
   identifiantProjet,
 }: AccorderDemandeMainlevéeGarantiesFinancièresFormProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<AccorderDemandeMainlevéeFormKeys>
+  >({});
 
   return (
     <>

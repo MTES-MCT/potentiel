@@ -10,7 +10,10 @@ import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { rejeterDemandeMainlevéeGarantiesFinancièresAction } from './rejeterDemandeMainlevéeGarantiesFinancières.action';
+import {
+  rejeterDemandeMainlevéeGarantiesFinancièresAction,
+  RejeterDemandeMainlevéeGarantiesFinancièresFormKeys,
+} from './rejeterDemandeMainlevéeGarantiesFinancières.action';
 
 type rejeterDemandeMainlevéeGarantiesFinancièresFormProps = {
   identifiantProjet: string;
@@ -20,7 +23,9 @@ export const RejeterDemandeMainlevéeGarantiesFinancières = ({
   identifiantProjet,
 }: rejeterDemandeMainlevéeGarantiesFinancièresFormProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<RejeterDemandeMainlevéeGarantiesFinancièresFormKeys>
+  >({});
 
   return (
     <>

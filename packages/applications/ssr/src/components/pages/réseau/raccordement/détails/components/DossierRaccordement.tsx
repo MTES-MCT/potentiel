@@ -8,8 +8,8 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
-import { supprimerDossierDuRaccordementAction } from '../supprimerDossierDuRaccordement.action';
 import { GestionnaireRéseau as GestionnaireRéseauProps } from '../type';
+import { supprimerDossierDuRaccordementAction } from '../supprimerDossierDuRaccordement.action';
 
 import { Separateur } from './Separateur';
 import { ÉtapeDemandeComplèteRaccordement } from './ÉtapeDemandeComplèteRaccordement';

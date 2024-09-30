@@ -11,11 +11,11 @@ import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAct
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { document } from '@/utils/zod/documentTypes';
 
-export type CorrigerRéférencesDossierState = FormState;
-
 const schema = zod.object({
   fichierCorrections: document,
 });
+
+export type CorrigerRéférencesDossierFormKeys = keyof zod.infer<typeof schema>;
 
 const csvSchema = zod
   .object({

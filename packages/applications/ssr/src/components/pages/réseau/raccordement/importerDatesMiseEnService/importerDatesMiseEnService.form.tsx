@@ -7,10 +7,15 @@ import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { importerDatesMiseEnServiceAction } from './importDatesMiseEnService.action';
+import {
+  importerDatesMiseEnServiceAction,
+  ImporterDatesMiseEnServiceFormKeys,
+} from './importDatesMiseEnService.action';
 
 export const ImporterDatesMiseEnServiceForm: FC = () => {
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<ImporterDatesMiseEnServiceFormKeys>
+  >({});
 
   return (
     <Form
