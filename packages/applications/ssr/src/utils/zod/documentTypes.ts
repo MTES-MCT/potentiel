@@ -19,7 +19,7 @@ export const document = zod
 /**
  * This type is used for form validation schema when a document can be updated.
  **/
-export const documentThatCanBeUpdated = zod
+export const keepOrUpdateDocument = zod
   .string()
   .or(document)
   .transform(async (documentKeyOrBlob) => {

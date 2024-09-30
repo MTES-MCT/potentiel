@@ -26,7 +26,7 @@ export type ActionResult = {
   }>;
 };
 
-export type ValidationErrors = Record<string, string>;
+export type ValidationErrors<TKeys extends string = string> = Partial<Record<TKeys, string>>;
 
 export type FormState =
   | {

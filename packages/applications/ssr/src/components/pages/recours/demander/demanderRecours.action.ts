@@ -18,6 +18,8 @@ const schema = zod.object({
   pieceJustificative: document,
 });
 
+export type DemanderRecoursFormValues = keyof zod.infer<typeof schema>;
+
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
   { identifiantProjet, pieceJustificative, raison },

@@ -8,14 +8,14 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { documentThatCanBeUpdated } from '@/utils/zod/documentTypes';
+import { keepOrUpdateDocument } from '@/utils/zod/documentTypes';
 
 export type ModifierAttestationConformitéState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: documentThatCanBeUpdated,
-  preuveTransmissionAuCocontractant: documentThatCanBeUpdated,
+  attestation: keepOrUpdateDocument,
+  preuveTransmissionAuCocontractant: keepOrUpdateDocument,
   dateTransmissionAuCocontractant: zod
     .string()
     .min(1, { message: 'Date de transmission au co-contractant obligatoire' }),

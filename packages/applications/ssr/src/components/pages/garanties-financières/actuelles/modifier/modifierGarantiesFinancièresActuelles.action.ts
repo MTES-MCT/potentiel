@@ -8,7 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { documentThatCanBeUpdated } from '@/utils/zod/documentTypes';
+import { keepOrUpdateDocument } from '@/utils/zod/documentTypes';
 
 export type ModifierGarantiesFinancièresState = FormState;
 
@@ -17,7 +17,7 @@ const commonSchema = {
   dateConstitution: zod
     .string()
     .min(1, { message: 'Date de constitution des garanties financières obligatoire' }),
-  attestation: documentThatCanBeUpdated,
+  attestation: keepOrUpdateDocument,
 };
 
 const schema = zod.discriminatedUnion('type', [

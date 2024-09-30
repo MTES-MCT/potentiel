@@ -1,12 +1,12 @@
 import React, { FC, useState } from 'react';
-import Link from 'next/link';
-import Button from '@codegouvfr/react-dsfr/Button';
 import RadioButtons, { RadioButtonsProps } from '@codegouvfr/react-dsfr/RadioButtons';
+import Button from '@codegouvfr/react-dsfr/Button';
+import clsx from 'clsx';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { DEFAULT_FILE_SIZE_LIMIT_IN_MB } from '@/utils/zod/documentTypes';
-
+import { DEFAULT_FILE_SIZE_LIMIT_IN_MB } from '../../../utils/zod/documentTypes';
 import { Icon } from '../Icon';
 
 export type UploadDocumentProps = {
@@ -51,9 +51,7 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
 
   return (
     <div className={`fr-input-group ${className}`}>
-      <label
-        className={`fr-label ${props.state === 'error' ? 'text-dsfr-error-_425_625-default' : ''}`}
-      >
+      <label className={clsx('fr-label', props.state === 'error' && 'text-theme-error')}>
         {label}
       </label>
       <div className="fr-hint-text">
@@ -79,21 +77,39 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
           <span className="hidden md:inline-block text-sm">Parcourir</span>
         </Button>
         <p
-          className={`text-sm truncate m-0 p-0 ${props.state === 'error' ? 'text-dsfr-error-_425_625-default' : ''}`}
+          className={clsx(
+            'text-sm truncate m-0 p-0',
+            props.state === 'error' && 'text-theme-error',
+          )}
         >
           {uploadedFileName ? uploadedFileName : 'Aucun document sélectionné'}
         </p>
       </div>
       {props.stateRelatedMessage && (
-        <p
-          className={`text-sm truncate mt-2 p-0 ${props.state === 'error' ? 'text-dsfr-error-_425_625-default' : 'fr-hint-text'}`}
-        >
-          {props.stateRelatedMessage}
-        </p>
+        <UploadDocumentStateRelatedMessage
+          state={props.state}
+          stateRelatedMessage={props.stateRelatedMessage}
+        />
       )}
     </div>
   );
 };
+
+const UploadDocumentStateRelatedMessage = ({
+  state,
+  stateRelatedMessage,
+}: {
+  state: UploadDocumentProps['state'];
+  stateRelatedMessage: UploadDocumentProps['stateRelatedMessage'];
+}) =>
+  state === 'error' ? (
+    <div className="flex flex-row gap-2 items-center mt-2">
+      <Icon id="fr-icon-error-fill" className="text-theme-error" size="sm" />
+      <p className="truncate p-0 text-theme-error text-xs">{stateRelatedMessage}</p>
+    </div>
+  ) : (
+    <p className="text-sm truncate p-0 fr-hint-text">{stateRelatedMessage}</p>
+  );
 
 const KeepOrEditDocument: FC<UploadDocumentProps & { documentKey: string }> = ({
   className = '',
