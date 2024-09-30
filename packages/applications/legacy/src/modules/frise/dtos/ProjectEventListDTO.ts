@@ -21,7 +21,6 @@ export type ProjectEventDTO =
   | CovidDelayGrantedDTO
   | DemandeDelaiSignaledDTO
   | DemandeAbandonSignaledDTO
-  | DemandeRecoursSignaledDTO
   | DemandeDélaiDTO
   | CahierDesChargesChoisiDTO
   | AchèvementRéelDTO;
@@ -131,7 +130,6 @@ export type ModificationRequestedDTO = {
       puissance: number;
       unitePuissance?: string;
     }
-  | { modificationType: 'recours' }
 );
 
 export type ModificationRequestAcceptedDTO = {
@@ -233,7 +231,6 @@ export type LegacyModificationImportedDTO = {
   status: LegacyModificationStatus;
   filename?: string;
 } & (
-  | { modificationType: 'recours'; motifElimination: string }
   | {
       modificationType: 'delai';
       status: Extract<LegacyModificationStatus, 'acceptée'>;
@@ -319,23 +316,6 @@ export type DemandeDelaiSignaledDTO = {
 
 export type DemandeAbandonSignaledDTO = {
   type: 'DemandeAbandonSignaled';
-  variant:
-    | 'admin'
-    | 'porteur-projet'
-    | 'dreal'
-    | 'acheteur-obligé'
-    | 'dgec-validateur'
-    | 'caisse-des-dépôts'
-    | 'cre';
-  date: number;
-  signaledBy: string;
-  status: 'acceptée' | 'rejetée';
-  attachment?: File;
-  notes?: string;
-};
-
-export type DemandeRecoursSignaledDTO = {
-  type: 'DemandeRecoursSignaled';
   variant:
     | 'admin'
     | 'porteur-projet'
