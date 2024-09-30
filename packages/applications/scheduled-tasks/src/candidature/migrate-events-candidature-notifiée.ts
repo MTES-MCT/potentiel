@@ -23,8 +23,8 @@ Candidature.registerCandidaturesUseCases({ loadAggregate });
       data: {
         identifiantProjetValue: identifiantProjet,
         attestationValue: { format: attestation.format },
-        notifiéLeValue: notifiéLe,
-        notifiéParValue: notifiéPar,
+        notifiéeLeValue: notifiéLe,
+        notifiéeParValue: notifiéPar,
       },
     });
   }
