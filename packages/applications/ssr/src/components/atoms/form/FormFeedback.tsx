@@ -68,6 +68,9 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState, successMessage 
     case 'unknown-error':
       return <AlertError description="Une erreur est survenue" />;
 
+    case 'validation-error':
+      return <AlertError description="Erreur lors de la validation des données du formulaire" />;
+
     default:
       return null;
   }

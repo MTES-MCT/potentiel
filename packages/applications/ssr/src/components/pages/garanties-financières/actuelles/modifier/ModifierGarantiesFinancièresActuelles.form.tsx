@@ -77,7 +77,7 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
           'aria-required': true,
         }}
         state={validationErrors['dateConstitution'] ? 'error' : 'default'}
-        stateRelatedMessage="Date de constitution des garanties financières obligatoire"
+        stateRelatedMessage={validationErrors['dateConstitution']}
       />
 
       <UploadDocument

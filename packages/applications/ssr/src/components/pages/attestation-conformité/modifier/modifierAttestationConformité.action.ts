@@ -16,7 +16,9 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   attestation: documentThatCanBeUpdated,
   preuveTransmissionAuCocontractant: documentThatCanBeUpdated,
-  dateTransmissionAuCocontractant: zod.string().min(1),
+  dateTransmissionAuCocontractant: zod
+    .string()
+    .min(1, { message: 'Date de transmission au co-contractant obligatoire' }),
 });
 
 const action: FormAction<FormState, typeof schema> = async (

@@ -15,7 +15,7 @@ export type DemanderAbandonState = FormState;
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   recandidature: zod.string().optional(),
-  raison: zod.string().min(1),
+  raison: zod.string().min(1, { message: 'Raison à préciser' }),
   pieceJustificative: document,
 });
 

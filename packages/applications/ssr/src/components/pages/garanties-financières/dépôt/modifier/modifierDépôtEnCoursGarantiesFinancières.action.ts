@@ -14,7 +14,9 @@ export type ModifierGarantiesFinancièresState = FormState;
 
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
-  dateConstitution: zod.string().min(1),
+  dateConstitution: zod
+    .string()
+    .min(1, { message: 'Date de constitution des garanties financières obligatoire' }),
   attestation: documentThatCanBeUpdated,
 };
 

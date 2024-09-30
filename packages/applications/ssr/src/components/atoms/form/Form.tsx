@@ -10,7 +10,6 @@ import { Heading2 } from '../headings';
 import { FormFeedback } from './FormFeedback';
 import { FormPendingModal, FormPendingModalProps } from './FormPendingModal';
 import { FormFeedbackCsvErrors } from './FormFeedbackCsvErrors';
-import { FormFeedbackValidationErrors } from './FormFeedbackValidationErrors';
 
 export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action' | 'method'> & {
   method?: 'POST';
@@ -65,7 +64,6 @@ export const Form: FC<FormProps> = ({
       </div>
 
       <FormFeedbackCsvErrors formState={state} />
-      <FormFeedbackValidationErrors formState={state} />
     </form>
   );
 };

@@ -14,7 +14,9 @@ export type enregistrerAttestationGarantiesFinancièresState = FormState;
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  dateConstitution: zod.string().min(1),
+  dateConstitution: zod
+    .string()
+    .min(1, { message: 'Date de constitution des garanties financières obligatoire' }),
   attestation: document,
 });
 

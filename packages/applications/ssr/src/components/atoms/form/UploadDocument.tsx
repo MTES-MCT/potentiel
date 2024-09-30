@@ -68,7 +68,7 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
           ref={hiddenFileInput}
           type="file"
           accept={`.${format}`}
-          className={`-z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0`}
+          className="-z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0"
           onChange={(e) => {
             const fileName = extractFileName(e.currentTarget.value);
             setUploadFileName(fileName);
@@ -86,7 +86,7 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
       </div>
       {props.stateRelatedMessage && (
         <p
-          className={`text-sm truncate mt-2 p-0 ${props.state === 'error' ? 'text-dsfr-error-_425_625-default' : ''}`}
+          className={`text-sm truncate mt-2 p-0 ${props.state === 'error' ? 'text-dsfr-error-_425_625-default' : 'fr-hint-text'}`}
         >
           {props.stateRelatedMessage}
         </p>

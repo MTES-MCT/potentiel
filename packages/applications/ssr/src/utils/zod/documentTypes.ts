@@ -3,7 +3,7 @@ import * as zod from 'zod';
 
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
-export const DEFAULT_FILE_SIZE_LIMIT_IN_MB = 0;
+export const DEFAULT_FILE_SIZE_LIMIT_IN_MB = 5;
 
 export const DEFAULT_FILE_SIZE_LIMIT_FOR_ZOD = DEFAULT_FILE_SIZE_LIMIT_IN_MB * 1024 * 1024;
 

@@ -14,7 +14,9 @@ export type ModifierGarantiesFinancièresState = FormState;
 
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
-  dateConstitution: zod.string().min(1),
+  dateConstitution: zod
+    .string()
+    .min(1, { message: 'Date de constitution des garanties financières obligatoire' }),
   attestation: documentThatCanBeUpdated,
 };
 
@@ -22,7 +24,7 @@ const schema = zod.discriminatedUnion('type', [
   zod.object({
     ...commonSchema,
     type: zod.literal('avec-date-échéance'),
-    dateEcheance: zod.string().min(1),
+    dateEcheance: zod.string().min(1, { message: "date d'échéance obligatoire" }),
   }),
   zod.object({
     ...commonSchema,

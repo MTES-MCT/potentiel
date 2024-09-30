@@ -14,7 +14,7 @@ export type TransmettrePreuveRecandidatureState = FormState;
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   preuveRecandidature: zod.string().min(1),
-  dateDesignation: zod.string().min(1),
+  dateDesignation: zod.string().min(1, { message: 'Date à transmettre' }),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
