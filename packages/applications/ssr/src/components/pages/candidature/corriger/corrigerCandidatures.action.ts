@@ -33,7 +33,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrecti
     if (parsedData.length === 0) {
       return {
         status: 'validation-error',
-        errors: [fileKey],
+        errors: { [fileKey]: 'Fichier invalide' },
       };
     }
 

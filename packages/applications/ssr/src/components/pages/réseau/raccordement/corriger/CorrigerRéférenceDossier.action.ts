@@ -44,7 +44,7 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
     if (lines.length === 0) {
       return {
         status: 'validation-error',
-        errors: [fileKey],
+        errors: { [fileKey]: 'Fichier invalide' },
       };
     }
 

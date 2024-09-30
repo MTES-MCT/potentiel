@@ -31,7 +31,7 @@ export const WithDomainError: Story = {
 
 export const WithFormError: Story = {
   args: {
-    formState: { status: 'validation-error', errors: [] },
+    formState: { status: 'validation-error', errors: {} },
     successMessage: 'éléments importés',
   },
 };

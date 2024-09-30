@@ -11,7 +11,7 @@ import { corrigerCandidaturesAction } from './corrigerCandidatures.action';
 export const fileKey = 'fichierCorrectionCandidatures';
 
 export const CorrigerCandidaturesForm: FC = () => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
   return (
     <Form
@@ -34,8 +34,8 @@ export const CorrigerCandidaturesForm: FC = () => {
         name={fileKey}
         required
         format="csv"
-        state={validationErrors.includes(fileKey) ? 'error' : 'default'}
-        stateRelatedMessage="Fichier CSV obligatoire"
+        state={validationErrors[fileKey] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors[fileKey]}
       />
     </Form>
   );

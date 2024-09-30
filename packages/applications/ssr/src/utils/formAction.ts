@@ -26,6 +26,8 @@ export type ActionResult = {
   }>;
 };
 
+type ValidationErrors = Record<string, string>;
+
 export type FormState =
   | {
       status: 'success' | undefined;
@@ -34,8 +36,7 @@ export type FormState =
     }
   | {
       status: 'validation-error';
-      errors: string[];
-      message?: string[];
+      errors: ValidationErrors;
     }
   | {
       status: 'domain-error';
@@ -94,15 +95,14 @@ export const formAction =
       }
 
       if (e instanceof zod.ZodError) {
-        const errors = e.issues.map((issue) => (issue.path.pop() || '').toString());
-        const message = e.issues
-          .map((issue) => issue.message || '')
-          .filter((message) => message.trim() !== '');
+        const errors: ValidationErrors = {};
+        e.issues.map((issue) => {
+          errors[issue.path[0]] = issue.message.trim() || '';
+        });
 
         return {
           status: 'validation-error' as const,
           errors,
-          message,
         };
       }
 

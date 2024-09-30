@@ -20,7 +20,7 @@ export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action' | 'me
   omitMandatoryFieldsLegend?: true;
   pendingModal?: FormPendingModalProps;
   actions: ReactNode;
-  onValidationError?: (validationErrors: Array<string>) => void;
+  onValidationError?: (validationErrors: Record<string, string>) => void;
   successMessage?: string;
 };
 

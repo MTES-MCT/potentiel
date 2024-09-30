@@ -82,6 +82,11 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
           {uploadedFileName ? uploadedFileName : 'Aucun document sélectionné'}
         </p>
       </div>
+      <p
+        className={`text-sm truncate m-0 p-0 ${props.state === 'error' ? 'text-dsfr-error-_425_625-default' : ''}`}
+      >
+        {props.stateRelatedMessage}
+      </p>
     </div>
   );
 };

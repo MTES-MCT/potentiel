@@ -30,7 +30,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }
     if (parsedData.length === 0) {
       return {
         status: 'validation-error',
-        errors: [fileKey],
+        errors: { [fileKey]: 'Fichier invalide' },
       };
     }
 

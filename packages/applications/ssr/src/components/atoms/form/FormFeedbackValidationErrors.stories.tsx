@@ -21,8 +21,7 @@ export const Default: Story = {
   args: {
     formState: {
       status: 'validation-error',
-      errors: ["le champs n'est pas entretenu"],
-      message: ["le champs n'est pas entretenu"],
+      errors: { fichierImport: "le champs n'est pas entretenu" },
     },
   },
 };
