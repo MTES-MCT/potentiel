@@ -8,6 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { ValidationErrors } from '@/utils/formAction';
 
 import { accorderAbandonSansRecandidatureAction } from './accorderAbandonSansRecandidature.action';
 
@@ -18,7 +19,7 @@ type AccorderAbandonSansRecandidatureFormProps = {
 export const AccorderAbandonSansRecandidature = ({
   identifiantProjet,
 }: AccorderAbandonSansRecandidatureFormProps) => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -50,7 +51,8 @@ export const AccorderAbandonSansRecandidature = ({
 
               <UploadDocument
                 label="Réponse signée"
-                state={validationErrors.includes('reponseSignee') ? 'error' : 'default'}
+                state={validationErrors['reponseSignee'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['reponseSignee']}
                 name="reponseSignee"
                 required
                 className="mb-4"

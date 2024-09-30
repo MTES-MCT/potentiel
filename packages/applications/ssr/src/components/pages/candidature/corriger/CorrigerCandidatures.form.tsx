@@ -5,13 +5,12 @@ import { FC, useState } from 'react';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { ValidationErrors } from '@/utils/formAction';
 
 import { corrigerCandidaturesAction } from './corrigerCandidatures.action';
 
-export const fileKey = 'fichierCorrectionCandidatures';
-
 export const CorrigerCandidaturesForm: FC = () => {
-  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
 
   return (
     <Form
@@ -30,12 +29,12 @@ export const CorrigerCandidaturesForm: FC = () => {
     >
       <UploadDocument
         label="Fichier CSV"
-        id={fileKey}
-        name={fileKey}
+        id={'fichierCorrectionCandidatures'}
+        name={'fichierCorrectionCandidatures'}
         required
         format="csv"
-        state={validationErrors[fileKey] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors[fileKey]}
+        state={validationErrors['fichierCorrectionCandidatures'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['fichierCorrectionCandidatures']}
       />
     </Form>
   );

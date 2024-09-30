@@ -15,8 +15,6 @@ import { document } from '@/utils/zod/documentTypes';
 import { candidatureSchema, CandidatureShape } from '../importer/candidature.schema';
 import { getLocalité } from '../helpers';
 
-import { fileKey } from './CorrigerCandidatures.form';
-
 export type CorrigerCandidaturesState = FormState;
 
 const schema = zod.object({
@@ -33,7 +31,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrecti
     if (parsedData.length === 0) {
       return {
         status: 'validation-error',
-        errors: { [fileKey]: 'Fichier invalide' },
+        errors: { fichierCorrectionCandidatures: 'Fichier invalide' },
       };
     }
 

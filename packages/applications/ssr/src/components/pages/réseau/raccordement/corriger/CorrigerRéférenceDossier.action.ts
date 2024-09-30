@@ -11,7 +11,6 @@ import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAct
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { document } from '@/utils/zod/documentTypes';
 
-import { fileKey } from './CorrigerRéférenceDossier.form';
 export type CorrigerRéférencesDossierState = FormState;
 
 const schema = zod.object({
@@ -44,7 +43,7 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
     if (lines.length === 0) {
       return {
         status: 'validation-error',
-        errors: { [fileKey]: 'Fichier invalide' },
+        errors: { fichierCorrections: 'Fichier invalide' },
       };
     }
 

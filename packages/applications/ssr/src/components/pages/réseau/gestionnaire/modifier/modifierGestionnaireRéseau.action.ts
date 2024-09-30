@@ -13,7 +13,7 @@ export type ModifierGestionnaireRéseauState = FormState;
 
 const schema = zod.object({
   identifiantGestionnaireReseau: zod.string().min(1),
-  raisonSociale: zod.string().min(1),
+  raisonSociale: zod.string().min(1, { message: 'Raison sociale à préciser' }),
   expressionReguliere: zod.string().transform(toUndefinedIfEmpty).optional(),
   format: zod.string().transform(toUndefinedIfEmpty).optional(),
   legende: zod.string().transform(toUndefinedIfEmpty).optional(),

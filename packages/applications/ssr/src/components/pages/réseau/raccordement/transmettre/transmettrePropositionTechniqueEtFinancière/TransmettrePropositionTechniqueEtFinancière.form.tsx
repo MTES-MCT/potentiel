@@ -9,6 +9,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Form } from '@/components/atoms/form/Form';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { ValidationErrors } from '@/utils/formAction';
 
 import { transmettrePropositionTechniqueEtFinancièreAction } from './transmettrePropositionTechniqueEtFinancière.action';
 
@@ -20,7 +21,7 @@ export type TransmettrePropositionTechniqueEtFinancièreFormProps = {
 export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
   TransmettrePropositionTechniqueEtFinancièreFormProps
 > = ({ identifiantProjet, referenceDossierRaccordement }) => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
 
   return (
     <Form
@@ -50,7 +51,8 @@ export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
 
       <Input
         label="Date de signature"
-        state={validationErrors.includes('dateSignature') ? 'error' : 'default'}
+        state={validationErrors['dateSignature'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['dateSignature']}
         nativeInputProps={{
           type: 'date',
           name: 'dateSignature',
@@ -62,11 +64,11 @@ export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
 
       <UploadDocument
         label="Proposition technique et financière signée"
-        name="propositionTechniqueEtFinanciereSignee"
+        name={'propositionTechniqueEtFinanciereSignee'}
+        id={'propositionTechniqueEtFinanciereSignee'}
         required
-        state={
-          validationErrors.includes('propositionTechniqueEtFinanciereSignee') ? 'error' : 'default'
-        }
+        state={validationErrors['propositionTechniqueEtFinanciereSignee'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['propositionTechniqueEtFinanciereSignee']}
       />
     </Form>
   );

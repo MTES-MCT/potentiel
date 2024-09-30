@@ -6,6 +6,7 @@ import { FC, useState } from 'react';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { ValidationErrors } from '@/utils/formAction';
 
 import { demanderRecoursAction } from './demanderRecours.action';
 
@@ -14,7 +15,7 @@ export type DemanderRecoursFormProps = {
 };
 
 export const DemanderRecoursForm: FC<DemanderRecoursFormProps> = ({ identifiantProjet }) => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
 
   return (
     <Form
@@ -33,8 +34,8 @@ export const DemanderRecoursForm: FC<DemanderRecoursFormProps> = ({ identifiantP
         hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant
                 conduit au recours."
         nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
-        state={validationErrors.includes('raison') ? 'error' : 'default'}
-        stateRelatedMessage="Raison à préciser"
+        state={validationErrors['raison'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['raison']}
       />
 
       <UploadDocument
@@ -42,7 +43,8 @@ export const DemanderRecoursForm: FC<DemanderRecoursFormProps> = ({ identifiantP
         id="pieceJustificative"
         name="pieceJustificative"
         required
-        state={validationErrors.includes('pieceJustificative') ? 'error' : 'default'}
+        state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['pieceJustificative']}
       />
     </Form>
   );

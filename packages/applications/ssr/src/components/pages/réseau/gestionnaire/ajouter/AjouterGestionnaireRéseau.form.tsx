@@ -4,11 +4,12 @@ import { useState } from 'react';
 
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { Form } from '@/components/atoms/form/Form';
+import { ValidationErrors } from '@/utils/formAction';
 
 import { ajouterGestionnaireRéseauAction } from './ajouterGestionnaireRéseau.action';
 
 export const AjouterGestionnaireRéseauForm = () => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
   return (
     <Form
       action={ajouterGestionnaireRéseauAction}
@@ -21,24 +22,24 @@ export const AjouterGestionnaireRéseauForm = () => {
         label="Code EIC ou gestionnaire"
         id="identifiantGestionnaireReseau"
         nativeInputProps={{ name: 'identifiantGestionnaireReseau' }}
-        state={validationErrors.includes('identifiantGestionnaireReseau') ? 'error' : 'default'}
-        stateRelatedMessage="Code EIC ou gestionnaire à préciser"
+        state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
       />
 
       <Input
         label="Raison sociale"
         id="raisonSociale"
         nativeInputProps={{ name: 'raisonSociale' }}
-        state={validationErrors.includes('raisonSociale') ? 'error' : 'default'}
-        stateRelatedMessage="Raison sociale à préciser"
+        state={validationErrors['raisonSociale'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['raisonSociale']}
       />
 
       <Input
         label="Format de l'identifiant du dossier de raccordement (optionnel)"
         id="format"
         nativeInputProps={{ name: 'format' }}
-        state={validationErrors.includes('format') ? 'error' : 'default'}
-        stateRelatedMessage="Format à préciser"
+        state={validationErrors['format'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['format']}
         hintText="Exemple : XXX-RP-AAAA-999999"
       />
 
@@ -46,8 +47,8 @@ export const AjouterGestionnaireRéseauForm = () => {
         label="Aide à la saisie de l'identifiant du dossier de raccordement (optionnel)"
         id="legende"
         nativeInputProps={{ name: 'legende' }}
-        state={validationErrors.includes('legende') ? 'error' : 'default'}
-        stateRelatedMessage="Légende à préciser"
+        state={validationErrors['legende'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['legende']}
         hintText="Exemple : X = caractère alphabétique en majuscule, AAAA = Année, 9 = caractère numérique de 0 à 9"
       />
 
@@ -55,8 +56,8 @@ export const AjouterGestionnaireRéseauForm = () => {
         label="Expression régulière (optionnel)"
         id="expressionReguliere"
         nativeInputProps={{ name: 'expressionReguliere' }}
-        state={validationErrors.includes('expressionReguliere') ? 'error' : 'default'}
-        stateRelatedMessage="expression régulière à préciser"
+        state={validationErrors['expressionReguliere'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['expressionReguliere']}
         hintText="Exemple : [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}"
       />
     </Form>

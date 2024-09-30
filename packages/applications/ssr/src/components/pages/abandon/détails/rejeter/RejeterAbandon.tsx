@@ -8,6 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { ValidationErrors } from '@/utils/formAction';
 
 import { rejeterAbandonAction } from './rejeterAbandon.action';
 
@@ -16,7 +17,7 @@ type RejeterAbandonFormProps = {
 };
 
 export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
@@ -47,7 +48,8 @@ export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) =
 
               <UploadDocument
                 label="Réponse signée"
-                state={validationErrors.includes('reponseSignee') ? 'error' : 'default'}
+                state={validationErrors['reponseSignee'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['reponseSignee']}
                 name="reponseSignee"
                 required
                 className="mb-4"

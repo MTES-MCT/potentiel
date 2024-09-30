@@ -7,6 +7,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { ValidationErrors } from '@/utils/formAction';
 
 import {
   GestionnaireRéseauSelect,
@@ -23,7 +24,7 @@ export type ModifierGestionnaireRéseauRaccordementFormProps = {
 export const ModifierGestionnaireRéseauRaccordementForm: FC<
   ModifierGestionnaireRéseauRaccordementFormProps
 > = ({ listeGestionnairesRéseau, identifiantGestionnaireRéseauActuel, identifiantProjet }) => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
 
   const gestionnaireActuel = listeGestionnairesRéseau.find(
     (gestionnaire) =>
@@ -59,8 +60,8 @@ export const ModifierGestionnaireRéseauRaccordementForm: FC<
           <GestionnaireRéseauSelect
             id="identifiantGestionnaireReseau"
             name="identifiantGestionnaireReseau"
-            state={validationErrors.includes('identifiantGestionnaireReseau') ? 'error' : 'default'}
-            stateRelatedMessage="Gestionnaire réseau à préciser"
+            state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
             gestionnairesRéseau={listeGestionnairesRéseau}
             identifiantGestionnaireRéseauActuel={gestionnaireActuel?.identifiantGestionnaireRéseau}
           />

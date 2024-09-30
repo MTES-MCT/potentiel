@@ -24,6 +24,7 @@ export type UploadDocumentProps = {
   state?: RadioButtonsProps['state'];
   stateRelatedMessage?: React.ReactNode;
   format?: 'pdf' | 'csv';
+  hintText?: string;
 };
 
 export const UploadDocument: FC<UploadDocumentProps> = (props) => {
@@ -58,6 +59,7 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
       <div className="fr-hint-text">
         Format accepté : {format}, taille maximale acceptée : {DEFAULT_FILE_SIZE_LIMIT_IN_MB} Mo
       </div>
+      {props.hintText && <div className="fr-hint-text">{props.hintText}</div>}
 
       <div className="flex items-center relative mt-3 gap-3">
         <input
@@ -82,11 +84,13 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
           {uploadedFileName ? uploadedFileName : 'Aucun document sélectionné'}
         </p>
       </div>
-      <p
-        className={`text-sm truncate m-0 p-0 ${props.state === 'error' ? 'text-dsfr-error-_425_625-default' : ''}`}
-      >
-        {props.stateRelatedMessage}
-      </p>
+      {props.stateRelatedMessage && (
+        <p
+          className={`text-sm truncate mt-2 p-0 ${props.state === 'error' ? 'text-dsfr-error-_425_625-default' : ''}`}
+        >
+          {props.stateRelatedMessage}
+        </p>
+      )}
     </div>
   );
 };

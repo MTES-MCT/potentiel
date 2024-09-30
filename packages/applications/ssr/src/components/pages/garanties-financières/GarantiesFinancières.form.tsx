@@ -10,6 +10,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { ValidationErrors } from '@/utils/formAction';
 
 import { soumettreGarantiesFinancièresAction } from './dépôt/soumettre/soumettreGarantiesFinancières.action';
 import { modifierDépôtEnCoursGarantiesFinancièresAction } from './dépôt/modifier/modifierDépôtEnCoursGarantiesFinancières.action';
@@ -44,7 +45,7 @@ export const GarantiesFinancièresForm: FC<GarantiesFinancièresFormProps> = ({
   typesGarantiesFinancières,
   defaultValues,
 }) => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
   return (
     <Form
       method="POST"
@@ -88,15 +89,16 @@ export const GarantiesFinancièresForm: FC<GarantiesFinancièresFormProps> = ({
           required: true,
           'aria-required': true,
         }}
-        state={validationErrors.includes('dateConstitution') ? 'error' : 'default'}
-        stateRelatedMessage="Date de constitution des garanties financières obligatoire"
+        state={validationErrors['dateConstitution'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['dateConstitution']}
       />
 
       <UploadDocument
         label="Attestation de constitution"
         name="attestation"
         required
-        state={validationErrors.includes('attestation') ? 'error' : 'default'}
+        state={validationErrors['attestation'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['attestation']}
         documentKey={defaultValues?.attestation}
       />
     </Form>

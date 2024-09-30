@@ -26,7 +26,7 @@ export type ActionResult = {
   }>;
 };
 
-type ValidationErrors = Record<string, string>;
+export type ValidationErrors = Record<string, string>;
 
 export type FormState =
   | {

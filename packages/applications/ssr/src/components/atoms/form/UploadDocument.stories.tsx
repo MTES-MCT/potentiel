@@ -19,6 +19,7 @@ export const WithoutExistingDocument: Story = {
     name: 'test_1',
     label: 'Without an existing document',
     stateRelatedMessage: 'This is a state related message',
+    hintText: "I'm giving some hint",
   },
 };
 
@@ -27,7 +28,7 @@ export const WithoutExistingDocumentWithAnError: Story = {
     name: 'test_1',
     label: 'Without an existing document with an error',
     state: 'error',
-    stateRelatedMessage: 'This is a state related message',
+    stateRelatedMessage: 'This details the error',
   },
 };
 
