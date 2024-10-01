@@ -41,6 +41,7 @@ const commonItem: CommonItem = {
   nomReprésentantLégal: 'Frodon Sacquet',
   evaluationCarboneSimplifiée: 1,
   actions: { prévisualiser: true, télécharger: false },
+  estNotifiée: false,
 };
 
 export const Default: Story = {
@@ -64,11 +65,15 @@ export const Default: Story = {
       {
         ...commonItem,
         nomProjet: 'Un projet de période legacy sans modèle',
+        actions: { prévisualiser: false, télécharger: true },
+        statut: Candidature.StatutCandidature.classé,
+        estNotifiée: true,
       },
       {
         ...commonItem,
         actions: { prévisualiser: false, télécharger: true },
         statut: Candidature.StatutCandidature.éliminé,
+        estNotifiée: true,
       },
       {
         ...commonItem,

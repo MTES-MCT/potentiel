@@ -17,6 +17,7 @@ import {
 export type CandidatureListItemProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   statut: PlainType<Candidature.StatutCandidature.ValueType>;
+  estNotifiée: boolean;
   nomProjet: Candidature.ConsulterCandidatureReadModel['nomProjet'];
   nomCandidat: Candidature.ConsulterCandidatureReadModel['nomCandidat'];
   nomReprésentantLégal: Candidature.ConsulterCandidatureReadModel['nomReprésentantLégal'];
@@ -37,6 +38,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
   identifiantProjet,
   nomProjet,
   statut,
+  estNotifiée,
   localité: { commune, département, région },
   nomCandidat,
   nomReprésentantLégal,
@@ -48,12 +50,13 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
   actions,
 }) => (
   <div className="flex flex-1 flex-col gap-6">
-    <div className="flex gap-4 items-center justify-between">
+    <div className="flex gap-4 items-start justify-between">
       <ProjectListItemHeading
         identifiantProjet={identifiantProjet}
         nomProjet={nomProjet}
         prefix="Candidature du projet"
         statut={statut.statut}
+        estNotifié={estNotifiée}
       />
       <div className="max-md:hidden">
         <CandidatureListItemActions

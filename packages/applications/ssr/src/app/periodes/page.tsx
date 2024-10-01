@@ -6,11 +6,12 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
-import { PériodeListPage, PériodeListPageProps } from '@/components/pages/période/PériodeList.page';
+import { PériodeListPage } from '@/components/pages/période/PériodeList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { PériodeListItemProps } from '@/components/pages/période/PériodeListItem';
 import { mapToRangeOptions } from '@/utils/pagination';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 type SearchParams = 'page' | 'appelOffre' | 'statut';
 
@@ -49,7 +50,7 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const filters: PériodeListPageProps['filters'] = [
+      const filters: ListFilterItem<SearchParams>[] = [
         {
           label: `Appel d'offres`,
           searchParamKey: 'appelOffre',

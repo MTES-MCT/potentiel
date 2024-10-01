@@ -21,7 +21,7 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
   actions,
 }) => {
   return (
-    <div className="flex gap-2">
+    <div className="flex md:max-lg:flex-col gap-2">
       <Button
         className="md:flex ml-auto"
         linkProps={{
@@ -39,10 +39,13 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
               IdentifiantProjet.bind(identifiantProjet).formatter(),
             ),
           }}
+          title={`Télécharger l'attestation de désignation de ${nomProjet}`}
           aria-label={`Télécharger l'attestation de désignation de ${nomProjet}`}
           priority="secondary"
+          iconId="fr-icon-file-download-line"
+          iconPosition="right"
         >
-          Télécharger l'attestation
+          Attestation
         </Button>
       )}
       {actions.prévisualiser && (
@@ -54,10 +57,11 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
             ),
             target: '_blank',
           }}
+          title={`Prévisualiser l'attestation de désignation de ${nomProjet}`}
           aria-label={`Prévisualiser l'attestation de désignation de ${nomProjet}`}
           priority="secondary"
         >
-          Voir l'attestation
+          Attestation
         </Button>
       )}
     </div>

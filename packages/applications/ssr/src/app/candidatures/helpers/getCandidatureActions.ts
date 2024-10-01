@@ -1,3 +1,5 @@
+import { match } from 'ts-pattern';
+
 import { CandidatureListItemActionsProps } from '@/components/pages/candidature/lister/CandidatureListItemActions';
 
 type Props = {
@@ -5,24 +7,9 @@ type Props = {
   estPériodeLegacy: boolean;
 };
 
-export const getCandidatureActions = ({
-  estNotifiée,
-  estPériodeLegacy,
-}: Props): CandidatureListItemActionsProps['actions'] => {
-  if (estNotifiée) {
-    return {
-      télécharger: true,
-      prévisualiser: false,
-    };
-  }
-  if (!estNotifiée && !estPériodeLegacy) {
-    return {
-      télécharger: false,
-      prévisualiser: true,
-    };
-  }
-  return {
-    télécharger: false,
-    prévisualiser: false,
-  };
-};
+export const getCandidatureActions = (props: Props): CandidatureListItemActionsProps['actions'] =>
+  match(props)
+    .returnType<CandidatureListItemActionsProps['actions']>()
+    .with({ estNotifiée: true }, () => ({ télécharger: true, prévisualiser: false }))
+    .with({ estPériodeLegacy: true }, () => ({ télécharger: false, prévisualiser: false }))
+    .otherwise(() => ({ télécharger: false, prévisualiser: true }));

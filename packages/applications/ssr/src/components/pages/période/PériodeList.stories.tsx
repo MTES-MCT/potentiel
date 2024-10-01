@@ -30,8 +30,8 @@ export const Default: Story = {
         label: `Statut`,
         searchParamKey: 'statut',
         options: [
-          { label: 'Notifiée', value: 'notifiée' },
-          { label: 'Non notifiée', value: 'non-notifiée' },
+          { label: 'Notifiée', value: 'notifiee' },
+          { label: 'À notifier', value: 'a-notifier' },
         ],
       },
     ],
