@@ -40,7 +40,7 @@ export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
 
     <div className="flex gap-1 md:items-center">
       {statut && <StatutProjetBadge statut={statut} />}
-      {estNotifié !== undefined && <NotiféeBadge estNotifié={estNotifié} />}
+      {estNotifié !== undefined && <NotificationBadge estNotifié={estNotifié} />}
 
       <FormattedIdentifiantProjet identifiantProjet={identifiantProjet} />
     </div>
@@ -60,9 +60,9 @@ const FormattedIdentifiantProjet: FC<{
   </div>
 );
 
-const NotiféeBadge = ({ estNotifié }: Pick<ProjectListItemHeadingProps, 'estNotifié'>) => {
+const NotificationBadge = ({ estNotifié }: Pick<ProjectListItemHeadingProps, 'estNotifié'>) => {
   return (
-    <Badge small noIcon severity="info">
+    <Badge small noIcon severity={estNotifié ? 'info' : 'new'}>
       {estNotifié ? 'Notifié' : 'À Notifier'}
     </Badge>
   );
