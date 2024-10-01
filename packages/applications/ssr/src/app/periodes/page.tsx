@@ -5,6 +5,7 @@ import { Période } from '@potentiel-domain/periode';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PériodeListPage } from '@/components/pages/période/PériodeList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -75,7 +76,18 @@ export default async function Page({ searchParams }: PageProps) {
         },
       ];
 
-      const props = await mapToProps({ utilisateur, périodes });
+      const périodesPartiellementNotifiées: Période.ConsulterPériodeReadModel[] =
+        estNotifiée === false ? await getPériodesPartiellementNotifiées() : [];
+
+      const props = await mapToProps({
+        utilisateur,
+        périodes: périodes.items
+          .concat(périodesPartiellementNotifiées)
+          .filter(
+            (val, i, self) =>
+              self.findIndex((x) => x.identifiantPériode === val.identifiantPériode) === i,
+          ),
+      });
 
       return (
         <PériodeListPage
@@ -93,11 +105,11 @@ const mapToProps = async ({
   périodes,
   utilisateur,
 }: {
-  périodes: Période.ListerPériodesReadModel;
+  périodes: Période.ListerPériodeItemReadModel[];
   utilisateur: Utilisateur.ValueType;
 }): Promise<ReadonlyArray<PériodeListItemProps>> => {
   return await Promise.all(
-    périodes.items.map(async (période) => {
+    périodes.map(async (période) => {
       const { totalLauréats, totalÉliminés, totalCandidatures, totalNonNotifiés } =
         await getCandidaturesStatsForPeriode(
           période.identifiantPériode.appelOffre,
@@ -140,3 +152,28 @@ const getCandidaturesStatsForPeriode = async (appelOffre: string, periode: strin
     totalNonNotifiés: candidatures.items.filter((current) => !current.estNotifiée).length,
   };
 };
+
+async function getPériodesPartiellementNotifiées() {
+  const candidats = await mediator.send<Candidature.ListerCandidaturesQuery>({
+    type: 'Candidature.Query.ListerCandidatures',
+    data: {
+      estNotifiée: false,
+    },
+  });
+  const identifiantsPériodes = candidats.items
+    .map(({ identifiantProjet }) => `${identifiantProjet.appelOffre}#${identifiantProjet.période}`)
+    .filter((val, i, self) => self.indexOf(val) === i);
+
+  const nouvellesPériodes = await Promise.all(
+    identifiantsPériodes.map((identifiantPériodeValue) =>
+      mediator.send<Période.ConsulterPériodeQuery>({
+        type: 'Période.Query.ConsulterPériode',
+        data: {
+          identifiantPériodeValue,
+        },
+      }),
+    ),
+  );
+
+  return nouvellesPériodes.filter(Option.isSome);
+}
