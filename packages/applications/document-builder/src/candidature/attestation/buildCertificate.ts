@@ -14,6 +14,7 @@ import { makeCertificate } from './makeCertificate';
 import { getDésignationCatégorie } from './helpers/getDésignationCatégorie';
 import { getFinancementEtTemplate } from './helpers/getFinancementEtTemplate';
 import { AttestationCandidatureOptions } from './AttestationCandidatureOptions';
+import { formatPotentielId } from './helpers/formatPotentielId';
 
 Font.register({
   family: 'Arimo',
@@ -91,14 +92,7 @@ const mapToCertificateData = ({
     return {};
   }
 
-  const potentielId = [
-    candidature.identifiantProjet.appelOffre,
-    candidature.identifiantProjet.période,
-    candidature.identifiantProjet.famille,
-    candidature.identifiantProjet.numéroCRE,
-  ]
-    .filter(Boolean)
-    .join('-');
+  const potentielId = formatPotentielId(candidature.identifiantProjet);
 
   return {
     validateur: {
