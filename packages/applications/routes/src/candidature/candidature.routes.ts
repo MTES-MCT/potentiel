@@ -7,6 +7,7 @@ type ListerFilters = {
   appelOffre?: string;
   période?: string;
   statut?: 'classé' | 'éliminé';
+  estNotifié?: boolean;
 };
 
 export const lister = (filters?: ListerFilters) => {
@@ -22,6 +23,9 @@ export const lister = (filters?: ListerFilters) => {
 
   if (filters?.statut) {
     searchParams.set('statut', filters.statut);
+  }
+  if (filters?.estNotifié !== undefined) {
+    searchParams.set('notifie', filters.estNotifié ? 'notifie' : 'a-notifier');
   }
 
   return `/candidatures${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;

@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantPériode, PériodeEntity } from '../période';
 import { Période } from '..';
@@ -20,9 +20,6 @@ type PériodeNotifiée = {
 
   notifiéeLe?: DateTime.ValueType;
   notifiéePar?: Email.ValueType;
-
-  identifiantLauréats: ReadonlyArray<IdentifiantProjet.ValueType>;
-  identifiantÉliminés: ReadonlyArray<IdentifiantProjet.ValueType>;
 };
 
 export type ConsulterPériodeQuery = Message<
@@ -58,12 +55,6 @@ export const mapToReadModel = (période: PériodeEntity): ConsulterPériodeReadM
       estNotifiée: true,
       notifiéeLe: DateTime.convertirEnValueType(période.notifiéeLe),
       notifiéePar: Email.convertirEnValueType(période.notifiéePar),
-      identifiantLauréats: période.identifiantLauréats.map((identifiantLauréat) =>
-        IdentifiantProjet.convertirEnValueType(identifiantLauréat),
-      ),
-      identifiantÉliminés: période.identifiantÉliminés.map((identifiantÉliminé) =>
-        IdentifiantProjet.convertirEnValueType(identifiantÉliminé),
-      ),
     };
   }
 

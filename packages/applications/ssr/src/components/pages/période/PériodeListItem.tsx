@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import Link from 'next/link';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Badge from '@codegouvfr/react-dsfr/Badge';
@@ -28,6 +28,7 @@ export type PériodeListItemProps = {
   totalÉliminés: number;
   totalLauréats: number;
   totalCandidatures: number;
+  nouveauxCandidatsANotifier: number;
 };
 
 export const PériodeListItem: FC<PériodeListItemProps> = ({
@@ -40,6 +41,7 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
   totalÉliminés,
   totalLauréats,
   totalCandidatures,
+  nouveauxCandidatsANotifier,
 }) => (
   <div className={`relative ${peutÊtreNotifiée ? 'pb-16' : ''} md:pb-0 flex flex-1 flex-col gap-6`}>
     <div className={`flex flex-col ${peutÊtreNotifiée ? '' : 'gap-2'}`}>
@@ -50,19 +52,25 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
         </h2>
 
         {peutÊtreNotifiée && (
-          <div className="absolute bottom-0 md:relative md:flex ml-auto">
+          <div className="absolute bottom-0 md:relative md:flex items-center ml-auto gap-4">
             <NotifyButton
               identifiantPériode={identifiantPériode}
               appelOffre={appelOffre}
               période={période}
+              nouveauxCandidatsANotifier={nouveauxCandidatsANotifier}
             />
           </div>
         )}
       </div>
-
-      <Badge severity={notifiéLe ? 'success' : 'info'}>
-        {notifiéLe ? 'Notifiée' : 'À notifier'}
-      </Badge>
+      <div className="flex gap-2">
+        <Badge severity={nouveauxCandidatsANotifier ? 'warning' : notifiéLe ? 'success' : 'info'}>
+          {nouveauxCandidatsANotifier
+            ? 'Partiellement Notifiée'
+            : notifiéLe
+              ? 'Notifiée'
+              : 'À notifier'}
+        </Badge>
+      </div>
     </div>
 
     <div className="flex flex-col gap-4 md:flex-row md:items-center">
@@ -109,16 +117,12 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
           </Link>
         </div>
       </div>
-      <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4 text-sm">
-        <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
-          <Icon id="fr-icon-file-text-fill" title="Total des candidatures" />
-          <div className="lg:flex lg:flex-col items-center">
-            <Link href={Routes.Candidature.lister({ appelOffre, période })}>
-              {totalCandidatures} candidature{totalCandidatures > 1 ? 's' : ''}
-            </Link>
-          </div>
-        </div>
-      </div>
+
+      <Stat icon={<Icon id="fr-icon-file-text-fill" title="Total des candidatures" />}>
+        <Link href={Routes.Candidature.lister({ appelOffre, période })}>
+          {totalCandidatures} candidature{totalCandidatures > 1 ? 's' : ''}
+        </Link>
+      </Stat>
     </div>
   </div>
 );
@@ -127,15 +131,25 @@ type NotifyButtonProps = {
   identifiantPériode: string;
   appelOffre: string;
   période: string;
+  nouveauxCandidatsANotifier: number;
 };
 
-const NotifyButton: FC<NotifyButtonProps> = ({ identifiantPériode, appelOffre, période }) => {
+const NotifyButton: FC<NotifyButtonProps> = ({
+  identifiantPériode,
+  appelOffre,
+  période,
+  nouveauxCandidatsANotifier,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       <Button priority="primary" onClick={() => setIsOpen(true)}>
-        Notifier
+        {nouveauxCandidatsANotifier
+          ? nouveauxCandidatsANotifier === 1
+            ? `Notifier le candidat restant`
+            : `Notifier les ${nouveauxCandidatsANotifier} candidats restants`
+          : 'Notifier'}
       </Button>
 
       <ModalWithForm
@@ -164,5 +178,16 @@ const NotifyButton: FC<NotifyButtonProps> = ({ identifiantPériode, appelOffre, 
         }}
       />
     </>
+  );
+};
+
+const Stat = ({ children, icon }: { children: React.ReactNode; icon: React.ReactNode }) => {
+  return (
+    <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4 text-sm">
+      <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
+        {icon}
+        <div className="lg:flex lg:flex-col items-center">{children}</div>
+      </div>
+    </div>
   );
 };

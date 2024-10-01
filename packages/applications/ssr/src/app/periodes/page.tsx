@@ -98,30 +98,25 @@ const mapToProps = async ({
 }): Promise<ReadonlyArray<PériodeListItemProps>> => {
   return await Promise.all(
     périodes.items.map(async (période) => {
-      const { totalÉliminés, totalLauréats, totalCandidatures } = période.estNotifiée
-        ? {
-            totalÉliminés: période.identifiantÉliminés.length,
-            totalLauréats: période.identifiantLauréats.length,
-            totalCandidatures:
-              période.identifiantÉliminés.length + période.identifiantLauréats.length,
-          }
-        : await getCandidaturesStatsForPeriode(
-            période.identifiantPériode.appelOffre,
-            période.identifiantPériode.période,
-          );
+      const { totalLauréats, totalÉliminés, totalCandidatures, totalNonNotifiés } =
+        await getCandidaturesStatsForPeriode(
+          période.identifiantPériode.appelOffre,
+          période.identifiantPériode.période,
+        );
 
       const props: PériodeListItemProps = {
         appelOffre: période.identifiantPériode.appelOffre,
         période: période.identifiantPériode.période,
         identifiantPériode: période.identifiantPériode.formatter(),
         peutÊtreNotifiée: période.estNotifiée
-          ? false
+          ? totalNonNotifiés > 0
           : utilisateur.role.aLaPermission('période.notifier'),
         notifiéLe: période.estNotifiée ? période.notifiéeLe?.formatter() : undefined,
         notifiéPar: période.estNotifiée ? période.notifiéePar?.formatter() : undefined,
-        totalÉliminés,
         totalLauréats,
+        totalÉliminés,
         totalCandidatures,
+        nouveauxCandidatsANotifier: période.estNotifiée ? totalNonNotifiés : 0,
       };
 
       return props;
@@ -129,14 +124,7 @@ const mapToProps = async ({
   );
 };
 
-const getCandidaturesStatsForPeriode = async (
-  appelOffre: string,
-  periode: string,
-): Promise<{
-  totalÉliminés: number;
-  totalLauréats: number;
-  totalCandidatures: number;
-}> => {
+const getCandidaturesStatsForPeriode = async (appelOffre: string, periode: string) => {
   const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
     type: 'Candidature.Query.ListerCandidatures',
     data: {
@@ -145,11 +133,10 @@ const getCandidaturesStatsForPeriode = async (
     },
   });
 
-  const stats = {
-    totalÉliminés: candidatures.items.filter((current) => current.statut.estÉliminé()).length ?? 0,
-    totalLauréats: candidatures.items.filter((current) => current.statut.estClassé()).length ?? 0,
+  return {
+    totalÉliminés: candidatures.items.filter((current) => current.statut.estÉliminé()).length,
+    totalLauréats: candidatures.items.filter((current) => current.statut.estClassé()).length,
     totalCandidatures: candidatures.items.length,
+    totalNonNotifiés: candidatures.items.filter((current) => !current.estNotifiée).length,
   };
-
-  return stats;
 };
