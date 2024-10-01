@@ -8,7 +8,7 @@ import Badge from '@codegouvfr/react-dsfr/Badge';
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { Icon } from '@/components/atoms/Icon';
+import { Icon, IconProps } from '@/components/atoms/Icon';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
@@ -24,11 +24,22 @@ export type PériodeListItemProps = {
 
   notifiéLe?: Iso8601DateTime;
   notifiéPar?: string;
-
-  totalÉliminés: number;
-  totalLauréats: number;
-  totalCandidatures: number;
-  nouveauxCandidatsANotifier: number;
+  stats: {
+    tous: {
+      éliminés: number;
+      lauréats: number;
+      total: number;
+    };
+    /**
+     * Représente les candidats restants à notifier,
+     * APRES notification de la période
+     * */
+    restants?: {
+      éliminés: number;
+      lauréats: number;
+      total: number;
+    };
+  };
 };
 
 export const PériodeListItem: FC<PériodeListItemProps> = ({
@@ -38,10 +49,7 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
   peutÊtreNotifiée,
   notifiéLe,
   notifiéPar,
-  totalÉliminés,
-  totalLauréats,
-  totalCandidatures,
-  nouveauxCandidatsANotifier,
+  stats,
 }) => (
   <div className={`relative ${peutÊtreNotifiée ? 'pb-16' : ''} md:pb-0 flex flex-1 flex-col gap-6`}>
     <div className={`flex flex-col ${peutÊtreNotifiée ? '' : 'gap-2'}`}>
@@ -57,18 +65,14 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
               identifiantPériode={identifiantPériode}
               appelOffre={appelOffre}
               période={période}
-              nouveauxCandidatsANotifier={nouveauxCandidatsANotifier}
+              nouveauxCandidatsANotifier={stats.restants?.total}
             />
           </div>
         )}
       </div>
       <div className="flex gap-2">
-        <Badge severity={nouveauxCandidatsANotifier ? 'warning' : notifiéLe ? 'success' : 'info'}>
-          {nouveauxCandidatsANotifier
-            ? 'Partiellement Notifiée'
-            : notifiéLe
-              ? 'Notifiée'
-              : 'À notifier'}
+        <Badge severity={stats.restants ? 'warning' : notifiéLe ? 'success' : 'info'}>
+          {stats.restants ? 'Partiellement Notifiée' : notifiéLe ? 'Notifiée' : 'À notifier'}
         </Badge>
       </div>
     </div>
@@ -92,37 +96,41 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
         )}
       </div>
 
-      <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4 text-sm">
-        <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
-          <Icon
-            id="fr-icon-close-circle-fill"
-            className="text-dsfr-redMarianne-main472-default"
-            title="Total des éliminés"
-          />
-          <Link href={Routes.Candidature.lister({ appelOffre, période, statut: 'éliminé' })}>
-            {totalÉliminés} éliminé{totalÉliminés > 1 ? 's' : ''}
-          </Link>
-        </div>
-      </div>
+      <Stat
+        iconProps={{
+          id: 'fr-icon-close-circle-fill',
+          className: 'text-dsfr-redMarianne-main472-default',
+          title: 'Total des éliminés',
+        }}
+        appelOffre={appelOffre}
+        période={période}
+        nombreTotal={stats.tous.éliminés}
+        nombreRestant={stats.restants?.éliminés}
+        statut="éliminé"
+        label="éliminé"
+      />
+      <Stat
+        iconProps={{
+          id: 'fr-icon-checkbox-circle-fill',
+          className: 'text-dsfr-greenEmeraude-main632-default',
+          title: 'Total des classés',
+        }}
+        appelOffre={appelOffre}
+        période={période}
+        nombreTotal={stats.tous.lauréats}
+        nombreRestant={stats.restants?.lauréats}
+        statut="classé"
+        label="lauréat"
+      />
 
-      <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4 text-sm">
-        <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
-          <Icon
-            id="fr-icon-checkbox-circle-fill"
-            className="text-dsfr-greenEmeraude-main632-default"
-            title="Total des classés"
-          />
-          <Link href={Routes.Candidature.lister({ appelOffre, période, statut: 'classé' })}>
-            {totalLauréats} lauréat{totalLauréats > 1 ? 's' : ''}
-          </Link>
-        </div>
-      </div>
-
-      <Stat icon={<Icon id="fr-icon-file-text-fill" title="Total des candidatures" />}>
-        <Link href={Routes.Candidature.lister({ appelOffre, période })}>
-          {totalCandidatures} candidature{totalCandidatures > 1 ? 's' : ''}
-        </Link>
-      </Stat>
+      <Stat
+        iconProps={{ id: 'fr-icon-file-text-fill', title: 'Total des candidatures' }}
+        appelOffre={appelOffre}
+        période={période}
+        nombreTotal={stats.tous.total}
+        nombreRestant={stats.restants?.total}
+        label="candidat"
+      />
     </div>
   </div>
 );
@@ -131,7 +139,7 @@ type NotifyButtonProps = {
   identifiantPériode: string;
   appelOffre: string;
   période: string;
-  nouveauxCandidatsANotifier: number;
+  nouveauxCandidatsANotifier?: number;
 };
 
 const NotifyButton: FC<NotifyButtonProps> = ({
@@ -181,13 +189,58 @@ const NotifyButton: FC<NotifyButtonProps> = ({
   );
 };
 
-const Stat = ({ children, icon }: { children: React.ReactNode; icon: React.ReactNode }) => {
+type StatProps = {
+  iconProps: IconProps;
+  nombreTotal: number;
+  nombreRestant?: number;
+  statut?: 'éliminé' | 'classé';
+  appelOffre: string;
+  période: string;
+  label: string;
+};
+
+const Stat: FC<StatProps> = ({
+  appelOffre,
+  période,
+  iconProps,
+  nombreTotal,
+  nombreRestant,
+  statut,
+  label,
+}) => {
   return (
     <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4 text-sm">
       <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
-        {icon}
-        <div className="lg:flex lg:flex-col items-center">{children}</div>
+        <Icon {...iconProps} />
+
+        <div className="lg:flex lg:flex-col items-center">
+          <Link
+            href={Routes.Candidature.lister({
+              appelOffre,
+              période,
+              statut,
+              estNotifié: nombreRestant !== undefined ? false : undefined,
+            })}
+          >
+            {formatStat(nombreRestant ?? nombreTotal, label)}
+          </Link>
+          {nombreRestant !== undefined && (
+            <Link
+              href={Routes.Candidature.lister({
+                appelOffre,
+                période,
+                statut,
+                estNotifié: true,
+              })}
+              className="italic"
+            >
+              ({formatStat(nombreTotal - nombreRestant, 'déjà notifié')})
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );
 };
+
+const formatStat = (n: number, text: string) => `${n} ${text}${n > 1 ? 's' : ''}`;

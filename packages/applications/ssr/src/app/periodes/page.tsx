@@ -94,7 +94,7 @@ export default async function Page({ searchParams }: PageProps) {
           filters={filters}
           périodes={props}
           range={périodes.range}
-          total={périodes.total}
+          total={périodes.total || props.length}
         />
       );
     }),
@@ -110,25 +110,22 @@ const mapToProps = async ({
 }): Promise<ReadonlyArray<PériodeListItemProps>> => {
   return await Promise.all(
     périodes.map(async (période) => {
-      const { totalLauréats, totalÉliminés, totalCandidatures, totalNonNotifiés } =
-        await getCandidaturesStatsForPeriode(
-          période.identifiantPériode.appelOffre,
-          période.identifiantPériode.période,
-        );
+      const stats = await getCandidaturesStatsForPeriode(
+        période.identifiantPériode.appelOffre,
+        période.identifiantPériode.période,
+        période.estNotifiée,
+      );
 
       const props: PériodeListItemProps = {
         appelOffre: période.identifiantPériode.appelOffre,
         période: période.identifiantPériode.période,
         identifiantPériode: période.identifiantPériode.formatter(),
         peutÊtreNotifiée: période.estNotifiée
-          ? totalNonNotifiés > 0
+          ? !!stats.restants?.total
           : utilisateur.role.aLaPermission('période.notifier'),
         notifiéLe: période.estNotifiée ? période.notifiéeLe?.formatter() : undefined,
         notifiéPar: période.estNotifiée ? période.notifiéePar?.formatter() : undefined,
-        totalLauréats,
-        totalÉliminés,
-        totalCandidatures,
-        nouveauxCandidatsANotifier: période.estNotifiée ? totalNonNotifiés : 0,
+        stats,
       };
 
       return props;
@@ -136,7 +133,11 @@ const mapToProps = async ({
   );
 };
 
-const getCandidaturesStatsForPeriode = async (appelOffre: string, periode: string) => {
+const getCandidaturesStatsForPeriode = async (
+  appelOffre: string,
+  periode: string,
+  estNotifiée: boolean,
+) => {
   const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
     type: 'Candidature.Query.ListerCandidatures',
     data: {
@@ -144,12 +145,18 @@ const getCandidaturesStatsForPeriode = async (appelOffre: string, periode: strin
       période: periode,
     },
   });
-
+  const restants = {
+    éliminés: candidatures.items.filter((c) => !c.estNotifiée && c.statut.estÉliminé()).length,
+    lauréats: candidatures.items.filter((c) => !c.estNotifiée && c.statut.estClassé()).length,
+    total: candidatures.items.filter((c) => !c.estNotifiée).length,
+  };
   return {
-    totalÉliminés: candidatures.items.filter((current) => current.statut.estÉliminé()).length,
-    totalLauréats: candidatures.items.filter((current) => current.statut.estClassé()).length,
-    totalCandidatures: candidatures.items.length,
-    totalNonNotifiés: candidatures.items.filter((current) => !current.estNotifiée).length,
+    tous: {
+      éliminés: candidatures.items.filter((c) => c.statut.estÉliminé()).length,
+      lauréats: candidatures.items.filter((c) => c.statut.estClassé()).length,
+      total: candidatures.items.length,
+    },
+    restants: estNotifiée && restants.total ? restants : undefined,
   };
 };
 

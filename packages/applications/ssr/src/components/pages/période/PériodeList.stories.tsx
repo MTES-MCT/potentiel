@@ -42,10 +42,7 @@ export const Default: Story = {
         période: '1',
         peutÊtreNotifiée: true,
 
-        totalÉliminés: 1,
-        totalLauréats: 1,
-        totalCandidatures: 1,
-        nouveauxCandidatsANotifier: 0,
+        stats: { tous: { éliminés: 1, lauréats: 1, total: 1 } },
       },
       {
         identifiantPériode: 'PPE2 - Fusion#2',
@@ -57,10 +54,10 @@ export const Default: Story = {
         notifiéLe: '2023-01-01T10:00:00.000Z',
         notifiéPar: 'Utilisateur 1',
 
-        totalÉliminés: 10,
-        totalLauréats: 5,
-        totalCandidatures: 20,
-        nouveauxCandidatsANotifier: 4,
+        stats: {
+          tous: { éliminés: 10, lauréats: 5, total: 20 },
+          restants: { éliminés: 3, lauréats: 1, total: 4 },
+        },
       },
       {
         identifiantPériode: 'PPE2 - Fusion#3',
@@ -72,10 +69,7 @@ export const Default: Story = {
         notifiéLe: '2023-01-01T10:00:00.000Z',
         notifiéPar: 'Utilisateur 1',
 
-        totalÉliminés: 10,
-        totalLauréats: 5,
-        totalCandidatures: 20,
-        nouveauxCandidatsANotifier: 0,
+        stats: { tous: { éliminés: 10, lauréats: 5, total: 20 } },
       },
       {
         identifiantPériode: 'PPE2 - Vapeur#1',
@@ -87,10 +81,7 @@ export const Default: Story = {
         notifiéLe: '2023-01-01T10:00:00.000Z',
         notifiéPar: 'Utilisateur 1',
 
-        totalÉliminés: 10,
-        totalLauréats: 5,
-        totalCandidatures: 20,
-        nouveauxCandidatsANotifier: 0,
+        stats: { tous: { éliminés: 10, lauréats: 5, total: 20 } },
       },
       {
         identifiantPériode: 'PPE2 - Vapeur#2',
@@ -102,10 +93,7 @@ export const Default: Story = {
         notifiéLe: '2023-01-01T10:00:00.000Z',
         notifiéPar: 'Utilisateur 1',
 
-        totalÉliminés: 10,
-        totalLauréats: 5,
-        totalCandidatures: 20,
-        nouveauxCandidatsANotifier: 0,
+        stats: { tous: { éliminés: 10, lauréats: 5, total: 20 } },
       },
       {
         identifiantPériode: 'PPE2 - Vapeur#3',
@@ -117,10 +105,7 @@ export const Default: Story = {
         notifiéLe: '2023-01-01T10:00:00.000Z',
         notifiéPar: 'Utilisateur 1',
 
-        totalÉliminés: 10,
-        totalLauréats: 5,
-        totalCandidatures: 20,
-        nouveauxCandidatsANotifier: 0,
+        stats: { tous: { éliminés: 10, lauréats: 5, total: 20 } },
       },
       {
         identifiantPériode: 'PPE2 - Vapeur#4',
@@ -132,10 +117,7 @@ export const Default: Story = {
         notifiéLe: '2023-01-01T10:00:00.000Z',
         notifiéPar: 'Utilisateur 1',
 
-        totalÉliminés: 10,
-        totalLauréats: 5,
-        totalCandidatures: 20,
-        nouveauxCandidatsANotifier: 0,
+        stats: { tous: { éliminés: 10, lauréats: 5, total: 20 } },
       },
       {
         identifiantPériode: 'PPE2 - Charbon#1',
@@ -147,10 +129,7 @@ export const Default: Story = {
         notifiéLe: '2023-01-01T10:00:00.000Z',
         notifiéPar: 'Utilisateur 1',
 
-        totalÉliminés: 0,
-        totalLauréats: 5,
-        totalCandidatures: 20,
-        nouveauxCandidatsANotifier: 0,
+        stats: { tous: { éliminés: 0, lauréats: 5, total: 20 } },
       },
     ],
     range: {

@@ -31,7 +31,7 @@ export default async function Page({ searchParams }: PageProps) {
     const périodeParams = searchParams?.periode;
     const nomProjet = searchParams?.nomProjet;
     const statut = searchParams?.statut;
-    const estNotifiée = searchParams?.notifie ? searchParams?.notifie === 'notifiee' : undefined;
+    const estNotifiée = searchParams?.notifie ? searchParams?.notifie === 'notifie' : undefined;
     const page = searchParams?.page ? parseInt(searchParams.page) : 1;
 
     const candidaturesData = await mediator.send<Candidature.ListerCandidaturesQuery>({
@@ -97,7 +97,7 @@ export default async function Page({ searchParams }: PageProps) {
         label: 'Notifié',
         searchParamKey: 'notifie',
         options: [
-          { label: 'Notifié', value: 'notifiee' },
+          { label: 'Notifié', value: 'notifie' },
           { label: 'À notifier', value: 'a-notifier' },
         ],
       },
