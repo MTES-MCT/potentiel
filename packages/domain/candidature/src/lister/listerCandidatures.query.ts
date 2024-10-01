@@ -42,7 +42,6 @@ export type ListerCandidaturesQuery = Message<
     nomProjet?: string;
     statut?: StatutCandidature.RawType;
     identifiantProjets?: Array<IdentifiantProjet.RawType>;
-    excludedIdentifiantProjets?: Array<IdentifiantProjet.RawType>;
     estNotifiée?: boolean;
   },
   ListerCandidaturesReadModel
@@ -59,7 +58,6 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
     appelOffre,
     période,
     statut,
-    excludedIdentifiantProjets,
     identifiantProjets,
     estNotifiée,
   }) => {
@@ -74,9 +72,7 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
         nomProjet: Where.contains(nomProjet),
         statut: Where.equal(statut),
         estNotifiée: Where.equal(estNotifiée),
-        identifiantProjet: identifiantProjets?.length
-          ? Where.include(identifiantProjets)
-          : Where.notInclude(excludedIdentifiantProjets),
+        identifiantProjet: Where.include(identifiantProjets),
       },
       range,
     });

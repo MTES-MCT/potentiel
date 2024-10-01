@@ -45,13 +45,14 @@ export const Default: Story = {
         totalÉliminés: 1,
         totalLauréats: 1,
         totalCandidatures: 1,
+        nouveauxCandidatsANotifier: 0,
       },
       {
         identifiantPériode: 'PPE2 - Fusion#2',
         appelOffre: 'PPE2 - Fusion',
         période: '2',
 
-        peutÊtreNotifiée: false,
+        peutÊtreNotifiée: true,
 
         notifiéLe: '2023-01-01T10:00:00.000Z',
         notifiéPar: 'Utilisateur 1',
@@ -59,6 +60,7 @@ export const Default: Story = {
         totalÉliminés: 10,
         totalLauréats: 5,
         totalCandidatures: 20,
+        nouveauxCandidatsANotifier: 4,
       },
       {
         identifiantPériode: 'PPE2 - Fusion#3',
@@ -73,6 +75,7 @@ export const Default: Story = {
         totalÉliminés: 10,
         totalLauréats: 5,
         totalCandidatures: 20,
+        nouveauxCandidatsANotifier: 0,
       },
       {
         identifiantPériode: 'PPE2 - Vapeur#1',
@@ -87,6 +90,7 @@ export const Default: Story = {
         totalÉliminés: 10,
         totalLauréats: 5,
         totalCandidatures: 20,
+        nouveauxCandidatsANotifier: 0,
       },
       {
         identifiantPériode: 'PPE2 - Vapeur#2',
@@ -101,6 +105,7 @@ export const Default: Story = {
         totalÉliminés: 10,
         totalLauréats: 5,
         totalCandidatures: 20,
+        nouveauxCandidatsANotifier: 0,
       },
       {
         identifiantPériode: 'PPE2 - Vapeur#3',
@@ -115,6 +120,7 @@ export const Default: Story = {
         totalÉliminés: 10,
         totalLauréats: 5,
         totalCandidatures: 20,
+        nouveauxCandidatsANotifier: 0,
       },
       {
         identifiantPériode: 'PPE2 - Vapeur#4',
@@ -129,6 +135,7 @@ export const Default: Story = {
         totalÉliminés: 10,
         totalLauréats: 5,
         totalCandidatures: 20,
+        nouveauxCandidatsANotifier: 0,
       },
       {
         identifiantPériode: 'PPE2 - Charbon#1',
@@ -143,6 +150,7 @@ export const Default: Story = {
         totalÉliminés: 0,
         totalLauréats: 5,
         totalCandidatures: 20,
+        nouveauxCandidatsANotifier: 0,
       },
     ],
     range: {
