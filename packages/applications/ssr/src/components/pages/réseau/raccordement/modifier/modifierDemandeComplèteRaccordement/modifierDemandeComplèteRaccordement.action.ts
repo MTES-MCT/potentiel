@@ -8,15 +8,15 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { document } from '@/utils/zod/documentTypes';
+import { keepOrUpdateDocument } from '@/utils/zod/documentTypes';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   identifiantGestionnaireReseau: zod.string().min(1),
-  dateQualification: zod.string().min(1, { message: 'Date à préciser' }),
+  dateQualification: zod.string().min(1, { message: 'Champ obligatoire' }),
   referenceDossierRaccordement: zod.string().min(1),
   referenceDossierRaccordementActuelle: zod.string().min(1),
-  accuseReception: document,
+  accuseReception: keepOrUpdateDocument,
 });
 
 export type ModifierDemandeComplèteRaccordementFormKeys = keyof zod.infer<typeof schema>;
@@ -50,10 +50,7 @@ const action: FormAction<FormState, typeof schema> = async (
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
-        accuséRéceptionValue: {
-          content: accuseReception.stream(),
-          format: accuseReception.type,
-        },
+        accuséRéceptionValue: accuseReception,
         dateQualificationValue: new Date(dateQualification).toISOString(),
         référenceDossierRaccordementValue: referenceDossierRaccordement,
         rôleValue: utilisateur.role.nom,

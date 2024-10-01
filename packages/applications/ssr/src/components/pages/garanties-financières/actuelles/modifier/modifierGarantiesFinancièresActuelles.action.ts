@@ -12,9 +12,7 @@ import { keepOrUpdateDocument } from '@/utils/zod/documentTypes';
 
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
-  dateConstitution: zod
-    .string()
-    .min(1, { message: 'Date de constitution des garanties financières obligatoire' }),
+  dateConstitution: zod.string().min(1, { message: 'Champ obligatoire' }),
   attestation: keepOrUpdateDocument,
 };
 
@@ -22,7 +20,7 @@ const schema = zod.discriminatedUnion('type', [
   zod.object({
     ...commonSchema,
     type: zod.literal('avec-date-échéance'),
-    dateEcheance: zod.string().min(1, { message: "date d'échéance obligatoire" }),
+    dateEcheance: zod.string().min(1, { message: 'Champ obligatoire' }),
   }),
   zod.object({
     ...commonSchema,

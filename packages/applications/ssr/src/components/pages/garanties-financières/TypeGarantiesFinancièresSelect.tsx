@@ -74,7 +74,6 @@ export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelect
           }}
           state={validationErrors['dateEcheance'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['dateEcheance']}
-          hintText={<div className="fr-hint-text">"Date d'échéance obligatoire"</div>}
           disabled={disabled}
         />
       )}

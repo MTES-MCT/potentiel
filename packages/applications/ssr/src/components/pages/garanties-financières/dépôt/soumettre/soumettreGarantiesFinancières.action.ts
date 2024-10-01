@@ -12,14 +12,14 @@ import { document } from '@/utils/zod/documentTypes';
 
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
-  dateConstitution: zod.string().min(1, { message: 'Date à préciser' }),
+  dateConstitution: zod.string().min(1, { message: 'Champ obligatoire' }),
   attestation: document,
 };
 const schema = zod.discriminatedUnion('type', [
   zod.object({
     ...commonSchema,
     type: zod.literal('avec-date-échéance'),
-    dateEcheance: zod.string().min(1, { message: 'Date à préciser' }),
+    dateEcheance: zod.string().min(1, { message: 'Champ obligatoire' }),
   }),
   zod.object({
     ...commonSchema,

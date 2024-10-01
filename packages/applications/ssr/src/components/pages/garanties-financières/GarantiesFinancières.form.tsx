@@ -18,7 +18,7 @@ import {
 } from './dépôt/soumettre/soumettreGarantiesFinancières.action';
 import {
   modifierDépôtEnCoursGarantiesFinancièresAction,
-  ModifierGarantiesFinancièresFormKeys,
+  ModifierDépôtEnCoursGarantiesFinancièresFormKeys,
 } from './dépôt/modifier/modifierDépôtEnCoursGarantiesFinancières.action';
 import {
   TypeGarantiesFinancièresSelect,
@@ -56,7 +56,7 @@ export const GarantiesFinancièresForm: FC<GarantiesFinancièresFormProps> = ({
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<
-      | ModifierGarantiesFinancièresFormKeys
+      | ModifierDépôtEnCoursGarantiesFinancièresFormKeys
       | SoumettreGarantiesFinancièresFormKeys
       | EnregistrerGarantiesFinancièresFormKeys
     >

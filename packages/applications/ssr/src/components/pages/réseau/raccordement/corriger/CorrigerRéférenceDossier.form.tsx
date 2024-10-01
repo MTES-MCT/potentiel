@@ -35,8 +35,8 @@ export const CorrigerRéférenceDossierForm: FC = () => {
       <UploadDocument
         label="Fichier des corrections"
         format="csv"
-        name={'fichierCorrectionRéférence'}
-        id={'fichierCorrectionRéférence'}
+        name="fichierCorrections"
+        id="fichierCorrections"
         required
         state={validationErrors['fichierCorrections'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['fichierCorrections']}

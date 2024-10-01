@@ -34,8 +34,8 @@ export const ImporterCandidaturesForm: FC = () => {
     >
       <UploadDocument
         label="Fichier CSV"
-        id={'fichierImportCandidature'}
-        name={'fichierImportCandidature'}
+        id="fichierImportCandidature"
+        name="fichierImportCandidature"
         required
         format="csv"
         state={validationErrors['fichierImportCandidature'] ? 'error' : 'default'}

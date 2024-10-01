@@ -12,7 +12,7 @@ import { document } from '@/utils/zod/documentTypes';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  dateConstitution: zod.string().min(1, { message: 'Date à préciser' }),
+  dateConstitution: zod.string().min(1, { message: 'Champ obligatoire' }),
   attestation: document,
 });
 

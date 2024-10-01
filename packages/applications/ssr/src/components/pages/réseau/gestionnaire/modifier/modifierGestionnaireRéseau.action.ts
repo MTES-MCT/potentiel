@@ -11,7 +11,7 @@ import { toUndefinedIfEmpty } from '@/utils/zod/stringTransform';
 
 const schema = zod.object({
   identifiantGestionnaireReseau: zod.string().min(1),
-  raisonSociale: zod.string().min(1, { message: 'Raison sociale à préciser' }),
+  raisonSociale: zod.string().min(1, { message: 'Champ obligatoire' }),
   expressionReguliere: zod.string().transform(toUndefinedIfEmpty).optional(),
   format: zod.string().transform(toUndefinedIfEmpty).optional(),
   legende: zod.string().transform(toUndefinedIfEmpty).optional(),

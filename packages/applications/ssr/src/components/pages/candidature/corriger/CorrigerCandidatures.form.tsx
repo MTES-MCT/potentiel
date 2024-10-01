@@ -34,8 +34,8 @@ export const CorrigerCandidaturesForm: FC = () => {
     >
       <UploadDocument
         label="Fichier CSV"
-        id={'fichierCorrectionCandidatures'}
-        name={'fichierCorrectionCandidatures'}
+        id="fichierCorrectionCandidatures"
+        name="fichierCorrectionCandidatures"
         required
         format="csv"
         state={validationErrors['fichierCorrectionCandidatures'] ? 'error' : 'default'}

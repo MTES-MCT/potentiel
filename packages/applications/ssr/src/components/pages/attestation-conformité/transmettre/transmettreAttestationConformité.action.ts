@@ -17,7 +17,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   attestation: document,
   preuveTransmissionAuCocontractant: document,
-  dateTransmissionAuCocontractant: zod.string().min(1, { message: 'Date à préciser' }),
+  dateTransmissionAuCocontractant: zod.string().min(1, { message: 'Champ obligatoire' }),
   demanderMainlevee: zod.string().optional(),
 });
 

@@ -69,8 +69,8 @@ export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
 
       <UploadDocument
         label="Proposition technique et financière signée"
-        name={'propositionTechniqueEtFinanciereSignee'}
-        id={'propositionTechniqueEtFinanciereSignee'}
+        name="propositionTechniqueEtFinanciereSignee"
+        id="propositionTechniqueEtFinanciereSignee"
         required
         state={validationErrors['propositionTechniqueEtFinanciereSignee'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['propositionTechniqueEtFinanciereSignee']}

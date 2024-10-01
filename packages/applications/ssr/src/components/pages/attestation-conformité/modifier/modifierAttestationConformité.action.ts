@@ -14,7 +14,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   attestation: keepOrUpdateDocument,
   preuveTransmissionAuCocontractant: keepOrUpdateDocument,
-  dateTransmissionAuCocontractant: zod.string().min(1, { message: 'Date à préciser' }),
+  dateTransmissionAuCocontractant: zod.string().min(1, { message: 'Champ obligatoire' }),
 });
 
 export type ModifierAttestationConformitéFormKeys = keyof zod.infer<typeof schema>;

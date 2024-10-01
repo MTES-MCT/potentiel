@@ -12,7 +12,7 @@ import { keepOrUpdateDocument } from '@/utils/zod/documentTypes';
 
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
-  dateConstitution: zod.string().min(1, { message: 'Date à préciser' }),
+  dateConstitution: zod.string().min(1, { message: 'Champ obligatoire' }),
   attestation: keepOrUpdateDocument,
 };
 
@@ -20,7 +20,7 @@ const schema = zod.discriminatedUnion('type', [
   zod.object({
     ...commonSchema,
     type: zod.literal('avec-date-échéance'),
-    dateEcheance: zod.string().min(1, { message: 'Date à préciser' }),
+    dateEcheance: zod.string().min(1, { message: 'Champ obligatoire' }),
   }),
   zod.object({
     ...commonSchema,
@@ -28,7 +28,7 @@ const schema = zod.discriminatedUnion('type', [
   }),
 ]);
 
-export type ModifierGarantiesFinancièresFormKeys = keyof zod.infer<typeof schema>;
+export type ModifierDépôtEnCoursGarantiesFinancièresFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, data) =>
   withUtilisateur(async (utilisateur) => {

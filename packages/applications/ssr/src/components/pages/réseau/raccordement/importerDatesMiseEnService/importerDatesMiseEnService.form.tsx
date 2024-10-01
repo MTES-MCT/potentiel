@@ -35,8 +35,8 @@ export const ImporterDatesMiseEnServiceForm: FC = () => {
       <UploadDocument
         label="Fichier des dates de mise en service"
         format="csv"
-        name={'fichierDatesMiseEnService'}
-        id={'fichierDatesMiseEnService'}
+        name="fichierDatesMiseEnService"
+        id="fichierDatesMiseEnService"
         required
         state={validationErrors['fichierDatesMiseEnService'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['fichierDatesMiseEnService']}
