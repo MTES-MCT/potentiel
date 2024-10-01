@@ -6,7 +6,6 @@ import { mediator } from 'mediateur';
 import { DateTime } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Période } from '@potentiel-domain/periode';
-import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantPériode } from '@potentiel-domain/periode/dist/période';
 import { Routes } from '@potentiel-applications/routes';
 
@@ -24,29 +23,12 @@ const action: FormAction<FormState, typeof schema> = async (_, { appelOffre, per
   return withUtilisateur(async (utilisateur) => {
     const identifiantPériodeValue: IdentifiantPériode.RawType = `${appelOffre}#${periode}`;
 
-    const période = await mediator.send<Période.ConsulterPériodeQuery>({
-      type: 'Période.Query.ConsulterPériode',
-      data: {
-        identifiantPériodeValue,
-      },
-    });
-
     const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
       type: 'Candidature.Query.ListerCandidatures',
       data: {
         appelOffre,
         période: periode,
-        excludedIdentifiantProjets:
-          Option.isSome(période) && période.estNotifiée
-            ? [
-                ...période.identifiantLauréats.map((identifiantLauréat) =>
-                  identifiantLauréat.formatter(),
-                ),
-                ...période.identifiantÉliminés.map((identifiantÉliminé) =>
-                  identifiantÉliminé.formatter(),
-                ),
-              ]
-            : undefined,
+        estNotifiée: false,
       },
     });
 
