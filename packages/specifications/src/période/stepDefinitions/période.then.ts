@@ -8,6 +8,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { Éliminé } from '@potentiel-domain/elimine';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { PotentielWorld } from '../../potentiel.world';
 
@@ -65,18 +66,26 @@ async function vérifierLauréats(
 
   assert(Option.isSome(période));
   assert(période.estNotifiée);
+  const candidats = await mediator.send<Candidature.ListerCandidaturesQuery>({
+    type: 'Candidature.Query.ListerCandidatures',
+    data: {
+      appelOffre: identifiantPériode.appelOffre,
+      période: identifiantPériode.période,
+      statut: 'classé',
+    },
+  });
 
-  for (const identifiantLauréat of période.identifiantLauréats) {
+  for (const { identifiantProjet } of candidats.items) {
     const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
       type: 'Lauréat.Query.ConsulterLauréat',
       data: {
-        identifiantProjet: identifiantLauréat.formatter(),
+        identifiantProjet: identifiantProjet.formatter(),
       },
     });
 
     assert(
       Option.isSome(lauréat),
-      `Aucun lauréat consultable pour ${identifiantLauréat.formatter()}`,
+      `Aucun lauréat consultable pour ${identifiantProjet.formatter()}`,
     );
   }
 }
@@ -100,17 +109,26 @@ async function vérifierÉliminés(
   assert(Option.isSome(période));
   assert(période.estNotifiée);
 
-  for (const identifiantÉliminé of période.identifiantÉliminés) {
+  const candidats = await mediator.send<Candidature.ListerCandidaturesQuery>({
+    type: 'Candidature.Query.ListerCandidatures',
+    data: {
+      appelOffre: identifiantPériode.appelOffre,
+      période: identifiantPériode.période,
+      statut: 'éliminé',
+    },
+  });
+
+  for (const { identifiantProjet } of candidats.items) {
     const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
       type: 'Éliminé.Query.ConsulterÉliminé',
       data: {
-        identifiantProjet: identifiantÉliminé.formatter(),
+        identifiantProjet: identifiantProjet.formatter(),
       },
     });
 
     assert(
       Option.isSome(éliminé),
-      `Aucun éliminé consultable pour ${identifiantÉliminé.formatter()}`,
+      `Aucun éliminé consultable pour ${identifiantProjet.formatter()}`,
     );
   }
 }

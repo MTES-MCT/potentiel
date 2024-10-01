@@ -1,5 +1,5 @@
 import { Période } from '@potentiel-domain/periode';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import {
   ConsulterPériodeReadModel,
   IdentifiantPériode,
@@ -38,12 +38,6 @@ export class PériodeWorld {
     const expected: ConsulterPériodeReadModel = {
       identifiantPériode,
       estNotifiée: true,
-      identifiantLauréats: this.#notifierPériodeFixture.lauréats.map((identifiantLauréat) =>
-        IdentifiantProjet.convertirEnValueType(identifiantLauréat),
-      ),
-      identifiantÉliminés: this.#notifierPériodeFixture.éliminés.map((identifiantÉliminé) =>
-        IdentifiantProjet.convertirEnValueType(identifiantÉliminé),
-      ),
       notifiéeLe: DateTime.convertirEnValueType(this.#notifierPériodeFixture.notifiéeLe),
       notifiéePar: Email.convertirEnValueType(this.#notifierPériodeFixture.notifiéePar),
     };
