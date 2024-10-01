@@ -13,7 +13,7 @@ export const document = zod
     message: `Le ficher est vide`,
   })
   .refine(({ size }) => size > DEFAULT_FILE_SIZE_LIMIT_FOR_ZOD, {
-    message: `Le fichier dépasse la taille maximale autorisée (5Mo)`,
+    message: `Le fichier dépasse la taille maximale autorisée (${DEFAULT_FILE_SIZE_LIMIT_IN_MB}Mo)`,
   });
 
 /**

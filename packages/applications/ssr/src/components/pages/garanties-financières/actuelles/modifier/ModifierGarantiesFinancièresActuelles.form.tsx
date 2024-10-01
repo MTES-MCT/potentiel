@@ -52,7 +52,7 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
             }}
             iconId="fr-icon-arrow-left-line"
           >
-            Retour aux détails des garanties financières
+            Retour au détail des garanties financières
           </Button>
           <SubmitButton>Modifier</SubmitButton>
         </>

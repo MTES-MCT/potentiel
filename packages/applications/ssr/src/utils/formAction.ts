@@ -95,10 +95,10 @@ export const formAction =
       }
 
       if (e instanceof zod.ZodError) {
-        const errors: ValidationErrors = {};
-        e.issues.map((issue) => {
-          errors[issue.path[0]] = issue.message.trim() || '';
-        });
+        const errors = e.issues.reduce((acc, issue) => {
+          acc[issue.path[0]] = issue.message.trim() ?? '';
+          return acc;
+        }, {} as ValidationErrors);
 
         return {
           status: 'validation-error' as const,
