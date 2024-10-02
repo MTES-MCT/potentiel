@@ -158,7 +158,7 @@ const AdminActions = ({ project }: AdminActionsProps) => {
           Aperçu attestation
         </PreviewLinkButton>
       ) : null}
-      <PrimaryButton onClick={() => window.print()}>
+      <PrimaryButton className="m-auto inline-flex items-center" onClick={() => window.print()}>
         <PrintIcon className="text-white mr-2" aria-hidden />
         Imprimer la page
       </PrimaryButton>
