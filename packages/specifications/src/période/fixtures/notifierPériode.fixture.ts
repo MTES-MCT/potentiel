@@ -10,6 +10,8 @@ interface NotifierPériode {
   readonly notifiéePar: string;
   readonly lauréats: Array<IdentifiantProjet.RawType>;
   readonly éliminés: Array<IdentifiantProjet.RawType>;
+  readonly lauréatsRestants: Array<IdentifiantProjet.RawType>;
+  readonly éliminésRestants: Array<IdentifiantProjet.RawType>;
 }
 
 export class NotifierPériodeFixture
@@ -28,9 +30,22 @@ export class NotifierPériodeFixture
     return this.#lauréats;
   }
 
+  #lauréatsRestants!: Array<IdentifiantProjet.RawType>;
+
+  get lauréatsRestants(): NotifierPériode['lauréatsRestants'] {
+    return this.#lauréatsRestants;
+  }
+
   #éliminés!: Array<IdentifiantProjet.RawType>;
+
   get éliminés(): NotifierPériode['éliminés'] {
     return this.#éliminés;
+  }
+
+  #éliminésRestants!: Array<IdentifiantProjet.RawType>;
+
+  get éliminésRestants(): NotifierPériode['éliminésRestants'] {
+    return this.#éliminésRestants;
   }
 
   #notifiéeLe!: string;
@@ -62,6 +77,11 @@ export class NotifierPériodeFixture
         'PPE2 - Eolien#1##éliminé-2' as IdentifiantProjet.RawType,
         'PPE2 - Eolien#1##éliminé-3' as IdentifiantProjet.RawType,
       ],
+      lauréatsRestants: [
+        'PPE2 - Eolien#1##lauréat-6' as IdentifiantProjet.RawType,
+        'PPE2 - Eolien#1##lauréat-7' as IdentifiantProjet.RawType,
+      ],
+      éliminésRestants: ['PPE2 - Eolien#1##éliminé-4' as IdentifiantProjet.RawType],
       ...partialFixture,
     };
 
@@ -69,6 +89,8 @@ export class NotifierPériodeFixture
     this.#notifiéePar = fixture.notifiéePar;
     this.#lauréats = fixture.lauréats;
     this.#éliminés = fixture.éliminés;
+    this.#lauréatsRestants = fixture.lauréatsRestants;
+    this.#éliminésRestants = fixture.éliminésRestants;
 
     this.aÉtéCréé = true;
 

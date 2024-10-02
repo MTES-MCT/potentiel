@@ -34,3 +34,33 @@ Quand(
     }
   },
 );
+
+Quand(
+  `un DGEC validateur notifie une seconde fois la période d'un appel d'offres`,
+  async function (this: PotentielWorld) {
+    try {
+      const identifiantPériode = this.périodeWorld.identifiantPériode.formatter();
+
+      const { lauréatsRestants, éliminésRestants } =
+        this.périodeWorld.notifierPériodeFixture.créer();
+
+      this.utilisateurWorld.porteurFixture.créer({
+        email: this.candidatureWorld.importerCandidature.values.emailContactValue,
+      });
+
+      await mediator.send<Période.NotifierPériodeUseCase>({
+        type: 'Période.UseCase.NotifierPériode',
+        data: {
+          identifiantPériodeValue: identifiantPériode,
+          notifiéeLeValue: DateTime.convertirEnValueType(
+            this.périodeWorld.notifierPériodeFixture.notifiéeLe,
+          ).formatter(),
+          notifiéeParValue: this.périodeWorld.notifierPériodeFixture.notifiéePar,
+          identifiantCandidatureValues: [...lauréatsRestants, ...éliminésRestants],
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
