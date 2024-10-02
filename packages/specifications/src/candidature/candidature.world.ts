@@ -10,6 +10,9 @@ export class CandidatureWorld {
   get importerCandidature() {
     return this.#importerCandidature;
   }
+  get importerCandidatures() {
+    return this.#importerCandidature;
+  }
   #corrigerCandidature: CorrigerCandidatureFixture;
   get corrigerCandidature() {
     return this.#corrigerCandidature;
