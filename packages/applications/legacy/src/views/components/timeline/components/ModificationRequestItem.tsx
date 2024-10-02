@@ -140,7 +140,6 @@ const Details = (
   } & (
     | { modificationType: 'delai'; delayInMonths: number }
     | { modificationType: 'puissance'; puissance: number; unitePuissance: string }
-    | { modificationType: 'recours' }
   ),
 ) => {
   const { status, modificationType, detailsUrl, authority = undefined, role } = props;
@@ -148,7 +147,6 @@ const Details = (
   const libelleTypeDemande: { [key in ModificationRequestItemProps['modificationType']]: string } =
     {
       delai: `délai supplémentaire`,
-      recours: `recours`,
       puissance: `changement de puissance installée`,
     };
 

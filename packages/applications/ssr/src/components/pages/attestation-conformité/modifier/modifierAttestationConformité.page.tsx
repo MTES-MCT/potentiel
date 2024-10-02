@@ -8,6 +8,7 @@ import {
   AttestationConformitéForm,
   type AttestationConformitéFormProps,
 } from '../AttestationConformité.form';
+import { InfoBoxAttestationConformité } from '../InfoAttestationConformité';
 
 import { modifierAttestationConformitéAction } from './modifierAttestationConformité.action';
 
@@ -22,7 +23,7 @@ export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformit
 }) => (
   <PageTemplate banner={<ProjetBanner {...projet} />}>
     <TitrePageAttestationConformité title="Modifier l'attestation de conformité du projet" />
-
+    <InfoBoxAttestationConformité />
     <AttestationConformitéForm
       identifiantProjet={projet.identifiantProjet}
       action={modifierAttestationConformitéAction}

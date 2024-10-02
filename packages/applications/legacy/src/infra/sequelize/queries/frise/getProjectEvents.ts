@@ -179,16 +179,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         authority: payload.authority,
                       });
                       break;
-                    case 'recours':
-                      events.push({
-                        type,
-                        date: valueDate,
-                        variant: user.role,
-                        modificationType: payload.modificationType,
-                        modificationRequestId: payload.modificationRequestId,
-                        authority: payload.authority,
-                      });
-                      break;
                   }
                 }
                 break;
@@ -383,17 +373,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         producteurPrecedent: payload.producteurPrecedent,
                       });
                       break;
-                    case 'recours':
-                      events.push({
-                        type,
-                        date: valueDate,
-                        variant: user.role,
-                        status,
-                        ...(user.role !== 'caisse-des-dépôts' && { filename: payload.filename }),
-                        modificationType,
-                        motifElimination: payload.motifElimination,
-                      });
-                      break;
                   }
                 }
                 break;
@@ -484,41 +463,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   });
                 }
                 break;
-
-              case 'DemandeRecoursSignaled':
-                if (
-                  userIs([
-                    'admin',
-                    'porteur-projet',
-                    'dreal',
-                    'acheteur-obligé',
-                    'dgec-validateur',
-                    'caisse-des-dépôts',
-                    'cre',
-                  ])(user)
-                ) {
-                  const { signaledBy, status, attachment, notes } = payload;
-                  events.push({
-                    type,
-                    variant: user.role,
-                    date: valueDate,
-                    signaledBy,
-                    status,
-                    ...(userIs(['admin', 'dgec-validateur', 'dreal'])(user) && { notes }),
-                    ...(userIs([
-                      'admin',
-                      'dgec-validateur',
-                      'dreal',
-                      'porteur-projet',
-                      'cre',
-                      'acheteur-obligé',
-                    ])(user) && {
-                      attachment,
-                    }),
-                  });
-                }
-                break;
-
               case 'DemandeDélai':
                 if (
                   userIs([

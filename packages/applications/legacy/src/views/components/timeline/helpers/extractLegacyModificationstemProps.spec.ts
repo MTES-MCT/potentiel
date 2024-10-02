@@ -29,33 +29,6 @@ describe('extractLegacyModificationsItemProps', () => {
     });
   });
 
-  describe('when there is a legacy recours modification', () => {
-    it('should return an array with legacy recours props', () => {
-      const date = new Date('2022-03-02').getTime();
-      const projectEventList: ProjectEventDTO[] = [
-        {
-          type: 'LegacyModificationImported',
-          date,
-          variant: 'admin',
-          modificationType: 'recours',
-          status: 'rejetée',
-          motifElimination: 'motif',
-        } as LegacyModificationImportedDTO,
-      ];
-      const result = extractLegacyModificationsItemProps(projectEventList);
-      expect(result).toHaveLength(1);
-      expect(result).toEqual([
-        {
-          type: 'modification-historique',
-          date,
-          status: 'rejetée',
-          modificationType: 'recours',
-          motifElimination: 'motif',
-        },
-      ]);
-    });
-  });
-
   describe('when there is a legacy delai modification that is accepted', () => {
     it('should return an array with legacy delai props', () => {
       const date = new Date('2022-03-02').getTime();

@@ -22,9 +22,6 @@ export type ModificationRequestItemProps = {
       puissance: number;
       unitePuissance: string;
     }
-  | {
-      modificationType: 'recours';
-    }
 );
 
 export const extractModificationRequestsItemProps = (
@@ -78,18 +75,6 @@ export const extractModificationRequestsItemProps = (
             responseUrl,
             puissance: requestEvent.puissance,
             unitePuissance: requestEvent.unitePuissance || '??',
-            detailsUrl,
-          };
-
-        case 'recours':
-          return {
-            type: 'demande-de-modification',
-            date,
-            authority,
-            modificationType,
-            status,
-            role,
-            responseUrl,
             detailsUrl,
           };
       }

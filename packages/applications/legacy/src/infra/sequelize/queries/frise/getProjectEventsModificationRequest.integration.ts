@@ -19,20 +19,6 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
   });
 
   // événements à tester
-
-  const demandeRecoursEvent = {
-    id: new UniqueEntityID().toString(),
-    projectId: projetId,
-    type: 'ModificationRequested',
-    valueDate: date.getTime(),
-    eventPublishedAt: date.getTime(),
-    payload: {
-      modificationType: 'recours',
-      modificationRequestId,
-      authority: 'dgec',
-    },
-  };
-
   const demandePuissanceEvent = {
     id: new UniqueEntityID().toString(),
     projectId: projetId,
@@ -98,19 +84,11 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
       const utilisateur = { role } as User;
       it(`Etant donné un utilisateur ${role}, 
       alors les demandes de modification devraient être retournées`, async () => {
-        await ProjectEvent.bulkCreate([demandeRecoursEvent, demandePuissanceEvent]);
+        await ProjectEvent.bulkCreate([demandePuissanceEvent]);
 
         const result = await getProjectEvents({ projectId: projetId, user: utilisateur });
         expect(result._unsafeUnwrap()).toMatchObject({
           events: expect.arrayContaining([
-            {
-              type: 'ModificationRequested',
-              date: date.getTime(),
-              variant: role,
-              modificationType: 'recours',
-              modificationRequestId,
-              authority: 'dgec',
-            },
             {
               type: 'ModificationRequested',
               date: date.getTime(),
@@ -203,7 +181,6 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
       alors les demandes de modification ne devraient pas être retournées`, async () => {
         const utilisateur = { role } as User;
         await ProjectEvent.bulkCreate([
-          demandeRecoursEvent,
           demandePuissanceEvent,
           demandeAcceptéeEvent,
           demandeRejetéeEvent,

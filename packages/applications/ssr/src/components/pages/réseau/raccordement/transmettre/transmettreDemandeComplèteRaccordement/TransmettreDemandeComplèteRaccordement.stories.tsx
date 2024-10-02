@@ -51,5 +51,6 @@ export const Default: Story = {
     identifiantGestionnaireRéseauActuel: 'identifiantGestionnaireRéseau#2',
     identifiantProjet: 'appelOffre#période#famille#numéroCRE',
     delaiDemandeDeRaccordementEnMois: { texte: '3 mois', valeur: 3 },
+    aDéjàTransmisUneDemandeComplèteDeRaccordement: false,
   },
 };
