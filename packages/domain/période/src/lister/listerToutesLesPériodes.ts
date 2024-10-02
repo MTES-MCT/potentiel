@@ -1,6 +1,6 @@
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantPériode, PériodeEntity } from '../période';
 import { ConsulterPériodeReadModel } from '../consulter/consulterPériode.query';
@@ -35,12 +35,6 @@ export const listerToutesLesPériodes = async (
           return {
             identifiantPériode,
             estNotifiée: true,
-            identifiantLauréats: périodeNotifiée.identifiantLauréats.map(
-              IdentifiantProjet.convertirEnValueType,
-            ),
-            identifiantÉliminés: périodeNotifiée.identifiantÉliminés.map(
-              IdentifiantProjet.convertirEnValueType,
-            ),
             notifiéeLe: périodeNotifiée.notifiéeLe
               ? DateTime.convertirEnValueType(périodeNotifiée.notifiéeLe)
               : undefined,

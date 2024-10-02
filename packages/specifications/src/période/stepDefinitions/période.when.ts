@@ -9,28 +9,32 @@ import { PotentielWorld } from '../../potentiel.world';
 Quand(
   `un DGEC validateur notifie la période d'un appel d'offres`,
   async function (this: PotentielWorld) {
-    try {
-      const identifiantPériode = this.périodeWorld.identifiantPériode.formatter();
-
-      const { lauréats, éliminés } = this.périodeWorld.notifierPériodeFixture.créer();
-
-      this.utilisateurWorld.porteurFixture.créer({
-        email: this.candidatureWorld.importerCandidature.values.emailContactValue,
-      });
-
-      await mediator.send<Période.NotifierPériodeUseCase>({
-        type: 'Période.UseCase.NotifierPériode',
-        data: {
-          identifiantPériodeValue: identifiantPériode,
-          notifiéeLeValue: DateTime.convertirEnValueType(
-            this.périodeWorld.notifierPériodeFixture.notifiéeLe,
-          ).formatter(),
-          notifiéeParValue: this.périodeWorld.notifierPériodeFixture.notifiéePar,
-          identifiantCandidatureValues: [...lauréats, ...éliminés],
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
+    await notifierPériode.call(this);
   },
 );
+
+export async function notifierPériode(this: PotentielWorld) {
+  try {
+    const identifiantPériode = this.périodeWorld.identifiantPériode.formatter();
+
+    const { lauréats, éliminés } = this.périodeWorld.notifierPériodeFixture.créer();
+
+    this.utilisateurWorld.porteurFixture.créer({
+      email: this.candidatureWorld.importerCandidature.values.emailContactValue,
+    });
+
+    await mediator.send<Période.NotifierPériodeUseCase>({
+      type: 'Période.UseCase.NotifierPériode',
+      data: {
+        identifiantPériodeValue: identifiantPériode,
+        notifiéeLeValue: DateTime.convertirEnValueType(
+          this.périodeWorld.notifierPériodeFixture.notifiéeLe,
+        ).formatter(),
+        notifiéeParValue: this.périodeWorld.notifierPériodeFixture.notifiéePar,
+        identifiantCandidatureValues: [...lauréats, ...éliminés],
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}

@@ -15,6 +15,7 @@
     "start:annuler-echoir-gf-abandonnés-ou-éliminés": "node ./dist/annuler-echoir-gf-abandonnés-ou-éliminés",
     "start:ajouter-rappel-gf-avec-date-echeance": "node ./dist/ajouter-rappel-gf-avec-date-echeance",
     "start:migrate-event-for-recours": "node ./dist/recours/migrate-events-for-recours",
+    "start:create-events-candidature-notifiée": "node ./dist/candidature/create-events-candidature-notifiée",
     "start:récupérer-fichier-gf-candidature-référentiel-dgec": "node ./dist/garanties-financières/récupérer-fichier-gf-candidature-référentiel-dgec"
   },
   "dependencies": {

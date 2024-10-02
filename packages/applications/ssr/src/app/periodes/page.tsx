@@ -5,6 +5,7 @@ import { Période } from '@potentiel-domain/periode';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PériodeListPage } from '@/components/pages/période/PériodeList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -75,14 +76,25 @@ export default async function Page({ searchParams }: PageProps) {
         },
       ];
 
-      const props = await mapToProps({ utilisateur, périodes });
+      const périodesPartiellementNotifiées: Période.ConsulterPériodeReadModel[] =
+        estNotifiée === false ? await getPériodesPartiellementNotifiées() : [];
+
+      const props = await mapToProps({
+        utilisateur,
+        périodes: périodes.items
+          .concat(périodesPartiellementNotifiées)
+          .filter(
+            (val, i, self) =>
+              self.findIndex((x) => x.identifiantPériode === val.identifiantPériode) === i,
+          ),
+      });
 
       return (
         <PériodeListPage
           filters={filters}
           périodes={props}
           range={périodes.range}
-          total={périodes.total}
+          total={périodes.total || props.length}
         />
       );
     }),
@@ -93,35 +105,27 @@ const mapToProps = async ({
   périodes,
   utilisateur,
 }: {
-  périodes: Période.ListerPériodesReadModel;
+  périodes: Période.ListerPériodeItemReadModel[];
   utilisateur: Utilisateur.ValueType;
 }): Promise<ReadonlyArray<PériodeListItemProps>> => {
   return await Promise.all(
-    périodes.items.map(async (période) => {
-      const { totalÉliminés, totalLauréats, totalCandidatures } = période.estNotifiée
-        ? {
-            totalÉliminés: période.identifiantÉliminés.length,
-            totalLauréats: période.identifiantLauréats.length,
-            totalCandidatures:
-              période.identifiantÉliminés.length + période.identifiantLauréats.length,
-          }
-        : await getCandidaturesStatsForPeriode(
-            période.identifiantPériode.appelOffre,
-            période.identifiantPériode.période,
-          );
+    périodes.map(async (période) => {
+      const stats = await getCandidaturesStatsForPeriode(
+        période.identifiantPériode.appelOffre,
+        période.identifiantPériode.période,
+        période.estNotifiée,
+      );
 
       const props: PériodeListItemProps = {
         appelOffre: période.identifiantPériode.appelOffre,
         période: période.identifiantPériode.période,
         identifiantPériode: période.identifiantPériode.formatter(),
         peutÊtreNotifiée: période.estNotifiée
-          ? false
+          ? !!stats.restants?.total
           : utilisateur.role.aLaPermission('période.notifier'),
         notifiéLe: période.estNotifiée ? période.notifiéeLe?.formatter() : undefined,
         notifiéPar: période.estNotifiée ? période.notifiéePar?.formatter() : undefined,
-        totalÉliminés,
-        totalLauréats,
-        totalCandidatures,
+        stats,
       };
 
       return props;
@@ -132,11 +136,8 @@ const mapToProps = async ({
 const getCandidaturesStatsForPeriode = async (
   appelOffre: string,
   periode: string,
-): Promise<{
-  totalÉliminés: number;
-  totalLauréats: number;
-  totalCandidatures: number;
-}> => {
+  estNotifiée: boolean,
+) => {
   const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
     type: 'Candidature.Query.ListerCandidatures',
     data: {
@@ -144,12 +145,42 @@ const getCandidaturesStatsForPeriode = async (
       période: periode,
     },
   });
-
-  const stats = {
-    totalÉliminés: candidatures.items.filter((current) => current.statut.estÉliminé()).length ?? 0,
-    totalLauréats: candidatures.items.filter((current) => current.statut.estClassé()).length ?? 0,
-    totalCandidatures: candidatures.items.length,
+  const restants = {
+    éliminés: candidatures.items.filter((c) => !c.estNotifiée && c.statut.estÉliminé()).length,
+    lauréats: candidatures.items.filter((c) => !c.estNotifiée && c.statut.estClassé()).length,
+    total: candidatures.items.filter((c) => !c.estNotifiée).length,
   };
-
-  return stats;
+  return {
+    tous: {
+      éliminés: candidatures.items.filter((c) => c.statut.estÉliminé()).length,
+      lauréats: candidatures.items.filter((c) => c.statut.estClassé()).length,
+      total: candidatures.items.length,
+    },
+    restants: estNotifiée && restants.total ? restants : undefined,
+  };
 };
+
+async function getPériodesPartiellementNotifiées() {
+  const candidats = await mediator.send<Candidature.ListerCandidaturesQuery>({
+    type: 'Candidature.Query.ListerCandidatures',
+    data: {
+      estNotifiée: false,
+    },
+  });
+  const identifiantsPériodes = candidats.items
+    .map(({ identifiantProjet }) => `${identifiantProjet.appelOffre}#${identifiantProjet.période}`)
+    .filter((val, i, self) => self.indexOf(val) === i);
+
+  const nouvellesPériodes = await Promise.all(
+    identifiantsPériodes.map((identifiantPériodeValue) =>
+      mediator.send<Période.ConsulterPériodeQuery>({
+        type: 'Période.Query.ConsulterPériode',
+        data: {
+          identifiantPériodeValue,
+        },
+      }),
+    ),
+  );
+
+  return nouvellesPériodes.filter(Option.isSome);
+}
