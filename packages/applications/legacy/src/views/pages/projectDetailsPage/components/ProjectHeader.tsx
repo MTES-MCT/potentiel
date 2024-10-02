@@ -24,13 +24,11 @@ export const ProjectHeader = ({
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 print:pl-0 mb-3 text-sm">
-      <div className="flex justify-start items-center">
-        <Heading1 className="mb-0 pb-0 flex justify-start gap-4">
+      <div className="flex md:flex-row flex-col justify-start md:items-end gap-4">
+        <Heading1 className="mb-0 pb-0">
           <div className="inline-block leading-10">{project.nomProjet}</div>
-          <div>
-            <ProjectHeaderBadge project={project} />
-          </div>
         </Heading1>
+        <ProjectHeaderBadge project={project} />
       </div>
       <div className="font-medium mt-3">
         {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
