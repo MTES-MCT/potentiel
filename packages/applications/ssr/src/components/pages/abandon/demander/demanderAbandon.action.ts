@@ -8,15 +8,16 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
-export type DemanderAbandonState = FormState;
+import { document } from '@/utils/zod/documentTypes';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   recandidature: zod.string().optional(),
-  raison: zod.string().min(1),
-  pieceJustificative: zod.instanceof(Blob),
+  raison: zod.string().min(1, { message: 'Champ obligatoire' }),
+  pieceJustificative: document,
 });
+
+export type DemanderAbandonFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,

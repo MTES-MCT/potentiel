@@ -5,11 +5,18 @@ import { FC, useState } from 'react';
 import { Form } from '@/components/atoms/form/Form';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { corrigerRéférencesDossierAction } from './CorrigerRéférenceDossier.action';
+import {
+  corrigerRéférencesDossierAction,
+  CorrigerRéférencesDossierFormKeys,
+} from './CorrigerRéférenceDossier.action';
 
 export const CorrigerRéférenceDossierForm: FC = () => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<CorrigerRéférencesDossierFormKeys>
+  >({});
+
   return (
     <Form
       method="POST"
@@ -29,8 +36,10 @@ export const CorrigerRéférenceDossierForm: FC = () => {
         label="Fichier des corrections"
         format="csv"
         name="fichierCorrections"
+        id="fichierCorrections"
         required
-        state={validationErrors.includes('fichierCorrections') ? 'error' : 'default'}
+        state={validationErrors['fichierCorrections'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['fichierCorrections']}
       />
     </Form>
   );

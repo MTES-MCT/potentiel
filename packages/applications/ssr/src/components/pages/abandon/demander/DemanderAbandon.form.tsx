@@ -8,8 +8,9 @@ import { FC, useState } from 'react';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { demanderAbandonAction } from './demanderAbandon.action';
+import { demanderAbandonAction, DemanderAbandonFormKeys } from './demanderAbandon.action';
 
 export type DemanderAbandonFormProps = {
   identifiantProjet: string;
@@ -20,7 +21,9 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
   identifiantProjet,
   showRecandidatureCheckBox,
 }) => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<DemanderAbandonFormKeys>
+  >({});
   const [recandidature, setRecandidature] = useState(false);
 
   return (
@@ -40,8 +43,8 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
         hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant
                 conduit à cet abandon (contexte, facteurs extérieurs, etc.)."
         nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
-        state={validationErrors.includes('raison') ? 'error' : 'default'}
-        stateRelatedMessage="Raison à préciser"
+        state={validationErrors['raison'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['raison']}
       />
 
       <UploadDocument
@@ -49,14 +52,15 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
         id="pieceJustificative"
         name="pieceJustificative"
         required={!recandidature}
-        state={validationErrors.includes('pieceJustificative') ? 'error' : 'default'}
+        state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['pieceJustificative']}
       />
 
       {showRecandidatureCheckBox && (
         <Checkbox
           className="mt-6"
           id="recandidature"
-          state={validationErrors.includes('recandidature') ? 'error' : 'default'}
+          state={validationErrors['recandidature'] ? 'error' : 'default'}
           options={[
             {
               label: 'Je demande un abandon avec recandidature (optionnel)',

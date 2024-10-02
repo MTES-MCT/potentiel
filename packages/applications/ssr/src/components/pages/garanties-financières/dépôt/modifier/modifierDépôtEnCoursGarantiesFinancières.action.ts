@@ -8,27 +8,27 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { document } from '@/utils/zod/documentType';
-
-export type ModifierGarantiesFinancièresState = FormState;
+import { keepOrUpdateDocument } from '@/utils/zod/documentTypes';
 
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
-  dateConstitution: zod.string().min(1),
-  attestation: document,
+  dateConstitution: zod.string().min(1, { message: 'Champ obligatoire' }),
+  attestation: keepOrUpdateDocument,
 };
 
 const schema = zod.discriminatedUnion('type', [
   zod.object({
     ...commonSchema,
     type: zod.literal('avec-date-échéance'),
-    dateEcheance: zod.string().min(1),
+    dateEcheance: zod.string().min(1, { message: 'Champ obligatoire' }),
   }),
   zod.object({
     ...commonSchema,
     type: zod.enum(['six-mois-après-achèvement', 'consignation']),
   }),
 ]);
+
+export type ModifierDépôtEnCoursGarantiesFinancièresFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, data) =>
   withUtilisateur(async (utilisateur) => {

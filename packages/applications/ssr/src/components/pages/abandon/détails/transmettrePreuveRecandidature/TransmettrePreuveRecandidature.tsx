@@ -11,8 +11,12 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { transmettrePreuveRecandidatureAction } from './transmettrePreuveRecandidature.action';
+import {
+  transmettrePreuveRecandidatureAction,
+  TransmettrePreuveRecandidatureFormKeys,
+} from './transmettrePreuveRecandidature.action';
 
 export type TransmettrePreuveRecandidatureFormProps = {
   identifiantProjet: string;
@@ -37,7 +41,9 @@ export const TransmettrePreuveRecandidature = ({
   const id = uuid();
   const title = 'Transmettre la preuve de recandidature';
 
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<TransmettrePreuveRecandidatureFormKeys>
+  >({});
   const [projetSélectionné, setProjetSélectionné] = useState<{
     identifiantProjet: ProjetÀSélectionner['identifiantProjet'];
     dateDésignation: ProjetÀSélectionner['dateDésignation'];
@@ -90,7 +96,7 @@ export const TransmettrePreuveRecandidature = ({
           <SelectNext
             label="Choisir un projet comme preuve de recandidature"
             placeholder={`Sélectionner un projet`}
-            state={validationErrors.includes('preuveRecandidature') ? 'error' : 'default'}
+            state={validationErrors['preuveRecandidature'] ? 'error' : 'default'}
             stateRelatedMessage="La sélection du projet est obligatoire"
             nativeSelectProps={{
               onChange: ({ currentTarget: { value } }) => {

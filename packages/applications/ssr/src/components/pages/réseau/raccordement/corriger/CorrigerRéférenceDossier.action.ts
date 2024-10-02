@@ -9,11 +9,13 @@ import { parseCsv } from '@potentiel-libraries/csv';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-export type CorrigerRéférencesDossierState = FormState;
+import { document } from '@/utils/zod/documentTypes';
 
 const schema = zod.object({
-  fichierCorrections: zod.instanceof(Blob).refine((data) => data.size > 0),
+  fichierCorrections: document,
 });
+
+export type CorrigerRéférencesDossierFormKeys = keyof zod.infer<typeof schema>;
 
 const csvSchema = zod
   .object({
@@ -40,8 +42,8 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
 
     if (lines.length === 0) {
       return {
-        status: 'form-error',
-        errors: ['fichierCorrections'],
+        status: 'validation-error',
+        errors: { fichierCorrections: 'Fichier invalide' },
       };
     }
 

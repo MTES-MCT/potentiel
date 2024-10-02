@@ -3,13 +3,13 @@
 import { FC, FormHTMLAttributes, ReactNode } from 'react';
 import { useFormState } from 'react-dom';
 
-import { formAction } from '@/utils/formAction';
+import { formAction, ValidationErrors } from '@/utils/formAction';
 
 import { Heading2 } from '../headings';
 
 import { FormFeedback } from './FormFeedback';
 import { FormPendingModal, FormPendingModalProps } from './FormPendingModal';
-import { FormFeedbackCsvError } from './FormFeedbackCsvErrors';
+import { FormFeedbackCsvErrors } from './FormFeedbackCsvErrors';
 
 export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action' | 'method'> & {
   method?: 'POST';
@@ -19,7 +19,7 @@ export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action' | 'me
   omitMandatoryFieldsLegend?: true;
   pendingModal?: FormPendingModalProps;
   actions: ReactNode;
-  onValidationError?: (validationErrors: Array<string>) => void;
+  onValidationError?: (validationErrors: ValidationErrors) => void;
   successMessage?: string;
 };
 
@@ -39,7 +39,7 @@ export const Form: FC<FormProps> = ({
     status: undefined,
   });
 
-  if (state.status === 'form-error' && onValidationError) {
+  if (state.status === 'validation-error' && onValidationError) {
     onValidationError(state.errors);
   }
 
@@ -48,6 +48,7 @@ export const Form: FC<FormProps> = ({
       {heading && <Heading2 className="mb-4">{heading}</Heading2>}
 
       <FormFeedback formState={state} successMessage={successMessage} />
+
       {pendingModal && <FormPendingModal {...pendingModal} />}
 
       {!omitMandatoryFieldsLegend && (
@@ -62,7 +63,7 @@ export const Form: FC<FormProps> = ({
         <div className="flex flex-col md:flex-row gap-2">{actions}</div>
       </div>
 
-      <FormFeedbackCsvError formState={state} />
+      <FormFeedbackCsvErrors formState={state} />
     </form>
   );
 };

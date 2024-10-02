@@ -9,8 +9,12 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { enregistrerAttestationGarantiesFinancièresAction } from './enregistrerAttestationGarantiesFinancières.action';
+import {
+  enregistrerAttestationGarantiesFinancièresAction,
+  EnregistrerAttestationGarantiesFinancièresFormKeys,
+} from './enregistrerAttestationGarantiesFinancières.action';
 
 export type EnregistrerAttestationGarantiesFinancièresFormProps = {
   identifiantProjet: string;
@@ -19,7 +23,9 @@ export type EnregistrerAttestationGarantiesFinancièresFormProps = {
 export const EnregistrerAttestationGarantiesFinancièresForm: FC<
   EnregistrerAttestationGarantiesFinancièresFormProps
 > = ({ identifiantProjet }) => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<EnregistrerAttestationGarantiesFinancièresFormKeys>
+  >({});
 
   return (
     <Form
@@ -54,15 +60,16 @@ export const EnregistrerAttestationGarantiesFinancièresForm: FC<
           required: true,
           'aria-required': true,
         }}
-        state={validationErrors.includes('dateConstitution') ? 'error' : 'default'}
-        stateRelatedMessage="Date de constitution des garanties financières obligatoire"
+        state={validationErrors['dateConstitution'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['dateConstitution']}
       />
 
       <UploadDocument
         label="Attestation de constitution"
         name="attestation"
         required
-        state={validationErrors.includes('attestation') ? 'error' : 'default'}
+        state={validationErrors['attestation'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['attestation']}
       />
     </Form>
   );

@@ -9,13 +9,13 @@ import { Routes } from '@potentiel-applications/routes';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-export type TransmettrePreuveRecandidatureState = FormState;
-
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   preuveRecandidature: zod.string().min(1),
-  dateDesignation: zod.string().min(1),
+  dateDesignation: zod.string().min(1, { message: 'Champ obligatoire' }),
 });
+
+export type TransmettrePreuveRecandidatureFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,

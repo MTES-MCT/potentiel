@@ -10,24 +10,28 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { document } from '@/utils/zod/documentTypes';
 
 import { candidatureSchema, CandidatureShape } from '../importer/candidature.schema';
 import { getLocalité } from '../helpers';
 
-export type CorrigerCandidaturesState = FormState;
-
 const schema = zod.object({
-  fichierImport: zod.instanceof(Blob).refine((data) => data.size > 0),
+  fichierCorrectionCandidatures: document,
 });
 
-const action: FormAction<FormState, typeof schema> = async (_, { fichierImport }) =>
+export type CorrigerCandidaturesFormKeys = keyof zod.infer<typeof schema>;
+
+const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrectionCandidatures }) =>
   withUtilisateur(async (utilisateur) => {
-    const { parsedData, rawData } = await parseCsv(fichierImport.stream(), candidatureSchema);
+    const { parsedData, rawData } = await parseCsv(
+      fichierCorrectionCandidatures.stream(),
+      candidatureSchema,
+    );
 
     if (parsedData.length === 0) {
       return {
-        status: 'form-error',
-        errors: ['fichierImport'],
+        status: 'validation-error',
+        errors: { fichierCorrectionCandidatures: 'Fichier invalide' },
       };
     }
 

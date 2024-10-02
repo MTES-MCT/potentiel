@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Button } from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -9,8 +9,12 @@ import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { transmettreDateMiseEnServiceAction } from './transmettreDateMiseEnService.action';
+import {
+  transmettreDateMiseEnServiceAction,
+  TransmettreDateMiseEnServiceStateFormKeys,
+} from './transmettreDateMiseEnService.action';
 
 export type TransmettreDateMiseEnServiceFormProps = {
   projet: {
@@ -27,11 +31,16 @@ export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFo
   projet: { identifiantProjet, dateDésignation },
   dossierRaccordement: { référence, miseEnService },
 }) => {
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<TransmettreDateMiseEnServiceStateFormKeys>
+  >({});
+
   return (
     <Form
       method="POST"
       heading="Transmettre la date de mise en service"
       action={transmettreDateMiseEnServiceAction}
+      onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={
         <>
           <Button
@@ -63,6 +72,8 @@ export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFo
           required: true,
           'aria-required': true,
         }}
+        state={validationErrors['dateMiseEnService'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['dateMiseEnService']}
       />
     </Form>
   );

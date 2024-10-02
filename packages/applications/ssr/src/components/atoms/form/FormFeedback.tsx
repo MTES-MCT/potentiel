@@ -65,11 +65,11 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState, successMessage 
     case 'domain-error':
       return <AlertError description={formState.message} />;
 
-    case 'form-error':
-      return <AlertError description="Erreur lors de la validation des données du formulaire" />;
-
     case 'unknown-error':
       return <AlertError description="Une erreur est survenue" />;
+
+    case 'validation-error':
+      return <AlertError description="Erreur lors de la validation des données du formulaire" />;
 
     default:
       return null;

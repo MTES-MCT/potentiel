@@ -9,13 +9,17 @@ import { Routes } from '@potentiel-applications/routes';
 import { Form } from '@/components/atoms/form/Form';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { ValidationErrors } from '@/utils/formAction';
 
 import {
   GestionnaireRéseauSelect,
   GestionnaireRéseauSelectProps,
 } from '../../modifier/modifierGestionnaireRéseauRaccordement/GestionnaireRéseauSelect';
 
-import { transmettreDemandeComplèteRaccordementAction } from './transmettreDemandeComplèteRaccordement.action';
+import {
+  transmettreDemandeComplèteRaccordementAction,
+  TransmettreDemandeComplèteRaccordementFormKeys,
+} from './transmettreDemandeComplèteRaccordement.action';
 
 export type TransmettreDemandeComplèteRaccordementFormProps = {
   identifiantProjet: string;
@@ -28,7 +32,10 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
   identifiantGestionnaireRéseauActuel,
   listeGestionnairesRéseau,
 }: TransmettreDemandeComplèteRaccordementFormProps) => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<TransmettreDemandeComplèteRaccordementFormKeys>
+  >({});
+
   const [selectedIdentifiantGestionnaireRéseau, setSelectedIdentifiantGestionnaireRéseau] =
     useState<string | undefined>(identifiantGestionnaireRéseauActuel);
 
@@ -78,7 +85,8 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
         disabled={alreadyHasAGestionnaireRéseau ? true : undefined}
         identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
         gestionnairesRéseau={listeGestionnairesRéseau}
-        state={validationErrors.includes('identifiantGestionnaireRéseau') ? 'error' : 'default'}
+        state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
         onGestionnaireRéseauSelected={({ identifiantGestionnaireRéseau }) =>
           setSelectedIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau)
         }
@@ -92,7 +100,8 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
             {format && <div className="italic">Exemple : {format}</div>}
           </div>
         }
-        state={validationErrors.includes('referenceDossier') ? 'error' : 'default'}
+        state={validationErrors['referenceDossier'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['referenceDossier']}
         nativeInputProps={{
           name: 'referenceDossier',
           required: true,
@@ -105,7 +114,8 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
 
       <Input
         label="Date de l'accusé de réception"
-        state={validationErrors.includes('dateQualification') ? 'error' : 'default'}
+        state={validationErrors['dateQualification'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['dateQualification']}
         nativeInputProps={{
           type: 'date',
           name: 'dateQualification',
@@ -119,7 +129,8 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
         label="Accusé de réception de la demande complète de raccordement **"
         name="accuseReception"
         required
-        state={validationErrors.includes('accuseReception') ? 'error' : 'default'}
+        state={validationErrors['accuseReception'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['accuseReception']}
       />
     </Form>
   );

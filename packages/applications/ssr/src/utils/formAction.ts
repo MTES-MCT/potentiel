@@ -26,6 +26,8 @@ export type ActionResult = {
   }>;
 };
 
+export type ValidationErrors<TKeys extends string = string> = Partial<Record<TKeys, string>>;
+
 export type FormState =
   | {
       status: 'success' | undefined;
@@ -33,8 +35,8 @@ export type FormState =
       redirectUrl?: string;
     }
   | {
-      status: 'form-error';
-      errors: string[];
+      status: 'validation-error';
+      errors: ValidationErrors;
     }
   | {
       status: 'domain-error';
@@ -93,9 +95,14 @@ export const formAction =
       }
 
       if (e instanceof zod.ZodError) {
+        const errors = e.issues.reduce((acc, issue) => {
+          acc[issue.path[0]] = issue.message.trim() ?? '';
+          return acc;
+        }, {} as ValidationErrors);
+
         return {
-          status: 'form-error' as const,
-          errors: e.issues.map((issue) => (issue.path.pop() || '').toString()),
+          status: 'validation-error' as const,
+          errors,
         };
       }
 

@@ -11,11 +11,13 @@ import { parseCsv } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
-export type ImporterDatesMiseEnServiceState = FormState;
+import { document } from '@/utils/zod/documentTypes';
 
 const schema = zod.object({
-  fichierDatesMiseEnService: zod.instanceof(Blob).refine((data) => data.size > 0),
+  fichierDatesMiseEnService: document,
 });
+
+export type ImporterDatesMiseEnServiceFormKeys = keyof zod.infer<typeof schema>;
 
 const csvSchema = zod.object({
   numeroCRE: zod.string().optional(),
@@ -37,8 +39,8 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
 
   if (lines.length === 0) {
     return {
-      status: 'form-error',
-      errors: ['fichierDatesMiseEnService'],
+      status: 'validation-error',
+      errors: { fichierDatesMiseEnService: 'Fichier invalide' },
     };
   }
 

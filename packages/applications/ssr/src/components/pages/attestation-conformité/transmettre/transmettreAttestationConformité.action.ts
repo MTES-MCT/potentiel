@@ -11,16 +11,17 @@ import { Raccordement } from '@potentiel-domain/reseau';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
-export type TransmettreAttestationConformitéState = FormState;
+import { document } from '@/utils/zod/documentTypes';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: zod.instanceof(Blob).refine((data) => data.size > 0),
-  preuveTransmissionAuCocontractant: zod.instanceof(Blob).refine((data) => data.size > 0),
-  dateTransmissionAuCocontractant: zod.string().min(1),
+  attestation: document,
+  preuveTransmissionAuCocontractant: document,
+  dateTransmissionAuCocontractant: zod.string().min(1, { message: 'Champ obligatoire' }),
   demanderMainlevee: zod.string().optional(),
 });
+
+export type TransmettreAttestationConformitéFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,

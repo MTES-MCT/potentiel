@@ -12,9 +12,16 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { transmettreAttestationConformitéAction } from './transmettre/transmettreAttestationConformité.action';
-import { modifierAttestationConformitéAction } from './modifier/modifierAttestationConformité.action';
+import {
+  transmettreAttestationConformitéAction,
+  TransmettreAttestationConformitéFormKeys,
+} from './transmettre/transmettreAttestationConformité.action';
+import {
+  modifierAttestationConformitéAction,
+  ModifierAttestationConformitéFormKeys,
+} from './modifier/modifierAttestationConformité.action';
 
 type Action =
   | typeof transmettreAttestationConformitéAction
@@ -39,7 +46,11 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
   donnéesActuelles,
   demanderMainlevée,
 }) => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<
+      ModifierAttestationConformitéFormKeys | TransmettreAttestationConformitéFormKeys
+    >
+  >({});
 
   return (
     <Form
@@ -71,7 +82,8 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
           required
           documentKey={donnéesActuelles?.attestation}
           label="Attestation de conformité"
-          state={validationErrors.includes('attestation') ? 'error' : 'default'}
+          state={validationErrors['attestation'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['attestation']}
         />
         <Alert
           severity="info"
@@ -95,10 +107,9 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
           required
           documentKey={donnéesActuelles?.attestation}
           label="Preuve de transmission au co-contractant"
-          stateRelatedMessage="Il peut s'agir d'une copie de l'email que vous lui avez envoyé, ou de la copie du courrier si envoyé par voie postale."
-          state={
-            validationErrors.includes('preuveTransmissionAuCocontractant') ? 'error' : 'default'
-          }
+          hintText="Il peut s'agir d'une copie de l'email que vous lui avez envoyé, ou de la copie du courrier si envoyé par voie postale."
+          state={validationErrors['preuveTransmissionAuCocontractant'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['preuveTransmissionAuCocontractant']}
         />
 
         <InputDate
@@ -111,15 +122,16 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
             'aria-required': true,
             defaultValue: donnéesActuelles?.dateTransmissionAuCocontractant,
           }}
-          state={validationErrors.includes('dateTransmissionAuCocontractant') ? 'error' : 'default'}
-          stateRelatedMessage="Date de transmission au co-contractant obligatoire"
+          state={validationErrors['dateTransmissionAuCocontractant'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['dateTransmissionAuCocontractant']}
         />
 
         {demanderMainlevée.visible && (
           <>
             <Checkbox
               id="demanderMainlevee"
-              state={validationErrors.includes('demanderMainlevee') ? 'error' : 'default'}
+              state={validationErrors['demanderMainlevee'] ? 'error' : 'default'}
+              stateRelatedMessage={validationErrors['demanderMainlevee']}
               options={[
                 {
                   label: `Je souhaite demander une mainlevée de mes garanties financières`,

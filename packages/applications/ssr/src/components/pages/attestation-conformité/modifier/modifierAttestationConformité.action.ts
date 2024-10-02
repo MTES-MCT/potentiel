@@ -8,16 +8,16 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { document } from '@/utils/zod/documentType';
-
-export type ModifierAttestationConformitéState = FormState;
+import { keepOrUpdateDocument } from '@/utils/zod/documentTypes';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: document,
-  preuveTransmissionAuCocontractant: document,
-  dateTransmissionAuCocontractant: zod.string().min(1),
+  attestation: keepOrUpdateDocument,
+  preuveTransmissionAuCocontractant: keepOrUpdateDocument,
+  dateTransmissionAuCocontractant: zod.string().min(1, { message: 'Champ obligatoire' }),
 });
+
+export type ModifierAttestationConformitéFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,

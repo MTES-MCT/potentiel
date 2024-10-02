@@ -7,15 +7,16 @@ import { Raccordement } from '@potentiel-domain/reseau';
 import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
-
-export type transmettrePropositionTechniqueEtFinancièreState = FormState;
+import { document } from '@/utils/zod/documentTypes';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  referenceDossier: zod.string().min(1),
-  dateSignature: zod.string().min(1),
-  propositionTechniqueEtFinanciereSignee: zod.instanceof(Blob).refine((data) => data.size > 0),
+  referenceDossier: zod.string().min(1, { message: 'Champ obligatoire' }),
+  dateSignature: zod.string().min(1, { message: 'Champ obligatoire' }),
+  propositionTechniqueEtFinanciereSignee: document,
 });
+
+export type TransmettrePropositionTechniqueEtFinancièreFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,

@@ -11,8 +11,12 @@ import { Form } from '@/components/atoms/form/Form';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { modifierDemandeComplèteRaccordementAction } from './modifierDemandeComplèteRaccordement.action';
+import {
+  modifierDemandeComplèteRaccordementAction,
+  ModifierDemandeComplèteRaccordementFormKeys,
+} from './modifierDemandeComplèteRaccordement.action';
 
 export type ModifierDemandeComplèteRaccordementFormProps = {
   identifiantProjet: string;
@@ -48,7 +52,9 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
     demandeComplèteRaccordement: { accuséRéception, dateQualification },
   },
 }) => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<ModifierDemandeComplèteRaccordementFormKeys>
+  >({});
 
   const { aideSaisieRéférenceDossierRaccordement, identifiantGestionnaireRéseau } =
     gestionnaireRéseauActuel;
@@ -112,7 +118,8 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
               </>
             )
           }
-          state={validationErrors.includes('referenceDossierRaccordement') ? 'error' : 'default'}
+          state={validationErrors['referenceDossierRaccordement'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['referenceDossierRaccordement']}
           nativeInputProps={{
             type: 'text',
             name: 'referenceDossierRaccordement',
@@ -137,13 +144,15 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
         label="Accusé de réception de la demande complète de raccordement **"
         name="accuseReception"
         required
-        state={validationErrors.includes('accuseReception') ? 'error' : 'default'}
+        state={validationErrors['accuseReception'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['accuseReception']}
         documentKey={accuséRéception}
       />
 
       <InputDate
         id="dateQualification"
-        state={validationErrors.includes('dateQualification') ? 'error' : 'default'}
+        state={validationErrors['dateQualification'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['dateQualification']}
         label="Date de l'accusé de réception"
         nativeInputProps={{
           type: 'date',

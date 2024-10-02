@@ -1,16 +1,18 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { Candidature } from '@potentiel-domain/candidature';
 
+import { ValidationErrors } from '@/utils/formAction';
+
 export type TypeGarantiesFinancièresSelectProps = {
   id: string;
   name: string;
   label?: string;
   disabled?: true;
-  validationErrors: Array<string>;
+  validationErrors: ValidationErrors;
   typeGarantiesFinancièresActuel?: Candidature.TypeGarantiesFinancières.RawType;
   dateÉchéanceActuelle?: Iso8601DateTime;
   typesGarantiesFinancières: Array<{
@@ -53,8 +55,8 @@ export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelect
         }}
         placeholder="Sélectionnez le type de garanties financières"
         options={[...typesGarantiesFinancières]}
-        state={validationErrors.includes('type') ? 'error' : 'default'}
-        stateRelatedMessage="Type de garanties financières obligatoire"
+        state={validationErrors['type'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['type']}
         disabled={disabled}
       />
 
@@ -70,8 +72,8 @@ export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelect
             'aria-required': true,
             defaultValue: dateÉchéanceActuelle,
           }}
-          state={validationErrors.includes('dateEcheance') ? 'error' : 'default'}
-          stateRelatedMessage="Date d'échéance obligatoire"
+          state={validationErrors['dateEcheance'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['dateEcheance']}
           disabled={disabled}
         />
       )}

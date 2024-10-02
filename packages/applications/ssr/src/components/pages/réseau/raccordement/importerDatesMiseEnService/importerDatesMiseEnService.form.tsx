@@ -5,11 +5,18 @@ import { FC, useState } from 'react';
 import { Form } from '@/components/atoms/form/Form';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { importerDatesMiseEnServiceAction } from './importDatesMiseEnService.action';
+import {
+  importerDatesMiseEnServiceAction,
+  ImporterDatesMiseEnServiceFormKeys,
+} from './importDatesMiseEnService.action';
 
 export const ImporterDatesMiseEnServiceForm: FC = () => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<ImporterDatesMiseEnServiceFormKeys>
+  >({});
+
   return (
     <Form
       method="POST"
@@ -29,8 +36,10 @@ export const ImporterDatesMiseEnServiceForm: FC = () => {
         label="Fichier des dates de mise en service"
         format="csv"
         name="fichierDatesMiseEnService"
+        id="fichierDatesMiseEnService"
         required
-        state={validationErrors.includes('fichierDatesMiseEnService') ? 'error' : 'default'}
+        state={validationErrors['fichierDatesMiseEnService'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['fichierDatesMiseEnService']}
       />
     </Form>
   );

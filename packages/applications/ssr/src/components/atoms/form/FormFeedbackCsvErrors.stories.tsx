@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { FormFeedbackProps } from './FormFeedback';
-import { FormFeedbackCsvError } from './FormFeedbackCsvErrors';
+import { FormFeedbackCsvErrors } from './FormFeedbackCsvErrors';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Atoms/Form/FormFeedbackCsvError',
-  component: FormFeedbackCsvError,
+  title: 'Atoms/Form/FormFeedbackCsvErrors',
+  component: FormFeedbackCsvErrors,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},

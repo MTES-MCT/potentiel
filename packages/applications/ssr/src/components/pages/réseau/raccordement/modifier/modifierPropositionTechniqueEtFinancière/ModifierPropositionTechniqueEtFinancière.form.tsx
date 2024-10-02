@@ -10,8 +10,12 @@ import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { modifierPropositionTechniqueEtFinancièreAction } from './modifierPropositionTechniqueEtFinancière.action';
+import {
+  modifierPropositionTechniqueEtFinancièreAction,
+  ModifierPropositionTechniqueEtFinancièreFormKeys,
+} from './modifierPropositionTechniqueEtFinancière.action';
 
 export type ModifierPropositionTechniqueEtFinancièreFormProps = {
   identifiantProjet: string;
@@ -33,7 +37,9 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
     propositionTechniqueEtFinancière: { dateSignature, propositionTechniqueEtFinancièreSignée },
   },
 }) => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<ModifierPropositionTechniqueEtFinancièreFormKeys>
+  >({});
 
   return (
     <Form
@@ -75,15 +81,16 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
           defaultValue: dateSignature,
           required: true,
         }}
+        state={validationErrors['dateSignature'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['dateSignature']}
       />
 
       <UploadDocument
         label="Proposition technique et financière signée"
         name="propositionTechniqueEtFinanciereSignee"
         required
-        state={
-          validationErrors.includes('propositionTechniqueEtFinanciereSignee') ? 'error' : 'default'
-        }
+        state={validationErrors['propositionTechniqueEtFinanciereSignee'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['propositionTechniqueEtFinanciereSignee']}
         documentKey={propositionTechniqueEtFinancièreSignée}
       />
     </Form>

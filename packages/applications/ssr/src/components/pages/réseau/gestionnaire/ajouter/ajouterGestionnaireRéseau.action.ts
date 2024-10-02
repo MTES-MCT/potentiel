@@ -9,15 +9,17 @@ import { Routes } from '@potentiel-applications/routes';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { toUndefinedIfEmpty } from '@/utils/zod/stringTransform';
 
-export type AjouterGestionnaireRéseauState = FormState;
-
 const schema = zod.object({
-  identifiantGestionnaireReseau: zod.string().min(1),
-  raisonSociale: zod.string().min(1),
+  identifiantGestionnaireReseau: zod
+    .string()
+    .min(1, { message: 'Code EIC ou gestionnaire réseau à préciser' }),
+  raisonSociale: zod.string().min(1, { message: 'Champ obligatoire' }),
   expressionReguliere: zod.string().transform(toUndefinedIfEmpty).optional(),
   format: zod.string().transform(toUndefinedIfEmpty).optional(),
   legende: zod.string().transform(toUndefinedIfEmpty).optional(),
 });
+
+export type AjouterGestionnaireRéseauFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,

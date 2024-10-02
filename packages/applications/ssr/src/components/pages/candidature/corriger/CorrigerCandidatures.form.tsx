@@ -5,11 +5,17 @@ import { FC, useState } from 'react';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { corrigerCandidaturesAction } from './corrigerCandidatures.action';
+import {
+  corrigerCandidaturesAction,
+  CorrigerCandidaturesFormKeys,
+} from './corrigerCandidatures.action';
 
 export const CorrigerCandidaturesForm: FC = () => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<CorrigerCandidaturesFormKeys>
+  >({});
 
   return (
     <Form
@@ -28,12 +34,12 @@ export const CorrigerCandidaturesForm: FC = () => {
     >
       <UploadDocument
         label="Fichier CSV"
-        id="fichierImport"
-        name="fichierImport"
+        id="fichierCorrectionCandidatures"
+        name="fichierCorrectionCandidatures"
         required
         format="csv"
-        state={validationErrors.includes('fichierImport') ? 'error' : 'default'}
-        stateRelatedMessage="Fichier CSV obligatoire"
+        state={validationErrors['fichierCorrectionCandidatures'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['fichierCorrectionCandidatures']}
       />
     </Form>
   );

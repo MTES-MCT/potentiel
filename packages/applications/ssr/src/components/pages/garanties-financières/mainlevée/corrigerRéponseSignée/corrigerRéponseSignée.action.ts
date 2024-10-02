@@ -6,13 +6,16 @@ import { mediator } from 'mediateur';
 import { CorrigerDocumentProjetCommand } from '@potentiel-domain/document';
 import { Routes } from '@potentiel-applications/routes';
 
+import { document } from '@/utils/zod/documentTypes';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 
 const schema = zod.object({
-  documentCorrige: zod.instanceof(Blob).refine((file) => file.size > 0),
+  documentCorrige: document,
   courrierReponseACorriger: zod.string().min(1),
-  identifiantProjet: zod.string(),
+  identifiantProjet: zod.string().min(1),
 });
+
+export type CorrigerRéponseSignéeFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,

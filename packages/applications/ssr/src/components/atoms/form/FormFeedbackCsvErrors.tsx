@@ -8,15 +8,17 @@ import { CsvError } from '@potentiel-libraries/csv';
 
 import { FormState } from '@/utils/formAction';
 
-type FormFeedbackCsvErrorProps = {
+type FormFeedbackCsvErrorsProps = {
   formState: FormState;
 };
 
-export const FormFeedbackCsvError: FC<FormFeedbackCsvErrorProps> = ({ formState }) => {
+export const FormFeedbackCsvErrors: FC<FormFeedbackCsvErrorsProps> = ({ formState }) => {
   const { pending } = useFormStatus();
+
   if (pending || formState.status !== 'csv-error') {
     return undefined;
   }
+
   const regroupedErrors = formState.errors.reduce(
     (acc, error) => {
       if (!acc[error.line]) {

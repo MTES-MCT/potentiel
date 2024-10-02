@@ -8,8 +8,12 @@ import { Routes } from '@potentiel-applications/routes';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { accorderDemandeMainlevéeGarantiesFinancièresAction } from './accorderDemandeMainlevéeGarantiesFinancières.action';
+import {
+  AccorderDemandeMainlevéeGarantiesFinancièresFormKeys,
+  accorderDemandeMainlevéeGarantiesFinancièresAction,
+} from './accorderDemandeMainlevéeGarantiesFinancières.action';
 
 type AccorderDemandeMainlevéeGarantiesFinancièresFormProps = {
   identifiantProjet: string;
@@ -19,7 +23,9 @@ export const AccorderDemandeMainlevéeGarantiesFinancières = ({
   identifiantProjet,
 }: AccorderDemandeMainlevéeGarantiesFinancièresFormProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<AccorderDemandeMainlevéeGarantiesFinancièresFormKeys>
+  >({});
 
   return (
     <>
@@ -46,7 +52,8 @@ export const AccorderDemandeMainlevéeGarantiesFinancières = ({
 
               <UploadDocument
                 label="Réponse signée"
-                state={validationErrors.includes('reponseSignee') ? 'error' : 'default'}
+                state={validationErrors['reponseSignee'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['reponseSignee']}
                 name="reponseSignee"
                 required
                 className="mb-4"

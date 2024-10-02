@@ -2,7 +2,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { DemanderMainlevéeGarantiesFinancières } from '../../pages/garanties-financières/mainlevée/demander/DemanderMainlevéeGarantiesFinancières';
+import { DemanderMainlevéeGarantiesFinancières } from '../../pages/garanties-financières/mainlevée/demander/DemanderMainlevéeGarantiesFinancières.form';
 import { SupprimerDépôtEnCoursGarantiesFinancières } from '../../pages/garanties-financières/dépôt/supprimer/SupprimerDépôtEnCoursGarantiesFinancières';
 import { ValiderDépôtEnCoursGarantiesFinancières } from '../../pages/garanties-financières/dépôt/valider/validerDépôtEnCoursGarantiesFinancières';
 import { InfoBoxDrealGarantiesFinancièreséÉchues } from '../../pages/garanties-financières/détails/components/InfoBoxDrealGarantiesFinancièresÉchues';

@@ -9,8 +9,12 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { modifierGestionnaireRéseauAction } from './modifierGestionnaireRéseau.action';
+import {
+  modifierGestionnaireRéseauAction,
+  ModifierGestionnaireRéseauFormKeys,
+} from './modifierGestionnaireRéseau.action';
 
 export type ModifierGestionnaireRéseauFormProps =
   PlainType<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;
@@ -21,7 +25,9 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
   aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
   contactEmail,
 }) => {
-  const [validationErrors, setValidationErrors] = useState<Array<string>>([]);
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<ModifierGestionnaireRéseauFormKeys>
+  >({});
 
   // Ici on match bind pour montrer un cas d'utilisation simple vu que c'est
   // la première mise en place de Option et ValueType en mode Isomorphique.
@@ -66,8 +72,8 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
           name: 'raisonSociale',
           defaultValue: raisonSociale,
         }}
-        state={validationErrors.includes('raisonSociale') ? 'error' : 'default'}
-        stateRelatedMessage="Raison sociale à préciser"
+        state={validationErrors['raisonSociale'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['raisonSociale']}
       />
 
       <Input
@@ -77,8 +83,8 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
           name: 'contactEmail',
           defaultValue: contactEmailValue,
         }}
-        state={validationErrors.includes('contactEmail') ? 'error' : 'default'}
-        stateRelatedMessage="Contact à préciser"
+        state={validationErrors['contactEmail'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['contactEmail']}
       />
 
       <Input
@@ -88,8 +94,8 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
           name: 'format',
           defaultValue: format,
         }}
-        state={validationErrors.includes('format') ? 'error' : 'default'}
-        stateRelatedMessage="Format à préciser"
+        state={validationErrors['format'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['format']}
         hintText="Exemple : XXX-RP-AAAA-999999"
       />
 
@@ -100,8 +106,8 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
           name: 'legende',
           defaultValue: légende,
         }}
-        state={validationErrors.includes('legende') ? 'error' : 'default'}
-        stateRelatedMessage="Légende à préciser"
+        state={validationErrors['legende'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['legende']}
         hintText="Exemple : X = caractère alphabétique en majuscule, AAAA = Année, 9 = caractère numérique de 0 à 9"
       />
 
@@ -112,8 +118,8 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
           name: 'expressionReguliere',
           defaultValue: expressionReguliereValue,
         }}
-        state={validationErrors.includes('expressionReguliere') ? 'error' : 'default'}
-        stateRelatedMessage="Expression régulière à préciser"
+        state={validationErrors['expressionReguliere'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['expressionReguliere']}
         hintText="Exemple : [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}"
       />
     </Form>
