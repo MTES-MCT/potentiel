@@ -95,16 +95,16 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
         </div>
       </div>
 
-      <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4">
+      <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4 text-sm md:text-base">
         <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
           <Icon
             id={symbols.puissance.iconId}
             className={symbols.puissance.iconColor}
             title={symbols.puissance.description}
           />
-          <div className="lg:flex lg:flex-col items-center">
+          <div className="flex items-center gap-2">
             {puissanceProductionAnnuelle}
-            <span className="italic text-sm"> {unitePuissance}</span>
+            <span className="italic text-sm">{unitePuissance}</span>
           </div>
         </div>
         <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
@@ -113,9 +113,9 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
             className={symbols.prix.iconColor}
             title={symbols.prix.description}
           />
-          <div className="lg:flex lg:flex-col items-center">
+          <div className="flex items-center">
             {prixReference}
-            <span className="italic text-sm"> €/MWh</span>
+            <span className="italic text-sm">€ par MWh</span>
           </div>
         </div>
 

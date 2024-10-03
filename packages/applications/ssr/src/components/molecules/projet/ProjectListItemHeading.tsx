@@ -38,9 +38,11 @@ export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
       ) : null}
     </div>
 
-    <div className="flex gap-1 md:items-center">
-      {statut && <StatutProjetBadge statut={statut} />}
-      {estNotifié !== undefined && <NotificationBadge estNotifié={estNotifié} />}
+    <div className="flex gap-1 md:items-center md:flex-row flex-col">
+      <div className="flex gap-1">
+        {statut && <StatutProjetBadge statut={statut} />}
+        {estNotifié !== undefined && <NotificationBadge estNotifié={estNotifié} />}
+      </div>
 
       <FormattedIdentifiantProjet identifiantProjet={identifiantProjet} />
     </div>
