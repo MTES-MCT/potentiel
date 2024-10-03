@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import Link from 'next/link';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Badge from '@codegouvfr/react-dsfr/Badge';
@@ -77,7 +77,7 @@ export const PériodeListItem: FC<PériodeListItemProps> = ({
       </div>
     </div>
 
-    <div className="flex flex-col gap-4 md:flex-row md:items-center">
+    <div className="flex flex-col gap-4 mb-4 md:mb-0 md:flex-row md:items-center">
       <div className="flex md:flex-1 flex-col gap-1 text-sm">
         {notifiéLe && (
           <div className="flex items-center gap-2">
@@ -213,7 +213,7 @@ const Stat: FC<StatProps> = ({
       <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
         <Icon {...iconProps} />
 
-        <div className="lg:flex lg:flex-col items-center">
+        <div className="flex gap-2 lg:flex-col items-center">
           <Link
             href={Routes.Candidature.lister({
               appelOffre,

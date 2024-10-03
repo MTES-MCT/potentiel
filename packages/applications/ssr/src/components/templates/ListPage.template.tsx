@@ -40,7 +40,7 @@ export const ListPageTemplate = <TItem,>({
 }: ListPageTemplateProps<TItem>) => (
   <PageTemplate banner={<Heading1 className="text-theme-white">{heading}</Heading1>}>
     <div className="flex flex-col md:flex-row gap-5 md:gap-10">
-      <div className="flex flex-col gap-3 pb-2 border-solid border-0 border-b md:border-b-0 md:w-1/4">
+      <div className="flex flex-col gap-3 pb-2 md:w-1/4">
         {actions.length ? (
           <>
             {actions.map((a) => (
@@ -59,7 +59,7 @@ export const ListPageTemplate = <TItem,>({
 
       <div className="flex flex-col gap-3 flex-grow md:w-3/4">
         <div className="w-full flex justify-end">
-          <div className="w-2/3">
+          <div className="md:w-2/3 w-full">
             {search ? <Search label={search.label} params={search.params} /> : null}
           </div>
         </div>
