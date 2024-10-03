@@ -24,11 +24,16 @@ const formatRecipients = (recipients: Array<Receipt>) =>
   }));
 
 export const sendEmail: SendEmail = async (sendEmailArgs) => {
-  const { SEND_EMAILS_FROM, SEND_EMAILS_FROM_NAME, SEND_EMAIL_MODE = 'logging-only' } = process.env;
+  const {
+    SEND_EMAILS_FROM,
+    SEND_EMAILS_FROM_NAME,
+    SEND_EMAIL_MODE = 'logging-only',
+    MAINTENANCE_MODE,
+  } = process.env;
 
   const mode = mapToSendEmailMode(SEND_EMAIL_MODE);
 
-  if (mode !== 'logging-only') {
+  if (mode !== 'logging-only' && !MAINTENANCE_MODE) {
     const { templateId, messageSubject, recipients, cc, bcc, variables } = sendEmailArgs;
 
     await getMailjetClient()
