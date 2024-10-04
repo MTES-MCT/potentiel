@@ -31,7 +31,7 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
-        documentKey: candidature.détails.formatter(),
+        documentKey: candidature.détailsImport.formatter(),
       },
     });
 
@@ -54,6 +54,21 @@ Alors(
 );
 
 Alors(
+  'le porteur a été prévenu que son attestation a été modifiée',
+  async function (this: PotentielWorld) {
+    const email = this.notificationWorld.récupérerNotification(
+      this.candidatureWorld.importerCandidature.values.emailContactValue,
+    );
+
+    await waitForExpect(async () => {
+      expect(email.messageSubject).match(
+        /Potentiel - Une nouvelle attestation est disponible pour le projet .*/,
+      );
+    });
+  },
+);
+
+Alors(
   'les candidatures de la période notifiée devraient être notifiées',
   async function (this: PotentielWorld) {
     const { identifiantPériode } = this.périodeWorld;
@@ -67,5 +82,68 @@ Alors(
     for (const candidature of candidatures.items) {
       expect(candidature.estNotifiée, "La candidature n'est pas notifiée").to.be.true;
     }
+  },
+);
+
+Alors(
+  'les attestations de désignation des candidatures de la période notifiée devraient être consultables',
+  async function (this: PotentielWorld) {
+    const { identifiantPériode } = this.périodeWorld;
+    const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
+      type: 'Candidature.Query.ListerCandidatures',
+      data: {
+        appelOffre: identifiantPériode.appelOffre,
+        période: identifiantPériode.période,
+      },
+    });
+
+    for (const candidature of candidatures.items) {
+      expect(candidature.attestation, "La candidature n'a pas d'attestation").not.to.be.undefined;
+      await waitForExpect(async () => {
+        if (candidature.attestation) {
+          const { content, format } = await mediator.send<ConsulterDocumentProjetQuery>({
+            type: 'Document.Query.ConsulterDocumentProjet',
+            data: {
+              documentKey: candidature.attestation.formatter(),
+            },
+          });
+
+          expect(await convertReadableStreamToString(content)).to.have.length.gt(1);
+          format.should.be.equal('application/pdf');
+        }
+      });
+    }
+  },
+);
+
+Alors(
+  "l'attestation de désignation de la candidature devrait être consultable",
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.candidatureWorld.importerCandidature;
+
+    await waitForExpect(async () => {
+      const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+        type: 'Candidature.Query.ConsulterCandidature',
+        data: {
+          identifiantProjet,
+        },
+      });
+
+      assert(Option.isSome(candidature), 'Candidature non trouvée');
+
+      expect(candidature.notification, "La candidature n'a pas d'attestation").not.to.be.undefined;
+
+      if (candidature.notification?.attestation) {
+        const { content, format } = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: candidature.notification.attestation.formatter(),
+          },
+        });
+
+        expect(await convertReadableStreamToString(content)).to.have.length.gt(1);
+        format.should.be.equal('application/pdf');
+      }
+    });
   },
 );

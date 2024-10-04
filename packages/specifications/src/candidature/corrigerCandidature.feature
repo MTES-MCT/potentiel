@@ -10,6 +10,13 @@ Fonctionnalité: Corriger une candidature
             | nom candidat | abcd |
         Alors la candidature devrait être consultable
 
+    Scénario: Corriger une candidature notifiée
+        Quand le DGEC validateur notifie la candidature comme lauréate
+        Et un administrateur corrige la candidature avec :
+            | nom candidat | abcd |
+        Alors la candidature devrait être consultable
+        Et le porteur a été prévenu que son attestation a été modifiée
+
     Scénario: Impossible de changer l'AO d'une candidature
         Quand un administrateur corrige la candidature avec :
             | appel d'offre | x |

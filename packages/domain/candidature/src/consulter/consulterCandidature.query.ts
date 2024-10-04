@@ -40,7 +40,7 @@ export type ConsulterCandidatureReadModel = {
   territoireProjet: string;
   misÀJourLe: DateTime.ValueType;
 
-  détails: DocumentProjet.ValueType;
+  détailsImport: DocumentProjet.ValueType;
 
   notification?: {
     notifiéeLe: DateTime.ValueType;
@@ -49,6 +49,7 @@ export type ConsulterCandidatureReadModel = {
       fonction: string;
       nomComplet: string;
     };
+    attestation: DocumentProjet.ValueType;
   };
 };
 
@@ -125,7 +126,7 @@ export const mapToReadModel = ({
   evaluationCarboneSimplifiée,
   actionnariat: actionnariat ? TypeActionnariat.convertirEnValueType(actionnariat) : undefined,
   territoireProjet,
-  détails: DocumentProjet.convertirEnValueType(
+  détailsImport: DocumentProjet.convertirEnValueType(
     identifiantProjet,
     'candidature/import',
     misÀJourLe,
@@ -138,5 +139,11 @@ export const mapToReadModel = ({
       fonction: notification.validateur.fonction,
       nomComplet: notification.validateur.nomComplet,
     },
+    attestation: DocumentProjet.convertirEnValueType(
+      identifiantProjet,
+      'attestation',
+      notification.notifiéeLe,
+      'application/pdf',
+    ),
   },
 });

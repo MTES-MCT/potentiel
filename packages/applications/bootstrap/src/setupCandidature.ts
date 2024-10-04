@@ -6,8 +6,13 @@ import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-ev
 import { CandidatureProjector } from '@potentiel-applications/projectors';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
+import { CandidatureNotification, SendEmail } from '@potentiel-applications/notifications';
 
-export const setupCandidature = async () => {
+type SetupCandidatureDependencies = {
+  sendEmail: SendEmail;
+};
+
+export const setupCandidature = async ({ sendEmail }: SetupCandidatureDependencies) => {
   Candidature.registerCandidaturesUseCases({ loadAggregate });
 
   Candidature.registerCandidatureQueries({
@@ -20,6 +25,8 @@ export const setupCandidature = async () => {
   });
 
   CandidatureProjector.register();
+
+  CandidatureNotification.register({ sendEmail });
 
   const unsubscribeCandidatureProjector = await subscribe<CandidatureProjector.SubscriptionEvent>({
     name: 'projector',
@@ -38,6 +45,19 @@ export const setupCandidature = async () => {
     streamCategory: 'candidature',
   });
 
+  const unsubscribeCandidatureNotification =
+    await subscribe<CandidatureNotification.SubscriptionEvent>({
+      name: 'notifications',
+      streamCategory: 'candidature',
+      eventType: ['CandidatureCorrigée-V1'],
+      eventHandler: async (event) => {
+        await mediator.publish<CandidatureNotification.Execute>({
+          type: 'System.Notification.Candidature',
+          data: event,
+        });
+      },
+    });
+
   const unsubscribeAttestationSaga = await subscribe<AttestationSaga.SubscriptionEvent & Event>({
     name: 'attestation-saga',
     streamCategory: 'candidature',
@@ -53,5 +73,6 @@ export const setupCandidature = async () => {
   return async () => {
     await unsubscribeCandidatureProjector();
     await unsubscribeAttestationSaga();
+    await unsubscribeCandidatureNotification();
   };
 };

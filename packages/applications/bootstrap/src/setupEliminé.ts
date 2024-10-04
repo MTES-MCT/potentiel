@@ -10,11 +10,11 @@ import {
 import { RecoursProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
 import { RecoursNotification, SendEmail } from '@potentiel-applications/notifications';
 
-type SetupÉliminéDependenices = {
+type SetupÉliminéDependencies = {
   sendEmail: SendEmail;
 };
 
-export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependenices) => {
+export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependencies) => {
   registerEliminéUseCases({
     loadAggregate,
   });

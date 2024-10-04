@@ -38,6 +38,7 @@ export const bootstrap = async ({
     mediator.use({
       middlewares: [logMiddleware, ...middlewares],
     });
+
     if (!sendEmail) {
       sendEmail = sendEmailMailjet;
     }
@@ -45,7 +46,7 @@ export const bootstrap = async ({
     setupUtilisateur();
     await setupAppelOffre();
     const unsetupPériode = await setupPériode({ sendEmail });
-    const unsetupCandidature = await setupCandidature();
+    const unsetupCandidature = await setupCandidature({ sendEmail });
     setupDocumentProjet();
     AttestationSaga.register();
 

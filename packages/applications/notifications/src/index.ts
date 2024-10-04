@@ -4,5 +4,6 @@ export * as AchèvementNotification from './subscribers/lauréat/achèvement.not
 export * as TâchePlanifiéeNotification from './subscribers/lauréat/tâchePlanifiée.notification';
 export * as PériodeNotification from './subscribers/période/période.notification';
 export * as RecoursNotification from './subscribers/éliminé/recours.notification';
+export * as CandidatureNotification from './subscribers/candidature/candidature.notification';
 
 export { SendEmail, EmailPayload } from './sendEmail';

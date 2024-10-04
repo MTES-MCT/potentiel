@@ -105,7 +105,7 @@ export class CandidatureWorld {
       actionnariat: expectedValues.actionnariatValue
         ? Candidature.TypeActionnariat.convertirEnValueType(expectedValues.actionnariatValue)
         : undefined,
-      détails: DocumentProjet.convertirEnValueType(
+      détailsImport: DocumentProjet.convertirEnValueType(
         this.importerCandidature.identifiantProjet,
         'candidature/import',
         misÀJourLe,
