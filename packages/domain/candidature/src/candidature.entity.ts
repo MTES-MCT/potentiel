@@ -39,6 +39,7 @@ export type CandidatureEntity = Entity<
     misÀJourLe: DateTime.RawType;
 
     notification?: {
+      estNotifiée: true;
       notifiéeLe: DateTime.RawType;
       notifiéePar: Email.RawType;
     };

@@ -70,6 +70,7 @@ export const register = () => {
             `candidature|${payload.identifiantProjet}`,
             {
               notification: {
+                estNotifiée: true,
                 notifiéeLe: payload.notifiéeLe,
                 notifiéePar: payload.notifiéePar,
               },
