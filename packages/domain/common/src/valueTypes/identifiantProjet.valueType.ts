@@ -50,7 +50,7 @@ export const convertirEnValueType = (identifiantProjet: string): ValueType => {
 
 const regexIdentifiantProjet = /^[^#]+#[^#]+#([^#]+)?#[^#]+$/;
 
-function estValide(value: string): asserts value is RawType {
+export function estValide(value: string): asserts value is RawType {
   const isValid = regexIdentifiantProjet.test(value);
 
   if (!isValid) {

@@ -89,38 +89,39 @@ const requiredFieldIfReferenceFieldEquals = <
   };
 };
 
+// Les colonnes du fichier CSV
 const colonnes = {
-  appel_offre: `Appel d'offres`,
+  appelOffre: `Appel d'offres`,
   période: 'Période',
   famille: 'Famille',
-  num_cre: 'N°CRE',
-  nom_projet: 'Nom projet',
-  société_mère: 'Société mère',
-  nom_candidat: 'Candidat',
-  puissance_production_annuelle: 'puissance_production_annuelle',
-  prix_reference: 'prix_reference',
-  note_totale: 'Note totale',
-  nom_représentant_légal: 'Nom et prénom du représentant légal',
-  email_contact: 'Adresse électronique du contact',
+  numéroCRE: 'N°CRE',
+  nomProjet: 'Nom projet',
+  sociétéMère: 'Société mère',
+  nomCandidat: 'Candidat',
+  puissanceProductionAnnuelle: 'puissance_production_annuelle',
+  prixRéférence: 'prix_reference',
+  noteTotale: 'Note totale',
+  nomReprésentantLégal: 'Nom et prénom du représentant légal',
+  emailContact: 'Adresse électronique du contact',
   adresse1: 'N°, voie, lieu-dit 1',
   adresse2: 'N°, voie, lieu-dit 2',
-  code_postaux: 'CP',
+  codePostaux: 'CP',
   commune: 'Commune',
   statut: 'Classé ?',
-  motif_élimination: "Motif d'élimination",
-  puissance_a_la_pointe: 'Engagement de fourniture de puissance à la pointe\n(AO ZNI)',
-  evaluation_carbone_simplifiée:
+  motifÉlimination: "Motif d'élimination",
+  puissanceÀLaPointe: 'Engagement de fourniture de puissance à la pointe\n(AO ZNI)',
+  evaluationCarboneSimplifiée:
     'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
   technologie: 'Technologie\n(dispositif de production)',
-  type_gf:
+  typeGf:
     "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation",
-  financement_collectif: 'Financement collectif (Oui/Non)',
-  gouvernance_partagée: 'Gouvernance partagée (Oui/Non)',
-  date_échéance_gf: "Date d'échéance au format JJ/MM/AAAA",
+  financementCollectif: 'Financement collectif (Oui/Non)',
+  gouvernancePartagée: 'Gouvernance partagée (Oui/Non)',
+  dateÉchéanceGf: "Date d'échéance au format JJ/MM/AAAA",
   // TODO quel est le bon nom pour cette colonne?
-  historique_abandon:
+  historiqueAbandon:
     "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO",
-  territoire_projet: 'Territoire\n(AO ZNI)',
+  territoireProjet: 'Territoire\n(AO ZNI)',
 } as const;
 
 // Order matters! the CSV uses "1"/"2"/"3"
@@ -148,21 +149,21 @@ const technologie = {
 
 const candidatureCsvRowSchema = z
   .object({
-    [colonnes.appel_offre]: requiredStringSchema,
+    [colonnes.appelOffre]: requiredStringSchema,
     [colonnes.période]: requiredStringSchema,
     [colonnes.famille]: optionalStringSchema,
-    [colonnes.num_cre]: requiredStringSchema,
-    [colonnes.nom_projet]: requiredStringSchema,
-    [colonnes.société_mère]: optionalStringSchema,
-    [colonnes.nom_candidat]: requiredStringSchema,
-    [colonnes.puissance_production_annuelle]: strictlyPositiveNumberSchema,
-    [colonnes.prix_reference]: strictlyPositiveNumberSchema,
-    [colonnes.note_totale]: numberSchema,
-    [colonnes.nom_représentant_légal]: requiredStringSchema,
-    [colonnes.email_contact]: requiredStringSchema.email(),
+    [colonnes.numéroCRE]: requiredStringSchema,
+    [colonnes.nomProjet]: requiredStringSchema,
+    [colonnes.sociétéMère]: optionalStringSchema,
+    [colonnes.nomCandidat]: requiredStringSchema,
+    [colonnes.puissanceProductionAnnuelle]: strictlyPositiveNumberSchema,
+    [colonnes.prixRéférence]: strictlyPositiveNumberSchema,
+    [colonnes.noteTotale]: numberSchema,
+    [colonnes.nomReprésentantLégal]: requiredStringSchema,
+    [colonnes.emailContact]: requiredStringSchema.email(),
     [colonnes.adresse1]: requiredStringSchema,
     [colonnes.adresse2]: optionalStringSchema,
-    [colonnes.code_postaux]: requiredStringSchema
+    [colonnes.codePostaux]: requiredStringSchema
       .transform((val) => val.split('/').map((str) => str.trim()))
       .refine(
         (val) => val.every(getRégionAndDépartementFromCodePostal),
@@ -170,60 +171,54 @@ const candidatureCsvRowSchema = z
       ),
     [colonnes.commune]: requiredStringSchema,
     [colonnes.statut]: z.string().pipe(z.enum(['Eliminé', 'Classé'])),
-    [colonnes.puissance_a_la_pointe]: optionalOuiNonSchema,
-    [colonnes.evaluation_carbone_simplifiée]: z
+    [colonnes.puissanceÀLaPointe]: optionalOuiNonSchema,
+    [colonnes.evaluationCarboneSimplifiée]: z
       .union([z.enum(['N/A']), strictlyPositiveNumberSchema])
       .transform((val) => (val === 'N/A' ? 0 : val)),
     [colonnes.technologie]: z
       .enum(['N/A', 'Eolien', 'Hydraulique', 'PV'])
       .optional()
       .transform((val) => val ?? 'N/A'),
-    [colonnes.financement_collectif]: ouiNonSchema,
-    [colonnes.gouvernance_partagée]: ouiNonSchema,
-    [colonnes.historique_abandon]: z.enum(['1', '2', '3', '4']),
+    [colonnes.financementCollectif]: ouiNonSchema,
+    [colonnes.gouvernancePartagée]: ouiNonSchema,
+    [colonnes.historiqueAbandon]: z.enum(['1', '2', '3', '4']),
     // columns with refines
-    [colonnes.motif_élimination]: optionalStringSchema.transform((val) => val || undefined), // see refine below
-    [colonnes.type_gf]: optionalEnum(z.enum(['1', '2', '3'])), // see refine below
-    [colonnes.date_échéance_gf]: dateSchema.optional(), // see refine below
-    [colonnes.territoire_projet]: optionalStringSchema, // see refines below
+    [colonnes.motifÉlimination]: optionalStringSchema.transform((val) => val || undefined), // see refine below
+    [colonnes.typeGf]: optionalEnum(z.enum(['1', '2', '3'])), // see refine below
+    [colonnes.dateÉchéanceGf]: dateSchema.optional(), // see refine below
+    [colonnes.territoireProjet]: optionalStringSchema, // see refines below
     notifiedOn: z.undefined({
       invalid_type_error: 'Le champs notifiedOn ne peut pas être présent',
     }),
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine(
-    requiredFieldIfReferenceFieldEquals(colonnes.motif_élimination, colonnes.statut, 'Eliminé'),
+    requiredFieldIfReferenceFieldEquals(colonnes.motifÉlimination, colonnes.statut, 'Eliminé'),
   )
   // le type de GF est obligatoire si la candidature est classée
-  .superRefine(requiredFieldIfReferenceFieldEquals(colonnes.type_gf, colonnes.statut, 'Classé'))
+  .superRefine(requiredFieldIfReferenceFieldEquals(colonnes.typeGf, colonnes.statut, 'Classé'))
   // la date d'échéance est obligatoire si les GF sont de type "avec date d'échéance"
+  .superRefine(requiredFieldIfReferenceFieldEquals(colonnes.dateÉchéanceGf, colonnes.typeGf, '2'))
   .superRefine(
     requiredFieldIfReferenceFieldEquals(
-      "Date d'échéance au format JJ/MM/AAAA",
-      colonnes.type_gf,
-      '2',
-    ),
-  )
-  .superRefine(
-    requiredFieldIfReferenceFieldEquals(
-      colonnes.territoire_projet,
-      colonnes.appel_offre,
+      colonnes.territoireProjet,
+      colonnes.appelOffre,
       'CRE4 - ZNI',
     ),
   )
   .superRefine(
     requiredFieldIfReferenceFieldEquals(
-      colonnes.territoire_projet,
-      colonnes.appel_offre,
+      colonnes.territoireProjet,
+      colonnes.appelOffre,
       'CRE4 - ZNI 2017',
     ),
   )
-  .refine((val) => !(val[colonnes.financement_collectif] && val[colonnes.gouvernance_partagée]), {
-    message: `Seule l'une des deux colonnes "${colonnes.financement_collectif}" et "${colonnes.gouvernance_partagée}" peut avoir la valeur "Oui"`,
-    path: [colonnes.financement_collectif, colonnes.gouvernance_partagée],
+  .refine((val) => !(val[colonnes.financementCollectif] && val[colonnes.gouvernancePartagée]), {
+    message: `Seule l'une des deux colonnes "${colonnes.financementCollectif}" et "${colonnes.gouvernancePartagée}" peut avoir la valeur "Oui"`,
+    path: [colonnes.financementCollectif, colonnes.gouvernancePartagée],
   });
 
-export const candidatureSchema = candidatureCsvRowSchema
+export const candidatureCsvSchema = candidatureCsvRowSchema
   // Transforme les noms des clés de la ligne en valeurs plus simples à manipuler
   .transform((val) => {
     type CandidatureShape = {
@@ -238,12 +233,62 @@ export const candidatureSchema = candidatureCsvRowSchema
   .transform((val) => {
     return {
       ...val,
-      type_gf: val.type_gf ? typeGf[Number(val.type_gf) - 1] : undefined,
-      historique_abandon: historiqueAbandon[Number(val.historique_abandon) - 1],
+      type_gf: val.typeGf ? typeGf[Number(val.typeGf) - 1] : undefined,
+      historique_abandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
       statut: statut[val.statut],
       technologie: technologie[val.technologie],
     };
   });
 
 export type CandidatureCsvRowShape = z.infer<typeof candidatureCsvRowSchema>;
-export type CandidatureShape = z.infer<typeof candidatureSchema>;
+export type CandidatureShape = z.infer<typeof candidatureCsvSchema>;
+
+/** Schema simplifié pour utilisation sans données CSV */
+export const candidatureSchema = z
+  .object({
+    identifiantProjet: z.string(),
+    nomProjet: requiredStringSchema,
+    sociétéMère: optionalStringSchema,
+    nomCandidat: requiredStringSchema,
+    puissanceProductionAnnuelle: strictlyPositiveNumberSchema,
+    prixRéference: strictlyPositiveNumberSchema,
+    noteTotale: numberSchema,
+    nomReprésentantLégal: requiredStringSchema,
+    emailContact: requiredStringSchema.email(),
+    localité: z
+      .object({
+        adresse1: requiredStringSchema,
+        adresse2: optionalStringSchema,
+        codePostal: requiredStringSchema
+          .transform((val) => val.split('/').map((str) => str.trim()))
+          .refine(
+            (val) => val.every(getRégionAndDépartementFromCodePostal),
+            'Le code postal ne correspond à aucune région / département',
+          )
+          .transform((val) => val.join(' / ')),
+        commune: requiredStringSchema,
+      })
+      .optional(), // TODO not optional
+    statut: z.enum(Candidature.StatutCandidature.statuts),
+    puissanceÀLaPointe: z.coerce.boolean(),
+    evaluationCarboneSimplifiée: strictlyPositiveNumberSchema,
+    technologie: z.enum(Candidature.TypeTechnologie.types),
+    actionnariat: optionalEnum(z.enum(Candidature.TypeActionnariat.types)),
+    historiqueAbandon: z.enum(Candidature.HistoriqueAbandon.types),
+    // columns with refines
+    motifÉlimination: optionalStringSchema.transform((val) => val || undefined), // see refine below
+    typeGarantiesFinancières: optionalEnum(z.enum(Candidature.TypeGarantiesFinancières.types)), // see refine below
+    dateÉchéanceGf: z.date().optional(), // see refine below
+  })
+  // le motif d'élimination est obligatoire si la candidature est éliminée
+  .superRefine(requiredFieldIfReferenceFieldEquals('motifÉlimination', 'statut', 'éliminé'))
+  // le type de GF est obligatoire si la candidature est classée
+  .superRefine(requiredFieldIfReferenceFieldEquals('typeGarantiesFinancières', 'statut', 'classé'))
+  // la date d'échéance est obligatoire si les GF sont de type "avec date d'échéance"
+  .superRefine(
+    requiredFieldIfReferenceFieldEquals(
+      'dateÉchéanceGf',
+      'typeGarantiesFinancières',
+      'avec-date-échéance',
+    ),
+  );
