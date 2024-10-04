@@ -7,13 +7,13 @@ import {
 } from '@potentiel-domain/inmemory-referential/src/appelOffre/PPE2';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
+import { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions';
 
 import { makeCertificate } from './makeCertificate';
 
 const meta = {
   title: 'Attestations PDF/PPE2/v2',
-  component: ({ projet }: { projet: AttestationPPE2Options }) => {
+  component: ({ projet }: { projet: AttestationPPE2V2Options }) => {
     return makeCertificate(
       projet,
       {
@@ -29,11 +29,10 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const fakeProject: AttestationPPE2Options = {
+const fakeProject = {
   template: 'ppe2.v2',
-  appelOffre: {
-    ...eolienPPE2,
-  } as AppelOffre.AppelOffreReadModel,
+  ministère: 'MCE',
+  appelOffre: eolienPPE2 as AppelOffre.AppelOffreReadModel,
   période: eolienPPE2.periodes[0],
   famille: eolienPPE2.periodes[0].familles[0],
   isClasse: true,
@@ -52,7 +51,7 @@ const fakeProject: AttestationPPE2Options = {
   puissance: 42,
   potentielId: 'potentielId',
   technologie: 'N/A',
-};
+} satisfies AttestationPPE2V2Options;
 
 export const EliminePPE2AuDessusDePcible: Story = {
   args: {

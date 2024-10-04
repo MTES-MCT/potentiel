@@ -26,13 +26,22 @@ export type Common = {
 
 export type AttestationCRE4Options = Common & {
   template: 'cre4.v0' | 'cre4.v1';
+  ministère?: undefined;
   isFinancementParticipatif: boolean;
   isInvestissementParticipatif: boolean;
 };
 
-export type AttestationPPE2Options = Common & {
-  template: 'ppe2.v1' | 'ppe2.v2';
+type PPE2BaseOptions = Common & {
   actionnariat?: 'financement-collectif' | 'gouvernance-partagée';
 };
+export type AttestationPPE2V1Options = PPE2BaseOptions & {
+  template: 'ppe2.v1';
+  ministère?: undefined;
+};
+export type AttestationPPE2V2Options = PPE2BaseOptions & {
+  template: 'ppe2.v2';
+  ministère: 'MEFSIN' | 'MCE';
+};
+export type AttestationPPE2Options = AttestationPPE2V1Options | AttestationPPE2V2Options;
 
 export type AttestationCandidatureOptions = AttestationCRE4Options | AttestationPPE2Options;

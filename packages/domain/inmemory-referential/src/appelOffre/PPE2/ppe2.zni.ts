@@ -75,6 +75,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
       id: '1',
       title: 'première',
       certificateTemplate: 'ppe2.v2',
+      ministère: 'MEFSIN',
       validateurParDéfaut: validateurParDéfaut.hermine,
       cahierDesCharges: {
         référence: '2023/S 183-570186',

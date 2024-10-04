@@ -138,9 +138,9 @@ export type Validateur = {
   fullName: string;
   fonction?: string;
 };
+
 export type NotifiedPeriode = {
   type?: 'notified';
-  certificateTemplate: CertificateTemplate;
   validateurParDéfaut: Validateur;
 } & (
   | {
@@ -155,15 +155,15 @@ export type NotifiedPeriode = {
       noteThresholdBy?: undefined;
       noteThreshold: number;
     }
-);
+) &
+  CertificateTemplateProps;
 
 type NotYetNotifiedPeriode = {
   type: 'not-yet-notified';
-  certificateTemplate: CertificateTemplate;
   validateurParDéfaut: Validateur;
   noteThresholdBy?: undefined;
   noteThreshold?: undefined;
-};
+} & CertificateTemplateProps;
 
 type LegacyPeriode = {
   type: 'legacy';
@@ -172,7 +172,15 @@ type LegacyPeriode = {
   noteThreshold?: undefined;
 };
 
-export type CertificateTemplate = 'cre4.v0' | 'cre4.v1' | 'ppe2.v1' | 'ppe2.v2';
+type CertificateTemplateProps =
+  | {
+      certificateTemplate: 'cre4.v0' | 'cre4.v1' | 'ppe2.v1';
+      ministère?: undefined;
+    }
+  | {
+      certificateTemplate: 'ppe2.v2';
+      ministère: 'MEFSIN' | 'MCE';
+    };
 
 export type Periode = {
   id: string;
