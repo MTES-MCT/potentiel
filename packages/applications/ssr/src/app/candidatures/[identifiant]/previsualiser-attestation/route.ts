@@ -8,13 +8,14 @@ import {
 import { buildCertificate } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/candidature';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DateTime } from '@potentiel-domain/common';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
+
+import { getCandidature } from '../../_helpers/getCandidature';
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
   withUtilisateur(async (utilisateur) => {
@@ -35,17 +36,10 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       );
     }
 
-    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-      type: 'Candidature.Query.ConsulterCandidature',
-      data: {
-        identifiantProjet,
-      },
-    });
+    const candidature = await getCandidature(identifiantProjet);
 
-    if (Option.isNone(candidature)) {
-      logger.warn(`Candidature non trouvée`, { identifiantProjet });
-      return notFound();
-    }
+    const notifiéLe = candidature.notification?.notifiéeLe ?? DateTime.now();
+    const notifiéPar = candidature.notification?.notifiéePar ?? utilisateur.identifiantUtilisateur;
 
     const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
@@ -79,7 +73,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     const user = await mediator.send<ConsulterUtilisateurQuery>({
       type: 'Utilisateur.Query.ConsulterUtilisateur',
       data: {
-        identifiantUtilisateur: utilisateur.identifiantUtilisateur.formatter(),
+        identifiantUtilisateur: notifiéPar.formatter(),
       },
     });
 
@@ -96,7 +90,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       période,
       utilisateur: user,
       candidature,
-      notifiéLe: DateTime.now().formatter(),
+      notifiéLe: notifiéLe.formatter(),
     });
 
     if (!certificate) {

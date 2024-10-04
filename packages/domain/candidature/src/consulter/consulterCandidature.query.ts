@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -42,7 +42,10 @@ export type ConsulterCandidatureReadModel = {
 
   détails: DocumentProjet.ValueType;
 
-  estNotifiée: boolean;
+  notification?: {
+    notifiéeLe: DateTime.ValueType;
+    notifiéePar: Email.ValueType;
+  };
 };
 
 export type ConsulterCandidatureQuery = Message<
@@ -93,7 +96,7 @@ export const mapToReadModel = ({
   actionnariat,
   territoireProjet,
   misÀJourLe,
-  estNotifiée,
+  notification,
 }: CandidatureEntity): ConsulterCandidatureReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),
@@ -124,5 +127,8 @@ export const mapToReadModel = ({
     misÀJourLe,
     'application/json',
   ),
-  estNotifiée,
+  notification: notification && {
+    notifiéeLe: DateTime.convertirEnValueType(notification.notifiéeLe),
+    notifiéePar: Email.convertirEnValueType(notification.notifiéePar),
+  },
 });
