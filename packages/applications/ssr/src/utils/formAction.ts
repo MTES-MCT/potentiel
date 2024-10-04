@@ -50,28 +50,27 @@ export type FormState =
       status: 'unknown-error';
     };
 
-export type FormAction<
-  TState,
-  TSchema extends
-    | zod.AnyZodObject
-    | zod.ZodDiscriminatedUnion<string, zod.AnyZodObject[]> = zod.AnyZodObject,
-> = (previousState: TState, data: zod.infer<TSchema>) => Promise<TState>;
+export type FormAction<TState, TSchema extends zod.ZodType = zod.AnyZodObject> = (
+  previousState: TState,
+  data: zod.infer<TSchema>,
+) => Promise<TState>;
 
 const TWO_SECONDS = 2000;
 
 export const formAction =
-  <
-    TSchema extends zod.AnyZodObject | zod.ZodDiscriminatedUnion<string, zod.AnyZodObject[]>,
-    TState extends FormState,
-  >(
+  <TSchema extends zod.ZodType, TState extends FormState>(
     action: FormAction<TState, TSchema>,
     schema?: TSchema,
   ) =>
   async (previousState: TState, formData: FormData) => {
     try {
-      const data = schema
-        ? await schema.parseAsync(Object.fromEntries(formData))
-        : Object.fromEntries(formData);
+      // decode field names that have been uri encoded
+      const decodedFormData = Object.fromEntries(
+        Object.entries(Object.fromEntries(formData)).map(
+          ([key, value]) => [decodeURIComponent(key), value] as const,
+        ),
+      );
+      const data = schema ? await schema.parseAsync(decodedFormData) : decodedFormData;
 
       const result = await action(previousState, data);
 
