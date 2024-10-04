@@ -182,6 +182,8 @@ type CertificateTemplateProps =
       ministère: 'MEFSIN' | 'MCE';
     };
 
+export type CertificateTemplate = CertificateTemplateProps['certificateTemplate'];
+
 export type Periode = {
   id: string;
   title: string;
