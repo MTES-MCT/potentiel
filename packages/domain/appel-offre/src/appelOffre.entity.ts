@@ -175,7 +175,6 @@ type LegacyPeriode = {
 type CertificateTemplateProps =
   | {
       certificateTemplate: 'cre4.v0' | 'cre4.v1' | 'ppe2.v1';
-      ministère?: undefined;
     }
   | {
       certificateTemplate: 'ppe2.v2';

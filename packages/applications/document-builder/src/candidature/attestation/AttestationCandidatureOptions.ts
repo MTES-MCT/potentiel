@@ -26,7 +26,6 @@ export type Common = {
 
 export type AttestationCRE4Options = Common & {
   template: 'cre4.v0' | 'cre4.v1';
-  ministère?: undefined;
   isFinancementParticipatif: boolean;
   isInvestissementParticipatif: boolean;
 };
@@ -36,7 +35,6 @@ type PPE2BaseOptions = Common & {
 };
 export type AttestationPPE2V1Options = PPE2BaseOptions & {
   template: 'ppe2.v1';
-  ministère?: undefined;
 };
 export type AttestationPPE2V2Options = PPE2BaseOptions & {
   template: 'ppe2.v2';
