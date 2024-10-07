@@ -5,8 +5,8 @@
 - [Premiers pas dans le projet Potentiel](#premiers-pas-dans-le-projet-potentiel)
   - [Table des matières](#table-des-matières)
   - [ Mise en place du projet](#-mise-en-place-du-projet)
-  - [ Système d'authentification avec Keycloak](#-système-dauthentification-avec-keycloak)
   - [ Configurer un environnement local](#-configurer-un-environnement-local)
+  - [ Système d'authentification avec Keycloak](#-système-dauthentification-avec-keycloak)
   - [ Lancer l'application en local](#-lancer-lapplication-en-local)
   - [ Avoir des données de test en local](#-avoir-des-données-de-test-en-local)
     - [Le seed automatique](#le-seed-automatique)
@@ -22,16 +22,6 @@ Pour installer et lancer le projet vous aurez besoin de :
 
 - <a href="https://github.com/nvm-sh/nvm#installing-and-updating" target="_blank">NVM</a>
 - <a href="https://docs.docker.com/get-docker/" target="_blank">Docker</a>
-
-## <a id="keycloak"></a> Système d'authentification avec Keycloak
-
-Keycloak est un service open source d'identité et de gestion d'accès. Pour comprendre comment ce service est mise en oeuvre, vous pouvez trouver la documentation sur le [repo dédié au thème](https://github.com/MTES-MCT/potentiel-keycloak#mise-en-oeuvre).
-
-En local, lorsque la commande `npm run start:dev` (ou `docker compose up -d`) est lancée, un container `auth` va se monter avec l'[image officielle de Keycloak](https://quay.io/repository/keycloak/keycloak).
-
-Lors du montage de l'image, le fichier [realm-dev.json](./keycloak/import/realm-dev.json) est importé et va configurer le royaume keycloak pour l'environnement de dev, et y ajouter des utilisateurs de tests.
-
-Pour les environnements de production et de staging, Keycloak est hébergé sur une application scalingo et utilise le [repo du thème custom](https://github.com/MTES-MCT/potentiel-keycloak).
 
 ## <a id="configurer-un-environnement-local"></a> Configurer un environnement local
 
@@ -80,6 +70,30 @@ Pour les environnements de production et de staging, Keycloak est hébergé sur 
    cd ../legacy
    cp .env.template .env
    ```
+
+8. Synchroniser les submodules
+   
+   Il faut retourner à la racine du repo et exécuter :
+
+   ```bash
+      git submodule init
+      git submodule update
+   ```
+
+## <a id="keycloak"></a> Système d'authentification avec Keycloak
+
+Keycloak est un service open source d'identité et de gestion d'accès. Pour comprendre comment ce service est mise en oeuvre, vous pouvez trouver la documentation sur le [repo dédié au thème](https://github.com/MTES-MCT/potentiel-keycloak#mise-en-oeuvre).
+
+En local, lorsque la commande `npm run start:dev` (ou `docker compose up -d`) est lancée, un container `auth` va se monter avec l'[image officielle de Keycloak](https://quay.io/repository/keycloak/keycloak). Nous avons créer un thème custom visible dans [ce repo](https://github.com/MTES-MCT/potentiel-keycloak). 
+
+> ⚠️ Si l'affichage ne prend en compte le thème `dsfr`, n'hésitez pas à suivre ces étapes: 
+> 1. Suppression du répertoire submodule si il existe : `rm -Rf keycloak/potentiel-keycloak`
+> 2. Mise à jour du submodule :  `git submodule update`
+ 
+Lors du montage de l'image, le fichier [realm-dev.json](./keycloak/import/realm-dev.json) est importé et va configurer le royaume keycloak pour l'environnement de dev, et y ajouter des utilisateurs de tests.
+
+Pour les environnements de production et de staging, Keycloak est hébergé sur une application scalingo et utilise le [repo du thème custom](https://github.com/MTES-MCT/potentiel-keycloak).
+
 
 ## <a id="lancer-application-en-local"></a> Lancer l'application en local
 
