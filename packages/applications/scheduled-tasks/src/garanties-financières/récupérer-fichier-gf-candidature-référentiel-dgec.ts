@@ -6,7 +6,7 @@ import chardet from 'chardet';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
@@ -102,8 +102,18 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
       count: number;
       ids: Array<string>;
     };
-    attestationAjoutée: number;
-    gfCréeEtAttestationAjoutée: number;
+    projetÉliminé: {
+      count: number;
+      ids: Array<string>;
+    };
+    attestationAjoutée: {
+      count: number;
+      ids: Array<string>;
+    };
+    gfCréeEtAttestationAjoutée: {
+      count: number;
+      ids: Array<string>;
+    };
     attestationExistante: number;
   };
   const statistics: Statistics = {
@@ -111,8 +121,18 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
       count: 0,
       ids: [],
     },
-    attestationAjoutée: 0,
-    gfCréeEtAttestationAjoutée: 0,
+    projetÉliminé: {
+      count: 0,
+      ids: [],
+    },
+    attestationAjoutée: {
+      count: 0,
+      ids: [],
+    },
+    gfCréeEtAttestationAjoutée: {
+      count: 0,
+      ids: [],
+    },
     attestationExistante: 0,
   };
 
@@ -144,10 +164,23 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
         },
       });
 
+      /**
+       * Si le projet n'est pas trouvé, on skip
+       */
       if (Option.isNone(projet)) {
         console.log(`❌ ${identifiantProjet.formatter()} : Projet inconnu`);
         statistics.projetInconnu.count++;
         statistics.projetInconnu.ids.push(identifiantProjet.formatter());
+        continue;
+      }
+
+      /**
+       * Si le projet est éliminé, on ne fait rien car les projets éliminés ne doivent pas avoir de garanties financières
+       */
+      if (StatutProjet.convertirEnValueType(projet.statut).estÉliminé()) {
+        console.log(`🗡️ ${identifiantProjet.formatter()} (${projet.nom}) : Projet éliminé`);
+        statistics.projetÉliminé.count++;
+        statistics.projetÉliminé.ids.push(identifiantProjet.formatter());
         continue;
       }
 
@@ -196,7 +229,8 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
             },
           },
         );
-        statistics.attestationAjoutée++;
+        statistics.attestationAjoutée.count++;
+        statistics.attestationAjoutée.ids.push(identifiantProjet.formatter());
         console.log(
           `📝 ${identifiantProjet.formatter()} (${projet.nom}) : Attestation ajoutée aux garanties financières existante`,
         );
@@ -234,7 +268,9 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
         },
       });
 
-      statistics.gfCréeEtAttestationAjoutée++;
+      statistics.gfCréeEtAttestationAjoutée.count++;
+      statistics.gfCréeEtAttestationAjoutée.ids.push(identifiantProjet.formatter());
+
       console.log(
         `🍀 ${identifiantProjet.formatter()} (${projet.nom}) : Garanties financières créées avec l'attestation`,
       );
@@ -252,17 +288,29 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
     `Nombre de projets inconnu dans potentiel : ${statistics.projetInconnu.count} / ${dirrents.length}`,
   );
   console.log(
-    `Nombre d'attestations ajoutées à des gfs existantes : ${statistics.attestationAjoutée} / ${dirrents.length}`,
-  );
-  console.log(
-    `Nombre de gf créées avec attestation : ${statistics.gfCréeEtAttestationAjoutée} / ${dirrents.length}`,
-  );
-  console.log(
     `Nombre d'attestations déjà existantes : ${statistics.attestationExistante} / ${dirrents.length}`,
+  );
+
+  console.log(
+    `Nombre d'attestations ajoutées à des gfs existantes : ${statistics.attestationAjoutée.count} / ${dirrents.length}`,
+  );
+  console.log(
+    `Nombre de gf créées avec attestation : ${statistics.gfCréeEtAttestationAjoutée.count} / ${dirrents.length}`,
   );
 
   if (statistics.projetInconnu.ids.length) {
     await writeFile('projets-non-trouvés.txt', statistics.projetInconnu.ids.join('\n'));
+  }
+
+  if (statistics.attestationAjoutée.ids.length) {
+    await writeFile('attestations-ajoutées.txt', statistics.attestationAjoutée.ids.join('\n'));
+  }
+
+  if (statistics.gfCréeEtAttestationAjoutée.ids.length) {
+    await writeFile(
+      'gfs-crées-avec-attestation.txt',
+      statistics.gfCréeEtAttestationAjoutée.ids.join('\n'),
+    );
   }
 
   process.exit(0);
