@@ -1,5 +1,5 @@
 import { readdir, writeFile, readFile } from 'node:fs/promises';
-import path from 'path';
+import { join, basename, extname } from 'path';
 
 import { encode, decode } from 'iconv-lite';
 import chardet from 'chardet';
@@ -76,7 +76,7 @@ const formatFileName = (id: string) =>
   id
     .replace(/PPE2 - Autoconsommation métrople/, 'PPE2 - Autoconsommation métropole')
     .replace(/PPE2 - Innovant/, 'PPE2 - Innovation')
-    .replace(/PPE2 - Bâtiment/, 'PPE2 - Bâtiment'); // Je comprends pas pourquoi je suis obligé de faire ça
+    .replace(/PPE2 - Bâtiment/, 'PPE2 - Bâtiment');
 
 const detectAndConvertEncoding = (fileName: string) => {
   const detectedEncoding = chardet.detect(Buffer.from(fileName));
@@ -98,42 +98,65 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
   });
 
   type Statistics = {
+    fichiersNonCompatibles: {
+      count: number;
+      content: Array<string>;
+    };
     projetInconnu: {
       count: number;
-      ids: Array<string>;
+      content: Array<string>;
     };
     projetÉliminé: {
       count: number;
-      ids: Array<string>;
+      content: Array<string>;
     };
     attestationAjoutée: {
       count: number;
-      ids: Array<string>;
+      content: Array<string>;
     };
     gfCréeEtAttestationAjoutée: {
       count: number;
-      ids: Array<string>;
+      content: Array<string>;
     };
-    attestationExistante: number;
+    attestationExistante: {
+      count: number;
+      content: Array<string>;
+    };
+    errors: {
+      count: number;
+      content: Array<string>;
+    };
   };
+
   const statistics: Statistics = {
+    fichiersNonCompatibles: {
+      count: 0,
+      content: [],
+    },
     projetInconnu: {
       count: 0,
-      ids: [],
+      content: [],
     },
     projetÉliminé: {
       count: 0,
-      ids: [],
+      content: [],
     },
     attestationAjoutée: {
       count: 0,
-      ids: [],
+      content: [],
     },
     gfCréeEtAttestationAjoutée: {
       count: 0,
-      ids: [],
+      content: [],
     },
-    attestationExistante: 0,
+    attestationExistante: {
+      count: 0,
+      content: [],
+    },
+    errors: {
+      count: 0,
+      content: [],
+    },
   };
 
   const format = 'application/pdf';
@@ -144,16 +167,17 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   for (const file of dirrents) {
     try {
-      if (!file.isFile() || path.extname(file.name).toLowerCase() !== '.pdf') {
-        console.log(`❌ Fichier ${file.name} non pris en charge`);
+      if (!file.isFile() || extname(file.name).toLowerCase() !== '.pdf') {
+        statistics.fichiersNonCompatibles.count++;
+        statistics.fichiersNonCompatibles.content.push(file.name);
         continue;
       }
 
       const formattedFileName = formatFileName(
-        path.basename(detectAndConvertEncoding(file.name), '.pdf'),
+        basename(detectAndConvertEncoding(file.name), '.pdf'),
       );
 
-      console.log(`\n\n📂 ${formattedFileName}`);
+      console.log(`\n\n${formattedFileName}`);
 
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(formattedFileName);
 
@@ -168,9 +192,8 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
        * Si le projet n'est pas trouvé, on skip
        */
       if (Option.isNone(projet)) {
-        console.log(`❌ ${identifiantProjet.formatter()} : Projet inconnu`);
         statistics.projetInconnu.count++;
-        statistics.projetInconnu.ids.push(identifiantProjet.formatter());
+        statistics.projetInconnu.content.push(identifiantProjet.formatter());
         continue;
       }
 
@@ -178,9 +201,8 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
        * Si le projet est éliminé, on ne fait rien car les projets éliminés ne doivent pas avoir de garanties financières
        */
       if (StatutProjet.convertirEnValueType(projet.statut).estÉliminé()) {
-        console.log(`🗡️ ${identifiantProjet.formatter()} (${projet.nom}) : Projet éliminé`);
         statistics.projetÉliminé.count++;
-        statistics.projetÉliminé.ids.push(identifiantProjet.formatter());
+        statistics.projetÉliminé.content.push(identifiantProjet.formatter());
         continue;
       }
 
@@ -191,7 +213,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
         },
       });
 
-      const filePath = path.join(directoryPath, file.name);
+      const filePath = join(directoryPath, file.name);
       const fileBuffer = await readFile(filePath);
       const content = new ReadableStream({
         start: async (controller) => {
@@ -203,10 +225,8 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
       if (Option.isSome(gf)) {
         if (gf.garantiesFinancières.attestation) {
-          console.log(
-            `ℹ️ ${identifiantProjet.formatter()} (${projet.nom}) : Le projet a déjà une attestation`,
-          );
-          statistics.attestationExistante++;
+          statistics.attestationExistante.count++;
+          statistics.attestationExistante.content.push(identifiantProjet.formatter());
           continue;
         }
 
@@ -230,10 +250,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
           },
         );
         statistics.attestationAjoutée.count++;
-        statistics.attestationAjoutée.ids.push(identifiantProjet.formatter());
-        console.log(
-          `📝 ${identifiantProjet.formatter()} (${projet.nom}) : Attestation ajoutée aux garanties financières existante`,
-        );
+        statistics.attestationAjoutée.content.push(identifiantProjet.formatter());
         continue;
       }
 
@@ -244,12 +261,16 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
       );
 
       if (!période) {
-        console.log(`❌ ${identifiantProjet.formatter()} (${projet.nom}) : Période non trouvée`);
+        statistics.errors.content.push(
+          `❌ ${identifiantProjet.formatter()} (${projet.nom}) : Période non trouvée`,
+        );
         continue;
       }
 
       if (!période.estNotifiée || !période.notifiéeLe) {
-        console.log(`❌ ${identifiantProjet.formatter()} (${projet.nom}) : Période non notifiée`);
+        statistics.errors.content.push(
+          `❌ ${identifiantProjet.formatter()} (${projet.nom}) : Période non notifiée`,
+        );
         continue;
       }
 
@@ -269,11 +290,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
       });
 
       statistics.gfCréeEtAttestationAjoutée.count++;
-      statistics.gfCréeEtAttestationAjoutée.ids.push(identifiantProjet.formatter());
-
-      console.log(
-        `🍀 ${identifiantProjet.formatter()} (${projet.nom}) : Garanties financières créées avec l'attestation`,
-      );
+      statistics.gfCréeEtAttestationAjoutée.content.push(identifiantProjet.formatter());
 
       await delay(50);
     } catch (e) {
@@ -283,34 +300,28 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   console.log('\n\nStatistiques :');
-  console.log(`Nombre de projets concernés : ${dirrents.length}`);
   console.log(
-    `Nombre de projets inconnu dans potentiel : ${statistics.projetInconnu.count} / ${dirrents.length}`,
-  );
-  console.log(
-    `Nombre d'attestations déjà existantes : ${statistics.attestationExistante} / ${dirrents.length}`,
+    `📂 Nombre de fichiers traités : ${statistics.attestationAjoutée.count + statistics.attestationExistante.count + statistics.fichiersNonCompatibles.count + statistics.gfCréeEtAttestationAjoutée.count + statistics.projetInconnu.count + statistics.projetÉliminé.count}/${dirrents.length}`,
   );
 
+  console.log(`❌ Nombre de fichiers non compatibles : ${statistics.fichiersNonCompatibles.count}`);
+  console.log(`❓ Nombre de projets inconnu dans potentiel : ${statistics.projetInconnu.count}`);
+  console.log(`☠️ Nombre de projets éliminés : ${statistics.projetÉliminé.count}`);
   console.log(
-    `Nombre d'attestations ajoutées à des gfs existantes : ${statistics.attestationAjoutée.count} / ${dirrents.length}`,
+    `ℹ️ Nombre d'attestations déjà existantes : ${statistics.attestationExistante.count}`,
+  );
+
+  console.log(
+    `📝 Nombre d'attestations ajoutées à des gfs existantes : ${statistics.attestationAjoutée.count}`,
   );
   console.log(
-    `Nombre de gf créées avec attestation : ${statistics.gfCréeEtAttestationAjoutée.count} / ${dirrents.length}`,
+    `🍀 Nombre de gf créées avec attestation : ${statistics.gfCréeEtAttestationAjoutée.count}`,
   );
 
-  if (statistics.projetInconnu.ids.length) {
-    await writeFile('projets-non-trouvés.txt', statistics.projetInconnu.ids.join('\n'));
-  }
-
-  if (statistics.attestationAjoutée.ids.length) {
-    await writeFile('attestations-ajoutées.txt', statistics.attestationAjoutée.ids.join('\n'));
-  }
-
-  if (statistics.gfCréeEtAttestationAjoutée.ids.length) {
-    await writeFile(
-      'gfs-crées-avec-attestation.txt',
-      statistics.gfCréeEtAttestationAjoutée.ids.join('\n'),
-    );
+  for (const [key, { content }] of Object.entries(statistics)) {
+    if (content.length) {
+      await writeFile(`src/garanties-financières/logs/${key}.txt`, content.join('\n'));
+    }
   }
 
   process.exit(0);
