@@ -28,13 +28,7 @@ const Footer: React.FC<FooterProps> = ({ user }) => (
               <div className="m-0 font-bold tracking-tighter text-black uppercase text-[17px] md:text-[21px] leading-5">
                 Ministère
                 <br />
-                de l'économie
-                <br />
-                des finances
-                <br />
-                et de la souveraineté
-                <br />
-                industrielle et numérique
+                chargé de l'énergie
               </div>
               <div className="logo-after" />
             </Link>
