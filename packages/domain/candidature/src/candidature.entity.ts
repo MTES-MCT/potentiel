@@ -1,4 +1,4 @@
-import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
 import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
@@ -38,6 +38,10 @@ export type CandidatureEntity = Entity<
     territoireProjet: string;
     misÀJourLe: DateTime.RawType;
 
-    estNotifiée: boolean;
+    notification?: {
+      estNotifiée: true;
+      notifiéeLe: DateTime.RawType;
+      notifiéePar: Email.RawType;
+    };
   }
 >;

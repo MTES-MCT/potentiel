@@ -58,7 +58,6 @@ export const register = () => {
               : undefined,
             technologie: Candidature.TypeTechnologie.convertirEnValueType(payload.technologie).type,
             misÀJourLe: type === 'CandidatureCorrigée-V1' ? payload.corrigéLe : payload.importéLe,
-            estNotifiée: false,
           };
 
           await upsertProjection<Candidature.CandidatureEntity>(
@@ -69,7 +68,13 @@ export const register = () => {
         case 'CandidatureNotifiée-V1':
           await updateProjection<Candidature.CandidatureEntity>(
             `candidature|${payload.identifiantProjet}`,
-            { estNotifiée: true },
+            {
+              notification: {
+                estNotifiée: true,
+                notifiéeLe: payload.notifiéeLe,
+                notifiéePar: payload.notifiéePar,
+              },
+            },
           );
       }
     }

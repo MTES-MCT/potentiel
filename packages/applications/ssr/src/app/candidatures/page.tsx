@@ -12,7 +12,7 @@ import { CandidatureListPage } from '@/components/pages/candidature/lister/Candi
 import { CandidatureListItemProps } from '@/components/pages/candidature/lister/CandidatureListItem';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
-import { getCandidatureActions } from './helpers/getCandidatureActions';
+import { getCandidatureActions } from './_helpers/getCandidatureActions';
 
 type SearchParams = 'page' | 'appelOffre' | 'periode' | 'statut' | 'nomProjet' | 'notifie';
 
