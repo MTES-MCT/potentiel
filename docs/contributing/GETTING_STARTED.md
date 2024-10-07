@@ -4,36 +4,26 @@
 
 - [Premiers pas dans le projet Potentiel](#premiers-pas-dans-le-projet-potentiel)
   - [Table des matières](#table-des-matières)
-  - [ Mise en place du projet](#-mise-en-place-du-projet)
-  - [ Système d'authentification avec Keycloak](#-système-dauthentification-avec-keycloak)
-  - [ Configurer un environnement local](#-configurer-un-environnement-local)
-  - [ Lancer l'application en local](#-lancer-lapplication-en-local)
-  - [ Avoir des données de test en local](#-avoir-des-données-de-test-en-local)
+  - [Mise en place du projet](#mise-en-place-du-projet)
+  - [Configurer un environnement local](#configurer-un-environnement-local)
+  - [Système d'authentification avec Keycloak](#système-dauthentification-avec-keycloak)
+  - [Lancer l'application en local](#lancer-lapplication-en-local)
+  - [Avoir des données de test en local](#avoir-des-données-de-test-en-local)
     - [Le seed automatique](#le-seed-automatique)
     - [Ajouter "à la main des projets dans Potentiel"](#ajouter-à-la-main-des-projets-dans-potentiel)
   - [Lancer les tests](#lancer-les-tests)
     - [Specifications](#specifications)
-  - [ Metabase](#-metabase)
-  - [ Restaurer un dump de la base de donnée](#-restaurer-un-dump-de-la-base-de-donnée)
+  - [Metabase](#metabase)
+  - [Restaurer un dump de la base de donnée](#restaurer-un-dump-de-la-base-de-donnée)
 
-## <a id="mise-en-place-du-projet"></a> Mise en place du projet
+## <a id="mise-en-place-du-projet">Mise en place du projet</a>
 
 Pour installer et lancer le projet vous aurez besoin de :
 
 - <a href="https://github.com/nvm-sh/nvm#installing-and-updating" target="_blank">NVM</a>
 - <a href="https://docs.docker.com/get-docker/" target="_blank">Docker</a>
 
-## <a id="keycloak"></a> Système d'authentification avec Keycloak
-
-Keycloak est un service open source d'identité et de gestion d'accès. Pour comprendre comment ce service est mise en oeuvre, vous pouvez trouver la documentation sur le [repo dédié au thème](https://github.com/MTES-MCT/potentiel-keycloak#mise-en-oeuvre).
-
-En local, lorsque la commande `npm run start:dev` (ou `docker compose up -d`) est lancée, un container `auth` va se monter avec l'[image officielle de Keycloak](https://quay.io/repository/keycloak/keycloak).
-
-Lors du montage de l'image, le fichier [realm-dev.json](./keycloak/import/realm-dev.json) est importé et va configurer le royaume keycloak pour l'environnement de dev, et y ajouter des utilisateurs de tests.
-
-Pour les environnements de production et de staging, Keycloak est hébergé sur une application scalingo et utilise le [repo du thème custom](https://github.com/MTES-MCT/potentiel-keycloak).
-
-## <a id="configurer-un-environnement-local"></a> Configurer un environnement local
+## <a id="configurer-un-environnement-local">Configurer un environnement local</a> 
 
 1. Cloner le repository
 
@@ -81,7 +71,31 @@ Pour les environnements de production et de staging, Keycloak est hébergé sur 
    cp .env.template .env
    ```
 
-## <a id="lancer-application-en-local"></a> Lancer l'application en local
+8. Synchroniser les submodules
+   
+   Il faut retourner à la racine du repo et exécuter :
+
+   ```bash
+      git submodule init
+      git submodule update
+   ```
+
+## <a id="keycloak">Système d'authentification avec Keycloak
+</a> 
+Keycloak est un service open source d'identité et de gestion d'accès. Pour comprendre comment ce service est mis en oeuvre, vous pouvez trouver la documentation sur le [repo dédié au thème](https://github.com/MTES-MCT/potentiel-keycloak#mise-en-oeuvre).
+
+En local, lorsque la commande `npm run start:dev` (ou `docker compose up -d`) est lancée, un container `auth` va se monter avec l'[image officielle de Keycloak](https://quay.io/repository/keycloak/keycloak). Nous avons créé un thème custom visible dans [ce repo](https://github.com/MTES-MCT/potentiel-keycloak). 
+
+> ⚠️ Si l'affichage ne prend pas en compte le thème `dsfr`, n'hésitez pas à suivre ces étapes: 
+> 1. Suppression du répertoire submodule si il existe : `rm -Rf keycloak/potentiel-keycloak`
+> 2. Mise à jour du submodule :  `git submodule update`
+ 
+Lors du montage de l'image, le fichier [realm-dev.json](./keycloak/import/realm-dev.json) est importé et va configurer le royaume keycloak pour l'environnement de dev, et y ajouter des utilisateurs de tests.
+
+Pour les environnements de production et de staging, Keycloak est hébergé sur une application scalingo et utilise le [repo du thème custom](https://github.com/MTES-MCT/potentiel-keycloak).
+
+
+## <a id="lancer-application-en-local">Lancer l'application en local</a>
 
 > ⚠️ Pour démarrer l'application vous aurez besoin de Docker 🐋
 
@@ -105,10 +119,10 @@ npm run start:dev
 
 > ℹ️ Il est possible de couper les services utilisés localement pour lancer l'application via le script npm **`stop:dev`**
 
-## <a id="avoir-des-donnees-de-test-en-local"></a> Avoir des données de test en local
+## <a id="avoir-des-donnees-de-test-en-local">Avoir des données de test en local</a> 
 
 
-### Le seed automatique
+### <a id="le-seed-automatique">Le seed automatique</a>
 
 Lorsque la comande `start:dev` est lancée, elle va automatiquement démarrer les containers docker. Le container dédié à la base de donnée va alors mapper le fichier [potentiel-dev.dump](../../.database/potentiel-dev.dump) dans le container, et va ajouter le script [restore-dev-db.sh](../../.database/restore-dev-db.sh) pour qu'il s'éxécute lors de l'initialisation de la base de donnée. Ce script restore le contenu du dump dans la base de donnée. 
 
@@ -120,7 +134,7 @@ Lorsque la comande `start:dev` est lancée, elle va automatiquement démarrer le
 > Il ne vous reste qu'à remplacer votre fichier à jour avec celui existant
 
 
-### Ajouter "à la main des projets dans Potentiel"
+### <a id="ajouter-a-la-main-projets-dans-potentiel">Ajouter "à la main des projets dans Potentiel"</a>
 
 Afin de pouvoir tester le fonctionnement de la partie désignation et notification des candidats d'une période d'appel d'offre, vous avez la possibilité d'ajouter "à la main" des projets dans Potentiel. Pour celà :
  
@@ -142,9 +156,9 @@ Se rendre dans l'onglet Désignation >> Notifier les Candidats >> Notifier tous 
 
 - Se connecter à n'importe quel compte de test en fonction des besoins
 
-## <a id="lancer-les-tests"></a>Lancer les tests
+## <a id="lancer-les-tests">Lancer les tests</a>
 
-### Specifications
+### <a id="specs">Specifications</a>
 
 Il existe deux types de test dans le projet, les tests dit **`legacy`** (couvrant l'ancien socle technique de manière disparate) et les tests dits de **`specification`** liés au nouveau socle mise en place en Behavior Driven Development.
 
@@ -191,7 +205,7 @@ Utilisez ensuite le script npm **`specs:select`** :
 npm run specs:select
 ```
 
-## <a id="metabase"></a> Metabase
+## <a id="metabase">Metabase</a> 
 
 Nous utilisons metabase pour faire des analyses en mode no-code sur la base de données.
 
@@ -202,7 +216,7 @@ Metabase est connecté à la base de données de production via un utilisateur r
 Afin de déployer ou mettre à jour l'instance METABASE il suffit de suivre la procédure décrite dans la doc Scalingo ici :
 https://doc.scalingo.com/platform/getting-started/getting-started-with-metabase
 
-## <a id="restaurer-dump-db"></a> Restaurer un dump de la base de donnée
+## <a id="restaurer-dump-db">Restaurer un dump de la base de donnée</a> 
 
 - Pour cette partie il vaut mieux préférer la méthode "one-off-container" en téléchargeant le dump directement sur les serveurs Scalingo.
 
