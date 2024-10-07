@@ -86,7 +86,7 @@ Keycloak est un service open source d'identité et de gestion d'accès. Pour com
 
 En local, lorsque la commande `npm run start:dev` (ou `docker compose up -d`) est lancée, un container `auth` va se monter avec l'[image officielle de Keycloak](https://quay.io/repository/keycloak/keycloak). Nous avons créé un thème custom visible dans [ce repo](https://github.com/MTES-MCT/potentiel-keycloak). 
 
-> ⚠️ Si l'affichage ne prend en compte le thème `dsfr`, n'hésitez pas à suivre ces étapes: 
+> ⚠️ Si l'affichage ne prend pas en compte le thème `dsfr`, n'hésitez pas à suivre ces étapes: 
 > 1. Suppression du répertoire submodule si il existe : `rm -Rf keycloak/potentiel-keycloak`
 > 2. Mise à jour du submodule :  `git submodule update`
  
