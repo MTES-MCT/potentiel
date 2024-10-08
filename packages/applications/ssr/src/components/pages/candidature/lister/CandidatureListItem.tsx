@@ -102,7 +102,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
             className={symbols.puissance.iconColor}
             title={symbols.puissance.description}
           />
-          <div className="flex items-center gap-2">
+          <div className="lg:flex lg:flex-col items-center text-center">
             {puissanceProductionAnnuelle}
             <span className="italic text-sm">{unitePuissance}</span>
           </div>
@@ -113,7 +113,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
             className={symbols.prix.iconColor}
             title={symbols.prix.description}
           />
-          <div className="flex items-center">
+          <div className="lg:flex lg:flex-col items-center text-center">
             {prixReference}
             <span className="italic text-sm">€ par MWh</span>
           </div>
