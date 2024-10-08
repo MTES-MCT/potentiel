@@ -24,6 +24,19 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | consignation              |                 | 2024-01-01  |
             | six-mois-après-achèvement |                 | 2024-01-01  |
 
+    Scénario: Un admin importe le type des garanties financières actuelles d'un projet en attente de garanties financières
+        Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
+            | date limite de soumission | 2024-02-01      |
+            | date de notification      | 2023-09-01      |
+            | motif                     | recours-accordé |
+        Quand un admin importe le type des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+            | type          | consignation |
+            | date d'import | 2024-01-01   |
+        Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
+            | type                      | consignation |
+            | date dernière mise à jour | 2024-01-01   |
+        Et les garanties financières en attente du projet "Du boulodrome de Marseille" ne devraient plus être consultables dans la liste des garanties financières en attente
+
     Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand l'administration importe le type d'une garanties financières pour un projet
         Quand un admin importe le type des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type            | avec-date-échéance |
