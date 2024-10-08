@@ -35,7 +35,6 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
         Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
             | type                      | consignation |
             | date dernière mise à jour | 2024-01-01   |
-        Et les garanties financières en attente du projet "Du boulodrome de Marseille" ne devraient plus être consultables dans la liste des garanties financières en attente
 
     Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand l'administration importe le type d'une garanties financières pour un projet
         Quand un admin importe le type des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :

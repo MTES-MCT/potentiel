@@ -79,6 +79,18 @@ Alors(
         const actualContent = await convertReadableStreamToString(file.content);
         actualContent.should.be.equal(contenu);
       }
+
+      const garantiesFinancièresEnAttente =
+        await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
+          },
+        );
+
+      expect(Option.isNone(garantiesFinancièresEnAttente)).to.be.true;
     });
   },
 );

@@ -464,6 +464,10 @@ export const register = () => {
               },
             },
           );
+
+          await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
+            `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
+          );
           break;
 
         case 'GarantiesFinancièresEnregistrées-V1':

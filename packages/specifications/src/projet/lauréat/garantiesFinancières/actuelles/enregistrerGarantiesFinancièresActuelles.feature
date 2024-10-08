@@ -29,7 +29,6 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | date de constitution | 2023-06-12        |
             | date de soumission   | 2023-11-01        |
             | soumis par           | porteur@test.test |
-        Et les garanties financières en attente du projet "Du boulodrome de Marseille" ne devraient plus être consultables dans la liste des garanties financières en attente
 
         Exemples:
             | type                      | date d'échéance | motif                                    |
