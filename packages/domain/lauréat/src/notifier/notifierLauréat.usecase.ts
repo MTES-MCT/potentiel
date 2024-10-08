@@ -1,6 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { NotifierLauréatCommand } from './notifierLauréat.command';
 
@@ -23,6 +24,17 @@ export const registerNotifierLauréatUseCase = () => {
     notifiéLeValue,
     attestationValue: { format },
   }) => {
+    await mediator.send<Candidature.NotifierCandidatureUseCase>({
+      type: 'Candidature.UseCase.NotifierCandidature',
+      data: {
+        identifiantProjetValue,
+        notifiéeLeValue: notifiéLeValue,
+        notifiéeParValue: notifiéParValue,
+        attestationValue: {
+          format: 'application/pdf',
+        },
+      },
+    });
     await mediator.send<NotifierLauréatCommand>({
       type: 'Lauréat.Command.NotifierLauréat',
       data: {
