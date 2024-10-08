@@ -2,7 +2,6 @@ import { Metadata, ResolvingMetadata } from 'next';
 import { match } from 'ts-pattern';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Candidature } from '@potentiel-domain/candidature';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -39,17 +38,14 @@ export default async function Page({ params }: PageProps) {
       return (
         <DétailsCandidaturePage
           candidature={mapToPlainObject(candidature)}
-          actions={mapToActions({ estNotifiée: candidature.estNotifiée }, utilisateur.role)}
+          actions={mapToActions({ estNotifiée: !!candidature.notification }, utilisateur.role)}
         />
       );
     }),
   );
 }
 
-const mapToActions = (
-  props: Pick<Candidature.ConsulterCandidatureReadModel, 'estNotifiée'>,
-  role: Role.ValueType,
-) => {
+const mapToActions = (props: { estNotifiée: boolean }, role: Role.ValueType) => {
   const defaultActions = {
     corriger: role.aLaPermission('candidature.corriger'),
   };

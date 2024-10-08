@@ -38,7 +38,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
           badge={
             <div className="flex gap-2">
               <StatutProjetBadge statut={candidature.statut.statut} />
-              <NotificationBadge estNotifié={candidature.estNotifiée} />
+              <NotificationBadge estNotifié={!!candidature.notification} />
             </div>
           }
         />
@@ -90,6 +90,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
         ),
       }}
       rightColumn={{
+        className: 'flex flex-col md:items-end gap-4',
         children: mapToActionComponents({
           actions,
           identifiantProjet,
@@ -105,48 +106,49 @@ type MapToActionsComponentsProps = {
 };
 
 const mapToActionComponents = ({ identifiantProjet, actions }: MapToActionsComponentsProps) => (
-  <div className="flex flex-col gap-4">
+  <>
     <Heading2>Actions</Heading2>
-    <div className="flex flex-col gap-2">
+    {actions.corriger && (
       <Button
-        disabled={!actions.corriger}
-        linkProps={{ href: Routes.Candidature.corriger(identifiantProjet.formatter()) }}
+        linkProps={{
+          href: Routes.Candidature.corriger(identifiantProjet.formatter()),
+        }}
       >
         Corriger
       </Button>
-      {actions.téléchargerAttestation && (
-        <Button
-          linkProps={{
-            href: Routes.Candidature.téléchargerAttestation(
-              IdentifiantProjet.bind(identifiantProjet).formatter(),
-            ),
-          }}
-          title={`Télécharger l'attestation de désignation`}
-          aria-label={`Télécharger l'attestation de désignation`}
-          priority="secondary"
-          iconId="fr-icon-file-download-line"
-          iconPosition="right"
-        >
-          Télécharger Attestation
-        </Button>
-      )}
-      {actions.prévisualiserAttestation && (
-        <Button
-          linkProps={{
-            href: Routes.Candidature.prévisualiserAttestation(
-              IdentifiantProjet.bind(identifiantProjet).formatter(),
-            ),
-            target: '_blank',
-          }}
-          title={`Prévisualiser l'attestation de désignation`}
-          aria-label={`Prévisualiser l'attestation de désignation`}
-          priority="secondary"
-        >
-          Prévisualiser Attestation
-        </Button>
-      )}
-    </div>
-  </div>
+    )}
+    {actions.téléchargerAttestation && (
+      <Button
+        linkProps={{
+          href: Routes.Candidature.téléchargerAttestation(
+            IdentifiantProjet.bind(identifiantProjet).formatter(),
+          ),
+        }}
+        title={`Télécharger l'attestation de désignation`}
+        aria-label={`Télécharger l'attestation de désignation`}
+        priority="secondary"
+        iconId="fr-icon-file-download-line"
+        iconPosition="right"
+      >
+        Télécharger Attestation
+      </Button>
+    )}
+    {actions.prévisualiserAttestation && (
+      <Button
+        linkProps={{
+          href: Routes.Candidature.prévisualiserAttestation(
+            IdentifiantProjet.bind(identifiantProjet).formatter(),
+          ),
+          target: '_blank',
+        }}
+        title={`Prévisualiser l'attestation de désignation`}
+        aria-label={`Prévisualiser l'attestation de désignation`}
+        priority="secondary"
+      >
+        Prévisualiser Attestation
+      </Button>
+    )}
+  </>
 );
 
 type FieldProps = { name: string; children: React.ReactNode };

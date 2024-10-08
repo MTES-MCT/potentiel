@@ -62,5 +62,5 @@ const mapToProps = (
       commune: candidature.localité.commune,
     },
   },
-  estNotifiée: candidature.estNotifiée,
+  estNotifiée: !!candidature.notification,
 });
