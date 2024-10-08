@@ -10,13 +10,13 @@ import {
   solPPE2,
 } from '@potentiel-domain/inmemory-referential/src/appelOffre/PPE2';
 
-import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
+import { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions';
 
 import { makeCertificate } from './makeCertificate';
 
 const meta = {
   title: 'Attestations PDF/PPE2/v2',
-  component: ({ projet }: { projet: AttestationPPE2Options }) => {
+  component: ({ projet }: { projet: AttestationPPE2V2Options }) => {
     return makeCertificate(
       projet,
       {
@@ -32,8 +32,9 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const fakeProject: Omit<AttestationPPE2Options, 'période' | 'appelOffre'> = {
+const fakeProject = {
   template: 'ppe2.v2',
+  ministère: 'MCE',
   famille: undefined,
   isClasse: true,
   prixReference: 42,
@@ -51,7 +52,7 @@ const fakeProject: Omit<AttestationPPE2Options, 'période' | 'appelOffre'> = {
   puissance: 42,
   potentielId: 'potentielId',
   technologie: 'pv',
-};
+} satisfies Omit<AttestationPPE2V2Options, 'période' | 'appelOffre'>;
 
 export const LaureatPPE2AutoconsommationMétropoleFinancementCollectif: Story = {
   args: {

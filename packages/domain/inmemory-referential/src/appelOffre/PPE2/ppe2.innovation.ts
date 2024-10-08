@@ -120,6 +120,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'première',
       type: 'notified',
       certificateTemplate: 'ppe2.v2',
+      ministère: 'MEFSIN',
       validateurParDéfaut: validateurParDéfaut.nicolas,
       cahierDesCharges: {
         référence: '2021 S 203-530267',

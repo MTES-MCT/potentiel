@@ -184,6 +184,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '3',
       title: 'troisième',
       certificateTemplate: 'ppe2.v2',
+      ministère: 'MEFSIN',
       validateurParDéfaut: validateurParDéfaut.nicolas,
       cahierDesCharges: {
         référence: '2022 S 214-614411',
@@ -206,6 +207,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '4',
       title: 'quatrième',
       certificateTemplate: 'ppe2.v2',
+      ministère: 'MEFSIN',
       validateurParDéfaut: validateurParDéfaut.hermine,
       cahierDesCharges: {
         référence: '2023 S 063-187860',
@@ -239,6 +241,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       id: '5',
       title: 'cinquième',
       certificateTemplate: 'ppe2.v2',
+      ministère: 'MEFSIN',
       validateurParDéfaut: validateurParDéfaut.hermine,
       cahierDesCharges: {
         référence: '2023/S 217-681379',

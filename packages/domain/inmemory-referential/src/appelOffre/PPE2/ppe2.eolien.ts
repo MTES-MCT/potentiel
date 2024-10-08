@@ -135,6 +135,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '2',
       title: 'deuxième',
       certificateTemplate: 'ppe2.v2',
+      ministère: 'MEFSIN',
       validateurParDéfaut: validateurParDéfaut.nicolas,
       noteThreshold: 0.692142857142864,
       cahierDesCharges: {
@@ -172,6 +173,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       id: '3',
       title: 'troisième',
       certificateTemplate: 'ppe2.v2',
+      ministère: 'MEFSIN',
       validateurParDéfaut: validateurParDéfaut.nicolas,
       noteThreshold: 1.2,
       cahierDesCharges: {
@@ -197,6 +199,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       id: '4',
       title: 'quatrième',
       certificateTemplate: 'ppe2.v2',
+      ministère: 'MEFSIN',
       validateurParDéfaut: validateurParDéfaut.nicolas,
       noteThreshold: 13.8,
       cahierDesCharges: {
@@ -221,6 +224,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       id: '5',
       title: 'cinquième',
       certificateTemplate: 'ppe2.v2',
+      ministère: 'MEFSIN',
       validateurParDéfaut: validateurParDéfaut.hermine,
       noteThreshold: 14.22,
       cahierDesCharges: {
@@ -234,6 +238,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       id: '6',
       title: 'sixième',
       certificateTemplate: 'ppe2.v2',
+      ministère: 'MEFSIN',
       validateurParDéfaut: validateurParDéfaut.hermine,
       noteThreshold: 16.85,
       cahierDesCharges: {
@@ -247,6 +252,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       id: '7',
       title: 'septième',
       certificateTemplate: 'ppe2.v2',
+      ministère: 'MEFSIN',
       validateurParDéfaut: validateurParDéfaut.hermine,
       noteThreshold: 16.7,
       cahierDesCharges: {

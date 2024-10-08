@@ -1,4 +1,4 @@
-import { Image, Text, View } from '@react-pdf/renderer';
+import { Text, View } from '@react-pdf/renderer';
 import React from 'react';
 
 import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
@@ -6,9 +6,9 @@ import { formatDateForPdf } from '../../helpers/formatDateForPdf';
 
 type HeaderProps = {
   project: AttestationPPE2Options;
-  imagesRootPath: string;
+  logo: React.ReactNode;
 };
-export const Header = ({ project, imagesRootPath }: HeaderProps) => {
+export const Header = ({ project, logo }: HeaderProps) => {
   const { appelOffre, notifiedOn, nomRepresentantLegal, nomCandidat, email, potentielId } = project;
   return (
     <View style={{ paddingLeft: 15 }}>
@@ -20,10 +20,7 @@ export const Header = ({ project, imagesRootPath }: HeaderProps) => {
             flexDirection: 'column',
           }}
         >
-          <Image
-            style={{ width: 151, height: 85, marginBottom: 40 }}
-            src={imagesRootPath + `/logo_MEFSIN.png`}
-          />
+          {logo}
 
           <View style={{ width: 165, paddingBottom: 10, fontStyle: 'italic' }}>
             <Text>Direction de l’énergie</Text>

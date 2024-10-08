@@ -76,6 +76,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'première',
       type: 'notified',
       certificateTemplate: 'ppe2.v2',
+      ministère: 'MEFSIN',
       validateurParDéfaut: validateurParDéfaut.nicolas,
       noteThreshold: 26.89,
       cahierDesCharges: {
@@ -102,6 +103,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'deuxième',
       type: 'notified',
       certificateTemplate: 'ppe2.v2',
+      ministère: 'MEFSIN',
       validateurParDéfaut: validateurParDéfaut.hermine,
       noteThreshold: 26.87,
       cahierDesCharges: {
