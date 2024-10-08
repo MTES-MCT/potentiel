@@ -10,6 +10,7 @@ import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
+import { sleep } from '../../helpers/sleep';
 
 Alors(`la candidature devrait être consultable`, async function (this: PotentielWorld) {
   const { identifiantProjet, values: expectedValues } = this.candidatureWorld.importerCandidature;
@@ -65,6 +66,21 @@ Alors(
         /Potentiel - Une nouvelle attestation est disponible pour le projet .*/,
       );
     });
+  },
+);
+
+Alors(
+  "le porteur n'a pas été prévenu que son attestation a été modifiée",
+  async function (this: PotentielWorld) {
+    // edge case because we want to wait for a notification that should not be sent
+    await sleep(400);
+    try {
+      this.notificationWorld.récupérerNotification(
+        this.candidatureWorld.importerCandidature.values.emailContactValue,
+      );
+    } catch (error) {
+      expect((error as Error).message).to.equal('Pas de notification');
+    }
   },
 );
 

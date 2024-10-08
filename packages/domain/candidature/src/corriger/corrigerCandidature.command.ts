@@ -10,6 +10,7 @@ import { ImporterCandidatureCommandCommonOptions } from '../importer/importerCan
 type CorrigerCandidatureCommandOptions = ImporterCandidatureCommandCommonOptions & {
   corrigéLe: DateTime.ValueType;
   corrigéPar: Email.ValueType;
+  doitRégénérerAttestation?: true;
 };
 
 export type CorrigerCandidatureCommand = Message<

@@ -10,6 +10,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { buildCertificate } from './buildCertificate';
 
@@ -129,6 +130,12 @@ export const register = () => {
             identifiantProjet,
           });
           return;
+        }
+        if (event.payload.doitRégénérerAttestation !== true) {
+          logger.info(`L'attestation ne sera pas regénérée`, {
+            identifiantProjet,
+          });
+          return;
         } else {
           const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
             type: 'Utilisateur.Query.ConsulterUtilisateur',
@@ -145,18 +152,43 @@ export const register = () => {
             return;
           }
 
-          // prendre candidature de l'événement
+          const candidatureCorrigée = {
+            ...event.payload,
+            misÀJourLe: DateTime.convertirEnValueType(event.payload.corrigéLe),
+            détailsImport: candidature.détailsImport,
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(
+              event.payload.identifiantProjet,
+            ),
+            statut: Candidature.StatutCandidature.convertirEnValueType(event.payload.statut),
+            technologie: Candidature.TypeTechnologie.convertirEnValueType(
+              event.payload.technologie,
+            ),
+            dateÉchéanceGf: event.payload.dateÉchéanceGf
+              ? DateTime.convertirEnValueType(event.payload.dateÉchéanceGf)
+              : candidature.dateÉchéanceGf,
+            historiqueAbandon: Candidature.HistoriqueAbandon.convertirEnValueType(
+              event.payload.historiqueAbandon,
+            ),
+            typeGarantiesFinancières: event.payload.typeGarantiesFinancières
+              ? Candidature.TypeGarantiesFinancières.convertirEnValueType(
+                  event.payload.typeGarantiesFinancières,
+                )
+              : candidature.typeGarantiesFinancières,
+            actionnariat: event.payload.actionnariat
+              ? Candidature.TypeActionnariat.convertirEnValueType(event.payload.actionnariat)
+              : candidature.actionnariat,
+          };
 
           const certificate = await buildCertificate({
             appelOffre: appelOffres,
             période,
             utilisateur,
-            candidature,
+            candidature: candidatureCorrigée,
             notifiéLe: candidature.notification.notifiéeLe.formatter(),
           });
 
           if (!certificate) {
-            logger.warn(`Impossible de regénérer l'attestation du projet ${identifiantProjet}`);
+            logger.warn(`Impossible de régénérer l'attestation du projet ${identifiantProjet}`);
             return;
           }
 

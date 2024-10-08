@@ -62,7 +62,7 @@ export async function notifier(
   await this.publish(event);
 }
 
-export function applyCandidatureNotifié(
+export function applyCandidatureNotifiée(
   this: CandidatureAggregate,
   _event: CandidatureNotifiéeEvent,
 ) {
