@@ -71,7 +71,10 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
         période: Where.equal(période),
         nomProjet: Where.contains(nomProjet),
         statut: Where.equal(statut),
-        notification: estNotifiée ? { estNotifiée: Where.equal(true) } : undefined,
+        notification:
+          estNotifiée !== undefined
+            ? { estNotifiée: estNotifiée ? Where.equal(true) : Where.notEqual(true) }
+            : undefined,
         identifiantProjet: Where.include(identifiantProjets),
       },
       range,
