@@ -109,9 +109,12 @@ const mapToCertificateData = ({
       potentielId,
 
       nomProjet: candidature.nomProjet,
-      adresseProjet: [candidature.localité.adresse1, candidature.localité.adresse2]
+      adresseProjet: [
+        ...candidature.localité.adresse1.split('\n'),
+        ...(candidature.localité.adresse2?.split('\n') ?? []),
+      ]
         .filter(Boolean)
-        .join('\n'),
+        .join(', '),
       codePostalProjet: candidature.localité.codePostal,
       communeProjet: candidature.localité.commune,
 
