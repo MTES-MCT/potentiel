@@ -13,7 +13,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | type            | <type>            |
             | date d'échéance | <date d'échéance> |
             | date d'import   | <date import>     |
-        Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
+        Alors les garanties financières en attente ne devraient plus être consultables et les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
             | type                      | <type>            |
             | date d'échéance           | <date d'échéance> |
             | date dernière mise à jour | <date import>     |
@@ -32,7 +32,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
         Quand un admin importe le type des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type          | consignation |
             | date d'import | 2024-01-01   |
-        Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
+        Alors les garanties financières en attente ne devraient plus être consultables et les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
             | type                      | consignation |
             | date dernière mise à jour | 2024-01-01   |
 

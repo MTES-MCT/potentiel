@@ -17,7 +17,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | date de constitution | <date de constitution> |
             | date de soumission   | <date de soumission>   |
             | soumis par           | porteur@test.test      |
-        Alors le dépôt de garanties financières devrait être consultable pour le projet "Du boulodrome de Marseille" avec :
+        Alors les garanties financières en attente ne devraient plus être consultables et le dépôt de garanties financières devrait être consultable pour le projet "Du boulodrome de Marseille" avec :
             | type                         | <type>                 |
             | date d'échéance              | <date d'échéance>      |
             | format                       | <format du fichier>    |

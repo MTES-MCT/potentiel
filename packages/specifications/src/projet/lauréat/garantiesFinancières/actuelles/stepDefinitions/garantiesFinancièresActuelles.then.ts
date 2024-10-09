@@ -14,7 +14,7 @@ import { PotentielWorld } from '../../../../../potentiel.world';
 import { setGarantiesFinancièresData } from './helper';
 
 Alors(
-  `les garanties financières actuelles devraient être consultables pour le projet {string} avec :`,
+  'les garanties financières en attente ne devraient plus être consultables et les garanties financières actuelles devraient être consultables pour le projet {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 

@@ -23,7 +23,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | soumis par           | porteur@test.test      |
         Quand l'utilisateur dreal valide un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | date de validation | <date de validation> |
-        Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
+        Alors les garanties financières en attente ne devraient plus être consultables et les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
             | type                 | <type>                 |
             | date d'échéance      | <date d'échéance>      |
             | format               | <format du fichier>    |

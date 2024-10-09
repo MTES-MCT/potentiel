@@ -21,7 +21,7 @@ Fonctionnalité: Modifier un dépôt de garanties financières
             | date de constitution | 2023-06-12             |
             | date de modification | <date de modification> |
             | modifié par          | porteur@test.test      |
-        Alors le dépôt de garanties financières devrait être consultable pour le projet "Du boulodrome de Marseille" avec :
+        Alors les garanties financières en attente ne devraient plus être consultables et le dépôt de garanties financières devrait être consultable pour le projet "Du boulodrome de Marseille" avec :
             | type                         | consignation           |
             | date d'échéance              |                        |
             | format                       | application/pdf        |

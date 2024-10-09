@@ -14,7 +14,7 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
             | date de constitution | 2023-06-12        |
             | date mise à jour     | 2024-03-01        |
             | enregistré par       | porteur@test.test |
-        Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
+        Alors les garanties financières en attente ne devraient plus être consultables et les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
             | type                 | consignation      |
             | date d'échéance      |                   |
             | format               | application/pdf   |
@@ -24,7 +24,7 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
             | soumis par           | porteur@test.test |
 
     Scénario: Un porteur enregistre l'attestation des garanties financières actuelles d'un projet en attente de garanties financières
-        Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
+        Et des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
             | date limite de soumission | 2024-02-01      |
             | date de notification      | 2023-09-01      |
             | motif                     | recours-accordé |
@@ -37,7 +37,7 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
             | date de constitution | 2023-06-12        |
             | date mise à jour     | 2024-03-01        |
             | enregistré par       | porteur@test.test |
-        Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
+        Alors les garanties financières en attente ne devraient plus être consultables et les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
             | type                 | consignation      |
             | date d'échéance      |                   |
             | format               | application/pdf   |
