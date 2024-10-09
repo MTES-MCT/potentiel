@@ -1,4 +1,4 @@
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -17,6 +17,7 @@ import {
   mapToEventPayload,
 } from '../importer/importerCandidature.behavior';
 import { AttestationNonGénéréeError } from '../attestationNonGénérée.error';
+import { CandidatureNonTrouvéeError } from '../candidatureNonTrouvée.error';
 
 type CandidatureCorrigéePayload = CandidatureImportéeEventCommonPayload & {
   corrigéLe: DateTime.RawType;
@@ -40,6 +41,9 @@ export async function corriger(
   candidature: CorrigerCandidatureOptions,
   appelOffre: Option.Type<AppelOffre.AppelOffreReadModel>,
 ) {
+  if (!this.importé) {
+    throw new CandidatureNonTrouvéeError();
+  }
   if (Option.isNone(appelOffre)) {
     throw new AppelOffreInexistantError(candidature.identifiantProjet.appelOffre);
   }
@@ -68,6 +72,9 @@ export async function corriger(
     throw new DateÉchéanceGarantiesFinancièresRequiseError();
   }
 
+  if (this.estNotifiée && !candidature.statut.estÉgaleÀ(this.statut)) {
+    throw new StatutNonModifiableAprèsNotificationError();
+  }
   if (!this.estNotifiée && candidature.doitRégénérerAttestation) {
     throw new AttestationNonGénéréeError();
   }
@@ -94,4 +101,10 @@ export function applyCandidatureCorrigée(
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
   this.payloadHash = this.calculerHash(payload);
+}
+
+class StatutNonModifiableAprèsNotificationError extends InvalidOperationError {
+  constructor() {
+    super(`Le statut d'une candidature ne peut être modifié après la notification`);
+  }
 }
