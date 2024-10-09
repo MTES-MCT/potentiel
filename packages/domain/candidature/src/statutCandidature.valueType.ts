@@ -1,6 +1,6 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-const statuts = ['éliminé', 'classé'] as const;
+export const statuts = ['éliminé', 'classé'] as const;
 
 export type RawType = (typeof statuts)[number];
 

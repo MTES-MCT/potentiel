@@ -16,17 +16,15 @@ type InputDateProps = InputProps.RegularInput & {
 export const InputDate: FC<InputDateProps> = (props) => {
   return (
     <Input
-      {...{
-        ...props,
-        nativeInputProps: {
-          ...props.nativeInputProps,
-          min: formatDateForInput(props.nativeInputProps.min),
-          max: formatDateForInput(props.nativeInputProps.max),
-          defaultValue: formatDateForInput(props.nativeInputProps.defaultValue),
-          value: formatDateForInput(props.nativeInputProps.value),
-        },
+      {...props}
+      nativeInputProps={{
+        ...props.nativeInputProps,
+        min: formatDateForInput(props.nativeInputProps.min),
+        max: formatDateForInput(props.nativeInputProps.max),
+        defaultValue: formatDateForInput(props.nativeInputProps.defaultValue),
+        value: formatDateForInput(props.nativeInputProps.value),
       }}
-    ></Input>
+    />
   );
 };
 

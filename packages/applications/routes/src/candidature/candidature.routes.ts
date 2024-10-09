@@ -1,7 +1,7 @@
 import { encodeParameter } from '../encodeParameter';
 
 export const importer = '/candidatures/importer';
-export const corriger = '/candidatures/corriger';
+export const corrigerEnMasse = '/candidatures/corriger';
 
 type ListerFilters = {
   appelOffre?: string;
@@ -31,9 +31,15 @@ export const lister = (filters?: ListerFilters) => {
   return `/candidatures${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
 };
 
-export const prévisualiserAttestation = (identifiantProjet: string) =>
-  `/candidatures/${encodeParameter(identifiantProjet)}/previsualiser-attestation`;
+const _avecIdentifiant =
+  (path = '') =>
+  (identifiantProjet: string) =>
+    `/candidatures/${encodeParameter(identifiantProjet)}${path}`;
+
+export const détails = _avecIdentifiant();
+export const corriger = _avecIdentifiant('/corriger');
+
+export const prévisualiserAttestation = _avecIdentifiant('/previsualiser-attestation');
 // TODO: à supprimer pour utiliser directement Routes.Document.télécharger dans le front
 // une fois qu'on aura migré la page Projet
-export const téléchargerAttestation = (identifiantProjet: string) =>
-  `/candidatures/${encodeParameter(identifiantProjet)}/telecharger-attestation`;
+export const téléchargerAttestation = _avecIdentifiant('/telecharger-attestation');
