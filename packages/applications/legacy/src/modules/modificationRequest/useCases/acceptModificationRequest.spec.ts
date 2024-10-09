@@ -125,12 +125,6 @@ describe('acceptModificationRequest use-case', () => {
         expect(fakeProject.grantClasse.mock.calls[0][0]).toEqual(fakeUser);
       });
 
-      it('should call setNotificationDate on project with the newNotificationDate', () => {
-        expect(fakeProject.setNotificationDate).toHaveBeenCalledTimes(1);
-        expect(fakeProject.setNotificationDate.mock.calls[0][0]).toEqual(fakeUser);
-        expect(fakeProject.setNotificationDate.mock.calls[0][1]).toEqual(1234);
-      });
-
       it('should save the project', () => {
         expect(projectRepo.save).toHaveBeenCalled();
         expect(projectRepo.save.mock.calls[0][0]).toEqual(fakeProject);

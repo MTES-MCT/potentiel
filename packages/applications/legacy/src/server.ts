@@ -126,7 +126,7 @@ export async function makeServer(port: number, sessionSecret: string) {
     /////// Custom server next
     const isDebug = !__dirname.includes('dist');
     const nextApp = next({
-      dev: false,
+      dev: true,
       dir: join(__dirname, isDebug ? join('..', '..') : join('..', '..', '..'), 'ssr'),
     });
 

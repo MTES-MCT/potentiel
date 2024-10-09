@@ -32,7 +32,7 @@ import {
   makeCorrectProjectData,
   makeImportProjects,
   makeSignalerDemandeDelai,
-  makeSignalerDemandeRecours,
+  make,
   makeChoisirCahierDesCharges,
 } from '../modules/project';
 import { makeClaimProject } from '../modules/projectClaim';
@@ -195,13 +195,6 @@ export const signalerDemandeDelai = makeSignalerDemandeDelai({
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
-});
-
-export const signalerDemandeRecours = makeSignalerDemandeRecours({
-  fileRepo,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-  hasDemandeDeMêmeTypeOuverte,
 });
 
 export const demanderDélai = makeDemanderDélai({

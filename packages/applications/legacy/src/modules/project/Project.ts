@@ -12,7 +12,7 @@ import { isNotifiedPeriode } from '../../entities/periode';
 import { ProjetDéjàClasséError } from '../modificationRequest';
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '../projectAppelOffre';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { add, isSameDay, sub } from 'date-fns';
+import { add, sub } from 'date-fns';
 import remove from 'lodash/remove';
 import sanitize from 'sanitize-filename';
 import { BuildProjectIdentifier, DésignationCatégorie, Fournisseur } from '.';
@@ -25,10 +25,8 @@ import {
 } from '../shared';
 import { ProjectDataForCertificate } from './dtos';
 import {
-  AttachmentRequiredForDemandeRecoursAcceptedError,
   EliminatedProjectCannotBeAbandonnedError,
   IllegalProjectStateError,
-  ProjectAlreadyNotifiedError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
   ProjectNotEligibleForCertificateError,
   ChangementProducteurImpossiblePourEolienError,
@@ -37,7 +35,6 @@ import {
   AppelOffreProjetModifié,
   CovidDelayGranted,
   DemandeDelaiSignaled,
-  DemandeRecoursSignaled,
   IdentifiantPotentielPPE2Batiment2Corrigé,
   LegacyProjectSourced,
   ProjectAbandoned,
@@ -74,10 +71,6 @@ export interface Project extends EventStoreAggregate {
   correctData: (
     user: User,
     data: ProjectDataCorrectedPayload['correctedData'],
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>;
-  setNotificationDate: (
-    user: User | null,
-    notifiedOn: number,
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>;
   moveCompletionDueDate: (
     user: User,
@@ -122,13 +115,7 @@ export interface Project extends EventStoreAggregate {
         }
     ),
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
-  signalerDemandeRecours: (args: {
-    decidedOn: Date;
-    notes?: string;
-    signaledBy: User;
-    status: 'acceptée' | 'rejetée';
-    attachment?: { id: string; name: string };
-  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
+
   readonly isClasse?: boolean;
   readonly isLegacy?: boolean;
   readonly abandonedOn: number;
@@ -339,22 +326,22 @@ export const makeProject = (args: {
           }),
         );
 
-        if (data.notifiedOn) {
-          try {
-            isStrictlyPositiveNumber(data.notifiedOn);
-          } catch (e) {
-            return err(new IllegalProjectStateError({ notifiedOn: e.message }));
-          }
+        // if (data.notifiedOn) {
+        //   try {
+        //     isStrictlyPositiveNumber(data.notifiedOn);
+        //   } catch (e) {
+        //     return err(new IllegalProjectStateError({ notifiedOn: e.message }));
+        //   }
 
-          _publishNewNotificationDate({
-            projectId: id,
-            notifiedOn: data.notifiedOn,
-            setBy: '',
-          });
+        //   _publishNewNotificationDate({
+        //     projectId: id,
+        //     notifiedOn: data.notifiedOn,
+        //     setBy: '',
+        //   });
 
-          _updateDCRDate(appelOffre);
-          _updateCompletionDate(appelOffre);
-        }
+        //   _updateDCRDate(appelOffre);
+        //   _updateCompletionDate(appelOffre);
+        // }
       } else {
         const changes = _computeDelta(data);
 
@@ -367,7 +354,7 @@ export const makeProject = (args: {
         }
         delete changes['notifiedOn'];
 
-        const hasNotificationDateChanged = data.notifiedOn && data.notifiedOn !== props.notifiedOn;
+        // const hasNotificationDateChanged = data.notifiedOn && data.notifiedOn !== props.notifiedOn;
 
         if (Object.keys(changes).length) {
           _publishEvent(
@@ -384,37 +371,38 @@ export const makeProject = (args: {
           );
         }
 
-        if (hasNotificationDateChanged) {
-          _publishNewNotificationDate({
-            projectId: id,
-            notifiedOn: data.notifiedOn,
-            setBy: '',
-          });
-        }
+        // if (hasNotificationDateChanged) {
+        //   _publishNewNotificationDate({
+        //     projectId: id,
+        //     notifiedOn: data.notifiedOn,
+        //     setBy: '',
+        //   });
+        // }
 
-        if (props.notifiedOn) {
-          if (changes.classe) {
-            if (data.classe === 'Classé') {
-              // éliminé -> classé
-              _updateDCRDate(appelOffre);
-              _updateCompletionDate(appelOffre);
-            } else if (data.classe === 'Eliminé') {
-              // classé -> eliminé
-              _cancelDCRDate();
-              _cancelCompletionDate();
-            }
-          } else {
-            if (props.isClasse) {
-              if (hasNotificationDateChanged) {
-                // remains classé
-                _updateDCRDate(appelOffre);
-                _updateCompletionDate(appelOffre);
-              }
-            }
-            // remains éliminé
-          }
-        }
+        // if (props.notifiedOn) {
+        // if (changes.classe) {
+        //   if (data.classe === 'Classé') {
+        //     // éliminé -> classé
+        //     _updateDCRDate(appelOffre);
+        //     _updateCompletionDate(appelOffre);
+        //   } else if (data.classe === 'Eliminé') {
+        //     // classé -> eliminé
+        //     _cancelDCRDate();
+        //     _cancelCompletionDate();
+        //   }
+        // } else {
+        // if (props.isClasse) {
+        //   if (hasNotificationDateChanged) {
+        //     // remains classé
+        //     _updateDCRDate(appelOffre);
+        //     _updateCompletionDate(appelOffre);
+        //   }
+        // }
+        // remains éliminé
+        // }
+        // }
 
+        // TODO gérer ca :)
         if (changes.technologie) {
           _updateCompletionDate(appelOffre);
         }
@@ -475,35 +463,6 @@ export const makeProject = (args: {
 
       appelOffre &&
         _updateCompletionDate(appelOffre, { setBy: user.id, completionDueOn: newCompletionDueOn });
-
-      return ok(null);
-    },
-    setNotificationDate: function (user, notifiedOn) {
-      if (!_isNew() && !_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
-      try {
-        isStrictlyPositiveNumber(notifiedOn);
-      } catch (e) {
-        return err(new IllegalProjectStateError({ notifiedOn: e.message }));
-      }
-
-      // If it's the same day, ignore small differences in timestamp
-      if (isSameDay(notifiedOn, props.notifiedOn)) {
-        return ok(null);
-      }
-
-      _publishNewNotificationDate({
-        projectId: props.projectId.toString(),
-        notifiedOn,
-        setBy: user?.id || '',
-      });
-
-      const { appelOffre } = props;
-      if (appelOffre) {
-        _updateDCRDate(appelOffre);
-        _updateCompletionDate(appelOffre);
-      }
 
       return ok(null);
     },
@@ -580,6 +539,7 @@ export const makeProject = (args: {
 
       return ok(null);
     },
+    // ?
     grantClasse: function (user) {
       if (props.isClasse) {
         return err(new ProjetDéjàClasséError());
@@ -638,37 +598,7 @@ export const makeProject = (args: {
       }
       return ok(null);
     },
-    signalerDemandeRecours: function (args) {
-      const { decidedOn, status, notes, attachment, signaledBy } = args;
-      if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
 
-      if (status === 'acceptée' && !attachment) {
-        return err(new AttachmentRequiredForDemandeRecoursAcceptedError());
-      }
-
-      _publishEvent(
-        new DemandeRecoursSignaled({
-          payload: {
-            projectId: props.projectId.toString(),
-            decidedOn: decidedOn.getTime(),
-            notes,
-            attachments: attachment ? [attachment] : [],
-            signaledBy: signaledBy.id,
-            status,
-          },
-        }),
-      );
-
-      if (status === 'acceptée' && !props.isClasse) {
-        this.grantClasse(signaledBy).andThen(() =>
-          this.setNotificationDate(signaledBy, decidedOn.getTime()),
-        );
-      }
-
-      return ok(null);
-    },
     get pendingEvents() {
       return pendingEvents;
     },
