@@ -72,8 +72,8 @@ export const register = () => {
               notification: {
                 estNotifiée: true,
                 notifiéeLe: payload.notifiéeLe,
-                notifiéePar: {
-                  email: payload.notifiéePar,
+                notifiéePar: payload.notifiéePar,
+                validateur: {
                   fonction: payload.validateur.fonction,
                   nomComplet: payload.validateur.nomComplet,
                 },

@@ -33,7 +33,6 @@ Candidature.registerCandidaturesUseCases({ loadAggregate });
         identifiantProjet,
         identifiantUtilisateur: notifiéPar,
       });
-      return;
     }
 
     console.log(`Publish NotifierCandidature pour ${identifiantProjet}`);
@@ -45,8 +44,8 @@ Candidature.registerCandidaturesUseCases({ loadAggregate });
         notifiéeLeValue: notifiéLe,
         notifiéeParValue: notifiéPar,
         validateurValue: {
-          fonction: utilisateur.fonction,
-          nomComplet: utilisateur.nomComplet,
+          fonction: Option.isNone(utilisateur) ? 'fonction inconnue' : utilisateur.fonction,
+          nomComplet: Option.isNone(utilisateur) ? 'validateur inconnu' : utilisateur.nomComplet,
         },
       },
     });

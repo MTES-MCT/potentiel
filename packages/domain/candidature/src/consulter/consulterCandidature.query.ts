@@ -133,10 +133,10 @@ export const mapToReadModel = ({
   ),
   notification: notification && {
     notifiéeLe: DateTime.convertirEnValueType(notification.notifiéeLe),
-    notifiéePar: Email.convertirEnValueType(notification.notifiéePar.email),
+    notifiéePar: Email.convertirEnValueType(notification.notifiéePar),
     validateur: {
-      fonction: notification.notifiéePar.fonction,
-      nomComplet: notification.notifiéePar.nomComplet,
+      fonction: notification.validateur.fonction,
+      nomComplet: notification.validateur.nomComplet,
     },
   },
 });
