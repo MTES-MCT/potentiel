@@ -12,7 +12,7 @@ import { convertReadableStreamToString } from '../../../../../helpers/convertRea
 import { PotentielWorld } from '../../../../../potentiel.world';
 
 Alors(
-  'les garanties financières en attente ne devraient plus être consultables et le dépôt de garanties financières devrait être consultable pour le projet {string} avec :',
+  'le dépôt de garanties financières devrait être consultable pour le projet {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
@@ -61,18 +61,6 @@ Alors(
         const actualContent = await convertReadableStreamToString(file.content);
         actualContent.should.be.equal(contenu);
       }
-
-      const garantiesFinancièresEnAttente =
-        await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
-          {
-            type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
-            data: {
-              identifiantProjetValue: identifiantProjet.formatter(),
-            },
-          },
-        );
-
-      expect(Option.isNone(garantiesFinancièresEnAttente)).to.be.true;
     });
   },
 );

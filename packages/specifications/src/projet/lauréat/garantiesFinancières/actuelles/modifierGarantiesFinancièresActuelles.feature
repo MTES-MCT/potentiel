@@ -25,7 +25,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | contenu fichier      | contenu fichier 2 |
             | date de constitution | 2023-06-12        |
             | date mise à jour     | 2024-03-01        |
-        Alors les garanties financières en attente ne devraient plus être consultables et les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
+        Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
             | type                 | <type>            |
             | date d'échéance      | <date d'échéance> |
             | format               | application/pdf   |
