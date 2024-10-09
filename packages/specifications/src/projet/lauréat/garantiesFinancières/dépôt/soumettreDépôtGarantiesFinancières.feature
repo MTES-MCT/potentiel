@@ -26,7 +26,6 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | date de soumission           | <date de soumission>   |
             | soumis par                   | porteur@test.test      |
             | date de dernière mise à jour | <date de soumission>   |
-        Et les garanties financières en attente du projet "Du boulodrome de Marseille" ne devraient plus être consultables dans la liste des garanties financières en attente
 
         Exemples:
             | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution | date de soumission |

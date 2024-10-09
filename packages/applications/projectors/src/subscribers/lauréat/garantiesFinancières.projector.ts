@@ -420,6 +420,10 @@ export const register = () => {
               },
             },
           );
+
+          await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
+            `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
+          );
           break;
 
         case 'GarantiesFinancièresModifiées-V1':
@@ -459,6 +463,10 @@ export const register = () => {
                 },
               },
             },
+          );
+
+          await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
+            `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
           );
           break;
 

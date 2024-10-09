@@ -31,7 +31,7 @@ Alors(
 );
 
 Alors(
-  `les garanties financières en attente du projet {string} ne devraient plus être consultables dans la liste des garanties financières en attente`,
+  `les garanties financières en attente du projet {string} ne devraient plus être consultables`,
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     await waitForExpect(async () => {
