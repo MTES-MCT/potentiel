@@ -9,6 +9,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 
 import { candidatureSchema } from '../importer/candidature.schema';
 import { getLocalité } from '../helpers';
@@ -20,10 +21,12 @@ export type CorrigerCandidatureFormEntries = zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, body) =>
   withUtilisateur(async (utilisateur) => {
+    const candidature = await getCandidature(body.identifiantProjet);
     await mediator.send<Candidature.CorrigerCandidatureUseCase>({
       type: 'Candidature.UseCase.CorrigerCandidature',
       data: {
         ...mapBodyToUseCaseData(body),
+        statutValue: candidature.statut.formatter(),
         corrigéLe: DateTime.now().formatter(),
         corrigéPar: utilisateur.identifiantUtilisateur.formatter(),
       },
@@ -39,7 +42,10 @@ export const corrigerCandidatureAction = formAction(action, schema);
 
 const mapBodyToUseCaseData = (
   data: zod.infer<typeof schema>,
-): Omit<Candidature.CorrigerCandidatureUseCase['data'], 'corrigéLe' | 'corrigéPar'> => {
+): Omit<
+  Candidature.CorrigerCandidatureUseCase['data'],
+  'corrigéLe' | 'corrigéPar' | 'statutValue'
+> => {
   const { appelOffre, période, famille, numéroCRE } = IdentifiantProjet.convertirEnValueType(
     data.identifiantProjet,
   );
@@ -58,10 +64,11 @@ const mapBodyToUseCaseData = (
     nomReprésentantLégalValue: data.nomReprésentantLégal,
     emailContactValue: data.emailContact,
     localitéValue: getLocalité({
-      codePostaux: data.localité.codePostal.split('/').map((x) => x.trim()),
-      ...data.localité,
+      codePostaux: data.codePostal.split('/').map((x) => x.trim()),
+      commune: data.commune,
+      adresse1: data.adresse1,
+      adresse2: data.adresse2,
     }),
-    statutValue: data.statut,
     motifÉliminationValue: data.motifÉlimination,
     puissanceALaPointeValue: data.puissanceÀLaPointe,
     evaluationCarboneSimplifiéeValue: data.evaluationCarboneSimplifiée,

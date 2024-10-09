@@ -4,6 +4,7 @@ import { LegacyModificationImported } from '../../modules/modificationRequest';
 import {
   handleLegacyModificationImported,
   handleProjectRawDataImported,
+  handleProjectRawDataCorrected,
   makeOnDélaiAccordé,
   makeOnDélaiAccordéCorrigé,
   ProjectRawDataImported,
@@ -13,12 +14,14 @@ import {
   makeOnDateMiseEnServiceTransmise,
   makeOnDemandeComplèteRaccordementTransmise,
   DemandeComplèteRaccordementTransmise,
+  ProjectRawDataCorrected,
 } from '../../modules/project';
 import { subscribeToRedis } from '../eventBus.config';
 import { eventStore } from '../eventStore.config';
 import { findProjectByIdentifiers, récupérerDétailDossiersRaccordements } from '../queries.config';
 import { getProjectAppelOffre } from '../queryProjectAO.config';
 import { projectRepo } from '../repos.config';
+import { getUserById } from '../queries.config';
 
 eventStore.subscribe(
   ProjectRawDataImported.type,
@@ -26,6 +29,14 @@ eventStore.subscribe(
     getProjectAppelOffre,
     findProjectByIdentifiers,
     projectRepo,
+  }),
+);
+
+eventStore.subscribe(
+  ProjectRawDataCorrected.type,
+  handleProjectRawDataCorrected({
+    projectRepo,
+    getUserById,
   }),
 );
 

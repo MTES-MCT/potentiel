@@ -255,22 +255,26 @@ export const candidatureSchema = z
     noteTotale: numberSchema,
     nomReprésentantLégal: requiredStringSchema,
     emailContact: requiredStringSchema.email(),
-    localité: z
-      .object({
-        adresse1: requiredStringSchema,
-        adresse2: optionalStringSchema,
-        codePostal: requiredStringSchema
-          .transform((val) => val.split('/').map((str) => str.trim()))
-          .refine(
-            (val) => val.every(getRégionAndDépartementFromCodePostal),
-            'Le code postal ne correspond à aucune région / département',
-          )
-          .transform((val) => val.join(' / ')),
-        commune: requiredStringSchema,
-      })
-      .optional(), // TODO not optional
+
+    adresse1: requiredStringSchema,
+    adresse2: optionalStringSchema,
+    codePostal: requiredStringSchema
+      .transform((val) => val.split('/').map((str) => str.trim()))
+      .refine(
+        (val) => val.every(getRégionAndDépartementFromCodePostal),
+        'Le code postal ne correspond à aucune région / département',
+      )
+      .transform((val) => val.join(' / ')),
+    commune: requiredStringSchema,
+
     statut: z.enum(Candidature.StatutCandidature.statuts),
-    puissanceÀLaPointe: z.coerce.boolean(),
+    puissanceÀLaPointe: z
+      .string()
+      .toLowerCase()
+      .optional()
+      .default('false')
+      .transform((s) => JSON.parse(s))
+      .pipe(z.boolean()),
     evaluationCarboneSimplifiée: strictlyPositiveNumberSchema,
     technologie: z.enum(Candidature.TypeTechnologie.types),
     actionnariat: optionalEnum(z.enum(Candidature.TypeActionnariat.types)),
@@ -278,7 +282,13 @@ export const candidatureSchema = z
     // columns with refines
     motifÉlimination: optionalStringSchema.transform((val) => val || undefined), // see refine below
     typeGarantiesFinancières: optionalEnum(z.enum(Candidature.TypeGarantiesFinancières.types)), // see refine below
-    dateÉchéanceGf: z.date().optional(), // see refine below
+    dateÉchéanceGf: z
+      .string()
+      .transform((str) => {
+        console.log(str);
+        return str ? new Date(str) : undefined;
+      })
+      .optional(), // see refine below
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine(requiredFieldIfReferenceFieldEquals('motifÉlimination', 'statut', 'éliminé'))

@@ -55,12 +55,10 @@ const mapToProps = (
     evaluationCarboneSimplifiée: candidature.evaluationCarboneSimplifiée,
     actionnariat: candidature.actionnariat?.formatter(),
     dateÉchéanceGf: candidature.dateÉchéanceGf?.date,
-    localité: {
-      adresse1: candidature.localité.adresse1,
-      adresse2: candidature.localité.adresse2,
-      codePostal: candidature.localité.codePostal,
-      commune: candidature.localité.commune,
-    },
+    adresse1: candidature.localité.adresse1,
+    adresse2: candidature.localité.adresse2,
+    codePostal: candidature.localité.codePostal,
+    commune: candidature.localité.commune,
   },
   estNotifiée: !!candidature.notification,
 });

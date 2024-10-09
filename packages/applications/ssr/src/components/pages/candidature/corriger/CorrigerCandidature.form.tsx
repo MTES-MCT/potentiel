@@ -2,6 +2,8 @@
 
 import React from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
+import { z } from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -29,6 +31,14 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
   >({});
 
   const AutoFormField = makeAutoFormField(candidatureSchema, candidature, validationErrors);
+  const getStateProps = (field: keyof z.infer<typeof candidatureSchema>) => ({
+    state: validationErrors[field] ? ('error' as const) : ('default' as const),
+    stateRelatedMessage: validationErrors[field],
+  });
+  const getInputProps = (field: keyof z.infer<typeof candidatureSchema>) => ({
+    name: encodeURIComponent(field),
+    value: candidature[field] !== undefined ? String(candidature[field]) : undefined,
+  });
 
   return (
     <Form
@@ -60,26 +70,37 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       }
     >
       <input name="identifiantProjet" type="hidden" value={candidature.identifiantProjet} />
-
-      <AutoFormField name="statut" disabled />
+      <AutoFormField name="statut" />
       <AutoFormField name="noteTotale" />
-
       <AutoFormField name="nomProjet" />
       <AutoFormField name="nomCandidat" />
       <AutoFormField name="emailContact" />
       <AutoFormField name="nomReprésentantLégal" />
       <AutoFormField name="actionnariat" />
       <AutoFormField name="sociétéMère" />
-
       <AutoFormField name="typeGarantiesFinancières" />
       <AutoFormField name="dateÉchéanceGf" value={candidature.dateÉchéanceGf?.toISOString()} />
       <AutoFormField name="historiqueAbandon" />
-
+      <AutoFormField name="adresse1" />
+      <AutoFormField name="adresse2" />
+      <AutoFormField name="codePostal" />
+      <AutoFormField name="commune" />
       <AutoFormField name="technologie" />
       <AutoFormField name="puissanceProductionAnnuelle" />
       <AutoFormField name="prixRéference" />
       <AutoFormField name="motifÉlimination" />
-      <AutoFormField name="puissanceÀLaPointe" label="Engagement puissance à la pointe " />
+      <Checkbox
+        {...getStateProps('puissanceÀLaPointe')}
+        options={[
+          {
+            label: 'Engagement de fourniture de puissance à la pointe',
+            nativeInputProps: {
+              ...getInputProps('puissanceÀLaPointe'),
+              defaultValue: candidature.puissanceÀLaPointe ? 'true' : 'false',
+            },
+          },
+        ]}
+      />
       <AutoFormField name="evaluationCarboneSimplifiée" />
     </Form>
   );

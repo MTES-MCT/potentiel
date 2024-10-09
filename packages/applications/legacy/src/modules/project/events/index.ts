@@ -17,6 +17,7 @@ export * from './ProjectCompletionDueDateSet';
 export * from './ProjectDCRDueDateCancelled';
 export * from './ProjectDCRDueDateSet';
 export * from './ProjectDataCorrected';
+export * from './ProjectRawDataCorrected';
 export * from './ProjectFournisseursUpdated';
 export * from './ProjectImported';
 export * from './ProjectNotificationDateSet';

@@ -2,7 +2,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Candidature } from '@potentiel-domain/candidature';
 import { eventStore } from '../config/eventStore.config';
-import { DésignationCatégorie, ProjectRawDataImported } from '../modules/project';
+import {
+  DésignationCatégorie,
+  ProjectClasseGranted,
+  ProjectRawDataCorrected,
+  ProjectRawDataImported,
+} from '../modules/project';
 import { v4 } from 'uuid';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
@@ -11,6 +16,9 @@ import getDepartementRegionFromCodePostal, {
 } from '../helpers/getDepartementRegionFromCodePostal';
 import { ConsulterDocumentProjetQuery, DocumentProjet } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
+import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
+import { ok } from 'neverthrow';
 
 export type SubscriptionEvent = (
   | Candidature.CandidatureImportéeEvent
@@ -39,14 +47,54 @@ export const register = () => {
     switch (event.type) {
       case 'CandidatureImportée-V1':
       case 'CandidatureCorrigée-V1':
-        await eventStore.publish(
-          new ProjectRawDataImported({
-            payload: {
-              importId: v4(),
-              data: { ...mapToLegacyEventPayload(identifiantProjet, payload, appelOffre), details },
-            },
-          }),
-        );
+        const projet = await getLegacyProjetByIdentifiantProjet(identifiantProjet);
+        // Si le projet n'est pas notifié, on l'importe ou le réimporte
+        if (!projet?.notifiedOn) {
+          await eventStore.publish(
+            new ProjectRawDataImported({
+              payload: {
+                importId: v4(),
+                data: {
+                  ...mapToLegacyEventPayload(identifiantProjet, payload, appelOffre),
+                  details,
+                },
+              },
+            }),
+          );
+        } else if (event.type === 'CandidatureCorrigée-V1') {
+          const userId = await new Promise<string>((r) =>
+            getUserByEmail(event.payload.corrigéPar).map((user) => {
+              r(user?.id ?? '');
+              return ok(user);
+            }),
+          );
+          if (projet.classe === 'Eliminé' && event.payload.statut === 'classé') {
+            await eventStore.publish(
+              new ProjectClasseGranted({
+                payload: {
+                  projectId: projet.id,
+                  grantedBy: userId,
+                },
+              }),
+            );
+          } else {
+            // si le projet est notifié, on corrige les données
+            eventStore.publish(
+              new ProjectRawDataCorrected({
+                payload: {
+                  correctedBy: userId,
+                  projectId: projet.id,
+                  correctedData: mapToCorrectedData(event.payload),
+                },
+              }),
+            );
+          }
+          // TODO
+          // if(newTechnologie !== oldTEchnologie){
+          //   publish ProjectCompletionDueDateSet
+          // }
+        }
+
         return;
     }
   };
@@ -75,40 +123,47 @@ const mapToLegacyEventPayload = (
     familleId: identifiantProjet.famille,
     numeroCRE: identifiantProjet.numéroCRE,
     classe: payload.statut === 'classé' ? 'Classé' : 'Eliminé',
-    nomProjet: payload.nomProjet,
-    nomCandidat: payload.nomCandidat,
-    nomRepresentantLegal: payload.nomReprésentantLégal,
-    email: payload.emailContact,
-    motifsElimination: payload.motifÉlimination ?? '',
     garantiesFinancièresDateEchéance: payload.dateÉchéanceGf,
+    garantiesFinancièresType: getTypeGarantiesFinancieresLabel(payload.typeGarantiesFinancières),
     technologie: payload.technologie,
     historiqueAbandon: payload.historiqueAbandon,
-    puissance: payload.puissanceProductionAnnuelle,
-    garantiesFinancièresType: getTypeGarantiesFinancieresLabel(payload.typeGarantiesFinancières),
-    engagementFournitureDePuissanceAlaPointe: payload.puissanceALaPointe,
     actionnaire: payload.sociétéMère,
-    prixReference: payload.prixReference,
-    note: payload.noteTotale,
-    evaluationCarbone: payload.evaluationCarboneSimplifiée,
     désignationCatégorie: getDésignationCatégorie({
       puissance: payload.puissanceProductionAnnuelle,
       note: payload.noteTotale,
       periodeDetails: période,
     }),
-
-    actionnariat:
-      payload.actionnariat === 'financement-collectif' ||
-      payload.actionnariat === 'gouvernance-partagée'
-        ? payload.actionnariat
-        : undefined,
-    isFinancementParticipatif: payload.actionnariat === 'financement-participatif',
-    isInvestissementParticipatif: payload.actionnariat === 'investissement-participatif',
-
     notifiedOn: 0,
-    territoireProjet: payload.territoireProjet,
+    ...mapToCorrectedData(payload),
     ...getLocalitéInfo(payload.localité),
   };
 };
+
+const mapToCorrectedData = (
+  payload: SubscriptionEvent['payload'],
+): ProjectRawDataCorrected['payload']['correctedData'] => ({
+  nomProjet: payload.nomProjet,
+  nomCandidat: payload.nomCandidat,
+  nomRepresentantLegal: payload.nomReprésentantLégal,
+  email: payload.emailContact,
+  motifsElimination: payload.motifÉlimination ?? '',
+  puissance: payload.puissanceProductionAnnuelle,
+  engagementFournitureDePuissanceAlaPointe: payload.puissanceALaPointe,
+  prixReference: payload.prixReference,
+  note: payload.noteTotale,
+  evaluationCarbone: payload.evaluationCarboneSimplifiée,
+  actionnariat:
+    payload.actionnariat === 'financement-collectif'
+      ? 'financement-collectif'
+      : payload.actionnariat === 'gouvernance-partagée'
+        ? 'gouvernance-partagee'
+        : undefined,
+  isFinancementParticipatif: payload.actionnariat === 'financement-participatif',
+  isInvestissementParticipatif: payload.actionnariat === 'investissement-participatif',
+
+  territoireProjet: payload.territoireProjet,
+  ...getLocalitéInfo(payload.localité),
+});
 
 const getLocalitéInfo = ({
   codePostal,
