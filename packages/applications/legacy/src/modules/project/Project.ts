@@ -75,10 +75,6 @@ export interface Project extends EventStoreAggregate {
     user: User,
     data: ProjectDataCorrectedPayload['correctedData'],
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>;
-  setNotificationDate: (
-    user: User | null,
-    notifiedOn: number,
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>;
   moveCompletionDueDate: (
     user: User,
     delayInMonths: number,
@@ -122,13 +118,7 @@ export interface Project extends EventStoreAggregate {
         }
     ),
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
-  signalerDemandeRecours: (args: {
-    decidedOn: Date;
-    notes?: string;
-    signaledBy: User;
-    status: 'acceptée' | 'rejetée';
-    attachment?: { id: string; name: string };
-  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
+
   readonly isClasse?: boolean;
   readonly isLegacy?: boolean;
   readonly abandonedOn: number;
@@ -478,35 +468,6 @@ export const makeProject = (args: {
 
       return ok(null);
     },
-    setNotificationDate: function (user, notifiedOn) {
-      if (!_isNew() && !_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
-      try {
-        isStrictlyPositiveNumber(notifiedOn);
-      } catch (e) {
-        return err(new IllegalProjectStateError({ notifiedOn: e.message }));
-      }
-
-      // If it's the same day, ignore small differences in timestamp
-      if (isSameDay(notifiedOn, props.notifiedOn)) {
-        return ok(null);
-      }
-
-      _publishNewNotificationDate({
-        projectId: props.projectId.toString(),
-        notifiedOn,
-        setBy: user?.id || '',
-      });
-
-      const { appelOffre } = props;
-      if (appelOffre) {
-        _updateDCRDate(appelOffre);
-        _updateCompletionDate(appelOffre);
-      }
-
-      return ok(null);
-    },
 
     updatePuissance: function (user, newPuissance) {
       if (!_isNotified()) {
@@ -638,37 +599,7 @@ export const makeProject = (args: {
       }
       return ok(null);
     },
-    signalerDemandeRecours: function (args) {
-      const { decidedOn, status, notes, attachment, signaledBy } = args;
-      if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
 
-      if (status === 'acceptée' && !attachment) {
-        return err(new AttachmentRequiredForDemandeRecoursAcceptedError());
-      }
-
-      _publishEvent(
-        new DemandeRecoursSignaled({
-          payload: {
-            projectId: props.projectId.toString(),
-            decidedOn: decidedOn.getTime(),
-            notes,
-            attachments: attachment ? [attachment] : [],
-            signaledBy: signaledBy.id,
-            status,
-          },
-        }),
-      );
-
-      if (status === 'acceptée' && !props.isClasse) {
-        this.grantClasse(signaledBy).andThen(() =>
-          this.setNotificationDate(signaledBy, decidedOn.getTime()),
-        );
-      }
-
-      return ok(null);
-    },
     get pendingEvents() {
       return pendingEvents;
     },
