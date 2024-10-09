@@ -125,13 +125,14 @@ export const register = () => {
         break;
 
       case 'CandidatureCorrigée-V1':
+        // la correction d'une candidature ne peut pas modifier le champs notification
+        // on peut donc sans crainte utiliser cette vérification
         if (!candidature.notification?.notifiéeLe) {
           logger.info(`L'attestation ne sera pas regénérée car la candidature n'est pas notifiée`, {
             identifiantProjet,
           });
           return;
-        }
-        if (event.payload.doitRégénérerAttestation !== true) {
+        } else if (event.payload.doitRégénérerAttestation !== true) {
           logger.info(`L'attestation ne sera pas regénérée`, {
             identifiantProjet,
           });
@@ -165,7 +166,7 @@ export const register = () => {
             ),
             dateÉchéanceGf: event.payload.dateÉchéanceGf
               ? DateTime.convertirEnValueType(event.payload.dateÉchéanceGf)
-              : candidature.dateÉchéanceGf,
+              : undefined,
             historiqueAbandon: Candidature.HistoriqueAbandon.convertirEnValueType(
               event.payload.historiqueAbandon,
             ),
@@ -173,10 +174,10 @@ export const register = () => {
               ? Candidature.TypeGarantiesFinancières.convertirEnValueType(
                   event.payload.typeGarantiesFinancières,
                 )
-              : candidature.typeGarantiesFinancières,
+              : undefined,
             actionnariat: event.payload.actionnariat
               ? Candidature.TypeActionnariat.convertirEnValueType(event.payload.actionnariat)
-              : candidature.actionnariat,
+              : undefined,
           };
 
           const certificate = await buildCertificate({
@@ -200,7 +201,6 @@ export const register = () => {
             },
           });
         }
-
         break;
     }
   };

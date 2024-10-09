@@ -42,11 +42,9 @@ export const register = ({ sendEmail }: RegisterCandidatureNotificationDependenc
           return;
         }
 
-        const attestationHasBeenRegenerated = candidature.notification !== undefined;
-
         const { BASE_URL } = process.env;
 
-        if (attestationHasBeenRegenerated) {
+        if (event.payload.doitRégénérerAttestation) {
           await sendEmail({
             templateId: templateId.attestationRegénéréePorteur,
             messageSubject: `Potentiel - Une nouvelle attestation est disponible pour le projet ${candidature.nomProjet}`,

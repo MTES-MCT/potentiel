@@ -2,6 +2,8 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/candidature';
+import { Lauréat } from '@potentiel-domain/laureat';
+import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { DeepPartial } from '../../fixture';
@@ -30,6 +32,35 @@ EtantDonné(
   `la candidature lauréate {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
     await importerCandidature.call(this, nomProjet, 'classé');
+  },
+);
+
+EtantDonné(
+  'la candidature lauréate notifiée {string}',
+  async function (this: PotentielWorld, nomProjet: string) {
+    await importerCandidature.call(this, nomProjet, 'classé');
+
+    const identifiantProjet = this.candidatureWorld.importerCandidature.identifiantProjet;
+
+    this.lauréatWorld.notifierLauréatFixture.créer({
+      identifiantProjet,
+    });
+
+    this.utilisateurWorld.porteurFixture.créer({
+      email: this.candidatureWorld.importerCandidature.values.emailContactValue,
+    });
+
+    await mediator.send<Lauréat.NotifierLauréatUseCase>({
+      type: 'Lauréat.UseCase.NotifierLauréat',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        notifiéLeValue: DateTime.now().formatter(),
+        notifiéParValue: this.utilisateurWorld.validateurFixture.email,
+        attestationValue: {
+          format: `text/plain`,
+        },
+      },
+    });
   },
 );
 

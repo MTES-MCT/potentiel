@@ -102,37 +102,6 @@ Alors(
 );
 
 Alors(
-  'les attestations de désignation des candidatures de la période notifiée devraient être consultables',
-  async function (this: PotentielWorld) {
-    const { identifiantPériode } = this.périodeWorld;
-    const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
-      type: 'Candidature.Query.ListerCandidatures',
-      data: {
-        appelOffre: identifiantPériode.appelOffre,
-        période: identifiantPériode.période,
-      },
-    });
-
-    for (const candidature of candidatures.items) {
-      expect(candidature.attestation, "La candidature n'a pas d'attestation").not.to.be.undefined;
-      await waitForExpect(async () => {
-        if (candidature.attestation) {
-          const { content, format } = await mediator.send<ConsulterDocumentProjetQuery>({
-            type: 'Document.Query.ConsulterDocumentProjet',
-            data: {
-              documentKey: candidature.attestation.formatter(),
-            },
-          });
-
-          expect(await convertReadableStreamToString(content)).to.have.length.gt(1);
-          format.should.be.equal('application/pdf');
-        }
-      });
-    }
-  },
-);
-
-Alors(
   "l'attestation de désignation de la candidature devrait être consultable",
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.candidatureWorld.importerCandidature;
