@@ -50,7 +50,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { appelOffre, per
         identifiantPériodeValue,
         notifiéeLeValue: DateTime.now().formatter(),
         notifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
-        notifiéeParDétailsValue: {
+        validateurValue: {
           fonction: utilisateurDetails.fonction,
           nomComplet: utilisateurDetails.nomComplet,
         },

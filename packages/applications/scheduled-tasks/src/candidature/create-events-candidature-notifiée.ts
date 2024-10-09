@@ -44,7 +44,7 @@ Candidature.registerCandidaturesUseCases({ loadAggregate });
         attestationValue: { format: attestation.format },
         notifiéeLeValue: notifiéLe,
         notifiéeParValue: notifiéPar,
-        notifiéeParDétailsValue: {
+        validateurValue: {
           fonction: utilisateur.fonction,
           nomComplet: utilisateur.nomComplet,
         },

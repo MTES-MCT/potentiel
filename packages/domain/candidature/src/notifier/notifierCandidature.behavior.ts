@@ -7,7 +7,7 @@ export type NotifierOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   notifiéeLe: DateTime.ValueType;
   notifiéePar: Email.ValueType;
-  notifiéeParDétails: {
+  validateur: {
     fonction: string;
     nomComplet: string;
   };
@@ -22,7 +22,7 @@ export type CandidatureNotifiéeEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     notifiéeLe: DateTime.RawType;
     notifiéePar: Email.RawType;
-    notifiéeParDétails: {
+    validateur: {
       fonction: string;
       nomComplet: string;
     };
@@ -38,7 +38,7 @@ export async function notifier(
     identifiantProjet,
     notifiéeLe,
     notifiéePar,
-    notifiéeParDétails,
+    validateur,
     attestation: { format },
   }: NotifierOptions,
 ) {
@@ -52,7 +52,7 @@ export async function notifier(
       identifiantProjet: identifiantProjet.formatter(),
       notifiéeLe: notifiéeLe.formatter(),
       notifiéePar: notifiéePar.formatter(),
-      notifiéeParDétails,
+      validateur,
       attestation: {
         format,
       },

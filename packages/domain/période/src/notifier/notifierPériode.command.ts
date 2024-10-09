@@ -16,7 +16,7 @@ export type NotifierPériodeCommand = Message<
     identifiantPériode: IdentifiantPériode.ValueType;
     notifiéeLe: DateTime.ValueType;
     notifiéePar: Email.ValueType;
-    notifiéeParDétails: {
+    validateur: {
       fonction: string;
       nomComplet: string;
     };
@@ -32,7 +32,7 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
     identifiantPériode,
     notifiéeLe,
     notifiéePar,
-    notifiéeParDétails,
+    validateur,
     identifiantCandidatures,
   }) => {
     const identifiantLauréats: Array<IdentifiantProjet.ValueType> = [];
@@ -50,7 +50,7 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
               identifiantProjetValue: identifiantCandidature.formatter(),
               notifiéLeValue: notifiéeLe.formatter(),
               notifiéParValue: notifiéePar.formatter(),
-              notifiéeParDétailsValue: notifiéeParDétails,
+              validateurValue: validateur,
               attestationValue: {
                 format: 'application/pdf',
               },
@@ -68,7 +68,7 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
               identifiantProjetValue: identifiantCandidature.formatter(),
               notifiéLeValue: notifiéeLe.formatter(),
               notifiéParValue: notifiéePar.formatter(),
-              notifiéeParDétailsValue: notifiéeParDétails,
+              validateurValue: validateur,
               attestationValue: {
                 format: 'application/pdf',
               },
