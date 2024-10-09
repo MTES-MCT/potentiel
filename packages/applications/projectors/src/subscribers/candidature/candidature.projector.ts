@@ -72,7 +72,11 @@ export const register = () => {
               notification: {
                 estNotifiée: true,
                 notifiéeLe: payload.notifiéeLe,
-                notifiéePar: payload.notifiéePar,
+                notifiéePar: {
+                  email: payload.notifiéePar,
+                  fonction: payload.notifiéeParDétails.fonction,
+                  nomComplet: payload.notifiéeParDétails.nomComplet,
+                },
               },
             },
           );

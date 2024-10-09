@@ -10,6 +10,10 @@ export type NotifierCandidatureUseCase = Message<
     identifiantProjetValue: string;
     notifiéeLeValue: string;
     notifiéeParValue: string;
+    notifiéeParDétailsValue: {
+      fonction: string;
+      nomComplet: string;
+    };
     attestationValue: {
       format: string;
     };
@@ -21,6 +25,7 @@ export const registerNotifierCandidatureUseCase = () => {
     identifiantProjetValue,
     notifiéeParValue,
     notifiéeLeValue,
+    notifiéeParDétailsValue,
     attestationValue: { format },
   }) => {
     await mediator.send<NotifierCandidatureCommand>({
@@ -29,6 +34,7 @@ export const registerNotifierCandidatureUseCase = () => {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
         notifiéeLe: DateTime.convertirEnValueType(notifiéeLeValue),
         notifiéePar: Email.convertirEnValueType(notifiéeParValue),
+        notifiéeParDétails: notifiéeParDétailsValue,
         attestation: { format },
       },
     });

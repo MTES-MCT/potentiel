@@ -31,6 +31,10 @@ export async function notifierPériode(this: PotentielWorld) {
           this.périodeWorld.notifierPériodeFixture.notifiéeLe,
         ).formatter(),
         notifiéeParValue: this.périodeWorld.notifierPériodeFixture.notifiéePar,
+        notifiéeParDétailsValue: {
+          fonction: this.utilisateurWorld.validateurFixture.fonction,
+          nomComplet: this.utilisateurWorld.validateurFixture.nom,
+        },
         identifiantCandidatureValues: [...lauréats, ...éliminés],
       },
     });

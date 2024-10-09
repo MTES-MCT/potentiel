@@ -41,7 +41,11 @@ export type CandidatureEntity = Entity<
     notification?: {
       estNotifiée: true;
       notifiéeLe: DateTime.RawType;
-      notifiéePar: Email.RawType;
+      notifiéePar: {
+        email: Email.RawType;
+        fonction: string;
+        nomComplet: string;
+      };
     };
   }
 >;

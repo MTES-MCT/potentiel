@@ -16,6 +16,10 @@ export type NotifierPériodeCommand = Message<
     identifiantPériode: IdentifiantPériode.ValueType;
     notifiéeLe: DateTime.ValueType;
     notifiéePar: Email.ValueType;
+    notifiéeParDétails: {
+      fonction: string;
+      nomComplet: string;
+    };
     identifiantCandidatures: ReadonlyArray<IdentifiantProjet.ValueType>;
   }
 >;
@@ -28,6 +32,7 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
     identifiantPériode,
     notifiéeLe,
     notifiéePar,
+    notifiéeParDétails,
     identifiantCandidatures,
   }) => {
     const identifiantLauréats: Array<IdentifiantProjet.ValueType> = [];
@@ -38,12 +43,14 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
 
       try {
         if (candidature.statut?.estClassé()) {
+          // TODO: devrait être appelé dans le usecase NotifierPériode
           await mediator.send<Lauréat.NotifierLauréatUseCase>({
             type: 'Lauréat.UseCase.NotifierLauréat',
             data: {
               identifiantProjetValue: identifiantCandidature.formatter(),
               notifiéLeValue: notifiéeLe.formatter(),
               notifiéParValue: notifiéePar.formatter(),
+              notifiéeParDétailsValue: notifiéeParDétails,
               attestationValue: {
                 format: 'application/pdf',
               },
@@ -54,12 +61,14 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
         }
 
         if (candidature.statut?.estÉliminé()) {
+          // TODO: devrait être appelé dans le usecase NotifierPériode
           await mediator.send<Éliminé.NotifierÉliminéUseCase>({
             type: 'Éliminé.UseCase.NotifierÉliminé',
             data: {
               identifiantProjetValue: identifiantCandidature.formatter(),
               notifiéLeValue: notifiéeLe.formatter(),
               notifiéParValue: notifiéePar.formatter(),
+              notifiéeParDétailsValue: notifiéeParDétails,
               attestationValue: {
                 format: 'application/pdf',
               },
