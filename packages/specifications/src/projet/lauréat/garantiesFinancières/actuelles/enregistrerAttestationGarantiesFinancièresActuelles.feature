@@ -23,7 +23,7 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
             | date de soumission   | 2023-11-01        |
             | soumis par           | porteur@test.test |
 
-    Scénario: Un porteur enregistre l'attestation des garanties financières actuelles
+    Scénario: Un porteur enregistre l'attestation des garanties financières actuelles d'un projet en attente de garanties financières
         Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
             | date limite de soumission | 2024-02-01      |
             | date de notification      | 2023-09-01      |
