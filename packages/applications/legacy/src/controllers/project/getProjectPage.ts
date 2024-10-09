@@ -26,6 +26,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { User } from '../../entities';
 import { logger } from '../../core/utils';
 import { Recours } from '@potentiel-domain/elimine';
+import { getLogger } from '@potentiel-libraries/monitoring';
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
 });
@@ -121,20 +122,28 @@ v1Router.get(
       );
       const abandon = await getAbandon(identifiantProjetValueType);
 
-      const alertesRaccordement =
-        !abandon || abandon.statut === 'rejeté'
-          ? await getAlertesRaccordement({
-              userRole: user.role,
-              identifiantProjet: identifiantProjetValueType,
-              CDC2022Choisi:
-                projet.cahierDesChargesActuel.type === 'modifié' &&
-                projet.cahierDesChargesActuel.paruLe === '30/08/2022',
-              projet: {
-                isClasse: projet.isClasse,
-                isAbandonned: projet.isAbandoned,
-              },
-            })
-          : undefined;
+      let alertesRaccordement: AlerteRaccordement[] | undefined = undefined;
+      try {
+        alertesRaccordement =
+          !abandon || abandon.statut === 'rejeté'
+            ? await getAlertesRaccordement({
+                userRole: user.role,
+                identifiantProjet: identifiantProjetValueType,
+                CDC2022Choisi:
+                  projet.cahierDesChargesActuel.type === 'modifié' &&
+                  projet.cahierDesChargesActuel.paruLe === '30/08/2022',
+                projet: {
+                  isClasse: projet.isClasse,
+                  isAbandonned: projet.isAbandoned,
+                },
+              })
+            : undefined;
+      } catch (error) {
+        getLogger().warn(`An error occurred when getting raccordements alerts`, {
+          error,
+          identifiantProjetValueType,
+        });
+      }
 
       const rawProjectEventList = await getProjectEvents({ projectId: projet.id, user });
 
