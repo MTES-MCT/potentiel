@@ -25,6 +25,7 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
       <Button
         className="md:flex ml-auto"
         linkProps={{
+          // TODO Routes.Candidature.détails
           href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
         }}
         aria-label={`Lien vers la page de la candidature ${nomProjet}`}
