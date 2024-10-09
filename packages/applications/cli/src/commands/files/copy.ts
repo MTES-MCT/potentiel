@@ -3,7 +3,8 @@ import { z } from 'zod';
 
 import { copyFile } from '@potentiel-libraries/file-storage';
 
-import { parseCsvFile } from '../../helpers/parse-file';
+import { csvFlags, parseCsvFile } from '../../helpers/parse-file';
+import { makeReporter, reporterFlags } from '../../helpers/reporter';
 
 const schema = z.object({
   from: z.string(),
@@ -22,23 +23,29 @@ export default class FilesCopy extends Command {
       description: 'path to the csv file containing the files to copy',
       required: true,
     }),
+    ...csvFlags,
+    ...reporterFlags,
   };
 
   public async run(): Promise<void> {
     const { flags } = await this.parse(FilesCopy);
-    const { parsedData: files } = await parseCsvFile(flags.path, schema);
+    const { parsedData: files } = await parseCsvFile(flags.path, schema, {
+      delimiter: flags.delimiter,
+      encoding: flags.encoding,
+    });
+    const reporter = await makeReporter(flags);
 
     for (const file of files) {
       try {
         console.info(`Copying ${file.from} to ${file.to}`);
         await copyFile(file.from, file.to);
-        console.debug(`Copied ${file.from} to ${file.to}`);
+        await reporter.success(file.from);
       } catch (e) {
-        console.log(e);
-
-        console.error(`Error while copying ${file.from}`, e);
+        await reporter.error(file.to, e);
       }
     }
+    await reporter.close();
+
     console.info(`Completed ${files.length} files`);
   }
 }

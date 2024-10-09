@@ -1,8 +1,20 @@
 import { readFile } from 'node:fs/promises';
 
 import { z } from 'zod';
+import { Flags } from '@oclif/core';
 
 import { CsvValidationError, parseCsv, ParseOptions } from '@potentiel-libraries/csv';
+
+export const csvFlags = {
+  delimiter: Flags.string({
+    options: [',', ';'] as const,
+    default: ';',
+  }),
+  encoding: Flags.option({
+    options: ['utf8', 'win1252'] as const,
+    default: 'win1252' as const,
+  })(),
+};
 
 export const parseCsvFile = async <T extends z.ZodRawShape>(
   path: string,
