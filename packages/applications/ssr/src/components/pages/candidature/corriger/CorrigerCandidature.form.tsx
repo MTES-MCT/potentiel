@@ -132,10 +132,27 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         nativeInputProps={getFieldProps('societeMere')}
       />
 
-      {/* <AutoFormField name="adresse1" />
-      <AutoFormField name="adresse2" />
-      <AutoFormField name="codePostal" />
-      <AutoFormField name="commune" /> */}
+      <Input
+        {...getStateProps('adresse1')}
+        label="Addresse 1"
+        nativeInputProps={getFieldProps('adresse1')}
+      />
+      <Input
+        {...getStateProps('adresse2')}
+        label="Addresse 2"
+        nativeInputProps={getFieldProps('adresse2')}
+      />
+      <Input
+        {...getStateProps('codePostal')}
+        label="Code Postal"
+        nativeInputProps={getFieldProps('codePostal')}
+      />
+
+      <Input
+        {...getStateProps('commune')}
+        label="Commune"
+        nativeInputProps={getFieldProps('commune')}
+      />
 
       {/*
         // la modification de la technologie est désactivée
@@ -149,6 +166,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           ...getFieldProps('technologie'),
         }}
       /> */}
+
       <Input
         {...getStateProps('prixReference')}
         label="Prix de référence"
