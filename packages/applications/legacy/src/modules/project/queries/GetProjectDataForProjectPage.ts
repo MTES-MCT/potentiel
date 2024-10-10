@@ -5,6 +5,7 @@ import { Permission } from '../../authN';
 import { InfraNotAvailableError, EntityNotFoundError } from '../../shared';
 import { Actionnariat, DésignationCatégorie } from '../types';
 import { Candidature } from '@potentiel-domain/candidature';
+import { Recours } from '@potentiel-domain/elimine';
 
 export const PermissionConsulterProjet: Permission = {
   nom: 'consulter-projet',
@@ -72,7 +73,9 @@ export type ProjectDataForProjectPage = {
   details: Record<string, any>;
 
   updatedAt?: Date;
-  hasRecours: boolean;
+  demandeRecours?: {
+    statut: Recours.StatutRecours.RawType;
+  };
 
   garantiesFinancières?: GarantiesFinancièresForProjectPage;
 } & (IsNotified | IsNotNotified) &

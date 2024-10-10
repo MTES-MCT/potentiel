@@ -32,14 +32,14 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
 type PorteurProjetActionsProps = {
   project: ProjectDataForProjectPage;
   abandonEnCours: boolean;
-  hasRecours: boolean;
+  demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
 };
 const PorteurProjetActions = ({
   project,
   abandonEnCours,
-  hasRecours,
+  demandeRecours,
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
 }: PorteurProjetActionsProps) => {
@@ -53,7 +53,7 @@ const PorteurProjetActions = ({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col xl:flex-row gap-2">
-        {!project.isClasse && !hasRecours && (
+        {!project.isClasse && !demandeRecours && (
           <SecondaryLinkButton
             href={Routes.Recours.demander(identifiantProjet)}
             disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
@@ -185,7 +185,7 @@ type ProjectActionsProps = {
   project: ProjectDataForProjectPage;
   user: User;
   abandonEnCours: boolean;
-  hasRecours: boolean;
+  demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
 };
@@ -193,7 +193,7 @@ export const ProjectActions = ({
   project,
   user,
   abandonEnCours,
-  hasRecours,
+  demandeRecours,
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
 }: ProjectActionsProps) => (
@@ -203,7 +203,7 @@ export const ProjectActions = ({
       <PorteurProjetActions
         project={project}
         abandonEnCours={abandonEnCours}
-        hasRecours={hasRecours}
+        demandeRecours={demandeRecours}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}
       />
