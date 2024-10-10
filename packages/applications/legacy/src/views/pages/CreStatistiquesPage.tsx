@@ -1,6 +1,6 @@
 import type { Request } from 'express';
 import React from 'react';
-import { Heading1, LegacyPageTemplate } from '../components';
+import { Heading1, LegacyPageTemplate, MetabaseStats } from '../components';
 import { hydrateOnClient } from '../helpers';
 
 type CreStatistiquesPageProps = {
@@ -13,18 +13,8 @@ export const CreStatistiques = ({ iframeUrl, request }: CreStatistiquesPageProps
     <LegacyPageTemplate user={request.user} currentPage="cre-statistiques">
       <Heading1>Tableau de bord</Heading1>
       <section>
-        <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js" />
-        <div
-          dangerouslySetInnerHTML={{
-            __html: `<iframe
-            src="${iframeUrl}"
-            frameBorder="0"
-            width="100%"
-            allowTransparency
-            onload="iFrameResize({}, this)"
-          ></iframe>`,
-          }}
-        />
+        <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
+        <MetabaseStats iframeUrl={iframeUrl} />
       </section>
     </LegacyPageTemplate>
   );
