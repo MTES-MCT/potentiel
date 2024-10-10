@@ -9,7 +9,6 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { buildCertificate } from './buildCertificate';
@@ -65,7 +64,6 @@ export const register = () => {
           payload: {
             attestation: { format },
             notifiéeLe,
-            notifiéePar,
           },
         } = event;
 
@@ -79,25 +77,10 @@ export const register = () => {
           return;
         }
 
-        const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
-          type: 'Utilisateur.Query.ConsulterUtilisateur',
-          data: {
-            identifiantUtilisateur: notifiéePar,
-          },
-        });
-
-        if (Option.isNone(utilisateur)) {
-          logger.warn(`Utilisateur non trouvé`, {
-            identifiantProjet,
-            identifiantUtilisateur: notifiéePar,
-          });
-          return;
-        }
-
         const certificate = await buildCertificate({
           appelOffre: appelOffres,
           période,
-          validateur: { fonction: utilisateur.fonction, fullName: utilisateur.nomComplet },
+          validateur: event.payload.validateur,
           candidature,
           notifiéLe: notifiéeLe,
         });
