@@ -13,7 +13,6 @@ import {
   PartnersList,
   ProjectDetails,
   SignalerDemandeDelai,
-  SignalerDemandeRecours,
   Signup,
   Statistiques,
   UploadLegacyModificationFiles,
@@ -183,13 +182,6 @@ export const SignalerDemandeDelaiPage = (props: Parameters<typeof SignalerDemand
     Component: SignalerDemandeDelai,
     props,
     title: 'Signaler demande de délai',
-  });
-
-export const SignalerDemandeRecoursPage = (props: Parameters<typeof SignalerDemandeRecours>[0]) =>
-  makeHtml({
-    Component: SignalerDemandeRecours,
-    props,
-    title: 'Signaler demande recours',
   });
 
 export const SignupPage = (props: Parameters<typeof Signup>[0]) =>

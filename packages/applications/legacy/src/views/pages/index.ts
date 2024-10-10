@@ -14,7 +14,6 @@ export * from './newModificationRequestPage';
 export * from './partnersListPage';
 export * from './projectDetailsPage';
 export * from './signalerDemandeDelaiPage';
-export * from './signalerDemandeRecoursPage';
 export * from './AbonnementLettreInformation';
 export * from './AcheteurObligeStatistiquesPage';
 export * from './AdemeStatistiquesPage';

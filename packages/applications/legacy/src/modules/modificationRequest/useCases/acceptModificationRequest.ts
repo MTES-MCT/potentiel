@@ -120,20 +120,6 @@ export const makeAcceptModificationRequest =
         > = ok(null);
 
         switch (modificationRequest.type) {
-          case 'recours':
-            // responseFileId will never be undefined here
-            if (acceptanceParams?.type === 'recours' && responseFileId !== undefined)
-              action = project
-                .grantClasse(submittedBy)
-                // TODO this whole block should be removed, Recours is managed on the new stack
-                // .andThen(() => project.updateCertificate(submittedBy, responseFileId))
-                .andThen(() =>
-                  project.setNotificationDate(
-                    submittedBy,
-                    acceptanceParams.newNotificationDate.getTime(),
-                  ),
-                );
-            break;
           case 'puissance':
             if (acceptanceParams?.type === 'puissance')
               action = project.updatePuissance(submittedBy, acceptanceParams.newPuissance);
