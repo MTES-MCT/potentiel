@@ -43,6 +43,7 @@ const validateurInconnu = {
 
 let compteurValidateurInconnu = 0;
 let compteurValidateurParDéfault = 0;
+let compteurValidateurIdentifié = 0;
 let anomalies = 0;
 
 const findValidateur = async (
@@ -56,11 +57,12 @@ const findValidateur = async (
     },
   });
 
-  if (Option.isNone(utilisateur)) {
-    console.warn(`Utilisateur non trouvé`, {
-      identifiantProjet,
-      identifiantUtilisateur: notifiéPar,
-    });
+  if (Option.isSome(utilisateur)) {
+    compteurValidateurIdentifié++;
+    return {
+      fonction: utilisateur.fonction,
+      nomComplet: utilisateur.nomComplet,
+    };
   }
 
   const { appelOffre: identifiantAppelOffre, période: identifiantPériode } =
@@ -134,10 +136,11 @@ const findValidateur = async (
     });
   }
 
-  console.log(`🚀 Exécution terminée`);
+  console.log(`🚀 Exécution terminée pour ${all.length} lauréats et éliminés`);
+  console.log(`✅ Nombre de validateurs identifié: ${compteurValidateurIdentifié}`);
   console.log(`🤓 Nombre de validateurs par défault: ${compteurValidateurParDéfault}`);
   console.log(`👻 Nombre de validateurs inconnus: ${compteurValidateurInconnu}`);
-  console.log(`⭕ Nombre d'anomalies': ${anomalies}`);
+  console.log(`❌ Nombre d'anomalies': ${anomalies}`);
 
   process.exit(0);
 })();
