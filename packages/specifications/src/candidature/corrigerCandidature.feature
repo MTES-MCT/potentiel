@@ -70,3 +70,15 @@ Fonctionnalité: Corriger une candidature
     Scénario: Impossible de corriger une candidature sans modifications
         Quand un administrateur corrige la candidature sans modification
         Alors l'administrateur devrait être informé que "La candidature ne contient aucune modification"
+
+    Scénario: Impossible de changer le statut d'une candidature lauréate notifiée en éliminée
+        Etant donné la candidature lauréate notifiée "Boulodrome Sainte Livrade"
+        Quand un administrateur corrige la candidature avec :
+            | statut | éliminé |
+        Alors l'administrateur devrait être informé que "Le statut d'une candidature ne peut être modifié après la notification"
+
+    Scénario: Impossible de changer le statut d'une candidature éliminée notifiée en lauréate
+        Etant donné la candidature éliminée notifiée "Boulodrome Sainte Livrade"
+        Quand un administrateur corrige la candidature avec :
+            | statut | classé |
+        Alors l'administrateur devrait être informé que "Le statut d'une candidature ne peut être modifié après la notification"

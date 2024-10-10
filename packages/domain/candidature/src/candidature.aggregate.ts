@@ -2,12 +2,7 @@
 import { createHash } from 'crypto';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import {
-  Aggregate,
-  AggregateNotFoundError,
-  GetDefaultAggregateState,
-  LoadAggregate,
-} from '@potentiel-domain/core';
+import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import * as StatutCandidature from './statutCandidature.valueType';
@@ -30,33 +25,43 @@ import {
   CandidatureNotifiéeEvent,
   notifier,
 } from './notifier/notifierCandidature.behavior';
+import { CandidatureNonTrouvéeError } from './candidatureNonTrouvée.error';
 
 export type CandidatureEvent =
   | CandidatureImportéeEvent
   | CandidatureCorrigéeEvent
   | CandidatureNotifiéeEvent;
 
-export type CandidatureAggregate = Aggregate<CandidatureEvent> & {
+type NonImporté = {
+  importé?: undefined;
   statut?: StatutCandidature.ValueType;
-  importé?: true;
-  estNotifiée: boolean;
-  payloadHash: string;
-  importer: typeof importer;
-  corriger: typeof corriger;
-  notifier: typeof notifier;
-  calculerHash(payload: CandidatureEvent['payload']): string;
-  estIdentiqueÀ(payload: CandidatureEvent['payload']): boolean;
-
-  récupererPériodeAO(
-    appelOffre: AppelOffre.AppelOffreReadModel,
-    idPériode: string,
-  ): AppelOffre.Periode;
-  récupererFamilleAO(
-    appelOffre: AppelOffre.AppelOffreReadModel,
-    idPériode: string,
-    idFamille?: string,
-  ): AppelOffre.Famille | undefined;
 };
+
+type Importé = {
+  importé: true;
+  statut: StatutCandidature.ValueType;
+};
+
+export type CandidatureAggregate = Aggregate<CandidatureEvent> &
+  (Importé | NonImporté) & {
+    estNotifiée: boolean;
+    payloadHash: string;
+    importer: typeof importer;
+    corriger: typeof corriger;
+    notifier: typeof notifier;
+    calculerHash(payload: CandidatureEvent['payload']): string;
+    estIdentiqueÀ(payload: CandidatureEvent['payload']): boolean;
+
+    récupererPériodeAO(
+      appelOffre: AppelOffre.AppelOffreReadModel,
+      idPériode: string,
+    ): AppelOffre.Periode;
+    récupererFamilleAO(
+      appelOffre: AppelOffre.AppelOffreReadModel,
+      idPériode: string,
+      idFamille?: string,
+    ): AppelOffre.Famille | undefined;
+  };
 
 export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
   CandidatureAggregate,
@@ -131,9 +136,3 @@ export const loadCandidatureFactory =
         : undefined,
     });
   };
-
-class CandidatureNonTrouvéeError extends AggregateNotFoundError {
-  constructor() {
-    super(`La candidature n'existe pas`);
-  }
-}

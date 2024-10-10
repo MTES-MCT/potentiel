@@ -55,7 +55,7 @@ async function corrigerCandidature(this: PotentielWorld, exemple?: Record<string
       ...this.candidatureWorld.importerCandidature.values,
       ...this.candidatureWorld.mapExempleToFixtureValues(exemple ?? {}),
       importéPar: this.utilisateurWorld.validateurFixture.email,
-      statutValue: this.candidatureWorld.importerCandidature.values.statutValue,
+      statutValue: exemple?.statut ?? this.candidatureWorld.importerCandidature.values.statutValue,
       nomProjetValue: this.candidatureWorld.importerCandidature.values.nomProjetValue,
     },
   });

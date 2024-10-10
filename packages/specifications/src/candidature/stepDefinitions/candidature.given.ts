@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
+import { Éliminé } from '@potentiel-domain/elimine';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { DeepPartial } from '../../fixture';
@@ -40,31 +41,16 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string) {
     await importerCandidature.call(this, nomProjet, 'classé');
 
-    const identifiantProjet = this.candidatureWorld.importerCandidature.identifiantProjet;
+    await notifierCandidature.call(this);
+  },
+);
 
-    this.lauréatWorld.notifierLauréatFixture.créer({
-      identifiantProjet,
-    });
+EtantDonné(
+  'la candidature éliminée notifiée {string}',
+  async function (this: PotentielWorld, nomProjet: string) {
+    await importerCandidature.call(this, nomProjet, 'éliminé');
 
-    this.utilisateurWorld.porteurFixture.créer({
-      email: this.candidatureWorld.importerCandidature.values.emailContactValue,
-    });
-
-    await mediator.send<Lauréat.NotifierLauréatUseCase>({
-      type: 'Lauréat.UseCase.NotifierLauréat',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-        notifiéLeValue: DateTime.now().formatter(),
-        notifiéParValue: this.utilisateurWorld.validateurFixture.email,
-        validateurValue: {
-          fonction: this.utilisateurWorld.validateurFixture.fonction,
-          nomComplet: this.utilisateurWorld.validateurFixture.nom,
-        },
-        attestationValue: {
-          format: `text/plain`,
-        },
-      },
-    });
+    await notifierCandidature.call(this);
   },
 );
 
@@ -86,4 +72,38 @@ export async function importerCandidature(
     type: 'Candidature.UseCase.ImporterCandidature',
     data: values,
   });
+}
+
+async function notifierCandidature(this: PotentielWorld) {
+  const {
+    identifiantProjet,
+    values: { statutValue },
+  } = this.candidatureWorld.importerCandidature;
+  this.utilisateurWorld.porteurFixture.créer({
+    email: this.candidatureWorld.importerCandidature.values.emailContactValue,
+  });
+
+  const data = {
+    identifiantProjetValue: identifiantProjet,
+    notifiéLeValue: DateTime.now().formatter(),
+    notifiéParValue: this.utilisateurWorld.validateurFixture.email,
+    attestationValue: {
+      format: `text/plain`,
+    },
+    validateurValue: {
+      fonction: this.utilisateurWorld.validateurFixture.fonction,
+      nomComplet: this.utilisateurWorld.validateurFixture.nom,
+    },
+  };
+  if (statutValue === 'classé') {
+    await mediator.send<Lauréat.NotifierLauréatUseCase>({
+      type: 'Lauréat.UseCase.NotifierLauréat',
+      data,
+    });
+  } else {
+    await mediator.send<Éliminé.NotifierÉliminéUseCase>({
+      type: 'Éliminé.UseCase.NotifierÉliminé',
+      data,
+    });
+  }
 }
