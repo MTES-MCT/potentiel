@@ -71,19 +71,6 @@ type PP_GF_Notification = {
   };
 };
 
-type PP_CertificateUpdated = {
-  type: 'pp-certificate-updated';
-  context: {
-    projectId: string;
-    userId: string;
-  };
-  variables: {
-    nomProjet: string;
-    raison?: string;
-    urlRedirection: string;
-  };
-};
-
 type DREAL_GF_déposée_Notification = {
   type: 'dreal-gf-déposée-notification';
   context: {
@@ -341,7 +328,6 @@ type NotificationVariants =
   | PP_GF_Notification
   | DREAL_GF_déposée_Notification
   | DREAL_GF_enregistrée_Notification
-  | PP_CertificateUpdated
   | ModificationRequestStatusUpdate
   | ModificationRequestConfirmedByPP
   | ModificationRequestCancelled

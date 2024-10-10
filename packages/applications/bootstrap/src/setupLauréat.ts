@@ -25,10 +25,10 @@ import {
 } from '@potentiel-infrastructure/domain-adapters';
 import { SendEmail } from '@potentiel-applications/notifications';
 
-type SetupLauréatDependenices = {
+type SetupLauréatDependencies = {
   sendEmail: SendEmail;
 };
-export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) => {
+export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) => {
   registerLauréatUseCases({
     loadAggregate,
   });
@@ -47,7 +47,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependenices) =>
   AchèvementProjector.register();
   AchèvementNotification.register({ sendEmail });
 
-  // Notfications
+  // Notifications
   AbandonNotification.register({ sendEmail });
   GarantiesFinancièresNotification.register({ sendEmail });
 

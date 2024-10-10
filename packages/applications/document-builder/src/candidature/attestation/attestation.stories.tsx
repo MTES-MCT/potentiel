@@ -79,7 +79,7 @@ const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCand
 };
 
 const validateur = {
-  fullName: 'Nom du signataire',
+  nomComplet: 'Nom du signataire',
   fonction: 'fonction du signataire',
 } as AppelOffre.Validateur;
 

@@ -17,7 +17,9 @@ export async function notifierPériode(this: PotentielWorld) {
   try {
     const identifiantPériode = this.périodeWorld.identifiantPériode.formatter();
 
-    const { lauréats, éliminés } = this.périodeWorld.notifierPériodeFixture.créer();
+    const { lauréats, éliminés } = this.périodeWorld.notifierPériodeFixture.créer({
+      notifiéePar: this.utilisateurWorld.validateurFixture.email,
+    });
 
     this.utilisateurWorld.porteurFixture.créer({
       email: this.candidatureWorld.importerCandidature.values.emailContactValue,

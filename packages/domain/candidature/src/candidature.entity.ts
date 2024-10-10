@@ -1,5 +1,6 @@
 import { DateTime, Email, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 import { HistoriqueAbandon, TypeTechnologie, TypeActionnariat } from './candidature';
@@ -42,10 +43,7 @@ export type CandidatureEntity = Entity<
       estNotifiée: true;
       notifiéeLe: DateTime.RawType;
       notifiéePar: Email.RawType;
-      validateur: {
-        fonction: string;
-        nomComplet: string;
-      };
+      validateur: AppelOffre.Validateur;
     };
   }
 >;

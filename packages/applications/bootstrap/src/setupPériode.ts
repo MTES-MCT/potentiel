@@ -6,11 +6,11 @@ import { findProjection, listProjection } from '@potentiel-infrastructure/pg-pro
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { PériodeNotification, SendEmail } from '@potentiel-applications/notifications';
 
-type SetupPériodeDependenices = {
+type SetupPériodeDependencies = {
   sendEmail: SendEmail;
 };
 
-export const setupPériode = async ({ sendEmail }: SetupPériodeDependenices) => {
+export const setupPériode = async ({ sendEmail }: SetupPériodeDependencies) => {
   Période.registerPériodeQueries({
     find: findProjection,
     list: listProjection,

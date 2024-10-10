@@ -135,7 +135,7 @@ type NoteThresholdByCategory = {
 };
 
 export type Validateur = {
-  fullName: string;
+  nomComplet: string;
   fonction: string;
 };
 

@@ -4,6 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import * as StatutCandidature from '../statutCandidature.valueType';
 import { CandidatureEntity } from '../candidature.entity';
@@ -40,15 +41,13 @@ export type ConsulterCandidatureReadModel = {
   territoireProjet: string;
   misÀJourLe: DateTime.ValueType;
 
-  détails: DocumentProjet.ValueType;
+  détailsImport: DocumentProjet.ValueType;
 
   notification?: {
     notifiéeLe: DateTime.ValueType;
     notifiéePar: Email.ValueType;
-    validateur: {
-      fonction: string;
-      nomComplet: string;
-    };
+    validateur: AppelOffre.Validateur;
+    attestation: DocumentProjet.ValueType;
   };
 };
 
@@ -125,7 +124,7 @@ export const mapToReadModel = ({
   evaluationCarboneSimplifiée,
   actionnariat: actionnariat ? TypeActionnariat.convertirEnValueType(actionnariat) : undefined,
   territoireProjet,
-  détails: DocumentProjet.convertirEnValueType(
+  détailsImport: DocumentProjet.convertirEnValueType(
     identifiantProjet,
     'candidature/import',
     misÀJourLe,
@@ -134,9 +133,12 @@ export const mapToReadModel = ({
   notification: notification && {
     notifiéeLe: DateTime.convertirEnValueType(notification.notifiéeLe),
     notifiéePar: Email.convertirEnValueType(notification.notifiéePar),
-    validateur: {
-      fonction: notification.validateur.fonction,
-      nomComplet: notification.validateur.nomComplet,
-    },
+    validateur: notification.validateur,
+    attestation: DocumentProjet.convertirEnValueType(
+      identifiantProjet,
+      'attestation',
+      notification.notifiéeLe,
+      'application/pdf',
+    ),
   },
 });

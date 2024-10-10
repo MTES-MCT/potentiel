@@ -13,6 +13,7 @@ import { CorrigerCandidatureCommand } from './corrigerCandidature.command';
 type CorrigerCandidatureUseCasePayload = ImporterCandidatureUseCaseCommonPayload & {
   corrigéLe: string;
   corrigéPar: string;
+  doitRégénérerAttestation?: true;
 };
 
 export type CorrigerCandidatureUseCase = Message<
@@ -49,6 +50,7 @@ export const registerCorrigerCandidatureUseCase = () => {
         ...mapPayloadForCommand(payload),
         corrigéLe: DateTime.convertirEnValueType(payload.corrigéLe),
         corrigéPar: Email.convertirEnValueType(payload.corrigéPar),
+        doitRégénérerAttestation: payload.doitRégénérerAttestation,
       },
     });
   };

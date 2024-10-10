@@ -16,10 +16,12 @@ import {
   ImporterCandidatureBehaviorCommonOptions,
   mapToEventPayload,
 } from '../importer/importerCandidature.behavior';
+import { AttestationNonGénéréeError } from '../attestationNonGénérée.error';
 
 type CandidatureCorrigéePayload = CandidatureImportéeEventCommonPayload & {
   corrigéLe: DateTime.RawType;
   corrigéPar: Email.RawType;
+  doitRégénérerAttestation?: true;
 };
 
 export type CandidatureCorrigéeEvent = DomainEvent<
@@ -30,6 +32,7 @@ export type CandidatureCorrigéeEvent = DomainEvent<
 type CorrigerCandidatureOptions = ImporterCandidatureBehaviorCommonOptions & {
   corrigéLe: DateTime.ValueType;
   corrigéPar: Email.ValueType;
+  doitRégénérerAttestation?: true;
 };
 
 export async function corriger(
@@ -56,6 +59,7 @@ export async function corriger(
   ) {
     throw new GarantiesFinancièresRequisesPourAppelOffreError();
   }
+
   if (
     candidature.typeGarantiesFinancières &&
     candidature.typeGarantiesFinancières.estAvecDateÉchéance() &&
@@ -64,12 +68,17 @@ export async function corriger(
     throw new DateÉchéanceGarantiesFinancièresRequiseError();
   }
 
+  if (!this.estNotifiée && candidature.doitRégénérerAttestation) {
+    throw new AttestationNonGénéréeError();
+  }
+
   const event: CandidatureCorrigéeEvent = {
     type: 'CandidatureCorrigée-V1',
     payload: {
       ...mapToEventPayload(candidature),
       corrigéLe: candidature.corrigéLe.formatter(),
       corrigéPar: candidature.corrigéPar.formatter(),
+      doitRégénérerAttestation: candidature.doitRégénérerAttestation,
     },
   };
   if (this.estIdentiqueÀ(event.payload)) {

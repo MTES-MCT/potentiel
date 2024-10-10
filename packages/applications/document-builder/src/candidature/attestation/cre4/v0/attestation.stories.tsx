@@ -13,7 +13,7 @@ const meta = {
     return makeCertificate(
       projet,
       {
-        fullName: 'Nom du signataire',
+        nomComplet: 'Nom du signataire',
         fonction: 'fonction du signataire',
       },
       '/images',

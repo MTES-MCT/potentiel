@@ -65,6 +65,9 @@ async function corrigerCandidature(this: PotentielWorld, exemple?: Record<string
     corrigéPar: this.utilisateurWorld.validateurFixture.email,
   });
 
+  const doitRégénérerAttestation =
+    exemple?.['doit régénérer attestation'] === 'oui' ? true : undefined;
+
   try {
     await mediator.send<Candidature.CorrigerCandidatureUseCase>({
       type: 'Candidature.UseCase.CorrigerCandidature',
@@ -72,6 +75,7 @@ async function corrigerCandidature(this: PotentielWorld, exemple?: Record<string
         ...values,
         corrigéLe,
         corrigéPar,
+        doitRégénérerAttestation,
       },
     });
   } catch (error) {

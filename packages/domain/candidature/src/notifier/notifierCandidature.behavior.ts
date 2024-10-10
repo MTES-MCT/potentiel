@@ -1,5 +1,6 @@
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { CandidatureAggregate } from '../candidature.aggregate';
 
@@ -7,10 +8,7 @@ export type NotifierOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   notifiéeLe: DateTime.ValueType;
   notifiéePar: Email.ValueType;
-  validateur: {
-    fonction: string;
-    nomComplet: string;
-  };
+  validateur: AppelOffre.Validateur;
   attestation: {
     format: string;
   };
@@ -22,10 +20,7 @@ export type CandidatureNotifiéeEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     notifiéeLe: DateTime.RawType;
     notifiéePar: Email.RawType;
-    validateur: {
-      fonction: string;
-      nomComplet: string;
-    };
+    validateur: AppelOffre.Validateur;
     attestation: {
       format: string;
     };
@@ -62,7 +57,7 @@ export async function notifier(
   await this.publish(event);
 }
 
-export function applyCandidatureNotifié(
+export function applyCandidatureNotifiée(
   this: CandidatureAggregate,
   _event: CandidatureNotifiéeEvent,
 ) {

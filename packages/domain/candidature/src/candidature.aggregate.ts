@@ -25,7 +25,11 @@ import {
   FamillePériodeAppelOffreInexistanteError,
   PériodeAppelOffreInexistanteError,
 } from './appelOffreInexistant.error';
-import { CandidatureNotifiéeEvent, notifier } from './notifier/notifierCandidature.behavior';
+import {
+  applyCandidatureNotifiée,
+  CandidatureNotifiéeEvent,
+  notifier,
+} from './notifier/notifierCandidature.behavior';
 
 export type CandidatureEvent =
   | CandidatureImportéeEvent
@@ -104,6 +108,9 @@ function apply(this: CandidatureAggregate, event: CandidatureEvent) {
   switch (event.type) {
     case 'CandidatureImportée-V1':
       applyCandidatureImportée.bind(this)(event);
+      break;
+    case 'CandidatureNotifiée-V1':
+      applyCandidatureNotifiée.bind(this)(event);
       break;
     case 'CandidatureCorrigée-V1':
       applyCandidatureCorrigée.bind(this)(event);

@@ -23,8 +23,9 @@ export type CandidaturesListItemReadModel = {
     département: ConsulterCandidatureReadModel['localité']['département'];
     région: ConsulterCandidatureReadModel['localité']['région'];
   };
-  détails: ConsulterCandidatureReadModel['détails'];
+  détailsImport: ConsulterCandidatureReadModel['détailsImport'];
   estNotifiée: boolean;
+  attestation?: DocumentProjet.ValueType;
 };
 
 export type ListerCandidaturesReadModel = Readonly<{
@@ -120,11 +121,19 @@ export const mapToReadModel = ({
     département,
     région,
   },
-  détails: DocumentProjet.convertirEnValueType(
+  détailsImport: DocumentProjet.convertirEnValueType(
     identifiantProjet,
     'candidature/import',
     misÀJourLe,
     'application/json',
   ),
   estNotifiée: notification?.estNotifiée ?? false,
+  ...(notification?.estNotifiée && {
+    attestation: DocumentProjet.convertirEnValueType(
+      identifiantProjet,
+      'attestation',
+      notification.notifiéeLe,
+      'application/pdf',
+    ),
+  }),
 });

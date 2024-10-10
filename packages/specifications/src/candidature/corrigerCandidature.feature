@@ -5,10 +5,33 @@ Fonctionnalité: Corriger une candidature
         Etant donné le DGEC validateur "Robert Robichet"
         Et la candidature lauréate "Du boulodrome de Marseille"
 
-    Scénario: Corriger une candidature
+    Scénario: Corriger une candidature sans régénérer l'attestation
         Quand un administrateur corrige la candidature avec :
             | nom candidat | abcd |
         Alors la candidature devrait être consultable
+        Et le porteur n'a pas été prévenu que son attestation a été modifiée
+
+    Scénario: Corriger une candidature notifiée en regénérant l'attestation
+        Etant donné la candidature lauréate notifiée "Du boulodrome de Marseille #2"
+        Quand un administrateur corrige la candidature avec :
+            | nom candidat               | abcd |
+            | doit régénérer attestation | oui  |
+        Alors la candidature devrait être consultable
+        Et le porteur a été prévenu que son attestation a été modifiée
+
+    Scénario: Corriger une candidature notifiée sans régénérer l'attestation
+        Etant donné la candidature lauréate notifiée "Du boulodrome de Marseille #2"
+        Quand un administrateur corrige la candidature avec :
+            | nom candidat               | abcd |
+            | doit régénérer attestation | non  |
+        Alors la candidature devrait être consultable
+        Et le porteur n'a pas été prévenu que son attestation a été modifiée
+
+    Scénario: Impossible de régénérer l'attestation d'une candidature non notifiée
+        Quand un administrateur corrige la candidature avec :
+            | nom candidat               | abcd |
+            | doit régénérer attestation | oui  |
+        Alors l'administrateur devrait être informé que "L'attestation d'une candidature non notifiée ne peut pas être régénérée"
 
     Scénario: Impossible de changer l'AO d'une candidature
         Quand un administrateur corrige la candidature avec :
