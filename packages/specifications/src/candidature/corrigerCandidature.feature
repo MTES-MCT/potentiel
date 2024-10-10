@@ -71,7 +71,7 @@ Fonctionnalité: Corriger une candidature
         Quand un administrateur corrige la candidature sans modification
         Alors l'administrateur devrait être informé que "La candidature ne contient aucune modification"
 
-    Scénario: Impossible changer le statut d'une candidature lauréate notifiée en éliminé
+    Scénario: Impossible de changer le statut d'une candidature lauréate notifiée en éliminée
         Etant donné la candidature lauréate notifiée "Boulodrome Sainte Livrade"
         Quand un administrateur corrige la candidature avec :
             | statut | éliminé |
