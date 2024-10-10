@@ -45,6 +45,10 @@ export type ConsulterCandidatureReadModel = {
   notification?: {
     notifiéeLe: DateTime.ValueType;
     notifiéePar: Email.ValueType;
+    validateur: {
+      fonction: string;
+      nomComplet: string;
+    };
   };
 };
 
@@ -130,5 +134,9 @@ export const mapToReadModel = ({
   notification: notification && {
     notifiéeLe: DateTime.convertirEnValueType(notification.notifiéeLe),
     notifiéePar: Email.convertirEnValueType(notification.notifiéePar),
+    validateur: {
+      fonction: notification.validateur.fonction,
+      nomComplet: notification.validateur.nomComplet,
+    },
   },
 });

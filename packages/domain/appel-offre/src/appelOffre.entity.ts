@@ -136,7 +136,7 @@ type NoteThresholdByCategory = {
 
 export type Validateur = {
   fullName: string;
-  fonction?: string;
+  fonction: string;
 };
 
 export type NotifiedPeriode = {

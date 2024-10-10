@@ -2,8 +2,12 @@ import { Fixture } from '../../fixture';
 
 import { Utilisateur, AbstractUtilisateur } from './utilisateur';
 
+const validateurRole = 'dgec-validateur';
+const validateurFonction = 'fonction du DGEC validateur';
+
 interface Validateur extends Utilisateur {
-  readonly role: 'dgec-validateur';
+  readonly role: typeof validateurRole;
+  readonly fonction: typeof validateurFonction;
 }
 
 export class ValidateurFixture
@@ -16,15 +20,20 @@ export class ValidateurFixture
     return this.#aÉtéCréé;
   }
 
-  get role(): 'dgec-validateur' {
-    return 'dgec-validateur';
+  get role(): typeof validateurRole {
+    return validateurRole;
+  }
+
+  get fonction(): typeof validateurFonction {
+    return validateurFonction;
   }
 
   créer(partialFixture?: Partial<Readonly<Omit<Validateur, 'role>'>>>): Readonly<Validateur> {
     const utilisateur = super.créer(partialFixture);
 
     const porteur: Validateur = {
-      role: 'dgec-validateur',
+      role: validateurRole,
+      fonction: validateurFonction,
       ...utilisateur,
     };
 

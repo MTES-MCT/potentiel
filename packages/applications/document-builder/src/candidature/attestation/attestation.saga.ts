@@ -24,6 +24,7 @@ export const register = () => {
         notifiéePar,
       },
     } = event;
+
     switch (event.type) {
       case 'CandidatureNotifiée-V1':
         const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({

@@ -7,6 +7,10 @@ export type NotifierOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   notifiéeLe: DateTime.ValueType;
   notifiéePar: Email.ValueType;
+  validateur: {
+    fonction: string;
+    nomComplet: string;
+  };
   attestation: {
     format: string;
   };
@@ -18,7 +22,10 @@ export type CandidatureNotifiéeEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     notifiéeLe: DateTime.RawType;
     notifiéePar: Email.RawType;
-
+    validateur: {
+      fonction: string;
+      nomComplet: string;
+    };
     attestation: {
       format: string;
     };
@@ -27,17 +34,25 @@ export type CandidatureNotifiéeEvent = DomainEvent<
 
 export async function notifier(
   this: CandidatureAggregate,
-  { identifiantProjet, notifiéeLe, notifiéePar, attestation: { format } }: NotifierOptions,
+  {
+    identifiantProjet,
+    notifiéeLe,
+    notifiéePar,
+    validateur,
+    attestation: { format },
+  }: NotifierOptions,
 ) {
   if (this.estNotifiée) {
     throw new CandidatureDéjàNotifiéeError(identifiantProjet);
   }
+
   const event: CandidatureNotifiéeEvent = {
     type: 'CandidatureNotifiée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       notifiéeLe: notifiéeLe.formatter(),
       notifiéePar: notifiéePar.formatter(),
+      validateur,
       attestation: {
         format,
       },

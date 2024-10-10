@@ -12,6 +12,10 @@ export type NotifierPériodeUseCase = Message<
     identifiantPériodeValue: IdentifiantPériode.RawType;
     notifiéeLeValue: DateTime.RawType;
     notifiéeParValue: Email.RawType;
+    validateurValue: {
+      fonction: string;
+      nomComplet: string;
+    };
     identifiantCandidatureValues: ReadonlyArray<IdentifiantProjet.RawType>;
   }
 >;
@@ -21,6 +25,7 @@ export const registerNotifierPériodeUseCase = () => {
     identifiantPériodeValue,
     notifiéeLeValue,
     notifiéeParValue,
+    validateurValue,
     identifiantCandidatureValues,
   }) => {
     const identifiantPériode = IdentifiantPériode.convertirEnValueType(identifiantPériodeValue);
@@ -31,6 +36,7 @@ export const registerNotifierPériodeUseCase = () => {
         identifiantPériode,
         notifiéeLe: DateTime.convertirEnValueType(notifiéeLeValue),
         notifiéePar: Email.convertirEnValueType(notifiéeParValue),
+        validateur: validateurValue,
         identifiantCandidatures: identifiantCandidatureValues.map((identifiantCandidatureValue) =>
           IdentifiantProjet.convertirEnValueType(identifiantCandidatureValue),
         ),

@@ -11,6 +11,10 @@ export type NotifierCandidatureCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     notifiéeLe: DateTime.ValueType;
     notifiéePar: Email.ValueType;
+    validateur: {
+      fonction: string;
+      nomComplet: string;
+    };
     attestation: { format: string };
   }
 >;
