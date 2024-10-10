@@ -34,6 +34,10 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
     ValidationErrors<keyof CorrigerCandidatureFormEntries>
   >({});
 
+  const [showMotifÉlimination, setShowMotifÉlimination] = React.useState(
+    candidature.statut === 'éliminé',
+  );
+
   const getStateProps = (field: keyof z.infer<typeof candidatureSchema>) => ({
     state: validationErrors[field] ? ('error' as const) : ('default' as const),
     stateRelatedMessage: validationErrors[field],
@@ -81,9 +85,20 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           { label: 'Classé', value: 'classé' },
           { label: 'Éliminé', value: 'éliminé' },
         ]}
-        nativeSelectProps={getFieldProps('statut')}
+        nativeSelectProps={{
+          ...getFieldProps('statut'),
+          onChange: (e) => setShowMotifÉlimination(e.target.value === 'éliminé'),
+        }}
         disabled={estNotifiée}
       />
+      {showMotifÉlimination && (
+        <Input
+          textArea
+          {...getStateProps('motifElimination')}
+          label="Motif élimination"
+          nativeTextAreaProps={getFieldProps('motifElimination')}
+        />
+      )}
 
       <Input
         {...getStateProps('nomProjet')}
@@ -111,7 +126,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
 
       <Select
         {...getStateProps('actionnariat')}
-        label="Actionnariat"
+        label="Actionnariat (optionnel)"
         options={[
           { label: '', value: '' },
           {
@@ -123,13 +138,13 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
             value: Candidature.TypeActionnariat.gouvernancePartagée.type,
           },
         ]}
-        nativeSelectProps={getFieldProps('actionnariat')}
+        nativeSelectProps={{ ...getFieldProps('actionnariat'), 'aria-required': false }}
       />
 
       <Input
         {...getStateProps('societeMere')}
-        label="Société Mère"
-        nativeInputProps={getFieldProps('societeMere')}
+        label="Société Mère (optionnel)"
+        nativeInputProps={{ ...getFieldProps('societeMere'), 'aria-required': false }}
       />
 
       <Input
@@ -139,8 +154,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       />
       <Input
         {...getStateProps('adresse2')}
-        label="Addresse 2"
-        nativeInputProps={getFieldProps('adresse2')}
+        label="Addresse 2 (optionnel)"
+        nativeInputProps={{ ...getFieldProps('adresse2'), 'aria-required': false }}
       />
       <Input
         {...getStateProps('codePostal')}
@@ -180,10 +195,15 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
 
       <Checkbox
         {...getStateProps('puissanceALaPointe')}
+        id="puissanceALaPointe"
         options={[
           {
             label: 'Engagement de fourniture de puissance à la pointe',
-            nativeInputProps: getFieldProps('puissanceALaPointe'),
+            nativeInputProps: {
+              ...getFieldProps('puissanceALaPointe'),
+              value: 'true',
+              defaultChecked: candidature.puissanceALaPointe,
+            },
           },
         ]}
       />
