@@ -193,7 +193,7 @@ v1Router.get(
           },
           alertesRaccordement,
           abandon,
-          hasRecours: await hasDemandeDeRecours(identifiantProjetValueType),
+          demandeRecours: await getStatutDemandeDeRecours(identifiantProjetValueType),
           hasAttestationConformité: !!attestationConformité,
         }),
       );
@@ -360,15 +360,13 @@ const getGarantiesFinancières = async (
   };
 };
 
-const hasDemandeDeRecours = async (
+const getStatutDemandeDeRecours = async (
   identifiantProjet: IdentifiantProjet.ValueType,
-): Promise<ProjectDataForProjectPage['hasRecours']> => {
+): Promise<ProjectDataForProjectPage['demandeRecours']> => {
   const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
     type: 'Éliminé.Recours.Query.ConsulterRecours',
     data: { identifiantProjetValue: identifiantProjet.formatter() },
   });
 
-  return Option.match(recours)
-    .some((value) => value.statut.estDemandé())
-    .none(() => false);
+  return Option.isSome(recours) ? { statut: recours.statut.value } : undefined;
 };

@@ -11,10 +11,13 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/candidature';
+import { Recours } from '@potentiel-domain/elimine';
+import { Role } from '@potentiel-domain/utilisateur';
 
 type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
   role: UserRole;
+  demandeRecours: ProjectDataForProjectPage['demandeRecours'];
 };
 
 export const InfoGenerales = ({
@@ -36,6 +39,7 @@ export const InfoGenerales = ({
     adresseProjet,
   },
   role,
+  demandeRecours,
 }: InfoGeneralesProps) => {
   const puissanceInférieurePuissanceMaxVolRéservé =
     appelOffre.periode.noteThresholdBy === 'category' &&
@@ -53,6 +57,13 @@ export const InfoGenerales = ({
       'caisse-des-dépôts',
     ].includes(role);
 
+  const formattedIdentifiantProjet = formatProjectDataToIdentifiantProjetValueType({
+    appelOffreId,
+    periodeId,
+    familleId,
+    numeroCRE,
+  }).formatter();
+
   return (
     <Section title="Informations générales" icon={<BuildingIcon />} className="flex gap-5 flex-col">
       {garantiesFinancières && shouldDisplayGf && (
@@ -66,6 +77,17 @@ export const InfoGenerales = ({
           }}
         />
       )}
+      {demandeRecours &&
+        Role.convertirEnValueType(role).aLaPermission('recours.consulter.détail') && (
+          <div className="print:hidden">
+            <Heading3 className="m-0">Recours</Heading3>
+            <Link href={Routes.Recours.détail(formattedIdentifiantProjet)}>
+              {Recours.StatutRecours.convertirEnValueType(demandeRecours.statut).estDemandé()
+                ? `Le projet a une demande de recours en cours`
+                : `Le projet a eu une demande de recours`}
+            </Link>
+          </div>
+        )}
 
       {isClasse &&
         !isAbandoned &&

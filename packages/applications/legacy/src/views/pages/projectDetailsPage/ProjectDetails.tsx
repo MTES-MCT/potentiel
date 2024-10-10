@@ -39,7 +39,7 @@ type ProjectDetailsProps = {
   abandon?: {
     statut: string;
   };
-  hasRecours: boolean;
+  demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   hasAttestationConformité: boolean;
 };
 
@@ -49,7 +49,7 @@ export const ProjectDetails = ({
   projectEventList,
   alertesRaccordement,
   abandon,
-  hasRecours,
+  demandeRecours,
   hasAttestationConformité,
 }: ProjectDetailsProps) => {
   const { user } = request;
@@ -80,7 +80,7 @@ export const ProjectDetails = ({
         abandonEnCours={abandonEnCours}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}
-        hasRecours={hasRecours}
+        demandeRecours={demandeRecours}
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}
@@ -88,11 +88,6 @@ export const ProjectDetails = ({
       </div>
       <div className="flex flex-col gap-3 mt-5">
         <div className="print:hidden flex flex-col gap-3">
-          {hasRecours && (
-            <AlertBox title={`Recours en cours`}>
-              <a href={Routes.Recours.détail(identifiantProjet)}>Voir les détails du recours</a>
-            </AlertBox>
-          )}
           {abandon && (
             <AlertBox title={`Abandon ${abandon.statut}`}>
               <a href={Routes.Abandon.détail(identifiantProjet)}>Voir les détails de l'abandon</a>
@@ -123,7 +118,7 @@ export const ProjectDetails = ({
             <EtapesProjet {...{ project, user, projectEventList }} />
           )}
           <div className={`flex flex-col flex-grow gap-3 break-before-page`}>
-            <InfoGenerales {...{ project, role: user.role }} />
+            <InfoGenerales project={project} role={user.role} demandeRecours={demandeRecours} />
             <Contact {...{ user, project }} />
             <MaterielsEtTechnologies {...{ project }} />
 
