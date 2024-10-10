@@ -97,7 +97,7 @@ export const register = () => {
         const certificate = await buildCertificate({
           appelOffre: appelOffres,
           période,
-          utilisateur,
+          validateur: { fonction: utilisateur.fonction, fullName: utilisateur.nomComplet },
           candidature,
           notifiéLe: notifiéeLe,
         });
@@ -125,8 +125,8 @@ export const register = () => {
         break;
 
       case 'CandidatureCorrigée-V1':
-        // la correction d'une candidature ne peut pas modifier le champs notification
-        // on peut donc sans crainte utiliser cette vérification
+        // la correction d'une candidature ne peut pas modifier le champs notification ou validateur
+        // on peut donc sans crainte utiliser ces 2 champs
         if (!candidature.notification?.notifiéeLe) {
           logger.info(`L'attestation ne sera pas regénérée car la candidature n'est pas notifiée`, {
             identifiantProjet,
@@ -138,21 +138,6 @@ export const register = () => {
           });
           return;
         } else {
-          const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
-            type: 'Utilisateur.Query.ConsulterUtilisateur',
-            data: {
-              identifiantUtilisateur: candidature.notification.notifiéePar.formatter(),
-            },
-          });
-
-          if (Option.isNone(utilisateur)) {
-            logger.warn(`Utilisateur non trouvé`, {
-              identifiantProjet,
-              identifiantUtilisateur: candidature.notification.notifiéePar.formatter(),
-            });
-            return;
-          }
-
           const candidatureCorrigée = {
             ...event.payload,
             misÀJourLe: DateTime.convertirEnValueType(event.payload.corrigéLe),
@@ -183,7 +168,7 @@ export const register = () => {
           const certificate = await buildCertificate({
             appelOffre: appelOffres,
             période,
-            utilisateur,
+            validateur: candidature.notification.validateur,
             candidature: candidatureCorrigée,
             notifiéLe: candidature.notification.notifiéeLe.formatter(),
           });

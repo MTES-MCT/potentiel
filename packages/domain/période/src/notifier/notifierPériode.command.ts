@@ -18,7 +18,7 @@ export type NotifierPériodeCommand = Message<
     notifiéePar: Email.ValueType;
     validateur: {
       fonction: string;
-      nomComplet: string;
+      fullName: string;
     };
     identifiantCandidatures: ReadonlyArray<IdentifiantProjet.ValueType>;
   }

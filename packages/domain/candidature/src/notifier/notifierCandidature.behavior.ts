@@ -9,7 +9,7 @@ export type NotifierOptions = {
   notifiéePar: Email.ValueType;
   validateur: {
     fonction: string;
-    nomComplet: string;
+    fullName: string;
   };
   attestation: {
     format: string;
@@ -24,7 +24,7 @@ export type CandidatureNotifiéeEvent = DomainEvent<
     notifiéePar: Email.RawType;
     validateur: {
       fonction: string;
-      nomComplet: string;
+      fullName: string;
     };
     attestation: {
       format: string;

@@ -12,7 +12,7 @@ export type NotifierCandidatureUseCase = Message<
     notifiéeParValue: string;
     validateurValue: {
       fonction: string;
-      nomComplet: string;
+      fullName: string;
     };
     attestationValue: {
       format: string;

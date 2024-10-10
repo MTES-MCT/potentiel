@@ -13,7 +13,7 @@ export type NotifierCandidatureCommand = Message<
     notifiéePar: Email.ValueType;
     validateur: {
       fonction: string;
-      nomComplet: string;
+      fullName: string;
     };
     attestation: { format: string };
   }

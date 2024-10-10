@@ -44,7 +44,7 @@ export type CandidatureEntity = Entity<
       notifiéePar: Email.RawType;
       validateur: {
         fonction: string;
-        nomComplet: string;
+        fullName: string;
       };
     };
   }

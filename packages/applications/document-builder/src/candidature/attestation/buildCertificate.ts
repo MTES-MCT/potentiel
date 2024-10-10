@@ -5,7 +5,6 @@ import ReactPDF, { Font } from '@react-pdf/renderer';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
-import { ConsulterUtilisateurReadModel } from '@potentiel-domain/utilisateur';
 
 import { fontsFolderPath, imagesFolderPath } from '../../assets';
 import { mapToReadableStream } from '../../mapToReadableStream';
@@ -36,7 +35,7 @@ Font.register({
 type BuildCertificateProps = {
   appelOffre: AppelOffre.AppelOffreReadModel;
   période: AppelOffre.Periode;
-  utilisateur: ConsulterUtilisateurReadModel;
+  validateur: AppelOffre.Validateur;
   candidature: Candidature.ConsulterCandidatureReadModel;
   notifiéLe: DateTime.RawType;
 };
@@ -44,14 +43,13 @@ type BuildCertificateProps = {
 export const buildCertificate = async ({
   appelOffre,
   période,
-  utilisateur,
+  validateur,
   candidature,
   notifiéLe,
 }: BuildCertificateProps): Promise<ReadableStream | void> => {
-  const { data, validateur } = mapToCertificateData({
+  const { data } = mapToCertificateData({
     appelOffre,
     période,
-    utilisateur,
     candidature,
     notifiéLe,
   });
@@ -71,16 +69,14 @@ export const buildCertificate = async ({
 
 type CertificateData = {
   data?: AttestationCandidatureOptions;
-  validateur?: AppelOffre.Validateur;
 };
 
 const mapToCertificateData = ({
   appelOffre,
   période,
-  utilisateur,
   candidature,
   notifiéLe,
-}: BuildCertificateProps): CertificateData => {
+}: Omit<BuildCertificateProps, 'validateur'>): CertificateData => {
   const famille = période.familles.find((x) => x.id === candidature.identifiantProjet.famille);
 
   const financementEtTemplate = getFinancementEtTemplate({
@@ -95,10 +91,6 @@ const mapToCertificateData = ({
   const potentielId = formatPotentielId(candidature.identifiantProjet);
 
   return {
-    validateur: {
-      fullName: utilisateur.nomComplet,
-      fonction: utilisateur.fonction,
-    },
     data: {
       appelOffre,
       période,

@@ -85,10 +85,15 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       return notFound();
     }
 
+    const validateur = candidature.notification?.validateur ?? {
+      fonction: user.fonction,
+      fullName: user.nomComplet,
+    };
+
     const certificate = await buildCertificate({
       appelOffre: appelOffres,
       période,
-      utilisateur: user,
+      validateur,
       candidature,
       notifiéLe: notifiéLe.formatter(),
     });

@@ -52,7 +52,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { appelOffre, per
         notifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
         validateurValue: {
           fonction: utilisateurDetails.fonction,
-          nomComplet: utilisateurDetails.nomComplet,
+          fullName: utilisateurDetails.nomComplet,
         },
         identifiantCandidatureValues: candidatures.items.map((candidatures) =>
           candidatures.identifiantProjet.formatter(),

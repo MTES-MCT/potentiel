@@ -14,7 +14,7 @@ export type NotifierPériodeUseCase = Message<
     notifiéeParValue: Email.RawType;
     validateurValue: {
       fonction: string;
-      nomComplet: string;
+      fullName: string;
     };
     identifiantCandidatureValues: ReadonlyArray<IdentifiantProjet.RawType>;
   }

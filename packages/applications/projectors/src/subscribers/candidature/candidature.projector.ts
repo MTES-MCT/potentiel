@@ -73,10 +73,7 @@ export const register = () => {
                 estNotifiée: true,
                 notifiéeLe: payload.notifiéeLe,
                 notifiéePar: payload.notifiéePar,
-                validateur: {
-                  fonction: payload.validateur.fonction,
-                  nomComplet: payload.validateur.nomComplet,
-                },
+                validateur: payload.validateur,
               },
             },
           );

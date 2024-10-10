@@ -4,6 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import * as StatutCandidature from '../statutCandidature.valueType';
 import { CandidatureEntity } from '../candidature.entity';
@@ -45,10 +46,7 @@ export type ConsulterCandidatureReadModel = {
   notification?: {
     notifiéeLe: DateTime.ValueType;
     notifiéePar: Email.ValueType;
-    validateur: {
-      fonction: string;
-      nomComplet: string;
-    };
+    validateur: AppelOffre.Validateur;
     attestation: DocumentProjet.ValueType;
   };
 };
@@ -135,10 +133,7 @@ export const mapToReadModel = ({
   notification: notification && {
     notifiéeLe: DateTime.convertirEnValueType(notification.notifiéeLe),
     notifiéePar: Email.convertirEnValueType(notification.notifiéePar),
-    validateur: {
-      fonction: notification.validateur.fonction,
-      nomComplet: notification.validateur.nomComplet,
-    },
+    validateur: notification.validateur,
     attestation: DocumentProjet.convertirEnValueType(
       identifiantProjet,
       'attestation',

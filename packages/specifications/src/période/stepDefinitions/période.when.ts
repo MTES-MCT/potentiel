@@ -35,7 +35,7 @@ export async function notifierPériode(this: PotentielWorld) {
         notifiéeParValue: this.périodeWorld.notifierPériodeFixture.notifiéePar,
         validateurValue: {
           fonction: this.utilisateurWorld.validateurFixture.fonction,
-          nomComplet: this.utilisateurWorld.validateurFixture.nom,
+          fullName: this.utilisateurWorld.validateurFixture.nom,
         },
         identifiantCandidatureValues: [...lauréats, ...éliminés],
       },

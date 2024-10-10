@@ -31,14 +31,9 @@ AppelOffre.registerAppelOffreQueries({
   find: findProjection,
 });
 
-type Validateur = {
-  fonction: string;
-  nomComplet: string;
-};
-
 const validateurInconnu = {
   fonction: 'fonction inconnue',
-  nomComplet: 'nom inconnu',
+  fullName: 'nom inconnu',
 };
 
 let compteurValidateurInconnu = 0;
@@ -49,7 +44,7 @@ let anomalies = 0;
 const findValidateur = async (
   notifiéPar: Email.RawType,
   identifiantProjet: IdentifiantProjet.RawType,
-): Promise<Validateur> => {
+): Promise<AppelOffre.Validateur> => {
   const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
     type: 'Utilisateur.Query.ConsulterUtilisateur',
     data: {
@@ -67,7 +62,7 @@ const findValidateur = async (
     compteurValidateurIdentifié++;
     return {
       fonction: utilisateur.fonction,
-      nomComplet: utilisateur.nomComplet,
+      fullName: utilisateur.nomComplet,
     };
   }
 
@@ -104,7 +99,7 @@ const findValidateur = async (
     compteurValidateurParDéfault++;
     return {
       fonction: période.validateurParDéfaut.fonction,
-      nomComplet: période.validateurParDéfaut.fullName,
+      fullName: période.validateurParDéfaut.fullName,
     };
   }
 
