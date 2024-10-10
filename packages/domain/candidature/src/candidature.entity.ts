@@ -5,6 +5,19 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 import { HistoriqueAbandon, TypeTechnologie, TypeActionnariat } from './candidature';
 
+type CandidatureNonNotifiée = {
+  estNotifiée: false;
+  notification?: undefined;
+};
+type CandidatureNotifiée = {
+  estNotifiée: true;
+  notification: {
+    notifiéeLe: DateTime.RawType;
+    notifiéePar: Email.RawType;
+    validateur: AppelOffre.Validateur;
+  };
+};
+
 export type CandidatureEntity = Entity<
   'candidature',
   {
@@ -38,12 +51,5 @@ export type CandidatureEntity = Entity<
     dateÉchéanceGf?: DateTime.RawType;
     territoireProjet: string;
     misÀJourLe: DateTime.RawType;
-
-    notification?: {
-      estNotifiée: true;
-      notifiéeLe: DateTime.RawType;
-      notifiéePar: Email.RawType;
-      validateur: AppelOffre.Validateur;
-    };
-  }
+  } & (CandidatureNonNotifiée | CandidatureNotifiée)
 >;
