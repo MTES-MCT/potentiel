@@ -2,15 +2,34 @@ import { mediator } from 'mediateur';
 
 import { Éliminé } from '@potentiel-domain/elimine';
 import { Candidature } from '@potentiel-domain/candidature';
-import { listProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
+import {
+  ConsulterUtilisateurQuery,
+  registerUtilisateurQueries,
+} from '@potentiel-domain/utilisateur';
+import {
+  listerUtilisateursAdapter,
+  récupérerUtilisateurAdapter,
+  vérifierAccèsProjetAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 
 Candidature.registerCandidaturesUseCases({ loadAggregate });
+
+registerUtilisateurQueries({
+  récupérerUtilisateur: récupérerUtilisateurAdapter,
+  vérifierAccèsProjet: vérifierAccèsProjetAdapter,
+  listerUtilisateurs: listerUtilisateursAdapter,
+});
+
+AppelOffre.registerAppelOffreQueries({
+  list: listProjection,
+  find: findProjection,
+});
 
 type Validateur = {
   fonction: string;
@@ -23,6 +42,8 @@ const validateurInconnu = {
 };
 
 let compteurValidateurInconnu = 0;
+let compteurValidateurParDéfault = 0;
+let anomalies = 0;
 
 const findValidateur = async (
   notifiéPar: Email.RawType,
@@ -54,7 +75,7 @@ const findValidateur = async (
     console.warn(`Appel d'offre non trouvé`, {
       identifiantProjet,
     });
-    compteurValidateurInconnu++;
+    anomalies++, compteurValidateurInconnu++;
     return validateurInconnu;
   }
 
@@ -64,18 +85,19 @@ const findValidateur = async (
     console.warn(`Période non trouvée`, {
       identifiantProjet,
     });
-    compteurValidateurInconnu++;
+    anomalies++, compteurValidateurInconnu++;
     return validateurInconnu;
   }
 
-  if (!période.type || période.type == 'notified') {
+  if (période?.type == 'notified') {
+    compteurValidateurParDéfault++;
     return {
       fonction: période.validateurParDéfaut.fonction,
       nomComplet: période.validateurParDéfaut.fullName,
     };
   }
 
-  console.warn(`La période est une période legacy`, {
+  console.warn(`❓ La période est une période legacy ou dont le type est inconnu`, {
     identifiantProjet,
   });
 
@@ -88,6 +110,7 @@ const findValidateur = async (
 
   const lauréats = await listProjection<Lauréat.LauréatEntity>('lauréat');
   const éliminés = await listProjection<Éliminé.ÉliminéEntity>('éliminé');
+
   const all = [...lauréats.items, ...éliminés.items];
 
   console.log(`ℹ️ ${all.length} éléments trouvés`);
@@ -112,7 +135,9 @@ const findValidateur = async (
   }
 
   console.log(`🚀 Exécution terminée`);
-  console.log(`👽 Nombre de validateurs inconnus : ${compteurValidateurInconnu}`);
+  console.log(`🤓 Nombre de validateurs par défault: ${compteurValidateurParDéfault}`);
+  console.log(`👻 Nombre de validateurs inconnus: ${compteurValidateurInconnu}`);
+  console.log(`⭕ Nombre d'anomalies': ${anomalies}`);
 
   process.exit(0);
 })();
