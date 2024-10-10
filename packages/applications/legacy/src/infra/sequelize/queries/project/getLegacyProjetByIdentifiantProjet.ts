@@ -1,12 +1,13 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Project } from '../../projectionsNext';
+import { PlainType } from '@potentiel-domain/core';
 
 export const getLegacyProjetByIdentifiantProjet = async ({
   appelOffre,
   période,
   famille,
   numéroCRE,
-}: Pick<IdentifiantProjet.ValueType, 'appelOffre' | 'famille' | 'numéroCRE' | 'période'>) => {
+}: PlainType<IdentifiantProjet.ValueType>) => {
   try {
     const projet = await Project.findOne({
       where: {
