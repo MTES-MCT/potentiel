@@ -57,7 +57,13 @@ const findValidateur = async (
     },
   });
 
-  if (Option.isSome(utilisateur)) {
+  if (
+    Option.isSome(utilisateur) &&
+    utilisateur.email !== 'aopv.dgec@developpement-durable.gouv.fr'
+  ) {
+    console.log(`✅ Utilisateur identifié`, {
+      identifiantProjet,
+    });
     compteurValidateurIdentifié++;
     return {
       fonction: utilisateur.fonction,
@@ -74,7 +80,7 @@ const findValidateur = async (
   });
 
   if (Option.isNone(appelOffres)) {
-    console.warn(`Appel d'offre non trouvé`, {
+    console.warn(`❌ Appel d'offre non trouvé`, {
       identifiantProjet,
     });
     anomalies++, compteurValidateurInconnu++;
@@ -84,14 +90,17 @@ const findValidateur = async (
   const période = appelOffres.periodes.find((x) => x.id === identifiantPériode);
 
   if (!période) {
-    console.warn(`Période non trouvée`, {
+    console.warn(`❌ Période non trouvée`, {
       identifiantProjet,
     });
     anomalies++, compteurValidateurInconnu++;
     return validateurInconnu;
   }
 
-  if (période?.type == 'notified') {
+  if (!période.type || période.type == 'notified') {
+    console.log(`🤓 Validateur par défaut identifié`, {
+      identifiantProjet,
+    });
     compteurValidateurParDéfault++;
     return {
       fonction: période.validateurParDéfaut.fonction,
@@ -99,7 +108,7 @@ const findValidateur = async (
     };
   }
 
-  console.warn(`❓ La période est une période legacy ou dont le type est inconnu`, {
+  console.warn(`❓ La période est une période legacy, un validateur inconnu sera ajouté`, {
     identifiantProjet,
   });
 
@@ -140,7 +149,7 @@ const findValidateur = async (
   console.log(`✅ Nombre de validateurs identifié: ${compteurValidateurIdentifié}`);
   console.log(`🤓 Nombre de validateurs par défault: ${compteurValidateurParDéfault}`);
   console.log(`👻 Nombre de validateurs inconnus: ${compteurValidateurInconnu}`);
-  console.log(`❌ Nombre d'anomalies': ${anomalies}`);
+  console.log(`❌ Nombre d'anomalies: ${anomalies}`);
 
   process.exit(0);
 })();
