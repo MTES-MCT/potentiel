@@ -22,6 +22,8 @@ const validateurInconnu = {
   nomComplet: 'nom inconnu',
 };
 
+let compteurValidateurInconnu = 0;
+
 const findValidateur = async (
   notifiéPar: Email.RawType,
   identifiantProjet: IdentifiantProjet.RawType,
@@ -52,6 +54,7 @@ const findValidateur = async (
     console.warn(`Appel d'offre non trouvé`, {
       identifiantProjet,
     });
+    compteurValidateurInconnu++;
     return validateurInconnu;
   }
 
@@ -61,12 +64,13 @@ const findValidateur = async (
     console.warn(`Période non trouvée`, {
       identifiantProjet,
     });
+    compteurValidateurInconnu++;
     return validateurInconnu;
   }
 
   if (!période.type || période.type == 'notified') {
     return {
-      fonction: période.validateurParDéfaut.fonction ?? validateurInconnu.fonction,
+      fonction: période.validateurParDéfaut.fonction,
       nomComplet: période.validateurParDéfaut.fullName,
     };
   }
@@ -75,6 +79,7 @@ const findValidateur = async (
     identifiantProjet,
   });
 
+  compteurValidateurInconnu++;
   return validateurInconnu;
 };
 
@@ -107,6 +112,7 @@ const findValidateur = async (
   }
 
   console.log(`🚀 Exécution terminée`);
+  console.log(`👽 Nombre de validateurs inconnus : ${compteurValidateurInconnu}`);
 
   process.exit(0);
 })();
