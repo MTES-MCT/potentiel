@@ -3,7 +3,8 @@ import { z } from 'zod';
 
 import { renameFile } from '@potentiel-libraries/file-storage';
 
-import { parseCsvFile } from '../../helpers/parse-file';
+import { parseCsvFile, csvFlags } from '../../helpers/parse-file';
+import { makeReporter, reporterFlags } from '../../helpers/reporter';
 
 const schema = z.object({
   from: z.string(),
@@ -17,28 +18,34 @@ export default class FilesRename extends Command {
   static override args = {};
 
   static override flags = {
-    path: Flags.string({
+    path: Flags.file({
+      exists: true,
       char: 'p',
-      description: 'path to the csv file containing the files to rename',
+      description: 'path to the existing csv file containing the files to rename',
       required: true,
     }),
+    ...csvFlags,
+    ...reporterFlags,
   };
 
   public async run(): Promise<void> {
     const { flags } = await this.parse(FilesRename);
-    const { parsedData: files } = await parseCsvFile(flags.path, schema);
+    const { parsedData: files } = await parseCsvFile(flags.path, schema, {
+      delimiter: flags.delimiter,
+      encoding: flags.encoding,
+    });
+    const reporter = await makeReporter(flags);
 
     for (const file of files) {
       try {
         console.info(`Renaming ${file.from} to ${file.to}`);
         await renameFile(file.from, file.to);
-        console.debug(`Renamed ${file.from} to ${file.to}`);
+        await reporter.success(file.from);
       } catch (e) {
-        console.log(e);
-
-        console.error(`Error while moving ${file.from}`, e);
+        await reporter.error(file.from, e);
       }
     }
+    await reporter.close();
     console.info(`Completed ${files.length} files`);
   }
 }
