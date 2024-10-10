@@ -77,7 +77,7 @@ Fonctionnalité: Corriger une candidature
             | statut | éliminé |
         Alors l'administrateur devrait être informé que "Le statut d'une candidature ne peut être modifié après la notification"
 
-    Scénario: Impossible changer le statut d'une candidature éliminée notifiée en lauréate
+    Scénario: Impossible de changer le statut d'une candidature éliminée notifiée en lauréate
         Etant donné la candidature éliminée notifiée "Boulodrome Sainte Livrade"
         Quand un administrateur corrige la candidature avec :
             | statut | classé |
