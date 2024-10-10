@@ -82,9 +82,7 @@ export const InfoGenerales = ({
           <div className="print:hidden">
             <Heading3 className="m-0">Recours</Heading3>
             <Link href={Routes.Recours.détail(formattedIdentifiantProjet)}>
-              {Recours.StatutRecours.convertirEnValueType(demandeRecours.statut).estDemandé()
-                ? `Le projet a une demande de recours en cours`
-                : `Le projet a eu une demande de recours`}
+              Recours {demandeRecours.statut}
             </Link>
           </div>
         )}

@@ -193,7 +193,7 @@ v1Router.get(
           },
           alertesRaccordement,
           abandon,
-          demandeRecours: await getStatutDemandeDeRecours(identifiantProjetValueType),
+          demandeRecours: await getRecours(identifiantProjetValueType),
           hasAttestationConformité: !!attestationConformité,
         }),
       );
@@ -360,7 +360,7 @@ const getGarantiesFinancières = async (
   };
 };
 
-const getStatutDemandeDeRecours = async (
+const getRecours = async (
   identifiantProjet: IdentifiantProjet.ValueType,
 ): Promise<ProjectDataForProjectPage['demandeRecours']> => {
   const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
