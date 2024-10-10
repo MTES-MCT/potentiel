@@ -46,9 +46,21 @@ export const register = () => {
     const details = await fetchDétails(identifiantProjet, date);
     switch (event.type) {
       case 'CandidatureImportée-V1':
+        await eventStore.publish(
+          new ProjectRawDataImported({
+            payload: {
+              importId: v4(),
+              data: {
+                ...mapToLegacyEventPayload(identifiantProjet, payload, appelOffre),
+                details,
+              },
+            },
+          }),
+        );
+        break;
       case 'CandidatureCorrigée-V1':
         const projet = await getLegacyProjetByIdentifiantProjet(identifiantProjet);
-        // Si le projet n'est pas notifié, on l'importe ou le réimporte
+        // Si le projet n'est pas notifié, on le réimporte
         if (!projet?.notifiedOn) {
           await eventStore.publish(
             new ProjectRawDataImported({
@@ -61,40 +73,38 @@ export const register = () => {
               },
             }),
           );
-        } else if (event.type === 'CandidatureCorrigée-V1') {
-          const userId = await new Promise<string>((r) =>
-            getUserByEmail(event.payload.corrigéPar).map((user) => {
-              r(user?.id ?? '');
-              return ok(user);
-            }),
-          );
-          if (projet.classe === 'Eliminé' && event.payload.statut === 'classé') {
-            await eventStore.publish(
-              new ProjectClasseGranted({
-                payload: {
-                  projectId: projet.id,
-                  grantedBy: userId,
-                },
-              }),
-            );
-          } else {
-            // si le projet est notifié, on corrige les données
-            eventStore.publish(
-              new ProjectRawDataCorrected({
-                payload: {
-                  correctedBy: userId,
-                  projectId: projet.id,
-                  correctedData: mapToCorrectedData(event.payload),
-                },
-              }),
-            );
-          }
-          // TODO
-          // if(newTechnologie !== oldTEchnologie){
-          //   publish ProjectCompletionDueDateSet
-          // }
+          return;
         }
 
+        const userId = await new Promise<string>((r) =>
+          getUserByEmail(event.payload.corrigéPar).map((user) => {
+            r(user?.id ?? '');
+            return ok(user);
+          }),
+        );
+
+        // si le projet a changé de statut, on notifie son nouveau statut
+        if (projet.classe === 'Eliminé' && event.payload.statut === 'classé') {
+          await eventStore.publish(
+            new ProjectClasseGranted({
+              payload: {
+                projectId: projet.id,
+                grantedBy: userId,
+              },
+            }),
+          );
+        }
+
+        // si le projet est notifié, on corrige les données
+        await eventStore.publish(
+          new ProjectRawDataCorrected({
+            payload: {
+              correctedBy: userId,
+              projectId: projet.id,
+              correctedData: mapToCorrectedData(event.payload),
+            },
+          }),
+        );
         return;
     }
   };
