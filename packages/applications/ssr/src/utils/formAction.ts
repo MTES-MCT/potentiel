@@ -50,20 +50,15 @@ export type FormState =
       status: 'unknown-error';
     };
 
-export type FormAction<
-  TState,
-  TSchema extends
-    | zod.AnyZodObject
-    | zod.ZodDiscriminatedUnion<string, zod.AnyZodObject[]> = zod.AnyZodObject,
-> = (previousState: TState, data: zod.infer<TSchema>) => Promise<TState>;
+export type FormAction<TState, TSchema extends zod.ZodType = zod.AnyZodObject> = (
+  previousState: TState,
+  data: zod.infer<TSchema>,
+) => Promise<TState>;
 
 const TWO_SECONDS = 2000;
 
 export const formAction =
-  <
-    TSchema extends zod.AnyZodObject | zod.ZodDiscriminatedUnion<string, zod.AnyZodObject[]>,
-    TState extends FormState,
-  >(
+  <TSchema extends zod.ZodType, TState extends FormState>(
     action: FormAction<TState, TSchema>,
     schema?: TSchema,
   ) =>

@@ -3,7 +3,7 @@ import { test, describe } from 'node:test';
 import { expect, assert } from 'chai';
 import { SafeParseReturnType, SafeParseSuccess } from 'zod';
 
-import { CandidatureCsvRowShape, candidatureSchema } from './candidature.schema';
+import { CandidatureCsvRowShape, candidatureCsvSchema } from './candidature.schema';
 
 const minimumValues: Partial<Record<keyof CandidatureCsvRowShape, string>> = {
   "Appel d'offres": "appel d'offre",
@@ -52,7 +52,7 @@ function assertNoError<TInput, TOutput>(
 
 describe('Schema candidature', () => {
   test('Cas nominal, éliminé', () => {
-    const result = candidatureSchema.safeParse({
+    const result = candidatureCsvSchema.safeParse({
       ...minimumValuesEliminé,
     });
     assertNoError(result);
@@ -88,7 +88,7 @@ describe('Schema candidature', () => {
   });
 
   test('Cas nominal, classé', () => {
-    const result = candidatureSchema.safeParse({
+    const result = candidatureCsvSchema.safeParse({
       ...minimumValuesClassé,
       'Technologie\n(dispositif de production)': 'Eolien',
       'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': 'Oui',
@@ -127,7 +127,7 @@ describe('Schema candidature', () => {
 
   describe('Erreurs courantes', () => {
     test('chaîne de caractères obligatoire sans valeur', () => {
-      const result = candidatureSchema.safeParse({});
+      const result = candidatureCsvSchema.safeParse({});
       assert(!result.success);
       expect(result.error.errors[0]).to.deep.eq({
         code: 'invalid_type',
@@ -139,7 +139,7 @@ describe('Schema candidature', () => {
     });
 
     test('chaîne de caractères obligatoire avec valeur vide', () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         "Appel d'offres": '',
       });
       assert(!result.success);
@@ -155,7 +155,7 @@ describe('Schema candidature', () => {
     });
 
     test('chaîne de caractères obligatoire avec espaces', () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         "Appel d'offres": ' ',
       });
       assert(!result.success);
@@ -171,7 +171,7 @@ describe('Schema candidature', () => {
     });
 
     test('nombre avec charactères', () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         puissance_production_annuelle: 'abcd',
       });
@@ -186,7 +186,7 @@ describe('Schema candidature', () => {
     });
 
     test('nombre strictement positif optionnel vide', () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)': '',
       });
@@ -195,7 +195,7 @@ describe('Schema candidature', () => {
     });
 
     test('nombre strictement positif requis vide', () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         puissance_production_annuelle: '',
       });
@@ -211,7 +211,7 @@ describe('Schema candidature', () => {
     });
 
     test('nombre strictement positif vaut 0', () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         puissance_production_annuelle: '0',
       });
@@ -228,7 +228,7 @@ describe('Schema candidature', () => {
     });
 
     test('nombre strictement positif avec valeur négative', () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         puissance_production_annuelle: 0,
       });
@@ -243,7 +243,7 @@ describe('Schema candidature', () => {
     });
 
     test('oui/non valeur manquante', () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         'Gouvernance partagée (Oui/Non)': '',
       });
@@ -258,7 +258,7 @@ describe('Schema candidature', () => {
     });
 
     test('oui/non avec valeur invalide', () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         'Gouvernance partagée (Oui/Non)': 'peut-être',
       });
@@ -273,7 +273,7 @@ describe('Schema candidature', () => {
     });
 
     test('Enum avec valeur invalide', () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         'Classé ?': 'wrong',
       });
@@ -288,7 +288,7 @@ describe('Schema candidature', () => {
     });
 
     test('Enum avec valeur vide', () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
           '',
@@ -298,7 +298,7 @@ describe('Schema candidature', () => {
     });
 
     test('Enum avec N/A', () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
           'N/A',
@@ -308,7 +308,7 @@ describe('Schema candidature', () => {
     });
 
     test('Email non valide', () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         'Adresse électronique du contact': 'wrong',
       });
@@ -324,7 +324,7 @@ describe('Schema candidature', () => {
 
   describe('Règles métier', () => {
     test("Motif d'élimination n'est pas obligatoire si classé", () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         'Classé ?': 'Classé',
         "Motif d'élimination": undefined,
@@ -335,7 +335,7 @@ describe('Schema candidature', () => {
     });
 
     test("Motif d'élimination est obligatoire si éliminé", () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         "Motif d'élimination": undefined,
       });
@@ -350,7 +350,7 @@ describe('Schema candidature', () => {
     });
 
     test("Date d'échéance est obligatoire si GF avec date d'échéance", () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         'Classé ?': 'Classé',
         "Motif d'élimination": undefined,
@@ -368,7 +368,7 @@ describe('Schema candidature', () => {
     });
 
     test('notifiedOn est interdit', () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         notifiedOn: 'foo',
       });
@@ -383,7 +383,7 @@ describe('Schema candidature', () => {
     });
 
     test('financement collectif et gouvernance partagée sont exclusifs', () => {
-      const result = candidatureSchema.safeParse({
+      const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         'Financement collectif (Oui/Non)': 'Oui',
         'Gouvernance partagée (Oui/Non)': 'Oui',
@@ -400,7 +400,7 @@ describe('Schema candidature', () => {
   describe('Cas particuliers', () => {
     describe('Evaluation carbone', () => {
       test('accepte N/A', () => {
-        const result = candidatureSchema.safeParse({
+        const result = candidatureCsvSchema.safeParse({
           ...minimumValuesEliminé,
           'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
             'N/A',
@@ -409,7 +409,7 @@ describe('Schema candidature', () => {
       });
 
       test('accepte un nombre positif', () => {
-        const result = candidatureSchema.safeParse({
+        const result = candidatureCsvSchema.safeParse({
           ...minimumValuesEliminé,
           'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
             '1',
@@ -418,7 +418,7 @@ describe('Schema candidature', () => {
       });
 
       test(`n'accepte pas un nombre négatif`, () => {
-        const result = candidatureSchema.safeParse({
+        const result = candidatureCsvSchema.safeParse({
           ...minimumValuesEliminé,
           'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
             '-1',
@@ -427,7 +427,7 @@ describe('Schema candidature', () => {
       });
 
       test(`n'accepte pas du texte`, () => {
-        const result = candidatureSchema.safeParse({
+        const result = candidatureCsvSchema.safeParse({
           ...minimumValuesEliminé,
           'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
             'abcd',
@@ -438,7 +438,7 @@ describe('Schema candidature', () => {
 
     describe('Code postal', () => {
       test('accepte un code postal valide', () => {
-        const result = candidatureSchema.safeParse({
+        const result = candidatureCsvSchema.safeParse({
           ...minimumValuesClassé,
           CP: '33100',
         });
@@ -448,7 +448,7 @@ describe('Schema candidature', () => {
       });
 
       test("n'accepte pas un code postal invalide", () => {
-        const result = candidatureSchema.safeParse({
+        const result = candidatureCsvSchema.safeParse({
           ...minimumValuesClassé,
           CP: 'invalide',
         });
