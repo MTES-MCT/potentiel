@@ -24,7 +24,7 @@ export const Signature = ({ validateur }: SignatureProps) => (
       wrap={false}
     >
       <Text style={{ fontSize: 10, marginTop: 30, textAlign: 'center' }}>
-        {validateur.fullName}
+        {validateur.nomComplet}
       </Text>
       <Text style={{ fontSize: 10, fontWeight: 'bold', marginTop: 10, textAlign: 'center' }}>
         {validateur.fonction}

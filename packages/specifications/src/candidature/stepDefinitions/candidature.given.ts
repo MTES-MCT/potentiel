@@ -58,7 +58,7 @@ EtantDonné(
         notifiéParValue: this.utilisateurWorld.validateurFixture.email,
         validateurValue: {
           fonction: this.utilisateurWorld.validateurFixture.fonction,
-          fullName: this.utilisateurWorld.validateurFixture.nom,
+          nomComplet: this.utilisateurWorld.validateurFixture.nom,
         },
         attestationValue: {
           format: `text/plain`,

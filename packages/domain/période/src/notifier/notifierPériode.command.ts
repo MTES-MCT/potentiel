@@ -6,6 +6,7 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { Éliminé } from '@potentiel-domain/elimine';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { loadPériodeFactory } from '../période.aggregate';
 import * as IdentifiantPériode from '../identifiantPériode.valueType';
@@ -16,10 +17,7 @@ export type NotifierPériodeCommand = Message<
     identifiantPériode: IdentifiantPériode.ValueType;
     notifiéeLe: DateTime.ValueType;
     notifiéePar: Email.ValueType;
-    validateur: {
-      fonction: string;
-      fullName: string;
-    };
+    validateur: AppelOffre.Validateur;
     identifiantCandidatures: ReadonlyArray<IdentifiantProjet.ValueType>;
   }
 >;

@@ -87,7 +87,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
 
     const validateur = candidature.notification?.validateur ?? {
       fonction: user.fonction,
-      fullName: user.nomComplet,
+      nomComplet: user.nomComplet,
     };
 
     const certificate = await buildCertificate({

@@ -1,6 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import * as IdentifiantPériode from '../identifiantPériode.valueType';
 
@@ -12,10 +13,7 @@ export type NotifierPériodeUseCase = Message<
     identifiantPériodeValue: IdentifiantPériode.RawType;
     notifiéeLeValue: DateTime.RawType;
     notifiéeParValue: Email.RawType;
-    validateurValue: {
-      fonction: string;
-      fullName: string;
-    };
+    validateurValue: AppelOffre.Validateur;
     identifiantCandidatureValues: ReadonlyArray<IdentifiantProjet.RawType>;
   }
 >;

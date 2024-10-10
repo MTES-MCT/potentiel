@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { NotifierÉliminéCommand } from './notifierÉliminé.command';
 
@@ -11,10 +12,7 @@ export type NotifierÉliminéUseCase = Message<
     identifiantProjetValue: string;
     notifiéLeValue: string;
     notifiéParValue: string;
-    validateurValue: {
-      fonction: string;
-      fullName: string;
-    };
+    validateurValue: AppelOffre.Validateur;
     attestationValue: {
       format: string;
     };

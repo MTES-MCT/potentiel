@@ -33,7 +33,7 @@ AppelOffre.registerAppelOffreQueries({
 
 const validateurInconnu = {
   fonction: 'fonction inconnue',
-  fullName: 'nom inconnu',
+  nomComplet: 'nom inconnu',
 };
 
 let compteurValidateurInconnu = 0;
@@ -62,7 +62,7 @@ const findValidateur = async (
     compteurValidateurIdentifié++;
     return {
       fonction: utilisateur.fonction,
-      fullName: utilisateur.nomComplet,
+      nomComplet: utilisateur.nomComplet,
     };
   }
 
@@ -99,7 +99,7 @@ const findValidateur = async (
     compteurValidateurParDéfault++;
     return {
       fonction: période.validateurParDéfaut.fonction,
-      fullName: période.validateurParDéfaut.fullName,
+      nomComplet: période.validateurParDéfaut.nomComplet,
     };
   }
 
