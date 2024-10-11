@@ -73,6 +73,7 @@
     "util": "^0.12.5",
     "utility-types": "^3.10.0",
     "uuid": "^9.0.0",
+    "vm-browserify": "^1.1.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {
