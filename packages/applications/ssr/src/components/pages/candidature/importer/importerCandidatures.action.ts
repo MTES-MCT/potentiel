@@ -7,6 +7,7 @@ import { DomainError } from '@potentiel-domain/core';
 import { Candidature } from '@potentiel-domain/candidature';
 import { parseCsv } from '@potentiel-libraries/csv';
 import { DateTime } from '@potentiel-domain/common';
+import { Routes } from '@potentiel-applications/routes';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -73,6 +74,10 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
         successCount: success,
         errors,
       },
+      redirectUrl:
+        success > 0 && errors.length === 0
+          ? Routes.Période.lister({ appelOffre: parsedData[0].appelOffre })
+          : undefined,
     };
   });
 };

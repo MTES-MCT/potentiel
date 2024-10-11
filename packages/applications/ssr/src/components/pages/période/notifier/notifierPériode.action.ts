@@ -62,7 +62,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { appelOffre, per
 
     return {
       status: 'success',
-      redirectUrl: Routes.Période.lister({}),
+      redirectUrl: Routes.Candidature.lister({ appelOffre, période: periode }),
     };
   });
 };
