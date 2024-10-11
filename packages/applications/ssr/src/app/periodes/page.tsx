@@ -81,8 +81,8 @@ export default async function Page({ searchParams }: PageProps) {
 
       const props = await mapToProps({
         utilisateur,
-        périodes: périodes.items
-          .concat(périodesPartiellementNotifiées)
+        périodes: périodesPartiellementNotifiées
+          .concat(périodes.items)
           .filter(
             (val, i, self) =>
               self.findIndex((x) => x.identifiantPériode === val.identifiantPériode) === i,
@@ -94,7 +94,7 @@ export default async function Page({ searchParams }: PageProps) {
           filters={filters}
           périodes={props}
           range={périodes.range}
-          total={périodes.total || props.length}
+          total={périodes.total + périodesPartiellementNotifiées.length}
         />
       );
     }),
