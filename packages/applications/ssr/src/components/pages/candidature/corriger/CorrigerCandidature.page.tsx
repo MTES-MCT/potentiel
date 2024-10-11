@@ -27,7 +27,7 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
           nom={candidature.nomProjet}
           badge={
             <div className="flex gap-2">
-              <StatutProjetBadge statut={candidature.statut} />
+              {candidature.statut && <StatutProjetBadge statut={candidature.statut} />}
               <NotificationBadge estNotifié={estNotifiée} />
             </div>
           }

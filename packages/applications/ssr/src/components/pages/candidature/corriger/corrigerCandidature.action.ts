@@ -69,7 +69,7 @@ const mapBodyToUseCaseData = (
     puissanceALaPointeValue: data.puissanceALaPointe,
     evaluationCarboneSimplifiéeValue: data.evaluationCarboneSimplifiee,
     actionnariatValue: data.actionnariat,
-    statutValue: data.statut,
+    statutValue: data.statut ?? previous.statut.formatter(),
 
     // non-editable fields
     typeGarantiesFinancièresValue: previous.typeGarantiesFinancières?.type,

@@ -794,6 +794,8 @@ const policies = {
       référencielPermissions.lauréat.command.notifier,
       référencielPermissions.éliminé.usecase.notifier,
       référencielPermissions.éliminé.command.notifier,
+      référencielPermissions.candidature.usecase.notifier,
+      référencielPermissions.candidature.command.notifier,
     ],
   },
 } as const;

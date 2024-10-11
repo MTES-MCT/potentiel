@@ -266,8 +266,8 @@ export const candidatureSchema = z
       )
       .transform((val) => val.join(' / ')),
     commune: requiredStringSchema,
-
-    statut: z.enum(Candidature.StatutCandidature.statuts),
+    // optionnel car une fois notifié, ce champs n'est plus modifiable
+    statut: z.enum(Candidature.StatutCandidature.statuts).optional(),
     puissanceALaPointe: z
       .string()
       .toLowerCase()
