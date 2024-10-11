@@ -11,12 +11,12 @@
     "prebuild": "only-include-used-icons --silent",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prestorybook": "copy-dsfr-to-public --publicDir .storybook/static && only-include-used-icons --silent --publicDir .storybook/static",
-    "prebuild-storybook": "npm run prestorybook",
+    "prestorybook": "react-dsfr update-icons",
+    "prebuild-storybook": "react-dsfr update-icons",
     "pretest": "npm run build"
   },
   "dependencies": {
-    "@codegouvfr/react-dsfr": "^1.9.11",
+    "@codegouvfr/react-dsfr": "^1.13.8",
     "@emotion/react": "*",
     "@emotion/server": "*",
     "@emotion/styled": "*",
