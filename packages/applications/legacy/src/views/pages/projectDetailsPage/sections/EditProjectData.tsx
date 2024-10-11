@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import React, { useState } from 'react';
+import React from 'react';
 import { appelsOffreStatic } from '../../../../dataAccess/inMemory';
 import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
 import ROUTES from '../../../../routes';
@@ -10,13 +10,11 @@ import {
   Label,
   Section,
   Select,
-  TextArea,
-  ErrorBox,
-  Radio,
+  InfoBox,
   Checkbox,
   Form,
 } from '../../../components';
-import { afficherDate } from '../../../helpers';
+import { Routes } from '@potentiel-applications/routes';
 
 type EditProjectDataProps = {
   project: ProjectDataForProjectPage;
@@ -30,14 +28,16 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
     return null;
   }
 
-  const [uploadIsDisabled, disableUpload] = useState(true);
-
-  const handleCertificateTypeChange = (e) => {
-    disableUpload(e.target.value !== 'custom');
-  };
+  const identifiantProjet = `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`;
 
   return (
     <Section title="Modifier le projet" icon={<BuildingIcon />} className="print:hidden">
+      <InfoBox className="mb-5">
+        Ce formulaire permet de modifier des informations qui ont changé. Pour corriger des données
+        à la candidature et regénérer l'attestation, utiliser le{' '}
+        <a href={Routes.Candidature.corriger(identifiantProjet)}>formulaire de modification</a> de
+        la candidature
+      </InfoBox>
       <Form
         action={ROUTES.ADMIN_CORRECT_PROJECT_DATA_ACTION}
         method="post"
