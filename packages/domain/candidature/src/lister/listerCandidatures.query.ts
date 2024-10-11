@@ -72,10 +72,7 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
         période: Where.equal(période),
         nomProjet: Where.contains(nomProjet),
         statut: Where.equal(statut),
-        notification:
-          estNotifiée !== undefined
-            ? { estNotifiée: estNotifiée ? Where.equal(true) : Where.notEqual(true) }
-            : undefined,
+        estNotifiée: Where.equal(estNotifiée),
         identifiantProjet: Where.include(identifiantProjets),
       },
       range,
@@ -105,6 +102,7 @@ export const mapToReadModel = ({
   localité: { commune, département, région },
   evaluationCarboneSimplifiée,
   misÀJourLe,
+  estNotifiée,
   notification,
 }: CandidatureEntity): CandidaturesListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
@@ -127,8 +125,8 @@ export const mapToReadModel = ({
     misÀJourLe,
     'application/json',
   ),
-  estNotifiée: notification?.estNotifiée ?? false,
-  ...(notification?.estNotifiée && {
+  estNotifiée: estNotifiée,
+  ...(estNotifiée && {
     attestation: DocumentProjet.convertirEnValueType(
       identifiantProjet,
       'attestation',
