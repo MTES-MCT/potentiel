@@ -63,6 +63,7 @@ export class CandidatureWorld {
       gouvernancePartagéeValue: mapBoolean(exemple['gouvernance partagée']),
       financementParticipatifValue: mapBoolean(exemple['financement participatif']),
       doitRégénérerAttestation: mapBoolean(exemple['doit régénérer attestation']),
+      statutValue: exemple['statut'],
     });
   }
 

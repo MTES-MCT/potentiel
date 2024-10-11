@@ -64,6 +64,23 @@ Alors(
   },
 );
 
+Alors(
+  'les candidatures de la période notifiée devraient être notifiées',
+  async function (this: PotentielWorld) {
+    const { identifiantPériode } = this.périodeWorld;
+    const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
+      type: 'Candidature.Query.ListerCandidatures',
+      data: {
+        appelOffre: identifiantPériode.appelOffre,
+        période: identifiantPériode.période,
+      },
+    });
+    for (const candidature of candidatures.items) {
+      expect(candidature.estNotifiée, "La candidature n'est pas notifiée").to.be.true;
+    }
+  },
+);
+
 async function vérifierPériode(
   this: PotentielWorld,
   identifiantPériode: Période.IdentifiantPériode.ValueType,

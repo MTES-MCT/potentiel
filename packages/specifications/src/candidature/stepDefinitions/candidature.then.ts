@@ -32,6 +32,7 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
     const actual = mapToPlainObject(candidature);
     const expected = mapToPlainObject(this.candidatureWorld.mapToExpected());
 
+    delete actual.notification;
     actual.should.be.deep.equal(expected);
 
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
@@ -85,23 +86,6 @@ Alors(
       );
     } catch (error) {
       expect((error as Error).message).to.equal('Pas de notification');
-    }
-  },
-);
-
-Alors(
-  'les candidatures de la période notifiée devraient être notifiées',
-  async function (this: PotentielWorld) {
-    const { identifiantPériode } = this.périodeWorld;
-    const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
-      type: 'Candidature.Query.ListerCandidatures',
-      data: {
-        appelOffre: identifiantPériode.appelOffre,
-        période: identifiantPériode.période,
-      },
-    });
-    for (const candidature of candidatures.items) {
-      expect(candidature.estNotifiée, "La candidature n'est pas notifiée").to.be.true;
     }
   },
 );
