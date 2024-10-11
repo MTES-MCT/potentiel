@@ -22,6 +22,7 @@ export type CorrigerCandidatureFormEntries = zod.infer<typeof schema>;
 const action: FormAction<FormState, typeof schema> = async (_, body) =>
   withUtilisateur(async (utilisateur) => {
     const candidature = await getCandidature(body.identifiantProjet);
+
     await mediator.send<Candidature.CorrigerCandidatureUseCase>({
       type: 'Candidature.UseCase.CorrigerCandidature',
       data: {
@@ -77,6 +78,8 @@ const mapBodyToUseCaseData = (
     territoireProjetValue: previous.territoireProjet,
     historiqueAbandonValue: previous.historiqueAbandon.formatter(),
     technologieValue: previous.technologie.formatter(),
+
+    doitRégénérerAttestation: data.doitRegenererAttestation === 'true' ? true : undefined,
 
     // TODO
     détailsValue: {},

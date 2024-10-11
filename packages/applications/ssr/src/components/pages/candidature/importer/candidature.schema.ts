@@ -277,6 +277,7 @@ export const candidatureSchema = z
       .pipe(z.boolean()),
     evaluationCarboneSimplifiee: strictlyPositiveNumberSchema,
     actionnariat: optionalEnum(z.enum(Candidature.TypeActionnariat.types)),
+    doitRegenererAttestation: z.string().optional(),
     motifElimination: optionalStringSchema.transform((val) => val || undefined), // see refine below
 
     // Champs non modifiable à l'heure actuelle, mais à ajouter

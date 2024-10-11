@@ -34,7 +34,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
     <Section title="Modifier le projet" icon={<BuildingIcon />} className="print:hidden">
       <InfoBox className="mb-5">
         Ce formulaire permet de modifier des informations qui ont changé. Pour corriger des données
-        à la candidature et regénérer l'attestation, utiliser le{' '}
+        à la candidature et régénérer l'attestation, utiliser le{' '}
         <a href={Routes.Candidature.corriger(identifiantProjet)}>formulaire de modification</a> de
         la candidature
       </InfoBox>

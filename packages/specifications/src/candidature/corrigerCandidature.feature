@@ -17,7 +17,7 @@ Fonctionnalité: Corriger une candidature
             | détails      | {"Note carbone": "1"} |
         Alors la candidature devrait être consultable
 
-    Scénario: Corriger une candidature notifiée en regénérant l'attestation
+    Scénario: Corriger une candidature notifiée en régénérant l'attestation
         Etant donné la candidature lauréate notifiée "Boulodrome Sainte Livrade"
         Quand un administrateur corrige la candidature avec :
             | nom candidat               | abcd |

@@ -77,7 +77,6 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       }
     >
       <input name="identifiantProjet" type="hidden" value={candidature.identifiantProjet} />
-
       <Select
         {...getStateProps('statut')}
         label="Statut"
@@ -99,31 +98,26 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           nativeTextAreaProps={getFieldProps('motifElimination')}
         />
       )}
-
       <Input
         {...getStateProps('nomProjet')}
-        label="Nom Projet"
+        label="Nom du projet"
         nativeInputProps={getFieldProps('nomProjet')}
       />
-
       <Input
         {...getStateProps('nomCandidat')}
-        label="Nom Candidat"
+        label="Nom du candidat"
         nativeInputProps={getFieldProps('nomCandidat')}
       />
-
       <Input
         {...getStateProps('emailContact')}
         label="Email"
         nativeInputProps={getFieldProps('emailContact')}
       />
-
       <Input
         {...getStateProps('nomRepresentantLegal')}
-        label="Nom représentant légal"
+        label="Nom complet du représentant légal"
         nativeInputProps={getFieldProps('nomRepresentantLegal')}
       />
-
       <Select
         {...getStateProps('actionnariat')}
         label="Actionnariat (optionnel)"
@@ -140,21 +134,19 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         ]}
         nativeSelectProps={{ ...getFieldProps('actionnariat'), 'aria-required': false }}
       />
-
       <Input
         {...getStateProps('societeMere')}
         label="Société Mère (optionnel)"
         nativeInputProps={{ ...getFieldProps('societeMere'), 'aria-required': false }}
       />
-
       <Input
         {...getStateProps('adresse1')}
-        label="Addresse 1"
+        label="Adresse 1"
         nativeInputProps={getFieldProps('adresse1')}
       />
       <Input
         {...getStateProps('adresse2')}
-        label="Addresse 2 (optionnel)"
+        label="Adresse 2 (optionnel)"
         nativeInputProps={{ ...getFieldProps('adresse2'), 'aria-required': false }}
       />
       <Input
@@ -162,13 +154,11 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         label="Code Postal"
         nativeInputProps={getFieldProps('codePostal')}
       />
-
       <Input
         {...getStateProps('commune')}
         label="Commune"
         nativeInputProps={getFieldProps('commune')}
       />
-
       {/*
         // la modification de la technologie est désactivée
         // tant que l'impact sur la date d'achèvement n'est pas implémenté
@@ -181,7 +171,6 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           ...getFieldProps('technologie'),
         }}
       /> */}
-
       <Input
         {...getStateProps('prixReference')}
         label="Prix de référence"
@@ -192,7 +181,6 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         label="Puissance (en MWc)"
         nativeInputProps={getFieldProps('puissanceProductionAnnuelle')}
       />
-
       <Checkbox
         {...getStateProps('puissanceALaPointe')}
         id="puissanceALaPointe"
@@ -207,17 +195,30 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           },
         ]}
       />
-
       <Input
         {...getStateProps('evaluationCarboneSimplifiee')}
         label="Évaluation Carbone Simplifiée"
         nativeInputProps={getFieldProps('evaluationCarboneSimplifiee')}
       />
-
       <Input
         {...getStateProps('noteTotale')}
         label="Note"
         nativeInputProps={getFieldProps('noteTotale')}
+      />
+      <Checkbox
+        {...getStateProps('doitRegenererAttestation')}
+        className="mt-6"
+        state={validationErrors['doitRegenererAttestation'] ? 'error' : 'default'}
+        options={[
+          {
+            label: "Régénérer l'attestation (optionnel)",
+            nativeInputProps: {
+              name: 'doitRegenererAttestation',
+              value: 'true',
+              disabled: !estNotifiée,
+            },
+          },
+        ]}
       />
     </Form>
   );
