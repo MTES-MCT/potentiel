@@ -20,7 +20,7 @@ export const MetabaseStats: React.FC<MetabaseStatsProps> = ({ iframeUrl }) => {
 
   return (
     <div>
-      <iframe ref={iframeRef} src={iframeUrl} width="100%" frameBorder="0" />
+      <iframe ref={iframeRef} src={iframeUrl} width="100%" frameBorder="0" allowTransparency />
     </div>
   );
 };
