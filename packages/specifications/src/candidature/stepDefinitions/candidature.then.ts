@@ -94,30 +94,33 @@ Alors(
   "l'attestation de désignation de la candidature devrait être consultable",
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.candidatureWorld.importerCandidature;
+    await vérifierAttestationDeDésignation(identifiantProjet);
+  },
+);
 
-    await waitForExpect(async () => {
-      const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-        type: 'Candidature.Query.ConsulterCandidature',
+export const vérifierAttestationDeDésignation = async (identifiantProjet: string) => {
+  await waitForExpect(async () => {
+    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+      type: 'Candidature.Query.ConsulterCandidature',
+      data: {
+        identifiantProjet,
+      },
+    });
+
+    assert(Option.isSome(candidature), 'Candidature non trouvée');
+
+    expect(candidature.notification, "La candidature n'a pas d'attestation").not.to.be.undefined;
+
+    if (candidature.notification?.attestation) {
+      const { content, format } = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'Document.Query.ConsulterDocumentProjet',
         data: {
-          identifiantProjet,
+          documentKey: candidature.notification.attestation.formatter(),
         },
       });
 
-      assert(Option.isSome(candidature), 'Candidature non trouvée');
-
-      expect(candidature.notification, "La candidature n'a pas d'attestation").not.to.be.undefined;
-
-      if (candidature.notification?.attestation) {
-        const { content, format } = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: candidature.notification.attestation.formatter(),
-          },
-        });
-
-        expect(await convertReadableStreamToString(content)).to.have.length.gt(1);
-        format.should.be.equal('application/pdf');
-      }
-    });
-  },
-);
+      expect(await convertReadableStreamToString(content)).to.have.length.gt(1);
+      format.should.be.equal('application/pdf');
+    }
+  }, 1000);
+};
