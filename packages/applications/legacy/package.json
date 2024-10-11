@@ -17,8 +17,8 @@
     "test": "export APPLICATION_STAGE=test && jest --config=jest.config.js --detectOpenHandles"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.405.0",
-    "@aws-sdk/lib-storage": "^3.405.0",
+    "@aws-sdk/client-s3": "^3.669.0",
+    "@aws-sdk/lib-storage": "^3.669.0",
     "@headlessui/react": "^1.7.17",
     "@hqoss/monads": "^0.5.0",
     "@json2csv/plainjs": "^6.1.3",
