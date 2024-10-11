@@ -98,7 +98,7 @@ const getNavigationItemsBasedOnRole = (
             {
               text: 'Tous les candidats',
               linkProps: {
-                href: Routes.Candidature.lister(),
+                href: Routes.Candidature.lister({ estNotifié: false }),
               },
             },
           ],
