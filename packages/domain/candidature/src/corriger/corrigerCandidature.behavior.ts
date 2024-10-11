@@ -23,6 +23,7 @@ type CandidatureCorrigéePayload = CandidatureImportéeEventCommonPayload & {
   corrigéLe: DateTime.RawType;
   corrigéPar: Email.RawType;
   doitRégénérerAttestation?: true;
+  détailsMisÀJour?: true;
 };
 
 export type CandidatureCorrigéeEvent = DomainEvent<
@@ -34,6 +35,7 @@ type CorrigerCandidatureOptions = ImporterCandidatureBehaviorCommonOptions & {
   corrigéLe: DateTime.ValueType;
   corrigéPar: Email.ValueType;
   doitRégénérerAttestation?: true;
+  détailsMisÀJour?: true;
 };
 
 export async function corriger(
@@ -86,6 +88,7 @@ export async function corriger(
       corrigéLe: candidature.corrigéLe.formatter(),
       corrigéPar: candidature.corrigéPar.formatter(),
       doitRégénérerAttestation: candidature.doitRégénérerAttestation,
+      détailsMisÀJour: candidature.détailsMisÀJour,
     },
   };
   if (this.estIdentiqueÀ(event.payload)) {

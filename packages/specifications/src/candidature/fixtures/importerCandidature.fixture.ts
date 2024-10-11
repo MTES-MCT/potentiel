@@ -79,11 +79,11 @@ export class ImporterCandidatureFixture
       financementParticipatifValue: false,
       importéLe: new Date().toISOString(),
       ...values,
-      localitéValue,
       détailsValue: {
         'Rendement nominal': '1234',
         ...values?.détailsValue,
       },
+      localitéValue,
     };
     this.#values = fixture;
 

@@ -3,6 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Candidature } from '@potentiel-domain/candidature';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { findProjection } from '@potentiel-infrastructure/pg-projections';
+import { Option } from '@potentiel-libraries/monads';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
@@ -26,7 +28,10 @@ export const register = () => {
             payload.identifiantProjet,
           );
 
-          const candidature: Omit<Candidature.CandidatureEntity, 'type'> = {
+          const candidature = await findProjection<Candidature.CandidatureEntity>(
+            `candidature|${identifiantProjet.formatter()}`,
+          );
+          const candidatureToUpsert: Omit<Candidature.CandidatureEntity, 'type'> = {
             identifiantProjet: payload.identifiantProjet,
             appelOffre: identifiantProjet.appelOffre,
             période: identifiantProjet.période,
@@ -57,13 +62,24 @@ export const register = () => {
               ? DateTime.convertirEnValueType(payload.dateÉchéanceGf).formatter()
               : undefined,
             technologie: Candidature.TypeTechnologie.convertirEnValueType(payload.technologie).type,
+            estNotifiée: Option.isSome(candidature) ? candidature.estNotifiée : false,
+            notification: Option.isSome(candidature) ? candidature.notification : undefined,
             misÀJourLe: type === 'CandidatureCorrigée-V1' ? payload.corrigéLe : payload.importéLe,
-            estNotifiée: false,
+            détailsMisÀJourLe:
+              type === 'CandidatureImportée-V1'
+                ? payload.importéLe
+                : payload.détailsMisÀJour
+                  ? payload.corrigéLe
+                  : Option.isSome(candidature)
+                    ? candidature.détailsMisÀJourLe
+                    : // ce cas est théoriquement impossible,
+                      // on ne peut pas avoir de correction sur une candidature non importée
+                      payload.corrigéLe,
           };
 
           await upsertProjection<Candidature.CandidatureEntity>(
             `candidature|${payload.identifiantProjet}`,
-            candidature,
+            candidatureToUpsert,
           );
           break;
         case 'CandidatureNotifiée-V1':

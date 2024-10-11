@@ -13,7 +13,12 @@ import { convertReadableStreamToString } from '../../helpers/convertReadableToSt
 import { sleep } from '../../helpers/sleep';
 
 Alors(`la candidature devrait être consultable`, async function (this: PotentielWorld) {
-  const { identifiantProjet, values: expectedValues } = this.candidatureWorld.importerCandidature;
+  const { identifiantProjet } = this.candidatureWorld.importerCandidature;
+
+  const expectedDétails =
+    this.candidatureWorld.corrigerCandidature.values?.détailsValue ??
+    this.candidatureWorld.importerCandidature.values.détailsValue;
+
   await waitForExpect(async () => {
     const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
       type: 'Candidature.Query.ConsulterCandidature',
@@ -37,7 +42,7 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
     });
 
     const actualContent = await convertReadableStreamToString(result.content);
-    expect(actualContent).to.equal(JSON.stringify(expectedValues.détailsValue));
+    expect(actualContent).to.equal(JSON.stringify(expectedDétails));
   });
 });
 

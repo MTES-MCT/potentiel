@@ -27,6 +27,12 @@ Fonctionnalité: Corriger une candidature
         Alors la candidature devrait être consultable
         Et le porteur n'a pas été prévenu que son attestation a été modifiée
 
+    Scénario: Corriger une candidature et ses détails (typiquement, par CSV)
+        Quand un administrateur corrige la candidature avec :
+            | nom candidat | abcd                  |
+            | détails      | {"Note carbone": "1"} |
+        Alors la candidature devrait être consultable
+
     Scénario: Impossible de régénérer l'attestation d'une candidature non notifiée
         Quand un administrateur corrige la candidature avec :
             | nom candidat               | abcd |

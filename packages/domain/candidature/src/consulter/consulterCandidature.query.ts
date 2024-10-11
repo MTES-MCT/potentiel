@@ -99,6 +99,7 @@ export const mapToReadModel = ({
   actionnariat,
   territoireProjet,
   misÀJourLe,
+  détailsMisÀJourLe,
   notification,
 }: CandidatureEntity): ConsulterCandidatureReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
@@ -127,7 +128,7 @@ export const mapToReadModel = ({
   détailsImport: DocumentProjet.convertirEnValueType(
     identifiantProjet,
     'candidature/import',
-    misÀJourLe,
+    détailsMisÀJourLe,
     'application/json',
   ),
   notification: notification && {

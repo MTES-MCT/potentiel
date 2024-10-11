@@ -42,10 +42,10 @@ export type ImporterCandidatureUseCaseCommonPayload = {
   actionnariatValue?: string;
   dateÉchéanceGfValue?: string;
   territoireProjetValue: string;
-  détailsValue: Record<string, string>;
 };
 
 type ImporterCandidatureUseCasePayload = ImporterCandidatureUseCaseCommonPayload & {
+  détailsValue: Record<string, string>;
   importéLe: string;
   importéPar: string;
 };
