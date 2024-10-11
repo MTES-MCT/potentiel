@@ -57,7 +57,7 @@ export async function makeServer(port: number, sessionSecret: string) {
                 'wss://client.relay.crisp.chat',
               ],
               'font-src': ["'self'", 'client.crisp.chat'],
-              'frame-src': ['metabase.potentiel.beta.gouv.fr'],
+              'frame-src': ['metabase.potentiel.beta.gouv.fr', 'blob:'],
               'img-src': ["'self'", 'data:', 'image.crisp.chat'],
               'style-src': ["'self'", "'unsafe-inline'", 'data:', 'client.crisp.chat'],
               'script-src': [
