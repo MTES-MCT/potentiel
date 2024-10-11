@@ -63,6 +63,16 @@ export type CandidatureAggregate = Aggregate<CandidatureEvent> &
     ): AppelOffre.Famille | undefined;
   };
 
+const getDeepKeys = (obj: object): string[] => {
+  return Object.entries(obj).reduce<string[]>((r, [key, value]) => {
+    r.push(key);
+    if (typeof value === 'object' && value !== null) {
+      r.push(...getDeepKeys(value));
+    }
+    return r;
+  }, []);
+};
+
 export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
   CandidatureAggregate,
   CandidatureEvent
@@ -84,7 +94,7 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
     delete copy.importéPar;
 
     return createHash('md5')
-      .update(JSON.stringify(copy, Object.keys(copy).sort()))
+      .update(JSON.stringify(copy, getDeepKeys(copy).sort()))
       .digest('hex');
   },
   estIdentiqueÀ(payload) {

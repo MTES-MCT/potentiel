@@ -17,6 +17,12 @@ Fonctionnalité: Corriger une candidature
             | détails      | {"Note carbone": "1"} |
         Alors la candidature devrait être consultable
 
+    Scénario: Corriger une candidature avec des champs de localité uniquement
+        Quand un administrateur corrige la candidature avec :
+            | adresse 1 | ma nouvelle adresse |
+        Alors la candidature devrait être consultable
+        Et le porteur n'a pas été prévenu que son attestation a été modifiée
+
     Scénario: Corriger une candidature notifiée en régénérant l'attestation
         Etant donné la candidature lauréate notifiée "Boulodrome Sainte Livrade"
         Quand un administrateur corrige la candidature avec :
