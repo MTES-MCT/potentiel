@@ -39,8 +39,12 @@ services:
     image: minio/mc
     depends_on:
       - s3
-    entrypoint: >
-      /bin/sh -c " /usr/bin/mc alias set myminio http://s3:9000 minioadmin minioadmin; /usr/bin/mc mb myminio/potentiel; exit 0; "
+    entrypoint: /bin/sh -c
+    command:
+      - |
+        mc alias set myminio http://s3:9000 minioadmin minioadmin
+        mc ping myminio -c 1
+        mc mb myminio/potentiel
     profiles: ['app']
   auth:
     container_name: potentiel_auth
