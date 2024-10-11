@@ -21,7 +21,7 @@ export async function generateMetadata(
 
   return {
     title: `Candidature ${candidature.nomProjet} - Potentiel`,
-    description: 'Modifier la candidature',
+    description: 'Corriger la candidature',
   };
 }
 

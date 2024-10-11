@@ -13,6 +13,8 @@ import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBad
 import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
+import { getGarantiesFinancièresTypeLabel } from '../../garanties-financières/getGarantiesFinancièresTypeLabel';
+
 type AvailableActions = Record<
   'corriger' | 'prévisualiserAttestation' | 'téléchargerAttestation',
   boolean
@@ -68,7 +70,10 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
               </Field>
               {candidature.typeGarantiesFinancières && (
                 <Field name="Garanties Financières">
-                  <span>Type: {candidature.typeGarantiesFinancières.type}</span>
+                  <span>
+                    Type:{' '}
+                    {getGarantiesFinancièresTypeLabel(candidature.typeGarantiesFinancières.type)}
+                  </span>
                   {candidature.dateÉchéanceGf && (
                     <span>
                       Date d'échéance:{' '}

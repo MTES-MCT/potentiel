@@ -24,11 +24,11 @@ export const ImporterCandidaturesPage: FC = () => (
               Il est possible de corriger des candidat existants:
               <ul className="list-disc px-4">
                 <li>
-                  individuellement, via la{' '}
+                  au cas par cas, via la{' '}
                   <Link href={Routes.Candidature.lister()}>page des candidatures</Link>
                 </li>
                 <li>
-                  en masse, par CSV, via la{' '}
+                  par lot (CSV), via la{' '}
                   <Link href={Routes.Candidature.corrigerEnMasse}>page de correction</Link>
                 </li>
               </ul>

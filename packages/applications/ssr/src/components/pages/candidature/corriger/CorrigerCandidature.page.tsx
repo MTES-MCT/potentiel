@@ -43,12 +43,17 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
             small
             description={
               <div className="flex flex-col gap-2">
-                <div>Ce formulaire sert à corriger des erreurs lors de la candidature.</div>
                 <div>
-                  Pour un changement a posteriori, utiliser le formulaire dans la{' '}
+                  Ce formulaire sert à corriger des erreurs importées ou transmises à la
+                  candidature.
+                </div>
+                <div>
+                  Pour un changement au cours de la vie du projet, veuillez utiliser le formulaire
+                  dans la{' '}
                   <Link href={Routes.Projet.details(identifiantProjet.formatter())}>
                     page projet
                   </Link>
+                  .
                 </div>
               </div>
             }
