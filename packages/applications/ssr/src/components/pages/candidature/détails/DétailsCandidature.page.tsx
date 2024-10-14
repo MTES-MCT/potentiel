@@ -123,6 +123,7 @@ const mapToActionComponents = ({ identifiantProjet, actions }: MapToActionsCompo
       <Button
         linkProps={{
           href: Routes.Candidature.corriger(identifiantProjet.formatter()),
+          prefetch: false,
         }}
       >
         Corriger
@@ -134,6 +135,7 @@ const mapToActionComponents = ({ identifiantProjet, actions }: MapToActionsCompo
           href: Routes.Candidature.téléchargerAttestation(
             IdentifiantProjet.bind(identifiantProjet).formatter(),
           ),
+          prefetch: false,
         }}
         title={`Télécharger l'attestation de désignation`}
         aria-label={`Télécharger l'attestation de désignation`}
@@ -151,6 +153,7 @@ const mapToActionComponents = ({ identifiantProjet, actions }: MapToActionsCompo
             IdentifiantProjet.bind(identifiantProjet).formatter(),
           ),
           target: '_blank',
+          prefetch: false,
         }}
         title={`Prévisualiser l'attestation de désignation`}
         aria-label={`Prévisualiser l'attestation de désignation`}
