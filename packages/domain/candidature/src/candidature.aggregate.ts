@@ -92,6 +92,7 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
     delete copy.corrigéPar;
     delete copy.importéLe;
     delete copy.importéPar;
+    delete copy.doitRégénérerAttestation;
 
     return createHash('md5')
       .update(JSON.stringify(copy, getDeepKeys(copy).sort()))
