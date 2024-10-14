@@ -70,8 +70,8 @@
     "sequelize": "^6.37.4",
     "sequelize-cli": "^6.6.2",
     "util": "^0.12.5",
-    "utility-types": "^3.10.0",
-    "uuid": "^9.0.0",
+    "utility-types": "^3.11.0",
+    "uuid": "^9.0.1",
     "vm-browserify": "^1.1.2",
     "yup": "^0.32.11"
   },
