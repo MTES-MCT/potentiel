@@ -76,7 +76,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
       },
       redirectUrl:
         success > 0 && errors.length === 0
-          ? Routes.Période.lister({ appelOffre: parsedData[0].appelOffre })
+          ? Routes.Période.lister({ appelOffre: parsedData[0].appelOffre, statut: 'a-notifier' })
           : undefined,
     };
   });
