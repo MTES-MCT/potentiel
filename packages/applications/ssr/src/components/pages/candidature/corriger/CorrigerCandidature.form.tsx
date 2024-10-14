@@ -6,6 +6,7 @@ import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import { z } from 'zod';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
+import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Candidature } from '@potentiel-domain/candidature';
@@ -205,17 +206,26 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         label="Note"
         nativeInputProps={getFieldProps('noteTotale')}
       />
-      <Checkbox
+      <RadioButtons
         {...getStateProps('doitRegenererAttestation')}
-        className="mt-6"
         state={validationErrors['doitRegenererAttestation'] ? 'error' : 'default'}
+        legend={'Attestation de désignation'}
+        disabled={!estNotifiée}
         options={[
           {
-            label: "Régénérer l'attestation (optionnel)",
+            label: "Je souhaite régénérer l'attestation",
             nativeInputProps: {
               name: 'doitRegenererAttestation',
               value: 'true',
-              disabled: !estNotifiée,
+              required: true,
+            },
+          },
+          {
+            label: "Je ne souhaite pas régénérer l'attestation",
+            nativeInputProps: {
+              name: 'doitRegenererAttestation',
+              value: 'false',
+              required: true,
             },
           },
         ]}
