@@ -37,7 +37,7 @@
     "cookie-parser": "^1.4.7",
     "csv-parse": "^5.5.6",
     "date-fns": "^2.30.0",
-    "docxtemplater": "^3.38.0",
+    "docxtemplater": "^3.51.0",
     "dotenv": "^16.3.1",
     "esbuild": "^0.20.1",
     "express": "^4.19.2",
