@@ -26,7 +26,7 @@
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
     "@types/node": "^18.19.37",
-    "oclif": "^4.13.8",
+    "oclif": "^4.15.8",
     "ts-node": "^10.9.2"
   }
 }
