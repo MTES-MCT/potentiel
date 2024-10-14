@@ -84,6 +84,9 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   )}
                 </Field>
               )}
+              {candidature.motifÉlimination && (
+                <Field name="Motif d'élimination">{candidature.motifÉlimination}</Field>
+              )}
             </FieldGroup>
             <FieldGroup name="Contact">
               <Field name="Nom du candidat">{candidature.nomCandidat}</Field>
