@@ -20,6 +20,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     referenceDossierRaccordement: 'dossierRaccordement#1',
-    identifiantProjet: 'appelOffre#période#famille#numéroCRE',
+    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
   },
 };

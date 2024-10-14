@@ -29,7 +29,7 @@ const gestionnaireRéseau: DétailsRaccordementPageProps['gestionnaireRéseau'] 
 };
 
 const dossier: DétailsRaccordementPageProps['dossiers'][number] = {
-  identifiantProjet: 'appelOffre#période#famille#numéroCRE',
+  identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
   référence: 'référence-dossier#',
   demandeComplèteRaccordement: {
     canEdit: true,
@@ -50,7 +50,7 @@ const dossier: DétailsRaccordementPageProps['dossiers'][number] = {
 
 export const Complet: Story = {
   args: {
-    identifiantProjet: 'appelOffre#période#famille#numéroCRE',
+    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
     gestionnaireRéseau,
     dossiers: [dossier, dossier],
   },
@@ -58,7 +58,7 @@ export const Complet: Story = {
 
 export const Incomplet: Story = {
   args: {
-    identifiantProjet: 'identifiantProjet#1',
+    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
     gestionnaireRéseau,
     dossiers: [
       {
@@ -71,7 +71,7 @@ export const Incomplet: Story = {
 
 export const GestionnaireInconnu: Story = {
   args: {
-    identifiantProjet: 'identifiantProjet#1',
+    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
     gestionnaireRéseau: {
       ...gestionnaireRéseau,
       identifiantGestionnaireRéseau: 'inconnu',
