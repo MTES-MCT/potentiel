@@ -219,7 +219,6 @@ const Stat: FC<StatProps> = ({
               appelOffre,
               période,
               statut,
-              estNotifié: nombreRestant !== undefined ? false : undefined,
             })}
           >
             {formatStat(nombreTotal, label)}
@@ -230,11 +229,11 @@ const Stat: FC<StatProps> = ({
                 appelOffre,
                 période,
                 statut,
-                estNotifié: true,
+                estNotifié: false,
               })}
               className="italic"
             >
-              (dont {formatStat(nombreTotal - nombreRestant, 'déjà notifié')})
+              (dont {formatStat(nombreRestant, 'à notifier')})
             </Link>
           )}
         </div>
