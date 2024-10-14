@@ -137,7 +137,8 @@ const mapToActions = ({
       if (statut.estConfirmationDemandée()) {
         actions.push('confirmer');
       }
-      if (statut.estEnCours()) {
+
+      if (statut.estEnCours() && !statut.estConfirmé()) {
         actions.push('annuler');
       }
 
