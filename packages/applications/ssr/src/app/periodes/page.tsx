@@ -89,6 +89,8 @@ export default async function Page({ searchParams }: PageProps) {
           ),
       });
 
+      props.map((x) => console.log(x.stats));
+
       return (
         <PériodeListPage
           filters={filters}
