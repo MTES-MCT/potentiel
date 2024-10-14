@@ -5,7 +5,6 @@ export * from './partnerUsers';
 export * from './getEmailsEnErreurPage';
 export * from './getInvitationsCandidatsEnAttentePage';
 export * from './getSignalerDemandeDelaiPage';
-export * from './getSignalerDemandeRecoursPage';
 export * from './postPasserDemandeDelaiEnInstruction';
 export * from './postRelanceInvitations';
 export * from './postRetryNotifications';

@@ -10,7 +10,6 @@ export * from './getProjectDataForChoisirCDCPage';
 export * from './getProjectDataForProjectClaim';
 export * from './getProjectDataForSignalerDemandeAbandonPage';
 export * from './getProjectDataForSignalerDemandeDelaiPage';
-export * from './getProjectDataForSignalerDemandeRecoursPage';
 export * from './getIdentifiantProjetByLegacyId';
 export * from './getListIdentifiantsProjetByLegacyIds';
 export * from './getLegacyProjetByIdentifiantProjet';

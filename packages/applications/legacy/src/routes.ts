@@ -129,14 +129,6 @@ class routes {
   };
   static ADMIN_SIGNALER_DEMANDE_DELAI_POST = '/admin/signalerDemandeDelai';
 
-  static ADMIN_SIGNALER_DEMANDE_RECOURS_GET = (projectId?: Project['id']) => {
-    const route = '/admin/projet/:projectId/signalerDemandeRecours.html';
-    if (projectId) {
-      return route.replace(':projectId', projectId);
-    } else return route;
-  };
-  static ADMIN_SIGNALER_DEMANDE_RECOURS_POST = '/admin/signalerDemandeRecours';
-
   static ADMIN_PASSER_DEMANDE_DELAI_EN_INSTRUCTION = (args?: { modificationRequestId: string }) => {
     const route = '/admin/demande/:modificationRequestId/passer-demande-delai-en-instruction';
     if (args) {

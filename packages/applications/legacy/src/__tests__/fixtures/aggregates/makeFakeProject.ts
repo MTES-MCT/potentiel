@@ -23,9 +23,6 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   correctData: jest.fn((user: User, data: ProjectDataCorrectedPayload['correctedData']) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>(null),
   ),
-  setNotificationDate: jest.fn((user: User, notifiedOn: number) =>
-    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>(null),
-  ),
   setCompletionDueDate: jest.fn(() => ok<null, never>(null)),
   moveCompletionDueDate: jest.fn((user: User, delayInMonths: number) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>(null),
@@ -64,15 +61,7 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
       signaledBy: User;
     }) => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null),
   ),
-  signalerDemandeRecours: jest.fn(
-    (args: {
-      decidedOn: Date;
-      status: 'acceptée' | 'rejetée';
-      notes?: string;
-      attachments: Array<{ id: string; name: string }>;
-      signaledBy: User;
-    }) => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null),
-  ),
+
   modifierAppelOffre: jest.fn((appelOffre: { id: string }) => ok<null, null>(null)),
   certificateData: ok({
     template: 'v1' as AppelOffre.CertificateTemplate,
