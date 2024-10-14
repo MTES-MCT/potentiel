@@ -37,7 +37,7 @@
     "@potentiel-libraries/iso8601-datetime": "*",
     "@potentiel-libraries/monitoring": "*",
     "clsx": "^2.1.1",
-    "i18next": "^23.12.2",
+    "i18next": "^23.16.0",
     "mediateur": "^0.1.0",
     "next": "^14.2.10",
     "next-auth": "^4.24.5",
