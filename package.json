@@ -95,7 +95,7 @@
     "node": "^20.0.0"
   },
   "dependencies": {
-    "isomorphic-dompurify": "^2.15.0",
+    "isomorphic-dompurify": "^2.16.0",
     "prettier-plugin-gherkin": "^2.3.0",
     "ts-pattern": "^5.1.1"
   }
