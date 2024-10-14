@@ -47,6 +47,7 @@ const dossier: DétailsRaccordementPageProps['dossiers'][number] = {
   },
   canDeleteDossier: false,
 };
+
 export const Complet: Story = {
   args: {
     identifiantProjet: 'appelOffre#période#famille#numéroCRE',

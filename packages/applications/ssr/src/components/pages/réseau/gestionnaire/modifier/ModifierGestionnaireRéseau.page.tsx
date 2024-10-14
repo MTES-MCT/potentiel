@@ -20,7 +20,7 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauPage
     <PageTemplate
       banner={
         <Heading1 className="text-theme-white">
-          Modifier le gestionnaire de réseau ({raisonSociale})
+          Modifier le gestionnaire de réseau {raisonSociale}
         </Heading1>
       }
     >

@@ -9,6 +9,8 @@ import {
   ModifierDépôtEnCoursGarantiesFinancièresPageProps,
 } from './ModifierDépôtEnCoursGarantiesFinancières.page';
 
+// ne marche pas
+
 const meta = {
   title: 'Pages/Garanties-financières/Dépôt/Modifier',
   component: ModifierDépôtEnCoursGarantiesFinancièresPage,
