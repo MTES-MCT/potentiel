@@ -11,7 +11,7 @@ const schema = z.object({
   to: z.string().optional(),
 });
 
-export default class FilesRename extends Command {
+export default class FilesCheck extends Command {
   static override description = 'Check existance of a list of files from a CSV';
   static override examples: Command.Example[] = [
     {
@@ -46,7 +46,7 @@ export default class FilesRename extends Command {
   };
 
   public async run(): Promise<void> {
-    const { flags } = await this.parse(FilesRename);
+    const { flags } = await this.parse(FilesCheck);
     const { parsedData: files } = await parseCsvFile(flags.path, schema, {
       delimiter: flags.delimiter,
       encoding: flags.encoding,

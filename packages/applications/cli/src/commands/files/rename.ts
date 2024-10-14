@@ -1,10 +1,9 @@
 import { Command, Flags } from '@oclif/core';
 import { z } from 'zod';
 
-import { renameFile } from '@potentiel-libraries/file-storage';
-
 import { parseCsvFile, csvFlags } from '../../helpers/parse-file';
 import { makeReporter, reporterFlags } from '../../helpers/reporter';
+import { renameFile } from '../../helpers/renameFile';
 
 const schema = z.object({
   from: z.string(),

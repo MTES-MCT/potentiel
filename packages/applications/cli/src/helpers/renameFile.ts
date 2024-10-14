@@ -1,15 +1,17 @@
 import { DeleteObjectCommand } from '@aws-sdk/client-s3';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
-
-import { copyFile } from './copyFile';
-import { assertFileExists } from './assertFileExists';
-import { getClient } from './getClient';
-import { getBucketName } from './getBucketName';
+import { fileExists, copyFile, getBucketName, getClient } from '@potentiel-libraries/file-storage';
 
 class DeleteFailedError extends Error {
   constructor() {
     super('La suppression du fichier a échoué');
+  }
+}
+
+export class FichierInexistant extends Error {
+  constructor(filePath?: string) {
+    super(`Le fichier ${filePath} n'existe pas`);
   }
 }
 
@@ -18,7 +20,10 @@ class DeleteFailedError extends Error {
  * Do not use in domain, this is intended for CLI utility: files related to an immutable event are also immutable
  **/
 export const renameFile = async (fromName: string, toName: string) => {
-  await assertFileExists(fromName);
+  const exists = await fileExists(fromName);
+  if (!exists) {
+    throw new FichierInexistant(fromName);
+  }
 
   await copyFile(fromName, toName);
 
