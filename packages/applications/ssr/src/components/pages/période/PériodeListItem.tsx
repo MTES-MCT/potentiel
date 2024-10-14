@@ -233,7 +233,7 @@ const Stat: FC<StatProps> = ({
               })}
               className="italic"
             >
-              (dont {formatStat(nombreRestant, 'à notifier')})
+              (dont {nombreRestant} à notifier')
             </Link>
           )}
         </div>
