@@ -14,7 +14,7 @@
     "@potentiel-domain/candidature": "*",
     "@react-pdf/renderer": "^3.1.14",
     "docxtemplater": "^3.51.0",
-    "pizzip": "^3.1.4"
+    "pizzip": "^3.1.7"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
