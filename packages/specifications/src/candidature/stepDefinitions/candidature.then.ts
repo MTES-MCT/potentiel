@@ -13,7 +13,12 @@ import { convertReadableStreamToString } from '../../helpers/convertReadableToSt
 import { sleep } from '../../helpers/sleep';
 
 Alors(`la candidature devrait être consultable`, async function (this: PotentielWorld) {
-  const { identifiantProjet, values: expectedValues } = this.candidatureWorld.importerCandidature;
+  const { identifiantProjet } = this.candidatureWorld.importerCandidature;
+
+  const expectedDétails =
+    this.candidatureWorld.corrigerCandidature.values?.détailsValue ??
+    this.candidatureWorld.importerCandidature.values.détailsValue;
+
   await waitForExpect(async () => {
     const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
       type: 'Candidature.Query.ConsulterCandidature',
@@ -27,6 +32,7 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
     const actual = mapToPlainObject(candidature);
     const expected = mapToPlainObject(this.candidatureWorld.mapToExpected());
 
+    delete actual.notification;
     actual.should.be.deep.equal(expected);
 
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
@@ -37,7 +43,7 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
     });
 
     const actualContent = await convertReadableStreamToString(result.content);
-    expect(actualContent).to.equal(JSON.stringify(expectedValues.détailsValue));
+    expect(actualContent).to.equal(JSON.stringify(expectedDétails));
   });
 });
 
@@ -85,50 +91,36 @@ Alors(
 );
 
 Alors(
-  'les candidatures de la période notifiée devraient être notifiées',
-  async function (this: PotentielWorld) {
-    const { identifiantPériode } = this.périodeWorld;
-    const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
-      type: 'Candidature.Query.ListerCandidatures',
-      data: {
-        appelOffre: identifiantPériode.appelOffre,
-        période: identifiantPériode.période,
-      },
-    });
-    for (const candidature of candidatures.items) {
-      expect(candidature.estNotifiée, "La candidature n'est pas notifiée").to.be.true;
-    }
-  },
-);
-
-Alors(
   "l'attestation de désignation de la candidature devrait être consultable",
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.candidatureWorld.importerCandidature;
+    await vérifierAttestationDeDésignation(identifiantProjet);
+  },
+);
 
-    await waitForExpect(async () => {
-      const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-        type: 'Candidature.Query.ConsulterCandidature',
+export const vérifierAttestationDeDésignation = async (identifiantProjet: string) => {
+  await waitForExpect(async () => {
+    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+      type: 'Candidature.Query.ConsulterCandidature',
+      data: {
+        identifiantProjet,
+      },
+    });
+
+    assert(Option.isSome(candidature), 'Candidature non trouvée');
+
+    expect(candidature.notification, "La candidature n'a pas d'attestation").not.to.be.undefined;
+
+    if (candidature.notification?.attestation) {
+      const { content, format } = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'Document.Query.ConsulterDocumentProjet',
         data: {
-          identifiantProjet,
+          documentKey: candidature.notification.attestation.formatter(),
         },
       });
 
-      assert(Option.isSome(candidature), 'Candidature non trouvée');
-
-      expect(candidature.notification, "La candidature n'a pas d'attestation").not.to.be.undefined;
-
-      if (candidature.notification?.attestation) {
-        const { content, format } = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: candidature.notification.attestation.formatter(),
-          },
-        });
-
-        expect(await convertReadableStreamToString(content)).to.have.length.gt(1);
-        format.should.be.equal('application/pdf');
-      }
-    });
-  },
-);
+      expect(await convertReadableStreamToString(content)).to.have.length.gt(1);
+      format.should.be.equal('application/pdf');
+    }
+  }, 1000);
+};

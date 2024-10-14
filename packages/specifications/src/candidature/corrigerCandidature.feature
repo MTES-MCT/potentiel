@@ -5,27 +5,35 @@ Fonctionnalité: Corriger une candidature
         Etant donné le DGEC validateur "Robert Robichet"
         Et la candidature lauréate "Du boulodrome de Marseille"
 
-    Scénario: Corriger une candidature sans régénérer l'attestation
+    Scénario: Corriger une candidature non notifiée
         Quand un administrateur corrige la candidature avec :
             | nom candidat | abcd |
         Alors la candidature devrait être consultable
         Et le porteur n'a pas été prévenu que son attestation a été modifiée
 
+    Scénario: Corriger une candidature et ses détails (typiquement, par CSV)
+        Quand un administrateur corrige la candidature avec :
+            | nom candidat | abcd                  |
+            | détails      | {"Note carbone": "1"} |
+        Alors la candidature devrait être consultable
+
     Scénario: Corriger une candidature notifiée en regénérant l'attestation
-        Etant donné la candidature lauréate notifiée "Du boulodrome de Marseille #2"
+        Etant donné la candidature lauréate notifiée "Boulodrome Sainte Livrade"
         Quand un administrateur corrige la candidature avec :
             | nom candidat               | abcd |
             | doit régénérer attestation | oui  |
         Alors la candidature devrait être consultable
         Et le porteur a été prévenu que son attestation a été modifiée
+        Et l'attestation de désignation de la candidature devrait être consultable
 
     Scénario: Corriger une candidature notifiée sans régénérer l'attestation
-        Etant donné la candidature lauréate notifiée "Du boulodrome de Marseille #2"
+        Etant donné la candidature lauréate notifiée "Boulodrome Sainte Livrade"
         Quand un administrateur corrige la candidature avec :
             | nom candidat               | abcd |
             | doit régénérer attestation | non  |
         Alors la candidature devrait être consultable
         Et le porteur n'a pas été prévenu que son attestation a été modifiée
+        Et l'attestation de désignation de la candidature devrait être consultable
 
     Scénario: Impossible de régénérer l'attestation d'une candidature non notifiée
         Quand un administrateur corrige la candidature avec :

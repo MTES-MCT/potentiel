@@ -7,6 +7,7 @@ import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixtu
 
 export class CandidatureWorld {
   #importerCandidature: ImporterCandidatureFixture;
+
   get importerCandidature() {
     return this.#importerCandidature;
   }
@@ -61,14 +62,22 @@ export class CandidatureWorld {
       financementCollectifValue: mapBoolean(exemple['financement collectif']),
       gouvernancePartagéeValue: mapBoolean(exemple['gouvernance partagée']),
       financementParticipatifValue: mapBoolean(exemple['financement participatif']),
+      doitRégénérerAttestation: mapBoolean(exemple['doit régénérer attestation']),
+      statutValue: exemple['statut'],
     });
   }
 
   mapToExpected() {
-    const expectedValues = this.importerCandidature.values;
+    const { values: expectedValues } = this.corrigerCandidature.aÉtéCréé
+      ? this.corrigerCandidature
+      : this.importerCandidature;
     const misÀJourLe = this.#corrigerCandidature.aÉtéCréé
-      ? this.corrigerCandidature.corrigéLe
+      ? this.corrigerCandidature.values.corrigéLe
       : this.importerCandidature.values.importéLe;
+    const détailsMisÀJourLe =
+      this.#corrigerCandidature.aÉtéCréé && this.#corrigerCandidature.values.détailsValue
+        ? this.corrigerCandidature.values.corrigéLe
+        : this.importerCandidature.values.importéLe;
 
     return {
       localité: expectedValues.localitéValue,
@@ -108,7 +117,7 @@ export class CandidatureWorld {
       détailsImport: DocumentProjet.convertirEnValueType(
         this.importerCandidature.identifiantProjet,
         'candidature/import',
-        misÀJourLe,
+        détailsMisÀJourLe,
         'application/json',
       ),
 

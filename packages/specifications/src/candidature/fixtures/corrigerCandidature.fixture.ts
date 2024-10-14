@@ -1,29 +1,32 @@
+import { Candidature } from '@potentiel-domain/candidature';
+
 import { AbstractFixture } from '../../fixture';
 
 interface CorrigerCandidature {
-  corrigéLe: string;
-  corrigéPar: string;
+  identifiantProjet: string;
+  values: Candidature.CorrigerCandidatureUseCase['data'];
 }
 export class CorrigerCandidatureFixture
   extends AbstractFixture<CorrigerCandidature>
   implements CorrigerCandidature
 {
-  #corrigéLe!: string;
-  get corrigéLe() {
-    return this.#corrigéLe;
+  #identifiantProjet!: string;
+  get identifiantProjet() {
+    return this.#identifiantProjet;
   }
-  #corrigéPar!: string;
-  get corrigéPar() {
-    return this.#corrigéPar;
+
+  #values!: Candidature.CorrigerCandidatureUseCase['data'];
+  get values() {
+    return this.#values;
   }
 
   créer(data: CorrigerCandidature): Readonly<CorrigerCandidature> {
-    this.#corrigéLe = data.corrigéLe;
-    this.#corrigéPar = data.corrigéPar;
+    this.#identifiantProjet = data.identifiantProjet;
+    this.#values = data.values;
     this.aÉtéCréé = true;
     return {
-      corrigéLe: this.corrigéLe,
-      corrigéPar: this.corrigéPar,
+      identifiantProjet: this.identifiantProjet,
+      values: this.values,
     };
   }
 }

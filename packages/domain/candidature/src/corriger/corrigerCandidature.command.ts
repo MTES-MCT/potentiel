@@ -11,6 +11,7 @@ type CorrigerCandidatureCommandOptions = ImporterCandidatureCommandCommonOptions
   corrigéLe: DateTime.ValueType;
   corrigéPar: Email.ValueType;
   doitRégénérerAttestation?: true;
+  détailsMisÀJour?: true;
 };
 
 export type CorrigerCandidatureCommand = Message<

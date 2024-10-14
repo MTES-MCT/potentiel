@@ -9,6 +9,8 @@ import { Éliminé } from '@potentiel-domain/elimine';
 import { PotentielWorld } from '../../potentiel.world';
 import { DeepPartial } from '../../fixture';
 
+import { vérifierAttestationDeDésignation } from './candidature.then';
+
 EtantDonné(
   `la candidature lauréate {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
@@ -106,4 +108,7 @@ async function notifierCandidature(this: PotentielWorld) {
       data,
     });
   }
+  // on vérifie l'attestation de désignation dès le "given"
+  // afin de s'assurer que la saga est bien exécutée
+  await vérifierAttestationDeDésignation(identifiantProjet);
 }

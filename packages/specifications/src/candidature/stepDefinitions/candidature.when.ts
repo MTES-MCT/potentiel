@@ -49,34 +49,35 @@ Quand(
 );
 
 async function corrigerCandidature(this: PotentielWorld, exemple?: Record<string, string>) {
-  const { values } = this.candidatureWorld.importerCandidature.créer({
+  const unchangedValues = this.candidatureWorld.importerCandidature.values;
+  const changedValues = {
+    ...this.candidatureWorld.mapExempleToFixtureValues(exemple ?? {}),
+    détailsValue: exemple?.détails ? JSON.parse(exemple.détails) : undefined,
+  };
+  const newValues = {
+    ...unchangedValues,
+    ...changedValues,
+  };
+
+  const { values } = this.candidatureWorld.corrigerCandidature.créer({
     identifiantProjet: this.candidatureWorld.importerCandidature.identifiantProjet,
     values: {
-      ...this.candidatureWorld.importerCandidature.values,
-      ...this.candidatureWorld.mapExempleToFixtureValues(exemple ?? {}),
-      importéPar: this.utilisateurWorld.validateurFixture.email,
-      statutValue: exemple?.statut ?? this.candidatureWorld.importerCandidature.values.statutValue,
-      nomProjetValue: this.candidatureWorld.importerCandidature.values.nomProjetValue,
+      ...newValues,
+      localitéValue: {
+        ...unchangedValues.localitéValue,
+        ...changedValues.localitéValue,
+      },
+
+      doitRégénérerAttestation: newValues.doitRégénérerAttestation || undefined,
+      corrigéLe: DateTime.now().formatter(),
+      corrigéPar: this.utilisateurWorld.validateurFixture.email,
     },
   });
-
-  const { corrigéLe, corrigéPar } = this.candidatureWorld.corrigerCandidature.créer({
-    corrigéLe: DateTime.now().formatter(),
-    corrigéPar: this.utilisateurWorld.validateurFixture.email,
-  });
-
-  const doitRégénérerAttestation =
-    exemple?.['doit régénérer attestation'] === 'oui' ? true : undefined;
 
   try {
     await mediator.send<Candidature.CorrigerCandidatureUseCase>({
       type: 'Candidature.UseCase.CorrigerCandidature',
-      data: {
-        ...values,
-        corrigéLe,
-        corrigéPar,
-        doitRégénérerAttestation,
-      },
+      data: values,
     });
   } catch (error) {
     this.error = error as Error;

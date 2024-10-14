@@ -101,7 +101,7 @@ export const mapToReadModel = ({
   prixReference,
   localité: { commune, département, région },
   evaluationCarboneSimplifiée,
-  misÀJourLe,
+  détailsMisÀJourLe,
   estNotifiée,
   notification,
 }: CandidatureEntity): CandidaturesListItemReadModel => ({
@@ -122,7 +122,7 @@ export const mapToReadModel = ({
   détailsImport: DocumentProjet.convertirEnValueType(
     identifiantProjet,
     'candidature/import',
-    misÀJourLe,
+    détailsMisÀJourLe,
     'application/json',
   ),
   estNotifiée: estNotifiée,
