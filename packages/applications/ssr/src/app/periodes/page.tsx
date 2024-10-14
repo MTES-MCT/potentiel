@@ -77,7 +77,7 @@ export default async function Page({ searchParams }: PageProps) {
       ];
 
       const périodesPartiellementNotifiées: Période.ConsulterPériodeReadModel[] =
-        estNotifiée === false ? await getPériodesPartiellementNotifiées() : [];
+        estNotifiée === false ? await getPériodesPartiellementNotifiées(appelOffre) : [];
 
       const props = await mapToProps({
         utilisateur,
@@ -88,8 +88,6 @@ export default async function Page({ searchParams }: PageProps) {
               self.findIndex((x) => x.identifiantPériode === val.identifiantPériode) === i,
           ),
       });
-
-      props.map((x) => console.log(x.stats));
 
       return (
         <PériodeListPage
@@ -162,11 +160,12 @@ const getCandidaturesStatsForPeriode = async (
   };
 };
 
-async function getPériodesPartiellementNotifiées() {
+async function getPériodesPartiellementNotifiées(appelOffre: string | undefined) {
   const candidats = await mediator.send<Candidature.ListerCandidaturesQuery>({
     type: 'Candidature.Query.ListerCandidatures',
     data: {
       estNotifiée: false,
+      appelOffre,
     },
   });
   const identifiantsPériodes = candidats.items
