@@ -55,6 +55,7 @@ const mapToProps = (
     adresse2: candidature.localité.adresse2,
     codePostal: candidature.localité.codePostal,
     commune: candidature.localité.commune,
+    technologie: candidature.technologie.formatter(),
   },
   estNotifiée: !!candidature.notification,
 });

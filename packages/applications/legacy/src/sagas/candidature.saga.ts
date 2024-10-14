@@ -5,6 +5,7 @@ import { eventStore } from '../config/eventStore.config';
 import {
   DésignationCatégorie,
   ProjectClasseGranted,
+  ProjectCompletionDueDateSet,
   ProjectRawDataCorrected,
   ProjectRawDataImported,
 } from '../modules/project';
@@ -19,6 +20,8 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
 import { ok } from 'neverthrow';
+import { getCompletionDate } from './_helpers/getCompletionDate';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export type SubscriptionEvent = (
   | Candidature.CandidatureImportéeEvent
@@ -39,6 +42,9 @@ export const register = () => {
         identifiantAppelOffre: identifiantProjet.appelOffre,
       },
     });
+    if (Option.isNone(appelOffre)) {
+      throw new Error(`Appel offre ${identifiantProjet.appelOffre} non trouvée`);
+    }
 
     switch (type) {
       case 'CandidatureImportée-V1':
@@ -111,6 +117,29 @@ export const register = () => {
             },
           }),
         );
+
+        const completionDueOn = getCompletionDate(
+          DateTime.convertirEnValueType(new Date(projet.notifiedOn)),
+          appelOffre,
+          event.payload.technologie,
+        );
+        if (
+          !completionDueOn.estÉgaleÀ(
+            DateTime.convertirEnValueType(new Date(projet.completionDueOn)),
+          )
+        ) {
+          getLogger().info('Due date mise à jour');
+          await eventStore.publish(
+            new ProjectCompletionDueDateSet({
+              payload: {
+                projectId: projet.id,
+                completionDueOn: completionDueOn.date.getTime(),
+                setBy: payload.corrigéPar,
+              },
+            }),
+          );
+        }
+
         return;
     }
   };
@@ -121,11 +150,8 @@ export const register = () => {
 const mapToLegacyEventPayload = (
   identifiantProjet: IdentifiantProjet.ValueType,
   payload: SubscriptionEvent['payload'],
-  appelOffre: Option.Type<AppelOffre.AppelOffreReadModel>,
+  appelOffre: AppelOffre.AppelOffreReadModel,
 ) => {
-  if (Option.isNone(appelOffre)) {
-    throw new Error(`Appel offre ${identifiantProjet.appelOffre} non trouvée`);
-  }
   const période = appelOffre.periodes.find((x) => x.id === identifiantProjet.période);
   if (!période) {
     throw new Error(

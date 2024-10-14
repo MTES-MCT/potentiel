@@ -70,6 +70,7 @@ const mapBodyToUseCaseData = (
     puissanceALaPointeValue: data.puissanceALaPointe,
     evaluationCarboneSimplifiéeValue: data.evaluationCarboneSimplifiee,
     actionnariatValue: data.actionnariat,
+    technologieValue: data.technologie,
     statutValue: data.statut ?? previous.statut.formatter(),
 
     // non-editable fields
@@ -77,7 +78,6 @@ const mapBodyToUseCaseData = (
     dateÉchéanceGfValue: previous.dateÉchéanceGf?.formatter(),
     territoireProjetValue: previous.territoireProjet,
     historiqueAbandonValue: previous.historiqueAbandon.formatter(),
-    technologieValue: previous.technologie.formatter(),
 
     doitRégénérerAttestation: data.doitRegenererAttestation === 'true' ? true : undefined,
   };

@@ -1,6 +1,6 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-const types = ['pv', 'eolien', 'hydraulique', 'N/A'] as const;
+export const types = ['pv', 'eolien', 'hydraulique', 'N/A'] as const;
 export type RawType = (typeof types)[number];
 
 export type ValueType = ReadonlyValueType<{
