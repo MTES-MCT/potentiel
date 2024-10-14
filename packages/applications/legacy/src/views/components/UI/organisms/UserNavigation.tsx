@@ -103,10 +103,11 @@ const MenuAdmin = (currentPage?: string) => (
       >
         Notifier des candidats
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Candidature.corriger}>
-        Corriger des candidats
-      </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Candidature.lister()}>
+      <DropdownMenu.DropdownItem
+        href={Routes.Candidature.lister({
+          estNotifié: false,
+        })}
+      >
         Tous les candidats
       </DropdownMenu.DropdownItem>
     </DropdownMenu>

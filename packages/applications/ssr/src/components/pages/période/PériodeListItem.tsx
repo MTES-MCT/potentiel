@@ -219,22 +219,21 @@ const Stat: FC<StatProps> = ({
               appelOffre,
               période,
               statut,
-              estNotifié: nombreRestant !== undefined ? false : undefined,
             })}
           >
-            {formatStat(nombreRestant ?? nombreTotal, label)}
+            {formatStat(nombreTotal, label)}
           </Link>
-          {nombreRestant !== undefined && (
+          {nombreRestant !== undefined && nombreTotal !== 0 && (
             <Link
               href={Routes.Candidature.lister({
                 appelOffre,
                 période,
                 statut,
-                estNotifié: true,
+                estNotifié: false,
               })}
               className="italic"
             >
-              ({formatStat(nombreTotal - nombreRestant, 'déjà notifié')})
+              (dont {nombreRestant} à notifier')
             </Link>
           )}
         </div>

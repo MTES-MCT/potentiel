@@ -8,12 +8,15 @@ import {
 } from './getRégionAndDépartementFromCodePostal';
 
 export const getLocalité = ({
-  code_postaux,
+  codePostaux,
   adresse1,
   adresse2,
   commune,
-}: CandidatureShape): Candidature.ImporterCandidatureUseCase['data']['localitéValue'] => {
-  const départementsRégions = code_postaux
+}: Pick<
+  CandidatureShape,
+  'codePostaux' | 'adresse1' | 'adresse2' | 'commune'
+>): Candidature.ImporterCandidatureUseCase['data']['localitéValue'] => {
+  const départementsRégions = codePostaux
     .map(getRégionAndDépartementFromCodePostal)
     .filter((dptRegion): dptRegion is DépartementRégion => !!dptRegion);
   const departements = Array.from(new Set(départementsRégions.map((x) => x.département)));
@@ -23,7 +26,7 @@ export const getLocalité = ({
     adresse1,
     adresse2,
     commune,
-    codePostal: code_postaux.join(' / '),
+    codePostal: codePostaux.join(' / '),
     département: departements.join(' / '),
     région: régions.join(' / '),
   };

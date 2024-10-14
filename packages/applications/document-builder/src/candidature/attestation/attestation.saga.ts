@@ -111,12 +111,12 @@ export const register = () => {
         // la correction d'une candidature ne peut pas modifier le champs notification ou validateur
         // on peut donc sans crainte utiliser ces 2 champs
         if (!candidature.notification?.notifiéeLe) {
-          logger.info(`L'attestation ne sera pas regénérée car la candidature n'est pas notifiée`, {
+          logger.info(`L'attestation ne sera pas régénérée car la candidature n'est pas notifiée`, {
             identifiantProjet,
           });
           return;
         } else if (event.payload.doitRégénérerAttestation !== true) {
-          logger.info(`L'attestation ne sera pas regénérée`, {
+          logger.info(`L'attestation ne sera pas régénérée`, {
             identifiantProjet,
           });
           return;

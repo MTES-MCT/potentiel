@@ -91,9 +91,11 @@ export async function corriger(
       détailsMisÀJour: candidature.détailsMisÀJour,
     },
   };
+
   if (this.estIdentiqueÀ(event.payload)) {
     throw new CandidatureNonModifiéeError(candidature.nomProjet);
   }
+
   await this.publish(event);
 }
 

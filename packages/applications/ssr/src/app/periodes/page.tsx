@@ -77,12 +77,12 @@ export default async function Page({ searchParams }: PageProps) {
       ];
 
       const périodesPartiellementNotifiées: Période.ConsulterPériodeReadModel[] =
-        estNotifiée === false ? await getPériodesPartiellementNotifiées() : [];
+        estNotifiée === false ? await getPériodesPartiellementNotifiées(appelOffre) : [];
 
       const props = await mapToProps({
         utilisateur,
-        périodes: périodes.items
-          .concat(périodesPartiellementNotifiées)
+        périodes: périodesPartiellementNotifiées
+          .concat(périodes.items)
           .filter(
             (val, i, self) =>
               self.findIndex((x) => x.identifiantPériode === val.identifiantPériode) === i,
@@ -94,7 +94,7 @@ export default async function Page({ searchParams }: PageProps) {
           filters={filters}
           périodes={props}
           range={périodes.range}
-          total={périodes.total || props.length}
+          total={périodes.total + périodesPartiellementNotifiées.length}
         />
       );
     }),
@@ -120,9 +120,9 @@ const mapToProps = async ({
         appelOffre: période.identifiantPériode.appelOffre,
         période: période.identifiantPériode.période,
         identifiantPériode: période.identifiantPériode.formatter(),
-        peutÊtreNotifiée: période.estNotifiée
-          ? !!stats.restants?.total
-          : utilisateur.role.aLaPermission('période.notifier'),
+        peutÊtreNotifiée:
+          utilisateur.role.aLaPermission('période.notifier') &&
+          (période.estNotifiée ? !!stats.restants?.total : !!stats.tous.total),
         notifiéLe: période.estNotifiée ? période.notifiéeLe?.formatter() : undefined,
         notifiéPar: période.estNotifiée ? période.notifiéePar?.formatter() : undefined,
         stats,
@@ -160,11 +160,12 @@ const getCandidaturesStatsForPeriode = async (
   };
 };
 
-async function getPériodesPartiellementNotifiées() {
+async function getPériodesPartiellementNotifiées(appelOffre: string | undefined) {
   const candidats = await mediator.send<Candidature.ListerCandidaturesQuery>({
     type: 'Candidature.Query.ListerCandidatures',
     data: {
       estNotifiée: false,
+      appelOffre,
     },
   });
   const identifiantsPériodes = candidats.items

@@ -7,45 +7,37 @@ import { notFound } from 'next/navigation';
 import { Routes } from '@potentiel-applications/routes';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Option } from '@potentiel-libraries/monads';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
+
+import { ProjetBannerTemplate } from './ProjetBanner.template';
 export type ProjetBannerProps = {
   identifiantProjet: string;
 };
 
 export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet }) => {
-  const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
+  const projet = await mediator.send<Candidature.ConsulterProjetQuery>({
     type: 'Candidature.Query.ConsulterProjet',
     data: {
       identifiantProjet,
     },
   });
 
-  if (Option.isNone(candidature)) {
+  if (Option.isNone(projet)) {
     return notFound();
   }
 
-  const { nom, statut, localité, dateDésignation, appelOffre, famille, période } = candidature;
+  const { nom, statut, localité, dateDésignation } = projet;
 
   return (
-    <aside className="mb-3">
-      <div className="flex justify-start items-center">
-        <a
-          href={Routes.Projet.details(identifiantProjet)}
-          className="text-xl font-bold !text-theme-white mr-2"
-        >
-          {nom}
-        </a>
-        <StatutProjetBadge statut={statut} />
-      </div>
-      <p className="text-sm font-medium p-0 m-0 mt-2">
-        {localité.commune}, {localité.département}, {localité.région}
-      </p>
-      <div>
-        désigné le <FormattedDate date={dateDésignation} /> pour la période {appelOffre} {période}
-        {famille ? `, famille ${famille}` : ''}
-      </div>
-    </aside>
+    <ProjetBannerTemplate
+      badge={<StatutProjetBadge statut={statut} />}
+      localité={localité}
+      dateDésignation={dateDésignation}
+      href={Routes.Projet.details(identifiantProjet)}
+      identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
+      nom={nom}
+    />
   );
 };

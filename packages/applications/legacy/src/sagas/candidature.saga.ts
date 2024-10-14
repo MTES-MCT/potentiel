@@ -40,12 +40,12 @@ export const register = () => {
       },
     });
 
-    const date = DateTime.convertirEnValueType(
-      type === 'CandidatureCorrigée-V1' ? payload.corrigéLe : payload.importéLe,
-    );
-    const details = await fetchDétails(identifiantProjet, date);
-    switch (event.type) {
+    switch (type) {
       case 'CandidatureImportée-V1':
+        const details = await fetchDétails(
+          identifiantProjet,
+          DateTime.convertirEnValueType(payload.importéLe),
+        );
         await eventStore.publish(
           new ProjectRawDataImported({
             payload: {
@@ -62,6 +62,12 @@ export const register = () => {
         const projet = await getLegacyProjetByIdentifiantProjet(identifiantProjet);
         // Si le projet n'est pas notifié, on le réimporte
         if (!projet?.notifiedOn) {
+          const details =
+            payload.détailsMisÀJour &&
+            (await fetchDétails(
+              identifiantProjet,
+              DateTime.convertirEnValueType(payload.corrigéLe),
+            ));
           await eventStore.publish(
             new ProjectRawDataImported({
               payload: {

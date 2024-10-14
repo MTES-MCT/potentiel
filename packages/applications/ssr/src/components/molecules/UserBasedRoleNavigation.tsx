@@ -96,15 +96,9 @@ const getNavigationItemsBasedOnRole = (
               },
             },
             {
-              text: 'Corriger des candidats',
-              linkProps: {
-                href: Routes.Candidature.corriger,
-              },
-            },
-            {
               text: 'Tous les candidats',
               linkProps: {
-                href: Routes.Candidature.lister(),
+                href: Routes.Candidature.lister({ estNotifié: false }),
               },
             },
           ],

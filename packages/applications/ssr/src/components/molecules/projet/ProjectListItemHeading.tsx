@@ -1,11 +1,11 @@
 import { FC } from 'react';
-import Badge from '@codegouvfr/react-dsfr/Badge';
 
 import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { PlainType } from '@potentiel-domain/core';
 
 import { FormattedDate } from '../../atoms/FormattedDate';
+import { NotificationBadge } from '../candidature/NotificationBadge';
 
 import { StatutProjetBadge } from './StatutProjetBadge';
 
@@ -61,11 +61,3 @@ const FormattedIdentifiantProjet: FC<{
     {famille ? `-F${famille}` : ''}-{numéroCRE}
   </div>
 );
-
-const NotificationBadge = ({ estNotifié }: Pick<ProjectListItemHeadingProps, 'estNotifié'>) => {
-  return (
-    <Badge small noIcon severity={estNotifié ? 'info' : 'new'}>
-      {estNotifié ? 'Notifié' : 'À Notifier'}
-    </Badge>
-  );
-};
