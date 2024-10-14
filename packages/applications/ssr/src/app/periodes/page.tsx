@@ -120,9 +120,9 @@ const mapToProps = async ({
         appelOffre: période.identifiantPériode.appelOffre,
         période: période.identifiantPériode.période,
         identifiantPériode: période.identifiantPériode.formatter(),
-        peutÊtreNotifiée: période.estNotifiée
-          ? !!stats.restants?.total
-          : utilisateur.role.aLaPermission('période.notifier'),
+        peutÊtreNotifiée:
+          utilisateur.role.aLaPermission('période.notifier') &&
+          (période.estNotifiée ? !!stats.restants?.total : !!stats.tous.total),
         notifiéLe: période.estNotifiée ? période.notifiéeLe?.formatter() : undefined,
         notifiéPar: période.estNotifiée ? période.notifiéePar?.formatter() : undefined,
         stats,
