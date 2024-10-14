@@ -35,7 +35,7 @@
     "@sentry/node": "^7.119.2",
     "connect-session-sequelize": "^7.1.7",
     "cookie-parser": "^1.4.7",
-    "csv-parse": "^5.5.0",
+    "csv-parse": "^5.5.6",
     "date-fns": "^2.30.0",
     "docxtemplater": "^3.38.0",
     "dotenv": "^16.3.1",
