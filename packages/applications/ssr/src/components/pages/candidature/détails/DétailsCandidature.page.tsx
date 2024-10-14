@@ -5,7 +5,6 @@ import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
 import { PlainType } from '@potentiel-domain/core';
-import { formatNumber } from '@potentiel-applications/document-builder';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
@@ -68,7 +67,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   Evaluation carbone simplifiée: {candidature.evaluationCarboneSimplifiée} kg eq
                   CO2/kWc
                 </span>
-                <span>Prix de référence: {formatNumber(candidature.prixReference)} €/MWh</span>
+                <span>Prix de référence: {candidature.prixReference} €/MWh</span>
               </Field>
               {candidature.typeGarantiesFinancières && (
                 <Field name="Garanties Financières">
