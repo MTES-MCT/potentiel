@@ -14,7 +14,7 @@
     "@potentiel-libraries/pg-helpers": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-domain/core": "*",
-    "pg": "^8.11.3"
+    "pg": "^8.13.0"
   },
   "devDependencies": {
     "@types/pg": "^8.11.10",
