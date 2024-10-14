@@ -80,8 +80,5 @@ const mapBodyToUseCaseData = (
     technologieValue: previous.technologie.formatter(),
 
     doitRégénérerAttestation: data.doitRegenererAttestation === 'true' ? true : undefined,
-
-    // TODO
-    détailsValue: {},
   };
 };
