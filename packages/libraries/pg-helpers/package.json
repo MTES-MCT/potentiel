@@ -13,6 +13,6 @@
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "@types/pg": "^8.10.2"
+    "@types/pg": "^8.11.10"
   }
 }
