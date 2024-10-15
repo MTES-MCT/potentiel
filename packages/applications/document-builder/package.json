@@ -12,7 +12,7 @@
   "dependencies": {
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/candidature": "*",
-    "@react-pdf/renderer": "^3.1.14",
+    "@react-pdf/renderer": "^3.4.5",
     "docxtemplater": "^3.51.0",
     "pizzip": "^3.1.7"
   },
