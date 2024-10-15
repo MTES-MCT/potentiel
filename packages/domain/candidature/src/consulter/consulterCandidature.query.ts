@@ -138,7 +138,7 @@ export const mapToReadModel = ({
     attestation: DocumentProjet.convertirEnValueType(
       identifiantProjet,
       'attestation',
-      notification.notifiéeLe,
+      notification.attestationGénéréeLe,
       'application/pdf',
     ),
   },

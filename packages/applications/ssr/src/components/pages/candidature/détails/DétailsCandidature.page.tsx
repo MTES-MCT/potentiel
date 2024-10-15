@@ -83,6 +83,37 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   )}
                 </Field>
               )}
+              {/* Cette partie sera sûrement supprimée après la migration de projet */}
+              <Field name="Désignation">
+                {candidature.notification ? (
+                  <>
+                    <span>
+                      Candidature notifiée le:{' '}
+                      <FormattedDate
+                        date={DateTime.bind(candidature.notification.notifiéeLe).formatter()}
+                      />
+                    </span>
+                    <span>
+                      Attestation{' '}
+                      {DateTime.bind(candidature.notification.notifiéeLe).estAntérieurÀ(
+                        DateTime.convertirEnValueType(
+                          candidature.notification.attestation.dateCréation,
+                        ),
+                      )
+                        ? 'régénérée'
+                        : 'générée'}{' '}
+                      le:{' '}
+                      <FormattedDate
+                        date={DateTime.convertirEnValueType(
+                          candidature.notification.attestation.dateCréation,
+                        ).formatter()}
+                      />
+                    </span>
+                  </>
+                ) : (
+                  <span>La candidature n'a pas encore été notifiée</span>
+                )}
+              </Field>
               {candidature.motifÉlimination && (
                 <Field name="Motif d'élimination">{candidature.motifÉlimination}</Field>
               )}
