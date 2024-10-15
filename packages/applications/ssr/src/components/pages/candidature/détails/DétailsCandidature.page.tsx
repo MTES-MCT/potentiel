@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
@@ -80,6 +81,37 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                       Date d'échéance:{' '}
                       <FormattedDate date={DateTime.bind(candidature.dateÉchéanceGf).formatter()} />
                     </span>
+                  )}
+                </Field>
+              )}
+              {/* Cette partie sera sûrement supprimée après la migration de projet */}
+              {candidature.notification && (
+                <Field name="Désignation">
+                  <span>
+                    Désignation notifiée le:{' '}
+                    <FormattedDate
+                      date={DateTime.bind(candidature.notification.notifiéeLe).formatter()}
+                    />
+                  </span>
+                  <span>
+                    Attestation générée le:{' '}
+                    <FormattedDate
+                      date={DateTime.convertirEnValueType(
+                        candidature.notification.attestation.dateCréation,
+                      ).formatter()}
+                    />
+                  </span>
+                  {DateTime.bind(candidature.notification.notifiéeLe).estAntérieurÀ(
+                    DateTime.convertirEnValueType(
+                      candidature.notification.attestation.dateCréation,
+                    ),
+                  ) && (
+                    <Alert
+                      small
+                      severity="info"
+                      description="L'attestation a déjà été régénérée"
+                      className="w-fit"
+                    />
                   )}
                 </Field>
               )}
