@@ -128,13 +128,11 @@ const findValidateur = async (
 
     console.log(`Publish NotifierCandidature pour ${identifiantProjet}`);
 
-    const format = 'application/pdf';
-
     await mediator.publish<Candidature.NotifierCandidatureUseCase>({
       type: 'Candidature.UseCase.NotifierCandidature',
       data: {
         identifiantProjetValue: identifiantProjet,
-        attestationValue: { format },
+        attestationValue: { format: 'application/pdf' },
         notifiéeLeValue: notifiéLe,
         notifiéeParValue: notifiéPar,
         validateurValue,
