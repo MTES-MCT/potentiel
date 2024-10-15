@@ -165,10 +165,10 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         label="Technologie"
         nativeSelectProps={getFieldProps('technologie')}
         options={[
-          { label: 'PV', value: 'pv' },
-          { label: 'Éolien', value: 'eolien' },
-          { label: 'Hydraulique', value: 'hydraulique' },
-          { label: 'N/A', value: 'N/A' },
+          { label: 'PV', value: Candidature.TypeTechnologie.photovoltaïque.type },
+          { label: 'Éolien', value: Candidature.TypeTechnologie.éolien.type },
+          { label: 'Hydraulique', value: Candidature.TypeTechnologie.hydraulique.type },
+          { label: 'N/A', value: Candidature.TypeTechnologie.nonApplicable.type },
         ]}
       />
       <Input

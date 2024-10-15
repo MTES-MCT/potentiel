@@ -43,7 +43,7 @@ export const register = () => {
       },
     });
     if (Option.isNone(appelOffre)) {
-      throw new Error(`Appel offre ${identifiantProjet.appelOffre} non trouvée`);
+      throw new Error(`Appel offre ${identifiantProjet.appelOffre} non trouvé`);
     }
 
     switch (type) {
@@ -128,7 +128,9 @@ export const register = () => {
             DateTime.convertirEnValueType(new Date(projet.completionDueOn)),
           )
         ) {
-          getLogger().info('Due date mise à jour');
+          getLogger().info('Due date mise à jour', {
+            identifiantProjet: identifiantProjet.formatter(),
+          });
           await eventStore.publish(
             new ProjectCompletionDueDateSet({
               payload: {
