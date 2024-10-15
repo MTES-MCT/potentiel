@@ -85,36 +85,40 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                 </Field>
               )}
               {/* Cette partie sera sûrement supprimée après la migration de projet */}
-              {candidature.notification && (
-                <Field name="Désignation">
-                  <span>
-                    Désignation notifiée le:{' '}
-                    <FormattedDate
-                      date={DateTime.bind(candidature.notification.notifiéeLe).formatter()}
-                    />
-                  </span>
-                  <span>
-                    Attestation générée le:{' '}
-                    <FormattedDate
-                      date={DateTime.convertirEnValueType(
+              <Field name="Désignation">
+                {candidature.notification ? (
+                  <>
+                    <span>
+                      Candidature notifiée le:{' '}
+                      <FormattedDate
+                        date={DateTime.bind(candidature.notification.notifiéeLe).formatter()}
+                      />
+                    </span>
+                    <span>
+                      Attestation générée le:{' '}
+                      <FormattedDate
+                        date={DateTime.convertirEnValueType(
+                          candidature.notification.attestation.dateCréation,
+                        ).formatter()}
+                      />
+                    </span>
+                    {DateTime.bind(candidature.notification.notifiéeLe).estAntérieurÀ(
+                      DateTime.convertirEnValueType(
                         candidature.notification.attestation.dateCréation,
-                      ).formatter()}
-                    />
-                  </span>
-                  {DateTime.bind(candidature.notification.notifiéeLe).estAntérieurÀ(
-                    DateTime.convertirEnValueType(
-                      candidature.notification.attestation.dateCréation,
-                    ),
-                  ) && (
-                    <Alert
-                      small
-                      severity="info"
-                      description="L'attestation a déjà été régénérée"
-                      className="w-fit"
-                    />
-                  )}
-                </Field>
-              )}
+                      ),
+                    ) && (
+                      <Alert
+                        small
+                        severity="info"
+                        description="L'attestation a déjà été régénérée"
+                        className="w-fit"
+                      />
+                    )}
+                  </>
+                ) : (
+                  <span>La candidature n'a pas encore été notifiée</span>
+                )}
+              </Field>
               {candidature.motifÉlimination && (
                 <Field name="Motif d'élimination">{candidature.motifÉlimination}</Field>
               )}
