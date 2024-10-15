@@ -16,7 +16,7 @@
     "pretest": "npm run build"
   },
   "dependencies": {
-    "@codegouvfr/react-dsfr": "^1.13.8",
+    "@codegouvfr/react-dsfr": "^1.13.9",
     "@emotion/react": "*",
     "@emotion/server": "*",
     "@emotion/styled": "*",
