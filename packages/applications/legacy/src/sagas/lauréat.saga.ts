@@ -10,11 +10,11 @@ import {
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
 import { logger } from '../core/utils';
-import { getDelaiDeRealisation } from '../modules/projectAppelOffre';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
 import { CandidateNotifiedForPeriode } from '../modules/notificationCandidats';
 import { eventStore } from '../config/eventStore.config';
+import { getCompletionDate } from './_helpers/getCompletionDate';
 
 export type SubscriptionEvent = Lauréat.LauréatNotifiéEvent & Event;
 
@@ -103,24 +103,17 @@ export const register = () => {
           }),
         );
 
-        await eventStore.publish(new ProjectClasseGranted({
-          payload: {
-            grantedBy: payload.notifiéPar,
-            projectId: projet.id
-          }
-        }));
+        await eventStore.publish(
+          new ProjectClasseGranted({
+            payload: {
+              grantedBy: payload.notifiéPar,
+              projectId: projet.id,
+            },
+          }),
+        );
         return;
     }
   };
 
   mediator.register('System.Saga.Lauréat', handler);
 };
-
-function getCompletionDate(
-  notifiedOn: DateTime.ValueType,
-  appelOffre: AppelOffre.AppelOffreReadModel,
-  technologie: AppelOffre.Technologie,
-) {
-  const moisAAjouter = getDelaiDeRealisation(appelOffre, technologie) || 0;
-  return notifiedOn.ajouterNombreDeMois(moisAAjouter).retirerNombreDeJours(1);
-}

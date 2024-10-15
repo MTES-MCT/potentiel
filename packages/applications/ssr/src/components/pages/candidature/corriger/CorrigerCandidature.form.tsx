@@ -160,18 +160,17 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         label="Commune"
         nativeInputProps={getFieldProps('commune')}
       />
-      {/*
-        // la modification de la technologie est désactivée
-        // tant que l'impact sur la date d'achèvement n'est pas implémenté
-           <Input
+      <Select
         {...getStateProps('technologie')}
         label="Technologie"
-        nativeInputProps={{
-          
-          disabled: true,
-          ...getFieldProps('technologie'),
-        }}
-      /> */}
+        nativeSelectProps={getFieldProps('technologie')}
+        options={[
+          { label: 'PV', value: Candidature.TypeTechnologie.photovoltaïque.type },
+          { label: 'Éolien', value: Candidature.TypeTechnologie.éolien.type },
+          { label: 'Hydraulique', value: Candidature.TypeTechnologie.hydraulique.type },
+          { label: 'N/A', value: Candidature.TypeTechnologie.nonApplicable.type },
+        ]}
+      />
       <Input
         {...getStateProps('prixReference')}
         label="Prix de référence"

@@ -31,6 +31,7 @@ const candidature = {
   puissanceProductionAnnuelle: 1,
   societeMere: faker.company.name(),
   statut: 'classé' as const,
+  technologie: 'pv' as const,
 };
 
 export const NonNotifié: Story = {

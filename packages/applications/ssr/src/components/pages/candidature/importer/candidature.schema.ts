@@ -279,10 +279,10 @@ export const candidatureSchema = z
     actionnariat: optionalEnum(z.enum(Candidature.TypeActionnariat.types)),
     doitRegenererAttestation: z.string().optional(),
     motifElimination: optionalStringSchema.transform((val) => val || undefined), // see refine below
+    technologie: z.enum(Candidature.TypeTechnologie.types),
 
     // Champs non modifiable à l'heure actuelle, mais à ajouter
 
-    // technologie: z.enum(Candidature.TypeTechnologie.types),
     // historiqueAbandon: z.enum(Candidature.HistoriqueAbandon.types),
 
     // typeGarantiesFinancieres: optionalEnum(z.enum(Candidature.TypeGarantiesFinancières.types)), // see refine below
