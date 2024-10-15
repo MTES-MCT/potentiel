@@ -31,7 +31,7 @@
     "@potentiel-domain/laureat": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
-    "@react-pdf/renderer": "^3.1.13",
+    "@react-pdf/renderer": "^3.4.5",
     "@sentry/node": "^7.119.2",
     "connect-session-sequelize": "^7.1.7",
     "cookie-parser": "^1.4.7",
