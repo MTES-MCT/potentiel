@@ -121,7 +121,7 @@ const findValidateur = async (
 
   console.log(`ℹ️ ${all.length} éléments trouvés`);
 
-  for (const { identifiantProjet, attestation, notifiéLe, notifiéPar } of all) {
+  for (const { identifiantProjet, notifiéLe, notifiéPar } of all) {
     console.log(`Looking for the Validateur of ${identifiantProjet}`);
 
     const validateurValue = await findValidateur(notifiéPar, identifiantProjet);
@@ -132,7 +132,7 @@ const findValidateur = async (
       type: 'Candidature.UseCase.NotifierCandidature',
       data: {
         identifiantProjetValue: identifiantProjet,
-        attestationValue: { format: attestation.format },
+        attestationValue: { format: 'application/pdf' },
         notifiéeLeValue: notifiéLe,
         notifiéeParValue: notifiéPar,
         validateurValue,

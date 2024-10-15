@@ -21,12 +21,11 @@ export const register = () => {
 
       switch (type) {
         case 'ÉliminéNotifié-V1':
-          const { attestation, notifiéLe, notifiéPar } = payload;
+          const { notifiéLe, notifiéPar } = payload;
           await upsertProjection<Éliminé.ÉliminéEntity>(`éliminé|${identifiantProjet}`, {
             identifiantProjet,
             notifiéLe,
             notifiéPar,
-            attestation,
           });
           break;
         case 'ÉliminéArchivé-V1':

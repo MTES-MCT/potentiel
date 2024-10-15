@@ -90,7 +90,7 @@ async function notifierCandidature(this: PotentielWorld) {
     notifiéLeValue: DateTime.now().formatter(),
     notifiéParValue: this.utilisateurWorld.validateurFixture.email,
     attestationValue: {
-      format: `text/plain`,
+      format: `application/pdf`,
     },
     validateurValue: {
       fonction: this.utilisateurWorld.validateurFixture.fonction,

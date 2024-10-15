@@ -17,7 +17,7 @@ export const register = () => {
     if (type === 'RebuildTriggered') {
       await removeProjection<Lauréat.LauréatEntity>(`lauréat|${payload.id}`);
     } else {
-      const { identifiantProjet, notifiéLe, notifiéPar, attestation } = payload;
+      const { identifiantProjet, notifiéLe, notifiéPar } = payload;
 
       switch (type) {
         case 'LauréatNotifié-V1':
@@ -25,7 +25,6 @@ export const register = () => {
             identifiantProjet,
             notifiéLe,
             notifiéPar,
-            attestation,
           });
           break;
       }

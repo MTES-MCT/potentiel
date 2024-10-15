@@ -7,8 +7,5 @@ export type ÉliminéEntity = Entity<
     identifiantProjet: IdentifiantProjet.RawType;
     notifiéLe: DateTime.RawType;
     notifiéPar: Email.RawType;
-    attestation: {
-      format: string;
-    };
   }
 >;
