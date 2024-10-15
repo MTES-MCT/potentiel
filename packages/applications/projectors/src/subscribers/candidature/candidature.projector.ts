@@ -31,6 +31,18 @@ export const register = () => {
           const candidature = await findProjection<Candidature.CandidatureEntity>(
             `candidature|${identifiantProjet.formatter()}`,
           );
+
+          const notification = Option.isSome(candidature)
+            ? type === 'CandidatureCorrigée-V1' &&
+              payload.doitRégénérerAttestation &&
+              candidature.notification
+              ? {
+                  ...candidature.notification,
+                  attestationGénéréeLe: payload.corrigéLe,
+                }
+              : candidature.notification
+            : undefined;
+
           const candidatureToUpsert: Omit<Candidature.CandidatureEntity, 'type'> = {
             identifiantProjet: payload.identifiantProjet,
             appelOffre: identifiantProjet.appelOffre,
@@ -63,7 +75,7 @@ export const register = () => {
               : undefined,
             technologie: Candidature.TypeTechnologie.convertirEnValueType(payload.technologie).type,
             estNotifiée: Option.isSome(candidature) ? candidature.estNotifiée : false,
-            notification: Option.isSome(candidature) ? candidature.notification : undefined,
+            notification,
             misÀJourLe: type === 'CandidatureCorrigée-V1' ? payload.corrigéLe : payload.importéLe,
             détailsMisÀJourLe:
               type === 'CandidatureImportée-V1'
@@ -91,6 +103,7 @@ export const register = () => {
                 notifiéeLe: payload.notifiéeLe,
                 notifiéePar: payload.notifiéePar,
                 validateur: payload.validateur,
+                attestationGénéréeLe: payload.notifiéeLe,
               },
             },
           );

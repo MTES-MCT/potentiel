@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
-import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
@@ -95,25 +94,21 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                       />
                     </span>
                     <span>
-                      Attestation générée le:{' '}
+                      Attestation{' '}
+                      {DateTime.bind(candidature.notification.notifiéeLe).estAntérieurÀ(
+                        DateTime.convertirEnValueType(
+                          candidature.notification.attestation.dateCréation,
+                        ),
+                      )
+                        ? 'régénérée'
+                        : 'générée'}{' '}
+                      le:{' '}
                       <FormattedDate
                         date={DateTime.convertirEnValueType(
                           candidature.notification.attestation.dateCréation,
                         ).formatter()}
                       />
                     </span>
-                    {DateTime.bind(candidature.notification.notifiéeLe).estAntérieurÀ(
-                      DateTime.convertirEnValueType(
-                        candidature.notification.attestation.dateCréation,
-                      ),
-                    ) && (
-                      <Alert
-                        small
-                        severity="info"
-                        description="L'attestation a déjà été régénérée"
-                        className="w-fit"
-                      />
-                    )}
                   </>
                 ) : (
                   <span>La candidature n'a pas encore été notifiée</span>
