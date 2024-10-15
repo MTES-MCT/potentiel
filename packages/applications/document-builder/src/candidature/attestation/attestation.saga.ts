@@ -1,10 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import {
-  CorrigerDocumentProjetCommand,
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '@potentiel-domain/document';
+import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Option } from '@potentiel-libraries/monads';
@@ -153,7 +149,7 @@ export const register = () => {
             période,
             validateur: candidature.notification.validateur,
             candidature: candidatureCorrigée,
-            notifiéLe: candidature.notification.notifiéeLe.formatter(),
+            notifiéLe: event.payload.corrigéLe,
           });
 
           if (!certificate) {
@@ -161,11 +157,16 @@ export const register = () => {
             return;
           }
 
-          await mediator.send<CorrigerDocumentProjetCommand>({
-            type: 'Document.Command.CorrigerDocumentProjet',
+          await mediator.send<EnregistrerDocumentProjetCommand>({
+            type: 'Document.Command.EnregistrerDocumentProjet',
             data: {
               content: certificate,
-              documentProjetKey: candidature.notification.attestation.formatter(),
+              documentProjet: DocumentProjet.convertirEnValueType(
+                identifiantProjet,
+                'attestation',
+                event.payload.corrigéLe,
+                'application/pdf',
+              ),
             },
           });
         }
