@@ -5,8 +5,8 @@ import { notFound } from 'next/navigation';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { ConsulterDocumentProjetQuery, DocumentProjet } from '@potentiel-domain/document';
-import { Lauréat } from '@potentiel-domain/laureat';
-import { Recours, Éliminé } from '@potentiel-domain/elimine';
+import { Recours } from '@potentiel-domain/elimine';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -50,14 +50,18 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
 const getDocumentKey = async (
   identifiantProjet: string,
 ): Promise<DocumentProjet.ValueType | undefined> => {
-  const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
-    type: 'Lauréat.Query.ConsulterLauréat',
+  const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+    type: 'Candidature.Query.ConsulterCandidature',
     data: {
       identifiantProjet,
     },
   });
 
-  if (Option.isSome(lauréat)) {
+  if (Option.isNone(candidature) || !candidature.notification) {
+    return undefined;
+  }
+
+  if (candidature.statut.estClassé()) {
     const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
       type: 'Éliminé.Recours.Query.ConsulterRecours',
       data: {
@@ -68,20 +72,7 @@ const getDocumentKey = async (
     if (Option.isSome(recours) && recours.demande.accord) {
       return recours.demande.accord.réponseSignée;
     }
-
-    return lauréat.attestation;
   }
 
-  const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
-    type: 'Éliminé.Query.ConsulterÉliminé',
-    data: {
-      identifiantProjet,
-    },
-  });
-
-  if (Option.isSome(éliminé)) {
-    return éliminé.attestation;
-  }
-
-  return undefined;
+  return candidature.notification.attestation;
 };

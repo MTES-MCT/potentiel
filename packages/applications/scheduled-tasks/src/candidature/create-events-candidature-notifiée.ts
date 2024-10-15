@@ -121,18 +121,20 @@ const findValidateur = async (
 
   console.log(`ℹ️ ${all.length} éléments trouvés`);
 
-  for (const { identifiantProjet, attestation, notifiéLe, notifiéPar } of all) {
+  for (const { identifiantProjet, notifiéLe, notifiéPar } of all) {
     console.log(`Looking for the Validateur of ${identifiantProjet}`);
 
     const validateurValue = await findValidateur(notifiéPar, identifiantProjet);
 
     console.log(`Publish NotifierCandidature pour ${identifiantProjet}`);
 
+    const format = 'application/pdf';
+
     await mediator.publish<Candidature.NotifierCandidatureUseCase>({
       type: 'Candidature.UseCase.NotifierCandidature',
       data: {
         identifiantProjetValue: identifiantProjet,
-        attestationValue: { format: attestation.format },
+        attestationValue: { format },
         notifiéeLeValue: notifiéLe,
         notifiéeParValue: notifiéPar,
         validateurValue,

@@ -3,7 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LauréatEntity } from '../lauréat.entity';
 
@@ -11,7 +10,6 @@ export type ConsulterLauréatReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   notifiéLe: DateTime.ValueType;
   notifiéPar: Email.ValueType;
-  attestation: DocumentProjet.ValueType;
 };
 
 export type ConsulterLauréatQuery = Message<
@@ -42,15 +40,8 @@ const mapToReadModel = ({
   identifiantProjet,
   notifiéLe,
   notifiéPar,
-  attestation: { format },
 }: LauréatEntity): ConsulterLauréatReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   notifiéLe: DateTime.convertirEnValueType(notifiéLe),
   notifiéPar: Email.convertirEnValueType(notifiéPar),
-  attestation: DocumentProjet.convertirEnValueType(
-    identifiantProjet,
-    'attestation',
-    notifiéLe,
-    format,
-  ),
 });
