@@ -25,6 +25,7 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
         <ProjetBannerTemplate
           identifiantProjet={identifiantProjet}
           nom={candidature.nomProjet}
+          href={Routes.Projet.details(identifiantProjet.formatter())}
           badge={
             <div className="flex gap-2">
               {candidature.statut && <StatutProjetBadge statut={candidature.statut} />}

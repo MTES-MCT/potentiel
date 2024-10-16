@@ -10,6 +10,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { buildCertificate, BuildCertificateProps } from './buildCertificate';
 
 export type SubscriptionEvent =
+  | Candidature.CandidatureNotifiéeEventV1
   | Candidature.CandidatureNotifiéeEvent
   | Candidature.CandidatureCorrigéeEvent;
 
@@ -63,7 +64,7 @@ export const register = () => {
     }
 
     switch (type) {
-      case 'CandidatureNotifiée-V1': {
+      case 'CandidatureNotifiée-V2': {
         const {
           attestation: { format },
           notifiéeLe: notifiéLe,
@@ -114,6 +115,10 @@ export const register = () => {
           logger.info(`L'attestation ne sera pas régénérée`, {
             identifiantProjet,
           });
+          return;
+        }
+        if (!candidature.notification.attestation) {
+          logger.info(`La candidature n'a pas d'attestation existante.`, { identifiantProjet });
           return;
         }
         const candidatureCorrigée = mapCorrectionToCandidature(payload);

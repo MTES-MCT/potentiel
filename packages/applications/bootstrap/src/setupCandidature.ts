@@ -37,6 +37,7 @@ export const setupCandidature = async ({ sendEmail }: SetupCandidatureDependenci
       'CandidatureImportée-V1',
       'CandidatureCorrigée-V1',
       'CandidatureNotifiée-V1',
+      'CandidatureNotifiée-V2',
     ],
     eventHandler: async (event) => {
       await mediator.send<CandidatureProjector.Execute>({

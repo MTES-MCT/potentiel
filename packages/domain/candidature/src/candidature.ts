@@ -27,7 +27,10 @@ import {
   ListerCandidaturesReadModel,
 } from './lister/listerCandidatures.query';
 import { NotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase';
-import { CandidatureNotifiéeEvent } from './notifier/notifierCandidature.behavior';
+import {
+  CandidatureNotifiéeEvent,
+  CandidatureNotifiéeEventV1,
+} from './notifier/notifierCandidature.behavior';
 
 // Query
 export type CandidatureQuery =
@@ -61,9 +64,15 @@ export { ImporterCandidatureUseCase, CorrigerCandidatureUseCase, NotifierCandida
 export type CandidatureEvent =
   | CandidatureImportéeEvent
   | CandidatureCorrigéeEvent
-  | CandidatureNotifiéeEvent;
+  | CandidatureNotifiéeEvent
+  | CandidatureNotifiéeEventV1;
 
-export { CandidatureImportéeEvent, CandidatureCorrigéeEvent, CandidatureNotifiéeEvent };
+export {
+  CandidatureImportéeEvent,
+  CandidatureCorrigéeEvent,
+  CandidatureNotifiéeEvent,
+  CandidatureNotifiéeEventV1,
+};
 
 // Register
 export * from './register';

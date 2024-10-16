@@ -93,22 +93,24 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                         date={DateTime.bind(candidature.notification.notifiéeLe).formatter()}
                       />
                     </span>
-                    <span>
-                      Attestation{' '}
-                      {DateTime.bind(candidature.notification.notifiéeLe).estAntérieurÀ(
-                        DateTime.convertirEnValueType(
-                          candidature.notification.attestation.dateCréation,
-                        ),
-                      )
-                        ? 'régénérée'
-                        : 'générée'}{' '}
-                      le:{' '}
-                      <FormattedDate
-                        date={DateTime.convertirEnValueType(
-                          candidature.notification.attestation.dateCréation,
-                        ).formatter()}
-                      />
-                    </span>
+                    {candidature.notification.attestation && (
+                      <span>
+                        Attestation{' '}
+                        {DateTime.bind(candidature.notification.notifiéeLe).estAntérieurÀ(
+                          DateTime.convertirEnValueType(
+                            candidature.notification.attestation.dateCréation,
+                          ),
+                        )
+                          ? 'régénérée'
+                          : 'générée'}{' '}
+                        le:{' '}
+                        <FormattedDate
+                          date={DateTime.convertirEnValueType(
+                            candidature.notification.attestation.dateCréation,
+                          ).formatter()}
+                        />
+                      </span>
+                    )}
                   </>
                 ) : (
                   <span>La candidature n'a pas encore été notifiée</span>
