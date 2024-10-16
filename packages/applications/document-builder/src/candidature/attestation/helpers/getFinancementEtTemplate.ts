@@ -4,16 +4,16 @@ import { Candidature } from '@potentiel-domain/candidature';
 const defaultMinistère = 'MCE';
 export const getFinancementEtTemplate = ({
   période,
-  candidature,
+  actionnariat,
 }: {
   période: AppelOffre.Periode;
-  candidature: Candidature.ConsulterCandidatureReadModel;
+  actionnariat?: Candidature.TypeActionnariat.ValueType;
 }) => {
-  const ppe2Actionnariat = candidature.actionnariat?.estÉgaleÀ(
+  const ppe2Actionnariat = actionnariat?.estÉgaleÀ(
     Candidature.TypeActionnariat.financementCollectif,
   )
     ? ('financement-collectif' as const)
-    : candidature.actionnariat?.estÉgaleÀ(Candidature.TypeActionnariat.gouvernancePartagée)
+    : actionnariat?.estÉgaleÀ(Candidature.TypeActionnariat.gouvernancePartagée)
       ? ('gouvernance-partagée' as const)
       : undefined;
   switch (période.certificateTemplate) {
@@ -21,9 +21,8 @@ export const getFinancementEtTemplate = ({
     case 'cre4.v1':
       return {
         template: période.certificateTemplate,
-        isFinancementParticipatif: candidature.actionnariat?.type === 'financement-participatif',
-        isInvestissementParticipatif:
-          candidature.actionnariat?.type === 'investissement-participatif',
+        isFinancementParticipatif: actionnariat?.type === 'financement-participatif',
+        isInvestissementParticipatif: actionnariat?.type === 'investissement-participatif',
       };
 
     case 'ppe2.v1':
