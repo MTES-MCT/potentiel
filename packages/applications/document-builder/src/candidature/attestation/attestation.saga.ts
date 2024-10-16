@@ -44,7 +44,9 @@ export const register = () => {
       return;
     }
 
-    const période = appelOffre.periodes.find((x) => x.id === candidature.identifiantProjet.période);
+    const période = appelOffre.periodes.find(
+      (période) => période.id === candidature.identifiantProjet.période,
+    );
 
     if (!période) {
       logger.warn(`Période non trouvée`, { identifiantProjet });
@@ -64,15 +66,16 @@ export const register = () => {
       case 'CandidatureNotifiée-V1': {
         const {
           attestation: { format },
-          notifiéeLe,
+          notifiéeLe: notifiéLe,
+          validateur,
         } = payload;
 
         const certificate = await buildCertificate({
           appelOffre,
           période,
-          validateur: payload.validateur,
-          candidature: candidature,
-          notifiéLe: notifiéeLe,
+          candidature,
+          validateur,
+          notifiéLe,
         });
 
         if (!certificate) {
@@ -83,7 +86,7 @@ export const register = () => {
         const attestation = DocumentProjet.convertirEnValueType(
           identifiantProjet,
           'attestation',
-          notifiéeLe,
+          notifiéLe,
           format,
         );
 
@@ -115,14 +118,20 @@ export const register = () => {
         }
         const candidatureCorrigée = mapCorrectionToCandidature(payload);
 
-        const { notification } = candidature;
+        const {
+          notification: {
+            notifiéeLe,
+            validateur,
+            attestation: { format },
+          },
+        } = candidature;
 
         const certificate = await buildCertificate({
           appelOffre,
           période,
-          validateur: notification.validateur,
+          validateur,
+          notifiéLe: notifiéeLe.formatter(),
           candidature: candidatureCorrigée,
-          notifiéLe: notification.notifiéeLe.formatter(),
         });
 
         if (!certificate) {
@@ -134,7 +143,7 @@ export const register = () => {
           identifiantProjet,
           'attestation',
           payload.corrigéLe,
-          notification.attestation.format,
+          format,
         );
 
         await mediator.send<EnregistrerDocumentProjetCommand>({
