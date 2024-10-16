@@ -55,6 +55,10 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
                   </Link>
                   .
                 </div>
+                <div>
+                  Pour un changement par lot (fichier CSV), veuillez utiliser la{' '}
+                  <Link href={Routes.Candidature.corrigerEnMasse}>page de correction par lot</Link>
+                </div>
               </div>
             }
           />
