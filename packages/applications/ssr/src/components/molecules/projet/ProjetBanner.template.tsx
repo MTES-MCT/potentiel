@@ -41,13 +41,15 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
           {localité.commune}, {localité.département}, {localité.région}
         </p>
       )}
-      {dateDésignation && (
-        <div>
-          désigné le <FormattedDate date={dateDésignation} /> pour la période{' '}
-          {identifiantProjet.appelOffre} {identifiantProjet.période}
-          {identifiantProjet.famille ? `, famille ${identifiantProjet.famille}` : ''}
-        </div>
-      )}
+      <p className="text-sm font-medium p-0 m-0 mt-2">
+        {dateDésignation && (
+          <span>
+            Désigné le <FormattedDate date={dateDésignation} /> pour{' '}
+          </span>
+        )}
+        Appel d'offres {identifiantProjet.appelOffre}, période {identifiantProjet.période}
+        {identifiantProjet.famille ? `, famille ${identifiantProjet.famille}` : ''}
+      </p>
     </aside>
   );
 };
