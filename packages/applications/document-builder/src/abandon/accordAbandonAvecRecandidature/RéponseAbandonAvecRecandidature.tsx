@@ -38,6 +38,7 @@ export type RéponseAbandonAvecRecandidatureProps = {
       fonction: string;
     };
   };
+  imagesFolderPath: string;
 };
 
 export const RéponseAbandonAvecRecandidature = ({
@@ -45,6 +46,7 @@ export const RéponseAbandonAvecRecandidature = ({
   projet,
   appelOffre,
   demandeAbandon,
+  imagesFolderPath,
 }: RéponseAbandonAvecRecandidatureProps) => {
   return (
     <Document>
@@ -58,7 +60,7 @@ export const RéponseAbandonAvecRecandidature = ({
           paddingBottom: 70,
         }}
       >
-        <Header dateCourrier={dateCourrier} projet={projet} />
+        <Header dateCourrier={dateCourrier} projet={projet} imagesFolderPath={imagesFolderPath} />
 
         <View style={{ paddingLeft: 15 }}>
           <View style={{ textAlign: 'justify' }}>

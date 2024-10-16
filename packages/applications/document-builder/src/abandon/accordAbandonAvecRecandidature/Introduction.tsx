@@ -80,7 +80,7 @@ export const Introduction: FC<IntroductionProps> = ({
             {puissance}
           </Text>
           <Text style={{ padding: 10, width: 110 }}>
-            {commune} ({codePostal})]
+            {commune} ({codePostal})
           </Text>
         </View>
       </View>
