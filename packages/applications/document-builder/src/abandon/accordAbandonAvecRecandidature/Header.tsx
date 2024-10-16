@@ -2,8 +2,6 @@ import React, { FC } from 'react';
 import { Image, Text, View } from '@react-pdf/renderer';
 import { format } from 'date-fns';
 
-import { imagesFolderPath } from '../../assets';
-
 type HeaderProps = {
   dateCourrier: string;
   projet: {
@@ -12,11 +10,13 @@ type HeaderProps = {
     nomCandidat: string;
     email: string;
   };
+  imagesFolderPath: string;
 };
 
 export const Header: FC<HeaderProps> = ({
   dateCourrier,
   projet: { identifiantProjet, nomReprésentantLégal, nomCandidat, email },
+  imagesFolderPath,
 }) => {
   return (
     <View style={{ paddingLeft: 15 }}>
@@ -29,7 +29,7 @@ export const Header: FC<HeaderProps> = ({
           }}
         >
           <Image
-            style={{ width: 151, height: 85, marginBottom: 40 }}
+            style={{ maxWidth: 151, maxHeight: 85, marginTop: 15, marginBottom: 40 }}
             src={`${imagesFolderPath}/logo_MCE.png`}
           />
 
