@@ -5,9 +5,9 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { buildCertificate } from './buildCertificate';
+import { buildCertificate, BuildCertificateProps } from './buildCertificate';
 
 export type SubscriptionEvent =
   | Candidature.CandidatureNotifiéeEvent
@@ -19,9 +19,8 @@ export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     const logger = getLogger('System.Candidature.Attestation.Saga.Execute');
 
-    const {
-      payload: { identifiantProjet },
-    } = event;
+    const { payload, type } = event;
+    const { identifiantProjet } = payload;
 
     const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
       type: 'Candidature.Query.ConsulterCandidature',
@@ -35,50 +34,48 @@ export const register = () => {
       return;
     }
 
-    const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+    const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
       data: { identifiantAppelOffre: candidature.identifiantProjet.appelOffre },
     });
 
-    if (Option.isNone(appelOffres)) {
+    if (Option.isNone(appelOffre)) {
       logger.warn(`Appel d'offres non trouvé`, { identifiantProjet });
       return;
     }
 
-    const période = appelOffres.periodes.find(
-      (x) => x.id === candidature.identifiantProjet.période,
+    const période = appelOffre.periodes.find(
+      (période) => période.id === candidature.identifiantProjet.période,
     );
 
     if (!période) {
       logger.warn(`Période non trouvée`, { identifiantProjet });
       return;
     }
+    const modèleAttestationNonDisponible = période.type === 'legacy';
 
-    switch (event.type) {
-      case 'CandidatureNotifiée-V1':
+    if (modèleAttestationNonDisponible) {
+      logger.warn(`Le modèle d'attestation n'est pas disponible`, {
+        identifiantProjet,
+        période,
+      });
+      return;
+    }
+
+    switch (type) {
+      case 'CandidatureNotifiée-V1': {
         const {
-          payload: {
-            attestation: { format },
-            notifiéeLe,
-          },
-        } = event;
-
-        const modèleAttestationNonDisponible = période.type === 'legacy';
-
-        if (modèleAttestationNonDisponible) {
-          logger.warn(`Le modèle d'attestation n'est pas disponible`, {
-            identifiantProjet,
-            période,
-          });
-          return;
-        }
+          attestation: { format },
+          notifiéeLe: notifiéLe,
+          validateur,
+        } = payload;
 
         const certificate = await buildCertificate({
-          appelOffre: appelOffres,
+          appelOffre,
           période,
-          validateur: event.payload.validateur,
           candidature,
-          notifiéLe: notifiéeLe,
+          validateur,
+          notifiéLe,
         });
 
         if (!certificate) {
@@ -89,7 +86,7 @@ export const register = () => {
         const attestation = DocumentProjet.convertirEnValueType(
           identifiantProjet,
           'attestation',
-          notifiéeLe,
+          notifiéLe,
           format,
         );
 
@@ -102,8 +99,9 @@ export const register = () => {
         });
 
         break;
+      }
 
-      case 'CandidatureCorrigée-V1':
+      case 'CandidatureCorrigée-V1': {
         // la correction d'une candidature ne peut pas modifier le champs notification ou validateur
         // on peut donc sans crainte utiliser ces 2 champs
         if (!candidature.notification?.notifiéeLe) {
@@ -111,67 +109,75 @@ export const register = () => {
             identifiantProjet,
           });
           return;
-        } else if (event.payload.doitRégénérerAttestation !== true) {
+        }
+        if (payload.doitRégénérerAttestation !== true) {
           logger.info(`L'attestation ne sera pas régénérée`, {
             identifiantProjet,
           });
           return;
-        } else {
-          const candidatureCorrigée = {
-            ...event.payload,
-            misÀJourLe: DateTime.convertirEnValueType(event.payload.corrigéLe),
-            détailsImport: candidature.détailsImport,
-            identifiantProjet: IdentifiantProjet.convertirEnValueType(
-              event.payload.identifiantProjet,
-            ),
-            statut: Candidature.StatutCandidature.convertirEnValueType(event.payload.statut),
-            technologie: Candidature.TypeTechnologie.convertirEnValueType(
-              event.payload.technologie,
-            ),
-            dateÉchéanceGf: event.payload.dateÉchéanceGf
-              ? DateTime.convertirEnValueType(event.payload.dateÉchéanceGf)
-              : undefined,
-            historiqueAbandon: Candidature.HistoriqueAbandon.convertirEnValueType(
-              event.payload.historiqueAbandon,
-            ),
-            typeGarantiesFinancières: event.payload.typeGarantiesFinancières
-              ? Candidature.TypeGarantiesFinancières.convertirEnValueType(
-                  event.payload.typeGarantiesFinancières,
-                )
-              : undefined,
-            actionnariat: event.payload.actionnariat
-              ? Candidature.TypeActionnariat.convertirEnValueType(event.payload.actionnariat)
-              : undefined,
-          };
-
-          const certificate = await buildCertificate({
-            appelOffre: appelOffres,
-            période,
-            validateur: candidature.notification.validateur,
-            candidature: candidatureCorrigée,
-            notifiéLe: candidature.notification.notifiéeLe.formatter(),
-          });
-
-          if (!certificate) {
-            logger.warn(`Impossible de régénérer l'attestation du projet ${identifiantProjet}`);
-            return;
-          }
-
-          await mediator.send<EnregistrerDocumentProjetCommand>({
-            type: 'Document.Command.EnregistrerDocumentProjet',
-            data: {
-              content: certificate,
-              documentProjet: DocumentProjet.convertirEnValueType(
-                identifiantProjet,
-                'attestation',
-                event.payload.corrigéLe,
-                'application/pdf',
-              ),
-            },
-          });
         }
+        const candidatureCorrigée = mapCorrectionToCandidature(payload);
+
+        const {
+          notification: {
+            notifiéeLe,
+            validateur,
+            attestation: { format },
+          },
+        } = candidature;
+
+        const certificate = await buildCertificate({
+          appelOffre,
+          période,
+          validateur,
+          notifiéLe: notifiéeLe.formatter(),
+          candidature: candidatureCorrigée,
+        });
+
+        if (!certificate) {
+          logger.warn(`Impossible de régénérer l'attestation du projet ${identifiantProjet}`);
+          return;
+        }
+
+        const attestation = DocumentProjet.convertirEnValueType(
+          identifiantProjet,
+          'attestation',
+          payload.corrigéLe,
+          format,
+        );
+
+        await mediator.send<EnregistrerDocumentProjetCommand>({
+          type: 'Document.Command.EnregistrerDocumentProjet',
+          data: {
+            content: certificate,
+            documentProjet: attestation,
+          },
+        });
         break;
+      }
     }
   };
   mediator.register('System.Candidature.Attestation.Saga.Execute', handler);
 };
+
+const mapCorrectionToCandidature = (
+  payload: Candidature.CandidatureCorrigéeEvent['payload'],
+): BuildCertificateProps['candidature'] => ({
+  emailContact: payload.emailContact,
+  evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiée,
+  localité: payload.localité,
+  nomCandidat: payload.nomCandidat,
+  nomProjet: payload.nomProjet,
+  nomReprésentantLégal: payload.nomReprésentantLégal,
+  noteTotale: payload.noteTotale,
+  prixReference: payload.prixReference,
+  puissanceALaPointe: payload.puissanceALaPointe,
+  puissanceProductionAnnuelle: payload.puissanceProductionAnnuelle,
+  motifÉlimination: payload.motifÉlimination,
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(payload.identifiantProjet),
+  statut: Candidature.StatutCandidature.convertirEnValueType(payload.statut),
+  technologie: Candidature.TypeTechnologie.convertirEnValueType(payload.technologie),
+  actionnariat: payload.actionnariat
+    ? Candidature.TypeActionnariat.convertirEnValueType(payload.actionnariat)
+    : undefined,
+});

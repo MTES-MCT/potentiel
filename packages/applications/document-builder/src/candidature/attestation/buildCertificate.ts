@@ -3,7 +3,7 @@ import path from 'node:path';
 import ReactPDF, { Font } from '@react-pdf/renderer';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
 
 import { fontsFolderPath, imagesFolderPath } from '../../assets';
@@ -32,11 +32,32 @@ Font.register({
   ],
 });
 
-type BuildCertificateProps = {
+export type BuildCertificateProps = {
   appelOffre: AppelOffre.AppelOffreReadModel;
   période: AppelOffre.Periode;
   validateur: AppelOffre.Validateur;
-  candidature: Candidature.ConsulterCandidatureReadModel;
+  candidature: {
+    identifiantProjet: IdentifiantProjet.ValueType;
+    statut: Candidature.StatutCandidature.ValueType;
+    nomProjet: string;
+    localité: {
+      adresse1: string;
+      adresse2: string;
+      codePostal: string;
+      commune: string;
+    };
+    nomCandidat: string;
+    nomReprésentantLégal: string;
+    emailContact: string;
+    puissanceProductionAnnuelle: number;
+    prixReference: number;
+    technologie: Candidature.TypeTechnologie.ValueType;
+    noteTotale: number;
+    motifÉlimination?: string;
+    puissanceALaPointe: boolean;
+    evaluationCarboneSimplifiée: number;
+    actionnariat?: Candidature.TypeActionnariat.ValueType;
+  };
   notifiéLe: DateTime.RawType;
 };
 
@@ -81,7 +102,7 @@ const mapToCertificateData = ({
 
   const financementEtTemplate = getFinancementEtTemplate({
     période,
-    candidature,
+    actionnariat: candidature.actionnariat,
   });
 
   if (!financementEtTemplate) {
