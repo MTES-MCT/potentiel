@@ -7,11 +7,10 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { getClient } from './getClient';
 import { getBucketName } from './getBucketName';
 import { fileExists } from './fileExists';
-import { FichierInexistant } from './fichierInexistant.error';
 
 class CopyFailedError extends Error {
-  constructor() {
-    super('La copie du fichier a échoué');
+  constructor(message: string) {
+    super(`La copie du fichier a échoué: ${message}`);
   }
 }
 
@@ -29,10 +28,13 @@ export const copyFile = async (sourceKey: string, targetKey: string) => {
     }
     const exists = await fileExists(targetKey);
     if (!exists) {
-      throw new FichierInexistant(targetKey);
+      throw new CopyFailedError(`Target file not found: ${targetKey}`);
     }
   } catch (e) {
     getLogger().warn('Copy failed', { error: e, sourceKey, targetKey });
-    throw new CopyFailedError();
+    if (e instanceof CopyFailedError) {
+      throw e;
+    }
+    throw new CopyFailedError((e as Error).message);
   }
 };

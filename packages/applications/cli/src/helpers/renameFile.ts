@@ -8,12 +8,7 @@ class DeleteFailedError extends Error {
     super('La suppression du fichier a échoué');
   }
 }
-
-export class FichierInexistant extends Error {
-  constructor(filePath?: string) {
-    super(`Le fichier ${filePath} n'existe pas`);
-  }
-}
+export class RenameFailedError extends Error {}
 
 /**
  * Renames a file in the same bucket
@@ -22,7 +17,7 @@ export class FichierInexistant extends Error {
 export const renameFile = async (fromName: string, toName: string) => {
   const exists = await fileExists(fromName);
   if (!exists) {
-    throw new FichierInexistant(fromName);
+    throw new RenameFailedError(`From file not found: ${fromName}`);
   }
 
   await copyFile(fromName, toName);
