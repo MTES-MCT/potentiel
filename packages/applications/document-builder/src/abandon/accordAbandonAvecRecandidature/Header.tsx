@@ -30,7 +30,7 @@ export const Header: FC<HeaderProps> = ({
         >
           <Image
             style={{ width: 151, height: 85, marginBottom: 40 }}
-            src={`${imagesFolderPath}/logo_MEFSIN.png`}
+            src={`${imagesFolderPath}/logo_MCE.png`}
           />
 
           <View style={{ width: 165, paddingBottom: 10, fontStyle: 'italic' }}>
