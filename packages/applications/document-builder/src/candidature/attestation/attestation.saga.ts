@@ -149,7 +149,7 @@ export const register = () => {
             période,
             validateur: candidature.notification.validateur,
             candidature: candidatureCorrigée,
-            notifiéLe: event.payload.corrigéLe,
+            notifiéLe: candidature.notification.notifiéeLe.formatter(),
           });
 
           if (!certificate) {
