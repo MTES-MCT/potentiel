@@ -13,7 +13,7 @@ export type NotifierCandidatureCommand = Message<
     notifiéeLe: DateTime.ValueType;
     notifiéePar: Email.ValueType;
     validateur: AppelOffre.Validateur;
-    attestation: { format: string };
+    attestation?: { format: string };
   }
 >;
 

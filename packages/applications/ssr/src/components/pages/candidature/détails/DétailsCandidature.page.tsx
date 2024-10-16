@@ -86,32 +86,32 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
               {/* Cette partie sera sûrement supprimée après la migration de projet */}
               <Field name="Désignation">
                 {candidature.notification ? (
-                  <>
-                    <span>
-                      Candidature notifiée le:{' '}
-                      <FormattedDate
-                        date={DateTime.bind(candidature.notification.notifiéeLe).formatter()}
-                      />
-                    </span>
-                    <span>
-                      Attestation{' '}
-                      {DateTime.bind(candidature.notification.notifiéeLe).estAntérieurÀ(
-                        DateTime.convertirEnValueType(
-                          candidature.notification.attestation.dateCréation,
-                        ),
-                      )
-                        ? 'régénérée'
-                        : 'générée'}{' '}
-                      le:{' '}
-                      <FormattedDate
-                        date={DateTime.convertirEnValueType(
-                          candidature.notification.attestation.dateCréation,
-                        ).formatter()}
-                      />
-                    </span>
-                  </>
+                  <span>
+                    Candidature notifiée le:{' '}
+                    <FormattedDate
+                      date={DateTime.bind(candidature.notification.notifiéeLe).formatter()}
+                    />
+                  </span>
                 ) : (
                   <span>La candidature n'a pas encore été notifiée</span>
+                )}
+                {candidature.notification?.attestation && (
+                  <span>
+                    Attestation{' '}
+                    {DateTime.bind(candidature.notification.notifiéeLe).estAntérieurÀ(
+                      DateTime.convertirEnValueType(
+                        candidature.notification.attestation.dateCréation,
+                      ),
+                    )
+                      ? 'régénérée'
+                      : 'générée'}{' '}
+                    le:{' '}
+                    <FormattedDate
+                      date={DateTime.convertirEnValueType(
+                        candidature.notification.attestation.dateCréation,
+                      ).formatter()}
+                    />
+                  </span>
                 )}
               </Field>
               {candidature.motifÉlimination && (
@@ -173,7 +173,7 @@ const mapToActionComponents = ({ identifiantProjet, actions }: MapToActionsCompo
         iconId="fr-icon-file-download-line"
         iconPosition="right"
       >
-        Télécharger Attestation
+        Télécharger l'attestation
       </Button>
     )}
     {actions.prévisualiserAttestation && (
@@ -189,7 +189,7 @@ const mapToActionComponents = ({ identifiantProjet, actions }: MapToActionsCompo
         aria-label={`Prévisualiser l'attestation de désignation`}
         priority="secondary"
       >
-        Prévisualiser Attestation
+        Prévisualiser l'attestation
       </Button>
     )}
   </>

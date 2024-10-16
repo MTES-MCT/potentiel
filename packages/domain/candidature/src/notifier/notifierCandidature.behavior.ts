@@ -9,7 +9,7 @@ export type NotifierOptions = {
   notifiéeLe: DateTime.ValueType;
   notifiéePar: Email.ValueType;
   validateur: AppelOffre.Validateur;
-  attestation: {
+  attestation?: {
     format: string;
   };
 };
@@ -21,7 +21,7 @@ export type CandidatureNotifiéeEvent = DomainEvent<
     notifiéeLe: DateTime.RawType;
     notifiéePar: Email.RawType;
     validateur: AppelOffre.Validateur;
-    attestation: {
+    attestation?: {
       format: string;
     };
   }
@@ -29,13 +29,7 @@ export type CandidatureNotifiéeEvent = DomainEvent<
 
 export async function notifier(
   this: CandidatureAggregate,
-  {
-    identifiantProjet,
-    notifiéeLe,
-    notifiéePar,
-    validateur,
-    attestation: { format },
-  }: NotifierOptions,
+  { identifiantProjet, notifiéeLe, notifiéePar, validateur, attestation }: NotifierOptions,
 ) {
   if (this.estNotifiée) {
     throw new CandidatureDéjàNotifiéeError(identifiantProjet);
@@ -48,9 +42,7 @@ export async function notifier(
       notifiéeLe: notifiéeLe.formatter(),
       notifiéePar: notifiéePar.formatter(),
       validateur,
-      attestation: {
-        format,
-      },
+      attestation,
     },
   };
 

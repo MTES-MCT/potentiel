@@ -38,27 +38,38 @@ export default async function Page({ params }: PageProps) {
       return (
         <DétailsCandidaturePage
           candidature={mapToPlainObject(candidature)}
-          actions={mapToActions({ estNotifiée: !!candidature.notification }, utilisateur.role)}
+          actions={mapToActions({
+            estNotifiée: !!candidature.notification,
+            aUneAttestation: candidature.notification?.attestation !== undefined,
+            role: utilisateur.role,
+          })}
         />
       );
     }),
   );
 }
 
-const mapToActions = (props: { estNotifiée: boolean }, role: Role.ValueType) => {
+type ActionsProps = {
+  estNotifiée: boolean;
+  aUneAttestation: boolean;
+  role: Role.ValueType;
+};
+
+const mapToActions = ({ estNotifiée, aUneAttestation, role }: ActionsProps) => {
   const defaultActions = {
     corriger: role.aLaPermission('candidature.corriger'),
   };
-  return match(props)
+  return match({ estNotifiée })
     .returnType<DétailsCandidaturePageProps['actions']>()
     .with({ estNotifiée: true }, () => ({
       ...defaultActions,
       prévisualiserAttestation: false,
-      téléchargerAttestation: true,
+      téléchargerAttestation: aUneAttestation,
     }))
     .otherwise(() => ({
       ...defaultActions,
-      prévisualiserAttestation: role.aLaPermission('candidature.attestation.prévisualiser'),
+      prévisualiserAttestation:
+        role.aLaPermission('candidature.attestation.prévisualiser') && aUneAttestation,
       téléchargerAttestation: false,
     }));
 };

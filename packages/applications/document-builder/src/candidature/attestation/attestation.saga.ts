@@ -52,7 +52,10 @@ export const register = () => {
       logger.warn(`Période non trouvée`, { identifiantProjet });
       return;
     }
-    const modèleAttestationNonDisponible = période.type === 'legacy';
+    const modèleAttestationNonDisponible =
+      période.type === 'legacy' ||
+      // ajout de cette condition qui correspond à celle ci dessus
+      (candidature.notification && candidature.notification.attestation);
 
     if (modèleAttestationNonDisponible) {
       logger.warn(`Le modèle d'attestation n'est pas disponible`, {

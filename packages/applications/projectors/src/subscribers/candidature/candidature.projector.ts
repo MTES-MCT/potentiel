@@ -38,7 +38,9 @@ export const register = () => {
               candidature.notification
               ? {
                   ...candidature.notification,
-                  attestationGénéréeLe: payload.corrigéLe,
+                  attestationGénéréeLe: candidature.notification.attestationGénéréeLe
+                    ? payload.corrigéLe
+                    : undefined,
                 }
               : candidature.notification
             : undefined;
@@ -103,7 +105,7 @@ export const register = () => {
                 notifiéeLe: payload.notifiéeLe,
                 notifiéePar: payload.notifiéePar,
                 validateur: payload.validateur,
-                attestationGénéréeLe: payload.notifiéeLe,
+                attestationGénéréeLe: event.payload.attestation ? payload.notifiéeLe : undefined,
               },
             },
           );
