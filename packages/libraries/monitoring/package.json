@@ -10,7 +10,7 @@
     "test": "tsx --test ./**/*.spec.ts"
   },
   "dependencies": {
-    "@sentry/node": "^7.119.2",
+    "@sentry/node": "^7.112.2",
     "winston": "^3.10.0"
   },
   "devDependencies": {
