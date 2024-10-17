@@ -10,6 +10,9 @@ type Props = {
 export const getCandidatureActions = (props: Props): CandidatureListItemActionsProps['actions'] =>
   match(props)
     .returnType<CandidatureListItemActionsProps['actions']>()
-    .with({ aUneAttestation: false }, () => ({ télécharger: false, prévisualiser: false }))
-    .with({ estNotifiée: true }, () => ({ télécharger: true, prévisualiser: false }))
-    .otherwise(() => ({ télécharger: false, prévisualiser: true }));
+    .with({ estNotifiée: false }, () => ({ télécharger: false, prévisualiser: true }))
+    .with({ estNotifiée: true, aUneAttestation: true }, () => ({
+      télécharger: true,
+      prévisualiser: false,
+    }))
+    .otherwise(() => ({ télécharger: false, prévisualiser: false }));
