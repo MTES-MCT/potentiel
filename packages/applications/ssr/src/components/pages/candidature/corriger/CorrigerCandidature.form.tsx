@@ -18,6 +18,7 @@ import { ValidationErrors } from '@/utils/formAction';
 import { InputDate } from '@/components/atoms/form/InputDate';
 
 import { candidatureSchema } from '../importer/candidature.schema';
+import { getGarantiesFinancièresTypeLabel } from '../../garanties-financières/getGarantiesFinancièresTypeLabel';
 import { getTechnologieTypeLabel } from '../helpers';
 
 import {
@@ -218,19 +219,10 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
             {...getStateProps('typeGarantiesFinancieres')}
             label="Type de Garanties Financières"
             options={[
-              {
-                value: Candidature.TypeGarantiesFinancières.consignation.type,
-                label: 'Consignation',
-              },
-              {
-                value: Candidature.TypeGarantiesFinancières.avecDateÉchéance.type,
-                label: `Avec date d'échéance`,
-              },
-              {
-                value: Candidature.TypeGarantiesFinancières.sixMoisAprèsAchèvement.type,
-                label: 'Six mois après achèvement',
-              },
-            ]}
+              Candidature.TypeGarantiesFinancières.consignation,
+              Candidature.TypeGarantiesFinancières.avecDateÉchéance,
+              Candidature.TypeGarantiesFinancières.sixMoisAprèsAchèvement,
+            ].map(({ type }) => ({ value: type, label: getGarantiesFinancièresTypeLabel(type) }))}
             nativeSelectProps={{
               ...getFieldProps('typeGarantiesFinancieres'),
               onChange: (e) =>
