@@ -128,13 +128,9 @@ export default async function Page({ searchParams }: PageProps) {
         });
       }
 
-      const estPériodeLegacy =
-        appelOffresItem?.periodes.find((x) => x.id === candidature.identifiantProjet.période)
-          ?.type === 'legacy';
-
       const actions = getCandidatureActions({
         estNotifiée: candidature.estNotifiée,
-        estPériodeLegacy,
+        aUneAttestation: !!candidature.attestation,
       });
 
       items.push(

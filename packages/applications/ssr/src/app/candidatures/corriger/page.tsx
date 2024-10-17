@@ -1,4 +1,4 @@
-import { CorrigerCandidaturesPage } from '@/components/pages/candidature/corriger-en-masse/CorrigerCandidatures.page';
+import { CorrigerCandidaturesPage } from '@/components/pages/candidature/corriger-par-lot/CorrigerCandidatures.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 export default async function Page() {

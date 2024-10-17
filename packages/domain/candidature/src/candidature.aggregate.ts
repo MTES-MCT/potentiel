@@ -6,6 +6,7 @@ import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-d
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import * as StatutCandidature from './statutCandidature.valueType';
+import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 import {
   CandidatureImportéeEvent,
   applyCandidatureImportée,
@@ -23,6 +24,7 @@ import {
 import {
   applyCandidatureNotifiée,
   CandidatureNotifiéeEvent,
+  CandidatureNotifiéeEventV1,
   notifier,
 } from './notifier/notifierCandidature.behavior';
 import { CandidatureNonTrouvéeError } from './candidatureNonTrouvée.error';
@@ -30,7 +32,8 @@ import { CandidatureNonTrouvéeError } from './candidatureNonTrouvée.error';
 export type CandidatureEvent =
   | CandidatureImportéeEvent
   | CandidatureCorrigéeEvent
-  | CandidatureNotifiéeEvent;
+  | CandidatureNotifiéeEvent
+  | CandidatureNotifiéeEventV1;
 
 type NonImporté = {
   importé?: undefined;
@@ -46,6 +49,7 @@ export type CandidatureAggregate = Aggregate<CandidatureEvent> &
   (Importé | NonImporté) & {
     estNotifiée: boolean;
     payloadHash: string;
+    typeGf?: TypeGarantiesFinancières.ValueType;
     importer: typeof importer;
     corriger: typeof corriger;
     notifier: typeof notifier;
@@ -126,6 +130,7 @@ function apply(this: CandidatureAggregate, event: CandidatureEvent) {
       applyCandidatureImportée.bind(this)(event);
       break;
     case 'CandidatureNotifiée-V1':
+    case 'CandidatureNotifiée-V2':
       applyCandidatureNotifiée.bind(this)(event);
       break;
     case 'CandidatureCorrigée-V1':

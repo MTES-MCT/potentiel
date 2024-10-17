@@ -52,6 +52,14 @@ const dateSchema = z
     return new Date(`${year}-${month}-${day}`);
   });
 
+const booleanSchema = z
+  .string()
+  .toLowerCase()
+  .optional()
+  .default('false')
+  .transform((s) => JSON.parse(s))
+  .pipe(z.boolean());
+
 const optionalEnum = <TEnumSchema extends [string, ...string[]]>(
   enumSchema: z.ZodEnum<TEnumSchema>,
 ) =>
@@ -268,41 +276,31 @@ export const candidatureSchema = z
     commune: requiredStringSchema,
     // optionnel car une fois notifié, ce champs n'est plus modifiable
     statut: z.enum(Candidature.StatutCandidature.statuts).optional(),
-    puissanceALaPointe: z
-      .string()
-      .toLowerCase()
-      .optional()
-      .default('false')
-      .transform((s) => JSON.parse(s))
-      .pipe(z.boolean()),
+    puissanceALaPointe: booleanSchema,
     evaluationCarboneSimplifiee: strictlyPositiveNumberSchema,
     actionnariat: optionalEnum(z.enum(Candidature.TypeActionnariat.types)),
-    doitRegenererAttestation: z.string().optional(),
+    doitRegenererAttestation: booleanSchema.optional(),
     motifElimination: optionalStringSchema.transform((val) => val || undefined), // see refine below
     technologie: z.enum(Candidature.TypeTechnologie.types),
 
-    // Champs non modifiable à l'heure actuelle, mais à ajouter
+    typeGarantiesFinancieres: optionalEnum(z.enum(Candidature.TypeGarantiesFinancières.types)), // see refine below
+    dateEcheanceGf: z
+      .string()
+      .transform((str) => (str ? new Date(str) : undefined))
+      .optional(), // see refine below
 
+    // Champs non modifiable à l'heure actuelle, mais à ajouter?
     // historiqueAbandon: z.enum(Candidature.HistoriqueAbandon.types),
-
-    // typeGarantiesFinancieres: optionalEnum(z.enum(Candidature.TypeGarantiesFinancières.types)), // see refine below
-    // dateEchéanceGf: z
-    //   .string()
-    //   .transform((str) => {
-    //     console.log(str);
-    //     return str ? new Date(str) : undefined;
-    //   })
-    // .optional(), // see refine below
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
-  .superRefine(requiredFieldIfReferenceFieldEquals('motifElimination', 'statut', 'éliminé'));
-// le type de GF est obligatoire si la candidature est classée
-// .superRefine(requiredFieldIfReferenceFieldEquals('typeGarantiesFinancières', 'statut', 'classé'))
-// la date d'échéance est obligatoire si les GF sont de type "avec date d'échéance"
-// .superRefine(
-//   requiredFieldIfReferenceFieldEquals(
-//     'dateÉchéanceGf',
-//     'typeGarantiesFinancières',
-//     'avec-date-échéance',
-//   ),
-// );
+  .superRefine(requiredFieldIfReferenceFieldEquals('motifElimination', 'statut', 'éliminé'))
+  // le type de GF est obligatoire si la candidature est classée
+  .superRefine(requiredFieldIfReferenceFieldEquals('typeGarantiesFinancieres', 'statut', 'classé'))
+  // la date d'échéance est obligatoire si les GF sont de type "avec date d'échéance"
+  .superRefine(
+    requiredFieldIfReferenceFieldEquals(
+      'dateEcheanceGf',
+      'typeGarantiesFinancieres',
+      'avec-date-échéance',
+    ),
+  );

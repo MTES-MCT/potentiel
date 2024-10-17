@@ -16,6 +16,8 @@ export const document = zod
     message: `Le fichier dépasse la taille maximale autorisée (${DEFAULT_FILE_SIZE_LIMIT_IN_MB}Mo)`,
   });
 
+export const optionalDocument = zod.instanceof(Blob);
+
 /**
  * This type is used for form validation schema when a document can be updated.
  **/

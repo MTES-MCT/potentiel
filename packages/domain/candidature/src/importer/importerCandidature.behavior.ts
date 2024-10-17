@@ -153,6 +153,9 @@ export function applyCandidatureImportée(
 ) {
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
+  this.typeGf =
+    payload.typeGarantiesFinancières &&
+    TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières);
   this.payloadHash = this.calculerHash(payload);
 }
 

@@ -16,6 +16,7 @@ import { readFile } from 'node:fs/promises';
 import { permissionMiddleware } from '@potentiel-domain/utilisateur';
 import { bootstrap } from '@potentiel-applications/bootstrap';
 import crypto from 'node:crypto';
+import { MulterError } from 'multer';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -116,7 +117,11 @@ export async function makeServer(port: number, sessionSecret: string) {
     app.use((error, req, res, next) => {
       logger.error(error);
 
-      res
+      if (error instanceof MulterError && error.code === 'LIMIT_FILE_SIZE') {
+        return res.status(400).send(`Le fichier ne doit pas dépasser ${FILE_SIZE_LIMIT_IN_MB} Mo`);
+      }
+
+      return res
         .status(500)
         .send(
           'Une erreur inattendue est survenue. Veuillez nous excuser pour la gêne occasionnée. Merci de réessayer et de contacter l‘équipe si le problème persiste.',

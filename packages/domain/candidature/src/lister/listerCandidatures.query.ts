@@ -126,12 +126,13 @@ export const mapToReadModel = ({
     'application/json',
   ),
   estNotifiée: estNotifiée,
-  ...(estNotifiée && {
-    attestation: DocumentProjet.convertirEnValueType(
-      identifiantProjet,
-      'attestation',
-      notification.notifiéeLe,
-      'application/pdf',
-    ),
-  }),
+  ...(estNotifiée &&
+    notification.attestation && {
+      attestation: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        'attestation',
+        notification.attestation.généréeLe,
+        notification.attestation.format,
+      ),
+    }),
 });

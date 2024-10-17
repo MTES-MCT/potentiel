@@ -8,7 +8,7 @@ import { CorrigerCandidaturesForm } from './CorrigerCandidatures.form';
 
 export const CorrigerCandidaturesPage: FC = () => (
   <ColumnPageTemplate
-    banner={<Heading1 className="text-theme-white">Corriger des candidats</Heading1>}
+    banner={<Heading1 className="text-theme-white">Corriger des candidats par lot</Heading1>}
     leftColumn={{
       children: <CorrigerCandidaturesForm />,
     }}

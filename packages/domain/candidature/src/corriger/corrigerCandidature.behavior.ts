@@ -18,6 +18,7 @@ import {
 } from '../importer/importerCandidature.behavior';
 import { AttestationNonGénéréeError } from '../attestationNonGénérée.error';
 import { CandidatureNonTrouvéeError } from '../candidatureNonTrouvée.error';
+import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
 
 type CandidatureCorrigéePayload = CandidatureImportéeEventCommonPayload & {
   corrigéLe: DateTime.RawType;
@@ -74,8 +75,17 @@ export async function corriger(
     throw new DateÉchéanceGarantiesFinancièresRequiseError();
   }
 
-  if (this.estNotifiée && !candidature.statut.estÉgaleÀ(this.statut)) {
-    throw new StatutNonModifiableAprèsNotificationError();
+  if (this.estNotifiée) {
+    if (!candidature.statut.estÉgaleÀ(this.statut)) {
+      throw new StatutNonModifiableAprèsNotificationError();
+    }
+    if (candidature.typeGarantiesFinancières) {
+      if (!this.typeGf || !this.typeGf.estÉgaleÀ(candidature.typeGarantiesFinancières)) {
+        throw new TypeGarantiesFinancièresNonModifableAprèsNotificationError();
+      }
+    } else if (this.typeGf) {
+      throw new TypeGarantiesFinancièresNonModifableAprèsNotificationError();
+    }
   }
   if (!this.estNotifiée && candidature.doitRégénérerAttestation) {
     throw new AttestationNonGénéréeError();
@@ -105,11 +115,22 @@ export function applyCandidatureCorrigée(
 ) {
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
+  this.typeGf =
+    payload.typeGarantiesFinancières &&
+    TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières);
   this.payloadHash = this.calculerHash(payload);
 }
 
 class StatutNonModifiableAprèsNotificationError extends InvalidOperationError {
   constructor() {
     super(`Le statut d'une candidature ne peut être modifié après la notification`);
+  }
+}
+
+class TypeGarantiesFinancièresNonModifableAprèsNotificationError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Le type de garanties financières d'une candidature ne peut être modifié après la notification`,
+    );
   }
 }

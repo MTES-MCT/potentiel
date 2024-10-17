@@ -38,27 +38,37 @@ export default async function Page({ params }: PageProps) {
       return (
         <DétailsCandidaturePage
           candidature={mapToPlainObject(candidature)}
-          actions={mapToActions({ estNotifiée: !!candidature.notification }, utilisateur.role)}
+          actions={mapToActions(
+            {
+              estNotifiée: !!candidature.notification,
+              aUneAttestation: !!candidature.notification?.attestation,
+            },
+            utilisateur.role,
+          )}
         />
       );
     }),
   );
 }
 
-const mapToActions = (props: { estNotifiée: boolean }, role: Role.ValueType) => {
+const mapToActions = (
+  props: { estNotifiée: boolean; aUneAttestation: boolean },
+  role: Role.ValueType,
+) => {
   const defaultActions = {
     corriger: role.aLaPermission('candidature.corriger'),
+    prévisualiserAttestation: false,
+    téléchargerAttestation: false,
   };
   return match(props)
     .returnType<DétailsCandidaturePageProps['actions']>()
-    .with({ estNotifiée: true }, () => ({
+    .with({ aUneAttestation: true, estNotifiée: true }, () => ({
       ...defaultActions,
-      prévisualiserAttestation: false,
       téléchargerAttestation: true,
     }))
-    .otherwise(() => ({
+    .with({ aUneAttestation: true, estNotifiée: true }, () => ({
       ...defaultActions,
       prévisualiserAttestation: role.aLaPermission('candidature.attestation.prévisualiser'),
-      téléchargerAttestation: false,
-    }));
+    }))
+    .otherwise(() => defaultActions);
 };

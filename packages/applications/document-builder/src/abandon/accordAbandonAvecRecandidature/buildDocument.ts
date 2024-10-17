@@ -3,12 +3,9 @@ import path from 'node:path';
 import ReactPDF, { Font } from '@react-pdf/renderer';
 
 import { mapToReadableStream } from '../../mapToReadableStream';
-import { fontsFolderPath } from '../../assets';
+import { fontsFolderPath, imagesFolderPath } from '../../assets';
 
-import {
-  RéponseAbandonAvecRecandidature,
-  RéponseAbandonAvecRecandidatureProps,
-} from './RéponseAbandonAvecRecandidature';
+import { RéponseAbandonAvecRecandidature } from './RéponseAbandonAvecRecandidature';
 
 Font.register({
   family: 'Arimo',
@@ -64,9 +61,9 @@ export type DonnéesDocument = {
 };
 
 const buildDocument: GénérerRéponseAccordAbandonAvecRecandidaturePort = async (
-  props: RéponseAbandonAvecRecandidatureProps,
+  props: DonnéesDocument,
 ): Promise<ReadableStream> => {
-  const document = RéponseAbandonAvecRecandidature(props);
+  const document = RéponseAbandonAvecRecandidature({ ...props, imagesFolderPath });
 
   return await mapToReadableStream(await ReactPDF.renderToStream(document));
 };

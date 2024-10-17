@@ -47,7 +47,7 @@ export type ConsulterCandidatureReadModel = {
     notifiéeLe: DateTime.ValueType;
     notifiéePar: Email.ValueType;
     validateur: AppelOffre.Validateur;
-    attestation: DocumentProjet.ValueType;
+    attestation?: DocumentProjet.ValueType;
   };
 };
 
@@ -135,11 +135,13 @@ export const mapToReadModel = ({
     notifiéeLe: DateTime.convertirEnValueType(notification.notifiéeLe),
     notifiéePar: Email.convertirEnValueType(notification.notifiéePar),
     validateur: notification.validateur,
-    attestation: DocumentProjet.convertirEnValueType(
-      identifiantProjet,
-      'attestation',
-      notification.attestationGénéréeLe,
-      'application/pdf',
-    ),
+    attestation:
+      notification.attestation &&
+      DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        'attestation',
+        notification.attestation.généréeLe,
+        notification.attestation.format,
+      ),
   },
 });

@@ -4,12 +4,15 @@ import { CandidatureListItemActionsProps } from '@/components/pages/candidature/
 
 type Props = {
   estNotifiée: boolean;
-  estPériodeLegacy: boolean;
+  aUneAttestation: boolean;
 };
 
 export const getCandidatureActions = (props: Props): CandidatureListItemActionsProps['actions'] =>
   match(props)
     .returnType<CandidatureListItemActionsProps['actions']>()
-    .with({ estNotifiée: true }, () => ({ télécharger: true, prévisualiser: false }))
-    .with({ estPériodeLegacy: true }, () => ({ télécharger: false, prévisualiser: false }))
-    .otherwise(() => ({ télécharger: false, prévisualiser: true }));
+    .with({ estNotifiée: false }, () => ({ télécharger: false, prévisualiser: true }))
+    .with({ estNotifiée: true, aUneAttestation: true }, () => ({
+      télécharger: true,
+      prévisualiser: false,
+    }))
+    .otherwise(() => ({ télécharger: false, prévisualiser: false }));

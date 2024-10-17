@@ -14,6 +14,7 @@ import { NotificationBadge } from '@/components/molecules/candidature/Notificati
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 import { getGarantiesFinancièresTypeLabel } from '../../garanties-financières/getGarantiesFinancièresTypeLabel';
+import { getTechnologieTypeLabel } from '../helpers';
 
 type AvailableActions = Record<
   'corriger' | 'prévisualiserAttestation' | 'téléchargerAttestation',
@@ -83,6 +84,11 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   )}
                 </Field>
               )}
+              {candidature.technologie && (
+                <Field name="Technologie">
+                  <span>{getTechnologieTypeLabel(candidature.technologie.type)}</span>
+                </Field>
+              )}
               {/* Cette partie sera sûrement supprimée après la migration de projet */}
               <Field name="Désignation">
                 {candidature.notification ? (
@@ -93,22 +99,24 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                         date={DateTime.bind(candidature.notification.notifiéeLe).formatter()}
                       />
                     </span>
-                    <span>
-                      Attestation{' '}
-                      {DateTime.bind(candidature.notification.notifiéeLe).estAntérieurÀ(
-                        DateTime.convertirEnValueType(
-                          candidature.notification.attestation.dateCréation,
-                        ),
-                      )
-                        ? 'régénérée'
-                        : 'générée'}{' '}
-                      le:{' '}
-                      <FormattedDate
-                        date={DateTime.convertirEnValueType(
-                          candidature.notification.attestation.dateCréation,
-                        ).formatter()}
-                      />
-                    </span>
+                    {candidature.notification.attestation && (
+                      <span>
+                        Attestation{' '}
+                        {DateTime.bind(candidature.notification.notifiéeLe).estAntérieurÀ(
+                          DateTime.convertirEnValueType(
+                            candidature.notification.attestation.dateCréation,
+                          ),
+                        )
+                          ? 'régénérée'
+                          : 'générée'}{' '}
+                        le:{' '}
+                        <FormattedDate
+                          date={DateTime.convertirEnValueType(
+                            candidature.notification.attestation.dateCréation,
+                          ).formatter()}
+                        />
+                      </span>
+                    )}
                   </>
                 ) : (
                   <span>La candidature n'a pas encore été notifiée</span>
