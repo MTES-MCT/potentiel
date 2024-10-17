@@ -26,7 +26,6 @@ let compteurValidateurInconnu = 0;
 let compteurValidateurParDéfault = 0;
 let projetsLegacyAvecAttestation = 0;
 let projetsLegacySansAttestation = 0;
-let anomalies = 0;
 
 const findValidateur = async (
   identifiantProjet: IdentifiantProjet.RawType,
@@ -43,7 +42,6 @@ const findValidateur = async (
     console.warn(`❌ Appel d'offre non trouvé`, {
       identifiantProjet,
     });
-    anomalies++, compteurValidateurInconnu++;
     throw new Error('AO non trouvé');
   }
 
@@ -53,7 +51,6 @@ const findValidateur = async (
     console.warn(`❌ Période non trouvée`, {
       identifiantProjet,
     });
-    anomalies++, compteurValidateurInconnu++;
     throw new Error('Période non trouvé');
   }
 
@@ -164,7 +161,6 @@ const getAttestationLegacyProjets = async () => {
   console.log(`👻 Nombre de validateurs inconnus: ${compteurValidateurInconnu}`);
   console.log(`🎯 Nombre de projets legacy avec attestation: ${projetsLegacyAvecAttestation}`);
   console.log(`😲 Nombre de projets legacy sans attestation: ${projetsLegacySansAttestation}`);
-  console.log(`❌ Nombre d'anomalies: ${anomalies}`);
 
   process.exit(0);
 })();

@@ -117,7 +117,10 @@ export const register = () => {
           return;
         }
         if (!candidature.notification.attestation) {
-          logger.info(`La candidature n'a pas d'attestation existante.`, { identifiantProjet });
+          logger.info(
+            `L'attestation ne sera pas régénérée car la candidature n'a pas d'attestation existante.`,
+            { identifiantProjet },
+          );
           return;
         }
         const candidatureCorrigée = mapCorrectionToCandidature(payload);
