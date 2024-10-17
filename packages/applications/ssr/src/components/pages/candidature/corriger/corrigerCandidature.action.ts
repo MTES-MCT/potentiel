@@ -73,12 +73,15 @@ const mapBodyToUseCaseData = (
     technologieValue: data.technologie,
     statutValue: data.statut ?? previous.statut.formatter(),
 
+    typeGarantiesFinancièresValue: data.typeGarantiesFinancieres,
+    dateÉchéanceGfValue: data.dateEcheanceGf
+      ? DateTime.convertirEnValueType(data.dateEcheanceGf).formatter()
+      : undefined,
+
     // non-editable fields
-    typeGarantiesFinancièresValue: previous.typeGarantiesFinancières?.type,
-    dateÉchéanceGfValue: previous.dateÉchéanceGf?.formatter(),
     territoireProjetValue: previous.territoireProjet,
     historiqueAbandonValue: previous.historiqueAbandon.formatter(),
 
-    doitRégénérerAttestation: data.doitRegenererAttestation === 'true' ? true : undefined,
+    doitRégénérerAttestation: data.doitRegenererAttestation ? true : undefined,
   };
 };

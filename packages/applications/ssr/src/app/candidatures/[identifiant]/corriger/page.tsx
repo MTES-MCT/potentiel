@@ -56,6 +56,8 @@ const mapToProps = (
     codePostal: candidature.localité.codePostal,
     commune: candidature.localité.commune,
     technologie: candidature.technologie.formatter(),
+    typeGarantiesFinancieres: candidature.typeGarantiesFinancières?.type,
+    dateEcheanceGf: candidature.dateÉchéanceGf?.date,
   },
   estNotifiée: !!candidature.notification,
   aUneAttestation: !!candidature.notification?.attestation,
