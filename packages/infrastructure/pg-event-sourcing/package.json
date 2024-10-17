@@ -14,10 +14,10 @@
     "@potentiel-libraries/pg-helpers": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-domain/core": "*",
-    "pg": "^8.13.0"
+    "pg": "^8.11.3"
   },
   "devDependencies": {
-    "@types/pg": "^8.11.10",
+    "@types/pg": "^8.10.2",
     "@potentiel-config/tsconfig": "*"
   }
 }
