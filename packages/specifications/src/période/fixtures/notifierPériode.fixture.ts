@@ -8,6 +8,7 @@ interface NotifierPériode {
   readonly estNotifiée: boolean;
   readonly notifiéeLe: string;
   readonly notifiéePar: string;
+  readonly validateur: { fonction: string; nomComplet: string };
   readonly lauréats: Array<IdentifiantProjet.RawType>;
   readonly éliminés: Array<IdentifiantProjet.RawType>;
   readonly candidatsÀNotifier: {
@@ -56,6 +57,12 @@ export class NotifierPériodeFixture
     return this.#notifiéePar;
   }
 
+  #validateur!: { fonction: string; nomComplet: string };
+
+  get validateur(): { fonction: string; nomComplet: string } {
+    return this.#validateur;
+  }
+
   ajouterCandidatsÀNotifier(
     lauréats: IdentifiantProjet.RawType[],
     éliminés: IdentifiantProjet.RawType[],
@@ -71,6 +78,10 @@ export class NotifierPériodeFixture
       estNotifiée: true,
       notifiéeLe: faker.date.soon().toISOString(),
       notifiéePar: faker.internet.email(),
+      validateur: {
+        fonction: faker.person.jobTitle(),
+        nomComplet: faker.person.fullName(),
+      },
       lauréats: this.candidatsÀNotifier?.lauréats ?? [],
       éliminés: this.candidatsÀNotifier?.éliminés ?? [],
       candidatsÀNotifier: { lauréats: [], éliminés: [] },
