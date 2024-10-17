@@ -16,6 +16,7 @@ export type CorrigerCandidaturePageProps = CorrigerCandidatureFormProps & { estN
 export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = ({
   candidature,
   estNotifiée,
+  aUneAttestation,
 }) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(candidature.identifiantProjet);
 
@@ -35,7 +36,13 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
         />
       }
       leftColumn={{
-        children: <CorrigerCandidatureForm candidature={candidature} estNotifiée={estNotifiée} />,
+        children: (
+          <CorrigerCandidatureForm
+            candidature={candidature}
+            estNotifiée={estNotifiée}
+            aUneAttestation={aUneAttestation}
+          />
+        ),
       }}
       rightColumn={{
         children: (
@@ -58,7 +65,7 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
                 </div>
                 <div>
                   Pour un changement par lot (fichier CSV), veuillez utiliser la{' '}
-                  <Link href={Routes.Candidature.corrigerEnMasse}>page de correction par lot</Link>
+                  <Link href={Routes.Candidature.corrigerParLot}>page de correction par lot</Link>
                 </div>
               </div>
             }

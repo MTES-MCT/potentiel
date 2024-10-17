@@ -58,4 +58,5 @@ const mapToProps = (
     technologie: candidature.technologie.formatter(),
   },
   estNotifiée: !!candidature.notification,
+  aUneAttestation: !!candidature.notification?.attestation,
 });

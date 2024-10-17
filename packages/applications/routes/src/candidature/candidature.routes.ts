@@ -1,7 +1,7 @@
 import { encodeParameter } from '../encodeParameter';
 
 export const importer = '/candidatures/importer';
-export const corrigerEnMasse = '/candidatures/corriger';
+export const corrigerParLot = '/candidatures/corriger';
 
 type ListerFilters = {
   appelOffre?: string;

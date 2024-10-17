@@ -38,12 +38,22 @@ export const NonNotifié: Story = {
   args: {
     candidature,
     estNotifiée: false,
+    aUneAttestation: false,
   },
 };
 
-export const Notifié: Story = {
+export const NotifiéAvecAttestation: Story = {
   args: {
     candidature,
     estNotifiée: true,
+    aUneAttestation: true,
+  },
+};
+
+export const NotifiéSansAttestation: Story = {
+  args: {
+    candidature,
+    estNotifiée: true,
+    aUneAttestation: false,
   },
 };

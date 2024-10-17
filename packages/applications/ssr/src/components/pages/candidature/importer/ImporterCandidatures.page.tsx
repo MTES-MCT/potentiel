@@ -29,7 +29,7 @@ export const ImporterCandidaturesPage: FC = () => (
                 </li>
                 <li>
                   par lot (CSV), via la{' '}
-                  <Link href={Routes.Candidature.corrigerEnMasse}>page de correction</Link>
+                  <Link href={Routes.Candidature.corrigerParLot}>page de correction</Link>
                 </li>
               </ul>
             </div>
