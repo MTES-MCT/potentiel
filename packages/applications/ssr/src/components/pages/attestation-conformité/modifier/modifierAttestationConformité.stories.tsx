@@ -19,7 +19,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const projet: ModifierAttestationConformitéPageProps['projet'] = {
-  identifiantProjet: 'identifiantProjet#1',
+  identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
 };
 
 export const Default: Story = {

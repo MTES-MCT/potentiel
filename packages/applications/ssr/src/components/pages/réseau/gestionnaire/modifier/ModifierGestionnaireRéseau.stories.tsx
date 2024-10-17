@@ -22,12 +22,12 @@ export const Default: Story = {
     identifiantGestionnaireRéseau: {
       codeEIC: 'identifiantGestionnaireRéseau',
     },
-    raisonSociale: 'raisonSociale',
+    raisonSociale: 'Réseau de Gestionnaires',
     aideSaisieRéférenceDossierRaccordement: {
       format: 'format',
       légende: 'légende',
       expressionReguliere: { expression: 'expressionReguliere' },
     },
-    contactEmail: { email: 'contactEmail' },
+    contactEmail: { email: 'contactEmail@test.test' },
   },
 };

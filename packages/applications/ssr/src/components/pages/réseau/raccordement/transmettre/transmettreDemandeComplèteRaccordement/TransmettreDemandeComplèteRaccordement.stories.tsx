@@ -49,7 +49,7 @@ export const Default: Story = {
       },
     ],
     identifiantGestionnaireRéseauActuel: 'identifiantGestionnaireRéseau#2',
-    identifiantProjet: 'appelOffre#période#famille#numéroCRE',
+    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
     delaiDemandeDeRaccordementEnMois: { texte: '3 mois', valeur: 3 },
     aDéjàTransmisUneDemandeComplèteDeRaccordement: false,
   },

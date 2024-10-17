@@ -12,6 +12,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 
 import { ProjetBannerTemplate } from './ProjetBanner.template';
+
 export type ProjetBannerProps = {
   identifiantProjet: string;
 };
