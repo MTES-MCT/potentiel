@@ -9,10 +9,10 @@
     "build": "tsc"
   },
   "dependencies": {
-    "pg": "^8.11.3"
+    "pg": "^8.13.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "@types/pg": "^8.10.2"
+    "@types/pg": "^8.11.10"
   }
 }

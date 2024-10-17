@@ -12,9 +12,9 @@
   "dependencies": {
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/candidature": "*",
-    "@react-pdf/renderer": "^3.1.14",
-    "docxtemplater": "^3.42.3",
-    "pizzip": "^3.1.4"
+    "@react-pdf/renderer": "^3.4.5",
+    "docxtemplater": "^3.51.0",
+    "pizzip": "^3.1.7"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",

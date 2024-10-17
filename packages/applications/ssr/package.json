@@ -11,12 +11,12 @@
     "prebuild": "only-include-used-icons --silent",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prestorybook": "copy-dsfr-to-public --publicDir .storybook/static && only-include-used-icons --silent --publicDir .storybook/static",
-    "prebuild-storybook": "npm run prestorybook",
+    "prestorybook": "react-dsfr update-icons",
+    "prebuild-storybook": "react-dsfr update-icons",
     "pretest": "npm run build"
   },
   "dependencies": {
-    "@codegouvfr/react-dsfr": "^1.9.11",
+    "@codegouvfr/react-dsfr": "^1.13.9",
     "@emotion/react": "*",
     "@emotion/server": "*",
     "@emotion/styled": "*",
@@ -37,14 +37,14 @@
     "@potentiel-libraries/iso8601-datetime": "*",
     "@potentiel-libraries/monitoring": "*",
     "clsx": "^2.1.1",
-    "i18next": "^23.12.2",
+    "i18next": "^23.16.0",
     "mediateur": "^0.1.0",
-    "next": "^14.2.10",
+    "next": "^14.2.15",
     "next-auth": "^4.24.5",
-    "react": "^18",
-    "react-dom": "^18",
-    "sharp": "^0.33.4",
-    "zod": "^3.22.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sharp": "^0.33.5",
+    "zod": "^3.23.8",
     "zod-i18n-map": "^2.27.0"
   },
   "devDependencies": {
@@ -58,12 +58,12 @@
     "@storybook/test": "^8.2.7",
     "@types/node": "^20",
     "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "autoprefixer": "^10.0.1",
-    "postcss": "^8",
-    "sass": "^1.69.5",
+    "@types/react-dom": "^18.3.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "sass": "^1.79.5",
     "storybook": "^8.2.7",
-    "tailwindcss": "^3.3.0",
-    "typescript": "^5"
+    "tailwindcss": "^3.4.13",
+    "typescript": "^5.6.3"
   }
 }
