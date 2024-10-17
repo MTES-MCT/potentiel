@@ -10,7 +10,6 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { buildCertificate, BuildCertificateProps } from './buildCertificate';
 
 export type SubscriptionEvent =
-  | Candidature.CandidatureNotifiéeEventV1
   | Candidature.CandidatureNotifiéeEvent
   | Candidature.CandidatureCorrigéeEvent;
 

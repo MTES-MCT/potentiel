@@ -64,7 +64,7 @@ export const setupCandidature = async ({ sendEmail }: SetupCandidatureDependenci
   const unsubscribeAttestationSaga = await subscribe<AttestationSaga.SubscriptionEvent & Event>({
     name: 'attestation-saga',
     streamCategory: 'candidature',
-    eventType: ['CandidatureNotifiée-V1', 'CandidatureCorrigée-V1'],
+    eventType: ['CandidatureNotifiée-V2', 'CandidatureCorrigée-V1'],
     eventHandler: async (event) => {
       await mediator.publish<AttestationSaga.Execute>({
         type: 'System.Candidature.Attestation.Saga.Execute',
