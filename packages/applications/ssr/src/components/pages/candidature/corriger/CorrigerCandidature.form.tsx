@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import { z } from 'zod';
@@ -10,12 +10,15 @@ import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Candidature } from '@potentiel-domain/candidature';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
+import { InputDate } from '@/components/atoms/form/InputDate';
 
 import { candidatureSchema } from '../importer/candidature.schema';
+import { getGarantiesFinancièresTypeLabel } from '../../garanties-financières/getGarantiesFinancièresTypeLabel';
 import { getTechnologieTypeLabel } from '../helpers';
 
 import {
@@ -34,21 +37,24 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
   estNotifiée,
   aUneAttestation,
 }) => {
-  const [validationErrors, setValidationErrors] = React.useState<
+  const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<keyof CorrigerCandidatureFormEntries>
   >({});
 
-  const [showMotifÉlimination, setShowMotifÉlimination] = React.useState(
-    candidature.statut === 'éliminé',
+  const [estÉliminé, setEstÉliminé] = useState(candidature.statut === 'éliminé');
+  const [showDateGf, setShowDateGf] = useState(
+    candidature.typeGarantiesFinancieres === 'avec-date-échéance',
   );
 
   const getStateProps = (field: keyof z.infer<typeof candidatureSchema>) => ({
     state: validationErrors[field] ? ('error' as const) : ('default' as const),
     stateRelatedMessage: validationErrors[field],
   });
-  const getFieldProps = (field: keyof z.infer<typeof candidatureSchema>) => ({
+  const getFieldProps = (field: keyof z.infer<typeof candidatureSchema>, required = true) => ({
     name: encodeURIComponent(field),
     defaultValue: candidature[field] !== undefined ? String(candidature[field]) : undefined,
+    required: required,
+    'aria-required': required,
   });
 
   return (
@@ -85,16 +91,17 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         {...getStateProps('statut')}
         label="Statut"
         options={[
-          { label: 'Classé', value: 'classé' },
-          { label: 'Éliminé', value: 'éliminé' },
+          { label: 'Classé', value: Candidature.StatutCandidature.classé.statut },
+          { label: 'Éliminé', value: Candidature.StatutCandidature.éliminé.statut },
         ]}
         nativeSelectProps={{
           ...getFieldProps('statut'),
-          onChange: (e) => setShowMotifÉlimination(e.target.value === 'éliminé'),
+          onChange: (e) =>
+            setEstÉliminé(e.target.value === Candidature.StatutCandidature.éliminé.statut),
         }}
         disabled={estNotifiée}
       />
-      {showMotifÉlimination && (
+      {estÉliminé && (
         <Input
           textArea
           {...getStateProps('motifElimination')}
@@ -136,12 +143,12 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
             value: Candidature.TypeActionnariat.gouvernancePartagée.type,
           },
         ]}
-        nativeSelectProps={{ ...getFieldProps('actionnariat'), 'aria-required': false }}
+        nativeSelectProps={getFieldProps('actionnariat', false)}
       />
       <Input
         {...getStateProps('societeMere')}
         label="Société Mère (optionnel)"
-        nativeInputProps={{ ...getFieldProps('societeMere'), 'aria-required': false }}
+        nativeInputProps={getFieldProps('societeMere', false)}
       />
       <Input
         {...getStateProps('adresse1')}
@@ -151,7 +158,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       <Input
         {...getStateProps('adresse2')}
         label="Adresse 2 (optionnel)"
-        nativeInputProps={{ ...getFieldProps('adresse2'), 'aria-required': false }}
+        nativeInputProps={getFieldProps('adresse2', false)}
       />
       <Input
         {...getStateProps('codePostal')}
@@ -189,7 +196,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           {
             label: 'Engagement de fourniture de puissance à la pointe',
             nativeInputProps: {
-              ...getFieldProps('puissanceALaPointe'),
+              ...getFieldProps('puissanceALaPointe', false),
               value: 'true',
               defaultChecked: candidature.puissanceALaPointe,
             },
@@ -206,6 +213,52 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         label="Note"
         nativeInputProps={getFieldProps('noteTotale')}
       />
+      {!estNotifiée && !estÉliminé && (
+        <>
+          <Select
+            {...getStateProps('typeGarantiesFinancieres')}
+            label="Type de Garanties Financières"
+            options={[
+              Candidature.TypeGarantiesFinancières.consignation,
+              Candidature.TypeGarantiesFinancières.avecDateÉchéance,
+              Candidature.TypeGarantiesFinancières.sixMoisAprèsAchèvement,
+            ].map(({ type }) => ({ value: type, label: getGarantiesFinancièresTypeLabel(type) }))}
+            nativeSelectProps={{
+              ...getFieldProps('typeGarantiesFinancieres'),
+              onChange: (e) =>
+                setShowDateGf(
+                  e.target.value === Candidature.TypeGarantiesFinancières.avecDateÉchéance.type,
+                ),
+            }}
+          />
+          {showDateGf && (
+            <InputDate
+              {...getStateProps('dateEcheanceGf')}
+              label="Date d'échéance des Garanties Financières"
+              nativeInputProps={{
+                ...getFieldProps('dateEcheanceGf'),
+                type: 'date',
+                defaultValue: candidature.dateEcheanceGf?.toISOString() as Iso8601DateTime,
+              }}
+            />
+          )}
+        </>
+      )}
+      {estNotifiée && !estÉliminé && (
+        <>
+          <input
+            type="hidden"
+            name="typeGarantiesFinancieres"
+            value={candidature.typeGarantiesFinancieres}
+          />
+          <input
+            type="hidden"
+            name="dateEcheanceGf"
+            value={candidature.dateEcheanceGf?.toISOString()}
+          />
+        </>
+      )}
+
       <RadioButtons
         {...getStateProps('doitRegenererAttestation')}
         state={validationErrors['doitRegenererAttestation'] ? 'error' : 'default'}

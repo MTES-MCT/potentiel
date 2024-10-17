@@ -6,6 +6,7 @@ import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-d
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import * as StatutCandidature from './statutCandidature.valueType';
+import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 import {
   CandidatureImportéeEvent,
   applyCandidatureImportée,
@@ -48,6 +49,7 @@ export type CandidatureAggregate = Aggregate<CandidatureEvent> &
   (Importé | NonImporté) & {
     estNotifiée: boolean;
     payloadHash: string;
+    typeGf?: TypeGarantiesFinancières.ValueType;
     importer: typeof importer;
     corriger: typeof corriger;
     notifier: typeof notifier;

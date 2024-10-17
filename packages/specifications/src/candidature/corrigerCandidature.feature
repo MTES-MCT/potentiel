@@ -96,3 +96,9 @@ Fonctionnalité: Corriger une candidature
         Quand un administrateur corrige la candidature avec :
             | statut | classé |
         Alors l'administrateur devrait être informé que "Le statut d'une candidature ne peut être modifié après la notification"
+
+    Scénario: Impossible de changer le type de GF d'une candidature lauréate notifiée
+        Etant donné la candidature lauréate notifiée "Boulodrome Sainte Livrade"
+        Quand un administrateur corrige la candidature avec :
+            | type GF | six-mois-après-achèvement |
+        Alors l'administrateur devrait être informé que "Le type de garanties financières d'une candidature ne peut être modifié après la notification"
