@@ -11,7 +11,7 @@
     "prebuild": "only-include-used-icons --silent",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prestorybook": "copy-dsfr-to-public --publicDir .storybook/static && only-include-used-icons --silent --publicDir .storybook/static",
+    "prestorybook": "copy-dsfr-to-public --publicDir .storybook/static && only-include-used-icons --publicDir .storybook/static",
     "prebuild-storybook": "npm run prestorybook",
     "pretest": "npm run build"
   },
