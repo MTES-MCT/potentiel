@@ -17,6 +17,6 @@
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "@types/pg-format": "^1.0.2"
+    "@types/pg-format": "^1.0.5"
   }
 }
