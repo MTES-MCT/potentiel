@@ -101,7 +101,20 @@ export async function makeServer(port: number, sessionSecret: string) {
         express.urlencoded({
           extended: false,
           limit: FILE_SIZE_LIMIT_IN_MB + 'mb',
-        })(req, res, next);
+        })(req, res, (error) => {
+          if (error) {
+            logger.error(error);
+            if (error.type === 'entity.too.large') {
+              return res
+                .status(400)
+                .send(
+                  `Le corps de la requête ou fichier ne doit pas dépasser ${FILE_SIZE_LIMIT_IN_MB} Mo`,
+                );
+            }
+            return next(error);
+          }
+          next();
+        });
       }
     });
 
