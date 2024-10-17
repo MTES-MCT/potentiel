@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import { z } from 'zod';
@@ -37,12 +37,12 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
   estNotifiée,
   aUneAttestation,
 }) => {
-  const [validationErrors, setValidationErrors] = React.useState<
+  const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<keyof CorrigerCandidatureFormEntries>
   >({});
 
-  const [estÉliminé, setEstÉliminé] = React.useState(candidature.statut === 'éliminé');
-  const [showDateGf, setShowDateGf] = React.useState(
+  const [estÉliminé, setEstÉliminé] = useState(candidature.statut === 'éliminé');
+  const [showDateGf, setShowDateGf] = useState(
     candidature.typeGarantiesFinancieres === 'avec-date-échéance',
   );
 
