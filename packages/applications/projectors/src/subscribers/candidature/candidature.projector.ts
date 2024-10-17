@@ -32,13 +32,18 @@ export const register = () => {
             `candidature|${identifiantProjet.formatter()}`,
           );
 
-          const notification = Option.isSome(candidature)
+          const notification: Candidature.CandidatureEntity['notification'] = Option.isSome(
+            candidature,
+          )
             ? type === 'CandidatureCorrigée-V1' &&
               payload.doitRégénérerAttestation &&
               candidature.notification
               ? {
                   ...candidature.notification,
-                  attestationGénéréeLe: payload.corrigéLe,
+                  attestation: candidature.notification.attestation && {
+                    généréeLe: payload.corrigéLe,
+                    format: candidature.notification.attestation.format,
+                  },
                 }
               : candidature.notification
             : undefined;
@@ -103,7 +108,23 @@ export const register = () => {
                 notifiéeLe: payload.notifiéeLe,
                 notifiéePar: payload.notifiéePar,
                 validateur: payload.validateur,
-                attestationGénéréeLe: payload.notifiéeLe,
+              },
+            },
+          );
+          break;
+        case 'CandidatureNotifiée-V2':
+          await updateProjection<Candidature.CandidatureEntity>(
+            `candidature|${payload.identifiantProjet}`,
+            {
+              estNotifiée: true,
+              notification: {
+                notifiéeLe: payload.notifiéeLe,
+                notifiéePar: payload.notifiéePar,
+                validateur: payload.validateur,
+                attestation: {
+                  généréeLe: payload.notifiéeLe,
+                  format: payload.attestation.format,
+                },
               },
             },
           );

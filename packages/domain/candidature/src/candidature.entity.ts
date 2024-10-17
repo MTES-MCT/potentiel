@@ -15,7 +15,10 @@ type CandidatureNotifiée = {
     notifiéeLe: DateTime.RawType;
     notifiéePar: Email.RawType;
     validateur: AppelOffre.Validateur;
-    attestationGénéréeLe: DateTime.RawType;
+    attestation?: {
+      généréeLe: DateTime.RawType;
+      format: string;
+    };
   };
 };
 

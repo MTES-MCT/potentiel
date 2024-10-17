@@ -14,8 +14,22 @@ export type NotifierOptions = {
   };
 };
 
-export type CandidatureNotifiéeEvent = DomainEvent<
+/**
+ * @deprecated Utilisez CandidatureNotifiéeEvent à la place.
+ * @deprecated Cet évènement sert à importer les projets de périodes legacy, sans attestation.
+ */
+export type CandidatureNotifiéeEventV1 = DomainEvent<
   'CandidatureNotifiée-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    notifiéeLe: DateTime.RawType;
+    notifiéePar: Email.RawType;
+    validateur: AppelOffre.Validateur;
+  }
+>;
+
+export type CandidatureNotifiéeEvent = DomainEvent<
+  'CandidatureNotifiée-V2',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     notifiéeLe: DateTime.RawType;
@@ -42,7 +56,7 @@ export async function notifier(
   }
 
   const event: CandidatureNotifiéeEvent = {
-    type: 'CandidatureNotifiée-V1',
+    type: 'CandidatureNotifiée-V2',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       notifiéeLe: notifiéeLe.formatter(),
@@ -59,7 +73,7 @@ export async function notifier(
 
 export function applyCandidatureNotifiée(
   this: CandidatureAggregate,
-  _event: CandidatureNotifiéeEvent,
+  _event: CandidatureNotifiéeEvent | CandidatureNotifiéeEventV1,
 ) {
   this.estNotifiée = true;
 }

@@ -63,7 +63,7 @@ export const register = () => {
     }
 
     switch (type) {
-      case 'CandidatureNotifiée-V1': {
+      case 'CandidatureNotifiée-V2': {
         const {
           attestation: { format },
           notifiéeLe: notifiéLe,
@@ -114,6 +114,13 @@ export const register = () => {
           logger.info(`L'attestation ne sera pas régénérée`, {
             identifiantProjet,
           });
+          return;
+        }
+        if (!candidature.notification.attestation) {
+          logger.info(
+            `L'attestation ne sera pas régénérée car la candidature n'a pas d'attestation existante.`,
+            { identifiantProjet },
+          );
           return;
         }
         const candidatureCorrigée = mapCorrectionToCandidature(payload);
