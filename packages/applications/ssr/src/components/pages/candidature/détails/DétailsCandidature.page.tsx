@@ -86,7 +86,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
               )}
               {candidature.technologie && (
                 <Field name="Technologie">
-                  <span>Technologie: {getTechnologieTypeLabel(candidature.technologie.type)}</span>
+                  <span>{getTechnologieTypeLabel(candidature.technologie.type)}</span>
                 </Field>
               )}
               {/* Cette partie sera sûrement supprimée après la migration de projet */}
