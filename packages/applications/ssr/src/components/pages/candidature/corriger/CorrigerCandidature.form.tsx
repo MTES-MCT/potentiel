@@ -16,6 +16,7 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
 import { candidatureSchema } from '../importer/candidature.schema';
+import { getTechnologieTypeLabel } from '../helpers';
 
 import {
   corrigerCandidatureAction,
@@ -25,11 +26,13 @@ import {
 export type CorrigerCandidatureFormProps = {
   candidature: CorrigerCandidatureFormEntries;
   estNotifiée: boolean;
+  aUneAttestation: boolean;
 };
 
 export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = ({
   candidature,
   estNotifiée,
+  aUneAttestation,
 }) => {
   const [validationErrors, setValidationErrors] = React.useState<
     ValidationErrors<keyof CorrigerCandidatureFormEntries>
@@ -164,12 +167,10 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         {...getStateProps('technologie')}
         label="Technologie"
         nativeSelectProps={getFieldProps('technologie')}
-        options={[
-          { label: 'PV', value: Candidature.TypeTechnologie.photovoltaïque.type },
-          { label: 'Éolien', value: Candidature.TypeTechnologie.éolien.type },
-          { label: 'Hydraulique', value: Candidature.TypeTechnologie.hydraulique.type },
-          { label: 'N/A', value: Candidature.TypeTechnologie.nonApplicable.type },
-        ]}
+        options={Candidature.TypeTechnologie.types.map((type) => ({
+          value: type,
+          label: getTechnologieTypeLabel(type),
+        }))}
       />
       <Input
         {...getStateProps('prixReference')}
@@ -209,7 +210,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         {...getStateProps('doitRegenererAttestation')}
         state={validationErrors['doitRegenererAttestation'] ? 'error' : 'default'}
         legend={'Attestation de désignation'}
-        disabled={!estNotifiée}
+        disabled={!aUneAttestation}
         options={[
           {
             label: "Je souhaite régénérer l'attestation",

@@ -14,6 +14,7 @@ import { NotificationBadge } from '@/components/molecules/candidature/Notificati
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 import { getGarantiesFinancièresTypeLabel } from '../../garanties-financières/getGarantiesFinancièresTypeLabel';
+import { getTechnologieTypeLabel } from '../helpers';
 
 type AvailableActions = Record<
   'corriger' | 'prévisualiserAttestation' | 'téléchargerAttestation',
@@ -81,6 +82,11 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                       <FormattedDate date={DateTime.bind(candidature.dateÉchéanceGf).formatter()} />
                     </span>
                   )}
+                </Field>
+              )}
+              {candidature.technologie && (
+                <Field name="Technologie">
+                  <span>Technologie: {getTechnologieTypeLabel(candidature.technologie.type)}</span>
                 </Field>
               )}
               {/* Cette partie sera sûrement supprimée après la migration de projet */}
