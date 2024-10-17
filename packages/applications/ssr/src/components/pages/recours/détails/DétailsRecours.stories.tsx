@@ -20,7 +20,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const identifiantProjet = '1#1##1';
+const identifiantProjet = 'PPE2 - Bâtiment#4#1#id-cre-738';
 
 export const Demandé: Story = {
   args: {

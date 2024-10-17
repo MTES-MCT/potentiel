@@ -30,7 +30,7 @@ const getProjetsÀSélectionner = () => {
       famille: `${i}`,
       numéroCRE: `${i}`,
       nom: `Projet ${i}`,
-      identifiantProjet: `${i}#${i}##${i}`,
+      identifiantProjet: `CRE4-${i}#${i}##${i}`,
       dateDésignation: DateTime.convertirEnValueType('2022-01-01').formatter(),
     });
   }

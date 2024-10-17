@@ -23,7 +23,7 @@ type Story = StoryObj<typeof meta>;
 
 export const GarantiesFinancieresActuellesComplètes: Story = {
   args: {
-    identifiantProjet: 'identifiantProjet#1',
+    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
     infoBoxMainlevée: {
       afficher: true,
       actions: 'transmettre-attestation-conformité',
@@ -51,7 +51,7 @@ export const GarantiesFinancieresActuellesComplètes: Story = {
 
 export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = {
   args: {
-    identifiantProjet: 'identifiantProjet#1',
+    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
     infoBoxMainlevée: {
       afficher: true,
       actions: 'transmettre-attestation-conformité',
@@ -90,7 +90,7 @@ export const GarantiesFinancieresActuellesComplètesAvecDépôtEnCours: Story = 
 
 export const GarantiesFinancieresActuellesComplètesAvecArchives: Story = {
   args: {
-    identifiantProjet: 'identifiantProjet#1',
+    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
     infoBoxMainlevée: {
       afficher: true,
       actions: 'transmettre-attestation-conformité',
@@ -147,7 +147,7 @@ export const GarantiesFinancieresActuellesComplètesAvecArchives: Story = {
 
 export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
   args: {
-    identifiantProjet: 'identifiantProjet#1',
+    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
     infoBoxMainlevée: {
       afficher: true,
       actions: 'transmettre-attestation-conformité',
@@ -174,7 +174,7 @@ export const GarantiesFinancieresActuellesIncomplètesSansDépôt: Story = {
 
 export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
   args: {
-    identifiantProjet: 'identifiantProjet#1',
+    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
     infoBoxMainlevée: {
       afficher: true,
       actions: 'transmettre-attestation-conformité',
@@ -198,7 +198,7 @@ export const GarantiesFinancieresVideAvecUnDépôtEnCours: Story = {
 
 export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
   args: {
-    identifiantProjet: 'identifiantProjet#1',
+    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
     infoBoxMainlevée: {
       afficher: true,
       actions: 'transmettre-attestation-conformité',
@@ -212,7 +212,7 @@ export const GarantiesFinancieresVideAvecActionSoumettre: Story = {
 
 export const GarantiesFinancieresVideAvecActionEnregistrer: Story = {
   args: {
-    identifiantProjet: 'identifiantProjet#1',
+    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
     infoBoxMainlevée: {
       afficher: true,
       actions: 'transmettre-attestation-conformité',

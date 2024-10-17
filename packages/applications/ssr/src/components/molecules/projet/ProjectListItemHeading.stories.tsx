@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(
-      'CRE4 - Autoconsommation métropole TEST#2##200-2',
+      'CRE4 - Autoconsommation métropole TEST#2#1#200-2',
     ),
     nomProjet: 'Boulodrome de Marseille',
     prefix: 'Abandon du projet',

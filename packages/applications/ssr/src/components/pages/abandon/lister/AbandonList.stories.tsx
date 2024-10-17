@@ -77,7 +77,7 @@ export const Default: Story = {
       currentPage: 1,
       items: [
         {
-          identifiantProjet: 'CRE4 - Autoconsommation métropole 2016#2##200-2',
+          identifiantProjet: 'CRE4 - Autoconsommation métropole 2016#2##creId-200-2',
           nomProjet: 'Le projet',
           statut: 'accordé',
           recandidature: false,

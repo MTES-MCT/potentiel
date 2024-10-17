@@ -23,7 +23,7 @@ const typesGarantiesFinancières: SoumettreGarantiesFinancièresProps['typesGara
 
 export const Default: Story = {
   args: {
-    identifiantProjet: 'identifiantProjet#1',
+    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
     typesGarantiesFinancières,
   },
 };

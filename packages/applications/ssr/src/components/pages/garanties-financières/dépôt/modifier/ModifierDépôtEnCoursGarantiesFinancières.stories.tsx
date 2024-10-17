@@ -9,6 +9,8 @@ import {
   ModifierDépôtEnCoursGarantiesFinancièresPageProps,
 } from './ModifierDépôtEnCoursGarantiesFinancières.page';
 
+// ne marche pas
+
 const meta = {
   title: 'Pages/Garanties-financières/Dépôt/Modifier',
   component: ModifierDépôtEnCoursGarantiesFinancièresPage,
@@ -25,7 +27,7 @@ const typesGarantiesFinancières: ModifierDépôtEnCoursGarantiesFinancièresPag
 
 export const EnTantQueDreal: Story = {
   args: {
-    identifiantProjet: 'identifiantProjet#1',
+    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
     dépôtEnCours: {
       typeGarantiesFinancières: 'consignation',
       dateConstitution: new Date('2021-10-23').toISOString() as Iso8601DateTime,
@@ -37,7 +39,7 @@ export const EnTantQueDreal: Story = {
 
 export const EnTantQuePorteur: Story = {
   args: {
-    identifiantProjet: 'identifiantProjet#1',
+    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
     dépôtEnCours: {
       dateÉchéance: new Date('2023-10-23').toISOString() as Iso8601DateTime,
       dateConstitution: new Date('2021-10-23').toISOString() as Iso8601DateTime,
