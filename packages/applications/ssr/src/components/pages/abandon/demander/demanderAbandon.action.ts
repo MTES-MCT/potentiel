@@ -19,7 +19,7 @@ const abandonWithRecandidatureSchema = zod.object({
 
 const abandonWithoutRecandidatureSchema = zod.object({
   identifiantProjet: zod.string().min(1),
-  recandidature: zod.literal('false'),
+  recandidature: zod.literal('false').optional(),
   raison: zod.string().min(1, { message: 'Champ obligatoire' }),
   pieceJustificative: document,
 });
