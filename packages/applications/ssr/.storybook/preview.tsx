@@ -40,6 +40,14 @@ Candidature.registerCandidatureQueries({
       potentielIdentifier: '',
       puissance: 0,
       type: '',
+      technologie: '',
+      engagementFournitureDePuissanceAlaPointe: false,
+      evaluationCarbone: 0,
+      isFinancementParticipatif: false,
+      isInvestissementParticipatif: false,
+      motifsElimination: '',
+      prixReference: 0,
+      actionnariat: '',
     };
   },
   récupérerProjetsEligiblesPreuveRecanditure: async () => [],
@@ -48,6 +56,16 @@ Candidature.registerCandidatureQueries({
     total: 0,
   }),
   find: async () => Option.none,
+  list: async () => {
+    return {
+      items: [],
+      total: 0,
+      range: {
+        endPosition: 0,
+        startPosition: 0,
+      },
+    };
+  },
 });
 
 export const decorators = [
