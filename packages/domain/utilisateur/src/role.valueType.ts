@@ -780,6 +780,7 @@ const policies = {
         référencielPermissions.éliminé.query.consulter,
         référencielPermissions.document.query.consulter,
         référencielPermissions.candidature.query.consulterProjet,
+        référencielPermissions.candidature.query.consulterCandidature,
         référencielPermissions.éliminé.recours.query.consulterLegacy,
       ],
     },
