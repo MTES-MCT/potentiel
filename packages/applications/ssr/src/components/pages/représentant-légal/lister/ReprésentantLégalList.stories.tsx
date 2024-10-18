@@ -19,6 +19,61 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const items: ReprésentantLégalListPageProps['items'] = [
+  {
+    identifiantProjet: {
+      appelOffre: `Appel d'offre 1`,
+      période: `1`,
+      famille: ``,
+      numéroCRE: `1`,
+    },
+    nomProjet: `Nom projet 1`,
+    statut: 'accordé',
+    misÀJourLe: {
+      date: DateTime.now().formatter(),
+    },
+  },
+  {
+    identifiantProjet: {
+      appelOffre: `Appel d'offre 2`,
+      période: `2`,
+      famille: ``,
+      numéroCRE: `2`,
+    },
+    nomProjet: `Nom projet 2`,
+    statut: 'demandé',
+    misÀJourLe: {
+      date: DateTime.now().formatter(),
+    },
+  },
+  {
+    identifiantProjet: {
+      appelOffre: `Appel d'offre 3`,
+      période: `3`,
+      famille: ``,
+      numéroCRE: `3`,
+    },
+    nomProjet: `Nom projet 3`,
+    statut: 'annulé',
+    misÀJourLe: {
+      date: DateTime.now().formatter(),
+    },
+  },
+  {
+    identifiantProjet: {
+      appelOffre: `Appel d'offre 4`,
+      période: `4`,
+      famille: ``,
+      numéroCRE: `4`,
+    },
+    nomProjet: `Nom projet 4`,
+    statut: 'rejeté',
+    misÀJourLe: {
+      date: DateTime.now().formatter(),
+    },
+  },
+];
+
 export const Default: Story = {
   args: {
     filters: [
@@ -60,64 +115,11 @@ export const Default: Story = {
         ],
       },
     ],
-    items: [
-      {
-        identifiantProjet: {
-          appelOffre: `Appel d'offre 1`,
-          période: `1`,
-          famille: ``,
-          numéroCRE: `1`,
-        },
-        nomProjet: `Nom projet 1`,
-        statut: 'accordé',
-        misÀJourLe: {
-          date: DateTime.now().formatter(),
-        },
-      },
-      {
-        identifiantProjet: {
-          appelOffre: `Appel d'offre 2`,
-          période: `2`,
-          famille: ``,
-          numéroCRE: `2`,
-        },
-        nomProjet: `Nom projet 2`,
-        statut: 'demandé',
-        misÀJourLe: {
-          date: DateTime.now().formatter(),
-        },
-      },
-      {
-        identifiantProjet: {
-          appelOffre: `Appel d'offre 3`,
-          période: `3`,
-          famille: ``,
-          numéroCRE: `3`,
-        },
-        nomProjet: `Nom projet 3`,
-        statut: 'annulé',
-        misÀJourLe: {
-          date: DateTime.now().formatter(),
-        },
-      },
-      {
-        identifiantProjet: {
-          appelOffre: `Appel d'offre 4`,
-          période: `4`,
-          famille: ``,
-          numéroCRE: `4`,
-        },
-        nomProjet: `Nom projet 4`,
-        statut: 'rejeté',
-        misÀJourLe: {
-          date: DateTime.now().formatter(),
-        },
-      },
-    ],
+    items,
     pagination: {
       currentPage: 1,
       itemsPerPage: 10,
     },
-    total: 10,
+    total: items.length,
   },
 };
