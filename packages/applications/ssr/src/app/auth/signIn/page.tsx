@@ -9,23 +9,17 @@ import { PageTemplate } from '@/components/templates/Page.template';
 export default function SignIn() {
   const params = useSearchParams();
   const { status } = useSession();
+  const callbackUrl = params.get('callbackUrl') ?? '/';
 
   useEffect(() => {
-    const autoSigning = async () => {
-      await delay(1500);
-
-      const callbackUrl = params.get('callbackUrl') ?? '/';
-
-      if (status === 'unauthenticated') {
-        signIn('keycloak', { callbackUrl });
-      }
-
-      if (status === 'authenticated') {
-        redirect(callbackUrl);
-      }
-    };
-    autoSigning();
-  }, [status, params]);
+    if (status === 'loading') return;
+    if (status === 'authenticated') {
+      redirect(callbackUrl);
+    }
+    if (status === 'unauthenticated') {
+      signIn('keycloak', { callbackUrl });
+    }
+  }, [status, callbackUrl]);
 
   return (
     <PageTemplate>
@@ -35,5 +29,3 @@ export default function SignIn() {
     </PageTemplate>
   );
 }
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

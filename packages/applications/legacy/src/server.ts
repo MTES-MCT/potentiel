@@ -107,7 +107,7 @@ export async function makeServer(port: number, sessionSecret: string) {
 
     app.use(express.json({ limit: FILE_SIZE_LIMIT_IN_MB + 'mb' }));
 
-    registerAuth({ app, sessionSecret, router: v1Router });
+    registerAuth({ app, router: v1Router });
 
     app.use(v1Router);
     app.use(express.static(path.join(__dirname, 'public')));

@@ -25,13 +25,12 @@ export { withParams };
 
 class routes {
   static HOME = '/';
-  static LOGIN = '/login.html';
-  static LOGIN_ACTION = '/login.html';
+  static LOGIN = '/auth/signIn';
   static STATS = '/stats.html';
   static ABONNEMENT_LETTRE_INFORMATION = '/abonnement-lettre-information.html';
   static POST_SINSCRIRE_LETTRE_INFORMATION = '/s-inscrire-a-la-lettre-d-information';
   static DECLARATION_ACCESSIBILITE = '/accessibilite.html';
-  static LOGOUT_ACTION = '/signout';
+  static LOGOUT_ACTION = '/api/auth/federated-logout';
   static SIGNUP = '/signup.html';
   static POST_SIGNUP = '/signup';
 

@@ -7,14 +7,8 @@ import { PageTemplate } from '@/components/templates/Page.template';
 
 export default function SignIn() {
   useEffect(() => {
-    const autoSignout = async () => {
-      await delay(1500);
-
-      signOut({ callbackUrl: '/logout' });
-    };
-
-    autoSignout();
-  });
+    signOut({ callbackUrl: '/' });
+  }, []);
 
   return (
     <PageTemplate>
@@ -24,5 +18,3 @@ export default function SignIn() {
     </PageTemplate>
   );
 }
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

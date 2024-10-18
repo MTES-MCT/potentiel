@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { logger, ok } from '../../core/utils';
 import { CreateUser, GetUserByEmail, USER_ROLES } from '../../modules/users';
 import { getPermissions } from '../../modules/authN';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 type AttachUserToRequestMiddlewareDependencies = {
   getUserByEmail: GetUserByEmail;
@@ -23,30 +24,23 @@ const makeAttachUserToRequestMiddleware =
       return;
     }
 
-    const token = request.kauth?.grant?.access_token;
+    const accessToken = request?.token?.accessToken as string;
 
-    const userEmail = token?.content?.email;
-    const kRole = USER_ROLES.find((role) => token?.hasRealmRole(role));
-
-    if (userEmail) {
-      await getUserByEmail(userEmail)
+    if (accessToken) {
+      const {
+        identifiantUtilisateur: { email },
+        role: { nom: role },
+        nom: fullName,
+      } = Utilisateur.convertirEnValueType(accessToken);
+      await getUserByEmail(email)
         .andThen((user) => {
           if (user) {
-            return ok({
-              ...user,
-              role: kRole!,
-            });
+            return ok({ ...user, role });
           }
+          const createUserArgs = { email, role, fullName };
 
-          const fullName = token?.content?.name;
-          const createUserArgs = { email: userEmail, role: kRole, fullName };
-
-          return createUser(createUserArgs).andThen(({ id, role }) => {
-            if (!kRole) {
-              request.session.destroy(() => {});
-            }
-
-            return ok({ ...createUserArgs, id, role });
+          return createUser(createUserArgs).andThen(({ id }) => {
+            return ok({ ...createUserArgs, id });
           });
         })
         .match(
