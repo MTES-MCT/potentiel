@@ -10,6 +10,7 @@ export const USER_ROLES = [
   'dgec-validateur',
   'caisse-des-dépôts',
   'cre',
+  'grd',
 ] as const;
 
 export type UserRole = (typeof USER_ROLES)[number];

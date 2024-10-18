@@ -16,6 +16,7 @@ const userSchema = Record({
     Literal('dgec-validateur'),
     Literal('cre'),
     Literal('caisse-des-dépôts'),
+    Literal('grd'),
   ),
 });
 

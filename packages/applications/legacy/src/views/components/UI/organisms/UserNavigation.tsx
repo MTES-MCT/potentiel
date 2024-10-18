@@ -42,6 +42,8 @@ export const UserNavigation = ({
       return MenuCre(currentPage);
     case 'caisse-des-dépôts':
       return MenuCaisseDesDépôts(currentPage);
+    case 'grd':
+      return MenuGRD();
   }
 };
 
@@ -261,4 +263,10 @@ const MenuDreal = (currentPage?: string) => (
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />
   </>
+);
+
+const MenuGRD = () => (
+  <Header.MenuItem href={Routes.Raccordement.importer}>
+    Importer Dates de Mise en Service
+  </Header.MenuItem>
 );
