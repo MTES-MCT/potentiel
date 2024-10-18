@@ -49,6 +49,9 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
           identifiantProjet={identifiantProjet}
           listeGestionnairesRéseau={listeGestionnairesRéseau}
           identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
+          aDéjàTransmisUneDemandeComplèteDeRaccordement={
+            aDéjàTransmisUneDemandeComplèteDeRaccordement
+          }
         />
       ),
     }}
