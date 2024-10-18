@@ -8,6 +8,7 @@ export interface ProjectDataCorrectedPayload {
     nomProjet: string;
     territoireProjet: string;
     puissance: number;
+    puissanceInitiale: number;
     prixReference: number;
     evaluationCarbone: number;
     note: number;
@@ -21,6 +22,7 @@ export interface ProjectDataCorrectedPayload {
     isFinancementParticipatif: boolean;
     isInvestissementParticipatif: boolean;
     motifsElimination: string;
+    actionnaire: string;
     actionnariat?: Actionnariat;
   }>;
 }

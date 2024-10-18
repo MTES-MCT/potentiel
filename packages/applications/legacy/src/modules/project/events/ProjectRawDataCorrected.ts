@@ -9,6 +9,7 @@ export interface ProjectRawDataCorrectedPayload {
     nomProjet: string;
     territoireProjet: string;
     puissance: number;
+    puissanceInitiale: number;
     prixReference: number;
     evaluationCarbone: number;
     note: number;
@@ -22,6 +23,7 @@ export interface ProjectRawDataCorrectedPayload {
     isFinancementParticipatif: boolean;
     isInvestissementParticipatif: boolean;
     motifsElimination: string;
+    actionnaire: string;
     actionnariat?: Actionnariat;
   };
 }

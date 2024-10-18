@@ -171,7 +171,6 @@ const mapToLegacyEventPayload = (
     garantiesFinancièresType: getTypeGarantiesFinancieresLabel(payload.typeGarantiesFinancières),
     technologie: payload.technologie,
     historiqueAbandon: payload.historiqueAbandon,
-    actionnaire: payload.sociétéMère,
     désignationCatégorie: getDésignationCatégorie({
       puissance: payload.puissanceProductionAnnuelle,
       note: payload.noteTotale,
@@ -191,7 +190,9 @@ const mapToCorrectedData = (
   nomRepresentantLegal: payload.nomReprésentantLégal,
   email: payload.emailContact,
   motifsElimination: payload.motifÉlimination ?? '',
+  actionnaire: payload.sociétéMère,
   puissance: payload.puissanceProductionAnnuelle,
+  puissanceInitiale: payload.puissanceProductionAnnuelle,
   engagementFournitureDePuissanceAlaPointe: payload.puissanceALaPointe,
   prixReference: payload.prixReference,
   note: payload.noteTotale,
