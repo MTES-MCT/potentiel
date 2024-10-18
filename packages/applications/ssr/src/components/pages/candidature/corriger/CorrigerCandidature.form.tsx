@@ -213,7 +213,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         label="Note"
         nativeInputProps={getFieldProps('noteTotale')}
       />
-      {!estNotifiée && !estÉliminé && (
+      {!estNotifiée && !estÉliminé ? (
         <>
           <Select
             {...getStateProps('typeGarantiesFinancieres')}
@@ -243,8 +243,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
             />
           )}
         </>
-      )}
-      {estNotifiée && !estÉliminé && (
+      ) : (
         <>
           <input
             type="hidden"
