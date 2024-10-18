@@ -7,13 +7,13 @@ import { PlainType } from '@potentiel-domain/core';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 
-import { StatutReprésentantLégalBadge } from './StatutReprésentantLégalBadge';
+import { StatutChangementReprésentantLégalBadge } from './StatutChangementReprésentantLégalBadge';
 
 /**
  * @todo À ajouter quand domain est prêt :
 export type ReprésentantLégalListItemProps = PlainType<ReprésentantLégal.ListerReprésentantLégalReadModel['items'][number]>; 
  */
-export type ReprésentantLégalListItemProps = PlainType<{
+export type ChangementReprésentantLégalListItemProps = PlainType<{
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   statut: 'demandé' | 'accordé' | 'rejeté' | 'annulé';
@@ -22,7 +22,7 @@ export type ReprésentantLégalListItemProps = PlainType<{
   };
 }>;
 
-export const ReprésentantLégalListItem: FC<ReprésentantLégalListItemProps> = ({
+export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantLégalListItemProps> = ({
   identifiantProjet,
   nomProjet,
   statut,
@@ -33,7 +33,7 @@ export const ReprésentantLégalListItem: FC<ReprésentantLégalListItemProps> =
       <ProjectListItemHeading
         nomProjet={nomProjet}
         identifiantProjet={identifiantProjet}
-        prefix="Modification de représentant légal du projet"
+        prefix="Changement représentant légal du projet"
         misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
       />
     }
@@ -50,6 +50,6 @@ export const ReprésentantLégalListItem: FC<ReprésentantLégalListItemProps> =
       </Link>
     }
   >
-    <StatutReprésentantLégalBadge statut={statut} small />
+    <StatutChangementReprésentantLégalBadge statut={statut} small />
   </ListItem>
 );

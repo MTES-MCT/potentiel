@@ -3,23 +3,23 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { DateTime } from '@potentiel-domain/common';
 
 import {
-  ReprésentantLégalListPage,
-  ReprésentantLégalListPageProps,
-} from './ReprésentantLégalList.page';
+  ChangementReprésentantLégalListPage,
+  ChangementReprésentantLégalListPageProps,
+} from './ChangementReprésentantLégalList.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Pages/ReprésentantLégal/Lister/ReprésentantLégalListPage',
-  component: ReprésentantLégalListPage,
+  title: 'Pages/ChangementReprésentantLégal/Lister/ChangementReprésentantLégalListPage',
+  component: ChangementReprésentantLégalListPage,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<ReprésentantLégalListPageProps>;
+} satisfies Meta<ChangementReprésentantLégalListPageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const items: ReprésentantLégalListPageProps['items'] = [
+const items: ChangementReprésentantLégalListPageProps['items'] = [
   {
     identifiantProjet: {
       appelOffre: `Appel d'offre 1`,

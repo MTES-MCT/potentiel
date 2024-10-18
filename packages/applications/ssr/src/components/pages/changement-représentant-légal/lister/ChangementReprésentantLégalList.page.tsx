@@ -7,29 +7,29 @@ import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/
 import { Pagination } from '@/utils/pagination';
 
 import {
-  ReprésentantLégalListItem,
-  ReprésentantLégalListItemProps,
-} from './ReprésentantLégalListItem';
+  ChangementReprésentantLégalListItem,
+  ChangementReprésentantLégalListItemProps,
+} from './ChangementReprésentantLégalListItem';
 
-export type ReprésentantLégalListPageProps = {
+export type ChangementReprésentantLégalListPageProps = {
   /**
    * @todo À ajouter quand domain est prêt :
   items: PlainType<ReprésentantLégal.ListerReprésentantLégalReadModel['items']>;
    */
-  items: Array<PlainType<ReprésentantLégalListItemProps>>;
+  items: Array<PlainType<ChangementReprésentantLégalListItemProps>>;
   pagination: Pagination;
   total: number;
-  filters: ListPageTemplateProps<typeof ReprésentantLégalListItem>['filters'];
+  filters: ListPageTemplateProps<typeof ChangementReprésentantLégalListItem>['filters'];
 };
 
-export const ReprésentantLégalListPage: FC<ReprésentantLégalListPageProps> = ({
+export const ChangementReprésentantLégalListPage: FC<ChangementReprésentantLégalListPageProps> = ({
   items,
   pagination: { currentPage, itemsPerPage },
   total,
   filters,
 }) => (
   <ListPageTemplate
-    heading="Demandes de modification du représentant légal"
+    heading="Changements de représentant légal"
     actions={[]}
     items={items.map((item) => ({
       ...item,
@@ -38,7 +38,7 @@ export const ReprésentantLégalListPage: FC<ReprésentantLégalListPageProps> =
     currentPage={currentPage}
     totalItems={total}
     itemsPerPage={itemsPerPage}
-    ItemComponent={ReprésentantLégalListItem}
+    ItemComponent={ChangementReprésentantLégalListItem}
     filters={filters}
     search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
   />
