@@ -25,12 +25,14 @@ export type TransmettreDemandeComplèteRaccordementFormProps = {
   identifiantProjet: string;
   identifiantGestionnaireRéseauActuel?: string;
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
+  aDéjàTransmisUneDemandeComplèteDeRaccordement: boolean;
 };
 
 export const TransmettreDemandeComplèteRaccordementForm = ({
   identifiantProjet,
   identifiantGestionnaireRéseauActuel,
   listeGestionnairesRéseau,
+  aDéjàTransmisUneDemandeComplèteDeRaccordement,
 }: TransmettreDemandeComplèteRaccordementFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<TransmettreDemandeComplèteRaccordementFormKeys>
@@ -62,16 +64,29 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={
         <>
-          <Button
-            priority="secondary"
-            linkProps={{
-              href: Routes.Raccordement.détail(identifiantProjet),
-              prefetch: false,
-            }}
-            iconId="fr-icon-arrow-left-line"
-          >
-            Retour aux dossiers de raccordement
-          </Button>
+          {aDéjàTransmisUneDemandeComplèteDeRaccordement ? (
+            <Button
+              priority="secondary"
+              linkProps={{
+                href: Routes.Raccordement.détail(identifiantProjet),
+                prefetch: false,
+              }}
+              iconId="fr-icon-arrow-left-line"
+            >
+              Retour aux dossiers de raccordement
+            </Button>
+          ) : (
+            <Button
+              priority="secondary"
+              linkProps={{
+                href: Routes.Projet.details(identifiantProjet),
+                prefetch: false,
+              }}
+              iconId="fr-icon-arrow-left-line"
+            >
+              Retour au projet
+            </Button>
+          )}
           <SubmitButton>Transmettre</SubmitButton>
         </>
       }
