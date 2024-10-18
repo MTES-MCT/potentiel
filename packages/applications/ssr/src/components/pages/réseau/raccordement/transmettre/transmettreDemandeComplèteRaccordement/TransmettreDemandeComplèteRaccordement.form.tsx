@@ -94,17 +94,33 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
       {alreadyHasAGestionnaireRéseau ? (
-        <input
-          type="hidden"
-          name="identifiantGestionnaireReseau"
-          value={identifiantGestionnaireRéseauActuel}
-        />
+        <>
+          <input
+            type="hidden"
+            name="identifiantGestionnaireReseau"
+            value={identifiantGestionnaireRéseauActuel}
+          />
+          <legend className="font-bold">Gestionnaire réseau actuel</legend>
+          <div className="flex flex-col">{identifiantGestionnaireRéseauActuel}</div>
+
+          <Button
+            priority="secondary"
+            linkProps={{
+              href: Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet),
+              prefetch: false,
+            }}
+            iconId="fr-icon-arrow-left-line"
+          >
+            Modifier le gestionnaire réseau actuel
+          </Button>
+        </>
       ) : (
         <GestionnaireRéseauSelect
           id="identifiantGestionnaireReseau"
           name="identifiantGestionnaireReseau"
           label="Gestionnaire de réseau"
           listeGestionnairesRéseau={listeGestionnairesRéseau}
+          identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
           state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
           onGestionnaireRéseauSelected={({ identifiantGestionnaireRéseau }) =>

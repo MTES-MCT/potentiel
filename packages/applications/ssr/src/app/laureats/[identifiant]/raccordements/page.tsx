@@ -7,7 +7,6 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 
-import { AucunDossierDeRaccordementPage } from '@/components/pages/réseau/raccordement/détails/AucunDossierDeRaccordement.page';
 import {
   DétailsRaccordementPage,
   DétailsRaccordementPageProps,
@@ -45,6 +44,10 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       });
 
       if (Option.isNone(raccordement)) {
+        redirect(Routes.Raccordement.attribuerGestionnaireDeRéseau(identifiantProjet));
+      }
+
+      if (raccordement.dossiers.length === 0) {
         redirect(Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet));
       }
 
@@ -64,14 +67,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         raccordement,
       });
 
-      return raccordement.dossiers.length === 0 ? (
-        <AucunDossierDeRaccordementPage
-          identifiantProjet={identifiantProjet}
-          gestionnaireRéseau={props.gestionnaireRéseau}
-        />
-      ) : (
-        <DétailsRaccordementPage {...props} />
-      );
+      return <DétailsRaccordementPage {...props} />;
     }),
   );
 }
