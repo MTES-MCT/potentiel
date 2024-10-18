@@ -93,19 +93,36 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
-      <GestionnaireRéseauSelect
-        id="identifiantGestionnaireReseau"
-        name="identifiantGestionnaireReseau"
-        label="Gestionnaire de réseau"
-        disabled={alreadyHasAGestionnaireRéseau ? true : undefined}
-        identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
-        gestionnairesRéseau={listeGestionnairesRéseau}
-        state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
-        onGestionnaireRéseauSelected={({ identifiantGestionnaireRéseau }) =>
-          setSelectedIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau)
-        }
-      />
+      {alreadyHasAGestionnaireRéseau ? (
+        <>
+          <legend className="font-bold">Gestionnaire réseau actuel</legend>
+          <div className="flex flex-col">{identifiantGestionnaireRéseauActuel}</div>
+
+          <Button
+            priority="secondary"
+            linkProps={{
+              href: Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet),
+              prefetch: false,
+            }}
+            iconId="fr-icon-arrow-left-line"
+          >
+            Modifier le gestionnaire réseau actuel
+          </Button>
+        </>
+      ) : (
+        <GestionnaireRéseauSelect
+          id="identifiantGestionnaireReseau"
+          name="identifiantGestionnaireReseau"
+          label="Gestionnaire de réseau"
+          identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
+          gestionnairesRéseau={listeGestionnairesRéseau}
+          state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
+          onGestionnaireRéseauSelected={({ identifiantGestionnaireRéseau }) =>
+            setSelectedIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau)
+          }
+        />
+      )}
 
       <Input
         label="Référence du dossier de raccordement du projet *"
