@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto';
 
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { faker } from '@faker-js/faker';
+import { mediator } from 'mediateur';
 
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
@@ -9,10 +10,6 @@ import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Éliminé } from '@potentiel-domain/elimine';
 
 import { PotentielWorld } from '../../../potentiel.world';
-
-// un projet éliminé
-// est une candidature
-// notifiée
 
 EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld, nomProjet: string) {
   await executeQuery(
@@ -94,6 +91,24 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
     dateDésignation: notifiéLe.formatter(),
   });
 
+  // TODO : Hack en attendant de revoir ces steps
+  const data = {
+    identifiantProjetValue: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
+    notifiéLeValue: notifiéLe.formatter(),
+    notifiéParValue: this.utilisateurWorld.validateurFixture.email,
+    attestationValue: {
+      format: 'application/pdf',
+    },
+    validateurValue: {
+      fonction: this.utilisateurWorld.validateurFixture.fonction,
+      nomComplet: this.utilisateurWorld.validateurFixture.nom,
+    },
+  };
+
+  await mediator.send<Éliminé.NotifierÉliminéUseCase>({
+    type: 'Éliminé.UseCase.NotifierÉliminé',
+    data,
+  });
   // TODO : Hack en attendant de revoir ces steps
   const éliminéNotifié: Éliminé.ÉliminéNotifiéEvent = {
     type: 'ÉliminéNotifié-V1',
