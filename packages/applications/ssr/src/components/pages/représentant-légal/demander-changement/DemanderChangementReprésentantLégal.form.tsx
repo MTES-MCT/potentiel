@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useState } from 'react';
+import { match } from 'ts-pattern';
 import Input from '@codegouvfr/react-dsfr/Input';
 import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 
@@ -25,32 +26,33 @@ export const DemanderChangementReprésentantLégalForm: FC<
 
   const [typeDePersonne, selectTypeDePersonne] = useState<TypeDePersonne>();
 
-  const getNomReprésentantLégalHintText = () => {
-    switch (typeDePersonne) {
-      case 'Personne physique':
-        return 'les nom et prénom';
-      case 'Personne morale':
-        return 'le nom de la société';
-      case 'Collectivité':
-        return 'le nom de la collectivité';
-      case 'Autre':
-        return `le nom de l'organisme`;
-      default:
-        return 'le nom';
-    }
-  };
-  const getPièceJustificativeHintText = () => {
-    switch (typeDePersonne) {
-      case 'Personne physique':
-        return `Une copie de titre d'identité (carte d'identité ou passeport) en cours de validité`;
-      case 'Personne morale':
-        return 'Un extrait Kbis, pour les sociétés en cours de constitutionv une copie des statuts de la société en cours de constitution, une attestation de récépissé de dépôt de fonds pour constitution de capital social et une copie de l’acte désignant le représentant légal de la société';
-      case 'Collectivité':
-        return `Un extrait de délibération portant sur le projet objet de l'offre`;
-      default:
-        return `Tout document officiel permettant d'attester de l'existence juridique de la personne`;
-    }
-  };
+  const getNomReprésentantLégalHintText = () =>
+    match(typeDePersonne)
+      .with('Personne physique', () => 'les nom et prénom')
+      .with('Personne morale', () => 'le nom de la société')
+      .with('Collectivité', () => 'le nom de la collectivité')
+      .with('Autre', () => `le nom de l'organisme`)
+      .otherwise(() => 'le nom');
+
+  const getPièceJustificativeHintText = () =>
+    match(typeDePersonne)
+      .with(
+        'Personne physique',
+        () => `Une copie de titre d'identité (carte d'identité ou passeport) en cours de validité`,
+      )
+      .with(
+        'Personne morale',
+        () =>
+          'Un extrait Kbis, pour les sociétés en cours de constitutionv une copie des statuts de la société en cours de constitution, une attestation de récépissé de dépôt de fonds pour constitution de capital social et une copie de l’acte désignant le représentant légal de la société',
+      )
+      .with(
+        'Collectivité',
+        () => `Un extrait de délibération portant sur le projet objet de l'offre`,
+      )
+      .otherwise(
+        () =>
+          `Tout document officiel permettant d'attester de l'existence juridique de la personne`,
+      );
 
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderChangementReprésentantLégalFormKeys>
