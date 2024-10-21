@@ -3,7 +3,7 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 
-import { Routes } from '@potentiel-applications/routes';
+// import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
@@ -65,7 +65,7 @@ export const RejeterChangementReprésentantLégal = ({
 
               <DownloadDocument
                 className="mt-4"
-                url={Routes.ChangementReprésentantLégal.téléchargerModèleRéponse(identifiantProjet)}
+                url={'#'} // Routes.ChangementReprésentantLégal.téléchargerModèleRéponse(identifiantProjet)}
                 format="docx"
                 label="Télécharger le modèle de réponse"
               />

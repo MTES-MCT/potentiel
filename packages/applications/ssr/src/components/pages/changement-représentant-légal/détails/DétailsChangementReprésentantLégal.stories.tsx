@@ -49,7 +49,36 @@ export const Demandé: Story = {
         },
       },
     },
-    actions: [],
+    actions: ['annuler'],
+  },
+};
+
+export const Instruction: Story = {
+  args: {
+    identifiantProjet,
+    role: Role.dgecValidateur,
+    changementReprésentantLégal: {
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      statut: 'demandé',
+      demande: {
+        demandéPar: {
+          email: 'porteur@test.test',
+        },
+        demandéLe: {
+          date: new Date('2022-01-01').toISOString(),
+        },
+        nomReprésentantLégal: 'Nouveau représentant légal',
+        pièceJustificative: {
+          dateCréation: new Date('2022-01-01').toISOString(),
+          format: 'application/pdf',
+          identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+          typeDocument: 'application/pdf',
+          //   ChangementReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative
+          //     .type,
+        },
+      },
+    },
+    actions: ['accorder', 'rejeter'],
   },
 };
 

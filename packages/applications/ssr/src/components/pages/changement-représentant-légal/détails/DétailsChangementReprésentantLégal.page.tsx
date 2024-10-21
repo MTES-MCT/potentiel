@@ -54,7 +54,7 @@ export const DétailsChangementReprésentantLégalPage: FC<
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
-      heading={<Heading1>Détail du changementReprésentantLégal</Heading1>}
+      heading={<Heading1>Détail du changement de représentant légal</Heading1>}
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">
