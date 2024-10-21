@@ -5,7 +5,7 @@ const retryPolicy = retry(handleAll, {
   backoff: new ExponentialBackoff(),
 });
 
-export const get = async (url: URL, signal?: AbortSignal): Promise<unknown> => {
+export const get = async <T>(url: URL, signal?: AbortSignal): Promise<T> => {
   return await retryPolicy.execute(async () => {
     const response = await fetch(url, { signal });
 

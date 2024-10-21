@@ -33,6 +33,7 @@ export type FormState =
       status: 'success' | undefined;
       result?: ActionResult;
       redirectUrl?: string;
+      documentUrl?: string;
     }
   | {
       status: 'validation-error';
@@ -45,6 +46,10 @@ export type FormState =
   | {
       status: 'csv-error';
       errors: Array<CsvError>;
+    }
+  | {
+      status: 'api-error';
+      message: string;
     }
   | {
       status: 'unknown-error';

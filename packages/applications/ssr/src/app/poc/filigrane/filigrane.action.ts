@@ -3,6 +3,8 @@
 import * as zod from 'zod';
 import axios from 'axios';
 
+import { get } from '@potentiel-libraries/http-client';
+
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { document } from '@/utils/zod/documentTypes';
 
@@ -10,34 +12,56 @@ const schema = zod.object({
   document,
 });
 
-const action: FormAction<FormState, typeof schema> = async (previousState, { document }) => {
+export const sleep = async (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const postDocument = async (ApiUrl: string, document: Blob) => {
   try {
     const form = new FormData();
+    form.append('watermark', 'POC de la startup Potentiel');
+    form.append('files', document);
 
-    const file = new File([document], 'test.pdf', { type: 'application/pdf' });
+    const {
+      data: { token },
+    } = await axios.post(`${ApiUrl}/files`, form);
 
-    form.append('file', file);
-    form.append('watermark', 'SPECIMEN'); // Remplacez par le texte du filigrane
-
-    const response = await axios.post(
-      'https://api.filigrane.beta.gouv.fr/api/document/files',
-      form,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      },
-    );
-
-    console.log('File uploaded successfully:', response.data);
-  } catch (e) {
-    console.error('Error while uploading file:', e);
+    return token;
+  } catch (error) {
+    throw new Error(`❌ Error while post document : ${(error as Error).message}`);
   }
+};
 
-  return {
-    status: 'success',
-    redirectUrl: '#',
-  };
+const verifyDocumentExists = async (ApiUrl: string, token: string) => {
+  const checkUrl = new URL(`${ApiUrl}/url/${token}`);
+
+  const response = await get<{ url: string }>(checkUrl);
+
+  return response.url;
+};
+
+const action: FormAction<FormState, typeof schema> = async (_, { document }) => {
+  try {
+    const API_URL = 'https://api.filigrane.beta.gouv.fr/api/document';
+
+    const token = await postDocument(API_URL, document);
+
+    // Wait 10 seconds for the document to be processed
+    await sleep(10000);
+
+    await verifyDocumentExists(API_URL, token);
+
+    const documentUrl = `${API_URL}/${token}`;
+
+    return {
+      status: 'success',
+      documentUrl,
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      status: 'api-error',
+      message: (e as Error).message,
+    };
+  }
 };
 
 export const ajouterFiligraneAction = formAction(action, schema);
