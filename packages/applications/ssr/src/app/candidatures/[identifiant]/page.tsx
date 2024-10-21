@@ -62,13 +62,13 @@ const mapToActions = (
   };
   return match(props)
     .returnType<DétailsCandidaturePageProps['actions']>()
-    .with({ aUneAttestation: true, estNotifiée: true }, () => ({
+    .with({ estNotifiée: false }, () => ({
       ...defaultActions,
-      téléchargerAttestation: true,
+      prévisualiserAttestation: role.aLaPermission('candidature.attestation.prévisualiser'),
     }))
     .with({ aUneAttestation: true, estNotifiée: true }, () => ({
       ...defaultActions,
-      prévisualiserAttestation: role.aLaPermission('candidature.attestation.prévisualiser'),
+      téléchargerAttestation: true,
     }))
     .otherwise(() => defaultActions);
 };
