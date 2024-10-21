@@ -21,7 +21,7 @@ import {
 export type ModifierGestionnaireRéseauRaccordementFormProps = {
   identifiantProjet: string;
   identifiantGestionnaireRéseauActuel: string;
-  listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
+  listeGestionnairesRéseau: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
 };
 
 export const ModifierGestionnaireRéseauRaccordementForm: FC<
@@ -67,7 +67,7 @@ export const ModifierGestionnaireRéseauRaccordementForm: FC<
             name="identifiantGestionnaireReseau"
             state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
-            gestionnairesRéseau={listeGestionnairesRéseau}
+            listeGestionnairesRéseau={listeGestionnairesRéseau}
             identifiantGestionnaireRéseauActuel={gestionnaireActuel?.identifiantGestionnaireRéseau}
           />
         </div>
