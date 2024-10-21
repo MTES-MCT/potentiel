@@ -262,5 +262,21 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       familles: [],
       cahiersDesChargesModifiésDisponibles: [],
     },
+    {
+      id: '8',
+      title: 'huitième',
+      certificateTemplate: 'ppe2.v2',
+      ministère: 'MCE',
+      // TODO à retirer, cette valeur n'est plus actuelle,
+      // et le champs validateurParDéfaut n'est plus utilisé
+      validateurParDéfaut: validateurParDéfaut.hermine,
+      noteThreshold: 12.24,
+      cahierDesCharges: {
+        référence: '2024/S 419522-2024',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
+      cahiersDesChargesModifiésDisponibles: [],
+    },
   ],
 };
