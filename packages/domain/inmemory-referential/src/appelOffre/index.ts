@@ -21,6 +21,7 @@ import {
   autoconsommationMetropolePPE2,
   zniPPE2,
 } from './PPE2';
+import { test } from './test';
 
 export const appelsOffreData = [
   batiment,
@@ -42,4 +43,5 @@ export const appelsOffreData = [
   innovationPPE2,
   autoconsommationMetropolePPE2,
   zniPPE2,
+  test,
 ];
