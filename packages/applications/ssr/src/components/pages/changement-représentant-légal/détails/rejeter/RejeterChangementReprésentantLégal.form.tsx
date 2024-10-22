@@ -1,13 +1,18 @@
 'use client';
 
-import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
+import Input from '@codegouvfr/react-dsfr/Input';
 
 // import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { rejeterChangementReprésentantLégalAction } from './rejeterChangementReprésentantLégal.action';
+import {
+  rejeterChangementReprésentantLégalAction,
+  RejeterChangementReprésentantLégalFormKeys,
+} from './rejeterChangementReprésentantLégal.action';
 
 type RejeterChangementReprésentantLégalFormProps = {
   identifiantProjet: string;
@@ -16,6 +21,9 @@ type RejeterChangementReprésentantLégalFormProps = {
 export const RejeterChangementReprésentantLégal = ({
   identifiantProjet,
 }: RejeterChangementReprésentantLégalFormProps) => {
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<RejeterChangementReprésentantLégalFormKeys>
+  >({});
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -41,12 +49,25 @@ export const RejeterChangementReprésentantLégal = ({
           encType: 'multipart/form-data',
           id: 'rejeter-changementReprésentantLégal-form',
           omitMandatoryFieldsLegend: true,
+          onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (
             <>
               <p className="mt-3">
                 Êtes-vous sûr de vouloir rejeter ce changement de représentant légal ?
               </p>
+
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              <Input
+                label="Raison du rejet"
+                id="raison"
+                nativeInputProps={{
+                  name: 'raison',
+                  required: true,
+                  'aria-required': true,
+                }}
+                state={validationErrors['raison'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['raison']}
+              />
             </>
           ),
         }}
