@@ -58,9 +58,10 @@ export const RejeterChangementReprésentantLégal = ({
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
               <Input
+                textArea
                 label="Raison du rejet"
                 id="raison"
-                nativeInputProps={{
+                nativeTextAreaProps={{
                   name: 'raison',
                   required: true,
                   'aria-required': true,

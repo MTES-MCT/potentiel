@@ -53,7 +53,7 @@ export const Demandé: Story = {
         ],
       },
     },
-    actions: ['annuler', 'accorder', 'rejeter'],
+    actions: ['annuler', 'accorder', 'rejeter', 'modifier'],
   },
 };
 

@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { PlainType } from '@potentiel-domain/core';
 // import { ReprésentantLégal } from '@potentiel-domain/laureat';
@@ -20,7 +21,11 @@ import { AccorderChangementReprésentantLégal } from './accorder/AccorderChange
 import { RejeterChangementReprésentantLégal } from './rejeter/RejeterChangementReprésentantLégal.form';
 import { AnnulerChangementReprésentantLégal } from './annuler/AnnulerChangementReprésentantLégal.form';
 
-export type AvailableChangementReprésentantLégalAction = 'accorder' | 'rejeter' | 'annuler';
+export type AvailableChangementReprésentantLégalAction =
+  | 'accorder'
+  | 'rejeter'
+  | 'modifier'
+  | 'annuler';
 
 export type DétailsChangementReprésentantLégalPageProps = {
   identifiantProjet: string;
@@ -159,6 +164,11 @@ const mapToActionComponents = ({
       )}
       {actions.includes('rejeter') && (
         <RejeterChangementReprésentantLégal identifiantProjet={identifiantProjet} />
+      )}
+      {actions.includes('modifier') && (
+        <Button priority="secondary" className="block w-1/2 text-center" linkProps={{ href: '#' }}>
+          Modifier
+        </Button>
       )}
       {actions.includes('annuler') && (
         <AnnulerChangementReprésentantLégal identifiantProjet={identifiantProjet} />
