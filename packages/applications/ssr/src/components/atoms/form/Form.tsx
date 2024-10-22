@@ -47,6 +47,8 @@ export const Form: FC<FormProps> = ({
     <form action={formAction} {...props}>
       {heading && <Heading2 className="mb-4">{heading}</Heading2>}
 
+      <FormFeedback formState={state} successMessage={successMessage} />
+
       {pendingModal && <FormPendingModal {...pendingModal} />}
 
       {!omitMandatoryFieldsLegend && (
@@ -55,12 +57,10 @@ export const Form: FC<FormProps> = ({
         </div>
       )}
 
-      <div className={`flex flex-col gap-5 mb-4 ${className || ''}`}>
+      <div className={`flex flex-col gap-5  ${className || ''}`}>
         {children}
         <div className="flex flex-col md:flex-row gap-2">{actions}</div>
       </div>
-
-      <FormFeedback formState={state} successMessage={successMessage} />
 
       <FormFeedbackCsvErrors formState={state} />
     </form>
