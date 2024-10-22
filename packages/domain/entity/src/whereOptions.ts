@@ -8,10 +8,14 @@ export type LikeWhereCondition = {
   operator: 'like';
   value: `%${string}` | `${string}%` | `%${string}%`;
 };
+
 export type NotLikeWhereCondition = {
   operator: 'notLike';
   value: `%${string}` | `${string}%` | `%${string}%`;
 };
+
+export type EqualNullWhereCondition = { operator: 'equalNull' };
+export type NotEqualNullWhereCondition = { operator: 'notEqualNull' };
 
 export type WhereCondition<T = {}> =
   | EqualWhereCondition<T>
@@ -19,12 +23,14 @@ export type WhereCondition<T = {}> =
   | LikeWhereCondition
   | NotLikeWhereCondition
   | IncludeWhereCondition<T>
-  | NotIncludeWhereCondition<T>;
+  | NotIncludeWhereCondition<T>
+  | EqualNullWhereCondition
+  | NotEqualNullWhereCondition;
 
 export type WhereOperator = WhereCondition['operator'];
 
 export type WhereOptions<T> = {
-  [P in keyof T]?: T[P] extends string | boolean | number
+  [P in keyof T]?: T[P] extends string | boolean | number | undefined
     ? WhereCondition<T[P]>
     : T[P] extends Record<string, unknown> | undefined
       ? WhereOptions<T[P]>
