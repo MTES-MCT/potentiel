@@ -56,6 +56,11 @@ export const Form: FC<FormProps> = ({
       )}
 
       <div className={`flex flex-col gap-5 mb-4 ${className || ''}`}>
+        {state.status === 'success' && state.documentUrl && (
+          <a className="w-fit" href={state.documentUrl} target="_blank" rel="noreferrer">
+            Télécharger le document
+          </a>
+        )}
         {children}
         <div className="flex flex-col md:flex-row gap-2">{actions}</div>
       </div>
