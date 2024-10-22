@@ -47,7 +47,7 @@ Fonctionnalité: Importer une candidature
             | type GF       |                 |
         Alors l'administrateur devrait être informé que "Les garanties financières sont requises pour cet appel d'offre ou famille"
 
-    Scénario: Impossible d'importer une candidature avec des GF "avec date d'échéance" si la date d'échéance est maquante
+    Scénario: Impossible d'importer une candidature classée avec des GF "avec date d'échéance" si la date d'échéance est maquante
         Quand un administrateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut        | classé             |
             | appel d'offre | PPE2 - Bâtiment    |
