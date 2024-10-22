@@ -73,29 +73,17 @@ const optionalEnum = <TEnumSchema extends [string, ...string[]]>(
  * @param referenceField Le champs dont dépend la validation de `field`
  * @param expectedValue la valeur de `referenceField` pour laquelle `field` est requis
  */
-const requiredFieldIfReferenceFieldEquals = <
-  T,
-  TField extends keyof T,
-  TReferenceField extends keyof T,
->(
-  field: TField,
-  referenceField: TReferenceField,
-  expectedValue: T[TReferenceField],
-): ((arg: T, ctx: z.RefinementCtx) => unknown | Promise<unknown>) => {
-  return (val, ctx) => {
-    if (val[referenceField] === expectedValue && !val[field]) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.invalid_type,
-        expected: z.ZodParsedType.string,
-        received: z.ZodParsedType.undefined,
-        path: [String(field)],
-        message: `"${String(field)}" est requis lorsque "${String(referenceField)}" a la valeur "${expectedValue}"`,
-      });
-      return false;
-    }
-    return true;
-  };
-};
+const conditionalRequiredError = (
+  field: string,
+  referenceField: string,
+  expectedValue: string,
+) => ({
+  code: z.ZodIssueCode.invalid_type,
+  expected: z.ZodParsedType.string,
+  received: z.ZodParsedType.undefined,
+  path: [field],
+  message: `"${field}" est requis lorsque "${referenceField}" a la valeur "${expectedValue}"`,
+});
 
 // Les colonnes du fichier CSV
 const colonnes = {
@@ -146,7 +134,12 @@ const historiqueAbandon = [
   'lauréat-autre-période',
 ] as const;
 
-const statut = { Eliminé: 'éliminé', Classé: 'classé' } as const;
+const statut = {
+  éliminé: 'éliminé',
+  eliminé: 'éliminé',
+  classé: 'classé',
+  retenu: 'classé',
+} as const;
 
 const technologie = {
   Eolien: 'eolien',
@@ -178,7 +171,10 @@ const candidatureCsvRowSchema = z
         'Le code postal ne correspond à aucune région / département',
       ),
     [colonnes.commune]: requiredStringSchema,
-    [colonnes.statut]: z.string().pipe(z.enum(['Eliminé', 'Classé'])),
+    [colonnes.statut]: z
+      .string()
+      .toLowerCase()
+      .pipe(z.enum(['eliminé', 'éliminé', 'classé', 'retenu'])),
     [colonnes.puissanceÀLaPointe]: optionalOuiNonSchema,
     [colonnes.evaluationCarboneSimplifiée]: z
       .union([z.enum(['N/A']), strictlyPositiveNumberSchema])
@@ -200,27 +196,42 @@ const candidatureCsvRowSchema = z
     }),
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
-  .superRefine(
-    requiredFieldIfReferenceFieldEquals(colonnes.motifÉlimination, colonnes.statut, 'Eliminé'),
-  )
+  .superRefine((obj, ctx) => {
+    const actualStatut = statut[obj[colonnes.statut]];
+    if (actualStatut === 'éliminé' && !obj[colonnes.motifÉlimination]) {
+      ctx.addIssue(
+        conditionalRequiredError(colonnes.motifÉlimination, colonnes.statut, actualStatut),
+      );
+    }
+  })
   // le type de GF est obligatoire si la candidature est classée
-  .superRefine(requiredFieldIfReferenceFieldEquals(colonnes.typeGf, colonnes.statut, 'Classé'))
+  .superRefine((obj, ctx) => {
+    const actualStatut = statut[obj[colonnes.statut]];
+    if (actualStatut === 'classé' && !obj[colonnes.typeGf]) {
+      ctx.addIssue(conditionalRequiredError(colonnes.typeGf, colonnes.statut, actualStatut));
+    }
+  })
   // la date d'échéance est obligatoire si les GF sont de type "avec date d'échéance"
-  .superRefine(requiredFieldIfReferenceFieldEquals(colonnes.dateÉchéanceGf, colonnes.typeGf, '2'))
-  .superRefine(
-    requiredFieldIfReferenceFieldEquals(
-      colonnes.territoireProjet,
-      colonnes.appelOffre,
-      'CRE4 - ZNI',
-    ),
-  )
-  .superRefine(
-    requiredFieldIfReferenceFieldEquals(
-      colonnes.territoireProjet,
-      colonnes.appelOffre,
-      'CRE4 - ZNI 2017',
-    ),
-  )
+  .superRefine((obj, ctx) => {
+    const actualStatut = statut[obj[colonnes.statut]];
+    if (actualStatut === 'éliminé') return;
+    const actualTypeGf = obj[colonnes.typeGf]
+      ? typeGf[Number(obj[colonnes.typeGf]) - 1]
+      : undefined;
+    if (actualTypeGf === 'avec-date-échéance' && !obj[colonnes.dateÉchéanceGf]) {
+      ctx.addIssue(conditionalRequiredError(colonnes.dateÉchéanceGf, colonnes.typeGf, '2'));
+    }
+  })
+  // les CRE4 - ZNI nécessitent un territoire projet
+  .superRefine((obj, ctx) => {
+    const isZNI =
+      obj[colonnes.appelOffre] === 'CRE4 - ZNI' || obj[colonnes.appelOffre] === 'CRE4 - ZNI 2017';
+    if (isZNI && !obj[colonnes.territoireProjet]) {
+      ctx.addIssue(
+        conditionalRequiredError(colonnes.territoireProjet, colonnes.appelOffre, 'CRE4 - ZNI'),
+      );
+    }
+  })
   .refine((val) => !(val[colonnes.financementCollectif] && val[colonnes.gouvernancePartagée]), {
     message: `Seule l'une des deux colonnes "${colonnes.financementCollectif}" et "${colonnes.gouvernancePartagée}" peut avoir la valeur "Oui"`,
     path: [colonnes.financementCollectif, colonnes.gouvernancePartagée],
@@ -293,14 +304,29 @@ export const candidatureSchema = z
     // historiqueAbandon: z.enum(Candidature.HistoriqueAbandon.types),
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
-  .superRefine(requiredFieldIfReferenceFieldEquals('motifElimination', 'statut', 'éliminé'))
+  .superRefine((obj, ctx) => {
+    if (obj.statut === 'éliminé' && !obj.motifElimination) {
+      ctx.addIssue(conditionalRequiredError('motifElimination', 'statut', 'éliminé'));
+    }
+  })
   // le type de GF est obligatoire si la candidature est classée
-  .superRefine(requiredFieldIfReferenceFieldEquals('typeGarantiesFinancieres', 'statut', 'classé'))
+  .superRefine((obj, ctx) => {
+    if (obj.statut === 'classé' && !obj.typeGarantiesFinancieres) {
+      ctx.addIssue(conditionalRequiredError('typeGarantiesFinancieres', 'statut', 'classé'));
+    }
+  })
   // la date d'échéance est obligatoire si les GF sont de type "avec date d'échéance"
-  .superRefine(
-    requiredFieldIfReferenceFieldEquals(
-      'dateEcheanceGf',
-      'typeGarantiesFinancieres',
-      'avec-date-échéance',
-    ),
-  );
+  .superRefine((obj, ctx) => {
+    const actualTypeGf = obj.typeGarantiesFinancieres
+      ? typeGf[Number(obj.typeGarantiesFinancieres)]
+      : undefined;
+    if (obj.statut === 'classé' && actualTypeGf === 'avec-date-échéance' && !obj.motifElimination) {
+      ctx.addIssue(
+        conditionalRequiredError(
+          'dateEcheanceGf',
+          'typeGarantiesFinancieres',
+          'avec-date-échéance',
+        ),
+      );
+    }
+  });
