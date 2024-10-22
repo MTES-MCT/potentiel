@@ -177,8 +177,8 @@ const candidatureCsvRowSchema = z
       .pipe(z.enum(['eliminé', 'éliminé', 'classé', 'retenu'])),
     [colonnes.puissanceÀLaPointe]: optionalOuiNonSchema,
     [colonnes.evaluationCarboneSimplifiée]: z
-      .union([z.enum(['N/A']), strictlyPositiveNumberSchema])
-      .transform((val) => (val === 'N/A' ? 0 : val)),
+      .union([z.literal('N/A'), z.literal(''), strictlyPositiveNumberSchema])
+      .transform((val) => (val === 'N/A' || val === '' ? 0 : val)),
     [colonnes.technologie]: z
       .enum(['N/A', 'Eolien', 'Hydraulique', 'PV'])
       .optional()

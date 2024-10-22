@@ -426,7 +426,15 @@ describe('Schema candidature', () => {
           'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
             'N/A',
         });
-        assert(result.success);
+        assertNoError(result);
+      });
+      test('accepte vide', () => {
+        const result = candidatureCsvSchema.safeParse({
+          ...minimumValuesEliminé,
+          'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
+            '',
+        });
+        assertNoError(result);
       });
 
       test('accepte un nombre positif', () => {
