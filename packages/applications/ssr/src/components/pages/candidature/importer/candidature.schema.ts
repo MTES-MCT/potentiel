@@ -162,7 +162,7 @@ const candidatureCsvRowSchema = z
     [colonnes.noteTotale]: numberSchema,
     [colonnes.nomReprésentantLégal]: requiredStringSchema,
     [colonnes.emailContact]: requiredStringSchema.email(),
-    [colonnes.adresse1]: requiredStringSchema,
+    [colonnes.adresse1]: optionalStringSchema,
     [colonnes.adresse2]: optionalStringSchema,
     [colonnes.codePostaux]: requiredStringSchema
       .transform((val) => val.split('/').map((str) => str.trim()))
@@ -235,6 +235,10 @@ const candidatureCsvRowSchema = z
   .refine((val) => !(val[colonnes.financementCollectif] && val[colonnes.gouvernancePartagée]), {
     message: `Seule l'une des deux colonnes "${colonnes.financementCollectif}" et "${colonnes.gouvernancePartagée}" peut avoir la valeur "Oui"`,
     path: [colonnes.financementCollectif, colonnes.gouvernancePartagée],
+  })
+  .refine((val) => !!val[colonnes.adresse1] || !!val[colonnes.adresse2], {
+    message: `Au moins l'une des deux colonnes "${colonnes.adresse1}" et "${colonnes.adresse2}" doit être précisée`,
+    path: [colonnes.adresse1, colonnes.adresse2],
   });
 
 export const candidatureCsvSchema = candidatureCsvRowSchema

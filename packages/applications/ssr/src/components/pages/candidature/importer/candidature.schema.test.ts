@@ -464,8 +464,6 @@ describe('Schema candidature', () => {
           CP: '33100',
         });
         assertNoError(result);
-
-        assert(result.success);
       });
 
       test("n'accepte pas un code postal invalide", () => {
@@ -480,6 +478,28 @@ describe('Schema candidature', () => {
           path: ['CP'],
           message: 'Le code postal ne correspond à aucune région / département',
         });
+      });
+    });
+    describe('Adresse', () => {
+      test('au minimum un champs doit être spécifiée', () => {
+        const result = candidatureCsvSchema.safeParse({
+          ...minimumValuesClassé,
+          'N°, voie, lieu-dit 1': undefined,
+        });
+        assert(!result.success, 'should be error');
+        expect(result.error.errors[0]).to.deep.eq({
+          code: 'custom',
+          path: ['N°, voie, lieu-dit 1', 'N°, voie, lieu-dit 2'],
+          message: `Au moins l'une des deux colonnes "N°, voie, lieu-dit 1" et "N°, voie, lieu-dit 2" doit être précisée`,
+        });
+      });
+      test('soit adresse 1 soit adresse 2 peut être spécifiée', () => {
+        const result = candidatureCsvSchema.safeParse({
+          ...minimumValuesClassé,
+          'N°, voie, lieu-dit 1': undefined,
+          'N°, voie, lieu-dit 2': 'adresse',
+        });
+        assertNoError(result);
       });
     });
   });
