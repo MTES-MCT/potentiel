@@ -38,47 +38,22 @@ export const Demandé: Story = {
         demandéLe: {
           date: new Date('2022-01-01').toISOString(),
         },
+        typePersonne: 'Personne physique',
         nomReprésentantLégal: 'Nouveau représentant légal',
-        pièceJustificative: {
-          dateCréation: new Date('2022-01-01').toISOString(),
-          format: 'application/pdf',
-          identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-          typeDocument: 'application/pdf',
-          //   ChangementReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative
-          //     .type,
-        },
+        piècesJustificatives: [
+          {
+            dateCréation: new Date('2022-01-01').toISOString(),
+            format: 'application/pdf',
+            identifiantProjet:
+              IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+            typeDocument: 'application/pdf',
+            //   ChangementReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative
+            //     .type,
+          },
+        ],
       },
     },
-    actions: ['annuler'],
-  },
-};
-
-export const Instruction: Story = {
-  args: {
-    identifiantProjet,
-    role: Role.dgecValidateur,
-    changementReprésentantLégal: {
-      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-      statut: 'demandé',
-      demande: {
-        demandéPar: {
-          email: 'porteur@test.test',
-        },
-        demandéLe: {
-          date: new Date('2022-01-01').toISOString(),
-        },
-        nomReprésentantLégal: 'Nouveau représentant légal',
-        pièceJustificative: {
-          dateCréation: new Date('2022-01-01').toISOString(),
-          format: 'application/pdf',
-          identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-          typeDocument: 'application/pdf',
-          //   ChangementReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative
-          //     .type,
-        },
-      },
-    },
-    actions: ['accorder', 'rejeter'],
+    actions: ['annuler', 'accorder', 'rejeter'],
   },
 };
 
@@ -96,15 +71,19 @@ export const Rejeté: Story = {
         demandéLe: {
           date: new Date('2022-01-01').toISOString(),
         },
+        typePersonne: 'Personne physique',
         nomReprésentantLégal: 'Nouveau représentant légal',
-        pièceJustificative: {
-          dateCréation: new Date('2022-01-01').toISOString(),
-          format: 'application/pdf',
-          identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-          typeDocument: 'application/pdf',
-          //   ChangementReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative
-          //     .type,
-        },
+        piècesJustificatives: [
+          {
+            dateCréation: new Date('2022-01-01').toISOString(),
+            format: 'application/pdf',
+            identifiantProjet:
+              IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+            typeDocument: 'application/pdf',
+            //   ChangementReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative
+            //     .type,
+          },
+        ],
         rejet: {
           rejetéPar: {
             email: 'validateur@test.test',
@@ -133,15 +112,19 @@ export const Accordé: Story = {
         demandéLe: {
           date: new Date('2022-01-01').toISOString(),
         },
+        typePersonne: 'Personne physique',
         nomReprésentantLégal: 'Nouveau représentant légal',
-        pièceJustificative: {
-          dateCréation: new Date('2022-01-01').toISOString(),
-          format: 'application/pdf',
-          identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-          typeDocument: 'application/pdf',
-          //   ChangementReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative
-          //     .type,
-        },
+        piècesJustificatives: [
+          {
+            dateCréation: new Date('2022-01-01').toISOString(),
+            format: 'application/pdf',
+            identifiantProjet:
+              IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+            typeDocument: 'application/pdf',
+            //   ChangementReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative
+            //     .type,
+          },
+        ],
         accord: {
           accordéPar: {
             email: 'validateur@test.test',
@@ -149,6 +132,7 @@ export const Accordé: Story = {
           accordéLe: {
             date: new Date('2022-02-01').toISOString() as Iso8601DateTime,
           },
+          typePersonne: 'Personne physique',
           nomReprésentantLégal: 'Nouveau représentant légal corrigé',
         },
       },

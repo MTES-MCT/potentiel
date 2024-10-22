@@ -8,11 +8,9 @@ import * as zod from 'zod';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { document } from '@/utils/zod/documentTypes';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  reponseSignee: document,
 });
 
 export type RejeterChangementReprésentantLégalFormKeys = keyof zod.infer<typeof schema>;

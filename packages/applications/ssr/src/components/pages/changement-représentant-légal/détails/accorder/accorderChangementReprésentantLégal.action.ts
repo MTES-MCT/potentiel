@@ -8,11 +8,14 @@ import * as zod from 'zod';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { document } from '@/utils/zod/documentTypes';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  reponseSignee: document,
+  typeDePersonne: zod.enum(['Personne physique', 'Personne morale', 'Collectivité', 'Autre'], {
+    invalid_type_error: 'Ce type de personne est invalide',
+    required_error: 'Champ obligatoire',
+  }),
+  nomRepresentantLegal: zod.string().min(1, { message: 'Champ obligatoire' }),
 });
 
 export type AccorderChangementReprésentantLégalFormKeys = keyof zod.infer<typeof schema>;

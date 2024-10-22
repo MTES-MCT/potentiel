@@ -5,11 +5,13 @@ import { PlainType } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Routes } from '@potentiel-applications/routes';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 
 import { StatutChangementReprésentantLégalBadge } from '../StatutChangementReprésentantLégalBadge';
 
@@ -27,11 +29,13 @@ export type DétailsChangementReprésentantLégalPageProps = {
     identifiantProjet: IdentifiantProjet.ValueType;
     statut: 'accordé' | 'annulé' | 'demandé' | 'rejeté';
     demande: {
+      typePersonne: string;
       nomReprésentantLégal: string;
-      pièceJustificative: DocumentProjet.ValueType;
+      piècesJustificatives: Array<DocumentProjet.ValueType>;
       demandéLe: DateTime.ValueType;
       demandéPar: Email.ValueType;
       accord?: {
+        typePersonne: string;
         nomReprésentantLégal: string;
         accordéLe: DateTime.ValueType;
         accordéPar: Email.ValueType;
@@ -72,10 +76,33 @@ export const DétailsChangementReprésentantLégalPage: FC<
                   />
                 </div>
                 <div className="flex gap-2">
+                  <div className="whitespace-nowrap">Type de personne :</div>
+                  <blockquote className="font-semibold italic">
+                    "{changementReprésentantLégal.demande.typePersonne}"
+                  </blockquote>
+                </div>
+                <div className="flex gap-2">
                   <div className="whitespace-nowrap">Nom représentant légal :</div>
                   <blockquote className="font-semibold italic">
                     "{changementReprésentantLégal.demande.nomReprésentantLégal}"
                   </blockquote>
+                </div>
+                <div className="flex gap-2">
+                  <div className="whitespace-nowrap">Pièce justificative :</div>
+                  {changementReprésentantLégal.demande.piècesJustificatives.map(
+                    (pièceJustificative) => (
+                      <blockquote className="font-semibold italic">
+                        <DownloadDocument
+                          className="mb-0"
+                          label="Télécharger la pièce justificative"
+                          format={pièceJustificative.format}
+                          url={Routes.Document.télécharger(
+                            DocumentProjet.bind(pièceJustificative).formatter(),
+                          )}
+                        />
+                      </blockquote>
+                    ),
+                  )}
                 </div>
               </div>
             </div>
@@ -96,6 +123,8 @@ export const DétailsChangementReprésentantLégalPage: FC<
             {mapToActionComponents({
               actions,
               identifiantProjet,
+              typePersonne: changementReprésentantLégal.demande.typePersonne,
+              nomReprésentantLégal: changementReprésentantLégal.demande.nomReprésentantLégal,
             })}
           </>
         ),
@@ -107,15 +136,26 @@ export const DétailsChangementReprésentantLégalPage: FC<
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
   identifiantProjet: string;
+  typePersonne: string;
+  nomReprésentantLégal: string;
 };
 
-const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) =>
+const mapToActionComponents = ({
+  actions,
+  identifiantProjet,
+  typePersonne,
+  nomReprésentantLégal,
+}: MapToActionsComponentsProps) =>
   actions.length ? (
     <div className="flex flex-col gap-4">
       <Heading2>Actions</Heading2>
 
       {actions.includes('accorder') && (
-        <AccorderChangementReprésentantLégal identifiantProjet={identifiantProjet} />
+        <AccorderChangementReprésentantLégal
+          identifiantProjet={identifiantProjet}
+          typePersonne={typePersonne}
+          nomReprésentantLégal={nomReprésentantLégal}
+        />
       )}
       {actions.includes('rejeter') && (
         <RejeterChangementReprésentantLégal identifiantProjet={identifiantProjet} />

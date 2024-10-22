@@ -6,14 +6,8 @@ import { useState } from 'react';
 // import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
-import { ValidationErrors } from '@/utils/formAction';
 
-import {
-  rejeterChangementReprésentantLégalAction,
-  RejeterChangementReprésentantLégalFormKeys,
-} from './rejeterChangementReprésentantLégal.action';
+import { rejeterChangementReprésentantLégalAction } from './rejeterChangementReprésentantLégal.action';
 
 type RejeterChangementReprésentantLégalFormProps = {
   identifiantProjet: string;
@@ -22,9 +16,6 @@ type RejeterChangementReprésentantLégalFormProps = {
 export const RejeterChangementReprésentantLégal = ({
   identifiantProjet,
 }: RejeterChangementReprésentantLégalFormProps) => {
-  const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<RejeterChangementReprésentantLégalFormKeys>
-  >({});
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -39,7 +30,7 @@ export const RejeterChangementReprésentantLégal = ({
 
       <ModalWithForm
         id="rejeter-changementReprésentantLégal-modal"
-        title="Rejeter le changementReprésentantLégal"
+        title="Rejeter le changement de représentant légal"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
@@ -49,26 +40,13 @@ export const RejeterChangementReprésentantLégal = ({
           method: 'POST',
           encType: 'multipart/form-data',
           id: 'rejeter-changementReprésentantLégal-form',
-          onValidationError: (validationErrors) => setValidationErrors(validationErrors),
+          omitMandatoryFieldsLegend: true,
           children: (
             <>
+              <p className="mt-3">
+                Êtes-vous sûr de vouloir rejeter ce changement de représentant légal ?
+              </p>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-
-              <UploadDocument
-                label="Réponse signée"
-                state={validationErrors['reponseSignee'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['reponseSignee']}
-                name="reponseSignee"
-                required
-                className="mb-4"
-              />
-
-              <DownloadDocument
-                className="mt-4"
-                url={'#'} // Routes.ChangementReprésentantLégal.téléchargerModèleRéponse(identifiantProjet)}
-                format="docx"
-                label="Télécharger le modèle de réponse"
-              />
             </>
           ),
         }}

@@ -18,11 +18,13 @@ export type EtapesChangementReprésentantLégalProps = {
     identifiantProjet: IdentifiantProjet.ValueType;
     statut: 'accordé' | 'annulé' | 'demandé' | 'rejeté';
     demande: {
+      typePersonne: string;
       nomReprésentantLégal: string;
-      pièceJustificative: DocumentProjet.ValueType;
+      piècesJustificatives: Array<DocumentProjet.ValueType>;
       demandéLe: DateTime.ValueType;
       demandéPar: Email.ValueType;
       accord?: {
+        typePersonne: string;
         nomReprésentantLégal: string;
         accordéLe: DateTime.ValueType;
         accordéPar: Email.ValueType;
@@ -38,7 +40,15 @@ export type EtapesChangementReprésentantLégalProps = {
 
 export const EtapesChangementReprésentantLégal: FC<EtapesChangementReprésentantLégalProps> = ({
   changementReprésentantLégal: {
-    demande: { demandéLe, demandéPar, nomReprésentantLégal, accord, pièceJustificative, rejet },
+    demande: {
+      demandéLe,
+      demandéPar,
+      typePersonne,
+      nomReprésentantLégal,
+      piècesJustificatives,
+      accord,
+      rejet,
+    },
   },
 }) => {
   const items: TimelineProps['items'] = [];
@@ -52,6 +62,12 @@ export const EtapesChangementReprésentantLégal: FC<EtapesChangementReprésenta
       date: accordéLe,
       title: (
         <div>Changement accordé par {<span className="font-semibold">{accordéPar}</span>}</div>
+      ),
+      content: (
+        <>
+          <div>Type de personne : {typePersonne}</div>
+          <div>Nom du représentant légal : {nomReprésentantLégal}</div>
+        </>
       ),
     });
   }
@@ -77,13 +93,18 @@ export const EtapesChangementReprésentantLégal: FC<EtapesChangementReprésenta
     ),
     content: (
       <>
+        <div>Type de personne : {typePersonne}</div>
         <div>Nom du représentant légal : {nomReprésentantLégal}</div>
-        <DownloadDocument
-          className="mb-0"
-          label="Télécharger la pièce justificative"
-          format="pdf"
-          url={Routes.Document.télécharger(DocumentProjet.bind(pièceJustificative).formatter())}
-        />
+        {piècesJustificatives.map((pièceJustificative) => (
+          <blockquote className="font-semibold italic">
+            <DownloadDocument
+              className="mb-0"
+              label="Télécharger la pièce justificative"
+              format={pièceJustificative.format}
+              url={Routes.Document.télécharger(DocumentProjet.bind(pièceJustificative).formatter())}
+            />
+          </blockquote>
+        ))}
       </>
     ),
   });

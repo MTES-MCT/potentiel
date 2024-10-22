@@ -28,7 +28,7 @@ export const AnnulerChangementReprésentantLégal = ({
 
       <ModalWithForm
         id="annuler-changementReprésentantLégal-modal"
-        title="Annuler le changementReprésentantLégal"
+        title="Annuler le changement de représentant légal"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
@@ -41,7 +41,7 @@ export const AnnulerChangementReprésentantLégal = ({
           children: (
             <>
               <p className="mt-3">
-                Êtes-vous sûr de vouloir annuler ce changementReprésentantLégal ?
+                Êtes-vous sûr de vouloir annuler ce changement de représentant légal ?
               </p>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             </>

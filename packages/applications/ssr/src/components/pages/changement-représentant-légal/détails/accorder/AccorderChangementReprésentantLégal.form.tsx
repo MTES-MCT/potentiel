@@ -1,13 +1,13 @@
 'use client';
 
-import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
+import Input from '@codegouvfr/react-dsfr/Input';
+import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 
 // import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
@@ -17,10 +17,14 @@ import {
 
 type AccorderChangementReprésentantLégalFormProps = {
   identifiantProjet: string;
+  typePersonne: string;
+  nomReprésentantLégal: string;
 };
 
 export const AccorderChangementReprésentantLégal = ({
   identifiantProjet,
+  typePersonne,
+  nomReprésentantLégal,
 }: AccorderChangementReprésentantLégalFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderChangementReprésentantLégalFormKeys>
@@ -39,7 +43,7 @@ export const AccorderChangementReprésentantLégal = ({
 
       <ModalWithForm
         id="accorder-changementReprésentantLégal-modal"
-        title="Accorder le changementReprésentantLégal"
+        title="Accorder le changement de représentant légal"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
@@ -54,20 +58,33 @@ export const AccorderChangementReprésentantLégal = ({
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
-              <UploadDocument
-                label="Réponse signée"
-                state={validationErrors['reponseSignee'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['reponseSignee']}
-                name="reponseSignee"
-                required
-                className="mb-4"
+              <SelectNext
+                label="Type de personne pour le représentant légal"
+                placeholder={`Sélectionner le type de personne pour le représentant légal`}
+                state={validationErrors['typeDePersonne'] ? 'error' : 'default'}
+                stateRelatedMessage="Le type de personne pour le représentant légal est obligatoire"
+                options={['Personne physique', 'Personne morale', 'Collectivité', 'Autre'].map(
+                  (type) => ({
+                    label: type,
+                    value: type,
+                  }),
+                )}
+                nativeSelectProps={{
+                  value: typePersonne,
+                }}
               />
 
-              <DownloadDocument
-                className="mb-4"
-                url="#" // Routes.ChangementReprésentantLégal.téléchargerModèleRéponse(identifiantProjet)
-                format="docx"
-                label="Télécharger le modèle de réponse"
+              <Input
+                label="Nom du représentant légal"
+                id="nomRepresentantLegal"
+                nativeInputProps={{
+                  name: 'nomRepresentantLegal',
+                  required: true,
+                  'aria-required': true,
+                  value: nomReprésentantLégal,
+                }}
+                state={validationErrors['nomRepresentantLegal'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['nomRepresentantLegal']}
               />
             </>
           ),
