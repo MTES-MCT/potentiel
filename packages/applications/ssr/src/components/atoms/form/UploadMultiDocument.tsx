@@ -1,8 +1,15 @@
+'use client';
 // import React, { FC, useState } from 'react';
 // import RadioButtons, { RadioButtonsProps } from '@codegouvfr/react-dsfr/RadioButtons';
 // import Button from '@codegouvfr/react-dsfr/Button';
 // import clsx from 'clsx';
 // import Link from 'next/link';
+
+// import clsx from 'clsx';
+import { FC, useRef, useState } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
+
+import { Icon } from '../Icon';
 
 // import { Routes } from '@potentiel-applications/routes';
 
@@ -10,44 +17,36 @@
 
 // import { Icon } from '../Icon';
 
-// export type UploadMultiDocumentProps = {
-//   className?: string;
-//   label: React.ReactNode;
-//   name: string;
-//   state?: RadioButtonsProps['state'];
-//   stateRelatedMessage?: React.ReactNode;
-//   /**
-//   Si utilisé dans un formulaire
-//   l'id ne doit pas comprendre d'accent
-//   */
-//   id?: string;
-//   required?: boolean;
-//   disabled?: boolean;
-//   documents: Array<{
-//     documentKey?: string;
-//     label: string;
-//     format?: 'pdf' | 'csv';
-//     hintText?: string;
-//   }>;
-// };
+const extractFileName = (path: string) => path.replace(/^.*[\\/]/, '');
 
-// export const UploadMultiDocument: FC<UploadMultiDocumentProps> = ({
-//   className,
-//   label,
-//   name,
-//   disabled,
-//   id,
-//   required,
-//   state,
-//   stateRelatedMessage,
-//   documents,
-// }) => {
-//   return (
-//     <div className={clsx(className ? className : '')}>
-//       <label className={clsx('fr-label')}>{label}</label>
-//       <UploadMultiDocument {...props} />;
-//     </div>
-//   );
+export type UploadMultiDocumentProps = {
+  className?: string;
+  label: React.ReactNode;
+  name: string;
+  /**
+  Si utilisé dans un formulaire
+  l'id ne doit pas comprendre d'accent
+  */
+  id?: string;
+  required?: boolean;
+  disabled?: boolean;
+  // state?: RadioButtonsProps['state'];
+  // stateRelatedMessage?: React.ReactNode;
+  documents: Array<{
+    documentKey: string;
+    name: string;
+    format?: 'pdf' | 'csv';
+    hintText?: string;
+  }>;
+};
+
+export const UploadMultiDocument: FC<UploadMultiDocumentProps> = (props) => {
+  if (props.documents.length === 0) {
+    return <UploadDocuments {...props} />;
+  }
+
+  return <h1>TODO</h1>;
+};
 
 //   // return !props.documentKey ? (
 //   //   <UploadNewDocument {...props} />
@@ -61,7 +60,6 @@
 // };
 
 // /*
-// const extractFileName = (path: string) => path.replace(/^.*[\\/]/, '');
 
 // const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
 //   label,
@@ -244,3 +242,50 @@
 //   );
 // };
 // */
+
+type UploadDocumentsProps = Omit<UploadMultiDocumentProps, 'documents'>;
+const UploadDocuments: FC<UploadDocumentsProps> = (props) => {
+  const hiddenFileInput = useRef<HTMLInputElement>(null);
+  const browseForFile = () => {
+    hiddenFileInput?.current?.click();
+  };
+  const [uploadedFiles, setUploadedFiles] = useState<Array<string>>([]);
+
+  return (
+    <>
+      {uploadedFiles.length > 0 && (
+        <p className="text-sm truncate m-0 p-0">Fichiers sélectionnés :</p>
+      )}
+      <ul>
+        {uploadedFiles.map((uploadedFile) => (
+          <li key={uploadedFile} className="text-sm truncate m-0 p-0">
+            {uploadedFile}
+          </li>
+        ))}
+      </ul>
+      <label className="fr-label">{props.label}</label>
+      <input
+        {...props}
+        aria-required={props.required}
+        ref={hiddenFileInput}
+        type="file"
+        multiple
+        accept={`.pdf`}
+        className="-z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0"
+        onChange={(e) => {
+          const fileName = extractFileName(e.currentTarget.value);
+
+          if (uploadedFiles.includes(fileName)) {
+            return;
+          }
+
+          setUploadedFiles([...uploadedFiles, fileName]);
+        }}
+      />
+      <Button className="!mt-0" type="button" priority="secondary" onClick={browseForFile}>
+        <Icon id="fr-icon-folder-2-fill" className="md:mr-1" />
+        <span className="hidden md:inline-block text-sm">Parcourir</span>
+      </Button>
+    </>
+  );
+};
