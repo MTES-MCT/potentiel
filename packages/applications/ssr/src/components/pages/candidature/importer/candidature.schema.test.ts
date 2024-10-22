@@ -57,33 +57,33 @@ describe('Schema candidature', () => {
     });
     assertNoError(result);
     expect(result.data).to.deep.equal({
-      appel_offre: "appel d'offre",
+      appelOffre: "appel d'offre",
       période: 'période',
       famille: '',
-      num_cre: 'numéro cre',
-      nom_projet: 'nom projet',
-      société_mère: '',
-      nom_candidat: 'candidat',
-      puissance_production_annuelle: 1,
-      prix_reference: 1,
-      note_totale: 1,
-      nom_représentant_légal: 'valentin cognito',
-      email_contact: 'porteur@test.com',
+      numéroCRE: 'numéro cre',
+      nomProjet: 'nom projet',
+      sociétéMère: '',
+      nomCandidat: 'candidat',
+      puissanceProductionAnnuelle: 1,
+      prixRéférence: 1,
+      noteTotale: 1,
+      nomReprésentantLégal: 'valentin cognito',
+      emailContact: 'porteur@test.com',
       adresse1: 'adresse',
       adresse2: '',
-      code_postaux: ['12345'],
+      codePostaux: ['12345'],
       commune: 'MARSEILLE',
       statut: 'éliminé',
-      motif_élimination: 'motif',
-      puissance_a_la_pointe: false,
-      evaluation_carbone_simplifiée: 0,
+      motifÉlimination: 'motif',
+      puissanceÀLaPointe: false,
+      evaluationCarboneSimplifiée: 0,
       technologie: 'N/A',
-      type_gf: undefined,
-      financement_collectif: false,
-      gouvernance_partagée: true,
-      date_échéance_gf: undefined,
-      historique_abandon: 'première-candidature',
-      territoire_projet: '',
+      typeGf: undefined,
+      financementCollectif: false,
+      gouvernancePartagée: true,
+      dateÉchéanceGf: undefined,
+      historiqueAbandon: 'première-candidature',
+      territoireProjet: '',
     });
   });
 
@@ -95,33 +95,33 @@ describe('Schema candidature', () => {
     });
     assertNoError(result);
     expect(result.data).to.deep.equal({
-      appel_offre: "appel d'offre",
+      appelOffre: "appel d'offre",
       période: 'période',
       famille: '',
-      num_cre: 'numéro cre',
-      nom_projet: 'nom projet',
-      société_mère: '',
-      nom_candidat: 'candidat',
-      puissance_production_annuelle: 1,
-      prix_reference: 1,
-      note_totale: 1,
-      nom_représentant_légal: 'valentin cognito',
-      email_contact: 'porteur@test.com',
+      numéroCRE: 'numéro cre',
+      nomProjet: 'nom projet',
+      sociétéMère: '',
+      nomCandidat: 'candidat',
+      puissanceProductionAnnuelle: 1,
+      prixRéférence: 1,
+      noteTotale: 1,
+      nomReprésentantLégal: 'valentin cognito',
+      emailContact: 'porteur@test.com',
       adresse1: 'adresse',
       adresse2: '',
-      code_postaux: ['12345'],
+      codePostaux: ['12345'],
       commune: 'MARSEILLE',
       statut: 'classé',
-      motif_élimination: undefined,
-      puissance_a_la_pointe: true,
-      evaluation_carbone_simplifiée: 0,
+      motifÉlimination: undefined,
+      puissanceÀLaPointe: true,
+      evaluationCarboneSimplifiée: 0,
       technologie: 'eolien',
-      type_gf: 'avec-date-échéance',
-      financement_collectif: false,
-      gouvernance_partagée: true,
-      date_échéance_gf: new Date('2024-12-01T00:00:00.000Z'),
-      historique_abandon: 'première-candidature',
-      territoire_projet: '',
+      typeGf: 'avec-date-échéance',
+      financementCollectif: false,
+      gouvernancePartagée: true,
+      dateÉchéanceGf: new Date('2024-12-01T00:00:00.000Z'),
+      historiqueAbandon: 'première-candidature',
+      territoireProjet: '',
     });
   });
 
@@ -170,7 +170,7 @@ describe('Schema candidature', () => {
       });
     });
 
-    test('nombre avec charactères', () => {
+    test('nombre avec caractères', () => {
       const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         puissance_production_annuelle: 'abcd',
@@ -294,7 +294,7 @@ describe('Schema candidature', () => {
           '',
       });
       assert(result.success);
-      expect(result.data.type_gf).to.be.undefined;
+      expect(result.data.typeGf).to.be.undefined;
     });
 
     test('Enum avec N/A', () => {
@@ -304,7 +304,7 @@ describe('Schema candidature', () => {
           'N/A',
       });
       assert(result.success);
-      expect(result.data.type_gf).to.be.undefined;
+      expect(result.data.typeGf).to.be.undefined;
     });
 
     test('Email non valide', () => {

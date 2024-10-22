@@ -241,8 +241,8 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
   .transform((val) => {
     return {
       ...val,
-      type_gf: val.typeGf ? typeGf[Number(val.typeGf) - 1] : undefined,
-      historique_abandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
+      typeGf: val.typeGf ? typeGf[Number(val.typeGf) - 1] : undefined,
+      historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
       statut: statut[val.statut],
       technologie: technologie[val.technologie],
     };
