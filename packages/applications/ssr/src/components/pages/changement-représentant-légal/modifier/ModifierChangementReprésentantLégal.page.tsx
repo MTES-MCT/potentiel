@@ -19,7 +19,7 @@ export const ModifierChangementReprésentantLégalPage: FC<
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
-      heading={<Heading1>Modifier un changement de représentant légal pour le projet</Heading1>}
+      heading={<Heading1>Modifier le changement de représentant légal</Heading1>}
       leftColumn={{
         children: (
           <ModifierChangementReprésentantLégalForm
