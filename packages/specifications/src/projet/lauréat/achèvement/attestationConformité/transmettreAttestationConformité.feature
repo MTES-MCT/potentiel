@@ -3,6 +3,13 @@ Fonctionnalité: Transmettre une attestation de conformité
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Et le porteur pour le projet lauréat "Du boulodrome de Marseille"
+            | email | porteur@test.test   |
+            | nom   | Porteur Projet Test |
+            | role  | porteur-projet      |
+        Et la dreal associée au projet lauréat "Du boulodrome de Marseille"
+            | email | dreal@test.test |
+            | nom   | Dreal Test      |
 
     Scénario: Un porteur transmet une attestation de conformité
         Quand un porteur transmet une attestation de conformité pour le projet "Du boulodrome de Marseille" avec :
@@ -21,6 +28,17 @@ Fonctionnalité: Transmettre une attestation de conformité
             | contenu preuve transmission au co-contractant | le contenu de la preuve     |
             | date                                          | 2024-01-05                  |
             | utilisateur                                   | porteur@test.test           |
+        Et un email a été envoyé à "dreal@test.test" avec :
+            | sujet              | Potentiel - Une attestation de conformité a été transmise pour le projet Du boulodrome de Marseille dans le département departementProjet |
+            | nom_projet         | Du boulodrome de Marseille                                                                                                                |
+            | departement_projet | departementProjet                                                                                                                         |
+            | url                | https://potentiel.beta.gouv.fr/projet/PPE2%20-%20Eolien%231%23%2323/details.html                                                          |
+
+        Et un email a été envoyé à "porteur@test.test" avec :
+            | sujet              | Potentiel - Mise à jour de la date d'achèvement du projet Du boulodrome de Marseille dans le département departementProjet |
+            | nom_projet         | Du boulodrome de Marseille                                                                                                 |
+            | departement_projet | departementProjet                                                                                                          |
+            | url                | https://potentiel.beta.gouv.fr/projet/PPE2%20-%20Eolien%231%23%2323/details.html                                           |
 
     Scénario: Une tâche du type "échoir les garanties financières" est annulée quand une attestation de conformité est transmise
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
