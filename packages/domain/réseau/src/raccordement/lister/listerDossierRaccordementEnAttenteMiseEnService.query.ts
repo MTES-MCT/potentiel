@@ -1,18 +1,22 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { match } from 'ts-pattern';
 
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/laureat';
+import { Candidature } from '@potentiel-domain/candidature';
+import { Abandon } from '@potentiel-domain/laureat';
 
-import { DossierRaccordementEntity } from '../raccordement.entity';
 import { RéférenceDossierRaccordement } from '..';
+import { DossierRaccordementEntity } from '../raccordement.entity';
 
 type DossierRaccordementEnAttenteMiseEnService = {
   nomProjet: string;
   identifiantProjet: IdentifiantProjet.ValueType;
   appelOffre: string;
-  periode: string;
+  période: string;
   famille: string;
-  numeroCRE: string;
+  numéroCRE: string;
   commune: string;
   codePostal: string;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
@@ -59,8 +63,25 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
         référence: 'ascending',
       },
     });
+
+    const identifiants = items.map(
+      (dossier) => dossier.identifiantProjet as IdentifiantProjet.RawType,
+    );
+
+    const candidatures = await list<Candidature.CandidatureEntity>('candidature', {
+      where: {
+        identifiantProjet: Where.include(identifiants),
+      },
+    });
+
+    const abandons = await list<Abandon.AbandonEntity>('abandon', {
+      where: {
+        identifiantProjet: Where.include(identifiants),
+      },
+    });
+
     return {
-      items: items.map(toReadModel),
+      items: items.map((item) => toReadModel(item, candidatures.items, abandons.items)),
       range: {
         endPosition,
         startPosition,
@@ -75,20 +96,42 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
   );
 };
 
-export const toReadModel = ({
-  identifiantProjet,
-  référence,
-}: DossierRaccordementEntity): DossierRaccordementEnAttenteMiseEnService => {
+export const toReadModel = (
+  { identifiantProjet, référence }: DossierRaccordementEntity,
+  candidatures: ReadonlyArray<Candidature.CandidatureEntity>,
+  abandons: ReadonlyArray<Abandon.AbandonEntity>,
+): DossierRaccordementEnAttenteMiseEnService => {
+  const { appelOffre, famille, numéroCRE, période } =
+    IdentifiantProjet.convertirEnValueType(identifiantProjet);
+  const candidature = candidatures.find(
+    (candidature) => candidature.identifiantProjet === identifiantProjet,
+  );
+  const abandon = abandons.find((abandons) => abandons.identifiantProjet === identifiantProjet);
+
+  const { nomProjet, codePostal, commune } = match(candidature)
+    .with(undefined, () => ({
+      codePostal: 'Code postal inconnu',
+      commune: 'Commune inconnue',
+      nomProjet: 'Nom projet inconnu',
+    }))
+    .otherwise((value) => ({
+      codePostal: value.localité.codePostal,
+      commune: value.localité.commune,
+      nomProjet: value.nomProjet,
+    }));
+
   return {
-    appelOffre: '',
-    codePostal: '',
-    commune: '',
-    famille: '',
+    appelOffre,
+    codePostal,
+    commune,
+    famille,
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    nomProjet: '',
-    numeroCRE: '',
-    periode: '',
+    nomProjet,
+    numéroCRE,
+    période,
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
-    statutDGEC: '',
+    statutDGEC: match(abandon)
+      .with(undefined, () => Lauréat.StatutLauréat.classé.formatter())
+      .otherwise(() => Lauréat.StatutLauréat.abandonné.formatter()),
   };
 };
