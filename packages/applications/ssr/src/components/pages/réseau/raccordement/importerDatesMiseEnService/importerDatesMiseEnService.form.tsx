@@ -51,29 +51,23 @@ export const ImporterDatesMiseEnServiceForm: FC<
       successMessage={'date(s) de mise en service transmise(s)'}
       actions={<SubmitButton>Importer</SubmitButton>}
     >
-      <div className="flex flex-col gap-5">
-        <div>
-          <GestionnaireRéseauSelect
-            id="identifiantGestionnaireReseau"
-            name="identifiantGestionnaireReseau"
-            onGestionnaireRéseauSelected={({ identifiantGestionnaireRéseau }) => {
-              setIdentifiantGestionnaireReseau(identifiantGestionnaireRéseau);
-            }}
-            listeGestionnairesRéseau={listeGestionnairesRéseau}
-            identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
-          />
-        </div>
-        <div>
-          <DownloadDocument
-            className="mb-4"
-            url={Routes.Gestionnaire.téléchargerRaccordementEnAttenteMiseEnService(
-              identifiantGestionnaireReseau,
-            )}
-            format="csv"
-            label="Télécharger la liste des raccordements en attente de mise en service"
-          />
-        </div>
-      </div>
+      <GestionnaireRéseauSelect
+        id="identifiantGestionnaireReseau"
+        name="identifiantGestionnaireReseau"
+        onGestionnaireRéseauSelected={({ identifiantGestionnaireRéseau }) => {
+          setIdentifiantGestionnaireReseau(identifiantGestionnaireRéseau);
+        }}
+        listeGestionnairesRéseau={listeGestionnairesRéseau}
+        identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
+      />
+      <DownloadDocument
+        className="mb-4"
+        url={Routes.Gestionnaire.téléchargerRaccordementEnAttenteMiseEnService(
+          identifiantGestionnaireReseau,
+        )}
+        format="csv"
+        label="Télécharger la liste des raccordements en attente de mise en service"
+      />
       <UploadDocument
         label="Fichier des dates de mise en service"
         format="csv"
