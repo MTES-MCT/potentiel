@@ -31,11 +31,6 @@ export const ModifierGestionnaireRéseauRaccordementForm: FC<
     ValidationErrors<ModifierGestionnaireRéseauRaccordementFormKeys>
   >({});
 
-  const gestionnaireActuel = listeGestionnairesRéseau.find(
-    (gestionnaire) =>
-      gestionnaire.identifiantGestionnaireRéseau === identifiantGestionnaireRéseauActuel,
-  );
-
   return (
     <Form
       action={modifierGestionnaireRéseauRaccordementAction}
@@ -68,7 +63,7 @@ export const ModifierGestionnaireRéseauRaccordementForm: FC<
             state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
             listeGestionnairesRéseau={listeGestionnairesRéseau}
-            identifiantGestionnaireRéseauActuel={gestionnaireActuel?.identifiantGestionnaireRéseau}
+            identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
           />
         </div>
       </div>

@@ -30,25 +30,6 @@ export type GestionnaireRéseauSelectProps = {
   }) => void;
 };
 
-type HandleGestionairéSéléctionnéProps = {
-  listeGestionnairesRéseau: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
-  onGestionnaireRéseauSelected: GestionnaireRéseauSelectProps['onGestionnaireRéseauSelected'];
-  identifiantGestionnaireRéseau: string;
-};
-const handleGestionnaireSélectionné = ({
-  listeGestionnairesRéseau,
-  identifiantGestionnaireRéseau,
-  onGestionnaireRéseauSelected,
-}: HandleGestionairéSéléctionnéProps) => {
-  const gestionnaireSélectionné = listeGestionnairesRéseau.find(
-    (gestionnaire) => gestionnaire.identifiantGestionnaireRéseau === identifiantGestionnaireRéseau,
-  );
-
-  if (gestionnaireSélectionné && onGestionnaireRéseauSelected) {
-    onGestionnaireRéseauSelected(gestionnaireSélectionné);
-  }
-};
-
 export const GestionnaireRéseauSelect = ({
   id,
   name,
@@ -75,12 +56,15 @@ export const GestionnaireRéseauSelect = ({
       nativeSelectProps={{
         name,
         defaultValue: identifiantGestionnaireRéseauActuel,
-        onChange: (e) =>
-          handleGestionnaireSélectionné({
-            listeGestionnairesRéseau,
-            onGestionnaireRéseauSelected,
-            identifiantGestionnaireRéseau: e.currentTarget.value,
-          }),
+        onChange: (e) => {
+          const gestionnaireSélectionné = listeGestionnairesRéseau.find(
+            (gestionnaire) => gestionnaire.identifiantGestionnaireRéseau === e.currentTarget.value,
+          );
+
+          if (gestionnaireSélectionné && onGestionnaireRéseauSelected) {
+            onGestionnaireRéseauSelected(gestionnaireSélectionné);
+          }
+        },
       }}
       placeholder="Sélectionnez votre gestionnaire de réseau"
       options={gestionnaireRéseauOptions}
