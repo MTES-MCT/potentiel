@@ -2,13 +2,12 @@
 
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
-import { Candidature } from '@potentiel-domain/candidature';
 import { DomainError } from '@potentiel-domain/core';
 import { parseCsv } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
+import { Lauréat } from '@potentiel-domain/laureat';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { document } from '@/utils/zod/documentTypes';
@@ -141,22 +140,25 @@ const transmettreDateDeMiseEnService = async (
   dateMiseEnService: string,
 ): Promise<ActionResult['errors'][number] | undefined> => {
   try {
-    const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
-      type: 'Candidature.Query.ConsulterProjet',
+    const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
+      type: 'Lauréat.Query.ConsulterLauréat',
       data: {
         identifiantProjet: identifiantProjet,
       },
     });
 
-    if (Option.isNone(candidature)) {
-      return notFound();
+    if (Option.isNone(lauréat)) {
+      return {
+        key: référenceDossierRaccordement,
+        reason: 'Aucune candidature correspondante',
+      };
     }
 
     await mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
       type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
       data: {
         identifiantProjetValue: identifiantProjet,
-        dateDésignationValue: candidature.dateDésignation,
+        dateDésignationValue: lauréat.notifiéLe.formatter(),
         référenceDossierValue: référenceDossierRaccordement,
         dateMiseEnServiceValue: new Date(
           convertDateToCommonFormat(dateMiseEnService),
@@ -184,8 +186,6 @@ async function vérifierAttributionGestionnaireRéseau(
   referenceDossier: string,
 ): Promise<ActionResult['errors'][number] | undefined> {
   if (!identifiantGestionnaireRéseau.estÉgaleÀ(identifiantGestionnaireRéseauSélectionné)) {
-    console.log('Identifiant dossier', identifiantGestionnaireRéseau.formatter());
-    console.log('Identifiant sélectionné', identifiantGestionnaireRéseauSélectionné.formatter());
     const gestionnaireRéseau =
       await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
         type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
