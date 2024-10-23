@@ -39,6 +39,47 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
   const browseForFile = () => {
     hiddenFileInput?.current?.click();
   };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.currentTarget;
+
+    if (!files || Object.keys(files).length === 0) {
+      setMultipleDocument([]);
+      return;
+    }
+
+    const fileNames = Object.values(files)
+      .map((file) => {
+        const fileName = extractFileName(file.name);
+
+        if (multipleDocument.includes(fileName)) {
+          return undefined;
+        }
+
+        return fileName;
+      })
+      .filter((f) => f !== undefined);
+
+    setMultipleDocument([...multipleDocument, ...fileNames]);
+  };
+
+  const handleFileRemove = (index: number) => {
+    if (!hiddenFileInput.current || !hiddenFileInput.current.files) {
+      return;
+    }
+
+    const dataTransfer = new DataTransfer();
+
+    Array.from(hiddenFileInput.current.files).forEach((file, i) => {
+      if (i !== index) {
+        dataTransfer.items.add(file);
+      }
+    });
+
+    hiddenFileInput.current.files = dataTransfer.files;
+    setMultipleDocument(multipleDocument.filter((_, i) => i !== index));
+  };
+
   const [multipleDocument, setMultipleDocument] = useState<Array<string>>([]);
 
   return (
@@ -51,7 +92,7 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
       </div>
       {hintText && <div className="fr-hint-text">{hintText}</div>}
 
-      <div className="flex items-center relative mt-3 gap-3">
+      <div className="flex items-start justify-start relative mt-3 gap-3">
         <input
           name={name}
           required={required}
@@ -61,46 +102,38 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
           multiple
           accept={acceptedFormats}
           className="-z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0"
-          onChange={(e) => {
-            console.log(e.target.files);
-            console.log(e.currentTarget.value);
-            const fileName = extractFileName(e.currentTarget.value);
-
-            if (!multipleDocument.includes(fileName)) {
-              setMultipleDocument([...multipleDocument, fileName]);
-            }
-          }}
+          onChange={handleFileChange}
         />
         <Button className="!mt-0" type="button" priority="secondary" onClick={browseForFile}>
           <Icon id="fr-icon-folder-2-fill" className="md:mr-1" />
           <span className="hidden md:inline-block text-sm">Parcourir</span>
         </Button>
 
-        {multipleDocument.length === 0 && (
+        {multipleDocument.length === 0 ? (
           <p className="text-sm truncate m-0 p-0">Aucun document sélectionné</p>
+        ) : (
+          <div>
+            <div>Documents sélectionnés :</div>
+            <ul className="flex flex-col mt-3 gap-0 w-full">
+              {multipleDocument.map((doc, index) => (
+                <li key={index} className="text-sm text-ellipsis">
+                  <div className="">{doc}</div>
+                  <Button
+                    className="ml-2 text-dsfr-text-actionHigh-redMarianne-default"
+                    type="button"
+                    priority="tertiary no outline"
+                    size="small"
+                    onClick={() => handleFileRemove(index)}
+                  >
+                    <Icon id="fr-icon-delete-line" size="sm" className="md:mr-1" />
+                    <span className="hidden md:inline-block text-sm">Supprimer</span>
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
-      {multipleDocument.length > 0 && (
-        <ul className="flex flex-col mt-3">
-          {multipleDocument.map((doc, index) => (
-            <li key={index}>
-              <span>{doc}</span>
-              <Button
-                className="ml-2 text-dsfr-text-actionHigh-redMarianne-default"
-                type="button"
-                priority="tertiary no outline"
-                size="small"
-                onClick={() => {
-                  setMultipleDocument(multipleDocument.filter((_, i) => i !== index));
-                }}
-              >
-                <Icon id="fr-icon-delete-line" size="sm" className="md:mr-1" />
-                <span className="hidden md:inline-block text-sm">Supprimer</span>
-              </Button>
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
   );
 };
