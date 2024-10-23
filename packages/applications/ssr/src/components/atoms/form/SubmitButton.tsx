@@ -6,8 +6,9 @@ import { useFormStatus } from 'react-dom';
 type SubmitButtonProps = {
   disabledCondition?: () => boolean;
   children: React.ReactNode;
+  classname?: string;
 };
-export const SubmitButton: FC<SubmitButtonProps> = ({ disabledCondition, children }) => {
+export const SubmitButton: FC<SubmitButtonProps> = ({ disabledCondition, children, classname }) => {
   const { pending } = useFormStatus();
   const isDisabled = pending || (disabledCondition ? disabledCondition() : false);
 
@@ -16,7 +17,7 @@ export const SubmitButton: FC<SubmitButtonProps> = ({ disabledCondition, childre
       type="submit"
       priority="primary"
       disabled={isDisabled}
-      className="text-theme-white bg-theme-blueFrance"
+      className={`text-theme-white bg-theme-blueFrance${classname ?? ''}`}
       nativeButtonProps={{
         'aria-disabled': isDisabled,
       }}
