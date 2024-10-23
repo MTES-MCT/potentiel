@@ -12,7 +12,8 @@ import { ValidationErrors } from '@/utils/formAction';
 import {
   GestionnaireRéseauSelect,
   GestionnaireRéseauSelectProps,
-} from './GestionnaireRéseauSelect';
+} from '../../GestionnaireRéseauSelect';
+
 import {
   modifierGestionnaireRéseauRaccordementAction,
   ModifierGestionnaireRéseauRaccordementFormKeys,

@@ -14,7 +14,7 @@ import { ValidationErrors } from '@/utils/formAction';
 import {
   GestionnaireRéseauSelect,
   GestionnaireRéseauSelectProps,
-} from '../../modifier/modifierGestionnaireRéseauRaccordement/GestionnaireRéseauSelect';
+} from '../../GestionnaireRéseauSelect';
 
 import {
   transmettreDemandeComplèteRaccordementAction,
