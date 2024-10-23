@@ -1,7 +1,8 @@
 import { Parser } from '@json2csv/plainjs';
 import { mediator } from 'mediateur';
 
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
+import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -65,9 +66,21 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
       ),
     );
 
+    const gestionnaire = await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
+      type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
+      data: {
+        identifiantGestionnaireRéseau: identifiant,
+      },
+    });
+
+    const fileName = `export_raccordement_en_attente_mise_en_service-${Option.match(gestionnaire)
+      .some(({ raisonSociale }) => raisonSociale)
+      .none(() => '')}`;
+
     return new Response(csv, {
       headers: {
         'content-type': 'text/csv',
+        'content-disposition': `attachment; filename=${fileName}.csv`,
       },
     });
   });
