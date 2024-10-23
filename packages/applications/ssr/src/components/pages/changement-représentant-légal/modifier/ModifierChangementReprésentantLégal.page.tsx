@@ -6,22 +6,29 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1 } from '@/components/atoms/headings';
 
 import {
-  DemanderChangementReprésentantLégalForm,
-  DemanderChangementReprésentantLégalFormProps,
-} from './DemanderChangementReprésentantLégal.form';
+  ModifierChangementReprésentantLégalForm,
+  ModifierChangementReprésentantLégalFormProps,
+} from './ModifierChangementReprésentantLégal.form';
 
-export type DemanderChangementReprésentantLégalPageProps =
-  DemanderChangementReprésentantLégalFormProps;
+export type ModifierChangementReprésentantLégalPageProps =
+  ModifierChangementReprésentantLégalFormProps;
 
-export const DemanderChangementReprésentantLégalPage: FC<
-  DemanderChangementReprésentantLégalPageProps
-> = ({ identifiantProjet }) => {
+export const ModifierChangementReprésentantLégalPage: FC<
+  ModifierChangementReprésentantLégalPageProps
+> = ({ identifiantProjet, typePersonne, nomRepresentantLegal, pièceJustificative }) => {
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
-      heading={<Heading1>Demander un changement de représentant légal pour le projet</Heading1>}
+      heading={<Heading1>Modifier le changement de représentant légal</Heading1>}
       leftColumn={{
-        children: <DemanderChangementReprésentantLégalForm identifiantProjet={identifiantProjet} />,
+        children: (
+          <ModifierChangementReprésentantLégalForm
+            identifiantProjet={identifiantProjet}
+            typePersonne={typePersonne}
+            nomRepresentantLegal={nomRepresentantLegal}
+            pièceJustificative={pièceJustificative}
+          />
+        ),
       }}
       rightColumn={{
         children: (

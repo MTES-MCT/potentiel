@@ -7,7 +7,7 @@ import { PlainType } from '@potentiel-domain/core';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 
-import { StatutChangementReprésentantLégalBadge } from './StatutChangementReprésentantLégalBadge';
+import { StatutChangementReprésentantLégalBadge } from '../StatutChangementReprésentantLégalBadge';
 
 /**
  * @todo À ajouter quand domain est prêt :
