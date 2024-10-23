@@ -12,7 +12,8 @@ import { ValidationErrors } from '@/utils/formAction';
 import {
   GestionnaireRéseauSelect,
   GestionnaireRéseauSelectProps,
-} from './GestionnaireRéseauSelect';
+} from '../../GestionnaireRéseauSelect';
+
 import {
   modifierGestionnaireRéseauRaccordementAction,
   ModifierGestionnaireRéseauRaccordementFormKeys,
@@ -21,7 +22,7 @@ import {
 export type ModifierGestionnaireRéseauRaccordementFormProps = {
   identifiantProjet: string;
   identifiantGestionnaireRéseauActuel: string;
-  listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
+  listeGestionnairesRéseau: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
 };
 
 export const ModifierGestionnaireRéseauRaccordementForm: FC<
@@ -30,11 +31,6 @@ export const ModifierGestionnaireRéseauRaccordementForm: FC<
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierGestionnaireRéseauRaccordementFormKeys>
   >({});
-
-  const gestionnaireActuel = listeGestionnairesRéseau.find(
-    (gestionnaire) =>
-      gestionnaire.identifiantGestionnaireRéseau === identifiantGestionnaireRéseauActuel,
-  );
 
   return (
     <Form
@@ -67,8 +63,8 @@ export const ModifierGestionnaireRéseauRaccordementForm: FC<
             name="identifiantGestionnaireReseau"
             state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
-            gestionnairesRéseau={listeGestionnairesRéseau}
-            identifiantGestionnaireRéseauActuel={gestionnaireActuel?.identifiantGestionnaireRéseau}
+            listeGestionnairesRéseau={listeGestionnairesRéseau}
+            identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
           />
         </div>
       </div>
