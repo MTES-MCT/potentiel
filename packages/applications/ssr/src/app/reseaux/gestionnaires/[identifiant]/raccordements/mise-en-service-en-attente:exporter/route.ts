@@ -1,7 +1,6 @@
 import { Parser } from '@json2csv/plainjs';
 import { mediator } from 'mediateur';
 
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { Raccordement } from '@potentiel-domain/reseau';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -14,7 +13,6 @@ type ExporterRaccordementParameter = {
 
 export const GET = async (_: Request, { params: { identifiant } }: ExporterRaccordementParameter) =>
   withUtilisateur(async () => {
-    getLogger().debug(identifiant);
     const dossiers =
       await mediator.send<Raccordement.ListerDossierRaccordementEnAttenteMiseEnServiceQuery>({
         type: 'Réseau.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
