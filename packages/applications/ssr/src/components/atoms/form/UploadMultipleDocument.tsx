@@ -62,6 +62,8 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
           accept={acceptedFormats}
           className="-z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0"
           onChange={(e) => {
+            console.log(e.target.files);
+            console.log(e.currentTarget.value);
             const fileName = extractFileName(e.currentTarget.value);
 
             if (!multipleDocument.includes(fileName)) {
@@ -84,7 +86,7 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
             <li key={index}>
               <span>{doc}</span>
               <Button
-                className="ml-2"
+                className="ml-2 text-dsfr-text-actionHigh-redMarianne-default"
                 type="button"
                 priority="tertiary no outline"
                 size="small"
