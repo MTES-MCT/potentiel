@@ -17,12 +17,12 @@ export default async function Page() {
   const listeGestionnairesRéseau = mapToProps(listeGestionnaireRéseau);
 
   // En attendant la mise en place du rôle GRD, celui par défaut est Enedis pour simplifier le travail de la DGEC
-  const gestionnaireRéseau: ImporterDatesMiseEnServicePageProps['identifiantGestionnaireRéseauActuel'] =
+  const identifiantGestionnaireRéseauActuel: ImporterDatesMiseEnServicePageProps['identifiantGestionnaireRéseauActuel'] =
     '17X100A100A0001A';
 
   return (
     <ImporterDatesMiseEnServicePage
-      identifiantGestionnaireRéseauActuel={gestionnaireRéseau}
+      identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
       listeGestionnairesRéseau={listeGestionnairesRéseau}
     />
   );
