@@ -5,13 +5,13 @@ import { FC } from 'react';
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
-import { GestionnaireRéseauSelectProps } from '../modifier/modifierGestionnaireRéseauRaccordement/GestionnaireRéseauSelect';
+import { GestionnaireRéseauSelectProps } from '../GestionnaireRéseauSelect';
 
 import { ImporterDatesMiseEnServiceForm } from './importerDatesMiseEnService.form';
 
 export type ImporterDatesMiseEnServicePageProps = {
   identifiantGestionnaireRéseauActuel: string;
-  listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
+  listeGestionnairesRéseau: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
 };
 
 export const ImporterDatesMiseEnServicePage: FC<ImporterDatesMiseEnServicePageProps> = ({

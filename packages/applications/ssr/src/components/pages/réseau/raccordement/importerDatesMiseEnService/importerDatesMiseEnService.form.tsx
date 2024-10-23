@@ -13,7 +13,7 @@ import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 import {
   GestionnaireRéseauSelect,
   GestionnaireRéseauSelectProps,
-} from '../modifier/modifierGestionnaireRéseauRaccordement/GestionnaireRéseauSelect';
+} from '../GestionnaireRéseauSelect';
 
 import {
   importerDatesMiseEnServiceAction,
@@ -22,7 +22,7 @@ import {
 
 export type ModifierGestionnaireRéseauRaccordementFormProps = {
   identifiantGestionnaireRéseauActuel: string;
-  listeGestionnairesRéseau: GestionnaireRéseauSelectProps['gestionnairesRéseau'];
+  listeGestionnairesRéseau: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
 };
 
 export const ImporterDatesMiseEnServiceForm: FC<
@@ -56,11 +56,11 @@ export const ImporterDatesMiseEnServiceForm: FC<
           <GestionnaireRéseauSelect
             id="identifiantGestionnaireReseau"
             name="identifiantGestionnaireReseau"
-            gestionnairesRéseau={listeGestionnairesRéseau}
-            identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
             onGestionnaireRéseauSelected={({ identifiantGestionnaireRéseau }) => {
               setIdentifiantGestionnaireReseau(identifiantGestionnaireRéseau);
             }}
+            listeGestionnairesRéseau={listeGestionnairesRéseau}
+            identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
           />
         </div>
         <div>
@@ -70,7 +70,7 @@ export const ImporterDatesMiseEnServiceForm: FC<
               identifiantGestionnaireReseau,
             )}
             format="csv"
-            label="Télécharger la liste des raccordement en attente de mise en service"
+            label="Télécharger la liste des raccordements en attente de mise en service"
           />
         </div>
       </div>
