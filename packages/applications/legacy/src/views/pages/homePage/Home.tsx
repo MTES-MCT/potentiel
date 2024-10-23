@@ -5,9 +5,21 @@ import { Header, Footer, ArrowRightWithCircle } from '../../components';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 import { InscriptionConnexion, Benefices, PropositionDeValeur } from './components';
 import { App } from '../..';
+import { User } from '../../../entities';
 
 type HomeProps = {
   request: Request;
+};
+
+const getMenuText = ({ role }: User) => {
+  switch (role) {
+    case 'porteur-projet':
+      return 'Voir mes projets';
+    case 'grd':
+      return 'Importer des dates de mise en service';
+    default:
+      return 'Voir les projets';
+  }
 };
 
 export const Home = (props: HomeProps) => {
@@ -21,7 +33,7 @@ export const Home = (props: HomeProps) => {
         {user && (
           <Header.MenuItem href={routes.REDIRECT_BASED_ON_ROLE}>
             <div className="flex flex-row items-center">
-              Voir {user.role === 'porteur-projet' ? 'mes' : 'les'} projets
+              {getMenuText(user)}
               <ArrowRightWithCircle className="w-5 h-5 ml-2" aria-hidden />
             </div>
           </Header.MenuItem>
@@ -30,7 +42,15 @@ export const Home = (props: HomeProps) => {
 
       <main id="contenu">
         <PropositionDeValeur />
-        <InscriptionConnexion {...{ user }} />
+        {user ? (
+          <InscriptionConnexion
+            connected
+            fullName={user.fullName}
+            redirectText={getMenuText(user)}
+          />
+        ) : (
+          <InscriptionConnexion connected={false} />
+        )}
         <Benefices />
       </main>
       <Footer user={user} />
