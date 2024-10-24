@@ -12,6 +12,7 @@ import { Raccordement } from '@potentiel-domain/reseau';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { document } from '@/utils/zod/documentTypes';
+import { applySearchParams } from '@/app/_helpers';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -76,18 +77,17 @@ const action: FormAction<FormState, typeof schema> = async (
     const aDéjàTransmisUnDossierDeRaccordement =
       Option.isSome(raccordement) && raccordement.dossiers.length > 0;
 
-    if (aDéjàTransmisUnDossierDeRaccordement) {
-      return {
-        status: 'success',
-        redirectUrl: Routes.Projet.details(identifiantProjet, {
-          success: `Votre attestation de conformité a bien été transmise`,
-        }),
-      };
-    }
+    const successMessage = `Votre attestation de conformité a bien été transmise`;
+    const redirectUrl = aDéjàTransmisUnDossierDeRaccordement
+      ? applySearchParams(Routes.Projet.details(identifiantProjet), { success: successMessage })
+      : applySearchParams(
+          Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet),
+          { successMessage },
+        );
 
     return {
       status: 'success',
-      redirectUrl: Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet),
+      redirectUrl,
     };
   });
 

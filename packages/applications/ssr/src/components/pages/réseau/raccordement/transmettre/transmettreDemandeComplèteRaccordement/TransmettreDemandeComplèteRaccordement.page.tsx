@@ -22,6 +22,7 @@ export type TransmettreDemandeComplèteRaccordementPageProps = {
   identifiantProjet: TransmettreDemandeComplèteRaccordementFormProps['identifiantProjet'];
   delaiDemandeDeRaccordementEnMois: InformationDemandeComplèteRaccordementProps['delaiDemandeDeRaccordementEnMois'];
   aDéjàTransmisUneDemandeComplèteDeRaccordement: boolean;
+  successMessage?: string;
 };
 
 export const TransmettreDemandeComplèteRaccordementPage: FC<
@@ -32,12 +33,14 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
   identifiantProjet,
   delaiDemandeDeRaccordementEnMois,
   aDéjàTransmisUneDemandeComplèteDeRaccordement,
+  successMessage,
 }) => (
   <ColumnPageTemplate
     banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
     heading={
       <>
         <TitrePageRaccordement />
+        {successMessage && <Alert severity="success" title={successMessage} />}
         {!aDéjàTransmisUneDemandeComplèteDeRaccordement && (
           <AucunDossierDeRaccordementAlert identifiantProjet={identifiantProjet} showLink={false} />
         )}
