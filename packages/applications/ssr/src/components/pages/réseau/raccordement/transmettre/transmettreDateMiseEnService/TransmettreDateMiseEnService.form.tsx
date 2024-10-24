@@ -37,8 +37,6 @@ export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFo
 
   return (
     <Form
-      method="POST"
-      heading="Transmettre la date de mise en service"
       action={transmettreDateMiseEnServiceAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={

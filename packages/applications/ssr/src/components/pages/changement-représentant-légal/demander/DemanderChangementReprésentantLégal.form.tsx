@@ -61,8 +61,6 @@ export const DemanderChangementReprésentantLégalForm: FC<
   return (
     <Form
       action={demanderChangementReprésentantLégalAction}
-      method="POST"
-      encType="multipart/form-data"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={<SubmitButton>Demander</SubmitButton>}
     >

@@ -41,7 +41,6 @@ export const CorrigerRéponseSignée = ({
         onClose={() => setIsOpen(false)}
         form={{
           id: 'corriger-document-form',
-          encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
           action: corrigerRéponseSignéeAction,
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),

@@ -35,7 +35,6 @@ export const ModifierGestionnaireRéseauRaccordementForm: FC<
   return (
     <Form
       action={modifierGestionnaireRéseauRaccordementAction}
-      method="POST"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       heading="Modifier le gestionnaire de réseau du projet"
       actions={

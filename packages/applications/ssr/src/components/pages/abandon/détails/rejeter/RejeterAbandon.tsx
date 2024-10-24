@@ -40,8 +40,6 @@ export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) =
         onClose={() => setIsOpen(false)}
         form={{
           action: rejeterAbandonAction,
-          method: 'POST',
-          encType: 'multipart/form-data',
           id: 'rejeter-abandon-form',
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (

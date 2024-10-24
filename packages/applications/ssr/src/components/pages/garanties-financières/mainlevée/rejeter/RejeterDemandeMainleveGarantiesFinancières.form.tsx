@@ -42,8 +42,6 @@ export const RejeterDemandeMainlevéeGarantiesFinancières = ({
         onClose={() => setIsOpen(false)}
         form={{
           action: rejeterDemandeMainlevéeGarantiesFinancièresAction,
-          method: 'POST',
-          encType: 'multipart/form-data',
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
 
           children: (

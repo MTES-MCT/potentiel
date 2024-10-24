@@ -33,8 +33,6 @@ export const DemanderMainlevéeGarantiesFinancières = ({
         onClose={() => setIsOpen(false)}
         form={{
           action: demanderMainlevéeGarantiesFinancièresAction,
-          method: 'POST',
-          encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
           children: (
             <>

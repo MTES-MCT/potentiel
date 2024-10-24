@@ -38,8 +38,6 @@ export const ImporterDatesMiseEnServiceForm: FC<
 
   return (
     <Form
-      method="POST"
-      encType="multipart/form-data"
       action={importerDatesMiseEnServiceAction}
       heading="Importer des dates de mise en service"
       pendingModal={{

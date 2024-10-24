@@ -19,8 +19,6 @@ export const CorrigerRéférenceDossierForm: FC = () => {
 
   return (
     <Form
-      method="POST"
-      encType="multipart/form-data"
       action={corrigerRéférencesDossierAction}
       heading="Corriger des références de dossier de raccordement"
       pendingModal={{

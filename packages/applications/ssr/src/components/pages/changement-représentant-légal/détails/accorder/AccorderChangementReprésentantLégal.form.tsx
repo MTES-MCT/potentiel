@@ -50,8 +50,6 @@ export const AccorderChangementReprésentantLégal = ({
         onClose={() => setIsOpen(false)}
         form={{
           action: accorderChangementReprésentantLégalAction,
-          method: 'POST',
-          encType: 'multipart/form-data',
           id: 'accorder-changementReprésentantLégal-form',
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (

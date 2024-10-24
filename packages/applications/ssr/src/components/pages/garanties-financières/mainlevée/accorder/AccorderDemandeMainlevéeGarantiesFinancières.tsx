@@ -42,8 +42,6 @@ export const AccorderDemandeMainlevéeGarantiesFinancières = ({
         onClose={() => setIsOpen(false)}
         form={{
           action: accorderDemandeMainlevéeGarantiesFinancièresAction,
-          method: 'POST',
-          encType: 'multipart/form-data',
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
 
           children: (

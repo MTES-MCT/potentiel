@@ -36,8 +36,6 @@ export const AccorderAbandonAvecRecandidature = ({
         form={{
           id: 'accorder-abandon-avec-recandidature-form',
           action: accorderAbandonAvecRecandidatureAction,
-          method: 'POST',
-          encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
           children: (
             <>

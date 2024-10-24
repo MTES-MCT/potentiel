@@ -19,8 +19,6 @@ export const CorrigerCandidaturesForm: FC = () => {
 
   return (
     <Form
-      method="POST"
-      encType="multipart/form-data"
       action={corrigerCandidaturesAction}
       heading="Corriger un import de candidatures"
       pendingModal={{

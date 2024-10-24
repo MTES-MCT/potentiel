@@ -22,8 +22,6 @@ export const DemanderRecoursForm: FC<DemanderRecoursFormProps> = ({ identifiantP
   return (
     <Form
       action={demanderRecoursAction}
-      method="POST"
-      encType="multipart/form-data"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={<SubmitButton>Demander le recours</SubmitButton>}
     >
