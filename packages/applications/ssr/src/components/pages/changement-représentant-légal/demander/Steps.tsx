@@ -3,7 +3,7 @@ import { ReactNode, FC, useState } from 'react';
 
 import { StepNavigation } from './StepNavigation';
 
-export type StepProps = {
+export type Step = {
   index: number;
   name: string;
   children: ReactNode;
@@ -11,21 +11,23 @@ export type StepProps = {
   nextStep: { name: string; type: 'link' | 'submit' };
 };
 
-export const Steps: FC<{
-  onStepSelected: (stepIndex: number) => void;
-  steps: Array<StepProps>;
-}> = ({ onStepSelected, steps }) => {
-  const [currentStep, setCurrentStep] = useState(1);
+export type StepsProps = {
+  onStepSelected?: (stepIndex: number) => void;
+  steps: Array<Step>;
+};
+
+export const Steps: FC<StepsProps> = ({ onStepSelected, steps }) => {
+  const [selectedStep, selectStep] = useState(1);
 
   return (
     <ul className="flex flex-col">
       {steps.map((step) => (
-        <li className={currentStep !== step.index ? 'hidden' : 'flex flex-col gap-5'}>
+        <li className={selectedStep !== step.index ? 'hidden' : 'flex flex-col gap-5'}>
           <div>{step.children}</div>
           <StepNavigation
             onStepSelected={(stepIndex) => {
-              setCurrentStep(stepIndex);
-              onStepSelected(stepIndex);
+              selectStep(stepIndex);
+              onStepSelected && onStepSelected(stepIndex);
             }}
             previousStep={
               step.previousStep

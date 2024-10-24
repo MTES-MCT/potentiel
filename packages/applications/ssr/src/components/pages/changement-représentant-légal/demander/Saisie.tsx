@@ -1,7 +1,7 @@
 'use client';
+import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
-import { FC, useState } from 'react';
 import { match } from 'ts-pattern';
 
 import { ValidationErrors } from '@/utils/formAction';
@@ -14,11 +14,15 @@ export type Saisie = {
   nomReprésentantLégal: string;
   piècesJustificatives: ReadonlyArray<string>;
 };
-export const Saisie: FC<{
-  onChanged?: (changes: Saisie) => void;
+
+export type SaisieProps = {
+  onChange?: (changes: Saisie) => void;
   validationErrors: ValidationErrors<DemanderChangementReprésentantLégalFormKeys>;
-}> = ({ validationErrors, onChanged }) => {
-  type TypeDePersonne = 'Personne physique' | 'Personne morale' | 'Collectivité' | 'Autre';
+};
+
+type TypeDePersonne = 'Personne physique' | 'Personne morale' | 'Collectivité' | 'Autre';
+
+export const Saisie: FC<SaisieProps> = ({ validationErrors, onChange: onChanged }) => {
   const [typePersonne, selectTypePersonne] = useState<TypeDePersonne>();
   const [nomReprésentantLégal, setNomReprésentantLégal] = useState('');
   const [piècesJustificatives, setPiècesJustificatives] = useState<ReadonlyArray<string>>([]);

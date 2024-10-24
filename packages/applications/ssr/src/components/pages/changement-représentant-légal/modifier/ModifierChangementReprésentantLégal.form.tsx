@@ -80,7 +80,7 @@ export const ModifierChangementReprésentantLégalForm: FC<
           onChange: ({ currentTarget: { value } }) => {
             selectTypeDePersonne(value as TypeDePersonne);
           },
-          value: typePersonne,
+          defaultValue: typePersonne,
         }}
         options={['Personne physique', 'Personne morale', 'Collectivité', 'Autre'].map((type) => ({
           label: type,

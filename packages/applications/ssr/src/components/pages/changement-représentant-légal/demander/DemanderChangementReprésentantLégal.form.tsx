@@ -6,7 +6,7 @@ import { Stepper } from '@codegouvfr/react-dsfr/Stepper';
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { StepProps, Steps } from './Steps';
+import { Step, Steps } from './Steps';
 import { Description } from './Description';
 import { Saisie } from './Saisie';
 import { Validation } from './Validation';
@@ -33,10 +33,10 @@ export const DemanderChangementReprésentantLégalForm: FC<
     piècesJustificatives: [],
   });
 
-  const steps: Array<StepProps> = [
+  const steps: Array<Step> = [
     {
       index: 1,
-      name: `Description de la démarche en cours`,
+      name: `Description de la démarche`,
       children: <Description />,
       nextStep: { type: 'link', name: 'Commencer' },
     },
@@ -44,7 +44,7 @@ export const DemanderChangementReprésentantLégalForm: FC<
       index: 2,
       name: `Renseigner les informations concernant le changement`,
       children: (
-        <Saisie validationErrors={validationErrors} onChanged={(changes) => setSaisie(changes)} />
+        <Saisie validationErrors={validationErrors} onChange={(changes) => setSaisie(changes)} />
       ),
       previousStep: { name: 'Précédent' },
       nextStep: { type: 'link', name: 'Vérifier' },
@@ -67,6 +67,7 @@ export const DemanderChangementReprésentantLégalForm: FC<
   return (
     <>
       <Stepper
+        className="my-10"
         currentStep={currentStep}
         nextTitle={currentStep < steps.length && steps[currentStep].name}
         stepCount={steps.length}
@@ -75,9 +76,14 @@ export const DemanderChangementReprésentantLégalForm: FC<
 
       <Form
         action={demanderChangementReprésentantLégalAction}
+        onInvalid={() => setCurrentStep(2)}
         method="POST"
         encType="multipart/form-data"
-        onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+        onValidationError={(validationErrors) => {
+          setValidationErrors(validationErrors);
+          setCurrentStep(2);
+        }}
+        onError={() => setCurrentStep(2)}
         actions={null}
         omitMandatoryFieldsLegend={currentStep !== 2 ? true : undefined}
       >
