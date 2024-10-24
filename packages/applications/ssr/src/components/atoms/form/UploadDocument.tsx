@@ -122,6 +122,7 @@ const KeepOrEditDocument: FC<UploadDocumentProps & { documentKey: string }> = ({
   state,
   documentKey,
   format = 'pdf',
+  onChange,
   ...props
 }) => {
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
@@ -180,6 +181,7 @@ const KeepOrEditDocument: FC<UploadDocumentProps & { documentKey: string }> = ({
                   onChange={(e) => {
                     const fileName = extractFileName(e.currentTarget.value);
                     setUploadFileName(fileName);
+                    onChange && onChange([fileName]);
                   }}
                 />
               )}

@@ -22,7 +22,7 @@ export type SaisieProps = {
 
 type TypeDePersonne = 'Personne physique' | 'Personne morale' | 'Collectivité' | 'Autre';
 
-export const Saisie: FC<SaisieProps> = ({ validationErrors, onChange: onChanged }) => {
+export const Saisie: FC<SaisieProps> = ({ validationErrors, onChange }) => {
   const [typePersonne, selectTypePersonne] = useState<TypeDePersonne>();
   const [nomReprésentantLégal, setNomReprésentantLégal] = useState('');
   const [piècesJustificatives, setPiècesJustificatives] = useState<ReadonlyArray<string>>([]);
@@ -65,8 +65,8 @@ export const Saisie: FC<SaisieProps> = ({ validationErrors, onChange: onChanged 
         nativeSelectProps={{
           onChange: ({ currentTarget: { value } }) => {
             selectTypePersonne(value as TypeDePersonne);
-            onChanged &&
-              onChanged({ typePersonne: value, nomReprésentantLégal, piècesJustificatives });
+            onChange &&
+              onChange({ typePersonne: value, nomReprésentantLégal, piècesJustificatives });
           },
         }}
         options={['Personne physique', 'Personne morale', 'Collectivité', 'Autre'].map((type) => ({
@@ -85,8 +85,8 @@ export const Saisie: FC<SaisieProps> = ({ validationErrors, onChange: onChanged 
           'aria-required': true,
           onChange: (e) => {
             setNomReprésentantLégal(e.target.value);
-            onChanged &&
-              onChanged({
+            onChange &&
+              onChange({
                 typePersonne,
                 nomReprésentantLégal: e.target.value,
                 piècesJustificatives,
@@ -107,8 +107,8 @@ export const Saisie: FC<SaisieProps> = ({ validationErrors, onChange: onChanged 
         stateRelatedMessage={validationErrors['pieceJustificative']}
         onChange={(fileNames) => {
           setPiècesJustificatives(fileNames);
-          onChanged &&
-            onChanged({
+          onChange &&
+            onChange({
               typePersonne,
               nomReprésentantLégal,
               piècesJustificatives: fileNames,
